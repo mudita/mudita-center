@@ -28,10 +28,10 @@ export const PurePasscodeModal: FunctionComponent<Props> = ({
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
 
   const closePasscodeModal = () => {
-    dispatch(setDataMigrationStatus("idle"))
+    dispatch(setDataMigrationStatus("IDLE"))
   }
 
-  if (deviceId && dataMigrationStatus === "pure-password-required") {
+  if (deviceId && dataMigrationStatus === "PURE-PASSWORD-REQUIRED") {
     return (
       <ThemeProvider theme={theme as unknown as DefaultTheme}>
         <PurePasscode

@@ -16,23 +16,6 @@ let axiosMock: MockAdapter = createMockAdapter()
 
 const previousEnvironment = { ...process.env }
 
-beforeEach(() => {
-  axiosMock = createMockAdapter()
-})
-
-beforeAll(() => {
-  process.env = {
-    ...previousEnvironment,
-    MUDITA_CENTER_SERVER_URL: "http://localhost",
-  }
-})
-
-afterAll(() => {
-  process.env = {
-    ...previousEnvironment,
-  }
-})
-
 const configuration: Configuration = {
   centerVersion: "1.0.0",
   productVersions: {
@@ -51,7 +34,24 @@ const defaultConfig = {
   },
 }
 
-jest.mock(
+beforeEach(() => {
+  axiosMock = createMockAdapter()
+})
+
+beforeAll(() => {
+  process.env = {
+    ...previousEnvironment,
+    MUDITA_CENTER_SERVER_URL: "http://localhost",
+  }
+})
+
+afterAll(() => {
+  process.env = {
+    ...previousEnvironment,
+  }
+})
+
+jest.doMock(
   "Core/settings/static/default-app-configuration.json",
   () => defaultConfig
 )

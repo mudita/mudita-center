@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { GoogleContactResourceItem } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
+import { GoogleContactResourceItem } from "generic-view/store"
 import { UnifiedContact } from "device/models"
 import { getDisplayName } from "../helpers"
 import { omit } from "lodash"

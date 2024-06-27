@@ -5,30 +5,31 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactsEvent } from "Core/contacts/constants"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
+  Scope,
+  googleAuthorize,
+  outlookAuthorize,
   ExternalProvider,
   Provider,
-} from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import externalProvidersStore from "Core/__deprecated__/renderer/store/external-providers"
-import { Scope } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
-import { OutLookScope } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+  OutLookScope,
+} from "generic-view/store"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const authorize = createAsyncThunk<any, ExternalProvider>(
-  ContactsEvent.Authorize,
-  (payload) => {
-    switch (payload) {
-      case Provider.Google:
-        return externalProvidersStore.dispatch.google.authorize(Scope.Contacts)
-      case Provider.Apple:
-        return undefined
-      case Provider.Outlook:
-        return externalProvidersStore.dispatch.outlook.authorize(
-          OutLookScope.Contacts
-        )
-      default:
-        return undefined
-    }
+export const authorize = createAsyncThunk<
+  unknown,
+  ExternalProvider,
+  { state: ReduxRootState }
+>(ContactsEvent.Authorize, async (payload, { dispatch }) => {
+  switch (payload) {
+    case Provider.Google:
+      return dispatch(googleAuthorize(Scope.Contacts))
+    case Provider.Apple:
+      return undefined
+    case Provider.Outlook:
+      return dispatch(outlookAuthorize(OutLookScope.Contacts))
+    default:
+      return undefined
   }
-)
+})

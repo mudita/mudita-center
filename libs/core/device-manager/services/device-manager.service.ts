@@ -160,7 +160,6 @@ export class DeviceManager {
 
   private async addDeviceTask(port: PortInfo): Promise<void> {
     const device = await this.initializeDevice(port)
-
     if (!device) {
       return
     }
@@ -168,7 +167,6 @@ export class DeviceManager {
     this.devicesMap.set(device.id, device)
     const result = await device.connect()
     const data = device.toSerializableObject()
-
     if (result.ok) {
       callRenderer(DeviceManagerMainEvent.DeviceConnected, data)
     } else {

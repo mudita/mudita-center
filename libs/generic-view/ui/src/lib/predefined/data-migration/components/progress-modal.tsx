@@ -3,20 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { FunctionComponent, useMemo } from "react"
+import { useSelector } from "react-redux"
 import { Modal } from "../../../interactive/modal/modal"
 import { ButtonAction, IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../../buttons/button-secondary"
-import {
-  selectDataMigrationStatus,
-  setDataMigrationStatus,
-} from "generic-view/store"
+import { selectDataMigrationProgress } from "generic-view/store"
 import { modalTransitionDuration } from "generic-view/theme"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ProgressBar } from "../../../interactive/progress-bar/progress-bar"
 import styled from "styled-components"
+import { DataMigrationFeature } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -28,6 +26,15 @@ const messages = defineMessages({
   cancelButtonLabel: {
     id: "module.genericViews.dataMigration.progress.cancelButtonLabel",
   },
+  genericMessage: {
+    id: "module.genericViews.dataMigration.progress.genericMessage",
+  },
+  collectingData: {
+    id: "module.genericViews.dataMigration.progress.collectingData",
+  },
+  transferringData: {
+    id: "module.genericViews.dataMigration.progress.transferringData",
+  },
 })
 
 interface Props {
@@ -35,39 +42,39 @@ interface Props {
 }
 
 export const ProgressModal: FunctionComponent<Props> = ({ onCancel }) => {
-  const dispatch = useDispatch()
-  const dataMigrationStatus = useSelector(selectDataMigrationStatus)
-  const [opened, setOpened] = useState(false)
+  const dataMigrationProgress = useSelector(selectDataMigrationProgress)
 
   const cancelAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      setOpened(false)
       setTimeout(() => {
         onCancel?.()
-        dispatch(setDataMigrationStatus("idle"))
       }, modalTransitionDuration)
     },
   }
 
-  useEffect(() => {
-    if (dataMigrationStatus === "in-progress") {
-      setOpened(true)
+  const label = useMemo(() => {
+    const feature = dataMigrationProgress.label?.split("-")[0]
+    if (isDataMigrationFeature(feature)) {
+      return intl.formatMessage({
+        id: `module.genericViews.dataMigration.features.${feature}`,
+      })
     }
-  }, [dataMigrationStatus])
+    return intl.formatMessage(messages.genericMessage)
+  }, [dataMigrationProgress.label])
 
   return (
-    <Modal
-      config={{ defaultOpened: opened, size: "small" }}
-      componentKey={"data-migration-progress"}
-    >
+    <>
       <Modal.TitleIcon config={{ type: IconType.DataMigration }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <p>{intl.formatMessage(messages.description)}</p>
       <ProgressWrapper>
         <ProgressBar
           config={{ maxValue: 100 }}
-          data={{ message: "Contacts", value: 1 }}
+          data={{
+            message: label,
+            value: dataMigrationProgress.value,
+          }}
         />
       </ProgressWrapper>
       <Modal.Buttons config={{ vertical: true }}>
@@ -78,7 +85,18 @@ export const ProgressModal: FunctionComponent<Props> = ({ onCancel }) => {
           }}
         />
       </Modal.Buttons>
-    </Modal>
+    </>
+  )
+}
+
+const isDataMigrationFeature = (
+  feature?: string
+): feature is DataMigrationFeature => {
+  return (
+    !!feature &&
+    Object.values(DataMigrationFeature).includes(
+      feature as DataMigrationFeature
+    )
   )
 }
 
