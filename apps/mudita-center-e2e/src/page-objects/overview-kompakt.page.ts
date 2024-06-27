@@ -7,7 +7,7 @@ import { OverviewPage } from "./overview.page"
 
 class OverviewKompaktPage extends OverviewPage {
   public get aboutYourDevice() {
-    return $('[data-testid="button-text-summary-about"]')
+    return $('[data-testid="button-text_summary-about"]')
   }
 
   public get sarInformationButtonKompakt() {

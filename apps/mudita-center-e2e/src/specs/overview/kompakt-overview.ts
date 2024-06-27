@@ -93,8 +93,9 @@ describe("E2E mock sample - overview view", () => {
 
     const aboutYourDevice = OverviewKompaktPage.aboutYourDevice
     await expect(aboutYourDevice).toBeDisplayed
+    console.log(aboutYourDevice)
     await expect(aboutYourDevice).toBeClickable
-    //await aboutYourDevice.click() - system can not find the element while this is enabled
+    await aboutYourDevice.click()
 
     const sarInformationButtonKompakt = OverviewPage.checkSARInformationButton
     const sarInformationPopup = overviewKompaktPage.sarInformationPopup
