@@ -6,6 +6,7 @@
 import { PortInfo } from "serialport"
 import {
   MuditaHarmonyDescriptor,
+  MuditaHarmonyMscDescriptor,
   MuditaKompaktDescriptor,
   MuditaPureDescriptor,
 } from "../../device/descriptors"
@@ -14,6 +15,7 @@ export class PortInfoValidator {
   static eligibleDevices = [
     MuditaPureDescriptor,
     MuditaHarmonyDescriptor,
+    MuditaHarmonyMscDescriptor,
     MuditaKompaktDescriptor,
   ]
 

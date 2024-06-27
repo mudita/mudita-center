@@ -8,6 +8,7 @@ import { FreshdeskTicketProduct } from "./create-freshdesk-ticket.types"
 
 const DEVICE_TYPE_TO_PRODUCT: Record<DeviceType, FreshdeskTicketProduct> = {
   [DeviceType.MuditaHarmony]: FreshdeskTicketProduct.Harmony,
+  [DeviceType.MuditaHarmonyMsc]: FreshdeskTicketProduct.HarmonyMsc,
   [DeviceType.MuditaPure]: FreshdeskTicketProduct.Pure,
   [DeviceType.APIDevice]: FreshdeskTicketProduct.Unknown,
 }

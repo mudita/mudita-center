@@ -197,10 +197,9 @@ export class DeviceManager {
             path === portInfo.path
         )
 
-        console.log(port, "nowy portek")
-
         if (port) {
           const device = this.deviceResolver.resolve(port)
+          console.log(device, "dewiczek")
           return resolve(device)
         } else {
           await sleep()

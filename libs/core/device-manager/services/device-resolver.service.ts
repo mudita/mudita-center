@@ -7,6 +7,7 @@ import { PortInfo } from "serialport"
 import {
   MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
+  MuditaHarmonyMscDescriptor,
 } from "Core/device/descriptors"
 import { DeviceFactory } from "Core/device/factories"
 import { APIDevice } from "device/feature"
@@ -18,7 +19,11 @@ export interface IDeviceResolverService {
 }
 
 export class DeviceResolverService implements IDeviceResolverService {
-  private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
+  private eligibleDevices = [
+    MuditaPureDescriptor,
+    MuditaHarmonyDescriptor,
+    MuditaHarmonyMscDescriptor,
+  ]
 
   public resolve(portInfo: PortInfo): BaseDevice | undefined {
     const id = portInfo.productId?.toLowerCase() ?? ""

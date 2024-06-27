@@ -23,6 +23,7 @@ jest.mock("Core/settings/requests", () => ({
     centerVersion: "1.0.0",
     productVersions: {
       [DeviceType.MuditaHarmony]: "1.0.0",
+      [DeviceType.MuditaHarmonyMsc]: "1.0.0",
       [DeviceType.MuditaPure]: "1.0.0",
     },
   }),
