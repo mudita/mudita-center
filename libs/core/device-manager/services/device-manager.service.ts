@@ -131,7 +131,12 @@ export class DeviceManager {
 
   public async getAttachedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
-    getUsbDevices()
+    const harmonyMSCMode = await getUsbDevices()
+
+    if (harmonyMSCMode) {
+      portList.push(harmonyMSCMode as SerialPortInfo)
+    }
+
     return (
       portList
         // AUTO DISABLED - fix me if you like :)
@@ -191,6 +196,8 @@ export class DeviceManager {
             vendorId?.toUpperCase() === portInfo.vendorId &&
             path === portInfo.path
         )
+
+        console.log(port, "nowy portek")
 
         if (port) {
           const device = this.deviceResolver.resolve(port)

@@ -61,18 +61,16 @@ function parseUsbDeviceDetails(output: string): PortInfo {
   return portInfo as PortInfo
 }
 
-export const getUsbDevicesLinux = (): Promise<
-  ExecException | string | null | UsbDevice | UsbDevice[] | PortInfo
-> => {
+export const getUsbDevicesLinux = (): Promise<PortInfo | void> => {
   return new Promise((resolve, reject) => {
     exec("lsusb", (error, stdout, stderr) => {
       if (error) {
         console.error(`Error: ${error.message}`)
-        return reject(error)
+        return reject()
       }
       if (stderr) {
         console.error(`Stderr: ${stderr}`)
-        return reject(stderr)
+        return reject()
       }
 
       const harmonyDevice = getHarmonyMSCDevice(stdout)
@@ -82,10 +80,10 @@ export const getUsbDevicesLinux = (): Promise<
             resolve(details)
           })
           .catch((error) => {
-            reject(error)
+            reject()
           })
       } else {
-        resolve([])
+        resolve()
       }
     })
   })

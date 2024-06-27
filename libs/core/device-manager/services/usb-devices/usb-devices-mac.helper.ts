@@ -4,11 +4,27 @@
  */
 
 import { ExecException, exec } from "child_process"
+import { PortInfo } from "serialport"
 
-const parseOutput = (output: string): Array<Record<string, string>> => {
-  const devices: Array<Record<string, string>> = []
+interface DeviceDetails {
+  [key: string]: string | undefined
+  name?: string
+  ProductID?: string
+  VendorID?: string
+  Version?: string
+  SerialNumber?: string
+  Speed?: string
+  Manufacturer?: string
+  LocationID?: string
+  "CurrentAvailable(mA)"?: string
+  "CurrentRequired(mA)"?: string
+  "ExtraOperatingCurrent(mA)"?: string
+}
+
+const getHarmonyMSCDevice = (output: string): DeviceDetails | null => {
+  const devices: Array<DeviceDetails> = []
   const lines = output.trim().split("\n")
-  let currentDevice: Record<string, string> = {}
+  let currentDevice: DeviceDetails = {}
   let currentKey = ""
 
   lines.forEach((line) => {
@@ -30,26 +46,52 @@ const parseOutput = (output: string): Array<Record<string, string>> => {
     devices.push({ name: currentKey, ...currentDevice })
   }
 
-  console.log("Devices: ", devices)
-  return devices
+  return (
+    devices.find((device) => {
+      if (device.VendorID && device.ProductID) {
+        return (
+          device.VendorID.includes("3310") && device.ProductID.includes("0103")
+        )
+      }
+      return null
+    }) || null
+  )
 }
 
-export const getUsbDevicesMacOS = (): Promise<
-  ExecException | string | null | Array<Record<string, string>>
-> => {
-  return new Promise<
-    ExecException | string | null | Array<Record<string, string>>
-  >((resolve, reject) => {
+const parseToPortInfo = (device: DeviceDetails): PortInfo => {
+  const vendorId = device.VendorID!.replace("0x", "")
+  const productId = device.ProductID!.replace("0x", "")
+  const serialNumber = device.SerialNumber
+
+  return {
+    path: `${vendorId}/${productId}/${serialNumber}`,
+    manufacturer: device.Manufacturer,
+    serialNumber: device.SerialNumber,
+    productId,
+    vendorId,
+    locationId: device.LocationID?.split(" ")[0],
+  }
+}
+
+export const getUsbDevicesMacOS = (): Promise<PortInfo | void> => {
+  return new Promise((resolve, reject) => {
     exec("system_profiler SPUSBDataType", (error, stdout, stderr) => {
       if (error) {
         console.error(`Error: ${error.message}`)
-        reject(error)
+        reject()
       }
       if (stderr) {
         console.error(`Stderr: ${stderr}`)
-        resolve(error)
+        resolve()
       }
-      resolve(parseOutput(stdout))
+      const harmonyDevice = getHarmonyMSCDevice(stdout)
+
+      if (harmonyDevice) {
+        const portInfo = parseToPortInfo(harmonyDevice)
+        resolve(portInfo)
+      } else {
+        resolve()
+      }
     })
   })
 }

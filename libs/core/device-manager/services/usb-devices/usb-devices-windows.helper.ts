@@ -67,23 +67,25 @@ const parseToPortInfo = (device: DeviceInfo): PortInfo => {
   }
 }
 
-export const getUsbDevicesWindows = (): Promise<ExecException | PortInfo> => {
+export const getUsbDevicesWindows = (): Promise<PortInfo | void> => {
   return new Promise((resolve, reject) => {
     exec(
       `powershell -Command "Get-CimInstance Win32_PnPEntity | Where-Object { $_.DeviceID -like 'USB*' } | Select-Object Name, DeviceID, Manufacturer, Description, Service"`,
       (error, stdout, stderr) => {
         if (error) {
           console.error(`Error: ${error.message}`)
-          return reject(error)
+          return reject()
         }
         if (stderr) {
           console.error(`Stderr: ${stderr}`)
-          return reject(stderr)
+          return reject()
         }
 
         const harmonyDevice = getHarmonyMSCDevice(stdout)
         if (harmonyDevice) {
           resolve(parseToPortInfo(harmonyDevice))
+        } else {
+          resolve()
         }
       }
     )
