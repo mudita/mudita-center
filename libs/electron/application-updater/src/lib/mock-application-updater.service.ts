@@ -16,15 +16,15 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
   ) {
     super()
   }
-
-  @IpcEvent(IpcApplicationUpdaterEvent.Install)
-  public quitAndInstall(): void {
-    this.onError()
-  }
+  public quitAndInstall(): void {}
 
   @IpcEvent(IpcApplicationUpdaterEvent.Download)
   public async downloadUpdate(): Promise<void> {
-    this.onError()
+    if (this.isUpdateDownloaded()) {
+      this.onUpdateDownloaded()
+    } else {
+      this.onError()
+    }
   }
 
   @IpcEvent(IpcApplicationUpdaterEvent.Check)
@@ -39,6 +39,11 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
       this.onUpdateNotAvailable()
     }
   }
+
+  private isUpdateDownloaded(): boolean {
+    return this.mockUpdaterStateService.updateState.downloaded ?? true
+  }
+
   private isUpdateAvailable(): boolean {
     return this.mockUpdaterStateService.updateState.available
   }
