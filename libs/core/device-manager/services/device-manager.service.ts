@@ -199,7 +199,6 @@ export class DeviceManager {
 
         if (port) {
           const device = this.deviceResolver.resolve(port)
-          console.log(device, "dewiczek")
           return resolve(device)
         } else {
           await sleep()
