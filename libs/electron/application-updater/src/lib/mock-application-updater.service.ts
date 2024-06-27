@@ -14,12 +14,14 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
   ) {
     super()
   }
-  public quitAndInstall(): void {
-    this.onError()
-  }
+  public quitAndInstall(): void {}
 
   public async downloadUpdate(): Promise<void> {
-    this.onError()
+    if (this.isUpdateDownloaded()) {
+      this.onUpdateDownloaded()
+    } else {
+      this.onError()
+    }
   }
 
   public async checkForUpdatesAndNotify(): Promise<void> {
@@ -33,6 +35,11 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
       this.onUpdateNotAvailable()
     }
   }
+
+  private isUpdateDownloaded(): boolean {
+    return this.mockUpdaterStateService.updateState.downloaded ?? true
+  }
+
   private isUpdateAvailable(): boolean {
     return this.mockUpdaterStateService.updateState.available
   }
