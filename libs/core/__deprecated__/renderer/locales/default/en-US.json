@@ -960,5 +960,14 @@
   "module.genericViews.dataMigration.progress.genericMessage": "This might take a few minutes",
   "module.genericViews.dataMigration.success.title": "Data transfer complete",
   "module.genericViews.dataMigration.success.description": "We transferred your data successfully.\nIt's safe to use your devices again.",
-  "module.genericViews.dataMigration.success.buttonLabel": "Ok"
+  "module.genericViews.dataMigration.success.buttonLabel": "Ok",
+  "module.genericViews.dataMigration.cancelConfirm.title": "Cancel data transfer?",
+  "module.genericViews.dataMigration.cancelConfirm.description": "We’ll stop the transfer but some data may already be on your Kompakt.",
+  "module.genericViews.dataMigration.cancelConfirm.cancelButtonLabel": "Cancel transfer",
+  "module.genericViews.dataMigration.cancelConfirm.backButtonLabel": "Back",
+  "module.genericViews.dataMigration.cancelConfirm.progress.title": "Cancelling, please wait...",
+  "module.genericViews.dataMigration.cancelled.title": "Data transfer cancelled",
+  "module.genericViews.dataMigration.cancelled.noChanges.description": "We didn't transfer any data.",
+  "module.genericViews.dataMigration.cancelled.partialChanges.description": "We transferred some data before you cancelled but we didn’t transfer these items:",
+  "module.genericViews.dataMigration.cancelled.closeButtonLabel": "Close"
 }

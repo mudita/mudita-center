@@ -48,6 +48,7 @@ import { PurePasscodeModal } from "./components/pure-passcode-modal"
 import { ProgressModal } from "./components/progress-modal"
 import { SuccessModal } from "./components/success-modal"
 import { Modal } from "../../interactive/modal"
+import { CancelledModal } from "./components/transfer-cancelled-modal"
 
 const messages = defineMessages({
   header: {
@@ -123,12 +124,10 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
     if (dataMigrationStatus === "IN-PROGRESS") {
       startTransfer()
     }
-    if (
+    setModalOpened(
       dataMigrationStatus !== "IDLE" &&
-      dataMigrationStatus !== "PURE-PASSWORD-REQUIRED"
-    ) {
-      setModalOpened(true)
-    }
+        dataMigrationStatus !== "PURE-PASSWORD-REQUIRED"
+    )
   }, [dataMigrationStatus, startTransfer])
 
   return (
@@ -161,6 +160,9 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         {dataMigrationStatus === "FAILED" && <TransferErrorModal />}
         {dataMigrationStatus === "IN-PROGRESS" && (
           <ProgressModal onCancel={cancelMigration} />
+        )}
+        {dataMigrationStatus === "CANCELLED" && (
+          <CancelledModal onClose={onFinish} />
         )}
         {dataMigrationStatus === "COMPLETED" && (
           <SuccessModal onButtonClick={onFinish} />
