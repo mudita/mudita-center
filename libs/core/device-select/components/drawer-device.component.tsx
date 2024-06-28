@@ -22,12 +22,17 @@ import { CaseColour } from "Core/device/constants"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
+import { Badge } from "generic-view/ui"
+import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
+import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
 const Device = styled("div")<{ active: boolean }>`
   padding: 1.8rem 2.4rem 1.8rem 1rem;
   display: flex;
   min-width: 27.2rem;
   max-width: 27.2rem;
+
+  position: relative;
 
   &:hover {
     background: ${backgroundColor("main")};
@@ -66,6 +71,7 @@ export const DeviceImageStyled = styled(DeviceImage)`
           max-width: 4.2rem;
         `
       case DeviceType.MuditaHarmony:
+      case DeviceType.MuditaHarmonyMsc:
         return css`
           max-height: 7.5rem;
           max-width: 7rem;
@@ -123,6 +129,13 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
       key={deviceId}
       onClick={deviceId === activeDeviceId ? () => {} : onClick}
     >
+      {deviceType === DeviceType.MuditaHarmonyMsc && (
+        <Badge>
+          <Icon type={IconType.RecoveryMode} />
+          <Text displayStyle={TextDisplayStyle.Paragraph3} color="active">
+            Recovery Mode
+          </Text>
+        </Badge>)}
       <DeviceImageContainer>
         <DeviceImageStyled deviceType={deviceType} caseColour={caseColour} />
       </DeviceImageContainer>
