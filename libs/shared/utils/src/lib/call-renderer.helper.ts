@@ -11,6 +11,7 @@ import { LoggerFactory } from "Core/core/factories"
 import { PureStrategyMainEvent } from "Core/device/strategies"
 import { getMainAppWindow } from "./get-main-app-window"
 import { AppEvents } from "./main-event.constant"
+import { FileDialogToRendererEvents } from "system-utils/models"
 
 const logger = LoggerFactory.getInstance()
 
@@ -20,6 +21,7 @@ export type CallRendererEvent =
   | AppEvents
   | PureStrategyMainEvent
   | AppUpdateEvent
+  | FileDialogToRendererEvents
 
 export const callRenderer = (event: CallRendererEvent, payload?: unknown) => {
   const win = getMainAppWindow()

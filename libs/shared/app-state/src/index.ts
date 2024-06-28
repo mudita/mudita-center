@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/dialog-file-system/get-paths.action"
+export * from "./lib/dialog-open-status/use-file-dialog-event-listener"
 export * from "./lib/online-status/use-online-listener"
 export * from "./lib/online-status/online-status.module"
 export * from "./lib/online-status/online-status.requests"
