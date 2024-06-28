@@ -7,7 +7,11 @@ import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { answerMain } from "shared/utils"
-import { getDevicesSelector } from "device-manager/feature"
+import {
+  deactivateDevice,
+  getDevicesSelector,
+  isActiveApiDeviceLockedSelector,
+} from "device-manager/feature"
 import {
   setActiveDevice,
   activeDeviceIdSelector,
@@ -40,12 +44,18 @@ export const useDeviceConnectedEffect = () => {
   const dispatch = useDispatch<Dispatch>()
 
   const activeDeviceId = useSelector(activeDeviceIdSelector)
+  const activeApiDeviceLocked = useSelector(isActiveApiDeviceLockedSelector)
 
   const shouldDiscoverySkipOnConnect = useDiscoverySkipOnConnect()
   const continueProcess = useContinueProcess()
 
   useEffect(() => {
     const handler = async (properties: DeviceBaseProperties) => {
+      if (activeApiDeviceLocked) {
+        await dispatch(deactivateDevice())
+        dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
+      }
+
       if (activeDeviceId) {
         await continueProcess(properties)
         return
@@ -66,6 +76,7 @@ export const useDeviceConnectedEffect = () => {
     activeDeviceId,
     continueProcess,
     shouldDiscoverySkipOnConnect,
+    activeApiDeviceLocked,
   ])
 }
 
