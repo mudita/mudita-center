@@ -19,7 +19,6 @@ import {
   transferDataToDevice,
 } from "../data-transfer/transfer-data-to-device.action"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { DataMigrationStatus } from "./reducer"
 
 export enum DataMigrationPercentageProgress {
   CollectingData = 1,
@@ -39,6 +38,7 @@ export const performDataMigration = createAsyncThunk<
 
     const abortListener = async () => {
       aborted = true
+      dispatch(setDataMigrationStatus("CANCELLED"))
       abortTransfer()
       signal.removeEventListener("abort", abortListener)
     }
@@ -46,12 +46,9 @@ export const performDataMigration = createAsyncThunk<
 
     const { dataMigration } = getState()
 
-    const handleError = (
-      message: string,
-      reason: Extract<DataMigrationStatus, "FAILED" | "CANCELLED"> = "FAILED"
-    ) => {
+    const handleError = (message: string) => {
       logger.error(message)
-      dispatch(setDataMigrationStatus(reason))
+      dispatch(setDataMigrationStatus("FAILED"))
       abortTransfer()
       return rejectWithValue(undefined)
     }
@@ -67,7 +64,7 @@ export const performDataMigration = createAsyncThunk<
     }
 
     if (aborted) {
-      return handleError("Data migration aborted", "CANCELLED")
+      return rejectWithValue(undefined)
     }
     dispatch(
       setTransferProgress(DataMigrationPercentageProgress.CollectingData)
@@ -83,7 +80,7 @@ export const performDataMigration = createAsyncThunk<
     }
 
     if (aborted) {
-      return handleError("Data migration aborted", "CANCELLED")
+      return rejectWithValue(undefined)
     }
     const deviceDatabaseIndexed = await indexAllRequest({
       serialNumber: deviceInfo.data.serialNumber,
@@ -94,7 +91,7 @@ export const performDataMigration = createAsyncThunk<
       return handleError("Error indexing device database")
     }
     if (aborted) {
-      return handleError("Data migration aborted", "CANCELLED")
+      return rejectWithValue(undefined)
     }
     const databaseResponse = await dispatch(readAllIndexes())
 
@@ -109,7 +106,7 @@ export const performDataMigration = createAsyncThunk<
 
     for (const feature of features) {
       if (aborted) {
-        return handleError("Data migration aborted", "CANCELLED")
+        return rejectWithValue(undefined)
       }
 
       switch (feature) {
@@ -131,14 +128,16 @@ export const performDataMigration = createAsyncThunk<
     )
 
     if (aborted) {
-      return handleError("Data migration aborted", "CANCELLED")
+      return rejectWithValue(undefined)
     }
     const transferPromise = dispatch(transferDataToDevice(domainsData))
     abortTransfer = () => transferPromise.abort()
     const response = await transferPromise
 
     if (response.meta.requestStatus === "rejected") {
-      return handleError("Error transferring data")
+      return aborted
+        ? rejectWithValue(undefined)
+        : handleError("Error transferring data")
     }
     dispatch(setTransferProgress(DataMigrationPercentageProgress.Finished))
 
