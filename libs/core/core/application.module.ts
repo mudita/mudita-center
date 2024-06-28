@@ -46,7 +46,7 @@ import {
 } from "device-protocol/feature"
 import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
-import { FileSystemDialogModule, OnlineStatusModule } from "shared/app-state"
+import { OnlineStatusModule } from "shared/app-state"
 import { SystemUtilsModule } from "system-utils/feature"
 import { MockDeviceResolverService, mockServiceEnabled } from "e2e-mock-server"
 import { ApplicationUpdaterModule } from "electron/application-updater"
@@ -124,9 +124,6 @@ export class ApplicationModule {
       createSettingsService()
     )
     this.controllerInitializer.initialize(this.apiModule.getAPIServices())
-    this.controllerInitializer.initialize(
-      FileSystemDialogModule.getControllers()
-    )
     this.controllerInitializer.initialize(this.systemUtilsModule.getServices())
     this.controllerInitializer.initialize(
       new ApplicationUpdaterModule().controllers

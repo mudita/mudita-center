@@ -4,5 +4,5 @@
  */
 
 export enum FileDialogServiceEvents {
-  SelectSingleFile = "directoryservice-open-file",
+  OpenFile = "file-dialog/open-file",
 }
