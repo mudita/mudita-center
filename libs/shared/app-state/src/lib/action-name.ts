@@ -5,5 +5,5 @@
 
 export enum ActionName {
   UpdateOnlineStatus = "app-state/update-online-status",
-  GetPaths = "app-state/get-paths",
+  UpdateDialogOpenStatus = "app-state/update-dialog-open-status",
 }

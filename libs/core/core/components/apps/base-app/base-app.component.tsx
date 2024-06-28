@@ -23,7 +23,7 @@ import {
   useBackupList,
   useAppEventsListeners,
 } from "generic-view/store"
-import { useOnlineListener } from "shared/app-state"
+import { useFileDialogEventListener, useOnlineListener } from "shared/app-state"
 import { useCoreDeviceProtocolListeners } from "core-device/feature"
 
 const BaseApp: FunctionComponent = () => {
@@ -42,6 +42,7 @@ const BaseApp: FunctionComponent = () => {
   useAPISerialPortListeners()
   useAppEventsListeners()
   useBackupList()
+  useFileDialogEventListener()
 
   return (
     <>

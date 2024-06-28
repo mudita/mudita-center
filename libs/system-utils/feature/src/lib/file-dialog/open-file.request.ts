@@ -5,13 +5,13 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { OpenDialogOptions } from "electron"
-import { FileDialogServiceEvents } from "system-utils/models"
+import { FileDialogToMainEvents } from "system-utils/models"
 import { ResultObject } from "Core/core/builder"
 
 export const openFileRequest = (
   options: OpenDialogOptions
 ): Promise<ResultObject<string[]>> => {
-  return ipcRenderer.callMain(FileDialogServiceEvents.OpenFile, {
+  return ipcRenderer.callMain(FileDialogToMainEvents.OpenFile, {
     options,
   })
 }
