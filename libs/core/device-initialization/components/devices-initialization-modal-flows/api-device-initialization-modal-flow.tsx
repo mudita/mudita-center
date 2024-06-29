@@ -9,7 +9,6 @@ import React, { useCallback, useEffect, useMemo, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { defineMessages } from "react-intl"
-import ReactModal from "react-modal"
 import styled from "styled-components"
 import { useFilteredRoutesHistory } from "shared/utils"
 import { useDataMigrationDeviceSelector } from "shared/feature"
@@ -22,13 +21,12 @@ import {
   selectDataMigrationTargetDevice,
   setSourceDevice,
 } from "generic-view/store"
-import { Modal, SpinnerLoader } from "generic-view/ui"
+import { Modal } from "generic-view/ui"
 import { GenericThemeProvider } from "generic-view/theme"
 import { ButtonAction, IconType } from "generic-view/utils"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_DISCOVERY_DEVICE,
@@ -40,9 +38,6 @@ import { DeviceInitializationStatus } from "Core/device-initialization/reducers/
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 
 const messages = defineMessages({
-  connectingModalParagraph: {
-    id: "module.onboarding.connectingMessage",
-  },
   lockedModalHeadline: {
     id: "component.deviceLockedModalHeadline",
   },
@@ -146,28 +141,6 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   return (
     <GenericThemeProvider>
       <Wrapper>
-        <ReactModal
-          isOpen
-          overlayClassName="generic-modal-overlay"
-          style={{
-            overlay: {
-              zIndex: ModalLayers.Default,
-            },
-            content: {
-              backgroundColor: "transparent",
-              border: "none",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            },
-          }}
-        >
-          <SpinnerLoader />
-          <ConnectingText>
-            {intl.formatMessage(messages.connectingModalParagraph)}
-          </ConnectingText>
-        </ReactModal>
         <Modal
           componentKey={"device-initialization"}
           config={{
@@ -192,12 +165,4 @@ const Wrapper = styled.div`
   height: 100%;
   width: 100%;
   background: ${({ theme }) => theme.color.grey6};
-`
-
-const ConnectingText = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.headline3};
-  line-height: ${({ theme }) => theme.lineHeight.headline3};
-  color: ${({ theme }) => theme.color.white};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  margin: 2.4rem 0 0;
 `
