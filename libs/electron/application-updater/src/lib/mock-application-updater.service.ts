@@ -4,12 +4,12 @@
  */
 
 import { MockUpdaterStateService } from "e2e-mock-server"
-import { OnlineStatusService } from "shared/app-state"
+import { IOnlineStatusService } from "shared/app-state"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
 
 export class MockApplicationUpdaterService extends BaseApplicationUpdaterService {
   constructor(
-    private onlineStatusService: OnlineStatusService,
+    private onlineStatusService: IOnlineStatusService,
     private mockUpdaterStateService: MockUpdaterStateService
   ) {
     super()
