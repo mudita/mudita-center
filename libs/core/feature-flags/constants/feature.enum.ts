@@ -7,4 +7,5 @@ export enum Feature {
   LoggerEnabled = "logger-enabled",
   LogsScrubbingEnabled = "logs-scrubbing-enabled",
   ForceUpdate = "force-update",
+  DataMigration = "data-migration",
 }
