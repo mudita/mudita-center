@@ -24,6 +24,7 @@ import { DeviceCommunicationError, DeviceType } from "Core/device"
 import { MockCoreDevice } from "Core/device/modules/mock-core-device"
 import { callRenderer } from "shared/utils"
 import { getSerialPortList } from "./serial-port-list.helper"
+import { getUsbDevices } from "./usb-devices/usb-devices.helper"
 
 export class DeviceManager {
   public activeDevice: BaseDevice | undefined
@@ -130,6 +131,12 @@ export class DeviceManager {
 
   public async getAttachedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
+    const harmonyMSCMode = await getUsbDevices()
+
+    if (harmonyMSCMode) {
+      portList.push(harmonyMSCMode)
+    }
+
     return (
       portList
         // AUTO DISABLED - fix me if you like :)

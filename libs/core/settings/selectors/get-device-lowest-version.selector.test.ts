@@ -70,6 +70,7 @@ describe("When `deviceType` and `lowestSupportedVersions` has been provided", ()
             lowestSupportedCenterVersion: "1.0.0",
             lowestSupportedProductVersion: {
               MuditaHarmony: "1.0.0",
+              MuditaHarmonyMsc: "1.0.0",
               MuditaPure: "2.0.0",
               APIDevice: "3.0.0",
             },
@@ -90,6 +91,7 @@ describe("When `deviceType` and `lowestSupportedVersions` has been provided", ()
             lowestSupportedCenterVersion: "1.0.0",
             lowestSupportedProductVersion: {
               MuditaHarmony: "1.0.0",
+              MuditaHarmonyMsc: "1.0.0",
               MuditaPure: "2.0.0",
               APIDevice: "3.0.0",
             },
