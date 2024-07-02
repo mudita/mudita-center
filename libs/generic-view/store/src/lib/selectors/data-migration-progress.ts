@@ -5,8 +5,8 @@
 
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { createSelector } from "@reduxjs/toolkit"
-import { DataMigrationPercentageProgress } from "../data-migration/perform-data.migration"
 import { selectDataTransferProgress } from "./data-transfer-progress"
+import { DataMigrationPercentageProgress } from "../data-migration/data-migration-percentage-progress.interface"
 
 export const selectDataMigrationProgress = createSelector(
   selectDataTransferProgress,

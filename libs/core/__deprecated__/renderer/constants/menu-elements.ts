@@ -4,7 +4,7 @@
  */
 
 import { defineMessages } from "react-intl"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { View, views } from "Core/__deprecated__/renderer/constants/views"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"

@@ -3,18 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  DeviceCommunicationError,
-  Endpoint,
-  Method,
-} from "Core/device/constants"
+import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
 import {
   GetContactResponseBody,
   GetContactsResponseBody,
   CreateContactResponseBody,
   CreateContactErrorResponseBody,
 } from "Core/device/types/mudita-os"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import { Contact, ContactID } from "Core/contacts/reducers"
 import { ContactRepository } from "Core/contacts/repositories"
 import { ContactPresenter } from "Core/contacts/presenters"
@@ -27,12 +23,12 @@ import { ResultObject } from "Core/core/builder"
 export class ContactService {
   constructor(
     private contactRepository: ContactRepository,
-    private deviceManager: DeviceManager
+    private deviceProtocol: DeviceProtocol
   ) {}
 
   public async getContact(id: string): Promise<RequestResponse<Contact>> {
     const response =
-      await this.deviceManager.device.request<GetContactResponseBody>({
+      await this.deviceProtocol.device.request<GetContactResponseBody>({
         endpoint: Endpoint.Contacts,
         method: Method.Get,
         body: {
@@ -55,7 +51,7 @@ export class ContactService {
 
   public async getContacts(): Promise<RequestResponse<Contact[]>> {
     const response =
-      await this.deviceManager.device.request<GetContactsResponseBody>({
+      await this.deviceProtocol.device.request<GetContactsResponseBody>({
         endpoint: Endpoint.Contacts,
         method: Method.Get,
       })
@@ -94,7 +90,7 @@ export class ContactService {
     //workaround
 
     const result =
-      await this.deviceManager.device.request<CreateContactResponseBody>({
+      await this.deviceProtocol.device.request<CreateContactResponseBody>({
         endpoint: Endpoint.Contacts,
         method: Method.Post,
         body: ContactPresenter.mapToPureContact(newContact),
@@ -164,7 +160,7 @@ export class ContactService {
       return isContactValidResponse
     }
 
-    const result = await this.deviceManager.device.request({
+    const result = await this.deviceProtocol.device.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
       body: ContactPresenter.mapToPureContact(contact),
@@ -224,7 +220,7 @@ export class ContactService {
     const successIds = []
 
     for (const id of contactIds) {
-      const result = await this.deviceManager.device.request({
+      const result = await this.deviceProtocol.device.request({
         endpoint: Endpoint.Contacts,
         method: Method.Delete,
         body: { id: Number(id) },

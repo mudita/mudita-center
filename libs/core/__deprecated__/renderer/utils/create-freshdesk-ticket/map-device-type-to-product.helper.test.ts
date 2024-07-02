@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { FreshdeskTicketProduct } from "./create-freshdesk-ticket.types"
 import { mapDeviceTypeToProduct } from "./map-device-type-to-product.helper"
 

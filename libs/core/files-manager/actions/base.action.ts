@@ -8,10 +8,6 @@ import { State } from "Core/core/constants"
 import { FilesManagerEvent } from "Core/files-manager/constants"
 import { SoundApp } from "Core/files-manager/reducers"
 
-export const setInitialFilesManagerState = createAction(
-  FilesManagerEvent.SetInitialFilesManagerState
-)
-
 export const setUploadingState = createAction<State>(
   FilesManagerEvent.SetUploadingState
 )

@@ -5,7 +5,7 @@
 
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { screenTitleSelector } from "../selectors"
+import { screenTitleSelector } from "../selectors/screen-title-selector"
 
 export const useScreenTitle = (viewKey: string) => {
   return useSelector((state: ReduxRootState) => {

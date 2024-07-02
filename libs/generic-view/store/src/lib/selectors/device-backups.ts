@@ -4,15 +4,15 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { selectActiveDevice } from "./active-device"
+import { selectActiveApiDeviceId } from "./select-active-api-device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const selectDeviceBackups = createSelector(
-  selectActiveDevice,
+  selectActiveApiDeviceId,
   (state: ReduxRootState) => state.genericBackups.backups,
-  (activeDevice, backups) => {
+  (activeDeviceId, backups) => {
     return backups
-      .filter((backup) => backup.serialNumber === activeDevice)
+      .filter((backup) => backup.serialNumber === activeDeviceId)
       .sort((a, b) => b.date.getTime() - a.date.getTime())
   }
 )

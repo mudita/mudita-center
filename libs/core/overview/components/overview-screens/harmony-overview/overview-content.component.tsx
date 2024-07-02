@@ -4,7 +4,8 @@
  */
 
 import React from "react"
-import { CaseColour, DeviceType } from "Core/device/constants"
+import { CaseColour } from "core-device/models"
+import { DeviceType } from "device-protocol/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   DeviceInfo,

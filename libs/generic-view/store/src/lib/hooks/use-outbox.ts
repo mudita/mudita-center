@@ -7,20 +7,20 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getOutboxData } from "../outbox/get-outbox-data.action"
-import { selectActiveDevice } from "../selectors/active-device"
+import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import { selectLastRefreshTimestamp } from "../selectors/select-last-refresh-timestamp"
 import { useLockedDeviceHandler } from "./use-locked-device-handler"
 
 export const useOutbox = () => {
   const dispatch = useDispatch<Dispatch>()
-  const activeDevice = useSelector(selectActiveDevice)
+  const activeDeviceId = useSelector(selectActiveApiDeviceId)
   const lastRefreshTimestamp = useSelector(selectLastRefreshTimestamp)
   useLockedDeviceHandler()
 
   useEffect(() => {
-    if (activeDevice) {
+    if (activeDeviceId) {
       const outboxTimeout = setTimeout(() => {
-        dispatch(getOutboxData({ deviceId: activeDevice }))
+        dispatch(getOutboxData({ deviceId: activeDeviceId }))
       }, 2000)
 
       return () => {
@@ -29,7 +29,7 @@ export const useOutbox = () => {
     }
     return
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeDevice, lastRefreshTimestamp])
+  }, [activeDeviceId, lastRefreshTimestamp])
 }
 
 export const OutboxWrapper = () => {

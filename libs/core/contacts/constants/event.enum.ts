@@ -4,7 +4,6 @@
  */
 
 export enum ContactsEvent {
-  SetInitialContactsState = "SET_INITIAL_CONTACTS_STATE",
   DevClearAllContacts = "CONTACTS_DEV_CLEAR_ALL_CONTACTS",
   SetContacts = "CONTACTS_SET_CONTACTS",
   Authorize = "CONTACTS_AUTHORIZE",

@@ -5,6 +5,7 @@
 
 import { EventEmitter } from "events"
 import { MainProcessIpc } from "electron-better-ipc"
+import { DeviceProtocol } from "device-protocol/feature"
 import { BaseModule } from "Core/core/module"
 import { IndexStorage } from "Core/index-storage/types"
 import { MetadataStore } from "Core/metadata"
@@ -12,7 +13,6 @@ import { AppLogger } from "Core/__deprecated__/main/utils/logger"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { AnalyticDataTrackerController } from "Core/analytic-data-tracker/controllers"
 import { AnalyticDataTrackerFactory } from "Core/analytic-data-tracker/services"
-import { DeviceManager } from "Core/device-manager/services"
 
 const apiUrl = String(process.env.ANALYTICS_API_URL)
 const siteId = Number(process.env.ANALYTICS_API_SITE_ID)
@@ -20,7 +20,7 @@ const siteId = Number(process.env.ANALYTICS_API_SITE_ID)
 export class AnalyticDataTrackerModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceProtocol: DeviceProtocol,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -29,7 +29,7 @@ export class AnalyticDataTrackerModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocol,
       keyStorage,
       logger,
       ipc,

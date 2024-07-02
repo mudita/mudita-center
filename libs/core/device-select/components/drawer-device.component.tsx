@@ -17,8 +17,8 @@ import {
   transitionTime,
   transitionTimingFunction,
 } from "Core/core/styles/theming/theme-getters"
-import { DeviceType } from "Core/device"
-import { CaseColour } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
+import { CaseColour } from "core-device/models"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device/constants/device-type.constant"
+import { DeviceType } from "device-protocol/models"
 import { FreshdeskTicketProduct } from "./create-freshdesk-ticket.types"
 
 const DEVICE_TYPE_TO_PRODUCT: Record<DeviceType, FreshdeskTicketProduct> = {

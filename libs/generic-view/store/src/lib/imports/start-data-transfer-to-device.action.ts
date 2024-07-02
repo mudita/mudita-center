@@ -5,7 +5,6 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { ActionName } from "../action-names"
 import { DataTransferDomain, UnifiedContact } from "device/models"
 import {
   cancelDataTransferRequest,
@@ -15,7 +14,9 @@ import {
   startPreDataTransferRequest,
   startPreSendWithDataFileRequest,
 } from "device/feature"
+import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
+import { selectActiveApiDeviceId } from "../selectors"
 import {
   setDataTransferProcessFileStatus,
   setDataTransferProcessStatus,
@@ -45,7 +46,7 @@ export const startDataTransferToDevice = createAsyncThunk<
     }
     signal.addEventListener("abort", abortListener)
 
-    const deviceId = getState().genericViews.activeDevice
+    const deviceId = selectActiveApiDeviceId(getState())
     const activeProvider = getState().genericImport.currentImportProvider
 
     if (!deviceId || !activeProvider) {

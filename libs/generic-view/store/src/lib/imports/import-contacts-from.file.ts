@@ -7,7 +7,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
 import { UnifiedContact } from "device/models"
-import { readAndGetFileRequest, selectSingleFileRequest } from "device/feature"
+import { readAndGetFileRequest } from "device/feature"
+import { openFileRequest } from "system-utils/feature"
 import { detect } from "jschardet"
 import { parseCsv } from "./contacts-mappers/csv/parse-csv"
 import { mapCsv } from "./contacts-mappers/csv/map-csv"
@@ -49,7 +50,8 @@ export const importContactsFromFile = createAsyncThunk<
     return rejectWithValue(intl.formatMessage(messages.errorMessage))
   }
   try {
-    const filePathResult = await selectSingleFileRequest({
+    const openFileResult = await openFileRequest({
+      properties: ["openFile"],
       title: intl.formatMessage(messages.dialogTitle),
       filters: [
         {
@@ -58,17 +60,19 @@ export const importContactsFromFile = createAsyncThunk<
         },
       ],
     })
-    if (!filePathResult.ok) {
+    if (!openFileResult.ok) {
       cleanImportProcess()
       return rejectWithValue("cancelled")
     }
 
-    const fileResponse = await readAndGetFileRequest(filePathResult.data)
+    const filePath = openFileResult.data[0]
+
+    const fileResponse = await readAndGetFileRequest(filePath)
     if (!fileResponse.ok) {
       return handleError()
     }
 
-    const fileBuffer = Buffer.from(fileResponse.data)
+    const fileBuffer = Buffer.from(filePath)
     const { encoding } = detect(fileBuffer)
     const content = fileBuffer.toString(encoding as BufferEncoding)
 
@@ -77,9 +81,9 @@ export const importContactsFromFile = createAsyncThunk<
     }
 
     switch (true) {
-      case filePathResult.data.endsWith(".csv"):
+      case filePath.endsWith(".csv"):
         return mapCsv(parseCsv(content)).map(addMissingFields)
-      case filePathResult.data.endsWith(".vcf"):
+      case filePath.endsWith(".vcf"):
         return mapVcard(parseVcard(content)).map(addMissingFields)
       default:
         return handleError()

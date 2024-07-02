@@ -4,7 +4,8 @@
  */
 
 import { State } from "Core/core/constants"
-import { DeviceType, CaseColour } from "Core/device/constants"
+import { CaseColour } from "core-device/models"
+import { DeviceType } from "device-protocol/models"
 
 export interface SimCard {
   readonly network?: string

@@ -7,7 +7,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { loadDeviceData } from "Core/device/actions/load-device-data.action"
-import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 
 const deviceDataIntervalTime = 10000
 

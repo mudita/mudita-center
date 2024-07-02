@@ -3,29 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "device-protocol/models"
+import { Endpoint, Method } from "core-device/models"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
-import {
-  DeviceType,
-  Endpoint,
-  Method,
-  OnboardingState,
-  PhoneLockCategory,
-} from "Core/device/constants"
+import { OnboardingState, PhoneLockCategory } from "Core/device/constants"
 import { SettingsService } from "Core/settings/services"
 import { UpdateErrorServiceErrors } from "Core/update/constants"
 import { UpdateOS } from "Core/update/dto"
 import { join } from "path"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import * as fs from "fs"
 import { DeviceInfoService } from "Core/device-info/services"
 
 export class DeviceUpdateService {
   constructor(
     private settingsService: SettingsService,
-    private deviceManager: DeviceManager,
+    private deviceProtocol: DeviceProtocol,
     private deviceFileSystem: DeviceFileSystemService,
     private deviceInfoService: DeviceInfoService
   ) {}
@@ -93,7 +89,7 @@ export class DeviceUpdateService {
       )
     }
 
-    const pureUpdateResponse = await this.deviceManager.device.request({
+    const pureUpdateResponse = await this.deviceProtocol.device.request({
       endpoint: Endpoint.Update,
       method: Method.Post,
       body: {
@@ -133,7 +129,7 @@ export class DeviceUpdateService {
       )
     }
 
-    if (this.deviceManager.device.deviceType === DeviceType.MuditaPure) {
+    if (this.deviceProtocol.device.deviceType === DeviceType.MuditaPure) {
       const deviceUnlockedResponse = await this.waitUntilDeviceUnlocked()
 
       if (!deviceUnlockedResponse.ok) {
@@ -170,7 +166,7 @@ export class DeviceUpdateService {
   private async getUnlockDeviceStatus(): Promise<
     ResultObject<RequestResponseStatus>
   > {
-    const { ok, error } = await this.deviceManager.device.request({
+    const { ok, error } = await this.deviceProtocol.device.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
@@ -183,7 +179,7 @@ export class DeviceUpdateService {
 
   private async waitUntilDeviceRestart(
     index = 0,
-    deviceType = this.deviceManager.device.deviceType,
+    deviceType = this.deviceProtocol.device.deviceType,
     timeout = 10000,
     callsMax = 60
   ): Promise<ResultObject<boolean>> {

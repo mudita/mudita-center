@@ -6,7 +6,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "Core/core/errors"
 import { removeFile } from "Core/device-file-system"
-import { DeviceType, DiagnosticsFilePath } from "Core/device/constants"
+import { DiagnosticsFilePath } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import {
   setStateForInstalledRelease,
   setTmpMuditaHarmonyPortInfo,
@@ -28,7 +29,7 @@ import {
 } from "Core/analytic-data-tracker/helpers"
 import { checkUpdate } from "Core/update/requests/checkUpdate.request"
 import { setRestartingStatus } from "Core/device"
-import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
+import { getActiveDevice } from "device-manager/feature"
 
 interface Params {
   releases: OsRelease[]

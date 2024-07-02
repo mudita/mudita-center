@@ -12,9 +12,11 @@ import React, {
   useRef,
   useState,
 } from "react"
+import { defineMessages } from "react-intl"
+import { useDispatch, useSelector } from "react-redux"
 import { APIFC } from "generic-view/utils"
 import { McDataMigrationConfig } from "generic-view/models"
-import { useDispatch, useSelector } from "react-redux"
+import { getActiveDevice } from "device-manager/feature"
 import {
   clearDataMigrationProgress,
   performDataMigration,
@@ -38,8 +40,6 @@ import {
   modalTransitionDuration,
 } from "generic-view/theme"
 import { Device } from "./components/device-card"
-import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
-import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { PureErrorModal } from "./components/pure-error-modal"

@@ -4,12 +4,13 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { FeaturesActions } from "./featues-action-keys"
 import { getDeviceOSVersion, getOverviewDataRequest } from "device/feature"
-import { DeviceId } from "Core/device/constants/device-id"
 import { generateMcAboutData, generateMcOverviewData } from "generic-view/views"
 import { View } from "generic-view/utils"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { DeviceId } from "Core/device/constants/device-id"
+import { selectConfiguredDevice } from "../selectors/select-configured-devices"
+import { FeaturesActions } from "./featues-action-keys"
 
 export const getOverviewData = createAsyncThunk<
   {
@@ -22,21 +23,20 @@ export const getOverviewData = createAsyncThunk<
 >(
   FeaturesActions.GetOverviewData,
   async ({ deviceId }, { rejectWithValue, getState }) => {
-    const apiConfig =
-      getState().genericViews.devicesConfiguration[deviceId].apiConfig
+    const apiConfig = selectConfiguredDevice(getState(), deviceId)?.apiConfig
+
+    if (apiConfig === undefined) {
+      return rejectWithValue("no device")
+    }
 
     const serverResponse = await getDeviceOSVersion(
       apiConfig.productId,
       apiConfig.vendorId
     )
-    const overviewConfig =
-      getState().genericViews.devicesConfiguration[deviceId]?.features?.[
-        "mc-overview"
-      ]?.config
-    const aboutConfig =
-      getState().genericViews.devicesConfiguration[deviceId]?.features?.[
-        "mc-about"
-      ]?.config
+
+    const features = selectConfiguredDevice(getState(), deviceId)?.features
+    const overviewConfig = features?.["mc-overview"]?.config
+    const aboutConfig = features?.["mc-about"]?.config
     const response = await getOverviewDataRequest(
       deviceId,
       overviewConfig ?? ({} as View),

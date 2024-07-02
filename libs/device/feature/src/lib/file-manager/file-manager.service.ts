@@ -8,7 +8,7 @@ import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
 import { FileManagerServiceEvents, GeneralError } from "device/models"
 import { AppError } from "Core/core/errors"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import packageInfo from "../../../../../../apps/mudita-center/package.json"
 import {
@@ -28,7 +28,7 @@ export class FileManager {
   private files: Record<string, unknown> = {}
 
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceProtocol: DeviceProtocol,
     private serviceBridge: ServiceBridge
   ) {}
 
@@ -55,8 +55,8 @@ export class FileManager {
   @IpcEvent(FileManagerServiceEvents.GetBackupPath)
   public getBackupPath({ deviceId }: { deviceId?: DeviceId } = {}) {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -101,8 +101,8 @@ export class FileManager {
     password?: string
   }) {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))

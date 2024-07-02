@@ -4,9 +4,9 @@
  */
 
 import path from "path"
-import { Endpoint, Method } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import { PutFileSystemResponseBody } from "Core/device/types/mudita-os"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
@@ -16,10 +16,10 @@ import { DeviceFileSystemError } from "Core/device-file-system/constants"
 
 export class FileUploadCommand extends BaseCommand {
   constructor(
-    public deviceManager: DeviceManager,
+    public deviceProtocol: DeviceProtocol,
     public fileSystemService: FileSystemService
   ) {
-    super(deviceManager)
+    super(deviceProtocol)
   }
 
   public async exec(
@@ -53,7 +53,7 @@ export class FileUploadCommand extends BaseCommand {
     const fileName = path.basename(filePath)
 
     const response =
-      await this.deviceManager.device.request<PutFileSystemResponseBody>({
+      await this.deviceProtocol.device.request<PutFileSystemResponseBody>({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -103,7 +103,7 @@ export class FileUploadCommand extends BaseCommand {
       const chunkedBufferSize = Buffer.byteLength(chunkedBuffer)
       const lastChunk = chunkedBufferSize < chunkSize
 
-      const response = await this.deviceManager.device.request({
+      const response = await this.deviceProtocol.device.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {

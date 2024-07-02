@@ -5,7 +5,7 @@
 
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import { UpdateError } from "Core/update/constants"
 import { OsRelease, ProcessedRelease } from "Core/update/dto"

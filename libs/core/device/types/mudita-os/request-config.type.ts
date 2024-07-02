@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 
 export interface RequestConfigOptions {
   connectionTimeOut?: number

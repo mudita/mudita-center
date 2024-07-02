@@ -14,6 +14,7 @@ export interface ModalDialogProps extends Omit<Props, "isOpen">, ModalProps {
   close?: ComponentProps<typeof Button>
   closeModal?: () => void
   open: boolean
+  noOverlayBg?: boolean
   theme?: GetModalDialogStyleProps["theme"]
   layer?: ModalLayers
 }

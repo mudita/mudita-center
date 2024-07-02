@@ -6,7 +6,7 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { CrashDumpModal } from "Core/crash-dump/components/crash-dump-modal/crash-dump-modal.component"
 
 storiesOf("Crash Dump/Modals", module).add("Information", () => (

@@ -4,9 +4,7 @@
  */
 
 export enum DataSyncEvent {
-  SetDataSyncInitState = "DATA_SYNC_SET_INIT_STATE",
   SetDataSyncSetStatus = "DATA_SYNC_SET_STATUS",
-
   ReadAllIndexes = "DATA_SYNC_READ_ALL_INDEXES",
   UpdateAllIndexes = "DATA_SYNC_UPDATE_ALL_INDEXES",
 }

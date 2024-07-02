@@ -4,3 +4,4 @@
  */
 
 export * from "./lib/system-utils.module"
+export * from "./lib/file-dialog/open-file.request"

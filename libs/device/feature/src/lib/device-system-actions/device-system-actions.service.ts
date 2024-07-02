@@ -3,22 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { GeneralError, DeviceSystemActionsServiceEvents } from "device/models"
 import { IpcEvent } from "Core/core/decorators"
 
 export class DeviceSystemActionsService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceProtocol: DeviceProtocol) {}
 
   private async sendSystemRequest(
     action: string,
     { deviceId }: { deviceId?: string } = {}
   ) {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))

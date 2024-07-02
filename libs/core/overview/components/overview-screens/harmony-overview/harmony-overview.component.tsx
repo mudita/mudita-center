@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { Feature, flags } from "Core/feature-flags"
 import { HarmonyOverviewProps } from "Core/overview/components/overview-screens/harmony-overview/harmony-overview.component.interface"
 import OverviewContent from "Core/overview/components/overview-screens/harmony-overview/overview-content.component"

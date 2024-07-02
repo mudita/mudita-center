@@ -5,7 +5,7 @@
 
 import { createSelector } from "reselect"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { deviceTypeSelector } from "Core/device/selectors/device-type.selector"
 import { SettingsState } from "Core/settings/reducers/settings.interface"
 import { settingsStateSelector } from "Core/settings/selectors/get-settings-state.selector"

@@ -3,9 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "device-protocol/models"
 import { ResultObject } from "Core/core/builder"
 import { RequestConfig, Response } from "Core/device/types/mudita-os"
-import { DeviceCommunicationEvent, DeviceType } from "Core/device/constants"
+import { DeviceCommunicationEvent } from "Core/device/constants"
 
 export interface DeviceFactoryClass {
   path: string

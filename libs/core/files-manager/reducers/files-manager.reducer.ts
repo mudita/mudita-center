@@ -4,6 +4,7 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
+import { DeviceManagerEvent } from "device-manager/models"
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
 import {
@@ -22,12 +23,12 @@ import {
   resetUploadingStateAfterSuccess,
   resetFiles,
   setInvalidFiles,
-  setInitialFilesManagerState,
   setActiveSoundApp,
 } from "Core/files-manager/actions"
 import { changeLocation } from "Core/core/actions"
 import { FilesManagerState } from "Core/files-manager/reducers/files-manager.interface"
 import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
+import { pendingAction } from "Core/__deprecated__/renderer/store/helpers"
 
 export const initialState: FilesManagerState = {
   filesMap: {
@@ -52,7 +53,7 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
   initialState,
   (builder) => {
     builder
-      .addCase(setInitialFilesManagerState, () => {
+      .addCase(pendingAction(DeviceManagerEvent.DeactivateDevice), () => {
         return { ...initialState }
       })
       .addCase(getFiles.pending, (state) => {

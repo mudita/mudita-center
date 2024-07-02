@@ -15,7 +15,6 @@ export const setCheckForUpdateState = createAction<CheckForUpdateState>(
   UpdateOsEvent.SetCheckForUpdateState
 )
 export const closeUpdateFlow = createAction(UpdateOsEvent.CloseUpdateFlow)
-export const clearStateAndData = createAction(UpdateOsEvent.ClearStateAndData)
 export const cancelDownload = createAction(UpdateOsEvent.CancelDownload)
 export const setStateForDownloadedRelease = createAction<{
   version: string
@@ -25,4 +24,6 @@ export const setStateForInstalledRelease = createAction<{
   version: string
   state: ReleaseProcessState
 }>(UpdateOsEvent.SetStateForInstalledRelease)
-export const setTmpMuditaHarmonyPortInfo = createAction<PortInfo>(UpdateOsEvent.SetTmpMuditaHarmonyPortInfo)
+export const setTmpMuditaHarmonyPortInfo = createAction<PortInfo>(
+  UpdateOsEvent.SetTmpMuditaHarmonyPortInfo
+)

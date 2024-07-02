@@ -11,5 +11,7 @@ module.exports = {
     ...nxPreset.moduleNameMapper,
     "App/(.*)": `${__dirname}/apps/mudita-center/src/$1`,
     "Core/(.*)": `${__dirname}/libs/core/$1`,
+    "p-queue$": `${__dirname}/__mocks__/p-queue.ts`,
   },
+  setupFilesAfterEnv: [`${__dirname}/jest.setup.js`],
 }

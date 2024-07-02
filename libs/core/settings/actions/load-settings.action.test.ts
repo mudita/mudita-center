@@ -6,7 +6,7 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { getConfiguration } from "Core/settings/requests"
 import { getSettings } from "Core/settings/requests"
 import { SettingsEvent } from "Core/settings/constants"

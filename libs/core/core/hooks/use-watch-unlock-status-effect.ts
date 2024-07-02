@@ -8,10 +8,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-active-device-type.selector"
+import { getActiveDeviceTypeSelector } from "device-manager/feature"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { getUnlockStatus } from "Core/device/actions/get-unlock-status.action"
-import { DeviceType } from "Core/device/constants"
-import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { DeviceType } from "device-protocol/models"
 
 const unlockStatusIntervalTime = 10000
 

@@ -10,8 +10,12 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
-import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
-import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
+import {
+  getDevicesSelector,
+  getAvailableDevicesSelector,
+  getFailedDevicesSelector,
+  handleDeviceActivated,
+} from "device-manager/feature"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
   URL_DEVICE_INITIALIZATION,
@@ -19,8 +23,6 @@ import {
   URL_MAIN,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { getAvailableDevicesSelector } from "Core/device-manager/selectors/get-available-devices.selector"
-import { getFailedDevicesSelector } from "Core/device-manager/selectors/get-failed-devices.selector"
 import { useNoNewDevicesDetectedHook } from "Core/discovery-device/hooks/use-no-new-devices-detected.hook"
 
 const ConfiguredDevicesDiscovery: FunctionComponent = () => {
@@ -70,17 +72,22 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     noNewDevicesDetectedState,
   ])
 
-  const isAnyDeviceAttachedOnInitialRender = useRef<boolean | undefined>(undefined)
+  const isAnyDeviceAttachedOnInitialRender = useRef<boolean | undefined>(
+    undefined
+  )
   useEffect(() => {
-    if(isAnyDeviceAttachedOnInitialRender.current !== undefined){
+    if (isAnyDeviceAttachedOnInitialRender.current !== undefined) {
       return
     }
 
-    isAnyDeviceAttachedOnInitialRender.current = devices.length > 0;
+    isAnyDeviceAttachedOnInitialRender.current = devices.length > 0
   }, [devices])
 
   useEffect(() => {
-    if(!isAnyDeviceAttachedOnInitialRender.current && noNewDevicesDetectedState){
+    if (
+      !isAnyDeviceAttachedOnInitialRender.current &&
+      noNewDevicesDetectedState
+    ) {
       history.push(URL_ONBOARDING.troubleshooting)
       return
     }

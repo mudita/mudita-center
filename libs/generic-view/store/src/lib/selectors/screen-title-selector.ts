@@ -3,16 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { createSelector } from "reselect"
+import { createSelector } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { selectActiveApiDeviceId } from "./select-active-api-device-id"
+import { selectConfiguredDevices } from "./select-configured-devices"
 
 export const screenTitleSelector = createSelector(
-  (state: ReduxRootState) => state.genericViews.activeDevice,
-  (state: ReduxRootState) => state.genericViews.devicesConfiguration,
+  selectActiveApiDeviceId,
+  selectConfiguredDevices,
   (state: ReduxRootState, viewKey: string) => viewKey,
-  (activeDevice, devices, viewKey) => {
-    const features = devices[activeDevice as keyof typeof devices]?.features
-    return features?.[viewKey as keyof typeof features]?.config?.main
-      .screenTitle
+  (activeDeviceId, devices, viewKey) => {
+    const features = activeDeviceId
+      ? devices[activeDeviceId]?.features
+      : undefined
+    return features?.[viewKey]?.config?.main.screenTitle
   }
 )

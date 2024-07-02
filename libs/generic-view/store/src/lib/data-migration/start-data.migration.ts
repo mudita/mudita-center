@@ -4,14 +4,14 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ActionName } from "../action-names"
+import { DeviceCommunicationError } from "core-device/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { DeviceCommunicationError } from "Core/device"
 import { getDeviceInfoRequest } from "Core/device-info/requests"
-import { setDataMigrationStatus } from "./actions"
 import { unlockDeviceStatusRequest } from "Core/device/requests"
 import { versionFormatter } from "Core/update/helpers"
 import isVersionGreaterOrEqual from "Core/utils/is-version-greater-or-equal"
+import { ActionName } from "../action-names"
+import { setDataMigrationStatus } from "./actions"
 
 export const startDataMigration = createAsyncThunk<
   void,

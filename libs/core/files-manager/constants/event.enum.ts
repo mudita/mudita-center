@@ -4,7 +4,6 @@
  */
 
 export enum FilesManagerEvent {
-  SetInitialFilesManagerState = "SET_INITIAL_FILES_MANAGER_STATE",
   GetFiles = "FILES_MANAGER_GET_FILES",
   SetFiles = "FILES_MANAGER_SET_FILES",
   SelectAllItems = "FILES_MANAGER_SELECT_ALL",

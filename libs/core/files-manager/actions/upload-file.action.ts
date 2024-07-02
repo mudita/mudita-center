@@ -11,7 +11,7 @@ import {
   FilesManagerError,
   FilesManagerEvent,
 } from "Core/files-manager/constants"
-import { getPathsWrapper } from "Core/files-manager/actions/get-paths-wrapper"
+import { openFileRequest } from "system-utils/feature"
 import { uploadFilesRequest } from "Core/files-manager/requests"
 import { getFiles } from "Core/files-manager/actions/get-files.action"
 import {
@@ -36,7 +36,7 @@ export const uploadFile = createAsyncThunk<
   FilesManagerEvent.UploadFiles,
   async (_, { getState, dispatch, rejectWithValue }) => {
     dispatch(setUploadBlocked(true))
-    const { payload: getPathsPayload } = await getPathsWrapper(dispatch, {
+    const openFileResult = await openFileRequest({
       filters: [
         {
           name: "Audio",
@@ -56,12 +56,12 @@ export const uploadFile = createAsyncThunk<
       return rejectWithValue("files are not yet loaded")
     }
 
-    if (!getPathsPayload.ok || !getPathsPayload.data) {
+    if (!openFileResult.ok || !openFileResult.data) {
       dispatch(setUploadBlocked(false))
       return rejectWithValue("no files to upload")
     }
 
-    const filePaths = getPathsPayload.data
+    const filePaths = openFileResult.data
 
     if (filePaths.length === 0) {
       dispatch(setUploadBlocked(false))

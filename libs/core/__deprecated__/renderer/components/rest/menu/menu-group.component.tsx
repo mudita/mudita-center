@@ -4,7 +4,7 @@
  */
 
 import * as React from "react"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import Text, {

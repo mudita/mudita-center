@@ -11,7 +11,6 @@ export const setLockTime = createAction<
   GetPhoneLockTimeResponseBody | undefined
 >(DeviceEvent.SetLockTime)
 
-export const setInitState = createAction(DeviceEvent.SetInitState)
 export const setOnboardingStatus = createAction<boolean>(
   DeviceEvent.SetOnboardingStatus
 )
@@ -27,4 +26,6 @@ export const setExternalUsageDevice = createAction<boolean>(
   DeviceEvent.SetExternalUsageDevice
 )
 
-export const setRestartingStatus = createAction<boolean>(DeviceEvent.SetRestartingStatus)
+export const setRestartingStatus = createAction<boolean>(
+  DeviceEvent.SetRestartingStatus
+)

@@ -68,9 +68,9 @@ export interface ContactsProps {
   resultState: ResultState
   contactList: ContactCategory[]
   closeImportWindow: (provider: ExternalProvider) => Promise<void>
-  getPaths: (
+  openFileRequest: (
     options: OpenDialogOptions
-  ) => Promise<PayloadAction<ResultObject<string[] | undefined>>>
+  ) => Promise<ResultObject<string[]>>
 }
 
 export interface NewContactResponse extends NewContact {

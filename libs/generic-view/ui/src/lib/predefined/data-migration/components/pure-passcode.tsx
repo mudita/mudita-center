@@ -10,6 +10,7 @@ import React, {
   useRef,
   useState,
 } from "react"
+import { DeviceCommunicationError } from "core-device/models"
 import {
   ErrorMessageMap,
   ErrorState,
@@ -22,7 +23,7 @@ import PasscodeModalUI from "Core/device-initialization/components/passcode-moda
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { deviceLockTimeRequest } from "Core/device/requests"
-import { DeviceCommunicationError, unlockDeviceById } from "Core/device"
+import { unlockDeviceById } from "Core/device"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { getDeviceInfoRequest } from "Core/device-info/requests"
 

@@ -12,9 +12,9 @@ import {
   sendClearRequest,
   startPreBackupRequest,
 } from "device/feature"
-
 import { ActionName } from "../action-names"
 import { getFile } from "../file-transfer/get-file.action"
+import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import {
   setBackupProcess,
   setBackupProcessFileStatus,
@@ -61,7 +61,7 @@ export const createBackup = createAsyncThunk<
       })
     )
 
-    const deviceId = getState().genericViews.activeDevice
+    const deviceId = selectActiveApiDeviceId(getState())
 
     if (deviceId === undefined || aborted) {
       return rejectWithValue(undefined)

@@ -3,14 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import "react-modern-drawer/dist/index.css"
+import Drawer from "react-modern-drawer"
 import * as React from "react"
 import { useSelector, useDispatch } from "react-redux"
+import { useHistory } from "react-router-dom"
+import { defineMessages } from "react-intl"
+import {
+  getFailedDevicesSelector,
+  setSelectDeviceDrawerOpen,
+} from "device-manager/feature"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import Drawer from "react-modern-drawer"
-import "react-modern-drawer/dist/index.css"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { isSelectDeviceDrawerOpenSelector } from "Core/device-select/selectors/is-select-device-drawer-open.selector"
-import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
@@ -18,18 +23,17 @@ import styled from "styled-components"
 import { Close } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { getAvailableDevicesSelector } from "Core/device-manager/selectors/get-available-devices.selector"
-import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
-import { useHistory } from "react-router-dom"
-import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
-import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
-import { DeviceState } from "Core/device-manager/reducers/device-manager.interface"
+import {
+  getAvailableDevicesSelector,
+  deactivateDevice,
+  handleDeviceActivated,
+} from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { DrawerDevice } from "Core/device-select/components/drawer-device.component"
-import { defineMessages } from "react-intl"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
@@ -75,14 +79,15 @@ const DevicesContainer = styled("div")`
 const DeviceSelectDrawer: FunctionComponent = () => {
   const isOpen = useSelector(isSelectDeviceDrawerOpenSelector)
   const devices = useSelector(getAvailableDevicesSelector)
+  const failedDevices = useSelector(getFailedDevicesSelector)
   const activeDeviceId = useSelector(activeDeviceIdSelector)
   const dispatch = useDispatch<Dispatch>()
   const history = useHistory()
 
   const handleDrawerDeviceClick = async (id: DeviceId) => {
     dispatch(setSelectDeviceDrawerOpen(false))
-    const device = devices.find((device) => device.id === id)
-    if (device?.state === DeviceState.Failed) {
+    const failedDevice = failedDevices.find((device) => device.id === id)
+    if (failedDevice !== undefined) {
       await dispatch(handleDeviceActivated(id))
       history.push(URL_ONBOARDING.troubleshooting)
     } else {

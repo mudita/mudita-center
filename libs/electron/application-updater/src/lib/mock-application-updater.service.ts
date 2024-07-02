@@ -4,24 +4,30 @@
  */
 
 import { MockUpdaterStateService } from "e2e-mock-server"
-import { OnlineStatusService } from "shared/app-state"
+import { IOnlineStatusService } from "shared/app-state"
+import { IpcEvent } from "Core/core/decorators"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
+import { IpcApplicationUpdaterEvent } from "./ipc-application-updater.event"
 
 export class MockApplicationUpdaterService extends BaseApplicationUpdaterService {
   constructor(
-    private onlineStatusService: OnlineStatusService,
+    private onlineStatusService: IOnlineStatusService,
     private mockUpdaterStateService: MockUpdaterStateService
   ) {
     super()
   }
+
+  @IpcEvent(IpcApplicationUpdaterEvent.Install)
   public quitAndInstall(): void {
     this.onError()
   }
 
+  @IpcEvent(IpcApplicationUpdaterEvent.Download)
   public async downloadUpdate(): Promise<void> {
     this.onError()
   }
 
+  @IpcEvent(IpcApplicationUpdaterEvent.Check)
   public async checkForUpdatesAndNotify(): Promise<void> {
     if (!this.onlineStatusService.online) {
       return this.onError()

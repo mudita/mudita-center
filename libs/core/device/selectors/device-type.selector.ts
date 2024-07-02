@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { deviceStateSelector } from "Core/device/selectors/device-state.selector"
 
 export const deviceTypeSelector = createSelector(

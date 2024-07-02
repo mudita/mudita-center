@@ -9,7 +9,9 @@ import {
   RenderOptions,
   renderHook,
 } from "@testing-library/react"
-import { CaseColour, DeviceType, PureDeviceData } from "Core/device"
+import { DeviceType } from "device-protocol/models"
+import { CaseColour } from "core-device/models"
+import { PureDeviceData } from "Core/device"
 import { CheckForUpdateLocalState } from "Core/overview/components/overview-screens/constants/overview.enum"
 import { useUpdateFlowState } from "Core/overview/components/overview-screens/helpers/use-update-flow-state.hook"
 import {

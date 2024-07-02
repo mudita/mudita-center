@@ -5,23 +5,19 @@
 
 import { useEffect, useCallback } from "react"
 import { useHistory } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import { answerMain, DeviceManagerMainEvent } from "shared/utils"
-import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
-import { addDevice } from "Core/device-manager/actions/base.action"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { useSelector } from "react-redux"
+import { answerMain } from "shared/utils"
+import { DeviceProtocolMainEvent } from "device-protocol/models"
+import { DeviceBaseProperties } from "device-protocol/models"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
-import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-discovery-device-in-progress.selector"
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
-import { DeviceState } from "Core/device-manager/reducers/device-manager.interface"
-import { getDeviceConfigurationRequest } from "Core/device-manager/requests/get-device-configuration.request"
-import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 
 export const useDeviceConnectFailedEffect = () => {
   const history = useHistory()
-  const dispatch = useDispatch<Dispatch>()
   const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
   const activeDeviceId = useSelector(activeDeviceIdSelector)
   const discoveryDeviceInProgress = useSelector(isDiscoveryDeviceInProgress)
@@ -44,31 +40,21 @@ export const useDeviceConnectFailedEffect = () => {
     activeDeviceProcessing,
   ])
 
-  const handleDeviceConnectFailed = useCallback(
-    async (properties: DeviceBaseProperties) => {
-      const result = await getDeviceConfigurationRequest(properties.id)
-      const caseColour = result.ok ? result.data.caseColour : undefined
+  const handleDeviceConnectFailed = useCallback(async () => {
+    if (activeDeviceId) {
+      return
+    }
 
-      dispatch(
-        addDevice({ ...properties, caseColour, state: DeviceState.Failed })
-      )
+    if (shouldSkipProcessing()) {
+      return
+    }
 
-      if (activeDeviceId) {
-        return
-      }
-
-      if (shouldSkipProcessing()) {
-        return
-      }
-
-      history.push(URL_DISCOVERY_DEVICE.root)
-    },
-    [dispatch, activeDeviceId, shouldSkipProcessing, history]
-  )
+    history.push(URL_DISCOVERY_DEVICE.root)
+  }, [activeDeviceId, shouldSkipProcessing, history])
 
   useEffect(() => {
     return answerMain<DeviceBaseProperties>(
-      DeviceManagerMainEvent.DeviceConnectFailed,
+      DeviceProtocolMainEvent.DeviceConnectFailed,
       handleDeviceConnectFailed
     )
   }, [handleDeviceConnectFailed])

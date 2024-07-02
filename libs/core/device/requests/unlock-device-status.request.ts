@@ -4,8 +4,9 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
+import { DeviceCommunicationError } from "core-device/models"
 import { ResultObject } from "Core/core/builder"
-import { DeviceCommunicationError, IpcDeviceEvent } from "Core/device/constants"
+import { IpcDeviceEvent } from "Core/device/constants"
 import { DeviceId } from "Core/device/constants/device-id"
 
 export const unlockDeviceStatusRequest = async (

@@ -20,12 +20,7 @@ import {
 } from "../data-transfer/transfer-data-to-device.action"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { DataMigrationStatus } from "./reducer"
-
-export enum DataMigrationPercentageProgress {
-  CollectingData = 1,
-  TransferringData = 10,
-  Finished = 100,
-}
+import { DataMigrationPercentageProgress } from "./data-migration-percentage-progress.interface"
 
 export const performDataMigration = createAsyncThunk<
   void,

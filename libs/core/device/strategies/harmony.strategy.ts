@@ -14,7 +14,7 @@ import {
 import { Result, ResultObject } from "Core/core/builder"
 import { BaseAdapter } from "Core/device/modules/base.adapter"
 import { AppError } from "Core/core/errors"
-import { DeviceCommunicationError } from "Core/device"
+import { DeviceCommunicationError } from "core-device/models"
 
 export class HarmonyStrategy implements DeviceStrategy {
   constructor(private adapter: BaseAdapter) {

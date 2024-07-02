@@ -4,7 +4,8 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceCommunicationError, DeviceEvent } from "Core/device/constants"
+import { DeviceCommunicationError } from "core-device/models"
+import { DeviceEvent } from "Core/device/constants"
 import { unlockDeviceStatusRequest } from "Core/device/requests"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { setLockTime, setUnlockedStatus } from "Core/device/actions/base.action"
