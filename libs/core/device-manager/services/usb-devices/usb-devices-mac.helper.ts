@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ProductID, VendorID } from "Core/device/constants"
 import { exec } from "child_process"
 import { PortInfo } from "serialport"
 
@@ -50,7 +51,8 @@ const getHarmonyMSCDevice = (output: string): DeviceDetails | null => {
     devices.find((device) => {
       if (device.VendorID && device.ProductID) {
         return (
-          device.VendorID.includes("3310") && device.ProductID.includes("0103")
+          device.VendorID.includes(VendorID.MuditaHarmony) &&
+          device.ProductID.includes(ProductID.MuditaHarmonyMsc)
         )
       }
       return null
