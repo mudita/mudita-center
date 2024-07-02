@@ -35,6 +35,9 @@ export class APIConfigService {
       endpoint: "API_CONFIGURATION",
       method: "GET",
       body: {},
+      options: {
+        connectionTimeOut: 1000
+      }
     })
 
     if (response.ok) {

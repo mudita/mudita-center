@@ -5,7 +5,7 @@
 
 import { DeviceType } from "device-protocol/models"
 import { View } from "generic-view/utils"
-import { AvailableDeviceProperties } from "device-manager/models"
+import { DeviceProperties } from "device-manager/models"
 import { ApiConfig, MenuConfig, OverviewData } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 
@@ -31,22 +31,14 @@ export interface DeviceConfiguration {
   features?: Features
 }
 
-export enum DeviceState {
-  Connected = "CONNECTED",
-  Configured = "CONFIGURED",
-  Initialized = "INITIALIZED",
-  Failed = "FAILED",
-}
-
 export interface Device
-  extends AvailableDeviceProperties,
+  extends DeviceProperties,
     Partial<DeviceConfiguration> {
   id: DeviceId
   serialNumber: string | undefined
   deviceType: DeviceType
-  state: DeviceState
 }
 
 export interface ConfiguredDevice
-  extends AvailableDeviceProperties,
+  extends DeviceProperties,
     DeviceConfiguration {}

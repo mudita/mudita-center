@@ -4,7 +4,8 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { ConfiguredDevice, DeviceState } from "generic-view/models"
+import { ConfiguredDevice } from "generic-view/models"
+import { DeviceState } from "device-manager/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectDevices } from "./select-devices"
 

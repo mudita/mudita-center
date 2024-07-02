@@ -4,14 +4,14 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { DeviceBaseProperties } from "device-protocol/models"
+import { DeviceProperties } from "device-manager/models"
 import { getCoreDevicesSelector } from "core-device/feature"
 import { selectDevices } from "generic-view/store"
 
 export const getDevicesSelector = createSelector(
   getCoreDevicesSelector,
   selectDevices,
-  (coreDevices, apiDevices): DeviceBaseProperties[] => {
+  (coreDevices, apiDevices): DeviceProperties[] => {
     return [...coreDevices, ...Object.values(apiDevices)]
   }
 )

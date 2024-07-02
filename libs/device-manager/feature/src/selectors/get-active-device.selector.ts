@@ -4,14 +4,14 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { AvailableDeviceProperties } from "device-manager/models"
+import { DeviceProperties } from "device-manager/models"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { getDevicesSelector } from "./get-devices.selector"
 
 export const getActiveDevice = createSelector(
   getDevicesSelector,
   activeDeviceIdSelector,
-  (devices, activeDeviceId): AvailableDeviceProperties | undefined => {
+  (devices, activeDeviceId): DeviceProperties | undefined => {
     return devices.find(({ id }) => id === activeDeviceId)
   }
 )

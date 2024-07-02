@@ -6,7 +6,8 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { View } from "generic-view/utils"
-import { Device, DeviceState, Features } from "generic-view/models"
+import { DeviceState } from "device-manager/models"
+import { Device, Features } from "generic-view/models"
 import { ApiError } from "device/models"
 import { AppError } from "Core/core/errors"
 import { getAPIConfig } from "../get-api-config"
@@ -18,7 +19,8 @@ import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { getGenericConfig } from "../features/get-generic-config.actions"
 import {
   addDevice,
-  removeDevice, setLastRefresh,
+  removeDevice,
+  setLastRefresh,
   setMenu,
   setViewData,
   setViewLayout,
@@ -105,6 +107,16 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       : undefined
     if (apiError && ApiError[apiError]) {
       state.apiErrors[apiError] = true
+    }
+
+    if(apiError !== ApiError.DeviceLocked){
+      const id = action.meta.arg.deviceId
+      const device = state.devices[id]
+
+      state.devices[id] = {
+        ...device,
+        state: DeviceState.Failed,
+      }
     }
   })
   builder.addCase(getAPIAny.fulfilled, (state, action) => {
