@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ProductID, VendorID } from "Core/device/constants"
 import { exec } from "child_process"
 import { PortInfo } from "serialport"
 
@@ -25,7 +26,10 @@ const getHarmonyMSCDevice = (output: string): UsbDevice | undefined => {
         description: parts.slice(6).join(" "),
       }
     })
-  return devices.find((device) => device.id === "3310:0103")
+  return devices.find(
+    (device) =>
+      device.id === `${VendorID.MuditaHarmony}:${ProductID.MuditaHarmonyMsc}`
+  )
 }
 
 const getUsbDeviceDetails = async (
