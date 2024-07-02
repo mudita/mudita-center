@@ -22,8 +22,9 @@ export const getDeviceTypeName = (
   }
 
   if (
-    deviceType === DeviceType.MuditaHarmony &&
-    caseColour === CaseColour.Gray
+    (deviceType === DeviceType.MuditaHarmony &&
+      caseColour === CaseColour.Gray) ||
+    deviceType === DeviceType.MuditaHarmonyMsc
   ) {
     return DeviceNames.Harmony1
   }
