@@ -43,16 +43,19 @@ import {
   DeviceProtocolModule,
   DeviceProtocol,
   DeviceResolverService,
+  SerialPortService,
 } from "device-protocol/feature"
 import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
 import { OnlineStatusModule } from "shared/app-state"
 import { SystemUtilsModule } from "system-utils/feature"
-import { MockDeviceResolverService, mockServiceEnabled } from "e2e-mock-server"
+import {
+  MockDeviceResolverService,
+  mockServiceEnabled,
+  MockSerialPortService,
+} from "e2e-mock-server"
 import { ApplicationUpdaterModule } from "electron/application-updater"
 import { CoreDeviceModule } from "core-device/feature"
-import { DeviceManagerModule } from "device-manager/feature"
-import { ActiveDeviceRegistryModule } from "active-device-registry/feature"
 import { createSettingsService } from "Core/settings/containers"
 
 export class ApplicationModule {
@@ -95,12 +98,7 @@ export class ApplicationModule {
 
   private apiModule: APIModule
 
-  private deviceProtocol = new DeviceProtocol(
-    mockServiceEnabled
-      ? new MockDeviceResolverService()
-      : new DeviceResolverService(),
-    this.eventEmitter
-  )
+  private deviceProtocol = this.resolveDeviceProtocol()
   private systemUtilsModule = new SystemUtilsModule()
 
   constructor(
@@ -132,12 +130,6 @@ export class ApplicationModule {
     this.controllerInitializer.initialize(
       new CoreDeviceModule(this.deviceProtocol, this.fileSystem).controllers
     )
-    this.controllerInitializer.initialize(
-      new DeviceManagerModule(this.deviceProtocol).controllers
-    )
-    this.controllerInitializer.initialize(
-      new ActiveDeviceRegistryModule(this.deviceProtocol).controllers
-    )
   }
 
   lateInitialization(): void {
@@ -160,5 +152,21 @@ export class ApplicationModule {
     this.initializeInitializer.initialize(instance.initializers)
     this.observerInitializer.initialize(instance.observers)
     this.controllerInitializer.initialize(instance.controllers)
+  }
+
+  private resolveDeviceProtocol(): DeviceProtocol {
+    if (mockServiceEnabled) {
+      return new DeviceProtocol(
+        new MockSerialPortService(),
+        new MockDeviceResolverService(),
+        this.eventEmitter
+      )
+    } else {
+      return new DeviceProtocol(
+        new SerialPortService(),
+        new DeviceResolverService(),
+        this.eventEmitter
+      )
+    }
   }
 }
