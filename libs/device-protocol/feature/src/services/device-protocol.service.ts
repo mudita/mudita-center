@@ -3,17 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IpcEvent } from "Core/core/decorators"
-import { DeviceProtocol } from "device-protocol/feature"
 import { ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
-import { IpcActiveDeviceRegistryEvent } from "../constants"
+import { IpcEvent } from "Core/core/decorators"
+import { IpcDeviceProtocolEvent } from "../constants/controller.constant"
+import { DeviceProtocol } from "./device-protocol"
 
-export class ActiveDeviceRegistryController {
+export class DeviceProtocolService {
   constructor(private deviceProtocol: DeviceProtocol) {}
 
-  @IpcEvent(IpcActiveDeviceRegistryEvent.SetActiveDevice)
+  @IpcEvent(IpcDeviceProtocolEvent.SetActiveDevice)
   public setActiveDevice(id: DeviceId | undefined): ResultObject<boolean> {
     return this.deviceProtocol.setActiveDevice(id)
+  }
+
+  @IpcEvent(IpcDeviceProtocolEvent.ConnectDevice)
+  public connectDevice(id: DeviceId): Promise<ResultObject<undefined>> {
+    return this.deviceProtocol.connectDevice(id)
   }
 }

@@ -4,11 +4,11 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { connectDeviceRequest } from "device-protocol/feature"
 import { DeviceManagerEvent, DeviceState } from "device-manager/models"
 import { setDeviceState } from "core-device/feature"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceId } from "Core/device/constants/device-id"
-import { connectDeviceRequest } from "../requests"
 
 export const connectDevice = createAsyncThunk<
   boolean,

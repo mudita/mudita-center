@@ -12,6 +12,7 @@ import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { DeviceProtocol } from "./services"
 import { UsbDeviceDetectionObserver } from "./observers"
+import { DeviceProtocolService } from "./services/device-protocol.service"
 
 export class DeviceProtocolModule extends BaseModule {
   constructor(
@@ -39,6 +40,6 @@ export class DeviceProtocolModule extends BaseModule {
 
     this.initializers = []
     this.observers = [usbDeviceDetectionObserver]
-    this.controllers = []
+    this.controllers = [new DeviceProtocolService(this.deviceProtocol)]
   }
 }

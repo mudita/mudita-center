@@ -20,7 +20,7 @@ import { CoreDevice } from "Core/device/modules/core-device"
 import { RequestConfig } from "Core/device/types/mudita-os"
 import { MockCoreDevice } from "Core/device/modules/mock-core-device"
 import { PortInfo } from "../types"
-import { getSerialPortList } from "../serial-port-list.helper"
+import { ISerialPortService } from "./serial-port.service"
 import { DeviceManagerError } from "../constants"
 import { PortInfoValidator } from "../validators"
 import { IDeviceResolverService } from "./device-resolver.service"
@@ -32,6 +32,7 @@ export class DeviceProtocol {
   private mutex = new Mutex()
 
   constructor(
+    private serialPortService: ISerialPortService,
     private deviceResolver: IDeviceResolverService,
     protected eventEmitter: EventEmitter
   ) {}
@@ -202,7 +203,7 @@ export class DeviceProtocol {
 
   @log("==== device manager: list ====", { space: 0 })
   private getSerialPortList(): Promise<SerialPortInfo[]> {
-    return getSerialPortList()
+    return this.serialPortService.list()
   }
 
   private getDeviceByPath(path: string): BaseDevice | undefined {

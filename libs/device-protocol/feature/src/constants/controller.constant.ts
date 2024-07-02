@@ -3,4 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./connect-device.request"
+export enum IpcDeviceProtocolEvent {
+  SetActiveDevice = "device-protocol/set-active-device",
+  ConnectDevice = "device-protocol/connect-device",
+}

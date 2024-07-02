@@ -5,3 +5,4 @@
 
 export * from "./device-protocol"
 export * from "./device-resolver.service"
+export * from "./serial-port.service"

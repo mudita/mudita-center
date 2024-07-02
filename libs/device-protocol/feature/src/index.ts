@@ -4,4 +4,5 @@
  */
 
 export * from "./device-protocol.module"
+export * from "./requests"
 export * from "./services"
