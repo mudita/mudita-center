@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum FileSystemDialogError {
-  GetPath = "file-system-dialog_get-paths-error",
+export enum FileDialogError {
+  OpenFile = "file-dialog/open-file-error",
 }
