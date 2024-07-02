@@ -95,7 +95,7 @@ const DeviceSelectDrawer: FunctionComponent = () => {
   return (
     <DrawerWrapper>
       <Drawer
-        open={isOpen}
+        open={isOpen || devices.length !== 0}
         onClose={() => {
           dispatch(setSelectDeviceDrawerOpen(false))
         }}
