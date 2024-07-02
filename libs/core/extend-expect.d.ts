@@ -32,5 +32,3 @@ declare module "brie" {
 }
 
 declare module "sqlite-parser"
-
-declare module "usb"

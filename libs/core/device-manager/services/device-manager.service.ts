@@ -134,7 +134,7 @@ export class DeviceManager {
     const harmonyMSCMode = await getUsbDevices()
 
     if (harmonyMSCMode) {
-      portList.push(harmonyMSCMode as SerialPortInfo)
+      portList.push(harmonyMSCMode)
     }
 
     return (

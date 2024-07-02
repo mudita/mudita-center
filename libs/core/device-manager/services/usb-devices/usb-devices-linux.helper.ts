@@ -28,7 +28,7 @@ const getHarmonyMSCDevice = (output: string): UsbDevice | undefined => {
   return devices.find((device) => device.id === "3310:0103")
 }
 
-const getUsbDeviceDetails = (
+const getUsbDeviceDetails = async (
   bus: string,
   device: string
 ): Promise<PortInfo> => {
@@ -61,9 +61,9 @@ function parseUsbDeviceDetails(output: string): PortInfo {
   return portInfo as PortInfo
 }
 
-export const getUsbDevicesLinux = (): Promise<PortInfo | void> => {
+export const getUsbDevicesLinux = async (): Promise<PortInfo | void> => {
   return new Promise((resolve, reject) => {
-    exec("lsusb", (error, stdout, stderr) => {
+    exec("lsusb", async (error, stdout, stderr) => {
       if (error) {
         console.error(`Error: ${error.message}`)
         return reject()
@@ -75,13 +75,11 @@ export const getUsbDevicesLinux = (): Promise<PortInfo | void> => {
 
       const harmonyDevice = getHarmonyMSCDevice(stdout)
       if (harmonyDevice) {
-        getUsbDeviceDetails(harmonyDevice.bus, harmonyDevice.device)
-          .then((details) => {
-            resolve(details)
-          })
-          .catch((error) => {
-            reject()
-          })
+        const details = await getUsbDeviceDetails(
+          harmonyDevice.bus,
+          harmonyDevice.device
+        )
+        resolve(details)
       } else {
         resolve()
       }
