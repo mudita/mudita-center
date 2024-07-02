@@ -5,7 +5,6 @@
 
 import * as React from "react"
 import styled from "styled-components"
-import { connect } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   textColor,
@@ -18,8 +17,6 @@ import Text, {
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { LayoutBlankWrapperTestIds } from "Core/__deprecated__/renderer/wrappers/wrappers-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { RootState, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { State } from "Core/core/constants"
 import { useHandleActiveDeviceAborted } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-aborted.hook"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { Close } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
@@ -64,41 +61,19 @@ const Header = styled.header`
   }
 `
 
-interface ComponentProps {
-  recoveryMode?: boolean
-  onClose?: () => void
-}
-interface StateProps {
-  closeable: boolean
-}
-
-type Props = ComponentProps & StateProps
-
 const MainTitle = styled(Text)`
   padding-top: 0.3rem;
 `
 
-const mapStateToProps = (
-  state: RootState & ReduxRootState,
-  ownProps: ComponentProps
-): Props => {
-  return {
-    closeable: !(
-      state.update.needsForceUpdate ||
-      state.update.forceUpdateState === State.Loading ||
-      state.update.updateOsState === State.Loading ||
-      state.activeDeviceRegistry.activeDeviceId
-    ),
-    recoveryMode: ownProps.recoveryMode,
-    onClose: ownProps.onClose,
-  }
+interface Props {
+  closeable?: boolean
+  onClose?: () => void
 }
 
 const LayoutBlankWrapper: FunctionComponent<Props> = ({
   children,
-  recoveryMode,
   onClose,
-  closeable,
+  closeable = true,
 }) => {
   const handleActiveDeviceAborted = useHandleActiveDeviceAborted()
 
@@ -115,7 +90,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
           displayStyle={TextDisplayStyle.Paragraph3}
           message={{ id: "module.onboarding.mainTitle" }}
         />
-        {!recoveryMode && closeable && (
+        {closeable && (
           <Close
             onClick={handleClosePage}
             data-testid={LayoutBlankWrapperTestIds.Close}
@@ -129,4 +104,4 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
   )
 }
 
-export default connect(mapStateToProps)(LayoutBlankWrapper)
+export default LayoutBlankWrapper

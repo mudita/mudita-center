@@ -65,6 +65,7 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
     actionButtonSize,
     actionButtonDisabled,
     theme,
+    noOverlayBg,
     ...props
   }) => {
     const closeModalByButtonClick = () => {
@@ -87,39 +88,43 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
         isOpen={open}
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        style={getModalDialogStyle({ zIndex: layer, size, theme })}
+        style={getModalDialogStyle({ zIndex: layer, size, theme, noOverlayBg })}
         shouldCloseOnOverlayClick={false}
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         onAfterClose={onClose}
         {...props}
       >
-        {(title || subtitle || closeModal) && <Header
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          titleOrder={titleOrder}
-          subtitleGap={Boolean(subtitle)}
-          data-testid={ModalTestIds.Header}
-        >
-          {title && <ModalTitle
-            displayStyle={getTitleStyle(size)}
+        {(title || subtitle || closeModal) && (
+          <Header
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            subTitle={subtitle}
-            element={"h2"}
-            data-testid={ModalTestIds.Title}
+            titleOrder={titleOrder}
+            subtitleGap={Boolean(subtitle)}
+            data-testid={ModalTestIds.Header}
           >
-            {title}
-          </ModalTitle>}
-          {Boolean(closeModal) && close}
-          <ModalSubTitle
-            displayStyle={getSubtitleStyle(size)}
-            color="secondary"
-            element={"p"}
-          >
-            {subtitle}
-          </ModalSubTitle>
-        </Header>}
+            {title && (
+              <ModalTitle
+                displayStyle={getTitleStyle(size)}
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                subTitle={subtitle}
+                element={"h2"}
+                data-testid={ModalTestIds.Title}
+              >
+                {title}
+              </ModalTitle>
+            )}
+            {Boolean(closeModal) && close}
+            <ModalSubTitle
+              displayStyle={getSubtitleStyle(size)}
+              color="secondary"
+              element={"p"}
+            >
+              {subtitle}
+            </ModalSubTitle>
+          </Header>
+        )}
         {children}
         {actionButtonLabel || closeButton ? (
           // AUTO DISABLED - fix me if you like :)
