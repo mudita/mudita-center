@@ -133,7 +133,9 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
         <Badge>
           <Icon type={IconType.RecoveryMode} />
           <Text displayStyle={TextDisplayStyle.Paragraph3} color="active">
-            Recovery Mode
+            {intl.formatMessage({
+              id: "module.availableDeviceList.recoveryMode",
+            })}
           </Text>
         </Badge>)}
       <DeviceImageContainer>

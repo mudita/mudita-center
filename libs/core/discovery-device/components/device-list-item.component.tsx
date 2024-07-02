@@ -31,6 +31,7 @@ const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },
   subheaderTitle: { id: "module.availableDeviceList.subheaderTitle" },
   serialNumber: { id: "module.availableDeviceList.serialNumber" },
+  recoveryMode: {id: "module.availableDeviceList.recoveryMode"},
 })
 
 const DeviceImageWrapper = styled.div`
@@ -112,8 +113,6 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
 }) => {
   const serialNumberValue = getSerialNumberValue(serialNumber)
 
-  console.log(`Wszelakie dane!!!! ${serialNumber} ${deviceType} ${caseColour}`)
-
   const serialNumberHeader =
     serialNumberValue !== "" ? intl.formatMessage(messages.serialNumber) : ""
 
@@ -123,7 +122,7 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
         <Badge>
           <Icon type={IconType.RecoveryMode} />
           <Text displayStyle={TextDisplayStyle.Paragraph3} color="active">
-            Recovery Mode
+            {intl.formatMessage(messages.recoveryMode)}
           </Text>
         </Badge>)}
       <DeviceImageWrapper>
