@@ -47,7 +47,22 @@ jobs:
           printenv > .env
       - name: Setup dependencies
         run: npm run setup
-      - name: Build App
+      - name: Copy electron-builder environment file for Windows
+        if: matrix.os == 'Windows'
+        run: |
+          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
+      - name: Copy electron-builder environment file for Linux/Mac
+        if: matrix.os != 'Windows'
+        run: |
+          cp ~/actions-runner/envs/electron-builder.env apps/mudita-center/electron-builder.env
+      - name: Build App for Windows
+        if: matrix.os == 'Windows'
+        run: |
+          $env:NODE_OPTIONS="--max-old-space-size=4096"
+          $env:LOCALAPPDATA=""
+          npm run app:dist
+      - name: Build App for Linux/Mac
+        if: matrix.os != 'Windows'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist
