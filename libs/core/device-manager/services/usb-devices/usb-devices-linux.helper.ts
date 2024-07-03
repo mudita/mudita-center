@@ -27,7 +27,6 @@ export const getHarmonyMSCDevice = (output: string): UsbDevice | undefined => {
         description: parts.slice(6).join(" "),
       }
     })
-  console.log("Devicze: ", devices)
   return devices.find(
     (device) =>
       device.id === `${VendorID.MuditaHarmony}:${ProductID.MuditaHarmonyMsc}`
