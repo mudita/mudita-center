@@ -12,7 +12,7 @@ export const execPromise = (command: string): Promise<string | void> => {
         console.error(`Error: ${error.message}`)
         reject(error)
       }
-      if (stderr) {
+      if (stderr && !stdout) {
         console.error(`Stderr: ${stderr}`)
         resolve()
       }
