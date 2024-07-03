@@ -4,7 +4,7 @@
  */
 
 import { ProductID, VendorID } from "Core/device/constants"
-import { exec } from "child_process"
+import { execPromise } from "shared/utils"
 import { PortInfo } from "serialport"
 
 interface DeviceInfo {
@@ -69,27 +69,18 @@ export const parseToPortInfo = (device: DeviceInfo): PortInfo => {
   }
 }
 
-export const getUsbDevicesWindows = (): Promise<PortInfo | void> => {
-  return new Promise((resolve, reject) => {
-    exec(
-      `powershell -Command "Get-CimInstance Win32_PnPEntity | Where-Object { $_.DeviceID -like 'USB*' } | Select-Object Name, DeviceID, Manufacturer, Description, Service"`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error: ${error.message}`)
-          return reject()
-        }
-        if (stderr) {
-          console.error(`Stderr: ${stderr}`)
-          return reject()
-        }
-
-        const harmonyDevice = getHarmonyMSCDevice(stdout)
-        if (harmonyDevice) {
-          resolve(parseToPortInfo(harmonyDevice))
-        } else {
-          resolve()
-        }
-      }
+export const getUsbDevicesWindows = async (): Promise<PortInfo | void> => {
+  try {
+    const stdout = await execPromise(
+      `powershell -Command "Get-CimInstance Win32_PnPEntity | Where-Object { $_.DeviceID -like 'USB*' } | Select-Object Name, DeviceID, Manufacturer, Description, Service"`
     )
-  })
+    if (stdout) {
+      const harmonyDevice = getHarmonyMSCDevice(stdout as string)
+      if (harmonyDevice) {
+        return parseToPortInfo(harmonyDevice)
+      }
+    }
+  } catch (error) {
+    console.error(`Error: ${(error as Error).message}`)
+  }
 }

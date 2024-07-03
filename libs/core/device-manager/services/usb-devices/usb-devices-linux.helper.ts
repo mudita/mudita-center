@@ -4,7 +4,7 @@
  */
 
 import { ProductID, VendorID } from "Core/device/constants"
-import { exec } from "child_process"
+import { execPromise } from "shared/utils"
 import { PortInfo } from "serialport"
 
 interface UsbDevice {
@@ -37,16 +37,13 @@ export const getHarmonyMSCDevice = (output: string): UsbDevice | undefined => {
 const getUsbDeviceDetails = async (
   bus: string,
   device: string
-): Promise<PortInfo> => {
-  return new Promise((resolve, reject) => {
-    exec(`lsusb -v -s ${bus}:${device}`, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error: ${error.message}`)
-        return reject(error)
-      }
-      resolve(parseUsbDeviceDetails(stdout))
-    })
-  })
+): Promise<PortInfo | undefined> => {
+  const stdout = await execPromise(`lsusb -v -s ${bus}:${device}`)
+  if (stdout) {
+    return parseUsbDeviceDetails(stdout)
+  }
+
+  return
 }
 
 export function parseUsbDeviceDetails(output: string): PortInfo {
@@ -69,27 +66,19 @@ export function parseUsbDeviceDetails(output: string): PortInfo {
 }
 
 export const getUsbDevicesLinux = async (): Promise<PortInfo | void> => {
-  return new Promise((resolve, reject) => {
-    exec("lsusb", async (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error: ${error.message}`)
-        return reject()
-      }
-      if (stderr) {
-        console.error(`Stderr: ${stderr}`)
-        return reject()
-      }
-
+  try {
+    const stdout = await execPromise("lsusb")
+    if (stdout) {
       const harmonyDevice = getHarmonyMSCDevice(stdout)
       if (harmonyDevice) {
         const details = await getUsbDeviceDetails(
           harmonyDevice.bus,
           harmonyDevice.device
         )
-        resolve(details)
-      } else {
-        resolve()
+        return details
       }
-    })
-  })
+    }
+  } catch (error) {
+    console.error(`Error: ${(error as Error).message}`)
+  }
 }
