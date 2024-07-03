@@ -79,6 +79,6 @@ export const getUsbDevicesLinux = async (): Promise<PortInfo | void> => {
       }
     }
   } catch (error) {
-    console.error(`Error: ${(error as Error).message}`)
+    console.error(error)
   }
 }
