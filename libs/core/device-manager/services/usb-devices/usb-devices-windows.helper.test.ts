@@ -7,7 +7,6 @@ import {
   getHarmonyMSCDevice,
   parseToPortInfo,
 } from "./usb-devices-windows.helper"
-import { ProductID, VendorID } from "Core/device/constants"
 import { PortInfo } from "serialport"
 
 describe("getHarmonyMSCDevice", () => {

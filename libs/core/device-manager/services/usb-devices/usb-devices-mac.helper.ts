@@ -85,6 +85,6 @@ export const getUsbDevicesMacOS = async (): Promise<PortInfo | void> => {
       }
     }
   } catch (error) {
-    console.error(`Error: ${error}`)
+    console.error(error)
   }
 }
