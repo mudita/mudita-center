@@ -5,16 +5,25 @@
 
 import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
-import ModalPage from "../../page-objects/mc-update-modal.page"
+import ModalPage from "../../page-objects/modal.page"
+import McUpdateModalPage from "../../page-objects/mc-update-modal.page"
 import HomePage from "../../page-objects/home.page"
 import testsHelper from "../../helpers/tests.helper"
 import dns from "node:dns"
+import screenshotHelper from "../../helpers/screenshot.helper"
+import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 
 describe("Checking for Mudita Center updates", () => {
   before(async function () {
     if (testsHelper.isLinux()) {
       this.skip()
     }
+
+    E2EMockClient.connect()
+    //wait for a connection to be established
+    await browser.waitUntil(() => {
+      return E2EMockClient.checkConnection()
+    })
 
     // Clear browser cache
     await browser.deleteAllCookies()
@@ -49,17 +58,6 @@ describe("Checking for Mudita Center updates", () => {
     const aboutTab = await SettingsPage.aboutTab
     await aboutTab.waitForDisplayed()
     await aboutTab.click()
-
-    const aboutCheckForUpdateFailedLabel =
-      await SettingsPage.aboutCheckForUpdateFailedLabel
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
-
-    await expect(aboutCheckForUpdateFailedLabel).toBeDisplayed()
-    await expect(aboutCheckForUpdateFailedLabel).toHaveText(
-      "Checking for updates failed"
-    )
   })
 
   it("Check 'Check for updates' button", async () => {
@@ -78,18 +76,35 @@ describe("Checking for Mudita Center updates", () => {
 
   it("Check for updates", async () => {
     const checkingFailedUpdateSubtitle =
-      await ModalPage.checkingFailedUpdateSubtitle
+      await McUpdateModalPage.checkingFailedUpdateSubtitle
     await expect(checkingFailedUpdateSubtitle).toBeDisplayed()
     await expect(checkingFailedUpdateSubtitle).toHaveText("Checking failed")
 
-    const checkingFailedUpdateBody = await ModalPage.checkingFailedUpdateBody
+    const checkingFailedUpdateBody =
+      await McUpdateModalPage.checkingFailedUpdateBody
     await expect(checkingFailedUpdateBody).toBeDisplayed()
     await expect(checkingFailedUpdateBody).toHaveText(
       "Opps, something went wrong. \nPlease check your internet connection"
     )
+
+    await ModalPage.closeModalButtonClick()
+  })
+  it("Check Settings -> About checking failed label", async () => {
+    screenshotHelper.makeViewScreenshot()
+    const aboutCheckForUpdateFailedLabel =
+      await SettingsPage.aboutCheckForUpdateFailedLabel
+
+    await expect(aboutCheckForUpdateFailedLabel).toBeDisplayed()
+
+    await expect(aboutCheckForUpdateFailedLabel).toHaveText(
+      "Checking for updates failed"
+    )
   })
 
   after(async () => {
+    E2EMockClient.stopServer()
+    E2EMockClient.disconnect()
+
     // Switch back to online mode after finishing the tests
     await browser.setNetworkConditions({
       offline: false,

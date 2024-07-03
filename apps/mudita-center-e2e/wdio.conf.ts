@@ -76,7 +76,6 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.backupLocationTest),
-      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
