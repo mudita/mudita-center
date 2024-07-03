@@ -15,7 +15,7 @@ interface DeviceInfo {
   service: string
 }
 
-const getHarmonyMSCDevice = (output: string): DeviceInfo | undefined => {
+export const getHarmonyMSCDevice = (output: string): DeviceInfo | undefined => {
   const devices: DeviceInfo[] = []
   const deviceSections = output.trim().split(/(?=Name\s*:)/)
 
@@ -55,7 +55,7 @@ const getHarmonyMSCDevice = (output: string): DeviceInfo | undefined => {
   )
 }
 
-const parseToPortInfo = (device: DeviceInfo): PortInfo => {
+export const parseToPortInfo = (device: DeviceInfo): PortInfo => {
   const vendorId = /VID_(\w+)/.exec(device.deviceId)?.[1]
   const productId = /PID_(\w+)/.exec(device.deviceId)?.[1]
   const serialNumber = device.deviceId.split("\\").pop()

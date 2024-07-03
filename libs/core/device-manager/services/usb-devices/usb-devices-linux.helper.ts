@@ -13,7 +13,8 @@ interface UsbDevice {
   id: string
   description: string
 }
-const getHarmonyMSCDevice = (output: string): UsbDevice | undefined => {
+
+export const getHarmonyMSCDevice = (output: string): UsbDevice | undefined => {
   const devices: UsbDevice[] = output
     .trim()
     .split("\n")
@@ -26,6 +27,7 @@ const getHarmonyMSCDevice = (output: string): UsbDevice | undefined => {
         description: parts.slice(6).join(" "),
       }
     })
+  console.log("Devicze: ", devices)
   return devices.find(
     (device) =>
       device.id === `${VendorID.MuditaHarmony}:${ProductID.MuditaHarmonyMsc}`
@@ -46,7 +48,8 @@ const getUsbDeviceDetails = async (
     })
   })
 }
-function parseUsbDeviceDetails(output: string): PortInfo {
+
+export function parseUsbDeviceDetails(output: string): PortInfo {
   const lines = output.split("\n").map((line) => line.trim())
   const portInfo: Partial<PortInfo> = {}
 

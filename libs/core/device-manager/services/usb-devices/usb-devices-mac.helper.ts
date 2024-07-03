@@ -22,7 +22,7 @@ interface DeviceDetails {
   "ExtraOperatingCurrent(mA)"?: string
 }
 
-const getHarmonyMSCDevice = (output: string): DeviceDetails | null => {
+export const getHarmonyMSCDevice = (output: string): DeviceDetails | null => {
   const devices: Array<DeviceDetails> = []
   const lines = output.trim().split("\n")
   let currentDevice: DeviceDetails = {}
@@ -60,7 +60,7 @@ const getHarmonyMSCDevice = (output: string): DeviceDetails | null => {
   )
 }
 
-const parseToPortInfo = (device: DeviceDetails): PortInfo => {
+export const parseToPortInfo = (device: DeviceDetails): PortInfo => {
   const vendorId = device.VendorID!.replace("0x", "")
   const productId = device.ProductID!.replace("0x", "")
   const serialNumber = device.SerialNumber
