@@ -32,6 +32,7 @@ import { DrawerDevice } from "Core/device-select/components/drawer-device.compon
 import { defineMessages } from "react-intl"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
+import { useEffect } from "react"
 
 const messages = defineMessages({
   changeDevice: { id: "component.drawer.headerTitle" },
@@ -92,10 +93,16 @@ const DeviceSelectDrawer: FunctionComponent = () => {
     }
   }
 
+  useEffect(() => {
+    if (devices.length === 0) {
+      dispatch(setSelectDeviceDrawerOpen(false))
+    }
+  }, [dispatch, devices.length])
+
   return (
     <DrawerWrapper>
       <Drawer
-        open={isOpen || devices.length !== 0}
+        open={isOpen}
         onClose={() => {
           dispatch(setSelectDeviceDrawerOpen(false))
         }}
