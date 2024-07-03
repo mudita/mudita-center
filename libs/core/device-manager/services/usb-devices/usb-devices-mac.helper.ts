@@ -4,7 +4,7 @@
  */
 
 import { ProductID, VendorID } from "Core/device/constants"
-import { exec } from "child_process"
+import { execPromise } from "shared/utils"
 import { PortInfo } from "serialport"
 
 interface DeviceDetails {
@@ -22,7 +22,7 @@ interface DeviceDetails {
   "ExtraOperatingCurrent(mA)"?: string
 }
 
-const getHarmonyMSCDevice = (output: string): DeviceDetails | null => {
+export const getHarmonyMSCDevice = (output: string): DeviceDetails | null => {
   const devices: Array<DeviceDetails> = []
   const lines = output.trim().split("\n")
   let currentDevice: DeviceDetails = {}
@@ -60,7 +60,7 @@ const getHarmonyMSCDevice = (output: string): DeviceDetails | null => {
   )
 }
 
-const parseToPortInfo = (device: DeviceDetails): PortInfo => {
+export const parseToPortInfo = (device: DeviceDetails): PortInfo => {
   const vendorId = device.VendorID!.replace("0x", "")
   const productId = device.ProductID!.replace("0x", "")
   const serialNumber = device.SerialNumber
@@ -75,25 +75,16 @@ const parseToPortInfo = (device: DeviceDetails): PortInfo => {
   }
 }
 
-export const getUsbDevicesMacOS = (): Promise<PortInfo | void> => {
-  return new Promise((resolve, reject) => {
-    exec("system_profiler SPUSBDataType", (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error: ${error.message}`)
-        reject()
-      }
-      if (stderr) {
-        console.error(`Stderr: ${stderr}`)
-        resolve()
-      }
+export const getUsbDevicesMacOS = async (): Promise<PortInfo | void> => {
+  try {
+    const stdout = await execPromise("system_profiler SPUSBDataType")
+    if (stdout) {
       const harmonyDevice = getHarmonyMSCDevice(stdout)
-
       if (harmonyDevice) {
-        const portInfo = parseToPortInfo(harmonyDevice)
-        resolve(portInfo)
-      } else {
-        resolve()
+        return parseToPortInfo(harmonyDevice)
       }
-    })
-  })
+    }
+  } catch (error) {
+    console.error(`Error: ${error}`)
+  }
 }

@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { exec } from "child_process"
+import { ProductID, VendorID } from "Core/device/constants"
+import { execPromise } from "shared/utils"
 import { PortInfo } from "serialport"
 
 interface DeviceInfo {
@@ -14,7 +15,7 @@ interface DeviceInfo {
   service: string
 }
 
-const getHarmonyMSCDevice = (output: string): DeviceInfo | undefined => {
+export const getHarmonyMSCDevice = (output: string): DeviceInfo | undefined => {
   const devices: DeviceInfo[] = []
   const deviceSections = output.trim().split(/(?=Name\s*:)/)
 
@@ -49,11 +50,12 @@ const getHarmonyMSCDevice = (output: string): DeviceInfo | undefined => {
 
   return devices.find(
     (device) =>
-      device.deviceId.includes("3310") && device.deviceId.includes("0103")
+      device.deviceId.includes(VendorID.MuditaHarmony) &&
+      device.deviceId.includes(ProductID.MuditaHarmonyMsc)
   )
 }
 
-const parseToPortInfo = (device: DeviceInfo): PortInfo => {
+export const parseToPortInfo = (device: DeviceInfo): PortInfo => {
   const vendorId = /VID_(\w+)/.exec(device.deviceId)?.[1]
   const productId = /PID_(\w+)/.exec(device.deviceId)?.[1]
   const serialNumber = device.deviceId.split("\\").pop()
@@ -67,27 +69,18 @@ const parseToPortInfo = (device: DeviceInfo): PortInfo => {
   }
 }
 
-export const getUsbDevicesWindows = (): Promise<PortInfo | void> => {
-  return new Promise((resolve, reject) => {
-    exec(
-      `powershell -Command "Get-CimInstance Win32_PnPEntity | Where-Object { $_.DeviceID -like 'USB*' } | Select-Object Name, DeviceID, Manufacturer, Description, Service"`,
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error: ${error.message}`)
-          return reject()
-        }
-        if (stderr) {
-          console.error(`Stderr: ${stderr}`)
-          return reject()
-        }
-
-        const harmonyDevice = getHarmonyMSCDevice(stdout)
-        if (harmonyDevice) {
-          resolve(parseToPortInfo(harmonyDevice))
-        } else {
-          resolve()
-        }
-      }
+export const getUsbDevicesWindows = async (): Promise<PortInfo | void> => {
+  try {
+    const stdout = await execPromise(
+      `powershell -Command "Get-CimInstance Win32_PnPEntity | Where-Object { $_.DeviceID -like 'USB*' } | Select-Object Name, DeviceID, Manufacturer, Description, Service"`
     )
-  })
+    if (stdout) {
+      const harmonyDevice = getHarmonyMSCDevice(stdout as string)
+      if (harmonyDevice) {
+        return parseToPortInfo(harmonyDevice)
+      }
+    }
+  } catch (error) {
+    console.error(`Error: ${(error as Error).message}`)
+  }
 }
