@@ -9,6 +9,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DataMigrationFeature } from "generic-view/models"
 import {
   setDataMigrationAbort,
+  setDataMigrationPureDbIndexing,
   setDataMigrationProgress,
   setDataMigrationStatus,
 } from "./actions"
@@ -87,14 +88,12 @@ export const performDataMigration = createAsyncThunk<
     if (signal.aborted) {
       return rejectWithValue(undefined)
     }
-    console.log("indexAllRequest", "start")
+    dispatch(setDataMigrationPureDbIndexing(true))
     const deviceDatabaseIndexed = await indexAllRequest({
       serialNumber: deviceInfo.data.serialNumber,
       token: deviceInfo.data.token,
     })
-    console.log("indexAllRequest", "done")
-
-    console.log("signal", signal.aborted)
+    dispatch(setDataMigrationPureDbIndexing(false))
 
     if (signal.aborted) {
       return rejectWithValue(undefined)

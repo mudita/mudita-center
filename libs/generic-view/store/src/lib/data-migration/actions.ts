@@ -29,3 +29,7 @@ export const setDataMigrationProgress =
 export const setDataMigrationAbort = createAction<AbortController | undefined>(
   ActionName.SetDataMigrationAbort
 )
+
+export const setDataMigrationPureDbIndexing = createAction<boolean>(
+  ActionName.setDataMigrationPureDbIndexing
+)

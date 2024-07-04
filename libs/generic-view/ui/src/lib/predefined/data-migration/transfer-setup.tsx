@@ -10,7 +10,10 @@ import { ButtonPrimary } from "../../buttons/button-primary"
 import { DataMigrationFeature } from "generic-view/models"
 import styled from "styled-components"
 import { useSelector } from "react-redux"
-import { selectDataMigrationFeatures } from "generic-view/store"
+import {
+  selectDataMigrationFeatures,
+  selectDataMigrationPureDbIndexing,
+} from "generic-view/store"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
@@ -33,6 +36,7 @@ export const TransferSetup: FunctionComponent<Props> = ({
   onStartMigration,
 }) => {
   const selectedFeatures = useSelector(selectDataMigrationFeatures)
+  const pureDbIndexing = useSelector(selectDataMigrationPureDbIndexing)
 
   return (
     <>
@@ -49,7 +53,7 @@ export const TransferSetup: FunctionComponent<Props> = ({
               type: "custom",
               callback: onStartMigration,
             },
-            disabled: selectedFeatures.length === 0,
+            disabled: pureDbIndexing || selectedFeatures.length === 0,
           }}
         />
       </Footer>

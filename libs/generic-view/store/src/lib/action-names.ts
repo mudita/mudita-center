@@ -2,6 +2,7 @@
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
+import { setDataMigrationPureDbIndexing } from "generic-view/store"
 
 export enum ActionName {
   GetConfig = "api-actions/get-config",
@@ -60,6 +61,7 @@ export enum ActionName {
   SetOutlookAuthDataProcess = "generic-imports/set-outlook-auth-data-process",
   SetDataMigrationSourceDevice = "data-migration/set-source-device",
   SetDataMigrationFeatures = "data-migration/set-features",
+  setDataMigrationPureDbIndexing = "data-migration/set-pure-db-indexing",
   ClearDataMigrationDevice = "data-migration/clear-device",
   SetDataMigrationStatus = "data-migration/set-status",
   StartDataMigration = "data-migration/start",

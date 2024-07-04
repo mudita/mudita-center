@@ -51,7 +51,6 @@ export const useAPISerialPortListeners = () => {
       async (properties) => {
         const { id, deviceType } = properties
 
-        console.log("Device detached", migrationStatus)
         if (migrationStatus !== "IDLE") {
           dispatch(abortDataMigration({ reason: "FAILED" }))
         }
