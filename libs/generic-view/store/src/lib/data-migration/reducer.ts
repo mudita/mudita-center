@@ -14,7 +14,6 @@ import {
 } from "./actions"
 import { DeviceId } from "Core/device/constants/device-id"
 import { DataMigrationFeature } from "generic-view/models"
-import { selectDataMigrationPureDbIndexing } from "Libs/generic-view/store/src/lib/selectors/data-migration-pure-db-indexing"
 
 export type DataMigrationStatus =
   | "IDLE"
