@@ -952,7 +952,7 @@
   "module.genericViews.dataMigration.pureError.criticalBattery": "Please charge your Pure to start the transfer.",
   "module.genericViews.dataMigration.pureError.connection.title": "Data transfer failed",
   "module.genericViews.dataMigration.transferError.title": "Data transfer failed",
-  "module.genericViews.dataMigration.transferError.connectionFailed": "Data cannot be transfered.\nTry reconnecting pure to your computer.",
+  "module.genericViews.dataMigration.transferError.description": "The transfer process was interrupted.",
   "module.genericViews.dataMigration.transferError.closeButtonLabel": "Close",
   "module.genericViews.dataMigration.progress.title": "Transferring data",
   "module.genericViews.dataMigration.progress.description": "Please don't unplug your devices from your computer.",

@@ -7,6 +7,7 @@ import { createReducer } from "@reduxjs/toolkit"
 import {
   clearDataTransfer,
   setDataTransfer,
+  setDataTransferAbort,
   setDataTransferStatus,
 } from "./actions"
 import { transferDataToDevice } from "./transfer-data-to-device.action"
@@ -30,6 +31,7 @@ export type DataTransfer = Record<Domain, { status: DomainTransferStatus }>
 export interface DataTransferState {
   transfer: DataTransfer
   status: DataTransferStatus
+  abortController?: AbortController
 }
 
 const initialState: DataTransferState = {
@@ -58,6 +60,9 @@ export const genericDataTransferReducer = createReducer(
     })
     builder.addCase(setDataTransferStatus, (state, action) => {
       state.status = action.payload
+    })
+    builder.addCase(setDataTransferAbort, (state, action) => {
+      state.abortController = action.payload
     })
   }
 )

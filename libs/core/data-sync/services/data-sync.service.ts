@@ -76,6 +76,7 @@ export class DataSyncService {
       return false
     }
 
+    console.log("syncBackupCreateService.createSyncBackup", "start")
     const syncFileDir = path.join(getAppPath(), "sync", serialNumber)
     const { ok } = await this.syncBackupCreateService.createSyncBackup(
       {
@@ -85,17 +86,20 @@ export class DataSyncService {
       },
       serialNumber
     )
+    console.log("syncBackupCreateService.createSyncBackup", "end")
 
     if (!ok) {
       return false
     }
 
+    console.log("indexAllRequest", "start")
     const contactIndex = await this.contactIndexer.index(syncFileDir, token)
     const messageIndex = await this.messageIndexer.index(syncFileDir, token)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const templateIndex = await this.templateIndexer.index(syncFileDir, token)
     const threadIndex = await this.threadIndexer.index(syncFileDir, token)
+    console.log("indexAllRequest", "done")
 
     this.index.set(DataIndex.Contact, contactIndex)
     this.index.set(DataIndex.Message, messageIndex)

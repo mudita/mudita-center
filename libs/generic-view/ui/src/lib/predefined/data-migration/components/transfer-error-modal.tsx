@@ -13,17 +13,23 @@ const messages = defineMessages({
   title: {
     id: "module.genericViews.dataMigration.transferError.title",
   },
+  description: {
+    id: "module.genericViews.dataMigration.transferError.description",
+  },
   closeButtonLabel: {
     id: "module.genericViews.dataMigration.transferError.closeButtonLabel",
   },
-  connectionFailed: {
-    id: "module.genericViews.dataMigration.transferError.connectionFailed",
-  },
 })
 
-export const TransferErrorModal: FunctionComponent = () => {
+interface Props {
+  onButtonClick?: VoidFunction
+}
+
+export const TransferErrorModal: FunctionComponent<Props> = ({
+  onButtonClick,
+}) => {
   const title = intl.formatMessage(messages.title)
-  const description = intl.formatMessage(messages.connectionFailed)
+  const description = intl.formatMessage(messages.description)
 
   return (
     <ErrorModal
@@ -31,6 +37,7 @@ export const TransferErrorModal: FunctionComponent = () => {
       title={title}
       description={description}
       buttonLabel={intl.formatMessage(messages.closeButtonLabel)}
+      onButtonClick={onButtonClick}
     />
   )
 }

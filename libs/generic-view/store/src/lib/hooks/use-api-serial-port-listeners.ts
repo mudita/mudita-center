@@ -13,12 +13,16 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { DeviceType } from "Core/device"
 import { setBackupProcessStatus } from "../backup/actions"
 import { closeAllModals } from "../modals/actions"
-import { selectBackupProcessStatus } from "../selectors"
-import { clearDataMigrationDevice } from "../data-migration/clear-data-migration.action"
+import {
+  selectBackupProcessStatus,
+  selectDataMigrationStatus,
+} from "../selectors"
+import { abortDataMigration } from "../data-migration/abort-data.migration"
 
 export const useAPISerialPortListeners = () => {
   const dispatch = useDispatch<Dispatch>()
   const backupProcess = useSelector(selectBackupProcessStatus)
+  const migrationStatus = useSelector(selectDataMigrationStatus)
 
   useEffect(() => {
     const unregisterFailListener = answerMain<Device>(
@@ -46,13 +50,18 @@ export const useAPISerialPortListeners = () => {
       DeviceManagerMainEvent.DeviceDetached,
       async (properties) => {
         const { id, deviceType } = properties
-        dispatch(clearDataMigrationDevice(id))
+
+        console.log("Device detached", migrationStatus)
+        if (migrationStatus !== "IDLE") {
+          dispatch(abortDataMigration({ reason: "FAILED" }))
+        }
 
         if (deviceType !== DeviceType.APIDevice) {
           return
         }
         dispatch(detachDevice({ deviceId: id }))
         dispatch(closeAllModals())
+
         if (backupProcess) {
           dispatch(setBackupProcessStatus("FAILED"))
         }
@@ -63,5 +72,5 @@ export const useAPISerialPortListeners = () => {
       unregisterConnectListener()
       unregisterFailListener()
     }
-  }, [backupProcess, dispatch])
+  }, [backupProcess, dispatch, migrationStatus])
 }

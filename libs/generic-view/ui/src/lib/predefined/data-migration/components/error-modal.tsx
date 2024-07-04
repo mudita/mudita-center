@@ -4,11 +4,9 @@
  */
 
 import React, { FunctionComponent } from "react"
-import { useDispatch } from "react-redux"
 import { Modal } from "../../../interactive/modal/modal"
 import { ButtonAction, IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../../buttons/button-secondary"
-import { clearDataMigrationProgress } from "generic-view/store"
 import { modalTransitionDuration } from "generic-view/theme"
 
 interface Props {
@@ -26,14 +24,11 @@ export const ErrorModal: FunctionComponent<Props> = ({
   buttonLabel,
   onButtonClick,
 }) => {
-  const dispatch = useDispatch()
-
   const buttonAction: ButtonAction = {
     type: "custom",
     callback: () => {
       setTimeout(() => {
         onButtonClick?.()
-        dispatch(clearDataMigrationProgress())
       }, modalTransitionDuration)
     },
   }

@@ -21,11 +21,11 @@ export const setDataMigrationStatus = createAction<DataMigrationStatus>(
   ActionName.SetDataMigrationStatus
 )
 
-export const setTransferProgress =
+export const setDataMigrationProgress =
   createAction<DataMigrationPercentageProgress>(
     ActionName.SetDataMigrationTransferProgress
   )
 
-export const clearDataMigrationProgress = createAction(
-  ActionName.ClearDataMigrationProgress
+export const setDataMigrationAbort = createAction<AbortController | undefined>(
+  ActionName.SetDataMigrationAbort
 )

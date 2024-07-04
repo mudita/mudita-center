@@ -7,7 +7,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DataMigrationFeature } from "generic-view/models"
-import { setDataMigrationStatus, setTransferProgress } from "./actions"
+import {
+  setDataMigrationAbort,
+  setDataMigrationProgress,
+  setDataMigrationStatus,
+} from "./actions"
 import { readAllIndexes } from "Core/data-sync/actions"
 import { indexAllRequest } from "Core/data-sync/requests"
 import { getDeviceInfoRequest } from "Core/device-info/requests"
@@ -19,8 +23,10 @@ import {
   transferDataToDevice,
 } from "../data-transfer/transfer-data-to-device.action"
 import logger from "Core/__deprecated__/main/utils/logger"
+import { abortDataTransfer } from "../data-transfer/abort-data-transfer.action"
 
 export enum DataMigrationPercentageProgress {
+  None = 0,
   CollectingData = 1,
   TransferringData = 10,
   Finished = 100,
@@ -32,24 +38,23 @@ export const performDataMigration = createAsyncThunk<
   { state: ReduxRootState }
 >(
   ActionName.PerformDataMigration,
-  async (_, { dispatch, getState, signal, rejectWithValue }) => {
-    let aborted = false
-    let abortTransfer = () => {}
+  async (_, { dispatch, getState, signal, abort, rejectWithValue }) => {
+    const { dataMigration } = getState()
+
+    const dataMigrationAbortController = new AbortController()
+    dataMigrationAbortController.abort = abort
+    dispatch(setDataMigrationAbort(dataMigrationAbortController))
 
     const abortListener = async () => {
-      aborted = true
-      dispatch(setDataMigrationStatus("CANCELLED"))
-      abortTransfer()
+      dispatch(abortDataTransfer())
       signal.removeEventListener("abort", abortListener)
     }
     signal.addEventListener("abort", abortListener)
 
-    const { dataMigration } = getState()
-
     const handleError = (message: string) => {
       logger.error(message)
       dispatch(setDataMigrationStatus("FAILED"))
-      abortTransfer()
+      dispatch(abortDataTransfer())
       return rejectWithValue(undefined)
     }
 
@@ -63,11 +68,11 @@ export const performDataMigration = createAsyncThunk<
       return handleError("No features selected")
     }
 
-    if (aborted) {
+    if (signal.aborted) {
       return rejectWithValue(undefined)
     }
     dispatch(
-      setTransferProgress(DataMigrationPercentageProgress.CollectingData)
+      setDataMigrationProgress(DataMigrationPercentageProgress.CollectingData)
     )
 
     const deviceInfo = await getDeviceInfoRequest(sourceDeviceId)
@@ -79,19 +84,23 @@ export const performDataMigration = createAsyncThunk<
       return handleError("Error getting device info")
     }
 
-    if (aborted) {
+    if (signal.aborted) {
       return rejectWithValue(undefined)
     }
+    console.log("indexAllRequest", "start")
     const deviceDatabaseIndexed = await indexAllRequest({
       serialNumber: deviceInfo.data.serialNumber,
       token: deviceInfo.data.token,
     })
+    console.log("indexAllRequest", "done")
 
+    console.log("signal", signal.aborted)
+
+    if (signal.aborted) {
+      return rejectWithValue(undefined)
+    }
     if (!deviceDatabaseIndexed) {
       return handleError("Error indexing device database")
-    }
-    if (aborted) {
-      return rejectWithValue(undefined)
     }
     const databaseResponse = await dispatch(readAllIndexes())
 
@@ -105,7 +114,7 @@ export const performDataMigration = createAsyncThunk<
     const domainsData: DomainData[] = []
 
     for (const feature of features) {
-      if (aborted) {
+      if (signal.aborted) {
         return rejectWithValue(undefined)
       }
 
@@ -124,22 +133,20 @@ export const performDataMigration = createAsyncThunk<
     }
 
     dispatch(
-      setTransferProgress(DataMigrationPercentageProgress.TransferringData)
+      setDataMigrationProgress(DataMigrationPercentageProgress.TransferringData)
     )
 
-    if (aborted) {
+    if (signal.aborted) {
       return rejectWithValue(undefined)
     }
-    const transferPromise = dispatch(transferDataToDevice(domainsData))
-    abortTransfer = () => transferPromise.abort()
-    const response = await transferPromise
+    const transferResponse = await dispatch(transferDataToDevice(domainsData))
 
-    if (response.meta.requestStatus === "rejected") {
-      return aborted
+    if (transferResponse.meta.requestStatus === "rejected") {
+      return signal.aborted
         ? rejectWithValue(undefined)
         : handleError("Error transferring data")
     }
-    dispatch(setTransferProgress(DataMigrationPercentageProgress.Finished))
+    dispatch(setDataMigrationProgress(DataMigrationPercentageProgress.Finished))
 
     setTimeout(() => {
       dispatch(setDataMigrationStatus("COMPLETED"))

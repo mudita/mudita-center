@@ -9,21 +9,23 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from "react"
 import { APIFC } from "generic-view/utils"
 import { McDataMigrationConfig } from "generic-view/models"
 import { useDispatch, useSelector } from "react-redux"
 import {
-  clearDataMigrationProgress,
+  abortDataMigration,
+  DataMigrationPercentageProgress,
   performDataMigration,
   selectDataMigrationSourceDevice,
   selectDataMigrationSourceDevices,
   selectDataMigrationStatus,
   selectDataMigrationTargetDevices,
   setDataMigrationFeatures,
+  setDataMigrationStatus,
   setSourceDevice,
+  setDataMigrationProgress,
   startDataMigration,
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
@@ -69,10 +71,9 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   ) as Device[]
   const sourceDevice = useSelector(selectDataMigrationSourceDevice)
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
-  const dataMigrationAbortReference = useRef<VoidFunction>()
   const [modalOpened, setModalOpened] = useState(false)
 
-  const noSourceDeviceSelected = !sourceDevice
+  const noSourceDeviceSelected = dataMigrationStatus === "IDLE" && !sourceDevice
   const displayInstruction =
     Boolean(sourceDevices.length) !== Boolean(targetDevices.length)
   const displayTargetSelector =
@@ -84,23 +85,18 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   }
 
   const startTransfer = useCallback(() => {
-    const promise = dispatch(performDataMigration())
-    dataMigrationAbortReference.current = (
-      promise as unknown as {
-        abort: VoidFunction
-      }
-    ).abort
+    dispatch(performDataMigration())
   }, [dispatch])
 
-  const cancelMigration = () => {
-    // TODO: add confirmation modal support
-    dataMigrationAbortReference.current?.()
-  }
+  const cancelMigration = useCallback(() => {
+    dispatch(abortDataMigration({ reason: "CANCELLED" }))
+  }, [dispatch])
 
   const onFinish = () => {
     setModalOpened(false)
     setTimeout(() => {
-      dispatch(clearDataMigrationProgress())
+      dispatch(setDataMigrationStatus("IDLE"))
+      dispatch(setDataMigrationProgress(DataMigrationPercentageProgress.None))
       dispatch(setDataMigrationFeatures([]))
     }, modalTransitionDuration)
   }
@@ -157,7 +153,9 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         {(dataMigrationStatus === "PURE-CRITICAL-BATTERY" ||
           dataMigrationStatus === "PURE-ONBOARDING-REQUIRED" ||
           dataMigrationStatus === "PURE-UPDATE-REQUIRED") && <PureErrorModal />}
-        {dataMigrationStatus === "FAILED" && <TransferErrorModal />}
+        {dataMigrationStatus === "FAILED" && (
+          <TransferErrorModal onButtonClick={onFinish} />
+        )}
         {dataMigrationStatus === "IN-PROGRESS" && (
           <ProgressModal onCancel={cancelMigration} />
         )}

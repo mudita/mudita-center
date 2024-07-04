@@ -21,7 +21,7 @@ export const useOutbox = () => {
     if (activeDevice) {
       const outboxTimeout = setTimeout(() => {
         dispatch(getOutboxData({ deviceId: activeDevice }))
-      }, 2000)
+      }, 15000)
 
       return () => {
         clearTimeout(outboxTimeout)
