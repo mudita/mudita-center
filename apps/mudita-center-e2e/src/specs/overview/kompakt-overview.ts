@@ -1,13 +1,7 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
-import {
-  outboxReloadOverview,
-  overviewDataWithoutBadge,
-  overviewDataWithOneSimCard,
-} from "../../../../../libs/e2e-mock/responses/src"
-import screenshotHelper from "../../helpers/screenshot.helper"
+import { overviewDataWithOneSimCard } from "../../../../../libs/e2e-mock/responses/src"
 import OverviewPage from "../../page-objects/overview.page"
 import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
-import NavigationTabs from "../../page-objects/tabs.page"
 import HomePage from "../../page-objects/home.page"
 import tabsPage from "../../page-objects/tabs.page"
 import { kompaktImageRegex } from "../../consts/regex-const"
@@ -44,36 +38,6 @@ describe("E2E mock sample - overview view", () => {
 
     await menuItem.waitForDisplayed({ timeout: 10000 })
     await expect(menuItem).toBeDisplayed()
-  })
-
-  it("Overwrite device response", async () => {
-    // const badge = $(`//p[contains(text(), 'Offline')]`)
-
-    // await badge.waitForDisplayed()
-    // await expect(badge).toBeDisplayed()
-
-    // // overwrite default response for given device
-    // E2EMockClient.mockResponse({
-    //   path: "path-1",
-    //   body: overviewDataWithOneSimCard,
-    //   endpoint: "FEATURE_DATA",
-    //   method: "GET",
-    //   status: 200,
-    // })
-
-    // // overwrite newest response for given device
-    // E2EMockClient.mockResponseOnce({
-    //   path: "path-1",
-    //   body: outboxReloadOverview,
-    //   endpoint: "OUTBOX",
-    //   method: "GET",
-    //   status: 200,
-    // })
-
-    // await badge.waitForDisplayed({ reverse: true })
-    // screenshotHelper.makeViewScreenshot()
-    // await expect(badge).not.toBeDisplayed()
-    await browser.pause(10000)
   })
 
   it("Verify Overview Page", async () => {
@@ -122,7 +86,6 @@ describe("E2E mock sample - overview view", () => {
     const str: string =
       "\tYou haven’t backed up your device yet.\n Create a backup file to protect against data loss.\n"
     const backupInfoText: string = str.trim()
-    console.log(backupInfoText)
 
     const kompaktBatteryIcon = await OverviewKompaktPage.kompaktBatteryIcon
     await expect(kompaktBatteryIcon).toBeDisplayed
@@ -132,25 +95,21 @@ describe("E2E mock sample - overview view", () => {
     await expect(kompaktBatteryLevelValue).toBeDisplayed
     const batteryValNum: string = "100%"
     const batteryValue: string = batteryValNum
-    console.log(batteryValue)
 
     const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
     await expect(kompaktNetworkName).toBeDisplayed
     const strNetwork: string = "T-Mobile"
     const networkName: string = strNetwork
-    console.log(networkName)
 
     const kompaktSignalIcon = await OverviewKompaktPage.kompaktSignalIcon
     await expect(kompaktSignalIcon).toBeDisplayed
     const strSignal: string = "network-signal-2"
     const signalValue: string = strSignal
-    console.log(signalValue)
 
     const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
     await expect(kompaktSimCard1).toBeDisplayed
     const sim1: string = "SIM 1"
     const simInfo: string = sim1
-    console.log(simInfo)
   })
 
   it("Click between Tabs and check them", async () => {
@@ -166,7 +125,5 @@ describe("E2E mock sample - overview view", () => {
   it("Disconnect the device and check if Welcome screen is present", async () => {
     E2EMockClient.removeDevice("path-1")
     await HomePage.homeHeader.waitForDisplayed()
-
-    await expect
   })
 })
