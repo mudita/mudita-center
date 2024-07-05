@@ -8,10 +8,14 @@ import styled, { keyframes } from "styled-components"
 import { Icon } from "../icon/icon"
 import { IconType } from "generic-view/utils"
 
-export const SpinnerLoader: FunctionComponent = () => {
+interface Props {
+  dark?: boolean
+}
+
+export const SpinnerLoader: FunctionComponent<Props> = ({ dark, ...props }) => {
   return (
-    <Wrapper>
-      <Icon data={{ type: IconType.Spinner }} />
+    <Wrapper {...props}>
+      <Icon data={{ type: dark ? IconType.SpinnerDark : IconType.Spinner }} />
     </Wrapper>
   )
 }

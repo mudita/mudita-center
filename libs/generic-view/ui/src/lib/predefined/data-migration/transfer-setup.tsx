@@ -17,6 +17,7 @@ import {
 } from "generic-view/store"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { SpinnerLoader } from "../../shared/shared"
 
 const messages = defineMessages({
   unlockInfo: {
@@ -50,11 +51,16 @@ export const TransferSetup: FunctionComponent<Props> = ({
         <FeaturesSelector features={features} />
       </Wrapper>
       <Footer>
-        <p>
-          {pureDbIndexing && dataMigrationStatus === "IDLE"
-            ? intl.formatMessage(messages.pureNotReady)
-            : intl.formatMessage(messages.unlockInfo)}
-        </p>
+        {dataMigrationStatus === "IDLE" && pureDbIndexing ? (
+          <FooterMessage>
+            <FooterSpinner dark />
+            <p>{intl.formatMessage(messages.pureNotReady)}</p>
+          </FooterMessage>
+        ) : (
+          <FooterMessage>
+            <p>{intl.formatMessage(messages.unlockInfo)}</p>
+          </FooterMessage>
+        )}
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.transferButton),
@@ -92,14 +98,24 @@ const Footer = styled.div`
   padding-right: 3.2rem;
   box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.08);
 
+  button {
+    min-width: 16.4rem;
+  }
+`
+
+const FooterMessage = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+
   p {
     font-size: ${({ theme }) => theme.fontSize.labelText};
     line-height: ${({ theme }) => theme.lineHeight.labelText};
     letter-spacing: 0.04em;
     color: ${({ theme }) => theme.color.grey1};
   }
+`
 
-  button {
-    min-width: 16.4rem;
-  }
+const FooterSpinner = styled(SpinnerLoader)`
+  margin-left: -4.1rem;
 `
