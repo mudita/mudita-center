@@ -24,7 +24,7 @@ import {
   selectDataMigrationTargetDevices,
   setDataMigrationFeatures,
   setDataMigrationStatus,
-  setSourceDevice,
+  setDataMigrationSourceDevice,
   setDataMigrationProgress,
   startDataMigration,
 } from "generic-view/store"
@@ -104,9 +104,9 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   useEffect(() => {
     if (activeDevice?.deviceType === "APIDevice" && noSourceDeviceSelected) {
       if (sourceDevices.length > 0) {
-        dispatch(setSourceDevice(sourceDevices[0].serialNumber))
+        dispatch(setDataMigrationSourceDevice(sourceDevices[0].serialNumber))
       } else {
-        dispatch(setSourceDevice(undefined))
+        dispatch(setDataMigrationSourceDevice(undefined))
       }
     }
   }, [

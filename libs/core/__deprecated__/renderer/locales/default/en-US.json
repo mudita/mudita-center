@@ -945,6 +945,7 @@
   "module.genericViews.dataMigration.transferSetup.unlockInfo": "You may need to unlock your Pure before data transfer can start.",
   "module.genericViews.dataMigration.transferSetup.deviceSelector.sourceLabel": "Source Device",
   "module.genericViews.dataMigration.transferSetup.deviceSelector.targetLabel": "Destination Device",
+  "module.genericViews.dataMigration.transferSetup.pureNotReady": "Pure is being prepared for data migration, please wait...",
   "module.genericViews.dataMigration.pureError.title": "Can’t start transfer",
   "module.genericViews.dataMigration.pureError.closeButtonLabel": "Close",
   "module.genericViews.dataMigration.pureError.onboardingRequired": "Please accept the MuditaOS license agreement on your device and complete the ondoarding process to continue.",

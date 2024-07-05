@@ -5,7 +5,7 @@
 
 import { useCallback } from "react"
 import { DeviceId } from "Core/device/constants/device-id"
-import { setSourceDevice } from "generic-view/store"
+import { setDataMigrationSourceDevice } from "generic-view/store"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { URL_DEVICE_INITIALIZATION } from "Core/__deprecated__/renderer/constants/urls"
@@ -25,7 +25,7 @@ export const useDataMigrationDeviceSelector = () => {
       pathToRedirect = URL_DEVICE_INITIALIZATION.root
     ) => {
       if (!activeDevice || !activeDevice.serialNumber) return
-      await dispatch(setSourceDevice(activeDevice.serialNumber))
+      await dispatch(setDataMigrationSourceDevice(activeDevice.serialNumber))
       await dispatch(deactivateDevice())
       await dispatch(handleDeviceActivated(serialNumber))
       history.push(pathToRedirect)

@@ -19,6 +19,7 @@ export enum ActionName {
   CloseAllModals = "generic-modals/close-all-modals",
   ReplaceModal = "generic-modals/replace-modal",
   CloseDomainModals = "generic-modals/close-domain-modals",
+  SetDeviceErrorModalOpened = "generic-modals/set-device-error-modal-opened",
   SetBackupProcess = "generic-backups/set-backup-process",
   CleanBackupProcess = "generic-backups/clean-backup-process",
   BackupProcessStatus = "generic-backups/backup-process-status",

@@ -15,7 +15,7 @@ import {
   selectApiError,
   selectDataMigrationSourceDevice,
   selectDataMigrationTargetDevice,
-  setSourceDevice,
+  setDataMigrationSourceDevice,
 } from "generic-view/store"
 import { ApiError } from "device/models"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -100,7 +100,7 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
         dataMigrationSourceDevice.serialNumber,
         URL_MAIN.dataMigration
       )
-      dispatch(setSourceDevice(undefined))
+      dispatch(setDataMigrationSourceDevice(undefined))
     } else {
       history.push(pathToGoBack || URL_MAIN.news)
     }

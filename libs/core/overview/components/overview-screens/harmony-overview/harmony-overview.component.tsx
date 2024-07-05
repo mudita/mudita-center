@@ -17,6 +17,8 @@ import { ipcRenderer } from "electron-better-ipc"
 import React from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
+import { useSelector } from "react-redux"
+import { selectDeviceErrorModalOpened } from "generic-view/store"
 
 export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   batteryLevel = 0,
@@ -44,6 +46,9 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   closeForceUpdateFlow,
   caseColour,
 }) => {
+  const genericDeviceErrorModalOpened = useSelector(
+    selectDeviceErrorModalOpened
+  )
   useWatchDeviceDataEffect()
   const goToHelp = (): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow)
@@ -87,44 +92,49 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
 
   return (
     <>
-      {!forceUpdateNeeded && (
-        <UpdateOsFlow
-          deviceType={DeviceType.MuditaHarmony}
-          currentOsVersion={osVersion}
-          silentCheckForUpdateState={silentCheckForUpdateState}
-          checkForUpdateState={checkingForUpdateState}
-          availableReleasesForUpdate={availableReleasesForUpdate}
-          areAllReleasesDownloaded={areAllReleasesDownloaded}
-          downloadState={downloadingState}
-          tryAgainCheckForUpdate={tryAgainHarmonyUpdate}
-          clearUpdateOsFlow={clearUpdateState}
-          downloadUpdates={downloadReleases}
-          abortDownloading={abortDownload}
-          updateState={updatingState}
-          updateOs={updateReleases}
-          openContactSupportFlow={openContactSupportFlow}
-          openHelpView={goToHelp}
-          error={updateOsError}
-          downloadingReleasesProcessStates={downloadingReleasesProcessStates}
-          updatingReleasesProcessStates={updatingReleasesProcessStates}
-        />
-      )}
+      {!genericDeviceErrorModalOpened && (
+        <>
+          {!forceUpdateNeeded && (
+            <UpdateOsFlow
+              deviceType={DeviceType.MuditaHarmony}
+              currentOsVersion={osVersion}
+              silentCheckForUpdateState={silentCheckForUpdateState}
+              checkForUpdateState={checkingForUpdateState}
+              availableReleasesForUpdate={availableReleasesForUpdate}
+              areAllReleasesDownloaded={areAllReleasesDownloaded}
+              downloadState={downloadingState}
+              tryAgainCheckForUpdate={tryAgainHarmonyUpdate}
+              clearUpdateOsFlow={clearUpdateState}
+              downloadUpdates={downloadReleases}
+              abortDownloading={abortDownload}
+              updateState={updatingState}
+              updateOs={updateReleases}
+              openContactSupportFlow={openContactSupportFlow}
+              openHelpView={goToHelp}
+              error={updateOsError}
+              downloadingReleasesProcessStates={
+                downloadingReleasesProcessStates
+              }
+              updatingReleasesProcessStates={updatingReleasesProcessStates}
+            />
+          )}
 
-      {flags.get(Feature.ForceUpdate) && (
-        <UpdatingForceModalFlow
-          deviceType={DeviceType.MuditaHarmony}
-          availableReleasesForUpdate={availableReleasesForUpdate}
-          updatingReleasesProcessStates={updatingReleasesProcessStates}
-          enabled={forceUpdateNeeded}
-          startForceUpdate={startForceUpdate}
-          error={updateOsError}
-          openHelpView={goToHelp}
-          openContactSupportFlow={openContactSupportFlow}
-          forceUpdateState={forceUpdateState}
-          closeForceUpdateFlow={closeForceUpdateFlow}
-        />
+          {flags.get(Feature.ForceUpdate) && (
+            <UpdatingForceModalFlow
+              deviceType={DeviceType.MuditaHarmony}
+              availableReleasesForUpdate={availableReleasesForUpdate}
+              updatingReleasesProcessStates={updatingReleasesProcessStates}
+              enabled={forceUpdateNeeded}
+              startForceUpdate={startForceUpdate}
+              error={updateOsError}
+              openHelpView={goToHelp}
+              openContactSupportFlow={openContactSupportFlow}
+              forceUpdateState={forceUpdateState}
+              closeForceUpdateFlow={closeForceUpdateFlow}
+            />
+          )}
+        </>
       )}
-
       <OverviewContent
         batteryLevel={batteryLevel}
         osVersion={osVersion}

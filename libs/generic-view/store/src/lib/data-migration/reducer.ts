@@ -10,7 +10,7 @@ import {
   setDataMigrationProgress,
   setDataMigrationPureDbIndexing,
   setDataMigrationStatus,
-  setSourceDevice,
+  setDataMigrationSourceDevice,
 } from "./actions"
 import { DeviceId } from "Core/device/constants/device-id"
 import { DataMigrationFeature } from "generic-view/models"
@@ -44,7 +44,7 @@ const initialState: DataMigrationState = {
 }
 
 export const dataMigrationReducer = createReducer(initialState, (builder) => {
-  builder.addCase(setSourceDevice, (state, action) => {
+  builder.addCase(setDataMigrationSourceDevice, (state, action) => {
     state.sourceDevice = action.payload
   })
   builder.addCase(setDataMigrationFeatures, (state, action) => {

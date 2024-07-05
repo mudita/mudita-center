@@ -13,6 +13,7 @@ import { useSelector } from "react-redux"
 import {
   selectDataMigrationFeatures,
   selectDataMigrationPureDbIndexing,
+  selectDataMigrationStatus,
 } from "generic-view/store"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -23,6 +24,9 @@ const messages = defineMessages({
   },
   transferButton: {
     id: "module.genericViews.dataMigration.transferSetup.transferButton",
+  },
+  pureNotReady: {
+    id: "module.genericViews.dataMigration.transferSetup.pureNotReady",
   },
 })
 
@@ -37,6 +41,7 @@ export const TransferSetup: FunctionComponent<Props> = ({
 }) => {
   const selectedFeatures = useSelector(selectDataMigrationFeatures)
   const pureDbIndexing = useSelector(selectDataMigrationPureDbIndexing)
+  const dataMigrationStatus = useSelector(selectDataMigrationStatus)
 
   return (
     <>
@@ -45,7 +50,11 @@ export const TransferSetup: FunctionComponent<Props> = ({
         <FeaturesSelector features={features} />
       </Wrapper>
       <Footer>
-        <p>{intl.formatMessage(messages.unlockInfo)}</p>
+        <p>
+          {pureDbIndexing && dataMigrationStatus === "IDLE"
+            ? intl.formatMessage(messages.pureNotReady)
+            : intl.formatMessage(messages.unlockInfo)}
+        </p>
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.transferButton),

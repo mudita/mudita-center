@@ -9,7 +9,7 @@ import { DataMigrationFeature } from "generic-view/models"
 import { DataMigrationStatus } from "./reducer"
 import { DataMigrationPercentageProgress } from "./perform-data.migration"
 
-export const setSourceDevice = createAction<string | undefined>(
+export const setDataMigrationSourceDevice = createAction<string | undefined>(
   ActionName.SetDataMigrationSourceDevice
 )
 
