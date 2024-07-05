@@ -4,6 +4,14 @@
  */
 
 import React from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { useHistory } from "react-router-dom"
+import styled from "styled-components"
+import {
+  getDevicesSelector,
+  setSelectDeviceDrawerOpen,
+} from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
 import Loader from "Core/__deprecated__/renderer/components/core/loader/loader.component"
@@ -12,19 +20,13 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import styled from "styled-components"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
-import { useSelector, useDispatch } from "react-redux"
-import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
-import { useHistory } from "react-router-dom"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
-import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 import { useCustomerSupportIsSending } from "Core/__deprecated__/renderer/components/rest/menu/hooks/use-customer-support-is-sending"
 
 const SyncProgressWrapper = styled.div`

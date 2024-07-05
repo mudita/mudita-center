@@ -4,17 +4,14 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { selectActiveDevice } from "./active-device"
+import { selectConfiguredDevices } from "./select-configured-devices"
+import { selectActiveApiDeviceId } from "./select-active-api-device-id"
 
 export const selectActiveDeviceConfiguration = createSelector(
-  [
-    selectActiveDevice,
-    (state: ReduxRootState) => state.genericViews.devicesConfiguration,
-  ],
-  (activeDevice, devicesConfiguration) => {
-    if (activeDevice) {
-      return devicesConfiguration[activeDevice]
+  [selectActiveApiDeviceId, selectConfiguredDevices],
+  (activeDeviceId, devicesConfiguration) => {
+    if (activeDeviceId) {
+      return devicesConfiguration[activeDeviceId]
     }
     return undefined
   }

@@ -6,7 +6,7 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { checkForUpdate } from "Core/update/actions"
 import {
   Product,
@@ -84,7 +84,7 @@ describe("when fetching all releases fails", () => {
           osVersion: "1.2.0",
         },
       },
-      deviceManager: {
+      activeDeviceRegistry: {
         activeDeviceId: "",
       },
     })
@@ -120,7 +120,7 @@ describe("when latest release os version is not greater than current os version"
           osVersion: "1.1.0",
         },
       },
-      deviceManager: {
+      activeDeviceRegistry: {
         activeDeviceId: "",
       },
     })
@@ -166,7 +166,7 @@ describe("when latest release os version is greater than current os version", ()
           osVersion: "1.2.0",
         },
       },
-      deviceManager: {
+      activeDeviceRegistry: {
         activeDeviceId: "",
       },
     })
@@ -237,7 +237,7 @@ describe("when latest release contains information about mandatory releases", ()
           osVersion: "1.2.0",
         },
       },
-      deviceManager: {
+      activeDeviceRegistry: {
         activeDeviceId: "",
       },
     })
@@ -288,7 +288,7 @@ describe("when fetching mandatory releases fails", () => {
           osVersion: "1.2.0",
         },
       },
-      deviceManager: {
+      activeDeviceRegistry: {
         activeDeviceId: "",
       },
     })

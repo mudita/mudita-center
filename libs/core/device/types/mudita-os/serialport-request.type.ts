@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { CaseColour } from "core-device/models"
+import { Endpoint, Method } from "core-device/models"
 import {
   BackupCategory,
-  Method,
-  Endpoint,
   BackupState,
   BatteryState,
   SIM,
@@ -14,7 +14,6 @@ import {
   Tray,
   AccessTechnology,
   NetworkStatus,
-  CaseColour,
   DiagnosticsFileList,
   PhoneLockCategory,
   MessageType,

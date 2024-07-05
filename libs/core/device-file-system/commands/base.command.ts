@@ -4,10 +4,10 @@
  */
 
 import * as CRC32 from "crc-32"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 
 export abstract class BaseCommand {
-  constructor(public deviceManager: DeviceManager) {}
+  constructor(public deviceProtocol: DeviceProtocol) {}
 
   public countCRC32(buffer: Buffer | Uint8Array): string {
     const crc = CRC32.buf(buffer)

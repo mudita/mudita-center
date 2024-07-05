@@ -598,37 +598,6 @@ describe("closeUpdateFlow", () => {
   })
 })
 
-describe("clearStateAndData", () => {
-  test("clear states and data", () => {
-    const data = {
-      ...initialState.data,
-      downloadedProcessedReleases: [
-        { release: mockedRelease, state: ReleaseProcessState.Done },
-      ],
-      availableReleasesForUpdate: [mockedRelease],
-      updateProcessedReleases: [
-        { release: mockedRelease, state: ReleaseProcessState.Initial },
-      ],
-    }
-
-    expect(
-      updateOsReducer(
-        {
-          ...initialState,
-          error: exampleError,
-          updateOsState: State.Failed,
-          data,
-        },
-        {
-          type: UpdateOsEvent.ClearStateAndData,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-    })
-  })
-})
-
 describe("checkForForceUpdateNeed", () => {
   test("sets needsForceUpdate according to the action result and checkedForForceUpdateNeed as true", () => {
     expect(

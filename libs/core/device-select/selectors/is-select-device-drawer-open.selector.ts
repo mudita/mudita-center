@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { deviceManagerState } from "Core/device-manager/selectors/device-manager-state.selector"
+import { deviceManagerState } from "device-manager/feature"
 
 export const isSelectDeviceDrawerOpenSelector = createSelector(
   deviceManagerState,

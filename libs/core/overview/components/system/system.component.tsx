@@ -20,7 +20,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import React from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { useUpdateFlowState } from "../overview-screens/helpers/use-update-flow-state.hook"
 
 const messages = defineMessages({
