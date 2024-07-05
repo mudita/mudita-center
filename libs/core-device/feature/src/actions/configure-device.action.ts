@@ -4,7 +4,6 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceType } from "device-protocol/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceId } from "Core/device/constants/device-id"
 import { getDeviceConfigurationRequest } from "../requests"
@@ -19,15 +18,7 @@ export const configureDevice = createAsyncThunk<
   ConfigureDevicePayload,
   DeviceId,
   { state: ReduxRootState }
->(CoreDeviceEvent.ConfigureDevice, async (id, { getState }) => {
-  // TODO: tmp solution to handle APIDevice
-  const device = getState().coreDevice.devices.find(
-    (device) => device.id === id
-  )
-  if (device?.deviceType === DeviceType.APIDevice) {
-    return { id }
-  }
-
+>(CoreDeviceEvent.ConfigureDevice, async (id) => {
   const result = await getDeviceConfigurationRequest(id)
 
   if (result.ok) {

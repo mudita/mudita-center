@@ -10,6 +10,6 @@ import { coreDeviceState } from "./core-device-state.selector"
 export const getCoreDevicesSelector = createSelector(
   coreDeviceState,
   ({ devices }): Device[] => {
-    return devices
+    return Object.values(devices);
   }
 )
