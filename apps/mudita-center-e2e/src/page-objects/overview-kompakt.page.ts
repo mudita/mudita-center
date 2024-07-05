@@ -25,6 +25,7 @@ class OverviewKompaktPage extends OverviewPage {
   public get backupInfo() {
     return $(`//div[@componentkey="backupbackup-info"]/p`)
   }
+
   public get serialNumberLabel() {
     return $(`//div[@componentkey="summary-serial-number"]/p[1]`)
   }
