@@ -4,7 +4,8 @@
  */
 
 import { DeviceInfo as DeviceInfoRaw } from "Core/device/types/mudita-os"
-import { CaseColour, DeviceType } from "Core/device/constants"
+import { CaseColour } from "core-device/models"
+import { DeviceType } from "device-protocol/models"
 import { DeviceInfo } from "Core/device-info/dto"
 import { SimCardPresenter } from "Core/device-info/presenters/sim-card.presenter"
 import { OnboardingState } from "Core/device/constants/onboarding-state.constant"

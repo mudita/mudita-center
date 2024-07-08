@@ -17,8 +17,8 @@ import {
   NotificationMethod,
   NotificationType,
 } from "Core/notification/constants"
-import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-active-device-type.selector"
-import { DeviceType } from "Core/device"
+import { getActiveDeviceTypeSelector } from "device-manager/feature"
+import { DeviceType } from "device-protocol/models"
 
 const outboxIntervalTime = 10000
 

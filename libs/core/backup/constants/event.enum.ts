@@ -4,7 +4,6 @@
  */
 
 export enum BackupEvent {
-  SetInitialBackupState = "SET_INITIAL_BACKUP_STATE",
   Load = "LOAD_BACKUP_DATA",
   SetBackupData = "SET_BACKUP_DATA",
   CreateBackup = "CREATE_BACKUP",

@@ -5,7 +5,7 @@
 
 import { PortInfo } from "serialport"
 import { CoreDevice } from "Core/device/modules/core-device"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { DeviceDescriptor } from "Core/device/descriptors"
 
 export class DeviceFactory {

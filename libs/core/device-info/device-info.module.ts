@@ -12,12 +12,12 @@ import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { DeviceInfoService } from "Core/device-info/services"
 import { DeviceInfoController } from "Core/device-info/controllers"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 
 export class DeviceInfoModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceProtocol: DeviceProtocol,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -26,7 +26,7 @@ export class DeviceInfoModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocol,
       keyStorage,
       logger,
       ipc,
@@ -34,7 +34,7 @@ export class DeviceInfoModule extends BaseModule {
       fileSystem
     )
 
-    const deviceInfoService = new DeviceInfoService(this.deviceManager)
+    const deviceInfoService = new DeviceInfoService(this.deviceProtocol)
     const deviceInfoController = new DeviceInfoController(deviceInfoService)
 
     this.controllers = [deviceInfoController]
