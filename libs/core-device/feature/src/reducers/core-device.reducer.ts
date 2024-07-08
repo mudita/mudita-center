@@ -23,9 +23,9 @@ export const coreDeviceReducer = createReducer<CoreDeviceState>(
     builder
       .addCase(addDevice, (state, action) => {
         state.devices[action.payload.id] = {
-          ...action.payload,
           caseColour: undefined,
           state: DeviceState.Connected,
+          ...action.payload,
         }
       })
       .addCase(removeDevice, (state, action) => {
