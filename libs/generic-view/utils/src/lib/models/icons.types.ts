@@ -44,5 +44,6 @@ export enum IconType {
   Import = "import",
   DataMigration = "data-migration",
   Information = "information",
-  RecoveryMode = "recovery-mode",
+  RecoveryModeWhite = "recovery-mode-white",
+  RecoveryModeBlack = "recovery-mode-black",
 }

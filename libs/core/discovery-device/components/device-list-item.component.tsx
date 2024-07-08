@@ -31,7 +31,7 @@ const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },
   subheaderTitle: { id: "module.availableDeviceList.subheaderTitle" },
   serialNumber: { id: "module.availableDeviceList.serialNumber" },
-  recoveryMode: {id: "module.availableDeviceList.recoveryMode"},
+  recoveryMode: { id: "module.availableDeviceList.recoveryMode" },
 })
 
 const DeviceImageWrapper = styled.div`
@@ -120,11 +120,12 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
     <Container className={className} onClick={() => onDeviceClick(id)}>
       {deviceType === DeviceType.MuditaHarmonyMsc && (
         <Badge>
-          <Icon type={IconType.RecoveryMode} />
+          <Icon type={IconType.RecoveryModeWhite} />
           <Text displayStyle={TextDisplayStyle.Paragraph3} color="active">
             {intl.formatMessage(messages.recoveryMode)}
           </Text>
-        </Badge>)}
+        </Badge>
+      )}
       <DeviceImageWrapper>
         <DeviceImageStyled deviceType={deviceType} caseColour={caseColour} />
       </DeviceImageWrapper>

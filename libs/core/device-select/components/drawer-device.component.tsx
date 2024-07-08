@@ -131,13 +131,14 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
     >
       {deviceType === DeviceType.MuditaHarmonyMsc && (
         <Badge>
-          <Icon type={IconType.RecoveryMode} />
+          <Icon type={IconType.RecoveryModeWhite} />
           <Text displayStyle={TextDisplayStyle.Paragraph3} color="active">
             {intl.formatMessage({
               id: "module.availableDeviceList.recoveryMode",
             })}
           </Text>
-        </Badge>)}
+        </Badge>
+      )}
       <DeviceImageContainer>
         <DeviceImageStyled deviceType={deviceType} caseColour={caseColour} />
       </DeviceImageContainer>

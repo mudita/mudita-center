@@ -60,7 +60,7 @@ const YOUR_PURE_BUTTONS = [
   },
   {
     button: views.recoveryMode,
-    icon: IconType.DataMigration,
+    icon: IconType.RecoveryModeBlack,
     testId: MenuGroupTestIds.RecoveryMode,
     visibleOn: [DeviceType.MuditaHarmonyMsc],
     viewKey: View.RecoveryMode,
