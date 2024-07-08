@@ -58,6 +58,13 @@ const YOUR_PURE_BUTTONS = [
     visibleOn: [DeviceType.MuditaPure],
     viewKey: View.DataMigration,
   },
+  {
+    button: views.recoveryMode,
+    icon: IconType.DataMigration,
+    testId: MenuGroupTestIds.RecoveryMode,
+    visibleOn: [DeviceType.MuditaHarmonyMsc],
+    viewKey: View.RecoveryMode,
+  },
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [
@@ -67,6 +74,7 @@ const DESKTOP_APP_BUTTONS: Item[] = [
     visibleOn: [
       DeviceType.MuditaPure,
       DeviceType.MuditaHarmony,
+      DeviceType.MuditaHarmonyMsc,
       DeviceType.APIDevice,
     ],
   },
@@ -77,6 +85,7 @@ const DESKTOP_APP_BUTTONS: Item[] = [
     visibleOn: [
       DeviceType.MuditaPure,
       DeviceType.MuditaHarmony,
+      DeviceType.MuditaHarmonyMsc,
       DeviceType.APIDevice,
     ],
   },
@@ -115,6 +124,7 @@ export const baseMenuElements: MenuElement[] = [
         visibleOn: [
           DeviceType.MuditaPure,
           DeviceType.MuditaHarmony,
+          DeviceType.MuditaHarmonyMsc,
           DeviceType.APIDevice,
         ],
       },
@@ -137,6 +147,13 @@ export const deviceMenuElements: MenuElement[] = [
     icons: [],
     connectedPhoneOnly: true,
     visibleOn: [DeviceType.MuditaHarmony],
+  },
+  {
+    label: messages.yourHarmony,
+    items: YOUR_PURE_BUTTONS,
+    icons: [],
+    connectedPhoneOnly: true,
+    visibleOn: [DeviceType.MuditaHarmonyMsc],
   },
 ]
 

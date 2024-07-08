@@ -13,6 +13,7 @@ import { MuditaPureInitializationModalFlow } from "Core/device-initialization/co
 import { MuditaHarmonyInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-harmony-initialization-modal-flow"
 import { APIDeviceInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/api-device-initialization-modal-flow"
 import { Device } from "Core/device-manager/reducers/device-manager.interface"
+import { HarmonyMscInitializationModalFlow } from "Core/device-initialization/components//devices-initialization-modal-flows/mudita-harmony-msc-initialization-modal-flow"
 
 const DevicesInitializationModalFlow: FunctionComponent<{
   activeDevice?: Device
@@ -23,6 +24,8 @@ const DevicesInitializationModalFlow: FunctionComponent<{
     return <MuditaHarmonyInitializationModalFlow />
   } else if (activeDevice?.deviceType === DeviceType.APIDevice) {
     return <APIDeviceInitializationModalFlow />
+  } else if (activeDevice?.deviceType === DeviceType.MuditaHarmonyMsc) {
+    return <HarmonyMscInitializationModalFlow />
   } else {
     return <></>
   }
@@ -34,7 +37,9 @@ const DevicesInitialization: FunctionComponent = () => {
     <>
       <DevicesInitializationModalFlow activeDevice={activeDevice} />
       {activeDevice?.deviceType !== DeviceType.APIDevice && (
-        <ConnectingContent />
+        <>
+          <ConnectingContent />
+        </>
       )}
     </>
   )

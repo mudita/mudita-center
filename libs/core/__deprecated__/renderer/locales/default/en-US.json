@@ -961,5 +961,6 @@
   "module.genericViews.dataMigration.progress.genericMessage": "This might take a few minutes",
   "module.genericViews.dataMigration.success.title": "Data transfer complete",
   "module.genericViews.dataMigration.success.description": "We transferred your data successfully.\nIt's safe to use your devices again.",
-  "module.genericViews.dataMigration.success.buttonLabel": "Ok"
+  "module.genericViews.dataMigration.success.buttonLabel": "Ok",
+  "module.recoveryMode.harmony.title": "Recovery Mode"
 }
