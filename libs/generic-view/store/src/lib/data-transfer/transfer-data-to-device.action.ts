@@ -229,6 +229,15 @@ export const transferDataToDevice = createAsyncThunk<
       progress = checkPreRestoreResponse.data.progress
     }
 
+    setDataTransfer(
+      domainsData.reduce((acc: DataTransfer, domainData) => {
+        acc[domainData.domain] = {
+          status: "FINISHED",
+        }
+        return acc
+      }, {})
+    )
+
     if (signal.aborted) {
       return handleError()
     }

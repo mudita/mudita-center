@@ -23,9 +23,9 @@ import {
   selectDataMigrationStatus,
   selectDataMigrationTargetDevices,
   setDataMigrationFeatures,
-  setDataMigrationStatus,
-  setDataMigrationSourceDevice,
   setDataMigrationProgress,
+  setDataMigrationSourceDevice,
+  setDataMigrationStatus,
   startDataMigration,
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
@@ -147,24 +147,53 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         onUnlock={startMigration}
       />
       <Modal
-        config={{ defaultOpened: modalOpened, size: "small" }}
-        componentKey={"data-migration-modal"}
+        config={{
+          defaultOpened:
+            modalOpened &&
+            (dataMigrationStatus === "PURE-CRITICAL-BATTERY" ||
+              dataMigrationStatus === "PURE-ONBOARDING-REQUIRED" ||
+              dataMigrationStatus === "PURE-UPDATE-REQUIRED"),
+          size: "small",
+        }}
+        componentKey={"data-migration-modal-pure-error"}
       >
-        {(dataMigrationStatus === "PURE-CRITICAL-BATTERY" ||
-          dataMigrationStatus === "PURE-ONBOARDING-REQUIRED" ||
-          dataMigrationStatus === "PURE-UPDATE-REQUIRED") && <PureErrorModal />}
-        {dataMigrationStatus === "FAILED" && (
-          <TransferErrorModal onButtonClick={onFinish} />
-        )}
-        {dataMigrationStatus === "IN-PROGRESS" && (
-          <ProgressModal onCancel={cancelMigration} />
-        )}
-        {dataMigrationStatus === "CANCELLED" && (
-          <CancelledModal onClose={onFinish} />
-        )}
-        {dataMigrationStatus === "COMPLETED" && (
-          <SuccessModal onButtonClick={onFinish} />
-        )}
+        <PureErrorModal />
+      </Modal>
+      <Modal
+        config={{
+          defaultOpened: modalOpened && dataMigrationStatus === "FAILED",
+          size: "small",
+        }}
+        componentKey={"data-migration-modal-transfer-failed"}
+      >
+        <TransferErrorModal onButtonClick={onFinish} />
+      </Modal>
+      <Modal
+        config={{
+          defaultOpened: modalOpened && dataMigrationStatus === "IN-PROGRESS",
+          size: "small",
+        }}
+        componentKey={"data-migration-modal-progress"}
+      >
+        <ProgressModal onCancel={cancelMigration} />
+      </Modal>
+      <Modal
+        config={{
+          defaultOpened: modalOpened && dataMigrationStatus === "CANCELLED",
+          size: "small",
+        }}
+        componentKey={"data-migration-modal-cancelled"}
+      >
+        <CancelledModal onClose={onFinish} />
+      </Modal>
+      <Modal
+        config={{
+          defaultOpened: modalOpened && dataMigrationStatus === "COMPLETED",
+          size: "small",
+        }}
+        componentKey={"data-migration-modal-success"}
+      >
+        <SuccessModal onButtonClick={onFinish} />
       </Modal>
     </Wrapper>
   )

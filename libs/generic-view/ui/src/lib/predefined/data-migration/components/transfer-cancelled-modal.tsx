@@ -9,6 +9,7 @@ import { ButtonAction, IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { TransferFailMessage } from "./transfer-fail-message"
 
 const messages = defineMessages({
   title: {
@@ -21,7 +22,7 @@ const messages = defineMessages({
     id: "module.genericViews.dataMigration.cancelled.partialChanges.description",
   },
   closeButtonLabel: {
-    id: "module.genericViews.dataMigration.cancelled.closeButtonLabel",
+    id: "module.genericViews.dataMigration.failure.closeButtonLabel",
   },
 })
 
@@ -39,7 +40,7 @@ export const CancelledModal: FunctionComponent<Props> = ({ onClose }) => {
     <>
       <Modal.TitleIcon config={{ type: IconType.Failure }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
-      <p>{intl.formatMessage(messages.noChangesDescription)}</p>
+      <TransferFailMessage />
       <Modal.Buttons config={{ vertical: true }}>
         <ButtonSecondary
           config={{

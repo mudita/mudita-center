@@ -19,6 +19,7 @@ export type DomainTransferStatus =
   | "READY"
   | "IN-PROGRESS"
   | "PROCESSING"
+  | "FINISHED"
 
 export type DataTransferStatus =
   | "IDLE"
