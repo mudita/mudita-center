@@ -103,6 +103,7 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
           MOCK_SERVICE_ENABLED: "1"
+          DEV_TOOLS_SHORTCUT_ENABLED: "1"
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux
