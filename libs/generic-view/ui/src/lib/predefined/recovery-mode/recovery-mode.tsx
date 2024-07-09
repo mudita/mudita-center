@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useState } from "react"
+import React, { useState } from "react"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"

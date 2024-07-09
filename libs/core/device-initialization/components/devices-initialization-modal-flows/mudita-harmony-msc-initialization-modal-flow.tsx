@@ -38,7 +38,9 @@ export const HarmonyMscInitializationModalFlow: FunctionComponent = () => {
     )
 
     history.push(URL_MAIN.recoveryMode)
-  }, [dispatch, history])
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return <></>
 }

@@ -37,9 +37,7 @@ const DevicesInitialization: FunctionComponent = () => {
     <>
       <DevicesInitializationModalFlow activeDevice={activeDevice} />
       {activeDevice?.deviceType !== DeviceType.APIDevice && (
-        <>
-          <ConnectingContent />
-        </>
+        <ConnectingContent />
       )}
     </>
   )
