@@ -67,10 +67,9 @@ const useHandleDevicesDetached = () => {
     async (deviceDetachedEvents: DeviceBaseProperties[]) => {
       for (const event of deviceDetachedEvents) {
         const { deviceType } = event
-        if (deviceType === DeviceType.APIDevice) {
-          return
+        if (deviceType !== DeviceType.APIDevice) {
+          dispatch(removeDevice(event))
         }
-        dispatch(removeDevice(event))
       }
     },
     [dispatch]
