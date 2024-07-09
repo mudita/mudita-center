@@ -6,15 +6,15 @@
 import styled from "styled-components"
 
 export const Badge = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.8rem;
-    position: absolute;
-    right: 0;
-    top: 0;
-    background-color: black;
-    border-radius: 0.4rem;
-    padding: 0 1rem 0 0.8rem;
-    line-height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: black;
+  border-radius: 0.4rem;
+  padding: 0 1rem 0 0.8rem;
+  line-height: 2rem;
 `
