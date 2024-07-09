@@ -38,7 +38,7 @@ export const HarmonyMscInitializationModalFlow: FunctionComponent = () => {
     )
 
     history.push(URL_MAIN.recoveryMode)
-  }, [])
+  }, [dispatch, history])
 
   return <></>
 }
