@@ -4,14 +4,15 @@
  */
 
 import path from "path"
-import fs from "fs"
-import mock from "mock-fs"
+import { fs, vol } from "memfs"
 import { mergeToSingleFileString } from "Core/__deprecated__/main/utils/merge-to-single-file-string/merge-to-single-file-string"
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+jest.mock('fs', () => require("memfs"));
 
 describe("`mergeToSingleFileString` functionality", () => {
   beforeAll(() => {
-    mock(
-      {
+    vol.fromNestedJSON( {
         "2021-12-07-1kb":
           "The pain itself is love, the main storage system. Mauris lobortis non justo vel auctor. There should be no free housing, the flavor of it is worth it, before the fermentation is done. Mauris commodo ultrices enim ac pretium. There is no fear of the torturer, the hairstyle at the gate as, vengeful and free. Each sad, elite need of teenagers want, the bow eros economics laughter, the cartoon Vikings hate or sem. And so the earth does not stop at the price No cost bow to the main investment. The complete pull of the sheets in the kitchen cushion, in the end of the patches always. The disease is just as nice as the borders of the spectrum. A wise man should start, who needs to start, the biggest thing to start. We live without a cushion of propaganda, or sometimes mourning needs. Tomorrow the players take a ball, or the urn will not be completed, for the sad lace. The quivering arrows of the film No vehicles of any kind. There is no great football button. Now the ferry, the urn or the eas\n",
         "mc-2021-12-07-1kb.txt":
@@ -19,13 +20,12 @@ describe("`mergeToSingleFileString` functionality", () => {
         "mc-2022-02-23-1kb.txt":
           "The pain itself is love, the main storage system. Mauris lobortis non justo vel auctor. There should be no free housing, the flavor of it is worth it, before the fermentation is done. Mauris commodo ultrices enim ac pretium. There is no fear of the torturer, the hairstyle at the gate as, vengeful and free. Each sad, elite need of teenagers want, the bow eros economics laughter, the cartoon Vikings hate or sem. And so the earth does not stop at the price No cost bow to the main investment. The complete pull of the sheets in the kitchen cushion, in the end of the patches always. The disease is just as nice as the borders of the spectrum. A wise man should start, who needs to start, the biggest thing to start. We live without a cushion of propaganda, or sometimes mourning needs. Tomorrow the players take a ball, or the urn will not be completed, for the sad lace. The quivering arrows of the film No vehicles of any kind. There is no great football button. Now the ferry, the urn or the eas\n",
       },
-      { createCwd: false, createTmp: false }
     )
   })
   afterAll(() => {
-    mock.restore()
+    vol.reset()
   })
-  const cwd = process.cwd()
+  const cwd = ""
   test("returns length value properly ", () => {
     const file = mergeToSingleFileString({
       cwd,

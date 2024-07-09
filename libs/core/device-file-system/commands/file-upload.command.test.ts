@@ -3,9 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import fs from "fs"
-import path from "path"
-import mock from "mock-fs"
+import { fs, vol } from "memfs";
 import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
 import { FileUploadCommand } from "Core/device-file-system/commands/file-upload.command"
 import { DeviceProtocol } from "device-protocol/feature"
@@ -65,16 +63,15 @@ beforeEach(() => {
 
 describe("When requested file is unreadable", () => {
   beforeAll(() => {
-    mock(
+    vol.fromNestedJSON(
       {
         "test.txt": "Hello World!\n",
       },
-      { createCwd: false, createTmp: false }
     )
   })
 
   afterAll(() => {
-    mock.restore()
+    vol.reset()
   })
 
   test("returns `ResultObject.failed` with error description and path of filed file", async () => {
@@ -102,32 +99,30 @@ describe("When requested file is unreadable", () => {
 
 describe("When requested file is valid", () => {
   beforeAll(() => {
-    mock(
+    vol.fromNestedJSON(
       {
         "test.txt": "Hello World!\n",
       },
-      { createCwd: false, createTmp: false }
     )
   })
   afterAll(() => {
-    mock.restore()
+    vol.reset()
   })
   beforeEach(() => {
-    const fileMock = fs.readFileSync(path.join(process.cwd(), "test.txt"))
+    const fileMock = fs.readFileSync("test.txt")
     fileSystemService.readFile = jest.fn().mockReturnValue(fileMock)
   })
 
   describe("when `DeviceManager.device.request` returns success response", () => {
     beforeAll(() => {
-      mock(
+      vol.fromNestedJSON(
         {
           "test.txt": "Hello World!\n",
         },
-        { createCwd: false, createTmp: false }
       )
     })
     afterAll(() => {
-      mock.restore()
+      vol.reset()
     })
     beforeEach(() => {
       deviceProtocol.device.request = jest
@@ -158,15 +153,14 @@ describe("When requested file is valid", () => {
 
   describe("when `DeviceManager.device.request` returns failed response on first request", () => {
     beforeAll(() => {
-      mock(
+      vol.fromNestedJSON(
         {
           "test.txt": "Hello World!\n",
         },
-        { createCwd: false, createTmp: false }
       )
     })
     afterAll(() => {
-      mock.restore()
+      vol.reset()
     })
     beforeEach(() => {
       deviceProtocol.device.request = jest
@@ -204,15 +198,14 @@ describe("When requested file is valid", () => {
 
   describe("when `DeviceManager.device.request` returns failed response on the next requests", () => {
     beforeAll(() => {
-      mock(
+      vol.fromNestedJSON(
         {
           "test.txt": "Hello World!\n",
         },
-        { createCwd: false, createTmp: false }
       )
     })
     afterAll(() => {
-      mock.restore()
+      vol.reset()
     })
     beforeEach(() => {
       deviceProtocol.device.request = jest
@@ -260,15 +253,14 @@ describe("When requested file is valid", () => {
 
   describe("when `DeviceManager.device.request` returns failed response with `RequestResponseStatus.InsufficientStorage` status", () => {
     beforeAll(() => {
-      mock(
+      vol.fromNestedJSON(
         {
           "test.txt": "Hello World!\n",
         },
-        { createCwd: false, createTmp: false }
       )
     })
     afterAll(() => {
-      mock.restore()
+      vol.reset()
     })
     beforeEach(() => {
       deviceProtocol.device.request = jest

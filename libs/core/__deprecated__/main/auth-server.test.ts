@@ -14,8 +14,9 @@ import {
 } from "Core/__deprecated__/main/auth-server"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 
-afterEach(() => {
+afterEach(async () => {
   killAuthServer()
+  await new Promise((resolve) => setTimeout(resolve, 100))
 })
 
 test("server should not be available without starting it manually", async () => {

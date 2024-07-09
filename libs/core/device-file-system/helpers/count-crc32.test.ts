@@ -4,9 +4,7 @@
  */
 
 import countCRC32 from "Core/device-file-system/helpers/count-crc32"
-import mock from "mock-fs"
-import path from "path"
-import * as fs from "fs"
+import { fs, vol } from "memfs"
 
 const hexadecimal = /^[a-f0-9]/i
 
@@ -34,17 +32,17 @@ describe("countCRC32 helper", () => {
     let filePath: string
     let buffer: Buffer
     beforeAll(() => {
-      mock(
+      vol.fromNestedJSON(
         {
           "-1337796450-digit.txt": "Hello!\n",
-        },
-        { createCwd: false, createTmp: false }
+        }
       )
-      filePath = path.join(process.cwd(), "-1337796450-digit.txt")
+      filePath = "-1337796450-digit.txt"
+      // @ts-ignore
       buffer = fs.readFileSync(filePath) // 86b258e as hex crc
     })
     afterAll(() => {
-      mock.restore()
+      vol.reset()
     })
 
     test("should return hexadecimal", () => {
@@ -67,17 +65,17 @@ describe("countCRC32 helper", () => {
     let filePath: string
     let buffer: Buffer
     beforeAll(() => {
-      mock(
+      vol.fromNestedJSON(
         {
           "86b258e-hex.txt": "123456\n",
-        },
-        { createCwd: false, createTmp: false }
+        }
       )
-      filePath = path.join(process.cwd(), "./86b258e-hex.txt")
+      filePath = "86b258e-hex.txt"
+      // @ts-ignore
       buffer = fs.readFileSync(filePath) // 86b258e as hex crc
     })
     afterAll(() => {
-      mock.restore()
+      vol.reset()
     })
 
     test("should return hexadecimal", () => {
