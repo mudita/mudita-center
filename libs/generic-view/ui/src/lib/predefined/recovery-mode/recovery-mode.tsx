@@ -124,8 +124,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
-  justify-content: center;
   align-items: center;
+  padding-top: 4.7rem;
   background: ${({ theme }) => theme.color.white};
 `
 
