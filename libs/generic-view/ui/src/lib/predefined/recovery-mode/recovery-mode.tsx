@@ -53,7 +53,6 @@ const RecoveryModeUI: FunctionComponent = () => {
   }
 
   const onStartRecovery = () => {
-    console.log("starting recovery")
     // will be finished in next PR
   }
 
