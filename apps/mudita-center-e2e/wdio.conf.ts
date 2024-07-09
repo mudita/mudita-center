@@ -67,6 +67,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.privacyPolicyTest),
     toRelativePath(TestFilesPaths.licenseTest),
     toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+    toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
   ],
   suites: {
     standalone: [
@@ -84,6 +85,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+      toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
     ],
     mock: [toRelativePath(TestFilesPaths.e2eMockSample)],
     multidevicePureHarmony: [],
@@ -108,6 +110,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+      toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
     ],
   },
   // Patterns to exclude.

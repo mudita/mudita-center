@@ -13,11 +13,11 @@ describe("Force Update MC - Successful Download", () => {
 
     E2EMockClient.setMockUpdateState({ available: true, version: "999.0.0" })
     E2EMockClient.mockHttpResponse({
-      url: "/v2-app-configuration",
+      url: "v2-app-configuration",
       method: "GET",
       status: 200,
       data: {
-        centerVersion: "3.0.0",
+        centerVersion: "999.0.0",
         productVersions: {
           MuditaHarmony: "1.0.0",
           MuditaPure: "1.0.0",
@@ -70,8 +70,6 @@ describe("Force Update MC - Successful Download", () => {
     await expect(linkPrivacyPolicy).toBeDisplayed()
     await expect(linkPrivacyPolicy).toHaveText("Privacy Policy")
 
-    // TBD
-    // await expect(linkPrivacyPolicy).toHaveAttr("href")
     const linkColor = await linkPrivacyPolicy.getCSSProperty("color")
     await expect(linkColor.value).toBe("rgba(109,155,188,1)")
     const linkDecoration = await linkPrivacyPolicy.getCSSProperty(
@@ -92,8 +90,7 @@ describe("Force Update MC - Successful Download", () => {
 
     // Close modal button
     const modalCloseButton = await ModalPage.modalCloseButton
-    // TBD
-    // await expect(modalCloseButton).not.toBeDisplayed()
+    await expect(modalCloseButton).not.toBeDisplayed()
   })
 
   it("Button UPDATE is clickable after selecting the checkbox", async () => {
