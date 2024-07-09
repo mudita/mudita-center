@@ -199,6 +199,7 @@
   "component.cantConnectWithoutUSBPortAccessBody": "To allow access please restart Mudita Center. You\ncan still access limited features if you choose to\ncontinue without connecting.",
   "component.restartYourComputerToConnectTitle": "Restart your computer to connect",
   "component.restartYourComputerToConnectBody": "Please restart your computer to connect your\ndevice. You can still access limited features if you\nchoose to continue without connecting.",
+  "component.warningBox.headerTitle": "Warning!",
   "module.availableDeviceList.headerTitle": "Select a device to continue",
   "module.availableDeviceList.subheaderTitle": "You can change active devices later",
   "module.availableDeviceList.serialNumber": "Serial number",
@@ -962,5 +963,13 @@
   "module.genericViews.dataMigration.success.title": "Data transfer complete",
   "module.genericViews.dataMigration.success.description": "We transferred your data successfully.\nIt's safe to use your devices again.",
   "module.genericViews.dataMigration.success.buttonLabel": "Ok",
-  "module.recoveryMode.harmony.title": "Recovery Mode"
+  "module.recoveryMode.harmony.title": "Recovery Mode",
+  "module.recoveryMode.harmony.header": "Harmony is Ready for Recovery",
+  "module.recoveryMode.harmony.description": "Please read the instructions carefully. Not following the instructions may render\nyour device useless and void the warrenty!",
+  "module.recoveryMode.harmony.warning1": "Make sure your device is running <b>OS 1.9.0 or later.</b>",
+  "module.recoveryMode.harmony.warning2": "Once you start the recovery, it cannot be cancelled or interrupted.",
+  "module.recoveryMode.harmony.warning3": "Do not disconnect your Harmony during the recovery process.",
+  "module.recoveryMode.harmony.warning4": "Lorem ipsum dolor sit amet consectetur.",
+  "module.recoveryMode.harmony.confirmation": "I understand that not following these instructions may void the warranty",
+  "module.recoveryMode.harmony.action": "Start Recovery"
 }
