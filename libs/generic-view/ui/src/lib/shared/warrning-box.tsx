@@ -15,7 +15,7 @@ import { H4 } from "../texts/headers"
 
 const Wrapper = styled.div`
   display: block;
-  width: 410px;
+  width: 41rem;
   border: solid 0.2rem ${({ theme }) => theme.color.grey5};
 `
 

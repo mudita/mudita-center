@@ -167,6 +167,6 @@ const Footer = styled.div`
   justify-content: center;
 
   button {
-    width: 180px;
+    width: 18rem;
   }
 `
