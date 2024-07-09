@@ -106,8 +106,8 @@
     "@types/mock-fs": "^4.13.1",
     "@types/node": "18.16.9",
     "@types/node-fetch": "^3.0.3",
-    "@types/papaparse": "^5.3.14",
     "@types/node-ipc": "^9.2.3",
+    "@types/papaparse": "^5.3.14",
     "@types/quoted-printable": "^1.0.0",
     "@types/react": "^18.2.33",
     "@types/react-beautiful-dnd": "^13.1.2",
@@ -153,7 +153,7 @@
     "babel-preset-react-app": "^10.0.1",
     "babel-runtime": "^6.26.0",
     "brie": "^3.0.4",
-    "chromedriver": "^116.0.0",
+    "chromedriver": "^118.0.1",
     "circular-dependency-plugin": "^5.2.2",
     "contentful": "^9.2.4",
     "copy-webpack-plugin": "^11.0.0",
@@ -161,7 +161,7 @@
     "css-loader": "^6.7.1",
     "dotenv": "^16.0.2",
     "elasticlunr": "^0.9.5",
-    "electron": "^26.0.0",
+    "electron": "^27.3.11",
     "electron-better-ipc": "^2.0.1",
     "electron-builder": "^23.3.3",
     "electron-devtools-installer": "^3.2.0",
@@ -270,15 +270,15 @@
     "winston-transport-rollbar-3": "^3.2.0"
   },
   "engines": {
-    "node": "18.16.1",
-    "npm": "9.5.1"
+    "node": "18.17.1",
+    "npm": "9.6.7"
   },
   "dependencies": {
     "@vscode/sudo-prompt": "^9.3.1",
     "crypto-js": "^4.2.0",
     "js-crc": "^0.2.0",
-    "node-ipc": "10.1.0",
     "jschardet": "^3.1.2",
+    "node-ipc": "10.1.0",
     "papaparse": "^5.4.1",
     "react-is": "18.2.0",
     "react-markdown": "^9.0.1",
