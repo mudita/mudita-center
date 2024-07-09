@@ -153,7 +153,7 @@
     "babel-preset-react-app": "^10.0.1",
     "babel-runtime": "^6.26.0",
     "brie": "^3.0.4",
-    "chromedriver": "^118.0.1",
+    "chromedriver": "^120.0.2",
     "circular-dependency-plugin": "^5.2.2",
     "contentful": "^9.2.4",
     "copy-webpack-plugin": "^11.0.0",
@@ -161,7 +161,7 @@
     "css-loader": "^6.7.1",
     "dotenv": "^16.0.2",
     "elasticlunr": "^0.9.5",
-    "electron": "^27.3.11",
+    "electron": "^28.3.3",
     "electron-better-ipc": "^2.0.1",
     "electron-builder": "^23.3.3",
     "electron-devtools-installer": "^3.2.0",
@@ -270,8 +270,8 @@
     "winston-transport-rollbar-3": "^3.2.0"
   },
   "engines": {
-    "node": "18.17.1",
-    "npm": "9.6.7"
+    "node": "18.18.2",
+    "npm": "9.8.1"
   },
   "dependencies": {
     "@vscode/sudo-prompt": "^9.3.1",
