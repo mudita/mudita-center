@@ -15,7 +15,12 @@ import { getAPIConfig } from "../get-api-config"
 import { setBackupProcessStatus } from "../backup/actions"
 import { closeAllModals } from "../modals/actions"
 import { selectBackupProcessStatus } from "../selectors/backup-process-status"
-import { clearDataMigrationDevice } from "../data-migration/clear-data-migration.action"
+import { abortDataMigration } from "../data-migration/abort-data.migration"
+import { selectDataMigrationStatus } from "../selectors/data-migration-status"
+import {
+  selectDataMigrationSourceDevice,
+  selectDataMigrationTargetDevice,
+} from "../selectors/data-migration-devices"
 
 export const useAPISerialPortListeners = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -62,11 +67,20 @@ export const useAPISerialPortListeners = () => {
 const useHandleDevicesDetached = () => {
   const dispatch = useDispatch<Dispatch>()
   const backupProcess = useSelector(selectBackupProcessStatus)
+  const migrationStatus = useSelector(selectDataMigrationStatus)
+  const sourceDevice = useSelector(selectDataMigrationSourceDevice)
+  const targetDevice = useSelector(selectDataMigrationTargetDevice)
 
   return useCallback(
     async (deviceDetachedEvents: DeviceBaseProperties[]) => {
       for (const event of deviceDetachedEvents) {
-        dispatch(clearDataMigrationDevice(event.id))
+        if (
+          migrationStatus !== "IDLE" &&
+          (sourceDevice?.serialNumber === event.serialNumber ||
+            targetDevice?.serialNumber === event.serialNumber)
+        ) {
+          dispatch(abortDataMigration({ reason: "FAILED" }))
+        }
       }
 
       const apiEvents = deviceDetachedEvents.filter(
@@ -80,12 +94,18 @@ const useHandleDevicesDetached = () => {
       for (const event of apiEvents) {
         dispatch(removeDevice(event))
       }
-
       dispatch(closeAllModals())
+
       if (backupProcess) {
         dispatch(setBackupProcessStatus("FAILED"))
       }
     },
-    [dispatch, backupProcess]
+    [
+      dispatch,
+      backupProcess,
+      migrationStatus,
+      sourceDevice?.serialNumber,
+      targetDevice?.serialNumber,
+    ]
   )
 }

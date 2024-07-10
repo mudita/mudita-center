@@ -19,6 +19,7 @@ import { sendFile } from "../file-transfer/send-file.action"
 import {
   clearDataTransfer,
   setDataTransfer,
+  setDataTransferAbort,
   setDataTransferStatus,
 } from "./actions"
 import { isEmpty } from "lodash"
@@ -36,9 +37,15 @@ export const transferDataToDevice = createAsyncThunk<
   { state: ReduxRootState }
 >(
   ActionName.TransferDataToDevice,
-  async (domainsData, { getState, dispatch, rejectWithValue, signal }) => {
-    let aborted = false
+  async (
+    domainsData,
+    { getState, dispatch, abort, rejectWithValue, signal }
+  ) => {
     let abortFileRequest: VoidFunction
+
+    const transferAbortController = new AbortController()
+    transferAbortController.abort = abort
+    dispatch(setDataTransferAbort(transferAbortController))
 
     const handleError = () => {
       void clearTransfers?.()
@@ -48,7 +55,6 @@ export const transferDataToDevice = createAsyncThunk<
 
     const abortListener = async () => {
       signal.removeEventListener("abort", abortListener)
-      aborted = true
       abortFileRequest?.()
       await clearTransfers?.()
       if (dataTransferId && deviceId) {
@@ -101,7 +107,7 @@ export const transferDataToDevice = createAsyncThunk<
       )
     )
 
-    if (aborted) {
+    if (signal.aborted) {
       return handleError()
     }
 
@@ -129,7 +135,7 @@ export const transferDataToDevice = createAsyncThunk<
     }
 
     for (const [index, domain] of domainsPaths.entries()) {
-      if (aborted) {
+      if (signal.aborted) {
         return handleError()
       }
 
@@ -161,7 +167,7 @@ export const transferDataToDevice = createAsyncThunk<
     }
 
     for (const domain of domainsPaths) {
-      if (aborted) {
+      if (signal.aborted) {
         return handleError()
       }
 
@@ -176,7 +182,10 @@ export const transferDataToDevice = createAsyncThunk<
       )
       abortFileRequest = sendFilePromise.abort
       const sendFileResponse = await sendFilePromise
-      if (sendFileResponse.meta.requestStatus === "rejected" || aborted) {
+      if (
+        sendFileResponse.meta.requestStatus === "rejected" ||
+        signal.aborted
+      ) {
         return handleError()
       }
 
@@ -193,7 +202,7 @@ export const transferDataToDevice = createAsyncThunk<
 
     await clearTransfers()
 
-    if (aborted) {
+    if (signal.aborted) {
       return handleError()
     }
     dispatch(setDataTransferStatus("FINALIZING"))
@@ -208,7 +217,7 @@ export const transferDataToDevice = createAsyncThunk<
 
     let progress = startDataTransferResponse.data.progress
     while (progress < 100) {
-      if (aborted) {
+      if (signal.aborted) {
         return handleError()
       }
       const checkPreRestoreResponse = await checkDataTransferRequest(
@@ -221,7 +230,16 @@ export const transferDataToDevice = createAsyncThunk<
       progress = checkPreRestoreResponse.data.progress
     }
 
-    if (aborted) {
+    setDataTransfer(
+      domainsData.reduce((acc: DataTransfer, domainData) => {
+        acc[domainData.domain] = {
+          status: "FINISHED",
+        }
+        return acc
+      }, {})
+    )
+
+    if (signal.aborted) {
       return handleError()
     }
 

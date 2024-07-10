@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   selectDataMigrationSourceDevice,
   selectDataMigrationTargetDevice,
-  setSourceDevice,
+  setDataMigrationSourceDevice,
 } from "generic-view/store"
 import { DeviceId } from "Core/device/constants/device-id"
 import { defineMessages } from "react-intl"
@@ -59,7 +59,7 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
   const selectDevice = (serialNumber: DeviceId) => {
     setOpened(false)
     if (type === "source") {
-      dispatch(setSourceDevice(serialNumber))
+      dispatch(setDataMigrationSourceDevice(serialNumber))
     }
   }
 

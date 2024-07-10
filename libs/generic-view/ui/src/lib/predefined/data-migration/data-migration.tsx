@@ -9,7 +9,6 @@ import React, {
   FunctionComponent,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from "react"
 import { defineMessages } from "react-intl"
@@ -18,14 +17,17 @@ import { APIFC } from "generic-view/utils"
 import { McDataMigrationConfig } from "generic-view/models"
 import { getActiveDevice } from "device-manager/feature"
 import {
-  clearDataMigrationProgress,
+  abortDataMigration,
+  DataMigrationPercentageProgress,
   performDataMigration,
   selectDataMigrationSourceDevice,
   selectDataMigrationSourceDevices,
   selectDataMigrationStatus,
   selectDataMigrationTargetDevices,
   setDataMigrationFeatures,
-  setSourceDevice,
+  setDataMigrationProgress,
+  setDataMigrationSourceDevice,
+  setDataMigrationStatus,
   startDataMigration,
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
@@ -69,10 +71,9 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   ) as Device[]
   const sourceDevice = useSelector(selectDataMigrationSourceDevice)
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
-  const dataMigrationAbortReference = useRef<VoidFunction>()
   const [modalOpened, setModalOpened] = useState(false)
 
-  const noSourceDeviceSelected = !sourceDevice
+  const noSourceDeviceSelected = dataMigrationStatus === "IDLE" && !sourceDevice
   const displayInstruction =
     Boolean(sourceDevices.length) !== Boolean(targetDevices.length)
   const displayTargetSelector =
@@ -84,23 +85,18 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   }
 
   const startTransfer = useCallback(() => {
-    const promise = dispatch(performDataMigration())
-    dataMigrationAbortReference.current = (
-      promise as unknown as {
-        abort: VoidFunction
-      }
-    ).abort
+    dispatch(performDataMigration())
   }, [dispatch])
 
-  const cancelMigration = () => {
-    // TODO: add confirmation modal support
-    dataMigrationAbortReference.current?.()
-  }
+  const cancelMigration = useCallback(() => {
+    dispatch(abortDataMigration({ reason: "CANCELLED" }))
+  }, [dispatch])
 
   const onFinish = () => {
     setModalOpened(false)
     setTimeout(() => {
-      dispatch(clearDataMigrationProgress())
+      dispatch(setDataMigrationStatus("IDLE"))
+      dispatch(setDataMigrationProgress(DataMigrationPercentageProgress.None))
       dispatch(setDataMigrationFeatures([]))
     }, modalTransitionDuration)
   }
@@ -108,9 +104,9 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   useEffect(() => {
     if (activeDevice?.deviceType === "APIDevice" && noSourceDeviceSelected) {
       if (sourceDevices.length > 0) {
-        dispatch(setSourceDevice(sourceDevices[0].serialNumber))
+        dispatch(setDataMigrationSourceDevice(sourceDevices[0].serialNumber))
       } else {
-        dispatch(setSourceDevice(undefined))
+        dispatch(setDataMigrationSourceDevice(undefined))
       }
     }
   }, [
@@ -151,22 +147,53 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         onUnlock={startMigration}
       />
       <Modal
-        config={{ defaultOpened: modalOpened, size: "small" }}
-        componentKey={"data-migration-modal"}
+        config={{
+          defaultOpened:
+            modalOpened &&
+            (dataMigrationStatus === "PURE-CRITICAL-BATTERY" ||
+              dataMigrationStatus === "PURE-ONBOARDING-REQUIRED" ||
+              dataMigrationStatus === "PURE-UPDATE-REQUIRED"),
+          size: "small",
+        }}
+        componentKey={"data-migration-modal-pure-error"}
       >
-        {(dataMigrationStatus === "PURE-CRITICAL-BATTERY" ||
-          dataMigrationStatus === "PURE-ONBOARDING-REQUIRED" ||
-          dataMigrationStatus === "PURE-UPDATE-REQUIRED") && <PureErrorModal />}
-        {dataMigrationStatus === "FAILED" && <TransferErrorModal />}
-        {dataMigrationStatus === "IN-PROGRESS" && (
-          <ProgressModal onCancel={cancelMigration} />
-        )}
-        {dataMigrationStatus === "CANCELLED" && (
-          <CancelledModal onClose={onFinish} />
-        )}
-        {dataMigrationStatus === "COMPLETED" && (
-          <SuccessModal onButtonClick={onFinish} />
-        )}
+        <PureErrorModal />
+      </Modal>
+      <Modal
+        config={{
+          defaultOpened: modalOpened && dataMigrationStatus === "FAILED",
+          size: "small",
+        }}
+        componentKey={"data-migration-modal-transfer-failed"}
+      >
+        <TransferErrorModal onButtonClick={onFinish} />
+      </Modal>
+      <Modal
+        config={{
+          defaultOpened: modalOpened && dataMigrationStatus === "IN-PROGRESS",
+          size: "small",
+        }}
+        componentKey={"data-migration-modal-progress"}
+      >
+        <ProgressModal onCancel={cancelMigration} />
+      </Modal>
+      <Modal
+        config={{
+          defaultOpened: modalOpened && dataMigrationStatus === "CANCELLED",
+          size: "small",
+        }}
+        componentKey={"data-migration-modal-cancelled"}
+      >
+        <CancelledModal onClose={onFinish} />
+      </Modal>
+      <Modal
+        config={{
+          defaultOpened: modalOpened && dataMigrationStatus === "COMPLETED",
+          size: "small",
+        }}
+        componentKey={"data-migration-modal-success"}
+      >
+        <SuccessModal onButtonClick={onFinish} />
       </Modal>
     </Wrapper>
   )

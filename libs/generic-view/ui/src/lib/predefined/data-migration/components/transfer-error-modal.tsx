@@ -8,29 +8,37 @@ import { IconType } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { ErrorModal } from "./error-modal"
+import { TransferFailMessage } from "./transfer-fail-message"
 
 const messages = defineMessages({
   title: {
     id: "module.genericViews.dataMigration.transferError.title",
   },
-  closeButtonLabel: {
-    id: "module.genericViews.dataMigration.transferError.closeButtonLabel",
+  description: {
+    id: "module.genericViews.dataMigration.transferError.genericDescription",
   },
-  connectionFailed: {
-    id: "module.genericViews.dataMigration.transferError.connectionFailed",
+  closeButtonLabel: {
+    id: "module.genericViews.dataMigration.failure.closeButtonLabel",
   },
 })
 
-export const TransferErrorModal: FunctionComponent = () => {
+interface Props {
+  onButtonClick?: VoidFunction
+}
+
+export const TransferErrorModal: FunctionComponent<Props> = ({
+  onButtonClick,
+}) => {
   const title = intl.formatMessage(messages.title)
-  const description = intl.formatMessage(messages.connectionFailed)
+  const buttonLabel = intl.formatMessage(messages.closeButtonLabel)
 
   return (
     <ErrorModal
       modalIcon={IconType.Failure}
       title={title}
-      description={description}
-      buttonLabel={intl.formatMessage(messages.closeButtonLabel)}
+      description={<TransferFailMessage />}
+      buttonLabel={buttonLabel}
+      onButtonClick={onButtonClick}
     />
   )
 }

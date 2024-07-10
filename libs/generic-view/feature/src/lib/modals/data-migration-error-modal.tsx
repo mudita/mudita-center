@@ -4,24 +4,33 @@
  */
 
 import React, { FunctionComponent, useEffect } from "react"
-import { BackupRestoreError, Modal } from "generic-view/ui"
+import { Modal, TransferErrorModal } from "generic-view/ui"
 import { useDispatch, useSelector } from "react-redux"
 import {
-  cleanRestoreProcess,
+  DataMigrationPercentageProgress,
   selectActiveApiDeviceId,
-  selectBackupRestoreStatus,
+  selectDataMigrationStatus,
+  setDataMigrationFeatures,
+  setDataMigrationProgress,
+  setDataMigrationPureDbIndexing,
+  setDataMigrationSourceDevice,
+  setDataMigrationStatus,
   setDeviceErrorModalOpened,
 } from "generic-view/store"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
-const RestoreErrorModal: FunctionComponent = () => {
+export const DataMigrationErrorModal: FunctionComponent = () => {
   const dispatch = useDispatch()
   const activeDevice = useSelector(selectActiveApiDeviceId)
-  const restoreStatus = useSelector(selectBackupRestoreStatus)
-  const opened = restoreStatus === "FAILED" && !activeDevice
+  const dataMigrationStatus = useSelector(selectDataMigrationStatus)
+  const opened = dataMigrationStatus === "FAILED" && !activeDevice
 
   const onClose = () => {
-    dispatch(cleanRestoreProcess())
+    dispatch(setDataMigrationStatus("IDLE"))
+    dispatch(setDataMigrationProgress(DataMigrationPercentageProgress.None))
+    dispatch(setDataMigrationFeatures([]))
+    dispatch(setDataMigrationSourceDevice(undefined))
+    dispatch(setDataMigrationPureDbIndexing(false))
     dispatch(setDeviceErrorModalOpened(false))
   }
 
@@ -36,11 +45,9 @@ const RestoreErrorModal: FunctionComponent = () => {
         size: "small",
         modalLayer: ModalLayers.DisconnectedDeviceError,
       }}
-      componentKey={"restore-error-modal"}
+      componentKey={"data-migration-error-modal"}
     >
-      <BackupRestoreError closeAction={{ type: "custom", callback: onClose }} />
+      <TransferErrorModal onButtonClick={onClose} />
     </Modal>
   )
 }
-
-export default RestoreErrorModal
