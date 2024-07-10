@@ -16,5 +16,5 @@ export interface Device extends DeviceProperties {
 }
 
 export interface CoreDeviceState {
-  devices: Device[]
+  devices: Record<string, Device>
 }
