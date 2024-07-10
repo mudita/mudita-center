@@ -20,6 +20,7 @@ import { getGenericConfig } from "../features/get-generic-config.actions"
 import {
   addDevice,
   removeDevice,
+  setDeviceState,
   setLastRefresh,
   setMenu,
   setViewData,
@@ -177,6 +178,17 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
         config: view,
         data: state.devices[deviceId].features?.[feature]?.data,
       },
+    }
+  })
+  builder.addCase(setDeviceState, (state, action) => {
+    if (action.payload) {
+      const id = action.payload.id
+      const device = state.devices[id]
+      const deviceState = action.payload.state
+      state.devices[id] = {
+        ...device,
+        state: deviceState,
+      }
     }
   })
 })
