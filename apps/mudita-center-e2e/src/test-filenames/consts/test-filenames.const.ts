@@ -18,5 +18,6 @@ export enum TestFilesPaths {
   privacyPolicyTest = "src/specs/settings/privacy-policy.e2e.ts",
   licenseTest = "src/specs/settings/license.e2e.ts",
   helpWindowCheckOfflineTest = "src/specs/help/help-window-check-offline.e2e.ts",
+  kompaktOverview = "src/specs/overview/kompakt-overview.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`

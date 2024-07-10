@@ -3,9 +3,67 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
-import OverviewPage from "./overview.page"
+import { OverviewPage } from "./overview.page"
 
-class OverviewKompaktPage extends OverviewPage {}
+class OverviewKompaktPage extends OverviewPage {
+  public get aboutYourDevice() {
+    return $('[data-testid="button-text_summary-about"]')
+  }
 
+  public get sarInformationButtonKompakt() {
+    return $('[data-testid="button-text_sarmodal-button"]')
+  }
+
+  public get sarInformationPopup() {
+    return $("/html/body/div[10]/div/div")
+  }
+
+  public get sarInformationPopupCloseButton() {
+    return $('[data-testid="icon-close"]')
+  }
+
+  public get backupInfo() {
+    return $(`//div[@componentkey="backupbackup-info"]/p`)
+  }
+
+  public get serialNumberLabel() {
+    return $(`//div[@componentkey="summary-serial-number"]/p[1]`)
+  }
+
+  public get serialNumberValue() {
+    return $(`//div[@componentkey="summary-serial-number"]/p[2]`)
+  }
+
+  public get kompaktImage() {
+    return $('[data-testid="generic-view-image"]')
+  }
+
+  public get kompaktSignalIcon() {
+    return $('[data-testid="icon-network-signal-2"]')
+  }
+
+  public get kompaktNetworkName() {
+    return $('[data-testid="icon-text"]')
+  }
+
+  public get kompaktBatteryIcon() {
+    return $('//div[@data-testid="icon-battery-charging-2"]')
+  }
+
+  public get kompaktBatteryLevelValue() {
+    return $('//h3[text()="Status"]/..//h4[@data-testid="icon-text"]')
+  }
+
+  public get kompaktSimCard1() {
+    return $('[data-testid="icon-subtext"]')
+  }
+
+  public get kompaktOsVersion() {
+    return $('[data-testid="version"]')
+  }
+
+  public get kompaktOsVersionLabel() {
+    return $('[data-testid="version-label"]')
+  }
+}
 export default new OverviewKompaktPage()
