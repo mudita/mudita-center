@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { StatusProps } from "Core/overview/components/status/status.interface"
 import Status from "Core/overview/components/status/status.component"

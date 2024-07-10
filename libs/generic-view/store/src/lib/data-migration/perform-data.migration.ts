@@ -24,14 +24,8 @@ import {
   transferDataToDevice,
 } from "../data-transfer/transfer-data-to-device.action"
 import logger from "Core/__deprecated__/main/utils/logger"
+import { DataMigrationPercentageProgress } from "./data-migration-percentage-progress.interface"
 import { abortDataTransfer } from "../data-transfer/abort-data-transfer.action"
-
-export enum DataMigrationPercentageProgress {
-  None = 0,
-  CollectingData = 1,
-  TransferringData = 10,
-  Finished = 100,
-}
 
 export const performDataMigration = createAsyncThunk<
   void,

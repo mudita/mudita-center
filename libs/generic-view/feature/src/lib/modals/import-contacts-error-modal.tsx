@@ -9,16 +9,16 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   cleanImportProcess,
   importStatusSelector,
-  selectActiveDevice,
+  selectActiveApiDeviceId,
   setDeviceErrorModalOpened,
 } from "generic-view/store"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
 const ImportContactsErrorModal: FunctionComponent = () => {
   const dispatch = useDispatch()
-  const activeDevice = useSelector(selectActiveDevice)
+  const activeDeviceId = useSelector(selectActiveApiDeviceId)
   const importStatus = useSelector(importStatusSelector)
-  const opened = importStatus === "FAILED" && !activeDevice
+  const opened = importStatus === "FAILED" && !activeDeviceId
 
   const onClose = () => {
     dispatch(cleanImportProcess())

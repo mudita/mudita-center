@@ -12,7 +12,7 @@ import {
   setDataMigrationProgress,
   setDataMigrationStatus,
 } from "./actions"
-import { DataMigrationPercentageProgress } from "./perform-data.migration"
+import { DataMigrationPercentageProgress } from "./data-migration-percentage-progress.interface"
 
 export const abortDataMigration = createAsyncThunk<
   void,

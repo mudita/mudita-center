@@ -5,7 +5,7 @@
 
 import React from "react"
 import { waitFor } from "@testing-library/dom"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { screen, fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import {

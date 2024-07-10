@@ -12,9 +12,10 @@ import {
 } from "Core/files-manager/constants"
 import { getFilesRequest } from "Core/files-manager/requests/get-files.request"
 import { File } from "Core/files-manager/dto"
-import { DeviceType, loadDeviceData } from "Core/device"
+import { loadDeviceData } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-active-device-type.selector"
+import { getActiveDeviceTypeSelector } from "device-manager/feature"
 import { FilesManagerState, SoundApp } from "Core/files-manager/reducers"
 
 export const getFiles = createAsyncThunk<

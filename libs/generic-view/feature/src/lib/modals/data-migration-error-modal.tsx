@@ -8,7 +8,7 @@ import { Modal, TransferErrorModal } from "generic-view/ui"
 import { useDispatch, useSelector } from "react-redux"
 import {
   DataMigrationPercentageProgress,
-  selectActiveDevice,
+  selectActiveApiDeviceId,
   selectDataMigrationStatus,
   setDataMigrationFeatures,
   setDataMigrationProgress,
@@ -21,7 +21,7 @@ import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
 export const DataMigrationErrorModal: FunctionComponent = () => {
   const dispatch = useDispatch()
-  const activeDevice = useSelector(selectActiveDevice)
+  const activeDevice = useSelector(selectActiveApiDeviceId)
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
   const opened = dataMigrationStatus === "FAILED" && !activeDevice
 

@@ -4,6 +4,10 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { CoreDeviceState } from "core-device/models"
+import { ActiveDeviceRegistryState } from "active-device-registry/models"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { downloadUpdates } from "Core/update/actions/download-updates/download-updates.action"
@@ -22,10 +26,7 @@ import {
 import { testError } from "Core/__deprecated__/renderer/store/constants"
 import * as downloadOsUpdateRequestModule from "Core/update/requests/download-os-update.request"
 import * as osUpdateAlreadyDownloadedCheckModule from "Core/update/requests/os-update-already-downloaded.request"
-import createMockStore from "redux-mock-store"
-import thunk from "redux-thunk"
 import { trackOsDownload } from "Core/analytic-data-tracker/helpers/track-os-download"
-import { DeviceManagerState } from "Core/device-manager/reducers/device-manager.interface"
 
 jest.mock("Core/analytic-data-tracker/helpers/track-os-download")
 
@@ -63,10 +64,13 @@ const mockedRelease2: OsRelease = {
   mandatoryVersions: [],
 }
 
-const mockedDeviceManagerState = {
+const mockedCoreDeviceState = {
   devices: [{ id: "1" }],
+} as unknown as CoreDeviceState
+
+const mockedActiveDeviceRegistryState = {
   activeDeviceId: "1",
-} as unknown as DeviceManagerState
+} as unknown as ActiveDeviceRegistryState
 
 const params = { releases: [mockedRelease, mockedRelease2] }
 
@@ -128,7 +132,11 @@ describe("when some of the updates have been downloaded before", () => {
           batteryLevel: 0.55,
         },
       },
-      deviceManager: mockedDeviceManagerState,
+      coreDevice: mockedCoreDeviceState,
+      activeDeviceRegistry: mockedActiveDeviceRegistryState,
+      genericViews: {
+        devices: [],
+      }
     })
 
     const {
@@ -187,7 +195,11 @@ describe("when update downloads successfully", () => {
           batteryLevel: 0.55,
         },
       },
-      deviceManager: mockedDeviceManagerState,
+      coreDevice: mockedCoreDeviceState,
+      activeDeviceRegistry: mockedActiveDeviceRegistryState,
+      genericViews: {
+        devices: [],
+      }
     })
 
     const {
@@ -242,7 +254,11 @@ describe("when download is cancelled by user", () => {
           batteryLevel: 0.55,
         },
       },
-      deviceManager: mockedDeviceManagerState,
+      coreDevice: mockedCoreDeviceState,
+      activeDeviceRegistry: mockedActiveDeviceRegistryState,
+      genericViews: {
+        devices: [],
+      }
     })
 
     const {
@@ -290,7 +306,11 @@ describe("when download failed", () => {
           batteryLevel: 0.55,
         },
       },
-      deviceManager: mockedDeviceManagerState,
+      coreDevice: mockedCoreDeviceState,
+      activeDeviceRegistry: mockedActiveDeviceRegistryState,
+      genericViews: {
+        devices: [],
+      }
     })
 
     const {

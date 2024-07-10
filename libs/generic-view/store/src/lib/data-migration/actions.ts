@@ -7,7 +7,7 @@ import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
 import { DataMigrationFeature } from "generic-view/models"
 import { DataMigrationStatus } from "./reducer"
-import { DataMigrationPercentageProgress } from "./perform-data.migration"
+import { DataMigrationPercentageProgress } from "./data-migration-percentage-progress.interface"
 
 export const setDataMigrationSourceDevice = createAction<string | undefined>(
   ActionName.SetDataMigrationSourceDevice

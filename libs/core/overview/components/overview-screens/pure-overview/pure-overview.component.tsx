@@ -6,7 +6,7 @@
 import ErrorSyncModal from "Core/connecting/components/error-sync-modal/error-sync-modal"
 import { State } from "Core/core/constants"
 import { SynchronizationStatus } from "Core/data-sync/reducers"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { Feature, flags } from "Core/feature-flags"
 import BackupDeviceFlow, {
   BackupDeviceFlowState,
@@ -29,7 +29,7 @@ import { CheckForUpdateState } from "Core/update/constants/check-for-update-stat
 import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 import { useSelector } from "react-redux"
-import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
+import { isActiveDeviceAttachedSelector } from "device-manager/feature"
 import { selectDeviceErrorModalOpened } from "generic-view/store"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
