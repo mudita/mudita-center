@@ -3,12 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { find } from "lodash"
+import { findIndex, pullAt, find } from "lodash"
 import { PortInfo } from "serialport"
 import { AddKompakt, AddKompaktResponse } from "./mock-descriptor-validators"
 import {
+  ApiResponseWithConfig,
+  ApiResponsesWithConfigArray,
   DEFAULT_RESPONSES,
-  MockResponsesMap,
   MocksArrayResponsesMap,
 } from "e2e-mock-responses"
 import { APIEndpointType, APIMethodsType } from "device/models"
@@ -23,7 +24,7 @@ const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
 }
 
 class MockDescriptor {
-  private _mockResponsesPerDevice: Record<string, MockResponsesMap> = {}
+  private _mockResponsesPerDevice: Record<string, MocksArrayResponsesMap> = {}
   private _mockResponsesPerDeviceOnce: Record<string, MocksArrayResponsesMap> =
     {}
 
@@ -55,15 +56,30 @@ class MockDescriptor {
     method,
     path,
     status,
+    match,
   }: AddKompaktResponse) {
+    const currentResponses =
+      this._mockResponsesPerDevice[path]?.[endpoint]?.[method] ?? []
+
+    const filteredResponses = currentResponses.filter((item) => {
+      if (match?.options?.id === item.match?.options?.id) {
+        return false
+      }
+      return true
+    })
+
     this._mockResponsesPerDevice[path] = {
       ...this._mockResponsesPerDevice[path],
       [endpoint]: {
         ...this._mockResponsesPerDevice[path]?.[endpoint],
-        [method]: {
-          status,
-          body,
-        },
+        [method]: [
+          ...filteredResponses,
+          {
+            status,
+            body,
+            match,
+          },
+        ],
       },
     }
   }
@@ -74,16 +90,28 @@ class MockDescriptor {
     method,
     path,
     status,
+    match,
   }: AddKompaktResponse) {
+    const currentResponses =
+      this._mockResponsesPerDevice[path]?.[endpoint]?.[method] ?? []
+
+    const filteredResponses = currentResponses.filter((item) => {
+      if (match?.options?.id === item.match?.options?.id) {
+        return false
+      }
+      return true
+    })
+
     this.setResponseOnce({
       path,
       endpoint,
       method,
       responses: [
-        ...(this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method] ?? []),
+        ...filteredResponses,
         {
           status,
           body,
+          match,
         },
       ],
     })
@@ -95,7 +123,7 @@ class MockDescriptor {
     method,
     responses,
   }: Pick<AddKompaktResponse, "path" | "method" | "endpoint"> & {
-    responses: ApiResponse<unknown>[]
+    responses: ApiResponseWithConfig[]
   }) {
     this._mockResponsesPerDeviceOnce[path] = {
       ...this._mockResponsesPerDeviceOnce[path],
@@ -106,32 +134,98 @@ class MockDescriptor {
     }
   }
 
+  private findResponse(
+    responses: ApiResponsesWithConfigArray,
+    body: Record<string, unknown> | undefined
+  ) {
+    const matchArray = responses.map((item) => item.match?.expected)
+    const matchIndex = findIndex(matchArray, body)
+    if (matchIndex > -1) {
+      const response = responses[matchIndex]
+
+      return {
+        response,
+        index: matchIndex,
+      }
+    }
+
+    const index = findIndex(responses, (item) => !item.match)
+
+    if (index > -1) {
+      const response = responses[index]
+      console.log(index, response)
+      return {
+        response,
+        index: index,
+      }
+    }
+
+    return
+  }
+
+  private getPerDeviceOnceResponse(
+    path: string,
+    endpoint: APIEndpointType,
+    method: APIMethodsType,
+    body: Record<string, unknown> | undefined
+  ): ApiResponse<unknown> | undefined {
+    const perDeviceOnceResponses =
+      this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method]
+    if (perDeviceOnceResponses !== undefined) {
+      const foundResponse = this.findResponse(perDeviceOnceResponses, body)
+      if (foundResponse) {
+        pullAt(perDeviceOnceResponses, [foundResponse.index])
+        this.setResponseOnce({
+          path,
+          endpoint,
+          method,
+          responses: perDeviceOnceResponses,
+        })
+        return foundResponse.response
+      }
+    }
+    return undefined
+  }
+
+  private getPerDeviceResponse(
+    path: string,
+    endpoint: APIEndpointType,
+    method: APIMethodsType,
+    body: Record<string, unknown> | undefined
+  ): ApiResponse<unknown> | undefined {
+    const perDeviceResponses =
+      this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
+    if (perDeviceResponses !== undefined) {
+      const foundResponse = this.findResponse(perDeviceResponses, body)
+
+      if (foundResponse) {
+        return foundResponse.response
+      }
+    }
+    return undefined
+  }
+
   public getResponse(
     path: string,
     endpoint: APIEndpointType,
-    method: APIMethodsType
+    method: APIMethodsType,
+    body: Record<string, unknown> | undefined
   ): ApiResponse<unknown> | undefined {
-    const perDeviceOnceResponse =
-      this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method]
-    if (
-      perDeviceOnceResponse !== undefined &&
-      perDeviceOnceResponse.length > 0
-    ) {
-      const response: ApiResponse<unknown> | undefined =
-        perDeviceOnceResponse.pop()
-      this.setResponseOnce({
-        path,
-        endpoint,
-        method,
-        responses: perDeviceOnceResponse,
-      })
+    const onceResponse = this.getPerDeviceOnceResponse(
+      path,
+      endpoint,
+      method,
+      body
+    )
+    if (onceResponse) {
+      return onceResponse
+    }
+
+    const response = this.getPerDeviceResponse(path, endpoint, method, body)
+    if (response) {
       return response
     }
-    const perDeviceResponse: ApiResponse<unknown> | undefined =
-      this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
-    if (perDeviceResponse !== undefined) {
-      return perDeviceResponse
-    }
+
     const defaultResponse: ApiResponse<unknown> | undefined =
       DEFAULT_RESPONSES[endpoint]?.[method]
 
