@@ -5,7 +5,7 @@
 
 import styled from "styled-components"
 
-export const Badge = styled.div`
+export const BadgeWithIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
