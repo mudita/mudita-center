@@ -6,7 +6,7 @@
 import { PortInfo } from "serialport"
 import { APIEndpointType, APIRequestWithPayload } from "device/models"
 import { BaseDevice } from "Core/device/modules/base-device"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { Result, ResultObject } from "Core/core/builder"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { AppError } from "Core/core/errors"
