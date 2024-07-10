@@ -7,42 +7,50 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { delay } from "shared/utils"
+import { connectDevice, getActiveDevice } from "device-manager/feature"
+import { configureDevice } from "core-device/feature"
+import { DeviceType } from "device-protocol/models"
+import { getAPIConfig } from "generic-view/store"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
 import { TmpDispatch } from "Core/__deprecated__/renderer/store"
-import { connectDevice } from "device-manager/feature"
-import { activeDeviceIdSelector } from "active-device-registry/feature"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_DISCOVERY_DEVICE,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { configureDevice } from "core-device/feature"
 
 const DeviceConnecting: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<TmpDispatch>()
-  const activeDeviceId = useSelector(activeDeviceIdSelector)
+  const activeDevice = useSelector(getActiveDevice)
 
   useEffect(() => {
     const handleConnectDevice = async () => {
-      if (activeDeviceId !== undefined) {
-        const { payload: ok } = await dispatch(connectDevice(activeDeviceId))
-
-        if (ok) {
-          await dispatch(configureDevice(activeDeviceId))
-          history.push(URL_DEVICE_INITIALIZATION.root)
-        } else {
-          await delay(500)
-          history.push(URL_ONBOARDING.troubleshooting)
-        }
-      } else {
+      if (activeDevice?.id === undefined) {
         history.push(URL_DISCOVERY_DEVICE.root)
+        return
       }
+
+      await delay(500)
+      const { payload: ok } = await dispatch(connectDevice(activeDevice.id))
+
+      if (!ok) {
+        history.push(URL_ONBOARDING.troubleshooting)
+        return
+      }
+
+      if (activeDevice.deviceType !== DeviceType.APIDevice) {
+        await dispatch(configureDevice(activeDevice.id))
+      } else {
+        await dispatch(getAPIConfig({ deviceId: activeDevice.id }))
+      }
+
+      history.push(URL_DEVICE_INITIALIZATION.root)
     }
 
     void handleConnectDevice()
-  }, [history, dispatch, activeDeviceId])
+  }, [history, dispatch, activeDevice])
 
   return <ConnectingContent />
 }
