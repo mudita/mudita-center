@@ -65,7 +65,7 @@ describe("async `deleteContacts` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
-        deviceManager: {
+        activeDeviceRegistry: {
           activeDeviceId: "",
         },
       })
@@ -99,7 +99,7 @@ describe("async `deleteContacts` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
-        deviceManager: {
+        activeDeviceRegistry: {
           activeDeviceId: "",
         },
       })
@@ -127,7 +127,7 @@ describe("async `deleteContacts` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
-        deviceManager: {
+        activeDeviceRegistry: {
           activeDeviceId: "",
         },
       })

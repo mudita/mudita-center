@@ -8,7 +8,7 @@ import {
   TrackOsUpdateState,
   TrackOsUpdateOptions,
 } from "Core/analytic-data-tracker/helpers/track-os-update"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { trackRequest } from "Core/analytic-data-tracker/requests"
 import { TrackEventCategory } from "Core/analytic-data-tracker/constants"
 

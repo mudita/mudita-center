@@ -4,9 +4,9 @@
  */
 
 import React from "react"
+import { DeviceType } from "device-protocol/models"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import BatteryIcon from "Core/__deprecated__/renderer/components/core/icon/battery-icon.component"
-import { DeviceType } from "Core/device"
 
 describe("battery icon returns correct component", () => {
   const testScenario = [

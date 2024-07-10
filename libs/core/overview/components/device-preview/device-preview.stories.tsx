@@ -6,7 +6,7 @@
 import React from "react"
 import styled from "styled-components"
 import { storiesOf } from "@storybook/react"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { DevicePreview } from "Core/overview/components/device-preview/device-preview.component"
 
 const Part = styled.div`

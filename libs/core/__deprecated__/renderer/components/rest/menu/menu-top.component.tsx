@@ -5,6 +5,7 @@
 
 import React from "react"
 import styled from "styled-components"
+import { DeviceType } from "device-protocol/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import {
@@ -16,7 +17,6 @@ import {
 import MenuGroup from "Core/__deprecated__/renderer/components/rest/menu/menu-group.component"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
-import { DeviceType } from "Core/device"
 import { View } from "Core/__deprecated__/renderer/constants/views"
 
 const LogoWrapper = styled.div`
