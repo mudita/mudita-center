@@ -25,7 +25,7 @@ import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { Badge } from "generic-view/ui"
+import { BadgeWithIcon } from "Core/__deprecated__/renderer/components/core/badge/badge-with-icon.component"
 
 const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },
@@ -119,12 +119,12 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
   return (
     <Container className={className} onClick={() => onDeviceClick(id)}>
       {deviceType === DeviceType.MuditaHarmonyMsc && (
-        <Badge>
+        <BadgeWithIcon>
           <Icon type={IconType.RecoveryModeWhite} />
           <Text displayStyle={TextDisplayStyle.Paragraph3} color="active">
             {intl.formatMessage(messages.recoveryMode)}
           </Text>
-        </Badge>
+        </BadgeWithIcon>
       )}
       <DeviceImageWrapper>
         <DeviceImageStyled deviceType={deviceType} caseColour={caseColour} />

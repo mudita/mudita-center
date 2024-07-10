@@ -22,7 +22,7 @@ import { CaseColour } from "core-device/models"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
-import { Badge } from "generic-view/ui"
+import { BadgeWithIcon } from "Core/__deprecated__/renderer/components/core/badge/badge-with-icon.component"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
@@ -130,14 +130,14 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
       onClick={deviceId === activeDeviceId ? () => {} : onClick}
     >
       {deviceType === DeviceType.MuditaHarmonyMsc && (
-        <Badge>
+        <BadgeWithIcon>
           <Icon type={IconType.RecoveryModeWhite} />
           <Text displayStyle={TextDisplayStyle.Paragraph3} color="active">
             {intl.formatMessage({
               id: "module.availableDeviceList.recoveryMode",
             })}
           </Text>
-        </Badge>
+        </BadgeWithIcon>
       )}
       <DeviceImageContainer>
         <DeviceImageStyled deviceType={deviceType} caseColour={caseColour} />
