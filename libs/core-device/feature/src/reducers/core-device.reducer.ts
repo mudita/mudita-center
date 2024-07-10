@@ -5,7 +5,7 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { DeviceState } from "device-manager/models"
-import { Device, CoreDeviceState } from "core-device/models"
+import { CoreDeviceState } from "core-device/models"
 import {
   addDevice,
   removeDevice,
@@ -14,7 +14,7 @@ import {
 } from "../actions"
 
 export const initialState: CoreDeviceState = {
-  devices: [],
+  devices: {},
 }
 
 export const coreDeviceReducer = createReducer<CoreDeviceState>(
@@ -22,75 +22,34 @@ export const coreDeviceReducer = createReducer<CoreDeviceState>(
   (builder) => {
     builder
       .addCase(addDevice, (state, action) => {
-        const devices = [...state.devices]
-        devices.push({
+        state.devices[action.payload.id] = {
           caseColour: undefined,
           state: DeviceState.Connected,
           ...action.payload,
-        })
-
-        return {
-          ...state,
-          devices,
         }
       })
       .addCase(removeDevice, (state, action) => {
-        const devices = state.devices.filter(
-          ({ id }) => id !== action.payload.id
-        )
-
-        return {
-          ...state,
-          devices,
-        }
+        delete state.devices[action.payload.id]
       })
       .addCase(configureDevice.fulfilled, (state, action) => {
-        const devices = state.devices.reduce((prev, device) => {
-          const payload = action.payload
-          if (device.id === payload.id) {
-            return [
-              ...prev,
-              {
-                ...device,
-                caseColour: payload.caseColour ?? device.caseColour,
-                serialNumber: payload.serialNumber ?? device.serialNumber,
-                state: DeviceState.Configured,
-              },
-            ]
-          } else {
-            return [...prev, device]
-          }
-        }, [] as Device[])
-
-        return {
-          ...state,
-          devices,
+        const id = action.payload.id
+        const device = state.devices[id]
+        state.devices[id] = {
+          ...device,
+          caseColour: action.payload.caseColour ?? device.caseColour,
+          serialNumber: action.payload.serialNumber ?? device.serialNumber,
+          state: DeviceState.Configured,
         }
       })
       .addCase(setDeviceState, (state, action) => {
-        if (!action.payload) {
-          return { ...state }
-        }
-
-        const devices = state.devices.reduce((prev, device) => {
+        if (action.payload) {
           const id = action.payload.id
+          const device = state.devices[id]
           const deviceState = action.payload.state
-          if (device.id === id) {
-            return [
-              ...prev,
-              {
-                ...device,
-                state: deviceState,
-              },
-            ]
-          } else {
-            return [...prev, device]
+          state.devices[id] = {
+            ...device,
+            state: deviceState,
           }
-        }, [] as Device[])
-
-        return {
-          ...state,
-          devices,
         }
       })
   }
