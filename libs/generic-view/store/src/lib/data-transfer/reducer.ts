@@ -11,6 +11,7 @@ import {
   setDataTransferStatus,
 } from "./actions"
 import { transferDataToDevice } from "./transfer-data-to-device.action"
+import { ApiFileTransferError } from "device/models"
 
 type Domain = string
 
@@ -32,6 +33,7 @@ export type DataTransfer = Record<Domain, { status: DomainTransferStatus }>
 export interface DataTransferState {
   transfer: DataTransfer
   status: DataTransferStatus
+  errorType?: ApiFileTransferError
   abortController?: AbortController
 }
 
@@ -49,15 +51,17 @@ export const genericDataTransferReducer = createReducer(
         ...action.payload,
       }
     })
-    builder.addCase(clearDataTransfer, (state, action) => {
+    builder.addCase(clearDataTransfer, (state) => {
+      console.log("clearDataTransfer")
       state.transfer = {}
       state.status = "IDLE"
     })
-    builder.addCase(transferDataToDevice.pending, (state, action) => {
+    builder.addCase(transferDataToDevice.pending, (state) => {
       state.status = "IN-PROGRESS"
     })
     builder.addCase(transferDataToDevice.rejected, (state, action) => {
       state.status = "FAILED"
+      state.errorType = action.payload as ApiFileTransferError
     })
     builder.addCase(setDataTransferStatus, (state, action) => {
       state.status = action.payload

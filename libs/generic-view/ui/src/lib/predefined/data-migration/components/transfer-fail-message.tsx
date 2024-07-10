@@ -10,9 +10,11 @@ import {
   selectDataMigrationFeatures,
   selectDataMigrationStatus,
   selectDataTransferDomains,
+  selectDataTransferErrorType,
 } from "generic-view/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { isEmpty } from "lodash"
+import { ApiFileTransferError } from "device/models"
 
 const messages = defineMessages({
   genericDescription: {
@@ -27,6 +29,9 @@ const messages = defineMessages({
   failedPartialChangesDescription: {
     id: "module.genericViews.dataMigration.transferError.partialChangesDescription",
   },
+  notEnoughSpace: {
+    id: "module.genericViews.dataMigration.transferError.notEnoughSpace",
+  },
 })
 
 export const TransferFailMessage: FunctionComponent = () => {
@@ -34,14 +39,24 @@ export const TransferFailMessage: FunctionComponent = () => {
   const transferDomains = useSelector(selectDataTransferDomains)
   const transferDomainsRef = useRef<typeof transferDomains>()
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
+  const dataTransferErrorType = useSelector(selectDataTransferErrorType)
 
   const description = useMemo(() => {
     const domains = isEmpty(transferDomainsRef.current)
       ? transferDomains
       : transferDomainsRef.current
 
+    const notEnoughSpaceDescription =
+      dataTransferErrorType === ApiFileTransferError.NotEnoughSpace &&
+      intl.formatMessage(messages.notEnoughSpace)
+
     if (isEmpty(domains)) {
-      return <p>{intl.formatMessage(messages.genericDescription)}</p>
+      return (
+        <p>
+          {notEnoughSpaceDescription}{"\n"}
+          {intl.formatMessage(messages.genericDescription)}
+        </p>
+      )
     }
 
     const transferredDomains = Object.entries(domains)
@@ -59,6 +74,7 @@ export const TransferFailMessage: FunctionComponent = () => {
     return (
       <div>
         <p style={{ marginBottom: "1.4rem" }}>
+          {notEnoughSpaceDescription}{"\n"}
           {intl.formatMessage(
             dataMigrationStatus === "CANCELLED"
               ? messages.cancelledPartialChangesDescription
