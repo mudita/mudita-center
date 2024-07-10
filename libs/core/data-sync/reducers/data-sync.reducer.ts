@@ -3,17 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { createReducer } from "@reduxjs/toolkit"
+import { DeviceManagerEvent } from "device-manager/models"
 import {
   DataSyncState,
   SynchronizationStatus,
 } from "Core/data-sync/reducers/data-sync.interface"
-import { createReducer } from "@reduxjs/toolkit"
-import {
-  setDataSyncInitState,
-  setDataSyncSetStatus,
-  updateAllIndexes,
-} from "Core/data-sync/actions"
+import { setDataSyncSetStatus, updateAllIndexes } from "Core/data-sync/actions"
 import { AppError } from "Core/core/errors"
+import { pendingAction } from "Core/__deprecated__/renderer/store/helpers"
 
 export const initialState: DataSyncState = {
   status: SynchronizationStatus.Empty,
@@ -24,7 +22,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
   initialState,
   (builder) => {
     builder
-      .addCase(setDataSyncInitState, () => {
+      .addCase(pendingAction(DeviceManagerEvent.DeactivateDevice), () => {
         return {
           ...initialState,
         }
