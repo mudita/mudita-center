@@ -14,7 +14,7 @@ import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/rende
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
-import { CaseColour } from "Core/device"
+import { CaseColour } from "core-device/models"
 
 jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
   generateApplicationId: () => "123",

@@ -4,11 +4,11 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
+import { DeviceManagerEvent } from "device-manager/models"
 import {
   loadDeviceData,
   loadStorageInfoAction,
   setCriticalBatteryLevelStatus,
-  setInitState,
   setLockTime,
   setOnboardingStatus,
   setRestartingStatus,
@@ -17,6 +17,7 @@ import {
 import { DeviceState } from "Core/device/reducers/device.interface"
 import { AppError } from "Core/core/errors"
 import { getOnboardingStatus } from "Core/device/actions/get-onboarding-status.action"
+import { pendingAction } from "Core/__deprecated__/renderer/store/helpers"
 
 export const initialState: DeviceState = {
   deviceType: null,
@@ -36,7 +37,7 @@ export const deviceReducer = createReducer<DeviceState>(
   initialState,
   (builder) => {
     builder
-      .addCase(setInitState, () => {
+      .addCase(pendingAction(DeviceManagerEvent.DeactivateDevice), () => {
         return {
           ...initialState,
         }

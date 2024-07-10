@@ -80,7 +80,14 @@ import installExtension, {
   REDUX_DEVTOOLS,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer"
-import { AppEvents, callRenderer, getMainAppWindow } from "shared/utils"
+import {
+  AppEvents,
+  callRenderer,
+  getMainAppWindow,
+  openDevToolsOnceDomReady,
+  preventDefaultShortcuts,
+  registerShortcuts,
+} from "shared/utils"
 import { mockServiceEnabled, startServer, stopServer } from "e2e-mock-server"
 
 // AUTO DISABLED - fix me if you like :)
@@ -184,12 +191,6 @@ const createWindow = async () => {
   require("@electron/remote/main").enable(win.webContents)
   win.removeMenu()
 
-  win.webContents.on("before-input-event", (event, input) => {
-    if ((input.control || input.meta) && input.key.toLowerCase() === "r") {
-      event.preventDefault()
-    }
-  })
-
   win.on("closed", () => {
     win = null
     app.exit()
@@ -250,26 +251,9 @@ const createWindow = async () => {
     }
   })
 
-  if (productionEnvironment) {
-    win.webContents.once("dom-ready", () => {
-      appModules.lateInitialization()
-    })
-  } else {
-    // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
-    win.webContents.once("dom-ready", () => {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      win!.webContents.openDevTools()
-      appModules.lateInitialization()
-    })
-
-    win.webContents.once("dom-ready", () => {
-      win!.webContents.once("devtools-opened", () => {
-        win!.focus()
-      })
-      win!.webContents.openDevTools()
-    })
-  }
+  win.webContents.once("dom-ready", () => {
+    appModules.lateInitialization()
+  })
 
   logger.updateMetadata()
 }
@@ -280,6 +264,12 @@ if (!gotTheLock) {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.on("ready", createWindow)
+
+  app.on("browser-window-created", (_event, window) => {
+    preventDefaultShortcuts(window)
+    registerShortcuts(window)
+    openDevToolsOnceDomReady(window)
+  })
 
   app.on("before-quit", () => {
     stopServer()

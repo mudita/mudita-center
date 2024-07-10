@@ -3,42 +3,44 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
-import Text, {
-  TextDisplayStyle,
-} from "Core/__deprecated__/renderer/components/core/text/text.component"
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 
-import Loader from "Core/__deprecated__/renderer/components/core/loader/loader.component"
-import { LoaderType } from "Core/__deprecated__/renderer/components/core/loader/loader.interface"
+import React from "react"
 import styled from "styled-components"
-import { backgroundColor } from "Core/core/styles/theming/theme-getters"
+import { defineMessages } from "react-intl"
+import { SpinnerLoader } from "generic-view/ui"
+import { GenericThemeProvider } from "generic-view/theme"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  connectingMessage: {
+    id: "module.onboarding.connectingMessage",
+  },
+  connectingLongMessage: {
+    id: "module.onboarding.connectingLongMessage",
+  },
+})
 
 export const Container = styled.section`
-  display: grid;
-  grid-template-areas: "Header" "Main" "Footer";
-  grid-row-gap: 0;
-  grid-template-rows: 6.5rem 1fr 14rem;
-
-  main {
-    grid-area: Main;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-`
-
-const LoaderWrapper = styled.div`
-  width: 20rem;
-  height: 20rem;
   display: flex;
-  border-radius: 50%;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: ${backgroundColor("icon")};
-  margin-bottom: 4rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: auto;
+`
+
+const ConnectingText = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.headline3};
+  line-height: ${({ theme }) => theme.lineHeight.headline3};
+  color: ${({ theme }) => theme.color.white};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  margin: 2.4rem 0 0;
 `
 
 interface Props {
@@ -46,23 +48,20 @@ interface Props {
   longerConnection?: boolean
 }
 
-const ConnectingContent: FunctionComponent<Props> = ({ longerConnection = false }) => {
+const ConnectingContent: FunctionComponent<Props> = ({
+  longerConnection = false,
+}) => {
   return (
-    <Container>
-      <main>
-        <LoaderWrapper>
-          <Loader type={LoaderType.Spinner} size={6} />
-        </LoaderWrapper>
-        <Text
-          displayStyle={TextDisplayStyle.Headline3}
-          message={{
-            id: longerConnection
-              ? "module.onboarding.connectingLongMessage"
-              : "module.onboarding.connectingMessage",
-          }}
-        />
-      </main>
-    </Container>
+    <GenericThemeProvider>
+      <Container>
+        <SpinnerLoader />
+        <ConnectingText>
+          {longerConnection
+            ? intl.formatMessage(messages.connectingLongMessage)
+            : intl.formatMessage(messages.connectingMessage)}
+        </ConnectingText>
+      </Container>
+    </GenericThemeProvider>
   )
 }
 

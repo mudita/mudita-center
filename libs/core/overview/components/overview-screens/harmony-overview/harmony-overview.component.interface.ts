@@ -5,7 +5,8 @@
 
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
-import { CaseColour, DeviceType } from "Core/device/constants"
+import { CaseColour } from "core-device/models"
+import { DeviceType } from "device-protocol/models"
 import {
   CheckForUpdateMode,
   DownloadState,
