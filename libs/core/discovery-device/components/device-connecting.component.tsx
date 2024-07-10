@@ -10,14 +10,14 @@ import { delay } from "shared/utils"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
 import { TmpDispatch } from "Core/__deprecated__/renderer/store"
-import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
+import { connectDevice } from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_DISCOVERY_DEVICE,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { connectDevice } from "Core/device-manager/actions/connect-device.action"
-import { configureDevice } from "Core/device-manager/actions/configure-device.action"
+import { configureDevice } from "core-device/feature"
 
 const DeviceConnecting: FunctionComponent = () => {
   const history = useHistory()

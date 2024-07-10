@@ -5,7 +5,7 @@
 
 import { RequestConfig } from "Core/device/types/mudita-os"
 import { ResultObject } from "Core/core/builder"
-import { DeviceCommunicationError } from "Core/device"
+import { DeviceCommunicationError } from "core-device/models"
 
 export interface DeviceStrategy {
   connect(): Promise<ResultObject<undefined>>

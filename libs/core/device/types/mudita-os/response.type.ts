@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ResponseStatus, Endpoint } from "Core/device/constants"
+import { Endpoint } from "core-device/models"
+import { ResponseStatus } from "Core/device/constants"
 import { ResponseError } from "Core/device/types/mudita-os/response-error.type"
 
 export interface Response<Body = undefined> {

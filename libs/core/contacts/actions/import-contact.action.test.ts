@@ -83,7 +83,7 @@ describe("async `importContact` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
-        deviceManager: {
+        activeDeviceRegistry: {
           activeDeviceId: importContactArg.activeDeviceId,
         },
       })
@@ -117,7 +117,7 @@ describe("async `importContact` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
-        deviceManager: {
+        activeDeviceRegistry: {
           activeDeviceId: importContactArg.activeDeviceId,
         },
       })
@@ -153,7 +153,7 @@ describe("async `importContact` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
-        deviceManager: {
+        activeDeviceRegistry: {
           activeDeviceId: importContactArg.activeDeviceId,
         },
       })

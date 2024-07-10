@@ -8,7 +8,7 @@ import { Meta } from "@storybook/react"
 import Story from "Core/__deprecated__/renderer/components/storybook/story.component"
 import { action } from "@storybook/addon-actions"
 import { TooLowBatteryModal } from "Core/overview/components/update-os-modals/too-low-battery-modal/too-low-battery-modal.component"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 
 export const TooLowBatteryModalStory: FunctionComponent = () => {
   return (

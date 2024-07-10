@@ -7,9 +7,6 @@ import { createAction } from "@reduxjs/toolkit"
 import { BackupEvent } from "Core/backup/constants"
 import { Backup } from "Core/backup/dto"
 
-export const setInitialBackupState = createAction(
-  BackupEvent.SetInitialBackupState
-)
 export const setBackupData = createAction<Backup[]>(BackupEvent.SetBackupData)
 
 export const readBackupDeviceDataState = createAction(

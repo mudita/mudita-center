@@ -8,7 +8,8 @@ import { Backup, RestoreBackup } from "Core/backup/dto"
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
 import { SynchronizationStatus } from "Core/data-sync/reducers"
-import { CaseColour, DeviceType } from "Core/device/constants"
+import { CaseColour } from "core-device/models"
+import { DeviceType } from "device-protocol/models"
 import { MemorySpace } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 import {
   CheckForUpdateMode,
