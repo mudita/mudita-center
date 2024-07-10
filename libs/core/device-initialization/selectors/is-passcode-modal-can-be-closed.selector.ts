@@ -5,7 +5,7 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { updateStateSelector } from "Core/update/selectors/update-state-selector"
-import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 
 export const isPasscodeModalCanBeClosedSelector = createSelector(
   updateStateSelector,

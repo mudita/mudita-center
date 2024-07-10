@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColour, DeviceType } from "Core/device"
+import { CaseColour } from "core-device/models"
+import { DeviceType } from "device-protocol/models"
 
 export const DeviceNames = {
   Pure: "Pure",

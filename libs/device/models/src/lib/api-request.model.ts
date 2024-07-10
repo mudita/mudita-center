@@ -58,6 +58,7 @@ export interface APIRequestWithPayload<
   Body = Record<string, unknown>
 > extends APIRequestConfig<T> {
   body?: Body
+  options?: { connectionTimeOut?: number }
 }
 
 export interface APIRequestData {

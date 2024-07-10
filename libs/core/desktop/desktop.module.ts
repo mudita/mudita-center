@@ -10,14 +10,14 @@ import { FileSystemService } from "Core/file-system/services/file-system.service
 import { AppLogger } from "Core/__deprecated__/main/utils/logger"
 import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import { DesktopController } from "Core/desktop/desktop.controller"
 import { DesktopService } from "Core/desktop/desktop.service"
 
 export class DesktopModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceProtocol: DeviceProtocol,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -26,7 +26,7 @@ export class DesktopModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocol,
       keyStorage,
       logger,
       ipc,

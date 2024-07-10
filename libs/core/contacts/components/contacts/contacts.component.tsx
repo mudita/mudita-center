@@ -23,10 +23,7 @@ import { ContactSection } from "Core/contacts/components/contacts/contacts.style
 import { defineMessages } from "react-intl"
 import useURLSearchParams from "Core/__deprecated__/renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "Core/contacts/helpers/find-contact-by-phone-number/find-contact-by-phone-number"
-import {
-  ExternalProvider,
-  Provider,
-} from "generic-view/store"
+import { ExternalProvider, Provider } from "generic-view/store"
 import delayResponse from "@appnroll/delay-response"
 import {
   ErrorDataModal,
@@ -57,7 +54,7 @@ import { filterContacts } from "Core/contacts/helpers/filter-contacts/filter-con
 import { AppError } from "Core/core/errors"
 import { RequestResponseStatus } from "Core/core/types"
 import createFile from "Core/__deprecated__/renderer/utils/create-file/create-file"
-import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 
 const allPossibleFormErrorCausedByAPI: FormError[] = [
   {
@@ -99,7 +96,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   editContact,
   deleteContacts,
   authorize,
-  getPaths,
+  openFileRequest,
   exportContacts,
   addNewContactsToState,
   resetAllItems,
@@ -433,7 +430,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   // Synchronization, step 2a: file select
   const importFromFile = async () => {
-    const { payload: getPathsPayload } = await getPaths({
+    const openFileResult = await openFileRequest({
       filters: [
         {
           name: "vcf",
@@ -442,7 +439,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       ],
       properties: ["openFile", "multiSelections"],
     })
-    const { ok, data: paths } = getPathsPayload
+    const { ok, data: paths } = openFileResult
 
     const files =
       ok && paths !== undefined ? paths.map((path) => createFile(path)) : []

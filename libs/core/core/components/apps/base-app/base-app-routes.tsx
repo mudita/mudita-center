@@ -59,7 +59,7 @@ export default () => (
       </Route>
 
       <Route exact path={[...Object.values(URL_DISCOVERY_DEVICE)]}>
-        <LayoutBlankWrapper>
+        <LayoutBlankWrapper closeable={false}>
           <Route
             path={URL_DISCOVERY_DEVICE.root}
             component={ConfiguredDevicesDiscovery}
@@ -79,7 +79,7 @@ export default () => (
       </Route>
 
       <Route exact path={[...Object.values(URL_DEVICE_INITIALIZATION)]}>
-        <LayoutBlankWrapper>
+        <LayoutBlankWrapper closeable={false}>
           <Route
             path={URL_DEVICE_INITIALIZATION.root}
             component={DevicesInitialization}

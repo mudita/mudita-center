@@ -5,16 +5,12 @@
 
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import {
-  Endpoint,
-  Method,
-  DiagnosticsFileList,
-  DeviceCommunicationError,
-} from "Core/device/constants"
+import { DiagnosticsFileList } from "Core/device/constants"
+import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
 import { GetDeviceFilesResponseBody } from "Core/device/types/mudita-os"
 import { DeviceLogService } from "Core/device-log/services/device-log.service"
 import { DeviceEnumError } from "Core/device-log/constants"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import {
@@ -22,17 +18,17 @@ import {
   secondsPartDecodeLog,
 } from "Root/jest/testing-support/mocks/diagnostic-data.mock"
 
-const deviceManagerMock = {
+const deviceProtocol = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocol
 
 const deviceFileSystemMock = {
   downloadDeviceFiles: jest.fn(),
 } as unknown as DeviceFileSystemService
 
-const subject = new DeviceLogService(deviceManagerMock, deviceFileSystemMock)
+const subject = new DeviceLogService(deviceProtocol, deviceFileSystemMock)
 
 const deviceInfoErrorResponse: ResultObject<unknown> = Result.failed(
   new AppError(DeviceCommunicationError.RequestFailed, "Something went wrong", {
@@ -45,7 +41,7 @@ const deviceInfoSuccessResponse: ResultObject<GetDeviceFilesResponseBody> =
 
 describe("Method: `downloadDeviceLogs`", () => {
   test("returns Result.failed if DeviceInfo endpoint response with error", async () => {
-    deviceManagerMock.device.request = jest
+    deviceProtocol.device.request = jest
       .fn()
       .mockResolvedValueOnce(deviceInfoErrorResponse)
 
@@ -61,7 +57,7 @@ describe("Method: `downloadDeviceLogs`", () => {
     )
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManagerMock.device.request).toHaveBeenLastCalledWith({
+    expect(deviceProtocol.device.request).toHaveBeenLastCalledWith({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
       body: {
@@ -74,7 +70,7 @@ describe("Method: `downloadDeviceLogs`", () => {
   })
 
   test("returns Result.failed if `downloadDeviceFiles` returns empty data", async () => {
-    deviceManagerMock.device.request = jest
+    deviceProtocol.device.request = jest
       .fn()
       .mockResolvedValueOnce(deviceInfoSuccessResponse)
     deviceFileSystemMock.downloadDeviceFiles = jest
@@ -93,7 +89,7 @@ describe("Method: `downloadDeviceLogs`", () => {
     )
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManagerMock.device.request).toHaveBeenLastCalledWith({
+    expect(deviceProtocol.device.request).toHaveBeenLastCalledWith({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
       body: {
@@ -108,7 +104,7 @@ describe("Method: `downloadDeviceLogs`", () => {
   })
 
   test("returns Result.success if `downloadDeviceFiles` returns file data", async () => {
-    deviceManagerMock.device.request = jest
+    deviceProtocol.device.request = jest
       .fn()
       .mockResolvedValueOnce(deviceInfoSuccessResponse)
     deviceFileSystemMock.downloadDeviceFiles = jest.fn().mockResolvedValueOnce(
