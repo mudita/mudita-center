@@ -60,7 +60,7 @@ const RecoveryModeUI: FunctionComponent = () => {
   return (
     <Wrapper>
       <Header>
-        <Icon type={IconType.RecoveryModeBlack} size={IconSize.Biggest} />
+        <Icon type={IconType.RecoveryModeBlack} size={IconSize.ExtraLarge} />
         <H3>{intl.formatMessage(messages.header)}</H3>
         <P3>{intl.formatMessage(messages.description)}</P3>
       </Header>

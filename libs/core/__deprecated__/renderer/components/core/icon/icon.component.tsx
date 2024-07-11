@@ -21,8 +21,8 @@ export enum IconSize {
   Small = 1.6,
   Medium = 2.4,
   Big = 2.8,
-  Bigger = 3.2,
-  Biggest = 3.6,
+  Large = 3.2,
+  ExtraLarge = 3.6,
 }
 
 export interface Props {

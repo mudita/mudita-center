@@ -56,7 +56,7 @@ export const WarrningBox: FunctionComponent<WarningBoxProps> = ({
   return (
     <Wrapper>
       <Top>
-        <Icon type={IconType.Exclamation} size={IconSize.Biggest} />
+        <Icon type={IconType.Exclamation} size={IconSize.ExtraLarge} />
       </Top>
       <Header>
         <H4>{intl.formatMessage(messages.header)}</H4>
