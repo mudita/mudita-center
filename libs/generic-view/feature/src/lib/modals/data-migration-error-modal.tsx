@@ -7,6 +7,7 @@ import React, { FunctionComponent, useEffect } from "react"
 import { Modal, TransferErrorModal } from "generic-view/ui"
 import { useDispatch, useSelector } from "react-redux"
 import {
+  clearDataTransfer,
   DataMigrationPercentageProgress,
   selectActiveApiDeviceId,
   selectDataMigrationStatus,
@@ -32,6 +33,7 @@ export const DataMigrationErrorModal: FunctionComponent = () => {
     dispatch(setDataMigrationSourceDevice(undefined))
     dispatch(setDataMigrationPureDbIndexing(false))
     dispatch(setDeviceErrorModalOpened(false))
+    dispatch(clearDataTransfer())
   }
 
   useEffect(() => {

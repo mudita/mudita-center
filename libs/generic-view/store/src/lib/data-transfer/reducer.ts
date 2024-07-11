@@ -52,9 +52,9 @@ export const genericDataTransferReducer = createReducer(
       }
     })
     builder.addCase(clearDataTransfer, (state) => {
-      console.log("clearDataTransfer")
       state.transfer = {}
       state.status = "IDLE"
+      delete state.errorType
     })
     builder.addCase(transferDataToDevice.pending, (state) => {
       state.status = "IN-PROGRESS"

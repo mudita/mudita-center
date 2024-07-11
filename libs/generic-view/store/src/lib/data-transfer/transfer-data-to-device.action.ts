@@ -52,7 +52,6 @@ export const transferDataToDevice = createAsyncThunk<
     dispatch(setDataTransferAbort(transferAbortController))
 
     const handleError = (type?: ApiFileTransferError) => {
-      console.log("handleError", type)
       dispatch(clearDataTransfer())
       void clearTransfers?.()
       return rejectWithValue(type)

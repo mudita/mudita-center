@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useEffect, useMemo, useRef } from "react"
+import React, { useEffect, useMemo, useRef } from "react"
 import { defineMessages } from "react-intl"
 import { useSelector } from "react-redux"
 import {
@@ -15,6 +15,7 @@ import {
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { isEmpty } from "lodash"
 import { ApiFileTransferError } from "device/models"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 
 const messages = defineMessages({
   genericDescription: {
@@ -45,53 +46,56 @@ export const TransferFailMessage: FunctionComponent = () => {
     const domains = isEmpty(transferDomainsRef.current)
       ? transferDomains
       : transferDomainsRef.current
-
-    const notEnoughSpaceDescription =
-      dataTransferErrorType === ApiFileTransferError.NotEnoughSpace &&
-      intl.formatMessage(messages.notEnoughSpace)
-
-    if (isEmpty(domains)) {
-      return (
-        <p>
-          {notEnoughSpaceDescription}{"\n"}
-          {intl.formatMessage(messages.genericDescription)}
-        </p>
-      )
-    }
-
     const transferredDomains = Object.entries(domains)
       .filter(([, { status }]) => status === "FINISHED")
       .map(([domain]) => domain)
-
-    if (isEmpty(transferredDomains)) {
-      return <p>{intl.formatMessage(messages.noChangesDescription)}</p>
-    }
-
     const notTransferredFeatures = selectedFeatures.filter((feature) =>
       transferredDomains?.every((domain) => !domain.startsWith(feature))
     )
 
-    return (
-      <div>
-        <p style={{ marginBottom: "1.4rem" }}>
-          {notEnoughSpaceDescription}{"\n"}
-          {intl.formatMessage(
-            dataMigrationStatus === "CANCELLED"
-              ? messages.cancelledPartialChangesDescription
-              : messages.failedPartialChangesDescription
-          )}
+    const notEnoughSpace =
+      dataTransferErrorType === ApiFileTransferError.NotEnoughSpace
+
+    if (notEnoughSpace && isEmpty(domains)) {
+      return (
+        <p>
+          {intl.formatMessage(messages.notEnoughSpace)}{" "}
+          {intl.formatMessage(messages.noChangesDescription)}
         </p>
-        <ul>
-          {notTransferredFeatures.map((feature) => (
-            <li key={feature}>
-              {intl.formatMessage({
-                id: `module.genericViews.dataMigration.features.${feature}`,
-              })}
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
+      )
+    }
+
+    if (notEnoughSpace || !isEmpty(transferredDomains)) {
+      return (
+        <div>
+          <p style={{ marginBottom: "1.4rem" }}>
+            {notEnoughSpace && (
+              <>{intl.formatMessage(messages.notEnoughSpace)} </>
+            )}
+            {intl.formatMessage(
+              dataMigrationStatus === "CANCELLED"
+                ? messages.cancelledPartialChangesDescription
+                : messages.failedPartialChangesDescription
+            )}
+          </p>
+          <ul>
+            {notTransferredFeatures.map((feature) => (
+              <li key={feature}>
+                {intl.formatMessage({
+                  id: `module.genericViews.dataMigration.features.${feature}`,
+                })}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+
+    if (!isEmpty(domains) && isEmpty(transferredDomains)) {
+      return <p>{intl.formatMessage(messages.noChangesDescription)}</p>
+    }
+
+    return <p>{intl.formatMessage(messages.genericDescription)}</p>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataMigrationStatus, selectedFeatures, transferDomains])
 
