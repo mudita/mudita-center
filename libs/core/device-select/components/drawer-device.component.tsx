@@ -153,7 +153,7 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
               })}
           </DeviceName>
 
-          {serialNumberValue && (
+          {serialNumberValue && deviceType !== DeviceType.MuditaHarmonyMsc && (
             <>
               <Text
                 displayStyle={TextDisplayStyle.Paragraph4}
