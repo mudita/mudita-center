@@ -156,10 +156,23 @@ const Warning = styled.div`
 `
 
 const Confirmation = styled.div`
-  color: red;
+  display: flex;
+  align-items: center;
+
   label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-size: 1.4rem;
     font-weight: 700;
+  }
+
+  input + label {
+    align-items: center;
+  }
+
+  input + label div:first-child {
+    align-self: center;
   }
 `
 
