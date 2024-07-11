@@ -11,7 +11,7 @@ import OnboardingTroubleshootingUI from "Core/onboarding/components/onboarding-t
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { TmpDispatch } from "Core/__deprecated__/renderer/store"
 import { ModalStateKey, showModal } from "Core/modals-manager"
-import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { getDevicesSelector } from "device-manager/feature"
 
 const OnboardingTroubleshooting: FunctionComponent = () => {
   const history = useHistory()

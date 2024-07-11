@@ -5,11 +5,10 @@
 
 import { ResultObject } from "Core/core/builder"
 import {
-  Endpoint,
-  Method,
   MessagesCategory as PureMessagesCategory,
   MessageType as PureMessageType,
 } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import {
   GetMessagesRequestConfig as PureGetMessagesBody,
   Message as PureMessage,
@@ -31,7 +30,7 @@ import {
 } from "Core/messages/presenters"
 import { MessageRepository } from "Core/messages/repositories"
 import { ThreadService } from "Core/messages/services/thread.service"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import { mapToRawNumber, splitMessageByBytesSize } from "Core/messages/helpers"
 
 export interface GetMessagesByThreadIdResponse {
@@ -50,7 +49,7 @@ export interface CreateMessageDataResponse {
 
 export class MessageService {
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceProtocol: DeviceProtocol,
     private threadService: ThreadService,
     private messageRepository: MessageRepository
   ) {}
@@ -59,7 +58,7 @@ export class MessageService {
 
   public async getMessage(id: string): Promise<RequestResponse<Message>> {
     const response =
-      await this.deviceManager.device.request<GetMessageResponseBody>({
+      await this.deviceProtocol.device.request<GetMessageResponseBody>({
         endpoint: Endpoint.Messages,
         method: Method.Get,
         body: {
@@ -94,7 +93,7 @@ export class MessageService {
     }
 
     const response =
-      await this.deviceManager.device.request<GetMessagesResponseBody>({
+      await this.deviceProtocol.device.request<GetMessagesResponseBody>({
         body,
         endpoint: Endpoint.Messages,
         method: Method.Get,
@@ -173,7 +172,7 @@ export class MessageService {
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessagePartDataResponse>> {
     const result =
-      await this.deviceManager.device.request<CreateMessageResponseBody>({
+      await this.deviceProtocol.device.request<CreateMessageResponseBody>({
         body: MessagePresenter.mapToCreatePureMessageBody(newMessage),
         endpoint: Endpoint.Messages,
         method: Method.Post,
@@ -241,7 +240,7 @@ export class MessageService {
       }
     }
 
-    const result = await this.deviceManager.device.request({
+    const result = await this.deviceProtocol.device.request({
       body: {
         category: PureMessagesCategory.message,
         messageID: Number(messageId),
@@ -303,7 +302,7 @@ export class MessageService {
   }
 
   public async updateMessage(message: Message): Promise<ResultObject<unknown>> {
-    return this.deviceManager.device.request({
+    return this.deviceProtocol.device.request({
       body: MessagePresenter.mapToUpdatePureMessagesBody(message),
       endpoint: Endpoint.Messages,
       method: Method.Put,

@@ -7,9 +7,6 @@ import { createAction } from "@reduxjs/toolkit"
 import { DataSyncEvent } from "Core/data-sync/constants"
 import { SynchronizationStatus } from "Core/data-sync/reducers"
 
-export const setDataSyncInitState = createAction(
-  DataSyncEvent.SetDataSyncInitState
-)
 export const setDataSyncSetStatus = createAction<SynchronizationStatus>(
   DataSyncEvent.SetDataSyncSetStatus
 )

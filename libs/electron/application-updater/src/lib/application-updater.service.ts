@@ -5,7 +5,9 @@
 
 import { autoUpdater } from "electron-updater"
 import logger from "Core/__deprecated__/main/utils/logger"
+import { IpcEvent } from "Core/core/decorators"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
+import { IpcApplicationUpdaterEvent } from "./ipc-application-updater.event"
 
 const token = process.env.GITHUB_ACCESS_TOKEN
 const repo = process.env.RELEASES_REPOSITORY_NAME
@@ -18,13 +20,17 @@ export class ApplicationUpdaterService extends BaseApplicationUpdaterService {
     this.mountListeners()
   }
 
+  @IpcEvent(IpcApplicationUpdaterEvent.Install)
   public quitAndInstall(): void {
     autoUpdater.quitAndInstall(true, true)
   }
 
+  @IpcEvent(IpcApplicationUpdaterEvent.Download)
   public async downloadUpdate(): Promise<void> {
     await autoUpdater.downloadUpdate()
   }
+
+  @IpcEvent(IpcApplicationUpdaterEvent.Check)
   public async checkForUpdatesAndNotify(): Promise<void> {
     await autoUpdater.checkForUpdatesAndNotify()
   }
