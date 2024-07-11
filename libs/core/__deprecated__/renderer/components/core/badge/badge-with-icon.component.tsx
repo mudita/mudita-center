@@ -17,4 +17,5 @@ export const BadgeWithIcon = styled.div`
   border-radius: 0.4rem;
   padding: 0 1rem 0 0.8rem;
   line-height: 2rem;
+  font-weight: 700;
 `
