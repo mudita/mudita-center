@@ -133,12 +133,16 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
         <DeviceInfoDeviceTypeName displayStyle={TextDisplayStyle.Headline4}>
           {getDeviceTypeName(deviceType, caseColour)}
         </DeviceInfoDeviceTypeName>
-        <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
-          {serialNumberHeader}
-        </Text>
-        <Text displayStyle={TextDisplayStyle.Paragraph1}>
-          {serialNumberValue}
-        </Text>
+        {deviceType !== DeviceType.MuditaHarmonyMsc && (
+          <>
+            <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+              {serialNumberHeader}
+            </Text>
+            <Text displayStyle={TextDisplayStyle.Paragraph1}>
+              {serialNumberValue}
+            </Text>
+          </>
+        )}
       </DeviceInfoContainer>
     </Container>
   )
