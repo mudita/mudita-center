@@ -49,9 +49,6 @@
       "electron/application-updater": [
         "libs/electron/application-updater/src/index.ts"
       ],
-      "external-tools/matomo-to-gsheet": [
-        "libs/external-tools/matomo-to-gsheet/src/index.ts"
-      ],
       "generic-view/feature": ["libs/generic-view/feature/src/index.ts"],
       "generic-view/models": ["libs/generic-view/models/src/index.ts"],
       "generic-view/store": ["libs/generic-view/store/src/index.ts"],
