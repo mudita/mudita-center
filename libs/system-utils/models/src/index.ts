@@ -4,4 +4,5 @@
  */
 
 export * from "./lib/directory-service-events"
+export * from "./lib/file-dialog-service-error"
 export * from "./lib/file-dialog-service-events"

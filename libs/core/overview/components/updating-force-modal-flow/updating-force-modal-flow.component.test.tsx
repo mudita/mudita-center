@@ -5,7 +5,7 @@
 
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { UpdatingForceModalFlowTestIds } from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.enum"
 import UpdatingForceModalFlow from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowProps } from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"

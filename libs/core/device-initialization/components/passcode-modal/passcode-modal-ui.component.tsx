@@ -94,6 +94,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       closeButton={false}
       closeModal={canBeClosed ? close : undefined}
       title={muditaLogo}
+      noOverlayBg={true}
     >
       <PasscodeModalContent>
         <span></span>

@@ -43,9 +43,13 @@ import {
   selectAllItems,
   toggleItem,
 } from "Core/contacts/actions"
-import { getPaths } from "shared/app-state"
-import { googleGetContacts, outlookGetContacts, ExternalProvider,
-  Provider, } from "generic-view/store"
+import { openFileRequest } from "system-utils/feature"
+import {
+  googleGetContacts,
+  outlookGetContacts,
+  ExternalProvider,
+  Provider,
+} from "generic-view/store"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   const { contacts, auth } = state
@@ -82,7 +86,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
           contacts =
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/await-thenable
-            (await dispatch(googleGetContacts())).payload as unknown as Contact[]
+            (await dispatch(googleGetContacts()))
+              .payload as unknown as Contact[]
           return getContacts(contactDatabaseFactory(contacts))
         case Provider.Apple:
           return
@@ -90,7 +95,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
           contacts =
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/await-thenable
-            (await dispatch(outlookGetContacts())).payload as unknown as Contact[]
+            (await dispatch(outlookGetContacts()))
+              .payload as unknown as Contact[]
           return getContacts(contactDatabaseFactory(contacts))
       }
     },
@@ -151,10 +157,10 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       void dispatch(closeWindow(provider))
     },
-    getPaths: (options: OpenDialogOptions) =>
+    openFileRequest: (options: OpenDialogOptions) =>
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-      dispatch(getPaths(options)),
+      openFileRequest(options),
   }
 }
 
