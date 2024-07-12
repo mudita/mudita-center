@@ -14,7 +14,8 @@ import sendTicketRequest, {
   CreateBugTicketResponseStatus,
 } from "Core/contact-support/requests/send-ticket.request"
 import { AppError } from "Core/core/errors"
-import { DeviceState, DeviceType } from "Core/device"
+import { DeviceState } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { ReduxRootState, RootState } from "Core/__deprecated__/renderer/store"
 import { testError } from "Core/__deprecated__/renderer/store/constants"
 import { FreshdeskTicketProduct } from "Core/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"

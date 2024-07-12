@@ -68,6 +68,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.privacyPolicyTest),
     toRelativePath(TestFilesPaths.licenseTest),
     toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+    toRelativePath(TestFilesPaths.kompaktOverview),
   ],
   suites: {
     standalone: [
@@ -77,16 +78,17 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.backupLocationTest),
-      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
-      toRelativePath(TestFilesPaths.newsPageOnlineTest),
-      toRelativePath(TestFilesPaths.termsOfServiceTest),
-      toRelativePath(TestFilesPaths.e2eMockSample),
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
     ],
-    mock: [toRelativePath(TestFilesPaths.e2eMockSample)],
+    mock: [
+      toRelativePath(TestFilesPaths.newsPageOfflineTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
+      toRelativePath(TestFilesPaths.e2eMockSample),
+      toRelativePath(TestFilesPaths.kompaktOverview),
+    ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
     multideviceSinglePure: [],
@@ -109,6 +111,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+      toRelativePath(TestFilesPaths.kompaktOverview),
     ],
   },
   // Patterns to exclude.

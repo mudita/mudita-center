@@ -4,8 +4,8 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { getPaths } from "./dialog-file-system/get-paths.action"
 import { updateOnlineStatus } from "./online-status/base.action"
+import { updateDialogOpenStatus } from "./dialog-open-status/base.action"
 
 export interface AppState {
   dialogOpen: boolean
@@ -18,16 +18,10 @@ const initialState: AppState = {
 }
 
 export const appStateReducer = createReducer(initialState, (builder) => {
-  builder.addCase(getPaths.pending, (state) => {
-    state.dialogOpen = true
-  })
-  builder.addCase(getPaths.fulfilled, (state) => {
-    state.dialogOpen = false
-  })
-  builder.addCase(getPaths.rejected, (state) => {
-    state.dialogOpen = false
-  })
   builder.addCase(updateOnlineStatus, (state, action) => {
     state.online = action.payload
+  })
+  builder.addCase(updateDialogOpenStatus, (state, action) => {
+    state.dialogOpen = action.payload
   })
 })

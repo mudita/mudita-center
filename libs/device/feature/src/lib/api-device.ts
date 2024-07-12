@@ -12,7 +12,7 @@ import {
   APIRequestWithPayload,
 } from "device/models"
 import { BaseDevice } from "Core/device/modules/base-device"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { ResultObject } from "Core/core/builder"
 import logger from "Core/__deprecated__/main/utils/logger"
 

@@ -12,9 +12,10 @@ import { DeviceInitializationStatus } from "Core/device-initialization/reducers/
 import { AppError } from "Core/core/errors"
 import { DeviceInitializationError } from "Core/device-initialization/constants/errors.enum"
 import { loadSettings } from "Core/settings/actions"
-import { configureDevice } from "Core/device-manager/actions/configure-device.action"
-import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
-import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { configureDevice } from "core-device/feature"
+import { isActiveDeviceAttachedSelector } from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { getCrashDump } from "Core/crash-dump"
 import { checkForForceUpdateNeed } from "Core/update/actions"
 import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
@@ -27,7 +28,6 @@ import {
 } from "Core/data-sync/actions"
 import { SynchronizationStatus } from "Core/data-sync/reducers"
 import { loadBackupData } from "Core/backup"
-import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
 
 export const initializeMuditaPure = createAsyncThunk<
   DeviceInitializationStatus,

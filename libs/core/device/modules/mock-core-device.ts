@@ -5,7 +5,8 @@
 
 import { PortInfo } from "serialport"
 import { Result, ResultObject } from "Core/core/builder"
-import { DeviceCommunicationError, DeviceType } from "Core/device/constants"
+import { DeviceCommunicationError } from "core-device/models"
+import { DeviceType } from "device-protocol/models"
 import { RequestConfig } from "Core/device/types/mudita-os"
 import { BaseDevice } from "Core/device/modules/base-device"
 import { AppError } from "Core/core/errors"
