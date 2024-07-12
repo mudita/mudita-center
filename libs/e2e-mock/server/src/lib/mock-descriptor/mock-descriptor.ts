@@ -153,7 +153,7 @@ class MockDescriptor {
 
     if (index > -1) {
       const response = responses[index]
-      console.log(index, response)
+
       return {
         response,
         index: index,
