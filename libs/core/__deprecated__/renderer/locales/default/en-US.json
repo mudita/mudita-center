@@ -954,6 +954,7 @@
   "module.genericViews.dataMigration.pureError.connection.title": "Data transfer failed",
   "module.genericViews.dataMigration.transferError.title": "Data transfer failed",
   "module.genericViews.dataMigration.transferError.partialChangesDescription": "We transferred some data before the process failed, but we didn't transfer these items:",
+  "module.genericViews.dataMigration.transferError.notEnoughSpace": "Your phone’s storage is full.",
   "module.genericViews.dataMigration.progress.title": "Transferring data",
   "module.genericViews.dataMigration.progress.description": "Please don't unplug your devices from your computer.",
   "module.genericViews.dataMigration.progress.cancelButtonLabel": "Cancel",

@@ -6,7 +6,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
-import { DataTransferDomain, UnifiedContact } from "device/models"
+import {
+  ApiFileTransferError,
+  DataTransferDomain,
+  UnifiedContact,
+} from "device/models"
 import {
   cancelDataTransferRequest,
   checkDataTransferRequest,
@@ -47,10 +51,10 @@ export const transferDataToDevice = createAsyncThunk<
     transferAbortController.abort = abort
     dispatch(setDataTransferAbort(transferAbortController))
 
-    const handleError = () => {
-      void clearTransfers?.()
+    const handleError = (type?: ApiFileTransferError) => {
       dispatch(clearDataTransfer())
-      return rejectWithValue(undefined)
+      void clearTransfers?.()
+      return rejectWithValue(type)
     }
 
     const abortListener = async () => {
@@ -90,7 +94,9 @@ export const transferDataToDevice = createAsyncThunk<
     )
 
     if (!preDataTransferResponse.ok) {
-      return handleError()
+      return handleError(
+        preDataTransferResponse.error?.type as ApiFileTransferError
+      )
     }
 
     const { dataTransferId, domains: domainsPathMap } =
@@ -153,7 +159,7 @@ export const transferDataToDevice = createAsyncThunk<
       )
 
       if (!preSendResponse.ok) {
-        return handleError()
+        return handleError(preSendResponse.error?.type as ApiFileTransferError)
       }
 
       domainsPaths[index].transfer = preSendResponse.data

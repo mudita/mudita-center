@@ -18,6 +18,7 @@ import { McDataMigrationConfig } from "generic-view/models"
 import { getActiveDevice } from "device-manager/feature"
 import {
   abortDataMigration,
+  clearDataTransfer,
   DataMigrationPercentageProgress,
   performDataMigration,
   selectDataMigrationSourceDevice,
@@ -98,6 +99,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
       dispatch(setDataMigrationStatus("IDLE"))
       dispatch(setDataMigrationProgress(DataMigrationPercentageProgress.None))
       dispatch(setDataMigrationFeatures([]))
+      dispatch(clearDataTransfer())
     }, modalTransitionDuration)
   }
 
