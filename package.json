@@ -175,7 +175,7 @@
     "eslint-plugin-testing-library": "^6.2.2",
     "eslint-plugin-unused-imports": "^3.0.0",
     "file-loader": "^6.2.0",
-    "fork-ts-checker-webpack-plugin": "^7.2.13",
+    "fork-ts-checker-webpack-plugin": "^9.0.2",
     "fs-extra": "^11.2.0",
     "getmac": "^6.6.0",
     "history": "^4.10.1",
