@@ -7,6 +7,7 @@ import type { Options } from "@wdio/types"
 import path from "path"
 import * as dotenv from "dotenv"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
+import allure from "allure-commandline"
 
 dotenv.config()
 
@@ -233,11 +234,13 @@ export const config: Options.Testrunner = {
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
   reporters: [
-    "spec",
     [
-      "json",
+      "allure",
       {
-        outputDir: "./results",
+        outputDir: "./allure-results",
+        disableWebdriverStepsReporting: false,
+        disableWebdriverScreenshotsReporting: false,
+        addConsoleLogs: true,
       },
     ],
   ],
@@ -333,7 +336,6 @@ export const config: Options.Testrunner = {
    */
   // afterTest: function(test, context, { error, result, duration, passed, retries }) {
   // },
-
   /**
    * Hook that gets executed after the suite has ended
    * @param {Object} suite suite details
@@ -373,8 +375,34 @@ export const config: Options.Testrunner = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  // onComplete: function(exitCode, config, capabilities, results) {
-  // },
+  onComplete: function (wdioExitCode, config, capabilities, results) {
+    const reportError = new Error("Could not generate Allure report")
+    const generation = allure(["generate", "allure-results", "--clean"])
+    return new Promise<void>((resolve, reject) => {
+      const generationTimeout = setTimeout(() => {
+        console.log("Allure generation timeout")
+        return reject(reportError)
+      }, 60 * 1000)
+
+      generation.on("exit", function (allureExitCode: number) {
+        clearTimeout(generationTimeout)
+        if (allureExitCode !== 0) {
+          console.log(`Error in allure generation: exit code=${allureExitCode}`)
+          return reject(reportError)
+        }
+        console.log(
+          "Wdio Test Suite Exit Code: ",
+          wdioExitCode,
+          "Allure Exit Code: ",
+          allureExitCode
+        )
+
+        console.log("Allure Report Generation Success")
+
+        return resolve(process.exit(0))
+      })
+    })
+  },
   /**
    * Gets executed when a refresh happens.
    * @param {String} oldSessionId session ID of the old session
