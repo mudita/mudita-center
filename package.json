@@ -63,7 +63,7 @@
     "@babel/preset-typescript": "^7.24.7",
     "@contentful/rich-text-react-renderer": "^15.22.1",
     "@contentful/rich-text-types": "^16.6.1",
-    "@electron/notarize": "^2.3.0",
+    "@electron/notarize": "^2.3.2",
     "@electron/remote": "^2.1.2",
     "@faker-js/faker": "^7.5.0",
     "@mudita/stylelint-config": "^1.0.4",
