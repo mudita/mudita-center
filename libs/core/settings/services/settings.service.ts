@@ -4,13 +4,14 @@
  */
 
 import Store from "electron-store"
+import { ISettingsService } from "shared/utils"
 import { Settings, SettingsUpdateOption } from "Core/settings/dto"
 import { settingsSchema } from "Core/settings/store/schemas"
 import { SettingsValue } from "Core/settings/types"
 
 // TODO: Les't merge this functionality with `metadata-store.service.ts`
 
-export class SettingsService {
+export class SettingsService implements ISettingsService {
   constructor(private readonly store: Store<Settings>) {}
 
   init(): void {

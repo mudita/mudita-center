@@ -3,12 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { createSelector } from "@reduxjs/toolkit"
+import { kompaktImg } from "Root/demo-data/kompakt-img"
+import { getCoreDevicesSelector } from "core-device/feature"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import pureBlackImage from "Core/__deprecated__/renderer/images/pure-black-render.png"
 import pureGreyImage from "Core/__deprecated__/renderer/images/pure-gray-render.png"
-import { kompaktImg } from "Root/demo-data/kompakt-img"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
+import { selectConfiguredDevices } from "./select-configured-devices"
+import { selectActiveApiDeviceId } from "./select-active-api-device-id"
 
 // FIXME: The device name should be moved to the API config response of API device
 const messages = {
@@ -16,7 +19,7 @@ const messages = {
 }
 
 export const selectDataMigrationSourceDevices = createSelector(
-  (state: ReduxRootState) => state.deviceManager.devices,
+  getCoreDevicesSelector,
   (devices) =>
     devices
       .filter(({ deviceType }) => deviceType === "MuditaPure")
@@ -28,7 +31,7 @@ export const selectDataMigrationSourceDevices = createSelector(
 )
 
 export const selectDataMigrationTargetDevices = createSelector(
-  (state: ReduxRootState) => state.genericViews.devicesConfiguration,
+  selectConfiguredDevices,
   (devices) => {
     return Object.values(devices)
       .map((device) => {
@@ -56,7 +59,7 @@ export const selectDataMigrationSourceDevice = createSelector(
 
 export const selectDataMigrationTargetDevice = createSelector(
   selectDataMigrationTargetDevices,
-  (state: ReduxRootState) => state.genericViews.activeDevice,
+  selectActiveApiDeviceId,
   (devices, activeDeviceId) => {
     return devices.find((device) => device?.serialNumber === activeDeviceId)
   }

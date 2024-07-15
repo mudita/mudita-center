@@ -6,8 +6,10 @@
 // TODO: CP-1494, CP-1495
 
 import { createReducer } from "@reduxjs/toolkit"
+import { DeviceManagerEvent } from "device-manager/models"
 import {
   fulfilledAction,
+  pendingAction,
   rejectedAction,
 } from "Core/__deprecated__/renderer/store/helpers"
 import {
@@ -35,7 +37,6 @@ import {
   resetAllItems,
   toggleItem,
   deleteContacts,
-  setInitialContactsState,
 } from "Core/contacts/actions"
 import { changeLocation } from "Core/core/actions"
 
@@ -55,7 +56,7 @@ export const contactsReducer = createReducer<ContactsState>(
   initialState,
   (builder) => {
     builder
-      .addCase(setInitialContactsState, (state) => {
+      .addCase(pendingAction(DeviceManagerEvent.DeactivateDevice), () => {
         return { ...initialState }
       })
       .addCase(

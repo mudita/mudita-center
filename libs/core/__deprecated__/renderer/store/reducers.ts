@@ -21,7 +21,8 @@ import { updateOsReducer } from "Core/update/reducers"
 import { discoveryDeviceReducer } from "Core/discovery-device/reducers/discovery-device.reducer"
 import { deviceInitializationReducer } from "Core/device-initialization/reducers/device-initialization.reducer"
 import { appInitializationReducer } from "Core/app-initialization/reducers/app-initialization.reducer"
-import { deviceManagerReducer } from "Core/device-manager/reducers/device-manager.reducer"
+import { coreDeviceReducer } from "core-device/feature"
+import { deviceManagerReducer } from "device-manager/feature"
 import {
   dataMigrationReducer,
   genericBackupsReducer,
@@ -33,6 +34,7 @@ import {
   externalProvidersReducer
 } from "generic-view/store"
 import { appStateReducer } from "shared/app-state"
+import { activeDeviceRegistryReducer } from "active-device-registry/feature"
 
 export const reducers = {
   device: deviceReducer,
@@ -52,7 +54,9 @@ export const reducers = {
   discoveryDevice: discoveryDeviceReducer,
   deviceInitialization: deviceInitializationReducer,
   appInitialization: appInitializationReducer,
+  coreDevice: coreDeviceReducer,
   deviceManager: deviceManagerReducer,
+  activeDeviceRegistry: activeDeviceRegistryReducer,
   genericViews: genericViewsReducer,
   genericModals: genericModalsReducer,
   genericBackups: genericBackupsReducer,

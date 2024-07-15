@@ -4,6 +4,7 @@
  */
 
 import { connect } from "react-redux"
+import { DeviceType } from "device-protocol/models"
 import Overview from "Core/overview/components/overview/overview.component"
 import {
   ReduxRootState,
@@ -11,7 +12,7 @@ import {
   TmpDispatch,
 } from "Core/__deprecated__/renderer/store"
 import { RootModel } from "Core/__deprecated__/renderer/models/models"
-import { PureDeviceData, DeviceType } from "Core/device"
+import { PureDeviceData } from "Core/device"
 import { lastBackupDateSelector } from "Core/backup/selectors"
 import {
   startBackupDevice,
@@ -38,7 +39,7 @@ import { CheckForUpdateMode } from "Core/update/constants"
 import { forceUpdate } from "Core/update/actions/force-update/force-update.action"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { isDataSyncInProgressSelector } from "Core/data-sync/selectors/is-data-sync-in-progress.selector"
-import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
+import { deactivateDevice } from "device-manager/feature"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {

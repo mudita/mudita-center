@@ -7,7 +7,9 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
-import { answerMain, DeviceManagerMainEvent } from "shared/utils"
+import { answerMain } from "shared/utils"
+import { setSelectDeviceDrawerOpen } from "device-manager/feature"
+import { DeviceProtocolMainEvent } from "device-protocol/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import LoaderModal from "Core/ui/components/loader-modal/loader-modal.component"
@@ -16,7 +18,6 @@ import {
   URL_DISCOVERY_DEVICE,
   URL_MAIN,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
@@ -50,11 +51,11 @@ const ConnectingLoaderModal: FunctionComponent = () => {
     }
 
     const unregisterDeviceConnectedListener = answerMain(
-      DeviceManagerMainEvent.DeviceConnected,
+      DeviceProtocolMainEvent.DeviceConnected,
       handler
     )
     const unregisterDeviceConnectFailedListener = answerMain(
-      DeviceManagerMainEvent.DeviceConnectFailed,
+      DeviceProtocolMainEvent.DeviceConnectFailed,
       handler
     )
 

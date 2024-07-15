@@ -7,9 +7,10 @@ import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useCallback } from "react"
 import { TmpDispatch } from "Core/__deprecated__/renderer/store"
-import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
+import { deactivateDevice } from "device-manager/feature"
 import {
-  URL_DISCOVERY_DEVICE, URL_ONBOARDING,
+  URL_DISCOVERY_DEVICE,
+  URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { selectDialogOpenState } from "shared/app-state"
 

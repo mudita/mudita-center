@@ -4,18 +4,15 @@
  */
 
 import { Thread } from "Core/messages/dto"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import {
   GetThreadsRequestConfig,
   PaginationBody,
   GetThreadResponseBody,
   GetThreadsResponseBody,
 } from "Core/device/types/mudita-os"
-import {
-  Endpoint,
-  Method,
-  MessagesCategory as PureMessagesCategory,
-} from "Core/device/constants"
+import { MessagesCategory as PureMessagesCategory } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -32,7 +29,7 @@ export interface GetThreadsResponse {
 
 export class ThreadService {
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceProtocol: DeviceProtocol,
     private threadRepository: ThreadRepository
   ) {}
 
@@ -58,7 +55,7 @@ export class ThreadService {
     }
 
     const response =
-      await this.deviceManager.device.request<GetThreadsResponseBody>({
+      await this.deviceProtocol.device.request<GetThreadsResponseBody>({
         body,
         endpoint: Endpoint.Messages,
         method: Method.Get,
@@ -159,7 +156,7 @@ export class ThreadService {
   // the method is commented until os part will be implemented as CP-1232
   private async getThreadRequest(id: string): Promise<RequestResponse<Thread>> {
     const response =
-      await this.deviceManager.device.request<GetThreadResponseBody>({
+      await this.deviceProtocol.device.request<GetThreadResponseBody>({
         endpoint: Endpoint.Messages,
         method: Method.Get,
         body: {
@@ -185,7 +182,7 @@ export class ThreadService {
     threads: Thread[]
   ): Promise<RequestResponse<Thread[]>> {
     const results = threads.map(async (thread) => {
-      const { ok } = await this.deviceManager.device.request({
+      const { ok } = await this.deviceProtocol.device.request({
         endpoint: Endpoint.Messages,
         method: Method.Put,
         body: {
@@ -232,7 +229,7 @@ export class ThreadService {
     threadIds: string[]
   ): Promise<RequestResponse<string[]>> {
     const results = threadIds.map(async (id) => {
-      const { ok } = await this.deviceManager.device.request({
+      const { ok } = await this.deviceProtocol.device.request({
         endpoint: Endpoint.Messages,
         method: Method.Delete,
         body: { category: PureMessagesCategory.thread, threadID: Number(id) },

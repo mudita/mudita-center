@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   PureOverview,

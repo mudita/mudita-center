@@ -5,7 +5,8 @@
 
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
-import { DeviceType, CaseColour } from "Core/device/constants"
+import { CaseColour } from "core-device/models"
+import { DeviceType } from "device-protocol/models"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Overview from "Core/overview/components/overview/overview.component"
 import store from "Core/__deprecated__/renderer/store"
