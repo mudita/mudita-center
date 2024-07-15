@@ -14,6 +14,7 @@ export enum ActionName {
   SetLastRefresh = "generic-views/set-last-refresh",
   AddDevice = "generic-views/add-device",
   RemoveDevice = "generic-views/remove-device",
+  SetDeviceState = "generic-views/set-device-state",
   OpenModal = "generic-modals/open-modal",
   CloseModal = "generic-modals/close-modal",
   CloseAllModals = "generic-modals/close-all-modals",
