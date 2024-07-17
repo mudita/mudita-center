@@ -98,7 +98,9 @@
     "url": "https://github.com/Mudita/mudita-center/issues"
   },
   "homepage": "https://github.com/Mudita/mudita-center",
-  "devDependencies": {},
+  "devDependencies": {
+    "@wdio/cli": "^8.39.1"
+  },
   "dependencies": {
     "serialport": "10.1.0"
   },
