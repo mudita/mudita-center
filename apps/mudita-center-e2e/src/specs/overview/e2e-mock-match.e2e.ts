@@ -13,7 +13,7 @@ describe("E2E mock match sample", () => {
     E2EMockClient.connect()
     //wait for a connection to be established
     await browser.waitUntil(() => {
-      return E2EMockClient.checkConnectison()
+      return E2EMockClient.checkConnection()
     })
   })
 
