@@ -443,6 +443,8 @@
   "module.help.supportTooltipDescription": "Contact support",
   "module.help.title": "<b>Mudita Center</b> Help",
   "module.help.article.warning": "Warning!",
+  "module.help.article.footer.title": "Need more help?\nVisit our Support Website",
+  "module.help.article.footer.buttonLabel": "Visit support website",
   "module.license": "License",
   "module.manageSounds": "Manage Sounds",
   "module.manageSounds.alarmsTab": "Alarms",

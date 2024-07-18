@@ -57,7 +57,6 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 1.6rem;
-  margin: 3.2rem;
 `
 
 const Content = styled.div`

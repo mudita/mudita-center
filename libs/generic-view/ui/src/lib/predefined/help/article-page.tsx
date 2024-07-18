@@ -11,8 +11,9 @@ import styled from "styled-components"
 import { Document } from "@contentful/rich-text-types"
 import { ArticleHeader } from "./components/article-header"
 import { ArticleWarning } from "./components/article-warning"
-import helpData from "./help.json"
 import { ArticleContent } from "./components/article-content"
+import { ArticleFooter } from "./components/article-footer"
+import helpData from "./help.json"
 
 const Article: FunctionComponent = () => {
   const { articleId } = useParams<{ articleId: string }>()
@@ -21,10 +22,13 @@ const Article: FunctionComponent = () => {
   return (
     <Wrapper>
       <ArticleHeader title={article.title} />
-      {"warningMessage" in article && (
-        <ArticleWarning message={article.warningMessage} />
-      )}
-      <ArticleContent content={article.content as Document} />
+      <ArticleWrapper>
+        {"warningMessage" in article && (
+          <ArticleWarning message={article.warningMessage} />
+        )}
+        <ArticleContent content={article.content as Document} />
+      </ArticleWrapper>
+      <ArticleFooter />
     </Wrapper>
   )
 }
@@ -40,4 +44,12 @@ export const ArticlePage: FunctionComponent = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+const ArticleWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 3.2rem 3.2rem 5.2rem;
+  gap: 3.2rem;
 `

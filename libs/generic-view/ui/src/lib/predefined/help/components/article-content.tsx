@@ -87,7 +87,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
-  padding: 0 3.2rem;
 `
 
 const Article = styled.article`
