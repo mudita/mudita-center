@@ -442,6 +442,7 @@
   "module.help.backLinkText": "Back",
   "module.help.supportTooltipDescription": "Contact support",
   "module.help.title": "<b>Mudita Center</b> Help",
+  "module.help.article.warning": "Warning!",
   "module.license": "License",
   "module.manageSounds": "Manage Sounds",
   "module.manageSounds.alarmsTab": "Alarms",
