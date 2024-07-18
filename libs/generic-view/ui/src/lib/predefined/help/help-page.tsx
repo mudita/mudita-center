@@ -21,7 +21,7 @@ const messages = defineMessages({
   },
 })
 
-export const Help: FunctionComponent = () => {
+const Help: FunctionComponent = () => {
   const history = useHistory()
   const { categoryId, articleId } = useParams<{
     categoryId?: string
