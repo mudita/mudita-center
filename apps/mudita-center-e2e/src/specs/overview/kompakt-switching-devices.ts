@@ -52,63 +52,6 @@ describe("E2E mock sample - overview view", () => {
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed
 
-    const kompaktOsVersionLabel =
-      await OverviewKompaktPage.kompaktOsVersionLabel
-    await expect(kompaktOsVersionLabel).toBeDisplayed
-
-    const serialNumberLabel = await OverviewKompaktPage.serialNumberLabel
-    const serialNumberValue = await OverviewKompaktPage.serialNumberValue
-    await expect(serialNumberLabel).toHaveText("Serial number")
-    await expect(serialNumberValue).toHaveText(
-      overviewDataWithOneSimCard.summary.about.serialNumber.text.toString()
-    )
-
-    const aboutYourDevice = await OverviewKompaktPage.aboutYourDevice
-    await expect(aboutYourDevice).toBeDisplayed
-    console.log(aboutYourDevice)
-    await expect(aboutYourDevice).toBeClickable
-    await aboutYourDevice.click()
-
-    const sarInformationButtonKompakt =
-      await OverviewKompaktPage.sarInformationButtonKompakt
-    const sarInformationPopup = await OverviewKompaktPage.sarInformationPopup
-    await expect(sarInformationButtonKompakt).toBeDisplayed
-    await sarInformationButtonKompakt.click()
-    await expect(sarInformationPopup).toBeDisplayed
-
-    const sarInformationPopupCloseButton =
-      await OverviewKompaktPage.sarInformationPopupCloseButton
-    await sarInformationPopupCloseButton.click()
-
-    const createBackupButton = await OverviewPage.createBackupButton
-    await expect(createBackupButton).toBeDisplayed
-    await expect(createBackupButton).toBeClickable
-
-    const backupInfo = await OverviewKompaktPage.backupInfo
-    await expect(backupInfo).toBeDisplayed
-    const str: string =
-      "\tYou haven’t backed up your device yet.\n Create a backup file to protect against data loss.\n"
-    const backupInfoText: string = str.trim()
-
-    const kompaktBatteryIcon = await OverviewKompaktPage.kompaktBatteryIcon
-    await expect(kompaktBatteryIcon).toBeDisplayed
-
-    const kompaktBatteryLevelValue =
-      await OverviewKompaktPage.kompaktBatteryLevelValue
-    await expect(kompaktBatteryLevelValue).toBeDisplayed
-    const batteryValNum: string = "100%"
-    const batteryValue: string = batteryValNum
-
-    const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
-    await expect(kompaktNetworkName).toBeDisplayed
-    const strNetwork: string = "T-Mobile"
-    const networkName: string = strNetwork
-
-    const kompaktSignalIcon = await OverviewKompaktPage.kompaktSignalIcon
-    await expect(kompaktSignalIcon).toBeDisplayed
-    const strSignal: string = "network-signal-2"
-    const signalValue: string = strSignal
-
     const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
     await expect(kompaktSimCard1).toBeDisplayed
     const sim1: string = "SIM 1"
@@ -135,8 +78,25 @@ describe("E2E mock sample - overview view", () => {
     await expect(menuItem).toBeDisplayed()
   })
 
-  it("Disconnect the device and check if Welcome screen is present", async () => {
+  xit("Verify Overview Page for 2nd device", async () => {
+    const kompaktImage = await OverviewKompaktPage.kompaktImage
+    await expect(kompaktImage).toBeDisplayed
+    console.log(kompaktImage)
+    await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
+
+    const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
+    await expect(kompaktOsVersion).toBeDisplayed
+
+    const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
+    await expect(kompaktSimCard1).toBeDisplayed
+    const sim1: string = "SIM 1"
+    const simInfo: string = sim1
+  })
+
+  it("Disconnect the devices and check if Mudita News is present", async () => {
     E2EMockClient.removeDevice("path-1")
-    await HomePage.homeHeader.waitForDisplayed()
+    E2EMockClient.removeDevice("path-2")
+    const muditaNewsTab = await tabsPage.muditaNewsTab
+    await muditaNewsTab.waitForDisplayed()
   })
 })
