@@ -45,3 +45,5 @@ export const contactsConfig = {
     layout: { margin: "16px" },
   },
 }
+
+export const contactsConfigDefault = {}
