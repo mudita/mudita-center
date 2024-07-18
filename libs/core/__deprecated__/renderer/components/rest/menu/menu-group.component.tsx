@@ -94,19 +94,6 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
                 ? { label: button.label }
                 : { labelMessage: button.label }),
             }
-            if (button === views.help) {
-              const openHelpWindow = () =>
-                ipcRenderer.callMain(HelpActions.OpenWindow)
-              return (
-                <LinkWrapper key={index}>
-                  <Button
-                    {...buttonMenuConfig}
-                    onClick={openHelpWindow}
-                    data-testid={testId}
-                  />
-                </LinkWrapper>
-              )
-            }
             return (
               <LinkWrapper key={index}>
                 <NotificationBadge

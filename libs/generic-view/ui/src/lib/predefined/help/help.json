@@ -1,0 +1,648 @@
+[
+  {
+    "id": "1NFM3D9EYdcCgjkST0LIis",
+    "name": "Harmony",
+    "subcategoriesLeftColumn": [
+      {
+        "id": "575njKRjyYLpeDMS9dUlVB",
+        "name": "Music files",
+        "icon": "//images.ctfassets.net/7r8r6ooihd64/2oqRdqSOn0WY2ubnAJDr2h/1400804811cbfe46128b5d0bccebbdf6/music.svg",
+        "articles": [
+          {
+            "id": "58xK8Y4RfbtiH5oQ8YCUC3",
+            "title": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "version": 1,
+            "content": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Donec consectetur risus eget lacus faucibus pellentesque.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "heading-1"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Aenean rhoncus lacinia dictum. Phasellus quis placerat mi. ",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Proin dui dui, lacinia sit amet accumsan non, ",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [
+                                {
+                                  "type": "bold"
+                                }
+                              ],
+                              "value": "fermentum nec dui",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": ". \nAliquam erat volutpat. Aenean et tortor eu odio fringilla malesuada. ",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Ut tincidunt vulputate orci nec mattis:",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        },
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "content": [
+                                {
+                                  "data": {},
+                                  "content": [
+                                    {
+                                      "data": {},
+                                      "marks": [],
+                                      "value": "Curabitur eget eros ",
+                                      "nodeType": "text"
+                                    },
+                                    {
+                                      "data": {},
+                                      "marks": [
+                                        {
+                                          "type": "italic"
+                                        }
+                                      ],
+                                      "value": "scelerisque",
+                                      "nodeType": "text"
+                                    },
+                                    {
+                                      "data": {},
+                                      "marks": [],
+                                      "value": ", tincidunt ligula vitae, imperdiet arcu. ",
+                                      "nodeType": "text"
+                                    }
+                                  ],
+                                  "nodeType": "paragraph"
+                                }
+                              ],
+                              "nodeType": "list-item"
+                            },
+                            {
+                              "data": {},
+                              "content": [
+                                {
+                                  "data": {},
+                                  "content": [
+                                    {
+                                      "data": {},
+                                      "marks": [],
+                                      "value": "Curabitur finibus lectus non quam ",
+                                      "nodeType": "text"
+                                    },
+                                    {
+                                      "data": {},
+                                      "marks": [
+                                        {
+                                          "type": "underline"
+                                        }
+                                      ],
+                                      "value": "posuere",
+                                      "nodeType": "text"
+                                    },
+                                    {
+                                      "data": {},
+                                      "marks": [],
+                                      "value": " imperdiet eget a lorem. ",
+                                      "nodeType": "text"
+                                    }
+                                  ],
+                                  "nodeType": "paragraph"
+                                }
+                              ],
+                              "nodeType": "list-item"
+                            },
+                            {
+                              "data": {},
+                              "content": [
+                                {
+                                  "data": {},
+                                  "content": [
+                                    {
+                                      "data": {},
+                                      "marks": [],
+                                      "value": "Sed vitae efficitur nibh. ",
+                                      "nodeType": "text"
+                                    }
+                                  ],
+                                  "nodeType": "paragraph"
+                                }
+                              ],
+                              "nodeType": "list-item"
+                            }
+                          ],
+                          "nodeType": "ordered-list"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Cras dui augue, mollis et fringilla et, feugiat nec velit. ",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    }
+                  ],
+                  "nodeType": "ordered-list"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "In quis tellus sed purus interdum placerat. Quisque efficitur tellus id elit aliquet pulvinar. ",
+                      "nodeType": "text"
+                    },
+                    {
+                      "data": {
+                        "uri": "https://mudita.com"
+                      },
+                      "content": [
+                        {
+                          "data": {},
+                          "marks": [],
+                          "value": "Mudita.com link",
+                          "nodeType": "text"
+                        }
+                      ],
+                      "nodeType": "hyperlink"
+                    },
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": ".",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [],
+                  "nodeType": "hr"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Duis pretium arcu elit, eget porttitor leo posuere nec.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "heading-1"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Pellentesque purus eros, lobortis ut lacus quis, rutrum faucibus enim:",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Vivamus justo enim, gravida at tincidunt ut, congue vel libero. ",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Aenean vehicula tristique metus eget tempus. ",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    },
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "content": [
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": "Curabitur dictum mi sed enim aliquet, and ",
+                              "nodeType": "text"
+                            },
+                            {
+                              "data": {
+                                "target": {
+                                  "metadata": {
+                                    "tags": []
+                                  },
+                                  "sys": {
+                                    "space": {
+                                      "sys": {
+                                        "type": "Link",
+                                        "linkType": "Space",
+                                        "id": "7r8r6ooihd64"
+                                      }
+                                    },
+                                    "id": "5zkYg329v6fj9R4hTeVSV",
+                                    "type": "Entry",
+                                    "createdAt": "2024-07-11T12:29:52.368Z",
+                                    "updatedAt": "2024-07-11T12:29:52.368Z",
+                                    "environment": {
+                                      "sys": {
+                                        "id": "master",
+                                        "type": "Link",
+                                        "linkType": "Environment"
+                                      }
+                                    },
+                                    "revision": 1,
+                                    "contentType": {
+                                      "sys": {
+                                        "type": "Link",
+                                        "linkType": "ContentType",
+                                        "id": "helpCustomLink"
+                                      }
+                                    },
+                                    "locale": "en-US"
+                                  },
+                                  "fields": {
+                                    "type": "contact-support-modal"
+                                  }
+                                }
+                              },
+                              "content": [
+                                {
+                                  "data": {},
+                                  "marks": [],
+                                  "value": "contact with our support",
+                                  "nodeType": "text"
+                                }
+                              ],
+                              "nodeType": "entry-hyperlink"
+                            },
+                            {
+                              "data": {},
+                              "marks": [],
+                              "value": ".",
+                              "nodeType": "text"
+                            }
+                          ],
+                          "nodeType": "paragraph"
+                        }
+                      ],
+                      "nodeType": "list-item"
+                    }
+                  ],
+                  "nodeType": "unordered-list"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Etiam quis magna vel sem molestie pellentesque. Nulla sit amet tincidunt purus. Ut tincidunt, magna at ullamcorper semper, erat diam cursus ante, vel efficitur risus magna eget libero. Sed vitae elit eget dolor auctor blandit. Sed nec congue leo, eu semper purus. ",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Nam scelerisque pulvinar euismod. Cras accumsan fringilla porttitor. Nullam pharetra porttitor nisl, non auctor eros fermentum eget. Vestibulum lacinia venenatis mauris eget mollis. Aenean non diam hendrerit, auctor sem eu, porta odio. ",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "",
+                      "nodeType": "text"
+                    },
+                    {
+                      "data": {
+                        "target": {
+                          "metadata": {
+                            "tags": []
+                          },
+                          "sys": {
+                            "space": {
+                              "sys": {
+                                "type": "Link",
+                                "linkType": "Space",
+                                "id": "7r8r6ooihd64"
+                              }
+                            },
+                            "id": "3qzQDqLHirJo9Vv9NaYpig",
+                            "type": "Entry",
+                            "createdAt": "2024-07-11T12:16:28.835Z",
+                            "updatedAt": "2024-07-12T15:48:22.490Z",
+                            "environment": {
+                              "sys": {
+                                "id": "master",
+                                "type": "Link",
+                                "linkType": "Environment"
+                              }
+                            },
+                            "revision": 2,
+                            "contentType": {
+                              "sys": {
+                                "type": "Link",
+                                "linkType": "ContentType",
+                                "id": "helpArticle"
+                              }
+                            },
+                            "locale": "en-US"
+                          },
+                          "fields": {
+                            "version": 1,
+                            "title": "Maecenas tincidunt nec tellus eget ultrices",
+                            "content": {
+                              "data": {},
+                              "content": [
+                                {
+                                  "data": {},
+                                  "content": [
+                                    {
+                                      "data": {},
+                                      "marks": [],
+                                      "value": "Aenean in dolor porttitor, tempor ante quis, scelerisque libero.",
+                                      "nodeType": "text"
+                                    }
+                                  ],
+                                  "nodeType": "heading-1"
+                                },
+                                {
+                                  "data": {},
+                                  "content": [
+                                    {
+                                      "data": {},
+                                      "marks": [],
+                                      "value": "Proin volutpat nibh eu nunc interdum, nec imperdiet odio viverra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas commodo ligula lacus, pellentesque tincidunt dolor pulvinar non. Donec sodales purus ac purus scelerisque ultrices. Aenean viverra ipsum eget iaculis pellentesque.",
+                                      "nodeType": "text"
+                                    }
+                                  ],
+                                  "nodeType": "paragraph"
+                                }
+                              ],
+                              "nodeType": "document"
+                            }
+                          }
+                        }
+                      },
+                      "content": [
+                        {
+                          "data": {},
+                          "marks": [],
+                          "value": "Another article link.",
+                          "nodeType": "text"
+                        }
+                      ],
+                      "nodeType": "entry-hyperlink"
+                    },
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            },
+            "warningMessage": "In tristique, turpis vel egestas facilisis, leo leo rutrum erat, ut pharetra nisi justo sed turpis."
+          },
+          {
+            "id": "3qzQDqLHirJo9Vv9NaYpig",
+            "title": "Maecenas tincidunt nec tellus eget ultrices",
+            "version": 1,
+            "content": {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Aenean in dolor porttitor, tempor ante quis, scelerisque libero.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "heading-1"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "marks": [],
+                      "value": "Proin volutpat nibh eu nunc interdum, nec imperdiet odio viverra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas commodo ligula lacus, pellentesque tincidunt dolor pulvinar non. Donec sodales purus ac purus scelerisque ultrices. Aenean viverra ipsum eget iaculis pellentesque.",
+                      "nodeType": "text"
+                    }
+                  ],
+                  "nodeType": "paragraph"
+                }
+              ],
+              "nodeType": "document"
+            }
+          }
+        ]
+      },
+      {
+        "id": "7FGdtLRNwOd0gVUwHHCpkg",
+        "name": "Update",
+        "icon": "//images.ctfassets.net/7r8r6ooihd64/2Abr8bY3xAJ3dNR0bsMZHW/82a99834b170e36ef964ab78da2b620f/update.svg"
+      }
+    ],
+    "subcategoriesRightColumn": [
+      {
+        "id": "6uuwiaOF2FkL9xvtXb5ECI",
+        "name": "Troubleshooting"
+      }
+    ]
+  },
+  {
+    "id": "5E0fFVKpTPIPVs7SJvBm29",
+    "name": "Pure",
+    "subcategoriesLeftColumn": [
+      {
+        "id": "611lXbJgk2ZawPjJeC3jbg",
+        "name": "Music files",
+        "icon": "//images.ctfassets.net/7r8r6ooihd64/2oqRdqSOn0WY2ubnAJDr2h/1400804811cbfe46128b5d0bccebbdf6/music.svg"
+      },
+      {
+        "id": "2zbJC1j5CoSAy7QLk2GcP1",
+        "name": "Update",
+        "icon": "//images.ctfassets.net/7r8r6ooihd64/2Abr8bY3xAJ3dNR0bsMZHW/82a99834b170e36ef964ab78da2b620f/update.svg"
+      },
+      {
+        "id": "16ZOeehh7DAyYp5l35wWMw",
+        "name": "Contacts",
+        "icon": "//images.ctfassets.net/7r8r6ooihd64/7IUG58YQcRjzZW25S9y8UN/b5c59038bc24c29de391515be55df203/contacts.svg"
+      },
+      {
+        "id": "4fQ0glXQLP2edd1PWubzL1",
+        "name": "Messages",
+        "icon": "//images.ctfassets.net/7r8r6ooihd64/X0SYT4BplPSlsFlXS2jC9/4fd617da94d4e10f62ee8fc6e0852006/messages.svg"
+      },
+      {
+        "id": "7akD2AcVnFyVABcsu4nzF7",
+        "name": "Backup and Restore",
+        "icon": "//images.ctfassets.net/7r8r6ooihd64/cuJEYzmDBCUAhUIY3yBWw/2d70f8fe9c64142ae8828eea3ad6e092/backup.svg"
+      }
+    ],
+    "subcategoriesRightColumn": [
+      {
+        "id": "14WL7LW3cZIKgN43ORxdHg",
+        "name": "Troubleshooting"
+      }
+    ]
+  },
+  {
+    "id": "6w2eIEGxkQVxScg0T2at98",
+    "name": "Kompakt",
+    "subcategoriesLeftColumn": [
+      {
+        "id": "2TD49YuicmsvWLOdx2anbn",
+        "name": "Contacts",
+        "icon": "//images.ctfassets.net/7r8r6ooihd64/7IUG58YQcRjzZW25S9y8UN/b5c59038bc24c29de391515be55df203/contacts.svg"
+      },
+      {
+        "id": "7130FnJH5O5879ZpMjGRVw",
+        "name": "Backup & Restore",
+        "icon": "//images.ctfassets.net/7r8r6ooihd64/cuJEYzmDBCUAhUIY3yBWw/2d70f8fe9c64142ae8828eea3ad6e092/backup.svg"
+      }
+    ],
+    "subcategoriesRightColumn": [
+      {
+        "id": "4nkA2he9UG6KCg4CxFUrI",
+        "name": "Troubleshooting"
+      }
+    ]
+  },
+  {
+    "id": "2a1oGPz4wdpMJJWHzWjW7v",
+    "name": "Mudita Center",
+    "subcategoriesLeftColumn": [
+      {
+        "id": "5rEKhNZkKrfIi7oJ9ksUyl",
+        "name": "Mudita Center App",
+        "icon": "//images.ctfassets.net/7r8r6ooihd64/3mXGbnklpedMg9Vf7fcKpE/c2616fc0820e1e6bedfd44d81f74101b/mudita.svg"
+      }
+    ],
+    "subcategoriesRightColumn": []
+  }
+]

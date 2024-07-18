@@ -30,9 +30,14 @@ import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configu
 import DevicesInitialization from "Core/device-initialization/components/devices-initialization.component"
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 import DeviceConnecting from "Core/discovery-device/components/device-connecting.component"
-import { GenericView } from "generic-view/feature"
-import { APIConnectionDemo, DataMigrationPage } from "generic-view/ui"
 import ManageSounds from "Core/files-manager/components/manage-sounds.component"
+import { GenericView } from "generic-view/feature"
+import {
+  APIConnectionDemo,
+  ArticlePage,
+  DataMigrationPage,
+  HelpPage,
+} from "generic-view/ui"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -58,7 +63,13 @@ export default () => (
         </LayoutDesktopWrapperWithoutHeader>
       </Route>
 
-      <Route exact path={[URL_DISCOVERY_DEVICE.root, URL_DISCOVERY_DEVICE.deviceConnecting]}>
+      <Route
+        exact
+        path={[
+          URL_DISCOVERY_DEVICE.root,
+          URL_DISCOVERY_DEVICE.deviceConnecting,
+        ]}
+      >
         <LayoutBlankWrapper closeable={false}>
           <Route
             path={URL_DISCOVERY_DEVICE.root}
@@ -72,7 +83,6 @@ export default () => (
           />
         </LayoutBlankWrapper>
       </Route>
-
 
       <Route exact path={[URL_DISCOVERY_DEVICE.availableDeviceListModal]}>
         <LayoutBlankWrapper>
@@ -120,6 +130,12 @@ export default () => (
             <Route path={URL_OVERVIEW.root} component={Overview} exact />
             <Route path={URL_MAIN.contacts} component={Contacts} exact />
             <Route path={URL_MAIN.settings} component={BackupContainer} exact />
+            <Route
+              path={`${URL_MAIN.help}/:categoryId/:articleId`}
+              component={ArticlePage}
+            />
+            <Route path={`${URL_MAIN.help}/:categoryId`} component={HelpPage} />
+            <Route path={URL_MAIN.help} component={HelpPage} />
             <Route
               path={`${URL_MAIN.settings}${URL_TABS.about}`}
               component={AboutContainer}
