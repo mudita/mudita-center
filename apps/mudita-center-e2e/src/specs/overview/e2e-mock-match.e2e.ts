@@ -23,25 +23,6 @@ describe("E2E mock match sample", () => {
   })
 
   it.only("Connect device with two different responses for one endpoint", async () => {
-    // default
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: overviewDataWithoutBadge,
-      endpoint: "FEATURE_CONFIGURATION",
-      method: "GET",
-      status: 200,
-      match: {
-        expected: { feature: "overview", lang: "en-US" },
-      },
-    })
-    // default
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: contactsConfigDefault,
-      endpoint: "FEATURE_CONFIGURATION",
-      method: "GET",
-      status: 200,
-    })
     // if body of FEATURE_CONFIGURATION request is equal to { feature: "contacts", lang: "en-US" } then return body: contactsConfig.
     // in other cases return response without match filed
     E2EMockClient.mockResponse({
@@ -64,6 +45,17 @@ describe("E2E mock match sample", () => {
       status: 200,
       match: {
         expected: { feature: "contacts", lang: "en-US" },
+      },
+    })
+    // Feature data mc-overview
+    E2EMockClient.mockResponse({
+      path: "path-1",
+      body: overviewDataWithoutBadge,
+      endpoint: "FEATURE_DATA",
+      method: "GET",
+      status: 200,
+      match: {
+        expected: { feature: "mc-overview", lang: "en-US" },
       },
     })
     E2EMockClient.mockResponse({
