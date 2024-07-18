@@ -7,18 +7,12 @@ import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import { NavLink } from "react-router-dom"
+import helpData from "../help.json"
 
-interface Props {
-  categories: {
-    id: string
-    name: string
-  }[]
-}
-
-export const CategoryTabs: FunctionComponent<Props> = ({ categories }) => {
+export const CategoryTabs: FunctionComponent = () => {
   return (
     <Wrapper>
-      {categories.map((category) => {
+      {helpData.categories.map((category) => {
         return (
           <Tab key={category.id} to={`/help/${category.id}`}>
             <span className={"normal"}>{category.name}</span>

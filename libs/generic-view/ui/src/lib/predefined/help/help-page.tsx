@@ -4,16 +4,16 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { GenericThemeProvider } from "generic-view/theme"
-import { useHistory, useParams } from "react-router"
-import helpData from "./help.json"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
-import { CategoryTabs } from "./components/category-tabs"
-import { Subcategories } from "./components/subcategories"
-import styled from "styled-components"
-import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
+import { useHistory, useParams } from "react-router"
+import { defineMessages } from "react-intl"
+import styled from "styled-components"
+import { GenericThemeProvider } from "generic-view/theme"
+import { CategoryTabs } from "./components/category-tabs"
+import { SubcategoriesList } from "./components/subcategories-list"
+import helpData from "./help.json"
 
 const messages = defineMessages({
   selectorTitle: {
@@ -23,33 +23,23 @@ const messages = defineMessages({
 
 const Help: FunctionComponent = () => {
   const history = useHistory()
-  const { categoryId, articleId } = useParams<{
+  const { categoryId } = useParams<{
     categoryId?: string
-    articleId?: string
   }>()
 
   if (!categoryId) {
-    history.push(`${URL_MAIN.help}/${helpData[0].id}`)
+    history.push(`${URL_MAIN.help}/${helpData.categories[0].id}`)
   }
-
-  const categories = helpData.map((category) => {
-    return {
-      id: category.id,
-      name: category.name,
-    }
-  })
 
   return (
     <div>
       <SearchWrapper>
-        <p>
-          Help screen: {categoryId} / {articleId}
-        </p>
+        <p>Help screen: {categoryId}</p>
       </SearchWrapper>
       <ContentWrapper>
         <h2>{intl.formatMessage(messages.selectorTitle)}</h2>
-        <CategoryTabs categories={categories} />
-        <Subcategories />
+        <CategoryTabs />
+        <SubcategoriesList />
       </ContentWrapper>
     </div>
   )

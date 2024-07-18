@@ -9,25 +9,27 @@ import { useParams } from "react-router"
 import styled from "styled-components"
 import { NavLink } from "react-router-dom"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import helpData from "../help.json"
 
 interface Props {
-  articles?: {
-    id: string
-    title: string
-  }[]
+  articleIds: string[]
 }
 
-export const ArticlesList: FunctionComponent<Props> = ({ articles = [] }) => {
+export const ArticlesList: FunctionComponent<Props> = ({ articleIds = [] }) => {
   const { categoryId } = useParams<{
     categoryId?: string
   }>()
   return (
     <Wrapper>
-      {articles.map((article) => {
+      {articleIds.map((id) => {
+        const article = helpData.articles[id as keyof typeof helpData.articles]
+        if (!article) {
+          return null
+        }
         return (
           <Link
-            key={article.id}
-            to={`${URL_MAIN.help}/${categoryId}/${article.id}`}
+            key={id}
+            to={`${URL_MAIN.help}/${categoryId}/${id}`}
             title={article.title}
           >
             {article.title}

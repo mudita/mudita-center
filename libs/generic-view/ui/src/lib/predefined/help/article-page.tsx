@@ -5,7 +5,21 @@
 
 import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
+import { GenericThemeProvider } from "generic-view/theme"
+import styled from "styled-components"
+
+const Article: FunctionComponent = () => {
+  return <Wrapper>
+
+  </Wrapper>
+}
 
 export const ArticlePage: FunctionComponent = () => {
-  return <div>test</div>
+  return (
+    <GenericThemeProvider>
+      <Article />
+    </GenericThemeProvider>
+  )
 }
+
+const Wrapper = styled.div``
