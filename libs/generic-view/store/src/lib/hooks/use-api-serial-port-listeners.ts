@@ -75,7 +75,7 @@ const useHandleDevicesDetached = () => {
     async (deviceDetachedEvents: DeviceBaseProperties[]) => {
       for (const event of deviceDetachedEvents) {
         if (
-          migrationStatus !== "IDLE" &&
+          migrationStatus === "IN-PROGRESS" &&
           (sourceDevice?.serialNumber === event.serialNumber ||
             targetDevice?.serialNumber === event.serialNumber)
         ) {
