@@ -55,6 +55,11 @@ export class FileDialog {
         BrowserWindow.getFocusedWindow() as BrowserWindow,
         openDialogOptions
       )
+      if (result.canceled) {
+        return Result.failed(
+          new AppError(FileDialogError.OpenFile, "cancelled")
+        )
+      }
       this.lastSelectedPath = result.filePaths[0]
 
       return Result.success(result.filePaths)
