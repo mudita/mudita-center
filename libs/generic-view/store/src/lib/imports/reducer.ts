@@ -7,12 +7,12 @@ import { createReducer } from "@reduxjs/toolkit"
 import { startGoogleAuthorization } from "./get-google-contacts.action"
 import {
   cleanImportProcess,
-  setDataTransferProcessFileStatus,
-  setDataTransferProcessStatus,
+  setImportProcessFileStatus,
+  setImportProcessStatus,
 } from "./actions"
 import { importContactsFromExternalSource } from "./import-contacts-from-external-source.action"
-import { UnifiedContact } from "device/models"
-import { startDataTransferToDevice } from "./start-data-transfer-to-device.action"
+import { ApiFileTransferError, UnifiedContact } from "device/models"
+import { startImportToDevice } from "./start-import-to-device.action"
 import { importContactsFromFile } from "./import-contacts-from.file"
 
 interface ImportsState {
@@ -44,7 +44,7 @@ export interface ImportProviderState {
     string,
     { transferId?: number; status: ProcessFileStatus }
   >
-  error?: string
+  error?: string | ApiFileTransferError
 }
 
 const initialState: ImportsState = {
@@ -138,7 +138,7 @@ export const importsReducer = createReducer(initialState, (builder) => {
       contacts: action.payload,
     }
   })
-  builder.addCase(setDataTransferProcessStatus, (state, action) => {
+  builder.addCase(setImportProcessStatus, (state, action) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider] = {
@@ -149,7 +149,7 @@ export const importsReducer = createReducer(initialState, (builder) => {
       }
     }
   })
-  builder.addCase(startDataTransferToDevice.pending, (state, action) => {
+  builder.addCase(startImportToDevice.pending, (state, action) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider] = {
@@ -160,17 +160,22 @@ export const importsReducer = createReducer(initialState, (builder) => {
       }
     }
   })
-  builder.addCase(startDataTransferToDevice.rejected, (state, action) => {
+  builder.addCase(startImportToDevice.rejected, (state, action) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider] = {
         ...state.providers[provider],
         domainFilesTransfer: {},
         status: "FAILED",
+        ...(action.payload
+          ? {
+              error: action.payload as ImportProviderState["error"],
+            }
+          : {}),
       }
     }
   })
-  builder.addCase(startDataTransferToDevice.fulfilled, (state, action) => {
+  builder.addCase(startImportToDevice.fulfilled, (state, action) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider] = {
@@ -180,7 +185,7 @@ export const importsReducer = createReducer(initialState, (builder) => {
       }
     }
   })
-  builder.addCase(setDataTransferProcessFileStatus, (state, action) => {
+  builder.addCase(setImportProcessFileStatus, (state, action) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider]!.domainFilesTransfer = {
