@@ -45,4 +45,5 @@ export enum IconType {
   DataMigration = "data-migration",
   Information = "information",
   ArrowBack = "arrow-back",
+  Support = "support",
 }

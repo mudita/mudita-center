@@ -13,6 +13,7 @@ import styled from "styled-components"
 import { GenericThemeProvider } from "generic-view/theme"
 import { CategoryTabs } from "./components/category-tabs"
 import { SubcategoriesList } from "./components/subcategories-list"
+import { HelpFooter } from "./components/help-footer"
 import helpData from "./help.json"
 
 const messages = defineMessages({
@@ -32,7 +33,7 @@ const Help: FunctionComponent = () => {
   }
 
   return (
-    <div>
+    <Wrapper>
       <SearchWrapper>
         <p>Help screen: {categoryId}</p>
       </SearchWrapper>
@@ -41,7 +42,8 @@ const Help: FunctionComponent = () => {
         <CategoryTabs />
         <SubcategoriesList />
       </ContentWrapper>
-    </div>
+      <HelpFooter />
+    </Wrapper>
   )
 }
 
@@ -53,9 +55,15 @@ export const HelpPage: FunctionComponent = () => {
   )
 }
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 const SearchWrapper = styled.div``
 
 const ContentWrapper = styled.div`
+  flex: 1;
   padding: ${({ theme }) => theme.space.xxl};
 
   & > h2 {
