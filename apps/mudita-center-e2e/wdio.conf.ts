@@ -73,7 +73,6 @@ export const config: Options.Testrunner = {
   suites: {
     standalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
-      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
@@ -82,11 +81,11 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+      toRelativePath(TestFilesPaths.newsPageOfflineTest),
     ],
     mock: [
-      toRelativePath(TestFilesPaths.newsPageOfflineTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
-      toRelativePath(TestFilesPaths.e2eMockSample),
       toRelativePath(TestFilesPaths.kompaktOverview),
     ],
     multidevicePureHarmony: [],
@@ -100,10 +99,8 @@ export const config: Options.Testrunner = {
     pure: [toRelativePath(TestFilesPaths.messagesInAppNavigationTest)],
     kompakt: [],
     deviceUpdate: [],
-    cicd: [
+    cicdStandalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
-      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
-      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
@@ -111,6 +108,11 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+      toRelativePath(TestFilesPaths.kompaktOverview),
+    ],
+    cicdMock: [
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.kompaktOverview),
     ],
   },
@@ -230,6 +232,7 @@ export const config: Options.Testrunner = {
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
   reporters: [
+    "spec",
     [
       "allure",
       {
