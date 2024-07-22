@@ -8,8 +8,15 @@ import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
 import HomePage from "../../page-objects/home.page"
 import tabsPage from "../../page-objects/tabs.page"
 import { kompaktImageRegex } from "../../consts/regex-const"
+import { secondaryPhoneNumberValidator } from "Core/__deprecated__/renderer/utils/form-validators"
+import overviewPage from "../../page-objects/overview.page"
+import drawerPage from "../../page-objects/drawer.page"
+import { first } from "lodash"
 
 describe("E2E mock sample - overview view", () => {
+  const firstSerialNumber = "first-serial-number"
+  const secondSerialNumber = "second-serial-number"
+
   before(async () => {
     E2EMockClient.connect()
     //wait for a connection to be established
@@ -33,7 +40,7 @@ describe("E2E mock sample - overview view", () => {
     })
     E2EMockClient.addDevice({
       path: "path-1",
-      serialNumber: "first-serial-number",
+      serialNumber: firstSerialNumber,
     })
 
     await browser.pause(6000)
@@ -68,7 +75,7 @@ describe("E2E mock sample - overview view", () => {
     })
     E2EMockClient.addDevice({
       path: "path-2",
-      serialNumber: "second-serial-number",
+      serialNumber: secondSerialNumber,
     })
 
     await browser.pause(6000)
@@ -78,12 +85,23 @@ describe("E2E mock sample - overview view", () => {
     await expect(menuItem).toBeDisplayed()
   })
 
-  xit("Switch to 2nd device", async () => {
-    const kompaktImage = await OverviewKompaktPage.kompaktImage
-    await expect(kompaktImage).toBeDisplayed
+  it("Check Drawer Modal and Switch to 2nd device", async () => {
+    const deviceSelectDrawer = await drawerPage.deviceSelectDrawer
+    await expect(deviceSelectDrawer).toBeDisplayed()
+    const firstDeviceOnDrawer = await drawerPage.getDeviceOnDrawer(
+      firstSerialNumber
+    )
+    await expect(firstDeviceOnDrawer).toBeDisplayed()
+    const secondDeviceOnDrawer = await drawerPage.getDeviceOnDrawer(
+      secondSerialNumber
+    )
+
+    await expect(secondDeviceOnDrawer).toBeDisplayed()
+    await secondDeviceOnDrawer.waitForClickable()
+    await secondDeviceOnDrawer.click()
   })
 
-  xit("Verify Overview Page for 2nd device", async () => {
+  it("Verify Overview Page for 2nd device", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
     await expect(kompaktImage).toBeDisplayed
     console.log(kompaktImage)
