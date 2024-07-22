@@ -26,6 +26,7 @@ const modalConfigValidator = z.object({
   size: modalSizeValidator.optional(),
   defaultOpened: z.boolean().optional(),
   overlayHidden: z.boolean().optional(),
+  modalLayer: z.number().optional(),
 })
 
 const configValidator = modalBaseConfigValidator.and(modalConfigValidator)
