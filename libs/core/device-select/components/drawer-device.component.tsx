@@ -23,6 +23,13 @@ import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-n
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 
+const dataTestIds = {
+  deviceImage: "drawer-device-image",
+  deviceSerialNumberValue: "drawer-device-serial-number-value",
+  deviceType: "drawer-device-type",
+  drawerDeviceWrapper: "drawer-device-wrapper",
+}
+
 const Device = styled("div")<{ active: boolean }>`
   padding: 1.8rem 2.4rem 1.8rem 1rem;
   display: flex;
@@ -122,14 +129,22 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
       active={deviceId == activeDeviceId}
       key={deviceId}
       onClick={deviceId === activeDeviceId ? () => {} : onClick}
+      data-testid={`${dataTestIds.drawerDeviceWrapper}-${serialNumberValue}`}
     >
       <DeviceImageContainer>
-        <DeviceImageStyled deviceType={deviceType} caseColour={caseColour} />
+        <DeviceImageStyled
+          deviceType={deviceType}
+          caseColour={caseColour}
+          data-testid={dataTestIds.deviceImage}
+        />
       </DeviceImageContainer>
 
       <DeviceDetailsWrapper>
         <DeviceDetails>
-          <DeviceName displayStyle={TextDisplayStyle.Headline4}>
+          <DeviceName
+            displayStyle={TextDisplayStyle.Headline4}
+            data-testid={dataTestIds.deviceType}
+          >
             {getDeviceTypeName(deviceType, caseColour)}
             {deviceId === activeDeviceId &&
               intl.formatMessage({
@@ -147,7 +162,10 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
                   id: "module.availableDeviceList.serialNumber",
                 })}
               </Text>
-              <Text displayStyle={TextDisplayStyle.Paragraph1}>
+              <Text
+                displayStyle={TextDisplayStyle.Paragraph1}
+                data-testid={dataTestIds.deviceSerialNumberValue}
+              >
                 {serialNumberValue}
               </Text>
             </>
