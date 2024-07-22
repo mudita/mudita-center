@@ -30,6 +30,7 @@ import { useWatchDeviceDataEffect } from "Core/overview/components/overview-scre
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 import { useSelector } from "react-redux"
 import { isActiveDeviceAttachedSelector } from "device-manager/feature"
+import { selectDeviceErrorModalOpened } from "generic-view/store"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
@@ -80,6 +81,9 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   useWatchDeviceDataEffect()
   const activeDeviceAttached = useSelector(isActiveDeviceAttachedSelector)
   const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
+  const genericDeviceErrorModalOpened = useSelector(
+    selectDeviceErrorModalOpened
+  )
 
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -229,65 +233,71 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 
   return (
     <>
-      {!forceUpdateNeeded && (
-        <UpdateOsFlow
-          deviceType={DeviceType.MuditaPure}
-          currentOsVersion={osVersion}
-          silentCheckForUpdateState={silentCheckForUpdateState}
-          checkForUpdateState={checkingForUpdateState}
-          availableReleasesForUpdate={availableReleasesForUpdate}
-          areAllReleasesDownloaded={areAllReleasesDownloaded}
-          downloadState={downloadingState}
-          tryAgainCheckForUpdate={tryAgainPureUpdate}
-          clearUpdateOsFlow={clearUpdateState}
-          downloadUpdates={downloadReleases}
-          abortDownloading={abortDownload}
-          updateState={updatingState}
-          updateOs={updateReleases}
-          openContactSupportFlow={openContactSupportFlow}
-          openHelpView={goToHelp}
-          error={updateOsError}
-          downloadingReleasesProcessStates={downloadingReleasesProcessStates}
-          updatingReleasesProcessStates={updatingReleasesProcessStates}
-        />
-      )}
+      {!genericDeviceErrorModalOpened && (
+        <>
+          {!forceUpdateNeeded && (
+            <UpdateOsFlow
+              deviceType={DeviceType.MuditaPure}
+              currentOsVersion={osVersion}
+              silentCheckForUpdateState={silentCheckForUpdateState}
+              checkForUpdateState={checkingForUpdateState}
+              availableReleasesForUpdate={availableReleasesForUpdate}
+              areAllReleasesDownloaded={areAllReleasesDownloaded}
+              downloadState={downloadingState}
+              tryAgainCheckForUpdate={tryAgainPureUpdate}
+              clearUpdateOsFlow={clearUpdateState}
+              downloadUpdates={downloadReleases}
+              abortDownloading={abortDownload}
+              updateState={updatingState}
+              updateOs={updateReleases}
+              openContactSupportFlow={openContactSupportFlow}
+              openHelpView={goToHelp}
+              error={updateOsError}
+              downloadingReleasesProcessStates={
+                downloadingReleasesProcessStates
+              }
+              updatingReleasesProcessStates={updatingReleasesProcessStates}
+            />
+          )}
 
-      {flags.get(Feature.ForceUpdate) && (
-        <UpdatingForceModalFlow
-          deviceType={DeviceType.MuditaPure}
-          availableReleasesForUpdate={availableReleasesForUpdate}
-          updatingReleasesProcessStates={updatingReleasesProcessStates}
-          enabled={forceUpdateNeeded}
-          startForceUpdate={startForceUpdate}
-          error={updateOsError}
-          openHelpView={goToHelp}
-          openContactSupportFlow={openContactSupportFlow}
-          forceUpdateState={forceUpdateState}
-          closeForceUpdateFlow={closeForceUpdateFlow}
-        />
-      )}
-      {backupDeviceFlowState && (
-        <BackupDeviceFlow
-          openState={backupDeviceFlowState}
-          pureOsBackupLocation={pureOsBackupLocation}
-          onStartBackupDeviceButtonClick={startBackupDevice}
-          closeModal={closeBackupDeviceFlowState}
-          onSupportButtonClick={openContactSupportFlow}
-          error={backupError}
-        />
-      )}
-      {restoreDeviceFlowState && (
-        <RestoreDeviceFlow
-          openState={restoreDeviceFlowState}
-          backups={backups}
-          onStartRestoreDeviceButtonClick={startRestoreDevice}
-          closeModal={closeRestoreDeviceFlowState}
-          onSupportButtonClick={openContactSupportFlow}
-          error={backupError}
-        />
-      )}
-      {shouldErrorSyncModalVisible() && (
-        <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
+          {flags.get(Feature.ForceUpdate) && (
+            <UpdatingForceModalFlow
+              deviceType={DeviceType.MuditaPure}
+              availableReleasesForUpdate={availableReleasesForUpdate}
+              updatingReleasesProcessStates={updatingReleasesProcessStates}
+              enabled={forceUpdateNeeded}
+              startForceUpdate={startForceUpdate}
+              error={updateOsError}
+              openHelpView={goToHelp}
+              openContactSupportFlow={openContactSupportFlow}
+              forceUpdateState={forceUpdateState}
+              closeForceUpdateFlow={closeForceUpdateFlow}
+            />
+          )}
+          {backupDeviceFlowState && (
+            <BackupDeviceFlow
+              openState={backupDeviceFlowState}
+              pureOsBackupLocation={pureOsBackupLocation}
+              onStartBackupDeviceButtonClick={startBackupDevice}
+              closeModal={closeBackupDeviceFlowState}
+              onSupportButtonClick={openContactSupportFlow}
+              error={backupError}
+            />
+          )}
+          {restoreDeviceFlowState && (
+            <RestoreDeviceFlow
+              openState={restoreDeviceFlowState}
+              backups={backups}
+              onStartRestoreDeviceButtonClick={startRestoreDevice}
+              closeModal={closeRestoreDeviceFlowState}
+              onSupportButtonClick={openContactSupportFlow}
+              error={backupError}
+            />
+          )}
+          {shouldErrorSyncModalVisible() && (
+            <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
+          )}
+        </>
       )}
       <OverviewContent
         batteryLevel={batteryLevel}

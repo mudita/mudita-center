@@ -14,8 +14,7 @@ import {
 import { TitleIcon } from "./modal-title-icon"
 import { ScrollableContent } from "./modal-scrollable-content"
 import { ModalVisibilityControllerHidden } from "./modal-visibility-controller"
-
-export type ModalSize = "small" | "medium" | "large"
+import { ModalSize } from "generic-view/utils"
 
 export const getModalSize = (size: ModalSize) => {
   switch (size) {

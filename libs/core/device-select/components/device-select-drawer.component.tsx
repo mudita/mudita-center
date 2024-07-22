@@ -37,6 +37,10 @@ import { DrawerDevice } from "Core/device-select/components/drawer-device.compon
 import { DeviceId } from "Core/device/constants/device-id"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
+const dataTestIds = {
+  drawerContent: "device-select-drawer-content",
+}
+
 const messages = defineMessages({
   changeDevice: { id: "component.drawer.headerTitle" },
 })
@@ -108,7 +112,7 @@ const DeviceSelectDrawer: FunctionComponent = () => {
         size="36.9rem"
         zIndex={ModalLayers.Drawer}
       >
-        <DrawerChildrenContainer>
+        <DrawerChildrenContainer data-testid={dataTestIds.drawerContent}>
           <Header>
             <Text
               displayStyle={TextDisplayStyle.Headline4}
