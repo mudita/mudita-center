@@ -8,10 +8,8 @@ import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
 import HomePage from "../../page-objects/home.page"
 import tabsPage from "../../page-objects/tabs.page"
 import { kompaktImageRegex } from "../../consts/regex-const"
-import { secondaryPhoneNumberValidator } from "Core/__deprecated__/renderer/utils/form-validators"
 import overviewPage from "../../page-objects/overview.page"
 import drawerPage from "../../page-objects/drawer.page"
-import { first } from "lodash"
 
 describe("E2E mock sample - overview view", () => {
   const firstSerialNumber = "first-serial-number"
@@ -88,6 +86,10 @@ describe("E2E mock sample - overview view", () => {
   it("Check Drawer Modal and Switch to 2nd device", async () => {
     const deviceSelectDrawer = await drawerPage.deviceSelectDrawer
     await expect(deviceSelectDrawer).toBeDisplayed()
+
+    const deviceImageOnDrawer = await drawerPage.deviceImageOnDrawer
+    await expect(deviceImageOnDrawer).toBeDisplayed()
+
     const firstDeviceOnDrawer = await drawerPage.getDeviceOnDrawer(
       firstSerialNumber
     )
@@ -95,7 +97,6 @@ describe("E2E mock sample - overview view", () => {
     const secondDeviceOnDrawer = await drawerPage.getDeviceOnDrawer(
       secondSerialNumber
     )
-
     await expect(secondDeviceOnDrawer).toBeDisplayed()
     await secondDeviceOnDrawer.waitForClickable()
     await secondDeviceOnDrawer.click()
@@ -116,10 +117,25 @@ describe("E2E mock sample - overview view", () => {
     const simInfo: string = sim1
   })
 
-  it("Disconnect the devices and check if Mudita News is present", async () => {
+  it("Verify Select Connected Devices, click on it and select 1st Kompakt", async () => {
+    const selectConnectedDevices = await overviewPage.selectConnectedDevices
+    await selectConnectedDevices.waitForClickable()
+    await expect(selectConnectedDevices).toHaveTextContaining("2")
+    await selectConnectedDevices.click()
+
+    const firstDeviceOnDrawer = await drawerPage.getDeviceOnDrawer(
+      firstSerialNumber
+    )
+    await expect(firstDeviceOnDrawer).toBeDisplayed()
+    await firstDeviceOnDrawer.waitForClickable()
+    await firstDeviceOnDrawer.click()
+  })
+
+  it("Disconnect the devices and check if Welcome Page is present", async () => {
     E2EMockClient.removeDevice("path-1")
     E2EMockClient.removeDevice("path-2")
-    const muditaNewsTab = await tabsPage.muditaNewsTab
-    await muditaNewsTab.waitForDisplayed()
+
+    const homeHeader = await HomePage.homeHeader
+    await homeHeader.waitForDisplayed()
   })
 })

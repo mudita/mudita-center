@@ -140,6 +140,10 @@ export class OverviewPage extends Page {
   public get muditaOSVersion() {
     return $('[data-testid="os-version"]')
   }
+
+  public get selectConnectedDevices() {
+    return $('[data-testid="icon-DotsInBox"]')
+  }
 }
 
 export default new OverviewPage()
