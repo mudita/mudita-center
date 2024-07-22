@@ -29,13 +29,18 @@ import { InputComponentProps } from "Core/__deprecated__/renderer/components/cor
 import { emailValidator } from "Core/__deprecated__/renderer/utils/form-validators"
 import { getModalButtonsSize } from "Core/__deprecated__/renderer/components/core/modal/modal.helpers"
 import { ContactSupportModalTestIds } from "Core/contact-support/components/contact-support-modal-test-ids.enum"
-import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { ModalDialog } from "Core/ui/components/modal-dialog"
 import FileList from "Core/__deprecated__/renderer/components/core/file-list/file-list.component"
 import { SendTicketPayload } from "Core/contact-support/actions/send-ticket.action"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
+import { ModalTestIds } from "Core/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
+import { Close } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
+import { SpinnerLoader } from "generic-view/ui"
 
 const messages = defineMessages({
   actionButton: {
@@ -61,6 +66,7 @@ const messages = defineMessages({
     id: "component.contactSupportModalFormFilesLabelDescription",
   },
   optional: { id: "component.contactSupportModalFormOptional" },
+  sendingTitle: { id: "component.contactSupportModalSendingTitle" },
 })
 
 export const DescriptionInput = styled(InputComponent)<InputComponentProps>`
@@ -78,11 +84,13 @@ export const DescriptionInput = styled(InputComponent)<InputComponentProps>`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.8rem;
 `
 
 const ButtonWrapper = styled.div`
-  margin-top: 4rem;
+  margin-top: 2.4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `
 
 const ButtonWithRotatingIcon = styled(Button)`
@@ -115,7 +123,7 @@ export const FormInputLabelComponent: FunctionComponent<
 )
 
 export const FormInputLabel = styled(FormInputLabelComponent)`
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.8rem;
 
   &:not(:first-of-type) {
     margin-top: 2.4rem;
@@ -155,6 +163,7 @@ const ContactSupportModal: FunctionComponent<Props> = ({
     reset,
     handleSubmit,
     formState: { errors, isValid, isDirty, isSubmitted },
+    watch,
   } = useForm<ContactSupportFieldValues>({
     mode: "onChange",
     defaultValues: {
@@ -162,6 +171,7 @@ const ContactSupportModal: FunctionComponent<Props> = ({
       [FieldKeys.Description]: "",
     },
   })
+  const email = watch(FieldKeys.Email)
 
   const sendEmail = handleSubmit((data) => {
     onSubmit(data)
@@ -180,63 +190,188 @@ const ContactSupportModal: FunctionComponent<Props> = ({
   return (
     <ModalDialog
       closeButton={false}
-      size={ModalSize.Medium}
-      title={intl.formatMessage(messages.title)}
-      subtitle={intl.formatMessage(messages.description)}
+      size={sending ? ModalSize.Small : ModalSize.MediumNew}
+      // title={intl.formatMessage(messages.title)}
+      // subtitle={intl.formatMessage(messages.description)}
       closeModal={handleCloseModal}
+      close={
+        <ModalClose
+          hidden={sending}
+          displayStyle={DisplayStyle.IconOnly}
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          onClick={closeModal}
+          Icon={IconType.Close}
+          data-testid={ModalTestIds.CloseButton}
+        />
+      }
       {...rest}
     >
-      <Form onSubmit={sendEmail}>
-        <FormInputLabel label={messages.emailLabel} />
-        <InputComponent
-          disabled={sending}
-          outlined
-          condensed
-          type={"text"}
-          data-testid={ContactSupportModalTestIds.EmailInput}
-          errorMessage={errors.email?.message}
-          label={intl.formatMessage(messages.emailPlaceholder)}
-          {...register(FieldKeys.Email, emailValidator)}
-        />
-        <FormInputLabel optional label={messages.messageLabel} />
-        <DescriptionInput
-          disabled={sending}
-          type="textarea"
-          maxRows={3}
-          label={intl.formatMessage(messages.descriptionPlaceholder)}
-          data-testid={ContactSupportModalTestIds.DescriptionInput}
-          {...register(FieldKeys.Description)}
-        />
-        <FormInputLabel label={messages.filesLabel} />
-        <Text
-          displayStyle={TextDisplayStyle.Label}
-          element={"p"}
-          color="secondary"
-          message={messages.filesLabelDescription}
-        />
-        <FileList
-          files={files}
-          data-testid={ContactSupportModalTestIds.FileList}
-        />
-        <ButtonWrapper>
-          <ButtonWithRotatingIcon
-            type={Type.Submit}
-            iconSize={IconSize.Small}
-            displayStyle={DisplayStyle.Primary}
-            data-testid={ContactSupportModalTestIds.SubmitButton}
-            size={getModalButtonsSize(ModalSize.Medium)}
-            label={intl.formatMessage(
-              sending ? messages.actionButtonProgress : messages.actionButton
-            )}
-            Icon={sending ? IconType.Refresh : IconType.SendButton}
-            disabled={
-              (!isValid && isDirty) || (!isValid && isSubmitted) || sending
-            }
-          />
-        </ButtonWrapper>
-      </Form>
+      {sending ? (
+        <>
+          <ModalHeader>
+            <IconWrapper>
+              <LoaderIcon dark />
+            </IconWrapper>
+            <h1>
+              <FormattedMessage {...messages.sendingTitle} />
+            </h1>
+          </ModalHeader>
+        </>
+      ) : (
+        <>
+          <ModalHeader>
+            <IconWrapper>
+              <Icon type={IconType.Support} />
+            </IconWrapper>
+            <h1>
+              <FormattedMessage {...messages.title} />
+            </h1>
+            <p>
+              <FormattedMessage {...messages.description} />
+            </p>
+          </ModalHeader>
+          <Form onSubmit={sendEmail}>
+            <FormInputLabel label={messages.emailLabel} />
+            <InputComponent
+              disabled={sending}
+              outlined
+              condensed
+              type={"text"}
+              data-testid={ContactSupportModalTestIds.EmailInput}
+              errorMessage={errors.email?.message}
+              label={intl.formatMessage(messages.emailPlaceholder)}
+              {...register(FieldKeys.Email, emailValidator)}
+            />
+            <FormInputLabel optional label={messages.messageLabel} />
+            <DescriptionInput
+              disabled={sending}
+              type="textarea"
+              maxRows={3}
+              label={intl.formatMessage(messages.descriptionPlaceholder)}
+              data-testid={ContactSupportModalTestIds.DescriptionInput}
+              {...register(FieldKeys.Description)}
+            />
+            <FormInputLabel label={messages.filesLabel} />
+            <FilesDescription
+              displayStyle={TextDisplayStyle.Paragraph3}
+              element={"p"}
+              message={messages.filesLabelDescription}
+            />
+            <Files
+              files={[...files, ...files, ...files]}
+              data-testid={ContactSupportModalTestIds.FileList}
+            />
+            <ButtonWrapper>
+              <Button
+                type={Type.Submit}
+                displayStyle={DisplayStyle.Primary}
+                data-testid={ContactSupportModalTestIds.SubmitButton}
+                size={getModalButtonsSize(ModalSize.Medium)}
+                label={intl.formatMessage(messages.actionButton)}
+                disabled={
+                  (!isValid && isDirty) ||
+                  (!isValid && isSubmitted) ||
+                  sending ||
+                  !email
+                }
+              />
+            </ButtonWrapper>
+          </Form>
+        </>
+      )}
     </ModalDialog>
   )
 }
 
 export default ContactSupportModal
+
+// New styles for modal
+const ModalHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -4rem;
+  padding: 0 1rem;
+
+  & + * {
+    margin-top: 2.4rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    line-height: 3.2rem;
+    margin: 1.4rem 0 0;
+
+    & + * {
+      margin-top: 2.4rem;
+    }
+  }
+
+  p {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    color: #3b3f42;
+    margin: 0;
+    text-align: center;
+  }
+`
+
+const LoaderIcon = styled(SpinnerLoader)`
+  width: 4.1rem;
+  height: 4.1rem;
+`
+
+const ModalClose = styled(Close)<{ hidden?: boolean }>`
+  visibility: ${({ hidden }) => (hidden ? "hidden" : "visible")};
+  position: absolute;
+  width: 3.2rem;
+  height: 3.2rem;
+  right: 2.4rem;
+  top: 2.4rem;
+
+  svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+`
+
+const IconWrapper = styled.div`
+  width: 6.8rem;
+  height: 6.8rem;
+  border-radius: 50%;
+  background-color: #f4f5f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > span {
+    width: 2.7rem;
+    height: 2.7rem;
+  }
+`
+
+const FilesDescription = styled(Text)`
+  color: #3b3f42;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+`
+
+const Files = styled(FileList)`
+  justify-content: flex-start;
+
+  li {
+    min-width: 34%;
+    width: auto;
+  }
+
+  span {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+  p {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #000;
+  }
+`

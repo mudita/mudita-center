@@ -8,10 +8,14 @@ import styled, { keyframes } from "styled-components"
 import { Icon } from "../icon/icon"
 import { IconType } from "generic-view/utils"
 
-export const SpinnerLoader: FunctionComponent = () => {
+interface Props {
+  dark?: boolean
+}
+
+export const SpinnerLoader: FunctionComponent<Props> = ({ dark, ...props }) => {
   return (
-    <Wrapper>
-      <Icon data={{ type: IconType.Spinner }} />
+    <Wrapper {...props}>
+      <SpinnerIcon data={{ type: dark ? IconType.SpinnerDark : IconType.Spinner }} />
     </Wrapper>
   )
 }
@@ -30,4 +34,9 @@ const Wrapper = styled.div`
   width: 3.2rem;
   height: 3.2rem;
   animation: ${spinAnimation} 1s steps(12) infinite;
+`
+
+const SpinnerIcon = styled(Icon)`
+  width: 100%;
+  height: 100%;
 `

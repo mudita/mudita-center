@@ -44,6 +44,7 @@
   "component.contactSupportModalFormMessagePlaceholder": "How can we help?",
   "component.contactSupportModalFormOptional": "optional",
   "component.contactSupportModalTitle": "Mudita Center Support",
+  "component.contactSupportModalSendingTitle": "Sending, please wait...",
   "component.crashDump.crashDumpModalErrorSubtitle": "Something went wrong during sending crash dump",
   "component.crashDump.crashDumpModalErrorTitle": "Error",
   "component.crashDump.crashDumpModalSendingSubtitle": "Sending logs to the support",

@@ -12,6 +12,8 @@ import { ContactSupportFlowTestIds } from "Core/contact-support/components/conta
 import { SendTicketState } from "Core/contact-support/reducers"
 import { SendTicketPayload } from "Core/contact-support/actions/send-ticket.action"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
+import { GenericThemeProvider } from "generic-view/theme"
+import { Modal } from "generic-view/ui"
 
 interface Props
   extends Pick<ComponentProps<typeof ContactSupportModal>, "files"> {
@@ -22,31 +24,48 @@ interface Props
 }
 
 const ContactSupportFlow: FunctionComponent<Props> = ({
-  state,
+  // state,
   files,
   sendTicket,
   closeContactSupportFlow,
   layer = ModalLayers.ContactSupport,
 }) => {
+  const state = SendTicketState.Success
   return (
     <>
       <ContactSupportModal
         layer={layer}
         testId={ContactSupportFlowTestIds.ContactSupportModal}
+        // @ts-ignore
         open={state === null || SendTicketState.Sending === state}
         closeModal={closeContactSupportFlow}
         onSubmit={sendTicket}
+        // @ts-ignore
         sending={SendTicketState.Sending === state}
         files={files}
       />
-      <ContactSupportModalSuccess
-        layer={layer}
-        testId={ContactSupportFlowTestIds.ContactSupportModalSuccess}
-        open={SendTicketState.Success === state}
-        closeModal={closeContactSupportFlow}
-      />
+      <GenericThemeProvider>
+        <Modal
+          data-testId={ContactSupportFlowTestIds.ContactSupportModalSuccess}
+          config={{
+            closeButtonAction: {
+              type: "custom",
+              callback: closeContactSupportFlow,
+            },
+            defaultOpened: state === SendTicketState.Success,
+          }}
+          componentKey={"contact-support-modal-content"}
+        ></Modal>
+      </GenericThemeProvider>
+      {/*<ContactSupportModalSuccess*/}
+      {/*  layer={layer}*/}
+      {/*  testId={ContactSupportFlowTestIds.ContactSupportModalSuccess}*/}
+      {/*  open={SendTicketState.Success === state}*/}
+      {/*  closeModal={closeContactSupportFlow}*/}
+      {/*/>*/}
       <ContactSupportModalError
         testId={ContactSupportFlowTestIds.ContactSupportModalError}
+        // @ts-ignore
         open={SendTicketState.Error === state}
         closeModal={closeContactSupportFlow}
       />
