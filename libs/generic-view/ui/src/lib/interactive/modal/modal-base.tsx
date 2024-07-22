@@ -12,8 +12,9 @@ import React, {
 import ReactModal from "react-modal"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import { theme } from "generic-view/theme"
-import { getModalSize, ModalSize } from "./helpers/modal-content"
-import { ModalBaseConfig } from "generic-view/models"
+import { getModalSize } from "./helpers/modal-content"
+import { ModalBaseConfig, ModalConfig } from "generic-view/models"
+import { ModalSize } from "generic-view/utils"
 
 interface Props extends PropsWithChildren {
   opened: boolean
@@ -21,6 +22,7 @@ interface Props extends PropsWithChildren {
   size?: ModalSize
   closeButton?: ReactElement
   overlayHidden?: boolean
+  modalLayer?: ModalConfig["modalLayer"]
 }
 
 export const ModalBase: FunctionComponent<Props> = ({
@@ -30,6 +32,7 @@ export const ModalBase: FunctionComponent<Props> = ({
   size = "medium",
   closeButton,
   overlayHidden,
+  modalLayer = ModalLayers.Default,
 }) => {
   const modalMaxHeight = useMemo(() => {
     if (config?.maxHeight === undefined) {
@@ -78,10 +81,10 @@ export const ModalBase: FunctionComponent<Props> = ({
       isOpen={opened}
       style={{
         overlay: {
-          zIndex: ModalLayers.Default,
+          zIndex: modalLayer,
         },
         content: {
-          zIndex: ModalLayers.Default,
+          zIndex: modalLayer,
           // @ts-ignore
           "--modal-padding": modalPadding,
           "--modal-width": modalWidth,
