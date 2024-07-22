@@ -75,7 +75,6 @@ export const config: Options.Testrunner = {
   suites: {
     standalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
-      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
@@ -84,12 +83,13 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+      toRelativePath(TestFilesPaths.newsPageOfflineTest),
     ],
     mock: [
       toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
-      toRelativePath(TestFilesPaths.e2eMockSample),
       toRelativePath(TestFilesPaths.kompaktOverview),
       toRelativePath(TestFilesPaths.kompaktSwitchingDevices),
     ],
@@ -104,10 +104,8 @@ export const config: Options.Testrunner = {
     pure: [toRelativePath(TestFilesPaths.messagesInAppNavigationTest)],
     kompakt: [],
     deviceUpdate: [],
-    cicd: [
+    cicdStandalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
-      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
-      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
@@ -118,6 +116,11 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
       toRelativePath(TestFilesPaths.kompaktOverview),
       toRelativePath(TestFilesPaths.kompaktSwitchingDevices),
+    ],
+    cicdMock: [
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
+      toRelativePath(TestFilesPaths.kompaktOverview),
     ],
   },
   // Patterns to exclude.
