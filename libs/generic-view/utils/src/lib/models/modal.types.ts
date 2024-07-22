@@ -7,3 +7,5 @@ export interface CustomModalError {
   title?: string
   message?: string
 }
+
+export type ModalSize = "small" | "medium" | "large"
