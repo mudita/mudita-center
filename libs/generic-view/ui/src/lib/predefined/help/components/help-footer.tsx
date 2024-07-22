@@ -19,10 +19,10 @@ const messages = defineMessages({
     id: "module.help.footer.title",
   },
   description: {
-    id: "We do our best to reply within 24h",
+    id: "module.help.footer.description",
   },
   buttonLabel: {
-    id: "Contact support",
+    id: "module.help.footer.buttonLabel",
   },
 })
 
