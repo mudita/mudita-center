@@ -14,7 +14,9 @@ import { GenericThemeProvider } from "generic-view/theme"
 import { CategoryTabs } from "./components/category-tabs"
 import { SubcategoriesList } from "./components/subcategories-list"
 import { HelpFooter } from "./components/help-footer"
+import { Search } from "./components/search"
 import helpData from "./help.json"
+import Form from "../../interactive/form/form"
 
 const messages = defineMessages({
   selectorTitle: {
@@ -35,7 +37,7 @@ const Help: FunctionComponent = () => {
   return (
     <Wrapper>
       <SearchWrapper>
-        <p>Help screen: {categoryId}</p>
+        <Search />
       </SearchWrapper>
       <ContentWrapper>
         <h2>{intl.formatMessage(messages.selectorTitle)}</h2>
@@ -50,7 +52,9 @@ const Help: FunctionComponent = () => {
 export const HelpPage: FunctionComponent = () => {
   return (
     <GenericThemeProvider>
-      <Help />
+      <Form>
+        <Help />
+      </Form>
     </GenericThemeProvider>
   )
 }
@@ -60,7 +64,14 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const SearchWrapper = styled.div``
+const SearchWrapper = styled.div`
+  padding: 6.4rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.color.white};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.color.grey4};
+`
 
 const ContentWrapper = styled.div`
   flex: 1;
