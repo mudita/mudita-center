@@ -29,7 +29,7 @@ export const Modal: BaseGenericComponent<
   CloseButton: typeof ModalCloseButton
   SizeController: typeof ModalSizeController
   VisibilityController: typeof ModalVisibilityController
-} = ({ children, componentKey, config, ...rest }) => {
+} = ({ children, componentKey, config }) => {
   const { opened } = useModalsQueue(componentKey)
 
   return (
@@ -43,7 +43,6 @@ export const Modal: BaseGenericComponent<
         padding: config.padding,
         gap: config.gap,
       }}
-      {...rest}
       modalLayer={config.modalLayer}
     >
       {config.closeButtonAction && (

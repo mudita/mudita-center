@@ -65,7 +65,9 @@
       "shared/utils": ["libs/shared/utils/src/index.ts"],
       "system-utils/feature": ["libs/system-utils/feature/src/index.ts"],
       "system-utils/models": ["libs/system-utils/models/src/index.ts"]
-    }
+    },
+    "jsx": "react",
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules",

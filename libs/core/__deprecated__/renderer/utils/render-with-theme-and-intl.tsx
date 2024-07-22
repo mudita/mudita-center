@@ -33,9 +33,7 @@ export function constructWrapper(ui: React.ReactElement) {
         locale={translationConfig.defaultLanguage}
         messages={process.env.NODE_ENV === "test" ? testLocale : localeEn}
       >
-        <Router history={createHashHistory()}>
-          {ui}
-        </Router>
+        <Router history={createHashHistory()}>{ui}</Router>
       </IntlProvider>
     </ThemeProvider>
   )

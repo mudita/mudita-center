@@ -158,6 +158,7 @@
   "component.supportModalSuccessBody": "We will contact you as soon as the problem is resolved",
   "component.supportModalSuccessBodyWithoutEmail": "We will check the issue as soon as possible.",
   "component.supportModalSuccessTitle": "Message sent",
+  "component.supportModalSuccessButtonLabel": "Close",
   "component.supportModalTitle": "Mudita Center Support",
   "component.table.close": "Close",
   "component.textToday": "Today",

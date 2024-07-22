@@ -14,10 +14,7 @@ import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/mo
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import {
-  backgroundColor,
-  borderRadius,
-} from "Core/core/styles/theming/theme-getters"
+import { borderRadius } from "Core/core/styles/theming/theme-getters"
 import InputComponent from "Core/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { Message } from "Core/__deprecated__/renderer/interfaces/message.interface"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
@@ -29,9 +26,7 @@ import { InputComponentProps } from "Core/__deprecated__/renderer/components/cor
 import { emailValidator } from "Core/__deprecated__/renderer/utils/form-validators"
 import { getModalButtonsSize } from "Core/__deprecated__/renderer/components/core/modal/modal.helpers"
 import { ContactSupportModalTestIds } from "Core/contact-support/components/contact-support-modal-test-ids.enum"
-import Icon, {
-  IconSize,
-} from "Core/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { ModalDialog } from "Core/ui/components/modal-dialog"
 import FileList from "Core/__deprecated__/renderer/components/core/file-list/file-list.component"
 import { SendTicketPayload } from "Core/contact-support/actions/send-ticket.action"
@@ -40,7 +35,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { ModalTestIds } from "Core/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import { Close } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
-import { SpinnerLoader } from "generic-view/ui"
+import { SpinnerLoader } from "../../../generic-view/ui/src/lib/shared/spinner-loader"
 
 const messages = defineMessages({
   actionButton: {
@@ -91,12 +86,6 @@ const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-`
-
-const ButtonWithRotatingIcon = styled(Button)`
-  svg {
-    fill: ${backgroundColor("lightIcon")};
-  }
 `
 
 interface FormInputLabelProps {
@@ -259,7 +248,7 @@ const ContactSupportModal: FunctionComponent<Props> = ({
               message={messages.filesLabelDescription}
             />
             <Files
-              files={[...files, ...files, ...files]}
+              files={files}
               data-testid={ContactSupportModalTestIds.FileList}
             />
             <ButtonWrapper>
@@ -286,7 +275,7 @@ const ContactSupportModal: FunctionComponent<Props> = ({
 
 export default ContactSupportModal
 
-// New styles for modal
+// Override styles to match new design
 const ModalHeader = styled.div`
   display: flex;
   flex-direction: column;
@@ -298,6 +287,14 @@ const ModalHeader = styled.div`
     margin-top: 2.4rem;
   }
 
+  p {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    color: #3b3f42;
+    margin: 0;
+    text-align: center;
+  }
+
   h1 {
     font-size: 2rem;
     line-height: 3.2rem;
@@ -307,17 +304,9 @@ const ModalHeader = styled.div`
       margin-top: 2.4rem;
     }
   }
-
-  p {
-    font-size: 1.6rem;
-    line-height: 2.4rem;
-    color: #3b3f42;
-    margin: 0;
-    text-align: center;
-  }
 `
 
-const LoaderIcon = styled(SpinnerLoader)`
+const LoaderIcon = styled((props) => <SpinnerLoader {...props} />)`
   width: 4.1rem;
   height: 4.1rem;
 `
