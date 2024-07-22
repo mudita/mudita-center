@@ -78,6 +78,11 @@ describe("E2E mock sample - overview view", () => {
     await expect(menuItem).toBeDisplayed()
   })
 
+  xit("Switch to 2nd device", async () => {
+    const kompaktImage = await OverviewKompaktPage.kompaktImage
+    await expect(kompaktImage).toBeDisplayed
+  })
+
   xit("Verify Overview Page for 2nd device", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
     await expect(kompaktImage).toBeDisplayed
