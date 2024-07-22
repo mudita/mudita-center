@@ -14,3 +14,6 @@ export const replaceModal = createAction<Modal>(ActionName.ReplaceModal)
 export const closeDomainModals = createAction<Required<Pick<Modal, "domain">>>(
   ActionName.CloseDomainModals
 )
+export const setDeviceErrorModalOpened = createAction<boolean>(
+  ActionName.SetDeviceErrorModalOpened
+)

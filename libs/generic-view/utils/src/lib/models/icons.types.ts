@@ -46,4 +46,5 @@ export enum IconType {
   Information = "information",
   ArrowBack = "arrow-back",
   Support = "support",
+  Exclamation = "exclamation",
 }

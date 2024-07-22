@@ -7,7 +7,7 @@ import { SerialisedIndexData } from "elasticlunr"
 import { IpcEvent } from "Core/core/decorators"
 import { IndexStorage } from "Core/index-storage/types"
 import { DataSyncService } from "Core/data-sync/services/data-sync.service"
-import { IpcDataSyncEvent, DataIndex } from "Core/data-sync/constants"
+import { DataIndex, IpcDataSyncEvent } from "Core/data-sync/constants"
 import { InitializeOptions } from "Core/data-sync/types"
 
 export class DataSyncController {

@@ -44,6 +44,7 @@ export const Modal: BaseGenericComponent<
         gap: config.gap,
       }}
       {...rest}
+      modalLayer={config.modalLayer}
     >
       {config.closeButtonAction && (
         <ModalCloseButton config={{ action: config.closeButtonAction }} />
