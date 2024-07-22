@@ -10,8 +10,6 @@
 class TestHelper {
   isLinux() {
     if (process.platform === "linux") {
-      console.log("CURRENT PLATFORM: " + process.platform)
-      console.log(process.platform + " = Test Skipped ")
       return true
     }
     return false
