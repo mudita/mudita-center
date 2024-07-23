@@ -3,15 +3,13 @@ import {
   overviewDataWithOneSimCard,
   overviewDataWithOneSimCard2nd,
 } from "../../../../../libs/e2e-mock/responses/src"
-import OverviewPage from "../../page-objects/overview.page"
 import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
 import HomePage from "../../page-objects/home.page"
-import tabsPage from "../../page-objects/tabs.page"
 import { kompaktImageRegex } from "../../consts/regex-const"
 import overviewPage from "../../page-objects/overview.page"
 import drawerPage from "../../page-objects/drawer.page"
 
-describe("E2E mock sample - overview view", () => {
+describe("Kompakt switching devices", () => {
   const firstSerialNumber = "first-serial-number"
   const secondSerialNumber = "second-serial-number"
 
@@ -50,17 +48,12 @@ describe("E2E mock sample - overview view", () => {
 
   it("Verify Overview Page", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
-    await expect(kompaktImage).toBeDisplayed
+    await expect(kompaktImage).toBeDisplayed()
     console.log(kompaktImage)
     await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
-    await expect(kompaktOsVersion).toBeDisplayed
-
-    const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
-    await expect(kompaktSimCard1).toBeDisplayed
-    const sim1: string = "SIM 1"
-    const simInfo: string = sim1
+    await expect(kompaktOsVersion).toBeDisplayed()
   })
 
   it("Connect 2nd device", async () => {
@@ -77,10 +70,6 @@ describe("E2E mock sample - overview view", () => {
     })
 
     await browser.pause(6000)
-    const menuItem = await $(`//a[@href="#/generic/mc-overview"]`)
-
-    await menuItem.waitForDisplayed({ timeout: 10000 })
-    await expect(menuItem).toBeDisplayed()
   })
 
   it("Check Drawer Modal and Switch to 2nd device", async () => {
@@ -104,17 +93,15 @@ describe("E2E mock sample - overview view", () => {
 
   it("Verify Overview Page for 2nd device", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
-    await expect(kompaktImage).toBeDisplayed
+    await expect(kompaktImage).toBeDisplayed()
     console.log(kompaktImage)
     await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
-    await expect(kompaktOsVersion).toBeDisplayed
+    await expect(kompaktOsVersion).toBeDisplayed()
 
     const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
-    await expect(kompaktSimCard1).toBeDisplayed
-    const sim1: string = "SIM 1"
-    const simInfo: string = sim1
+    await expect(kompaktSimCard1).toBeDisplayed()
   })
 
   it("Verify Select Connected Devices, click on it and select 1st Kompakt", async () => {

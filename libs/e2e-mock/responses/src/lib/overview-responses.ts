@@ -51,8 +51,12 @@ export const overviewDataWithOneSimCard2nd = {
     },
   },
   sections: {
-    battery: { icon: "battery-charging-2", text: "40%", subText: "" },
-    update: { text: "ANDROID 12", version: "0.3.0" },
-    "airplane-mode": { icon: "network-signal-5", text: "Play" },
+    battery: {
+      icon: "battery-charging-2",
+      text: "40%",
+      subText: "dummySubText",
+    },
+    update: { text: "ANDROID 13", version: "0.3.1" },
+    "airplane-mode": { icon: "network-signal-4", text: "Play" },
   },
 }
