@@ -469,7 +469,11 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       setImportContactsFlowState(ImportContactsFlowState.MethodSelected)
       const authorizeResult = await authorize(provider)
 
-      if (authorizeResult.type === "CONTACTS_AUTHORIZE/rejected") {
+      if (
+        authorizeResult.type === "CONTACTS_AUTHORIZE/rejected" ||
+        (authorizeResult.type === "CONTACTS_AUTHORIZE/fulfilled" &&
+          authorizeResult.payload.payload === "window closed")
+      ) {
         setImportContactsFlowState((prev) => {
           return prev === ImportContactsFlowState.MethodSelected
             ? ImportContactsFlowState.Start
