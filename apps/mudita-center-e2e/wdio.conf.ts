@@ -83,7 +83,6 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
-      toRelativePath(TestFilesPaths.kompaktSwitchingDevices),
     ],
     mock: [
       toRelativePath(TestFilesPaths.newsPageOfflineTest),

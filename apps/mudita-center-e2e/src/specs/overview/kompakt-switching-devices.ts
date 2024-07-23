@@ -10,8 +10,8 @@ import overviewPage from "../../page-objects/overview.page"
 import drawerPage from "../../page-objects/drawer.page"
 
 describe("Kompakt switching devices", () => {
-  const firstSerialNumber = "first-serial-number"
-  const secondSerialNumber = "second-serial-number"
+  const firstSerialNumber = "KOM1234567890"
+  const secondSerialNumber = "KOM1234567892"
 
   before(async () => {
     E2EMockClient.connect()
@@ -49,7 +49,6 @@ describe("Kompakt switching devices", () => {
   it("Verify Overview Page", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
     await expect(kompaktImage).toBeDisplayed()
-    console.log(kompaktImage)
     await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
@@ -94,7 +93,6 @@ describe("Kompakt switching devices", () => {
   it("Verify Overview Page for 2nd device", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
     await expect(kompaktImage).toBeDisplayed()
-    console.log(kompaktImage)
     await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
@@ -107,7 +105,7 @@ describe("Kompakt switching devices", () => {
   it("Verify Select Connected Devices, click on it and select 1st Kompakt", async () => {
     const selectConnectedDevices = await overviewPage.selectConnectedDevices
     await selectConnectedDevices.waitForClickable()
-    await expect(selectConnectedDevices).toHaveTextContaining("2")
+    await expect(selectConnectedDevices).toHaveText("2")
     await selectConnectedDevices.click()
 
     const firstDeviceOnDrawer = await drawerPage.getDeviceOnDrawer(
