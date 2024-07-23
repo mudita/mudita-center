@@ -10,6 +10,10 @@ class AboutKompaktPage extends Page {
     return $("h3*=About your device")
   }
 
+  public get aboutSubtitle() {
+    return $("p*=Device details")
+  }
+
   public get backToOverviewIcon() {
     return $('[data-testid="icon-ArrowLongLeft"]')
   }
@@ -19,31 +23,31 @@ class AboutKompaktPage extends Page {
   }
 
   public get serialNumberLabel() {
-    return $("p*=Serial number")
+    return $('[data-testid="about-data-box-label-serial-number"]')
   }
 
   public get serialNumberValue() {
-    return $(`//div[@componentkey="details"]/div[1]/p[2]`)
+    return $('[data-testid="about-data-box-value-serial-number"]')
   }
 
   public get imei1Label() {
-    return $("p*=IMEI (sim slot 1)")
+    return $('[data-testid="about-data-box-label-imei-(sim-slot-1)"]')
   }
 
   public get imei1Value() {
-    return $(`//div[@componentkey="details"]/div[2]/p[2]`)
+    return $('[data-testid="about-data-box-value-imei-(sim-slot-1)"]')
   }
 
   public get imei2Label() {
-    return $("p*=IMEI (sim slot 2)")
+    return $('[data-testid="about-data-box-label-imei-(sim-slot-2)"]')
   }
 
   public get imei2Value() {
-    return $(`//div[@componentkey="details"]/div[3]/p[2]`)
+    return $('[data-testid="about-data-box-value-imei-(sim-slot-2)"]')
   }
 
   public get sarLabel() {
-    return $("p*=SAR")
+    return $('[data-testid="about-data-box-label-sar"]')
   }
 
   public get sarButton() {
