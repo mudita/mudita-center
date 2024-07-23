@@ -4,6 +4,8 @@ import ModalPage from "../../page-objects/modal.page"
 import packageInfo from "../../../../mudita-center/package.json"
 
 describe("Force Update MC - Successful Download", () => {
+  const newestAvailableVersion = "9.9.9"
+
   before(async function () {
     E2EMockClient.connect()
     //wait for a connection to be established
@@ -11,7 +13,11 @@ describe("Force Update MC - Successful Download", () => {
       return E2EMockClient.checkConnection()
     })
 
-    E2EMockClient.setMockUpdateState({ available: true, version: "999.0.0" })
+    E2EMockClient.setMockUpdateState({
+      available: true,
+      version: newestAvailableVersion,
+    })
+
     E2EMockClient.mockHttpResponse({
       url: "v2-app-configuration",
       method: "GET",
@@ -28,7 +34,7 @@ describe("Force Update MC - Successful Download", () => {
   })
 
   it("Check update modal sections ", async () => {
-    await console.log("PACKAGE INFO VERSION:" + packageInfo.version)
+    console.log("PACKAGE INFO VERSION:" + packageInfo.version)
 
     // Header
     const modalHeader = await modalAppUpdatePage.modalHeader
@@ -45,7 +51,8 @@ describe("Force Update MC - Successful Download", () => {
     const textParagraphAvailableVersion =
       await paragraphAvailableVersion.getText()
     const availableAppVersion = textParagraphAvailableVersion.split("to ").pop()
-    await console.log("AVAILABLE VERSION:" + availableAppVersion)
+    console.log("AVAILABLE VERSION:" + availableAppVersion)
+    await expect(availableAppVersion).toBe(newestAvailableVersion)
 
     // Current version
     const paragraphCurrentVersion =
@@ -56,7 +63,7 @@ describe("Force Update MC - Successful Download", () => {
     )
     const textParagraphCurrentVersion = await paragraphCurrentVersion.getText()
     const currentAppVersion = textParagraphCurrentVersion.split(": ").pop()
-    await console.log("CURRENT VERSION:" + currentAppVersion)
+    console.log("CURRENT VERSION:" + currentAppVersion)
 
     // Privacy policy
     const paragraphPrivacyPolicy =

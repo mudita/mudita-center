@@ -85,9 +85,11 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+    ],
+    mock: [
+      toRelativePath(TestFilesPaths.e2eMockSample),
       toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
     ],
-    mock: [toRelativePath(TestFilesPaths.e2eMockSample)],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
     multideviceSinglePure: [],
