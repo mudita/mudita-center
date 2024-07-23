@@ -24,7 +24,7 @@ export const authorize = createAsyncThunk<
 >(ContactsEvent.Authorize, async (payload, { dispatch }) => {
   switch (payload) {
     case Provider.Google:
-      return dispatch(googleAuthorize(Scope.Contacts))
+      return dispatch(googleAuthorize(Scope.Contacts)).unwrap()
     case Provider.Apple:
       return undefined
     case Provider.Outlook:
