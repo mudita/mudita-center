@@ -53,6 +53,9 @@ describe("Kompakt switching devices", () => {
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
+
+    const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
+    await expect(kompaktSimCard1).toHaveText("SIM 1")
   })
 
   it("Connect 2nd device", async () => {
@@ -99,7 +102,7 @@ describe("Kompakt switching devices", () => {
     await expect(kompaktOsVersion).toBeDisplayed()
 
     const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
-    await expect(kompaktSimCard1).toBeDisplayed()
+    await expect(kompaktSimCard1).toHaveText("SIM 1")
   })
 
   it("Verify Select Connected Devices, click on it and select 1st Kompakt", async () => {
