@@ -16,7 +16,7 @@
   },
   "scripts": {
     "setup": "npm ci && nx postsetup mudita-center",
-    "setup-validate": "npm ci && nx copy-static-dependencies mudita-center",
+    "setup-validate": "npm ci && nx copy-static-dependencies mudita-center && nx help-v2:download mudita-center",
     "app:develop": "nx develop mudita-center",
     "app:dist": "nx dist mudita-center",
     "app:translations:sync": "nx translations:sync mudita-center",
