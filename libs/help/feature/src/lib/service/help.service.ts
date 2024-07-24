@@ -20,7 +20,7 @@ export class HelpService {
   private async getNewestData(nextSyncToken?: string) {
     try {
       const { data } = await axios.get<Partial<HelpData>>(
-        "http://localhost:8888/.netlify/functions/help-v2",
+        `${process.env.MUDITA_CENTER_SERVER_V2_URL}/help-v2`,
         {
           params: {
             nextSyncToken,
