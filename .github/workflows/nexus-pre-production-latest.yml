@@ -176,7 +176,7 @@ jobs:
         if: matrix.os == 'macOS'
         run: |
           codesign -v -v apps/mudita-center/release/mac/Mudita\ Center.app
-      - name: Singing via Digicert
+      - name: Signing via Digicert
         if: matrix.os == 'Windows'
         env:
           SM_HOST: ${{ secrets.SM_HOST }}
