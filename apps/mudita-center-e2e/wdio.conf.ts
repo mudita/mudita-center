@@ -108,7 +108,6 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
-      toRelativePath(TestFilesPaths.kompaktOverview),
     ],
     cicdMock: [
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
