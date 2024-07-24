@@ -90,9 +90,9 @@ describe("E2E mock sample - overview view", () => {
     const kompaktBatteryIcon = await OverviewKompaktPage.kompaktBatteryIcon
     await expect(kompaktBatteryIcon).toBeDisplayed
 
-    const kompaktBatteryLevelValue =
-      await OverviewKompaktPage.kompaktBatteryLevelValue
-    await expect(kompaktBatteryLevelValue).toBeDisplayed
+    const kompaktBatteryLevelValueSubtext =
+      await OverviewKompaktPage.kompaktBatteryLevelValueSubtext
+    await expect(kompaktBatteryLevelValueSubtext).toBeDisplayed
     const batteryValNum: string = "100%"
     const batteryValue: string = batteryValNum
 
@@ -106,8 +106,9 @@ describe("E2E mock sample - overview view", () => {
     const strSignal: string = "network-signal-2"
     const signalValue: string = strSignal
 
-    const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
-    await expect(kompaktSimCard1).toBeDisplayed
+    const kompaktSimCard1Subtext =
+      await OverviewKompaktPage.kompaktSimCard1Subtext
+    await expect(kompaktSimCard1Subtext).toBeDisplayed
     const sim1: string = "SIM 1"
     const simInfo: string = sim1
   })

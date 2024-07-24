@@ -50,11 +50,11 @@ class OverviewKompaktPage extends OverviewPage {
     return $('//div[@data-testid="icon-battery-charging-2"]')
   }
 
-  public get kompaktBatteryLevelValue() {
+  public get kompaktBatteryLevelValueSubtext() {
     return $('//h3[text()="Status"]/..//h4[@data-testid="icon-text"]')
   }
 
-  public get kompaktSimCard1() {
+  public get kompaktSimCard1Subtext() {
     return $('[data-testid="icon-subtext"]')
   }
 

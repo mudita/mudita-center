@@ -54,8 +54,20 @@ describe("Kompakt switching devices", () => {
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
 
-    const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
-    await expect(kompaktSimCard1).toHaveText("SIM 1")
+    const kompaktSimCard1Subtext =
+      await OverviewKompaktPage.kompaktSimCard1Subtext
+    await expect(kompaktSimCard1Subtext).toHaveText("SIM 1")
+
+    const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
+    await expect(kompaktNetworkName).toBeDisplayed
+    const strNetwork: string = "T-Mobile"
+    const networkName: string = strNetwork
+
+    const kompaktBatteryLevelValueSubtext =
+      await OverviewKompaktPage.kompaktBatteryLevelValueSubtext
+    await expect(kompaktBatteryLevelValueSubtext).toBeDisplayed
+    const batteryValNum: string = "100%"
+    const batteryValue: string = batteryValNum
   })
 
   it("Connect 2nd device", async () => {
@@ -101,8 +113,20 @@ describe("Kompakt switching devices", () => {
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
 
-    const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
-    await expect(kompaktSimCard1).toHaveText("SIM 1")
+    const kompaktSimCard1Subtext =
+      await OverviewKompaktPage.kompaktSimCard1Subtext
+    await expect(kompaktSimCard1Subtext).toHaveText("SIM 1")
+
+    const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
+    await expect(kompaktNetworkName).toBeDisplayed
+    const strNetwork: string = "Play"
+    const networkName: string = strNetwork
+
+    const kompaktBatteryLevelValueSubtext =
+      await OverviewKompaktPage.kompaktBatteryLevelValueSubtext
+    await expect(kompaktBatteryLevelValueSubtext).toBeDisplayed
+    const batteryValNum: string = "40%"
+    const batteryValue: string = batteryValNum
   })
 
   it("Verify Select Connected Devices, click on it and select 1st Kompakt", async () => {
