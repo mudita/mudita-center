@@ -8,7 +8,7 @@ import { HelpData } from "help/models"
 import { setHelpData } from "./actions"
 
 interface HelpState {
-  data: HelpData
+  data: Omit<HelpData, "nextSyncToken">
 }
 
 const initialState: HelpState = {
@@ -17,7 +17,6 @@ const initialState: HelpState = {
     subcategories: {},
     articles: {},
     assets: {},
-    lastUpdate: "",
   },
 }
 

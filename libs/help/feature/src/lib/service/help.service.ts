@@ -9,87 +9,60 @@ import { pathExists, readJSON, writeJSON } from "fs-extra"
 import axios from "axios"
 import { HelpData, HelpEvent } from "help/models"
 import { ipcMain } from "electron-better-ipc"
-import { omit } from "lodash"
+import defaultHelp from "App/help-v2/default-help.json"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 const helpPath = path.join(`${getAppPath()}`, "help-v2.json")
 
 export class HelpService {
   constructor() {}
 
-  private async getNewestData(lastUpdate?: string) {
+  private async getNewestData(nextSyncToken?: string) {
     try {
       const { data } = await axios.get<HelpData>(
         "http://localhost:8888/.netlify/functions/help-v2",
         {
           params: {
-            lastUpdate,
+            nextSyncToken,
           },
         }
       )
-      return {
-        categories: data.categories,
-        subcategories: data.subcategories,
-        articles: data.articles,
-        assets: data.assets,
-        lastUpdate: new Date().toISOString(),
-      }
+      return data
     } catch {
       return {
-        categories: {},
-        subcategories: {},
-        articles: {},
-        assets: {},
-        lastUpdate: new Date("2024-01-01").toISOString(),
+        nextSyncToken: "",
       }
     }
   }
 
-  private async updateStoredData() {
-    let helpData: HelpData
-    if (await pathExists(helpPath)) {
+  private async update() {
+    try {
       const oldHelpData = (await readJSON(helpPath)) as HelpData
-      const newHelpData = await this.getNewestData(oldHelpData.lastUpdate)
-      helpData = {
-        categories: {
-          ...oldHelpData.categories,
-          ...newHelpData?.categories,
-        },
-        subcategories: {
-          ...oldHelpData.subcategories,
-          ...newHelpData?.subcategories,
-        },
-        articles: {
-          ...oldHelpData.articles,
-          ...newHelpData?.articles,
-        },
-        assets: {
-          ...oldHelpData.assets,
-          ...newHelpData?.assets,
-        },
-        lastUpdate: newHelpData?.lastUpdate,
-      }
-      const helpNeedsUpdate =
-        JSON.stringify(omit(oldHelpData, "lastUpdate")) !==
-        JSON.stringify(omit(helpData, "lastUpdate"))
+      const newHelpData = await this.getNewestData(oldHelpData.nextSyncToken)
 
-      if (helpNeedsUpdate) {
-        void ipcMain.callFocusedRenderer(HelpEvent.DataUpdated, helpData)
+      if (newHelpData.nextSyncToken !== oldHelpData.nextSyncToken) {
+        void writeJSON(helpPath, newHelpData)
+        void ipcMain.callFocusedRenderer(HelpEvent.DataUpdated, newHelpData)
       }
-    } else {
-      helpData = await this.getNewestData()
+    } catch {
+      logger.error("Failed to update help data")
     }
-    void writeJSON(helpPath, helpData)
-    return helpData
+  }
+
+  private async initializeDefaultData() {
+    const helpExists = await pathExists(helpPath)
+    if (!helpExists) {
+      await writeJSON(helpPath, defaultHelp)
+      logger.info("Default help data initialized")
+    }
   }
 
   async initialize() {
-    void this.updateStoredData()
+    await this.initializeDefaultData()
+    void this.update()
 
     ipcMain.answerRenderer(HelpEvent.GetData, async () => {
-      const helpExists = await pathExists(helpPath)
-      return helpExists
-        ? ((await readJSON(helpPath)) as HelpData)
-        : await this.updateStoredData()
+      return (await readJSON(helpPath)) as HelpData
     })
   }
 }

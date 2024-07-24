@@ -37,11 +37,11 @@ export interface HelpAsset {
 }
 
 export interface HelpData {
-  categories: Record<string, HelpCategory>
-  subcategories: Record<string, HelpSubcategory>
-  articles: Record<string, HelpArticle>
-  assets: Record<string, HelpAsset>
-  lastUpdate: string
+  categories?: Record<string, HelpCategory>
+  subcategories?: Record<string, HelpSubcategory>
+  articles?: Record<string, HelpArticle>
+  assets?: Record<string, HelpAsset>
+  nextSyncToken: string
 }
 
 export type HelpSearchResult = Results<InternalTypedDocument<ArticleDocument>>

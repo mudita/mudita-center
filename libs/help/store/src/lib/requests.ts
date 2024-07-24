@@ -7,5 +7,5 @@ import { ipcRenderer } from "electron-better-ipc"
 import { HelpData, HelpEvent } from "help/models"
 
 export const getHelpData = () => {
-  return ipcRenderer.callMain(HelpEvent.GetData) as Promise<HelpData>
+  return ipcRenderer.callMain(HelpEvent.GetData) as Promise<Required<HelpData>>
 }

@@ -7,7 +7,7 @@ import { createSelector } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const selectHelpCategories = createSelector(
-  (state: ReduxRootState) => state.help.data.categories,
+  (state: ReduxRootState) => state.helpV2.data.categories,
   (categories) => categories
 )
 
@@ -19,7 +19,7 @@ export const selectHelpCategoriesList = createSelector(
 )
 
 export const selectCurrentCategory = createSelector(
-  (state: ReduxRootState) => state.help.data.categories,
+  (state: ReduxRootState) => state.helpV2.data.categories,
   (state: ReduxRootState, categoryId?: string) => categoryId,
   (categories, categoryId) => {
     return categoryId ? categories[categoryId] : undefined
@@ -27,7 +27,7 @@ export const selectCurrentCategory = createSelector(
 )
 
 export const selectCurrentSubcategory = createSelector(
-  (state: ReduxRootState) => state.help.data.subcategories,
+  (state: ReduxRootState) => state.helpV2.data.subcategories,
   (state: ReduxRootState, subcategoryId?: string) => subcategoryId,
   (subcategories, subcategoryId) => {
     return subcategoryId ? subcategories[subcategoryId] : undefined
@@ -35,7 +35,7 @@ export const selectCurrentSubcategory = createSelector(
 )
 
 export const selectHelpArticles = createSelector(
-  (state: ReduxRootState) => state.help.data.articles,
+  (state: ReduxRootState) => state.helpV2.data.articles,
   (articles) => {
     return articles
   }
@@ -50,7 +50,7 @@ export const selectCurrentArticle = createSelector(
 )
 
 export const selectHelpAssets = createSelector(
-  (state: ReduxRootState) => state.help.data.assets,
+  (state: ReduxRootState) => state.helpV2.data.assets,
   (assets) => {
     return assets
   }
