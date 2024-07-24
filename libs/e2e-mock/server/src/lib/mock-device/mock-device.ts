@@ -34,7 +34,8 @@ export class MockDevice extends BaseDevice {
     const response = mockDescriptor.getResponse(
       this.portInfo.path,
       config.endpoint,
-      config.method as APIMethodsType
+      config.method as APIMethodsType,
+      config.body
     )
 
     let result: ResultObject<ApiResponse<unknown>> | undefined = undefined
