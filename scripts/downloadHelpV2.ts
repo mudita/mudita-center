@@ -12,8 +12,9 @@ require("dotenv").config({
 })
 ;(async () => {
   try {
-    const directory = path.resolve(path.join("src", "help-v2"))
-    await fs.ensureDir(directory)
+    const directory = path.resolve(
+      path.join("..", "..", "libs", "help", "feature", "src", "lib")
+    )
     const jsonPath = path.join(directory, "default-help.json")
 
     const url = `${process.env.MUDITA_CENTER_SERVER_V2_URL}/help-v2`
