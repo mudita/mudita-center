@@ -40,7 +40,7 @@ class HelpDatabase {
     })
   }
 
-  public async updateData(articles: NonNullable<HelpData["articles"]>) {
+  public async updateData(articles: HelpData["articles"]) {
     if (!this.articlesDb) {
       throw new Error("Database is not initialized")
     }

@@ -37,10 +37,10 @@ export interface HelpAsset {
 }
 
 export interface HelpData {
-  categories?: Record<string, HelpCategory>
-  subcategories?: Record<string, HelpSubcategory>
-  articles?: Record<string, HelpArticle>
-  assets?: Record<string, HelpAsset>
+  categories: Record<string, HelpCategory>
+  subcategories: Record<string, HelpSubcategory>
+  articles: Record<string, HelpArticle>
+  assets: Record<string, HelpAsset>
   nextSyncToken: string
 }
 
