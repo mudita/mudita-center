@@ -453,6 +453,8 @@
   "module.help.search.title": "Welcome! How can we help you?",
   "module.help.search.description": "Browse our selection of how-to and troubleshooting guides",
   "module.help.search.placeholder": "Search topics",
+  "module.help.search.dropdown.description": "Quick links",
+  "module.help.search.dropdown.noResults": "We couldn't find any topics...",
   "module.license": "License",
   "module.manageSounds": "Manage Sounds",
   "module.manageSounds.alarmsTab": "Alarms",
