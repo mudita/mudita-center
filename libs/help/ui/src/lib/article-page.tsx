@@ -31,11 +31,13 @@ const Article: FunctionComponent = () => {
   return (
     <Wrapper>
       <ArticleHeader title={article.title} />
-      <ArticleWrapper>
-        <ArticleWarning />
-        <ArticleContent />
-      </ArticleWrapper>
-      <ArticleFooter />
+      <ScrollArea>
+        <ArticleWrapper>
+          <ArticleWarning />
+          <ArticleContent />
+        </ArticleWrapper>
+        <ArticleFooter />
+      </ScrollArea>
     </Wrapper>
   )
 }
@@ -49,6 +51,13 @@ export const ArticlePage: FunctionComponent = () => {
 }
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const ScrollArea = styled.div`
+  flex: 1;
+  overflow: auto;
   display: flex;
   flex-direction: column;
 `
