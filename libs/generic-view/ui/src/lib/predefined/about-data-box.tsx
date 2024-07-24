@@ -8,16 +8,31 @@ import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
 import { AboutDataBoxConfig, AboutDataBoxData } from "generic-view/models"
 
+const dataTestId = {
+  aboutDataBoxWrapper: "about-data-box",
+  label: "about-data-box-label",
+  value: "about-data-box-value",
+}
+
 export const AboutDataBox: APIFC<AboutDataBoxData, AboutDataBoxConfig> = ({
   data,
   config,
   children,
   ...props
 }) => {
+  const dataTestIdSufix = config.title.toLocaleLowerCase().replaceAll(" ", "-")
+
   return (
-    <Wrapper {...props}>
-      <Title>{config.title}</Title>
-      {children || (data?.text && <Value>{data?.text}</Value>)}
+    <Wrapper {...props} data-testid={dataTestId.aboutDataBoxWrapper}>
+      <Title data-testid={`${dataTestId.label}-${dataTestIdSufix}`}>
+        {config.title}
+      </Title>
+      {children ||
+        (data?.text && (
+          <Value data-testid={`${dataTestId.value}-${dataTestIdSufix}`}>
+            {data?.text}
+          </Value>
+        ))}
     </Wrapper>
   )
 }
