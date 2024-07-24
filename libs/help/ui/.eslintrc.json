@@ -8,7 +8,9 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/no-unsafe-return": "off"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

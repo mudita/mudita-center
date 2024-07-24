@@ -88,7 +88,7 @@ export class HelpService {
     ipcMain.answerRenderer(HelpEvent.GetData, async () => {
       const helpExists = await pathExists(helpPath)
       return helpExists
-        ? await readJSON(helpPath)
+        ? ((await readJSON(helpPath)) as HelpData)
         : await this.updateStoredData()
     })
   }

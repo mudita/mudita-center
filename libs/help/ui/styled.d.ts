@@ -4,7 +4,7 @@
  */
 
 import "styled-components"
-import { Theme } from "../theme/src"
+import { Theme } from "generic-view/theme"
 
 type CustomTheme = Theme
 
