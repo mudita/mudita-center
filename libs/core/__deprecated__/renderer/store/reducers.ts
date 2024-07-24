@@ -67,7 +67,7 @@ export const reducers = {
   appState: appStateReducer,
   dataMigration: dataMigrationReducer,
   genericDataTransfer: genericDataTransferReducer,
-  helpV2: helpReducer,
+  help: helpReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)
