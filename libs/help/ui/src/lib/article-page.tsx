@@ -15,6 +15,10 @@ import { ArticleFooter } from "./components/article-footer"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectCurrentArticle } from "help/store"
+import {
+  ArticleExternalLinks,
+  ExternalLinksWrapper,
+} from "./components/article-external-links"
 
 const Article: FunctionComponent = () => {
   const history = useHistory()
@@ -35,6 +39,7 @@ const Article: FunctionComponent = () => {
         <ArticleWrapper>
           <ArticleWarning />
           <ArticleContent />
+          <ArticleExternalLinks />
         </ArticleWrapper>
         <ArticleFooter />
       </ScrollArea>
@@ -68,4 +73,8 @@ const ArticleWrapper = styled.div`
   flex-direction: column;
   padding: 3.2rem 3.2rem 5.2rem;
   gap: 3.2rem;
+
+  &:has(${ExternalLinksWrapper}) {
+    padding-bottom: 3.2rem;
+  }
 `
