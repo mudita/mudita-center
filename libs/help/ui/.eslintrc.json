@@ -9,7 +9,8 @@
     {
       "files": ["*.ts", "*.tsx"],
       "rules": {
-        "@typescript-eslint/no-unsafe-return": "off"
+        "@typescript-eslint/no-unsafe-return": "off",
+        "value-no-vendor-prefix": "off"
       }
     },
     {

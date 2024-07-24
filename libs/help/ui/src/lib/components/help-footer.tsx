@@ -60,7 +60,7 @@ const Wrapper = styled.div`
   width: 100%;
   gap: 0.8rem;
   padding: 3.1rem 3.2rem 3.2rem;
-  border-top: 1px solid ${({ theme }) => theme.color.grey4};
+  border-top: 0.1rem solid ${({ theme }) => theme.color.grey4};
 `
 
 const Text = styled.p`
