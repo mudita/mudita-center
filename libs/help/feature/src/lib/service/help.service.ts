@@ -9,7 +9,7 @@ import { pathExists, readJSON, writeJSON } from "fs-extra"
 import axios from "axios"
 import { HelpData, HelpEvent } from "help/models"
 import { ipcMain } from "electron-better-ipc"
-import defaultHelp from "App/help-v2/default-help.json"
+import defaultHelp from "../default-help.json"
 import logger from "Core/__deprecated__/main/utils/logger"
 
 const helpPath = path.join(`${getAppPath()}`, "help-v2.json")
