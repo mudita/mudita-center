@@ -7,7 +7,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { createSelector } from "@reduxjs/toolkit"
 import { DomainTransferStatus } from "generic-view/store"
 
-const domainStepsCount = 3
+const domainStepsCount = 4
 
 const getDomainProgress = (status: DomainTransferStatus) => {
   switch (status) {
@@ -18,6 +18,8 @@ const getDomainProgress = (status: DomainTransferStatus) => {
     case "IN-PROGRESS":
       return 2
     case "PROCESSING":
+      return 3
+    case "FINISHED":
       return domainStepsCount
   }
 }
@@ -27,9 +29,14 @@ export const selectDataTransferStatus = createSelector(
   (status) => status
 )
 
+export const selectDataTransferDomains = createSelector(
+  (state: ReduxRootState) => state.genericDataTransfer.transfer,
+  (transfer) => transfer
+)
+
 export const selectDataTransferProgress = createSelector(
   selectDataTransferStatus,
-  (state: ReduxRootState) => state.genericDataTransfer.transfer,
+  selectDataTransferDomains,
   (mainStatus, dataTransfer) => {
     if (mainStatus === "IDLE") {
       return { progress: 0, currentDomain: undefined }

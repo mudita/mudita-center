@@ -10,6 +10,7 @@ import {
   closeModal,
   openModal,
   replaceModal,
+  setDeviceErrorModalOpened,
 } from "./actions"
 
 export interface Modal {
@@ -20,10 +21,12 @@ export interface Modal {
 
 interface GenericState {
   queue: Modal[]
+  deviceErrorModalOpened: boolean
 }
 
 const initialState: GenericState = {
   queue: [],
+  deviceErrorModalOpened: false,
 }
 
 export const genericModalsReducer = createReducer(initialState, (builder) => {
@@ -43,5 +46,8 @@ export const genericModalsReducer = createReducer(initialState, (builder) => {
     state.queue = state.queue.filter(
       (modal) => modal.domain !== action.payload.domain
     )
+  })
+  builder.addCase(setDeviceErrorModalOpened, (state, action) => {
+    state.deviceErrorModalOpened = action.payload
   })
 })

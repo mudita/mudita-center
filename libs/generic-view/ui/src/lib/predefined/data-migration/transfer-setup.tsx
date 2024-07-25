@@ -10,9 +10,14 @@ import { ButtonPrimary } from "../../buttons/button-primary"
 import { DataMigrationFeature } from "generic-view/models"
 import styled from "styled-components"
 import { useSelector } from "react-redux"
-import { selectDataMigrationFeatures } from "generic-view/store"
+import {
+  selectDataMigrationFeatures,
+  selectDataMigrationPureDbIndexing,
+  selectDataMigrationStatus,
+} from "generic-view/store"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { SpinnerLoader } from "../../shared/shared"
 
 const messages = defineMessages({
   unlockInfo: {
@@ -20,6 +25,9 @@ const messages = defineMessages({
   },
   transferButton: {
     id: "module.genericViews.dataMigration.transferSetup.transferButton",
+  },
+  pureNotReady: {
+    id: "module.genericViews.dataMigration.transferSetup.pureNotReady",
   },
 })
 
@@ -33,6 +41,8 @@ export const TransferSetup: FunctionComponent<Props> = ({
   onStartMigration,
 }) => {
   const selectedFeatures = useSelector(selectDataMigrationFeatures)
+  const pureDbIndexing = useSelector(selectDataMigrationPureDbIndexing)
+  const dataMigrationStatus = useSelector(selectDataMigrationStatus)
 
   return (
     <>
@@ -41,7 +51,16 @@ export const TransferSetup: FunctionComponent<Props> = ({
         <FeaturesSelector features={features} />
       </Wrapper>
       <Footer>
-        <p>{intl.formatMessage(messages.unlockInfo)}</p>
+        {dataMigrationStatus === "IDLE" && pureDbIndexing ? (
+          <FooterMessage>
+            <FooterSpinner dark />
+            <p>{intl.formatMessage(messages.pureNotReady)}</p>
+          </FooterMessage>
+        ) : (
+          <FooterMessage>
+            <p>{intl.formatMessage(messages.unlockInfo)}</p>
+          </FooterMessage>
+        )}
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.transferButton),
@@ -49,7 +68,7 @@ export const TransferSetup: FunctionComponent<Props> = ({
               type: "custom",
               callback: onStartMigration,
             },
-            disabled: selectedFeatures.length === 0,
+            disabled: pureDbIndexing || selectedFeatures.length === 0,
           }}
         />
       </Footer>
@@ -79,14 +98,24 @@ const Footer = styled.div`
   padding-right: 3.2rem;
   box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.08);
 
+  button {
+    min-width: 16.4rem;
+  }
+`
+
+const FooterMessage = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+
   p {
     font-size: ${({ theme }) => theme.fontSize.labelText};
     line-height: ${({ theme }) => theme.lineHeight.labelText};
     letter-spacing: 0.04em;
     color: ${({ theme }) => theme.color.grey1};
   }
+`
 
-  button {
-    min-width: 16.4rem;
-  }
+const FooterSpinner = styled(SpinnerLoader)`
+  margin-left: -4.1rem;
 `
