@@ -3,7 +3,7 @@ name: Build & deploy to development
 on:
   push:
     branches:
-      - digi
+      - develop
 jobs:
   build:
     runs-on: ${{ matrix.os }}
