@@ -55,7 +55,7 @@ export class OverviewPage extends Page {
   }
 
   public get createBackupButton() {
-    return $("p*=Create backup")
+    return $('//button[@type="button" and .//span[text()="Create backup"]]')
   }
 
   public get restoreBackupButton() {

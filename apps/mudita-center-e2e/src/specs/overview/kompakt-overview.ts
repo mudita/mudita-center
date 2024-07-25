@@ -82,9 +82,9 @@ describe("E2E mock sample - overview view", () => {
     await backArrowButton.waitForClickable()
     await backArrowButton.click()
 
-    // const createBackupButton = await OverviewPage.createBackupButton
-    // await expect(createBackupButton).toBeDisplayed()
-    // await expect(createBackupButton).toBeClickable()
+    const createBackupButton = await OverviewPage.createBackupButton
+    await expect(createBackupButton).toBeDisplayed()
+    await expect(createBackupButton).toBeClickable()
 
     const backupInfo = await OverviewKompaktPage.backupInfo
     await expect(backupInfo).toBeDisplayed()
@@ -112,7 +112,10 @@ describe("E2E mock sample - overview view", () => {
     await expect(kompaktSignalIcon).toBeDisplayed()
     const strSignal: string = "network-signal-2"
     const signalValue: string = strSignal
-    await expect(kompaktSignalIcon).toHaveAttr(strSignal)
+    await expect(kompaktSignalIcon).toHaveAttributeContaining(
+      "data-testid",
+      "icon-network-signal-2"
+    )
 
     const kompaktSimCard1Subtext =
       await OverviewKompaktPage.kompaktSimCard1Subtext
