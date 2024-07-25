@@ -19,7 +19,7 @@ export class HelpService {
 
   private async getNewestData(nextSyncToken?: string) {
     try {
-      const { data } = await axios.get<Partial<HelpData>>(
+      const { data } = await axios.get<HelpData>(
         `${process.env.MUDITA_CENTER_SERVER_V2_URL}/help-v2`,
         {
           params: {
@@ -29,23 +29,20 @@ export class HelpService {
       )
       return data
     } catch {
-      return {
-        nextSyncToken: "",
-      }
+      return
     }
   }
 
   private async update() {
-    try {
-      const oldHelpData = (await readJSON(helpPath)) as HelpData
-      const newHelpData = await this.getNewestData(oldHelpData.nextSyncToken)
+    const oldHelpData = (await readJSON(helpPath)) as HelpData
+    const newHelpData = await this.getNewestData(oldHelpData.nextSyncToken)
 
-      if (newHelpData.nextSyncToken !== oldHelpData.nextSyncToken) {
-        void writeJSON(helpPath, newHelpData)
-        void ipcMain.callFocusedRenderer(HelpEvent.DataUpdated, newHelpData)
-      }
-    } catch {
-      logger.error("Failed to update help data")
+    if (
+      newHelpData &&
+      newHelpData.nextSyncToken !== oldHelpData.nextSyncToken
+    ) {
+      void writeJSON(helpPath, newHelpData)
+      void ipcMain.callFocusedRenderer(HelpEvent.DataUpdated, newHelpData)
     }
   }
 
