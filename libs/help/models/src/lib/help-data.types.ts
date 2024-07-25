@@ -7,6 +7,11 @@ import { Document } from "@contentful/rich-text-types"
 import { InternalTypedDocument, Results } from "@orama/orama"
 import { ArticleDocument } from "help/feature"
 
+export interface HelpExternalLink {
+  title: string
+  url: string
+}
+
 export interface HelpArticle {
   id: string
   categoryId: string
@@ -14,6 +19,7 @@ export interface HelpArticle {
   version: number
   content: Document
   warningMessage?: string
+  externalLinks?: HelpExternalLink[]
 }
 
 export interface HelpSubcategory {
