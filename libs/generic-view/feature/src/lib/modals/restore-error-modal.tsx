@@ -3,14 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent } from "react"
+import React, { FunctionComponent, useEffect } from "react"
 import { BackupRestoreError, Modal } from "generic-view/ui"
 import { useDispatch, useSelector } from "react-redux"
 import {
   cleanRestoreProcess,
   selectActiveApiDeviceId,
   selectBackupRestoreStatus,
+  setDeviceErrorModalOpened,
 } from "generic-view/store"
+import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
 const RestoreErrorModal: FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -20,10 +22,20 @@ const RestoreErrorModal: FunctionComponent = () => {
 
   const onClose = () => {
     dispatch(cleanRestoreProcess())
+    dispatch(setDeviceErrorModalOpened(false))
   }
+
+  useEffect(() => {
+    dispatch(setDeviceErrorModalOpened(opened))
+  }, [dispatch, opened])
+
   return (
     <Modal
-      config={{ defaultOpened: opened, size: "small" }}
+      config={{
+        defaultOpened: opened,
+        size: "small",
+        modalLayer: ModalLayers.DisconnectedDeviceError,
+      }}
       componentKey={"restore-error-modal"}
     >
       <BackupRestoreError closeAction={{ type: "custom", callback: onClose }} />

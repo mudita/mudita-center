@@ -58,7 +58,7 @@ export default () => (
         </LayoutDesktopWrapperWithoutHeader>
       </Route>
 
-      <Route exact path={[...Object.values(URL_DISCOVERY_DEVICE)]}>
+      <Route exact path={[URL_DISCOVERY_DEVICE.root, URL_DISCOVERY_DEVICE.deviceConnecting]}>
         <LayoutBlankWrapper closeable={false}>
           <Route
             path={URL_DISCOVERY_DEVICE.root}
@@ -70,6 +70,12 @@ export default () => (
             component={DeviceConnecting}
             exact
           />
+        </LayoutBlankWrapper>
+      </Route>
+
+
+      <Route exact path={[URL_DISCOVERY_DEVICE.availableDeviceListModal]}>
+        <LayoutBlankWrapper>
           <Route
             path={URL_DISCOVERY_DEVICE.availableDeviceListModal}
             component={AvailableDeviceListContainer}

@@ -65,3 +65,5 @@ apps/mudita-center/static/sql-wasm*
 .nx
 
 matomo-to-gsheet-*.json
+allure-results
+allure-report
