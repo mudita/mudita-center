@@ -276,10 +276,14 @@
     "npm": "9.5.1"
   },
   "dependencies": {
+    "@contentful/rich-text-plain-text-renderer": "^16.2.6",
+    "@orama/orama": "^2.0.22",
+    "@orama/stopwords": "^2.0.22",
     "@vscode/sudo-prompt": "^9.3.1",
     "crypto-js": "^4.2.0",
     "js-crc": "^0.2.0",
     "jschardet": "^3.1.2",
+    "meilisearch": "^0.41.0",
     "node-ipc": "10.1.0",
     "papaparse": "^5.4.1",
     "react-is": "18.2.0",

@@ -71,4 +71,6 @@ export enum ActionName {
   AbortDataMigration = "data-migration/abort",
   SetDataMigrationTransferProgress = "data-migration/set-transfer-progress",
   SetDataMigrationAbort = "data-migration/set-abort",
+
+  HelpSetData = "help/set-data",
 }

@@ -32,12 +32,8 @@ import AvailableDeviceListContainer from "Core/discovery-device/components/avail
 import DeviceConnecting from "Core/discovery-device/components/device-connecting.component"
 import ManageSounds from "Core/files-manager/components/manage-sounds.component"
 import { GenericView } from "generic-view/feature"
-import {
-  APIConnectionDemo,
-  ArticlePage,
-  DataMigrationPage,
-  HelpPage,
-} from "generic-view/ui"
+import { APIConnectionDemo, DataMigrationPage } from "generic-view/ui"
+import { ArticlePage, HelpPage } from "help/ui"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

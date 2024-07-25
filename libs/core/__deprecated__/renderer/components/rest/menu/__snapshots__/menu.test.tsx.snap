@@ -152,79 +152,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   pointer-events: none;
 }
 
-.c12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: none;
-  padding: 0.1rem 0.7rem;
-  cursor: pointer;
-  outline: none;
-  box-sizing: border-box;
-  overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-  width: 17.6rem;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  height: 4rem;
-  padding: 0.4rem;
-  border: none;
-  border-radius: 0.4rem;
-  font-weight: 400;
-  width: 100%;
-}
-
-.c12.active {
-  background-color: #f4f5f6;
-}
-
-.c12.active * {
-  color: #000000;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-}
-
-.c12.active svg {
-  opacity: 1;
-}
-
-.c12:hover {
-  background-color: #f4f5f6;
-}
-
-.c12:hover * {
-  color: #000000;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-}
-
-.c12:hover svg {
-  opacity: 1;
-}
-
-.c12 svg {
-  opacity: 0.6;
-}
-
-.c12 p {
-  color: #6a6a6a;
-}
-
 .c7 {
   margin: 0 0.8rem 0 0;
 }
@@ -372,11 +299,12 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
       <div
         class="c4"
       >
-        <button
-          class="c12"
+        <a
+          class="c5"
           data-testid="help-menu-button"
+          displaystyle="7"
+          href="#/help"
           size="1"
-          type="button"
         >
           <span
             class="c6 c7"
@@ -394,7 +322,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
           >
             [value] module.help
           </p>
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -553,79 +481,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   pointer-events: none;
 }
 
-.c12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: none;
-  padding: 0.1rem 0.7rem;
-  cursor: pointer;
-  outline: none;
-  box-sizing: border-box;
-  overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-  width: 17.6rem;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  height: 4rem;
-  padding: 0.4rem;
-  border: none;
-  border-radius: 0.4rem;
-  font-weight: 400;
-  width: 100%;
-}
-
-.c12.active {
-  background-color: #f4f5f6;
-}
-
-.c12.active * {
-  color: #000000;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-}
-
-.c12.active svg {
-  opacity: 1;
-}
-
-.c12:hover {
-  background-color: #f4f5f6;
-}
-
-.c12:hover * {
-  color: #000000;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
-}
-
-.c12:hover svg {
-  opacity: 1;
-}
-
-.c12 svg {
-  opacity: 0.6;
-}
-
-.c12 p {
-  color: #6a6a6a;
-}
-
 .c7 {
   margin: 0 0.8rem 0 0;
 }
@@ -773,11 +628,12 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
       <div
         class="c4"
       >
-        <button
-          class="c12"
+        <a
+          class="c5"
           data-testid="help-menu-button"
+          displaystyle="7"
+          href="#/help"
           size="1"
-          type="button"
         >
           <span
             class="c6 c7"
@@ -795,7 +651,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
           >
             [value] module.help
           </p>
-        </button>
+        </a>
       </div>
     </div>
   </div>
