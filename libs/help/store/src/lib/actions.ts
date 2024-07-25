@@ -10,6 +10,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { getHelpData } from "./requests"
 import { helpDatabase } from "help/feature"
 import { trackWithoutDeviceCheckRequest } from "Core/analytic-data-tracker/requests"
+import { TrackEventCategory } from "Core/analytic-data-tracker/constants"
 
 export const setHelpData = createAsyncThunk<
   HelpData,
@@ -39,9 +40,9 @@ export const rateArticle = createAsyncThunk<
 
     void trackWithoutDeviceCheckRequest({
       action_name: "help/article-feedback",
-      e_c: articleId,
-      e_a: `${version}`,
-      e_n: positive ? "positive" : "negative",
+      e_c: TrackEventCategory.HelpFeedback,
+      e_a: articleId,
+      e_n: `${version}`,
       e_v: positive ? 1 : -1,
     })
     console.log(
