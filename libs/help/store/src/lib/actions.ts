@@ -22,3 +22,15 @@ export const setHelpData = createAsyncThunk<
 
   return helpData
 })
+
+export const rateArticle = createAsyncThunk<
+  string,
+  {
+    articleId: string
+    positive: boolean
+  },
+  { state: ReduxRootState }
+>(ActionName.HelpRateArticle, async ({ articleId, positive }) => {
+  console.log("article id:", articleId, "positive:", positive)
+  return articleId
+})

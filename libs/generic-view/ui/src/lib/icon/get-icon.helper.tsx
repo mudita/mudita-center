@@ -49,6 +49,7 @@ import Information from "./svg/information.svg"
 import ArrowBack from "./svg/arrow-back.svg"
 import Support from "./svg/support.svg"
 import Exclamation from "./svg/exclamation.svg"
+import Namaste from "./svg/namaste.svg"
 
 import { IconType } from "generic-view/utils"
 
@@ -96,6 +97,7 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.ArrowBack]: ArrowBack,
   [IconType.Support]: Support,
   [IconType.Exclamation]: Exclamation,
+  [IconType.Namaste]: Namaste,
 }
 
 export const getIcon = (

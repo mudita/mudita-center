@@ -73,4 +73,5 @@ export enum ActionName {
   SetDataMigrationAbort = "data-migration/set-abort",
 
   HelpSetData = "help/set-data",
+  HelpRateArticle = "help/rate-article",
 }

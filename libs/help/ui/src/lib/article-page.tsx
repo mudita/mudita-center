@@ -19,6 +19,7 @@ import {
   ArticleExternalLinks,
   ExternalLinksWrapper,
 } from "./components/article-external-links"
+import { ArticleFeedback } from "./components/article-feedback"
 
 const Article: FunctionComponent = () => {
   const history = useHistory()
@@ -39,6 +40,7 @@ const Article: FunctionComponent = () => {
         <ArticleWrapper>
           <ArticleWarning />
           <ArticleContent />
+          <ArticleFeedback />
           <ArticleExternalLinks />
         </ArticleWrapper>
         <ArticleFooter />
