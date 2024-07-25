@@ -180,8 +180,6 @@ const ContactSupportModal: FunctionComponent<Props> = ({
     <ModalDialog
       closeButton={false}
       size={sending ? ModalSize.Small : ModalSize.MediumNew}
-      // title={intl.formatMessage(messages.title)}
-      // subtitle={intl.formatMessage(messages.description)}
       closeModal={handleCloseModal}
       close={
         <ModalClose
