@@ -5,31 +5,29 @@
 
 import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { useParams } from "react-router"
 import styled from "styled-components"
 import { NavLink } from "react-router-dom"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
-import helpData from "../help.json"
+import { useSelector } from "react-redux"
+import { selectHelpArticles } from "help/store"
 
 interface Props {
   articleIds: string[]
 }
 
 export const ArticlesList: FunctionComponent<Props> = ({ articleIds = [] }) => {
-  const { categoryId } = useParams<{
-    categoryId?: string
-  }>()
+  const articles = useSelector(selectHelpArticles)
   return (
     <Wrapper>
       {articleIds.map((id) => {
-        const article = helpData.articles[id as keyof typeof helpData.articles]
+        const article = articles[id]
         if (!article) {
           return null
         }
         return (
           <Link
             key={id}
-            to={`${URL_MAIN.help}/${categoryId}/${id}`}
+            to={`${URL_MAIN.help}/${article.categoryId}/${id}`}
             title={article.title}
           >
             {article.title}

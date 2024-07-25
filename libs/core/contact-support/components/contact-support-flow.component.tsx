@@ -5,13 +5,15 @@
 
 import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import ContactSupportModal from "Core/contact-support/components/contact-support-modal.component"
-import ContactSupportModalSuccess from "Core/contact-support/components/contact-support-modal-success.component"
-import ContactSupportModalError from "Core/contact-support/components/contact-support-modal-error.component"
+import ContactSupportModal from "./contact-support-modal.component"
+import { ContactSupportModalSuccess } from "./contact-support-modal-success.component"
+import { ContactSupportModalError } from "./contact-support-modal-error.component"
 import { ContactSupportFlowTestIds } from "Core/contact-support/components/contact-support-flow-test-ids.component"
 import { SendTicketState } from "Core/contact-support/reducers"
 import { SendTicketPayload } from "Core/contact-support/actions/send-ticket.action"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
+import { GenericThemeProvider } from "generic-view/theme"
+import { Modal } from "generic-view/ui"
 
 interface Props
   extends Pick<ComponentProps<typeof ContactSupportModal>, "files"> {
@@ -39,17 +41,40 @@ const ContactSupportFlow: FunctionComponent<Props> = ({
         sending={SendTicketState.Sending === state}
         files={files}
       />
-      <ContactSupportModalSuccess
-        layer={layer}
-        testId={ContactSupportFlowTestIds.ContactSupportModalSuccess}
-        open={SendTicketState.Success === state}
-        closeModal={closeContactSupportFlow}
-      />
-      <ContactSupportModalError
-        testId={ContactSupportFlowTestIds.ContactSupportModalError}
-        open={SendTicketState.Error === state}
-        closeModal={closeContactSupportFlow}
-      />
+      <GenericThemeProvider>
+        <Modal
+          config={{
+            size: "small",
+            closeButtonAction: {
+              type: "custom",
+              callback: closeContactSupportFlow,
+            },
+            defaultOpened: state === SendTicketState.Success,
+            modalLayer: layer,
+          }}
+          componentKey={"contact-support-modal-success"}
+        >
+          <ContactSupportModalSuccess
+            closeContactSupportFlow={closeContactSupportFlow}
+          />
+        </Modal>
+        <Modal
+          config={{
+            size: "small",
+            closeButtonAction: {
+              type: "custom",
+              callback: closeContactSupportFlow,
+            },
+            defaultOpened: state === SendTicketState.Error,
+            modalLayer: layer,
+          }}
+          componentKey={"contact-support-modal-error"}
+        >
+          <ContactSupportModalError
+            closeContactSupportFlow={closeContactSupportFlow}
+          />
+        </Modal>
+      </GenericThemeProvider>
     </>
   )
 }

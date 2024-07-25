@@ -7,12 +7,15 @@ import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import { NavLink } from "react-router-dom"
-import helpData from "../help.json"
+import { useSelector } from "react-redux"
+import { selectHelpCategoriesList } from "help/store"
 
 export const CategoryTabs: FunctionComponent = () => {
+  const categories = useSelector(selectHelpCategoriesList)
+
   return (
     <Wrapper>
-      {helpData.categories.map((category) => {
+      {categories?.map((category) => {
         return (
           <Tab key={category.id} to={`/help/${category.id}`}>
             <span className={"normal"}>{category.name}</span>

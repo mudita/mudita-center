@@ -5,17 +5,19 @@
 
 import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { useParams } from "react-router"
 import styled from "styled-components"
-import helpData from "../help.json"
 import { Subcategory } from "./subcategory"
+import { useParams } from "react-router"
+import { useSelector } from "react-redux"
+import { selectCurrentCategory } from "help/store"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const SubcategoriesList: FunctionComponent = () => {
   const { categoryId } = useParams<{
     categoryId?: string
   }>()
-  const category = helpData.categories.find(
-    (category) => category.id === categoryId
+  const category = useSelector((state: ReduxRootState) =>
+    selectCurrentCategory(state, categoryId)
   )
 
   if (!category) {
@@ -32,7 +34,7 @@ export const SubcategoriesList: FunctionComponent = () => {
       {columns.map((column, index) => {
         return (
           <Column key={index}>
-            {column.map((id) => (
+            {column?.map((id) => (
               <Subcategory key={id} id={id} />
             ))}
           </Column>

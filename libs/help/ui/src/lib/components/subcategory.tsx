@@ -6,26 +6,27 @@
 import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
-import { H5 } from "../../../texts/headers"
 import { ArticlesList } from "./articles-list"
-import helpData from "../help.json"
+import { useSelector } from "react-redux"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { selectCurrentSubcategory, selectHelpAssets } from "help/store"
+import { H5 } from "generic-view/ui"
 
 interface Props {
   id: string
 }
 
 export const Subcategory: FunctionComponent<Props> = ({ id }) => {
-  const subcategory =
-    helpData.subcategories[id as keyof typeof helpData.subcategories]
-  const assets = helpData.assets
+  const subcategory = useSelector((state: ReduxRootState) =>
+    selectCurrentSubcategory(state, id)
+  )
+  const assets = useSelector(selectHelpAssets)
 
   if (!subcategory || !subcategory.articles.length) {
     return null
   }
-  const icon =
-    "icon" in subcategory
-      ? assets[subcategory.icon as keyof typeof assets]
-      : undefined
+  const icon = subcategory.icon ? assets[subcategory.icon].url : undefined
+
   return (
     <Wrapper key={subcategory.id}>
       <Title>
