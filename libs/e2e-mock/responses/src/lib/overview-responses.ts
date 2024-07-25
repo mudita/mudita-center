@@ -33,9 +33,13 @@ export const overviewDataWithOneSimCard = {
     },
   },
   sections: {
-    battery: { icon: "battery-charging-5", text: "100%", subText: "SIM 1" },
+    battery: { icon: "battery-charging-5", text: "100%", subText: "" },
     update: { text: "ANDROID 12", version: "0.3.0" },
-    "airplane-mode": { icon: "network-signal-2", text: "T-Mobile" },
+    "airplane-mode": {
+      icon: "network-signal-2",
+      text: "T-Mobile",
+      subText: "SIM 1",
+    },
   },
 }
 
@@ -54,9 +58,13 @@ export const overviewDataWithOneSimCard2nd = {
     battery: {
       icon: "battery-charging-2",
       text: "40%",
-      subText: "SIM 1",
+      subText: "",
     },
     update: { text: "ANDROID 13", version: "0.3.1" },
-    "airplane-mode": { icon: "network-signal-4", text: "Play" },
+    "airplane-mode": {
+      icon: "network-signal-4",
+      text: "Play",
+      subText: "SIM 1",
+    },
   },
 }

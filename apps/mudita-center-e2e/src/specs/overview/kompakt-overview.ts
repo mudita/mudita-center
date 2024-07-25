@@ -91,7 +91,7 @@ describe("E2E mock sample - overview view", () => {
     await expect(kompaktBatteryIcon).toBeDisplayed
 
     const kompaktBatteryLevelValueSubtext =
-      await OverviewKompaktPage.kompaktBatteryLevelValueSubtext
+      await OverviewKompaktPage.kompaktBatteryLevelValue
     await expect(kompaktBatteryLevelValueSubtext).toBeDisplayed
     const batteryValNum: string = "100%"
     const batteryValue: string = batteryValNum

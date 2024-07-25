@@ -42,20 +42,26 @@ class OverviewKompaktPage extends OverviewPage {
     return $('[data-testid="icon-network-signal-2"]')
   }
 
+  public getStatusRow(rowIndex: number) {
+    return $(
+      `(//div[@data-testid="block-box-status"]/..//h4[@data-testid="icon-text"])[${rowIndex}]`
+    )
+  }
+
   public get kompaktNetworkName() {
-    return $('[data-testid="icon-text"]')
+    return this.getStatusRow(2)
   }
 
   public get kompaktBatteryIcon() {
     return $('//div[@data-testid="icon-battery-charging-2"]')
   }
 
-  public get kompaktBatteryLevelValueSubtext() {
-    return $('//h3[text()="Status"]/..//h4[@data-testid="icon-text"]')
+  public get kompaktBatteryLevelValue() {
+    return this.getStatusRow(1)
   }
 
   public get kompaktSimCard1Subtext() {
-    return $('[data-testid="icon-subtext"]')
+    return this.getStatusRow(2).$(`//*[@data-testid="icon-subtext"]`)
   }
 
   public get kompaktOsVersion() {
