@@ -66,7 +66,7 @@ describe("Kompakt switching devices", () => {
 
     const kompaktBatteryLevelValue =
       await OverviewKompaktPage.kompaktBatteryLevelValue
-    await expect(kompaktBatteryLevelValue).toBeDisplayed
+    await expect(kompaktBatteryLevelValue).toBeDisplayed()
     const batteryValNum: string = "100%"
     const batteryValue: string = batteryValNum
     await expect(kompaktBatteryLevelValue).toHaveText(batteryValNum)
@@ -120,14 +120,14 @@ describe("Kompakt switching devices", () => {
     await expect(kompaktSimCard1Subtext).toHaveText("SIM 1")
 
     const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
-    await expect(kompaktNetworkName).toBeDisplayed
+    await expect(kompaktNetworkName).toBeDisplayed()
     const strNetwork: string = "Play"
     const networkName: string = strNetwork
     await expect(kompaktNetworkName).toHaveText(strNetwork)
 
     const kompaktBatteryLevelValue =
       await OverviewKompaktPage.kompaktBatteryLevelValue
-    await expect(kompaktBatteryLevelValue).toBeDisplayed
+    await expect(kompaktBatteryLevelValue).toBeDisplayed()
     const batteryValNum: string = "40%"
     const batteryValue: string = batteryValNum
     await expect(kompaktBatteryLevelValue).toHaveText(batteryValNum)

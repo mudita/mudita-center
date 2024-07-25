@@ -15,11 +15,15 @@ class OverviewKompaktPage extends OverviewPage {
   }
 
   public get sarInformationPopup() {
-    return $("/html/body/div[10]/div/div")
+    return $('[data-testid="button-text_sarmodal-button"]')
   }
 
   public get sarInformationPopupCloseButton() {
     return $('[data-testid="icon-close"]')
+  }
+
+  public get backArrowButton() {
+    return $('[data-testid="icon-ArrowLongLeft"]')
   }
 
   public get backupInfo() {
