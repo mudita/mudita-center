@@ -11,6 +11,7 @@ import { HelpData, HelpEvent } from "help/models"
 import { ipcMain } from "electron-better-ipc"
 import defaultHelp from "../default-help.json"
 import logger from "Core/__deprecated__/main/utils/logger"
+import { IpcEvent } from "Core/core/decorators"
 
 const helpPath = path.join(`${getAppPath()}`, "help-v2.json")
 
@@ -57,9 +58,10 @@ export class HelpService {
   async initialize() {
     await this.initializeDefaultData()
     void this.update()
+  }
 
-    ipcMain.answerRenderer(HelpEvent.GetData, async () => {
-      return (await readJSON(helpPath)) as HelpData
-    })
+  @IpcEvent(HelpEvent.GetData)
+  async getData() {
+    return (await readJSON(helpPath)) as HelpData
   }
 }

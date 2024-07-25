@@ -89,7 +89,6 @@ import {
   registerShortcuts,
 } from "shared/utils"
 import { mockServiceEnabled, startServer, stopServer } from "e2e-mock-server"
-import { registerHelpService } from "help/feature"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -254,7 +253,6 @@ const createWindow = async () => {
 
   win.webContents.once("dom-ready", () => {
     appModules.lateInitialization()
-    registerHelpService()
   })
 
   logger.updateMetadata()
