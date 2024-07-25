@@ -28,7 +28,7 @@ export const authorize = createAsyncThunk<
     case Provider.Apple:
       return undefined
     case Provider.Outlook:
-      return dispatch(outlookAuthorize(OutLookScope.Contacts))
+      return dispatch(outlookAuthorize(OutLookScope.Contacts)).unwrap()
     default:
       return undefined
   }
