@@ -93,7 +93,7 @@ To set the response indicating that an update is available and a Mudita Center u
 ```javascript
 E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0" })
 E2EMockClient.mockHttpResponse({
-  url: '/v2-app-configuration',
+  url: 'v2-app-configuration',
   method: 'GET',
   status: 200,
   data: {
@@ -113,7 +113,7 @@ To set the response indicating that an update is available and the application i
 ```javascript
 E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0" })
 E2EMockClient.mockHttpResponse({
-  url: '/v2-app-configuration',
+  url: 'v2-app-configuration',
   method: 'GET',
   status: 200,
   data: {
