@@ -53,7 +53,7 @@ class OverviewKompaktPage extends OverviewPage {
   }
 
   public get kompaktBatteryIcon() {
-    return $('//div[@data-testid="icon-battery-charging-2"]')
+    return $('//div[@data-testid="icon-battery-charging-5"]')
   }
 
   public get kompaktBatteryLevelValue() {
