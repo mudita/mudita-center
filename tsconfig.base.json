@@ -59,6 +59,10 @@
       "generic-view/ui": ["libs/generic-view/ui/src/index.ts"],
       "generic-view/utils": ["libs/generic-view/utils/src/index.ts"],
       "generic-view/views": ["libs/generic-view/views/src/index.ts"],
+      "help/feature": ["libs/help/feature/src/index.ts"],
+      "help/models": ["libs/help/models/src/index.ts"],
+      "help/store": ["libs/help/store/src/index.ts"],
+      "help/ui": ["libs/help/ui/src/index.ts"],
       "shared/app-state": ["libs/shared/app-state/src/index.ts"],
       "shared/feature": ["libs/shared/feature/src/index.ts"],
       "shared/http-client": ["libs/shared/http-client/src/index.ts"],
@@ -74,6 +78,7 @@
     "./apps/mudita-center/node_modules",
     "./apps/mudita-center/dist",
     "./apps/mudita-center/__mocks__",
-    "./libs/generic-view/ui/styled.d.ts"
+    "./libs/generic-view/ui/styled.d.ts",
+    "./libs/help/ui/styled.d.ts"
   ]
 }
