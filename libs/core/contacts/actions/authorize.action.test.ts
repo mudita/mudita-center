@@ -53,7 +53,7 @@ describe("async `authorize` ", () => {
       )
 
       if (googleAuthorizeAction) {
-        delete (googleAuthorizeAction as any).unwrap
+        delete googleAuthorizeAction.unwrap
       }
 
       expect(mockStore.getActions()).toEqual([
