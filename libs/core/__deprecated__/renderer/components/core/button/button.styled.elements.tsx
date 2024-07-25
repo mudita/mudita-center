@@ -373,13 +373,10 @@ export const StyledNavLink = styled(NavLink)<{
 }>`
   ${buttonStyles}
 
-  ${({ disableWhenActive }) =>
-    disableWhenActive &&
-    css`
-      &.${activeClassName} {
-        pointer-events: none;
-      }
-    `})
+  &.${activeClassName} {
+    pointer-events: ${({ disableWhenActive }) =>
+      disableWhenActive ? "none" : "all"};
+  }
 `
 
 export const StyledLink = styled(Link)<{
