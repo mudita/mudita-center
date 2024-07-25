@@ -14,6 +14,7 @@ import { FormSearchInputConfig, FormSearchInputData } from "generic-view/models"
 export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
   data,
   config,
+  ...props
 }) => {
   const id = useId()
   const { register, watch, setValue } = useFormContext()
@@ -30,7 +31,7 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
   }, [config.name, data?.value, setValue])
 
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <InputWrapper>
         <SearchIcon data={{ type: IconType.Search }} />
         <Input
