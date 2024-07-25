@@ -59,7 +59,7 @@ describe("Kompakt switching devices", () => {
     await expect(kompaktSimCard1Subtext).toHaveText("SIM 1")
 
     const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
-    await expect(kompaktNetworkName).toBeDisplayed
+    await expect(kompaktNetworkName).toBeDisplayed()
     const strNetwork: string = "T-Mobile"
     const networkName: string = strNetwork
     await expect(kompaktNetworkName).toHaveText(strNetwork)
