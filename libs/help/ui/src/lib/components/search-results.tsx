@@ -126,6 +126,7 @@ const ListItem = styled.li`
 
 const CategoryName = styled(P3)`
   color: ${({ theme }) => theme.color.grey2};
+  white-space: nowrap;
 `
 
 const ArticleTitle = styled(P3)`
