@@ -20,6 +20,7 @@ import {
   ExternalLinksWrapper,
 } from "./components/article-external-links"
 import { ArticleFeedback } from "./components/article-feedback"
+import { ArticleTracker } from "./components/article-tracker"
 
 const Article: FunctionComponent = () => {
   const history = useHistory()
@@ -35,6 +36,7 @@ const Article: FunctionComponent = () => {
 
   return (
     <Wrapper>
+      <ArticleTracker />
       <ArticleHeader title={article.title} />
       <ScrollArea>
         <ArticleWrapper>

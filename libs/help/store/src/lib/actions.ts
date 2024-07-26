@@ -39,19 +39,9 @@ export const rateArticle = createAsyncThunk<
     const { version } = articles[articleId]
 
     void trackWithoutDeviceCheckRequest({
-      e_c: TrackEventCategory.HelpFeedback,
-      e_a: articleId,
-      e_n: `${version}`,
-      e_v: positive ? 1 : -1,
+      e_c: TrackEventCategory.HelpFeedbackVote,
+      e_a: `${articleId}/${version}/${positive ? "y" : "n"}`,
     })
-    console.log(
-      "article id:",
-      articleId,
-      "positive:",
-      positive,
-      "version:",
-      version
-    )
     return articleId
   }
 )
