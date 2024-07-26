@@ -58,7 +58,7 @@ export const Search: FunctionComponent = () => {
       const activeResult = results?.hits[activeResultIndex]
       if (activeResult) {
         history.push(
-          `/${URL_MAIN.help}/${activeResult.document.categoryId}/${activeResult.id}`
+          `${URL_MAIN.help}/${activeResult.document.categoryId}/${activeResult.document.id}`
         )
       }
     }
