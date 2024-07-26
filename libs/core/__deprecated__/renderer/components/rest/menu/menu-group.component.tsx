@@ -81,34 +81,40 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
           .filter(({ visibleOn }) =>
             visibleOn && deviceType ? visibleOn.includes(deviceType) : true
           )
-          .map(({ button, icon, testId, viewKey }, index) => {
-            const buttonMenuConfig = {
-              nav: true,
-              displayStyle: DisplayStyle.MenuLink,
-              Icon: icon,
-              iconSize: IconSize.Bigger,
-              ...(typeof button.label === "string"
-                ? { label: button.label }
-                : { labelMessage: button.label }),
+          .map(
+            (
+              { button, icon, testId, disableWhenActive = true, viewKey },
+              index
+            ) => {
+              const buttonMenuConfig = {
+                nav: true,
+                displayStyle: DisplayStyle.MenuLink,
+                Icon: icon,
+                iconSize: IconSize.Bigger,
+                ...(typeof button.label === "string"
+                  ? { label: button.label }
+                  : { labelMessage: button.label }),
+                disableWhenActive,
+              }
+              return (
+                <LinkWrapper key={index}>
+                  <NotificationBadge
+                    active={Boolean(
+                      viewKey &&
+                        viewKey === View.Messages &&
+                        notifications[viewKey]
+                    )}
+                  >
+                    <Button
+                      {...buttonMenuConfig}
+                      to={button.url}
+                      data-testid={testId}
+                    />
+                  </NotificationBadge>
+                </LinkWrapper>
+              )
             }
-            return (
-              <LinkWrapper key={index}>
-                <NotificationBadge
-                  active={Boolean(
-                    viewKey &&
-                      viewKey === View.Messages &&
-                      notifications[viewKey]
-                  )}
-                >
-                  <Button
-                    {...buttonMenuConfig}
-                    to={button.url}
-                    data-testid={testId}
-                  />
-                </NotificationBadge>
-              </LinkWrapper>
-            )
-          })}
+          )}
     </>
   )
 }
