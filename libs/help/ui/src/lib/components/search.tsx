@@ -12,6 +12,8 @@ import { useFormContext } from "react-hook-form"
 import { useHelpSearch } from "help/feature"
 import { SearchResults, SearchResultsWrapper } from "./search-results"
 import { H3, P3, SearchInput } from "generic-view/ui"
+import { useHistory } from "react-router"
+import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 
 const messages = defineMessages({
   title: {
@@ -30,6 +32,7 @@ export const Search: FunctionComponent = () => {
     search?: string
     activeResultIndex: number
   }>()
+  const history = useHistory()
   const searchPhrase = watch("search") || ""
   const deferredSearchPhrase = useDeferredValue(searchPhrase)
   const results = useHelpSearch(deferredSearchPhrase)
@@ -50,6 +53,14 @@ export const Search: FunctionComponent = () => {
     if (event.key === "ArrowUp") {
       event.preventDefault()
       setValue("activeResultIndex", Math.max(activeResultIndex - 1, 0))
+    }
+    if (event.key === "Enter") {
+      const activeResult = results?.hits[activeResultIndex]
+      if (activeResult) {
+        history.push(
+          `/${URL_MAIN.help}/${activeResult.document.categoryId}/${activeResult.id}`
+        )
+      }
     }
   }
 
