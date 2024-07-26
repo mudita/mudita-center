@@ -14,12 +14,13 @@ import { Icon } from "./lib/icon/icon"
 
 export * from "./lib/icon/icon"
 export * from "./lib/api-connection-demo"
-export * from "./lib/interactive/modal/modal"
+export * from "./lib/interactive/modal"
 export * from "./lib/interactive/modal/modal-base"
 export * from "./lib/shared/shared"
 export * from "./lib/predefined/backup/backup-error"
 export * from "./lib/predefined/backup-restore/backup-restore-error"
 export * from "./lib/predefined/import-contacts/import-contacts-error"
+export * from "./lib/predefined/data-migration/components/transfer-error-modal"
 export { DataMigrationPage } from "./lib/predefined/data-migration/data-migration"
 
 const apiComponents = {

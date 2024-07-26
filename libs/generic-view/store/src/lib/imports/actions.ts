@@ -9,6 +9,11 @@ import { ImportStatus } from "./reducer"
 
 export const cleanImportProcess = createAction(ActionName.CleanImportProcess)
 
-export const setDataTransferProcessStatus = createAction<{
+export const setImportProcessStatus = createAction<{
   status: ImportStatus
-}>(ActionName.SetDataTransferProcessStatus)
+}>(ActionName.SetImportProcessStatus)
+
+export const setImportProcessFileStatus = createAction<{
+  domain: string
+  status: ProcessFileStatus
+}>(ActionName.SetImportProcessFileStatus)

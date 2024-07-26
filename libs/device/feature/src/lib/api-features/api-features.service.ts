@@ -47,6 +47,7 @@ export class APIFeaturesService {
         lang: "en-US",
       },
     })
+
     if (response.ok) {
       const config = featureConfigValidator.safeParse(response.data.body)
       if (process.env.NODE_ENV === "development" && !config.success) {
@@ -107,6 +108,7 @@ export class APIFeaturesService {
         lang: "en-US",
       },
     })
+
     if (response.ok) {
       return Result.success(response.data.body)
     }

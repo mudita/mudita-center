@@ -5,7 +5,11 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { DataTransferDomain, UnifiedContact } from "device/models"
+import {
+  ApiFileTransferError,
+  DataTransferDomain,
+  UnifiedContact,
+} from "device/models"
 import {
   cancelDataTransferRequest,
   checkDataTransferRequest,
@@ -17,17 +21,14 @@ import {
 import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
 import { selectActiveApiDeviceId } from "../selectors"
-import {
-  setDataTransferProcessFileStatus,
-  setDataTransferProcessStatus,
-} from "./actions"
+import { setImportProcessFileStatus, setImportProcessStatus } from "./actions"
 
-export const startDataTransferToDevice = createAsyncThunk<
+export const startImportToDevice = createAsyncThunk<
   undefined,
   { domains: DataTransferDomain[]; contactsIds: string[] },
   { state: ReduxRootState }
 >(
-  ActionName.StartDataTransferToDevice,
+  ActionName.StartImportToDevice,
   async (
     { domains, contactsIds },
     { getState, dispatch, rejectWithValue, signal }
@@ -131,14 +132,15 @@ export const startDataTransferToDevice = createAsyncThunk<
       )
 
       if (!preSendResponse.ok) {
-        console.log("cannot start pre send")
         clearTransfers()
-        return rejectWithValue(undefined)
+        return rejectWithValue(
+          preSendResponse.error?.type as ApiFileTransferError
+        )
       }
 
       domainsPaths[i].transfer = preSendResponse.data
       dispatch(
-        setDataTransferProcessFileStatus({
+        setImportProcessFileStatus({
           domain: domain.domainKey,
           status: "PENDING",
         })
@@ -146,7 +148,7 @@ export const startDataTransferToDevice = createAsyncThunk<
     }
 
     dispatch(
-      setDataTransferProcessStatus({
+      setImportProcessStatus({
         status: "IMPORT-INTO-DEVICE-FILES-TRANSFER",
       })
     )
@@ -157,7 +159,7 @@ export const startDataTransferToDevice = createAsyncThunk<
       }
       const domain = domainsPaths[i]
       dispatch(
-        setDataTransferProcessFileStatus({
+        setImportProcessFileStatus({
           domain: domain.domainKey,
           status: "IN_PROGRESS",
         })
@@ -179,7 +181,7 @@ export const startDataTransferToDevice = createAsyncThunk<
       }
       if (!aborted) {
         dispatch(
-          setDataTransferProcessFileStatus({
+          setImportProcessFileStatus({
             domain: domain.domainKey,
             status: "DONE",
           })
@@ -189,9 +191,7 @@ export const startDataTransferToDevice = createAsyncThunk<
 
     clearTransfers()
 
-    dispatch(
-      setDataTransferProcessStatus({ status: "IMPORT-DEVICE-DATA-TRANSFER" })
-    )
+    dispatch(setImportProcessStatus({ status: "IMPORT-DEVICE-DATA-TRANSFER" }))
 
     if (aborted) {
       return rejectWithValue(undefined)

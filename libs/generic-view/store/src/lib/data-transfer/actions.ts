@@ -16,3 +16,7 @@ export const setDataTransferStatus = createAction<DataTransferStatus>(
 )
 
 export const clearDataTransfer = createAction(ActionName.ClearDataTransfer)
+
+export const setDataTransferAbort = createAction<AbortController | undefined>(
+  ActionName.SetDataTransferAbort
+)

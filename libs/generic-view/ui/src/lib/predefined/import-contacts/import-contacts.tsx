@@ -17,6 +17,7 @@ import {
   ImportStatus,
   importStatusSelector,
   startContactsImportToDevice,
+  startImportToDevice,
 } from "generic-view/store"
 import { ImportContactsProvider } from "./import-contacts-provider"
 import { ImportContactsLoader } from "./import-contats-loader"
@@ -31,6 +32,7 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { useFormContext } from "react-hook-form"
 import { ImportContactsConfig } from "generic-view/models"
+import { ApiFileTransferError } from "device/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -38,6 +40,9 @@ const messages = defineMessages({
   },
   cancellationErrorMessage: {
     id: "module.genericViews.importContacts.cancellation.message",
+  },
+  notEnoughSpace: {
+    id: "module.genericViews.importContacts.failure.notEnoughSpace",
   },
 })
 
@@ -54,17 +59,18 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
   const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
 
   const currentStatus = freezedStatus || importStatus
-  const abortButtonVisible =
+  const importInProgress =
     currentStatus === "IMPORT-INTO-DEVICE-IN-PROGRESS" ||
     currentStatus === "IMPORT-INTO-DEVICE-FILES-TRANSFER" ||
     currentStatus === "IMPORT-DEVICE-DATA-TRANSFER"
   const closeButtonVisible =
-    currentStatus !== "PENDING-AUTH" && !abortButtonVisible
+    currentStatus !== "PENDING-AUTH" && !importInProgress
 
   const closeModal = () => {
     setFreezedStatus(importStatus)
     dispatch(closeModalAction({ key: modalKey }))
     dispatch(cleanImportProcess())
+    setError(undefined)
   }
 
   const importCloseButtonAction: ButtonAction = {
@@ -76,7 +82,10 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
     type: "custom",
     callback: () => {
       const promise = dispatch(
-        startContactsImportToDevice(selectedContacts)
+        startImportToDevice({
+          domains: ["contacts-v1"],
+          contactsIds: selectedContacts,
+        })
       )
 
       dataTransferAbortReference.current = (
@@ -100,8 +109,12 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
 
   useEffect(() => {
     if (importError) {
+      let message = importError
+      if (importError === ApiFileTransferError.NotEnoughSpace) {
+        message = intl.formatMessage(messages.notEnoughSpace)
+      }
       setError({
-        message: importError,
+        message: message as string,
       })
     }
   }, [importError])
@@ -125,9 +138,6 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
       {closeButtonVisible && (
         <Modal.CloseButton config={{ action: importCloseButtonAction }} />
       )}
-      {abortButtonVisible && (
-        <Modal.CloseButton config={{ action: importAbortButtonAction }} />
-      )}
       {(currentStatus === undefined || currentStatus === "INIT") && (
         <ImportContactsProvider />
       )}
@@ -145,10 +155,8 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
       {currentStatus === "IMPORT-INTO-MC-DONE" && (
         <ImportContactsList nextAction={importConfirmButtonAction} />
       )}
-      {(currentStatus === "IMPORT-INTO-DEVICE-IN-PROGRESS" ||
-        currentStatus === "IMPORT-INTO-DEVICE-FILES-TRANSFER" ||
-        currentStatus === "IMPORT-DEVICE-DATA-TRANSFER") && (
-        <ImportContactsProgress />
+      {importInProgress && (
+        <ImportContactsProgress cancelAction={importAbortButtonAction} />
       )}
       {currentStatus === "FAILED" && (
         <ImportContactsError
