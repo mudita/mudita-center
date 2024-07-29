@@ -14,7 +14,7 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
   importContactsFromFile,
   setImportProcessStatus,
-  startGoogleAuthorization,
+  startImportAuthorization,
 } from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 

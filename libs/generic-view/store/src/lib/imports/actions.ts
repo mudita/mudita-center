@@ -5,7 +5,7 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
-import { ImportStatus } from "./reducer"
+import { ImportStatus, ProcessFileStatus } from "./reducer"
 
 export const cleanImportProcess = createAction(ActionName.CleanImportProcess)
 

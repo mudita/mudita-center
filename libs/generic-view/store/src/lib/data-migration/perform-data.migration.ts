@@ -26,6 +26,7 @@ import {
 import logger from "Core/__deprecated__/main/utils/logger"
 import { DataMigrationPercentageProgress } from "./data-migration-percentage-progress.interface"
 import { abortDataTransfer } from "../data-transfer/abort-data-transfer.action"
+import { delay } from "shared/utils"
 
 export const performDataMigration = createAsyncThunk<
   void,
