@@ -16,7 +16,6 @@ import {
   importContactsFromExternalSource,
   ImportStatus,
   importStatusSelector,
-  // startContactsImportToDevice,
   startImportToDevice,
 } from "generic-view/store"
 import { ImportContactsProvider } from "./import-contacts-provider"
