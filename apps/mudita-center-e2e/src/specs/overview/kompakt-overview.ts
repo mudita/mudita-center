@@ -88,9 +88,9 @@ describe("E2E mock sample - overview view", () => {
 
     const backupInfo = await OverviewKompaktPage.backupInfo
     await expect(backupInfo).toBeDisplayed()
-    const str: string =
-      "\tYou haven’t backed up your device yet.\n Create a backup file to protect against data loss.\n"
-    const backupInfoText: string = str.trim()
+    await expect(backupInfo).toHaveTextContaining(
+      "You haven’t backed up your device yet.\nCreate a backup file to protect against data loss."
+    )
 
     const kompaktBatteryIcon = await OverviewKompaktPage.kompaktBatteryIcon
     await expect(kompaktBatteryIcon).toBeDisplayed()
@@ -98,20 +98,14 @@ describe("E2E mock sample - overview view", () => {
     const kompaktBatteryLevelValue =
       await OverviewKompaktPage.kompaktBatteryLevelValue
     await expect(kompaktBatteryLevelValue).toBeDisplayed()
-    const batteryValNum: string = "100%"
-    const batteryValue: string = batteryValNum
-    await expect(kompaktBatteryLevelValue).toHaveText(batteryValNum)
+    await expect(kompaktBatteryLevelValue).toHaveText("100%")
 
     const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
     await expect(kompaktNetworkName).toBeDisplayed()
-    const strNetwork: string = "T-Mobile"
-    const networkName: string = strNetwork
-    await expect(kompaktNetworkName).toHaveText(strNetwork)
+    await expect(kompaktNetworkName).toHaveText("T-Mobile")
 
     const kompaktSignalIcon = await OverviewKompaktPage.kompaktSignalIcon
     await expect(kompaktSignalIcon).toBeDisplayed()
-    const strSignal: string = "network-signal-2"
-    const signalValue: string = strSignal
     await expect(kompaktSignalIcon).toHaveAttributeContaining(
       "data-testid",
       "icon-network-signal-2"
@@ -120,8 +114,6 @@ describe("E2E mock sample - overview view", () => {
     const kompaktSimCard1Subtext =
       await OverviewKompaktPage.kompaktSimCard1Subtext
     await expect(kompaktSimCard1Subtext).toBeDisplayed()
-    const sim1: string = "SIM 1"
-    const simInfo: string = sim1
     await expect(kompaktSimCard1Subtext).toHaveText("SIM 1")
   })
 

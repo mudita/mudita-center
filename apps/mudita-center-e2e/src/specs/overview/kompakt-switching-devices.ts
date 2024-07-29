@@ -60,16 +60,12 @@ describe("Kompakt switching devices", () => {
 
     const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
     await expect(kompaktNetworkName).toBeDisplayed()
-    const strNetwork: string = "T-Mobile"
-    const networkName: string = strNetwork
-    await expect(kompaktNetworkName).toHaveText(strNetwork)
+    await expect(kompaktNetworkName).toHaveText("T-Mobile")
 
     const kompaktBatteryLevelValue =
       await OverviewKompaktPage.kompaktBatteryLevelValue
     await expect(kompaktBatteryLevelValue).toBeDisplayed()
-    const batteryValNum: string = "100%"
-    const batteryValue: string = batteryValNum
-    await expect(kompaktBatteryLevelValue).toHaveText(batteryValNum)
+    await expect(kompaktBatteryLevelValue).toHaveText("100%")
   })
 
   it("Connect 2nd device", async () => {
@@ -121,16 +117,12 @@ describe("Kompakt switching devices", () => {
 
     const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
     await expect(kompaktNetworkName).toBeDisplayed()
-    const strNetwork: string = "Play"
-    const networkName: string = strNetwork
-    await expect(kompaktNetworkName).toHaveText(strNetwork)
+    await expect(kompaktNetworkName).toHaveText("Play")
 
     const kompaktBatteryLevelValue =
       await OverviewKompaktPage.kompaktBatteryLevelValue
     await expect(kompaktBatteryLevelValue).toBeDisplayed()
-    const batteryValNum: string = "40%"
-    const batteryValue: string = batteryValNum
-    await expect(kompaktBatteryLevelValue).toHaveText(batteryValNum)
+    await expect(kompaktBatteryLevelValue).toHaveText("40%")
   })
 
   it("Verify Select Connected Devices, click on it and select 1st Kompakt", async () => {
