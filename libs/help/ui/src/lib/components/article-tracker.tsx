@@ -24,7 +24,7 @@ export const ArticleTracker: FunctionComponent = () => {
 
     return () => {
       const endTime = Date.now()
-      const time = Math.round((endTime - startTime) / 1000)
+      const time = Math.max(Math.round((endTime - startTime) / 1000), 1)
 
       void trackWithoutDeviceCheckRequest({
         e_c: TrackEventCategory.HelpFeedbackVisit,
