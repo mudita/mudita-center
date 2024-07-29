@@ -6,17 +6,11 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { withData } from "../utils/with-data"
+import { TextPlainData } from "generic-view/models"
 
-interface Data {
-  text: string
-}
-
-const TextPlain: APIFC<Data> = ({ data }) => {
+export const TextPlain: APIFC<TextPlainData> = ({ data }) => {
   return <Paragraph>{data?.text}</Paragraph>
 }
-
-export default withData(TextPlain)
 
 const Paragraph = styled.article`
   font-size: ${({ theme }) => theme.fontSize.paragraph1};

@@ -17,6 +17,7 @@ import { SystemUtilsModule } from "system-utils/feature"
 import { createSettingsService } from "Core/settings/containers/settings.container"
 import { APIRestoreService } from "./restore"
 import { DeviceSystemActionsService } from "./device-system-actions/device-system-actions.service"
+import { APIDataTransferService } from "./data-transfer"
 
 export class APIModule {
   private apiConfigService: APIConfigService
@@ -30,6 +31,7 @@ export class APIModule {
   private fileManager: FileManager
   private deviceSystemActionsService: DeviceSystemActionsService
   private serviceBridge: ServiceBridge
+  private apiDataTransferService: APIDataTransferService
 
   constructor(
     deviceManager: DeviceManager,
@@ -42,6 +44,7 @@ export class APIModule {
     this.apiMenuService = new APIMenuService(deviceManager)
     this.serverService = new ServerService()
     this.backupService = new APIBackupService(deviceManager)
+    this.apiDataTransferService = new APIDataTransferService(deviceManager)
     this.restoreService = new APIRestoreService(
       deviceManager,
       this.serviceBridge
@@ -73,6 +76,7 @@ export class APIModule {
       this.fileTransferService,
       this.fileManager,
       this.deviceSystemActionsService,
+      this.apiDataTransferService,
     ]
   }
 }

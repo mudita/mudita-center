@@ -81,7 +81,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
               },
             },
             config: {
-              text: config.aboutTitle,
+              text: config.aboutTitle!,
               icon: config.aboutIcon,
               action: {
                 type: "navigate",

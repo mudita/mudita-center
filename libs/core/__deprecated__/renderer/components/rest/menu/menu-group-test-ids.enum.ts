@@ -9,10 +9,13 @@ export enum MenuGroupTestIds {
   Phone = "phone-menu-link",
   Contacts = "contacts-menu-link",
   FilesManager = "files-manager-link",
+  ManageSounds = "manage-sounds-link",
   Tethering = "tethering-link",
   Overview = "overview-link",
   Connecting = "connecting-link",
   Calendar = "calendar-link",
   Backup = "backup-and-recovery-link",
   Sync = "sync-info",
+  DataMigration = "data-migration-link",
+  DeviceSelectionButton = "menu-group_device-selection-button",
 }

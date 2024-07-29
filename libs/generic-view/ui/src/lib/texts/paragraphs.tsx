@@ -5,22 +5,42 @@
 
 import React from "react"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../utils/with-config"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
+import { ParagraphConfig } from "generic-view/models"
+import { isEmpty } from "lodash"
 
-interface Config {
-  text: string
-}
-
-const Paragraph1: APIFC<undefined, Config> = ({ config, data, ...props }) => {
-  return <StyledP1 {...props}>{config?.text}</StyledP1>
-}
-
-export const StyledP1 = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
-  color: ${({ theme }) => theme.color.grey2};
+const commonStyles = css`
+  white-space: pre-wrap;
   margin: 0;
+  color: ${({ theme }) => theme.color.grey2};
 `
 
-export const Paragraph1WithConfig = withConfig(Paragraph1)
+export const Paragraph1: APIFC<undefined, ParagraphConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <P1 {...props}>{isEmpty(children) ? config.text : children}</P1>
+}
+
+export const P1 = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.paragraph1};
+  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+  letter-spacing: 0.02em;
+  ${commonStyles};
+`
+
+export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <P3 {...props}>{isEmpty(children) ? config.text : children}</P3>
+}
+
+export const P3 = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+  letter-spacing: 0.02em;
+  ${commonStyles};
+`

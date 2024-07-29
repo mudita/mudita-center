@@ -42,6 +42,10 @@ import Folder from "./svg/folder.svg"
 import SpinnerDark from "./svg/spinner-dark.svg"
 import Check from "./svg/check.svg"
 import Minus from "./svg/minus.svg"
+import Search from "./svg/search.svg"
+import Import from "./svg/import.svg"
+import DataMigration from "./svg/data-migration.svg"
+import Information from "./svg/information.svg"
 
 import { IconType } from "generic-view/utils"
 
@@ -82,6 +86,10 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.ContactsBook]: ContactsBook,
   [IconType.Check]: Check,
   [IconType.Minus]: Minus,
+  [IconType.Search]: Search,
+  [IconType.Import]: Import,
+  [IconType.DataMigration]: DataMigration,
+  [IconType.Information]: Information,
 }
 
 export const getIcon = (

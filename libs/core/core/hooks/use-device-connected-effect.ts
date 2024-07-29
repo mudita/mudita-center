@@ -56,7 +56,10 @@ export const useDeviceConnectedEffect = () => {
       }
     }
 
-    return answerMain<DeviceBaseProperties>(DeviceManagerMainEvent.DeviceConnected, handler)
+    return answerMain<DeviceBaseProperties>(
+      DeviceManagerMainEvent.DeviceConnected,
+      handler
+    )
   }, [
     history,
     dispatch,

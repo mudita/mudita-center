@@ -4,38 +4,23 @@
  */
 
 import { z } from "zod"
+import componentValidators from "generic-view/models"
+import { ComponentPropsByName } from "generic-view/utils"
 
-const KEYS = [
-  "h3-component",
-  "p1-component",
-  "button-text",
-  "button-primary",
-  "button-secondary",
-  "text-modal",
-  "text-input",
-  "radio-input",
-  "progress-bar",
-  "divider",
-  "icon-text",
-  "labeled-text",
-  "image",
-  "text-plain",
-  "text-formatted",
-  "badge",
-  "block-plain",
-  "block-box",
-  "block-heading",
-  // predefined components
-  "mc-import-contacts-button",
-] as const
+const validators = Object.values(componentValidators).map(
+  ({ key, configValidator }) => {
+    return z
+      .object({
+        component: z.literal(key),
+        config: configValidator,
+      })
+      .passthrough()
+  }
+) as unknown as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]]
 
-export const FeatureConfigValidator = z.record(
-  z.string(),
-  z
-    .object({
-      component: z.enum(KEYS),
-    })
-    .passthrough()
+export const featureConfigValidator = z.record(
+  z.string().min(1),
+  z.union(validators)
 )
 
-export type FeatureConfig = z.infer<typeof FeatureConfigValidator>
+export type FeatureConfig = Record<string, ComponentPropsByName>

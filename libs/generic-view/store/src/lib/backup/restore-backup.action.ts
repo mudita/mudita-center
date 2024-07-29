@@ -13,11 +13,11 @@ import {
   startRestorePreSendFileRequest,
   startRestoreRequest,
 } from "device/feature"
-import { RestoreFeature } from "device/models"
 import intersection from "lodash/intersection"
 import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
 import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
+import { RestoreFeature } from "generic-view/models"
 
 export const restoreBackup = createAsyncThunk<
   undefined,

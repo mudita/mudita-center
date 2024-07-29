@@ -5,21 +5,51 @@
 
 import React from "react"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../utils/with-config"
 import styled from "styled-components"
+import { HeaderConfig } from "generic-view/models"
+import { isEmpty } from "lodash"
 
-interface Config {
-  text: string
+export const Header3: APIFC<undefined, HeaderConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <H3 {...props}>{isEmpty(children) ? config.text : children}</H3>
 }
 
-const HeaderH3: APIFC<undefined, Config> = ({ config, data, ...props }) => {
-  return <Header {...props}>{config?.text}</Header>
-}
-
-const Header = styled.h3`
+export const H3 = styled.h3`
   font-size: ${({ theme }) => theme.fontSize.headline3};
   line-height: ${({ theme }) => theme.lineHeight.headline3};
   margin: 0;
 `
 
-export const HeaderH3WithConfig = withConfig(HeaderH3)
+export const Header4: APIFC<undefined, HeaderConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <H4 {...props}>{isEmpty(children) ? config.text : children}</H4>
+}
+
+export const H4 = styled.h4`
+  font-size: ${({ theme }) => theme.fontSize.headline4};
+  line-height: ${({ theme }) => theme.lineHeight.headline4};
+  letter-spacing: 0.02em;
+  margin: 0;
+`
+
+export const Header5: APIFC<undefined, HeaderConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <H5 {...props}>{isEmpty(children) ? config.text : children}</H5>
+}
+
+export const H5 = styled.h5`
+  font-size: ${({ theme }) => theme.fontSize.headline5};
+  line-height: ${({ theme }) => theme.lineHeight.headline5};
+  letter-spacing: 0.04em;
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  margin: 0;
+`

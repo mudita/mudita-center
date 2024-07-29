@@ -4,8 +4,8 @@
  */
 
 import React, { FunctionComponent } from "react"
-import { ButtonAction, IconType } from "generic-view/utils"
-import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
+import { ButtonAction, CustomModalError, IconType } from "generic-view/utils"
+import { Modal } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -22,14 +22,9 @@ const messages = defineMessages({
   },
 })
 
-export interface BackupRestoreCustomError {
-  title: string
-  message: string
-}
-
 interface Props {
   closeAction: ButtonAction
-  customError?: BackupRestoreCustomError
+  customError?: CustomModalError
 }
 
 export const BackupRestoreError: FunctionComponent<Props> = ({
@@ -38,24 +33,26 @@ export const BackupRestoreError: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <ModalTitleIcon
-        data={{
+      <Modal.TitleIcon
+        config={{
           type: IconType.Failure,
         }}
       />
-      <h1>{customError?.title || intl.formatMessage(messages.title)}</h1>
+      <Modal.Title>
+        {customError?.title || intl.formatMessage(messages.title)}
+      </Modal.Title>
       <p>
         {customError?.message ||
           intl.formatMessage(messages.defaultErrorMessage)}
       </p>
-      <ModalButtons $vertical>
+      <Modal.Buttons config={{ vertical: true }}>
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
             action: closeAction,
           }}
         />
-      </ModalButtons>
+      </Modal.Buttons>
     </>
   )
 }

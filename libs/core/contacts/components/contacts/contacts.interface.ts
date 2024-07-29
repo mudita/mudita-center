@@ -6,10 +6,7 @@
 import { OpenDialogOptions } from "electron"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { AuthProviders } from "Core/__deprecated__/renderer/models/auth/auth.typings"
-import {
-  ExternalProvider,
-  Provider,
-} from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
+import { ExternalProvider, Provider } from "generic-view/store"
 import {
   Contact,
   ContactCategory,

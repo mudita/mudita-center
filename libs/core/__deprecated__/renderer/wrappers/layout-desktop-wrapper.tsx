@@ -23,7 +23,7 @@ import DeviceSelectDrawer from "Core/device-select/components/device-select-draw
 const Layout = styled.div`
   display: grid;
   height: 100vh;
-  grid-template-rows: 6rem calc(100vh - 6rem);
+  grid-template-rows: 5.6rem calc(100vh - 5.6rem);
   grid-template-columns: 31.2rem 1fr;
   grid-template-areas: "Menu Header" "Menu View";
   max-width: ${width("viewWidth")};

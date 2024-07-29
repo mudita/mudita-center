@@ -8,13 +8,10 @@ import styled from "styled-components"
 import { ButtonAction, IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
-import {
-  ModalButtons,
-  ModalScrollableContent,
-  ModalTitleIcon,
-} from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { BackupFeature } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -31,13 +28,8 @@ const messages = defineMessages({
   },
 })
 
-export interface Feature {
-  label: string
-  key: string
-}
-
 interface Props {
-  features: Feature[]
+  features: BackupFeature[]
   closeAction: ButtonAction
   nextAction: ButtonAction
 }
@@ -49,19 +41,19 @@ export const BackupFeatures: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <ModalTitleIcon data={{ type: IconType.Backup }} />
-      <h1>{intl.formatMessage(messages.title)}</h1>
+      <Modal.TitleIcon config={{ type: IconType.Backup }} />
+      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Article>
         <p>{intl.formatMessage(messages.description)}</p>
-        <ModalScrollableContent>
+        <Modal.ScrollableContent>
           <ul>
             {features.map((feature, index) => (
               <li key={feature.key + index}>{feature.label}</li>
             ))}
           </ul>
-        </ModalScrollableContent>
+        </Modal.ScrollableContent>
       </Article>
-      <ModalButtons>
+      <Modal.Buttons>
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.cancelButtonLabel),
@@ -74,14 +66,12 @@ export const BackupFeatures: FunctionComponent<Props> = ({
             action: nextAction,
           }}
         />
-      </ModalButtons>
+      </Modal.Buttons>
     </>
   )
 }
 
 const Article = styled.article`
-  width: 100%;
-
   p {
     padding-bottom: 1.4rem;
   }

@@ -4,9 +4,9 @@
  */
 
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
-import { APIFC, ButtonAction } from "generic-view/utils"
+import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
 import { Form } from "../../interactive/form/form"
-import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import {
   cleanRestoreProcess,
   closeModal as closeModalAction,
@@ -21,14 +21,10 @@ import { useFormContext } from "react-hook-form"
 import { BackupRestorePassword } from "./backup-restore-password"
 import { BackupRestoreProgress } from "./backup-restore-progress"
 import { BackupRestoreSuccess } from "./backup-restore-success"
-import {
-  BackupRestoreError,
-  BackupRestoreCustomError,
-} from "./backup-restore-error"
-import { RestoreFeature } from "device/models"
-import { withConfig } from "../../utils/with-config"
+import { BackupRestoreError } from "./backup-restore-error"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { BackupRestoreConfig } from "generic-view/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -47,12 +43,7 @@ enum Step {
   Error,
 }
 
-interface Config {
-  features?: RestoreFeature[]
-  modalKey?: string
-}
-
-export const BackupRestoreForm: FunctionComponent<Config> = ({
+export const BackupRestoreForm: FunctionComponent<BackupRestoreConfig> = ({
   features,
   modalKey,
 }) => {
@@ -60,7 +51,7 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   const { handleSubmit, getValues } = useFormContext()
   const restoreAbortReference = useRef<VoidFunction>()
   const restoreStatus = useSelector(selectBackupRestoreStatus)
-  const [error, setError] = useState<BackupRestoreCustomError>()
+  const [error, setError] = useState<CustomModalError>()
 
   const [step, setStep] = useState<Step>(Step.Select)
   const closeButtonVisible = [
@@ -71,12 +62,11 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   const abortButtonVisible = step === Step.Progress
 
   const closeModal = () => {
-    dispatch(closeModalAction({ key: modalKey! }))
+    dispatch(closeModalAction({ key: modalKey }))
     dispatch(cleanRestoreProcess())
   }
 
   const startRestore = (password?: string) => {
-    if (!features) return
     const promise = dispatch(restoreBackup({ features, password }))
     restoreAbortReference.current = (
       promise as unknown as {
@@ -150,37 +140,35 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   return (
     <>
       {closeButtonVisible && (
-        <ModalCloseButton action={restoreCloseButtonAction} />
+        <Modal.CloseButton config={{ action: restoreCloseButtonAction }} />
       )}
-      {abortButtonVisible && <ModalCloseButton action={abortButtonAction} />}
-      <ModalCenteredContent>
-        {step === Step.Select && (
-          <BackupRestoreSelect
-            closeAction={restoreCloseButtonAction}
-            nextAction={selectionConfirmButtonAction}
-          />
-        )}
-        {step === Step.Password && (
-          <BackupRestorePassword nextAction={confirmAction} />
-        )}
-        {step === Step.Progress && (
-          <BackupRestoreProgress features={features!} />
-        )}
-        {step === Step.Success && (
-          <BackupRestoreSuccess onClose={restoreCloseButtonAction.callback} />
-        )}
-        {step === Step.Error && (
-          <BackupRestoreError
-            closeAction={restoreCloseButtonAction}
-            customError={error}
-          />
-        )}
-      </ModalCenteredContent>
+      {abortButtonVisible && (
+        <Modal.CloseButton config={{ action: abortButtonAction }} />
+      )}
+      {step === Step.Select && (
+        <BackupRestoreSelect
+          closeAction={restoreCloseButtonAction}
+          nextAction={selectionConfirmButtonAction}
+        />
+      )}
+      {step === Step.Password && (
+        <BackupRestorePassword nextAction={confirmAction} />
+      )}
+      {step === Step.Progress && <BackupRestoreProgress features={features!} />}
+      {step === Step.Success && (
+        <BackupRestoreSuccess onClose={restoreCloseButtonAction.callback} />
+      )}
+      {step === Step.Error && (
+        <BackupRestoreError
+          closeAction={restoreCloseButtonAction}
+          customError={error}
+        />
+      )}
     </>
   )
 }
 
-const BackupRestore: APIFC<undefined, Config> = ({
+export const BackupRestore: APIFC<undefined, BackupRestoreConfig> = ({
   data,
   config,
   children,
@@ -200,5 +188,3 @@ const BackupRestore: APIFC<undefined, Config> = ({
     </Form>
   )
 }
-
-export default withConfig(BackupRestore)

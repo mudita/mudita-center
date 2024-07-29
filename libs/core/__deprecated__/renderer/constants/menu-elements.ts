@@ -8,6 +8,7 @@ import { DeviceType } from "Core/device/constants"
 import { View, views } from "Core/__deprecated__/renderer/constants/views"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { Feature, flags } from "Core/feature-flags"
 
 const messages = defineMessages({
   yourPure: { id: "component.menuHeaderYourPure" },
@@ -41,9 +42,27 @@ const YOUR_PURE_BUTTONS = [
     button: views.filesManager,
     icon: IconType.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,
-    visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+    visibleOn: [DeviceType.MuditaPure],
     viewKey: View.FilesManager,
   },
+  {
+    button: views.manageSounds,
+    icon: IconType.MenuFilesManager,
+    testId: MenuGroupTestIds.ManageSounds,
+    visibleOn: [DeviceType.MuditaHarmony],
+    viewKey: View.ManageSounds,
+  },
+  ...(flags.get(Feature.DataMigration)
+    ? [
+        {
+          button: views.dataMigration,
+          icon: IconType.DataMigration,
+          testId: MenuGroupTestIds.DataMigration,
+          visibleOn: [DeviceType.MuditaPure],
+          viewKey: View.DataMigration,
+        },
+      ]
+    : []),
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [

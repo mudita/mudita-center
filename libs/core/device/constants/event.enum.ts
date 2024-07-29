@@ -7,6 +7,7 @@ export enum DeviceEvent {
   SetInitState = "DEVICE_SET_INIT_STATE",
 
   Unlock = "DEVICE_UNLOCK",
+  UnlockById = "DEVICE_UNLOCK_BY_ID",
   Locked = "DEVICE_LOCKED",
   Unlocked = "DEVICE_UNLOCKED",
   SetLockTime = "DEVICE_SET_LOCK_TIME",

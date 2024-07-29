@@ -5,13 +5,17 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { ModalTitleIcon } from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { IconType } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { useDispatch } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { startGoogleAuthorization } from "generic-view/store"
+import {
+  importContactsFromFile,
+  setDataTransferProcessStatus,
+  startGoogleAuthorization,
+} from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 
 const messages = defineMessages({
@@ -21,20 +25,25 @@ const messages = defineMessages({
   description: {
     id: "module.genericViews.importContacts.providerModal.description",
   },
+  googleButtonLabel: {
+    id: "module.genericViews.importContacts.providerModal.googleButtonLabel",
+  },
+  fileUploadButtonLabel: {
+    id: "module.genericViews.importContacts.providerModal.fileUploadButtonLabel",
+  },
 })
 
 export const ImportContactsProvider = () => {
   const dispatch = useDispatch<Dispatch>()
   return (
     <>
-      <ModalTitleIcon data={{ type: IconType.ContactsBook }} />
-      <h1>{intl.formatMessage(messages.title)}</h1>
-      <Article>
-        <p>{intl.formatMessage(messages.description)}</p>
-
+      <Modal.TitleIcon config={{ type: IconType.ContactsBook }} />
+      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
+      <p>{intl.formatMessage(messages.description)}</p>
+      <ButtonsWrapper config={{ vertical: true }}>
         <ButtonSecondary
           config={{
-            text: "Continue with Google",
+            text: intl.formatMessage(messages.googleButtonLabel),
             action: {
               type: "custom",
               callback: () => {
@@ -69,25 +78,38 @@ export const ImportContactsProvider = () => {
             </svg>
           </GoogleLogoWrapperStyled>
         </ButtonSecondary>
-      </Article>
+        <ButtonWithIconStyled
+          config={{
+            text: intl.formatMessage(messages.fileUploadButtonLabel),
+            icon: IconType.Import,
+            action: {
+              type: "custom",
+              callback: () => {
+                dispatch(importContactsFromFile())
+                dispatch(
+                  setDataTransferProcessStatus({ status: "FILE-SELECT" })
+                )
+              },
+            },
+          }}
+        />
+      </ButtonsWrapper>
     </>
   )
 }
 
-const Article = styled.article`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  p {
-    padding-bottom: 2.4rem;
-  }
+const ButtonsWrapper = styled(Modal.Buttons)`
+  --min-width: 22rem;
 `
 
 const GoogleLogoWrapperStyled = styled.div`
-  height: 2rem;
-  margin-right: 1.2rem;
-  min-width: 2rem;
-  width: 2rem;
+  height: 1.4rem;
+  width: 1.4rem;
+`
+
+const ButtonWithIconStyled = styled(ButtonSecondary)`
+  & > div {
+    width: 2rem;
+    height: 2rem;
+  }
 `
