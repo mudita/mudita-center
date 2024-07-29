@@ -26,13 +26,10 @@ export const ArticleTracker: FunctionComponent = () => {
       const endTime = Date.now()
       const time = (endTime - startTime) / 1000
 
-      if (time > 2) {
-        void trackWithoutDeviceCheckRequest({
-          e_c: TrackEventCategory.HelpFeedbackVisit,
-          e_a: `${article.id}/${article.version}`,
-          e_v: time,
-        })
-      }
+      void trackWithoutDeviceCheckRequest({
+        e_c: TrackEventCategory.HelpFeedbackVisit,
+        e_a: `${article.id}/${article.version}/${time}`,
+      })
     }
   }, [article])
 
