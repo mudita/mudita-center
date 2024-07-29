@@ -5,11 +5,6 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { startImportAuthorization } from "./start-import-authorization.action"
-// import { cleanImportProcess, setDataTransferProcessStatus } from "./actions"
-// import { importContactsFromExternalSource } from "./import-contacts-from-external-source.action"
-// import { UnifiedContact } from "device/models"
-// import { startContactsImportToDevice } from "./start-contacts-import-to-device"
-// import { startGoogleAuthorization } from "./get-google-contacts.action"
 import {
   cleanImportProcess,
   setImportProcessFileStatus,
