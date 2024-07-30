@@ -5,7 +5,11 @@
 
 import { findIndex, pullAt, find } from "lodash"
 import { PortInfo } from "serialport"
-import { AddKompakt, AddKompaktResponse } from "./mock-descriptor-validators"
+import {
+  AddKompakt,
+  AddKompaktResponse,
+  RestoreDefaultResponses,
+} from "./mock-descriptor-validators"
 import {
   ApiResponseWithConfig,
   ApiResponsesWithConfigArray,
@@ -82,6 +86,10 @@ class MockDescriptor {
         ],
       },
     }
+  }
+
+  public removeResponses({ path, requests }: RestoreDefaultResponses) {
+    console.log("Asdf")
   }
 
   public addResponseOnce({
