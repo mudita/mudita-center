@@ -89,7 +89,23 @@ class MockDescriptor {
   }
 
   public removeResponses({ path, requests }: RestoreDefaultResponses) {
-    console.log("Asdf")
+    requests?.forEach((request) => {
+      if (
+        this._mockResponsesPerDevice[path]?.[request.endpoint]?.[request.method]
+      ) {
+        this._mockResponsesPerDevice[path][request.endpoint]![request.method] =
+          undefined
+      }
+      if (
+        this._mockResponsesPerDeviceOnce[path]?.[request.endpoint]?.[
+          request.method
+        ]
+      ) {
+        this._mockResponsesPerDeviceOnce[path][request.endpoint]![
+          request.method
+        ] = undefined
+      }
+    })
   }
 
   public addResponseOnce({
