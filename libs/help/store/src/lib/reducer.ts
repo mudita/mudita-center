@@ -5,10 +5,12 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { HelpData } from "help/models"
-import { setHelpData } from "./actions"
+import { rateArticle, setHelpData } from "./actions"
+import { uniq } from "lodash"
 
 interface HelpState {
   data: Omit<HelpData, "nextSyncToken">
+  ratedArticles: string[]
 }
 
 const initialState: HelpState = {
@@ -18,10 +20,14 @@ const initialState: HelpState = {
     articles: {},
     assets: {},
   },
+  ratedArticles: [],
 }
 
 export const helpReducer = createReducer(initialState, (builder) => {
   builder.addCase(setHelpData.fulfilled, (state, { payload }) => {
     state.data = payload
+  })
+  builder.addCase(rateArticle.fulfilled, (state, { payload }) => {
+    state.ratedArticles = uniq([...state.ratedArticles, payload])
   })
 })

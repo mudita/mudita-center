@@ -55,3 +55,11 @@ export const selectHelpAssets = createSelector(
     return assets
   }
 )
+
+export const selectArticleRateStatus = createSelector(
+  (state: ReduxRootState) => state.helpV2.ratedArticles,
+  (state: ReduxRootState, articleId: string) => articleId,
+  (ratedArticles, articleId) => {
+    return ratedArticles.includes(articleId)
+  }
+)
