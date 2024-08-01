@@ -92,7 +92,7 @@ export const SearchResultsWrapper = styled.div`
   border: 0.1rem solid ${({ theme }) => theme.color.grey4};
   border-radius: ${({ theme }) => theme.radius.sm};
   overflow-y: scroll;
-  max-height: ${4.2 * 6}rem;
+  max-height: 25.4rem;
 
   &::-webkit-scrollbar {
     width: 0.2rem;

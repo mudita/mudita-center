@@ -5,6 +5,6 @@
 
 export * from "./lib/database/help-database"
 export * from "./lib/database/help-database.schema"
-export * from "./lib/use-help-search"
+export * from "./lib/helpers/use-help-search"
 export * from "./lib/service/help.module"
-export * from "./lib/clean-search-phrase"
+export * from "./lib/helpers/clean-search-phrase"

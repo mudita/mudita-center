@@ -33,9 +33,10 @@ export const Search: FunctionComponent = () => {
     activeResultIndex: number
   }>()
   const history = useHistory()
-  const searchPhrase = watch("search") || ""
-  const deferredSearchPhrase = useDeferredValue(cleanSearchPhrase(searchPhrase))
-  const results = useHelpSearch(deferredSearchPhrase)
+  const deferredSearchPhrase = useDeferredValue(watch("search") || "")
+  const { search: cleanedSearchPhrase, highlight: cleanedHighlightPhrase } =
+    cleanSearchPhrase(deferredSearchPhrase)
+  const results = useHelpSearch(cleanedSearchPhrase)
   const activeResultIndex = watch("activeResultIndex")
 
   useEffect(() => {
@@ -75,7 +76,7 @@ export const Search: FunctionComponent = () => {
       <P3>{intl.formatMessage(messages.description)}</P3>
       <InputWrapper
         onKeyDown={handleKeyDown}
-        dropdownActive={deferredSearchPhrase.length > 1}
+        dropdownActive={cleanedSearchPhrase.length > 1}
       >
         <Input
           config={{
@@ -83,7 +84,7 @@ export const Search: FunctionComponent = () => {
             label: intl.formatMessage(messages.placeholder),
           }}
         />
-        <SearchResults results={results} phrase={deferredSearchPhrase} />
+        <SearchResults results={results} phrase={cleanedHighlightPhrase} />
       </InputWrapper>
     </Wrapper>
   )
