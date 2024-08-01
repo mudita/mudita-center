@@ -26,6 +26,9 @@ export const generateMcAboutLayout: ViewGenerator<OverviewConfig> = (
   const mainConfig: MainView["main"] = {
     screenTitle: config.summary.aboutTitle!,
     component: "block-plain",
+    config: {
+      backgroundColor: "grey",
+    },
   }
   const heading = generateMcAboutHeadingLayout(config.summary)
   const headingDivider = generateMcAboutHeadingDividerLayout(undefined)
