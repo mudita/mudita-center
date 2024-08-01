@@ -7,7 +7,13 @@ import { z } from "zod"
 
 const dataValidator = z.undefined()
 
-const configValidator = z.undefined()
+const configValidator = z
+  .object({
+    backgroundColor: z.enum(["white", "grey"]).optional(),
+  })
+  .optional()
+
+export type BlockPlainConfig = z.infer<typeof configValidator>
 
 export const blockPlain = {
   key: "block-plain",
