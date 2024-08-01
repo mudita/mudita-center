@@ -9,7 +9,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { defineMessages } from "react-intl"
 import styled, { css } from "styled-components"
 import { useFormContext } from "react-hook-form"
-import { useHelpSearch } from "help/feature"
+import { cleanSearchPhrase, useHelpSearch } from "help/feature"
 import { SearchResults, SearchResultsWrapper } from "./search-results"
 import { H3, P3, SearchInput } from "generic-view/ui"
 import { useHistory } from "react-router"
@@ -34,7 +34,7 @@ export const Search: FunctionComponent = () => {
   }>()
   const history = useHistory()
   const searchPhrase = watch("search") || ""
-  const deferredSearchPhrase = useDeferredValue(searchPhrase)
+  const deferredSearchPhrase = useDeferredValue(cleanSearchPhrase(searchPhrase))
   const results = useHelpSearch(deferredSearchPhrase)
   const activeResultIndex = watch("activeResultIndex")
 

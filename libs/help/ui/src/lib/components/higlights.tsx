@@ -16,7 +16,7 @@ export const HighlightText: FunctionComponent<HighlightTextProps> = ({
   text,
   phrase,
 }) => {
-  const phrases = uniq(phrase.toLowerCase().split(" "))
+  const phrases = uniq(phrase.toLowerCase().split(" ").filter(Boolean))
   const phrasesRegex = phrases.map((phrase) => phrase).join("|")
   const splitRegex = new RegExp(`(${phrasesRegex})`, "gi")
   const parts = text.split(splitRegex)
