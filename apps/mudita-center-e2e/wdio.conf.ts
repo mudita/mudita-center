@@ -68,7 +68,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.privacyPolicyTest),
     toRelativePath(TestFilesPaths.licenseTest),
     toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
-    toRelativePath(TestFilesPaths.kompaktOverview),
+    toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
   ],
   suites: {
     standalone: [
@@ -84,6 +84,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
     ],
     mock: [
+      toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.e2eMockSample),
@@ -111,6 +112,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+      toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
       toRelativePath(TestFilesPaths.kompaktOverview),
     ],
   },
