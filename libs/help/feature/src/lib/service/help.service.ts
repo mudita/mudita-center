@@ -12,11 +12,16 @@ import { ipcMain } from "electron-better-ipc"
 import defaultHelp from "../default-help.json"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { IpcEvent } from "Core/core/decorators"
+import { BrowserWindow } from "electron"
 
 const helpPath = path.join(`${getAppPath()}`, "help-v2.json")
 
 export class HelpService {
-  constructor() {}
+  private readonly mainApplicationWindow: BrowserWindow
+
+  constructor(win: BrowserWindow) {
+    this.mainApplicationWindow = win
+  }
 
   private async getNewestData(nextSyncToken?: string) {
     try {
@@ -43,7 +48,11 @@ export class HelpService {
       newHelpData.nextSyncToken !== oldHelpData.nextSyncToken
     ) {
       void writeJSON(helpPath, newHelpData)
-      void ipcMain.callFocusedRenderer(HelpEvent.DataUpdated, newHelpData)
+      void ipcMain.callRenderer(
+        this.mainApplicationWindow,
+        HelpEvent.DataUpdated,
+        newHelpData
+      )
     }
   }
 
