@@ -10,10 +10,9 @@ import {
   search as oramaSearch,
   updateMultiple,
 } from "@orama/orama"
-// @ts-ignore
-import { stopwords as englishStopwords } from "@orama/stopwords/english"
 import { HelpData } from "help/models"
 import { articlesSchema } from "./help-database.schema"
+import stopWords from "./stopwords.json"
 
 class HelpDatabase {
   private articlesDb?: Orama<typeof articlesSchema>
@@ -34,7 +33,7 @@ class HelpDatabase {
       components: {
         tokenizer: {
           stemming: false,
-          stopWords: englishStopwords,
+          stopWords,
         },
       },
     })
