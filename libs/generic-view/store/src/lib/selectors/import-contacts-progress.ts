@@ -5,30 +5,37 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { importStatusSelector } from "./import-status-selector"
+import { selectDataTransferProgress } from "./data-transfer-progress"
+
+const transferStartedProgress = 10
 
 export const importContactsProgress = createSelector(
-  [importStatusSelector],
-  (importStatus) => {
-    if (!importStatus) {
-      return { progress: 0 }
+  selectDataTransferProgress,
+  importStatusSelector,
+  ({ progress: dataTransferProgress = 0 }, importProgress) => {
+    let progress = 0
+
+    if (!importProgress) {
+      return { progress }
     }
 
-    if (importStatus === "IMPORT-INTO-DEVICE-IN-PROGRESS") {
-      return { progress: 10 }
+    switch (importProgress) {
+      case "IMPORT-INTO-DEVICE-IN-PROGRESS":
+        progress = transferStartedProgress
+        break
+      case "IMPORT-DEVICE-DATA-TRANSFER":
+        progress = 100
+        break
+      default: {
+        const dataTransferProgressFactor =
+          (100 - transferStartedProgress - 1) / 100
+        progress = Math.floor(
+          transferStartedProgress +
+            dataTransferProgressFactor * dataTransferProgress
+        )
+      }
     }
 
-    if (importStatus === "IMPORT-INTO-DEVICE-FILES-TRANSFER") {
-      return { progress: 30 }
-    }
-
-    if (importStatus === "IMPORT-DEVICE-DATA-TRANSFER") {
-      return { progress: 90 }
-    }
-
-    if (importStatus === "DONE") {
-      return { progress: 100 }
-    }
-
-    return { progress: 0 }
+    return { progress }
   }
 )
