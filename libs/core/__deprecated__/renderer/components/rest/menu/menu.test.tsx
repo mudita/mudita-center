@@ -102,11 +102,11 @@ const render = (
 
 describe("Device: Mudita pure", () => {
   beforeAll(() => {
-    process.env.NEW_HELP_ENABLED = "1"
+    delete process.env.NEW_HELP_ENABLED
   })
 
   afterAll(() => {
-    delete process.env.NEW_HELP_ENABLED
+    process.env.NEW_HELP_ENABLED = "1"
   })
 
   test("matches snapshot", () => {
