@@ -22,6 +22,8 @@ export const mergeToSingleFileString = (
     fileNameDivider = false,
     maxSize,
   } = option
+  console.log("fs.readdirSync")
+  console.log(fs.readdirSync)
   const fileString = fs
     .readdirSync(cwd)
     .filter((fileName) => fileNameRegExp.test(fileName))
