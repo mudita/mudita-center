@@ -13,10 +13,20 @@ const configValidator = z.object({
 
 export type ParagraphConfig = z.infer<typeof configValidator>
 
-export const P1Component = {
+export const p1Component = {
   key: "p1-component",
   dataValidator,
   configValidator,
 } as const
 
-// Add more paragraphs here
+export const p2Component = {
+  key: "p2-component",
+  dataValidator,
+  configValidator,
+} as const
+
+export const p3Component = {
+  key: "p3-component",
+  dataValidator,
+  configValidator,
+} as const
