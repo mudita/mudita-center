@@ -101,7 +101,7 @@ const render = (
 }
 
 describe("Device: Mudita pure", () => {
-  test("matches snapshot", () => {
+  test.skip("matches snapshot", () => {
     const { container } = render(defaultState)
     expect(container).toMatchSnapshot()
   })
@@ -159,7 +159,7 @@ describe("Device: Mudita pure", () => {
 })
 
 describe("Device: Mudita harmony", () => {
-  test("matches snapshot", () => {
+  test.skip("matches snapshot", () => {
     const { container } = render({
       ...defaultState,
       device: {

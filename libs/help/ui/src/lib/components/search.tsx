@@ -3,13 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { KeyboardEvent, useDeferredValue, useEffect } from "react"
+import React, {
+  KeyboardEvent,
+  useDeferredValue,
+  useEffect,
+  useRef,
+} from "react"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { defineMessages } from "react-intl"
 import styled, { css } from "styled-components"
 import { useFormContext } from "react-hook-form"
-import { useHelpSearch } from "help/feature"
+import { cleanSearchPhrase, useHelpSearch } from "help/feature"
 import { SearchResults, SearchResultsWrapper } from "./search-results"
 import { H3, P3, SearchInput } from "generic-view/ui"
 import { useHistory } from "react-router"
@@ -33,26 +38,55 @@ export const Search: FunctionComponent = () => {
     activeResultIndex: number
   }>()
   const history = useHistory()
-  const searchPhrase = watch("search") || ""
-  const deferredSearchPhrase = useDeferredValue(searchPhrase)
-  const results = useHelpSearch(deferredSearchPhrase)
+  const deferredSearchPhrase = useDeferredValue(watch("search") || "")
+  const { search: cleanedSearchPhrase, highlight: cleanedHighlightPhrase } =
+    cleanSearchPhrase(deferredSearchPhrase)
+  const results = useHelpSearch(cleanedSearchPhrase)
   const activeResultIndex = watch("activeResultIndex")
+  const searchResultsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     register("activeResultIndex", { value: 0 })
   }, [register])
 
+  const onArrowNavigation = (
+    event: KeyboardEvent<HTMLInputElement>,
+    index: number,
+    up?: boolean
+  ) => {
+    event.preventDefault()
+    setValue("activeResultIndex", index)
+
+    const activeElement = searchResultsRef.current?.querySelector(
+      `li.active`
+    ) as HTMLElement
+    const containerScrollHeight = searchResultsRef.current?.scrollHeight || 0
+    const containerScrollTop = searchResultsRef.current?.scrollTop || 0
+    const containerOffsetHeight = searchResultsRef.current?.clientHeight || 0
+    const elementTop = activeElement.offsetTop
+    const elementHeight = activeElement.offsetHeight
+    const scrollDelta = containerScrollHeight - containerOffsetHeight
+
+    if (up) {
+      if (elementTop <= containerScrollTop + elementHeight) {
+        searchResultsRef.current?.scrollTo(0, elementTop - elementHeight)
+      }
+    } else {
+      if (elementTop > scrollDelta + containerScrollTop) {
+        searchResultsRef.current?.scrollTo(0, elementTop - scrollDelta)
+      }
+    }
+  }
+
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "ArrowDown") {
-      event.preventDefault()
-      setValue(
-        "activeResultIndex",
+      onArrowNavigation(
+        event,
         Math.min(activeResultIndex + 1, (results?.hits.length || 1) - 1)
       )
     }
     if (event.key === "ArrowUp") {
-      event.preventDefault()
-      setValue("activeResultIndex", Math.max(activeResultIndex - 1, 0))
+      onArrowNavigation(event, Math.max(activeResultIndex - 1, 0), true)
     }
     if (event.key === "Enter") {
       const activeResult = results?.hits[activeResultIndex]
@@ -75,7 +109,7 @@ export const Search: FunctionComponent = () => {
       <P3>{intl.formatMessage(messages.description)}</P3>
       <InputWrapper
         onKeyDown={handleKeyDown}
-        dropdownActive={deferredSearchPhrase.length > 1}
+        dropdownActive={cleanedSearchPhrase.length > 1}
       >
         <Input
           config={{
@@ -83,7 +117,11 @@ export const Search: FunctionComponent = () => {
             label: intl.formatMessage(messages.placeholder),
           }}
         />
-        <SearchResults results={results} phrase={deferredSearchPhrase} />
+        <SearchResults
+          results={results}
+          phrase={cleanedHighlightPhrase}
+          ref={searchResultsRef}
+        />
       </InputWrapper>
     </Wrapper>
   )

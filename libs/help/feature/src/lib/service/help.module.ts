@@ -12,9 +12,10 @@ import { AppLogger } from "Core/__deprecated__/main/utils/logger"
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
+import { BrowserWindow } from "electron"
 
 export class HelpModule extends BaseModule {
-  public controllers
+  public controllers: HelpService[]
 
   constructor(
     public index: IndexStorage,
@@ -23,7 +24,8 @@ export class HelpModule extends BaseModule {
     public logger: AppLogger,
     public ipc: MainProcessIpc,
     public eventEmitter: EventEmitter,
-    public fileSystem: FileSystemService
+    public fileSystem: FileSystemService,
+    public mainApplicationWindow: BrowserWindow
   ) {
     super(
       index,
@@ -32,10 +34,15 @@ export class HelpModule extends BaseModule {
       logger,
       ipc,
       eventEmitter,
-      fileSystem
+      fileSystem,
+      mainApplicationWindow
     )
-    const helpService = new HelpService()
-    void helpService.initialize()
-    this.controllers = [helpService]
+    if (process.env.NEW_HELP_ENABLED === "1") {
+      const helpService = new HelpService(mainApplicationWindow)
+      void helpService.initialize()
+      this.controllers = [helpService]
+    } else {
+      this.controllers = []
+    }
   }
 }

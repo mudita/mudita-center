@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from "react"
 import { HelpSearchResult } from "help/models"
-import { helpDatabase } from "./database/help-database"
+import { helpDatabase } from "../database/help-database"
 
 export const useHelpSearch = (searchPhrase?: string) => {
   const [searchResults, setSearchResults] = useState<HelpSearchResult>()

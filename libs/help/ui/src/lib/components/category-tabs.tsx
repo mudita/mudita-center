@@ -9,6 +9,7 @@ import styled from "styled-components"
 import { NavLink } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { selectHelpCategoriesList } from "help/store"
+import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 
 export const CategoryTabs: FunctionComponent = () => {
   const categories = useSelector(selectHelpCategoriesList)
@@ -17,7 +18,7 @@ export const CategoryTabs: FunctionComponent = () => {
     <Wrapper>
       {categories?.map((category) => {
         return (
-          <Tab key={category.id} to={`/help/${category.id}`}>
+          <Tab key={category.id} to={`${URL_MAIN.help}/${category.id}`}>
             <span className={"normal"}>{category.name}</span>
             <span className={"bold"} aria-hidden={true}>
               {category.name}

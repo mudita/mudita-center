@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useId } from "react"
+import React, { useEffect, useId, useRef } from "react"
 import { APIFC, IconType } from "generic-view/utils"
 import styled, { css } from "styled-components"
 import { IconButton } from "../../../shared/button"
@@ -20,9 +20,12 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
   const id = useId()
   const { register, watch, setValue } = useFormContext()
   const value = (watch(config.name) as string) || ""
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const { ref, ...rest } = register(config.name)
 
   const clear = () => {
     setValue(config.name, "")
+    inputRef.current?.focus()
   }
 
   useEffect(() => {
@@ -39,7 +42,11 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
           id={"input-" + id}
           type={"search"}
           placeholder={config.label}
-          {...register(config.name)}
+          {...rest}
+          ref={(event) => {
+            ref(event)
+            inputRef.current = event
+          }}
         />
         {value.length > 0 && (
           <ClearButton type={"button"} onClick={clear}>

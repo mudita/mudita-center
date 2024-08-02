@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { ComponentProps, forwardRef, Ref } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
@@ -31,10 +31,9 @@ interface Props {
   phrase: string
 }
 
-export const SearchResults: FunctionComponent<Props> = ({
-  results,
-  phrase = "",
-}) => {
+const SearchResultsFC: FunctionComponent<
+  Props & { innerRef?: Ref<HTMLDivElement> }
+> = ({ results, phrase = "", innerRef }) => {
   const { watch, setValue } = useFormContext()
   const categories = useSelector(selectHelpCategories)
   const activeIndex = watch("activeResultIndex")
@@ -44,7 +43,7 @@ export const SearchResults: FunctionComponent<Props> = ({
   }
 
   return (
-    <SearchResultsWrapper>
+    <SearchResultsWrapper ref={innerRef}>
       {(results?.hits.length || 0) > 0 ? (
         <>
           <ListTitle>{intl.formatMessage(messages.description)}</ListTitle>
@@ -82,6 +81,11 @@ export const SearchResults: FunctionComponent<Props> = ({
   )
 }
 
+export const SearchResults = forwardRef<
+  HTMLDivElement,
+  ComponentProps<typeof SearchResultsFC>
+>((props, ref) => <SearchResultsFC {...props} innerRef={ref} />)
+
 export const SearchResultsWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -92,7 +96,8 @@ export const SearchResultsWrapper = styled.div`
   border: 0.1rem solid ${({ theme }) => theme.color.grey4};
   border-radius: ${({ theme }) => theme.radius.sm};
   overflow-y: scroll;
-  max-height: ${4.2 * 6}rem;
+  max-height: 25.4rem;
+  scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
     width: 0.2rem;
