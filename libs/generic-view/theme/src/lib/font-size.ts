@@ -11,6 +11,7 @@ export const fontSize = {
   headline5: "1.4rem",
   headline6: "1.2rem",
   paragraph1: "1.6rem",
+  paragraph2: "1.6rem",
   paragraph3: "1.4rem",
   paragraph4: "1.4rem",
   tag: "1.2rem",

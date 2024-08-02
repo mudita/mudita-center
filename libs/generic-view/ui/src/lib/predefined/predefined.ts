@@ -11,12 +11,14 @@ import { BackupCreate } from "./backup/backup-create"
 import { BackupRestore } from "./backup-restore/backup-restore"
 import { ImportContacts } from "./import-contacts/import-contacts"
 import { DataMigration } from "./data-migration/data-migration"
+import { IncomingFeatureInfo } from "./incoming-feature-info"
 import {
   aboutDataBox,
   backupCreate,
   backupRestore,
   backupRestoreAvailable,
   importContacts,
+  incomingFeatureInfo,
   lastBackupDate,
   mcDataMigration,
   overviewOsVersion,
@@ -31,4 +33,5 @@ export const predefinedComponents = {
   [backupRestore.key]: BackupRestore,
   [importContacts.key]: ImportContacts,
   [mcDataMigration.key]: DataMigration,
+  [incomingFeatureInfo.key]: IncomingFeatureInfo,
 }

@@ -62,8 +62,15 @@ const Content = styled(Markdown)`
   h4,
   h5,
   h6 {
-    margin-top: 0;
-    margin-bottom: 0.6rem;
+    margin: 2em 0 0 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    + * {
+      margin-top: 1.25em !important;
+    }
   }
 
   p,
@@ -91,6 +98,10 @@ const Content = styled(Markdown)`
       font-weight: ${({ theme }) => theme.fontWeight.bold};
       color: ${({ theme }) => theme.color.black};
     }
+  }
+
+  p + p {
+    margin-top: 1em;
   }
 
   ol {
