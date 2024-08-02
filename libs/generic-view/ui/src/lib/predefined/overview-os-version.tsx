@@ -87,11 +87,6 @@ const Version = styled.p`
   font-size: ${({ theme }) => theme.fontSize.paragraph1};
   line-height: ${({ theme }) => theme.lineHeight.paragraph1};
   margin: 0;
-  text-transform: lowercase;
-
-  &:first-letter {
-    text-transform: uppercase;
-  }
 `
 
 const ActionLabel = styled.p`
