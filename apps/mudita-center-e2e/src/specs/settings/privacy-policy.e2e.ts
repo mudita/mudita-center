@@ -8,6 +8,8 @@ import NavigationTabs from "../../page-objects/tabs.page"
 import HomePage from "../../page-objects/home.page"
 import modalPrivacyPolicyPage from "../../page-objects/modal-privacy-policy.page"
 import ModalPage from "../../page-objects/modal.page"
+import { sleep } from "../../helpers/sleep.helper"
+import testsHelper from "../../helpers/tests.helper"
 
 describe("Checking Privacy Policy", () => {
   before(async function () {
@@ -35,6 +37,10 @@ describe("Checking Privacy Policy", () => {
   })
 
   it("Check Privacy Policy 'LEARN MORE' button", async () => {
+    if(testsHelper.isLinux()){
+      sleep(5000)
+    }
+
     const aboutPrivacyPolicyButton = await SettingsPage.aboutPrivacyPolicyButton
     await expect(aboutPrivacyPolicyButton).toHaveText("LEARN MORE")
     await aboutPrivacyPolicyButton.click()

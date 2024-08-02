@@ -8,6 +8,8 @@ import NavigationTabs from "../../page-objects/tabs.page"
 import HomePage from "../../page-objects/home.page"
 import ModalTermsOfServicePage from "../../page-objects/modal-terms-of-service.page"
 import ModalPage from "../../page-objects/modal.page"
+import { sleep } from "../../helpers/sleep.helper"
+import testsHelper from "../../helpers/tests.helper"
 
 describe("Checking Terms of service", () => {
   before(async function () {
@@ -35,8 +37,13 @@ describe("Checking Terms of service", () => {
   })
 
   it("Check Terms of service 'LEARN MORE' button", async () => {
+    if(testsHelper.isLinux()){
+      sleep(5000)
+    }
+
     const aboutTermsOfServiceButton =
       await SettingsPage.aboutTermsOfServiceButton
+
     await expect(aboutTermsOfServiceButton).toHaveText("LEARN MORE")
     await aboutTermsOfServiceButton.click()
 
