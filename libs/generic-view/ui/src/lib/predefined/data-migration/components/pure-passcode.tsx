@@ -160,6 +160,7 @@ export const PurePasscode: FunctionComponent<Props> = ({
       leftTime={leftTime}
       canBeClosed={true}
       layer={ModalLayers.Passcode}
+      noOverlayBg={false}
     />
   )
 }
