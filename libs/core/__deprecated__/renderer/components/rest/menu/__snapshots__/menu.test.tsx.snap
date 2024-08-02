@@ -225,6 +225,10 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   color: #6a6a6a;
 }
 
+.c12.active {
+  pointer-events: all;
+}
+
 .c7 {
   margin: 0 0.8rem 0 0;
 }
@@ -372,11 +376,12 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
       <div
         class="c4"
       >
-        <button
+        <a
           class="c12"
           data-testid="help-menu-button"
+          displaystyle="7"
+          href="#/help"
           size="1"
-          type="button"
         >
           <span
             class="c6 c7"
@@ -392,9 +397,9 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
             class="c8 c9"
             color="primary"
           >
-            [value] module.help
+            [value] module.help.v2
           </p>
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -793,7 +798,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
             class="c8 c9"
             color="primary"
           >
-            [value] module.help
+            [value] module.help.v2
           </p>
         </button>
       </div>

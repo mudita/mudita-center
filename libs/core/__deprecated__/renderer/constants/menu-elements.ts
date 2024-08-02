@@ -74,6 +74,7 @@ const DESKTOP_APP_BUTTONS: Item[] = [
     button: views.help,
     icon: IconType.MenuHelp,
     testId: MenuGroupTestIds.Help,
+    disableWhenActive: false,
     visibleOn: [
       DeviceType.MuditaPure,
       DeviceType.MuditaHarmony,
@@ -89,6 +90,7 @@ interface Item {
   hidden?: boolean
   visibleOn?: DeviceType[]
   viewKey?: View
+  disableWhenActive?: boolean
 }
 
 export interface MenuElement {
