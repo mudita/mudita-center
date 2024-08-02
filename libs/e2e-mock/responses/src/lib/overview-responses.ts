@@ -34,7 +34,7 @@ export const overviewDataWithOneSimCard = {
   },
   sections: {
     battery: { icon: "battery-charging-5", text: "100%", subText: "" },
-    update: { text: "ANDROID 12", version: "0.3.0" },
+    update: { text: "Mudita OS", version: "0.3.0" },
     "airplane-mode": {
       icon: "network-signal-2",
       text: "T-Mobile",
@@ -60,7 +60,7 @@ export const overviewDataWithOneSimCard2nd = {
       text: "40%",
       subText: "",
     },
-    update: { text: "ANDROID 13", version: "0.3.1" },
+    update: { text: "Mudita OS", version: "0.3.1" },
     "airplane-mode": {
       icon: "network-signal-4",
       text: "Play",

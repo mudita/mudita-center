@@ -43,12 +43,11 @@ describe("E2E mock sample - overview view", () => {
   it("Verify Overview Page", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
     await expect(kompaktImage).toBeDisplayed()
-    console.log(kompaktImage)
     await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
-    await expect(kompaktOsVersion).toHaveText("ANDROID 12")
+    await expect(kompaktOsVersion).toHaveText("Mudita OS")
 
     const kompaktOsVersionLabel =
       await OverviewKompaktPage.kompaktOsVersionLabel
@@ -64,7 +63,6 @@ describe("E2E mock sample - overview view", () => {
 
     const aboutYourDevice = await OverviewKompaktPage.aboutYourDevice
     await expect(aboutYourDevice).toBeDisplayed()
-    console.log(aboutYourDevice)
     await expect(aboutYourDevice).toBeClickable
     await aboutYourDevice.click()
 
