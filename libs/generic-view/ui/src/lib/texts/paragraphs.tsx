@@ -30,6 +30,22 @@ export const P1 = styled.p`
   ${commonStyles};
 `
 
+export const Paragraph2: APIFC<undefined, ParagraphConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <P2 {...props}>{isEmpty(children) ? config.text : children}</P2>
+}
+
+export const P2 = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.paragraph2};
+  line-height: ${({ theme }) => theme.lineHeight.paragraph2};
+  letter-spacing: 0.02em;
+  font-weight: 300;
+  ${commonStyles};
+`
+
 export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
   config,
   children,
