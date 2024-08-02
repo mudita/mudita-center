@@ -88,7 +88,7 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
       !isAnyDeviceAttachedOnInitialRender.current &&
       noNewDevicesDetectedState
     ) {
-      history.push(URL_ONBOARDING.troubleshooting)
+      history.push(URL_ONBOARDING.root)
       return
     }
 
