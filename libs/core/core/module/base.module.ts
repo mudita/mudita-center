@@ -12,11 +12,12 @@ import { IndexStorage } from "Core/index-storage/types"
 import { DeviceProtocol } from "device-protocol/feature"
 import {
   Controller,
-  Model,
-  Repository,
-  Observer,
   Initializer,
+  Model,
+  Observer,
+  Repository,
 } from "Core/core/types"
+import { BrowserWindow } from "electron"
 
 export class BaseModule {
   public controllers: Controller[] = []
@@ -32,6 +33,7 @@ export class BaseModule {
     public logger: AppLogger,
     public ipc: MainProcessIpc,
     public eventEmitter: EventEmitter,
-    public fileSystem: FileSystemService
+    public fileSystem: FileSystemService,
+    public mainApplicationWindow?: BrowserWindow
   ) {}
 }

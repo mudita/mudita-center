@@ -368,12 +368,14 @@ const buttonStyles = css<{
 export const StyledNavLink = styled(NavLink)<{
   displayStyle: DisplayStyle
   disabled: boolean
+  disableWhenActive: boolean
   size: Size
 }>`
   ${buttonStyles}
 
   &.${activeClassName} {
-    pointer-events: none;
+    pointer-events: ${({ disableWhenActive }) =>
+      disableWhenActive ? "none" : "all"};
   }
 `
 

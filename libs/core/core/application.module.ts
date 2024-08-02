@@ -10,17 +10,16 @@ import { EventEmitter } from "events"
 import { MetadataStore } from "Core/metadata/services"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { LoggerFactory } from "Core/core/factories"
-import { DeviceLogger } from "Core/core/types"
-import { flags, Feature } from "Core/feature-flags"
+import { DeviceLogger, Module } from "Core/core/types"
+import { Feature, flags } from "Core/feature-flags"
 import PureLogger from "Core/__deprecated__/main/utils/pure-logger"
 import { IndexFactory } from "Core/index-storage/factories"
 import {
-  DataIndexInitializer,
   ControllerInitializer,
+  DataIndexInitializer,
   InitializeInitializer,
   ObserverInitializer,
 } from "Core/core/initializers"
-import { Module } from "Core/core/types"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { IndexStorageModule } from "Core/index-storage/index-storage.module"
 import { DataSyncModule } from "Core/data-sync/data-sync.module"
@@ -40,8 +39,8 @@ import { DeviceFileSystemModule } from "Core/device-file-system/device-file-syst
 import { DeviceLogModule } from "Core/device-log/device-log.module"
 import { DeviceModule } from "Core/device/device.module"
 import {
-  DeviceProtocolModule,
   DeviceProtocol,
+  DeviceProtocolModule,
   DeviceResolverService,
   SerialPortService,
 } from "device-protocol/feature"
@@ -51,12 +50,13 @@ import { OnlineStatusModule } from "shared/app-state"
 import { SystemUtilsModule } from "system-utils/feature"
 import {
   MockDeviceResolverService,
-  mockServiceEnabled,
   MockSerialPortService,
+  mockServiceEnabled,
 } from "e2e-mock-server"
 import { ApplicationUpdaterModule } from "electron/application-updater"
 import { CoreDeviceModule } from "core-device/feature"
 import { createSettingsService } from "Core/settings/containers"
+import { HelpModule } from "help/feature"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -82,6 +82,7 @@ export class ApplicationModule {
     DataSyncModule,
     CrashDumpModule,
     DesktopModule,
+    HelpModule,
   ]
 
   private deviceLogger: DeviceLogger = LoggerFactory.getInstance()

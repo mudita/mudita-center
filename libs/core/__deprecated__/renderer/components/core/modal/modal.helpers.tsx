@@ -29,6 +29,11 @@ export const getModalSize = (size: ModalSize) => {
       return css`
         width: 59rem;
       `
+    case ModalSize.MediumNew:
+      return css`
+        width: 56.6rem;
+        padding: 2.4rem;
+      `
     case ModalSize.Large:
       return css`
         width: 101rem;

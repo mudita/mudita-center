@@ -7,6 +7,7 @@ export enum ModalSize {
   VerySmall,
   Small,
   Medium,
+  MediumNew,
   Large,
 }
 
