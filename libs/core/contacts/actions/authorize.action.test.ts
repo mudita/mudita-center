@@ -19,6 +19,9 @@ jest.mock("generic-view/store", () => {
     googleAuthorize: () =>
       ({
         type: fulfilledAction("generic-imports/google-authorization-process"),
+        unwrap: jest.fn().mockResolvedValue({
+          type: fulfilledAction("generic-imports/google-authorization-process"),
+        }),
       } as unknown as jest.Mock),
   }
 })
@@ -40,6 +43,18 @@ describe("async `authorize` ", () => {
       } = await mockStore.dispatch(
         authorize(Provider.Google) as unknown as AnyAction
       )
+
+      const actions = mockStore.getActions()
+
+      const googleAuthorizeAction = actions.find(
+        (action) =>
+          action.type ===
+          "generic-imports/google-authorization-process/fulfilled"
+      )
+
+      if (googleAuthorizeAction) {
+        delete googleAuthorizeAction.unwrap
+      }
 
       expect(mockStore.getActions()).toEqual([
         authorize.pending(requestId, Provider.Google),
