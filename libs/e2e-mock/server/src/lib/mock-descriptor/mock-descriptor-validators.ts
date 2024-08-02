@@ -35,3 +35,19 @@ export const addKompaktResponseValidator = z.object({
 })
 
 export type AddKompaktResponse = z.infer<typeof addKompaktResponseValidator>
+
+export const restoreDefaultResponsesValidator = z.object({
+  path: z.string().min(1),
+  requests: z
+    .array(
+      z.object({
+        endpoint: z.enum(APIEndpoints),
+        method: z.enum(APIMethods),
+      })
+    )
+    .optional(),
+})
+
+export type RestoreDefaultResponses = z.infer<
+  typeof restoreDefaultResponsesValidator
+>
