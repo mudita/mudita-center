@@ -35,7 +35,7 @@ export class APIConfigService {
       method: "GET",
       body: {},
       options: {
-        connectionTimeOut: 1000,
+        connectionTimeOut: 6000,
       },
     })
 
