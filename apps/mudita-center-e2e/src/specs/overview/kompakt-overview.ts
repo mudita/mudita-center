@@ -48,10 +48,12 @@ describe("E2E mock sample - overview view", () => {
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
+    await expect(kompaktOsVersion).toHaveText("ANDROID 12")
 
     const kompaktOsVersionLabel =
       await OverviewKompaktPage.kompaktOsVersionLabel
     await expect(kompaktOsVersionLabel).toBeDisplayed()
+    await expect(kompaktOsVersionLabel).toHaveText("Current version:")
 
     const serialNumberLabel = await OverviewKompaktPage.serialNumberLabel
     const serialNumberValue = await OverviewKompaktPage.serialNumberValue
