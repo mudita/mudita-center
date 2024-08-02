@@ -11,7 +11,6 @@ export enum DataMigrationFeature {
   CallLog = "callLog",
   Contacts = "contacts",
   Messages = "messages",
-  Multimedia = "multimedia",
 }
 
 const dataValidator = z.undefined()
