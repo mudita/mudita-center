@@ -126,19 +126,23 @@ export default () => (
             <Route path={URL_OVERVIEW.root} component={Overview} exact />
             <Route path={URL_MAIN.contacts} component={Contacts} exact />
             <Route path={URL_MAIN.settings} component={BackupContainer} exact />
-            <Route
-              path={`${URL_MAIN.help}/:categoryId/:articleId`}
-              component={ArticlePage}
-            />
-            {process.env.NEW_HELP_ENABLED === "1" && (
-              <>
-                <Route
-                  path={`${URL_MAIN.help}/:categoryId`}
-                  component={HelpPage}
-                />
-                <Route path={URL_MAIN.help} component={HelpPage} />
-              </>
-            )}
+            {process.env.NEW_HELP_ENABLED === "1" && [
+              <Route
+                key="help-category-article"
+                path={`${URL_MAIN.help}/:categoryId/:articleId`}
+                component={ArticlePage}
+              />,
+              <Route
+                key="help-category"
+                path={`${URL_MAIN.help}/:categoryId`}
+                component={HelpPage}
+              />,
+              <Route
+                key="help-root"
+                path={URL_MAIN.help}
+                component={HelpPage}
+              />,
+            ]}
             <Route
               path={`${URL_MAIN.settings}${URL_TABS.about}`}
               component={AboutContainer}
