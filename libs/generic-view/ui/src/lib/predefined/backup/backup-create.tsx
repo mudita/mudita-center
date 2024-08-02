@@ -153,11 +153,14 @@ const BackupCreateForm: FunctionComponent<BackupCreateConfig> = ({
         <Modal.CloseButton config={{ action: backupAbortButtonAction }} />
       )}
       {step === Step.Features && (
-        <BackupFeatures
-          features={features}
-          closeAction={backupCloseButtonAction}
-          nextAction={backupCreateButtonAction}
-        />
+        <>
+          <BackupFeatures
+            features={features}
+            closeAction={backupCloseButtonAction}
+            nextAction={backupCreateButtonAction}
+          />
+          <Modal.SizeController config={{ size: "medium" }} />
+        </>
       )}
       {step === Step.Password && (
         <BackupPassword
