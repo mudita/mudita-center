@@ -49,6 +49,9 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
   const mainConfig: MainView["main"] = {
     screenTitle: config.title,
     component: "block-plain",
+    config: {
+      backgroundColor: "grey",
+    },
     layout: {
       padding: "32px",
       gridLayout: {
