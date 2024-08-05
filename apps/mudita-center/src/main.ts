@@ -121,7 +121,9 @@ app.commandLine.appendSwitch(
   "disable-features",
   "BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessSendPreflights"
 )
-
+if (process.platform === "linux"){
+  app.commandLine.appendSwitch("no-sandbox")
+}
 const gotTheLock = app.requestSingleInstanceLock()
 
 // Fetch and log all errors
