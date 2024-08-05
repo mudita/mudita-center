@@ -42,16 +42,17 @@ describe("E2E mock sample - overview view", () => {
 
   it("Verify Overview Page", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
-    await expect(kompaktImage).toBeDisplayed
-    console.log(kompaktImage)
+    await expect(kompaktImage).toBeDisplayed()
     await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
-    await expect(kompaktOsVersion).toBeDisplayed
+    await expect(kompaktOsVersion).toBeDisplayed()
+    await expect(kompaktOsVersion).toHaveText("Mudita OS")
 
     const kompaktOsVersionLabel =
       await OverviewKompaktPage.kompaktOsVersionLabel
-    await expect(kompaktOsVersionLabel).toBeDisplayed
+    await expect(kompaktOsVersionLabel).toBeDisplayed()
+    await expect(kompaktOsVersionLabel).toHaveText("Current version:")
 
     const serialNumberLabel = await OverviewKompaktPage.serialNumberLabel
     const serialNumberValue = await OverviewKompaktPage.serialNumberValue
@@ -61,55 +62,59 @@ describe("E2E mock sample - overview view", () => {
     )
 
     const aboutYourDevice = await OverviewKompaktPage.aboutYourDevice
-    await expect(aboutYourDevice).toBeDisplayed
-    console.log(aboutYourDevice)
+    await expect(aboutYourDevice).toBeDisplayed()
     await expect(aboutYourDevice).toBeClickable
     await aboutYourDevice.click()
 
     const sarInformationButtonKompakt =
       await OverviewKompaktPage.sarInformationButtonKompakt
     const sarInformationPopup = await OverviewKompaktPage.sarInformationPopup
-    await expect(sarInformationButtonKompakt).toBeDisplayed
+    await expect(sarInformationButtonKompakt).toBeDisplayed()
     await sarInformationButtonKompakt.click()
-    await expect(sarInformationPopup).toBeDisplayed
+    await expect(sarInformationPopup).toBeDisplayed()
 
     const sarInformationPopupCloseButton =
       await OverviewKompaktPage.sarInformationPopupCloseButton
+    await sarInformationPopupCloseButton.waitForClickable()
     await sarInformationPopupCloseButton.click()
 
+    const backArrowButton = OverviewKompaktPage.backArrowButton
+    await backArrowButton.waitForClickable()
+    await backArrowButton.click()
+
     const createBackupButton = await OverviewPage.createBackupButton
-    await expect(createBackupButton).toBeDisplayed
-    await expect(createBackupButton).toBeClickable
+    await expect(createBackupButton).toBeDisplayed()
+    await expect(createBackupButton).toBeClickable()
 
     const backupInfo = await OverviewKompaktPage.backupInfo
-    await expect(backupInfo).toBeDisplayed
-    const str: string =
-      "\tYou haven’t backed up your device yet.\n Create a backup file to protect against data loss.\n"
-    const backupInfoText: string = str.trim()
+    await expect(backupInfo).toBeDisplayed()
+    await expect(backupInfo).toHaveTextContaining(
+      "You haven’t backed up your device yet.\nCreate a backup file to protect against data loss."
+    )
 
     const kompaktBatteryIcon = await OverviewKompaktPage.kompaktBatteryIcon
-    await expect(kompaktBatteryIcon).toBeDisplayed
+    await expect(kompaktBatteryIcon).toBeDisplayed()
 
     const kompaktBatteryLevelValue =
       await OverviewKompaktPage.kompaktBatteryLevelValue
-    await expect(kompaktBatteryLevelValue).toBeDisplayed
-    const batteryValNum: string = "100%"
-    const batteryValue: string = batteryValNum
+    await expect(kompaktBatteryLevelValue).toBeDisplayed()
+    await expect(kompaktBatteryLevelValue).toHaveText("100%")
 
     const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
-    await expect(kompaktNetworkName).toBeDisplayed
-    const strNetwork: string = "T-Mobile"
-    const networkName: string = strNetwork
+    await expect(kompaktNetworkName).toBeDisplayed()
+    await expect(kompaktNetworkName).toHaveText("T-Mobile")
 
     const kompaktSignalIcon = await OverviewKompaktPage.kompaktSignalIcon
-    await expect(kompaktSignalIcon).toBeDisplayed
-    const strSignal: string = "network-signal-2"
-    const signalValue: string = strSignal
+    await expect(kompaktSignalIcon).toBeDisplayed()
+    await expect(kompaktSignalIcon).toHaveAttributeContaining(
+      "data-testid",
+      "icon-network-signal-2"
+    )
 
-    const kompaktSimCard1 = await OverviewKompaktPage.kompaktSimCard1
-    await expect(kompaktSimCard1).toBeDisplayed
-    const sim1: string = "SIM 1"
-    const simInfo: string = sim1
+    const kompaktSimCard1Subtext =
+      await OverviewKompaktPage.kompaktSimCard1Subtext
+    await expect(kompaktSimCard1Subtext).toBeDisplayed()
+    await expect(kompaktSimCard1Subtext).toHaveText("SIM 1")
   })
 
   it("Click between Tabs and check them", async () => {
