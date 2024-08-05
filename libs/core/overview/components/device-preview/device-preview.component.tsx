@@ -91,7 +91,7 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
             data-testid={DeviceTestIds.PureSystemButton}
             displayStyle={DisplayStyle.LinkWithParagraph}
             Icon={IconType.MenuPhone}
-            iconSize={IconSize.Bigger}
+            iconSize={IconSize.Large}
           />
         </PureSystemButtonContainer>
       )}

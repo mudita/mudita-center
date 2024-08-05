@@ -24,6 +24,7 @@ import { ISerialPortService } from "./serial-port.service"
 import { DeviceManagerError } from "../constants"
 import { PortInfoValidator } from "../validators"
 import { IDeviceResolverService } from "./device-resolver.service"
+import { getUsbDevices } from "Core/device-manager/services/usb-devices/usb-devices.helper"
 
 export class DeviceProtocol {
   public activeDevice: BaseDevice | undefined
@@ -131,6 +132,12 @@ export class DeviceProtocol {
 
   public async getAttachedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
+    const harmonyMSCMode = await getUsbDevices()
+
+    if (harmonyMSCMode) {
+      portList.push(harmonyMSCMode)
+    }
+
     return (
       portList
         // AUTO DISABLED - fix me if you like :)
