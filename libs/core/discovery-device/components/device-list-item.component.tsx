@@ -120,7 +120,7 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
     <Container className={className} onClick={() => onDeviceClick(id)}>
       {deviceType === DeviceType.MuditaHarmonyMsc && (
         <BadgeWithIcon>
-          <Icon type={IconType.RecoveryMode} />
+          <Icon type={IconType.RecoveryModeWhite} />
           <Text displayStyle={TextDisplayStyle.Paragraph3} color="active">
             {intl.formatMessage(messages.recoveryMode)}
           </Text>

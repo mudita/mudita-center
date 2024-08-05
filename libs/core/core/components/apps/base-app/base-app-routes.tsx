@@ -31,7 +31,11 @@ import DevicesInitialization from "Core/device-initialization/components/devices
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 import DeviceConnecting from "Core/discovery-device/components/device-connecting.component"
 import { GenericView } from "generic-view/feature"
-import { APIConnectionDemo, DataMigrationPage } from "generic-view/ui"
+import {
+  APIConnectionDemo,
+  DataMigrationPage,
+  RecoveryModePage,
+} from "generic-view/ui"
 import ManageSounds from "Core/files-manager/components/manage-sounds.component"
 
 // AUTO DISABLED - fix me if you like :)
@@ -118,6 +122,7 @@ export default () => (
               path={`${URL_MAIN.settings}${URL_TABS.about}`}
               component={AboutContainer}
             />
+            <Route path={URL_MAIN.recoveryMode} component={RecoveryModePage} />
           </Switch>
         </LayoutDesktopWrapper>
       </Route>
