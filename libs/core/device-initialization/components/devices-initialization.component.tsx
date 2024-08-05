@@ -17,6 +17,7 @@ import { DeviceBaseProperties, DeviceType } from "device-protocol/models"
 import { MuditaPureInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-pure-initialization-modal-flow"
 import { MuditaHarmonyInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-harmony-initialization-modal-flow"
 import { APIDeviceInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/api-device-initialization-modal-flow"
+import { HarmonyMscInitializationModalFlow } from "Core/device-initialization/components//devices-initialization-modal-flows/mudita-harmony-msc-initialization-modal-flow"
 
 const DevicesInitializationModalFlow: FunctionComponent<{
   activeDevice?: DeviceBaseProperties
@@ -27,6 +28,8 @@ const DevicesInitializationModalFlow: FunctionComponent<{
     return <MuditaHarmonyInitializationModalFlow />
   } else if (activeDevice?.deviceType === DeviceType.APIDevice) {
     return <APIDeviceInitializationModalFlow />
+  } else if (activeDevice?.deviceType === DeviceType.MuditaHarmonyMsc) {
+    return <HarmonyMscInitializationModalFlow />
   } else {
     return <></>
   }

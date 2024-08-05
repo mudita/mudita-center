@@ -20,6 +20,7 @@ export const URL_MAIN = {
   apiConnectionDemo: "/api-connection-demo",
   dataMigration: "/data-migration",
   dataMigrationKompakt: "/generic/mc-data-migration",
+  recoveryMode: "/harmony-recovery-mode",
 } as const
 
 export const URL_TABS = {

@@ -14,6 +14,7 @@ import PureBlackImage from "Core/__deprecated__/renderer/images/pure-black-rende
 import KompaktBlackImage from "Core/__deprecated__/renderer/images/kompakt-black-render.png"
 import HarmonyGrayImage from "Core/__deprecated__/renderer/images/harmony-gray-render.png"
 import HarmonyBlackImage from "Core/__deprecated__/renderer/images/harmony-black-render.png"
+import HarmonyMscImage from "Core/__deprecated__/renderer/images/harmony-msc-render.png"
 
 interface DeviceImageProps {
   deviceType: DeviceType
@@ -55,6 +56,11 @@ export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
   if (deviceType === DeviceType.MuditaHarmony) {
     return <Image src={HarmonyGrayImage} {...props} />
   }
+
+  if (deviceType === DeviceType.MuditaHarmonyMsc) {
+    return <Image src={HarmonyMscImage} {...props}/>
+  }
+
   if (deviceType === DeviceType.APIDevice) {
     return <Image src={KompaktBlackImage} {...props} />
   }

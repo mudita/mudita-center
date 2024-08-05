@@ -89,7 +89,7 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
               nav: true,
               displayStyle: DisplayStyle.MenuLink,
               Icon: icon,
-              iconSize: IconSize.Bigger,
+              iconSize: IconSize.Large,
               ...(typeof button.label === "string"
                 ? { label: button.label }
                 : { labelMessage: button.label }),
