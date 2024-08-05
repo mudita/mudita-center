@@ -15,7 +15,7 @@ interface Props {
 export const SpinnerLoader: FunctionComponent<Props> = ({ dark, ...props }) => {
   return (
     <Wrapper {...props}>
-      <Icon data={{ type: dark ? IconType.SpinnerDark : IconType.Spinner }} />
+      <SpinnerIcon data={{ type: dark ? IconType.SpinnerDark : IconType.Spinner }} />
     </Wrapper>
   )
 }
@@ -34,4 +34,9 @@ const Wrapper = styled.div`
   width: 3.2rem;
   height: 3.2rem;
   animation: ${spinAnimation} 1s steps(12) infinite;
+`
+
+const SpinnerIcon = styled(Icon)`
+  width: 100%;
+  height: 100%;
 `

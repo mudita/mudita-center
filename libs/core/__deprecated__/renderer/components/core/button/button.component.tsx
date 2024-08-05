@@ -27,6 +27,7 @@ import { IconBadgeType } from "Core/__deprecated__/renderer/components/core/icon
 export interface ButtonComponentProps {
   nav?: boolean
   exact?: boolean
+  disableWhenActive?: boolean
   disabled?: boolean
   displayStyle?: DisplayStyle
   href?: string
@@ -55,6 +56,7 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
   disabled = false,
   displayStyle = DisplayStyle.Primary,
   exact,
+  disableWhenActive = true,
   href,
   Icon,
   iconSize = IconSize.Big,
@@ -86,6 +88,7 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
     Object.assign(filteredProps, {
       to,
       exact,
+      disableWhenActive,
       activeClassName,
     })
   } else if (to) {
