@@ -28,6 +28,7 @@ jobs:
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          MUDITA_CENTER_SERVER_V2_URL: ${{ secrets.MUDITA_CENTER_SERVER_V2_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
@@ -48,6 +49,7 @@ jobs:
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
           LOCALAPPDATA: ""
           MOCK_SERVICE_ENABLED: "1"
+          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         shell: cmd
         run: |
           SET > .env
@@ -59,6 +61,7 @@ jobs:
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          MUDITA_CENTER_SERVER_V2_URL: ${{ secrets.MUDITA_CENTER_SERVER_V2_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
@@ -78,6 +81,7 @@ jobs:
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
           MOCK_SERVICE_ENABLED: "1"
+          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux

@@ -28,6 +28,7 @@ const settings: SettingsState = {
     lowestSupportedCenterVersion: "1.0.0",
     lowestSupportedProductVersion: {
       MuditaHarmony: "1.5.0",
+      MuditaHarmonyMsc: "1.5.0",
       MuditaPure: "1.0.0",
       APIDevice: "2.0.0",
     },

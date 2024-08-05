@@ -20,11 +20,12 @@ import { useRouterListener } from "Core/core/hooks"
 import {
   OutboxWrapper,
   useAPISerialPortListeners,
-  useBackupList,
   useAppEventsListeners,
+  useBackupList,
 } from "generic-view/store"
 import { useFileDialogEventListener, useOnlineListener } from "shared/app-state"
 import { useCoreDeviceProtocolListeners } from "core-device/feature"
+import { useHelp } from "help/store"
 
 const BaseApp: FunctionComponent = () => {
   useRouterListener()
@@ -43,6 +44,7 @@ const BaseApp: FunctionComponent = () => {
   useAppEventsListeners()
   useBackupList()
   useFileDialogEventListener()
+  useHelp()
 
   return (
     <>

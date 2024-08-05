@@ -4,11 +4,12 @@
  */
 
 import { PortInfo } from "serialport"
-import { APIDevice } from "device/feature"
+import { APIDevice, MSCDevice } from "device/feature"
 import { DeviceType } from "device-protocol/models"
 import {
   MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
+  MuditaHarmonyMscDescriptor,
 } from "Core/device/descriptors"
 import { DeviceFactory } from "Core/device/factories"
 import { BaseDevice } from "Core/device/modules/base-device"
@@ -19,6 +20,8 @@ export interface IDeviceResolverService {
 
 export class DeviceResolverService implements IDeviceResolverService {
   private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
+
+  private mscDevices = [MuditaHarmonyMscDescriptor]
 
   public resolve(portInfo: PortInfo): BaseDevice | undefined {
     const id = portInfo.productId?.toLowerCase() ?? ""
@@ -37,11 +40,16 @@ export class DeviceResolverService implements IDeviceResolverService {
       )
     }
 
-    if (!descriptor) {
-      //TODO: temporary, remove in future
-      return new APIDevice(portInfo, DeviceType.APIDevice)
+    const mscDescriptor = this.mscDevices.find((device) =>
+      device.productIds
+        .map((item) => item.toString().toLowerCase())
+        .includes(id)
+    )
+
+    if (mscDescriptor) {
+      return new MSCDevice(portInfo, DeviceType.MuditaHarmonyMsc)
     }
 
-    return
+    return new APIDevice(portInfo, DeviceType.APIDevice)
   }
 }

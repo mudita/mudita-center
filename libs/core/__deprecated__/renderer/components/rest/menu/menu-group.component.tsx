@@ -84,47 +84,56 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
           .filter(({ visibleOn }) =>
             visibleOn && deviceType ? visibleOn.includes(deviceType) : true
           )
-          .map(({ button, icon, testId, viewKey }, index) => {
-            const buttonMenuConfig = {
-              nav: true,
-              displayStyle: DisplayStyle.MenuLink,
-              Icon: icon,
-              iconSize: IconSize.Bigger,
-              ...(typeof button.label === "string"
-                ? { label: button.label }
-                : { labelMessage: button.label }),
-            }
-            if (button === views.help) {
-              const openHelpWindow = () =>
-                ipcRenderer.callMain(HelpActions.OpenWindow)
+          .map(
+            (
+              { button, icon, testId, disableWhenActive = true, viewKey },
+              index
+            ) => {
+              const buttonMenuConfig = {
+                nav: true,
+                displayStyle: DisplayStyle.MenuLink,
+                Icon: icon,
+                iconSize: IconSize.Large,
+                ...(typeof button.label === "string"
+                  ? { label: button.label }
+                  : { labelMessage: button.label }),
+                disableWhenActive,
+              }
+              if (
+                button === views.help &&
+                process.env.NEW_HELP_ENABLED !== "1"
+              ) {
+                const openHelpWindow = () =>
+                  ipcRenderer.callMain(HelpActions.OpenWindow)
+                return (
+                  <LinkWrapper key={index}>
+                    <Button
+                      {...buttonMenuConfig}
+                      onClick={openHelpWindow}
+                      data-testid={testId}
+                    />
+                  </LinkWrapper>
+                )
+              }
               return (
                 <LinkWrapper key={index}>
-                  <Button
-                    {...buttonMenuConfig}
-                    onClick={openHelpWindow}
-                    data-testid={testId}
-                  />
+                  <NotificationBadge
+                    active={Boolean(
+                      viewKey &&
+                        viewKey === View.Messages &&
+                        notifications[viewKey]
+                    )}
+                  >
+                    <Button
+                      {...buttonMenuConfig}
+                      to={button.url}
+                      data-testid={testId}
+                    />
+                  </NotificationBadge>
                 </LinkWrapper>
               )
             }
-            return (
-              <LinkWrapper key={index}>
-                <NotificationBadge
-                  active={Boolean(
-                    viewKey &&
-                      viewKey === View.Messages &&
-                      notifications[viewKey]
-                  )}
-                >
-                  <Button
-                    {...buttonMenuConfig}
-                    to={button.url}
-                    data-testid={testId}
-                  />
-                </NotificationBadge>
-              </LinkWrapper>
-            )
-          })}
+          )}
     </>
   )
 }

@@ -82,7 +82,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       <Icon
         type={IconType.MuditaLogoVertical}
         key={IconType.MuditaLogoVertical}
-        size={IconSize.Bigger}
+        size={IconSize.Large}
       />
     </LogoWrapper>
   )

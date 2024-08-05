@@ -19,10 +19,13 @@ const messages = defineMessages({
   filesManager: { id: "module.filesManager" },
   manageSounds: { id: "module.manageSounds" },
   settings: { id: "module.settings" },
-  help: { id: "module.help" },
+  help: {
+    id: process.env.NEW_HELP_ENABLED === "1" ? "module.help.v2" : "module.help",
+  },
   error: { id: "module.error" },
   pureSystem: { id: "module.overview.pureSystem" },
   dataMigration: { id: "module.dataMigration.title" },
+  harmonyRecoveryMode: { id: "module.recoveryMode.harmony.title" },
 })
 
 export enum View {
@@ -38,6 +41,7 @@ export enum View {
   Error = "error",
   PureSystem = "pure-system",
   DataMigration = "dataMigration",
+  RecoveryMode = "recoveryMode",
 }
 
 export type Views = {
@@ -101,5 +105,9 @@ export const views: Views = {
   [View.DataMigration]: {
     label: messages.dataMigration,
     url: URL_MAIN.dataMigration,
+  },
+  [View.RecoveryMode]: {
+    label: messages.harmonyRecoveryMode,
+    url: URL_MAIN.recoveryMode,
   },
 }
