@@ -18,4 +18,5 @@ export const color = {
   grey7: "#EDEDED",
   red1: "#E96A6A",
   green: "#DFEFDE",
+  warning: "#DD802A",
 } as const

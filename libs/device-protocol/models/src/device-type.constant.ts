@@ -6,5 +6,6 @@
 export enum DeviceType {
   MuditaPure = "MuditaPure",
   MuditaHarmony = "MuditaHarmony",
+  MuditaHarmonyMsc = "MuditaHarmonyMsc",
   APIDevice = "APIDevice",
 }

@@ -8,6 +8,7 @@ import { DeviceType } from "device-protocol/models"
 
 export const DeviceNames = {
   Pure: "Pure",
+  Harmony: "Harmony",
   Harmony1: "Harmony 1",
   Harmony2: "Harmony 2",
   Kompakt: "Kompakt",
@@ -20,6 +21,10 @@ export const getDeviceTypeName = (
 ): string => {
   if (deviceType === DeviceType.MuditaPure) {
     return DeviceNames.Pure
+  }
+
+  if (deviceType === DeviceType.MuditaHarmonyMsc) {
+    return DeviceNames.Harmony
   }
 
   if (
