@@ -13,6 +13,7 @@ import {
   selectComponentName,
 } from "generic-view/store"
 import { setupComponent } from "./setup-component"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 interface Properties {
   viewKey: string
@@ -31,7 +32,10 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
   }) as string[] | undefined
   const childrenKeysDependency = JSON.stringify(childrenKeys)
   return useMemo(() => {
-    if (!componentName) {
+    if (!componentName || !(componentName in apiComponents)) {
+      logger.error(
+        `Tried to render unknown component "${componentName}" in view "${viewKey}"`
+      )
       // TODO: implement error handling
       return null
     }

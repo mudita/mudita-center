@@ -36,9 +36,6 @@ const messages = defineMessages({
   [DataMigrationFeature.Messages]: {
     id: "module.genericViews.dataMigration.features.messages",
   },
-  [DataMigrationFeature.Multimedia]: {
-    id: "module.genericViews.dataMigration.features.multimedia",
-  },
   selectAll: {
     id: "module.genericViews.dataMigration.features.selectAll",
   },

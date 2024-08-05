@@ -20,3 +20,5 @@ jest.mock("Core/device/strategies/pure.strategy", () => {
 expect.extend({
   toBeTranslationKey,
 })
+
+jest.mock("@orama/orama")

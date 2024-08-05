@@ -30,14 +30,13 @@ export class APIConfigService {
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
-
     const response = await device.request({
       endpoint: "API_CONFIGURATION",
       method: "GET",
       body: {},
       options: {
-        connectionTimeOut: 1000
-      }
+        connectionTimeOut: 6000,
+      },
     })
 
     if (response.ok) {

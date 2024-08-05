@@ -19,7 +19,7 @@ import {
   selectApiError,
   selectDataMigrationSourceDevice,
   selectDataMigrationTargetDevice,
-  setSourceDevice,
+  setDataMigrationSourceDevice,
 } from "generic-view/store"
 import { Modal } from "generic-view/ui"
 import { GenericThemeProvider } from "generic-view/theme"
@@ -99,7 +99,7 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
         dataMigrationSourceDevice.serialNumber,
         URL_MAIN.dataMigration
       )
-      dispatch(setSourceDevice(undefined))
+      dispatch(setDataMigrationSourceDevice(undefined))
     } else if (devices.length > 1) {
       await deactivateDeviceAndRedirect()
     } else {

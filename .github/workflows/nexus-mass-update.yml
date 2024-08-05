@@ -28,6 +28,7 @@ jobs:
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          MUDITA_CENTER_SERVER_V2_URL: ${{ secrets.MUDITA_CENTER_SERVER_V2_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
@@ -46,6 +47,7 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
           LOCALAPPDATA: ""
+          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         shell: cmd
         run: |
           SET > .env
@@ -57,6 +59,7 @@ jobs:
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          MUDITA_CENTER_SERVER_V2_URL: ${{ secrets.MUDITA_CENTER_SERVER_V2_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
@@ -74,6 +77,7 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
+          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         run: |
           printenv > .env
       - name: Setup Env for Linux
@@ -83,6 +87,7 @@ jobs:
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          MUDITA_CENTER_SERVER_V2_URL: ${{ secrets.MUDITA_CENTER_SERVER_V2_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
@@ -100,6 +105,7 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
+          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux
@@ -153,6 +159,24 @@ jobs:
         if: matrix.os == 'macOS'
         run: |
           codesign -v -v apps/mudita-center/release/mac/Mudita\ Center.app
+      - name: Signing via Digicert
+        if: matrix.os == 'Windows'
+        env:
+          SM_HOST: ${{ secrets.SM_HOST }}
+          SM_API_KEY: ${{ secrets.SM_API_KEY }}
+          SM_CLIENT_CERT_FILE: "C:\\actions-runner\\certs\\Certificate_pkcs12.p12"
+          SM_CLIENT_CERT_PASSWORD: ${{ secrets.SM_CLIENT_CERT_PASSWORD }}
+          SM_CODE_SIGNING_CERT_SHA1_HASH: ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}
+        run: |
+          SET SM_HOST=%SM_HOST%
+          SET SM_API_KEY=%SM_API_KEY%
+          SET SM_CLIENT_CERT_FILE=%SM_CLIENT_CERT_FILE%
+          SET SM_CLIENT_CERT_PASSWORD=%SM_CLIENT_CERT_PASSWORD%
+          SET SM_CODE_SIGNING_CERT_SHA1_HASH=%SM_CODE_SIGNING_CERT_SHA1_HASH%
+          SET PATH=%PATH%;"C:\Program Files\DigiCert\DigiCert One Signing Manager Tools"
+          SET PATH=%PATH%;"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64"
+          signtool.exe sign /sha1 %SM_CODE_SIGNING_CERT_SHA1_HASH% /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 ./apps/mudita-center/release/Mudita-Center.exe
+        shell: cmd
       - name: Push artifacts to nexus registry from Windows
         if: matrix.os == 'Windows'
         env:

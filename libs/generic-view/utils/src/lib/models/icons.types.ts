@@ -46,4 +46,8 @@ export enum IconType {
   Information = "information",
   RecoveryModeWhite = "recovery-mode-white",
   RecoveryModeBlack = "recovery-mode-black",
+  ArrowBack = "arrow-back",
+  Support = "support",
+  Exclamation = "exclamation",
+  Namaste = "namaste",
 }

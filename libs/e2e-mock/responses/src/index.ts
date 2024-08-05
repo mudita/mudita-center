@@ -6,3 +6,6 @@
 export * from "./lib/default-responses"
 export * from "./lib/outbox-responses"
 export * from "./lib/overview-responses"
+export * from "./lib/menu-responses"
+export * from "./lib/api-config-responses"
+export * from "./lib/contacts-responses"

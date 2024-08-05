@@ -72,7 +72,7 @@ export const importContactsFromFile = createAsyncThunk<
       return handleError()
     }
 
-    const fileBuffer = Buffer.from(filePath)
+    const fileBuffer = Buffer.from(fileResponse.data)
     const { encoding } = detect(fileBuffer)
     const content = fileBuffer.toString(encoding as BufferEncoding)
 

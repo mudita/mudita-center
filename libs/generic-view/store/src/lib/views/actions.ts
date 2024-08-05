@@ -30,3 +30,7 @@ export const setViewData = createAction<{
 }>(ActionName.SetViewData)
 
 export const setLastRefresh = createAction<number>(ActionName.SetLastRefresh)
+
+export const setDeviceState = createAction<{ id: string; state: DeviceState }>(
+  ActionName.SetDeviceState
+)

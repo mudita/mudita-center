@@ -11,6 +11,7 @@ export const lineHeight = {
   headline5: "2.2rem",
   headline6: "2rem",
   paragraph1: "2.4rem",
+  paragraph2: "2.4rem",
   paragraph3: "2.2rem",
   paragraph4: "2.2rem",
   tag: "2rem",

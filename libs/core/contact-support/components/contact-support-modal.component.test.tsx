@@ -90,6 +90,7 @@ test("form trigger onSubmit when form is valid", async () => {
   fireEvent.change(emailInput, {
     target: { value: "mudita@center.com" },
   })
+  await waitFor(() => expect(submitButton).toBeEnabled())
   fireEvent.click(submitButton)
 
   await waitFor(() => {

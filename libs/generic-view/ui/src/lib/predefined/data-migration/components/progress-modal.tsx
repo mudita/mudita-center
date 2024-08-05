@@ -3,18 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useMemo } from "react"
+import React, { FunctionComponent, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
 import { Modal } from "../../../interactive/modal/modal"
 import { ButtonAction, IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../../buttons/button-secondary"
 import { selectDataMigrationProgress } from "generic-view/store"
-import { modalTransitionDuration } from "generic-view/theme"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ProgressBar } from "../../../interactive/progress-bar/progress-bar"
 import styled from "styled-components"
 import { DataMigrationFeature } from "generic-view/models"
+import { CancelConfirmModal } from "./cancel-confirm-modal"
 
 const messages = defineMessages({
   title: {
@@ -29,12 +29,6 @@ const messages = defineMessages({
   genericMessage: {
     id: "module.genericViews.dataMigration.progress.genericMessage",
   },
-  collectingData: {
-    id: "module.genericViews.dataMigration.progress.collectingData",
-  },
-  transferringData: {
-    id: "module.genericViews.dataMigration.progress.transferringData",
-  },
 })
 
 interface Props {
@@ -43,15 +37,16 @@ interface Props {
 
 export const ProgressModal: FunctionComponent<Props> = ({ onCancel }) => {
   const dataMigrationProgress = useSelector(selectDataMigrationProgress)
+  const [cancelRequested, setCancelRequested] = useState(false)
 
   const cancelAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      setTimeout(() => {
-        onCancel?.()
-      }, modalTransitionDuration)
+      setCancelRequested(true)
     },
   }
+
+  const abortCancelRequest = () => setCancelRequested(false)
 
   const label = useMemo(() => {
     const feature = dataMigrationProgress.label?.split("-")[0]
@@ -62,6 +57,15 @@ export const ProgressModal: FunctionComponent<Props> = ({ onCancel }) => {
     }
     return intl.formatMessage(messages.genericMessage)
   }, [dataMigrationProgress.label])
+
+  if (cancelRequested) {
+    return (
+      <CancelConfirmModal
+        onBackButtonClick={abortCancelRequest}
+        onCancelButtonClick={onCancel}
+      />
+    )
+  }
 
   return (
     <>

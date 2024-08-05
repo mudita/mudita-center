@@ -5,6 +5,7 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { kompaktImg } from "Root/demo-data/kompakt-img"
+import { getCoreDevicesSelector } from "core-device/feature"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import pureBlackImage from "Core/__deprecated__/renderer/images/pure-black-render.png"
 import pureGreyImage from "Core/__deprecated__/renderer/images/pure-gray-render.png"
@@ -18,7 +19,7 @@ const messages = {
 }
 
 export const selectDataMigrationSourceDevices = createSelector(
-  (state: ReduxRootState) => state.coreDevice.devices,
+  getCoreDevicesSelector,
   (devices) =>
     devices
       .filter(({ deviceType }) => deviceType === "MuditaPure")
