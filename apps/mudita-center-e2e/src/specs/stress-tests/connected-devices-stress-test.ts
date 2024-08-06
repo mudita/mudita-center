@@ -23,7 +23,6 @@ describe("Kompakt switching devices", () => {
 
   before(async () => {
     E2EMockClient.connect()
-    //wait for a connection to be established
     await browser.waitUntil(() => {
       return E2EMockClient.checkConnection()
     })
@@ -134,8 +133,6 @@ describe("Kompakt switching devices", () => {
     await expect(kompaktBatteryLevelValue).toBeDisplayed()
     await expect(kompaktBatteryLevelValue).toHaveText("40%")
   })
-
-  //PODLACZYC 3 4 5 I 6 KOMPAKT
 
   it("Connect 3,4,5,6 Kompakt devices", async () => {
     const devices = [

@@ -46,7 +46,7 @@ export const overviewDataWithOneSimCard = {
 export const overviewDataWithOneSimCard2nd = {
   summary: {
     about: {
-      serialNumber: { text: "1123456789ABCDEF" },
+      serialNumber: { text: "1123456789ABCDEG" },
       imei1: { text: "064055030138811" },
       imei2: { text: "064055030138829" },
       sar: {
