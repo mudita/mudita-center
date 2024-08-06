@@ -74,6 +74,54 @@ describe("E2E mock sample - overview view", () => {
     await expect(drawerHeader).toBeDisplayed()
   })
 
+  it("Add third device", async () => {
+    E2EMockClient.addDevice({
+      path: "path-3",
+      serialNumber: "third-serial-number",
+    })
+    await browser.pause(6000)
+
+    const drawerHeader = $(`//*[text()='Select a device']`)
+    await drawerHeader.waitForDisplayed()
+    await expect(drawerHeader).toBeDisplayed()
+  })
+
+  it("Add fourth device", async () => {
+    E2EMockClient.addDevice({
+      path: "path-4",
+      serialNumber: "fourth-serial-number",
+    })
+    await browser.pause(6000)
+
+    const drawerHeader = $(`//*[text()='Select a device']`)
+    await drawerHeader.waitForDisplayed()
+    await expect(drawerHeader).toBeDisplayed()
+  })
+
+  it("Add fifth device", async () => {
+    E2EMockClient.addDevice({
+      path: "path-5",
+      serialNumber: "fifth-serial-number",
+    })
+    await browser.pause(6000)
+
+    const drawerHeader = $(`//*[text()='Select a device']`)
+    await drawerHeader.waitForDisplayed()
+    await expect(drawerHeader).toBeDisplayed()
+  })
+
+  it("Add sixth device", async () => {
+    E2EMockClient.addDevice({
+      path: "path-6",
+      serialNumber: "sixth-serial-number",
+    })
+    await browser.pause(6000)
+
+    const drawerHeader = $(`//*[text()='Select a device']`)
+    await drawerHeader.waitForDisplayed()
+    await expect(drawerHeader).toBeDisplayed()
+  })
+
   it("Remove first device", async () => {
     E2EMockClient.removeDevice("path-1")
     await browser.pause(6000)
