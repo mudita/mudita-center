@@ -48,6 +48,7 @@ export class BackupModule extends BaseModule {
 
     const deviceFileSystem = new DeviceFileSystemService(this.deviceProtocol)
     const fileManagerService = new FileManagerService(
+      this.deviceProtocol,
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       new FileDeleteCommand(this.deviceProtocol),

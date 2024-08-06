@@ -27,6 +27,7 @@ import logger from "Core/__deprecated__/main/utils/logger"
 import { DataMigrationPercentageProgress } from "./data-migration-percentage-progress.interface"
 import { abortDataTransfer } from "../data-transfer/abort-data-transfer.action"
 import { delay } from "shared/utils"
+import { createBackupRequest } from "Core/backup/requests"
 
 export const performDataMigration = createAsyncThunk<
   void,
@@ -35,7 +36,8 @@ export const performDataMigration = createAsyncThunk<
 >(
   ActionName.PerformDataMigration,
   async (_, { dispatch, getState, signal, abort, rejectWithValue }) => {
-    const { dataMigration } = getState()
+    const { dataMigration, settings } = getState()
+    const pureOsBackupDesktopFileDir = settings.osBackupLocation
 
     const dataMigrationAbortController = new AbortController()
     dataMigrationAbortController.abort = abort
@@ -84,68 +86,84 @@ export const performDataMigration = createAsyncThunk<
       return rejectWithValue(undefined)
     }
     dispatch(setDataMigrationPureDbIndexing(true))
-    const deviceDatabaseIndexed = await indexAllRequest({
-      serialNumber: deviceInfo.data.serialNumber,
-      token: deviceInfo.data.token,
+
+    const fileBase = `${new Date()
+      .toISOString()
+      .replace(/\./g, "")
+      .replace(/-/g, "")
+      .replace(/:/g, "")}`
+    const downloadDeviceBackupResponse = await createBackupRequest({
+      fileBase: fileBase,
+      cwd: pureOsBackupDesktopFileDir,
+      // extract: true,
+      deviceId: sourceDeviceId,
     })
+    console.log(downloadDeviceBackupResponse)
+
     dispatch(setDataMigrationPureDbIndexing(false))
 
-    if (signal.aborted) {
-      return rejectWithValue(undefined)
-    }
-    if (!deviceDatabaseIndexed) {
-      return handleError("Error indexing device database")
-    }
-    const databaseResponse = await dispatch(readAllIndexes())
-
-    if (
-      !databaseResponse.payload ||
-      databaseResponse.payload instanceof Error
-    ) {
-      return handleError("Error reading device database")
-    }
-
-    const domainsData: DomainData[] = []
-
-    for (const feature of features) {
-      if (signal.aborted) {
-        return rejectWithValue(undefined)
-      }
-
-      switch (feature) {
-        case DataMigrationFeature.Contacts: {
-          const { contacts } = databaseResponse.payload as AllIndexes
-          const transformedData = mapPureApi(Object.values(contacts))
-
-          domainsData.push({
-            domain: "contacts-v1", // FIXME: The domain should be returned from Data Migration configuration
-            data: transformedData,
-          })
-          break
-        }
-      }
-    }
-
-    dispatch(
-      setDataMigrationProgress(DataMigrationPercentageProgress.TransferringData)
-    )
-
-    if (signal.aborted) {
-      return rejectWithValue(undefined)
-    }
-    const transferResponse = await dispatch(transferDataToDevice(domainsData))
-
-    if (transferResponse.meta.requestStatus === "rejected") {
-      return signal.aborted
-        ? rejectWithValue(undefined)
-        : handleError("Error transferring data")
-    }
-    dispatch(setDataMigrationProgress(DataMigrationPercentageProgress.Finished))
-
-    await delay(500)
-
-    dispatch(setDataMigrationStatus("COMPLETED"))
-
     return
+    // const deviceDatabaseIndexed = await indexAllRequest({
+    //   serialNumber: deviceInfo.data.serialNumber,
+    //   token: deviceInfo.data.token,
+    // })
+    //
+    // if (signal.aborted) {
+    //   return rejectWithValue(undefined)
+    // }
+    // if (!deviceDatabaseIndexed) {
+    //   return handleError("Error indexing device database")
+    // }
+    // const databaseResponse = await dispatch(readAllIndexes())
+    //
+    // if (
+    //   !databaseResponse.payload ||
+    //   databaseResponse.payload instanceof Error
+    // ) {
+    //   return handleError("Error reading device database")
+    // }
+    //
+    // const domainsData: DomainData[] = []
+    //
+    // for (const feature of features) {
+    //   if (signal.aborted) {
+    //     return rejectWithValue(undefined)
+    //   }
+    //
+    //   switch (feature) {
+    //     case DataMigrationFeature.Contacts: {
+    //       const { contacts } = databaseResponse.payload as AllIndexes
+    //       const transformedData = mapPureApi(Object.values(contacts))
+    //
+    //       domainsData.push({
+    //         domain: "contacts-v1", // FIXME: The domain should be returned from Data Migration configuration
+    //         data: transformedData,
+    //       })
+    //       break
+    //     }
+    //   }
+    // }
+    //
+    // dispatch(
+    //   setDataMigrationProgress(DataMigrationPercentageProgress.TransferringData)
+    // )
+    //
+    // if (signal.aborted) {
+    //   return rejectWithValue(undefined)
+    // }
+    // const transferResponse = await dispatch(transferDataToDevice(domainsData))
+    //
+    // if (transferResponse.meta.requestStatus === "rejected") {
+    //   return signal.aborted
+    //     ? rejectWithValue(undefined)
+    //     : handleError("Error transferring data")
+    // }
+    // dispatch(setDataMigrationProgress(DataMigrationPercentageProgress.Finished))
+    //
+    // await delay(500)
+    //
+    // dispatch(setDataMigrationStatus("COMPLETED"))
+    //
+    // return
   }
 )

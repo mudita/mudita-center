@@ -9,7 +9,7 @@ import { BackupCategory } from "Core/device/constants"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { BackupError, Operation } from "Core/backup/constants"
-import { MetadataStore, MetadataKey } from "Core/metadata"
+import { MetadataKey, MetadataStore } from "Core/metadata"
 import { CreateDeviceBackup } from "Core/backup/types"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
 import { BaseBackupService } from "Core/backup/services/base-backup.service"
@@ -29,7 +29,8 @@ export class BackupCreateService extends BaseBackupService {
   }
 
   public async createBackup(
-    options: CreateDeviceBackup
+    options: CreateDeviceBackup,
+    deviceId = this.deviceProtocol.device.id
   ): Promise<ResultObject<string[] | undefined>> {
     if (this.keyStorage.getValue(MetadataKey.BackupInProgress)) {
       return Result.failed(
@@ -40,14 +41,14 @@ export class BackupCreateService extends BaseBackupService {
     this.keyStorage.setValue(MetadataKey.BackupInProgress, true)
 
     const validateRequiredBackupSpaceResult =
-      await this.validateRequiredBackupSpace()
+      await this.validateRequiredBackupSpace(deviceId)
 
     if (!validateRequiredBackupSpaceResult.ok) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
       return validateRequiredBackupSpaceResult
     }
 
-    const runDeviceBackupResult = await this.runDeviceBackup()
+    const runDeviceBackupResult = await this.runDeviceBackup(deviceId)
 
     if (!runDeviceBackupResult.ok || !runDeviceBackupResult.data) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
@@ -60,7 +61,7 @@ export class BackupCreateService extends BaseBackupService {
       )
     }
 
-    const operationStatus = await this.checkStatus(Operation.Backup)
+    const operationStatus = await this.checkStatus(Operation.Backup, deviceId)
 
     if (!operationStatus.ok) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
@@ -78,7 +79,8 @@ export class BackupCreateService extends BaseBackupService {
     const backupFileResult =
       await this.deviceFileSystem.downloadDeviceFilesLocally(
         [filePath],
-        options
+        options,
+        deviceId
       )
 
     if (!backupFileResult.ok || !backupFileResult.data) {
@@ -90,15 +92,21 @@ export class BackupCreateService extends BaseBackupService {
     }
 
     // TODO: Moved removing backup logic to OS
-    await this.deviceFileSystem.removeDeviceFile(filePath)
+    await this.deviceFileSystem.removeDeviceFile(filePath, deviceId)
 
     this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
 
     return Result.success(backupFileResult.data)
   }
 
-  private async runDeviceBackup(): Promise<ResultObject<string | undefined>> {
-    const deviceInfoResult = await this.deviceInfoService.getDeviceInfo()
+  private async runDeviceBackup(
+    deviceId = this.deviceProtocol.device.id
+  ): Promise<ResultObject<string | undefined>> {
+    const deviceInfoResult = await this.deviceInfoService.getDeviceInfo(
+      deviceId
+    )
+
+    console.log({ deviceInfoResult })
 
     if (!deviceInfoResult.ok || !deviceInfoResult.data) {
       return Result.failed(
@@ -109,13 +117,15 @@ export class BackupCreateService extends BaseBackupService {
       )
     }
 
-    const backupResponse = await this.deviceProtocol.device.request({
+    const backupResponse = await this.deviceProtocol.request(deviceId, {
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: {
         category: BackupCategory.Backup,
       },
     })
+
+    console.log({ backupResponse })
 
     if (!backupResponse.ok) {
       return Result.failed(
@@ -126,7 +136,9 @@ export class BackupCreateService extends BaseBackupService {
       )
     }
 
-    const backupFinished = await this.waitUntilProcessFinished()
+    const backupFinished = await this.waitUntilProcessFinished(deviceId)
+
+    console.log({ backupFinished })
 
     if (!backupFinished.ok && backupFinished.error) {
       return Result.failed(
@@ -136,15 +148,20 @@ export class BackupCreateService extends BaseBackupService {
 
     const filePath = deviceInfoResult.data.backupFilePath
 
+    console.log({ filePath })
+
     return Result.success(filePath)
   }
 
-  private async validateRequiredBackupSpace(): Promise<
-    ResultObject<undefined, BackupError>
-  > {
-    const getDeviceFilesResult = await this.fileManagerService.getDeviceFiles({
-      directory: DeviceDirectory.DB,
-    })
+  private async validateRequiredBackupSpace(
+    deviceId = this.deviceProtocol.device.id
+  ): Promise<ResultObject<undefined, BackupError>> {
+    const getDeviceFilesResult = await this.fileManagerService.getDeviceFiles(
+      {
+        directory: DeviceDirectory.DB,
+      },
+      deviceId
+    )
 
     if (!getDeviceFilesResult.ok || getDeviceFilesResult.data === undefined) {
       return Result.failed(
@@ -160,8 +177,10 @@ export class BackupCreateService extends BaseBackupService {
     }, 0)
 
     // 100 MiB as buffer space
-    const backupSizeRequaired = backupSize * 2 + 100
-    const deviceInfoResult = await this.deviceInfoService.getDeviceInfo()
+    const backupSizeRequired = backupSize * 2 + 100
+    const deviceInfoResult = await this.deviceInfoService.getDeviceInfo(
+      deviceId
+    )
 
     if (!deviceInfoResult.ok || !deviceInfoResult.data) {
       return Result.failed(
@@ -175,14 +194,14 @@ export class BackupCreateService extends BaseBackupService {
       deviceInfoResult.data.memorySpace
     const free = total - usedUserSpace - reservedSpace
 
-    if (backupSizeRequaired <= free) {
+    if (backupSizeRequired <= free) {
       return Result.success(undefined)
     } else {
       return Result.failed(
         new AppError(
           BackupError.BackupSpaceIsNotEnough,
           `Backup space is not enough`,
-          backupSizeRequaired
+          backupSizeRequired
         )
       )
     }
