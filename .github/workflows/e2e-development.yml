@@ -99,8 +99,6 @@ jobs:
       - name: Run E2E tests headless with Xvfb on Linux
         if: matrix.os == 'Linux'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb
           npm run e2e:test:linux
       - name: Run E2E tests headless on Windows
         if: matrix.os == 'Windows'
