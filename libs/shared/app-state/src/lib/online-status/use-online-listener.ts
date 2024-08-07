@@ -6,13 +6,16 @@
 import { useEffect } from "react"
 import { updateOnlineStatus } from "./base.action"
 import { updateOnlineStatusRequest } from "./online-status.requests"
+import { useDispatch } from "react-redux"
 
 export const useOnlineListener = () => {
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    updateOnlineStatus(window.navigator.onLine)
+    dispatch(updateOnlineStatus(window.navigator.onLine))
     void updateOnlineStatusRequest(window.navigator.onLine)
     const handleOnlineStatus = () => {
-      updateOnlineStatus(window.navigator.onLine)
+      dispatch(updateOnlineStatus(window.navigator.onLine))
       void updateOnlineStatusRequest(window.navigator.onLine)
     }
 
@@ -23,5 +26,5 @@ export const useOnlineListener = () => {
       window.removeEventListener("online", handleOnlineStatus)
       window.removeEventListener("offline", handleOnlineStatus)
     }
-  }, [])
+  }, [dispatch])
 }
