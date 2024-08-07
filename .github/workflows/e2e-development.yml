@@ -131,7 +131,6 @@ jobs:
       - name: Run E2E tests headless on Linux/macOS
         if: matrix.os != 'Windows'
         run: |
-          cd apps/mudita-center-e2e
           npm run e2e:test:linux
       - name: Run E2E tests headless on Windows
         if: matrix.os == 'Windows'
