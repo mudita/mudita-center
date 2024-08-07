@@ -50,7 +50,7 @@ jobs:
           NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         run: |
           printenv > .env
-        - name: Setup environment variables for Linux
+      - name: Setup environment variables for Linux
         if: matrix.os == 'Linux'
         env:
           E2ECI: "true"
