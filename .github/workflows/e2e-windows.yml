@@ -54,7 +54,8 @@ jobs:
         run: npm run setup
       - name: Build App
         run: |
-          export NODE_OPTIONS="--max-old-space-size=4096"
+          $env:NODE_OPTIONS="--max-old-space-size=4096"
+          $env:LOCALAPPDATA=""
           npm run app:dist
       - name: Run E2E tests headless
         run: |
