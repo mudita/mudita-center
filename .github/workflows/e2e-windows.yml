@@ -59,4 +59,5 @@ jobs:
           npm run app:dist
       - name: Run E2E tests headless
         run: |
+          cd apps/mudita-center-e2e
           npm run e2e:test:cicd
