@@ -47,8 +47,9 @@ jobs:
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
           MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
           NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
+        shell: cmd
         run: |
-          printenv > .env
+          SET > .env
       - name: Setup dependencies
         run: npm run setup
       - name: Build App
