@@ -83,7 +83,7 @@ jobs:
         shell: cmd
         run: |
           SET > .env
-      - name: Setup dependencies for Linux
+      - name: Setup dependencies
         run: npm run setup
       - name: Build App for Linux
         if: matrix.os == 'Linux'
