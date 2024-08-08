@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [Windows,Linux]
+        os: [Windows,Linux,macOS]
     environment: development
     steps:
       - name: Checkout code
@@ -117,6 +117,10 @@ jobs:
           SET > .env
       - name: Setup dependencies
         run: npm run setup
+      - name: Copy electron-builder environment file for macOS
+        if: matrix.os == 'macOS'
+        run: |
+          cp ~/actions-runner/envs/electron-builder.env apps/mudita-center/electron-builder.en
       - name: Build App for Linux/macOS
         if: matrix.os != 'Windows'
         run: |
