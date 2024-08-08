@@ -74,9 +74,6 @@ describe("Kompakt switching devices", () => {
     const firstDeviceOnDrawer = await drawerPage.getDeviceOnDrawer(
       firstSerialNumber
     )
-    const secondDeviceOnDrawer = await drawerPage.getDeviceOnDrawer(
-      secondSerialNumber
-    )
     await expect(firstDeviceOnDrawer).toBeDisplayed()
     await firstDeviceOnDrawer.waitForClickable()
     await firstDeviceOnDrawer.click()
@@ -88,6 +85,7 @@ describe("Kompakt switching devices", () => {
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
+    await expect(kompaktOsVersion).toHaveText("Mudita OS")
 
     const kompaktSimCard1Subtext =
       await OverviewKompaktPage.kompaktSimCard1Subtext
@@ -119,6 +117,7 @@ describe("Kompakt switching devices", () => {
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
+    await expect(kompaktOsVersion).toHaveText("Mudita OS")
 
     const kompaktSimCard1Subtext =
       await OverviewKompaktPage.kompaktSimCard1Subtext
@@ -197,6 +196,7 @@ describe("Kompakt switching devices", () => {
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
+    await expect(kompaktOsVersion).toHaveText("Mudita OS")
 
     const kompaktSimCard1Subtext =
       await OverviewKompaktPage.kompaktSimCard1Subtext
@@ -233,6 +233,7 @@ describe("Kompakt switching devices", () => {
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
+    await expect(kompaktOsVersion).toHaveText("Mudita OS")
 
     const kompaktSimCard1Subtext =
       await OverviewKompaktPage.kompaktSimCard1Subtext
@@ -269,6 +270,7 @@ describe("Kompakt switching devices", () => {
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
+    await expect(kompaktOsVersion).toHaveText("Mudita OS")
 
     const kompaktSimCard1Subtext =
       await OverviewKompaktPage.kompaktSimCard1Subtext
@@ -305,6 +307,7 @@ describe("Kompakt switching devices", () => {
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()
+    await expect(kompaktOsVersion).toHaveText("Mudita OS")
 
     const kompaktSimCard1Subtext =
       await OverviewKompaktPage.kompaktSimCard1Subtext
