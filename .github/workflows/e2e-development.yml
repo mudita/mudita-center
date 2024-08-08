@@ -120,7 +120,7 @@ jobs:
       - name: Copy electron-builder environment file for macOS
         if: matrix.os == 'macOS'
         run: |
-          cp ~/actions-runner/envs/electron-builder.env apps/mudita-center/electron-builder.en
+          cp ~/actions-runner/envs/electron-builder.env apps/mudita-center/electron-builder.env
       - name: Build App for Linux/macOS
         if: matrix.os != 'Windows'
         run: |
