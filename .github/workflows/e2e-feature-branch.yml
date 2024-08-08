@@ -1,4 +1,4 @@
-name: e2e on Linux for feature branch
+name: e2e on for feature branch
 on:
   push:
     branches:

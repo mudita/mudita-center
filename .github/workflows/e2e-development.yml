@@ -1,5 +1,4 @@
 name: e2e for development
-
 on:
   push:
     branches:
