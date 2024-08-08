@@ -106,6 +106,7 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     try {
       return await this.httpClient.post(this.apiUrl, undefined, {
         params,
+        timeout: 3000,
       })
     } catch {
       return undefined

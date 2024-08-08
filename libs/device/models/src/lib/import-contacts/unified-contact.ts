@@ -12,6 +12,7 @@ export type UnifiedContact = {
   honorificSuffix?: string
   nickname?: string
   displayName: string
+  starred?: boolean
   phoneNumbers: {
     type?: string
     value: string

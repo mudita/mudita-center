@@ -22,6 +22,16 @@ import { CaseColour } from "core-device/models"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
+import { BadgeWithIcon } from "Core/__deprecated__/renderer/components/core/badge/badge-with-icon.component"
+import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
+import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+
+const dataTestIds = {
+  deviceImage: "drawer-device-image",
+  deviceSerialNumberValue: "drawer-device-serial-number-value",
+  deviceType: "drawer-device-type",
+  drawerDeviceWrapper: "drawer-device-wrapper",
+}
 
 const dataTestIds = {
   deviceImage: "drawer-device-image",
@@ -35,6 +45,8 @@ const Device = styled("div")<{ active: boolean }>`
   display: flex;
   min-width: 27.2rem;
   max-width: 27.2rem;
+
+  position: relative;
 
   &:hover {
     background: ${backgroundColor("main")};
@@ -73,6 +85,7 @@ export const DeviceImageStyled = styled(DeviceImage)`
           max-width: 4.2rem;
         `
       case DeviceType.MuditaHarmony:
+      case DeviceType.MuditaHarmonyMsc:
         return css`
           max-height: 7.5rem;
           max-width: 7rem;
@@ -131,6 +144,16 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
       onClick={deviceId === activeDeviceId ? () => {} : onClick}
       data-testid={`${dataTestIds.drawerDeviceWrapper}-${serialNumberValue}`}
     >
+      {deviceType === DeviceType.MuditaHarmonyMsc && (
+        <BadgeWithIcon>
+          <Icon type={IconType.RecoveryModeWhite} />
+          <Text displayStyle={TextDisplayStyle.Paragraph3} color="active">
+            {intl.formatMessage({
+              id: "module.availableDeviceList.recoveryMode",
+            })}
+          </Text>
+        </BadgeWithIcon>
+      )}
       <DeviceImageContainer>
         <DeviceImageStyled
           deviceType={deviceType}
@@ -152,7 +175,7 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
               })}
           </DeviceName>
 
-          {serialNumberValue && (
+          {serialNumberValue && deviceType !== DeviceType.MuditaHarmonyMsc && (
             <>
               <Text
                 displayStyle={TextDisplayStyle.Paragraph4}

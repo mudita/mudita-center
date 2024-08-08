@@ -8,6 +8,7 @@ import { DeviceType } from "device-protocol/models"
 import { View, views } from "Core/__deprecated__/renderer/constants/views"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { Feature, flags } from "Core/feature-flags"
 
 const messages = defineMessages({
   yourPure: { id: "component.menuHeaderYourPure" },
@@ -51,12 +52,23 @@ const YOUR_PURE_BUTTONS = [
     visibleOn: [DeviceType.MuditaHarmony],
     viewKey: View.ManageSounds,
   },
+  ...(flags.get(Feature.DataMigration)
+    ? [
+        {
+          button: views.dataMigration,
+          icon: IconType.DataMigration,
+          testId: MenuGroupTestIds.DataMigration,
+          visibleOn: [DeviceType.MuditaPure],
+          viewKey: View.DataMigration,
+        },
+      ]
+    : []),
   {
-    button: views.dataMigration,
-    icon: IconType.DataMigration,
-    testId: MenuGroupTestIds.DataMigration,
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.DataMigration,
+    button: views.recoveryMode,
+    icon: IconType.RecoveryModeBlack,
+    testId: MenuGroupTestIds.RecoveryMode,
+    visibleOn: [DeviceType.MuditaHarmonyMsc],
+    viewKey: View.RecoveryMode,
   },
 ]
 
@@ -67,6 +79,7 @@ const DESKTOP_APP_BUTTONS: Item[] = [
     visibleOn: [
       DeviceType.MuditaPure,
       DeviceType.MuditaHarmony,
+      DeviceType.MuditaHarmonyMsc,
       DeviceType.APIDevice,
     ],
   },
@@ -78,6 +91,7 @@ const DESKTOP_APP_BUTTONS: Item[] = [
     visibleOn: [
       DeviceType.MuditaPure,
       DeviceType.MuditaHarmony,
+      DeviceType.MuditaHarmonyMsc,
       DeviceType.APIDevice,
     ],
   },
@@ -117,6 +131,7 @@ export const baseMenuElements: MenuElement[] = [
         visibleOn: [
           DeviceType.MuditaPure,
           DeviceType.MuditaHarmony,
+          DeviceType.MuditaHarmonyMsc,
           DeviceType.APIDevice,
         ],
       },
@@ -139,6 +154,13 @@ export const deviceMenuElements: MenuElement[] = [
     icons: [],
     connectedPhoneOnly: true,
     visibleOn: [DeviceType.MuditaHarmony],
+  },
+  {
+    label: messages.yourHarmony,
+    items: YOUR_PURE_BUTTONS,
+    icons: [],
+    connectedPhoneOnly: true,
+    visibleOn: [DeviceType.MuditaHarmonyMsc],
   },
 ]
 

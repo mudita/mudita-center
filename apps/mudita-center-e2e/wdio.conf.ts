@@ -68,6 +68,8 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.privacyPolicyTest),
     toRelativePath(TestFilesPaths.licenseTest),
     toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+    toRelativePath(TestFilesPaths.kompaktOverview),
+    toRelativePath(TestFilesPaths.kompaktSwitchingDevices),
     toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
   ],
   suites: {
@@ -89,6 +91,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.e2eMockSample),
       toRelativePath(TestFilesPaths.kompaktOverview),
+      toRelativePath(TestFilesPaths.kompaktSwitchingDevices),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -114,6 +117,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
       toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
       toRelativePath(TestFilesPaths.kompaktOverview),
+      toRelativePath(TestFilesPaths.kompaktSwitchingDevices),
     ],
   },
   // Patterns to exclude.
@@ -232,6 +236,7 @@ export const config: Options.Testrunner = {
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
   reporters: [
+    "spec",
     [
       "allure",
       {

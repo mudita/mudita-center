@@ -128,4 +128,6 @@ export enum IconType {
   Conversation,
   Exclamation,
   DataMigration,
+  RecoveryModeWhite,
+  RecoveryModeBlack,
 }

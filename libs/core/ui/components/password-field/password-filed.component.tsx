@@ -51,7 +51,7 @@ export const PasswordField = React.forwardRef<
           onClick={handleToggleInputType}
         >
           <Icon
-            size={IconSize.Bigger}
+            size={IconSize.Large}
             type={visible ? IconType.Hidden : IconType.Visible}
             data-testid={
               visible

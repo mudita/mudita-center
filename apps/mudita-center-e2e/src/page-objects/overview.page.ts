@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 export class OverviewPage extends Page {
@@ -56,7 +55,7 @@ export class OverviewPage extends Page {
   }
 
   public get createBackupButton() {
-    return $("p*=Create backup")
+    return $('//button[@type="button" and .//span[text()="Create backup"]]')
   }
 
   public get restoreBackupButton() {
@@ -140,6 +139,10 @@ export class OverviewPage extends Page {
 
   public get muditaOSVersion() {
     return $('[data-testid="os-version"]')
+  }
+
+  public get selectConnectedDevices() {
+    return $('[data-testid="icon-DotsInBox"]')
   }
 }
 

@@ -7,6 +7,7 @@ export enum ProductID {
   MuditaPure = "0102",
   MuditaPureDeprecated = "0100",
   MuditaHarmony = "0300",
+  MuditaHarmonyMsc = "0103",
   MuditaKompaktChargeHex = "2006", //0x2006
   MuditaKompaktTransferHex = "200a", //0x200a
   MuditaKompaktNoDebugHex = "2012", //0x2012
