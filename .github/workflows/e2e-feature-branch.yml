@@ -134,7 +134,6 @@ jobs:
       - name: Run E2E tests headless on Linux
         if: matrix.os == 'Linux'
         run: |
-          cd apps/mudita-center-e2e
           npm run e2e:test:linux
       - name: Run E2E tests headless on macOS
         if: matrix.os == 'macOS'
