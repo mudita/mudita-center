@@ -3,7 +3,7 @@ name: e2e for development
 on:
   push:
     branches:
-      - e2e-windows
+      - develop
 jobs:
   e2e:
     runs-on: ${{ matrix.os }}
