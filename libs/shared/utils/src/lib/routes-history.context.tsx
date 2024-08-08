@@ -34,8 +34,3 @@ export const RoutesHistoryProvider: FunctionComponent<PropsWithChildren> = ({
 export const useRoutesHistory = () => {
   return useContext(RoutesHistoryContext)
 }
-
-export const useFilteredRoutesHistory = (filters: string[]) => {
-  const routes = useRoutesHistory()
-  return routes.filter((route) => !filters.includes(route))
-}
