@@ -3,7 +3,7 @@ name: e2e for development
 on:
   push:
     branches:
-      - e2e-windows
+      - CP-*
 jobs:
   e2e:
     runs-on: ${{ matrix.os }}
@@ -132,10 +132,14 @@ jobs:
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
           npm run app:dist
-      - name: Run E2E tests headless on Linux/macOS
-        if: matrix.os != 'Windows'
+      - name: Run E2E tests headless on Linux
+        if: matrix.os == 'Linux'
         run: |
           npm run e2e:test:linux
+      - name: Run E2E tests headless on macOS
+        if: matrix.os == 'macOS'
+        run: |
+          npm run e2e:test:cicd
       - name: Run E2E tests headless on Windows
         if: matrix.os == 'Windows'
         run: |
