@@ -33,13 +33,6 @@ const dataTestIds = {
   drawerDeviceWrapper: "drawer-device-wrapper",
 }
 
-const dataTestIds = {
-  deviceImage: "drawer-device-image",
-  deviceSerialNumberValue: "drawer-device-serial-number-value",
-  deviceType: "drawer-device-type",
-  drawerDeviceWrapper: "drawer-device-wrapper",
-}
-
 const Device = styled("div")<{ active: boolean }>`
   padding: 1.8rem 2.4rem 1.8rem 1rem;
   display: flex;

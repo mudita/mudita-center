@@ -42,10 +42,6 @@ const dataTestIds = {
   drawerContent: "device-select-drawer-content",
 }
 
-const dataTestIds = {
-  drawerContent: "device-select-drawer-content",
-}
-
 const messages = defineMessages({
   changeDevice: { id: "component.drawer.headerTitle" },
 })
