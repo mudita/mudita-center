@@ -32,7 +32,7 @@ export abstract class BaseAdapter<
 
   public connect(): Promise<ResultObject<undefined>> {
     return new Promise((resolve) => {
-      this.serialPort = new SerialPort(this.path, (error) => {
+      const serialPort = new SerialPort(this.path, (error) => {
         if (error) {
           resolve(
             Result.failed(
@@ -40,6 +40,7 @@ export abstract class BaseAdapter<
             )
           )
         } else {
+          this.serialPort = serialPort
           resolve(Result.success(undefined))
         }
       })
