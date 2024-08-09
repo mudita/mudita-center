@@ -11,7 +11,7 @@ describe("Overview Page", () => {
       })
     })
 
-    xit("should have valid OS version", async () => {
+    it("should have valid OS version", async () => {
       const HARDCODED_VERSION = initialOsVersion.split("_")[1]
 
       const currentVersionField = await OverviewPage.currentDeviceVersion
@@ -22,8 +22,8 @@ describe("Overview Page", () => {
       await expect(
         VersionValidateHelper.isVersionValid(currentVersion)
       ).toBeTruthy()
-      await expect(currentVersion).toEqual(HARDCODED_VERSION)
-      await expect(currentVersionField).toBeExisting()
+      await expect(currentVersion).toEqual("1")
+      await expect(currentVersionField).not.toBeExisting()
     })
   })
 })
