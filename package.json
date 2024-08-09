@@ -2,7 +2,7 @@
   "name": "mudita-center",
   "description": "Mudita Center",
   "productName": "Mudita Center",
-  "version": "2.2.10",
+  "version": "3.3.3-rc.1",
   "private": true,
   "workspaces": {
     "packages": [
@@ -287,7 +287,7 @@
     "react-is": "18.2.0",
     "react-markdown": "^9.0.1",
     "serialport": "10.1.0",
-    "tslib": "^2.2.10",
+    "tslib": "^2.3.0",
     "zod": "^3.22.4"
   }
 }
