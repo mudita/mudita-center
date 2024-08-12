@@ -235,19 +235,7 @@ export const config: Options.Testrunner = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: [
-    "json",
-    "spec",
-    [
-      "allure",
-      {
-        outputDir: "./allure-results",
-        disableWebdriverStepsReporting: false,
-        disableWebdriverScreenshotsReporting: false,
-        addConsoleLogs: true,
-      },
-    ],
-  ],
+  reporters: ["json", "spec"],
 
   //
   // Options to be passed to Mocha.
