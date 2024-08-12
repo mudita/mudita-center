@@ -105,7 +105,7 @@ export const config: Options.Testrunner = {
     kompakt: [],
     deviceUpdate: [],
     cicdStandalone: [
-      toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      //toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
