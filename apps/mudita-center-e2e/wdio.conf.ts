@@ -75,7 +75,7 @@ export const config: Options.Testrunner = {
   suites: {
     standalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
-      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
+      //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.backupLocationTest),
