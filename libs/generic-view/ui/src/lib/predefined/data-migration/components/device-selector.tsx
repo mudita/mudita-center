@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent, useRef, useState } from "react"
-import { Device, deviceCardStyles, Image, Info, Tag } from "./device-card"
+import { deviceCardStyles, Image, Info, Tag } from "./device-card"
 import styled, { css } from "styled-components"
 import { H4, H5 } from "../../../texts/headers"
 import { P3 } from "../../../texts/paragraphs"
@@ -17,9 +17,9 @@ import {
   selectDataMigrationTargetDevice,
   setDataMigrationSourceDevice,
 } from "generic-view/store"
-import { DeviceId } from "Core/device/constants/device-id"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { BaseDevice } from "generic-view/models"
 
 const messages = defineMessages({
   sourceLabel: {
@@ -37,7 +37,7 @@ type DeviceType = "source" | "target"
 
 interface Props {
   type: DeviceType
-  devices: Device[]
+  devices: BaseDevice[]
 }
 
 export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
@@ -56,10 +56,10 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
     setOpened((prev) => !prev)
   }
 
-  const selectDevice = (serialNumber: DeviceId) => {
+  const selectDevice = (device: BaseDevice) => {
     setOpened(false)
     if (type === "source") {
-      dispatch(setDataMigrationSourceDevice(serialNumber))
+      dispatch(setDataMigrationSourceDevice(device))
     }
   }
 
@@ -85,12 +85,12 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
       {dropdownVisible && (
         <DropdownWrapper $opened={opened}>
           {devices.map((device) => {
-            const onSelect = () => selectDevice(device.serialNumber)
+            const onSelect = () => selectDevice(device)
             return (
               <ListItem
                 key={device.serialNumber}
-                image={device.image}
-                name={device.name}
+                image={device.image!}
+                name={device.name!}
                 serialNumber={device.serialNumber}
                 onSelect={onSelect}
                 active={selectedDevice?.serialNumber === device.serialNumber}
@@ -104,7 +104,7 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
 }
 
 const ListItem: FunctionComponent<
-  Device & { active?: boolean; onSelect: VoidFunction }
+  BaseDevice & { active?: boolean; onSelect: VoidFunction }
 > = ({ image, name, serialNumber, onSelect, active }) => {
   return (
     <ListItemCard onClick={onSelect}>
