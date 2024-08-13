@@ -21,12 +21,11 @@ export abstract class BaseIndexer {
     })
   }
 
-  public async getData(
-    filePath: string,
-    token: string
-  ): Promise<Buffer | undefined | null> {
+  public async getData(filePath: string, token?: string) {
     try {
-      return this.fileSystemService.readEncryptedFile(filePath, token)
+      return token
+        ? this.fileSystemService.readEncryptedFile(filePath, token)
+        : this.fileSystemService.readFile(filePath)
     } catch {
       return null
     }

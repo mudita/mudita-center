@@ -3,12 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SerialisedIndexData } from "elasticlunr"
 import { IpcEvent } from "Core/core/decorators"
 import { IndexStorage } from "Core/index-storage/types"
 import { DataSyncService } from "Core/data-sync/services/data-sync.service"
 import { DataIndex, IpcDataSyncEvent } from "Core/data-sync/constants"
-import { InitializeOptions } from "Core/data-sync/types"
+import { GetIndex, InitializeOptions } from "Core/data-sync/types"
 
 export class DataSyncController {
   constructor(
@@ -17,9 +16,7 @@ export class DataSyncController {
   ) {}
 
   @IpcEvent(IpcDataSyncEvent.GetIndex)
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public getIndex(indexName: DataIndex): SerialisedIndexData<any> | undefined {
+  public getIndex<Name extends DataIndex>(indexName: Name): GetIndex<Name> {
     const index = this.index.get(indexName)
 
     if (index === undefined) {

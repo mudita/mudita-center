@@ -13,8 +13,8 @@ import { MetadataStore } from "Core/metadata/services"
 import {
   ContactIndexer,
   MessageIndexer,
-  ThreadIndexer,
   TemplateIndexer,
+  ThreadIndexer,
 } from "Core/data-sync/indexes"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import {
@@ -24,7 +24,7 @@ import {
   ThreadPresenter,
 } from "Core/data-sync/presenters"
 import { SyncBackupCreateService } from "Core/backup/services/sync-backup-create.service"
-import { InitializeOptions } from "Core/data-sync/types"
+import { GetIndex, InitializeOptions } from "Core/data-sync/types"
 
 export class DataSyncService {
   private contactIndexer: ContactIndexer | null = null
@@ -66,6 +66,7 @@ export class DataSyncService {
   public async indexAll({
     token,
     serialNumber,
+    backupDirectory,
   }: InitializeOptions): Promise<boolean> {
     if (
       !this.contactIndexer ||
@@ -76,18 +77,23 @@ export class DataSyncService {
       return false
     }
 
-    const syncFileDir = path.join(getAppPath(), "sync", serialNumber)
-    const { ok } = await this.syncBackupCreateService.createSyncBackup(
-      {
-        token,
-        extract: true,
-        cwd: syncFileDir,
-      },
-      serialNumber
-    )
+    let syncFileDir = backupDirectory
 
-    if (!ok) {
-      return false
+    if (!syncFileDir) {
+      syncFileDir = path.join(getAppPath(), "sync", serialNumber)
+
+      const { ok } = await this.syncBackupCreateService.createSyncBackup(
+        {
+          token,
+          extract: true,
+          cwd: syncFileDir,
+        },
+        serialNumber
+      )
+
+      if (!ok) {
+        return false
+      }
     }
 
     const contactIndex = await this.contactIndexer.index(syncFileDir, token)
