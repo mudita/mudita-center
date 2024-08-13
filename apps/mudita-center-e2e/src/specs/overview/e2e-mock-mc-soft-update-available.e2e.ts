@@ -4,8 +4,11 @@ import ModalAppUpdateLaterPage from "../../page-objects/modal-app-update-later.p
 import ModalPage from "../../page-objects/modal.page"
 import packageInfo from "../../../../mudita-center/package.json"
 import { sleep } from "../../helpers/sleep.helper"
+import HomePage from "../../page-objects/home.page"
+import SettingsPage from "../../page-objects/settings.page"
+import NavigationTabs from "../../page-objects/tabs.page"
 
-describe("Force Update MC - Successful Download", () => {
+describe("Soft Update MC - Successful Download", () => {
   const newestAvailableVersion = "9.9.9"
 
   before(async function () {
@@ -38,12 +41,10 @@ describe("Force Update MC - Successful Download", () => {
   it("Check update modal sections ", async () => {
     console.log("PACKAGE INFO VERSION:" + packageInfo.version)
 
-    // Header
     const modalHeader = await ModalAppUpdatePage.modalHeader
     await expect(modalHeader).toBeDisplayed()
     await expect(modalHeader).toHaveText("Mudita Center")
 
-    // Available version
     const paragraphAvailableVersion =
       await ModalAppUpdatePage.paragraphAvailableVersion
     await expect(paragraphAvailableVersion).toBeDisplayed()
@@ -56,7 +57,6 @@ describe("Force Update MC - Successful Download", () => {
     console.log("AVAILABLE VERSION:" + availableAppVersion)
     await expect(availableAppVersion).toBe(newestAvailableVersion)
 
-    // Current version
     const paragraphCurrentVersion =
       await ModalAppUpdatePage.paragraphCurrentVersion
     await expect(paragraphCurrentVersion).toBeDisplayed()
@@ -92,18 +92,15 @@ describe("Force Update MC - Successful Download", () => {
     await expect(checkboxPrivacyPolicy).toBeDisplayed()
     await expect(checkboxPrivacyPolicy).not.toBeChecked()
 
-    // Button: UPDATE
     const buttonUpdate = await ModalAppUpdatePage.buttonUpdate
     await expect(buttonUpdate.isDisplayed())
     await expect(buttonUpdate).not.toBeClickable()
 
-    // Close modal button
     const modalCloseButton = await ModalPage.modalCloseButton
     await expect(modalCloseButton).toBeDisplayed()
     await modalCloseButton.click()
   })
   it("Check update later modal", async () => {
-    await sleep(30000)
     const modalHeader = await ModalAppUpdateLaterPage.modalHeader
     await expect(modalHeader).toBeDisplayed()
     await expect(modalHeader).toHaveText("Mudita Center")
@@ -113,7 +110,6 @@ describe("Force Update MC - Successful Download", () => {
     await expect(paragraphAvailableVersion).toHaveTextContaining(
       "Update Mudita Center to"
     )
-    //TODO Info icon?
     const paragraphUpdateLaterPrivacyPolicy =
       await ModalAppUpdateLaterPage.paragraphUpdateLaterPrivacyPolicy
     await expect(paragraphUpdateLaterPrivacyPolicy).toBeDisplayed()
@@ -121,16 +117,38 @@ describe("Force Update MC - Successful Download", () => {
       "To be able to fully use the application, please agree to the Privacy Policy and update Mudita Center."
     )
 
-    //TODO Update later icon and style
     const buttonUpdateLater = await ModalAppUpdateLaterPage.buttonUpdateLater
     await expect(buttonUpdateLater).toBeDisplayed()
     await expect(buttonUpdateLater).toHaveText("UPDATE LATER")
     await expect(buttonUpdateLater).toBeClickable()
-    //TODO Update now icon and style
-    //TODO Close button
+
+    const modalCloseButton = await ModalAppUpdateLaterPage.modalCloseButton
+    await expect(modalCloseButton).toBeDisplayed()
+    await modalCloseButton.click()
+
+    const homeHeader = await HomePage.homeHeader
+    await expect(homeHeader).toBeDisplayed()
+    await expect(homeHeader).toHaveText("Welcome to Mudita Center")
+    const notNowButton = await HomePage.notNowButton
+    await expect(notNowButton).toBeDisplayed()
+    await notNowButton.click()
+  })
+  it("Go back to Soft Update Modal.", async () => {
+    const settingsTab = await NavigationTabs.settingsTab
+    await settingsTab.waitForDisplayed()
+    await settingsTab.click()
+
+    const aboutTab = await SettingsPage.aboutTab
+    await aboutTab.waitForDisplayed()
+    await aboutTab.click()
+
+    const aboutCheckForUpdatesButton =
+      await SettingsPage.aboutCheckForUpdatesButton
+    await aboutCheckForUpdatesButton.waitForDisplayed()
+    await aboutCheckForUpdatesButton.click()
   })
 
-  xit("Button UPDATE is clickable after selecting the checkbox", async () => {
+  it("Button UPDATE is clickable after selecting the checkbox", async () => {
     const checkboxPrivacyPolicy = await ModalAppUpdatePage.checkboxPrivacyPolicy
     await expect(checkboxPrivacyPolicy).toBeDisplayed()
 
@@ -144,7 +162,7 @@ describe("Force Update MC - Successful Download", () => {
     await expect(buttonUpdate).toBeClickable()
   })
 
-  xit("Check Updating Mudita Center modal", async () => {
+  it("Soft Update the app", async () => {
     const buttonUpdate = await ModalAppUpdatePage.buttonUpdate
     await expect(buttonUpdate).toBeDisplayed()
     await buttonUpdate.click()
