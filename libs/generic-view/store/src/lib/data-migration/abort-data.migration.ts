@@ -8,24 +8,25 @@ import { ActionName } from "../action-names"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DataMigrationStatus } from "./reducer"
 import {
-  setDataMigrationAbort,
-  setDataMigrationProgress,
+  clearDataMigrationAbortControllers,
   setDataMigrationStatus,
 } from "./actions"
-import { DataMigrationPercentageProgress } from "./data-migration-percentage-progress.interface"
+import { clearMigrationData } from "./clear-migration-data"
 
 export const abortDataMigration = createAsyncThunk<
   void,
-  { reason?: Extract<DataMigrationStatus, "CANCELLED" | "FAILED"> } | undefined,
+  | { reason?: DataMigrationStatus.Cancelled | DataMigrationStatus.Failed }
+  | undefined,
   { state: ReduxRootState }
 >(
   ActionName.AbortDataMigration,
   async ({ reason } = {}, { dispatch, getState }) => {
     const { dataMigration } = getState()
-
-    dataMigration.abortController?.abort?.()
-    dispatch(setDataMigrationAbort(undefined))
-    dispatch(setDataMigrationProgress(DataMigrationPercentageProgress.None))
+    dataMigration.abortControllers.forEach((controller) => {
+      controller.abort()
+    })
+    dispatch(clearDataMigrationAbortControllers())
+    dispatch(clearMigrationData())
 
     if (reason) {
       dispatch(setDataMigrationStatus(reason))

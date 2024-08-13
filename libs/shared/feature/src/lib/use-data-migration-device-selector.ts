@@ -15,6 +15,7 @@ import { URL_DEVICE_INITIALIZATION } from "Core/__deprecated__/renderer/constant
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { useHistory } from "react-router-dom"
+import { getBaseDeviceInfo } from "generic-view/utils"
 
 export const useDataMigrationDeviceSelector = () => {
   const activeDevice = useSelector(getActiveDevice)
@@ -27,7 +28,9 @@ export const useDataMigrationDeviceSelector = () => {
       pathToRedirect = URL_DEVICE_INITIALIZATION.root
     ) => {
       if (!activeDevice || !activeDevice.serialNumber) return
-      await dispatch(setDataMigrationSourceDevice(activeDevice.serialNumber))
+      await dispatch(
+        setDataMigrationSourceDevice(getBaseDeviceInfo(activeDevice))
+      )
       await dispatch(deactivateDevice())
       await dispatch(handleDeviceActivated(serialNumber))
       history.push(pathToRedirect)

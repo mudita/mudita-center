@@ -5,13 +5,12 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
-import { DataMigrationFeature } from "generic-view/models"
+import { BaseDevice, DataMigrationFeature } from "generic-view/models"
 import { DataMigrationStatus } from "./reducer"
-import { DataMigrationPercentageProgress } from "./data-migration-percentage-progress.interface"
 
-export const setDataMigrationSourceDevice = createAction<string | undefined>(
-  ActionName.SetDataMigrationSourceDevice
-)
+export const setDataMigrationSourceDevice = createAction<
+  BaseDevice | undefined
+>(ActionName.SetDataMigrationSourceDevice)
 
 export const setDataMigrationFeatures = createAction<DataMigrationFeature[]>(
   ActionName.SetDataMigrationFeatures
@@ -21,15 +20,22 @@ export const setDataMigrationStatus = createAction<DataMigrationStatus>(
   ActionName.SetDataMigrationStatus
 )
 
-export const setDataMigrationProgress =
-  createAction<DataMigrationPercentageProgress>(
-    ActionName.SetDataMigrationTransferProgress
-  )
-
-export const setDataMigrationAbort = createAction<AbortController | undefined>(
-  ActionName.SetDataMigrationAbort
+export const addDataMigrationAbortController = createAction<AbortController>(
+  ActionName.AddDataMigrationAbortController
 )
 
-export const setDataMigrationPureDbIndexing = createAction<boolean>(
-  ActionName.setDataMigrationPureDbIndexing
+export const clearDataMigrationAbortControllers = createAction(
+  ActionName.ClearDataMigrationAbortControllers
 )
+
+export const setDataMigrationPureDbTempDirectory = createAction<
+  string | undefined
+>(ActionName.SetDataMigrationPureDbTempDirectory)
+
+export const setDataMigrationPureRestarting = createAction<boolean>(
+  ActionName.SetDataMigrationPureRestarting
+)
+
+export const setDataMigrationPureBusy = createAction<
+  BaseDevice["serialNumber"] | undefined
+>(ActionName.SetDataMigrationPureBusy)
