@@ -152,8 +152,6 @@ export class BackupCreateService extends BaseBackupService {
 
     const filePath = deviceInfoResult.data.backupFilePath
 
-    console.log({ filePath })
-
     return Result.success(filePath)
   }
 
