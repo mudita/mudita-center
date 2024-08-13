@@ -24,7 +24,7 @@ import {
   ThreadPresenter,
 } from "Core/data-sync/presenters"
 import { SyncBackupCreateService } from "Core/backup/services/sync-backup-create.service"
-import { GetIndex, InitializeOptions } from "Core/data-sync/types"
+import { InitializeOptions } from "Core/data-sync/types"
 
 export class DataSyncService {
   private contactIndexer: ContactIndexer | null = null
