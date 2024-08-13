@@ -29,9 +29,6 @@ const messages = defineMessages({
 })
 
 const comingSoonMessages = defineMessages({
-  callLog: {
-    id: "module.genericViews.backup.features.comingSoon.callLog",
-  },
   messages: {
     id: "module.genericViews.backup.features.comingSoon.messages",
   },
