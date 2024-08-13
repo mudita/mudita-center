@@ -71,6 +71,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktOverview),
     toRelativePath(TestFilesPaths.kompaktSwitchingDevices),
     toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
+    toRelativePath(TestFilesPaths.mcHomePageSoftUpdateTest),
     toRelativePath(TestFilesPaths.kompaktAbout),
   ],
   suites: {
@@ -88,6 +89,7 @@ export const config: Options.Testrunner = {
     ],
     mock: [
       toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
+      toRelativePath(TestFilesPaths.mcHomePageSoftUpdateTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.e2eMockSample),
@@ -118,6 +120,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
       toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
+      toRelativePath(TestFilesPaths.mcHomePageSoftUpdateTest),
       toRelativePath(TestFilesPaths.kompaktOverview),
       toRelativePath(TestFilesPaths.kompaktSwitchingDevices),
       toRelativePath(TestFilesPaths.kompaktAbout),
@@ -381,34 +384,34 @@ export const config: Options.Testrunner = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {<Object>} results object containing test results
    */
-  onComplete: function (wdioExitCode, config, capabilities, results) {
-    const reportError = new Error("Could not generate Allure report")
-    const generation = allure(["generate", "allure-results", "--clean"])
-    return new Promise<void>((resolve, reject) => {
-      const generationTimeout = setTimeout(() => {
-        console.log("Allure generation timeout")
-        return reject(reportError)
-      }, 60 * 1000)
+  // onComplete: function (wdioExitCode, config, capabilities, results) {
+  //   const reportError = new Error("Could not generate Allure report")
+  //   const generation = allure(["generate", "allure-results", "--clean"])
+  //   return new Promise<void>((resolve, reject) => {
+  //     const generationTimeout = setTimeout(() => {
+  //       console.log("Allure generation timeout")
+  //       return reject(reportError)
+  //     }, 60 * 1000)
 
-      generation.on("exit", function (allureExitCode: number) {
-        clearTimeout(generationTimeout)
-        if (allureExitCode !== 0) {
-          console.log(`Error in allure generation: exit code=${allureExitCode}`)
-          return reject(reportError)
-        }
-        console.log(
-          "Wdio Test Suite Exit Code: ",
-          wdioExitCode,
-          "Allure Exit Code: ",
-          allureExitCode
-        )
+  //     generation.on("exit", function (allureExitCode: number) {
+  //       clearTimeout(generationTimeout)
+  //       if (allureExitCode !== 0) {
+  //         console.log(`Error in allure generation: exit code=${allureExitCode}`)
+  //         return reject(reportError)
+  //       }
+  //       console.log(
+  //         "Wdio Test Suite Exit Code: ",
+  //         wdioExitCode,
+  //         "Allure Exit Code: ",
+  //         allureExitCode
+  //       )
 
-        console.log("Allure Report Generation Success")
+  //       console.log("Allure Report Generation Success")
 
-        return resolve(process.exit(0))
-      })
-    })
-  },
+  //       return resolve(process.exit(0))
+  //     })
+  //   })
+  // },
   /**
    * Gets executed when a refresh happens.
    * @param {String} oldSessionId session ID of the old session
