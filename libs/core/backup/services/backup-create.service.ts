@@ -16,6 +16,8 @@ import { BaseBackupService } from "Core/backup/services/base-backup.service"
 import { FileManagerService } from "Core/files-manager/services"
 import { DeviceDirectory } from "Core/files-manager/constants"
 import { DeviceInfoService } from "Core/device-info/services"
+import { extract } from "tar"
+import { remove } from "fs-extra"
 
 export class BackupCreateService extends BaseBackupService {
   constructor(
@@ -96,6 +98,14 @@ export class BackupCreateService extends BaseBackupService {
 
     this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
 
+    if (options.extract) {
+      await extract({
+        file: backupFileResult.data[0],
+        cwd: options.cwd,
+      })
+      await remove(backupFileResult.data[0])
+    }
+
     return Result.success(backupFileResult.data)
   }
 
@@ -105,8 +115,6 @@ export class BackupCreateService extends BaseBackupService {
     const deviceInfoResult = await this.deviceInfoService.getDeviceInfo(
       deviceId
     )
-
-    console.log({ deviceInfoResult })
 
     if (!deviceInfoResult.ok || !deviceInfoResult.data) {
       return Result.failed(
@@ -125,8 +133,6 @@ export class BackupCreateService extends BaseBackupService {
       },
     })
 
-    console.log({ backupResponse })
-
     if (!backupResponse.ok) {
       return Result.failed(
         new AppError(
@@ -137,8 +143,6 @@ export class BackupCreateService extends BaseBackupService {
     }
 
     const backupFinished = await this.waitUntilProcessFinished(deviceId)
-
-    console.log({ backupFinished })
 
     if (!backupFinished.ok && backupFinished.error) {
       return Result.failed(
