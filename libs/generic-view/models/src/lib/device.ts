@@ -31,9 +31,7 @@ export interface DeviceConfiguration {
   features?: Features
 }
 
-export interface Device
-  extends DeviceProperties,
-    Partial<DeviceConfiguration> {
+export interface Device extends DeviceProperties, Partial<DeviceConfiguration> {
   id: DeviceId
   serialNumber: string | undefined
   deviceType: DeviceType
@@ -42,3 +40,10 @@ export interface Device
 export interface ConfiguredDevice
   extends DeviceProperties,
     DeviceConfiguration {}
+
+export interface BaseDevice {
+  name?: string
+  image?: string
+  serialNumber: string
+  disconnected?: boolean
+}

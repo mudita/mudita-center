@@ -12,12 +12,13 @@ import styled from "styled-components"
 import { useSelector } from "react-redux"
 import {
   selectDataMigrationFeatures,
-  selectDataMigrationPureDbIndexing,
+  selectDataMigrationPureBusy,
+  selectDataMigrationSourceDevice,
   selectDataMigrationStatus,
 } from "generic-view/store"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { SpinnerLoader } from "../../shared/shared"
+import { SpinnerLoader } from "../../shared/spinner-loader"
 
 const messages = defineMessages({
   unlockInfo: {
@@ -40,9 +41,12 @@ export const TransferSetup: FunctionComponent<Props> = ({
   features,
   onStartMigration,
 }) => {
+  const sourceDevice = useSelector(selectDataMigrationSourceDevice)
   const selectedFeatures = useSelector(selectDataMigrationFeatures)
-  const pureDbIndexing = useSelector(selectDataMigrationPureDbIndexing)
+  const pureBusyId = useSelector(selectDataMigrationPureBusy)
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
+
+  const pureBusy = pureBusyId === sourceDevice?.serialNumber
 
   return (
     <>
@@ -51,7 +55,7 @@ export const TransferSetup: FunctionComponent<Props> = ({
         <FeaturesSelector features={features} />
       </Wrapper>
       <Footer>
-        {dataMigrationStatus === "IDLE" && pureDbIndexing ? (
+        {dataMigrationStatus === "IDLE" && pureBusy ? (
           <FooterMessage>
             <FooterSpinner dark />
             <p>{intl.formatMessage(messages.pureNotReady)}</p>
@@ -68,7 +72,7 @@ export const TransferSetup: FunctionComponent<Props> = ({
               type: "custom",
               callback: onStartMigration,
             },
-            disabled: pureDbIndexing || selectedFeatures.length === 0,
+            disabled: pureBusy || selectedFeatures.length === 0,
           }}
         />
       </Footer>
