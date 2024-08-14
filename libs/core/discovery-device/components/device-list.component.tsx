@@ -9,6 +9,10 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { DeviceProperties } from "device-manager/models"
 import DeviceListItem from "Core/discovery-device/components/device-list-item.component"
 
+const dataTestIds = {
+  devicesList: "devices-list",
+}
+
 interface Props {
   devices: DeviceProperties[]
   onDeviceClick: (id: string) => void
@@ -37,7 +41,10 @@ const Container = styled.div<{ devicesLength: number }>`
 const DeviceList: FunctionComponent<Props> = ({ devices, onDeviceClick }) => {
   return (
     <Wrapper>
-      <Container devicesLength={devices.length}>
+      <Container
+        devicesLength={devices.length}
+        data-testid={dataTestIds.devicesList}
+      >
         {devices.map((device) => {
           return (
             <DeviceListItem
