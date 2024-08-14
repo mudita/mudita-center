@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { index } from "@orama/orama/dist/components"
 import Page from "./page"
 
 class SelectDevicePage extends Page {
@@ -21,10 +22,8 @@ class SelectDevicePage extends Page {
   public get selectADeviceToContinueTitle() {
     return $("h1*=Select a device to continue")
   }
-  public getDeviceOnSelectModal(serialNumber: string) {
-    return $(
-      `//*[@data-testid="available-device-serial-number-${serialNumber}"]`
-    )
+  public getDeviceOnSelectModal(index: number) {
+    return $(`(//p[@data-testid="available-device-serial-number"])[${index}]`)
   }
 }
 export default new SelectDevicePage()

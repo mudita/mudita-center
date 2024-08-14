@@ -63,7 +63,7 @@ describe("Kompakt switching devices", () => {
       })
     })
     await Promise.all(mockResponses)
-    await browser.pause(2000)
+    await browser.pause(6000)
   })
 
   it("Check Select Device Modal and verify Devices 1 and 2", async () => {
@@ -74,9 +74,9 @@ describe("Kompakt switching devices", () => {
     )
 
     const firstDeviceOnSelectModal =
-      await selectDevicePage.getDeviceOnSelectModal(firstSerialNumber)
+      await selectDevicePage.getDeviceOnSelectModal(1)
     const secondDeviceOnSelectModal =
-      await selectDevicePage.getDeviceOnSelectModal(secondSerialNumber)
+      await selectDevicePage.getDeviceOnSelectModal(2)
 
     await expect(firstDeviceOnSelectModal).toBeDisplayed()
     await expect(secondDeviceOnSelectModal).toBeDisplayed()
@@ -141,18 +141,12 @@ describe("Kompakt switching devices", () => {
 
   it("Verify Devices 3, 4, 5, 6", async () => {
     const thirdDeviceOnSelectModal =
-      await selectDevicePage.getDeviceOnSelectModal(thirdSerialNumber)
+      await selectDevicePage.getDeviceOnSelectModal(1)
     const fourthDeviceOnSelectModal =
-      await selectDevicePage.getDeviceOnSelectModal(fourthSerialNumber)
-    const fifthDeviceOnSelectModal =
-      await selectDevicePage.getDeviceOnSelectModal(fifthSerialNumber)
-    const sixthDeviceOnSelectModal =
-      await selectDevicePage.getDeviceOnSelectModal(sixthSerialNumber)
+      await selectDevicePage.getDeviceOnSelectModal(2)
 
     await expect(thirdDeviceOnSelectModal).toBeDisplayed()
     await expect(fourthDeviceOnSelectModal).toBeDisplayed()
-    await expect(fifthDeviceOnSelectModal).toBeDisplayed()
-    await expect(sixthDeviceOnSelectModal).toBeDisplayed()
 
     const selectDeviceModalSerialNumbers =
       selectDevicePage.selectDeviceSerialNumber
@@ -170,6 +164,14 @@ describe("Kompakt switching devices", () => {
     const fourthDeviceName = await selectDeviceModalNames[3]
     await expect(fourthDeviceName).toHaveText("Kompakt")
 
+    const fifthDeviceOnSelectModal =
+      await selectDevicePage.getDeviceOnSelectModal(1)
+    const sixthDeviceOnSelectModal =
+      await selectDevicePage.getDeviceOnSelectModal(2)
+
+    await expect(fifthDeviceOnSelectModal).toBeDisplayed()
+    await expect(sixthDeviceOnSelectModal).toBeDisplayed()
+
     const fifthDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[4].getText()
     await expect(fifthDeviceSerialNumber).toEqual(fifthSerialNumber)
@@ -183,16 +185,16 @@ describe("Kompakt switching devices", () => {
     await expect(sixthDeviceName).toHaveText("Kompakt")
   })
 
-  xit("Switch to 6th device", async () => {
-    const sixthDeviceOnSelectDevicesModal =
-      await selectDevicePage.getDeviceOnSelectModal(sixthSerialNumber)
+  it("Switch to 6th device", async () => {
+    const sixthDeviceOnSelectModal =
+      await selectDevicePage.getDeviceOnSelectModal(6)
 
-    await expect(sixthDeviceOnSelectDevicesModal).toBeDisplayed()
-    await sixthDeviceOnSelectDevicesModal.waitForClickable()
-    await sixthDeviceOnSelectDevicesModal.click()
+    await expect(sixthDeviceOnSelectModal).toBeDisplayed()
+    await sixthDeviceOnSelectModal.waitForClickable()
+    await sixthDeviceOnSelectModal.click()
   })
 
-  xit("Verify Overview Page for 6th device", async () => {
+  it("Verify Overview Page for 6th device", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
     await expect(kompaktImage).toBeDisplayed()
     await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
@@ -223,7 +225,8 @@ describe("Kompakt switching devices", () => {
     E2EMockClient.removeDevice("path-5")
     E2EMockClient.removeDevice("path-6")
 
-    const newsHeader = await newsPage.newsHeader
-    await expect(newsHeader).toHaveText("Mudita News")
+    const homeHeader = await HomePage.homeHeader
+    await homeHeader.waitForDisplayed()
+    await expect(homeHeader).toHaveText("Welcome to Mudita Center")
   })
 })
