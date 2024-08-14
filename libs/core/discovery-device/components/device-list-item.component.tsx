@@ -27,6 +27,12 @@ import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.compone
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { BadgeWithIcon } from "Core/__deprecated__/renderer/components/core/badge/badge-with-icon.component"
 
+const dataTestIds = {
+  availableDevice: "available-device",
+  availableDeviceName: "available-device-name",
+  availableDeviceSerialNumber: "available-device-serial-number",
+}
+
 const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },
   subheaderTitle: { id: "module.availableDeviceList.subheaderTitle" },
@@ -117,7 +123,11 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
     serialNumberValue !== "" ? intl.formatMessage(messages.serialNumber) : ""
 
   return (
-    <Container className={className} onClick={() => onDeviceClick(id)}>
+    <Container
+      className={className}
+      onClick={() => onDeviceClick(id)}
+      data-testid={dataTestIds.availableDevice}
+    >
       {deviceType === DeviceType.MuditaHarmonyMsc && (
         <BadgeWithIcon>
           <Icon type={IconType.RecoveryModeWhite} />
@@ -130,7 +140,10 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
         <DeviceImageStyled deviceType={deviceType} caseColour={caseColour} />
       </DeviceImageWrapper>
       <DeviceInfoContainer>
-        <DeviceInfoDeviceTypeName displayStyle={TextDisplayStyle.Headline4}>
+        <DeviceInfoDeviceTypeName
+          displayStyle={TextDisplayStyle.Headline4}
+          data-testid={dataTestIds.availableDeviceName}
+        >
           {getDeviceTypeName(deviceType, caseColour)}
         </DeviceInfoDeviceTypeName>
         {deviceType !== DeviceType.MuditaHarmonyMsc && (
@@ -138,7 +151,10 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
             <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
               {serialNumberHeader}
             </Text>
-            <Text displayStyle={TextDisplayStyle.Paragraph1}>
+            <Text
+              displayStyle={TextDisplayStyle.Paragraph1}
+              data-testid={dataTestIds.availableDeviceSerialNumber}
+            >
               {serialNumberValue}
             </Text>
           </>
