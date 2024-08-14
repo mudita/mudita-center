@@ -22,5 +22,6 @@ export enum TestFilesPaths {
   kompaktOverview = "src/specs/overview/kompakt-overview.ts",
   kompaktSwitchingDevices = "src/specs/overview/kompakt-switching-devices.ts",
   kompaktAbout = "src/specs/overview/kompakt-about.ts",
+  kompaktConnectedDevicesModalStressTest = "src/specs/stress-tests/connected-devices-stress-test.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`
