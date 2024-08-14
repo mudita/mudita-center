@@ -10,10 +10,7 @@ import {
 import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
 import HomePage from "../../page-objects/home.page"
 import { kompaktImageRegex } from "../../consts/regex-const"
-import overviewPage from "../../page-objects/overview.page"
-import drawerPage from "../../page-objects/drawer.page"
 import selectDevicePage from "../../page-objects/select-device.page"
-import newsPage from "../../page-objects/news.page"
 
 describe("Kompakt switching devices", () => {
   const firstSerialNumber = "KOM1234567890"
@@ -72,6 +69,9 @@ describe("Kompakt switching devices", () => {
     await expect(selectADeviceToContinueTitle).toHaveText(
       "Select a device to continue"
     )
+
+    const availableDevices = selectDevicePage.availableDevices
+    await expect(availableDevices).toBeDisplayed()
 
     const firstDeviceOnSelectModal =
       await selectDevicePage.getDeviceOnSelectModal(1)

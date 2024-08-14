@@ -10,7 +10,7 @@ class SelectDevicePage extends Page {
   public get devicesList() {
     return $("[data-testid='devices-list']")
   }
-  public get availableDevice() {
+  public get availableDevices() {
     return $$('[data-testid="available-device"]')
   }
   public get selectDeviceSerialNumber() {
