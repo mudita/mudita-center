@@ -21,7 +21,7 @@ export const deactivateDevice = createAsyncThunk<
   void,
   { state: ReduxRootState }
 >(DeviceManagerEvent.DeactivateDevice, async (_, { dispatch, getState }) => {
-  dispatch(setActiveDevice(undefined))
+  await dispatch(setActiveDevice(undefined))
   dispatch(setSelectDeviceDrawerOpen(false))
   dispatch(setDiscoveryStatus(DiscoveryStatus.Idle))
   dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Idle))

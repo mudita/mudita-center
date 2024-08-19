@@ -26,7 +26,6 @@ import {
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { useNoNewDevicesDetectedHook } from "Core/discovery-device/hooks/use-no-new-devices-detected.hook"
-import { useFilteredRoutesHistory } from "shared/utils"
 
 const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   const history = useHistory()
@@ -34,32 +33,12 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   const devices = useSelector(getDevicesSelector)
   const failedDevices = useSelector(getFailedDevicesSelector)
   const availableDevices = useSelector(getAvailableDevicesSelector)
-  const [pathToGoBack] = useFilteredRoutesHistory([
-    URL_MAIN.root,
-    ...Object.values(URL_ONBOARDING),
-    ...Object.values(URL_DISCOVERY_DEVICE),
-    ...Object.values(URL_DEVICE_INITIALIZATION),
-  ])
 
   useEffect(() => {
     dispatch(setDiscoveryStatus(DiscoveryStatus.Discovering))
   }, [history, dispatch])
 
   const noNewDevicesDetectedState = useNoNewDevicesDetectedHook()
-
-  useEffect(() => {
-    if (!devices.length && !availableDevices.length) {
-      if (
-        pathToGoBack.startsWith(URL_MAIN.news) ||
-        pathToGoBack.startsWith(URL_MAIN.help) ||
-        pathToGoBack.startsWith(URL_MAIN.settings)
-      ) {
-        history.push(pathToGoBack)
-      } else {
-        history.push(URL_ONBOARDING.welcome)
-      }
-    }
-  }, [availableDevices.length, devices.length, history, pathToGoBack])
 
   useEffect(() => {
     const handleDeviceActivation = async () => {
