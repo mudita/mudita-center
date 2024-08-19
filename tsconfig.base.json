@@ -63,6 +63,7 @@
       "help/models": ["libs/help/models/src/index.ts"],
       "help/store": ["libs/help/store/src/index.ts"],
       "help/ui": ["libs/help/ui/src/index.ts"],
+      "msc-flash-harmony": ["libs/msc-flash/msc-flash-harmony/src/index.ts"],
       "shared/app-state": ["libs/shared/app-state/src/index.ts"],
       "shared/feature": ["libs/shared/feature/src/index.ts"],
       "shared/http-client": ["libs/shared/http-client/src/index.ts"],
