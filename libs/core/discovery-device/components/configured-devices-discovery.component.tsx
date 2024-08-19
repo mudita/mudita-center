@@ -50,12 +50,13 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   useEffect(() => {
     if (!devices.length && !availableDevices.length) {
       if (
+        pathToGoBack.startsWith(URL_MAIN.news) ||
         pathToGoBack.startsWith(URL_MAIN.help) ||
         pathToGoBack.startsWith(URL_MAIN.settings)
       ) {
         history.push(pathToGoBack)
       } else {
-        history.push(URL_MAIN.news)
+        history.push(URL_ONBOARDING.welcome)
       }
     }
   }, [availableDevices.length, devices.length, history, pathToGoBack])
