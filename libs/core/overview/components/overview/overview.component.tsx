@@ -18,6 +18,7 @@ type Props = PureOverviewProps &
   HarmonyOverviewProps & { deviceType: DeviceType | null }
 
 const Screen: FunctionComponent<Props> = (props) => {
+  console.log("Propeczki", props)
   switch (props.deviceType) {
     case DeviceType.MuditaPure:
       return <PureOverview {...props} />
