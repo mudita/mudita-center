@@ -17,6 +17,13 @@ export class DrawerPage extends Page {
   public get deviceImageOnDrawer() {
     return $('[data-testid="drawer-device-image"]')
   }
+  public get drawerDeviceSerialNumber() {
+    return $$('[data-testid="drawer-device-serial-number-value"]')
+  }
+
+  public get drawerDeviceName() {
+    return $$('[data-testid="drawer-device-type"]')
+  }
 }
 
 export default new DrawerPage()
