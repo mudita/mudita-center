@@ -20,6 +20,7 @@ import { ButtonText, P3 } from "generic-view/ui"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectCurrentArticle } from "help/store"
 import { useParams } from "react-router"
+import { HelpTestId } from "../test-ids"
 
 export const ArticleContent: FunctionComponent = () => {
   const { articleId } = useParams<{ articleId: string }>()
@@ -36,10 +37,23 @@ export const ArticleContent: FunctionComponent = () => {
 
   const options: Options = {
     renderNode: {
-      [BLOCKS.HEADING_1]: (node, children) => <Heading>{children}</Heading>,
-      [BLOCKS.PARAGRAPH]: (node, children) => <Paragraph>{children}</Paragraph>,
+      [BLOCKS.HEADING_1]: (node, children) => (
+        <Heading data-testid={HelpTestId.ArticleContentBlockTitle}>
+          {children}
+        </Heading>
+      ),
+      [BLOCKS.PARAGRAPH]: (node, children) => (
+        <Paragraph data-testid={HelpTestId.ArticleContentBlockText}>
+          {children}
+        </Paragraph>
+      ),
       [INLINES.HYPERLINK]: (node, children) => (
-        <a href={node.data.uri as string} target={"_blank"} rel="noreferrer">
+        <a
+          href={node.data.uri as string}
+          target={"_blank"}
+          rel="noreferrer"
+          data-testid={HelpTestId.ArticleContentBlockExternalLink}
+        >
           {children}
         </a>
       ),
@@ -48,7 +62,10 @@ export const ArticleContent: FunctionComponent = () => {
           const articleId = node.data.target.sys.id
           const categoryId = article!.categoryId
           return (
-            <NavLink to={`${URL_MAIN.help}/${categoryId}/${articleId}`}>
+            <NavLink
+              to={`${URL_MAIN.help}/${categoryId}/${articleId}`}
+              data-testid={HelpTestId.ArticleContentBlockInternalLink}
+            >
               {children}
             </NavLink>
           )
@@ -64,6 +81,7 @@ export const ArticleContent: FunctionComponent = () => {
                 modifiers: ["link", "hover-underline"],
               } as ButtonTextConfig
             }
+            data-testid={HelpTestId.ArticleContentBlockContactSupportLink}
           >
             {children}
           </ButtonText>
@@ -76,9 +94,9 @@ export const ArticleContent: FunctionComponent = () => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper data-testid={HelpTestId.ArticleContent}>
       {blocks.map((block, index) => (
-        <Article key={index}>
+        <Article key={index} data-testid={HelpTestId.ArticleContentBlock}>
           {documentToReactComponents(block, options)}
         </Article>
       ))}

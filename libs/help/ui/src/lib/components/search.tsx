@@ -19,6 +19,7 @@ import { SearchResults, SearchResultsWrapper } from "./search-results"
 import { H3, P3, SearchInput } from "generic-view/ui"
 import { useHistory } from "react-router"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import { HelpTestId } from "../test-ids"
 
 const messages = defineMessages({
   title: {
@@ -105,8 +106,12 @@ export const Search: FunctionComponent = () => {
 
   return (
     <Wrapper>
-      <H3>{intl.formatMessage(messages.title)}</H3>
-      <P3>{intl.formatMessage(messages.description)}</P3>
+      <H3 data-testid={HelpTestId.MainHeader}>
+        {intl.formatMessage(messages.title)}
+      </H3>
+      <P3 data-testid={HelpTestId.MainSubheader}>
+        {intl.formatMessage(messages.description)}
+      </P3>
       <InputWrapper
         onKeyDown={handleKeyDown}
         dropdownActive={cleanedSearchPhrase.length > 1}
@@ -116,6 +121,7 @@ export const Search: FunctionComponent = () => {
             name: "search",
             label: intl.formatMessage(messages.placeholder),
           }}
+          data-testid={HelpTestId.SearchInput}
         />
         <SearchResults
           results={results}
