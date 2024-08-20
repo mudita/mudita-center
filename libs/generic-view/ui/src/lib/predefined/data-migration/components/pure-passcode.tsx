@@ -20,12 +20,11 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import PasscodeModalUI from "Core/device-initialization/components/passcode-modal/passcode-modal-ui.component"
-import { ipcRenderer } from "electron-better-ipc"
-import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { deviceLockTimeRequest } from "Core/device/requests"
 import { unlockDeviceById } from "Core/device"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { getDeviceInfoRequest } from "Core/device-info/requests"
+import { useHelpShortcut } from "help/store"
 
 interface Props {
   deviceId: DeviceId
@@ -40,6 +39,7 @@ export const PurePasscode: FunctionComponent<Props> = ({
   onClose,
   onUnlock,
 }) => {
+  const openHelpShortcut = useHelpShortcut()
   const dispatch = useDispatch<Dispatch>()
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
   const [values, setValues] = useState<string[]>(initValue)
@@ -49,7 +49,9 @@ export const PurePasscode: FunctionComponent<Props> = ({
   const lockTimeMonitorInterval = useRef<NodeJS.Timeout>()
   const unlockMonitorInterval = useRef<NodeJS.Timeout>()
 
-  const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
+  const openHelpWindow = () => {
+    openHelpShortcut("pure-password-forgotten")
+  }
 
   const handleModalClose = () => {
     setValues(initValue)
