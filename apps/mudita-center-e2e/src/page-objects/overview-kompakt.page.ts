@@ -6,6 +6,10 @@
 import { OverviewPage } from "./overview.page"
 
 class OverviewKompaktPage extends OverviewPage {
+  public get header() {
+    return $('[data-testid="location"]')
+  }
+
   public get aboutYourDevice() {
     return $('[data-testid="button-text_summary-about"]')
   }
