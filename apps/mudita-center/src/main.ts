@@ -93,7 +93,6 @@ if (mockServiceEnabled) {
 logger.info("Starting the app!")
 
 let win: BrowserWindow | null
-let helpWindow: BrowserWindow | null = null
 let googleAuthWindow: BrowserWindow | null = null
 let outlookAuthWindow: BrowserWindow | null = null
 const licenseWindow: BrowserWindow | null = null
