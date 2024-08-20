@@ -924,6 +924,7 @@
   "module.genericViews.importContacts.providerModal.fileUploadButtonLabel": "Upload csv or vcard",
   "module.genericViews.importContacts.providerModal.googleButtonLabel": "Google",
   "module.genericViews.importContacts.providerModal.outlookButtonLabel": "Outlook",
+  "module.genericViews.importContacts.providerModal.needHelpButtonLabel": "Need help?",
   "module.genericViews.importContacts.loaderModal.title": "Loading",
   "module.genericViews.importContacts.loaderModal.description": "This will only take a moment...",
   "module.genericViews.importContacts.contactsListModal.title": "Select contacts",
