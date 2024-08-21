@@ -17,6 +17,9 @@ import {
   startImportAuthorization,
 } from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
+import { ButtonText } from "../../buttons/button-text"
+import { useHistory } from "react-router"
+import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 
 const messages = defineMessages({
   title: {
@@ -34,10 +37,15 @@ const messages = defineMessages({
   fileUploadButtonLabel: {
     id: "module.genericViews.importContacts.providerModal.fileUploadButtonLabel",
   },
+  needHelpButtonLabel: {
+    id: "module.genericViews.importContacts.providerModal.needHelpButtonLabel",
+  },
 })
 
 export const ImportContactsProvider = () => {
   const dispatch = useDispatch<Dispatch>()
+  const history = useHistory()
+
   return (
     <>
       <Modal.TitleIcon config={{ type: IconType.ContactsBook }} />
@@ -136,6 +144,20 @@ export const ImportContactsProvider = () => {
             },
           }}
         />
+        <HelpLink
+          config={{
+            text: intl.formatMessage(messages.needHelpButtonLabel),
+            action: {
+              type: "custom",
+              callback: () => {
+                history.push(
+                  `${URL_MAIN.help}/6w2eIEGxkQVxScg0T2at98/7IYVFZKS6eQnPk9WLeUoFI`
+                )
+              },
+            },
+            modifiers: ["link", "hover-underline"],
+          }}
+        />
       </ButtonsWrapper>
     </>
   )
@@ -158,5 +180,16 @@ const ButtonWithIconStyled = styled(ButtonSecondary)`
   & > div {
     width: 2rem;
     height: 2rem;
+  }
+`
+
+const HelpLink = styled(ButtonText)`
+  && {
+    height: 2rem;
+    min-height: 2rem;
+  }
+
+  span {
+    font-size: ${({ theme }) => theme.fontSize.labelText};
   }
 `
