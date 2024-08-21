@@ -85,6 +85,7 @@ const SearchWrapper = styled.div`
 const ContentWrapper = styled.div`
   flex: 1;
   padding: ${({ theme }) => theme.space.xxl};
+  max-width: 86.2rem;
 
   & > h2 {
     font-size: 1.8rem;
