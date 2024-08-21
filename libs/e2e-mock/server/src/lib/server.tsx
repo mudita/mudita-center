@@ -8,6 +8,7 @@ import logger from "Core/__deprecated__/main/utils/logger"
 import {
   addKompaktResponseValidator,
   addKompaktValidator,
+  restoreDefaultResponsesValidator,
 } from "./mock-descriptor/mock-descriptor-validators"
 import { mockDescriptor } from "./mock-descriptor/mock-descriptor"
 import {
@@ -47,6 +48,12 @@ ipc.serve(function () {
     const params = addKompaktResponseValidator.safeParse(data)
     if (params.success) {
       mockDescriptor.addResponseOnce(params.data)
+    }
+  })
+  ipc.server.on("mock.response.reset", function (data, socket) {
+    const params = restoreDefaultResponsesValidator.safeParse(data)
+    if (params.success) {
+      mockDescriptor.removeResponses(params.data)
     }
   })
   ipc.server.on("server.stop", function (data, socket) {
