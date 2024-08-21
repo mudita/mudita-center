@@ -175,8 +175,7 @@ const Article = styled.article`
   ol,
   ul {
     margin: 0 0 1em;
-    padding-left: 0;
-    list-style-position: inside;
+    padding-left: 1.8rem;
     ol,
     ul {
       padding-left: 2.5rem;
@@ -185,14 +184,13 @@ const Article = styled.article`
 
   li {
     ::marker {
-      width: 2.4rem;
       color: ${({ theme }) => theme.color.black};
       font-size: ${({ theme }) => theme.fontSize.paragraph3};
     }
 
     p {
       display: -webkit-inline-box;
-      padding-left: 0.2rem;
+      margin-left: 0.4rem;
     }
   }
 `
