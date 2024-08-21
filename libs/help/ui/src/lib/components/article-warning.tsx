@@ -13,6 +13,7 @@ import { useParams } from "react-router"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectCurrentArticle } from "help/store"
+import { HelpTestId } from "../test-ids"
 
 const messages = defineMessages({
   warning: {
@@ -54,7 +55,9 @@ export const ArticleWarning: FunctionComponent = () => {
       </svg>
       <Content>
         <H4>{intl.formatMessage(messages.warning)}</H4>
-        <P1>{article.warningMessage}</P1>
+        <P1 data-testid={HelpTestId.ArticleWarning}>
+          {article.warningMessage}
+        </P1>
       </Content>
     </Wrapper>
   )
