@@ -24,18 +24,6 @@ import registerWriteGzipListener from "Core/__deprecated__/main/functions/regist
 import registerRmdirListener from "Core/__deprecated__/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "Core/__deprecated__/main/functions/register-archive-files-listener"
 import createDownloadListenerRegistrar from "Core/__deprecated__/main/functions/create-download-listener-registrar"
-import {
-  registerDownloadHelpHandler,
-  removeDownloadHelpHandler,
-} from "Core/__deprecated__/main/functions/download-help-handler"
-import {
-  registerSetHelpStoreHandler,
-  removeSetHelpStoreHandler,
-} from "Core/__deprecated__/main/functions/set-help-store-handler"
-import {
-  registerGetHelpStoreHandler,
-  removeGetHelpStoreHandler,
-} from "Core/__deprecated__/main/functions/get-help-store-handler"
 import { GoogleAuthActions } from "Core/__deprecated__/common/enums/google-auth-actions.enum"
 import {
   authServerPort,
@@ -44,30 +32,29 @@ import {
 } from "Core/__deprecated__/main/auth-server"
 import logger from "Core/__deprecated__/main/utils/logger"
 import {
-  Scope,
   clientId,
   redirectUrl,
+  Scope,
   TokenRequester,
 } from "generic-view/store"
 import { OutlookAuthActions } from "Core/__deprecated__/common/enums/outlook-auth-actions.enum"
 import {
+  DEFAULT_WINDOWS_SIZE,
   GOOGLE_AUTH_WINDOW_SIZE,
   WINDOW_SIZE,
-  DEFAULT_WINDOWS_SIZE,
 } from "Core/__deprecated__/main/config"
 import {
   URL_MAIN,
   URL_OVERVIEW,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { Mode } from "Core/__deprecated__/common/enums/mode.enum"
-import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { AboutActions } from "Core/__deprecated__/common/enums/about-actions.enum"
 import { PureSystemActions } from "Core/__deprecated__/common/enums/pure-system-actions.enum"
 import { BrowserActions } from "Core/__deprecated__/common/enums/browser-actions.enum"
 import {
   createMetadataStore,
-  MetadataStore,
   MetadataInitializer,
+  MetadataStore,
   registerMetadataAllGetValueListener,
   registerMetadataGetValueListener,
   registerMetadataSetValueListener,
@@ -77,8 +64,8 @@ import { createSettingsService } from "Core/settings/containers/settings.contain
 import { ApplicationModule } from "Core/core/application.module"
 import registerExternalUsageDevice from "Core/device/listeners/register-external-usage-device.listner"
 import installExtension, {
-  REDUX_DEVTOOLS,
   REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
 } from "electron-devtools-installer"
 import {
   AppEvents,
@@ -106,7 +93,6 @@ if (mockServiceEnabled) {
 logger.info("Starting the app!")
 
 let win: BrowserWindow | null
-let helpWindow: BrowserWindow | null = null
 let googleAuthWindow: BrowserWindow | null = null
 let outlookAuthWindow: BrowserWindow | null = null
 const licenseWindow: BrowserWindow | null = null
@@ -285,66 +271,6 @@ if (!gotTheLock) {
     }
   })
 }
-
-ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
-  const title = "Mudita Center - Help"
-  if (helpWindow === null) {
-    helpWindow = new BrowserWindow(
-      getWindowOptions({
-        width: DEFAULT_WINDOWS_SIZE.width,
-        height: DEFAULT_WINDOWS_SIZE.height,
-        title,
-      })
-    )
-    // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-    //  There is almost always a better way to accomplish your task than using this module.
-    //  You can read more in https://github.com/electron/remote#migrating-from-remote
-    require("@electron/remote/main").enable(helpWindow.webContents)
-    helpWindow.removeMenu()
-
-    helpWindow.on("closed", () => {
-      removeDownloadHelpHandler()
-      removeSetHelpStoreHandler()
-      removeGetHelpStoreHandler()
-      helpWindow = null
-      void ipcMain.callRenderer(
-        win as BrowserWindow,
-        HelpActions.CustomerIsSendingToRenderer,
-        false
-      )
-    })
-
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    helpWindow.loadURL(
-      !productionEnvironment
-        ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
-        : url.format({
-            pathname: path.join(__dirname, "index.html"),
-            protocol: "file:",
-            slashes: true,
-            hash: URL_MAIN.help,
-            search: `?mode=${Mode.Help}`,
-          })
-    )
-    registerDownloadHelpHandler()
-    registerSetHelpStoreHandler()
-    registerGetHelpStoreHandler()
-  } else {
-    helpWindow.show()
-  }
-})
-
-ipcMain.answerRenderer(
-  HelpActions.CustomerIsSendingToMain,
-  (sending: boolean) => {
-    ipcMain.callRenderer(
-      win as BrowserWindow,
-      HelpActions.CustomerIsSendingToRenderer,
-      sending
-    )
-  }
-)
 
 const createOpenWindowListener = (
   channel: string,

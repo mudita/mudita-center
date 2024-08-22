@@ -31,7 +31,7 @@ const ReceiverInputSelect = styled(InputSearch)`
 
 type InputSearchProps = Omit<
   ComponentProps<typeof InputSearch>,
-  "results" | "items" | "type"
+  "results" | "items" | "type" | "ref"
 >
 
 interface Props extends InputSearchProps {

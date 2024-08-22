@@ -6,6 +6,7 @@
 export enum HelpTestId {
   MainHeader = "help-main-header",
   MainSubheader = "help-main-subheader",
+  SearchInputWrapper = "help-search-input-wrapper",
   SearchInput = "help-search-input",
   SearchResults = "help-search-results",
   SearchResultsItem = "help-search-result-item",
@@ -21,6 +22,7 @@ export enum HelpTestId {
   ArticleBackButton = "help-article-back-button",
   ArticleTitle = "help-article-title",
   ArticleWarning = "help-article-warning",
+  ArticleWarningIcon = "help-article-warning-icon",
   ArticleContent = "help-article-content",
   ArticleContentBlock = "help-article-content-block",
   ArticleContentBlockTitle = "help-article-content-block-title",
