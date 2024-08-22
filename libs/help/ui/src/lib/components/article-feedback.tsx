@@ -14,6 +14,7 @@ import { rateArticle, selectArticleRateStatus } from "help/store"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { useParams } from "react-router"
 import { IconType } from "generic-view/utils"
+import { HelpTestId } from "../test-ids"
 
 const messages = defineMessages({
   title: {
@@ -46,20 +47,30 @@ export const ArticleFeedback: FunctionComponent = () => {
   }
 
   return (
-    <Wrapper>
-      <H5>{intl.formatMessage(messages.title)}</H5>
+    <Wrapper data-testid={HelpTestId.ArticleFeedback}>
+      <H5 data-testid={HelpTestId.ArticleFeedbackTitle}>
+        {intl.formatMessage(messages.title)}
+      </H5>
       <Content>
         {isRated ? (
           <>
             <NamasteIcon config={{ type: IconType.Namaste }} />
-            <Thanks>{intl.formatMessage(messages.thanks)}</Thanks>
+            <Thanks data-testid={HelpTestId.ArticleFeedbackThanks}>
+              {intl.formatMessage(messages.thanks)}
+            </Thanks>
           </>
         ) : (
           <>
-            <FeedbackButton onClick={givePositiveFeedback}>
+            <FeedbackButton
+              onClick={givePositiveFeedback}
+              data-testid={HelpTestId.ArticleFeedbackYesButton}
+            >
               <P1>{intl.formatMessage(messages.yesButtonLabel)}</P1>
             </FeedbackButton>
-            <FeedbackButton onClick={giveNegativeFeedback}>
+            <FeedbackButton
+              onClick={giveNegativeFeedback}
+              data-testid={HelpTestId.ArticleFeedbackNoButton}
+            >
               <P1>{intl.formatMessage(messages.noButtonLabel)}</P1>
             </FeedbackButton>
           </>

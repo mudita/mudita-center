@@ -12,6 +12,7 @@ import { ModalStateKey, showModal } from "Core/modals-manager"
 import { defineMessages } from "react-intl"
 import { IconType } from "generic-view/utils"
 import { ButtonText, H5 } from "generic-view/ui"
+import { HelpTestId } from "../test-ids"
 
 const messages = defineMessages({
   title: {
@@ -31,9 +32,13 @@ export const HelpFooter: FunctionComponent = () => {
     return dispatch(showModal(ModalStateKey.ContactSupportFlow))
   }
   return (
-    <Wrapper>
-      <H5>{intl.formatMessage(messages.title)}</H5>
-      <Text>{intl.formatMessage(messages.description)}</Text>
+    <Wrapper data-testid={HelpTestId.MainFooter}>
+      <H5 data-testid={HelpTestId.MainFooterTitle}>
+        {intl.formatMessage(messages.title)}
+      </H5>
+      <Text data-testid={HelpTestId.MainFooterDescription}>
+        {intl.formatMessage(messages.description)}
+      </Text>
       <ButtonText
         style={{
           padding: "0.5rem 0.8rem",
@@ -47,6 +52,7 @@ export const HelpFooter: FunctionComponent = () => {
           icon: IconType.Support,
           modifiers: ["link", "uppercase"],
         }}
+        data-testid={HelpTestId.MainFooterContactSupportButton}
       />
     </Wrapper>
   )
