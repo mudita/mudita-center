@@ -629,6 +629,8 @@
   "module.overview.checkForUpdateFailedDescription": "Opps, something went wrong. \nPlease check your internet connection and try again or contact with us.",
   "module.overview.checkForUpdateFailedSupportButton": "Contact support",
   "module.overview.checkForUpdateFailedTitle": "Checking failed",
+  "module.overview.checkForForceUpdateFailedTitle": "Update Required - No Network Connection",
+  "module.overview.checkForForceUpdateFailedDescription": "Your MuditaOS version is outdated, and we couldn't check for updates due to a network issue. Please connect to the internet and try again.",
   "module.overview.checkForUpdateFailedTryAgainButton": "Try again",
   "module.overview.checkingForUpdatesCloseButton": "Cancel",
   "module.overview.checkingForUpdatesMessage": "Checking for MuditaOS update...",

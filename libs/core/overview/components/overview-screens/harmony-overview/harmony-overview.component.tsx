@@ -123,6 +123,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
             <UpdatingForceModalFlow
               deviceType={DeviceType.MuditaHarmony}
               availableReleasesForUpdate={availableReleasesForUpdate}
+              checkForUpdateState={checkingForUpdateState}
               updatingReleasesProcessStates={updatingReleasesProcessStates}
               enabled={forceUpdateNeeded}
               startForceUpdate={startForceUpdate}
