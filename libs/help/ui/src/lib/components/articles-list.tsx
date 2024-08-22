@@ -10,6 +10,7 @@ import { NavLink } from "react-router-dom"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { useSelector } from "react-redux"
 import { selectHelpArticles } from "help/store"
+import { HelpTestId } from "../test-ids"
 
 interface Props {
   articleIds: string[]
@@ -18,7 +19,7 @@ interface Props {
 export const ArticlesList: FunctionComponent<Props> = ({ articleIds = [] }) => {
   const articles = useSelector(selectHelpArticles)
   return (
-    <Wrapper>
+    <Wrapper data-testid={HelpTestId.SubcategoryArticlesList}>
       {articleIds.map((id) => {
         const article = articles[id]
         if (!article) {
@@ -29,6 +30,7 @@ export const ArticlesList: FunctionComponent<Props> = ({ articleIds = [] }) => {
             key={id}
             to={`${URL_MAIN.help}/${article.categoryId}/${id}`}
             title={article.title}
+            data-testid={HelpTestId.SubcategoryArticlesListItem}
           >
             {article.title}
           </Link>
