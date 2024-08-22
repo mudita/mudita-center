@@ -15,7 +15,6 @@ import { renderAnswer } from "Core/help/helpers/render-answer"
 import { useHelpSearch } from "Core/__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import useAltLinkDownloadPreventer from "Core/core/components/use-alt-link-download-preventer.hook"
-import useBackForwardButtonPreventer from "Core/core/components/use-back-forward-button-preventer.hook"
 
 const saveToStore = async (normalizeData: QuestionAndAnswer) =>
   await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
@@ -24,7 +23,6 @@ const getStoreData = async (key?: string) =>
 
 const HelpApp: FunctionComponent = () => {
   useAltLinkDownloadPreventer()
-  useBackForwardButtonPreventer()
 
   const { data, searchQuestion } = useHelpSearch(saveToStore, getStoreData)
   const [searchInputValue, setSearchInputValue] = useState("")
