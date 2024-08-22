@@ -115,6 +115,7 @@ export const Search: FunctionComponent = () => {
       <InputWrapper
         onKeyDown={handleKeyDown}
         dropdownActive={cleanedSearchPhrase.length > 1}
+        data-testid={HelpTestId.SearchInputWrapper}
       >
         <Input
           config={{

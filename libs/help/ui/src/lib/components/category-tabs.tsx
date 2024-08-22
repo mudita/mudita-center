@@ -35,7 +35,7 @@ export const CategoryTabs: FunctionComponent = () => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;
