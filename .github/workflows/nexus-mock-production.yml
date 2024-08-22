@@ -49,7 +49,6 @@ jobs:
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
           LOCALAPPDATA: ""
           MOCK_SERVICE_ENABLED: "1"
-          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         shell: cmd
         run: |
           SET > .env
@@ -81,7 +80,6 @@ jobs:
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
           MOCK_SERVICE_ENABLED: "1"
-          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux

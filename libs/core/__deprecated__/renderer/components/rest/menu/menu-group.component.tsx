@@ -15,9 +15,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import RangeIcon from "Core/__deprecated__/renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Core/__deprecated__/renderer/components/core/icon/battery-icon.component"
-import { views } from "Core/__deprecated__/renderer/constants/views"
-import { ipcRenderer } from "electron-better-ipc"
-import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
+import { View } from "Core/__deprecated__/renderer/constants/views"
 import {
   HeaderIcon,
   HeaderIconBg,
@@ -27,7 +25,6 @@ import {
   LinkWrapper,
 } from "Core/__deprecated__/renderer/components/rest/menu/menu-group.styled"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { View } from "Core/__deprecated__/renderer/constants/views"
 import { NotificationBadge } from "Core/notification/components"
 
 interface MenuGroupProps extends MenuElement {
@@ -98,22 +95,6 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
                   ? { label: button.label }
                   : { labelMessage: button.label }),
                 disableWhenActive,
-              }
-              if (
-                button === views.help &&
-                process.env.NEW_HELP_ENABLED !== "1"
-              ) {
-                const openHelpWindow = () =>
-                  ipcRenderer.callMain(HelpActions.OpenWindow)
-                return (
-                  <LinkWrapper key={index}>
-                    <Button
-                      {...buttonMenuConfig}
-                      onClick={openHelpWindow}
-                      data-testid={testId}
-                    />
-                  </LinkWrapper>
-                )
               }
               return (
                 <LinkWrapper key={index}>

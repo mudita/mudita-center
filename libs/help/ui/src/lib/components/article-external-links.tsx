@@ -12,6 +12,7 @@ import { useParams } from "react-router"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectCurrentArticle } from "help/store"
+import { HelpTestId } from "../test-ids"
 
 const messages = defineMessages({
   title: {
@@ -30,12 +31,19 @@ export const ArticleExternalLinks: FunctionComponent = () => {
   }
 
   return (
-    <ExternalLinksWrapper>
-      <Title>{intl.formatMessage(messages.title)}</Title>
-      <Links>
+    <ExternalLinksWrapper data-testid={HelpTestId.ArticleExternalLinks}>
+      <Title data-testid={HelpTestId.ArticleExternalLinksTitle}>
+        {intl.formatMessage(messages.title)}
+      </Title>
+      <Links data-testid={HelpTestId.ArticleExternalLinksList}>
         {article.externalLinks.map((link, index) => (
           <li key={index}>
-            <a href={link.url} target={"_blank"} rel={"noopener noreferrer"}>
+            <a
+              href={link.url}
+              target={"_blank"}
+              rel={"noopener noreferrer"}
+              data-testid={HelpTestId.ArticleExternalLinksListItem}
+            >
               {link.title}
             </a>
           </li>

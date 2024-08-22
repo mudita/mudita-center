@@ -42,11 +42,17 @@ export interface HelpAsset {
   url: string
 }
 
+export interface HelpShortcut {
+  categoryId: string
+  articleId: string
+}
+
 export interface HelpData {
   categories: Record<string, HelpCategory>
   subcategories: Record<string, HelpSubcategory>
   articles: Record<string, HelpArticle>
   assets: Record<string, HelpAsset>
+  shortcuts: Record<string, HelpShortcut>
   nextSyncToken: string
 }
 

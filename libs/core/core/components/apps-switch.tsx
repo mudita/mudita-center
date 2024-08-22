@@ -6,7 +6,6 @@
 import React from "react"
 import { Mode } from "Core/__deprecated__/common/enums/mode.enum"
 import ErrorApp from "Core/core/components/apps/error-app.component"
-import HelpApp from "Core/core/components/apps/help-app.component"
 import LicenseApp from "Core/core/components/apps/license-app.component"
 import TermsOfServiceApp from "Core/core/components/apps/terms-of-service-app.component"
 import PrivacyPolicyApp from "Core/core/components/apps/privacy-policy-app.component"
@@ -19,8 +18,6 @@ const AppsSwitch = () => {
   switch (mode) {
     case Mode.ServerError:
       return <ErrorApp />
-    case Mode.Help:
-      return <HelpApp />
     case Mode.License:
       return <LicenseApp />
     case Mode.TermsOfService:

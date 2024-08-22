@@ -16,6 +16,7 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
   config,
   className,
   style,
+  ...props
 }) => {
   const id = useId()
   const { register, watch, setValue } = useFormContext()
@@ -39,6 +40,7 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
       <InputWrapper>
         <SearchIcon data={{ type: IconType.Search }} />
         <Input
+          {...props}
           id={"input-" + id}
           type={"search"}
           placeholder={config.label}
@@ -49,7 +51,11 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
           }}
         />
         {value.length > 0 && (
-          <ClearButton type={"button"} onClick={clear}>
+          <ClearButton
+            type={"button"}
+            onClick={clear}
+            data-testid={"input-clear-button"}
+          >
             <ClearIcon data={{ type: IconType.Close }} />
           </ClearButton>
         )}

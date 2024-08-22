@@ -19,7 +19,7 @@ export const useNoNewDevicesDetectedHook = () => {
 
       timeoutId = setTimeout(() => {
         setNoNewDevicesDetectedState(true)
-      }, 3000)
+      }, 4500)
     }
     handler()
     const unregisterDeviceConnectedListener = answerMain(

@@ -81,6 +81,10 @@ afterEach(() => {
   cleanup()
 })
 
+jest.mock("help/store", () => ({
+  useHelpShortcut: () => jest.fn(),
+}))
+
 test("Passcode modal has 4 inputs", () => {
   const { inputsContainer } = renderer()
   expect(inputsContainer()?.childNodes).toHaveLength(4)

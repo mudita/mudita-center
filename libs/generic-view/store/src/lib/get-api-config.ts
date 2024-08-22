@@ -11,17 +11,27 @@ import { ApiConfig } from "device/models"
 import { ActionName } from "./action-names"
 import { getAllFeatures } from "./features/get-all-features"
 import { getMenuConfig } from "./get-menu-config"
+import { ResultObject } from "Core/core/builder"
 
 export const getAPIConfig = createAsyncThunk<
   { deviceId: string; apiConfig: ApiConfig },
-  { deviceId: DeviceId },
+  { deviceId: DeviceId; retry?: boolean },
   { state: ReduxRootState }
->(ActionName.GetConfig, async ({ deviceId }, { rejectWithValue, dispatch }) => {
-  const response = await getAPIConfigRequest(deviceId)
-  if (response.ok) {
-    dispatch(getMenuConfig({ deviceId }))
-    dispatch(getAllFeatures({ deviceId, features: response.data.features }))
-    return { deviceId, apiConfig: response.data }
+>(
+  ActionName.GetConfig,
+  async ({ deviceId, retry }, { rejectWithValue, dispatch }) => {
+    const retryLimit = 25
+    let retires = 0
+    let response: ResultObject<ApiConfig>
+    do {
+      response = await getAPIConfigRequest(deviceId)
+    } while (retry && retires++ < retryLimit && !response.ok)
+
+    if (response.ok) {
+      dispatch(getMenuConfig({ deviceId }))
+      dispatch(getAllFeatures({ deviceId, features: response.data.features }))
+      return { deviceId, apiConfig: response.data }
+    }
+    return rejectWithValue(response.error)
   }
-  return rejectWithValue(response.error)
-})
+)

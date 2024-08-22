@@ -22,9 +22,9 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { resetUploadingState } from "Core/files-manager/actions"
-import { ipcRenderer } from "electron-better-ipc"
-import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { Size } from "Core/__deprecated__/renderer/components/core/button/button.config"
+import { useHistory } from "react-router-dom"
+import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 
 const messages = defineMessages({
   title: {
@@ -46,7 +46,10 @@ const messages = defineMessages({
 
 export const InvalidFilesModal: FunctionComponent = ({ ...props }) => {
   const invalidFiles = useSelector(getInvalidFiles)
-  const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
+  const history = useHistory()
+  const openHelp = () => {
+    history.push(URL_MAIN.help)
+  }
 
   const dispatch = useDispatch()
   return (
@@ -82,7 +85,7 @@ export const InvalidFilesModal: FunctionComponent = ({ ...props }) => {
           message={{
             ...messages.helpInfo,
             values: {
-              link: <ModalLink onClick={openHelpWindow}>help pages</ModalLink>,
+              link: <ModalLink onClick={openHelp}>help pages</ModalLink>,
             },
           }}
         />

@@ -63,3 +63,10 @@ export const selectArticleRateStatus = createSelector(
     return ratedArticles.includes(articleId)
   }
 )
+
+export const selectHelpShortcuts = createSelector(
+  (state: ReduxRootState) => state.helpV2.data.shortcuts,
+  (shortcuts) => {
+    return shortcuts
+  }
+)

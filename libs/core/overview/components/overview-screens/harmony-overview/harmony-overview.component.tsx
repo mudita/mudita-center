@@ -11,14 +11,13 @@ import { UpdateOsFlow } from "Core/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { CheckForUpdateMode } from "Core/update/constants"
 import { OsRelease } from "Core/update/dto"
-import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { ipcRenderer } from "electron-better-ipc"
 import React from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
 import { useSelector } from "react-redux"
 import { selectDeviceErrorModalOpened } from "generic-view/store"
+import { useHelpShortcut } from "help/store"
 
 export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   batteryLevel = 0,
@@ -46,12 +45,13 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   closeForceUpdateFlow,
   caseColour,
 }) => {
+  const openHelpShortcut = useHelpShortcut()
   const genericDeviceErrorModalOpened = useSelector(
     selectDeviceErrorModalOpened
   )
   useWatchDeviceDataEffect()
   const goToHelp = (): void => {
-    void ipcRenderer.callMain(HelpActions.OpenWindow)
+    openHelpShortcut("harmony-os-update-fail")
   }
 
   const updateReleases = (devReleases?: OsRelease[]) => {

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { delay } from "shared/utils"
@@ -24,8 +24,15 @@ const DeviceConnecting: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<TmpDispatch>()
   const activeDevice = useSelector(getActiveDevice)
+  const firstRun = useRef(true)
 
   useEffect(() => {
+    if (!firstRun.current) {
+      return
+    }
+
+    firstRun.current = false
+
     const handleConnectDevice = async () => {
       if (activeDevice?.id === undefined) {
         history.push(URL_DISCOVERY_DEVICE.root)
@@ -33,20 +40,30 @@ const DeviceConnecting: FunctionComponent = () => {
       }
 
       await delay(500)
-      const { payload: ok } = await dispatch(connectDevice(activeDevice.id))
-
-      if (!ok) {
-        history.push(URL_ONBOARDING.troubleshooting)
-        return
-      }
 
       if (activeDevice.deviceType !== DeviceType.APIDevice) {
-        await dispatch(configureDevice(activeDevice.id))
-      } else {
-        await dispatch(getAPIConfig({ deviceId: activeDevice.id }))
-      }
+        const { payload: ok } = await dispatch(connectDevice(activeDevice.id))
 
-      history.push(URL_DEVICE_INITIALIZATION.root)
+        if (!ok) {
+          history.push(URL_ONBOARDING.troubleshooting)
+          return
+        }
+
+        await dispatch(configureDevice(activeDevice.id))
+
+        history.push(URL_DEVICE_INITIALIZATION.root)
+      } else {
+        const getAPIConfigResult = await dispatch(
+          getAPIConfig({ deviceId: activeDevice.id })
+        )
+
+        if (getAPIConfigResult.error !== undefined) {
+          history.push(URL_ONBOARDING.troubleshooting)
+          return
+        }
+
+        history.push(URL_DEVICE_INITIALIZATION.root)
+      }
     }
 
     void handleConnectDevice()

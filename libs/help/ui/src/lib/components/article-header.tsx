@@ -9,6 +9,7 @@ import styled from "styled-components"
 import { IconType } from "generic-view/utils"
 import { useHistory } from "react-router"
 import { ButtonText, H3 } from "generic-view/ui"
+import { HelpTestId } from "../test-ids"
 
 interface Props {
   title: string
@@ -20,6 +21,7 @@ export const ArticleHeader: FunctionComponent<Props> = ({ title }) => {
   return (
     <Wrapper>
       <ButtonText
+        data-testid={HelpTestId.ArticleBackButton}
         config={{
           text: "Back",
           action: {
@@ -30,7 +32,7 @@ export const ArticleHeader: FunctionComponent<Props> = ({ title }) => {
           modifiers: ["uppercase"],
         }}
       />
-      <H3>{title}</H3>
+      <H3 data-testid={HelpTestId.ArticleTitle}>{title}</H3>
     </Wrapper>
   )
 }

@@ -62,7 +62,7 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
     ...Object.values(URL_ONBOARDING),
     ...Object.values(URL_DISCOVERY_DEVICE),
     ...Object.values(URL_DEVICE_INITIALIZATION),
-  ])
+  ], URL_DISCOVERY_DEVICE.availableDeviceListModal)
   const dataMigrationSourceDevice = useSelector(selectDataMigrationSourceDevice)
   const dataMigrationTargetDevice = useSelector(selectDataMigrationTargetDevice)
 
