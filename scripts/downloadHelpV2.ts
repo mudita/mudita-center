@@ -16,8 +16,16 @@ require("dotenv").config({
       path.join("..", "..", "libs", "help", "feature", "src", "lib")
     )
     const jsonPath = path.join(directory, "default-help.json")
+    const previewToken = process.env.DEV_HELP_PREVIEW_TOKEN
 
-    const url = `${process.env.MUDITA_CENTER_SERVER_V2_URL}/help-v2`
+    const params = new URLSearchParams()
+    if (previewToken) {
+      params.append("previewToken", previewToken)
+    }
+    const url = `${
+      process.env.MUDITA_CENTER_SERVER_V2_URL
+    }/help-v2?${params.toString()}`
+
     const { data } = await axios.get(url)
 
     await fs.writeJson(jsonPath, data)
