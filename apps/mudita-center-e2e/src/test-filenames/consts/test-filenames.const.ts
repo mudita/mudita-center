@@ -19,6 +19,7 @@ export enum TestFilesPaths {
   licenseTest = "src/specs/settings/license.e2e.ts",
   helpWindowCheckOfflineTest = "src/specs/help/help-window-check-offline.e2e.ts",
   mcHomePageForceUpdateTest = "src/specs/overview/e2e-mock-mc-force-update-available.e2e.ts",
+  mcHomePageForceUpdateErrorTest = "src/specs/overview/e2e-mock-mc-force-update-error.e2e.ts",
   mcHomePageSoftUpdateTest = "src/specs/overview/e2e-mock-mc-soft-update-available.e2e.ts",
   kompaktOverview = "src/specs/overview/kompakt-overview.ts",
   kompaktSwitchingDevices = "src/specs/overview/kompakt-switching-devices.ts",
