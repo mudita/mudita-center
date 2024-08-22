@@ -16,6 +16,7 @@ import { NavLink } from "react-router-dom"
 import { useFormContext } from "react-hook-form"
 import { IconType } from "generic-view/utils"
 import { Icon, P3 } from "generic-view/ui"
+import { HelpTestId } from "../test-ids"
 
 const messages = defineMessages({
   description: {
@@ -43,7 +44,7 @@ const SearchResultsFC: FunctionComponent<
   }
 
   return (
-    <SearchResultsWrapper ref={innerRef}>
+    <SearchResultsWrapper ref={innerRef} data-testid={HelpTestId.SearchResults}>
       {(results?.hits.length || 0) > 0 ? (
         <>
           <ListTitle>{intl.formatMessage(messages.description)}</ListTitle>
@@ -56,6 +57,7 @@ const SearchResultsFC: FunctionComponent<
                   key={result.id}
                   to={`/help/${category.id}/${result.id}`}
                   onMouseEnter={onMouseEnter}
+                  data-testid={HelpTestId.SearchResultsItem}
                 >
                   <ListItem className={activeIndex === index ? "active" : ""}>
                     <CategoryName>{category.name}/</CategoryName>
