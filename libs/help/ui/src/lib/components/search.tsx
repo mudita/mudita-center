@@ -59,22 +59,24 @@ export const Search: FunctionComponent = () => {
     setValue("activeResultIndex", index)
 
     const activeElement = searchResultsRef.current?.querySelector(
-      `li.active`
+      `li:has(.active)`
     ) as HTMLElement
-    const containerScrollHeight = searchResultsRef.current?.scrollHeight || 0
     const containerScrollTop = searchResultsRef.current?.scrollTop || 0
     const containerOffsetHeight = searchResultsRef.current?.clientHeight || 0
     const elementTop = activeElement.offsetTop
     const elementHeight = activeElement.offsetHeight
-    const scrollDelta = containerScrollHeight - containerOffsetHeight
+    const elementBottom = elementTop + elementHeight
 
     if (up) {
       if (elementTop <= containerScrollTop + elementHeight) {
         searchResultsRef.current?.scrollTo(0, elementTop - elementHeight)
       }
     } else {
-      if (elementTop > scrollDelta + containerScrollTop) {
-        searchResultsRef.current?.scrollTo(0, elementTop - scrollDelta)
+      if (elementBottom >= containerOffsetHeight + containerScrollTop) {
+        searchResultsRef.current?.scrollTo(
+          0,
+          containerScrollTop + elementHeight
+        )
       }
     }
   }
