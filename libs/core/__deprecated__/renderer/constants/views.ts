@@ -19,9 +19,7 @@ const messages = defineMessages({
   filesManager: { id: "module.filesManager" },
   manageSounds: { id: "module.manageSounds" },
   settings: { id: "module.settings" },
-  help: {
-    id: process.env.NEW_HELP_ENABLED === "1" ? "module.help.v2" : "module.help",
-  },
+  help: { id: "module.help.v2" },
   error: { id: "module.error" },
   pureSystem: { id: "module.overview.pureSystem" },
   dataMigration: { id: "module.dataMigration.title" },

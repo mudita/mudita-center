@@ -18,8 +18,7 @@ import {
 } from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonText } from "../../buttons/button-text"
-import { useHistory } from "react-router"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import { useHelpShortcut } from "help/store"
 
 const messages = defineMessages({
   title: {
@@ -44,7 +43,7 @@ const messages = defineMessages({
 
 export const ImportContactsProvider = () => {
   const dispatch = useDispatch<Dispatch>()
-  const history = useHistory()
+  const openHelpShortcut = useHelpShortcut()
 
   return (
     <>
@@ -150,9 +149,7 @@ export const ImportContactsProvider = () => {
             action: {
               type: "custom",
               callback: () => {
-                history.push(
-                  `${URL_MAIN.help}/6w2eIEGxkQVxScg0T2at98/7IYVFZKS6eQnPk9WLeUoFI`
-                )
+                openHelpShortcut("kompakt-contacts-import")
               },
             },
             modifiers: ["link", "hover-underline"],

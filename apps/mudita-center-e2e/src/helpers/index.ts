@@ -4,4 +4,3 @@
  */
 
 export * from "./sleep.helper"
-export * from "./add-device.helper"
