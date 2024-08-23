@@ -43,7 +43,6 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
           MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
-          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         run: |
           printenv > .env
       - name: Setup dependencies
