@@ -62,6 +62,8 @@ jobs:
         run: find /home/runner/work/mudita-center/mudita-center/apps/mudita-center/release -name "Mudita-Center.AppImage"
       - name: Display File Details
         run: stat /home/runner/work/mudita-center/mudita-center/apps/mudita-center/release/Mudita-Center.AppImage
+      - name: Make AppImage Executable
+        run: chmod +x /home/runner/work/mudita-center/mudita-center/apps/mudita-center/release/Mudita-Center.AppImage
       - name: Run E2E tests headless with Xvfb
         run: |
           sudo apt-get update
