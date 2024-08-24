@@ -21,7 +21,7 @@ jobs:
           CI: "true"
           E2ECI: "true"
           TEST_GITHUB_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          TEST_BINARY_PATH: "../mudita-center/release/Mudita-Center.AppImage"
+          TEST_BINARY_PATH: "/home/runner/work/mudita-center/mudita-center/mudita-center/apps/mudita-center/release/Mudita-Center.AppImage"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
@@ -56,14 +56,14 @@ jobs:
           npm run app:dist
       - name: Check Current Directory
         run: pwd
-#      - name: List Files in Release Directory
-#        run: ls -la /home/github-runner/actions-runner/_work/mudita-center/mudita-center/apps/mudita-center/release
-#      - name: Find AppImage File
-#        run: find /home/github-runner/actions-runner/_work/mudita-center/mudita-center/apps/mudita-center/release -name "Mudita-Center.AppImage"
-#      - name: Display File Details
-#        run: stat /home/github-runner/actions-runner/_work/mudita-center/mudita-center/apps/mudita-center/release/Mudita-Center.AppImage
-#      - name: Run E2E tests headless with Xvfb
-#        run: |
-#          sudo apt-get update
-#          sudo apt-get install -y xvfb
-#          npm run e2e:test:cicd:standalone
+      - name: List Files in Release Directory
+        run: ls -la /home/runner/work/mudita-center/mudita-center/apps/mudita-center/release
+      - name: Find AppImage File
+        run: find /home/runner/work/mudita-center/mudita-center/apps/mudita-center/release -name "Mudita-Center.AppImage"
+      - name: Display File Details
+        run: stat /home/runner/work/mudita-center/mudita-center/apps/mudita-center/release/Mudita-Center.AppImage
+      - name: Run E2E tests headless with Xvfb
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          npm run e2e:test:cicd:standalone
