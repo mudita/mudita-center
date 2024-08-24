@@ -54,6 +54,10 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist
+      - name: List Files in Release Directory
+        run: ls -la /home/github-runner/actions-runner/_work/mudita-center/mudita-center/apps/mudita-center/release
+      - name: Find AppImage File
+        run: find /home/github-runner/actions-runner/_work/mudita-center/mudita-center/apps/mudita-center/release -name "Mudita-Center.AppImage"
       - name: Display File Details
         run: stat /home/github-runner/actions-runner/_work/mudita-center/mudita-center/apps/mudita-center/release/Mudita-Center.AppImage
       - name: Run E2E tests headless with Xvfb
