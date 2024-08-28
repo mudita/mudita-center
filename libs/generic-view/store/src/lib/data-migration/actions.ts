@@ -7,9 +7,9 @@ import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
 import { DataMigrationFeature } from "generic-view/models"
 import { DataMigrationStatus } from "./reducer"
-import { DataMigrationPercentageProgress } from "./perform-data.migration"
+import { DataMigrationPercentageProgress } from "./data-migration-percentage-progress.interface"
 
-export const setSourceDevice = createAction<string | undefined>(
+export const setDataMigrationSourceDevice = createAction<string | undefined>(
   ActionName.SetDataMigrationSourceDevice
 )
 
@@ -21,11 +21,15 @@ export const setDataMigrationStatus = createAction<DataMigrationStatus>(
   ActionName.SetDataMigrationStatus
 )
 
-export const setTransferProgress =
+export const setDataMigrationProgress =
   createAction<DataMigrationPercentageProgress>(
     ActionName.SetDataMigrationTransferProgress
   )
 
-export const clearDataMigrationProgress = createAction(
-  ActionName.ClearDataMigrationProgress
+export const setDataMigrationAbort = createAction<AbortController | undefined>(
+  ActionName.SetDataMigrationAbort
+)
+
+export const setDataMigrationPureDbIndexing = createAction<boolean>(
+  ActionName.setDataMigrationPureDbIndexing
 )

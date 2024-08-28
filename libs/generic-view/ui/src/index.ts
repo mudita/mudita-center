@@ -14,13 +14,21 @@ import { Icon } from "./lib/icon/icon"
 
 export * from "./lib/icon/icon"
 export * from "./lib/api-connection-demo"
-export * from "./lib/interactive/modal/modal"
+export * from "./lib/interactive/modal"
 export * from "./lib/interactive/modal/modal-base"
+export * from "./lib/interactive/form/input/search-input"
+export * from "./lib/interactive/form/form"
 export * from "./lib/shared/shared"
 export * from "./lib/predefined/backup/backup-error"
 export * from "./lib/predefined/backup-restore/backup-restore-error"
 export * from "./lib/predefined/import-contacts/import-contacts-error"
+export * from "./lib/predefined/data-migration/components/transfer-error-modal"
 export { DataMigrationPage } from "./lib/predefined/data-migration/data-migration"
+export { RecoveryModePage } from "./lib/predefined/recovery-mode/recovery-mode"
+export * from "./lib/buttons/button-text"
+export * from "./lib/buttons/button-primary"
+export * from "./lib/texts/paragraphs"
+export * from "./lib/texts/headers"
 
 const apiComponents = {
   ...predefinedComponents,

@@ -17,7 +17,12 @@ export const ButtonText: APIFC<undefined, ButtonTextConfig> = ({
   ...props
 }) => {
   return (
-    <Button {...props} action={config.action} $modifiers={config.modifiers}>
+    <Button
+      data-testid={`button-text_${props.componentKey}`}
+      {...props}
+      action={config.action}
+      $modifiers={config.modifiers}
+    >
       {children}
       {config.icon && <Icon className={"icon"} data={{ type: config.icon }} />}
       <span>{config.text}</span>

@@ -181,7 +181,7 @@ storiesOf("Components|Core/Button", module)
             displayStyle={DisplayStyle.MenuLink}
             label="I open Google in new tab"
             href="http://www.google.pl"
-            iconSize={IconSize.Bigger}
+            iconSize={IconSize.Large}
           />
         </Story>
         <Story title="With icon disabled">
@@ -192,7 +192,7 @@ storiesOf("Components|Core/Button", module)
             displayStyle={DisplayStyle.MenuLink}
             label="I open Google in new tab"
             href="http://www.google.pl"
-            iconSize={IconSize.Bigger}
+            iconSize={IconSize.Large}
           />
         </Story>
       </StoryContainer>

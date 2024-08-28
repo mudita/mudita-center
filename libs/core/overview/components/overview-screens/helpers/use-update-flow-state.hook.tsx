@@ -19,7 +19,7 @@ import { useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { useDispatch, useSelector } from "react-redux"
 import { checkForUpdate } from "Core/update/actions"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { areAllReleasesDownloaded } from "Core/update/selectors"
 
 interface Props {

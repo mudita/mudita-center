@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
 import { BaseCommand } from "Core/device-file-system/commands/base.command"
@@ -14,7 +14,7 @@ import { DeviceFileSystemError } from "Core/device-file-system/constants"
 export class FileDeleteCommand extends BaseCommand {
   public async exec(path: string): Promise<ResultObject<string>> {
     const { ok, error } =
-      await this.deviceManager.device.request<RemoveFileSystemRequestConfig>({
+      await this.deviceProtocol.device.request<RemoveFileSystemRequestConfig>({
         endpoint: Endpoint.FileSystem,
         method: Method.Delete,
         body: {

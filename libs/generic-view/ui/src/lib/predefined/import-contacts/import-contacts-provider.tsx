@@ -13,10 +13,12 @@ import { useDispatch } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
   importContactsFromFile,
-  setDataTransferProcessStatus,
-  startGoogleAuthorization,
+  setImportProcessStatus,
+  startImportAuthorization,
 } from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
+import { ButtonText } from "../../buttons/button-text"
+import { useHelpShortcut } from "help/store"
 
 const messages = defineMessages({
   title: {
@@ -28,13 +30,21 @@ const messages = defineMessages({
   googleButtonLabel: {
     id: "module.genericViews.importContacts.providerModal.googleButtonLabel",
   },
+  outlookButtonLabel: {
+    id: "module.genericViews.importContacts.providerModal.outlookButtonLabel",
+  },
   fileUploadButtonLabel: {
     id: "module.genericViews.importContacts.providerModal.fileUploadButtonLabel",
+  },
+  needHelpButtonLabel: {
+    id: "module.genericViews.importContacts.providerModal.needHelpButtonLabel",
   },
 })
 
 export const ImportContactsProvider = () => {
   const dispatch = useDispatch<Dispatch>()
+  const openHelpShortcut = useHelpShortcut()
+
   return (
     <>
       <Modal.TitleIcon config={{ type: IconType.ContactsBook }} />
@@ -47,7 +57,7 @@ export const ImportContactsProvider = () => {
             action: {
               type: "custom",
               callback: () => {
-                dispatch(startGoogleAuthorization())
+                dispatch(startImportAuthorization("GOOGLE"))
               },
             },
           }}
@@ -78,6 +88,48 @@ export const ImportContactsProvider = () => {
             </svg>
           </GoogleLogoWrapperStyled>
         </ButtonSecondary>
+        <ButtonSecondary
+          config={{
+            text: intl.formatMessage(messages.outlookButtonLabel),
+            action: {
+              type: "custom",
+              callback: () => {
+                dispatch(startImportAuthorization("OUTLOOK"))
+              },
+            },
+          }}
+        >
+          <OutlookLogoWrapperStyled>
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 17 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="17" height="17" fill="url(#pattern0_23775_61142)" />
+              <defs>
+                <pattern
+                  id="pattern0_23775_61142"
+                  patternContentUnits="objectBoundingBox"
+                  width="1"
+                  height="1"
+                >
+                  <use
+                    xlinkHref="#image0_23775_61142"
+                    transform="scale(0.0208333)"
+                  />
+                </pattern>
+                <image
+                  id="image0_23775_61142"
+                  width="48"
+                  height="48"
+                  xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAeklEQVR4nO3UMQqAMBBE0QUL7+F5LOxyxlSewTvZj/10Q8AI/gfbBpb8pAoAPklt08j4eft5aGSKBRo3IBJK8IgNv1CKhAwJpUjIkFCKhGYnBPzd0m+NjJ+na9XIFAt0bkAklOARG36hFAkZEkqRkCGhFAnNTggA6g0PsZwml5fu+o4AAAAASUVORK5CYII="
+                />
+              </defs>
+            </svg>
+          </OutlookLogoWrapperStyled>
+        </ButtonSecondary>
         <ButtonWithIconStyled
           config={{
             text: intl.formatMessage(messages.fileUploadButtonLabel),
@@ -86,11 +138,21 @@ export const ImportContactsProvider = () => {
               type: "custom",
               callback: () => {
                 dispatch(importContactsFromFile())
-                dispatch(
-                  setDataTransferProcessStatus({ status: "FILE-SELECT" })
-                )
+                dispatch(setImportProcessStatus({ status: "FILE-SELECT" }))
               },
             },
+          }}
+        />
+        <HelpLink
+          config={{
+            text: intl.formatMessage(messages.needHelpButtonLabel),
+            action: {
+              type: "custom",
+              callback: () => {
+                openHelpShortcut("kompakt-contacts-import")
+              },
+            },
+            modifiers: ["link", "hover-underline"],
           }}
         />
       </ButtonsWrapper>
@@ -106,10 +168,25 @@ const GoogleLogoWrapperStyled = styled.div`
   height: 1.4rem;
   width: 1.4rem;
 `
+const OutlookLogoWrapperStyled = styled.div`
+  height: 1.7rem;
+  width: 1.7rem;
+`
 
 const ButtonWithIconStyled = styled(ButtonSecondary)`
   & > div {
     width: 2rem;
     height: 2rem;
+  }
+`
+
+const HelpLink = styled(ButtonText)`
+  && {
+    height: 2rem;
+    min-height: 2rem;
+  }
+
+  span {
+    font-size: ${({ theme }) => theme.fontSize.labelText};
   }
 `

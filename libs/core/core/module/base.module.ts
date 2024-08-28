@@ -9,14 +9,15 @@ import { MetadataStore } from "Core/metadata/services"
 import { AppLogger } from "Core/__deprecated__/main/utils/logger"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { IndexStorage } from "Core/index-storage/types"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import {
   Controller,
-  Model,
-  Repository,
-  Observer,
   Initializer,
+  Model,
+  Observer,
+  Repository,
 } from "Core/core/types"
+import { BrowserWindow } from "electron"
 
 export class BaseModule {
   public controllers: Controller[] = []
@@ -27,11 +28,12 @@ export class BaseModule {
 
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceProtocol: DeviceProtocol,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
     public eventEmitter: EventEmitter,
-    public fileSystem: FileSystemService
+    public fileSystem: FileSystemService,
+    public mainApplicationWindow?: BrowserWindow
   ) {}
 }

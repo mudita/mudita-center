@@ -7,9 +7,16 @@ import {
   newsImageRegex,
 } from "../../consts/regex-const"
 import testsHelper from "../../helpers/tests.helper"
+import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 
 describe("News Page Check in Offline Mode", () => {
   before(async () => {
+    E2EMockClient.connect()
+    //wait for a connection to be established
+    await browser.waitUntil(() => {
+      return E2EMockClient.checkConnection()
+    })
+
     // Clear browser cache
     await browser.deleteAllCookies()
     await browser.execute("window.localStorage.clear();")
@@ -114,6 +121,9 @@ describe("News Page Check in Offline Mode", () => {
   })
 
   after(async () => {
+    E2EMockClient.stopServer()
+    E2EMockClient.disconnect()
+
     // Switch back to online mode after finishing the tests
     await browser.setNetworkConditions({
       offline: false,

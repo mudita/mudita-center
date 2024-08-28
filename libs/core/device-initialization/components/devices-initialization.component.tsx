@@ -3,19 +3,24 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect } from "react"
 import { useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
-import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
-import { DeviceType } from "Core/device"
+import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  getActiveDevice,
+  isActiveDeviceFailedSelector,
+} from "device-manager/feature"
+import { DeviceBaseProperties, DeviceType } from "device-protocol/models"
 import { MuditaPureInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-pure-initialization-modal-flow"
 import { MuditaHarmonyInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-harmony-initialization-modal-flow"
 import { APIDeviceInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/api-device-initialization-modal-flow"
-import { Device } from "Core/device-manager/reducers/device-manager.interface"
+import { HarmonyMscInitializationModalFlow } from "Core/device-initialization/components//devices-initialization-modal-flows/mudita-harmony-msc-initialization-modal-flow"
 
 const DevicesInitializationModalFlow: FunctionComponent<{
-  activeDevice?: Device
+  activeDevice?: DeviceBaseProperties
 }> = ({ activeDevice }) => {
   if (activeDevice?.deviceType === DeviceType.MuditaPure) {
     return <MuditaPureInitializationModalFlow />
@@ -23,19 +28,28 @@ const DevicesInitializationModalFlow: FunctionComponent<{
     return <MuditaHarmonyInitializationModalFlow />
   } else if (activeDevice?.deviceType === DeviceType.APIDevice) {
     return <APIDeviceInitializationModalFlow />
+  } else if (activeDevice?.deviceType === DeviceType.MuditaHarmonyMsc) {
+    return <HarmonyMscInitializationModalFlow />
   } else {
     return <></>
   }
 }
 
 const DevicesInitialization: FunctionComponent = () => {
+  const history = useHistory()
   const activeDevice = useSelector(getActiveDevice)
+  const activeDeviceFailedSelector = useSelector(isActiveDeviceFailedSelector)
+
+  useEffect(() => {
+    if (activeDeviceFailedSelector) {
+      history.push(URL_ONBOARDING.troubleshooting)
+    }
+  }, [activeDeviceFailedSelector, history])
+
   return (
     <>
       <DevicesInitializationModalFlow activeDevice={activeDevice} />
-      {activeDevice?.deviceType !== DeviceType.APIDevice && (
-        <ConnectingContent />
-      )}
+      <ConnectingContent />
     </>
   )
 }

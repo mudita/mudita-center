@@ -10,7 +10,7 @@ import { setExternalUsageDevice } from "Core/device/actions/base.action"
 import { externalUsageDevice } from "Core/device/requests/external-usage-device.request"
 import { setExternalUsageDeviceRequest } from "Core/analytic-data-tracker/requests/set-external-usage-device.request"
 import { settingsStateSelector } from "Core/settings/selectors"
-import { getActiveDeviceBaseDataSelector } from "Core/device-manager/selectors/get-active-device-base-data.selector"
+import { getActiveDeviceBaseDataSelector } from "device-manager/feature"
 import { trackOsVersion } from "Core/analytic-data-tracker/helpers"
 import { MetadataKey, setValue } from "Core/metadata"
 

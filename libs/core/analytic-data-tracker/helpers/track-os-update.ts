@@ -8,7 +8,7 @@ import {
   trackWithoutDeviceCheckRequest,
 } from "Core/analytic-data-tracker/requests"
 import { HarmonyDeviceData, PureDeviceData } from "Core/device"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { TrackEvent } from "Core/analytic-data-tracker/types"
 import { TrackEventCategory } from "Core/analytic-data-tracker/constants"
 

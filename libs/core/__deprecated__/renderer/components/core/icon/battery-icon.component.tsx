@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "Core/core/types/function-component.interface"
 import * as React from "react"
+import { DeviceType } from "device-protocol/models"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Icon, {
   Props as IconProps,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { DeviceType } from "Core/device"
 
 export interface BatteryIconProps {
   level: number

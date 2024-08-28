@@ -19,4 +19,14 @@ export const h3Component = {
   configValidator,
 } as const
 
-// Add more headers here
+export const h4Component = {
+  key: "h4-component",
+  dataValidator,
+  configValidator,
+} as const
+
+export const h5Component = {
+  key: "h5-component",
+  dataValidator,
+  configValidator,
+} as const

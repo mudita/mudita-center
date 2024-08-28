@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocol } from "device-protocol/feature"
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import {
@@ -21,7 +21,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { View } from "generic-view/utils"
 
 export class APIFeaturesService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceProtocol: DeviceProtocol) {}
 
   @IpcEvent(APIFeaturesServiceEvents.FeatureConfiguration)
   public async getFeatureConfiguration({
@@ -32,8 +32,8 @@ export class APIFeaturesService {
     deviceId?: DeviceId
   }): Promise<ResultObject<FeatureConfig>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -47,6 +47,7 @@ export class APIFeaturesService {
         lang: "en-US",
       },
     })
+
     if (response.ok) {
       const config = featureConfigValidator.safeParse(response.data.body)
       if (process.env.NODE_ENV === "development" && !config.success) {
@@ -65,8 +66,8 @@ export class APIFeaturesService {
     deviceId?: DeviceId
   ): Promise<ResultObject<OverviewConfig>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -94,7 +95,7 @@ export class APIFeaturesService {
 
   @IpcEvent(APIFeaturesServiceEvents.FeatureData)
   public async getFeatureData(feature: string): Promise<ResultObject<unknown>> {
-    const device = this.deviceManager.apiDevice
+    const device = this.deviceProtocol.apiDevice
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
@@ -107,6 +108,7 @@ export class APIFeaturesService {
         lang: "en-US",
       },
     })
+
     if (response.ok) {
       return Result.success(response.data.body)
     }
@@ -125,8 +127,8 @@ export class APIFeaturesService {
     about: View
   }): Promise<ResultObject<OverviewData>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))

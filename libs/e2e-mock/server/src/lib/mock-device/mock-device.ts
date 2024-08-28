@@ -4,7 +4,8 @@
  */
 
 import { Result, ResultObject } from "Core/core/builder"
-import { DeviceType, ResponseStatus } from "Core/device"
+import { ResponseStatus } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { DeviceError } from "Core/device/modules/mudita-os/constants"
 import { BaseDevice } from "Core/device/modules/base-device"
 import { ApiResponse } from "Core/device/types/mudita-os"
@@ -33,7 +34,8 @@ export class MockDevice extends BaseDevice {
     const response = mockDescriptor.getResponse(
       this.portInfo.path,
       config.endpoint,
-      config.method as APIMethodsType
+      config.method as APIMethodsType,
+      config.body
     )
 
     let result: ResultObject<ApiResponse<unknown>> | undefined = undefined

@@ -42,7 +42,7 @@ export class SerialPortDeviceAPIAdapter {
 
   public connect(): Promise<ResultObject<undefined>> {
     return new Promise((resolve) => {
-      this.serialPort = new SerialPort(this.path, (error) => {
+      const serialPort = new SerialPort(this.path, (error) => {
         if (error) {
           resolve(
             Result.failed(
@@ -50,6 +50,7 @@ export class SerialPortDeviceAPIAdapter {
             )
           )
         } else {
+          this.serialPort = serialPort
           this.mountListeners()
           resolve(Result.success(undefined))
         }

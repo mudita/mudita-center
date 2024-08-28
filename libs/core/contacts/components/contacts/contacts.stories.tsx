@@ -90,7 +90,7 @@ const ContactsComponent = ({
     selectAllItems={noop}
     toggleItem={noop}
     closeImportWindow={noop}
-    getPaths={noop}
+    openFileRequest={noop}
   />
 )
 

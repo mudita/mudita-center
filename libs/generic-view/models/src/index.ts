@@ -37,8 +37,8 @@ import { tooltipAnchor } from "./lib/tooltip-anchor"
 import { overviewOsVersion } from "./lib/overview-os-version"
 import { tooltipContent } from "./lib/tooltip-content"
 import { aboutDataBox } from "./lib/about-data-box"
-import { h3Component } from "./lib/headers"
-import { P1Component } from "./lib/paragraphs"
+import { h3Component, h4Component, h5Component } from "./lib/headers"
+import { p1Component, p2Component, p3Component } from "./lib/paragraphs"
 import { lastBackupDate } from "./lib/last-backup-date"
 import { backupCreate } from "./lib/backup-create"
 import { importContacts } from "./lib/import-contacts"
@@ -46,6 +46,7 @@ import { backupRestore } from "./lib/backup-restore"
 import { backupRestoreAvailable } from "./lib/backup-restore-available"
 import { mcImportContactsButton } from "./lib/mc-import-contacts-button"
 import { mcDataMigration } from "./lib/mc-data-migration"
+import { incomingFeatureInfo } from "./lib/incoming-feature-info"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -59,6 +60,7 @@ export * from "./lib/image"
 export * from "./lib/labeled-text"
 export * from "./lib/text-formatted"
 export * from "./lib/text-plain"
+export * from "./lib/device"
 export * from "./lib/divider"
 export * from "./lib/icon"
 export * from "./lib/modal"
@@ -90,6 +92,7 @@ export * from "./lib/import-contacts"
 export * from "./lib/mc-import-contacts-button"
 export * from "./lib/modal-visibility-controller"
 export * from "./lib/mc-data-migration"
+export * from "./lib/incoming-feature-info"
 
 export default {
   [blockBox.key]: blockBox,
@@ -125,7 +128,11 @@ export default {
   [tooltipAnchor.key]: tooltipAnchor,
   [tooltipContent.key]: tooltipContent,
   [h3Component.key]: h3Component,
-  [P1Component.key]: P1Component,
+  [h4Component.key]: h4Component,
+  [h5Component.key]: h5Component,
+  [p1Component.key]: p1Component,
+  [p2Component.key]: p2Component,
+  [p3Component.key]: p3Component,
   [overviewOsVersion.key]: overviewOsVersion,
   [aboutDataBox.key]: aboutDataBox,
   [lastBackupDate.key]: lastBackupDate,
@@ -135,4 +142,5 @@ export default {
   [importContacts.key]: importContacts,
   [mcImportContactsButton.key]: mcImportContactsButton,
   [mcDataMigration.key]: mcDataMigration,
+  [incomingFeatureInfo.key]: incomingFeatureInfo,
 } as const

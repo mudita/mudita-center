@@ -6,7 +6,7 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { getConfiguration } from "Core/settings/requests"
 import { getSettings } from "Core/settings/requests"
 import { SettingsEvent } from "Core/settings/constants"
@@ -23,6 +23,7 @@ jest.mock("Core/settings/requests", () => ({
     centerVersion: "1.0.0",
     productVersions: {
       [DeviceType.MuditaHarmony]: "1.0.0",
+      [DeviceType.MuditaHarmonyMsc]: "1.0.0",
       [DeviceType.MuditaPure]: "1.0.0",
     },
   }),
@@ -68,6 +69,7 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
           lowestSupportedCenterVersion: "1.0.0",
           lowestSupportedProductVersion: {
             MuditaHarmony: "1.0.0",
+            MuditaHarmonyMsc: "1.0.0",
             MuditaPure: "1.0.0",
           },
         },

@@ -6,11 +6,15 @@
 import React from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { Device } from "Core/device-manager/reducers/device-manager.interface"
+import { DeviceProperties } from "device-manager/models"
 import DeviceListItem from "Core/discovery-device/components/device-list-item.component"
 
+const dataTestIds = {
+  devicesList: "devices-list",
+}
+
 interface Props {
-  devices: Device[]
+  devices: DeviceProperties[]
   onDeviceClick: (id: string) => void
 }
 
@@ -19,14 +23,15 @@ const Wrapper = styled.div`
   overflow: auto;
 `
 const gridColumnsMap: Record<number | string, string> = {
-  1: 'repeat(1, minmax(0, 34rem))',
-  2: 'repeat(2, minmax(0, 34rem))',
-  default: 'repeat(3, minmax(0, 34rem))',
-};
+  1: "repeat(1, minmax(0, 34rem))",
+  2: "repeat(2, minmax(0, 34rem))",
+  default: "repeat(3, minmax(0, 34rem))",
+}
 
 const Container = styled.div<{ devicesLength: number }>`
   display: grid;
-  grid-template-columns: ${({ devicesLength }) => gridColumnsMap[devicesLength] || gridColumnsMap.default};
+  grid-template-columns: ${({ devicesLength }) =>
+    gridColumnsMap[devicesLength] || gridColumnsMap.default};
   gap: 2.6rem;
   justify-content: center;
   max-width: 107.2rem;
@@ -36,7 +41,10 @@ const Container = styled.div<{ devicesLength: number }>`
 const DeviceList: FunctionComponent<Props> = ({ devices, onDeviceClick }) => {
   return (
     <Wrapper>
-      <Container devicesLength={devices.length}>
+      <Container
+        devicesLength={devices.length}
+        data-testid={dataTestIds.devicesList}
+      >
         {devices.map((device) => {
           return (
             <DeviceListItem

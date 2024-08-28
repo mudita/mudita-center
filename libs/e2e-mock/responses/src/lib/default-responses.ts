@@ -4,6 +4,7 @@
  */
 
 import { ApiResponse } from "Core/device/types/mudita-os"
+import { MatchConfig } from "Libs/e2e-mock/server/src"
 import { APIEndpointType, APIMethodsType } from "device/models"
 
 //import from "Core/device" breaks usage in e2e
@@ -29,9 +30,15 @@ enum ResponseStatus {
   Timeout = 505,
 }
 
+export type ApiResponseWithConfig = ApiResponse<unknown> & {
+  match?: MatchConfig
+}
+
+export type ApiResponsesWithConfigArray = ApiResponseWithConfig[]
+
 type MethodObject = Partial<Record<APIMethodsType, ApiResponse<unknown>>>
 
-type MethodArray = Partial<Record<APIMethodsType, ApiResponse<unknown>[]>>
+type MethodArray = Partial<Record<APIMethodsType, ApiResponsesWithConfigArray>>
 
 export type MockResponsesMap = Partial<Record<APIEndpointType, MethodObject>>
 export type MocksArrayResponsesMap = Partial<

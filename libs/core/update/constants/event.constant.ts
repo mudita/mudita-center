@@ -10,7 +10,6 @@ export enum UpdateOsEvent {
   SetCheckForUpdateState = "SET_CHECK_FOR_UPDATE_STATE",
   CancelDownload = "CANCEL_DOWNLOAD",
   CloseUpdateFlow = "CLOSE_UPDATE_FLOW",
-  ClearStateAndData = "CLEAR_STATE_AND_DATA",
   SetStateForDownloadedRelease = "SET_STATE_FOR_DOWNLOADED_RELEASE",
   SetStateForInstalledRelease = "SET_STATE_FOR_INSTALLED_RELEASE",
   HandleDeviceAttached = "HANDLE_DEVICE_ATTACHED",

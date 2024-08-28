@@ -20,10 +20,12 @@ import { useRouterListener } from "Core/core/hooks"
 import {
   OutboxWrapper,
   useAPISerialPortListeners,
-  useBackupList,
   useAppEventsListeners,
+  useBackupList,
 } from "generic-view/store"
-import { useOnlineListener } from "shared/app-state"
+import { useFileDialogEventListener, useOnlineListener } from "shared/app-state"
+import { useCoreDeviceProtocolListeners } from "core-device/feature"
+import { useHelp } from "help/store"
 
 const BaseApp: FunctionComponent = () => {
   useRouterListener()
@@ -36,10 +38,13 @@ const BaseApp: FunctionComponent = () => {
   useWatchOutboxEntriesEffect()
   useWatchUnlockStatus()
   useDiscoveryRedirectEffect()
+  useCoreDeviceProtocolListeners()
   // API
   useAPISerialPortListeners()
   useAppEventsListeners()
   useBackupList()
+  useFileDialogEventListener()
+  useHelp()
 
   return (
     <>

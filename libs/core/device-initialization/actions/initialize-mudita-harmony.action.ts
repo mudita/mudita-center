@@ -12,11 +12,10 @@ import { DeviceInitializationStatus } from "Core/device-initialization/reducers/
 import { AppError } from "Core/core/errors"
 import { DeviceInitializationError } from "Core/device-initialization/constants/errors.enum"
 import { loadSettings } from "Core/settings/actions"
-import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { isActiveDeviceAttachedSelector } from "device-manager/feature"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { getCrashDump } from "Core/crash-dump"
 import { checkForForceUpdateNeed } from "Core/update/actions"
-
-import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
 
 export const initializeMuditaHarmony = createAsyncThunk<
   DeviceInitializationStatus,

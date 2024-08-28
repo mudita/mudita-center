@@ -47,13 +47,15 @@ E2EMockClient.mockHttpResponse({
 The `setMockUpdateState` function is a method provided by the `E2EMockClient` to simulate different update states of the application, use the following command:
 
 ```javascript
-E2EMockClient.setMockUpdateState({ available: boolean, version?: string })
+E2EMockClient.setMockUpdateState({ available: boolean, downloaded?: boolean, version?: string })
 ```
 
 ### Parameters
 - `available` (boolean): This parameter indicates whether an update is available (`true`) or not (`false`).
 
 - `version` (string, optional): This parameter specifies the version of the update that is available. It is only required if `available` is set to `true`.
+
+- `downloaded` (boolean, optional): This parameter indicates whether the download process was successful (`true`) or not (`false`). When downloaded is `true`, the modal shows in-progress indefinitely, and in the production environment, the application closes to complete the installation process. When downloaded is `false`, the application displays an error message.
 
 ## Usage Examples
 
@@ -71,13 +73,27 @@ To set the response indicating that an update is available with a specified vers
 E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0" })
 ```
 
+### Update Available with Download Failure
+
+To set the response indicating that an update is available with a specified version, but the download process fails, use the following command:
+```javascript
+E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0", downloaded: false })
+```
+
+### Update Available with Successful Download
+
+To set the response indicating that an update is available with a specified version and the download process is successful, use the following command:
+```javascript
+E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0", downloaded: true })
+```
+
 ### Required Mudita Center Update
 
 To set the response indicating that an update is available and a Mudita Center update is required for versions lower than 3.0.0, use the following commands:
 ```javascript
 E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0" })
 E2EMockClient.mockHttpResponse({
-  url: '/v2-app-configuration',
+  url: 'v2-app-configuration',
   method: 'GET',
   status: 200,
   data: {
@@ -97,7 +113,7 @@ To set the response indicating that an update is available and the application i
 ```javascript
 E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0" })
 E2EMockClient.mockHttpResponse({
-  url: '/v2-app-configuration',
+  url: 'v2-app-configuration',
   method: 'GET',
   status: 200,
   data: {

@@ -4,7 +4,7 @@
  */
 
 import * as React from "react"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import Text, {
@@ -15,9 +15,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import RangeIcon from "Core/__deprecated__/renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Core/__deprecated__/renderer/components/core/icon/battery-icon.component"
-import { views } from "Core/__deprecated__/renderer/constants/views"
-import { ipcRenderer } from "electron-better-ipc"
-import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
+import { View } from "Core/__deprecated__/renderer/constants/views"
 import {
   HeaderIcon,
   HeaderIconBg,
@@ -27,7 +25,6 @@ import {
   LinkWrapper,
 } from "Core/__deprecated__/renderer/components/rest/menu/menu-group.styled"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { View } from "Core/__deprecated__/renderer/constants/views"
 import { NotificationBadge } from "Core/notification/components"
 
 interface MenuGroupProps extends MenuElement {
@@ -84,47 +81,40 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
           .filter(({ visibleOn }) =>
             visibleOn && deviceType ? visibleOn.includes(deviceType) : true
           )
-          .map(({ button, icon, testId, viewKey }, index) => {
-            const buttonMenuConfig = {
-              nav: true,
-              displayStyle: DisplayStyle.MenuLink,
-              Icon: icon,
-              iconSize: IconSize.Bigger,
-              ...(typeof button.label === "string"
-                ? { label: button.label }
-                : { labelMessage: button.label }),
-            }
-            if (button === views.help) {
-              const openHelpWindow = () =>
-                ipcRenderer.callMain(HelpActions.OpenWindow)
+          .map(
+            (
+              { button, icon, testId, disableWhenActive = true, viewKey },
+              index
+            ) => {
+              const buttonMenuConfig = {
+                nav: true,
+                displayStyle: DisplayStyle.MenuLink,
+                Icon: icon,
+                iconSize: IconSize.Large,
+                ...(typeof button.label === "string"
+                  ? { label: button.label }
+                  : { labelMessage: button.label }),
+                disableWhenActive,
+              }
               return (
                 <LinkWrapper key={index}>
-                  <Button
-                    {...buttonMenuConfig}
-                    onClick={openHelpWindow}
-                    data-testid={testId}
-                  />
+                  <NotificationBadge
+                    active={Boolean(
+                      viewKey &&
+                        viewKey === View.Messages &&
+                        notifications[viewKey]
+                    )}
+                  >
+                    <Button
+                      {...buttonMenuConfig}
+                      to={button.url}
+                      data-testid={testId}
+                    />
+                  </NotificationBadge>
                 </LinkWrapper>
               )
             }
-            return (
-              <LinkWrapper key={index}>
-                <NotificationBadge
-                  active={Boolean(
-                    viewKey &&
-                      viewKey === View.Messages &&
-                      notifications[viewKey]
-                  )}
-                >
-                  <Button
-                    {...buttonMenuConfig}
-                    to={button.url}
-                    data-testid={testId}
-                  />
-                </NotificationBadge>
-              </LinkWrapper>
-            )
-          })}
+          )}
     </>
   )
 }

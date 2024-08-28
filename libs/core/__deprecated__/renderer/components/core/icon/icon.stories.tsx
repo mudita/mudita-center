@@ -3,18 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
+import styled from "styled-components"
+import { storiesOf } from "@storybook/react"
+import { DeviceType } from "device-protocol/models"
 import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
-import styled from "styled-components"
 import StoryContainer from "Core/__deprecated__/renderer/components/storybook/story-container.component"
 import Story from "Core/__deprecated__/renderer/components/storybook/story.component"
 import BatteryIcon from "Core/__deprecated__/renderer/components/core/icon/battery-icon.component"
 import RangeIcon from "Core/__deprecated__/renderer/components/core/icon/range-icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { DeviceType } from "Core/device"
 
 const CustomIcon = styled(Icon)`
   height: 3rem;

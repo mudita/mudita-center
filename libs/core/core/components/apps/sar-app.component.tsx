@@ -10,9 +10,11 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
 import SarComponent from "Core/overview/components/pure-system/sar.component"
 import useAltLinkDownloadPreventer from "Core/core/components/use-alt-link-download-preventer.hook"
+import useBackForwardButtonPreventer from "Core/core/components/use-back-forward-button-preventer.hook"
 
 const SarApp: FunctionComponent = () => {
   useAltLinkDownloadPreventer()
+  useBackForwardButtonPreventer()
 
   return (
     <Router history={history}>

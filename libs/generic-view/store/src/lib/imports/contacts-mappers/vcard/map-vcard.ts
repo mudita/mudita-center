@@ -39,12 +39,25 @@ export const mapVcard = (data: jCard[]): UnifiedContact[] => {
   return results
 }
 
+const cleanEscapeCharacters = (value: string) => {
+  return value
+    .replace(/\\"/g, '"')
+    .replace(/\\n/g, "\n")
+    .replace(/\\r/g, "\r")
+    .replace(/\\,/g, ",")
+    .replace(/\\;/g, ";")
+    .replace(/\\:/g, ":")
+    .replace(/\\/g, "\\")
+}
+
 const getFields = (item: jCard, key: string) => {
   const fields = item[1].filter((property) => property[0] === key)
   return fields
     .map((field) => {
       const type = isArray(field[1].type) ? last(field[1].type) : field[1].type
-      const value = field[3]
+      const value = isArray(field[3])
+        ? field[3].map(cleanEscapeCharacters)
+        : cleanEscapeCharacters(field[3])
       return { type, value }
     })
     .filter(({ value }) => value)
