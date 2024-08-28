@@ -10,15 +10,20 @@ import { NavLink } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { selectHelpCategoriesList } from "help/store"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import { HelpTestId } from "../test-ids"
 
 export const CategoryTabs: FunctionComponent = () => {
   const categories = useSelector(selectHelpCategoriesList)
 
   return (
-    <Wrapper>
+    <Wrapper data-testid={HelpTestId.CategoriesList}>
       {categories?.map((category) => {
         return (
-          <Tab key={category.id} to={`${URL_MAIN.help}/${category.id}`}>
+          <Tab
+            key={category.id}
+            to={`${URL_MAIN.help}/${category.id}`}
+            data-testid={HelpTestId.CategoriesListItem}
+          >
             <span className={"normal"}>{category.name}</span>
             <span className={"bold"} aria-hidden={true}>
               {category.name}
@@ -30,7 +35,7 @@ export const CategoryTabs: FunctionComponent = () => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;

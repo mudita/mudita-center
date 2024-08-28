@@ -11,6 +11,7 @@ import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectCurrentSubcategory, selectHelpAssets } from "help/store"
 import { H5 } from "generic-view/ui"
+import { HelpTestId } from "../test-ids"
 
 interface Props {
   id: string
@@ -28,9 +29,17 @@ export const Subcategory: FunctionComponent<Props> = ({ id }) => {
   const icon = subcategory.icon ? assets[subcategory.icon].url : undefined
 
   return (
-    <Wrapper key={subcategory.id}>
-      <Title>
-        {icon && <Image src={icon} />}
+    <Wrapper
+      key={subcategory.id}
+      data-testid={HelpTestId.SubcategoriesListItem}
+    >
+      <Title data-testid={HelpTestId.SubcategoriesListItemTitle}>
+        {icon && (
+          <Image
+            src={icon}
+            data-testid={HelpTestId.SubcategoriesListItemIcon}
+          />
+        )}
         {subcategory.name}
       </Title>
       <ArticlesList articleIds={subcategory.articles} />

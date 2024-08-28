@@ -18,6 +18,7 @@ import { Search } from "./components/search"
 import { useSelector } from "react-redux"
 import { selectHelpCategoriesList } from "help/store"
 import { Form, SpinnerLoader } from "generic-view/ui"
+import { HelpTestId } from "./test-ids"
 
 const messages = defineMessages({
   selectorTitle: {
@@ -48,7 +49,9 @@ const Help: FunctionComponent = () => {
             </LoaderWrapper>
           ) : (
             <>
-              <h2>{intl.formatMessage(messages.selectorTitle)}</h2>
+              <h2 data-testid={HelpTestId.CategoriesTitle}>
+                {intl.formatMessage(messages.selectorTitle)}
+              </h2>
               <CategoryTabs />
               <SubcategoriesList />
             </>
@@ -85,6 +88,7 @@ const SearchWrapper = styled.div`
 const ContentWrapper = styled.div`
   flex: 1;
   padding: ${({ theme }) => theme.space.xxl};
+  max-width: 86.2rem;
 
   & > h2 {
     font-size: 1.8rem;
