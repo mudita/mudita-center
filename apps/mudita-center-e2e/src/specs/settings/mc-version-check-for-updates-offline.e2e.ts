@@ -84,7 +84,7 @@ describe("Checking for Mudita Center updates", () => {
       await McUpdateModalPage.checkingFailedUpdateBody
     await expect(checkingFailedUpdateBody).toBeDisplayed()
     await expect(checkingFailedUpdateBody).toHaveText(
-      "Opps, something went wrong. \nPlease check your internet connection"
+      "Oops, something went wrong. \nPlease check your internet connection"
     )
 
     await ModalPage.closeModalButtonClick()
