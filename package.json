@@ -2,7 +2,6 @@
   "name": "mudita-center",
   "description": "Mudita Center",
   "productName": "Mudita Center",
-  "version": "2.4.0-rc.1",
   "private": true,
   "workspaces": {
     "packages": [
