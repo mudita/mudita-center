@@ -5,13 +5,12 @@
 
 import React, { useEffect, useState } from "react"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { ipcRenderer } from "electron-better-ipc"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import PasscodeModalUI from "Core/device-initialization/components/passcode-modal/passcode-modal-ui.component"
-import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { AppError } from "Core/core/errors"
 import { ModalDialogProps } from "Core/ui"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
+import { useHelpShortcut } from "help/store"
 
 export type UnlockDeviceReturnType = Promise<
   PayloadAction<boolean, string, unknown, AppError>
@@ -51,9 +50,13 @@ const PasscodeModal: FunctionComponent<Props> = ({
   unlockDevice,
   ...rest
 }) => {
+  const openHelpShortcut = useHelpShortcut()
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
   const [values, setValues] = useState<string[]>(initValue)
-  const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
+
+  const openHelpWindow = () => {
+    openHelpShortcut("pure-password-forgotten")
+  }
 
   const updateValues = (values: string[]): void => {
     setValues(values)

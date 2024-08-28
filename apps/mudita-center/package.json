@@ -27,7 +27,6 @@
     "fonts:download": "node ../../scripts/downloadFonts.js",
     "copy-static-dependencies": "node ../../scripts/copy-static-sql-js-dependencies.js",
     "news:download": "ts-node ../../scripts/downloadNews.ts",
-    "help:download": "ts-node ../../scripts/downloadHelpItems.ts",
     "help-v2:download": "ts-node ../../scripts/downloadHelpV2.ts",
     "app-configuration:download": "ts-node ../../scripts/download-configuration.ts",
     "UTILITY/AUTO COMMANDS": "=================================================",
