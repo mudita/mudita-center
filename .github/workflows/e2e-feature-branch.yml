@@ -54,6 +54,8 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist
+      - name: whoami
+        run: whoami
       - name: Check Current Directory
         run: pwd
       - name: List Files in Release Directory
