@@ -4,11 +4,11 @@
  */
 
 import NavigationTabs from "../../page-objects/tabs.page"
-import HelpPage from "../../page-objects/help.page"
 import HomePage from "../../page-objects/home.page"
 import { sleep } from "../../helpers/sleep.helper"
 import HelpModalPage from "../../page-objects/help-modal.page"
 import NewHelpPage from "../../page-objects/newhelp.page"
+import ContactSupportSuccessModalPage from "../../page-objects/contact-support-success-modal.page"
 import testsHelper from "../../helpers/tests.helper"
 import dns from "node:dns"
 
@@ -31,6 +31,7 @@ describe("Mock Using Contact Support Form", () => {
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
     await notNowButton.click()
+    await sleep(20000)
   })
 
   it("Open Help window and check if Contact Support modal opens up", async () => {
@@ -75,7 +76,7 @@ describe("Mock Using Contact Support Form", () => {
     )
   })
 
-  it("Fill the form correctly", async () => {
+  it("Fill and send the form correctly", async () => {
     await testsHelper.insertTextToElement(
       await HelpModalPage.emailInput,
       "tomasz.malecki@mudita.com"
@@ -90,28 +91,115 @@ describe("Mock Using Contact Support Form", () => {
     await expect(sendButton).toBeClickable()
     await expect(sendButton).toBeEnabled()
     await expect(sendButton).toHaveText("SEND")
-
-    console.log(await browser.status())
-    console.log(await browser.getUrl())
-    console.log(await browser.getTitle())
-    console.log(await browser.getWindowHandle())
+    /**
+     * type: Problem
+email: tomasz.malecki@mudita.com
+subject: Error
+description: Test 29.08.2024 - Send to @Tomasz Malecki
+status: 2
+source: 100
+priority: 1
+custom_fields[cf_product]: None
+attachments[]: (binary)
+     */
 
     const strictResponseMock = await browser.mock(
       "https://mudita.freshdesk.com/api/v2/tickets"
     )
 
+    //https://developers.freshdesk.com/api/#create_ticket
     await strictResponseMock.respond(
-      { dummyBody: "body" },
+      { 
+        dummyBody: {
+          "cc_emails": [],
+          "fwd_emails": [],
+          "reply_cc_emails": [],
+          "ticket_cc_emails": [],
+          "fr_escalated": false,
+          "spam": false,
+          "email_config_id": null,
+          "group_id": null,
+          "priority": 1,
+          "requester_id": 77076673024,
+          "responder_id": null,
+          "source": 100,
+          "company_id": null,
+          "status": 2,
+          "subject": "Error",
+          "support_email": null,
+          "to_emails": null,
+          "product_id": null,
+          "id": 24594,
+          "type": "Problem",
+          "due_by": "2024-09-04T06:56:47Z",
+          "fr_due_by": "2024-08-31T06:56:47Z",
+          "is_escalated": false,
+          "description": "<div>Test 29.08.2024 - Send to @Tomasz Malecki</div>",
+          "description_text": "Test 29.08.2024 - Send to @Tomasz Malecki",
+          "custom_fields": {
+              "cf_serial_number_imei": null,
+              "cf_product": "None",
+              "cf_serial_number": null,
+              "cf_fsm_contact_name": null,
+              "cf_device": null,
+              "cf_fsm_phone_number": null,
+              "cf_order_number": null,
+              "cf_fsm_service_location": null,
+              "cf_country": null,
+              "cf_fsm_appointment_start_time": null,
+              "cf_operator": null,
+              "cf_fsm_appointment_end_time": null,
+              "cf_signal_strength": null,
+              "cf_os_version": null,
+              "cf_order_number682447": null,
+              "cf_tracking_number": null,
+              "cf_product_problem": null
+          },
+          "created_at": "2024-08-29T06:56:47Z",
+          "updated_at": "2024-08-29T06:56:47Z",
+          "tags": [],
+          "attachments": [
+              {
+                  "id": 77181985843,
+                  "content_type": "application/octet-stream",
+                  "size": 129076,
+                  "name": "2024-08-29.zip",
+                  "attachment_url": "https://s3.eu-central-1.amazonaws.com/euc-cdn.freshdesk.com/data/helpdesk/attachments/production/77181985843/original/2024-08-29.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAS6FNSMY2XLZULJPI%2F20240829%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20240829T065648Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=65d486f936d04823cbfa0cd2b6b035de55a145827ffb4e2da76ab6aa151b7092",
+                  "created_at": "2024-08-29T06:56:47Z",
+                  "updated_at": "2024-08-29T06:56:47Z"
+              }
+          ],
+          "nr_due_by": null,
+          "nr_escalated": false
+        },
+      },
       {
-        statusCode: 501,
+        statusCode: 201,
       }
     )
 
     await sendButton.click()
     await sleep(3000)
 
-    expect(strictResponseMock.calls.length).toBe(1)
+    console.log(await strictResponseMock.calls)
 
-    await sleep(300000)
+    expect(strictResponseMock.calls.length).toBe(1)
+    const successIcon = await ContactSupportSuccessModalPage.successIcon
+    await expect(successIcon).toBeDisplayed()
+    const closeButton = await ContactSupportSuccessModalPage.closeBottomButton
+    await expect(closeButton).toBeDisplayed()
+    await expect(closeButton).toBeClickable()
+    await closeButton.click()
+    
+
+    //TODO We will contact you as soon as the problem is resolved
+    //TODO Message sent
+    //TODO Close button (data test id)
+    //TODO Close x (data test id)
+
+    const iconContactSupport = await NewHelpPage.iconContactSupport
+    await iconContactSupport.waitForDisplayed()
+    await expect(iconContactSupport).toBeClickable()
+
   })
 })
