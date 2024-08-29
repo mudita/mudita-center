@@ -17,6 +17,8 @@ import {
   startImportAuthorization,
 } from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
+import { ButtonText } from "../../buttons/button-text"
+import { useHelpShortcut } from "help/store"
 
 const messages = defineMessages({
   title: {
@@ -34,10 +36,15 @@ const messages = defineMessages({
   fileUploadButtonLabel: {
     id: "module.genericViews.importContacts.providerModal.fileUploadButtonLabel",
   },
+  needHelpButtonLabel: {
+    id: "module.genericViews.importContacts.providerModal.needHelpButtonLabel",
+  },
 })
 
 export const ImportContactsProvider = () => {
   const dispatch = useDispatch<Dispatch>()
+  const openHelpShortcut = useHelpShortcut()
+
   return (
     <>
       <Modal.TitleIcon config={{ type: IconType.ContactsBook }} />
@@ -136,6 +143,18 @@ export const ImportContactsProvider = () => {
             },
           }}
         />
+        <HelpLink
+          config={{
+            text: intl.formatMessage(messages.needHelpButtonLabel),
+            action: {
+              type: "custom",
+              callback: () => {
+                openHelpShortcut("kompakt-contacts-import")
+              },
+            },
+            modifiers: ["link", "hover-underline"],
+          }}
+        />
       </ButtonsWrapper>
     </>
   )
@@ -158,5 +177,16 @@ const ButtonWithIconStyled = styled(ButtonSecondary)`
   & > div {
     width: 2rem;
     height: 2rem;
+  }
+`
+
+const HelpLink = styled(ButtonText)`
+  && {
+    height: 2rem;
+    min-height: 2rem;
+  }
+
+  span {
+    font-size: ${({ theme }) => theme.fontSize.labelText};
   }
 `

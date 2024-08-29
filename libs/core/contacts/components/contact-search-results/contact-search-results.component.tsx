@@ -77,6 +77,16 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   }
 `
 
+const PhoneNumberCol = styled(Col)`
+  overflow: hidden;
+  height: calc(100% - 1rem);
+
+  > p {
+    height: 100%;
+    margin: 0;
+  }
+`
+
 interface ContactSearchResultProps {
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
@@ -158,12 +168,16 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
                         id: "module.contacts.listUnnamedContact",
                       })}
                   </ClickableCol>
-                  <Col>{phoneNumber}</Col>
-                  <Col>
-                    {contact.primaryPhoneNumber &&
-                      contact.secondaryPhoneNumber &&
-                      contact.secondaryPhoneNumber}
-                  </Col>
+                  <PhoneNumberCol>
+                    <p>{phoneNumber}</p>
+                  </PhoneNumberCol>
+                  <PhoneNumberCol>
+                    <p>
+                      {contact.primaryPhoneNumber &&
+                        contact.secondaryPhoneNumber &&
+                        contact.secondaryPhoneNumber}
+                    </p>
+                  </PhoneNumberCol>
                   <Col>
                     <Actions>
                       <Dropdown onOpen={disableScroll} onClose={enableScroll}>

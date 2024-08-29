@@ -9,6 +9,7 @@ import styled from "styled-components"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { ButtonPrimary } from "generic-view/ui"
+import { HelpTestId } from "../test-ids"
 
 const messages = defineMessages({
   title: {
@@ -24,8 +25,10 @@ export const ArticleFooter: FunctionComponent = () => {
     window.open("https://support.mudita.com/support/home", "_blank")
   }
   return (
-    <Wrapper>
-      <Text>{intl.formatMessage(messages.title)}</Text>
+    <Wrapper data-testid={HelpTestId.ArticleFooter}>
+      <Text data-testid={HelpTestId.ArticleFooterTitle}>
+        {intl.formatMessage(messages.title)}
+      </Text>
       <ButtonPrimary
         config={{
           text: intl.formatMessage(messages.buttonLabel),
@@ -34,6 +37,7 @@ export const ArticleFooter: FunctionComponent = () => {
             callback: openSupportWebsite,
           },
         }}
+        data-testid={HelpTestId.ArticleFooterButton}
       />
     </Wrapper>
   )

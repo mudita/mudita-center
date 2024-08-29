@@ -46,7 +46,6 @@ describe("Home Screen Page", () => {
     await tryAgainParagraph.click()
   })
   it("Click Contact Support & Verify Contents", async () => {
-    screenshotHelper.makeViewScreenshot()
     const contactSupportButton = await HomePage.contactSupportButton
     const muditaCenterSupportModalHeader =
       await HomePage.muditaCenterSupportModalHeader

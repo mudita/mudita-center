@@ -151,7 +151,7 @@ export const importsReducer = createReducer(initialState, (builder) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider] = {
-        domainFilesTransfer: {},
+        ...{ domainFilesTransfer: {} },
         ...state.providers[provider],
         status: action.payload.status,
       }
@@ -161,7 +161,7 @@ export const importsReducer = createReducer(initialState, (builder) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider] = {
-        domainFilesTransfer: {},
+        ...{ domainFilesTransfer: {} },
         ...state.providers[provider],
         status: "IMPORT-INTO-DEVICE-IN-PROGRESS",
       }

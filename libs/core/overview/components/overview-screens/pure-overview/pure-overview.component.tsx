@@ -20,10 +20,8 @@ import { UpdateOsFlow } from "Core/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { CheckForUpdateMode } from "Core/update/constants"
 import { OsRelease } from "Core/update/dto"
-import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { ipcRenderer } from "electron-better-ipc"
 import React, { useCallback, useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
@@ -31,6 +29,7 @@ import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overvie
 import { useSelector } from "react-redux"
 import { isActiveDeviceAttachedSelector } from "device-manager/feature"
 import { selectDeviceErrorModalOpened } from "generic-view/store"
+import { useHelpShortcut } from "help/store"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
@@ -84,6 +83,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const genericDeviceErrorModalOpened = useSelector(
     selectDeviceErrorModalOpened
   )
+  const openHelpShortcut = useHelpShortcut()
 
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -119,8 +119,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     }
   }, [openModal, progress])
 
-  const goToHelp = (): void => {
-    void ipcRenderer.callMain(HelpActions.OpenWindow)
+  const goToHelp = () => {
+    openHelpShortcut("pure-os-update-fail")
   }
 
   const [backupDeviceFlowState, setBackupDeviceFlowState] =
@@ -266,6 +266,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
               availableReleasesForUpdate={availableReleasesForUpdate}
               updatingReleasesProcessStates={updatingReleasesProcessStates}
               enabled={forceUpdateNeeded}
+              checkForUpdateState={checkingForUpdateState}
               startForceUpdate={startForceUpdate}
               error={updateOsError}
               openHelpView={goToHelp}
