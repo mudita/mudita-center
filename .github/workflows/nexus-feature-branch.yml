@@ -3,7 +3,7 @@ name: Build & deploy to feature branch
 on:
   push:
     branches:
-      - CP-*
+      - XX-*
 jobs:
   build:
     runs-on: ${{ matrix.os }}
