@@ -54,8 +54,8 @@ export const BackupPassword: FunctionComponent<Props> = ({
   nextAction,
 }) => {
   const { watch, formState } = useFormContext()
-  const password = watch("password")
-  const passwordRepeat = watch("passwordRepeat")
+  const password = watch("password") || ""
+  const passwordRepeat = watch("passwordRepeat") || ""
 
   const passwordsMatching = password === passwordRepeat
 
@@ -90,8 +90,9 @@ export const BackupPassword: FunctionComponent<Props> = ({
           type: "password",
           validation: {
             validate: (value: string, formValues) => {
+              const password = formValues.password || ""
               return (
-                value === formValues.password ||
+                value === password ||
                 intl.formatMessage(messages.passwordRepeatNotMatchingError)
               )
             },
