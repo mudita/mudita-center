@@ -39,7 +39,7 @@ export interface GenericState {
   lastResponse: unknown
   lastRefresh?: number
   devices: Record<string, Device>
-  apiErrors: Record<ApiError, boolean>
+  apiErrors: Record<string, Record<ApiError, boolean>>
 }
 
 const initialState: GenericState = {
@@ -47,9 +47,7 @@ const initialState: GenericState = {
   views: {},
   lastResponse: {},
   devices: {},
-  apiErrors: {
-    [ApiError.DeviceLocked]: false,
-  },
+  apiErrors: {},
 }
 
 export const genericViewsReducer = createReducer(initialState, (builder) => {
@@ -99,7 +97,9 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     state.devices[action.payload.deviceId].menuConfig =
       action.payload.menuConfig
     state.lastResponse = action.payload
-    state.apiErrors[ApiError.DeviceLocked] = false
+    state.apiErrors[action.payload.deviceId] = {
+      [ApiError.DeviceLocked]: false,
+    }
   })
   builder.addCase(getMenuConfig.rejected, (state, action) => {
     const error = action.payload as AppError
@@ -107,7 +107,9 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       ? (Number(error.type) as ApiError)
       : undefined
     if (apiError && ApiError[apiError]) {
-      state.apiErrors[apiError] = true
+      state.apiErrors[action.meta.arg.deviceId] = {
+        [apiError]: true,
+      }
     }
 
     if (apiError !== ApiError.DeviceLocked) {
@@ -168,7 +170,9 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     state.lastRefresh = action.payload
   })
   builder.addCase(getOutboxData.fulfilled, (state, action) => {
-    state.apiErrors[ApiError.DeviceLocked] = false
+    state.apiErrors[action.payload.deviceId] = {
+      [ApiError.DeviceLocked]: false,
+    }
   })
   builder.addCase(getGenericConfig.fulfilled, (state, action) => {
     const { deviceId, feature, view } = action.payload
