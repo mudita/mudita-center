@@ -89,7 +89,7 @@ export const BackupPassword: FunctionComponent<Props> = ({
           label: intl.formatMessage(messages.passwordRepeatPlaceholder),
           type: "password",
           validation: {
-            validate: (value: string, formValues) => {
+            validate: (value = "", formValues) => {
               const password = formValues.password || ""
               return (
                 value === password ||
