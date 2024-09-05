@@ -6,11 +6,11 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
-import { APIEntitiesServiceEvents, EntityConfig } from "device/models"
+import { APIEntitiesServiceEvents, EntitiesMetadata } from "device/models"
 
-export const getAPIEntitiesConfigRequest = (data: {
+export const getEntitiesMetadataRequest = (data: {
   entityType: string
   deviceId?: DeviceId
-}): Promise<ResultObject<EntityConfig>> => {
-  return ipcRenderer.callMain(APIEntitiesServiceEvents.EntityConfig, data)
+}): Promise<ResultObject<EntitiesMetadata>> => {
+  return ipcRenderer.callMain(APIEntitiesServiceEvents.EntitiesMetadata, data)
 }

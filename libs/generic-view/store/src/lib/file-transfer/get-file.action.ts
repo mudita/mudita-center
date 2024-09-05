@@ -33,7 +33,7 @@ export const getFile = createAsyncThunk<
   {
     deviceId: DeviceId
     filePath: string
-    targetPath: string
+    targetPath?: string
     preTransfer?: PreTransferGet
   },
   { state: ReduxRootState; rejectValue: GetFileError | undefined }

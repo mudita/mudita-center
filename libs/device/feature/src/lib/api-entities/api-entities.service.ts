@@ -8,17 +8,29 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError, AppErrorType } from "Core/core/errors"
 import {
-  entityConfigValidator,
-  EntitiesError,
-  EntityConfig,
-  GeneralError,
   APIEntitiesServiceEvents,
+  EntitiesConfig,
+  entitiesConfigValidator,
+  EntitiesError,
+  EntitiesFileData,
+  entitiesFileDataValidator,
+  EntitiesJsonData,
+  entitiesJsonDataValidator,
+  EntitiesMetadata,
+  entitiesMetadataValidator,
+  EntityJsonData,
+  entityJsonDataValidator,
+  GeneralError,
 } from "device/models"
-import { SafeParseSuccess } from "zod"
+import { SafeParseReturnType, SafeParseSuccess } from "zod"
 import { IpcEvent } from "Core/core/decorators"
+import { ServiceBridge } from "../service-bridge"
 
 export class APIEntitiesService {
-  constructor(private deviceProtocol: DeviceProtocol) {}
+  constructor(
+    private deviceProtocol: DeviceProtocol,
+    private serviceBridge: ServiceBridge
+  ) {}
 
   private getDevice = (deviceId?: DeviceId) => {
     return deviceId
@@ -43,21 +55,21 @@ export class APIEntitiesService {
     return Result.success(response.data)
   }
 
-  @IpcEvent(APIEntitiesServiceEvents.EntityConfig)
-  public async getEntityConfiguration({
+  @IpcEvent(APIEntitiesServiceEvents.EntitiesConfig)
+  public async getEntitiesConfiguration({
     entityType,
     deviceId,
   }: {
     entityType: string
     deviceId?: DeviceId
-  }): Promise<ResultObject<EntityConfig>> {
+  }): Promise<ResultObject<EntitiesConfig>> {
     const device = this.getDevice(deviceId)
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
     const response = await device.request({
-      endpoint: "ENTITY_CONFIGURATION",
+      endpoint: "ENTITIES_CONFIGURATION",
       method: "GET",
       body: {
         type: entityType,
@@ -67,10 +79,125 @@ export class APIEntitiesService {
       return this.handleError(response.error.type)
     }
 
-    const apiConfig = entityConfigValidator.safeParse(response.data.body)
+    const apiConfig = entitiesConfigValidator.safeParse(response.data.body)
     if (!apiConfig.success) {
       return this.handleError(response.data.status)
     }
     return this.handleSuccess(apiConfig)
+  }
+
+  @IpcEvent(APIEntitiesServiceEvents.EntitiesMetadata)
+  public async getEntitiesMetadata({
+    entityType,
+    deviceId,
+  }: {
+    entityType: string
+    deviceId?: DeviceId
+  }): Promise<ResultObject<EntitiesMetadata>> {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_METADATA",
+      method: "GET",
+      body: {
+        entityType,
+      },
+    })
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    const metadata = entitiesMetadataValidator.safeParse(response.data.body)
+    if (!metadata.success) {
+      return this.handleError(response.data.status)
+    }
+    return this.handleSuccess(metadata)
+  }
+
+  @IpcEvent(APIEntitiesServiceEvents.EntitiesDataGet)
+  public async getEntitiesData({
+    entityType,
+    entityId,
+    responseType,
+    deviceId,
+  }: {
+    entityType: string
+    responseType: "json" | "file"
+    entityId?: string | number
+    deviceId?: DeviceId
+  }): Promise<
+    ResultObject<EntitiesJsonData | EntityJsonData | EntitiesFileData>
+  > {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "GET",
+      body: {
+        entityType,
+        responseType,
+        ...(entityId && { entityId }),
+      },
+    })
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    let data: SafeParseReturnType<
+      typeof response.data.body,
+      EntitiesJsonData | EntityJsonData | EntitiesFileData
+    >
+
+    if (responseType === "file") {
+      data = entitiesFileDataValidator.safeParse(response.data.body)
+    }
+    if (responseType === "json") {
+      if (entityId === undefined) {
+        data = entitiesJsonDataValidator.safeParse(response.data.body)
+      } else {
+        data = entityJsonDataValidator.safeParse(response.data.body)
+      }
+    }
+
+    if (!data!.success) {
+      return this.handleError(response.data.status)
+    }
+    return this.handleSuccess(data!)
+  }
+
+  @IpcEvent(APIEntitiesServiceEvents.EntitiesDataReadFromFile)
+  public async readEntitiesDataFromFile({
+    transferId,
+  }: {
+    transferId: number
+  }): Promise<ResultObject<EntitiesJsonData>> {
+    const file = this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
+    const data = entitiesJsonDataValidator.safeParse(file.chunks.join())
+    this.serviceBridge.fileTransfer.transferClear({ transferId })
+    if (!data.success) {
+      return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
+    }
+    return this.handleSuccess(data)
+  }
+
+  @IpcEvent(APIEntitiesServiceEvents.EntityDataReadFromFile)
+  public async readEntityDataFromFile({
+    transferId,
+  }: {
+    transferId: number
+  }): Promise<ResultObject<EntityJsonData>> {
+    const file = this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
+    const data = entityJsonDataValidator.safeParse(file.chunks.join())
+    this.serviceBridge.fileTransfer.transferClear({ transferId })
+    if (!data.success) {
+      return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
+    }
+    return this.handleSuccess(data)
   }
 }
