@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { EntityConfig, entityConfigValidator } from "./entities.validator"
+import { EntityConfig, entityConfigValidator } from "./entity-config.validator"
 import { ZodError } from "zod"
 
 describe("entityConfigValidator", () => {
