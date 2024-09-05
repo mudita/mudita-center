@@ -17,7 +17,7 @@ import { SystemUtilsModule } from "system-utils/feature"
 import { APIRestoreService } from "./restore"
 import { DeviceSystemActionsService } from "./device-system-actions/device-system-actions.service"
 import { APIDataTransferService } from "./data-transfer"
-import { APIEntitiesService } from "./entities/api-entities.service"
+import { APIEntitiesService } from "./api-entities"
 import { ISettingsService } from "shared/utils"
 
 export class APIModule {
