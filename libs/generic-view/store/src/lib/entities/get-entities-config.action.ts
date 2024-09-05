@@ -10,18 +10,14 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { setEntitiesConfig } from "./actions"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
-export const getAllEntitiesConfigAction = createAsyncThunk<
+export const getEntitiesConfigAction = createAsyncThunk<
   undefined,
-  { deviceId: DeviceId },
+  { deviceId: DeviceId; entityTypes?: string[] },
   { state: ReduxRootState }
 >(
   ActionName.GetEntitiesConfig,
-  async ({ deviceId }, { getState, rejectWithValue, dispatch }) => {
-    const state = getState()
-    const entities =
-      state.genericViews.devices[deviceId].apiConfig?.entityTypes || []
-
-    for (const entityType of entities) {
+  async ({ deviceId, entityTypes = [] }, { rejectWithValue, dispatch }) => {
+    for (const entityType of entityTypes) {
       const response = await getEntitiesConfigRequest({
         deviceId,
         entityType,
