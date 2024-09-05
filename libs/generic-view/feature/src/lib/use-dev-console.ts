@@ -22,36 +22,36 @@ export const useDevConsole = () => {
     if (process.env.NODE_ENV === "development" && activeDeviceId) {
       if (typeof global !== "undefined") {
         Object.assign(global, {
-          _getEntitiesData: (
-            entityType: string,
-            responseType: "json" | "file" = "json",
-            deviceId = activeDeviceId
-          ) => {
-            return dispatch(
-              getEntitiesDataAction({ entityType, deviceId, responseType })
-            )
-          },
-          _getEntityDataAction: (
-            entityType: string,
-            entityId: string,
-            responseType: "json" | "file" = "json",
-            deviceId = activeDeviceId
-          ) => {
-            return dispatch(
-              getEntityDataAction({
-                entityType,
-                entityId,
-                deviceId,
-                responseType,
-              })
-            )
-          },
-          _getEntitiesMetadata: (
-            entityType: string,
-            deviceId = activeDeviceId
-          ) => {
-            return dispatch(getEntitiesMetadataAction({ entityType, deviceId }))
-          },
+_getEntitiesData: (
+  entityType: string,
+  responseType: "json" | "file" = "json",
+  deviceId = activeDeviceId
+) => {
+  return dispatch(
+    getEntitiesDataAction({ entityType, deviceId, responseType })
+  )
+},
+_getEntityData: (
+  entityType: string,
+  entityId: string,
+  responseType: "json" | "file" = "json",
+  deviceId = activeDeviceId
+) => {
+  return dispatch(
+    getEntityDataAction({
+      entityType,
+      entityId,
+      deviceId,
+      responseType,
+    })
+  )
+},
+_getEntitiesMetadata: (
+  entityType: string,
+  deviceId = activeDeviceId
+) => {
+  return dispatch(getEntitiesMetadataAction({ entityType, deviceId }))
+},
         })
       }
     }
