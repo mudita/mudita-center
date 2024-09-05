@@ -21,7 +21,7 @@ export const useDevConsole = () => {
   useEffect(() => {
     if (process.env.NODE_ENV === "development" && activeDeviceId) {
       if (typeof global !== "undefined") {
-        const deviceId = Object.assign(global, {
+        Object.assign(global, {
           _getEntitiesData: (
             entityType: string,
             responseType: "json" | "file" = "json",
