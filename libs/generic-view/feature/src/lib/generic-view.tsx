@@ -8,8 +8,10 @@ import { useParams } from "react-router"
 import { GenericThemeProvider } from "generic-view/theme"
 import RecursiveLayout from "./recursive-layout"
 import GenericModals from "./generic-modals"
+import { useDevConsole } from "./use-dev-console"
 
 export const GenericView: FunctionComponent = () => {
+  useDevConsole()
   const { viewKey, subviewKey } = useParams<{
     viewKey: string
     subviewKey?: string
