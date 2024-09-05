@@ -35,6 +35,12 @@ describe("APIConfigValidator", () => {
     const result = ApiConfigValidator.safeParse(apiConfig)
     expect(result.success).toBeFalsy()
   })
+  it("should return fail when entityTypes array is empty", () => {
+    const apiConfig = { ...minimumApiConfig, entityTypes: [] }
+
+    const result = ApiConfigValidator.safeParse(apiConfig)
+    expect(result.success).toBeFalsy()
+  })
   it.each(["apiVersion", "productId", "vendorId"])(
     "should return fail when %s is missing",
     (fieldName) => {
