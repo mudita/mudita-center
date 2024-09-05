@@ -17,9 +17,9 @@ import { getAPIConfig } from "../get-api-config"
 export const useLockedDeviceHandler = () => {
   const dispatch = useDispatch<Dispatch>()
   const deviceId = useSelector(selectActiveApiDeviceId)
-  const deviceLocked = useSelector((state: ReduxRootState) => {
-    return selectApiError(state, ApiError.DeviceLocked)
-  })
+  const deviceLocked = useSelector((state: ReduxRootState) =>
+    deviceId ? selectApiError(state, deviceId, ApiError.DeviceLocked) : false
+  )
   const features = useSelector(selectActiveDeviceFeatures)
 
   useEffect(() => {
