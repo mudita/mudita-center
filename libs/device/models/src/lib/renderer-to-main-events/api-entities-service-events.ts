@@ -4,5 +4,9 @@
  */
 
 export enum APIEntitiesServiceEvents {
-  EntityConfig = "apiservice_entity-config",
+  EntitiesConfig = "apiservice_entities-config",
+  EntitiesMetadata = "apiservice_entities-metadata",
+  EntitiesDataGet = "apiservice_entities-data-get",
+  EntitiesDataReadFromFile = "apiservice_entities-data-read-from-file",
+  EntityDataReadFromFile = "apiservice_entity-data-read-from-file",
 }

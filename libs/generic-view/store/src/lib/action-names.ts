@@ -83,4 +83,12 @@ export enum ActionName {
 
   HelpSetData = "help/set-data",
   HelpRateArticle = "help/rate-article",
+
+  GetEntitiesConfig = "entities/get-entities-config",
+  SetEntitiesConfig = "entities/set-entities-config",
+  SetEntitiesData = "entities/set-entities-data",
+  SetEntityData = "entities/set-entity-data",
+  GetEntitiesData = "entities/get-entities-data",
+  GetEntityData = "entities/get-entity-data",
+  SetEntitiesMetadata = "entities/set-entities-metadata",
 }

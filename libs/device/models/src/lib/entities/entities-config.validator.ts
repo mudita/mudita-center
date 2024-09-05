@@ -110,11 +110,10 @@ const globalValidatorSchema = z
   })
   .optional()
 
-export const entityConfigValidator = z
+export const entitiesConfigValidator = z
   .object({
-    fields: z.record(z.string(), fieldSchema),
+    fields: z.record(z.union([z.string(), z.number()]), fieldSchema),
     globalValidators: globalValidatorSchema,
-    metadata: z.unknown().optional(),
   })
   .refine(
     (data) => {
@@ -160,5 +159,19 @@ export const entityConfigValidator = z
       }
     }
   )
+  .refine(
+    (data) => {
+      const fields = data.fields
+      const idFieldsCount = Object.values(fields).filter(
+        (field) => field.type === "id"
+      ).length
+      return idFieldsCount === 1
+    },
+    {
+      message:
+        "There must be exactly one field of 'id' type on the top level of the 'fields' object",
+      path: ["fields"],
+    }
+  )
 
-export type EntityConfig = z.infer<typeof entityConfigValidator>
+export type EntitiesConfig = z.infer<typeof entitiesConfigValidator>

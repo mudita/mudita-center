@@ -42,6 +42,13 @@ export * from "./lib/external-providers/outlook/outlook.constants"
 export * from "./lib/external-providers/outlook/token-requester"
 export * from "./lib/external-providers/external-providers.interface"
 
+export * from "./lib/entities/reducer"
+export * from "./lib/entities/actions"
+export * from "./lib/entities/get-all-entities-config.action"
+export * from "./lib/entities/get-entities-data.action"
+export * from "./lib/entities/get-entity-data.action"
+export * from "./lib/entities/get-entities-metadata.action"
+
 export * from "./lib/data-migration/reducer"
 export * from "./lib/data-migration/actions"
 export * from "./lib/data-migration/start-data.migration"

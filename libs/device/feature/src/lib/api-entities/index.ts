@@ -4,4 +4,6 @@
  */
 
 export * from "./api-entities.service"
-export * from "./get-api-entities-config.request"
+export * from "./get-entities-config.request"
+export * from "./get-entities-data.request"
+export * from "./get-entities-metadata.request"
