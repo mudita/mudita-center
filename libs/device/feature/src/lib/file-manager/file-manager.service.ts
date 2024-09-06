@@ -43,7 +43,7 @@ export class FileManager {
     try {
       const file =
         this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
-      writeFileSync(filePath, file.chunks.join(), "base64")
+      writeFileSync(filePath, file.chunks.join(""), "base64")
 
       return Result.success(undefined)
     } catch (e) {
@@ -130,8 +130,8 @@ export class FileManager {
             this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
 
           const featureData = password
-            ? AES.encrypt(transfer.chunks.join(), password).toString()
-            : transfer.chunks.join()
+            ? AES.encrypt(transfer.chunks.join(""), password).toString()
+            : transfer.chunks.join("")
 
           return { ...acc, [feature]: featureData }
         },
