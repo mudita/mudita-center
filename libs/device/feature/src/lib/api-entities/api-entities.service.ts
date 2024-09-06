@@ -72,7 +72,7 @@ export class APIEntitiesService {
       endpoint: "ENTITIES_CONFIGURATION",
       method: "GET",
       body: {
-        type: entityType,
+        entityType,
       },
     })
     if (!response.ok) {
