@@ -17,6 +17,7 @@ export const ApiConfigValidator = z.object({
   vendorId: z.string(),
   serialNumber: z.string().optional(),
   features: z.array(z.string()).min(1),
+  entityTypes: z.array(z.string()).min(1).optional(),
 })
 
 export type ApiConfig = z.infer<typeof ApiConfigValidator>

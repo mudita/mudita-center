@@ -18,6 +18,13 @@ import { NotEnoughSpaceModal } from "Core/overview/components/update-os-modals/n
 import { UpdateOsFlowTestIds } from "Core/overview/components/update-os-flow/update-os-flow-test-ids.enum"
 import { OnboardingNotCompleteModal } from "Core/overview/components/onboarding-not-complete-modal"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
+import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
+import {
+  useDeactivateDeviceAndRedirect
+} from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
+import {
+  CheckForForceUpdateFailedModal
+} from "Core/overview/components/update-os-modals/check-for-force-update-failed-modal/check-for-force-update-failed-modal.component"
 
 const UpdatingForceModalFlow: FunctionComponent<
   UpdatingForceModalFlowProps
@@ -32,16 +39,26 @@ const UpdatingForceModalFlow: FunctionComponent<
   forceUpdateState,
   closeForceUpdateFlow,
   deviceType,
+  checkForUpdateState,
   layer = ModalLayers.UpdateOS,
 }) => {
+  const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
   const [forceUpdateShowModal, setForceUpdateShowModal] =
     useState<boolean>(false)
   const [showErrorModal, setShowErrorModal] = useState<boolean>(false)
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false)
   const [showLoadingModal, setShowLoadingModal] = useState<boolean>(false)
+  const [showCheckForUpdateFailedModal, setShowCheckForUpdateFailedModal] =
+    useState<boolean>(false)
 
   useEffect(() => {
-    if (forceUpdateState === State.Initial && enabled) {
+    if (
+      checkForUpdateState === CheckForUpdateState.Failed &&
+      availableReleasesForUpdate === null
+    ) {
+      setShowCheckForUpdateFailedModal(true)
+      setForceUpdateShowModal(false)
+    } else if (forceUpdateState === State.Initial && enabled) {
       setForceUpdateShowModal(true)
     } else if (forceUpdateState === State.Loading) {
       setShowErrorModal(false)
@@ -56,7 +73,12 @@ const UpdatingForceModalFlow: FunctionComponent<
       setForceUpdateShowModal(false)
       setShowLoadingModal(false)
     }
-  }, [forceUpdateState, enabled])
+  }, [
+    forceUpdateState,
+    enabled,
+    checkForUpdateState,
+    availableReleasesForUpdate,
+  ])
 
   const currentlyInstalledReleaseIndex = useMemo(() => {
     return (updatingReleasesProcessStates ?? []).findIndex(
@@ -79,6 +101,10 @@ const UpdatingForceModalFlow: FunctionComponent<
     closeForceUpdateFlow()
   }
 
+  const tryAgainCheckForUpdate = () => {
+    void deactivateDeviceAndRedirect()
+  }
+
   return (
     <>
       <ForceUpdateAvailableModal
@@ -87,6 +113,13 @@ const UpdatingForceModalFlow: FunctionComponent<
         releases={availableReleasesForUpdate ?? []}
         onUpdate={startForceUpdate}
         layer={layer}
+      />
+
+      <CheckForForceUpdateFailedModal
+        layer={layer}
+        open={showCheckForUpdateFailedModal}
+        onContactSupport={openContactSupportFlow}
+        onTryAgain={tryAgainCheckForUpdate}
       />
 
       {availableReleasesForUpdate && availableReleasesForUpdate.length > 0 && (

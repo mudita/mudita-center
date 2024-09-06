@@ -27,7 +27,7 @@ class ModalPage extends Page {
   }
 
   get checkingFailedUpdateBody() {
-    return $("p*=Opps, something went wrong.")
+    return $("p*=Oops, something went wrong.")
   }
 }
 

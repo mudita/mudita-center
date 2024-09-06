@@ -21,6 +21,7 @@ import {
   selectDataMigrationTargetDevice,
   setDataMigrationSourceDevice,
 } from "generic-view/store"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { Modal } from "generic-view/ui"
 import { GenericThemeProvider } from "generic-view/theme"
 import { ButtonAction, IconType } from "generic-view/utils"
@@ -53,18 +54,24 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
   const selectDevice = useDataMigrationDeviceSelector()
   const firstRenderTime = useRef(Date.now())
-  const deviceLocked = useSelector((state: ReduxRootState) => {
-    return selectApiError(state, ApiError.DeviceLocked)
-  })
   const menuElements = useSelector(selectActiveDeviceMenuElements)
-  const [pathToGoBack] = useFilteredRoutesHistory([
-    URL_MAIN.root,
-    ...Object.values(URL_ONBOARDING),
-    ...Object.values(URL_DISCOVERY_DEVICE),
-    ...Object.values(URL_DEVICE_INITIALIZATION),
-  ], URL_DISCOVERY_DEVICE.availableDeviceListModal)
+  const [pathToGoBack] = useFilteredRoutesHistory(
+    [
+      URL_MAIN.root,
+      ...Object.values(URL_ONBOARDING),
+      ...Object.values(URL_DISCOVERY_DEVICE),
+      ...Object.values(URL_DEVICE_INITIALIZATION),
+    ],
+    URL_DISCOVERY_DEVICE.availableDeviceListModal
+  )
   const dataMigrationSourceDevice = useSelector(selectDataMigrationSourceDevice)
   const dataMigrationTargetDevice = useSelector(selectDataMigrationTargetDevice)
+  const activeDeviceId = useSelector(activeDeviceIdSelector)
+  const deviceLocked = useSelector((state: ReduxRootState) =>
+    activeDeviceId
+      ? selectApiError(state, activeDeviceId, ApiError.DeviceLocked)
+      : false
+  )
 
   const targetPath = useMemo(() => {
     const firstMenuItemUrl = menuElements?.[0]?.items?.[0]?.button.url

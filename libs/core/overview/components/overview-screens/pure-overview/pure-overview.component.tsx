@@ -266,6 +266,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
               availableReleasesForUpdate={availableReleasesForUpdate}
               updatingReleasesProcessStates={updatingReleasesProcessStates}
               enabled={forceUpdateNeeded}
+              checkForUpdateState={checkingForUpdateState}
               startForceUpdate={startForceUpdate}
               error={updateOsError}
               openHelpView={goToHelp}

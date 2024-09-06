@@ -12,6 +12,7 @@ import logger from "Core/__deprecated__/main/utils/logger"
 import { getConfiguration } from "Core/settings/requests"
 import packageInfo from "../../../../apps/mudita-center/package.json"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import getBaseVersion from "Core/utils/get-base-bersion"
 
 export const loadSettings = createAsyncThunk<
   void,
@@ -23,9 +24,11 @@ export const loadSettings = createAsyncThunk<
   const configuration = await getConfiguration()
 
   try {
+    const packageInfoBaseVersion = getBaseVersion(packageInfo.version) as string
+
     updateRequired = isVersionGreater(
       configuration.centerVersion,
-      packageInfo.version
+      packageInfoBaseVersion
     )
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

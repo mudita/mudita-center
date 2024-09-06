@@ -19,6 +19,7 @@ export const APIEndpoints = [
   "SYSTEM",
   "PRE_DATA_TRANSFER",
   "DATA_TRANSFER",
+  "ENTITY_CONFIGURATION",
 ] as const
 
 export type APIEndpointType = (typeof APIEndpoints)[number]
@@ -43,6 +44,7 @@ const APIRequests = {
   SYSTEM: ["POST"],
   PRE_DATA_TRANSFER: ["POST"],
   DATA_TRANSFER: ["POST", "GET", "DELETE"],
+  ENTITY_CONFIGURATION: ["GET"],
 } as const
 
 interface APIRequestConfig<

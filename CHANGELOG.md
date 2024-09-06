@@ -10,6 +10,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [2.4.0] - 2024-09-16
+
+In this release, we have updated the Help section in the Mudita Center application. As of version 2.4.0, users can benefit from a refreshed help section with intuitive navigation. The article search functionality is also available. In addition, we have fixed two bugs occurring in our software.
+
+### Added
+
+- Added new Help section.
+
+### Changed
+
+- Removed old help functionality.
+- Configured CMS for Help section in Mudita Center.
+
+### Fixed
+
+- Fixed not displayed newly added file on Manage Sounds.
+- Fixed renaming of AppImage file when App Update.
+- Fixed bypassing force update.
+- Fixed broken layout in Contacts Search.
+- Fixed ignoring of opening connected device Overview page, when News is current active tab.
+- Fixed unexpected MDS behavior for Back and Forward mouse buttons.
+- Fixed type in update checking failed window copy.
+
 ## [2.3.0] - 2024-05-22
 
 In this update, we have released the functionality of Multidevice support, the feature allows to support multiple Mudita devices in the Mudita Center application simultaneously without switching it. Moreover, we've successfully addressed 20 bugs across various features.
