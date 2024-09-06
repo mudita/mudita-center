@@ -178,7 +178,7 @@ export class APIEntitiesService {
     transferId: number
   }): Promise<ResultObject<EntitiesJsonData>> {
     const file = this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
-    const data = entitiesJsonDataValidator.safeParse(file.chunks.join())
+    const data = entitiesJsonDataValidator.safeParse(file.chunks.join(""))
     this.serviceBridge.fileTransfer.transferClear({ transferId })
     if (!data.success) {
       return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
@@ -193,7 +193,7 @@ export class APIEntitiesService {
     transferId: number
   }): Promise<ResultObject<EntityJsonData>> {
     const file = this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
-    const data = entityJsonDataValidator.safeParse(file.chunks.join())
+    const data = entityJsonDataValidator.safeParse(file.chunks.join(""))
     this.serviceBridge.fileTransfer.transferClear({ transferId })
     if (!data.success) {
       return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
