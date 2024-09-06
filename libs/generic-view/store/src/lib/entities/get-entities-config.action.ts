@@ -9,6 +9,7 @@ import { getEntitiesConfigRequest } from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import { setEntitiesConfig } from "./actions"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
 
 export const getEntitiesConfigAction = createAsyncThunk<
   undefined,
@@ -37,8 +38,7 @@ export const getEntitiesConfigAction = createAsyncThunk<
           idFieldKey,
         })
       )
-      // TODO: Uncomment when the metadata endpoint will be ready
-      // dispatch(getEntitiesMetadataAction({ entityType, deviceId }))
+      dispatch(getEntitiesMetadataAction({ entityType, deviceId }))
     }
     return
   }
