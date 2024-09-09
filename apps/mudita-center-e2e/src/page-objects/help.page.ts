@@ -7,41 +7,54 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class HelpPage extends Page {
-  public get listElement() {
-    return $('[data-testid="help-component-question"]')
+  public get helpTabTitle() { 
+    return $('[data-testid="location"]')
+  }
+  public get helpMainHeader() {
+    return $('[data-testid="help-main-header"')
+  }
+  public get helpMainSubHeader() { 
+    return $('[data-testid="help-main-subheader"]')
+  }
+  public get iconSearch() {
+    return $('[data-testid="icon-search"]')
+  }
+  public get helpSearchInput() {
+    return $('[data-testid="help-search-input"]')
+  }
+  public get helpSearchResults() {
+    return $('[data-testid="help-search-results"]')
+  }
+  public get helpSearchResultsParagraph() {
+    return $('[data-testiid="help-search-restults"] p')
+  }
+  public get helpSearchResultsList()  {
+    return $('[data-testiid="help-search-restults"] ul')
+  }
+  public get helpSearchResultsItem() {
+    return $('[data-testid="help-search-results-item"]')
+  }
+  public get helpCategoriesTitle() {
+    return $('[data-testid="help-categories-title"]')
+  }
+  public get helpCategoriesList() {
+    return $('[data-testid="help-categories-list"]')
+  }
+  public get helpCategoriesListItems() {
+    return $$('[data-testid="help-categories-list-item"]')
+  }
+  public get helpSubcategoriesList() {
+    return $('[data-testid="help-subcategories-list"]')
+  }
+  public get helpSubCategoriesList() {
+    return $('[data-testid="help-subcategories-list"')
+  }
+  public get helpSubCategoriesListItems() {
+    return $$('[data-testid="help-subcategories-list-item"')
   }
 
-  public get listElements() {
-    return $$('[data-testid="help-component-question"]')
-  }
+  
 
-  public get windowTitle() {
-    return $('[data-testid="help-component-title"]')
-  }
-
-  public get searchIcon() {
-    return $('[data-testid="icon-Magnifier"]')
-  }
-
-  public get searchPlaceholder() {
-    return $('[type="search"]')
-  }
-
-  public get topicContent() {
-    return $('[data-testid="content"]')
-  }
-
-  public get articleBackLink() {
-    return $('[data-testid="back-link"]')
-  }
-
-  public get contactSupportButton() {
-    return $('[data-testid="help-support-button"]')
-  }
-
-  public get contactSupportButtonTooltip() {
-    return $('[data-testid="icon-button-with-tooltip-description"]')
-  }
 }
 
 export default new HelpPage()

@@ -6,8 +6,7 @@
 import NavigationTabs from "../../page-objects/tabs.page"
 import HelpPage from "../../page-objects/help.page"
 import HomePage from "../../page-objects/home.page"
-import HelpModalPage from "../../page-objects/help-modal.page"
-import NewsPage from "../../page-objects/news.page"
+import { sleep } from "../../helpers/sleep.helper"
 
 describe("Check Help window", () => {
   before(async () => {
@@ -21,87 +20,46 @@ describe("Check Help window", () => {
     await helpTab.waitForDisplayed({ timeout: 15000 })
     await helpTab.click()
 
-    await browser.switchWindow("#/help")
-
     // Check window title
-    const helpTitle = await HelpPage.windowTitle
-    await helpTitle.waitForDisplayed({ timeout: 15000 })
-    await expect(helpTitle).toHaveText("Mudita Center Help")
+    const helpTabTitle = await HelpPage.helpTabTitle
+    await helpTabTitle.waitForDisplayed({ timeout: 15000 })
+    await expect(helpTabTitle).toHaveText("Mudita Help Center")
+
+    // Verify welcome message
+    const helpMainHeader = await HelpPage.helpMainHeader
+    await expect(helpMainHeader).toHaveText("Welcome! How can we help you?")
+
+    // TODO Verify welcome paragraph
+    const helpMainSubHeader = await HelpPage.helpMainSubHeader
+    await expect(helpMainSubHeader).toHaveText("Browse our selection of how-to and troubleshooting guides")
+
+    // TODO Verify search bar
+    const iconSearch = await HelpPage.iconSearch
+    await expect(iconSearch).toBeDisplayed()
+
+    // TODO verify search bar icon
+    const helpSearchInput = await HelpPage.helpSearchInput
+    await expect(helpSearchInput).toBeDisplayed()
+
+    //TODO verify placeholder
+    await expect(helpSearchInput).toHaveAttrContaining("placeholder", "Search topics")
+    
+    //TODO verify main section title
+    const helpCategoriesTitle = await HelpPage.helpCategoriesTitle
+    await expect(helpCategoriesTitle).toHaveText("Which device are you using with Mudita Center?")
+
+    //TODO section tabs
+    const helpCategoriesList = await HelpPage.helpCategoriesList
+    await expect(helpCategoriesList).toBeDisplayed()
+    const helpCategoriesListItems = await HelpPage.helpCategoriesListItems
+    await expect(helpCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
+    await expect(helpCategoriesListItems).toBeDisplayed()
+    
+    //TODOActive section tabs
+    expect(helpCategoriesListItems[0]).toHaveElementClassContaining("active")
+
+
+    //TODO Hover on section tabs
   })
 
-  it("Check contents of Mudita Help", async () => {
-    // Check presence of the search engine
-    const searchIcon = await HelpPage.searchIcon
-    await expect(searchIcon).toBeDisplayed()
-
-    const searchPlaceholder = await HelpPage.searchPlaceholder
-    await expect(searchPlaceholder).toHaveAttributeContaining(
-      "placeholder",
-      "Search"
-    )
-
-    // Check presence of Contact support button
-    const contactSupportButton = await HelpPage.contactSupportButton
-    await expect(contactSupportButton).toBeDisplayed()
-    await expect(contactSupportButton).toBeClickable()
-
-    const contactSupportButtonTooltip =
-      await HelpPage.contactSupportButtonTooltip
-    contactSupportButton.moveTo()
-    await expect(contactSupportButtonTooltip).toBeDisplayed()
-    await expect(contactSupportButtonTooltip).toHaveText("Contact support")
-
-    // Check accordion
-    const helpTopic = await HelpPage.listElement
-
-    await expect(helpTopic).toBeDisplayed()
-    const noOfArticles = await HelpPage.listElements
-    await expect(noOfArticles).toBeElementsArrayOfSize({ gte: 25 })
-  })
-
-  it("Check content of first article", async () => {
-    const helpTopic = await HelpPage.listElement
-    await expect(helpTopic).toHaveText(
-      "How to import my iCloud contacts into Mudita Pure by using .vcf file?"
-    )
-    await helpTopic.click()
-    const helpTopicContent = await HelpPage.topicContent
-    await expect(helpTopicContent).toBeDisplayed()
-    await expect(helpTopicContent).toHaveTextContaining(
-      "Click on the “Import” button."
-    )
-    const backLink = await HelpPage.articleBackLink
-    await backLink.click()
-    const helpTitle = await HelpPage.windowTitle
-    await expect(helpTitle).toHaveText("Mudita Center Help")
-  })
-
-  it("Search for questions & check search results", async () => {
-    const searchPlaceholder = await HelpPage.searchPlaceholder
-    searchPlaceholder.setValue("fail")
-    browser.keys("\uE007")
-    const helpTopic = await HelpPage.listElement
-    await expect(helpTopic).toHaveText("OS update failed")
-    searchPlaceholder.setValue("harMony")
-    await helpTopic.waitForDisplayed({ timeout: 15000 })
-    await expect(helpTopic).toHaveText(
-      "How to connect my Mudita Harmony to Center?"
-    )
-    const noOfArticles = await HelpPage.listElements
-    await expect(noOfArticles).toBeElementsArrayOfSize({ gte: 4 })
-  })
-
-  it("Check Contact support modal", async () => {
-    const contactSupportButton = await HelpPage.contactSupportButton
-    await contactSupportButton.click()
-    const modalHeader = await HelpModalPage.modalHeader
-    await expect(modalHeader).toBeDisplayed
-    const closeButton = await HelpModalPage.closeModalButton
-    await closeButton.click()
-
-    await browser.switchWindow("#/news")
-    const newsHeader = await NewsPage.newsHeader
-    await expect(newsHeader).toBeDisplayed
-    await expect(newsHeader).toHaveText("Mudita News")
-  })
 })
