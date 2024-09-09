@@ -59,7 +59,10 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   builder.addCase(setEntitiesMetadata, (state, action) => {
     state.entities[action.payload.entityType] = {
       ...state.entities[action.payload.entityType],
-      metadata: action.payload.metadata,
+      metadata: {
+        ...state.entities[action.payload.entityType]?.metadata,
+        ...action.payload.metadata,
+      },
     }
   })
 })
