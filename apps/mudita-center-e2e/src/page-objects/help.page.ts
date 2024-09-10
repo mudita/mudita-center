@@ -52,13 +52,6 @@ class HelpPage extends Page {
   public get helpSubCategoriesListItemsLeftColumn() {
     return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
   }
-  //TODO Check in-use functions
-  public get helpSubCategoriesListItemsLeftColumnItemArticlesList() {
-    return this.helpSubCategoriesListItemsLeftColumn[0].$$('[data-testid="help-subcategories-articles-list"]')
-  }
-  public get helpSubCategoriesListItemsLeftColumnItemArticlesListItems() {
-    return this.helpSubCategoriesListItemsLeftColumn[0].$$('[data-testid="help-subcategories-articles-list-item"]')
-  }
   public get helpSubCategoriesListItemsRightColumn() {
     return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
   }
