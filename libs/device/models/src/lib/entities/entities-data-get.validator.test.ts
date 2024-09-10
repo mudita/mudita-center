@@ -15,8 +15,8 @@ describe("entitiesJsonDataValidator", () => {
   })
 
   it("validates a correct JSON data with empty data array", () => {
-    const invalidJsonData = { data: [] }
-    expect(() => entitiesJsonDataValidator.parse(invalidJsonData)).not.toThrow()
+    const validJsonData = { data: [] }
+    expect(() => entitiesJsonDataValidator.parse(validJsonData)).not.toThrow()
   })
 
   it("fails validation for JSON data with non-array data field", () => {
