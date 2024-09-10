@@ -29,16 +29,16 @@ class HelpArticlePage extends Page {
         return $$('[data-testid="help-article-content-block"]')
     }
     getHelpArticleContentBlock(index: number) {
-        return $(`[data-testid="help-article-content-block"][${index}]`)
+        return $$('[data-testid="help-article-content-block"]')[index]
     }
     getHelpArticleContentBlockTitle(index: number) {
-        return $(`[data-testid="help-article-content-block-title"][${index}]`)
+        return $$('[data-testid="help-article-content-block-title"]')[index]
     }
     public get helpArticleContentBlockText() {
         return $$('[data-testid="help-article-content-block-text"]')
     }
     getHelpArticleContentBlockText(index: number) {
-        return $(`[data-testid="help-article-content-block"][${index}][data-testid="help-article-content-block-text"][`)
+        return $$('[data-testid="help-article-content-block"]')[index].$('[data-testid="help-article-content-block-text"]')
     }
     public get helpArticleFeedback() {
         return $('[data-testid="help-article-feedback"]')
@@ -61,17 +61,8 @@ class HelpArticlePage extends Page {
     public get helpArticleFooterButton() {
         return $('[data-testid="help-article-footer-button"]')
     }
-    public get helpMainFooter() {
-        return $('[data-testid="help-main-footer"]')
-    }
-    public get helpMainFooterTitle() {
-        return $('[data-testid="help-main-footer-title"]')
-    }
-    public get helpMainFooterDescription() {
-        return $('[data-testid="help-main-footer-description"]')
-    }
-    public get helpMainFooterContactSupportButton() {
-        return $('[data-testid="help-main-footer-contact-support-button"]')
+    public get helpArticleFooterVisitSupportButton() {
+        return $('[data-testid="help-article-footer-button"]')
     }
 }
 

@@ -52,6 +52,7 @@ class HelpPage extends Page {
   public get helpSubCategoriesListItemsLeftColumn() {
     return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
   }
+  //TODO Check in-use functions
   public get helpSubCategoriesListItemsLeftColumnItemArticlesList() {
     return this.helpSubCategoriesListItemsLeftColumn[0].$$('[data-testid="help-subcategories-articles-list"]')
   }
@@ -61,8 +62,12 @@ class HelpPage extends Page {
   public get helpSubCategoriesListItemsRightColumn() {
     return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
   }
-
-
+  public get helpMainFooterDescription() {
+      return $('[data-testid="help-main-footer-description"]')
+  }
+  public get helpMainFooterContactSupportButton() {
+      return $('[data-testid="help-main-footer-contact-support-button"]')
+  }
 }
 
 export default new HelpPage()

@@ -5,6 +5,7 @@
 
 import NavigationTabs from "../../page-objects/tabs.page"
 import HelpPage from "../../page-objects/help.page"
+import HelpArticlePage from "../../page-objects/help-article.page"
 import HomePage from "../../page-objects/home.page"
 import { sleep } from "../../helpers/sleep.helper"
 import screenshotHelper from "../../helpers/screenshot.helper"
@@ -94,8 +95,7 @@ describe("Check Help window", () => {
     await expect(helpSubCategoriesListItemsRightColumn).toBeElementsArrayOfSize({ gte: 1 })
 
     //Every sub category should not be empty
-    //TODO Move to page object
-    const helpSubCategoryArticlesListItemTitles = await $$('[data-testid="help-subcategories-list-item"]').map((element) => {
+    const helpSubCategoryArticlesListItemTitles = await helpSubCategoriesListItems.map((element) => {
        return element.$('[data-testid="help-subcategories-list-item-title"]').getText()
     })
     await expect(helpSubCategoryArticlesListItemTitles.length).toBeGreaterThanOrEqual(1)
@@ -127,6 +127,60 @@ describe("Check Help window", () => {
     helpSearchResultsItems[0].click()
   })
   it("Check first article", async () => {
+    //Check window title
+    const helpTabTitle = await HelpPage.helpTabTitle
+    await helpTabTitle.waitForDisplayed({ timeout: 15000 })
+    await expect(helpTabTitle).toHaveText("Mudita Help Center")
 
+    //Check back button
+    const helpArticleBackButton = await HelpArticlePage.helpArticleBackButton
+    await expect(helpArticleBackButton).toBeClickable()
+
+    //Check article title
+    const helpArticleTitle = await HelpArticlePage.helpArticleTitle
+    await expect(helpArticleTitle).toHaveText("How to do factory reset on Pure")
+
+    //Check article warning 
+    const helpArticleWarningIcon = await HelpArticlePage.helpArticleWarningIcon
+    await expect(helpArticleWarningIcon).toBeDisplayed()
+
+    const helpArticleWarning = await HelpArticlePage.helpArticleWarning
+    await expect(helpArticleWarning).toHaveTextContaining("This will delete everything on your phone!")
+
+    //Check article content
+    const helpArticleContent = await HelpArticlePage.helpArticleContent
+    await expect(helpArticleContent).toBeDisplayed() 
+    const helpArticleContentBlocks = await HelpArticlePage.helpArticleContentBlocks
+    await expect(helpArticleContentBlocks).toBeElementsArrayOfSize({ gte: 2 })
+    await expect(HelpArticlePage.getHelpArticleContentBlockTitle(0)).toHaveTextContaining("If your Pure is locked:")
+    await expect(HelpArticlePage.getHelpArticleContentBlockText(0)).toHaveTextContaining("Turn off your Pure, hold down the right selection key > select Yes")
+  
+    //Check article helpful section
+    const helpArticleFeedbackYesButton = await HelpArticlePage.helpArticleFeedbackYesButton
+    await expect(helpArticleFeedbackYesButton).toBeDisplayed()
+    await expect(helpArticleFeedbackYesButton).toBeClickable()
+
+    const helpArticleFeedbackNoButton = await HelpArticlePage.helpArticleFeedbackNoButton
+    await expect(helpArticleFeedbackNoButton).toBeDisplayed()
+    await expect(helpArticleFeedbackNoButton).toBeClickable()
+
+    const helpArticleFooter = await HelpArticlePage.helpArticleFooter
+    await helpArticleFooter.scrollIntoView()
+
+    const helpArticleFooterTitle = await HelpArticlePage.helpArticleFooterTitle
+    await expect(helpArticleFooterTitle).toHaveText("Need more help?\nVisit our Support Website")
+    
+    const helpArticleFooterVisitSupportButton = await HelpArticlePage.helpArticleFooterVisitSupportButton
+    await expect(helpArticleFooterVisitSupportButton).toHaveText("VISIT SUPPORT WEBSITE")
+
+    helpArticleBackButton.click()
+  })
+  it("Verify you are back in active first category", async () => {
+    const helpCategoriesListItems = await HelpPage.helpCategoriesListItems
+    await expect(helpCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
+    await expect(helpCategoriesListItems).toBeDisplayed()
+    
+    //Active section tab
+    expect(helpCategoriesListItems[0]).toHaveElementClassContaining("active")
   })
 })
