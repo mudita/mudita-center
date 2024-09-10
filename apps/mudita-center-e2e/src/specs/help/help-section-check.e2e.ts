@@ -94,6 +94,7 @@ describe("Check Help window", () => {
     await expect(helpSubCategoriesListItemsRightColumn).toBeElementsArrayOfSize({ gte: 1 })
 
     //Every sub category should not be empty
+    //TODO Move to page object
     const helpSubCategoryArticlesListItemTitles = await $$('[data-testid="help-subcategories-list-item"]').map((element) => {
        return element.$('[data-testid="help-subcategories-list-item-title"]').getText()
     })
@@ -101,6 +102,7 @@ describe("Check Help window", () => {
 
     //List of articles should not be empty in any of the categories
     //TODO TypeError: Cannot read properties of undefined (reading '$$')
+    //TODO move selector to page object? 
     await expect(helpSubCategoriesListItems[0].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
     await expect(helpSubCategoriesListItems[1].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
     await expect(helpSubCategoriesListItems[2].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
@@ -123,6 +125,8 @@ describe("Check Help window", () => {
     await expect(helpSearchResultsItems).toBeElementsArrayOfSize({ gte: 1 })
     //Click first article
     helpSearchResultsItems[0].click()
-    await sleep(300000)
+  })
+  it("Check first article", async () => {
+
   })
 })
