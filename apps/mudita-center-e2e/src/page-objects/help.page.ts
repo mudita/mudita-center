@@ -26,13 +26,13 @@ class HelpPage extends Page {
     return $('[data-testid="help-search-results"]')
   }
   public get helpSearchResultsParagraph() {
-    return $('[data-testiid="help-search-restults"] p')
+    return $('[data-testid="help-search-results"] p')
   }
   public get helpSearchResultsList()  {
-    return $('[data-testiid="help-search-restults"] ul')
+    return $('[data-testid="help-search-results"] ul')
   }
-  public get helpSearchResultsItem() {
-    return $('[data-testid="help-search-results-item"]')
+  public get helpSearchResultsItems() {
+    return $$('[data-testid="help-search-result-item"]')
   }
   public get helpCategoriesTitle() {
     return $('[data-testid="help-categories-title"]')
@@ -49,21 +49,19 @@ class HelpPage extends Page {
   public get helpSubCategoriesListItems() {
     return $$('[data-testid="help-subcategories-list-item"]')
   }
-
   public get helpSubCategoriesListItemsLeftColumn() {
     return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
   }
-
   public get helpSubCategoriesListItemsLeftColumnItemArticlesList() {
     return this.helpSubCategoriesListItemsLeftColumn[0].$$('[data-testid="help-subcategories-articles-list"]')
   }
   public get helpSubCategoriesListItemsLeftColumnItemArticlesListItems() {
     return this.helpSubCategoriesListItemsLeftColumn[0].$$('[data-testid="help-subcategories-articles-list-item"]')
   }
-
   public get helpSubCategoriesListItemsRightColumn() {
     return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
   }
+
 
 }
 

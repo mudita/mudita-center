@@ -80,21 +80,49 @@ describe("Check Help window", () => {
   })
 
   it("Verify Harmony Section titles", async () => {
+
+    //Verify all items
     const helpSubCategoriesListItems = await HelpPage.helpSubCategoriesListItems
     await expect(helpSubCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
 
+    //Verify left column
     const helpSubCategoriesListItemsLeftColumn = await HelpPage.helpSubCategoriesListItemsLeftColumn
     await expect(helpSubCategoriesListItemsLeftColumn).toBeElementsArrayOfSize({ gte: 1 })
 
-    //TODO foreach 
-    //List of articles should not be empty in any of the categories
+    //Verify right column
+    const helpSubCategoriesListItemsRightColumn = await HelpPage.helpSubCategoriesListItemsRightColumn
+    await expect(helpSubCategoriesListItemsRightColumn).toBeElementsArrayOfSize({ gte: 1 })
+
+    //Every sub category should not be empty
     const helpSubCategoryArticlesListItemTitles = await $$('[data-testid="help-subcategories-list-item"]').map((element) => {
        return element.$('[data-testid="help-subcategories-list-item-title"]').getText()
     })
-    console.log(helpSubCategoryArticlesListItemTitles)
-   
+    await expect(helpSubCategoryArticlesListItemTitles.length).toBeGreaterThanOrEqual(1)
 
+    //List of articles should not be empty in any of the categories
+    //TODO TypeError: Cannot read properties of undefined (reading '$$')
+    await expect(helpSubCategoriesListItems[0].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
+    await expect(helpSubCategoriesListItems[1].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
+    await expect(helpSubCategoriesListItems[2].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
+    // for (let i = 0; i <= helpSubCategoriesListItems.length; i++) {
+    //   await expect(helpSubCategoriesListItems[i].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
+    // }
+  })
+  it("Search for questions and verify results", async () => {
+    const helpSearchInput = await HelpPage.helpSearchInput
+    helpSearchInput.setValue("How to do factory reset on Pure")
 
-    //TODO erify right column - Troubleshooting
+    //Verify quick search results
+    const helpSearchResults = await HelpPage.helpSearchResults
+    await expect(helpSearchResults).toBeDisplayed()
+    const helpSearchResultsParagraph = await HelpPage.helpSearchResultsParagraph
+    await expect(helpSearchResultsParagraph).toBeDisplayed()
+    await expect(helpSearchResultsParagraph).toHaveText("Quick Links")
+    //List should not be empty, bigger than 1
+    const helpSearchResultsItems = await HelpPage.helpSearchResultsItems
+    await expect(helpSearchResultsItems).toBeElementsArrayOfSize({ gte: 1 })
+    //Click first article
+    helpSearchResultsItems[0].click()
+    await sleep(300000)
   })
 })
