@@ -20,46 +20,62 @@ describe("Check Help window", () => {
     await helpTab.waitForDisplayed({ timeout: 15000 })
     await helpTab.click()
 
-    // Check window title
+    //Check window title
     const helpTabTitle = await HelpPage.helpTabTitle
     await helpTabTitle.waitForDisplayed({ timeout: 15000 })
     await expect(helpTabTitle).toHaveText("Mudita Help Center")
 
-    // Verify welcome message
+    //Verify welcome message
     const helpMainHeader = await HelpPage.helpMainHeader
     await expect(helpMainHeader).toHaveText("Welcome! How can we help you?")
 
-    // TODO Verify welcome paragraph
+    //Verify welcome paragraph
     const helpMainSubHeader = await HelpPage.helpMainSubHeader
     await expect(helpMainSubHeader).toHaveText("Browse our selection of how-to and troubleshooting guides")
 
-    // TODO Verify search bar
+    //Verify search bar
     const iconSearch = await HelpPage.iconSearch
     await expect(iconSearch).toBeDisplayed()
 
-    // TODO verify search bar icon
+    //Verify search bar icon
     const helpSearchInput = await HelpPage.helpSearchInput
     await expect(helpSearchInput).toBeDisplayed()
 
-    //TODO verify placeholder
+    //Verify placeholder
     await expect(helpSearchInput).toHaveAttrContaining("placeholder", "Search topics")
     
-    //TODO verify main section title
+    //Verify main section title
     const helpCategoriesTitle = await HelpPage.helpCategoriesTitle
     await expect(helpCategoriesTitle).toHaveText("Which device are you using with Mudita Center?")
 
-    //TODO section tabs
+    //Section tabs
     const helpCategoriesList = await HelpPage.helpCategoriesList
     await expect(helpCategoriesList).toBeDisplayed()
     const helpCategoriesListItems = await HelpPage.helpCategoriesListItems
     await expect(helpCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
     await expect(helpCategoriesListItems).toBeDisplayed()
     
-    //TODOActive section tabs
+    //Active section tab
     expect(helpCategoriesListItems[0]).toHaveElementClassContaining("active")
+    const activeTabColor = await helpCategoriesListItems[0].getCSSProperty("color")
+    await expect(activeTabColor.value).toBe("rgba(0,0,0,1)")
+    const activeTabBackground = await helpCategoriesListItems[0].getCSSProperty(
+      "background-color"
+    )
+    await expect(activeTabBackground.value).toBe(
+      "rgba(237,237,237,1)"
+    )
 
-
-    //TODO Hover on section tabs
+    //Hover on section tabs
+    await helpCategoriesListItems[1].moveTo()
+    const hoverTabColor = await helpCategoriesListItems[0].getCSSProperty("color")
+    await expect(hoverTabColor.value).toBe("rgba(0,0,0,1)")
+    const hoverTabBackground = await helpCategoriesListItems[0].getCSSProperty(
+      "background-color"
+    )
+    await expect(hoverTabBackground.value).toBe(
+      "rgba(237,237,237,1)"
+    )
   })
 
 })
