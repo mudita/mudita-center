@@ -43,17 +43,27 @@ class HelpPage extends Page {
   public get helpCategoriesListItems() {
     return $$('[data-testid="help-categories-list-item"]')
   }
-  public get helpSubcategoriesList() {
+  public get helpSubCategoriesList() {
     return $('[data-testid="help-subcategories-list"]')
   }
-  public get helpSubCategoriesList() {
-    return $('[data-testid="help-subcategories-list"')
-  }
   public get helpSubCategoriesListItems() {
-    return $$('[data-testid="help-subcategories-list-item"')
+    return $$('[data-testid="help-subcategories-list-item"]')
   }
 
-  
+  public get helpSubCategoriesListItemsLeftColumn() {
+    return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
+  }
+
+  public get helpSubCategoriesListItemsLeftColumnItemArticlesList() {
+    return this.helpSubCategoriesListItemsLeftColumn[0].$$('[data-testid="help-subcategories-articles-list"]')
+  }
+  public get helpSubCategoriesListItemsLeftColumnItemArticlesListItems() {
+    return this.helpSubCategoriesListItemsLeftColumn[0].$$('[data-testid="help-subcategories-articles-list-item"]')
+  }
+
+  public get helpSubCategoriesListItemsRightColumn() {
+    return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
+  }
 
 }
 

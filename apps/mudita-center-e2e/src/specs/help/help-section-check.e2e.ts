@@ -7,6 +7,7 @@ import NavigationTabs from "../../page-objects/tabs.page"
 import HelpPage from "../../page-objects/help.page"
 import HomePage from "../../page-objects/home.page"
 import { sleep } from "../../helpers/sleep.helper"
+import screenshotHelper from "../../helpers/screenshot.helper"
 
 describe("Check Help window", () => {
   before(async () => {
@@ -78,4 +79,22 @@ describe("Check Help window", () => {
     )
   })
 
+  it("Verify Harmony Section titles", async () => {
+    const helpSubCategoriesListItems = await HelpPage.helpSubCategoriesListItems
+    await expect(helpSubCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
+
+    const helpSubCategoriesListItemsLeftColumn = await HelpPage.helpSubCategoriesListItemsLeftColumn
+    await expect(helpSubCategoriesListItemsLeftColumn).toBeElementsArrayOfSize({ gte: 1 })
+
+    //TODO foreach 
+    //List of articles should not be empty in any of the categories
+    const helpSubCategoryArticlesListItemTitles = await $$('[data-testid="help-subcategories-list-item"]').map((element) => {
+       return element.$('[data-testid="help-subcategories-list-item-title"]').getText()
+    })
+    console.log(helpSubCategoryArticlesListItemTitles)
+   
+
+
+    //TODO erify right column - Troubleshooting
+  })
 })
