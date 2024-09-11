@@ -86,7 +86,7 @@ jobs:
         env:
           E2ECI: "true"
           TEST_GITHUB_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          TEST_BINARY_PATH: ".\apps\mudita-center\release\Mudita-Center.exe"
+          TEST_BINARY_PATH: '.\apps\mudita-center\release\Mudita-Center.exe'
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
