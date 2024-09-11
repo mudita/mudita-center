@@ -5,10 +5,7 @@
 
 import { z } from "zod"
 
-export const entityDataSchema = z.record(
-  z.union([z.string(), z.number()]),
-  z.unknown()
-)
+export const entityDataSchema = z.record(z.string(), z.unknown())
 export type EntityData = z.infer<typeof entityDataSchema>
 
 export const entityJsonDataValidator = z.object({
