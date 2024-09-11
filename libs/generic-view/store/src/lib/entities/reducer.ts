@@ -11,6 +11,7 @@ import {
   setEntitiesMetadata,
   setEntityData,
 } from "./actions"
+import { deleteEntityDataAction } from "./delete-entity-data.action"
 
 type EntitiesType = string
 
@@ -62,6 +63,18 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
         ...state.entities[action.payload.entitiesType]?.metadata,
         ...action.payload.metadata,
       },
+    }
+  })
+  builder.addCase(deleteEntityDataAction.fulfilled, (state, action) => {
+    const entityId = action.meta.arg.entityId
+    const entitiesType = action.meta.arg.entitiesType
+
+    const entities = state.entities[entitiesType]
+
+    if (entities && entities.data && entities.idFieldKey) {
+      entities.data = entities.data.filter(
+        (entity) => entity[entities.idFieldKey!] !== entityId
+      )
     }
   })
 })

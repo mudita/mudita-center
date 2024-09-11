@@ -201,4 +201,34 @@ export class APIEntitiesService {
     }
     return this.handleSuccess(data)
   }
+
+  @IpcEvent(APIEntitiesServiceEvents.EntityDataDelete)
+  public async deleteEntityData({
+    entitiesType,
+    entityId,
+    deviceId,
+  }: {
+    entitiesType: string
+    entityId: EntityId
+    deviceId?: DeviceId
+  }): Promise<ResultObject<undefined>> {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "DELETE",
+      body: {
+        entitiesType,
+        entityId,
+      },
+    })
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    return Result.success(undefined)
+  }
 }
