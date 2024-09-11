@@ -57,10 +57,10 @@ export class APIEntitiesService {
 
   @IpcEvent(APIEntitiesServiceEvents.EntitiesConfig)
   public async getEntitiesConfiguration({
-    entityType,
+    entitiesType,
     deviceId,
   }: {
-    entityType: string
+    entitiesType: string
     deviceId?: DeviceId
   }): Promise<ResultObject<EntitiesConfig>> {
     const device = this.getDevice(deviceId)
@@ -72,7 +72,7 @@ export class APIEntitiesService {
       endpoint: "ENTITIES_CONFIGURATION",
       method: "GET",
       body: {
-        entityType,
+        entityType: entitiesType,
       },
     })
     if (!response.ok) {
@@ -88,10 +88,10 @@ export class APIEntitiesService {
 
   @IpcEvent(APIEntitiesServiceEvents.EntitiesMetadata)
   public async getEntitiesMetadata({
-    entityType,
+    entitiesType,
     deviceId,
   }: {
-    entityType: string
+    entitiesType: string
     deviceId?: DeviceId
   }): Promise<ResultObject<EntitiesMetadata>> {
     const device = this.getDevice(deviceId)
@@ -103,7 +103,7 @@ export class APIEntitiesService {
       endpoint: "ENTITIES_METADATA",
       method: "GET",
       body: {
-        entityType,
+        entityType: entitiesType,
       },
     })
     if (!response.ok) {
@@ -119,12 +119,12 @@ export class APIEntitiesService {
 
   @IpcEvent(APIEntitiesServiceEvents.EntitiesDataGet)
   public async getEntitiesData({
-    entityType,
+    entitiesType,
     entityId,
     responseType,
     deviceId,
   }: {
-    entityType: string
+    entitiesType: string
     responseType: "json" | "file"
     entityId?: string | number
     deviceId?: DeviceId
@@ -140,7 +140,7 @@ export class APIEntitiesService {
       endpoint: "ENTITIES_DATA",
       method: "GET",
       body: {
-        entityType,
+        entityType: entitiesType,
         responseType,
         ...(entityId && { entityId }),
       },

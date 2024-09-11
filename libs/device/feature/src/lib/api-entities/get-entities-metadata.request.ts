@@ -9,7 +9,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { APIEntitiesServiceEvents, EntitiesMetadata } from "device/models"
 
 export const getEntitiesMetadataRequest = (data: {
-  entityType: string
+  entitiesType: string
   deviceId?: DeviceId
 }): Promise<ResultObject<EntitiesMetadata>> => {
   return ipcRenderer.callMain(APIEntitiesServiceEvents.EntitiesMetadata, data)

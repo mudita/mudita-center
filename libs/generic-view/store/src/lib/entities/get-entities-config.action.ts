@@ -13,15 +13,15 @@ import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
 
 export const getEntitiesConfigAction = createAsyncThunk<
   undefined,
-  { deviceId: DeviceId; entityTypes?: string[] },
+  { deviceId: DeviceId; entitiesTypes?: string[] },
   { state: ReduxRootState }
 >(
   ActionName.GetEntitiesConfig,
-  async ({ deviceId, entityTypes = [] }, { rejectWithValue, dispatch }) => {
-    for (const entityType of entityTypes) {
+  async ({ deviceId, entitiesTypes = [] }, { rejectWithValue, dispatch }) => {
+    for (const entitiesType of entitiesTypes) {
       const response = await getEntitiesConfigRequest({
         deviceId,
-        entityType,
+        entitiesType,
       })
       if (!response.ok) {
         return rejectWithValue(response.error)
@@ -33,12 +33,12 @@ export const getEntitiesConfigAction = createAsyncThunk<
 
       dispatch(
         setEntitiesConfig({
-          entityType,
+          entitiesType,
           config,
           idFieldKey,
         })
       )
-      dispatch(getEntitiesMetadataAction({ entityType, deviceId }))
+      dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
     }
     return
   }

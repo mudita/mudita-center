@@ -19,7 +19,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 export const getEntitiesDataAction = createAsyncThunk<
   undefined,
   {
-    entityType: string
+    entitiesType: string
     deviceId: DeviceId
     responseType?: EntityDataResponseType
   },
@@ -27,11 +27,80 @@ export const getEntitiesDataAction = createAsyncThunk<
 >(
   ActionName.GetEntitiesData,
   async (
-    { responseType = "file", entityType, deviceId },
+    { responseType = "file", entitiesType, deviceId },
     { rejectWithValue, dispatch }
   ) => {
+    if (process.env.NODE_ENV === "development") {
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      dispatch(
+        setEntitiesData({
+          entitiesType,
+          data: [
+            {
+              contactId: 1,
+              firstName: "John",
+              lastName: "Doe",
+              namePrefix: "Mr.",
+              email: "john.doe@example.com",
+              phoneNumbers: [
+                {
+                  id: 1,
+                  phoneNumber: "123456789",
+                  phoneType: "home",
+                },
+                {
+                  id: 2,
+                  phoneNumber: "987654321",
+                  phoneType: "work",
+                },
+              ],
+            },
+            {
+              contactId: 2,
+              firstName: "Jane",
+              lastName: "Doe",
+              namePrefix: "Mrs.",
+              email: "jane.doe@example.com",
+              phoneNumbers: [
+                {
+                  id: 1,
+                  phoneNumber: "456789123",
+                  phoneType: "home",
+                },
+                {
+                  id: 2,
+                  phoneNumber: "654321987",
+                  phoneType: "work",
+                },
+              ],
+            },
+            {
+              contactId: 3,
+              firstName: "Alice",
+              lastName: "Smith",
+              namePrefix: "Ms.",
+              email: "alice.smith@example.com",
+              phoneNumbers: [
+                {
+                  id: 1,
+                  phoneNumber: "789123456",
+                  phoneType: "home",
+                },
+                {
+                  id: 2,
+                  phoneNumber: "321987654",
+                  phoneType: "work",
+                },
+              ],
+            }
+          ],
+        })
+      )
+      return
+    }
     const response = await getEntitiesDataRequest({
-      entityType,
+      entitiesType,
       deviceId,
       responseType,
     })
@@ -63,7 +132,7 @@ export const getEntitiesDataAction = createAsyncThunk<
       }
       dispatch(
         setEntitiesData({
-          entityType,
+          entitiesType,
           data: readFileResponse.data.data,
         })
       )
@@ -72,7 +141,7 @@ export const getEntitiesDataAction = createAsyncThunk<
       const { data } = response.data as EntitiesJsonData
       dispatch(
         setEntitiesData({
-          entityType,
+          entitiesType,
           data,
         })
       )

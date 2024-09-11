@@ -34,7 +34,7 @@ export const getAPIConfig = createAsyncThunk<
       dispatch(
         getEntitiesConfigAction({
           deviceId,
-          entityTypes: response.data.entityTypes,
+          entitiesTypes: response.data.entityTypes,
         })
       )
 

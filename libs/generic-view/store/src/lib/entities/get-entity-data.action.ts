@@ -33,7 +33,7 @@ export const getEntityDataAction = createAsyncThunk<
     { rejectWithValue, dispatch }
   ) => {
     const response = await getEntitiesDataRequest({
-      entityType,
+      entitiesType: entityType,
       deviceId,
       responseType,
       entityId,

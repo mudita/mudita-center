@@ -9,18 +9,18 @@ import { EntityData, EntitiesMetadata, EntitiesConfig } from "device/models"
 import { EntityId } from "device/feature"
 
 export const setEntitiesConfig = createAction<{
-  entityType: string
+  entitiesType: string
   config: EntitiesConfig
   idFieldKey: string
 }>(ActionName.SetEntitiesConfig)
 
 export const setEntitiesMetadata = createAction<{
-  entityType: string
+  entitiesType: string
   metadata: EntitiesMetadata
 }>(ActionName.SetEntitiesMetadata)
 
 export const setEntitiesData = createAction<{
-  entityType: string
+  entitiesType: string
   data: EntityData[]
 }>(ActionName.SetEntitiesData)
 

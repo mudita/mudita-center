@@ -33,34 +33,33 @@ const initialState: EntitiesState = {
 
 export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   builder.addCase(setEntitiesConfig, (state, action) => {
-    state.entities[action.payload.entityType] = {
-      ...state.entities[action.payload.entityType],
+    state.entities[action.payload.entitiesType] = {
+      ...state.entities[action.payload.entitiesType],
       config: action.payload.config,
       idFieldKey: action.payload.idFieldKey,
     }
   })
   builder.addCase(setEntitiesData, (state, action) => {
-    state.entities[action.payload.entityType] = {
-      ...state.entities[action.payload.entityType],
+    state.entities[action.payload.entitiesType] = {
+      ...state.entities[action.payload.entitiesType],
       data: action.payload.data,
     }
   })
   builder.addCase(setEntityData, (state, action) => {
-    state.entities[action.payload.entityType]?.data?.map((entity) => {
-      if (
-        entity[state.entities.idFieldKey as keyof typeof entity] ===
-        action.payload.entityId
-      ) {
-        return action.payload.data
-      }
-      return entity
-    })
+    const entityType = action.payload.entityType
+    const idFieldKey = state.entities[entityType]!.idFieldKey!
+    const entityIndex = state.entities[entityType]!.data?.findIndex(
+      (entity) => entity[idFieldKey] === action.payload.entityId
+    )
+    if (entityIndex !== -1 && state.entities[entityType]?.data) {
+      state.entities[entityType]!.data![entityIndex!] = action.payload.data
+    }
   })
   builder.addCase(setEntitiesMetadata, (state, action) => {
-    state.entities[action.payload.entityType] = {
-      ...state.entities[action.payload.entityType],
+    state.entities[action.payload.entitiesType] = {
+      ...state.entities[action.payload.entitiesType],
       metadata: {
-        ...state.entities[action.payload.entityType]?.metadata,
+        ...state.entities[action.payload.entitiesType]?.metadata,
         ...action.payload.metadata,
       },
     }

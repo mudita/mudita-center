@@ -22,7 +22,7 @@ export const getEntitiesMetadataAction = createAsyncThunk<
 
   dispatch(
     setEntitiesMetadata({
-      entityType: data.entityType,
+      entitiesType: data.entitiesType,
       metadata: response.data,
     })
   )

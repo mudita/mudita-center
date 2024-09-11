@@ -29,7 +29,7 @@ export const getEntitiesDataRequest = <
   R extends string = EntityDataResponseType,
   E extends EntityId | undefined = undefined
 >(data: {
-  entityType: string
+  entitiesType: string
   entityId?: E
   responseType: R
   deviceId: DeviceId

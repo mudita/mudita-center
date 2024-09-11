@@ -9,7 +9,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { APIEntitiesServiceEvents, EntitiesConfig } from "device/models"
 
 export const getEntitiesConfigRequest = (data: {
-  entityType: string
+  entitiesType: string
   deviceId?: DeviceId
 }): Promise<ResultObject<EntitiesConfig>> => {
   return ipcRenderer.callMain(APIEntitiesServiceEvents.EntitiesConfig, data)
