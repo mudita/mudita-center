@@ -8,4 +8,4 @@ export * from "./entity-data-get.validator"
 export * from "./entities-metadata.validator"
 export * from "./entities-data-get.validator"
 
-export type EntityId = string | number
+export type EntityId = string
