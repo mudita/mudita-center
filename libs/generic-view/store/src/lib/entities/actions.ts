@@ -25,7 +25,7 @@ export const setEntitiesData = createAction<{
 }>(ActionName.SetEntitiesData)
 
 export const setEntityData = createAction<{
-  entityType: string
+  entitiesType: string
   entityId: EntityId
   data: EntityData
 }>(ActionName.SetEntityData)

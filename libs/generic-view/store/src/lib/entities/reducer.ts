@@ -12,7 +12,7 @@ import {
   setEntityData,
 } from "./actions"
 
-type EntityType = string
+type EntitiesType = string
 
 interface Entities {
   idFieldKey?: string
@@ -23,7 +23,7 @@ interface Entities {
 
 interface EntitiesState {
   entities: {
-    [key: EntityType]: Entities | undefined
+    [key: EntitiesType]: Entities | undefined
   }
 }
 
@@ -46,13 +46,13 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     }
   })
   builder.addCase(setEntityData, (state, action) => {
-    const entityType = action.payload.entityType
-    const idFieldKey = state.entities[entityType]!.idFieldKey!
-    const entityIndex = state.entities[entityType]!.data?.findIndex(
+    const entitiesType = action.payload.entitiesType
+    const idFieldKey = state.entities[entitiesType]!.idFieldKey!
+    const entityIndex = state.entities[entitiesType]!.data?.findIndex(
       (entity) => entity[idFieldKey] === action.payload.entityId
     )
-    if (entityIndex !== -1 && state.entities[entityType]?.data) {
-      state.entities[entityType]!.data![entityIndex!] = action.payload.data
+    if (entityIndex !== -1 && state.entities[entitiesType]?.data) {
+      state.entities[entitiesType]!.data![entityIndex!] = action.payload.data
     }
   })
   builder.addCase(setEntitiesMetadata, (state, action) => {

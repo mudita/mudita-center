@@ -20,7 +20,7 @@ import { getFile } from "../file-transfer/get-file.action"
 export const getEntityDataAction = createAsyncThunk<
   undefined,
   {
-    entityType: string
+    entitiesType: string
     entityId: EntityId
     deviceId: DeviceId
     responseType?: EntityDataResponseType
@@ -29,11 +29,11 @@ export const getEntityDataAction = createAsyncThunk<
 >(
   ActionName.GetEntityData,
   async (
-    { responseType = "file", entityId, entityType, deviceId },
+    { responseType = "file", entityId, entitiesType, deviceId },
     { rejectWithValue, dispatch }
   ) => {
     const response = await getEntitiesDataRequest({
-      entitiesType: entityType,
+      entitiesType: entitiesType,
       deviceId,
       responseType,
       entityId,
@@ -66,7 +66,7 @@ export const getEntityDataAction = createAsyncThunk<
       }
       dispatch(
         setEntityData({
-          entityType,
+          entitiesType,
           entityId,
           data: readFileResponse.data.data,
         })
@@ -76,7 +76,7 @@ export const getEntityDataAction = createAsyncThunk<
       const { data } = response.data as EntityJsonData
       dispatch(
         setEntityData({
-          entityType,
+          entitiesType,
           entityId,
           data,
         })

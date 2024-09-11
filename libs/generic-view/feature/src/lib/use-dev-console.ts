@@ -36,14 +36,14 @@ export const useDevConsole = () => {
             )
           },
           _getEntityData: (
-            entityType: string,
+            entitiesType: string,
             entityId: string,
             responseType: "json" | "file" = "json",
             deviceId = activeDeviceId
           ) => {
             return dispatch(
               getEntityDataAction({
-                entityType,
+                entitiesType,
                 entityId,
                 deviceId,
                 responseType,
