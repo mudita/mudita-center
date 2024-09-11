@@ -18,6 +18,7 @@ import {
   entitiesJsonDataValidator,
   EntitiesMetadata,
   entitiesMetadataValidator,
+  EntityId,
   EntityJsonData,
   entityJsonDataValidator,
   GeneralError,
@@ -126,7 +127,7 @@ export class APIEntitiesService {
   }: {
     entitiesType: string
     responseType: "json" | "file"
-    entityId?: string | number
+    entityId?: EntityId
     deviceId?: DeviceId
   }): Promise<
     ResultObject<EntitiesJsonData | EntityJsonData | EntitiesFileData>
