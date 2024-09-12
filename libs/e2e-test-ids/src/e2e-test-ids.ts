@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum E2eTestIds {
-  // Base components
-  ModalCloseIconButton = "modal-close-icon-button",
+export enum ModalCloseButtonTestIds {
+  IconButton = "modal-close-button-icon-button",
+}
 
-  // Derived components
-  ContactSupportModalSuccessTitle = "contact-support-modal-success-title",
-  ContactSupportModalSuccessDescription = "contact-support-modal-success-description",
-  ContactSupportModalSuccessCloseButton = "contact-support-modal-success-close-button"
+export enum ContactSupportModalTestIds {
+  Title = "contact-support-modal-success-title",
+  Description = "contact-support-modal-success-description",
+  CloseButton = "contact-support-modal-success-close-button",
 }

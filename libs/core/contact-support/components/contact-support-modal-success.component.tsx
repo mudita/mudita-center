@@ -5,7 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { E2eTestIds } from "e2e-test-ids"
+import { ContactSupportModalTestIds } from "e2e-test-ids"
 import { Modal } from "generic-view/ui"
 import { IconType } from "generic-view/utils"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -27,15 +27,15 @@ export const ContactSupportModalSuccess: FunctionComponent<Props> = ({
 }) => (
   <>
     <Modal.TitleIcon config={{ type: IconType.Success }} />
-    <Modal.Title data-testid={E2eTestIds.ContactSupportModalSuccessTitle}>
+    <Modal.Title data-testid={ContactSupportModalTestIds.Title}>
       {intl.formatMessage(messages.title)}
     </Modal.Title>
-    <p data-testid={E2eTestIds.ContactSupportModalSuccessDescription}>
+    <p data-testid={ContactSupportModalTestIds.Description}>
       {intl.formatMessage(messages.body)}
     </p>
     <Modal.Buttons config={{ vertical: true }}>
       <ButtonSecondary
-        data-testid={E2eTestIds.ContactSupportModalSuccessCloseButton}
+        data-testid={ContactSupportModalTestIds.CloseButton}
         config={{
           text: intl.formatMessage(messages.closeButtonLabel),
           action: {
