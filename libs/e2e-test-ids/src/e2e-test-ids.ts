@@ -4,5 +4,5 @@
  */
 
 export enum E2eTestIds {
-  // Single Enum Strategy
+  ModalCloseIconButton = "modal-close-icon-button",
 }

@@ -5,6 +5,7 @@
 
 import React from "react"
 import styled, { css } from "styled-components"
+import { E2eTestIds } from "e2e-test-ids"
 import { APIFC, IconType } from "generic-view/utils"
 import { ButtonBase } from "../../../buttons/button-base/button-base"
 import { iconButtonStyles } from "../../../shared/button"
@@ -14,15 +15,15 @@ import { ModalCloseButtonConfig } from "generic-view/models"
 export const ModalCloseButton: APIFC<undefined, ModalCloseButtonConfig> = ({
   data,
   config,
-  className,
+  className = "",
   ...rest
 }) => {
   if (!config?.action) return null
   return (
     <ModalClose
       action={config.action}
-      test-id={"modal-close-button"}
-      className={"modal-close-button " + className}
+      data-testid={E2eTestIds.ModalCloseIconButton}
+      className={"modal-close-icon-button " + className}
       {...rest}
     >
       <ModalCloseIcon />
