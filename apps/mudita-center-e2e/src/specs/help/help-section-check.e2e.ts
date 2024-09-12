@@ -99,14 +99,10 @@ describe("Check Help window", () => {
     await expect(helpSubCategoryArticlesListItemTitles.length).toBeGreaterThanOrEqual(1)
 
     //List of articles should not be empty in any of the categories
-    //TODO TypeError: Cannot read properties of undefined (reading '$$')
-    //TODO move selector to page object? 
-    await expect(helpSubCategoriesListItems[0].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
-    await expect(helpSubCategoriesListItems[1].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
-    await expect(helpSubCategoriesListItems[2].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
-    // for (let i = 0; i <= helpSubCategoriesListItems.length; i++) {
-    //   await expect(helpSubCategoriesListItems[i].$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
-    // }
+    let helpSubCategoriesListItem
+    for await (helpSubCategoriesListItem of helpSubCategoriesListItems) {
+      await expect(helpSubCategoriesListItem.$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
+    }
   })
   it("Search for questions and verify results", async () => {
     const helpSearchInput = await HelpPage.helpSearchInput
