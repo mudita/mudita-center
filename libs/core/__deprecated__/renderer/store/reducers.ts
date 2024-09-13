@@ -36,6 +36,7 @@ import {
 import { appStateReducer } from "shared/app-state"
 import { activeDeviceRegistryReducer } from "active-device-registry/feature"
 import { helpReducer } from "help/store"
+import { flashingReducer } from "msc-flash-harmony"
 
 export const reducers = {
   device: deviceReducer,
@@ -68,6 +69,7 @@ export const reducers = {
   dataMigration: dataMigrationReducer,
   genericDataTransfer: genericDataTransferReducer,
   helpV2: helpReducer,
+  flashing: flashingReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)
