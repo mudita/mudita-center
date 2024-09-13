@@ -50,6 +50,7 @@ import { incomingFeatureInfo } from "./lib/incoming-feature-info"
 import { table } from "./lib/table"
 import { formConditionalRenderer } from "./lib/form-conditional-renderer"
 import { tableCell } from "./lib/table-cell"
+import { entitiesLoader } from "./lib/entities-loader"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -99,6 +100,7 @@ export * from "./lib/incoming-feature-info"
 export * from "./lib/table"
 export * from "./lib/table-cell"
 export * from "./lib/form-conditional-renderer"
+export * from "./lib/entities-loader"
 
 export default {
   [blockBox.key]: blockBox,
@@ -152,4 +154,5 @@ export default {
   [incomingFeatureInfo.key]: incomingFeatureInfo,
   [table.key]: table,
   [tableCell.key]: tableCell,
+  [entitiesLoader.key]: entitiesLoader,
 } as const

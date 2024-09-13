@@ -32,7 +32,13 @@ export const getGenericConfig = createAsyncThunk<
         const newConfig = {
           main: {
             screenTitle: "Contacts",
-            preloadEntitiesTypes: ["contacts"],
+            component: "entities-loader",
+            config: {
+              entitiesTypes: ["contacts"],
+            },
+            childrenKeys: ["contactsForm"],
+          },
+          contactsForm: {
             component: "form",
             config: {
               formOptions: {

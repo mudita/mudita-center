@@ -33,7 +33,6 @@ export type ComponentPropsByName = {
 export type MainView = {
   main: ComponentPropsByName & {
     screenTitle: string
-    preloadEntitiesTypes?: string[]
   }
 }
 

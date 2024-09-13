@@ -5,8 +5,6 @@
 
 import { createSelector } from "reselect"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { selectActiveApiDeviceId } from "./select-active-api-device-id"
-import { selectConfiguredDevices } from "./select-configured-devices"
 
 export const selectEntitiesIdFieldKey = createSelector(
   (state: ReduxRootState) => state.genericEntities.entities,
@@ -48,14 +46,24 @@ export const selectEntityData = createSelector(
   }
 )
 
-export const selectEntitiesTypesToPreload = createSelector(
-  selectActiveApiDeviceId,
-  selectConfiguredDevices,
-  (state: ReduxRootState, viewKey: string) => viewKey,
-  (activeDeviceId, devices, viewKey) => {
-    const features = activeDeviceId
-      ? devices[activeDeviceId]?.features
-      : undefined
-    return features?.[viewKey]?.config?.main.preloadEntitiesTypes
+export const selectEntitiesLoadingState = createSelector(
+  (state: ReduxRootState) => state.genericEntities.entities,
+  (entities) => {
+    return Object.entries(entities).reduce(
+      (
+        acc: Record<string, "loading" | "loaded" | "idle">,
+        [entitiesType, entities]
+      ) => {
+        if (entities?.metadata?._loading) {
+          acc[entitiesType] = "loading"
+        } else if (entities?.data?.length) {
+          acc[entitiesType] = "loaded"
+        } else {
+          acc[entitiesType] = "idle"
+        }
+        return acc
+      },
+      {}
+    )
   }
 )
