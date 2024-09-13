@@ -9,15 +9,18 @@ import styled from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import { GenericThemeProvider } from "generic-view/theme"
-import { H3 } from "../../texts/headers"
-import { P3 } from "../../texts/paragraphs"
+import { H3 } from "../../../../../generic-view/ui/src/lib/texts/headers"
+import { P3 } from "../../../../../generic-view/ui/src/lib/texts/paragraphs"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
-import { Form } from "../../interactive/form/form"
-import { WarrningBox } from "../../shared/shared"
-import { ButtonPrimary } from "../../buttons/button-primary"
+import { Form } from "../../../../../generic-view/ui/src/lib/interactive/form/form"
+import { WarrningBox } from "../../../../../generic-view/ui/src/lib/shared/shared"
+import { ButtonPrimary } from "../../../../../generic-view/ui/src/lib/buttons/button-primary"
+import { useDispatch } from "react-redux"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { flashMscDeviceService } from "../services"
 
 const messages = defineMessages({
   header: {
@@ -48,13 +51,14 @@ const messages = defineMessages({
 
 const RecoveryModeUI: FunctionComponent = () => {
   const [isConfirmed, setIsConfirmed] = useState(false)
+  const dispatch = useDispatch<Dispatch>()
 
   const handleCheckboxChange = () => {
     setIsConfirmed((prevIsConfirmed) => !prevIsConfirmed)
   }
 
   const onStartRecovery = () => {
-    // will be finished in next PR
+    dispatch(flashMscDeviceService())
   }
 
   return (
