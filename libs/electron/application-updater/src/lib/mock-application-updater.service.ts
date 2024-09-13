@@ -16,8 +16,6 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
   ) {
     super()
   }
-
-  @IpcEvent(IpcApplicationUpdaterEvent.Install)
   public quitAndInstall(): void {}
 
   @IpcEvent(IpcApplicationUpdaterEvent.Download)

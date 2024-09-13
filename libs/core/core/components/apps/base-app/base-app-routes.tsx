@@ -148,6 +148,21 @@ export default () => (
               />,
             ]}
             <Route
+              key="help-category-article"
+              path={`${URL_MAIN.help}/:categoryId/:articleId`}
+              component={ArticlePage}
+            />,
+            <Route
+              key="help-category"
+              path={`${URL_MAIN.help}/:categoryId`}
+              component={HelpPage}
+            />,
+            <Route
+              key="help-root"
+              path={URL_MAIN.help}
+              component={HelpPage}
+            />
+            <Route
               path={`${URL_MAIN.settings}${URL_TABS.about}`}
               component={AboutContainer}
             />

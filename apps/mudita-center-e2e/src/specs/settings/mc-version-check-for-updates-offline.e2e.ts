@@ -84,7 +84,7 @@ describe("Checking for Mudita Center updates", () => {
       await McUpdateModalPage.checkingFailedUpdateBody
     await expect(checkingFailedUpdateBody).toBeDisplayed()
     await expect(checkingFailedUpdateBody).toHaveText(
-      "Opps, something went wrong. \nPlease check your internet connection"
+      "Oops, something went wrong. \nPlease check your internet connection"
     )
 
     await ModalPage.closeModalButtonClick()
@@ -99,6 +99,39 @@ describe("Checking for Mudita Center updates", () => {
     await expect(aboutCheckForUpdateFailedLabel).toHaveText(
       "Checking for updates failed"
     )
+
+    await ModalPage.closeModalButtonClick()
+  })
+  it("Check Settings -> About checking failed label", async () => {
+    screenshotHelper.makeViewScreenshot()
+    const aboutCheckForUpdateFailedLabel =
+      await SettingsPage.aboutCheckForUpdateFailedLabel
+
+    await expect(aboutCheckForUpdateFailedLabel).toBeDisplayed()
+
+    await expect(aboutCheckForUpdateFailedLabel).toHaveText(
+      "Checking for updates failed"
+    )
+  })
+
+  after(async () => {
+    E2EMockClient.stopServer()
+    E2EMockClient.disconnect()
+
+    // Switch back to online mode after finishing the tests
+    await browser.setNetworkConditions({
+      offline: false,
+      latency: 0,
+      download_throughput: -1,
+      upload_throughput: -1,
+    })
+
+    // Add a small delay to ensure network conditions are applied
+    await browser.pause(1000)
+
+    // Verify network conditions
+    const isOnline = await testsHelper.isOnline()
+    await expect(isOnline).toBeTruthy()
   })
 
   after(async () => {

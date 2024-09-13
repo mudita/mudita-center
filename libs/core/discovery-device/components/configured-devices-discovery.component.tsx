@@ -11,12 +11,14 @@ import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
 import {
-  getDevicesSelector,
   getAvailableDevicesSelector,
+  getDevicesSelector,
   getFailedDevicesSelector,
   handleDeviceActivated,
 } from "device-manager/feature"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { DeviceType } from "device-protocol/models"
+import { getAPIConfig } from "generic-view/store"
+import { TmpDispatch } from "Core/__deprecated__/renderer/store"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_DISCOVERY_DEVICE,
@@ -27,7 +29,7 @@ import { useNoNewDevicesDetectedHook } from "Core/discovery-device/hooks/use-no-
 
 const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   const history = useHistory()
-  const dispatch = useDispatch<Dispatch>()
+  const dispatch = useDispatch<TmpDispatch>()
   const devices = useSelector(getDevicesSelector)
   const failedDevices = useSelector(getFailedDevicesSelector)
   const availableDevices = useSelector(getAvailableDevicesSelector)
@@ -45,9 +47,23 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
         failedDevices.length === 1 &&
         noNewDevicesDetectedState
       ) {
-        await dispatch(handleDeviceActivated(devices[0].id))
-        history.push(URL_ONBOARDING.troubleshooting)
-        return
+        if (devices[0].deviceType === DeviceType.APIDevice) {
+          const getAPIConfigResult = await dispatch(
+            getAPIConfig({ deviceId: devices[0].id })
+          )
+          await dispatch(handleDeviceActivated(devices[0].id))
+          if (getAPIConfigResult.error !== undefined) {
+            history.push(URL_ONBOARDING.troubleshooting)
+          } else {
+            history.push(URL_DEVICE_INITIALIZATION.root)
+          }
+
+          return
+        } else {
+          await dispatch(handleDeviceActivated(devices[0].id))
+          history.push(URL_ONBOARDING.troubleshooting)
+          return
+        }
       }
 
       if (
@@ -88,7 +104,8 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
       !isAnyDeviceAttachedOnInitialRender.current &&
       noNewDevicesDetectedState
     ) {
-      history.push(URL_ONBOARDING.troubleshooting)
+      dispatch(setDiscoveryStatus(DiscoveryStatus.Idle))
+      history.push(URL_ONBOARDING.root)
       return
     }
 

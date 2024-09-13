@@ -37,12 +37,8 @@ export class HelpModule extends BaseModule {
       fileSystem,
       mainApplicationWindow
     )
-    if (process.env.NEW_HELP_ENABLED === "1") {
-      const helpService = new HelpService(mainApplicationWindow)
-      void helpService.initialize()
-      this.controllers = [helpService]
-    } else {
-      this.controllers = []
-    }
+    const helpService = new HelpService(mainApplicationWindow)
+    void helpService.initialize()
+    this.controllers = [helpService]
   }
 }

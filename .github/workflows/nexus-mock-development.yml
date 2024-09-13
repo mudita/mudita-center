@@ -109,7 +109,6 @@ jobs:
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
           MOCK_SERVICE_ENABLED: "1"
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
-          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux
@@ -140,10 +139,10 @@ jobs:
           } | Set-Content -Path 'apps/mudita-center/package.json'
       - name: Setup depedencies
         run: npm run setup
-#      - name: Copy electron-builder environment file for Windows
-#        if: matrix.os == 'Windows'
-#        run: |
-#          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
+      #      - name: Copy electron-builder environment file for Windows
+      #        if: matrix.os == 'Windows'
+      #        run: |
+      #          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.os != 'Windows'
         run: |

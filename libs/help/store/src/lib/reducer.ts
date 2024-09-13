@@ -19,6 +19,7 @@ const initialState: HelpState = {
     subcategories: {},
     articles: {},
     assets: {},
+    shortcuts: {},
   },
   ratedArticles: [],
 }

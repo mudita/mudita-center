@@ -77,7 +77,6 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
-          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         run: |
           printenv > .env
       - name: Setup Env for Linux
@@ -106,7 +105,6 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
-          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux
@@ -137,10 +135,10 @@ jobs:
           } | Set-Content -Path 'apps/mudita-center/package.json'
       - name: Setup depedencies
         run: npm run setup
-#      - name: Copy electron-builder environment file for Windows
-#        if: matrix.os == 'Windows'
-#        run: |
-#          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
+      #      - name: Copy electron-builder environment file for Windows
+      #        if: matrix.os == 'Windows'
+      #        run: |
+      #          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.os != 'Windows'
         run: |

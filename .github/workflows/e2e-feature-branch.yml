@@ -57,4 +57,4 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb
-          npm run e2e:test:linux
+          npm run e2e:test:cicd:standalone

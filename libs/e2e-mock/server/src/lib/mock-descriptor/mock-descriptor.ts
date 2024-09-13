@@ -5,7 +5,11 @@
 
 import { findIndex, pullAt, find } from "lodash"
 import { PortInfo } from "serialport"
-import { AddKompakt, AddKompaktResponse } from "./mock-descriptor-validators"
+import {
+  AddKompakt,
+  AddKompaktResponse,
+  RestoreDefaultResponses,
+} from "./mock-descriptor-validators"
 import {
   ApiResponseWithConfig,
   ApiResponsesWithConfigArray,
@@ -82,6 +86,26 @@ class MockDescriptor {
         ],
       },
     }
+  }
+
+  public removeResponses({ path, requests }: RestoreDefaultResponses) {
+    requests?.forEach((request) => {
+      if (
+        this._mockResponsesPerDevice[path]?.[request.endpoint]?.[request.method]
+      ) {
+        this._mockResponsesPerDevice[path][request.endpoint]![request.method] =
+          undefined
+      }
+      if (
+        this._mockResponsesPerDeviceOnce[path]?.[request.endpoint]?.[
+          request.method
+        ]
+      ) {
+        this._mockResponsesPerDeviceOnce[path][request.endpoint]![
+          request.method
+        ] = undefined
+      }
+    })
   }
 
   public addResponseOnce({

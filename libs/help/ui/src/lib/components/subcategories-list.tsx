@@ -11,6 +11,7 @@ import { useParams } from "react-router"
 import { useSelector } from "react-redux"
 import { selectCurrentCategory } from "help/store"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { HelpTestId } from "../test-ids"
 
 export const SubcategoriesList: FunctionComponent = () => {
   const { categoryId } = useParams<{
@@ -30,7 +31,7 @@ export const SubcategoriesList: FunctionComponent = () => {
   ]
 
   return (
-    <Wrapper>
+    <Wrapper data-testid={HelpTestId.SubcategoriesList}>
       {columns.map((column, index) => {
         return (
           <Column key={index}>

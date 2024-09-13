@@ -88,13 +88,13 @@ jobs:
         if: matrix.os == 'Linux'
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
-          export "BUILD_VERSION=-mock
+          export BUILD_VERSION=-mock
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Mac
         if: matrix.os == 'macOS'
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
-          export "BUILD_VERSION=-mock
+          export BUILD_VERSION=-mock
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Windows
         if: matrix.os == 'Windows'
@@ -153,7 +153,8 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
+          $BUILD_VERSION = "-mock"
+          $APP_VERSION = (Get-Content -Path "apps/mudita-center/version") + $BUILD_VERSION
           $ENVIRONMENT_CATALOG_NAME="mock-production"
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"

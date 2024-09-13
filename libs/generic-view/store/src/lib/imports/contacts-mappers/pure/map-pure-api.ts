@@ -13,6 +13,7 @@ export const mapPureApi = (contacts: Contact[]): UnifiedContact[] => {
       id: contact.id,
       firstName: contact.firstName,
       lastName: contact.lastName,
+      starred: contact.favourite,
       phoneNumbers: [
         ...(contact.primaryPhoneNumber
           ? [
@@ -59,6 +60,7 @@ export const mapPureApi = (contacts: Contact[]): UnifiedContact[] => {
             ]
           : []),
       ],
+      note: contact.note,
     } as UnifiedContact
     return {
       ...unifiedContact,

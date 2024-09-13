@@ -10,6 +10,7 @@ import { NavLink } from "react-router-dom"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { useSelector } from "react-redux"
 import { selectHelpArticles } from "help/store"
+import { HelpTestId } from "../test-ids"
 
 interface Props {
   articleIds: string[]
@@ -18,30 +19,41 @@ interface Props {
 export const ArticlesList: FunctionComponent<Props> = ({ articleIds = [] }) => {
   const articles = useSelector(selectHelpArticles)
   return (
-    <Wrapper>
+    <Wrapper data-testid={HelpTestId.SubcategoryArticlesList}>
       {articleIds.map((id) => {
         const article = articles[id]
         if (!article) {
           return null
         }
         return (
-          <Link
-            key={id}
-            to={`${URL_MAIN.help}/${article.categoryId}/${id}`}
-            title={article.title}
-          >
-            {article.title}
-          </Link>
+          <li key={id}>
+            <Link
+              to={`${URL_MAIN.help}/${article.categoryId}/${id}`}
+              title={article.title}
+              data-testid={HelpTestId.SubcategoryArticlesListItem}
+            >
+              {article.title}
+            </Link>
+          </li>
         )
       })}
     </Wrapper>
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+  }
 `
 
 const Link = styled(NavLink)`
@@ -50,9 +62,6 @@ const Link = styled(NavLink)`
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
   letter-spacing: 0.05em;
   white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 100%;
 
   &:hover {
     text-decoration: underline;

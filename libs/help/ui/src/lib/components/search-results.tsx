@@ -16,6 +16,7 @@ import { NavLink } from "react-router-dom"
 import { useFormContext } from "react-hook-form"
 import { IconType } from "generic-view/utils"
 import { Icon, P3 } from "generic-view/ui"
+import { HelpTestId } from "../test-ids"
 
 const messages = defineMessages({
   description: {
@@ -43,7 +44,7 @@ const SearchResultsFC: FunctionComponent<
   }
 
   return (
-    <SearchResultsWrapper ref={innerRef}>
+    <SearchResultsWrapper ref={innerRef} data-testid={HelpTestId.SearchResults}>
       {(results?.hits.length || 0) > 0 ? (
         <>
           <ListTitle>{intl.formatMessage(messages.description)}</ListTitle>
@@ -52,12 +53,13 @@ const SearchResultsFC: FunctionComponent<
               const category = categories[result.document.categoryId]
               const onMouseEnter = () => handleMouseEnter(index)
               return (
-                <NavLink
-                  key={result.id}
-                  to={`/help/${category.id}/${result.id}`}
-                  onMouseEnter={onMouseEnter}
-                >
-                  <ListItem className={activeIndex === index ? "active" : ""}>
+                <li key={result.id}>
+                  <ListItemLink
+                    to={`/help/${category.id}/${result.id}`}
+                    onMouseEnter={onMouseEnter}
+                    className={activeIndex === index ? "active" : ""}
+                    data-testid={HelpTestId.SearchResultsItem}
+                  >
                     <CategoryName>{category.name}/</CategoryName>
                     <ArticleTitle>
                       <HighlightText
@@ -65,8 +67,8 @@ const SearchResultsFC: FunctionComponent<
                         phrase={phrase}
                       />
                     </ArticleTitle>
-                  </ListItem>
-                </NavLink>
+                  </ListItemLink>
+                </li>
               )
             })}
           </ResultsList>
@@ -116,13 +118,15 @@ const ListTitle = styled.p`
 const ResultsList = styled.ul`
   margin: 0;
   padding: 0;
+  list-style: none;
 `
 
-const ListItem = styled.li`
+const ListItemLink = styled(NavLink)`
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   padding: 1rem 1.6rem;
-  cursor: pointer;
+  transition: background 0.2s ease-in-out;
 
   &.active {
     background: ${({ theme }) => theme.color.grey5};

@@ -36,24 +36,3 @@ test("returns news response properly", async () => {
   const result = await client.getNews({ limit: 3 })
   expect(result).toStrictEqual({ data: { response: "ok" } })
 })
-
-test("returns help response properly", async () => {
-  const data = {
-    response: "ok",
-  }
-  axiosMock.onGet(MuditaCenterServerRoutes.Help).replyOnce(200, {
-    data,
-  })
-  const client = new Client()
-  const result = await client.getHelp({
-    nextSyncToken: "dsad921342",
-  })
-  expect(result).toStrictEqual({ data })
-})
-
-test("returns 404 when no query is provided", () => {
-  const client = new Client()
-  void expect(async () => {
-    await client.getHelp({})
-  }).rejects.toThrowError(`Error: Request failed with status code 404`)
-})
