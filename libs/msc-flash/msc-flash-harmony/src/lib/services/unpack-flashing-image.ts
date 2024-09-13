@@ -18,11 +18,7 @@ export const unpackFlashingImageService = async (
   const { osDownloadLocation } = await getAppSettingsMain()
 
   try {
-    await execPromise(`cd "${osDownloadLocation}"`)
-    const stdout = await execPromise("pwd")
-    console.log("Ściezka w której jestem to: ", stdout)
-    const list = await execPromise(`ls`)
-    console.log("Lista: ", list)
+    await execPromise(`cd "${osDownloadLocation}" && tar -xf ${fileName}`)
   } catch (error) {
     console.error("Failed to unpack files", error)
     throw error
