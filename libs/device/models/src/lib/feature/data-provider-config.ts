@@ -36,7 +36,7 @@ const sortSchema = z
 
 export type DataProviderSortConfig = z.infer<typeof sortSchema>
 
-const filtersSchema = z.record(z.string(), z.array(regexSchema))
+const filtersSchema = z.record(z.string(), z.array(regexSchema)).optional()
 
 export type DataProviderFilterConfig = z.infer<typeof filtersSchema>
 

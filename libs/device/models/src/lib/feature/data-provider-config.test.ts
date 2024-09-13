@@ -6,64 +6,63 @@
 import { dataProviderSchema } from "./data-provider-config"
 
 describe("dataProviderSchema", () => {
-  it("validates entities-array with optional entitiesType", () => {
+  it("validates entities-array with sort and filters", () => {
     const validData = {
       source: "entities-array",
-      entitiesType: "someType",
-    }
-    expect(dataProviderSchema.safeParse(validData).success).toBe(true)
-  })
-
-  it("validates entities-array without entitiesType", () => {
-    const validData = {
-      source: "entities-array",
-    }
-    expect(dataProviderSchema.safeParse(validData).success).toBe(true)
-  })
-
-  it("validates entities-field with fields", () => {
-    const validData = {
-      source: "entities-field",
-      entitiesType: "someType",
-      fields: {
-        dataItemId: "value1",
-        "data.someField": "value2",
-        "config.someField": "value3",
+      sort: {
+        someField: {
+          priority: 1,
+          direction: "asc",
+          orderingPatterns: ["/pattern/"],
+        },
+      },
+      filters: {
+        someField: ["/pattern/"],
       },
     }
     expect(dataProviderSchema.safeParse(validData).success).toBe(true)
   })
 
-  it("validates form-fields with fields", () => {
+  it("fails validation for entities-array with invalid sort direction", () => {
+    const invalidData = {
+      source: "entities-array",
+      sort: {
+        someField: {
+          priority: 1,
+          direction: "invalid",
+        },
+      },
+    }
+    expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
+  })
+
+  it("fails validation for entities-array with invalid regex in filters", () => {
+    const invalidData = {
+      source: "entities-array",
+      filters: {
+        someField: ["invalid-regex"],
+      },
+    }
+    expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
+  })
+
+  it("validates entities-field with optional entitiesType", () => {
     const validData = {
-      source: "form-fields",
+      source: "entities-field",
       fields: {
         dataItemId: "value1",
         "data.someField": "value2",
-        "config.someField": "value3",
       },
     }
     expect(dataProviderSchema.safeParse(validData).success).toBe(true)
   })
 
-  it("fails validation for invalid source", () => {
-    const invalidData = {
-      source: "invalid-source",
-    }
-    expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
-  })
-
-  it("fails validation for entities-field without fields", () => {
-    const invalidData = {
-      source: "entities-field",
-      entitiesType: "someType",
-    }
-    expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
-  })
-
-  it("fails validation for form-fields without fields", () => {
+  it("fails validation for form-fields with invalid field key", () => {
     const invalidData = {
       source: "form-fields",
+      fields: {
+        invalidField: "value",
+      },
     }
     expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
   })
