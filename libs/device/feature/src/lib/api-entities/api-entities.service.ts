@@ -221,7 +221,7 @@ export class APIEntitiesService {
       endpoint: "ENTITIES_DATA",
       method: "DELETE",
       body: {
-        entitiesType,
+        entityType: entitiesType,
         entityId,
       },
     })
