@@ -3,39 +3,178 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentType } from "react"
+import React, { ComponentType, ReactElement, useMemo } from "react"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import styled, { css } from "styled-components"
 import { useSelector } from "react-redux"
 import {
   selectComponentConfig,
   selectComponentData,
+  selectComponentDataProvider,
   selectComponentLayout,
+  selectEntitiesData,
+  selectEntitiesIdFieldKey,
+  selectEntityData,
 } from "generic-view/store"
-import { Layout, mapLayoutSizes, RecursiveComponent } from "generic-view/utils"
+import {
+  dataProviderFilter,
+  dataProviderSort,
+  mapLayoutSizes,
+  RecursiveComponent,
+} from "generic-view/utils"
+import { EntityData, Layout } from "device/models"
+import { set } from "lodash"
+import { useFormContext } from "react-hook-form"
+import { TableCell } from "../../../ui/src/lib/table/table-cell"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
 ): RecursiveComponent => {
-  return (props) => {
-    const { viewKey, componentKey } = props
+  return ({ children, ...props }) => {
+    const {
+      viewKey,
+      componentKey,
+      style,
+      className,
+      componentName,
+      ...dataProps
+    } = props
+    const formContext = useFormContext()
+    let dataItemId = props.dataItemId
+
     const layout = useSelector((state: ReduxRootState) => {
       return selectComponentLayout(state, { viewKey, componentKey })
     })
+    const layoutDependency = JSON.stringify(layout)
+
     const config = useSelector((state: ReduxRootState) => {
       return selectComponentConfig(state, { viewKey, componentKey })
     })
-    const data = useSelector((state: ReduxRootState) => {
-      return selectComponentData(state, { viewKey, componentKey })
+    const dataProvider = useSelector((state: ReduxRootState) => {
+      return selectComponentDataProvider(state, { viewKey, componentKey })
     })
-    if (layout) {
-      return (
-        <Wrapper $layout={layout}>
-          <Component {...(props as P)} config={config} data={data} />
-        </Wrapper>
-      )
+    const dataProviderDependency = JSON.stringify(dataProvider)
+    const editableProps = {
+      ...dataProps,
+      config: {
+        ...config,
+      },
+      data: undefined as unknown,
     }
-    return <Component {...(props as P)} config={config} data={data} />
+
+    if (!dataProvider) {
+      editableProps.data = useSelector((state: ReduxRootState) => {
+        return selectComponentData(state, { viewKey, componentKey })
+      })
+    } else if (dataProvider?.source === "entities-array") {
+      const rawData =
+        (useSelector((state: ReduxRootState) => {
+          return selectEntitiesData(state, {
+            entitiesType: dataProvider.entitiesType!,
+          })
+        }) as EntityData[]) || []
+      const idFieldKey = useSelector((state: ReduxRootState) => {
+        return selectEntitiesIdFieldKey(state, {
+          entitiesType: dataProvider.entitiesType!,
+        })
+      })
+
+      const filteredData = dataProviderFilter(
+        [...rawData],
+        dataProvider.filters
+      )
+      const sortedData = dataProviderSort([...filteredData], dataProvider.sort)
+
+      editableProps.data = sortedData?.map((item) => {
+        return item[idFieldKey!]
+      })
+    } else if (dataProvider?.source === "entities-field") {
+      const item = useSelector((state: ReduxRootState) => {
+        return selectEntityData(state, {
+          entitiesType: dataProvider.entitiesType!,
+          entityId: dataItemId!,
+        })
+      }) as EntityData
+      if (item) {
+        for (const [key, field] of Object.entries(dataProvider.fields)) {
+          const value = item[field]
+          if (value === undefined) continue
+          set(editableProps || {}, key, value)
+        }
+      }
+    } else if (dataProvider?.source === "form-fields") {
+      for (const [key, field] of Object.entries(dataProvider.fields)) {
+        const value = formContext.getValues(field)
+        if (value === undefined) continue
+        if (key === "dataItemId") {
+          dataItemId = value
+          continue
+        }
+        set(editableProps, key, value)
+      }
+    }
+    const editablePropsDependency = JSON.stringify(editableProps)
+
+    return useMemo(() => {
+      let wrapperTag: string | undefined = undefined
+      let componentTag: string | undefined = undefined
+
+      const componentType = ((<Component {...({} as P)} />) as ReactElement)
+        .type
+
+      if (layout) {
+        switch (componentType) {
+          case TableCell:
+            wrapperTag = "td"
+            componentTag = "div"
+            break
+          default:
+            break
+        }
+      }
+
+      const ComponentWithProps = () => (
+        <Component
+          {...(editableProps as P)}
+          viewKey={viewKey}
+          componentKey={componentKey}
+          style={style}
+          className={className}
+          dataItemId={dataItemId}
+          componentName={componentName}
+          as={componentTag}
+        >
+          {React.Children.map(children, (child) => {
+            if (!React.isValidElement(child)) return null
+            return React.cloneElement(child as ReactElement, {
+              dataItemId,
+            })
+          })}
+        </Component>
+      )
+
+      if (layout) {
+        return (
+          // @ts-ignore
+          <Wrapper $layout={layout} as={wrapperTag}>
+            <ComponentWithProps />
+          </Wrapper>
+        )
+      }
+      return <ComponentWithProps />
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+      children,
+      style,
+      className,
+      componentKey,
+      viewKey,
+      componentName,
+      dataItemId,
+      layoutDependency,
+      editablePropsDependency,
+      dataProviderDependency,
+    ])
   }
 }
 

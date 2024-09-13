@@ -7,13 +7,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
 import {
   EntityDataResponseType,
-  EntityId,
   getEntitiesDataRequest,
   readEntityDataFromFileRequest,
 } from "device/feature"
 import { setEntityData } from "./actions"
 import { DeviceId } from "Core/device/constants/device-id"
-import { EntitiesFileData, EntityJsonData } from "device/models"
+import { EntitiesFileData, EntityId, EntityJsonData } from "device/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { getFile } from "../file-transfer/get-file.action"
 

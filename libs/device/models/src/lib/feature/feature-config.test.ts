@@ -25,6 +25,13 @@ const featureConfig: FeatureConfig = {
         callback: jest.fn,
       },
     },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "dummy",
+      fields: {
+        dataItemId: "dummy",
+      },
+    },
   },
 }
 
@@ -37,7 +44,12 @@ describe("FeatureConfigValidator", () => {
   it("should return fail when correct config is incorrect", () => {
     const feature = {
       ...featureConfig,
-      ...{ incorrect: { component: "incorrect" } },
+      "dummy-1": {
+        ...featureConfig["dummy-1"],
+        config: {
+          wrongProp: "dummy",
+        },
+      },
     }
     const result = featureConfigValidator.safeParse(feature)
     expect(result.success).toBeFalsy()

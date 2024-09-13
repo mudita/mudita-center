@@ -3,8 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useMemo } from "react"
+import React, { useMemo } from "react"
 import { useSelector } from "react-redux"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import apiComponents from "generic-view/ui"
 import { APIFC } from "generic-view/utils"
@@ -18,6 +19,7 @@ import logger from "Core/__deprecated__/main/utils/logger"
 interface Properties {
   viewKey: string
   componentKey: string
+  dataItemId?: string
 }
 
 export const RecursiveLayout: FunctionComponent<Properties> = (
@@ -31,35 +33,44 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
     return selectComponentChildrenKeys(state, { viewKey, componentKey })
   }) as string[] | undefined
   const childrenKeysDependency = JSON.stringify(childrenKeys)
+  const recursiveComponentMetadataDependency = JSON.stringify(
+    recursiveComponentMetadata
+  )
   return useMemo(() => {
-    if (!componentName || !(componentName in apiComponents)) {
+    if (!componentName) {
+      return null
+    }
+    if (!(componentName in apiComponents)) {
       logger.error(
         `Tried to render unknown component "${componentName}" in view "${viewKey}"`
       )
-      // TODO: implement error handling
       return null
     }
-
     const ApiComponent = setupComponent(
       apiComponents[componentName as keyof typeof apiComponents] as APIFC
     )
-
     return (
-      <ApiComponent {...recursiveComponentMetadata}>
+      <ApiComponent
+        {...recursiveComponentMetadata}
+        componentName={componentName}
+      >
         {childrenKeys?.map((key) => {
           return (
-            <RecursiveLayout key={key} viewKey={viewKey} componentKey={key} />
+            <RecursiveLayout
+              key={key}
+              {...recursiveComponentMetadata}
+              componentKey={key}
+            />
           )
         })}
       </ApiComponent>
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    childrenKeysDependency,
-    componentName,
-    componentKey,
-    recursiveComponentMetadata,
     viewKey,
+    componentName,
+    childrenKeysDependency,
+    recursiveComponentMetadataDependency,
   ])
 }
 

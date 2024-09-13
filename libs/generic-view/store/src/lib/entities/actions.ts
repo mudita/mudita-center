@@ -5,8 +5,12 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
-import { EntityData, EntitiesMetadata, EntitiesConfig } from "device/models"
-import { EntityId } from "device/feature"
+import {
+  EntityData,
+  EntitiesMetadata,
+  EntitiesConfig,
+  EntityId,
+} from "device/models"
 
 export const setEntitiesConfig = createAction<{
   entitiesType: string

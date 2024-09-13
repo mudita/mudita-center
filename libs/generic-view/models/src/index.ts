@@ -47,6 +47,9 @@ import { backupRestoreAvailable } from "./lib/backup-restore-available"
 import { mcImportContactsButton } from "./lib/mc-import-contacts-button"
 import { mcDataMigration } from "./lib/mc-data-migration"
 import { incomingFeatureInfo } from "./lib/incoming-feature-info"
+import { table } from "./lib/table"
+import { formConditionalRenderer } from "./lib/form-conditional-renderer"
+import { tableCell } from "./lib/table-cell"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -93,6 +96,9 @@ export * from "./lib/mc-import-contacts-button"
 export * from "./lib/modal-visibility-controller"
 export * from "./lib/mc-data-migration"
 export * from "./lib/incoming-feature-info"
+export * from "./lib/table"
+export * from "./lib/table-cell"
+export * from "./lib/form-conditional-renderer"
 
 export default {
   [blockBox.key]: blockBox,
@@ -123,6 +129,7 @@ export default {
   [formRadioInput.key]: formRadioInput,
   [formSearchInput.key]: formSearchInput,
   [formCheckboxInput.key]: formCheckboxInput,
+  [formConditionalRenderer.key]: formConditionalRenderer,
   [progressBar.key]: progressBar,
   [tooltip.key]: tooltip,
   [tooltipAnchor.key]: tooltipAnchor,
@@ -143,4 +150,6 @@ export default {
   [mcImportContactsButton.key]: mcImportContactsButton,
   [mcDataMigration.key]: mcDataMigration,
   [incomingFeatureInfo.key]: incomingFeatureInfo,
+  [table.key]: table,
+  [tableCell.key]: tableCell,
 } as const

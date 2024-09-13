@@ -11,6 +11,7 @@ import {
   setEntitiesMetadata,
   setEntityData,
 } from "./actions"
+import { getEntitiesDataAction } from "./get-entities-data.action"
 
 type EntitiesType = string
 
@@ -18,7 +19,9 @@ interface Entities {
   idFieldKey?: string
   config?: EntitiesConfig
   data?: EntityData[]
-  metadata?: EntitiesMetadata
+  metadata?: EntitiesMetadata & {
+    _loading?: boolean
+  }
 }
 
 interface EntitiesState {
@@ -32,6 +35,27 @@ const initialState: EntitiesState = {
 }
 
 export const genericEntitiesReducer = createReducer(initialState, (builder) => {
+  builder.addCase(getEntitiesDataAction.pending, (state, action) => {
+    state.entities[action.meta.arg.entitiesType] = {
+      ...state.entities[action.meta.arg.entitiesType],
+      metadata: {
+        ...(state.entities[action.meta.arg.entitiesType]
+          ?.metadata as EntitiesMetadata),
+        _loading: true,
+      },
+    }
+  })
+  builder.addCase(getEntitiesDataAction.fulfilled, (state, action) => {
+    state.entities[action.meta.arg.entitiesType] = {
+      ...state.entities[action.meta.arg.entitiesType],
+      data: action.payload,
+      metadata: {
+        ...(state.entities[action.meta.arg.entitiesType]
+          ?.metadata as EntitiesMetadata),
+        _loading: false,
+      },
+    }
+  })
   builder.addCase(setEntitiesConfig, (state, action) => {
     state.entities[action.payload.entitiesType] = {
       ...state.entities[action.payload.entitiesType],

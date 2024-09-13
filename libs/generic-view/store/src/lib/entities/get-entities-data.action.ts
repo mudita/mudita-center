@@ -11,25 +11,99 @@ import {
   readEntitiesDataFromFileRequest,
 } from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
-import { EntitiesFileData, EntitiesJsonData } from "device/models"
-import { setEntitiesData } from "./actions"
+import { EntitiesFileData, EntitiesJsonData, EntityData } from "device/models"
 import { getFile } from "../file-transfer/get-file.action"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { AppError } from "Core/core/errors"
 
 export const getEntitiesDataAction = createAsyncThunk<
-  undefined,
+  EntityData[],
   {
     entitiesType: string
     deviceId: DeviceId
     responseType?: EntityDataResponseType
   },
-  { state: ReduxRootState }
+  { state: ReduxRootState; rejectValue?: AppError }
 >(
   ActionName.GetEntitiesData,
   async (
     { responseType = "file", entitiesType, deviceId },
     { rejectWithValue, dispatch }
   ) => {
+    if (process.env.NODE_ENV === "development") {
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      return [
+        {
+          contactId: "1",
+          firstName: "Alice",
+          lastName: "Smith",
+          namePrefix: "Ms.",
+          email: "alice.smith@example.com",
+          phoneNumbers: [
+            {
+              id: 1,
+              phoneNumber: "789123456",
+              phoneType: "home",
+            },
+            {
+              id: 2,
+              phoneNumber: "321987654",
+              phoneType: "work",
+            },
+          ],
+        },
+        {
+          contactId: "2",
+          lastName: "# Bob",
+          phoneNumbers: [
+            {
+              id: 1,
+              phoneNumber: "123456789",
+              phoneType: "home",
+            },
+          ],
+        },
+        {
+          contactId: "3",
+          firstName: "John",
+          lastName: "Doe",
+          namePrefix: "Mr.",
+          email: "john.doe@example.com",
+          phoneNumbers: [
+            {
+              id: 1,
+              phoneNumber: "123456789",
+              phoneType: "home",
+            },
+            {
+              id: 2,
+              phoneNumber: "987654321",
+              phoneType: "work",
+            },
+          ],
+        },
+        {
+          contactId: "4",
+          firstName: "Jane",
+          lastName: "Doe",
+          namePrefix: "Mrs.",
+          email: "jane.doe@example.com",
+          phoneNumbers: [
+            {
+              id: 1,
+              phoneNumber: "456789123",
+              phoneType: "home",
+            },
+            {
+              id: 2,
+              phoneNumber: "654321987",
+              phoneType: "work",
+            },
+          ],
+        },
+      ]
+    }
     const response = await getEntitiesDataRequest({
       entitiesType,
       deviceId,
@@ -61,22 +135,10 @@ export const getEntitiesDataAction = createAsyncThunk<
       if (!readFileResponse.ok) {
         return rejectWithValue(readFileResponse.error)
       }
-      dispatch(
-        setEntitiesData({
-          entitiesType,
-          data: readFileResponse.data.data,
-        })
-      )
-      return
+      return readFileResponse.data.data
     } else {
       const { data } = response.data as EntitiesJsonData
-      dispatch(
-        setEntitiesData({
-          entitiesType,
-          data,
-        })
-      )
-      return
+      return data
     }
   }
 )
