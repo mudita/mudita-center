@@ -26,6 +26,23 @@ describe("dataProviderSort", () => {
     ])
   })
 
+  it("sorts data based on nested field in ascending order", () => {
+    const data = [
+      { user: { name: "Charlie" } },
+      { user: { name: "Alice" } },
+      { user: { name: "Bob" } },
+    ]
+    const sort = {
+      "user.name": { direction: "asc", priority: 1 },
+    } as DataProviderSortConfig
+    const result = dataProviderSort(data, sort)
+    expect(result).toEqual([
+      { user: { name: "Alice" } },
+      { user: { name: "Bob" } },
+      { user: { name: "Charlie" } },
+    ])
+  })
+
   it("sorts data based on single field in descending order", () => {
     const data = [{ name: "Charlie" }, { name: "Alice" }, { name: "Bob" }]
     const sort = {

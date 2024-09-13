@@ -19,6 +19,13 @@ describe("dataProviderFilter", () => {
     expect(result).toEqual([{ name: "Alice" }])
   })
 
+  it("filters data based on nested field with single pattern", () => {
+    const data = [{ user: { name: "Alice" } }, { user: { name: "Bob" } }]
+    const filters = { "user.name": ["/Alice/"] }
+    const result = dataProviderFilter(data, filters)
+    expect(result).toEqual([{ user: { name: "Alice" } }])
+  })
+
   it("filters data based on single field with multiple patterns", () => {
     const data = [{ name: "Alice" }, { name: "Anastasia" }, { name: "Charlie" }]
     const filters = { name: ["/^A/m", "/.+e$/m"] }

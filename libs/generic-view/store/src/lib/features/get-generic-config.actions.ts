@@ -39,6 +39,7 @@ export const getGenericConfig = createAsyncThunk<
                 defaultValues: {
                   activeContactId: undefined,
                   selectedContacts: [],
+                  totalContacts: 0,
                 },
               },
             },
@@ -77,6 +78,7 @@ export const getGenericConfig = createAsyncThunk<
               formOptions: {
                 activeIdFieldName: "activeContactId",
                 selectedIdsFieldName: "selectedContacts",
+                totalItemsFieldName: "totalContacts",
               },
             },
             childrenKeys: ["columnCheckbox", "columnOptional"],

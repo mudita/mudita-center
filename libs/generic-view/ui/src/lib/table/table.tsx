@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { Children, ReactElement, useCallback } from "react"
+import React, { Children, ReactElement, useCallback, useEffect } from "react"
 import styled, { css } from "styled-components"
 import { APIFC } from "generic-view/utils"
 import { TableConfig, TableData } from "generic-view/models"
@@ -27,6 +27,12 @@ export const Table: APIFC<TableData, TableConfig> & {
     },
     [activeIdFieldName, formContext]
   )
+
+  useEffect(() => {
+    if (config?.formOptions.totalItemsFieldName) {
+      formContext.setValue(config.formOptions.totalItemsFieldName, data?.length)
+    }
+  }, [config?.formOptions.totalItemsFieldName, data?.length, formContext])
 
   return (
     <Wrapper {...props}>

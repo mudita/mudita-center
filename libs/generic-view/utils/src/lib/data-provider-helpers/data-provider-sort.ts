@@ -5,6 +5,7 @@
 
 import { DataProviderSortConfig } from "device/models"
 import { stringToRegex } from "./string-to-regex"
+import { get } from "lodash"
 
 export const dataProviderSort = (
   data: Record<string, unknown>[] = [],
@@ -26,11 +27,11 @@ export const dataProviderSort = (
       direction,
       orderingPatterns = [],
     } of fieldsSortedByPriority) {
-      if (!(key in a) || !(key in b)) {
+      const fieldA = get(a, key) as string
+      const fieldB = get(b, key) as string
+      if (!fieldA || !fieldB) {
         continue
       }
-      const fieldA = a[key] as string
-      const fieldB = b[key] as string
 
       for (let i = 0; i < orderingPatterns.length; i++) {
         const regex = stringToRegex(orderingPatterns[i])

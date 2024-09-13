@@ -14,6 +14,7 @@ const configValidator = z
     formOptions: z.object({
       activeIdFieldName: z.string().optional(),
       selectedIdsFieldName: z.string().optional(),
+      totalItemsFieldName: z.string().optional(),
     }),
   })
   .optional()

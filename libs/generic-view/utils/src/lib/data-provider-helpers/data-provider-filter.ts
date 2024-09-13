@@ -5,6 +5,7 @@
 
 import { DataProviderFilterConfig } from "device/models"
 import { stringToRegex } from "./string-to-regex"
+import { get } from "lodash"
 
 export const dataProviderFilter = (
   data: Record<string, unknown>[] = [],
@@ -14,7 +15,7 @@ export const dataProviderFilter = (
 
   return data.filter((item) => {
     return Object.entries(filters).every(([key, patterns]) => {
-      const field = item[key] as string | undefined
+      const field = get(item, key) as string
       return patterns.every((pattern) => {
         const regex = stringToRegex(pattern)
         return regex.test(field || "")
