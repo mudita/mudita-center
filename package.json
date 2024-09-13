@@ -138,12 +138,12 @@
     "@types/webpack-env": "^1.17.0",
     "@typescript-eslint/eslint-plugin": "^ 6.7.4",
     "@typescript-eslint/parser": "^ 6.7.4",
-    "@wdio/cli": "^7.16.13",
-    "@wdio/local-runner": "^7.16.13",
-    "@wdio/mocha-framework": "^7.16.13",
-    "@wdio/reporter": "^7.16.14",
-    "@wdio/spec-reporter": "^7.16.14",
-    "@wdio/types": "^8.31.0",
+    "@wdio/cli": "^8.40.5",
+    "@wdio/local-runner": "^8.40.5",
+    "@wdio/mocha-framework": "^8.40.3",
+    "@wdio/reporter": "^8.40.3",
+    "@wdio/spec-reporter": "^8.40.3",
+    "@wdio/types": "^8.40.3",
     "archiver": "^5.3.1",
     "async-mutex": "^0.4.0",
     "axios": "^0.27.2",
@@ -277,6 +277,8 @@
     "@contentful/rich-text-plain-text-renderer": "^16.2.6",
     "@orama/orama": "^2.0.22",
     "@vscode/sudo-prompt": "^9.3.1",
+    "@wdio/allure-reporter": "^8.40.3",
+    "@wdio/json-reporter": "^8.40.3",
     "crypto-js": "^4.2.0",
     "js-crc": "^0.2.0",
     "jschardet": "^3.1.2",
@@ -287,5 +289,8 @@
     "serialport": "10.1.0",
     "tslib": "^2.3.0",
     "zod": "^3.22.4"
+  },
+  "overrides": {
+    "geckodriver": "~4.2.0"
   }
 }
