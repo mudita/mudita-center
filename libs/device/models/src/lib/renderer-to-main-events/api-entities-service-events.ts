@@ -11,4 +11,5 @@ export enum APIEntitiesServiceEvents {
   EntityDataReadFromFile = "apiservice_entity-data-read-from-file",
   EntityDataDelete = "apiservice_entity-data-delete",
   EntityDataCreate = "apiservice_entity-data-create",
+  EntityDataUpdate = "apiservice_entity-data-update",
 }

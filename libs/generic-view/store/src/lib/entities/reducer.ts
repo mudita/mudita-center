@@ -13,6 +13,7 @@ import {
 } from "./actions"
 import { deleteEntityDataAction } from "./delete-entity-data.action"
 import { createEntityDataAction } from "./create-entity-data.action"
+import { updateEntityDataAction } from "./update-entity-data.action"
 
 type EntitiesType = string
 
@@ -100,8 +101,32 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
       } else {
         // TODO: for debug to delete
         console.warn(
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           `Entity with ID ${newEntity[idFieldKey]} already exists in ${entitiesType}`
+        )
+      }
+    }
+  })
+  builder.addCase(updateEntityDataAction.fulfilled, (state, action) => {
+    const entitiesType = action.meta.arg.entitiesType
+    const updatedEntity = action.payload
+
+    const entities = state.entities[entitiesType]
+
+    const idFieldKey = entities?.idFieldKey
+
+    if (idFieldKey && entities.data !== undefined) {
+      const entityIndex = entities.data.findIndex(
+        (entity) => entity[idFieldKey] === updatedEntity[idFieldKey!]
+      )
+
+      if (entityIndex !== -1) {
+        entities.data[entityIndex] = updatedEntity
+      } else {
+        // TODO: for debug to delete
+        console.warn(
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          `Entity with ID ${updatedEntity[idFieldKey]} not found in ${entitiesType}`
         )
       }
     }

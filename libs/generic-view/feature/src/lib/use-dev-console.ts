@@ -9,7 +9,9 @@ import {
   getEntitiesMetadataAction,
   getEntityDataAction,
   selectActiveApiDeviceId,
-  deleteEntityDataAction, createEntityDataAction,
+  deleteEntityDataAction,
+  createEntityDataAction,
+  updateEntityDataAction,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -76,6 +78,16 @@ export const useDevConsole = () => {
           ) => {
             return dispatch(
               createEntityDataAction({ entitiesType, data, deviceId })
+            )
+          },
+          _updateEntityDataAction: (
+            entitiesType: string,
+            entityId: EntityId,
+            data: EntityData,
+            deviceId = activeDeviceId
+          ) => {
+            return dispatch(
+              updateEntityDataAction({ entitiesType, entityId, data, deviceId })
             )
           },
         })

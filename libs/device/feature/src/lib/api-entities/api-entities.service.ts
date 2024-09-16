@@ -263,4 +263,38 @@ export class APIEntitiesService {
     // TODO: to check
     return Result.success(response.data.body as unknown as EntityData)
   }
+
+  @IpcEvent(APIEntitiesServiceEvents.EntityDataUpdate)
+  public async updateEntityData({
+    entitiesType,
+    entityId,
+    data,
+    deviceId,
+  }: {
+    entitiesType: string
+    entityId: EntityId
+    data: EntityData
+    deviceId?: DeviceId
+  }): Promise<ResultObject<EntityData>> {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "PATCH",
+      body: {
+        entityType: entitiesType,
+        entityId,
+        data,
+      },
+    })
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    // TODO: to check
+    return Result.success(response.data.body as unknown as EntityData)
+  }
 }
