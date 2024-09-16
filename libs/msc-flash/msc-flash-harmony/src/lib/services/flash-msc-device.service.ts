@@ -4,6 +4,7 @@
  */
 
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import path from "path"
 import {
   FlashingProcessState,
   OsEnvironment,
@@ -15,6 +16,10 @@ import { getMscFlashingFilesDetails } from "../actions/get-msc-flashing-files-de
 import { MscFlashDetails } from "../dto"
 import { downloadFlashingFileRequest } from "../requests"
 import { unpackFlashingImageService } from "./unpack-flashing-image"
+import DeviceFlashFactory from "./device-flash/device-flash.factory"
+import getAppSettingsMain from "Core/__deprecated__/main/functions/get-app-settings"
+
+const IMAGE_FILE_NAME = "BellHybrid.img"
 
 export const flashMscDeviceService =
   () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
@@ -74,4 +79,32 @@ const unpackFlashingImage = async (
   const flashingImageName = flashingFiles ? flashingFiles.image.name : ""
 
   await unpackFlashingImageService(flashingImageName)
+}
+
+const startFlashingProcess = async (
+  dispatch: Dispatch,
+  flashingFiles: MscFlashDetails | undefined
+) => {
+  try {
+    dispatch(setFlashingProcessState(FlashingProcessState.FlashingProcess))
+
+    const deviceFlash = DeviceFlashFactory.createDeviceFlashService()
+
+    const device = await deviceFlash.findDeviceByDeviceName("HARMONY MSC")
+
+    const { osDownloadLocation } = await getAppSettingsMain()
+    const flashingScriptName = flashingFiles
+      ? flashingFiles.scripts[0].name
+      : ""
+
+    const imageFilePath = path.join(osDownloadLocation, IMAGE_FILE_NAME)
+    const scriptFilePath = path.join(osDownloadLocation, flashingScriptName)
+
+    await deviceFlash.execute(device, imageFilePath, scriptFilePath)
+
+    dispatch(setFlashingProcessState(FlashingProcessState.Completed))
+  } catch (error) {
+    console.error("Flash process failed with error: ", error)
+    dispatch(setFlashingProcessState(FlashingProcessState.Failed))
+  }
 }
