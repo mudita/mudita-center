@@ -4,9 +4,7 @@
  */
 
 import { z } from "zod"
-
-export const entityDataSchema = z.record(z.string(), z.unknown())
-export type EntityData = z.infer<typeof entityDataSchema>
+import { entityDataSchema } from "./entity-data.validator"
 
 export const entityJsonDataValidator = z.object({
   data: entityDataSchema,

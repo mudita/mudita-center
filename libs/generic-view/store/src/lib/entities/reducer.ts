@@ -12,6 +12,7 @@ import {
   setEntityData,
 } from "./actions"
 import { deleteEntityDataAction } from "./delete-entity-data.action"
+import { createEntityDataAction } from "./create-entity-data.action"
 
 type EntitiesType = string
 
@@ -75,6 +76,34 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
       entities.data = entities.data.filter(
         (entity) => entity[entities.idFieldKey!] !== entityId
       )
+    }
+  })
+  builder.addCase(createEntityDataAction.fulfilled, (state, action) => {
+    const entitiesType = action.meta.arg.entitiesType
+    const newEntity = action.payload
+
+    const entities = state.entities[entitiesType]
+
+    const idFieldKey = entities?.idFieldKey
+
+    if (idFieldKey) {
+      if (!entities.data) {
+        entities.data = []
+      }
+
+      const entityExists = entities.data.some(
+        (entity) => entity[idFieldKey] === newEntity[idFieldKey]
+      )
+
+      if (!entityExists) {
+        entities.data.push(newEntity)
+      } else {
+        // TODO: for debug to delete
+        console.warn(
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          `Entity with ID ${newEntity[idFieldKey]} already exists in ${entitiesType}`
+        )
+      }
     }
   })
 })

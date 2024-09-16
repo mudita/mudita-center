@@ -18,6 +18,7 @@ import {
   entitiesJsonDataValidator,
   EntitiesMetadata,
   entitiesMetadataValidator,
+  EntityData,
   EntityId,
   EntityJsonData,
   entityJsonDataValidator,
@@ -230,5 +231,36 @@ export class APIEntitiesService {
     }
 
     return Result.success(undefined)
+  }
+
+  @IpcEvent(APIEntitiesServiceEvents.EntityDataCreate)
+  public async createEntityData({
+    entitiesType,
+    data,
+    deviceId,
+  }: {
+    entitiesType: string
+    data: EntityData
+    deviceId?: DeviceId
+  }): Promise<ResultObject<EntityData>> {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "POST",
+      body: {
+        entityType: entitiesType,
+        data,
+      },
+    })
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    // TODO: to check
+    return Result.success(response.data.body as unknown as EntityData)
   }
 }
