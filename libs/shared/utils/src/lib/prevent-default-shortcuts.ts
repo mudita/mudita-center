@@ -17,6 +17,10 @@ export function preventDefaultShortcuts(win: BrowserWindow) {
       event.preventDefault()
     }
 
+    logger.info(`xxxxpreventDefaultShortcuts1.5 control: ${control}`)
+    logger.info(`xxxxpreventDefaultShortcuts1.5 control: ${meta}`)
+    logger.info(`xxxxpreventDefaultShortcuts1.5 key: ${key}`)
+
     // Prevent default DevTools shortcut (Ctrl+Shift+I or Cmd+Opt+I) and 'dead' key issue
     // This is necessary because removing the menu in Windows/Linux disables the shortcut,
     // but on macOS, the shortcut still works. Therefore, we need to explicitly prevent it.
