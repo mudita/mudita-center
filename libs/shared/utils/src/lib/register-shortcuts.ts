@@ -4,11 +4,16 @@
  */
 
 import { BrowserWindow, globalShortcut } from "electron"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export function registerShortcuts(win: BrowserWindow) {
+  logger.info("xxxxregisterShortcuts1")
+  logger.info(`xxxxregisterShortcuts1 ${process.env.DEV_TOOLS_SHORTCUT_ENABLED}`)
   if (process.env.DEV_TOOLS_SHORTCUT_ENABLED !== "1") {
     return
   }
+
+  logger.info("xxxxregisterShortcuts2")
 
   const devToolsShortcutKey =
     process.platform === "darwin" ? "Command+Option+I" : "Ctrl+Shift+I"
