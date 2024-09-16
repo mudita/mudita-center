@@ -19,6 +19,8 @@ module.exports = {
     "Core/(.*)": "<rootDir>/libs/core/$1",
     "Cypress/(.*)": "<rootDir>/apps/mudita-center/cypress/$1",
     "Storybook/(.*)": "<rootDir>/apps/mudita-center/.storybook/$1",
+    "p-queue$": `${__dirname}/__mocks__/p-queue.ts`,
+    "react-markdown": "<rootDir>/jest/testing-support/mocks/react-markdown.tsx",
   },
   rootDir: "../",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],

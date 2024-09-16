@@ -26,6 +26,7 @@ jobs:
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          MUDITA_CENTER_SERVER_V2_URL: ${{ secrets.MUDITA_CENTER_SERVER_V2_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
@@ -43,6 +44,7 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
+          DEV_TOOLS_SHORTCUT_ENABLED: "1"
           LOCALAPPDATA: ""
         shell: cmd
         run: |
@@ -55,6 +57,7 @@ jobs:
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          MUDITA_CENTER_SERVER_V2_URL: ${{ secrets.MUDITA_CENTER_SERVER_V2_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
@@ -72,6 +75,7 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
+          DEV_TOOLS_SHORTCUT_ENABLED: "1"
         run: |
           printenv > .env
       - name: Setup Env for Linux
@@ -81,6 +85,7 @@ jobs:
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          MUDITA_CENTER_SERVER_V2_URL: ${{ secrets.MUDITA_CENTER_SERVER_V2_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
@@ -98,6 +103,7 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
+          DEV_TOOLS_SHORTCUT_ENABLED: "1"
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux

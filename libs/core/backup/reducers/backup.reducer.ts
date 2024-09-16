@@ -4,6 +4,7 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
+import { DeviceManagerEvent } from "device-manager/models"
 import { AppError } from "Core/core/errors"
 import { State } from "Core/core/constants"
 import { BackupState } from "Core/backup/reducers/backup.interface"
@@ -14,9 +15,9 @@ import {
   startBackupDevice,
   startRestoreDevice,
   readRestoreDeviceDataState,
-  setInitialBackupState,
 } from "Core/backup/actions"
 import { BackupError } from "Core/backup/constants"
+import { pendingAction } from "Core/__deprecated__/renderer/store/helpers"
 
 export const initialState: BackupState = {
   data: {
@@ -77,7 +78,7 @@ export const backupReducer = createReducer<BackupState>(
         state.restoringState = State.Initial
         state.error = null
       })
-      .addCase(setInitialBackupState, () => {
+      .addCase(pendingAction(DeviceManagerEvent.DeactivateDevice), () => {
         return { ...initialState }
       })
   }

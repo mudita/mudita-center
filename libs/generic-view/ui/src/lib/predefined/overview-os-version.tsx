@@ -14,6 +14,13 @@ import {
   OverviewOsVersionData,
 } from "generic-view/models"
 
+const dataTestIds = {
+  versionWrapper: "version-wrapper",
+  versionLabel: "version-label",
+  version: "version",
+  actionLabel: "action-label",
+}
+
 const messages = defineMessages({
   updateTag: { id: "module.genericViews.update.tag" },
   updateActionLabel: { id: "module.genericViews.update.actionLabel" },
@@ -24,12 +31,16 @@ export const OverviewOsVersion: APIFC<
   OverviewOsVersionConfig
 > = ({ config, data, ...props }) => {
   return (
-    <Wrapper {...props}>
+    <Wrapper {...props} data-testid={dataTestIds.versionWrapper}>
       {config?.versionLabel && (
-        <VersionLabel>{config.versionLabel}</VersionLabel>
+        <VersionLabel data-testid={dataTestIds.versionLabel}>
+          {config.versionLabel}
+        </VersionLabel>
       )}
       <VersionInfo>
-        {data?.text && <Version>{data?.text}</Version>}
+        {data?.text && (
+          <Version data-testid={dataTestIds.version}>{data?.text}</Version>
+        )}
         {data?.update?.available && (
           <Tag>
             {intl.formatMessage(messages.updateTag, {
@@ -41,7 +52,7 @@ export const OverviewOsVersion: APIFC<
           <Tag>{data?.badgeText}</Tag>
         )}
         {data?.update?.available && (
-          <ActionLabel>
+          <ActionLabel data-testid={dataTestIds.actionLabel}>
             {data.update.actionLabel ??
               intl.formatMessage(messages.updateActionLabel)}
           </ActionLabel>
@@ -76,11 +87,6 @@ const Version = styled.p`
   font-size: ${({ theme }) => theme.fontSize.paragraph1};
   line-height: ${({ theme }) => theme.lineHeight.paragraph1};
   margin: 0;
-  text-transform: lowercase;
-
-  &:first-letter {
-    text-transform: uppercase;
-  }
 `
 
 const ActionLabel = styled.p`

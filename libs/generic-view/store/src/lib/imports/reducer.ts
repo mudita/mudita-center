@@ -4,23 +4,18 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { startGoogleAuthorization } from "./get-google-contacts.action"
+import { startImportAuthorization } from "./start-import-authorization.action"
 import {
   cleanImportProcess,
-  setDataTransferProcessFileStatus,
-  setDataTransferProcessStatus,
+  setImportProcessFileStatus,
+  setImportProcessStatus,
 } from "./actions"
 import { importContactsFromExternalSource } from "./import-contacts-from-external-source.action"
-import { UnifiedContact } from "device/models"
-import { startDataTransferToDevice } from "./start-data-transfer-to-device.action"
+import { ApiFileTransferError, UnifiedContact } from "device/models"
+import { startImportToDevice } from "./start-import-to-device.action"
 import { importContactsFromFile } from "./import-contacts-from.file"
 
-interface ImportsState {
-  providers: Partial<Record<ImportProvider, ImportProviderState>>
-  currentImportProvider?: ImportProvider
-}
-
-type ImportProvider = "GOOGLE" | "FILE"
+export type ImportProvider = "GOOGLE" | "FILE" | "OUTLOOK"
 
 export type ImportStatus =
   | "INIT"
@@ -44,7 +39,12 @@ export interface ImportProviderState {
     string,
     { transferId?: number; status: ProcessFileStatus }
   >
-  error?: string
+  error?: string | ApiFileTransferError
+}
+
+interface ImportsState {
+  providers: Partial<Record<ImportProvider, ImportProviderState>>
+  currentImportProvider?: ImportProvider
 }
 
 const initialState: ImportsState = {
@@ -52,79 +52,88 @@ const initialState: ImportsState = {
 }
 
 export const importsReducer = createReducer(initialState, (builder) => {
-  builder.addCase(cleanImportProcess, (state, action) => {
+  builder.addCase(cleanImportProcess, (state) => {
     delete state.currentImportProvider
     state.providers = {}
   })
-  builder.addCase(startGoogleAuthorization.pending, (state, action) => {
-    state.currentImportProvider = "GOOGLE"
-    state.providers.GOOGLE = {
-      ...state.providers.GOOGLE,
-      domainFilesTransfer: state.providers.GOOGLE?.domainFilesTransfer ?? {},
+  builder.addCase(startImportAuthorization.pending, (state, action) => {
+    state.currentImportProvider = action.meta.arg
+    state.providers[action.meta.arg] = {
+      domainFilesTransfer: {},
+      ...state.providers[action.meta.arg],
       status: "PENDING-AUTH",
     }
   })
-  builder.addCase(startGoogleAuthorization.rejected, (state, action) => {
-    state.providers.GOOGLE = {
-      ...state.providers.GOOGLE,
-      domainFilesTransfer: state.providers.GOOGLE?.domainFilesTransfer ?? {},
+  builder.addCase(startImportAuthorization.rejected, (state, action) => {
+    state.providers[action.meta.arg] = {
+      domainFilesTransfer: {},
+      ...state.providers[action.meta.arg],
       status: "INIT",
     }
   })
-  builder.addCase(startGoogleAuthorization.fulfilled, (state, action) => {
-    state.providers.GOOGLE = {
-      ...state.providers.GOOGLE,
-      domainFilesTransfer: state.providers.GOOGLE?.domainFilesTransfer ?? {},
+  builder.addCase(startImportAuthorization.fulfilled, (state, action) => {
+    state.providers[action.meta.arg] = {
+      domainFilesTransfer: {},
+      ...state.providers[action.meta.arg],
       status: "AUTH",
     }
   })
-  builder.addCase(importContactsFromExternalSource.pending, (state, action) => {
-    state.providers.GOOGLE = {
-      ...state.providers.GOOGLE,
-      domainFilesTransfer: state.providers.GOOGLE?.domainFilesTransfer ?? {},
-      status: "IMPORT-INTO-MC-IN-PROGRESS",
+  builder.addCase(importContactsFromExternalSource.pending, (state) => {
+    const provider = state.currentImportProvider
+
+    if (provider) {
+      state.providers[provider] = {
+        domainFilesTransfer: {},
+        ...state.providers[provider],
+        status: "IMPORT-INTO-MC-IN-PROGRESS",
+      }
     }
   })
   builder.addCase(
     importContactsFromExternalSource.fulfilled,
     (state, action) => {
-      state.providers.GOOGLE = {
-        ...state.providers.GOOGLE,
-        domainFilesTransfer: state.providers.GOOGLE?.domainFilesTransfer ?? {},
-        status: "IMPORT-INTO-MC-DONE",
-        contacts: action.payload,
+      const provider = state.currentImportProvider
+
+      if (provider) {
+        state.providers[provider] = {
+          domainFilesTransfer: {},
+          ...state.providers[provider],
+          status: "IMPORT-INTO-MC-DONE",
+          contacts: action.payload,
+        }
       }
     }
   )
-  builder.addCase(
-    importContactsFromExternalSource.rejected,
-    (state, action) => {
-      state.providers.GOOGLE = {
-        ...state.providers.GOOGLE,
-        domainFilesTransfer: state.providers.GOOGLE?.domainFilesTransfer ?? {},
+  builder.addCase(importContactsFromExternalSource.rejected, (state) => {
+    const provider = state.currentImportProvider
+
+    if (provider) {
+      state.providers[provider] = {
+        domainFilesTransfer: {},
+        ...state.providers[provider],
         status: "FAILED",
       }
     }
-  )
-  builder.addCase(importContactsFromFile.pending, (state, action) => {
+  })
+  builder.addCase(importContactsFromFile.pending, (state) => {
     state.currentImportProvider = "FILE"
     state.providers.FILE = {
+      domainFilesTransfer: {},
       ...state.providers.FILE,
-      domainFilesTransfer: state.providers.FILE?.domainFilesTransfer ?? {},
       status: "IMPORT-INTO-MC-IN-PROGRESS",
     }
   })
   builder.addCase(importContactsFromFile.rejected, (state, action) => {
     if (action.payload === "cancelled") {
       state.providers.FILE = {
+        domainFilesTransfer: {},
         ...state.providers.FILE,
-        domainFilesTransfer: state.providers.FILE?.domainFilesTransfer ?? {},
         status: "INIT",
       }
     } else {
       state.providers.FILE = {
+        domainFilesTransfer: {},
         ...state.providers.FILE,
-        domainFilesTransfer: state.providers.FILE?.domainFilesTransfer ?? {},
         status: "FAILED",
         ...(action.payload ? { error: action.payload } : {}),
       }
@@ -132,45 +141,48 @@ export const importsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(importContactsFromFile.fulfilled, (state, action) => {
     state.providers.FILE = {
+      domainFilesTransfer: {},
       ...state.providers.FILE,
-      domainFilesTransfer: state.providers.FILE?.domainFilesTransfer ?? {},
       status: "IMPORT-INTO-MC-DONE",
       contacts: action.payload,
     }
   })
-  builder.addCase(setDataTransferProcessStatus, (state, action) => {
+  builder.addCase(setImportProcessStatus, (state, action) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider] = {
+        ...{ domainFilesTransfer: {} },
         ...state.providers[provider],
-        domainFilesTransfer:
-          state.providers[provider]!.domainFilesTransfer ?? {},
         status: action.payload.status,
       }
     }
   })
-  builder.addCase(startDataTransferToDevice.pending, (state, action) => {
+  builder.addCase(startImportToDevice.pending, (state, action) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider] = {
+        ...{ domainFilesTransfer: {} },
         ...state.providers[provider],
-        domainFilesTransfer:
-          state.providers[provider]!.domainFilesTransfer ?? {},
         status: "IMPORT-INTO-DEVICE-IN-PROGRESS",
       }
     }
   })
-  builder.addCase(startDataTransferToDevice.rejected, (state, action) => {
+  builder.addCase(startImportToDevice.rejected, (state, action) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider] = {
         ...state.providers[provider],
         domainFilesTransfer: {},
         status: "FAILED",
+        ...(action.payload
+          ? {
+              error: action.payload as ImportProviderState["error"],
+            }
+          : {}),
       }
     }
   })
-  builder.addCase(startDataTransferToDevice.fulfilled, (state, action) => {
+  builder.addCase(startImportToDevice.fulfilled, (state, action) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider] = {
@@ -180,7 +192,7 @@ export const importsReducer = createReducer(initialState, (builder) => {
       }
     }
   })
-  builder.addCase(setDataTransferProcessFileStatus, (state, action) => {
+  builder.addCase(setImportProcessFileStatus, (state, action) => {
     const provider = state.currentImportProvider as ImportProvider
     if (state.providers[provider]) {
       state.providers[provider]!.domainFilesTransfer = {

@@ -10,17 +10,16 @@ import { EventEmitter } from "events"
 import { MetadataStore } from "Core/metadata/services"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { LoggerFactory } from "Core/core/factories"
-import { DeviceLogger } from "Core/core/types"
-import { flags, Feature } from "Core/feature-flags"
+import { DeviceLogger, Module } from "Core/core/types"
+import { Feature, flags } from "Core/feature-flags"
 import PureLogger from "Core/__deprecated__/main/utils/pure-logger"
 import { IndexFactory } from "Core/index-storage/factories"
 import {
-  DataIndexInitializer,
   ControllerInitializer,
+  DataIndexInitializer,
   InitializeInitializer,
   ObserverInitializer,
 } from "Core/core/initializers"
-import { Module } from "Core/core/types"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { IndexStorageModule } from "Core/index-storage/index-storage.module"
 import { DataSyncModule } from "Core/data-sync/data-sync.module"
@@ -39,17 +38,25 @@ import { DeviceInfoModule } from "Core/device-info/device-info.module"
 import { DeviceFileSystemModule } from "Core/device-file-system/device-file-system.module"
 import { DeviceLogModule } from "Core/device-log/device-log.module"
 import { DeviceModule } from "Core/device/device.module"
-import { DeviceManagerModule } from "Core/device-manager/device-manager.module"
 import {
-  DeviceManager,
+  DeviceProtocol,
+  DeviceProtocolModule,
   DeviceResolverService,
-} from "Core/device-manager/services"
+  SerialPortService,
+} from "device-protocol/feature"
 import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
-import { FileSystemDialogModule, OnlineStatusModule } from "shared/app-state"
+import { OnlineStatusModule } from "shared/app-state"
 import { SystemUtilsModule } from "system-utils/feature"
-import { MockDeviceResolverService, mockServiceEnabled } from "e2e-mock-server"
+import {
+  MockDeviceResolverService,
+  MockSerialPortService,
+  mockServiceEnabled,
+} from "e2e-mock-server"
 import { ApplicationUpdaterModule } from "electron/application-updater"
+import { CoreDeviceModule } from "core-device/feature"
+import { createSettingsService } from "Core/settings/containers"
+import { HelpModule } from "help/feature"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -71,10 +78,11 @@ export class ApplicationModule {
   ]
 
   public lateModules: Module[] = [
-    DeviceManagerModule,
+    DeviceProtocolModule,
     DataSyncModule,
     CrashDumpModule,
     DesktopModule,
+    HelpModule,
   ]
 
   private deviceLogger: DeviceLogger = LoggerFactory.getInstance()
@@ -91,12 +99,7 @@ export class ApplicationModule {
 
   private apiModule: APIModule
 
-  private deviceManager = new DeviceManager(
-    mockServiceEnabled
-      ? new MockDeviceResolverService()
-      : new DeviceResolverService(),
-    this.eventEmitter
-  )
+  private deviceProtocol = this.resolveDeviceProtocol()
   private systemUtilsModule = new SystemUtilsModule()
 
   constructor(
@@ -114,16 +117,20 @@ export class ApplicationModule {
     this.initializeInitializer = new InitializeInitializer()
 
     this.modules.forEach(this.initModule)
-    this.apiModule = new APIModule(this.deviceManager, this.systemUtilsModule)
-    this.controllerInitializer.initialize(this.apiModule.getAPIServices())
-    this.controllerInitializer.initialize(
-      FileSystemDialogModule.getControllers()
+    this.apiModule = new APIModule(
+      this.deviceProtocol,
+      this.systemUtilsModule,
+      createSettingsService()
     )
+    this.controllerInitializer.initialize(this.apiModule.getAPIServices())
     this.controllerInitializer.initialize(this.systemUtilsModule.getServices())
     this.controllerInitializer.initialize(
       new ApplicationUpdaterModule().controllers
     )
     this.controllerInitializer.initialize(new OnlineStatusModule().controllers)
+    this.controllerInitializer.initialize(
+      new CoreDeviceModule(this.deviceProtocol, this.fileSystem).controllers
+    )
   }
 
   lateInitialization(): void {
@@ -133,7 +140,7 @@ export class ApplicationModule {
   private initModule = (module: Module): void => {
     const instance = new module(
       this.index,
-      this.deviceManager,
+      this.deviceProtocol,
       this.keyStorage,
       this.logger,
       this.ipc,
@@ -146,5 +153,21 @@ export class ApplicationModule {
     this.initializeInitializer.initialize(instance.initializers)
     this.observerInitializer.initialize(instance.observers)
     this.controllerInitializer.initialize(instance.controllers)
+  }
+
+  private resolveDeviceProtocol(): DeviceProtocol {
+    if (mockServiceEnabled) {
+      return new DeviceProtocol(
+        new MockSerialPortService(),
+        new MockDeviceResolverService(),
+        this.eventEmitter
+      )
+    } else {
+      return new DeviceProtocol(
+        new SerialPortService(),
+        new DeviceResolverService(),
+        this.eventEmitter
+      )
+    }
   }
 }

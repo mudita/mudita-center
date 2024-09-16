@@ -5,16 +5,18 @@
 
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import { UpdateError } from "Core/update/constants"
 import { OsRelease, ProcessedRelease } from "Core/update/dto"
+import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 
 export interface UpdatingForceModalFlowProps {
   enabled: boolean
   error: AppError<UpdateError> | null
   availableReleasesForUpdate: OsRelease[] | null
   updatingReleasesProcessStates: ProcessedRelease[] | null
+  checkForUpdateState: CheckForUpdateState
   forceUpdateState: State
   deviceType: DeviceType
   startForceUpdate: () => void

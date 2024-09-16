@@ -3,9 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Provider } from "react-redux"
+import thunk from "redux-thunk"
+import createMockStore from "redux-mock-store"
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { UpdatingForceModalFlowTestIds } from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.enum"
 import UpdatingForceModalFlow from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowProps } from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
@@ -16,11 +19,14 @@ import {
   renderWithThemeAndIntl,
 } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
+import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 const defaultProps: UpdatingForceModalFlowProps = {
   deviceType: DeviceType.MuditaPure,
   availableReleasesForUpdate: [],
   enabled: true,
+  checkForUpdateState: CheckForUpdateState.Initial,
   forceUpdateState: State.Initial,
   error: null,
   updatingReleasesProcessStates: [],
@@ -30,12 +36,26 @@ const defaultProps: UpdatingForceModalFlowProps = {
   startForceUpdate: jest.fn(),
 }
 
-const render = (extraProps?: Partial<UpdatingForceModalFlowProps>) => {
+const defaultState = {
+  appState: {
+    dialogOpen: false,
+  },
+} as ReduxRootState
+
+const render = (
+  extraProps?: Partial<UpdatingForceModalFlowProps>,
+  state = defaultState
+) => {
+  const store = createMockStore([thunk])(state)
   const props = {
     ...defaultProps,
     ...extraProps,
   }
-  const outcome = renderWithThemeAndIntl(<UpdatingForceModalFlow {...props} />)
+  const outcome = renderWithThemeAndIntl(
+    <Provider store={store}>
+      <UpdatingForceModalFlow {...props} />
+    </Provider>
+  )
   return {
     ...outcome,
     rerender: (newExtraProps: Partial<UpdatingForceModalFlowProps>) => {
@@ -44,7 +64,11 @@ const render = (extraProps?: Partial<UpdatingForceModalFlowProps>) => {
         ...newExtraProps,
       }
       outcome.rerender(
-        constructWrapper(<UpdatingForceModalFlow {...newProps} />)
+        constructWrapper(
+          <Provider store={store}>
+            <UpdatingForceModalFlow {...newProps} />
+          </Provider>
+        )
       )
     },
   }

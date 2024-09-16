@@ -8,39 +8,37 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { defineMessages } from "react-intl"
+import styled from "styled-components"
+import { useFilteredRoutesHistory } from "shared/utils"
+import { useDataMigrationDeviceSelector } from "shared/feature"
+import { ApiError } from "device/models"
+import { getDevicesSelector } from "device-manager/feature"
 import {
   selectActiveDeviceMenuElements,
   selectApiError,
   selectDataMigrationSourceDevice,
   selectDataMigrationTargetDevice,
-  setSourceDevice,
+  setDataMigrationSourceDevice,
 } from "generic-view/store"
-import { ApiError } from "device/models"
-import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { defineMessages } from "react-intl"
-import { Modal, SpinnerLoader } from "generic-view/ui"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
+import { Modal } from "generic-view/ui"
 import { GenericThemeProvider } from "generic-view/theme"
 import { ButtonAction, IconType } from "generic-view/utils"
-import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
-import ReactModal from "react-modal"
-import styled from "styled-components"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_DISCOVERY_DEVICE,
   URL_MAIN,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { useFilteredRoutesHistory } from "shared/utils"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { useDataMigrationDeviceSelector } from "shared/feature"
+import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 
 const messages = defineMessages({
-  connectingModalParagraph: {
-    id: "module.onboarding.connectingMessage",
-  },
   lockedModalHeadline: {
     id: "component.deviceLockedModalHeadline",
   },
@@ -52,20 +50,28 @@ const messages = defineMessages({
 export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
+  const devices = useSelector(getDevicesSelector)
+  const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
   const selectDevice = useDataMigrationDeviceSelector()
   const firstRenderTime = useRef(Date.now())
-  const deviceLocked = useSelector((state: ReduxRootState) => {
-    return selectApiError(state, ApiError.DeviceLocked)
-  })
   const menuElements = useSelector(selectActiveDeviceMenuElements)
-  const [pathToGoBack] = useFilteredRoutesHistory([
-    URL_MAIN.root,
-    ...Object.values(URL_ONBOARDING),
-    ...Object.values(URL_DISCOVERY_DEVICE),
-    ...Object.values(URL_DEVICE_INITIALIZATION),
-  ])
+  const [pathToGoBack] = useFilteredRoutesHistory(
+    [
+      URL_MAIN.root,
+      ...Object.values(URL_ONBOARDING),
+      ...Object.values(URL_DISCOVERY_DEVICE),
+      ...Object.values(URL_DEVICE_INITIALIZATION),
+    ],
+    URL_DISCOVERY_DEVICE.availableDeviceListModal
+  )
   const dataMigrationSourceDevice = useSelector(selectDataMigrationSourceDevice)
   const dataMigrationTargetDevice = useSelector(selectDataMigrationTargetDevice)
+  const activeDeviceId = useSelector(activeDeviceIdSelector)
+  const deviceLocked = useSelector((state: ReduxRootState) =>
+    activeDeviceId
+      ? selectApiError(state, activeDeviceId, ApiError.DeviceLocked)
+      : false
+  )
 
   const targetPath = useMemo(() => {
     const firstMenuItemUrl = menuElements?.[0]?.items?.[0]?.button.url
@@ -100,11 +106,21 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
         dataMigrationSourceDevice.serialNumber,
         URL_MAIN.dataMigration
       )
-      dispatch(setSourceDevice(undefined))
+      dispatch(setDataMigrationSourceDevice(undefined))
+    } else if (devices.length > 1) {
+      await deactivateDeviceAndRedirect()
     } else {
       history.push(pathToGoBack || URL_MAIN.news)
     }
-  }, [dataMigrationSourceDevice, dispatch, history, pathToGoBack, selectDevice])
+  }, [
+    dataMigrationSourceDevice,
+    dispatch,
+    history,
+    pathToGoBack,
+    selectDevice,
+    devices.length,
+    deactivateDeviceAndRedirect,
+  ])
 
   const modalCloseAction: ButtonAction = {
     type: "custom",
@@ -132,28 +148,6 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   return (
     <GenericThemeProvider>
       <Wrapper>
-        <ReactModal
-          isOpen
-          overlayClassName="generic-modal-overlay"
-          style={{
-            overlay: {
-              zIndex: ModalLayers.Default,
-            },
-            content: {
-              backgroundColor: "transparent",
-              border: "none",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            },
-          }}
-        >
-          <SpinnerLoader />
-          <ConnectingText>
-            {intl.formatMessage(messages.connectingModalParagraph)}
-          </ConnectingText>
-        </ReactModal>
         <Modal
           componentKey={"device-initialization"}
           config={{
@@ -178,12 +172,4 @@ const Wrapper = styled.div`
   height: 100%;
   width: 100%;
   background: ${({ theme }) => theme.color.grey6};
-`
-
-const ConnectingText = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.headline3};
-  line-height: ${({ theme }) => theme.lineHeight.headline3};
-  color: ${({ theme }) => theme.color.white};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  margin: 2.4rem 0 0;
 `

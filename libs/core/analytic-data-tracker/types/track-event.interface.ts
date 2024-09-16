@@ -61,7 +61,7 @@ export interface TrackEvent {
   e_c?: string
   e_a?: string
   e_n?: string
-  e_v?: string
+  e_v?: number
 
   // Optional Content Tracking info
   c_n?: string

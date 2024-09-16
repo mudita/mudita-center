@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { initialState } from "Core/settings/reducers"
 import { getDeviceLatestVersion } from "Core/settings/selectors/get-device-lowest-version.selector"
@@ -70,6 +70,7 @@ describe("When `deviceType` and `lowestSupportedVersions` has been provided", ()
             lowestSupportedCenterVersion: "1.0.0",
             lowestSupportedProductVersion: {
               MuditaHarmony: "1.0.0",
+              MuditaHarmonyMsc: "1.0.0",
               MuditaPure: "2.0.0",
               APIDevice: "3.0.0",
             },
@@ -90,6 +91,7 @@ describe("When `deviceType` and `lowestSupportedVersions` has been provided", ()
             lowestSupportedCenterVersion: "1.0.0",
             lowestSupportedProductVersion: {
               MuditaHarmony: "1.0.0",
+              MuditaHarmonyMsc: "1.0.0",
               MuditaPure: "2.0.0",
               APIDevice: "3.0.0",
             },

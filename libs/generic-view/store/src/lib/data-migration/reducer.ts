@@ -5,11 +5,12 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import {
-  clearDataMigrationProgress,
+  setDataMigrationAbort,
   setDataMigrationFeatures,
+  setDataMigrationProgress,
+  setDataMigrationPureDbIndexing,
   setDataMigrationStatus,
-  setSourceDevice,
-  setTransferProgress,
+  setDataMigrationSourceDevice,
 } from "./actions"
 import { DeviceId } from "Core/device/constants/device-id"
 import { DataMigrationFeature } from "generic-view/models"
@@ -31,16 +32,19 @@ interface DataMigrationState {
   selectedFeatures: DataMigrationFeature[]
   status: DataMigrationStatus
   transferProgress: number
+  abortController?: AbortController
+  pureDbIndexing: boolean
 }
 
 const initialState: DataMigrationState = {
   selectedFeatures: [],
   status: "IDLE",
   transferProgress: 0,
+  pureDbIndexing: false,
 }
 
 export const dataMigrationReducer = createReducer(initialState, (builder) => {
-  builder.addCase(setSourceDevice, (state, action) => {
+  builder.addCase(setDataMigrationSourceDevice, (state, action) => {
     state.sourceDevice = action.payload
   })
   builder.addCase(setDataMigrationFeatures, (state, action) => {
@@ -49,11 +53,13 @@ export const dataMigrationReducer = createReducer(initialState, (builder) => {
   builder.addCase(setDataMigrationStatus, (state, action) => {
     state.status = action.payload
   })
-  builder.addCase(setTransferProgress, (state, action) => {
+  builder.addCase(setDataMigrationProgress, (state, action) => {
     state.transferProgress = action.payload ?? 0
   })
-  builder.addCase(clearDataMigrationProgress, (state) => {
-    state.status = "IDLE"
-    state.transferProgress = 0
+  builder.addCase(setDataMigrationAbort, (state, action) => {
+    state.abortController = action.payload
+  })
+  builder.addCase(setDataMigrationPureDbIndexing, (state, action) => {
+    state.pureDbIndexing = action.payload
   })
 })

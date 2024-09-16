@@ -10,9 +10,11 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { LicenseUI } from "Core/settings/components/license/license-ui.component"
 import useAltLinkDownloadPreventer from "Core/core/components/use-alt-link-download-preventer.hook"
+import useBackForwardButtonPreventer from "Core/core/components/use-back-forward-button-preventer.hook"
 
 const LicenseApp: FunctionComponent = () => {
   useAltLinkDownloadPreventer()
+  useBackForwardButtonPreventer()
 
   return (
     <Router history={history}>

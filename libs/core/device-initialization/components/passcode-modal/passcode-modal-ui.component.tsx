@@ -61,6 +61,7 @@ export interface PasscodeModalProps
   errorMessage: string
   leftTime?: number | undefined
   canBeClosed: boolean
+  noOverlayBg?: boolean
 }
 
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
@@ -73,6 +74,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   errorMessage,
   leftTime,
   canBeClosed,
+  noOverlayBg = true,
   ...props
 }) => {
   const muditaLogo = (
@@ -80,7 +82,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       <Icon
         type={IconType.MuditaLogoVertical}
         key={IconType.MuditaLogoVertical}
-        size={IconSize.Bigger}
+        size={IconSize.Large}
       />
     </LogoWrapper>
   )
@@ -94,6 +96,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       closeButton={false}
       closeModal={canBeClosed ? close : undefined}
       title={muditaLogo}
+      noOverlayBg={noOverlayBg}
     >
       <PasscodeModalContent>
         <span></span>

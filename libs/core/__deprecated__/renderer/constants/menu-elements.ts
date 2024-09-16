@@ -4,7 +4,7 @@
  */
 
 import { defineMessages } from "react-intl"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { View, views } from "Core/__deprecated__/renderer/constants/views"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
@@ -63,6 +63,13 @@ const YOUR_PURE_BUTTONS = [
         },
       ]
     : []),
+  {
+    button: views.recoveryMode,
+    icon: IconType.RecoveryModeBlack,
+    testId: MenuGroupTestIds.RecoveryMode,
+    visibleOn: [DeviceType.MuditaHarmonyMsc],
+    viewKey: View.RecoveryMode,
+  },
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [
@@ -72,6 +79,7 @@ const DESKTOP_APP_BUTTONS: Item[] = [
     visibleOn: [
       DeviceType.MuditaPure,
       DeviceType.MuditaHarmony,
+      DeviceType.MuditaHarmonyMsc,
       DeviceType.APIDevice,
     ],
   },
@@ -79,9 +87,11 @@ const DESKTOP_APP_BUTTONS: Item[] = [
     button: views.help,
     icon: IconType.MenuHelp,
     testId: MenuGroupTestIds.Help,
+    disableWhenActive: false,
     visibleOn: [
       DeviceType.MuditaPure,
       DeviceType.MuditaHarmony,
+      DeviceType.MuditaHarmonyMsc,
       DeviceType.APIDevice,
     ],
   },
@@ -94,6 +104,7 @@ interface Item {
   hidden?: boolean
   visibleOn?: DeviceType[]
   viewKey?: View
+  disableWhenActive?: boolean
 }
 
 export interface MenuElement {
@@ -120,6 +131,7 @@ export const baseMenuElements: MenuElement[] = [
         visibleOn: [
           DeviceType.MuditaPure,
           DeviceType.MuditaHarmony,
+          DeviceType.MuditaHarmonyMsc,
           DeviceType.APIDevice,
         ],
       },
@@ -142,6 +154,13 @@ export const deviceMenuElements: MenuElement[] = [
     icons: [],
     connectedPhoneOnly: true,
     visibleOn: [DeviceType.MuditaHarmony],
+  },
+  {
+    label: messages.yourHarmony,
+    items: YOUR_PURE_BUTTONS,
+    icons: [],
+    connectedPhoneOnly: true,
+    visibleOn: [DeviceType.MuditaHarmonyMsc],
   },
 ]
 

@@ -3,15 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useState } from "react"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
-import { IconType } from "generic-view/utils"
+import { ButtonAction, IconType } from "generic-view/utils"
 import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { useSelector } from "react-redux"
 import { importContactsProgress } from "generic-view/store"
+import { ButtonSecondary } from "../../buttons/button-secondary"
+import { ButtonPrimary } from "../../buttons/button-primary"
 
 const messages = defineMessages({
   title: {
@@ -23,11 +26,64 @@ const messages = defineMessages({
   progressDetails: {
     id: "module.genericViews.importContacts.progress.progressDetails",
   },
+  cancelButtonLabel: {
+    id: "module.genericViews.importContacts.progress.cancelButtonLabel",
+  },
+  cancelTitle: {
+    id: "module.genericViews.importContacts.cancelConfirm.title",
+  },
+  cancelDescription: {
+    id: "module.genericViews.importContacts.cancelConfirm.description",
+  },
+  cancelBackButtonLabel: {
+    id: "module.genericViews.importContacts.cancelConfirm.backButtonLabel",
+  },
+  cancelAbortButtonLabel: {
+    id: "module.genericViews.importContacts.cancelConfirm.cancelButtonLabel",
+  },
 })
 
-export const ImportContactsProgress = () => {
+interface Props {
+  cancelAction: ButtonAction
+}
+
+export const ImportContactsProgress: FunctionComponent<Props> = ({
+  cancelAction,
+}) => {
+  const [cancelRequested, setCancelRequested] = useState(false)
   const { progress } = useSelector(importContactsProgress)
   const detailMessage = intl.formatMessage(messages.progressDetails)
+
+  const requestCancel = () => {
+    setCancelRequested(true)
+  }
+
+  if (cancelRequested) {
+    return (
+      <>
+        <Modal.TitleIcon config={{ type: IconType.Exclamation }} />
+        <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
+        <p>{intl.formatMessage(messages.cancelDescription)}</p>
+        <Modal.Buttons>
+          <ButtonSecondary
+            config={{
+              action: {
+                type: "custom",
+                callback: () => setCancelRequested(false),
+              },
+              text: intl.formatMessage(messages.cancelBackButtonLabel),
+            }}
+          />
+          <ButtonPrimary
+            config={{
+              action: cancelAction,
+              text: intl.formatMessage(messages.cancelAbortButtonLabel),
+            }}
+          />
+        </Modal.Buttons>
+      </>
+    )
+  }
 
   return (
     <>
@@ -43,6 +99,17 @@ export const ImportContactsProgress = () => {
           message: detailMessage,
         }}
       />
+      <Modal.Buttons config={{ vertical: true }}>
+        <ButtonSecondary
+          config={{
+            action: {
+              type: "custom",
+              callback: requestCancel,
+            },
+            text: intl.formatMessage(messages.cancelButtonLabel),
+          }}
+        />
+      </Modal.Buttons>
     </>
   )
 }

@@ -4,32 +4,72 @@
  */
 
 import { dialog, OpenDialogOptions, BrowserWindow } from "electron"
+import {
+  FileDialogToMainEvents,
+  FileDialogError,
+  FileDialogToRendererEvents,
+} from "system-utils/models"
 import { IpcEvent } from "Core/core/decorators"
-import { FileDialogServiceEvents } from "system-utils/models"
-import { Result } from "Core/core/builder"
+import { Result, ResultObject } from "Core/core/builder"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { AppError } from "Core/core/errors"
-import { GeneralError } from "device/models"
+import { callRenderer } from "shared/utils"
+
+const defaultOptions: OpenDialogOptions = {
+  title: intl.formatMessage({ id: "component.dialog.title" }),
+  filters: [],
+  properties: [],
+}
 
 export class FileDialog {
+  private lastSelectedPath: string | undefined
+
   constructor() {}
 
-  @IpcEvent(FileDialogServiceEvents.SelectSingleFile)
-  public openFile({
+  @IpcEvent(FileDialogToMainEvents.OpenFile)
+  public async openFile({
     options,
-  }: { options?: Omit<OpenDialogOptions, "properties"> } = {}) {
-    const selectedFile = dialog.showOpenDialogSync(
-      BrowserWindow.getFocusedWindow() as BrowserWindow,
-      {
-        properties: ["openFile"],
-        title: "Open File",
-        filters: [{ name: "All Files", extensions: ["*"] }],
-        ...options,
-      }
-    )
+  }: {
+    options?: OpenDialogOptions
+  }): Promise<ResultObject<string[]>> {
+    callRenderer(FileDialogToRendererEvents.FileDialogOpened)
 
-    if (!selectedFile || selectedFile.length === 0) {
-      return Result.failed(new AppError(GeneralError.UserCancelled))
+    const result = await this.performOpenFile(options)
+
+    callRenderer(FileDialogToRendererEvents.FileDialogClosed)
+
+    return result
+  }
+
+  public async performOpenFile(
+    options: OpenDialogOptions = defaultOptions
+  ): Promise<ResultObject<string[]>> {
+    try {
+      const openDialogOptions = {
+        ...defaultOptions,
+        ...options,
+        defaultPath: options.defaultPath || this.lastSelectedPath,
+      }
+
+      const result = await dialog.showOpenDialog(
+        BrowserWindow.getFocusedWindow() as BrowserWindow,
+        openDialogOptions
+      )
+      if (result.canceled) {
+        return Result.failed(
+          new AppError(FileDialogError.OpenFile, "cancelled")
+        )
+      }
+      this.lastSelectedPath = result.filePaths[0]
+
+      return Result.success(result.filePaths)
+    } catch (error) {
+      return Result.failed(
+        new AppError(
+          FileDialogError.OpenFile,
+          error ? (error as Error).message : undefined
+        )
+      )
     }
-    return Result.success(selectedFile[0])
   }
 }

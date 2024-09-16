@@ -5,19 +5,18 @@
 
 import {
   init,
-  RematchDispatch,
-  RematchRootState,
   InitConfig,
   Middleware,
+  RematchDispatch,
+  RematchRootState,
 } from "@rematch/core"
 import selectPlugin from "@rematch/select"
 import logger from "redux-logger"
 import thunk from "redux-thunk"
 import { models, RootModel } from "Core/__deprecated__/renderer/models/models"
 import { filesManagerSeed } from "Core/__deprecated__/seeds/filesManager"
-import { helpSeed } from "Core/__deprecated__/seeds/help"
 
-import { reducers, combinedReducers } from "./reducers"
+import { combinedReducers, reducers } from "./reducers"
 
 const middlewares: Middleware[] = [thunk]
 
@@ -39,7 +38,6 @@ if (process.env.NODE_ENV !== "test") {
     ...config.redux,
     initialState: {
       filesManager: filesManagerSeed,
-      help: helpSeed,
     },
   }
 }

@@ -3,9 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import muditaTheme, {
-  Theme,
-} from "Core/core/styles/theming/theme"
+import muditaTheme, { Theme } from "Core/core/styles/theming/theme"
 import {
   backgroundColor,
   zIndex as getZIndex,
@@ -16,6 +14,7 @@ import { Styles } from "react-modal"
 
 export interface GetModalDialogStyleProps {
   size: ModalProps["size"]
+  noOverlayBg?: boolean
   zIndex?: number
   theme?: Theme
 }
@@ -36,6 +35,11 @@ const getModalSize = (size: ModalProps["size"]) => {
       return {
         width: "59rem",
       }
+    case ModalSize.MediumNew:
+      return {
+        width: "56.6rem",
+        padding: "2.4rem",
+      }
     case ModalSize.Large:
       return {
         width: "101rem",
@@ -49,12 +53,15 @@ export const getModalDialogStyle = ({
   zIndex,
   size,
   theme = muditaTheme,
+  noOverlayBg = false,
 }: GetModalDialogStyleProps): Styles => {
   return {
     overlay: {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      backgroundColor: backgroundColor("modalBackdrop")({ theme }),
+      backgroundColor: noOverlayBg
+        ? "transparent"
+        : backgroundColor("modalBackdrop")({ theme }),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       zIndex: zIndex ? zIndex : getZIndex("modalBackdrop")({ theme }),

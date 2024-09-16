@@ -7,7 +7,7 @@ import React from "react"
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { DevicePreviewProps } from "Core/overview/components/device-preview/device-preview.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -91,7 +91,7 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
             data-testid={DeviceTestIds.PureSystemButton}
             displayStyle={DisplayStyle.LinkWithParagraph}
             Icon={IconType.MenuPhone}
-            iconSize={IconSize.Bigger}
+            iconSize={IconSize.Large}
           />
         </PureSystemButtonContainer>
       )}

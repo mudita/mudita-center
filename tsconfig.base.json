@@ -28,6 +28,18 @@
       "E2E/*": ["./apps/mudita-center-e2e/src/*"],
       "Libs/*": ["./libs/*"],
       "Root/*": ["./*"],
+      "active-device-registry/feature": [
+        "libs/active-device-registry/feature/src/index.ts"
+      ],
+      "active-device-registry/models": [
+        "libs/active-device-registry/models/src/index.ts"
+      ],
+      "core-device/feature": ["libs/core-device/feature/src/index.ts"],
+      "core-device/models": ["libs/core-device/models/src/index.ts"],
+      "device-manager/feature": ["libs/device-manager/feature/src/index.ts"],
+      "device-manager/models": ["libs/device-manager/models/src/index.ts"],
+      "device-protocol/feature": ["libs/device-protocol/feature/src/index.ts"],
+      "device-protocol/models": ["libs/device-protocol/models/src/index.ts"],
       "device/adapters": ["libs/device/adapters/src/index.ts"],
       "device/feature": ["libs/device/feature/src/index.ts"],
       "device/models": ["libs/device/models/src/index.ts"],
@@ -37,9 +49,6 @@
       "electron/application-updater": [
         "libs/electron/application-updater/src/index.ts"
       ],
-      "external-tools/matomo-to-gsheet": [
-        "libs/external-tools/matomo-to-gsheet/src/index.ts"
-      ],
       "generic-view/feature": ["libs/generic-view/feature/src/index.ts"],
       "generic-view/models": ["libs/generic-view/models/src/index.ts"],
       "generic-view/store": ["libs/generic-view/store/src/index.ts"],
@@ -47,19 +56,26 @@
       "generic-view/ui": ["libs/generic-view/ui/src/index.ts"],
       "generic-view/utils": ["libs/generic-view/utils/src/index.ts"],
       "generic-view/views": ["libs/generic-view/views/src/index.ts"],
+      "help/feature": ["libs/help/feature/src/index.ts"],
+      "help/models": ["libs/help/models/src/index.ts"],
+      "help/store": ["libs/help/store/src/index.ts"],
+      "help/ui": ["libs/help/ui/src/index.ts"],
       "shared/app-state": ["libs/shared/app-state/src/index.ts"],
       "shared/feature": ["libs/shared/feature/src/index.ts"],
       "shared/http-client": ["libs/shared/http-client/src/index.ts"],
       "shared/utils": ["libs/shared/utils/src/index.ts"],
       "system-utils/feature": ["libs/system-utils/feature/src/index.ts"],
       "system-utils/models": ["libs/system-utils/models/src/index.ts"]
-    }
+    },
+    "jsx": "react",
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules",
     "./apps/mudita-center/node_modules",
     "./apps/mudita-center/dist",
     "./apps/mudita-center/__mocks__",
-    "./libs/generic-view/ui/styled.d.ts"
+    "./libs/generic-view/ui/styled.d.ts",
+    "./libs/help/ui/styled.d.ts"
   ]
 }

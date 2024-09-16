@@ -7,7 +7,12 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
-import { answerMain, DeviceManagerMainEvent } from "shared/utils"
+import { answerMain } from "shared/utils"
+import {
+  getDevicesSelector,
+  setSelectDeviceDrawerOpen,
+} from "device-manager/feature"
+import { DeviceProtocolMainEvent } from "device-protocol/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import LoaderModal from "Core/ui/components/loader-modal/loader-modal.component"
@@ -16,7 +21,6 @@ import {
   URL_DISCOVERY_DEVICE,
   URL_MAIN,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
@@ -24,6 +28,7 @@ import {
   CONNECTING_LOADER_MODAL_ID,
   useLoaderSkipOnConnect,
 } from "Core/modals-manager/components/use-loader-skip-on-connect.hook"
+import { DeviceState } from "device-manager/models"
 
 const messages = defineMessages({
   subtitle: {
@@ -33,28 +38,29 @@ const messages = defineMessages({
 
 const ConnectingLoaderModal: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>()
-  const [openModal, setOpenModal] = useState<boolean>(false)
-
+  const [loaderModalOpened, setLoaderModalOpened] = useState<boolean>(false)
+  const devices = useSelector(getDevicesSelector)
   const history = useHistory()
-
   const discoveryStatus = useSelector(getDiscoveryStatus)
   const shouldLoaderSkipOnConnect = useLoaderSkipOnConnect()
 
+  const devicesInProgress = devices.filter((device) => {
+    return [DeviceState.Connected, DeviceState.Initialized].includes(
+      device.state
+    )
+  })
+
   useEffect(() => {
-    const handler = async () => {
-      if (shouldLoaderSkipOnConnect()) {
-        setOpenModal(false)
-      } else {
-        setOpenModal(true)
-      }
+    const handler = () => {
+      setLoaderModalOpened(!shouldLoaderSkipOnConnect())
     }
 
     const unregisterDeviceConnectedListener = answerMain(
-      DeviceManagerMainEvent.DeviceConnected,
+      DeviceProtocolMainEvent.DeviceConnected,
       handler
     )
     const unregisterDeviceConnectFailedListener = answerMain(
-      DeviceManagerMainEvent.DeviceConnectFailed,
+      DeviceProtocolMainEvent.DeviceConnectFailed,
       handler
     )
 
@@ -67,9 +73,12 @@ const ConnectingLoaderModal: FunctionComponent = () => {
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>
 
-    if (openModal) {
+    if (loaderModalOpened) {
       timeoutId = setTimeout(() => {
-        setOpenModal(false)
+        if (devicesInProgress.length > 0) {
+          return
+        }
+        setLoaderModalOpened(false)
         const pathname = history.location.pathname
         if (
           ![
@@ -87,7 +96,7 @@ const ConnectingLoaderModal: FunctionComponent = () => {
     const unregister = history.listen((location) => {
       if (location.pathname.includes(URL_DISCOVERY_DEVICE.root)) {
         clearTimeout(timeoutId)
-        setOpenModal(false)
+        setLoaderModalOpened(false)
       }
     })
 
@@ -95,13 +104,19 @@ const ConnectingLoaderModal: FunctionComponent = () => {
       clearTimeout(timeoutId)
       unregister()
     }
-  }, [openModal, dispatch, discoveryStatus, history])
+  }, [
+    devicesInProgress.length,
+    discoveryStatus,
+    dispatch,
+    history,
+    loaderModalOpened,
+  ])
 
   return (
     <LoaderModal
       data={{ "modal-id": CONNECTING_LOADER_MODAL_ID }}
       subtitle={intl.formatMessage(messages.subtitle)}
-      open={openModal}
+      open={loaderModalOpened}
       layer={ModalLayers.ConnectingLoader}
     />
   )

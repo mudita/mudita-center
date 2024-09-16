@@ -30,9 +30,14 @@ import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configu
 import DevicesInitialization from "Core/device-initialization/components/devices-initialization.component"
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 import DeviceConnecting from "Core/discovery-device/components/device-connecting.component"
-import { GenericView } from "generic-view/feature"
-import { APIConnectionDemo, DataMigrationPage } from "generic-view/ui"
 import ManageSounds from "Core/files-manager/components/manage-sounds.component"
+import { GenericView } from "generic-view/feature"
+import {
+  APIConnectionDemo,
+  DataMigrationPage,
+  RecoveryModePage,
+} from "generic-view/ui"
+import { ArticlePage, HelpPage } from "help/ui"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -58,8 +63,14 @@ export default () => (
         </LayoutDesktopWrapperWithoutHeader>
       </Route>
 
-      <Route exact path={[...Object.values(URL_DISCOVERY_DEVICE)]}>
-        <LayoutBlankWrapper>
+      <Route
+        exact
+        path={[
+          URL_DISCOVERY_DEVICE.root,
+          URL_DISCOVERY_DEVICE.deviceConnecting,
+        ]}
+      >
+        <LayoutBlankWrapper closeable={false}>
           <Route
             path={URL_DISCOVERY_DEVICE.root}
             component={ConfiguredDevicesDiscovery}
@@ -70,6 +81,11 @@ export default () => (
             component={DeviceConnecting}
             exact
           />
+        </LayoutBlankWrapper>
+      </Route>
+
+      <Route exact path={[URL_DISCOVERY_DEVICE.availableDeviceListModal]}>
+        <LayoutBlankWrapper>
           <Route
             path={URL_DISCOVERY_DEVICE.availableDeviceListModal}
             component={AvailableDeviceListContainer}
@@ -79,7 +95,7 @@ export default () => (
       </Route>
 
       <Route exact path={[...Object.values(URL_DEVICE_INITIALIZATION)]}>
-        <LayoutBlankWrapper>
+        <LayoutBlankWrapper closeable={false}>
           <Route
             path={URL_DEVICE_INITIALIZATION.root}
             component={DevicesInitialization}
@@ -115,9 +131,25 @@ export default () => (
             <Route path={URL_MAIN.contacts} component={Contacts} exact />
             <Route path={URL_MAIN.settings} component={BackupContainer} exact />
             <Route
+              key="help-category-article"
+              path={`${URL_MAIN.help}/:categoryId/:articleId`}
+              component={ArticlePage}
+            />,
+            <Route
+              key="help-category"
+              path={`${URL_MAIN.help}/:categoryId`}
+              component={HelpPage}
+            />,
+            <Route
+              key="help-root"
+              path={URL_MAIN.help}
+              component={HelpPage}
+            />
+            <Route
               path={`${URL_MAIN.settings}${URL_TABS.about}`}
               component={AboutContainer}
             />
+            <Route path={URL_MAIN.recoveryMode} component={RecoveryModePage} />
           </Switch>
         </LayoutDesktopWrapper>
       </Route>

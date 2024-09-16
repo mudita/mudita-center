@@ -28,6 +28,21 @@ const messages = defineMessages({
   },
 })
 
+const comingSoonMessages = defineMessages({
+  messages: {
+    id: "module.genericViews.backup.features.comingSoon.messages",
+  },
+  notes: {
+    id: "module.genericViews.backup.features.comingSoon.notes",
+  },
+  calendar: {
+    id: "module.genericViews.backup.features.comingSoon.calendar",
+  },
+  apps: {
+    id: "module.genericViews.backup.features.comingSoon.apps",
+  },
+})
+
 interface Props {
   features: BackupFeature[]
   closeAction: ButtonAction
@@ -50,6 +65,13 @@ export const BackupFeatures: FunctionComponent<Props> = ({
             {features.map((feature, index) => (
               <li key={feature.key + index}>{feature.label}</li>
             ))}
+            {Object.entries(comingSoonMessages).map(([key, message], index) => {
+              return (
+                <ComingSoonListItem key={key + index}>
+                  {intl.formatMessage(message)}
+                </ComingSoonListItem>
+              )
+            })}
           </ul>
         </Modal.ScrollableContent>
       </Article>
@@ -74,5 +96,13 @@ export const BackupFeatures: FunctionComponent<Props> = ({
 const Article = styled.article`
   p {
     padding-bottom: 1.4rem;
+  }
+`
+const ComingSoonListItem = styled.li`
+  && {
+    color: #bfbfbf;
+  }
+  &&::marker {
+    content: url('data:image/svg+xml,<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle fill="%23BFBFBF" r="3.5" cx="5" cy="4"/></svg>');
   }
 `

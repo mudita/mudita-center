@@ -4,24 +4,22 @@
  */
 
 import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { useDispatch, useSelector } from "react-redux"
-import {
-  selectActiveDevice,
-  selectActiveDeviceFeatures,
-  selectApiError,
-} from "../selectors"
+import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
+import { selectActiveDeviceFeatures } from "../selectors/active-device-features"
+import { selectApiError } from "../selectors/api-error"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ApiError } from "device/models"
 import { getAPIConfig } from "../get-api-config"
 
 export const useLockedDeviceHandler = () => {
   const dispatch = useDispatch<Dispatch>()
-  const deviceId = useSelector(selectActiveDevice)
-  const deviceLocked = useSelector((state: ReduxRootState) => {
-    return selectApiError(state, ApiError.DeviceLocked)
-  })
+  const deviceId = useSelector(selectActiveApiDeviceId)
+  const deviceLocked = useSelector((state: ReduxRootState) =>
+    deviceId ? selectApiError(state, deviceId, ApiError.DeviceLocked) : false
+  )
   const features = useSelector(selectActiveDeviceFeatures)
 
   useEffect(() => {

@@ -20,6 +20,7 @@ const configuration: Configuration = {
   centerVersion: "1.0.0",
   productVersions: {
     MuditaHarmony: "1.1.1",
+    MuditaHarmonyMsc: "1.1.1",
     MuditaPure: "2.2.2",
     APIDevice: "3.3.3",
   },
@@ -28,6 +29,7 @@ const defaultConfig = {
   centerVersion: "1.0.0-default",
   productVersions: {
     MuditaHarmony: "1.1.1-default",
+    MuditaHarmonyMsc: "1.1.1-default",
     MuditaPure: "2.2.2-default",
   },
 }
