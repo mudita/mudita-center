@@ -31,6 +31,7 @@ export const flashMscDeviceService =
       if (flashingFiles) {
         await downloadFlashingFiles(dispatch, flashingFiles)
         await unpackFlashingImage(dispatch, flashingFiles)
+        await startFlashingProcess(dispatch, flashingFiles)
       }
     } catch (error) {
       console.error("Error during flashing process:", error)
