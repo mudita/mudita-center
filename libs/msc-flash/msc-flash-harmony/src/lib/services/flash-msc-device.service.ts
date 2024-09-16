@@ -37,11 +37,24 @@ const getFlashingImageDetails = async (dispatch: Dispatch) => {
   dispatch(
     setFlashingProcessState(FlashingProcessState.GettingFlashingFilesDetails)
   )
+
+  let platform: Platform
+
+  if (process.platform === "darwin") {
+    platform = Platform.MacOs
+  } else if (process.platform === "linux") {
+    platform = Platform.Linux
+  } else if (process.platform === "win32") {
+    platform = Platform.Windows
+  } else {
+    throw new Error(`Unsupported platform: ${process.platform}`)
+  }
+
   await dispatch(
     getMscFlashingFilesDetails({
       product: Product.MscHarmony,
       environment: OsEnvironment.Daily,
-      platform: Platform.MacOs,
+      platform: platform,
     })
   )
 }
