@@ -14,6 +14,7 @@ export const selectApiErrors = createSelector(
 
 export const selectApiError = createSelector(
   selectApiErrors,
-  (state: ReduxRootState, apiError: ApiError) => apiError,
-  (apiErrors, apiError) => apiErrors[apiError]
+  (state: ReduxRootState, deviceId: string) => deviceId,
+  (state: ReduxRootState, deviceId: string, apiError: ApiError) => apiError,
+  (apiErrors, deviceId, apiError) => apiErrors[deviceId]?.[apiError]
 )
