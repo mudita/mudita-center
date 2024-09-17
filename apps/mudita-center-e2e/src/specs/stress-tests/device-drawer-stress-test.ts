@@ -60,11 +60,11 @@ describe("Kompakt switching devices", () => {
         serialNumber: device.serialNumber,
       })
 
-      await browser.pause(6000)
-
       // Add a 4-second wait after adding the first device
       if (i === 0) {
-        await browser.pause(4000)
+        await browser.pause(10000)
+      } else {
+        await browser.pause(6000)
       }
     }
   })
