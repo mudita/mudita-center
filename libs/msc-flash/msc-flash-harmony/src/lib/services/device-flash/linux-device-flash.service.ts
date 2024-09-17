@@ -3,8 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
+import { execPromise, execCommandWithSudo } from "shared/utils"
 import IDeviceFlash from "./device-flash.interface"
-import { execPromise } from "shared/utils"
+
+function splitPathToDirnameAndBasename(currentPath: string) {
+  const dirname = path.dirname(currentPath)
+  const basename = path.basename(currentPath)
+  return [dirname, basename]
+}
 
 class LinuxDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(deviceName: string): Promise<string> {
@@ -44,8 +51,22 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     imagePath: string,
     scriptPath: string
   ): Promise<void> {
-    await execPromise(`sudo chmod +x ${scriptPath}`)
-    await execPromise(`sudo ${scriptPath} ${imagePath} /dev/${device}`)
+    // TODO: Verify if try-catch block is necessary
+    try {
+      await execCommandWithSudo(`chmod +x ${scriptPath}`, {
+        name: "Mudita Auto Flash",
+      })
+    } catch {
+      /* empty */
+    }
+
+    const [path, scriptBasename] = splitPathToDirnameAndBasename(scriptPath)
+    const [, imageBasename] = splitPathToDirnameAndBasename(imagePath)
+
+    // TODO: Check if image basename is required for script execution
+    await execPromise(
+      `cd ${path} && sudo ./${scriptBasename} ${imageBasename} /dev/${device}`
+    )
   }
 
   async ejectDevice(device: string): Promise<void> {
