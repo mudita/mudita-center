@@ -13,6 +13,7 @@ import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Form } from "../../interactive/form/form"
+import { PredefinedBackupPasswordTestIds } from "e2e-test-ids"
 
 const messages = defineMessages({
   title: {
@@ -66,17 +67,18 @@ export const BackupPassword: FunctionComponent<Props> = ({
           type: IconType.Settings,
         }}
       />
-      <Modal.Title>
+      <Modal.Title data-testid={PredefinedBackupPasswordTestIds.Title}>
         {intl.formatMessage(messages.title)}
         <HeadlineOptional>
           {intl.formatMessage(messages.subtitle)}
         </HeadlineOptional>
       </Modal.Title>
-      <Text>
+      <Text data-testid={PredefinedBackupPasswordTestIds.Description}>
         {intl.formatMessage(messages.description)}
         <span>{intl.formatMessage(messages.description2)}</span>
       </Text>
       <Form.TextInput
+        data-testid={PredefinedBackupPasswordTestIds.PasswordPlaceholder}
         config={{
           name: "password",
           label: intl.formatMessage(messages.passwordPlaceholder),
@@ -84,6 +86,7 @@ export const BackupPassword: FunctionComponent<Props> = ({
         }}
       />
       <Form.TextInput
+        data-testid={PredefinedBackupPasswordTestIds.PasswordRepeatPlaceholder}
         config={{
           name: "passwordRepeat",
           label: intl.formatMessage(messages.passwordRepeatPlaceholder),
@@ -101,6 +104,7 @@ export const BackupPassword: FunctionComponent<Props> = ({
       />
       <Modal.Buttons config={{ vertical: true }}>
         <ButtonPrimary
+          data-testid={PredefinedBackupPasswordTestIds.ConfirmButton}
           config={{
             text: intl.formatMessage(messages.confirmButtonLabel),
             action: nextAction,
@@ -108,6 +112,7 @@ export const BackupPassword: FunctionComponent<Props> = ({
           }}
         />
         <ButtonText
+          data-testid={PredefinedBackupPasswordTestIds.SkipButton}
           config={{
             text: intl.formatMessage(messages.skipButtonLabel),
             action: skipAction,
