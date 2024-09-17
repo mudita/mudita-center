@@ -5,11 +5,15 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { ApiError } from "device/models"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectGenericViewState } from "./select-generic-view-state"
 
 export const isDeviceLockedErrorSelector = createSelector(
-  selectGenericViewState,
-  (genericState): boolean => {
-    return genericState.apiErrors[ApiError.DeviceLocked]
+  [
+    selectGenericViewState,
+    (state: ReduxRootState, deviceId: string) => deviceId,
+  ],
+  (genericState, deviceId): boolean => {
+    return genericState.apiErrors[deviceId]?.[ApiError.DeviceLocked]
   }
 )
