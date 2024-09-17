@@ -156,7 +156,16 @@ export class APIEntitiesService {
     >
 
     if (responseType === "file") {
-      data = entitiesFileDataValidator.safeParse(response.data.body)
+      if (response.data.status === 202) {
+        return this.getEntitiesData({
+          entitiesType,
+          entityId,
+          responseType,
+          deviceId,
+        })
+      } else if (response.data.status === 200) {
+        data = entitiesFileDataValidator.safeParse(response.data.body)
+      }
     }
     if (responseType === "json") {
       if (entityId === undefined) {
