@@ -6,6 +6,7 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { EntitiesConfig, EntitiesMetadata, EntityData } from "device/models"
 import {
+  clearEntities,
   setEntitiesConfig,
   setEntitiesData,
   setEntitiesMetadata,
@@ -87,5 +88,8 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
         ...action.payload.metadata,
       },
     }
+  })
+  builder.addCase(clearEntities, (state) => {
+    state.entities = {}
   })
 })

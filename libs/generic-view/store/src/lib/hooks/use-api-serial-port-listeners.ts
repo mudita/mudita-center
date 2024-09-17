@@ -21,6 +21,7 @@ import {
   selectDataMigrationSourceDevice,
   selectDataMigrationTargetDevice,
 } from "../selectors/data-migration-devices"
+import { clearEntities } from "../entities/actions"
 
 export const useAPISerialPortListeners = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -95,6 +96,7 @@ const useHandleDevicesDetached = () => {
         dispatch(removeDevice(event))
       }
       dispatch(closeAllModals())
+      dispatch(clearEntities())
 
       if (backupProcess) {
         dispatch(setBackupProcessStatus("FAILED"))

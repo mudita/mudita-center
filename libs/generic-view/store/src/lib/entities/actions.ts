@@ -33,3 +33,5 @@ export const setEntityData = createAction<{
   entityId: EntityId
   data: EntityData
 }>(ActionName.SetEntityData)
+
+export const clearEntities = createAction(ActionName.ClearEntitiesData)
