@@ -26,6 +26,7 @@ import {
 import { SafeParseReturnType, SafeParseSuccess } from "zod"
 import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export class APIEntitiesService {
   constructor(
@@ -156,7 +157,16 @@ export class APIEntitiesService {
     >
 
     if (responseType === "file") {
-      data = entitiesFileDataValidator.safeParse(response.data.body)
+      if (response.data.status === 202) {
+        return this.getEntitiesData({
+          entitiesType,
+          entityId,
+          responseType,
+          deviceId,
+        })
+      } else if (response.data.status === 200) {
+        data = entitiesFileDataValidator.safeParse(response.data.body)
+      }
     }
     if (responseType === "json") {
       if (entityId === undefined) {
@@ -178,13 +188,20 @@ export class APIEntitiesService {
   }: {
     transferId: number
   }): Promise<ResultObject<EntitiesJsonData>> {
-    const file = this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
-    const data = entitiesJsonDataValidator.safeParse(file.chunks.join(""))
-    this.serviceBridge.fileTransfer.transferClear({ transferId })
-    if (!data.success) {
+    try {
+      const file =
+        this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
+      const decodedFile = Buffer.from(file.chunks.join(""), "base64").toString()
+      const data = entitiesJsonDataValidator.safeParse(JSON.parse(decodedFile))
+      this.serviceBridge.fileTransfer.transferClear({ transferId })
+      if (!data.success) {
+        return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
+      }
+      return this.handleSuccess(data)
+    } catch (error) {
+      logger.error(error)
       return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
     }
-    return this.handleSuccess(data)
   }
 
   @IpcEvent(APIEntitiesServiceEvents.EntityDataReadFromFile)
@@ -193,12 +210,19 @@ export class APIEntitiesService {
   }: {
     transferId: number
   }): Promise<ResultObject<EntityJsonData>> {
-    const file = this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
-    const data = entityJsonDataValidator.safeParse(file.chunks.join(""))
-    this.serviceBridge.fileTransfer.transferClear({ transferId })
-    if (!data.success) {
+    try {
+      const file =
+        this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
+      const decodedFile = Buffer.from(file.chunks.join(""), "base64").toString()
+      const data = entityJsonDataValidator.safeParse(JSON.parse(decodedFile))
+      this.serviceBridge.fileTransfer.transferClear({ transferId })
+      if (!data.success) {
+        return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
+      }
+      return this.handleSuccess(data)
+    } catch (error) {
+      logger.error(error)
       return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
     }
-    return this.handleSuccess(data)
   }
 }
