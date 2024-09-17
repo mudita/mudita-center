@@ -15,6 +15,7 @@ import { getMscFlashingFilesDetails } from "../actions/get-msc-flashing-files-de
 import { MscFlashDetails } from "../dto"
 import { downloadFlashingFileRequest } from "../requests"
 import { unpackFlashingImageService } from "./unpack-flashing-image"
+import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
 
 export const flashMscDeviceService =
   () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
@@ -53,7 +54,7 @@ const getFlashingImageDetails = async (dispatch: Dispatch) => {
   await dispatch(
     getMscFlashingFilesDetails({
       product: Product.MscHarmony,
-      environment: OsEnvironment.Daily,
+      environment: RELEASE_SPACE,
       platform: platform,
     })
   )
