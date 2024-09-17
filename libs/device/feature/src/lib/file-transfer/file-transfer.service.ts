@@ -26,6 +26,7 @@ import { APIDevice } from "../api-device"
 import { ServiceBridge } from "../service-bridge"
 import AES from "crypto-js/aes"
 import encUtf8 from "crypto-js/enc-utf8"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 interface Transfer {
   crc32: string
@@ -244,7 +245,13 @@ export class APIFileTransferService {
     const transfer = this.transfers[transferId]
     const data = transfer.chunks.join("")
     const crc32 = crc.crc32(data)
-    return crc32.toLowerCase() === transfer.crc32.toLowerCase()
+    const validChecksum = crc32.toLowerCase() === transfer.crc32.toLowerCase()
+    if (!validChecksum) {
+      logger.error(
+        `File checksum mismatch. Expected: ${transfer.crc32}, calculated: ${crc32}.`
+      )
+    }
+    return validChecksum
   }
 
   @IpcEvent(ApiFileTransferServiceEvents.PreGet)
