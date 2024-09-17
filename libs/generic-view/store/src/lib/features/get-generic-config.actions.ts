@@ -32,9 +32,25 @@ export const getGenericConfig = createAsyncThunk<
         const newConfig = {
           main: {
             screenTitle: "Contacts",
+            component: "block-plain",
+            layout: {
+              flexLayout: {
+                direction: "column",
+                justifyContent: "stretch",
+                alignItems: "stretch",
+              },
+            },
+            childrenKeys: ["importContactsButton", "contactsLoader"],
+          },
+          contactsLoader: {
             component: "entities-loader",
             config: {
               entitiesTypes: ["contacts"],
+            },
+            layout: {
+              flexLayout: {
+                direction: "column",
+              },
             },
             childrenKeys: ["contactsForm"],
           },
