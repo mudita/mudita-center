@@ -248,7 +248,7 @@ export class APIFileTransferService {
     const validChecksum = crc32.toLowerCase() === transfer.crc32.toLowerCase()
     if (!validChecksum) {
       logger.error(
-        `File checksum mismatch. Expected: ${transfer.crc32}, calculated: ${crc32}.`
+        `File checksum mismatch for ${transfer.filePath}. Expected: ${transfer.crc32} (${transfer.fileSize} bytes), calculated: ${crc32} (${data.length} bytes).`
       )
     }
     return validChecksum
