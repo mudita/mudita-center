@@ -13,16 +13,19 @@ export const execCommandWithSudo = (
     sudoPrompt.exec(command, options, (error, stdout, stderr) => {
       if (error) {
         console.error(`Command failed with error: ${error.message}`);
-        reject(`Error: ${error.message}`);
-      } else if (stdout) {
-        const output = stdout.toString().trim();
-        console.log(`Command output: ${output}`);
-        resolve(`Output: ${output}`);
-      } else {
+        return reject(`Error: ${error.message}`);
+      }
+
+      if (stderr) {
         const output = stderr?.toString().trim();
         console.error(`Command stderr output: ${output}`);
-        reject(`Stderr: ${output}`);
+        return reject(`Error: ${stderr.toString().trim()}`);
       }
+
+      const output = stdout?.toString().trim() || "Command executed successfully but produced no output.";
+
+      console.log(`Command output: ${output}`);
+      resolve(output);
     })
   })
 }

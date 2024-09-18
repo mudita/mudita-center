@@ -51,19 +51,13 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     imagePath: string,
     scriptPath: string
   ): Promise<void> {
-    // TODO: Verify if try-catch block is necessary
-    try {
-      await execCommandWithSudo(`chmod +x ${scriptPath}`, {
-        name: "Mudita Auto Flash",
-      })
-    } catch {
-      /* empty */
-    }
+    await execCommandWithSudo(`chmod +x ${scriptPath}`, {
+      name: "Mudita Auto Flash",
+    })
 
     const [path, scriptBasename] = splitPathToDirnameAndBasename(scriptPath)
     const [, imageBasename] = splitPathToDirnameAndBasename(imagePath)
 
-    // TODO: Check if image basename is required for script execution
     await execPromise(
       `cd ${path} && sudo ./${scriptBasename} ${imageBasename} /dev/${device}`
     )
