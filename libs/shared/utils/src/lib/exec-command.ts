@@ -8,6 +8,7 @@ import { exec } from "child_process"
 export const execPromise = (command: string, logs = false): Promise<string | void> => {
   return new Promise((resolve, reject) => {
     logs && console.log("execPromise !")
+    logs && console.log(command)
     const process = exec(command, (error, stdout, stderr) => {
       logs &&console.log("execPromise ! 2")
       if (error) {
