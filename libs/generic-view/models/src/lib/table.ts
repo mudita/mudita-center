@@ -9,15 +9,14 @@ const dataValidator = z.array(z.string()).optional()
 
 export type TableData = z.infer<typeof dataValidator>
 
-const configValidator = z
-  .object({
-    formOptions: z.object({
-      activeIdFieldName: z.string().optional(),
-      selectedIdsFieldName: z.string().optional(),
-      totalItemsFieldName: z.string().optional(),
-    }),
-  })
-  .optional()
+const configValidator = z.object({
+  formOptions: z.object({
+    activeIdFieldName: z.string().optional(),
+    selectedIdsFieldName: z.string().optional(),
+    totalItemsFieldName: z.string().optional(),
+  }),
+  columnsNames: z.array(z.string()).optional(),
+})
 
 export type TableConfig = z.infer<typeof configValidator>
 

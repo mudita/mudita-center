@@ -25,7 +25,6 @@ import {
 import { EntityData, Layout } from "device/models"
 import { set } from "lodash"
 import { useFormContext } from "react-hook-form"
-import { TableCell } from "../../../ui/src/lib/table/table-cell"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -50,6 +49,7 @@ export const setupComponent = <P extends object>(
     const config = useSelector((state: ReduxRootState) => {
       return selectComponentConfig(state, { viewKey, componentKey })
     })
+
     const dataProvider = useSelector((state: ReduxRootState) => {
       return selectComponentDataProvider(state, { viewKey, componentKey })
     })
@@ -116,23 +116,6 @@ export const setupComponent = <P extends object>(
     const editablePropsDependency = JSON.stringify(editableProps)
 
     return useMemo(() => {
-      let wrapperTag: string | undefined = undefined
-      let componentTag: string | undefined = undefined
-
-      const componentType = ((<Component {...({} as P)} />) as ReactElement)
-        .type
-
-      if (layout) {
-        switch (componentType) {
-          case TableCell:
-            wrapperTag = "td"
-            componentTag = "div"
-            break
-          default:
-            break
-        }
-      }
-
       const ComponentWithProps = () => (
         <Component
           {...(editableProps as P)}
@@ -142,7 +125,6 @@ export const setupComponent = <P extends object>(
           className={className}
           dataItemId={dataItemId}
           componentName={componentName}
-          as={componentTag}
         >
           {React.Children.map(children, (child) => {
             if (!React.isValidElement(child)) return null
@@ -155,8 +137,7 @@ export const setupComponent = <P extends object>(
 
       if (layout) {
         return (
-          // @ts-ignore
-          <Wrapper $layout={layout} as={wrapperTag}>
+          <Wrapper $layout={layout}>
             <ComponentWithProps />
           </Wrapper>
         )

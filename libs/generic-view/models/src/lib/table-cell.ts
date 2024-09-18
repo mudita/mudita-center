@@ -8,10 +8,10 @@ import { z } from "zod"
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  width: z.string().optional(),
+  width: z.number(),
   colSpan: z.number().optional(),
   rowSpan: z.number().optional(),
-}).optional()
+})
 
 export type TableCellConfig = z.infer<typeof configValidator>
 
