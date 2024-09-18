@@ -42,6 +42,8 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     const partitions = await this.getPartitions(device)
 
     for (const partition of partitions) {
+      console.log("unmountDevice")
+      console.log("unmountDevice", partition)
       await execPromise(`sudo umount /dev/${partition}`, true)
     }
   }
