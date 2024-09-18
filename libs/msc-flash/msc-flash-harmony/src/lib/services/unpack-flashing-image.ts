@@ -5,7 +5,7 @@
 
 import getAppSettingsMain from "Core/__deprecated__/main/functions/get-app-settings"
 import path from "path"
-import { execPromise } from "shared/utils"
+import { execCommand } from "shared/utils"
 
 export const unpackFlashingImageService = async (
   fileName: string
@@ -20,7 +20,7 @@ export const unpackFlashingImageService = async (
   }
 
   try {
-    await execPromise(command)
+    await execCommand(command)
   } catch (error) {
     console.error("Failed to unpack files", error)
     throw error

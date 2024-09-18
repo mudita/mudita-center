@@ -5,15 +5,15 @@
 
 import { exec } from "child_process"
 
-export const execPromise = (command: string): Promise<string | void> => {
+export const execCommand = (command: string): Promise<string | void> => {
   return new Promise((resolve, reject) => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
-        console.error(`Error: ${error.message}`)
+        console.error(`Command failed with error: ${error.message}`);
         reject(error)
       }
       if (stderr && !stdout) {
-        console.error(`Stderr: ${stderr}`)
+        console.error(`Command stderr output: ${stderr}`);
         resolve()
       }
       resolve(stdout)
