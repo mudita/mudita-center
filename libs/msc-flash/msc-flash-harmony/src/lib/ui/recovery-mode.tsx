@@ -5,10 +5,10 @@
 
 import React, { useState } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import styled from "styled-components"
+import styled, { ThemeProps } from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
-import { GenericThemeProvider } from "generic-view/theme"
+import { GenericThemeProvider, Theme } from "generic-view/theme"
 import { H3 } from "../../../../../generic-view/ui/src/lib/texts/headers"
 import { P3 } from "../../../../../generic-view/ui/src/lib/texts/paragraphs"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
@@ -130,7 +130,7 @@ const Wrapper = styled.div`
   gap: 2.4rem;
   align-items: center;
   padding-top: 4.7rem;
-  background: ${({ theme }) => theme.color.white};
+  background: ${({ theme }: ThemeProps<Theme>) => theme.color.white};
 `
 
 const Header = styled.div`
