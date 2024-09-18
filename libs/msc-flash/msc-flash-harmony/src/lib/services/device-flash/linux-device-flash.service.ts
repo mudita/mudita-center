@@ -51,7 +51,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     for (const partition of partitions) {
       console.log("unmountDevice")
       console.log("unmountDevice", partition)
-      await execCommandWithSudo(`sudo umount /dev/${partition}`, options)
+      await execCommandWithSudo(`umount /dev/${partition}`, options)
     }
   }
 
@@ -75,7 +75,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
 
     // try {
     //   await execPromise(
-    //     `cd ${path} && sudo ./${scriptBasename} ${imageBasename} /dev/${device}`, true
+    //     `cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`, true
     //   )
     //   console.log("flashImageToDevice 2")
     // }
@@ -85,7 +85,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
   }
 
   async ejectDevice(device: string): Promise<void> {
-    await execCommandWithSudo(`sudo eject /dev/${device}`, options)
+    await execCommandWithSudo(`eject /dev/${device}`, options)
   }
 
   private async getDevices(): Promise<string[]> {
