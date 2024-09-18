@@ -12,6 +12,7 @@ import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { BackupFeature } from "generic-view/models"
+import { BackupModalTestIds } from "e2e-test-ids"
 
 const messages = defineMessages({
   title: {
@@ -57,17 +58,29 @@ export const BackupFeatures: FunctionComponent<Props> = ({
   return (
     <>
       <Modal.TitleIcon config={{ type: IconType.Backup }} />
-      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
+      <Modal.Title data-testid={BackupModalTestIds.Title}>
+        {intl.formatMessage(messages.title)}
+      </Modal.Title>
       <Article>
-        <p>{intl.formatMessage(messages.description)}</p>
+        <p data-testid={BackupModalTestIds.Description}>
+          {intl.formatMessage(messages.description)}
+        </p>
         <Modal.ScrollableContent>
           <ul>
             {features.map((feature, index) => (
-              <li key={feature.key + index}>{feature.label}</li>
+              <li
+                key={feature.key + index}
+                data-testid={BackupModalTestIds.FeatureElementActive}
+              >
+                {feature.label}
+              </li>
             ))}
             {Object.entries(comingSoonMessages).map(([key, message], index) => {
               return (
-                <ComingSoonListItem key={key + index}>
+                <ComingSoonListItem
+                  key={key + index}
+                  data-testid={BackupModalTestIds.FeatureElementInactive}
+                >
                   {intl.formatMessage(message)}
                 </ComingSoonListItem>
               )
