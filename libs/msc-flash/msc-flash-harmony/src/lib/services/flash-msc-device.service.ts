@@ -5,12 +5,7 @@
 
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import path from "path"
-import {
-  FlashingProcessState,
-  OsEnvironment,
-  Platform,
-  Product,
-} from "../constants"
+import { FlashingProcessState, Platform, Product } from "../constants"
 import { setFlashingProcessState } from "../actions/set-flashing-process-state/set-flashing-process-state.action"
 import { getMscFlashingFilesDetails } from "../actions/get-msc-flashing-files-details/get-msc-flashing-files-details.action"
 import { MscFlashDetails } from "../dto"
