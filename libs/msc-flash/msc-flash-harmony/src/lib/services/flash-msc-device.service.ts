@@ -25,8 +25,8 @@ export const flashMscDeviceService =
       const flashingFiles = getState().flashing.mscFlashingFilesDetails
 
       if (flashingFiles) {
-        await downloadFlashingFiles(dispatch, flashingFiles)
-        await unpackFlashingImage(dispatch, flashingFiles)
+        // await downloadFlashingFiles(dispatch, flashingFiles)
+        // await unpackFlashingImage(dispatch, flashingFiles)
         await startFlashingProcess(dispatch, flashingFiles)
       }
     } catch (error) {
