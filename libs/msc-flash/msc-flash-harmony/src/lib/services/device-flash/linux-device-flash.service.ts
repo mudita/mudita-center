@@ -95,6 +95,9 @@ class LinuxDeviceFlashService implements IDeviceFlash {
       `lsblk /dev/${device} -o NAME,MOUNTPOINT`, true
     )
 
+    console.log("JSON.stringify(partitions, null, 2)")
+    console.log(JSON.stringify(partitions, null, 2))
+
     return (
       partitions
         ?.split("\n")
