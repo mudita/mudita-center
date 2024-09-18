@@ -11,7 +11,7 @@ class HelpPage extends Page {
     return $('[data-testid="location"]')
   }
   public get helpMainHeader() {
-    return $('[data-testid="help-main-header"')
+    return $('[data-testid="help-main-header"]')
   }
   public get helpMainSubHeader() { 
     return $('[data-testid="help-main-subheader"]')
