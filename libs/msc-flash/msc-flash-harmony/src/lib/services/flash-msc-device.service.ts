@@ -20,6 +20,7 @@ import DeviceFlashFactory from "./device-flash/device-flash.factory"
 import getAppSettingsMain from "Core/__deprecated__/main/functions/get-app-settings"
 
 const IMAGE_FILE_NAME = "BellHybrid.img"
+import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
 
 export const flashMscDeviceService =
   () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
@@ -59,7 +60,7 @@ const getFlashingImageDetails = async (dispatch: Dispatch) => {
   await dispatch(
     getMscFlashingFilesDetails({
       product: Product.MscHarmony,
-      environment: OsEnvironment.Daily,
+      environment: RELEASE_SPACE,
       platform: platform,
     })
   )
