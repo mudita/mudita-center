@@ -13,6 +13,31 @@ function splitPathToDirnameAndBasename(currentPath: string) {
   return [dirname, basename]
 }
 
+function extractPartitions(input: string): string[] {
+  const lines = input.split('\n');
+  const partitions: string[] = [];
+
+  for (const line of lines) {
+    const trimmedLine = line.trim();
+
+    if (!trimmedLine || trimmedLine.startsWith('NAME') || trimmedLine.startsWith('MOUNTPOINT') || trimmedLine === 'sdb') {
+      continue;
+    }
+
+    const lineWithoutTree = trimmedLine.replace(/^[^\w]*([\w\d]+)/, '$1');
+
+    const partitionNameMatch = lineWithoutTree.match(/^(\S+)/);
+    if (partitionNameMatch) {
+      const partitionName = partitionNameMatch[1];
+      if (partitionName && partitionName !== 'sdb') {
+        partitions.push(partitionName);
+      }
+    }
+  }
+
+  return partitions;
+}
+
 const options = {
   name: "Mudita Auto Flash",
 }
@@ -101,15 +126,10 @@ class LinuxDeviceFlashService implements IDeviceFlash {
       `lsblk /dev/${device} -o NAME,MOUNTPOINT`, true
     )
 
-    console.log("JSON.stringify(partitions, null, 2)")
-    console.log(JSON.stringify(partitions, null, 2))
+    console.log("getPartitions")
+    console.log(partitions)
 
-    return (
-      partitions
-        ?.split("\n")
-        .filter((line) => line.includes(device) && line.includes("/"))
-        .map((line) => line.split(" ")[0]) ?? []
-    )
+    return extractPartitions(partitions ?? "")
   }
 }
 
