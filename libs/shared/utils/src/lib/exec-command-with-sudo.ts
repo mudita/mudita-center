@@ -10,6 +10,7 @@ export const execCommandWithSudo = (
   options: { name?: string; icns?: string; env?: { [key: string]: string } }
 ): Promise<string | void> => {
   return new Promise((resolve, reject) => {
+    console.log(command)
     sudoPrompt.exec(command, options, (error, stdout, stderr) => {
       if (error) {
         console.error(`Command failed with error: ${error.message}`);

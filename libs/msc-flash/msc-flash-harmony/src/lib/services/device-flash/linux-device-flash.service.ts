@@ -57,16 +57,22 @@ class LinuxDeviceFlashService implements IDeviceFlash {
 
     const [path, scriptBasename] = splitPathToDirnameAndBasename(scriptPath)
     const [, imageBasename] = splitPathToDirnameAndBasename(imagePath)
-    console.log("flashImageToDevice")
-    try {
-      await execPromise(
-        `cd ${path} && sudo ./${scriptBasename} ${imageBasename} /dev/${device}`, true
-      )
-      console.log("flashImageToDevice 2")
-    }
-    catch (e){
-      console.log(`flashImageToDevice Flash process failed with error: ${e}`)
-    }
+
+    await execCommandWithSudo(
+      `cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`, {
+        name: "Mudita Auto Flash",
+      }
+    )
+
+    // try {
+    //   await execPromise(
+    //     `cd ${path} && sudo ./${scriptBasename} ${imageBasename} /dev/${device}`, true
+    //   )
+    //   console.log("flashImageToDevice 2")
+    // }
+    // catch (e){
+    //   console.log(`flashImageToDevice Flash process failed with error: ${e}`)
+    // }
   }
 
   async ejectDevice(device: string): Promise<void> {
