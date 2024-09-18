@@ -4,7 +4,7 @@
  */
 
 import { ProductID, VendorID } from "Core/device/constants"
-import { execPromise } from "shared/utils"
+import { execCommand } from "shared/utils"
 import { PortInfo } from "serialport"
 
 interface UsbDevice {
@@ -37,7 +37,7 @@ const getUsbDeviceDetails = async (
   bus: string,
   device: string
 ): Promise<PortInfo | undefined> => {
-  const stdout = await execPromise(`lsusb -v -s ${bus}:${device}`)
+  const stdout = await execCommand(`lsusb -v -s ${bus}:${device}`)
   if (stdout) {
     return parseUsbDeviceDetails(stdout)
   }
@@ -66,7 +66,7 @@ export function parseUsbDeviceDetails(output: string): PortInfo {
 
 export const getUsbDevicesLinux = async (): Promise<PortInfo | void> => {
   try {
-    const stdout = await execPromise("lsusb")
+    const stdout = await execCommand("lsusb")
     if (stdout) {
       const harmonyDevice = getHarmonyMSCDevice(stdout)
       if (harmonyDevice) {

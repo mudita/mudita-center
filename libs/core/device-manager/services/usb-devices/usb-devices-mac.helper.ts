@@ -4,7 +4,7 @@
  */
 
 import { ProductID, VendorID } from "Core/device/constants"
-import { execPromise } from "shared/utils"
+import { execCommand } from "shared/utils"
 import { PortInfo } from "serialport"
 
 interface DeviceDetails {
@@ -77,7 +77,7 @@ export const parseToPortInfo = (device: DeviceDetails): PortInfo => {
 
 export const getUsbDevicesMacOS = async (): Promise<PortInfo | void> => {
   try {
-    const stdout = await execPromise("system_profiler SPUSBDataType")
+    const stdout = await execCommand("system_profiler SPUSBDataType")
     if (stdout) {
       const harmonyDevice = getHarmonyMSCDevice(stdout)
       if (harmonyDevice) {

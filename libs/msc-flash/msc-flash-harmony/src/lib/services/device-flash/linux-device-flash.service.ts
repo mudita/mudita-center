@@ -4,7 +4,7 @@
  */
 
 import path from "path"
-import { execPromise, execCommandWithSudo } from "shared/utils"
+import { execCommand, execCommandWithSudo } from "shared/utils"
 import IDeviceFlash from "./device-flash.interface"
 
 function splitPathToDirnameAndBasename(currentPath: string) {
@@ -42,7 +42,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     const partitions = await this.getPartitions(device)
 
     for (const partition of partitions) {
-      await execPromise(`sudo umount /dev/${partition}`)
+      await execCommand(`sudo umount /dev/${partition}`)
     }
   }
 
@@ -64,23 +64,23 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     const [, imageBasename] = splitPathToDirnameAndBasename(imagePath)
 
     // TODO: Check if image basename is required for script execution
-    await execPromise(
+    await execCommand(
       `cd ${path} && sudo ./${scriptBasename} ${imageBasename} /dev/${device}`
     )
   }
 
   async ejectDevice(device: string): Promise<void> {
-    await execPromise(`sudo eject /dev/${device}`)
+    await execCommand(`sudo eject /dev/${device}`)
   }
 
   private async getDevices(): Promise<string[]> {
-    const devices = await execPromise("lsblk -o NAME,MODEL")
+    const devices = await execCommand("lsblk -o NAME,MODEL")
 
     return devices?.split("\n") ?? []
   }
 
   private async getPartitions(device: string): Promise<string[]> {
-    const partitions = await execPromise(
+    const partitions = await execCommand(
       `lsblk /dev/${device} -o NAME,MOUNTPOINT`
     )
 

@@ -4,7 +4,7 @@
  */
 
 import { ProductID, VendorID } from "Core/device/constants"
-import { execPromise } from "shared/utils"
+import { execCommand } from "shared/utils"
 import { PortInfo } from "serialport"
 
 interface DeviceInfo {
@@ -71,7 +71,7 @@ export const parseToPortInfo = (device: DeviceInfo): PortInfo => {
 
 export const getUsbDevicesWindows = async (): Promise<PortInfo | void> => {
   try {
-    const stdout = await execPromise(
+    const stdout = await execCommand(
       `powershell -Command "Get-CimInstance Win32_PnPEntity | Where-Object { $_.DeviceID -like 'USB*' } | Select-Object Name, DeviceID, Manufacturer, Description, Service"`
     )
     if (stdout) {
