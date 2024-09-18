@@ -11,6 +11,7 @@ import NewHelpPage from "../../page-objects/newhelp.page"
 import ContactSupportSuccessModalPage from "../../page-objects/contact-support-success-modal.page"
 import testsHelper from "../../helpers/tests.helper"
 import dns from "node:dns"
+import screenshotHelper from "../../helpers/screenshot.helper"
 
 /**
  * Check if contact support shows up
@@ -179,25 +180,38 @@ attachments[]: (binary)
     )
 
     await sendButton.click()
-    await sleep(3000)
 
     console.log(await strictResponseMock.calls)
 
     expect(strictResponseMock.calls.length).toBe(1)
-    const successIcon = await ContactSupportSuccessModalPage.successIcon
-    await expect(successIcon).toBeDisplayed()
-    const closeButton = await ContactSupportSuccessModalPage.closeBottomButton
+
+    const closeButton = await ContactSupportSuccessModalPage.closeModalButton
     await expect(closeButton).toBeDisplayed()
     await expect(closeButton).toBeClickable()
     await closeButton.click()
     
+    await screenshotHelper.makeViewScreenshot()
+    const successIcon = await ContactSupportSuccessModalPage.successIcon
+    await expect(successIcon).toBeDisplayed()
 
-    //TODO We will contact you as soon as the problem is resolved
-    //TODO Message sent
-    //TODO Close button (data test id)
-    //TODO Close x (data test id)
+    await sleep(3000000)
+
+    const modalHeaderTitle = await ContactSupportSuccessModalPage.modalHeaderTitle
+    await expect(modalHeaderTitle).toBeDisplayed()
+    await expect(modalHeaderTitle).toHaveText("Message sent")
+
+    const modalHeaderDescription = await ContactSupportSuccessModalPage.modalHeaderDescription
+    await expect(modalHeaderDescription).toBeDisplayed()
+    await expect(modalHeaderDescription).toHaveText("We will contact you as soon as the problem is resolved")
+
+    const modalSuccessCloseButton = await ContactSupportSuccessModalPage.modalSuccessCloseButton
+    await expect(modalSuccessCloseButton).toBeDisplayed()
+    await expect(modalSuccessCloseButton).toHaveText("Close")
+    modalSuccessCloseButton.click()
+    
 
     const iconContactSupport = await NewHelpPage.iconContactSupport
+    await iconContactSupport.scrollIntoView()
     await iconContactSupport.waitForDisplayed()
     await expect(iconContactSupport).toBeClickable()
 

@@ -7,22 +7,19 @@ import Page from "./page"
 
 class ContactSupportSuccessModalPage extends Page {
   public get closeModalButton() {
-    return $('[data-testid="close-modal-button"]')
-  }
-  public get modalHeader() {
-    return $('[data-testid="modal-header"]')
-  }
-  public get modalHeaderTitle() {
-    return $('[data-testid="modal-title"]')
+    return $('[data-testid="modal-close-button-icon-button"]')
   }
   public get successIcon() {
     return $('[data-testid="icon-success"]')
   }
-  public get sentSuccessModal() {
-    return $('[data-testid="contact-support-modal-success"]')
+  public get modalHeaderTitle() {
+    return $('[data-testid="contact-support-modal-success-title"]')
   }
-  public get closeBottomButton() {
-    return $('/html/body/div[12]/div/div/div/div[2]/button')
+  public get modalHeaderDescription() {
+    return $('[data-testid="contact-support-modal-success-description"]')
+  }
+  public get modalSuccessCloseButton() {
+    return $('[data-testid="contact-support-modal-success-close-button"]')
   }
 }
 
