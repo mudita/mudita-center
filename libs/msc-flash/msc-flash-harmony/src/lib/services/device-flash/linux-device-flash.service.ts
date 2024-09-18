@@ -81,18 +81,18 @@ class LinuxDeviceFlashService implements IDeviceFlash {
   }
 
   async ejectDevice(device: string): Promise<void> {
-    await execPromise(`sudo eject /dev/${device}`)
+    await execPromise(`sudo eject /dev/${device}`, true)
   }
 
   private async getDevices(): Promise<string[]> {
-    const devices = await execPromise("lsblk -o NAME,MODEL")
+    const devices = await execPromise("lsblk -o NAME,MODEL", true)
 
     return devices?.split("\n") ?? []
   }
 
   private async getPartitions(device: string): Promise<string[]> {
     const partitions = await execPromise(
-      `lsblk /dev/${device} -o NAME,MOUNTPOINT`
+      `lsblk /dev/${device} -o NAME,MOUNTPOINT`, true
     )
 
     return (
