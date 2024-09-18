@@ -16,7 +16,7 @@ export class MscFlashDetailsService {
     environment: OsEnvironment,
     platform: Platform
   ): Promise<MscFlashDetails> {
-    const response = await axios.get(
+    const response = await axios.get<MscFlashDetails>(
       `${API_BASE_URL}/${MuditaCenterServerRoutes.GetMscFlashDetails}`,
       {
         params: { product, environment, platform },
