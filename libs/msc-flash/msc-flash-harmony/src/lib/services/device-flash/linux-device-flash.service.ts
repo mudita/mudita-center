@@ -105,7 +105,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     return (
       partitions
         ?.split("\n")
-        .filter((line) => line.includes(`/dev/${device}`) && line.includes("/"))
+        .filter((line) => line.includes(device) && line.includes("/"))
         .map((line) => line.split(" ")[0]) ?? []
     )
   }
