@@ -22,9 +22,13 @@ export const execPromise = (command: string, logs = false): Promise<string | voi
       resolve(stdout)
     })
 
+    logs && console.log("execPromise ! 4")
+
     process.stdout?.on('data', (data) => {
       logs && console.log(`Output: ${data}`);
     });
+
+    logs && console.log("execPromise ! 5")
 
     process.stderr?.on('data', (data) => {
       logs && console.error(`Error: ${data}`);
