@@ -4,16 +4,18 @@
  */
 
 import React, { useEffect, useId, useState } from "react"
-import { APIFC, IconType } from "generic-view/utils"
 import styled, { css } from "styled-components"
+import { useFormContext } from "react-hook-form"
+import { InteractiveTextInputTestIds } from "e2e-test-ids"
+import { APIFC, IconType } from "generic-view/utils"
+import { FormTextInputConfig, FormTextInputData } from "generic-view/models"
 import { IconButton } from "../../../shared/button"
 import { Icon } from "../../../icon/icon"
-import { useFormContext } from "react-hook-form"
-import { FormTextInputConfig, FormTextInputData } from "generic-view/models"
 
 export const TextInput: APIFC<FormTextInputData, FormTextInputConfig> = ({
   data,
   config,
+  ...props
 }) => {
   const id = useId()
   const {
@@ -40,8 +42,9 @@ export const TextInput: APIFC<FormTextInputData, FormTextInputConfig> = ({
   }, [config.name, data?.value, setValue])
 
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <Label
+        data-testid={InteractiveTextInputTestIds.Text}
         htmlFor={"input-" + id}
         $inactive={value.length === 0}
         $withError={!!error}
@@ -50,13 +53,18 @@ export const TextInput: APIFC<FormTextInputData, FormTextInputConfig> = ({
       </Label>
       <InputWrapper>
         <Input
+          data-testid={InteractiveTextInputTestIds.Input}
           id={"input-" + id}
           type={inputType}
           $withError={!!error}
           {...register(config.name, { ...config.validation })}
         />
         {config.type === "password" && value.length > 0 && (
-          <IconButton type={"button"} onClick={togglePasswordVisibility}>
+          <IconButton
+            data-testid={InteractiveTextInputTestIds.IconButton}
+            type={"button"}
+            onClick={togglePasswordVisibility}
+          >
             <Icon
               data={{
                 type: passwordVisible
@@ -67,7 +75,11 @@ export const TextInput: APIFC<FormTextInputData, FormTextInputConfig> = ({
           </IconButton>
         )}
       </InputWrapper>
-      {error && <Error>{error?.message?.toString()}</Error>}
+      {error && (
+        <Error data-testid={InteractiveTextInputTestIds.ErrorText}>
+          {error?.message?.toString()}
+        </Error>
+      )}
     </Wrapper>
   )
 }

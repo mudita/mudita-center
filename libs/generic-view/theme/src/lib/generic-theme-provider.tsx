@@ -78,7 +78,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
       box-shadow: 0 2rem 10rem 0 ${({ theme }) => theme.color.black + "26"};
     }
 
-    .modal-close-button:nth-child(2) {
+    .modal-close-icon-button:nth-child(2) {
       display: none;
     }
     * {

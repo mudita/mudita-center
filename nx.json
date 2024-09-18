@@ -39,5 +39,10 @@
         }
       }
     }
+  },
+  "pluginsConfig": {
+    "@nx/js": {
+      "analyzeSourceFiles": true
+    }
   }
 }

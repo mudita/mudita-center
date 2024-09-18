@@ -6,40 +6,35 @@
 import Page from "./page"
 
 class HelpModalPage extends Page {
-  /**[Selector]  Modal close button  */
   public get closeModalButton() {
     return $('[data-testid="close-modal-button"]')
   }
-  /**[Selector]  Modal title  */
   public get modalHeader() {
     return $('[data-testid="modal-header"]')
   }
-  /**[Selector]  Contact support email input  */
+  public get modalHeaderTitle() {
+    return $('[data-testid="modal-title"]')
+  }
+
   public get emailInput() {
     return $('[data-testid="email-input"]')
   }
-  /**[Selector]  Contact support message input  */
+
   public get descriptionInput() {
     return $('[data-testid="description-input"]')
   }
-  /**[Selector]  Send button */
   public get sendButton() {
     return $('[data-testid="submit-button"]')
   }
-
-  /** returns an Array containing list of attached files */
   async attachmentsList() {
     return $('[data-testid="file-list"]').$$('[data-testid="file-list-file"]')
   }
-  /**[Selector]  single attachment element */
   public get singleAttachment() {
     return $('[data-testid="file-list-file"]')
   }
-  /**[Selector] Success sent message modal */
   public get sentSuccessModal() {
     return $('[data-testid="contact-support-modal-success"]')
   }
-  /**[Selector] Close bottom button */
   public get closeBottomButton() {
     return $('[data-testid="close-bottom-button"]')
   }
