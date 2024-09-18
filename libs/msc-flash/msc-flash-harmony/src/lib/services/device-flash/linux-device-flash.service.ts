@@ -13,6 +13,10 @@ function splitPathToDirnameAndBasename(currentPath: string) {
   return [dirname, basename]
 }
 
+const options = {
+  name: "Mudita Auto Flash",
+}
+
 class LinuxDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(deviceName: string): Promise<string> {
     console.log(`Searching for device with model name: ${deviceName}`)
@@ -47,7 +51,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     for (const partition of partitions) {
       console.log("unmountDevice")
       console.log("unmountDevice", partition)
-      await execPromise(`sudo umount /dev/${partition}`, true)
+      await execCommandWithSudo(`sudo umount /dev/${partition}`, options)
     }
   }
 
@@ -56,19 +60,15 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     imagePath: string,
     scriptPath: string
   ): Promise<void> {
-    await execCommandWithSudo(`chmod +x ${scriptPath}`, {
-      name: "Mudita Auto Flash",
-    })
+    await execCommandWithSudo(`chmod +x ${scriptPath}`, options)
 
     const [path, scriptBasename] = splitPathToDirnameAndBasename(scriptPath)
     const [, imageBasename] = splitPathToDirnameAndBasename(imagePath)
 
     try {
       await execCommandWithSudo(
-        `cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`, {
-          name: "Mudita Auto Flash",
-        }
-      )
+        `cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`
+      , options)
     } catch (error) {
       console.error("Flash process successfully failed with error: ", error)
     }
@@ -85,7 +85,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
   }
 
   async ejectDevice(device: string): Promise<void> {
-    await execPromise(`sudo eject /dev/${device}`, true)
+    await execCommandWithSudo(`sudo eject /dev/${device}`, options)
   }
 
   private async getDevices(): Promise<string[]> {
