@@ -5,7 +5,7 @@
 
 import React, { useState } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import styled from "styled-components"
+import styled, { ThemeProvider } from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import { GenericThemeProvider } from "generic-view/theme"
@@ -18,9 +18,13 @@ import Icon, {
 import { Form } from "../../../../../generic-view/ui/src/lib/interactive/form/form"
 import { WarrningBox } from "../../../../../generic-view/ui/src/lib/shared/shared"
 import { ButtonPrimary } from "../../../../../generic-view/ui/src/lib/buttons/button-primary"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { flashMscDeviceService } from "../services"
+import { RecoveryModeModal } from "./recovery-mode-modal/recovery-mode-modal.component"
+import { selectFlashingProcessState } from "../selectors"
+import { FlashingProcessState } from "../constants"
+import theme from "Core/core/styles/theming/theme"
 
 const messages = defineMessages({
   header: {
@@ -47,11 +51,27 @@ const messages = defineMessages({
   button: {
     id: "module.recoveryMode.harmony.action",
   },
+  flashingProcessStep0: {
+    id: "module.recoveryMode.modal.step0",
+  },
+  flashingProcessStep1: {
+    id: "module.recoveryMode.modal.step1",
+  },
+  flashingProcessStep2: {
+    id: "module.recoveryMode.modal.step2",
+  },
+  flashingProcessStep3: {
+    id: "module.recoveryMode.modal.step3",
+  },
+  flashingProcessStep4: {
+    id: "module.recoveryMode.modal.step4",
+  },
 })
 
 const RecoveryModeUI: FunctionComponent = () => {
   const [isConfirmed, setIsConfirmed] = useState(false)
   const dispatch = useDispatch<Dispatch>()
+  const flashingProcessState = useSelector(selectFlashingProcessState)
 
   const handleCheckboxChange = () => {
     setIsConfirmed((prevIsConfirmed) => !prevIsConfirmed)
@@ -61,57 +81,106 @@ const RecoveryModeUI: FunctionComponent = () => {
     dispatch(flashMscDeviceService())
   }
 
+  const isFlashingModalVisible = (): boolean => {
+    return (
+      flashingProcessState ===
+        FlashingProcessState.GettingFlashingFilesDetails ||
+      flashingProcessState === FlashingProcessState.DownloadingFlashingFiles ||
+      flashingProcessState === FlashingProcessState.UnpackingFlashingFiles ||
+      flashingProcessState === FlashingProcessState.FlashingProcess
+    )
+  }
+
+  const getProgressPercent = (): number => {
+    switch (flashingProcessState) {
+      case FlashingProcessState.GettingFlashingFilesDetails:
+        return 12
+      case FlashingProcessState.DownloadingFlashingFiles:
+        return 37
+      case FlashingProcessState.UnpackingFlashingFiles:
+        return 62
+      case FlashingProcessState.FlashingProcess:
+        return 87
+      default:
+        return 0
+    }
+  }
+
+  const getProgressMessage = (): { id: string } => {
+    switch (flashingProcessState) {
+      case FlashingProcessState.GettingFlashingFilesDetails:
+        return messages.flashingProcessStep1
+      case FlashingProcessState.DownloadingFlashingFiles:
+        return messages.flashingProcessStep2
+      case FlashingProcessState.UnpackingFlashingFiles:
+        return messages.flashingProcessStep3
+      case FlashingProcessState.FlashingProcess:
+        return messages.flashingProcessStep4
+      default:
+        return messages.flashingProcessStep0
+    }
+  }
+
   return (
-    <Wrapper>
-      <Header>
-        <Icon type={IconType.RecoveryModeBlack} size={IconSize.ExtraLarge} />
-        <H3>{intl.formatMessage(messages.header)}</H3>
-        <P3>{intl.formatMessage(messages.description)}</P3>
-      </Header>
-      <WarrningBox>
-        <Warning>
-          <ul>
-            <li>
-              <P3>{intl.formatMessage(messages.warning1, textFormatters)}</P3>
-            </li>
-            <li>
-              <P3>{intl.formatMessage(messages.warning2)}</P3>
-            </li>
-            <li>
-              <P3>{intl.formatMessage(messages.warning3)}</P3>
-            </li>
-            <li>
-              <P3>{intl.formatMessage(messages.warning4)}</P3>
-            </li>
-          </ul>
-          <Form>
-            <Confirmation>
-              <Form.CheckboxInput
+    <>
+      <Wrapper>
+        <Header>
+          <Icon type={IconType.RecoveryModeBlack} size={IconSize.ExtraLarge} />
+          <H3>{intl.formatMessage(messages.header)}</H3>
+          <P3>{intl.formatMessage(messages.description)}</P3>
+        </Header>
+        <WarrningBox>
+          <Warning>
+            <ul>
+              <li>
+                <P3>{intl.formatMessage(messages.warning1, textFormatters)}</P3>
+              </li>
+              <li>
+                <P3>{intl.formatMessage(messages.warning2)}</P3>
+              </li>
+              <li>
+                <P3>{intl.formatMessage(messages.warning3)}</P3>
+              </li>
+              <li>
+                <P3>{intl.formatMessage(messages.warning4)}</P3>
+              </li>
+            </ul>
+            <Form>
+              <Confirmation>
+                <Form.CheckboxInput
+                  config={{
+                    name: "confirmation",
+                    value: "confirmation",
+                    label: intl.formatMessage(messages.confirmation),
+                    checked: isConfirmed,
+                    onToggle: handleCheckboxChange,
+                  }}
+                />
+              </Confirmation>
+            </Form>
+            <Footer>
+              <ButtonPrimary
                 config={{
-                  name: "confirmation",
-                  value: "confirmation",
-                  label: intl.formatMessage(messages.confirmation),
-                  checked: isConfirmed,
-                  onToggle: handleCheckboxChange,
+                  text: intl.formatMessage(messages.button),
+                  action: {
+                    type: "custom",
+                    callback: onStartRecovery,
+                  },
+                  disabled: !isConfirmed,
                 }}
               />
-            </Confirmation>
-          </Form>
-          <Footer>
-            <ButtonPrimary
-              config={{
-                text: intl.formatMessage(messages.button),
-                action: {
-                  type: "custom",
-                  callback: onStartRecovery,
-                },
-                disabled: !isConfirmed,
-              }}
-            />
-          </Footer>
-        </Warning>
-      </WarrningBox>
-    </Wrapper>
+            </Footer>
+          </Warning>
+        </WarrningBox>
+      </Wrapper>
+      <ThemeProvider theme={theme}>
+        <RecoveryModeModal
+          open={isFlashingModalVisible()}
+          percent={getProgressPercent()}
+          progressMessage={getProgressMessage()}
+        />
+      </ThemeProvider>
+    </>
   )
 }
 
