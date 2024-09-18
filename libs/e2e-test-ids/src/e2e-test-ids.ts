@@ -28,3 +28,14 @@ export enum ContactSupportModalTestIds {
   Description = "contact-support-modal-success-description",
   CloseButton = "contact-support-modal-success-close-button",
 }
+
+export enum BackupModalTestIds {
+  Title = "backup-features-modal-title",
+  Description = "backup-features-modal-description",
+  FeatureElementActive = "backup-features-modal-element-active",
+  FeatureElementInactive = "backup-features-modal-element-inactive",
+}
+
+export enum ModalTestIds {
+  Modal = "modal-content",
+}

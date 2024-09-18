@@ -15,6 +15,14 @@ jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
   generateApplicationId: () => "123",
 }))
 
+jest.mock("e2e-test-ids", () => {
+  return {
+    ModalTestIds: {
+      Modal: "modal-content",
+    },
+  }
+})
+
 type Props = ComponentProps<typeof ModalsManager>
 
 const defaultProps: Props = {}
