@@ -39,7 +39,10 @@ class LinuxDeviceFlashService implements IDeviceFlash {
   }
 
   async unmountDevice(device: string): Promise<void> {
+    console.log("unmountDevice")
     const partitions = await this.getPartitions(device)
+    console.log(`partitions.length`)
+    console.log(`${partitions.length}`)
 
     for (const partition of partitions) {
       console.log("unmountDevice")
