@@ -5,11 +5,11 @@
 
 import { exec } from "child_process"
 
-export const execPromise = (command: string): Promise<string | void> => {
+export const execPromise = (command: string, logs = false): Promise<string | void> => {
   return new Promise((resolve, reject) => {
-    console.log("execPromise !")
+    logs && console.log("execPromise !")
     const process = exec(command, (error, stdout, stderr) => {
-      console.log("execPromise ! 2")
+      logs &&console.log("execPromise ! 2")
       if (error) {
         console.error(`Error: ${error.message}`)
         reject(error)
@@ -18,16 +18,16 @@ export const execPromise = (command: string): Promise<string | void> => {
         console.error(`Stderr: ${stderr}`)
         resolve()
       }
-      console.log("execPromise ! 3")
+      logs && console.log("execPromise ! 3")
       resolve(stdout)
     })
 
     process.stdout?.on('data', (data) => {
-      console.log(`Output: ${data}`);
+      logs && console.log(`Output: ${data}`);
     });
 
     process.stderr?.on('data', (data) => {
-      console.error(`Error: ${data}`);
+      logs && console.error(`Error: ${data}`);
     });
   })
 }

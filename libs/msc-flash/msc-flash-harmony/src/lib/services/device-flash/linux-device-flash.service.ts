@@ -57,9 +57,9 @@ class LinuxDeviceFlashService implements IDeviceFlash {
 
     const [path, scriptBasename] = splitPathToDirnameAndBasename(scriptPath)
     const [, imageBasename] = splitPathToDirnameAndBasename(imagePath)
-
+    console.log("flashImageToDevice")
     await execPromise(
-      `cd ${path} && sudo ./${scriptBasename} ${imageBasename} /dev/${device}`
+      `cd ${path} && sudo ./${scriptBasename} ${imageBasename} /dev/${device}`, true
     )
   }
 
