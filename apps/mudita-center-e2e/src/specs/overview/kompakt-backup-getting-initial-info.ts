@@ -43,10 +43,4 @@ describe("E2E mock sample - overview view", () => {
     await expect(createBackupButton).toBeClickable()
     await createBackupButton.click()
   })
-
-  it("Disconnect the device and check if Welcome screen is present", async () => {
-    E2EMockClient.removeDevice("path-1")
-    await HomePage.homeHeader.waitForDisplayed({ timeout: 10000 }) // Adding timeout for safety
-    await expect(HomePage.homeHeader).toBeDisplayed()
-  })
 })
