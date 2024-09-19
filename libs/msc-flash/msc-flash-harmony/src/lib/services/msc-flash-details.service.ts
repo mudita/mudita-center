@@ -8,7 +8,7 @@ import { MuditaCenterServerRoutes } from "Core/__deprecated__/api/mudita-center-
 import { Product, Platform, OsEnvironment } from "../constants"
 import { MscFlashDetails } from "../dto"
 
-const API_BASE_URL = process.env.MUDITA_CENTER_SERVER_URL as string
+const API_BASE_URL = process.env.MUDITA_CENTER_SERVER_V2_URL as string
 
 export class MscFlashDetailsService {
   static async getMscFlashDetails(
@@ -16,6 +16,8 @@ export class MscFlashDetailsService {
     environment: OsEnvironment,
     platform: Platform
   ): Promise<MscFlashDetails> {
+    const  url = `${API_BASE_URL}/${MuditaCenterServerRoutes.GetMscFlashDetails}`
+    console.log( url)
     const response = await axios.get<MscFlashDetails>(
       `${API_BASE_URL}/${MuditaCenterServerRoutes.GetMscFlashDetails}`,
       {
