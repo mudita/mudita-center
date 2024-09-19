@@ -8,6 +8,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import styled, { css } from "styled-components"
 import { useSelector } from "react-redux"
 import {
+  selectActiveApiDeviceId,
   selectComponentConfig,
   selectComponentData,
   selectComponentDataProvider,
@@ -38,6 +39,7 @@ export const setupComponent = <P extends object>(
       componentName,
       ...dataProps
     } = props
+    const deviceId = useSelector(selectActiveApiDeviceId)!
     const formContext = useFormContext()
     let dataItemId = props.dataItemId
 
@@ -71,10 +73,12 @@ export const setupComponent = <P extends object>(
         (useSelector((state: ReduxRootState) => {
           return selectEntitiesData(state, {
             entitiesType: dataProvider.entitiesType!,
+            deviceId,
           })
         }) as EntityData[]) || []
       const idFieldKey = useSelector((state: ReduxRootState) => {
         return selectEntitiesIdFieldKey(state, {
+          deviceId,
           entitiesType: dataProvider.entitiesType!,
         })
       })
@@ -93,6 +97,7 @@ export const setupComponent = <P extends object>(
         return selectEntityData(state, {
           entitiesType: dataProvider.entitiesType!,
           entityId: dataItemId!,
+          deviceId,
         })
       }) as EntityData
       if (item) {

@@ -6,21 +6,27 @@
 import { createSelector } from "reselect"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
+const selectEntitiesOfDevice = createSelector(
+  (state: ReduxRootState) => state.genericEntities,
+  (state: ReduxRootState, { deviceId }: { deviceId: string }) => deviceId,
+  (entities, deviceId) => {
+    return entities[deviceId]
+  }
+)
+
 export const selectEntitiesIdFieldKey = createSelector(
-  (state: ReduxRootState) => state.genericEntities.entities,
+  selectEntitiesOfDevice,
   (state: ReduxRootState, { entitiesType }: { entitiesType?: string }) => {
     return entitiesType
   },
   (entities, entitiesType) => {
-    if (!entitiesType) {
-      return undefined
-    }
+    if (!entitiesType) return undefined
     return entities[entitiesType]?.idFieldKey
   }
 )
 
 const selectEntities = createSelector(
-  (state: ReduxRootState) => state.genericEntities.entities,
+  selectEntitiesOfDevice,
   (state: ReduxRootState, { entitiesType }: { entitiesType: string }) =>
     entitiesType,
   (entities, entityType) => {
@@ -47,14 +53,16 @@ export const selectEntityData = createSelector(
 )
 
 export const selectEntitiesLoadingState = createSelector(
-  (state: ReduxRootState) => state.genericEntities.entities,
+  selectEntitiesOfDevice,
   (entities) => {
     return Object.entries(entities).reduce(
       (
-        acc: Record<string, "loading" | "loaded" | "idle">,
+        acc: Record<string, "loading" | "loaded" | "idle" | "error">,
         [entitiesType, entities]
       ) => {
-        if (entities?.metadata?._loading) {
+        if (entities?.error) {
+          acc[entitiesType] = "error"
+        } else if (entities?.loading) {
           acc[entitiesType] = "loading"
         } else if (entities?.data?.length) {
           acc[entitiesType] = "loaded"

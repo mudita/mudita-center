@@ -35,7 +35,6 @@ export const getEntitiesDataAction = createAsyncThunk<
       deviceId,
       responseType,
     })
-
     if (!response.ok) {
       return rejectWithValue(response.error)
     }

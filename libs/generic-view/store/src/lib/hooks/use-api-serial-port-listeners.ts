@@ -94,9 +94,9 @@ const useHandleDevicesDetached = () => {
 
       for (const event of apiEvents) {
         dispatch(removeDevice(event))
+        dispatch(clearEntities({ deviceId: event.id }))
       }
       dispatch(closeAllModals())
-      dispatch(clearEntities())
 
       if (backupProcess) {
         dispatch(setBackupProcessStatus("FAILED"))

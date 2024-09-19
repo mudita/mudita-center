@@ -200,15 +200,17 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   // Helper action for setting custom generic config without a need of reloading the app
   builder.addCase(setGenericConfig, (state, action) => {
     const { deviceId, feature, config } = action.payload
-    state.devices[deviceId].features = {
-      ...state.devices[deviceId].features,
-      [feature]: {
-        config: transformGenericComponents({
-          ...state.devices[deviceId].features?.[feature].config,
-          ...config,
-        }),
-        data: state.devices[deviceId].features?.[feature]?.data,
-      },
+    if (state.devices[deviceId] !== undefined) {
+      state.devices[deviceId].features = {
+        ...state.devices[deviceId].features,
+        [feature]: {
+          config: transformGenericComponents({
+            ...state.devices[deviceId].features?.[feature].config,
+            ...config,
+          }),
+          data: state.devices[deviceId].features?.[feature]?.data,
+        },
+      }
     }
   })
 })

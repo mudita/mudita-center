@@ -68,6 +68,7 @@ export const getEntityDataAction = createAsyncThunk<
           entitiesType,
           entityId,
           data: readFileResponse.data.data,
+          deviceId,
         })
       )
       return
@@ -78,6 +79,7 @@ export const getEntityDataAction = createAsyncThunk<
           entitiesType,
           entityId,
           data,
+          deviceId,
         })
       )
       return
