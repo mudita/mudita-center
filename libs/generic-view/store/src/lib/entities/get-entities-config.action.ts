@@ -10,6 +10,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { setEntitiesConfig } from "./actions"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
+import { getEntitiesDataAction } from "./get-entities-data.action"
 
 export const getEntitiesConfigAction = createAsyncThunk<
   undefined,
@@ -36,9 +37,11 @@ export const getEntitiesConfigAction = createAsyncThunk<
           entitiesType,
           config,
           idFieldKey,
+          deviceId,
         })
       )
-      dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
+      await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
+      dispatch(getEntitiesDataAction({ entitiesType, deviceId }))
     }
     return
   }

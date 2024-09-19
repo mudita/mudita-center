@@ -12,7 +12,7 @@ import {
   selectEntitiesLoadingState,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { SpinnerLoader } from "../shared/spinner-loader"
 import styled from "styled-components"
 
@@ -22,7 +22,9 @@ export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
 }) => {
   const dispatch = useDispatch<Dispatch>()
   const deviceId = useSelector(selectActiveApiDeviceId)!
-  const entitiesLoadingStates = useSelector(selectEntitiesLoadingState)
+  const entitiesLoadingStates = useSelector((state: ReduxRootState) =>
+    selectEntitiesLoadingState(state, { deviceId })
+  )
   const allLoaded = config.entitiesTypes.every(
     (entitiesType) => entitiesLoadingStates[entitiesType] === "loaded"
   )
