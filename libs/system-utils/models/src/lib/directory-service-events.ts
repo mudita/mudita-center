@@ -5,4 +5,7 @@
 
 export enum DirectoryServiceEvents {
   OpenDirectory = "directoryservice-open-directory",
+  GetAppPath = "directoryservice-get-app-path",
+  CheckPath = "directoryservice-check-path",
+  RemoveDirectory = "directoryservice-remove-directory",
 }
