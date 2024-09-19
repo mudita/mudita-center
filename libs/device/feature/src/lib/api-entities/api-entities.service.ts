@@ -11,6 +11,8 @@ import {
   APIEntitiesServiceEvents,
   EntitiesConfig,
   entitiesConfigValidator,
+  entitiesDeletePartialSuccessValidator,
+  EntitiesDeleteResponse,
   EntitiesError,
   EntitiesFileData,
   entitiesFileDataValidator,
@@ -224,5 +226,46 @@ export class APIEntitiesService {
       logger.error(error)
       return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
     }
+  }
+
+  @IpcEvent(APIEntitiesServiceEvents.EntitiesDataDelete)
+  public async deleteEntityData({
+    entitiesType,
+    ids,
+    deviceId,
+  }: {
+    entitiesType: string
+    ids: EntityId[]
+    deviceId?: DeviceId
+  }): Promise<ResultObject<EntitiesDeleteResponse>> {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "DELETE",
+      body: {
+        entityType: entitiesType,
+        ids,
+      },
+    })
+
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    if (response.data.status === 207) {
+      const failedIdsValidator =
+        entitiesDeletePartialSuccessValidator.safeParse(response.data.body)
+      if (!failedIdsValidator.success) {
+        logger.error(failedIdsValidator.error)
+        return this.handleError(response.data.status)
+      }
+      return Result.success({ failedIds: failedIdsValidator.data.failedIds })
+    }
+
+    return Result.success(undefined)
   }
 }

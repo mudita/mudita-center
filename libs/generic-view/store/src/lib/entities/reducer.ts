@@ -13,6 +13,7 @@ import {
 } from "./actions"
 import { getEntitiesDataAction } from "./get-entities-data.action"
 import { DeviceId } from "Core/device/constants/device-id"
+import { deleteEntityDataAction } from "./delete-entity-data.action"
 
 type EntitiesType = string
 
@@ -87,5 +88,17 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(clearEntities, (state, action) => {
     state[action.payload.deviceId] = {}
+  })
+  builder.addCase(deleteEntityDataAction.fulfilled, (state, action) => {
+    const entitiesIds = action.payload
+    const { entitiesType, deviceId } = action.meta.arg
+    const entities = state[deviceId][entitiesType]
+
+    if (entities && entities.data && entities.idFieldKey) {
+      entities.data = entities.data.filter(
+        (entity) =>
+          !entitiesIds.includes(entity[entities.idFieldKey!] as string)
+      )
+    }
   })
 })
