@@ -14,7 +14,7 @@ const inputValidation: z.ZodType<Pick<RegisterOptions, "required">> = z.object({
 
 const configValidator = z.object({
   name: z.string(),
-  value: z.string(),
+  value: z.string().optional(),
   checked: z.boolean().optional(),
   label: z.string().optional(),
   validation: inputValidation.optional(),

@@ -11,19 +11,19 @@ import {
   readEntitiesDataFromFileRequest,
 } from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
-import { EntitiesFileData, EntitiesJsonData } from "device/models"
-import { setEntitiesData } from "./actions"
+import { EntitiesFileData, EntitiesJsonData, EntityData } from "device/models"
 import { getFile } from "../file-transfer/get-file.action"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { AppError } from "Core/core/errors"
 
 export const getEntitiesDataAction = createAsyncThunk<
-  undefined,
+  EntityData[],
   {
     entitiesType: string
     deviceId: DeviceId
     responseType?: EntityDataResponseType
   },
-  { state: ReduxRootState }
+  { state: ReduxRootState; rejectValue?: AppError }
 >(
   ActionName.GetEntitiesData,
   async (
@@ -35,7 +35,6 @@ export const getEntitiesDataAction = createAsyncThunk<
       deviceId,
       responseType,
     })
-
     if (!response.ok) {
       return rejectWithValue(response.error)
     }
@@ -61,22 +60,10 @@ export const getEntitiesDataAction = createAsyncThunk<
       if (!readFileResponse.ok) {
         return rejectWithValue(readFileResponse.error)
       }
-      dispatch(
-        setEntitiesData({
-          entitiesType,
-          data: readFileResponse.data.data,
-        })
-      )
-      return
+      return readFileResponse.data.data
     } else {
       const { data } = response.data as EntitiesJsonData
-      dispatch(
-        setEntitiesData({
-          entitiesType,
-          data,
-        })
-      )
-      return
+      return data
     }
   }
 )

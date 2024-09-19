@@ -15,11 +15,14 @@ import { ButtonAction } from "generic-view/utils"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { useFormContext } from "react-hook-form"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export const useButtonAction = (viewKey: string) => {
   const dispatch = useDispatch<Dispatch>()
   const navigate = useHistory()
   const currentViewName = useScreenTitle(viewKey)
+  const formContext = useFormContext()
 
   return (action?: ButtonAction) => {
     if (!action) return
@@ -58,6 +61,21 @@ export const useButtonAction = (viewKey: string) => {
             previousViewName: currentViewName,
           },
         })
+        break
+      case "form-set-field":
+        formContext.setValue(action.key, action.value)
+        break
+      case "form-toggle-field":
+        if (typeof formContext.getValues(action.key) === "boolean") {
+          formContext.setValue(action.key, !formContext.getValues(action.key))
+        } else if (typeof formContext.getValues(action.key) === "undefined") {
+          logger.error(`Tried to toggle not existing field: ${action.key}`)
+        } else {
+          logger.error(`Tried to toggle non-boolean field: ${action.key}`)
+        }
+        break
+      case "form-reset":
+        formContext.reset()
         break
       case "custom":
         action.callback()

@@ -80,7 +80,8 @@ export const getFile = createAsyncThunk<
         if (aborted) {
           return rejectWithValue(undefined)
         }
-        const { ok, error } = await getFileRequest(transferId, chunkNumber)
+        const fileResp = await getFileRequest(transferId, chunkNumber, deviceId)
+        const { ok, error } = fileResp
         if (!ok) {
           await sendClearRequest(transferId)
           return rejectWithValue({
