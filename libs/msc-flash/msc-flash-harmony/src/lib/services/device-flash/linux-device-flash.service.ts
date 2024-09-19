@@ -43,10 +43,6 @@ function extractPartitions(input: string): string[] {
   return partitions
 }
 
-const options = {
-  name: "Mudita Auto Flash",
-}
-
 class LinuxDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(deviceName: string): Promise<string> {
     console.log(`Searching for device with model name: ${deviceName}`)
@@ -66,36 +62,43 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     imagePath: string,
     scriptPath: string
   ): Promise<void> {
-    await this.unmountDevice(device)
-    await this.flashImageToDevice(device, imagePath, scriptPath)
-    await this.ejectDevice(device)
+    const unmountDeviceCommand = await this.getUnmountDeviceCommand(device)
+    const flashImageToDeviceCommand = await this.getFlashImageToDeviceCommand(
+      device,
+      imagePath,
+      scriptPath
+    )
+    const ejectDeviceCommand = await this.getEjectDeviceCommand(device)
     console.log("Flash process completed successfully")
+    await execCommandWithSudo(
+      `${unmountDeviceCommand} && ${flashImageToDeviceCommand} && ${ejectDeviceCommand} `,
+      {
+        name: "Mudita Auto Flash",
+      }
+    )
   }
 
-  async unmountDevice(device: string): Promise<void> {
+  async getUnmountDeviceCommand(device: string): Promise<string> {
     const partitions = await this.getPartitions(device)
     const partitionsString = partitions
       .map((partition) => `/dev/${partition}`)
       .join(" ")
 
-    await execCommandWithSudo(`umount ${partitionsString}`, options)
+    return `umount ${partitionsString}`
   }
 
-  async flashImageToDevice(
+  async getFlashImageToDeviceCommand(
     device: string,
     imagePath: string,
     scriptPath: string
-  ): Promise<void> {
+  ): Promise<string> {
     const [path, scriptBasename] = splitPathToDirnameAndBasename(scriptPath)
     const [, imageBasename] = splitPathToDirnameAndBasename(imagePath)
-    await execCommandWithSudo(
-      `chmod +x ${scriptPath} && cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`,
-      options
-    )
+    return `chmod +x ${scriptPath} && cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`
   }
 
-  async ejectDevice(device: string): Promise<void> {
-    await execCommandWithSudo(`eject /dev/${device}`, options)
+  async getEjectDeviceCommand(device: string): Promise<string> {
+    return `eject /dev/${device}`
   }
 
   private async getDevices(): Promise<string[]> {
