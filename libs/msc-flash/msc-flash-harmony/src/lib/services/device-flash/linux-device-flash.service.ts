@@ -47,7 +47,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
       .map((partition) => `/dev/${partition}`)
       .join(" ")
 
-    return `umount ${partitionsString}`
+    return `umount -f ${partitionsString}`
   }
 
   private async getFlashImageToDeviceCommand(
