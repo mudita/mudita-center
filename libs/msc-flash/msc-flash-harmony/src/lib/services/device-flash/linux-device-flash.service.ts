@@ -7,42 +7,6 @@ import path from "path"
 import { execPromise, execCommandWithSudo } from "shared/utils"
 import IDeviceFlash from "./device-flash.interface"
 
-function splitPathToDirnameAndBasename(currentPath: string) {
-  const dirname = path.dirname(currentPath)
-  const basename = path.basename(currentPath)
-  return [dirname, basename]
-}
-
-function extractPartitions(input: string): string[] {
-  const lines = input.split("\n")
-  const partitions: string[] = []
-
-  for (const line of lines) {
-    const trimmedLine = line.trim()
-
-    if (
-      !trimmedLine ||
-      trimmedLine.startsWith("NAME") ||
-      trimmedLine.startsWith("MOUNTPOINT") ||
-      trimmedLine === "sdb"
-    ) {
-      continue
-    }
-
-    const lineWithoutTree = trimmedLine.replace(/^[^\w]*([\w\d]+)/, "$1")
-
-    const partitionNameMatch = /^(\S+)/.exec(lineWithoutTree)
-    if (partitionNameMatch) {
-      const partitionName = partitionNameMatch[1]
-      if (partitionName && partitionName !== "sdb") {
-        partitions.push(partitionName)
-      }
-    }
-  }
-
-  return partitions
-}
-
 class LinuxDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(deviceName: string): Promise<string> {
     console.log(`Searching for device with model name: ${deviceName}`)
@@ -69,16 +33,14 @@ class LinuxDeviceFlashService implements IDeviceFlash {
       scriptPath
     )
     const ejectDeviceCommand = await this.getEjectDeviceCommand(device)
+
+    const command = `${unmountDeviceCommand} && ${flashImageToDeviceCommand} && ${ejectDeviceCommand}`
+    await execCommandWithSudo(command, { name: "Mudita Auto Flash" })
+
     console.log("Flash process completed successfully")
-    await execCommandWithSudo(
-      `${unmountDeviceCommand} && ${flashImageToDeviceCommand} && ${ejectDeviceCommand} `,
-      {
-        name: "Mudita Auto Flash",
-      }
-    )
   }
 
-  async getUnmountDeviceCommand(device: string): Promise<string> {
+  private async getUnmountDeviceCommand(device: string): Promise<string> {
     const partitions = await this.getPartitions(device)
     const partitionsString = partitions
       .map((partition) => `/dev/${partition}`)
@@ -87,17 +49,18 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     return `umount ${partitionsString}`
   }
 
-  async getFlashImageToDeviceCommand(
+  private async getFlashImageToDeviceCommand(
     device: string,
     imagePath: string,
     scriptPath: string
   ): Promise<string> {
-    const [path, scriptBasename] = splitPathToDirnameAndBasename(scriptPath)
-    const [, imageBasename] = splitPathToDirnameAndBasename(imagePath)
+    const [path, scriptBasename] =
+      this.splitPathToDirnameAndBasename(scriptPath)
+    const [, imageBasename] = this.splitPathToDirnameAndBasename(imagePath)
     return `chmod +x ${scriptPath} && cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`
   }
 
-  async getEjectDeviceCommand(device: string): Promise<string> {
+  private async getEjectDeviceCommand(device: string): Promise<string> {
     return `eject /dev/${device}`
   }
 
@@ -108,11 +71,42 @@ class LinuxDeviceFlashService implements IDeviceFlash {
   }
 
   private async getPartitions(device: string): Promise<string[]> {
-    const partitions = await execPromise(
-      `lsblk /dev/${device} -o NAME,MOUNTPOINT`
-    )
+    const execOutput =
+      (await execPromise(`lsblk /dev/${device} -o NAME,MOUNTPOINT`)) ?? ""
 
-    return extractPartitions(partitions ?? "")
+    const lines = execOutput.split("\n")
+    const partitions: string[] = []
+
+    for (const line of lines) {
+      const trimmedLine = line.trim()
+
+      if (
+        !trimmedLine ||
+        trimmedLine.startsWith("NAME") ||
+        trimmedLine.startsWith("MOUNTPOINT") ||
+        trimmedLine === "sdb"
+      ) {
+        continue
+      }
+
+      const lineWithoutTree = trimmedLine.replace(/^[^\w]*([\w\d]+)/, "$1")
+
+      const partitionNameMatch = /^(\S+)/.exec(lineWithoutTree)
+      if (partitionNameMatch) {
+        const partitionName = partitionNameMatch[1]
+        if (partitionName && partitionName !== "sdb") {
+          partitions.push(partitionName)
+        }
+      }
+    }
+
+    return partitions
+  }
+
+  private splitPathToDirnameAndBasename(currentPath: string) {
+    const dirname = path.dirname(currentPath)
+    const basename = path.basename(currentPath)
+    return [dirname, basename]
   }
 }
 
