@@ -89,7 +89,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
         continue
       }
 
-      const lineWithoutTree = trimmedLine.replace(/^[^\w]*([\w\d]+)/, "$1")
+      const lineWithoutTree = trimmedLine.replace(/^\W*(\w+)/, "$1")
 
       const partitionNameMatch = /^(\S+)/.exec(lineWithoutTree)
       if (partitionNameMatch) {
