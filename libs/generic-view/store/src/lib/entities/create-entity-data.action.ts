@@ -9,6 +9,7 @@ import { EntityData } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export const createEntityDataAction = createAsyncThunk<
   EntityData,
@@ -20,17 +21,38 @@ export const createEntityDataAction = createAsyncThunk<
   { state: ReduxRootState }
 >(
   ActionName.CreateEntityData,
-  async ({ entitiesType, data, deviceId }, { rejectWithValue }) => {
+  async ({ entitiesType, data, deviceId }, { rejectWithValue, getState }) => {
     const response = await createEntityDataRequest({
       entitiesType,
       data,
       deviceId,
     })
-
     if (!response.ok) {
       return rejectWithValue(response.error)
     }
 
-    return response.data
+    const { genericEntities } = getState()
+    const entities = genericEntities[deviceId][entitiesType]
+    const idFieldKey = entities?.idFieldKey
+    if (!entities || !idFieldKey) {
+      logger.error(
+        `Entities of type ${entitiesType} for device ${deviceId} not found`
+      )
+      return rejectWithValue(undefined)
+    }
+    if (
+      entities.data?.find(
+        (entity) => entity[idFieldKey] === response.data.data[idFieldKey]
+      )
+    ) {
+      logger.error(
+        `Entity of type ${entitiesType} with id ${
+          response.data.data[idFieldKey] as string
+        } already exists`
+      )
+      return rejectWithValue(undefined)
+    }
+
+    return response.data.data
   }
 )

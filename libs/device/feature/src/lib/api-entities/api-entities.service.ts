@@ -11,6 +11,8 @@ import {
   APIEntitiesServiceEvents,
   EntitiesConfig,
   entitiesConfigValidator,
+  entitiesDeletePartialSuccessValidator,
+  EntitiesDeleteResponse,
   EntitiesError,
   EntitiesFileData,
   entitiesFileDataValidator,
@@ -19,6 +21,10 @@ import {
   EntitiesMetadata,
   entitiesMetadataValidator,
   EntityData,
+  EntityDataPatch,
+  entityDataPatchValidator,
+  EntityDataPost,
+  entityDataPostValidator,
   EntityId,
   EntityJsonData,
   entityJsonDataValidator,
@@ -27,6 +33,7 @@ import {
 import { SafeParseReturnType, SafeParseSuccess } from "zod"
 import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export class APIEntitiesService {
   constructor(
@@ -157,7 +164,16 @@ export class APIEntitiesService {
     >
 
     if (responseType === "file") {
-      data = entitiesFileDataValidator.safeParse(response.data.body)
+      if (response.data.status === 202) {
+        return this.getEntitiesData({
+          entitiesType,
+          entityId,
+          responseType,
+          deviceId,
+        })
+      } else if (response.data.status === 200) {
+        data = entitiesFileDataValidator.safeParse(response.data.body)
+      }
     }
     if (responseType === "json") {
       if (entityId === undefined) {
@@ -179,13 +195,20 @@ export class APIEntitiesService {
   }: {
     transferId: number
   }): Promise<ResultObject<EntitiesJsonData>> {
-    const file = this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
-    const data = entitiesJsonDataValidator.safeParse(file.chunks.join(""))
-    this.serviceBridge.fileTransfer.transferClear({ transferId })
-    if (!data.success) {
+    try {
+      const file =
+        this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
+      const decodedFile = Buffer.from(file.chunks.join(""), "base64").toString()
+      const data = entitiesJsonDataValidator.safeParse(JSON.parse(decodedFile))
+      this.serviceBridge.fileTransfer.transferClear({ transferId })
+      if (!data.success) {
+        return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
+      }
+      return this.handleSuccess(data)
+    } catch (error) {
+      logger.error(error)
       return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
     }
-    return this.handleSuccess(data)
   }
 
   @IpcEvent(APIEntitiesServiceEvents.EntityDataReadFromFile)
@@ -194,25 +217,32 @@ export class APIEntitiesService {
   }: {
     transferId: number
   }): Promise<ResultObject<EntityJsonData>> {
-    const file = this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
-    const data = entityJsonDataValidator.safeParse(file.chunks.join(""))
-    this.serviceBridge.fileTransfer.transferClear({ transferId })
-    if (!data.success) {
+    try {
+      const file =
+        this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
+      const decodedFile = Buffer.from(file.chunks.join(""), "base64").toString()
+      const data = entityJsonDataValidator.safeParse(JSON.parse(decodedFile))
+      this.serviceBridge.fileTransfer.transferClear({ transferId })
+      if (!data.success) {
+        return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
+      }
+      return this.handleSuccess(data)
+    } catch (error) {
+      logger.error(error)
       return this.handleError(EntitiesError.EntitiesDataFileCorrupted)
     }
-    return this.handleSuccess(data)
   }
 
-  @IpcEvent(APIEntitiesServiceEvents.EntityDataDelete)
+  @IpcEvent(APIEntitiesServiceEvents.EntitiesDataDelete)
   public async deleteEntityData({
     entitiesType,
-    entityId,
+    ids,
     deviceId,
   }: {
     entitiesType: string
-    entityId: EntityId
+    ids: EntityId[]
     deviceId?: DeviceId
-  }): Promise<ResultObject<undefined>> {
+  }): Promise<ResultObject<EntitiesDeleteResponse>> {
     const device = this.getDevice(deviceId)
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -223,11 +253,22 @@ export class APIEntitiesService {
       method: "DELETE",
       body: {
         entityType: entitiesType,
-        entityId,
+        ids,
       },
     })
+
     if (!response.ok) {
       return this.handleError(response.error.type)
+    }
+
+    if (response.data.status === 207) {
+      const failedIdsValidator =
+        entitiesDeletePartialSuccessValidator.safeParse(response.data.body)
+      if (!failedIdsValidator.success) {
+        logger.error(failedIdsValidator.error)
+        return this.handleError(response.data.status)
+      }
+      return Result.success({ failedIds: failedIdsValidator.data.failedIds })
     }
 
     return Result.success(undefined)
@@ -242,7 +283,7 @@ export class APIEntitiesService {
     entitiesType: string
     data: EntityData
     deviceId?: DeviceId
-  }): Promise<ResultObject<EntityData>> {
+  }): Promise<ResultObject<EntityDataPost>> {
     const device = this.getDevice(deviceId)
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -259,9 +300,12 @@ export class APIEntitiesService {
     if (!response.ok) {
       return this.handleError(response.error.type)
     }
-
-    // TODO: to check
-    return Result.success(response.data.body as unknown as EntityData)
+    const dataValidator = entityDataPostValidator.safeParse(response.data.body)
+    if (!dataValidator.success) {
+      logger.error(dataValidator.error)
+      return this.handleError(response.data.status)
+    }
+    return Result.success(dataValidator.data)
   }
 
   @IpcEvent(APIEntitiesServiceEvents.EntityDataUpdate)
@@ -275,7 +319,7 @@ export class APIEntitiesService {
     entityId: EntityId
     data: EntityData
     deviceId?: DeviceId
-  }): Promise<ResultObject<EntityData>> {
+  }): Promise<ResultObject<EntityDataPatch>> {
     const device = this.getDevice(deviceId)
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -293,8 +337,11 @@ export class APIEntitiesService {
     if (!response.ok) {
       return this.handleError(response.error.type)
     }
-
-    // TODO: to check
-    return Result.success(response.data.body as unknown as EntityData)
+    const dataValidator = entityDataPatchValidator.safeParse(response.data.body)
+    if (!dataValidator.success) {
+      logger.error(dataValidator.error)
+      return this.handleError(response.data.status)
+    }
+    return Result.success(dataValidator.data)
   }
 }

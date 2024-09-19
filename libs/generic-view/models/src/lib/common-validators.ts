@@ -50,10 +50,26 @@ export const customActionValidator = z.object({
 
 export type CustomAction = z.infer<typeof customActionValidator>
 
+export const formActionValidator = z.union([
+  z.object({
+    type: z.literal("form-set-field"),
+    key: z.string(),
+    value: z.union([z.string(), z.number(), z.boolean()]).optional(),
+  }),
+  z.object({
+    type: z.literal("form-toggle-field"),
+    key: z.string(),
+  }),
+  z.object({
+    type: z.literal("form-reset"),
+  }),
+])
+
 export const buttonActionValidator = z.union([
   modalActionValidator,
   navigateActionValidator,
   customActionValidator,
+  formActionValidator,
 ])
 
 export type ButtonAction = z.infer<typeof buttonActionValidator>

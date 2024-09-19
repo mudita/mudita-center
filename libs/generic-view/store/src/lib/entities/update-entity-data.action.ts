@@ -9,6 +9,7 @@ import { EntityData, EntityId } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export const updateEntityDataAction = createAsyncThunk<
   EntityData,
@@ -16,12 +17,15 @@ export const updateEntityDataAction = createAsyncThunk<
     entitiesType: string
     entityId: EntityId
     data: EntityData
-    deviceId?: DeviceId
+    deviceId: DeviceId
   },
   { state: ReduxRootState }
 >(
   ActionName.UpdateEntityData,
-  async ({ entitiesType, entityId, data, deviceId }, { rejectWithValue }) => {
+  async (
+    { entitiesType, entityId, data, deviceId },
+    { rejectWithValue, getState }
+  ) => {
     const response = await updateEntityDataRequest({
       entitiesType,
       entityId,
@@ -33,6 +37,28 @@ export const updateEntityDataAction = createAsyncThunk<
       return rejectWithValue(response.error)
     }
 
-    return response.data
+    const { genericEntities } = getState()
+    const entities = genericEntities[deviceId][entitiesType]
+    const idFieldKey = entities?.idFieldKey
+    if (!entities || !idFieldKey) {
+      logger.error(
+        `Entities of type ${entitiesType} for device ${deviceId} not found`
+      )
+      return rejectWithValue(undefined)
+    }
+    if (
+      !entities.data?.find(
+        (entity) => entity[idFieldKey] === response.data.data[idFieldKey]
+      )
+    ) {
+      logger.error(
+        `Entity of type ${entitiesType} with id ${
+          response.data.data[idFieldKey] as string
+        } not found`
+      )
+      return rejectWithValue(undefined)
+    }
+
+    return response.data.data
   }
 )

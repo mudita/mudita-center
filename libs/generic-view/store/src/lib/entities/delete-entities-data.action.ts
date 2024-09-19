@@ -4,33 +4,37 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { deleteEntityDataRequest } from "device/feature"
+import { deleteEntitiesDataRequest } from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
 import { EntityId } from "device/models"
+import { difference } from "lodash"
 
-export const deleteEntityDataAction = createAsyncThunk<
-  undefined,
+export const deleteEntitiesDataAction = createAsyncThunk<
+  EntityId[],
   {
     entitiesType: string
-    entityId: EntityId
+    ids: EntityId[]
     deviceId: DeviceId
   },
   { state: ReduxRootState }
 >(
   ActionName.DeleteEntityData,
-  async ({ entitiesType, entityId, deviceId }, { rejectWithValue }) => {
-    const response = await deleteEntityDataRequest({
+  async ({ entitiesType, ids, deviceId }, { rejectWithValue }) => {
+    const response = await deleteEntitiesDataRequest({
       entitiesType,
-      entityId,
+      ids,
       deviceId,
     })
 
     if (!response.ok) {
       return rejectWithValue(response.error)
     }
-
-    return
+    if (response.data?.failedIds) {
+      // TODO: Handle partial deletion of entities
+      return difference(ids, response.data.failedIds)
+    }
+    return ids
   }
 )

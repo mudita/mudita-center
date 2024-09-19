@@ -6,129 +6,126 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { EntitiesConfig, EntitiesMetadata, EntityData } from "device/models"
 import {
+  clearEntities,
   setEntitiesConfig,
-  setEntitiesData,
   setEntitiesMetadata,
   setEntityData,
 } from "./actions"
-import { deleteEntityDataAction } from "./delete-entity-data.action"
+import { getEntitiesDataAction } from "./get-entities-data.action"
+import { DeviceId } from "Core/device/constants/device-id"
+import { deleteEntitiesDataAction } from "./delete-entities-data.action"
 import { createEntityDataAction } from "./create-entity-data.action"
 import { updateEntityDataAction } from "./update-entity-data.action"
 
 type EntitiesType = string
 
 interface Entities {
-  idFieldKey?: string
-  config?: EntitiesConfig
+  idFieldKey: string
+  config: EntitiesConfig
   data?: EntityData[]
   metadata?: EntitiesMetadata
+  loading?: boolean
+  error?: boolean
 }
 
 interface EntitiesState {
-  entities: {
+  [key: DeviceId]: {
     [key: EntitiesType]: Entities | undefined
   }
 }
 
-const initialState: EntitiesState = {
-  entities: {},
-}
+const initialState: EntitiesState = {}
 
 export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   builder.addCase(setEntitiesConfig, (state, action) => {
-    state.entities[action.payload.entitiesType] = {
-      ...state.entities[action.payload.entitiesType],
-      config: action.payload.config,
-      idFieldKey: action.payload.idFieldKey,
+    const { deviceId, entitiesType } = action.payload
+
+    if (!state[deviceId]) {
+      state[deviceId] = {
+        [entitiesType]: {
+          config: action.payload.config,
+          idFieldKey: action.payload.idFieldKey,
+        },
+      }
+    } else if (!state[deviceId][entitiesType]) {
+      state[deviceId][entitiesType] = {
+        config: action.payload.config,
+        idFieldKey: action.payload.idFieldKey,
+      }
     }
   })
-  builder.addCase(setEntitiesData, (state, action) => {
-    state.entities[action.payload.entitiesType] = {
-      ...state.entities[action.payload.entitiesType],
-      data: action.payload.data,
-    }
+  builder.addCase(getEntitiesDataAction.pending, (state, action) => {
+    const { deviceId, entitiesType } = action.meta.arg
+    state[deviceId][entitiesType]!.loading = true
   })
+  builder.addCase(getEntitiesDataAction.fulfilled, (state, action) => {
+    const { deviceId, entitiesType } = action.meta.arg
+
+    state[deviceId][entitiesType]!.data = action.payload
+    state[deviceId][entitiesType]!.loading = false
+  })
+  builder.addCase(getEntitiesDataAction.rejected, (state, action) => {
+    const { deviceId, entitiesType } = action.meta.arg
+
+    state[deviceId][entitiesType]!.loading = false
+    state[deviceId][entitiesType]!.error = true
+  })
+
   builder.addCase(setEntityData, (state, action) => {
-    const entitiesType = action.payload.entitiesType
-    const idFieldKey = state.entities[entitiesType]!.idFieldKey!
-    const entityIndex = state.entities[entitiesType]!.data?.findIndex(
-      (entity) => entity[idFieldKey] === action.payload.entityId
+    const { deviceId, entitiesType, entityId, data } = action.payload
+    const idFieldKey = state[deviceId][entitiesType]?.idFieldKey
+    if (!idFieldKey) {
+      return
+    }
+    const entityIndex = state[deviceId][entitiesType]!.data?.findIndex(
+      (entity) => entity[idFieldKey] === entityId
     )
-    if (entityIndex !== -1 && state.entities[entitiesType]?.data) {
-      state.entities[entitiesType]!.data![entityIndex!] = action.payload.data
+    if (entityIndex !== -1 && state[deviceId][entitiesType]?.data) {
+      state[deviceId][entitiesType]!.data![entityIndex!] = data
     }
   })
   builder.addCase(setEntitiesMetadata, (state, action) => {
-    state.entities[action.payload.entitiesType] = {
-      ...state.entities[action.payload.entitiesType],
-      metadata: {
-        ...state.entities[action.payload.entitiesType]?.metadata,
-        ...action.payload.metadata,
-      },
-    }
+    const { deviceId, entitiesType, metadata } = action.payload
+    state[deviceId][entitiesType]!.metadata = metadata
   })
-  builder.addCase(deleteEntityDataAction.fulfilled, (state, action) => {
-    const entityId = action.meta.arg.entityId
-    const entitiesType = action.meta.arg.entitiesType
-
-    const entities = state.entities[entitiesType]
+  builder.addCase(clearEntities, (state, action) => {
+    state[action.payload.deviceId] = {}
+  })
+  builder.addCase(deleteEntitiesDataAction.fulfilled, (state, action) => {
+    const entitiesIds = action.payload
+    const { entitiesType, deviceId } = action.meta.arg
+    const entities = state[deviceId][entitiesType]
 
     if (entities && entities.data && entities.idFieldKey) {
       entities.data = entities.data.filter(
-        (entity) => entity[entities.idFieldKey!] !== entityId
+        (entity) =>
+          !entitiesIds.includes(entity[entities.idFieldKey!] as string)
       )
     }
   })
   builder.addCase(createEntityDataAction.fulfilled, (state, action) => {
-    const entitiesType = action.meta.arg.entitiesType
+    const { entitiesType, deviceId } = action.meta.arg
     const newEntity = action.payload
+    const entities = state[deviceId][entitiesType]
 
-    const entities = state.entities[entitiesType]
-
-    const idFieldKey = entities?.idFieldKey
-
-    if (idFieldKey) {
-      if (!entities.data) {
-        entities.data = []
-      }
-
-      const entityExists = entities.data.some(
-        (entity) => entity[idFieldKey] === newEntity[idFieldKey]
-      )
-
-      if (!entityExists) {
-        entities.data.push(newEntity)
-      } else {
-        // TODO: for debug to delete
-        console.warn(
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          `Entity with ID ${newEntity[idFieldKey]} already exists in ${entitiesType}`
-        )
-      }
+    if (!entities) return
+    if (!entities.data) {
+      entities.data = [newEntity]
+    } else {
+      entities.data.push(newEntity)
     }
   })
   builder.addCase(updateEntityDataAction.fulfilled, (state, action) => {
-    const entitiesType = action.meta.arg.entitiesType
+    const { entitiesType, deviceId } = action.meta.arg
     const updatedEntity = action.payload
-
-    const entities = state.entities[entitiesType]
-
+    const entities = state[deviceId][entitiesType]
     const idFieldKey = entities?.idFieldKey
 
-    if (idFieldKey && entities.data !== undefined) {
-      const entityIndex = entities.data.findIndex(
-        (entity) => entity[idFieldKey] === updatedEntity[idFieldKey!]
-      )
-
-      if (entityIndex !== -1) {
-        entities.data[entityIndex] = updatedEntity
-      } else {
-        // TODO: for debug to delete
-        console.warn(
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          `Entity with ID ${updatedEntity[idFieldKey]} not found in ${entitiesType}`
-        )
-      }
-    }
+    if (!entities || !entities.data || !idFieldKey) return
+    const entityIndex = entities.data.findIndex(
+      (entity) => entity[idFieldKey] === updatedEntity[idFieldKey!]
+    )
+    if (entityIndex !== -1) return
+    entities.data[entityIndex] = updatedEntity
   })
 })

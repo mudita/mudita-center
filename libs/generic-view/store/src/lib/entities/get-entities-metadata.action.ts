@@ -11,7 +11,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const getEntitiesMetadataAction = createAsyncThunk<
   undefined,
-  Parameters<typeof getEntitiesMetadataRequest>[0],
+  Required<Parameters<typeof getEntitiesMetadataRequest>[0]>,
   { state: ReduxRootState }
 >(ActionName.GetEntitiesData, async (data, { rejectWithValue, dispatch }) => {
   const response = await getEntitiesMetadataRequest(data)
@@ -24,6 +24,7 @@ export const getEntitiesMetadataAction = createAsyncThunk<
     setEntitiesMetadata({
       entitiesType: data.entitiesType,
       metadata: response.data,
+      deviceId: data.deviceId,
     })
   )
   return

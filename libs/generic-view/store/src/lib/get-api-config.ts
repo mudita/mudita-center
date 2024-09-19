@@ -29,8 +29,10 @@ export const getAPIConfig = createAsyncThunk<
     } while (retry && retires++ < retryLimit && !response.ok)
 
     if (response.ok) {
-      dispatch(getMenuConfig({ deviceId }))
-      dispatch(getAllFeatures({ deviceId, features: response.data.features }))
+      await dispatch(getMenuConfig({ deviceId }))
+      await dispatch(
+        getAllFeatures({ deviceId, features: response.data.features })
+      )
       dispatch(
         getEntitiesConfigAction({
           deviceId,

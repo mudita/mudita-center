@@ -4,7 +4,11 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { APIEntitiesServiceEvents, EntityData } from "device/models"
+import {
+  APIEntitiesServiceEvents,
+  EntityData,
+  EntityDataPost,
+} from "device/models"
 import { ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
 
@@ -12,6 +16,6 @@ export const createEntityDataRequest = (data: {
   entitiesType: string
   data: EntityData
   deviceId?: DeviceId
-}): Promise<ResultObject<EntityData>> => {
+}): Promise<ResultObject<EntityDataPost>> => {
   return ipcRenderer.callMain(APIEntitiesServiceEvents.EntityDataCreate, data)
 }
