@@ -10,10 +10,10 @@ import {
   APIEntitiesServiceEvents,
   EntitiesFileData,
   EntitiesJsonData,
+  EntityId,
   EntityJsonData,
 } from "device/models"
 
-export type EntityId = string | number
 export type EntityDataResponseType = "json" | "file"
 
 type ReturnType<
