@@ -16,11 +16,11 @@ export const execCommandWithSudo = (
         return reject(`Error: ${error.message}`);
       }
 
-      if (stderr) {
-        const output = stderr?.toString().trim();
-        console.error(`Command stderr output: ${output}`);
-        return reject(`Error: ${stderr.toString().trim()}`);
-      }
+      // if (stderr) {
+      //   const output = stderr?.toString().trim();
+      //   console.error(`Command stderr output: ${output}`);
+      //   return reject(`Error: ${stderr.toString().trim()}`);
+      // }
 
       const output = stdout?.toString().trim() || "Command executed successfully but produced no output.";
 
