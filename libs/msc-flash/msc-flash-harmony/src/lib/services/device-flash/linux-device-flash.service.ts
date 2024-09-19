@@ -14,28 +14,33 @@ function splitPathToDirnameAndBasename(currentPath: string) {
 }
 
 function extractPartitions(input: string): string[] {
-  const lines = input.split('\n');
-  const partitions: string[] = [];
+  const lines = input.split("\n")
+  const partitions: string[] = []
 
   for (const line of lines) {
-    const trimmedLine = line.trim();
+    const trimmedLine = line.trim()
 
-    if (!trimmedLine || trimmedLine.startsWith('NAME') || trimmedLine.startsWith('MOUNTPOINT') || trimmedLine === 'sdb') {
-      continue;
+    if (
+      !trimmedLine ||
+      trimmedLine.startsWith("NAME") ||
+      trimmedLine.startsWith("MOUNTPOINT") ||
+      trimmedLine === "sdb"
+    ) {
+      continue
     }
 
-    const lineWithoutTree = trimmedLine.replace(/^[^\w]*([\w\d]+)/, '$1');
+    const lineWithoutTree = trimmedLine.replace(/^[^\w]*([\w\d]+)/, "$1")
 
-    const partitionNameMatch = lineWithoutTree.match(/^(\S+)/);
+    const partitionNameMatch = lineWithoutTree.match(/^(\S+)/)
     if (partitionNameMatch) {
-      const partitionName = partitionNameMatch[1];
-      if (partitionName && partitionName !== 'sdb') {
-        partitions.push(partitionName);
+      const partitionName = partitionNameMatch[1]
+      if (partitionName && partitionName !== "sdb") {
+        partitions.push(partitionName)
       }
     }
   }
 
-  return partitions;
+  return partitions
 }
 
 const options = {
@@ -69,10 +74,11 @@ class LinuxDeviceFlashService implements IDeviceFlash {
 
   async unmountDevice(device: string): Promise<void> {
     const partitions = await this.getPartitions(device)
+    const partitionsString = partitions
+      .map((partition) => `/dev/${partition}`)
+      .join(" ")
 
-    for (const partition of partitions) {
-      await execCommandWithSudo(`umount /dev/${partition}`, options)
-    }
+    await execCommandWithSudo(`umount ${partitionsString}`, options)
   }
 
   async flashImageToDevice(
@@ -80,18 +86,12 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     imagePath: string,
     scriptPath: string
   ): Promise<void> {
-    await execCommandWithSudo(`chmod +x ${scriptPath}`, options)
-
     const [path, scriptBasename] = splitPathToDirnameAndBasename(scriptPath)
     const [, imageBasename] = splitPathToDirnameAndBasename(imagePath)
-
-    try {
-      await execCommandWithSudo(
-        `cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`
-      , options)
-    } catch (error) {
-      console.error("Flash process successfully failed with error: ", error)
-    }
+    await execCommandWithSudo(
+      `chmod +x ${scriptPath} && cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`,
+      options
+    )
   }
 
   async ejectDevice(device: string): Promise<void> {
