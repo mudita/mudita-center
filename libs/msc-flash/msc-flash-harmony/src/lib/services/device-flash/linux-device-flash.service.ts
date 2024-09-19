@@ -31,7 +31,7 @@ function extractPartitions(input: string): string[] {
 
     const lineWithoutTree = trimmedLine.replace(/^[^\w]*([\w\d]+)/, "$1")
 
-    const partitionNameMatch = lineWithoutTree.match(/^(\S+)/)
+    const partitionNameMatch = /^(\S+)/.exec(lineWithoutTree)
     if (partitionNameMatch) {
       const partitionName = partitionNameMatch[1]
       if (partitionName && partitionName !== "sdb") {
