@@ -9,6 +9,7 @@ describe("dataProviderSchema", () => {
   it("validates entities-array with sort and filters", () => {
     const validData = {
       source: "entities-array",
+      entitiesType: "someType",
       sort: {
         someField: {
           priority: 1,
@@ -46,9 +47,10 @@ describe("dataProviderSchema", () => {
     expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
   })
 
-  it("validates entities-field with optional entitiesType", () => {
+  it("validates entities-field", () => {
     const validData = {
       source: "entities-field",
+      entitiesType: "someType",
       fields: {
         dataItemId: "value1",
         "data.someField": "value2",
