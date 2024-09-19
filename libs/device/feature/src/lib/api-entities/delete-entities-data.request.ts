@@ -4,14 +4,18 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { APIEntitiesServiceEvents, EntityId } from "device/models"
+import {
+  APIEntitiesServiceEvents,
+  EntitiesDeleteResponse,
+  EntityId,
+} from "device/models"
 import { ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
 
-export const deleteEntityDataRequest = (data: {
+export const deleteEntitiesDataRequest = (data: {
   entitiesType: string
-  entityId: EntityId
+  ids: EntityId[]
   deviceId?: DeviceId
-}): Promise<ResultObject<undefined>> => {
-  return ipcRenderer.callMain(APIEntitiesServiceEvents.EntityDataDelete, data)
+}): Promise<ResultObject<EntitiesDeleteResponse>> => {
+  return ipcRenderer.callMain(APIEntitiesServiceEvents.EntitiesDataDelete, data)
 }

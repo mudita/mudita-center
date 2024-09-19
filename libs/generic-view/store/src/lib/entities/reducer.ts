@@ -66,14 +66,15 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     }
   })
   builder.addCase(deleteEntityDataAction.fulfilled, (state, action) => {
-    const entityId = action.meta.arg.entityId
+    const entitiesIds = action.payload
     const entitiesType = action.meta.arg.entitiesType
 
     const entities = state.entities[entitiesType]
 
     if (entities && entities.data && entities.idFieldKey) {
       entities.data = entities.data.filter(
-        (entity) => entity[entities.idFieldKey!] !== entityId
+        (entity) =>
+          !entitiesIds.includes(entity[entities.idFieldKey!] as string)
       )
     }
   })

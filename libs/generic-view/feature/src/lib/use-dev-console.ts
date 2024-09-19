@@ -62,11 +62,11 @@ export const useDevConsole = () => {
           },
           _deleteEntityDataAction: (
             entitiesType: string,
-            entityId: EntityId,
+            ids: EntityId[],
             deviceId = activeDeviceId
           ) => {
             return dispatch(
-              deleteEntityDataAction({ entitiesType, entityId, deviceId })
+              deleteEntityDataAction({ entitiesType, ids, deviceId })
             )
           },
         })

@@ -11,6 +11,8 @@ import {
   APIEntitiesServiceEvents,
   EntitiesConfig,
   entitiesConfigValidator,
+  entitiesDeletePartialSuccessValidator,
+  EntitiesDeleteResponse,
   EntitiesError,
   EntitiesFileData,
   entitiesFileDataValidator,
@@ -26,6 +28,7 @@ import {
 import { SafeParseReturnType, SafeParseSuccess } from "zod"
 import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export class APIEntitiesService {
   constructor(
@@ -202,16 +205,16 @@ export class APIEntitiesService {
     return this.handleSuccess(data)
   }
 
-  @IpcEvent(APIEntitiesServiceEvents.EntityDataDelete)
+  @IpcEvent(APIEntitiesServiceEvents.EntitiesDataDelete)
   public async deleteEntityData({
     entitiesType,
-    entityId,
+    ids,
     deviceId,
   }: {
     entitiesType: string
-    entityId: EntityId
+    ids: EntityId[]
     deviceId?: DeviceId
-  }): Promise<ResultObject<undefined>> {
+  }): Promise<ResultObject<EntitiesDeleteResponse>> {
     const device = this.getDevice(deviceId)
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -222,11 +225,22 @@ export class APIEntitiesService {
       method: "DELETE",
       body: {
         entityType: entitiesType,
-        entityId,
+        ids,
       },
     })
+
     if (!response.ok) {
       return this.handleError(response.error.type)
+    }
+
+    if (response.data.status === 207) {
+      const failedIdsValidator =
+        entitiesDeletePartialSuccessValidator.safeParse(response.data.body)
+      if (!failedIdsValidator.success) {
+        logger.error(failedIdsValidator.error)
+        return this.handleError(response.data.status)
+      }
+      return Result.success({ failedIds: failedIdsValidator.data.failedIds })
     }
 
     return Result.success(undefined)
