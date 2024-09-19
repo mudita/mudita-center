@@ -17,8 +17,8 @@ import { DeviceId } from "Core/device/constants/device-id"
 type EntitiesType = string
 
 interface Entities {
-  idFieldKey?: string
-  config?: EntitiesConfig
+  idFieldKey: string
+  config: EntitiesConfig
   data?: EntityData[]
   metadata?: EntitiesMetadata
   loading?: boolean
@@ -53,29 +53,19 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(getEntitiesDataAction.pending, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
-
-    state[deviceId][entitiesType] = {
-      ...state[deviceId][action.meta.arg.entitiesType],
-      loading: true,
-    }
+    state[deviceId][entitiesType]!.loading = true
   })
   builder.addCase(getEntitiesDataAction.fulfilled, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
 
-    state[deviceId][entitiesType] = {
-      ...state[deviceId][entitiesType],
-      data: action.payload,
-      loading: false,
-    }
+    state[deviceId][entitiesType]!.data = action.payload
+    state[deviceId][entitiesType]!.loading = false
   })
   builder.addCase(getEntitiesDataAction.rejected, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
 
-    state[deviceId][entitiesType] = {
-      ...state[deviceId][entitiesType],
-      loading: false,
-      error: true,
-    }
+    state[deviceId][entitiesType]!.loading = false
+    state[deviceId][entitiesType]!.error = true
   })
 
   builder.addCase(setEntityData, (state, action) => {
@@ -93,10 +83,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(setEntitiesMetadata, (state, action) => {
     const { deviceId, entitiesType, metadata } = action.payload
-    state[deviceId][entitiesType] = {
-      ...state[deviceId][entitiesType],
-      metadata,
-    }
+    state[deviceId][entitiesType]!.metadata = metadata
   })
   builder.addCase(clearEntities, (state, action) => {
     state[action.payload.deviceId] = {}
