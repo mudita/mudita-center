@@ -11,7 +11,7 @@ import { ActionName } from "../action-names"
 import { EntityId } from "device/models"
 import { difference } from "lodash"
 
-export const deleteEntityDataAction = createAsyncThunk<
+export const deleteEntitiesDataAction = createAsyncThunk<
   EntityId[],
   {
     entitiesType: string
@@ -27,6 +27,7 @@ export const deleteEntityDataAction = createAsyncThunk<
       ids,
       deviceId,
     })
+
     if (!response.ok) {
       return rejectWithValue(response.error)
     }

@@ -6,7 +6,7 @@
 import { z } from "zod"
 import { entityDataSchema } from "./entity-data.validator"
 
-export const entityJsonDataValidator = z.object({
+export const entityDataPatchValidator = z.object({
   data: entityDataSchema,
 })
-export type EntityJsonData = z.infer<typeof entityJsonDataValidator>
+export type EntityDataPatch = z.infer<typeof entityDataPatchValidator>

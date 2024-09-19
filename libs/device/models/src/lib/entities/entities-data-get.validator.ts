@@ -4,7 +4,7 @@
  */
 
 import { z } from "zod"
-import { entityDataSchema } from "./entity-data-get.validator"
+import { entityDataSchema } from "./entity-data.validator"
 
 export const entitiesFileDataValidator = z.object({
   filePath: z.string().min(1),

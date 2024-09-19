@@ -13,7 +13,9 @@ import {
 } from "./actions"
 import { getEntitiesDataAction } from "./get-entities-data.action"
 import { DeviceId } from "Core/device/constants/device-id"
-import { deleteEntityDataAction } from "./delete-entity-data.action"
+import { deleteEntitiesDataAction } from "./delete-entities-data.action"
+import { createEntityDataAction } from "./create-entity-data.action"
+import { updateEntityDataAction } from "./update-entity-data.action"
 
 type EntitiesType = string
 
@@ -89,7 +91,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   builder.addCase(clearEntities, (state, action) => {
     state[action.payload.deviceId] = {}
   })
-  builder.addCase(deleteEntityDataAction.fulfilled, (state, action) => {
+  builder.addCase(deleteEntitiesDataAction.fulfilled, (state, action) => {
     const entitiesIds = action.payload
     const { entitiesType, deviceId } = action.meta.arg
     const entities = state[deviceId][entitiesType]
@@ -100,5 +102,30 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
           !entitiesIds.includes(entity[entities.idFieldKey!] as string)
       )
     }
+  })
+  builder.addCase(createEntityDataAction.fulfilled, (state, action) => {
+    const { entitiesType, deviceId } = action.meta.arg
+    const newEntity = action.payload
+    const entities = state[deviceId][entitiesType]
+
+    if (!entities) return
+    if (!entities.data) {
+      entities.data = [newEntity]
+    } else {
+      entities.data.push(newEntity)
+    }
+  })
+  builder.addCase(updateEntityDataAction.fulfilled, (state, action) => {
+    const { entitiesType, deviceId } = action.meta.arg
+    const updatedEntity = action.payload
+    const entities = state[deviceId][entitiesType]
+    const idFieldKey = entities?.idFieldKey
+
+    if (!entities || !entities.data || !idFieldKey) return
+    const entityIndex = entities.data.findIndex(
+      (entity) => entity[idFieldKey] === updatedEntity[idFieldKey!]
+    )
+    if (entityIndex !== -1) return
+    entities.data[entityIndex] = updatedEntity
   })
 })

@@ -20,6 +20,11 @@ import {
   entitiesJsonDataValidator,
   EntitiesMetadata,
   entitiesMetadataValidator,
+  EntityData,
+  EntityDataPatch,
+  entityDataPatchValidator,
+  EntityDataPost,
+  entityDataPostValidator,
   EntityId,
   EntityJsonData,
   entityJsonDataValidator,
@@ -267,5 +272,76 @@ export class APIEntitiesService {
     }
 
     return Result.success(undefined)
+  }
+
+  @IpcEvent(APIEntitiesServiceEvents.EntityDataCreate)
+  public async createEntityData({
+    entitiesType,
+    data,
+    deviceId,
+  }: {
+    entitiesType: string
+    data: EntityData
+    deviceId?: DeviceId
+  }): Promise<ResultObject<EntityDataPost>> {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "POST",
+      body: {
+        entityType: entitiesType,
+        data,
+      },
+    })
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+    const dataValidator = entityDataPostValidator.safeParse(response.data.body)
+    if (!dataValidator.success) {
+      logger.error(dataValidator.error)
+      return this.handleError(response.data.status)
+    }
+    return Result.success(dataValidator.data)
+  }
+
+  @IpcEvent(APIEntitiesServiceEvents.EntityDataUpdate)
+  public async updateEntityData({
+    entitiesType,
+    entityId,
+    data,
+    deviceId,
+  }: {
+    entitiesType: string
+    entityId: EntityId
+    data: EntityData
+    deviceId?: DeviceId
+  }): Promise<ResultObject<EntityDataPatch>> {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "PATCH",
+      body: {
+        entityType: entitiesType,
+        entityId,
+        data,
+      },
+    })
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+    const dataValidator = entityDataPatchValidator.safeParse(response.data.body)
+    if (!dataValidator.success) {
+      logger.error(dataValidator.error)
+      return this.handleError(response.data.status)
+    }
+    return Result.success(dataValidator.data)
   }
 }
