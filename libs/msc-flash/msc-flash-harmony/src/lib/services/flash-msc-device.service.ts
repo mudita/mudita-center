@@ -100,7 +100,7 @@ const startFlashingProcess = async (
 
     const deviceFlash = DeviceFlashFactory.createDeviceFlashService()
 
-    const device = await deviceFlash.findDeviceByDeviceName("HARMONY MSC")
+    const device = await deviceFlash.findDeviceByDeviceName("HARMONY")
 
     const { osDownloadLocation } = await getAppSettingsMain()
     const flashingScriptName = flashingFiles
