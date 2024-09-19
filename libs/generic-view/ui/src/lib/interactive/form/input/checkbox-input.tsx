@@ -49,7 +49,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
         <InputBox>
           <CheckIcon />
         </InputBox>
-        {children || config.label}
+        {children || (config.label ? <span>{config.label}</span> : null)}
       </Label>
     </Wrapper>
   )

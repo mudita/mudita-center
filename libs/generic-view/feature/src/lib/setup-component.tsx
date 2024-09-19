@@ -42,20 +42,43 @@ export const setupComponent = <P extends object>(
     const deviceId = useSelector(selectActiveApiDeviceId)!
     const formContext = useFormContext()
     let dataItemId = props.dataItemId
-
     const layout = useSelector((state: ReduxRootState) => {
       return selectComponentLayout(state, { viewKey, componentKey })
     })
-    const layoutDependency = JSON.stringify(layout)
-
     const config = useSelector((state: ReduxRootState) => {
       return selectComponentConfig(state, { viewKey, componentKey })
     })
-
     const dataProvider = useSelector((state: ReduxRootState) => {
       return selectComponentDataProvider(state, { viewKey, componentKey })
     })
-    const dataProviderDependency = JSON.stringify(dataProvider)
+    const componentData = useSelector((state: ReduxRootState) => {
+      if (dataProvider) return
+      return selectComponentData(state, { viewKey, componentKey })
+    })
+    const entitiesData =
+      useSelector((state: ReduxRootState) => {
+        if (dataProvider?.source !== "entities-array") return
+        return selectEntitiesData(state, {
+          entitiesType: dataProvider.entitiesType,
+          deviceId,
+        }) as EntityData[]
+      }) || []
+    const idFieldKey = useSelector((state: ReduxRootState) => {
+      if (dataProvider?.source !== "entities-array") return
+      return selectEntitiesIdFieldKey(state, {
+        deviceId,
+        entitiesType: dataProvider.entitiesType!,
+      })
+    })
+    const entityData = useSelector((state: ReduxRootState) => {
+      if (dataProvider?.source !== "entities-field") return
+      return selectEntityData(state, {
+        entitiesType: dataProvider.entitiesType,
+        entityId: dataItemId!,
+        deviceId,
+      }) as EntityData
+    })
+
     const editableProps = {
       ...dataProps,
       config: {
@@ -65,44 +88,18 @@ export const setupComponent = <P extends object>(
     }
 
     if (!dataProvider) {
-      editableProps.data = useSelector((state: ReduxRootState) => {
-        return selectComponentData(state, { viewKey, componentKey })
-      })
+      editableProps.data = componentData
     } else if (dataProvider?.source === "entities-array") {
-      const rawData =
-        (useSelector((state: ReduxRootState) => {
-          return selectEntitiesData(state, {
-            entitiesType: dataProvider.entitiesType!,
-            deviceId,
-          })
-        }) as EntityData[]) || []
-      const idFieldKey = useSelector((state: ReduxRootState) => {
-        return selectEntitiesIdFieldKey(state, {
-          deviceId,
-          entitiesType: dataProvider.entitiesType!,
-        })
-      })
-
       const filteredData = dataProviderFilter(
-        [...rawData],
+        [...entitiesData],
         dataProvider.filters
       )
       const sortedData = dataProviderSort([...filteredData], dataProvider.sort)
-
-      editableProps.data = sortedData?.map((item) => {
-        return item[idFieldKey!]
-      })
+      editableProps.data = sortedData?.map((item) => item[idFieldKey!])
     } else if (dataProvider?.source === "entities-field") {
-      const item = useSelector((state: ReduxRootState) => {
-        return selectEntityData(state, {
-          entitiesType: dataProvider.entitiesType!,
-          entityId: dataItemId!,
-          deviceId,
-        })
-      }) as EntityData
-      if (item) {
+      if (entityData) {
         for (const [key, field] of Object.entries(dataProvider.fields)) {
-          const value = item[field]
+          const value = entityData[field]
           if (value === undefined) continue
           set(editableProps || {}, key, value)
         }
@@ -119,6 +116,8 @@ export const setupComponent = <P extends object>(
       }
     }
     const editablePropsDependency = JSON.stringify(editableProps)
+    const layoutDependency = JSON.stringify(layout)
+    const dataProviderDependency = JSON.stringify(dataProvider)
 
     return useMemo(() => {
       const ComponentWithProps = () => (

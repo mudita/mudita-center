@@ -5,7 +5,7 @@
 
 import { z } from "zod"
 
-const entitiesTypeSchema = z.string().optional()
+const entitiesTypeSchema = z.string().min(1)
 
 const regexSchema = z
   .string()
