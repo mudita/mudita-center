@@ -6,7 +6,7 @@
 import path from "path"
 import { execPromise, execCommandWithSudo } from "shared/utils"
 import IDeviceFlash from "./device-flash.interface"
-import LinuxPartitionParser from "Libs/msc-flash/msc-flash-harmony/src/lib/services/device-flash/linux-partition-parser"
+import LinuxPartitionParser from "./linux-partition-parser"
 
 class LinuxDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(deviceName: string): Promise<string> {
