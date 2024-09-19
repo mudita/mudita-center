@@ -42,5 +42,16 @@ describe("E2E mock sample - overview view", () => {
     await expect(createBackupButton).toBeDisplayed()
     await expect(createBackupButton).toBeClickable()
     await createBackupButton.click()
+
+    const createBackupProceedNext =
+      await modalBackupPage.createBackupProceedNext
+    await expect(createBackupProceedNext).toBeDisplayed()
+    await expect(createBackupProceedNext).toBeClickable()
+    await createBackupProceedNext.click()
+
+    await browser.pause(4000)
+    const backupPassword = await modalBackupPage.backupPassword
+    await expect(backupPassword).toBeDisplayed()
+    await expect(backupPassword).toBeClickable()
   })
 })
