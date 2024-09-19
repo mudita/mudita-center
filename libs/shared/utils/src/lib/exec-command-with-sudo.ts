@@ -16,7 +16,7 @@ export const execCommandWithSudo = (
         return reject(`Error: ${error.message}`);
       }
 
-      if (stderr) {
+      if (stderr && !stdout) {
         const output = stderr?.toString().trim();
         console.error(`Command stderr output: ${output}`);
         return reject(`Error: ${stderr.toString().trim()}`);

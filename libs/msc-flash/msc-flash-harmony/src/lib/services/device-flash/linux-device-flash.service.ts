@@ -6,12 +6,7 @@
 import path from "path"
 import { execPromise, execCommandWithSudo } from "shared/utils"
 import IDeviceFlash from "./device-flash.interface"
-
-function splitPathToDirnameAndBasename(currentPath: string) {
-  const dirname = path.dirname(currentPath)
-  const basename = path.basename(currentPath)
-  return [dirname, basename]
-}
+import LinuxPartitionParser from "./linux-partition-parser"
 
 class LinuxDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(deviceName: string): Promise<string> {
@@ -32,39 +27,42 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     imagePath: string,
     scriptPath: string
   ): Promise<void> {
-    await this.unmountDevice(device)
-    await this.flashImageToDevice(device, imagePath, scriptPath)
-    await this.ejectDevice(device)
+    const unmountDeviceCommand = await this.getUnmountDeviceCommand(device)
+    const flashImageToDeviceCommand = await this.getFlashImageToDeviceCommand(
+      device,
+      imagePath,
+      scriptPath
+    )
+    const ejectDeviceCommand = await this.getEjectDeviceCommand(device)
+
+    const command = `${unmountDeviceCommand} && ${flashImageToDeviceCommand} && ${ejectDeviceCommand}`
+    await execCommandWithSudo(command, { name: "Mudita Auto Flash" })
+
     console.log("Flash process completed successfully")
   }
 
-  async unmountDevice(device: string): Promise<void> {
+  private async getUnmountDeviceCommand(device: string): Promise<string> {
     const partitions = await this.getPartitions(device)
+    const partitionsString = partitions
+      .map((partition) => `/dev/${partition}`)
+      .join(" ")
 
-    for (const partition of partitions) {
-      await execPromise(`sudo umount /dev/${partition}`)
-    }
+    return `umount ${partitionsString} 2>/dev/null || true`
   }
 
-  async flashImageToDevice(
+  private async getFlashImageToDeviceCommand(
     device: string,
     imagePath: string,
     scriptPath: string
-  ): Promise<void> {
-    await execCommandWithSudo(`chmod +x ${scriptPath}`, {
-      name: "Mudita Auto Flash",
-    })
-
-    const [path, scriptBasename] = splitPathToDirnameAndBasename(scriptPath)
-    const [, imageBasename] = splitPathToDirnameAndBasename(imagePath)
-
-    await execPromise(
-      `cd ${path} && sudo ./${scriptBasename} ${imageBasename} /dev/${device}`
-    )
+  ): Promise<string> {
+    const [path, scriptBasename] =
+      this.splitPathToDirnameAndBasename(scriptPath)
+    const [, imageBasename] = this.splitPathToDirnameAndBasename(imagePath)
+    return `chmod +x ${scriptPath} && cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`
   }
 
-  async ejectDevice(device: string): Promise<void> {
-    await execPromise(`sudo eject /dev/${device}`)
+  private async getEjectDeviceCommand(device: string): Promise<string> {
+    return `eject /dev/${device} 2>/dev/null || true`
   }
 
   private async getDevices(): Promise<string[]> {
@@ -77,13 +75,13 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     const partitions = await execPromise(
       `lsblk /dev/${device} -o NAME,MOUNTPOINT`
     )
+    return LinuxPartitionParser.parsePartitions(partitions ?? "")
+  }
 
-    return (
-      partitions
-        ?.split("\n")
-        .filter((line) => line.includes(`/dev/${device}`) && line.includes("/"))
-        .map((line) => line.split(" ")[0]) ?? []
-    )
+  private splitPathToDirnameAndBasename(currentPath: string) {
+    const dirname = path.dirname(currentPath)
+    const basename = path.basename(currentPath)
+    return [dirname, basename]
   }
 }
 
