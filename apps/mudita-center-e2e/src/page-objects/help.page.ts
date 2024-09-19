@@ -53,7 +53,7 @@ class HelpPage extends Page {
     return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
   }
   public get helpSubCategoriesListItemsRightColumn() {
-    return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
+    return $$('[data-testid="help-subcategories-list"]>div')[1].$$('[data-testid="help-subcategories-list-item"]')
   }
   public get helpMainFooterDescription() {
       return $('[data-testid="help-main-footer-description"]')
