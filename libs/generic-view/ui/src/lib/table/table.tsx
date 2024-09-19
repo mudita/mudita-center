@@ -171,10 +171,6 @@ const TableHeader = styled.thead`
 const TableBody = styled.tbody`
   tr {
     height: ${rowHeight / 10}rem;
-
-    &.active {
-      border-left: 2px solid #000;
-    }
   }
   td {
     text-align: left;
@@ -186,13 +182,13 @@ const Row = styled.tr<{ $active?: boolean }>`
   ${({ $active }) =>
     $active &&
     css`
-      border-left: 2px solid #000;
+      border-left: 0.2rem solid #000;
     `}
   height: ${rowHeight / 10}rem;
 `
 
 const RowPlaceholder = styled.tr`
-  height: ${rowHeight}px;
+  height: ${rowHeight / 10}rem;
 
   div {
     display: block;
