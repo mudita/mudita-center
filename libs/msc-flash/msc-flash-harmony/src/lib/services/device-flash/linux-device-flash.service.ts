@@ -62,7 +62,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
   }
 
   private async getEjectDeviceCommand(device: string): Promise<string> {
-    return `eject /dev/${device}`
+    return `eject /dev/${device} 2>/dev/null || true`
   }
 
   private async getDevices(): Promise<string[]> {
