@@ -1013,6 +1013,8 @@
   "module.recoveryMode.modal.step2": "Image downloading... (2 of 4)",
   "module.recoveryMode.modal.step3": "Image unpacking... (3 of 4)",
   "module.recoveryMode.modal.step4": "Flashing process... (4 of 4)",
+  "module.recoveryMode.modal.restarting.subtitle": "Restarting Harmony...",
+  "module.recoveryMode.modal.restarting.message": "Please do not disconnect your Harmony.",
   "module.genericViews.dataMigration.cancelConfirm.title": "Cancel data transfer?",
   "module.genericViews.dataMigration.cancelConfirm.description": "We’ll stop the transfer but some data may already be on your Kompakt.",
   "module.genericViews.dataMigration.cancelConfirm.cancelButtonLabel": "Cancel transfer",

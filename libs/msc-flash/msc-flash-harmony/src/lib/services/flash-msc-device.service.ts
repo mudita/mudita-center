@@ -112,7 +112,7 @@ const startFlashingProcess = async (
 
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
 
-    dispatch(setFlashingProcessState(FlashingProcessState.Completed))
+    dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
   } catch (error) {
     console.error("Flash process failed with error: ", error)
     dispatch(setFlashingProcessState(FlashingProcessState.Failed))

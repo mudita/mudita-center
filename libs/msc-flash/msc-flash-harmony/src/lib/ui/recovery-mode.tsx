@@ -25,6 +25,7 @@ import { RecoveryModeModal } from "./recovery-mode-modal/recovery-mode-modal.com
 import { selectFlashingProcessState } from "../selectors"
 import { FlashingProcessState } from "../constants"
 import theme from "Core/core/styles/theming/theme"
+import { RestartingDeviceModal } from "./restarting-device-modal/restarting-device-modal.component"
 
 const messages = defineMessages({
   header: {
@@ -121,6 +122,11 @@ const RecoveryModeUI: FunctionComponent = () => {
     }
   }
 
+  const isRestartingModalVisible = (): boolean => {
+    return flashingProcessState === FlashingProcessState.Restarting
+    // return true
+  }
+
   return (
     <>
       <Wrapper>
@@ -179,6 +185,7 @@ const RecoveryModeUI: FunctionComponent = () => {
           percent={getProgressPercent()}
           progressMessage={getProgressMessage()}
         />
+        <RestartingDeviceModal open={isRestartingModalVisible()} />
       </ThemeProvider>
     </>
   )
