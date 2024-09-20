@@ -125,7 +125,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     const entityIndex = entities.data.findIndex(
       (entity) => entity[idFieldKey] === updatedEntity[idFieldKey!]
     )
-    if (entityIndex !== -1) return
+    if (entityIndex === -1) return
     entities.data[entityIndex] = updatedEntity
   })
 })
