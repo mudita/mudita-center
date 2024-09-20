@@ -11,9 +11,10 @@ import { AppError } from "Core/core/errors"
 import { ModalDialogProps } from "Core/ui"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import { useHelpShortcut } from "help/store"
+import { UnlockStatus } from "Core/device"
 
 export type UnlockDeviceReturnType = Promise<
-  PayloadAction<boolean, string, unknown, AppError>
+  PayloadAction<UnlockStatus, string, unknown, AppError>
 >
 
 interface Props extends Omit<ModalDialogProps, "close" | "open"> {
@@ -79,7 +80,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
         return
       }
 
-      if (!unlockDeviceStatus.payload) {
+      if (unlockDeviceStatus.payload !== "UNLOCKED") {
         setErrorState(ErrorState.BadPasscode)
         return
       }
