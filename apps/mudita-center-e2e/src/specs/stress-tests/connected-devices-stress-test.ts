@@ -70,8 +70,11 @@ describe("Kompakt switching devices", () => {
       "Select a device to continue"
     )
 
-    const availableDevices = selectDevicePage.availableDevices
-    await expect(availableDevices).toBeDisplayed()
+    const availableDevices = await selectDevicePage.availableDevices
+
+    for (const device of availableDevices) {
+      await expect(device).toBeDisplayed();
+    }
 
     const firstDeviceOnSelectModal =
       await selectDevicePage.getDeviceOnSelectModal(1)

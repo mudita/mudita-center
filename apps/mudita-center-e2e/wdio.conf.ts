@@ -4,6 +4,7 @@
  */
 
 import type { Options } from "@wdio/types"
+import path from "path"
 import * as dotenv from "dotenv"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
 
@@ -176,6 +177,9 @@ export const config: Options.Testrunner = {
         binary: process.env.TEST_BINARY_PATH,
         args: [],
       },
+      'wdio:chromedriverOptions': {
+        binary: path.resolve(__dirname, '..', '..', 'node_modules', 'chromedriver', 'bin', 'chromedriver')
+      }
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
       // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
