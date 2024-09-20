@@ -15,17 +15,18 @@ describe("entitiesConfigValidator", () => {
       globalValidators: {
         requiredFieldsCombinations: [
           {
-            fields: ["field1", "field2", "field3.field3a", "4[]"],
+            fields: ["field2", "field3", "field4.field4a", "5[]"],
             countLogic: "gt",
             fieldsCount: 1,
           },
         ],
       },
       fields: {
-        field1: { type: "id" },
-        field2: { type: "string", validators: [{ pattern: "/abc/" }] },
-        field3: { type: "object", fields: { field3a: { type: "string" } } },
-        4: { type: "array", items: { type: "string" } },
+        field1: { type: "string", defaultValue: "default" },
+        field2: { type: "id" },
+        field3: { type: "string", validators: [{ pattern: "/abc/" }] },
+        field4: { type: "object", fields: { field4a: { type: "string" } } },
+        5: { type: "array", items: { type: "string" } },
       },
     }
     expect(() => entitiesConfigValidator.parse(validConfig)).not.toThrow()
@@ -73,6 +74,29 @@ describe("entitiesConfigValidator", () => {
           message:
             "There must be exactly one field of 'id' type on the top level of the 'fields' object",
           path: ["fields"],
+        },
+      ])
+    }
+  })
+
+  it("throws an error when `defaultValue` is assigned to 'id' type field", () => {
+    const invalidConfig: EntitiesConfig = {
+      fields: {
+        field1: { type: "id", defaultValue: "default" },
+      },
+    } as EntitiesConfig
+    const result = () => entitiesConfigValidator.parse(invalidConfig)
+    expect(result).toThrow()
+
+    try {
+      result()
+    } catch (error) {
+      expect((error as ZodError).errors).toEqual([
+        {
+          code: "unrecognized_keys",
+          keys: ["defaultValue"],
+          message: "Unrecognized key(s) in object: 'defaultValue'",
+          path: ["fields", "field1"],
         },
       ])
     }

@@ -41,13 +41,16 @@ const fieldValidatorsSchema = z
   )
   .optional()
 
+const defaultValueSchema = z.any().optional()
+
 const idFieldSchema = z.object({
   type: z.literal("id"),
-})
+}).strict()
 
 const primitiveFieldSchema = z.object({
   type: z.enum(["string", "number", "boolean"]),
   validators: fieldValidatorsSchema,
+  defaultValue: defaultValueSchema,
 })
 
 const basicFieldSchema = z.discriminatedUnion("type", [
@@ -57,18 +60,21 @@ const basicFieldSchema = z.discriminatedUnion("type", [
 
 const nestedArrayFieldSchema = z.object({
   type: z.literal("array"),
+  defaultValue: defaultValueSchema,
   items: basicFieldSchema,
   validators: fieldValidatorsSchema,
 })
 
 const nestedObjectFieldSchema = z.object({
   type: z.literal("object"),
+  defaultValue: defaultValueSchema,
   fields: z.record(z.string(), basicFieldSchema),
   validators: fieldValidatorsSchema,
 })
 
 const arrayFieldSchema = z.object({
   type: z.literal("array"),
+  defaultValue: defaultValueSchema,
   items: z.union([
     basicFieldSchema,
     nestedArrayFieldSchema,
@@ -79,6 +85,7 @@ const arrayFieldSchema = z.object({
 
 const objectFieldSchema = z.object({
   type: z.literal("object"),
+  defaultValue: defaultValueSchema,
   fields: z.record(
     z.string(),
     z.union([basicFieldSchema, nestedArrayFieldSchema, nestedObjectFieldSchema])
