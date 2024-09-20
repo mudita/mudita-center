@@ -3,14 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class ContactsPage extends Page {
   /**[Selector] New contact button on Contacts screen */
-  public get newContactButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get newContactButton() {
     return $('[data-testid="new-contact-button"]')
   }
 
@@ -21,23 +18,17 @@ class ContactsPage extends Page {
   }
 
   /**[Selector] Import button on Contacts screen*/
-  public get importButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get importButton() {
     return $('[data-testid="import-button"]')
   }
 
   /**[Selector] Search contacts input*/
-  public get searchContactsInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get searchContactsInput() {
     return $('[data-testid="contact-input-select-input"]')
   }
 
   /**[Selector] First name input*/
-  public get firstNameInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get firstNameInput() {
     return $('[data-testid="first-name"]')
   }
   /**Insert provided text to First Name input field*/
@@ -47,9 +38,7 @@ class ContactsPage extends Page {
   }
 
   /**[Selector] Last name input*/
-  public get lastNameInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get lastNameInput() {
     return $('[data-testid="second-name"]')
   }
 
@@ -60,9 +49,7 @@ class ContactsPage extends Page {
   }
 
   /**[Selector] Primary phone number input*/
-  public get primaryPhoneNumberInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get primaryPhoneNumberInput() {
     return $('[data-testid="primary-number"]')
   }
 
@@ -73,9 +60,7 @@ class ContactsPage extends Page {
   }
 
   /**[Selector] Secondary phone number input*/
-  public get secondaryPhoneNumberInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get secondaryPhoneNumberInput() {
     return $('[data-testid="secondary-number"]')
   }
 
@@ -85,9 +70,7 @@ class ContactsPage extends Page {
     await this.secondaryPhoneNumberInput.setValue(textValue)
   }
   /**[Selector] Adress first line input*/
-  public get addressFirstLineInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get addressFirstLineInput() {
     return $('[data-testid="first-address-line"]')
   }
 
@@ -98,9 +81,7 @@ class ContactsPage extends Page {
   }
 
   /**[Selector] Adress second line input*/
-  public get addressSecondLineInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get addressSecondLineInput() {
     return $('[data-testid="second-address-line"]')
   }
 
@@ -111,9 +92,7 @@ class ContactsPage extends Page {
   }
 
   /**[Selector] Close button on contact detail screen*/
-  public get closeButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get closeButton() {
     return $('[data-testid="icon-Close"]')
   }
 
@@ -123,22 +102,16 @@ class ContactsPage extends Page {
     await this.closeButton.click()
   }
   /**[Selector] add to favourites checkbox*/
-  public get addToFavouritessCheckbox(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get addToFavouritessCheckbox() {
     return $('[name*="favourite"]')
   }
   /**[Selector] Cancel button on add/edit contact screen*/
-  public get cancelButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get cancelButton() {
     return $("p*=Cancel")
   }
 
   /** [Selector] Save contact button*/
-  public get saveContactButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get saveContactButton() {
     return $('[data-testid="save-button"]')
   }
   /** Click on Save contact button */
@@ -147,9 +120,7 @@ class ContactsPage extends Page {
     await this.saveContactButton.click()
   }
 
-  public get noContactsTextLabel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get noContactsTextLabel() {
     return $('[data-testid="contact-list-no-result"]')
   }
 
@@ -157,21 +128,15 @@ class ContactsPage extends Page {
     return $$('[data-testid="virtualized-contact-list-item-contact-row"]')
   }
 
-  public get singleContactRow(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get singleContactRow() {
     return $('[data-testid="virtualized-contact-list-item-contact-row"]')
   }
 
-  public get phoneNumberOnContactList(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get phoneNumberOnContactList() {
     return $('[data-testid="virtualized-contact-phone-number"]')
   }
 
-  public get optionsButtonOnContactList(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get optionsButtonOnContactList() {
     return $('[data-testid="icon-More"]')
   }
   async optionsButtonOnContactListClick() {
@@ -179,69 +144,47 @@ class ContactsPage extends Page {
     await this.optionsButtonOnContactList.click()
   }
 
-  public get editContactOptionMenu(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get editContactOptionMenu() {
     return $('[data-testid="icon-Edit"]')
   }
 
-  public get exportAsVCardOptionMenu(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get exportAsVCardOptionMenu() {
     return $('[data-testid="icon-UploadDark"]')
   }
 
-  public get deleteContactOptionMenu(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get deleteContactOptionMenu() {
     return $('[data-testid="icon-Delete"]')
   }
 
-  public get nameOnContactDetailScreen(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get nameOnContactDetailScreen() {
     return $('[data-testid="name"]')
   }
 
-  public get phoneNumber1OnContactDetailScreen(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get phoneNumber1OnContactDetailScreen() {
     return $('[data-testid="primary-phone-input"]')
   }
 
-  public get phoneNumber2OnContactDetailScreen(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get phoneNumber2OnContactDetailScreen() {
     return $('[data-testid="secondary-phone-input"]')
   }
 
-  public get addressOnContactDetailScreen(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get addressOnContactDetailScreen() {
     return $('[data-testid="address-details"]')
   }
 
-  public get buttonDeleteOnContactDetailScreen(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get buttonDeleteOnContactDetailScreen() {
     return $('[data-testid="icon-Delete"]')
   }
 
-  public get buttonExportOnContactDetailScreen(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get buttonExportOnContactDetailScreen() {
     return $('[data-testid="icon-UploadDark"]')
   }
 
-  public get editButtonOnContactDetailScreen(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get editButtonOnContactDetailScreen() {
     return $('[data-testid="icon-Edit"]')
   }
 
-  public get checkboxSingleContact(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get checkboxSingleContact() {
     return $('[type="checkbox"]')
   }
 
@@ -249,57 +192,39 @@ class ContactsPage extends Page {
     return $$('[type="checkbox"]')
   }
 
-  public get checkboxSelectAll(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get checkboxSelectAll() {
     return $('[data-testid="selection-manager"]').$('[type="checkbox"]')
   }
 
-  public get textSummaryOfContactsSelected(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get textSummaryOfContactsSelected() {
     return $('[data-testid="info"]')
   }
 
-  public get buttonDeleteSelectionManager(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get buttonDeleteSelectionManager() {
     return $("p*=Delete")
   }
 
-  public get inputHiddenVcfFile(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get inputHiddenVcfFile() {
     return $('[data-testid="file-input"]')
   }
 
-  public get buttonContinueWithGoogle(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get buttonContinueWithGoogle() {
     return $('[data-testid="google-button"]')
   }
 
-  public get buttonOutlookImport(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get buttonOutlookImport() {
     return $('[data-testid="outlook-button"]')
   }
 
-  public get buttonImportFromVCFFileImport(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get buttonImportFromVCFFileImport() {
     return $('[data-testid="icon-Upload"]')
   }
 
-  public get inputSearch(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get inputSearch() {
     return $('[data-testid="contact-input-select-input"]')
   }
 
-  public get dropDownSearchResultList(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get dropDownSearchResultList() {
     return $('[data-testid="input-select-list"]')
   }
 
@@ -310,9 +235,7 @@ class ContactsPage extends Page {
     )
   }
 
-  public get contactDetailsFavouritesIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get contactDetailsFavouritesIcon() {
     return $('[data-testid="icon-Favourites"]')
   }
 }
