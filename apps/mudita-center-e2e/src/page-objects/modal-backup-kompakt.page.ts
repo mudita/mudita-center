@@ -13,7 +13,7 @@ class ModalBackupPage extends OverviewPage {
     return $('//button[@type="button" and .//span[text()="Create backup"]]')
   }
   public get createBackupProceedNext() {
-    return $('[data-testid="modal-content-backupbackup-create"]')
+    return $('//button[@type="button" and .//span[text()="Create backup"]]')
   }
   public get backupPassword() {
     return $('[data-testid="predefined-backup-password-repeat-placeholder"]')
