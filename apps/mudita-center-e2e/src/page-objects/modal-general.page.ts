@@ -3,13 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class ModalGeneralPage extends Page {
-  public get closeIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get closeIcon() {
     return $('[data-testid="icon-Close"]')
   }
   async closeModalButtonClick() {
@@ -20,15 +17,11 @@ class ModalGeneralPage extends Page {
       console.log(error)
     }
   }
-  public get modalHeader(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get modalHeader() {
     return $('[data-testid="modal-header"]')
   }
 
-  public get updateAvailableModalCloseButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get updateAvailableModalCloseButton() {
     return this.modalHeader.$('[data-testid="icon-Close"]')
   }
 
@@ -42,9 +35,7 @@ class ModalGeneralPage extends Page {
       console.log(error)
     }
   }
-  public get closeModalBackgroundUpdateAvailableFailed(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get closeModalBackgroundUpdateAvailableFailed() {
     return $('[data-testid="update-os-flow-check-for-update-failed-modal"]').$(
       '[data-testid="icon-Close"]'
     )
@@ -61,15 +52,11 @@ class ModalGeneralPage extends Page {
     }
   }
 
-  public get updateNotAvailableModal(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get updateNotAvailableModal() {
     return $('[data-testid="update-os-flow-update-not-available-modal"]')
   }
 
-  public get closeModalButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get closeModalButton() {
     return $('[data-testid="close-modal-button"]')
   }
 
