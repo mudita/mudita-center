@@ -100,6 +100,7 @@ export const BackupFeatures: FunctionComponent<Props> = ({
             text: intl.formatMessage(messages.createButtonLabel),
             action: nextAction,
           }}
+          data-testid={BackupModalTestIds.CreateBackupAction}
         />
       </Modal.Buttons>
     </>

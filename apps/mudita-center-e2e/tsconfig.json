@@ -3,15 +3,16 @@
   "compilerOptions": {
     "types": [
       "node",
-      "webdriverio/async",
+      "@wdio/globals/types",
       "@wdio/mocha-framework",
       "expect-webdriverio"
     ],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "target": "es5",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "typeRoots": ["./node_modules/@types", "./typings"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "./wdio.conf.ts"],
   "exclude": ["node_modules"]
 }
