@@ -3,13 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class ModalContacts extends Page {
-  public get iconClose(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get iconClose() {
     return $('[data-testid="icon-Close"]')
   }
   async buttonCloseClick() {
@@ -21,27 +18,19 @@ class ModalContacts extends Page {
     }
   }
 
-  public get modalContent(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get modalContent() {
     return $('[data-testid="delete-modal-content"]')
   }
 
-  public get textOnModal(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get textOnModal() {
     return $('[data-testid="delete-modal-content"]').$("p")
   }
 
-  public get iconDelete(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get iconDelete() {
     return $('[data-testid="icon-DeleteBig"]')
   }
 
-  public get buttonConfirmDelete(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get buttonConfirmDelete() {
     return $('[data-testid="modal-action-button"]*=Delete')
   }
   async buttonConfirmDeleteClick() {
@@ -49,28 +38,22 @@ class ModalContacts extends Page {
     await this.buttonConfirmDelete.click()
   }
 
-  public get buttonCancel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get buttonCancel() {
     return $('[data-testid="close-bottom-button"]')
   }
   async cancelModalButtonClick() {
     await this.buttonCancel.click()
   }
 
-  public get buttonImport(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get buttonImport() {
     return $('[data-testid="modal-action-button"]*=Import')
   }
 
-  public get textSavingCompleted(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get textSavingCompleted() {
     return $("h4*=Saving completed")
   }
 
-  public get buttonOK(): ChainablePromiseElement<Promise<WebdriverIO.Element>> {
+  public get buttonOK() {
     return $('[data-testid="modal-action-button"]*=OK')
   }
 }
