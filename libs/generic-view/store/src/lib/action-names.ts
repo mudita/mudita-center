@@ -16,6 +16,7 @@ export enum ActionName {
   AddDevice = "generic-views/add-device",
   RemoveDevice = "generic-views/remove-device",
   SetDeviceState = "generic-views/set-device-state",
+  SetGenericConfig = "generic-views/set-generic-config",
 
   OpenModal = "generic-modals/open-modal",
   CloseModal = "generic-modals/close-modal",
@@ -83,4 +84,16 @@ export enum ActionName {
 
   HelpSetData = "help/set-data",
   HelpRateArticle = "help/rate-article",
+
+  GetEntitiesConfig = "entities/get-entities-config",
+  SetEntitiesConfig = "entities/set-entities-config",
+  SetEntitiesData = "entities/set-entities-data",
+  SetEntityData = "entities/set-entity-data",
+  GetEntitiesData = "entities/get-entities-data",
+  GetEntityData = "entities/get-entity-data",
+  SetEntitiesMetadata = "entities/set-entities-metadata",
+  ClearEntitiesData = "entities/clear-entities-data",
+  DeleteEntityData = "entities/delete-entity-data",
+  CreateEntityData = "entities/create-entity-data",
+  UpdateEntityData = "entities/update-entity-data",
 }
