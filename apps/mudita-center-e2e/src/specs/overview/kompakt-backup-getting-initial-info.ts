@@ -47,7 +47,7 @@ describe("E2E mock sample - overview view", () => {
     const contactList = await ModalBackupKompaktPage.contactList
     await expect(contactList).toBeDisplayed()
     const contactListText = await contactList?.getProperty("textContent")
-    expect(contactListText).toContain("Contacts list")
+    expect(contactListText).toContain("Contact list")
     expect(contactListText).not.toContain("Coming soon!")
 
     const callLog = await ModalBackupKompaktPage.callLog
