@@ -12,7 +12,7 @@ const view: View = {
     component: "block-plain",
     layout: {
       gridLayout: {
-        rows: ["auto", "1fr"],
+        rows: ["auto", "auto", "1fr"],
         columns: ["1fr"],
       },
     },
@@ -36,7 +36,37 @@ const view: View = {
         },
       },
     },
-    childrenKeys: ["contactsFormWrapper"],
+    childrenKeys: ["deleteButton", "contactsFormWrapper"],
+  },
+  deleteButton: {
+    component: "button-primary",
+    dataProvider: {
+      source: "form-fields",
+      fields: {
+        "config.actions[0].ids": "selectedContacts",
+        "config.disabled": {
+          field: "selectedContacts",
+          modifier: "length",
+          condition: "eq",
+          value: 0,
+        },
+      },
+    },
+    config: {
+      text: "Delete selected",
+      actions: [
+        {
+          type: "entities-delete",
+          entitiesType: "contacts",
+          ids: [],
+        },
+        {
+          type: "form-set-field",
+          key: "selectedContacts",
+          value: [],
+        }
+      ],
+    },
   },
   contactsFormWrapper: {
     component: "block-box",
@@ -226,11 +256,13 @@ const view: View = {
     component: "button-primary",
     config: {
       text: "Hide details",
-      action: {
-        type: "form-set-field",
-        key: "activeContactId",
-        value: undefined,
-      },
+      actions: [
+        {
+          type: "form-set-field",
+          key: "activeContactId",
+          value: undefined,
+        },
+      ],
     },
   },
 }
