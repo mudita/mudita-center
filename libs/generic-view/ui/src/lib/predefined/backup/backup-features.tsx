@@ -94,6 +94,7 @@ export const BackupFeatures: FunctionComponent<Props> = ({
             text: intl.formatMessage(messages.cancelButtonLabel),
             action: closeAction,
           }}
+          data-testid={BackupModalTestIds.CancelBackupAction}
         />
         <ButtonPrimary
           config={{
