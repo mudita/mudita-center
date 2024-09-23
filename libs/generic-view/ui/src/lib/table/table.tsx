@@ -30,6 +30,7 @@ export const Table: APIFC<TableData, TableConfig> & {
     -1, -1,
   ])
 
+  console.log(formContext.watch("selectedContacts"))
   const { formOptions, columnsNames } = config
   const { activeIdFieldName } = formOptions
 
