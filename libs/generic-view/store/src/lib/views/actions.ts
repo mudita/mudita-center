@@ -34,3 +34,9 @@ export const setLastRefresh = createAction<number>(ActionName.SetLastRefresh)
 export const setDeviceState = createAction<{ id: string; state: DeviceState }>(
   ActionName.SetDeviceState
 )
+
+export const setGenericConfig = createAction<{
+  config: View
+  feature: string
+  deviceId: string
+}>(ActionName.SetGenericConfig)

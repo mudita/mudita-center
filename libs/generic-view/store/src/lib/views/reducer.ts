@@ -21,11 +21,13 @@ import {
   addDevice,
   removeDevice,
   setDeviceState,
+  setGenericConfig,
   setLastRefresh,
   setMenu,
   setViewData,
   setViewLayout,
 } from "./actions"
+import { transformGenericComponents } from "../features/transform-generic-components"
 
 export interface GenericState {
   menu: MenuElement[] | undefined
@@ -192,6 +194,22 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       state.devices[id] = {
         ...device,
         state: deviceState,
+      }
+    }
+  })
+  // Helper action for setting custom generic config without a need of reloading the app
+  builder.addCase(setGenericConfig, (state, action) => {
+    const { deviceId, feature, config } = action.payload
+    if (state.devices[deviceId] !== undefined) {
+      state.devices[deviceId].features = {
+        ...state.devices[deviceId].features,
+        [feature]: {
+          config: transformGenericComponents({
+            ...state.devices[deviceId].features?.[feature].config,
+            ...config,
+          }),
+          data: state.devices[deviceId].features?.[feature]?.data,
+        },
       }
     }
   })
