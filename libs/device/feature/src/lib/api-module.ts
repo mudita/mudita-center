@@ -45,7 +45,10 @@ export class APIModule {
     this.apiFeaturesService = new APIFeaturesService(deviceProtocol)
     this.apiOutboxService = new APIOutboxService(deviceProtocol)
     this.apiMenuService = new APIMenuService(deviceProtocol)
-    this.apiEntitiesService = new APIEntitiesService(deviceProtocol)
+    this.apiEntitiesService = new APIEntitiesService(
+      deviceProtocol,
+      this.serviceBridge
+    )
     this.serverService = new ServerService()
     this.backupService = new APIBackupService(deviceProtocol)
     this.apiDataTransferService = new APIDataTransferService(deviceProtocol)
