@@ -65,9 +65,9 @@ describe("E2E mock sample - overview view", () => {
     await expect(backupModalDescription).toHaveText(
       "All backup data stays on your computer."
     )
-    //DODAC CANCEL TESTID NA MODALU
-    //const backupModalCancel = ModalBackupKompaktPage.backupModalCancel
-    //await expect(backupModalCancel).toBeClickable()
+
+    const backupModalCancel = ModalBackupKompaktPage.backupModalCancel
+    await expect(backupModalCancel).toBeClickable()
 
     const backupModalClose = ModalBackupKompaktPage.backupModalClose
     await expect(backupModalClose).toBeClickable()

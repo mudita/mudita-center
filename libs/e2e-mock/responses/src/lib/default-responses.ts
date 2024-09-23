@@ -166,7 +166,7 @@ export const DEFAULT_RESPONSES: MockResponsesMap = {
             type: "mc-overview-backup",
             title: "Backup",
             backupFeatures: [
-              { label: "Contacts list", key: "CONTACTS_LIST" },
+              { label: "Contact list", key: "CONTACTS_LIST" },
               { label: "Call log", key: "CALL_LOG" },
               { label: "Messages", key: "MESSAGES" },
               { label: "Notes", key: "NOTES" },
