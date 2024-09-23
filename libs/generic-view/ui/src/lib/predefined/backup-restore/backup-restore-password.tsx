@@ -5,7 +5,7 @@
 
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { useFormContext } from "react-hook-form"
 import { Modal } from "../../interactive/modal"
@@ -15,6 +15,7 @@ import { useSelector } from "react-redux"
 import { secureBackupPasswordRequest } from "device/feature"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Form } from "../../interactive/form/form"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -75,7 +76,7 @@ export const BackupRestorePassword: FunctionComponent<Props> = ({
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.confirmButtonLabel),
-            action: nextAction,
+            actions: [nextAction],
             disabled: !password,
           }}
         />

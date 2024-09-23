@@ -57,7 +57,7 @@ export const BackupSuccess: FunctionComponent<Props> = ({ onClose }) => {
         <ButtonText
           config={{
             text: intl.formatMessage(messages.openBackupButtonLabel),
-            action: { type: "custom", callback: openBackupCallback },
+            actions: [{ type: "custom", callback: openBackupCallback }],
             modifiers: ["uppercase", "link"],
             icon: IconType.Folder,
           }}
@@ -67,10 +67,7 @@ export const BackupSuccess: FunctionComponent<Props> = ({ onClose }) => {
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
-            action: {
-              type: "custom",
-              callback: onClose,
-            },
+            actions: [{ type: "custom", callback: onClose }],
           }}
         />
       </Modal.Buttons>

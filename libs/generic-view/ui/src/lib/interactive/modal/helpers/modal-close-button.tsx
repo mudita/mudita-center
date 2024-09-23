@@ -18,10 +18,10 @@ export const ModalCloseButton: APIFC<undefined, ModalCloseButtonConfig> = ({
   className = "",
   ...rest
 }) => {
-  if (!config?.action) return null
+  if (!config?.actions) return null
   return (
     <ModalClose
-      action={config.action}
+      actions={config.actions}
       data-testid={ModalCloseButtonTestIds.IconButton}
       className={"modal-close-icon-button " + className}
       {...rest}

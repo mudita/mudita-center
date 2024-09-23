@@ -48,13 +48,29 @@ export const customActionValidator = z.object({
   callback: z.function(),
 })
 
+export const entityActionValidator = z.object({
+  type: z.literal("entities-delete"),
+  entitiesType: z.string(),
+  ids: z.array(z.string()),
+})
+
+export type EntityAction = z.infer<typeof entityActionValidator>
+
 export type CustomAction = z.infer<typeof customActionValidator>
 
 export const formActionValidator = z.union([
   z.object({
     type: z.literal("form-set-field"),
     key: z.string(),
-    value: z.union([z.string(), z.number(), z.boolean()]).optional(),
+    value: z
+      .union([
+        z.string(),
+        z.number(),
+        z.boolean(),
+        z.array(z.unknown()),
+        z.record(z.union([z.string(), z.number()]), z.unknown()),
+      ])
+      .optional(),
   }),
   z.object({
     type: z.literal("form-toggle-field"),
@@ -65,11 +81,15 @@ export const formActionValidator = z.union([
   }),
 ])
 
-export const buttonActionValidator = z.union([
-  modalActionValidator,
-  navigateActionValidator,
-  customActionValidator,
-  formActionValidator,
-])
+export const buttonActionsValidator = z.array(
+  z.union([
+    modalActionValidator,
+    navigateActionValidator,
+    customActionValidator,
+    formActionValidator,
+    entityActionValidator,
+  ])
+)
 
-export type ButtonAction = z.infer<typeof buttonActionValidator>
+export type ButtonActions = z.infer<typeof buttonActionsValidator>
+export type ButtonAction = ButtonActions[number]

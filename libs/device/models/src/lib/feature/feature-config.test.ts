@@ -10,20 +10,24 @@ const featureConfig: FeatureConfig = {
     component: "button-text",
     config: {
       text: "dummy",
-      action: {
-        type: "custom",
-        callback: jest.fn,
-      },
+      actions: [
+        {
+          type: "custom",
+          callback: jest.fn,
+        },
+      ],
     },
   },
   "dummy-2": {
     component: "button-primary",
     config: {
       text: "dummy",
-      action: {
-        type: "custom",
-        callback: jest.fn,
-      },
+      actions: [
+        {
+          type: "custom",
+          callback: jest.fn,
+        },
+      ],
     },
     dataProvider: {
       source: "entities-field",

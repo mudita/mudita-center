@@ -68,4 +68,65 @@ describe("dataProviderSchema", () => {
     }
     expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
   })
+
+  it("validates form-fields", () => {
+    const validData = {
+      source: "form-fields",
+      fields: {
+        dataItemId: "value1",
+        "config.someField": "value2",
+        "config.otherField": {
+          field: "value3",
+          modifier: "boolean",
+          condition: "eq",
+          value: true,
+        },
+      },
+    }
+    expect(dataProviderSchema.safeParse(validData).success).toBe(true)
+  })
+
+  it("fails validation for form-fields with invalid modifier", () => {
+    const invalidData = {
+      source: "form-fields",
+      fields: {
+        "config.someField": {
+          field: "value",
+          modifier: "invalid",
+          condition: "eq",
+          value: "value",
+        },
+      },
+    }
+    expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
+  })
+
+  it("fails validation for form-fields with invalid condition", () => {
+    const invalidData = {
+      source: "form-fields",
+      fields: {
+        "config.someField": {
+          field: "value",
+          modifier: "length",
+          condition: "invalid",
+          value: "value",
+        },
+      },
+    }
+    expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
+  })
+
+  it("fails validation for form-fields with missing value", () => {
+    const invalidData = {
+      source: "form-fields",
+      fields: {
+        "config.someField": {
+          field: "value",
+          modifier: "length",
+          condition: "eq",
+        },
+      },
+    }
+    expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
+  })
 })

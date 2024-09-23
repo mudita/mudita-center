@@ -97,10 +97,12 @@ const RecoveryModeUI: FunctionComponent = () => {
             <ButtonPrimary
               config={{
                 text: intl.formatMessage(messages.button),
-                action: {
-                  type: "custom",
-                  callback: onStartRecovery,
-                },
+                actions: [
+                  {
+                    type: "custom",
+                    callback: onStartRecovery,
+                  },
+                ],
                 disabled: !isConfirmed,
               }}
             />
