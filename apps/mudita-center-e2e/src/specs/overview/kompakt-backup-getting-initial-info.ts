@@ -46,13 +46,13 @@ describe("E2E mock sample - overview view", () => {
   it("Verify modal in scope of available backup options, verify text and buttons", async () => {
     const contactList = await ModalBackupKompaktPage.contactList
     await expect(contactList).toBeDisplayed()
-    const contactListText = await contactList.getProperty("textContent")
+    const contactListText = await contactList?.getProperty("textContent")
     expect(contactListText).toContain("Contacts list")
     expect(contactListText).not.toContain("Coming soon!")
 
     const callLog = await ModalBackupKompaktPage.callLog
     await expect(callLog).toBeDisplayed()
-    const callLogText = await callLog.getProperty("textContent")
+    const callLogText = await callLog?.getProperty("textContent")
     expect(callLogText).toContain("Call log")
     expect(callLogText).not.toContain("Coming soon!")
 
