@@ -142,6 +142,8 @@ jobs:
           cd apps/mudita-center-e2e
           npm run e2e:test:cicd
       - name: Run E2E tests headless on Windows
+        env:
+          TEST_BINARY_PATH: 'C:\actions-runner\_work\mudita-center\mudita-center\apps\mudita-center\release\win-unpacked\Mudita Center.exe'
         if: matrix.os == 'Windows'
         run: |
           cd apps/mudita-center-e2e
