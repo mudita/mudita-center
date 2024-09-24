@@ -54,7 +54,7 @@ jobs:
         env:
           E2ECI: "true"
           TEST_GITHUB_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          TEST_BINARY_PATH: "/Users/muditacenterrelease/actions-runner/deploy/mudita-center/mudita-center/apps/mudita-center/release/mac/Mudita Center.app"
+          TEST_BINARY_PATH: "/Users/muditacenterrelease/actions-runner/deploy/mudita-center/mudita-center/apps/mudita-center/release/Mudita-Center.dmg"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
@@ -139,7 +139,7 @@ jobs:
       - name: Run E2E tests headless on macOS
         if: matrix.os == 'macOS'
         env:
-          TEST_BINARY_PATH: "/Users/muditacenterrelease/actions-runner/deploy/mudita-center/mudita-center/apps/mudita-center/release/mac/Mudita Center.app"
+          TEST_BINARY_PATH: "/Users/muditacenterrelease/actions-runner/deploy/mudita-center/mudita-center/apps/mudita-center/release/Mudita-Center.dmg"
         run: |
           cd apps/mudita-center-e2e
           npm run e2e:test:cicd
