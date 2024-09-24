@@ -4,3 +4,5 @@
  */
 
 export * from "./feature-config"
+export * from "./layout-config"
+export * from "./data-provider-config"

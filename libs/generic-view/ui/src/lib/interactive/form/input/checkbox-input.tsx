@@ -27,7 +27,12 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
   })
 
   return (
-    <Wrapper {...props}>
+    <Wrapper
+      {...props}
+      onClick={(e) => {
+        e.stopPropagation()
+      }}
+    >
       <Input
         id={"checkbox-" + id}
         type={"checkbox"}
@@ -44,7 +49,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
         <InputBox>
           <CheckIcon />
         </InputBox>
-        {children || config.label}
+        {children || (config.label ? <span>{config.label}</span> : null)}
       </Label>
     </Wrapper>
   )
@@ -87,10 +92,14 @@ const InputBox = styled.div`
   align-self: baseline;
   border-radius: ${({ theme }) => theme.radius.xs};
   border: 0.1rem solid ${({ theme }) => theme.color.grey4};
-  margin: 0 1.4rem 0 0;
+  margin: 0;
   transition: background-color 0.2s ease-in-out;
   overflow: hidden;
   box-sizing: border-box;
+
+  & + * {
+    margin-left: 1.4rem;
+  }
 
   ${CheckIcon} {
     opacity: 0;

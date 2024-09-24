@@ -28,9 +28,27 @@ export interface NavigateAction {
   viewKey: string
 }
 
+export type FormAction =
+  | {
+      type: "form-set-field"
+      key: string
+      value?: string | number | boolean
+    }
+  | {
+      type: "form-toggle-field"
+      key: string
+    }
+  | {
+      type: "form-reset"
+    }
+
 export interface CustomAction {
   type: "custom"
   callback: VoidFunction
 }
 
-export type ButtonAction = ModalAction | NavigateAction | CustomAction
+export type ButtonAction =
+  | ModalAction
+  | NavigateAction
+  | FormAction
+  | CustomAction

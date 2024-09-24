@@ -11,6 +11,7 @@ import Tooltip from "./tooltip/tooltip"
 import {
   form,
   formCheckboxInput,
+  formConditionalRenderer,
   formRadioInput,
   formSearchInput,
   formTextInput,
@@ -44,6 +45,7 @@ export const interactive = {
   [formSearchInput.key]: Form.SearchInput,
   [formRadioInput.key]: Form.RadioInput,
   [formCheckboxInput.key]: Form.CheckboxInput,
+  [formConditionalRenderer.key]: Form.ConditionalRenderer,
   [progressBar.key]: ProgressBar,
   [tooltip.key]: Tooltip,
   [tooltipAnchor.key]: Tooltip.Anchor,
