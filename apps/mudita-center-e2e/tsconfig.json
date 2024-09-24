@@ -10,9 +10,8 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "target": "es5",
-    "outDir": "./dist",
-    "typeRoots": ["./node_modules/@types", "./typings"]
+    "outDir": "./dist"
   },
-  "include": ["src/**/*", "./wdio.conf.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
