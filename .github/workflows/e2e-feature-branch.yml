@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [Windows]
+        os: [macOS]
     environment: development
     steps:
       - name: Checkout code
@@ -138,6 +138,8 @@ jobs:
           npm run e2e:test:linux
       - name: Run E2E tests headless on macOS
         if: matrix.os == 'macOS'
+        env:
+          TEST_BINARY_PATH: "./apps/mudita-center/release/Mudita-Center.dmg"
         run: |
           cd apps/mudita-center-e2e
           npm run e2e:test:cicd
