@@ -142,7 +142,6 @@ jobs:
           cd apps/mudita-center-e2e
           npm run e2e:test:cicd
       - name: Run E2E tests headless on Windows
-        env:
         if: matrix.os == 'Windows'
         run: |
           cd apps/mudita-center-e2e
