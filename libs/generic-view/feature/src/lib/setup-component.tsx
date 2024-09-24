@@ -24,7 +24,7 @@ import {
   RecursiveComponent,
 } from "generic-view/utils"
 import { DataProviderExtendedField, EntityData, Layout } from "device/models"
-import { set } from "lodash"
+import { cloneDeep, set } from "lodash"
 import { useFormContext } from "react-hook-form"
 
 export const setupComponent = <P extends object>(
@@ -79,13 +79,11 @@ export const setupComponent = <P extends object>(
       }) as EntityData
     })
 
-    const editableProps = JSON.parse(
-      JSON.stringify({
-        ...dataProps,
-        config,
-        data: componentData,
-      })
-    )
+    const editableProps = cloneDeep({
+      ...dataProps,
+      config,
+      data: componentData,
+    })
 
     if (dataProvider?.source === "entities-array") {
       const filteredData = dataProviderFilter(
