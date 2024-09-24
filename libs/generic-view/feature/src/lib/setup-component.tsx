@@ -169,33 +169,39 @@ export const setupComponent = <P extends object>(
 
 const processFormFields = (
   field: DataProviderExtendedField,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any
+  value: unknown
 ) => {
   let newValue = value
   switch (field.modifier) {
     case "length":
-      newValue = value.length
+      if (value instanceof String || value instanceof Array) {
+        newValue = value.length
+      }
       break
     case "boolean":
       newValue = Boolean(value)
       break
   }
-  switch (field.condition) {
-    case "eq":
-      newValue = newValue === field.value
-      break
-    case "ne":
-      newValue = newValue !== field.value
-      break
-    case "gt":
-      newValue = newValue > field.value
-      break
-    case "lt":
-      newValue = newValue < field.value
-      break
+  if ("condition" in field) {
+    switch (field.condition) {
+      case "eq":
+        newValue = newValue === field.value
+        break
+      case "ne":
+        newValue = newValue !== field.value
+        break
+      case "gt":
+        if (newValue instanceof Number) {
+          newValue = newValue > field.value
+        }
+        break
+      case "lt":
+        if (newValue instanceof Number) {
+          newValue = newValue < field.value
+        }
+        break
+    }
   }
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return newValue
 }
 
