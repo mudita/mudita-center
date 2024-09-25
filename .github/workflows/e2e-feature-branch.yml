@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.16.1
-      - name: Setup environment variables
+      - name: Setup environment variables for Linux
         if: matrix.os == 'Linux'
         env:
           E2ECI: "true"
