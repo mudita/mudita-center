@@ -10,6 +10,7 @@ import RecursiveLayout from "./recursive-layout"
 import GenericModals from "./generic-modals"
 import { useDevConsole } from "./use-dev-console"
 import { useDevViews } from "./use-dev-views/use-dev-views"
+import { GenericToasts } from "./generic-toasts"
 
 export const GenericView: FunctionComponent = () => {
   useDevConsole()
@@ -24,6 +25,7 @@ export const GenericView: FunctionComponent = () => {
     <GenericThemeProvider>
       <RecursiveLayout viewKey={currentViewKey} componentKey={"main"} />
       <GenericModals viewKey={currentViewKey} />
+      <GenericToasts viewKey={currentViewKey} />
     </GenericThemeProvider>
   )
 }
