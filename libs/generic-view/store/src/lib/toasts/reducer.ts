@@ -8,7 +8,6 @@ import { openToast, removeToast } from "./actions"
 
 export interface Toast {
   key: string
-  opened?: boolean
 }
 
 interface GenericState {
