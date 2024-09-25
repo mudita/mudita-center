@@ -23,8 +23,8 @@ import {
   mapLayoutSizes,
   RecursiveComponent,
 } from "generic-view/utils"
-import { EntityData, Layout } from "device/models"
-import { set } from "lodash"
+import { DataProviderExtendedField, EntityData, Layout } from "device/models"
+import { cloneDeep, set } from "lodash"
 import { useFormContext } from "react-hook-form"
 
 export const setupComponent = <P extends object>(
@@ -79,17 +79,13 @@ export const setupComponent = <P extends object>(
       }) as EntityData
     })
 
-    const editableProps = {
+    const editableProps = cloneDeep({
       ...dataProps,
-      config: {
-        ...config,
-      },
-      data: undefined as unknown,
-    }
+      config,
+      data: componentData,
+    })
 
-    if (!dataProvider) {
-      editableProps.data = componentData
-    } else if (dataProvider?.source === "entities-array") {
+    if (dataProvider?.source === "entities-array") {
       const filteredData = dataProviderFilter(
         [...entitiesData],
         dataProvider.filters
@@ -99,20 +95,28 @@ export const setupComponent = <P extends object>(
     } else if (dataProvider?.source === "entities-field") {
       if (entityData) {
         for (const [key, field] of Object.entries(dataProvider.fields)) {
-          const value = entityData[field]
-          if (value === undefined) continue
-          set(editableProps || {}, key, value)
+          if (typeof field === "string") {
+            const value = entityData[field]
+            set(editableProps || {}, key, value)
+          } else {
+            const value = processFormFields(field, entityData[field.field])
+            set(editableProps || {}, key, value)
+          }
         }
       }
     } else if (dataProvider?.source === "form-fields") {
       for (const [key, field] of Object.entries(dataProvider.fields)) {
-        const value = formContext.getValues(field)
-        if (value === undefined) continue
-        if (key === "dataItemId") {
-          dataItemId = value
-          continue
+        if (typeof field === "string") {
+          const value = formContext.watch(field)
+          if (key === "dataItemId") {
+            dataItemId = value
+            continue
+          }
+          set(editableProps || {}, key, value)
+        } else {
+          const value = processFormFields(field, formContext.watch(field.field))
+          set(editableProps || {}, key, value)
         }
-        set(editableProps, key, value)
       }
     }
     const editablePropsDependency = JSON.stringify(editableProps)
@@ -161,6 +165,44 @@ export const setupComponent = <P extends object>(
       dataProviderDependency,
     ])
   }
+}
+
+const processFormFields = (
+  field: DataProviderExtendedField,
+  value: unknown
+) => {
+  let newValue = value
+  switch (field.modifier) {
+    case "length":
+      if (value instanceof String || value instanceof Array) {
+        newValue = value.length
+      }
+      break
+    case "boolean":
+      newValue = Boolean(value)
+      break
+  }
+  if ("condition" in field) {
+    switch (field.condition) {
+      case "eq":
+        newValue = newValue === field.value
+        break
+      case "ne":
+        newValue = newValue !== field.value
+        break
+      case "gt":
+        if (newValue instanceof Number) {
+          newValue = newValue > field.value
+        }
+        break
+      case "lt":
+        if (newValue instanceof Number) {
+          newValue = newValue < field.value
+        }
+        break
+    }
+  }
+  return newValue
 }
 
 const wrapperStyles = css<{

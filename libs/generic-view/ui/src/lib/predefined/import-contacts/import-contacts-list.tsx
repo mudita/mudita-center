@@ -11,7 +11,7 @@ import React, {
 } from "react"
 import { defineMessages } from "react-intl"
 import { Modal } from "../../interactive/modal"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { ButtonPrimary } from "../../buttons/button-primary"
@@ -22,6 +22,7 @@ import { getDisplayName, importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
 import { Divider } from "../../helpers/divider"
 import { Form } from "../../interactive/form/form"
+import { ButtonAction } from "generic-view/models"
 
 export const SELECTED_CONTACTS_FIELD = "selected-contacts"
 export const ALL_CONTACTS_FIELD = "all-contacts"
@@ -130,7 +131,7 @@ export const ImportContactsList: FunctionComponent<Props> = ({
             text: intl.formatMessage(messages.importButtonText, {
               count: selectedContacts?.length || 0,
             }),
-            action: nextAction,
+            actions: [nextAction],
             disabled: !selectedContacts || selectedContacts.length === 0,
           }}
         />

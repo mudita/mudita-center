@@ -101,6 +101,7 @@ export * from "./lib/table"
 export * from "./lib/table-cell"
 export * from "./lib/form-conditional-renderer"
 export * from "./lib/entities-loader"
+export * from "./lib/common-validators"
 
 export default {
   [blockBox.key]: blockBox,

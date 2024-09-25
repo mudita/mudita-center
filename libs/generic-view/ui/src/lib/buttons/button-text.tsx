@@ -20,7 +20,7 @@ export const ButtonText: APIFC<undefined, ButtonTextConfig> = ({
     <Button
       data-testid={`button-text_${props.componentKey}`}
       {...props}
-      action={config.action}
+      actions={config.actions}
       $modifiers={config.modifiers}
     >
       {children}
