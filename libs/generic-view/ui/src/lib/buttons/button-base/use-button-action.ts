@@ -9,6 +9,7 @@ import {
   closeModal,
   deleteEntitiesDataAction,
   openModal,
+  openToast,
   replaceModal,
   selectActiveApiDeviceId,
   useScreenTitle,
@@ -89,6 +90,9 @@ export const useButtonAction = (viewKey: string) => {
               deviceId: activeDeviceId,
             })
           )
+          break
+        case "open-toast":
+          dispatch(openToast(action.toastKey))
           break
         case "custom":
           action.callback()

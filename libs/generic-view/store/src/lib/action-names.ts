@@ -25,6 +25,9 @@ export enum ActionName {
   CloseDomainModals = "generic-modals/close-domain-modals",
   SetDeviceErrorModalOpened = "generic-modals/set-device-error-modal-opened",
 
+  OpenToast = "generic-toasts/open-toast",
+  RemoveToast = "generic-toasts/remove-toast",
+
   SetBackupProcess = "generic-backups/set-backup-process",
   CleanBackupProcess = "generic-backups/clean-backup-process",
   BackupProcessStatus = "generic-backups/backup-process-status",

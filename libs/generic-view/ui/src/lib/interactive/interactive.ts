@@ -8,6 +8,7 @@ import { TextModal } from "./modal/text-modal"
 import { ProgressBar } from "./progress-bar/progress-bar"
 import Form from "./form/form"
 import Tooltip from "./tooltip/tooltip"
+import { Toast } from "./toast/toast"
 import {
   form,
   formCheckboxInput,
@@ -25,6 +26,7 @@ import {
   modalVisibilityController,
   progressBar,
   textModal,
+  toast,
   tooltip,
   tooltipAnchor,
   tooltipContent,
@@ -50,4 +52,5 @@ export const interactive = {
   [tooltip.key]: Tooltip,
   [tooltipAnchor.key]: Tooltip.Anchor,
   [tooltipContent.key]: Tooltip.Content,
+  [toast.key]: Toast,
 }

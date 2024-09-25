@@ -81,6 +81,11 @@ export const formActionValidator = z.union([
   }),
 ])
 
+export const toastActionValidator = z.object({
+  type: z.literal("open-toast"),
+  toastKey: z.string(),
+})
+
 export const buttonActionsValidator = z.array(
   z.union([
     modalActionValidator,
@@ -88,6 +93,7 @@ export const buttonActionsValidator = z.array(
     customActionValidator,
     formActionValidator,
     entityActionValidator,
+    toastActionValidator,
   ])
 )
 
