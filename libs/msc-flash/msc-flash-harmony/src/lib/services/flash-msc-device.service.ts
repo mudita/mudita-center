@@ -16,6 +16,7 @@ import getAppSettingsMain from "Core/__deprecated__/main/functions/get-app-setti
 
 const IMAGE_FILE_NAME = "BellHybrid.img"
 import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
+import { removeDownloadedMscFiles } from "./remove-downloaded-msc-files.service"
 
 export const flashMscDeviceService =
   () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
@@ -28,10 +29,12 @@ export const flashMscDeviceService =
         await downloadFlashingFiles(dispatch, flashingFiles)
         await unpackFlashingImage(dispatch, flashingFiles)
         await startFlashingProcess(dispatch, flashingFiles)
+        await removeDownloadedMscFiles()
       }
     } catch (error) {
       console.error("Error during flashing process:", error)
       dispatch(setFlashingProcessState(FlashingProcessState.Failed))
+      await removeDownloadedMscFiles()
     }
   }
 
@@ -113,8 +116,7 @@ const startFlashingProcess = async (
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
 
     dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
-  } catch (error) {
-    console.error("Flash process failed with error: ", error)
-    dispatch(setFlashingProcessState(FlashingProcessState.Failed))
+  } catch (error: any) {
+    throw new Error(`Flash process failed with error: ${error}`)
   }
 }
