@@ -22,10 +22,10 @@ import {
   dataProviderSort,
   mapLayoutSizes,
   RecursiveComponent,
+  useViewFormContext,
 } from "generic-view/utils"
 import { DataProviderExtendedField, EntityData, Layout } from "device/models"
 import { cloneDeep, get, set } from "lodash"
-import { useFormContext } from "react-hook-form"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -40,7 +40,8 @@ export const setupComponent = <P extends object>(
       ...dataProps
     } = props
     const deviceId = useSelector(selectActiveApiDeviceId)!
-    const formContext = useFormContext()
+    const getFormContext = useViewFormContext()
+
     let dataItemId = props.dataItemId
     const layout = useSelector((state: ReduxRootState) => {
       return selectComponentLayout(state, { viewKey, componentKey })
@@ -105,6 +106,7 @@ export const setupComponent = <P extends object>(
         }
       }
     } else if (dataProvider?.source === "form-fields") {
+      const formContext = getFormContext(dataProvider.formKey)
       for (const [key, field] of Object.entries(dataProvider.fields)) {
         if (typeof field === "string") {
           const value = formContext.watch(field)
@@ -114,7 +116,8 @@ export const setupComponent = <P extends object>(
           }
           set(editableProps || {}, key, value)
         } else {
-          const value = processFormFields(field, formContext.watch(field.field))
+          const fieldValue = formContext.watch(field.field)
+          const value = processFormFields(field, fieldValue)
           set(editableProps || {}, key, value)
         }
       }
@@ -169,7 +172,7 @@ export const setupComponent = <P extends object>(
 
 const processFormFields = (
   field: DataProviderExtendedField,
-  value: unknown
+  value: unknown,
 ) => {
   let newValue = value
   switch (field.modifier) {

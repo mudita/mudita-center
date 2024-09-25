@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { APIFC } from "generic-view/utils"
+import { APIFC, useViewFormRegister } from "generic-view/utils"
 import { FormProvider, useForm } from "react-hook-form"
 import { TextInput } from "./input/text-input"
 import { RadioInput } from "./input/radio-input"
@@ -19,11 +19,12 @@ export const Form: APIFC<undefined, FormConfig> & {
   CheckboxInput: typeof CheckboxInput
   SearchInput: typeof SearchInput
   ConditionalRenderer: typeof FormConditionalRenderer
-} = ({ config, children }) => {
+} = ({ config, children, componentKey }) => {
   const methods = useForm({
     mode: "onTouched",
     ...config?.formOptions,
   })
+  useViewFormRegister(componentKey!, methods)
   return <FormProvider {...methods}>{children}</FormProvider>
 }
 Form.TextInput = TextInput
