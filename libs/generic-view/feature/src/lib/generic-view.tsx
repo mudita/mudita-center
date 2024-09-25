@@ -11,6 +11,7 @@ import GenericModals from "./generic-modals"
 import { useDevConsole } from "./use-dev-console"
 import { useDevViews } from "./use-dev-views/use-dev-views"
 import { GenericToasts } from "./generic-toasts"
+import { FormsProvider } from "generic-view/utils"
 
 export const GenericView: FunctionComponent = () => {
   useDevConsole()
@@ -23,9 +24,11 @@ export const GenericView: FunctionComponent = () => {
 
   return (
     <GenericThemeProvider>
-      <RecursiveLayout viewKey={currentViewKey} componentKey={"main"} />
-      <GenericModals viewKey={currentViewKey} />
-      <GenericToasts viewKey={currentViewKey} />
+      <FormsProvider>
+        <RecursiveLayout viewKey={currentViewKey} componentKey={"main"} />
+        <GenericModals viewKey={currentViewKey} />
+        <GenericToasts viewKey={currentViewKey} />
+      </FormsProvider>
     </GenericThemeProvider>
   )
 }

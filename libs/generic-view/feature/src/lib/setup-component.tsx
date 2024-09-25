@@ -3,9 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentType, ReactElement, useMemo } from "react"
+import React, {
+  ComponentType,
+  CSSProperties,
+  ReactElement,
+  useMemo,
+} from "react"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import styled, { css } from "styled-components"
 import { useSelector } from "react-redux"
 import {
   selectActiveApiDeviceId,
@@ -22,10 +26,10 @@ import {
   dataProviderSort,
   mapLayoutSizes,
   RecursiveComponent,
+  useViewFormContext,
 } from "generic-view/utils"
 import { DataProviderExtendedField, EntityData, Layout } from "device/models"
 import { cloneDeep, get, set } from "lodash"
-import { useFormContext } from "react-hook-form"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -40,7 +44,8 @@ export const setupComponent = <P extends object>(
       ...dataProps
     } = props
     const deviceId = useSelector(selectActiveApiDeviceId)!
-    const formContext = useFormContext()
+    const getFormContext = useViewFormContext()
+
     let dataItemId = props.dataItemId
     const layout = useSelector((state: ReduxRootState) => {
       return selectComponentLayout(state, { viewKey, componentKey })
@@ -105,6 +110,7 @@ export const setupComponent = <P extends object>(
         }
       }
     } else if (dataProvider?.source === "form-fields") {
+      const formContext = getFormContext(dataProvider.formKey)
       for (const [key, field] of Object.entries(dataProvider.fields)) {
         if (typeof field === "string") {
           const value = formContext.watch(field)
@@ -114,22 +120,29 @@ export const setupComponent = <P extends object>(
           }
           set(editableProps || {}, key, value)
         } else {
-          const value = processFormFields(field, formContext.watch(field.field))
+          const fieldValue = formContext.watch(field.field)
+          const value = processFormFields(field, fieldValue)
           set(editableProps || {}, key, value)
         }
       }
     }
     const editablePropsDependency = JSON.stringify(editableProps)
     const layoutDependency = JSON.stringify(layout)
+    const styleDependency = JSON.stringify(style)
     const dataProviderDependency = JSON.stringify(dataProvider)
 
+    const styles = useMemo(() => {
+      return setupStyles(style, layout)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [layoutDependency, styleDependency])
+
     return useMemo(() => {
-      const ComponentWithProps = () => (
+      return (
         <Component
           {...(editableProps as P)}
           viewKey={viewKey}
           componentKey={componentKey}
-          style={style}
+          style={styles}
           className={className}
           dataItemId={dataItemId}
           componentName={componentName}
@@ -142,34 +155,24 @@ export const setupComponent = <P extends object>(
           })}
         </Component>
       )
-
-      if (layout) {
-        return (
-          <Wrapper $layout={layout}>
-            <ComponentWithProps />
-          </Wrapper>
-        )
-      }
-      return <ComponentWithProps />
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       children,
-      style,
       className,
       componentKey,
       viewKey,
       componentName,
       dataItemId,
-      layoutDependency,
       editablePropsDependency,
       dataProviderDependency,
+      styles,
     ])
   }
 }
 
 const processFormFields = (
   field: DataProviderExtendedField,
-  value: unknown
+  value: unknown,
 ) => {
   let newValue = value
   switch (field.modifier) {
@@ -205,63 +208,46 @@ const processFormFields = (
   return newValue
 }
 
-const wrapperStyles = css<{
-  $layout: Pick<
-    Layout,
-    "flexPlacement" | "gridPlacement" | "margin" | "padding"
-  >
-}>(({ $layout }) => ({
-  ...($layout.gridPlacement && {
-    gridRow: $layout.gridPlacement.row,
-    gridColumn: $layout.gridPlacement.column,
-    gridRowEnd: $layout.gridPlacement.row + $layout.gridPlacement.height,
-    gridColumnEnd: $layout.gridPlacement.column + $layout.gridPlacement.width,
-  }),
-  ...($layout.flexPlacement && {
-    flexGrow: $layout.flexPlacement.grow,
-    flexBasis: $layout.flexPlacement.basis,
-    flexShrink: $layout.flexPlacement.shrink,
-    alignSelf: $layout.flexPlacement.alignSelf,
-    order: $layout.flexPlacement.order,
-  }),
-  ...($layout.margin && {
-    margin: $layout.margin,
-  }),
-  ...($layout.padding && {
-    padding: $layout.padding,
-  }),
-}))
-
-const childStyles = css<{
-  $layout: Pick<Layout, "flexLayout" | "gridLayout">
-}>(({ $layout }) => ({
-  ...($layout.gridLayout && {
-    display: "grid",
-    gridTemplateRows: mapLayoutSizes($layout.gridLayout.rows),
-    gridTemplateColumns: mapLayoutSizes($layout.gridLayout.columns),
-    rowGap: $layout.gridLayout.rowGap || 0,
-    columnGap: $layout.gridLayout.columnGap || 0,
-    justifyContent: $layout.gridLayout.justifyContent,
-    alignItems: $layout.gridLayout.alignItems,
-    justifyItems: $layout.gridLayout.justifyItems,
-  }),
-  ...($layout.flexLayout && {
-    display: "flex",
-    flexDirection: $layout.flexLayout.direction,
-    justifyContent: $layout.flexLayout.justifyContent,
-    alignItems: $layout.flexLayout.alignItems,
-    flexWrap: $layout.flexLayout.wrap,
-    rowGap: $layout.flexLayout.rowGap || 0,
-    columnGap: $layout.flexLayout.columnGap || 0,
-  }),
-}))
-
-const Wrapper = styled.div<{ $layout: Layout }>`
-  ${wrapperStyles};
-
-  > * {
-    width: 100%;
-    height: 100%;
-    ${childStyles};
+const setupStyles = (style?: CSSProperties, layout?: Layout) => {
+  return {
+    ...style,
+    ...(layout?.gridPlacement && {
+      gridRow: layout.gridPlacement.row,
+      gridColumn: layout.gridPlacement.column,
+      gridRowEnd: layout.gridPlacement.row + layout.gridPlacement.height,
+      gridColumnEnd: layout.gridPlacement.column + layout.gridPlacement.width,
+    }),
+    ...(layout?.flexPlacement && {
+      flexGrow: layout.flexPlacement.grow,
+      flexBasis: layout.flexPlacement.basis,
+      flexShrink: layout.flexPlacement.shrink,
+      alignSelf: layout.flexPlacement.alignSelf,
+      order: layout.flexPlacement.order,
+    }),
+    ...(layout?.margin && {
+      margin: layout.margin,
+    }),
+    ...(layout?.padding && {
+      padding: layout.padding,
+    }),
+    ...(layout?.flexLayout && {
+      display: "flex",
+      flexDirection: layout.flexLayout.direction,
+      justifyContent: layout.flexLayout.justifyContent,
+      alignItems: layout.flexLayout.alignItems,
+      flexWrap: layout.flexLayout.wrap,
+      rowGap: layout.flexLayout.rowGap || 0,
+      columnGap: layout.flexLayout.columnGap || 0,
+    }),
+    ...(layout?.gridLayout && {
+      display: "grid",
+      gridTemplateRows: mapLayoutSizes(layout.gridLayout.rows),
+      gridTemplateColumns: mapLayoutSizes(layout.gridLayout.columns),
+      rowGap: layout.gridLayout.rowGap || 0,
+      columnGap: layout.gridLayout.columnGap || 0,
+      justifyContent: layout.gridLayout.justifyContent,
+      alignItems: layout.gridLayout.alignItems,
+      justifyItems: layout.gridLayout.justifyItems,
+    }),
   }
-`
+}
