@@ -51,12 +51,11 @@ export const useViewFormRegister = (formKey: string, form: UseFormReturn) => {
 }
 
 export const useViewFormContext = () => {
-  const formContext = useFormContext()
+  const defaultFormContext = useFormContext()
   const formsContext = useContext(FormsContext)
 
   return (formKey?: string) => {
-    return (
-      formKey ? formsContext.getFormContext(formKey) : formContext
-    ) as UseFormReturn
+    const formContext = formsContext.getFormContext(formKey)
+    return formContext ?? defaultFormContext
   }
 }
