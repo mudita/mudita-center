@@ -24,7 +24,7 @@ import {
   RecursiveComponent,
 } from "generic-view/utils"
 import { DataProviderExtendedField, EntityData, Layout } from "device/models"
-import { cloneDeep, set } from "lodash"
+import { cloneDeep, get, set } from "lodash"
 import { useFormContext } from "react-hook-form"
 
 export const setupComponent = <P extends object>(
@@ -96,7 +96,7 @@ export const setupComponent = <P extends object>(
       if (entityData) {
         for (const [key, field] of Object.entries(dataProvider.fields)) {
           if (typeof field === "string") {
-            const value = entityData[field]
+            const value = get(entityData, field)
             set(editableProps || {}, key, value)
           } else {
             const value = processFormFields(field, entityData[field.field])

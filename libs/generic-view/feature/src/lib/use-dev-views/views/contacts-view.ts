@@ -16,7 +16,70 @@ const view: View = {
         columns: ["1fr"],
       },
     },
-    childrenKeys: ["importContactsButton", "contactsLoader"],
+    childrenKeys: ["contactsPanel", "contactsLoader"],
+  },
+  contactsPanel: {
+    component: "block-box",
+    childrenKeys: ["contactsSearch", "contactsButtonActions"],
+    layout: {
+      gridLayout: {
+        rows: [],
+        columns: ["280px", "344px"],
+        justifyContent: "space-between",
+      },
+    },
+  },
+  contactsSearch: {
+    component: "form",
+    config: {
+      formOptions: {
+        defaultValues: {
+          searchedContact: undefined,
+        },
+      },
+    },
+    childrenKeys: ["contactsSearchWrapper"],
+  },
+  contactsSearchWrapper: {
+    component: "block-plain",
+    childrenKeys: ["contactsSearchInput"],
+  },
+  contactsSearchInput: {
+    component: "form.searchInput",
+    config: {
+      label: "Search all contacts",
+      name: "searchedContact",
+    },
+  },
+  contactsButtonActions: {
+    component: "modal.buttons",
+    childrenKeys: ["createContactsButton", "importContactsButton"],
+  },
+  importContactsButton: {
+    component: "button-primary",
+    config: {
+      text: "import contacts",
+      actions: [
+        {
+          type: "open-modal",
+          modalKey: "importContactsButton-modal",
+          domain: "import-contacts",
+        },
+      ],
+    },
+  },
+  createContactsButton: {
+    component: "button-secondary",
+    config: {
+      disabled: true,
+      text: "add contact",
+      actions: [
+        {
+          type: "custom",
+          callback: () => console.log("`createContactsButton` click!"),
+        },
+      ],
+    },
   },
   contactsLoader: {
     component: "entities-loader",
@@ -64,7 +127,7 @@ const view: View = {
           type: "form-set-field",
           key: "selectedContacts",
           value: [],
-        }
+        },
       ],
     },
   },
@@ -189,22 +252,22 @@ const view: View = {
       formFieldName: "activeContactId",
       renderIfFalse: true,
     },
-    childrenKeys: ["columnCompany"],
+    childrenKeys: ["columnPhoneNumber"],
   },
-  columnCompany: {
+  columnPhoneNumber: {
     component: "table.cell",
     config: {
       width: 200,
     },
-    childrenKeys: ["contactCompany"],
+    childrenKeys: ["contactPhoneNumber"],
   },
-  contactCompany: {
+  contactPhoneNumber: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: {
-        "data.text": "company",
+        "data.text": "phoneNumbers[0].phoneNumber",
       },
     },
   },
