@@ -16,13 +16,6 @@ const view: View = {
         columns: ["1fr"],
       },
     },
-    childrenKeys: ["importContactsButton", "contactsLoader"],
-  },
-  contactsLoader: {
-    component: "entities-loader",
-    config: {
-      entitiesTypes: ["contacts"],
-    },
     childrenKeys: ["contactsForm"],
   },
   contactsForm: {
@@ -30,13 +23,77 @@ const view: View = {
     config: {
       formOptions: {
         defaultValues: {
+          searchedContact: undefined,
           activeContactId: undefined,
           selectedContacts: [],
           totalContacts: 0,
         },
       },
     },
-    childrenKeys: ["deleteButton", "contactsFormWrapper"],
+    childrenKeys: ["contactsLoader"],
+  },
+  contactsLoader: {
+    component: "entities-loader",
+    config: {
+      entitiesTypes: ["contacts"],
+    },
+    childrenKeys: ["contactsPanel", "deleteButton", "contactsFormWrapper"],
+  },
+  contactsPanel: {
+    component: "block-plain",
+    childrenKeys: ["contactsSearchInput", "contactsButtonActions"],
+    layout: {
+      margin: "32px",
+      gridLayout: {
+        rows: [],
+        columns: ["280px", "344px"],
+        justifyContent: "space-between",
+      },
+    },
+  },
+  contactsSearchInput: {
+    component: "form.searchInput",
+    config: {
+      label: "Search all contacts",
+      name: "searchedContact",
+    },
+  },
+  contactsButtonActions: {
+    component: "block-plain",
+    layout: {
+      gridLayout: {
+        columns: ["1fr", "1fr"],
+        rows: [],
+        columnGap: "32px"
+      },
+    },
+    childrenKeys: ["createContactsButton", "importContactsButton"],
+  },
+  importContactsButton: {
+    component: "button-primary",
+    config: {
+      text: "import contacts",
+      actions: [
+        {
+          type: "open-modal",
+          modalKey: "importContactsButton-modal",
+          domain: "import-contacts",
+        },
+      ],
+    },
+  },
+  createContactsButton: {
+    component: "button-secondary",
+    config: {
+      disabled: true,
+      text: "add contact",
+      actions: [
+        {
+          type: "custom",
+          callback: () => console.log("`createContactsButton` click!"),
+        },
+      ],
+    },
   },
   deleteButton: {
     component: "button-primary",
@@ -64,7 +121,7 @@ const view: View = {
           type: "form-set-field",
           key: "selectedContacts",
           value: [],
-        }
+        },
       ],
     },
   },
@@ -189,22 +246,22 @@ const view: View = {
       formFieldName: "activeContactId",
       renderIfFalse: true,
     },
-    childrenKeys: ["columnCompany"],
+    childrenKeys: ["columnPhoneNumber"],
   },
-  columnCompany: {
+  columnPhoneNumber: {
     component: "table.cell",
     config: {
       width: 200,
     },
-    childrenKeys: ["contactCompany"],
+    childrenKeys: ["contactPhoneNumber"],
   },
-  contactCompany: {
+  contactPhoneNumber: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: {
-        "data.text": "company",
+        "data.text": "phoneNumbers[0].phoneNumber",
       },
     },
   },
