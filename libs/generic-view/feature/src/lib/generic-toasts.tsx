@@ -14,7 +14,7 @@ import styled from "styled-components"
 
 const selectToastsToRender = createSelector(selectViewConfig, (config) => {
   return Object.entries(config || {})
-    .filter(([, { component }]) => ["toast"].includes(component))
+    .filter(([, { component }]) => component === "toast")
     .map(([key]) => key)
 })
 
