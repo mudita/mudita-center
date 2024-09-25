@@ -16,33 +16,40 @@ const view: View = {
         columns: ["1fr"],
       },
     },
-    childrenKeys: ["contactsPanel", "contactsLoader"],
+    childrenKeys: ["contactsForm"],
+  },
+  contactsForm: {
+    component: "form",
+    config: {
+      formOptions: {
+        defaultValues: {
+          searchedContact: undefined,
+          activeContactId: undefined,
+          selectedContacts: [],
+          totalContacts: 0,
+        },
+      },
+    },
+    childrenKeys: ["contactsLoader"],
+  },
+  contactsLoader: {
+    component: "entities-loader",
+    config: {
+      entitiesTypes: ["contacts"],
+    },
+    childrenKeys: ["contactsPanel", "deleteButton", "contactsFormWrapper"],
   },
   contactsPanel: {
-    component: "block-box",
-    childrenKeys: ["contactsSearch", "contactsButtonActions"],
+    component: "block-plain",
+    childrenKeys: ["contactsSearchInput", "contactsButtonActions"],
     layout: {
+      margin: "32px",
       gridLayout: {
         rows: [],
         columns: ["280px", "344px"],
         justifyContent: "space-between",
       },
     },
-  },
-  contactsSearch: {
-    component: "form",
-    config: {
-      formOptions: {
-        defaultValues: {
-          searchedContact: undefined,
-        },
-      },
-    },
-    childrenKeys: ["contactsSearchWrapper"],
-  },
-  contactsSearchWrapper: {
-    component: "block-plain",
-    childrenKeys: ["contactsSearchInput"],
   },
   contactsSearchInput: {
     component: "form.searchInput",
@@ -52,7 +59,14 @@ const view: View = {
     },
   },
   contactsButtonActions: {
-    component: "modal.buttons",
+    component: "block-plain",
+    layout: {
+      gridLayout: {
+        columns: ["1fr", "1fr"],
+        rows: [],
+        columnGap: "32px"
+      },
+    },
     childrenKeys: ["createContactsButton", "importContactsButton"],
   },
   importContactsButton: {
@@ -80,26 +94,6 @@ const view: View = {
         },
       ],
     },
-  },
-  contactsLoader: {
-    component: "entities-loader",
-    config: {
-      entitiesTypes: ["contacts"],
-    },
-    childrenKeys: ["contactsForm"],
-  },
-  contactsForm: {
-    component: "form",
-    config: {
-      formOptions: {
-        defaultValues: {
-          activeContactId: undefined,
-          selectedContacts: [],
-          totalContacts: 0,
-        },
-      },
-    },
-    childrenKeys: ["deleteButton", "contactsFormWrapper"],
   },
   deleteButton: {
     component: "button-primary",
