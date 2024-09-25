@@ -136,6 +136,7 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=8096"
           export DISPLAY=:11
+          Xvfb :0 -ac -screen 0 1024x768x24 &
           npm run e2e:test:linux
       - name: Run E2E tests headless on macOS
         if: matrix.os == 'macOS'
