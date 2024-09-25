@@ -64,7 +64,7 @@ const view: View = {
       gridLayout: {
         columns: ["1fr", "1fr"],
         rows: [],
-        columnGap: "32px"
+        columnGap: "32px",
       },
     },
     childrenKeys: ["createContactsButton", "importContactsButton"],
@@ -118,11 +118,25 @@ const view: View = {
           ids: [],
         },
         {
+          type: "open-toast",
+          toastKey: "contactsDeletedToast",
+        },
+        {
           type: "form-set-field",
           key: "selectedContacts",
           value: [],
         },
       ],
+    },
+  },
+  contactsDeletedToast: {
+    component: "toast",
+    childrenKeys: ["contactsDeletedToastMessage"],
+  },
+  contactsDeletedToastMessage: {
+    component: "p1-component",
+    config: {
+      text: "Contacts deleted",
     },
   },
   contactsFormWrapper: {
