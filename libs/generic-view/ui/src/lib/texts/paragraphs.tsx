@@ -20,7 +20,7 @@ export const Paragraph1: APIFC<undefined, ParagraphConfig> = ({
   children,
   ...props
 }) => {
-  return <P1 {...props}>{isEmpty(children) ? config.text : children}</P1>
+  return <P1 {...props}>{isEmpty(children) ? config?.text : children}</P1>
 }
 
 export const P1 = styled.p`
@@ -35,7 +35,7 @@ export const Paragraph2: APIFC<undefined, ParagraphConfig> = ({
   children,
   ...props
 }) => {
-  return <P2 {...props}>{isEmpty(children) ? config.text : children}</P2>
+  return <P2 {...props}>{isEmpty(children) ? config?.text : children}</P2>
 }
 
 export const P2 = styled.p`
@@ -51,12 +51,28 @@ export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
   children,
   ...props
 }) => {
-  return <P3 {...props}>{isEmpty(children) ? config.text : children}</P3>
+  return <P3 {...props}>{isEmpty(children) ? config?.text : children}</P3>
 }
 
 export const P3 = styled.p`
   font-size: ${({ theme }) => theme.fontSize.paragraph3};
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+  letter-spacing: 0.02em;
+  ${commonStyles};
+`
+
+export const Paragraph4: APIFC<undefined, ParagraphConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <P4 {...props}>{isEmpty(children) ? config?.text : children}</P4>
+}
+
+export const P4 = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.paragraph4};
+  line-height: ${({ theme }) => theme.lineHeight.paragraph4};
+  font-weight: ${({ theme }) => theme.fontWeight.light};
   letter-spacing: 0.02em;
   ${commonStyles};
 `

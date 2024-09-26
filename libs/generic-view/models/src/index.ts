@@ -38,7 +38,12 @@ import { overviewOsVersion } from "./lib/overview-os-version"
 import { tooltipContent } from "./lib/tooltip-content"
 import { aboutDataBox } from "./lib/about-data-box"
 import { h3Component, h4Component, h5Component } from "./lib/headers"
-import { p1Component, p2Component, p3Component } from "./lib/paragraphs"
+import {
+  p1Component,
+  p2Component,
+  p3Component,
+  p4Component,
+} from "./lib/paragraphs"
 import { lastBackupDate } from "./lib/last-backup-date"
 import { backupCreate } from "./lib/backup-create"
 import { importContacts } from "./lib/import-contacts"
@@ -149,6 +154,7 @@ export default {
   [p1Component.key]: p1Component,
   [p2Component.key]: p2Component,
   [p3Component.key]: p3Component,
+  [p4Component.key]: p4Component,
   [overviewOsVersion.key]: overviewOsVersion,
   [aboutDataBox.key]: aboutDataBox,
   [lastBackupDate.key]: lastBackupDate,
