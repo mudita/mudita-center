@@ -1,5 +1,8 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
-import { overviewDataWithOneSimCard } from "../../../../../libs/e2e-mock/responses/src"
+import {
+  overviewConfigForBackup,
+  overviewDataWithOneSimCard,
+} from "../../../../../libs/e2e-mock/responses/src"
 import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page"
 
 describe("E2E mock sample - overview view", () => {
@@ -17,6 +20,13 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Connect device", async () => {
+    E2EMockClient.mockResponse({
+      path: "path-1",
+      body: overviewConfigForBackup,
+      endpoint: "FEATURE_CONFIGURATION",
+      method: "GET",
+      status: 200,
+    })
     E2EMockClient.mockResponse({
       path: "path-1",
       body: overviewDataWithOneSimCard,
@@ -125,8 +135,8 @@ describe("E2E mock sample - overview view", () => {
   it("Fill password for a backup, unhide it and verify value and design", async () => {
     const inputPassword = ModalBackupKompaktPage.inputPassword
     await inputPassword.click()
-    const randomString = Math.random().toString(36).substring(2, 10)
-    await inputPassword.setValue(randomString)
+    const randomPassword = Math.random().toString(36).substring(2, 10)
+    await inputPassword.setValue(randomPassword)
 
     const checkPassword = await inputPassword.getAttribute("type")
     await expect(checkPassword).toBe("password")
@@ -142,8 +152,8 @@ describe("E2E mock sample - overview view", () => {
   it("Fill repeat password for a backup, unhide it and verify value and design, verify (passwords do not match)", async () => {
     const repeatInputPassword = ModalBackupKompaktPage.repeatInputPassword
     await repeatInputPassword.click()
-    const randomString2 = Math.random().toString(36).substring(2, 10)
-    await repeatInputPassword.setValue(randomString2)
+    const randomPassword2 = Math.random().toString(36).substring(2, 10)
+    await repeatInputPassword.setValue(randomPassword2)
 
     const checkPassword = await repeatInputPassword.getAttribute("type")
     await expect(checkPassword).toBe("password")
