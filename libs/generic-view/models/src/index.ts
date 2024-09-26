@@ -53,6 +53,7 @@ import { tableCell } from "./lib/table-cell"
 import { entitiesLoader } from "./lib/entities-loader"
 import { conditionalRenderer } from "./lib/conditional-renderer"
 import { toast } from "./lib/toast"
+import { selectionManager } from "./lib/selection-manager"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -106,6 +107,7 @@ export * from "./lib/entities-loader"
 export * from "./lib/common-validators"
 export * from "./lib/conditional-renderer"
 export * from "./lib/toast"
+export * from "./lib/selection-manager"
 
 export default {
   [blockBox.key]: blockBox,
@@ -162,4 +164,5 @@ export default {
   [entitiesLoader.key]: entitiesLoader,
   [conditionalRenderer.key]: conditionalRenderer,
   [toast.key]: toast,
+  [selectionManager.key]: selectionManager,
 } as const
