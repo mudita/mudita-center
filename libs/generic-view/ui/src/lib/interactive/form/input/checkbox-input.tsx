@@ -65,10 +65,14 @@ const Wrapper = styled.div<{ $size: Config["size"] }>`
       case "small":
         return `
         ${InputBox} {
-          min-width: 1.8rem;
-          min-height: 1.8rem;
-          width: 1.8rem;
-          height: 1.8rem;
+          min-width: 1.6rem;
+          min-height: 1.6rem;
+          width: 1.6rem;
+          height: 1.6rem;
+        }
+        ${CheckIcon} {
+          width: 1.2rem;
+          height: 1.2rem;
         }
       `
       default:
