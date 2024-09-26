@@ -14,6 +14,7 @@ export const ModalTitleIcon: APIFC<undefined, ModalTitleIconConfig> = ({
   children,
   ...rest
 }) => {
+  // @ts-ignore
   return <TitleIcon config={config} {...rest} />
 }
 

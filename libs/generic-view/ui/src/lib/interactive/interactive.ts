@@ -9,7 +9,9 @@ import { ProgressBar } from "./progress-bar/progress-bar"
 import Form from "./form/form"
 import Tooltip from "./tooltip/tooltip"
 import { Toast } from "./toast/toast"
+import { ConditionalRenderer } from "./conditional-renderer"
 import {
+  conditionalRenderer,
   form,
   formatMessage,
   formCheckboxInput,
@@ -56,4 +58,5 @@ export const interactive = {
   [tooltipContent.key]: Tooltip.Content,
   [formatMessage.key]: FormatMessage,
   [toast.key]: Toast,
+  [conditionalRenderer.key]: ConditionalRenderer,
 }

@@ -20,7 +20,7 @@ export const ButtonPrimary: APIFC<undefined, ButtonPrimaryConfig> = ({
     <Button {...props} disabled={config.disabled} actions={config.actions}>
       {children}
       {config.icon && <Icon data={{ type: config.icon }} />}
-      <span>{config.text}</span>
+      {config.text ? <span>{config.text}</span> : null}
     </Button>
   )
 }
