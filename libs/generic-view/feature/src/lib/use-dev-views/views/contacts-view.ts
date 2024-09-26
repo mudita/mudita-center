@@ -16,6 +16,9 @@ const view: View = {
         columns: ["1fr"],
       },
     },
+    config: {
+      backgroundColor: "white",
+    },
     childrenKeys: ["contactsForm"],
   },
   contactsForm: {
@@ -46,7 +49,7 @@ const view: View = {
       margin: "32px",
       gridLayout: {
         rows: [],
-        columns: ["280px", "344px"],
+        columns: ["280px", "336px"],
         justifyContent: "space-between",
       },
     },
@@ -64,7 +67,7 @@ const view: View = {
       gridLayout: {
         columns: ["1fr", "1fr"],
         rows: [],
-        columnGap: "32px",
+        columnGap: "24px",
       },
     },
     childrenKeys: ["createContactsButton", "importContactsButton"],
@@ -140,7 +143,7 @@ const view: View = {
     },
   },
   contactsFormWrapper: {
-    component: "block-box",
+    component: "block-plain",
     layout: {
       flexLayout: {
         direction: "row",
@@ -175,12 +178,17 @@ const view: View = {
         totalItemsFieldName: "totalContacts",
       },
     },
-    childrenKeys: ["columnCheckbox", "columnName", "columnOptional"],
+    childrenKeys: [
+      "columnCheckbox",
+      "columnName",
+      "columnPhoneNumberOptional",
+      "columnPhoneNumberLengthOptional",
+    ],
   },
   columnCheckbox: {
     component: "table.cell",
     config: {
-      width: 40,
+      width: 70,
     },
     childrenKeys: ["contactCheckbox"],
   },
@@ -188,6 +196,7 @@ const view: View = {
     component: "form.checkboxInput",
     config: {
       name: "selectedContacts",
+      size: "small",
     },
     dataProvider: {
       source: "entities-field",
@@ -200,7 +209,7 @@ const view: View = {
   columnName: {
     component: "table.cell",
     config: {
-      width: 300,
+      width: 717,
     },
     childrenKeys: ["contactJoinedNames"],
   },
@@ -254,7 +263,7 @@ const view: View = {
       },
     },
   },
-  columnOptional: {
+  columnPhoneNumberOptional: {
     component: "form.conditionalRenderer",
     config: {
       formFieldName: "activeContactId",
@@ -265,7 +274,7 @@ const view: View = {
   columnPhoneNumber: {
     component: "table.cell",
     config: {
-      width: 200,
+      width: 135,
     },
     childrenKeys: ["contactPhoneNumber"],
   },
@@ -276,6 +285,31 @@ const view: View = {
       entitiesType: "contacts",
       fields: {
         "data.text": "phoneNumbers[0].phoneNumber",
+      },
+    },
+  },
+  columnPhoneNumberLengthOptional: {
+    component: "form.conditionalRenderer",
+    config: {
+      formFieldName: "activeContactId",
+      renderIfFalse: true,
+    },
+    childrenKeys: ["columnPhoneNumberLength"],
+  },
+  columnPhoneNumberLength: {
+    component: "table.cell",
+    config: {
+      width: 40,
+    },
+    childrenKeys: ["phoneNumberLength"],
+  },
+  phoneNumberLength: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "phoneNumbers.length",
       },
     },
   },
