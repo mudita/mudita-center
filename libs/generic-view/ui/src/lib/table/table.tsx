@@ -149,7 +149,7 @@ const TableWrapper = styled.table`
   position: absolute;
   top: 0;
   left: 0;
-  width: min-content;
+  width: 100%;
   max-height: 100%;
   border-collapse: collapse;
   border-spacing: 0;
@@ -179,12 +179,14 @@ const TableBody = styled.tbody`
 
 // TODO: Add proper styles for the table row
 const Row = styled.tr<{ $active?: boolean }>`
+  height: ${rowHeight / 10}rem;
+  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
+  border-left: 0.2rem solid transparent;
   ${({ $active }) =>
     $active &&
     css`
       border-left: 0.2rem solid #000;
     `}
-  height: ${rowHeight / 10}rem;
 `
 
 const RowPlaceholder = styled.tr`

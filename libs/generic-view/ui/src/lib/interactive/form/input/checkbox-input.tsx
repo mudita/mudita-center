@@ -60,6 +60,7 @@ const Wrapper = styled.div<{ $size: Config["size"] }>`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   ${({ $size }) => {
     switch ($size) {
       case "small":
@@ -87,10 +88,6 @@ const Wrapper = styled.div<{ $size: Config["size"] }>`
 `
 
 const Label = styled.label`
-  display: flex;
-  flex: 1;
-  align-items: center;
-  flex-direction: row;
   color: ${({ theme }) => theme.color.grey1};
   letter-spacing: 0.02em;
   font-size: ${({ theme }) => theme.fontSize.paragraph1};
