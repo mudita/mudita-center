@@ -17,19 +17,47 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { useFormContext } from "react-hook-form"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { ButtonActions } from "generic-view/models"
+import { useViewFormContext } from "generic-view/utils"
 
 export const useButtonAction = (viewKey: string) => {
   const dispatch = useDispatch<Dispatch>()
   const navigate = useHistory()
-  const currentViewName = useScreenTitle(viewKey)
-  const formContext = useFormContext()
+  const currentViewName = useScreenTitle(viewKey)!
+  const getFormContext = useViewFormContext()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)!
 
-  return async (actions?: ButtonActions) => {
+  return (actions: ButtonActions) =>
+    runActions(actions)({
+      dispatch,
+      navigate,
+      currentViewName,
+      getFormContext,
+      activeDeviceId,
+    })
+}
+
+interface RunActionsProviders {
+  dispatch: Dispatch
+  navigate: ReturnType<typeof useHistory>
+  currentViewName: string
+  getFormContext: ReturnType<typeof useViewFormContext>
+  activeDeviceId: string
+}
+
+const runActions = (actions?: ButtonActions) => {
+  return async (providers: RunActionsProviders) => {
     if (!actions) return
+
+    const {
+      dispatch,
+      navigate,
+      currentViewName,
+      getFormContext,
+      activeDeviceId,
+    } = providers
+
     for (const action of actions) {
       switch (action.type) {
         case "open-modal":
@@ -68,9 +96,10 @@ export const useButtonAction = (viewKey: string) => {
           })
           break
         case "form-set-field":
-          formContext.setValue(action.key, action.value)
+          getFormContext(action.formKey).setValue(action.key, action.value)
           break
-        case "form-toggle-field":
+        case "form-toggle-field": {
+          const formContext = getFormContext(action.formKey)
           if (typeof formContext.getValues(action.key) === "boolean") {
             formContext.setValue(action.key, !formContext.getValues(action.key))
           } else if (typeof formContext.getValues(action.key) === "undefined") {
@@ -79,8 +108,9 @@ export const useButtonAction = (viewKey: string) => {
             logger.error(`Tried to toggle non-boolean field: ${action.key}`)
           }
           break
+        }
         case "form-reset":
-          formContext.reset()
+          getFormContext(action.formKey)?.reset()
           break
         case "entities-delete":
           await dispatch(
@@ -88,6 +118,12 @@ export const useButtonAction = (viewKey: string) => {
               entitiesType: action.entitiesType,
               ids: action.ids,
               deviceId: activeDeviceId,
+              onSuccess: () => {
+                runActions(action.postActions?.success)(providers)
+              },
+              onError: () => {
+                runActions(action.postActions?.failure)(providers)
+              },
             })
           )
           break

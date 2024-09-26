@@ -48,20 +48,13 @@ export const customActionValidator = z.object({
   callback: z.function(),
 })
 
-export const entityActionValidator = z.object({
-  type: z.literal("entities-delete"),
-  entitiesType: z.string(),
-  ids: z.array(z.string()),
-})
-
-export type EntityAction = z.infer<typeof entityActionValidator>
-
 export type CustomAction = z.infer<typeof customActionValidator>
 
 export const formActionValidator = z.union([
   z.object({
     type: z.literal("form-set-field"),
     key: z.string(),
+    formKey: z.string().optional(),
     value: z
       .union([
         z.string(),
@@ -75,9 +68,11 @@ export const formActionValidator = z.union([
   z.object({
     type: z.literal("form-toggle-field"),
     key: z.string(),
+    formKey: z.string().optional(),
   }),
   z.object({
     type: z.literal("form-reset"),
+    formKey: z.string().optional(),
   }),
 ])
 
@@ -85,6 +80,32 @@ export const toastActionValidator = z.object({
   type: z.literal("open-toast"),
   toastKey: z.string(),
 })
+
+const entityPostActionsValidator = z
+  .array(
+    z.union([
+      modalActionValidator,
+      navigateActionValidator,
+      customActionValidator,
+      formActionValidator,
+      toastActionValidator,
+    ])
+  )
+  .optional()
+
+export const entityActionValidator = z.object({
+  type: z.literal("entities-delete"),
+  entitiesType: z.string(),
+  ids: z.array(z.string()),
+  postActions: z
+    .object({
+      success: entityPostActionsValidator,
+      failure: entityPostActionsValidator,
+    })
+    .optional(),
+})
+
+export type EntityAction = z.infer<typeof entityActionValidator>
 
 export const buttonActionsValidator = z.array(
   z.union([

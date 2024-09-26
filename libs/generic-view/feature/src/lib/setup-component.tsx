@@ -113,20 +113,27 @@ export const setupComponent = <P extends object>(
       const formContext = getFormContext(dataProvider.formKey)
       const isFormElement = componentName!.startsWith("form.")
 
+      if (componentKey === "contactsDeletedToastMessage") {
+        console.log(formContext.getValues())
+      }
+
       for (const [key, field] of Object.entries(dataProvider.fields)) {
         if (typeof field === "string") {
-          const value = isFormElement
-            ? formContext.getValues(field)
-            : formContext.watch(field)
+          const value =
+            isFormElement || dataProvider.dontWatch
+              ? formContext.getValues(field)
+              : formContext.watch(field)
           if (key === "dataItemId") {
             dataItemId = value
             continue
           }
           set(editableProps || {}, key, value)
         } else {
-          const fieldValue = isFormElement
-            ? formContext.getValues(field.field)
-            : formContext.watch(field.field)
+          const fieldValue =
+            isFormElement || dataProvider.dontWatch
+              ? formContext.getValues(field.field)
+              : formContext.watch(field.field)
+
           const value = processFormFields(field, fieldValue)
           set(editableProps || {}, key, value)
         }

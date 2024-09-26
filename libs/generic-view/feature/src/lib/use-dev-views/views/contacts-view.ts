@@ -30,7 +30,6 @@ const view: View = {
           activeContactId: undefined,
           selectedContacts: [],
           allContacts: [],
-          allContactsSelected: false,
         },
       },
     },
@@ -186,60 +185,175 @@ const view: View = {
   },
   deleteButton: {
     component: "button-text",
-    dataProvider: {
-      source: "form-fields",
-      fields: {
-        "config.actions[0].ids": "selectedContacts",
-      },
-    },
     config: {
       text: "Delete",
       icon: IconType.Delete,
       modifiers: ["uppercase"],
       actions: [
         {
-          type: "entities-delete",
-          entitiesType: "contacts",
-          ids: [],
-        },
-        {
-          type: "open-toast",
-          toastKey: "contactsDeletedToast",
-        },
-        {
-          type: "form-set-field",
-          key: "selectedContacts",
-          value: [],
+          type: "open-modal",
+          modalKey: "deleteModal",
+          domain: "contacts-delete",
         },
       ],
     },
   },
+  deleteModal: {
+    component: "modal",
+    config: {
+      size: "small",
+    },
+    childrenKeys: [
+      "deleteModalIcon",
+      "deleteModalTitle",
+      "deleteModalContent",
+      "deleteModalButtons",
+    ],
+  },
+  deleteModalIcon: {
+    component: "modal.titleIcon",
+    config: {
+      type: IconType.Exclamation,
+    },
+  },
+  deleteModalTitle: {
+    component: "modal.title",
+    config: {
+      text: "Delete contacts",
+    },
+  },
+  deleteModalContent: {
+    component: "p1-component",
+    config: {
+      text: "Are you sure you want to delete selected contacts?",
+    },
+  },
+  deleteModalButtons: {
+    component: "modal.buttons",
+    childrenKeys: ["deleteModalCancelButton", "deleteModalConfirmButton"],
+  },
+  deleteModalCancelButton: {
+    component: "button-secondary",
+    config: {
+      text: "Cancel",
+      actions: [
+        {
+          type: "close-modal",
+          modalKey: "deleteModal",
+        },
+      ],
+    },
+  },
+  deleteModalConfirmButton: {
+    component: "button-primary",
+    dataProvider: {
+      source: "form-fields",
+      formKey: "contactsForm",
+      fields: {
+        "config.actions[1].ids": "selectedContacts",
+      },
+    },
+    layout: {
+      flexLayout: {
+        direction: "row",
+        justifyContent: "center",
+      },
+    },
+    config: {
+      actions: [
+        {
+          type: "open-modal",
+          modalKey: "deleteProgressModal",
+          domain: "contacts-delete",
+        },
+        {
+          type: "entities-delete",
+          entitiesType: "contacts",
+          ids: [],
+          postActions: {
+            success: [
+              {
+                type: "open-toast",
+                toastKey: "contactsDeletedToast",
+              },
+              {
+                type: "close-domain-modals",
+                domain: "contacts-delete",
+              },
+            ],
+          },
+        },
+      ],
+    },
+    childrenKeys: ["deleteModalConfirmButtonText"],
+  },
+  deleteModalConfirmButtonText: {
+    component: "format-message",
+    dataProvider: {
+      source: "form-fields",
+      formKey: "contactsForm",
+      fields: {
+        "data.fields.selectedContacts": {
+          field: "selectedContacts",
+          modifier: "length",
+        },
+      },
+    },
+    config: {
+      messageTemplate: "Delete contacts ({selectedContacts})",
+    },
+  },
+  deleteProgressModal: {
+    component: "modal",
+    config: {
+      size: "small",
+    },
+    childrenKeys: ["deleteProgressModalIcon", "deleteProgressModalTitle"],
+  },
+  deleteProgressModalIcon: {
+    component: "modal.titleIcon",
+    config: {
+      type: IconType.SpinnerDark,
+    },
+  },
+  deleteProgressModalTitle: {
+    component: "modal.title",
+    config: {
+      text: "Deleting, please wait...",
+    },
+  },
   contactsDeletedToast: {
     component: "toast",
+    childrenKeys: ["contactsDeletedToastIcon", "contactsDeletedToastText"],
+  },
+  contactsDeletedToastIcon: {
+    component: "icon",
+    config: {
+      type: IconType.Success,
+    },
+  },
+  contactsDeletedToastText: {
+    component: "p1-component",
     childrenKeys: ["contactsDeletedToastMessage"],
   },
   contactsDeletedToastMessage: {
-    component: "p1-component",
+    component: "format-message",
+    dataProvider: {
+      source: "form-fields",
+      formKey: "contactsForm",
+      dontWatch: true,
+      fields: {
+        "data.fields.selectedContacts": {
+          field: "selectedContacts",
+          modifier: "length",
+        },
+      },
+    },
     config: {
-      text: "Contacts deleted",
+      messageTemplate:
+        "{selectedContacts} {selectedContacts, plural, one {contact} other {contacts}} deleted",
     },
   },
-  // deleteButtonText: {
-  //   component: "format-message",
-  //   dataProvider: {
-  //     source: "form-fields",
-  //     fields: {
-  //       "data.fields.selectedContacts": {
-  //         field: "selectedContacts",
-  //         modifier: "length",
-  //       },
-  //     },
-  //   },
-  //   config: {
-  //     messageTemplate:
-  //       "Delete {selectedContacts} {selectedContacts, plural, one {contact} other {contacts}}",
-  //   },
-  // },
   contactsFormWrapper: {
     component: "block-plain",
     layout: {
@@ -319,7 +433,7 @@ const view: View = {
     layout: {
       flexLayout: {
         direction: "row",
-        columnGap: "0.5rem",
+        columnGap: "5px",
       },
     },
     childrenKeys: ["contactFirstName", "contactLastName"],
@@ -329,7 +443,7 @@ const view: View = {
     layout: {
       flexLayout: {
         direction: "row",
-        columnGap: "0.5rem",
+        columnGap: "5px",
       },
     },
     childrenKeys: ["contactFirstNamePrefix", "contactFirstNameValue"],

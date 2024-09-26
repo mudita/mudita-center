@@ -25,7 +25,7 @@ export const ButtonText: APIFC<undefined, ButtonTextConfig> = ({
     >
       {children}
       {config.icon && <Icon className={"icon"} data={{ type: config.icon }} />}
-      <span>{config.text}</span>
+      {config.text}
     </Button>
   )
 }
@@ -34,17 +34,14 @@ const Button = styled(ButtonBase)<{
   $modifiers?: ButtonTextConfig["modifiers"]
 }>`
   color: ${({ theme }) => theme.color.grey1};
+  font-size: ${({ theme }) => theme.fontSize.buttonLink};
+  line-height: ${({ theme }) => theme.lineHeight.buttonLink};
+  letter-spacing: 0.05em;
+  text-transform: unset;
+  transition: color 0.15s ease-in-out;
 
   &:hover {
     color: ${({ theme }) => theme.color.black};
-  }
-
-  span {
-    font-size: ${({ theme }) => theme.fontSize.buttonLink};
-    line-height: ${({ theme }) => theme.lineHeight.buttonLink};
-    letter-spacing: 0.05em;
-    text-transform: unset;
-    transition: color 0.15s ease-in-out;
   }
 
   ${({ $modifiers }) => $modifiers?.includes("link") && buttonLinkModifier};
@@ -71,17 +68,15 @@ const buttonLinkModifier = css`
 `
 
 const buttonUpperCaseModifier = css`
-  span {
-    text-transform: uppercase;
-    font-size: ${({ theme }) => theme.fontSize.buttonText};
-    line-height: ${({ theme }) => theme.lineHeight.buttonText};
-    letter-spacing: 0.1em;
-    margin-top: 0.1rem;
-  }
+  text-transform: uppercase;
+  font-size: ${({ theme }) => theme.fontSize.buttonText};
+  line-height: ${({ theme }) => theme.lineHeight.buttonText};
+  letter-spacing: 0.1em;
+  margin-top: 0.1rem;
 `
 
 const buttonHoverUnderlineModifier = css`
-  &:hover span {
+  &:hover {
     text-decoration: underline;
     text-decoration-color: currentColor;
   }

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { APIFC } from "generic-view/utils"
 import styled, { css, keyframes } from "styled-components"
 import { ToastConfig } from "generic-view/models"
@@ -17,7 +17,7 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
   ...props
 }) => {
   const toastAnimationDuration = config?.animationDuration ?? 300
-  const toastVisibilityDuration = config?.visibilityDuration ?? 1500
+  const toastVisibilityDuration = config?.visibilityDuration ?? 2000
 
   const dispatch = useDispatch<Dispatch>()
   const toastsQueue = useSelector(
@@ -60,16 +60,18 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
     }
   }, [dispatch, opened])
 
-  if (!opened) return null
-  return (
-    <ToastWrapper
-      {...props}
-      $opened={visible}
-      $animationDuration={toastAnimationDuration}
-    >
-      {children}
-    </ToastWrapper>
-  )
+  return useMemo(() => {
+    if (!opened) return null
+    return (
+      <ToastWrapper
+        {...props}
+        $opened={visible}
+        $animationDuration={toastAnimationDuration}
+      >
+        {children}
+      </ToastWrapper>
+    )
+  }, [children, opened, props, toastAnimationDuration, visible])
 }
 
 const transitionIn = keyframes`
@@ -102,6 +104,14 @@ const ToastWrapper = styled.div<{
   background-color: ${({ theme }) => theme.color.white};
   box-shadow: 0 0.2rem 3rem rgba(0, 0, 0, 0.0793816);
   border-radius: ${({ theme }) => theme.radius.sm};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+
+  p {
+    color: ${({ theme }) => theme.color.black};
+  }
 
   ${({ $opened, $animationDuration }) =>
     $opened

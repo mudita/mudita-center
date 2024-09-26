@@ -17,6 +17,7 @@ import { APIFC, useViewFormContext } from "generic-view/utils"
 import { TableConfig, TableData } from "generic-view/models"
 import { TableCell } from "./table-cell"
 import { P1 } from "../texts/paragraphs"
+import { difference, intersection } from "lodash"
 
 const rowHeight = 64
 
@@ -36,6 +37,8 @@ export const Table: APIFC<TableData, TableConfig> & {
   const activeRowId = activeIdFieldName
     ? formContext.watch(activeIdFieldName)
     : undefined
+
+  console.log(formContext.watch("selectedContacts"))
 
   const onRowClick = useCallback(
     (id: string) => {
@@ -57,15 +60,24 @@ export const Table: APIFC<TableData, TableConfig> & {
 
   useEffect(() => {
     if (formOptions.allIdsFieldName) {
-      formContext.setValue(formOptions.allIdsFieldName, data?.length)
-    }
-  }, [formOptions.allIdsFieldName, data?.length, formContext])
-
-  useEffect(() => {
-    if (formOptions.allIdsFieldName) {
       formContext.setValue(formOptions.allIdsFieldName, data)
     }
   }, [data, formContext, formOptions.allIdsFieldName])
+
+  useEffect(() => {
+    if (formOptions.selectedIdsFieldName) {
+      const selectedIds = formContext.getValues(
+        formOptions.selectedIdsFieldName
+      )
+      const unavailableIds = difference(selectedIds, data)
+      if (unavailableIds.length > 0) {
+        formContext.setValue(
+          formOptions.selectedIdsFieldName,
+          intersection(data, unavailableIds)
+        )
+      }
+    }
+  }, [data, formContext, formOptions.selectedIdsFieldName])
 
   useEffect(() => {
     const scrollWrapper = scrollWrapperRef.current
