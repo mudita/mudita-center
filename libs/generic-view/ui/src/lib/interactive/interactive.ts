@@ -11,6 +11,7 @@ import Tooltip from "./tooltip/tooltip"
 import { Toast } from "./toast/toast"
 import {
   form,
+  formatMessage,
   formCheckboxInput,
   formConditionalRenderer,
   formRadioInput,
@@ -31,6 +32,7 @@ import {
   tooltipAnchor,
   tooltipContent,
 } from "generic-view/models"
+import { FormatMessage } from "./format-message"
 
 export const interactive = {
   [modal.key]: Modal,
@@ -52,5 +54,6 @@ export const interactive = {
   [tooltip.key]: Tooltip,
   [tooltipAnchor.key]: Tooltip.Anchor,
   [tooltipContent.key]: Tooltip.Content,
+  [formatMessage.key]: FormatMessage,
   [toast.key]: Toast,
 }

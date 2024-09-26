@@ -51,6 +51,7 @@ import { table } from "./lib/table"
 import { formConditionalRenderer } from "./lib/form-conditional-renderer"
 import { tableCell } from "./lib/table-cell"
 import { entitiesLoader } from "./lib/entities-loader"
+import { conditionalRenderer } from "./lib/conditional-renderer"
 import { toast } from "./lib/toast"
 
 export * from "./lib/block-box"
@@ -103,6 +104,7 @@ export * from "./lib/table-cell"
 export * from "./lib/form-conditional-renderer"
 export * from "./lib/entities-loader"
 export * from "./lib/common-validators"
+export * from "./lib/conditional-renderer"
 export * from "./lib/toast"
 
 export default {
@@ -158,5 +160,6 @@ export default {
   [table.key]: table,
   [tableCell.key]: tableCell,
   [entitiesLoader.key]: entitiesLoader,
+  [conditionalRenderer.key]: conditionalRenderer,
   [toast.key]: toast,
 } as const
