@@ -183,7 +183,7 @@ const ContactItem: React.FC<UnifiedContact> = ({
 
 const ContactItemWrapper = styled.div`
   width: 100%;
-  padding: 0 1.4rem;
+  padding: 0.4rem 1.4rem;
 `
 
 const ContactLabelWrapper = styled.div`

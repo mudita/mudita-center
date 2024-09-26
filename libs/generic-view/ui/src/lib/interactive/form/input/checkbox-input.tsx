@@ -125,6 +125,7 @@ const InputBox = styled.div`
   }
 
   ${CheckIcon} {
+    display: flex;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
