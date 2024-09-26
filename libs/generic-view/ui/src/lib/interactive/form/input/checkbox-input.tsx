@@ -29,6 +29,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
   return (
     <Wrapper
       {...props}
+      $size={config.size}
       onClick={(e) => {
         e.stopPropagation()
       }}
@@ -55,12 +56,30 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $size: Config["size"] }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100%;
-  min-height: 3.2rem;
+  ${({ $size }) => {
+    switch ($size) {
+      case "small":
+        return `
+        ${InputBox} {
+          min-width: 1.8rem;
+          min-height: 1.8rem;
+          width: 1.8rem;
+          height: 1.8rem;
+        }
+      `
+      default:
+        return `
+        ${InputBox} {
+          min-width: 2.2rem;
+          min-height: 2.2rem;
+          width: 2.2rem;
+          height: 2.2rem;`
+    }
+  }};
 `
 
 const Label = styled.label`
