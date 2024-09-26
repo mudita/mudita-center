@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { View } from "generic-view/utils"
+import { IconType, View } from "generic-view/utils"
 
 const view: View = {
   main: {
@@ -12,7 +12,7 @@ const view: View = {
     component: "block-plain",
     layout: {
       gridLayout: {
-        rows: ["auto", "auto", "1fr"],
+        rows: ["auto", "1fr"],
         columns: ["1fr"],
       },
     },
@@ -29,7 +29,8 @@ const view: View = {
           searchedContact: undefined,
           activeContactId: undefined,
           selectedContacts: [],
-          totalContacts: 0,
+          allContacts: [],
+          allContactsSelected: false,
         },
       },
     },
@@ -40,9 +41,28 @@ const view: View = {
     config: {
       entitiesTypes: ["contacts"],
     },
-    childrenKeys: ["contactsPanel", "deleteButton", "contactsFormWrapper"],
+    childrenKeys: ["contactsPanel", "contactsFormWrapper"],
   },
   contactsPanel: {
+    component: "block-plain",
+    childrenKeys: ["contactsPanelDefaultMode", "contactsPanelSelectMode"],
+  },
+  contactsPanelDefaultMode: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "form-fields",
+      fields: {
+        "data.render": {
+          field: "selectedContacts",
+          modifier: "length",
+          condition: "eq",
+          value: 0,
+        },
+      },
+    },
+    childrenKeys: ["contactsPanelManager"],
+  },
+  contactsPanelManager: {
     component: "block-plain",
     childrenKeys: ["contactsSearchInput", "contactsButtonActions"],
     layout: {
@@ -72,19 +92,6 @@ const view: View = {
     },
     childrenKeys: ["createContactsButton", "importContactsButton"],
   },
-  importContactsButton: {
-    component: "button-primary",
-    config: {
-      text: "import contacts",
-      actions: [
-        {
-          type: "open-modal",
-          modalKey: "importContactsButton-modal",
-          domain: "import-contacts",
-        },
-      ],
-    },
-  },
   createContactsButton: {
     component: "button-secondary",
     config: {
@@ -98,22 +105,97 @@ const view: View = {
       ],
     },
   },
-  deleteButton: {
+  importContactsButton: {
     component: "button-primary",
+    config: {
+      text: "import contacts",
+      actions: [
+        {
+          type: "open-modal",
+          modalKey: "importContactsButton-modal",
+          domain: "import-contacts",
+        },
+      ],
+    },
+  },
+  contactsPanelSelectMode: {
+    component: "conditional-renderer",
     dataProvider: {
       source: "form-fields",
       fields: {
-        "config.actions[0].ids": "selectedContacts",
-        "config.disabled": {
+        "data.render": {
           field: "selectedContacts",
           modifier: "length",
-          condition: "eq",
+          condition: "gt",
           value: 0,
         },
       },
     },
+    childrenKeys: ["contactsPanelSelector"],
+  },
+  contactsPanelSelector: {
+    component: "selection-manager",
+    layout: {
+      margin: "32px",
+      padding: "8px 24px 8px 12px",
+      gridLayout: {
+        rows: ["auto"],
+        columns: ["auto", "1fr", "auto"],
+        alignItems: "center",
+        columnGap: "14px",
+      },
+    },
+    childrenKeys: [
+      "selectAllCheckbox",
+      "selectedContactsCounter",
+      "deleteButton",
+    ],
+  },
+  selectAllCheckbox: {
+    component: "form.checkboxInput",
+    dataProvider: {
+      source: "form-fields",
+      fields: {
+        "config.multipleValues": "allContacts",
+      },
+    },
     config: {
-      text: "Delete selected",
+      name: "selectedContacts",
+      size: "small",
+    },
+  },
+  selectedContactsCounter: {
+    component: "p4-component",
+    childrenKeys: ["selectedContactsCounterText"],
+  },
+  selectedContactsCounterText: {
+    component: "format-message",
+    dataProvider: {
+      source: "form-fields",
+      fields: {
+        "data.fields.selectedContacts": {
+          field: "selectedContacts",
+          modifier: "length",
+        },
+      },
+    },
+    config: {
+      messageTemplate:
+        "{selectedContacts} {selectedContacts, plural, one {contact} other {contacts}} selected",
+    },
+  },
+  deleteButton: {
+    component: "button-text",
+    dataProvider: {
+      source: "form-fields",
+      fields: {
+        "config.actions[0].ids": "selectedContacts",
+      },
+    },
+    config: {
+      text: "Delete",
+      icon: IconType.Delete,
+      modifiers: ["uppercase"],
       actions: [
         {
           type: "entities-delete",
@@ -142,6 +224,22 @@ const view: View = {
       text: "Contacts deleted",
     },
   },
+  // deleteButtonText: {
+  //   component: "format-message",
+  //   dataProvider: {
+  //     source: "form-fields",
+  //     fields: {
+  //       "data.fields.selectedContacts": {
+  //         field: "selectedContacts",
+  //         modifier: "length",
+  //       },
+  //     },
+  //   },
+  //   config: {
+  //     messageTemplate:
+  //       "Delete {selectedContacts} {selectedContacts, plural, one {contact} other {contacts}}",
+  //   },
+  // },
   contactsFormWrapper: {
     component: "block-plain",
     layout: {
@@ -175,7 +273,7 @@ const view: View = {
       formOptions: {
         activeIdFieldName: "activeContactId",
         selectedIdsFieldName: "selectedContacts",
-        totalItemsFieldName: "totalContacts",
+        allIdsFieldName: "allContacts",
       },
     },
     childrenKeys: [
