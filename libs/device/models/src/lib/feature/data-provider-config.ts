@@ -14,25 +14,30 @@ const regexSchema = z
     "Regex must be in format /regex/ or /regex/flags"
   )
 
-const extendedFieldSchema = z.object({
-  field: z.string(),
-  modifier: z.union([z.literal("length"), z.literal("boolean")]).optional(),
-  condition: z.union([
-    z.literal("eq"),
-    z.literal("ne"),
-    z.literal("gt"),
-    z.literal("lt"),
-  ]),
-  value: z.union([
-    z.string(),
-    z.number(),
-    z.boolean(),
-    z.array(z.unknown()),
-    z.record(z.union([z.string(), z.number()]), z.unknown()),
-  ]),
-})
-
-export type DataProviderExtendedField = z.infer<typeof extendedFieldSchema>
+const baseFieldSchema = z.string()
+const enhancedFieldSchema = z
+  .object({
+    field: z.string(),
+    modifier: z.union([z.literal("length"), z.literal("boolean")]).optional(),
+  })
+  .strict()
+const superEnhancedFieldSchema = enhancedFieldSchema
+  .extend({
+    condition: z.union([
+      z.literal("eq"),
+      z.literal("ne"),
+      z.literal("gt"),
+      z.literal("lt"),
+    ]),
+    value: z.union([
+      z.string(),
+      z.number(),
+      z.boolean(),
+      z.array(z.unknown()),
+      z.record(z.union([z.string(), z.number()]), z.unknown()),
+    ]),
+  })
+  .strict()
 
 const fieldsSchema = z.record(
   z.union([
@@ -40,8 +45,12 @@ const fieldsSchema = z.record(
     z.string().startsWith("data."),
     z.string().startsWith("config."),
   ]),
-  z.union([z.string(), extendedFieldSchema])
+  z.union([baseFieldSchema, enhancedFieldSchema, superEnhancedFieldSchema])
 )
+
+export type DataProviderExtendedField =
+  | z.infer<typeof enhancedFieldSchema>
+  | z.infer<typeof superEnhancedFieldSchema>
 
 const sortSchema = z
   .record(

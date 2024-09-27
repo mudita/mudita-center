@@ -111,16 +111,22 @@ export const setupComponent = <P extends object>(
       }
     } else if (dataProvider?.source === "form-fields") {
       const formContext = getFormContext(dataProvider.formKey)
+      const isFormElement = componentName!.startsWith("form.")
+
       for (const [key, field] of Object.entries(dataProvider.fields)) {
         if (typeof field === "string") {
-          const value = formContext.watch(field)
+          const value = isFormElement
+            ? formContext.getValues(field)
+            : formContext.watch(field)
           if (key === "dataItemId") {
             dataItemId = value
             continue
           }
           set(editableProps || {}, key, value)
         } else {
-          const fieldValue = formContext.watch(field.field)
+          const fieldValue = isFormElement
+            ? formContext.getValues(field.field)
+            : formContext.watch(field.field)
           const value = processFormFields(field, fieldValue)
           set(editableProps || {}, key, value)
         }
@@ -172,13 +178,16 @@ export const setupComponent = <P extends object>(
 
 const processFormFields = (
   field: DataProviderExtendedField,
-  value: unknown,
+  value: unknown
 ) => {
   let newValue = value
   switch (field.modifier) {
     case "length":
       if (value instanceof String || value instanceof Array) {
         newValue = value.length
+      }
+      if (value instanceof Object) {
+        newValue = Object.keys(value).length
       }
       break
     case "boolean":

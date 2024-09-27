@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { createContext, useContext, useEffect, useMemo } from "react"
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { UseFormReturn } from "react-hook-form/dist/types"
 import { useFormContext } from "react-hook-form"
@@ -24,13 +30,26 @@ export const FormsProvider: FunctionComponent = ({ children }) => {
     return new Map<string, UseFormReturn>()
   }, [])
 
-  const registerForm = (formKey: string, form: UseFormReturn) => {
-    forms.set(formKey, form)
-  }
+  const registerForm = useCallback(
+    (formKey: string, form: UseFormReturn) => {
+      forms.set(formKey, form)
+    },
+    [forms]
+  )
 
-  const getFormContext = (formKey?: string) => {
-    return (formKey ? forms.get(formKey) : formContext) as UseFormReturn
-  }
+  const getFormContext = useCallback(
+    (formKey?: string) => {
+      if (formKey) {
+        const form = forms.get(formKey)
+        if (!form) {
+          throw new Error(`Form with key ${formKey} not found`)
+        }
+        return form
+      }
+      return formContext
+    },
+    [formContext, forms]
+  )
 
   useEffect(() => {
     return () => {

@@ -13,10 +13,9 @@ import React, {
   useState,
 } from "react"
 import styled, { css } from "styled-components"
-import { APIFC } from "generic-view/utils"
+import { APIFC, useViewFormContext } from "generic-view/utils"
 import { TableConfig, TableData } from "generic-view/models"
 import { TableCell } from "./table-cell"
-import { useFormContext } from "react-hook-form"
 import { P1 } from "../texts/paragraphs"
 
 const rowHeight = 64
@@ -24,7 +23,8 @@ const rowHeight = 64
 export const Table: APIFC<TableData, TableConfig> & {
   Cell: typeof TableCell
 } = ({ data = [], config, children, ...props }) => {
-  const formContext = useFormContext()
+  const getFormContext = useViewFormContext()
+  const formContext = getFormContext()
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
   const [visibleRowsBounds, setVisibleRowsBounds] = useState<[number, number]>([
     -1, -1,
@@ -56,10 +56,16 @@ export const Table: APIFC<TableData, TableConfig> & {
   }, [])
 
   useEffect(() => {
-    if (formOptions.totalItemsFieldName) {
-      formContext.setValue(formOptions.totalItemsFieldName, data?.length)
+    if (formOptions.allIdsFieldName) {
+      formContext.setValue(formOptions.allIdsFieldName, data?.length)
     }
-  }, [formOptions.totalItemsFieldName, data?.length, formContext])
+  }, [formOptions.allIdsFieldName, data?.length, formContext])
+
+  useEffect(() => {
+    if (formOptions.allIdsFieldName) {
+      formContext.setValue(formOptions.allIdsFieldName, data)
+    }
+  }, [data, formContext, formOptions.allIdsFieldName])
 
   useEffect(() => {
     const scrollWrapper = scrollWrapperRef.current

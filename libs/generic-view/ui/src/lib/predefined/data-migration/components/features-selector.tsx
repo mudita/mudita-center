@@ -119,6 +119,6 @@ const List = styled.div`
   gap: 0.4rem;
 
   & > * {
-    height: 3.2rem;
+    min-height: 3.2rem;
   }
 `
