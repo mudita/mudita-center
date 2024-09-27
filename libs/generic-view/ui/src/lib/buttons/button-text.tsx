@@ -72,7 +72,7 @@ const buttonUpperCaseModifier = css`
   font-size: ${({ theme }) => theme.fontSize.buttonText};
   line-height: ${({ theme }) => theme.lineHeight.buttonText};
   letter-spacing: 0.1em;
-  margin-top: 0.1rem;
+  transform: translateY(0.1rem);
 `
 
 const buttonHoverUnderlineModifier = css`
