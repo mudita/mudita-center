@@ -10,7 +10,7 @@ import { buttonActionsValidator } from "./common-validators"
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  text: z.string(),
+  text: z.string().optional(),
   icon: z.nativeEnum(IconType).optional(),
   actions: buttonActionsValidator,
   disabled: z.boolean().optional(),

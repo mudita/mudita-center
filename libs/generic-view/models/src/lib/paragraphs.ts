@@ -9,7 +9,7 @@ const dataValidator = z.undefined()
 
 const configValidator = z.object({
   text: z.string(),
-})
+}).optional()
 
 export type ParagraphConfig = z.infer<typeof configValidator>
 
@@ -27,6 +27,12 @@ export const p2Component = {
 
 export const p3Component = {
   key: "p3-component",
+  dataValidator,
+  configValidator,
+} as const
+
+export const p4Component = {
+  key: "p4-component",
   dataValidator,
   configValidator,
 } as const
