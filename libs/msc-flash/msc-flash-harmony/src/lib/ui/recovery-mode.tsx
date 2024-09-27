@@ -46,6 +46,9 @@ const messages = defineMessages({
   warning4: {
     id: "module.recoveryMode.harmony.warning4",
   },
+  warningLinux: {
+    id: "module.recoveryMode.harmony.warningLinux",
+  },
   confirmation: {
     id: "module.recoveryMode.harmony.confirmation",
   },
@@ -141,6 +144,13 @@ const RecoveryModeUI: FunctionComponent = () => {
               <li>
                 <P3>{intl.formatMessage(messages.warning1, textFormatters)}</P3>
               </li>
+              {process.platform === "linux" && (
+                <li>
+                  <P3>
+                    {intl.formatMessage(messages.warningLinux, textFormatters)}
+                  </P3>
+                </li>
+              )}
               <li>
                 <P3>{intl.formatMessage(messages.warning2)}</P3>
               </li>
