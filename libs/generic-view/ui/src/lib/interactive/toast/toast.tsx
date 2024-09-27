@@ -53,7 +53,7 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
       clearTimeout(visibilityTimeoutRef.current)
       clearTimeout(animationTimeoutRef.current)
     }
-  }, [toastAnimationDuration, toastVisibilityDuration, visible])
+  }, [toastVisibilityDuration, visible])
 
   useEffect(() => {
     if (!opened) {
