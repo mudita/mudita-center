@@ -115,6 +115,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
       />
       <Label htmlFor={"checkbox-" + id}>
         <InputBox>
+          <HitArea htmlFor={"checkbox-" + id} />
           <CheckIcon />
           <IndeterminateIcon />
         </InputBox>
@@ -128,7 +129,8 @@ const Wrapper = styled.div<{ $size: Config["size"] }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  width: min-content;
+  height: min-content;
   ${({ $size }) => {
     switch ($size) {
       case "small":
@@ -159,9 +161,13 @@ const Label = styled.label`
   color: ${({ theme }) => theme.color.grey1};
   letter-spacing: 0.02em;
   font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+  line-height: 2.2rem;
   cursor: pointer;
   user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: max-content;
 `
 
 const CheckIcon = styled(Icon).attrs({ data: { type: IconType.Check } })`
@@ -186,7 +192,6 @@ const InputBox = styled.div`
   border: 0.1rem solid ${({ theme }) => theme.color.grey4};
   margin: 0;
   transition: background-color 0.2s ease-in-out;
-  overflow: hidden;
   box-sizing: border-box;
   position: relative;
 
@@ -200,6 +205,17 @@ const InputBox = styled.div`
     visibility: hidden;
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
   }
+`
+
+const HitArea = styled.label`
+  width: 3.2rem;
+  height: 3.2rem;
+  position: absolute;
+  opacity: 0.1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 `
 
 const Input = styled.input<{ $withError?: boolean }>`

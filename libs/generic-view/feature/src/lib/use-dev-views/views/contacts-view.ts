@@ -288,6 +288,9 @@ const view: View = {
     config: {
       width: 70,
     },
+    layout: {
+      padding: "0 0 0 32px",
+    },
     childrenKeys: ["contactCheckbox"],
   },
   contactCheckbox: {
