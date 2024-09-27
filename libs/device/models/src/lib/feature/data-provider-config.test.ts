@@ -77,6 +77,21 @@ describe("dataProviderSchema", () => {
         "config.someField": "value2",
         "config.otherField": {
           field: "value3",
+          modifier: "length",
+        },
+      },
+    }
+    expect(dataProviderSchema.safeParse(validData).success).toBe(true)
+  })
+
+  it("validates form-fields with extended config", () => {
+    const validData = {
+      source: "form-fields",
+      fields: {
+        dataItemId: "value1",
+        "config.someField": "value2",
+        "config.otherField": {
+          field: "value3",
           modifier: "boolean",
           condition: "eq",
           value: true,

@@ -15,25 +15,29 @@ const regexSchema = z
   )
 
 const baseFieldSchema = z.string()
-const enhancedFieldSchema = z.object({
-  field: z.string(),
-  modifier: z.union([z.literal("length"), z.literal("boolean")]).optional(),
-})
-const superEnhancedFieldSchema = enhancedFieldSchema.extend({
-  condition: z.union([
-    z.literal("eq"),
-    z.literal("ne"),
-    z.literal("gt"),
-    z.literal("lt"),
-  ]),
-  value: z.union([
-    z.string(),
-    z.number(),
-    z.boolean(),
-    z.array(z.unknown()),
-    z.record(z.union([z.string(), z.number()]), z.unknown()),
-  ]),
-})
+const enhancedFieldSchema = z
+  .object({
+    field: z.string(),
+    modifier: z.union([z.literal("length"), z.literal("boolean")]).optional(),
+  })
+  .strict()
+const superEnhancedFieldSchema = enhancedFieldSchema
+  .extend({
+    condition: z.union([
+      z.literal("eq"),
+      z.literal("ne"),
+      z.literal("gt"),
+      z.literal("lt"),
+    ]),
+    value: z.union([
+      z.string(),
+      z.number(),
+      z.boolean(),
+      z.array(z.unknown()),
+      z.record(z.union([z.string(), z.number()]), z.unknown()),
+    ]),
+  })
+  .strict()
 
 const fieldsSchema = z.record(
   z.union([
