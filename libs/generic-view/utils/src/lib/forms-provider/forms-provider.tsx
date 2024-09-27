@@ -39,7 +39,14 @@ export const FormsProvider: FunctionComponent = ({ children }) => {
 
   const getFormContext = useCallback(
     (formKey?: string) => {
-      return (formKey ? forms.get(formKey) : formContext) as UseFormReturn
+      if (formKey) {
+        const form = forms.get(formKey)
+        if (!form) {
+          throw new Error(`Form with key ${formKey} not found`)
+        }
+        return form
+      }
+      return formContext
     },
     [formContext, forms]
   )
