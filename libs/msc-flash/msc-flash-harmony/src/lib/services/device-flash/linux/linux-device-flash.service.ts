@@ -5,7 +5,7 @@
 
 import path from "path"
 import { execPromise, execCommandWithSudo } from "shared/utils"
-import IDeviceFlash from "./device-flash.interface"
+import IDeviceFlash from "../device-flash.interface"
 import LinuxPartitionParser from "./linux-partition-parser"
 
 class LinuxDeviceFlashService implements IDeviceFlash {

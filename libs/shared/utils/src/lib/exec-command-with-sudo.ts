@@ -12,20 +12,22 @@ export const execCommandWithSudo = (
   return new Promise((resolve, reject) => {
     sudoPrompt.exec(command, options, (error, stdout, stderr) => {
       if (error) {
-        console.error(`Command failed with error: ${error.message}`);
-        return reject(`Error: ${error.message}`);
+        console.error(`Command failed with error: ${error.message}`)
+        return reject(`Error: ${error.message}`)
       }
 
       if (stderr && !stdout) {
-        const output = stderr?.toString().trim();
-        console.error(`Command stderr output: ${output}`);
-        return reject(`Error: ${stderr.toString().trim()}`);
+        const output = stderr?.toString().trim()
+        console.error(`Command stderr output: ${output}`)
+        return reject(`Error: ${stderr.toString().trim()}`)
       }
 
-      const output = stdout?.toString().trim() || "Command executed successfully but produced no output.";
+      const output =
+        stdout?.toString().trim() ||
+        "Command executed successfully but produced no output."
 
-      console.log(`Command output: ${output}`);
-      resolve(output);
+      console.log(`Command output: ${output}`)
+      resolve(output)
     })
   })
 }

@@ -26,15 +26,15 @@ export const flashMscDeviceService =
       const flashingFiles = getState().flashing.mscFlashingFilesDetails
 
       if (flashingFiles) {
-        await downloadFlashingFiles(dispatch, flashingFiles)
-        await unpackFlashingImage(dispatch, flashingFiles)
+        // await downloadFlashingFiles(dispatch, flashingFiles)
+        // await unpackFlashingImage(dispatch, flashingFiles)
         await startFlashingProcess(dispatch, flashingFiles)
-        await removeDownloadedMscFiles()
+        // await removeDownloadedMscFiles()
       }
     } catch (error) {
       console.error("Error during flashing process:", error)
       dispatch(setFlashingProcessState(FlashingProcessState.Failed))
-      await removeDownloadedMscFiles()
+      // await removeDownloadedMscFiles()
     }
   }
 
@@ -115,7 +115,7 @@ const startFlashingProcess = async (
 
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
 
-    dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
+    // dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
   } catch (error: any) {
     throw new Error(`Flash process failed with error: ${error}`)
   }
