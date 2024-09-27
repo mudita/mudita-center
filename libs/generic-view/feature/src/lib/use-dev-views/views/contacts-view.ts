@@ -273,12 +273,12 @@ const view: View = {
           postActions: {
             success: [
               {
-                type: "open-toast",
-                toastKey: "contactsDeletedToast",
-              },
-              {
                 type: "close-domain-modals",
                 domain: "contacts-delete",
+              },
+              {
+                type: "open-toast",
+                toastKey: "contactsDeletedToast",
               },
             ],
           },
@@ -341,7 +341,6 @@ const view: View = {
     dataProvider: {
       source: "form-fields",
       formKey: "contactsForm",
-      dontWatch: true,
       fields: {
         "data.fields.selectedContacts": {
           field: "selectedContacts",

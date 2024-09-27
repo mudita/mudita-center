@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useMemo, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { APIFC } from "generic-view/utils"
 import styled, { css, keyframes } from "styled-components"
 import { ToastConfig } from "generic-view/models"
@@ -11,12 +11,13 @@ import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { useDispatch, useSelector } from "react-redux"
 import { removeToast } from "generic-view/store"
 
+const toastAnimationDuration = 300
+
 export const Toast: APIFC<undefined, ToastConfig> = ({
   config,
   children,
   ...props
 }) => {
-  const toastAnimationDuration = config?.animationDuration ?? 300
   const toastVisibilityDuration = config?.visibilityDuration ?? 2000
 
   const dispatch = useDispatch<Dispatch>()
@@ -42,7 +43,7 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
     if (visible) {
       visibilityTimeoutRef.current = setTimeout(() => {
         setVisible(false)
-      }, toastVisibilityDuration)
+      }, toastVisibilityDuration + toastAnimationDuration)
     } else {
       animationTimeoutRef.current = setTimeout(() => {
         setOpened(false)
@@ -60,18 +61,16 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
     }
   }, [dispatch, opened])
 
-  return useMemo(() => {
-    if (!opened) return null
-    return (
-      <ToastWrapper
-        {...props}
-        $opened={visible}
-        $animationDuration={toastAnimationDuration}
-      >
-        {children}
-      </ToastWrapper>
-    )
-  }, [children, opened, props, toastAnimationDuration, visible])
+  if (!opened) return null
+  return (
+    <ToastWrapper
+      {...props}
+      $opened={visible}
+      $animationDuration={toastAnimationDuration}
+    >
+      {children}
+    </ToastWrapper>
+  )
 }
 
 const transitionIn = keyframes`

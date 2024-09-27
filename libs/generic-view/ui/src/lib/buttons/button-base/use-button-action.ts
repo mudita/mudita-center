@@ -9,7 +9,7 @@ import {
   closeModal,
   deleteEntitiesDataAction,
   openModal,
-  openToast,
+  openToastAction,
   replaceModal,
   selectActiveApiDeviceId,
   useScreenTitle,
@@ -119,16 +119,16 @@ const runActions = (actions?: ButtonActions) => {
               ids: action.ids,
               deviceId: activeDeviceId,
               onSuccess: () => {
-                runActions(action.postActions?.success)(providers)
+                return runActions(action.postActions?.success)(providers)
               },
               onError: () => {
-                runActions(action.postActions?.failure)(providers)
+                return runActions(action.postActions?.failure)(providers)
               },
             })
           )
           break
         case "open-toast":
-          dispatch(openToast(action.toastKey))
+          await dispatch(openToastAction(action.toastKey))
           break
         case "custom":
           action.callback()

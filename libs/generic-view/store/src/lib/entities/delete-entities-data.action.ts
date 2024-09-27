@@ -16,8 +16,8 @@ interface DeleteEntitiesDataActionPayload {
   entitiesType: string
   ids: EntityId[]
   deviceId: DeviceId
-  onSuccess?: VoidFunction
-  onError?: VoidFunction
+  onSuccess?: () => Promise<void> | void
+  onError?: () => Promise<void> | void
 }
 
 export const deleteEntitiesDataAction = createAsyncThunk<
@@ -39,15 +39,15 @@ export const deleteEntitiesDataAction = createAsyncThunk<
       1000
     )
     if (!response.ok) {
-      onError?.()
+      await onError?.()
       return rejectWithValue(response.error)
     }
     // TODO: consider handling partial success
     if (response.data?.failedIds) {
-      onSuccess?.()
+      await onSuccess?.()
       return difference(ids, response.data.failedIds)
     }
-    onSuccess?.()
+    await onSuccess?.()
     // await new Promise((resolve) => setTimeout(resolve, 1000))
     return ids
   }

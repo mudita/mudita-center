@@ -85,7 +85,6 @@ const entitiesFieldSchema = z.object({
 const formFieldsSchema = z.object({
   source: z.literal("form-fields"),
   formKey: z.string().optional(),
-  dontWatch: z.boolean().optional(),
   fields: fieldsSchema,
 })
 

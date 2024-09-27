@@ -38,8 +38,6 @@ export const Table: APIFC<TableData, TableConfig> & {
     ? formContext.watch(activeIdFieldName)
     : undefined
 
-  console.log(formContext.watch("selectedContacts"))
-
   const onRowClick = useCallback(
     (id: string) => {
       if (!activeIdFieldName) return
