@@ -53,7 +53,7 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
   }
 
   private hasUpdateError(): boolean {
-    return Boolean(this.mockUpdaterStateService.updateState.available)
+    return Boolean(this.mockUpdaterStateService.updateState.error)
   }
 
   private getUpdateVersion(): string {
