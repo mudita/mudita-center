@@ -70,4 +70,58 @@ describe("Contact Support - Unhappy Path", () => {
       "The attached files will help us resolve your problem"
     )
   })
+
+  it("Check if SEND button is present, has proper name and is disabled", async () => {
+    const sendButton = HelpModalPage.sendButton
+    const sendButtonLabel = HelpModalPage.sendButtonLabel
+    await expect(sendButton).toBeDisplayed()
+    await expect(sendButtonLabel).toHaveText("SEND")
+    await expect(sendButton).toBeDisabled()
+  })
+
+  it("Try to Send form without any input", async () => {
+    const sendButton = HelpModalPage.sendButton
+
+    const isDisabled = await sendButton.getAttribute("disabled")
+
+    // Verify if the button is disabled before attempting to click
+    if (isDisabled !== null) {
+      console.log("The button is disabled and cannot be clicked.")
+    } else {
+      // Attempt to click only if the button is not disabled
+      await sendButton.click()
+      console.log("The button was clicked successfully.")
+    }
+  })
+
+  it("Verify e-mail without @ character", async () => {
+    const emailInput = HelpModalPage.emailInput
+    await emailInput.setValue("emailtest.com")
+    const emailWarning = "Email is invalid"
+    const invalidEmailTextElement = HelpModalPage.invalidEmailTextElement
+    await expect(invalidEmailTextElement).toHaveText(emailWarning)
+  })
+
+  it("Check e-mail with @@ characters", async () => {
+    const emailInput = HelpModalPage.emailInput
+    await emailInput.setValue("email@@test.com")
+    const emailWarning = "Email is invalid"
+    const invalidEmailTextElement = HelpModalPage.invalidEmailTextElement
+    await expect(invalidEmailTextElement).toHaveText(emailWarning)
+  })
+
+  it("Enter correct e-mail to check if error message dissappears", async () => {
+    const emailInput = HelpModalPage.emailInput
+    await emailInput.setValue("email@test.com")
+    const invalidEmailTextElement = HelpModalPage.invalidEmailTextElement
+    await expect(invalidEmailTextElement).not.toBeDisplayed()
+  })
+
+  it("Check e-mail with , character", async () => {
+    const emailInput = HelpModalPage.emailInput
+    await emailInput.setValue("email@test,com")
+    const emailWarning = "Email is invalid"
+    const invalidEmailTextElement = HelpModalPage.invalidEmailTextElement
+    await expect(invalidEmailTextElement).toHaveText(emailWarning)
+  })
 })
