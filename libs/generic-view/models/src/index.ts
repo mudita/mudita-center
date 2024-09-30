@@ -60,6 +60,7 @@ import { conditionalRenderer } from "./lib/conditional-renderer"
 import { toast } from "./lib/toast"
 import { selectionManager } from "./lib/selection-manager"
 import { formatMessage } from "./lib/format-message"
+import { listRenderer } from "./lib/list-render"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -102,6 +103,7 @@ export * from "./lib/backup-restore-available"
 export * from "./lib/backup-create"
 export * from "./lib/backup-restore"
 export * from "./lib/import-contacts"
+export * from "./lib/list-render"
 export * from "./lib/mc-import-contacts-button"
 export * from "./lib/modal-visibility-controller"
 export * from "./lib/mc-data-migration"
@@ -174,4 +176,5 @@ export default {
   [formatMessage.key]: formatMessage,
   [toast.key]: toast,
   [selectionManager.key]: selectionManager,
+  [listRenderer.key]: listRenderer,
 } as const

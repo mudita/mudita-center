@@ -378,9 +378,6 @@ const view: View = {
           orderingPatterns: ["/^\\p{L}/miu", "/^\\d/m", "/^\\#/m"],
         },
       },
-      filters: {
-        firstName: ["/.+/"],
-      },
     },
     config: {
       formOptions: {
@@ -425,29 +422,31 @@ const view: View = {
     config: {
       width: 717,
     },
-    childrenKeys: ["contactJoinedNames"],
+    childrenKeys: ["contactFieldsRenderer"],
   },
-  contactJoinedNames: {
-    component: "block-plain",
-    layout: {
-      flexLayout: {
-        direction: "row",
-        columnGap: "5px",
-      },
-    },
-    childrenKeys: ["contactFirstName", "contactLastName"],
+  contactFieldsRenderer: {
+    component: "list-renderer",
+    childrenKeys: [
+      "contactFirstNamePrefixText",
+      "contactFirstNameText",
+      "contactLastNameText",
+      "contactMiddleNameText",
+      "contactNameSuffixText",
+      "contactPhoneNumberText",
+      "contactPhoneTypeText",
+      "contactEmailAddressText",
+      "contactEmailTypeText",
+      "contactCompanyText",
+      "contactDepartmentText",
+      "contactWorkTitleText",
+      "contactAddressStreetText",
+      "contactAddressCityText",
+      "contactAddressCountryText",
+      "contactWebsiteText",
+      "contactNotesText",
+    ],
   },
-  contactFirstName: {
-    component: "block-plain",
-    layout: {
-      flexLayout: {
-        direction: "row",
-        columnGap: "5px",
-      },
-    },
-    childrenKeys: ["contactFirstNamePrefix", "contactFirstNameValue"],
-  },
-  contactFirstNamePrefix: {
+  contactFirstNamePrefixText: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
@@ -457,7 +456,7 @@ const view: View = {
       },
     },
   },
-  contactFirstNameValue: {
+  contactFirstNameText: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
@@ -467,7 +466,7 @@ const view: View = {
       },
     },
   },
-  contactLastName: {
+  contactLastNameText: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
@@ -477,6 +476,147 @@ const view: View = {
       },
     },
   },
+  contactMiddleNameText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "middleName",
+      },
+    },
+  },
+  contactNameSuffixText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "nameSuffix",
+      },
+    },
+  },
+  contactPhoneNumberText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "phoneNumbers[0].phoneNumber",
+      },
+    },
+  },
+  contactPhoneTypeText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "phoneNumbers[0].phoneType",
+      },
+    },
+  },
+  contactEmailAddressText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "emailAddresses.emailAddress",
+      },
+    },
+  },
+  contactEmailTypeText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "emailAddresses.emailType",
+      },
+    },
+  },
+  contactCompanyText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "company",
+      },
+    },
+  },
+  contactDepartmentText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "department",
+      },
+    },
+  },
+  contactWorkTitleText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "workTitle",
+      },
+    },
+  },
+  contactAddressStreetText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "address[0].streetAddress",
+      },
+    },
+  },
+  contactAddressCityText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "address[0].city",
+      },
+    },
+  },
+  contactAddressCountryText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "address[0].country",
+      },
+    },
+  },
+  contactWebsiteText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "website",
+      },
+    },
+  },
+  contactNotesText: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.text": "notes",
+      },
+    },
+  },
+
   columnPhoneNumberOptional: {
     component: "form.conditionalRenderer",
     config: {
