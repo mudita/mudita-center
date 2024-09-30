@@ -6,12 +6,14 @@
 export interface UpdateState {
   available: boolean
   downloaded?: boolean
+  error?: boolean
   version?: string
 }
 
 const defaultUpdateState: UpdateState = {
   available: false,
   downloaded: true,
+  error: false,
 }
 
 export class MockUpdaterStateService {

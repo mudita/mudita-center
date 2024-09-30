@@ -33,6 +33,10 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
       return this.onError()
     }
 
+    if (this.hasUpdateError()) {
+      return this.onError()
+    }
+
     if (this.isUpdateAvailable()) {
       this.onUpdateAvailable(this.getUpdateVersion())
     } else {
@@ -46,6 +50,10 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
 
   private isUpdateAvailable(): boolean {
     return this.mockUpdaterStateService.updateState.available
+  }
+
+  private hasUpdateError(): boolean {
+    return Boolean(this.mockUpdaterStateService.updateState.available)
   }
 
   private getUpdateVersion(): string {
