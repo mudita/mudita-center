@@ -179,9 +179,9 @@ export const DEFAULT_RESPONSES: MockResponsesMap = {
             ],
             restoreFeatures: [
               {
-                label: "Contacts list",
-                feature: "CONTACTS_LIST",
-                keys: ["CONTACTS_LIST"],
+                label: "Contact list",
+                feature: "CONTACT_LIST",
+                keys: ["CONTACT_LIST"],
               },
               { label: "Call log", feature: "CALL_LOG", keys: ["CALL_LOG"] },
               { label: "Messages", feature: "MESSAGES", keys: ["MESSAGES"] },

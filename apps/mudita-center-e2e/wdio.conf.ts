@@ -77,6 +77,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
     toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
     toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
+    toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
   ],
   suites: {
     standalone: [
@@ -103,6 +104,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktAbout),
       toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+      toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -136,6 +138,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktAbout),
       toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+      toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
     ],
   },
   // Patterns to exclude.
