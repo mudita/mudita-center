@@ -26,11 +26,10 @@ class HelpModalPage extends Page {
   public get sendButton() {
     return $('[data-testid="submit-button"]')
   }
-
+  /**[Selector] Send button label */
   public get sendButtonLabel() {
     return $("p*=Send")
   }
-
   /** returns an Array containing list of attached files */
   async attachmentsList() {
     return $('[data-testid="file-list"]').$$('[data-testid="file-list-file"]')
@@ -47,49 +46,51 @@ class HelpModalPage extends Page {
   public get closeBottomButton() {
     return $('[data-testid="close-bottom-button"]')
   }
+  /**[Selector] Invalid email text */
   public get invalidEmailTextElement() {
     return $('//input[@data-testid="email-input"]/following-sibling::*[1]')
   }
 
+  /**[Selector] Support icon */
   public get iconSupport() {
     return $('[data-testid="icon-Support"]')
   }
-
+  /**[Selector] Attachment icon */
   public get iconAttachment() {
     return $('[data-testid="icon-Attachment"]')
   }
-
+  /**[Selector] Modal title with specific text */
   public get modalTitle() {
     return $("h1*=Mudita Center Support")
   }
-
+  /**[Selector] Modal subtitle */
   public get modalSubtitle() {
     return $(
       "p*=Contact Mudita support team and we will do our best to help you resolve your issues."
     )
   }
-
+  /**[Selector] Current date zip file */
   public get currentDateZipFile() {
     const currentDate = new Date().toISOString().split("T")[0] // Get current date in YYYY-MM-DD format
     return $(`p*=${currentDate}.zip`)
   }
-
+  /**[Selector] Attached files text */
   public get attachedFilesText() {
     return $("p*=Attached files")
   }
-
+  /**[Selector] Attached files subtext */
   public get attachedFilesSubText() {
     return $("p*=The attached files will help us resolve your problem")
   }
-
+  /**[Selector] Email label */
   public get emailLabel() {
     return $("p*=Email")
   }
-
+  /**[Selector] Message label */
   public get messageLabel() {
     return $("p*=Message (optional)")
   }
-
+  /**[Selector] Whole modal */
   public get wholeModal() {
     return $('[data-testid="contact-support-modal"]')
   }
