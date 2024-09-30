@@ -20,9 +20,9 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: true,
   },
   [Feature.ForceUpdate]: {
-    [Environment.Development]: false,
+    [Environment.Development]: true,
     [Environment.Production]: true,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.DataMigration]: {
     [Environment.Development]: true,
