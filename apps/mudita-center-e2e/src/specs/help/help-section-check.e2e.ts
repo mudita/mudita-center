@@ -106,7 +106,7 @@ describe("Check Help window", () => {
   })
   it("Search for questions and verify results", async () => {
     const helpSearchInput = await HelpPage.helpSearchInput
-    helpSearchInput.setValue("How to do factory reset on Pure")
+    await helpSearchInput.setValue("How to do factory reset on Pure")
 
     //Verify quick search results
     const helpSearchResults = await HelpPage.helpSearchResults
