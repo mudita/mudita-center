@@ -144,7 +144,7 @@ describe("E2E mock sample - overview view", () => {
     const unhidePasswordIcon = ModalBackupKompaktPage.unhidePasswordIcon
     await unhidePasswordIcon.click()
 
-    //verifying design and value is to check if user can hide password as it was shown
+    //Verify design, and it's value to check if user can hide password if it was displayed
     const hidePasswordIcon = ModalBackupKompaktPage.hidePasswordIcon
     await expect(hidePasswordIcon).toBeClickable()
   })
@@ -161,7 +161,7 @@ describe("E2E mock sample - overview view", () => {
     const unhidePasswordIcon = ModalBackupKompaktPage.unhidePasswordIcon
     await unhidePasswordIcon.click()
 
-    //verifying design and value is to check if user can hide password as it was shown
+    //Verify design and it's value to check if user can hide password if it was displayed
     const hidePasswordIcon = ModalBackupKompaktPage.hidePasswordIcon
     await expect(hidePasswordIcon).toBeClickable()
 
