@@ -159,7 +159,6 @@ const contactWithPrefixSuffix = {
 
 const contactWithMiddleNameOnly = {
   middleName: "Jan (only middle name)",
-  phoneNumbers: [{ phoneNumber: "+48234567890", phoneType: "HOME" }],
   entityType: "contacts",
 }
 
@@ -172,14 +171,12 @@ const contactWithEmailOnly = {
 
 const contactWithNickname = {
   nickName: "Bobby (nickname only)",
-  phoneNumbers: [{ phoneNumber: "+48456789012", phoneType: "WORK" }],
   entityType: "contacts",
 }
 
 const contactWithCompanyAndJobTitle = {
   company: "XYZ Inc. (company and job title)",
   workTitle: "CEO",
-  phoneNumbers: [{ phoneNumber: "+48567890123", phoneType: "WORK" }],
   entityType: "contacts",
 }
 
@@ -190,27 +187,21 @@ const contactWithAddressOnly = {
     postalCode: "10115",
     type: "HOME",
   },
-  phoneNumbers: [{ phoneNumber: "+48678901234", phoneType: "OTHER" }],
   entityType: "contacts",
 }
 
 const contactWithSip = {
   sip: "sip:jan.nowak@siponly.com",
-  phoneNumbers: [{ phoneNumber: "+48890123456", phoneType: "MOBILE" }],
   entityType: "contacts",
 }
 
 const contactWithWebsite = {
   website: "https://websiteonly.com",
-  phoneNumbers: [
-    { phoneNumber: "+48123456780", phoneType: "MOBILE" },
-  ],
   entityType: "contacts",
 }
 
 const contactWithNotes = {
   notes: "This is a test note. (only notes)",
-  phoneNumbers: [{ phoneNumber: "+48789012345", phoneType: "MOBILE" }],
   entityType: "contacts",
 }
 
