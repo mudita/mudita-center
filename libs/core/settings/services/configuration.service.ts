@@ -38,6 +38,7 @@ export class ConfigurationService {
       const { data, status } = await this.getNewConfiguration({
         version: AppConfigurationVersion.v2,
       })
+      console.log(`getConfiguration data: ${JSON.stringify(data)}`)
       if (status === 200) {
         return data
       } else {
