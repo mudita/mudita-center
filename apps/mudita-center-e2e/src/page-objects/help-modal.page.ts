@@ -27,6 +27,10 @@ class HelpModalPage extends Page {
     return $('[data-testid="submit-button"]')
   }
 
+  public get sendButtonLabel() {
+    return $("p*=Send")
+  }
+
   /** returns an Array containing list of attached files */
   async attachmentsList() {
     return $('[data-testid="file-list"]').$$('[data-testid="file-list-file"]')
@@ -45,6 +49,49 @@ class HelpModalPage extends Page {
   }
   public get invalidEmailTextElement() {
     return $('//input[@data-testid="email-input"]/following-sibling::*[1]')
+  }
+
+  public get iconSupport() {
+    return $('[data-testid="icon-Support"]')
+  }
+
+  public get iconAttachment() {
+    return $('[data-testid="icon-Attachment"]')
+  }
+
+  public get modalTitle() {
+    return $("h1*=Mudita Center Support")
+  }
+
+  public get modalSubtitle() {
+    return $(
+      "p*=Contact Mudita support team and we will do our best to help you resolve your issues."
+    )
+  }
+
+  public get currentDateZipFile() {
+    const currentDate = new Date().toISOString().split("T")[0] // Get current date in YYYY-MM-DD format
+    return $(`p*=${currentDate}.zip`)
+  }
+
+  public get attachedFilesText() {
+    return $("p*=Attached files")
+  }
+
+  public get attachedFilesSubText() {
+    return $("p*=The attached files will help us resolve your problem")
+  }
+
+  public get emailLabel() {
+    return $("p*=Email")
+  }
+
+  public get messageLabel() {
+    return $("p*=Message (optional)")
+  }
+
+  public get wholeModal() {
+    return $('[data-testid="contact-support-modal"]')
   }
 }
 

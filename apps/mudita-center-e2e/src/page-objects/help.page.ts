@@ -41,6 +41,10 @@ class HelpPage extends Page {
   public get contactSupportButtonTooltip() {
     return $('[data-testid="icon-button-with-tooltip-description"]')
   }
+
+  public get helpMainFooterContactSupportButton() {
+    return $('[data-testid="help-main-footer-contact-support-button"]')
+  }
 }
 
 export default new HelpPage()
