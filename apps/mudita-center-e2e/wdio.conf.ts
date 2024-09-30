@@ -56,7 +56,7 @@ export const config: Options.Testrunner = {
   //
   specs: [
     toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
-    toRelativePath(TestFilesPaths.helpWindowCheckTest),
+    toRelativePath(TestFilesPaths.helpSectionCheckTest),
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
     toRelativePath(TestFilesPaths.newsPageOnlineTest),
@@ -77,10 +77,11 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
     toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
     toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
+    toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
   ],
   suites: {
     standalone: [
-      //toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      //toRelativePath(TestFilesPaths.helpSectionCheckTest),
       //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
@@ -103,6 +104,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktAbout),
       toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+      toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -116,7 +118,7 @@ export const config: Options.Testrunner = {
     kompakt: [],
     deviceUpdate: [],
     cicdStandalone: [
-      //toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      //toRelativePath(TestFilesPaths.helpSectionCheckTest),
       //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
@@ -136,6 +138,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktAbout),
       toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+      toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
     ],
   },
   // Patterns to exclude.
