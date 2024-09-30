@@ -11,12 +11,14 @@ import { RadioInput } from "./input/radio-input"
 import { CheckboxInput } from "./input/checkbox-input"
 import { SearchInput } from "./input/search-input"
 import { FormConfig } from "generic-view/models"
+import { FormConditionalRenderer } from "./helpers/form-conditional-renderer"
 
 export const Form: APIFC<undefined, FormConfig> & {
   TextInput: typeof TextInput
   RadioInput: typeof RadioInput
   CheckboxInput: typeof CheckboxInput
   SearchInput: typeof SearchInput
+  ConditionalRenderer: typeof FormConditionalRenderer
 } = ({ config, children }) => {
   const methods = useForm({
     mode: "onTouched",
@@ -28,5 +30,6 @@ Form.TextInput = TextInput
 Form.RadioInput = RadioInput
 Form.CheckboxInput = CheckboxInput
 Form.SearchInput = SearchInput
+Form.ConditionalRenderer = FormConditionalRenderer
 
 export default Form

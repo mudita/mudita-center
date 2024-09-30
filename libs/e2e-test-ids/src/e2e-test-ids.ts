@@ -34,6 +34,8 @@ export enum BackupModalTestIds {
   Description = "backup-features-modal-description",
   FeatureElementActive = "backup-features-modal-element-active",
   FeatureElementInactive = "backup-features-modal-element-inactive",
+  CreateBackupAction = "backup-features-modal-create-action",
+  CancelBackupAction = "backup-features-modal-cancel-action",
 }
 
 export enum ModalTestIds {

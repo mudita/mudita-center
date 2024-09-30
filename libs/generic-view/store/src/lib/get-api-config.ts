@@ -12,6 +12,7 @@ import { ActionName } from "./action-names"
 import { getAllFeatures } from "./features/get-all-features"
 import { getMenuConfig } from "./get-menu-config"
 import { ResultObject } from "Core/core/builder"
+import { getEntitiesConfigAction } from "./entities/get-entities-config.action"
 
 export const getAPIConfig = createAsyncThunk<
   { deviceId: string; apiConfig: ApiConfig },
@@ -28,8 +29,17 @@ export const getAPIConfig = createAsyncThunk<
     } while (retry && retires++ < retryLimit && !response.ok)
 
     if (response.ok) {
-      dispatch(getMenuConfig({ deviceId }))
-      dispatch(getAllFeatures({ deviceId, features: response.data.features }))
+      await dispatch(getMenuConfig({ deviceId }))
+      await dispatch(
+        getAllFeatures({ deviceId, features: response.data.features })
+      )
+      dispatch(
+        getEntitiesConfigAction({
+          deviceId,
+          entitiesTypes: response.data.entityTypes,
+        })
+      )
+
       return { deviceId, apiConfig: response.data }
     }
     return rejectWithValue(response.error)
