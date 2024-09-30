@@ -6,40 +6,59 @@
 import Page from "./page"
 
 class HelpPage extends Page {
-  public get listElement() {
-    return $('[data-testid="help-component-question"]')
+  public get helpTabTitle() { 
+    return $('[data-testid="location"]')
   }
-
-  public get listElements() {
-    return $$('[data-testid="help-component-question"]')
+  public get helpMainHeader() {
+    return $('[data-testid="help-main-header"]')
   }
-
-  public get windowTitle() {
-    return $('[data-testid="help-component-title"]')
+  public get helpMainSubHeader() { 
+    return $('[data-testid="help-main-subheader"]')
   }
-
-  public get searchIcon() {
-    return $('[data-testid="icon-Magnifier"]')
+  public get iconSearch() {
+    return $('[data-testid="icon-search"]')
   }
-
-  public get searchPlaceholder() {
-    return $('[type="search"]')
+  public get helpSearchInput() {
+    return $('[data-testid="help-search-input"]')
   }
-
-  public get topicContent() {
-    return $('[data-testid="content"]')
+  public get helpSearchResults() {
+    return $('[data-testid="help-search-results"]')
   }
-
-  public get articleBackLink() {
-    return $('[data-testid="back-link"]')
+  public get helpSearchResultsParagraph() {
+    return $('[data-testid="help-search-results"] p')
   }
-
-  public get contactSupportButton() {
-    return $('[data-testid="help-support-button"]')
+  public get helpSearchResultsList()  {
+    return $('[data-testid="help-search-results"] ul')
   }
-
-  public get contactSupportButtonTooltip() {
-    return $('[data-testid="icon-button-with-tooltip-description"]')
+  public get helpSearchResultsItems() {
+    return $$('[data-testid="help-search-result-item"]')
+  }
+  public get helpCategoriesTitle() {
+    return $('[data-testid="help-categories-title"]')
+  }
+  public get helpCategoriesList() {
+    return $('[data-testid="help-categories-list"]')
+  }
+  public get helpCategoriesListItems() {
+    return $$('[data-testid="help-categories-list-item"]')
+  }
+  public get helpSubCategoriesList() {
+    return $('[data-testid="help-subcategories-list"]')
+  }
+  public get helpSubCategoriesListItems() {
+    return $$('[data-testid="help-subcategories-list-item"]')
+  }
+  public get helpSubCategoriesListItemsLeftColumn() {
+    return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
+  }
+  public get helpSubCategoriesListItemsRightColumn() {
+    return $$('[data-testid="help-subcategories-list"]>div')[1].$$('[data-testid="help-subcategories-list-item"]')
+  }
+  public get helpMainFooterDescription() {
+      return $('[data-testid="help-main-footer-description"]')
+  }
+  public get helpMainFooterContactSupportButton() {
+      return $('[data-testid="help-main-footer-contact-support-button"]')
   }
 }
 
