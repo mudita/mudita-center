@@ -3,24 +3,34 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { useLayoutEffect, useRef } from "react"
 import { APIFC } from "generic-view/utils"
 import { ListRendererConfig, ListRendererData } from "generic-view/models"
 
 export const ListRenderer: APIFC<ListRendererData, ListRendererConfig> = ({
   children,
 }) => {
-  useEffect(() => {
-    console.log("Props children:", children)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-    React.Children.forEach(children, (child) => {
-      if (child && typeof child === "object" && "props" in child) {
-        console.log("Element props:", child.props)
+  useLayoutEffect(() => {
+    if (!containerRef.current) {
+      return
+    }
+
+    const childNodes = Array.from(containerRef.current.children) as HTMLElement[]
+    let foundNonEmpty = false
+
+    childNodes.forEach((childNode) => {
+      const textContent = childNode.textContent ?? ""
+
+      if (textContent.trim().length > 0 && !foundNonEmpty) {
+        childNode.style.display = "block"
+        foundNonEmpty = true
       } else {
-        console.log("Non-React element:", child)
+        childNode.style.display = "none"
       }
     })
   }, [children])
 
-  return <>{children}</>
+  return <div ref={containerRef}>{children}</div>
 }

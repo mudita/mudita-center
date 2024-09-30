@@ -433,9 +433,8 @@ const view: View = {
       "contactMiddleNameText",
       "contactNameSuffixText",
       "contactPhoneNumberText",
-      "contactPhoneTypeText",
       "contactEmailAddressText",
-      "contactEmailTypeText",
+      "contactNickNameText",
       "contactCompanyText",
       "contactDepartmentText",
       "contactWorkTitleText",
@@ -506,33 +505,23 @@ const view: View = {
       },
     },
   },
-  contactPhoneTypeText: {
-    component: "text-plain",
-    dataProvider: {
-      source: "entities-field",
-      entitiesType: "contacts",
-      fields: {
-        "data.text": "phoneNumbers[0].phoneType",
-      },
-    },
-  },
   contactEmailAddressText: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: {
-        "data.text": "emailAddresses.emailAddress",
+        "data.text": "emailAddresses[0].emailAddress",
       },
     },
   },
-  contactEmailTypeText: {
+  contactNickNameText: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: {
-        "data.text": "emailAddresses.emailType",
+        "data.text": "nickName",
       },
     },
   },
@@ -572,7 +561,7 @@ const view: View = {
       source: "entities-field",
       entitiesType: "contacts",
       fields: {
-        "data.text": "address[0].streetAddress",
+        "data.text": "address.streetAddress",
       },
     },
   },
@@ -582,7 +571,7 @@ const view: View = {
       source: "entities-field",
       entitiesType: "contacts",
       fields: {
-        "data.text": "address[0].city",
+        "data.text": "address.city",
       },
     },
   },
@@ -592,7 +581,7 @@ const view: View = {
       source: "entities-field",
       entitiesType: "contacts",
       fields: {
-        "data.text": "address[0].country",
+        "data.text": "address.country",
       },
     },
   },
