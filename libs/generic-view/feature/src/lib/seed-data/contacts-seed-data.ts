@@ -162,10 +162,45 @@ const contactWithMiddleNameOnly = {
   entityType: "contacts",
 }
 
-const contactWithPhoneNumberOnly = {
+const contactWithMobilePhoneNumberOnly = {
   phoneNumbers: [{ phoneNumber: "+48345678902", phoneType: "MOBILE" }],
   entityType: "contacts",
-}
+};
+
+const contactWithMobileAndHomePhoneNumbers = {
+  phoneNumbers: [
+    { phoneNumber: "+48345678902", phoneType: "MOBILE" },
+    { phoneNumber: "+48445678903", phoneType: "HOME" }
+  ],
+  entityType: "contacts",
+};
+
+const contactWithMobileHomeAndWorkPhoneNumbers = {
+  phoneNumbers: [
+    { phoneNumber: "+48345678902", phoneType: "MOBILE" },
+    { phoneNumber: "+48445678903", phoneType: "HOME" },
+    { phoneNumber: "+48555678904", phoneType: "WORK" }
+  ],
+  entityType: "contacts",
+};
+
+const contactWithAllPhoneTypesPhoneNumbers = {
+  phoneNumbers: [
+    { phoneNumber: "+48345678902", phoneType: "MOBILE" },
+    { phoneNumber: "+48445678903", phoneType: "HOME" },
+    { phoneNumber: "+48555678904", phoneType: "WORK" },
+    { phoneNumber: "+48665678905", phoneType: "OTHER" }
+  ],
+  entityType: "contacts",
+};
+
+const contactWithWorkAndOtherPhoneNumbers = {
+  phoneNumbers: [
+    { phoneNumber: "+48555678904", phoneType: "WORK" },
+    { phoneNumber: "+48665678905", phoneType: "OTHER" }
+  ],
+  entityType: "contacts",
+};
 
 const contactWithEmailOnly = {
   emailAddresses: [
@@ -219,7 +254,11 @@ export const contactsSeedData: EntityData[] = [
   contactWithNumbersInName,
   contactWithPrefixSuffix,
   contactWithMiddleNameOnly,
-  contactWithPhoneNumberOnly,
+  contactWithMobilePhoneNumberOnly,
+  contactWithMobileAndHomePhoneNumbers,
+  contactWithMobileHomeAndWorkPhoneNumbers,
+  contactWithAllPhoneTypesPhoneNumbers,
+  contactWithWorkAndOtherPhoneNumbers,
   contactWithEmailOnly,
   contactWithNicknameOnly,
   contactWithCompanyAndJobTitle,
