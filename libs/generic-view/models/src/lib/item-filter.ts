@@ -7,14 +7,14 @@ import { z } from "zod"
 
 const dataValidator = z.object({})
 
-export type ListRendererData = z.infer<typeof dataValidator>
+export type ItemFilterData = z.infer<typeof dataValidator>
 
 const configValidator = z.object({}).optional()
 
-export type ListRendererConfig = z.infer<typeof configValidator>
+export type ItemFilterConfig = z.infer<typeof configValidator>
 
-export const listRenderer = {
-  key: "list-renderer",
+export const itemFilter = {
+  key: "item-filter",
   dataValidator,
   configValidator,
 } as const

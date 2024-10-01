@@ -425,7 +425,7 @@ const view: View = {
     childrenKeys: ["contactFieldsRenderer"],
   },
   contactFieldsRenderer: {
-    component: "list-renderer",
+    component: "item-filter",
     childrenKeys: [
       "contactFirstNamePrefixText",
       "contactFirstNameText",

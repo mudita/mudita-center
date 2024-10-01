@@ -5,9 +5,9 @@
 
 import React, { useLayoutEffect, useRef } from "react"
 import { APIFC } from "generic-view/utils"
-import { ListRendererConfig, ListRendererData } from "generic-view/models"
+import { ItemFilterConfig, ItemFilterData } from "generic-view/models"
 
-export const ListRenderer: APIFC<ListRendererData, ListRendererConfig> = ({
+export const ItemFilter: APIFC<ItemFilterData, ItemFilterConfig> = ({
   children,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -17,7 +17,9 @@ export const ListRenderer: APIFC<ListRendererData, ListRendererConfig> = ({
       return
     }
 
-    const childNodes = Array.from(containerRef.current.children) as HTMLElement[]
+    const childNodes = Array.from(
+      containerRef.current.children
+    ) as HTMLElement[]
     let foundNonEmpty = false
 
     childNodes.forEach((childNode) => {

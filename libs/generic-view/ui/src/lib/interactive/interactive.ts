@@ -19,7 +19,7 @@ import {
   formRadioInput,
   formSearchInput,
   formTextInput,
-  listRenderer,
+  itemFilter,
   modal,
   modalButtons,
   modalCloseButton,
@@ -36,7 +36,7 @@ import {
   tooltipContent,
 } from "generic-view/models"
 import { FormatMessage } from "./format-message"
-import { ListRenderer } from "./list-renderer"
+import { ItemFilter } from "./item-filter"
 
 export const interactive = {
   [modal.key]: Modal,
@@ -61,5 +61,5 @@ export const interactive = {
   [formatMessage.key]: FormatMessage,
   [toast.key]: Toast,
   [conditionalRenderer.key]: ConditionalRenderer,
-  [listRenderer.key]: ListRenderer,
+  [itemFilter.key]: ItemFilter,
 }
