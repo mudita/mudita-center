@@ -27,7 +27,6 @@ export const ItemFilter: APIFC<ItemFilterData, ItemFilterConfig> = ({
       const textContent = childNode.textContent ?? ""
 
       if (textContent.trim().length > 0 && !foundNonEmpty) {
-        childNode.style.display = "block"
         foundNonEmpty = true
       } else {
         childNode.style.display = "none"
@@ -51,9 +50,7 @@ export const ItemFilter: APIFC<ItemFilterData, ItemFilterConfig> = ({
     const slicedNodes = childNodes.slice(start, end)
 
     childNodes.forEach((childNode) => {
-      if (slicedNodes.includes(childNode)) {
-        childNode.style.display = "block"
-      } else {
+      if (!slicedNodes.includes(childNode)) {
         childNode.style.display = "none"
       }
     })
