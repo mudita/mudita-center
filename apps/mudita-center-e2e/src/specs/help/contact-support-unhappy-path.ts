@@ -57,7 +57,7 @@ describe("Contact Support - Unhappy Path", () => {
     const descriptionInput = HelpModalPage.descriptionInput
     await expect(descriptionInput).toBeDisplayed()
 
-    const attachedFilesText = HelpModalPage.attachedFilesText
+    const attachedFilesLabel = HelpModalPage.attachedFilesLabel
     const attachedFilesSubText = HelpModalPage.attachedFilesSubText
     const singleAttachment = HelpModalPage.singleAttachment
     const iconAttachment = HelpModalPage.iconAttachment
@@ -65,7 +65,7 @@ describe("Contact Support - Unhappy Path", () => {
     await expect(singleAttachment).toBeDisplayed()
     await expect(iconAttachment).toBeDisplayed()
     await expect(currentDateZipFile).toBeDisplayed() //checks if zipfile has current date (date of sending the logs is the same as zip file name)
-    await expect(attachedFilesText).toHaveText("Attached files")
+    await expect(attachedFilesLabel).toHaveText("Attached files")
     await expect(attachedFilesSubText).toHaveText(
       "The attached files will help us resolve your problem"
     )
