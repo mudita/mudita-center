@@ -114,17 +114,13 @@ const contactFullData5 = {
   namePrefix: "Mrs.",
   nameSuffix: "",
   middleName: "Isabel",
-  phoneNumbers: [
-    { phoneNumber: "+33678901234", phoneType: "MOBILE" },
-  ],
+  phoneNumbers: [{ phoneNumber: "+33678901234", phoneType: "MOBILE" }],
   emailAddresses: [
     {
-
       emailAddress: "sophia.martinez@fashionhouse.com",
       emailType: "WORK",
     },
     {
-
       emailAddress: "sophia.isabel@yahoo.com",
       emailType: "PERSONAL",
     },
@@ -162,36 +158,192 @@ const contactWithMiddleNameOnly = {
   entityType: "contacts",
 }
 
-const contactWithPhoneNumberOnly = {
+const contactWithMobilePhoneNumberOnly = {
   phoneNumbers: [{ phoneNumber: "+48345678902", phoneType: "MOBILE" }],
   entityType: "contacts",
 }
 
-const contactWithEmailOnly = {
-  emailAddresses: [
-    { emailAddress: "only@email.com", emailType: "HOME" },
+const contactWithMobileAndHomePhoneNumbers = {
+  phoneNumbers: [
+    { phoneNumber: "+48345678902", phoneType: "MOBILE" },
+    { phoneNumber: "+48445678903", phoneType: "HOME" },
   ],
   entityType: "contacts",
 }
+
+const contactWithMobileHomeAndWorkPhoneNumbers = {
+  phoneNumbers: [
+    { phoneNumber: "+48345678902", phoneType: "MOBILE" },
+    { phoneNumber: "+48445678903", phoneType: "HOME" },
+    { phoneNumber: "+48555678904", phoneType: "WORK" },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithAllPhoneTypesPhoneNumbers = {
+  phoneNumbers: [
+    { phoneNumber: "+48345678902", phoneType: "MOBILE" },
+    { phoneNumber: "+48445678903", phoneType: "HOME" },
+    { phoneNumber: "+48555678904", phoneType: "WORK" },
+    { phoneNumber: "+48665678905", phoneType: "OTHER" },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithWorkAndOtherPhoneNumbers = {
+  phoneNumbers: [
+    { phoneNumber: "+48555678904", phoneType: "WORK" },
+    { phoneNumber: "+48665678905", phoneType: "OTHER" },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithHomeEmailOnly = {
+  emailAddresses: [{ emailAddress: "home@email.com", emailType: "HOME" }],
+  entityType: "contacts",
+};
+
+const contactWithHomeAndWorkEmails = {
+  emailAddresses: [
+    { emailAddress: "home@email.com", emailType: "HOME" },
+    { emailAddress: "work@email.com", emailType: "WORK" },
+  ],
+  entityType: "contacts",
+};
+
+const contactWithHomeWorkAndOtherEmails = {
+  emailAddresses: [
+    { emailAddress: "home@email.com", emailType: "HOME" },
+    { emailAddress: "work@email.com", emailType: "WORK" },
+    { emailAddress: "other@email.com", emailType: "OTHER" },
+  ],
+  entityType: "contacts",
+};
+
+const contactWithAllEmailTypes = {
+  emailAddresses: [
+    { emailAddress: "home@email.com", emailType: "HOME" },
+    { emailAddress: "work@email.com", emailType: "WORK" },
+    { emailAddress: "other@email.com", emailType: "OTHER" },
+    { emailAddress: "unknown@email.com", emailType: "UNKNOWN" },
+  ],
+  entityType: "contacts",
+};
+
+const contactWithWorkAndOtherEmails = {
+  emailAddresses: [
+    { emailAddress: "work@email.com", emailType: "WORK" },
+    { emailAddress: "other@email.com", emailType: "OTHER" },
+  ],
+  entityType: "contacts",
+};
+
 
 const contactWithNicknameOnly = {
   nickName: "Bobby (nickname only)",
   entityType: "contacts",
 }
 
-const contactWithCompanyAndJobTitle = {
-  company: "XYZ Inc. (company and job title)",
-  workTitle: "CEO",
+const contactWithCompanyOnly = {
+  company: "Innovative Technologies (company)",
   entityType: "contacts",
-}
+};
 
-const contactWithAddressOnly = {
+const contactWithDepartmentOnly = {
+  department: "Human Resources (department)",
+  entityType: "contacts",
+};
+
+const contactWithWorkTitleOnly = {
+  workTitle: "Chief Marketing Officer (job title)",
+  entityType: "contacts",
+};
+
+const contactWithCompanyAndDepartment = {
+  company: "Innovative Technologies (company & department)",
+  department: "Human Resources",
+  entityType: "contacts",
+};
+
+const contactWithCompanyAndWorkTitle = {
+  company: "Innovative Technologies (company & job title)",
+  workTitle: "Chief Marketing Officer",
+  entityType: "contacts",
+};
+
+const contactWithDepartmentAndWorkTitle = {
+  department: "Human Resources (department & job title)",
+  workTitle: "Chief Marketing Officer",
+  entityType: "contacts",
+};
+
+const contactWithCompanyDepartmentAndWorkTitle = {
+  company: "Innovative Technologies (company, department & job title)",
+  department: "Human Resources",
+  workTitle: "Chief Marketing Officer",
+  entityType: "contacts",
+};
+
+const contactWithFullAddressOnly = {
   address: {
     streetAddress: "Street 7 (only address)",
     city: "Berlin",
     postalCode: "10115",
     type: "HOME",
   },
+  entityType: "contacts",
+}
+
+const contactWithStreetAddressOnly = {
+  contactId: "2",
+  firstName: "Jane",
+  lastName: "Smith",
+  address: [
+    {
+      streetAddress: "Street 5 (only street address)",
+      type: "HOME",
+    },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithCityOnly = {
+  contactId: "3",
+  firstName: "Adam",
+  lastName: "Johnson",
+  address: [
+    {
+      city: "Krakow",
+      type: "HOME",
+    },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithZipCodeOnly = {
+  contactId: "4",
+  firstName: "Emily",
+  lastName: "Davis",
+  address: [
+    {
+      zipCode: "00-002",
+      type: "HOME",
+    },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithStreetAndZipCode = {
+  contactId: "5",
+  firstName: "Michael",
+  lastName: "Brown",
+  address: [
+    {
+      streetAddress: "Street 9",
+      zipCode: "00-003",
+      type: "HOME",
+    },
+  ],
   entityType: "contacts",
 }
 
@@ -219,11 +371,29 @@ export const contactsSeedData: EntityData[] = [
   contactWithNumbersInName,
   contactWithPrefixSuffix,
   contactWithMiddleNameOnly,
-  contactWithPhoneNumberOnly,
-  contactWithEmailOnly,
+  contactWithMobilePhoneNumberOnly,
+  contactWithMobileAndHomePhoneNumbers,
+  contactWithMobileHomeAndWorkPhoneNumbers,
+  contactWithAllPhoneTypesPhoneNumbers,
+  contactWithWorkAndOtherPhoneNumbers,
+  contactWithHomeEmailOnly,
+  contactWithHomeAndWorkEmails,
+  contactWithHomeWorkAndOtherEmails,
+  contactWithAllEmailTypes,
+  contactWithWorkAndOtherEmails,
   contactWithNicknameOnly,
-  contactWithCompanyAndJobTitle,
-  contactWithAddressOnly,
+  contactWithCompanyOnly,
+  contactWithDepartmentOnly,
+  contactWithWorkTitleOnly,
+  contactWithCompanyAndDepartment,
+  contactWithCompanyAndWorkTitle,
+  contactWithDepartmentAndWorkTitle,
+  contactWithCompanyDepartmentAndWorkTitle,
+  contactWithFullAddressOnly,
+  contactWithStreetAddressOnly,
+  contactWithCityOnly,
+  contactWithZipCodeOnly,
+  contactWithStreetAndZipCode,
   contactWithSipOnly,
   contactWithWebsiteOnly,
   contactWithNotesOnly,
