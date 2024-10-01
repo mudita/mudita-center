@@ -244,11 +244,45 @@ const contactWithNicknameOnly = {
   entityType: "contacts",
 }
 
-const contactWithCompanyAndJobTitle = {
-  company: "XYZ Inc. (company and job title)",
-  workTitle: "CEO",
+const contactWithCompanyOnly = {
+  company: "Tech Solutions Inc. (company)",
   entityType: "contacts",
-}
+};
+
+const contactWithDepartmentOnly = {
+  department: "Research and Development (department)",
+  entityType: "contacts",
+};
+
+const contactWithWorkTitleOnly = {
+  workTitle: "Senior Software Engineer (job title)",
+  entityType: "contacts",
+};
+
+const contactWithCompanyAndDepartment = {
+  company: "Innovative Technologies (company & department)",
+  department: "Human Resources",
+  entityType: "contacts",
+};
+
+const contactWithCompanyAndWorkTitle = {
+  company: "Future Enterprises (company & job title)",
+  workTitle: "Chief Marketing Officer",
+  entityType: "contacts",
+};
+
+const contactWithDepartmentAndWorkTitle = {
+  department: "Engineering (department & job title)",
+  workTitle: "Lead DevOps Engineer",
+  entityType: "contacts",
+};
+
+const contactWithCompanyDepartmentAndWorkTitle = {
+  company: "Global Finance Corp. (company, department & job title)",
+  department: "Accounting",
+  workTitle: "Financial Analyst",
+  entityType: "contacts",
+};
 
 const contactWithFullAddressOnly = {
   address: {
@@ -348,7 +382,13 @@ export const contactsSeedData: EntityData[] = [
   contactWithAllEmailTypes,
   contactWithWorkAndOtherEmails,
   contactWithNicknameOnly,
-  contactWithCompanyAndJobTitle,
+  contactWithCompanyOnly,
+  contactWithDepartmentOnly,
+  contactWithWorkTitleOnly,
+  contactWithCompanyAndDepartment,
+  contactWithCompanyAndWorkTitle,
+  contactWithDepartmentAndWorkTitle,
+  contactWithCompanyDepartmentAndWorkTitle,
   contactWithFullAddressOnly,
   contactWithStreetAddressOnly,
   contactWithCityOnly,
