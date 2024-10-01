@@ -201,7 +201,7 @@ const contactWithWorkAndOtherPhoneNumbers = {
 const contactWithHomeEmailOnly = {
   emailAddresses: [{ emailAddress: "home@email.com", emailType: "HOME" }],
   entityType: "contacts",
-};
+}
 
 const contactWithHomeAndWorkEmails = {
   emailAddresses: [
@@ -209,7 +209,7 @@ const contactWithHomeAndWorkEmails = {
     { emailAddress: "work@email.com", emailType: "WORK" },
   ],
   entityType: "contacts",
-};
+}
 
 const contactWithHomeWorkAndOtherEmails = {
   emailAddresses: [
@@ -218,7 +218,7 @@ const contactWithHomeWorkAndOtherEmails = {
     { emailAddress: "other@email.com", emailType: "OTHER" },
   ],
   entityType: "contacts",
-};
+}
 
 const contactWithAllEmailTypes = {
   emailAddresses: [
@@ -228,7 +228,7 @@ const contactWithAllEmailTypes = {
     { emailAddress: "unknown@email.com", emailType: "UNKNOWN" },
   ],
   entityType: "contacts",
-};
+}
 
 const contactWithWorkAndOtherEmails = {
   emailAddresses: [
@@ -236,8 +236,7 @@ const contactWithWorkAndOtherEmails = {
     { emailAddress: "other@email.com", emailType: "OTHER" },
   ],
   entityType: "contacts",
-};
-
+}
 
 const contactWithNicknameOnly = {
   nickName: "Bobby (nickname only)",
@@ -247,42 +246,42 @@ const contactWithNicknameOnly = {
 const contactWithCompanyOnly = {
   company: "Innovative Technologies (company)",
   entityType: "contacts",
-};
+}
 
 const contactWithDepartmentOnly = {
   department: "Human Resources (department)",
   entityType: "contacts",
-};
+}
 
 const contactWithWorkTitleOnly = {
   workTitle: "Chief Marketing Officer (job title)",
   entityType: "contacts",
-};
+}
 
 const contactWithCompanyAndDepartment = {
   company: "Innovative Technologies (company & department)",
   department: "Human Resources",
   entityType: "contacts",
-};
+}
 
 const contactWithCompanyAndWorkTitle = {
   company: "Innovative Technologies (company & job title)",
   workTitle: "Chief Marketing Officer",
   entityType: "contacts",
-};
+}
 
 const contactWithDepartmentAndWorkTitle = {
   department: "Human Resources (department & job title)",
   workTitle: "Chief Marketing Officer",
   entityType: "contacts",
-};
+}
 
 const contactWithCompanyDepartmentAndWorkTitle = {
   company: "Innovative Technologies (company, department & job title)",
   department: "Human Resources",
   workTitle: "Chief Marketing Officer",
   entityType: "contacts",
-};
+}
 
 const contactWithFullAddressOnly = {
   address: {
@@ -298,12 +297,10 @@ const contactWithStreetAddressOnly = {
   contactId: "2",
   firstName: "Jane",
   lastName: "Smith",
-  address: [
-    {
-      streetAddress: "Street 5 (only street address)",
-      type: "HOME",
-    },
-  ],
+  address: {
+    streetAddress: "Street 5 (only street address)",
+    type: "HOME",
+  },
   entityType: "contacts",
 }
 
@@ -311,12 +308,10 @@ const contactWithCityOnly = {
   contactId: "3",
   firstName: "Adam",
   lastName: "Johnson",
-  address: [
-    {
-      city: "Krakow",
-      type: "HOME",
-    },
-  ],
+  address: {
+    city: "Krakow",
+    type: "HOME",
+  },
   entityType: "contacts",
 }
 
@@ -324,12 +319,10 @@ const contactWithZipCodeOnly = {
   contactId: "4",
   firstName: "Emily",
   lastName: "Davis",
-  address: [
-    {
-      zipCode: "00-002",
-      type: "HOME",
-    },
-  ],
+  address: {
+    zipCode: "00-002",
+    type: "HOME",
+  },
   entityType: "contacts",
 }
 
@@ -337,13 +330,11 @@ const contactWithStreetAndZipCode = {
   contactId: "5",
   firstName: "Michael",
   lastName: "Brown",
-  address: [
-    {
-      streetAddress: "Street 9",
-      zipCode: "00-003",
-      type: "HOME",
-    },
-  ],
+  address: {
+    streetAddress: "Street 9",
+    zipCode: "00-003",
+    type: "HOME",
+  },
   entityType: "contacts",
 }
 
