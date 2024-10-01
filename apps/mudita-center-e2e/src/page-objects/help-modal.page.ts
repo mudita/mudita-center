@@ -28,7 +28,7 @@ class HelpModalPage extends Page {
   }
   /**[Selector] Send button label */
   public get sendButtonLabel() {
-    return $("p*=Send")
+    return $('//button[@data-testid="submit-button"]//p')
   }
   /** returns an Array containing list of attached files */
   async attachmentsList() {
@@ -61,13 +61,11 @@ class HelpModalPage extends Page {
   }
   /**[Selector] Modal title with specific text */
   public get modalTitle() {
-    return $("h1*=Mudita Center Support")
+    return $('[data-testid="contact-support-modal-title"]')
   }
   /**[Selector] Modal subtitle */
   public get modalSubtitle() {
-    return $(
-      "p*=Contact Mudita support team and we will do our best to help you resolve your issues."
-    )
+    return $('[data-testid="contact-support-modal-subtitle"]')
   }
   /**[Selector] Current date zip file */
   public get currentDateZipFile() {
@@ -75,20 +73,20 @@ class HelpModalPage extends Page {
     return $(`p*=${currentDate}.zip`)
   }
   /**[Selector] Attached files text */
-  public get attachedFilesText() {
-    return $("p*=Attached files")
+  public get attachedFilesLabel() {
+    return $('[data-testid="attached-files-label"]')
   }
   /**[Selector] Attached files subtext */
   public get attachedFilesSubText() {
-    return $("p*=The attached files will help us resolve your problem")
+    return $('[data-testid="attached-files-subtext"]')
   }
   /**[Selector] Email label */
   public get emailLabel() {
-    return $("p*=Email")
+    return $('[data-testid="email-label"]')
   }
   /**[Selector] Message label */
   public get messageLabel() {
-    return $("p*=Message (optional)")
+    return $('[data-testid="message-label"]')
   }
   /**[Selector] Whole modal */
   public get wholeModal() {
