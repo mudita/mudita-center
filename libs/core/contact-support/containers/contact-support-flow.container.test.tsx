@@ -20,6 +20,14 @@ jest.mock("e2e-test-ids", () => {
     ModalTestIds: {
       Modal: "modal-content",
     },
+    NewContactSupportModalTestIds: {
+      Title: "contact-support-modal-title",
+      Subtitle: "contact-support-modal-subtitle",
+      EmailLabel: "email-label",
+      MessageLabel: "message-label",
+      AttachedFilesLabel: "attached-files-label",
+      AttachedFilesSubtext: "attached-files-subtext",
+    },
   }
 })
 
