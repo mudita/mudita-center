@@ -162,6 +162,11 @@ const contactWithMiddleNameOnly = {
   entityType: "contacts",
 }
 
+const contactWithPhoneNumberOnly = {
+  phoneNumbers: [{ phoneNumber: "+48345678902", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
 const contactWithEmailOnly = {
   emailAddresses: [
     { emailAddress: "only@email.com", emailType: "HOME" },
@@ -169,7 +174,7 @@ const contactWithEmailOnly = {
   entityType: "contacts",
 }
 
-const contactWithNickname = {
+const contactWithNicknameOnly = {
   nickName: "Bobby (nickname only)",
   entityType: "contacts",
 }
@@ -190,17 +195,17 @@ const contactWithAddressOnly = {
   entityType: "contacts",
 }
 
-const contactWithSip = {
+const contactWithSipOnly = {
   sip: "sip:jan.nowak@siponly.com",
   entityType: "contacts",
 }
 
-const contactWithWebsite = {
+const contactWithWebsiteOnly = {
   website: "https://websiteonly.com",
   entityType: "contacts",
 }
 
-const contactWithNotes = {
+const contactWithNotesOnly = {
   notes: "This is a test note. (only notes)",
   entityType: "contacts",
 }
@@ -214,11 +219,12 @@ export const contactsSeedData: EntityData[] = [
   contactWithNumbersInName,
   contactWithPrefixSuffix,
   contactWithMiddleNameOnly,
+  contactWithPhoneNumberOnly,
   contactWithEmailOnly,
-  contactWithNickname,
+  contactWithNicknameOnly,
   contactWithCompanyAndJobTitle,
   contactWithAddressOnly,
-  contactWithSip,
-  contactWithWebsite,
-  contactWithNotes,
+  contactWithSipOnly,
+  contactWithWebsiteOnly,
+  contactWithNotesOnly,
 ]
