@@ -245,17 +245,17 @@ const contactWithNicknameOnly = {
 }
 
 const contactWithCompanyOnly = {
-  company: "Tech Solutions Inc. (company)",
+  company: "Innovative Technologies (company)",
   entityType: "contacts",
 };
 
 const contactWithDepartmentOnly = {
-  department: "Research and Development (department)",
+  department: "Human Resources (department)",
   entityType: "contacts",
 };
 
 const contactWithWorkTitleOnly = {
-  workTitle: "Senior Software Engineer (job title)",
+  workTitle: "Chief Marketing Officer (job title)",
   entityType: "contacts",
 };
 
@@ -266,21 +266,21 @@ const contactWithCompanyAndDepartment = {
 };
 
 const contactWithCompanyAndWorkTitle = {
-  company: "Future Enterprises (company & job title)",
+  company: "Innovative Technologies (company & job title)",
   workTitle: "Chief Marketing Officer",
   entityType: "contacts",
 };
 
 const contactWithDepartmentAndWorkTitle = {
-  department: "Engineering (department & job title)",
-  workTitle: "Lead DevOps Engineer",
+  department: "Human Resources (department & job title)",
+  workTitle: "Chief Marketing Officer",
   entityType: "contacts",
 };
 
 const contactWithCompanyDepartmentAndWorkTitle = {
-  company: "Global Finance Corp. (company, department & job title)",
-  department: "Accounting",
-  workTitle: "Financial Analyst",
+  company: "Innovative Technologies (company, department & job title)",
+  department: "Human Resources",
+  workTitle: "Chief Marketing Officer",
   entityType: "contacts",
 };
 
