@@ -114,17 +114,13 @@ const contactFullData5 = {
   namePrefix: "Mrs.",
   nameSuffix: "",
   middleName: "Isabel",
-  phoneNumbers: [
-    { phoneNumber: "+33678901234", phoneType: "MOBILE" },
-  ],
+  phoneNumbers: [{ phoneNumber: "+33678901234", phoneType: "MOBILE" }],
   emailAddresses: [
     {
-
       emailAddress: "sophia.martinez@fashionhouse.com",
       emailType: "WORK",
     },
     {
-
       emailAddress: "sophia.isabel@yahoo.com",
       emailType: "PERSONAL",
     },
@@ -165,47 +161,45 @@ const contactWithMiddleNameOnly = {
 const contactWithMobilePhoneNumberOnly = {
   phoneNumbers: [{ phoneNumber: "+48345678902", phoneType: "MOBILE" }],
   entityType: "contacts",
-};
+}
 
 const contactWithMobileAndHomePhoneNumbers = {
   phoneNumbers: [
     { phoneNumber: "+48345678902", phoneType: "MOBILE" },
-    { phoneNumber: "+48445678903", phoneType: "HOME" }
+    { phoneNumber: "+48445678903", phoneType: "HOME" },
   ],
   entityType: "contacts",
-};
+}
 
 const contactWithMobileHomeAndWorkPhoneNumbers = {
   phoneNumbers: [
     { phoneNumber: "+48345678902", phoneType: "MOBILE" },
     { phoneNumber: "+48445678903", phoneType: "HOME" },
-    { phoneNumber: "+48555678904", phoneType: "WORK" }
+    { phoneNumber: "+48555678904", phoneType: "WORK" },
   ],
   entityType: "contacts",
-};
+}
 
 const contactWithAllPhoneTypesPhoneNumbers = {
   phoneNumbers: [
     { phoneNumber: "+48345678902", phoneType: "MOBILE" },
     { phoneNumber: "+48445678903", phoneType: "HOME" },
     { phoneNumber: "+48555678904", phoneType: "WORK" },
-    { phoneNumber: "+48665678905", phoneType: "OTHER" }
+    { phoneNumber: "+48665678905", phoneType: "OTHER" },
   ],
   entityType: "contacts",
-};
+}
 
 const contactWithWorkAndOtherPhoneNumbers = {
   phoneNumbers: [
     { phoneNumber: "+48555678904", phoneType: "WORK" },
-    { phoneNumber: "+48665678905", phoneType: "OTHER" }
+    { phoneNumber: "+48665678905", phoneType: "OTHER" },
   ],
   entityType: "contacts",
-};
+}
 
 const contactWithEmailOnly = {
-  emailAddresses: [
-    { emailAddress: "only@email.com", emailType: "HOME" },
-  ],
+  emailAddresses: [{ emailAddress: "only@email.com", emailType: "HOME" }],
   entityType: "contacts",
 }
 
@@ -220,13 +214,66 @@ const contactWithCompanyAndJobTitle = {
   entityType: "contacts",
 }
 
-const contactWithAddressOnly = {
+const contactWithFullAddressOnly = {
   address: {
     streetAddress: "Street 7 (only address)",
     city: "Berlin",
     postalCode: "10115",
     type: "HOME",
   },
+  entityType: "contacts",
+}
+
+const contactWithStreetAddressOnly = {
+  contactId: "2",
+  firstName: "Jane",
+  lastName: "Smith",
+  address: [
+    {
+      streetAddress: "Street 5 (only street address)",
+      type: "HOME",
+    },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithCityOnly = {
+  contactId: "3",
+  firstName: "Adam",
+  lastName: "Johnson",
+  address: [
+    {
+      city: "Krakow",
+      type: "HOME",
+    },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithZipCodeOnly = {
+  contactId: "4",
+  firstName: "Emily",
+  lastName: "Davis",
+  address: [
+    {
+      zipCode: "00-002",
+      type: "HOME",
+    },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithStreetAndZipCode = {
+  contactId: "5",
+  firstName: "Michael",
+  lastName: "Brown",
+  address: [
+    {
+      streetAddress: "Street 9",
+      zipCode: "00-003",
+      type: "HOME",
+    },
+  ],
   entityType: "contacts",
 }
 
@@ -262,7 +309,11 @@ export const contactsSeedData: EntityData[] = [
   contactWithEmailOnly,
   contactWithNicknameOnly,
   contactWithCompanyAndJobTitle,
-  contactWithAddressOnly,
+  contactWithFullAddressOnly,
+  contactWithStreetAddressOnly,
+  contactWithCityOnly,
+  contactWithZipCodeOnly,
+  contactWithStreetAndZipCode,
   contactWithSipOnly,
   contactWithWebsiteOnly,
   contactWithNotesOnly,
