@@ -9,6 +9,7 @@ import { APIFC } from "generic-view/utils"
 import { ButtonBase } from "./button-base/button-base"
 import { Icon } from "../icon/icon"
 import { ButtonPrimaryConfig } from "generic-view/models"
+import { ButtonTestIds } from "e2e-test-ids"
 
 export const ButtonPrimary: APIFC<undefined, ButtonPrimaryConfig> = ({
   data,
@@ -17,7 +18,12 @@ export const ButtonPrimary: APIFC<undefined, ButtonPrimaryConfig> = ({
   ...props
 }) => {
   return (
-    <Button {...props} disabled={config.disabled} action={config.action}>
+    <Button
+      data-testid={`${ButtonTestIds.PrimaryButton}-${props.componentKey}`}
+      {...props}
+      disabled={config.disabled}
+      action={config.action}
+    >
       {children}
       {config.icon && <Icon data={{ type: config.icon }} />}
       <span>{config.text}</span>

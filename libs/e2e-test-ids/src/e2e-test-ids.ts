@@ -29,6 +29,10 @@ export enum ContactSupportModalTestIds {
   CloseButton = "contact-support-modal-success-close-button",
 }
 
+export enum ButtonTestIds {
+  PrimaryButton = "primary-button",
+}
+
 export enum BackupModalTestIds {
   Title = "backup-features-modal-title",
   Description = "backup-features-modal-description",
@@ -40,4 +44,13 @@ export enum BackupModalTestIds {
 
 export enum ModalTestIds {
   Modal = "modal-content",
+}
+
+export enum NewContactSupportModalTestIds {
+  Title = "contact-support-modal-title",
+  Subtitle = "contact-support-modal-subtitle",
+  EmailLabel = "email-label",
+  MessageLabel = "message-label",
+  AttachedFilesLabel = "attached-files-label",
+  AttachedFilesSubtext = "attached-files-subtext",
 }
