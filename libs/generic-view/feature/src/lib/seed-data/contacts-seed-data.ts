@@ -198,10 +198,46 @@ const contactWithWorkAndOtherPhoneNumbers = {
   entityType: "contacts",
 }
 
-const contactWithEmailOnly = {
-  emailAddresses: [{ emailAddress: "only@email.com", emailType: "HOME" }],
+const contactWithHomeEmailOnly = {
+  emailAddresses: [{ emailAddress: "home@email.com", emailType: "HOME" }],
   entityType: "contacts",
-}
+};
+
+const contactWithHomeAndWorkEmails = {
+  emailAddresses: [
+    { emailAddress: "home@email.com", emailType: "HOME" },
+    { emailAddress: "work@email.com", emailType: "WORK" },
+  ],
+  entityType: "contacts",
+};
+
+const contactWithHomeWorkAndOtherEmails = {
+  emailAddresses: [
+    { emailAddress: "home@email.com", emailType: "HOME" },
+    { emailAddress: "work@email.com", emailType: "WORK" },
+    { emailAddress: "other@email.com", emailType: "OTHER" },
+  ],
+  entityType: "contacts",
+};
+
+const contactWithAllEmailTypes = {
+  emailAddresses: [
+    { emailAddress: "home@email.com", emailType: "HOME" },
+    { emailAddress: "work@email.com", emailType: "WORK" },
+    { emailAddress: "other@email.com", emailType: "OTHER" },
+    { emailAddress: "unknown@email.com", emailType: "UNKNOWN" },
+  ],
+  entityType: "contacts",
+};
+
+const contactWithWorkAndOtherEmails = {
+  emailAddresses: [
+    { emailAddress: "work@email.com", emailType: "WORK" },
+    { emailAddress: "other@email.com", emailType: "OTHER" },
+  ],
+  entityType: "contacts",
+};
+
 
 const contactWithNicknameOnly = {
   nickName: "Bobby (nickname only)",
@@ -306,7 +342,11 @@ export const contactsSeedData: EntityData[] = [
   contactWithMobileHomeAndWorkPhoneNumbers,
   contactWithAllPhoneTypesPhoneNumbers,
   contactWithWorkAndOtherPhoneNumbers,
-  contactWithEmailOnly,
+  contactWithHomeEmailOnly,
+  contactWithHomeAndWorkEmails,
+  contactWithHomeWorkAndOtherEmails,
+  contactWithAllEmailTypes,
+  contactWithWorkAndOtherEmails,
   contactWithNicknameOnly,
   contactWithCompanyAndJobTitle,
   contactWithFullAddressOnly,
