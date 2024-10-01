@@ -8,12 +8,13 @@ import { APIFC } from "generic-view/utils"
 import { ItemFilterConfig, ItemFilterData } from "generic-view/models"
 
 export const ItemFilter: APIFC<ItemFilterData, ItemFilterConfig> = ({
+  config,
   children,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
-    if (!containerRef.current) {
+    if (!containerRef.current || config.variant !== "FirstNonEmpty") {
       return
     }
 
@@ -32,7 +33,31 @@ export const ItemFilter: APIFC<ItemFilterData, ItemFilterConfig> = ({
         childNode.style.display = "none"
       }
     })
-  }, [children])
+  }, [children, config.variant])
+
+  useLayoutEffect(() => {
+    if (
+      !containerRef.current ||
+      config.variant !== undefined ||
+      !config.slice
+    ) {
+      return
+    }
+
+    const childNodes = Array.from(
+      containerRef.current.children
+    ) as HTMLElement[]
+    const [start, end] = config.slice
+    const slicedNodes = childNodes.slice(start, end)
+
+    childNodes.forEach((childNode) => {
+      if (slicedNodes.includes(childNode)) {
+        childNode.style.display = "block"
+      } else {
+        childNode.style.display = "none"
+      }
+    })
+  }, [children, config.slice, config.variant])
 
   return <div ref={containerRef}>{children}</div>
 }

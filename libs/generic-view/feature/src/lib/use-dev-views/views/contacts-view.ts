@@ -426,6 +426,9 @@ const view: View = {
   },
   contactFieldsRenderer: {
     component: "item-filter",
+    config: {
+      variant: "FirstNonEmpty",
+    },
     childrenKeys: [
       "contactFirstNamePrefixText",
       "contactFirstNameText",

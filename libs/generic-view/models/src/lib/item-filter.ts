@@ -9,7 +9,23 @@ const dataValidator = z.object({})
 
 export type ItemFilterData = z.infer<typeof dataValidator>
 
-const configValidator = z.object({}).optional()
+const configValidator = z
+  .object({
+    variant: z.enum(["FirstNonEmpty"]).optional(),
+    slice: z.tuple([z.number(), z.number()]).optional(),
+  })
+  .refine(
+    (data) => {
+      if (!data.variant) {
+        return data.slice !== undefined
+      }
+      return true
+    },
+    {
+      message: "Slice is required when variant is not provided",
+      path: ["slice"],
+    }
+  )
 
 export type ItemFilterConfig = z.infer<typeof configValidator>
 
