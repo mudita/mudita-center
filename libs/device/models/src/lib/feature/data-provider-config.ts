@@ -19,6 +19,9 @@ const enhancedFieldSchema = z
   .object({
     field: z.string(),
     modifier: z.union([z.literal("length"), z.literal("boolean")]).optional(),
+    slice: z
+      .union([z.tuple([z.number()]), z.tuple([z.number(), z.number()])])
+      .optional(),
   })
   .strict()
 const superEnhancedFieldSchema = enhancedFieldSchema

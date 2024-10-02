@@ -198,12 +198,17 @@ const processFormFields = (
   value: unknown
 ) => {
   let newValue = value
+  if (field.slice && value instanceof Array) {
+    newValue =
+      field.slice.length > 1
+        ? value.slice(...field.slice)
+        : value.slice(field.slice[0])
+  }
   switch (field.modifier) {
     case "length":
-      if (value instanceof String || value instanceof Array) {
-        newValue = value.length
-      }
-      if (value instanceof Object) {
+      if (newValue instanceof String || newValue instanceof Array) {
+        newValue = newValue.length
+      } else if (value instanceof Object) {
         newValue = Object.keys(value).length
       }
       break

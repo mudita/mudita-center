@@ -481,15 +481,36 @@ const view: View = {
     config: {
       width: 40,
     },
-    childrenKeys: ["phoneNumberLength"],
+    childrenKeys: ["phoneDropdownCounter"],
   },
-  phoneNumberLength: {
+  phoneDropdownCounter: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: {
+        "data.render": {
+          field: "phoneNumbers",
+          modifier: "length",
+          slice: [1],
+          condition: "gt",
+          value: 0,
+        },
+      },
+    },
+    childrenKeys: ["phoneDropdownCounterValue"],
+  },
+  phoneDropdownCounterValue: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: {
-        "data.text": "phoneNumbers.length",
+        "data.text": {
+          field: "phoneNumbers",
+          modifier: "length",
+          slice: [1]
+        },
       },
     },
   },
