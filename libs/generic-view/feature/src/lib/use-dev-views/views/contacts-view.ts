@@ -420,6 +420,11 @@ const view: View = {
         "config.value": "contactId",
       },
     },
+    extra: {
+      tooltip: {
+        contentText: "Select",
+      },
+    },
   },
   columnName: {
     component: "table.cell",

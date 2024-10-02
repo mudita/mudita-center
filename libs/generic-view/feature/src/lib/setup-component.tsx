@@ -16,6 +16,7 @@ import {
   selectComponentConfig,
   selectComponentData,
   selectComponentDataProvider,
+  selectComponentExtra,
   selectComponentLayout,
   selectEntitiesData,
   selectEntitiesIdFieldKey,
@@ -29,6 +30,7 @@ import {
   useViewFormContext,
 } from "generic-view/utils"
 import { DataProviderExtendedField, EntityData, Layout } from "device/models"
+import { Tooltip, Paragraph5 } from "generic-view/ui"
 import { cloneDeep, get, set } from "lodash"
 
 export const setupComponent = <P extends object>(
@@ -55,6 +57,9 @@ export const setupComponent = <P extends object>(
     })
     const dataProvider = useSelector((state: ReduxRootState) => {
       return selectComponentDataProvider(state, { viewKey, componentKey })
+    })
+    const extra = useSelector((state: ReduxRootState) => {
+      return selectComponentExtra(state, { viewKey, componentKey })
     })
     const componentData = useSelector((state: ReduxRootState) => {
       if (dataProvider) return
@@ -144,7 +149,7 @@ export const setupComponent = <P extends object>(
     }, [layoutDependency, styleDependency])
 
     return useMemo(() => {
-      return (
+      const componentElement = (
         <Component
           {...(editableProps as P)}
           viewKey={viewKey}
@@ -161,6 +166,17 @@ export const setupComponent = <P extends object>(
             })
           })}
         </Component>
+      )
+
+      return extra?.tooltip ? (
+        <Tooltip>
+          <Tooltip.Anchor>{componentElement}</Tooltip.Anchor>
+          <Tooltip.Content $defaultStyles>
+            <Paragraph5>{extra.tooltip.contentText}</Paragraph5>
+          </Tooltip.Content>
+        </Tooltip>
+      ) : (
+        componentElement
       )
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [

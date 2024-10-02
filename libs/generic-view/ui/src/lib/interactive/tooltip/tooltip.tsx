@@ -11,7 +11,7 @@ import React, {
   useState,
 } from "react"
 import { APIFC, BaseGenericComponent } from "generic-view/utils"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 export const Tooltip: APIFC & {
   Anchor: typeof TooltipAnchor
@@ -53,6 +53,7 @@ export const Tooltip: APIFC & {
         return null
       }
       return React.cloneElement(child as ReactElement, {
+        ...child.props,
         $top: anchorPosition.top,
         $left: anchorPosition.left,
       })
@@ -85,7 +86,11 @@ Tooltip.Anchor.defaultProps = {
 const TooltipContent: BaseGenericComponent<
   undefined,
   undefined,
-  { viewKey?: string; "data-tooltip-content"?: boolean }
+  {
+    viewKey?: string
+    "data-tooltip-content"?: boolean
+    $defaultStyles?: boolean
+  }
 > = ({ data, config, children, ...rest }) => {
   return <Content {...rest}>{children}</Content>
 }
@@ -95,7 +100,11 @@ Tooltip.Content.defaultProps = {
   "data-tooltip-content": true,
 }
 
-const Content = styled.div<{ $top?: number; $left?: number }>`
+const Content = styled.div<{
+  $top?: number
+  $left?: number
+  $defaultStyles?: boolean
+}>`
   position: fixed;
   z-index: 2;
   pointer-events: none;
@@ -105,6 +114,25 @@ const Content = styled.div<{ $top?: number; $left?: number }>`
 
   ${({ $top }) => ($top ? `top: ${$top}px;` : "")}
   ${({ $left }) => ($left ? `left: ${$left}px;` : "")}
+
+  ${({ $defaultStyles }) =>
+    $defaultStyles &&
+    css`
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
+      background-color: ${({ theme }) => theme.color.grey4};
+      border-radius: ${({ theme }) => theme.radius.sm};
+      box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
+
+      && > p {
+        color: ${({ theme }) => theme.color.black};
+        white-space: pre-wrap;
+        text-align: left;
+      }
+    `};
 `
 
 const Anchor = styled.div`
