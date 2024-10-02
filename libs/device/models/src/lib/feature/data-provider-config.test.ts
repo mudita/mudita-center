@@ -10,13 +10,14 @@ describe("dataProviderSchema", () => {
     const validData: DataProviderConfig = {
       source: "entities-array",
       entitiesType: "someType",
-      sort: {
-        someField: {
-          priority: 1,
+      sort: [
+        {
+          providerField: "someField",
           direction: "asc",
+          priority: 1,
           orderingPatterns: ["/pattern/"],
         },
-      },
+      ],
       filters: {
         someField: ["/pattern/"],
       },

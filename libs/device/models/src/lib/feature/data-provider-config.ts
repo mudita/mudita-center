@@ -14,14 +14,16 @@ const regexSchema = z
     "Regex must be in format /regex/ or /regex/flags"
   )
 
+const componentFieldSchema = z.union([
+  z.literal("dataItemId"),
+  z.string().startsWith("data."),
+  z.string().startsWith("config."),
+])
+
 const baseFieldSchema = z
   .object({
     providerField: z.string(),
-    componentField: z.union([
-      z.literal("dataItemId"),
-      z.string().startsWith("data."),
-      z.string().startsWith("config."),
-    ]),
+    componentField: componentFieldSchema,
   })
   .strict()
 const enhancedFieldSchema = z
@@ -58,9 +60,9 @@ export type DataProviderField =
   | z.infer<typeof superEnhancedFieldSchema>
 
 const sortSchema = z
-  .record(
-    z.string(),
+  .array(
     z.object({
+      providerField: componentFieldSchema,
       priority: z.number().nonnegative(),
       direction: z.union([z.literal("asc"), z.literal("desc")]),
       orderingPatterns: z.array(regexSchema).optional(),
