@@ -368,18 +368,19 @@ const view: View = {
       source: "entities-array",
       entitiesType: "contacts",
       sort: {
+        lastName: {
+          priority: 1,
+          direction: "asc",
+        },
         firstName: {
           priority: 2,
           direction: "asc",
         },
-        lastName: {
-          priority: 1,
+        displayName: {
+          priority: 3,
           direction: "asc",
           orderingPatterns: ["/^\\p{L}/miu", "/^\\d/m", "/^\\#/m"],
         },
-      },
-      filters: {
-        firstName: ["/.+/"],
       },
     },
     config: {
@@ -425,55 +426,15 @@ const view: View = {
     config: {
       width: 717,
     },
-    childrenKeys: ["contactJoinedNames"],
+    childrenKeys: ["contactDisplayNameText"],
   },
-  contactJoinedNames: {
-    component: "block-plain",
-    layout: {
-      flexLayout: {
-        direction: "row",
-        columnGap: "5px",
-      },
-    },
-    childrenKeys: ["contactFirstName", "contactLastName"],
-  },
-  contactFirstName: {
-    component: "block-plain",
-    layout: {
-      flexLayout: {
-        direction: "row",
-        columnGap: "5px",
-      },
-    },
-    childrenKeys: ["contactFirstNamePrefix", "contactFirstNameValue"],
-  },
-  contactFirstNamePrefix: {
+  contactDisplayNameText: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: {
-        "data.text": "namePrefix",
-      },
-    },
-  },
-  contactFirstNameValue: {
-    component: "text-plain",
-    dataProvider: {
-      source: "entities-field",
-      entitiesType: "contacts",
-      fields: {
-        "data.text": "firstName",
-      },
-    },
-  },
-  contactLastName: {
-    component: "text-plain",
-    dataProvider: {
-      source: "entities-field",
-      entitiesType: "contacts",
-      fields: {
-        "data.text": "lastName",
+        "data.text": "displayName",
       },
     },
   },
