@@ -28,8 +28,16 @@ import {
   RecursiveComponent,
   useViewFormContext,
 } from "generic-view/utils"
-import { DataProviderExtendedField, EntityData, Layout } from "device/models"
-import { cloneDeep, get, set } from "lodash"
+import { DataProviderField, EntityData, Layout } from "device/models"
+import {
+  cloneDeep,
+  get,
+  isArray,
+  isNumber,
+  isObject,
+  isString,
+  set,
+} from "lodash"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -99,37 +107,35 @@ export const setupComponent = <P extends object>(
       editableProps.data = sortedData?.map((item) => item[idFieldKey!])
     } else if (dataProvider?.source === "entities-field") {
       if (entityData) {
-        for (const [key, field] of Object.entries(dataProvider.fields)) {
-          if (typeof field === "string") {
-            const value = get(entityData, field)
-            set(editableProps || {}, key, value)
-          } else {
-            const value = processFormFields(field, entityData[field.field])
-            set(editableProps || {}, key, value)
+        for (const fieldConfig of dataProvider.fields) {
+          const { componentField, providerField, ...config } = fieldConfig
+          const value = processFormFields(
+            config,
+            get(entityData, providerField)
+          )
+          if (isString(value) && componentField === "dataItemId") {
+            dataItemId = value
+            continue
           }
+          set(editableProps || {}, componentField, value)
         }
       }
     } else if (dataProvider?.source === "form-fields") {
       const formContext = getFormContext(dataProvider.formKey)
       const isFormElement = componentName!.startsWith("form.")
 
-      for (const [key, field] of Object.entries(dataProvider.fields)) {
-        if (typeof field === "string") {
-          const value = isFormElement
-            ? formContext.getValues(field)
-            : formContext.watch(field)
-          if (key === "dataItemId") {
-            dataItemId = value
-            continue
-          }
-          set(editableProps || {}, key, value)
-        } else {
-          const fieldValue = isFormElement
-            ? formContext.getValues(field.field)
-            : formContext.watch(field.field)
-          const value = processFormFields(field, fieldValue)
-          set(editableProps || {}, key, value)
+      for (const fieldConfig of dataProvider.fields) {
+        const { componentField, providerField, ...config } = fieldConfig
+        const fieldValue = isFormElement
+          ? formContext.getValues(providerField)
+          : formContext.watch(providerField)
+        const value = processFormFields(config, fieldValue)
+
+        if (isString(value) && componentField === "dataItemId") {
+          dataItemId = value
+          continue
         }
+        set(editableProps || {}, componentField, value)
       }
     }
     const editablePropsDependency = JSON.stringify(editableProps)
@@ -177,22 +183,24 @@ export const setupComponent = <P extends object>(
 }
 
 const processFormFields = (
-  field: DataProviderExtendedField,
+  field: Partial<DataProviderField>,
   value: unknown
 ) => {
   let newValue = value
-  switch (field.modifier) {
-    case "length":
-      if (value instanceof String || value instanceof Array) {
-        newValue = value.length
-      }
-      if (value instanceof Object) {
-        newValue = Object.keys(value).length
-      }
-      break
-    case "boolean":
-      newValue = Boolean(value)
-      break
+  if ("modifier" in field) {
+    switch (field.modifier) {
+      case "length":
+        if (isString(value) || isArray(value)) {
+          newValue = value.length
+        }
+        if (isObject(value)) {
+          newValue = Object.keys(value).length
+        }
+        break
+      case "boolean":
+        newValue = Boolean(value)
+        break
+    }
   }
   if ("condition" in field) {
     switch (field.condition) {
@@ -203,12 +211,12 @@ const processFormFields = (
         newValue = newValue !== field.value
         break
       case "gt":
-        if (newValue instanceof Number) {
+        if (isNumber(newValue) && isNumber(field.value)) {
           newValue = newValue > field.value
         }
         break
       case "lt":
-        if (newValue instanceof Number) {
+        if (isNumber(newValue) && isNumber(field.value)) {
           newValue = newValue < field.value
         }
         break
