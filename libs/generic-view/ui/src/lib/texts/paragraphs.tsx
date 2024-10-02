@@ -91,5 +91,4 @@ export const P5 = styled.p`
   line-height: ${({ theme }) => theme.lineHeight.paragraph5};
   font-weight: ${({ theme }) => theme.fontWeight.regular};
   letter-spacing: 0.04em;
-  color: ${({ theme }) => theme.color.black};
 `

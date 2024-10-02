@@ -128,7 +128,8 @@ const Content = styled.div<{
       box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
 
       && > p {
-        color: ${({ theme }) => theme.color.grey1};
+        color: ${({ theme }) => theme.color.black};
+        white-space: pre-wrap;
         text-align: left;
       }
     `};
