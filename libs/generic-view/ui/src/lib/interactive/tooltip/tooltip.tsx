@@ -4,28 +4,56 @@
  */
 
 import React, {
+  forwardRef,
+  useRef,
   MouseEvent,
   ReactElement,
   useCallback,
   useMemo,
   useState,
 } from "react"
-import { APIFC, BaseGenericComponent } from "generic-view/utils"
 import styled, { css } from "styled-components"
+import { BaseGenericComponent } from "generic-view/utils"
+import { TooltipPlace } from "device/models"
 
-export const Tooltip: APIFC & {
+export const Tooltip: BaseGenericComponent<
+  undefined,
+  undefined,
+  { place?: TooltipPlace }
+> & {
   Anchor: typeof TooltipAnchor
   Content: typeof TooltipContent
-} = ({ children }) => {
+} = ({ children, place = "bottom-right" }) => {
   const [anchorPosition, setAnchorPosition] = useState<{
     top?: number
     left?: number
   }>({})
 
-  const handleAnchorHover = useCallback((event: MouseEvent) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    setAnchorPosition({ top: rect.top + rect.height, left: rect.left })
-  }, [])
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  const handleAnchorHover = useCallback(
+    (event: MouseEvent) => {
+      const anchorRect = event.currentTarget.getBoundingClientRect()
+      const contentReact = contentRef.current?.getBoundingClientRect()
+
+      if (contentReact === undefined) {
+        return
+      }
+
+      if (place === "bottom-right") {
+        const top = anchorRect.top + anchorRect.height
+        const left = anchorRect.left
+
+        setAnchorPosition({ left, top })
+      } else if (place === "bottom-left") {
+        const top = anchorRect.top + anchorRect.height
+        const left = anchorRect.left - contentReact.width + anchorRect.width
+
+        setAnchorPosition({ left, top })
+      }
+    },
+    [place]
+  )
 
   const anchor = useMemo(() => {
     return React.Children.map(children, (child) => {
@@ -56,15 +84,16 @@ export const Tooltip: APIFC & {
         ...child.props,
         $top: anchorPosition.top,
         $left: anchorPosition.left,
+        ref: contentRef,
       })
     })
-  }, [children, anchorPosition.left, anchorPosition.top])
+  }, [children, anchorPosition.top, anchorPosition.left])
 
   return (
-    <>
+    <Container>
       {anchor}
       {content}
-    </>
+    </Container>
   )
 }
 
@@ -83,22 +112,30 @@ Tooltip.Anchor.defaultProps = {
   "data-tooltip-anchor": true,
 }
 
-const TooltipContent: BaseGenericComponent<
-  undefined,
-  undefined,
+const TooltipContent = forwardRef<
+  HTMLDivElement,
   {
     viewKey?: string
     "data-tooltip-content"?: boolean
     $defaultStyles?: boolean
+    children: React.ReactNode
   }
-> = ({ data, config, children, ...rest }) => {
-  return <Content {...rest}>{children}</Content>
-}
+>(({ children, ...rest }, ref) => {
+  return (
+    <Content ref={ref} {...rest}>
+      {children}
+    </Content>
+  )
+})
 
 Tooltip.Content = TooltipContent
 Tooltip.Content.defaultProps = {
   "data-tooltip-content": true,
 }
+
+const Container = styled.div`
+  display: inline-block;
+`
 
 const Content = styled.div<{
   $top?: number
