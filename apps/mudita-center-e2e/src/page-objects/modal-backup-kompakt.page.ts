@@ -6,11 +6,8 @@
 import { OverviewPage } from "./overview.page"
 
 class ModalBackupKompaktPage extends OverviewPage {
-  public get backupInfo() {
-    return $('//div[@data-testid="block-box-backup"]//p')
-  }
   public get createBackupButton() {
-    return $('//button[@type="button" and .//span[text()="Create backup"]]')
+    return $('[data-testid="primary-button-backupcreate-backup-button"]')
   }
   public get createBackupProceedNext() {
     return $('[data-testid="backup-features-modal-create-action"]')
