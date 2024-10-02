@@ -14,16 +14,16 @@ import React, {
 } from "react"
 import styled, { css } from "styled-components"
 import { BaseGenericComponent } from "generic-view/utils"
-import { TooltipPlace } from "device/models"
+import { TooltipPlacement } from "device/models"
 
 export const Tooltip: BaseGenericComponent<
   undefined,
   undefined,
-  { place?: TooltipPlace }
+  { placement?: TooltipPlacement }
 > & {
   Anchor: typeof TooltipAnchor
   Content: typeof TooltipContent
-} = ({ children, place = "bottom-right" }) => {
+} = ({ children, placement = "bottom-right" }) => {
   const [anchorPosition, setAnchorPosition] = useState<{
     top?: number
     left?: number
@@ -40,19 +40,19 @@ export const Tooltip: BaseGenericComponent<
         return
       }
 
-      if (place === "bottom-right") {
+      if (placement === "bottom-right") {
         const top = anchorRect.top + anchorRect.height
         const left = anchorRect.left
 
         setAnchorPosition({ left, top })
-      } else if (place === "bottom-left") {
+      } else if (placement === "bottom-left") {
         const top = anchorRect.top + anchorRect.height
         const left = anchorRect.left - contentReact.width + anchorRect.width
 
         setAnchorPosition({ left, top })
       }
     },
-    [place]
+    [placement]
   )
 
   const anchor = useMemo(() => {

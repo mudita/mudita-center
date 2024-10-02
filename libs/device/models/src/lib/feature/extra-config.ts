@@ -5,14 +5,14 @@
 
 import { z } from "zod"
 
-const TooltipPlaceEnum = z.enum(["bottom-right", "bottom-left"]);
+const TooltipPlacementEnum = z.enum(["bottom-right", "bottom-left"]);
 
-export type TooltipPlace = z.infer<typeof TooltipPlaceEnum>;
+export type TooltipPlacement = z.infer<typeof TooltipPlacementEnum>;
 
 const tooltipSchema = z.object({
   contentText: z.string().optional(),
   contentList: z.array(z.string()).optional(),
-  place: TooltipPlaceEnum.optional(),
+  placement: TooltipPlacementEnum.optional(),
 })
 
 export const extraConfigSchema = z.object({
