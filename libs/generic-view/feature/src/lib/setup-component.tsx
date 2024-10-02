@@ -169,7 +169,7 @@ export const setupComponent = <P extends object>(
       )
 
       return extra?.tooltip ? (
-        <Tooltip>
+        <Tooltip placement={extra.tooltip.placement}>
           <Tooltip.Anchor>{componentElement}</Tooltip.Anchor>
           <Tooltip.Content $defaultStyles>
             <Paragraph5>{extra.tooltip.contentText}</Paragraph5>
