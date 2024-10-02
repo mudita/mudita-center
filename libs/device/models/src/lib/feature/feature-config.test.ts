@@ -32,9 +32,12 @@ const featureConfig: FeatureConfig = {
     dataProvider: {
       source: "entities-field",
       entitiesType: "dummy",
-      fields: {
-        dataItemId: "dummy",
-      },
+      fields: [
+        {
+          providerField: "dummy",
+          componentField: "dataItemId",
+        },
+      ],
     },
   },
 }
