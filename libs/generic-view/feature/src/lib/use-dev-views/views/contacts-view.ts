@@ -263,17 +263,19 @@ const view: View = {
     dataProvider: {
       source: "entities-array",
       entitiesType: "contacts",
-      sort: {
-        firstName: {
-          priority: 2,
-          direction: "asc",
-        },
-        lastName: {
+      sort: [
+        {
+          providerField: "lastName",
           priority: 1,
           direction: "asc",
           orderingPatterns: ["/^\\p{L}/miu", "/^\\d/m", "/^\\#/m"],
         },
-      },
+        {
+          providerField: "firstName",
+          priority: 2,
+          direction: "asc",
+        },
+      ],
       filters: {
         firstName: ["/.+/"],
       },
