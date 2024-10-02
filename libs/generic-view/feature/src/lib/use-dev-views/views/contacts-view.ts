@@ -276,9 +276,12 @@ const view: View = {
           direction: "asc",
         },
       ],
-      filters: {
-        firstName: ["/.+/"],
-      },
+      filters: [
+        {
+          providerField: "firstName",
+          patterns: ["/.+/"],
+        },
+      ],
     },
     config: {
       formOptions: {

@@ -18,9 +18,12 @@ describe("dataProviderSchema", () => {
           orderingPatterns: ["/pattern/"],
         },
       ],
-      filters: {
-        someField: ["/pattern/"],
-      },
+      filters: [
+        {
+          providerField: "someField",
+          patterns: ["/pattern/"],
+        },
+      ],
     }
     expect(dataProviderSchema.safeParse(validData).success).toBe(true)
   })
