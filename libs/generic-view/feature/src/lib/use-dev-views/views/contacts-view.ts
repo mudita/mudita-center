@@ -24,6 +24,12 @@ const view: View = {
   contactsForm: {
     component: "form",
     config: {
+      defaultValues: {
+        searchedContact: undefined,
+        activeContactId: undefined,
+        selectedContacts: [],
+        allContacts: [],
+      },
       formOptions: {
         defaultValues: {
           searchedContact: undefined,
@@ -40,10 +46,88 @@ const view: View = {
     config: {
       entitiesTypes: ["contacts"],
     },
-    childrenKeys: ["contactsPanel", "contactsFormWrapper"],
+    childrenKeys: ["contactsPanelWrapper", "contactsFormWrapper", "emptyListWrapper"],
+  },
+  emptyListWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "form-fields-v2",
+      formName: "contactsForm",
+      fields: [
+        {
+          providerField: "allContacts",
+          componentField: "data.render",
+          modifier: "length",
+          condition: "eq",
+          value: 0,
+        },
+      ],
+    },
+    childrenKeys: ["fullScreenWrapper"],
+  },
+  fullScreenWrapper: {
+    component: "block-plain",
+    layout: {
+      gridPlacement: {
+        row: 1,
+        column: 1,
+        width: 1,
+        height: 2,
+      },
+      flexLayout: {
+        rowGap: "24px",
+        direction: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+    },
+    // importContactsButton already comes from the device through API
+    childrenKeys: ["emptyStateIcon", "emptyStateText", "importContactsButton"],
+  },
+  emptyStateIcon: {
+    component: "modal.titleIcon",
+    config: {
+      type: IconType.ContactsBook,
+    },
+  },
+  emptyStateText: {
+    component: "block-plain",
+    layout: {
+      flexLayout: {
+        direction: "column",
+        alignItems: "center",
+        rowGap: "8px",
+      },
+    },
+    childrenKeys: ["title", "detailText"],
+  },
+  contactsPanelWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "form-fields-v2",
+      formName: "contactsForm",
+      fields: [
+        {
+          providerField: "allContacts",
+          componentField: "data.render",
+          modifier: "length",
+          condition: "gt",
+          value: 0,
+        },
+      ],
+    },
+    childrenKeys: ["contactsPanel"],
   },
   contactsPanel: {
     component: "block-plain",
+    layout: {
+      gridPlacement: {
+        row: 1,
+        column: 1,
+        width: 1,
+        height: 1,
+      },
+    },
     childrenKeys: ["contactsPanelDefaultMode", "contactsPanelSelectMode"],
   },
   contactsPanelDefaultMode: {
@@ -403,6 +487,14 @@ const view: View = {
         activeIdFieldName: "activeContactId",
         selectedIdsFieldName: "selectedContacts",
         allIdsFieldName: "allContacts",
+      },
+      form: {
+        formName: "contactsForm",
+        assignFields: {
+          activeIdFieldName: "activeContactId",
+          selectedIdsFieldName: "selectedContacts",
+          allIdsFieldName: "allContacts",
+        },
       },
     },
     childrenKeys: [

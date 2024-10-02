@@ -21,6 +21,7 @@ import {
   selectEntitiesData,
   selectEntitiesIdFieldKey,
   selectEntityData,
+  useFormField,
 } from "generic-view/store"
 import {
   dataProviderFilter,
@@ -72,6 +73,12 @@ export const setupComponent = <P extends object>(
     const componentData = useSelector((state: ReduxRootState) => {
       if (dataProvider) return
       return selectComponentData(state, { viewKey, componentKey })
+    })
+    const formDataV2 = useFormField({
+      formName:
+        dataProvider?.source === "form-fields-v2"
+          ? dataProvider.formName
+          : undefined,
     })
     const entitiesData =
       useSelector((state: ReduxRootState) => {
@@ -142,11 +149,25 @@ export const setupComponent = <P extends object>(
         }
         set(editableProps || {}, componentField, value)
       }
+    } else if (dataProvider?.source === "form-fields-v2") {
+      for (const fieldConfig of dataProvider.fields) {
+        const { componentField, providerField, ...config } = fieldConfig
+        const value = processFormFields(
+          config,
+          formDataV2.getValue(providerField)
+        )
+        if (isString(value) && componentField === "dataItemId") {
+          dataItemId = value
+          continue
+        }
+        set(editableProps || {}, componentField, value)
+      }
     }
     const editablePropsDependency = JSON.stringify(editableProps)
     const layoutDependency = JSON.stringify(layout)
     const styleDependency = JSON.stringify(style)
     const dataProviderDependency = JSON.stringify(dataProvider)
+    const formDataV2Dependency = JSON.stringify(formDataV2)
 
     const styles = useMemo(() => {
       return setupStyles(style, layout)
@@ -194,6 +215,7 @@ export const setupComponent = <P extends object>(
       editablePropsDependency,
       dataProviderDependency,
       styles,
+      formDataV2Dependency,
     ])
   }
 }
