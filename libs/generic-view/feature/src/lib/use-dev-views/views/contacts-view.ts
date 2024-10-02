@@ -50,14 +50,15 @@ const view: View = {
     component: "conditional-renderer",
     dataProvider: {
       source: "form-fields",
-      fields: {
-        "data.render": {
-          field: "selectedContacts",
+      fields: [
+        {
+          providerField: "selectedContacts",
+          componentField: "data.render",
           modifier: "length",
           condition: "eq",
           value: 0,
         },
-      },
+      ],
     },
     childrenKeys: ["contactsPanelManager"],
   },
@@ -121,14 +122,15 @@ const view: View = {
     component: "conditional-renderer",
     dataProvider: {
       source: "form-fields",
-      fields: {
-        "data.render": {
-          field: "selectedContacts",
+      fields: [
+        {
+          providerField: "selectedContacts",
+          componentField: "data.render",
           modifier: "length",
           condition: "gt",
           value: 0,
         },
-      },
+      ],
     },
     childrenKeys: ["contactsPanelSelector"],
   },
@@ -154,9 +156,12 @@ const view: View = {
     component: "form.checkboxInput",
     dataProvider: {
       source: "form-fields",
-      fields: {
-        "config.multipleValues": "allContacts",
-      },
+      fields: [
+        {
+          providerField: "allContacts",
+          componentField: "config.multipleValues",
+        },
+      ],
     },
     config: {
       name: "selectedContacts",
@@ -171,12 +176,13 @@ const view: View = {
     component: "format-message",
     dataProvider: {
       source: "form-fields",
-      fields: {
-        "data.fields.selectedContacts": {
-          field: "selectedContacts",
+      fields: [
+        {
+          providerField: "selectedContacts",
+          componentField: "data.fields.selectedContacts",
           modifier: "length",
         },
-      },
+      ],
     },
     config: {
       messageTemplate:
@@ -249,9 +255,12 @@ const view: View = {
     dataProvider: {
       source: "form-fields",
       formKey: "contactsForm",
-      fields: {
-        "config.actions[1].ids": "selectedContacts",
-      },
+      fields: [
+        {
+          providerField: "selectedContacts",
+          componentField: "config.actions[1].ids",
+        },
+      ],
     },
     layout: {
       flexLayout: {
@@ -292,12 +301,13 @@ const view: View = {
     dataProvider: {
       source: "form-fields",
       formKey: "contactsForm",
-      fields: {
-        "data.fields.selectedContacts": {
-          field: "selectedContacts",
+      fields: [
+        {
+          providerField: "selectedContacts",
+          componentField: "data.fields.selectedContacts",
           modifier: "length",
         },
-      },
+      ],
     },
     config: {
       messageTemplate: "Delete contacts ({selectedContacts})",
@@ -341,12 +351,13 @@ const view: View = {
     dataProvider: {
       source: "form-fields",
       formKey: "contactsForm",
-      fields: {
-        "data.fields.selectedContacts": {
-          field: "selectedContacts",
+      fields: [
+        {
+          providerField: "selectedContacts",
+          componentField: "data.fields.selectedContacts",
           modifier: "length",
         },
-      },
+      ],
     },
     config: {
       messageTemplate:
@@ -367,21 +378,25 @@ const view: View = {
     dataProvider: {
       source: "entities-array",
       entitiesType: "contacts",
-      sort: {
-        lastName: {
+      sort: [
+        {
+          providerField: "lastName",
           priority: 1,
-          direction: "asc",
-        },
-        firstName: {
-          priority: 2,
-          direction: "asc",
-        },
-        displayName: {
-          priority: 3,
           direction: "asc",
           orderingPatterns: ["/^\\p{L}/miu", "/^\\d/m", "/^\\#/m"],
         },
-      },
+        {
+          providerField: "firstName",
+          priority: 2,
+          direction: "asc",
+        },
+      ],
+      filters: [
+        {
+          providerField: "firstName",
+          patterns: ["/.+/"],
+        },
+      ],
     },
     config: {
       formOptions: {
@@ -416,9 +431,12 @@ const view: View = {
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: {
-        "config.value": "contactId",
-      },
+      fields: [
+        {
+          providerField: "contactId",
+          componentField: "config.value",
+        },
+      ],
     },
     extra: {
       tooltip: {
@@ -431,16 +449,65 @@ const view: View = {
     config: {
       width: 717,
     },
-    childrenKeys: ["contactDisplayNameText"],
+    childrenKeys: ["contactJoinedNames"],
   },
-  contactDisplayNameText: {
+  contactJoinedNames: {
+    component: "block-plain",
+    layout: {
+      flexLayout: {
+        direction: "row",
+        columnGap: "0.5rem",
+      },
+    },
+    childrenKeys: ["contactFirstName", "contactLastName"],
+  },
+  contactFirstName: {
+    component: "block-plain",
+    layout: {
+      flexLayout: {
+        direction: "row",
+        columnGap: "0.5rem",
+      },
+    },
+    childrenKeys: ["contactFirstNamePrefix", "contactFirstNameValue"],
+  },
+  contactFirstNamePrefix: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: {
-        "data.text": "displayName",
-      },
+      fields: [
+        {
+          providerField: "namePrefix",
+          componentField: "data.text",
+        },
+      ],
+    },
+  },
+  contactFirstNameValue: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "firstName",
+          componentField: "data.text",
+        },
+      ],
+    },
+  },
+  contactLastName: {
+    component: "text-plain",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "lastName",
+          componentField: "data.text",
+        },
+      ],
     },
   },
   columnPhoneNumberOptional: {
@@ -463,9 +530,12 @@ const view: View = {
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: {
-        "data.text": "phoneNumbers[0].phoneNumber",
-      },
+      fields: [
+        {
+          providerField: "phoneNumbers[0].phoneNumber",
+          componentField: "data.text",
+        },
+      ],
     },
   },
   columnPhoneNumberLengthOptional: {
@@ -488,9 +558,12 @@ const view: View = {
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: {
-        "data.text": "phoneNumbers.length",
-      },
+      fields: [
+        {
+          providerField: "phoneNumbers.length",
+          componentField: "data.text",
+        },
+      ],
     },
   },
   detailsWrapper: {
@@ -507,9 +580,12 @@ const view: View = {
     },
     dataProvider: {
       source: "form-fields",
-      fields: {
-        dataItemId: "activeContactId",
-      },
+      fields: [
+        {
+          providerField: "activeContactId",
+          componentField: "dataItemId",
+        },
+      ],
     },
     childrenKeys: ["contactDetails", "disableButton"],
   },
@@ -522,9 +598,12 @@ const view: View = {
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: {
-        "data.text": "email",
-      },
+      fields: [
+        {
+          providerField: "email",
+          componentField: "data.text",
+        },
+      ],
     },
   },
   contactDetailsName: {
@@ -532,9 +611,12 @@ const view: View = {
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: {
-        "data.text": "firstName",
-      },
+      fields: [
+        {
+          providerField: "firstName",
+          componentField: "data.text",
+        },
+      ],
     },
   },
   disableButton: {
