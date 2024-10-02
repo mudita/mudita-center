@@ -29,9 +29,14 @@ import {
   RecursiveComponent,
   useViewFormContext,
 } from "generic-view/utils"
-import { DataProviderExtendedField, EntityData, Layout } from "device/models"
+import {
+  DataProviderExtendedField,
+  EntityData,
+  ExtraConfig,
+  Layout,
+} from "device/models"
 import { Tooltip, Paragraph5 } from "generic-view/ui"
-import { cloneDeep, get, set } from "lodash"
+import { cloneDeep, flatten, get, map, set } from "lodash"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -89,6 +94,8 @@ export const setupComponent = <P extends object>(
       }) as EntityData
     })
 
+    const extraData: ExtraConfig = {}
+
     const editableProps = cloneDeep({
       ...dataProps,
       config,
@@ -109,6 +116,11 @@ export const setupComponent = <P extends object>(
             const value = get(entityData, field)
             set(editableProps || {}, key, value)
           } else {
+            if (key.startsWith("extra-data.")) {
+              const extraPropsKey = key.replace(/^extra-data\./, "")
+              const value = processFormFields(field, entityData[field.field])
+              set(extraData, extraPropsKey, value)
+            }
             const value = processFormFields(field, entityData[field.field])
             set(editableProps || {}, key, value)
           }
@@ -168,11 +180,29 @@ export const setupComponent = <P extends object>(
         </Component>
       )
 
+      let innerContentComponent
+
+      if (extra?.tooltip?.contentText) {
+        innerContentComponent = (
+          <Paragraph5>{extra?.tooltip.contentText}</Paragraph5>
+        )
+      }
+
+      if (extraData.tooltip?.contentList) {
+        innerContentComponent = (
+          <>
+            {extraData.tooltip?.contentList?.map((content) => (
+              <Paragraph5 key={content}>{content}</Paragraph5>
+            ))}
+          </>
+        )
+      }
+
       return extra?.tooltip ? (
         <Tooltip placement={extra.tooltip.placement}>
           <Tooltip.Anchor>{componentElement}</Tooltip.Anchor>
           <Tooltip.Content $defaultStyles>
-            <Paragraph5>{extra.tooltip.contentText}</Paragraph5>
+            {innerContentComponent}
           </Tooltip.Content>
         </Tooltip>
       ) : (
@@ -193,6 +223,10 @@ export const setupComponent = <P extends object>(
   }
 }
 
+function flattenListByKey<T>(list: T[], key: string): unknown {
+  return flatten(map(list, (item) => get(item, key, [])))
+}
+
 const processFormFields = (
   field: DataProviderExtendedField,
   value: unknown
@@ -203,6 +237,9 @@ const processFormFields = (
       field.slice.length > 1
         ? value.slice(...field.slice)
         : value.slice(field.slice[0])
+  }
+  if (field.flat && value instanceof Array) {
+    newValue = flattenListByKey(newValue as unknown[], field.flat)
   }
   switch (field.modifier) {
     case "length":

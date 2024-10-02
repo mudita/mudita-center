@@ -498,19 +498,36 @@ const view: View = {
         },
       },
     },
-    childrenKeys: ["phoneDropdownCounterValue"],
+    childrenKeys: ["phoneDropdownCounterBadge"],
   },
-  phoneDropdownCounterValue: {
-    component: "text-plain",
+  phoneDropdownCounterBadge: {
+    component: "badge",
+    childrenKeys: ["phoneDropdownCounterBadgeText"],
+  },
+  phoneDropdownCounterBadgeText: {
+    component: "format-message",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: {
-        "data.text": {
+        "data.fields.phoneNumbersLength": {
           field: "phoneNumbers",
           modifier: "length",
-          slice: [1]
+          slice: [1],
         },
+        "extra-data.tooltip.contentList": {
+          field: "phoneNumbers",
+          slice: [1],
+          flat: "phoneNumber",
+        },
+      },
+    },
+    config: {
+      messageTemplate: "+{phoneNumbersLength}",
+    },
+    extra: {
+      tooltip: {
+        placement: "bottom-left",
       },
     },
   },

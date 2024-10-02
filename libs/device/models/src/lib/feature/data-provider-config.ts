@@ -22,6 +22,7 @@ const enhancedFieldSchema = z
     slice: z
       .union([z.tuple([z.number()]), z.tuple([z.number(), z.number()])])
       .optional(),
+    flat: z.string().optional(),
   })
   .strict()
 const superEnhancedFieldSchema = enhancedFieldSchema
@@ -46,6 +47,7 @@ const fieldsSchema = z.record(
   z.union([
     z.literal("dataItemId"),
     z.string().startsWith("data."),
+    z.string().startsWith("extra-data."),
     z.string().startsWith("config."),
   ]),
   z.union([baseFieldSchema, enhancedFieldSchema, superEnhancedFieldSchema])
