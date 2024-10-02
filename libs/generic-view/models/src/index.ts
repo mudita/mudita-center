@@ -43,6 +43,7 @@ import {
   p2Component,
   p3Component,
   p4Component,
+  p5Component,
 } from "./lib/paragraphs"
 import { lastBackupDate } from "./lib/last-backup-date"
 import { backupCreate } from "./lib/backup-create"
@@ -157,6 +158,7 @@ export default {
   [p2Component.key]: p2Component,
   [p3Component.key]: p3Component,
   [p4Component.key]: p4Component,
+  [p5Component.key]: p5Component,
   [overviewOsVersion.key]: overviewOsVersion,
   [aboutDataBox.key]: aboutDataBox,
   [lastBackupDate.key]: lastBackupDate,
