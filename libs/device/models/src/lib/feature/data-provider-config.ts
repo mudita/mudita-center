@@ -62,7 +62,7 @@ export type DataProviderField =
 const sortSchema = z
   .array(
     z.object({
-      providerField: componentFieldSchema,
+      providerField: z.string(),
       priority: z.number().nonnegative(),
       direction: z.union([z.literal("asc"), z.literal("desc")]),
       orderingPatterns: z.array(regexSchema).optional(),
@@ -75,7 +75,7 @@ export type DataProviderSortConfig = z.infer<typeof sortSchema>
 const filtersSchema = z
   .array(
     z.object({
-      providerField: componentFieldSchema,
+      providerField: z.string(),
       patterns: z.array(regexSchema),
     })
   )
