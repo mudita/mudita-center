@@ -10,6 +10,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
 import logger from "Core/__deprecated__/main/utils/logger"
+import { enhanceEntity } from "./helpers/enhance-entity"
 
 export const createEntityDataAction = createAsyncThunk<
   EntityData,
@@ -53,6 +54,8 @@ export const createEntityDataAction = createAsyncThunk<
       return rejectWithValue(undefined)
     }
 
-    return response.data.data
+    const computedFields =
+      genericEntities[deviceId][entitiesType]?.config.computedFields || {}
+    return enhanceEntity(response.data.data, { computedFields })
   }
 )
