@@ -34,23 +34,35 @@ export const Tooltip: BaseGenericComponent<
   const handleAnchorHover = useCallback(
     (event: MouseEvent) => {
       const anchorRect = event.currentTarget.getBoundingClientRect()
-      const contentReact = contentRef.current?.getBoundingClientRect()
+      const contentRect = contentRef.current?.getBoundingClientRect()
 
-      if (contentReact === undefined) {
+      if (contentRect === undefined) {
         return
       }
 
-      if (placement === "bottom-right") {
-        const top = anchorRect.top + anchorRect.height
-        const left = anchorRect.left
+      let top: number;
+      let left: number;
 
-        setAnchorPosition({ left, top })
-      } else if (placement === "bottom-left") {
-        const top = anchorRect.top + anchorRect.height
-        const left = anchorRect.left - contentReact.width + anchorRect.width
-
-        setAnchorPosition({ left, top })
+      switch (placement) {
+        case "bottom-right":
+          top = anchorRect.top + anchorRect.height;
+          left = anchorRect.left;
+          break;
+        case "bottom-left":
+          top = anchorRect.top + anchorRect.height;
+          left = anchorRect.left - contentRect.width + anchorRect.width;
+          break;
+        case "top-right":
+          top = anchorRect.top - contentRect.height - anchorRect.height;
+          left = anchorRect.left;
+          break;
+        case "top-left":
+          top = anchorRect.top - contentRect.height - anchorRect.height;
+          left = anchorRect.left - contentRect.width + anchorRect.width;
+          break;
       }
+
+      setAnchorPosition({ left, top });
     },
     [placement]
   )
