@@ -35,7 +35,7 @@ export const FormatMessage: APIFC<FormatMessageData, FormatMessageConfig> = ({
   )
   return (
     <RawIntlProvider value={intl}>
-      <FormattedMessage id={id} values={data.fields} {...props} />
+      {intl.formatMessage({ id }, data.fields)}
     </RawIntlProvider>
   )
 }
