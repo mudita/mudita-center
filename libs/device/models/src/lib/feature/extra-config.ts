@@ -5,9 +5,14 @@
 
 import { z } from "zod"
 
-const TooltipPlacementEnum = z.enum(["bottom-right", "bottom-left"]);
+const TooltipPlacementEnum = z.enum([
+  "bottom-right",
+  "bottom-left",
+  "top-right",
+  "top-left",
+])
 
-export type TooltipPlacement = z.infer<typeof TooltipPlacementEnum>;
+export type TooltipPlacement = z.infer<typeof TooltipPlacementEnum>
 
 const tooltipSchema = z.object({
   contentText: z.string().optional(),

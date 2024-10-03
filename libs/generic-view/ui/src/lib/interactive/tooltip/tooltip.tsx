@@ -15,6 +15,16 @@ import React, {
 import styled, { css } from "styled-components"
 import { BaseGenericComponent } from "generic-view/utils"
 import { TooltipPlacement } from "device/models"
+import {
+  flipHorizontal,
+  flipTooltipPlacement,
+  flipVertical,
+} from "./tooltip-helpers"
+
+interface Position {
+  left: number
+  top: number
+}
 
 export const Tooltip: BaseGenericComponent<
   undefined,
@@ -24,33 +34,75 @@ export const Tooltip: BaseGenericComponent<
   Anchor: typeof TooltipAnchor
   Content: typeof TooltipContent
 } = ({ children, placement = "bottom-right" }) => {
-  const [anchorPosition, setAnchorPosition] = useState<{
-    top?: number
-    left?: number
-  }>({})
+  const [contentPosition, setContentPosition] = useState<Partial<Position>>({})
 
   const contentRef = useRef<HTMLDivElement>(null)
 
   const handleAnchorHover = useCallback(
     (event: MouseEvent) => {
       const anchorRect = event.currentTarget.getBoundingClientRect()
-      const contentReact = contentRef.current?.getBoundingClientRect()
+      const contentRect = contentRef.current?.getBoundingClientRect()
 
-      if (contentReact === undefined) {
-        return
+      if (!contentRect) return
+
+      const viewportWidth = window.innerWidth
+      const viewportHeight = window.innerHeight
+
+      const placements: TooltipPlacement[] = [
+        placement,
+        flipVertical(placement),
+        flipHorizontal(placement),
+        flipTooltipPlacement(placement),
+      ]
+
+      const calculatePosition = (placment: TooltipPlacement): Position => {
+        let top = 0
+        let left = 0
+
+        switch (placment) {
+          case "bottom-right":
+            top = anchorRect.top + anchorRect.height
+            left = anchorRect.left
+            break
+          case "bottom-left":
+            top = anchorRect.top + anchorRect.height
+            left = anchorRect.left - contentRect.width + anchorRect.width
+            break
+          case "top-right":
+            top = anchorRect.top - contentRect.height - anchorRect.height
+            left = anchorRect.left
+            break
+          case "top-left":
+            top = anchorRect.top - contentRect.height - anchorRect.height
+            left = anchorRect.left - contentRect.width + anchorRect.width
+            break
+          default:
+            top = anchorRect.top + anchorRect.height
+            left = anchorRect.left
+        }
+
+        return { top, left }
       }
 
-      if (placement === "bottom-right") {
-        const top = anchorRect.top + anchorRect.height
-        const left = anchorRect.left
-
-        setAnchorPosition({ left, top })
-      } else if (placement === "bottom-left") {
-        const top = anchorRect.top + anchorRect.height
-        const left = anchorRect.left - contentReact.width + anchorRect.width
-
-        setAnchorPosition({ left, top })
+      const isWithinViewport = (position: Position): boolean => {
+        return (
+          position.left >= 0 &&
+          position.top >= 0 &&
+          position.left + contentRect.width <= viewportWidth &&
+          position.top + contentRect.height <= viewportHeight
+        )
       }
+
+      for (const placement of placements) {
+        const position = calculatePosition(placement)
+        if (isWithinViewport(position)) {
+          setContentPosition(position)
+          return
+        }
+      }
+
+      const position = calculatePosition(placement)
+      setContentPosition(position)
     },
     [placement]
   )
@@ -82,13 +134,13 @@ export const Tooltip: BaseGenericComponent<
       }
       return React.cloneElement(child as ReactElement, {
         ...child.props,
-        $top: anchorPosition.top,
-        $left: anchorPosition.left,
+        $top: contentPosition.top,
+        $left: contentPosition.left,
         ref: contentRef,
         $placement: placement,
       })
     })
-  }, [children, anchorPosition.top, anchorPosition.left, placement])
+  }, [children, contentPosition.top, contentPosition.left, placement])
 
   return (
     <Container>
@@ -171,7 +223,9 @@ const Content = styled.div<{
         width: 100%;
         color: ${theme.color.black};
         white-space: pre-wrap;
-        text-align: ${$placement === "bottom-left" ? "right" : "left"};
+        text-align: ${$placement === "bottom-left" || $placement === "top-left"
+          ? "right"
+          : "left"};
       }
     `}
 `
