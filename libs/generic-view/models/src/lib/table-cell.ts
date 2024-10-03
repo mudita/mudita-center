@@ -8,7 +8,7 @@ import { z } from "zod"
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  width: z.number(),
+  width: z.number().or(z.string()).optional(),
   colSpan: z.number().optional(),
   rowSpan: z.number().optional(),
 })

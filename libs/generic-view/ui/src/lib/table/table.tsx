@@ -216,11 +216,5 @@ const Row = styled.tr<{ $active?: boolean }>`
 
 const RowPlaceholder = styled.tr`
   height: ${rowHeight / 10}rem;
-
-  div {
-    display: block;
-    height: 2.4rem;
-    border-radius: ${({ theme }) => theme.radius.md};
-    background: ${({ theme }) => theme.color.grey6};
-  }
+  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
 `
