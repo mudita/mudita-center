@@ -14,7 +14,7 @@ const configValidator = z.object({
   icon: z.nativeEnum(IconType).optional(),
   actions: buttonActionsValidator,
   modifiers: z
-    .array(z.enum(["link", "uppercase", "hover-underline"]))
+    .array(z.enum(["link", "uppercase", "hover-underline", "hover-background"]))
     .optional(),
 })
 

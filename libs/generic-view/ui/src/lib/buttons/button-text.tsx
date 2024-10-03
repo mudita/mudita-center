@@ -49,6 +49,8 @@ const Button = styled(ButtonBase)<{
     $modifiers?.includes("uppercase") && buttonUpperCaseModifier};
   ${({ $modifiers }) =>
     $modifiers?.includes("hover-underline") && buttonHoverUnderlineModifier};
+  ${({ $modifiers }) =>
+    $modifiers?.includes("hover-background") && buttonHoverBackgroundModifier};
 
   .icon {
     width: 2.2rem;
@@ -79,5 +81,12 @@ const buttonHoverUnderlineModifier = css`
   &:hover {
     text-decoration: underline;
     text-decoration-color: currentColor;
+  }
+`
+
+const buttonHoverBackgroundModifier = css`
+  &:hover {
+    background-color: ${({ theme }) => theme.color.grey5};
+    border-radius: ${({ theme }) => theme.radius.xs};
   }
 `
