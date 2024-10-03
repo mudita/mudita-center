@@ -227,7 +227,10 @@ export const setupComponent = <P extends object>(
       }
 
       return extra?.tooltip ? (
-        <Tooltip placement={extra.tooltip.placement}>
+        <Tooltip
+          placement={extra.tooltip.placement}
+          offset={extra.tooltip.offset}
+        >
           <Tooltip.Anchor>{componentElement}</Tooltip.Anchor>
           <Tooltip.Content $defaultStyles>
             {innerContentComponent}

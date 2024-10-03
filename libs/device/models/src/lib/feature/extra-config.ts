@@ -14,10 +14,18 @@ const TooltipPlacementEnum = z.enum([
 
 export type TooltipPlacement = z.infer<typeof TooltipPlacementEnum>
 
+const TooltipOffset = z.object({
+  x: z.number(),
+  y: z.number(),
+})
+
+export type TooltipOffsetType = z.infer<typeof TooltipOffset>
+
 const tooltipSchema = z.object({
   contentText: z.string().optional(),
   contentList: z.array(z.string()).optional(),
   placement: TooltipPlacementEnum.optional(),
+  offset: TooltipOffset.optional(),
 })
 
 export const extraConfigSchema = z.object({

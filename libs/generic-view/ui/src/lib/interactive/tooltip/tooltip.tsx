@@ -14,7 +14,7 @@ import React, {
 } from "react"
 import styled, { css } from "styled-components"
 import { BaseGenericComponent } from "generic-view/utils"
-import { TooltipPlacement } from "device/models"
+import { TooltipOffsetType, TooltipPlacement } from "device/models"
 import {
   flipHorizontal,
   flipTooltipPlacement,
@@ -29,11 +29,11 @@ interface Position {
 export const Tooltip: BaseGenericComponent<
   undefined,
   undefined,
-  { placement?: TooltipPlacement }
+  { placement?: TooltipPlacement, offset?: TooltipOffsetType }
 > & {
   Anchor: typeof TooltipAnchor
   Content: typeof TooltipContent
-} = ({ children, placement = "bottom-right" }) => {
+} = ({ children, placement = "bottom-right", offset = { x: 0, y: 0 }  }) => {
   const [contentPosition, setContentPosition] = useState<Partial<Position>>({})
 
   const contentRef = useRef<HTMLDivElement>(null)
@@ -61,24 +61,24 @@ export const Tooltip: BaseGenericComponent<
 
         switch (placment) {
           case "bottom-right":
-            top = anchorRect.top + anchorRect.height
-            left = anchorRect.left
+            top = anchorRect.top + anchorRect.height + offset.y;
+            left = anchorRect.left + offset.x;
             break
           case "bottom-left":
-            top = anchorRect.top + anchorRect.height
-            left = anchorRect.left - contentRect.width + anchorRect.width
+            top = anchorRect.top + anchorRect.height + offset.y;
+            left = anchorRect.left - contentRect.width + anchorRect.width + offset.x;
             break
           case "top-right":
-            top = anchorRect.top - contentRect.height - anchorRect.height
-            left = anchorRect.left
+            top = anchorRect.top - contentRect.height - anchorRect.height + offset.y;
+            left = anchorRect.left+ offset.x;
             break
           case "top-left":
-            top = anchorRect.top - contentRect.height - anchorRect.height
-            left = anchorRect.left - contentRect.width + anchorRect.width
+            top = anchorRect.top - contentRect.height - anchorRect.height + offset.y;
+            left = anchorRect.left - contentRect.width + anchorRect.width+ offset.x;
             break
           default:
-            top = anchorRect.top + anchorRect.height
-            left = anchorRect.left
+            top = anchorRect.top + anchorRect.height + offset.y;
+            left = anchorRect.left+ offset.x;
         }
 
         return { top, left }
@@ -104,7 +104,7 @@ export const Tooltip: BaseGenericComponent<
       const position = calculatePosition(placement)
       setContentPosition(position)
     },
-    [placement]
+    [placement, offset]
   )
 
   const anchor = useMemo(() => {
@@ -221,7 +221,7 @@ const Content = styled.div<{
 
       && > p {
         width: 100%;
-        color: ${theme.color.black};
+        color: ${theme.color.grey1};
         white-space: pre-wrap;
         text-align: ${$placement === "bottom-left" || $placement === "top-left"
           ? "right"
