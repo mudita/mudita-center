@@ -14,12 +14,28 @@ const regexSchema = z
     "Regex must be in format /regex/ or /regex/flags"
   )
 
-const baseFieldSchema = z.string()
+const componentFieldSchema = z.union([
+  z.literal("dataItemId"),
+  z.string().startsWith("data."),
+  z.string().startsWith("extra-data."),
+  z.string().startsWith("config."),
+])
+
+const baseFieldSchema = z
+  .object({
+    providerField: z.string(),
+    componentField: componentFieldSchema,
+  })
+  .strict()
 const enhancedFieldSchema = z
   .object({
-    field: z.string(),
     modifier: z.union([z.literal("length"), z.literal("boolean")]).optional(),
+    slice: z
+      .union([z.tuple([z.number()]), z.tuple([z.number(), z.number()])])
+      .optional(),
+    flat: z.string().optional(),
   })
+  .merge(baseFieldSchema)
   .strict()
 const superEnhancedFieldSchema = enhancedFieldSchema
   .extend({
@@ -39,23 +55,19 @@ const superEnhancedFieldSchema = enhancedFieldSchema
   })
   .strict()
 
-const fieldsSchema = z.record(
-  z.union([
-    z.literal("dataItemId"),
-    z.string().startsWith("data."),
-    z.string().startsWith("config."),
-  ]),
+const fieldsSchema = z.array(
   z.union([baseFieldSchema, enhancedFieldSchema, superEnhancedFieldSchema])
 )
 
-export type DataProviderExtendedField =
+export type DataProviderField =
+  | z.infer<typeof baseFieldSchema>
   | z.infer<typeof enhancedFieldSchema>
   | z.infer<typeof superEnhancedFieldSchema>
 
 const sortSchema = z
-  .record(
-    z.string(),
+  .array(
     z.object({
+      providerField: z.string(),
       priority: z.number().nonnegative(),
       direction: z.union([z.literal("asc"), z.literal("desc")]),
       orderingPatterns: z.array(regexSchema).optional(),
@@ -65,9 +77,16 @@ const sortSchema = z
 
 export type DataProviderSortConfig = z.infer<typeof sortSchema>
 
-const filtersSchema = z.record(z.string(), z.array(regexSchema)).optional()
+const filtersSchema = z
+  .array(
+    z.object({
+      providerField: z.string(),
+      patterns: z.array(regexSchema),
+    })
+  )
+  .optional()
 
-export type DataProviderFilterConfig = z.infer<typeof filtersSchema>
+export type DataProviderFiltersConfig = z.infer<typeof filtersSchema>
 
 const entitiesArraySchema = z.object({
   source: z.literal("entities-array"),
@@ -88,10 +107,17 @@ const formFieldsSchema = z.object({
   fields: fieldsSchema,
 })
 
+const formFieldsSchemaV2 = z.object({
+  source: z.literal("form-fields-v2"),
+  formName: z.string(),
+  fields: fieldsSchema,
+})
+
 export const dataProviderSchema = z.union([
   entitiesArraySchema,
   entitiesFieldSchema,
   formFieldsSchema,
+  formFieldsSchemaV2,
 ])
 
 export type DataProviderConfig = z.infer<typeof dataProviderSchema>

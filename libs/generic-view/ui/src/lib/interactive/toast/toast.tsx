@@ -11,13 +11,14 @@ import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { useDispatch, useSelector } from "react-redux"
 import { removeToast } from "generic-view/store"
 
+const toastAnimationDuration = 300
+
 export const Toast: APIFC<undefined, ToastConfig> = ({
   config,
   children,
   ...props
 }) => {
-  const toastAnimationDuration = config?.animationDuration ?? 300
-  const toastVisibilityDuration = config?.visibilityDuration ?? 1500
+  const toastVisibilityDuration = config?.visibilityDuration ?? 2000
 
   const dispatch = useDispatch<Dispatch>()
   const toastsQueue = useSelector(
@@ -42,7 +43,7 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
     if (visible) {
       visibilityTimeoutRef.current = setTimeout(() => {
         setVisible(false)
-      }, toastVisibilityDuration)
+      }, toastVisibilityDuration + toastAnimationDuration)
     } else {
       animationTimeoutRef.current = setTimeout(() => {
         setOpened(false)
@@ -52,7 +53,7 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
       clearTimeout(visibilityTimeoutRef.current)
       clearTimeout(animationTimeoutRef.current)
     }
-  }, [toastAnimationDuration, toastVisibilityDuration, visible])
+  }, [toastVisibilityDuration, visible])
 
   useEffect(() => {
     if (!opened) {
@@ -102,6 +103,14 @@ const ToastWrapper = styled.div<{
   background-color: ${({ theme }) => theme.color.white};
   box-shadow: 0 0.2rem 3rem rgba(0, 0, 0, 0.0793816);
   border-radius: ${({ theme }) => theme.radius.sm};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+
+  p {
+    color: ${({ theme }) => theme.color.black};
+  }
 
   ${({ $opened, $animationDuration }) =>
     $opened

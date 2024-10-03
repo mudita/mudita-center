@@ -17,6 +17,8 @@ import { APIFC, useViewFormContext } from "generic-view/utils"
 import { TableConfig, TableData } from "generic-view/models"
 import { TableCell } from "./table-cell"
 import { P1 } from "../texts/paragraphs"
+import { difference, intersection } from "lodash"
+import { useFormField } from "generic-view/store"
 
 const rowHeight = 64
 
@@ -30,6 +32,9 @@ export const Table: APIFC<TableData, TableConfig> & {
     -1, -1,
   ])
 
+  const { setValue: setAllIds } = useFormField({
+    formName: config.form.formName,
+  })
   const { formOptions, columnsNames } = config
   const { activeIdFieldName } = formOptions
 
@@ -48,6 +53,10 @@ export const Table: APIFC<TableData, TableConfig> & {
   const handleScroll = useCallback(() => {
     if (!scrollWrapperRef.current) return
     const { scrollTop, clientHeight } = scrollWrapperRef.current
+    if (clientHeight === 0) {
+      setTimeout(handleScroll, 10)
+      return
+    }
     const rowsPerPage = Math.ceil(clientHeight / rowHeight) || 0
     const currentRowIndex = Math.floor(scrollTop / rowHeight)
     const firstVisibleRowIndex = currentRowIndex - rowsPerPage
@@ -57,15 +66,25 @@ export const Table: APIFC<TableData, TableConfig> & {
 
   useEffect(() => {
     if (formOptions.allIdsFieldName) {
-      formContext.setValue(formOptions.allIdsFieldName, data?.length)
+      formContext.setValue(formOptions.allIdsFieldName, data)
+      setAllIds(formOptions.allIdsFieldName, data)
     }
-  }, [formOptions.allIdsFieldName, data?.length, formContext])
+  }, [data, formContext, formOptions.allIdsFieldName, setAllIds])
 
   useEffect(() => {
-    if (formOptions.allIdsFieldName) {
-      formContext.setValue(formOptions.allIdsFieldName, data)
+    if (formOptions.selectedIdsFieldName) {
+      const selectedIds = formContext.getValues(
+        formOptions.selectedIdsFieldName
+      )
+      const unavailableIds = difference(selectedIds, data)
+      if (unavailableIds.length > 0) {
+        formContext.setValue(
+          formOptions.selectedIdsFieldName,
+          intersection(data, unavailableIds)
+        )
+      }
     }
-  }, [data, formContext, formOptions.allIdsFieldName])
+  }, [data, formContext, formOptions.selectedIdsFieldName])
 
   useEffect(() => {
     const scrollWrapper = scrollWrapperRef.current

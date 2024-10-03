@@ -7,5 +7,7 @@ import { createAction } from "@reduxjs/toolkit"
 import { Toast } from "./reducer"
 import { ActionName } from "../action-names"
 
-export const openToast = createAction<Toast["key"]>(ActionName.OpenToast)
+export const addToast = createAction<Toast["key"]>(
+  ActionName.AddToast
+)
 export const removeToast = createAction(ActionName.RemoveToast)

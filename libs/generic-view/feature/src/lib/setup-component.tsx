@@ -16,10 +16,12 @@ import {
   selectComponentConfig,
   selectComponentData,
   selectComponentDataProvider,
+  selectComponentExtra,
   selectComponentLayout,
   selectEntitiesData,
   selectEntitiesIdFieldKey,
   selectEntityData,
+  useFormField,
 } from "generic-view/store"
 import {
   dataProviderFilter,
@@ -28,8 +30,24 @@ import {
   RecursiveComponent,
   useViewFormContext,
 } from "generic-view/utils"
-import { DataProviderExtendedField, EntityData, Layout } from "device/models"
-import { cloneDeep, get, set } from "lodash"
+import {
+  DataProviderField,
+  EntityData,
+  ExtraConfig,
+  Layout,
+} from "device/models"
+import {
+  cloneDeep,
+  flatten,
+  get,
+  isArray,
+  isNumber,
+  isObject,
+  isString,
+  map,
+  set,
+} from "lodash"
+import { Tooltip, Paragraph5 } from "generic-view/ui"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -56,9 +74,18 @@ export const setupComponent = <P extends object>(
     const dataProvider = useSelector((state: ReduxRootState) => {
       return selectComponentDataProvider(state, { viewKey, componentKey })
     })
+    const extra = useSelector((state: ReduxRootState) => {
+      return selectComponentExtra(state, { viewKey, componentKey })
+    })
     const componentData = useSelector((state: ReduxRootState) => {
       if (dataProvider) return
       return selectComponentData(state, { viewKey, componentKey })
+    })
+    const formDataV2 = useFormField({
+      formName:
+        dataProvider?.source === "form-fields-v2"
+          ? dataProvider.formName
+          : undefined,
     })
     const entitiesData =
       useSelector((state: ReduxRootState) => {
@@ -84,6 +111,8 @@ export const setupComponent = <P extends object>(
       }) as EntityData
     })
 
+    const extraData: ExtraConfig = {}
+
     const editableProps = cloneDeep({
       ...dataProps,
       config,
@@ -99,43 +128,60 @@ export const setupComponent = <P extends object>(
       editableProps.data = sortedData?.map((item) => item[idFieldKey!])
     } else if (dataProvider?.source === "entities-field") {
       if (entityData) {
-        for (const [key, field] of Object.entries(dataProvider.fields)) {
-          if (typeof field === "string") {
-            const value = get(entityData, field)
-            set(editableProps || {}, key, value)
-          } else {
-            const value = processFormFields(field, entityData[field.field])
-            set(editableProps || {}, key, value)
+        for (const fieldConfig of dataProvider.fields) {
+          const { componentField, providerField, ...config } = fieldConfig
+          const value = processFormFields(
+            config,
+            get(entityData, providerField)
+          )
+          if (isString(value) && componentField === "dataItemId") {
+            dataItemId = value
+            continue
           }
+          if (componentField.startsWith("extra-data.")) {
+            const extraPropsKey = componentField.replace(/^extra-data\./, "")
+            set(extraData, extraPropsKey, value)
+            continue
+          }
+          set(editableProps || {}, componentField, value)
         }
       }
     } else if (dataProvider?.source === "form-fields") {
       const formContext = getFormContext(dataProvider.formKey)
       const isFormElement = componentName!.startsWith("form.")
 
-      for (const [key, field] of Object.entries(dataProvider.fields)) {
-        if (typeof field === "string") {
-          const value = isFormElement
-            ? formContext.getValues(field)
-            : formContext.watch(field)
-          if (key === "dataItemId") {
-            dataItemId = value
-            continue
-          }
-          set(editableProps || {}, key, value)
-        } else {
-          const fieldValue = isFormElement
-            ? formContext.getValues(field.field)
-            : formContext.watch(field.field)
-          const value = processFormFields(field, fieldValue)
-          set(editableProps || {}, key, value)
+      for (const fieldConfig of dataProvider.fields) {
+        const { componentField, providerField, ...config } = fieldConfig
+        const fieldValue = isFormElement
+          ? formContext.getValues(providerField)
+          : formContext.watch(providerField)
+        const value = processFormFields(config, fieldValue)
+
+        if (isString(value) && componentField === "dataItemId") {
+          dataItemId = value
+          continue
         }
+        set(editableProps || {}, componentField, value)
+      }
+    } else if (dataProvider?.source === "form-fields-v2") {
+      for (const fieldConfig of dataProvider.fields) {
+        const { componentField, providerField, ...config } = fieldConfig
+        const value = processFormFields(
+          config,
+          formDataV2.getValue(providerField)
+        )
+        if (isString(value) && componentField === "dataItemId") {
+          dataItemId = value
+          continue
+        }
+        set(editableProps || {}, componentField, value)
       }
     }
     const editablePropsDependency = JSON.stringify(editableProps)
     const layoutDependency = JSON.stringify(layout)
     const styleDependency = JSON.stringify(style)
     const dataProviderDependency = JSON.stringify(dataProvider)
+    const formDataV2Dependency = JSON.stringify(formDataV2)
 
     const styles = useMemo(() => {
       return setupStyles(style, layout)
@@ -143,7 +189,7 @@ export const setupComponent = <P extends object>(
     }, [layoutDependency, styleDependency])
 
     return useMemo(() => {
-      return (
+      const componentElement = (
         <Component
           {...(editableProps as P)}
           viewKey={viewKey}
@@ -161,6 +207,35 @@ export const setupComponent = <P extends object>(
           })}
         </Component>
       )
+
+      let innerContentComponent
+
+      if (extra?.tooltip?.contentText) {
+        innerContentComponent = (
+          <Paragraph5>{extra?.tooltip.contentText}</Paragraph5>
+        )
+      }
+
+      if (extraData.tooltip?.contentList) {
+        innerContentComponent = (
+          <>
+            {extraData.tooltip?.contentList?.map((content) => (
+              <Paragraph5 key={content}>{content}</Paragraph5>
+            ))}
+          </>
+        )
+      }
+
+      return extra?.tooltip ? (
+        <Tooltip placement={extra.tooltip.placement}>
+          <Tooltip.Anchor>{componentElement}</Tooltip.Anchor>
+          <Tooltip.Content $defaultStyles>
+            {innerContentComponent}
+          </Tooltip.Content>
+        </Tooltip>
+      ) : (
+        componentElement
+      )
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       children,
@@ -172,27 +247,43 @@ export const setupComponent = <P extends object>(
       editablePropsDependency,
       dataProviderDependency,
       styles,
+      formDataV2Dependency,
     ])
   }
 }
 
+function flattenListByKey<T>(list: T[], key: string): unknown {
+  return flatten(map(list, (item) => get(item, key, [])))
+}
+
 const processFormFields = (
-  field: DataProviderExtendedField,
+  field: Partial<DataProviderField>,
   value: unknown
 ) => {
   let newValue = value
-  switch (field.modifier) {
-    case "length":
-      if (value instanceof String || value instanceof Array) {
-        newValue = value.length
-      }
-      if (value instanceof Object) {
-        newValue = Object.keys(value).length
-      }
-      break
-    case "boolean":
-      newValue = Boolean(value)
-      break
+  if ("slice" in field && field.slice !== undefined && value instanceof Array) {
+    newValue =
+      field.slice.length > 1
+        ? value.slice(...field.slice)
+        : value.slice(field.slice[0])
+  }
+  if ("flat" in field && field.flat !== undefined && value instanceof Array) {
+    newValue = flattenListByKey(newValue as unknown[], field.flat)
+  }
+
+  if ("modifier" in field) {
+    switch (field.modifier) {
+      case "length":
+        if (isString(newValue) || isArray(newValue)) {
+          newValue = newValue.length
+        } else if (isObject(value)) {
+          newValue = Object.keys(value).length
+        }
+        break
+      case "boolean":
+        newValue = Boolean(value)
+        break
+    }
   }
   if ("condition" in field) {
     switch (field.condition) {
@@ -203,12 +294,12 @@ const processFormFields = (
         newValue = newValue !== field.value
         break
       case "gt":
-        if (newValue instanceof Number) {
+        if (isNumber(newValue) && isNumber(field.value)) {
           newValue = newValue > field.value
         }
         break
       case "lt":
-        if (newValue instanceof Number) {
+        if (isNumber(newValue) && isNumber(field.value)) {
           newValue = newValue < field.value
         }
         break
