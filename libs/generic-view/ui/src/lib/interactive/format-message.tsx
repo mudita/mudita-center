@@ -6,20 +6,13 @@
 import React, { useId } from "react"
 import { APIFC } from "generic-view/utils"
 import { FormatMessageConfig, FormatMessageData } from "generic-view/models"
-import {
-  createIntl,
-  createIntlCache,
-  FormattedMessage,
-  RawIntlProvider,
-} from "react-intl"
+import { createIntl, createIntlCache, RawIntlProvider } from "react-intl"
 import { useSelector } from "react-redux"
 import { selectActiveDeviceConfiguration } from "generic-view/store"
 
 export const FormatMessage: APIFC<FormatMessageData, FormatMessageConfig> = ({
   data,
   config,
-  children,
-  ...props
 }) => {
   const id = useId()
   const deviceConfig = useSelector(selectActiveDeviceConfiguration)
