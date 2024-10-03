@@ -29,11 +29,11 @@ interface Position {
 export const Tooltip: BaseGenericComponent<
   undefined,
   undefined,
-  { placement?: TooltipPlacement, offset?: TooltipOffsetType }
+  { placement?: TooltipPlacement; offset?: TooltipOffsetType }
 > & {
   Anchor: typeof TooltipAnchor
   Content: typeof TooltipContent
-} = ({ children, placement = "bottom-right", offset = { x: 0, y: 0 }  }) => {
+} = ({ children, placement = "bottom-right", offset = { x: 0, y: 0 } }) => {
   const [contentPosition, setContentPosition] = useState<Partial<Position>>({})
 
   const contentRef = useRef<HTMLDivElement>(null)
@@ -61,24 +61,28 @@ export const Tooltip: BaseGenericComponent<
 
         switch (placment) {
           case "bottom-right":
-            top = anchorRect.top + anchorRect.height + offset.y;
-            left = anchorRect.left + offset.x;
+            top = anchorRect.top + anchorRect.height + offset.y
+            left = anchorRect.left + offset.x
             break
           case "bottom-left":
-            top = anchorRect.top + anchorRect.height + offset.y;
-            left = anchorRect.left - contentRect.width + anchorRect.width + offset.x;
+            top = anchorRect.top + anchorRect.height + offset.y
+            left =
+              anchorRect.left - contentRect.width + anchorRect.width + offset.x
             break
           case "top-right":
-            top = anchorRect.top - contentRect.height - anchorRect.height + offset.y;
-            left = anchorRect.left+ offset.x;
+            top =
+              anchorRect.top - contentRect.height - anchorRect.height - offset.y
+            left = anchorRect.left + offset.x
             break
           case "top-left":
-            top = anchorRect.top - contentRect.height - anchorRect.height + offset.y;
-            left = anchorRect.left - contentRect.width + anchorRect.width+ offset.x;
+            top =
+              anchorRect.top - contentRect.height - anchorRect.height - offset.y
+            left =
+              anchorRect.left - contentRect.width + anchorRect.width + offset.x
             break
           default:
-            top = anchorRect.top + anchorRect.height + offset.y;
-            left = anchorRect.left+ offset.x;
+            top = anchorRect.top + anchorRect.height + offset.y
+            left = anchorRect.left + offset.x
         }
 
         return { top, left }
