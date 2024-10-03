@@ -532,6 +532,10 @@ const view: View = {
     extra: {
       tooltip: {
         contentText: "Select",
+        offset: {
+          y: 0,
+          x: 10
+        }
       },
     },
   },
@@ -619,6 +623,23 @@ const view: View = {
   phoneDropdownCounterBadge: {
     component: "badge",
     childrenKeys: ["phoneDropdownCounterBadgeText"],
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          componentField: "extra-data.tooltip.contentList",
+          providerField: "phoneNumbers",
+          slice: [1],
+          flat: "phoneNumber",
+        },
+      ],
+    },
+    extra: {
+      tooltip: {
+        placement: "bottom-left",
+      },
+    },
   },
   phoneDropdownCounterBadgeText: {
     component: "format-message",
@@ -632,21 +653,10 @@ const view: View = {
           modifier: "length",
           slice: [1],
         },
-        {
-          componentField: "extra-data.tooltip.contentList",
-          providerField: "phoneNumbers",
-          slice: [1],
-          flat: "phoneNumber",
-        },
       ],
     },
     config: {
       messageTemplate: "+{phoneNumbersLength}",
-    },
-    extra: {
-      tooltip: {
-        placement: "bottom-left",
-      },
     },
   },
   detailsWrapper: {
