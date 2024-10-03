@@ -10,13 +10,13 @@ export enum ActionName {
   GetOutboxData = "api-actions/get-outbox-data",
 
   SetMenu = "generic-views/set-menu",
-  SetViewLayout = "generic-views/set-view-layout",
-  SetViewData = "generic-views/set-view-data",
   SetLastRefresh = "generic-views/set-last-refresh",
   AddDevice = "generic-views/add-device",
   RemoveDevice = "generic-views/remove-device",
   SetDeviceState = "generic-views/set-device-state",
   SetGenericConfig = "generic-views/set-generic-config",
+  RegisterForm = "generic-views/register-form",
+  SetFormField = "generic-views/set-form-field",
 
   OpenModal = "generic-modals/open-modal",
   CloseModal = "generic-modals/close-modal",

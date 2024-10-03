@@ -4,22 +4,17 @@
  */
 
 import React, { FunctionComponent } from "react"
-import { useParams } from "react-router"
 import { GenericThemeProvider } from "generic-view/theme"
 import RecursiveLayout from "./recursive-layout"
 import GenericModals from "./generic-modals"
 import { useDevConsole } from "./use-dev-console"
 import { useDevViews } from "./use-dev-views/use-dev-views"
 import { GenericToasts } from "./generic-toasts"
-import { FormsProvider } from "generic-view/utils"
+import { FormsProvider, useCurrentViewKey } from "generic-view/utils"
 
 export const GenericView: FunctionComponent = () => {
   useDevConsole()
-  const { viewKey, subviewKey } = useParams<{
-    viewKey: string
-    subviewKey?: string
-  }>()
-  const currentViewKey = subviewKey || viewKey
+  const currentViewKey = useCurrentViewKey()
   useDevViews(currentViewKey)
 
   return (

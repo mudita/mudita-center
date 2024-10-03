@@ -12,6 +12,7 @@ import { CheckboxInput } from "./input/checkbox-input"
 import { SearchInput } from "./input/search-input"
 import { FormConfig } from "generic-view/models"
 import { FormConditionalRenderer } from "./helpers/form-conditional-renderer"
+import { useFormRegister } from "generic-view/store"
 
 export const Form: APIFC<undefined, FormConfig> & {
   TextInput: typeof TextInput
@@ -25,6 +26,12 @@ export const Form: APIFC<undefined, FormConfig> & {
     ...config?.formOptions,
   })
   useViewFormRegister(componentKey!, methods)
+  useFormRegister({
+    formName: componentKey!,
+    options: {
+      defaultValues: config?.defaultValues,
+    },
+  })
   return <FormProvider {...methods}>{children}</FormProvider>
 }
 Form.TextInput = TextInput

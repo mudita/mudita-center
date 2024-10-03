@@ -9,20 +9,21 @@ import { DeviceProperties } from "device-manager/models"
 import { ApiConfig, MenuConfig, OverviewData } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 
+export interface GenericForm {
+  fields: Record<string, unknown>
+}
+
+interface Feature<Data = Record<string, unknown>> {
+  config?: View
+  data?: Data
+  forms?: Record<string, GenericForm>
+}
+
 export type Features = {
-  "mc-overview"?: {
-    config?: View
-    data?: OverviewData
-  }
-  "mc-about"?: {
-    config?: View
-    data?: OverviewData
-  }
+  "mc-overview"?: Feature<OverviewData>
+  "mc-about"?: Feature<OverviewData>
 } & {
-  [key: string]: {
-    config?: View
-    data?: Record<string, unknown>
-  }
+  [key: string]: Feature
 }
 
 export interface DeviceConfiguration {
@@ -31,9 +32,7 @@ export interface DeviceConfiguration {
   features?: Features
 }
 
-export interface Device
-  extends DeviceProperties,
-    Partial<DeviceConfiguration> {
+export interface Device extends DeviceProperties, Partial<DeviceConfiguration> {
   id: DeviceId
   serialNumber: string | undefined
   deviceType: DeviceType
