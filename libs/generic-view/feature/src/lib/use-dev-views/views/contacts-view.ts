@@ -448,7 +448,7 @@ const view: View = {
     config: {
       width: 717,
     },
-    childrenKeys: ["contactJoinedNames"],
+    childrenKeys: ["contactDisplayNameText"],
   },
   contactDisplayNameText: {
     component: "text-plain",
@@ -511,15 +511,16 @@ const view: View = {
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: {
-        "data.render": {
-          field: "phoneNumbers",
+      fields: [
+        {
+          providerField: "phoneNumbers",
+          componentField: "data.render",
           modifier: "length",
           slice: [1],
           condition: "gt",
           value: 0,
         },
-      },
+      ],
     },
     childrenKeys: ["phoneDropdownCounterBadge"],
   },
@@ -534,14 +535,14 @@ const view: View = {
       entitiesType: "contacts",
       fields: [
         {
-  providerField: "data.fields.phoneNumbersLength",
-    componentField: "phoneNumbers",
+          componentField: "data.fields.phoneNumbersLength",
+          providerField: "phoneNumbers",
           modifier: "length",
           slice: [1],
         },
         {
-  providerField: "extra-data.tooltip.contentList",
-    componentField: "phoneNumbers",
+          componentField: "extra-data.tooltip.contentList",
+          providerField: "phoneNumbers",
           slice: [1],
           flat: "phoneNumber",
         },

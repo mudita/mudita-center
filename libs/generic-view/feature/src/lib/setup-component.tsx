@@ -239,13 +239,13 @@ const processFormFields = (
   value: unknown
 ) => {
   let newValue = value
-  if ("slice" in field && value instanceof Array) {
+  if ("slice" in field && field.slice !== undefined && value instanceof Array) {
     newValue =
       field.slice.length > 1
         ? value.slice(...field.slice)
         : value.slice(field.slice[0])
   }
-  if ("flat" in field && value instanceof Array) {
+  if ("flat" in field && field.flat !== undefined && value instanceof Array) {
     newValue = flattenListByKey(newValue as unknown[], field.flat)
   }
 
@@ -254,8 +254,7 @@ const processFormFields = (
       case "length":
         if (isString(newValue) || isArray(newValue)) {
           newValue = newValue.length
-        }
-        if (isObject(value)) {
+        } else if (isObject(value)) {
           newValue = Object.keys(value).length
         }
         break
