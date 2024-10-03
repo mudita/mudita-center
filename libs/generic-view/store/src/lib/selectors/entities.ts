@@ -57,17 +57,35 @@ export const selectEntitiesLoadingState = createSelector(
   (entities) => {
     return Object.entries(entities).reduce(
       (
-        acc: Record<string, "loading" | "loaded" | "idle" | "error">,
+        acc: Record<
+          string,
+          | { state: "error" }
+          | {
+              state: "loading" | "loaded" | "idle"
+              progress: number
+            }
+        >,
         [entitiesType, entity]
       ) => {
         if (entity?.error) {
-          acc[entitiesType] = "error"
+          acc[entitiesType] = {
+            state: "error",
+          }
         } else if (entity?.metadata?.totalEntities === 0 || entity?.data) {
-          acc[entitiesType] = "loaded"
+          acc[entitiesType] = {
+            state: "loaded",
+            progress: 100,
+          }
         } else if (entity?.loading) {
-          acc[entitiesType] = "loading"
+          acc[entitiesType] = {
+            state: "loading",
+            progress: entity.progress || 0,
+          }
         } else {
-          acc[entitiesType] = "idle"
+          acc[entitiesType] = {
+            state: "idle",
+            progress: 0,
+          }
         }
         return acc
       },
