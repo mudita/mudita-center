@@ -4,12 +4,18 @@
  */
 
 import { z } from "zod"
+import { color } from "../../../theme/src/lib/color"
 
 const dataValidator = z.undefined()
 
 const configValidator = z
   .object({
-    text: z.string(),
+    text: z.string().optional(),
+    color: z
+      .enum(
+        Object.keys(color) as [keyof typeof color, ...(keyof typeof color)[]]
+      )
+      .optional(),
   })
   .optional()
 
