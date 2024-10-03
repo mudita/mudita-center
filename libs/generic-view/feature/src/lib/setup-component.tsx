@@ -30,13 +30,23 @@ import {
   useViewFormContext,
 } from "generic-view/utils"
 import {
-  DataProviderExtendedField,
+  DataProviderField,
   EntityData,
   ExtraConfig,
   Layout,
 } from "device/models"
+import {
+  cloneDeep,
+  flatten,
+  get,
+  isArray,
+  isNumber,
+  isObject,
+  isString,
+  map,
+  set,
+} from "lodash"
 import { Tooltip, Paragraph5 } from "generic-view/ui"
-import { cloneDeep, flatten, get, map, set } from "lodash"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -111,43 +121,40 @@ export const setupComponent = <P extends object>(
       editableProps.data = sortedData?.map((item) => item[idFieldKey!])
     } else if (dataProvider?.source === "entities-field") {
       if (entityData) {
-        for (const [key, field] of Object.entries(dataProvider.fields)) {
-          if (typeof field === "string") {
-            const value = get(entityData, field)
-            set(editableProps || {}, key, value)
-          } else {
-            if (key.startsWith("extra-data.")) {
-              const extraPropsKey = key.replace(/^extra-data\./, "")
-              const value = processFormFields(field, entityData[field.field])
-              set(extraData, extraPropsKey, value)
-            }
-            const value = processFormFields(field, entityData[field.field])
-            set(editableProps || {}, key, value)
+        for (const fieldConfig of dataProvider.fields) {
+          const { componentField, providerField, ...config } = fieldConfig
+          const value = processFormFields(
+            config,
+            get(entityData, providerField)
+          )
+          if (isString(value) && componentField === "dataItemId") {
+            dataItemId = value
+            continue
           }
+          if (componentField.startsWith("extra-data.")) {
+            const extraPropsKey = componentField.replace(/^extra-data\./, "")
+            set(extraData, extraPropsKey, value)
+            continue
+          }
+          set(editableProps || {}, componentField, value)
         }
       }
     } else if (dataProvider?.source === "form-fields") {
       const formContext = getFormContext(dataProvider.formKey)
       const isFormElement = componentName!.startsWith("form.")
 
-      for (const [key, field] of Object.entries(dataProvider.fields)) {
-        if (typeof field === "string") {
-          const value = isFormElement
-            ? formContext.getValues(field)
-            : formContext.watch(field)
-          if (key === "dataItemId") {
-            dataItemId = value
-            continue
-          }
-          set(editableProps || {}, key, value)
-        } else {
-          const fieldValue = isFormElement
-            ? formContext.getValues(field.field)
-            : formContext.watch(field.field)
+      for (const fieldConfig of dataProvider.fields) {
+        const { componentField, providerField, ...config } = fieldConfig
+        const fieldValue = isFormElement
+          ? formContext.getValues(providerField)
+          : formContext.watch(providerField)
+        const value = processFormFields(config, fieldValue)
 
-          const value = processFormFields(field, fieldValue)
-          set(editableProps || {}, key, value)
+        if (isString(value) && componentField === "dataItemId") {
+          dataItemId = value
+          continue
         }
+        set(editableProps || {}, componentField, value)
       }
     }
     const editablePropsDependency = JSON.stringify(editableProps)
@@ -228,30 +235,34 @@ function flattenListByKey<T>(list: T[], key: string): unknown {
 }
 
 const processFormFields = (
-  field: DataProviderExtendedField,
+  field: Partial<DataProviderField>,
   value: unknown
 ) => {
   let newValue = value
-  if (field.slice && value instanceof Array) {
+  if ("slice" in field && value instanceof Array) {
     newValue =
       field.slice.length > 1
         ? value.slice(...field.slice)
         : value.slice(field.slice[0])
   }
-  if (field.flat && value instanceof Array) {
+  if ("flat" in field && value instanceof Array) {
     newValue = flattenListByKey(newValue as unknown[], field.flat)
   }
-  switch (field.modifier) {
-    case "length":
-      if (newValue instanceof String || newValue instanceof Array) {
-        newValue = newValue.length
-      } else if (value instanceof Object) {
-        newValue = Object.keys(value).length
-      }
-      break
-    case "boolean":
-      newValue = Boolean(value)
-      break
+
+  if ("modifier" in field) {
+    switch (field.modifier) {
+      case "length":
+        if (isString(newValue) || isArray(newValue)) {
+          newValue = newValue.length
+        }
+        if (isObject(value)) {
+          newValue = Object.keys(value).length
+        }
+        break
+      case "boolean":
+        newValue = Boolean(value)
+        break
+    }
   }
   if ("condition" in field) {
     switch (field.condition) {
@@ -262,12 +273,12 @@ const processFormFields = (
         newValue = newValue !== field.value
         break
       case "gt":
-        if (newValue instanceof Number) {
+        if (isNumber(newValue) && isNumber(field.value)) {
           newValue = newValue > field.value
         }
         break
       case "lt":
-        if (newValue instanceof Number) {
+        if (isNumber(newValue) && isNumber(field.value)) {
           newValue = newValue < field.value
         }
         break

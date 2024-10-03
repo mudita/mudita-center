@@ -48,7 +48,6 @@ export const deleteEntitiesDataAction = createAsyncThunk<
       return difference(ids, response.data.failedIds)
     }
     await onSuccess?.()
-    // await new Promise((resolve) => setTimeout(resolve, 1000))
     return ids
   }
 )
