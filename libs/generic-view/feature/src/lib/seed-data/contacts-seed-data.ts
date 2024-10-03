@@ -158,6 +158,22 @@ const contactWithMiddleNameOnly = {
   entityType: "contacts",
 }
 
+const contactWithGermanyPhoneNumberOnly = {
+  phoneNumbers: [{ phoneNumber: "490123456789", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithIndiaPhoneNumberOnly = {
+  phoneNumbers: [{ phoneNumber: "911234567890", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithChinaPhoneNumberOnly = {
+  phoneNumbers: [{ phoneNumber: "8612345678901", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+
 const contactWithMobilePhoneNumberOnly = {
   phoneNumbers: [{ phoneNumber: "+48345678902", phoneType: "MOBILE" }],
   entityType: "contacts",
@@ -194,6 +210,42 @@ const contactWithWorkAndOtherPhoneNumbers = {
   phoneNumbers: [
     { phoneNumber: "+48555678904", phoneType: "WORK" },
     { phoneNumber: "+48665678905", phoneType: "OTHER" },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithGermanyPhoneNumberAndFirstName = {
+  firstName: "Anna (Germany-style)",
+  phoneNumbers: [{ phoneNumber: "48123456789", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithBrazilPhoneNumberAndFirstName = {
+  firstName: "Carlos (Brazil-style)",
+  phoneNumbers: [{ phoneNumber: "551112345678", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithJapanPhoneNumberAndFirstName = {
+  firstName: "Yuki (Japan-style)",
+  phoneNumbers: [{ phoneNumber: "81312345678", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithContrastingPhoneNumbers1 = {
+  firstName: "Liam (Ireland & Australia)",
+  phoneNumbers: [
+    { phoneNumber: "1512345678", phoneType: "MOBILE" },
+    { phoneNumber: "611234567890123", phoneType: "WORK" },
+  ],
+  entityType: "contacts",
+}
+
+const contactWithContrastingPhoneNumbers2 = {
+  firstName: "Amina (Morocco & USA)",
+  phoneNumbers: [
+    { phoneNumber: "201234567", phoneType: "HOME" },
+    { phoneNumber: "14155552671", phoneType: "MOBILE" },
   ],
   entityType: "contacts",
 }
@@ -285,9 +337,9 @@ const contactWithCompanyDepartmentAndWorkTitle = {
 
 const contactWithFullAddressOnly = {
   address: {
-    streetAddress: "Street 7 (only address)",
+    streetAddress: "Street 7 (full address)",
     city: "Berlin",
-    postalCode: "10115",
+    zipCode: "10115",
     type: "HOME",
   },
   entityType: "contacts",
@@ -338,6 +390,18 @@ const contactWithStreetAndZipCode = {
   entityType: "contacts",
 }
 
+const contactWithStateAndCountry = {
+  contactId: "5",
+  firstName: "Michael",
+  lastName: "Brown",
+  address: {
+    state: "California",
+    country: "USA",
+    type: "HOME",
+  },
+  entityType: "contacts",
+}
+
 const contactWithSipOnly = {
   sip: "sip:jan.nowak@siponly.com",
   entityType: "contacts",
@@ -362,11 +426,19 @@ export const contactsSeedData: EntityData[] = [
   contactWithNumbersInName,
   contactWithPrefixSuffix,
   contactWithMiddleNameOnly,
+  contactWithGermanyPhoneNumberOnly,
+  contactWithIndiaPhoneNumberOnly,
+  contactWithChinaPhoneNumberOnly,
   contactWithMobilePhoneNumberOnly,
   contactWithMobileAndHomePhoneNumbers,
   contactWithMobileHomeAndWorkPhoneNumbers,
   contactWithAllPhoneTypesPhoneNumbers,
   contactWithWorkAndOtherPhoneNumbers,
+  contactWithGermanyPhoneNumberAndFirstName,
+  contactWithBrazilPhoneNumberAndFirstName,
+  contactWithJapanPhoneNumberAndFirstName,
+  contactWithContrastingPhoneNumbers1,
+  contactWithContrastingPhoneNumbers2,
   contactWithHomeEmailOnly,
   contactWithHomeAndWorkEmails,
   contactWithHomeWorkAndOtherEmails,
@@ -385,6 +457,7 @@ export const contactsSeedData: EntityData[] = [
   contactWithCityOnly,
   contactWithZipCodeOnly,
   contactWithStreetAndZipCode,
+  contactWithStateAndCountry,
   contactWithSipOnly,
   contactWithWebsiteOnly,
   contactWithNotesOnly,
