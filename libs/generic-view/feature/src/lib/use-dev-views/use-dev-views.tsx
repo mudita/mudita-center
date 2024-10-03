@@ -8,6 +8,7 @@ import { selectActiveApiDeviceId, setGenericConfig } from "generic-view/store"
 import customViews from "./views"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { isEmpty } from "lodash"
 
 export const useDevViews = (viewKey: string) => {
   const dispatch = useDispatch<Dispatch>()
@@ -21,7 +22,7 @@ export const useDevViews = (viewKey: string) => {
       : undefined
 
   useEffect(() => {
-    if (newConfig && process.env.DEV_API_CONFIG === "1") {
+    if (!isEmpty(newConfig) && process.env.DEV_API_CONFIG === "1") {
       dispatch(
         setGenericConfig({
           feature: viewKey,
