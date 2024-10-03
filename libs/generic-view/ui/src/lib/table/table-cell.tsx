@@ -35,9 +35,13 @@ export const TableCell: APIFC<undefined, TableCellConfig> = ({
 }
 
 export const Cell = styled.td<{
-  $width: number
+  $width?: number | string
 }>`
-  min-width: ${({ $width }) => $width}px;
-  max-width: ${({ $width }) => $width}px;
+  --cell-width: ${({ $width }) =>
+    $width ? (typeof $width === "string" ? $width : `${$width}px`) : "auto"};
+
+  width: var(--cell-width);
+  max-width: var(--cell-width);
+  min-width: var(--cell-width);
   overflow: hidden;
 `
