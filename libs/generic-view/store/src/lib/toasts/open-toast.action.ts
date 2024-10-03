@@ -16,6 +16,6 @@ export const openToastAction = createAsyncThunk<
 >(ActionName.OpenToast, async (toastKey, { dispatch }) => {
   dispatch(addToast(toastKey))
   // Delay action to add toast before the state will update
-  await new Promise((resolve) => setTimeout(resolve, 1))
+  await new Promise((resolve) => setTimeout(resolve, 100))
   return
 })
