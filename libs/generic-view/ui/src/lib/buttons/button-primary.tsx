@@ -22,7 +22,7 @@ export const ButtonPrimary: APIFC<undefined, ButtonPrimaryConfig> = ({
       data-testid={`${ButtonTestIds.PrimaryButton}-${props.componentKey}`}
       {...props}
       disabled={config.disabled}
-      action={config.action}
+      actions={config.actions}
     >
       {children}
       {config.icon && <Icon data={{ type: config.icon }} />}
