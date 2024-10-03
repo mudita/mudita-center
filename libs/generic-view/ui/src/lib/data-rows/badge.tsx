@@ -27,6 +27,7 @@ export const Badge: APIFC<BadgeData> = ({
 const BadgeWrapper = styled(Tag)<{ variant: BadgeData["variant"] }>`
   height: 2.2rem;
   line-height: 2.2rem;
+  letter-spacing: 0.04em;
 
   ${({ variant, theme }) =>
     variant === "dark" &&
