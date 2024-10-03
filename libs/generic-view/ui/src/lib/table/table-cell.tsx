@@ -37,8 +37,13 @@ export const TableCell: APIFC<undefined, TableCellConfig> = ({
 export const Cell = styled.td<{
   $width?: number | string
 }>`
-  --cell-width: ${({ $width }) =>
-    $width ? (typeof $width === "string" ? $width : `${$width}px`) : "auto"};
+  --cell-width: ${({ $width }) => {
+    return $width !== undefined
+      ? isNaN(Number($width))
+        ? $width
+        : `${$width}px`
+      : "auto"
+  }};
 
   width: var(--cell-width);
   max-width: var(--cell-width);
