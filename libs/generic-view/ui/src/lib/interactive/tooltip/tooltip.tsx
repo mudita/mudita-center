@@ -85,9 +85,10 @@ export const Tooltip: BaseGenericComponent<
         $top: anchorPosition.top,
         $left: anchorPosition.left,
         ref: contentRef,
+        $placement: placement,
       })
     })
-  }, [children, anchorPosition.top, anchorPosition.left])
+  }, [children, anchorPosition.top, anchorPosition.left, placement])
 
   return (
     <Container>
@@ -118,6 +119,7 @@ const TooltipContent = forwardRef<
     viewKey?: string
     "data-tooltip-content"?: boolean
     $defaultStyles?: boolean
+    $placement?: TooltipPlacement
     children: React.ReactNode
   }
 >(({ children, ...rest }, ref) => {
@@ -140,6 +142,7 @@ const Container = styled.div`
 const Content = styled.div<{
   $top?: number
   $left?: number
+  $placement?: TooltipPlacement
   $defaultStyles?: boolean
 }>`
   position: fixed;
@@ -152,24 +155,25 @@ const Content = styled.div<{
   ${({ $top }) => ($top ? `top: ${$top}px;` : "")}
   ${({ $left }) => ($left ? `left: ${$left}px;` : "")}
 
-  ${({ $defaultStyles }) =>
+  ${({ $defaultStyles, theme, $placement }) =>
     $defaultStyles &&
     css`
       margin-top: 1rem;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
-      background-color: ${({ theme }) => theme.color.grey4};
-      border-radius: ${({ theme }) => theme.radius.sm};
+      padding: ${theme.space.xs} ${theme.space.sm};
+      background-color: ${theme.color.grey4};
+      border-radius: ${theme.radius.sm};
       box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
 
       && > p {
-        color: ${({ theme }) => theme.color.black};
+        width: 100%;
+        color: ${theme.color.black};
         white-space: pre-wrap;
-        text-align: left;
+        text-align: ${$placement === "bottom-left" ? "right" : "left"};
       }
-    `};
+    `}
 `
 
 const Anchor = styled.div`

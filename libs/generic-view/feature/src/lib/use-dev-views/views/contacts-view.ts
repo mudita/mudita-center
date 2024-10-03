@@ -390,11 +390,10 @@ const view: View = {
           priority: 2,
           direction: "asc",
         },
-      ],
-      filters: [
         {
-          providerField: "firstName",
-          patterns: ["/.+/"],
+          providerField: "displayName",
+          priority: 3,
+          direction: "asc",
         },
       ],
     },
@@ -449,62 +448,16 @@ const view: View = {
     config: {
       width: 717,
     },
-    childrenKeys: ["contactJoinedNames"],
+    childrenKeys: ["contactDisplayNameText"],
   },
-  contactJoinedNames: {
-    component: "block-plain",
-    layout: {
-      flexLayout: {
-        direction: "row",
-        columnGap: "0.5rem",
-      },
-    },
-    childrenKeys: ["contactFirstName", "contactLastName"],
-  },
-  contactFirstName: {
-    component: "block-plain",
-    layout: {
-      flexLayout: {
-        direction: "row",
-        columnGap: "0.5rem",
-      },
-    },
-    childrenKeys: ["contactFirstNamePrefix", "contactFirstNameValue"],
-  },
-  contactFirstNamePrefix: {
+  contactDisplayNameText: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: [
         {
-          providerField: "namePrefix",
-          componentField: "data.text",
-        },
-      ],
-    },
-  },
-  contactFirstNameValue: {
-    component: "text-plain",
-    dataProvider: {
-      source: "entities-field",
-      entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "firstName",
-          componentField: "data.text",
-        },
-      ],
-    },
-  },
-  contactLastName: {
-    component: "text-plain",
-    dataProvider: {
-      source: "entities-field",
-      entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "lastName",
+          providerField: "displayName",
           componentField: "data.text",
         },
       ],
@@ -551,19 +504,57 @@ const view: View = {
     config: {
       width: 40,
     },
-    childrenKeys: ["phoneNumberLength"],
+    childrenKeys: ["phoneDropdownCounter"],
   },
-  phoneNumberLength: {
-    component: "text-plain",
+  phoneDropdownCounter: {
+    component: "conditional-renderer",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: [
         {
-          providerField: "phoneNumbers.length",
-          componentField: "data.text",
+          providerField: "phoneNumbers",
+          componentField: "data.render",
+          modifier: "length",
+          slice: [1],
+          condition: "gt",
+          value: 0,
         },
       ],
+    },
+    childrenKeys: ["phoneDropdownCounterBadge"],
+  },
+  phoneDropdownCounterBadge: {
+    component: "badge",
+    childrenKeys: ["phoneDropdownCounterBadgeText"],
+  },
+  phoneDropdownCounterBadgeText: {
+    component: "format-message",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          componentField: "data.fields.phoneNumbersLength",
+          providerField: "phoneNumbers",
+          modifier: "length",
+          slice: [1],
+        },
+        {
+          componentField: "extra-data.tooltip.contentList",
+          providerField: "phoneNumbers",
+          slice: [1],
+          flat: "phoneNumber",
+        },
+      ],
+    },
+    config: {
+      messageTemplate: "+{phoneNumbersLength}",
+    },
+    extra: {
+      tooltip: {
+        placement: "bottom-left",
+      },
     },
   },
   detailsWrapper: {
