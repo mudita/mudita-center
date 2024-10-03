@@ -18,7 +18,9 @@ import styled from "styled-components"
 
 export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
   config,
+  data,
   children,
+  ...props
 }) => {
   const dispatch = useDispatch<Dispatch>()
   const deviceId = useSelector(selectActiveApiDeviceId)!
@@ -41,7 +43,7 @@ export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
     return children
   }
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <SpinnerLoader dark />
     </Wrapper>
   )
