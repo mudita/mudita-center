@@ -76,3 +76,19 @@ export const P4 = styled.p`
   letter-spacing: 0.02em;
   ${commonStyles};
 `
+
+export const Paragraph5: APIFC<undefined, ParagraphConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <P5 {...props}>{isEmpty(children) ? config?.text : children}</P5>
+}
+
+export const P5 = styled.p`
+  ${commonStyles};
+  font-size: ${({ theme }) => theme.fontSize.paragraph5};
+  line-height: ${({ theme }) => theme.lineHeight.paragraph5};
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
+  letter-spacing: 0.04em;
+`

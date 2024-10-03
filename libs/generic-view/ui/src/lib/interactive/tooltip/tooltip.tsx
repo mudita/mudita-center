@@ -4,28 +4,56 @@
  */
 
 import React, {
+  forwardRef,
+  useRef,
   MouseEvent,
   ReactElement,
   useCallback,
   useMemo,
   useState,
 } from "react"
-import { APIFC, BaseGenericComponent } from "generic-view/utils"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
+import { BaseGenericComponent } from "generic-view/utils"
+import { TooltipPlacement } from "device/models"
 
-export const Tooltip: APIFC & {
+export const Tooltip: BaseGenericComponent<
+  undefined,
+  undefined,
+  { placement?: TooltipPlacement }
+> & {
   Anchor: typeof TooltipAnchor
   Content: typeof TooltipContent
-} = ({ children }) => {
+} = ({ children, placement = "bottom-right" }) => {
   const [anchorPosition, setAnchorPosition] = useState<{
     top?: number
     left?: number
   }>({})
 
-  const handleAnchorHover = useCallback((event: MouseEvent) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    setAnchorPosition({ top: rect.top + rect.height, left: rect.left })
-  }, [])
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  const handleAnchorHover = useCallback(
+    (event: MouseEvent) => {
+      const anchorRect = event.currentTarget.getBoundingClientRect()
+      const contentReact = contentRef.current?.getBoundingClientRect()
+
+      if (contentReact === undefined) {
+        return
+      }
+
+      if (placement === "bottom-right") {
+        const top = anchorRect.top + anchorRect.height
+        const left = anchorRect.left
+
+        setAnchorPosition({ left, top })
+      } else if (placement === "bottom-left") {
+        const top = anchorRect.top + anchorRect.height
+        const left = anchorRect.left - contentReact.width + anchorRect.width
+
+        setAnchorPosition({ left, top })
+      }
+    },
+    [placement]
+  )
 
   const anchor = useMemo(() => {
     return React.Children.map(children, (child) => {
@@ -53,17 +81,20 @@ export const Tooltip: APIFC & {
         return null
       }
       return React.cloneElement(child as ReactElement, {
+        ...child.props,
         $top: anchorPosition.top,
         $left: anchorPosition.left,
+        ref: contentRef,
+        $placement: placement,
       })
     })
-  }, [children, anchorPosition.left, anchorPosition.top])
+  }, [children, anchorPosition.top, anchorPosition.left, placement])
 
   return (
-    <>
+    <Container>
       {anchor}
       {content}
-    </>
+    </Container>
   )
 }
 
@@ -82,20 +113,38 @@ Tooltip.Anchor.defaultProps = {
   "data-tooltip-anchor": true,
 }
 
-const TooltipContent: BaseGenericComponent<
-  undefined,
-  undefined,
-  { viewKey?: string; "data-tooltip-content"?: boolean }
-> = ({ data, config, children, ...rest }) => {
-  return <Content {...rest}>{children}</Content>
-}
+const TooltipContent = forwardRef<
+  HTMLDivElement,
+  {
+    viewKey?: string
+    "data-tooltip-content"?: boolean
+    $defaultStyles?: boolean
+    $placement?: TooltipPlacement
+    children: React.ReactNode
+  }
+>(({ children, ...rest }, ref) => {
+  return (
+    <Content ref={ref} {...rest}>
+      {children}
+    </Content>
+  )
+})
 
 Tooltip.Content = TooltipContent
 Tooltip.Content.defaultProps = {
   "data-tooltip-content": true,
 }
 
-const Content = styled.div<{ $top?: number; $left?: number }>`
+const Container = styled.div`
+  display: inline-block;
+`
+
+const Content = styled.div<{
+  $top?: number
+  $left?: number
+  $placement?: TooltipPlacement
+  $defaultStyles?: boolean
+}>`
   position: fixed;
   z-index: 2;
   pointer-events: none;
@@ -105,6 +154,26 @@ const Content = styled.div<{ $top?: number; $left?: number }>`
 
   ${({ $top }) => ($top ? `top: ${$top}px;` : "")}
   ${({ $left }) => ($left ? `left: ${$left}px;` : "")}
+
+  ${({ $defaultStyles, theme, $placement }) =>
+    $defaultStyles &&
+    css`
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: ${theme.space.xs} ${theme.space.sm};
+      background-color: ${theme.color.grey4};
+      border-radius: ${theme.radius.sm};
+      box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
+
+      && > p {
+        width: 100%;
+        color: ${theme.color.black};
+        white-space: pre-wrap;
+        text-align: ${$placement === "bottom-left" ? "right" : "left"};
+      }
+    `}
 `
 
 const Anchor = styled.div`

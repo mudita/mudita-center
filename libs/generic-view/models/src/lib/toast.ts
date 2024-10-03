@@ -9,7 +9,6 @@ const dataValidator = z.undefined()
 
 const configValidator = z
   .object({
-    animationDuration: z.number().nonnegative().optional(),
     visibilityDuration: z.number().nonnegative().optional(),
   })
   .optional()

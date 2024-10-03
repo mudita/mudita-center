@@ -24,13 +24,18 @@ const view: View = {
   contactsForm: {
     component: "form",
     config: {
+      defaultValues: {
+        searchedContact: undefined,
+        activeContactId: undefined,
+        selectedContacts: [],
+        allContacts: [],
+      },
       formOptions: {
         defaultValues: {
           searchedContact: undefined,
           activeContactId: undefined,
           selectedContacts: [],
           allContacts: [],
-          allContactsSelected: false,
         },
       },
     },
@@ -41,10 +46,88 @@ const view: View = {
     config: {
       entitiesTypes: ["contacts"],
     },
-    childrenKeys: ["contactsPanel", "contactsFormWrapper"],
+    childrenKeys: ["contactsPanelWrapper", "contactsFormWrapper", "emptyListWrapper"],
+  },
+  emptyListWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "form-fields-v2",
+      formName: "contactsForm",
+      fields: [
+        {
+          providerField: "allContacts",
+          componentField: "data.render",
+          modifier: "length",
+          condition: "eq",
+          value: 0,
+        },
+      ],
+    },
+    childrenKeys: ["fullScreenWrapper"],
+  },
+  fullScreenWrapper: {
+    component: "block-plain",
+    layout: {
+      gridPlacement: {
+        row: 1,
+        column: 1,
+        width: 1,
+        height: 2,
+      },
+      flexLayout: {
+        rowGap: "24px",
+        direction: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+    },
+    // importContactsButton already comes from the device through API
+    childrenKeys: ["emptyStateIcon", "emptyStateText", "importContactsButton"],
+  },
+  emptyStateIcon: {
+    component: "modal.titleIcon",
+    config: {
+      type: IconType.ContactsBook,
+    },
+  },
+  emptyStateText: {
+    component: "block-plain",
+    layout: {
+      flexLayout: {
+        direction: "column",
+        alignItems: "center",
+        rowGap: "8px",
+      },
+    },
+    childrenKeys: ["title", "detailText"],
+  },
+  contactsPanelWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "form-fields-v2",
+      formName: "contactsForm",
+      fields: [
+        {
+          providerField: "allContacts",
+          componentField: "data.render",
+          modifier: "length",
+          condition: "gt",
+          value: 0,
+        },
+      ],
+    },
+    childrenKeys: ["contactsPanel"],
   },
   contactsPanel: {
     component: "block-plain",
+    layout: {
+      gridPlacement: {
+        row: 1,
+        column: 1,
+        width: 1,
+        height: 1,
+      },
+    },
     childrenKeys: ["contactsPanelDefaultMode", "contactsPanelSelectMode"],
   },
   contactsPanelDefaultMode: {
@@ -192,63 +275,179 @@ const view: View = {
   },
   deleteButton: {
     component: "button-text",
-    dataProvider: {
-      source: "form-fields",
-      fields: [
-        {
-          providerField: "selectedContacts",
-          componentField: "config.actions[0].ids",
-        },
-      ],
-    },
     config: {
       text: "Delete",
       icon: IconType.Delete,
       modifiers: ["uppercase"],
       actions: [
         {
-          type: "entities-delete",
-          entitiesType: "contacts",
-          ids: [],
-        },
-        {
-          type: "open-toast",
-          toastKey: "contactsDeletedToast",
-        },
-        {
-          type: "form-set-field",
-          key: "selectedContacts",
-          value: [],
+          type: "open-modal",
+          modalKey: "deleteModal",
+          domain: "contacts-delete",
         },
       ],
     },
   },
+  deleteModal: {
+    component: "modal",
+    config: {
+      size: "small",
+    },
+    childrenKeys: [
+      "deleteModalIcon",
+      "deleteModalTitle",
+      "deleteModalContent",
+      "deleteModalButtons",
+    ],
+  },
+  deleteModalIcon: {
+    component: "modal.titleIcon",
+    config: {
+      type: IconType.Exclamation,
+    },
+  },
+  deleteModalTitle: {
+    component: "modal.title",
+    config: {
+      text: "Delete contacts",
+    },
+  },
+  deleteModalContent: {
+    component: "p1-component",
+    config: {
+      text: "Are you sure you want to delete selected contacts?",
+    },
+  },
+  deleteModalButtons: {
+    component: "modal.buttons",
+    childrenKeys: ["deleteModalCancelButton", "deleteModalConfirmButton"],
+  },
+  deleteModalCancelButton: {
+    component: "button-secondary",
+    config: {
+      text: "Cancel",
+      actions: [
+        {
+          type: "close-modal",
+          modalKey: "deleteModal",
+        },
+      ],
+    },
+  },
+  deleteModalConfirmButton: {
+    component: "button-primary",
+    dataProvider: {
+      source: "form-fields",
+      formKey: "contactsForm",
+      fields: [
+        {
+          providerField: "selectedContacts",
+          componentField: "config.actions[1].ids",
+        },
+      ],
+    },
+    layout: {
+      flexLayout: {
+        direction: "row",
+        justifyContent: "center",
+      },
+    },
+    config: {
+      actions: [
+        {
+          type: "open-modal",
+          modalKey: "deleteProgressModal",
+          domain: "contacts-delete",
+        },
+        {
+          type: "entities-delete",
+          entitiesType: "contacts",
+          ids: [],
+          postActions: {
+            success: [
+              {
+                type: "close-domain-modals",
+                domain: "contacts-delete",
+              },
+              {
+                type: "open-toast",
+                toastKey: "contactsDeletedToast",
+              },
+            ],
+          },
+        },
+      ],
+    },
+    childrenKeys: ["deleteModalConfirmButtonText"],
+  },
+  deleteModalConfirmButtonText: {
+    component: "format-message",
+    dataProvider: {
+      source: "form-fields",
+      formKey: "contactsForm",
+      fields: [
+        {
+          providerField: "selectedContacts",
+          componentField: "data.fields.selectedContacts",
+          modifier: "length",
+        },
+      ],
+    },
+    config: {
+      messageTemplate: "Delete contacts ({selectedContacts})",
+    },
+  },
+  deleteProgressModal: {
+    component: "modal",
+    config: {
+      size: "small",
+    },
+    childrenKeys: ["deleteProgressModalIcon", "deleteProgressModalTitle"],
+  },
+  deleteProgressModalIcon: {
+    component: "modal.titleIcon",
+    config: {
+      type: IconType.SpinnerDark,
+    },
+  },
+  deleteProgressModalTitle: {
+    component: "modal.title",
+    config: {
+      text: "Deleting, please wait...",
+    },
+  },
   contactsDeletedToast: {
     component: "toast",
+    childrenKeys: ["contactsDeletedToastIcon", "contactsDeletedToastText"],
+  },
+  contactsDeletedToastIcon: {
+    component: "icon",
+    config: {
+      type: IconType.Success,
+    },
+  },
+  contactsDeletedToastText: {
+    component: "p1-component",
     childrenKeys: ["contactsDeletedToastMessage"],
   },
   contactsDeletedToastMessage: {
-    component: "p1-component",
+    component: "format-message",
+    dataProvider: {
+      source: "form-fields",
+      formKey: "contactsForm",
+      fields: [
+        {
+          providerField: "selectedContacts",
+          componentField: "data.fields.selectedContacts",
+          modifier: "length",
+        },
+      ],
+    },
     config: {
-      text: "Contacts deleted",
+      messageTemplate:
+        "{selectedContacts} {selectedContacts, plural, one {contact} other {contacts}} deleted",
     },
   },
-  // deleteButtonText: {
-  //   component: "format-message",
-  //   dataProvider: {
-  //     source: "form-fields",
-  //     fields: {
-  //       "data.fields.selectedContacts": {
-  //         field: "selectedContacts",
-  //         modifier: "length",
-  //       },
-  //     },
-  //   },
-  //   config: {
-  //     messageTemplate:
-  //       "Delete {selectedContacts} {selectedContacts, plural, one {contact} other {contacts}}",
-  //   },
-  // },
   contactsFormWrapper: {
     component: "block-plain",
     layout: {
@@ -275,11 +474,10 @@ const view: View = {
           priority: 2,
           direction: "asc",
         },
-      ],
-      filters: [
         {
-          providerField: "firstName",
-          patterns: ["/.+/"],
+          providerField: "displayName",
+          priority: 3,
+          direction: "asc",
         },
       ],
     },
@@ -288,6 +486,14 @@ const view: View = {
         activeIdFieldName: "activeContactId",
         selectedIdsFieldName: "selectedContacts",
         allIdsFieldName: "allContacts",
+      },
+      form: {
+        formName: "contactsForm",
+        assignFields: {
+          activeIdFieldName: "activeContactId",
+          selectedIdsFieldName: "selectedContacts",
+          allIdsFieldName: "allContacts",
+        },
       },
     },
     childrenKeys: [
@@ -323,68 +529,27 @@ const view: View = {
         },
       ],
     },
+    extra: {
+      tooltip: {
+        contentText: "Select",
+      },
+    },
   },
   columnName: {
     component: "table.cell",
     config: {
       width: 717,
     },
-    childrenKeys: ["contactJoinedNames"],
+    childrenKeys: ["contactDisplayNameText"],
   },
-  contactJoinedNames: {
-    component: "block-plain",
-    layout: {
-      flexLayout: {
-        direction: "row",
-        columnGap: "0.5rem",
-      },
-    },
-    childrenKeys: ["contactFirstName", "contactLastName"],
-  },
-  contactFirstName: {
-    component: "block-plain",
-    layout: {
-      flexLayout: {
-        direction: "row",
-        columnGap: "0.5rem",
-      },
-    },
-    childrenKeys: ["contactFirstNamePrefix", "contactFirstNameValue"],
-  },
-  contactFirstNamePrefix: {
+  contactDisplayNameText: {
     component: "text-plain",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: [
         {
-          providerField: "namePrefix",
-          componentField: "data.text",
-        },
-      ],
-    },
-  },
-  contactFirstNameValue: {
-    component: "text-plain",
-    dataProvider: {
-      source: "entities-field",
-      entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "firstName",
-          componentField: "data.text",
-        },
-      ],
-    },
-  },
-  contactLastName: {
-    component: "text-plain",
-    dataProvider: {
-      source: "entities-field",
-      entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "lastName",
+          providerField: "displayName",
           componentField: "data.text",
         },
       ],
@@ -431,19 +596,57 @@ const view: View = {
     config: {
       width: 40,
     },
-    childrenKeys: ["phoneNumberLength"],
+    childrenKeys: ["phoneDropdownCounter"],
   },
-  phoneNumberLength: {
-    component: "text-plain",
+  phoneDropdownCounter: {
+    component: "conditional-renderer",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: [
         {
-          providerField: "phoneNumbers.length",
-          componentField: "data.text",
+          providerField: "phoneNumbers",
+          componentField: "data.render",
+          modifier: "length",
+          slice: [1],
+          condition: "gt",
+          value: 0,
         },
       ],
+    },
+    childrenKeys: ["phoneDropdownCounterBadge"],
+  },
+  phoneDropdownCounterBadge: {
+    component: "badge",
+    childrenKeys: ["phoneDropdownCounterBadgeText"],
+  },
+  phoneDropdownCounterBadgeText: {
+    component: "format-message",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          componentField: "data.fields.phoneNumbersLength",
+          providerField: "phoneNumbers",
+          modifier: "length",
+          slice: [1],
+        },
+        {
+          componentField: "extra-data.tooltip.contentList",
+          providerField: "phoneNumbers",
+          slice: [1],
+          flat: "phoneNumber",
+        },
+      ],
+    },
+    config: {
+      messageTemplate: "+{phoneNumbersLength}",
+    },
+    extra: {
+      tooltip: {
+        placement: "bottom-left",
+      },
     },
   },
   detailsWrapper: {

@@ -4,7 +4,7 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { openToast, removeToast } from "./actions"
+import { addToast, removeToast } from "./actions"
 
 export interface Toast {
   key: string
@@ -19,7 +19,7 @@ const initialState: GenericState = {
 }
 
 export const genericToastsReducer = createReducer(initialState, (builder) => {
-  builder.addCase(openToast, (state, action) => {
+  builder.addCase(addToast, (state, action) => {
     state.queue.push({
       key: action.payload,
     })

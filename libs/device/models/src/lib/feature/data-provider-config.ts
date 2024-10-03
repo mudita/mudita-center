@@ -17,6 +17,7 @@ const regexSchema = z
 const componentFieldSchema = z.union([
   z.literal("dataItemId"),
   z.string().startsWith("data."),
+  z.string().startsWith("extra-data."),
   z.string().startsWith("config."),
 ])
 
@@ -29,6 +30,10 @@ const baseFieldSchema = z
 const enhancedFieldSchema = z
   .object({
     modifier: z.union([z.literal("length"), z.literal("boolean")]).optional(),
+    slice: z
+      .union([z.tuple([z.number()]), z.tuple([z.number(), z.number()])])
+      .optional(),
+    flat: z.string().optional(),
   })
   .merge(baseFieldSchema)
   .strict()
@@ -102,10 +107,17 @@ const formFieldsSchema = z.object({
   fields: fieldsSchema,
 })
 
+const formFieldsSchemaV2 = z.object({
+  source: z.literal("form-fields-v2"),
+  formName: z.string(),
+  fields: fieldsSchema,
+})
+
 export const dataProviderSchema = z.union([
   entitiesArraySchema,
   entitiesFieldSchema,
   formFieldsSchema,
+  formFieldsSchemaV2,
 ])
 
 export type DataProviderConfig = z.infer<typeof dataProviderSchema>

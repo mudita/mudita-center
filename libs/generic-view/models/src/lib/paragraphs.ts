@@ -7,9 +7,11 @@ import { z } from "zod"
 
 const dataValidator = z.undefined()
 
-const configValidator = z.object({
-  text: z.string(),
-}).optional()
+const configValidator = z
+  .object({
+    text: z.string(),
+  })
+  .optional()
 
 export type ParagraphConfig = z.infer<typeof configValidator>
 
@@ -33,6 +35,12 @@ export const p3Component = {
 
 export const p4Component = {
   key: "p4-component",
+  dataValidator,
+  configValidator,
+} as const
+
+export const p5Component = {
+  key: "p5-component",
   dataValidator,
   configValidator,
 } as const
