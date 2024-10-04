@@ -122,6 +122,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.termsOfServiceTest),
     ],
     cicdMock: [
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
