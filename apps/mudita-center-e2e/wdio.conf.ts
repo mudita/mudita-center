@@ -76,6 +76,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktAbout),
     toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
     toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+    toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
     toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
   ],
   suites: {
@@ -87,6 +88,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.backupLocationTest),
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
     ],
     mock: [
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
@@ -120,8 +122,10 @@ export const config: Options.Testrunner = {
       //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
     ],
     cicdMock: [
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
@@ -177,9 +181,17 @@ export const config: Options.Testrunner = {
         binary: process.env.TEST_BINARY_PATH,
         args: [],
       },
-      'wdio:chromedriverOptions': {
-        binary: path.resolve(__dirname, '..', '..', 'node_modules', 'chromedriver', 'bin', 'chromedriver')
-      }
+      "wdio:chromedriverOptions": {
+        binary: path.resolve(
+          __dirname,
+          "..",
+          "..",
+          "node_modules",
+          "chromedriver",
+          "bin",
+          "chromedriver"
+        ),
+      },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
       // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs

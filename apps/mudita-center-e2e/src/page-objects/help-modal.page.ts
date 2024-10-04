@@ -26,7 +26,10 @@ class HelpModalPage extends Page {
   public get sendButton() {
     return $('[data-testid="submit-button"]')
   }
-
+  /**[Selector] Send button label */
+  public get sendButtonLabel() {
+    return $('//button[@data-testid="submit-button"]//p')
+  }
   /** returns an Array containing list of attached files */
   async attachmentsList() {
     return $('[data-testid="file-list"]').$$('[data-testid="file-list-file"]')
@@ -43,8 +46,51 @@ class HelpModalPage extends Page {
   public get closeBottomButton() {
     return $('[data-testid="close-bottom-button"]')
   }
+  /**[Selector] Invalid email text */
   public get invalidEmailTextElement() {
     return $('//input[@data-testid="email-input"]/following-sibling::*[1]')
+  }
+
+  /**[Selector] Support icon */
+  public get iconSupport() {
+    return $('[data-testid="icon-Support"]')
+  }
+  /**[Selector] Attachment icon */
+  public get iconAttachment() {
+    return $('[data-testid="icon-Attachment"]')
+  }
+  /**[Selector] Modal title with specific text */
+  public get modalTitle() {
+    return $('[data-testid="contact-support-modal-title"]')
+  }
+  /**[Selector] Modal subtitle */
+  public get modalSubtitle() {
+    return $('[data-testid="contact-support-modal-subtitle"]')
+  }
+  /**[Selector] Current date zip file */
+  public get currentDateZipFile() {
+    const currentDate = new Date().toISOString().split("T")[0] // Get current date in YYYY-MM-DD format
+    return $(`p*=${currentDate}.zip`)
+  }
+  /**[Selector] Attached files text */
+  public get attachedFilesLabel() {
+    return $('[data-testid="attached-files-label"]')
+  }
+  /**[Selector] Attached files subtext */
+  public get attachedFilesSubText() {
+    return $('[data-testid="attached-files-subtext"]')
+  }
+  /**[Selector] Email label */
+  public get emailLabel() {
+    return $('[data-testid="email-label"]')
+  }
+  /**[Selector] Message label */
+  public get messageLabel() {
+    return $('[data-testid="message-label"]')
+  }
+  /**[Selector] Whole modal */
+  public get wholeModal() {
+    return $('[data-testid="contact-support-modal"]')
   }
 }
 

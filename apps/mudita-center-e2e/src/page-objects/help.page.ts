@@ -6,13 +6,13 @@
 import Page from "./page"
 
 class HelpPage extends Page {
-  public get helpTabTitle() { 
+  public get helpTabTitle() {
     return $('[data-testid="location"]')
   }
   public get helpMainHeader() {
     return $('[data-testid="help-main-header"]')
   }
-  public get helpMainSubHeader() { 
+  public get helpMainSubHeader() {
     return $('[data-testid="help-main-subheader"]')
   }
   public get iconSearch() {
@@ -27,7 +27,7 @@ class HelpPage extends Page {
   public get helpSearchResultsParagraph() {
     return $('[data-testid="help-search-results"] p')
   }
-  public get helpSearchResultsList()  {
+  public get helpSearchResultsList() {
     return $('[data-testid="help-search-results"] ul')
   }
   public get helpSearchResultsItems() {
@@ -49,16 +49,20 @@ class HelpPage extends Page {
     return $$('[data-testid="help-subcategories-list-item"]')
   }
   public get helpSubCategoriesListItemsLeftColumn() {
-    return $$('[data-testid="help-subcategories-list"]>div')[0].$$('[data-testid="help-subcategories-list-item"]')
+    return $$('[data-testid="help-subcategories-list"]>div')[0].$$(
+      '[data-testid="help-subcategories-list-item"]'
+    )
   }
   public get helpSubCategoriesListItemsRightColumn() {
-    return $$('[data-testid="help-subcategories-list"]>div')[1].$$('[data-testid="help-subcategories-list-item"]')
+    return $$('[data-testid="help-subcategories-list"]>div')[1].$$(
+      '[data-testid="help-subcategories-list-item"]'
+    )
   }
   public get helpMainFooterDescription() {
-      return $('[data-testid="help-main-footer-description"]')
+    return $('[data-testid="help-main-footer-description"]')
   }
   public get helpMainFooterContactSupportButton() {
-      return $('[data-testid="help-main-footer-contact-support-button"]')
+    return $('[data-testid="help-main-footer-contact-support-button"]')
   }
 }
 
