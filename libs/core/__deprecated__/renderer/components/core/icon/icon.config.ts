@@ -14,6 +14,7 @@ import BorderCheck from "Core/__deprecated__/renderer/svg/border-check-icon.svg"
 import ChargingBattery from "Core/__deprecated__/renderer/svg/charging-battery.svg"
 import Check from "Core/__deprecated__/renderer/svg/check-icon.svg"
 import CheckCircle from "Core/__deprecated__/renderer/svg/check-circle.svg"
+import CheckCircleBlack from "Core/__deprecated__/renderer/svg/check-circle-black.svg"
 import CheckIndeterminate from "Core/__deprecated__/renderer/svg/check-indeterminate.svg"
 import Close from "Core/__deprecated__/renderer/svg/close.svg"
 import CloseWhite from "Core/__deprecated__/renderer/svg/close-white.svg"
@@ -168,6 +169,9 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.CheckCircle]: CheckCircle,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  [IconType.CheckCircleBlack]: CheckCircleBlack,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.CheckIndeterminate]: CheckIndeterminate,

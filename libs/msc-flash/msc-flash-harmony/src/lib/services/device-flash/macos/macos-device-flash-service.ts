@@ -25,13 +25,18 @@ class MacDeviceFlashService implements IDeviceFlash {
 
     const device = devices.find((device) => {
       return (
-        device.VendorID?.includes("3310") && device.ProductID?.includes("0103")
+        device.VendorID?.includes("3310") &&
+        device.name?.includes("Mudita Harmony (MSC mode)")
       )
     })
 
     if (!device) {
-      console.error(`Device with VendorID: 3310 and ProductID: 8233 not found.`)
-      process.exit(1)
+      console.error(
+        `Device with VendorID: 3310 and name: "Mudita Harmony (MSC mode)" not found.`
+      )
+      throw new Error(
+        `Device with VendorID: 3310 and name: "Mudita Harmony (MSC mode)" not found.`
+      )
     }
 
     console.log(
@@ -65,9 +70,9 @@ class MacDeviceFlashService implements IDeviceFlash {
       "Command: ",
       `osascript -e 'tell application "Terminal" to do script "\\"${scriptPath}\\" -i \\"${imagePath}\\" -d \\"${device}\\""'`
     )
-    // await execPromise(`
-    //   chmod +x "${scriptPath}"
-    // `)
+    await execPromise(`
+      chmod +x "${scriptPath}"
+    `)
     await execPromise(
       `osascript -e 'tell application "Terminal" to do script "\\"${scriptPath}\\" -i \\"${imagePath}\\" -d \\"${device}\\""'`
     )
@@ -127,6 +132,8 @@ class MacDeviceFlashService implements IDeviceFlash {
     if (currentDevice) {
       devices.push(currentDevice)
     }
+
+    console.log("Devices in function: ", devices)
 
     return devices
   }

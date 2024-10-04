@@ -16,6 +16,7 @@ export enum IconType {
   ChargingBattery,
   Check,
   CheckCircle,
+  CheckCircleBlack,
   CheckIndeterminate,
   Cloud,
   Close,

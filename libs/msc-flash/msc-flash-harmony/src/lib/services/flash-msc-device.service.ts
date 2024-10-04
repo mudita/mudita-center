@@ -29,12 +29,11 @@ export const flashMscDeviceService =
         // await downloadFlashingFiles(dispatch, flashingFiles)
         // await unpackFlashingImage(dispatch, flashingFiles)
         await startFlashingProcess(dispatch, flashingFiles)
-        // await removeDownloadedMscFiles()
       }
     } catch (error) {
       console.error("Error during flashing process:", error)
       dispatch(setFlashingProcessState(FlashingProcessState.Failed))
-      // await removeDownloadedMscFiles()
+      await removeDownloadedMscFiles()
     }
   }
 
@@ -115,7 +114,12 @@ const startFlashingProcess = async (
 
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
 
-    // dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
+    if (process.platform === "darwin") {
+      dispatch(setFlashingProcessState(FlashingProcessState.TerminalOpened))
+    } else {
+      dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
+      await removeDownloadedMscFiles()
+    }
   } catch (error: any) {
     throw new Error(`Flash process failed with error: ${error}`)
   }

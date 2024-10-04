@@ -28,6 +28,7 @@ import theme from "Core/core/styles/theming/theme"
 import { RestartingDeviceModal } from "./restarting-device-modal/restarting-device-modal.component"
 import { ErrorHandlingModal } from "./error-handling-modal/error-handling-modal.component"
 import { setFlashingProcessState } from "../actions"
+import { MacTerminalInfoModal } from "./mac-terminal-info-modal/mac-terminal-info-modal.component"
 
 const messages = defineMessages({
   header: {
@@ -136,6 +137,14 @@ const RecoveryModeUI: FunctionComponent = () => {
     dispatch(setFlashingProcessState(FlashingProcessState.Idle))
   }
 
+  const isMacTerminalInfoModalVisible = (): boolean => {
+    return flashingProcessState === FlashingProcessState.TerminalOpened
+  }
+
+  const macTerminalInfoCloseHandler = (): void => {
+    dispatch(setFlashingProcessState(FlashingProcessState.Completed))
+  }
+
   return (
     <>
       <Wrapper>
@@ -198,6 +207,10 @@ const RecoveryModeUI: FunctionComponent = () => {
         <ErrorHandlingModal
           open={isErrorHandlingModalVisible()}
           onClose={errorHandlingCloseHandler}
+        />
+        <MacTerminalInfoModal
+          open={isMacTerminalInfoModalVisible()}
+          onClose={macTerminalInfoCloseHandler}
         />
       </ThemeProvider>
     </>
