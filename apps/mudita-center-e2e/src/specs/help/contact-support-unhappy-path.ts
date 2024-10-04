@@ -81,17 +81,7 @@ describe("Contact Support - Unhappy Path", () => {
 
   it("Try to Send form without any input", async () => {
     const sendButton = HelpModalPage.sendButton
-
-    const isDisabled = await sendButton.getAttribute("disabled")
-
-    // Verify if the button is disabled before attempting to click
-    if (isDisabled !== null) {
-      console.log("The button is disabled and cannot be clicked.")
-    } else {
-      // Attempt to click only if the button is not disabled
-      await sendButton.click()
-      console.log("The button was clicked successfully.")
-    }
+    await expect(sendButton).toBeDisabled()
   })
 
   it("Verify e-mail without @ character", async () => {
