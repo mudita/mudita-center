@@ -5,25 +5,44 @@
 
 import { TooltipPlacement } from "device/models"
 
+type PlacementMap = { [key in TooltipPlacement]: TooltipPlacement }
+
+const VERTICAL_FLIP_MAP: PlacementMap = {
+  "bottom-right": "top-right",
+  "bottom-left": "top-left",
+  "top-right": "bottom-right",
+  "top-left": "bottom-left",
+}
+
+const HORIZONTAL_FLIP_MAP: PlacementMap = {
+  "bottom-right": "bottom-left",
+  "bottom-left": "bottom-right",
+  "top-right": "top-left",
+  "top-left": "top-right",
+}
+
 export const flipVertical = (placement: TooltipPlacement): TooltipPlacement => {
-  return placement.startsWith("bottom")
-    ? (`top-${placement.split("-")[1]}` as TooltipPlacement)
-    : (`bottom-${placement.split("-")[1]}` as TooltipPlacement)
+  return VERTICAL_FLIP_MAP[placement]
 }
 
 export const flipHorizontal = (
   placement: TooltipPlacement
 ): TooltipPlacement => {
-  return placement.endsWith("right")
-    ? (`-${placement.replace("right", "left")}` as TooltipPlacement)
-    : (`-${placement.replace("left", "right")}` as TooltipPlacement)
+  return HORIZONTAL_FLIP_MAP[placement]
 }
 
 export const flipTooltipPlacement = (
   placement: TooltipPlacement
 ): TooltipPlacement => {
-  const [vertical, horizontal] = placement.split("-")
-  const flippedVertical = vertical === "bottom" ? "top" : "bottom"
-  const flippedHorizontal = horizontal === "right" ? "left" : "right"
-  return `${flippedVertical}-${flippedHorizontal}` as TooltipPlacement
+  return flipHorizontal(flipVertical(placement))
+}
+
+export const getFlipStatus = (
+  original: TooltipPlacement,
+  current: TooltipPlacement
+): { isFlippedVertically: boolean; isFlippedHorizontally: boolean } => {
+  const isFlippedVertically = VERTICAL_FLIP_MAP[original] === current
+  const isFlippedHorizontally = HORIZONTAL_FLIP_MAP[original] === current
+
+  return { isFlippedVertically, isFlippedHorizontally }
 }
