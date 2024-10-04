@@ -25,6 +25,7 @@ import Icon, {
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { selectActiveDeviceMenuElements } from "generic-view/store"
+import useTemporaryHeadlineMessage from "Core/__deprecated__/renderer/components/rest/header/use-temporary-headline-message"
 
 const messages = defineMessages({
   backButtonLabel: { id: "module.generic.viewBackButton" },
@@ -107,6 +108,9 @@ const Header: FunctionComponent<HeaderProps> = ({
       }
     }
   }, [genericMenu, location, previousViewName])
+
+  const temporaryHeadlineMessage = useTemporaryHeadlineMessage(currentLocation)
+
   return (
     <HeaderWrapper>
       {previousViewName ? (
@@ -123,7 +127,7 @@ const Header: FunctionComponent<HeaderProps> = ({
       ) : (
         <HeaderText
           displayStyle={TextDisplayStyle.Headline4}
-          message={currentLocation}
+          message={temporaryHeadlineMessage}
           data-testid={"location"}
         />
       )}
