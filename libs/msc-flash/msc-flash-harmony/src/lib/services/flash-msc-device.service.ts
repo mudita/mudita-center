@@ -116,6 +116,7 @@ const startFlashingProcess = async (
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
 
     dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error(`Flash process failed with error: ${error}`)
   }
