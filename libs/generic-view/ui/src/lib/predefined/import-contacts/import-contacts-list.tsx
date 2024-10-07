@@ -160,13 +160,18 @@ const ContactItem: React.FC<UnifiedContact> = ({
           <StyledPhoneInfoWrapper>
             {phoneNumbers.length > 0 && <p>{phoneNumbers[0].value}</p>}
             {phoneNumbers.length > 1 && (
-              <Tooltip>
+              <Tooltip
+                offset={{
+                  x: 0,
+                  y: 11,
+                }}
+              >
                 <Tooltip.Anchor>
                   <MoreNumbersButton>
                     {`+${phoneNumbers.length - 1}`}
                   </MoreNumbersButton>
                 </Tooltip.Anchor>
-                <Tooltip.Content $defaultStyles>
+                <Tooltip.Content $defaultStyles $placement={"bottom-right"}>
                   {phoneNumbers.slice(1).map((number) => (
                     <Paragraph5 key={number.value}>{number.value}</Paragraph5>
                   ))}
@@ -183,6 +188,11 @@ const ContactItem: React.FC<UnifiedContact> = ({
 const ContactItemWrapper = styled.div`
   width: 100%;
   padding: 0.4rem 1.4rem;
+
+  > *,
+  label {
+    width: 100%;
+  }
 `
 
 const ContactLabelWrapper = styled.div`
