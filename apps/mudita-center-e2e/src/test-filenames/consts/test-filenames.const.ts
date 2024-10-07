@@ -18,7 +18,6 @@ export enum TestFilesPaths {
   mcCheckForUpdatesOfflineTest = "src/specs/settings/mc-version-check-for-updates-offline.e2e.ts",
   privacyPolicyTest = "src/specs/settings/privacy-policy.e2e.ts",
   licenseTest = "src/specs/settings/license.e2e.ts",
-  helpWindowCheckOfflineTest = "src/specs/help/help-window-check-offline.e2e.ts",
   mcHomePageForceUpdateTest = "src/specs/overview/e2e-mock-mc-force-update-available.e2e.ts",
   mcHomePageForceUpdateErrorTest = "src/specs/overview/e2e-mock-mc-force-update-error.e2e.ts",
   mcHomePageSoftUpdateTest = "src/specs/overview/e2e-mock-mc-soft-update-available.e2e.ts",
