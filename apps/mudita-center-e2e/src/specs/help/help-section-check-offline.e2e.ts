@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import dns from "node:dns"
 import NavigationTabs from "../../page-objects/tabs.page"
 import HelpPage from "../../page-objects/help.page"
 import HelpArticlePage from "../../page-objects/help-article.page"
@@ -10,6 +11,9 @@ import HomePage from "../../page-objects/home.page"
 
 describe("Check Help window", () => {
   before(async () => {
+    dns.setDefaultResultOrder("ipv4first")
+    await browser.throttleNetwork("offline")
+
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
     await notNowButton.click()
