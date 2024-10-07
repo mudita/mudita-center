@@ -61,6 +61,7 @@ import { conditionalRenderer } from "./lib/conditional-renderer"
 import { toast } from "./lib/toast"
 import { selectionManager } from "./lib/selection-manager"
 import { formatMessage } from "./lib/format-message"
+import { appPortal } from "./lib/app-portal"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -116,6 +117,7 @@ export * from "./lib/conditional-renderer"
 export * from "./lib/format-message"
 export * from "./lib/toast"
 export * from "./lib/selection-manager"
+export * from "./lib/app-portal"
 
 export default {
   [blockBox.key]: blockBox,
@@ -176,4 +178,5 @@ export default {
   [formatMessage.key]: formatMessage,
   [toast.key]: toast,
   [selectionManager.key]: selectionManager,
+  [appPortal.key]: appPortal,
 } as const
