@@ -57,14 +57,14 @@ export const Tooltip: BaseGenericComponent<
         flipTooltipPlacement(placement),
       ]
 
-      const calculatePosition = (placment: TooltipPlacement): Position => {
+      const calculatePosition = (placement: TooltipPlacement): Position => {
         let top = 0
         let left = 0
 
         const adjustedOffset: TooltipOffsetType = { ...offset }
         const { isFlippedVertically, isFlippedHorizontally } = getFlipStatus(
           originalPlacement.current,
-          placment
+          placement
         )
 
         if (isFlippedVertically) {
@@ -74,7 +74,7 @@ export const Tooltip: BaseGenericComponent<
           adjustedOffset.x = -offset.x
         }
 
-        switch (placment) {
+        switch (placement) {
           case "bottom-right":
             top = anchorRect.top + anchorRect.height + adjustedOffset.y
             left = anchorRect.left + adjustedOffset.x
@@ -99,9 +99,6 @@ export const Tooltip: BaseGenericComponent<
               anchorRect.width +
               adjustedOffset.x
             break
-          default:
-            top = anchorRect.top + anchorRect.height + adjustedOffset.y
-            left = anchorRect.left + adjustedOffset.x
         }
 
         return { top, left }
