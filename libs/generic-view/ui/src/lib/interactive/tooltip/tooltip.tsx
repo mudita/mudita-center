@@ -19,6 +19,7 @@ import {
   flipHorizontal,
   flipTooltipPlacement,
   flipVertical,
+  getFlipStatus,
 } from "./tooltip-helpers"
 
 interface Position {
@@ -35,6 +36,7 @@ export const Tooltip: BaseGenericComponent<
   Content: typeof TooltipContent
 } = ({ children, placement = "bottom-right", offset = { x: 0, y: 0 } }) => {
   const [contentPosition, setContentPosition] = useState<Partial<Position>>({})
+  const originalPlacement = useRef<TooltipPlacement>(placement)
 
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -55,34 +57,48 @@ export const Tooltip: BaseGenericComponent<
         flipTooltipPlacement(placement),
       ]
 
-      const calculatePosition = (placment: TooltipPlacement): Position => {
+      const calculatePosition = (placement: TooltipPlacement): Position => {
         let top = 0
         let left = 0
 
-        switch (placment) {
+        const adjustedOffset: TooltipOffsetType = { ...offset }
+        const { isFlippedVertically, isFlippedHorizontally } = getFlipStatus(
+          originalPlacement.current,
+          placement
+        )
+
+        if (isFlippedVertically) {
+          adjustedOffset.y = -offset.y
+        }
+        if (isFlippedHorizontally) {
+          adjustedOffset.x = -offset.x
+        }
+
+        switch (placement) {
           case "bottom-right":
-            top = anchorRect.top + anchorRect.height + offset.y
-            left = anchorRect.left + offset.x
+            top = anchorRect.top + anchorRect.height + adjustedOffset.y
+            left = anchorRect.left + adjustedOffset.x
             break
           case "bottom-left":
-            top = anchorRect.top + anchorRect.height + offset.y
+            top = anchorRect.top + anchorRect.height + adjustedOffset.y
             left =
-              anchorRect.left - contentRect.width + anchorRect.width + offset.x
+              anchorRect.left -
+              contentRect.width +
+              anchorRect.width +
+              adjustedOffset.x
             break
           case "top-right":
-            top =
-              anchorRect.top - contentRect.height - anchorRect.height - offset.y
-            left = anchorRect.left + offset.x
+            top = anchorRect.top + adjustedOffset.y - contentRect.height
+            left = anchorRect.left + adjustedOffset.x
             break
           case "top-left":
-            top =
-              anchorRect.top - contentRect.height - anchorRect.height - offset.y
+            top = anchorRect.top + adjustedOffset.y - contentRect.height
             left =
-              anchorRect.left - contentRect.width + anchorRect.width + offset.x
+              anchorRect.left -
+              contentRect.width +
+              anchorRect.width +
+              adjustedOffset.x
             break
-          default:
-            top = anchorRect.top + anchorRect.height + offset.y
-            left = anchorRect.left + offset.x
         }
 
         return { top, left }
@@ -214,7 +230,6 @@ const Content = styled.div<{
   ${({ $defaultStyles, theme, $placement }) =>
     $defaultStyles &&
     css`
-      margin-top: 1rem;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
