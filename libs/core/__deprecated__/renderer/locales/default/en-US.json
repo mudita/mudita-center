@@ -1003,6 +1003,7 @@
   "module.recoveryMode.harmony.warning2": "Once you start the recovery, it must not be cancelled or interrupted.",
   "module.recoveryMode.harmony.warning3": "Do not disconnect your Harmony during the recovery process.",
   "module.recoveryMode.harmony.warning4": "Before starting the recovery, charge your device for 1 hour (or more) from a suitable power outlet.",
+  "module.recoveryMode.harmony.warningLinux": "Make sure your computer is running <b>Ubuntu 22.04 or later.</b>",
   "module.recoveryMode.harmony.confirmation": "I understand that not following these instructions may void the warranty",
   "module.recoveryMode.harmony.action": "Start Recovery",
   "module.recoveryMode.modal.message": "Recovery mode in progress...",
