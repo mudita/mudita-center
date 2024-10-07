@@ -9,9 +9,10 @@ import { DeviceType } from "device-protocol/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   DeviceInfo,
+  OverviewHarmonyWrapper,
   StatusInfo,
   SystemInfo,
-  OverviewWrapper,
+  TimeSynchronizationInfo,
 } from "Core/overview/components/overview/overview.styles"
 
 interface OverviewProps {
@@ -36,7 +37,7 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
   caseColour,
 }) => {
   return (
-    <OverviewWrapper>
+    <OverviewHarmonyWrapper>
       <DeviceInfo
         caseColour={caseColour}
         deviceType={DeviceType.MuditaHarmony}
@@ -54,7 +55,8 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
         onDownload={onUpdateDownload}
         onUpdate={onUpdateInstall}
       />
-    </OverviewWrapper>
+      <TimeSynchronizationInfo />
+    </OverviewHarmonyWrapper>
   )
 }
 export default OverviewContent
