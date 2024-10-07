@@ -28,9 +28,11 @@ export const computeField = (
       if (field.endsWith("[]")) {
         return [...acc, ...(get(entity, field.slice(0, -2)) as unknown[])]
       }
-      return [...acc, get(entity, field)]
+      acc.push(get(entity, field))
+      return acc
     }
-    return [...acc, computeField(entity, field)]
+    acc.push(computeField(entity, field))
+    return acc
   }, [])
 
   switch (type) {
@@ -44,26 +46,24 @@ export const computeField = (
       })
     }
     case "clear": {
-      return values
-        .filter((value) => {
-          const emptyStringCondition = config.allowEmptyString || value !== ""
-          const zeroCondition = config.allowZero || value !== 0
-          const falseCondition = config.allowFalse || value !== false
-          const undefinedCondition = value !== undefined
-          const emptyArrayCondition = isArray(value) ? value.length !== 0 : true
-          const emptyObjectCondition = isObject(value)
-            ? Object.keys(value).length !== 0
-            : true
-          return (
-            undefinedCondition &&
-            emptyStringCondition &&
-            emptyArrayCondition &&
-            emptyObjectCondition &&
-            zeroCondition &&
-            falseCondition
-          )
-        })
-        .map((value) => (value === undefined ? [] : value))
+      return values.filter((value) => {
+        const emptyStringCondition = config.allowEmptyString || value !== ""
+        const zeroCondition = config.allowZero || value !== 0
+        const falseCondition = config.allowFalse || value !== false
+        const undefinedCondition = value !== undefined
+        const emptyArrayCondition = isArray(value) ? value.length !== 0 : true
+        const emptyObjectCondition = isObject(value)
+          ? Object.keys(value).length !== 0
+          : true
+        return (
+          undefinedCondition &&
+          emptyStringCondition &&
+          emptyArrayCondition &&
+          emptyObjectCondition &&
+          zeroCondition &&
+          falseCondition
+        )
+      })
     }
     case "slice":
       return slice(values, config.start, config.end)
