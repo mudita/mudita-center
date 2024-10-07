@@ -103,6 +103,8 @@ class MacDeviceFlashService implements IDeviceFlash {
     const lines = output.split("\n").filter((line) => line.trim() !== "")
 
     lines.forEach((line) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
       const productNameMatch = line.match(productNamePattern)
       if (productNameMatch) {
         if (currentDevice) {
@@ -117,6 +119,8 @@ class MacDeviceFlashService implements IDeviceFlash {
         !line.trim().startsWith("Volumes")
       ) {
         for (const [key, regex] of Object.entries(fieldPatterns)) {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
           const match = line.match(regex)
           if (match) {
             if (key === "BSDName" && !currentDevice.BSDName) {

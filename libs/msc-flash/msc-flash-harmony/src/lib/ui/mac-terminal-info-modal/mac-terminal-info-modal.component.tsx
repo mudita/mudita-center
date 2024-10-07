@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled, { ThemeProps } from "styled-components"
+import styled from "styled-components"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
