@@ -224,6 +224,30 @@ describe("dataProviderSort", () => {
     })
   })
 
+  it("sorts data based on providerGroup fields when lastName is the same", () => {
+    const data = [
+      { firstName: "Alice", lastName: "Smith" },
+      { firstName: "Charlie", lastName: "Smith" },
+      { firstName: "Bob", lastName: "Smith" },
+    ]
+
+    const sort: DataProviderSortConfig = [
+      {
+        providerGroup: ["lastName", "firstName"],
+        direction: "asc",
+        priority: 1,
+      },
+    ]
+
+    const result = dataProviderSort(data, sort)
+
+    expect(result).toEqual([
+      { firstName: "Alice", lastName: "Smith" },
+      { firstName: "Bob", lastName: "Smith" },
+      { firstName: "Charlie", lastName: "Smith" },
+    ])
+  })
+
   it("sorts data based on multiple fields with different priorities", () => {
     const data = [
       { name: "Alice", age: "30" },
@@ -319,6 +343,25 @@ describe("dataProviderSort", () => {
     const data = [{ name: "Alice" }, { name: "Bob" }]
     const sort = [] as DataProviderSortConfig
     const result = dataProviderSort(data, sort)
+    expect(result).toEqual(data)
+  })
+
+  it("returns unsorted data when neither `providerField` nor `providerGroup` is provided", () => {
+    const data = [
+      { name: "Alice", age: 30 },
+      { name: "Bob", age: 25 },
+      { name: "Charlie", age: 35 },
+    ]
+
+    const sortConfig: DataProviderSortConfig = [
+      {
+        priority: 1,
+        direction: "asc",
+      },
+    ]
+
+    const result = dataProviderSort(data, sortConfig)
+
     expect(result).toEqual(data)
   })
 })

@@ -22,42 +22,48 @@ export const dataProviderSort = (
   return data.sort((a, b) => {
     for (const {
       providerField,
+      providerGroup,
       direction,
       orderingPatterns = [],
       sensitivity = "variant",
       emptyOrder = "last",
     } of sortedConfigs) {
-      const fieldA = get(a, providerField)
-      const fieldB = get(b, providerField)
+      const fields = providerField ? [providerField] : providerGroup
+      if (!fields) continue
 
-      if (isEmpty(fieldA) && !isEmpty(fieldB)) {
-        return emptyOrder === "first" ? -1 : 1
-      } else if (!isEmpty(fieldA) && isEmpty(fieldB)) {
-        return emptyOrder === "first" ? 1 : -1
-      }
+      for (const field of fields) {
+        const fieldA = get(a, field)
+        const fieldB = get(b, field)
 
-      if (typeof fieldA !== "string" || typeof fieldB !== "string") {
-        continue
-      }
+        if (isEmpty(fieldA) && !isEmpty(fieldB)) {
+          return emptyOrder === "first" ? -1 : 1
+        } else if (!isEmpty(fieldA) && isEmpty(fieldB)) {
+          return emptyOrder === "first" ? 1 : -1
+        }
 
-      const regexComparison = compareWithOrderingPatterns(
-        fieldA,
-        fieldB,
-        orderingPatterns,
-        direction
-      )
-      if (regexComparison !== 0) {
-        return regexComparison
-      }
+        if (typeof fieldA !== "string" || typeof fieldB !== "string") {
+          continue
+        }
 
-      const fieldComparison = compareFields(
-        fieldA,
-        fieldB,
-        direction,
-        sensitivity
-      )
-      if (fieldComparison !== 0) {
-        return fieldComparison
+        const regexComparison = compareWithOrderingPatterns(
+          fieldA,
+          fieldB,
+          orderingPatterns,
+          direction
+        )
+        if (regexComparison !== 0) {
+          return regexComparison
+        }
+
+        const fieldComparison = compareFields(
+          fieldA,
+          fieldB,
+          direction,
+          sensitivity
+        )
+        if (fieldComparison !== 0) {
+          return fieldComparison
+        }
       }
     }
     return 0
