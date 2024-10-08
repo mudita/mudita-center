@@ -30,12 +30,14 @@ describe("useButtonAction", () => {
   it("calls the correct action for 'open-modal'", () => {
     const openModal = jest.requireMock("generic-view/store").openModal
     const { result } = renderHook(() => useButtonAction("testKey"))
-    result.current({
-      type: "open-modal",
-      modalKey: "testModalKey",
-      domain: "testDomain",
-      permanent: false,
-    })
+    result.current([
+      {
+        type: "open-modal",
+        modalKey: "testModalKey",
+        domain: "testDomain",
+        permanent: false,
+      },
+    ])
 
     expect(openModal).toHaveBeenCalledWith({
       key: "testModalKey",
@@ -44,13 +46,42 @@ describe("useButtonAction", () => {
     })
   })
 
+  it("calls multiple actions", () => {
+    const openModal = jest.requireMock("generic-view/store").openModal
+    const closeModal = jest.requireMock("generic-view/store").closeModal
+    const { result } = renderHook(() => useButtonAction("testKey"))
+    result.current([
+      {
+        type: "open-modal",
+        modalKey: "testModalKey",
+        domain: "testDomain",
+        permanent: false,
+      },
+      {
+        type: "close-modal",
+        modalKey: "testModalKey",
+      },
+    ])
+
+    expect(openModal).toHaveBeenCalledWith({
+      key: "testModalKey",
+      domain: "testDomain",
+      permanent: false,
+    })
+    expect(closeModal).toHaveBeenCalledWith({
+      key: "testModalKey",
+    })
+  })
+
   it("calls the correct action for 'close-modal'", () => {
     const closeModal = jest.requireMock("generic-view/store").closeModal
     const { result } = renderHook(() => useButtonAction("testKey"))
-    result.current({
-      type: "close-modal",
-      modalKey: "testModalKey",
-    })
+    result.current([
+      {
+        type: "close-modal",
+        modalKey: "testModalKey",
+      },
+    ])
 
     expect(closeModal).toHaveBeenCalledWith({
       key: "testModalKey",
@@ -60,12 +91,14 @@ describe("useButtonAction", () => {
   it("calls the correct action for 'replace-modal'", () => {
     const replaceModal = jest.requireMock("generic-view/store").replaceModal
     const { result } = renderHook(() => useButtonAction("testKey"))
-    result.current({
-      type: "replace-modal",
-      modalKey: "testModalKey",
-      domain: "testDomain",
-      permanent: false,
-    })
+    result.current([
+      {
+        type: "replace-modal",
+        modalKey: "testModalKey",
+        domain: "testDomain",
+        permanent: false,
+      },
+    ])
 
     expect(replaceModal).toHaveBeenCalledWith({
       key: "testModalKey",
@@ -77,9 +110,11 @@ describe("useButtonAction", () => {
   it("calls the correct action for 'close-all-modals'", () => {
     const closeAllModals = jest.requireMock("generic-view/store").closeAllModals
     const { result } = renderHook(() => useButtonAction("testKey"))
-    result.current({
-      type: "close-all-modals",
-    })
+    result.current([
+      {
+        type: "close-all-modals",
+      },
+    ])
 
     expect(closeAllModals).toHaveBeenCalled()
   })
@@ -90,10 +125,12 @@ describe("useButtonAction", () => {
       .requireMock("react-router")
       .useHistory.mockImplementation(() => ({ push }))
     const { result } = renderHook(() => useButtonAction("testKey"))
-    result.current({
-      type: "navigate",
-      viewKey: "testViewKey",
-    })
+    result.current([
+      {
+        type: "navigate",
+        viewKey: "testViewKey",
+      },
+    ])
 
     expect(push).toHaveBeenCalledWith({
       pathname: "/generic/testViewKey",

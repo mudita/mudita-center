@@ -4,11 +4,12 @@
  */
 
 import React, { FunctionComponent } from "react"
-import { ButtonAction, CustomModalError, IconType } from "generic-view/utils"
+import { CustomModalError, IconType } from "generic-view/utils"
 import { Modal } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -49,7 +50,7 @@ export const ImportContactsError: FunctionComponent<Props> = ({
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
-            action: closeAction,
+            actions: [closeAction],
           }}
         />
       </Modal.Buttons>

@@ -11,7 +11,7 @@ import React, {
 } from "react"
 import { defineMessages } from "react-intl"
 import { Modal } from "../../interactive/modal"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { ButtonPrimary } from "../../buttons/button-primary"
@@ -22,6 +22,8 @@ import { getDisplayName, importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
 import { Divider } from "../../helpers/divider"
 import { Form } from "../../interactive/form/form"
+import { ButtonAction } from "generic-view/models"
+import { Paragraph5 } from "../../texts/paragraphs"
 
 export const SELECTED_CONTACTS_FIELD = "selected-contacts"
 export const ALL_CONTACTS_FIELD = "all-contacts"
@@ -130,7 +132,7 @@ export const ImportContactsList: FunctionComponent<Props> = ({
             text: intl.formatMessage(messages.importButtonText, {
               count: selectedContacts?.length || 0,
             }),
-            action: nextAction,
+            actions: [nextAction],
             disabled: !selectedContacts || selectedContacts.length === 0,
           }}
         />
@@ -158,18 +160,21 @@ const ContactItem: React.FC<UnifiedContact> = ({
           <StyledPhoneInfoWrapper>
             {phoneNumbers.length > 0 && <p>{phoneNumbers[0].value}</p>}
             {phoneNumbers.length > 1 && (
-              <Tooltip>
+              <Tooltip
+                offset={{
+                  x: 0,
+                  y: 11,
+                }}
+              >
                 <Tooltip.Anchor>
                   <MoreNumbersButton>
                     {`+${phoneNumbers.length - 1}`}
                   </MoreNumbersButton>
                 </Tooltip.Anchor>
-                <Tooltip.Content>
-                  <MoreNumbersList>
-                    {phoneNumbers.slice(1).map((number) => (
-                      <p key={number.value}>{number.value}</p>
-                    ))}
-                  </MoreNumbersList>
+                <Tooltip.Content $defaultStyles $placement={"bottom-right"}>
+                  {phoneNumbers.slice(1).map((number) => (
+                    <Paragraph5 key={number.value}>{number.value}</Paragraph5>
+                  ))}
                 </Tooltip.Content>
               </Tooltip>
             )}
@@ -182,7 +187,12 @@ const ContactItem: React.FC<UnifiedContact> = ({
 
 const ContactItemWrapper = styled.div`
   width: 100%;
-  padding: 0 1.4rem;
+  padding: 0.4rem 1.4rem;
+
+  > *,
+  label {
+    width: 100%;
+  }
 `
 
 const ContactLabelWrapper = styled.div`
@@ -249,22 +259,6 @@ const MoreNumbersButton = styled.p`
   &:hover {
     cursor: pointer;
     background-color: ${({ theme }) => theme.color.grey5};
-  }
-`
-
-const MoreNumbersList = styled.div`
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: ${({ theme }) => theme.space.sm};
-  background-color: ${({ theme }) => theme.color.grey4};
-  border-radius: ${({ theme }) => theme.radius.sm};
-  box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
-
-  && > p {
-    color: ${({ theme }) => theme.color.grey1};
-    text-align: left;
   }
 `
 

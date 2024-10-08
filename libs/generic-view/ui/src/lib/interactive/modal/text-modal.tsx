@@ -4,10 +4,10 @@
  */
 
 import React, { UIEventHandler, useState } from "react"
-import { BaseGenericComponent, ModalAction } from "generic-view/utils"
+import { BaseGenericComponent } from "generic-view/utils"
 import styled, { css } from "styled-components"
 import { Modal } from "./modal"
-import { TextModalConfig } from "generic-view/models"
+import { ModalAction, TextModalConfig } from "generic-view/models"
 
 export const TextModal: BaseGenericComponent<
   undefined,
@@ -35,7 +35,7 @@ export const TextModal: BaseGenericComponent<
       }}
     >
       <Header $active={contentScrolled}>
-        <Modal.CloseButton config={{ action: closeAction }} />
+        <Modal.CloseButton config={{ actions: [closeAction] }} />
       </Header>
       <ScrollContainer onScroll={handleScroll}>{children}</ScrollContainer>
     </Modal>
