@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { cloneDeep } from "lodash"
+import { cloneDeep, get } from "lodash"
 import {
   DataProviderSortConfig,
   sortDirection,
@@ -44,4 +44,15 @@ export const compareWithOrderingPatterns = (
     if (!matchA && matchB) return 1 * directionMultiplier
   }
   return 0
+}
+
+export const getFirstNonEmptyField = (
+  obj: unknown,
+  fields: string[]
+): unknown => {
+  const fieldKey =
+    fields.find(
+      (field) => get(obj, field) && (get(obj, field) as string).trim() !== ""
+    ) ?? ""
+  return get(obj, fieldKey)
 }

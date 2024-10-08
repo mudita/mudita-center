@@ -4,11 +4,11 @@
  */
 
 import { DataProviderSortConfig } from "device/models"
-import get from "lodash/get"
 import isEmpty from "lodash/isEmpty"
 import {
   compareFields,
   compareWithOrderingPatterns,
+  getFirstNonEmptyField,
   sortByPriority,
 } from "./data-provider-sort.helpers"
 export const dataProviderSort = (
@@ -30,10 +30,17 @@ export const dataProviderSort = (
     } of sortedConfigs) {
       const fields = providerField ? [providerField] : providerGroup
       if (!fields) continue
+      let index = 0
 
-      for (const field of fields) {
-        const fieldA = get(a, field)
-        const fieldB = get(b, field)
+      while (index < fields.length) {
+        const remainingFields = fields.slice(index)
+        const fieldA = getFirstNonEmptyField(a, remainingFields)
+        const fieldB = getFirstNonEmptyField(b, remainingFields)
+
+        if (fieldA === fieldB) {
+          index++
+          continue
+        }
 
         if (isEmpty(fieldA) && !isEmpty(fieldB)) {
           return emptyOrder === "first" ? -1 : 1
@@ -42,6 +49,7 @@ export const dataProviderSort = (
         }
 
         if (typeof fieldA !== "string" || typeof fieldB !== "string") {
+          index++
           continue
         }
 
@@ -63,9 +71,12 @@ export const dataProviderSort = (
         )
         if (fieldComparison !== 0) {
           return fieldComparison
+        } else {
+          index++
         }
       }
     }
+
     return 0
   })
 }
