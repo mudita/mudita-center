@@ -64,13 +64,21 @@ export type DataProviderField =
   | z.infer<typeof enhancedFieldSchema>
   | z.infer<typeof superEnhancedFieldSchema>
 
+const sortDirectionSchema = z.union([z.literal("asc"), z.literal("desc")]);
+
+export type sortDirection = z.infer<typeof sortDirectionSchema>
+
+const sortOrderingPatternsSchema = z.array(regexSchema);
+
+export type sortOrderingPatterns = z.infer<typeof sortOrderingPatternsSchema>
+
 const sortSchema = z
   .array(
     z.object({
       providerField: z.string(),
       priority: z.number().nonnegative(),
-      direction: z.union([z.literal("asc"), z.literal("desc")]),
-      orderingPatterns: z.array(regexSchema).optional(),
+      direction: sortDirectionSchema,
+      orderingPatterns: sortOrderingPatternsSchema.optional(),
     })
   )
   .optional()
