@@ -57,6 +57,7 @@ const defaultProps: Props = {
   forceUpdate: jest.fn(),
   forceUpdateState: State.Initial,
   closeForceUpdateFlow: jest.fn(),
+  synchronizeTime: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

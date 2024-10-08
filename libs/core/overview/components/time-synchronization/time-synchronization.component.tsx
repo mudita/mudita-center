@@ -18,6 +18,9 @@ import { defineMessages, FormattedMessage } from "react-intl"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { TimeSynchronizationIds } from "Core/overview/components/time-synchronization/time-synchronization-ids.enum"
+import { TimeSynchronizationFlow } from "Core/overview/components/time-synchronization/time-synchronization-flow.component"
+import { useSelector } from "react-redux"
+import { selectTimeSynchronizationStatus } from "Core/time-synchronization/selectors/time-synchronization-status.selector"
 
 const messages = defineMessages({
   timeSynchronizationTitle: {
@@ -32,52 +35,38 @@ const messages = defineMessages({
 })
 
 interface Props {
-  // deviceType: DeviceType
-  // osVersion?: string
-  // onUpdateCheck?: () => void
-  // onUpdate?: () => void
-  // onDownload?: () => void
+  onSynchronize?: () => void
 }
 
 const TimeSynchronization: FunctionComponent<Props> = ({
-  // deviceType,
-  // osVersion = "",
-  // onUpdateCheck = noop,
-  // onUpdate = noop,
-  // onDownload = noop,
+  onSynchronize,
   ...props
 }) => {
-  // const {
-  //   checkForUpdateInProgress,
-  //   checkForUpdatePerformed,
-  //   checkForUpdateFailed,
-  //   updateAvailable,
-  //   updateDownloaded,
-  // } = useUpdateFlowState({
-  //   deviceType: deviceType,
-  // })
   return (
-    <Card {...props}>
-      <CardHeader>
-        <FormattedMessage {...messages.timeSynchronizationTitle} />
-        <Text displayStyle={TextDisplayStyle.Label} color="secondary">
-          <FormattedMessage {...messages.timeSynchronizationDescription} />
-        </Text>
-      </CardHeader>
-      <CardBody>
-        <CardContent>
-          {/*TODO: Show current Harmony time and date */}
-        </CardContent>
-        <CardAction>
-          <ButtonComponent
-            displayStyle={DisplayStyle.Secondary}
-            labelMessage={messages.timeSynchronizationButton}
-            // onClick={onDownload}
-            data-testid={TimeSynchronizationIds.SynchronizeButton}
-          />
-        </CardAction>
-      </CardBody>
-    </Card>
+    <>
+      <Card {...props}>
+        <CardHeader>
+          <FormattedMessage {...messages.timeSynchronizationTitle} />
+          <Text displayStyle={TextDisplayStyle.Label} color="secondary">
+            <FormattedMessage {...messages.timeSynchronizationDescription} />
+          </Text>
+        </CardHeader>
+        <CardBody>
+          <CardContent>
+            {/*TODO: Show current Harmony time and date */}
+          </CardContent>
+          <CardAction>
+            <ButtonComponent
+              displayStyle={DisplayStyle.Secondary}
+              labelMessage={messages.timeSynchronizationButton}
+              onClick={onSynchronize}
+              data-testid={TimeSynchronizationIds.SynchronizeButton}
+            />
+          </CardAction>
+        </CardBody>
+      </Card>
+      <TimeSynchronizationFlow />
+    </>
   )
 }
 

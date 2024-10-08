@@ -37,6 +37,7 @@ import {
 import { appStateReducer } from "shared/app-state"
 import { activeDeviceRegistryReducer } from "active-device-registry/feature"
 import { helpReducer } from "help/store"
+import { timeSynchronizationReducer } from "Core/time-synchronization/reducers/time-synchronization.reducer"
 
 export const reducers = {
   device: deviceReducer,
@@ -53,6 +54,7 @@ export const reducers = {
   news: newsReducer,
   settings: settingsReducer,
   update: updateOsReducer,
+  timeSynchronization: timeSynchronizationReducer,
   discoveryDevice: discoveryDeviceReducer,
   deviceInitialization: deviceInitializationReducer,
   appInitialization: appInitializationReducer,

@@ -24,9 +24,10 @@ interface OverviewProps {
   readonly batteryLevel: number
   readonly serialNumber: string | undefined
   readonly caseColour?: CaseColour
+  readonly synchronizeTime: () => void
 }
 
-const OverviewContent: FunctionComponent<OverviewProps> = ({
+const HarmonyOverviewContent: FunctionComponent<OverviewProps> = ({
   batteryLevel,
   onUpdateCheck,
   onUpdateDownload,
@@ -35,6 +36,7 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
   osVersion,
   serialNumber,
   caseColour,
+  synchronizeTime,
 }) => {
   return (
     <OverviewHarmonyWrapper>
@@ -55,8 +57,8 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
         onDownload={onUpdateDownload}
         onUpdate={onUpdateInstall}
       />
-      <TimeSynchronizationInfo />
+      <TimeSynchronizationInfo onSynchronize={synchronizeTime} />
     </OverviewHarmonyWrapper>
   )
 }
-export default OverviewContent
+export default HarmonyOverviewContent
