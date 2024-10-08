@@ -40,6 +40,7 @@ import { forceUpdate } from "Core/update/actions/force-update/force-update.actio
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { isDataSyncInProgressSelector } from "Core/data-sync/selectors/is-data-sync-in-progress.selector"
 import { deactivateDevice } from "device-manager/feature"
+import { synchronizeTime } from "Core/time-synchronization/actions/synchronize-time.action"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -137,6 +138,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   forceUpdate: (releases: OsRelease[]) => dispatch(forceUpdate({ releases })),
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  synchronizeTime: () => dispatch(synchronizeTime()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)
