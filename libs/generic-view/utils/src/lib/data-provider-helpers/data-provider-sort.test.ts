@@ -364,4 +364,47 @@ describe("dataProviderSort", () => {
 
     expect(result).toEqual(data)
   })
+
+  describe("dataProviderSort with providerGroup, orderingPatterns, empty values and numbers", () => {
+    it("sorts data based on providerGroup with orderingPatterns, emptyOrder, and sensitivity", () => {
+      const data = [
+        { displayName: "Dr. John Smith", firstName: "John", lastName: "Smith" },
+        { displayName: "Mr. Williams", firstName: "", lastName: "Williams" },
+        { displayName: "Adam", firstName: "Adam", lastName: "" },
+        { displayName: "example@example.com", firstName: "", lastName: "" },
+        { displayName: "Middle Name", firstName: "", lastName: "" },
+        { displayName: "Mr. Anonymous", firstName: "", lastName: "" },
+        { displayName: "555987654", firstName: "", lastName: "" },
+        { displayName: "#$%#@", firstName: "", lastName: "" },
+      ]
+
+      const sortConfig: DataProviderSortConfig = [
+        {
+          providerGroup: ["lastName", "firstName", "displayName"],
+          priority: 1,
+          direction: "asc",
+          orderingPatterns: [
+            "/^[a-zA-Z].*/",
+            "/^\\d+$/",
+            "/^[^a-zA-Z\\d\\s@]+$/",
+          ],
+          emptyOrder: "last",
+          sensitivity: "variant",
+        },
+      ]
+
+      const result = dataProviderSort(data, sortConfig)
+
+      expect(result).toEqual([
+        { displayName: "Dr. John Smith", firstName: "John", lastName: "Smith" },
+        { displayName: "Mr. Williams", firstName: "", lastName: "Williams" },
+        { displayName: "Adam", firstName: "Adam", lastName: "" },
+        { displayName: "example@example.com", firstName: "", lastName: "" },
+        { displayName: "Middle Name", firstName: "", lastName: "" },
+        { displayName: "Mr. Anonymous", firstName: "", lastName: "" },
+        { displayName: "555987654", firstName: "", lastName: "" },
+        { displayName: "#$%#@", firstName: "", lastName: "" },
+      ])
+    })
+  })
 })
