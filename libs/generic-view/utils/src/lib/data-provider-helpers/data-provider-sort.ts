@@ -4,55 +4,49 @@
  */
 
 import { DataProviderSortConfig } from "device/models"
-import { stringToRegex } from "./string-to-regex"
-import { cloneDeep, get } from "lodash"
+import { get } from "lodash"
+import {
+  compareFields,
+  compareWithOrderingPatterns,
+  sortByPriority,
+} from "./data-provider-sort.helpers"
 
 export const dataProviderSort = (
   data: Record<string, unknown>[] = [],
-  sort?: DataProviderSortConfig
+  sortConfigs?: DataProviderSortConfig
 ) => {
-  if (!sort || !data) return data
-  const fieldsSortedByPriority = cloneDeep(sort).sort(
-    (a, b) => a.priority - b.priority
-  )
+  if (!sortConfigs || !data) return data
+
+  const sortedConfigs = sortByPriority(sortConfigs)
 
   return data.sort((a, b) => {
-    let score = 0
     for (const {
       providerField,
       direction,
       orderingPatterns = [],
-    } of fieldsSortedByPriority) {
-      const fieldA = get(a, providerField) as string
-      const fieldB = get(b, providerField) as string
-      if (!fieldA || !fieldB) {
+    } of sortedConfigs) {
+      const fieldA = get(a, providerField)
+      const fieldB = get(b, providerField)
+
+      if (typeof fieldA !== "string" || typeof fieldB !== "string") {
         continue
       }
 
-      for (let i = 0; i < orderingPatterns.length; i++) {
-        const regex = stringToRegex(orderingPatterns[i])
-        const matchA = regex.test(fieldA)
-        const matchB = regex.test(fieldB)
-
-        if (matchA && !matchB) {
-          score = -1
-          break
-        }
-        if (!matchA && matchB) {
-          score = 1
-          break
-        }
+      const regexComparison = compareWithOrderingPatterns(
+        fieldA,
+        fieldB,
+        orderingPatterns,
+        direction
+      )
+      if (regexComparison !== 0) {
+        return regexComparison
       }
-      if (score === 0) {
-        score =
-          direction === "asc"
-            ? fieldA.localeCompare(fieldB)
-            : fieldB.localeCompare(fieldA)
-        if (score !== 0) {
-          break
-        }
+
+      const fieldComparison = compareFields(fieldA, fieldB, direction)
+      if (fieldComparison !== 0) {
+        return fieldComparison
       }
     }
-    return score
+    return 0
   })
 }
