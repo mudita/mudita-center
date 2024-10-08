@@ -5,16 +5,16 @@
 
 import { z } from "zod"
 import { IconType } from "generic-view/utils"
-import { buttonActionValidator } from "./common-validators"
+import { buttonActionsValidator } from "./common-validators"
 
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  text: z.string(),
+  text: z.string().optional(),
   icon: z.nativeEnum(IconType).optional(),
-  action: buttonActionValidator,
+  actions: buttonActionsValidator,
   modifiers: z
-    .array(z.enum(["link", "uppercase", "hover-underline"]))
+    .array(z.enum(["link", "uppercase", "hover-underline", "hover-background"]))
     .optional(),
 })
 

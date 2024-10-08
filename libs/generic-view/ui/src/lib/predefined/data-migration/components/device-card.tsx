@@ -46,7 +46,7 @@ export const DeviceCard: FunctionComponent<
       <SelectButton
         config={{
           text: intl.formatMessage(messages.selectButton),
-          action: { type: "custom", callback: onSelect },
+          actions: [{ type: "custom", callback: onSelect }],
         }}
       />
     </Wrapper>

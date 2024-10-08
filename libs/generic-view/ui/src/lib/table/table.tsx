@@ -13,23 +13,28 @@ import React, {
   useState,
 } from "react"
 import styled, { css } from "styled-components"
-import { APIFC } from "generic-view/utils"
+import { APIFC, useViewFormContext } from "generic-view/utils"
 import { TableConfig, TableData } from "generic-view/models"
 import { TableCell } from "./table-cell"
-import { useFormContext } from "react-hook-form"
 import { P1 } from "../texts/paragraphs"
+import { difference, intersection } from "lodash"
+import { useFormField } from "generic-view/store"
 
 const rowHeight = 64
 
 export const Table: APIFC<TableData, TableConfig> & {
   Cell: typeof TableCell
 } = ({ data = [], config, children, ...props }) => {
-  const formContext = useFormContext()
+  const getFormContext = useViewFormContext()
+  const formContext = getFormContext()
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
   const [visibleRowsBounds, setVisibleRowsBounds] = useState<[number, number]>([
     -1, -1,
   ])
 
+  const { setValue: setAllIds } = useFormField({
+    formName: config.form.formName,
+  })
   const { formOptions, columnsNames } = config
   const { activeIdFieldName } = formOptions
 
@@ -48,6 +53,10 @@ export const Table: APIFC<TableData, TableConfig> & {
   const handleScroll = useCallback(() => {
     if (!scrollWrapperRef.current) return
     const { scrollTop, clientHeight } = scrollWrapperRef.current
+    if (clientHeight === 0) {
+      setTimeout(handleScroll, 10)
+      return
+    }
     const rowsPerPage = Math.ceil(clientHeight / rowHeight) || 0
     const currentRowIndex = Math.floor(scrollTop / rowHeight)
     const firstVisibleRowIndex = currentRowIndex - rowsPerPage
@@ -56,10 +65,26 @@ export const Table: APIFC<TableData, TableConfig> & {
   }, [])
 
   useEffect(() => {
-    if (formOptions.totalItemsFieldName) {
-      formContext.setValue(formOptions.totalItemsFieldName, data?.length)
+    if (formOptions.allIdsFieldName) {
+      formContext.setValue(formOptions.allIdsFieldName, data)
+      setAllIds(formOptions.allIdsFieldName, data)
     }
-  }, [formOptions.totalItemsFieldName, data?.length, formContext])
+  }, [data, formContext, formOptions.allIdsFieldName, setAllIds])
+
+  useEffect(() => {
+    if (formOptions.selectedIdsFieldName) {
+      const selectedIds = formContext.getValues(
+        formOptions.selectedIdsFieldName
+      )
+      const unavailableIds = difference(selectedIds, data)
+      if (unavailableIds.length > 0) {
+        formContext.setValue(
+          formOptions.selectedIdsFieldName,
+          intersection(data, unavailableIds)
+        )
+      }
+    }
+  }, [data, formContext, formOptions.selectedIdsFieldName])
 
   useEffect(() => {
     const scrollWrapper = scrollWrapperRef.current
@@ -149,7 +174,7 @@ const TableWrapper = styled.table`
   position: absolute;
   top: 0;
   left: 0;
-  width: min-content;
+  width: 100%;
   max-height: 100%;
   border-collapse: collapse;
   border-spacing: 0;
@@ -179,21 +204,17 @@ const TableBody = styled.tbody`
 
 // TODO: Add proper styles for the table row
 const Row = styled.tr<{ $active?: boolean }>`
+  height: ${rowHeight / 10}rem;
+  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
+  border-left: 0.2rem solid transparent;
   ${({ $active }) =>
     $active &&
     css`
       border-left: 0.2rem solid #000;
     `}
-  height: ${rowHeight / 10}rem;
 `
 
 const RowPlaceholder = styled.tr`
   height: ${rowHeight / 10}rem;
-
-  div {
-    display: block;
-    height: 2.4rem;
-    border-radius: ${({ theme }) => theme.radius.md};
-    background: ${({ theme }) => theme.color.grey6};
-  }
+  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
 `

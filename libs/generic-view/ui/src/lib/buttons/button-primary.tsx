@@ -22,11 +22,11 @@ export const ButtonPrimary: APIFC<undefined, ButtonPrimaryConfig> = ({
       data-testid={`${ButtonTestIds.PrimaryButton}-${props.componentKey}`}
       {...props}
       disabled={config.disabled}
-      action={config.action}
+      actions={config.actions}
     >
       {children}
       {config.icon && <Icon data={{ type: config.icon }} />}
-      <span>{config.text}</span>
+      {config.text}
     </Button>
   )
 }
@@ -37,15 +37,14 @@ const Button = styled(ButtonBase)`
   padding: 0 1rem;
   transition: background-color 0.15s ease-in-out;
   border-radius: ${({ theme }) => theme.radius.sm};
+  font-size: ${({ theme }) => theme.fontSize.buttonText};
+  line-height: ${({ theme }) => theme.lineHeight.buttonText};
+  color: ${({ theme }) => theme.color.white};
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
   && {
     height: 4rem;
-  }
-  span {
-    font-size: ${({ theme }) => theme.fontSize.buttonText};
-    line-height: ${({ theme }) => theme.lineHeight.buttonText};
-    color: ${({ theme }) => theme.color.white};
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
   }
 
   &:hover {
@@ -58,9 +57,6 @@ const Button = styled(ButtonBase)`
 
   &:disabled {
     background-color: ${({ theme }) => theme.color.grey4};
-
-    span {
-      color: ${({ theme }) => theme.color.grey2};
-    }
+    color: ${({ theme }) => theme.color.grey2};
   }
 `

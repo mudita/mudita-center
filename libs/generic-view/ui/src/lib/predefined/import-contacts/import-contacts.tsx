@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
+import { APIFC, CustomModalError } from "generic-view/utils"
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { Form } from "../../interactive/form/form"
 import { Modal } from "../../interactive/modal"
@@ -30,7 +30,7 @@ import { ImportContactsError } from "./import-contacts-error"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { useFormContext } from "react-hook-form"
-import { ImportContactsConfig } from "generic-view/models"
+import { ButtonAction, ImportContactsConfig } from "generic-view/models"
 import { ApiFileTransferError } from "device/models"
 
 const messages = defineMessages({
@@ -135,7 +135,7 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
   return (
     <>
       {closeButtonVisible && (
-        <Modal.CloseButton config={{ action: importCloseButtonAction }} />
+        <Modal.CloseButton config={{ actions: [importCloseButtonAction] }} />
       )}
       {(currentStatus === undefined || currentStatus === "INIT") && (
         <ImportContactsProvider />
