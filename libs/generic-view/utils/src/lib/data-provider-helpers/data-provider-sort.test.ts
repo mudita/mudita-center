@@ -56,6 +56,114 @@ describe("dataProviderSort", () => {
     ])
   })
 
+  describe("dataProviderSort with sensitivity options", () => {
+    it("sorts data with sensitivity set to 'base' (ignores case and accents)", () => {
+      const data = [
+        { name: "alice" },
+        { name: "álice" },
+        { name: "Bob" },
+        { name: "charlie" },
+        { name: "Alice" },
+      ]
+      const sort: DataProviderSortConfig = [
+        {
+          providerField: "name",
+          direction: "asc",
+          priority: 1,
+          sensitivity: "base",
+        },
+      ]
+      const result = dataProviderSort(data, sort)
+
+      expect(result).toEqual([
+        { name: "alice" },
+        { name: "álice" },
+        { name: "Alice" },
+        { name: "Bob" },
+        { name: "charlie" },
+      ])
+    })
+
+    it("sorts data with sensitivity set to 'accent' (ignores case, but considers accents)", () => {
+      const data = [
+        { name: "alice" },
+        { name: "álice" },
+        { name: "Bob" },
+        { name: "charlie" },
+        { name: "Alice" },
+      ]
+      const sort: DataProviderSortConfig = [
+        {
+          providerField: "name",
+          direction: "asc",
+          priority: 1,
+          sensitivity: "accent",
+        },
+      ]
+      const result = dataProviderSort(data, sort)
+
+      expect(result).toEqual([
+        { name: "alice" },
+        { name: "Alice" },
+        { name: "álice" },
+        { name: "Bob" },
+        { name: "charlie" },
+      ])
+    })
+
+    it("sorts data with sensitivity set to 'case' (considers case, but ignores accents)", () => {
+      const data = [
+        { name: "alice" },
+        { name: "álice" },
+        { name: "Bob" },
+        { name: "charlie" },
+        { name: "Alice" },
+      ]
+      const sort: DataProviderSortConfig = [
+        {
+          providerField: "name",
+          direction: "asc",
+          priority: 1,
+          sensitivity: "case",
+        },
+      ]
+      const result = dataProviderSort(data, sort)
+      expect(result).toEqual([
+        { name: "alice" },
+        { name: "álice" },
+        { name: "Alice" },
+        { name: "Bob" },
+        { name: "charlie" },
+      ])
+    })
+
+    it("sorts data with sensitivity set to 'variant' (considers both case and accents)", () => {
+      const data = [
+        { name: "alice" },
+        { name: "álice" },
+        { name: "Bob" },
+        { name: "charlie" },
+        { name: "Alice" },
+      ]
+      const sort: DataProviderSortConfig = [
+        {
+          providerField: "name",
+          direction: "asc",
+          priority: 1,
+          sensitivity: "variant",
+        },
+      ]
+      const result = dataProviderSort(data, sort)
+      expect(result).toEqual([
+        { name: "alice" },
+        { name: "Alice" },
+        { name: "álice" },
+        { name: "Bob" },
+        { name: "charlie" },
+      ])
+    })
+  })
+
   it("sorts data based on multiple fields with different priorities", () => {
     const data = [
       { name: "Alice", age: "30" },

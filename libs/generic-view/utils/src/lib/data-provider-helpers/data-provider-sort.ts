@@ -24,6 +24,7 @@ export const dataProviderSort = (
       providerField,
       direction,
       orderingPatterns = [],
+      sensitivity = "variant",
     } of sortedConfigs) {
       const fieldA = get(a, providerField)
       const fieldB = get(b, providerField)
@@ -42,7 +43,12 @@ export const dataProviderSort = (
         return regexComparison
       }
 
-      const fieldComparison = compareFields(fieldA, fieldB, direction)
+      const fieldComparison = compareFields(
+        fieldA,
+        fieldB,
+        direction,
+        sensitivity
+      )
       if (fieldComparison !== 0) {
         return fieldComparison
       }
