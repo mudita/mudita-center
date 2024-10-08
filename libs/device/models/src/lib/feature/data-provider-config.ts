@@ -77,18 +77,24 @@ const sortSensitivitySchema = z.enum(["base", "accent", "case", "variant"])
 
 export type sortSensitivity = z.infer<typeof sortSensitivitySchema>
 
-const emptyOrderSchema = z.enum(["first", "last"]);
+const emptyOrderSchema = z.enum(["first", "last"])
 
 const sortSchema = z
   .array(
-    z.object({
-      providerField: z.string(),
-      priority: z.number().nonnegative(),
-      direction: sortDirectionSchema,
-      orderingPatterns: sortOrderingPatternsSchema.optional(),
-      sensitivity: sortSensitivitySchema.optional(),
-      emptyOrder: emptyOrderSchema.optional(),
-    })
+    z
+      .object({
+        providerField: z.string().optional(),
+        providerGroup: z.array(z.string()).optional(),
+        priority: z.number().nonnegative(),
+        direction: sortDirectionSchema,
+        orderingPatterns: sortOrderingPatternsSchema.optional(),
+        sensitivity: sortSensitivitySchema.optional(),
+        emptyOrder: emptyOrderSchema.optional(),
+      })
+      .refine((data) => data.providerField || data.providerGroup, {
+        message: "Either providerField or providerGroup must be provided",
+        path: ["providerField", "providerGroup"],
+      })
   )
   .optional()
 
