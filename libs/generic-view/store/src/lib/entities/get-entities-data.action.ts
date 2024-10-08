@@ -15,6 +15,7 @@ import { EntitiesFileData, EntitiesJsonData, EntityData } from "device/models"
 import { getFile } from "../file-transfer/get-file.action"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { AppError } from "Core/core/errors"
+import { enhanceEntity } from "./helpers/enhance-entity"
 
 export const getEntitiesDataAction = createAsyncThunk<
   EntityData[],
@@ -28,8 +29,11 @@ export const getEntitiesDataAction = createAsyncThunk<
   ActionName.GetEntitiesData,
   async (
     { responseType = "file", entitiesType, deviceId },
-    { rejectWithValue, dispatch }
+    { rejectWithValue, dispatch, getState }
   ) => {
+    let data = []
+    const { genericEntities } = getState()
+
     const response = await getEntitiesDataRequest({
       entitiesType,
       deviceId,
@@ -60,10 +64,15 @@ export const getEntitiesDataAction = createAsyncThunk<
       if (!readFileResponse.ok) {
         return rejectWithValue(readFileResponse.error)
       }
-      return readFileResponse.data.data
+      data = readFileResponse.data.data
     } else {
-      const { data } = response.data as EntitiesJsonData
-      return data
+      ;({ data } = response.data as EntitiesJsonData)
     }
+
+    const computedFields =
+      genericEntities[deviceId][entitiesType]?.config.computedFields || {}
+    return data.map((entity) => {
+      return enhanceEntity(entity, { computedFields })
+    })
   }
 )

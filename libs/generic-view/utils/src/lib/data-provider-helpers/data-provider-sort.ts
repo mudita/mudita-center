@@ -5,30 +5,26 @@
 
 import { DataProviderSortConfig } from "device/models"
 import { stringToRegex } from "./string-to-regex"
-import { get } from "lodash"
+import { cloneDeep, get } from "lodash"
 
 export const dataProviderSort = (
   data: Record<string, unknown>[] = [],
   sort?: DataProviderSortConfig
 ) => {
   if (!sort || !data) return data
-  const fieldsSortedByPriority = Object.entries(sort)
-    .sort((a, b) => a[1].priority - b[1].priority)
-    .map(([key, { direction, orderingPatterns }]) => ({
-      key,
-      direction,
-      orderingPatterns,
-    }))
+  const fieldsSortedByPriority = cloneDeep(sort).sort(
+    (a, b) => a.priority - b.priority
+  )
 
   return data.sort((a, b) => {
     let score = 0
     for (const {
-      key,
+      providerField,
       direction,
       orderingPatterns = [],
     } of fieldsSortedByPriority) {
-      const fieldA = get(a, key) as string
-      const fieldB = get(b, key) as string
+      const fieldA = get(a, providerField) as string
+      const fieldB = get(b, providerField) as string
       if (!fieldA || !fieldB) {
         continue
       }

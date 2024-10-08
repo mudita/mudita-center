@@ -6,7 +6,7 @@
 import React, { useState } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
@@ -15,6 +15,7 @@ import { useSelector } from "react-redux"
 import { importContactsProgress } from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -67,16 +68,18 @@ export const ImportContactsProgress: FunctionComponent<Props> = ({
         <Modal.Buttons>
           <ButtonSecondary
             config={{
-              action: {
-                type: "custom",
-                callback: () => setCancelRequested(false),
-              },
+              actions: [
+                {
+                  type: "custom",
+                  callback: () => setCancelRequested(false),
+                },
+              ],
               text: intl.formatMessage(messages.cancelBackButtonLabel),
             }}
           />
           <ButtonPrimary
             config={{
-              action: cancelAction,
+              actions: [cancelAction],
               text: intl.formatMessage(messages.cancelAbortButtonLabel),
             }}
           />
@@ -102,10 +105,12 @@ export const ImportContactsProgress: FunctionComponent<Props> = ({
       <Modal.Buttons config={{ vertical: true }}>
         <ButtonSecondary
           config={{
-            action: {
-              type: "custom",
-              callback: requestCancel,
-            },
+            actions: [
+              {
+                type: "custom",
+                callback: requestCancel,
+              },
+            ],
             text: intl.formatMessage(messages.cancelButtonLabel),
           }}
         />

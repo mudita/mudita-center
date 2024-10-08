@@ -38,10 +38,12 @@ export const ContactSupportModalSuccess: FunctionComponent<Props> = ({
         data-testid={ContactSupportModalTestIds.CloseButton}
         config={{
           text: intl.formatMessage(messages.closeButtonLabel),
-          action: {
-            type: "custom",
-            callback: closeContactSupportFlow,
-          },
+          actions: [
+            {
+              type: "custom",
+              callback: closeContactSupportFlow,
+            },
+          ],
         }}
       />
     </Modal.Buttons>

@@ -5,7 +5,6 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
-import { View } from "generic-view/utils"
 import { DeviceState } from "device-manager/models"
 import { Device, Features } from "generic-view/models"
 import { ApiError } from "device/models"
@@ -19,25 +18,18 @@ import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { getGenericConfig } from "../features/get-generic-config.actions"
 import {
   addDevice,
+  registerForm,
   removeDevice,
   setDeviceState,
+  setFormField,
   setGenericConfig,
   setLastRefresh,
   setMenu,
-  setViewData,
-  setViewLayout,
 } from "./actions"
 import { transformGenericComponents } from "../features/transform-generic-components"
 
 export interface GenericState {
   menu: MenuElement[] | undefined
-  views: Record<
-    string,
-    {
-      layout: View
-      data: Record<string, unknown>
-    }
-  >
   lastResponse: unknown
   lastRefresh?: number
   devices: Record<string, Device>
@@ -46,7 +38,6 @@ export interface GenericState {
 
 const initialState: GenericState = {
   menu: undefined,
-  views: {},
   lastResponse: {},
   devices: {},
   apiErrors: {},
@@ -55,18 +46,6 @@ const initialState: GenericState = {
 export const genericViewsReducer = createReducer(initialState, (builder) => {
   builder.addCase(setMenu, (state, action) => {
     state.menu = action.payload
-  })
-  builder.addCase(setViewLayout, (state, action) => {
-    state.views[action.payload.feature] = {
-      ...state.views[action.payload.feature],
-      layout: action.payload.layout,
-    }
-  })
-  builder.addCase(setViewData, (state, action) => {
-    state.views[action.payload.feature] = {
-      ...state.views[action.payload.feature],
-      data: action.payload.data,
-    }
   })
   builder.addCase(addDevice, (state, action) => {
     state.devices[action.payload.id] = {
@@ -197,6 +176,31 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       }
     }
   })
+  builder.addCase(registerForm, (state, action) => {
+    const { deviceId, feature, form, formName } = action.payload
+    state.devices[deviceId].features = {
+      ...state.devices[deviceId].features,
+      [feature]: {
+        ...state.devices[deviceId].features?.[feature],
+        forms: {
+          ...state.devices[deviceId].features?.[feature]?.forms,
+          [formName]: form,
+        },
+      },
+    }
+  })
+  builder.addCase(setFormField, (state, action) => {
+    const { deviceId, feature, formName, field, value } = action.payload
+    const viewFeature = state.devices[deviceId].features?.[feature]
+    if (
+      !viewFeature ||
+      !viewFeature.forms ||
+      !viewFeature.forms[formName] ||
+      !field
+    )
+      return
+    viewFeature.forms[formName].fields[field] = value
+  })
   // Helper action for setting custom generic config without a need of reloading the app
   builder.addCase(setGenericConfig, (state, action) => {
     const { deviceId, feature, config } = action.payload
@@ -204,6 +208,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       state.devices[deviceId].features = {
         ...state.devices[deviceId].features,
         [feature]: {
+          ...state.devices[deviceId].features?.[feature],
           config: transformGenericComponents({
             ...state.devices[deviceId].features?.[feature].config,
             ...config,
