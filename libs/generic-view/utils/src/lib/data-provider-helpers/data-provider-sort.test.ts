@@ -365,46 +365,69 @@ describe("dataProviderSort", () => {
     expect(result).toEqual(data)
   })
 
-  describe("dataProviderSort with providerGroup, orderingPatterns, empty values and numbers", () => {
-    it("sorts data based on providerGroup with orderingPatterns, emptyOrder, and sensitivity", () => {
-      const data = [
-        { displayName: "Dr. John Smith", firstName: "John", lastName: "Smith" },
-        { displayName: "Mr. Williams", firstName: "", lastName: "Williams" },
-        { displayName: "Adam", firstName: "Adam", lastName: "" },
-        { displayName: "example@example.com", firstName: "", lastName: "" },
-        { displayName: "Middle Name", firstName: "", lastName: "" },
-        { displayName: "Mr. Anonymous", firstName: "", lastName: "" },
-        { displayName: "555987654", firstName: "", lastName: "" },
-        { displayName: "#$%#@", firstName: "", lastName: "" },
-      ]
+  it("sorts complex data using `providerGroup` and `orderingPatterns`, handling empty and numeric values", () => {
+    const data = [
+      { displayName: "Anna", firstName: "Anna", lastName: "" },
+      { displayName: "https://websiteonly.com", firstName: "", lastName: "" },
+      { displayName: "490123456789", firstName: "", lastName: "" },
+      { displayName: "Michael", firstName: "Michael", lastName: "Brown" },
+      { displayName: "+48345678902", firstName: "", lastName: "" },
+      { displayName: "Bobby", firstName: "Bobby", lastName: "" },
+      { displayName: "+48355678902", firstName: "", lastName: "" },
+      { displayName: "Jane Smith", firstName: "Jane", lastName: "Smith" },
+      { displayName: "home@home.com", firstName: "", lastName: "" },
+      { displayName: "Emily Davis", firstName: "Emily", lastName: "Davis" },
+      { displayName: "Amina", firstName: "Amina", lastName: "" },
+      {
+        displayName: "Numer (last name is numeric) 12345",
+        firstName: "Numer (last name is numeric)",
+        lastName: "12345",
+      },
+      { displayName: "911234567890", firstName: "", lastName: "" },
+      { displayName: "Ms. Emily Clark", firstName: "Emily", lastName: "Clark" },
+      { displayName: "Yuki", firstName: "Yuki", lastName: "" },
+      { displayName: "Henry", firstName: "Henry", lastName: "" },
+      { displayName: "Amina Smith", firstName: "Amina", lastName: "Smith" },
+    ]
 
-      const sortConfig: DataProviderSortConfig = [
-        {
-          providerGroup: ["lastName", "firstName", "displayName"],
-          priority: 1,
-          direction: "asc",
-          orderingPatterns: [
-            "/^[a-zA-Z].*/",
-            "/^\\d+$/",
-            "/^[^a-zA-Z\\d\\s@]+$/",
-          ],
-          emptyOrder: "last",
-          sensitivity: "variant",
-        },
-      ]
+    const sortConfig: DataProviderSortConfig = [
+      {
+        providerGroup: ["lastName", "firstName", "displayName"],
+        priority: 1,
+        direction: "asc",
+        orderingPatterns: [
+          "/^[a-zA-Z].*/",
+          "/^\\d+$/",
+          "/^[^a-zA-Z\\d\\s@]+$/",
+        ],
+        sensitivity: "variant",
+      },
+    ]
 
-      const result = dataProviderSort(data, sortConfig)
+    const result = dataProviderSort(data, sortConfig)
 
-      expect(result).toEqual([
-        { displayName: "Dr. John Smith", firstName: "John", lastName: "Smith" },
-        { displayName: "Mr. Williams", firstName: "", lastName: "Williams" },
-        { displayName: "Adam", firstName: "Adam", lastName: "" },
-        { displayName: "example@example.com", firstName: "", lastName: "" },
-        { displayName: "Middle Name", firstName: "", lastName: "" },
-        { displayName: "Mr. Anonymous", firstName: "", lastName: "" },
-        { displayName: "555987654", firstName: "", lastName: "" },
-        { displayName: "#$%#@", firstName: "", lastName: "" },
-      ])
-    })
+    expect(result).toEqual([
+      { displayName: "Amina", firstName: "Amina", lastName: "" },
+      { displayName: "Anna", firstName: "Anna", lastName: "" },
+      { displayName: "Bobby", firstName: "Bobby", lastName: "" },
+      { displayName: "Michael", firstName: "Michael", lastName: "Brown" },
+      { displayName: "Ms. Emily Clark", firstName: "Emily", lastName: "Clark" },
+      { displayName: "Emily Davis", firstName: "Emily", lastName: "Davis" },
+      { displayName: "Henry", firstName: "Henry", lastName: "" },
+      { displayName: "home@home.com", firstName: "", lastName: "" },
+      { displayName: "https://websiteonly.com", firstName: "", lastName: "" },
+      { displayName: "Amina Smith", firstName: "Amina", lastName: "Smith" },
+      { displayName: "Jane Smith", firstName: "Jane", lastName: "Smith" },
+      { displayName: "Yuki", firstName: "Yuki", lastName: "" },
+      {
+        displayName: "Numer (last name is numeric) 12345",
+        firstName: "Numer (last name is numeric)",
+        lastName: "12345",
+      },
+      { displayName: "490123456789", firstName: "", lastName: "" },
+      { displayName: "911234567890", firstName: "", lastName: "" },
+      { displayName: "+48345678902", firstName: "", lastName: "" },
+      { displayName: "+48355678902", firstName: "", lastName: "" },
+    ])
   })
 })
