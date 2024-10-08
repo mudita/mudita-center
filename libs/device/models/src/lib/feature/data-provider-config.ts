@@ -77,6 +77,8 @@ const sortSensitivitySchema = z.enum(["base", "accent", "case", "variant"])
 
 export type sortSensitivity = z.infer<typeof sortSensitivitySchema>
 
+const emptyOrderSchema = z.enum(["first", "last"]);
+
 const sortSchema = z
   .array(
     z.object({
@@ -85,6 +87,7 @@ const sortSchema = z
       direction: sortDirectionSchema,
       orderingPatterns: sortOrderingPatternsSchema.optional(),
       sensitivity: sortSensitivitySchema.optional(),
+      emptyOrder: emptyOrderSchema.optional(),
     })
   )
   .optional()

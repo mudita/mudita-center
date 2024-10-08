@@ -4,13 +4,13 @@
  */
 
 import { DataProviderSortConfig } from "device/models"
-import { get } from "lodash"
+import get from "lodash/get"
+import isEmpty from "lodash/isEmpty"
 import {
   compareFields,
   compareWithOrderingPatterns,
   sortByPriority,
 } from "./data-provider-sort.helpers"
-
 export const dataProviderSort = (
   data: Record<string, unknown>[] = [],
   sortConfigs?: DataProviderSortConfig
@@ -25,9 +25,16 @@ export const dataProviderSort = (
       direction,
       orderingPatterns = [],
       sensitivity = "variant",
+      emptyOrder = "last",
     } of sortedConfigs) {
       const fieldA = get(a, providerField)
       const fieldB = get(b, providerField)
+
+      if (isEmpty(fieldA) && !isEmpty(fieldB)) {
+        return emptyOrder === "first" ? -1 : 1
+      } else if (!isEmpty(fieldA) && isEmpty(fieldB)) {
+        return emptyOrder === "first" ? 1 : -1
+      }
 
       if (typeof fieldA !== "string" || typeof fieldB !== "string") {
         continue
