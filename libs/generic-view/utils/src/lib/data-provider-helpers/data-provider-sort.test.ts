@@ -164,6 +164,66 @@ describe("dataProviderSort", () => {
     })
   })
 
+  describe("dataProviderSort with `emptyOrder` options", () => {
+    it("sorts data with empty values first when `emptyOrder` is set to 'first'", () => {
+      const data = [
+        { name: "alice" },
+        { name: null },
+        { name: "Bob" },
+        { name: "charlie" },
+        { name: "" },
+        { name: undefined },
+      ]
+      const sort: DataProviderSortConfig = [
+        {
+          providerField: "name",
+          direction: "asc",
+          priority: 1,
+          emptyOrder: "first",
+        },
+      ]
+      const result = dataProviderSort(data, sort)
+
+      expect(result).toEqual([
+        { name: null },
+        { name: "" },
+        { name: undefined },
+        { name: "alice" },
+        { name: "Bob" },
+        { name: "charlie" },
+      ])
+    })
+
+    it("sorts data with empty values last when `emptyOrder` is set to 'last'", () => {
+      const data = [
+        { name: "alice" },
+        { name: null },
+        { name: "Bob" },
+        { name: "charlie" },
+        { name: "" },
+        { name: undefined },
+      ]
+      const sort: DataProviderSortConfig = [
+        {
+          providerField: "name",
+          direction: "asc",
+          priority: 1,
+          emptyOrder: "last",
+        },
+      ]
+      const result = dataProviderSort(data, sort)
+
+      expect(result).toEqual([
+        { name: "alice" },
+        { name: "Bob" },
+        { name: "charlie" },
+        { name: null },
+        { name: "" },
+        { name: undefined },
+      ])
+    })
+  })
+
   it("sorts data based on multiple fields with different priorities", () => {
     const data = [
       { name: "Alice", age: "30" },
@@ -196,14 +256,14 @@ describe("dataProviderSort", () => {
     expect(result).toEqual([
       {
         name: "Alice",
-      },
-      {
-        name: "Alice",
         surname: "Smith",
       },
       {
         name: "Bob",
         surname: "Smith",
+      },
+      {
+        name: "Alice",
       },
     ])
   })
