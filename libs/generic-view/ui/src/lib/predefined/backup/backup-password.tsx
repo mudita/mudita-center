@@ -5,7 +5,7 @@
 
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { ButtonText } from "../../buttons/button-text"
 import { useFormContext } from "react-hook-form"
@@ -14,6 +14,7 @@ import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Form } from "../../interactive/form/form"
 import { PredefinedBackupPasswordTestIds } from "e2e-test-ids"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -107,7 +108,7 @@ export const BackupPassword: FunctionComponent<Props> = ({
           data-testid={PredefinedBackupPasswordTestIds.ConfirmButton}
           config={{
             text: intl.formatMessage(messages.confirmButtonLabel),
-            action: nextAction,
+            actions: [nextAction],
             disabled: !password || !passwordsMatching,
           }}
         />
@@ -115,7 +116,7 @@ export const BackupPassword: FunctionComponent<Props> = ({
           data-testid={PredefinedBackupPasswordTestIds.SkipButton}
           config={{
             text: intl.formatMessage(messages.skipButtonLabel),
-            action: skipAction,
+            actions: [skipAction],
             modifiers: ["link", "uppercase"],
           }}
         />

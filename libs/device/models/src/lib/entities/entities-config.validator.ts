@@ -43,9 +43,11 @@ const fieldValidatorsSchema = z
 
 const defaultValueSchema = z.any().optional()
 
-const idFieldSchema = z.object({
-  type: z.literal("id"),
-}).strict()
+const idFieldSchema = z
+  .object({
+    type: z.literal("id"),
+  })
+  .strict()
 
 const primitiveFieldSchema = z.object({
   type: z.enum(["string", "number", "boolean"]),
@@ -117,10 +119,91 @@ const globalValidatorSchema = z
   })
   .optional()
 
+// COMPUTED FIELDS SCHEMA
+const computedFieldFilterSchema = z
+  .object({
+    type: z.literal("filter"),
+  })
+  .merge(patternValidatorSchema.pick({ pattern: true, negatePattern: true }))
+type ComputedFieldFilter = z.infer<typeof computedFieldFilterSchema>
+
+const computedFieldClearSchema = z.object({
+  type: z.literal("clear"),
+  allowEmptyString: z.boolean().optional(),
+  allowZero: z.boolean().optional(),
+  allowFalse: z.boolean().optional(),
+})
+type ComputedFieldClear = z.infer<typeof computedFieldClearSchema>
+
+const computedFieldSliceSchema = z.object({
+  type: z.literal("slice"),
+  start: z.number().optional(),
+  end: z.number().optional(),
+})
+type ComputedFieldSlice = z.infer<typeof computedFieldSliceSchema>
+
+const computedFieldJoinSchema = z.object({
+  type: z.literal("join"),
+  separator: z.string().optional(),
+})
+type ComputedFieldJoin = z.infer<typeof computedFieldJoinSchema>
+
+const computedFieldConcatSchema = z.object({
+  type: z.literal("concat"),
+})
+type ComputedFieldConcat = z.infer<typeof computedFieldConcatSchema>
+
+const computedFieldMergeSchema = z.object({
+  type: z.literal("merge"),
+})
+type ComputedFieldMerge = z.infer<typeof computedFieldMergeSchema>
+
+const computedFieldWrapSchema = z.object({
+  type: z.literal("wrap"),
+  prefix: z.unknown().optional(),
+  suffix: z.unknown().optional(),
+})
+type ComputedFieldWrap = z.infer<typeof computedFieldWrapSchema>
+
+const computedFieldObjectifySchema = z.object({
+  type: z.literal("objectify"),
+  keys: z.array(z.string()),
+})
+type ComputedFieldObjectify = z.infer<typeof computedFieldObjectifySchema>
+
+type ComputedFieldMethod =
+  | ComputedFieldFilter
+  | ComputedFieldClear
+  | ComputedFieldSlice
+  | ComputedFieldConcat
+  | ComputedFieldMerge
+  | ComputedFieldJoin
+  | ComputedFieldWrap
+  | ComputedFieldObjectify
+
+const computedFieldFieldsSchema = z.object({
+  fields: z.array(z.union([z.string(), z.lazy(() => computedFieldSchema)])),
+})
+
+export type EntityComputedFieldConfig = ComputedFieldMethod & {
+  fields: (string | EntityComputedFieldConfig)[]
+}
+const computedFieldSchema: z.ZodType<EntityComputedFieldConfig> = z.union([
+  computedFieldFilterSchema.extend(computedFieldFieldsSchema.shape),
+  computedFieldClearSchema.extend(computedFieldFieldsSchema.shape),
+  computedFieldSliceSchema.extend(computedFieldFieldsSchema.shape),
+  computedFieldJoinSchema.extend(computedFieldFieldsSchema.shape),
+  computedFieldConcatSchema.extend(computedFieldFieldsSchema.shape),
+  computedFieldMergeSchema.extend(computedFieldFieldsSchema.shape),
+  computedFieldWrapSchema.extend(computedFieldFieldsSchema.shape),
+  computedFieldObjectifySchema.extend(computedFieldFieldsSchema.shape),
+])
+
 export const entitiesConfigValidator = z
   .object({
     fields: z.record(z.union([z.string(), z.number()]), fieldSchema),
     globalValidators: globalValidatorSchema,
+    computedFields: z.record(z.string(), computedFieldSchema).optional(),
   })
   .refine(
     (data) => {

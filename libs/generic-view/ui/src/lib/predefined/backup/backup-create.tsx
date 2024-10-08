@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
-import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
+import { APIFC, CustomModalError } from "generic-view/utils"
 import { BackupFeatures } from "./backup-features"
 import { BackupPassword } from "./backup-password"
 import { useFormContext } from "react-hook-form"
@@ -23,7 +23,7 @@ import {
 } from "generic-view/store"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { BackupCreateConfig } from "generic-view/models"
+import { BackupCreateConfig, ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -147,10 +147,10 @@ const BackupCreateForm: FunctionComponent<BackupCreateConfig> = ({
   return (
     <>
       {closeButtonVisible && (
-        <Modal.CloseButton config={{ action: backupCloseButtonAction }} />
+        <Modal.CloseButton config={{ actions: [backupCloseButtonAction] }} />
       )}
       {abortButtonVisible && (
-        <Modal.CloseButton config={{ action: backupAbortButtonAction }} />
+        <Modal.CloseButton config={{ actions: [backupAbortButtonAction] }} />
       )}
       {step === Step.Features && (
         <>

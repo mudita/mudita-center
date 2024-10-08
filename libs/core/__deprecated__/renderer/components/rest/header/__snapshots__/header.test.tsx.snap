@@ -43,6 +43,7 @@ exports[`matches snapshot without tabs 1`] = `
     class="c1 c2"
     color="primary"
     data-testid="location"
+    id="app-header"
   >
     [value] module.overview
   </h4>
