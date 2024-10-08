@@ -64,13 +64,18 @@ export type DataProviderField =
   | z.infer<typeof enhancedFieldSchema>
   | z.infer<typeof superEnhancedFieldSchema>
 
-const sortDirectionSchema = z.union([z.literal("asc"), z.literal("desc")]);
+const sortDirectionSchema = z.union([z.literal("asc"), z.literal("desc")])
 
 export type sortDirection = z.infer<typeof sortDirectionSchema>
 
-const sortOrderingPatternsSchema = z.array(regexSchema);
+const sortOrderingPatternsSchema = z.array(regexSchema)
 
 export type sortOrderingPatterns = z.infer<typeof sortOrderingPatternsSchema>
+
+// Types come from Intl.CollatorOptions["sensitivity"], used to control text comparison sensitivity
+const sortSensitivitySchema = z.enum(["base", "accent", "case", "variant"])
+
+export type sortSensitivity = z.infer<typeof sortSensitivitySchema>
 
 const sortSchema = z
   .array(
@@ -79,6 +84,7 @@ const sortSchema = z
       priority: z.number().nonnegative(),
       direction: sortDirectionSchema,
       orderingPatterns: sortOrderingPatternsSchema.optional(),
+      sensitivity: sortSensitivitySchema.optional(),
     })
   )
   .optional()
