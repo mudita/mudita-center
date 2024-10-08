@@ -62,14 +62,6 @@ class MacDeviceFlashService implements IDeviceFlash {
     imagePath: string,
     scriptPath: string
   ): Promise<void> {
-    // const scriptPath = "./static/macflash.sh"
-    console.log("Script Path: ", scriptPath)
-    console.log("Image Path: ", imagePath)
-    console.log("Device: ", device)
-    console.log(
-      "Command: ",
-      `osascript -e 'tell application "Terminal" to do script "\\"${scriptPath}\\" -i \\"${imagePath}\\" -d \\"${device}\\""'`
-    )
     await execPromise(`
       chmod +x "${scriptPath}"
     `)
