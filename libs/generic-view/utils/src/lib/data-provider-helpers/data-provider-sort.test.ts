@@ -26,6 +26,19 @@ describe("dataProviderSort", () => {
     ])
   })
 
+  it("sorts data based on single field in descending order", () => {
+    const data = [{ name: "Charlie" }, { name: "Alice" }, { name: "Bob" }]
+    const sort: DataProviderSortConfig = [
+      { providerField: "name", direction: "desc", priority: 1 },
+    ]
+    const result = dataProviderSort(data, sort)
+    expect(result).toEqual([
+      { name: "Charlie" },
+      { name: "Bob" },
+      { name: "Alice" },
+    ])
+  })
+
   it("sorts data based on nested field in ascending order", () => {
     const data = [
       { user: { name: "Charlie" } },
@@ -40,211 +53,6 @@ describe("dataProviderSort", () => {
       { user: { name: "Alice" } },
       { user: { name: "Bob" } },
       { user: { name: "Charlie" } },
-    ])
-  })
-
-  it("sorts data based on single field in descending order", () => {
-    const data = [{ name: "Charlie" }, { name: "Alice" }, { name: "Bob" }]
-    const sort: DataProviderSortConfig = [
-      { providerField: "name", direction: "desc", priority: 1 },
-    ]
-    const result = dataProviderSort(data, sort)
-    expect(result).toEqual([
-      { name: "Charlie" },
-      { name: "Bob" },
-      { name: "Alice" },
-    ])
-  })
-
-  describe("dataProviderSort with sensitivity options", () => {
-    it("sorts data with sensitivity set to 'base' (ignores case and accents)", () => {
-      const data = [
-        { name: "alice" },
-        { name: "álice" },
-        { name: "Bob" },
-        { name: "charlie" },
-        { name: "Alice" },
-      ]
-      const sort: DataProviderSortConfig = [
-        {
-          providerField: "name",
-          direction: "asc",
-          priority: 1,
-          sensitivity: "base",
-        },
-      ]
-      const result = dataProviderSort(data, sort)
-
-      expect(result).toEqual([
-        { name: "alice" },
-        { name: "álice" },
-        { name: "Alice" },
-        { name: "Bob" },
-        { name: "charlie" },
-      ])
-    })
-
-    it("sorts data with sensitivity set to 'accent' (ignores case, but considers accents)", () => {
-      const data = [
-        { name: "alice" },
-        { name: "álice" },
-        { name: "Bob" },
-        { name: "charlie" },
-        { name: "Alice" },
-      ]
-      const sort: DataProviderSortConfig = [
-        {
-          providerField: "name",
-          direction: "asc",
-          priority: 1,
-          sensitivity: "accent",
-        },
-      ]
-      const result = dataProviderSort(data, sort)
-
-      expect(result).toEqual([
-        { name: "alice" },
-        { name: "Alice" },
-        { name: "álice" },
-        { name: "Bob" },
-        { name: "charlie" },
-      ])
-    })
-
-    it("sorts data with sensitivity set to 'case' (considers case, but ignores accents)", () => {
-      const data = [
-        { name: "alice" },
-        { name: "álice" },
-        { name: "Bob" },
-        { name: "charlie" },
-        { name: "Alice" },
-      ]
-      const sort: DataProviderSortConfig = [
-        {
-          providerField: "name",
-          direction: "asc",
-          priority: 1,
-          sensitivity: "case",
-        },
-      ]
-      const result = dataProviderSort(data, sort)
-      expect(result).toEqual([
-        { name: "alice" },
-        { name: "álice" },
-        { name: "Alice" },
-        { name: "Bob" },
-        { name: "charlie" },
-      ])
-    })
-
-    it("sorts data with sensitivity set to 'variant' (considers both case and accents)", () => {
-      const data = [
-        { name: "alice" },
-        { name: "álice" },
-        { name: "Bob" },
-        { name: "charlie" },
-        { name: "Alice" },
-      ]
-      const sort: DataProviderSortConfig = [
-        {
-          providerField: "name",
-          direction: "asc",
-          priority: 1,
-          sensitivity: "variant",
-        },
-      ]
-      const result = dataProviderSort(data, sort)
-      expect(result).toEqual([
-        { name: "alice" },
-        { name: "Alice" },
-        { name: "álice" },
-        { name: "Bob" },
-        { name: "charlie" },
-      ])
-    })
-  })
-
-  describe("dataProviderSort with `emptyOrder` options", () => {
-    it("sorts data with empty values first when `emptyOrder` is set to 'first'", () => {
-      const data = [
-        { name: "alice" },
-        { name: null },
-        { name: "Bob" },
-        { name: "charlie" },
-        { name: "" },
-        { name: undefined },
-      ]
-      const sort: DataProviderSortConfig = [
-        {
-          providerField: "name",
-          direction: "asc",
-          priority: 1,
-          emptyOrder: "first",
-        },
-      ]
-      const result = dataProviderSort(data, sort)
-
-      expect(result).toEqual([
-        { name: null },
-        { name: "" },
-        { name: undefined },
-        { name: "alice" },
-        { name: "Bob" },
-        { name: "charlie" },
-      ])
-    })
-
-    it("sorts data with empty values last when `emptyOrder` is set to 'last'", () => {
-      const data = [
-        { name: "alice" },
-        { name: null },
-        { name: "Bob" },
-        { name: "charlie" },
-        { name: "" },
-        { name: undefined },
-      ]
-      const sort: DataProviderSortConfig = [
-        {
-          providerField: "name",
-          direction: "asc",
-          priority: 1,
-          emptyOrder: "last",
-        },
-      ]
-      const result = dataProviderSort(data, sort)
-
-      expect(result).toEqual([
-        { name: "alice" },
-        { name: "Bob" },
-        { name: "charlie" },
-        { name: null },
-        { name: "" },
-        { name: undefined },
-      ])
-    })
-  })
-
-  it("sorts data based on providerGroup fields when lastName is the same", () => {
-    const data = [
-      { firstName: "Alice", lastName: "Smith" },
-      { firstName: "Charlie", lastName: "Smith" },
-      { firstName: "Bob", lastName: "Smith" },
-    ]
-
-    const sort: DataProviderSortConfig = [
-      {
-        providerGroup: ["lastName", "firstName"],
-        direction: "asc",
-        priority: 1,
-      },
-    ]
-
-    const result = dataProviderSort(data, sort)
-
-    expect(result).toEqual([
-      { firstName: "Alice", lastName: "Smith" },
-      { firstName: "Bob", lastName: "Smith" },
-      { firstName: "Charlie", lastName: "Smith" },
     ])
   })
 
@@ -273,26 +81,285 @@ describe("dataProviderSort", () => {
       { name: "Alice", surname: "Smith" },
     ]
     const sort: DataProviderSortConfig = [
-      { providerField: "name", direction: "asc", priority: 2 },
       { providerField: "surname", direction: "asc", priority: 1 },
+      { providerField: "name", direction: "asc", priority: 2 },
     ]
     const result = dataProviderSort(data, sort)
     expect(result).toEqual([
-      {
-        name: "Alice",
-        surname: "Smith",
-      },
-      {
-        name: "Bob",
-        surname: "Smith",
-      },
-      {
-        name: "Alice",
-      },
+      { name: "Alice", surname: "Smith" },
+      { name: "Bob", surname: "Smith" },
+      { name: "Alice" },
     ])
   })
 
-  it("sorts data based on ordering patterns ", () => {
+  it("sorts data with sensitivity set to 'base' (ignores case and accents)", () => {
+    const data = [
+      { name: "alice" },
+      { name: "álice" },
+      { name: "Bob" },
+      { name: "charlie" },
+      { name: "Alice" },
+    ]
+    const sort: DataProviderSortConfig = [
+      {
+        providerField: "name",
+        direction: "asc",
+        priority: 1,
+        sensitivity: "base",
+      },
+    ]
+    const result = dataProviderSort(data, sort)
+
+    expect(result).toEqual([
+      { name: "alice" },
+      { name: "álice" },
+      { name: "Alice" },
+      { name: "Bob" },
+      { name: "charlie" },
+    ])
+  })
+
+  it("sorts data with sensitivity set to 'accent' (ignores case, but considers accents)", () => {
+    const data = [
+      { name: "alice" },
+      { name: "álice" },
+      { name: "Bob" },
+      { name: "charlie" },
+      { name: "Alice" },
+    ]
+    const sort: DataProviderSortConfig = [
+      {
+        providerField: "name",
+        direction: "asc",
+        priority: 1,
+        sensitivity: "accent",
+      },
+    ]
+    const result = dataProviderSort(data, sort)
+
+    expect(result).toEqual([
+      { name: "alice" },
+      { name: "Alice" },
+      { name: "álice" },
+      { name: "Bob" },
+      { name: "charlie" },
+    ])
+  })
+
+  it("sorts data with sensitivity set to 'case' (considers case, but ignores accents)", () => {
+    const data = [
+      { name: "alice" },
+      { name: "álice" },
+      { name: "Bob" },
+      { name: "charlie" },
+      { name: "Alice" },
+    ]
+    const sort: DataProviderSortConfig = [
+      {
+        providerField: "name",
+        direction: "asc",
+        priority: 1,
+        sensitivity: "case",
+      },
+    ]
+    const result = dataProviderSort(data, sort)
+    expect(result).toEqual([
+      { name: "alice" },
+      { name: "álice" },
+      { name: "Alice" },
+      { name: "Bob" },
+      { name: "charlie" },
+    ])
+  })
+
+  it("sorts data with sensitivity set to 'variant' (considers both case and accents)", () => {
+    const data = [
+      { name: "alice" },
+      { name: "álice" },
+      { name: "Bob" },
+      { name: "charlie" },
+      { name: "Alice" },
+    ]
+    const sort: DataProviderSortConfig = [
+      {
+        providerField: "name",
+        direction: "asc",
+        priority: 1,
+        sensitivity: "variant",
+      },
+    ]
+    const result = dataProviderSort(data, sort)
+    expect(result).toEqual([
+      { name: "alice" },
+      { name: "Alice" },
+      { name: "álice" },
+      { name: "Bob" },
+      { name: "charlie" },
+    ])
+  })
+
+  it("sorts data with empty values first when `emptyOrder` is set to 'first'", () => {
+    const data = [
+      { name: "alice" },
+      { name: null },
+      { name: "Bob" },
+      { name: "charlie" },
+      { name: "" },
+      { name: undefined },
+    ]
+    const sort: DataProviderSortConfig = [
+      {
+        providerField: "name",
+        direction: "asc",
+        priority: 1,
+        emptyOrder: "first",
+      },
+    ]
+    const result = dataProviderSort(data, sort)
+
+    expect(result).toEqual([
+      { name: null },
+      { name: "" },
+      { name: undefined },
+      { name: "alice" },
+      { name: "Bob" },
+      { name: "charlie" },
+    ])
+  })
+
+  it("sorts data with empty values last when `emptyOrder` is set to 'last'", () => {
+    const data = [
+      { name: "alice" },
+      { name: null },
+      { name: "Bob" },
+      { name: "charlie" },
+      { name: "" },
+      { name: undefined },
+    ]
+    const sort: DataProviderSortConfig = [
+      {
+        providerField: "name",
+        direction: "asc",
+        priority: 1,
+        emptyOrder: "last",
+      },
+    ]
+    const result = dataProviderSort(data, sort)
+
+    expect(result).toEqual([
+      { name: "alice" },
+      { name: "Bob" },
+      { name: "charlie" },
+      { name: null },
+      { name: "" },
+      { name: undefined },
+    ])
+  })
+
+  it("sorts data based on providerGroup fields when lastName is the same", () => {
+    const data = [
+      { firstName: "Alice", lastName: "Smith" },
+      { firstName: "Charlie", lastName: "Smith" },
+      { firstName: "Bob", lastName: "Smith" },
+    ]
+
+    const sort: DataProviderSortConfig = [
+      {
+        providerGroup: ["lastName", "firstName"],
+        direction: "asc",
+        priority: 1,
+      },
+    ]
+
+    const result = dataProviderSort(data, sort)
+
+    expect(result).toEqual([
+      { firstName: "Alice", lastName: "Smith" },
+      { firstName: "Bob", lastName: "Smith" },
+      { firstName: "Charlie", lastName: "Smith" },
+    ])
+  })
+
+  it("handles sorting when lastName is empty and firstName is used", () => {
+    const data = [
+      { firstName: "Alice", lastName: "" },
+      { firstName: "Bob", lastName: "" },
+      { firstName: "Charlie", lastName: "Smith" },
+    ]
+
+    const sortConfig: DataProviderSortConfig = [
+      {
+        providerGroup: ["lastName", "firstName"],
+        priority: 1,
+        direction: "asc",
+      },
+    ]
+
+    const result = dataProviderSort(data, sortConfig)
+    expect(result).toEqual([
+      { firstName: "Alice", lastName: "" },
+      { firstName: "Bob", lastName: "" },
+      { firstName: "Charlie", lastName: "Smith" },
+    ])
+  })
+
+  it("sorts data with empty providerGroup values first when emptyOrder is 'first'", () => {
+    const data = [
+      { firstName: "Bob", lastName: "Smith", displayName: "Bob Smith" },
+      { firstName: "Alice", lastName: null, displayName: "Alice" },
+      { firstName: "Yuki", lastName: null, displayName: "Yuki" },
+      { firstName: undefined, lastName: undefined, displayName: "Dave" },
+      { firstName: "Charlie", lastName: "", displayName: "Charlie" },
+    ];
+
+    const sortConfig: DataProviderSortConfig = [
+      {
+        providerGroup: ["lastName", "firstName"],
+        priority: 1,
+        direction: "asc",
+        emptyOrder: "first",
+      },
+    ];
+
+    const result = dataProviderSort(data, sortConfig);
+    expect(result).toEqual([
+      { firstName: undefined, lastName: undefined, displayName: "Dave" },
+      { firstName: "Alice", lastName: null, displayName: "Alice" },
+      { firstName: "Charlie", lastName: "", displayName: "Charlie" },
+      { firstName: "Bob", lastName: "Smith", displayName: "Bob Smith" },
+      { firstName: "Yuki", lastName: null, displayName: "Yuki" },
+    ]);
+  });
+
+  it("sorts data with empty providerGroup values last when emptyOrder is 'last'", () => {
+    const data = [
+      { firstName: "Bob", lastName: "Smith", displayName: "Bob Smith" },
+      { firstName: "Alice", lastName: null, displayName: "Alice" },
+      { firstName: undefined, lastName: undefined, displayName: "Dave" },
+      { firstName: "Charlie", lastName: "", displayName: "Charlie" },
+      { firstName: "Yuki", lastName: null, displayName: "Yuki" },
+    ];
+
+    const sortConfig: DataProviderSortConfig = [
+      {
+        providerGroup: ["lastName", "firstName"],
+        priority: 1,
+        direction: "asc",
+        emptyOrder: "last",
+      },
+    ];
+
+    const result = dataProviderSort(data, sortConfig);
+    expect(result).toEqual([
+      { firstName: "Alice", lastName: null, displayName: "Alice" },
+      { firstName: "Charlie", lastName: "", displayName: "Charlie" },
+      { firstName: "Bob", lastName: "Smith", displayName: "Bob Smith" },
+      { firstName: "Yuki", lastName: null, displayName: "Yuki" },
+      { firstName: undefined, lastName: undefined, displayName: "Dave" },
+    ]);
+  });
+
+  it("sorts data based on ordering patterns", () => {
     const data = [
       { name: "Charlie" },
       { name: "Bob" },
@@ -313,6 +380,96 @@ describe("dataProviderSort", () => {
       { name: "Bob" },
       { name: "Alice" },
       { name: "Charlie" },
+    ])
+  })
+
+  it("sorts data using orderingPatterns for alphabetical, numeric, and special character fields", () => {
+    const data = [
+      { displayName: "Anna", firstName: "Anna", lastName: "" },
+      { displayName: "490123456789", firstName: "", lastName: "" },
+      { displayName: "+48345678902", firstName: "", lastName: "" },
+      { displayName: "Michael", firstName: "Michael", lastName: "Brown" },
+      { displayName: "home@home.com", firstName: "", lastName: "" },
+    ]
+
+    const sortConfig: DataProviderSortConfig = [
+      {
+        providerGroup: ["displayName"],
+        priority: 1,
+        direction: "asc",
+        orderingPatterns: [
+          "/^[a-zA-Z].*/", // first alphabetical values
+          "/^\\d+$/", // then numeric values
+          "/^[^a-zA-Z\\d\\s@]+$/", // then special characters (non-alphanumeric)
+        ],
+        sensitivity: "variant",
+      },
+    ]
+
+    const result = dataProviderSort(data, sortConfig)
+    expect(result).toEqual([
+      { displayName: "Anna", firstName: "Anna", lastName: "" },
+      { displayName: "home@home.com", firstName: "", lastName: "" },
+      { displayName: "Michael", firstName: "Michael", lastName: "Brown" },
+      { displayName: "490123456789", firstName: "", lastName: "" },
+      { displayName: "+48345678902", firstName: "", lastName: "" },
+    ])
+  })
+
+  it("sorts complex data using `providerGroup` and `orderingPatterns`, handling empty and numeric values", () => {
+    const data = [
+      { displayName: "Anna", firstName: "Anna", lastName: "" },
+      { displayName: "+48345678902", firstName: "", lastName: "" },
+      { displayName: "Michael", firstName: "Michael", lastName: "Brown" },
+      { displayName: "Numer 12345", firstName: "Numer", lastName: "12345" },
+    ]
+
+    const sortConfig: DataProviderSortConfig = [
+      {
+        providerGroup: ["lastName", "firstName", "displayName"],
+        priority: 1,
+        direction: "asc",
+        orderingPatterns: [
+          "/^[a-zA-Z].*/", // alphabetic first
+          "/^\\d+$/", // numeric second
+        ],
+        sensitivity: "variant",
+      },
+    ]
+
+    const result = dataProviderSort(data, sortConfig)
+    expect(result).toEqual([
+      { displayName: "Anna", firstName: "Anna", lastName: "" },
+      { displayName: "Michael", firstName: "Michael", lastName: "Brown" },
+      { displayName: "Numer 12345", firstName: "Numer", lastName: "12345" },
+      { displayName: "+48345678902", firstName: "", lastName: "" },
+    ])
+  })
+
+  it("sorts data with phone numbers and empty lastName", () => {
+    const data = [
+      { displayName: "+48345678902", firstName: "", lastName: "" },
+      { displayName: "Jane Smith", firstName: "Jane", lastName: "Smith" },
+      { displayName: "490123456789", firstName: "", lastName: "" },
+      { displayName: "Emily Davis", firstName: "Emily", lastName: "Davis" },
+    ]
+
+    const sortConfig: DataProviderSortConfig = [
+      {
+        providerGroup: ["lastName", "displayName"],
+        priority: 1,
+        direction: "asc",
+        orderingPatterns: ["/^[a-zA-Z].*/", "/^\\d+$/"],
+        sensitivity: "variant",
+      },
+    ]
+
+    const result = dataProviderSort(data, sortConfig)
+    expect(result).toEqual([
+      { displayName: "Emily Davis", firstName: "Emily", lastName: "Davis" },
+      { displayName: "Jane Smith", firstName: "Jane", lastName: "Smith" },
+      { displayName: "490123456789", firstName: "", lastName: "" },
+      { displayName: "+48345678902", firstName: "", lastName: "" },
     ])
   })
 
@@ -352,82 +509,13 @@ describe("dataProviderSort", () => {
       { name: "Bob", age: 25 },
       { name: "Charlie", age: 35 },
     ]
-
     const sortConfig: DataProviderSortConfig = [
       {
         priority: 1,
         direction: "asc",
       },
     ]
-
     const result = dataProviderSort(data, sortConfig)
-
     expect(result).toEqual(data)
-  })
-
-  it("sorts complex data using `providerGroup` and `orderingPatterns`, handling empty and numeric values", () => {
-    const data = [
-      { displayName: "Anna", firstName: "Anna", lastName: "" },
-      { displayName: "https://websiteonly.com", firstName: "", lastName: "" },
-      { displayName: "490123456789", firstName: "", lastName: "" },
-      { displayName: "Michael", firstName: "Michael", lastName: "Brown" },
-      { displayName: "+48345678902", firstName: "", lastName: "" },
-      { displayName: "Bobby", firstName: "Bobby", lastName: "" },
-      { displayName: "+48355678902", firstName: "", lastName: "" },
-      { displayName: "Jane Smith", firstName: "Jane", lastName: "Smith" },
-      { displayName: "home@home.com", firstName: "", lastName: "" },
-      { displayName: "Emily Davis", firstName: "Emily", lastName: "Davis" },
-      { displayName: "Amina", firstName: "Amina", lastName: "" },
-      {
-        displayName: "Numer (last name is numeric) 12345",
-        firstName: "Numer (last name is numeric)",
-        lastName: "12345",
-      },
-      { displayName: "911234567890", firstName: "", lastName: "" },
-      { displayName: "Ms. Emily Clark", firstName: "Emily", lastName: "Clark" },
-      { displayName: "Yuki", firstName: "Yuki", lastName: "" },
-      { displayName: "Henry", firstName: "Henry", lastName: "" },
-      { displayName: "Amina Smith", firstName: "Amina", lastName: "Smith" },
-    ]
-
-    const sortConfig: DataProviderSortConfig = [
-      {
-        providerGroup: ["lastName", "firstName", "displayName"],
-        priority: 1,
-        direction: "asc",
-        orderingPatterns: [
-          "/^[a-zA-Z].*/",
-          "/^\\d+$/",
-          "/^[^a-zA-Z\\d\\s@]+$/",
-        ],
-        sensitivity: "variant",
-      },
-    ]
-
-    const result = dataProviderSort(data, sortConfig)
-
-    expect(result).toEqual([
-      { displayName: "Amina", firstName: "Amina", lastName: "" },
-      { displayName: "Anna", firstName: "Anna", lastName: "" },
-      { displayName: "Bobby", firstName: "Bobby", lastName: "" },
-      { displayName: "Michael", firstName: "Michael", lastName: "Brown" },
-      { displayName: "Ms. Emily Clark", firstName: "Emily", lastName: "Clark" },
-      { displayName: "Emily Davis", firstName: "Emily", lastName: "Davis" },
-      { displayName: "Henry", firstName: "Henry", lastName: "" },
-      { displayName: "home@home.com", firstName: "", lastName: "" },
-      { displayName: "https://websiteonly.com", firstName: "", lastName: "" },
-      { displayName: "Amina Smith", firstName: "Amina", lastName: "Smith" },
-      { displayName: "Jane Smith", firstName: "Jane", lastName: "Smith" },
-      { displayName: "Yuki", firstName: "Yuki", lastName: "" },
-      {
-        displayName: "Numer (last name is numeric) 12345",
-        firstName: "Numer (last name is numeric)",
-        lastName: "12345",
-      },
-      { displayName: "490123456789", firstName: "", lastName: "" },
-      { displayName: "911234567890", firstName: "", lastName: "" },
-      { displayName: "+48345678902", firstName: "", lastName: "" },
-      { displayName: "+48355678902", firstName: "", lastName: "" },
-    ])
   })
 })
