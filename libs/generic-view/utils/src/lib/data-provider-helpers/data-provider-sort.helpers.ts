@@ -6,9 +6,9 @@
 import { cloneDeep, get } from "lodash"
 import {
   DataProviderSortConfig,
-  sortDirection,
-  sortOrderingPatterns,
-  sortSensitivity,
+  SortDirection,
+  SortOrderingPatterns,
+  SortSensitivity,
 } from "device/models"
 import { stringToRegex } from "./string-to-regex"
 
@@ -20,8 +20,8 @@ export const sortByPriority = (sortConfigs: DataProviderSortConfig) => {
 export const compareFields = (
   fieldA: string,
   fieldB: string,
-  direction: sortDirection,
-  sensitivity: sortSensitivity
+  direction: SortDirection,
+  sensitivity: SortSensitivity
 ) => {
   const comparison = fieldA.localeCompare(fieldB, undefined, { sensitivity })
   return direction === "asc" ? comparison : -comparison
@@ -30,8 +30,8 @@ export const compareFields = (
 export const compareWithOrderingPatterns = (
   fieldA: string,
   fieldB: string,
-  patterns: sortOrderingPatterns,
-  direction: sortDirection
+  patterns: SortOrderingPatterns,
+  direction: SortDirection
 ) => {
   const directionMultiplier = direction === "asc" ? 1 : -1
 
