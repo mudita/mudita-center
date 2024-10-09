@@ -5,9 +5,10 @@
 
 import React, { FunctionComponent, ReactElement } from "react"
 import { Modal } from "../../../interactive/modal/modal"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../../buttons/button-secondary"
 import { modalTransitionDuration } from "generic-view/theme"
+import { ButtonAction } from "generic-view/models"
 
 interface Props {
   modalIcon: IconType
@@ -42,7 +43,7 @@ export const ErrorModal: FunctionComponent<Props> = ({
         <ButtonSecondary
           config={{
             text: buttonLabel,
-            action: buttonAction,
+            actions: [buttonAction],
           }}
         />
       </Modal.Buttons>

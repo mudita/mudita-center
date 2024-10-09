@@ -24,7 +24,7 @@ import {
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { Modal } from "generic-view/ui"
 import { GenericThemeProvider } from "generic-view/theme"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -37,6 +37,7 @@ import {
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   lockedModalHeadline: {

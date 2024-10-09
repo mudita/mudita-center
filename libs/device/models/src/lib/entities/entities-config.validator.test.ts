@@ -28,6 +28,20 @@ describe("entitiesConfigValidator", () => {
         field4: { type: "object", fields: { field4a: { type: "string" } } },
         5: { type: "array", items: { type: "string" } },
       },
+      computedFields: {
+        computedField1: {
+          type: "join",
+          separator: " ",
+          fields: [
+            "field1",
+            {
+              type: "join",
+              separator: ",",
+              fields: ["field2", "field3"],
+            },
+          ],
+        },
+      },
     }
     expect(() => entitiesConfigValidator.parse(validConfig)).not.toThrow()
   })

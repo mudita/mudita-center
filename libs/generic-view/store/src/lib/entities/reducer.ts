@@ -25,6 +25,7 @@ interface Entities {
   data?: EntityData[]
   metadata?: EntitiesMetadata
   loading?: boolean
+  progress?: number
   error?: boolean
 }
 
