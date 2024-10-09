@@ -8,11 +8,27 @@ import NavigationTabs from "../../page-objects/tabs.page"
 import HelpPage from "../../page-objects/help.page"
 import HelpArticlePage from "../../page-objects/help-article.page"
 import HomePage from "../../page-objects/home.page"
+import testsHelper from "../../helpers/tests.helper"
 
 describe("Check Help window", () => {
   before(async () => {
     dns.setDefaultResultOrder("ipv4first")
-    await browser.throttleNetwork("offline")
+    await browser.throttle("offline")
+
+    // Switch to offline mode before starting the tests
+    await browser.setNetworkConditions({
+      offline: true,
+      latency: 0,
+      download_throughput: 0,
+      upload_throughput: 0,
+    })
+
+    // Add a small delay to ensure network conditions are applied
+    await browser.pause(1000)
+
+    // Verify network conditions
+    const isOnline = await testsHelper.isOnline()
+    await expect(isOnline).toBeFalsy()
 
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
