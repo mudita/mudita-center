@@ -18,18 +18,34 @@ export const sortByPriority = (sortConfigs: DataProviderSortConfig) => {
 }
 
 export const compareFields = (
-  fieldA: string,
-  fieldB: string,
+  fieldA: string | number,
+  fieldB: string | number,
   direction: SortDirection,
   sensitivity: SortSensitivity
 ) => {
-  const comparison = fieldA.localeCompare(fieldB, undefined, { sensitivity })
-  return direction === "asc" ? comparison : -comparison
+  if (typeof fieldA === "number" && typeof fieldB === "number") {
+    return direction === "asc" ? fieldA - fieldB : fieldB - fieldA
+  }
+
+  if (typeof fieldA === "string" && typeof fieldB === "string") {
+    const comparison = fieldA.localeCompare(fieldB, undefined, { sensitivity })
+    return direction === "asc" ? comparison : -comparison
+  }
+
+  if (typeof fieldA === "string" && typeof fieldB === "number") {
+    return direction === "asc" ? -1 : 1
+  }
+
+  if (typeof fieldA === "number" && typeof fieldB === "string") {
+    return direction === "asc" ? 1 : -1
+  }
+
+  return 0
 }
 
 export const compareWithOrderingPatterns = (
-  fieldA: string,
-  fieldB: string,
+  fieldA: string | number,
+  fieldB: string | number,
   patterns: SortOrderingPatterns,
   direction: SortDirection
 ) => {
@@ -37,8 +53,8 @@ export const compareWithOrderingPatterns = (
 
   for (const pattern of patterns) {
     const regex = stringToRegex(pattern)
-    const matchA = regex.test(fieldA)
-    const matchB = regex.test(fieldB)
+    const matchA = regex.test(String(fieldA))
+    const matchB = regex.test(String(fieldB))
 
     if (matchA && !matchB) return -1 * directionMultiplier
     if (!matchA && matchB) return 1 * directionMultiplier
@@ -50,9 +66,23 @@ export const getFirstNonEmptyField = (
   obj: unknown,
   fields: string[]
 ): unknown => {
-  const fieldKey =
-    fields.find(
-      (field) => get(obj, field) && (get(obj, field) as string).trim() !== ""
-    ) ?? ""
-  return get(obj, fieldKey)
+  const fieldKey = fields.find((field) => {
+    const value = get(obj, field)
+
+    if (value === null || value === undefined) {
+      return false
+    }
+
+    if (typeof value === "string" && value.trim() === "") {
+      return false
+    }
+
+    if (typeof value === "number" && isNaN(value)) {
+      return false
+    }
+
+    return true
+  })
+
+  return fieldKey ? get(obj, fieldKey) : ""
 }

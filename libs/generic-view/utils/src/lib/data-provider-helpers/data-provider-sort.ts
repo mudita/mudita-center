@@ -11,6 +11,7 @@ import {
   getFirstNonEmptyField,
   sortByPriority,
 } from "./data-provider-sort.helpers"
+
 export const dataProviderSort = (
   data: Record<string, unknown>[] = [],
   sortConfigs?: DataProviderSortConfig
@@ -48,7 +49,10 @@ export const dataProviderSort = (
           return emptyOrder === "first" ? 1 : -1
         }
 
-        if (typeof fieldA !== "string" || typeof fieldB !== "string") {
+        if (
+          (typeof fieldA !== "string" && typeof fieldA !== "number") ||
+          (typeof fieldB !== "string" && typeof fieldB !== "number")
+        ) {
           index++
           continue
         }
