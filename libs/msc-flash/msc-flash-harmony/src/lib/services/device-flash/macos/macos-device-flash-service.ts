@@ -3,8 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
+import fs from "fs"
+import { delay, execPromise } from "shared/utils"
 import IDeviceFlash from "../device-flash.interface"
-import { execPromise } from "shared/utils"
 
 interface DeviceDetails {
   [key: string]: string | undefined
@@ -19,6 +21,15 @@ interface DeviceDetails {
 }
 
 class MacDeviceFlashService implements IDeviceFlash {
+  private readonly flashStatusTempFilePath: string
+
+  constructor(temporaryDirectoryPath: string) {
+    this.flashStatusTempFilePath = path.join(
+      temporaryDirectoryPath,
+      "flash-status.txt"
+    )
+  }
+
   async findDeviceByDeviceName(): Promise<string> {
     console.log(`Searching for device...`)
     const devices = await this.getDevices()
@@ -66,8 +77,30 @@ class MacDeviceFlashService implements IDeviceFlash {
       chmod +x "${scriptPath}"
     `)
     await execPromise(
-      `osascript -e 'tell application "Terminal" to do script "\\"${scriptPath}\\" -i \\"${imagePath}\\" -d \\"${device}\\""'`
+      `osascript -e 'tell application "Terminal" to do script "\\"${scriptPath}\\" -t \\"${this.flashStatusTempFilePath}\\"-i \\"${imagePath}\\" -d \\"${device}\\""'`
     )
+  }
+
+  async waitForFlashCompletion(
+    intervalAttemptsLeft = 20,
+    intervalTime = 1000
+  ): Promise<boolean> {
+    if (intervalAttemptsLeft <= 0) {
+      throw new Error()
+    }
+
+    try {
+      const buffer = fs.readFileSync(this.flashStatusTempFilePath)
+      if (buffer.toString().trim() === "true") {
+        return true
+      }
+    } catch (error) {
+      console.error(`Error reading file: ${JSON.stringify(error)}. Retrying...`)
+    }
+
+    await delay(intervalTime)
+
+    return this.waitForFlashCompletion(intervalAttemptsLeft - 1, intervalTime)
   }
 
   private async getDevices(): Promise<DeviceDetails[]> {

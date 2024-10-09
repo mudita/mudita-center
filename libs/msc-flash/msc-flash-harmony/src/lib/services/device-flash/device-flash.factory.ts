@@ -8,13 +8,13 @@ import LinuxDeviceFlashService from "./linux/linux-device-flash.service"
 import MacDeviceFlashService from "./macos/macos-device-flash-service"
 
 class DeviceFlashFactory {
-  static createDeviceFlashService(): IDeviceFlash {
+  static createDeviceFlashService(temporaryDirectoryPath: string): IDeviceFlash {
     const platform = process.platform
 
     if (platform === "linux") {
       return new LinuxDeviceFlashService()
     } else if (platform === "darwin") {
-      return new MacDeviceFlashService()
+      return new MacDeviceFlashService(temporaryDirectoryPath)
     } else {
       throw new Error(`Unsupported platform: ${platform}`)
     }

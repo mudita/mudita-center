@@ -99,12 +99,12 @@ const startFlashingProcess = async (
 ) => {
   try {
     dispatch(setFlashingProcessState(FlashingProcessState.FlashingProcess))
+    const { osDownloadLocation } = await getAppSettingsMain()
 
-    const deviceFlash = DeviceFlashFactory.createDeviceFlashService()
+    const deviceFlash = DeviceFlashFactory.createDeviceFlashService(osDownloadLocation)
 
     const device = await deviceFlash.findDeviceByDeviceName("HARMONY")
 
-    const { osDownloadLocation } = await getAppSettingsMain()
     const flashingScriptName = flashingFiles
       ? flashingFiles.scripts[0].name
       : ""
@@ -113,13 +113,15 @@ const startFlashingProcess = async (
     const scriptFilePath = path.join(osDownloadLocation, flashingScriptName)
 
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
+    dispatch(setFlashingProcessState(FlashingProcessState.TerminalOpened))
 
-    if (process.platform === "darwin") {
-      dispatch(setFlashingProcessState(FlashingProcessState.TerminalOpened))
-    } else {
-      dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
-      await removeDownloadedMscFiles()
-    }
+    await deviceFlash.waitForFlashCompletion()
+
+    dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
+    // TODO: for mac - to check
+    //  dispatch(setFlashingProcessState(FlashingProcessState.Completed))
+    await removeDownloadedMscFiles()
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error(`Flash process failed with error: ${error}`)

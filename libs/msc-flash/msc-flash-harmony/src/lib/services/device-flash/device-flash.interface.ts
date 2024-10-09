@@ -7,6 +7,8 @@ interface IDeviceFlash {
   findDeviceByDeviceName(deviceName?: string): Promise<string>
 
   execute(device: string, imagePath: string, scriptPath: string): Promise<void>
+
+  waitForFlashCompletion(intervalAttemptsLeft?: number, intervalTime?: number): Promise<boolean>;
 }
 
 export default IDeviceFlash
