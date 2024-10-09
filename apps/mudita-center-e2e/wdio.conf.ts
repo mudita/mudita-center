@@ -79,9 +79,6 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
     toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
     toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
-    toRelativePath(TestFilesPaths.helpVerifyFeedback),
-    toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
-    toRelativePath(TestFilesPaths.helpLinkInsideContainer),
   ],
   suites: {
     standalone: [
