@@ -123,6 +123,23 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
+
+
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
+      toRelativePath(TestFilesPaths.newsPageOfflineTest),
+
+      toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
+      toRelativePath(TestFilesPaths.mcHomePageForceUpdateErrorTest),
+      toRelativePath(TestFilesPaths.mcHomePageSoftUpdateTest),
+      toRelativePath(TestFilesPaths.mcHomePageSoftUpdateErrorTest),
+      toRelativePath(TestFilesPaths.kompaktOverview),
+      toRelativePath(TestFilesPaths.kompaktSwitchingDevices),
+      toRelativePath(TestFilesPaths.kompaktAbout),
+      toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
+      toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+      toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
     ],
     cicdMock: [
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
