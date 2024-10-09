@@ -56,6 +56,67 @@ describe("dataProviderSort", () => {
     ])
   })
 
+  it("sorts data with numeric values as primitive numbers", () => {
+    const data = [
+      { user: { age: 30 } },
+      { user: { age: 40 } },
+      { user: { age: 25 } },
+    ]
+    const sort: DataProviderSortConfig = [
+      { providerField: "user.age", direction: "asc", priority: 1 },
+    ]
+    const result = dataProviderSort(data, sort)
+    expect(result).toEqual([
+      { user: { age: 25 } },
+      { user: { age: 30 } },
+      { user: { age: 40 } },
+    ])
+  })
+
+  it("sorts numeric values correctly without converting them to strings", () => {
+    const data = [
+      { value: 3 },
+      { value: 300 },
+      { value: 25 },
+      { value: 100 },
+      { value: 5 },
+    ]
+    const sort: DataProviderSortConfig = [
+      { providerField: "value", direction: "asc", priority: 1 },
+    ]
+    const result = dataProviderSort(data, sort)
+
+    expect(result).toEqual([
+      { value: 3 },
+      { value: 5 },
+      { value: 25 },
+      { value: 100 },
+      { value: 300 },
+    ])
+  })
+
+  it("sorts strings before numbers with strings in lexicographical order and numbers in ascending order", () => {
+    const data = [
+      { value: "Bob" },
+      { value: 1 },
+      { value: 3 },
+      { value: "Alice" },
+      { value: 2 },
+    ]
+    const sort: DataProviderSortConfig = [
+      { providerField: "value", direction: "asc", priority: 1 },
+    ]
+    const result = dataProviderSort(data, sort)
+
+    expect(result).toEqual([
+      { value: "Alice" },
+      { value: "Bob" },
+      { value: 1 },
+      { value: 2 },
+      { value: 3 },
+    ])
+  })
+
   it("sorts data based on multiple fields with different priorities", () => {
     const data = [
       { name: "Alice", age: "30" },
@@ -310,7 +371,7 @@ describe("dataProviderSort", () => {
       { firstName: "Yuki", lastName: null, displayName: "Yuki" },
       { firstName: undefined, lastName: undefined, displayName: "Dave" },
       { firstName: "Charlie", lastName: "", displayName: "Charlie" },
-    ];
+    ]
 
     const sortConfig: DataProviderSortConfig = [
       {
@@ -319,17 +380,17 @@ describe("dataProviderSort", () => {
         direction: "asc",
         emptyOrder: "first",
       },
-    ];
+    ]
 
-    const result = dataProviderSort(data, sortConfig);
+    const result = dataProviderSort(data, sortConfig)
     expect(result).toEqual([
       { firstName: undefined, lastName: undefined, displayName: "Dave" },
       { firstName: "Alice", lastName: null, displayName: "Alice" },
       { firstName: "Charlie", lastName: "", displayName: "Charlie" },
       { firstName: "Bob", lastName: "Smith", displayName: "Bob Smith" },
       { firstName: "Yuki", lastName: null, displayName: "Yuki" },
-    ]);
-  });
+    ])
+  })
 
   it("sorts data with empty providerGroup values last when emptyOrder is 'last'", () => {
     const data = [
@@ -338,7 +399,7 @@ describe("dataProviderSort", () => {
       { firstName: undefined, lastName: undefined, displayName: "Dave" },
       { firstName: "Charlie", lastName: "", displayName: "Charlie" },
       { firstName: "Yuki", lastName: null, displayName: "Yuki" },
-    ];
+    ]
 
     const sortConfig: DataProviderSortConfig = [
       {
@@ -347,17 +408,17 @@ describe("dataProviderSort", () => {
         direction: "asc",
         emptyOrder: "last",
       },
-    ];
+    ]
 
-    const result = dataProviderSort(data, sortConfig);
+    const result = dataProviderSort(data, sortConfig)
     expect(result).toEqual([
       { firstName: "Alice", lastName: null, displayName: "Alice" },
       { firstName: "Charlie", lastName: "", displayName: "Charlie" },
       { firstName: "Bob", lastName: "Smith", displayName: "Bob Smith" },
       { firstName: "Yuki", lastName: null, displayName: "Yuki" },
       { firstName: undefined, lastName: undefined, displayName: "Dave" },
-    ]);
-  });
+    ])
+  })
 
   it("sorts data based on ordering patterns", () => {
     const data = [
