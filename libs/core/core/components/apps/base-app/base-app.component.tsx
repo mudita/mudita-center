@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import AppInitialization from "Core/app-initialization/components/app-initialization.component"
 import { useDeviceConnectedEffect } from "Core/core/hooks/use-device-connected-effect"
@@ -16,6 +16,7 @@ import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
 import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
 import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect-failed-effect"
 import { useDiscoveryRedirectEffect } from "Core/core/hooks/use-discovery-redirect-effect"
+import { useAbortFlashingOnDeviceDetached } from "Core/core/hooks/use-abort-flashing-on-device-detached"
 import { useRouterListener } from "Core/core/hooks"
 import {
   OutboxWrapper,
@@ -26,14 +27,6 @@ import {
 import { useFileDialogEventListener, useOnlineListener } from "shared/app-state"
 import { useCoreDeviceProtocolListeners } from "core-device/feature"
 import { useHelp } from "help/store"
-import { abortMscFlashing } from "msc-flash-harmony"
-import { useDispatch } from "react-redux"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { answerMain } from "shared/utils"
-import {
-  DeviceBaseProperties,
-  DeviceProtocolMainEvent,
-} from "device-protocol/models"
 
 const BaseApp: FunctionComponent = () => {
   useRouterListener()
@@ -54,17 +47,8 @@ const BaseApp: FunctionComponent = () => {
   useFileDialogEventListener()
   useHelp()
 
-  // tmp solution
-  const dispatch = useDispatch<Dispatch>()
-
-  useEffect(() => {
-    return answerMain<DeviceBaseProperties>(
-      DeviceProtocolMainEvent.DeviceDetached,
-      () => {
-        dispatch(abortMscFlashing())
-      }
-    )
-  }, [dispatch])
+  // MSC
+  useAbortFlashingOnDeviceDetached()
 
   return (
     <>
