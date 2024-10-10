@@ -131,6 +131,7 @@ const Wrapper = styled.div<{ $size: Config["size"] }>`
   align-items: center;
   width: min-content;
   height: min-content;
+  max-width: 100%;
   ${({ $size }) => {
     switch ($size) {
       case "small":

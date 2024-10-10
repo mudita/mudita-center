@@ -132,7 +132,11 @@ const Wrapper = styled.div`
   gap: 2.4rem;
   align-items: center;
   padding-top: 4.7rem;
-  background: ${({ theme }) => theme.color.white};
+  background: ${({ theme }) => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return theme.color.white
+  }};
 `
 
 const Header = styled.div`
@@ -164,6 +168,7 @@ const Warning = styled.div`
 const Confirmation = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 
   label {
     display: flex;
@@ -171,6 +176,7 @@ const Confirmation = styled.div`
     align-items: center;
     font-size: 1.4rem;
     font-weight: 700;
+    max-width: 100%;
   }
 
   input + label {

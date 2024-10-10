@@ -4,15 +4,15 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { MscFlashDetails } from "../../dto"
+import { MscFlashDetails } from "../dto"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "generic-view/store"
-import { OsEnvironment, Platform, Product } from "../../constants"
-import { MscFlashDetailsService } from "../../services/msc-flash-details.service"
+import { OsEnvironment, SupportedPlatform, Product } from "../constants"
+import { MscFlashDetailsService } from "../services/msc-flash-details.service"
 
 export const getMscFlashingFilesDetails = createAsyncThunk<
   MscFlashDetails,
-  { product: Product; environment: OsEnvironment; platform: Platform },
+  { product: Product; environment: OsEnvironment; platform: SupportedPlatform },
   { state: ReduxRootState }
 >(
   ActionName.MscFlashingGetFilesDetails,

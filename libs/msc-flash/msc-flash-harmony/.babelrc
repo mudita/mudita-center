@@ -8,5 +8,13 @@
       }
     ]
   ],
-  "plugins": []
+  "plugins": [
+    [
+      "styled-components",
+      {
+        "pure": true,
+        "ssr": true
+      }
+    ]
+  ]
 }

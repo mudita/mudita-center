@@ -5,7 +5,7 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "generic-view/store"
-import { FlashingProcessState } from "../../constants"
+import { FlashingProcessState } from "../constants"
 
 export const setFlashingProcessState = createAction<FlashingProcessState>(
   ActionName.MscFlashingSetProcessState

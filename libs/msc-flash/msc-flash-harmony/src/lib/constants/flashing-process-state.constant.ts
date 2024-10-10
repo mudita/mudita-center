@@ -5,9 +5,9 @@
 
 export enum FlashingProcessState {
   Idle = "idle",
-  GettingFlashingFilesDetails = "getting-flashing-files-details",
-  DownloadingFlashingFiles = "downloading-flashing-files",
-  UnpackingFlashingFiles = "unpacking-flashing-files",
+  GettingFilesDetails = "getting-files-details",
+  DownloadingFiles = "downloading-files",
+  UnpackingFiles = "unpacking-files",
   FlashingProcess = "flashing-process",
   Completed = "completed",
   Failed = "failed",
