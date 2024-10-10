@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { FlashingProcessState, SupportedPlatform, Product } from "../constants"
 import { setFlashingProcessState } from "../actions/set-flashing-process-state.action"
