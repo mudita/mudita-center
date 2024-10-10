@@ -18,6 +18,7 @@ const IMAGE_FILE_NAME = "BellHybrid.img"
 import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
 import { removeDownloadedMscFiles } from "./remove-downloaded-msc-files.service"
 import { setMscFlashingAbort } from "../actions/actions"
+import { selectFlashingProcessState } from "../selectors"
 
 export const flashMscDeviceService =
   () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
@@ -32,9 +33,13 @@ export const flashMscDeviceService =
         await startFlashingProcess(dispatch, flashingFiles)
       }
     } catch (error) {
-      console.error("Error during flashing process:", error)
-      dispatch(setFlashingProcessState(FlashingProcessState.Failed))
       await removeDownloadedMscFiles()
+
+      const processState = selectFlashingProcessState(getState())
+      if (processState !== FlashingProcessState.Canceled) {
+        console.error("Error during flashing process:", error)
+        dispatch(setFlashingProcessState(FlashingProcessState.Failed))
+      }
     }
   }
 
@@ -124,12 +129,9 @@ const startFlashingProcess = async (
     await deviceFlash.waitForFlashCompletion({ signal: abortController.signal })
 
     dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
-    // TODO: for mac - to check
-    //  dispatch(setFlashingProcessState(FlashingProcessState.Completed))
-    await removeDownloadedMscFiles()
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    throw new Error(`Flash process failed with error: ${error}`)
+    await removeDownloadedMscFiles()
+  } catch (error) {
+    throw new Error(`Flash process failed with error: ${JSON.stringify(error)}`)
   }
 }

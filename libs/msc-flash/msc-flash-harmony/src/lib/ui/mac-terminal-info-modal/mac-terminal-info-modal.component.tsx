@@ -57,7 +57,6 @@ export const MacTerminalInfoModal: FunctionComponent<
         closeable={true}
         closeButton={false}
         closeModal={onClose}
-        onClose={onClose}
       >
         <ModalContent>
           <RoundIconWrapper>
