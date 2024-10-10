@@ -26,6 +26,7 @@ const transparentBlack3 = "rgba(0, 0, 0, 0.3)"
 const red = "#e96a6a"
 const green = "#dfefde"
 const orange = "#FD9900"
+const darkOrange = "#DD802A"
 
 const white = "#ffffff"
 
@@ -78,6 +79,7 @@ const theme = {
       tetheringSeparator: blue3,
       deviceListSeparator: grey5,
       deviceListSeparatorHover: grey4,
+      warning: darkOrange,
     },
     boxShadow: {
       full: transparentBlack2,

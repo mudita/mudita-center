@@ -89,6 +89,9 @@ export enum ActionName {
   HelpSetData = "help/set-data",
   HelpRateArticle = "help/rate-article",
 
+  MscFlashingGetFilesDetails = "msc-flashing/get-files-details",
+  MscFlashingSetProcessState = "msc-flashing/set-process-state",
+
   GetEntitiesConfig = "entities/get-entities-config",
   SetEntitiesConfig = "entities/set-entities-config",
   SetEntitiesData = "entities/set-entities-data",
