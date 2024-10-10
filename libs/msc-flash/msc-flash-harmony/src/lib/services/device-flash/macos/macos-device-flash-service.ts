@@ -10,6 +10,11 @@ import IDeviceFlash, {
   waitForFlashCompletionOption,
 } from "../device-flash.interface"
 
+type FlashStatusType =
+  | "FLASH_STATUS_COMPLETED"
+  | "FLASH_STATUS_FAILED"
+  | "FLASH_STATUS_IDLE"
+
 interface DeviceDetails {
   [key: string]: string | undefined
 
@@ -86,6 +91,7 @@ class MacDeviceFlashService implements IDeviceFlash {
   async waitForFlashCompletion(
     option: waitForFlashCompletionOption = {}
   ): Promise<boolean> {
+    let flashStatus: FlashStatusType = "FLASH_STATUS_IDLE"
     const { intervalAttemptsLeft = 60, intervalTime = 5000, signal } = option
 
     if (intervalAttemptsLeft <= 0 || signal?.aborted) {
@@ -94,11 +100,15 @@ class MacDeviceFlashService implements IDeviceFlash {
 
     try {
       const buffer = fs.readFileSync(this.flashStatusTempFilePath)
-      if (buffer.toString().trim() === "true") {
-        return true
-      }
+      flashStatus = buffer.toString().trim() as FlashStatusType
     } catch (error) {
       console.error(`Error reading file: ${JSON.stringify(error)}. Retrying...`)
+    }
+
+    if (flashStatus === "FLASH_STATUS_COMPLETED") {
+      return true
+    } else if (flashStatus === "FLASH_STATUS_FAILED") {
+      throw new Error()
     }
 
     await delay(intervalTime)
