@@ -4,55 +4,83 @@
  */
 
 import { DataProviderSortConfig } from "device/models"
-import { stringToRegex } from "./string-to-regex"
-import { cloneDeep, get } from "lodash"
+import isEmpty from "lodash/isEmpty"
+import {
+  compareFields,
+  compareWithOrderingPatterns,
+  getFirstNonEmptyField,
+  sortByPriority,
+} from "./data-provider-sort.helpers"
 
 export const dataProviderSort = (
   data: Record<string, unknown>[] = [],
-  sort?: DataProviderSortConfig
+  configs?: DataProviderSortConfig
 ) => {
-  if (!sort || !data) return data
-  const fieldsSortedByPriority = cloneDeep(sort).sort(
-    (a, b) => a.priority - b.priority
-  )
+  if (!configs || !data) return data
+
+  const sortedConfigs = sortByPriority(configs)
 
   return data.sort((a, b) => {
-    let score = 0
     for (const {
       providerField,
+      providerFieldGroup,
       direction,
       orderingPatterns = [],
-    } of fieldsSortedByPriority) {
-      const fieldA = get(a, providerField) as string
-      const fieldB = get(b, providerField) as string
-      if (!fieldA || !fieldB) {
-        continue
-      }
+      sensitivity = "variant",
+      emptyOrder = "last",
+    } of sortedConfigs) {
+      const fields = providerField ? [providerField] : providerFieldGroup
+      if (!fields) continue
+      let index = 0
 
-      for (let i = 0; i < orderingPatterns.length; i++) {
-        const regex = stringToRegex(orderingPatterns[i])
-        const matchA = regex.test(fieldA)
-        const matchB = regex.test(fieldB)
+      while (index < fields.length) {
+        const remainingFields = fields.slice(index)
+        const fieldA = getFirstNonEmptyField(a, remainingFields)
+        const fieldB = getFirstNonEmptyField(b, remainingFields)
 
-        if (matchA && !matchB) {
-          score = -1
-          break
+        if (fieldA === fieldB) {
+          index++
+          continue
         }
-        if (!matchA && matchB) {
-          score = 1
-          break
+
+        if (isEmpty(fieldA) && !isEmpty(fieldB)) {
+          return emptyOrder === "first" ? -1 : 1
+        } else if (!isEmpty(fieldA) && isEmpty(fieldB)) {
+          return emptyOrder === "first" ? 1 : -1
         }
-      }
-      if (score === 0) {
-        score =
-          direction === "asc"
-            ? fieldA.localeCompare(fieldB)
-            : fieldB.localeCompare(fieldA)
-        if (score !== 0) {
-          break
+
+        if (
+          (typeof fieldA !== "string" && typeof fieldA !== "number") ||
+          (typeof fieldB !== "string" && typeof fieldB !== "number")
+        ) {
+          index++
+          continue
+        }
+
+        const regexComparison = compareWithOrderingPatterns(
+          fieldA,
+          fieldB,
+          orderingPatterns,
+          direction
+        )
+        if (regexComparison !== 0) {
+          return regexComparison
+        }
+
+        const fieldComparison = compareFields(
+          fieldA,
+          fieldB,
+          direction,
+          sensitivity
+        )
+        if (fieldComparison !== 0) {
+          return fieldComparison
+        } else {
+          index++
         }
       }
     }
-    return score
+
+    return 0
   })
 }
