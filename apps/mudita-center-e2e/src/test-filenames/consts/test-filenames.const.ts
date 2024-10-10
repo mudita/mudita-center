@@ -7,6 +7,7 @@
 export enum TestFilesPaths {
   messagesInAppNavigationTest = "src/specs/messages/messages-in-app-navigation.e2e.ts",
   helpSectionCheckTest = "src/specs/help/help-section-check.e2e.ts",
+  helpSectionCheckTestOffline = "src/specs/help/help-section-check-offline.e2e.ts",
   homePageTestDeviceNotConnectedTest = "src/specs/overview/home-page-device-not-connecting.e2e.ts",
   e2eMockSample = "src/specs/overview/e2e-mock-sample.e2e.ts",
   mcCheckForUpdatesTest = "src/specs/settings/mc-version-check-for-updates.e2e.ts",
@@ -18,7 +19,6 @@ export enum TestFilesPaths {
   mcCheckForUpdatesOfflineTest = "src/specs/settings/mc-version-check-for-updates-offline.e2e.ts",
   privacyPolicyTest = "src/specs/settings/privacy-policy.e2e.ts",
   licenseTest = "src/specs/settings/license.e2e.ts",
-  helpWindowCheckOfflineTest = "src/specs/help/help-window-check-offline.e2e.ts",
   mcHomePageForceUpdateTest = "src/specs/overview/e2e-mock-mc-force-update-available.e2e.ts",
   mcHomePageForceUpdateErrorTest = "src/specs/overview/e2e-mock-mc-force-update-error.e2e.ts",
   mcHomePageSoftUpdateTest = "src/specs/overview/e2e-mock-mc-soft-update-available.e2e.ts",
