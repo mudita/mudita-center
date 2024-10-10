@@ -23,6 +23,7 @@ import {
 } from "Core/__deprecated__/renderer/constants/urls"
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 import { closeContactSupportFlow } from "Core/contact-support"
+import { abortFlashingProcess } from "../../../msc-flash/msc-flash-harmony/src"
 
 export const useDeviceDetachedEffect = () => {
   const handleDevicesDetached = useHandleDevicesDetached()
@@ -60,6 +61,7 @@ const useProcessActiveDevicesDetachment = () => {
   const downloadProcessing = useSelector(
     ({ update }: ReduxRootState) => update.downloadState
   )
+  const flashingProcessing = true
 
   const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
 
@@ -82,6 +84,11 @@ const useProcessActiveDevicesDetachment = () => {
           cancelOsDownload()
           history.push(URL_ONBOARDING.welcome)
           return
+        }
+
+        if (flashingProcessing) {
+          console.log("Wchodzę tutaj do aborta")
+          dispatch(abortFlashingProcess())
         }
 
         await deactivateDeviceAndRedirect()

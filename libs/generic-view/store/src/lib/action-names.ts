@@ -86,4 +86,5 @@ export enum ActionName {
 
   MscFlashingGetFilesDetails = "msc-flashing/get-files-details",
   MscFlashingSetProcessState = "msc-flashing/set-process-state",
+  MscAbortFlashingProcess = "msc-flashing/abort-process",
 }

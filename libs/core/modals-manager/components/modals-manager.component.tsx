@@ -13,6 +13,7 @@ import DetachedDuringUploadErrorModal from "Core/files-manager/components/dettac
 import { AppUpdateFlow } from "Core/settings/components"
 import { shouldAppUpdateVisibleSelector } from "Core/modals-manager/selectors/should-app-update-visible.selector"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { FlashingErrorModal } from "../../../msc-flash/msc-flash-harmony/src/lib/ui/flashing-error-modal/flashing-error-modal.component"
 
 const ModalsManager: FunctionComponent = () => {
   const appUpdateVisible = useSelector(shouldAppUpdateVisibleSelector)
@@ -25,6 +26,7 @@ const ModalsManager: FunctionComponent = () => {
       <UpdateOsInterruptedFlowContainer />
       <ConnectingLoaderModal />
       <DetachedDuringUploadErrorModal />
+      <FlashingErrorModal />
       {appUpdateVisible && <AppUpdateFlow />}
     </>
   )

@@ -14,11 +14,10 @@ import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-
-interface ErrorHandlingModalProps {
-  open: boolean
-  onClose: () => void
-}
+import { useDispatch, useSelector } from "react-redux"
+import { selectFlashingProcessState } from "../../selectors"
+import { FlashingProcessState } from "../../constants"
+import { setFlashingProcessState } from "../../actions"
 
 const messages = defineMessages({
   errorHandlingModalTitle: {
@@ -32,14 +31,19 @@ const messages = defineMessages({
   },
 })
 
-export const ErrorHandlingModal: FunctionComponent<ErrorHandlingModalProps> = ({
-  open,
-  onClose,
-}) => {
+export const FlashingErrorModal: FunctionComponent = () => {
+  const dispatch = useDispatch()
+  const flashingProcessState = useSelector(selectFlashingProcessState)
+  const opened = flashingProcessState === FlashingProcessState.Failed
+
+  const onClose = () => {
+    dispatch(setFlashingProcessState(FlashingProcessState.Idle))
+  }
+
   return (
     <>
       <ModalDialog
-        open={open}
+        open={opened}
         title={intl.formatMessage(messages.errorHandlingModalTitle)}
         size={ModalSize.Small}
         closeable={true}

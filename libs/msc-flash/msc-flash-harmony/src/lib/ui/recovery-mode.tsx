@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { ThemeProps, ThemeProvider } from "styled-components"
 import { defineMessages } from "react-intl"
@@ -26,8 +26,6 @@ import { selectFlashingProcessState } from "../selectors"
 import { FlashingProcessState } from "../constants"
 import theme from "Core/core/styles/theming/theme"
 import { RestartingDeviceModal } from "./restarting-device-modal/restarting-device-modal.component"
-import { ErrorHandlingModal } from "./error-handling-modal/error-handling-modal.component"
-import { setFlashingProcessState } from "../actions"
 
 const messages = defineMessages({
   header: {
@@ -78,13 +76,21 @@ const RecoveryModeUI: FunctionComponent = () => {
   const [isConfirmed, setIsConfirmed] = useState(false)
   const dispatch = useDispatch<Dispatch>()
   const flashingProcessState = useSelector(selectFlashingProcessState)
+  const abortControllerRef = useRef<AbortController | null>(null)
 
   const handleCheckboxChange = () => {
     setIsConfirmed((prevIsConfirmed) => !prevIsConfirmed)
   }
 
   const onStartRecovery = () => {
-    dispatch(flashMscDeviceService())
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort() // Anuluj poprzedni proces, jeśli istnieje
+    }
+
+    const abortController = new AbortController()
+    abortControllerRef.current = abortController
+
+    dispatch(flashMscDeviceService(abortController.signal))
   }
 
   const isFlashingModalVisible = (): boolean => {
@@ -129,14 +135,6 @@ const RecoveryModeUI: FunctionComponent = () => {
 
   const isRestartingModalVisible = (): boolean => {
     return flashingProcessState === FlashingProcessState.Restarting
-  }
-
-  const isErrorHandlingModalVisible = (): boolean => {
-    return flashingProcessState === FlashingProcessState.Failed
-  }
-
-  const errorHandlingCloseHandler = (): void => {
-    dispatch(setFlashingProcessState(FlashingProcessState.Idle))
   }
 
   return (
@@ -205,10 +203,6 @@ const RecoveryModeUI: FunctionComponent = () => {
           progressMessage={getProgressMessage()}
         />
         <RestartingDeviceModal open={isRestartingModalVisible()} />
-        <ErrorHandlingModal
-          open={isErrorHandlingModalVisible()}
-          onClose={errorHandlingCloseHandler}
-        />
       </ThemeProvider>
     </>
   )

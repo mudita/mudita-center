@@ -19,18 +19,28 @@ import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
 import { removeDownloadedMscFiles } from "./remove-downloaded-msc-files.service"
 
 export const flashMscDeviceService =
-  () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
+  (signal: AbortSignal) =>
+  async (dispatch: Dispatch, getState: () => ReduxRootState) => {
     try {
-      await getFlashingImageDetails(dispatch)
+      const abortListener = () => {
+        console.error("Process aborted due to lost connection.")
+        dispatch(setFlashingProcessState(FlashingProcessState.Failed))
+      }
+
+      signal.addEventListener("abort", abortListener)
+
+      await getFlashingImageDetails(dispatch, signal)
 
       const flashingFiles = getState().flashing.mscFlashingFilesDetails
 
       if (flashingFiles) {
-        await downloadFlashingFiles(dispatch, flashingFiles)
-        await unpackFlashingImage(dispatch, flashingFiles)
-        await startFlashingProcess(dispatch, flashingFiles)
+        await downloadFlashingFiles(dispatch, flashingFiles, signal)
+        await unpackFlashingImage(dispatch, flashingFiles, signal)
+        await startFlashingProcess(dispatch, flashingFiles, signal)
         await removeDownloadedMscFiles()
       }
+
+      signal.removeEventListener("abort", abortListener)
     } catch (error) {
       console.error("Error during flashing process:", error)
       dispatch(setFlashingProcessState(FlashingProcessState.Failed))
@@ -38,7 +48,12 @@ export const flashMscDeviceService =
     }
   }
 
-const getFlashingImageDetails = async (dispatch: Dispatch) => {
+const getFlashingImageDetails = async (
+  dispatch: Dispatch,
+  signal: AbortSignal
+) => {
+  signal.throwIfAborted()
+
   dispatch(
     setFlashingProcessState(FlashingProcessState.GettingFlashingFilesDetails)
   )
@@ -66,27 +81,37 @@ const getFlashingImageDetails = async (dispatch: Dispatch) => {
 
 const downloadFlashingFiles = async (
   dispatch: Dispatch,
-  flashingFiles: MscFlashDetails
+  flashingFiles: MscFlashDetails,
+  signal: AbortSignal
 ) => {
-  dispatch(
-    setFlashingProcessState(FlashingProcessState.DownloadingFlashingFiles)
-  )
+  signal.throwIfAborted()
 
-  for (const file of [flashingFiles.image, ...flashingFiles.scripts]) {
-    const downloadResult = await downloadFlashingFileRequest({
-      url: file.url,
-      fileName: file.name,
-    })
-    if (!downloadResult.ok) {
-      throw new Error(`Failed to download file: ${file.name}`)
+  try {
+    dispatch(
+      setFlashingProcessState(FlashingProcessState.DownloadingFlashingFiles)
+    )
+
+    for (const file of [flashingFiles.image, ...flashingFiles.scripts]) {
+      const downloadResult = await downloadFlashingFileRequest({
+        url: file.url,
+        fileName: file.name,
+      })
+      if (!downloadResult.ok) {
+        throw new Error(`Failed to download file: ${file.name}`)
+      }
     }
+  } catch {
+    throw new Error(`Cannot download flashing files`)
   }
 }
 
 const unpackFlashingImage = async (
   dispatch: Dispatch,
-  flashingFiles: MscFlashDetails | undefined
+  flashingFiles: MscFlashDetails | undefined,
+  signal: AbortSignal
 ) => {
+  signal.throwIfAborted()
+
   dispatch(setFlashingProcessState(FlashingProcessState.UnpackingFlashingFiles))
 
   const flashingImageName = flashingFiles ? flashingFiles.image.name : ""
@@ -96,8 +121,11 @@ const unpackFlashingImage = async (
 
 const startFlashingProcess = async (
   dispatch: Dispatch,
-  flashingFiles: MscFlashDetails | undefined
+  flashingFiles: MscFlashDetails | undefined,
+  signal: AbortSignal
 ) => {
+  signal.throwIfAborted()
+
   try {
     dispatch(setFlashingProcessState(FlashingProcessState.FlashingProcess))
 
