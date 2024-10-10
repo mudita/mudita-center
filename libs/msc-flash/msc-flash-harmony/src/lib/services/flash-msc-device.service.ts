@@ -17,6 +17,7 @@ import getAppSettingsMain from "Core/__deprecated__/main/functions/get-app-setti
 const IMAGE_FILE_NAME = "BellHybrid.img"
 import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
 import { removeDownloadedMscFiles } from "./remove-downloaded-msc-files.service"
+import { setMscFlashingAbort } from "../actions/actions"
 
 export const flashMscDeviceService =
   () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
@@ -101,7 +102,8 @@ const startFlashingProcess = async (
     dispatch(setFlashingProcessState(FlashingProcessState.FlashingProcess))
     const { osDownloadLocation } = await getAppSettingsMain()
 
-    const deviceFlash = DeviceFlashFactory.createDeviceFlashService(osDownloadLocation)
+    const deviceFlash =
+      DeviceFlashFactory.createDeviceFlashService(osDownloadLocation)
 
     const device = await deviceFlash.findDeviceByDeviceName("HARMONY")
 
@@ -115,7 +117,11 @@ const startFlashingProcess = async (
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
     dispatch(setFlashingProcessState(FlashingProcessState.TerminalOpened))
 
-    await deviceFlash.waitForFlashCompletion()
+    const abortController = new AbortController()
+
+    dispatch(setMscFlashingAbort(abortController))
+
+    await deviceFlash.waitForFlashCompletion({ signal: abortController.signal })
 
     dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
     // TODO: for mac - to check

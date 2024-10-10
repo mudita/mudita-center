@@ -4,10 +4,9 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { FlashingProcessState } from "../constants"
+import { flashingState } from "./flashing-state.selector"
 
 export const selectFlashingProcessState = createSelector(
-  (state: ReduxRootState) => state.flashing.processState,
-  (processState: FlashingProcessState) => processState
+  flashingState,
+  (flashingState) => flashingState.processState
 )

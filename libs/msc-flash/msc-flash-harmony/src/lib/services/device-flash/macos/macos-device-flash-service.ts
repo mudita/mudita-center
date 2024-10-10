@@ -6,7 +6,9 @@
 import path from "path"
 import fs from "fs"
 import { delay, execPromise } from "shared/utils"
-import IDeviceFlash from "../device-flash.interface"
+import IDeviceFlash, {
+  waitForFlashCompletionOption,
+} from "../device-flash.interface"
 
 interface DeviceDetails {
   [key: string]: string | undefined
@@ -77,15 +79,16 @@ class MacDeviceFlashService implements IDeviceFlash {
       chmod +x "${scriptPath}"
     `)
     await execPromise(
-      `osascript -e 'tell application "Terminal" to do script "\\"${scriptPath}\\" -t \\"${this.flashStatusTempFilePath}\\"-i \\"${imagePath}\\" -d \\"${device}\\""'`
+      `osascript -e 'tell application "Terminal" to do script "\\"${scriptPath}\\" -t \\"${this.flashStatusTempFilePath}\\" -i \\"${imagePath}\\" -d \\"${device}\\""'`
     )
   }
 
   async waitForFlashCompletion(
-    intervalAttemptsLeft = 20,
-    intervalTime = 1000
+    option: waitForFlashCompletionOption = {}
   ): Promise<boolean> {
-    if (intervalAttemptsLeft <= 0) {
+    const { intervalAttemptsLeft = 20, intervalTime = 1000, signal } = option
+
+    if (intervalAttemptsLeft <= 0 || signal?.aborted) {
       throw new Error()
     }
 
@@ -100,7 +103,11 @@ class MacDeviceFlashService implements IDeviceFlash {
 
     await delay(intervalTime)
 
-    return this.waitForFlashCompletion(intervalAttemptsLeft - 1, intervalTime)
+    return this.waitForFlashCompletion({
+      intervalAttemptsLeft: intervalAttemptsLeft - 1,
+      intervalTime,
+      signal,
+    })
   }
 
   private async getDevices(): Promise<DeviceDetails[]> {
