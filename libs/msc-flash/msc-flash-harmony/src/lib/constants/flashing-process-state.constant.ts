@@ -9,6 +9,7 @@ export enum FlashingProcessState {
   DownloadingFiles = "downloading-files",
   UnpackingFiles = "unpacking-files",
   FlashingProcess = "flashing-process",
+  Restarting = "restarting-device",
   Completed = "completed",
   Failed = "failed",
 }
