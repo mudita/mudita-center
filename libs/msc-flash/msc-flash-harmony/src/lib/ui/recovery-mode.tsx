@@ -26,6 +26,9 @@ import { selectFlashingProcessState } from "../selectors"
 import { FlashingProcessState } from "../constants"
 import theme from "Core/core/styles/theming/theme"
 import { RestartingDeviceModal } from "./restarting-device-modal/restarting-device-modal.component"
+import { ErrorHandlingModal } from "./error-handling-modal/error-handling-modal.component"
+import { abortMscFlashing, setFlashingProcessState } from "../actions"
+import { MacTerminalInfoModal } from "./mac-terminal-info-modal/mac-terminal-info-modal.component"
 
 const messages = defineMessages({
   header: {
@@ -126,7 +129,22 @@ const RecoveryModeUI: FunctionComponent = () => {
 
   const isRestartingModalVisible = (): boolean => {
     return flashingProcessState === FlashingProcessState.Restarting
-    // return true
+  }
+
+  const isErrorHandlingModalVisible = (): boolean => {
+    return flashingProcessState === FlashingProcessState.Failed
+  }
+
+  const errorHandlingCloseHandler = (): void => {
+    dispatch(setFlashingProcessState(FlashingProcessState.Idle))
+  }
+
+  const isMacTerminalInfoModalVisible = (): boolean => {
+    return flashingProcessState === FlashingProcessState.TerminalOpened
+  }
+
+  const macTerminalInfoCloseHandler = (): void => {
+    dispatch(abortMscFlashing({ reason: FlashingProcessState.Canceled }))
   }
 
   return (
@@ -197,6 +215,14 @@ const RecoveryModeUI: FunctionComponent = () => {
           progressMessage={getProgressMessage()}
         />
         <RestartingDeviceModal open={isRestartingModalVisible()} />
+        <ErrorHandlingModal
+          open={isErrorHandlingModalVisible()}
+          onClose={errorHandlingCloseHandler}
+        />
+        <MacTerminalInfoModal
+          open={isMacTerminalInfoModalVisible()}
+          onClose={macTerminalInfoCloseHandler}
+        />
       </ThemeProvider>
     </>
   )

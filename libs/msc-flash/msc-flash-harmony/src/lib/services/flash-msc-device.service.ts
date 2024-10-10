@@ -16,7 +16,10 @@ import getAppSettingsMain from "Core/__deprecated__/main/functions/get-app-setti
 
 const IMAGE_FILE_NAME = "BellHybrid.img"
 import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
+import MacDeviceFlashService from "./device-flash/macos/macos-device-flash-service"
 import { removeDownloadedMscFiles } from "./remove-downloaded-msc-files.service"
+import { setMscFlashingAbort } from "../actions/actions"
+import { selectFlashingProcessState } from "../selectors"
 
 export const flashMscDeviceService =
   () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
@@ -29,12 +32,15 @@ export const flashMscDeviceService =
         await downloadFlashingFiles(dispatch, mscFlashingFiles)
         await unpackFlashingImage(dispatch, mscFlashingFiles)
         await startFlashingProcess(dispatch, mscFlashingFiles)
-        await removeDownloadedMscFiles()
       }
     } catch (error) {
-      console.error("Error during flashing process:", error)
-      dispatch(setFlashingProcessState(FlashingProcessState.Failed))
       await removeDownloadedMscFiles()
+
+      const processState = selectFlashingProcessState(getState())
+      if (processState !== FlashingProcessState.Canceled) {
+        console.error("Error during flashing process:", error)
+        dispatch(setFlashingProcessState(FlashingProcessState.Failed))
+      }
     }
   }
 
@@ -96,12 +102,13 @@ const startFlashingProcess = async (
 ) => {
   try {
     dispatch(setFlashingProcessState(FlashingProcessState.FlashingProcess))
+    const { osDownloadLocation } = await getAppSettingsMain()
 
-    const deviceFlash = DeviceFlashFactory.createDeviceFlashService()
+    const deviceFlash =
+      DeviceFlashFactory.createDeviceFlashService(osDownloadLocation)
 
     const device = await deviceFlash.findDeviceByDeviceName("HARMONY")
 
-    const { osDownloadLocation } = await getAppSettingsMain()
     const flashingScriptName = flashingFiles
       ? flashingFiles.scripts[0].name
       : ""
@@ -111,10 +118,22 @@ const startFlashingProcess = async (
 
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
 
+    if (deviceFlash instanceof MacDeviceFlashService) {
+      dispatch(setFlashingProcessState(FlashingProcessState.TerminalOpened))
+
+      const abortController = new AbortController()
+
+      dispatch(setMscFlashingAbort(abortController))
+
+      await deviceFlash.waitForFlashCompletion({
+        signal: abortController.signal,
+      })
+    }
+
     dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    throw new Error(`Flash process failed with error: ${error}`)
+
+    await removeDownloadedMscFiles()
+  } catch (error) {
+    throw new Error(`Flash process failed with error: ${JSON.stringify(error)}`)
   }
 }

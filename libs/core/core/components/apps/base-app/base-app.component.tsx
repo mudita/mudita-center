@@ -16,6 +16,7 @@ import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
 import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
 import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect-failed-effect"
 import { useDiscoveryRedirectEffect } from "Core/core/hooks/use-discovery-redirect-effect"
+import { useAbortFlashingOnDeviceDetached } from "Core/core/hooks/use-abort-flashing-on-device-detached"
 import { useRouterListener } from "Core/core/hooks"
 import {
   OutboxWrapper,
@@ -45,6 +46,9 @@ const BaseApp: FunctionComponent = () => {
   useBackupList()
   useFileDialogEventListener()
   useHelp()
+
+  // MSC
+  useAbortFlashingOnDeviceDetached()
 
   return (
     <>
