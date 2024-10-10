@@ -7,7 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ActionName } from "generic-view/store"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectFlashingAbortController } from "../selectors/select-flashing-abort-controller"
-import { setFlashingProcessState } from "./set-flashing-process-state/set-flashing-process-state.action"
+import { setFlashingProcessState } from "./set-flashing-process-state.action"
 import { FlashingProcessState } from "../constants"
 
 export const abortMscFlashing = createAsyncThunk<
