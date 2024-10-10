@@ -4,10 +4,9 @@
  */
 
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import path from "path"
-import { FlashingProcessState, Platform, Product } from "../constants"
-import { setFlashingProcessState } from "../actions/set-flashing-process-state/set-flashing-process-state.action"
-import { getMscFlashingFilesDetails } from "../actions/get-msc-flashing-files-details/get-msc-flashing-files-details.action"
+import { FlashingProcessState, SupportedPlatform, Product } from "../constants"
+import { setFlashingProcessState } from "../actions/set-flashing-process-state.action"
+import { getMscFlashingFilesDetails } from "../actions/get-msc-flashing-files-details.action"
 import { MscFlashDetails } from "../dto"
 import { downloadFlashingFileRequest } from "../requests"
 import { unpackFlashingImageService } from "./unpack-flashing-image"
@@ -23,12 +22,12 @@ export const flashMscDeviceService =
     try {
       await getFlashingImageDetails(dispatch)
 
-      const flashingFiles = getState().flashing.mscFlashingFilesDetails
+      const mscFlashingFiles = getState().flashing.mscFlashDetails
 
-      if (flashingFiles) {
-        await downloadFlashingFiles(dispatch, flashingFiles)
-        await unpackFlashingImage(dispatch, flashingFiles)
-        await startFlashingProcess(dispatch, flashingFiles)
+      if (mscFlashingFiles) {
+        await downloadFlashingFiles(dispatch, mscFlashingFiles)
+        await unpackFlashingImage(dispatch, mscFlashingFiles)
+        await startFlashingProcess(dispatch, mscFlashingFiles)
         await removeDownloadedMscFiles()
       }
     } catch (error) {
@@ -39,18 +38,16 @@ export const flashMscDeviceService =
   }
 
 const getFlashingImageDetails = async (dispatch: Dispatch) => {
-  dispatch(
-    setFlashingProcessState(FlashingProcessState.GettingFlashingFilesDetails)
-  )
+  dispatch(setFlashingProcessState(FlashingProcessState.GettingFilesDetails))
 
-  let platform: Platform
+  let platform: SupportedPlatform
 
   if (process.platform === "darwin") {
-    platform = Platform.MacOs
+    platform = SupportedPlatform.MacOs
   } else if (process.platform === "linux") {
-    platform = Platform.Linux
+    platform = SupportedPlatform.Linux
   } else if (process.platform === "win32") {
-    platform = Platform.Windows
+    platform = SupportedPlatform.Windows
   } else {
     throw new Error(`Unsupported platform: ${process.platform}`)
   }
@@ -66,13 +63,11 @@ const getFlashingImageDetails = async (dispatch: Dispatch) => {
 
 const downloadFlashingFiles = async (
   dispatch: Dispatch,
-  flashingFiles: MscFlashDetails
+  mscFlashingFiles: MscFlashDetails
 ) => {
-  dispatch(
-    setFlashingProcessState(FlashingProcessState.DownloadingFlashingFiles)
-  )
+  dispatch(setFlashingProcessState(FlashingProcessState.DownloadingFiles))
 
-  for (const file of [flashingFiles.image, ...flashingFiles.scripts]) {
+  for (const file of [mscFlashingFiles.image, ...mscFlashingFiles.scripts]) {
     const downloadResult = await downloadFlashingFileRequest({
       url: file.url,
       fileName: file.name,
@@ -85,11 +80,11 @@ const downloadFlashingFiles = async (
 
 const unpackFlashingImage = async (
   dispatch: Dispatch,
-  flashingFiles: MscFlashDetails | undefined
+  mscFlashingFiles: MscFlashDetails | undefined
 ) => {
-  dispatch(setFlashingProcessState(FlashingProcessState.UnpackingFlashingFiles))
+  dispatch(setFlashingProcessState(FlashingProcessState.UnpackingFiles))
 
-  const flashingImageName = flashingFiles ? flashingFiles.image.name : ""
+  const flashingImageName = mscFlashingFiles ? mscFlashingFiles.image.name : ""
 
   await unpackFlashingImageService(flashingImageName)
 }
@@ -116,6 +111,7 @@ const startFlashingProcess = async (
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
 
     dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
+    // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error(`Flash process failed with error: ${error}`)

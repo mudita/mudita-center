@@ -5,11 +5,12 @@
 
 import React, { FunctionComponent } from "react"
 import { Modal } from "../../../interactive/modal/modal"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { TransferFailMessage } from "./transfer-fail-message"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -45,7 +46,7 @@ export const CancelledModal: FunctionComponent<Props> = ({ onClose }) => {
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
-            action: closeAction,
+            actions: [closeAction],
           }}
         />
       </Modal.Buttons>

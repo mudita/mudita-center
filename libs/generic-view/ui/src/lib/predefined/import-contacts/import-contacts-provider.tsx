@@ -54,12 +54,14 @@ export const ImportContactsProvider = () => {
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.googleButtonLabel),
-            action: {
-              type: "custom",
-              callback: () => {
-                dispatch(startImportAuthorization("GOOGLE"))
+            actions: [
+              {
+                type: "custom",
+                callback: () => {
+                  dispatch(startImportAuthorization("GOOGLE"))
+                },
               },
-            },
+            ],
           }}
         >
           <GoogleLogoWrapperStyled>
@@ -91,12 +93,14 @@ export const ImportContactsProvider = () => {
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.outlookButtonLabel),
-            action: {
-              type: "custom",
-              callback: () => {
-                dispatch(startImportAuthorization("OUTLOOK"))
+            actions: [
+              {
+                type: "custom",
+                callback: () => {
+                  dispatch(startImportAuthorization("OUTLOOK"))
+                },
               },
-            },
+            ],
           }}
         >
           <OutlookLogoWrapperStyled>
@@ -134,24 +138,28 @@ export const ImportContactsProvider = () => {
           config={{
             text: intl.formatMessage(messages.fileUploadButtonLabel),
             icon: IconType.Import,
-            action: {
-              type: "custom",
-              callback: () => {
-                dispatch(importContactsFromFile())
-                dispatch(setImportProcessStatus({ status: "FILE-SELECT" }))
+            actions: [
+              {
+                type: "custom",
+                callback: () => {
+                  dispatch(importContactsFromFile())
+                  dispatch(setImportProcessStatus({ status: "FILE-SELECT" }))
+                },
               },
-            },
+            ],
           }}
         />
         <HelpLink
           config={{
             text: intl.formatMessage(messages.needHelpButtonLabel),
-            action: {
-              type: "custom",
-              callback: () => {
-                openHelpShortcut("kompakt-contacts-import")
+            actions: [
+              {
+                type: "custom",
+                callback: () => {
+                  openHelpShortcut("kompakt-contacts-import")
+                },
               },
-            },
+            ],
             modifiers: ["link", "hover-underline"],
           }}
         />

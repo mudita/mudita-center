@@ -96,7 +96,10 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
       <Form onSubmit={handleSave}>
         <Content>
           <TextArea
-            {...register("text", templateValidator())}
+            {...register("text", {
+              ...templateValidator(),
+              deps: [],
+            })}
             data-testid={TemplateFormTestIds.TextFiled}
             type="textarea"
             defaultHeight="100%"

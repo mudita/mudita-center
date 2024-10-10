@@ -32,6 +32,8 @@ import {
   genericViewsReducer,
   importsReducer,
   externalProvidersReducer,
+  genericEntitiesReducer,
+  genericToastsReducer,
 } from "generic-view/store"
 import { appStateReducer } from "shared/app-state"
 import { activeDeviceRegistryReducer } from "active-device-registry/feature"
@@ -70,6 +72,8 @@ export const reducers = {
   genericDataTransfer: genericDataTransferReducer,
   helpV2: helpReducer,
   flashing: flashingReducer,
+  genericEntities: genericEntitiesReducer,
+  genericToasts: genericToastsReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

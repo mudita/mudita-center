@@ -20,12 +20,12 @@ export const ButtonText: APIFC<undefined, ButtonTextConfig> = ({
     <Button
       data-testid={`button-text_${props.componentKey}`}
       {...props}
-      action={config.action}
+      actions={config.actions}
       $modifiers={config.modifiers}
     >
       {children}
       {config.icon && <Icon className={"icon"} data={{ type: config.icon }} />}
-      <span>{config.text}</span>
+      {config.text}
     </Button>
   )
 }
@@ -34,17 +34,14 @@ const Button = styled(ButtonBase)<{
   $modifiers?: ButtonTextConfig["modifiers"]
 }>`
   color: ${({ theme }) => theme.color.grey1};
+  font-size: ${({ theme }) => theme.fontSize.buttonLink};
+  line-height: ${({ theme }) => theme.lineHeight.buttonLink};
+  letter-spacing: 0.05em;
+  text-transform: unset;
+  transition: color 0.15s ease-in-out;
 
   &:hover {
     color: ${({ theme }) => theme.color.black};
-  }
-
-  span {
-    font-size: ${({ theme }) => theme.fontSize.buttonLink};
-    line-height: ${({ theme }) => theme.lineHeight.buttonLink};
-    letter-spacing: 0.05em;
-    text-transform: unset;
-    transition: color 0.15s ease-in-out;
   }
 
   ${({ $modifiers }) => $modifiers?.includes("link") && buttonLinkModifier};
@@ -52,6 +49,8 @@ const Button = styled(ButtonBase)<{
     $modifiers?.includes("uppercase") && buttonUpperCaseModifier};
   ${({ $modifiers }) =>
     $modifiers?.includes("hover-underline") && buttonHoverUnderlineModifier};
+  ${({ $modifiers }) =>
+    $modifiers?.includes("hover-background") && buttonHoverBackgroundModifier};
 
   .icon {
     width: 2.2rem;
@@ -71,18 +70,23 @@ const buttonLinkModifier = css`
 `
 
 const buttonUpperCaseModifier = css`
-  span {
-    text-transform: uppercase;
-    font-size: ${({ theme }) => theme.fontSize.buttonText};
-    line-height: ${({ theme }) => theme.lineHeight.buttonText};
-    letter-spacing: 0.1em;
-    margin-top: 0.1rem;
-  }
+  text-transform: uppercase;
+  font-size: ${({ theme }) => theme.fontSize.buttonText};
+  line-height: ${({ theme }) => theme.lineHeight.buttonText};
+  letter-spacing: 0.1em;
+  transform: translateY(0.1rem);
 `
 
 const buttonHoverUnderlineModifier = css`
-  &:hover span {
+  &:hover {
     text-decoration: underline;
     text-decoration-color: currentColor;
+  }
+`
+
+const buttonHoverBackgroundModifier = css`
+  &:hover {
+    background-color: ${({ theme }) => theme.color.grey5};
+    border-radius: ${({ theme }) => theme.radius.xs};
   }
 `

@@ -25,10 +25,6 @@ const registerPureOsDownloadListener = (
     async ({ url, fileName }: { url: string; fileName: string }) => {
       const { osDownloadLocation } = await getAppSettingsMain()
 
-      console.log("VERY IMPORTANT INFO!!!", osDownloadLocation)
-      console.log("VERY IMPORTANT INFO URL!!!", url)
-      console.log("VERY IMPORTANT INFO NAME!!!", fileName)
-
       return registerDownloadListener({
         url,
         fileName,

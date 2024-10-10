@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PrimitiveValue } from "../models/layout.types"
+import { PrimitiveValue } from "device/models"
 
 export const mapLayoutSizes = (sizes: PrimitiveValue[]) => {
   return sizes
