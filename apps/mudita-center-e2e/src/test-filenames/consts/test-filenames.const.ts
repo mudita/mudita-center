@@ -12,6 +12,7 @@ export enum TestFilesPaths {
   e2eMockSample = "src/specs/overview/e2e-mock-sample.e2e.ts",
   mcCheckForUpdatesTest = "src/specs/settings/mc-version-check-for-updates.e2e.ts",
   newsPageOnlineTest = "src/specs/news/news-check-online.e2e.ts",
+  newsMoreNews = "src/specs/news/more-news.e2e.ts",
   newsPageOfflineTest = "src/specs/news/news-check-offline.e2e.ts",
   termsOfServiceTest = "src/specs/settings/terms-of-service.e2e.ts",
   backupLocationTest = "src/specs/settings/backup-location.e2e.ts",
