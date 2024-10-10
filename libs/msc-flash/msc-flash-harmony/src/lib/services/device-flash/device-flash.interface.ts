@@ -14,7 +14,7 @@ interface IDeviceFlash {
 
   execute(device: string, imagePath: string, scriptPath: string): Promise<void>
 
-  waitForFlashCompletion(option?: waitForFlashCompletionOption): Promise<boolean>
+  waitForFlashCompletion?(option?: waitForFlashCompletionOption): Promise<boolean>
 }
 
 export default IDeviceFlash

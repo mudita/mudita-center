@@ -41,10 +41,6 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     console.log("Flash process completed successfully")
   }
 
-  async waitForFlashCompletion(): Promise<boolean>{
-    return true
-  }
-
   private async getUnmountDeviceCommand(device: string): Promise<string> {
     const partitions = await this.getPartitions(device)
     const partitionsString = partitions
