@@ -11,6 +11,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 
 export interface GenericForm {
   fields: Record<string, unknown>
+  defaultValues?: Record<string, unknown>
 }
 
 interface Feature<Data = Record<string, unknown>> {

@@ -168,7 +168,7 @@ export const setupComponent = <P extends object>(
         const { componentField, providerField, ...config } = fieldConfig
         const value = processFormFields(
           config,
-          formDataV2.getValue(providerField)
+          formDataV2.getField(providerField)
         )
         if (isString(value) && componentField === "dataItemId") {
           dataItemId = value

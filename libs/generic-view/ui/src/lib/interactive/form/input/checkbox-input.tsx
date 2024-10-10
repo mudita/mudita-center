@@ -3,11 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useEffect, useId, useMemo, useRef } from "react"
-import { APIFC, IconType, useViewFormContext } from "generic-view/utils"
+import React, {
+  ChangeEvent,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+} from "react"
+import { APIFC, IconType } from "generic-view/utils"
 import styled from "styled-components"
 import { Icon } from "../../../icon/icon"
 import { FormCheckboxInputConfig } from "generic-view/models"
+import { useFormField } from "generic-view/store"
+import { isArray } from "lodash"
 
 interface Config extends FormCheckboxInputConfig {
   onToggle?: (checked: boolean) => void
@@ -19,21 +29,17 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
   children,
   ...props
 }) => {
-  const id = useId()
-  const getFormContext = useViewFormContext()
-  const { register, setValue, getValues, watch } = getFormContext()
+  const id = "checkbox-" + useId()
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const { getField, setField } = useFormField({ formName: config.formName })
 
   const inputName = config.multipleValues
     ? `${config.name}-multiple`
     : config.name
-
-  const fieldRegistrar = register(inputName, {
-    ...config.validation,
-  })
+  const inputValue = getField(inputName)
 
   const multiSelectValues = config.multipleValues
-    ? watch(config.name)
+    ? (getField(config.name) as unknown[])
     : undefined
 
   const multiSelect = useMemo(() => {
@@ -46,7 +52,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
   }, [config.multipleValues, multiSelectValues])
 
   const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       const checked = e.target.checked
       config.onToggle?.(checked)
 
@@ -54,68 +60,69 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
         if (
           checked ||
           (!checked &&
+            multiSelect.selectedValues &&
             multiSelect.selectedValues.length < multiSelect.allValues.length)
         ) {
-          setValue(config.name, multiSelect.allValues)
+          setField(config.name, multiSelect.allValues)
         } else {
-          setValue(config.name, [])
+          setField(config.name, [])
         }
       } else {
-        const checkedValues = getValues(inputName)
-        if (checkedValues instanceof Array) {
-          setValue(
+        const checkedValues = getField(inputName)
+        if (isArray(checkedValues)) {
+          setField(
             inputName,
             checked
               ? [config.value, ...checkedValues]
               : checkedValues.filter((v: unknown) => v !== config.value)
           )
         } else {
-          void fieldRegistrar.onChange(e)
+          setField(inputName, checked ? config.value : undefined)
         }
       }
     },
-    [config, fieldRegistrar, getValues, inputName, multiSelect, setValue]
+    [config, getField, inputName, multiSelect, setField]
+  )
+
+  const handleClick: MouseEventHandler<HTMLDivElement> = useCallback(
+    (event) => event.stopPropagation(),
+    []
   )
 
   useEffect(() => {
+    if (!inputRef.current) return
+
     if (multiSelect) {
-      if (multiSelect.selectedValues.length === multiSelect.allValues.length) {
-        setValue(inputName, true)
-      } else {
-        setValue(inputName, false)
-      }
-      if (inputRef.current) {
-        inputRef.current.indeterminate =
-          multiSelect.selectedValues.length > 0 &&
+      inputRef.current.checked =
+        multiSelect.selectedValues?.length === multiSelect.allValues.length
+
+      inputRef.current.indeterminate = Boolean(
+        multiSelect.selectedValues?.length &&
           multiSelect.selectedValues.length < multiSelect.allValues.length
+      )
+    } else {
+      if (isArray(inputValue)) {
+        inputRef.current.checked = inputValue.includes(config.value)
+      } else {
+        inputRef.current.checked = inputValue === config.value
       }
     }
-  }, [fieldRegistrar.ref, inputName, multiSelect, setValue])
+  }, [config.value, inputName, inputValue, multiSelect, setField])
 
   return (
-    <Wrapper
-      {...props}
-      $size={config.size}
-      onClick={(e) => {
-        e.stopPropagation()
-      }}
-    >
+    <Wrapper {...props} $size={config.size} onClick={handleClick}>
       <Input
-        id={"checkbox-" + id}
+        id={id}
         type={"checkbox"}
         value={config.value}
         checked={config.checked}
         disabled={config.disabled}
-        {...fieldRegistrar}
         onChange={handleChange}
-        ref={(e) => {
-          inputRef.current = e
-          fieldRegistrar.ref(e)
-        }}
+        ref={inputRef}
       />
-      <Label htmlFor={"checkbox-" + id}>
+      <Label htmlFor={id}>
         <InputBox>
-          <HitArea htmlFor={"checkbox-" + id} />
+          <HitArea htmlFor={id} />
           <CheckIcon />
           <IndeterminateIcon />
         </InputBox>

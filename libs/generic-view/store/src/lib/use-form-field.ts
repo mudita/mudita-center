@@ -25,16 +25,17 @@ export const useFormField = ({ formName }: UseViewForm) => {
     return selectViewForm(state, { formName, viewKey })
   })
 
-  const getValue = useCallback(
+  const getField = useCallback(
     (field: string) => {
       return field && form?.fields ? get(form.fields, field) : undefined
     },
     [form?.fields]
   )
 
-  const setValue = useCallback(
+  const setField = useCallback(
     (field: string, value: unknown) => {
-      if (!activeDeviceId || !field || !formName) return
+      if (!activeDeviceId || !field || !formName || !form) return
+      if (getField(field) === value) return
       dispatch(
         setFormField({
           field,
@@ -45,11 +46,29 @@ export const useFormField = ({ formName }: UseViewForm) => {
         })
       )
     },
-    [activeDeviceId, dispatch, formName, viewKey]
+    [activeDeviceId, dispatch, form, formName, getField, viewKey]
+  )
+
+  const resetField = useCallback(
+    (field: string) => {
+      if (!activeDeviceId || !field || !formName || !form) return
+      const value = get(form.defaultValues, field)
+      dispatch(
+        setFormField({
+          field,
+          value,
+          deviceId: activeDeviceId,
+          feature: viewKey,
+          formName,
+        })
+      )
+    },
+    [activeDeviceId, dispatch, form, formName, viewKey]
   )
 
   return {
-    getValue,
-    setValue,
+    getField,
+    setField,
+    resetField,
   }
 }

@@ -36,6 +36,7 @@ export const useFormRegister = ({ formName, options }: UseViewForm) => {
         formName,
         form: {
           fields: defaultValues,
+          defaultValues,
         },
       })
     )
