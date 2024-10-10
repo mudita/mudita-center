@@ -61,6 +61,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
     toRelativePath(TestFilesPaths.newsPageOnlineTest),
     toRelativePath(TestFilesPaths.newsPageOfflineTest),
+    toRelativePath(TestFilesPaths.newsMoreNews),
     toRelativePath(TestFilesPaths.termsOfServiceTest),
     toRelativePath(TestFilesPaths.backupLocationTest),
     toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
@@ -84,6 +85,7 @@ export const config: Options.Testrunner = {
       //toRelativePath(TestFilesPaths.helpSectionCheckTest),
       //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
+      toRelativePath(TestFilesPaths.newsMoreNews),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.backupLocationTest),
       toRelativePath(TestFilesPaths.privacyPolicyTest),
@@ -123,6 +125,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
+      toRelativePath(TestFilesPaths.newsMoreNews),
     ],
     cicdMock: [
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
