@@ -12,5 +12,6 @@ export enum FlashingProcessState {
   TerminalOpened = "terminal-opened",
   Restarting = "restarting-device",
   Completed = "completed",
+  Canceled = "canceled",
   Failed = "failed",
 }
