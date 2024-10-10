@@ -79,14 +79,14 @@ class MacDeviceFlashService implements IDeviceFlash {
       chmod +x "${scriptPath}"
     `)
     await execPromise(
-      `osascript -e 'tell application "Terminal" to do script "\\"${scriptPath}\\" -t \\"${this.flashStatusTempFilePath}\\" -i \\"${imagePath}\\" -d \\"${device}\\""'`
+      `osascript -e 'tell application "Terminal" to do script "\\"${scriptPath}\\" -i \\"${imagePath}\\" -d \\"${device}\\" -s \\"${this.flashStatusTempFilePath}\\""'`
     )
   }
 
   async waitForFlashCompletion(
     option: waitForFlashCompletionOption = {}
   ): Promise<boolean> {
-    const { intervalAttemptsLeft = 20, intervalTime = 1000, signal } = option
+    const { intervalAttemptsLeft = 60, intervalTime = 5000, signal } = option
 
     if (intervalAttemptsLeft <= 0 || signal?.aborted) {
       throw new Error()
