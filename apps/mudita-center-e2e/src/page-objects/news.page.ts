@@ -14,6 +14,10 @@ class NewsPage extends Page {
     return $("p*=More news")
   }
 
+  public get moreNewsButtonHref() {
+    return $('a[href="https://www.mudita.com/#news"]')
+  }
+
   public get newsCardElements() {
     return $$('[data-testid="news-card"]')
   }
