@@ -4,6 +4,7 @@
  */
 
 import type { Options } from "@wdio/types"
+import path from "path"
 import * as dotenv from "dotenv"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
 
@@ -55,7 +56,7 @@ export const config: Options.Testrunner = {
   //
   specs: [
     toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
-    toRelativePath(TestFilesPaths.helpWindowCheckTest),
+    toRelativePath(TestFilesPaths.helpSectionCheckTest),
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
     toRelativePath(TestFilesPaths.newsPageOnlineTest),
@@ -75,16 +76,19 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktAbout),
     toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
     toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+    toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
+    toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
   ],
   suites: {
     standalone: [
-      //toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      //toRelativePath(TestFilesPaths.helpSectionCheckTest),
       //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.backupLocationTest),
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
     ],
     mock: [
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
@@ -100,6 +104,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktAbout),
       toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+      toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -113,12 +118,14 @@ export const config: Options.Testrunner = {
     kompakt: [],
     deviceUpdate: [],
     cicdStandalone: [
-      //toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      //toRelativePath(TestFilesPaths.helpSectionCheckTest),
       //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
     ],
     cicdMock: [
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
@@ -132,6 +139,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktAbout),
       toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+      toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
     ],
   },
   // Patterns to exclude.
@@ -172,6 +180,17 @@ export const config: Options.Testrunner = {
       "goog:chromeOptions": {
         binary: process.env.TEST_BINARY_PATH,
         args: [],
+      },
+      "wdio:chromedriverOptions": {
+        binary: path.resolve(
+          __dirname,
+          "..",
+          "..",
+          "node_modules",
+          "chromedriver",
+          "bin",
+          "chromedriver"
+        ),
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.

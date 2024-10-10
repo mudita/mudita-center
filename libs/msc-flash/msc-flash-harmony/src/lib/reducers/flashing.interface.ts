@@ -9,6 +9,6 @@ import { MscFlashDetails } from "../dto"
 export interface FlashingState {
   abortController?: AbortController
   processState: FlashingProcessState
-  mscFlashingFilesDetails?: MscFlashDetails
+  mscFlashDetails?: MscFlashDetails
   error: string | undefined
 }

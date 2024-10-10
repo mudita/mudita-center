@@ -5,10 +5,10 @@
 
 import React, { useState } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import styled, { ThemeProps, ThemeProvider } from "styled-components"
+import styled, { ThemeProvider } from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
-import { GenericThemeProvider, Theme } from "generic-view/theme"
+import { GenericThemeProvider } from "generic-view/theme"
 import { H3 } from "../../../../../generic-view/ui/src/lib/texts/headers"
 import { P3 } from "../../../../../generic-view/ui/src/lib/texts/paragraphs"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
@@ -90,21 +90,20 @@ const RecoveryModeUI: FunctionComponent = () => {
 
   const isFlashingModalVisible = (): boolean => {
     return (
-      flashingProcessState ===
-        FlashingProcessState.GettingFlashingFilesDetails ||
-      flashingProcessState === FlashingProcessState.DownloadingFlashingFiles ||
-      flashingProcessState === FlashingProcessState.UnpackingFlashingFiles ||
+      flashingProcessState === FlashingProcessState.GettingFilesDetails ||
+      flashingProcessState === FlashingProcessState.DownloadingFiles ||
+      flashingProcessState === FlashingProcessState.UnpackingFiles ||
       flashingProcessState === FlashingProcessState.FlashingProcess
     )
   }
 
   const getProgressPercent = (): number => {
     switch (flashingProcessState) {
-      case FlashingProcessState.GettingFlashingFilesDetails:
+      case FlashingProcessState.GettingFilesDetails:
         return 12
-      case FlashingProcessState.DownloadingFlashingFiles:
+      case FlashingProcessState.DownloadingFiles:
         return 37
-      case FlashingProcessState.UnpackingFlashingFiles:
+      case FlashingProcessState.UnpackingFiles:
         return 62
       case FlashingProcessState.FlashingProcess:
         return 87
@@ -115,11 +114,11 @@ const RecoveryModeUI: FunctionComponent = () => {
 
   const getProgressMessage = (): { id: string } => {
     switch (flashingProcessState) {
-      case FlashingProcessState.GettingFlashingFilesDetails:
+      case FlashingProcessState.GettingFilesDetails:
         return messages.flashingProcessStep1
-      case FlashingProcessState.DownloadingFlashingFiles:
+      case FlashingProcessState.DownloadingFiles:
         return messages.flashingProcessStep2
-      case FlashingProcessState.UnpackingFlashingFiles:
+      case FlashingProcessState.UnpackingFiles:
         return messages.flashingProcessStep3
       case FlashingProcessState.FlashingProcess:
         return messages.flashingProcessStep4
@@ -196,10 +195,12 @@ const RecoveryModeUI: FunctionComponent = () => {
               <ButtonPrimary
                 config={{
                   text: intl.formatMessage(messages.button),
-                  action: {
-                    type: "custom",
-                    callback: onStartRecovery,
-                  },
+                  actions: [
+                    {
+                      type: "custom",
+                      callback: onStartRecovery,
+                    },
+                  ],
                   disabled: !isConfirmed,
                 }}
               />
@@ -242,7 +243,11 @@ const Wrapper = styled.div`
   gap: 2.4rem;
   align-items: center;
   padding-top: 4.7rem;
-  background: ${({ theme }: ThemeProps<Theme>) => theme.color.white};
+  background: ${({ theme }) => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return theme.color.white
+  }};
 `
 
 const Header = styled.div`
@@ -274,6 +279,7 @@ const Warning = styled.div`
 const Confirmation = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 
   label {
     display: flex;
@@ -281,6 +287,7 @@ const Confirmation = styled.div`
     align-items: center;
     font-size: 1.4rem;
     font-weight: 700;
+    max-width: 100%;
   }
 
   input + label {

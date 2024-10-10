@@ -14,6 +14,7 @@ export const fontSize = {
   paragraph2: "1.6rem",
   paragraph3: "1.4rem",
   paragraph4: "1.4rem",
+  paragraph5: "1.2rem",
   tag: "1.2rem",
   buttonLink: "1.4rem",
   buttonText: "1.2rem",

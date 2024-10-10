@@ -46,7 +46,8 @@ describe("Kompakt switching devices", () => {
       },
     ]
 
-    for (const device of devices) {
+    for (let i = 0; i < devices.length; i++) {
+      const device = devices[i]
       E2EMockClient.mockResponse({
         path: device.path,
         body: device.body,
@@ -59,7 +60,12 @@ describe("Kompakt switching devices", () => {
         serialNumber: device.serialNumber,
       })
 
-      await browser.pause(6000)
+      // Add a 4-second wait after adding the first device
+      if (i === 0) {
+        await browser.pause(10000)
+      } else {
+        await browser.pause(6000)
+      }
     }
   })
 
