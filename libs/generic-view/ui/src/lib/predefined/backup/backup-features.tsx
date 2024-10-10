@@ -5,13 +5,14 @@
 
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { BackupFeature } from "generic-view/models"
+import { BackupFeature, ButtonAction } from "generic-view/models"
+import { BackupModalTestIds } from "e2e-test-ids"
 
 const messages = defineMessages({
   title: {
@@ -57,17 +58,29 @@ export const BackupFeatures: FunctionComponent<Props> = ({
   return (
     <>
       <Modal.TitleIcon config={{ type: IconType.Backup }} />
-      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
+      <Modal.Title data-testid={BackupModalTestIds.Title}>
+        {intl.formatMessage(messages.title)}
+      </Modal.Title>
       <Article>
-        <p>{intl.formatMessage(messages.description)}</p>
+        <p data-testid={BackupModalTestIds.Description}>
+          {intl.formatMessage(messages.description)}
+        </p>
         <Modal.ScrollableContent>
           <ul>
             {features.map((feature, index) => (
-              <li key={feature.key + index}>{feature.label}</li>
+              <li
+                key={feature.key + index}
+                data-testid={BackupModalTestIds.FeatureElementActive}
+              >
+                {feature.label}
+              </li>
             ))}
             {Object.entries(comingSoonMessages).map(([key, message], index) => {
               return (
-                <ComingSoonListItem key={key + index}>
+                <ComingSoonListItem
+                  key={key + index}
+                  data-testid={BackupModalTestIds.FeatureElementInactive}
+                >
                   {intl.formatMessage(message)}
                 </ComingSoonListItem>
               )
@@ -79,14 +92,16 @@ export const BackupFeatures: FunctionComponent<Props> = ({
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.cancelButtonLabel),
-            action: closeAction,
+            actions: [closeAction],
           }}
+          data-testid={BackupModalTestIds.CancelBackupAction}
         />
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.createButtonLabel),
-            action: nextAction,
+            actions: [nextAction],
           }}
+          data-testid={BackupModalTestIds.CreateBackupAction}
         />
       </Modal.Buttons>
     </>

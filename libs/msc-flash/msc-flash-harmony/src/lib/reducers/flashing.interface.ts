@@ -8,6 +8,6 @@ import { MscFlashDetails } from "../dto"
 
 export interface FlashingState {
   processState: FlashingProcessState
-  mscFlashingFilesDetails?: MscFlashDetails
+  mscFlashDetails?: MscFlashDetails
   error: string | undefined
 }

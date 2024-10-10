@@ -26,6 +26,16 @@ export const selectComponentConfig = createSelector(
   (config) => config?.config
 )
 
+export const selectComponentDataProvider = createSelector(
+  selectComponent,
+  (config) => config?.dataProvider
+)
+
+export const selectComponentExtra = createSelector(
+  selectComponent,
+  (config) => config?.extra
+)
+
 export const selectComponentLayout = createSelector(
   selectComponent,
   (config) => config?.layout

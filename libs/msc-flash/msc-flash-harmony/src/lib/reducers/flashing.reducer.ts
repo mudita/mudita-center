@@ -10,7 +10,7 @@ import { FlashingProcessState } from "../constants"
 
 const initialState: FlashingState = {
   processState: FlashingProcessState.Idle,
-  mscFlashingFilesDetails: undefined,
+  mscFlashDetails: undefined,
   error: undefined,
 }
 
@@ -19,7 +19,7 @@ export const flashingReducer = createReducer<FlashingState>(
   (builder) => {
     builder
       .addCase(getMscFlashingFilesDetails.fulfilled, (state, action) => {
-        state.mscFlashingFilesDetails = action.payload
+        state.mscFlashDetails = action.payload
       })
       .addCase(setFlashingProcessState, (state, action) => {
         state.processState = action.payload

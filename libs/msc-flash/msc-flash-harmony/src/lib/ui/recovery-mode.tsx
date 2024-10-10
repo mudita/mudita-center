@@ -87,21 +87,20 @@ const RecoveryModeUI: FunctionComponent = () => {
 
   const isFlashingModalVisible = (): boolean => {
     return (
-      flashingProcessState ===
-        FlashingProcessState.GettingFlashingFilesDetails ||
-      flashingProcessState === FlashingProcessState.DownloadingFlashingFiles ||
-      flashingProcessState === FlashingProcessState.UnpackingFlashingFiles ||
+      flashingProcessState === FlashingProcessState.GettingFilesDetails ||
+      flashingProcessState === FlashingProcessState.DownloadingFiles ||
+      flashingProcessState === FlashingProcessState.UnpackingFiles ||
       flashingProcessState === FlashingProcessState.FlashingProcess
     )
   }
 
   const getProgressPercent = (): number => {
     switch (flashingProcessState) {
-      case FlashingProcessState.GettingFlashingFilesDetails:
+      case FlashingProcessState.GettingFilesDetails:
         return 12
-      case FlashingProcessState.DownloadingFlashingFiles:
+      case FlashingProcessState.DownloadingFiles:
         return 37
-      case FlashingProcessState.UnpackingFlashingFiles:
+      case FlashingProcessState.UnpackingFiles:
         return 62
       case FlashingProcessState.FlashingProcess:
         return 87
@@ -112,11 +111,11 @@ const RecoveryModeUI: FunctionComponent = () => {
 
   const getProgressMessage = (): { id: string } => {
     switch (flashingProcessState) {
-      case FlashingProcessState.GettingFlashingFilesDetails:
+      case FlashingProcessState.GettingFilesDetails:
         return messages.flashingProcessStep1
-      case FlashingProcessState.DownloadingFlashingFiles:
+      case FlashingProcessState.DownloadingFiles:
         return messages.flashingProcessStep2
-      case FlashingProcessState.UnpackingFlashingFiles:
+      case FlashingProcessState.UnpackingFiles:
         return messages.flashingProcessStep3
       case FlashingProcessState.FlashingProcess:
         return messages.flashingProcessStep4
@@ -216,7 +215,11 @@ const Wrapper = styled.div`
   gap: 2.4rem;
   align-items: center;
   padding-top: 4.7rem;
-  background: ${({ theme }: ThemeProps<Theme>) => theme.color.white};
+  background: ${({ theme }) => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return theme.color.white
+  }};
 `
 
 const Header = styled.div`
@@ -248,6 +251,7 @@ const Warning = styled.div`
 const Confirmation = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 
   label {
     display: flex;
@@ -255,6 +259,7 @@ const Confirmation = styled.div`
     align-items: center;
     font-size: 1.4rem;
     font-weight: 700;
+    max-width: 100%;
   }
 
   input + label {

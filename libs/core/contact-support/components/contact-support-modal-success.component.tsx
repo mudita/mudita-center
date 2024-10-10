@@ -5,11 +5,12 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
+import { ContactSupportModalTestIds } from "e2e-test-ids"
 import { Modal } from "generic-view/ui"
+import { IconType } from "generic-view/utils"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ButtonSecondary } from "../../../generic-view/ui/src/lib/buttons/button-secondary"
-import { IconType } from "generic-view/utils"
 
 const messages = defineMessages({
   title: { id: "component.supportModalSuccessTitle" },
@@ -26,16 +27,23 @@ export const ContactSupportModalSuccess: FunctionComponent<Props> = ({
 }) => (
   <>
     <Modal.TitleIcon config={{ type: IconType.Success }} />
-    <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
-    <p>{intl.formatMessage(messages.body)}</p>
+    <Modal.Title data-testid={ContactSupportModalTestIds.Title}>
+      {intl.formatMessage(messages.title)}
+    </Modal.Title>
+    <p data-testid={ContactSupportModalTestIds.Description}>
+      {intl.formatMessage(messages.body)}
+    </p>
     <Modal.Buttons config={{ vertical: true }}>
       <ButtonSecondary
+        data-testid={ContactSupportModalTestIds.CloseButton}
         config={{
           text: intl.formatMessage(messages.closeButtonLabel),
-          action: {
-            type: "custom",
-            callback: closeContactSupportFlow,
-          },
+          actions: [
+            {
+              type: "custom",
+              callback: closeContactSupportFlow,
+            },
+          ],
         }}
       />
     </Modal.Buttons>

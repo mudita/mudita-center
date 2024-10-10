@@ -6,4 +6,4 @@
 export * from "./platform.constant"
 export * from "./product.constant"
 export * from "./os-environment.constant"
-export * from "./flashing-process-state.enum"
+export * from "./flashing-process-state.constant"
