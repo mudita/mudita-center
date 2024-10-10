@@ -14,11 +14,11 @@ import {
 
 export const dataProviderSort = (
   data: Record<string, unknown>[] = [],
-  sortConfigs?: DataProviderSortConfig
+  configs?: DataProviderSortConfig
 ) => {
-  if (!sortConfigs || !data) return data
+  if (!configs || !data) return data
 
-  const sortedConfigs = sortByPriority(sortConfigs)
+  const sortedConfigs = sortByPriority(configs)
 
   return data.sort((a, b) => {
     for (const {
