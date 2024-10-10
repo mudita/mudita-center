@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent, useEffect, useState } from "react"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { modalTransitionDuration } from "generic-view/theme"
@@ -12,6 +12,7 @@ import { ButtonSecondary } from "../../../buttons/button-secondary"
 import { ButtonPrimary } from "../../../buttons/button-primary"
 import { Modal } from "../../../interactive/modal"
 import styled, { keyframes } from "styled-components"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -84,13 +85,13 @@ export const CancelConfirmModal: FunctionComponent<Props> = ({
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.backButtonLabel),
-            action: backButtonAction,
+            actions: [backButtonAction],
           }}
         />
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.cancelButtonLabel),
-            action: cancelButtonAction,
+            actions: [cancelButtonAction],
           }}
         />
       </Modal.Buttons>
