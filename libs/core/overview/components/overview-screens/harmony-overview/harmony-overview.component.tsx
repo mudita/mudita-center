@@ -65,9 +65,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   const downloadReleases = (devReleases?: OsRelease[]) => {
     const releasesToDownload = devReleases ?? availableReleasesForUpdate
 
-    console.log("Releasy: ", devReleases)
-    console.log("Releasy 2: ", availableReleasesForUpdate)
-
     releasesToDownload &&
       releasesToDownload.length > 0 &&
       downloadUpdates(releasesToDownload)
