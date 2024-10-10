@@ -5,10 +5,10 @@
 
 import React, { useState } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import styled, { ThemeProps, ThemeProvider } from "styled-components"
+import styled, { ThemeProvider } from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
-import { GenericThemeProvider, Theme } from "generic-view/theme"
+import { GenericThemeProvider } from "generic-view/theme"
 import { H3 } from "../../../../../generic-view/ui/src/lib/texts/headers"
 import { P3 } from "../../../../../generic-view/ui/src/lib/texts/paragraphs"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
