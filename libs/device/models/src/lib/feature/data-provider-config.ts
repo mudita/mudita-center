@@ -84,16 +84,16 @@ const sortSchema = z
     z
       .object({
         providerField: z.string().optional(),
-        providerGroup: z.array(z.string()).optional(),
+        providerFieldGroup: z.array(z.string()).optional(),
         priority: z.number().nonnegative(),
         direction: sortDirectionSchema,
         orderingPatterns: sortOrderingPatternsSchema.optional(),
         sensitivity: sortSensitivitySchema.optional(),
         emptyOrder: emptyOrderSchema.optional(),
       })
-      .refine((data) => data.providerField || data.providerGroup, {
-        message: "Either providerField or providerGroup must be provided",
-        path: ["providerField", "providerGroup"],
+      .refine((data) => data.providerField || data.providerFieldGroup, {
+        message: "Either providerField or providerFieldGroup must be provided",
+        path: ["providerField", "providerFieldGroup"],
       })
   )
   .optional()
