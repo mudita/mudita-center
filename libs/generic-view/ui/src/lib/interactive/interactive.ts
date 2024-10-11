@@ -8,8 +8,12 @@ import { TextModal } from "./modal/text-modal"
 import { ProgressBar } from "./progress-bar/progress-bar"
 import Form from "./form/form"
 import Tooltip from "./tooltip/tooltip"
+import { Toast } from "./toast/toast"
+import { ConditionalRenderer } from "./conditional-renderer"
 import {
+  conditionalRenderer,
   form,
+  formatMessage,
   formCheckboxInput,
   formConditionalRenderer,
   formRadioInput,
@@ -25,10 +29,12 @@ import {
   modalVisibilityController,
   progressBar,
   textModal,
+  toast,
   tooltip,
   tooltipAnchor,
   tooltipContent,
 } from "generic-view/models"
+import { FormatMessage } from "./format-message"
 
 export const interactive = {
   [modal.key]: Modal,
@@ -50,4 +56,7 @@ export const interactive = {
   [tooltip.key]: Tooltip,
   [tooltipAnchor.key]: Tooltip.Anchor,
   [tooltipContent.key]: Tooltip.Content,
+  [formatMessage.key]: FormatMessage,
+  [toast.key]: Toast,
+  [conditionalRenderer.key]: ConditionalRenderer,
 }

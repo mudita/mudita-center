@@ -4,7 +4,13 @@
  */
 
 import { Header3, Header4, Header5 } from "./headers"
-import { Paragraph1, Paragraph2, Paragraph3 } from "./paragraphs"
+import {
+  Paragraph1,
+  Paragraph2,
+  Paragraph3,
+  Paragraph4,
+  Paragraph5,
+} from "./paragraphs"
 import {
   h3Component,
   h4Component,
@@ -12,6 +18,8 @@ import {
   p1Component,
   p2Component,
   p3Component,
+  p4Component,
+  p5Component,
 } from "generic-view/models"
 
 export const texts = {
@@ -21,4 +29,6 @@ export const texts = {
   [p1Component.key]: Paragraph1,
   [p2Component.key]: Paragraph2,
   [p3Component.key]: Paragraph3,
+  [p4Component.key]: Paragraph4,
+  [p5Component.key]: Paragraph5,
 }

@@ -10,13 +10,13 @@ export enum ActionName {
   GetOutboxData = "api-actions/get-outbox-data",
 
   SetMenu = "generic-views/set-menu",
-  SetViewLayout = "generic-views/set-view-layout",
-  SetViewData = "generic-views/set-view-data",
   SetLastRefresh = "generic-views/set-last-refresh",
   AddDevice = "generic-views/add-device",
   RemoveDevice = "generic-views/remove-device",
   SetDeviceState = "generic-views/set-device-state",
   SetGenericConfig = "generic-views/set-generic-config",
+  RegisterForm = "generic-views/register-form",
+  SetFormField = "generic-views/set-form-field",
 
   OpenModal = "generic-modals/open-modal",
   CloseModal = "generic-modals/close-modal",
@@ -24,6 +24,10 @@ export enum ActionName {
   ReplaceModal = "generic-modals/replace-modal",
   CloseDomainModals = "generic-modals/close-domain-modals",
   SetDeviceErrorModalOpened = "generic-modals/set-device-error-modal-opened",
+
+  AddToast = "generic-toasts/add-toast",
+  OpenToast = "generic-toasts/open-toast",
+  RemoveToast = "generic-toasts/remove-toast",
 
   SetBackupProcess = "generic-backups/set-backup-process",
   CleanBackupProcess = "generic-backups/clean-backup-process",
@@ -84,6 +88,9 @@ export enum ActionName {
 
   HelpSetData = "help/set-data",
   HelpRateArticle = "help/rate-article",
+
+  MscFlashingGetFilesDetails = "msc-flashing/get-files-details",
+  MscFlashingSetProcessState = "msc-flashing/set-process-state",
 
   GetEntitiesConfig = "entities/get-entities-config",
   SetEntitiesConfig = "entities/set-entities-config",

@@ -16,6 +16,7 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { EntityData, EntityId } from "device/models"
+import { contactsSeedData } from "./seed-data/contacts-seed-data"
 
 export const useDevConsole = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -26,6 +27,9 @@ export const useDevConsole = () => {
     if (process.env.NODE_ENV === "development" && activeDeviceId) {
       if (typeof global !== "undefined") {
         Object.assign(global, {
+          _seedDataMap: {
+            contacts: contactsSeedData,
+          },
           _getEntitiesData: (
             entitiesType: string,
             responseType: "json" | "file" = "json",
@@ -89,6 +93,17 @@ export const useDevConsole = () => {
             return dispatch(
               updateEntityDataAction({ entitiesType, entityId, data, deviceId })
             )
+          },
+          _createMultipleEntities: async (
+            entitiesType: string,
+            entities: EntityData[],
+            deviceId = activeDeviceId
+          ) => {
+            for (const data of entities) {
+              await dispatch(
+                createEntityDataAction({ entitiesType, data, deviceId })
+              )
+            }
           },
         })
       }

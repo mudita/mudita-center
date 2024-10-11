@@ -9,6 +9,7 @@ const dataValidator = z.undefined()
 
 const configValidator = z.object({
   entitiesTypes: z.array(z.string()),
+  text: z.string().optional(),
 })
 
 export type EntitiesLoaderConfig = z.infer<typeof configValidator>

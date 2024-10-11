@@ -4,13 +4,14 @@
  */
 
 import React, { FunctionComponent } from "react"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { useFormContext } from "react-hook-form"
 import { SELECTED_CONTACTS_FIELD } from "./import-contacts-list"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -45,7 +46,7 @@ export const ImportContactsSuccess: FunctionComponent<Props> = ({
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
-            action: closeAction,
+            actions: [closeAction],
           }}
         />
       </Modal.Buttons>

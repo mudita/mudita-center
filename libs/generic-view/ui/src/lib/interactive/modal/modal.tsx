@@ -47,7 +47,7 @@ export const Modal: BaseGenericComponent<
       modalLayer={config.modalLayer}
     >
       {config.closeButtonAction && (
-        <ModalCloseButton config={{ action: config.closeButtonAction }} />
+        <ModalCloseButton config={{ actions: [config.closeButtonAction] }} />
       )}
       <ModalContent
         className={"modal-content"}

@@ -5,13 +5,13 @@
 
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { BackupFeature } from "generic-view/models"
+import { BackupFeature, ButtonAction } from "generic-view/models"
 import { BackupModalTestIds } from "e2e-test-ids"
 
 const messages = defineMessages({
@@ -92,14 +92,14 @@ export const BackupFeatures: FunctionComponent<Props> = ({
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.cancelButtonLabel),
-            action: closeAction,
+            actions: [closeAction],
           }}
           data-testid={BackupModalTestIds.CancelBackupAction}
         />
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.createButtonLabel),
-            action: nextAction,
+            actions: [nextAction],
           }}
           data-testid={BackupModalTestIds.CreateBackupAction}
         />

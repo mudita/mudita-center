@@ -3,23 +3,27 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { dataProviderSchema } from "./data-provider-config"
+import { DataProviderConfig, dataProviderSchema } from "./data-provider-config"
 
 describe("dataProviderSchema", () => {
   it("validates entities-array with sort and filters", () => {
-    const validData = {
+    const validData: DataProviderConfig = {
       source: "entities-array",
       entitiesType: "someType",
-      sort: {
-        someField: {
-          priority: 1,
+      sort: [
+        {
+          providerField: "someField",
           direction: "asc",
+          priority: 1,
           orderingPatterns: ["/pattern/"],
         },
-      },
-      filters: {
-        someField: ["/pattern/"],
-      },
+      ],
+      filters: [
+        {
+          providerField: "someField",
+          patterns: ["/pattern/"],
+        },
+      ],
     }
     expect(dataProviderSchema.safeParse(validData).success).toBe(true)
   })
@@ -48,23 +52,125 @@ describe("dataProviderSchema", () => {
   })
 
   it("validates entities-field", () => {
-    const validData = {
+    const validData: DataProviderConfig = {
       source: "entities-field",
       entitiesType: "someType",
-      fields: {
-        dataItemId: "value1",
-        "data.someField": "value2",
-      },
+      fields: [
+        {
+          providerField: "value1",
+          componentField: "dataItemId",
+        },
+        {
+          providerField: "value2",
+          componentField: "data.someField",
+        },
+      ],
     }
     expect(dataProviderSchema.safeParse(validData).success).toBe(true)
   })
 
   it("fails validation for form-fields with invalid field key", () => {
+    const invalidData: DataProviderConfig = {
+      source: "form-fields",
+      fields: [
+        {
+          providerField: "invalidField",
+          componentField: "invalidField",
+          value: "value",
+        },
+      ],
+    }
+    expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
+  })
+
+  it("validates form-fields", () => {
+    const validData: DataProviderConfig = {
+      source: "form-fields",
+      fields: [
+        {
+          providerField: "value1",
+          componentField: "dataItemId",
+        },
+        {
+          providerField: "value2",
+          componentField: "config.someField",
+        },
+        {
+          providerField: "value3",
+          componentField: "config.otherField",
+        },
+      ],
+    }
+    expect(dataProviderSchema.safeParse(validData).success).toBe(true)
+  })
+
+  it("validates form-fields with extended config", () => {
+    const validData: DataProviderConfig = {
+      source: "form-fields",
+      fields: [
+        {
+          providerField: "value1",
+          componentField: "dataItemId",
+        },
+        {
+          providerField: "value2",
+          componentField: "config.someField",
+        },
+        {
+          providerField: "value3",
+          componentField: "config.otherField",
+          modifier: "boolean",
+          condition: "eq",
+          value: true,
+        },
+      ],
+    }
+    expect(dataProviderSchema.safeParse(validData).success).toBe(true)
+  })
+
+  it("fails validation for form-fields with invalid modifier", () => {
     const invalidData = {
       source: "form-fields",
-      fields: {
-        invalidField: "value",
-      },
+      fields: [
+        {
+          providerField: "value",
+          componentField: "config.someField",
+          modifier: "invalid",
+          condition: "eq",
+          value: "value",
+        },
+      ],
+    }
+    expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
+  })
+
+  it("fails validation for form-fields with invalid condition", () => {
+    const invalidData = {
+      source: "form-fields",
+      fields: [
+        {
+          field: "value",
+          componentField: "config.someField",
+          modifier: "length",
+          condition: "invalid",
+          value: "value",
+        },
+      ],
+    }
+    expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
+  })
+
+  it("fails validation for form-fields with missing value", () => {
+    const invalidData: DataProviderConfig = {
+      source: "form-fields",
+      fields: [
+        {
+          providerField: "value",
+          componentField: "config.someField",
+          modifier: "length",
+          condition: "eq",
+        },
+      ],
     }
     expect(dataProviderSchema.safeParse(invalidData).success).toBe(false)
   })
