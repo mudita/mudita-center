@@ -19,32 +19,53 @@ import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
 import MacDeviceFlashService from "./device-flash/macos/macos-device-flash-service"
 import { removeDownloadedMscFiles } from "./remove-downloaded-msc-files.service"
 import { setMscFlashingAbort } from "../actions/actions"
-import { selectFlashingProcessState } from "../selectors"
+import { selectIsFlashingInActivePhases } from "../selectors"
 
 export const flashMscDeviceService =
   () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
     try {
-      await getFlashingImageDetails(dispatch)
+      const abortController = new AbortController()
+      dispatch(setMscFlashingAbort(abortController))
+
+      await getFlashingImageDetails(dispatch, abortController.signal)
 
       const mscFlashingFiles = getState().flashing.mscFlashDetails
 
       if (mscFlashingFiles) {
-        await downloadFlashingFiles(dispatch, mscFlashingFiles)
-        await unpackFlashingImage(dispatch, mscFlashingFiles)
-        await startFlashingProcess(dispatch, mscFlashingFiles)
+        await downloadFlashingFiles(
+          dispatch,
+          mscFlashingFiles,
+          abortController.signal
+        )
+        await unpackFlashingImage(
+          dispatch,
+          mscFlashingFiles,
+          abortController.signal
+        )
+        await startFlashingProcess(
+          dispatch,
+          mscFlashingFiles,
+          abortController.signal
+        )
       }
     } catch (error) {
       await removeDownloadedMscFiles()
 
-      const processState = selectFlashingProcessState(getState())
-      if (processState !== FlashingProcessState.Canceled) {
+      const flashingInActivePhases = selectIsFlashingInActivePhases(getState())
+      if (flashingInActivePhases) {
         console.error("Error during flashing process:", error)
         dispatch(setFlashingProcessState(FlashingProcessState.Failed))
       }
     }
   }
 
-const getFlashingImageDetails = async (dispatch: Dispatch) => {
+const getFlashingImageDetails = async (
+  dispatch: Dispatch,
+  signal: AbortSignal
+) => {
+  if (signal.aborted) {
+    return
+  }
   dispatch(setFlashingProcessState(FlashingProcessState.GettingFilesDetails))
 
   let platform: SupportedPlatform
@@ -61,6 +82,7 @@ const getFlashingImageDetails = async (dispatch: Dispatch) => {
 
   await dispatch(
     getMscFlashingFilesDetails({
+      signal,
       product: Product.MscHarmony,
       environment: RELEASE_SPACE,
       platform: platform,
@@ -70,15 +92,22 @@ const getFlashingImageDetails = async (dispatch: Dispatch) => {
 
 const downloadFlashingFiles = async (
   dispatch: Dispatch,
-  mscFlashingFiles: MscFlashDetails
+  mscFlashingFiles: MscFlashDetails,
+  signal: AbortSignal
 ) => {
+  if (signal.aborted) {
+    return
+  }
   dispatch(setFlashingProcessState(FlashingProcessState.DownloadingFiles))
 
   for (const file of [mscFlashingFiles.image, ...mscFlashingFiles.scripts]) {
-    const downloadResult = await downloadFlashingFileRequest({
-      url: file.url,
-      fileName: file.name,
-    })
+    const downloadResult = await downloadFlashingFileRequest(
+      {
+        url: file.url,
+        fileName: file.name,
+      },
+      signal
+    )
     if (!downloadResult.ok) {
       throw new Error(`Failed to download file: ${file.name}`)
     }
@@ -87,8 +116,12 @@ const downloadFlashingFiles = async (
 
 const unpackFlashingImage = async (
   dispatch: Dispatch,
-  mscFlashingFiles: MscFlashDetails | undefined
+  mscFlashingFiles: MscFlashDetails | undefined,
+  signal: AbortSignal
 ) => {
+  if (signal.aborted) {
+    return
+  }
   dispatch(setFlashingProcessState(FlashingProcessState.UnpackingFiles))
 
   const flashingImageName = mscFlashingFiles ? mscFlashingFiles.image.name : ""
@@ -98,9 +131,14 @@ const unpackFlashingImage = async (
 
 const startFlashingProcess = async (
   dispatch: Dispatch,
-  flashingFiles: MscFlashDetails | undefined
+  flashingFiles: MscFlashDetails | undefined,
+  signal: AbortSignal
 ) => {
   try {
+    if (signal.aborted) {
+      return
+    }
+
     dispatch(setFlashingProcessState(FlashingProcessState.FlashingProcess))
     const { osDownloadLocation } = await getAppSettingsMain()
 
@@ -121,13 +159,7 @@ const startFlashingProcess = async (
     if (deviceFlash instanceof MacDeviceFlashService) {
       dispatch(setFlashingProcessState(FlashingProcessState.TerminalOpened))
 
-      const abortController = new AbortController()
-
-      dispatch(setMscFlashingAbort(abortController))
-
-      await deviceFlash.waitForFlashCompletion({
-        signal: abortController.signal,
-      })
+      await deviceFlash.waitForFlashCompletion({ signal })
     }
 
     dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
