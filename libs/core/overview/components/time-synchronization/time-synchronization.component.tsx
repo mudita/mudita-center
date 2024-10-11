@@ -72,6 +72,10 @@ const TimeSynchronization: FunctionComponent<Props> = ({
   const syncTimeoutRef = useRef<NodeJS.Timeout>()
   const getIntervalRef = useRef<NodeJS.Timeout>()
 
+  const hourCycle = new Intl.DateTimeFormat(undefined, {
+    timeStyle: "long",
+  }).resolvedOptions().hourCycle
+
   const deviceTime = Intl.DateTimeFormat(undefined, {
     hour: "2-digit",
     minute: "2-digit",
@@ -113,17 +117,19 @@ const TimeSynchronization: FunctionComponent<Props> = ({
   }, [dispatch, status])
 
   useEffect(() => {
-    dispatch(getTime())
     clearInterval(getIntervalRef.current)
-
     getIntervalRef.current = setInterval(() => {
-      dispatch(getTime())
-    }, 15000)
+      const actualMinute = new Date().getMinutes()
+      const deviceMinute = time ? new Date(time).getMinutes() : undefined
+      if (actualMinute !== deviceMinute) {
+        dispatch(getTime())
+      }
+    }, 1000)
 
     return () => {
       clearInterval(getIntervalRef.current)
     }
-  }, [dispatch])
+  }, [dispatch, time])
 
   return (
     <>
@@ -141,7 +147,12 @@ const TimeSynchronization: FunctionComponent<Props> = ({
               message={messages.timeSynchronizationCurrentTimeLabel}
               color={"secondary"}
             />
-            <Time displayStyle={TextDisplayStyle.Paragraph1}>{deviceTime}</Time>
+            <Time
+              displayStyle={TextDisplayStyle.Paragraph1}
+              $cycle12={hourCycle === "h11" || hourCycle === "h12"}
+            >
+              {deviceTime}
+            </Time>
             <Text displayStyle={TextDisplayStyle.Paragraph1}>{deviceDate}</Text>
           </Content>
           <CardAction>
@@ -192,14 +203,15 @@ const ContentLabel = styled(Text)`
   width: 100%;
 `
 
-const Time = styled(Text)`
-  width: 6rem;
+const Time = styled(Text)<{ $cycle12?: boolean }>`
+  width: ${({ $cycle12 }) => ($cycle12 ? "6.5rem" : "4.2rem")};
 `
 
 const Content = styled(CardContent)`
   flex-direction: row;
   flex-wrap: wrap;
   row-gap: 0.4rem;
+  column-gap: 2rem;
 `
 
 const ModalHeading = styled(Text)`
