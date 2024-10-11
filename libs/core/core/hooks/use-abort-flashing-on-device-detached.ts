@@ -4,24 +4,32 @@
  */
 
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { answerMain } from "shared/utils"
 import {
   DeviceBaseProperties,
   DeviceProtocolMainEvent,
 } from "device-protocol/models"
-import { abortMscFlashing } from "msc-flash-harmony"
+import {
+  abortMscFlashing,
+  FlashingProcessState,
+  selectIsFlashingInActivePhases,
+} from "msc-flash-harmony"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 export const useAbortFlashingOnDeviceDetached = () => {
   const dispatch = useDispatch<Dispatch>()
+  const flashingInActivePhases = useSelector(selectIsFlashingInActivePhases)
 
   useEffect(() => {
     return answerMain<DeviceBaseProperties>(
       DeviceProtocolMainEvent.DeviceDetached,
       () => {
-        dispatch(abortMscFlashing())
+        const reason = flashingInActivePhases
+          ? FlashingProcessState.Failed
+          : undefined
+        dispatch(abortMscFlashing({ reason }))
       }
     )
-  }, [dispatch])
+  }, [dispatch, flashingInActivePhases])
 }
