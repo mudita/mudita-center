@@ -17,7 +17,6 @@ import React, { useEffect, useMemo, useRef } from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
-import { TimeSynchronizationIds } from "Core/overview/components/time-synchronization/time-synchronization-ids.enum"
 import { useDispatch, useSelector } from "react-redux"
 import { selectTimeSynchronizationStatus } from "Core/time-synchronization/selectors/time-synchronization-status.selector"
 import { resetTimeSynchronizationStatus } from "Core/time-synchronization/actions/reset-time-synchronization-status"
@@ -28,6 +27,7 @@ import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.compone
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import styled from "styled-components"
+import { TimeSynchronizationTestIds } from "e2e-test-ids"
 
 const messages = defineMessages({
   timeSynchronizationTitle: {
@@ -114,10 +114,10 @@ const TimeSynchronization: FunctionComponent<Props> = ({
               }
               labelMessage={buttonMessage}
               onClick={onSynchronize}
-              data-testid={TimeSynchronizationIds.SynchronizeButton}
               disabled={status === "loading"}
               loading={status === "loading"}
               Icon={status === "success" ? IconType.ButtonSuccess : undefined}
+              data-testid={TimeSynchronizationTestIds.SynchronizeButton}
             />
           </CardAction>
         </CardBody>

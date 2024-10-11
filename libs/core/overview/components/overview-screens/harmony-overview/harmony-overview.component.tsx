@@ -91,10 +91,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
       forceUpdate(releasesToInstall)
   }
 
-  const synchronizeHarmonyTime = () => {
-    synchronizeTime()
-  }
-
   return (
     <>
       {!genericDeviceErrorModalOpened && (
@@ -149,7 +145,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         onUpdateDownload={openCheckForUpdateModal}
         serialNumber={serialNumber}
         caseColour={caseColour}
-        synchronizeTime={synchronizeHarmonyTime}
+        synchronizeTime={synchronizeTime}
       />
     </>
   )
