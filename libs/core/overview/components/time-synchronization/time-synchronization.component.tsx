@@ -150,10 +150,16 @@ const TimeSynchronization: FunctionComponent<Props> = ({
             <Time
               displayStyle={TextDisplayStyle.Paragraph1}
               $cycle12={hourCycle === "h11" || hourCycle === "h12"}
+              data-testid={TimeSynchronizationTestIds.Time}
             >
               {deviceTime}
             </Time>
-            <Text displayStyle={TextDisplayStyle.Paragraph1}>{deviceDate}</Text>
+            <Text
+              displayStyle={TextDisplayStyle.Paragraph1}
+              data-testid={TimeSynchronizationTestIds.Date}
+            >
+              {deviceDate}
+            </Text>
           </Content>
           <CardAction>
             <ButtonComponent
