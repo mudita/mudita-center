@@ -54,3 +54,7 @@ export enum NewContactSupportModalTestIds {
   AttachedFilesLabel = "attached-files-label",
   AttachedFilesSubtext = "attached-files-subtext",
 }
+
+export enum TimeSynchronizationTestIds {
+  SynchronizeButton = "time-synchronization-synchronize-button",
+}
