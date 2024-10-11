@@ -14,4 +14,9 @@ export class TimeSynchronizationController {
   async synchronizeTime() {
     return this.timeSynchronizationService.synchronizeTime()
   }
+
+  @IpcEvent(IpcSynchronizeTimeEvent.GetTime)
+  async getTime() {
+    return this.timeSynchronizationService.getTime()
+  }
 }

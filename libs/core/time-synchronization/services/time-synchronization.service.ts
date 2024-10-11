@@ -38,4 +38,29 @@ export class TimeSynchronizationService {
 
     return Result.success(true)
   }
+
+  public async getTime() {
+    const response = await this.deviceProtocol.device.request<{
+      timestamp: number
+    }>({
+      endpoint: Endpoint.TimeSynchronization,
+      method: Method.Get,
+      body: {
+        value: "timestamp",
+      },
+      options: {
+        connectionTimeOut: 5000,
+      },
+    })
+
+    if (!response.ok || !response.data?.timestamp) {
+      return Result.failed(
+        new AppError(
+          TimeSynchronizationError.SynchronizationFailed,
+          "Getting time failed"
+        )
+      )
+    }
+    return Result.success(response.data.timestamp * 1000)
+  }
 }

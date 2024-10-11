@@ -28,6 +28,8 @@ import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.compone
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import styled from "styled-components"
+import { getTime } from "Core/time-synchronization/actions/get-time.action"
+import { selectSynchronizedTime } from "Core/time-synchronization/selectors/synchronized-time.selector"
 
 const messages = defineMessages({
   timeSynchronizationTitle: {
@@ -51,6 +53,9 @@ const messages = defineMessages({
   timeSynchronizationFailedDescription: {
     id: "module.overview.timeSynchronizationFailedDescription",
   },
+  timeSynchronizationCurrentTimeLabel: {
+    id: "module.overview.timeSynchronizationCurrentTimeLabel",
+  },
 })
 
 interface Props {
@@ -61,9 +66,24 @@ const TimeSynchronization: FunctionComponent<Props> = ({
   onSynchronize,
   ...props
 }) => {
-  const status = useSelector(selectTimeSynchronizationStatus)
   const dispatch = useDispatch<Dispatch>()
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const status = useSelector(selectTimeSynchronizationStatus)
+  const time = useSelector(selectSynchronizedTime)
+  const syncTimeoutRef = useRef<NodeJS.Timeout>()
+  const getIntervalRef = useRef<NodeJS.Timeout>()
+
+  const deviceTime = Intl.DateTimeFormat(undefined, {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  }).format(time)
+
+  const deviceDate = Intl.DateTimeFormat(undefined, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(time)
 
   const onModalClose = () => {
     dispatch(resetTimeSynchronizationStatus())
@@ -81,16 +101,29 @@ const TimeSynchronization: FunctionComponent<Props> = ({
   }, [status])
 
   useEffect(() => {
-    clearTimeout(timeoutRef.current)
+    clearTimeout(syncTimeoutRef.current)
     if (status === "success") {
-      timeoutRef.current = setTimeout(() => {
+      syncTimeoutRef.current = setTimeout(() => {
         dispatch(resetTimeSynchronizationStatus())
       }, 3000)
     }
     return () => {
-      clearTimeout(timeoutRef.current)
+      clearTimeout(syncTimeoutRef.current)
     }
   }, [dispatch, status])
+
+  useEffect(() => {
+    dispatch(getTime())
+    clearInterval(getIntervalRef.current)
+
+    getIntervalRef.current = setInterval(() => {
+      dispatch(getTime())
+    }, 15000)
+
+    return () => {
+      clearInterval(getIntervalRef.current)
+    }
+  }, [dispatch])
 
   return (
     <>
@@ -102,9 +135,15 @@ const TimeSynchronization: FunctionComponent<Props> = ({
           </Text>
         </CardHeader>
         <CardBody>
-          <CardContent>
-            {/*TODO: Show current Harmony time and date */}
-          </CardContent>
+          <Content>
+            <ContentLabel
+              displayStyle={TextDisplayStyle.Paragraph3}
+              message={messages.timeSynchronizationCurrentTimeLabel}
+              color={"secondary"}
+            />
+            <Time displayStyle={TextDisplayStyle.Paragraph1}>{deviceTime}</Time>
+            <Text displayStyle={TextDisplayStyle.Paragraph1}>{deviceDate}</Text>
+          </Content>
           <CardAction>
             <ButtonComponent
               displayStyle={
@@ -148,6 +187,20 @@ const TimeSynchronization: FunctionComponent<Props> = ({
 }
 
 export default TimeSynchronization
+
+const ContentLabel = styled(Text)`
+  width: 100%;
+`
+
+const Time = styled(Text)`
+  width: 6rem;
+`
+
+const Content = styled(CardContent)`
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 0.4rem;
+`
 
 const ModalHeading = styled(Text)`
   margin-bottom: 0.8rem;

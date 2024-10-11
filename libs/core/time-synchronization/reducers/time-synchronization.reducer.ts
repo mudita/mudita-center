@@ -9,10 +9,11 @@ import {
   synchronizeTime,
 } from "../actions/synchronize-time.action"
 import { resetTimeSynchronizationStatus } from "../actions/reset-time-synchronization-status"
+import { getTime } from "Core/time-synchronization/actions/get-time.action"
 
 interface TimeSynchronizationState {
   status?: "idle" | "loading" | "success" | "error"
-  time?: Date // TODO: add support for displaying the time when available
+  time?: Date
   abortController?: AbortController
 }
 
@@ -22,6 +23,9 @@ export const initialState: TimeSynchronizationState = {
 
 export const timeSynchronizationReducer =
   createReducer<TimeSynchronizationState>(initialState, (builder) => {
+    builder.addCase(getTime.fulfilled, (state, action) => {
+      state.time = action.payload
+    })
     builder.addCase(synchronizeTime.pending, (state) => {
       state.status = "loading"
     })

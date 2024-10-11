@@ -5,4 +5,5 @@
 
 export enum IpcSynchronizeTimeEvent {
   SynchronizeTime = "time-synchronization_synchronize",
+  GetTime = "time-synchronization_get-time",
 }
