@@ -4,3 +4,4 @@
  */
 
 export * from "./recovery-mode"
+export * from "./flashing-error-modal/flashing-error-modal.component"
