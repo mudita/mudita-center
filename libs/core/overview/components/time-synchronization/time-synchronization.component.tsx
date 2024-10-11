@@ -13,14 +13,21 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import React from "react"
+import React, { useEffect, useMemo, useRef } from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { TimeSynchronizationIds } from "Core/overview/components/time-synchronization/time-synchronization-ids.enum"
-import { TimeSynchronizationFlow } from "Core/overview/components/time-synchronization/time-synchronization-flow.component"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { selectTimeSynchronizationStatus } from "Core/time-synchronization/selectors/time-synchronization-status.selector"
+import { resetTimeSynchronizationStatus } from "Core/time-synchronization/actions/reset-time-synchronization-status"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
+import { ModalContent, ModalDialog, RoundIconWrapper } from "Core/ui"
+import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
+import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import styled from "styled-components"
 
 const messages = defineMessages({
   timeSynchronizationTitle: {
@@ -32,6 +39,18 @@ const messages = defineMessages({
   timeSynchronizationButton: {
     id: "module.overview.timeSynchronizationButton",
   },
+  timeSynchronizationProgressButton: {
+    id: "module.overview.timeSynchronizationProgressButton",
+  },
+  timeSynchronizationSuccessButton: {
+    id: "module.overview.timeSynchronizationSuccessButton",
+  },
+  timeSynchronizationFailedSubtitle: {
+    id: "module.overview.timeSynchronizationFailedSubtitle",
+  },
+  timeSynchronizationFailedDescription: {
+    id: "module.overview.timeSynchronizationFailedDescription",
+  },
 })
 
 interface Props {
@@ -42,6 +61,37 @@ const TimeSynchronization: FunctionComponent<Props> = ({
   onSynchronize,
   ...props
 }) => {
+  const status = useSelector(selectTimeSynchronizationStatus)
+  const dispatch = useDispatch<Dispatch>()
+  const timeoutRef = useRef<NodeJS.Timeout>()
+
+  const onModalClose = () => {
+    dispatch(resetTimeSynchronizationStatus())
+  }
+
+  const buttonMessage = useMemo(() => {
+    switch (status) {
+      case "loading":
+        return messages.timeSynchronizationProgressButton
+      case "success":
+        return messages.timeSynchronizationSuccessButton
+      default:
+        return messages.timeSynchronizationButton
+    }
+  }, [status])
+
+  useEffect(() => {
+    clearTimeout(timeoutRef.current)
+    if (status === "success") {
+      timeoutRef.current = setTimeout(() => {
+        dispatch(resetTimeSynchronizationStatus())
+      }, 3000)
+    }
+    return () => {
+      clearTimeout(timeoutRef.current)
+    }
+  }, [dispatch, status])
+
   return (
     <>
       <Card {...props}>
@@ -57,17 +107,48 @@ const TimeSynchronization: FunctionComponent<Props> = ({
           </CardContent>
           <CardAction>
             <ButtonComponent
-              displayStyle={DisplayStyle.Secondary}
-              labelMessage={messages.timeSynchronizationButton}
+              displayStyle={
+                status === "loading"
+                  ? DisplayStyle.Primary
+                  : DisplayStyle.Secondary
+              }
+              labelMessage={buttonMessage}
               onClick={onSynchronize}
               data-testid={TimeSynchronizationIds.SynchronizeButton}
+              disabled={status === "loading"}
+              loading={status === "loading"}
+              Icon={status === "success" ? IconType.ButtonSuccess : undefined}
             />
           </CardAction>
         </CardBody>
       </Card>
-      <TimeSynchronizationFlow />
+      <ModalDialog
+        open={status === "error"}
+        title={intl.formatMessage(messages.timeSynchronizationTitle)}
+        size={ModalSize.Small}
+        onCloseButton={onModalClose}
+      >
+        <ModalContent>
+          <RoundIconWrapper>
+            <Icon type={IconType.ThinFail} width={3.2} />
+          </RoundIconWrapper>
+          <ModalHeading
+            displayStyle={TextDisplayStyle.Headline4}
+            message={messages.timeSynchronizationFailedSubtitle}
+          />
+          <Text
+            displayStyle={TextDisplayStyle.Paragraph4}
+            color="secondary"
+            message={messages.timeSynchronizationFailedDescription}
+          />
+        </ModalContent>
+      </ModalDialog>
     </>
   )
 }
 
 export default TimeSynchronization
+
+const ModalHeading = styled(Text)`
+  margin-bottom: 0.8rem;
+`
