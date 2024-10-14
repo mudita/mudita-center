@@ -29,7 +29,7 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import styled from "styled-components"
 import { getTime } from "Core/time-synchronization/actions/get-time.action"
 import { selectSynchronizedTime } from "Core/time-synchronization/selectors/synchronized-time.selector"
-import { TimeSynchronizationTestIds } from "e2e-test-ids"
+import { TimeSynchronizationTestIds } from "./time-synchronization-ids.enum"
 
 const messages = defineMessages({
   timeSynchronizationTitle: {

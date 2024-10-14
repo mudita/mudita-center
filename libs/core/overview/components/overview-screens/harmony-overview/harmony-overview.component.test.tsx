@@ -15,6 +15,7 @@ import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { CaseColour } from "core-device/models"
+import { TimeSynchronizationTestIds } from "Core/overview/components/time-synchronization/time-synchronization-ids.enum"
 
 jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
   generateApplicationId: () => "123",
@@ -79,4 +80,5 @@ test("Renders Mudita harmony data", () => {
   expect(queryByTestId(StatusTestIds.NetworkName)).not.toBeInTheDocument()
   queryByText(intl.formatMessage({ id: "module.overview.statusHarmonyTitle" }))
   expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
+  expect(queryByTestId(TimeSynchronizationTestIds.SynchronizeButton)).toBeInTheDocument()
 })
