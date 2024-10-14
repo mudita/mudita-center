@@ -142,6 +142,9 @@ const startFlashingProcess = async (
 
     dispatch(setFlashingProcessState(FlashingProcessState.FlashingProcess))
     const { osDownloadLocation } = await getAppSettingsMain()
+    if (signal.aborted) {
+      return
+    }
 
     const deviceFlash =
       DeviceFlashFactory.createDeviceFlashService(osDownloadLocation)
@@ -156,6 +159,9 @@ const startFlashingProcess = async (
     const scriptFilePath = path.join(osDownloadLocation, flashingScriptName)
 
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
+    if (signal.aborted) {
+      return
+    }
 
     if (deviceFlash instanceof MacDeviceFlashService) {
       dispatch(setFlashingProcessState(FlashingProcessState.TerminalOpened))
@@ -163,6 +169,9 @@ const startFlashingProcess = async (
       await deviceFlash.waitForFlashCompletion({ signal })
     }
 
+    if (signal.aborted) {
+      return
+    }
     dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
 
     await removeDownloadedMscFiles()
