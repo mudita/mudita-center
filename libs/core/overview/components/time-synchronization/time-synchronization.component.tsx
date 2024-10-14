@@ -27,7 +27,7 @@ import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.compone
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import styled from "styled-components"
-import { TimeSynchronizationTestIds } from "e2e-test-ids"
+import { TimeSynchronizationTestIds } from "./time-synchronization-ids.enum"
 
 const messages = defineMessages({
   timeSynchronizationTitle: {
