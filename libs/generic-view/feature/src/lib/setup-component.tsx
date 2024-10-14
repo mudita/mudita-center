@@ -21,7 +21,6 @@ import {
   selectEntitiesData,
   selectEntitiesIdFieldKey,
   selectEntityData,
-  useFormField,
 } from "generic-view/store"
 import {
   dataProviderFilter,
@@ -48,6 +47,7 @@ import {
   set,
 } from "lodash"
 import { Tooltip, Paragraph5 } from "generic-view/ui"
+import { useFormField } from "forms/feature"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -63,6 +63,7 @@ export const setupComponent = <P extends object>(
     } = props
     const deviceId = useSelector(selectActiveApiDeviceId)!
     const getFormContext = useViewFormContext()
+    let disableWatching = false
 
     let dataItemId = props.dataItemId
     const layout = useSelector((state: ReduxRootState) => {
@@ -168,8 +169,11 @@ export const setupComponent = <P extends object>(
         const { componentField, providerField, ...config } = fieldConfig
         const value = processFormFields(
           config,
-          formDataV2.getValue(providerField)
+          formDataV2.getField(providerField)
         )
+        if (dataProvider.disableWatching) {
+          disableWatching = true
+        }
         if (isString(value) && componentField === "dataItemId") {
           dataItemId = value
           continue

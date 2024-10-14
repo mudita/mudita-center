@@ -5,39 +5,39 @@
 
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { selectActiveApiDeviceId } from "./selectors/select-active-api-device-id"
-import { registerForm } from "./views/actions"
+import { selectActiveApiDeviceId } from "generic-view/store"
+import { Fields, registerForm, selectForm } from "forms/store"
 import { useEffect } from "react"
-import { selectViewForm } from "./selectors"
-import { useCurrentViewKey } from "generic-view/utils"
 
-interface UseViewForm {
+interface Params {
   formName: string
+  appForm?: boolean
   options?: {
-    defaultValues?: Record<string, unknown>
+    defaultFields?: Fields
   }
 }
 
-export const useFormRegister = ({ formName, options }: UseViewForm) => {
-  const viewKey = useCurrentViewKey()
+export const useFormRegister = ({ formName, appForm, options }: Params) => {
   const dispatch = useDispatch<Dispatch>()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)
   const form = useSelector((state: ReduxRootState) => {
-    return selectViewForm(state, { formName, viewKey })
+    return selectForm(state, {
+      formName,
+      deviceId: appForm ? undefined : activeDeviceId,
+    })
   })
 
   useEffect(() => {
     if (!activeDeviceId || form) return
-    const { defaultValues = {} } = options || {}
+    const { defaultFields = {} } = options || {}
     dispatch(
       registerForm({
-        deviceId: activeDeviceId,
-        feature: viewKey,
+        deviceId: appForm ? undefined : activeDeviceId,
         formName,
         form: {
-          fields: defaultValues,
+          fields: defaultFields,
         },
       })
     )
-  }, [activeDeviceId, dispatch, form, formName, options, viewKey])
+  }, [activeDeviceId, appForm, dispatch, form, formName, options])
 }

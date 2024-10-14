@@ -15,8 +15,10 @@ export enum ActionName {
   RemoveDevice = "generic-views/remove-device",
   SetDeviceState = "generic-views/set-device-state",
   SetGenericConfig = "generic-views/set-generic-config",
-  RegisterForm = "generic-views/register-form",
-  SetFormField = "generic-views/set-form-field",
+
+  RegisterForm = "forms/register-form",
+  SetFormField = "forms/set-form-field",
+  ResetForm = "forms/reset-form",
 
   OpenModal = "generic-modals/open-modal",
   CloseModal = "generic-modals/close-modal",
