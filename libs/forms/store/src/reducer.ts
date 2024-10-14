@@ -25,29 +25,32 @@ const initialState: FormState = {
 export const formsReducer = createReducer(initialState, (builder) => {
   builder.addCase(registerForm, (state, action) => {
     const { formName, form, deviceId } = action.payload
-    if (deviceId && deviceId !== appForms) {
-      state[deviceId] = {
-        ...state[deviceId],
-        [formName]: form,
-      }
-    } else {
-      state.app = {
-        ...state.app,
-        [formName]: form,
-      }
+    const source = deviceId
+      ? deviceId === appForms
+        ? undefined
+        : deviceId
+      : appForms
+
+    if (!source || !formName) return
+    state[source] = {
+      ...state[source],
+      [formName]: form,
     }
   })
   builder.addCase(setFormField, (state, action) => {
     const { formName, field, value, deviceId } = action.payload
-    if (deviceId && deviceId !== appForms) {
-      state[deviceId][formName].fields[field] = value
-    } else {
-      state.app[formName].fields[field] = value
-    }
+    const source = deviceId
+      ? deviceId === appForms
+        ? undefined
+        : deviceId
+      : appForms
+
+    if (!source || !state[source]?.[formName]) return
+    state[source][formName].fields[field] = value
   })
   builder.addCase(resetForm, (state, action) => {
     const { formName, deviceId } = action.payload
-    const defaultValues = state[deviceId ?? "app"][formName].defaultFields
+    const defaultValues = state[deviceId || "app"]?.[formName]?.defaultFields
 
     if (!defaultValues) return
     if (deviceId && deviceId !== appForms) {

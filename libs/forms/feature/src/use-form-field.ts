@@ -23,7 +23,7 @@ interface UseFormField {
   appForm?: boolean
 }
 
-export const useFormField = ({ formName, appForm }: UseFormField) => {
+export const useFormField = ({ formName, appForm }: UseFormField = {}) => {
   const dispatch = useDispatch<Dispatch>()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)
   const store = useStore<ReduxRootState>()
@@ -50,8 +50,9 @@ export const useFormField = ({ formName, appForm }: UseFormField) => {
       if (!targetFormName || !field) return undefined
 
       const source = form || forms?.[targetFormName]
-      const fields = fromDefault ? source?.defaultFields : source?.fields
-      return get(fields, field) as T
+      if (!source) return
+      const fields = fromDefault ? source.defaultFields : source.fields
+      return get(fields, field) as T | undefined
     },
     [form, formName, forms]
   )
@@ -60,7 +61,6 @@ export const useFormField = ({ formName, appForm }: UseFormField) => {
     (field: string, value: unknown, { customFormName }: SetOptions = {}) => {
       const targetFormName = customFormName || formName
       if (!targetFormName || !field) return
-
       if (getField(field, { customFormName }) === value) return
       dispatch(
         setFormField({

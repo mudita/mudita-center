@@ -21,6 +21,7 @@ export const useFormRegister = ({ formName, appForm, options }: Params) => {
   const dispatch = useDispatch<Dispatch>()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)
   const form = useSelector((state: ReduxRootState) => {
+    if(!appForm && !activeDeviceId) return undefined
     return selectForm(state, {
       formName,
       deviceId: appForm ? undefined : activeDeviceId,
