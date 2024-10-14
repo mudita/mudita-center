@@ -28,9 +28,11 @@ export const downloadFlashingFileRequest = async (
   | ResultObject<DownloadFinished>
   | ResultObject<DownloadStatus.Cancelled | DownloadStatus.Interrupted>
 > => {
-  const abortHandler = () => cancelFileDownload(true)
+  const abortHandler = () => {
+    signal.removeEventListener("abort", abortHandler)
+    cancelFileDownload(true)
+  }
   signal.addEventListener("abort", abortHandler)
-  signal.removeEventListener("abort", abortHandler)
 
   const data: DownloadFinished = await ipcRenderer.callMain(
     PureOsDownloadChannels.start,
