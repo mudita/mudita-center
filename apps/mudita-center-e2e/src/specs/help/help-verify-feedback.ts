@@ -4,11 +4,8 @@
  */
 
 import NavigationTabs from "../../page-objects/tabs.page"
-import HelpPage from "../../page-objects/help.page"
 import HelpArticlePage from "../../page-objects/help-article.page"
 import HomePage from "../../page-objects/home.page"
-import helpArticlePage from "../../page-objects/help-article.page"
-import { icon } from "Libs/generic-view/models/src"
 
 describe("Help - Verify Feedback", () => {
   before(async () => {
@@ -82,8 +79,3 @@ describe("Help - Verify Feedback", () => {
     await expect(feedbackThanksText).toHaveText("Thank you for your opinion!")
   })
 })
-
-// const helpArticleFeedbackNoButton =
-//   await HelpArticlePage.helpArticleFeedbackNoButton
-// await expect(helpArticleFeedbackNoButton).toBeDisplayed()
-// await expect(helpArticleFeedbackNoButton).toBeClickable()
