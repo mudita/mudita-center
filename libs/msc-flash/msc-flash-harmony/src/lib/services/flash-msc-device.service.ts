@@ -20,6 +20,7 @@ import MacDeviceFlashService from "./device-flash/macos/macos-device-flash-servi
 import { removeDownloadedMscFiles } from "./remove-downloaded-msc-files.service"
 import { setMscFlashingAbort } from "../actions/actions"
 import { selectIsFlashingInActivePhases } from "../selectors"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export const flashMscDeviceService =
   () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
@@ -53,7 +54,7 @@ export const flashMscDeviceService =
 
       const flashingInActivePhases = selectIsFlashingInActivePhases(getState())
       if (flashingInActivePhases) {
-        console.error("Error during flashing process:", error)
+        logger.error("Error during flashing process:", error)
         dispatch(setFlashingProcessState(FlashingProcessState.Failed))
       }
     }
