@@ -8,6 +8,7 @@ import { SynchronizeTimeEvent } from "../constants/event.constant"
 import { synchronizeTimeRequest } from "Core/time-synchronization/requests/synchronize-time.request"
 import delayResponse from "@appnroll/delay-response"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { getTime } from "./get-time.action"
 
 export const synchronizeTime = createAsyncThunk<
   void,
@@ -26,6 +27,7 @@ export const synchronizeTime = createAsyncThunk<
     if (response.error) {
       return rejectWithValue(response.error)
     }
+    dispatch(getTime())
     return
   }
 )

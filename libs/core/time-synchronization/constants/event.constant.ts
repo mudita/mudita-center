@@ -7,4 +7,5 @@ export enum SynchronizeTimeEvent {
   Synchronize = "SYNCHRONIZE_TIME",
   SetAbortController = "SYNCHRONIZE_TIME_SET_ABORT_CONTROLLER",
   ResetStatus = "SYNCHRONIZE_TIME_RESET_STATUS",
+  Get = "SYNCHRONIZE_TIME_GET",
 }
