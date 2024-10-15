@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { flashingState } from "./select-flashing-state.selector"
+import { flashingState } from "./select-flashing-state"
 
 export const selectFlashingAbortController = createSelector(
   flashingState,

@@ -35,12 +35,16 @@ export const RestartingDeviceModal: FunctionComponent<
   const dispatch = useDispatch<Dispatch>()
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(setFlashingProcessState(FlashingProcessState.Failed))
-    }, 2 * 60 * 1000)
+    let timeoutId: NodeJS.Timeout
 
-    return () => clearTimeout(timer)
-  }, [dispatch])
+    if (open) {
+      timeoutId = setTimeout(() => {
+        dispatch(setFlashingProcessState(FlashingProcessState.Failed))
+      }, 2 * 60 * 1000)
+    }
+
+    return () => clearTimeout(timeoutId)
+  }, [dispatch, open])
 
   return (
     <LoaderModal
