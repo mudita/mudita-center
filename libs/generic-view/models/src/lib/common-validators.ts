@@ -76,6 +76,28 @@ export const formActionValidator = z.union([
   }),
 ])
 
+export const formActionV2Validator = z.union([
+  z.object({
+    type: z.literal("form-set-field-v2"),
+    fieldKey: z.string(),
+    formName: z.string(),
+    value: z
+      .union([
+        z.string(),
+        z.number(),
+        z.boolean(),
+        z.array(z.unknown()),
+        z.record(z.union([z.string(), z.number()]), z.unknown()),
+      ])
+      .optional(),
+  }),
+  z.object({
+    type: z.literal("form-reset-v2"),
+    fieldKey: z.string(),
+    formName: z.string(),
+  }),
+])
+
 export const toastActionValidator = z.object({
   type: z.literal("open-toast"),
   toastKey: z.string(),
@@ -89,6 +111,7 @@ const entityPostActionsValidator = z
       customActionValidator,
       formActionValidator,
       toastActionValidator,
+      formActionV2Validator,
     ])
   )
   .optional()
@@ -115,6 +138,7 @@ export const buttonActionsValidator = z.array(
     formActionValidator,
     entityActionValidator,
     toastActionValidator,
+    formActionV2Validator,
   ])
 )
 

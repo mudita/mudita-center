@@ -28,7 +28,6 @@ import {
   dataProviderSort,
   mapLayoutSizes,
   RecursiveComponent,
-  useViewFormContext,
 } from "generic-view/utils"
 import {
   DataProviderField,
@@ -47,7 +46,7 @@ import {
   map,
   set,
 } from "lodash"
-import { Tooltip, Paragraph5 } from "generic-view/ui"
+import { Paragraph5, Tooltip } from "generic-view/ui"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -62,7 +61,7 @@ export const setupComponent = <P extends object>(
       ...dataProps
     } = props
     const deviceId = useSelector(selectActiveApiDeviceId)!
-    const getFormContext = useViewFormContext()
+    let disableWatching = false
 
     let dataItemId = props.dataItemId
     const layout = useSelector((state: ReduxRootState) => {
@@ -146,23 +145,6 @@ export const setupComponent = <P extends object>(
           set(editableProps || {}, componentField, value)
         }
       }
-    } else if (dataProvider?.source === "form-fields") {
-      const formContext = getFormContext(dataProvider.formKey)
-      const isFormElement = componentName!.startsWith("form.")
-
-      for (const fieldConfig of dataProvider.fields) {
-        const { componentField, providerField, ...config } = fieldConfig
-        const fieldValue = isFormElement
-          ? formContext.getValues(providerField)
-          : formContext.watch(providerField)
-        const value = processFormFields(config, fieldValue)
-
-        if (isString(value) && componentField === "dataItemId") {
-          dataItemId = value
-          continue
-        }
-        set(editableProps || {}, componentField, value)
-      }
     } else if (dataProvider?.source === "form-fields-v2") {
       for (const fieldConfig of dataProvider.fields) {
         const { componentField, providerField, ...config } = fieldConfig
@@ -170,6 +152,9 @@ export const setupComponent = <P extends object>(
           config,
           formDataV2.getField(providerField)
         )
+        if (dataProvider.disableWatching) {
+          disableWatching = true
+        }
         if (isString(value) && componentField === "dataItemId") {
           dataItemId = value
           continue
@@ -177,11 +162,16 @@ export const setupComponent = <P extends object>(
         set(editableProps || {}, componentField, value)
       }
     }
-    const editablePropsDependency = JSON.stringify(editableProps)
+
+    const editablePropsDependency = disableWatching
+      ? undefined
+      : JSON.stringify(editableProps)
     const layoutDependency = JSON.stringify(layout)
     const styleDependency = JSON.stringify(style)
     const dataProviderDependency = JSON.stringify(dataProvider)
-    const formDataV2Dependency = JSON.stringify(formDataV2)
+    const formDataV2Dependency = disableWatching
+      ? undefined
+      : JSON.stringify(formDataV2)
 
     const styles = useMemo(() => {
       return setupStyles(style, layout)

@@ -14,7 +14,7 @@ import { useCurrentViewKey } from "generic-view/utils"
 interface UseViewForm {
   formName: string
   options?: {
-    defaultValues?: Record<string, unknown>
+    defaultFields?: Record<string, unknown>
   }
 }
 
@@ -28,15 +28,15 @@ export const useFormRegister = ({ formName, options }: UseViewForm) => {
 
   useEffect(() => {
     if (!activeDeviceId || form) return
-    const { defaultValues = {} } = options || {}
+    const { defaultFields = {} } = options || {}
     dispatch(
       registerForm({
         deviceId: activeDeviceId,
         feature: viewKey,
         formName,
         form: {
-          fields: defaultValues,
-          defaultValues,
+          fields: defaultFields,
+          defaultFields,
         },
       })
     )

@@ -3,37 +3,66 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useId, useRef } from "react"
+import React, { useCallback, useEffect, useId, useRef, useState } from "react"
 import { APIFC, IconType } from "generic-view/utils"
 import styled, { css } from "styled-components"
 import { IconButton } from "../../../shared/button"
 import { Icon } from "../../../icon/icon"
-import { useFormContext } from "react-hook-form"
 import { FormSearchInputConfig, FormSearchInputData } from "generic-view/models"
+import { useFormField } from "generic-view/store"
 
 export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
   data,
   config,
   className,
   style,
+  children,
   ...props
 }) => {
   const id = useId()
-  const { register, watch, setValue } = useFormContext()
-  const value = (watch(config.name) as string) || ""
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const { ref, ...rest } = register(config.name)
+  const { getField, setField, resetField } = useFormField({
+    formName: config.formName,
+  })
+  const inputName = config.name
+  const defaultValue = getField(inputName) || data?.value || ""
+  const [showClearButton, setShowClearButton] = useState(
+    defaultValue.length > 0
+  )
 
-  const clear = () => {
-    setValue(config.name, "")
-    inputRef.current?.focus()
+  const triggerChange = () => {
+    inputRef.current?.dispatchEvent(new Event("input", { bubbles: true }))
   }
 
-  useEffect(() => {
-    if (config.name) {
-      setValue(config.name, data?.value)
+  const clear = useCallback(() => {
+    if (inputRef.current) {
+      inputRef.current.value = ""
+      triggerChange()
+      inputRef.current.focus()
     }
-  }, [config.name, data?.value, setValue])
+  }, [])
+
+  const handleInput = useCallback(
+    (event: React.FormEvent<HTMLInputElement>) => {
+      setField(inputName, (event.target as HTMLInputElement).value)
+      setShowClearButton((event.target as HTMLInputElement).value.length > 0)
+    },
+    [inputName, setField]
+  )
+
+  useEffect(() => {
+    if (inputName && data?.value && inputRef.current) {
+      inputRef.current.value = data.value
+      triggerChange()
+    }
+  }, [inputName, data?.value, setField])
+
+  useEffect(() => {
+    return () => {
+      resetField(config.name)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config.name])
 
   return (
     <Wrapper style={style} className={className}>
@@ -44,13 +73,11 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
           id={"input-" + id}
           type={"search"}
           placeholder={config.label}
-          {...rest}
-          ref={(event) => {
-            ref(event)
-            inputRef.current = event
-          }}
+          ref={inputRef}
+          onInput={handleInput}
+          defaultValue={defaultValue}
         />
-        {value.length > 0 && (
+        {showClearButton && (
           <ClearButton
             type={"button"}
             onClick={clear}

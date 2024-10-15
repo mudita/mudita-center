@@ -17,11 +17,12 @@ import {
   ImportStatus,
   importStatusSelector,
   startImportToDevice,
+  useFormField,
 } from "generic-view/store"
 import { ImportContactsProvider } from "./import-contacts-provider"
 import { ImportContactsLoader } from "./import-contats-loader"
 import {
-  ImportContactsList,
+  ImportContactsList, SEARCH_FIELD,
   SELECTED_CONTACTS_FIELD,
 } from "./import-contacts-list"
 import { ImportContactsProgress } from "./import-contacts-progress"
@@ -29,7 +30,6 @@ import { ImportContactsSuccess } from "./import-contacts-success"
 import { ImportContactsError } from "./import-contacts-error"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { useFormContext } from "react-hook-form"
 import { ButtonAction, ImportContactsConfig } from "generic-view/models"
 import { ApiFileTransferError } from "device/models"
 
@@ -45,17 +45,18 @@ const messages = defineMessages({
   },
 })
 
-const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
-  modalKey,
-}) => {
+const ImportContactsForm: FunctionComponent<
+  ImportContactsConfig & { formName: string }
+> = ({ modalKey, formName }) => {
   const dispatch = useDispatch<Dispatch>()
   const importStatus = useSelector(importStatusSelector)
   const [freezedStatus, setFreezedStatus] = useState<ImportStatus | undefined>()
   const importError = useSelector(importContactsErrorSelector)
   const [error, setError] = useState<CustomModalError>()
   const dataTransferAbortReference = useRef<VoidFunction>()
-  const { watch } = useFormContext<{ [SELECTED_CONTACTS_FIELD]?: string[] }>()
-  const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
+  const { getField } = useFormField({ formName })
+
+  const selectedContacts = getField(SELECTED_CONTACTS_FIELD) as string[]
 
   const currentStatus = freezedStatus || importStatus
   const importInProgress =
@@ -152,7 +153,10 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
         <ImportContactsLoader />
       )}
       {currentStatus === "IMPORT-INTO-MC-DONE" && (
-        <ImportContactsList nextAction={importConfirmButtonAction} />
+        <ImportContactsList
+          nextAction={importConfirmButtonAction}
+          formName={formName}
+        />
       )}
       {importInProgress && (
         <ImportContactsProgress cancelAction={importAbortButtonAction} />
@@ -177,8 +181,16 @@ export const ImportContacts: APIFC<undefined, ImportContactsConfig> = ({
   ...props
 }) => {
   return (
-    <Form {...props}>
-      <ImportContactsForm {...config} />
+    <Form
+      {...props}
+      config={{
+        defaultFields: {
+          [SELECTED_CONTACTS_FIELD]: [],
+          [SEARCH_FIELD]: "",
+        },
+      }}
+    >
+      <ImportContactsForm {...config} formName={props.componentKey!} />
     </Form>
   )
 }

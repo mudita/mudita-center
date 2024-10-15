@@ -119,13 +119,14 @@ export const Search: FunctionComponent = () => {
         dropdownActive={cleanedSearchPhrase.length > 1}
         data-testid={HelpTestId.SearchInputWrapper}
       >
-        <Input
-          config={{
-            name: "search",
-            label: intl.formatMessage(messages.placeholder),
-          }}
-          data-testid={HelpTestId.SearchInput}
-        />
+        {/*<Input*/}
+        {/*  config={{*/}
+        {/*    name: "search",*/}
+        {/*    label: intl.formatMessage(messages.placeholder),*/}
+        {/*    formName: "helpSearch",*/}
+        {/*  }}*/}
+        {/*  data-testid={HelpTestId.SearchInput}*/}
+        {/*/>*/}
         <SearchResults
           results={results}
           phrase={cleanedHighlightPhrase}

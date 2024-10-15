@@ -16,13 +16,58 @@ const view: View = {
           allContacts: [],
         },
       },
-      defaultValues: {
+      defaultFields: {
         selectedContacts: [],
         allContacts: [],
-        activeContact: undefined,
+        activeContactId: undefined,
       },
     },
     childrenKeys: ["contactsLoader"],
+  },
+  detailsWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "form-fields-v2",
+      formName: "contactsForm",
+      fields: [
+        {
+          providerField: "activeContactId",
+          componentField: "data.render",
+          modifier: "boolean",
+        },
+      ],
+    },
+    childrenKeys: ["details"],
+  },
+  details: {
+    component: "block-box",
+    config: {
+      title: "Contact",
+    },
+    dataProvider: {
+      source: "form-fields-v2",
+      formName: "contactsForm",
+      fields: [
+        {
+          providerField: "activeContactId",
+          componentField: "dataItemId",
+        },
+      ],
+    },
+    childrenKeys: ["contactDetails", "disableButton"],
+  },
+  disableButton: {
+    component: "button-primary",
+    config: {
+      text: "Hide details",
+      actions: [
+        {
+          type: "form-reset-v2",
+          fieldKey: "activeContactId",
+          formName: "contactsForm",
+        },
+      ],
+    },
   },
   contactsPanelDefaultMode: {
     component: "conditional-renderer",
@@ -106,6 +151,7 @@ const view: View = {
         assignFields: {
           selectedIdsFieldName: "selectedContacts",
           allIdsFieldName: "allContacts",
+          activeIdFieldName: "activeContactId",
         },
       },
     },
@@ -192,6 +238,57 @@ const view: View = {
       ],
     },
   },
+  deleteModalConfirmButton: {
+    component: "button-primary",
+    config: {
+      actions: [
+        {
+          type: "open-modal",
+          domain: "contacts-delete",
+          modalKey: "deleteProgressModal",
+        },
+        {
+          type: "entities-delete",
+          entitiesType: "contacts",
+          ids: [],
+          postActions: {
+            success: [
+              {
+                type: "close-domain-modals",
+                domain: "contacts-delete",
+              },
+              {
+                type: "open-toast",
+                toastKey: "contactsDeletedToast",
+              },
+            ],
+          },
+        },
+      ],
+    },
+    layout: {
+      flexLayout: {
+        direction: "row",
+        justifyContent: "center",
+      },
+    },
+    dataProvider: {
+      source: "form-fields-v2",
+      formName: "contactsForm",
+      fields: [
+        {
+          providerField: "selectedContacts",
+          componentField: "config.actions[1].ids",
+        },
+        {
+          providerField: "selectedContacts",
+          componentField: "config.actions[1].postActions.success[0].value",
+          modifier: "length",
+        },
+      ],
+    },
+    childrenKeys: ["deleteModalConfirmButtonText"],
+  },
   contactsDeletedToastMessage: {
     component: "format-message",
     config: {
@@ -201,6 +298,7 @@ const view: View = {
     dataProvider: {
       source: "form-fields-v2",
       formName: "contactsForm",
+      disableWatching: true,
       fields: [
         {
           modifier: "length",
@@ -208,6 +306,14 @@ const view: View = {
           componentField: "data.fields.selectedContacts",
         },
       ],
+    },
+  },
+  contactsSearchInput: {
+    component: "form.searchInput",
+    config: {
+      name: "searchedContact",
+      label: "Search all contacts",
+      formName: "contactsForm",
     },
   },
 }
