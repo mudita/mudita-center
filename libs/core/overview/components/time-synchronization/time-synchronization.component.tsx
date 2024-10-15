@@ -70,7 +70,8 @@ const TimeSynchronization: FunctionComponent<Props> = ({
   const status = useSelector(selectTimeSynchronizationStatus)
   const time = useSelector(selectSynchronizedTime)
   const syncTimeoutRef = useRef<NodeJS.Timeout>()
-  const getIntervalRef = useRef<NodeJS.Timeout>()
+  const getTimeoutRef = useRef<NodeJS.Timeout>()
+  const firstTimeSyncRef = useRef(false)
 
   const hourCycle = new Intl.DateTimeFormat(undefined, {
     timeStyle: "long",
@@ -117,17 +118,23 @@ const TimeSynchronization: FunctionComponent<Props> = ({
   }, [dispatch, status])
 
   useEffect(() => {
-    clearInterval(getIntervalRef.current)
-    getIntervalRef.current = setInterval(() => {
-      const actualMinute = new Date().getMinutes()
-      const deviceMinute = time ? new Date(time).getMinutes() : undefined
-      if (actualMinute !== deviceMinute) {
-        dispatch(getTime())
-      }
-    }, 1000)
+    if (!time) return
+    if (!firstTimeSyncRef.current) {
+      dispatch(getTime())
+      firstTimeSyncRef.current = true
+      return
+    }
+    clearTimeout(getTimeoutRef.current)
+
+    const deviceSeconds = new Date(time).getSeconds()
+    const timeout = Math.max(1, 60 - deviceSeconds) + 1
+
+    getTimeoutRef.current = setTimeout(() => {
+      dispatch(getTime())
+    }, timeout * 1000)
 
     return () => {
-      clearInterval(getIntervalRef.current)
+      clearTimeout(getTimeoutRef.current)
     }
   }, [dispatch, time])
 
