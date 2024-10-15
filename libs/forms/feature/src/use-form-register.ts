@@ -11,20 +11,22 @@ import { useEffect } from "react"
 
 interface Params {
   formName: string
-  appForm?: boolean
   options?: {
+    appForm?: boolean
     defaultFields?: Fields
   }
 }
 
-export const useFormRegister = ({ formName, appForm, options }: Params) => {
+export const useFormRegister = ({ formName, options }: Params) => {
   const dispatch = useDispatch<Dispatch>()
+
+  const isAppForm = options?.appForm
   const activeDeviceId = useSelector(selectActiveApiDeviceId)
   const form = useSelector((state: ReduxRootState) => {
-    if(!appForm && !activeDeviceId) return undefined
+    if (!isAppForm && !activeDeviceId) return undefined
     return selectForm(state, {
       formName,
-      deviceId: appForm ? undefined : activeDeviceId,
+      deviceId: isAppForm ? undefined : activeDeviceId,
     })
   })
 
@@ -33,12 +35,13 @@ export const useFormRegister = ({ formName, appForm, options }: Params) => {
     const { defaultFields = {} } = options || {}
     dispatch(
       registerForm({
-        deviceId: appForm ? undefined : activeDeviceId,
+        deviceId: isAppForm ? undefined : activeDeviceId,
         formName,
         form: {
           fields: defaultFields,
+          defaultFields,
         },
       })
     )
-  }, [activeDeviceId, appForm, dispatch, form, formName, options])
+  }, [activeDeviceId, isAppForm, dispatch, form, formName, options])
 }

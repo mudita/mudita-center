@@ -8,7 +8,7 @@ import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { get } from "lodash"
 import { useCallback, useMemo } from "react"
 import { selectActiveApiDeviceId } from "generic-view/store"
-import { selectForm, setFormField } from "forms/store"
+import { resetForm, selectForm, setFormField } from "forms/store"
 
 interface SetOptions {
   customFormName?: string
@@ -92,9 +92,24 @@ export const useFormField = ({ formName, appForm }: UseFormField = {}) => {
     [activeDeviceId, appForm, dispatch, formName, getField]
   )
 
+  const resetAllFields = useCallback(
+    (customFormName?: string, appForm?: boolean) => {
+      const targetFormName = customFormName || formName
+      if (!targetFormName) return
+      dispatch(
+        resetForm({
+          formName: targetFormName,
+          deviceId: appForm ? undefined : activeDeviceId,
+        })
+      )
+    },
+    [activeDeviceId, dispatch, formName]
+  )
+
   return {
     getField,
     setField,
     resetField,
+    resetForm: resetAllFields,
   }
 }

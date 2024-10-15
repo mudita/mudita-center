@@ -37,8 +37,8 @@ export const Form: BaseGenericComponent<
   useViewFormRegister(componentKey!, methods)
   useFormRegister({
     formName: componentKey!,
-    appForm,
     options: {
+      appForm,
       defaultFields: config?.defaultFields,
     },
   })
