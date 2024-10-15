@@ -79,6 +79,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
     toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
     toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
+    toRelativePath(TestFilesPaths.helpVerifyFeedback),
   ],
   suites: {
     standalone: [
@@ -92,6 +93,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
+      toRelativePath(TestFilesPaths.helpVerifyFeedback),
     ],
     mock: [
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
@@ -127,6 +129,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
       toRelativePath(TestFilesPaths.newsMoreNews),
+      toRelativePath(TestFilesPaths.helpVerifyFeedback),
     ],
     cicdMock: [
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
