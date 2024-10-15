@@ -5,7 +5,11 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { FlashingState } from "./flashing.interface"
-import { getMscFlashingFilesDetails, setFlashingProcessState } from "../actions"
+import {
+  getMscFlashingFilesDetails,
+  setFlashingProcessState,
+  setMscFlashingInitialState,
+} from "../actions"
 import { FlashingProcessState } from "../constants"
 import { setMscFlashingAbort } from "../actions/actions"
 
@@ -27,6 +31,9 @@ export const flashingReducer = createReducer<FlashingState>(
       })
       .addCase(setMscFlashingAbort, (state, action) => {
         state.abortController = action.payload
+      })
+      .addCase(setMscFlashingInitialState, () => {
+        return { ...initialState }
       })
   }
 )

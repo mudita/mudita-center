@@ -148,12 +148,15 @@ const startFlashingProcess = async (
 
     const deviceFlash =
       DeviceFlashFactory.createDeviceFlashService(osDownloadLocation)
+    const deviceName =
+      process.platform === "win32" ? "MUDITA HARMONY MSC" : "HARMONY"
+    const device = await deviceFlash.findDeviceByDeviceName(deviceName)
 
-    const device = await deviceFlash.findDeviceByDeviceName("HARMONY")
-
-    const flashingScriptName = flashingFiles
-      ? flashingFiles.scripts[0].name
-      : ""
+    const flashingFilesScripts =
+      process.platform === "win32"
+        ? flashingFiles?.scripts[1]
+        : flashingFiles?.scripts[0]
+    const flashingScriptName = flashingFilesScripts?.name ?? ""
 
     const imageFilePath = path.join(osDownloadLocation, IMAGE_FILE_NAME)
     const scriptFilePath = path.join(osDownloadLocation, flashingScriptName)
@@ -172,7 +175,14 @@ const startFlashingProcess = async (
     if (signal.aborted) {
       return
     }
-    dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
+
+    if (process.platform === "win32") {
+      dispatch(
+        setFlashingProcessState(FlashingProcessState.WaitingForBackButton)
+      )
+    } else {
+      dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
+    }
 
     await removeDownloadedMscFiles()
   } catch (error) {
