@@ -9,14 +9,9 @@ import { DeviceProperties } from "device-manager/models"
 import { ApiConfig, MenuConfig, OverviewData } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 
-export interface GenericForm {
-  fields: Record<string, unknown>
-}
-
 interface Feature<Data = Record<string, unknown>> {
   config?: View
   data?: Data
-  forms?: Record<string, GenericForm>
 }
 
 export type Features = {

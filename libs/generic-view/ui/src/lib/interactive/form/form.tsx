@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { APIFC, useViewFormRegister } from "generic-view/utils"
+import { BaseGenericComponent, useViewFormRegister } from "generic-view/utils"
 import { FormProvider, useForm } from "react-hook-form"
 import { TextInput } from "./input/text-input"
 import { RadioInput } from "./input/radio-input"
@@ -12,15 +12,24 @@ import { CheckboxInput } from "./input/checkbox-input"
 import { SearchInput } from "./input/search-input"
 import { FormConfig } from "generic-view/models"
 import { FormConditionalRenderer } from "./helpers/form-conditional-renderer"
-import { useFormRegister } from "generic-view/store"
+import { useFormRegister } from "forms/feature"
 
-export const Form: APIFC<undefined, FormConfig> & {
+export const Form: BaseGenericComponent<
+  undefined,
+  FormConfig,
+  {
+    viewKey?: string
+    componentKey?: string
+    dataItemId?: string
+    appForm?: boolean
+  }
+> & {
   TextInput: typeof TextInput
   RadioInput: typeof RadioInput
   CheckboxInput: typeof CheckboxInput
   SearchInput: typeof SearchInput
   ConditionalRenderer: typeof FormConditionalRenderer
-} = ({ config, children, componentKey }) => {
+} = ({ config, children, componentKey, appForm }) => {
   const methods = useForm({
     mode: "onTouched",
     ...config?.formOptions,
@@ -29,7 +38,8 @@ export const Form: APIFC<undefined, FormConfig> & {
   useFormRegister({
     formName: componentKey!,
     options: {
-      defaultValues: config?.defaultValues,
+      appForm,
+      defaultFields: config?.defaultFields,
     },
   })
   return <FormProvider {...methods}>{children}</FormProvider>

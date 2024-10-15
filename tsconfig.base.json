@@ -50,6 +50,9 @@
       "electron/application-updater": [
         "libs/electron/application-updater/src/index.ts"
       ],
+      "forms/feature": ["libs/forms/feature/src/index.ts"],
+      "forms/store": ["libs/forms/store/src/index.ts"],
+      "forms/ui": ["libs/forms/ui/src/index.ts"],
       "generic-view/feature": ["libs/generic-view/feature/src/index.ts"],
       "generic-view/models": ["libs/generic-view/models/src/index.ts"],
       "generic-view/store": ["libs/generic-view/store/src/index.ts"],

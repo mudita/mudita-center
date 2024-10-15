@@ -111,6 +111,7 @@ const formFieldsSchemaV2 = z.object({
   source: z.literal("form-fields-v2"),
   formName: z.string(),
   fields: fieldsSchema,
+  disableWatching: z.boolean().optional(),
 })
 
 export const dataProviderSchema = z.union([

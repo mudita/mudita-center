@@ -6,6 +6,24 @@
 import { View } from "generic-view/utils"
 
 // @ts-ignore
-const view: View = {}
+const view: View = {
+  contactsForm: {
+    component: "form",
+    config: {
+      formOptions: {
+        defaultValues: {
+          selectedContacts: [],
+          allContacts: [],
+        },
+      },
+      defaultFields: {
+        selectedContacts: [],
+        allContacts: [],
+        activeContactId: undefined,
+      },
+    },
+    childrenKeys: ["contactsLoader"],
+  },
+}
 
 export default view
