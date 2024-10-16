@@ -5,22 +5,23 @@
 
 import path from "path"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import logger from "Core/__deprecated__/main/utils/logger"
+import getAppSettingsMain from "Core/__deprecated__/main/functions/get-app-settings"
+import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
 import { FlashingProcessState, SupportedPlatform, Product } from "../constants"
 import { setFlashingProcessState } from "../actions/set-flashing-process-state.action"
 import { getMscFlashingFilesDetails } from "../actions/get-msc-flashing-files-details.action"
 import { MscFlashDetails } from "../dto"
 import { downloadFlashingFileRequest } from "../requests"
-import { unpackFlashingImageService } from "./unpack-flashing-image"
-import DeviceFlashFactory from "./device-flash/device-flash.factory"
-import getAppSettingsMain from "Core/__deprecated__/main/functions/get-app-settings"
-
-const IMAGE_FILE_NAME = "BellHybrid.img"
-import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
-import MacDeviceFlashService from "./device-flash/macos/macos-device-flash-service"
-import { removeDownloadedMscFiles } from "./remove-downloaded-msc-files.service"
 import { setMscFlashingAbort } from "../actions/actions"
 import { selectIsFlashingInActivePhases } from "../selectors"
-import logger from "Core/__deprecated__/main/utils/logger"
+import { unpackFlashingImageService } from "./unpack-flashing-image"
+import DeviceFlashFactory from "./device-flash/device-flash.factory"
+import MacDeviceFlashService from "./device-flash/macos/macos-device-flash-service"
+import IDeviceFlash from "./device-flash/device-flash.interface"
+import { removeDownloadedMscFiles } from "./remove-downloaded-msc-files.service"
+
+const IMAGE_FILE_NAME = "BellHybrid.img"
 
 export const flashMscDeviceService =
   () => async (dispatch: Dispatch, getState: () => ReduxRootState) => {
@@ -148,34 +149,62 @@ const startFlashingProcess = async (
 
     const deviceFlash =
       DeviceFlashFactory.createDeviceFlashService(osDownloadLocation)
+    const deviceName = getDeviceName()
+    const device = await deviceFlash.findDeviceByDeviceName(deviceName)
 
-    const device = await deviceFlash.findDeviceByDeviceName("HARMONY")
-
-    const flashingScriptName = flashingFiles
-      ? flashingFiles.scripts[0].name
-      : ""
-
-    const imageFilePath = path.join(osDownloadLocation, IMAGE_FILE_NAME)
-    const scriptFilePath = path.join(osDownloadLocation, flashingScriptName)
+    const { imageFilePath, scriptFilePath } = buildFlashingFilePaths(
+      flashingFiles,
+      osDownloadLocation
+    )
 
     await deviceFlash.execute(device, imageFilePath, scriptFilePath)
-    if (signal.aborted) {
-      return
-    }
-
-    if (deviceFlash instanceof MacDeviceFlashService) {
-      dispatch(setFlashingProcessState(FlashingProcessState.TerminalOpened))
-
-      await deviceFlash.waitForFlashCompletion({ signal })
-    }
 
     if (signal.aborted) {
       return
     }
-    dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
+
+    await handlePostExecutingTasks(deviceFlash, dispatch, signal)
+
+    if (signal.aborted) {
+      return
+    }
 
     await removeDownloadedMscFiles()
   } catch (error) {
     throw new Error(`Flash process failed with error: ${JSON.stringify(error)}`)
+  }
+}
+
+const getDeviceName = () => {
+  return process.platform === "win32" ? "MUDITA HARMONY MSC" : "HARMONY"
+}
+
+const buildFlashingFilePaths = (
+  flashingFiles: MscFlashDetails | undefined,
+  osDownloadLocation: string
+) => {
+  const flashingFilesScripts =
+    process.platform === "win32"
+      ? flashingFiles?.scripts[1]
+      : flashingFiles?.scripts[0]
+  const flashingScriptName = flashingFilesScripts?.name ?? ""
+  const imageFilePath = path.join(osDownloadLocation, IMAGE_FILE_NAME)
+  const scriptFilePath = path.join(osDownloadLocation, flashingScriptName)
+
+  return { imageFilePath, scriptFilePath }
+}
+
+const handlePostExecutingTasks = async (
+  deviceFlash: IDeviceFlash,
+  dispatch: Dispatch,
+  signal: AbortSignal
+) => {
+  if (deviceFlash instanceof MacDeviceFlashService) {
+    dispatch(setFlashingProcessState(FlashingProcessState.TerminalOpened))
+    await deviceFlash.waitForFlashCompletion({ signal })
+  } else if (process.platform === "win32") {
+    dispatch(setFlashingProcessState(FlashingProcessState.WaitingForBackButton))
+  } else {
+    dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
   }
 }

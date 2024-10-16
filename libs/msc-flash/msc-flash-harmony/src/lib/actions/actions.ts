@@ -9,3 +9,7 @@ import { ActionName } from "generic-view/store"
 export const setMscFlashingAbort = createAction<AbortController | undefined>(
   ActionName.MscFlashingSetAbort
 )
+
+export const setMscFlashingInitialState = createAction(
+  ActionName.MscFlashingSetInitialState
+)

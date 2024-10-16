@@ -18,6 +18,10 @@ export const unpackFlashingImageService = async (
     const imageFilePath = path.join(osDownloadLocation, fileName)
     command = `tar -xf "${imageFilePath}" -C "${osDownloadLocation}"`
   }
+  if (process.platform === "win32") {
+    const imageFilePath = path.join(osDownloadLocation, fileName)
+    command = `tar -xzvf "${imageFilePath}" -C "${osDownloadLocation}"`
+  }
 
   try {
     await execPromise(command)
