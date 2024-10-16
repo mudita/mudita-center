@@ -7,7 +7,7 @@ import sudoPrompt from "@vscode/sudo-prompt"
 
 export const execCommandWithSudo = (
   command: string,
-  options: { name?: string; icns?: string; env?: { [key: string]: string } }
+  options?: { name?: string; icns?: string; env?: { [key: string]: string } }
 ): Promise<string | void> => {
   return new Promise((resolve, reject) => {
     sudoPrompt.exec(command, options, (error, stdout, stderr) => {

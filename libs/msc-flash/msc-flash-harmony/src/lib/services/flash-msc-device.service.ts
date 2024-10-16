@@ -84,9 +84,9 @@ const getFlashingImageDetails = async (
   await dispatch(
     getMscFlashingFilesDetails({
       signal,
+      platform,
       product: Product.MscHarmony,
       environment: RELEASE_SPACE,
-      platform: platform,
     })
   )
 }
