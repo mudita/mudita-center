@@ -9,7 +9,7 @@ import {
   splitPathToDirNameAndBaseName,
 } from "shared/utils"
 import IDeviceFlash from "../device-flash.interface"
-import { flashExecCommandName } from "Libs/msc-flash/msc-flash-harmony/src/lib/services/device-flash/flash-exec-command-name"
+import { flashExecCommandName } from "../flash-exec-command-name"
 
 interface DiskInformation {
   DiskNumber: number
