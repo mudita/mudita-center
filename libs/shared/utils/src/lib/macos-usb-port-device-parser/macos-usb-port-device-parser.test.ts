@@ -10,8 +10,8 @@ jest.mock("../exec-command", () => ({
   execPromise: jest.fn(),
 }))
 
-describe("`MacosDeviceFlashParser.getDevices`", () => {
-  it("should return the correct device details", async () => {
+describe("`MacosUSBPortDeviceParser.getUSBPortDevices`", () => {
+  it("should correctly parse and return USB data with a single Mudita Harmony device", async () => {
     const output = `
 USB:
     USB 3.1 Bus:
@@ -72,7 +72,8 @@ USB:
       },
     ])
   })
-  it("should return the correct device details 2", async () => {
+
+  it("should correctly parse and return details of multiple connected USB devices including Mudita Harmony", async () => {
     const output = `
 USB:
   USB 3.1 Bus:
@@ -196,7 +197,7 @@ USB:
     ])
   })
 
-  it("should handle multiple devices of the same type", async () => {
+  it("should correctly handle and return multiple instances of Mudita Harmony devices", async () => {
     const output = `
 USB:
     USB 3.1 Bus:
@@ -254,7 +255,7 @@ USB:
     ])
   })
 
-  it("should complete device when only BSD Name is available", async () => {
+  it("should correctly parse USB data when only BSD Name is provided for a device", async () => {
     const output = `
 USB:
     USB 3.1 Bus:
@@ -275,7 +276,7 @@ USB:
     })
   })
 
-  it("should handle devices connected through hubs", async () => {
+  it("should correctly handle devices connected through USB hubs", async () => {
     const output = `
 USB:
     USB 3.1 Bus:
@@ -316,7 +317,7 @@ USB:
     })
   })
 
-  it("should handle device without BSD Name", async () => {
+  it("should correctly parse a Mudita device without a BSD Name", async () => {
     const output = `
 USB:
     USB 3.1 Bus:
@@ -347,7 +348,7 @@ USB:
     })
   })
 
-  it("should handle device without BSD Name followed by another device", async () => {
+  it("should correctly parse a Mudita device without a BSD Name followed by another device", async () => {
     const output = `
 USB:
     USB 3.1 Bus:
@@ -404,7 +405,7 @@ USB:
   })
 
 
-  it("should return undefined if no matching device is found", async () => {
+  it("should return an empty array if no Mudita devices are found", async () => {
     const output = `
 USB:
     USB 2.0 Bus:
