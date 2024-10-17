@@ -10,6 +10,7 @@ import {
 } from "shared/utils"
 import IDeviceFlash from "../device-flash.interface"
 import LinuxPartitionParser from "./linux-partition-parser"
+import { flashExecCommandName } from "../flash-exec-command-name"
 
 class LinuxDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(deviceName: string): Promise<string> {
@@ -39,7 +40,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     const ejectDeviceCommand = await this.getEjectDeviceCommand(device)
 
     const command = `${unmountDeviceCommand} && ${flashImageToDeviceCommand} && ${ejectDeviceCommand}`
-    await execCommandWithSudo(command)
+    await execCommandWithSudo(command, {name: flashExecCommandName})
 
     console.log("Flash process completed successfully")
   }

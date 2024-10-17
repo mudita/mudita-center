@@ -9,6 +9,7 @@ import {
   splitPathToDirNameAndBaseName,
 } from "shared/utils"
 import IDeviceFlash from "../device-flash.interface"
+import { flashExecCommandName } from "Libs/msc-flash/msc-flash-harmony/src/lib/services/device-flash/flash-exec-command-name"
 
 interface DiskInformation {
   DiskNumber: number
@@ -59,7 +60,7 @@ class WindowsDeviceFlashService implements IDeviceFlash {
     const command = `cd ${path} && powershell.exe -ExecutionPolicy Bypass -File ${scriptBasename} -file ${imageBasename} -diskid ${device} -force`
 
     try {
-      await execCommandWithSudo(command)
+      await execCommandWithSudo(command, { name: flashExecCommandName })
     } catch (error) {
       throw new Error(
         `An error occurred during flashing: ${JSON.stringify(error)}`
