@@ -3,10 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import isMatch from "lodash/isMatch"
 import { execPromise } from "../exec-command"
 import {
   USBDevice,
   USBPortDevice,
+  USBPortDeviceFilters,
 } from "./macos-usb-port-device-parser.interface"
 
 const fieldPatterns: Partial<Record<keyof USBDevice, RegExp>> = {
@@ -20,16 +22,22 @@ const fieldPatterns: Partial<Record<keyof USBDevice, RegExp>> = {
 }
 
 export class MacosUSBPortDeviceParser {
-  static async getUSBPortDevices(): Promise<USBPortDevice[]> {
+  static async getUSBPortDevices(
+    filters?: USBPortDeviceFilters
+  ): Promise<USBPortDevice[]> {
     const usbDevices = await MacosUSBPortDeviceParser.getUSBDevice()
-    return usbDevices.map((usbDevice) => {
+    return usbDevices.reduce<USBPortDevice[]>((filteredDevices, usbDevice) => {
       const vendorId = usbDevice.vendorId?.replace("0x", "")
       const productId = usbDevice.productId?.replace("0x", "")
       const serialNumber = usbDevice.serialNumber?.replace("0x", "")
       const locationId = usbDevice.locationId?.split(" ")[0]
-      const path = vendorId && productId && serialNumber && `${vendorId}/${productId}/${serialNumber}`
+      const path =
+        vendorId &&
+        productId &&
+        serialNumber &&
+        `${vendorId}/${productId}/${serialNumber}`
 
-      return {
+      const mappedDevice: USBPortDevice = {
         ...usbDevice,
         productId,
         vendorId,
@@ -37,7 +45,14 @@ export class MacosUSBPortDeviceParser {
         locationId,
         path: path ?? "unknown",
       }
-    })
+
+      if (filters && !isMatch(mappedDevice, filters)) {
+        return filteredDevices
+      }
+
+      filteredDevices.push(mappedDevice)
+      return filteredDevices
+    }, [])
   }
 
   private static async getUSBDevice(): Promise<USBDevice[]> {
