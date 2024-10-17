@@ -29,7 +29,7 @@ export const Form: APIFC<undefined, FormConfig> & {
   useFormRegister({
     formName: componentKey!,
     options: {
-      defaultValues: config?.defaultValues,
+      defaultFields: config?.defaultFields,
     },
   })
   return <FormProvider {...methods}>{children}</FormProvider>

@@ -14,6 +14,7 @@ export type FormSearchInputData = z.infer<typeof dataValidator>
 const configValidator = z.object({
   name: z.string(),
   label: z.string(),
+  formName: z.string(),
 })
 
 export type FormSearchInputConfig = z.infer<typeof configValidator>

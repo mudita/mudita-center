@@ -14,7 +14,7 @@ import { GenericThemeProvider } from "generic-view/theme"
 import { CategoryTabs } from "./components/category-tabs"
 import { SubcategoriesList } from "./components/subcategories-list"
 import { HelpFooter } from "./components/help-footer"
-import { Search } from "./components/search"
+// import { Search } from "./components/search"
 import { useSelector } from "react-redux"
 import { selectHelpCategoriesList } from "help/store"
 import { Form, SpinnerLoader } from "generic-view/ui"
@@ -37,11 +37,16 @@ const Help: FunctionComponent = () => {
   }
 
   return (
-    <Form>
+    <Form
+      config={{
+        defaultFields: {
+          search: "",
+          activeResultIndex: 0,
+        },
+      }}
+    >
       <Wrapper>
-        <SearchWrapper>
-          <Search />
-        </SearchWrapper>
+        <SearchWrapper>{/*<Search />*/}</SearchWrapper>
         <ContentWrapper>
           {!categories ? (
             <LoaderWrapper>

@@ -8,6 +8,7 @@ import { Toast } from "./reducer"
 import { ActionName } from "../action-names"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { addToast } from "./actions"
+import { theme } from "generic-view/theme"
 
 export const openToastAction = createAsyncThunk<
   void,
@@ -15,7 +16,10 @@ export const openToastAction = createAsyncThunk<
   { state: ReduxRootState }
 >(ActionName.OpenToast, async (toastKey, { dispatch }) => {
   dispatch(addToast(toastKey))
-  // Delay action to add toast before the state will update
-  await new Promise((resolve) => setTimeout(resolve, 100))
+  // Delay any actions following this one
+  // so the toast can render before the state will be potentially updated
+  await new Promise((resolve) => {
+    setTimeout(resolve, theme.animation.toast.duration)
+  })
   return
 })

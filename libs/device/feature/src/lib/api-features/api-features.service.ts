@@ -49,6 +49,10 @@ export class APIFeaturesService {
     })
 
     if (response.ok) {
+      if (process.env.DEV_API_CONFIG === "1") {
+        return Result.success(response.data.body as FeatureConfig)
+      }
+
       const config = featureConfigValidator.safeParse(response.data.body)
       if (process.env.NODE_ENV === "development" && !config.success) {
         console.log(JSON.stringify(config, null, 2))

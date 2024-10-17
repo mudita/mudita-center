@@ -21,6 +21,7 @@ const configValidator = z.object({
   validation: inputValidation.optional(),
   disabled: z.boolean().optional(),
   size: z.enum(["small", "large"]).optional(),
+  formName: z.string().optional(),
 })
 
 export type FormCheckboxInputConfig = z.infer<typeof configValidator>

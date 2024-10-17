@@ -5,6 +5,6 @@
 
 import contactsView from "./contacts-view"
 
-export default {
+export const devViews = {
   contacts: contactsView,
 }

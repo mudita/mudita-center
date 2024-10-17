@@ -3,12 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-} from "react"
+import React, { FunctionComponent, useMemo } from "react"
 import { defineMessages } from "react-intl"
 import { Modal } from "../../interactive/modal"
 import { IconType } from "generic-view/utils"
@@ -16,9 +11,12 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { UnifiedContact } from "device/models"
-import { useFormContext } from "react-hook-form"
 import { Tooltip } from "../../interactive/tooltip/tooltip"
-import { getDisplayName, importContactsSelector } from "generic-view/store"
+import {
+  getDisplayName,
+  importContactsSelector,
+  useFormField,
+} from "generic-view/store"
 import { useSelector } from "react-redux"
 import { Divider } from "../../helpers/divider"
 import { Form } from "../../interactive/form/form"
@@ -26,7 +24,7 @@ import { ButtonAction } from "generic-view/models"
 import { Paragraph5 } from "../../texts/paragraphs"
 
 export const SELECTED_CONTACTS_FIELD = "selected-contacts"
-export const ALL_CONTACTS_FIELD = "all-contacts"
+export const SEARCH_FIELD = "search"
 
 const messages = defineMessages({
   title: {
@@ -48,17 +46,18 @@ const messages = defineMessages({
 
 interface Props {
   nextAction: ButtonAction
+  formName: string
 }
 
 export const ImportContactsList: FunctionComponent<Props> = ({
   nextAction,
+  formName,
 }) => {
-  const { watch, setValue } = useFormContext()
   const contacts = useSelector(importContactsSelector)
-  const searchPhrase = watch("search")
-  const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
-  const allContactsSelected =
-    selectedContacts.length === contacts?.length && contacts?.length > 0
+
+  const { getField } = useFormField({ formName })
+  const searchPhrase = getField(SEARCH_FIELD)
+  const selectedContacts = getField<string[]>(SELECTED_CONTACTS_FIELD)
 
   const filteredContacts = useMemo(() => {
     return contacts.filter(({ firstName, middleName, lastName }) => {
@@ -71,23 +70,6 @@ export const ImportContactsList: FunctionComponent<Props> = ({
     })
   }, [contacts, searchPhrase])
 
-  const toggleAll = useCallback(() => {
-    if (allContactsSelected) {
-      setValue(SELECTED_CONTACTS_FIELD, [])
-      setValue(ALL_CONTACTS_FIELD, "")
-    } else {
-      setValue(
-        SELECTED_CONTACTS_FIELD,
-        contacts.map(({ id }) => id)
-      )
-      setValue(ALL_CONTACTS_FIELD, "true")
-    }
-  }, [allContactsSelected, contacts, setValue])
-
-  useEffect(() => {
-    setValue(ALL_CONTACTS_FIELD, allContactsSelected ? "true" : "")
-  }, [allContactsSelected, setValue])
-
   return (
     <>
       <Modal.TitleIcon config={{ type: IconType.ContactsBook }} />
@@ -95,17 +77,17 @@ export const ImportContactsList: FunctionComponent<Props> = ({
       <Form.SearchInput
         config={{
           label: "Search contacts",
-          name: "search",
+          name: SEARCH_FIELD,
+          formName,
         }}
       />
       <AllContactsSelector>
         <AllCheckbox
           config={{
-            name: ALL_CONTACTS_FIELD,
-            value: "true",
+            name: SELECTED_CONTACTS_FIELD,
             label: intl.formatMessage(messages.selectAllButton),
-            onToggle: toggleAll,
-            checked: allContactsSelected,
+            multipleValues: contacts.map(({ id }) => id),
+            formName,
           }}
         />
         <SelectedInfo>
@@ -122,7 +104,7 @@ export const ImportContactsList: FunctionComponent<Props> = ({
         )}
         <ScrollableContent>
           {filteredContacts.map((item) => {
-            return <ContactItem key={item.id} {...item} />
+            return <ContactItem key={item.id} {...item} formName={formName} />
           })}
         </ScrollableContent>
       </Article>
@@ -142,10 +124,11 @@ export const ImportContactsList: FunctionComponent<Props> = ({
   )
 }
 
-const ContactItem: React.FC<UnifiedContact> = ({
+const ContactItem: FunctionComponent<UnifiedContact & { formName: string }> = ({
   id,
   displayName,
   phoneNumbers,
+  formName,
 }) => {
   return (
     <ContactItemWrapper>
@@ -153,6 +136,7 @@ const ContactItem: React.FC<UnifiedContact> = ({
         config={{
           value: id,
           name: SELECTED_CONTACTS_FIELD,
+          formName,
         }}
       >
         <ContactLabelWrapper>

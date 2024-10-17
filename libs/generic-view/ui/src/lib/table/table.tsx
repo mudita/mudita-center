@@ -13,11 +13,11 @@ import React, {
   useState,
 } from "react"
 import styled, { css } from "styled-components"
-import { APIFC, useViewFormContext } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
 import { TableConfig, TableData } from "generic-view/models"
 import { TableCell } from "./table-cell"
 import { P1 } from "../texts/paragraphs"
-import { difference, intersection } from "lodash"
+import { difference } from "lodash"
 import { useFormField } from "generic-view/store"
 
 const rowHeight = 64
@@ -25,29 +25,30 @@ const rowHeight = 64
 export const Table: APIFC<TableData, TableConfig> & {
   Cell: typeof TableCell
 } = ({ data = [], config, children, ...props }) => {
-  const getFormContext = useViewFormContext()
-  const formContext = getFormContext()
+  // const getFormContext = useViewFormContext()
+  // const formContext = getFormContext()
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
   const [visibleRowsBounds, setVisibleRowsBounds] = useState<[number, number]>([
     -1, -1,
   ])
 
-  const { setValue: setAllIds } = useFormField({
-    formName: config.form.formName,
+  const { form, columnsNames } = config
+  const { allIdsFieldName, selectedIdsFieldName, activeIdFieldName } =
+    form.assignFields
+  const { setField, getField } = useFormField({
+    formName: form.formName,
   })
-  const { formOptions, columnsNames } = config
-  const { activeIdFieldName } = formOptions
 
   const activeRowId = activeIdFieldName
-    ? formContext.watch(activeIdFieldName)
+    ? getField(activeIdFieldName)
     : undefined
 
   const onRowClick = useCallback(
     (id: string) => {
       if (!activeIdFieldName) return
-      formContext.setValue(activeIdFieldName!, id)
+      setField(activeIdFieldName, id)
     },
-    [activeIdFieldName, formContext]
+    [activeIdFieldName, setField]
   )
 
   const handleScroll = useCallback(() => {
@@ -65,26 +66,28 @@ export const Table: APIFC<TableData, TableConfig> & {
   }, [])
 
   useEffect(() => {
-    if (formOptions.allIdsFieldName) {
-      formContext.setValue(formOptions.allIdsFieldName, data)
-      setAllIds(formOptions.allIdsFieldName, data)
+    if (allIdsFieldName) {
+      // formContext.setValue(formOptions.allIdsFieldName, data)
+      setField(allIdsFieldName, data)
     }
-  }, [data, formContext, formOptions.allIdsFieldName, setAllIds])
+  }, [data, allIdsFieldName, setField])
 
   useEffect(() => {
-    if (formOptions.selectedIdsFieldName) {
-      const selectedIds = formContext.getValues(
-        formOptions.selectedIdsFieldName
-      )
+    if (selectedIdsFieldName) {
+      // const selectedIds = formContext.getValues(
+      //   formOptions.selectedIdsFieldName
+      // )
+      const selectedIds = getField(selectedIdsFieldName) as unknown[]
       const unavailableIds = difference(selectedIds, data)
       if (unavailableIds.length > 0) {
-        formContext.setValue(
-          formOptions.selectedIdsFieldName,
-          intersection(data, unavailableIds)
-        )
+        setField(selectedIdsFieldName, difference(selectedIds, unavailableIds))
+        // formContext.setValue(
+        //   formOptions.selectedIdsFieldName,
+        //   intersection(data, unavailableIds)
+        // )
       }
     }
-  }, [data, formContext, formOptions.selectedIdsFieldName])
+  }, [data, getField, selectedIdsFieldName, setField])
 
   useEffect(() => {
     const scrollWrapper = scrollWrapperRef.current

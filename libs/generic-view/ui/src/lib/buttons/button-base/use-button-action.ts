@@ -12,6 +12,7 @@ import {
   openToastAction,
   replaceModal,
   selectActiveApiDeviceId,
+  useFormField,
   useScreenTitle,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
@@ -27,6 +28,7 @@ export const useButtonAction = (viewKey: string) => {
   const currentViewName = useScreenTitle(viewKey)!
   const getFormContext = useViewFormContext()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)!
+  const { setField, resetField } = useFormField()
 
   return (actions: ButtonActions) =>
     runActions(actions)({
@@ -35,6 +37,8 @@ export const useButtonAction = (viewKey: string) => {
       currentViewName,
       getFormContext,
       activeDeviceId,
+      setField,
+      resetField,
     })
 }
 
@@ -44,6 +48,8 @@ interface RunActionsProviders {
   currentViewName: string
   getFormContext: ReturnType<typeof useViewFormContext>
   activeDeviceId: string
+  setField: ReturnType<typeof useFormField>["setField"]
+  resetField: ReturnType<typeof useFormField>["resetField"]
 }
 
 const runActions = (actions?: ButtonActions) => {
@@ -56,6 +62,8 @@ const runActions = (actions?: ButtonActions) => {
       currentViewName,
       getFormContext,
       activeDeviceId,
+      setField,
+      resetField,
     } = providers
 
     for (const action of actions) {
@@ -112,6 +120,16 @@ const runActions = (actions?: ButtonActions) => {
         case "form-reset":
           getFormContext(action.formKey)?.reset()
           break
+        case "form-set-field-v2":
+          setField(action.fieldKey, action.value, {
+            customFormName: action.formName,
+          })
+          break
+        case "form-reset-v2":
+          resetField(action.fieldKey, {
+            customFormName: action.formName,
+          })
+          break
         case "entities-delete":
           await dispatch(
             deleteEntitiesDataAction({
@@ -132,8 +150,6 @@ const runActions = (actions?: ButtonActions) => {
           break
         case "custom":
           action.callback()
-          break
-        default:
           break
       }
     }

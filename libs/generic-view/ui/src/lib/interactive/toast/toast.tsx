@@ -10,8 +10,7 @@ import { ToastConfig } from "generic-view/models"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { useDispatch, useSelector } from "react-redux"
 import { removeToast } from "generic-view/store"
-
-const toastAnimationDuration = 300
+import { theme } from "generic-view/theme"
 
 export const Toast: APIFC<undefined, ToastConfig> = ({
   config,
@@ -43,11 +42,11 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
     if (visible) {
       visibilityTimeoutRef.current = setTimeout(() => {
         setVisible(false)
-      }, toastVisibilityDuration + toastAnimationDuration)
+      }, toastVisibilityDuration + theme.animation.toast.duration)
     } else {
       animationTimeoutRef.current = setTimeout(() => {
         setOpened(false)
-      }, toastAnimationDuration)
+      }, theme.animation.toast.duration)
     }
     return () => {
       clearTimeout(visibilityTimeoutRef.current)
@@ -63,11 +62,7 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
 
   if (!opened) return null
   return (
-    <ToastWrapper
-      {...props}
-      $opened={visible}
-      $animationDuration={toastAnimationDuration}
-    >
+    <ToastWrapper {...props} $opened={visible}>
       {children}
     </ToastWrapper>
   )
@@ -93,7 +88,6 @@ const transitionOut = keyframes`
 
 const ToastWrapper = styled.div<{
   $opened?: boolean
-  $animationDuration: number
 }>`
   position: absolute;
   bottom: 0;
@@ -107,17 +101,20 @@ const ToastWrapper = styled.div<{
   flex-direction: row;
   align-items: center;
   gap: 0.4rem;
+  animation-duration: ${({ theme }) => theme.animation.toast.duration}ms;
+  animation-timing-function: ${({ theme }) => theme.animation.toast.easing};
 
   p {
     color: ${({ theme }) => theme.color.black};
   }
 
-  ${({ $opened, $animationDuration }) =>
-    $opened
+  ${({ $opened }) => {
+    return $opened
       ? css`
-          animation: ${transitionIn} ${$animationDuration}ms ease-in-out;
+          animation-name: ${transitionIn};
         `
       : css`
-          animation: ${transitionOut} ${$animationDuration}ms ease-in-out;
-        `}
+          animation-name: ${transitionOut};
+        `
+  }}
 `
