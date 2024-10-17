@@ -14,7 +14,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { defineMessages } from "react-intl"
 import styled, { css } from "styled-components"
 import { useFormContext } from "react-hook-form"
-import { cleanSearchPhrase, useHelpSearch } from "help/feature"
+import { useHelpSearch } from "help/feature"
 import { SearchResults, SearchResultsWrapper } from "./search-results"
 import { H3, P3, SearchInput } from "generic-view/ui"
 import { useHistory } from "react-router"
@@ -40,9 +40,7 @@ export const Search: FunctionComponent = () => {
   }>()
   const history = useHistory()
   const deferredSearchPhrase = useDeferredValue(watch("search") || "")
-  const { search: cleanedSearchPhrase, highlight: cleanedHighlightPhrase } =
-    cleanSearchPhrase(deferredSearchPhrase)
-  const results = useHelpSearch(cleanedSearchPhrase)
+  const results = useHelpSearch(deferredSearchPhrase)
   const activeResultIndex = watch("activeResultIndex")
   const searchResultsRef = useRef<HTMLDivElement>(null)
 
@@ -116,7 +114,7 @@ export const Search: FunctionComponent = () => {
       </P3>
       <InputWrapper
         onKeyDown={handleKeyDown}
-        dropdownActive={cleanedSearchPhrase.length > 1}
+        dropdownActive={deferredSearchPhrase.length > 1}
         data-testid={HelpTestId.SearchInputWrapper}
       >
         <Input
@@ -128,7 +126,7 @@ export const Search: FunctionComponent = () => {
         />
         <SearchResults
           results={results}
-          phrase={cleanedHighlightPhrase}
+          phrase={deferredSearchPhrase}
           ref={searchResultsRef}
         />
       </InputWrapper>
