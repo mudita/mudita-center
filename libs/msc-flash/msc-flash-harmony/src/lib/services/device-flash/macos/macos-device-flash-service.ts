@@ -42,18 +42,13 @@ class MacDeviceFlashService implements IDeviceFlash {
     const devices = await this.getDevices()
 
     const device = devices.find((device) => {
-      return (
-        device.VendorID?.includes("3310") &&
-        device.name?.includes("Mudita Harmony (MSC mode)")
-      )
+      return device.name?.includes("Mudita Harmony (MSC mode)")
     })
 
     if (!device) {
-      console.error(
-        `Device with VendorID: 3310 and name: "Mudita Harmony (MSC mode)" not found.`
-      )
+      console.error(`Device with Name: "Mudita Harmony (MSC mode)" not found.`)
       throw new Error(
-        `Device with VendorID: 3310 and name: "Mudita Harmony (MSC mode)" not found.`
+        `Device with Name: "Mudita Harmony (MSC mode)" not found.`
       )
     }
 

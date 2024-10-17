@@ -9,6 +9,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { FlashingProcessState } from "../constants"
 import { selectFlashingAbortController } from "../selectors"
 import { setFlashingProcessState } from "./set-flashing-process-state.action"
+import { setMscFlashingAbort } from "./actions"
 
 export const abortMscFlashing = createAsyncThunk<
   void,
@@ -20,6 +21,7 @@ export const abortMscFlashing = createAsyncThunk<
     const abortController = selectFlashingAbortController(getState())
 
     abortController?.abort?.()
+    dispatch(setMscFlashingAbort(undefined))
 
     if (reason) {
       dispatch(setFlashingProcessState(reason))

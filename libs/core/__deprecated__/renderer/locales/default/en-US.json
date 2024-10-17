@@ -1018,6 +1018,8 @@
   "module.recoveryMode.modal.restarting.message": "Please do not disconnect your Harmony.",
   "module.recoveryMode.modal.error.subtitle": "Recovery failed",
   "module.recoveryMode.modal.error.message": "The process was interrupted. Please try again.",
+  "module.recoveryMode.modal.waitingForBackButton.subtitle": "Almost finished...",
+  "module.recoveryMode.modal.waitingForBackButton.description": "Press the back button on your device to complete the recovery process.",
   "module.recoveryMode.mocal.terminalInfo.subtitle": "Just a few more steps...",
   "module.recoveryMode.mocal.terminalInfo.description": "The Terminal was opened in the background",
   "module.recoveryMode.mocal.terminalInfo.step1": "1. Switch to the open terminal",

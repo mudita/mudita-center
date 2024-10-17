@@ -8,6 +8,7 @@ import Arrow from "Core/__deprecated__/renderer/svg/arrow.svg"
 import ArrowLongLeft from "Core/__deprecated__/renderer/svg/arrow-long-left.svg"
 import ArrowLongRight from "Core/__deprecated__/renderer/svg/arrow-long-right.svg"
 import AttachContact from "Core/__deprecated__/renderer/svg/attach-contact.svg"
+import BackArrowIcon from "Core/__deprecated__/renderer/svg/back-arrow-icon.svg"
 import BackupFolder from "Core/__deprecated__/renderer/svg/backup-folder.svg"
 import Battery from "Core/__deprecated__/renderer/svg/battery.svg"
 import BorderCheck from "Core/__deprecated__/renderer/svg/border-check-icon.svg"
@@ -145,6 +146,9 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.AttachContact]: AttachContact,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  [IconType.BackArrowIcon]: BackArrowIcon,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.BackupFolder]: BackupFolder,

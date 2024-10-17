@@ -10,6 +10,7 @@ export enum FlashingProcessState {
   UnpackingFiles = "unpacking-files",
   FlashingProcess = "flashing-process",
   TerminalOpened = "terminal-opened",
+  WaitingForBackButton = "waiting-for-back-button",
   Restarting = "restarting-device",
   Completed = "completed",
   Canceled = "canceled",

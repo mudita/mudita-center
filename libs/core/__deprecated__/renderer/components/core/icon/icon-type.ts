@@ -8,6 +8,7 @@ export enum IconType {
   ArrowLongLeft,
   ArrowLongRight,
   AttachContact,
+  BackArrowIcon,
   BackupFolder,
   Battery,
   BorderCheckIcon,
