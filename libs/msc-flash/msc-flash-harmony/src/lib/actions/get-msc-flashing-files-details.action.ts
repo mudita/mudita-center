@@ -12,16 +12,22 @@ import { MscFlashDetailsService } from "../services/msc-flash-details.service"
 
 export const getMscFlashingFilesDetails = createAsyncThunk<
   MscFlashDetails,
-  { product: Product; environment: OsEnvironment; platform: SupportedPlatform },
+  {
+    product: Product
+    environment: OsEnvironment
+    platform: SupportedPlatform
+    signal?: AbortSignal
+  },
   { state: ReduxRootState }
 >(
   ActionName.MscFlashingGetFilesDetails,
-  async ({ product, environment, platform }, { rejectWithValue }) => {
+  async ({ product, environment, platform, signal }, { rejectWithValue }) => {
     try {
       const filesDetails = await MscFlashDetailsService.getMscFlashDetails(
         product,
         environment,
-        platform
+        platform,
+        signal
       )
 
       return filesDetails

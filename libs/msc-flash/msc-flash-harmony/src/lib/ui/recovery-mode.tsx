@@ -26,6 +26,9 @@ import { selectFlashingProcessState } from "../selectors"
 import { FlashingProcessState } from "../constants"
 import theme from "Core/core/styles/theming/theme"
 import { RestartingDeviceModal } from "./restarting-device-modal/restarting-device-modal.component"
+import { MacTerminalInfoModal } from "./mac-terminal-info-modal/mac-terminal-info-modal.component"
+import { abortMscFlashing } from "../actions"
+import { WaitingForBackButtonModal } from "./waiting-for-back-button-modal.component"
 
 const messages = defineMessages({
   header: {
@@ -126,7 +129,17 @@ const RecoveryModeUI: FunctionComponent = () => {
 
   const isRestartingModalVisible = (): boolean => {
     return flashingProcessState === FlashingProcessState.Restarting
-    // return true
+  }
+  const isWaitingForBackButtonVisible = (): boolean => {
+    return flashingProcessState === FlashingProcessState.WaitingForBackButton
+  }
+
+  const isMacTerminalInfoModalVisible = (): boolean => {
+    return flashingProcessState === FlashingProcessState.TerminalOpened
+  }
+
+  const cancelMscFlashing = (): void => {
+    dispatch(abortMscFlashing({ reason: FlashingProcessState.Canceled }))
   }
 
   return (
@@ -197,6 +210,14 @@ const RecoveryModeUI: FunctionComponent = () => {
           progressMessage={getProgressMessage()}
         />
         <RestartingDeviceModal open={isRestartingModalVisible()} />
+        <MacTerminalInfoModal
+          open={isMacTerminalInfoModalVisible()}
+          onClose={cancelMscFlashing}
+        />
+        <WaitingForBackButtonModal
+          open={isWaitingForBackButtonVisible()}
+          onClose={cancelMscFlashing}
+        />
       </ThemeProvider>
     </>
   )

@@ -39,7 +39,6 @@ export const useDeviceDetachedEffect = () => {
 }
 
 const useHandleDevicesDetached = () => {
-  const dispatch = useDispatch<Dispatch>()
   const processActiveDevicesDetachment = useProcessActiveDevicesDetachment()
   const processSingleDeviceRemaining = useProcessSingleDeviceRemaining()
 
