@@ -8,12 +8,14 @@ import Arrow from "Core/__deprecated__/renderer/svg/arrow.svg"
 import ArrowLongLeft from "Core/__deprecated__/renderer/svg/arrow-long-left.svg"
 import ArrowLongRight from "Core/__deprecated__/renderer/svg/arrow-long-right.svg"
 import AttachContact from "Core/__deprecated__/renderer/svg/attach-contact.svg"
+import BackArrowIcon from "Core/__deprecated__/renderer/svg/back-arrow-icon.svg"
 import BackupFolder from "Core/__deprecated__/renderer/svg/backup-folder.svg"
 import Battery from "Core/__deprecated__/renderer/svg/battery.svg"
 import BorderCheck from "Core/__deprecated__/renderer/svg/border-check-icon.svg"
 import ChargingBattery from "Core/__deprecated__/renderer/svg/charging-battery.svg"
 import Check from "Core/__deprecated__/renderer/svg/check-icon.svg"
 import CheckCircle from "Core/__deprecated__/renderer/svg/check-circle.svg"
+import CheckCircleBlack from "Core/__deprecated__/renderer/svg/check-circle-black.svg"
 import CheckIndeterminate from "Core/__deprecated__/renderer/svg/check-indeterminate.svg"
 import Close from "Core/__deprecated__/renderer/svg/close.svg"
 import CloseWhite from "Core/__deprecated__/renderer/svg/close-white.svg"
@@ -146,6 +148,9 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   [IconType.AttachContact]: AttachContact,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  [IconType.BackArrowIcon]: BackArrowIcon,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.BackupFolder]: BackupFolder,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -168,6 +173,9 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.CheckCircle]: CheckCircle,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  [IconType.CheckCircleBlack]: CheckCircleBlack,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.CheckIndeterminate]: CheckIndeterminate,
