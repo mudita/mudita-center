@@ -150,6 +150,7 @@ const defaultProps: Props = {
   forceUpdate: jest.fn(),
   forceUpdateState: State.Initial,
   backupActionDisabled: false,
+  synchronizeTime: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

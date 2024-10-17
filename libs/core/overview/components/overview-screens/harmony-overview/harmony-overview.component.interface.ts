@@ -44,5 +44,6 @@ export interface HarmonyOverviewProps {
   readonly abortDownload: () => void
   readonly forceUpdate: (releases: OsRelease[]) => void
   readonly closeForceUpdateFlow: () => void
+  readonly synchronizeTime: () => void
   readonly caseColour: CaseColour
 }
