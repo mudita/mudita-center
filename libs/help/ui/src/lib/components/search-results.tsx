@@ -17,6 +17,7 @@ import { useFormContext } from "react-hook-form"
 import { IconType } from "generic-view/utils"
 import { Icon, P3 } from "generic-view/ui"
 import { HelpTestId } from "../test-ids"
+import { cleanSearchPhrase } from "help/feature"
 
 const messages = defineMessages({
   description: {
@@ -37,6 +38,7 @@ const SearchResultsFC: FunctionComponent<
 > = ({ results, phrase = "", innerRef }) => {
   const { watch, setValue } = useFormContext()
   const categories = useSelector(selectHelpCategories)
+  const { highlight: cleanedHighlightPhrase } = cleanSearchPhrase(phrase)
   const activeIndex = watch("activeResultIndex")
 
   const handleMouseEnter = (index: number) => {
@@ -64,7 +66,7 @@ const SearchResultsFC: FunctionComponent<
                     <ArticleTitle>
                       <HighlightText
                         text={result.document.title}
-                        phrase={phrase}
+                        phrase={cleanedHighlightPhrase}
                       />
                     </ArticleTitle>
                   </ListItemLink>
