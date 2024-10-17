@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export * from "./lib/macos-usb-port-device-parser"
 export * from "./lib/answer-main"
 export * from "./lib/call-renderer.helper"
 export * from "./lib/delay"
