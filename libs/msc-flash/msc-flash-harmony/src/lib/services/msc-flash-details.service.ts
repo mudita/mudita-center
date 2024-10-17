@@ -14,12 +14,14 @@ export class MscFlashDetailsService {
   static async getMscFlashDetails(
     product: Product,
     environment: OsEnvironment,
-    platform: SupportedPlatform
+    platform: SupportedPlatform,
+    signal?: AbortSignal
   ): Promise<MscFlashDetails> {
     const response = await axios.get<MscFlashDetails>(
       `${API_BASE_URL}/${MuditaCenterServerRoutes.GetMscFlashDetails}`,
       {
         params: { product, environment, platform },
+        signal,
       }
     )
 

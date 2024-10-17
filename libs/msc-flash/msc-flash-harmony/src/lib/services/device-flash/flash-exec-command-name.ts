@@ -3,5 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./recovery-mode"
-export * from "./flashing-error-modal/flashing-error-modal.component"
+export const flashExecCommandName = "MSC Mudita Device Flash"
