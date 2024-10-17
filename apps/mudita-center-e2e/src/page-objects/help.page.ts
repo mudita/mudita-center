@@ -24,6 +24,9 @@ class HelpPage extends Page {
   public get helpSearchResults() {
     return $('[data-testid="help-search-results"]')
   }
+  public get iconSearchHelpSearchResults() {
+    return $('[data-testid="help-search-results"] [data-testid="icon-search"]')
+  }
   public get helpSearchResultsParagraph() {
     return $('[data-testid="help-search-results"] p')
   }
