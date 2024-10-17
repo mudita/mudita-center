@@ -3,10 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import path from "path"
-import { execPromise, execCommandWithSudo } from "shared/utils"
-import IDeviceFlash from "./device-flash.interface"
+import {
+  execPromise,
+  execCommandWithSudo,
+  splitPathToDirNameAndBaseName,
+} from "shared/utils"
+import IDeviceFlash from "../device-flash.interface"
 import LinuxPartitionParser from "./linux-partition-parser"
+import { flashExecCommandName } from "../flash-exec-command-name"
 
 class LinuxDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(deviceName: string): Promise<string> {
@@ -36,7 +40,7 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     const ejectDeviceCommand = await this.getEjectDeviceCommand(device)
 
     const command = `${unmountDeviceCommand} && ${flashImageToDeviceCommand} && ${ejectDeviceCommand}`
-    await execCommandWithSudo(command, { name: "Mudita Auto Flash" })
+    await execCommandWithSudo(command, {name: flashExecCommandName})
 
     console.log("Flash process completed successfully")
   }
@@ -55,9 +59,8 @@ class LinuxDeviceFlashService implements IDeviceFlash {
     imagePath: string,
     scriptPath: string
   ): Promise<string> {
-    const [path, scriptBasename] =
-      this.splitPathToDirnameAndBasename(scriptPath)
-    const [, imageBasename] = this.splitPathToDirnameAndBasename(imagePath)
+    const [path, scriptBasename] = splitPathToDirNameAndBaseName(scriptPath)
+    const [, imageBasename] = splitPathToDirNameAndBaseName(imagePath)
     return `chmod +x ${scriptPath} && cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`
   }
 
@@ -76,12 +79,6 @@ class LinuxDeviceFlashService implements IDeviceFlash {
       `lsblk /dev/${device} -o NAME,MOUNTPOINT`
     )
     return LinuxPartitionParser.parsePartitions(partitions ?? "")
-  }
-
-  private splitPathToDirnameAndBasename(currentPath: string) {
-    const dirname = path.dirname(currentPath)
-    const basename = path.basename(currentPath)
-    return [dirname, basename]
   }
 }
 

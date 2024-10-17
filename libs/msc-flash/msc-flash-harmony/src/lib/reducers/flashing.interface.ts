@@ -7,6 +7,7 @@ import { FlashingProcessState } from "../constants"
 import { MscFlashDetails } from "../dto"
 
 export interface FlashingState {
+  abortController?: AbortController
   processState: FlashingProcessState
   mscFlashDetails?: MscFlashDetails
   error: string | undefined
