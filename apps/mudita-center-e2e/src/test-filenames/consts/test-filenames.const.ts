@@ -30,5 +30,6 @@ export enum TestFilesPaths {
   kompaktDrawerStressTest = "src/specs/stress-tests/device-drawer-stress-test.ts",
   kompaktBackupModalGettingInitialInfo = "src/specs/overview/kompakt-backup-getting-initial-info.ts",
   helpVerifyFeedback = "src/specs/help/help-verify-feedback.ts",
+  helpSectionSearchNoResults = "src/specs/help/help-section-search-noresults.e2e.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`
