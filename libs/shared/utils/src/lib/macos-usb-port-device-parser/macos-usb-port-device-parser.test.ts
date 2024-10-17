@@ -183,18 +183,226 @@ USB:
     expect(devices.length).not.toBe(0)
     expect(devices).toEqual([
       {
-        "bsdName": "disk8",
-        "locationId": "0x02120000",
-        "manufacturer": "Mudita",
-        "name": "Mudita Harmony (MSC mode)",
-        "path": "3310/0103/0123456789ABCDEF",
-        "productId": "0103",
-        "serialNumber": "0123456789ABCDEF",
-        "vendorId": "3310",
-        "version": "1.01"
+        bsdName: "disk8",
+        locationId: "0x02120000",
+        manufacturer: "Mudita",
+        name: "Mudita Harmony (MSC mode)",
+        path: "3310/0103/0123456789ABCDEF",
+        productId: "0103",
+        serialNumber: "0123456789ABCDEF",
+        vendorId: "3310",
+        version: "1.01",
       },
     ])
   })
+
+  it("should handle multiple devices of the same type", async () => {
+    const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Product ID: 0x0103
+          Vendor ID: 0x3310
+          Version: 1.01
+          Serial Number: 0123456789ABCDEF
+          Speed: Up to 480 Mb/s
+          Manufacturer: Mudita
+          Location ID: 0x00100000 / 1
+          Media:
+            HARMONY MSC:
+              BSD Name: disk4
+      Mudita Harmony (MSC mode):
+          Product ID: 0x0104
+          Vendor ID: 0x3310
+          Version: 1.02
+          Serial Number: 9876543210FEDCBA
+          Speed: Up to 480 Mb/s
+          Manufacturer: Mudita
+          Location ID: 0x00200000 / 2
+          Media:
+            HARMONY MSC:
+              BSD Name: disk5
+`
+    ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    expect(devices.length).toBe(2)
+    expect(devices).toEqual([
+      {
+        bsdName: "disk4",
+        locationId: "0x00100000",
+        manufacturer: "Mudita",
+        name: "Mudita Harmony (MSC mode)",
+        path: "3310/0103/0123456789ABCDEF",
+        productId: "0103",
+        serialNumber: "0123456789ABCDEF",
+        vendorId: "3310",
+        version: "1.01",
+      },
+      {
+        bsdName: "disk5",
+        locationId: "0x00200000",
+        manufacturer: "Mudita",
+        name: "Mudita Harmony (MSC mode)",
+        path: "3310/0104/9876543210FEDCBA",
+        productId: "0104",
+        serialNumber: "9876543210FEDCBA",
+        vendorId: "3310",
+        version: "1.02",
+      },
+    ])
+  })
+
+  it("should complete device when only BSD Name is available", async () => {
+    const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Media:
+            HARMONY MSC:
+              BSD Name: disk7
+`
+    ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    expect(devices.length).toBe(1)
+    expect(devices[0]).toEqual({
+      bsdName: "disk7",
+      name: "Mudita Harmony (MSC mode)",
+      path: "unknown",
+    })
+  })
+
+  it("should handle devices connected through hubs", async () => {
+    const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        USB3.0 Hub:
+          Product ID: 0x0411
+          Vendor ID: 0x0bda (Realtek Semiconductor Corp.)
+          Version: 1.11
+          Speed: Up to 5 Gb/s
+          Manufacturer: Generic
+          Location ID: 0x02200000 / 2
+          Mudita Harmony (MSC mode):
+            Product ID: 0x0103
+            Vendor ID: 0x3310
+            Version: 1.01
+            Serial Number: 0123456789ABCDEF
+            Speed: Up to 480 Mb/s
+            Manufacturer: Mudita
+            Location ID: 0x02240000 / 6
+            Media:
+              HARMONY MSC:
+                BSD Name: disk6
+`
+    ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    expect(devices.length).toBe(1)
+    expect(devices[0]).toEqual({
+      bsdName: "disk6",
+      locationId: "0x02240000",
+      manufacturer: "Mudita",
+      name: "Mudita Harmony (MSC mode)",
+      path: "3310/0103/0123456789ABCDEF",
+      productId: "0103",
+      serialNumber: "0123456789ABCDEF",
+      vendorId: "3310",
+      version: "1.01",
+    })
+  })
+
+  it("should handle device without BSD Name", async () => {
+    const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Product ID: 0x0103
+          Vendor ID: 0x3310
+          Version: 1.01
+          Serial Number: 0123456789ABCDEF
+          Speed: Up to 480 Mb/s
+          Manufacturer: Mudita
+          Location ID: 0x00100000 / 1
+`
+    ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    expect(devices.length).toBe(1)
+    expect(devices[0].bsdName).toBeUndefined()
+    expect(devices[0]).toEqual({
+      locationId: "0x00100000",
+      manufacturer: "Mudita",
+      name: "Mudita Harmony (MSC mode)",
+      path: "3310/0103/0123456789ABCDEF",
+      productId: "0103",
+      serialNumber: "0123456789ABCDEF",
+      vendorId: "3310",
+      version: "1.01",
+    })
+  })
+
+  it("should handle device without BSD Name followed by another device", async () => {
+    const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Product ID: 0x0103
+          Vendor ID: 0x3310
+          Version: 1.01
+          Serial Number: 0123456789ABCDEF
+          Speed: Up to 480 Mb/s
+          Manufacturer: Mudita
+          Location ID: 0x00100000 / 1
+        Mudita Bell:
+          Product ID: 0x0104
+          Vendor ID: 0x3311
+          Version: 1.02
+          Serial Number: ABCDEF1234567890
+          Speed: Up to 480 Mb/s
+          Manufacturer: Mudita
+          Location ID: 0x00200000 / 2
+          Media:
+            BELL MSC:
+              BSD Name: disk5
+`
+    ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+
+    expect(devices.length).toBe(2)
+
+    expect(devices[0]).toEqual({
+      locationId: "0x00100000",
+      manufacturer: "Mudita",
+      name: "Mudita Harmony (MSC mode)",
+      path: "3310/0103/0123456789ABCDEF",
+      productId: "0103",
+      serialNumber: "0123456789ABCDEF",
+      vendorId: "3310",
+      version: "1.01",
+      bsdName: undefined,
+    })
+
+    expect(devices[1]).toEqual({
+      bsdName: "disk5",
+      locationId: "0x00200000",
+      manufacturer: "Mudita",
+      name: "Mudita Bell",
+      path: "3311/0104/ABCDEF1234567890",
+      productId: "0104",
+      serialNumber: "ABCDEF1234567890",
+      vendorId: "3311",
+      version: "1.02",
+    })
+  })
+
 
   it("should return undefined if no matching device is found", async () => {
     const output = `

@@ -23,10 +23,11 @@ export class MacosUSBPortDeviceParser {
   static async getUSBPortDevices(): Promise<USBPortDevice[]> {
     const usbDevices = await MacosUSBPortDeviceParser.getUSBDevice()
     return usbDevices.map((usbDevice) => {
-      const vendorId = usbDevice.vendorId!.replace("0x", "")
-      const productId = usbDevice.productId!.replace("0x", "")
-      const serialNumber = usbDevice.serialNumber!.replace("0x", "")
+      const vendorId = usbDevice.vendorId?.replace("0x", "")
+      const productId = usbDevice.productId?.replace("0x", "")
+      const serialNumber = usbDevice.serialNumber?.replace("0x", "")
       const locationId = usbDevice.locationId?.split(" ")[0]
+      const path = vendorId && productId && serialNumber && `${vendorId}/${productId}/${serialNumber}`
 
       return {
         ...usbDevice,
@@ -34,7 +35,7 @@ export class MacosUSBPortDeviceParser {
         vendorId,
         serialNumber,
         locationId,
-        path: `${vendorId}/${productId}/${serialNumber}`,
+        path: path ?? "unknown",
       }
     })
   }
