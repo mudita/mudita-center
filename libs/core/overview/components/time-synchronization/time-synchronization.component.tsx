@@ -138,6 +138,8 @@ const TimeSynchronization: FunctionComponent<Props> = ({
     }
   }, [dispatch, time])
 
+  if (!time) return null
+
   return (
     <>
       <Card {...props}>

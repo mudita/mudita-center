@@ -17,14 +17,17 @@ interface TimeSynchronizationState {
   abortController?: AbortController
 }
 
-export const initialState: TimeSynchronizationState = {
-  status: "idle",
-}
+export const initialState: TimeSynchronizationState = {}
 
 export const timeSynchronizationReducer =
   createReducer<TimeSynchronizationState>(initialState, (builder) => {
     builder.addCase(getTime.fulfilled, (state, action) => {
       state.time = action.payload
+    })
+    builder.addCase(getTime.rejected, (state) => {
+      delete state.time
+      delete state.status
+      delete state.abortController
     })
     builder.addCase(synchronizeTime.pending, (state) => {
       state.status = "loading"
@@ -33,12 +36,11 @@ export const timeSynchronizationReducer =
       state.status = "success"
     })
     builder.addCase(synchronizeTime.rejected, (state, action) => {
-      console.log(action.meta)
       state.status = "error"
     })
     builder.addCase(resetTimeSynchronizationStatus, (state) => {
       state.status = "idle"
-      state.abortController = undefined
+      delete state.abortController
     })
     builder.addCase(setTimeSynchronizationAbortController, (state, action) => {
       state.abortController = action.payload
