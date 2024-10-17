@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { execPromise } from "shared/utils"
+import { execPromise } from "../exec-command"
 import { MacosUSBPortDeviceParser } from "./macos-usb-port-device-parser"
 
-jest.mock("shared/utils", () => ({
+jest.mock("../exec-command", () => ({
   execPromise: jest.fn(),
 }))
 

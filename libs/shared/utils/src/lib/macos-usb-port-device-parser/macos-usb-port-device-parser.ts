@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { execPromise } from "shared/utils"
+import { execPromise } from "../exec-command"
 import {
   USBDevice,
   USBPortDevice,
