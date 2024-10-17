@@ -58,10 +58,13 @@ export class MacosUSBPortDeviceParser {
       }
 
       if (
-        currentDevice &&
-        !line.trim().startsWith("Media") &&
-        !line.trim().startsWith("Volumes")
+        (currentDevice && line.includes("Media")) ||
+        line.includes("Volumes")
       ) {
+        return
+      }
+
+      if (currentDevice) {
         for (const [key, regex] of Object.entries(fieldPatterns) as [
           keyof USBDevice,
           RegExp
@@ -70,6 +73,9 @@ export class MacosUSBPortDeviceParser {
           if (match) {
             if (key === "bsdName" && !currentDevice.bsdName) {
               currentDevice.bsdName = match[1]
+              devices.push(currentDevice)
+              currentDevice = null
+              break
             } else if (key !== "bsdName") {
               currentDevice[key] = match[1]
             }
