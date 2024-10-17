@@ -202,6 +202,7 @@ const handlePostExecutingTasks = async (
   if (deviceFlash instanceof MacDeviceFlashService) {
     dispatch(setFlashingProcessState(FlashingProcessState.TerminalOpened))
     await deviceFlash.waitForFlashCompletion({ signal })
+    dispatch(setFlashingProcessState(FlashingProcessState.Restarting))
   } else if (process.platform === "win32") {
     dispatch(setFlashingProcessState(FlashingProcessState.WaitingForBackButton))
   } else {
