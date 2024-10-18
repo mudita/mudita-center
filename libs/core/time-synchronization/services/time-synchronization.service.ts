@@ -8,6 +8,7 @@ import { Endpoint, Method } from "core-device/models"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { TimeSynchronizationError } from "Core/time-synchronization/constants/error.constant"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export class TimeSynchronizationService {
   constructor(private deviceProtocol: DeviceProtocol) {}
@@ -16,6 +17,8 @@ export class TimeSynchronizationService {
     const currentTime = Math.round(new Date().getTime() / 1000)
     const timezoneOffset = new Date().getTimezoneOffset() * 60
     const timestamp = currentTime - timezoneOffset
+    logger.info("Synchronizing time", { timestamp })
+
     const response = await this.deviceProtocol.device.request({
       endpoint: Endpoint.TimeSynchronization,
       method: Method.Post,
