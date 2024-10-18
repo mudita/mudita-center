@@ -105,12 +105,15 @@ export const transferMigrationData = createAsyncThunk<
       if (signal.aborted) {
         return rejectWithValue(undefined)
       }
-      const transferResponse = await dispatch(transferDataToDevice(domainsData))
-
-      if (transferResponse.meta.requestStatus === "rejected") {
-        return signal.aborted
-          ? rejectWithValue(undefined)
-          : handleError("Error transferring data")
+      if (!isEmpty(domainsData)) {
+        const transferResponse = await dispatch(
+          transferDataToDevice(domainsData)
+        )
+        if (transferResponse.meta.requestStatus === "rejected") {
+          return signal.aborted
+            ? rejectWithValue(undefined)
+            : handleError("Error transferring data")
+        }
       }
       dispatch(setDataMigrationStatus(DataMigrationStatus.DataTransferred))
 
