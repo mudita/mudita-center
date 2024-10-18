@@ -317,7 +317,7 @@ describe("dataProviderSort", () => {
     ])
   })
 
-  it("sorts data based on providerFieldGroup fields when lastName is the same", () => {
+  it("sorts data based on fieldGroup fields when lastName is the same", () => {
     const data = [
       { firstName: "Alice", lastName: "Smith" },
       { firstName: "Charlie", lastName: "Smith" },
@@ -326,7 +326,7 @@ describe("dataProviderSort", () => {
 
     const sort: DataSortConfig = [
       {
-        providerFieldGroup: ["lastName", "firstName"],
+        fieldGroup: ["lastName", "firstName"],
         direction: "asc",
         priority: 1,
       },
@@ -350,7 +350,7 @@ describe("dataProviderSort", () => {
 
     const sortConfig: DataSortConfig = [
       {
-        providerFieldGroup: ["lastName", "firstName"],
+        fieldGroup: ["lastName", "firstName"],
         priority: 1,
         direction: "asc",
       },
@@ -364,7 +364,7 @@ describe("dataProviderSort", () => {
     ])
   })
 
-  it("sorts data with empty providerFieldGroup values first when emptyOrder is 'first'", () => {
+  it("sorts data with empty fieldGroup values first when emptyOrder is 'first'", () => {
     const data = [
       { firstName: "Bob", lastName: "Smith", displayName: "Bob Smith" },
       { firstName: "Alice", lastName: null, displayName: "Alice" },
@@ -375,7 +375,7 @@ describe("dataProviderSort", () => {
 
     const sortConfig: DataSortConfig = [
       {
-        providerFieldGroup: ["lastName", "firstName"],
+        fieldGroup: ["lastName", "firstName"],
         priority: 1,
         direction: "asc",
         emptyOrder: "first",
@@ -392,7 +392,7 @@ describe("dataProviderSort", () => {
     ])
   })
 
-  it("sorts data with empty providerFieldGroup values last when emptyOrder is 'last'", () => {
+  it("sorts data with empty fieldGroup values last when emptyOrder is 'last'", () => {
     const data = [
       { firstName: "Bob", lastName: "Smith", displayName: "Bob Smith" },
       { firstName: "Alice", lastName: null, displayName: "Alice" },
@@ -403,7 +403,7 @@ describe("dataProviderSort", () => {
 
     const sortConfig: DataSortConfig = [
       {
-        providerFieldGroup: ["lastName", "firstName"],
+        fieldGroup: ["lastName", "firstName"],
         priority: 1,
         direction: "asc",
         emptyOrder: "last",
@@ -455,7 +455,7 @@ describe("dataProviderSort", () => {
 
     const sortConfig: DataSortConfig = [
       {
-        providerFieldGroup: ["displayName"],
+        fieldGroup: ["displayName"],
         priority: 1,
         direction: "asc",
         orderingPatterns: [
@@ -477,7 +477,7 @@ describe("dataProviderSort", () => {
     ])
   })
 
-  it("sorts complex data using `providerFieldGroup` and `orderingPatterns`, handling empty and numeric values", () => {
+  it("sorts complex data using `fieldGroup` and `orderingPatterns`, handling empty and numeric values", () => {
     const data = [
       { displayName: "Anna", firstName: "Anna", lastName: "" },
       { displayName: "+48345678902", firstName: "", lastName: "" },
@@ -487,7 +487,7 @@ describe("dataProviderSort", () => {
 
     const sortConfig: DataSortConfig = [
       {
-        providerFieldGroup: ["lastName", "firstName", "displayName"],
+        fieldGroup: ["lastName", "firstName", "displayName"],
         priority: 1,
         direction: "asc",
         orderingPatterns: [
@@ -517,7 +517,7 @@ describe("dataProviderSort", () => {
 
     const sortConfig: DataSortConfig = [
       {
-        providerFieldGroup: ["lastName", "displayName"],
+        fieldGroup: ["lastName", "displayName"],
         priority: 1,
         direction: "asc",
         orderingPatterns: ["/^\\p{L}.*/u", "/^\\d+$/"],
@@ -564,7 +564,7 @@ describe("dataProviderSort", () => {
     expect(result).toEqual(data)
   })
 
-  it("returns unsorted data when neither `providerField` nor `providerFieldGroup` is provided", () => {
+  it("returns unsorted data when neither `providerField` nor `fieldGroup` is provided", () => {
     const data = [
       { name: "Alice", age: 30 },
       { name: "Bob", age: 25 },
