@@ -5,14 +5,14 @@
 
 import { cloneDeep, get } from "lodash"
 import {
-  DataProviderSortConfig,
+  DataSortConfig,
   SortDirection,
   SortOrderingPatterns,
   SortSensitivity,
 } from "device/models"
-import { stringToRegex } from "./string-to-regex"
+import { stringToRegex } from "../string-to-regex/string-to-regex"
 
-export const sortByPriority = (sortConfigs: DataProviderSortConfig) => {
+export const sortByPriority = (sortConfigs: DataSortConfig) => {
   if (!sortConfigs) return []
   return cloneDeep(sortConfigs).sort((a, b) => a.priority - b.priority)
 }

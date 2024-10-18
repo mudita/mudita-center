@@ -3,18 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DataProviderSortConfig } from "device/models"
+import { DataSortConfig } from "device/models"
 import isEmpty from "lodash/isEmpty"
 import {
   compareFields,
   compareWithOrderingPatterns,
   getFirstNonEmptyField,
   sortByPriority,
-} from "./data-provider-sort.helpers"
+} from "./data-sort.helpers"
 
-export const dataProviderSort = (
+export const dataSort = (
   data: Record<string, unknown>[] = [],
-  configs?: DataProviderSortConfig
+  configs?: DataSortConfig
 ) => {
   if (!configs || !data) return data
 
@@ -22,14 +22,14 @@ export const dataProviderSort = (
 
   return data.sort((a, b) => {
     for (const {
-      providerField,
-      providerFieldGroup,
+      field,
+      fieldGroup,
       direction,
       orderingPatterns = [],
       sensitivity = "variant",
       emptyOrder = "last",
     } of sortedConfigs) {
-      const fields = providerField ? [providerField] : providerFieldGroup
+      const fields = field ? [field] : fieldGroup
       if (!fields) continue
       let index = 0
 
