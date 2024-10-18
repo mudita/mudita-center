@@ -10,9 +10,9 @@ import {
   compareWithOrderingPatterns,
   getFirstNonEmptyField,
   sortByPriority,
-} from "./data-provider-sort.helpers"
+} from "./data-sort.helpers"
 
-export const dataProviderSort = (
+export const dataSort = (
   data: Record<string, unknown>[] = [],
   configs?: DataProviderSortConfig
 ) => {

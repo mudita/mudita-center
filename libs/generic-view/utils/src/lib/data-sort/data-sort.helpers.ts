@@ -10,7 +10,7 @@ import {
   SortOrderingPatterns,
   SortSensitivity,
 } from "device/models"
-import { stringToRegex } from "./string-to-regex"
+import { stringToRegex } from "../data-provider-helpers/string-to-regex"
 
 export const sortByPriority = (sortConfigs: DataProviderSortConfig) => {
   if (!sortConfigs) return []

@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { dataProviderSort } from "./data-provider-sort"
+import { dataSort } from "./data-sort"
 import { DataProviderSortConfig } from "device/models"
 
 describe("dataProviderSort", () => {
   it("returns all data when no sort configuration is provided", () => {
     const data = [{ name: "Alice" }, { name: "Bob" }]
-    const result = dataProviderSort(data)
+    const result = dataSort(data)
     expect(result).toEqual(data)
   })
 
@@ -18,7 +18,7 @@ describe("dataProviderSort", () => {
     const sort = [
       { providerField: "name", direction: "asc", priority: 1 },
     ] as DataProviderSortConfig
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual([
       { name: "Alice" },
       { name: "Bob" },
@@ -31,7 +31,7 @@ describe("dataProviderSort", () => {
     const sort: DataProviderSortConfig = [
       { providerField: "name", direction: "desc", priority: 1 },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual([
       { name: "Charlie" },
       { name: "Bob" },
@@ -48,7 +48,7 @@ describe("dataProviderSort", () => {
     const sort: DataProviderSortConfig = [
       { providerField: "user.name", direction: "asc", priority: 1 },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual([
       { user: { name: "Alice" } },
       { user: { name: "Bob" } },
@@ -65,7 +65,7 @@ describe("dataProviderSort", () => {
     const sort: DataProviderSortConfig = [
       { providerField: "user.age", direction: "asc", priority: 1 },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual([
       { user: { age: 25 } },
       { user: { age: 30 } },
@@ -84,7 +84,7 @@ describe("dataProviderSort", () => {
     const sort: DataProviderSortConfig = [
       { providerField: "value", direction: "asc", priority: 1 },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
 
     expect(result).toEqual([
       { value: 3 },
@@ -106,7 +106,7 @@ describe("dataProviderSort", () => {
     const sort: DataProviderSortConfig = [
       { providerField: "value", direction: "asc", priority: 1 },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
 
     expect(result).toEqual([
       { value: "Alice" },
@@ -127,7 +127,7 @@ describe("dataProviderSort", () => {
       { providerField: "name", direction: "asc", priority: 1 },
       { providerField: "age", direction: "asc", priority: 2 },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual([
       { name: "Alice", age: "25" },
       { name: "Alice", age: "30" },
@@ -145,7 +145,7 @@ describe("dataProviderSort", () => {
       { providerField: "surname", direction: "asc", priority: 1 },
       { providerField: "name", direction: "asc", priority: 2 },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual([
       { name: "Alice", surname: "Smith" },
       { name: "Bob", surname: "Smith" },
@@ -169,7 +169,7 @@ describe("dataProviderSort", () => {
         sensitivity: "base",
       },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
 
     expect(result).toEqual([
       { name: "alice" },
@@ -196,7 +196,7 @@ describe("dataProviderSort", () => {
         sensitivity: "accent",
       },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
 
     expect(result).toEqual([
       { name: "alice" },
@@ -223,7 +223,7 @@ describe("dataProviderSort", () => {
         sensitivity: "case",
       },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual([
       { name: "alice" },
       { name: "álice" },
@@ -249,7 +249,7 @@ describe("dataProviderSort", () => {
         sensitivity: "variant",
       },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual([
       { name: "alice" },
       { name: "Alice" },
@@ -276,7 +276,7 @@ describe("dataProviderSort", () => {
         emptyOrder: "first",
       },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
 
     expect(result).toEqual([
       { name: null },
@@ -305,7 +305,7 @@ describe("dataProviderSort", () => {
         emptyOrder: "last",
       },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
 
     expect(result).toEqual([
       { name: "alice" },
@@ -332,7 +332,7 @@ describe("dataProviderSort", () => {
       },
     ]
 
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
 
     expect(result).toEqual([
       { firstName: "Alice", lastName: "Smith" },
@@ -356,7 +356,7 @@ describe("dataProviderSort", () => {
       },
     ]
 
-    const result = dataProviderSort(data, sortConfig)
+    const result = dataSort(data, sortConfig)
     expect(result).toEqual([
       { firstName: "Alice", lastName: "" },
       { firstName: "Bob", lastName: "" },
@@ -382,7 +382,7 @@ describe("dataProviderSort", () => {
       },
     ]
 
-    const result = dataProviderSort(data, sortConfig)
+    const result = dataSort(data, sortConfig)
     expect(result).toEqual([
       { firstName: undefined, lastName: undefined, displayName: "Dave" },
       { firstName: "Alice", lastName: null, displayName: "Alice" },
@@ -410,7 +410,7 @@ describe("dataProviderSort", () => {
       },
     ]
 
-    const result = dataProviderSort(data, sortConfig)
+    const result = dataSort(data, sortConfig)
     expect(result).toEqual([
       { firstName: "Alice", lastName: null, displayName: "Alice" },
       { firstName: "Charlie", lastName: "", displayName: "Charlie" },
@@ -435,7 +435,7 @@ describe("dataProviderSort", () => {
         orderingPatterns: ["/^B/m"],
       },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual([
       { name: "Beatrice" },
       { name: "Bob" },
@@ -467,7 +467,7 @@ describe("dataProviderSort", () => {
       },
     ]
 
-    const result = dataProviderSort(data, sortConfig)
+    const result = dataSort(data, sortConfig)
     expect(result).toEqual([
       { displayName: "Anna", firstName: "Anna", lastName: "" },
       { displayName: "home@home.com", firstName: "", lastName: "" },
@@ -498,7 +498,7 @@ describe("dataProviderSort", () => {
       },
     ]
 
-    const result = dataProviderSort(data, sortConfig)
+    const result = dataSort(data, sortConfig)
     expect(result).toEqual([
       { displayName: "Anna", firstName: "Anna", lastName: "" },
       { displayName: "Michael", firstName: "Michael", lastName: "Brown" },
@@ -525,7 +525,7 @@ describe("dataProviderSort", () => {
       },
     ]
 
-    const result = dataProviderSort(data, sortConfig)
+    const result = dataSort(data, sortConfig)
     expect(result).toEqual([
       { displayName: "Emily Davis", firstName: "Emily", lastName: "Davis" },
       { displayName: "Jane Smith", firstName: "Jane", lastName: "Smith" },
@@ -539,7 +539,7 @@ describe("dataProviderSort", () => {
     const sort: DataProviderSortConfig = [
       { providerField: "name", direction: "asc", priority: 1 },
     ]
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual([])
   })
 
@@ -547,20 +547,20 @@ describe("dataProviderSort", () => {
     const sort: DataProviderSortConfig = [
       { providerField: "name", direction: "asc", priority: 1 },
     ]
-    const result = dataProviderSort(undefined, sort)
+    const result = dataSort(undefined, sort)
     expect(result).toEqual([])
   })
 
   it("handles undefined sort configuration", () => {
     const data = [{ name: "Alice" }, { name: "Bob" }]
-    const result = dataProviderSort(data, undefined)
+    const result = dataSort(data, undefined)
     expect(result).toEqual(data)
   })
 
   it("handles empty sort configuration", () => {
     const data = [{ name: "Alice" }, { name: "Bob" }]
     const sort = [] as DataProviderSortConfig
-    const result = dataProviderSort(data, sort)
+    const result = dataSort(data, sort)
     expect(result).toEqual(data)
   })
 
@@ -576,7 +576,7 @@ describe("dataProviderSort", () => {
         direction: "asc",
       },
     ]
-    const result = dataProviderSort(data, sortConfig)
+    const result = dataSort(data, sortConfig)
     expect(result).toEqual(data)
   })
 })
