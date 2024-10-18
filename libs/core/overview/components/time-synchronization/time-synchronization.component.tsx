@@ -30,6 +30,7 @@ import styled from "styled-components"
 import { getTime } from "Core/time-synchronization/actions/get-time.action"
 import { selectSynchronizedTime } from "Core/time-synchronization/selectors/synchronized-time.selector"
 import { TimeSynchronizationTestIds } from "./time-synchronization-ids.enum"
+import { synchronizeTimeRequest } from "Core/time-synchronization/requests/synchronize-time.request"
 
 const messages = defineMessages({
   timeSynchronizationTitle: {
@@ -137,6 +138,16 @@ const TimeSynchronization: FunctionComponent<Props> = ({
       clearTimeout(getTimeoutRef.current)
     }
   }, [dispatch, time])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      void synchronizeTimeRequest()
+    }, Math.round(500 + Math.random() * 500))
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [onSynchronize])
 
   if (!time) return null
 

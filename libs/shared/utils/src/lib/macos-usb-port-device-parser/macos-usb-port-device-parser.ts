@@ -89,7 +89,7 @@ export class MacosUSBPortDeviceParser {
       devices.push(currentDevice)
     }
 
-    console.log("Devices in function: ", devices)
+    // console.log("Devices in function: ", devices)
 
     return devices
   }
