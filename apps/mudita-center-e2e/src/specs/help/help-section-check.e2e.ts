@@ -31,7 +31,9 @@ describe("Check Help window", () => {
 
     //Verify welcome paragraph
     const helpMainSubHeader = await HelpPage.helpMainSubHeader
-    await expect(helpMainSubHeader).toHaveText("Browse our selection of how-to and troubleshooting guides")
+    await expect(helpMainSubHeader).toHaveText(
+      "Browse our selection of how-to and troubleshooting guides"
+    )
 
     //Verify search bar
     const iconSearch = await HelpPage.iconSearch
@@ -42,66 +44,91 @@ describe("Check Help window", () => {
     await expect(helpSearchInput).toBeDisplayed()
 
     //Verify placeholder
-    await expect(helpSearchInput).toHaveAttrContaining("placeholder", "Search topics")
-    
+    await expect(helpSearchInput).toHaveAttrContaining(
+      "placeholder",
+      "Search topics"
+    )
+
     //Verify main section title
     const helpCategoriesTitle = await HelpPage.helpCategoriesTitle
-    await expect(helpCategoriesTitle).toHaveText("Which device are you using with Mudita Center?")
+    await expect(helpCategoriesTitle).toHaveText(
+      "Which device are you using with Mudita Center?"
+    )
 
     //Section tabs
     const helpCategoriesList = await HelpPage.helpCategoriesList
     await expect(helpCategoriesList).toBeDisplayed()
+
     const helpCategoriesListItems = await HelpPage.helpCategoriesListItems
     await expect(helpCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
-    await expect(helpCategoriesListItems).toBeDisplayed()
-    
+
     //Active section tab
-    expect(helpCategoriesListItems[0]).toHaveElementClassContaining("active")
-    const activeTabColor = await helpCategoriesListItems[0].getCSSProperty("color")
+    await expect(helpCategoriesListItems[0]).toBeDisplayed() // Added this line to ensure the first element is displayed
+
+    await expect(helpCategoriesListItems[0]).toHaveElementClassContaining(
+      "active"
+    )
+
+    const activeTabColor = await helpCategoriesListItems[0].getCSSProperty(
+      "color"
+    )
     await expect(activeTabColor.value).toBe("rgba(0,0,0,1)")
+
     const activeTabBackground = await helpCategoriesListItems[0].getCSSProperty(
       "background-color"
     )
-    await expect(activeTabBackground.value).toBe(
-      "rgba(237,237,237,1)"
-    )
+    await expect(activeTabBackground.value).toBe("rgba(237,237,237,1)")
 
     //Hover on section tabs
     await helpCategoriesListItems[1].moveTo()
-    const hoverTabColor = await helpCategoriesListItems[0].getCSSProperty("color")
+    const hoverTabColor = await helpCategoriesListItems[0].getCSSProperty(
+      "color"
+    )
     await expect(hoverTabColor.value).toBe("rgba(0,0,0,1)")
     const hoverTabBackground = await helpCategoriesListItems[0].getCSSProperty(
       "background-color"
     )
-    await expect(hoverTabBackground.value).toBe(
-      "rgba(237,237,237,1)"
-    )
+    await expect(hoverTabBackground.value).toBe("rgba(237,237,237,1)")
   })
 
   it("Verify Harmony Section titles", async () => {
-
     //Verify all items
     const helpSubCategoriesListItems = await HelpPage.helpSubCategoriesListItems
     await expect(helpSubCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
 
     //Verify left column
-    const helpSubCategoriesListItemsLeftColumn = await HelpPage.helpSubCategoriesListItemsLeftColumn
-    await expect(helpSubCategoriesListItemsLeftColumn).toBeElementsArrayOfSize({ gte: 1 })
+    const helpSubCategoriesListItemsLeftColumn =
+      await HelpPage.helpSubCategoriesListItemsLeftColumn
+    await expect(helpSubCategoriesListItemsLeftColumn).toBeElementsArrayOfSize({
+      gte: 1,
+    })
 
     //Verify right column
-    const helpSubCategoriesListItemsRightColumn = await HelpPage.helpSubCategoriesListItemsRightColumn
-    await expect(helpSubCategoriesListItemsRightColumn).toBeElementsArrayOfSize({ gte: 1 })
+    const helpSubCategoriesListItemsRightColumn =
+      await HelpPage.helpSubCategoriesListItemsRightColumn
+    await expect(helpSubCategoriesListItemsRightColumn).toBeElementsArrayOfSize(
+      { gte: 1 }
+    )
 
     //Every sub category should not be empty
-    const helpSubCategoryArticlesListItemTitles = await helpSubCategoriesListItems.map((element) => {
-       return element.$('[data-testid="help-subcategories-list-item-title"]').getText()
-    })
-    await expect(helpSubCategoryArticlesListItemTitles.length).toBeGreaterThanOrEqual(1)
+    const helpSubCategoryArticlesListItemTitles =
+      await helpSubCategoriesListItems.map((element) => {
+        return element
+          .$('[data-testid="help-subcategories-list-item-title"]')
+          .getText()
+      })
+    await expect(
+      helpSubCategoryArticlesListItemTitles.length
+    ).toBeGreaterThanOrEqual(1)
 
     //List of articles should not be empty in any of the categories
     let helpSubCategoriesListItem
     for await (helpSubCategoriesListItem of helpSubCategoriesListItems) {
-      await expect(helpSubCategoriesListItem.$$('[data-testid="help-subcategory-articles-list-item"]')).toBeElementsArrayOfSize({ gte: 1 })
+      await expect(
+        helpSubCategoriesListItem.$$(
+          '[data-testid="help-subcategory-articles-list-item"]'
+        )
+      ).toBeElementsArrayOfSize({ gte: 1 })
     }
   })
   it("Search for questions and verify results", async () => {
@@ -134,27 +161,38 @@ describe("Check Help window", () => {
     const helpArticleTitle = await HelpArticlePage.helpArticleTitle
     await expect(helpArticleTitle).toHaveText("How to do factory reset on Pure")
 
-    //Check article warning 
+    //Check article warning
     const helpArticleWarningIcon = await HelpArticlePage.helpArticleWarningIcon
     await expect(helpArticleWarningIcon).toBeDisplayed()
 
     const helpArticleWarning = await HelpArticlePage.helpArticleWarning
-    await expect(helpArticleWarning).toHaveTextContaining("This will delete everything on your phone!")
+    await expect(helpArticleWarning).toHaveTextContaining(
+      "This will delete everything on your phone!"
+    )
 
     //Check article content
     const helpArticleContent = await HelpArticlePage.helpArticleContent
-    await expect(helpArticleContent).toBeDisplayed() 
-    const helpArticleContentBlocks = await HelpArticlePage.helpArticleContentBlocks
+    await expect(helpArticleContent).toBeDisplayed()
+    const helpArticleContentBlocks =
+      await HelpArticlePage.helpArticleContentBlocks
     await expect(helpArticleContentBlocks).toBeElementsArrayOfSize({ gte: 2 })
-    await expect(HelpArticlePage.getHelpArticleContentBlockTitle(0)).toHaveTextContaining("If your Pure is locked:")
-    await expect(HelpArticlePage.getHelpArticleContentBlockText(0)).toHaveTextContaining("Turn off your Pure, hold down the right selection key > select Yes")
-  
+    await expect(
+      HelpArticlePage.getHelpArticleContentBlockTitle(0)
+    ).toHaveTextContaining("If your Pure is locked:")
+    await expect(
+      HelpArticlePage.getHelpArticleContentBlockText(0)
+    ).toHaveTextContaining(
+      "Turn off your Pure, hold down the right selection key > select Yes"
+    )
+
     //Check article helpful section
-    const helpArticleFeedbackYesButton = await HelpArticlePage.helpArticleFeedbackYesButton
+    const helpArticleFeedbackYesButton =
+      await HelpArticlePage.helpArticleFeedbackYesButton
     await expect(helpArticleFeedbackYesButton).toBeDisplayed()
     await expect(helpArticleFeedbackYesButton).toBeClickable()
 
-    const helpArticleFeedbackNoButton = await HelpArticlePage.helpArticleFeedbackNoButton
+    const helpArticleFeedbackNoButton =
+      await HelpArticlePage.helpArticleFeedbackNoButton
     await expect(helpArticleFeedbackNoButton).toBeDisplayed()
     await expect(helpArticleFeedbackNoButton).toBeClickable()
 
@@ -162,19 +200,30 @@ describe("Check Help window", () => {
     await helpArticleFooter.scrollIntoView()
 
     const helpArticleFooterTitle = await HelpArticlePage.helpArticleFooterTitle
-    await expect(helpArticleFooterTitle).toHaveText("Need more help?\nVisit our Support Website")
-    
-    const helpArticleFooterVisitSupportButton = await HelpArticlePage.helpArticleFooterVisitSupportButton
-    await expect(helpArticleFooterVisitSupportButton).toHaveText("VISIT SUPPORT WEBSITE")
+    await expect(helpArticleFooterTitle).toHaveText(
+      "Need more help?\nVisit our Support Website"
+    )
+
+    const helpArticleFooterVisitSupportButton =
+      await HelpArticlePage.helpArticleFooterVisitSupportButton
+    await expect(helpArticleFooterVisitSupportButton).toHaveText(
+      "VISIT SUPPORT WEBSITE"
+    )
 
     helpArticleBackButton.click()
   })
   it("Verify you are back in active first category", async () => {
     const helpCategoriesListItems = await HelpPage.helpCategoriesListItems
+
+    // Ensure that the helpCategoriesListItems array has at least one element
     await expect(helpCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
-    await expect(helpCategoriesListItems).toBeDisplayed()
-    
-    //Active section tab
-    expect(helpCategoriesListItems[0]).toHaveElementClassContaining("active")
+
+    // Check if the first category item is displayed
+    await expect(helpCategoriesListItems[0]).toBeDisplayed()
+
+    // Verify the first item has the 'active' class
+    await expect(helpCategoriesListItems[0]).toHaveElementClassContaining(
+      "active"
+    )
   })
 })

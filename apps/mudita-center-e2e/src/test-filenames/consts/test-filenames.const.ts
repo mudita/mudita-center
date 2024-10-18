@@ -7,17 +7,18 @@
 export enum TestFilesPaths {
   messagesInAppNavigationTest = "src/specs/messages/messages-in-app-navigation.e2e.ts",
   helpSectionCheckTest = "src/specs/help/help-section-check.e2e.ts",
+  helpSectionCheckTestOffline = "src/specs/help/help-section-check-offline.e2e.ts",
   homePageTestDeviceNotConnectedTest = "src/specs/overview/home-page-device-not-connecting.e2e.ts",
   e2eMockSample = "src/specs/overview/e2e-mock-sample.e2e.ts",
   mcCheckForUpdatesTest = "src/specs/settings/mc-version-check-for-updates.e2e.ts",
   newsPageOnlineTest = "src/specs/news/news-check-online.e2e.ts",
+  newsMoreNews = "src/specs/news/more-news.e2e.ts",
   newsPageOfflineTest = "src/specs/news/news-check-offline.e2e.ts",
   termsOfServiceTest = "src/specs/settings/terms-of-service.e2e.ts",
   backupLocationTest = "src/specs/settings/backup-location.e2e.ts",
   mcCheckForUpdatesOfflineTest = "src/specs/settings/mc-version-check-for-updates-offline.e2e.ts",
   privacyPolicyTest = "src/specs/settings/privacy-policy.e2e.ts",
   licenseTest = "src/specs/settings/license.e2e.ts",
-  helpWindowCheckOfflineTest = "src/specs/help/help-window-check-offline.e2e.ts",
   mcHomePageForceUpdateTest = "src/specs/overview/e2e-mock-mc-force-update-available.e2e.ts",
   mcHomePageForceUpdateErrorTest = "src/specs/overview/e2e-mock-mc-force-update-error.e2e.ts",
   mcHomePageSoftUpdateTest = "src/specs/overview/e2e-mock-mc-soft-update-available.e2e.ts",
@@ -29,5 +30,7 @@ export enum TestFilesPaths {
   kompaktDrawerStressTest = "src/specs/stress-tests/device-drawer-stress-test.ts",
   contactSupportUnhappyPath = "src/specs/help/contact-support-unhappy-path.ts",
   kompaktBackupModalGettingInitialInfo = "src/specs/overview/kompakt-backup-getting-initial-info.ts",
+  helpVerifyFeedback = "src/specs/help/help-verify-feedback.ts",
+  helpSectionSearchNoResults = "src/specs/help/help-section-search-noresults.e2e.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`
