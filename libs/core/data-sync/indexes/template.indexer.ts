@@ -26,7 +26,7 @@ export class TemplateIndexer extends BaseIndexer {
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async index(fileDir: string, token: string): Promise<any> {
+  async index(fileDir: string, token?: string): Promise<any> {
     const db = await this.initTmpDatabase(fileDir, token)
     const object = this.dataPresenter.serializeToObject(this.loadTables(db))
     return this.createIndex(object)
@@ -57,7 +57,7 @@ export class TemplateIndexer extends BaseIndexer {
 
   private async initTmpDatabase(
     fileDir: string,
-    token: string
+    token?: string
   ): Promise<Database> {
     const data = await this.getData(path.join(fileDir, "sms.db"), token)
     return new (await this.sql).Database(data)

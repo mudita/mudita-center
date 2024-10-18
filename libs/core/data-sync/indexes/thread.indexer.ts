@@ -24,7 +24,7 @@ export class ThreadIndexer extends BaseIndexer {
     super(fileSystemService)
   }
 
-  async index(fileDir: string, token: string): Promise<Index<ThreadObject>> {
+  async index(fileDir: string, token?: string): Promise<Index<ThreadObject>> {
     const smsDb = await this.initTmpSmsDatabase(fileDir, token)
     const contactDb = await this.initTmpContactDatabase(fileDir, token)
     const object = this.dataPresenter.serializeToObject(
@@ -71,7 +71,7 @@ export class ThreadIndexer extends BaseIndexer {
 
   private async initTmpSmsDatabase(
     fileDir: string,
-    token: string
+    token?: string
   ): Promise<Database> {
     const data = await this.getData(path.join(fileDir, "sms.db"), token)
     return new (await this.sql).Database(data)
@@ -79,7 +79,7 @@ export class ThreadIndexer extends BaseIndexer {
 
   private async initTmpContactDatabase(
     fileDir: string,
-    token: string
+    token?: string
   ): Promise<Database> {
     const data = await this.getData(path.join(fileDir, "contacts.db"), token)
     return new (await this.sql).Database(data)

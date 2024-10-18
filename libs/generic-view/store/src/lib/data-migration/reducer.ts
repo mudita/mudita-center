@@ -5,42 +5,47 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import {
-  setDataMigrationAbort,
+  addDataMigrationAbortController,
+  clearDataMigrationAbortControllers,
   setDataMigrationFeatures,
-  setDataMigrationProgress,
-  setDataMigrationPureDbIndexing,
-  setDataMigrationStatus,
+  setDataMigrationPureBusy,
+  setDataMigrationPureDbTempDirectory,
+  setDataMigrationPureRestarting,
   setDataMigrationSourceDevice,
+  setDataMigrationStatus,
 } from "./actions"
-import { DeviceId } from "Core/device/constants/device-id"
-import { DataMigrationFeature } from "generic-view/models"
+import { BaseDevice, DataMigrationFeature } from "generic-view/models"
 
-export type DataMigrationStatus =
-  | "IDLE"
-  | "PURE-PASSWORD-REQUIRED"
-  | "PURE-CRITICAL-BATTERY"
-  | "PURE-ONBOARDING-REQUIRED"
-  | "PURE-UPDATE-REQUIRED"
-  | "PURE-CONNECTION-FAILED"
-  | "IN-PROGRESS"
-  | "COMPLETED"
-  | "FAILED"
-  | "CANCELLED"
+export enum DataMigrationStatus {
+  Idle = "IDLE",
+  PurePasswordRequired = "PURE-PASSWORD-REQUIRED",
+  PureCriticalBattery = "PURE-CRITICAL-BATTERY",
+  PureOnboardingRequired = "PURE-ONBOARDING-REQUIRED",
+  PureUpdateRequired = "PURE-UPDATE-REQUIRED",
+  PureConnectionFailed = "PURE-CONNECTION-FAILED",
+  PureDatabaseCreating = "PURE-DB-CREATING",
+  PureDatabaseIndexing = "PURE-DB-INDEXING",
+  DataTransferring = "DATA-TRANSFERRING",
+  DataTransferred = "DATA-TRANSFERRED",
+  Completed = "COMPLETED",
+  Failed = "FAILED",
+  Cancelled = "CANCELLED",
+}
 
 interface DataMigrationState {
-  sourceDevice?: DeviceId
+  sourceDevice?: BaseDevice
   selectedFeatures: DataMigrationFeature[]
   status: DataMigrationStatus
-  transferProgress: number
-  abortController?: AbortController
-  pureDbIndexing: boolean
+  abortControllers: AbortController[]
+  pureDbTempDirectory?: string
+  pureRestarting?: boolean
+  pureBusy?: BaseDevice["serialNumber"]
 }
 
 const initialState: DataMigrationState = {
   selectedFeatures: [],
-  status: "IDLE",
-  transferProgress: 0,
-  pureDbIndexing: false,
+  status: DataMigrationStatus.Idle,
+  abortControllers: [],
 }
 
 export const dataMigrationReducer = createReducer(initialState, (builder) => {
@@ -53,13 +58,19 @@ export const dataMigrationReducer = createReducer(initialState, (builder) => {
   builder.addCase(setDataMigrationStatus, (state, action) => {
     state.status = action.payload
   })
-  builder.addCase(setDataMigrationProgress, (state, action) => {
-    state.transferProgress = action.payload ?? 0
+  builder.addCase(addDataMigrationAbortController, (state, action) => {
+    state.abortControllers = [...state.abortControllers, action.payload]
   })
-  builder.addCase(setDataMigrationAbort, (state, action) => {
-    state.abortController = action.payload
+  builder.addCase(clearDataMigrationAbortControllers, (state) => {
+    state.abortControllers = []
   })
-  builder.addCase(setDataMigrationPureDbIndexing, (state, action) => {
-    state.pureDbIndexing = action.payload
+  builder.addCase(setDataMigrationPureDbTempDirectory, (state, action) => {
+    state.pureDbTempDirectory = action.payload
+  })
+  builder.addCase(setDataMigrationPureRestarting, (state, action) => {
+    state.pureRestarting = action.payload
+  })
+  builder.addCase(setDataMigrationPureBusy, (state, action) => {
+    state.pureBusy = action.payload
   })
 })

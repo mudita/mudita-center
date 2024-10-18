@@ -14,22 +14,25 @@ import React, {
 import { defineMessages } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
 import { APIFC } from "generic-view/utils"
-import { McDataMigrationConfig } from "generic-view/models"
+import { BaseDevice, McDataMigrationConfig } from "generic-view/models"
 import { getActiveDevice } from "device-manager/feature"
 import {
   abortDataMigration,
+  clearDataMigrationAbortControllers,
   clearDataTransfer,
-  DataMigrationPercentageProgress,
-  performDataMigration,
+  DataMigrationStatus,
+  prepareDevicesForDataMigration,
+  processPureDatabase,
+  selectDataMigrationPureRestarting,
   selectDataMigrationSourceDevice,
   selectDataMigrationSourceDevices,
   selectDataMigrationStatus,
   selectDataMigrationTargetDevices,
   setDataMigrationFeatures,
-  setDataMigrationProgress,
+  setDataMigrationPureRestarting,
   setDataMigrationSourceDevice,
   setDataMigrationStatus,
-  startDataMigration,
+  transferMigrationData,
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
 import styled from "styled-components"
@@ -42,7 +45,6 @@ import {
   GenericThemeProvider,
   modalTransitionDuration,
 } from "generic-view/theme"
-import { Device } from "./components/device-card"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { PureErrorModal } from "./components/pure-error-modal"
@@ -66,67 +68,127 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   const activeDevice = useSelector(getActiveDevice)
   const sourceDevices = useSelector(
     selectDataMigrationSourceDevices
-  ) as Device[]
+  ) as BaseDevice[]
   const targetDevices = useSelector(
     selectDataMigrationTargetDevices
-  ) as Device[]
+  ) as BaseDevice[]
   const sourceDevice = useSelector(selectDataMigrationSourceDevice)
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
+  const pureRestarting = useSelector(selectDataMigrationPureRestarting)
+
   const [modalOpened, setModalOpened] = useState(false)
 
-  const noSourceDeviceSelected = dataMigrationStatus === "IDLE" && !sourceDevice
+  const noSourceDeviceSelected =
+    dataMigrationStatus === DataMigrationStatus.Idle && !sourceDevice
   const displayInstruction =
     Boolean(sourceDevices.length) !== Boolean(targetDevices.length)
   const displayTargetSelector =
     activeDevice?.deviceType === "MuditaPure" && targetDevices.length > 0
   const displayTransferSetup = !displayInstruction && !displayTargetSelector
 
-  const startMigration = () => {
-    dispatch(startDataMigration())
-  }
+  const startMigration = useCallback(() => {
+    dispatch(
+      prepareDevicesForDataMigration({
+        onSuccess: () => {
+          dispatch(
+            setDataMigrationStatus(DataMigrationStatus.PureDatabaseCreating)
+          )
+        },
+      })
+    )
+  }, [dispatch])
+
+  const onPureUnlock = useCallback(() => {
+    if (pureRestarting) {
+      dispatch(setDataMigrationStatus(DataMigrationStatus.PureDatabaseIndexing))
+    } else {
+      dispatch(setDataMigrationStatus(DataMigrationStatus.PureDatabaseCreating))
+    }
+  }, [dispatch, pureRestarting])
+
+  const startPureDatabaseProcessing = useCallback(() => {
+    dispatch(processPureDatabase())
+  }, [dispatch])
 
   const startTransfer = useCallback(() => {
-    dispatch(performDataMigration())
+    dispatch(transferMigrationData())
   }, [dispatch])
 
   const cancelMigration = useCallback(() => {
-    dispatch(abortDataMigration({ reason: "CANCELLED" }))
+    dispatch(abortDataMigration({ reason: DataMigrationStatus.Cancelled }))
   }, [dispatch])
 
   const onFinish = () => {
     setModalOpened(false)
     setTimeout(() => {
-      dispatch(setDataMigrationStatus("IDLE"))
-      dispatch(setDataMigrationProgress(DataMigrationPercentageProgress.None))
+      dispatch(setDataMigrationStatus(DataMigrationStatus.Idle))
       dispatch(setDataMigrationFeatures([]))
       dispatch(clearDataTransfer())
+      dispatch(clearDataMigrationAbortControllers())
     }, modalTransitionDuration)
   }
 
   useEffect(() => {
-    if (activeDevice?.deviceType === "APIDevice" && noSourceDeviceSelected) {
+    if (
+      activeDevice?.deviceType === "APIDevice" &&
+      noSourceDeviceSelected &&
+      dataMigrationStatus === DataMigrationStatus.Idle
+    ) {
       if (sourceDevices.length > 0) {
-        dispatch(setDataMigrationSourceDevice(sourceDevices[0].serialNumber))
+        dispatch(setDataMigrationSourceDevice(sourceDevices[0]))
       } else {
         dispatch(setDataMigrationSourceDevice(undefined))
       }
     }
   }, [
     activeDevice?.deviceType,
+    dataMigrationStatus,
     dispatch,
     noSourceDeviceSelected,
     sourceDevices,
   ])
 
   useEffect(() => {
-    if (dataMigrationStatus === "IN-PROGRESS") {
-      startTransfer()
+    switch (dataMigrationStatus) {
+      case DataMigrationStatus.PureDatabaseCreating:
+        startPureDatabaseProcessing()
+        break
+      case DataMigrationStatus.PureDatabaseIndexing:
+        dispatch(setDataMigrationPureRestarting(false))
+        break
+      case DataMigrationStatus.DataTransferring:
+        startTransfer()
+        break
     }
     setModalOpened(
-      dataMigrationStatus !== "IDLE" &&
-        dataMigrationStatus !== "PURE-PASSWORD-REQUIRED"
+      dataMigrationStatus !== DataMigrationStatus.Idle &&
+        dataMigrationStatus !== DataMigrationStatus.PurePasswordRequired
     )
-  }, [dataMigrationStatus, startTransfer])
+  }, [
+    dataMigrationStatus,
+    dispatch,
+    startPureDatabaseProcessing,
+    startTransfer,
+  ])
+
+  useEffect(() => {
+    if (dataMigrationStatus === DataMigrationStatus.PureDatabaseCreating) {
+      if (sourceDevice?.disconnected && !pureRestarting) {
+        dispatch(setDataMigrationPureRestarting(true))
+      } else if (!sourceDevice?.disconnected && pureRestarting) {
+        dispatch(
+          prepareDevicesForDataMigration({
+            onSuccess: () => {
+              dispatch(setDataMigrationPureRestarting(false))
+              dispatch(
+                setDataMigrationStatus(DataMigrationStatus.PureDatabaseIndexing)
+              )
+            },
+          })
+        )
+      }
+    }
+  }, [dataMigrationStatus, dispatch, pureRestarting, sourceDevice])
 
   return (
     <Wrapper>
@@ -146,24 +208,26 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
       </Content>
       <PurePasscodeModal
         deviceId={sourceDevice?.serialNumber}
-        onUnlock={startMigration}
+        onUnlock={onPureUnlock}
       />
       <Modal
         config={{
           defaultOpened:
             modalOpened &&
-            (dataMigrationStatus === "PURE-CRITICAL-BATTERY" ||
-              dataMigrationStatus === "PURE-ONBOARDING-REQUIRED" ||
-              dataMigrationStatus === "PURE-UPDATE-REQUIRED"),
+            (dataMigrationStatus === DataMigrationStatus.PureCriticalBattery ||
+              dataMigrationStatus ===
+                DataMigrationStatus.PureOnboardingRequired ||
+              dataMigrationStatus === DataMigrationStatus.PureUpdateRequired),
           size: "small",
         }}
         componentKey={"data-migration-modal-pure-error"}
       >
-        <PureErrorModal />
+        <PureErrorModal onButtonClick={onFinish} />
       </Modal>
       <Modal
         config={{
-          defaultOpened: modalOpened && dataMigrationStatus === "FAILED",
+          defaultOpened:
+            modalOpened && dataMigrationStatus === DataMigrationStatus.Failed,
           size: "small",
         }}
         componentKey={"data-migration-modal-transfer-failed"}
@@ -172,7 +236,14 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
       </Modal>
       <Modal
         config={{
-          defaultOpened: modalOpened && dataMigrationStatus === "IN-PROGRESS",
+          defaultOpened:
+            modalOpened &&
+            [
+              DataMigrationStatus.DataTransferring,
+              DataMigrationStatus.PureDatabaseCreating,
+              DataMigrationStatus.PureDatabaseIndexing,
+              DataMigrationStatus.DataTransferred,
+            ].includes(dataMigrationStatus),
           size: "small",
         }}
         componentKey={"data-migration-modal-progress"}
@@ -181,7 +252,9 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
       </Modal>
       <Modal
         config={{
-          defaultOpened: modalOpened && dataMigrationStatus === "CANCELLED",
+          defaultOpened:
+            modalOpened &&
+            dataMigrationStatus === DataMigrationStatus.Cancelled,
           size: "small",
         }}
         componentKey={"data-migration-modal-cancelled"}
@@ -190,7 +263,9 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
       </Modal>
       <Modal
         config={{
-          defaultOpened: modalOpened && dataMigrationStatus === "COMPLETED",
+          defaultOpened:
+            modalOpened &&
+            dataMigrationStatus === DataMigrationStatus.Completed,
           size: "small",
         }}
         componentKey={"data-migration-modal-success"}

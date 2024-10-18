@@ -41,3 +41,10 @@ export interface Device extends DeviceProperties, Partial<DeviceConfiguration> {
 export interface ConfiguredDevice
   extends DeviceProperties,
     DeviceConfiguration {}
+
+export interface BaseDevice {
+  name?: string
+  image?: string
+  serialNumber: string
+  disconnected?: boolean
+}

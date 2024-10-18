@@ -10,6 +10,7 @@ import { P3 } from "../../../texts/paragraphs"
 import { ButtonPrimary } from "../../../buttons/button-primary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { BaseDevice } from "generic-view/models"
 
 const messages = defineMessages({
   label: {
@@ -23,14 +24,8 @@ const messages = defineMessages({
   },
 })
 
-export interface Device {
-  name: string
-  image: string
-  serialNumber: string
-}
-
 export const DeviceCard: FunctionComponent<
-  Device & { onSelect: VoidFunction }
+  BaseDevice & { onSelect: VoidFunction }
 > = ({ image, name, serialNumber, onSelect }) => {
   return (
     <Wrapper>

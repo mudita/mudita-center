@@ -8,12 +8,10 @@ import { Modal, TransferErrorModal } from "generic-view/ui"
 import { useDispatch, useSelector } from "react-redux"
 import {
   clearDataTransfer,
-  DataMigrationPercentageProgress,
+  DataMigrationStatus,
   selectActiveApiDeviceId,
   selectDataMigrationStatus,
   setDataMigrationFeatures,
-  setDataMigrationProgress,
-  setDataMigrationPureDbIndexing,
   setDataMigrationSourceDevice,
   setDataMigrationStatus,
   setDeviceErrorModalOpened,
@@ -27,11 +25,9 @@ export const DataMigrationErrorModal: FunctionComponent = () => {
   const opened = dataMigrationStatus === "FAILED" && !activeDevice
 
   const onClose = () => {
-    dispatch(setDataMigrationStatus("IDLE"))
-    dispatch(setDataMigrationProgress(DataMigrationPercentageProgress.None))
+    dispatch(setDataMigrationStatus(DataMigrationStatus.Idle))
     dispatch(setDataMigrationFeatures([]))
     dispatch(setDataMigrationSourceDevice(undefined))
-    dispatch(setDataMigrationPureDbIndexing(false))
     dispatch(setDeviceErrorModalOpened(false))
     dispatch(clearDataTransfer())
   }
