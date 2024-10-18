@@ -4,7 +4,7 @@
  */
 
 import { DataProviderFiltersConfig } from "device/models"
-import { stringToRegex } from "./string-to-regex"
+import { stringToRegex } from "../string-to-regex/string-to-regex"
 import { cloneDeep, get } from "lodash"
 
 export const dataProviderFilter = (
