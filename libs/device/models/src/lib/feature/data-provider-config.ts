@@ -103,7 +103,7 @@ export type DataSortConfig = z.infer<typeof sortSchema>
 const filtersSchema = z
   .array(
     z.object({
-      providerField: z.string(),
+      field: z.string(),
       patterns: z.array(regexSchema),
     })
   )

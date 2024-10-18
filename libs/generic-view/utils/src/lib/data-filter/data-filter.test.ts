@@ -16,7 +16,7 @@ describe("dataProviderFilter", () => {
   it("filters data based on single field with single pattern", () => {
     const data = [{ name: "Alice" }, { name: "Bob" }]
     const filters: DataProviderFiltersConfig = [
-      { providerField: "name", patterns: ["/Alice/"] },
+      { field: "name", patterns: ["/Alice/"] },
     ]
     const result = dataFilter(data, filters)
     expect(result).toEqual([{ name: "Alice" }])
@@ -25,7 +25,7 @@ describe("dataProviderFilter", () => {
   it("filters data based on nested field with single pattern", () => {
     const data = [{ user: { name: "Alice" } }, { user: { name: "Bob" } }]
     const filters: DataProviderFiltersConfig = [
-      { providerField: "user.name", patterns: ["/Alice/"] },
+      { field: "user.name", patterns: ["/Alice/"] },
     ]
     const result = dataFilter(data, filters)
     expect(result).toEqual([{ user: { name: "Alice" } }])
@@ -34,7 +34,7 @@ describe("dataProviderFilter", () => {
   it("filters data based on single field with multiple patterns", () => {
     const data = [{ name: "Alice" }, { name: "Anastasia" }, { name: "Charlie" }]
     const filters: DataProviderFiltersConfig = [
-      { providerField: "name", patterns: ["/^A/m", "/.+e$/m"] },
+      { field: "name", patterns: ["/^A/m", "/.+e$/m"] },
     ]
     const result = dataFilter(data, filters)
     expect(result).toEqual([{ name: "Alice" }])
@@ -47,8 +47,8 @@ describe("dataProviderFilter", () => {
       { name: "Agnes", age: "30" },
     ]
     const filters: DataProviderFiltersConfig = [
-      { providerField: "name", patterns: ["/^A/m"] },
-      { providerField: "age", patterns: ["/2[\\d]/"] },
+      { field: "name", patterns: ["/^A/m"] },
+      { field: "age", patterns: ["/2[\\d]/"] },
     ]
     const result = dataFilter(data, filters)
     expect(result).toEqual([
@@ -60,7 +60,7 @@ describe("dataProviderFilter", () => {
   it("returns empty array when no data matches the filters", () => {
     const data = [{ name: "Alice" }, { name: "Bob" }]
     const filters: DataProviderFiltersConfig = [
-      { providerField: "name", patterns: ["/Charlie/"] },
+      { field: "name", patterns: ["/Charlie/"] },
     ]
     const result = dataFilter(data, filters)
     expect(result).toEqual([])
@@ -69,7 +69,7 @@ describe("dataProviderFilter", () => {
   it("handles empty data array", () => {
     const data: Record<string, unknown>[] = []
     const filters: DataProviderFiltersConfig = [
-      { providerField: "name", patterns: ["/Alice/"] },
+      { field: "name", patterns: ["/Alice/"] },
     ]
     const result = dataFilter(data, filters)
     expect(result).toEqual([])
@@ -77,7 +77,7 @@ describe("dataProviderFilter", () => {
 
   it("handles undefined data", () => {
     const filters: DataProviderFiltersConfig = [
-      { providerField: "name", patterns: ["/Alice/"] },
+      { field: "name", patterns: ["/Alice/"] },
     ]
     const result = dataFilter(undefined, filters)
     expect(result).toEqual([])

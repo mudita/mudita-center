@@ -20,7 +20,7 @@ describe("dataProviderSchema", () => {
       ],
       filters: [
         {
-          providerField: "someField",
+          field: "someField",
           patterns: ["/pattern/"],
         },
       ],
