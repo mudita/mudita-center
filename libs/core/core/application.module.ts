@@ -57,6 +57,7 @@ import { ApplicationUpdaterModule } from "electron/application-updater"
 import { CoreDeviceModule } from "core-device/feature"
 import { createSettingsService } from "Core/settings/containers"
 import { HelpModule } from "help/feature"
+import { TimeSynchronizationModule } from "Core/time-synchronization/time-synchronization.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -75,6 +76,7 @@ export class ApplicationModule {
     DeviceFileSystemModule,
     DeviceLogModule,
     DeviceModule,
+    TimeSynchronizationModule
   ]
 
   public lateModules: Module[] = [

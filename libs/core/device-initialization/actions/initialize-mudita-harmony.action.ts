@@ -16,6 +16,7 @@ import { isActiveDeviceAttachedSelector } from "device-manager/feature"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { getCrashDump } from "Core/crash-dump"
 import { checkForForceUpdateNeed } from "Core/update/actions"
+import { getTime } from "Core/time-synchronization/actions/get-time.action"
 
 export const initializeMuditaHarmony = createAsyncThunk<
   DeviceInitializationStatus,
@@ -36,6 +37,8 @@ export const initializeMuditaHarmony = createAsyncThunk<
         new AppError(DeviceInitializationError.InitializingDeviceError)
       )
     }
+
+    await dispatch(getTime())
 
     const activeDeviceProcessing = isActiveDeviceProcessingSelector(getState())
 
