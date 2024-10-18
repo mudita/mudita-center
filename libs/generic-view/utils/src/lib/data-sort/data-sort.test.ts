@@ -4,7 +4,7 @@
  */
 
 import { dataSort } from "./data-sort"
-import { DataProviderSortConfig } from "device/models"
+import { DataSortConfig } from "device/models"
 
 describe("dataProviderSort", () => {
   it("returns all data when no sort configuration is provided", () => {
@@ -17,7 +17,7 @@ describe("dataProviderSort", () => {
     const data = [{ name: "Charlie" }, { name: "Alice" }, { name: "Bob" }]
     const sort = [
       { providerField: "name", direction: "asc", priority: 1 },
-    ] as DataProviderSortConfig
+    ] as DataSortConfig
     const result = dataSort(data, sort)
     expect(result).toEqual([
       { name: "Alice" },
@@ -28,7 +28,7 @@ describe("dataProviderSort", () => {
 
   it("sorts data based on single field in descending order", () => {
     const data = [{ name: "Charlie" }, { name: "Alice" }, { name: "Bob" }]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       { providerField: "name", direction: "desc", priority: 1 },
     ]
     const result = dataSort(data, sort)
@@ -45,7 +45,7 @@ describe("dataProviderSort", () => {
       { user: { name: "Alice" } },
       { user: { name: "Bob" } },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       { providerField: "user.name", direction: "asc", priority: 1 },
     ]
     const result = dataSort(data, sort)
@@ -62,7 +62,7 @@ describe("dataProviderSort", () => {
       { user: { age: 40 } },
       { user: { age: 25 } },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       { providerField: "user.age", direction: "asc", priority: 1 },
     ]
     const result = dataSort(data, sort)
@@ -81,7 +81,7 @@ describe("dataProviderSort", () => {
       { value: 100 },
       { value: 5 },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       { providerField: "value", direction: "asc", priority: 1 },
     ]
     const result = dataSort(data, sort)
@@ -103,7 +103,7 @@ describe("dataProviderSort", () => {
       { value: "Alice" },
       { value: 2 },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       { providerField: "value", direction: "asc", priority: 1 },
     ]
     const result = dataSort(data, sort)
@@ -123,7 +123,7 @@ describe("dataProviderSort", () => {
       { name: "Alice", age: "25" },
       { name: "Bob", age: "20" },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       { providerField: "name", direction: "asc", priority: 1 },
       { providerField: "age", direction: "asc", priority: 2 },
     ]
@@ -141,7 +141,7 @@ describe("dataProviderSort", () => {
       { name: "Alice" },
       { name: "Alice", surname: "Smith" },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       { providerField: "surname", direction: "asc", priority: 1 },
       { providerField: "name", direction: "asc", priority: 2 },
     ]
@@ -161,7 +161,7 @@ describe("dataProviderSort", () => {
       { name: "charlie" },
       { name: "Alice" },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       {
         providerField: "name",
         direction: "asc",
@@ -188,7 +188,7 @@ describe("dataProviderSort", () => {
       { name: "charlie" },
       { name: "Alice" },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       {
         providerField: "name",
         direction: "asc",
@@ -215,7 +215,7 @@ describe("dataProviderSort", () => {
       { name: "charlie" },
       { name: "Alice" },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       {
         providerField: "name",
         direction: "asc",
@@ -241,7 +241,7 @@ describe("dataProviderSort", () => {
       { name: "charlie" },
       { name: "Alice" },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       {
         providerField: "name",
         direction: "asc",
@@ -268,7 +268,7 @@ describe("dataProviderSort", () => {
       { name: "" },
       { name: undefined },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       {
         providerField: "name",
         direction: "asc",
@@ -297,7 +297,7 @@ describe("dataProviderSort", () => {
       { name: "" },
       { name: undefined },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       {
         providerField: "name",
         direction: "asc",
@@ -324,7 +324,7 @@ describe("dataProviderSort", () => {
       { firstName: "Bob", lastName: "Smith" },
     ]
 
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       {
         providerFieldGroup: ["lastName", "firstName"],
         direction: "asc",
@@ -348,7 +348,7 @@ describe("dataProviderSort", () => {
       { firstName: "Charlie", lastName: "Smith" },
     ]
 
-    const sortConfig: DataProviderSortConfig = [
+    const sortConfig: DataSortConfig = [
       {
         providerFieldGroup: ["lastName", "firstName"],
         priority: 1,
@@ -373,7 +373,7 @@ describe("dataProviderSort", () => {
       { firstName: "Charlie", lastName: "", displayName: "Charlie" },
     ]
 
-    const sortConfig: DataProviderSortConfig = [
+    const sortConfig: DataSortConfig = [
       {
         providerFieldGroup: ["lastName", "firstName"],
         priority: 1,
@@ -401,7 +401,7 @@ describe("dataProviderSort", () => {
       { firstName: "Yuki", lastName: null, displayName: "Yuki" },
     ]
 
-    const sortConfig: DataProviderSortConfig = [
+    const sortConfig: DataSortConfig = [
       {
         providerFieldGroup: ["lastName", "firstName"],
         priority: 1,
@@ -427,7 +427,7 @@ describe("dataProviderSort", () => {
       { name: "Alice" },
       { name: "Beatrice" },
     ]
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       {
         providerField: "name",
         direction: "asc",
@@ -453,7 +453,7 @@ describe("dataProviderSort", () => {
       { displayName: "home@home.com", firstName: "", lastName: "" },
     ]
 
-    const sortConfig: DataProviderSortConfig = [
+    const sortConfig: DataSortConfig = [
       {
         providerFieldGroup: ["displayName"],
         priority: 1,
@@ -485,7 +485,7 @@ describe("dataProviderSort", () => {
       { displayName: "Numer 12345", firstName: "Numer", lastName: "12345" },
     ]
 
-    const sortConfig: DataProviderSortConfig = [
+    const sortConfig: DataSortConfig = [
       {
         providerFieldGroup: ["lastName", "firstName", "displayName"],
         priority: 1,
@@ -515,7 +515,7 @@ describe("dataProviderSort", () => {
       { displayName: "Emily Davis", firstName: "Emily", lastName: "Davis" },
     ]
 
-    const sortConfig: DataProviderSortConfig = [
+    const sortConfig: DataSortConfig = [
       {
         providerFieldGroup: ["lastName", "displayName"],
         priority: 1,
@@ -536,7 +536,7 @@ describe("dataProviderSort", () => {
 
   it("returns empty array when data is empty", () => {
     const data: Record<string, unknown>[] = []
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       { providerField: "name", direction: "asc", priority: 1 },
     ]
     const result = dataSort(data, sort)
@@ -544,7 +544,7 @@ describe("dataProviderSort", () => {
   })
 
   it("handles undefined data", () => {
-    const sort: DataProviderSortConfig = [
+    const sort: DataSortConfig = [
       { providerField: "name", direction: "asc", priority: 1 },
     ]
     const result = dataSort(undefined, sort)
@@ -559,7 +559,7 @@ describe("dataProviderSort", () => {
 
   it("handles empty sort configuration", () => {
     const data = [{ name: "Alice" }, { name: "Bob" }]
-    const sort = [] as DataProviderSortConfig
+    const sort = [] as DataSortConfig
     const result = dataSort(data, sort)
     expect(result).toEqual(data)
   })
@@ -570,7 +570,7 @@ describe("dataProviderSort", () => {
       { name: "Bob", age: 25 },
       { name: "Charlie", age: 35 },
     ]
-    const sortConfig: DataProviderSortConfig = [
+    const sortConfig: DataSortConfig = [
       {
         priority: 1,
         direction: "asc",

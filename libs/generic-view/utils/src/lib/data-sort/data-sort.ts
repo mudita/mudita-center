@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DataProviderSortConfig } from "device/models"
+import { DataSortConfig } from "device/models"
 import isEmpty from "lodash/isEmpty"
 import {
   compareFields,
@@ -14,7 +14,7 @@ import {
 
 export const dataSort = (
   data: Record<string, unknown>[] = [],
-  configs?: DataProviderSortConfig
+  configs?: DataSortConfig
 ) => {
   if (!configs || !data) return data
 
