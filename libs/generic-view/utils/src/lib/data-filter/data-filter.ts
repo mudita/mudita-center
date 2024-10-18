@@ -14,11 +14,11 @@ export const dataFilter = (
   if (!filters || !data) return data
 
   return data.filter((item) => {
-    return cloneDeep(filters).every(({ providerField, patterns }) => {
-      const field = get(item, providerField) as string
+    return cloneDeep(filters).every(({ field, patterns }) => {
+      const value = get(item, field) as string
       return patterns.every((pattern) => {
         const regex = stringToRegex(pattern)
-        return regex.test(field || "")
+        return regex.test(value || "")
       })
     })
   })
