@@ -24,7 +24,7 @@ import {
   useFormField,
 } from "generic-view/store"
 import {
-  dataProviderFilter,
+  dataFilter,
   dataSort,
   mapLayoutSizes,
   RecursiveComponent,
@@ -120,7 +120,7 @@ export const setupComponent = <P extends object>(
     })
 
     if (dataProvider?.source === "entities-array") {
-      const filteredData = dataProviderFilter(
+      const filteredData = dataFilter(
         [...entitiesData],
         dataProvider.filters
       )
