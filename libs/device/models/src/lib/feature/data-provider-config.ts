@@ -98,7 +98,7 @@ const sortSchema = z
   )
   .optional()
 
-export type DataProviderSortConfig = z.infer<typeof sortSchema>
+export type DataSortConfig = z.infer<typeof sortSchema>
 
 const filtersSchema = z
   .array(
