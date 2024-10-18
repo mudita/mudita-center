@@ -11,13 +11,15 @@ import { TimeSynchronizationError } from "Core/time-synchronization/constants/er
 import logger from "Core/__deprecated__/main/utils/logger"
 
 export class TimeSynchronizationService {
+  private counter = 0
   constructor(private deviceProtocol: DeviceProtocol) {}
 
   public async synchronizeTime() {
     const currentTime = Math.round(new Date().getTime() / 1000)
     const timezoneOffset = new Date().getTimezoneOffset() * 60
     const timestamp = currentTime - timezoneOffset
-    logger.info("Synchronizing time", { timestamp })
+    logger.info("Synchronizing time", { counter: this.counter, timestamp })
+    this.counter++
 
     const response = await this.deviceProtocol.device.request({
       endpoint: Endpoint.TimeSynchronization,
