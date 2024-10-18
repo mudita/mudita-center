@@ -45,10 +45,12 @@ export const HelpFooter: FunctionComponent = () => {
         }}
         config={{
           text: intl.formatMessage(messages.buttonLabel),
-          action: {
-            type: "custom",
-            callback: openContactSupportFlow,
-          },
+          actions: [
+            {
+              type: "custom",
+              callback: openContactSupportFlow,
+            },
+          ],
           icon: IconType.Support,
           modifiers: ["link", "uppercase"],
         }}

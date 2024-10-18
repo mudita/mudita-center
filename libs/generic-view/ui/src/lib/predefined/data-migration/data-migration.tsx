@@ -222,7 +222,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         }}
         componentKey={"data-migration-modal-pure-error"}
       >
-        <PureErrorModal />
+        <PureErrorModal onButtonClick={onFinish} />
       </Modal>
       <Modal
         config={{

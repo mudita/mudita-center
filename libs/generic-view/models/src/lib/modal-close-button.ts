@@ -4,13 +4,13 @@
  */
 
 import { z } from "zod"
-import { buttonActionValidator } from "./common-validators"
+import { buttonActionsValidator } from "./common-validators"
 
 const dataValidator = z.undefined()
 
 const configValidator = z
   .object({
-    action: buttonActionValidator.optional(),
+    actions: buttonActionsValidator.optional(),
   })
   .optional()
 

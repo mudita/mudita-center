@@ -10,20 +10,34 @@ const featureConfig: FeatureConfig = {
     component: "button-text",
     config: {
       text: "dummy",
-      action: {
-        type: "custom",
-        callback: jest.fn,
-      },
+      actions: [
+        {
+          type: "custom",
+          callback: jest.fn,
+        },
+      ],
     },
   },
   "dummy-2": {
     component: "button-primary",
     config: {
       text: "dummy",
-      action: {
-        type: "custom",
-        callback: jest.fn,
-      },
+      actions: [
+        {
+          type: "custom",
+          callback: jest.fn,
+        },
+      ],
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "dummy",
+      fields: [
+        {
+          providerField: "dummy",
+          componentField: "dataItemId",
+        },
+      ],
     },
   },
 }
@@ -37,7 +51,12 @@ describe("FeatureConfigValidator", () => {
   it("should return fail when correct config is incorrect", () => {
     const feature = {
       ...featureConfig,
-      ...{ incorrect: { component: "incorrect" } },
+      "dummy-1": {
+        ...featureConfig["dummy-1"],
+        config: {
+          wrongProp: "dummy",
+        },
+      },
     }
     const result = featureConfigValidator.safeParse(feature)
     expect(result.success).toBeFalsy()

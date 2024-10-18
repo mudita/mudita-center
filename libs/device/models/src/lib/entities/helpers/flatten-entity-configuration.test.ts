@@ -4,11 +4,11 @@
  */
 
 import { flattenEntityConfiguration } from "./flatten-entity-configuration"
-import { EntityConfig } from "device/models"
+import { EntitiesConfig } from "device/models"
 
 describe("flattenEntityConfiguration", () => {
   it("handles objects with non-object values correctly", () => {
-    const input: EntityConfig["fields"] = {
+    const input: EntitiesConfig["fields"] = {
       a: {
         type: "id",
       },
@@ -31,7 +31,7 @@ describe("flattenEntityConfiguration", () => {
   })
 
   it("converts a simple nested object to dot notation correctly", () => {
-    const input: EntityConfig["fields"] = {
+    const input: EntitiesConfig["fields"] = {
       a: {
         type: "object",
         fields: {
@@ -54,7 +54,7 @@ describe("flattenEntityConfiguration", () => {
   })
 
   it("handles objects with nested arrays correctly", () => {
-    const input: EntityConfig["fields"] = {
+    const input: EntitiesConfig["fields"] = {
       a: {
         type: "object",
         fields: {
@@ -75,7 +75,7 @@ describe("flattenEntityConfiguration", () => {
   })
 
   it("handles arrays with nested arrays correctly", () => {
-    const input: EntityConfig["fields"] = {
+    const input: EntitiesConfig["fields"] = {
       a: {
         type: "array",
         items: {
@@ -94,7 +94,7 @@ describe("flattenEntityConfiguration", () => {
   })
 
   it("handles arrays with nested objects correctly", () => {
-    const input: EntityConfig["fields"] = {
+    const input: EntitiesConfig["fields"] = {
       a: {
         type: "array",
         items: {
@@ -115,7 +115,7 @@ describe("flattenEntityConfiguration", () => {
   })
 
   it("excludes 'validators' key", () => {
-    const input: EntityConfig["fields"] = {
+    const input: EntitiesConfig["fields"] = {
       a: {
         type: "string",
         validators: [],
@@ -139,12 +139,12 @@ describe("flattenEntityConfiguration", () => {
   })
 
   it("handles empty objects correctly", () => {
-    const input: EntityConfig["fields"] = {}
+    const input: EntitiesConfig["fields"] = {}
     expect(flattenEntityConfiguration(input)).toEqual({})
   })
 
   it("handles nested objects with mixed types", () => {
-    const input: EntityConfig["fields"] = {
+    const input: EntitiesConfig["fields"] = {
       a: {
         type: "object",
         fields: {

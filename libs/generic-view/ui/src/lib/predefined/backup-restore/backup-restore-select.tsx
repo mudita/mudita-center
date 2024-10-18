@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent, useEffect } from "react"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { Modal } from "../../interactive/modal"
 import { useSelector } from "react-redux"
 import { selectDeviceBackups } from "generic-view/store"
@@ -15,6 +15,7 @@ import { useFormContext } from "react-hook-form"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Form } from "../../interactive/form/form"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -90,13 +91,13 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.cancelButtonLabel),
-            action: closeAction,
+            actions: [closeAction],
           }}
         />
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.restoreButtonLabel),
-            action: nextAction,
+            actions: [nextAction],
             disabled: !formState.isValid,
           }}
         />

@@ -83,10 +83,12 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
             config: {
               text: config.aboutTitle!,
               icon: config.aboutIcon,
-              action: {
-                type: "navigate",
-                viewKey: "mc-overview/mc-about",
-              },
+              actions: [
+                {
+                  type: "navigate",
+                  viewKey: "mc-overview/mc-about",
+                },
+              ],
               modifiers: ["uppercase"],
             },
           },

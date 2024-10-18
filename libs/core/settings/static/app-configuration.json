@@ -1,1 +1,4 @@
-{"centerVersion": "2.3.1", "productVersions": {"MuditaPure": "1.12.0", "MuditaHarmony": "2.8.0"}}
+{
+  "centerVersion": "2.3.1",
+  "productVersions": { "MuditaPure": "1.12.0", "MuditaHarmony": "2.8.0" }
+}

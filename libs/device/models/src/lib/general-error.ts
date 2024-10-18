@@ -24,5 +24,6 @@ export enum ApiFileTransferError {
 }
 
 export enum EntitiesError {
-  EntityTypeNotSupported = 406
+  EntityTypeNotSupported = 406,
+  EntitiesDataFileCorrupted = 422,
 }

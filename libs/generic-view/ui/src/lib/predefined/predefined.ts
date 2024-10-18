@@ -12,6 +12,7 @@ import { BackupRestore } from "./backup-restore/backup-restore"
 import { ImportContacts } from "./import-contacts/import-contacts"
 import { DataMigration } from "./data-migration/data-migration"
 import { IncomingFeatureInfo } from "./incoming-feature-info"
+import { SelectionManager } from "./selection-manager"
 import {
   aboutDataBox,
   backupCreate,
@@ -22,6 +23,7 @@ import {
   lastBackupDate,
   mcDataMigration,
   overviewOsVersion,
+  selectionManager,
 } from "generic-view/models"
 
 export const predefinedComponents = {
@@ -34,4 +36,5 @@ export const predefinedComponents = {
   [importContacts.key]: ImportContacts,
   [mcDataMigration.key]: DataMigration,
   [incomingFeatureInfo.key]: IncomingFeatureInfo,
+  [selectionManager.key]: SelectionManager,
 }

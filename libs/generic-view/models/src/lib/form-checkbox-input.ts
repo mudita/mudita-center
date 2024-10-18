@@ -14,11 +14,13 @@ const inputValidation: z.ZodType<Pick<RegisterOptions, "required">> = z.object({
 
 const configValidator = z.object({
   name: z.string(),
-  value: z.string(),
+  value: z.string().optional(),
+  multipleValues: z.array(z.union([z.string(), z.number()])).optional(),
   checked: z.boolean().optional(),
   label: z.string().optional(),
   validation: inputValidation.optional(),
   disabled: z.boolean().optional(),
+  size: z.enum(["small", "large"]).optional(),
 })
 
 export type FormCheckboxInputConfig = z.infer<typeof configValidator>

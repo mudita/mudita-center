@@ -24,6 +24,7 @@ import {
   selectDataMigrationSourceDevice,
   selectDataMigrationTargetDevice,
 } from "../selectors/data-migration-devices"
+import { clearEntities } from "../entities/actions"
 import { DataMigrationStatus } from "../data-migration/reducer"
 
 export const useAPISerialPortListeners = () => {
@@ -107,6 +108,7 @@ const useHandleDevicesDetached = () => {
 
       for (const event of apiEvents) {
         dispatch(removeDevice(event))
+        dispatch(clearEntities({ deviceId: event.id }))
       }
       dispatch(closeAllModals())
 

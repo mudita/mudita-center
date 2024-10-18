@@ -3,10 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useId } from "react"
-import { APIFC, IconType } from "generic-view/utils"
+import React, { useCallback, useEffect, useId, useMemo, useRef } from "react"
+import { APIFC, IconType, useViewFormContext } from "generic-view/utils"
 import styled from "styled-components"
-import { useFormContext } from "react-hook-form"
 import { Icon } from "../../../icon/icon"
 import { FormCheckboxInputConfig } from "generic-view/models"
 
@@ -21,82 +20,203 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
   ...props
 }) => {
   const id = useId()
-  const { register } = useFormContext()
-  const { onChange, ...rest } = register(config.name, {
+  const getFormContext = useViewFormContext()
+  const { register, setValue, getValues, watch } = getFormContext()
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  const inputName = config.multipleValues
+    ? `${config.name}-multiple`
+    : config.name
+
+  const fieldRegistrar = register(inputName, {
     ...config.validation,
   })
 
+  const multiSelectValues = config.multipleValues
+    ? watch(config.name)
+    : undefined
+
+  const multiSelect = useMemo(() => {
+    return config.multipleValues
+      ? {
+          allValues: config.multipleValues,
+          selectedValues: multiSelectValues,
+        }
+      : undefined
+  }, [config.multipleValues, multiSelectValues])
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const checked = e.target.checked
+      config.onToggle?.(checked)
+
+      if (multiSelect) {
+        if (
+          checked ||
+          (!checked &&
+            multiSelect.selectedValues.length < multiSelect.allValues.length)
+        ) {
+          setValue(config.name, multiSelect.allValues)
+        } else {
+          setValue(config.name, [])
+        }
+      } else {
+        const checkedValues = getValues(inputName)
+        if (checkedValues instanceof Array) {
+          setValue(
+            inputName,
+            checked
+              ? [config.value, ...checkedValues]
+              : checkedValues.filter((v: unknown) => v !== config.value)
+          )
+        } else {
+          void fieldRegistrar.onChange(e)
+        }
+      }
+    },
+    [config, fieldRegistrar, getValues, inputName, multiSelect, setValue]
+  )
+
+  useEffect(() => {
+    if (multiSelect) {
+      if (multiSelect.selectedValues.length === multiSelect.allValues.length) {
+        setValue(inputName, true)
+      } else {
+        setValue(inputName, false)
+      }
+      if (inputRef.current) {
+        inputRef.current.indeterminate =
+          multiSelect.selectedValues.length > 0 &&
+          multiSelect.selectedValues.length < multiSelect.allValues.length
+      }
+    }
+  }, [fieldRegistrar.ref, inputName, multiSelect, setValue])
+
   return (
-    <Wrapper {...props}>
+    <Wrapper
+      {...props}
+      $size={config.size}
+      onClick={(e) => {
+        e.stopPropagation()
+      }}
+    >
       <Input
         id={"checkbox-" + id}
         type={"checkbox"}
         value={config.value}
         checked={config.checked}
-        onChange={(e) => {
-          config.onToggle?.(e.target.checked)
-          void onChange(e)
-        }}
         disabled={config.disabled}
-        {...rest}
+        {...fieldRegistrar}
+        onChange={handleChange}
+        ref={(e) => {
+          inputRef.current = e
+          fieldRegistrar.ref(e)
+        }}
       />
       <Label htmlFor={"checkbox-" + id}>
         <InputBox>
+          <HitArea htmlFor={"checkbox-" + id} />
           <CheckIcon />
+          <IndeterminateIcon />
         </InputBox>
-        {children || config.label}
+        {children || (config.label ? <span>{config.label}</span> : null)}
       </Label>
     </Wrapper>
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $size: Config["size"] }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100%;
-  min-height: 3.2rem;
+  width: min-content;
+  height: min-content;
+  max-width: 100%;
+  ${({ $size }) => {
+    switch ($size) {
+      case "small":
+        return `
+        ${InputBox} {
+          min-width: 1.6rem;
+          min-height: 1.6rem;
+          width: 1.6rem;
+          height: 1.6rem;
+        }
+        ${CheckIcon} {
+          width: 1.2rem;
+          height: 1.2rem;
+        }
+      `
+      default:
+        return `
+        ${InputBox} {
+          min-width: 2.2rem;
+          min-height: 2.2rem;
+          width: 2.2rem;
+          height: 2.2rem;`
+    }
+  }};
 `
 
 const Label = styled.label`
-  display: flex;
-  flex: 1;
-  align-items: center;
-  flex-direction: row;
   color: ${({ theme }) => theme.color.grey1};
   letter-spacing: 0.02em;
   font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+  line-height: 2.2rem;
   cursor: pointer;
   user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: max-content;
 `
 
 const CheckIcon = styled(Icon).attrs({ data: { type: IconType.Check } })`
   width: 1.8rem;
   height: 1.8rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `
+
+const IndeterminateIcon = styled(CheckIcon).attrs({
+  data: { type: IconType.Minus },
+})``
 
 const InputBox = styled.div`
   min-width: 2.2rem;
   min-height: 2.2rem;
   width: 2.2rem;
   height: 2.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: baseline;
   border-radius: ${({ theme }) => theme.radius.xs};
   border: 0.1rem solid ${({ theme }) => theme.color.grey4};
-  margin: 0 1.4rem 0 0;
+  margin: 0;
   transition: background-color 0.2s ease-in-out;
-  overflow: hidden;
   box-sizing: border-box;
+  position: relative;
+
+  & + * {
+    margin-left: 1.4rem;
+  }
 
   ${CheckIcon} {
+    display: flex;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
   }
+`
+
+const HitArea = styled.label`
+  width: 3.2rem;
+  height: 3.2rem;
+  position: absolute;
+  opacity: 0.1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 `
 
 const Input = styled.input<{ $withError?: boolean }>`
@@ -108,6 +228,28 @@ const Input = styled.input<{ $withError?: boolean }>`
       background-color: ${({ theme }) => theme.color.grey1};
 
       ${CheckIcon} {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      ${IndeterminateIcon} {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  }
+
+  &:indeterminate + ${Label} {
+    ${InputBox} {
+      border-color: ${({ theme }) => theme.color.grey1};
+      background-color: ${({ theme }) => theme.color.grey1};
+
+      ${CheckIcon} {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      ${IndeterminateIcon} {
         opacity: 1;
         visibility: visible;
       }

@@ -45,10 +45,12 @@ export const BackupRestoreSuccess: FunctionComponent<Props> = ({ onClose }) => {
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.okButtonLabel),
-            action: {
-              type: "custom",
-              callback: onClose,
-            },
+            actions: [
+              {
+                type: "custom",
+                callback: onClose,
+              },
+            ],
           }}
         />
       </Modal.Buttons>

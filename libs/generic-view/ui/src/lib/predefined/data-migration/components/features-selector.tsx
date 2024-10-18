@@ -117,4 +117,8 @@ const List = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+
+  & > * {
+    min-height: 3.2rem;
+  }
 `

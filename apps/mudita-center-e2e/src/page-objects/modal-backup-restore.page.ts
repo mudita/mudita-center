@@ -3,19 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class ModalBackupRestorePage extends Page {
-  public get failModalIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get failModalIcon() {
     return $('[data-testid="icon-Fail"]')
   }
 
-  public get checkCircleIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get checkCircleIcon() {
     return $('[data-testid="icon-CheckCircle"]')
   }
 
@@ -23,45 +18,31 @@ class ModalBackupRestorePage extends Page {
     return $$('[data-testid="restore-available-backup-modal-body-row"]')
   }
 
-  public get restoreButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get restoreButton() {
     return $('[data-testid="modal-action-button"]*=Restore')
   }
 
-  public get restorePasswordInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get restorePasswordInput() {
     return $('[name="secretKey"]')
   }
 
-  public get restoreSubmitButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get restoreSubmitButton() {
     return $('[type="submit"]*=Confirm')
   }
   //BACKUP modal objects
-  public get createBackupModalButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get createBackupModalButton() {
     return $('[data-testid="modal-action-button"]')
   }
 
-  public get backupPasswordFirstInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get backupPasswordFirstInput() {
     return $('[data-testid="backup-first-input"]')
   }
 
-  public get backupPasswordSecondInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get backupPasswordSecondInput() {
     return $('[data-testid="backup-second-input"]')
   }
 
-  public get backupSubmitButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get backupSubmitButton() {
     return $('[data-testid="backup-submit-button"]')
   }
 }

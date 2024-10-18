@@ -16,6 +16,7 @@ import { ModalScrollableContent } from "./helpers/modal-scrollable-content"
 import { ModalContent } from "./helpers/modal-content"
 import { ModalConfig } from "generic-view/models"
 import { ModalVisibilityController } from "./helpers/modal-visibility-controller"
+import { ModalTestIds } from "e2e-test-ids"
 
 export const Modal: BaseGenericComponent<
   undefined,
@@ -46,9 +47,14 @@ export const Modal: BaseGenericComponent<
       modalLayer={config.modalLayer}
     >
       {config.closeButtonAction && (
-        <ModalCloseButton config={{ action: config.closeButtonAction }} />
+        <ModalCloseButton config={{ actions: [config.closeButtonAction] }} />
       )}
-      <ModalContent className={"modal-content"}>{children}</ModalContent>
+      <ModalContent
+        className={"modal-content"}
+        data-testid={`${ModalTestIds.Modal}-${componentKey}`}
+      >
+        {children}
+      </ModalContent>
     </ModalBase>
   )
 }

@@ -8,6 +8,7 @@ export enum ResponseStatus {
   Accepted = 202,
   Redirect = 303,
   NoContent = 204,
+  MultiResponse = 207,
   BadRequest = 400,
   NotFound = 404,
   PhoneLocked = 403,

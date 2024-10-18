@@ -5,7 +5,7 @@
 
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { ButtonText } from "../../buttons/button-text"
 import { useFormContext } from "react-hook-form"
@@ -13,6 +13,8 @@ import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Form } from "../../interactive/form/form"
+import { PredefinedBackupPasswordTestIds } from "e2e-test-ids"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -66,17 +68,18 @@ export const BackupPassword: FunctionComponent<Props> = ({
           type: IconType.Settings,
         }}
       />
-      <Modal.Title>
+      <Modal.Title data-testid={PredefinedBackupPasswordTestIds.Title}>
         {intl.formatMessage(messages.title)}
         <HeadlineOptional>
           {intl.formatMessage(messages.subtitle)}
         </HeadlineOptional>
       </Modal.Title>
-      <Text>
+      <Text data-testid={PredefinedBackupPasswordTestIds.Description}>
         {intl.formatMessage(messages.description)}
         <span>{intl.formatMessage(messages.description2)}</span>
       </Text>
       <Form.TextInput
+        data-testid={PredefinedBackupPasswordTestIds.PasswordPlaceholder}
         config={{
           name: "password",
           label: intl.formatMessage(messages.passwordPlaceholder),
@@ -84,6 +87,7 @@ export const BackupPassword: FunctionComponent<Props> = ({
         }}
       />
       <Form.TextInput
+        data-testid={PredefinedBackupPasswordTestIds.PasswordRepeatPlaceholder}
         config={{
           name: "passwordRepeat",
           label: intl.formatMessage(messages.passwordRepeatPlaceholder),
@@ -100,16 +104,18 @@ export const BackupPassword: FunctionComponent<Props> = ({
       />
       <Modal.Buttons config={{ vertical: true }}>
         <ButtonPrimary
+          data-testid={PredefinedBackupPasswordTestIds.ConfirmButton}
           config={{
             text: intl.formatMessage(messages.confirmButtonLabel),
-            action: nextAction,
+            actions: [nextAction],
             disabled: !password || !passwordsMatching,
           }}
         />
         <ButtonText
+          data-testid={PredefinedBackupPasswordTestIds.SkipButton}
           config={{
             text: intl.formatMessage(messages.skipButtonLabel),
-            action: skipAction,
+            actions: [skipAction],
             modifiers: ["link", "uppercase"],
           }}
         />

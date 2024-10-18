@@ -3,13 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class ModalMessages extends Page {
-  public get iconClose(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get iconClose() {
     return $('[data-testid="icon-Close"]')
   }
   async buttonCloseClick() {
@@ -21,9 +18,7 @@ class ModalMessages extends Page {
     }
   }
 
-  public get confirmDeleteButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get confirmDeleteButton() {
     return $('[data-testid="modal-action-button"]*=Delete')
   }
   async clickConfirmDeleteButton() {

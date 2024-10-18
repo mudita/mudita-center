@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class NewsPage extends Page {
@@ -13,6 +12,10 @@ class NewsPage extends Page {
 
   public get moreNewsButton() {
     return $("p*=More news")
+  }
+
+  public get moreNewsButtonHref() {
+    return $('a[href="https://www.mudita.com/#news"]')
   }
 
   public get newsCardElements() {

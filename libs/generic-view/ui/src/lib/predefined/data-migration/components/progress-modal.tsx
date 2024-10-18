@@ -6,14 +6,14 @@
 import React, { FunctionComponent, useMemo, useState } from "react"
 import { useSelector } from "react-redux"
 import { Modal } from "../../../interactive/modal/modal"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../../buttons/button-secondary"
 import { selectDataMigrationProgress } from "generic-view/store"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ProgressBar } from "../../../interactive/progress-bar/progress-bar"
 import styled from "styled-components"
-import { DataMigrationFeature } from "generic-view/models"
+import { ButtonAction, DataMigrationFeature } from "generic-view/models"
 import { CancelConfirmModal } from "./cancel-confirm-modal"
 
 const messages = defineMessages({
@@ -85,7 +85,7 @@ export const ProgressModal: FunctionComponent<Props> = ({ onCancel }) => {
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.cancelButtonLabel),
-            action: cancelAction,
+            actions: [cancelAction],
           }}
         />
       </Modal.Buttons>

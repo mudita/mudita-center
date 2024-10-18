@@ -26,10 +26,12 @@ describe("generateMcAboutListModalLayout", () => {
       "keymodal-button": {
         config: {
           text: "press me",
-          action: {
-            type: "open-modal",
-            modalKey: "keymodal",
-          },
+          actions: [
+            {
+              type: "open-modal",
+              modalKey: "keymodal",
+            },
+          ],
         },
       },
       keymodal: {

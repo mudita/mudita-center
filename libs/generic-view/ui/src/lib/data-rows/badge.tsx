@@ -9,11 +9,17 @@ import { APIFC } from "generic-view/utils"
 import { Tag } from "../shared/tag"
 import { BadgeData } from "generic-view/models"
 
-export const Badge: APIFC<BadgeData> = ({ data, config, ...props }) => {
-  if (!data) return null
+export const Badge: APIFC<BadgeData> = ({
+  data,
+  config,
+  children,
+  ...props
+}) => {
+  if (!data && !children) return null
+
   return (
-    <BadgeWrapper {...props} variant={data.variant || "light"}>
-      {data.text}
+    <BadgeWrapper {...props} variant={data?.variant || "light"}>
+      {data?.text || children}
     </BadgeWrapper>
   )
 }
@@ -21,6 +27,7 @@ export const Badge: APIFC<BadgeData> = ({ data, config, ...props }) => {
 const BadgeWrapper = styled(Tag)<{ variant: BadgeData["variant"] }>`
   height: 2.2rem;
   line-height: 2.2rem;
+  letter-spacing: 0.04em;
 
   ${({ variant, theme }) =>
     variant === "dark" &&

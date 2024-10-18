@@ -211,7 +211,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstName)}
-              {...register("firstName", nameValidator)}
+              {...register("firstName", {
+                ...nameValidator,
+                deps: [],
+              })}
               errorMessage={errors.firstName?.message}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.FirstName}
@@ -219,7 +222,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.secondName)}
-              {...register("lastName", nameValidator)}
+              {...register("lastName", {
+                ...nameValidator,
+                deps: [],
+              })}
               errorMessage={errors.lastName?.message}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.SecondName}
@@ -227,20 +233,20 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="tel"
               label={intl.formatMessage(messages.primaryNumber)}
-              {...register(
-                "primaryPhoneNumber",
-                primaryPhoneNumberValidator(fields)
-              )}
+              {...register("primaryPhoneNumber", {
+                ...primaryPhoneNumberValidator(fields),
+                deps: [],
+              })}
               errorMessage={errors.primaryPhoneNumber?.message}
               data-testid={ContactEditTestIdsEnum.PrimaryNumber}
             />
             <Input
               type="tel"
               label={intl.formatMessage(messages.secondaryNumber)}
-              {...register(
-                "secondaryPhoneNumber",
-                secondaryPhoneNumberValidator(fields)
-              )}
+              {...register("secondaryPhoneNumber", {
+                ...secondaryPhoneNumberValidator(fields),
+                deps: [],
+              })}
               errorMessage={errors.secondaryPhoneNumber?.message}
               data-testid={ContactEditTestIdsEnum.SecondaryNumber}
             />
@@ -260,7 +266,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstAddressLine)}
-              {...register("firstAddressLine", addressValidator)}
+              {...register("firstAddressLine", {
+                ...addressValidator,
+                deps: [],
+              })}
               errorMessage={errors.firstAddressLine?.message}
               onBlur={trimInputValue}
               data-testid={ContactEditTestIdsEnum.FirstAddressLine}
@@ -268,7 +277,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.secondAddressLine)}
-              {...register("secondAddressLine", addressValidator)}
+              {...register("secondAddressLine", {
+                ...addressValidator,
+                deps: [],
+              })}
               errorMessage={errors.secondAddressLine?.message}
               onBlur={trimInputValue}
               data-testid={ContactEditTestIdsEnum.SecondAddressLine}

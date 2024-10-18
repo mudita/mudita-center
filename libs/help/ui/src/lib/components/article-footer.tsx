@@ -32,10 +32,12 @@ export const ArticleFooter: FunctionComponent = () => {
       <ButtonPrimary
         config={{
           text: intl.formatMessage(messages.buttonLabel),
-          action: {
-            type: "custom",
-            callback: openSupportWebsite,
-          },
+          actions: [
+            {
+              type: "custom",
+              callback: openSupportWebsite,
+            },
+          ],
         }}
         data-testid={HelpTestId.ArticleFooterButton}
       />

@@ -18,10 +18,7 @@ export const ButtonSecondary: APIFC<undefined, ButtonSecondaryConfig> = (
 const Button = styled(ButtonPrimary)`
   background-color: ${({ theme }) => theme.color.white};
   border: 0.1rem solid ${({ theme }) => theme.color.black};
-
-  span {
-    color: ${({ theme }) => theme.color.black};
-  }
+  color: ${({ theme }) => theme.color.black};
 
   &:hover {
     background-color: ${({ theme }) => theme.color.grey5};
@@ -34,9 +31,6 @@ const Button = styled(ButtonPrimary)`
   &:disabled {
     background-color: ${({ theme }) => theme.color.white};
     border-color: ${({ theme }) => theme.color.grey4};
-
-    span {
-      color: ${({ theme }) => theme.color.grey3};
-    }
+    color: ${({ theme }) => theme.color.grey3};
   }
 `

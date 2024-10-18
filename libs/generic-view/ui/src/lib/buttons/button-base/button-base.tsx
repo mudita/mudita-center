@@ -4,19 +4,19 @@
  */
 
 import React, { FunctionComponent, HTMLAttributes } from "react"
-import { ButtonAction } from "generic-view/utils"
 import { useButtonAction } from "./use-button-action"
 import { DefaultButton } from "../../shared/button"
+import { ButtonActions } from "generic-view/models"
 
 interface Props extends HTMLAttributes<HTMLButtonElement> {
-  action: ButtonAction
+  actions: ButtonActions
   viewKey?: string
   disabled?: boolean
 }
 
-export const ButtonBase: FunctionComponent<Props> = ({ action, ...props }) => {
+export const ButtonBase: FunctionComponent<Props> = ({ actions, ...props }) => {
   const callButtonAction = useButtonAction(props.viewKey as string)
-  const callAction = () => callButtonAction(action)
+  const callAction = () => callButtonAction(actions)
 
   return <DefaultButton {...props} onClick={callAction} type={"button"} />
 }

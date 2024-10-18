@@ -74,10 +74,12 @@ export const ArticleContent: FunctionComponent = () => {
           <ButtonText
             config={
               {
-                action: {
-                  type: "custom",
-                  callback: openContactSupportFlow,
-                },
+                actions: [
+                  {
+                    type: "custom",
+                    callback: openContactSupportFlow,
+                  },
+                ],
                 modifiers: ["link", "hover-underline"],
               } as ButtonTextConfig
             }

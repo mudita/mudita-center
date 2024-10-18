@@ -6,19 +6,23 @@
 import { useEffect, useState } from "react"
 import { HelpSearchResult } from "help/models"
 import { helpDatabase } from "../database/help-database"
+import { cleanSearchPhrase } from "./clean-search-phrase"
 
 export const useHelpSearch = (searchPhrase?: string) => {
   const [searchResults, setSearchResults] = useState<HelpSearchResult>()
+  const { search: cleanedSearchPhrase } = cleanSearchPhrase(searchPhrase)
 
   useEffect(() => {
     void (async () => {
-      if (searchPhrase && searchPhrase?.length > 1) {
+      if (cleanedSearchPhrase && cleanedSearchPhrase?.length > 1) {
         const db = await helpDatabase
-        const searchResults = await db.search(searchPhrase)
+        const searchResults = await db.search(cleanedSearchPhrase)
         setSearchResults(searchResults)
+      } else {
+        setSearchResults(undefined)
       }
     })()
-  }, [searchPhrase])
+  }, [cleanedSearchPhrase])
 
   return searchResults
 }

@@ -38,7 +38,13 @@ import { overviewOsVersion } from "./lib/overview-os-version"
 import { tooltipContent } from "./lib/tooltip-content"
 import { aboutDataBox } from "./lib/about-data-box"
 import { h3Component, h4Component, h5Component } from "./lib/headers"
-import { p1Component, p2Component, p3Component } from "./lib/paragraphs"
+import {
+  p1Component,
+  p2Component,
+  p3Component,
+  p4Component,
+  p5Component,
+} from "./lib/paragraphs"
 import { lastBackupDate } from "./lib/last-backup-date"
 import { backupCreate } from "./lib/backup-create"
 import { importContacts } from "./lib/import-contacts"
@@ -47,6 +53,15 @@ import { backupRestoreAvailable } from "./lib/backup-restore-available"
 import { mcImportContactsButton } from "./lib/mc-import-contacts-button"
 import { mcDataMigration } from "./lib/mc-data-migration"
 import { incomingFeatureInfo } from "./lib/incoming-feature-info"
+import { table } from "./lib/table"
+import { formConditionalRenderer } from "./lib/form-conditional-renderer"
+import { tableCell } from "./lib/table-cell"
+import { entitiesLoader } from "./lib/entities-loader"
+import { conditionalRenderer } from "./lib/conditional-renderer"
+import { toast } from "./lib/toast"
+import { selectionManager } from "./lib/selection-manager"
+import { formatMessage } from "./lib/format-message"
+import { appPortal } from "./lib/app-portal"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -93,6 +108,16 @@ export * from "./lib/mc-import-contacts-button"
 export * from "./lib/modal-visibility-controller"
 export * from "./lib/mc-data-migration"
 export * from "./lib/incoming-feature-info"
+export * from "./lib/table"
+export * from "./lib/table-cell"
+export * from "./lib/form-conditional-renderer"
+export * from "./lib/entities-loader"
+export * from "./lib/common-validators"
+export * from "./lib/conditional-renderer"
+export * from "./lib/format-message"
+export * from "./lib/toast"
+export * from "./lib/selection-manager"
+export * from "./lib/app-portal"
 
 export default {
   [blockBox.key]: blockBox,
@@ -123,6 +148,7 @@ export default {
   [formRadioInput.key]: formRadioInput,
   [formSearchInput.key]: formSearchInput,
   [formCheckboxInput.key]: formCheckboxInput,
+  [formConditionalRenderer.key]: formConditionalRenderer,
   [progressBar.key]: progressBar,
   [tooltip.key]: tooltip,
   [tooltipAnchor.key]: tooltipAnchor,
@@ -133,6 +159,8 @@ export default {
   [p1Component.key]: p1Component,
   [p2Component.key]: p2Component,
   [p3Component.key]: p3Component,
+  [p4Component.key]: p4Component,
+  [p5Component.key]: p5Component,
   [overviewOsVersion.key]: overviewOsVersion,
   [aboutDataBox.key]: aboutDataBox,
   [lastBackupDate.key]: lastBackupDate,
@@ -143,4 +171,12 @@ export default {
   [mcImportContactsButton.key]: mcImportContactsButton,
   [mcDataMigration.key]: mcDataMigration,
   [incomingFeatureInfo.key]: incomingFeatureInfo,
+  [table.key]: table,
+  [tableCell.key]: tableCell,
+  [entitiesLoader.key]: entitiesLoader,
+  [conditionalRenderer.key]: conditionalRenderer,
+  [formatMessage.key]: formatMessage,
+  [toast.key]: toast,
+  [selectionManager.key]: selectionManager,
+  [appPortal.key]: appPortal,
 } as const

@@ -13,7 +13,7 @@ export const TextFormatted: APIFC<TextFormattedData> = ({ data }) => {
   return <Content>{data?.text}</Content>
 }
 
-const Content = styled(Markdown)`
+export const Content = styled(Markdown)`
   color: ${({ theme }) => theme.color.black};
 
   h1 {

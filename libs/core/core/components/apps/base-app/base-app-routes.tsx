@@ -32,12 +32,9 @@ import AvailableDeviceListContainer from "Core/discovery-device/components/avail
 import DeviceConnecting from "Core/discovery-device/components/device-connecting.component"
 import ManageSounds from "Core/files-manager/components/manage-sounds.component"
 import { GenericView } from "generic-view/feature"
-import {
-  APIConnectionDemo,
-  DataMigrationPage,
-  RecoveryModePage,
-} from "generic-view/ui"
+import { APIConnectionDemo, DataMigrationPage } from "generic-view/ui"
 import { ArticlePage, HelpPage } from "help/ui"
+import { RecoveryModePage } from "msc-flash-harmony"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -134,17 +131,15 @@ export default () => (
               key="help-category-article"
               path={`${URL_MAIN.help}/:categoryId/:articleId`}
               component={ArticlePage}
-            />,
+            />
+            ,
             <Route
               key="help-category"
               path={`${URL_MAIN.help}/:categoryId`}
               component={HelpPage}
-            />,
-            <Route
-              key="help-root"
-              path={URL_MAIN.help}
-              component={HelpPage}
             />
+            ,
+            <Route key="help-root" path={URL_MAIN.help} component={HelpPage} />
             <Route
               path={`${URL_MAIN.settings}${URL_TABS.about}`}
               component={AboutContainer}

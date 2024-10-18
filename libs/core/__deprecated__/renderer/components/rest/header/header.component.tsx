@@ -122,6 +122,7 @@ const Header: FunctionComponent<HeaderProps> = ({
         </BackButton>
       ) : (
         <HeaderText
+          id={"app-header"}
           displayStyle={TextDisplayStyle.Headline4}
           message={currentLocation}
           data-testid={"location"}

@@ -5,10 +5,11 @@
 
 import React, { FunctionComponent } from "react"
 import { Modal } from "../../../interactive/modal/modal"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -43,7 +44,7 @@ export const SuccessModal: FunctionComponent<Props> = ({ onButtonClick }) => {
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.buttonLabel),
-            action: buttonAction,
+            actions: [buttonAction],
           }}
         />
       </Modal.Buttons>

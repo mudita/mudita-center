@@ -121,6 +121,7 @@ export interface TextProps {
   readonly onClick?: () => void
   readonly testId?: string
   readonly textRef?: React.Ref<HTMLElement>
+  readonly id?: string
 }
 
 export enum TextDisplayStyle {
@@ -185,7 +186,6 @@ const Text: FunctionComponent<TextProps> = ({
     {message && typeof message !== "string" && (
       <FormattedMessage {...message} />
     )}
-
     {!message && children}
   </TextWrapper>
 )

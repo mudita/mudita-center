@@ -31,7 +31,7 @@ class OverviewKompaktPage extends OverviewPage {
   }
 
   public get backupInfo() {
-    return $(`//div[@data-testid="block-box-backup"]//p`)
+    return $('div[data-testid="block-box-backup"] p')
   }
 
   public get serialNumberLabel() {

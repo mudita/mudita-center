@@ -14,11 +14,13 @@ export const generateMcImportContactsButton: ComponentGenerator<
       component: "button-primary",
       config: {
         text: config.text,
-        action: {
-          type: "open-modal",
-          modalKey: `${key}-modal`,
-          domain: "import-contacts",
-        },
+        actions: [
+          {
+            type: "open-modal",
+            modalKey: `${key}-modal`,
+            domain: "import-contacts",
+          },
+        ],
       },
       layout,
     },

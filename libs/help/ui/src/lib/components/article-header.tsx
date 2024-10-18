@@ -24,10 +24,12 @@ export const ArticleHeader: FunctionComponent<Props> = ({ title }) => {
         data-testid={HelpTestId.ArticleBackButton}
         config={{
           text: "Back",
-          action: {
-            type: "custom",
-            callback: goBack,
-          },
+          actions: [
+            {
+              type: "custom",
+              callback: goBack,
+            },
+          ],
           icon: IconType.ArrowBack,
           modifiers: ["uppercase"],
         }}

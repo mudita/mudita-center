@@ -26,6 +26,7 @@ export const getGenericConfig = createAsyncThunk<
 
     if (response.ok) {
       const fullView = transformGenericComponents(response.data)
+
       return { deviceId, feature, view: fullView }
     }
 

@@ -14,6 +14,7 @@ export const lineHeight = {
   paragraph2: "2.4rem",
   paragraph3: "2.2rem",
   paragraph4: "2.2rem",
+  paragraph5: "2rem",
   tag: "2rem",
   buttonLink: "2.2rem",
   buttonText: "2rem",

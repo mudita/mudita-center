@@ -36,6 +36,7 @@ import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { ModalTestIds } from "Core/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import { Close } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import { SpinnerLoader } from "../../../generic-view/ui/src/lib/shared/spinner-loader"
+import { NewContactSupportModalTestIds } from "e2e-test-ids"
 
 const messages = defineMessages({
   actionButton: {
@@ -95,8 +96,12 @@ interface FormInputLabelProps {
 
 export const FormInputLabelComponent: FunctionComponent<
   FormInputLabelProps
-> = ({ className, label, optional }) => (
-  <Text className={className} displayStyle={TextDisplayStyle.Paragraph3}>
+> = ({ className, label, optional, ...rest }) => (
+  <Text
+    className={className}
+    displayStyle={TextDisplayStyle.Paragraph3}
+    {...rest}
+  >
     <FormattedMessage {...label} />
     {optional && (
       <Text
@@ -211,15 +216,18 @@ const ContactSupportModal: FunctionComponent<Props> = ({
             <IconWrapper>
               <Icon type={IconType.Support} />
             </IconWrapper>
-            <h1>
+            <h1 data-testid={NewContactSupportModalTestIds.Title}>
               <FormattedMessage {...messages.title} />
             </h1>
-            <p>
+            <p data-testid={NewContactSupportModalTestIds.Subtitle}>
               <FormattedMessage {...messages.description} />
             </p>
           </ModalHeader>
           <Form onSubmit={sendEmail}>
-            <FormInputLabel label={messages.emailLabel} />
+            <FormInputLabel
+              label={messages.emailLabel}
+              data-testid={NewContactSupportModalTestIds.EmailLabel}
+            />
             <InputComponent
               disabled={sending}
               outlined
@@ -230,7 +238,11 @@ const ContactSupportModal: FunctionComponent<Props> = ({
               label={intl.formatMessage(messages.emailPlaceholder)}
               {...register(FieldKeys.Email, emailValidator)}
             />
-            <FormInputLabel optional label={messages.messageLabel} />
+            <FormInputLabel
+              optional
+              label={messages.messageLabel}
+              data-testid={NewContactSupportModalTestIds.MessageLabel}
+            />
             <DescriptionInput
               disabled={sending}
               type="textarea"
@@ -239,11 +251,15 @@ const ContactSupportModal: FunctionComponent<Props> = ({
               data-testid={ContactSupportModalTestIds.DescriptionInput}
               {...register(FieldKeys.Description)}
             />
-            <FormInputLabel label={messages.filesLabel} />
+            <FormInputLabel
+              label={messages.filesLabel}
+              data-testid={NewContactSupportModalTestIds.AttachedFilesLabel}
+            />
             <FilesDescription
               displayStyle={TextDisplayStyle.Paragraph3}
               element={"p"}
               message={messages.filesLabelDescription}
+              data-testid={NewContactSupportModalTestIds.AttachedFilesSubtext}
             />
             <Files
               files={files}

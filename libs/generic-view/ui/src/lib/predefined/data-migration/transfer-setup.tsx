@@ -68,10 +68,12 @@ export const TransferSetup: FunctionComponent<Props> = ({
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.transferButton),
-            action: {
-              type: "custom",
-              callback: onStartMigration,
-            },
+            actions: [
+              {
+                type: "custom",
+                callback: onStartMigration,
+              },
+            ],
             disabled: pureBusy || selectedFeatures.length === 0,
           }}
         />

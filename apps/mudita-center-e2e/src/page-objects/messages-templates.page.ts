@@ -3,25 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import ModalPage from "./modal.page"
 
 class TemplatesPage extends ModalPage {
-  public get newTemplateButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get newTemplateButton() {
     return $('[data-testid="templates-panel-button"]')
   }
 
-  public get templateTextInputForm(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get templateTextInputForm() {
     return $('[data-testid="template-form-text-filed"]')
   }
 
-  public get saveButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get saveButton() {
     return $('[data-testid="template-form-save-button"]')
   }
 
@@ -31,15 +24,11 @@ class TemplatesPage extends ModalPage {
     await this.templateTextInputForm.setValue(inputText)
   }
 
-  public get templateCheckbox(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get templateCheckbox() {
     return $('[data-testid="template-checkbox"]')
   }
 
-  public get selectAllTemplatesCheckbox(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get selectAllTemplatesCheckbox() {
     return $('[data-testid="checkbox"]')
   }
 

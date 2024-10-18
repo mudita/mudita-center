@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import "./wdyr"
 import "reflect-metadata"
 import translationConfig from "App/translations.config.json"
 import App from "App/app.component"
