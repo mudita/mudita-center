@@ -12,7 +12,7 @@ describe("dataProviderSchema", () => {
       entitiesType: "someType",
       sort: [
         {
-          providerField: "someField",
+          field: "someField",
           direction: "asc",
           priority: 1,
           orderingPatterns: ["/pattern/"],

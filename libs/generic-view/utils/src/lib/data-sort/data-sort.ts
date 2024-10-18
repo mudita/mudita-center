@@ -22,14 +22,14 @@ export const dataSort = (
 
   return data.sort((a, b) => {
     for (const {
-      providerField,
+      field,
       providerFieldGroup,
       direction,
       orderingPatterns = [],
       sensitivity = "variant",
       emptyOrder = "last",
     } of sortedConfigs) {
-      const fields = providerField ? [providerField] : providerFieldGroup
+      const fields = field ? [field] : providerFieldGroup
       if (!fields) continue
       let index = 0
 
