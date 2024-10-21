@@ -75,6 +75,12 @@ class HelpArticlePage extends Page {
   public get helpArticleFooterVisitSupportButton() {
     return $('[data-testid="help-article-footer-button"]')
   }
+  public get helpCategories() {
+    return $$('[data-testid="help-categories-list-item"]')
+  }
+  public get connectYourDeviceLinks() {
+    return $$('[data-testid="help-article-content-block-internal-link"]')
+  }
 }
 
 export default new HelpArticlePage()

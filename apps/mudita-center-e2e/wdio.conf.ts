@@ -81,6 +81,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
     toRelativePath(TestFilesPaths.helpVerifyFeedback),
     toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
+    toRelativePath(TestFilesPaths.helpLinkInsideContainer),
   ],
   suites: {
     standalone: [
@@ -96,6 +97,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
       toRelativePath(TestFilesPaths.helpVerifyFeedback),
       toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
+      toRelativePath(TestFilesPaths.helpLinkInsideContainer),
     ],
     mock: [
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
@@ -133,6 +135,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.newsMoreNews),
       toRelativePath(TestFilesPaths.helpVerifyFeedback),
       toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
+      toRelativePath(TestFilesPaths.helpLinkInsideContainer),
     ],
     cicdMock: [
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
