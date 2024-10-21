@@ -38,7 +38,7 @@ To ensure that files will be excluded from commits you can use the following git
 
 ```bash
  git update-index --assume-unchanged libs/core/news/default-news.json
- git update-index --assume-unchanged libs/core/help/default-help.json
+ git update-index --assume-unchanged libs/help/feature/src/lib/default-help.json
  git update-index --assume-unchanged libs/core/settings/static/app-configuration.json
 ```
 
