@@ -9,6 +9,7 @@ import Status from "Core/overview/components/status/status.component"
 import System from "Core/overview/components/system/system.component"
 import FilesManager from "Core/overview/components/files-manager/files-manager.component"
 import Backup from "Core/overview/components/backup/backup.component"
+import TimeSynchronization from "../time-synchronization/time-synchronization.component"
 
 export const DeviceInfo = styled(DevicePreview)`
   grid-area: Device;
@@ -23,6 +24,10 @@ export const SystemInfo = styled(System)`
 
 export const BackupInfo = styled(Backup)`
   grid-area: Backup;
+`
+
+export const TimeSynchronizationInfo = styled(TimeSynchronization)`
+  grid-area: TimeSynchronization;
 `
 
 const overviewWrapperWithBackup = css`
@@ -47,6 +52,14 @@ export const OverviewWrapper = styled.div`
 
 export const OverviewPureWrapper = styled(OverviewWrapper)`
   ${overviewWrapperWithBackup};
+`
+
+export const OverviewHarmonyWrapper = styled(OverviewWrapper)`
+  grid-template-areas:
+    "Device Network"
+    "Device System"
+    "Device TimeSynchronization";
+  grid-template-rows: repeat(3, 1fr);
 `
 
 export const FileManagerInfo = styled(FilesManager)`
