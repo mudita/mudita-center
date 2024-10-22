@@ -24,7 +24,7 @@ export class ContactIndexer extends BaseIndexer {
     super(fileSystemService)
   }
 
-  async index(fileDir: string, token: string): Promise<Index<ContactObject>> {
+  async index(fileDir: string, token?: string): Promise<Index<ContactObject>> {
     const db = await this.initTmpDatabase(fileDir, token)
     const object = this.dataPresenter.serializeToObject(this.loadTables(db))
     return this.createIndex(object)
@@ -75,7 +75,7 @@ export class ContactIndexer extends BaseIndexer {
 
   private async initTmpDatabase(
     fileDir: string,
-    token: string
+    token?: string
   ): Promise<Database> {
     const data = await this.getData(path.join(fileDir, "contacts.db"), token)
     return new (await this.sql).Database(data)
