@@ -42,6 +42,7 @@ export class FilesManagerModule extends BaseModule {
     )
 
     const fileManagerService = new FileManagerService(
+      this.deviceProtocol,
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       new FileDeleteCommand(this.deviceProtocol),

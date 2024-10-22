@@ -7,11 +7,12 @@ import { createSelector } from "@reduxjs/toolkit"
 import { kompaktImg } from "Root/demo-data/kompakt-img"
 import { getCoreDevicesSelector } from "core-device/feature"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import pureBlackImage from "Core/__deprecated__/renderer/images/pure-black-render.png"
-import pureGreyImage from "Core/__deprecated__/renderer/images/pure-gray-render.png"
-import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 import { selectConfiguredDevices } from "./select-configured-devices"
 import { selectActiveApiDeviceId } from "./select-active-api-device-id"
+import { getBaseDeviceInfo } from "generic-view/utils"
+import { BaseDevice } from "generic-view/models"
+import { DataMigrationStatus } from "../data-migration/reducer"
+import { selectDataMigrationStatus } from "./data-migration-status"
 
 // FIXME: The device name should be moved to the API config response of API device
 const messages = {
@@ -20,14 +21,29 @@ const messages = {
 
 export const selectDataMigrationSourceDevices = createSelector(
   getCoreDevicesSelector,
-  (devices) =>
-    devices
+  selectDataMigrationStatus,
+  (state: ReduxRootState) => state.dataMigration.sourceDevice,
+  (devices, dataMigrationStatus, sourceDevice) => {
+    const availableDevices = devices
       .filter(({ deviceType }) => deviceType === "MuditaPure")
-      .map((device) => ({
-        name: getDeviceTypeName(device.deviceType!),
-        image: device.caseColour === "black" ? pureBlackImage : pureGreyImage,
-        serialNumber: device.serialNumber!,
-      }))
+      .map(getBaseDeviceInfo)
+
+    const sourceDeviceDisconnected =
+      [
+        DataMigrationStatus.PureDatabaseIndexing,
+        DataMigrationStatus.PureDatabaseCreating,
+      ].includes(dataMigrationStatus) &&
+      sourceDevice &&
+      !availableDevices.find(
+        (device) => device.serialNumber === sourceDevice.serialNumber
+      )
+    return [
+      ...(sourceDeviceDisconnected
+        ? [{ ...sourceDevice, disconnected: true }]
+        : []),
+      ...availableDevices,
+    ] as BaseDevice[]
+  }
 )
 
 export const selectDataMigrationTargetDevices = createSelector(
@@ -44,7 +60,7 @@ export const selectDataMigrationTargetDevices = createSelector(
           name,
           image: kompaktImg, // TODO: Add variant support
           serialNumber: device.apiConfig.serialNumber!,
-        }
+        } as BaseDevice
       })
       .filter(Boolean)
   }
@@ -53,8 +69,11 @@ export const selectDataMigrationTargetDevices = createSelector(
 export const selectDataMigrationSourceDevice = createSelector(
   selectDataMigrationSourceDevices,
   (state: ReduxRootState) => state.dataMigration.sourceDevice,
-  (devices, sourceDeviceId) =>
-    devices.find((device) => device?.serialNumber === sourceDeviceId)
+  (devices, sourceDevice) => {
+    return devices.find(
+      (device) => device?.serialNumber === sourceDevice?.serialNumber
+    )
+  }
 )
 
 export const selectDataMigrationTargetDevice = createSelector(

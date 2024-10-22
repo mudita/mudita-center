@@ -223,13 +223,14 @@ export class DeviceFileSystemService {
   }
 
   public async removeDeviceFile(
-    removeFile: string
+    removeFile: string,
+    deviceId = this.deviceProtocol.device.id
   ): Promise<ResultObject<boolean>> {
     if (!removeFile) {
       return Result.failed(new AppError("", ""))
     }
 
-    const { ok } = await this.deviceProtocol.device.request({
+    const { ok } = await this.deviceProtocol.request(deviceId, {
       endpoint: Endpoint.FileSystem,
       method: Method.Delete,
       body: {
