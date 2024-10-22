@@ -26,7 +26,7 @@ export const useDevConsole = () => {
   useEffect(() => {
     if (
       process.env.DEV_TOOLS_SHORTCUT_ENABLED !== "1" ||
-      activeDeviceId == undefined
+      activeDeviceId === undefined
     ) {
       return
     }
