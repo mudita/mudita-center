@@ -13,10 +13,12 @@ import { GetFileSystemDirectoryResponseBody } from "Core/device/types/mudita-os"
 
 export class RetrieveFilesCommand extends BaseCommand {
   public async exec(
-    directory: string
+    directory: string,
+    deviceId = this.deviceProtocol.device.id
   ): Promise<ResultObject<Record<string, DirectoryFile[]> | undefined>> {
     const result =
-      await this.deviceProtocol.device.request<GetFileSystemDirectoryResponseBody>(
+      await this.deviceProtocol.request<GetFileSystemDirectoryResponseBody>(
+        deviceId,
         {
           endpoint: Endpoint.FileSystem,
           method: Method.Get,
