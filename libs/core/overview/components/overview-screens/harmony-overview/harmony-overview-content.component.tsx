@@ -9,9 +9,10 @@ import { DeviceType } from "device-protocol/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   DeviceInfo,
+  OverviewHarmonyWrapper,
   StatusInfo,
   SystemInfo,
-  OverviewWrapper,
+  TimeSynchronizationInfo,
 } from "Core/overview/components/overview/overview.styles"
 
 interface OverviewProps {
@@ -23,9 +24,10 @@ interface OverviewProps {
   readonly batteryLevel: number
   readonly serialNumber: string | undefined
   readonly caseColour?: CaseColour
+  readonly synchronizeTime: () => void
 }
 
-const OverviewContent: FunctionComponent<OverviewProps> = ({
+const HarmonyOverviewContent: FunctionComponent<OverviewProps> = ({
   batteryLevel,
   onUpdateCheck,
   onUpdateDownload,
@@ -34,9 +36,10 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
   osVersion,
   serialNumber,
   caseColour,
+  synchronizeTime,
 }) => {
   return (
-    <OverviewWrapper>
+    <OverviewHarmonyWrapper>
       <DeviceInfo
         caseColour={caseColour}
         deviceType={DeviceType.MuditaHarmony}
@@ -54,7 +57,8 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
         onDownload={onUpdateDownload}
         onUpdate={onUpdateInstall}
       />
-    </OverviewWrapper>
+      <TimeSynchronizationInfo onSynchronize={synchronizeTime} />
+    </OverviewHarmonyWrapper>
   )
 }
-export default OverviewContent
+export default HarmonyOverviewContent
