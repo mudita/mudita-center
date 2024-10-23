@@ -24,9 +24,10 @@ export class BaseBackupService {
   ) {}
 
   public async checkStatus(
-    operation: Operation
+    operation: Operation,
+    deviceId = this.deviceProtocol.device.id
   ): Promise<ResultObject<boolean, BackupError>> {
-    const deviceResponse = await this.deviceInfoService.getDeviceInfo()
+    const deviceResponse = await this.deviceInfoService.getDeviceInfo(deviceId)
 
     if (!deviceResponse.ok || !deviceResponse.data) {
       return Result.failed(
@@ -38,7 +39,8 @@ export class BaseBackupService {
     }
 
     const response = await this.deviceFileSystem.downloadFile(
-      deviceResponse.data.recoveryStatusFilePath
+      deviceResponse.data.recoveryStatusFilePath,
+      deviceId
     )
 
     if (!response.ok || !response.data) {
@@ -73,10 +75,13 @@ export class BaseBackupService {
     }
   }
 
-  public async waitUntilProcessFinished(): Promise<
-    ResultObject<boolean | undefined>
-  > {
-    const wakeUpResponse = await this.waitUntilDeviceResponse()
+  public async waitUntilProcessFinished(
+    deviceId = this.deviceProtocol.device.id
+  ): Promise<ResultObject<boolean | undefined>> {
+    const wakeUpResponse = await this.waitUntilDeviceResponse(
+      undefined,
+      deviceId
+    )
 
     if (!wakeUpResponse) {
       return Result.failed(
@@ -84,7 +89,10 @@ export class BaseBackupService {
       )
     }
 
-    const unlockResponse = await this.waitUntilGetUnlockDeviceStatusResponse()
+    const unlockResponse = await this.waitUntilGetUnlockDeviceStatusResponse(
+      undefined,
+      deviceId
+    )
 
     if (unlockResponse) {
       return Result.success(true)
@@ -95,7 +103,10 @@ export class BaseBackupService {
     }
   }
 
-  private async waitUntilDeviceResponse(index = 0): Promise<boolean> {
+  private async waitUntilDeviceResponse(
+    index = 0,
+    deviceId = this.deviceProtocol.device.id
+  ): Promise<boolean> {
     if (index === this.MAX_WAKE_UP_RETRIES) {
       return false
     }
@@ -104,16 +115,18 @@ export class BaseBackupService {
       setTimeout(() => {
         void (async () => {
           try {
-            const response = await this.deviceInfoService.getDeviceInfo()
+            const response = await this.deviceInfoService.getDeviceInfo(
+              deviceId
+            )
 
             if (response.ok) {
               resolve(true)
               return
             }
 
-            resolve(this.waitUntilDeviceResponse(++index))
+            resolve(this.waitUntilDeviceResponse(++index, deviceId))
           } catch (e) {
-            resolve(this.waitUntilDeviceResponse(++index))
+            resolve(this.waitUntilDeviceResponse(++index, deviceId))
           }
         })()
       }, this.REQUEST_TIME_OUT)
@@ -121,13 +134,14 @@ export class BaseBackupService {
   }
 
   private async waitUntilGetUnlockDeviceStatusResponse(
-    index = 0
+    index = 0,
+    deviceId = this.deviceProtocol.device.id
   ): Promise<boolean> {
     if (index === this.REQUEST_TIME_OUT) {
       return false
     }
 
-    const response = await this.deviceProtocol.device.request({
+    const response = await this.deviceProtocol.request(deviceId, {
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
@@ -138,7 +152,9 @@ export class BaseBackupService {
     } else {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(this.waitUntilGetUnlockDeviceStatusResponse(++index))
+          resolve(
+            this.waitUntilGetUnlockDeviceStatusResponse(++index, deviceId)
+          )
         }, this.REQUEST_TIME_OUT)
       })
     }

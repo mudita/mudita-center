@@ -421,3 +421,214 @@ USB:
     expect(devices.length).toBe(0)
   })
 })
+
+it("should correctly filter devices by vendorId", async () => {
+  const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Product ID: 0x0103
+          Vendor ID: 0x3310
+          Version: 1.01
+          Serial Number: 0123456789ABCDEF
+          Manufacturer: Mudita
+        Mudita Bell:
+          Product ID: 0x0104
+          Vendor ID: 0x3311
+          Version: 1.02
+          Serial Number: ABCDEF1234567890
+          Manufacturer: Mudita
+`
+  ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({ vendorId: '3310' })
+
+  expect(devices.length).toBe(1)
+  expect(devices[0]).toEqual({
+    productId: '0103',
+    vendorId: '3310',
+    version: '1.01',
+    serialNumber: '0123456789ABCDEF',
+    manufacturer: 'Mudita',
+    name: 'Mudita Harmony (MSC mode)',
+    path: '3310/0103/0123456789ABCDEF',
+  })
+})
+
+it("should correctly filter devices by productId", async () => {
+  const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Product ID: 0x0103
+          Vendor ID: 0x3310
+          Version: 1.01
+          Serial Number: 0123456789ABCDEF
+          Manufacturer: Mudita
+        Mudita Bell:
+          Product ID: 0x0104
+          Vendor ID: 0x3310
+          Version: 1.02
+          Serial Number: ABCDEF1234567890
+          Manufacturer: Mudita
+`
+  ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({ productId: '0104' })
+
+  expect(devices.length).toBe(1)
+  expect(devices[0]).toEqual({
+    productId: '0104',
+    vendorId: '3310',
+    version: '1.02',
+    serialNumber: 'ABCDEF1234567890',
+    manufacturer: 'Mudita',
+    name: 'Mudita Bell',
+    path: '3310/0104/ABCDEF1234567890',
+  })
+})
+
+it("should correctly filter devices by name", async () => {
+  const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Product ID: 0x0103
+          Vendor ID: 0x3310
+          Version: 1.01
+          Serial Number: 0123456789ABCDEF
+          Manufacturer: Mudita
+        Mudita Bell:
+          Product ID: 0x0104
+          Vendor ID: 0x3310
+          Version: 1.02
+          Serial Number: ABCDEF1234567890
+          Manufacturer: Mudita
+`
+  ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({ name: 'Mudita Bell' })
+
+  expect(devices.length).toBe(1)
+  expect(devices[0]).toEqual({
+    productId: '0104',
+    vendorId: '3310',
+    version: '1.02',
+    serialNumber: 'ABCDEF1234567890',
+    manufacturer: 'Mudita',
+    name: 'Mudita Bell',
+    path: '3310/0104/ABCDEF1234567890',
+  })
+})
+
+it("should correctly filter devices by vendorId and productId when both match", async () => {
+  const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Product ID: 0x0103
+          Vendor ID: 0x3310
+          Version: 1.01
+          Serial Number: 0123456789ABCDEF
+          Manufacturer: Mudita
+        Mudita Bell:
+          Product ID: 0x0104
+          Vendor ID: 0x3311
+          Version: 1.02
+          Serial Number: ABCDEF1234567890
+          Manufacturer: Mudita
+`
+  ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({ vendorId: '3310', productId: '0103' })
+
+  expect(devices.length).toBe(1)
+  expect(devices[0]).toEqual({
+    productId: '0103',
+    vendorId: '3310',
+    version: '1.01',
+    serialNumber: '0123456789ABCDEF',
+    manufacturer: 'Mudita',
+    name: 'Mudita Harmony (MSC mode)',
+    path: '3310/0103/0123456789ABCDEF',
+  })
+})
+
+it("should return an empty array when vendorId matches but productId does not", async () => {
+  const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Product ID: 0x0103
+          Vendor ID: 0x3310
+          Version: 1.01
+          Serial Number: 0123456789ABCDEF
+          Manufacturer: Mudita
+        Mudita Bell:
+          Product ID: 0x0104
+          Vendor ID: 0x3311
+          Version: 1.02
+          Serial Number: ABCDEF1234567890
+          Manufacturer: Mudita
+`
+  ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({ vendorId: '3310', productId: '0104' })
+
+  expect(devices.length).toBe(0)
+})
+
+it("should return an empty array when productId matches but vendorId does not", async () => {
+  const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Product ID: 0x0103
+          Vendor ID: 0x3310
+          Version: 1.01
+          Serial Number: 0123456789ABCDEF
+          Manufacturer: Mudita
+        Mudita Bell:
+          Product ID: 0x0104
+          Vendor ID: 0x3311
+          Version: 1.02
+          Serial Number: ABCDEF1234567890
+          Manufacturer: Mudita
+`
+  ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({ vendorId: '3311', productId: '0103' })
+
+  expect(devices.length).toBe(0)
+})
+
+it("should return an empty array when neither vendorId nor productId match", async () => {
+  const output = `
+USB:
+    USB 3.1 Bus:
+      Host Controller Driver: AppleT8122USBXHCI
+        Mudita Harmony (MSC mode):
+          Product ID: 0x0103
+          Vendor ID: 0x3310
+          Version: 1.01
+          Serial Number: 0123456789ABCDEF
+          Manufacturer: Mudita
+        Mudita Bell:
+          Product ID: 0x0104
+          Vendor ID: 0x3311
+          Version: 1.02
+          Serial Number: ABCDEF1234567890
+          Manufacturer: Mudita
+`
+  ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({ vendorId: '9999', productId: '9999' })
+
+  expect(devices.length).toBe(0)
+})

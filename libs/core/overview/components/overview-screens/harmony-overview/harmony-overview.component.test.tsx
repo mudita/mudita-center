@@ -15,6 +15,8 @@ import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { CaseColour } from "core-device/models"
+import { TimeSynchronizationTestIds } from "Core/overview/components/time-synchronization/time-synchronization-ids.enum"
+import { selectSynchronizedTime } from "Core/time-synchronization/selectors/synchronized-time.selector"
 
 jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
   generateApplicationId: () => "123",
@@ -29,6 +31,15 @@ jest.mock("@electron/remote", () => ({
   }),
   MenuItem: () => jest.fn(),
 }))
+
+jest.mock(
+  "Core/time-synchronization/selectors/synchronized-time.selector",
+  () => {
+    return {
+      selectSynchronizedTime: jest.fn(() => undefined),
+    }
+  }
+)
 
 type Props = ComponentProps<typeof HarmonyOverview>
 
@@ -57,6 +68,7 @@ const defaultProps: Props = {
   forceUpdate: jest.fn(),
   forceUpdateState: State.Initial,
   closeForceUpdateFlow: jest.fn(),
+  synchronizeTime: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -78,4 +90,32 @@ test("Renders Mudita harmony data", () => {
   expect(queryByTestId(StatusTestIds.NetworkName)).not.toBeInTheDocument()
   queryByText(intl.formatMessage({ id: "module.overview.statusHarmonyTitle" }))
   expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
+  expect(
+    queryByTestId(TimeSynchronizationTestIds.SynchronizeButton)
+  ).not.toBeInTheDocument()
+})
+
+test("Renders time synchronization box when feature is available", () => {
+  const mockDate = new Date("2021-12-31T13:45:00Z")
+  ;(selectSynchronizedTime as unknown as jest.Mock).mockReturnValue(mockDate)
+  const { queryByTestId, getByText } = render()
+
+  const time = Intl.DateTimeFormat(undefined, {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  }).format(mockDate)
+
+  const date = Intl.DateTimeFormat(undefined, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(mockDate)
+
+  expect(
+    queryByTestId(TimeSynchronizationTestIds.SynchronizeButton)
+  ).toBeInTheDocument()
+  expect(getByText(date)).toBeInTheDocument()
+  expect(getByText(time)).toBeInTheDocument()
 })
