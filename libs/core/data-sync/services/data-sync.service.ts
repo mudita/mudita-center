@@ -11,6 +11,7 @@ import { DataIndex } from "Core/index-storage/constants"
 import { DeviceProtocol } from "device-protocol/feature"
 import { MetadataStore } from "Core/metadata/services"
 import {
+  CallLogIndexer,
   ContactIndexer,
   MessageIndexer,
   TemplateIndexer,
@@ -22,6 +23,7 @@ import {
   MessagePresenter,
   TemplatePresenter,
   ThreadPresenter,
+  CallLogPresenter,
 } from "Core/data-sync/presenters"
 import { SyncBackupCreateService } from "Core/backup/services/sync-backup-create.service"
 import { InitializeOptions } from "Core/data-sync/types"
@@ -31,6 +33,7 @@ export class DataSyncService {
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
   private templateIndexer: TemplateIndexer | null = null
+  private callLogIndexer: CallLogIndexer | null = null
   private syncBackupCreateService: SyncBackupCreateService
 
   constructor(
@@ -61,6 +64,10 @@ export class DataSyncService {
       this.fileSystemStorage,
       new TemplatePresenter()
     )
+    this.callLogIndexer = new CallLogIndexer(
+      this.fileSystemStorage,
+      new CallLogPresenter()
+    )
   }
 
   public async indexAll({
@@ -72,7 +79,8 @@ export class DataSyncService {
       !this.contactIndexer ||
       !this.messageIndexer ||
       !this.threadIndexer ||
-      !this.templateIndexer
+      !this.templateIndexer ||
+      !this.callLogIndexer
     ) {
       return false
     }
@@ -102,11 +110,13 @@ export class DataSyncService {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const templateIndex = await this.templateIndexer.index(syncFileDir, token)
     const threadIndex = await this.threadIndexer.index(syncFileDir, token)
+    const callLogIndex = await this.callLogIndexer.index(syncFileDir, token)
 
     this.index.set(DataIndex.Contact, contactIndex)
     this.index.set(DataIndex.Message, messageIndex)
     this.index.set(DataIndex.Template, templateIndex)
     this.index.set(DataIndex.Thread, threadIndex)
+    this.index.set(DataIndex.CallLog, callLogIndex)
 
     return true
   }

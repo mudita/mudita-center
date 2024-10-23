@@ -17,6 +17,7 @@ const cacheFileNames: Record<DataIndex, string> = {
   [DataIndex.Message]: "messages.json",
   [DataIndex.Thread]: "threads.json",
   [DataIndex.Template]: "templates.json",
+  [DataIndex.CallLog]: "calllog.json",
 }
 
 export class IndexStorageService {
