@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./unified-call-log"
-export * from "./unified-contact"
+export enum CallLogTable {
+  Calls = "calls",
+}
