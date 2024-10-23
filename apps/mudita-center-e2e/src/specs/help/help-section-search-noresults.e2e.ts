@@ -19,12 +19,9 @@ describe("Check Help search for no results", () => {
     //Search for not existing article by entering not findable string (special characters)
     await HelpPage.searchForArticle("!@#$%^&*()")
 
-
     //Verify quick search: no results information
-    const helpSearchResults = await HelpPage.helpSearchResults
-    await expect(helpSearchResults).toBeDisplayed()
-    const helpSearchResultsParagraph = await HelpPage.helpSearchResultsParagraph
-    await expect(helpSearchResultsParagraph).toHaveText("We couldn't find any topics...")
+    await expect(HelpPage.helpSearchResults).toBeDisplayed()
+    await expect(HelpPage.helpSearchResultsParagraph).toHaveText("We couldn't find any topics...")
     }
   )
 })
