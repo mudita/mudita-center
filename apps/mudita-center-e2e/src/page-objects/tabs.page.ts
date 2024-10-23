@@ -52,8 +52,10 @@ class NavigationTabs extends Page {
     return $('[data-testid="help-menu-button"]')
   }
 
-  async helpTabClick() {
-    await this.helpTab.click()
+  public async openHelpPage() {
+    const helpTab = await this.helpTab;
+    await helpTab.waitForDisplayed({ timeout: 15000 });
+    await helpTab.click();
   }
 }
 
