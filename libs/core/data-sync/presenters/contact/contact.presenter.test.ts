@@ -43,30 +43,6 @@ test("`findRecords` method return records by `contactId`", async () => {
   expect(records).toEqual([contactEntities[0]])
 })
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/require-await
-test("`serializeRecord` serialize record properly", async () => {
-  const contactNameEntity: ContactNameEntity = {
-    _id: "4",
-    contact_id: "4",
-    name_primary: "Theron",
-    name_alternative: "Paucek",
-  }
-
-  const values: string[][] = [["4", "4", "Theron", "Paucek"]]
-
-  const columns: string[] = [
-    "_id",
-    "contact_id",
-    "name_primary",
-    "name_alternative",
-  ]
-
-  const records = presenter.serializeRecord<ContactNameEntity>(values, columns)
-  expect(records).toHaveLength(1)
-  expect(records).toEqual([contactNameEntity])
-})
-
 describe("when contact does not have any defined phone number", () => {
   const contactInput: ContactInput = {
     contacts: {

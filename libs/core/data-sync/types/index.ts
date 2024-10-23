@@ -4,6 +4,7 @@
  */
 
 export * from "./all-indexes.type"
+export * from "./call-log-object.type"
 export * from "./contact-object.type"
 export * from "./message-object.type"
 export * from "./thread-object.type"

@@ -13,10 +13,11 @@ import {
   ContactGroupEntity,
   ContactMatchGroupEntity,
 } from "Core/data-sync/types"
+import { BasePresenter } from "Core/data-sync/presenters/base-presenter"
 
 const forbiddenRestrictedPureId = "0"
 
-export class ContactPresenter {
+export class ContactPresenter extends BasePresenter {
   public findRecords<Type extends { contact_id: string }>(
     data: { contact_id: string }[],
     contactId: string
@@ -26,15 +27,6 @@ export class ContactPresenter {
         (item) => item.contact_id === contactId
       ) || []
     )
-  }
-
-  public serializeRecord<Type>(values: string[][], columns: string[]): Type[] {
-    return values.map((item) => {
-      return columns.reduce((acc: Record<string, string>, value, index) => {
-        acc[value.trim()] = String(item[index]).trim()
-        return acc
-      }, {})
-    }) as unknown as Type[]
   }
 
   private contactFavored(
