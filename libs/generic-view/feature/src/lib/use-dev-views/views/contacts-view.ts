@@ -122,35 +122,6 @@ const view: View = {
   contactsPanelWrapper: {
     component: "conditional-renderer",
   },
-  // contactsListTable: {
-  //   component: "table",
-  //   config: {
-  //     formOptions: {
-  //       formKey: "contactsForm",
-  //       selectedIdsFieldName: "selectedContacts",
-  //       allIdsFieldName: "allContacts",
-  //     },
-  //   },
-  //   childrenKeys: [
-  //     "columnCheckbox",
-  //     "columnName",
-  //     "columnPhoneNumberOptional",
-  //     "columnPhoneNumberLengthOptional",
-  //   ],
-  //   dataProvider: {
-  //     source: "entities-array",
-  //     entitiesType: "contacts",
-  //     sort: [
-  //       {
-  //         providerField: "sortField",
-  //         priority: 1,
-  //         direction: "asc",
-  //         orderingPatterns: ["/^\\p{L}/miu", "/^\\d/m", "/^\\#/m"],
-  //       },
-  //     ],
-  //     filters: [],
-  //   },
-  // },
 }
 
 export default view
