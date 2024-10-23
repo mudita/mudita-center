@@ -6,10 +6,11 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { P3 } from "../../texts/paragraphs"
-import { Device, DeviceCard } from "./components/device-card"
+import { DeviceCard } from "./components/device-card"
 import { useDataMigrationDeviceSelector } from "shared/feature"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { BaseDevice } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -21,7 +22,7 @@ const messages = defineMessages({
 })
 
 interface Props {
-  devices: Device[]
+  devices: BaseDevice[]
 }
 
 export const TargetSelector: FunctionComponent<Props> = ({ devices }) => {

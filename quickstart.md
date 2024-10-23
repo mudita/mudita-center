@@ -38,7 +38,7 @@ To ensure that files will be excluded from commits you can use the following git
 
 ```bash
  git update-index --assume-unchanged libs/core/news/default-news.json
- git update-index --assume-unchanged libs/core/help/default-help.json
+ git update-index --assume-unchanged libs/help/feature/src/lib/default-help.json
  git update-index --assume-unchanged libs/core/settings/static/app-configuration.json
 ```
 
@@ -157,6 +157,37 @@ Example on how to install it on macOS using Homebrew:
 3. ```shell
    source ~/.zshrc
    ```
+
+### Checking Node.js Architecture Compatibility After Migration to Apple Silicon
+
+Incompatibility between the Node.js architecture and your Mac's processor (Intel vs. Apple Silicon) often occurs after migrating between devices with different processors. This test will help you determine if this is the source of the issue.
+
+#### Example Error:
+
+```
+App threw an error during load
+Error: dlopen(/path/to/node_modules/@serialport/bindings-cpp/prebuilds/darwin-x64+arm64/node.napi.node, 0x0001): 
+tried: '.../node.napi.node' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64')),
+...
+```
+
+#### Steps:
+
+##### Check your computer's architecture:
+
+```
+arch
+```
+
+##### Check Node.js architecture:
+
+```
+node -p "process.arch"
+```
+
+##### Compare the results:
+
+- If the computer's architecture and Node.js architecture are different, reinstall Node.js to match your computer's architecture.
 
 ### The module was compiled against a different Node.js version
 

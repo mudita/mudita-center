@@ -14,21 +14,23 @@ import {
 } from "Core/device-file-system/commands"
 import { DeviceFileSystemError } from "Core/device-file-system/constants"
 import { FileDeleteCommand } from "Core/device-file-system/commands/file-delete.command"
+import { DeviceProtocol } from "device-protocol/feature"
 
 export class FileManagerService {
   constructor(
+    protected deviceProtocol: DeviceProtocol,
     private fileDeleteCommand: FileDeleteCommand,
     private retrieveFilesCommand: RetrieveFilesCommand,
     private fileUploadCommand: FileUploadCommand
   ) {}
 
-  public async getDeviceFiles({
-    directory,
-    filter,
-  }: GetFilesInput): Promise<ResultObject<File[] | undefined>> {
+  public async getDeviceFiles(
+    { directory, filter }: GetFilesInput,
+    deviceId = this.deviceProtocol.device.id
+  ): Promise<ResultObject<File[] | undefined>> {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const result = await this.retrieveFilesCommand.exec(directory)
+    const result = await this.retrieveFilesCommand.exec(directory, deviceId)
 
     if (!result.ok || !result.data) {
       return Result.failed(

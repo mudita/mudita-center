@@ -4,6 +4,7 @@
  */
 
 export interface InitializeOptions {
-  token: string
+  token?: string
   serialNumber: string
+  backupDirectory?: string
 }
