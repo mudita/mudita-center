@@ -6,66 +6,71 @@
 import Page from "./page"
 
 class HelpPage extends Page {
+
+  //Getters
   public get helpTabTitle() {
-    return $('[data-testid="location"]')
+    return $('//h4[@data-testid="location"]')
   }
   public get helpMainHeader() {
-    return $('[data-testid="help-main-header"]')
+    return $('//h3[@data-testid="help-main-header"]')
   }
   public get helpMainSubHeader() {
-    return $('[data-testid="help-main-subheader"]')
+    return $('//p[@data-testid="help-main-subheader"]')
   }
   public get iconSearch() {
-    return $('[data-testid="icon-search"]')
+    return $('//div[@data-testid="icon-search"]')
   }
   public get helpSearchInput() {
-    return $('[data-testid="help-search-input"]')
+    return $('//input[@data-testid="help-search-input"]')
   }
   public get helpSearchResults() {
-    return $('[data-testid="help-search-results"]')
+    return $('//div[@data-testid="help-search-results"]')
   }
   public get iconSearchHelpSearchResults() {
-    return $('[data-testid="help-search-results"] [data-testid="icon-search"]')
+    return $('//div[@data-testid="help-search-results"]//div[@data-testid="icon-search"]')
   }
   public get helpSearchResultsParagraph() {
-    return $('[data-testid="help-search-results"] p')
+    return $('//div[@data-testid="help-search-results"]//p')
   }
   public get helpSearchResultsList() {
-    return $('[data-testid="help-search-results"] ul')
+    return $('//div[@data-testid="help-search-results"]//ul')
   }
   public get helpSearchResultsItems() {
-    return $$('[data-testid="help-search-result-item"]')
+    return $$('//a[@data-testid="help-search-result-item"]')
   }
   public get helpCategoriesTitle() {
-    return $('[data-testid="help-categories-title"]')
+    return $('//h2[@data-testid="help-categories-title"]')
   }
   public get helpCategoriesList() {
-    return $('[data-testid="help-categories-list"]')
+    return $('//nav[@data-testid="help-categories-list"]')
   }
   public get helpCategoriesListItems() {
-    return $$('[data-testid="help-categories-list-item"]')
+    return $$('//a[@data-testid="help-categories-list-item"]')
   }
   public get helpSubCategoriesList() {
-    return $('[data-testid="help-subcategories-list"]')
+    return $('//div[@data-testid="help-subcategories-list"]')
   }
   public get helpSubCategoriesListItems() {
-    return $$('[data-testid="help-subcategories-list-item"]')
+    return $$('//div[@data-testid="help-subcategories-list-item"]')
+  }
+  public getHelpSubCategoriesListItemsFromColumn(columnIndex: number){
+    return $$(`(//div[@data-testid="help-subcategories-list"]/div)[${columnIndex + 1}]//div[@data-testid="help-subcategories-list-item"]`)   
   }
   public get helpSubCategoriesListItemsLeftColumn() {
-    return $$('[data-testid="help-subcategories-list"]>div')[0].$$(
-      '[data-testid="help-subcategories-list-item"]'
-    )
+    return this.getHelpSubCategoriesListItemsFromColumn(0)
   }
   public get helpSubCategoriesListItemsRightColumn() {
-    return $$('[data-testid="help-subcategories-list"]>div')[1].$$(
-      '[data-testid="help-subcategories-list-item"]'
-    )
+    return this.getHelpSubCategoriesListItemsFromColumn(1)
   }
   public get helpMainFooterDescription() {
-    return $('[data-testid="help-main-footer-description"]')
+    return $('//p[@data-testid="help-main-footer-description"]')
   }
   public get helpMainFooterContactSupportButton() {
-    return $('[data-testid="help-main-footer-contact-support-button"]')
+    return $('//button[@data-testid="help-main-footer-contact-support-button"]')
+  }
+  public async searchForArticle(text:string) {
+    const searchInput = await this.helpSearchInput
+    await searchInput.setValue(text)
   }
 }
 
