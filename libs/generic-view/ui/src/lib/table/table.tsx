@@ -18,7 +18,6 @@ import { TableConfig, TableData } from "generic-view/models"
 import { TableCell } from "./table-cell"
 import { P1 } from "../texts/paragraphs"
 import { difference, intersection } from "lodash"
-import { useFormField } from "generic-view/store"
 
 const rowHeight = 64
 
@@ -26,15 +25,12 @@ export const Table: APIFC<TableData, TableConfig> & {
   Cell: typeof TableCell
 } = ({ data = [], config, children, ...props }) => {
   const getFormContext = useViewFormContext()
-  const formContext = getFormContext()
+  const formContext = getFormContext(config.formOptions.formKey)
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
   const [visibleRowsBounds, setVisibleRowsBounds] = useState<[number, number]>([
     -1, -1,
   ])
 
-  const { setValue: setAllIds } = useFormField({
-    formName: config.form.formName,
-  })
   const { formOptions, columnsNames } = config
   const { activeIdFieldName } = formOptions
 
@@ -67,9 +63,8 @@ export const Table: APIFC<TableData, TableConfig> & {
   useEffect(() => {
     if (formOptions.allIdsFieldName) {
       formContext.setValue(formOptions.allIdsFieldName, data)
-      setAllIds(formOptions.allIdsFieldName, data)
     }
-  }, [data, formContext, formOptions.allIdsFieldName, setAllIds])
+  }, [data, formContext, formOptions.allIdsFieldName])
 
   useEffect(() => {
     if (formOptions.selectedIdsFieldName) {

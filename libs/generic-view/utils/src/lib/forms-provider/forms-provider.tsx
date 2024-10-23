@@ -8,7 +8,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
+  useRef,
 } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { UseFormReturn } from "react-hook-form/dist/types"
@@ -26,36 +26,29 @@ const FormsContext = createContext<FormsContextValue>({
 
 export const FormsProvider: FunctionComponent = ({ children }) => {
   const formContext = useFormContext()
-  const forms = useMemo(() => {
-    return new Map<string, UseFormReturn>()
+  const forms = useRef<Record<string, UseFormReturn>>({})
+
+  const registerForm = useCallback((formKey: string, form: UseFormReturn) => {
+    forms.current[formKey] = form
   }, [])
 
-  const registerForm = useCallback(
-    (formKey: string, form: UseFormReturn) => {
-      forms.set(formKey, form)
-    },
-    [forms]
-  )
-
-  const getFormContext = useCallback(
-    (formKey?: string) => {
-      if (formKey) {
-        const form = forms.get(formKey)
-        if (!form) {
-          throw new Error(`Form with key ${formKey} not found`)
-        }
-        return form
+  const getFormContext = useCallback((formKey?: string) => {
+    if (formKey) {
+      const form = forms.current[formKey]
+      if (!form) {
+        throw new Error(`Form with key ${formKey} not found`)
       }
-      return formContext
-    },
-    [formContext, forms]
-  )
+      return form
+    }
+    return formContext
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     return () => {
-      forms.clear()
+      forms.current = {}
     }
-  }, [forms])
+  }, [])
 
   return (
     <FormsContext.Provider value={{ registerForm, getFormContext }}>
@@ -73,8 +66,11 @@ export const useViewFormContext = () => {
   const defaultFormContext = useFormContext()
   const formsContext = useContext(FormsContext)
 
-  return (formKey?: string) => {
-    const formContext = formsContext.getFormContext(formKey)
-    return formContext ?? defaultFormContext
-  }
+  return useCallback(
+    (formKey?: string) => {
+      const formContext = formsContext.getFormContext(formKey)
+      return formContext ?? defaultFormContext
+    },
+    [defaultFormContext, formsContext]
+  )
 }
