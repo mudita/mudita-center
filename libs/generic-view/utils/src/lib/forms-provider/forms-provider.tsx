@@ -29,7 +29,9 @@ export const FormsProvider: FunctionComponent = ({ children }) => {
   const forms = useRef<Record<string, UseFormReturn>>({})
 
   const registerForm = useCallback((formKey: string, form: UseFormReturn) => {
-    forms.current[formKey] = form
+    if (!(formKey in forms.current)) {
+      forms.current[formKey] = form
+    }
   }, [])
 
   const getFormContext = useCallback((formKey?: string) => {
@@ -71,6 +73,7 @@ export const useViewFormContext = () => {
       const formContext = formsContext.getFormContext(formKey)
       return formContext ?? defaultFormContext
     },
-    [defaultFormContext, formsContext]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   )
 }
