@@ -17,15 +17,16 @@ import { useFormContext } from "react-hook-form"
 interface FormsContextValue {
   registerForm: (formKey: string, form: UseFormReturn) => void
   getFormContext: (formKey?: string) => UseFormReturn | undefined
+  clear: (formKey: string) => void
 }
 
 const FormsContext = createContext<FormsContextValue>({
   registerForm: () => {},
   getFormContext: () => undefined,
+  clear: () => {},
 })
 
 export const FormsProvider: FunctionComponent = ({ children }) => {
-  const formContext = useFormContext()
   const forms = useRef<Record<string, UseFormReturn>>({})
 
   const registerForm = useCallback((formKey: string, form: UseFormReturn) => {
@@ -35,15 +36,18 @@ export const FormsProvider: FunctionComponent = ({ children }) => {
   }, [])
 
   const getFormContext = useCallback((formKey?: string) => {
-    if (formKey) {
-      const form = forms.current[formKey]
-      if (!form) {
-        throw new Error(`Form with key ${formKey} not found`)
-      }
-      return form
+    if (!formKey) {
+      throw new Error(`Form key is required`)
     }
-    return formContext
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const form = forms.current[formKey]
+    if (!form) {
+      throw new Error(`Form with key ${formKey} not found`)
+    }
+    return form
+  }, [])
+
+  const clear = useCallback((formKey: string) => {
+    delete forms.current[formKey]
   }, [])
 
   useEffect(() => {
@@ -53,27 +57,25 @@ export const FormsProvider: FunctionComponent = ({ children }) => {
   }, [])
 
   return (
-    <FormsContext.Provider value={{ registerForm, getFormContext }}>
+    <FormsContext.Provider value={{ registerForm, getFormContext, clear }}>
       {children}
     </FormsContext.Provider>
   )
 }
 
 export const useViewFormRegister = (formKey: string, form: UseFormReturn) => {
-  const { registerForm } = useContext(FormsContext)
+  const { registerForm, clear } = useContext(FormsContext)
   registerForm(formKey, form)
+  return () => clear(formKey)
 }
 
 export const useViewFormContext = () => {
   const defaultFormContext = useFormContext()
   const formsContext = useContext(FormsContext)
 
-  return useCallback(
-    (formKey?: string) => {
-      const formContext = formsContext.getFormContext(formKey)
-      return formContext ?? defaultFormContext
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  return (formKey?: string) => {
+    return (
+      formKey ? formsContext.getFormContext(formKey) : defaultFormContext
+    ) as UseFormReturn
+  }
 }
