@@ -108,19 +108,15 @@ const view: View = {
       messageTemplate: "{contactsCount, plural, =0 {} other { (#)}}",
     },
     dataProvider: {
-      source: "form-fields",
-      formKey: "contactsForm",
+      source: "entities-metadata",
+      entitiesType: "contacts",
       fields: [
         {
-          modifier: "length",
-          providerField: "allContacts",
+          providerField: "totalEntities",
           componentField: "data.fields.contactsCount",
         },
       ],
     },
-  },
-  contactsPanelWrapper: {
-    component: "conditional-renderer",
   },
 }
 
