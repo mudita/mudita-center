@@ -39,6 +39,7 @@ export class CallLogIndexer extends BaseIndexer {
     index.addField("phone")
     index.addField("callDate")
     index.addField("callDuration")
+    index.addField("presentation")
     index.addField("callType")
     index.addField("isNew")
 
