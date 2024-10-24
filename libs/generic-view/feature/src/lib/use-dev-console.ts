@@ -107,6 +107,9 @@ export const useDevConsole = () => {
             await dispatch(
               createEntityDataAction({ entitiesType, data, deviceId })
             )
+            await dispatch(
+              getEntitiesMetadataAction({ entitiesType, deviceId })
+            )
           }
         },
       })

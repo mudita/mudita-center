@@ -34,6 +34,11 @@ const selectEntities = createSelector(
   }
 )
 
+export const selectEntitiesMetadata = createSelector(
+  selectEntities,
+  (entities) => entities?.metadata
+)
+
 export const selectEntitiesData = createSelector(
   selectEntities,
   (entities) => entities?.data

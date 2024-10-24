@@ -26,13 +26,3 @@ export const selectViewData = createSelector(
   selectView,
   (config) => config?.data
 )
-
-const selectViewForms = createSelector(selectView, (config) => config?.forms)
-
-export const selectViewForm = createSelector(
-  selectViewForms,
-  (state: ReduxRootState, { formName }: { formName: string }) => formName,
-  (forms, formName) => {
-    return forms?.[formName]
-  }
-)

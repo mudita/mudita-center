@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect } from "react"
 import { APIFC, useViewFormRegister } from "generic-view/utils"
 import { FormProvider, useForm } from "react-hook-form"
 import { TextInput } from "./input/text-input"
@@ -12,7 +12,6 @@ import { CheckboxInput } from "./input/checkbox-input"
 import { SearchInput } from "./input/search-input"
 import { FormConfig } from "generic-view/models"
 import { FormConditionalRenderer } from "./helpers/form-conditional-renderer"
-import { useFormRegister } from "generic-view/store"
 
 export const Form: APIFC<undefined, FormConfig> & {
   TextInput: typeof TextInput
@@ -25,13 +24,15 @@ export const Form: APIFC<undefined, FormConfig> & {
     mode: "onTouched",
     ...config?.formOptions,
   })
-  useViewFormRegister(componentKey!, methods)
-  useFormRegister({
-    formName: componentKey!,
-    options: {
-      defaultValues: config?.defaultValues,
-    },
-  })
+  const clear = useViewFormRegister(componentKey!, methods)
+
+  useEffect(() => {
+    return () => {
+      clear()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return <FormProvider {...methods}>{children}</FormProvider>
 }
 Form.TextInput = TextInput

@@ -11,6 +11,7 @@ import { ActionName } from "../action-names"
 import { EntityId } from "device/models"
 import { difference } from "lodash"
 import delayResponse from "@appnroll/delay-response"
+import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
 
 interface DeleteEntitiesDataActionPayload {
   entitiesType: string
@@ -28,7 +29,7 @@ export const deleteEntitiesDataAction = createAsyncThunk<
   ActionName.DeleteEntityData,
   async (
     { entitiesType, ids, deviceId, onSuccess, onError },
-    { rejectWithValue }
+    { rejectWithValue, dispatch }
   ) => {
     const response = await delayResponse(
       deleteEntitiesDataRequest({
@@ -42,12 +43,10 @@ export const deleteEntitiesDataAction = createAsyncThunk<
       await onError?.()
       return rejectWithValue(response.error)
     }
-    // TODO: consider handling partial success
-    if (response.data?.failedIds) {
-      await onSuccess?.()
-      return difference(ids, response.data.failedIds)
-    }
     await onSuccess?.()
-    return ids
+    await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
+    return response.data?.failedIds
+      ? difference(ids, response.data.failedIds)
+      : ids
   }
 )
