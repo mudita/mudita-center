@@ -73,10 +73,13 @@ export class MacosUSBPortDeviceParser {
         currentDevice = { name: productNameMatch[1] }
       }
 
-      if (
-        (currentDevice && line.includes("Media")) ||
-        line.includes("Volumes")
-      ) {
+      const productId =
+        (fieldPatterns.productId?.exec(line) && currentDevice?.productId) ?? ""
+      const isNewProductId = productId !== ""
+
+      if (isNewProductId && currentDevice) {
+        devices.push(currentDevice)
+        currentDevice = null
         return
       }
 

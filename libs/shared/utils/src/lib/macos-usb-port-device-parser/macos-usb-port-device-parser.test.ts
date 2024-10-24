@@ -632,3 +632,114 @@ USB:
 
   expect(devices.length).toBe(0)
 })
+
+it("should correctly parse and return details of a Mudita device in a complex USB structure", async () => {
+  const output = `
+USB 3.1 Bus:
+   Host Controller Driver: AppleT8103USBXHCI
+    USB2.0 HUB:
+     Product ID: 0x7250
+     Vendor ID: 0x214b
+     Version: 1.00
+     Speed: Up to 480 Mb/s
+     Location ID: 0x01100000 / 1
+     Current Available (mA): 500
+     Current Required (mA): 100
+     Extra Operating Current (mA): 0
+      Mudita Pure:
+       Product ID: 0x0102
+       Vendor ID: 0x3310
+       Version: 1.12
+       Serial Number: 29605660243632
+       Speed: Up to 480 Mb/s
+       Manufacturer: Mudita
+       Location ID: 0x01140000 / 4
+       Current Available (mA): 500
+       Current Required (mA): 500
+       Extra Operating Current (mA): 0
+      USB2.0 HUB:
+       Product ID: 0x7250
+       Vendor ID: 0x214b
+       Version: 1.00
+       Speed: Up to 480 Mb/s
+       Location ID: 0x01120000 / 3
+       Current Available (mA): 500
+       Current Required (mA): 100
+       Extra Operating Current (mA): 0
+        USB Storage:
+         Product ID: 0x0751
+         Vendor ID: 0x05e3 (Genesys Logic, Inc.)
+         Version: 14.04
+         Speed: Up to 480 Mb/s
+         Manufacturer: USB Storage
+         Location ID: 0x01124000 / 6
+         Current Available (mA): 500
+         Current Required (mA): 98
+         Extra Operating Current (mA): 0
+        Mudita Harmony:
+         Product ID: 0x0300
+         Vendor ID: 0x3310
+         Version: 1.12
+         Serial Number: 0422420002815
+         Speed: Up to 480 Mb/s
+         Manufacturer: Mudita
+         Location ID: 0x01121000 / 5
+         Current Available (mA): 500
+         Current Required (mA): 500
+         Extra Operating Current (mA): 0
+      USB 10/100 LAN:
+       Product ID: 0x8152
+       Vendor ID: 0x0bda (Realtek Semiconductor Corp.)
+       Version: 20.00
+       Serial Number: 00E04C36183B
+       Speed: Up to 480 Mb/s
+       Manufacturer: Realtek
+       Location ID: 0x01110000 / 2
+       Current Available (mA): 500
+       Current Required (mA): 100
+       Extra Operating Current (mA): 0
+  USB 3.1 Bus:
+   Host Controller Driver: AppleT8103USBXHCI
+    USB 2.0 BILLBOARD       :
+     Product ID: 0x0103
+     Vendor ID: 0x2109 (VIA Labs, Inc.)
+     Version: 10.04
+     Serial Number: 0000000000000001
+     Speed: Up to 12 Mb/s
+     Manufacturer: VIA Technologies Inc.
+     Location ID: 0x00100000 / 1
+     Current Available (mA): 500
+     Extra Operating Current (mA): 0
+  `
+
+  ;(execPromise as jest.Mock).mockResolvedValue(output)
+
+  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+
+  expect(devices.length).toBe(2)
+
+  expect(devices).toEqual([
+    {
+      bsdName: undefined,
+      locationId: "0x01140000",
+      manufacturer: "Mudita",
+      name: "Mudita Pure",
+      path: "3310/0102/29605660243632",
+      productId: "0102",
+      serialNumber: "29605660243632",
+      vendorId: "3310",
+      version: "1.12",
+    },
+    {
+      bsdName: undefined,
+      locationId: "0x01121000",
+      manufacturer: "Mudita",
+      name: "Mudita Harmony",
+      path: "3310/0300/0422420002815",
+      productId: "0300",
+      serialNumber: "0422420002815",
+      vendorId: "3310",
+      version: "1.12",
+    },
+  ])
+})
