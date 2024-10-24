@@ -64,10 +64,6 @@ const view: View = {
           allContacts: [],
         },
       },
-      defaultValues: {
-        selectedContacts: [],
-        allContacts: [],
-      },
     },
     childrenKeys: ["contactsLoader"],
   },

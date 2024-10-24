@@ -10,7 +10,6 @@ const dataValidator = z.undefined()
 
 interface Config {
   formOptions?: Pick<UseFormProps, "mode" | "reValidateMode" | "defaultValues">
-  defaultValues?: Record<string, unknown>
 }
 
 const configValidator: z.ZodType<Config | undefined> = z
@@ -22,7 +21,6 @@ const configValidator: z.ZodType<Config | undefined> = z
       reValidateMode: z.enum(["onChange", "onBlur", "onSubmit"]).optional(),
       defaultValues: z.record(z.string(), z.any()).optional(),
     }),
-    defaultValues: z.record(z.string(), z.any()).optional(),
   })
   .optional()
 
