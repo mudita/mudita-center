@@ -115,9 +115,6 @@ const view: View = {
       ],
     },
   },
-  contactsPanelWrapper: {
-    component: "conditional-renderer",
-  },
 }
 
 export default view
