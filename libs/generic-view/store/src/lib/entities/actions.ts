@@ -5,26 +5,8 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
-import {
-  EntityData,
-  EntitiesMetadata,
-  EntitiesConfig,
-  EntityId,
-} from "device/models"
+import { EntityData, EntityId } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
-
-export const setEntitiesConfig = createAction<{
-  entitiesType: string
-  config: EntitiesConfig
-  idFieldKey: string
-  deviceId: DeviceId
-}>(ActionName.SetEntitiesConfig)
-
-export const setEntitiesMetadata = createAction<{
-  entitiesType: string
-  metadata: EntitiesMetadata
-  deviceId: DeviceId
-}>(ActionName.SetEntitiesMetadata)
 
 export const setEntityData = createAction<{
   entitiesType: string

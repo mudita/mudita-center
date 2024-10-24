@@ -6,26 +6,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
 import { getEntitiesMetadataRequest } from "device/feature"
-import { setEntitiesMetadata } from "./actions"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { EntitiesMetadata } from "device/models"
 
 export const getEntitiesMetadataAction = createAsyncThunk<
-  undefined,
+  EntitiesMetadata,
   Required<Parameters<typeof getEntitiesMetadataRequest>[0]>,
   { state: ReduxRootState }
->(ActionName.GetEntitiesData, async (data, { rejectWithValue, dispatch }) => {
+>(ActionName.GetEntitiesMetadata, async (data, { rejectWithValue }) => {
   const response = await getEntitiesMetadataRequest(data)
 
   if (!response.ok) {
     return rejectWithValue(response.error)
   }
 
-  dispatch(
-    setEntitiesMetadata({
-      entitiesType: data.entitiesType,
-      metadata: response.data,
-      deviceId: data.deviceId,
-    })
-  )
-  return
+  return response.data
 })

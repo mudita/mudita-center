@@ -5,17 +5,14 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { EntitiesConfig, EntitiesMetadata, EntityData } from "device/models"
-import {
-  clearEntities,
-  setEntitiesConfig,
-  setEntitiesMetadata,
-  setEntityData,
-} from "./actions"
+import { clearEntities, setEntityData } from "./actions"
 import { getEntitiesDataAction } from "./get-entities-data.action"
 import { DeviceId } from "Core/device/constants/device-id"
 import { deleteEntitiesDataAction } from "./delete-entities-data.action"
 import { createEntityDataAction } from "./create-entity-data.action"
 import { updateEntityDataAction } from "./update-entity-data.action"
+import { getEntitiesConfigAction } from "./get-entities-config.action"
+import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
 
 type EntitiesType = string
 
@@ -38,9 +35,8 @@ interface EntitiesState {
 const initialState: EntitiesState = {}
 
 export const genericEntitiesReducer = createReducer(initialState, (builder) => {
-  builder.addCase(setEntitiesConfig, (state, action) => {
-    const { deviceId, entitiesType } = action.payload
-
+  builder.addCase(getEntitiesConfigAction.fulfilled, (state, action) => {
+    const { deviceId, entitiesType } = action.meta.arg
     if (!state[deviceId]) {
       state[deviceId] = {
         [entitiesType]: {
@@ -85,9 +81,9 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
       state[deviceId][entitiesType]!.data![entityIndex!] = data
     }
   })
-  builder.addCase(setEntitiesMetadata, (state, action) => {
-    const { deviceId, entitiesType, metadata } = action.payload
-    state[deviceId][entitiesType]!.metadata = metadata
+  builder.addCase(getEntitiesMetadataAction.fulfilled, (state, action) => {
+    const { deviceId, entitiesType } = action.meta.arg
+    state[deviceId][entitiesType]!.metadata = action.payload
   })
   builder.addCase(clearEntities, (state, action) => {
     state[action.payload.deviceId] = {}
