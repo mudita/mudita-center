@@ -4,7 +4,9 @@
  */
 
 import contactsView from "./contacts-view"
+import mcDataMigrationView from "./mc-data-migration-view"
 
 export default {
   contacts: contactsView,
+  ["mc-data-migration"]: mcDataMigrationView,
 }

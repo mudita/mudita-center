@@ -9,6 +9,7 @@ import { ActionName } from "../action-names"
 import {
   ApiFileTransferError,
   DataTransferDomain,
+  UnifiedCallLog,
   UnifiedContact,
 } from "device/models"
 import {
@@ -30,10 +31,17 @@ import { isEmpty } from "lodash"
 import { DataTransfer } from "./reducer"
 import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 
-export type DomainData = {
-  domain: Extract<DataTransferDomain, "contacts-v1">
-  data: UnifiedContact[]
+type DomainDataMapping = {
+  "contacts-v1": UnifiedContact[]
+  "callLog-v1": UnifiedCallLog[]
 }
+
+export type DomainData = {
+  [K in keyof DomainDataMapping]: {
+    domain: K
+    data: DomainDataMapping[K]
+  }
+}[keyof DomainDataMapping]
 
 export const transferDataToDevice = createAsyncThunk<
   undefined,

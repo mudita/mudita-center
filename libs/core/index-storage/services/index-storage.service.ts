@@ -12,7 +12,7 @@ import { MetadataStore } from "Core/metadata/services"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { InitializeOptions } from "Core/data-sync/types"
 
-const cacheFileNames: Record<DataIndex, string> = {
+const cacheFileNames: Partial<Record<DataIndex, string>> = {
   [DataIndex.Contact]: "contacts.json",
   [DataIndex.Message]: "messages.json",
   [DataIndex.Thread]: "threads.json",

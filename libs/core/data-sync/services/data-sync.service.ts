@@ -11,6 +11,7 @@ import { DataIndex } from "Core/index-storage/constants"
 import { DeviceProtocol } from "device-protocol/feature"
 import { MetadataStore } from "Core/metadata/services"
 import {
+  CallLogIndexer,
   ContactIndexer,
   MessageIndexer,
   TemplateIndexer,
@@ -22,15 +23,26 @@ import {
   MessagePresenter,
   TemplatePresenter,
   ThreadPresenter,
+  CallLogPresenter,
 } from "Core/data-sync/presenters"
 import { SyncBackupCreateService } from "Core/backup/services/sync-backup-create.service"
 import { InitializeOptions } from "Core/data-sync/types"
+import { ElasticlunrFactory } from "Core/index-storage/factories"
+import { BaseIndexer } from "Core/data-sync/indexes/base.indexer"
+
+const defaultRequiredIndexes: DataIndex[] = [
+  DataIndex.Contact,
+  DataIndex.Message,
+  DataIndex.Template,
+  DataIndex.Thread,
+]
 
 export class DataSyncService {
   private contactIndexer: ContactIndexer | null = null
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
   private templateIndexer: TemplateIndexer | null = null
+  private callLogIndexer: CallLogIndexer | null = null
   private syncBackupCreateService: SyncBackupCreateService
 
   constructor(
@@ -61,27 +73,32 @@ export class DataSyncService {
       this.fileSystemStorage,
       new TemplatePresenter()
     )
+    this.callLogIndexer = new CallLogIndexer(
+      this.fileSystemStorage,
+      new CallLogPresenter()
+    )
   }
 
   public async indexAll({
     token,
     serialNumber,
     backupDirectory,
+    requiredIndexes = defaultRequiredIndexes,
   }: InitializeOptions): Promise<boolean> {
     if (
       !this.contactIndexer ||
       !this.messageIndexer ||
       !this.threadIndexer ||
-      !this.templateIndexer
+      !this.templateIndexer ||
+      !this.callLogIndexer
     ) {
       return false
     }
 
-    let syncFileDir = backupDirectory
+    const syncFileDir =
+      backupDirectory ?? path.join(getAppPath(), "sync", serialNumber)
 
-    if (!syncFileDir) {
-      syncFileDir = path.join(getAppPath(), "sync", serialNumber)
-
+    if (!backupDirectory) {
       const { ok } = await this.syncBackupCreateService.createSyncBackup(
         {
           token,
@@ -96,17 +113,34 @@ export class DataSyncService {
       }
     }
 
-    const contactIndex = await this.contactIndexer.index(syncFileDir, token)
-    const messageIndex = await this.messageIndexer.index(syncFileDir, token)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const templateIndex = await this.templateIndexer.index(syncFileDir, token)
-    const threadIndex = await this.threadIndexer.index(syncFileDir, token)
+    const isRequired = (index: DataIndex) => requiredIndexes.includes(index)
 
-    this.index.set(DataIndex.Contact, contactIndex)
-    this.index.set(DataIndex.Message, messageIndex)
-    this.index.set(DataIndex.Template, templateIndex)
-    this.index.set(DataIndex.Thread, threadIndex)
+    const indexers = {
+      [DataIndex.Contact]: this.contactIndexer,
+      [DataIndex.Message]: this.messageIndexer,
+      [DataIndex.Template]: this.templateIndexer,
+      [DataIndex.Thread]: this.threadIndexer,
+      [DataIndex.CallLog]: this.callLogIndexer,
+    }
+
+    const indexOrEmptyOnFailure = async (
+      indexName: DataIndex,
+      indexer: BaseIndexer | null
+    ) => {
+      try {
+        return await indexer!.index(syncFileDir, token)
+      } catch (error) {
+        if (!isRequired(indexName)) {
+          return ElasticlunrFactory.create()
+        }
+        throw error
+      }
+    }
+
+    for (const [indexName, indexer] of Object.entries(indexers)) {
+      const index = await indexOrEmptyOnFailure(indexName as DataIndex, indexer)
+      this.index.set(indexName as DataIndex, index)
+    }
 
     return true
   }
