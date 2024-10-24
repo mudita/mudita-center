@@ -73,16 +73,6 @@ export class MacosUSBPortDeviceParser {
         currentDevice = { name: productNameMatch[1] }
       }
 
-      const productId =
-        (fieldPatterns.productId?.exec(line) && currentDevice?.productId) ?? ""
-      const isNewProductId = productId !== ""
-
-      if (isNewProductId && currentDevice) {
-        devices.push(currentDevice)
-        currentDevice = null
-        return
-      }
-
       if (currentDevice) {
         for (const [key, regex] of Object.entries(fieldPatterns) as [
           keyof USBDevice,
@@ -90,14 +80,12 @@ export class MacosUSBPortDeviceParser {
         ][]) {
           const match = regex.exec(line)
           if (match) {
-            if (key === "bsdName" && !currentDevice.bsdName) {
-              currentDevice.bsdName = match[1]
+            if (currentDevice[key]) {
               devices.push(currentDevice)
               currentDevice = null
               break
-            } else if (key !== "bsdName") {
-              currentDevice[key] = match[1]
             }
+            currentDevice[key] = match[1]
           }
         }
       }
@@ -106,8 +94,6 @@ export class MacosUSBPortDeviceParser {
     if (currentDevice) {
       devices.push(currentDevice)
     }
-
-    console.log("Devices in function: ", devices)
 
     return devices
   }
