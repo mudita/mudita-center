@@ -43,7 +43,8 @@ export const Table: APIFC<TableData, TableConfig> & {
       if (!activeIdFieldName) return
       formContext.setValue(activeIdFieldName!, id)
     },
-    [activeIdFieldName, formContext]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [activeIdFieldName]
   )
 
   const handleScroll = useCallback(() => {
@@ -64,7 +65,8 @@ export const Table: APIFC<TableData, TableConfig> & {
     if (formOptions.allIdsFieldName) {
       formContext.setValue(formOptions.allIdsFieldName, data)
     }
-  }, [data, formContext, formOptions.allIdsFieldName])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, formOptions.allIdsFieldName])
 
   useEffect(() => {
     if (formOptions.selectedIdsFieldName) {
@@ -79,7 +81,8 @@ export const Table: APIFC<TableData, TableConfig> & {
         )
       }
     }
-  }, [data, formContext, formOptions.selectedIdsFieldName])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, formOptions.selectedIdsFieldName])
 
   useEffect(() => {
     const scrollWrapper = scrollWrapperRef.current
