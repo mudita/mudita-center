@@ -9,7 +9,7 @@ import {
   CallLogObject,
 } from "Core/data-sync/types"
 import { BasePresenter } from "Core/data-sync/presenters/base-presenter"
-import { UnifiedCallLogCallType, UnifiedCallLogIsNew } from "device/models"
+import { UnifiedCallLogCallType, UnifiedCallLogIsNew, UnifiedCallLogPresentationType } from "device/models"
 
 export class CallLogPresenter extends BasePresenter {
   public serializeToObject(input: CallLogInput): CallLogObject[] {
@@ -27,6 +27,7 @@ export class CallLogPresenter extends BasePresenter {
       phone: call.e164number || call.number || "",
       callDate: this.parseNumber(call.date),
       callDuration: this.parseNumber(call.duration),
+      presentation: this.mapPresentationType(call.presentation),
       callType: this.mapCallType(call.type),
       isNew: this.mapIsNew(call.isRead),
     }))
@@ -34,6 +35,16 @@ export class CallLogPresenter extends BasePresenter {
 
   private parseNumber(value: number | string | undefined | null): number {
     return Number(value) || 0;
+  }
+
+  private mapPresentationType(type: number | string | undefined | null): UnifiedCallLogPresentationType {
+    const typesMap: Record<number, UnifiedCallLogPresentationType> = {
+      0: 3,
+      1: 1,
+      2: 4,
+      3: 2,
+    }
+    return typesMap[Number(type)] ?? 3;
   }
 
   private mapCallType(type: number | string | undefined | null): UnifiedCallLogCallType {

@@ -21,6 +21,7 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
           values: [
             [
@@ -31,6 +32,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "180",
               "1",
               "0",
+              "2",
             ],
           ],
         },
@@ -44,6 +46,7 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDuration: 180,
           callType: 1,
           isNew: 1,
+          presentation: 4, // Mapped from "2"
         },
       ]
 
@@ -62,11 +65,21 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
           values: [
-            ["2", "987654321", "+4987654321", "1633036800000", "120", "2", "1"],
-            ["3", "", "+49321321321", "1633036800000", "90", "3", "0"],
-            ["4", "555555555", "", "1633036800000", "60", "99", "0"],
+            [
+              "2",
+              "987654321",
+              "+4987654321",
+              "1633036800000",
+              "120",
+              "2",
+              "1",
+              "0",
+            ],
+            ["3", "", "+49321321321", "1633036800000", "90", "3", "0", "1"],
+            ["4", "555555555", "", "1633036800000", "60", "99", "0", "3"],
           ],
         },
       }
@@ -79,6 +92,7 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDuration: 120,
           callType: 2,
           isNew: 0,
+          presentation: 3, // Mapped from "0"
         },
         {
           id: "3",
@@ -87,6 +101,7 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDuration: 90,
           callType: 3,
           isNew: 1,
+          presentation: 1, // Mapped from "1"
         },
         {
           id: "4",
@@ -95,6 +110,7 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDuration: 60,
           callType: 8, // TYPE_OTHER for unknown types
           isNew: 1,
+          presentation: 2, // Mapped from "3"
         },
       ]
 
@@ -115,8 +131,11 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
-          values: [["2", "987654321", "", "1633036800000", "120", "2", "1"]],
+          values: [
+            ["2", "987654321", "", "1633036800000", "120", "2", "1", "1"],
+          ],
         },
       }
 
@@ -128,6 +147,7 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDuration: 120,
           callType: 2,
           isNew: 0,
+          presentation: 1, // Mapped from "1"
         },
       ]
 
@@ -146,8 +166,9 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
-          values: [["5", "", "", "1633036800000", "0", "1", "1"]],
+          values: [["5", "", "", "1633036800000", "0", "1", "1", "2"]],
         },
       }
 
@@ -159,6 +180,7 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDuration: 0,
           callType: 1,
           isNew: 0,
+          presentation: 4, // Mapped from "2"
         },
       ]
 
@@ -179,9 +201,19 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
           values: [
-            ["9", "111111111", "+48111111111", "1633036800000", "60", "1", "0"], // isRead = 0 (new)
+            [
+              "9",
+              "111111111",
+              "+48111111111",
+              "1633036800000",
+              "60",
+              "1",
+              "0",
+              "1",
+            ],
             [
               "10",
               "222222222",
@@ -190,7 +222,8 @@ describe("CallLogPresenter - serializeToObject", () => {
               "120",
               "2",
               "1",
-            ], // isRead = 1 (not new)
+              "2",
+            ],
           ],
         },
       }
@@ -202,7 +235,8 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDate: 1633036800000,
           callDuration: 60,
           callType: 1,
-          isNew: 1, // isRead = 0 means isNew = 1 (new)
+          isNew: 1,
+          presentation: 1, // Mapped from "1"
         },
         {
           id: "10",
@@ -210,7 +244,8 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDate: 1633036800000,
           callDuration: 120,
           callType: 2,
-          isNew: 0, // isRead = 1 means isNew = 0 (not new)
+          isNew: 0,
+          presentation: 4, // Mapped from "2"
         },
       ]
 
@@ -229,6 +264,7 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
           values: [
             [
@@ -239,6 +275,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "15",
               "1",
               "invalid",
+              "3",
             ],
           ],
         },
@@ -251,7 +288,8 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDate: 1633036800000,
           callDuration: 15,
           callType: 1,
-          isNew: 0, // Treats invalid `isRead` as default 0 (not new)
+          isNew: 0,
+          presentation: 2, // Mapped from "3"
         },
       ]
 
@@ -272,6 +310,7 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
           values: [
             [
@@ -282,6 +321,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "60",
               "0",
               "1",
+              "2",
             ], // CT_NONE
             [
               "12",
@@ -291,6 +331,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "120",
               "1",
               "0",
+              "1",
             ], // CT_INCOMING
             [
               "13",
@@ -300,6 +341,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "180",
               "2",
               "1",
+              "3",
             ], // CT_OUTGOING
             [
               "14",
@@ -309,6 +351,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "90",
               "3",
               "0",
+              "1",
             ], // CT_MISSED
             [
               "15",
@@ -318,6 +361,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "200",
               "4",
               "1",
+              "0",
             ], // CT_VOICEMAIL
             [
               "16",
@@ -327,6 +371,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "30",
               "5",
               "0",
+              "2",
             ], // CT_REJECTED
             [
               "17",
@@ -335,6 +380,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "1633036800000",
               "45",
               "6",
+              "1",
               "1",
             ], // CT_BLOCKED
             [
@@ -345,6 +391,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "75",
               "7",
               "0",
+              "0",
             ], // CT_ANSW_EXT
             [
               "19",
@@ -354,6 +401,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "150",
               "99",
               "1",
+              "2",
             ], // Unknown type
           ],
         },
@@ -365,72 +413,81 @@ describe("CallLogPresenter - serializeToObject", () => {
           phone: "+48111111111",
           callDate: 1633036800000,
           callDuration: 60,
-          callType: 8,
+          callType: 8, // CT_NONE maps to TYPE_OTHER
           isNew: 0,
+          presentation: 4, // Mapped from "2"
         },
         {
           id: "12",
           phone: "+48222222222",
           callDate: 1633036800000,
           callDuration: 120,
-          callType: 1,
+          callType: 1, // CT_INCOMING
           isNew: 1,
+          presentation: 1, // Mapped from "1"
         },
         {
           id: "13",
           phone: "+48333333333",
           callDate: 1633036800000,
           callDuration: 180,
-          callType: 2,
+          callType: 2, // CT_OUTGOING
           isNew: 0,
+          presentation: 2, // Mapped from "3"
         },
         {
           id: "14",
           phone: "+48444444444",
           callDate: 1633036800000,
           callDuration: 90,
-          callType: 3,
+          callType: 3, // CT_MISSED
           isNew: 1,
+          presentation: 1, // Mapped from "1"
         },
         {
           id: "15",
           phone: "+48555555555",
           callDate: 1633036800000,
           callDuration: 200,
-          callType: 4,
+          callType: 4, // CT_VOICEMAIL
           isNew: 0,
+          presentation: 3, // Mapped from "0"
         },
         {
           id: "16",
           phone: "+48666666666",
           callDate: 1633036800000,
           callDuration: 30,
-          callType: 5,
+          callType: 5, // CT_REJECTED
           isNew: 1,
+          presentation: 4, // Mapped from "2"
         },
         {
           id: "17",
           phone: "+48777777777",
           callDate: 1633036800000,
           callDuration: 45,
-          callType: 6,
+          callType: 6, // CT_BLOCKED
           isNew: 0,
+          presentation: 1, // Mapped from "1"
         },
         {
           id: "18",
           phone: "+48888888888",
           callDate: 1633036800000,
           callDuration: 75,
-          callType: 7,
+          callType: 7, // CT_ANSW_EXT
           isNew: 1,
+          presentation: 3, // Mapped from "0"
         },
         {
           id: "19",
           phone: "+48999999999",
           callDate: 1633036800000,
           callDuration: 150,
-          callType: 8,
+          callType: 8, // Unknown type maps to TYPE_OTHER
           isNew: 0,
+          presentation: 4, // Mapped from "2"
         },
       ]
 
@@ -449,6 +506,7 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
           values: [
             [
@@ -459,6 +517,7 @@ describe("CallLogPresenter - serializeToObject", () => {
               "60",
               "99",
               "0",
+              "1",
             ],
           ],
         },
@@ -472,6 +531,127 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDuration: 60,
           callType: 8, // TYPE_OTHER for unknown types
           isNew: 1,
+          presentation: 1, // Mapped from "1"
+        },
+      ]
+
+      const result = presenter.serializeToObject(callLogInput)
+      expect(result).toEqual(expected)
+    })
+  })
+
+  describe("presentation type mapping", () => {
+    test("correctly maps all presentation types", () => {
+      const callLogInput: CallLogInput = {
+        calls: {
+          columns: [
+            "_id",
+            "number",
+            "e164number",
+            "date",
+            "duration",
+            "type",
+            "isRead",
+            "presentation",
+          ],
+          values: [
+            [
+              "2",
+              "987654321",
+              "+4987654321",
+              "1633036800000",
+              "120",
+              "2",
+              "1",
+              "0",
+            ],
+            ["3", "", "+49321321321", "1633036800000", "90", "3", "0", "1"],
+            ["4", "555555555", "", "1633036800000", "60", "99", "0", "3"],
+            ["5", "666666666", "", "1633036800000", "90", "1", "1", "4"],
+          ],
+        },
+      }
+
+      const expected: CallLogObject[] = [
+        {
+          id: "2",
+          phone: "+4987654321",
+          callDate: 1633036800000,
+          callDuration: 120,
+          callType: 2,
+          isNew: 0,
+          presentation: 3, // Mapped from "0"
+        },
+        {
+          id: "3",
+          phone: "+49321321321",
+          callDate: 1633036800000,
+          callDuration: 90,
+          callType: 3,
+          isNew: 1,
+          presentation: 1, // Mapped from "1"
+        },
+        {
+          id: "4",
+          phone: "555555555",
+          callDate: 1633036800000,
+          callDuration: 60,
+          callType: 8, // TYPE_OTHER for unknown types
+          isNew: 1,
+          presentation: 2, // Mapped from "3"
+        },
+        {
+          id: "5",
+          phone: "666666666",
+          callDate: 1633036800000,
+          callDuration: 90,
+          callType: 1,
+          isNew: 0,
+          presentation: 3, // Defaults to "3" for unknown presentation "4"
+        },
+      ]
+
+      const result = presenter.serializeToObject(callLogInput)
+      expect(result).toEqual(expected)
+    })
+
+    test("handles missing presentation values, defaults to `3`", () => {
+      const callLogInput: CallLogInput = {
+        calls: {
+          columns: [
+            "_id",
+            "number",
+            "e164number",
+            "date",
+            "duration",
+            "type",
+            "isRead",
+            "presentation",
+          ],
+          values: [
+            [
+              "6",
+              "999999999",
+              "+48999999999",
+              "1633036800000",
+              "150",
+              "3",
+              "0",
+              "",
+            ], // presentation is empty
+          ],
+        },
+      }
+
+      const expected: CallLogObject[] = [
+        {
+          id: "6",
+          phone: "+48999999999",
+          callDate: 1633036800000,
+          callDuration: 150,
+          callType: 3,
+          isNew: 1,
+          presentation: 3, // Defaults to 3 when presentation is missing or empty
         },
       ]
 
@@ -492,9 +672,19 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
           values: [
-            ["2", "987654321", "+4987654321", "1633036800000", "", "2", "1"],
+            [
+              "2",
+              "987654321",
+              "+4987654321",
+              "1633036800000",
+              "",
+              "2",
+              "1",
+              "1",
+            ],
           ],
         },
       }
@@ -507,6 +697,7 @@ describe("CallLogPresenter - serializeToObject", () => {
           callDuration: 0, // Default duration when missing
           callType: 2,
           isNew: 0,
+          presentation: 1, // Mapped from "1"
         },
       ]
 
@@ -525,8 +716,9 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
-          values: [["3", "321321321", "+49321321321", "", "90", "3", "0"]],
+          values: [["3", "321321321", "+49321321321", "", "90", "3", "0", "2"]],
         },
       }
 
@@ -534,10 +726,11 @@ describe("CallLogPresenter - serializeToObject", () => {
         {
           id: "3",
           phone: "+49321321321",
-          callDate: 0,
+          callDate: 0, // Default when date is missing
           callDuration: 90,
           callType: 3,
           isNew: 1,
+          presentation: 4, // Mapped from "2"
         },
       ]
 
@@ -556,6 +749,7 @@ describe("CallLogPresenter - serializeToObject", () => {
             "duration",
             "type",
             "isRead",
+            "presentation",
           ],
           values: [],
         },
