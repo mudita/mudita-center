@@ -118,6 +118,39 @@ const view: View = {
       ],
     },
   },
+  contactsListTable: {
+    component: "table",
+    config: {
+      formOptions: {
+        selectedIdsFieldName: "selectedContacts",
+        allIdsFieldName: "allContacts",
+      },
+    },
+    dataProvider: {
+      source: "entities-array",
+      entitiesType: "contacts",
+    },
+    childrenKeys: [
+      "columnCheckbox",
+      "columnName",
+      "columnEmpty",
+      "columnPhoneNumberOptional",
+      "columnPhoneNumberLengthOptional",
+    ],
+  },
+  columnEmpty: {
+    component: "table.cell",
+    config: {
+      width: "100%",
+    },
+  },
+  columnName: {
+    component: "table.cell",
+    config: {
+      width: "479px",
+    },
+    childrenKeys: ["contactDisplayName"],
+  },
 }
 
 export default view
