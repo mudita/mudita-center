@@ -25,7 +25,7 @@ export class CallLogPresenter extends BasePresenter {
     return calls.map((call) => ({
       id: String(call._id),
       phone: call.e164number || call.number || "",
-      callDate: this.parseNumber(call.date),
+      callDate: this.parseNumber(call.date) * 1000,
       callDuration: this.parseNumber(call.duration),
       presentation: this.mapPresentationType(call.presentation),
       callType: this.mapCallType(call.type),
