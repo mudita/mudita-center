@@ -20,8 +20,8 @@ import {
   selectComponentLayout,
   selectEntitiesData,
   selectEntitiesIdFieldKey,
+  selectEntitiesMetadata,
   selectEntityData,
-  useFormField,
 } from "generic-view/store"
 import {
   dataFilter,
@@ -47,7 +47,7 @@ import {
   map,
   set,
 } from "lodash"
-import { Tooltip, Paragraph5 } from "generic-view/ui"
+import { Paragraph5, Tooltip } from "generic-view/ui"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -81,11 +81,12 @@ export const setupComponent = <P extends object>(
       if (dataProvider) return
       return selectComponentData(state, { viewKey, componentKey })
     })
-    const formDataV2 = useFormField({
-      formName:
-        dataProvider?.source === "form-fields-v2"
-          ? dataProvider.formName
-          : undefined,
+    const entitiesMetadata = useSelector((state: ReduxRootState) => {
+      if (dataProvider?.source !== "entities-metadata") return
+      return selectEntitiesMetadata(state, {
+        entitiesType: dataProvider.entitiesType,
+        deviceId,
+      })
     })
     const entitiesData =
       useSelector((state: ReduxRootState) => {
@@ -119,7 +120,15 @@ export const setupComponent = <P extends object>(
       data: componentData,
     })
 
-    if (dataProvider?.source === "entities-array") {
+    if (dataProvider?.source === "entities-metadata") {
+      for (const fieldConfig of dataProvider.fields) {
+        const { componentField, providerField, ...config } = fieldConfig
+        const fieldValue = get(entitiesMetadata, providerField)
+        const value = processField(config, fieldValue)
+
+        set(editableProps || {}, componentField, value)
+      }
+    } else if (dataProvider?.source === "entities-array") {
       const filteredData = dataFilter(
         [...entitiesData],
         dataProvider.filters
@@ -130,10 +139,7 @@ export const setupComponent = <P extends object>(
       if (entityData) {
         for (const fieldConfig of dataProvider.fields) {
           const { componentField, providerField, ...config } = fieldConfig
-          const value = processFormFields(
-            config,
-            get(entityData, providerField)
-          )
+          const value = processField(config, get(entityData, providerField))
           if (isString(value) && componentField === "dataItemId") {
             dataItemId = value
             continue
@@ -155,21 +161,8 @@ export const setupComponent = <P extends object>(
         const fieldValue = isFormElement
           ? formContext.getValues(providerField)
           : formContext.watch(providerField)
-        const value = processFormFields(config, fieldValue)
+        const value = processField(config, fieldValue)
 
-        if (isString(value) && componentField === "dataItemId") {
-          dataItemId = value
-          continue
-        }
-        set(editableProps || {}, componentField, value)
-      }
-    } else if (dataProvider?.source === "form-fields-v2") {
-      for (const fieldConfig of dataProvider.fields) {
-        const { componentField, providerField, ...config } = fieldConfig
-        const value = processFormFields(
-          config,
-          formDataV2.getValue(providerField)
-        )
         if (isString(value) && componentField === "dataItemId") {
           dataItemId = value
           continue
@@ -181,7 +174,7 @@ export const setupComponent = <P extends object>(
     const layoutDependency = JSON.stringify(layout)
     const styleDependency = JSON.stringify(style)
     const dataProviderDependency = JSON.stringify(dataProvider)
-    const formDataV2Dependency = JSON.stringify(formDataV2)
+    const entitiesMetadataDependency = JSON.stringify(entitiesMetadata)
 
     const styles = useMemo(() => {
       return setupStyles(style, layout)
@@ -249,8 +242,8 @@ export const setupComponent = <P extends object>(
       dataItemId,
       editablePropsDependency,
       dataProviderDependency,
+      entitiesMetadataDependency,
       styles,
-      formDataV2Dependency,
     ])
   }
 }
@@ -259,10 +252,7 @@ function flattenListByKey<T>(list: T[], key: string): unknown {
   return flatten(map(list, (item) => get(item, key, [])))
 }
 
-const processFormFields = (
-  field: Partial<DataProviderField>,
-  value: unknown
-) => {
+const processField = (field: Partial<DataProviderField>, value: unknown) => {
   let newValue = value
   if ("slice" in field && field.slice !== undefined && value instanceof Array) {
     newValue =
