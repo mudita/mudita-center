@@ -9,7 +9,10 @@ import {
   CallLogObject,
 } from "Core/data-sync/types"
 import { BasePresenter } from "Core/data-sync/presenters/base-presenter"
-import { UnifiedCallLogCallType, UnifiedCallLogIsNew, UnifiedCallLogPresentationType } from "device/models"
+import {
+  UnifiedCallLogCallType,
+  UnifiedCallLogPresentationType,
+} from "device/models"
 
 export class CallLogPresenter extends BasePresenter {
   public serializeToObject(input: CallLogInput): CallLogObject[] {
@@ -29,38 +32,42 @@ export class CallLogPresenter extends BasePresenter {
       callDuration: this.parseNumber(call.duration),
       presentation: this.mapPresentationType(call.presentation),
       callType: this.mapCallType(call.type),
-      isNew: this.mapIsNew(call.isRead),
+      isRead: this.mapIsNew(call.isRead),
     }))
   }
 
   private parseNumber(value: number | string | undefined | null): number {
-    return Number(value) || 0;
+    return Number(value) || 0
   }
 
-  private mapPresentationType(type: number | string | undefined | null): UnifiedCallLogPresentationType {
+  private mapPresentationType(
+    type: number | string | undefined | null
+  ): UnifiedCallLogPresentationType {
     const typesMap: Record<number, UnifiedCallLogPresentationType> = {
-      0: 3,
-      1: 1,
-      2: 4,
-      3: 2,
+      0: "PRESENTATION_UNKNOWN",
+      1: "PRESENTATION_ALLOWED",
+      2: "PRESENTATION_PAYPHONE",
+      3: "PRESENTATION_RESTRICTED",
     }
-    return typesMap[Number(type)] ?? 3;
+    return typesMap[Number(type)] ?? "PRESENTATION_UNKNOWN"
   }
 
-  private mapCallType(type: number | string | undefined | null): UnifiedCallLogCallType {
+  private mapCallType(
+    type: number | string | undefined | null
+  ): UnifiedCallLogCallType {
     const typesMap: Record<number, UnifiedCallLogCallType> = {
-      0: 8,
-      1: 1,
-      2: 2,
-      3: 3,
-      4: 4,
-      5: 5,
-      6: 6,
-      7: 7,
-    };
-    return typesMap[Number(type)] ?? 8;
+      0: "TYPE_OTHER",
+      1: "TYPE_INCOMING",
+      2: "TYPE_OUTGOING",
+      3: "TYPE_MISSED",
+      4: "TYPE_VOICEMAIL",
+      5: "TYPE_REJECTED",
+      6: "TYPE_BLOCKED",
+      7: "TYPE_ANSWERED_EXTERNALLY",
+    }
+    return typesMap[Number(type)] ?? "TYPE_OTHER"
   }
-  private mapIsNew(isRead: number | string | undefined | null): UnifiedCallLogIsNew {
-    return Number(isRead) === 0 ? 1 : 0;
+  private mapIsNew(isRead: number | string | undefined | null): boolean {
+    return Number(isRead) !== 0
   }
 }
