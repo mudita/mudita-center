@@ -14,6 +14,7 @@ import {
 } from "Core/device-file-system/commands"
 import { DeviceFileSystemError } from "Core/device-file-system/constants"
 import { FileDeleteCommand } from "Core/device-file-system/commands/file-delete.command"
+import { DeviceProtocol } from "device-protocol/feature"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -32,7 +33,15 @@ const fileUploadCommand = {
   exec: jest.fn(),
 } as unknown as FileUploadCommand
 
+const deviceProtocol = {
+  request: jest.fn(),
+  device: {
+    id: "abc123",
+  },
+} as unknown as DeviceProtocol
+
 const subject = new FileManagerService(
+  deviceProtocol,
   fileDeleteCommand,
   retrieveFilesCommand,
   fileUploadCommand

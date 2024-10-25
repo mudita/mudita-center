@@ -32,14 +32,11 @@ class MacDeviceFlashService implements IDeviceFlash {
 
   async findDeviceByDeviceName(): Promise<string> {
     console.log(`Searching for device...`)
-    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
-
-    const device = devices.find((device) => {
-      return (
-        device.vendorId?.includes("3310") &&
-        device.name?.includes("Mudita Harmony (MSC mode)")
-      )
+    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({
+      vendorId: "3310",
+      name: "Mudita Harmony (MSC mode)",
     })
+    const device = devices[0]
 
     if (!device) {
       console.error(

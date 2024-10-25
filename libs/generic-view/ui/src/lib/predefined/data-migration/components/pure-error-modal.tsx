@@ -35,7 +35,9 @@ const messages = defineMessages({
   },
 })
 
-export const PureErrorModal: FunctionComponent = () => {
+export const PureErrorModal: FunctionComponent<{
+  onButtonClick: VoidFunction
+}> = ({ onButtonClick }) => {
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
 
   const title = intl.formatMessage(messages.title)
@@ -58,6 +60,7 @@ export const PureErrorModal: FunctionComponent = () => {
       title={title}
       description={getDescription()}
       buttonLabel={intl.formatMessage(messages.closeButtonLabel)}
+      onButtonClick={onButtonClick}
     />
   )
 }
