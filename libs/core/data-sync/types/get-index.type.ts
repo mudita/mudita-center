@@ -9,6 +9,7 @@ import { MessageObject } from "./message-object.type"
 import { DataIndex } from "../constants/index.constant"
 import { TemplateObject } from "./template-object.type"
 import { ThreadObject } from "./thread-object.type"
+import { CallLogObject } from "Core/data-sync/types/call-log-object.type"
 
 export type GetIndex<Name extends DataIndex> =
   | SerialisedIndexData<
@@ -20,6 +21,8 @@ export type GetIndex<Name extends DataIndex> =
         ? TemplateObject
         : Name extends DataIndex.Thread
         ? ThreadObject
+        : Name extends DataIndex.CallLog
+        ? CallLogObject
         : never
     >
   | undefined

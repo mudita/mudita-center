@@ -99,6 +99,18 @@ export const transferMigrationData = createAsyncThunk<
             }
             break
           }
+          case DataMigrationFeature.CallLog: {
+            const { callLog } = databaseResponse.payload as AllIndexes
+            const transformedData = Object.values(callLog)
+
+            if (!isEmpty(transformedData)) {
+              domainsData.push({
+                domain: "callLog-v1", // FIXME: The domain should be returned from Data Migration configuration
+                data: transformedData,
+              })
+            }
+            break
+          }
         }
       }
 
