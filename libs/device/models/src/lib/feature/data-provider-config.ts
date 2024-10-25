@@ -64,23 +64,46 @@ export type DataProviderField =
   | z.infer<typeof enhancedFieldSchema>
   | z.infer<typeof superEnhancedFieldSchema>
 
+const sortDirectionSchema = z.union([z.literal("asc"), z.literal("desc")])
+
+export type SortDirection = z.infer<typeof sortDirectionSchema>
+
+const sortOrderingPatternsSchema = z.array(regexSchema)
+
+export type SortOrderingPatterns = z.infer<typeof sortOrderingPatternsSchema>
+
+// Types come from Intl.CollatorOptions["sensitivity"], used to control text comparison sensitivity
+const sortSensitivitySchema = z.enum(["base", "accent", "case", "variant"])
+
+export type SortSensitivity = z.infer<typeof sortSensitivitySchema>
+
+const emptyOrderSchema = z.enum(["first", "last"])
+
 const sortSchema = z
   .array(
-    z.object({
-      providerField: z.string(),
-      priority: z.number().nonnegative(),
-      direction: z.union([z.literal("asc"), z.literal("desc")]),
-      orderingPatterns: z.array(regexSchema).optional(),
-    })
+    z
+      .object({
+        field: z.string().optional(),
+        fieldGroup: z.array(z.string()).optional(),
+        priority: z.number().nonnegative(),
+        direction: sortDirectionSchema,
+        orderingPatterns: sortOrderingPatternsSchema.optional(),
+        sensitivity: sortSensitivitySchema.optional(),
+        emptyOrder: emptyOrderSchema.optional(),
+      })
+      .refine((data) => data.field || data.fieldGroup, {
+        message: "Either field or fieldGroup must be provided",
+        path: ["field", "fieldGroup"],
+      })
   )
   .optional()
 
-export type DataProviderSortConfig = z.infer<typeof sortSchema>
+export type DataSortConfig = z.infer<typeof sortSchema>
 
 const filtersSchema = z
   .array(
     z.object({
-      providerField: z.string(),
+      field: z.string(),
       patterns: z.array(regexSchema),
     })
   )

@@ -24,8 +24,8 @@ import {
   selectEntityData,
 } from "generic-view/store"
 import {
-  dataProviderFilter,
-  dataProviderSort,
+  dataFilter,
+  dataSort,
   mapLayoutSizes,
   RecursiveComponent,
   useViewFormContext,
@@ -129,11 +129,11 @@ export const setupComponent = <P extends object>(
         set(editableProps || {}, componentField, value)
       }
     } else if (dataProvider?.source === "entities-array") {
-      const filteredData = dataProviderFilter(
+      const filteredData = dataFilter(
         [...entitiesData],
         dataProvider.filters
       )
-      const sortedData = dataProviderSort([...filteredData], dataProvider.sort)
+      const sortedData = dataSort([...filteredData], dataProvider.sort)
       editableProps.data = sortedData?.map((item) => item[idFieldKey!])
     } else if (dataProvider?.source === "entities-field") {
       if (entityData) {
