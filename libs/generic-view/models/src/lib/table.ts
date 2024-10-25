@@ -11,17 +11,10 @@ export type TableData = z.infer<typeof dataValidator>
 
 const configValidator = z.object({
   formOptions: z.object({
+    formKey: z.string().optional(),
     activeIdFieldName: z.string().optional(),
     selectedIdsFieldName: z.string().optional(),
     allIdsFieldName: z.string().optional(),
-  }),
-  form: z.object({
-    formName: z.string(),
-    assignFields: z.object({
-      activeIdFieldName: z.string().optional(),
-      selectedIdsFieldName: z.string().optional(),
-      allIdsFieldName: z.string().optional(),
-    }),
   }),
   columnsNames: z.array(z.string()).optional(),
 })

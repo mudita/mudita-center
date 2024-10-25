@@ -7,42 +7,36 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
 import { getEntitiesConfigRequest } from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
-import { setEntitiesConfig } from "./actions"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
-import { getEntitiesDataAction } from "./get-entities-data.action"
+import { EntitiesConfig } from "device/models"
+
+type GetEntitiesConfigActionPayload = {
+  config: EntitiesConfig
+  idFieldKey: string
+}
 
 export const getEntitiesConfigAction = createAsyncThunk<
-  undefined,
-  { deviceId: DeviceId; entitiesTypes?: string[] },
+  GetEntitiesConfigActionPayload,
+  { deviceId: DeviceId; entitiesType: string },
   { state: ReduxRootState }
 >(
   ActionName.GetEntitiesConfig,
-  async ({ deviceId, entitiesTypes = [] }, { rejectWithValue, dispatch }) => {
-    for (const entitiesType of entitiesTypes) {
-      const response = await getEntitiesConfigRequest({
-        deviceId,
-        entitiesType,
-      })
-      if (!response.ok) {
-        return rejectWithValue(response.error)
-      }
-      const config = response.data
-      const idFieldKey = Object.entries(config.fields).find(
-        ([, field]) => field.type === "id"
-      )![0]
-
-      dispatch(
-        setEntitiesConfig({
-          entitiesType,
-          config,
-          idFieldKey,
-          deviceId,
-        })
-      )
-      await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
-      dispatch(getEntitiesDataAction({ entitiesType, deviceId }))
+  async ({ deviceId, entitiesType }, { rejectWithValue, dispatch }) => {
+    const response = await getEntitiesConfigRequest({
+      deviceId,
+      entitiesType,
+    })
+    if (!response.ok) {
+      return rejectWithValue(response.error)
     }
-    return
+    const config = response.data
+    const idFieldKey = Object.entries(config.fields).find(
+      ([, field]) => field.type === "id"
+    )![0]
+
+    return {
+      config,
+      idFieldKey,
+    }
   }
 )
