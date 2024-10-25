@@ -29,16 +29,19 @@ export const getAPIConfig = createAsyncThunk<
     } while (retry && retires++ < retryLimit && !response.ok)
 
     if (response.ok) {
-      await dispatch(getMenuConfig({ deviceId }))
-      await dispatch(
-        getAllFeatures({ deviceId, features: response.data.features })
-      )
-      dispatch(
-        loadEntities({
-          deviceId,
-          entitiesTypes: response.data.entityTypes,
-        })
-      )
+      const menuResponse = await dispatch(getMenuConfig({ deviceId }))
+
+      if (menuResponse.meta.requestStatus === "fulfilled") {
+        await dispatch(
+          getAllFeatures({ deviceId, features: response.data.features })
+        )
+        dispatch(
+          loadEntities({
+            deviceId,
+            entitiesTypes: response.data.entityTypes,
+          })
+        )
+      }
 
       return { deviceId, apiConfig: response.data }
     }
