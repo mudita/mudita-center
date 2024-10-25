@@ -41,7 +41,7 @@ export class CallLogIndexer extends BaseIndexer {
     index.addField("callDuration")
     index.addField("presentation")
     index.addField("callType")
-    index.addField("isNew")
+    index.addField("isRead")
 
     data.forEach((item) => {
       index.addDoc(item)
