@@ -872,7 +872,7 @@
   "module.genericBackup.restoreButtonLabel": "Restore from backup",
   "module.genericViews.update.tag": "Update is available ({version}).",
   "module.genericViews.update.actionLabel": "You can update it on your device.",
-  "module.genericViews.backup.features.comingSoon.messages": "Messages (coming soon!)",
+  "module.genericViews.backup.features.comingSoon.messages": "Messages",
   "module.genericViews.backup.features.comingSoon.notes": "Notes (coming soon!)",
   "module.genericViews.backup.features.comingSoon.calendar": "Calendar events (coming soon!)",
   "module.genericViews.backup.features.comingSoon.apps": "App settings: Phone, Messages (coming soon!)",
