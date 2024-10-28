@@ -11,6 +11,7 @@ import {
   DataTransferDomain,
   UnifiedCallLog,
   UnifiedContact,
+  UnifiedMessage,
 } from "device/models"
 import {
   cancelDataTransferRequest,
@@ -34,6 +35,7 @@ import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-i
 type DomainDataMapping = {
   "contacts-v1": UnifiedContact[]
   "callLog-v1": UnifiedCallLog[]
+  "messages-v1": UnifiedMessage[]
 }
 
 export type DomainData = {

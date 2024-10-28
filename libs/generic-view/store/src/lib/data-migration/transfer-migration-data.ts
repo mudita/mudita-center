@@ -25,6 +25,7 @@ import { delay } from "shared/utils"
 import { removeDirectory } from "system-utils/feature"
 import { DataMigrationStatus } from "./reducer"
 import { clearMigrationData } from "./clear-migration-data"
+import { pureToUnifiedMessage } from "./data-migration-mappers/pure-to-unified-message"
 
 export const transferMigrationData = createAsyncThunk<
   void,
@@ -106,6 +107,19 @@ export const transferMigrationData = createAsyncThunk<
             if (!isEmpty(transformedData)) {
               domainsData.push({
                 domain: "callLog-v1", // FIXME: The domain should be returned from Data Migration configuration
+                data: transformedData,
+              })
+            }
+            break
+          }
+          case DataMigrationFeature.Messages: {
+            const transformedData = pureToUnifiedMessage(
+              databaseResponse.payload as AllIndexes
+            )
+
+            if (!isEmpty(transformedData)) {
+              domainsData.push({
+                domain: "messages-v1", // FIXME: The domain should be returned from Data Migration configuration
                 data: transformedData,
               })
             }
