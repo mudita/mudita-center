@@ -847,4 +847,85 @@ describe("`pureToUnifiedMessage`", () => {
       ])
     })
   })
+
+  describe("`pureToUnifiedMessage` - Filtering Messages Without Threads", () => {
+    test("excludes messages without a matching thread", () => {
+      const mockOptions: PureToUnifiedMessageOptions = {
+        threads: {
+          "2": {
+            contactId: "5",
+            contactName: "Leia Organa",
+            id: "2",
+            lastUpdatedAt: new Date("1970-01-01T00:06:32.000Z"),
+            messageSnippet: "Message without thread",
+            messageType: MessageType.INBOX,
+            phoneNumber: "+123456789",
+            unread: false,
+          },
+        },
+        messages: {
+          "1": {
+            content: "Message without a thread",
+            date: new Date("1970-01-01T00:06:31.000Z"),
+            id: "1",
+            messageType: MessageType.INBOX,
+            phoneNumber: "+123456789",
+            threadId: "3",
+          },
+        },
+      }
+
+      const unifiedMessages = pureToUnifiedMessage(mockOptions)
+      expect(unifiedMessages).toEqual([])
+    })
+
+    test("includes only messages with matching threads among multiple messages", () => {
+      const mockOptions: PureToUnifiedMessageOptions = {
+        threads: {
+          "1": {
+            contactId: "4",
+            contactName: "Luke Skywalker",
+            id: "1",
+            lastUpdatedAt: new Date("1970-01-01T00:06:31.000Z"),
+            messageSnippet: "Test Message",
+            messageType: MessageType.INBOX,
+            phoneNumber: "+91898402777",
+            unread: true,
+          },
+        },
+        messages: {
+          "1": {
+            content: "Test Message #1",
+            date: new Date("1970-01-01T00:06:31.000Z"),
+            id: "1",
+            messageType: MessageType.INBOX,
+            phoneNumber: "+91898402777",
+            threadId: "1",
+          },
+          "2": {
+            content: "Unmatched Message",
+            date: new Date("1970-01-01T00:06:32.000Z"),
+            id: "2",
+            messageType: MessageType.INBOX,
+            phoneNumber: "+91898405555",
+            threadId: "2",
+          },
+        },
+      }
+
+      const unifiedMessages = pureToUnifiedMessage(mockOptions)
+      expect(unifiedMessages).toEqual([
+        {
+          id: "1",
+          body: "Test Message #1",
+          date: 391000,
+          read: false,
+          type: "SMS",
+          address: [{ address: "+91898402777" }],
+          status: "SENT",
+          deliveryStatus: "DELIVERED",
+        },
+      ])
+    })
+  })
 })

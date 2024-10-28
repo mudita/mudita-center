@@ -21,10 +21,11 @@ export const pureToUnifiedMessage = ({
   threads,
 }: PureToUnifiedMessageOptions): UnifiedMessage[] => {
   return Object.values(messages)
-    .filter((message) => message.messageType !== MessageType.DRAFT)
+    .filter((message) =>
+      message.messageType !== MessageType.DRAFT && threads[message.threadId]
+    )
     .map((message) => {
       const thread = threads[message.threadId]
-      if (!thread) return null
 
       let status: UnifiedMessageStatus
       let deliveryStatus: UnifiedMessageDeliveryStatus
@@ -70,5 +71,4 @@ export const pureToUnifiedMessage = ({
         deliveryStatus,
       }
     })
-    .filter((message): message is UnifiedMessage => message !== null)
 }
