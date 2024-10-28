@@ -14,7 +14,7 @@ import {
 import { readAllIndexes } from "Core/data-sync/actions"
 import { isEmpty } from "lodash"
 import { AllIndexes } from "Core/data-sync/types"
-import { mapPureApi } from "../imports/contacts-mappers/pure/map-pure-api"
+import { pureToUnifiedContact } from "./data-migration-mappers/pure-to-unified-contact"
 import {
   DomainData,
   transferDataToDevice,
@@ -25,6 +25,7 @@ import { delay } from "shared/utils"
 import { removeDirectory } from "system-utils/feature"
 import { DataMigrationStatus } from "./reducer"
 import { clearMigrationData } from "./clear-migration-data"
+import { pureToUnifiedMessage } from "./data-migration-mappers/pure-to-unified-message"
 
 export const transferMigrationData = createAsyncThunk<
   void,
@@ -89,7 +90,7 @@ export const transferMigrationData = createAsyncThunk<
         switch (feature) {
           case DataMigrationFeature.Contacts: {
             const { contacts } = databaseResponse.payload as AllIndexes
-            const transformedData = mapPureApi(Object.values(contacts))
+            const transformedData = pureToUnifiedContact(Object.values(contacts))
 
             if (!isEmpty(transformedData)) {
               domainsData.push({
@@ -106,6 +107,19 @@ export const transferMigrationData = createAsyncThunk<
             if (!isEmpty(transformedData)) {
               domainsData.push({
                 domain: "callLog-v1", // FIXME: The domain should be returned from Data Migration configuration
+                data: transformedData,
+              })
+            }
+            break
+          }
+          case DataMigrationFeature.Messages: {
+            const transformedData = pureToUnifiedMessage(
+              databaseResponse.payload as AllIndexes
+            )
+
+            if (!isEmpty(transformedData)) {
+              domainsData.push({
+                domain: "messages-v1", // FIXME: The domain should be returned from Data Migration configuration
                 data: transformedData,
               })
             }

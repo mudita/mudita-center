@@ -15,6 +15,7 @@ const minimumPreDataTransfer: PreDataTransfer = {
   domains: {
     ["contacts-v1"]: "dummy-text",
     ["callLog-v1"]: "dummy-text",
+    ["messages-v1"]: "dummy-text",
   },
 }
 

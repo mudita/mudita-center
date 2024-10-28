@@ -5,3 +5,4 @@
 
 export * from "./unified-call-log"
 export * from "./unified-contact"
+export * from "./unified-message"
