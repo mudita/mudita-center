@@ -22,6 +22,7 @@ export interface UnifiedMessage {
   body: string
   date: number
   read: boolean
+  seen: boolean
   type: UnifiedMessageType
   address: [UnifiedMessageAddress, UnifiedMessageAddress?]
   status: UnifiedMessageStatus

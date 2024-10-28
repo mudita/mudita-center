@@ -61,14 +61,15 @@ export const pureToUnifiedMessage = ({
         message.date.getTime() !== thread.lastUpdatedAt.getTime()
 
       return {
-        id: message.id,
-        body: message.content || "",
-        date: message.date.getTime(),
         read,
-        type: "SMS",
         address,
         status,
         deliveryStatus,
+        type: "SMS",
+        seen: read,
+        id: message.id,
+        body: message.content || "",
+        date: message.date.getTime(),
       }
     })
 }
