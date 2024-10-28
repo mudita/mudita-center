@@ -31,11 +31,11 @@ export const pureToUnifiedMessage = ({
       let deliveryStatus: UnifiedMessageDeliveryStatus
 
       switch (message.messageType) {
-        case MessageType.INBOX:
+        case MessageType.OUTBOX:
           status = "SENT"
           deliveryStatus = "DELIVERED"
           break
-        case MessageType.OUTBOX:
+        case MessageType.INBOX:
           status = "RECEIVED"
           deliveryStatus = "NONE"
           break
