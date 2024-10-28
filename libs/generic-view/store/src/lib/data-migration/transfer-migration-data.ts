@@ -14,7 +14,7 @@ import {
 import { readAllIndexes } from "Core/data-sync/actions"
 import { isEmpty } from "lodash"
 import { AllIndexes } from "Core/data-sync/types"
-import { mapPureApi } from "../imports/contacts-mappers/pure/map-pure-api"
+import { pureToUnifiedContact } from "./data-migration-mappers/pure-to-unified-contact"
 import {
   DomainData,
   transferDataToDevice,
@@ -90,7 +90,7 @@ export const transferMigrationData = createAsyncThunk<
         switch (feature) {
           case DataMigrationFeature.Contacts: {
             const { contacts } = databaseResponse.payload as AllIndexes
-            const transformedData = mapPureApi(Object.values(contacts))
+            const transformedData = pureToUnifiedContact(Object.values(contacts))
 
             if (!isEmpty(transformedData)) {
               domainsData.push({
