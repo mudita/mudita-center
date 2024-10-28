@@ -111,6 +111,12 @@ const filtersSchema = z
 
 export type DataProviderFiltersConfig = z.infer<typeof filtersSchema>
 
+const entitiesMetadataSchema = z.object({
+  source: z.literal("entities-metadata"),
+  entitiesType: entitiesTypeSchema,
+  fields: fieldsSchema,
+})
+
 const entitiesArraySchema = z.object({
   source: z.literal("entities-array"),
   entitiesType: entitiesTypeSchema,
@@ -130,17 +136,11 @@ const formFieldsSchema = z.object({
   fields: fieldsSchema,
 })
 
-const formFieldsSchemaV2 = z.object({
-  source: z.literal("form-fields-v2"),
-  formName: z.string(),
-  fields: fieldsSchema,
-})
-
 export const dataProviderSchema = z.union([
+  entitiesMetadataSchema,
   entitiesArraySchema,
   entitiesFieldSchema,
   formFieldsSchema,
-  formFieldsSchemaV2,
 ])
 
 export type DataProviderConfig = z.infer<typeof dataProviderSchema>

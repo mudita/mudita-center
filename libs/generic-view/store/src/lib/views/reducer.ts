@@ -18,10 +18,8 @@ import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { getGenericConfig } from "../features/get-generic-config.actions"
 import {
   addDevice,
-  registerForm,
   removeDevice,
   setDeviceState,
-  setFormField,
   setGenericConfig,
   setLastRefresh,
   setMenu,
@@ -175,31 +173,6 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
         state: deviceState,
       }
     }
-  })
-  builder.addCase(registerForm, (state, action) => {
-    const { deviceId, feature, form, formName } = action.payload
-    state.devices[deviceId].features = {
-      ...state.devices[deviceId].features,
-      [feature]: {
-        ...state.devices[deviceId].features?.[feature],
-        forms: {
-          ...state.devices[deviceId].features?.[feature]?.forms,
-          [formName]: form,
-        },
-      },
-    }
-  })
-  builder.addCase(setFormField, (state, action) => {
-    const { deviceId, feature, formName, field, value } = action.payload
-    const viewFeature = state.devices[deviceId].features?.[feature]
-    if (
-      !viewFeature ||
-      !viewFeature.forms ||
-      !viewFeature.forms[formName] ||
-      !field
-    )
-      return
-    viewFeature.forms[formName].fields[field] = value
   })
   // Helper action for setting custom generic config without a need of reloading the app
   builder.addCase(setGenericConfig, (state, action) => {

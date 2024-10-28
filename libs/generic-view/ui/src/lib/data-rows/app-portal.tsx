@@ -7,8 +7,11 @@ import { APIFC } from "generic-view/utils"
 import { AppPortalConfig } from "generic-view/models"
 import { createPortal } from "react-dom"
 
-export const AppPortal: APIFC<undefined, AppPortalConfig> = ({ children, config }) => {
-  const appHeaderElement = document.querySelector(`#${config.portal}`)
-  if (!appHeaderElement || !children) return null
-  return createPortal(children, appHeaderElement)
+export const AppPortal: APIFC<undefined, AppPortalConfig> = ({
+  children,
+  config,
+}) => {
+  const portalElement = document.querySelector(`#${config.portal}`)
+  if (!portalElement || !children) return null
+  return createPortal(children, portalElement)
 }
