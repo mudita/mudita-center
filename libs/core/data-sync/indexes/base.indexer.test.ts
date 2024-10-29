@@ -10,7 +10,9 @@ import { FileSystemService } from "Core/file-system/services/file-system.service
 
 jest.mock("fs")
 
-class Indexer extends BaseIndexer {}
+class Indexer extends BaseIndexer {
+  index = jest.fn()
+}
 
 const json: DirectoryJSON = {
   "sync/index.db": "",

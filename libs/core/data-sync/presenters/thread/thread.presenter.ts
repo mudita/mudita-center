@@ -13,8 +13,9 @@ import {
 } from "Core/data-sync/types"
 import { MessageType as PureMessageType } from "Core/device/constants"
 import { MessageType } from "Core/messages/constants"
+import { BasePresenter } from "Core/data-sync/presenters/base-presenter"
 
-export class ThreadPresenter {
+export class ThreadPresenter extends BasePresenter {
   private findRecords<Type extends { _id: string }>(
     data: { _id: string }[],
     recordId: string
@@ -34,15 +35,6 @@ export class ThreadPresenter {
     recordId: string
   ): ContactNameEntity | undefined {
     return data.filter((item) => item.contact_id === recordId).reverse()[0]
-  }
-
-  private serializeRecord<Type>(values: string[][], columns: string[]): Type[] {
-    return values.map((item) => {
-      return columns.reduce((acc: Record<string, string>, value, index) => {
-        acc[value.trim()] = String(item[index]).trim()
-        return acc
-      }, {})
-    }) as unknown as Type[]
   }
 
   public serializeToObject(data: ThreadInput): ThreadObject[] {

@@ -3,10 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum DataIndex {
-  Contact = "contact",
-  Message = "message",
-  Template = "template",
-  Thread = "thread",
-  CallLog = "calllog",
-}
+export * from "./unified-call-log"
+export * from "./unified-contact"
+export * from "./unified-message"
