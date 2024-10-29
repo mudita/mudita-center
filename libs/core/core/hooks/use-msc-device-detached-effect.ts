@@ -69,6 +69,11 @@ const useHandleDevicesDetached = () => {
         : undefined
       dispatch(abortMscFlashing({ reason }))
     },
-    [dispatch, flashingInActivePhases, flashingInWaitingForBackButtonState]
+    [
+      dispatch,
+      flashingInActivePhases,
+      flashingInWaitingForBackButtonState,
+      flashingInRestartingPhase,
+    ]
   )
 }
