@@ -11,6 +11,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceId } from "Core/device/constants/device-id"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
+import { setMscFlashingInitialState } from "msc-flash-harmony"
 
 export const handleDeviceActivated = createAsyncThunk<
   void,
@@ -20,5 +21,6 @@ export const handleDeviceActivated = createAsyncThunk<
   await dispatch(setActiveDevice(deviceId))
   dispatch(cleanBackupProcess())
   dispatch(cleanRestoreProcess())
+  dispatch(setMscFlashingInitialState())
   setDiscoveryStatus(DiscoveryStatus.Discovered)
 })
