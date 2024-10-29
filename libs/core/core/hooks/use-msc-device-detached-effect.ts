@@ -14,7 +14,6 @@ import {
 import {
   abortMscFlashing,
   FlashingProcessState,
-  selectFlashingProcessState,
   selectIsFlashingInActivePhases,
   selectIsFlashingInState,
   setFlashingProcessState,
