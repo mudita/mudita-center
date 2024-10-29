@@ -67,7 +67,7 @@ export const RecoveryCompleteModal: FunctionComponent = () => {
             />
           </Descrption>
           <LightButtonIconWrapper>
-            <Icon type={IconType.BackArrowIcon} width={4.8} />
+            <Icon type={IconType.LightButton} width={4.8} />
           </LightButtonIconWrapper>
         </ModalContent>
       </ModalDialog>
