@@ -37,11 +37,13 @@ const initialState: EntitiesState = {}
 export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   builder.addCase(getEntitiesConfigAction.fulfilled, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
-    const deviceState = (state[deviceId] = state[deviceId] || {})
 
-    deviceState[entitiesType] = {
-      config: action.payload.config,
-      idFieldKey: action.payload.idFieldKey,
+    state[deviceId] = {
+      ...state[deviceId],
+      [entitiesType]: {
+        config: action.payload.config,
+        idFieldKey: action.payload.idFieldKey,
+      },
     }
   })
   builder.addCase(getEntitiesDataAction.pending, (state, action) => {
@@ -75,7 +77,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     const { deviceId, entitiesType, entityId, data } = action.payload
     const idFieldKey = state[deviceId]?.[entitiesType]?.idFieldKey
 
-    if(!idFieldKey){
+    if (!idFieldKey) {
       return
     }
 
