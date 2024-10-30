@@ -16,6 +16,17 @@ import { DeviceFileSystemService } from "Core/device-file-system/services"
 import { FileManagerService } from "Core/files-manager/services"
 import { DeviceInfoService } from "Core/device-info/services"
 
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    go: jest.fn(),
+    block: jest.fn(),
+    listen: jest.fn(),
+    location: { pathname: "", search: "", hash: "", state: null },
+  })),
+}))
+
 const updaterStatusSuccessMock: UpdaterStatus = {
   branch: "",
   message: "",
