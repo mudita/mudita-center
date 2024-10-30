@@ -143,7 +143,7 @@ const contactWithLongLastName = {
   firstName: "Long Display Name (last name is long)",
   lastName:
     "Anna Maria Katarzyna Nowak-Wielka-Zabłocka-Długosz-Ostrowska-Mickiewicz-Piękna-Sobieska-Kowalewska-Jagiellońska-Słowacka-Krzyżanowska-Kordecka-Kościuszkowska",
-  phoneNumbers: [{ phoneNumber: "+48123456789", phoneType: "MOBILE" }],
+  phoneNumbers: [{ phoneNumber: "+48123456786", phoneType: "MOBILE" }],
   entityType: "contacts",
 }
 const contactWithLongFirstName = {
@@ -156,20 +156,20 @@ const contactWithLongFirstName = {
 const contactWithSpecialCharactersInLastName = {
   firstName: "Special Character (last name with special characters)",
   lastName: "!@#$%^&*()-=+[]{}|;:',.<>?/`~",
-  phoneNumbers: [{ phoneNumber: "+49123456789", phoneType: "MOBILE" }],
+  phoneNumbers: [{ phoneNumber: "+49123454789", phoneType: "MOBILE" }],
   entityType: "contacts",
 }
 
 const contactWithSpecialCharactersInFirstName = {
   firstName: "###",
   lastName: "Special Character (first name with special characters)",
-  phoneNumbers: [{ phoneNumber: "+49123456789", phoneType: "MOBILE" }],
+  phoneNumbers: [{ phoneNumber: "+49123426789", phoneType: "MOBILE" }],
   entityType: "contacts",
 }
 const contactWithPlusAsSpecialCharacterInLastName = {
   firstName: "Plus (last name with plus as special character)",
   lastName: "+",
-  phoneNumbers: [{ phoneNumber: "+49123456789", phoneType: "MOBILE" }],
+  phoneNumbers: [{ phoneNumber: "+49123156789", phoneType: "MOBILE" }],
   entityType: "contacts",
 }
 
