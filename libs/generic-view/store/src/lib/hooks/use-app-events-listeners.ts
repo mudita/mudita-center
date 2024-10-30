@@ -16,7 +16,7 @@ export const useAppEventsListeners = () => {
     const unregisterWindowFocusedListener = answerMain(
       AppEvents.WindowFocused,
       () => {
-        dispatch(refreshBackupList())
+        dispatch(refreshBackupList({ disableErrorLog: true }))
       }
     )
 

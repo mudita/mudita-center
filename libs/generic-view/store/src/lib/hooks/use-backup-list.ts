@@ -13,7 +13,7 @@ export const useBackupList = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(refreshBackupList())
+      dispatch(refreshBackupList({ disableErrorLog: true }))
     }, 5000)
     return () => {
       clearInterval(interval)
