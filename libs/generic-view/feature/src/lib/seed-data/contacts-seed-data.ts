@@ -139,6 +139,48 @@ const contactFullData5 = {
   entityType: "contacts",
 }
 
+const contactWithLongLastName = {
+  firstName: "Long Display Name (last name is long)",
+  lastName:
+    "Anna Maria Katarzyna Nowak-Wielka-Zabłocka-Długosz-Ostrowska-Mickiewicz-Piękna-Sobieska-Kowalewska-Jagiellońska-Słowacka-Krzyżanowska-Kordecka-Kościuszkowska",
+  phoneNumbers: [{ phoneNumber: "+48123456786", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+const contactWithLongFirstName = {
+  firstName: "Aleksandra-Marianna-Katarzyna-Magdalena-Joanna-Weronika-Zofia-Karolina-Małgorzata-Anastazja",
+  lastName: "Long Display Name (first name is long)",
+  phoneNumbers: [{ phoneNumber: "+48234567890", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithSpecialCharactersInLastName = {
+  firstName: "Special Character (last name with special characters)",
+  lastName: "!@#$%^&*()-=+[]{}|;:',.<>?/`~",
+  phoneNumbers: [{ phoneNumber: "+49123454789", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithSpecialCharactersInFirstName = {
+  firstName: "###",
+  lastName: "Special Character (first name with special characters)",
+  phoneNumbers: [{ phoneNumber: "+49123426789", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithPlusAsSpecialCharacterInLastName = {
+  firstName: "Plus (last name with plus)",
+  lastName: "+",
+  phoneNumbers: [{ phoneNumber: "+49123156789", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithPlusAsSpecialCharacterInFirstName = {
+  firstName: "+",
+  lastName: "Plus (first name with plus)",
+  phoneNumbers: [{ phoneNumber: "+49123156789", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
 const contactWithNumbersInName = {
   firstName: "Numer (last name is numeric)",
   lastName: "12345",
@@ -158,6 +200,11 @@ const contactWithMiddleNameOnly = {
   entityType: "contacts",
 }
 
+const contactWithWithSpecialCharactersInMiddleName = {
+  middleName: "%%%% (only middle name)",
+  entityType: "contacts",
+}
+
 const contactWithGermanyPhoneNumberOnly = {
   phoneNumbers: [{ phoneNumber: "490123456789", phoneType: "MOBILE" }],
   entityType: "contacts",
@@ -172,7 +219,6 @@ const contactWithChinaPhoneNumberOnly = {
   phoneNumbers: [{ phoneNumber: "8612345678901", phoneType: "MOBILE" }],
   entityType: "contacts",
 }
-
 
 const contactWithMobilePhoneNumberOnly = {
   phoneNumbers: [{ phoneNumber: "+48345678902", phoneType: "MOBILE" }],
@@ -423,9 +469,16 @@ export const contactsSeedData: EntityData[] = [
   contactFullData3,
   contactFullData4,
   contactFullData5,
+  contactWithLongLastName,
+  contactWithLongFirstName,
+  contactWithSpecialCharactersInLastName,
+  contactWithSpecialCharactersInFirstName,
+  contactWithPlusAsSpecialCharacterInLastName,
+  contactWithPlusAsSpecialCharacterInFirstName,
   contactWithNumbersInName,
   contactWithPrefixSuffix,
   contactWithMiddleNameOnly,
+  contactWithWithSpecialCharactersInMiddleName,
   contactWithGermanyPhoneNumberOnly,
   contactWithIndiaPhoneNumberOnly,
   contactWithChinaPhoneNumberOnly,
