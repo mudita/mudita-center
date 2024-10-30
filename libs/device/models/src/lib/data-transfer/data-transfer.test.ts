@@ -14,6 +14,8 @@ const minimumPreDataTransfer: PreDataTransfer = {
   dataTransferId: 123,
   domains: {
     ["contacts-v1"]: "dummy-text",
+    ["callLog-v1"]: "dummy-text",
+    ["messages-v1"]: "dummy-text",
   },
 }
 

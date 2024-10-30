@@ -20,12 +20,14 @@ export const readAllIndexes = createAsyncThunk<AllIndexes, void>(
     const messages = await getIndexRequest(DataIndex.Message)
     const templates = await getIndexRequest(DataIndex.Template)
     const threads = await getIndexRequest(DataIndex.Thread)
+    const callLog = await getIndexRequest(DataIndex.CallLog)
 
     if (
       contacts === undefined ||
       messages === undefined ||
       templates === undefined ||
-      threads === undefined
+      threads === undefined ||
+      callLog === undefined
     ) {
       return rejectWithValue(
         new AppError(DataSyncError.ReadAllIndexes, "Read All Indexes fails")
@@ -37,6 +39,7 @@ export const readAllIndexes = createAsyncThunk<AllIndexes, void>(
       messages: messages.documentStore.docs,
       templates: templates.documentStore.docs,
       threads: threads.documentStore.docs,
+      callLog: callLog.documentStore.docs,
     }
   }
 )

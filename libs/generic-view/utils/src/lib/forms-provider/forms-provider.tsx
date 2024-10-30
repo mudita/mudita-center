@@ -8,7 +8,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
+  useRef,
 } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { UseFormReturn } from "react-hook-form/dist/types"
@@ -17,56 +17,56 @@ import { useFormContext } from "react-hook-form"
 interface FormsContextValue {
   registerForm: (formKey: string, form: UseFormReturn) => void
   getFormContext: (formKey?: string) => UseFormReturn | undefined
+  clear: (formKey: string) => void
 }
 
 const FormsContext = createContext<FormsContextValue>({
   registerForm: () => {},
   getFormContext: () => undefined,
+  clear: () => {},
 })
 
 export const FormsProvider: FunctionComponent = ({ children }) => {
-  const formContext = useFormContext()
-  const forms = useMemo(() => {
-    return new Map<string, UseFormReturn>()
+  const forms = useRef<Record<string, UseFormReturn>>({})
+
+  const registerForm = useCallback((formKey: string, form: UseFormReturn) => {
+    if (!(formKey in forms.current)) {
+      forms.current[formKey] = form
+    }
   }, [])
 
-  const registerForm = useCallback(
-    (formKey: string, form: UseFormReturn) => {
-      forms.set(formKey, form)
-    },
-    [forms]
-  )
+  const getFormContext = useCallback((formKey?: string) => {
+    if (!formKey) {
+      throw new Error(`Form key is required`)
+    }
+    const form = forms.current[formKey]
+    if (!form) {
+      throw new Error(`Form with key ${formKey} not found`)
+    }
+    return form
+  }, [])
 
-  const getFormContext = useCallback(
-    (formKey?: string) => {
-      if (formKey) {
-        const form = forms.get(formKey)
-        if (!form) {
-          throw new Error(`Form with key ${formKey} not found`)
-        }
-        return form
-      }
-      return formContext
-    },
-    [formContext, forms]
-  )
+  const clear = useCallback((formKey: string) => {
+    delete forms.current[formKey]
+  }, [])
 
   useEffect(() => {
     return () => {
-      forms.clear()
+      forms.current = {}
     }
-  }, [forms])
+  }, [])
 
   return (
-    <FormsContext.Provider value={{ registerForm, getFormContext }}>
+    <FormsContext.Provider value={{ registerForm, getFormContext, clear }}>
       {children}
     </FormsContext.Provider>
   )
 }
 
 export const useViewFormRegister = (formKey: string, form: UseFormReturn) => {
-  const { registerForm } = useContext(FormsContext)
+  const { registerForm, clear } = useContext(FormsContext)
   registerForm(formKey, form)
+  return () => clear(formKey)
 }
 
 export const useViewFormContext = () => {
@@ -74,7 +74,8 @@ export const useViewFormContext = () => {
   const formsContext = useContext(FormsContext)
 
   return (formKey?: string) => {
-    const formContext = formsContext.getFormContext(formKey)
-    return formContext ?? defaultFormContext
+    return (
+      formKey ? formsContext.getFormContext(formKey) : defaultFormContext
+    ) as UseFormReturn
   }
 }

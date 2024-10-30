@@ -8,22 +8,14 @@ import {
   TemplateInput,
   TemplateEntity,
 } from "Core/data-sync/types"
+import { BasePresenter } from "Core/data-sync/presenters/base-presenter"
 
-export class TemplatePresenter {
+export class TemplatePresenter extends BasePresenter {
   public findRecords<Type extends { _id: string }>(
     data: { _id: string }[],
     recordId: string
   ): Type | undefined {
     return (data as unknown as Type[]).find((item) => item._id === recordId)
-  }
-
-  public serializeRecord<Type>(values: string[][], columns: string[]): Type[] {
-    return values.map((item) => {
-      return columns.reduce((acc: Record<string, string>, value, index) => {
-        acc[value.trim()] = String(item[index]).trim()
-        return acc
-      }, {})
-    }) as unknown as Type[]
   }
 
   public serializeToObject(data: TemplateInput): TemplateObject[] {

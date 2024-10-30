@@ -9,7 +9,6 @@ import { DeviceState } from "device-manager/models"
 import { DeviceBaseProperties } from "device-protocol/models"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { ActionName } from "../action-names"
-import { GenericForm } from "generic-view/models"
 
 export const addDevice = createAction<
   DeviceBaseProperties & Partial<{ state: DeviceState.Failed }>
@@ -26,21 +25,6 @@ export const setLastRefresh = createAction<number>(ActionName.SetLastRefresh)
 export const setDeviceState = createAction<{ id: string; state: DeviceState }>(
   ActionName.SetDeviceState
 )
-
-export const registerForm = createAction<{
-  formName: string
-  form: GenericForm
-  feature: string
-  deviceId: string
-}>(ActionName.RegisterForm)
-
-export const setFormField = createAction<{
-  formName: string
-  field: string
-  value: unknown
-  feature: string
-  deviceId: string
-}>(ActionName.SetFormField)
 
 export const setGenericConfig = createAction<{
   config: View

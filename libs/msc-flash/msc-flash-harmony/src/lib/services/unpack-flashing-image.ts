@@ -6,6 +6,7 @@
 import getAppSettingsMain from "Core/__deprecated__/main/functions/get-app-settings"
 import path from "path"
 import { execPromise } from "shared/utils"
+import { getImageFilePathAndName } from "./dev-flash-mode"
 
 export const unpackFlashingImageService = async (
   fileName: string
@@ -15,13 +16,27 @@ export const unpackFlashingImageService = async (
   const { osDownloadLocation } = await getAppSettingsMain()
 
   if (process.platform === "darwin" || process.platform === "linux") {
-    const imageFilePath = path.join(osDownloadLocation, fileName)
+    const { flashPackagePath, resolvedFileName } = getImageFilePathAndName(
+      osDownloadLocation,
+      fileName,
+      ".tar.xz"
+    )
+    const imageFilePath = path.join(flashPackagePath, resolvedFileName)
     command = `tar -xf "${imageFilePath}" -C "${osDownloadLocation}"`
   }
   if (process.platform === "win32") {
-    const imageFilePathTarGz = path.join(osDownloadLocation, fileName)
-    const baseName = path.basename(fileName, ".tar.gz");
-    const imageFilePathTar = path.join(osDownloadLocation, `${baseName}.tar`, `${baseName}.tar`)
+    const { flashPackagePath, resolvedFileName } = getImageFilePathAndName(
+      osDownloadLocation,
+      fileName,
+      ".tar.gz"
+    )
+    const imageFilePathTarGz = path.join(flashPackagePath, resolvedFileName)
+    const baseName = path.basename(resolvedFileName, ".tar.gz")
+    const imageFilePathTar = path.join(
+      flashPackagePath,
+      `${baseName}.tar`,
+      `${baseName}.tar`
+    )
     command = `tar -xzvf "${imageFilePathTarGz}" -C "${osDownloadLocation}" && tar -xvf "${imageFilePathTar}" -C "${osDownloadLocation}" `
   }
 
