@@ -463,6 +463,39 @@ const contactWithNotesOnly = {
   entityType: "contacts",
 }
 
+const contactWithOnlyEmojiFirstName = {
+  firstName: "🌞",
+  lastName: "Clark",
+  phoneNumbers: [{ phoneNumber: "+12123456789", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithOnlyEmojiLastName = {
+  firstName: "John",
+  lastName: "🍀",
+  phoneNumbers: [{ phoneNumber: "+441234567890", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithOnlyEmojiNickname = {
+  nickName: "🐶🐱",
+  phoneNumbers: [{ phoneNumber: "+49876543210", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithOnlyEmojiCompany = {
+  company: "🚀💼",
+  phoneNumbers: [{ phoneNumber: "+48123456789", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithOnlyEmojiNotes = {
+  notes: "💡🚨",
+  phoneNumbers: [{ phoneNumber: "+48223456789", phoneType: "WORK" }],
+  entityType: "contacts",
+}
+
+
 export const contactsSeedData: EntityData[] = [
   contactFullData1,
   contactFullData2,
@@ -514,4 +547,9 @@ export const contactsSeedData: EntityData[] = [
   contactWithSipOnly,
   contactWithWebsiteOnly,
   contactWithNotesOnly,
+  contactWithOnlyEmojiFirstName,
+  contactWithOnlyEmojiLastName,
+  contactWithOnlyEmojiNickname,
+  contactWithOnlyEmojiCompany,
+  contactWithOnlyEmojiNotes,
 ]
