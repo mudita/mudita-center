@@ -11,6 +11,8 @@ export const isSelectDeviceDrawerOpenSelector = createSelector(
   deviceManagerState,
   selectTimeSynchronizationStatus,
   ({ selectDeviceDrawerOpen }, timeSyncStatus): boolean => {
-    return selectDeviceDrawerOpen && timeSyncStatus === "idle"
+    return (
+      selectDeviceDrawerOpen && ["idle", undefined].includes(timeSyncStatus)
+    )
   }
 )
