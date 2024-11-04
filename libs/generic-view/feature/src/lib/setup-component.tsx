@@ -129,10 +129,7 @@ export const setupComponent = <P extends object>(
         set(editableProps || {}, componentField, value)
       }
     } else if (dataProvider?.source === "entities-array") {
-      const filteredData = dataFilter(
-        [...entitiesData],
-        dataProvider.filters
-      )
+      const filteredData = dataFilter([...entitiesData], dataProvider.filters)
       const sortedData = dataSort([...filteredData], dataProvider.sort)
       editableProps.data = sortedData?.map((item) => item[idFieldKey!])
     } else if (dataProvider?.source === "entities-field") {
@@ -267,7 +264,9 @@ const processField = (field: Partial<DataProviderField>, value: unknown) => {
   if ("modifier" in field) {
     switch (field.modifier) {
       case "length":
-        if (isString(newValue) || isArray(newValue)) {
+        if (!newValue || !value) {
+          newValue = 0
+        } else if (isString(newValue) || isArray(newValue)) {
           newValue = newValue.length
         } else if (isObject(value)) {
           newValue = Object.keys(value).length

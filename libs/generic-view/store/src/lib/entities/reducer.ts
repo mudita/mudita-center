@@ -26,10 +26,10 @@ interface Entities {
   error?: boolean
 }
 
-interface EntitiesState {
-  [key: DeviceId]: {
-    [key: EntitiesType]: Entities | undefined
-  }
+export type DeviceEntitiesMap = Record<EntitiesType, Entities | undefined>
+
+export interface EntitiesState {
+  [key: DeviceId]: DeviceEntitiesMap | undefined
 }
 
 const initialState: EntitiesState = {}
@@ -37,61 +37,76 @@ const initialState: EntitiesState = {}
 export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   builder.addCase(getEntitiesConfigAction.fulfilled, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
-    if (!state[deviceId]) {
-      state[deviceId] = {
-        [entitiesType]: {
-          config: action.payload.config,
-          idFieldKey: action.payload.idFieldKey,
-        },
-      }
-    } else if (!state[deviceId][entitiesType]) {
-      state[deviceId][entitiesType] = {
+
+    state[deviceId] = {
+      ...state[deviceId],
+      [entitiesType]: {
         config: action.payload.config,
         idFieldKey: action.payload.idFieldKey,
-      }
+      },
     }
   })
   builder.addCase(getEntitiesDataAction.pending, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
-    state[deviceId][entitiesType]!.loading = true
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
+
+    state[deviceId]![entitiesType]!.loading = true
   })
   builder.addCase(getEntitiesDataAction.fulfilled, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
 
-    state[deviceId][entitiesType]!.data = action.payload
-    state[deviceId][entitiesType]!.loading = false
+    state[deviceId]![entitiesType]!.data = action.payload
+    state[deviceId]![entitiesType]!.loading = false
   })
   builder.addCase(getEntitiesDataAction.rejected, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
 
-    state[deviceId][entitiesType]!.loading = false
-    state[deviceId][entitiesType]!.error = true
+    state[deviceId]![entitiesType]!.loading = false
+    state[deviceId]![entitiesType]!.error = true
   })
 
   builder.addCase(setEntityData, (state, action) => {
     const { deviceId, entitiesType, entityId, data } = action.payload
-    const idFieldKey = state[deviceId][entitiesType]?.idFieldKey
+    const idFieldKey = state[deviceId]?.[entitiesType]?.idFieldKey
+
     if (!idFieldKey) {
       return
     }
-    const entityIndex = state[deviceId][entitiesType]!.data?.findIndex(
+
+    const entityIndex = state[deviceId]![entitiesType]!.data?.findIndex(
       (entity) => entity[idFieldKey] === entityId
     )
-    if (entityIndex !== -1 && state[deviceId][entitiesType]?.data) {
-      state[deviceId][entitiesType]!.data![entityIndex!] = data
+    if (entityIndex !== -1 && state[deviceId]![entitiesType]?.data) {
+      state[deviceId]![entitiesType]!.data![entityIndex!] = data
     }
   })
   builder.addCase(getEntitiesMetadataAction.fulfilled, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
-    state[deviceId][entitiesType]!.metadata = action.payload
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
+
+    state[deviceId]![entitiesType]!.metadata = action.payload
   })
   builder.addCase(clearEntities, (state, action) => {
     state[action.payload.deviceId] = {}
   })
   builder.addCase(deleteEntitiesDataAction.fulfilled, (state, action) => {
-    const entitiesIds = action.payload
     const { entitiesType, deviceId } = action.meta.arg
-    const entities = state[deviceId][entitiesType]
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
+
+    const entitiesIds = action.payload
+    const entities = state[deviceId]![entitiesType]
 
     if (entities && entities.data && entities.idFieldKey) {
       entities.data = entities.data.filter(
@@ -102,8 +117,13 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(createEntityDataAction.fulfilled, (state, action) => {
     const { entitiesType, deviceId } = action.meta.arg
+
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
+
     const newEntity = action.payload
-    const entities = state[deviceId][entitiesType]
+    const entities = state[deviceId]![entitiesType]
 
     if (!entities) return
     if (!entities.data) {
@@ -114,8 +134,12 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(updateEntityDataAction.fulfilled, (state, action) => {
     const { entitiesType, deviceId } = action.meta.arg
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
+
     const updatedEntity = action.payload
-    const entities = state[deviceId][entitiesType]
+    const entities = state[deviceId]![entitiesType]
     const idFieldKey = entities?.idFieldKey
 
     if (!entities || !entities.data || !idFieldKey) return
