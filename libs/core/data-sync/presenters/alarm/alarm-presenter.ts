@@ -20,6 +20,7 @@ export class AlarmPresenter extends BasePresenter {
 
     return alarms.map((alarm) => {
       return {
+        id: String(alarm._id),
         repeatDays: this.parseRRule(alarm.rrule),
         isEnabled: alarm.enabled === "1",
         hour: this.parseNumber(alarm.hour),

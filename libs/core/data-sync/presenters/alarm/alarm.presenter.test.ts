@@ -38,6 +38,7 @@ describe("AlarmPresenter - serializeToObject", () => {
 
       const expected = [
         {
+          id: "3",
           repeatDays: [1, 2, 3, 4, 5, 6, 7],
           isEnabled: true,
           hour: 1,
@@ -87,6 +88,7 @@ describe("AlarmPresenter - serializeToObject", () => {
 
       const expected = [
         {
+          id: "4",
           repeatDays: [],
           isEnabled: true,
           hour: 2,
@@ -94,6 +96,7 @@ describe("AlarmPresenter - serializeToObject", () => {
           snoozeTime: 0,
         },
         {
+          id: "5",
           repeatDays: [1, 2, 3, 4, 5],
           isEnabled: true,
           hour: 3,
@@ -126,6 +129,7 @@ describe("AlarmPresenter - serializeToObject", () => {
 
       const expected = [
         {
+          id: "7",
           repeatDays: [],
           isEnabled: true,
           hour: 5,
@@ -156,6 +160,7 @@ describe("AlarmPresenter - serializeToObject", () => {
 
       const expected = [
         {
+          id: "8",
           repeatDays: [],
           isEnabled: false,
           hour: 6,
@@ -186,6 +191,7 @@ describe("AlarmPresenter - serializeToObject", () => {
 
       const expected = [
         {
+          id: "9",
           repeatDays: [],
           isEnabled: false,
           hour: 7,
@@ -218,6 +224,7 @@ describe("AlarmPresenter - serializeToObject", () => {
 
       const expected = [
         {
+          id: "10",
           repeatDays: [],
           isEnabled: true,
           hour: 8,
@@ -248,6 +255,7 @@ describe("AlarmPresenter - serializeToObject", () => {
 
       const expected = [
         {
+          id: "11",
           repeatDays: [1],
           isEnabled: true,
           hour: 9,
@@ -280,6 +288,7 @@ describe("AlarmPresenter - serializeToObject", () => {
 
       const expected = [
         {
+          id: "12",
           repeatDays: [1, 3, 5],
           isEnabled: true,
           hour: 10,
@@ -320,6 +329,7 @@ describe("AlarmPresenter - serializeToObject", () => {
 
       const expected = [
         {
+          id: "13",
           repeatDays: [1, 2, 3, 4, 5, 6, 7],
           isEnabled: true,
           hour: 11,
@@ -362,6 +372,7 @@ describe("AlarmPresenter - serializeToObject", () => {
 
         const expected = [
           {
+            id: "6",
             repeatDays: [],
             isEnabled: true,
             hour: 4,

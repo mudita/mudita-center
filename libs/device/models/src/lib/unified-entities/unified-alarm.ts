@@ -5,7 +5,8 @@
 
 export type UnifiedAlarmRepeatDaysType = (1 | 2 | 3 | 4 | 5 | 6 | 7)[]
 
-export type UnifiedAlarm = {
+export interface UnifiedAlarm {
+  id: string
   repeatDays: UnifiedAlarmRepeatDaysType
   isEnabled: boolean
   hour: number
