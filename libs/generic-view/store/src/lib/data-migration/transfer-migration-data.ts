@@ -90,7 +90,9 @@ export const transferMigrationData = createAsyncThunk<
         switch (feature) {
           case DataMigrationFeature.Contacts: {
             const { contacts } = databaseResponse.payload as AllIndexes
-            const transformedData = pureToUnifiedContact(Object.values(contacts))
+            const transformedData = pureToUnifiedContact(
+              Object.values(contacts)
+            )
 
             if (!isEmpty(transformedData)) {
               domainsData.push({
@@ -120,6 +122,18 @@ export const transferMigrationData = createAsyncThunk<
             if (!isEmpty(transformedData)) {
               domainsData.push({
                 domain: "messages-v1", // FIXME: The domain should be returned from Data Migration configuration
+                data: transformedData,
+              })
+            }
+            break
+          }
+          case DataMigrationFeature.Alarms: {
+            const { alarms } = databaseResponse.payload as AllIndexes
+            const transformedData = Object.values(alarms)
+
+            if (!isEmpty(transformedData)) {
+              domainsData.push({
+                domain: "alarms-v1", // FIXME: The domain should be returned from Data Migration configuration
                 data: transformedData,
               })
             }
