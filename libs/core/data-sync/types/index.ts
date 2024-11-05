@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export * from "./alarm-object.type"
 export * from "./all-indexes.type"
 export * from "./call-log-object.type"
 export * from "./contact-object.type"
