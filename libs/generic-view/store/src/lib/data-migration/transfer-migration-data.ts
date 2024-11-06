@@ -96,7 +96,7 @@ export const transferMigrationData = createAsyncThunk<
 
             if (!isEmpty(transformedData)) {
               domainsData.push({
-                domain: "contacts-v1", // FIXME: The domain should be returned from Data Migration configuration
+                domain: "contacts-v1", // TODO: As part of CP-3255: retrieve domain from Data Migration configuration.
                 data: transformedData,
               })
             }
@@ -108,7 +108,7 @@ export const transferMigrationData = createAsyncThunk<
 
             if (!isEmpty(transformedData)) {
               domainsData.push({
-                domain: "callLog-v1", // FIXME: The domain should be returned from Data Migration configuration
+                domain: "callLog-v1", // TODO: As part of CP-3255: retrieve domain from Data Migration configuration.
                 data: transformedData,
               })
             }
@@ -121,7 +121,7 @@ export const transferMigrationData = createAsyncThunk<
 
             if (!isEmpty(transformedData)) {
               domainsData.push({
-                domain: "messages-v1", // FIXME: The domain should be returned from Data Migration configuration
+                domain: "messages-v1", // TODO: As part of CP-3255: retrieve domain from Data Migration configuration.
                 data: transformedData,
               })
             }
@@ -133,7 +133,7 @@ export const transferMigrationData = createAsyncThunk<
 
             if (!isEmpty(transformedData)) {
               domainsData.push({
-                domain: "alarms-v1", // FIXME: The domain should be returned from Data Migration configuration
+                domain: "alarms-v1", // TODO: As part of CP-3255: retrieve domain from Data Migration configuration.
                 data: transformedData,
               })
             }
