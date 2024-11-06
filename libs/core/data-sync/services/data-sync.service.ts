@@ -11,6 +11,7 @@ import { DataIndex } from "Core/index-storage/constants"
 import { DeviceProtocol } from "device-protocol/feature"
 import { MetadataStore } from "Core/metadata/services"
 import {
+  AlarmIndexer,
   CallLogIndexer,
   ContactIndexer,
   MessageIndexer,
@@ -24,6 +25,7 @@ import {
   TemplatePresenter,
   ThreadPresenter,
   CallLogPresenter,
+  AlarmPresenter,
 } from "Core/data-sync/presenters"
 import { SyncBackupCreateService } from "Core/backup/services/sync-backup-create.service"
 import { InitializeOptions } from "Core/data-sync/types"
@@ -43,6 +45,7 @@ export class DataSyncService {
   private threadIndexer: ThreadIndexer | null = null
   private templateIndexer: TemplateIndexer | null = null
   private callLogIndexer: CallLogIndexer | null = null
+  private alarmIndexer: AlarmIndexer | null = null
   private syncBackupCreateService: SyncBackupCreateService
 
   constructor(
@@ -77,6 +80,10 @@ export class DataSyncService {
       this.fileSystemStorage,
       new CallLogPresenter()
     )
+    this.alarmIndexer = new AlarmIndexer(
+      this.fileSystemStorage,
+      new AlarmPresenter()
+    )
   }
 
   public async indexAll({
@@ -90,7 +97,8 @@ export class DataSyncService {
       !this.messageIndexer ||
       !this.threadIndexer ||
       !this.templateIndexer ||
-      !this.callLogIndexer
+      !this.callLogIndexer ||
+      !this.alarmIndexer
     ) {
       return false
     }
@@ -121,6 +129,7 @@ export class DataSyncService {
       [DataIndex.Template]: this.templateIndexer,
       [DataIndex.Thread]: this.threadIndexer,
       [DataIndex.CallLog]: this.callLogIndexer,
+      [DataIndex.Alarm]: this.alarmIndexer,
     }
 
     const indexOrEmptyOnFailure = async (
