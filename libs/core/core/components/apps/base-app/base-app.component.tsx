@@ -27,6 +27,7 @@ import {
 import { useFileDialogEventListener, useOnlineListener } from "shared/app-state"
 import { useCoreDeviceProtocolListeners } from "core-device/feature"
 import { useHelp } from "help/store"
+import { useDeviceManagerConnected } from "device-manager/feature"
 
 const BaseApp: FunctionComponent = () => {
   useRouterListener()
@@ -49,6 +50,9 @@ const BaseApp: FunctionComponent = () => {
 
   // MSC
   useMscDeviceDetachedEffect()
+
+  // MDS
+  useDeviceManagerConnected()
 
   return (
     <>

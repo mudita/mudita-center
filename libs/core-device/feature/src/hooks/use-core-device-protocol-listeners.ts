@@ -7,9 +7,13 @@ import { useCallback, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { answerMain, useDebouncedEventsHandler } from "shared/utils"
 import { DeviceState } from "device-manager/models"
-import { DeviceProtocolMainEvent, DeviceType, DeviceBaseProperties } from "device-protocol/models"
+import {
+  DeviceProtocolMainEvent,
+  DeviceType,
+  DeviceBaseProperties,
+} from "device-protocol/models"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { addDevice, configureDevice, removeDevice } from "../actions"
+import { addDevice, removeDevice } from "../actions"
 import { getDeviceConfigurationRequest } from "../requests"
 
 export const useCoreDeviceProtocolListeners = () => {
@@ -17,21 +21,6 @@ export const useCoreDeviceProtocolListeners = () => {
   const handleDevicesDetached = useHandleDevicesDetached()
   const batchDeviceDetachedEvents =
     useDebouncedEventsHandler<DeviceBaseProperties>(handleDevicesDetached)
-
-  useEffect(() => {
-    return answerMain<DeviceBaseProperties>(
-      DeviceProtocolMainEvent.DeviceConnected,
-      (properties) => {
-        const { deviceType } = properties
-        if (deviceType === DeviceType.APIDevice) {
-          return
-        }
-
-        dispatch(addDevice(properties))
-        dispatch(configureDevice(properties.id))
-      }
-    )
-  }, [dispatch])
 
   useEffect(() => {
     return answerMain<DeviceBaseProperties>(
