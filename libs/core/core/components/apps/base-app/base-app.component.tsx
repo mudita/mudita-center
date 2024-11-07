@@ -6,7 +6,6 @@
 import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import AppInitialization from "Core/app-initialization/components/app-initialization.component"
-import { useDeviceConnectedEffect } from "Core/core/hooks/use-device-connected-effect"
 import { useApplicationUpdateEffects } from "Core/core/hooks/use-application-update-effects"
 import { CrashDump } from "Core/crash-dump"
 import ModalsManager from "Core/modals-manager/components/modals-manager.component"
@@ -33,7 +32,6 @@ const BaseApp: FunctionComponent = () => {
   useRouterListener()
   useOnlineListener()
   useApplicationUpdateEffects()
-  useDeviceConnectedEffect()
   useDeviceConnectFailedEffect()
   useDeviceDetachedEffect()
   useDeviceLockedEffect()
