@@ -5,3 +5,4 @@
 
 export * from "./use-device-manager-connect-failed"
 export * from "./use-device-manager-connected"
+export * from "./use-device-manager-detached"

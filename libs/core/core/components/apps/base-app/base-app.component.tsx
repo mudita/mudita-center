@@ -13,13 +13,10 @@ import { useWatchOutboxEntriesEffect } from "Core/core/hooks/use-watch-outbox-en
 import { useWatchUnlockStatus } from "Core/core/hooks/use-watch-unlock-status-effect"
 import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
 import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
-import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect-failed-effect"
 import { useDiscoveryRedirectEffect } from "Core/core/hooks/use-discovery-redirect-effect"
-import { useMscDeviceDetachedEffect } from "Core/core/hooks/use-msc-device-detached-effect"
 import { useRouterListener } from "Core/core/hooks"
 import {
   OutboxWrapper,
-  useAPISerialPortListeners,
   useAppEventsListeners,
   useBackupList,
 } from "generic-view/store"
@@ -29,13 +26,13 @@ import { useHelp } from "help/store"
 import {
   useDeviceManagerConnected,
   useDeviceManagerConnectFailed,
+  useDeviceManagerDetached,
 } from "device-manager/feature"
 
 const BaseApp: FunctionComponent = () => {
   useRouterListener()
   useOnlineListener()
   useApplicationUpdateEffects()
-  useDeviceConnectFailedEffect()
   useDeviceDetachedEffect()
   useDeviceLockedEffect()
   useWatchOutboxEntriesEffect()
@@ -43,18 +40,15 @@ const BaseApp: FunctionComponent = () => {
   useDiscoveryRedirectEffect()
   useCoreDeviceProtocolListeners()
   // API
-  useAPISerialPortListeners()
   useAppEventsListeners()
   useBackupList()
   useFileDialogEventListener()
   useHelp()
 
-  // MSC
-  useMscDeviceDetachedEffect()
-
   // MDS
   useDeviceManagerConnected()
   useDeviceManagerConnectFailed()
+  useDeviceManagerDetached()
 
   return (
     <>

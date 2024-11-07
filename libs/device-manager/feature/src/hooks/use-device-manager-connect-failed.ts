@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { answerMain } from "shared/utils"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import {
   DeviceBaseProperties,
   DeviceProtocolMainEvent,
@@ -19,15 +19,59 @@ import {
 import { DeviceState } from "device-manager/models"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { isCoreDevice } from "../helpers"
+import { useHistory } from "react-router-dom"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
+import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-discovery-device-in-progress.selector"
+import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
+import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
+import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 
 export const useDeviceManagerConnectFailed = () => {
   const dispatch = useDispatch<Dispatch>()
+
+  const history = useHistory()
+  const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
+  const activeDeviceId = useSelector(activeDeviceIdSelector)
+  const discoveryDeviceInProgress = useSelector(isDiscoveryDeviceInProgress)
+  const initializationDeviceInProgress = useSelector(
+    isInitializationDeviceInProgress
+  )
+  const initializationAppInProgress = useSelector(isInitializationAppInProgress)
+
+  const shouldSkipProcessing = useCallback(() => {
+    return (
+      discoveryDeviceInProgress ||
+      initializationDeviceInProgress ||
+      initializationAppInProgress ||
+      activeDeviceProcessing
+    )
+  }, [
+    discoveryDeviceInProgress,
+    initializationDeviceInProgress,
+    initializationAppInProgress,
+    activeDeviceProcessing,
+  ])
+
+  const handleDeviceConnectFailed = useCallback(async () => {
+    if (activeDeviceId) {
+      return
+    }
+
+    if (shouldSkipProcessing()) {
+      return
+    }
+
+    history.push(URL_DISCOVERY_DEVICE.root)
+  }, [activeDeviceId, shouldSkipProcessing, history])
 
   useEffect(() => {
     return answerMain<DeviceBaseProperties>(
       DeviceProtocolMainEvent.DeviceConnectFailed,
       async (properties) => {
         const { deviceType } = properties
+
+        // adding & update devices state
         if (deviceType === DeviceType.APIDevice) {
           dispatch(addDevice({ ...properties, state: DeviceState.Failed }))
         } else if (deviceType === DeviceType.MuditaHarmonyMsc) {
@@ -54,7 +98,10 @@ export const useDeviceManagerConnectFailed = () => {
             })
           )
         }
+
+        // side effects after trigger adding & update devices state
+        await handleDeviceConnectFailed()
       }
     )
-  }, [dispatch])
+  }, [dispatch, handleDeviceConnectFailed])
 }
