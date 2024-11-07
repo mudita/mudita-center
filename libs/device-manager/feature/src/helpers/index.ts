@@ -3,5 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./use-device-manager-connect-failed"
-export * from "./use-device-manager-connected"
+export * from "./is-core-device"

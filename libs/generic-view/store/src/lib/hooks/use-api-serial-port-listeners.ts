@@ -11,9 +11,8 @@ import {
   DeviceProtocolMainEvent,
   DeviceType,
 } from "device-protocol/models"
-import { DeviceState } from "device-manager/models"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { addDevice, removeDevice } from "../views/actions"
+import { removeDevice } from "../views/actions"
 import { setBackupProcessStatus } from "../backup/actions"
 import { closeAllModals } from "../modals/actions"
 import { selectBackupProcessStatus } from "../selectors/backup-process-status"
@@ -34,16 +33,6 @@ export const useAPISerialPortListeners = () => {
     useDebouncedEventsHandler<DeviceBaseProperties>(handleDevicesDetached)
 
   useEffect(() => {
-    const unregisterFailListener = answerMain<DeviceBaseProperties>(
-      DeviceProtocolMainEvent.DeviceConnectFailed,
-      (properties) => {
-        const { deviceType } = properties
-        if (deviceType !== DeviceType.APIDevice) {
-          return
-        }
-        dispatch(addDevice({ ...properties, state: DeviceState.Failed }))
-      }
-    )
     const unregisterDetachedListener = answerMain(
       DeviceProtocolMainEvent.DeviceDetached,
       batchDeviceDetachedEvents
@@ -51,7 +40,6 @@ export const useAPISerialPortListeners = () => {
 
     return () => {
       unregisterDetachedListener()
-      unregisterFailListener()
     }
   }, [dispatch, batchDeviceDetachedEvents])
 }

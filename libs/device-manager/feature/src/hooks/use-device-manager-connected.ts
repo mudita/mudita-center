@@ -43,13 +43,7 @@ import {
   isActiveApiDeviceLockedSelector,
 } from "../selectors"
 import { deactivateDevice } from "../actions"
-
-const isCoreDevice = (deviceType: DeviceType): boolean => {
-  return (
-    deviceType === DeviceType.MuditaHarmony ||
-    deviceType === DeviceType.MuditaPure
-  )
-}
+import { isCoreDevice } from "../helpers"
 
 export const useDeviceManagerConnected = () => {
   const history = useHistory()
