@@ -3,33 +3,38 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { createSelector } from "reselect"
+import { createSelector } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
-const selectEntitiesOfDevice = createSelector(
+const selectDeviceEntities = createSelector(
   (state: ReduxRootState) => state.genericEntities,
-  (state: ReduxRootState, { deviceId }: { deviceId: string }) => deviceId,
-  (entities, deviceId) => {
-    return entities[deviceId]
+  (_: ReduxRootState, { deviceId }: { deviceId: string }) => deviceId,
+  (deviceEntitiesMap, deviceId) => {
+    return deviceEntitiesMap[deviceId]
   }
 )
 
 export const selectEntitiesIdFieldKey = createSelector(
-  selectEntitiesOfDevice,
-  (state: ReduxRootState, { entitiesType }: { entitiesType?: string }) => {
+  selectDeviceEntities,
+  (_: ReduxRootState, { entitiesType }: { entitiesType?: string }) => {
     return entitiesType
   },
   (entities, entitiesType) => {
-    if (!entitiesType) return undefined
+    if (!entitiesType || !entities) {
+      return undefined
+    }
     return entities[entitiesType]?.idFieldKey
   }
 )
 
 const selectEntities = createSelector(
-  selectEntitiesOfDevice,
-  (state: ReduxRootState, { entitiesType }: { entitiesType: string }) =>
+  selectDeviceEntities,
+  (_: ReduxRootState, { entitiesType }: { entitiesType: string }) =>
     entitiesType,
   (entities, entityType) => {
+    if (!entities) {
+      return undefined
+    }
     return entities[entityType]
   }
 )
@@ -58,8 +63,8 @@ export const selectEntityData = createSelector(
 )
 
 export const selectEntitiesLoadingState = createSelector(
-  selectEntitiesOfDevice,
-  (entities) => {
+  selectDeviceEntities,
+  (entities = {}) => {
     return Object.entries(entities).reduce(
       (
         acc: Record<

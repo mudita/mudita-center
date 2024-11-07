@@ -41,6 +41,14 @@ const messages = defineMessages({
   },
 })
 
+const getLabelMessage = (
+  feature: DataMigrationFeature,
+  featureEnabled: boolean
+) => {
+  const message = intl.formatMessage(messages[feature])
+  return featureEnabled ? message.replace(" (coming soon!)", "") : message
+}
+
 interface Props {
   features: DataMigrationFeature[]
 }
@@ -80,6 +88,7 @@ export const FeaturesSelector: FunctionComponent<Props> = ({ features }) => {
       <Divider />
       <List>
         {Object.values(DataMigrationFeature).map((feature, index) => {
+          const featureEnabled = features.includes(feature)
           const onToggle = () => toggleFeature(feature)
           return (
             <Form.CheckboxInput
@@ -87,8 +96,8 @@ export const FeaturesSelector: FunctionComponent<Props> = ({ features }) => {
               config={{
                 name: "features",
                 value: feature,
-                label: intl.formatMessage(messages[feature]),
-                disabled: !features.includes(feature),
+                label: getLabelMessage(feature, featureEnabled),
+                disabled: !featureEnabled,
                 checked: selectedFeatures.includes(feature),
                 onToggle,
               }}
