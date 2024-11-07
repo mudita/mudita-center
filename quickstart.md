@@ -50,18 +50,7 @@ Please run the following command to start the Mudita Center dev environment:
 npm run app:develop
 ```
 
-This will start the application with hot-reload so you can instantly start developing it. You can also enable logs by executing:
-
-```bash
-npm run app:develop -- --stream
-```
-
-This command runs the User Interface and the backend simultaneously, however, if you wish to have logs from both processes in two separate consoles then please run the following commands in parallel in separate console tabs:
-
-```bash
-lerna run --stream --scope @mudita/mudita-center-app dev:start:renderer
-lerna run --stream --scope @mudita/mudita-center-app dev:start:main
-```
+This will start the application with hot-reload so you can instantly start developing it.
 
 ## Enable Developer mode inside the application
 
