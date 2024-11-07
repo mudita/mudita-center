@@ -47,13 +47,13 @@ To ensure that files will be excluded from commits you can use the following git
 Please run the following command to start the Mudita Center dev environment:
 
 ```bash
-npm run develop
+npm run app:develop
 ```
 
 This will start the application with hot-reload so you can instantly start developing it. You can also enable logs by executing:
 
 ```bash
-npm run develop -- --stream
+npm run app:develop -- --stream
 ```
 
 This command runs the User Interface and the backend simultaneously, however, if you wish to have logs from both processes in two separate consoles then please run the following commands in parallel in separate console tabs:
@@ -83,7 +83,7 @@ Using Developer mode you can:
 We use [Electron builder](https://www.electron.build/) to build and package the application. By default, you can run the following to package it for your current platform:
 
 ```bash
-npm run dist
+npm run app:dist
 ```
 
 This will create an installer for your platform in the `releases` folder.
@@ -93,7 +93,7 @@ You can also make builds for a specific platform (or multiple platforms) by usin
 For example, building for Windows and Linux:
 
 ```bash
-npm run dist -- -wl
+npm run app:dist -- -wl
 ```
 
 ### Feature toggle environment separation
@@ -103,13 +103,13 @@ Also you are able to distribute an application with in specific predefined envir
 To run distribution with feature toggle environment use the next formula:
 
 ```bash
-FEATURE_TOGGLE_ENVIRONMENT=__environment__ npm run dist
+FEATURE_TOGGLE_ENVIRONMENT=__environment__ npm run app:dist
 ```
 
 For example:
 
 ```bash
-FEATURE_TOGGLE_ENVIRONMENT=development npm run dist
+FEATURE_TOGGLE_ENVIRONMENT=development npm run app:dist
 ```
 
 Will distribute an application with development set of feature toggles
