@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import ModalPage from "../../page-objects/modal.page"
 import modalAppUpdatePage from "../../page-objects/modal-app-update.page"
@@ -54,7 +59,7 @@ describe("Force Update MC - Unsuccessful Download", () => {
       await paragraphAvailableVersion.getText()
     const availableAppVersion = textParagraphAvailableVersion.split("to ").pop()
     console.log("AVAILABLE VERSION:" + availableAppVersion)
-    await expect(availableAppVersion).toBe(newestAvailableVersion)
+    expect(availableAppVersion).toBe(newestAvailableVersion)
 
     // Current version
     const paragraphCurrentVersion =
@@ -80,21 +85,19 @@ describe("Force Update MC - Unsuccessful Download", () => {
     await expect(linkPrivacyPolicy).toHaveText("Privacy Policy")
 
     const linkColor = await linkPrivacyPolicy.getCSSProperty("color")
-    await expect(linkColor.value).toBe("rgba(109,155,188,1)")
+    expect(linkColor.value).toBe("rgba(109,155,188,1)")
     const linkDecoration = await linkPrivacyPolicy.getCSSProperty(
       "text-decoration"
     )
-    await expect(linkDecoration.value).toBe(
-      "underline solid rgb(109, 155, 188)"
-    )
+    expect(linkDecoration.value).toBe("underline solid rgb(109, 155, 188)")
 
     const checkboxPrivacyPolicy = await modalAppUpdatePage.checkboxPrivacyPolicy
     await expect(checkboxPrivacyPolicy).toBeDisplayed()
-    await expect(checkboxPrivacyPolicy).not.toBeChecked()
+    expect(checkboxPrivacyPolicy).not.toBeChecked()
 
     // Button: UPDATE
     const buttonUpdate = await modalAppUpdatePage.buttonUpdate
-    await expect(buttonUpdate.isDisplayed())
+    expect(buttonUpdate.isDisplayed())
     await expect(buttonUpdate).not.toBeClickable()
 
     // Close modal button
@@ -111,7 +114,7 @@ describe("Force Update MC - Unsuccessful Download", () => {
     await expect(buttonUpdate).not.toBeClickable()
 
     await checkboxPrivacyPolicy.click()
-    await expect(checkboxPrivacyPolicy).toBeChecked()
+    expect(checkboxPrivacyPolicy).toBeChecked()
 
     await expect(buttonUpdate).toBeClickable()
   })
@@ -128,8 +131,8 @@ describe("Force Update MC - Unsuccessful Download", () => {
     const infoIcon = await modalAppUpdateErrorPage.infoIcon
     await expect(infoIcon).toBeDisplayed()
     const infoIconSize = await infoIcon.getSize()
-    await expect(infoIconSize.width).toBe(48)
-    await expect(infoIconSize.height).toBe(48)
+    expect(infoIconSize.width).toBe(48)
+    expect(infoIconSize.height).toBe(48)
 
     const errorLabel = await modalAppUpdateErrorPage.errorLabel
     await expect(errorLabel).toBeDisplayed()

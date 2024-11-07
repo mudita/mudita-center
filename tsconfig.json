@@ -15,6 +15,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["./apps/mudita-center/src", "./libs"],
+  "include": ["./apps/mudita-center/src", "./libs", "./apps/mudita-center-e2e/src"],
   "extends": "./tsconfig.base.json"
 }

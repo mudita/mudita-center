@@ -37,7 +37,7 @@ describe("Checking Privacy Policy", () => {
   })
 
   it("Check Privacy Policy 'LEARN MORE' button", async () => {
-    if(testsHelper.isLinux()){
+    if (testsHelper.isLinux()) {
       sleep(5000)
     }
 
@@ -81,7 +81,7 @@ describe("Checking Privacy Policy", () => {
     const firstColumnHeaderBorder = (
       await firstColumnHeader.getCSSProperty("border")
     ).value
-    await expect(firstColumnHeaderBorder).toBe("1px solid rgb(0, 0, 0)")
+    expect(firstColumnHeaderBorder).toBe("1px solid rgb(0, 0, 0)")
 
     const accessQuestion = await modalPrivacyPolicyPage.accessQuestion
     await expect(accessQuestion).toHaveText(
@@ -116,9 +116,9 @@ describe("Checking Privacy Policy", () => {
 
     const cookiesInfoLinks = await modalPrivacyPolicyPage.cookiesInfoLinks
     await expect(cookiesInfoLinks).toBeElementsArrayOfSize({ gte: 5 })
-    for (let cookiesInfoLink of cookiesInfoLinks) {
+    for (const cookiesInfoLink of cookiesInfoLinks) {
       const link = await cookiesInfoLink.$("a")
-      await expect(link).toHaveAttribute("href")
+      expect(link).toHaveAttribute("href")
       await expect(link).toBeClickable()
     }
 

@@ -1,9 +1,13 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import {
   outboxReloadOverview,
-  overviewDataWithOneSimCard
+  overviewDataWithOneSimCard,
 } from "../../../../../libs/e2e-mock/responses/src"
-import screenshotHelper from "../../helpers/screenshot.helper"
 
 describe("E2E reset mock sample - overview view", () => {
   before(async () => {
@@ -33,7 +37,6 @@ describe("E2E reset mock sample - overview view", () => {
   })
 
   it("Overwrite device response", async () => {
-
     // overwrite default response for given device
     E2EMockClient.mockResponse({
       path: "path-1",
@@ -50,7 +53,6 @@ describe("E2E reset mock sample - overview view", () => {
       method: "GET",
       status: 200,
     })
-    
 
     await browser.pause(30000)
   })
@@ -74,7 +76,6 @@ describe("E2E reset mock sample - overview view", () => {
         },
       ],
     })
-
 
     await browser.pause(30000)
   })

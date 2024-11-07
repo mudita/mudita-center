@@ -72,23 +72,23 @@ describe("Check Help window", () => {
     const activeTabColor = await helpCategoriesListItems[0].getCSSProperty(
       "color"
     )
-    await expect(activeTabColor.value).toBe("rgba(0,0,0,1)")
+    expect(activeTabColor.value).toBe("rgba(0,0,0,1)")
 
     const activeTabBackground = await helpCategoriesListItems[0].getCSSProperty(
       "background-color"
     )
-    await expect(activeTabBackground.value).toBe("rgba(237,237,237,1)")
+    expect(activeTabBackground.value).toBe("rgba(237,237,237,1)")
 
     //Hover on section tabs
     await helpCategoriesListItems[1].moveTo()
     const hoverTabColor = await helpCategoriesListItems[0].getCSSProperty(
       "color"
     )
-    await expect(hoverTabColor.value).toBe("rgba(0,0,0,1)")
+    expect(hoverTabColor.value).toBe("rgba(0,0,0,1)")
     const hoverTabBackground = await helpCategoriesListItems[0].getCSSProperty(
       "background-color"
     )
-    await expect(hoverTabBackground.value).toBe("rgba(237,237,237,1)")
+    expect(hoverTabBackground.value).toBe("rgba(237,237,237,1)")
   })
 
   it("Verify Harmony Section titles", async () => {
@@ -115,11 +115,12 @@ describe("Check Help window", () => {
       await helpSubCategoriesListItems.map((element) => {
         return element
           .$('[data-testid="help-subcategories-list-item-title"]')
-          .getText()
+          .getText() as Promise<string>
       })
-    await expect(
-      helpSubCategoryArticlesListItemTitles.length
-    ).toBeGreaterThanOrEqual(1)
+
+    expect(helpSubCategoryArticlesListItemTitles.length).toBeGreaterThanOrEqual(
+      1
+    )
 
     //List of articles should not be empty in any of the categories
     let helpSubCategoriesListItem

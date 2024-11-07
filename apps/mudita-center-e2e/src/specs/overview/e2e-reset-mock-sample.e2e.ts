@@ -1,9 +1,9 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
-import {
-  outboxReloadOverview,
-  overviewDataWithoutBadge,
-} from "../../../../../libs/e2e-mock/responses/src"
-import screenshotHelper from "../../helpers/screenshot.helper"
 
 describe("E2E reset mock sample", () => {
   before(async () => {

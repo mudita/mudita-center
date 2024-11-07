@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import {
   apiConfigWithContacts,
@@ -20,7 +25,7 @@ describe("E2E mock match sample", () => {
     E2EMockClient.disconnect()
   })
 
-  it.only("Connect device with two different responses for one endpoint", async () => {
+  it("Connect device with two different responses for one endpoint", async () => {
     // if body of FEATURE_CONFIGURATION request is equal to { feature: "contacts", lang: "en-US" } then return body: contactsConfig.
     // in other cases return response without match filed
     E2EMockClient.mockResponse({

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import {
   overviewDataWithOneSimCard,
@@ -96,7 +101,7 @@ describe("Kompakt switching devices", () => {
       const deviceSerialNumber = await drawerSerialNumbers[
         device.index
       ].getText()
-      await expect(deviceSerialNumber).toEqual(device.serialNumber)
+      expect(deviceSerialNumber).toEqual(device.serialNumber)
     }
   })
 
@@ -136,7 +141,7 @@ describe("Kompakt switching devices", () => {
     const drawerSerialNumbers = drawerPage.drawerDeviceSerialNumber
 
     const thirdDrawerDeviceSerialNumber = await drawerSerialNumbers[2].getText()
-    await expect(thirdDrawerDeviceSerialNumber).toEqual(thirdSerialNumber)
+    expect(thirdDrawerDeviceSerialNumber).toEqual(thirdSerialNumber)
   })
 
   it("Connect 4,5,6 Kompakt devices", async () => {
@@ -208,7 +213,7 @@ describe("Kompakt switching devices", () => {
       const deviceSerialNumber = await drawerSerialNumbers[
         device.index
       ].getText()
-      await expect(deviceSerialNumber).toEqual(device.serialNumber)
+      expect(deviceSerialNumber).toEqual(device.serialNumber)
 
       const deviceName = await drawerDeviceNames[device.index]
       await expect(deviceName).toHaveText(device.name)

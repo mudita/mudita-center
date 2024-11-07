@@ -49,14 +49,16 @@ class NavigationTabs extends Page {
   }
 
   public get helpTab() {
-    return $('[data-testid="help-menu-button"]')
+    return $('[data-testid="help-menu-button"]') as x
   }
 
   public async openHelpPage() {
-    const helpTab = await this.helpTab;
-    await helpTab.waitForDisplayed({ timeout: 15000 });
-    await helpTab.click();
+    const helpTab = await this.helpTab
+    await helpTab.waitForDisplayed({ timeout: 15000 })
+    await helpTab.click()
   }
 }
 
 export default new NavigationTabs()
+
+type x = ReturnType<WebdriverIO.Browser["$"]>

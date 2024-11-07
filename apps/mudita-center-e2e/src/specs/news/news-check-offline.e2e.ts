@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import HomePage from "../../page-objects/home.page"
 import NewsPage from "../../page-objects/news.page"
 import {
@@ -35,7 +40,7 @@ describe("News Page Check in Offline Mode", () => {
 
     // Verify network conditions
     const isOnline = await testsHelper.isOnline()
-    await expect(isOnline).toBeFalsy()
+    expect(isOnline).toBeFalsy()
   })
 
   it("Opens News Page", async () => {
@@ -78,16 +83,16 @@ describe("News Page Check in Offline Mode", () => {
 
   it("Verify News Cards", async () => {
     const newsCardElements = await NewsPage.newsCardElements
-    await expect(newsCardElements).toHaveLength(6)
+    expect(newsCardElements).toHaveLength(6)
 
-    for (let newsCard of newsCardElements) {
+    for (const newsCard of newsCardElements) {
       const newsCardImageLink = await newsCard.$('[data-testid="image-link"]')
       await expect(newsCardImageLink).toBeClickable()
-      await expect(newsCardImageLink).toHaveAttribute("href", linkRegex)
+      expect(newsCardImageLink).toHaveAttribute("href", linkRegex)
 
       const newsCardImageSrc = await newsCard.$("img")
       await expect(newsCardImageSrc).toBeDisplayed()
-      await expect(newsCardImageSrc).toHaveAttribute("src", newsImageRegex)
+      expect(newsCardImageSrc).toHaveAttribute("src", newsImageRegex)
 
       const newsCardTitle = await newsCard.$(
         '[data-testid="header-link"] p[color="primary"]'
@@ -110,7 +115,7 @@ describe("News Page Check in Offline Mode", () => {
       )
       await expect(newsCardCommunityLink).toBeDisplayed()
       await expect(newsCardCommunityLink).toBeClickable()
-      await expect(newsCardCommunityLink).toHaveAttribute("href", linkRegex)
+      expect(newsCardCommunityLink).toHaveAttribute("href", linkRegex)
 
       const newsCardCommunityLinkText = await newsCard.$(
         '[data-testid="community-link"] p[color="primary"]'
@@ -137,6 +142,6 @@ describe("News Page Check in Offline Mode", () => {
 
     // Verify network conditions
     const isOnline = await testsHelper.isOnline()
-    await expect(isOnline).toBeTruthy()
+    expect(isOnline).toBeTruthy()
   })
 })

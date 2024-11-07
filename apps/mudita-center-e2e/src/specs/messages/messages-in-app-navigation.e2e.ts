@@ -11,7 +11,9 @@ describe("Messages screen check", () => {
   before(async () => {
     // Waiting for device connected through USB
     await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
+      setTimeout(() => {
+        done()
+      }, 10000)
     })
   })
   it("Should click Messages tab and check 'new message' button is displayed", async () => {
@@ -19,7 +21,9 @@ describe("Messages screen check", () => {
     await messagesTab.waitForDisplayed()
     await messagesTab.click()
     await browser.executeAsync((done) => {
-      setTimeout(done, 2000)
+      setTimeout(() => {
+        done()
+      }, 2000)
     })
     const newMessageBtn = await MessagesPage.newMessageButton
     await expect(newMessageBtn).toBeDisplayed()
@@ -28,7 +32,7 @@ describe("Messages screen check", () => {
   it("Should click 'New Message' button and check it will become disabled", async () => {
     const newMessageBtn = await MessagesPage.newMessageButton
     await newMessageBtn.click()
-    await expect(newMessageBtn).toBeDisabled()
+    expect(newMessageBtn).toBeDisabled()
   })
 
   it("Should check 'Search Contacts' input field is displayed", async () => {

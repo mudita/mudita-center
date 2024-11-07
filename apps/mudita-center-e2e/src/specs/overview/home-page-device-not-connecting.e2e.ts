@@ -1,4 +1,8 @@
-import screenshotHelper from "../../helpers/screenshot.helper"
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import HomePage from "../../page-objects/home.page"
 
 describe("Home Screen Page", () => {
@@ -63,12 +67,12 @@ describe("Home Screen Page", () => {
     await emailField.click()
     await expect(emailField).toBeFocused()
     await emailField.setValue("support@mudita.com")
-    await expect(emailField).toHaveValue("support@mudita.com")
+    expect(emailField).toHaveValue("support@mudita.com")
     await expect(messageField).toBeDisplayed()
     await messageField.click()
     await expect(messageField).toBeFocused()
     await messageField.setValue("Message")
-    await expect(messageField).toHaveValue("Message")
+    expect(messageField).toHaveValue("Message")
     await expect(attachedFile).toBeDisplayed()
     await expect(sendButton).toBeDisplayed()
   })
