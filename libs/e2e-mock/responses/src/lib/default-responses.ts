@@ -70,7 +70,7 @@ export const DEFAULT_RESPONSES: MockResponsesMap = {
         menuItems: [
           {
             feature: "mc-overview",
-            displayName: "Overview",
+            displayName: "tests",
             icon: "overview",
           },
           {
