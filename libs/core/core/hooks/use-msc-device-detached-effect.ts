@@ -14,8 +14,9 @@ import {
 import {
   abortMscFlashing,
   FlashingProcessState,
+  selectFlashingProcessState,
   selectIsFlashingInActivePhases,
-  selectIsFlashingInState,
+  setFlashingProcessState,
   setMscFlashingInitialState,
 } from "msc-flash-harmony"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -36,10 +37,12 @@ export const useMscDeviceDetachedEffect = () => {
 
 const useHandleDevicesDetached = () => {
   const dispatch = useDispatch<Dispatch>()
+  const flashingProcessState = useSelector(selectFlashingProcessState)
   const flashingInActivePhases = useSelector(selectIsFlashingInActivePhases)
-  const flashingInWaitingForBackButtonState = useSelector(
-    selectIsFlashingInState(FlashingProcessState.WaitingForBackButton)
-  )
+  const flashingInWaitingForBackButtonState =
+    flashingProcessState === FlashingProcessState.WaitingForBackButton
+  const flashingInRestartingPhase =
+    flashingProcessState === FlashingProcessState.Restarting
 
   return useCallback(
     (deviceDetachedEvents: DeviceBaseProperties[]) => {
@@ -56,11 +59,20 @@ const useHandleDevicesDetached = () => {
         return
       }
 
+      if (flashingInRestartingPhase) {
+        dispatch(setFlashingProcessState(FlashingProcessState.Completed))
+      }
+
       const reason = flashingInActivePhases
         ? FlashingProcessState.Failed
         : undefined
       dispatch(abortMscFlashing({ reason }))
     },
-    [dispatch, flashingInActivePhases, flashingInWaitingForBackButtonState]
+    [
+      dispatch,
+      flashingInActivePhases,
+      flashingInWaitingForBackButtonState,
+      flashingInRestartingPhase,
+    ]
   )
 }
