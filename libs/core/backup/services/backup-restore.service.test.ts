@@ -17,6 +17,17 @@ import { FileSystemService } from "Core/file-system/services/file-system.service
 import { DeviceFileSystemService } from "Core/device-file-system/services"
 import { DeviceInfoService } from "Core/device-info/services"
 
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    go: jest.fn(),
+    block: jest.fn(),
+    listen: jest.fn(),
+    location: { pathname: "", search: "", hash: "", state: null },
+  })),
+}))
+
 const arrayBufferToBuffer = (unitArray: Uint8Array): Buffer => {
   const buffer = Buffer.alloc(unitArray.byteLength)
   const view = new Uint8Array(unitArray)

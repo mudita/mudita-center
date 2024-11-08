@@ -8,6 +8,17 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { deviceReducer, initialState } from "Core/device"
 import { getLeftTimeSelector } from "Core/device/selectors/get-left-time.selector"
 
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    go: jest.fn(),
+    block: jest.fn(),
+    listen: jest.fn(),
+    location: { pathname: "", search: "", hash: "", state: null },
+  })),
+}))
+
 MockDate.set("2000-2-1")
 
 describe("`getLeftTimeSelector` selector", () => {
