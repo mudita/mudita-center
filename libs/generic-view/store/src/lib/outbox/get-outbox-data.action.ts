@@ -36,17 +36,20 @@ export const getOutboxData = createAsyncThunk<
       return rejectWithValue(new AppError(""))
     }
 
-    const featuresToFullReload = response.data.features
-    const dataToReload = response.data.data.filter((feature) => {
-      return !featuresToFullReload.includes(feature)
-    })
+    if (response.data.features) {
+      const featuresToFullReload = response.data.features
+      const dataToReload = response.data.data.filter((feature) => {
+        return !featuresToFullReload.includes(feature)
+      })
 
-    featuresToFullReload.forEach(async (feature) => {
-      await dispatch(getSingleFeatures({ deviceId, feature }))
-    })
-    dataToReload.forEach(async (feature) => {
-      await dispatch(getSingleFeatureData({ deviceId, feature }))
-    })
+      featuresToFullReload.forEach(async (feature) => {
+        await dispatch(getSingleFeatures({ deviceId, feature }))
+      })
+
+      dataToReload.forEach(async (feature) => {
+        await dispatch(getSingleFeatureData({ deviceId, feature }))
+      })
+    }
 
     if (selectActiveApiDeviceId(getState()) === deviceId) {
       dispatch(setLastRefresh(new Date().getTime()))
