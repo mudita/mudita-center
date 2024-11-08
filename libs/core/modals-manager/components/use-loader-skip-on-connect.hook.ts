@@ -38,7 +38,7 @@ export const useLoaderSkipOnConnect = () => {
       checkIsAnyOtherModalPresent(CONNECTING_LOADER_MODAL_ID) ||
       !noNewDevicesDetectedState ||
       dialogOpen ||
-      timeSyncStatus !== "idle"
+      !["idle", undefined].includes(timeSyncStatus)
     )
   }, [
     history.location.pathname,
