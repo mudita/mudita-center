@@ -13,6 +13,17 @@ import { initialState, updateOsReducer } from "Core/update/reducers"
 import { areAllReleasesDownloaded } from "Core/update/selectors/are-all-releases-downloaded/are-all-releases-downloaded.selector"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    go: jest.fn(),
+    block: jest.fn(),
+    listen: jest.fn(),
+    location: { pathname: "", search: "", hash: "", state: null },
+  })),
+}))
+
 const mockedRelease: OsRelease = {
   date: "2021-02-02",
   file: {

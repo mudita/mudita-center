@@ -131,6 +131,7 @@ import ButtonSuccess from "Core/__deprecated__/renderer/svg/button-success.svg"
 import DataMigration from "../../../../../../generic-view/ui/src/lib/icon/svg/data-migration.svg"
 import RecoveryModeWhite from "../../../../../../generic-view/ui/src/lib/icon/svg/recovery-mode-white.svg"
 import RecoveryModeBlack from "../../../../../../generic-view/ui/src/lib/icon/svg/recovery-mode-black.svg"
+import LightButton from "Core/__deprecated__/renderer/svg/light-button-icon.svg"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
@@ -508,6 +509,7 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   [IconType.RecoveryModeWhite]: RecoveryModeWhite,
   [IconType.RecoveryModeBlack]: RecoveryModeBlack,
   [IconType.ButtonSuccess]: ButtonSuccess,
+  [IconType.LightButton]: LightButton,
 }
 
 export const getIconType = (
