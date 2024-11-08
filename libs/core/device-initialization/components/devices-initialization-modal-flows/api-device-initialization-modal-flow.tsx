@@ -13,7 +13,7 @@ import styled from "styled-components"
 import { useFilteredRoutesHistory } from "shared/utils"
 import { useDataMigrationDeviceSelector } from "shared/feature"
 import { ApiError } from "device/models"
-import { getDevicesSelector } from "device-manager/feature"
+import { getDevicesSelector, useDeactivateDeviceAndRedirect } from "device-manager/feature"
 import {
   selectActiveDeviceMenuElements,
   selectApiError,
@@ -36,7 +36,6 @@ import {
 } from "Core/__deprecated__/renderer/constants/urls"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 import { ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({

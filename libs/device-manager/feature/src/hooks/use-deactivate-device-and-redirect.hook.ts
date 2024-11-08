@@ -3,16 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { useCallback } from "react"
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { useCallback } from "react"
+import { selectDialogOpenState } from "shared/app-state"
 import { TmpDispatch } from "Core/__deprecated__/renderer/store"
-import { deactivateDevice } from "device-manager/feature"
 import {
   URL_DISCOVERY_DEVICE,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { selectDialogOpenState } from "shared/app-state"
+import { deactivateDevice } from "../actions/deactivate-device.action"
 
 export const useDeactivateDeviceAndRedirect = () => {
   const history = useHistory()

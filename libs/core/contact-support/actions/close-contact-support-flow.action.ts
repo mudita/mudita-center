@@ -5,7 +5,9 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactSupportEvent } from "Core/contact-support/constants"
-import { hideModals } from "Core/modals-manager"
+
+// TODO: handle circle dependencies between close-contact-support & device-manager
+import { hideModals } from "../../modals-manager/actions/base.action"
 
 export const closeContactSupportFlow = createAsyncThunk<void, undefined>(
   ContactSupportEvent.CloseContactSupportFlow,

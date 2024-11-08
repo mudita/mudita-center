@@ -5,7 +5,9 @@
 
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
 import { answerMain, useDebouncedEventsHandler } from "shared/utils"
+import { selectDialogOpenState } from "shared/app-state"
 import {
   DeviceBaseProperties,
   DeviceProtocolMainEvent,
@@ -23,8 +25,17 @@ import {
   selectDataMigrationTargetDevice,
   setBackupProcessStatus,
 } from "generic-view/store"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
+import { cancelOsDownload } from "Core/update/requests"
+import {
+  URL_DISCOVERY_DEVICE,
+  URL_ONBOARDING,
+} from "Core/__deprecated__/renderer/constants/urls"
 import { groupEventsByDeviceType } from "../helpers"
+import { getDevicesSelector } from "../selectors"
+import { deactivateDevice } from "../actions"
 
 // TODO: handle the following workarounds with imports
 import { abortMscFlashing } from "../../../../msc-flash/msc-flash-harmony/src/lib/actions/abort-msc-flashing"
@@ -33,6 +44,18 @@ import { FlashingProcessState } from "../../../../msc-flash/msc-flash-harmony/sr
 import { selectIsFlashingInActivePhases } from "../../../../msc-flash/msc-flash-harmony/src/lib/selectors/select-is-flashing-in-active-phases"
 import { setMscFlashingInitialState } from "../../../../msc-flash/msc-flash-harmony/src/lib/actions/actions"
 import { selectFlashingProcessState } from "../../../../msc-flash/msc-flash-harmony/src/lib/selectors/select-flashing-process-state"
+
+import { useDeactivateDeviceAndRedirect } from "./use-deactivate-device-and-redirect.hook"
+import { closeContactSupportFlow } from "Core/contact-support"
+
+// TODO: handle the following workarounds with parse svg token error
+// import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
+import {
+  modalEventEmitter,
+  ModelEvent,
+} from "Core/__deprecated__/renderer/components/core/modal/modal-service-emitter"
+import { shouldSkipProcessingForDetachedPure } from "Libs/device-manager/feature/src/helpers/should-skip-processing-for-detached-pure"
+import { isDataMigrationAbortDueToDetach } from "Libs/device-manager/feature/src/helpers/is-data-migration-abort-due-to-detach"
 
 export const useDeviceManagerDetached = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -66,6 +89,8 @@ const useHandleDevicesDetached = () => {
   const flashingInRestartingPhase =
     flashingProcessState === FlashingProcessState.Restarting
 
+  const processActiveDevicesDetachment = useProcessActiveDevicesDetachment()
+  const processSingleDeviceRemaining = useProcessSingleDeviceRemaining()
 
   return useCallback(
     async (deviceDetachedEvents: DeviceBaseProperties[]) => {
@@ -77,24 +102,25 @@ const useHandleDevicesDetached = () => {
       ]
       const mscEvents = groupedEvents[DeviceType.MuditaHarmonyMsc]
 
-      for (const event of deviceDetachedEvents) {
-        if (
-          migrationStatus === DataMigrationStatus.DataTransferring &&
-          (sourceDevice?.serialNumber === event.serialNumber ||
-            targetDevice?.serialNumber === event.serialNumber)
-        ) {
-          dispatch(abortDataMigration({ reason: DataMigrationStatus.Failed }))
-        }
-        if (
-          event.deviceType === "MuditaPure" &&
-          event.serialNumber === sourceDevice?.serialNumber &&
-          [
-            DataMigrationStatus.PureDatabaseCreating,
-            DataMigrationStatus.PureDatabaseIndexing,
-          ].includes(migrationStatus)
-        ) {
-          return
-        }
+      if (
+        shouldSkipProcessingForDetachedPure(
+          deviceDetachedEvents,
+          migrationStatus,
+          sourceDevice
+        )
+      ) {
+        return
+      }
+
+      if (
+        isDataMigrationAbortDueToDetach(
+          deviceDetachedEvents,
+          migrationStatus,
+          sourceDevice,
+          targetDevice
+        )
+      ) {
+        dispatch(abortDataMigration({ reason: DataMigrationStatus.Failed }))
       }
 
       for (const event of coreEvents) {
@@ -134,6 +160,9 @@ const useHandleDevicesDetached = () => {
           : undefined
         dispatch(abortMscFlashing({ reason }))
       }
+
+      await processActiveDevicesDetachment(deviceDetachedEvents)
+      processSingleDeviceRemaining(deviceDetachedEvents)
     },
     [
       dispatch,
@@ -142,8 +171,89 @@ const useHandleDevicesDetached = () => {
       flashingInRestartingPhase,
       backupProcess,
       migrationStatus,
-      sourceDevice?.serialNumber,
-      targetDevice?.serialNumber,
+      sourceDevice,
+      targetDevice,
+      processActiveDevicesDetachment,
+      processSingleDeviceRemaining,
+    ]
+  )
+}
+
+const useProcessActiveDevicesDetachment = () => {
+  const history = useHistory()
+  const dispatch = useDispatch<Dispatch>()
+  const activeDeviceId = useSelector(activeDeviceIdSelector)
+  const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
+  const downloadProcessing = useSelector(
+    ({ update }: ReduxRootState) => update.downloadState
+  )
+
+  const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
+
+  return useCallback(
+    async (deviceDetachedEvents: DeviceBaseProperties[]) => {
+      const activeDeviceDetached = deviceDetachedEvents.some(
+        ({ id }) => activeDeviceId === id
+      )
+
+      if (activeDeviceDetached) {
+        dispatch(closeContactSupportFlow())
+        // await modalService.closeModal(true)
+        modalEventEmitter.emit(ModelEvent.Close, true)
+
+        if (activeDeviceProcessing) {
+          return
+        }
+
+        if (downloadProcessing) {
+          await dispatch(deactivateDevice())
+          cancelOsDownload()
+          history.push(URL_ONBOARDING.welcome)
+          return
+        }
+
+        await deactivateDeviceAndRedirect()
+      }
+    },
+    [
+      history,
+      dispatch,
+      activeDeviceId,
+      activeDeviceProcessing,
+      downloadProcessing,
+      deactivateDeviceAndRedirect,
+    ]
+  )
+}
+
+const useProcessSingleDeviceRemaining = () => {
+  const history = useHistory()
+  const activeDeviceId = useSelector(activeDeviceIdSelector)
+  const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
+  const devices = useSelector(getDevicesSelector)
+  const dialogOpen = useSelector(selectDialogOpenState)
+
+  return useCallback(
+    (deviceDetachedEvents: DeviceBaseProperties[]) => {
+      const devicesLeftAfterDetach =
+        devices.length - deviceDetachedEvents.length
+
+      if (
+        !activeDeviceProcessing &&
+        activeDeviceId === undefined &&
+        devicesLeftAfterDetach === 1 &&
+        !dialogOpen
+      ) {
+        history.push(URL_DISCOVERY_DEVICE.root)
+        return
+      }
+    },
+    [
+      dialogOpen,
+      history,
+      activeDeviceId,
+      activeDeviceProcessing,
+      devices.length,
     ]
   )
 }

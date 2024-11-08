@@ -12,7 +12,6 @@ import ModalsManager from "Core/modals-manager/components/modals-manager.compone
 import { useWatchOutboxEntriesEffect } from "Core/core/hooks/use-watch-outbox-entries-effect"
 import { useWatchUnlockStatus } from "Core/core/hooks/use-watch-unlock-status-effect"
 import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
-import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
 import { useDiscoveryRedirectEffect } from "Core/core/hooks/use-discovery-redirect-effect"
 import { useRouterListener } from "Core/core/hooks"
 import {
@@ -28,17 +27,18 @@ import {
   useDeviceManagerConnectFailed,
   useDeviceManagerDetached,
 } from "device-manager/feature"
+import { useModalClosedListener } from "Core/__deprecated__/renderer/components/core/modal/use-modal-closed-listener"
 
 const BaseApp: FunctionComponent = () => {
   useRouterListener()
   useOnlineListener()
   useApplicationUpdateEffects()
-  useDeviceDetachedEffect()
   useDeviceLockedEffect()
   useWatchOutboxEntriesEffect()
   useWatchUnlockStatus()
   useDiscoveryRedirectEffect()
   useCoreDeviceProtocolListeners()
+  useModalClosedListener()
   // API
   useAppEventsListeners()
   useBackupList()
