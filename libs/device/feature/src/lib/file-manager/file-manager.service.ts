@@ -164,13 +164,19 @@ export class FileManager {
   }
 
   @IpcEvent(FileManagerServiceEvents.ReadDirectory)
-  public readDirectory({ path }: { path: string }): ResultObject<string[]> {
+  public readDirectory({
+    path,
+    disableErrorLog,
+  }: {
+    path: string
+    disableErrorLog?: boolean
+  }): ResultObject<string[]> {
     try {
       const result = readdirSync(path)
 
       return Result.success(result)
     } catch (e) {
-      console.log(e)
+      !disableErrorLog && console.log(e)
       return Result.failed(new AppError(GeneralError.InternalError))
     }
   }
@@ -178,8 +184,10 @@ export class FileManager {
   @IpcEvent(FileManagerServiceEvents.ReadBackupDirectory)
   public readBackupDirectory({
     deviceId,
+    disableErrorLog,
   }: {
     deviceId?: DeviceId
+    disableErrorLog?: boolean
   }): ResultObject<string[]> {
     const pathResult = this.getBackupPath({ deviceId })
 
@@ -187,7 +195,7 @@ export class FileManager {
       return Result.failed(new AppError(GeneralError.InternalError))
     }
 
-    return this.readDirectory({ path: pathResult.data })
+    return this.readDirectory({ disableErrorLog, path: pathResult.data })
   }
 
   public getFile(id: string) {

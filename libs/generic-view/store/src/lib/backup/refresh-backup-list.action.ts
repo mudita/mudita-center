@@ -13,11 +13,14 @@ import { Backup } from "./reducer"
 
 export const refreshBackupList = createAsyncThunk<
   { refreshTimestamp: number; backups: Backup[]; deviceId: DeviceId },
-  undefined,
+  { disableErrorLog: boolean } | undefined,
   { state: ReduxRootState }
 >(
   ActionName.RefreshBackupList,
-  async (_, { getState, dispatch, rejectWithValue }) => {
+  async (
+    { disableErrorLog } = { disableErrorLog: false },
+    { getState, rejectWithValue }
+  ) => {
     const refreshTimestamp = new Date().getTime()
 
     const deviceId = selectActiveApiDeviceId(getState())
@@ -25,7 +28,10 @@ export const refreshBackupList = createAsyncThunk<
       return rejectWithValue(undefined)
     }
 
-    const backupsList = await readBackupDirectoryRequest(deviceId)
+    const backupsList = await readBackupDirectoryRequest({
+      deviceId,
+      disableErrorLog,
+    })
 
     if (!backupsList.ok) {
       return rejectWithValue(undefined)

@@ -8,10 +8,15 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { FileManagerServiceEvents } from "device/models"
 import { ipcRenderer } from "electron-better-ipc"
 
-export const readBackupDirectoryRequest = (
-  deviceId: DeviceId
-): Promise<ResultObject<string[]>> => {
+export const readBackupDirectoryRequest = ({
+  deviceId,
+  disableErrorLog,
+}: {
+  deviceId?: DeviceId
+  disableErrorLog?: boolean
+}): Promise<ResultObject<string[]>> => {
   return ipcRenderer.callMain(FileManagerServiceEvents.ReadBackupDirectory, {
     deviceId,
+    disableErrorLog,
   })
 }

@@ -95,6 +95,29 @@ describe("dataProviderSort", () => {
     ])
   })
 
+  it("sorts numeric values represented as strings in ascending alphanumeric order", () => {
+    const data = [
+      { value: "3" },
+      { value: "300" },
+      { value: "25" },
+      { value: "100" },
+      { value: "5" },
+    ]
+    const sort: DataSortConfig = [
+      { field: "value", direction: "asc", priority: 1 },
+    ]
+
+    const result = dataSort(data, sort)
+
+    expect(result).toEqual([
+      { value: "100" },
+      { value: "25" },
+      { value: "3" },
+      { value: "300" },
+      { value: "5" },
+    ])
+  })
+
   it("sorts strings before numbers with strings in lexicographical order and numbers in ascending order", () => {
     const data = [
       { value: "Bob" },
