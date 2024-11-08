@@ -13,6 +13,17 @@ import { getSettingsService } from "Core/settings/containers"
 import { SettingsService } from "Core/settings/services"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    go: jest.fn(),
+    block: jest.fn(),
+    listen: jest.fn(),
+    location: { pathname: "", search: "", hash: "", state: null },
+  })),
+}))
+
 jest.mock("Core/settings/containers/settings.container")
 jest.mock("Core/__deprecated__/main/utils/logger")
 jest.mock("axios")
