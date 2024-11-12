@@ -19,6 +19,11 @@ import {
 import { APIEndpointType, APIMethodsType } from "device/models"
 import { ApiResponse } from "Core/device/types/mudita-os"
 
+import {
+  featureConfigurationContacts,
+  featureConfigurationOverview,
+} from "../../../../responses/src/lib/feature-configuration-responses"
+
 const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
   manufacturer: "Mudita",
   pnpId: undefined,
@@ -39,6 +44,34 @@ class MockDescriptor {
   }
 
   public addKompakt({ path, serialNumber }: AddKompakt) {
+    this._mockResponsesPerDevice = {
+      "path-1": {
+        FEATURE_CONFIGURATION: {
+          GET: [
+            {
+              status: 200,
+              body: featureConfigurationContacts,
+              match: {
+                expected: {
+                  feature: "contacts",
+                  lang: "en-US",
+                },
+              },
+            },
+            {
+              status: 200,
+              body: featureConfigurationOverview,
+              match: {
+                expected: {
+                  feature: "mc-overview",
+                  lang: "en-US",
+                },
+              },
+            },
+          ],
+        },
+      },
+    }
     this.addDevice({ ...KOMPAKT_PORT_INFO, path, serialNumber })
   }
 
