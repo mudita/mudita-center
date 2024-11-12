@@ -126,7 +126,7 @@ export const Table: APIFC<TableData, TableConfig> & {
       const isActive = activeRowId === id
 
       return (
-        <Row onClick={onClick} $active={isActive}>
+        <Row key={id} onClick={onClick} $active={isActive}>
           {renderChildren(id)}
         </Row>
       )

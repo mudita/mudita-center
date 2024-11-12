@@ -144,12 +144,143 @@ const view: View = {
       width: "100%",
     },
   },
+  columnCheckbox: {
+    component: "table.cell",
+    config: {
+      width: "74",
+    },
+    layout: {
+      padding: "0 0 0 32px",
+    },
+    childrenKeys: ["columnCheckboxTooltip"],
+  },
+  columnCheckboxTooltip: {
+    component: "tooltip",
+    config: {
+      offset: {
+        x: 15,
+        y: 15,
+      },
+      placement: "bottom-right",
+    },
+    childrenKeys: [
+      "contactCheckboxTooltipAnchor",
+      "contactCheckboxTooltipContent",
+    ],
+  },
+  contactCheckboxTooltipAnchor: {
+    component: "tooltip.anchor",
+    childrenKeys: ["contactCheckbox"],
+  },
+  contactCheckboxTooltipContent: {
+    component: "tooltip.content",
+    childrenKeys: ["contactCheckboxTooltipContentTextWrapper"],
+  },
+  contactCheckboxTooltipContentTextWrapper: {
+    component: "p5-component",
+    childrenKeys: ["contactCheckboxTooltipContentText"],
+  },
+  contactCheckboxTooltipContentText: {
+    component: "format-message",
+    config: {
+      messageTemplate: "Select",
+    },
+  },
   columnName: {
     component: "table.cell",
     config: {
       width: "479px",
     },
     childrenKeys: ["contactDisplayName"],
+  },
+  phoneDropdownCounter: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          modifier: "length",
+          slice: [1],
+          providerField: "phoneNumbers",
+          componentField: "data.render",
+          condition: "gt",
+          value: 0,
+        },
+      ],
+    },
+    childrenKeys: ["phoneDropdownCounterTooltip"],
+  },
+  phoneDropdownCounterTooltip: {
+    component: "tooltip",
+    config: {
+      offset: {
+        x: 0,
+        y: 16,
+      },
+      placement: "bottom-left",
+    },
+    childrenKeys: [
+      "phoneDropdownCounterTooltipAnchor",
+      "phoneDropdownCounterTooltipContent",
+    ],
+  },
+  phoneDropdownCounterTooltipAnchor: {
+    component: "tooltip.anchor",
+    childrenKeys: ["phoneDropdownCounterBadge"],
+  },
+  phoneDropdownCounterTooltipContent: {
+    component: "tooltip.content",
+    childrenKeys: ["phoneDropdownCounterTooltipContentText"],
+  },
+  phoneDropdownCounterTooltipContentText: {
+    component: "p5-component",
+    config: {
+      text: "",
+      color: "grey1",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "phoneNumbers",
+          componentField: "config.text",
+          flat: "phoneNumber",
+          slice: [1],
+          join: "\n",
+        },
+      ],
+    },
+  },
+  phoneDropdownCounterBadge: {
+    component: "button-text",
+    config: {
+      actions: [],
+      modifiers: ["hover-background"],
+    },
+    layout: {
+      padding: "2px 5px",
+    },
+    childrenKeys: ["phoneDropdownCounterBadgeText"],
+  },
+  phoneDropdownCounterBadgeText: {
+    component: "format-message",
+    config: {
+      messageTemplate: "+{phoneNumbersLength}",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          modifier: "length",
+          slice: [1],
+          providerField: "phoneNumbers",
+          componentField: "data.fields.phoneNumbersLength",
+        },
+      ],
+    },
   },
 }
 

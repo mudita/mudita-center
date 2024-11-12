@@ -3,9 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useMemo } from "react"
-import { useSelector } from "react-redux"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
+import React, {
+  cloneElement,
+  FunctionComponent,
+  isValidElement,
+  ReactElement,
+  useCallback,
+  useMemo,
+} from "react"
+import { useSelector, useStore } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import apiComponents from "generic-view/ui"
 import { APIFC } from "generic-view/utils"
@@ -13,8 +19,12 @@ import {
   selectComponentChildrenKeys,
   selectComponentName,
 } from "generic-view/store"
-import { setupComponent } from "./setup-component"
 import logger from "Core/__deprecated__/main/utils/logger"
+import {
+  ComponentWithConfig,
+  ComponentWithData,
+  ComponentWithLayout,
+} from "./setup-component"
 
 interface Properties {
   viewKey: string
@@ -26,17 +36,21 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
   recursiveComponentMetadata
 ) => {
   const { viewKey, componentKey } = recursiveComponentMetadata
+  const store = useStore<ReduxRootState>()
   const componentName = useSelector((state: ReduxRootState) => {
     return selectComponentName(state, { viewKey, componentKey })
   })
   const childrenKeys = useSelector((state: ReduxRootState) => {
     return selectComponentChildrenKeys(state, { viewKey, componentKey })
   }) as string[] | undefined
-  const childrenKeysDependency = JSON.stringify(childrenKeys)
-  const recursiveComponentMetadataDependency = JSON.stringify(
-    recursiveComponentMetadata
-  )
-  return useMemo(() => {
+
+  const children = useMemo(() => {
+    return childrenKeys?.map((key) => {
+      return <RecursiveLayout key={key} viewKey={viewKey} componentKey={key} />
+    })
+  }, [childrenKeys, viewKey])
+
+  const ComponentToRender = useMemo(() => {
     if (!componentName) {
       return null
     }
@@ -46,31 +60,83 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
       )
       return null
     }
-    const ApiComponent = setupComponent(
-      apiComponents[componentName as keyof typeof apiComponents] as APIFC
-    )
+    return apiComponents[componentName as keyof typeof apiComponents] as APIFC<
+      unknown,
+      unknown
+    >
+  }, [componentName, viewKey])
+
+  const renderChildren = useCallback(
+    (dataItemId?: string) => {
+      return React.Children.map(children, (child) => {
+        if (child && isValidElement(child as ReactElement)) {
+          const childComponentName = selectComponentName(store.getState(), {
+            viewKey: child.props.viewKey,
+            componentKey: child.props.componentKey,
+          })
+          return cloneElement(child, {
+            dataItemId,
+            componentName: childComponentName,
+          })
+        }
+        return null
+      })
+    },
+    [children, store]
+  )
+
+  return useMemo(() => {
+    if (!ComponentToRender) {
+      return null
+    }
     return (
-      <ApiComponent
-        {...recursiveComponentMetadata}
-        componentName={componentName}
-      >
-        {childrenKeys?.map((key) => {
+      <ComponentWithLayout viewKey={viewKey} componentKey={componentKey}>
+        {({ style }) => {
           return (
-            <RecursiveLayout
-              key={key}
-              {...recursiveComponentMetadata}
-              componentKey={key}
-            />
+            <ComponentWithConfig viewKey={viewKey} componentKey={componentKey}>
+              {({ config }) => {
+                return (
+                  <ComponentWithData
+                    config={config}
+                    viewKey={viewKey}
+                    componentKey={componentKey}
+                    componentName={componentName}
+                    dataItemId={recursiveComponentMetadata.dataItemId}
+                  >
+                    {(dataProps) => {
+                      const dataItemId =
+                        dataProps.dataItemId ||
+                        recursiveComponentMetadata.dataItemId
+                      return (
+                        <ComponentToRender
+                          {...recursiveComponentMetadata}
+                          viewKey={viewKey}
+                          componentKey={componentKey}
+                          componentName={componentName}
+                          style={style}
+                          config={dataProps.config}
+                          data={dataProps.data}
+                          dataItemId={dataItemId}
+                        >
+                          {renderChildren(dataItemId)}
+                        </ComponentToRender>
+                      )
+                    }}
+                  </ComponentWithData>
+                )
+              }}
+            </ComponentWithConfig>
           )
-        })}
-      </ApiComponent>
+        }}
+      </ComponentWithLayout>
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    viewKey,
+    ComponentToRender,
+    componentKey,
     componentName,
-    childrenKeysDependency,
-    recursiveComponentMetadataDependency,
+    recursiveComponentMetadata,
+    renderChildren,
+    viewKey,
   ])
 }
 

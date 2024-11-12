@@ -161,9 +161,11 @@ const ContactItem: React.FC<UnifiedContact> = ({
             {phoneNumbers.length > 0 && <p>{phoneNumbers[0].value}</p>}
             {phoneNumbers.length > 1 && (
               <Tooltip
-                offset={{
-                  x: 0,
-                  y: 11,
+                config={{
+                  offset: {
+                    x: 0,
+                    y: 11,
+                  },
                 }}
               >
                 <Tooltip.Anchor>
@@ -171,7 +173,7 @@ const ContactItem: React.FC<UnifiedContact> = ({
                     {`+${phoneNumbers.length - 1}`}
                   </MoreNumbersButton>
                 </Tooltip.Anchor>
-                <Tooltip.Content $defaultStyles $placement={"bottom-right"}>
+                <Tooltip.Content>
                   {phoneNumbers.slice(1).map((number) => (
                     <Paragraph5 key={number.value}>{number.value}</Paragraph5>
                   ))}

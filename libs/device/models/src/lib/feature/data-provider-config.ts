@@ -17,7 +17,6 @@ const regexSchema = z
 const componentFieldSchema = z.union([
   z.literal("dataItemId"),
   z.string().startsWith("data."),
-  z.string().startsWith("extra-data."),
   z.string().startsWith("config."),
 ])
 
@@ -34,6 +33,7 @@ const enhancedFieldSchema = z
       .union([z.tuple([z.number()]), z.tuple([z.number(), z.number()])])
       .optional(),
     flat: z.string().optional(),
+    join: z.string().optional(),
   })
   .merge(baseFieldSchema)
   .strict()
@@ -116,6 +116,7 @@ const entitiesMetadataSchema = z.object({
   entitiesType: entitiesTypeSchema,
   fields: fieldsSchema,
 })
+export type EntitiesMetadataConfig = z.infer<typeof entitiesMetadataSchema>
 
 const entitiesArraySchema = z.object({
   source: z.literal("entities-array"),
@@ -123,18 +124,21 @@ const entitiesArraySchema = z.object({
   sort: sortSchema,
   filters: filtersSchema,
 })
+export type EntitiesArrayConfig = z.infer<typeof entitiesArraySchema>
 
 const entitiesFieldSchema = z.object({
   source: z.literal("entities-field"),
   entitiesType: entitiesTypeSchema,
   fields: fieldsSchema,
 })
+export type EntitiesFieldConfig = z.infer<typeof entitiesFieldSchema>
 
 const formFieldsSchema = z.object({
   source: z.literal("form-fields"),
   formKey: z.string().optional(),
   fields: fieldsSchema,
 })
+export type FormFieldsConfig = z.infer<typeof formFieldsSchema>
 
 export const dataProviderSchema = z.union([
   entitiesMetadataSchema,
