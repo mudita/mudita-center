@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const entitiesConfigurationResponse = {
+export const entitiesConfiguration = {
   globalValidators: {
     requiredFieldsCombinations: [
       {
