@@ -9,6 +9,7 @@ const dataValidator = z.undefined()
 
 const configValidator = z.object({
   text: z.string(),
+  bold: z.boolean().optional(),
 })
 
 export type HeaderConfig = z.infer<typeof configValidator>

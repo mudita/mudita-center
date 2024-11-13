@@ -126,7 +126,7 @@ export const Table: APIFC<TableData, TableConfig> & {
       const isActive = activeRowId === id
 
       return (
-        <Row onClick={onClick} $active={isActive}>
+        <Row onClick={onClick} $active={isActive} key={id}>
           {renderChildren(id)}
         </Row>
       )
@@ -163,7 +163,6 @@ Table.Cell = TableCell
 
 const ScrollableWrapper = styled.div`
   height: 100%;
-  width: 100%;
   overflow: auto;
   position: relative;
 `

@@ -6,6 +6,7 @@
 import { blockBox } from "./lib/block-box"
 import { blockPlain } from "./lib/block-plain"
 import { blockHeading } from "./lib/block-heading"
+import { buttonIcon } from "./lib/button-icon"
 import { buttonText } from "./lib/button-text"
 import { buttonPrimary } from "./lib/button-primary"
 import { buttonSecondary } from "./lib/button-secondary"
@@ -66,6 +67,7 @@ import { appPortal } from "./lib/app-portal"
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
 export * from "./lib/block-heading"
+export * from "./lib/button-icon"
 export * from "./lib/button-text"
 export * from "./lib/button-primary"
 export * from "./lib/button-secondary"
@@ -123,6 +125,7 @@ export default {
   [blockBox.key]: blockBox,
   [blockPlain.key]: blockPlain,
   [blockHeading.key]: blockHeading,
+  [buttonIcon.key]: buttonIcon,
   [buttonText.key]: buttonText,
   [buttonPrimary.key]: buttonPrimary,
   [buttonSecondary.key]: buttonSecondary,

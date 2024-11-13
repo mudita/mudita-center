@@ -140,6 +140,8 @@ export const layoutSchema = z.intersection(
     flexPlacement: flexPlacementSchema.optional(),
     margin: z.string().optional(),
     padding: z.string().optional(),
+    width: z.string().optional(),
+    height: z.string().optional(),
   })
 )
 

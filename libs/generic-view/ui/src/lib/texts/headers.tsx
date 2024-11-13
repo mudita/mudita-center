@@ -14,13 +14,24 @@ export const Header3: APIFC<undefined, HeaderConfig> = ({
   children,
   ...props
 }) => {
-  return <H3 {...props}>{isEmpty(children) ? config.text : children}</H3>
+  return (
+    <H3 $bold={config.bold} {...props}>
+      {isEmpty(children) ? config.text : children}
+    </H3>
+  )
 }
 
-export const H3 = styled.h3`
+export const H3 = styled.h3<{ $bold?: boolean }>`
   font-size: ${({ theme }) => theme.fontSize.headline3};
   line-height: ${({ theme }) => theme.lineHeight.headline3};
+  font-weight: ${({ theme, $bold = true }) =>
+    $bold ? theme.fontWeight.bold : theme.fontWeight.regular};
   margin: 0;
+
+  b,
+  strong {
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+  }
 `
 
 export const Header4: APIFC<undefined, HeaderConfig> = ({

@@ -48,6 +48,7 @@ import {
   set,
 } from "lodash"
 import { Paragraph5, Tooltip } from "generic-view/ui"
+import { width } from "Core/core/styles/theming/theme-getters"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>
@@ -321,6 +322,12 @@ const setupStyles = (style?: CSSProperties, layout?: Layout) => {
     }),
     ...(layout?.padding && {
       padding: layout.padding,
+    }),
+    ...(layout?.width && {
+      width: layout.width,
+    }),
+    ...(layout?.height && {
+      height: layout.height,
     }),
     ...(layout?.flexLayout && {
       display: "flex",

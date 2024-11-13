@@ -16,6 +16,9 @@ const configValidator = z
         Object.keys(color) as [keyof typeof color, ...(keyof typeof color)[]]
       )
       .optional(),
+    textTransform: z
+      .enum(["capitalize", "uppercase", "lowercase", "capitalize-first-letter"])
+      .optional(),
   })
   .optional()
 
