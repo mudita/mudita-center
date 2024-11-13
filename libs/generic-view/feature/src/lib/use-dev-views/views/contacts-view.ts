@@ -178,6 +178,9 @@ const view: View = {
   },
   contactCheckboxTooltipContentTextWrapper: {
     component: "p5-component",
+    config: {
+      color: "grey1",
+    },
     childrenKeys: ["contactCheckboxTooltipContentText"],
   },
   contactCheckboxTooltipContentText: {
@@ -229,30 +232,6 @@ const view: View = {
     component: "tooltip.anchor",
     childrenKeys: ["phoneDropdownCounterBadge"],
   },
-  phoneDropdownCounterTooltipContent: {
-    component: "tooltip.content",
-    childrenKeys: ["phoneDropdownCounterTooltipContentText"],
-  },
-  phoneDropdownCounterTooltipContentText: {
-    component: "p5-component",
-    config: {
-      text: "",
-      color: "grey1",
-    },
-    dataProvider: {
-      source: "entities-field",
-      entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "phoneNumbers",
-          componentField: "config.text",
-          flat: "phoneNumber",
-          slice: [1],
-          join: "\n",
-        },
-      ],
-    },
-  },
   phoneDropdownCounterBadge: {
     component: "button-text",
     config: {
@@ -278,6 +257,29 @@ const view: View = {
           slice: [1],
           providerField: "phoneNumbers",
           componentField: "data.fields.phoneNumbersLength",
+        },
+      ],
+    },
+  },
+  phoneDropdownCounterTooltipContent: {
+    component: "tooltip.content",
+    childrenKeys: ["phoneDropdownCounterTooltipContentText"],
+  },
+  phoneDropdownCounterTooltipContentText: {
+    component: "p5-component",
+    config: {
+      color: "grey1",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "phoneNumbers",
+          componentField: "config.text",
+          flat: "phoneNumber",
+          slice: [1],
+          join: "\n",
         },
       ],
     },
