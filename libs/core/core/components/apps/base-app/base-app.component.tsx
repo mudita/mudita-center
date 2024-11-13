@@ -20,7 +20,6 @@ import {
   useBackupList,
 } from "generic-view/store"
 import { useFileDialogEventListener, useOnlineListener } from "shared/app-state"
-import { useCoreDeviceProtocolListeners } from "core-device/feature"
 import { useHelp } from "help/store"
 import {
   useDeviceManagerConnected,
@@ -37,7 +36,6 @@ const BaseApp: FunctionComponent = () => {
   useWatchOutboxEntriesEffect()
   useWatchUnlockStatus()
   useDiscoveryRedirectEffect()
-  useCoreDeviceProtocolListeners()
   useModalClosedListener()
   // API
   useAppEventsListeners()

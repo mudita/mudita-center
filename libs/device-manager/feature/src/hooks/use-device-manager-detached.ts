@@ -13,19 +13,20 @@ import {
   DeviceProtocolMainEvent,
   DeviceType,
 } from "device-protocol/models"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import {
   abortDataMigration,
   clearEntities,
   closeAllModals,
   DataMigrationStatus,
-  removeDevice,
+  removeDevice as removeAPIDevice,
   selectBackupProcessStatus,
   selectDataMigrationSourceDevice,
   selectDataMigrationStatus,
   selectDataMigrationTargetDevice,
   setBackupProcessStatus,
 } from "generic-view/store"
-import { activeDeviceIdSelector } from "active-device-registry/feature"
+import { removeDevice as removeCoreDevice } from "core-device/feature"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { cancelOsDownload } from "Core/update/requests"
@@ -33,29 +34,25 @@ import {
   URL_DISCOVERY_DEVICE,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { groupEventsByDeviceType } from "../helpers"
-import { getDevicesSelector } from "../selectors"
-import { deactivateDevice } from "../actions"
-
-// TODO: handle the following workarounds with imports
+import { closeContactSupportFlow } from "Core/contact-support"
+import {
+  modalEventEmitter,
+  ModelEvent,
+} from "Core/__deprecated__/renderer/components/core/modal/modal-service-emitter"
 import { abortMscFlashing } from "../../../../msc-flash/msc-flash-harmony/src/lib/actions/abort-msc-flashing"
 import { setFlashingProcessState } from "../../../../msc-flash/msc-flash-harmony/src/lib/actions/set-flashing-process-state.action"
 import { FlashingProcessState } from "../../../../msc-flash/msc-flash-harmony/src/lib/constants/flashing-process-state.constant"
 import { selectIsFlashingInActivePhases } from "../../../../msc-flash/msc-flash-harmony/src/lib/selectors/select-is-flashing-in-active-phases"
 import { setMscFlashingInitialState } from "../../../../msc-flash/msc-flash-harmony/src/lib/actions/actions"
 import { selectFlashingProcessState } from "../../../../msc-flash/msc-flash-harmony/src/lib/selectors/select-flashing-process-state"
-
 import { useDeactivateDeviceAndRedirect } from "./use-deactivate-device-and-redirect.hook"
-import { closeContactSupportFlow } from "Core/contact-support"
-
-// TODO: handle the following workarounds with parse svg token error
-// import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import {
-  modalEventEmitter,
-  ModelEvent,
-} from "Core/__deprecated__/renderer/components/core/modal/modal-service-emitter"
-import { shouldSkipProcessingForDetachedPure } from "Libs/device-manager/feature/src/helpers/should-skip-processing-for-detached-pure"
-import { isDataMigrationAbortDueToDetach } from "Libs/device-manager/feature/src/helpers/is-data-migration-abort-due-to-detach"
+  groupEventsByDeviceType,
+  shouldSkipProcessingForDetachedPure,
+  isDataMigrationAbortDueToDetach,
+} from "../helpers"
+import { getDevicesSelector } from "../selectors"
+import { deactivateDevice } from "../actions"
 
 export const useDeviceManagerDetached = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -123,18 +120,17 @@ const useHandleDevicesDetached = () => {
         dispatch(abortDataMigration({ reason: DataMigrationStatus.Failed }))
       }
 
-      for (const event of coreEvents) {
-        dispatch(removeDevice(event))
+      for (const coreEvent of coreEvents) {
+        dispatch(removeCoreDevice(coreEvent))
       }
 
-      // TODO: add mds handler
-      for (const event of mscEvents) {
-        dispatch(removeDevice(event))
+      for (const mscEvent of mscEvents) {
+        dispatch(removeCoreDevice(mscEvent))
       }
 
-      for (const event of apiEvents) {
-        dispatch(removeDevice(event))
-        dispatch(clearEntities({ deviceId: event.id }))
+      for (const apiEvent of apiEvents) {
+        dispatch(removeAPIDevice(apiEvent))
+        dispatch(clearEntities({ deviceId: apiEvent.id }))
       }
 
       if (apiEvents.length !== 0) {
@@ -198,7 +194,6 @@ const useProcessActiveDevicesDetachment = () => {
 
       if (activeDeviceDetached) {
         dispatch(closeContactSupportFlow())
-        // await modalService.closeModal(true)
         modalEventEmitter.emit(ModelEvent.Close, true)
 
         if (activeDeviceProcessing) {

@@ -6,6 +6,7 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
+import { selectDialogOpenState } from "shared/app-state"
 import { answerMain } from "shared/utils"
 import {
   setActiveDevice,
@@ -21,7 +22,7 @@ import {
   DeviceType,
   DeviceBaseProperties,
 } from "device-protocol/models"
-import { selectDialogOpenState } from "shared/app-state"
+import { addDevice as addAPIDevice, getAPIConfig } from "generic-view/store"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
@@ -37,7 +38,6 @@ import { getTmpMuditaHarmonyPortInfoSelector } from "Core/update/selectors/get-t
 import { isUnknownSerialNumber } from "Core/device/constants/unknown-serial-number.constant"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
 import { checkIsAnyModalPresent } from "Core/utils/check-is-any-other-modal-present"
-import { addDevice as addAPIDevice, getAPIConfig } from "generic-view/store"
 import {
   getDevicesSelector,
   isActiveApiDeviceLockedSelector,
@@ -65,12 +65,10 @@ export const useDeviceManagerConnected = () => {
       async (properties) => {
         const { id, deviceType } = properties
 
-        // adding & configuring device
         if (deviceType === DeviceType.APIDevice) {
           dispatch(addAPIDevice(properties))
           dispatch(getAPIConfig({ deviceId: id, retry: true }))
         } else if (deviceType === DeviceType.MuditaHarmonyMsc) {
-          // TODO: add mds handler
           dispatch(addCoreDevice(properties))
           dispatch(configureCoreDevice(id))
         } else if (isCoreDevice(deviceType)) {
@@ -78,7 +76,6 @@ export const useDeviceManagerConnected = () => {
           dispatch(configureCoreDevice(id))
         }
 
-        // side effects after trigger adding & configuring device
         if (activeApiDeviceLocked) {
           await dispatch(deactivateDevice())
           dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))

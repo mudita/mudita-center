@@ -26,7 +26,10 @@ import React, { useCallback, useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
 import { useSelector } from "react-redux"
-import { isActiveDeviceAttachedSelector, useDeactivateDeviceAndRedirect } from "device-manager/feature"
+import {
+  isActiveDeviceAttachedSelector,
+  useDeactivateDeviceAndRedirect,
+} from "device-manager/feature"
 import { selectDeviceErrorModalOpened } from "generic-view/store"
 import { useHelpShortcut } from "help/store"
 
