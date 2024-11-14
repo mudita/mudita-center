@@ -27,8 +27,6 @@ export const FormatMessage: APIFC<FormatMessageData, FormatMessageConfig> = ({
     { locale, messages: { [id]: config.messageTemplate } },
     cache
   )
-  console.log("Data FM: ", data)
-  console.log("Config FM: ", config)
   return (
     <RawIntlProvider value={intl}>
       {/*// @ts-ignore*/}

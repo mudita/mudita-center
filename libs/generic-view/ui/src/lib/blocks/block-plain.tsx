@@ -44,12 +44,8 @@ const Wrapper = styled.div<BlockConfig>`
       : css`
           background-color: ${theme.color.grey6};
         `)}
-  border-top: ${({ $borderTop = undefined }) =>
-    $borderTop ? $borderTop : "none"};
-  border-right: ${({ $borderRight = undefined }) =>
-    $borderRight ? $borderRight : "none"};
-  border-bottom: ${({ $borderBottom = undefined }) =>
-    $borderBottom ? $borderBottom : "none"};
-  border-left: ${({ $borderLeft = undefined }) =>
-    $borderLeft ? $borderLeft : "none"};
+  border-top: ${({ $borderTop = "none" }) => $borderTop};
+  border-right: ${({ $borderRight = "none" }) => $borderRight};
+  border-bottom: ${({ $borderBottom = "none" }) => $borderBottom};
+  border-left: ${({ $borderLeft = "none" }) => $borderLeft};
 `

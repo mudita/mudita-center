@@ -240,7 +240,7 @@ const view: View = {
   details: {
     component: "block-plain",
     config: {
-      borderLeft: "2px solid #f4f5f6",
+      borderLeft: "1px solid #d2d6db",
     },
     layout: {
       width: "608px",
@@ -257,10 +257,10 @@ const view: View = {
     },
   },
   contactDetailsHeader: {
-    component: "block-box",
+    component: "block-plain",
     config: {
       borderBottom: "2px solid #f4f5f6",
-      borderTop: "2px solid #f4f5f6",
+      borderTop: "1px solid #d2d6db",
     },
     childrenKeys: ["contactDisplayNameHeader", "disableButton"],
     layout: {
@@ -276,6 +276,7 @@ const view: View = {
         width: 1,
         height: 2,
       },
+      padding: "24px 32px",
     },
   },
   contactDisplayNameHeader: {
@@ -301,12 +302,13 @@ const view: View = {
     },
   },
   contactDetails: {
-    component: "block-box",
+    component: "block-plain",
     layout: {
       flexLayout: {
         rowGap: "18px",
         direction: "column",
       },
+      padding: "24px 32px 32px 32px",
     },
     childrenKeys: [
       "contactInformationText",
@@ -1004,10 +1006,10 @@ const view: View = {
       entitiesType: "contacts",
       fields: [
         {
-          providerField: "address",
+          providerField: "address.type",
           componentField: "data.render",
-          condition: "ne",
-          value: undefined,
+          condition: "eq",
+          value: "HOME",
         },
       ],
     },
@@ -1015,7 +1017,12 @@ const view: View = {
   },
   contactDetailsAddress: {
     component: "block-plain",
-    childrenKeys: ["contactDetailsAddressLabel", "contactDetailsAddressValue"],
+    childrenKeys: [
+      "contactDetailsAddressLabel",
+      "contactDetailsAddressStreetWrapper",
+      "contactDetailsAddressCityWrapper",
+      "contactDetailsAddressCountryWrapper",
+    ],
   },
   contactDetailsAddressLabel: {
     component: "h5-component",
@@ -1023,7 +1030,23 @@ const view: View = {
       text: "Address type (Home)",
     },
   },
-  contactDetailsAddressValue: {
+  contactDetailsAddressStreetWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "address.streetAddress",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsAddressStreetValue"],
+  },
+  contactDetailsAddressStreetValue: {
     component: "p4-component",
     config: {
       color: "black",
@@ -1033,7 +1056,82 @@ const view: View = {
       entitiesType: "contacts",
       fields: [
         {
-          providerField: "address.type",
+          providerField: "address.streetAddress",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsAddressCityWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "address.city",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsAddressCity"],
+  },
+  contactDetailsAddressCity: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    childrenKeys: ["contactDetailsAddressCityValue"],
+  },
+  contactDetailsAddressCityValue: {
+    component: "format-message",
+    config: {
+      messageTemplate: "{city} {zipCode}",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "address.city",
+          componentField: "data.fields.city",
+        },
+        {
+          providerField: "address.zipCode",
+          componentField: "data.fields.zipCode",
+        },
+      ],
+    },
+  },
+  contactDetailsAddressCountryWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "address.country",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsAddressCountryValue"],
+  },
+  contactDetailsAddressCountryValue: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "address.country",
           componentField: "config.text",
         },
       ],

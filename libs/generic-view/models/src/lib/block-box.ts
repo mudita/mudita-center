@@ -16,10 +16,6 @@ export type BlockBoxData = z.infer<typeof dataValidator>
 const configValidator = z
   .object({
     title: z.string().optional(),
-    borderTop: z.string().optional(),
-    borderRight: z.string().optional(),
-    borderBottom: z.string().optional(),
-    borderLeft: z.string().optional(),
   })
   .optional()
 
