@@ -11,7 +11,6 @@ const configValidator = z.object({
   width: z.number().or(z.string()).optional(),
   colSpan: z.number().optional(),
   rowSpan: z.number().optional(),
-  isClicable: z.boolean().optional(),
 })
 
 export type TableCellConfig = z.infer<typeof configValidator>

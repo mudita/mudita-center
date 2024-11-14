@@ -24,7 +24,6 @@ export const TableCell: APIFC<undefined, TableCellConfig> = ({
           colSpan={config.colSpan}
           rowSpan={config.rowSpan}
           $width={config.width}
-          $isClicable={config.isClicable}
         >
           {children}
         </Cell>
@@ -37,7 +36,6 @@ export const TableCell: APIFC<undefined, TableCellConfig> = ({
 
 export const Cell = styled.td<{
   $width?: number | string
-  $isClicable?: boolean
 }>`
   --cell-width: ${({ $width }) => {
     return $width !== undefined
@@ -51,7 +49,6 @@ export const Cell = styled.td<{
   max-width: var(--cell-width);
   min-width: var(--cell-width);
   overflow: hidden;
-  cursor: ${({ $isClicable = false }) => ($isClicable ? "pointer" : "default")};
 
   p {
     white-space: nowrap !important;

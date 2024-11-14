@@ -4,13 +4,16 @@
  */
 
 import { z } from "zod"
+import { commonTextValidators } from "./common-text-validators"
 
 const dataValidator = z.undefined()
 
-const configValidator = z.object({
-  text: z.string(),
-  bold: z.boolean().optional(),
-})
+const configValidator = z
+  .object({
+    text: z.string(),
+    unbold: z.boolean().optional(),
+  })
+  .merge(commonTextValidators)
 
 export type HeaderConfig = z.infer<typeof configValidator>
 

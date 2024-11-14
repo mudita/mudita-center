@@ -137,10 +137,30 @@ const view: View = {
     dataProvider: {
       source: "entities-array",
       entitiesType: "contacts",
+      sort: [
+        {
+          fieldGroup: [
+            "lastName",
+            "firstName",
+            "displayName1",
+            "displayName2",
+            "displayName3",
+            "displayName4",
+          ],
+          priority: 1,
+          direction: "asc",
+          orderingPatterns: [
+            "/^\\p{L}.*/u",
+            "/^\\d+$/",
+            "/^[^a-zA-Z\\d\\s@]+$/",
+          ],
+        },
+      ],
     },
     childrenKeys: [
       "columnCheckbox",
-      "columnName",
+      "columnNameSmallWrapper",
+      "columnNameBigWrapper",
       "columnEmpty",
       "columnPhoneNumberOptional",
       "columnPhoneNumberLengthOptional",
@@ -152,11 +172,54 @@ const view: View = {
       width: "100%",
     },
   },
+  columnNameSmallWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "form-fields",
+      fields: [
+        {
+          providerField: "activeContactId",
+          componentField: "data.render",
+          modifier: "boolean",
+        },
+      ],
+    },
+    childrenKeys: ["columnNameSmall"],
+  },
+  columnNameSmall: {
+    component: "table.cell",
+    config: {
+      width: "260px",
+    },
+    childrenKeys: ["contactDisplayName"],
+  },
+  columnNameBigWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "form-fields",
+      fields: [
+        {
+          providerField: "activeContactId",
+          componentField: "data.render",
+          modifier: "boolean",
+          condition: "eq",
+          value: false,
+        },
+      ],
+    },
+    childrenKeys: ["columnNameBig"],
+  },
+  columnNameBig: {
+    component: "table.cell",
+    config: {
+      width: "479px",
+    },
+    childrenKeys: ["contactDisplayName"],
+  },
   columnName: {
     component: "table.cell",
     config: {
       width: "479px",
-      isClicable: true,
     },
     childrenKeys: ["contactDisplayName"],
   },
@@ -202,7 +265,7 @@ const view: View = {
     childrenKeys: ["contactDisplayNameHeader", "disableButton"],
     layout: {
       flexLayout: {
-        rowGap: "24px",
+        columnGap: "14px",
         direction: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -219,7 +282,8 @@ const view: View = {
     component: "h3-component",
     config: {
       text: "",
-      bold: false,
+      unbold: true,
+      singleLine: true,
     },
     childrenKeys: ["contactDisplayNameValue"],
   },
