@@ -137,6 +137,25 @@ const view: View = {
     dataProvider: {
       source: "entities-array",
       entitiesType: "contacts",
+      sort: [
+        {
+          fieldGroup: [
+            "lastName",
+            "firstName",
+            "displayName1",
+            "displayName2",
+            "displayName3",
+            "displayName4",
+          ],
+          priority: 1,
+          direction: "asc",
+          orderingPatterns: [
+            "/^\\p{L}.*/u",
+            "/^\\d+$/",
+            "/^[^a-zA-Z\\d\\s@]+$/",
+          ],
+        },
+      ],
     },
     childrenKeys: [
       "columnCheckbox",
