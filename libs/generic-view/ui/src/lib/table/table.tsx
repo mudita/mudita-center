@@ -18,6 +18,7 @@ import { TableConfig, TableData } from "generic-view/models"
 import { TableCell } from "./table-cell"
 import { P1 } from "../texts/paragraphs"
 import { difference, intersection } from "lodash"
+import { CheckboxInputWrapper } from "../interactive/form/input/checkbox-input"
 
 const rowHeight = 64
 
@@ -204,20 +205,55 @@ const TableBody = styled.tbody`
 `
 
 const Row = styled.tr<{ $active?: boolean; $isClickable?: boolean }>`
+  position: relative;
   height: ${rowHeight / 10}rem;
   border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
-  border-left: 0.2rem solid transparent;
-  ${({ $active }) =>
-    $active &&
-    css`
-      border-left: 0.2rem solid #000;
-    `}
+  transition: background 0.15s ease-in-out, border 0.15s ease-in-out;
+
+  &:hover {
+    background: ${({ theme }) => theme.color.grey6};
+    border-bottom-color: ${({ theme }) => theme.color.grey4};
+  }
 
   ${({ $isClickable }) =>
     $isClickable &&
     css`
       cursor: pointer;
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0.5rem;
+        height: 100%;
+        background: transparent;
+        z-index: 1;
+        transition: background 0.15s ease-in-out;
+      }
     `}
+
+  ${({ $active }) =>
+    $active &&
+    css`
+      background: ${({ theme }) => theme.color.grey5};
+      &:before {
+        background: ${({ theme }) => theme.color.grey1};
+      }
+      &:hover {
+        background: ${({ theme }) => theme.color.grey8};
+        border-bottom-color: ${({ theme }) => theme.color.grey4};
+      }
+    `}
+
+  &:has(${CheckboxInputWrapper} input:checked) {
+    background: ${({ theme }) => theme.color.grey5};
+
+    &:hover {
+      background: ${({ theme }) => theme.color.grey8};
+      border-bottom-color: ${({ theme }) => theme.color.grey4};
+    }
+  }
 `
 
 const RowPlaceholder = styled.tr`
