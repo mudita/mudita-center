@@ -13,7 +13,7 @@ import styled from "styled-components"
 import { useFilteredRoutesHistory } from "shared/utils"
 import { useDataMigrationDeviceSelector } from "shared/feature"
 import { ApiError } from "device/models"
-import { getDevicesSelector, useDeactivateDeviceAndRedirect } from "device-manager/feature"
+import { useHandleActiveDeviceAborted } from "device-manager/feature"
 import {
   selectActiveDeviceMenuElements,
   selectApiError,
@@ -50,8 +50,7 @@ const messages = defineMessages({
 export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
-  const devices = useSelector(getDevicesSelector)
-  const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
+  const handleActiveDeviceAborted = useHandleActiveDeviceAborted()
   const selectDevice = useDataMigrationDeviceSelector()
   const firstRenderTime = useRef(Date.now())
   const menuElements = useSelector(selectActiveDeviceMenuElements)
@@ -75,16 +74,6 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
 
   const targetPath = useMemo(() => {
     const firstMenuItemUrl = menuElements?.[0]?.items?.[0]?.button.url
-    const commonPaths = [
-      URL_MAIN.root,
-      URL_MAIN.news,
-      URL_MAIN.settings,
-      URL_ONBOARDING.root,
-      URL_ONBOARDING.welcome,
-    ]
-    if (commonPaths.includes(pathToGoBack as (typeof commonPaths)[number])) {
-      return pathToGoBack
-    }
     if (
       pathToGoBack === URL_MAIN.dataMigration &&
       dataMigrationSourceDevice &&
@@ -93,12 +82,7 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
       return "/generic/mc-data-migration"
     }
     return firstMenuItemUrl
-  }, [
-    dataMigrationSourceDevice,
-    dataMigrationTargetDevice,
-    menuElements,
-    pathToGoBack,
-  ])
+  }, [dataMigrationSourceDevice, dataMigrationTargetDevice, menuElements, pathToGoBack])
 
   const onModalClose = useCallback(async () => {
     if (pathToGoBack === URL_MAIN.dataMigration && dataMigrationSourceDevice) {
@@ -107,19 +91,15 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
         URL_MAIN.dataMigration
       )
       dispatch(setDataMigrationSourceDevice(undefined))
-    } else if (devices.length > 1) {
-      await deactivateDeviceAndRedirect()
     } else {
-      history.push(pathToGoBack || URL_MAIN.news)
+      await handleActiveDeviceAborted()
     }
   }, [
     dataMigrationSourceDevice,
     dispatch,
-    history,
     pathToGoBack,
     selectDevice,
-    devices.length,
-    deactivateDeviceAndRedirect,
+    handleActiveDeviceAborted,
   ])
 
   const modalCloseAction: ButtonAction = {

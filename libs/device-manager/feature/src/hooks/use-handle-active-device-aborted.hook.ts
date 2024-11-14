@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { useCallback } from "react"
 import { TmpDispatch } from "Core/__deprecated__/renderer/store"
-import { deactivateDevice } from "device-manager/feature"
 import {
   URL_DISCOVERY_DEVICE,
   URL_MAIN,
@@ -17,6 +16,7 @@ import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
+import { deactivateDevice } from "../actions"
 
 export const useHandleActiveDeviceAborted = () => {
   const history = useHistory()
