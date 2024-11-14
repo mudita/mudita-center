@@ -115,7 +115,7 @@ describe("Check Help window", () => {
       await helpSubCategoriesListItems.map((element) => {
         return element
           .$('[data-testid="help-subcategories-list-item-title"]')
-          .getText() as Promise<string>
+          .getText()
       })
 
     expect(helpSubCategoryArticlesListItemTitles.length).toBeGreaterThanOrEqual(

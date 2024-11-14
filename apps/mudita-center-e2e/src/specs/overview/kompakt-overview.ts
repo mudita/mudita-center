@@ -48,7 +48,7 @@ describe("E2E mock sample - overview view", () => {
   it("Verify Overview Page", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
     await expect(kompaktImage).toBeDisplayed()
-    await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
+    expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()

@@ -29,6 +29,7 @@ describe("Open Settings and check if change location button is clickable", () =>
     await backupLocationValue.waitForDisplayed()
 
     await expect(backupLocationValue).toHaveText(
+      // eslint-disable-next-line no-useless-escape
       /^(\/{1}|C\:\\)(Users|home).*(\/Library\/Application Support|\/.config|\\AppData\\Roaming)(\/@mudita\/mudita-center-app|\\@mudita\\mudita-center-app).*/gm
     )
   })

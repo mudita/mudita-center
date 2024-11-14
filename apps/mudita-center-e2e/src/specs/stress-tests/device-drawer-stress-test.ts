@@ -215,7 +215,7 @@ describe("Kompakt switching devices", () => {
       ].getText()
       expect(deviceSerialNumber).toEqual(device.serialNumber)
 
-      const deviceName = await drawerDeviceNames[device.index]
+      const deviceName = drawerDeviceNames[device.index]
       await expect(deviceName).toHaveText(device.name)
     }
 

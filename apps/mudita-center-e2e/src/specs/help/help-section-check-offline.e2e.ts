@@ -133,9 +133,7 @@ describe("Check Help window", () => {
     //Every sub category should not be empty
     const helpSubCategoryArticlesListItemTitles =
       await helpSubCategoriesListItems.map((element) => {
-        return element
-          .$('[data-testid="help-subcategories-list-item-title"]')
-          .getText() as Promise<string>
+        return element.$('[data-testid="help-subcategories-list-item-title"]')
       })
     expect(helpSubCategoryArticlesListItemTitles.length).toBeGreaterThanOrEqual(
       1
