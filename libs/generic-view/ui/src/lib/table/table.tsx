@@ -126,7 +126,11 @@ export const Table: APIFC<TableData, TableConfig> & {
       const isActive = activeRowId === id
 
       return (
-        <Row onClick={onClick} $active={isActive}>
+        <Row
+          onClick={onClick}
+          $active={isActive}
+          $isClickable={Boolean(activeIdFieldName)}
+        >
           {renderChildren(id)}
         </Row>
       )
@@ -199,8 +203,7 @@ const TableBody = styled.tbody`
   }
 `
 
-// TODO: Add proper styles for the table row
-const Row = styled.tr<{ $active?: boolean }>`
+const Row = styled.tr<{ $active?: boolean; $isClickable?: boolean }>`
   height: ${rowHeight / 10}rem;
   border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
   border-left: 0.2rem solid transparent;
@@ -208,6 +211,12 @@ const Row = styled.tr<{ $active?: boolean }>`
     $active &&
     css`
       border-left: 0.2rem solid #000;
+    `}
+
+  ${({ $isClickable }) =>
+    $isClickable &&
+    css`
+      cursor: pointer;
     `}
 `
 

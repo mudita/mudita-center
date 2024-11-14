@@ -190,7 +190,6 @@ const view: View = {
     component: "table.cell",
     config: {
       width: "260px",
-      isClicable: true,
     },
     childrenKeys: ["contactDisplayName"],
   },
@@ -214,7 +213,6 @@ const view: View = {
     component: "table.cell",
     config: {
       width: "479px",
-      isClicable: true,
     },
     childrenKeys: ["contactDisplayName"],
   },
@@ -222,7 +220,6 @@ const view: View = {
     component: "table.cell",
     config: {
       width: "479px",
-      isClicable: true,
     },
     childrenKeys: ["contactDisplayName"],
   },
