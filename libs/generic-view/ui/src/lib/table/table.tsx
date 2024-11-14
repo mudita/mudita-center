@@ -135,7 +135,14 @@ export const Table: APIFC<TableData, TableConfig> & {
         </Row>
       )
     },
-    [activeRowId, onRowClick, placeholder, renderChildren, visibleRowsBounds]
+    [
+      activeIdFieldName,
+      activeRowId,
+      onRowClick,
+      placeholder,
+      renderChildren,
+      visibleRowsBounds,
+    ]
   )
 
   return useMemo(
