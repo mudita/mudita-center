@@ -30,6 +30,7 @@ export const Paragraph1: APIFC<undefined, ParagraphConfig> = ({
       {...props}
       $color={config?.color}
       $textTransform={config?.textTransform}
+      $singleLine={config?.singleLine}
     >
       {isEmpty(children) ? config?.text : children}
     </P1>
@@ -62,6 +63,7 @@ export const Paragraph2: APIFC<undefined, ParagraphConfig> = ({
       {...props}
       $color={config?.color}
       $textTransform={config?.textTransform}
+      $singleLine={config?.singleLine}
     >
       {isEmpty(children) ? config?.text : children}
     </P2>
@@ -91,6 +93,7 @@ export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
       {...props}
       $color={config?.color}
       $textTransform={config?.textTransform}
+      $singleLine={config?.singleLine}
     >
       {isEmpty(children) ? config?.text : children}
     </P3>
@@ -120,6 +123,7 @@ export const Paragraph4: APIFC<undefined, ParagraphConfig> = ({
       {...props}
       $color={config?.color}
       $textTransform={config?.textTransform}
+      $singleLine={config?.singleLine}
     >
       {isEmpty(children) ? config?.text : children}
     </P4>
@@ -149,6 +153,7 @@ export const Paragraph5: APIFC<undefined, ParagraphConfig> = ({
       {...props}
       $color={config?.color}
       $textTransform={config?.textTransform}
+      $singleLine={config?.singleLine}
     >
       {isEmpty(children) ? config?.text : children}
     </P5>

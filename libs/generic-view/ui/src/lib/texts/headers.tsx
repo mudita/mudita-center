@@ -36,7 +36,13 @@ export const Header3: APIFC<undefined, HeaderConfig> = ({
   ...props
 }) => {
   return (
-    <H3 $unbold={config.unbold} $singleLine={config.singleLine} {...props}>
+    <H3
+      $unbold={config.unbold}
+      $singleLine={config.singleLine}
+      $color={config.color}
+      $textTransform={config.textTransform}
+      {...props}
+    >
       {isEmpty(children) ? config.text : children}
     </H3>
   )
@@ -55,7 +61,17 @@ export const Header4: APIFC<undefined, HeaderConfig> = ({
   children,
   ...props
 }) => {
-  return <H4 {...props}>{isEmpty(children) ? config.text : children}</H4>
+  return (
+    <H4
+      $unbold={config.unbold}
+      $singleLine={config.singleLine}
+      $color={config.color}
+      $textTransform={config.textTransform}
+      {...props}
+    >
+      {isEmpty(children) ? config.text : children}
+    </H4>
+  )
 }
 
 export const H4 = styled.h4<HeaderProps>`
@@ -71,7 +87,17 @@ export const Header5: APIFC<undefined, HeaderConfig> = ({
   children,
   ...props
 }) => {
-  return <H5 {...props}>{isEmpty(children) ? config.text : children}</H5>
+  return (
+    <H5
+      $unbold={config.unbold}
+      $singleLine={config.singleLine}
+      $color={config.color}
+      $textTransform={config.textTransform}
+      {...props}
+    >
+      {isEmpty(children) ? config.text : children}
+    </H5>
+  )
 }
 
 export const H5 = styled.h5<HeaderProps>`
