@@ -24,7 +24,13 @@ export const ButtonIcon: APIFC<undefined, ButtonIconConfig> = ({
       $modifiers={config.modifiers}
     >
       {children}
-      {config.icon && <Icon className={"icon"} data={{ type: config.icon }} />}
+      {config.icon && (
+        <Icon
+          className={"icon"}
+          data={{ type: config.icon }}
+          config={{ type: config.icon, size: config.iconSize }}
+        />
+      )}
     </Button>
   )
 }
@@ -48,9 +54,6 @@ const Button = styled(ButtonBase)<{
     $modifiers?.includes("hover-background") && buttonHoverBackgroundModifier};
 
   .icon {
-    width: 2.2rem;
-    height: 2.2rem;
-
     svg * {
       fill: currentColor;
     }

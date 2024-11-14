@@ -292,7 +292,7 @@ const view: View = {
     component: "button-icon",
     config: {
       icon: IconType.Close,
-      iconSize: "small",
+      iconSize: "tiny",
       actions: [
         {
           type: "form-set-field",
@@ -703,7 +703,7 @@ const view: View = {
       entitiesType: "contacts",
       fields: [
         {
-          providerField: "namePrefix",
+          providerField: "nameSuffix",
           componentField: "data.render",
           condition: "ne",
           value: undefined,
