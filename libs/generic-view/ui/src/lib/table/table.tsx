@@ -34,6 +34,7 @@ export const Table: APIFC<TableData, TableConfig> & {
 
   const { formOptions, columnsNames } = config
   const { activeIdFieldName } = formOptions
+  const isClickable = Boolean(activeIdFieldName)
 
   const activeRowId = activeIdFieldName
     ? formContext.watch(activeIdFieldName)
@@ -127,13 +128,9 @@ export const Table: APIFC<TableData, TableConfig> & {
       const isActive = activeRowId === id
 
       return (
-        <Row
-          onClick={onClick}
-          $active={isActive}
-          $isClickable={Boolean(activeIdFieldName)}
-        >
+        <tr onClick={onClick} className={isActive ? "active" : ""}>
           {renderChildren(id)}
-        </Row>
+        </tr>
       )
     },
     [activeRowId, onRowClick, placeholder, renderChildren, visibleRowsBounds]
@@ -154,13 +151,13 @@ export const Table: APIFC<TableData, TableConfig> & {
               </tr>
             </TableHeader>
           )}
-          <TableBody>
+          <TableBody $clickable={isClickable}>
             {data?.map((id, index) => renderRow(id, index))}
           </TableBody>
         </TableWrapper>
       </ScrollableWrapper>
     ),
-    [columnsNames, data, props, renderRow]
+    [columnsNames, data, isClickable, props, renderRow]
   )
 }
 
@@ -195,47 +192,20 @@ const TableHeader = styled.thead`
   }
 `
 
-const TableBody = styled.tbody`
+const TableBody = styled.tbody<{ $clickable?: boolean }>`
   tr {
     height: ${rowHeight / 10}rem;
-  }
-  td {
-    text-align: left;
-  }
-`
+    position: relative;
+    height: ${rowHeight / 10}rem;
+    border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
+    transition: background 0.15s ease-in-out, border 0.15s ease-in-out;
 
-const Row = styled.tr<{ $active?: boolean; $isClickable?: boolean }>`
-  position: relative;
-  height: ${rowHeight / 10}rem;
-  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
-  transition: background 0.15s ease-in-out, border 0.15s ease-in-out;
+    &:hover {
+      background: ${({ theme }) => theme.color.grey6};
+      border-bottom-color: ${({ theme }) => theme.color.grey4};
+    }
 
-  &:hover {
-    background: ${({ theme }) => theme.color.grey6};
-    border-bottom-color: ${({ theme }) => theme.color.grey4};
-  }
-
-  ${({ $isClickable }) =>
-    $isClickable &&
-    css`
-      cursor: pointer;
-
-      &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0.5rem;
-        height: 100%;
-        background: transparent;
-        z-index: 1;
-        transition: background 0.15s ease-in-out;
-      }
-    `}
-
-  ${({ $active }) =>
-    $active &&
-    css`
+    &.active {
       background: ${({ theme }) => theme.color.grey5};
       &:before {
         background: ${({ theme }) => theme.color.grey1};
@@ -244,15 +214,37 @@ const Row = styled.tr<{ $active?: boolean; $isClickable?: boolean }>`
         background: ${({ theme }) => theme.color.grey8};
         border-bottom-color: ${({ theme }) => theme.color.grey4};
       }
-    `}
-
-  &:has(${CheckboxInputWrapper} input:checked) {
-    background: ${({ theme }) => theme.color.grey5};
-
-    &:hover {
-      background: ${({ theme }) => theme.color.grey8};
-      border-bottom-color: ${({ theme }) => theme.color.grey4};
     }
+
+    ${({ $clickable }) =>
+      $clickable &&
+      css`
+        cursor: pointer;
+
+        &:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 0.5rem;
+          height: 100%;
+          background: transparent;
+          z-index: 1;
+          transition: background 0.15s ease-in-out;
+        }
+      `}
+
+    &:has(${CheckboxInputWrapper} input:checked) {
+      background: ${({ theme }) => theme.color.grey5};
+
+      &:hover {
+        background: ${({ theme }) => theme.color.grey8};
+        border-bottom-color: ${({ theme }) => theme.color.grey4};
+      }
+    }
+  }
+  td {
+    text-align: left;
   }
 `
 
