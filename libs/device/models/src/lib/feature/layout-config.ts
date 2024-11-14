@@ -142,6 +142,7 @@ export const layoutSchema = z.intersection(
     padding: z.string().optional(),
     width: z.string().optional(),
     height: z.string().optional(),
+    overflow: z.enum(["visible", "hidden", "scroll", "auto"]).optional(),
   })
 )
 

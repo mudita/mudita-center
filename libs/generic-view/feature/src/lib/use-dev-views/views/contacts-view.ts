@@ -309,6 +309,8 @@ const view: View = {
         direction: "column",
       },
       padding: "24px 32px 32px 32px",
+      height: "557px",
+      overflow: "auto",
     },
     childrenKeys: [
       "contactInformationText",
