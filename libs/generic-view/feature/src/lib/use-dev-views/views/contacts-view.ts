@@ -268,7 +268,7 @@ const view: View = {
     childrenKeys: ["contactDisplayNameHeader", "disableButton"],
     layout: {
       flexLayout: {
-        columnGap: "16px",
+        columnGap: "14px",
         direction: "row",
         justifyContent: "space-between",
         alignItems: "center",
