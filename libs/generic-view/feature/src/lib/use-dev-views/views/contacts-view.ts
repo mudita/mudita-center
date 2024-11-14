@@ -140,7 +140,8 @@ const view: View = {
     },
     childrenKeys: [
       "columnCheckbox",
-      "columnName",
+      "columnNameSmallWrapper",
+      "columnNameBigWrapper",
       "columnEmpty",
       "columnPhoneNumberOptional",
       "columnPhoneNumberLengthOptional",
@@ -151,6 +152,52 @@ const view: View = {
     config: {
       width: "100%",
     },
+  },
+  columnNameSmallWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "form-fields",
+      fields: [
+        {
+          providerField: "activeContactId",
+          componentField: "data.render",
+          modifier: "boolean",
+        },
+      ],
+    },
+    childrenKeys: ["columnNameSmall"],
+  },
+  columnNameSmall: {
+    component: "table.cell",
+    config: {
+      width: "260px",
+      isClicable: true,
+    },
+    childrenKeys: ["contactDisplayName"],
+  },
+  columnNameBigWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "form-fields",
+      fields: [
+        {
+          providerField: "activeContactId",
+          componentField: "data.render",
+          modifier: "boolean",
+          condition: "eq",
+          value: false,
+        },
+      ],
+    },
+    childrenKeys: ["columnNameBig"],
+  },
+  columnNameBig: {
+    component: "table.cell",
+    config: {
+      width: "479px",
+      isClicable: true,
+    },
+    childrenKeys: ["contactDisplayName"],
   },
   columnName: {
     component: "table.cell",
@@ -202,7 +249,7 @@ const view: View = {
     childrenKeys: ["contactDisplayNameHeader", "disableButton"],
     layout: {
       flexLayout: {
-        rowGap: "24px",
+        columnGap: "16px",
         direction: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -219,7 +266,8 @@ const view: View = {
     component: "h3-component",
     config: {
       text: "",
-      bold: false,
+      unbold: true,
+      singleLine: true,
     },
     childrenKeys: ["contactDisplayNameValue"],
   },
