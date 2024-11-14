@@ -48,7 +48,6 @@ import {
   set,
 } from "lodash"
 import { Paragraph5, Tooltip } from "generic-view/ui"
-import { width } from "Core/core/styles/theming/theme-getters"
 
 export const setupComponent = <P extends object>(
   Component: ComponentType<P>

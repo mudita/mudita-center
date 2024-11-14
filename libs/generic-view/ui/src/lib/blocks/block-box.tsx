@@ -9,6 +9,13 @@ import { APIFC } from "generic-view/utils"
 import { Badge } from "../data-rows/badge"
 import { BlockBoxConfig, BlockBoxData } from "generic-view/models"
 
+interface BlockConfig {
+  $borderTop?: string
+  $borderRight?: string
+  $borderBottom?: string
+  $borderLeft?: string
+}
+
 export const BlockBox: APIFC<BlockBoxData, BlockBoxConfig> = ({
   config,
   data,
@@ -16,7 +23,14 @@ export const BlockBox: APIFC<BlockBoxData, BlockBoxConfig> = ({
   ...props
 }) => {
   return (
-    <Block {...props} data-testid={`block-box-${props.componentKey}`}>
+    <Block
+      $borderTop={config?.borderTop}
+      $borderRight={config?.borderRight}
+      $borderBottom={config?.borderBottom}
+      $borderLeft={config?.borderLeft}
+      {...props}
+      data-testid={`block-box-${props.componentKey}`}
+    >
       {config?.title && (
         <Headline>
           {config.title}
@@ -30,11 +44,19 @@ export const BlockBox: APIFC<BlockBoxData, BlockBoxConfig> = ({
   )
 }
 
-const Block = styled.div`
+const Block = styled.div<BlockConfig>`
   background-color: ${({ theme }) => theme.color.white};
   border-radius: ${({ theme }) => theme.radius.sm};
   padding: ${({ theme }) => theme.space.xl};
   box-sizing: border-box;
+  border-top: ${({ $borderTop = undefined }) =>
+    $borderTop ? $borderTop : "none"};
+  border-right: ${({ $borderRight = undefined }) =>
+    $borderRight ? $borderRight : "none"};
+  border-bottom: ${({ $borderBottom = undefined }) =>
+    $borderBottom ? $borderBottom : "none"};
+  border-left: ${({ $borderLeft = undefined }) =>
+    $borderLeft ? $borderLeft : "none"};
 `
 
 const Headline = styled.h3`

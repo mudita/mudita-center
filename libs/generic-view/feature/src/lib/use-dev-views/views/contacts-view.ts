@@ -126,6 +126,12 @@ const view: View = {
       formOptions: {
         selectedIdsFieldName: "selectedContacts",
         allIdsFieldName: "allContacts",
+        activeIdFieldName: "activeContactId",
+      },
+    },
+    layout: {
+      flexPlacement: {
+        grow: 1,
       },
     },
     dataProvider: {
@@ -150,6 +156,7 @@ const view: View = {
     component: "table.cell",
     config: {
       width: "479px",
+      isClicable: true,
     },
     childrenKeys: ["contactDisplayName"],
   },
@@ -169,6 +176,9 @@ const view: View = {
   },
   details: {
     component: "block-plain",
+    config: {
+      borderLeft: "2px solid #f4f5f6",
+    },
     layout: {
       width: "608px",
     },
@@ -185,6 +195,10 @@ const view: View = {
   },
   contactDetailsHeader: {
     component: "block-box",
+    config: {
+      borderBottom: "2px solid #f4f5f6",
+      borderTop: "2px solid #f4f5f6",
+    },
     childrenKeys: ["contactDisplayNameHeader", "disableButton"],
     layout: {
       flexLayout: {
@@ -213,6 +227,7 @@ const view: View = {
     component: "button-icon",
     config: {
       icon: IconType.Close,
+      iconSize: "small",
       actions: [
         {
           type: "form-set-field",
@@ -232,12 +247,20 @@ const view: View = {
     childrenKeys: [
       "contactInformationText",
       "contactDetailsPhoneNumberWrapper",
-      "contactDetailsFirstName",
-      "contactDetailsLastName",
-      "contactDetailsNamePrefix",
+      "contactDetailsFirstNameWrapper",
+      "contactDetailsLastNameWrapper",
+      "contactDetailsNamePrefixWrapper",
       "contactDetailsMiddleNameWrapper",
-      "contactDetailsNameSuffix",
-      "contactDetailsEmail",
+      "contactDetailsNameSuffixWrapper",
+      "contactDetailsEmailWrapper",
+      "contactDetailsNickNameWrapper",
+      "contactDetailsCompanyWrapper",
+      "contactDetailsDepartmentWrapper",
+      "contactDetailsTitleWrapper",
+      "contactDetailsSipWrapper",
+      "contactDetailsAddressWrapper",
+      "contactDetailsWebsiteWrapper",
+      "contactDetailsNotesWrapper",
     ],
   },
   contactInformationText: {
@@ -271,7 +294,7 @@ const view: View = {
     childrenKeys: [
       "contactDetailsPhoneNumberLabel",
       "contactDetailsPhoneNumber1Wrapper",
-      "contactDetailsPhoneNumber2",
+      "contactDetailsPhoneNumber2Wrapper",
     ],
   },
   contactDetailsPhoneNumberLabel: {
@@ -358,6 +381,91 @@ const view: View = {
       size: "small",
     },
   },
+  contactDetailsPhoneNumber2Wrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "phoneNumbers[1].phoneNumber",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsPhoneNumber2Block"],
+  },
+  contactDetailsPhoneNumber2Block: {
+    component: "block-plain",
+    layout: {
+      flexLayout: {
+        direction: "row",
+        columnGap: "6px",
+        alignItems: "flex-start",
+      },
+    },
+    childrenKeys: [
+      "contactDetailsPhoneNumber2Value",
+      "contactDetailsPhoneNumber2Type",
+    ],
+  },
+  contactDetailsPhoneNumber2Value: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "phoneNumbers[1].phoneNumber",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsPhoneNumber2Type: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    childrenKeys: ["contactDetailsPhoneNumber2TypeText"],
+  },
+  contactDetailsPhoneNumber2TypeText: {
+    component: "format-message",
+    config: {
+      messageTemplate: "• <c>{phoneType}</c>",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "phoneNumbers[1].phoneType",
+          componentField: "data.fields.phoneType",
+        },
+      ],
+    },
+  },
+  contactDetailsFirstNameWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "firstName",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsFirstName"],
+  },
   contactDetailsFirstName: {
     component: "block-plain",
     childrenKeys: [
@@ -372,7 +480,10 @@ const view: View = {
     },
   },
   contactDetailsFirstNameValue: {
-    component: "p3-component",
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
@@ -383,6 +494,22 @@ const view: View = {
         },
       ],
     },
+  },
+  contactDetailsLastNameWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "lastName",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsLastName"],
   },
   contactDetailsLastName: {
     component: "block-plain",
@@ -398,7 +525,10 @@ const view: View = {
     },
   },
   contactDetailsLastNameValue: {
-    component: "p3-component",
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
@@ -409,6 +539,22 @@ const view: View = {
         },
       ],
     },
+  },
+  contactDetailsNamePrefixWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "namePrefix",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsNamePrefix"],
   },
   contactDetailsNamePrefix: {
     component: "block-plain",
@@ -424,7 +570,10 @@ const view: View = {
     },
   },
   contactDetailsNamePrefixValue: {
-    component: "p3-component",
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
@@ -466,7 +615,10 @@ const view: View = {
     },
   },
   contactDetailsMiddleNameValue: {
-    component: "p3-component",
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
@@ -477,6 +629,22 @@ const view: View = {
         },
       ],
     },
+  },
+  contactDetailsNameSuffixWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "namePrefix",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsNameSuffix"],
   },
   contactDetailsNameSuffix: {
     component: "block-plain",
@@ -492,17 +660,36 @@ const view: View = {
     },
   },
   contactDetailsNameSuffixValue: {
-    component: "p3-component",
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "nameSuffix",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsEmailWrapper: {
+    component: "conditional-renderer",
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: [
         {
           providerField: "namePrefix",
-          componentField: "config.text",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
         },
       ],
     },
+    childrenKeys: ["contactDetailsEmail"],
   },
   contactDetailsEmail: {
     component: "block-plain",
@@ -515,13 +702,361 @@ const view: View = {
     },
   },
   contactDetailsEmailValue: {
-    component: "p3-component",
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
       fields: [
         {
           providerField: "emailAddresses[0].emailAddress",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsNickNameWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "nickName",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsNickName"],
+  },
+  contactDetailsNickName: {
+    component: "block-plain",
+    childrenKeys: [
+      "contactDetailsNickNameLabel",
+      "contactDetailsNickNameValue",
+    ],
+  },
+  contactDetailsNickNameLabel: {
+    component: "h5-component",
+    config: {
+      text: "Nickname",
+    },
+  },
+  contactDetailsNickNameValue: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "nickName",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsCompanyWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "company",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsCompany"],
+  },
+  contactDetailsCompany: {
+    component: "block-plain",
+    childrenKeys: ["contactDetailsCompanyLabel", "contactDetailsCompanyValue"],
+  },
+  contactDetailsCompanyLabel: {
+    component: "h5-component",
+    config: {
+      text: "Company",
+    },
+  },
+  contactDetailsCompanyValue: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "company",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsDepartmentWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "department",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsDepartment"],
+  },
+  contactDetailsDepartment: {
+    component: "block-plain",
+    childrenKeys: [
+      "contactDetailsDepartmentLabel",
+      "contactDetailsDepartmentValue",
+    ],
+  },
+  contactDetailsDepartmentLabel: {
+    component: "h5-component",
+    config: {
+      text: "Department",
+    },
+  },
+  contactDetailsDepartmentValue: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "department",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsTitleWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "workTitle",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsTitle"],
+  },
+  contactDetailsTitle: {
+    component: "block-plain",
+    childrenKeys: ["contactDetailsTitleLabel", "contactDetailsTitleValue"],
+  },
+  contactDetailsTitleLabel: {
+    component: "h5-component",
+    config: {
+      text: "Title",
+    },
+  },
+  contactDetailsTitleValue: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "workTitle",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsSipWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "sip",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsSip"],
+  },
+  contactDetailsSip: {
+    component: "block-plain",
+    childrenKeys: ["contactDetailsSipLabel", "contactDetailsSipValue"],
+  },
+  contactDetailsSipLabel: {
+    component: "h5-component",
+    config: {
+      text: "SIP",
+    },
+  },
+  contactDetailsSipValue: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "sip",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsAddressWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "address",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsAddress"],
+  },
+  contactDetailsAddress: {
+    component: "block-plain",
+    childrenKeys: ["contactDetailsAddressLabel", "contactDetailsAddressValue"],
+  },
+  contactDetailsAddressLabel: {
+    component: "h5-component",
+    config: {
+      text: "Address type (Home)",
+    },
+  },
+  contactDetailsAddressValue: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "address.type",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsWebsiteWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "website",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsWebsite"],
+  },
+  contactDetailsWebsite: {
+    component: "block-plain",
+    childrenKeys: ["contactDetailsWebsiteLabel", "contactDetailsWebsiteValue"],
+  },
+  contactDetailsWebsiteLabel: {
+    component: "h5-component",
+    config: {
+      text: "Website",
+    },
+  },
+  contactDetailsWebsiteValue: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "website",
+          componentField: "config.text",
+        },
+      ],
+    },
+  },
+  contactDetailsNotesWrapper: {
+    component: "conditional-renderer",
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "notes",
+          componentField: "data.render",
+          condition: "ne",
+          value: undefined,
+        },
+      ],
+    },
+    childrenKeys: ["contactDetailsNotes"],
+  },
+  contactDetailsNotes: {
+    component: "block-plain",
+    childrenKeys: ["contactDetailsNotesLabel", "contactDetailsNotesValue"],
+  },
+  contactDetailsNotesLabel: {
+    component: "h5-component",
+    layout: {
+      margin: "16px 0 0 0",
+    },
+    config: {
+      text: "Notes",
+    },
+  },
+  contactDetailsNotesValue: {
+    component: "p4-component",
+    config: {
+      color: "black",
+    },
+    dataProvider: {
+      source: "entities-field",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "notes",
           componentField: "config.text",
         },
       ],
