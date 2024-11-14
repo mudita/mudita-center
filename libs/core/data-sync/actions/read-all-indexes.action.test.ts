@@ -48,6 +48,7 @@ describe("async `readAllIndexes` ", () => {
             threads: {},
             templates: {},
             callLog: {},
+            alarms: {},
           },
           requestId,
           undefined

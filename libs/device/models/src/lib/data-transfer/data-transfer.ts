@@ -5,7 +5,11 @@
 
 import { z } from "zod"
 
-export type DataTransferDomain = "contacts-v1" | "callLog-v1" | "messages-v1"
+export type DataTransferDomain =
+  | "contacts-v1"
+  | "callLog-v1"
+  | "messages-v1"
+  | "alarms-v1"
 
 export const PreDataTransferValidator = (domains: DataTransferDomain[]) => {
   const featuresValidator = domains.reduce((acc, key) => {
