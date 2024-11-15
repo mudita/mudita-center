@@ -194,7 +194,6 @@ const TableHeader = styled.thead`
 
 const TableBody = styled.tbody<{ $clickable?: boolean }>`
   tr {
-    height: ${rowHeight / 10}rem;
     position: relative;
     height: ${rowHeight / 10}rem;
     border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
