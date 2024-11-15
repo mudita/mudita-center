@@ -99,6 +99,19 @@ const useHandleDevicesDetached = () => {
       ]
       const mscEvents = groupedEvents[DeviceType.MuditaHarmonyMsc]
 
+      for (const coreEvent of coreEvents) {
+        dispatch(removeCoreDevice(coreEvent))
+      }
+
+      for (const mscEvent of mscEvents) {
+        dispatch(removeCoreDevice(mscEvent))
+      }
+
+      for (const apiEvent of apiEvents) {
+        dispatch(removeAPIDevice(apiEvent))
+        dispatch(clearEntities({ deviceId: apiEvent.id }))
+      }
+
       if (
         shouldSkipProcessingForDetachedPure(
           deviceDetachedEvents,
@@ -118,19 +131,6 @@ const useHandleDevicesDetached = () => {
         )
       ) {
         dispatch(abortDataMigration({ reason: DataMigrationStatus.Failed }))
-      }
-
-      for (const coreEvent of coreEvents) {
-        dispatch(removeCoreDevice(coreEvent))
-      }
-
-      for (const mscEvent of mscEvents) {
-        dispatch(removeCoreDevice(mscEvent))
-      }
-
-      for (const apiEvent of apiEvents) {
-        dispatch(removeAPIDevice(apiEvent))
-        dispatch(clearEntities({ deviceId: apiEvent.id }))
       }
 
       if (apiEvents.length !== 0) {
