@@ -139,5 +139,3 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
     viewKey,
   ])
 }
-
-export default RecursiveLayout
