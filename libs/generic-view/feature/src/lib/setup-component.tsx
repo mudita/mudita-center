@@ -328,6 +328,9 @@ const setupStyles = (style?: CSSProperties, layout?: Layout) => {
     ...(layout?.height && {
       height: layout.height,
     }),
+    ...(layout?.overflow && {
+      overflow: layout.overflow,
+    }),
     ...(layout?.flexLayout && {
       display: "flex",
       flexDirection: layout.flexLayout.direction,
