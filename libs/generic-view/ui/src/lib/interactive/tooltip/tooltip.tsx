@@ -98,7 +98,8 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
     return React.Children.map(children, (child) => {
       if (
         isValidElement(child) &&
-        child.props.componentName === "tooltip.anchor"
+        (child.props.componentName === "tooltip.anchor" ||
+          child.type === Tooltip.Anchor)
       ) {
         return cloneElement(child as ReactElement, {
           onMouseEnter: (event: MouseEvent) => {
@@ -115,7 +116,8 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
     return React.Children.map(children, (child) => {
       if (
         isValidElement(child) &&
-        child.props.componentName === "tooltip.content"
+        (child.props.componentName === "tooltip.content" ||
+          child.type === Tooltip.Content)
       ) {
         return cloneElement(child as ReactElement)
       }

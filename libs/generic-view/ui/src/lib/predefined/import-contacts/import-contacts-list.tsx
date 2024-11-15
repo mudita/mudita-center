@@ -163,7 +163,7 @@ const ContactItem: React.FC<UnifiedContact> = ({
               <Tooltip
                 config={{
                   offset: {
-                    x: 0,
+                    x: 3,
                     y: 11,
                   },
                 }}
