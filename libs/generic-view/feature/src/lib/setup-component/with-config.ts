@@ -30,5 +30,5 @@ export const ComponentWithConfig: FunctionComponent<Props> = ({
   return useMemo(() => {
     return children({ config })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [configDependency])
+  }, [configDependency, viewKey, componentKey])
 }

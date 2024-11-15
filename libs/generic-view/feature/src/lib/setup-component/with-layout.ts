@@ -36,7 +36,7 @@ export const ComponentWithLayout: FunctionComponent<Props> = ({
   return useMemo(() => {
     return children({ style })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [styleDependency])
+  }, [styleDependency, viewKey, componentKey])
 }
 
 const setupStyles = (style?: CSSProperties, layout?: Layout): CSSProperties => {
