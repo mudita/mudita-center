@@ -4,6 +4,7 @@
  */
 
 export enum DataIndex {
+  Alarm = "alarm",
   Contact = "contact",
   Message = "message",
   Template = "template",
