@@ -9,12 +9,6 @@ import { View } from "generic-view/utils"
 const view: View = {
   main: {
     component: "block-plain",
-    layout: {
-      gridLayout: {
-        rows: ["1fr"],
-        columns: ["1fr"],
-      },
-    },
     childrenKeys: ["contactsWrapper"],
     // @ts-ignore
     screenTitle: "Contacts",
