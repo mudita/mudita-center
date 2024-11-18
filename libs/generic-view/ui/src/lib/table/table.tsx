@@ -87,6 +87,17 @@ export const Table: APIFC<TableData, TableConfig> & {
   }, [data, formOptions.selectedIdsFieldName])
 
   useEffect(() => {
+    if (
+      formOptions.activeIdFieldName &&
+      activeRowId &&
+      !data.includes(activeRowId)
+    ) {
+      formContext.setValue(formOptions.activeIdFieldName, undefined)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeRowId, data, formOptions.activeIdFieldName])
+
+  useEffect(() => {
     const scrollWrapper = scrollWrapperRef.current
     if (!scrollWrapper) return
 
