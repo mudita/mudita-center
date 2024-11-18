@@ -7,11 +7,6 @@ import { ApiResponse } from "Core/device/types/mudita-os"
 import { MatchConfig } from "Libs/e2e-mock/server/src"
 import { APIEndpointType, APIMethodsType } from "device/models"
 import { entitiesConfiguration } from "./entities-configuration-responses"
-// import {
-//   featureConfigurationContacts,
-//   featureConfigurationOverview,
-// } from "./feature-configuration-responses"
-
 //import from "Core/device" breaks usage in e2e
 enum ResponseStatus {
   Ok = 200,
@@ -115,30 +110,6 @@ export const DEFAULT_RESPONSES: MockResponsesMap = {
       },
     },
   },
-  // FEATURE_CONFIGURATION: {
-  //   GET: [
-  //     {
-  //       status: ResponseStatus.Ok,
-  //       body: featureConfigurationOverview,
-  //       match: {
-  //         expected: {
-  //           feature: "mc-overview",
-  //           lang: "en-US",
-  //         },
-  //       },
-  //     },
-  //     {
-  //       status: ResponseStatus.Ok,
-  //       body: featureConfigurationContacts,
-  //       match: {
-  //         expected: {
-  //           feature: "contacts",
-  //           lang: "en-US",
-  //         },
-  //       },
-  //     },
-  //   ],
-  // },
   ENTITIES_CONFIGURATION: {
     GET: {
       status: ResponseStatus.Ok,
@@ -174,30 +145,3 @@ export const DEFAULT_RESPONSES: MockResponsesMap = {
     },
   },
 }
-
-// export const DEFAULT_RESPONSES_ARRAY: MocksArrayResponsesMap = {
-//   FEATURE_CONFIGURATION: {
-//     GET: [
-//       {
-//         status: ResponseStatus.Ok,
-//         body: featureConfigurationOverview,
-//         match: {
-//           expected: {
-//             feature: "mc-overview",
-//             lang: "en-US",
-//           },
-//         },
-//       },
-//       {
-//         status: ResponseStatus.Ok,
-//         body: featureConfigurationContacts,
-//         match: {
-//           expected: {
-//             feature: "contacts",
-//             lang: "en-US",
-//           },
-//         },
-//       },
-//     ],
-//   },
-// }

@@ -7,30 +7,14 @@ export const featureConfigurationContacts = {
   main: {
     screenTitle: "Contacts",
     component: "block-plain",
-    layout: {
-      gridLayout: {
-        rows: ["auto", "1fr"],
-        columns: ["1fr"],
-      },
-    },
-    config: {
-      backgroundColor: "white",
-    },
-    childrenKeys: ["contactsForm"],
+    layout: { gridLayout: { rows: ["auto", "1fr"], columns: ["1fr"] } },
+    config: { backgroundColor: "white" },
+    childrenKeys: ["emptyListWrapper", "listWrapper"],
   },
   contactsForm: {
     component: "form",
     config: {
-      formOptions: {
-        defaultValues: {
-          selectedContacts: [],
-          allContacts: [],
-        },
-      },
-      defaultValues: {
-        selectedContacts: [],
-        allContacts: [],
-      },
+      formOptions: { defaultValues: { selectedContacts: [], allContacts: [] } },
     },
     childrenKeys: ["contactsLoader"],
   },
@@ -40,12 +24,7 @@ export const featureConfigurationContacts = {
       text: "Loading contacts, please wait...",
       entitiesTypes: ["contacts"],
     },
-    childrenKeys: [
-      "contactsPanelWrapper",
-      "contactsFormWrapper",
-      "emptyListWrapper",
-      "appHeaderCounter",
-    ],
+    childrenKeys: ["contactsPanel", "contactsTableWrapper", "appHeaderCounter"],
     layout: {
       flexLayout: {
         direction: "column",
@@ -53,25 +32,13 @@ export const featureConfigurationContacts = {
         alignItems: "center",
         rowGap: "24px",
       },
-      gridPlacement: {
-        row: 1,
-        column: 1,
-        width: 1,
-        height: 2,
-      },
+      gridPlacement: { row: 1, column: 1, width: 1, height: 2 },
     },
   },
   contactsPanel: {
     component: "block-plain",
     childrenKeys: ["contactsPanelDefaultMode", "contactsPanelSelectMode"],
-    layout: {
-      gridPlacement: {
-        row: 1,
-        column: 1,
-        width: 1,
-        height: 1,
-      },
-    },
+    layout: { gridPlacement: { row: 1, column: 1, width: 1, height: 1 } },
   },
   contactsPanelDefaultMode: {
     component: "conditional-renderer",
@@ -103,35 +70,22 @@ export const featureConfigurationContacts = {
   },
   contactsSearchInput: {
     component: "form.searchInput",
-    config: {
-      label: "Search all contacts",
-      name: "searchedContact",
-    },
+    config: { label: "Search all contacts", name: "searchedContact" },
   },
   contactsButtonActions: {
     component: "block-plain",
     childrenKeys: ["createContactsButton", "importContactsButton"],
     layout: {
-      gridLayout: {
-        rows: [],
-        columns: ["1fr", "1fr"],
-        columnGap: "24px",
-      },
+      gridLayout: { rows: [], columns: ["1fr", "1fr"], columnGap: "24px" },
     },
   },
   createContactsButton: {
     component: "button-secondary",
-    config: {
-      disabled: true,
-      text: "add contact",
-      actions: [],
-    },
+    config: { disabled: true, text: "add contact", actions: [] },
   },
   importContactsButton: {
     component: "mc-import-contacts-button",
-    config: {
-      text: "import contacts",
-    },
+    config: { text: "import contacts" },
   },
   contactsPanelSelectMode: {
     component: "conditional-renderer",
@@ -169,10 +123,7 @@ export const featureConfigurationContacts = {
   },
   selectAllCheckbox: {
     component: "form.checkboxInput",
-    config: {
-      name: "selectedContacts",
-      size: "small",
-    },
+    config: { name: "selectedContacts", size: "small" },
     dataProvider: {
       source: "form-fields",
       fields: [
@@ -241,14 +192,10 @@ export const featureConfigurationContacts = {
       ],
     },
   },
-  contactsFormWrapper: {
+  contactsTableWrapper: {
     component: "block-plain",
     childrenKeys: ["contactsListTable", "detailsWrapper"],
-    layout: {
-      flexLayout: {
-        direction: "row",
-      },
-    },
+    layout: { flexLayout: { direction: "row" } },
   },
   contactsListTable: {
     component: "table",
@@ -257,17 +204,11 @@ export const featureConfigurationContacts = {
         selectedIdsFieldName: "selectedContacts",
         allIdsFieldName: "allContacts",
       },
-      form: {
-        formName: "contactsForm",
-        assignFields: {
-          selectedIdsFieldName: "selectedContacts",
-          allIdsFieldName: "allContacts",
-        },
-      },
     },
     childrenKeys: [
       "columnCheckbox",
       "columnName",
+      "columnEmpty",
       "columnPhoneNumberOptional",
       "columnPhoneNumberLengthOptional",
     ],
@@ -276,10 +217,14 @@ export const featureConfigurationContacts = {
       entitiesType: "contacts",
       sort: [
         {
-          providerField: "sortField",
+          fieldGroup: ["lastName", "firstName", "displayName"],
           priority: 1,
           direction: "asc",
-          orderingPatterns: ["/^\\p{L}/miu", "/^\\d/m", "/^\\#/m"],
+          orderingPatterns: [
+            "/^\\p{L}.*/u",
+            "/^\\d+$/",
+            "/^[^a-zA-Z\\d\\s@]+$/",
+          ],
         },
       ],
       filters: [],
@@ -287,74 +232,43 @@ export const featureConfigurationContacts = {
   },
   columnCheckbox: {
     component: "table.cell",
-    config: {
-      width: "74",
-    },
+    config: { width: "74" },
     childrenKeys: ["contactCheckbox"],
-    layout: {
-      padding: "0 0 0 32px",
-    },
+    layout: { padding: "0 0 0 32px" },
   },
   contactCheckbox: {
     component: "form.checkboxInput",
-    config: {
-      name: "selectedContacts",
-      size: "small",
-    },
+    config: { name: "selectedContacts", size: "small" },
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "contactId",
-          componentField: "config.value",
-        },
-      ],
+      fields: [{ providerField: "contactId", componentField: "config.value" }],
     },
-    extra: {
-      tooltip: {
-        contentText: "Select",
-        offset: {
-          x: 0,
-          y: 6,
-        },
-      },
-    },
+    extra: { tooltip: { contentText: "Select", offset: { x: 0, y: 6 } } },
   },
   columnName: {
     component: "table.cell",
-    config: {
-      width: "100%",
-    },
+    config: { width: "479px" },
     childrenKeys: ["contactDisplayName"],
   },
   contactDisplayName: {
     component: "p1-component",
-    config: {
-      color: "black",
-    },
+    config: { color: "black" },
     childrenKeys: ["contactDisplayNameValue"],
   },
   columnPhoneNumberOptional: {
     component: "form.conditionalRenderer",
-    config: {
-      renderIfFalse: true,
-      formFieldName: "activeContactId",
-    },
+    config: { renderIfFalse: true, formFieldName: "activeContactId" },
     childrenKeys: ["columnPhoneNumber"],
   },
   columnPhoneNumber: {
     component: "table.cell",
-    config: {
-      width: "150",
-    },
+    config: { width: "150" },
     childrenKeys: ["contactPhoneNumberWrapper"],
   },
   contactPhoneNumber: {
     component: "p1-component",
-    config: {
-      color: "black",
-    },
+    config: { color: "black" },
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
@@ -368,17 +282,12 @@ export const featureConfigurationContacts = {
   },
   columnPhoneNumberLengthOptional: {
     component: "form.conditionalRenderer",
-    config: {
-      renderIfFalse: true,
-      formFieldName: "activeContactId",
-    },
+    config: { renderIfFalse: true, formFieldName: "activeContactId" },
     childrenKeys: ["columnPhoneNumberLength"],
   },
   columnPhoneNumberLength: {
     component: "table.cell",
-    config: {
-      width: "58",
-    },
+    config: { width: "58" },
     childrenKeys: ["phoneDropdownCounter"],
   },
   phoneDropdownCounter: {
@@ -401,16 +310,12 @@ export const featureConfigurationContacts = {
   },
   detailsWrapper: {
     component: "form.conditionalRenderer",
-    config: {
-      formFieldName: "activeContactId",
-    },
+    config: { formFieldName: "activeContactId" },
     childrenKeys: ["details"],
   },
   details: {
     component: "block-box",
-    config: {
-      title: "Contact",
-    },
+    config: { title: "Contact" },
     childrenKeys: ["contactDetails", "disableButton"],
     dataProvider: {
       source: "form-fields",
@@ -431,12 +336,7 @@ export const featureConfigurationContacts = {
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "email",
-          componentField: "data.text",
-        },
-      ],
+      fields: [{ providerField: "email", componentField: "data.text" }],
     },
   },
   contactDetailsName: {
@@ -445,31 +345,19 @@ export const featureConfigurationContacts = {
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "firstName",
-          componentField: "data.text",
-        },
-      ],
+      fields: [{ providerField: "firstName", componentField: "data.text" }],
     },
   },
   disableButton: {
     component: "button-primary",
     config: {
       text: "Hide details",
-      actions: [
-        {
-          type: "form-set-field",
-          key: "activeContactId",
-        },
-      ],
+      actions: [{ type: "form-set-field", key: "activeContactId" }],
     },
   },
   deleteModal: {
     component: "modal",
-    config: {
-      size: "small",
-    },
+    config: { size: "small" },
     childrenKeys: [
       "deleteModalIcon",
       "deleteModalTitle",
@@ -479,9 +367,7 @@ export const featureConfigurationContacts = {
   },
   deleteModalIcon: {
     component: "modal.titleIcon",
-    config: {
-      type: "exclamation",
-    },
+    config: { type: "exclamation" },
   },
   deleteModalTitle: {
     component: "modal.title",
@@ -505,12 +391,7 @@ export const featureConfigurationContacts = {
     component: "button-secondary",
     config: {
       text: "Cancel",
-      actions: [
-        {
-          type: "close-modal",
-          modalKey: "deleteModal",
-        },
-      ],
+      actions: [{ type: "close-modal", modalKey: "deleteModal" }],
     },
   },
   deleteModalConfirmButton: {
@@ -532,22 +413,14 @@ export const featureConfigurationContacts = {
                 type: "close-domain-modals",
                 domain: "contacts-delete",
               },
-              {
-                type: "open-toast",
-                toastKey: "contactsDeletedToast",
-              },
+              { type: "open-toast", toastKey: "contactsDeletedToast" },
             ],
           },
         },
       ],
     },
     childrenKeys: ["deleteModalConfirmButtonText"],
-    layout: {
-      flexLayout: {
-        direction: "row",
-        justifyContent: "center",
-      },
-    },
+    layout: { flexLayout: { direction: "row", justifyContent: "center" } },
     dataProvider: {
       source: "form-fields",
       formKey: "contactsForm",
@@ -579,39 +452,23 @@ export const featureConfigurationContacts = {
   },
   deleteProgressModal: {
     component: "modal",
-    config: {
-      size: "small",
-    },
+    config: { size: "small" },
     childrenKeys: ["deleteProgressModalIcon", "deleteProgressModalTitle"],
   },
   deleteProgressModalIcon: {
     component: "modal.titleIcon",
-    config: {
-      type: "spinner-dark",
-    },
+    config: { type: "spinner-dark" },
   },
   deleteProgressModalTitle: {
     component: "modal.title",
-    config: {
-      text: "Deleting, please wait...",
-    },
+    config: { text: "Deleting, please wait..." },
   },
-  contactsDeletedToastIcon: {
-    component: "icon",
-    config: {
-      type: "success",
-    },
-  },
+  contactsDeletedToastIcon: { component: "icon", config: { type: "success" } },
   phoneDropdownCounterBadge: {
     component: "button-text",
-    config: {
-      actions: [],
-      modifiers: ["hover-background"],
-    },
+    config: { actions: [], modifiers: ["hover-background"] },
     childrenKeys: ["phoneDropdownCounterBadgeText"],
-    layout: {
-      padding: "2px 5px",
-    },
+    layout: { padding: "2px 5px" },
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
@@ -624,21 +481,11 @@ export const featureConfigurationContacts = {
         },
       ],
     },
-    extra: {
-      tooltip: {
-        placement: "bottom-left",
-        offset: {
-          x: 0,
-          y: 6,
-        },
-      },
-    },
+    extra: { tooltip: { placement: "bottom-left", offset: { x: 0, y: 6 } } },
   },
   phoneDropdownCounterBadgeText: {
     component: "format-message",
-    config: {
-      messageTemplate: "+{phoneNumbersLength}",
-    },
+    config: { messageTemplate: "+{phoneNumbersLength}" },
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
@@ -652,32 +499,15 @@ export const featureConfigurationContacts = {
       ],
     },
   },
-  contactsPanelWrapper: {
-    component: "conditional-renderer",
-    childrenKeys: ["contactsPanel"],
-    dataProvider: {
-      source: "form-fields-v2",
-      formName: "contactsForm",
-      fields: [
-        {
-          providerField: "allContacts",
-          componentField: "data.render",
-          modifier: "length",
-          condition: "gt",
-          value: 0,
-        },
-      ],
-    },
-  },
   emptyListWrapper: {
     component: "conditional-renderer",
     childrenKeys: ["fullScreenWrapper"],
     dataProvider: {
-      source: "form-fields-v2",
-      formName: "contactsForm",
+      source: "entities-metadata",
+      entitiesType: "contacts",
       fields: [
         {
-          providerField: "allContacts",
+          providerField: "totalEntities",
           componentField: "data.render",
           modifier: "length",
           condition: "eq",
@@ -696,36 +526,23 @@ export const featureConfigurationContacts = {
         alignItems: "center",
         rowGap: "24px",
       },
-      gridPlacement: {
-        row: 1,
-        column: 1,
-        width: 1,
-        height: 2,
-      },
+      gridPlacement: { row: 1, column: 1, width: 1, height: 2 },
     },
   },
   emptyStateIcon: {
     component: "modal.titleIcon",
-    config: {
-      type: "contacts-book",
-    },
+    config: { type: "contacts-book" },
   },
   emptyStateText: {
     component: "block-plain",
     childrenKeys: ["emptyStateTitle", "emptyStateDetailText"],
     layout: {
-      flexLayout: {
-        direction: "column",
-        alignItems: "center",
-        rowGap: "8px",
-      },
+      flexLayout: { direction: "column", alignItems: "center", rowGap: "8px" },
     },
   },
   emptyStateTitle: {
     component: "h3-component",
-    config: {
-      text: "Import your contacts",
-    },
+    config: { text: "Import your contacts" },
   },
   emptyStateDetailText: {
     component: "p1-component",
@@ -738,12 +555,7 @@ export const featureConfigurationContacts = {
     dataProvider: {
       source: "entities-field",
       entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "displayName",
-          componentField: "data.text",
-        },
-      ],
+      fields: [{ providerField: "displayName", componentField: "data.text" }],
     },
   },
   contactPhoneNumberWrapper: {
@@ -778,29 +590,83 @@ export const featureConfigurationContacts = {
   },
   appHeaderCounter: {
     component: "app-portal",
-    config: {
-      portal: "app-header",
-    },
+    config: { portal: "app-header" },
     childrenKeys: ["appHeaderCounterText"],
   },
   appHeaderCounterText: {
     component: "format-message",
-    config: {
-      messageTemplate: "{contactsCount, plural, =0 {} other { (#)}}",
-    },
+    config: { messageTemplate: "{contactsCount, plural, =0 {} other { (#)}}" },
     dataProvider: {
-      source: "form-fields-v2",
-      formName: "contactsForm",
+      source: "entities-metadata",
+      entitiesType: "contacts",
       fields: [
         {
-          providerField: "allContacts",
+          providerField: "totalEntities",
           componentField: "data.fields.contactsCount",
-          modifier: "length",
         },
       ],
     },
   },
+  listWrapper: {
+    component: "conditional-renderer",
+    childrenKeys: ["contactsForm"],
+    dataProvider: {
+      source: "entities-metadata",
+      entitiesType: "contacts",
+      fields: [
+        {
+          providerField: "totalEntities",
+          componentField: "data.render",
+          modifier: "length",
+          condition: "gt",
+          value: 0,
+        },
+      ],
+    },
+  },
+  columnEmpty: { component: "table.cell", config: { width: "100%" } },
 }
+
+// export const data = {
+//   main: {
+//     screenTitle: "Contacts",
+//     component: "block-plain",
+//     childrenKeys: ["fullScreenWrapper"],
+//     layout: {
+//       flexLayout: {
+//         direction: "column",
+//         alignItems: "center",
+//         justifyContent: "center",
+//       },
+//     },
+//   },
+//   fullScreenWrapper: {
+//     component: "block-plain",
+//     childrenKeys: ["title", "detailText", "importContactsButton"],
+//     layout: {
+//       flexLayout: {
+//         direction: "column",
+//         alignItems: "center",
+//         justifyContent: "center",
+//         rowGap: "8px",
+//         columnGap: "8px",
+//       },
+//     },
+//   },
+//   title: {
+//     component: "h3-component",
+//     config: { text: "Import your contacts" },
+//   },
+//   detailText: {
+//     component: "p1-component",
+//     config: { text: "Import all your contacts from a singles ource." },
+//   },
+//   importContactsButton: {
+//     component: "mc-import-contacts-button",
+//     config: { text: "import contacts" },
+//     layout: { margin: "16px" },
+//   },
+// }
 
 export const featureConfigurationOverview = {
   title: "Overview",
