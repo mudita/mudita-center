@@ -132,5 +132,6 @@ export enum IconType {
   DataMigration,
   RecoveryModeWhite,
   RecoveryModeBlack,
-  ButtonSuccess
+  ButtonSuccess,
+  LightButton,
 }

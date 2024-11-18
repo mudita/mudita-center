@@ -9,6 +9,7 @@ import { ActionName } from "../action-names"
 import {
   ApiFileTransferError,
   DataTransferDomain,
+  UnifiedAlarm,
   UnifiedCallLog,
   UnifiedContact,
   UnifiedMessage,
@@ -36,6 +37,7 @@ type DomainDataMapping = {
   "contacts-v1": UnifiedContact[]
   "callLog-v1": UnifiedCallLog[]
   "messages-v1": UnifiedMessage[]
+  "alarms-v1": UnifiedAlarm[]
 }
 
 export type DomainData = {

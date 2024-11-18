@@ -18,7 +18,7 @@ export const FormatMessage: APIFC<FormatMessageData, FormatMessageConfig> = ({
   const id = useId()
   const deviceConfig = useSelector(selectActiveDeviceConfiguration)
 
-  if (!data || !deviceConfig) {
+  if ((config.fields && !data) || !deviceConfig) {
     return null
   }
   const locale = deviceConfig.apiConfig.lang || "en-US"
@@ -33,7 +33,7 @@ export const FormatMessage: APIFC<FormatMessageData, FormatMessageConfig> = ({
       {intl.formatMessage(
         { id },
         {
-          ...data.fields,
+          ...data?.fields,
           b: (str) => <b>{str}</b>,
           c: (str) => <Capitalized>{str}</Capitalized>,
         }

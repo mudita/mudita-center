@@ -26,22 +26,22 @@ const messages = defineMessages({
     id: "module.recoveryMode.harmony.title",
   },
   macTerminalInfoModalSubtitle: {
-    id: "module.recoveryMode.mocal.terminalInfo.subtitle",
+    id: "module.recoveryMode.modal.terminalInfo.subtitle",
   },
   macTerminalInfoModalDescription: {
-    id: "module.recoveryMode.mocal.terminalInfo.description",
+    id: "module.recoveryMode.modal.terminalInfo.description",
   },
   macTerminalInfoModalStep1: {
-    id: "module.recoveryMode.mocal.terminalInfo.step1",
+    id: "module.recoveryMode.modal.terminalInfo.step1",
   },
   macTerminalInfoModalStep2: {
-    id: "module.recoveryMode.mocal.terminalInfo.step2",
+    id: "module.recoveryMode.modal.terminalInfo.step2",
   },
   macTerminalInfoModalStep3: {
-    id: "module.recoveryMode.mocal.terminalInfo.step3",
+    id: "module.recoveryMode.modal.terminalInfo.step3",
   },
   macTerminalInfoModalStep4: {
-    id: "module.recoveryMode.mocal.terminalInfo.step4",
+    id: "module.recoveryMode.modal.terminalInfo.step4",
   },
 })
 

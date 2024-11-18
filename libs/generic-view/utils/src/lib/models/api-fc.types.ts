@@ -31,6 +31,7 @@ export type APIFC<Data = undefined, Config = undefined> = BaseGenericComponent<
   {
     viewKey?: string
     componentKey?: string
+    componentName?: string
     dataItemId?: string
   }
 >

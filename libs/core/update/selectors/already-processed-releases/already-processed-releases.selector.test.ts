@@ -16,6 +16,17 @@ import {
   ReleaseProcessState,
 } from "Core/update/constants"
 
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    go: jest.fn(),
+    block: jest.fn(),
+    listen: jest.fn(),
+    location: { pathname: "", search: "", hash: "", state: null },
+  })),
+}))
+
 const mockedRelease: OsRelease = {
   date: "2021-02-02",
   file: {

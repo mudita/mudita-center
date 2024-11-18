@@ -128,19 +128,12 @@ export const Table: APIFC<TableData, TableConfig> & {
       const isActive = activeRowId === id
 
       return (
-        <tr onClick={onClick} className={isActive ? "active" : ""}>
+        <tr key={id} onClick={onClick} className={isActive ? "active" : ""}>
           {renderChildren(id)}
         </tr>
       )
     },
-    [
-      activeIdFieldName,
-      activeRowId,
-      onRowClick,
-      placeholder,
-      renderChildren,
-      visibleRowsBounds,
-    ]
+    [activeRowId, onRowClick, placeholder, renderChildren, visibleRowsBounds]
   )
 
   return useMemo(
@@ -199,8 +192,13 @@ const TableHeader = styled.thead`
   }
 `
 
+const RowPlaceholder = styled.tr`
+  height: ${rowHeight / 10}rem;
+  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
+`
+
 const TableBody = styled.tbody<{ $clickable?: boolean }>`
-  tr {
+  tr:not(${RowPlaceholder}) {
     position: relative;
     height: ${rowHeight / 10}rem;
     border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
@@ -252,9 +250,4 @@ const TableBody = styled.tbody<{ $clickable?: boolean }>`
   td {
     text-align: left;
   }
-`
-
-const RowPlaceholder = styled.tr`
-  height: ${rowHeight / 10}rem;
-  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
 `
