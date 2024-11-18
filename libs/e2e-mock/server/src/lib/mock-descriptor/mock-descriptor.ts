@@ -45,25 +45,25 @@ class MockDescriptor {
 
   public addKompakt({ path, serialNumber }: AddKompakt) {
     this._mockResponsesPerDevice = {
-      "path-1": {
+      [path]: {
         FEATURE_CONFIGURATION: {
           GET: [
-            {
-              status: 200,
-              body: featureConfigurationContacts,
-              match: {
-                expected: {
-                  feature: "contacts",
-                  lang: "en-US",
-                },
-              },
-            },
             {
               status: 200,
               body: featureConfigurationOverview,
               match: {
                 expected: {
                   feature: "mc-overview",
+                  lang: "en-US",
+                },
+              },
+            },
+            {
+              status: 200,
+              body: featureConfigurationContacts,
+              match: {
+                expected: {
+                  feature: "contacts",
                   lang: "en-US",
                 },
               },
