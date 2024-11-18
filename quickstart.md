@@ -38,7 +38,7 @@ To ensure that files will be excluded from commits you can use the following git
 
 ```bash
  git update-index --assume-unchanged libs/core/news/default-news.json
- git update-index --assume-unchanged libs/core/help/default-help.json
+ git update-index --assume-unchanged libs/help/feature/src/lib/default-help.json
  git update-index --assume-unchanged libs/core/settings/static/app-configuration.json
 ```
 
@@ -47,21 +47,10 @@ To ensure that files will be excluded from commits you can use the following git
 Please run the following command to start the Mudita Center dev environment:
 
 ```bash
-npm run develop
+npm run app:develop
 ```
 
-This will start the application with hot-reload so you can instantly start developing it. You can also enable logs by executing:
-
-```bash
-npm run develop -- --stream
-```
-
-This command runs the User Interface and the backend simultaneously, however, if you wish to have logs from both processes in two separate consoles then please run the following commands in parallel in separate console tabs:
-
-```bash
-lerna run --stream --scope @mudita/mudita-center-app dev:start:renderer
-lerna run --stream --scope @mudita/mudita-center-app dev:start:main
-```
+This will start the application with hot-reload so you can instantly start developing it.
 
 ## Enable Developer mode inside the application
 
@@ -83,7 +72,7 @@ Using Developer mode you can:
 We use [Electron builder](https://www.electron.build/) to build and package the application. By default, you can run the following to package it for your current platform:
 
 ```bash
-npm run dist
+npm run app:dist
 ```
 
 This will create an installer for your platform in the `releases` folder.
@@ -93,7 +82,7 @@ You can also make builds for a specific platform (or multiple platforms) by usin
 For example, building for Windows and Linux:
 
 ```bash
-npm run dist -- -wl
+npm run app:dist -- -wl
 ```
 
 ### Feature toggle environment separation
@@ -103,13 +92,13 @@ Also you are able to distribute an application with in specific predefined envir
 To run distribution with feature toggle environment use the next formula:
 
 ```bash
-FEATURE_TOGGLE_ENVIRONMENT=__environment__ npm run dist
+FEATURE_TOGGLE_ENVIRONMENT=__environment__ npm run app:dist
 ```
 
 For example:
 
 ```bash
-FEATURE_TOGGLE_ENVIRONMENT=development npm run dist
+FEATURE_TOGGLE_ENVIRONMENT=development npm run app:dist
 ```
 
 Will distribute an application with development set of feature toggles
@@ -157,6 +146,37 @@ Example on how to install it on macOS using Homebrew:
 3. ```shell
    source ~/.zshrc
    ```
+
+### Checking Node.js Architecture Compatibility After Migration to Apple Silicon
+
+Incompatibility between the Node.js architecture and your Mac's processor (Intel vs. Apple Silicon) often occurs after migrating between devices with different processors. This test will help you determine if this is the source of the issue.
+
+#### Example Error:
+
+```
+App threw an error during load
+Error: dlopen(/path/to/node_modules/@serialport/bindings-cpp/prebuilds/darwin-x64+arm64/node.napi.node, 0x0001): 
+tried: '.../node.napi.node' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64')),
+...
+```
+
+#### Steps:
+
+##### Check your computer's architecture:
+
+```
+arch
+```
+
+##### Check Node.js architecture:
+
+```
+node -p "process.arch"
+```
+
+##### Compare the results:
+
+- If the computer's architecture and Node.js architecture are different, reinstall Node.js to match your computer's architecture.
 
 ### The module was compiled against a different Node.js version
 

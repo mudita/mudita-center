@@ -13,23 +13,23 @@ import { useLockedDeviceHandler } from "./use-locked-device-handler"
 
 export const useOutbox = () => {
   const dispatch = useDispatch<Dispatch>()
-  const activeDeviceId = useSelector(selectActiveApiDeviceId)
+  const activeApiDeviceId = useSelector(selectActiveApiDeviceId)
   const lastRefreshTimestamp = useSelector(selectLastRefreshTimestamp)
   useLockedDeviceHandler()
 
   useEffect(() => {
-    if (activeDeviceId) {
-      const outboxTimeout = setTimeout(() => {
-        dispatch(getOutboxData({ deviceId: activeDeviceId }))
-      }, 2000)
-
-      return () => {
-        clearTimeout(outboxTimeout)
-      }
+    if (!activeApiDeviceId) {
+      return
     }
-    return
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeDeviceId, lastRefreshTimestamp])
+
+    const outboxTimeout = setTimeout(() => {
+      dispatch(getOutboxData({ deviceId: activeApiDeviceId }))
+    }, 2000)
+
+    return () => {
+      clearTimeout(outboxTimeout)
+    }
+  }, [activeApiDeviceId, lastRefreshTimestamp, dispatch])
 }
 
 export const OutboxWrapper = () => {

@@ -15,6 +15,7 @@ const deviceProtocol = {
   device: {
     request: jest.fn(),
   },
+  request: jest.fn(),
 } as unknown as DeviceProtocol
 
 const subject = new RetrieveFilesCommand(deviceProtocol)
@@ -46,9 +47,7 @@ beforeEach(() => {
 
 describe("When `DeviceManager.device.request` returns success response", () => {
   beforeEach(() => {
-    deviceProtocol.device.request = jest
-      .fn()
-      .mockResolvedValueOnce(successResponse)
+    deviceProtocol.request = jest.fn().mockResolvedValueOnce(successResponse)
   })
 
   test("returns `ResultObject.success` with payload", async () => {
@@ -56,7 +55,7 @@ describe("When `DeviceManager.device.request` returns success response", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceProtocol.device.request).toHaveBeenCalledWith({
+    expect(deviceProtocol.request).toHaveBeenCalledWith(undefined, {
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {
@@ -69,9 +68,7 @@ describe("When `DeviceManager.device.request` returns success response", () => {
 
 describe("When `DeviceManager.device.request` returns failed response", () => {
   beforeEach(() => {
-    deviceProtocol.device.request = jest
-      .fn()
-      .mockResolvedValueOnce(failedResponse)
+    deviceProtocol.request = jest.fn().mockResolvedValueOnce(failedResponse)
   })
 
   test("returns `ResultObject.failed` with payload", async () => {
@@ -79,7 +76,7 @@ describe("When `DeviceManager.device.request` returns failed response", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceProtocol.device.request).toHaveBeenCalledWith({
+    expect(deviceProtocol.request).toHaveBeenCalledWith(undefined, {
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {

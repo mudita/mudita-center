@@ -27,10 +27,11 @@ export class BackupController {
   }
 
   @IpcEvent(IpcBackupEvent.CreateBackup)
-  public async createBackup(
-    data: CreateDeviceBackup
-  ): Promise<ResultObject<string[] | undefined>> {
-    return this.backupCreateService.createBackup(data)
+  public async createBackup({
+    deviceId,
+    ...data
+  }: CreateDeviceBackup): Promise<ResultObject<string[] | undefined>> {
+    return this.backupCreateService.createBackup(data, deviceId)
   }
 
   @IpcEvent(IpcBackupEvent.RestoreBackup)

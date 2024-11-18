@@ -17,6 +17,7 @@ import { SystemUtilsModule } from "system-utils/feature"
 import { APIRestoreService } from "./restore"
 import { DeviceSystemActionsService } from "./device-system-actions/device-system-actions.service"
 import { APIDataTransferService } from "./data-transfer"
+import { APIEntitiesService } from "./api-entities"
 import { ISettingsService } from "shared/utils"
 
 export class APIModule {
@@ -24,6 +25,7 @@ export class APIModule {
   private apiFeaturesService: APIFeaturesService
   private apiOutboxService: APIOutboxService
   private apiMenuService: APIMenuService
+  private apiEntitiesService: APIEntitiesService
   private serverService: ServerService
   private backupService: APIBackupService
   private restoreService: APIRestoreService
@@ -43,6 +45,10 @@ export class APIModule {
     this.apiFeaturesService = new APIFeaturesService(deviceProtocol)
     this.apiOutboxService = new APIOutboxService(deviceProtocol)
     this.apiMenuService = new APIMenuService(deviceProtocol)
+    this.apiEntitiesService = new APIEntitiesService(
+      deviceProtocol,
+      this.serviceBridge
+    )
     this.serverService = new ServerService()
     this.backupService = new APIBackupService(deviceProtocol)
     this.apiDataTransferService = new APIDataTransferService(deviceProtocol)
@@ -72,6 +78,7 @@ export class APIModule {
       this.apiFeaturesService,
       this.apiOutboxService,
       this.apiMenuService,
+      this.apiEntitiesService,
       this.serverService,
       this.backupService,
       this.restoreService,

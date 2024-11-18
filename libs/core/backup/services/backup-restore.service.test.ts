@@ -15,8 +15,18 @@ import { BackupError, Operation } from "Core/backup/constants"
 import { UpdaterStatus } from "Core/backup/dto"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
-import { PhoneLockCategory } from "Core/device"
 import { DeviceInfoService } from "Core/device-info/services"
+
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    go: jest.fn(),
+    block: jest.fn(),
+    listen: jest.fn(),
+    location: { pathname: "", search: "", hash: "", state: null },
+  })),
+}))
 
 const arrayBufferToBuffer = (unitArray: Uint8Array): Buffer => {
   const buffer = Buffer.alloc(unitArray.byteLength)
@@ -65,6 +75,7 @@ const deviceProtocol = {
   device: {
     request: jest.fn(),
   },
+  request: jest.fn(),
 } as unknown as DeviceProtocol
 
 const deviceFileSystemAdapter = {
@@ -110,6 +121,27 @@ describe("Restore process happy path", () => {
       .fn()
       .mockResolvedValueOnce(
         Result.success(JSON.stringify(updaterStatusSuccessMock))
+      )
+    deviceProtocol.request = jest
+      .fn()
+      .mockImplementation(
+        (deviceId, config: { endpoint: Endpoint; method: Method }) => {
+          if (
+            config.endpoint === Endpoint.Restore &&
+            config.method === Method.Post
+          ) {
+            return Result.success(true)
+          }
+
+          if (
+            config.endpoint === Endpoint.Security &&
+            config.method === Method.Get
+          ) {
+            return Result.success(true)
+          }
+
+          return Result.failed(new AppError("", ""))
+        }
       )
     deviceProtocol.device.request = jest
       .fn()
@@ -169,10 +201,10 @@ describe("Restore process happy path", () => {
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceProtocol.device.request).toHaveBeenNthCalledWith(2, {
-      endpoint: Endpoint.Security,
-      method: Method.Get,
-      body: { category: PhoneLockCategory.Status },
+    expect(deviceProtocol.request).toHaveBeenNthCalledWith(1, undefined, {
+      body: { category: "phoneLockStatus" },
+      endpoint: 13,
+      method: 1,
     })
     // TODO: please remove custom timeout
   }, 10000)
@@ -263,7 +295,7 @@ describe("Backup restoring failed path", () => {
     deviceFileSystemAdapter.uploadFile = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
-    deviceProtocol.device.request = jest
+    deviceProtocol.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
@@ -275,7 +307,7 @@ describe("Backup restoring failed path", () => {
 
         return Result.failed(new AppError("", ""))
       })
-    deviceProtocol.device.request = jest
+    deviceProtocol.request = deviceProtocol.device.request = jest
       .fn()
       .mockResolvedValue(Result.failed(new AppError("", "")))
     deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
@@ -310,6 +342,27 @@ describe("Backup restoring failed path", () => {
     deviceFileSystemAdapter.downloadFile = jest
       .fn()
       .mockResolvedValueOnce(Result.failed(new AppError("", "")))
+    deviceProtocol.request = jest
+      .fn()
+      .mockImplementation(
+        (deviceId, config: { endpoint: Endpoint; method: Method }) => {
+          if (
+            config.endpoint === Endpoint.Restore &&
+            config.method === Method.Post
+          ) {
+            return Result.success(true)
+          }
+
+          if (
+            config.endpoint === Endpoint.Security &&
+            config.method === Method.Get
+          ) {
+            return Result.success(true)
+          }
+
+          return Result.failed(new AppError("", ""))
+        }
+      )
     deviceProtocol.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
@@ -371,6 +424,27 @@ describe("Backup restoring failed path", () => {
           JSON.stringify(updaterStatusSuccessForAnotherOperationMock)
         )
       )
+    deviceProtocol.request = jest
+      .fn()
+      .mockImplementation(
+        (deviceId, config: { endpoint: Endpoint; method: Method }) => {
+          if (
+            config.endpoint === Endpoint.Restore &&
+            config.method === Method.Post
+          ) {
+            return Result.success(true)
+          }
+
+          if (
+            config.endpoint === Endpoint.Security &&
+            config.method === Method.Get
+          ) {
+            return Result.success(true)
+          }
+
+          return Result.failed(new AppError("", ""))
+        }
+      )
     deviceProtocol.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
@@ -429,6 +503,27 @@ describe("Backup restoring failed path", () => {
       .fn()
       .mockResolvedValueOnce(
         Result.success(JSON.stringify(updaterStatusFailedMock))
+      )
+    deviceProtocol.request = jest
+      .fn()
+      .mockImplementation(
+        (deviceId, config: { endpoint: Endpoint; method: Method }) => {
+          if (
+            config.endpoint === Endpoint.Restore &&
+            config.method === Method.Post
+          ) {
+            return Result.success(true)
+          }
+
+          if (
+            config.endpoint === Endpoint.Security &&
+            config.method === Method.Get
+          ) {
+            return Result.success(true)
+          }
+
+          return Result.failed(new AppError("", ""))
+        }
       )
     deviceProtocol.device.request = jest
       .fn()

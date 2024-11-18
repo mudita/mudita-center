@@ -42,7 +42,14 @@ describe("async `readAllIndexes` ", () => {
       expect(mockStore.getActions()).toEqual([
         readAllIndexes.pending(requestId),
         readAllIndexes.fulfilled(
-          { contacts: {}, messages: {}, threads: {}, templates: {} },
+          {
+            contacts: {},
+            messages: {},
+            threads: {},
+            templates: {},
+            callLog: {},
+            alarms: {},
+          },
           requestId,
           undefined
         ),

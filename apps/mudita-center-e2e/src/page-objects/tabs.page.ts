@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class NavigationTabs extends Page {
@@ -53,8 +52,10 @@ class NavigationTabs extends Page {
     return $('[data-testid="help-menu-button"]')
   }
 
-  async helpTabClick() {
-    await this.helpTab.click()
+  public async openHelpPage() {
+    const helpTab = await this.helpTab;
+    await helpTab.waitForDisplayed({ timeout: 15000 });
+    await helpTab.click();
   }
 }
 

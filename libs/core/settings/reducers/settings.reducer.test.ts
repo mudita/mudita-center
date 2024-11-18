@@ -14,6 +14,17 @@ import {
 } from "Core/__deprecated__/renderer/store/helpers"
 import { SettingsState } from "Core/settings/reducers"
 
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    go: jest.fn(),
+    block: jest.fn(),
+    listen: jest.fn(),
+    location: { pathname: "", search: "", hash: "", state: null },
+  })),
+}))
+
 const settings: SettingsState = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
   osBackupLocation: `fake/path/pure/phone/backups/`,

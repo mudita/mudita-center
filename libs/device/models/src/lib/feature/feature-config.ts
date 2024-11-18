@@ -6,6 +6,9 @@
 import { z } from "zod"
 import componentValidators from "generic-view/models"
 import { ComponentPropsByName } from "generic-view/utils"
+import { layoutSchema } from "./layout-config"
+import { dataProviderSchema } from "./data-provider-config"
+import { extraConfigSchema } from "./extra-config"
 
 const validators = Object.values(componentValidators).map(
   ({ key, configValidator }) => {
@@ -13,6 +16,10 @@ const validators = Object.values(componentValidators).map(
       .object({
         component: z.literal(key),
         config: configValidator,
+        layout: layoutSchema.optional(),
+        dataProvider: dataProviderSchema.optional(),
+        extra: extraConfigSchema.optional(),
+        childrenKeys: z.array(z.string()).optional(),
       })
       .passthrough()
   }

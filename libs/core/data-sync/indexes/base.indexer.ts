@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Index } from "elasticlunr"
 import initSqlJs, { SqlJsStatic } from "sql.js"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 
@@ -21,14 +22,17 @@ export abstract class BaseIndexer {
     })
   }
 
-  public async getData(
-    filePath: string,
-    token: string
-  ): Promise<Buffer | undefined | null> {
+  public async getData(filePath: string, token?: string) {
     try {
-      return this.fileSystemService.readEncryptedFile(filePath, token)
+      return token
+        ? this.fileSystemService.readEncryptedFile(filePath, token)
+        : this.fileSystemService.readFile(filePath)
     } catch {
       return null
     }
   }
+
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  abstract index(fileDir: string, token?: string): Promise<Index<any>>
 }

@@ -8,12 +8,14 @@ import Arrow from "Core/__deprecated__/renderer/svg/arrow.svg"
 import ArrowLongLeft from "Core/__deprecated__/renderer/svg/arrow-long-left.svg"
 import ArrowLongRight from "Core/__deprecated__/renderer/svg/arrow-long-right.svg"
 import AttachContact from "Core/__deprecated__/renderer/svg/attach-contact.svg"
+import BackArrowIcon from "Core/__deprecated__/renderer/svg/back-arrow-icon.svg"
 import BackupFolder from "Core/__deprecated__/renderer/svg/backup-folder.svg"
 import Battery from "Core/__deprecated__/renderer/svg/battery.svg"
 import BorderCheck from "Core/__deprecated__/renderer/svg/border-check-icon.svg"
 import ChargingBattery from "Core/__deprecated__/renderer/svg/charging-battery.svg"
 import Check from "Core/__deprecated__/renderer/svg/check-icon.svg"
 import CheckCircle from "Core/__deprecated__/renderer/svg/check-circle.svg"
+import CheckCircleBlack from "Core/__deprecated__/renderer/svg/check-circle-black.svg"
 import CheckIndeterminate from "Core/__deprecated__/renderer/svg/check-indeterminate.svg"
 import Close from "Core/__deprecated__/renderer/svg/close.svg"
 import CloseWhite from "Core/__deprecated__/renderer/svg/close-white.svg"
@@ -125,9 +127,11 @@ import Warning from "Core/__deprecated__/renderer/svg/warning.svg"
 import MarkAsUnread from "Core/__deprecated__/renderer/svg/mark-as-unread.svg"
 import Conversation from "Core/__deprecated__/renderer/svg/conversation.svg"
 import Exclamation from "Core/__deprecated__/renderer/svg/exclamation.svg"
+import ButtonSuccess from "Core/__deprecated__/renderer/svg/button-success.svg"
 import DataMigration from "../../../../../../generic-view/ui/src/lib/icon/svg/data-migration.svg"
 import RecoveryModeWhite from "../../../../../../generic-view/ui/src/lib/icon/svg/recovery-mode-white.svg"
 import RecoveryModeBlack from "../../../../../../generic-view/ui/src/lib/icon/svg/recovery-mode-black.svg"
+import LightButton from "Core/__deprecated__/renderer/svg/light-button-icon.svg"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
@@ -144,6 +148,9 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.AttachContact]: AttachContact,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  [IconType.BackArrowIcon]: BackArrowIcon,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.BackupFolder]: BackupFolder,
@@ -168,6 +175,9 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.CheckCircle]: CheckCircle,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  [IconType.CheckCircleBlack]: CheckCircleBlack,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.CheckIndeterminate]: CheckIndeterminate,
@@ -498,6 +508,8 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   [IconType.DataMigration]: DataMigration,
   [IconType.RecoveryModeWhite]: RecoveryModeWhite,
   [IconType.RecoveryModeBlack]: RecoveryModeBlack,
+  [IconType.ButtonSuccess]: ButtonSuccess,
+  [IconType.LightButton]: LightButton,
 }
 
 export const getIconType = (

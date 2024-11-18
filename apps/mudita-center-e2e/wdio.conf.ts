@@ -4,6 +4,7 @@
  */
 
 import type { Options } from "@wdio/types"
+import path from "path"
 import * as dotenv from "dotenv"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
 
@@ -55,17 +56,18 @@ export const config: Options.Testrunner = {
   //
   specs: [
     toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
-    toRelativePath(TestFilesPaths.helpWindowCheckTest),
+    toRelativePath(TestFilesPaths.helpSectionCheckTest),
+    toRelativePath(TestFilesPaths.helpSectionCheckTestOffline),
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
     toRelativePath(TestFilesPaths.newsPageOnlineTest),
     toRelativePath(TestFilesPaths.newsPageOfflineTest),
+    toRelativePath(TestFilesPaths.newsMoreNews),
     toRelativePath(TestFilesPaths.termsOfServiceTest),
     toRelativePath(TestFilesPaths.backupLocationTest),
     toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
     toRelativePath(TestFilesPaths.privacyPolicyTest),
     toRelativePath(TestFilesPaths.licenseTest),
-    toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
     toRelativePath(TestFilesPaths.kompaktOverview),
     toRelativePath(TestFilesPaths.kompaktSwitchingDevices),
     toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
@@ -75,22 +77,32 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktAbout),
     toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
     toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+    toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
+    toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
+    toRelativePath(TestFilesPaths.helpVerifyFeedback),
+    toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
+    toRelativePath(TestFilesPaths.helpLinkInsideContainer),
   ],
   suites: {
     standalone: [
-      //toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      toRelativePath(TestFilesPaths.helpSectionCheckTest),
+      toRelativePath(TestFilesPaths.helpSectionCheckTestOffline),
       //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
+      toRelativePath(TestFilesPaths.newsMoreNews),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.backupLocationTest),
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
+      toRelativePath(TestFilesPaths.helpVerifyFeedback),
+      toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
+      toRelativePath(TestFilesPaths.helpLinkInsideContainer),
     ],
     mock: [
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
-      //toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
       toRelativePath(TestFilesPaths.mcHomePageSoftUpdateTest),
       toRelativePath(TestFilesPaths.mcHomePageSoftUpdateErrorTest),
       toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
@@ -100,6 +112,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktAbout),
       toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+      toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -113,16 +126,22 @@ export const config: Options.Testrunner = {
     kompakt: [],
     deviceUpdate: [],
     cicdStandalone: [
-      //toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      toRelativePath(TestFilesPaths.helpSectionCheckTest),
+      toRelativePath(TestFilesPaths.helpSectionCheckTestOffline),
       //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
+      toRelativePath(TestFilesPaths.newsMoreNews),
+      toRelativePath(TestFilesPaths.helpVerifyFeedback),
+      toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
+      toRelativePath(TestFilesPaths.helpLinkInsideContainer),
     ],
     cicdMock: [
+      toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.newsPageOfflineTest),
-      //toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
       toRelativePath(TestFilesPaths.mcHomePageForceUpdateTest),
       toRelativePath(TestFilesPaths.mcHomePageForceUpdateErrorTest),
       toRelativePath(TestFilesPaths.mcHomePageSoftUpdateTest),
@@ -132,6 +151,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktAbout),
       toRelativePath(TestFilesPaths.kompaktConnectedDevicesModalStressTest),
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
+      toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
     ],
   },
   // Patterns to exclude.
@@ -172,6 +192,17 @@ export const config: Options.Testrunner = {
       "goog:chromeOptions": {
         binary: process.env.TEST_BINARY_PATH,
         args: [],
+      },
+      "wdio:chromedriverOptions": {
+        binary: path.resolve(
+          __dirname,
+          "..",
+          "..",
+          "node_modules",
+          "chromedriver",
+          "bin",
+          "chromedriver"
+        ),
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
