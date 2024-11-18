@@ -13,7 +13,6 @@ import { texts } from "./lib/texts"
 import { Icon } from "./lib/icon/icon"
 import { table } from "./lib/table"
 import { entities } from "./lib/entities"
-import { generated } from "./lib/generated"
 
 export * from "./lib/icon/icon"
 export * from "./lib/api-connection-demo"
