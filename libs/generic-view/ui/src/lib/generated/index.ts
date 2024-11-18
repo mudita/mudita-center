@@ -13,4 +13,4 @@ export * from "./mc-contacts-view"
 export const generated = {
   [mcImportContactsButton.key]: generateMcImportContactsButton,
   [mcContactsView.key]: generateMcContactsView,
-} as const
+}

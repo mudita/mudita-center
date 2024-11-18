@@ -315,9 +315,44 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       config: {
         width: "74",
       },
-      childrenKeys: ["contactCheckbox"],
       layout: {
         padding: "0 0 0 32px",
+      },
+      childrenKeys: ["columnCheckboxTooltip"],
+    },
+    columnCheckboxTooltip: {
+      component: "tooltip",
+      config: {
+        offset: {
+          x: 15,
+          y: 15,
+        },
+        placement: "bottom-right",
+      },
+      childrenKeys: [
+        "contactCheckboxTooltipAnchor",
+        "contactCheckboxTooltipContent",
+      ],
+    },
+    contactCheckboxTooltipAnchor: {
+      component: "tooltip.anchor",
+      childrenKeys: ["contactCheckbox"],
+    },
+    contactCheckboxTooltipContent: {
+      component: "tooltip.content",
+      childrenKeys: ["contactCheckboxTooltipContentTextWrapper"],
+    },
+    contactCheckboxTooltipContentTextWrapper: {
+      component: "p5-component",
+      config: {
+        color: "grey1",
+      },
+      childrenKeys: ["contactCheckboxTooltipContentText"],
+    },
+    contactCheckboxTooltipContentText: {
+      component: "format-message",
+      config: {
+        messageTemplate: "Select",
       },
     },
     contactCheckbox: {
@@ -361,10 +396,18 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactDisplayNameValue"],
     },
     columnPhoneNumberOptional: {
-      component: "form.conditionalRenderer",
-      config: {
-        renderIfFalse: true,
-        formFieldName: "activeContactId",
+      component: "conditional-renderer",
+      dataProvider: {
+        source: "form-fields",
+        fields: [
+          {
+            providerField: "activeContactId",
+            componentField: "data.render",
+            modifier: "boolean",
+            condition: "eq",
+            value: false,
+          },
+        ],
       },
       childrenKeys: ["columnPhoneNumber"],
     },
@@ -392,10 +435,18 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
     },
     columnPhoneNumberLengthOptional: {
-      component: "form.conditionalRenderer",
-      config: {
-        renderIfFalse: true,
-        formFieldName: "activeContactId",
+      component: "conditional-renderer",
+      dataProvider: {
+        source: "form-fields",
+        fields: [
+          {
+            providerField: "activeContactId",
+            componentField: "data.render",
+            modifier: "boolean",
+            condition: "eq",
+            value: false,
+          },
+        ],
       },
       childrenKeys: ["columnPhoneNumberLength"],
     },
@@ -408,26 +459,103 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     },
     phoneDropdownCounter: {
       component: "conditional-renderer",
+      dataProvider: {
+        source: "entities-field",
+        entitiesType: "contacts",
+        fields: [
+          {
+            modifier: "length",
+            slice: [1],
+            providerField: "phoneNumbers",
+            componentField: "data.render",
+            condition: "gt",
+            value: 0,
+          },
+        ],
+      },
+      childrenKeys: ["phoneDropdownCounterTooltip"],
+    },
+    phoneDropdownCounterTooltip: {
+      component: "tooltip",
+      config: {
+        offset: {
+          x: 0,
+          y: 16,
+        },
+        placement: "bottom-left",
+      },
+      childrenKeys: [
+        "phoneDropdownCounterTooltipAnchor",
+        "phoneDropdownCounterTooltipContent",
+      ],
+    },
+    phoneDropdownCounterTooltipAnchor: {
+      component: "tooltip.anchor",
       childrenKeys: ["phoneDropdownCounterBadge"],
+    },
+    phoneDropdownCounterBadge: {
+      component: "button-text",
+      config: {
+        actions: [],
+        modifiers: ["hover-background"],
+      },
+      layout: {
+        padding: "2px 5px",
+      },
+      childrenKeys: ["phoneDropdownCounterBadgeText"],
+    },
+    phoneDropdownCounterBadgeText: {
+      component: "format-message",
+      config: {
+        messageTemplate: "+{phoneNumbersLength}",
+      },
+      dataProvider: {
+        source: "entities-field",
+        entitiesType: "contacts",
+        fields: [
+          {
+            modifier: "length",
+            slice: [1],
+            providerField: "phoneNumbers",
+            componentField: "data.fields.phoneNumbersLength",
+          },
+        ],
+      },
+    },
+    phoneDropdownCounterTooltipContent: {
+      component: "tooltip.content",
+      childrenKeys: ["phoneDropdownCounterTooltipContentText"],
+    },
+    phoneDropdownCounterTooltipContentText: {
+      component: "p5-component",
+      config: {
+        color: "grey1",
+      },
       dataProvider: {
         source: "entities-field",
         entitiesType: "contacts",
         fields: [
           {
             providerField: "phoneNumbers",
-            componentField: "data.render",
-            modifier: "length",
-            condition: "gt",
-            value: 0,
+            componentField: "config.text",
+            flat: "phoneNumber",
             slice: [1],
+            join: "\n",
           },
         ],
       },
     },
     detailsWrapper: {
-      component: "form.conditionalRenderer",
-      config: {
-        formFieldName: "activeContactId",
+      component: "conditional-renderer",
+      dataProvider: {
+        source: "form-fields",
+        fields: [
+          {
+            providerField: "activeContactId",
+            componentField: "data.render",
+            modifier: "boolean",
+          },
+        ],
       },
       childrenKeys: ["details"],
     },
@@ -644,56 +772,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       component: "icon",
       config: {
         type: IconType.Success,
-      },
-    },
-    phoneDropdownCounterBadge: {
-      component: "button-text",
-      config: {
-        actions: [],
-        modifiers: ["hover-background"],
-      },
-      childrenKeys: ["phoneDropdownCounterBadgeText"],
-      layout: {
-        padding: "2px 5px",
-      },
-      dataProvider: {
-        source: "entities-field",
-        entitiesType: "contacts",
-        fields: [
-          {
-            providerField: "phoneNumbers",
-            componentField: "extra-data.tooltip.contentList",
-            slice: [1],
-            flat: "phoneNumber",
-          },
-        ],
-      },
-      extra: {
-        tooltip: {
-          placement: "bottom-left",
-          offset: {
-            x: 0,
-            y: 6,
-          },
-        },
-      },
-    },
-    phoneDropdownCounterBadgeText: {
-      component: "format-message",
-      config: {
-        messageTemplate: "+{phoneNumbersLength}",
-      },
-      dataProvider: {
-        source: "entities-field",
-        entitiesType: "contacts",
-        fields: [
-          {
-            providerField: "phoneNumbers",
-            componentField: "data.fields.phoneNumbersLength",
-            modifier: "length",
-            slice: [1],
-          },
-        ],
       },
     },
     emptyListWrapper: {
@@ -933,7 +1011,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         borderBottom: "2px solid #f4f5f6",
         borderTop: "1px solid #d2d6db",
       },
-      childrenKeys: ["contactDisplayNameHeader", "disableButton"],
       layout: {
         flexLayout: {
           columnGap: "14px",
@@ -949,6 +1026,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         },
         padding: "24px 32px",
       },
+      childrenKeys: ["contactDisplayNameHeader", "disableButton"],
     },
     contactDisplayNameHeader: {
       component: "h3-component",
