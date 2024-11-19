@@ -17,7 +17,20 @@ export class NotePresenter extends BasePresenter {
       input.notes.columns
     )
 
-    // @ts-ignore
-    return notes.map((note) => note)
+    return notes.map((note) => {
+      const id = String(note._id)
+      const content = note.snippet || ""
+      const createDate = note.date ? parseInt(note.date, 10) * 1000 : 0
+      const updateDate = createDate
+      const isPinned = false
+
+      return {
+        id,
+        content,
+        createDate,
+        updateDate,
+        isPinned,
+      }
+    })
   }
 }
