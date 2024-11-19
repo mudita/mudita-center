@@ -11,6 +11,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
   key,
   config
 ) => {
+  console.log("Test")
   return {
     [key]: {
       component: "block-plain",
