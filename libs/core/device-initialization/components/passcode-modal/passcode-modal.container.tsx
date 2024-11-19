@@ -16,7 +16,7 @@ import { unlockDevice } from "Core/device/actions"
 import { useWatchLockTimeEffect } from "Core/device-initialization/components/passcode-modal/use-watch-lock-time-effect"
 import { useWatchUnlockStatus } from "Core/device-initialization/components/passcode-modal/use-watch-unlock-status-effect"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
-import { useHandleActiveDeviceAborted } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-aborted.hook"
+import { useHandleActiveDeviceAborted } from "device-manager/feature"
 
 const PasscodeModalContainer: FunctionComponent = () => {
   useWatchLockTimeEffect()
