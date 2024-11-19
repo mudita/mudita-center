@@ -7,6 +7,10 @@ import { ApiResponse } from "Core/device/types/mudita-os"
 import { MatchConfig } from "Libs/e2e-mock/server/src"
 import { APIEndpointType, APIMethodsType } from "device/models"
 import { entitiesConfiguration } from "./entities-configuration-responses"
+import {
+  featureConfigurationContacts,
+  featureConfigurationOverview,
+} from "./feature-configuration-responses"
 //import from "Core/device" breaks usage in e2e
 enum ResponseStatus {
   Ok = 200,
@@ -45,103 +49,143 @@ export type MocksArrayResponsesMap = Partial<
   Record<APIEndpointType, MethodArray>
 >
 
-export const DEFAULT_RESPONSES: MockResponsesMap = {
+export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
   API_CONFIGURATION: {
-    GET: {
-      status: ResponseStatus.Ok,
-      body: {
-        apiVersion: "1.0.0",
-        lang: "en-US",
-        variant: "black",
-        features: ["mc-overview", "contacts"],
-        entityTypes: ["contacts"],
-        productId: "2006",
-        vendorId: "0e8d",
-        serialNumber: "LD20240700294",
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          apiVersion: "1.0.0",
+          lang: "en-US",
+          variant: "black",
+          features: ["mc-overview", "contacts"],
+          entityTypes: ["contacts"],
+          productId: "2006",
+          vendorId: "0e8d",
+          serialNumber: "LD20240700294",
+        },
       },
-    },
+    ],
   },
   MENU_CONFIGURATION: {
-    GET: {
-      status: ResponseStatus.Ok,
-      body: {
-        title: "Kompakt",
-        menuItems: [
-          {
-            feature: "mc-overview",
-            displayName: "Overview",
-            icon: "overview",
-          },
-          {
-            feature: "contacts",
-            displayName: "Contacts",
-            icon: "contacts-book",
-          },
-        ],
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          title: "Kompakt",
+          menuItems: [
+            {
+              feature: "mc-overview",
+              displayName: "Overview",
+              icon: "overview",
+            },
+            {
+              feature: "contacts",
+              displayName: "Contacts",
+              icon: "contacts-book",
+            },
+          ],
+        },
       },
-    },
+    ],
   },
   OUTBOX: {
-    GET: {
-      status: ResponseStatus.Ok,
-      body: { features: [], data: [] },
-    },
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: { features: [], data: [] },
+      },
+    ],
   },
-  FEATURE_DATA: {
-    GET: {
-      status: ResponseStatus.Ok,
-      body: {
-        summary: {
-          about: {
-            serialNumber: { text: "0123456789ABCDEF" },
-            imei1: { text: "864055030138811" },
-            imei2: { text: "864055030138829" },
-            sar: {
-              text: "### SAR\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed aliquet ligula, viverra feugiat massa. In hac habitasse platea dictumst.\n\n1. Interdum et malesuada fames ac ante ipsum primis in faucibus.\n2. Suspendisse consectetur, nibh non consequat hendrerit, nibh felis commodo lacus, id auctor ante purus vitae justo.\n3. Cras purus neque, pharetra vitae nulla ac, mollis facilisis felis. Sed sit amet ex diam.\n\n> Sed accumsan sem nec iaculis euismod.",
-            },
+  FEATURE_CONFIGURATION: {
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: featureConfigurationContacts,
+        match: {
+          expected: {
+            feature: "contacts",
+            lang: "en-US",
           },
         },
-        sections: {
-          battery: { icon: "battery-charging-5", text: "100%", subText: "" },
-          update: { text: "ANDROID 12", version: "0.3.0" },
-          status: { badgeText: "Offline+" },
-          "airplane-mode": { icon: "airplane-mode", text: "Airplane mode" },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: featureConfigurationOverview,
+        match: {
+          expected: {
+            feature: "mc-overview",
+            lang: "en-US",
+          },
         },
       },
-    },
+    ],
+  },
+  FEATURE_DATA: {
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          summary: {
+            about: {
+              serialNumber: { text: "0123456789ABCDEF" },
+              imei1: { text: "864055030138811" },
+              imei2: { text: "864055030138829" },
+              sar: {
+                text: "### SAR\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed aliquet ligula, viverra feugiat massa. In hac habitasse platea dictumst.\n\n1. Interdum et malesuada fames ac ante ipsum primis in faucibus.\n2. Suspendisse consectetur, nibh non consequat hendrerit, nibh felis commodo lacus, id auctor ante purus vitae justo.\n3. Cras purus neque, pharetra vitae nulla ac, mollis facilisis felis. Sed sit amet ex diam.\n\n> Sed accumsan sem nec iaculis euismod.",
+              },
+            },
+          },
+          sections: {
+            battery: { icon: "battery-charging-5", text: "100%", subText: "" },
+            update: { text: "ANDROID 12", version: "0.3.0" },
+            status: { badgeText: "Offline+" },
+            "airplane-mode": { icon: "airplane-mode", text: "Airplane mode" },
+          },
+        },
+      },
+    ],
   },
   ENTITIES_CONFIGURATION: {
-    GET: {
-      status: ResponseStatus.Ok,
-      body: entitiesConfiguration,
-    },
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: entitiesConfiguration,
+      },
+    ],
   },
   ENTITIES_DATA: {
-    GET: {
-      status: ResponseStatus.Ok,
-      body: {
-        filePath: "../contact_entities.json",
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          filePath: "../contact_entities.json",
+        },
       },
-    },
+    ],
   },
   PRE_FILE_TRANSFER: {
-    GET: {
-      status: ResponseStatus.Ok,
-      body: {
-        transferId: 48647,
-        chunkSize: 2358,
-        fileSize: 2358,
-        crc32: "1419d947",
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 48647,
+          chunkSize: 2358,
+          fileSize: 2358,
+          crc32: "1419d947",
+        },
       },
-    },
+    ],
   },
   FILE_TRANSFER: {
-    GET: {
-      status: ResponseStatus.Ok,
-      body: {
-        transferId: 48647,
-        chunkNumber: 1,
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 48647,
+          chunkNumber: 1,
+        },
       },
-    },
+    ],
   },
 }

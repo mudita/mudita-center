@@ -19,11 +19,6 @@ import {
 import { APIEndpointType, APIMethodsType } from "device/models"
 import { ApiResponse } from "Core/device/types/mudita-os"
 
-import {
-  featureConfigurationContacts,
-  featureConfigurationOverview,
-} from "../../../../responses/src/lib/feature-configuration-responses"
-
 const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
   manufacturer: "Mudita",
   pnpId: undefined,
@@ -44,34 +39,6 @@ class MockDescriptor {
   }
 
   public addKompakt({ path, serialNumber }: AddKompakt) {
-    this._mockResponsesPerDevice = {
-      [path]: {
-        FEATURE_CONFIGURATION: {
-          GET: [
-            {
-              status: 200,
-              body: featureConfigurationOverview,
-              match: {
-                expected: {
-                  feature: "mc-overview",
-                  lang: "en-US",
-                },
-              },
-            },
-            {
-              status: 200,
-              body: featureConfigurationContacts,
-              match: {
-                expected: {
-                  feature: "contacts",
-                  lang: "en-US",
-                },
-              },
-            },
-          ],
-        },
-      },
-    }
     this.addDevice({ ...KOMPAKT_PORT_INFO, path, serialNumber })
   }
 
@@ -262,6 +229,21 @@ class MockDescriptor {
     return undefined
   }
 
+  private getDefaultResponse(
+    endpoint: APIEndpointType,
+    method: APIMethodsType,
+    body: Record<string, unknown> | undefined
+  ): ApiResponse<unknown> | undefined {
+    const perDeviceResponses = DEFAULT_RESPONSES[endpoint]?.[method]
+    if (perDeviceResponses !== undefined) {
+      const foundResponse = this.findResponse(perDeviceResponses, body)
+      if (foundResponse) {
+        return foundResponse.response
+      }
+    }
+    return undefined
+  }
+
   public getResponse(
     path: string,
     endpoint: APIEndpointType,
@@ -283,8 +265,7 @@ class MockDescriptor {
       return response
     }
 
-    const defaultResponse: ApiResponse<unknown> | undefined =
-      DEFAULT_RESPONSES[endpoint]?.[method]
+    const defaultResponse = this.getDefaultResponse(endpoint, method, body)
 
     return defaultResponse
   }
