@@ -162,6 +162,11 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: {
           filePath: "../contact_entities.json",
         },
+        match: {
+          expected: {
+            filePath: "../contact_entities.json",
+          },
+        },
       },
     ],
   },
