@@ -163,7 +163,8 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         },
         match: {
           expected: {
-            filePath: "../contact_entities.json",
+            entityType: "contacts",
+            responseType: "file",
           },
         },
       },
