@@ -1108,7 +1108,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: [
         "contactDetailsPhoneNumber1Value",
         "contactDetailsPhoneNumber1Type",
-        "contactDetailsPhoneNumber1DefaultIcon",
+        "contactDetailsPhoneNumber1DefaultIconWrapper",
       ],
     },
     contactDetailsPhoneNumber1Value: {
@@ -1148,6 +1148,47 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
             componentField: "data.fields.phoneType",
           },
         ],
+      },
+    },
+    contactDetailsPhoneNumber1DefaultIconWrapper: {
+      component: "block-plain",
+      childrenKeys: ["contactDetailsPhoneNumber1DefaultIconTooltip"],
+    },
+    contactDetailsPhoneNumber1DefaultIconTooltip: {
+      component: "tooltip",
+      config: {
+        offset: {
+          x: 15,
+          y: 15,
+        },
+        placement: "bottom-right",
+      },
+      childrenKeys: [
+        "contactDetailsPhoneNumber1DefaultIconTooltipAnchor",
+        "contactDetailsPhoneNumber1DefaultIconTooltipContent",
+      ],
+    },
+    contactDetailsPhoneNumber1DefaultIconTooltipAnchor: {
+      component: "tooltip.anchor",
+      childrenKeys: ["contactDetailsPhoneNumber1DefaultIcon"],
+    },
+    contactDetailsPhoneNumber1DefaultIconTooltipContent: {
+      component: "tooltip.content",
+      childrenKeys: [
+        "contactDetailsPhoneNumber1DefaultIconTooltipContentTextWrapper",
+      ],
+    },
+    contactDetailsPhoneNumber1DefaultIconTooltipContentTextWrapper: {
+      component: "p5-component",
+      config: {
+        color: "grey1",
+      },
+      childrenKeys: ["contactDetailsPhoneNumber1DefaultIconTooltipContentText"],
+    },
+    contactDetailsPhoneNumber1DefaultIconTooltipContentText: {
+      component: "format-message",
+      config: {
+        messageTemplate: "Calls and SMS will go to this number by default.",
       },
     },
     contactDetailsPhoneNumber1DefaultIcon: {
