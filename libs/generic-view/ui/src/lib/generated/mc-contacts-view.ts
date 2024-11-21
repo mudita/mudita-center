@@ -373,22 +373,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           },
         ],
       },
-      extra: {
-        tooltip: {
-          contentText: "Select",
-          offset: {
-            x: 0,
-            y: 6,
-          },
-        },
-      },
-    },
-    columnName: {
-      component: "table.cell",
-      config: {
-        width: "479px",
-      },
-      childrenKeys: ["contactDisplayName"],
     },
     contactDisplayName: {
       component: "p1-component",
