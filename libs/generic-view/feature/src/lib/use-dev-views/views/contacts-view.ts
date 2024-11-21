@@ -6,19 +6,13 @@
 import { View } from "generic-view/utils"
 
 // @ts-ignore
-const view: View = {
+export const contactsView: View = {
   main: {
-    component: "block-plain",
-    childrenKeys: ["contactsWrapper"],
-    // @ts-ignore
-    screenTitle: "Contacts",
-  },
-  contactsWrapper: {
     component: "mc-contacts-view",
     config: {
       entityType: "contacts",
     },
+    // @ts-ignore
+    screenTitle: "Contacts",
   },
 }
-
-export default view

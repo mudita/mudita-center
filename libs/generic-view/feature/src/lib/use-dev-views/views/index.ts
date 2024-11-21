@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import contactsView from "./contacts-view"
-import mcDataMigrationView from "./mc-data-migration-view"
+import { contactsView } from "./contacts-view"
+import { mcDataMigrationView } from "./mc-data-migration-view"
 
 export default {
   contacts: contactsView,
