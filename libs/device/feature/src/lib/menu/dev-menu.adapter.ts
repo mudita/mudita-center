@@ -31,7 +31,7 @@ export class DevMenuAdapter {
       {
         feature: "fileManager",
         displayName: "Manage Files",
-        icon: IconType.NoSimCard,
+        icon: IconType.FileManager,
       },
     ]
     return {
