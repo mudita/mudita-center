@@ -3,9 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ComponentGenerator } from "generic-view/utils"
+import { ComponentGenerator, IconType } from "generic-view/utils"
 import { McContactsView } from "generic-view/models"
-import { IconType } from "generic-view/utils"
 
 export const generateMcContactsView: ComponentGenerator<McContactsView> = (
   key,
@@ -40,6 +39,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         defaultValues: {
           selectedContacts: [],
           allContacts: [],
+          searchedContact: "",
         },
       },
       childrenKeys: ["contactsLoader"],
@@ -115,6 +115,154 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       config: {
         label: "Search all contacts",
         name: "searchedContact",
+        formKey: "contactsForm",
+      },
+      childrenKeys: ["contactsSearchResults"],
+    },
+    contactsSearchResults: {
+      component: "form.searchInputResults",
+      config: {
+        maxHeight: "242px",
+      },
+      dataProvider: {
+        source: "entities-array",
+        entitiesType: "contacts",
+        search: {
+          minPhraseLength: 2,
+          phraseSource: {
+            type: "form-fields",
+            formKey: "contactsForm",
+            field: "searchedContact",
+          },
+          fields: [
+            {
+              field: "searchName",
+              mode: "startsWith",
+            },
+            {
+              field: "phoneNumbers[0].phoneNumber",
+              mode: "startsWith",
+            },
+          ],
+        },
+        sort: [
+          {
+            fieldGroup: [
+              "lastName",
+              "firstName",
+              "displayName1",
+              "displayName2",
+              "displayName3",
+              "displayName4",
+            ],
+            priority: 1,
+            direction: "asc",
+            orderingPatterns: [
+              "/^\\p{L}.*/u",
+              "/^\\d+$/",
+              "/^[^a-zA-Z\\d\\s@]+$/",
+            ],
+          },
+        ],
+      },
+      childrenKeys: ["contactsSearchResultItem"],
+    },
+    contactsSearchResultItem: {
+      component: "button-plain",
+      layout: {
+        flexLayout: {
+          direction: "column",
+          justifyContent: "center",
+        },
+        padding: "8px 16px",
+        height: "60px",
+      },
+      dataProvider: {
+        source: "entities-field",
+        entitiesType: "contacts",
+        fields: [
+          {
+            providerField: "contactId",
+            componentField: "config.actions[0].value",
+          },
+        ],
+      },
+      config: {
+        actions: [
+          {
+            type: "form-set-field",
+            key: "activeContactId",
+            formKey: "contactsForm",
+            value: undefined,
+          },
+          {
+            type: "form-set-field",
+            key: "searchedContact",
+            formKey: "contactsForm",
+            value: undefined,
+          },
+        ],
+      },
+      childrenKeys: [
+        "contactsSearchResultsItemName",
+        "contactsSearchResultsItemPhoneNumber",
+      ],
+    },
+    contactsSearchResultsItemName: {
+      component: "p3-component",
+      config: {
+        singleLine: true,
+      },
+      childrenKeys: ["contactsSearchResultsItemNameHighlight"],
+    },
+    contactsSearchResultsItemNameHighlight: {
+      component: "highlight-text",
+      dataProvider: {
+        source: "entities-field",
+        entitiesType: "contacts",
+        fields: [
+          {
+            providerField: "searchName",
+            componentField: "data.text",
+          },
+        ],
+      },
+      dataProviderSecondary: {
+        source: "form-fields",
+        formKey: "contactsForm",
+        fields: [
+          {
+            providerField: "searchedContact",
+            componentField: "data.phrase",
+          },
+        ],
+      },
+    },
+    contactsSearchResultsItemPhoneNumber: {
+      component: "p4-component",
+      childrenKeys: ["contactsSearchResultsItemPhoneNumberHighlight"],
+    },
+    contactsSearchResultsItemPhoneNumberHighlight: {
+      component: "highlight-text",
+      dataProvider: {
+        source: "entities-field",
+        entitiesType: "contacts",
+        fields: [
+          {
+            providerField: "phoneNumbers[0].phoneNumber",
+            componentField: "data.text",
+          },
+        ],
+      },
+      dataProviderSecondary: {
+        source: "form-fields",
+        formKey: "contactsForm",
+        fields: [
+          {
+            providerField: "searchedContact",
+            componentField: "data.phrase",
+          },
+        ],
       },
     },
     contactsButtonActions: {
@@ -372,15 +520,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
             componentField: "config.value",
           },
         ],
-      },
-      extra: {
-        tooltip: {
-          contentText: "Select",
-          offset: {
-            x: 0,
-            y: 6,
-          },
-        },
       },
     },
     columnName: {
@@ -961,7 +1100,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     "importContactsButton-modal-content": {
       component: "import-contacts",
       config: {
-        features: [],
         modalKey: "importContactsButton-contacts",
       },
     },

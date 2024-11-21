@@ -63,6 +63,21 @@ export const Table: APIFC<TableData, TableConfig> & {
     setVisibleRowsBounds([firstVisibleRowIndex, lastVisibleRowIndex])
   }, [])
 
+  const scrollToActiveItem = useCallback(() => {
+    const activeElement = scrollWrapperRef.current?.querySelector("tr.active")
+    if (activeElement) {
+      activeElement.scrollIntoView({
+        block: "nearest",
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (activeRowId) {
+      scrollToActiveItem()
+    }
+  }, [activeRowId, scrollToActiveItem])
+
   useEffect(() => {
     if (formOptions.allIdsFieldName) {
       formContext.setValue(formOptions.allIdsFieldName, data)
@@ -108,15 +123,19 @@ export const Table: APIFC<TableData, TableConfig> & {
     }
   }, [data.length, handleScroll])
 
-  const placeholder = useMemo(() => {
-    return (
-      <RowPlaceholder>
-        <td colSpan={Children.count(children)}>
-          <div />
-        </td>
-      </RowPlaceholder>
-    )
-  }, [children])
+  const renderPlaceholder = useCallback(
+    (id: string) => {
+      const isActive = activeRowId === id
+      return (
+        <RowPlaceholder key={id} className={isActive ? "active" : ""}>
+          <td colSpan={Children.count(children)}>
+            <div />
+          </td>
+        </RowPlaceholder>
+      )
+    },
+    [activeRowId, children]
+  )
 
   const renderChildren = useCallback(
     (id: string) => {
@@ -133,7 +152,7 @@ export const Table: APIFC<TableData, TableConfig> & {
   const renderRow = useCallback(
     (id: string, index: number) => {
       if (index < visibleRowsBounds[0] || index > visibleRowsBounds[1]) {
-        return placeholder
+        return renderPlaceholder(id)
       }
       const onClick = () => onRowClick(id)
       const isActive = activeRowId === id
@@ -144,7 +163,13 @@ export const Table: APIFC<TableData, TableConfig> & {
         </tr>
       )
     },
-    [activeRowId, onRowClick, placeholder, renderChildren, visibleRowsBounds]
+    [
+      activeRowId,
+      onRowClick,
+      renderChildren,
+      renderPlaceholder,
+      visibleRowsBounds,
+    ]
   )
 
   return useMemo(
@@ -178,6 +203,7 @@ const ScrollableWrapper = styled.div`
   height: 100%;
   overflow: auto;
   position: relative;
+  scroll-behavior: smooth;
 `
 
 const TableWrapper = styled.table`

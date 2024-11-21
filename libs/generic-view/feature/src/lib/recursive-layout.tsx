@@ -25,6 +25,7 @@ import {
   ComponentWithData,
   ComponentWithLayout,
 } from "./setup-component"
+import { merge } from "lodash"
 
 interface Properties {
   viewKey: string
@@ -102,25 +103,45 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
                     componentKey={componentKey}
                     componentName={componentName}
                     dataItemId={recursiveComponentMetadata.dataItemId}
+                    secondaryDataProvider
                   >
-                    {(dataProps) => {
-                      const dataItemId =
-                        dataProps.dataItemId ||
-                        recursiveComponentMetadata.dataItemId
+                    {(secondaryDataProps) => {
                       return (
-                        <ComponentToRender
-                          key={`${viewKey}-${componentKey}-${dataItemId}`}
-                          {...recursiveComponentMetadata}
+                        <ComponentWithData
+                          config={config}
                           viewKey={viewKey}
                           componentKey={componentKey}
                           componentName={componentName}
-                          style={style}
-                          config={dataProps.config}
-                          data={dataProps.data}
-                          dataItemId={dataItemId}
+                          dataItemId={recursiveComponentMetadata.dataItemId}
                         >
-                          {renderChildren(dataItemId)}
-                        </ComponentToRender>
+                          {(dataProps) => {
+                            const props = merge(
+                              {},
+                              dataProps,
+                              secondaryDataProps
+                            )
+                            const dataItemId =
+                              props.dataItemId ||
+                              recursiveComponentMetadata.dataItemId
+
+                            const key = `${viewKey}-${componentKey}-${dataItemId}}`
+                            return (
+                              <ComponentToRender
+                                key={key}
+                                {...recursiveComponentMetadata}
+                                viewKey={viewKey}
+                                componentKey={componentKey}
+                                componentName={componentName}
+                                style={style}
+                                config={props.config}
+                                data={props.data}
+                                dataItemId={dataItemId}
+                              >
+                                {renderChildren(dataItemId)}
+                              </ComponentToRender>
+                            )
+                          }}
+                        </ComponentWithData>
                       )
                     }}
                   </ComponentWithData>

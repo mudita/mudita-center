@@ -30,6 +30,7 @@ import { modalSizeController } from "./lib/modal-size-controller"
 import { modalVisibilityController } from "./lib/modal-visibility-controller"
 import { formTextInput } from "./lib/form-text-input"
 import { formSearchInput } from "./lib/form-search-input"
+import { formSearchInputResults } from "./lib/form-search-input-results"
 import { formRadioInput } from "./lib/form-radio-input"
 import { formCheckboxInput } from "./lib/form-checkbox-input"
 import { tooltip } from "./lib/tooltip"
@@ -56,7 +57,6 @@ import { mcContactsView } from "./lib/mc-contacts-view"
 import { mcDataMigration } from "./lib/mc-data-migration"
 import { incomingFeatureInfo } from "./lib/incoming-feature-info"
 import { table } from "./lib/table"
-import { formConditionalRenderer } from "./lib/form-conditional-renderer"
 import { tableCell } from "./lib/table-cell"
 import { entitiesLoader } from "./lib/entities-loader"
 import { conditionalRenderer } from "./lib/conditional-renderer"
@@ -64,6 +64,8 @@ import { toast } from "./lib/toast"
 import { selectionManager } from "./lib/selection-manager"
 import { formatMessage } from "./lib/format-message"
 import { appPortal } from "./lib/app-portal"
+import { buttonPlain } from "./lib/button-plain"
+import { highlightText } from "./lib/highlight-text"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -72,6 +74,7 @@ export * from "./lib/button-icon"
 export * from "./lib/button-text"
 export * from "./lib/button-primary"
 export * from "./lib/button-secondary"
+export * from "./lib/button-plain"
 export * from "./lib/icon-text"
 export * from "./lib/badge"
 export * from "./lib/image"
@@ -93,6 +96,7 @@ export * from "./lib/form"
 export * from "./lib/form-text-input"
 export * from "./lib/form-radio-input"
 export * from "./lib/form-search-input"
+export * from "./lib/form-search-input-results"
 export * from "./lib/form-checkbox-input"
 export * from "./lib/progress-bar"
 export * from "./lib/tooltip"
@@ -115,7 +119,6 @@ export * from "./lib/mc-data-migration"
 export * from "./lib/incoming-feature-info"
 export * from "./lib/table"
 export * from "./lib/table-cell"
-export * from "./lib/form-conditional-renderer"
 export * from "./lib/entities-loader"
 export * from "./lib/common-validators"
 export * from "./lib/conditional-renderer"
@@ -123,6 +126,7 @@ export * from "./lib/format-message"
 export * from "./lib/toast"
 export * from "./lib/selection-manager"
 export * from "./lib/app-portal"
+export * from "./lib/highlight-text"
 
 export default {
   [blockBox.key]: blockBox,
@@ -132,6 +136,7 @@ export default {
   [buttonText.key]: buttonText,
   [buttonPrimary.key]: buttonPrimary,
   [buttonSecondary.key]: buttonSecondary,
+  [buttonPlain.key]: buttonPlain,
   [iconText.key]: iconText,
   [badge.key]: badge,
   [image.key]: image,
@@ -153,8 +158,8 @@ export default {
   [formTextInput.key]: formTextInput,
   [formRadioInput.key]: formRadioInput,
   [formSearchInput.key]: formSearchInput,
+  [formSearchInputResults.key]: formSearchInputResults,
   [formCheckboxInput.key]: formCheckboxInput,
-  [formConditionalRenderer.key]: formConditionalRenderer,
   [progressBar.key]: progressBar,
   [tooltip.key]: tooltip,
   [tooltipAnchor.key]: tooltipAnchor,
@@ -186,4 +191,5 @@ export default {
   [toast.key]: toast,
   [selectionManager.key]: selectionManager,
   [appPortal.key]: appPortal,
+  [highlightText.key]: highlightText,
 } as const

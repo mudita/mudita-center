@@ -7,11 +7,13 @@ import { ButtonText } from "./button-text"
 import { ButtonPrimary } from "./button-primary"
 import { ButtonSecondary } from "./button-secondary"
 import { ButtonIcon } from "./button-icon"
+import { ButtonPlain } from "./button-plain"
 import {
   buttonPrimary,
   buttonSecondary,
   buttonText,
   buttonIcon,
+  buttonPlain,
 } from "generic-view/models"
 
 export const buttons = {
@@ -19,4 +21,5 @@ export const buttons = {
   [buttonPrimary.key]: ButtonPrimary,
   [buttonSecondary.key]: ButtonSecondary,
   [buttonIcon.key]: ButtonIcon,
+  [buttonPlain.key]: ButtonPlain,
 }

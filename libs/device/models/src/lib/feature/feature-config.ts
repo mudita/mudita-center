@@ -17,6 +17,7 @@ const validators = Object.values(componentValidators).map(
         config: configValidator,
         layout: layoutSchema.optional(),
         dataProvider: dataProviderSchema.optional(),
+        dataProviderSecondary: dataProviderSchema.optional(),
         childrenKeys: z.array(z.string()).optional(),
       })
       .passthrough()

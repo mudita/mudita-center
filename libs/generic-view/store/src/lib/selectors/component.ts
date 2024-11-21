@@ -31,6 +31,11 @@ export const selectComponentDataProvider = createSelector(
   (config) => config?.dataProvider
 )
 
+export const selectComponentSecondaryDataProvider = createSelector(
+  selectComponent,
+  (config) => config?.dataProviderSecondary
+)
+
 export const selectComponentLayout = createSelector(
   selectComponent,
   (config) => config?.layout

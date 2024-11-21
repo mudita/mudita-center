@@ -10,12 +10,11 @@ import styled from "styled-components"
 import { HelpSearchResult } from "help/models"
 import { useSelector } from "react-redux"
 import { selectHelpCategories } from "help/store"
-import { HighlightText } from "./higlights"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { NavLink } from "react-router-dom"
 import { useFormContext } from "react-hook-form"
 import { IconType } from "generic-view/utils"
-import { Icon, P3 } from "generic-view/ui"
+import { HighlightText, Icon, P3 } from "generic-view/ui"
 import { HelpTestId } from "../test-ids"
 import { cleanSearchPhrase } from "help/feature"
 
@@ -65,8 +64,13 @@ const SearchResultsFC: FunctionComponent<
                     <CategoryName>{category.name}/</CategoryName>
                     <ArticleTitle>
                       <HighlightText
-                        text={result.document.title}
-                        phrase={cleanedHighlightPhrase}
+                        config={{
+                          scope: "all",
+                        }}
+                        data={{
+                          text: result.document.title,
+                          phrase: cleanedHighlightPhrase,
+                        }}
                       />
                     </ArticleTitle>
                   </ListItemLink>

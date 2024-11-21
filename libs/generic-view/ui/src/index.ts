@@ -32,6 +32,7 @@ export * from "./lib/buttons/button-text"
 export * from "./lib/buttons/button-primary"
 export * from "./lib/texts/paragraphs"
 export * from "./lib/texts/headers"
+export * from "./lib/texts/highlight-text"
 export * from "./lib/entities"
 
 const apiComponents = {
