@@ -36,7 +36,7 @@ export class DevMenuAdapter {
     ]
     return {
       ...menuConfig,
-      menuItems: unionBy(newMenuItems, menuConfig.menuItems || [], "feature"),
+      menuItems: unionBy(menuConfig.menuItems || [], newMenuItems, "feature"),
     }
   }
 }
