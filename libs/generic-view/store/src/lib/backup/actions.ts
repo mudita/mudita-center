@@ -4,13 +4,9 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import {
-  BackupProcess,
-  BackupProcessFileStatus,
-  BackupProcessStatus,
-  RestoreProcessStatus,
-} from "./reducer"
+import { BackupProcess, RestoreProcessStatus } from "./reducer"
 import { ActionName } from "../action-names"
+import { BackupProcessFileStatus, BackupProcessStatus } from "./backup.types"
 
 export const setBackupProcess = createAction<BackupProcess>(
   ActionName.SetBackupProcess

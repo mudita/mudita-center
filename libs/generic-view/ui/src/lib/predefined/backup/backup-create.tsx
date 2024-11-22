@@ -16,6 +16,7 @@ import { Form } from "../../interactive/form/form"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
+  BackupProcessStatus,
   cleanBackupProcess,
   closeModal as closeModalAction,
   createBackup,
@@ -124,15 +125,15 @@ const BackupCreateForm: FunctionComponent<BackupCreateConfig> = ({
 
   useEffect(() => {
     switch (backupProcessStatus) {
-      case "DONE":
+      case BackupProcessStatus.DONE:
         setStep(Step.Success)
         break
-      case "FAILED":
+      case BackupProcessStatus.FAILED:
         setStep(Step.Error)
         break
-      case "PRE_BACKUP":
-      case "FILES_TRANSFER":
-      case "SAVE_FILE":
+      case BackupProcessStatus.PRE_BACKUP:
+      case BackupProcessStatus.FILES_TRANSFER:
+      case BackupProcessStatus.SAVE_FILE:
         setStep(Step.Progress)
         break
     }

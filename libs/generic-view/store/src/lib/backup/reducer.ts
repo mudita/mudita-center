@@ -18,21 +18,13 @@ import { refreshBackupList } from "./refresh-backup-list.action"
 import { RestoreMetadata } from "device/models"
 import { loadBackupMetadata } from "./load-backup-metadata.action"
 import { restoreBackup } from "./restore-backup.action"
+import { BackupProcessFileStatus, BackupProcessStatus } from "./backup.types"
 
 export interface Backup {
   fileName: string
   date: Date
   serialNumber: string
 }
-
-export type BackupProcessStatus =
-  | "PRE_BACKUP"
-  | "FILES_TRANSFER"
-  | "SAVE_FILE"
-  | "DONE"
-  | "FAILED"
-
-export type BackupProcessFileStatus = "PENDING" | "IN_PROGRESS" | "DONE"
 
 export interface BackupProcess {
   status: BackupProcessStatus
@@ -93,20 +85,20 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(createBackup.rejected, (state, action) => {
     if (state.backupProcess) {
-      state.backupProcess.status = "FAILED"
+      state.backupProcess.status = BackupProcessStatus.FAILED
     } else {
       state.backupProcess = {
-        status: "FAILED",
+        status: BackupProcessStatus.FAILED,
         featureFilesTransfer: {},
       }
     }
   })
   builder.addCase(createBackup.fulfilled, (state, action) => {
     if (state.backupProcess) {
-      state.backupProcess.status = "DONE"
+      state.backupProcess.status = BackupProcessStatus.DONE
     } else {
       state.backupProcess = {
-        status: "DONE",
+        status: BackupProcessStatus.DONE,
         featureFilesTransfer: {},
       }
     }

@@ -19,6 +19,7 @@ import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
 import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
+import { BackupProcessFileStatus } from "./backup.types"
 
 export const restoreBackup = createAsyncThunk<
   undefined,
@@ -133,7 +134,7 @@ export const restoreBackup = createAsyncThunk<
       dispatch(
         setRestoreProcessFileStatus({
           feature: featurePath.feature,
-          status: "PENDING",
+          status: BackupProcessFileStatus.PENDING,
         })
       )
     }
@@ -148,7 +149,7 @@ export const restoreBackup = createAsyncThunk<
       dispatch(
         setRestoreProcessFileStatus({
           feature: featurePath.feature,
-          status: "IN_PROGRESS",
+          status: BackupProcessFileStatus.IN_PROGRESS,
         })
       )
       const sendFilePromise = dispatch(
@@ -170,7 +171,7 @@ export const restoreBackup = createAsyncThunk<
         dispatch(
           setRestoreProcessFileStatus({
             feature: featurePath.feature,
-            status: "DONE",
+            status: BackupProcessFileStatus.DONE,
           })
         )
       }

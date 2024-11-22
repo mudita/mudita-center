@@ -21,6 +21,7 @@ import {
   setBackupProcessStatus,
 } from "./actions"
 import { refreshBackupList } from "./refresh-backup-list.action"
+import { BackupProcessFileStatus, BackupProcessStatus } from "./backup.types"
 
 export const createBackup = createAsyncThunk<
   undefined,
@@ -54,7 +55,7 @@ export const createBackup = createAsyncThunk<
 
     dispatch(
       setBackupProcess({
-        status: "PRE_BACKUP",
+        status: BackupProcessStatus.PRE_BACKUP,
         featureFilesTransfer: features.reduce((acc, item) => {
           return { ...acc, [item]: { done: false } }
         }, {}),
@@ -107,7 +108,7 @@ export const createBackup = createAsyncThunk<
 
       backupFeaturesFiles = checkPreBackupResponse.data.features
     }
-    dispatch(setBackupProcessStatus("FILES_TRANSFER"))
+    dispatch(setBackupProcessStatus(BackupProcessStatus.FILES_TRANSFER))
 
     for (let i = 0; i < features.length; ++i) {
       if (aborted) {
@@ -115,7 +116,12 @@ export const createBackup = createAsyncThunk<
       }
       const feature = features[i]
 
-      dispatch(setBackupProcessFileStatus({ feature, status: "IN_PROGRESS" }))
+      dispatch(
+        setBackupProcessFileStatus({
+          feature,
+          status: BackupProcessFileStatus.IN_PROGRESS,
+        })
+      )
       const filePromise = dispatch(
         getFile({
           deviceId,
@@ -131,7 +137,12 @@ export const createBackup = createAsyncThunk<
         "transferId" in file.payload
       ) {
         featureToTransferId[feature] = file.payload.transferId
-        dispatch(setBackupProcessFileStatus({ feature, status: "DONE" }))
+        dispatch(
+          setBackupProcessFileStatus({
+            feature,
+            status: BackupProcessFileStatus.DONE,
+          })
+        )
       } else if (!aborted) {
         console.log("Error while downloading file")
         await clearTransfers()
@@ -142,7 +153,7 @@ export const createBackup = createAsyncThunk<
     if (aborted) {
       return rejectWithValue(undefined)
     }
-    dispatch(setBackupProcessStatus("SAVE_FILE"))
+    dispatch(setBackupProcessStatus(BackupProcessStatus.SAVE_FILE))
     const saveBackupFileResponse = await saveBackupFileRequest(
       featureToTransferId,
       deviceId,

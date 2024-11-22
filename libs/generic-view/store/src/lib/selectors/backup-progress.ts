@@ -6,6 +6,10 @@
 import { createSelector } from "@reduxjs/toolkit"
 
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import {
+  BackupProcessFileStatus,
+  BackupProcessStatus,
+} from "../backup/backup.types"
 
 export const backupProgress = createSelector(
   [(state: ReduxRootState) => state.genericBackups.backupProcess],
@@ -14,13 +18,13 @@ export const backupProgress = createSelector(
       return { progress: 0 }
     }
 
-    if (backupProcess.status === "DONE") {
+    if (backupProcess.status === BackupProcessStatus.DONE) {
       return { progress: 100 }
     }
 
     const features = Object.values(backupProcess.featureFilesTransfer)
     const downloadedFilesCount = features.filter(
-      (item) => item.status === "DONE"
+      (item) => item.status === BackupProcessFileStatus.DONE
     ).length
 
     if (features.length <= downloadedFilesCount) {
@@ -29,7 +33,7 @@ export const backupProgress = createSelector(
 
     const [featureInProgress] =
       Object.entries(backupProcess.featureFilesTransfer).find(
-        ([, item]) => item.status === "IN_PROGRESS"
+        ([, item]) => item.status === BackupProcessFileStatus.IN_PROGRESS
       ) ?? []
 
     return {
