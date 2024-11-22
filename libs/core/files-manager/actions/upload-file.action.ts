@@ -58,7 +58,7 @@ export const uploadFile = createAsyncThunk<
 
     if (!openFileResult.ok || !openFileResult.data) {
       dispatch(setUploadBlocked(false))
-      return rejectWithValue("no files to upload")
+      return
     }
 
     const filePaths = openFileResult.data
