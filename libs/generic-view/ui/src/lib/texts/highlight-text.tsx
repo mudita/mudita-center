@@ -11,8 +11,7 @@ export const HighlightText: APIFC<HighlightTextData, HighlightTextConfig> = ({
   data,
   config,
 }) => {
-  // TODO: Implement more modes when needed
-  const { caseSensitive, mode = "partial", scope = "first" } = config || {}
+  const { caseSensitive, scope = "first" } = config || {}
   const { phrase = "", text = "" } = data || {}
 
   const processText = useCallback(

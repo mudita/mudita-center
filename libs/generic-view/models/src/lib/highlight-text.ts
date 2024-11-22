@@ -14,7 +14,6 @@ export type HighlightTextData = z.infer<typeof dataValidator>
 
 const configValidator = z
   .object({
-    mode: z.enum(["partial"]).optional(),
     scope: z.enum(["all", "first"]).optional(),
     caseSensitive: z.boolean().optional(),
   })

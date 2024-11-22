@@ -124,7 +124,7 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
                               props.dataItemId ||
                               recursiveComponentMetadata.dataItemId
 
-                            const key = `${viewKey}-${componentKey}-${dataItemId}}`
+                            const key = `${viewKey}-${componentKey}-${dataItemId}`
                             return (
                               <ComponentToRender
                                 key={key}

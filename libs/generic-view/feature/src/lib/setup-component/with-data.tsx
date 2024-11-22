@@ -32,6 +32,7 @@ import {
   useViewFormContext,
 } from "generic-view/utils"
 import { processField } from "./process-field"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 interface Props {
   config?: ComponentPropsByName["config"]
@@ -182,6 +183,12 @@ const EntitiesArrayDataProvider: FunctionComponent<
       deviceId,
     })
   })
+  if (!idFieldKey) {
+    logger.error(
+      `Missing 'idFieldKey' for entities type ${dataProvider.entitiesType}.`
+    )
+    return undefined
+  }
 
   const filteredData = dataFilter(
     [...(entitiesData || [])],
@@ -194,7 +201,7 @@ const EntitiesArrayDataProvider: FunctionComponent<
   const data = searchedData
     ? searchedData
         .slice(0, dataProvider.limit || searchedData.length)
-        ?.map((item) => item[idFieldKey!])
+        ?.map((item) => item[idFieldKey])
     : undefined
 
   return children({ data, ...rest })
