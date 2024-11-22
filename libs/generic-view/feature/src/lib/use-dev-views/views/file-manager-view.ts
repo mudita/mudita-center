@@ -6,13 +6,10 @@
 import { View } from "generic-view/utils"
 
 // @ts-ignore
-export const contactsView: View = {
+export const fileManagerView: View = {
   main: {
-    component: "mc-contacts-view",
-    config: {
-      entityType: "contacts",
-    },
+    component: "mc-file-manager-view",
     // @ts-ignore
-    screenTitle: "Contacts",
+    screenTitle: "Manage Files",
   },
 }
