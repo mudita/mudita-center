@@ -12,6 +12,7 @@ import {
   closeModal as closeModalAction,
   loadBackupMetadata,
   restoreBackup,
+  RestoreProcessStatus,
   selectBackupRestoreStatus,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
@@ -116,21 +117,21 @@ export const BackupRestoreForm: FunctionComponent<BackupRestoreConfig> = ({
 
   useEffect(() => {
     switch (restoreStatus) {
-      case "PASSWORD_NOT_REQUIRED":
+      case RestoreProcessStatus.PasswordNotRequired:
         startRestore()
         break
-      case "PASSWORD_REQUIRED":
+      case RestoreProcessStatus.PasswordRequired:
         setStep(Step.Password)
         break
-      case "FAILED":
+      case RestoreProcessStatus.Failed:
         setStep(Step.Error)
         break
-      case "DONE":
+      case RestoreProcessStatus.Done:
         setStep(Step.Success)
         break
-      case "PRE_RESTORE":
-      case "FILES_TRANSFER":
-      case "RESTORING":
+      case RestoreProcessStatus.PreRestore:
+      case RestoreProcessStatus.FilesTransfer:
+      case RestoreProcessStatus.Restoring:
         setStep(Step.Progress)
         break
     }

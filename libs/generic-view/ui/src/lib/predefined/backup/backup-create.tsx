@@ -125,15 +125,15 @@ const BackupCreateForm: FunctionComponent<BackupCreateConfig> = ({
 
   useEffect(() => {
     switch (backupProcessStatus) {
-      case BackupProcessStatus.DONE:
+      case BackupProcessStatus.Done:
         setStep(Step.Success)
         break
-      case BackupProcessStatus.FAILED:
+      case BackupProcessStatus.Failed:
         setStep(Step.Error)
         break
-      case BackupProcessStatus.PRE_BACKUP:
-      case BackupProcessStatus.FILES_TRANSFER:
-      case BackupProcessStatus.SAVE_FILE:
+      case BackupProcessStatus.PreBackup:
+      case BackupProcessStatus.FilesTransfer:
+      case BackupProcessStatus.SaveFile:
         setStep(Step.Progress)
         break
     }

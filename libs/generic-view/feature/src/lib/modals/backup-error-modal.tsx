@@ -19,7 +19,7 @@ const BackupErrorModal: FunctionComponent = () => {
   const dispatch = useDispatch()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)
   const backupStatus = useSelector(selectBackupProcessStatus)
-  const opened = backupStatus === BackupProcessStatus.FAILED && !activeDeviceId
+  const opened = backupStatus === BackupProcessStatus.Failed && !activeDeviceId
 
   const onClose = () => {
     dispatch(cleanBackupProcess())

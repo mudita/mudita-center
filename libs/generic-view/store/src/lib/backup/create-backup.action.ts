@@ -55,7 +55,7 @@ export const createBackup = createAsyncThunk<
 
     dispatch(
       setBackupProcess({
-        status: BackupProcessStatus.PRE_BACKUP,
+        status: BackupProcessStatus.PreBackup,
         featureFilesTransfer: features.reduce((acc, item) => {
           return { ...acc, [item]: { done: false } }
         }, {}),
@@ -108,7 +108,7 @@ export const createBackup = createAsyncThunk<
 
       backupFeaturesFiles = checkPreBackupResponse.data.features
     }
-    dispatch(setBackupProcessStatus(BackupProcessStatus.FILES_TRANSFER))
+    dispatch(setBackupProcessStatus(BackupProcessStatus.FilesTransfer))
 
     for (let i = 0; i < features.length; ++i) {
       if (aborted) {
@@ -119,7 +119,7 @@ export const createBackup = createAsyncThunk<
       dispatch(
         setBackupProcessFileStatus({
           feature,
-          status: BackupProcessFileStatus.IN_PROGRESS,
+          status: BackupProcessFileStatus.InProgress,
         })
       )
       const filePromise = dispatch(
@@ -140,7 +140,7 @@ export const createBackup = createAsyncThunk<
         dispatch(
           setBackupProcessFileStatus({
             feature,
-            status: BackupProcessFileStatus.DONE,
+            status: BackupProcessFileStatus.Done,
           })
         )
       } else if (!aborted) {
@@ -153,7 +153,7 @@ export const createBackup = createAsyncThunk<
     if (aborted) {
       return rejectWithValue(undefined)
     }
-    dispatch(setBackupProcessStatus(BackupProcessStatus.SAVE_FILE))
+    dispatch(setBackupProcessStatus(BackupProcessStatus.SaveFile))
     const saveBackupFileResponse = await saveBackupFileRequest(
       featureToTransferId,
       deviceId,

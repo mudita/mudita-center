@@ -18,13 +18,13 @@ export const backupProgress = createSelector(
       return { progress: 0 }
     }
 
-    if (backupProcess.status === BackupProcessStatus.DONE) {
+    if (backupProcess.status === BackupProcessStatus.Done) {
       return { progress: 100 }
     }
 
     const features = Object.values(backupProcess.featureFilesTransfer)
     const downloadedFilesCount = features.filter(
-      (item) => item.status === BackupProcessFileStatus.DONE
+      (item) => item.status === BackupProcessFileStatus.Done
     ).length
 
     if (features.length <= downloadedFilesCount) {
@@ -33,7 +33,7 @@ export const backupProgress = createSelector(
 
     const [featureInProgress] =
       Object.entries(backupProcess.featureFilesTransfer).find(
-        ([, item]) => item.status === BackupProcessFileStatus.IN_PROGRESS
+        ([, item]) => item.status === BackupProcessFileStatus.InProgress
       ) ?? []
 
     return {

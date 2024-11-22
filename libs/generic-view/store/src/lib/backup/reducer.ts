@@ -18,7 +18,11 @@ import { refreshBackupList } from "./refresh-backup-list.action"
 import { RestoreMetadata } from "device/models"
 import { loadBackupMetadata } from "./load-backup-metadata.action"
 import { restoreBackup } from "./restore-backup.action"
-import { BackupProcessFileStatus, BackupProcessStatus } from "./backup.types"
+import {
+  BackupProcessFileStatus,
+  BackupProcessStatus,
+  RestoreProcessStatus,
+} from "./backup.types"
 
 export interface Backup {
   fileName: string
@@ -33,15 +37,6 @@ export interface BackupProcess {
     { transferId?: number; status: BackupProcessFileStatus }
   >
 }
-
-export type RestoreProcessStatus =
-  | "PASSWORD_NOT_REQUIRED"
-  | "PASSWORD_REQUIRED"
-  | "PRE_RESTORE"
-  | "FILES_TRANSFER"
-  | "RESTORING"
-  | "DONE"
-  | "FAILED"
 
 export interface RestoreProcess {
   status: RestoreProcessStatus
@@ -85,20 +80,20 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(createBackup.rejected, (state, action) => {
     if (state.backupProcess) {
-      state.backupProcess.status = BackupProcessStatus.FAILED
+      state.backupProcess.status = BackupProcessStatus.Failed
     } else {
       state.backupProcess = {
-        status: BackupProcessStatus.FAILED,
+        status: BackupProcessStatus.Failed,
         featureFilesTransfer: {},
       }
     }
   })
   builder.addCase(createBackup.fulfilled, (state, action) => {
     if (state.backupProcess) {
-      state.backupProcess.status = BackupProcessStatus.DONE
+      state.backupProcess.status = BackupProcessStatus.Done
     } else {
       state.backupProcess = {
-        status: BackupProcessStatus.DONE,
+        status: BackupProcessStatus.Done,
         featureFilesTransfer: {},
       }
     }
@@ -112,8 +107,8 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
   builder.addCase(loadBackupMetadata.fulfilled, (state, action) => {
     state.restoreProcess = {
       status: action.payload.restoreMetadata.header.password
-        ? "PASSWORD_REQUIRED"
-        : "PASSWORD_NOT_REQUIRED",
+        ? RestoreProcessStatus.PasswordRequired
+        : RestoreProcessStatus.PasswordNotRequired,
       metadata: action.payload.restoreMetadata,
       restoreFileId: action.payload.restoreFileId,
     }
@@ -123,18 +118,18 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(loadBackupMetadata.rejected, (state, action) => {
     state.restoreProcess = {
-      status: "FAILED",
+      status: RestoreProcessStatus.Failed,
     }
   })
   builder.addCase(restoreBackup.pending, (state, action) => {
     state.restoreProcess = {
       ...state.restoreProcess,
-      status: "PRE_RESTORE",
+      status: RestoreProcessStatus.PreRestore,
     }
   })
   builder.addCase(restoreBackup.rejected, (state, action) => {
     state.restoreProcess = {
-      status: "FAILED",
+      status: RestoreProcessStatus.Failed,
     }
   })
   builder.addCase(setRestoreProcessStatus, (state, action) => {

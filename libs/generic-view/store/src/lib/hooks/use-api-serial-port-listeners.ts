@@ -116,12 +116,12 @@ const useHandleDevicesDetached = () => {
       if (
         backupProcess &&
         [
-          BackupProcessStatus.PRE_BACKUP,
-          BackupProcessStatus.SAVE_FILE,
-          BackupProcessStatus.FILES_TRANSFER,
+          BackupProcessStatus.PreBackup,
+          BackupProcessStatus.SaveFile,
+          BackupProcessStatus.FilesTransfer,
         ].includes(backupProcess)
       ) {
-        dispatch(setBackupProcessStatus(BackupProcessStatus.FAILED))
+        dispatch(setBackupProcessStatus(BackupProcessStatus.Failed))
       }
     },
     [

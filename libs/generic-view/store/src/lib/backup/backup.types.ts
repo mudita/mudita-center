@@ -4,15 +4,25 @@
  */
 
 export enum BackupProcessStatus {
-  "PRE_BACKUP",
-  "FILES_TRANSFER",
-  "SAVE_FILE",
-  "DONE",
-  "FAILED",
+  PreBackup,
+  FilesTransfer,
+  SaveFile,
+  Done,
+  Failed,
 }
 
 export enum BackupProcessFileStatus {
-  "PENDING",
-  "IN_PROGRESS",
-  "DONE",
+  Pending,
+  InProgress,
+  Done,
+}
+
+export enum RestoreProcessStatus {
+  PasswordNotRequired,
+  PasswordRequired,
+  PreRestore,
+  FilesTransfer,
+  Restoring,
+  Done,
+  Failed,
 }
