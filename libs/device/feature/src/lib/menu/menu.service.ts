@@ -14,6 +14,7 @@ import {
   MenuConfigValidator,
 } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
+import { DevMenuAdapter } from "./dev-menu.adapter"
 
 export class APIMenuService {
   constructor(private deviceProtocol: DeviceProtocol) {}
@@ -30,16 +31,21 @@ export class APIMenuService {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
-    const response = await device.request({
+    let response = await device.request({
       endpoint: "MENU_CONFIGURATION",
       method: "GET",
       body: {
         lang: "en-US",
       },
       options: {
-        connectionTimeOut: 1000
-      }
+        connectionTimeOut: 1000,
+      },
     })
+
+    if (process.env.DEV_API_CONFIG === "1") {
+      response = DevMenuAdapter.processDevModeResponse(response)
+    }
+
     if (response.ok) {
       const menuConfig = MenuConfigValidator.safeParse(response.data.body)
 

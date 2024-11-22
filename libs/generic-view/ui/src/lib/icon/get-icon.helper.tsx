@@ -25,6 +25,7 @@ import SignalVeryHighRange from "Core/__deprecated__/renderer/svg/signal-very-hi
 
 import AirplaneMode from "Core/__deprecated__/renderer/svg/airplane-mode.svg"
 import MenuOverview from "Core/__deprecated__/renderer/svg/menu-overview.svg"
+import MenuFilesManager from "Core/__deprecated__/renderer/svg/files-manager.svg"
 import CloseIcon from "Core/__deprecated__/renderer/svg/close.svg"
 import Device from "Core/__deprecated__/renderer/svg/device.svg"
 import Mudita from "Core/__deprecated__/renderer/svg/mudita.svg"
@@ -77,6 +78,7 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.NoSimCard]: SignalNoRange,
   [IconType.AirplaneMode]: AirplaneMode,
   [IconType.Overview]: MenuOverview,
+  [IconType.FileManager]: MenuFilesManager,
   [IconType.Close]: CloseIcon,
   [IconType.Device]: Device,
   [IconType.Mudita]: Mudita,

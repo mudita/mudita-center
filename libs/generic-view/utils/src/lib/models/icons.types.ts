@@ -24,6 +24,7 @@ export enum IconType {
   NoSimCard = "no-sim-card",
   AirplaneMode = "airplane-mode",
   Overview = "overview",
+  FileManager = "file-manager",
   Close = "close",
   Device = "device",
   Mudita = "mudita",
