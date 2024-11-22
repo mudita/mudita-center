@@ -10,6 +10,7 @@ export interface CommonTextProps {
   $singleLine?: NonNullable<CommonTextValidators["singleLine"]>
   $textTransform?: NonNullable<CommonTextValidators["textTransform"]>
   $color?: NonNullable<CommonTextValidators["color"]>
+  $textAlign?: NonNullable<CommonTextValidators["textAlign"]>
 }
 
 export const commonTextStyles = css<CommonTextProps>`
@@ -33,4 +34,6 @@ export const commonTextStyles = css<CommonTextProps>`
         text-transform: uppercase;
       }
     `}
+
+  text-align: ${({ $textAlign = "unset" }) => $textAlign};
 `
