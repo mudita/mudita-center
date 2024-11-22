@@ -79,6 +79,86 @@ export const generateMcFileManagerView: ComponentGenerator<
       },
       layout: {
         width: "656px",
+        gridLayout: {
+          rows: ["auto", "1fr"],
+          columns: [],
+        },
+      },
+      childrenKeys: ["fileListPanel", "fileListContent"],
+    },
+    fileListPanel: {
+      component: "block-plain",
+      layout: {
+        margin: "28px 32px",
+        height: "40px",
+        gridLayout: {
+          rows: [],
+          columns: [],
+          alignItems: "center",
+        },
+      },
+      childrenKeys: ["fileListPanelHeader"],
+    },
+    fileListPanelHeader: {
+      component: "h3-component",
+      config: {
+        text: "Music",
+      },
+    },
+    fileListContent: {
+      component: "block-plain",
+      layout: {
+        gridLayout: {
+          rows: [],
+          columns: [],
+        },
+      },
+      childrenKeys: ["fileListEmptyState"],
+    },
+    fileListEmptyState: {
+      component: "block-plain",
+      layout: {
+        flexLayout: {
+          direction: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        },
+        padding: "0 0 96px 0",
+      },
+      childrenKeys: [
+        "fileListEmptyStateHeader",
+        "fileListEmptyStateDescription",
+        "fileListEmptyStateAddFileButton",
+      ],
+    },
+    fileListEmptyStateHeader: {
+      component: "h4-component",
+      layout: {
+        margin: "0 0 8px 0",
+      },
+      config: {
+        text: "We couldn't find any files",
+      },
+    },
+    fileListEmptyStateDescription: {
+      component: "p3-component",
+      layout: {
+        margin: "0 auto 24px auto",
+        width: "362px",
+      },
+      config: {
+        text: "Add music files from your computer and they’ll transfer\nto your device automatically.",
+        textAlign: "center",
+      },
+    },
+    fileListEmptyStateAddFileButton: {
+      component: "button-primary",
+      layout: {
+        width: "156px",
+      },
+      config: {
+        text: "Add file",
+        actions: [],
       },
     },
   }

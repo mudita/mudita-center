@@ -31,6 +31,7 @@ export const Paragraph1: APIFC<undefined, ParagraphConfig> = ({
       $color={config?.color}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
+      $textAlign={config?.textAlign}
     >
       {isEmpty(children) ? config?.text : children}
     </P1>
@@ -64,6 +65,7 @@ export const Paragraph2: APIFC<undefined, ParagraphConfig> = ({
       $color={config?.color}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
+      $textAlign={config?.textAlign}
     >
       {isEmpty(children) ? config?.text : children}
     </P2>
@@ -94,6 +96,7 @@ export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
       $color={config?.color}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
+      $textAlign={config?.textAlign}
     >
       {isEmpty(children) ? config?.text : children}
     </P3>
@@ -103,7 +106,7 @@ export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
 export const P3 = styled.p<ParagraphsProps>`
   font-size: ${({ theme }) => theme.fontSize.paragraph3};
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
   font-weight: ${({ theme }) => theme.fontWeight.regular};
 
   b,
@@ -124,6 +127,7 @@ export const Paragraph4: APIFC<undefined, ParagraphConfig> = ({
       $color={config?.color}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
+      $textAlign={config?.textAlign}
     >
       {isEmpty(children) ? config?.text : children}
     </P4>
@@ -154,6 +158,7 @@ export const Paragraph5: APIFC<undefined, ParagraphConfig> = ({
       $color={config?.color}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
+      $textAlign={config?.textAlign}
     >
       {isEmpty(children) ? config?.text : children}
     </P5>
