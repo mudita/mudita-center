@@ -106,7 +106,7 @@ export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
 export const P3 = styled.p<ParagraphsProps>`
   font-size: ${({ theme }) => theme.fontSize.paragraph3};
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
   font-weight: ${({ theme }) => theme.fontWeight.regular};
 
   b,
