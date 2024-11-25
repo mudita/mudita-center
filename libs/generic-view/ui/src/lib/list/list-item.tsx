@@ -8,6 +8,7 @@ import styled, { css } from "styled-components"
 import { APIFC } from "generic-view/utils"
 import { ListItemConfig } from "generic-view/models"
 import { CheckboxInputWrapper } from "../interactive/form/input/checkbox-input"
+import { useButtonAction } from "../buttons/button-base/use-button-action"
 
 export const ListItem: APIFC<undefined, ListItemConfig> = ({
   config,
@@ -15,8 +16,11 @@ export const ListItem: APIFC<undefined, ListItemConfig> = ({
   children,
   ...props
 }) => {
+  const actions = config?.actions ?? []
+  const callButtonAction = useButtonAction(props.viewKey as string)
+  const callAction = () => callButtonAction(actions)
   return (
-    <ListItemWrapper $active={config?.active} {...props}>
+    <ListItemWrapper $active={config?.active} onClick={callAction} {...props}>
       {children}
     </ListItemWrapper>
   )

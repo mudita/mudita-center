@@ -4,14 +4,14 @@
  */
 
 import { z } from "zod"
+import { buttonActionsValidator } from "./common-validators"
 
 const dataValidator = z.undefined()
 
-const configValidator = z
-  .object({
-    active: z.boolean().optional(),
-  })
-  .optional()
+const configValidator = z.object({
+  active: z.boolean().optional(),
+  actions: buttonActionsValidator.optional(),
+}).optional()
 
 export type ListItemConfig = z.infer<typeof configValidator>
 
