@@ -13,6 +13,7 @@ import {
   UnifiedCallLog,
   UnifiedContact,
   UnifiedMessage,
+  UnifiedNote,
 } from "device/models"
 import {
   cancelDataTransferRequest,
@@ -38,6 +39,7 @@ type DomainDataMapping = {
   "callLog-v1": UnifiedCallLog[]
   "messages-v1": UnifiedMessage[]
   "alarms-v1": UnifiedAlarm[]
+  "notes-v1": UnifiedNote[]
 }
 
 export type DomainData = {
