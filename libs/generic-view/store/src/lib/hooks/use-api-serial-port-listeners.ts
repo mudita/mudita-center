@@ -26,6 +26,7 @@ import {
 } from "../selectors/data-migration-devices"
 import { clearEntities } from "../entities/actions"
 import { DataMigrationStatus } from "../data-migration/reducer"
+import { BackupProcessStatus } from "../backup/backup.types"
 
 export const useAPISerialPortListeners = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -112,8 +113,15 @@ const useHandleDevicesDetached = () => {
       }
       dispatch(closeAllModals())
 
-      if (backupProcess) {
-        dispatch(setBackupProcessStatus("FAILED"))
+      if (
+        backupProcess &&
+        [
+          BackupProcessStatus.PreBackup,
+          BackupProcessStatus.SaveFile,
+          BackupProcessStatus.FilesTransfer,
+        ].includes(backupProcess)
+      ) {
+        dispatch(setBackupProcessStatus(BackupProcessStatus.Failed))
       }
     },
     [
