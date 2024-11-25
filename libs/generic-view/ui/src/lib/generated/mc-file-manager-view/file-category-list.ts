@@ -5,10 +5,9 @@
 
 import { ComponentPropsByName, IconType } from "generic-view/utils"
 
-interface CategoryItem {
+interface CategoryListItemConfig {
   id: string
   name: string
-  entitiesType: string
   icon: IconType
 }
 
@@ -16,7 +15,7 @@ const generateFileCategoryListItem = ({
   id,
   name,
   icon,
-}: CategoryItem): {
+}: CategoryListItemConfig): {
   [key: string]: ComponentPropsByName
 } => {
   return {
@@ -125,9 +124,9 @@ const generateFileCategoryListItem = ({
 }
 
 export const generateFileCategoryList = ({
-  categories,
+  configs,
 }: {
-  categories: CategoryItem[]
+  configs: CategoryListItemConfig[]
 }): {
   [key: string]: ComponentPropsByName
 } => {
@@ -143,12 +142,12 @@ export const generateFileCategoryList = ({
     },
   }
 
-  return categories.reduce((previousValue, category) => {
-    const categoryItemKey = `${category.id}CategoryListItem`
+  return configs.reduce((previousValue, config) => {
+    const categoryItemKey = `${config.id}CategoryListItem`
     previousValue["fileCategoryList"]?.childrenKeys?.push(categoryItemKey)
     previousValue = {
       ...previousValue,
-      ...generateFileCategoryListItem(category),
+      ...generateFileCategoryListItem(config),
     }
     return previousValue
   }, initialListConfig)
