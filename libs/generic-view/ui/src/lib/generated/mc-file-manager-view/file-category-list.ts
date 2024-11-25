@@ -15,12 +15,20 @@ interface CategoryItem {
 const generateFileCategoryListItem = ({
   id,
   name,
+  icon,
 }: CategoryItem): {
   [key: string]: ComponentPropsByName
 } => {
   return {
     [`${id}CategoryListItem`]: {
       component: "list-item",
+      layout: {
+        padding: "12px 32px 10px 32px",
+        gridLayout: {
+          rows: ["auto", "auto"],
+          columns: ["auto", "65px"],
+        },
+      },
       config: {
         actions: [
           {
@@ -42,12 +50,75 @@ const generateFileCategoryListItem = ({
           },
         ],
       },
-      childrenKeys: [`${id}CategoryListItemDescription`],
+      childrenKeys: [
+        `${id}CategoryListItemName`,
+        `${id}CategoryListItemStorage`,
+        `${id}CategoryListItemCountText`,
+      ],
     },
-    [`${id}CategoryListItemDescription`]: {
-      component: "p3-component",
+    [`${id}CategoryListItemName`]: {
+      component: "block-plain",
+      layout: {
+        flexLayout: {
+          direction: "row",
+          alignItems: "center",
+        },
+      },
+      childrenKeys: [
+        `${id}CategoryListItemNameIcon`,
+        `${id}CategoryListItemNameText`,
+      ],
+    },
+    [`${id}CategoryListItemNameIcon`]: {
+      component: "icon",
+      layout: {
+        width: "24px",
+        margin: "0 8px 0 0",
+        gridPlacement: {
+          row: 1,
+          column: 1,
+          width: 1,
+          height: 1,
+        },
+      },
+      config: {
+        type: icon,
+      },
+    },
+    [`${id}CategoryListItemNameText`]: {
+      component: "h4-component",
       config: {
         text: name,
+      },
+    },
+    [`${id}CategoryListItemStorage`]: {
+      component: "p3-component",
+      layout: {
+        gridPlacement: {
+          row: 1,
+          column: 2,
+          width: 1,
+          height: 1,
+        },
+      },
+      config: {
+        text: "",
+        color: "black",
+      },
+    },
+    [`${id}CategoryListItemCountText`]: {
+      component: "p3-component",
+      layout: {
+        margin: "10px 0 0 0",
+        gridPlacement: {
+          row: 2,
+          column: 1,
+          width: 2,
+          height: 1,
+        },
+      },
+      config: {
+        text: "0 files",
       },
     },
   }

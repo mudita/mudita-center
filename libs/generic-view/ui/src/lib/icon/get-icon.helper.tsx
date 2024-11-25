@@ -34,12 +34,16 @@ import Contact from "Core/__deprecated__/renderer/svg/contact.svg"
 import ContactsBook from "Core/__deprecated__/renderer/svg/menu-contacts.svg"
 
 import Backup from "./svg/backup.svg"
+import Book from "./svg/book.svg"
+import EighthNote from "Core/__deprecated__/renderer/svg/eighth-note.svg"
 import Settings from "./svg/settings.svg"
 import PasswordShow from "./svg/password-show.svg"
 import PasswordHide from "./svg/password-hide.svg"
+import PhotoCatalog from "./svg/photo-catalog.svg"
 import Success from "./svg/confirm.svg"
 import Failure from "./svg/failed.svg"
 import Folder from "./svg/folder.svg"
+import Grid from "./svg/grid.svg"
 import SpinnerDark from "./svg/spinner-dark.svg"
 import Check from "./svg/check.svg"
 import Minus from "./svg/minus.svg"
@@ -70,6 +74,8 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.BatteryCharging3]: BatteryChargingMedium,
   [IconType.BatteryCharging4]: BatteryChargingHigh,
   [IconType.BatteryCharging5]: BatteryChargingFull,
+  [IconType.Book]: Book,
+  [IconType.EighthNote]: EighthNote,
   [IconType.NetworkSignal0]: SignalNoRange,
   [IconType.NetworkSignal1]: SignalVeryLowRange,
   [IconType.NetworkSignal2]: SignalMediumRange,
@@ -88,9 +94,11 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Settings]: Settings,
   [IconType.PasswordShow]: PasswordShow,
   [IconType.PasswordHide]: PasswordHide,
+  [IconType.PhotoCatalog]: PhotoCatalog,
   [IconType.Success]: Success,
   [IconType.Failure]: Failure,
   [IconType.Folder]: Folder,
+  [IconType.Grid]: Grid,
   [IconType.Contact]: Contact,
   [IconType.ContactsBook]: ContactsBook,
   [IconType.Check]: Check,
