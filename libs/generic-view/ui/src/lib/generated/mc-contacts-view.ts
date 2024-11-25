@@ -128,7 +128,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         source: "entities-array",
         entitiesType: "contacts",
         search: {
-          minPhraseLength: 2,
+          minPhraseLength: 1,
           phraseSource: {
             type: "form-fields",
             formKey: "contactsForm",
@@ -212,11 +212,16 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       component: "p3-component",
       config: {
         singleLine: true,
+        color: "black",
       },
       childrenKeys: ["contactsSearchResultsItemNameHighlight"],
     },
     contactsSearchResultsItemNameHighlight: {
       component: "highlight-text",
+      config: {
+        scope: "all",
+        mode: "word-start",
+      },
       dataProvider: {
         source: "entities-field",
         entitiesType: "contacts",
@@ -240,6 +245,9 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     },
     contactsSearchResultsItemPhoneNumber: {
       component: "p4-component",
+      config: {
+        color: "black",
+      },
       childrenKeys: ["contactsSearchResultsItemPhoneNumberHighlight"],
     },
     contactsSearchResultsItemPhoneNumberHighlight: {
