@@ -74,17 +74,24 @@ const findMatches = (
   ).map(escapeRegExp)
 
   let matchRegex: string
-  const flags = caseSensitive ? "g" : "gi"
+  const flags = caseSensitive ? "gm" : "gim"
+  const boundaryRegex = "(^|\\s+|$)"
 
   switch (mode) {
     case "word":
-      matchRegex = `/\\b${searchPhrases.join("\\b|\\b")}\\b/${flags}`
+      matchRegex = `/${boundaryRegex}${searchPhrases.join(
+        `${boundaryRegex}|${boundaryRegex}`
+      )}${boundaryRegex}/${flags}`
       break
     case "word-start":
-      matchRegex = `/\\b${searchPhrases.join("|\\b")}/${flags}`
+      matchRegex = `/${boundaryRegex}${searchPhrases.join(
+        `|${boundaryRegex}`
+      )}/${flags}`
       break
     case "word-end":
-      matchRegex = `/${searchPhrases.join("\\b|")}\\b/${flags}`
+      matchRegex = `/${searchPhrases.join(
+        `${boundaryRegex}|`
+      )}${boundaryRegex}/${flags}`
       break
     case "anywhere":
     default:

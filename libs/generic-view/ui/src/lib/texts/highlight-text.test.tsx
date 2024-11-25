@@ -107,7 +107,7 @@ describe("HighlightText", () => {
         />
       )
       expect(container.innerHTML).toMatchInlineSnapshot(
-        `"<strong>Mar</strong>ek <strong>Mar</strong>marecki <strong>Mar</strong>ekowski"`
+        `"<strong>Mar</strong>ek<strong> Mar</strong>marecki<strong> Mar</strong>ekowski"`
       )
     })
 
@@ -119,7 +119,7 @@ describe("HighlightText", () => {
         />
       )
       expect(container.innerHTML).toMatchInlineSnapshot(
-        `"Marek Marmarec<strong>ki</strong> Marekows<strong>ki</strong>"`
+        `"Marek Marmarec<strong>ki </strong>Marekows<strong>ki</strong>"`
       )
     })
 
@@ -131,7 +131,7 @@ describe("HighlightText", () => {
         />
       )
       expect(container.innerHTML).toMatchInlineSnapshot(
-        `"<strong>Marek</strong> Marmarecki Marekowski"`
+        `"<strong>Marek </strong>Marmarecki Marekowski"`
       )
     })
   })
