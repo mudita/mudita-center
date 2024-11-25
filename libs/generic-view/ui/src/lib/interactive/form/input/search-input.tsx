@@ -17,6 +17,14 @@ import { IconButton } from "../../../shared/button"
 import { Icon } from "../../../icon/icon"
 import { FormSearchInputConfig, FormSearchInputData } from "generic-view/models"
 import { SearchResults, SearchResultsWrapper } from "./search-results"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  placeholder: {
+    id: "component.searchInput.placeholder",
+  },
+})
 
 export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
   data,
@@ -71,7 +79,7 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
           {...props}
           id={"input-" + id}
           type={"search"}
-          placeholder={label}
+          placeholder={label || intl.formatMessage(messages.placeholder)}
           {...rest}
           ref={handleRef}
           onKeyDown={handleKeyDown}

@@ -13,7 +13,7 @@ export type FormSearchInputData = z.infer<typeof dataValidator>
 
 const configValidator = z.object({
   name: z.string(),
-  label: z.string(),
+  label: z.string().optional(),
   formKey: z.string().optional(),
 })
 
