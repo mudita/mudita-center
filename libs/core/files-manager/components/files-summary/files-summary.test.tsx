@@ -32,12 +32,12 @@ const defaultProps: ComponentProps<typeof FilesSummary> = {
     {
       type: DiskSpaceCategoryType.Music,
       color: "#E3F3FF",
-      icon: IconType.MenuMusic,
+      icon: IconType.EighthNote,
       label: "Music",
       size: 4560,
     },
   ],
-  summaryTitleMessage: { id: "component.filesManagerSummaryTitle" }
+  summaryTitleMessage: { id: "component.filesManagerSummaryTitle" },
 }
 
 const render = () => {

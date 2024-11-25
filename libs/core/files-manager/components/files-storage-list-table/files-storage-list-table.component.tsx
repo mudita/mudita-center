@@ -141,7 +141,7 @@ const FilesStorageListTable: FunctionComponent<Props> = ({
                   visible={Boolean(selectedItems.length !== 0)}
                 />
                 {selectedItems.length === 0 && (
-                  <FileIcon iconType={IconType.MenuMusic} />
+                  <FileIcon iconType={IconType.EighthNote} />
                 )}
               </Col>
               <Col>

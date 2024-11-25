@@ -42,24 +42,24 @@ export const filesManagerSummaryElements: DiskSpaceCategory[] = [
   {
     type: DiskSpaceCategoryType.Music,
     color: "#E3F3FF",
-    icon: IconType.MenuMusic,
+    icon: IconType.EighthNote,
     label: intl.formatMessage({
       id: "component.filesManagerSummaryMusic",
     }),
     size: 0,
   },
-  ...baseFilesSummaryElements
+  ...baseFilesSummaryElements,
 ]
 
 export const managerSoundsSummaryElements: DiskSpaceCategory[] = [
   {
     type: DiskSpaceCategoryType.Music,
     color: "#E3F3FF",
-    icon: IconType.MenuMusic,
+    icon: IconType.EighthNote,
     label: intl.formatMessage({
       id: "component.manageSoundsSummaryMusic",
     }),
     size: 0,
   },
-  ...baseFilesSummaryElements
+  ...baseFilesSummaryElements,
 ]
