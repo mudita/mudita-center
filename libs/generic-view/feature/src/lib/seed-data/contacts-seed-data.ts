@@ -181,6 +181,13 @@ const contactWithPlusAsSpecialCharacterInFirstName = {
   entityType: "contacts",
 }
 
+const contactWithRepetitions = {
+  firstName: "Marek",
+  lastName: "Marmarecki",
+  phoneNumbers: [{ phoneNumber: "500500500", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
 const contactWithNumbersInName = {
   firstName: "Numer (last name is numeric)",
   lastName: "12345",
@@ -495,7 +502,6 @@ const contactWithOnlyEmojiNotes = {
   entityType: "contacts",
 }
 
-
 export const contactsSeedData: EntityData[] = [
   contactFullData1,
   contactFullData2,
@@ -508,6 +514,7 @@ export const contactsSeedData: EntityData[] = [
   contactWithSpecialCharactersInFirstName,
   contactWithPlusAsSpecialCharacterInLastName,
   contactWithPlusAsSpecialCharacterInFirstName,
+  contactWithRepetitions,
   contactWithNumbersInName,
   contactWithPrefixSuffix,
   contactWithMiddleNameOnly,
