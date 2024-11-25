@@ -12,13 +12,19 @@ import React, {
   useRef,
   useState,
 } from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
+import { difference, intersection } from "lodash"
 import { APIFC, useViewFormContext } from "generic-view/utils"
 import { TableConfig, TableData } from "generic-view/models"
 import { TableCell } from "./table-cell"
 import { P1 } from "../texts/paragraphs"
-import { difference, intersection } from "lodash"
-import { CheckboxInputWrapper } from "../interactive/form/input/checkbox-input"
+import {
+  listItemActiveStyles,
+  listItemBaseStyles,
+  listItemClickableStyles,
+  listItemSelectedStyles,
+  listRawItemStyles,
+} from "../list/list-item"
 
 const rowHeight = 64
 
@@ -204,59 +210,20 @@ const TableHeader = styled.thead`
 `
 
 const RowPlaceholder = styled.tr`
+  ${listRawItemStyles};
   height: ${rowHeight / 10}rem;
-  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
 `
 
 const TableBody = styled.tbody<{ $clickable?: boolean }>`
   tr:not(${RowPlaceholder}) {
-    position: relative;
+    ${listItemBaseStyles};
+    ${listItemSelectedStyles};
     height: ${rowHeight / 10}rem;
-    border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
-    transition: background 0.15s ease-in-out, border 0.15s ease-in-out;
-
-    &:hover {
-      background: ${({ theme }) => theme.color.grey6};
-      border-bottom-color: ${({ theme }) => theme.color.grey4};
-    }
 
     &.active {
-      background: ${({ theme }) => theme.color.grey5};
-      &:before {
-        background: ${({ theme }) => theme.color.grey1};
-      }
-      &:hover {
-        background: ${({ theme }) => theme.color.grey8};
-        border-bottom-color: ${({ theme }) => theme.color.grey4};
-      }
+      ${listItemActiveStyles};
     }
-
-    ${({ $clickable }) =>
-      $clickable &&
-      css`
-        cursor: pointer;
-
-        &:before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 0.5rem;
-          height: 100%;
-          background: transparent;
-          z-index: 1;
-          transition: background 0.15s ease-in-out;
-        }
-      `}
-
-    &:has(${CheckboxInputWrapper} input:checked) {
-      background: ${({ theme }) => theme.color.grey5};
-
-      &:hover {
-        background: ${({ theme }) => theme.color.grey8};
-        border-bottom-color: ${({ theme }) => theme.color.grey4};
-      }
-    }
+    ${({ $clickable }) => $clickable && listItemClickableStyles}
   }
   td {
     text-align: left;

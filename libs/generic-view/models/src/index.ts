@@ -47,6 +47,7 @@ import {
   p5Component,
 } from "./lib/paragraphs"
 import { lastBackupDate } from "./lib/last-backup-date"
+import { listItem } from "./lib/list-item"
 import { backupCreate } from "./lib/backup-create"
 import { importContacts } from "./lib/import-contacts"
 import { backupRestore } from "./lib/backup-restore"
@@ -105,6 +106,7 @@ export * from "./lib/common-text-validators"
 export * from "./lib/overview-os-version"
 export * from "./lib/about-data-box"
 export * from "./lib/last-backup-date"
+export * from "./lib/list-item"
 export * from "./lib/backup-restore-available"
 export * from "./lib/backup-create"
 export * from "./lib/backup-restore"
@@ -172,6 +174,7 @@ export default {
   [overviewOsVersion.key]: overviewOsVersion,
   [aboutDataBox.key]: aboutDataBox,
   [lastBackupDate.key]: lastBackupDate,
+  [listItem.key]: listItem,
   [backupRestoreAvailable.key]: backupRestoreAvailable,
   [backupCreate.key]: backupCreate,
   [backupRestore.key]: backupRestore,
