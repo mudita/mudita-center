@@ -3,8 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ComponentGenerator } from "generic-view/utils"
+import { ComponentGenerator, IconType } from "generic-view/utils"
 import { McFileManagerView } from "generic-view/models"
+import { generateFileCategoryList } from "./file-category-list"
 
 export const generateMcFileManagerView: ComponentGenerator<
   McFileManagerView
@@ -28,7 +29,12 @@ export const generateMcFileManagerView: ComponentGenerator<
     fileManagerForm: {
       component: "form",
       config: {
-        formOptions: {},
+        formOptions: {
+          defaultValues: {
+            activeFileCategoryId: "0",
+            fileCategoryIds: ["0", "1", "2", "3"],
+          },
+        },
       },
       childrenKeys: ["fileManagerLoader"],
     },
@@ -66,9 +72,9 @@ export const generateMcFileManagerView: ComponentGenerator<
           direction: "row",
         },
       },
-      childrenKeys: ["fileCategoryList", "fileList"],
+      childrenKeys: ["fileCategoriesContainer", "fileList"],
     },
-    fileCategoryList: {
+    fileCategoriesContainer: {
       component: "block-plain",
       layout: {
         flexPlacement: {
@@ -76,7 +82,36 @@ export const generateMcFileManagerView: ComponentGenerator<
           direction: "row",
         },
       },
+      childrenKeys: ["fileCategoryList"],
     },
+    ...generateFileCategoryList({
+      categories: [
+        {
+          id: "0",
+          name: "Music",
+          icon: IconType.NetworkSignal1,
+          entitiesType: "audioFiles",
+        },
+        {
+          id: "1",
+          name: "Photos",
+          icon: IconType.NetworkSignal2,
+          entitiesType: "imageFiles",
+        },
+        {
+          id: "2",
+          name: "Ebooks",
+          icon: IconType.NetworkSignal3,
+          entitiesType: "ebookFiles",
+        },
+        {
+          id: "3",
+          name: "Apps",
+          icon: IconType.NetworkSignal4,
+          entitiesType: "applicationFiles",
+        },
+      ],
+    }),
     fileList: {
       component: "block-plain",
       config: {
