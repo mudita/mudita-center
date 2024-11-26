@@ -7,6 +7,7 @@ import { ComponentGenerator, IconType } from "generic-view/utils"
 import { McFileManagerView } from "generic-view/models"
 import { generateFileCategoryList } from "./file-category-list"
 import { generateFileListWrapper } from "./file-list"
+import { generateOtherFilesList } from "./other-files-list"
 
 export const generateMcFileManagerView: ComponentGenerator<
   McFileManagerView
@@ -83,7 +84,7 @@ export const generateMcFileManagerView: ComponentGenerator<
           direction: "row",
         },
       },
-      childrenKeys: ["fileCategoryList"],
+      childrenKeys: ["fileCategoryList", "fileCategoryOtherFilesItem"],
     },
     ...generateFileCategoryList({
       configs: [
@@ -111,6 +112,98 @@ export const generateMcFileManagerView: ComponentGenerator<
           icon: IconType.Grid,
           markerColor: "#AEBEC9",
         },
+      ],
+    }),
+    fileCategoryOtherFilesItem: {
+      component: "block-plain",
+      layout: {
+        padding: "28px 32px 10px 32px",
+        gridLayout: {
+          rows: [],
+          columns: ["auto", "auto"],
+          justifyContent: "space-between",
+        },
+      },
+      childrenKeys: [
+        "fileCategoryOtherFilesItemName",
+        "fileCategoryOtherFilesItemInfoIconWrapper",
+      ],
+    },
+    fileCategoryOtherFilesItemName: {
+      component: "block-plain",
+      layout: {
+        flexLayout: {
+          direction: "row",
+          alignItems: "center",
+        },
+      },
+      childrenKeys: [
+        "fileCategoryOtherFilesItemNameText",
+        "fileCategoryOtherFilesItemNameSize",
+      ],
+    },
+    fileCategoryOtherFilesItemNameText: {
+      component: "h4-component",
+      config: {
+        text: "Other files",
+      },
+    },
+    fileCategoryOtherFilesItemNameSize: {
+      component: "p3-component",
+      layout: {
+        margin: "0 0 0 3px",
+      },
+      config: {
+        text: "(0 KB)",
+        color: "black",
+      },
+    },
+    fileCategoryOtherFilesItemInfoIconWrapper: {
+      component: "block-plain",
+      gridPlacement: {
+        justifySelf: "end",
+      },
+      childrenKeys: ["fileCategoryOtherFilesItemInfoIconTooltip"],
+    },
+    fileCategoryOtherFilesItemInfoIconTooltip: {
+      component: "tooltip",
+      config: {
+        offset: {
+          x: 10,
+          y: 0,
+        },
+        placement: "bottom-left",
+      },
+      childrenKeys: [
+        "fileCategoryOtherFilesItemInfoIconTooltipAnchor",
+        "fileCategoryOtherFilesItemInfoIconTooltipContent",
+      ],
+    },
+    fileCategoryOtherFilesItemInfoIconTooltipAnchor: {
+      component: "tooltip.anchor",
+      childrenKeys: ["fileCategoryOtherFilesItemInfoIcon"],
+    },
+
+    fileCategoryOtherFilesItemInfoIcon: {
+      component: "icon",
+      layout: {
+        width: "25px",
+        height: "auto",
+      },
+      config: {
+        type: IconType.Information,
+        color: "black",
+        size: "small",
+      },
+    },
+    fileCategoryOtherFilesItemInfoIconTooltipContent: {
+      component: "tooltip.content",
+      childrenKeys: ["otherFilesList"],
+    },
+    ...generateOtherFilesList({
+      configs: [
+        { id: "0", name: "System" },
+        { id: "1", name: "Other" },
       ],
     }),
     ...generateFileListWrapper({
