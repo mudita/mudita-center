@@ -14,6 +14,8 @@ import { getSingleFeatures } from "../features/get-single-feature"
 import { getSingleFeatureData } from "../features/get-single-feature-data"
 import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import { setLastRefresh } from "../views/actions"
+import { getEntityDataAction } from "../entities/get-entity-data.action"
+import { deleteEntityData, setEntityData } from "../entities/actions"
 
 export const getOutboxData = createAsyncThunk<
   {
@@ -49,6 +51,38 @@ export const getOutboxData = createAsyncThunk<
       dataToReload.forEach(async (feature) => {
         await dispatch(getSingleFeatureData({ deviceId, feature }))
       })
+    }
+
+    if (response.data.entities.length > 0) {
+      for (const entity of response.data.entities) {
+        if (entity.action === "deleted") {
+          dispatch(
+            deleteEntityData({
+              entitiesType: entity.entityType,
+              entityId: entity.entityId!,
+              deviceId,
+            })
+          )
+        } else {
+          const entityData = await dispatch(
+            getEntityDataAction({
+              entitiesType: entity.entityType,
+              entityId: entity.entityId!,
+              deviceId,
+              responseType: "json",
+            })
+          )
+
+          dispatch(
+            setEntityData({
+              entitiesType: entity.entityType,
+              entityId: entity.entityId!,
+              data: entityData.payload as Record<string, unknown>,
+              deviceId,
+            })
+          )
+        }
+      }
     }
 
     if (selectActiveApiDeviceId(getState()) === deviceId) {

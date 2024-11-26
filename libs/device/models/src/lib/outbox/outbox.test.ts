@@ -8,6 +8,7 @@ import { Outbox, OutboxValidator } from "./outbox"
 const minimumOutboxConfig: Outbox = {
   data: [],
   features: [],
+  entities: [],
 }
 
 describe("OutboxValidator", () => {
