@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export * from "./event.constant"
+export * from "./call-log.constant"
 export * from "./contact.constant"
 export * from "./controller.constant"
 export * from "./message.constant"

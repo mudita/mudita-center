@@ -5,10 +5,14 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { deviceManagerState } from "device-manager/feature"
+import { selectTimeSynchronizationStatus } from "Core/time-synchronization/selectors/time-synchronization-status.selector"
 
 export const isSelectDeviceDrawerOpenSelector = createSelector(
   deviceManagerState,
-  ({ selectDeviceDrawerOpen }): boolean => {
-    return selectDeviceDrawerOpen
+  selectTimeSynchronizationStatus,
+  ({ selectDeviceDrawerOpen }, timeSyncStatus): boolean => {
+    return (
+      selectDeviceDrawerOpen && ["idle", undefined].includes(timeSyncStatus)
+    )
   }
 )

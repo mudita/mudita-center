@@ -13,6 +13,7 @@ import { isInitializationDeviceInProgress } from "Core/device-initialization/sel
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
 import { useNoNewDevicesDetectedHook } from "Core/discovery-device/hooks/use-no-new-devices-detected.hook"
 import { selectDialogOpenState } from "shared/app-state"
+import { selectTimeSynchronizationStatus } from "Core/time-synchronization/selectors/time-synchronization-status.selector"
 
 export const CONNECTING_LOADER_MODAL_ID = "connecting-loader-modal"
 
@@ -26,6 +27,7 @@ export const useLoaderSkipOnConnect = () => {
   )
   const initializationAppInProgress = useSelector(isInitializationAppInProgress)
   const dialogOpen = useSelector(selectDialogOpenState)
+  const timeSyncStatus = useSelector(selectTimeSynchronizationStatus)
 
   return useCallback(() => {
     return (
@@ -35,7 +37,8 @@ export const useLoaderSkipOnConnect = () => {
       activeDeviceProcessing ||
       checkIsAnyOtherModalPresent(CONNECTING_LOADER_MODAL_ID) ||
       !noNewDevicesDetectedState ||
-      dialogOpen
+      dialogOpen ||
+      !["idle", undefined].includes(timeSyncStatus)
     )
   }, [
     history.location.pathname,
@@ -44,5 +47,6 @@ export const useLoaderSkipOnConnect = () => {
     activeDeviceProcessing,
     noNewDevicesDetectedState,
     dialogOpen,
+    timeSyncStatus,
   ])
 }

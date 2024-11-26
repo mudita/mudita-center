@@ -5,6 +5,7 @@
 
 import React from "react"
 import { useSelector } from "react-redux"
+import { FlashingErrorModal, RecoveryCompleteModal } from "msc-flash-harmony"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ContactSupportFlow from "Core/contact-support/containers/contact-support-flow.container"
 import { UpdateOsInterruptedFlowContainer } from "Core/update/components/update-os-interrupted-flow"
@@ -25,6 +26,8 @@ const ModalsManager: FunctionComponent = () => {
       <UpdateOsInterruptedFlowContainer />
       <ConnectingLoaderModal />
       <DetachedDuringUploadErrorModal />
+      <FlashingErrorModal />
+      <RecoveryCompleteModal />
       {appUpdateVisible && <AppUpdateFlow />}
     </>
   )

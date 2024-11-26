@@ -6,7 +6,7 @@
 import { DeviceType } from "device-protocol/models"
 import { Feature, flags } from "Core/feature-flags"
 import { HarmonyOverviewProps } from "Core/overview/components/overview-screens/harmony-overview/harmony-overview.component.interface"
-import OverviewContent from "Core/overview/components/overview-screens/harmony-overview/overview-content.component"
+import HarmonyOverviewContent from "Core/overview/components/overview-screens/harmony-overview/harmony-overview-content.component"
 import { UpdateOsFlow } from "Core/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { CheckForUpdateMode } from "Core/update/constants"
@@ -44,6 +44,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   forceUpdateState,
   closeForceUpdateFlow,
   caseColour,
+  synchronizeTime,
 }) => {
   const openHelpShortcut = useHelpShortcut()
   const genericDeviceErrorModalOpened = useSelector(
@@ -136,7 +137,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
           )}
         </>
       )}
-      <OverviewContent
+      <HarmonyOverviewContent
         batteryLevel={batteryLevel}
         osVersion={osVersion}
         onUpdateCheck={checkForHarmonyUpdate}
@@ -144,6 +145,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         onUpdateDownload={openCheckForUpdateModal}
         serialNumber={serialNumber}
         caseColour={caseColour}
+        synchronizeTime={synchronizeTime}
       />
     </>
   )

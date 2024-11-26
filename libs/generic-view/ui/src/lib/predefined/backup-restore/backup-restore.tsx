@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
-import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
+import { APIFC, CustomModalError } from "generic-view/utils"
 import { Form } from "../../interactive/form/form"
 import { Modal } from "../../interactive/modal"
 import {
@@ -12,6 +12,7 @@ import {
   closeModal as closeModalAction,
   loadBackupMetadata,
   restoreBackup,
+  RestoreProcessStatus,
   selectBackupRestoreStatus,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
@@ -24,7 +25,7 @@ import { BackupRestoreSuccess } from "./backup-restore-success"
 import { BackupRestoreError } from "./backup-restore-error"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { BackupRestoreConfig } from "generic-view/models"
+import { BackupRestoreConfig, ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -116,21 +117,21 @@ export const BackupRestoreForm: FunctionComponent<BackupRestoreConfig> = ({
 
   useEffect(() => {
     switch (restoreStatus) {
-      case "PASSWORD_NOT_REQUIRED":
+      case RestoreProcessStatus.PasswordNotRequired:
         startRestore()
         break
-      case "PASSWORD_REQUIRED":
+      case RestoreProcessStatus.PasswordRequired:
         setStep(Step.Password)
         break
-      case "FAILED":
+      case RestoreProcessStatus.Failed:
         setStep(Step.Error)
         break
-      case "DONE":
+      case RestoreProcessStatus.Done:
         setStep(Step.Success)
         break
-      case "PRE_RESTORE":
-      case "FILES_TRANSFER":
-      case "RESTORING":
+      case RestoreProcessStatus.PreRestore:
+      case RestoreProcessStatus.FilesTransfer:
+      case RestoreProcessStatus.Restoring:
         setStep(Step.Progress)
         break
     }
@@ -140,10 +141,10 @@ export const BackupRestoreForm: FunctionComponent<BackupRestoreConfig> = ({
   return (
     <>
       {closeButtonVisible && (
-        <Modal.CloseButton config={{ action: restoreCloseButtonAction }} />
+        <Modal.CloseButton config={{ actions: [restoreCloseButtonAction] }} />
       )}
       {abortButtonVisible && (
-        <Modal.CloseButton config={{ action: abortButtonAction }} />
+        <Modal.CloseButton config={{ actions: [abortButtonAction] }} />
       )}
       {step === Step.Select && (
         <BackupRestoreSelect

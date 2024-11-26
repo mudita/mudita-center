@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { DeviceId } from "Core/device/constants/device-id"
 import {
+  DataMigrationStatus,
   selectDataMigrationStatus,
   setDataMigrationStatus,
 } from "generic-view/store"
@@ -28,10 +29,13 @@ export const PurePasscodeModal: FunctionComponent<Props> = ({
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
 
   const closePasscodeModal = () => {
-    dispatch(setDataMigrationStatus("IDLE"))
+    dispatch(setDataMigrationStatus(DataMigrationStatus.Idle))
   }
 
-  if (deviceId && dataMigrationStatus === "PURE-PASSWORD-REQUIRED") {
+  if (
+    deviceId &&
+    dataMigrationStatus === DataMigrationStatus.PurePasswordRequired
+  ) {
     return (
       <ThemeProvider theme={theme as unknown as DefaultTheme}>
         <PurePasscode

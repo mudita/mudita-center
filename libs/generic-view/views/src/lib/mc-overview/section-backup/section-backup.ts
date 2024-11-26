@@ -97,11 +97,13 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
               text: intl.formatMessage({
                 id: "module.genericBackup.restoreButtonLabel",
               }),
-              action: {
-                type: "open-modal",
-                modalKey: config.dataKey + BackupRestoreModalsKeys.Restore,
-                domain: BackupRestoreModalsKeys.Domain,
-              },
+              actions: [
+                {
+                  type: "open-modal",
+                  modalKey: config.dataKey + BackupRestoreModalsKeys.Restore,
+                  domain: BackupRestoreModalsKeys.Domain,
+                },
+              ],
             },
           },
           ...generateBackupRestoreModalLayout({
@@ -118,11 +120,13 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
               text: intl.formatMessage({
                 id: "module.genericBackup.createButtonLabel",
               }),
-              action: {
-                type: "open-modal",
-                modalKey: config.dataKey + BackupModalsKeys.Create,
-                domain: BackupModalsKeys.Domain,
-              },
+              actions: [
+                {
+                  type: "open-modal",
+                  modalKey: config.dataKey + BackupModalsKeys.Create,
+                  domain: BackupModalsKeys.Domain,
+                },
+              ],
             },
           },
           ...generateBackupCreateModalLayout({

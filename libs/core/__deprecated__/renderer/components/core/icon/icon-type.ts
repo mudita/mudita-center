@@ -8,6 +8,7 @@ export enum IconType {
   ArrowLongLeft,
   ArrowLongRight,
   AttachContact,
+  BackArrowIcon,
   BackupFolder,
   Battery,
   BorderCheckIcon,
@@ -16,6 +17,7 @@ export enum IconType {
   ChargingBattery,
   Check,
   CheckCircle,
+  CheckCircleBlack,
   CheckIndeterminate,
   Cloud,
   Close,
@@ -130,4 +132,6 @@ export enum IconType {
   DataMigration,
   RecoveryModeWhite,
   RecoveryModeBlack,
+  ButtonSuccess,
+  LightButton,
 }

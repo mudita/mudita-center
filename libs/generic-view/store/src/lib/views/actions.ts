@@ -19,18 +19,15 @@ export const removeDevice = createAction<DeviceBaseProperties>(
 )
 
 export const setMenu = createAction<MenuElement[]>(ActionName.SetMenu)
-export const setViewLayout = createAction<{
-  feature: string
-  layout: View
-}>(ActionName.SetViewLayout)
-
-export const setViewData = createAction<{
-  feature: string
-  data: Record<string, unknown>
-}>(ActionName.SetViewData)
 
 export const setLastRefresh = createAction<number>(ActionName.SetLastRefresh)
 
 export const setDeviceState = createAction<{ id: string; state: DeviceState }>(
   ActionName.SetDeviceState
 )
+
+export const setGenericConfig = createAction<{
+  config: View
+  feature: string
+  deviceId: string
+}>(ActionName.SetGenericConfig)

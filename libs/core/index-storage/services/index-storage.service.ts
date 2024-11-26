@@ -12,7 +12,7 @@ import { MetadataStore } from "Core/metadata/services"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { InitializeOptions } from "Core/data-sync/types"
 
-const cacheFileNames: Record<DataIndex, string> = {
+const cacheFileNames: Partial<Record<DataIndex, string>> = {
   [DataIndex.Contact]: "contacts.json",
   [DataIndex.Message]: "messages.json",
   [DataIndex.Thread]: "threads.json",
@@ -46,10 +46,9 @@ export class IndexStorageService {
             return
           }
 
-          const data = await this.fileSystemService.readEncryptedFile(
-            filePath,
-            token
-          )
+          const data = token
+            ? await this.fileSystemService.readEncryptedFile(filePath, token)
+            : await this.fileSystemService.readFile(filePath)
 
           if (data === undefined) {
             resolve(false)
@@ -79,11 +78,18 @@ export class IndexStorageService {
     for (const [indexName, fileName] of Object.entries(cacheFileNames)) {
       const data = this.index.get(indexName as DataIndex)
 
-      await this.fileSystemService.writeEncryptedFile(
-        this.getCacheFilePath(fileName, serialNumber),
-        Buffer.from(JSON.stringify(data)),
-        token
-      )
+      if (token) {
+        await this.fileSystemService.writeEncryptedFile(
+          this.getCacheFilePath(fileName, serialNumber),
+          Buffer.from(JSON.stringify(data)),
+          token
+        )
+      } else {
+        await this.fileSystemService.writeFile(
+          this.getCacheFilePath(fileName, serialNumber),
+          Buffer.from(JSON.stringify(data))
+        )
+      }
     }
   }
 

@@ -10,6 +10,7 @@ import { FeaturesActions } from "./featues-action-keys"
 import { View } from "generic-view/utils"
 import { getFeatureConfigRequest } from "device/feature"
 import { transformGenericComponents } from "./transform-generic-components"
+import devViews from "../../../../feature/src/lib/use-dev-views/views"
 
 export const getGenericConfig = createAsyncThunk<
   {
@@ -25,7 +26,19 @@ export const getGenericConfig = createAsyncThunk<
     const response = await getFeatureConfigRequest(deviceId, feature)
 
     if (response.ok) {
-      const fullView = transformGenericComponents(response.data)
+      let fullView = transformGenericComponents(response.data)
+
+      if (process.env.DEV_API_CONFIG === "1") {
+        const devConfig =
+          feature in devViews
+            ? devViews[feature as keyof typeof devViews]
+            : undefined
+        fullView = {
+          ...fullView,
+          ...devConfig,
+        }
+      }
+
       return { deviceId, feature, view: fullView }
     }
 

@@ -22,3 +22,8 @@ export enum ApiFileTransferError {
   Unknown = 500,
   NotEnoughSpace = 507,
 }
+
+export enum EntitiesError {
+  EntityTypeNotSupported = 406,
+  EntitiesDataFileCorrupted = 422,
+}

@@ -6,9 +6,12 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { answerMain, useDebouncedEventsHandler } from "shared/utils"
-import { DeviceProtocolMainEvent, DeviceType } from "device-protocol/models"
+import {
+  DeviceBaseProperties,
+  DeviceProtocolMainEvent,
+  DeviceType,
+} from "device-protocol/models"
 import { DeviceState } from "device-manager/models"
-import { DeviceBaseProperties } from "device-protocol/models"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { addDevice, removeDevice } from "../views/actions"
 import { getAPIConfig } from "../get-api-config"
@@ -21,6 +24,9 @@ import {
   selectDataMigrationSourceDevice,
   selectDataMigrationTargetDevice,
 } from "../selectors/data-migration-devices"
+import { clearEntities } from "../entities/actions"
+import { DataMigrationStatus } from "../data-migration/reducer"
+import { BackupProcessStatus } from "../backup/backup.types"
 
 export const useAPISerialPortListeners = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -75,11 +81,21 @@ const useHandleDevicesDetached = () => {
     async (deviceDetachedEvents: DeviceBaseProperties[]) => {
       for (const event of deviceDetachedEvents) {
         if (
-          migrationStatus === "IN-PROGRESS" &&
+          migrationStatus === DataMigrationStatus.DataTransferring &&
           (sourceDevice?.serialNumber === event.serialNumber ||
             targetDevice?.serialNumber === event.serialNumber)
         ) {
-          dispatch(abortDataMigration({ reason: "FAILED" }))
+          dispatch(abortDataMigration({ reason: DataMigrationStatus.Failed }))
+        }
+        if (
+          event.deviceType === "MuditaPure" &&
+          event.serialNumber === sourceDevice?.serialNumber &&
+          [
+            DataMigrationStatus.PureDatabaseCreating,
+            DataMigrationStatus.PureDatabaseIndexing,
+          ].includes(migrationStatus)
+        ) {
+          return
         }
       }
 
@@ -93,11 +109,19 @@ const useHandleDevicesDetached = () => {
 
       for (const event of apiEvents) {
         dispatch(removeDevice(event))
+        dispatch(clearEntities({ deviceId: event.id }))
       }
       dispatch(closeAllModals())
 
-      if (backupProcess) {
-        dispatch(setBackupProcessStatus("FAILED"))
+      if (
+        backupProcess &&
+        [
+          BackupProcessStatus.PreBackup,
+          BackupProcessStatus.SaveFile,
+          BackupProcessStatus.FilesTransfer,
+        ].includes(backupProcess)
+      ) {
+        dispatch(setBackupProcessStatus(BackupProcessStatus.Failed))
       }
     },
     [

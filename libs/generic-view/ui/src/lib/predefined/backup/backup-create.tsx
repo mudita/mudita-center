@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
-import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
+import { APIFC, CustomModalError } from "generic-view/utils"
 import { BackupFeatures } from "./backup-features"
 import { BackupPassword } from "./backup-password"
 import { useFormContext } from "react-hook-form"
@@ -16,6 +16,7 @@ import { Form } from "../../interactive/form/form"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
+  BackupProcessStatus,
   cleanBackupProcess,
   closeModal as closeModalAction,
   createBackup,
@@ -23,7 +24,7 @@ import {
 } from "generic-view/store"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { BackupCreateConfig } from "generic-view/models"
+import { BackupCreateConfig, ButtonAction } from "generic-view/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -124,15 +125,15 @@ const BackupCreateForm: FunctionComponent<BackupCreateConfig> = ({
 
   useEffect(() => {
     switch (backupProcessStatus) {
-      case "DONE":
+      case BackupProcessStatus.Done:
         setStep(Step.Success)
         break
-      case "FAILED":
+      case BackupProcessStatus.Failed:
         setStep(Step.Error)
         break
-      case "PRE_BACKUP":
-      case "FILES_TRANSFER":
-      case "SAVE_FILE":
+      case BackupProcessStatus.PreBackup:
+      case BackupProcessStatus.FilesTransfer:
+      case BackupProcessStatus.SaveFile:
         setStep(Step.Progress)
         break
     }
@@ -147,10 +148,10 @@ const BackupCreateForm: FunctionComponent<BackupCreateConfig> = ({
   return (
     <>
       {closeButtonVisible && (
-        <Modal.CloseButton config={{ action: backupCloseButtonAction }} />
+        <Modal.CloseButton config={{ actions: [backupCloseButtonAction] }} />
       )}
       {abortButtonVisible && (
-        <Modal.CloseButton config={{ action: backupAbortButtonAction }} />
+        <Modal.CloseButton config={{ actions: [backupAbortButtonAction] }} />
       )}
       {step === Step.Features && (
         <>

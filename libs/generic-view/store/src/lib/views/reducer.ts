@@ -5,7 +5,6 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
-import { View } from "generic-view/utils"
 import { DeviceState } from "device-manager/models"
 import { Device, Features } from "generic-view/models"
 import { ApiError } from "device/models"
@@ -21,21 +20,14 @@ import {
   addDevice,
   removeDevice,
   setDeviceState,
+  setGenericConfig,
   setLastRefresh,
   setMenu,
-  setViewData,
-  setViewLayout,
 } from "./actions"
+import { transformGenericComponents } from "../features/transform-generic-components"
 
 export interface GenericState {
   menu: MenuElement[] | undefined
-  views: Record<
-    string,
-    {
-      layout: View
-      data: Record<string, unknown>
-    }
-  >
   lastResponse: unknown
   lastRefresh?: number
   devices: Record<string, Device>
@@ -44,7 +36,6 @@ export interface GenericState {
 
 const initialState: GenericState = {
   menu: undefined,
-  views: {},
   lastResponse: {},
   devices: {},
   apiErrors: {},
@@ -53,18 +44,6 @@ const initialState: GenericState = {
 export const genericViewsReducer = createReducer(initialState, (builder) => {
   builder.addCase(setMenu, (state, action) => {
     state.menu = action.payload
-  })
-  builder.addCase(setViewLayout, (state, action) => {
-    state.views[action.payload.feature] = {
-      ...state.views[action.payload.feature],
-      layout: action.payload.layout,
-    }
-  })
-  builder.addCase(setViewData, (state, action) => {
-    state.views[action.payload.feature] = {
-      ...state.views[action.payload.feature],
-      data: action.payload.data,
-    }
   })
   builder.addCase(addDevice, (state, action) => {
     state.devices[action.payload.id] = {
@@ -192,6 +171,23 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       state.devices[id] = {
         ...device,
         state: deviceState,
+      }
+    }
+  })
+  // Helper action for setting custom generic config without a need of reloading the app
+  builder.addCase(setGenericConfig, (state, action) => {
+    const { deviceId, feature, config } = action.payload
+    if (state.devices[deviceId] !== undefined) {
+      state.devices[deviceId].features = {
+        ...state.devices[deviceId].features,
+        [feature]: {
+          ...state.devices[deviceId].features?.[feature],
+          config: transformGenericComponents({
+            ...state.devices[deviceId].features?.[feature].config,
+            ...config,
+          }),
+          data: state.devices[deviceId].features?.[feature]?.data,
+        },
       }
     }
   })
