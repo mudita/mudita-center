@@ -6,6 +6,10 @@
 import { createSelector } from "@reduxjs/toolkit"
 
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import {
+  BackupProcessFileStatus,
+  RestoreProcessStatus,
+} from "../backup/backup.types"
 
 export const selectBackupRestore = createSelector(
   [(state: ReduxRootState) => state.genericBackups.restoreProcess],
@@ -29,20 +33,20 @@ export const selectBackupRestoreProgress = createSelector(
     }
 
     if (
-      restoreProcess.status === "PASSWORD_NOT_REQUIRED" ||
-      restoreProcess.status === "PASSWORD_REQUIRED" ||
-      restoreProcess.status === "PRE_RESTORE"
+      restoreProcess.status === RestoreProcessStatus.PasswordNotRequired ||
+      restoreProcess.status === RestoreProcessStatus.PasswordRequired ||
+      restoreProcess.status === RestoreProcessStatus.PreRestore
     ) {
       return { progress: 0 }
     }
 
-    if (restoreProcess.status === "DONE") {
+    if (restoreProcess.status === RestoreProcessStatus.Done) {
       return { progress: 100 }
     }
 
     const features = Object.values(restoreProcess.featureFilesTransfer ?? [])
     const downloadedFilesCount = features.filter(
-      (item) => item.status === "DONE"
+      (item) => item.status === BackupProcessFileStatus.Done
     ).length
 
     if (features.length <= downloadedFilesCount) {
@@ -51,7 +55,7 @@ export const selectBackupRestoreProgress = createSelector(
 
     const [featureInProgress] =
       Object.entries(restoreProcess.featureFilesTransfer ?? []).find(
-        ([, item]) => item.status === "IN_PROGRESS"
+        ([, item]) => item.status === BackupProcessFileStatus.InProgress
       ) ?? []
 
     return {
