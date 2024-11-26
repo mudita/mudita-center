@@ -5,6 +5,12 @@ import {
   contactsData,
   menuWithContacts,
 } from "../../../../../libs/e2e-mock/responses/src"
+import {
+  ApiConfigurationResponse,
+  FeatureConfigurationResponse,
+  FeatureDataResponse,
+  MenuConfigurationResponse,
+} from "../../helpers/responses.helper"
 
 describe("E2E mock match sample", () => {
   before(async () => {
@@ -23,40 +29,31 @@ describe("E2E mock match sample", () => {
   it.only("Connect device with two different responses for one endpoint", async () => {
     // if body of FEATURE_CONFIGURATION request is equal to { feature: "contacts", lang: "en-US" } then return body: contactsConfig.
     // in other cases return response without match filed
-    E2EMockClient.mockResponse({
+    FeatureConfigurationResponse({
       path: "path-1",
       body: contactsConfig,
-      endpoint: "FEATURE_CONFIGURATION",
-      method: "GET",
       status: 200,
-      match: {
-        expected: { feature: "contacts", lang: "en-US" },
-      },
+      expected: { feature: "contacts", lang: "en-US" },
     })
+
     // if body of FEATURE_DATA request is equal to { feature: "contacts", lang: "en-US" } then return body: contactsConfig.
     // in other cases return response without match filed
-    E2EMockClient.mockResponse({
+    FeatureDataResponse({
       path: "path-1",
       body: contactsData,
-      endpoint: "FEATURE_DATA",
-      method: "GET",
       status: 200,
-      match: {
-        expected: { feature: "contacts", lang: "en-US" },
-      },
+      expected: { feature: "contacts", lang: "en-US" },
     })
-    E2EMockClient.mockResponse({
+
+    ApiConfigurationResponse({
       path: "path-1",
       body: apiConfigWithContacts,
-      endpoint: "API_CONFIGURATION",
-      method: "GET",
       status: 200,
     })
-    E2EMockClient.mockResponse({
+
+    MenuConfigurationResponse({
       path: "path-1",
       body: menuWithContacts,
-      endpoint: "MENU_CONFIGURATION",
-      method: "GET",
       status: 200,
     })
 

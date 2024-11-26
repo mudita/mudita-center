@@ -4,8 +4,8 @@
  */
 
 import { ResponseStatus } from "Core/device"
-import { MCLang, MenuItemConfig } from "Libs/device/models/src"
-import { E2EMockClient } from "Libs/e2e-mock/client/src"
+import { EntitiesConfig, MCLang } from "Libs/device/models/src"
+import { E2EMockClient } from "../../../../libs/e2e-mock/client/src"
 
 type DataResponse = {
   path: string
@@ -22,7 +22,7 @@ type ApiConfig = DataResponse & {
     vendorId: string
     serialNumber?: string
     features: string[]
-    entityTypes: string[]
+    entityTypes?: string[] // TODO: sprawdzic czy opcjonalne
   }
 }
 
@@ -36,26 +36,14 @@ export const ApiConfigurationResponse = ({ path, status, body }: ApiConfig) => {
   })
 }
 
-// ApiConfigurationResponse({
-//     path: "123",
-//     status: 200,
-//     //   body: ""
-//     body: {
-//       apiVersion: "string",
-//       lang: "en-US",
-//       variant: "string",
-//       productId: "string",
-//       vendorId: "string",
-//       serialNumber: "string",
-//       features: ["string[]"],
-//       entityTypes: ["string[]"],
-//     },
-//   })
-
 type MenuConfig = DataResponse & {
   body: {
     title?: string
-    menuItems: MenuItemConfig[]
+    menuItems: {
+      feature: string
+      displayName: string
+      icon: string
+    }[]
   }
 }
 
@@ -75,22 +63,23 @@ export const MenuConfigurationResponse = ({
 
 type OutboxConfig = DataResponse & {
   body: {
-    features: string[]
-    entities: [entitiesT]
+    features?: string[]
+    entities?: EntitiesT[]
+    data?: string[]
   }
 }
 
-type entitiesT =
+type EntitiesT =
   | {
       entityType: string
       entityId: string
       action: "deleted" | "modified"
     }
-  | { entityType: string } //TODO
-
-type Something =
-  | ({ a: number; b: number; c: number } & { [n: string]: any })
-  | ({ a?: never; b?: never; c?: never } & { [n: string]: any })
+  | {
+      entityType: string
+      entityId?: never
+      action?: never
+    }
 
 export const OutboxResponse = ({ path, status, body }: OutboxConfig) => {
   E2EMockClient.mockResponse({
@@ -102,24 +91,9 @@ export const OutboxResponse = ({ path, status, body }: OutboxConfig) => {
   })
 }
 
-OutboxResponse({
-  path: "123",
-  status: 200,
-  body: {
-    features: ["123"],
-    entities: [
-      {
-        entityType: "123",
-        entityId: "123",
-        action: "deleted",
-      },
-    ],
-  },
-})
-
-type FeatureConfigurationData = DataResponse & {
-  expected: {
-    feature: "mc-overview" | "contacts"
+type FeatureData = DataResponse & {
+  expected?: {
+    feature: string
     lang: MCLang
   }
 }
@@ -129,32 +103,92 @@ export const FeatureConfigurationResponse = ({
   status,
   body,
   expected,
-}: FeatureConfigurationData) => {
+}: FeatureData) => {
   E2EMockClient.mockResponse({
     endpoint: "FEATURE_CONFIGURATION",
     method: "GET",
     path,
     status,
     body,
-    match: { expected },
+    match: expected ? { expected } : undefined,
   })
 }
 
-export const FeatureDataResponse = ({ path, status, body }: DataResponse) => {
+type OverviewData = {
+  body: {
+    summary?: {
+      about?: {
+        // TODO w dokumentacji sarText, w kodzie sar
+        // ktore opcjonalne?
+        sar: {
+          text: string
+        }
+        serialNumber: {
+          text: string
+        }
+        imei1: {
+          text: string
+        }
+        imei2: {
+          text: string
+        }
+      }
+    }
+    sections?: {
+      status?: {
+        battery: {
+          icon: string
+          text: string
+          subText: string
+        }
+        connection: {
+          icon: string
+          text: string
+        }
+        connection2: {
+          icon: string
+          text: string
+        }
+      }
+      battery?: {
+        icon: string
+        text: string
+        subText?: string
+      }
+      update: {
+        text: string
+        version: string
+      }
+      "airplane-mode"?: {
+        icon: string
+        text: string
+        subText?: string
+      }
+    }
+  }
+}
+
+export const FeatureDataResponse = ({
+  path,
+  status,
+  body,
+  expected,
+}: FeatureData & OverviewData) => {
   E2EMockClient.mockResponse({
     endpoint: "FEATURE_DATA",
     method: "GET",
     path,
     status,
     body,
+    match: expected ? { expected } : undefined,
   })
 }
 
-export const entitiesConfigurationResponse = ({
+export const EntitiesConfigurationResponse = ({
   path,
   status,
   body,
-}: DataResponse) => {
+}: DataResponse & { body: EntitiesConfig }) => {
   E2EMockClient.mockResponse({
     endpoint: "ENTITIES_CONFIGURATION",
     method: "GET",
@@ -171,6 +205,7 @@ type EntitiesData = DataResponse & {
   }
 }
 
+// TODO
 export const EntitiesDataResponse = ({ path, body, status }: EntitiesData) => {
   E2EMockClient.mockResponse({
     endpoint: "ENTITIES_DATA",
@@ -187,11 +222,18 @@ export const EntitiesDataResponse = ({ path, body, status }: EntitiesData) => {
   })
 }
 
+type TransferData = {
+  body: {
+    transferId: number
+    chunkSize: number
+  }
+}
+
 export const PreFileTransferResponse = ({
   path,
   body,
   status,
-}: DataResponse) => {
+}: DataResponse & TransferData) => {
   E2EMockClient.mockResponse({
     endpoint: "PRE_FILE_TRANSFER",
     method: "GET",
@@ -201,9 +243,13 @@ export const PreFileTransferResponse = ({
   })
 }
 
-export const FileTransferResponse = ({ path, body, status }: DataResponse) => {
+export const FileTransferResponse = ({
+  path,
+  body,
+  status,
+}: DataResponse & TransferData) => {
   E2EMockClient.mockResponse({
-    endpoint: "PRE_FILE_TRANSFER",
+    endpoint: "FILE_TRANSFER",
     method: "GET",
     path,
     status,
