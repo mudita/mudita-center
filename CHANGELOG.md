@@ -12,11 +12,10 @@ straightforward as possible.
 
 ## [2.5.0] - 2024-12-02
 
-Starting with version 2.5.0, users will be able to enter the Recovery mode in Harmony. The Recovery mode allows user to initiate the flashing process in case the Harmony is damaged. The new option includes information about error occurring during the process. Users will also be informed about connected devices, they will be able to synchronize the time and date on the Harmony and will be informed about an error in case of fail in the synchronization.
+Starting with version 2.5.0, users will be able to synchronize the time and date on the Harmony and will be informed about an error in case of fail in the synchronization.
 
 ### Added
 
-- Added possibility to flash Harmony device from Mudita Center.
 - Added time synchronization for Mudita Harmony.
 
 ## [2.4.0] - 2024-09-16
