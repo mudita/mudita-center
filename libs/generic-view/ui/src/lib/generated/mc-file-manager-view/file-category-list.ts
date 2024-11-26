@@ -8,6 +8,7 @@ import { ComponentPropsByName, IconType } from "generic-view/utils"
 interface CategoryListItemConfig {
   id: string
   name: string
+  markerColor: string
   icon: IconType
 }
 
@@ -15,6 +16,7 @@ const generateFileCategoryListItem = ({
   id,
   name,
   icon,
+  markerColor,
 }: CategoryListItemConfig): {
   [key: string]: ComponentPropsByName
 } => {
@@ -91,7 +93,7 @@ const generateFileCategoryListItem = ({
       },
     },
     [`${id}CategoryListItemStorage`]: {
-      component: "p3-component",
+      component: "block-plain",
       layout: {
         gridPlacement: {
           row: 1,
@@ -99,16 +101,38 @@ const generateFileCategoryListItem = ({
           width: 1,
           height: 1,
         },
+        flexLayout: {
+          direction: "row",
+          alignItems: "center",
+          justifyContent: "flex-end",
+        },
+      },
+      childrenKeys: [
+        `${id}CategoryListItemStorageText`,
+        `${id}CategoryListItemStorageMarker`,
+      ],
+    },
+    [`${id}CategoryListItemStorageText`]: {
+      component: "p3-component",
+      config: {
+        text: "0 KB",
+        color: "black",
+      },
+    },
+    [`${id}CategoryListItemStorageMarker`]: {
+      component: "marker",
+      layout: {
+        width: "10px",
+        margin: "0 0 0 8px",
       },
       config: {
-        text: "",
-        color: "black",
+        color: markerColor,
       },
     },
     [`${id}CategoryListItemCountText`]: {
       component: "p3-component",
       layout: {
-        margin: "10px 0 0 0",
+        margin: "8px 0 0 0",
         gridPlacement: {
           row: 2,
           column: 1,
