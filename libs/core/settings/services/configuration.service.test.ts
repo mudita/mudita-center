@@ -8,6 +8,17 @@ import axios from "axios"
 import { Configuration } from "Core/settings/dto"
 import { ConfigurationService } from "Core/settings/services/configuration.service"
 
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    go: jest.fn(),
+    block: jest.fn(),
+    listen: jest.fn(),
+    location: { pathname: "", search: "", hash: "", state: null },
+  })),
+}))
+
 const createMockAdapter = (): MockAdapter => {
   return new MockAdapter(axios)
 }
