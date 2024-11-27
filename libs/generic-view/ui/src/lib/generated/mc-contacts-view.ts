@@ -129,6 +129,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         entitiesType: "contacts",
         search: {
           minPhraseLength: 1,
+          separatePhraseWords: true,
           phraseSource: {
             type: "form-fields",
             formKey: "contactsForm",
@@ -136,12 +137,36 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           },
           fields: [
             {
-              field: "searchName",
+              field: "displayName1",
+              mode: "startsWith",
+            },
+            {
+              field: "displayName2",
+              mode: "startsWith",
+            },
+            {
+              field: "displayName3",
+              mode: "startsWith",
+            },
+            {
+              field: "displayName4",
+              mode: "startsWith",
+            },
+            {
+              field: "middleName",
               mode: "startsWith",
             },
             {
               field: "phoneNumbers[0].phoneNumber",
-              mode: "startsWith",
+              mode: "includes",
+            },
+            {
+              field: "phoneNumbers[1].phoneNumber",
+              mode: "includes",
+            },
+            {
+              field: "phoneNumbers[2].phoneNumber",
+              mode: "includes",
             },
           ],
         },
@@ -203,32 +228,22 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           },
         ],
       },
-      childrenKeys: [
-        "contactsSearchResultsItemName",
-        "contactsSearchResultsItemPhoneNumber",
-      ],
+      childrenKeys: ["contactsSearchResult"],
     },
-    contactsSearchResultsItemName: {
-      component: "p3-component",
-      config: {
-        singleLine: true,
-        color: "black",
-      },
-      childrenKeys: ["contactsSearchResultsItemNameHighlight"],
-    },
-    contactsSearchResultsItemNameHighlight: {
-      component: "highlight-text",
-      config: {
-        scope: "all",
-        mode: "word-start",
-      },
+    contactsSearchResult: {
+      component: "mc-contacts-search-results",
       dataProvider: {
         source: "entities-field",
         entitiesType: "contacts",
         fields: [
           {
             providerField: "searchName",
-            componentField: "data.text",
+            componentField: "data.firstLine",
+          },
+          {
+            providerField: "phoneNumbers",
+            componentField: "data.secondLine",
+            flat: "phoneNumber",
           },
         ],
       },
@@ -238,7 +253,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         fields: [
           {
             providerField: "searchedContact",
-            componentField: "data.phrase",
+            componentField: "data.highlightPhrase",
           },
         ],
       },

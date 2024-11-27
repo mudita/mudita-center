@@ -8,24 +8,31 @@ import { APIFC, stringToRegex } from "generic-view/utils"
 import { HighlightTextConfig, HighlightTextData } from "generic-view/models"
 import { escapeRegExp, last, slice } from "lodash"
 
-type Match = {
+interface Match {
   start: number
   end: number
 }
 
-export const HighlightText: APIFC<HighlightTextData, HighlightTextConfig> = ({
+type Config =
+  | (HighlightTextConfig & {
+      matches?: Match[]
+    })
+  | undefined
+
+export const HighlightText: APIFC<HighlightTextData, Config> = ({
   data,
   config,
 }) => {
   if (!data) {
-    return null
+    return false
   }
   if (!data.phrase) {
     return <>{data.text}</>
   }
 
-  const matches = findMatches(data, config)
+  const matches = config?.matches || findMatches(data, config) || []
   const matchCount = matches.length
+
   if (matchCount === 0) {
     return <>{data.text}</>
   }
@@ -56,7 +63,7 @@ export const HighlightText: APIFC<HighlightTextData, HighlightTextConfig> = ({
   )
 }
 
-const findMatches = (
+export const findMatches = (
   data: HighlightTextData,
   {
     caseSensitive = false,
@@ -74,24 +81,24 @@ const findMatches = (
   ).map(escapeRegExp)
 
   let matchRegex: string
-  const flags = caseSensitive ? "gm" : "gim"
-  const boundaryRegex = "(^|\\s+|$)"
+  const flags = caseSensitive ? "gm" : "gmi"
+  const wordBoundaryRegex = "(^|\\s+|$)"
 
   switch (mode) {
     case "word":
-      matchRegex = `/${boundaryRegex}${searchPhrases.join(
-        `${boundaryRegex}|${boundaryRegex}`
-      )}${boundaryRegex}/${flags}`
+      matchRegex = `/${wordBoundaryRegex}${searchPhrases.join(
+        `${wordBoundaryRegex}|${wordBoundaryRegex}`
+      )}${wordBoundaryRegex}/${flags}`
       break
     case "word-start":
-      matchRegex = `/${boundaryRegex}${searchPhrases.join(
-        `|${boundaryRegex}`
+      matchRegex = `/${wordBoundaryRegex}${searchPhrases.join(
+        `|${wordBoundaryRegex}`
       )}/${flags}`
       break
     case "word-end":
       matchRegex = `/${searchPhrases.join(
-        `${boundaryRegex}|`
-      )}${boundaryRegex}/${flags}`
+        `${wordBoundaryRegex}|`
+      )}${wordBoundaryRegex}/${flags}`
       break
     case "anywhere":
     default:

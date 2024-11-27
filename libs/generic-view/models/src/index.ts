@@ -66,6 +66,7 @@ import { formatMessage } from "./lib/format-message"
 import { appPortal } from "./lib/app-portal"
 import { buttonPlain } from "./lib/button-plain"
 import { highlightText } from "./lib/highlight-text"
+import { mcContactsSearchResults } from "./lib/mc-contacts-search-results"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -127,6 +128,7 @@ export * from "./lib/toast"
 export * from "./lib/selection-manager"
 export * from "./lib/app-portal"
 export * from "./lib/highlight-text"
+export * from "./lib/mc-contacts-search-results"
 
 export default {
   [blockBox.key]: blockBox,
@@ -192,4 +194,5 @@ export default {
   [selectionManager.key]: selectionManager,
   [appPortal.key]: appPortal,
   [highlightText.key]: highlightText,
+  [mcContactsSearchResults.key]: mcContactsSearchResults,
 } as const
