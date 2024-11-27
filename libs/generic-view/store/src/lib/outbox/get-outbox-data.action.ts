@@ -53,7 +53,7 @@ export const getOutboxData = createAsyncThunk<
       })
     }
 
-    if (response.data.entities.length > 0) {
+    if (response.data.entities && response.data.entities.length > 0) {
       for (const entity of response.data.entities) {
         if (entity.action === "deleted") {
           dispatch(

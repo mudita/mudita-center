@@ -26,7 +26,7 @@ const OutboxEntitiesValidator = z
 
 export const OutboxValidator = z.object({
   features: z.array(z.string()).optional(),
-  entities: z.array(OutboxEntitiesValidator).min(1),
+  entities: z.array(OutboxEntitiesValidator).optional(),
   data: z.array(z.string()),
 })
 

@@ -21,14 +21,4 @@ describe("OutboxValidator", () => {
     const result = OutboxValidator.safeParse(outbox)
     expect(result.success).toBeTruthy()
   })
-  it.each(["entities"])(
-    "should return fail when %s is missing",
-    (fieldName) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const outbox: any = { ...minimumOutboxConfig }
-      delete outbox[fieldName]
-      const result = OutboxValidator.safeParse(outbox)
-      expect(result.success).toBeFalsy()
-    }
-  )
 })
