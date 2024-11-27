@@ -29,27 +29,47 @@ export const dataSearch = (formContext: UseViewFormContext) => {
       return undefined
     }
 
+    const searchPhraseWords = config.separatePhraseWords
+      ? searchPhrase.split(" ")
+      : [searchPhrase]
+
     return data.filter((item) => {
-      return fields.some(({ field, mode, caseSensitive }) => {
-        const fieldValue = get(item, field)
-        if (isString(fieldValue)) {
-          const fieldValueToCompare = caseSensitive
-            ? fieldValue
-            : fieldValue.toLowerCase()
-          const searchPhraseToCompare = caseSensitive
-            ? searchPhrase
-            : searchPhrase.toLowerCase()
-          switch (mode) {
-            case "exact":
-              return fieldValueToCompare === searchPhraseToCompare
-            case "includes":
-              return fieldValueToCompare.includes(searchPhraseToCompare)
-            case "startsWith":
-              return fieldValueToCompare.startsWith(searchPhraseToCompare)
-          }
-        }
-        return false
-      })
+      const fullPhraseFound = searchInFields(item, fields, searchPhrase)
+      const phraseWordsFound = config.separatePhraseWords
+        ? searchPhraseWords.every((word) => {
+            return searchInFields(item, fields, word)
+          })
+        : false
+      return fullPhraseFound || phraseWordsFound
     })
   }
+}
+
+const searchInFields = (
+  item: Record<string, unknown>,
+  fields: NonNullable<DataProviderSearchConfig>["fields"],
+  phrase: string
+) => {
+  return fields.some(({ field, mode, caseSensitive }) => {
+    const fieldValue = get(item, field)
+    if (isString(fieldValue)) {
+      const fieldValueToCompare = caseSensitive
+        ? fieldValue
+        : fieldValue.toLowerCase()
+
+      const searchPhraseToCompare = caseSensitive
+        ? phrase
+        : phrase.toLowerCase()
+
+      switch (mode) {
+        case "exact":
+          return fieldValueToCompare === searchPhraseToCompare
+        case "includes":
+          return fieldValueToCompare.includes(searchPhraseToCompare)
+        case "startsWith":
+          return fieldValueToCompare.startsWith(searchPhraseToCompare)
+      }
+    }
+    return false
+  })
 }

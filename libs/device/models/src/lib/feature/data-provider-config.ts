@@ -130,6 +130,7 @@ const searchSchema = z
     ),
     phraseSource: phraseSourceSchema,
     minPhraseLength: z.number().nonnegative().optional(),
+    separatePhraseWords: z.boolean().optional(),
   })
   .optional()
 
