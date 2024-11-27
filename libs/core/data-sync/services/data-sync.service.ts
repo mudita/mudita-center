@@ -15,6 +15,7 @@ import {
   CallLogIndexer,
   ContactIndexer,
   MessageIndexer,
+  NoteIndexer,
   TemplateIndexer,
   ThreadIndexer,
 } from "Core/data-sync/indexes"
@@ -26,6 +27,7 @@ import {
   ThreadPresenter,
   CallLogPresenter,
   AlarmPresenter,
+  NotePresenter,
 } from "Core/data-sync/presenters"
 import { SyncBackupCreateService } from "Core/backup/services/sync-backup-create.service"
 import { InitializeOptions } from "Core/data-sync/types"
@@ -46,6 +48,7 @@ export class DataSyncService {
   private templateIndexer: TemplateIndexer | null = null
   private callLogIndexer: CallLogIndexer | null = null
   private alarmIndexer: AlarmIndexer | null = null
+  private noteIndexer: NoteIndexer | null = null
   private syncBackupCreateService: SyncBackupCreateService
 
   constructor(
@@ -84,6 +87,10 @@ export class DataSyncService {
       this.fileSystemStorage,
       new AlarmPresenter()
     )
+    this.noteIndexer = new NoteIndexer(
+      this.fileSystemStorage,
+      new NotePresenter()
+    )
   }
 
   public async indexAll({
@@ -98,7 +105,8 @@ export class DataSyncService {
       !this.threadIndexer ||
       !this.templateIndexer ||
       !this.callLogIndexer ||
-      !this.alarmIndexer
+      !this.alarmIndexer ||
+      !this.noteIndexer
     ) {
       return false
     }
@@ -130,6 +138,7 @@ export class DataSyncService {
       [DataIndex.Thread]: this.threadIndexer,
       [DataIndex.CallLog]: this.callLogIndexer,
       [DataIndex.Alarm]: this.alarmIndexer,
+      [DataIndex.Note]: this.noteIndexer,
     }
 
     const indexOrEmptyOnFailure = async (

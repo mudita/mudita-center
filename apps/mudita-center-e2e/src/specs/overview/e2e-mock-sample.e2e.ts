@@ -4,6 +4,10 @@ import {
   overviewDataWithoutBadge,
 } from "../../../../../libs/e2e-mock/responses/src"
 import screenshotHelper from "../../helpers/screenshot.helper"
+import {
+  FeatureDataResponse,
+  OutboxResponse,
+} from "../../helpers/responses.helper"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -39,20 +43,16 @@ describe("E2E mock sample - overview view", () => {
     await expect(badge).toBeDisplayed()
 
     // overwrite default response for given device
-    E2EMockClient.mockResponse({
+    FeatureDataResponse({
       path: "path-1",
       body: overviewDataWithoutBadge,
-      endpoint: "FEATURE_DATA",
-      method: "GET",
       status: 200,
     })
 
     // overwrite newest response for given device
-    E2EMockClient.mockResponseOnce({
+    OutboxResponse({
       path: "path-1",
       body: outboxReloadOverview,
-      endpoint: "OUTBOX",
-      method: "GET",
       status: 200,
     })
 

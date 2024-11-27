@@ -49,6 +49,7 @@ describe("async `readAllIndexes` ", () => {
             templates: {},
             callLog: {},
             alarms: {},
+            notes: {},
           },
           requestId,
           undefined

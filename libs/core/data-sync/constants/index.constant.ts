@@ -10,4 +10,5 @@ export enum DataIndex {
   Thread = "thread",
   CallLog = "calllog",
   Alarm = "alarm",
+  Note = "note",
 }

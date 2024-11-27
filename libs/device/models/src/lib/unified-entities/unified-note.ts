@@ -3,6 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./sleep.helper"
-export * from "./testid.helper"
-export * from "./responses.helper"
+export interface UnifiedNote {
+  id: string
+  content: string
+  isPinned: boolean
+  createDate: number
+  updateDate: number
+}

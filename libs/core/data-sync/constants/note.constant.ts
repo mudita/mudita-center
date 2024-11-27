@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./sleep.helper"
-export * from "./testid.helper"
-export * from "./responses.helper"
+export enum NoteTable {
+  Notes = "notes",
+}
