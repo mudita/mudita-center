@@ -1,0 +1,39 @@
+{
+  "images": [
+    { "name": "valid_image_100x100.jpeg", "width": 100, "height": 100, "format": "jpeg" },
+    { "name": "valid_image_200x200.png", "width": 200, "height": 200, "format": "png" },
+    { "name": "valid_image_150x150.webp", "width": 150, "height": 150, "format": "webp" },
+    { "name": "valid_image_300x300.bmp", "width": 300, "height": 300, "format": "bmp" },
+    { "name": "invalid_format_image.svg", "width": 100, "height": 100, "format": "svg" },
+    { "name": "large_image_10000x10000.jpeg", "width": 10000, "height": 10000, "format": "jpeg" },
+    { "name": "tiny_image_1x1.png", "width": 1, "height": 1, "format": "png" },
+    { "name": "corrupted_image.bmp", "width": 300, "height": 300, "format": "bmp" },
+    { "name": "unsupported_image_format.tiff", "width": 500, "height": 500, "format": "tiff" }
+  ],
+  "audio": [
+    { "name": "valid_audio_1kb.mp3", "size": 1024 },
+    { "name": "valid_audio_2kb.wav", "size": 2048 },
+    { "name": "invalid_format_audio.txt", "size": 512 },
+    { "name": "valid_audio_3kb.ogg", "size": 3072 },
+    { "name": "valid_audio_4kb.flac", "size": 4096 },
+    { "name": "valid_audio_5kb.m4a", "size": 5120 },
+    { "name": "corrupted_audio_file.mp3", "size": 1024 },
+    { "name": "unsupported_audio_format.aiff", "size": 2048 }
+  ],
+  "ebooks": [
+    { "name": "valid_ebook_small.epub", "size": 1024 },
+    { "name": "valid_ebook_large.pdf", "size": 5242880 },
+    { "name": "invalid_format_ebook.docx", "size": 2048 },
+    { "name": "corrupted_ebook_file.pdf", "size": 0 },
+    { "name": "unsupported_ebook_format.mobi", "size": 4096 }
+  ],
+  "apk": [
+    { "name": "valid_release_app.apk", "size": 5120 },
+    { "name": "valid_debug_app.apk", "size": 10240 },
+    { "name": "invalid_format_app.txt", "size": 1024 },
+    { "name": "large_apk_file.apk", "size": 52428800 },
+    { "name": "small_apk_file.apk", "size": 2048 },
+    { "name": "corrupted_apk_file.apk", "size": 5120 },
+    { "name": "unsupported_file_format.exe", "size": 10240 }
+  ]
+}
