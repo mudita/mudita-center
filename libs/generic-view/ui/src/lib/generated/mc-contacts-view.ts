@@ -596,7 +596,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     },
     contactDetailsEmail: {
       component: "block-plain",
-      childrenKeys: ["contactDetailsEmailLabel", "contactDetailsEmailValue"],
+      childrenKeys: ["contactDetailsEmailLabel", "contactDetailsEmailBlock"],
     },
     contactDetailsName: {
       component: "text-plain",
@@ -1491,23 +1491,17 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       config: {
         text: "Email",
       },
-      childrenKeys: ["contactDetailsEmailLabelText"],
     },
-    contactDetailsEmailLabelText: {
-      component: "format-message",
-      config: {
-        messageTemplate: "Email (<c>{type}</c>)",
+    contactDetailsEmailBlock: {
+      component: "block-plain",
+      layout: {
+        flexLayout: {
+          direction: "row",
+          columnGap: "6px",
+          alignItems: "flex-start",
+        },
       },
-      dataProvider: {
-        source: "entities-field",
-        entitiesType: "contacts",
-        fields: [
-          {
-            providerField: "emailAddresses[0].emailType",
-            componentField: "data.fields.type",
-          },
-        ],
-      },
+      childrenKeys: ["contactDetailsEmailValue", "contactDetailsEmailType"],
     },
     contactDetailsEmailValue: {
       component: "p4-component",
@@ -1521,6 +1515,29 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           {
             providerField: "emailAddresses[0].emailAddress",
             componentField: "config.text",
+          },
+        ],
+      },
+    },
+    contactDetailsEmailType: {
+      component: "p4-component",
+      config: {
+        color: "black",
+      },
+      childrenKeys: ["contactDetailsEmailTypeText"],
+    },
+    contactDetailsEmailTypeText: {
+      component: "format-message",
+      config: {
+        messageTemplate: "• <c>{emailType}</c>",
+      },
+      dataProvider: {
+        source: "entities-field",
+        entitiesType: "contacts",
+        fields: [
+          {
+            providerField: "emailAddresses[0].emailType",
+            componentField: "data.fields.emailType",
           },
         ],
       },
@@ -1679,7 +1696,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     contactDetailsTitleLabel: {
       component: "h5-component",
       config: {
-        text: "Title",
+        text: "Job Title",
       },
     },
     contactDetailsTitleValue: {
@@ -1746,7 +1763,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         entitiesType: "contacts",
         fields: [
           {
-            providerField: "address.type",
+            providerField: "address.streetAddress",
             componentField: "data.render",
             modifier: "boolean",
             condition: "eq",
@@ -1770,23 +1787,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       config: {
         text: "Address",
       },
-      childrenKeys: ["contactDetailsAddressLabelText"],
-    },
-    contactDetailsAddressLabelText: {
-      component: "format-message",
-      config: {
-        messageTemplate: "Address (<c>{type}</c>)",
-      },
-      dataProvider: {
-        source: "entities-field",
-        entitiesType: "contacts",
-        fields: [
-          {
-            providerField: "address.type",
-            componentField: "data.fields.type",
-          },
-        ],
-      },
     },
     contactDetailsAddressStreetWrapper: {
       component: "conditional-renderer",
@@ -1801,7 +1801,21 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           },
         ],
       },
-      childrenKeys: ["contactDetailsAddressStreetValue"],
+      childrenKeys: ["contactDetailsAddressStreetBlock"],
+    },
+    contactDetailsAddressStreetBlock: {
+      component: "block-plain",
+      layout: {
+        flexLayout: {
+          direction: "row",
+          columnGap: "6px",
+          alignItems: "flex-start",
+        },
+      },
+      childrenKeys: [
+        "contactDetailsAddressStreetValue",
+        "contactDetailsAddressStreetType",
+      ],
     },
     contactDetailsAddressStreetValue: {
       component: "p4-component",
@@ -1815,6 +1829,29 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           {
             providerField: "address.streetAddress",
             componentField: "config.text",
+          },
+        ],
+      },
+    },
+    contactDetailsAddressStreetType: {
+      component: "p4-component",
+      config: {
+        color: "black",
+      },
+      childrenKeys: ["contactDetailsAddressStreetTypeText"],
+    },
+    contactDetailsAddressStreetTypeText: {
+      component: "format-message",
+      config: {
+        messageTemplate: "• <c>{addressType}</c>",
+      },
+      dataProvider: {
+        source: "entities-field",
+        entitiesType: "contacts",
+        fields: [
+          {
+            providerField: "address.type",
+            componentField: "data.fields.addressType",
           },
         ],
       },
