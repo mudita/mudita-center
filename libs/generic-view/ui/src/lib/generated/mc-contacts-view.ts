@@ -1053,9 +1053,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     },
     contactDetailsPhoneNumber: {
       component: "block-plain",
-      layout: {
-        width: "fit-content",
-      },
       childrenKeys: [
         "contactDetailsPhoneNumberLabel",
         "contactDetailsPhoneNumber1Wrapper",
@@ -1090,12 +1087,12 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           direction: "row",
           columnGap: "6px",
           alignItems: "flex-start",
-          justifyContent: "space-between",
         },
       },
       childrenKeys: [
         "contactDetailsPhoneNumber1Value",
-        "contactDetailsPhoneNumber1TypeWrapper",
+        "contactDetailsPhoneNumber1Type",
+        "contactDetailsPhoneNumber1DefaultIconWrapper",
       ],
     },
     contactDetailsPhoneNumber1Value: {
@@ -1113,21 +1110,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           },
         ],
       },
-    },
-    contactDetailsPhoneNumber1TypeWrapper: {
-      component: "block-plain",
-      layout: {
-        flexLayout: {
-          direction: "row",
-          columnGap: "6px",
-          alignItems: "flex-start",
-        },
-        width: "75px",
-      },
-      childrenKeys: [
-        "contactDetailsPhoneNumber1Type",
-        "contactDetailsPhoneNumber1DefaultIconWrapper",
-      ],
     },
     contactDetailsPhoneNumber1Type: {
       component: "p4-component",
@@ -1223,7 +1205,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           direction: "row",
           columnGap: "6px",
           alignItems: "flex-start",
-          justifyContent: "space-between",
         },
       },
       childrenKeys: [
@@ -1249,9 +1230,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     },
     contactDetailsPhoneNumber2Type: {
       component: "p4-component",
-      layout: {
-        width: "75px",
-      },
       config: {
         color: "black",
       },
