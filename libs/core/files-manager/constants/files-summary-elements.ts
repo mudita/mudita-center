@@ -48,7 +48,7 @@ export const filesManagerSummaryElements: DiskSpaceCategory[] = [
     }),
     size: 0,
   },
-  ...baseFilesSummaryElements
+  ...baseFilesSummaryElements,
 ]
 
 export const managerSoundsSummaryElements: DiskSpaceCategory[] = [
@@ -61,5 +61,5 @@ export const managerSoundsSummaryElements: DiskSpaceCategory[] = [
     }),
     size: 0,
   },
-  ...baseFilesSummaryElements
+  ...baseFilesSummaryElements,
 ]
