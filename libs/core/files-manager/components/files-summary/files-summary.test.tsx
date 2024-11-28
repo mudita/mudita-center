@@ -37,7 +37,7 @@ const defaultProps: ComponentProps<typeof FilesSummary> = {
       size: 4560,
     },
   ],
-  summaryTitleMessage: { id: "component.filesManagerSummaryTitle" }
+  summaryTitleMessage: { id: "component.filesManagerSummaryTitle" },
 }
 
 const render = () => {
