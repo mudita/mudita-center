@@ -109,8 +109,6 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
   )
 }
 
-export default SearchInput
-
 const Wrapper = styled.div`
   position: relative;
   display: flex;
