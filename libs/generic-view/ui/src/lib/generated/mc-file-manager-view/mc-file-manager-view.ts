@@ -91,7 +91,7 @@ export const generateMcFileManagerView: ComponentGenerator<
         {
           id: "0",
           name: "Music",
-          icon: IconType.EighthNote,
+          icon: IconType.MusicNote,
           markerColor: "#E38577",
         },
         {

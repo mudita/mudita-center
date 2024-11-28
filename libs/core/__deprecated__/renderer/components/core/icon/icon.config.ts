@@ -32,7 +32,7 @@ import MediumRange from "Core/__deprecated__/renderer/svg/signal-medium-range.sv
 import MenuFilesManager from "Core/__deprecated__/renderer/svg/menu-files-manager.svg"
 import MenuHelp from "Core/__deprecated__/renderer/svg/menu-help.svg"
 import Message from "Core/__deprecated__/renderer/svg/menu-messages.svg"
-import EighthNote from "Core/__deprecated__/renderer/svg/eighth-note.svg"
+import MenuMusic from "Core/__deprecated__/renderer/svg/menu-music.svg"
 import MenuNews from "Core/__deprecated__/renderer/svg/menu-news.svg"
 import MenuOverview from "Core/__deprecated__/renderer/svg/menu-overview.svg"
 import MenuPhone from "Core/__deprecated__/renderer/svg/menu-phone.svg"
@@ -228,7 +228,7 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   [IconType.MenuHelp]: MenuHelp,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  [IconType.EighthNote]: EighthNote,
+  [IconType.MenuMusic]: MenuMusic,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.MenuNews]: MenuNews,

@@ -35,7 +35,7 @@ import ContactsBook from "Core/__deprecated__/renderer/svg/menu-contacts.svg"
 
 import Backup from "./svg/backup.svg"
 import Book from "./svg/book.svg"
-import EighthNote from "Core/__deprecated__/renderer/svg/eighth-note.svg"
+import MusicNote from "./svg/music-note.svg"
 import Settings from "./svg/settings.svg"
 import PasswordShow from "./svg/password-show.svg"
 import PasswordHide from "./svg/password-hide.svg"
@@ -75,7 +75,7 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.BatteryCharging4]: BatteryChargingHigh,
   [IconType.BatteryCharging5]: BatteryChargingFull,
   [IconType.Book]: Book,
-  [IconType.EighthNote]: EighthNote,
+  [IconType.MusicNote]: MusicNote,
   [IconType.NetworkSignal0]: SignalNoRange,
   [IconType.NetworkSignal1]: SignalVeryLowRange,
   [IconType.NetworkSignal2]: SignalMediumRange,

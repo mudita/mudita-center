@@ -32,7 +32,7 @@ export enum IconType {
   MenuFilesManager,
   MenuHelp,
   MenuContacts,
-  EighthNote,
+  MenuMusic,
   MenuNews,
   MenuOverview,
   MenuPhone,

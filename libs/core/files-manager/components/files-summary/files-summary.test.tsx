@@ -32,7 +32,7 @@ const defaultProps: ComponentProps<typeof FilesSummary> = {
     {
       type: DiskSpaceCategoryType.Music,
       color: "#E3F3FF",
-      icon: IconType.EighthNote,
+      icon: IconType.MenuMusic,
       label: "Music",
       size: 4560,
     },

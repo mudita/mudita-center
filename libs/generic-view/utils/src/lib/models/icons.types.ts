@@ -17,7 +17,7 @@ export enum IconType {
   BatteryCharging4 = "battery-charging-4",
   BatteryCharging5 = "battery-charging-5",
   Book = "book",
-  EighthNote = "eighth-note",
+  MusicNote = "music-note",
   Grid = "grid",
   NetworkSignal0 = "network-signal-0",
   NetworkSignal1 = "network-signal-1",
