@@ -53,7 +53,7 @@ export const McContactsSearchResult: APIFC<
             phrase: data.highlightPhrase,
           }}
           config={{
-            mode: "word-start",
+            mode: renderSecondLine ? "word-start" : "anywhere",
             scope: "all",
             phraseWordsSeparated: true,
           }}
