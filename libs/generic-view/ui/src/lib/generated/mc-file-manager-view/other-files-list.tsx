@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ComponentPropsByName } from "generic-view/utils"
+import { Subview } from "generic-view/utils"
 
 interface OtherFilesListItemConfig {
   id: string
@@ -13,9 +13,7 @@ interface OtherFilesListItemConfig {
 const generateOtherFilesListItem = ({
   id,
   name,
-}: OtherFilesListItemConfig): {
-  [key: string]: ComponentPropsByName
-} => {
+}: OtherFilesListItemConfig): Subview => {
   return {
     [`${id}otherFilesListItem`]: {
       component: "block-plain",
@@ -53,10 +51,8 @@ export const generateOtherFilesList = ({
   configs,
 }: {
   configs: OtherFilesListItemConfig[]
-}): {
-  [key: string]: ComponentPropsByName
-} => {
-  const initialListConfig: { [key: string]: ComponentPropsByName } = {
+}): Subview => {
+  const initialListConfig: Subview = {
     otherFilesList: {
       component: "block-plain",
       layout: {

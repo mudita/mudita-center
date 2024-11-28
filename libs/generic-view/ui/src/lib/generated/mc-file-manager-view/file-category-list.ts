@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ComponentPropsByName, IconType } from "generic-view/utils"
+import { IconType, Subview } from "generic-view/utils"
 
 interface CategoryListItemConfig {
   id: string
@@ -17,9 +17,7 @@ const generateFileCategoryListItem = ({
   name,
   icon,
   markerColor,
-}: CategoryListItemConfig): {
-  [key: string]: ComponentPropsByName
-} => {
+}: CategoryListItemConfig): Subview => {
   return {
     [`${id}CategoryListItem`]: {
       component: "list-item",
@@ -151,10 +149,8 @@ export const generateFileCategoryList = ({
   configs,
 }: {
   configs: CategoryListItemConfig[]
-}): {
-  [key: string]: ComponentPropsByName
-} => {
-  const initialListConfig: { [key: string]: ComponentPropsByName } = {
+}): Subview => {
+  const initialListConfig: Subview = {
     fileCategoryList: {
       component: "block-plain",
       layout: {

@@ -3,19 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ComponentPropsByName } from "generic-view/utils"
+import { Subview } from "generic-view/utils"
 
 interface FileListConfig {
   id: string
   name: string
 }
 
-const generateFileList = ({
-  id,
-  name,
-}: FileListConfig): {
-  [key: string]: ComponentPropsByName
-} => {
+const generateFileList = ({ id, name }: FileListConfig): Subview => {
   return {
     [`${id}fileListContainer`]: {
       component: "conditional-renderer",
@@ -129,10 +124,8 @@ export const generateFileListWrapper = ({
   configs,
 }: {
   configs: FileListConfig[]
-}): {
-  [key: string]: ComponentPropsByName
-} => {
-  const initialListConfig: { [key: string]: ComponentPropsByName } = {
+}): Subview => {
+  const initialListConfig: Subview = {
     fileListWrapper: {
       component: "block-plain",
       layout: {
