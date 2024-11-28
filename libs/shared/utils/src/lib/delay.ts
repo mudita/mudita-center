@@ -10,4 +10,6 @@
  * @returns {Promise<void>} A promise that resolves after the delay.
  */
 
-export const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
+export const delay = (ms: number = 500): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
