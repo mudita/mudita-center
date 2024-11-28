@@ -1031,7 +1031,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         margin: "0 0 16px 0",
       },
       config: {
-        text: "Contact Information",
+        text: "Contact information",
       },
     },
     contactDetailsPhoneNumberWrapper: {
@@ -1062,7 +1062,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     contactDetailsPhoneNumberLabel: {
       component: "h5-component",
       config: {
-        text: "Phone Number",
+        text: "Phone number",
       },
     },
     contactDetailsPhoneNumber1Wrapper: {
@@ -1276,7 +1276,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     contactDetailsFirstNameLabel: {
       component: "h5-component",
       config: {
-        text: "First Name",
+        text: "First name",
       },
     },
     contactDetailsFirstNameValue: {
@@ -1320,7 +1320,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     contactDetailsLastNameLabel: {
       component: "h5-component",
       config: {
-        text: "Last Name",
+        text: "Last name",
       },
     },
     contactDetailsLastNameValue: {
