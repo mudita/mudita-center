@@ -26,7 +26,7 @@ export const deleteEntitiesDataAction = createAsyncThunk<
   DeleteEntitiesDataActionPayload,
   { state: ReduxRootState }
 >(
-  ActionName.DeleteEntityData,
+  ActionName.DeleteEntitiesData,
   async (
     { entitiesType, ids, deviceId, onSuccess, onError },
     { rejectWithValue, dispatch }

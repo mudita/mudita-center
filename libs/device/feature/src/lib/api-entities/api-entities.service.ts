@@ -236,7 +236,7 @@ export class APIEntitiesService {
   }
 
   @IpcEvent(APIEntitiesServiceEvents.EntitiesDataDelete)
-  public async deleteEntityData({
+  public async deleteEntitiesData({
     entitiesType,
     ids,
     deviceId,
