@@ -13,6 +13,7 @@ import { getAllFeatures } from "./features/get-all-features"
 import { getMenuConfig } from "./get-menu-config"
 import { ResultObject } from "Core/core/builder"
 import { loadEntities } from "./entities/load-entities.action"
+import { delay } from "shared/utils"
 
 export const getAPIConfig = createAsyncThunk<
   { deviceId: string; apiConfig: ApiConfig },
@@ -27,7 +28,6 @@ export const getAPIConfig = createAsyncThunk<
     do {
       response = await getAPIConfigRequest(deviceId)
     } while (retry && retires++ < retryLimit && !response.ok)
-
     if (response.ok) {
       const menuResponse = await dispatch(getMenuConfig({ deviceId }))
 
@@ -45,6 +45,7 @@ export const getAPIConfig = createAsyncThunk<
 
       return { deviceId, apiConfig: response.data }
     }
+    await delay(100)
     return rejectWithValue(response.error)
   }
 )

@@ -19,9 +19,7 @@ import { UpdateOsFlowTestIds } from "Core/overview/components/update-os-flow/upd
 import { OnboardingNotCompleteModal } from "Core/overview/components/onboarding-not-complete-modal"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
-import {
-  useDeactivateDeviceAndRedirect
-} from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
+import { useDeactivateDeviceAndRedirect } from "device-manager/feature"
 import {
   CheckForForceUpdateFailedModal
 } from "Core/overview/components/update-os-modals/check-for-force-update-failed-modal/check-for-force-update-failed-modal.component"
