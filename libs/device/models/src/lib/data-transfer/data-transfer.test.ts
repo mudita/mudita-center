@@ -17,6 +17,7 @@ const minimumPreDataTransfer: PreDataTransfer = {
     ["callLog-v1"]: "dummy-text",
     ["messages-v1"]: "dummy-text",
     ["alarms-v1"]: "dummy-text",
+    ["notes-v1"]: "dummy-text",
   },
 }
 
