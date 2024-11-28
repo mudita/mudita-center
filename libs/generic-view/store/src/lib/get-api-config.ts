@@ -13,7 +13,7 @@ import { getAllFeatures } from "./features/get-all-features"
 import { getMenuConfig } from "./get-menu-config"
 import { ResultObject } from "Core/core/builder"
 import { loadEntities } from "./entities/load-entities.action"
-import { sleep } from "shared/utils"
+import { delay } from "shared/utils"
 
 export const getAPIConfig = createAsyncThunk<
   { deviceId: string; apiConfig: ApiConfig },
@@ -45,7 +45,7 @@ export const getAPIConfig = createAsyncThunk<
 
       return { deviceId, apiConfig: response.data }
     }
-    await sleep(100)
+    await delay(100)
     return rejectWithValue(response.error)
   }
 )

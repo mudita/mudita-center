@@ -27,7 +27,7 @@ import { ServiceBridge } from "../service-bridge"
 import AES from "crypto-js/aes"
 import encUtf8 from "crypto-js/enc-utf8"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { sleep } from "shared/utils"
+import { delay } from "shared/utils"
 
 interface Transfer {
   crc32: string
@@ -214,7 +214,7 @@ export class APIFileTransferService {
 
     if (!response.ok) {
       if (repeats < maxRepeats) {
-        await sleep()
+        await delay()
         return this.transferSend({
           deviceId,
           transferId,
@@ -337,7 +337,7 @@ export class APIFileTransferService {
 
     if (!response.ok) {
       if (repeats < maxRepeats) {
-        await sleep()
+        await delay()
         return this.transferGet({
           deviceId,
           transferId,

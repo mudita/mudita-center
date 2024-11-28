@@ -34,7 +34,7 @@ import { SafeParseReturnType, SafeParseSuccess } from "zod"
 import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { sleep } from "shared/utils"
+import { delay } from "shared/utils"
 
 export class APIEntitiesService {
   constructor(
@@ -166,7 +166,7 @@ export class APIEntitiesService {
 
     if (responseType === "file") {
       if (response.data.status === 202) {
-        await sleep()
+        await delay()
         return this.getEntitiesData({
           entitiesType,
           entityId,

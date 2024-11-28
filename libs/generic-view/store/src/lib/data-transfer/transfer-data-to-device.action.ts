@@ -33,7 +33,7 @@ import {
 import { isEmpty } from "lodash"
 import { DataTransfer } from "./reducer"
 import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
-import { sleep } from "shared/utils"
+import { delay } from "shared/utils"
 
 type DomainDataMapping = {
   "contacts-v1": UnifiedContact[]
@@ -241,7 +241,7 @@ export const transferDataToDevice = createAsyncThunk<
       if (signal.aborted) {
         return handleError()
       }
-      await sleep()
+      await delay()
       const checkPreRestoreResponse = await checkDataTransferRequest(
         dataTransferId,
         deviceId

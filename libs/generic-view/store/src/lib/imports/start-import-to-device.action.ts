@@ -22,7 +22,7 @@ import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
 import { selectActiveApiDeviceId } from "../selectors"
 import { setImportProcessFileStatus, setImportProcessStatus } from "./actions"
-import { sleep } from "shared/utils"
+import { delay } from "shared/utils"
 
 export const startImportToDevice = createAsyncThunk<
   undefined,
@@ -214,7 +214,7 @@ export const startImportToDevice = createAsyncThunk<
       if (aborted) {
         return rejectWithValue(undefined)
       }
-      await sleep()
+      await delay()
       const checkPreRestoreResponse = await checkDataTransferRequest(
         dataTransferId,
         deviceId
