@@ -19,6 +19,7 @@ export const ListItem: APIFC<undefined, ListItemConfig> = ({
   const actions = config?.actions ?? []
   const callButtonAction = useButtonAction(props.viewKey as string)
   const callAction = () => callButtonAction(actions)
+  // TODO: change to button plain
   return (
     <ListItemWrapper $active={config?.active} onClick={callAction} {...props}>
       {children}

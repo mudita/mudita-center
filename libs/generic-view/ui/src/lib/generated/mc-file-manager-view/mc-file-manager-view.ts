@@ -183,7 +183,6 @@ export const generateMcFileManagerView: ComponentGenerator<
       component: "tooltip.anchor",
       childrenKeys: ["fileCategoryOtherFilesItemInfoIcon"],
     },
-
     fileCategoryOtherFilesItemInfoIcon: {
       component: "icon",
       layout: {
