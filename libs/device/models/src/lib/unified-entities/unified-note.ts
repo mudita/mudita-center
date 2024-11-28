@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./actions"
-export * from "./selectors"
-export * from "./hooks"
-export * from "./reducers"
+export interface UnifiedNote {
+  id: string
+  content: string
+  isPinned: boolean
+  createDate: number
+  updateDate: number
+}

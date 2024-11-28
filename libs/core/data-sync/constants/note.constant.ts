@@ -3,4 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./use-core-device-protocol-listeners"
+export enum NoteTable {
+  Notes = "notes",
+}
