@@ -3,17 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { cloneDeep, merge } from "lodash"
 import { ResponseStatus } from "Core/device"
-import { EntitiesConfig, MCLang } from "Libs/device/models/src"
+import {
+  APIEndpointType,
+  APIMethodsType,
+  EntitiesConfig,
+  MCLang,
+} from "Libs/device/models/src"
 import { E2EMockClient } from "../../../../libs/e2e-mock/client/src"
 
-type DataResponse = {
+type ResponseConfig = {
   path: string
-  body: {}
   status: ResponseStatus
+  body: {}
+  data?: {}
+  expected?: {}
 }
 
-type ApiConfig = DataResponse & {
+type ApiConfig = ResponseConfig & {
   body: {
     apiVersion: string
     lang?: MCLang
@@ -26,17 +34,7 @@ type ApiConfig = DataResponse & {
   }
 }
 
-export const ApiConfigurationResponse = ({ path, status, body }: ApiConfig) => {
-  E2EMockClient.mockResponse({
-    endpoint: "API_CONFIGURATION",
-    method: "GET",
-    path,
-    status,
-    body,
-  })
-}
-
-type MenuConfig = DataResponse & {
+type MenuConfig = ResponseConfig & {
   body: {
     title?: string
     menuItems: {
@@ -47,29 +45,15 @@ type MenuConfig = DataResponse & {
   }
 }
 
-export const MenuConfigurationResponse = ({
-  path,
-  status,
-  body,
-}: MenuConfig) => {
-  E2EMockClient.mockResponse({
-    endpoint: "MENU_CONFIGURATION",
-    method: "GET",
-    path,
-    status,
-    body,
-  })
-}
-
-type OutboxConfig = DataResponse & {
+type OutboxConfig = ResponseConfig & {
   body: {
     features?: string[]
-    entities?: EntitiesT[]
+    entities?: entitiesType[]
     data?: string[]
   }
 }
 
-type EntitiesT =
+type entitiesType =
   | {
       entityType: string
       entityId: string
@@ -81,40 +65,14 @@ type EntitiesT =
       action?: never
     }
 
-export const OutboxResponse = ({ path, status, body }: OutboxConfig) => {
-  E2EMockClient.mockResponse({
-    endpoint: "OUTBOX",
-    method: "GET",
-    path,
-    status,
-    body,
-  })
-}
-
-type FeatureData = DataResponse & {
+type FeatureConfig = ResponseConfig & {
   expected?: {
     feature: string
     lang: MCLang
   }
 }
 
-export const FeatureConfigurationResponse = ({
-  path,
-  status,
-  body,
-  expected,
-}: FeatureData) => {
-  E2EMockClient.mockResponse({
-    endpoint: "FEATURE_CONFIGURATION",
-    method: "GET",
-    path,
-    status,
-    body,
-    match: expected ? { expected } : undefined,
-  })
-}
-
-type OverviewData = {
+type OverviewConfig = {
   body: {
     summary?: {
       about?: {
@@ -168,91 +126,111 @@ type OverviewData = {
   }
 }
 
-export const FeatureDataResponse = ({
-  path,
-  status,
-  body,
-  expected,
-}: FeatureData & OverviewData) => {
-  E2EMockClient.mockResponse({
-    endpoint: "FEATURE_DATA",
-    method: "GET",
-    path,
-    status,
-    body,
-    match: expected ? { expected } : undefined,
-  })
-}
-
-export const EntitiesConfigurationResponse = ({
-  path,
-  status,
-  body,
-}: DataResponse & { body: EntitiesConfig }) => {
-  E2EMockClient.mockResponse({
-    endpoint: "ENTITIES_CONFIGURATION",
-    method: "GET",
-    path,
-    status,
-    body,
-  })
-}
-
-type EntitiesData = DataResponse & {
-  expected: {
+type EntitiesDataConfig = ResponseConfig & {
+  expected?: {
     entityType: string
     responseType: "file"
   }
 }
 
-// TODO
-export const EntitiesDataResponse = ({ path, body, status }: EntitiesData) => {
-  E2EMockClient.mockResponse({
-    endpoint: "ENTITIES_DATA",
-    method: "GET",
-    path,
-    status,
-    body,
-    match: {
-      expected: {
-        entityType: "contacts",
-        responseType: "file",
-      },
-    },
-  })
-}
-
-type TransferData = {
+type TransferConfig = {
   body: {
     transferId: number
     chunkSize: number
   }
 }
 
-export const PreFileTransferResponse = ({
+type ResponseHelperConfig = ResponseConfig & {
+  endpoint: APIEndpointType
+  method?: APIMethodsType
+}
+
+const responseHelper = <T>({
+  endpoint,
+  method,
   path,
-  body,
   status,
-}: DataResponse & TransferData) => {
+  body,
+  data,
+  expected,
+}: ResponseHelperConfig & T) => {
   E2EMockClient.mockResponse({
-    endpoint: "PRE_FILE_TRANSFER",
-    method: "GET",
+    endpoint,
+    method: method || "GET",
     path,
     status,
-    body,
+    body: cloneMerge(body, data),
+    match: expected ? { expected } : undefined,
   })
 }
 
-export const FileTransferResponse = ({
-  path,
-  body,
-  status,
-}: DataResponse & TransferData) => {
-  E2EMockClient.mockResponse({
+const cloneMerge = <T, S>(data: T, newData: S) => {
+  return newData ? merge(cloneDeep(data), newData) : data
+}
+
+export const ApiConfigurationResponse = (data: ApiConfig) => {
+  responseHelper({
+    endpoint: "API_CONFIGURATION",
+    ...data,
+  })
+}
+
+export const MenuConfigurationResponse = (data: MenuConfig) => {
+  responseHelper({
+    endpoint: "MENU_CONFIGURATION",
+    ...data,
+  })
+}
+
+export const OutboxResponse = (data: OutboxConfig) => {
+  responseHelper({
+    endpoint: "OUTBOX",
+    ...data,
+  })
+}
+
+export const FeatureConfigurationResponse = (data: FeatureConfig) => {
+  responseHelper({
+    endpoint: "FEATURE_CONFIGURATION",
+    ...data,
+  })
+}
+
+export const FeatureDataResponse = (data: FeatureConfig & OverviewConfig) => {
+  responseHelper({
+    endpoint: "FEATURE_DATA",
+    ...data,
+  })
+}
+
+export const EntitiesConfigurationResponse = (
+  data: ResponseConfig & { body: EntitiesConfig }
+) => {
+  responseHelper({
+    endpoint: "ENTITIES_CONFIGURATION",
+    ...data,
+  })
+}
+
+export const EntitiesDataResponse = (data: EntitiesDataConfig) => {
+  responseHelper({
+    endpoint: "ENTITIES_DATA",
+    ...data,
+  })
+}
+
+export const PreFileTransferResponse = (
+  data: ResponseConfig & TransferConfig
+) => {
+  responseHelper({
+    endpoint: "PRE_FILE_TRANSFER",
+    ...data,
+  })
+}
+
+export const FileTransferResponse = (data: ResponseConfig & TransferConfig) => {
+  responseHelper({
     endpoint: "FILE_TRANSFER",
-    method: "GET",
-    path,
-    status,
-    body,
+    ...data,
   })
 }
