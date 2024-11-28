@@ -19,6 +19,7 @@ import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
 import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
+import { sleep } from "shared/utils"
 
 export const restoreBackup = createAsyncThunk<
   undefined,
@@ -197,6 +198,7 @@ export const restoreBackup = createAsyncThunk<
       if (aborted) {
         return rejectWithValue(undefined)
       }
+      await sleep()
       const checkPreRestoreResponse = await checkRestoreRequest(
         restoreId,
         deviceId
