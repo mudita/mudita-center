@@ -8,11 +8,13 @@ import { ComponentPropsByName } from "generic-view/utils"
 interface FileListConfig {
   id: string
   name: string
+  entitiesType: string
 }
 
 const generateFileList = ({
   id,
   name,
+  entitiesType,
 }: FileListConfig): {
   [key: string]: ComponentPropsByName
 } => {
@@ -30,6 +32,17 @@ const generateFileList = ({
             value: id,
           },
         ],
+      },
+      childrenKeys: [`${id}fileListForm`],
+    },
+    [`${id}fileListForm`]: {
+      component: "form",
+      config: {
+        formOptions: {
+          defaultValues: {
+            selectedFiles: [],
+          },
+        },
       },
       childrenKeys: [`${id}fileList`],
     },
@@ -54,17 +67,52 @@ const generateFileList = ({
         height: "40px",
         gridLayout: {
           rows: [],
-          columns: [],
+          columns: ["auto", "auto"],
           alignItems: "center",
+          justifyContent: "space-between",
         },
       },
+      childrenKeys: [
+        `${id}fileListPanelHeaderWrapper`,
+        `${id}fileListEmptyStateAddFileButtonWrapper`,
+      ],
+    },
+    [`${id}fileListPanelHeaderWrapper`]: {
+      component: "h3-component",
       childrenKeys: [`${id}fileListPanelHeader`],
     },
     [`${id}fileListPanelHeader`]: {
-      component: "h3-component",
+      component: "format-message",
       config: {
-        text: name,
+        messageTemplate: `${name} {totalEntities, plural, =0 {} other { (#)}}`,
       },
+      dataProvider: {
+        source: "entities-metadata",
+        entitiesType,
+        fields: [
+          {
+            providerField: "totalEntities",
+            componentField: "data.fields.totalEntities",
+          },
+        ],
+      },
+    },
+    [`${id}fileListEmptyStateAddFileButtonWrapper`]: {
+      component: "conditional-renderer",
+      dataProvider: {
+        source: "entities-metadata",
+        entitiesType,
+        fields: [
+          {
+            modifier: "length",
+            providerField: "totalEntities",
+            componentField: "data.render",
+            condition: "gt",
+            value: 0,
+          },
+        ],
+      },
+      childrenKeys: [`${id}fileListEmptyStateAddFileButton`],
     },
     [`${id}fileListContent`]: {
       component: "block-plain",

@@ -215,18 +215,22 @@ export const generateMcFileManagerView: ComponentGenerator<
         {
           id: "0",
           name: "Music",
+          entitiesType: "audioFiles",
         },
         {
           id: "1",
           name: "Photos",
+          entitiesType: "imageFiles",
         },
         {
           id: "2",
           name: "Ebooks",
+          entitiesType: "ebookFiles",
         },
         {
           id: "3",
           name: "Apps",
+          entitiesType: "applicationFiles",
         },
       ],
     }),
