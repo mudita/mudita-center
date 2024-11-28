@@ -1053,6 +1053,9 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     },
     contactDetailsPhoneNumber: {
       component: "block-plain",
+      layout: {
+        width: "fit-content",
+      },
       childrenKeys: [
         "contactDetailsPhoneNumberLabel",
         "contactDetailsPhoneNumber1Wrapper",
@@ -1087,12 +1090,12 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           direction: "row",
           columnGap: "6px",
           alignItems: "flex-start",
+          justifyContent: "space-between",
         },
       },
       childrenKeys: [
         "contactDetailsPhoneNumber1Value",
-        "contactDetailsPhoneNumber1Type",
-        "contactDetailsPhoneNumber1DefaultIconWrapper",
+        "contactDetailsPhoneNumber1TypeWrapper",
       ],
     },
     contactDetailsPhoneNumber1Value: {
@@ -1110,6 +1113,21 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           },
         ],
       },
+    },
+    contactDetailsPhoneNumber1TypeWrapper: {
+      component: "block-plain",
+      layout: {
+        flexLayout: {
+          direction: "row",
+          columnGap: "6px",
+          alignItems: "flex-start",
+        },
+        width: "75px",
+      },
+      childrenKeys: [
+        "contactDetailsPhoneNumber1Type",
+        "contactDetailsPhoneNumber1DefaultIconWrapper",
+      ],
     },
     contactDetailsPhoneNumber1Type: {
       component: "p4-component",
@@ -1205,6 +1223,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           direction: "row",
           columnGap: "6px",
           alignItems: "flex-start",
+          justifyContent: "space-between",
         },
       },
       childrenKeys: [
@@ -1230,6 +1249,9 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     },
     contactDetailsPhoneNumber2Type: {
       component: "p4-component",
+      layout: {
+        width: "75px",
+      },
       config: {
         color: "black",
       },
@@ -1801,26 +1823,19 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           },
         ],
       },
-      childrenKeys: ["contactDetailsAddressStreetBlock"],
-    },
-    contactDetailsAddressStreetBlock: {
-      component: "block-plain",
-      layout: {
-        flexLayout: {
-          direction: "row",
-          columnGap: "6px",
-          alignItems: "flex-start",
-        },
-      },
-      childrenKeys: [
-        "contactDetailsAddressStreetValue",
-        "contactDetailsAddressStreetType",
-      ],
+      childrenKeys: ["contactDetailsAddressStreetValue"],
     },
     contactDetailsAddressStreetValue: {
       component: "p4-component",
       config: {
         color: "black",
+      },
+      childrenKeys: ["contactDetailsAddressStreetValueText"],
+    },
+    contactDetailsAddressStreetValueText: {
+      component: "format-message",
+      config: {
+        messageTemplate: "{streetAddress} • <c>{addressType}</c>",
       },
       dataProvider: {
         source: "entities-field",
@@ -1828,27 +1843,8 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         fields: [
           {
             providerField: "address.streetAddress",
-            componentField: "config.text",
+            componentField: "data.fields.streetAddress",
           },
-        ],
-      },
-    },
-    contactDetailsAddressStreetType: {
-      component: "p4-component",
-      config: {
-        color: "black",
-      },
-      childrenKeys: ["contactDetailsAddressStreetTypeText"],
-    },
-    contactDetailsAddressStreetTypeText: {
-      component: "format-message",
-      config: {
-        messageTemplate: "• <c>{addressType}</c>",
-      },
-      dataProvider: {
-        source: "entities-field",
-        entitiesType: "contacts",
-        fields: [
           {
             providerField: "address.type",
             componentField: "data.fields.addressType",
