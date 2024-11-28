@@ -17,7 +17,7 @@ import Text, {
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { LayoutBlankWrapperTestIds } from "Core/__deprecated__/renderer/wrappers/wrappers-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { useHandleActiveDeviceAborted } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-aborted.hook"
+import { useHandleActiveDeviceAborted } from "device-manager/feature"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { Close } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 

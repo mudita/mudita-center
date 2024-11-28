@@ -3,4 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./use-core-device-protocol-listeners"
+import { EventEmitter } from "events"
+
+export enum ModelEvent {
+  Close = "modal/close"
+}
+
+export const modalEventEmitter = new EventEmitter()
