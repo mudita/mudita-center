@@ -9,6 +9,7 @@ interface CategoryListItemConfig {
   id: string
   name: string
   markerColor: string
+  entitiesType: string
   icon: IconType
 }
 
@@ -17,6 +18,7 @@ const generateFileCategoryListItem = ({
   name,
   icon,
   markerColor,
+  entitiesType,
 }: CategoryListItemConfig): {
   [key: string]: ComponentPropsByName
 } => {
@@ -54,7 +56,7 @@ const generateFileCategoryListItem = ({
       childrenKeys: [
         `${id}CategoryListItemName`,
         `${id}CategoryListItemStorage`,
-        `${id}CategoryListItemCountText`,
+        `${id}CategoryListItemCountTextWrapper`,
       ],
     },
     [`${id}CategoryListItemName`]: {
@@ -129,7 +131,7 @@ const generateFileCategoryListItem = ({
         color: markerColor,
       },
     },
-    [`${id}CategoryListItemCountText`]: {
+    [`${id}CategoryListItemCountTextWrapper`]: {
       component: "p3-component",
       layout: {
         margin: "8px 0 0 0",
@@ -140,8 +142,23 @@ const generateFileCategoryListItem = ({
           height: 1,
         },
       },
+      childrenKeys: [`${id}CategoryListItemCountText`],
+    },
+    [`${id}CategoryListItemCountText`]: {
+      component: "format-message",
       config: {
-        text: "0 files",
+        messageTemplate:
+          "{totalEntities} {totalEntities, plural, one {file} other {files}}",
+      },
+      dataProvider: {
+        source: "entities-metadata",
+        entitiesType,
+        fields: [
+          {
+            providerField: "totalEntities",
+            componentField: "data.fields.totalEntities",
+          },
+        ],
       },
     },
   }
