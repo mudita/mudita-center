@@ -17,7 +17,6 @@ const regexSchema = z
 const componentFieldSchema = z.union([
   z.literal("dataItemId"),
   z.string().startsWith("data."),
-  z.string().startsWith("extra-data."),
   z.string().startsWith("config."),
 ])
 
@@ -34,6 +33,7 @@ const enhancedFieldSchema = z
       .union([z.tuple([z.number()]), z.tuple([z.number(), z.number()])])
       .optional(),
     flat: z.string().optional(),
+    join: z.string().optional(),
   })
   .merge(baseFieldSchema)
   .strict()
@@ -111,30 +111,61 @@ const filtersSchema = z
 
 export type DataProviderFiltersConfig = z.infer<typeof filtersSchema>
 
+export const phraseSourceSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("form-fields"),
+    formKey: z.string(),
+    field: z.string(),
+  }),
+])
+
+const searchSchema = z
+  .object({
+    fields: z.array(
+      z.object({
+        field: z.string(),
+        mode: z.enum(["includes", "exact", "startsWith"]),
+        caseSensitive: z.boolean().optional(),
+      })
+    ),
+    phraseSource: phraseSourceSchema,
+    minPhraseLength: z.number().nonnegative().optional(),
+    separatePhraseWords: z.boolean().optional(),
+  })
+  .optional()
+
+export type DataProviderSearchConfig = z.infer<typeof searchSchema>
+
 const entitiesMetadataSchema = z.object({
   source: z.literal("entities-metadata"),
   entitiesType: entitiesTypeSchema,
   fields: fieldsSchema,
 })
+export type EntitiesMetadataConfig = z.infer<typeof entitiesMetadataSchema>
 
 const entitiesArraySchema = z.object({
   source: z.literal("entities-array"),
   entitiesType: entitiesTypeSchema,
   sort: sortSchema,
   filters: filtersSchema,
+  search: searchSchema,
+  limit: z.number().nonnegative().optional(),
 })
+export type EntitiesArrayConfig = z.infer<typeof entitiesArraySchema>
 
 const entitiesFieldSchema = z.object({
   source: z.literal("entities-field"),
   entitiesType: entitiesTypeSchema,
   fields: fieldsSchema,
 })
+export type EntitiesFieldConfig = z.infer<typeof entitiesFieldSchema>
 
 const formFieldsSchema = z.object({
   source: z.literal("form-fields"),
   formKey: z.string().optional(),
   fields: fieldsSchema,
 })
+export type FormFieldsConfig = z.infer<typeof formFieldsSchema>
 
 export const dataProviderSchema = z.union([
   entitiesMetadataSchema,

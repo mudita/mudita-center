@@ -6,9 +6,9 @@
 import React, { FunctionComponent, useMemo } from "react"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import RecursiveLayout from "./recursive-layout"
 import { selectViewConfig } from "generic-view/store"
 import { createSelector } from "reselect"
+import { RecursiveLayout } from "./recursive-layout"
 import { isEmpty } from "lodash"
 
 const selectModalsToRender = createSelector(selectViewConfig, (config) => {
@@ -47,5 +47,3 @@ export const GenericModals: FunctionComponent<Props> = ({ viewKey }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalsToRenderDependency, viewKey])
 }
-
-export default GenericModals

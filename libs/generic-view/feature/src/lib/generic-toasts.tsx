@@ -6,10 +6,10 @@
 import React, { FunctionComponent, useMemo } from "react"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import RecursiveLayout from "./recursive-layout"
 import { selectViewConfig } from "generic-view/store"
 import { createSelector } from "reselect"
 import { isEmpty } from "lodash"
+import { RecursiveLayout } from "./recursive-layout"
 import styled from "styled-components"
 
 const selectToastsToRender = createSelector(selectViewConfig, (config) => {

@@ -93,7 +93,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
   }, [fieldRegistrar.ref, inputName, multiSelect, setValue])
 
   return (
-    <Wrapper
+    <CheckboxInputWrapper
       {...props}
       $size={config.size}
       onClick={(e) => {
@@ -121,11 +121,11 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
         </InputBox>
         {children || (config.label ? <span>{config.label}</span> : null)}
       </Label>
-    </Wrapper>
+    </CheckboxInputWrapper>
   )
 }
 
-const Wrapper = styled.div<{ $size: Config["size"] }>`
+export const CheckboxInputWrapper = styled.div<{ $size: Config["size"] }>`
   display: flex;
   flex-direction: row;
   align-items: center;

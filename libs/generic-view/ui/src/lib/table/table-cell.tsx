@@ -50,7 +50,8 @@ export const Cell = styled.td<{
   min-width: var(--cell-width);
   overflow: hidden;
 
-  p {
+  > p,
+  > p * {
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;

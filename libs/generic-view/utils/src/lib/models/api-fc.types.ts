@@ -3,11 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren, ReactHTMLElement } from "react"
+import {
+  FunctionComponent,
+  PropsWithChildren,
+  ReactHTMLElement,
+  Ref,
+} from "react"
 
 type DefaultProps = Partial<
   Pick<ReactHTMLElement<HTMLElement>["props"], "className" | "style">
->
+> & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  componentRef?: Ref<any>
+}
 
 type ComponentConfigProp<T> = T extends undefined
   ? { config?: T }
@@ -31,17 +39,7 @@ export type APIFC<Data = undefined, Config = undefined> = BaseGenericComponent<
   {
     viewKey?: string
     componentKey?: string
-    dataItemId?: string
-  }
->
-
-export type RecursiveComponent = BaseGenericComponent<
-  undefined,
-  undefined,
-  {
-    viewKey: string
-    componentKey: string
-    dataItemId?: string
     componentName?: string
+    dataItemId?: string
   }
 >
