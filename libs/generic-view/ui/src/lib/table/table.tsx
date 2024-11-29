@@ -8,6 +8,7 @@ import React, {
   ReactElement,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -40,9 +41,9 @@ export const Table: APIFC<TableData, TableConfig> & {
   const getFormContext = useViewFormContext()
   const formContext = getFormContext(config.formOptions.formKey)
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
-  const [visibleRowsBounds, setVisibleRowsBounds] = useState<
-    [number, number] | null
-  >(null)
+  const [visibleRowsBounds, setVisibleRowsBounds] = useState<[number, number]>([
+    -1, -1,
+  ])
 
   const { formOptions } = config
   const { activeIdFieldName } = formOptions
@@ -109,7 +110,7 @@ export const Table: APIFC<TableData, TableConfig> & {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeRowId, data, formOptions.activeIdFieldName])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const scrollWrapper = scrollWrapperRef.current
     if (!scrollWrapper) return
 
@@ -161,10 +162,7 @@ export const Table: APIFC<TableData, TableConfig> & {
 
   const renderRow = useCallback(
     (id: string, index: number) => {
-      if (
-        visibleRowsBounds !== null &&
-        (index < visibleRowsBounds[0] || index > visibleRowsBounds[1])
-      ) {
+      if (index < visibleRowsBounds[0] || index > visibleRowsBounds[1]) {
         return placeholder
       }
       const onClick = () => onRowClick(id)
