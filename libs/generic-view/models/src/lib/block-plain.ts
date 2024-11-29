@@ -10,6 +10,10 @@ const dataValidator = z.undefined()
 const configValidator = z
   .object({
     backgroundColor: z.enum(["white", "grey"]).optional(),
+    borderTop: z.string().optional(),
+    borderRight: z.string().optional(),
+    borderBottom: z.string().optional(),
+    borderLeft: z.string().optional(),
   })
   .optional()
 

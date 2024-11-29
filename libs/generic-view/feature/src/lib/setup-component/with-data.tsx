@@ -262,5 +262,6 @@ const FormFieldsDataProvider: FunctionComponent<
     }
     set(childrenProps, componentField, value)
   }
+
   return children({ ...childrenProps, ...rest })
 }

@@ -6,6 +6,7 @@
 import { blockBox } from "./lib/block-box"
 import { blockPlain } from "./lib/block-plain"
 import { blockHeading } from "./lib/block-heading"
+import { buttonIcon } from "./lib/button-icon"
 import { buttonText } from "./lib/button-text"
 import { buttonPrimary } from "./lib/button-primary"
 import { buttonSecondary } from "./lib/button-secondary"
@@ -51,6 +52,7 @@ import { importContacts } from "./lib/import-contacts"
 import { backupRestore } from "./lib/backup-restore"
 import { backupRestoreAvailable } from "./lib/backup-restore-available"
 import { mcImportContactsButton } from "./lib/mc-import-contacts-button"
+import { mcContactsView } from "./lib/mc-contacts-view"
 import { mcDataMigration } from "./lib/mc-data-migration"
 import { incomingFeatureInfo } from "./lib/incoming-feature-info"
 import { table } from "./lib/table"
@@ -66,6 +68,7 @@ import { appPortal } from "./lib/app-portal"
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
 export * from "./lib/block-heading"
+export * from "./lib/button-icon"
 export * from "./lib/button-text"
 export * from "./lib/button-primary"
 export * from "./lib/button-secondary"
@@ -97,6 +100,7 @@ export * from "./lib/tooltip-anchor"
 export * from "./lib/tooltip-content"
 export * from "./lib/headers"
 export * from "./lib/paragraphs"
+export * from "./lib/common-text-validators"
 export * from "./lib/overview-os-version"
 export * from "./lib/about-data-box"
 export * from "./lib/last-backup-date"
@@ -105,6 +109,7 @@ export * from "./lib/backup-create"
 export * from "./lib/backup-restore"
 export * from "./lib/import-contacts"
 export * from "./lib/mc-import-contacts-button"
+export * from "./lib/mc-contacts-view"
 export * from "./lib/modal-visibility-controller"
 export * from "./lib/mc-data-migration"
 export * from "./lib/incoming-feature-info"
@@ -123,6 +128,7 @@ export default {
   [blockBox.key]: blockBox,
   [blockPlain.key]: blockPlain,
   [blockHeading.key]: blockHeading,
+  [buttonIcon.key]: buttonIcon,
   [buttonText.key]: buttonText,
   [buttonPrimary.key]: buttonPrimary,
   [buttonSecondary.key]: buttonSecondary,
@@ -169,6 +175,7 @@ export default {
   [backupRestore.key]: backupRestore,
   [importContacts.key]: importContacts,
   [mcImportContactsButton.key]: mcImportContactsButton,
+  [mcContactsView.key]: mcContactsView,
   [mcDataMigration.key]: mcDataMigration,
   [incomingFeatureInfo.key]: incomingFeatureInfo,
   [table.key]: table,

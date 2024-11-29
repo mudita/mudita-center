@@ -61,6 +61,15 @@ const setupStyles = (style?: CSSProperties, layout?: Layout): CSSProperties => {
     ...(layout?.padding && {
       padding: layout.padding,
     }),
+    ...(layout?.width && {
+      width: layout.width,
+    }),
+    ...(layout?.height && {
+      height: layout.height,
+    }),
+    ...(layout?.overflow && {
+      overflow: layout.overflow,
+    }),
     ...(layout?.flexLayout && {
       display: "flex",
       flexDirection: layout.flexLayout.direction,

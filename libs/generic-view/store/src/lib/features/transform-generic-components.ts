@@ -15,6 +15,7 @@ export const transformGenericComponents = (view: View): View => {
         fullView,
         transformComponent(
           key,
+          // @ts-ignore
           config as Parameters<typeof transformComponent>[1],
           layout
         )

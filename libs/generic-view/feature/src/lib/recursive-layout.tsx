@@ -109,6 +109,7 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
                         recursiveComponentMetadata.dataItemId
                       return (
                         <ComponentToRender
+                          key={`${viewKey}-${componentKey}-${dataItemId}`}
                           {...recursiveComponentMetadata}
                           viewKey={viewKey}
                           componentKey={componentKey}

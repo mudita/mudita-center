@@ -9,6 +9,7 @@ import { FormatMessageConfig, FormatMessageData } from "generic-view/models"
 import { createIntl, createIntlCache, RawIntlProvider } from "react-intl"
 import { useSelector } from "react-redux"
 import { selectActiveDeviceConfiguration } from "generic-view/store"
+import styled from "styled-components"
 
 export const FormatMessage: APIFC<FormatMessageData, FormatMessageConfig> = ({
   data,
@@ -28,7 +29,24 @@ export const FormatMessage: APIFC<FormatMessageData, FormatMessageConfig> = ({
   )
   return (
     <RawIntlProvider value={intl}>
-      {intl.formatMessage({ id }, data?.fields)}
+      {/*// @ts-ignore*/}
+      {intl.formatMessage(
+        { id },
+        {
+          ...data?.fields,
+          b: (str) => <b>{str}</b>,
+          c: (str) => <Capitalized>{str}</Capitalized>,
+        }
+      )}
     </RawIntlProvider>
   )
 }
+
+const Capitalized = styled.span`
+  text-transform: lowercase;
+  display: inline-block;
+
+  &:first-letter {
+    text-transform: uppercase;
+  }
+`
