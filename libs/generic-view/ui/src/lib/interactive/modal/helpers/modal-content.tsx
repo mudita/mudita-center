@@ -69,10 +69,10 @@ export const ModalContent = styled.div`
   }
 
   p {
-    font-size: ${({ theme }) => theme.fontSize.paragraph1};
-    line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+    font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+    line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
     text-align: center;
-    color: ${({ theme }) => theme.color.grey1};
+    color: ${({ theme }) => theme.generic.color.grey1};
     letter-spacing: 0.02em;
     margin: 0;
     white-space: pre-line;
@@ -88,10 +88,10 @@ export const ModalContent = styled.div`
 
     li {
       padding: 0.4rem 1.2rem 0.4rem 2.1rem;
-      font-size: ${({ theme }) => theme.fontSize.paragraph1};
-      line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+      font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+      line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
       letter-spacing: 0.02em;
-      color: ${({ theme }) => theme.color.grey1};
+      color: ${({ theme }) => theme.generic.color.grey1};
       text-align: left;
       ${listBulletStyle};
     }

@@ -36,10 +36,10 @@ export const Container = styled.section`
 `
 
 const ConnectingText = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.headline3};
-  line-height: ${({ theme }) => theme.lineHeight.headline3};
-  color: ${({ theme }) => theme.color.white};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  font-size: ${({ theme }) => theme.generic.fontSize.headline3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.headline3};
+  color: ${({ theme }) => theme.generic.color.white};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
   margin: 2.4rem 0 0;
 `
 

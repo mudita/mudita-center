@@ -159,9 +159,9 @@ const Wrapper = styled.div<{ $size: Config["size"] }>`
 `
 
 const Label = styled.label`
-  color: ${({ theme }) => theme.color.grey1};
+  color: ${({ theme }) => theme.generic.color.grey1};
   letter-spacing: 0.02em;
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
   line-height: 2.2rem;
   cursor: pointer;
   user-select: none;
@@ -189,8 +189,8 @@ const InputBox = styled.div`
   min-height: 2.2rem;
   width: 2.2rem;
   height: 2.2rem;
-  border-radius: ${({ theme }) => theme.radius.xs};
-  border: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  border-radius: ${({ theme }) => theme.generic.radius.xs};
+  border: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
   margin: 0;
   transition: background-color 0.2s ease-in-out;
   box-sizing: border-box;
@@ -224,8 +224,8 @@ const Input = styled.input<{ $withError?: boolean }>`
 
   &:checked + ${Label} {
     ${InputBox} {
-      border-color: ${({ theme }) => theme.color.grey1};
-      background-color: ${({ theme }) => theme.color.grey1};
+      border-color: ${({ theme }) => theme.generic.color.grey1};
+      background-color: ${({ theme }) => theme.generic.color.grey1};
 
       ${CheckIcon} {
         opacity: 1;
@@ -241,8 +241,8 @@ const Input = styled.input<{ $withError?: boolean }>`
 
   &:indeterminate + ${Label} {
     ${InputBox} {
-      border-color: ${({ theme }) => theme.color.grey1};
-      background-color: ${({ theme }) => theme.color.grey1};
+      border-color: ${({ theme }) => theme.generic.color.grey1};
+      background-color: ${({ theme }) => theme.generic.color.grey1};
 
       ${CheckIcon} {
         opacity: 0;
@@ -257,7 +257,7 @@ const Input = styled.input<{ $withError?: boolean }>`
   }
 
   &:disabled + ${Label} {
-    color: ${({ theme }) => theme.color.grey4};
+    color: ${({ theme }) => theme.generic.color.grey4};
     cursor: default;
   }
 `

@@ -31,9 +31,9 @@ export const BlockBox: APIFC<BlockBoxData, BlockBoxConfig> = ({
 }
 
 const Block = styled.div`
-  background-color: ${({ theme }) => theme.color.white};
-  border-radius: ${({ theme }) => theme.radius.sm};
-  padding: ${({ theme }) => theme.space.xl};
+  background-color: ${({ theme }) => theme.generic.color.white};
+  border-radius: ${({ theme }) => theme.generic.radius.sm};
+  padding: ${({ theme }) => theme.generic.space.xl};
   box-sizing: border-box;
 `
 
@@ -42,10 +42,10 @@ const Headline = styled.h3`
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: ${({ theme }) => theme.fontSize.headline3};
-  line-height: ${({ theme }) => theme.lineHeight.headline3};
+  font-size: ${({ theme }) => theme.generic.fontSize.headline3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.headline3};
 `
 
 const HeadlineBadge = styled(Badge)`
-  margin-left: ${({ theme }) => theme.space.lg};
+  margin-left: ${({ theme }) => theme.generic.space.lg};
 `

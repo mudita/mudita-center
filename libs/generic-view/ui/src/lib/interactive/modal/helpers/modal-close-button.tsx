@@ -41,8 +41,8 @@ export const ModalCloseIcon = styled(Icon).attrs({
 
 const closeButtonStyles = css`
   position: absolute;
-  right: ${({ theme }) => theme.space.xl};
-  top: ${({ theme }) => theme.space.xl};
+  right: ${({ theme }) => theme.generic.space.xl};
+  top: ${({ theme }) => theme.generic.space.xl};
   z-index: 2;
 `
 

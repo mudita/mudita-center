@@ -82,7 +82,12 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
       return "/generic/mc-data-migration"
     }
     return firstMenuItemUrl
-  }, [dataMigrationSourceDevice, dataMigrationTargetDevice, menuElements, pathToGoBack])
+  }, [
+    dataMigrationSourceDevice,
+    dataMigrationTargetDevice,
+    menuElements,
+    pathToGoBack,
+  ])
 
   const onModalClose = useCallback(async () => {
     if (pathToGoBack === URL_MAIN.dataMigration && dataMigrationSourceDevice) {
@@ -151,5 +156,5 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
 const Wrapper = styled.div`
   height: 100%;
   width: 100%;
-  background: ${({ theme }) => theme.color.grey6};
+  background: ${({ theme }) => theme.generic.color.grey6};
 `

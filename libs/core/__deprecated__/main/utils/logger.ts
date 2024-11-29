@@ -53,6 +53,7 @@ const createDailyRotateFileTransport = (
         .join("\n")}`
 
       // eslint-disable-next-line
+      // @ts-ignore
       const shortMessage = message.toString().slice(0, 50000)
 
       // AUTO DISABLED - fix me if you like :)

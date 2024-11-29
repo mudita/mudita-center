@@ -65,13 +65,13 @@ export const OverviewOsVersion: APIFC<
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space.xs};
+  gap: ${({ theme }) => theme.generic.space.xs};
 `
 
 const VersionLabel = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-  color: ${({ theme }) => theme.color.grey2};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
+  color: ${({ theme }) => theme.generic.color.grey2};
   margin: 0;
   letter-spacing: 0.07rem;
 `
@@ -80,12 +80,12 @@ const VersionInfo = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: ${({ theme }) => theme.space.lg};
+  gap: ${({ theme }) => theme.generic.space.lg};
 `
 
 const Version = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
   margin: 0;
 `
 
@@ -93,6 +93,6 @@ const ActionLabel = styled.p`
   flex: 1;
   text-align: right;
   margin: 0;
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
 `

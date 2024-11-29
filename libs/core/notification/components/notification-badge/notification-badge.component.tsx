@@ -9,7 +9,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 
 import { NotificationBadgeProps } from "./notification-badge.interface"
 import { NotificationBadgeTestIds } from "./notification-badge-ids.enum"
-import { Theme } from "Core/core/styles/theming/theme"
+import { AppTheme } from "Root/app-theme"
 
 const NotificationCircle = styled.div`
   position: absolute;
@@ -17,10 +17,10 @@ const NotificationCircle = styled.div`
   height: 0.6rem;
   top: 0.6rem;
   left: 2.5rem;
-  background-color: ${({ theme }: ThemeProps<Theme>) =>
-    theme.color.background.activity};
+  background-color: ${({ theme }: ThemeProps<AppTheme>) =>
+    theme.core.color.background.activity};
   border: 0.2rem solid
-    ${({ theme }: ThemeProps<Theme>) => theme.color.border.white};
+    ${({ theme }: ThemeProps<AppTheme>) => theme.core.color.border.white};
   border-radius: 50%;
   z-index: 1;
 `

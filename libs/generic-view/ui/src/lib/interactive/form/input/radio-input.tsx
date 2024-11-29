@@ -43,10 +43,10 @@ const Label = styled.label`
   display: flex;
   align-items: center;
   flex-direction: row;
-  color: ${({ theme }) => theme.color.grey1};
+  color: ${({ theme }) => theme.generic.color.grey1};
   letter-spacing: 0.02em;
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
   cursor: pointer;
 `
 
@@ -55,7 +55,7 @@ const InputIndicator = styled.div`
   min-height: 2.2rem;
   display: inline-block;
   border-radius: 50%;
-  border: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  border: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
   margin-right: 1.4rem;
   align-self: flex-start;
 
@@ -65,7 +65,7 @@ const InputIndicator = styled.div`
     width: 1.2rem;
     height: 1.2rem;
     margin: 0.4rem;
-    background-color: ${({ theme }) => theme.color.grey1};
+    background-color: ${({ theme }) => theme.generic.color.grey1};
     border-radius: 50%;
     box-sizing: border-box;
     opacity: 0;

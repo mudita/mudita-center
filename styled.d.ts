@@ -4,10 +4,8 @@
  */
 
 import "styled-components"
-import { Theme } from "../theme/src"
-
-type CustomTheme = Theme
+import { AppTheme } from "./app-theme"
 
 declare module "styled-components" {
-  export interface DefaultTheme extends CustomTheme {}
+  export interface DefaultTheme extends AppTheme {}
 }

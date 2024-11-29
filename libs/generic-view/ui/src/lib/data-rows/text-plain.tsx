@@ -13,9 +13,9 @@ export const TextPlain: APIFC<TextPlainData> = ({ data }) => {
 }
 
 const Paragraph = styled.article`
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
-  color: ${({ theme }) => theme.color.black};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
+  color: ${({ theme }) => theme.generic.color.black};
   letter-spacing: 0.07rem;
   white-space: pre-wrap;
 `

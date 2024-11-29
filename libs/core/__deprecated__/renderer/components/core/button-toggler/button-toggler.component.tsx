@@ -11,10 +11,7 @@ import {
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { disabledSecondaryStyles } from "Core/__deprecated__/renderer/components/core/button/button.styled.elements"
-import {
-  borderRadius,
-  zIndex,
-} from "Core/core/styles/theming/theme-getters"
+import { borderRadius, zIndex } from "Core/core/styles/theming/theme-getters"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
 import { IconButtonWithPrimaryTooltip } from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-primary-tooltip.component"
@@ -74,8 +71,6 @@ export const ButtonTogglerItem = styled(
   pointer-events: all;
 
   ${({ active }) =>
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     active &&
     css`
       z-index: 3;

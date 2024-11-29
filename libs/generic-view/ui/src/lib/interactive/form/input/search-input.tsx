@@ -70,7 +70,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: ${({ theme }) => theme.color.grey6};
+  background-color: ${({ theme }) => theme.generic.color.grey6};
 `
 
 const SearchIcon = styled(Icon)`
@@ -97,18 +97,18 @@ const ClearButton = styled(IconButton)`
 `
 
 const inputFocusStyles = css`
-  border-color: ${({ theme }) => theme.color.grey1};
+  border-color: ${({ theme }) => theme.generic.color.grey1};
 `
 
 const Input = styled.input<{ $withError?: boolean }>`
-  color: ${({ theme }) => theme.color.black};
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+  color: ${({ theme }) => theme.generic.color.black};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
   letter-spacing: 0.05em;
   padding: 0 3.2rem 0 4.8rem;
   min-height: 4rem;
-  border: 0.1rem solid ${({ theme }) => theme.color.grey4};
-  border-radius: ${({ theme }) => theme.radius.sm};
+  border: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
+  border-radius: ${({ theme }) => theme.generic.radius.sm};
   box-sizing: content-box;
   flex: 1;
   outline: none;
@@ -116,9 +116,9 @@ const Input = styled.input<{ $withError?: boolean }>`
   transition: border-color 0.2s ease-in-out;
 
   &::placeholder {
-    color: ${({ theme }) => theme.color.grey3};
-    font-size: ${({ theme }) => theme.fontSize.paragraph3};
-    line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+    color: ${({ theme }) => theme.generic.color.grey3};
+    font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+    line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
     letter-spacing: 0.05em;
   }
 

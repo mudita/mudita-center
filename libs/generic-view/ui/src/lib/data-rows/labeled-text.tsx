@@ -23,15 +23,15 @@ export const LabeledText: APIFC<LabeledTextData, LabeledTextConfig> = ({
 
 const Text = styled.p`
   margin: 0;
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
 `
 
 const Label = styled.p`
   margin: 0;
-  color: ${({ theme }) => theme.color.grey2};
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-  font-weight: ${({ theme }) => theme.fontWeight.light};
+  color: ${({ theme }) => theme.generic.color.grey2};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.light};
   letter-spacing: 0.04rem;
 `

@@ -6,11 +6,11 @@
 import React from "react"
 import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
-import { theme } from "generic-view/theme"
 import { ThemeProvider } from "styled-components"
 import { IconText } from "./icon-text"
 import { IconType } from "generic-view/utils"
 import dataTestIds from "./data-test-ids"
+import { appTheme } from "Root/app-theme"
 
 jest.mock("../../icon/icon", () => {
   return {
@@ -21,7 +21,7 @@ jest.mock("../../icon/icon", () => {
 describe("Icon text component", () => {
   it("Render", () => {
     const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={appTheme}>
         <IconText
           data={{
             icon: IconType.Battery1,
@@ -38,7 +38,7 @@ describe("Icon text component", () => {
   })
   it("Render without detail text", () => {
     const { getByTestId, queryByTestId } = render(
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={appTheme}>
         <IconText
           data={{
             icon: IconType.Battery1,

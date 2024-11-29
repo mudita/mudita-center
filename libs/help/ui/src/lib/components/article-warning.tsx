@@ -76,6 +76,6 @@ const Content = styled.div`
   flex-direction: column;
 
   p {
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.generic.color.black};
   }
 `

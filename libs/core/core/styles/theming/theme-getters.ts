@@ -3,131 +3,131 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Theme } from "./theme"
+import { AppTheme } from "Root/app-theme"
 
 export const textColor =
-  (name: keyof Theme["color"]["text"]) =>
+  (name: keyof AppTheme["core"]["color"]["text"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.color.text[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.color.text[name]
 
 export const backgroundColor =
-  (name: keyof Theme["color"]["background"]) =>
+  (name: keyof AppTheme["core"]["color"]["background"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.color.background[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.color.background[name]
 
 export const borderRadius =
-  (name: keyof Theme["borderRadius"]) =>
+  (name: keyof AppTheme["core"]["borderRadius"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
+  ({ theme }: { theme: AppTheme }) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    theme.borderRadius[name] + "rem"
+    theme.core.borderRadius[name] + "rem"
 
 export const borderColor =
-  (name: keyof Theme["color"]["border"]) =>
+  (name: keyof AppTheme["core"]["color"]["border"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.color.border[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.color.border[name]
 
 export const opacity =
-  (name: keyof Theme["opacity"]) =>
+  (name: keyof AppTheme["core"]["opacity"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.opacity[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.opacity[name]
 
 export const fontWeight =
-  (name: keyof Theme["fontWeight"]) =>
+  (name: keyof AppTheme["core"]["fontWeight"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.fontWeight[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.fontWeight[name]
 
 export const font =
-  (name: keyof Theme["font"]) =>
+  (name: keyof AppTheme["core"]["font"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.font[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.font[name]
 
 export const height =
-  (name: keyof Theme["height"]) =>
+  (name: keyof AppTheme["core"]["height"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.height[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.height[name]
 
 export const letterSpacing =
-  (name: keyof Theme["letterSpacing"]) =>
+  (name: keyof AppTheme["core"]["letterSpacing"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.letterSpacing[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.letterSpacing[name]
 
 export const lineHeight =
-  (name: keyof Theme["lineHeight"]) =>
+  (name: keyof AppTheme["core"]["lineHeight"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.lineHeight[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.lineHeight[name]
 
 export const minBreakpoint =
-  (name: keyof Theme["breakpoint"]) =>
+  (name: keyof AppTheme["core"]["breakpoint"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
+  ({ theme }: { theme: AppTheme }) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    theme.breakpoint[name] + "rem"
+    theme.core.breakpoint[name] + "rem"
 
 export const maxBreakpoint =
-  (name: keyof Theme["breakpoint"]) =>
+  (name: keyof AppTheme["core"]["breakpoint"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
+  ({ theme }: { theme: AppTheme }) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    theme.breakpoint[name] - 0.01 + "rem"
+    theme.core.breakpoint[name] - 0.01 + "rem"
 
 export const transitionTime =
-  (name: keyof Theme["transitionTime"]) =>
+  (name: keyof AppTheme["core"]["transitionTime"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.transitionTime[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.transitionTime[name]
 
 export const boxShadowColor =
-  (name: keyof Theme["color"]["boxShadow"]) =>
+  (name: keyof AppTheme["core"]["color"]["boxShadow"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.color.boxShadow[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.color.boxShadow[name]
 
 export const transitionTimingFunction =
-  (name: keyof Theme["transitionTimingFunction"]) =>
+  (name: keyof AppTheme["core"]["transitionTimingFunction"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.transitionTimingFunction[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.transitionTimingFunction[name]
 
 export const width =
-  (name: keyof Theme["width"]) =>
+  (name: keyof AppTheme["core"]["width"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
+  ({ theme }: { theme: AppTheme }) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    theme.width[name] + "rem"
+    theme.core.width[name] + "rem"
 
 export const zIndex =
-  (name: keyof Theme["zIndex"]) =>
+  (name: keyof AppTheme["core"]["zIndex"]) =>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  ({ theme }: { theme: Theme }) =>
-    theme.zIndex[name]
+  ({ theme }: { theme: AppTheme }) =>
+    theme.core.zIndex[name]

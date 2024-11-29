@@ -68,13 +68,13 @@ const Wrapper = styled.div`
   width: 100%;
   gap: 0.8rem;
   padding: 3.1rem 3.2rem 3.2rem;
-  border-top: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  border-top: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
 `
 
 const Text = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.labelText};
-  line-height: ${({ theme }) => theme.lineHeight.labelText};
-  color: ${({ theme }) => theme.color.grey1};
+  font-size: ${({ theme }) => theme.generic.fontSize.labelText};
+  line-height: ${({ theme }) => theme.generic.lineHeight.labelText};
+  color: ${({ theme }) => theme.generic.color.grey1};
   white-space: pre;
   text-align: right;
   margin: 0;

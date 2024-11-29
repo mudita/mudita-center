@@ -33,13 +33,13 @@ export const ButtonPrimary: APIFC<undefined, ButtonPrimaryConfig> = ({
 
 const Button = styled(ButtonBase)`
   justify-content: center;
-  background-color: ${({ theme }) => theme.color.grey1};
+  background-color: ${({ theme }) => theme.generic.color.grey1};
   padding: 0 1rem;
   transition: background-color 0.15s ease-in-out;
-  border-radius: ${({ theme }) => theme.radius.sm};
-  font-size: ${({ theme }) => theme.fontSize.buttonText};
-  line-height: ${({ theme }) => theme.lineHeight.buttonText};
-  color: ${({ theme }) => theme.color.white};
+  border-radius: ${({ theme }) => theme.generic.radius.sm};
+  font-size: ${({ theme }) => theme.generic.fontSize.buttonText};
+  line-height: ${({ theme }) => theme.generic.lineHeight.buttonText};
+  color: ${({ theme }) => theme.generic.color.white};
   letter-spacing: 0.1em;
   text-transform: uppercase;
 
@@ -48,15 +48,15 @@ const Button = styled(ButtonBase)`
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.black};
+    background-color: ${({ theme }) => theme.generic.color.black};
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.color.grey1};
+    background-color: ${({ theme }) => theme.generic.color.grey1};
   }
 
   &:disabled {
-    background-color: ${({ theme }) => theme.color.grey4};
-    color: ${({ theme }) => theme.color.grey2};
+    background-color: ${({ theme }) => theme.generic.color.grey4};
+    color: ${({ theme }) => theme.generic.color.grey2};
   }
 `

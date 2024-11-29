@@ -54,9 +54,9 @@ export const LastBackupDate: APIFC<undefined, LastBackupDateConfig> = ({
 }
 
 const NoBackupLabel = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-  color: ${({ theme }) => theme.color.grey2};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
+  color: ${({ theme }) => theme.generic.color.grey2};
   white-space: pre;
   margin: 0.6rem 0 0 0;
 `
@@ -64,21 +64,21 @@ const NoBackupLabel = styled.p`
 const BackupAvailable = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: ${({ theme }) => theme.space.xs};
-  column-gap: ${({ theme }) => theme.space.lg};
+  row-gap: ${({ theme }) => theme.generic.space.xs};
+  column-gap: ${({ theme }) => theme.generic.space.lg};
 `
 
 const BackupAvailableLabel = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-  color: ${({ theme }) => theme.color.grey2};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
+  color: ${({ theme }) => theme.generic.color.grey2};
   margin: 0;
   letter-spacing: 0.07rem;
 `
 
 const BackupDate = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
   margin: 0;
   text-transform: lowercase;
 

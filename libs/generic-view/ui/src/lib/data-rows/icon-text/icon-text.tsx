@@ -42,12 +42,12 @@ const IconTextWrapper = styled.div`
   align-items: center;
 `
 const IconWrapper = styled.div`
-  background-color: ${({ theme }) => theme.color.grey6};
+  background-color: ${({ theme }) => theme.generic.color.grey6};
   min-width: 4rem;
   min-height: 4rem;
   max-width: 4rem;
   max-height: 4rem;
-  border-radius: ${({ theme }) => theme.radius.sm};
+  border-radius: ${({ theme }) => theme.generic.radius.sm};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,15 +61,15 @@ const TextWrapper = styled.div`
 `
 
 const TitleText = styled.h4`
-  font-size: ${({ theme }) => theme.fontSize.headline4};
+  font-size: ${({ theme }) => theme.generic.fontSize.headline4};
   font-weight: 700;
-  line-height: ${({ theme }) => theme.lineHeight.headline4};
+  line-height: ${({ theme }) => theme.generic.lineHeight.headline4};
   letter-spacing: 0.032rem;
   margin: 0;
 `
 const DetailText = styled.span`
-  font-size: ${({ theme }) => theme.fontSize.detailText};
-  line-height: ${({ theme }) => theme.lineHeight.detailText};
+  font-size: ${({ theme }) => theme.generic.fontSize.detailText};
+  line-height: ${({ theme }) => theme.generic.lineHeight.detailText};
   letter-spacing: 0.048rem;
-  color: ${({ theme }) => theme.color.grey2};
+  color: ${({ theme }) => theme.generic.color.grey2};
 `

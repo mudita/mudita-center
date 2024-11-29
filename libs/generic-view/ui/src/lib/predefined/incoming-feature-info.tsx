@@ -54,8 +54,8 @@ const Wrapper = styled.div`
 
   gap: 1.2rem;
   height: 7.8rem;
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.grey4};
-  background-color: ${({ theme }) => theme.color.grey6};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
+  background-color: ${({ theme }) => theme.generic.color.grey6};
 `
 
 const IconWrapper = styled(Icon)`

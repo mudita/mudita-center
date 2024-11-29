@@ -17,7 +17,7 @@ export const SelectionManager: APIFC<undefined, SelectionManagerConfig> = ({
 }
 
 const SelectionManagerWrapper = styled.div`
-  background: ${({ theme }) => theme.color.grey5};
-  border: solid 0.1rem ${({ theme }) => theme.color.grey4};
-  border-radius: ${({ theme }) => theme.radius.sm};
+  background: ${({ theme }) => theme.generic.color.grey5};
+  border: solid 0.1rem ${({ theme }) => theme.generic.color.grey4};
+  border-radius: ${({ theme }) => theme.generic.radius.sm};
 `

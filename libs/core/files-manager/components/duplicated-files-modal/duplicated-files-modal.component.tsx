@@ -24,7 +24,7 @@ import { resetUploadingState } from "Core/files-manager/actions/base.action"
 import { getDuplicatedFiles } from "Core/files-manager/selectors/get-duplicated-files.selector"
 import { getFilesManagerError } from "Core/files-manager/selectors/get-files-manager-error.selector"
 import { FilesManagerError } from "Core/files-manager/constants/errors.enum"
-import { Theme } from "Core/core/styles/theming/theme"
+import { AppTheme } from "Root/app-theme"
 
 const messages = defineMessages({
   duplicatedFilesUploadModalTitle: {
@@ -64,8 +64,8 @@ const DuplicatedFilesListTitleText = styled(Text)`
   margin-bottom: 1.1rem;
   border-width: 0 0 0.1rem 0;
   border-style: solid;
-  border-color: ${({ theme }: ThemeProps<Theme>) => {
-    return theme.color.border.verticalSeparator
+  border-color: ${({ theme }: ThemeProps<AppTheme>) => {
+    return theme.core.color.border.verticalSeparator
   }};
   text-align: left !important;
 `

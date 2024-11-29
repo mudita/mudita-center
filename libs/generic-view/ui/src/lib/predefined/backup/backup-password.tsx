@@ -129,9 +129,9 @@ const HeadlineOptional = styled.span`
   margin: -0.2rem 0 0;
   display: block;
   text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
-  font-weight: ${({ theme }) => theme.fontWeight.regular};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.regular};
   letter-spacing: 0.02em;
 `
 
@@ -139,7 +139,7 @@ const Text = styled.p`
   span {
     display: block;
     margin: 0;
-    color: ${({ theme }) => theme.color.grey2};
-    font-weight: ${({ theme }) => theme.fontWeight.light};
+    color: ${({ theme }) => theme.generic.color.grey2};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.light};
   }
 `

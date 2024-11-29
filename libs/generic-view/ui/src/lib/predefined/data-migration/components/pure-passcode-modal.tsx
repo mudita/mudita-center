@@ -12,9 +12,9 @@ import {
   selectDataMigrationStatus,
   setDataMigrationStatus,
 } from "generic-view/store"
-import theme from "Core/core/styles/theming/theme"
-import { DefaultTheme, ThemeProvider } from "styled-components"
+import { ThemeProvider } from "styled-components"
 import { PurePasscode } from "./pure-passcode"
+import { appTheme } from "Root/app-theme"
 
 interface Props {
   deviceId?: DeviceId
@@ -37,7 +37,7 @@ export const PurePasscodeModal: FunctionComponent<Props> = ({
     dataMigrationStatus === DataMigrationStatus.PurePasswordRequired
   ) {
     return (
-      <ThemeProvider theme={theme as unknown as DefaultTheme}>
+      <ThemeProvider theme={appTheme}>
         <PurePasscode
           deviceId={deviceId}
           onClose={closePasscodeModal}

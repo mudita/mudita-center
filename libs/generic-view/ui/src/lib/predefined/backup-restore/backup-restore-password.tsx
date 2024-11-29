@@ -89,7 +89,7 @@ const Text = styled.p`
   span {
     display: block;
     margin: 0;
-    color: ${({ theme }) => theme.color.grey2};
-    font-weight: ${({ theme }) => theme.fontWeight.light};
+    color: ${({ theme }) => theme.generic.color.grey2};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.light};
   }
 `

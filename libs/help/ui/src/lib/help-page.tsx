@@ -81,18 +81,18 @@ const SearchWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.color.white};
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  background-color: ${({ theme }) => theme.generic.color.white};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
 `
 
 const ContentWrapper = styled.div`
   flex: 1;
-  padding: ${({ theme }) => theme.space.xxl};
+  padding: ${({ theme }) => theme.generic.space.xxl};
   max-width: 86.2rem;
 
   & > h2 {
     font-size: 1.8rem;
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
     letter-spacing: 0.02em;
     margin: 0 0 2.4rem 0;
   }

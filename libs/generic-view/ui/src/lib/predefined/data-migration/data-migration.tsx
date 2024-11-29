@@ -300,7 +300,7 @@ const Wrapper = styled.div`
 
   &:has(${InstructionWrapper}),
   &:has(${TargetSelectorWrapper}) {
-    background-color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.generic.color.white};
   }
 `
 
@@ -308,10 +308,10 @@ const Header = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.color.grey6};
+  background-color: ${({ theme }) => theme.generic.color.grey6};
 
   ${H3} {
-    padding: ${({ theme }) => theme.space.xxl};
+    padding: ${({ theme }) => theme.generic.space.xxl};
   }
 `
 

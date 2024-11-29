@@ -111,26 +111,26 @@ const FeedbackButton = styled.button`
   justify-content: center;
   appearance: none;
   border-radius: 1.6rem;
-  border: 0.1rem solid ${({ theme }) => theme.color.grey4};
-  background-color: ${({ theme }) => theme.color.grey6};
+  border: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
+  background-color: ${({ theme }) => theme.generic.color.grey6};
   cursor: pointer;
   transition: border-color 0.2s, background-color 0.2s;
 
   p {
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.generic.color.black};
     transition: color 0.2s;
   }
 
   &:hover {
-    border-color: ${({ theme }) => theme.color.grey1};
-    background-color: ${({ theme }) => theme.color.grey1};
+    border-color: ${({ theme }) => theme.generic.color.grey1};
+    background-color: ${({ theme }) => theme.generic.color.grey1};
 
     p {
-      color: ${({ theme }) => theme.color.white};
+      color: ${({ theme }) => theme.generic.color.white};
     }
   }
 `
 
 const Thanks = styled(P3)`
-  color: ${({ theme }) => theme.color.grey1};
+  color: ${({ theme }) => theme.generic.color.grey1};
 `

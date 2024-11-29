@@ -138,7 +138,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${({ theme }) => theme.space.xl};
+  gap: ${({ theme }) => theme.generic.space.xl};
   width: 100%;
   max-width: 52.2rem;
   z-index: 2;
@@ -172,7 +172,7 @@ const InputWrapper = styled.div<{
 `
 
 const Input = styled(SearchInput)`
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.generic.color.white};
   position: relative;
   z-index: 2;
 `

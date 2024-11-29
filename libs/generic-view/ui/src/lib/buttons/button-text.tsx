@@ -33,15 +33,15 @@ export const ButtonText: APIFC<undefined, ButtonTextConfig> = ({
 const Button = styled(ButtonBase)<{
   $modifiers?: ButtonTextConfig["modifiers"]
 }>`
-  color: ${({ theme }) => theme.color.grey1};
-  font-size: ${({ theme }) => theme.fontSize.buttonLink};
-  line-height: ${({ theme }) => theme.lineHeight.buttonLink};
+  color: ${({ theme }) => theme.generic.color.grey1};
+  font-size: ${({ theme }) => theme.generic.fontSize.buttonLink};
+  line-height: ${({ theme }) => theme.generic.lineHeight.buttonLink};
   letter-spacing: 0.05em;
   text-transform: unset;
   transition: color 0.15s ease-in-out;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.generic.color.black};
   }
 
   ${({ $modifiers }) => $modifiers?.includes("link") && buttonLinkModifier};
@@ -63,16 +63,16 @@ const Button = styled(ButtonBase)<{
 `
 
 const buttonLinkModifier = css`
-  color: ${({ theme }) => theme.color.blue2};
+  color: ${({ theme }) => theme.generic.color.blue2};
   &:hover {
-    color: ${({ theme }) => theme.color.blue2};
+    color: ${({ theme }) => theme.generic.color.blue2};
   }
 `
 
 const buttonUpperCaseModifier = css`
   text-transform: uppercase;
-  font-size: ${({ theme }) => theme.fontSize.buttonText};
-  line-height: ${({ theme }) => theme.lineHeight.buttonText};
+  font-size: ${({ theme }) => theme.generic.fontSize.buttonText};
+  line-height: ${({ theme }) => theme.generic.lineHeight.buttonText};
   letter-spacing: 0.1em;
   transform: translateY(0.1rem);
 `
@@ -86,7 +86,7 @@ const buttonHoverUnderlineModifier = css`
 
 const buttonHoverBackgroundModifier = css`
   &:hover {
-    background-color: ${({ theme }) => theme.color.grey5};
-    border-radius: ${({ theme }) => theme.radius.xs};
+    background-color: ${({ theme }) => theme.generic.color.grey5};
+    border-radius: ${({ theme }) => theme.generic.radius.xs};
   }
 `

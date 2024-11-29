@@ -47,5 +47,5 @@ const Wrapper = styled.div`
   width: 100%;
   gap: 0.6rem;
   padding: 1.8rem 3.2rem 1.7rem;
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
 `

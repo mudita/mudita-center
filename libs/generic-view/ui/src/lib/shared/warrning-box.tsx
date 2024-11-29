@@ -17,14 +17,14 @@ import { H4 } from "../texts/headers"
 const Wrapper = styled.div`
   display: block;
   width: 41rem;
-  border: solid 0.2rem ${({ theme }) => theme.color.grey5};
+  border: solid 0.2rem ${({ theme }) => theme.generic.color.grey5};
 `
 
 const Top = styled.div`
   padding: 0.5rem;
   display: flex;
   justify-content: center;
-  background-color: ${({ theme }) => theme.color.warning};
+  background-color: ${({ theme }) => theme.generic.color.warning};
 
   svg * {
     fill: #ffffff;

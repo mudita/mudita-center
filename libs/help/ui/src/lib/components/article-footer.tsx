@@ -53,13 +53,13 @@ const Wrapper = styled.div`
   width: 100%;
   gap: 1.4rem;
   padding: 3.2rem;
-  background-color: ${({ theme }) => theme.color.grey5};
+  background-color: ${({ theme }) => theme.generic.color.grey5};
 `
 
 const Text = styled.p`
   font-size: 2rem;
   line-height: 3.2rem;
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
   white-space: pre;
   text-align: center;
   margin: 0;

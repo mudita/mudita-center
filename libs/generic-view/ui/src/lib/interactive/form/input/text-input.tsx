@@ -93,10 +93,10 @@ const Wrapper = styled.div`
 `
 
 const Label = styled.label<{ $inactive: boolean; $withError?: boolean }>`
-  color: ${({ theme }) => theme.color.grey2};
+  color: ${({ theme }) => theme.generic.color.grey2};
   letter-spacing: 0.04em;
-  font-size: ${({ theme }) => theme.fontSize.labelText};
-  line-height: ${({ theme }) => theme.lineHeight.labelText};
+  font-size: ${({ theme }) => theme.generic.fontSize.labelText};
+  line-height: ${({ theme }) => theme.generic.lineHeight.labelText};
   transition: all 0.2s ease-in-out;
   position: relative;
   z-index: 1;
@@ -105,7 +105,7 @@ const Label = styled.label<{ $inactive: boolean; $withError?: boolean }>`
     $inactive &&
     css`
       pointer-events: none;
-      font-size: ${theme.fontSize.paragraph3};
+      font-size: ${theme.generic.fontSize.paragraph3};
       letter-spacing: 0.05em;
       transform: translateY(2.6rem);
     `}
@@ -114,23 +114,23 @@ const Label = styled.label<{ $inactive: boolean; $withError?: boolean }>`
     $withError &&
     !$inactive &&
     css`
-      color: ${theme.color.red1};
+      color: ${theme.generic.color.red1};
     `}
 `
 
 const inputFocusStyles = css`
-  border-bottom-color: ${({ theme }) => theme.color.black};
+  border-bottom-color: ${({ theme }) => theme.generic.color.black};
 `
 
 const Input = styled.input<{ $withError?: boolean }>`
-  color: ${({ theme }) => theme.color.black};
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+  color: ${({ theme }) => theme.generic.color.black};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
   letter-spacing: 0.05em;
   padding: 0 3.2rem 0 0;
   min-height: 3.2rem;
   border: none;
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
   box-sizing: content-box;
   flex: 1;
   outline: none;
@@ -149,7 +149,7 @@ const Input = styled.input<{ $withError?: boolean }>`
   ${({ $withError, theme }) =>
     $withError &&
     css`
-      border-bottom-color: ${theme.color.red1} !important;
+      border-bottom-color: ${theme.generic.color.red1} !important;
     `}
 `
 
@@ -170,10 +170,10 @@ const InputWrapper = styled.div`
 `
 
 const Error = styled.p`
-  color: ${({ theme }) => theme.color.red1};
-  font-size: ${({ theme }) => theme.fontSize.labelText};
-  line-height: ${({ theme }) => theme.lineHeight.labelText};
-  min-height: ${({ theme }) => theme.lineHeight.labelText};
+  color: ${({ theme }) => theme.generic.color.red1};
+  font-size: ${({ theme }) => theme.generic.fontSize.labelText};
+  line-height: ${({ theme }) => theme.generic.lineHeight.labelText};
+  min-height: ${({ theme }) => theme.generic.lineHeight.labelText};
   letter-spacing: 0.04em;
   margin: 0.4rem 0 0;
 `

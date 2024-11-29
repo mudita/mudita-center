@@ -24,11 +24,11 @@ import { flashMscDeviceService } from "../services"
 import { RecoveryModeModal } from "./recovery-mode-modal/recovery-mode-modal.component"
 import { selectFlashingProcessState } from "../selectors"
 import { FlashingProcessState } from "../constants"
-import theme from "Core/core/styles/theming/theme"
 import { RestartingDeviceModal } from "./restarting-device-modal/restarting-device-modal.component"
 import { MacTerminalInfoModal } from "./mac-terminal-info-modal/mac-terminal-info-modal.component"
 import { abortMscFlashing } from "../actions"
 import { WaitingForBackButtonModal } from "./waiting-for-back-button-modal.component"
+import { appTheme } from "Root/app-theme"
 
 const messages = defineMessages({
   header: {
@@ -203,7 +203,7 @@ const RecoveryModeUI: FunctionComponent = () => {
           </Warning>
         </WarrningBox>
       </Wrapper>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={appTheme}>
         <RecoveryModeModal
           open={isFlashingModalVisible()}
           percent={getProgressPercent()}
@@ -239,9 +239,7 @@ const Wrapper = styled.div`
   align-items: center;
   padding-top: 4.7rem;
   background: ${({ theme }) => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return theme.color.white
+    return theme.generic.color.white
   }};
 `
 

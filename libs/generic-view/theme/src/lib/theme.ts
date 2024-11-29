@@ -18,5 +18,3 @@ export const theme = {
   lineHeight,
   fontWeight,
 } as const
-
-export type Theme = typeof theme

@@ -14,45 +14,45 @@ export const TextFormatted: APIFC<TextFormattedData> = ({ data }) => {
 }
 
 export const Content = styled(Markdown)`
-  color: ${({ theme }) => theme.color.black};
+  color: ${({ theme }) => theme.generic.color.black};
 
   h1 {
-    font-size: ${({ theme }) => theme.fontSize.headline1};
-    line-height: ${({ theme }) => theme.lineHeight.headline1};
-    font-weight: ${({ theme }) => theme.fontWeight.regular};
+    font-size: ${({ theme }) => theme.generic.fontSize.headline1};
+    line-height: ${({ theme }) => theme.generic.lineHeight.headline1};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.regular};
     letter-spacing: -0.02em;
   }
 
   h2 {
-    font-size: ${({ theme }) => theme.fontSize.headline2};
-    line-height: ${({ theme }) => theme.lineHeight.headline2};
-    font-weight: ${({ theme }) => theme.fontWeight.regular};
+    font-size: ${({ theme }) => theme.generic.fontSize.headline2};
+    line-height: ${({ theme }) => theme.generic.lineHeight.headline2};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.regular};
   }
 
   h3 {
-    font-size: ${({ theme }) => theme.fontSize.headline3};
-    line-height: ${({ theme }) => theme.lineHeight.headline3};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-size: ${({ theme }) => theme.generic.fontSize.headline3};
+    line-height: ${({ theme }) => theme.generic.lineHeight.headline3};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
   }
 
   h4 {
-    font-size: ${({ theme }) => theme.fontSize.headline4};
-    line-height: ${({ theme }) => theme.lineHeight.headline4};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-size: ${({ theme }) => theme.generic.fontSize.headline4};
+    line-height: ${({ theme }) => theme.generic.lineHeight.headline4};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
     letter-spacing: 0.02em;
   }
 
   h5 {
-    font-size: ${({ theme }) => theme.fontSize.headline5};
-    line-height: ${({ theme }) => theme.lineHeight.headline5};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-size: ${({ theme }) => theme.generic.fontSize.headline5};
+    line-height: ${({ theme }) => theme.generic.lineHeight.headline5};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
     letter-spacing: 0.04em;
   }
 
   h6 {
-    font-size: ${({ theme }) => theme.fontSize.headline6};
-    line-height: ${({ theme }) => theme.lineHeight.headline6};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-size: ${({ theme }) => theme.generic.fontSize.headline6};
+    line-height: ${({ theme }) => theme.generic.lineHeight.headline6};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
     letter-spacing: 0.04em;
   }
 
@@ -86,17 +86,17 @@ export const Content = styled(Markdown)`
 
   p,
   li {
-    font-size: ${({ theme }) => theme.fontSize.paragraph3};
-    line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-    color: ${({ theme }) => theme.color.grey1};
-    font-weight: ${({ theme }) => theme.fontWeight.light};
+    font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+    line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
+    color: ${({ theme }) => theme.generic.color.grey1};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.light};
     letter-spacing: 0.05em;
     margin-top: 0;
     margin-bottom: 0;
 
     strong {
-      font-weight: ${({ theme }) => theme.fontWeight.bold};
-      color: ${({ theme }) => theme.color.black};
+      font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
+      color: ${({ theme }) => theme.generic.color.black};
     }
   }
 
@@ -136,7 +136,7 @@ export const Content = styled(Markdown)`
       }
 
       strong {
-        font-weight: ${({ theme }) => theme.fontWeight.regular};
+        font-weight: ${({ theme }) => theme.generic.fontWeight.regular};
       }
 
       ol,
@@ -148,8 +148,8 @@ export const Content = styled(Markdown)`
   }
 
   a {
-    color: ${({ theme }) => theme.color.blue2};
-    font-weight: ${({ theme }) => theme.fontWeight.regular};
+    color: ${({ theme }) => theme.generic.color.blue2};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.regular};
 
     &:hover {
       text-decoration: underline;
@@ -161,9 +161,9 @@ export const Content = styled(Markdown)`
     margin: 1rem 0;
 
     p {
-      font-size: ${({ theme }) => theme.fontSize.headline5};
-      line-height: ${({ theme }) => theme.lineHeight.headline5};
-      font-weight: ${({ theme }) => theme.fontWeight.bold};
+      font-size: ${({ theme }) => theme.generic.fontSize.headline5};
+      line-height: ${({ theme }) => theme.generic.lineHeight.headline5};
+      font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
       margin-bottom: 0;
 
       &:first-child {

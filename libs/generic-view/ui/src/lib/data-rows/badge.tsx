@@ -32,7 +32,7 @@ const BadgeWrapper = styled(Tag)<{ variant: BadgeData["variant"] }>`
   ${({ variant, theme }) =>
     variant === "dark" &&
     css`
-      background-color: ${theme.color.grey4};
-      color: ${theme.color.black};
+      background-color: ${theme.generic.color.grey4};
+      color: ${theme.generic.color.black};
     `}
 `

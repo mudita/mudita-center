@@ -19,8 +19,8 @@ import {
 import styled, { css, keyframes } from "styled-components"
 import { DisplayStyle, Size } from "./button.config"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
-import { Theme } from "Core/core/styles/theming/theme"
 import { IconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/icon-badge-type.constant"
+import { AppTheme } from "Root/app-theme"
 
 const getSize = (size: Size) => {
   switch (size) {
@@ -47,7 +47,9 @@ const getSize = (size: Size) => {
 
 export const activeClassName = "active"
 
-const getButtonContentColor = (color: keyof Theme["color"]["text"]) => {
+const getButtonContentColor = (
+  color: keyof AppTheme["core"]["color"]["text"]
+) => {
   return css`
     p {
       color: ${textColor(color)};

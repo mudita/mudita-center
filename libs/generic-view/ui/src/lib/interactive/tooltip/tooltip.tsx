@@ -233,14 +233,14 @@ const Content = styled.div<{
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      padding: ${theme.space.xs} ${theme.space.sm};
-      background-color: ${theme.color.grey4};
-      border-radius: ${theme.radius.sm};
+      padding: ${theme.generic.space.xs} ${theme.generic.space.sm};
+      background-color: ${theme.generic.color.grey4};
+      border-radius: ${theme.generic.radius.sm};
       box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
 
       && > p {
         width: 100%;
-        color: ${theme.color.grey1};
+        color: ${theme.generic.color.grey1};
         white-space: pre-wrap;
         text-align: ${$placement === "bottom-left" || $placement === "top-left"
           ? "right"

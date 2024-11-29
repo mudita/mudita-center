@@ -89,5 +89,5 @@ const Devices = styled.div`
   grid-auto-rows: auto;
   max-width: 60rem;
   grid-auto-flow: dense;
-  gap: ${({ theme }) => theme.space.xxl};
+  gap: ${({ theme }) => theme.generic.space.xxl};
 `

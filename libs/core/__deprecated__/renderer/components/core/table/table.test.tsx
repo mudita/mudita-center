@@ -4,12 +4,8 @@
  */
 
 import React from "react"
-import {
-  Checkbox,
-  Files,
-} from "Core/__deprecated__/renderer/components/core/table/table.stories"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import {
+import Table, {
   Col,
   Group,
   Labels,
@@ -20,6 +16,19 @@ import {
 import useTableSelect from "Core/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { nestedRows } from "Core/__deprecated__/renderer/components/core/table/table.fake-data"
 import { fireEvent } from "@testing-library/dom"
+import styled from "styled-components"
+import InputCheckbox from "Core/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+
+const Checkbox = styled(InputCheckbox)``
+
+const Files = styled(Table)`
+  --columnsTemplate: 1fr 1fr 10rem;
+  --columnsTemplateWithOpenedSidebar: 1fr;
+  --columnsGap: 2rem;
+  --nestSize: 2rem;
+
+  height: 100vh;
+`
 
 // Basic table
 const renderBasicTable = (

@@ -136,7 +136,7 @@ const CardWrapper = styled.div<{ $opened?: boolean }>`
   ${({ $opened }) =>
     $opened &&
     css`
-      border-color: ${({ theme }) => theme.color.grey4};
+      border-color: ${({ theme }) => theme.generic.color.grey4};
     `}
 `
 
@@ -145,13 +145,13 @@ const Wrapper = styled.div`
 
   &:hover {
     ${CardWrapper} {
-      border-color: ${({ theme }) => theme.color.grey4};
+      border-color: ${({ theme }) => theme.generic.color.grey4};
     }
   }
 `
 
 const BlueTag = styled(Tag)`
-  background-color: ${({ theme }) => theme.color.blue5};
+  background-color: ${({ theme }) => theme.generic.color.blue5};
 `
 
 const Arrow = styled.div`
@@ -169,10 +169,10 @@ const DropdownWrapper = styled.div<{ $opened: boolean }>`
   left: 0;
   top: calc(100% - 1.5rem);
 
-  background: ${({ theme }) => theme.color.white};
-  border: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  background: ${({ theme }) => theme.generic.color.white};
+  border: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
   box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.08);
-  border-radius: ${({ theme }) => theme.radius.md};
+  border-radius: ${({ theme }) => theme.generic.radius.md};
 
   opacity: ${({ $opened }) => ($opened ? 1 : 0)};
   visibility: ${({ $opened }) => ($opened ? "visible" : "hidden")};
@@ -189,7 +189,7 @@ const ListItemCard = styled(CardWrapper)`
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.grey5};
+    background-color: ${({ theme }) => theme.generic.color.grey5};
   }
 `
 

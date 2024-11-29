@@ -6,7 +6,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 import React, { ComponentProps } from "react"
-import { waitFor, fireEvent } from "@testing-library/dom"
+import { fireEvent, waitFor } from "@testing-library/dom"
 import { VirtuosoMockContext } from "react-virtuoso"
 import { Provider } from "react-redux"
 import { render } from "@testing-library/react"
@@ -22,10 +22,10 @@ import { ExportContactsResult } from "Core/contacts/constants"
 import { VirtualizedContactListItemTestIds } from "Core/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item-test-ids"
 import { ContactSearchResultsTestIdsEnum } from "../contact-search-results/contact-search-results-test-ids.enum"
 import store from "Core/__deprecated__/renderer/store"
-import theme from "Core/core/styles/theming/theme"
 import translationConfig from "App/translations.config.json"
 import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
 import extractLanguageKeys from "Core/__deprecated__/renderer/utils/extract-test-locale"
+import { appTheme } from "Root/app-theme"
 
 const intersectionObserverMock = () => ({
   observe: () => null,
@@ -186,7 +186,7 @@ const renderer = (extraProps?: Partial<Props>) => {
   }
 
   return render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={appTheme}>
       <IntlProvider
         defaultLocale={translationConfig.defaultLanguage}
         locale={translationConfig.defaultLanguage}

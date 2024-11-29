@@ -54,9 +54,9 @@ const Header = styled.header<{ $active: boolean }>`
   justify-content: flex-end;
   align-items: flex-end;
   min-height: 8rem;
-  padding: ${({ theme }) => theme.space.xl};
+  padding: ${({ theme }) => theme.generic.space.xl};
   transition: box-shadow 0.3s ease-in-out;
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.generic.color.white};
   ${({ $active }) => $active && headerWhileScrollingStyles};
 
   button {

@@ -96,9 +96,9 @@ export const SearchResultsWrapper = styled.div`
   width: 100%;
   position: absolute;
   box-shadow: 0 1rem 3rem 0 rgba(0, 0, 0, 0.05);
-  background: ${({ theme }) => theme.color.white};
-  border: 0.1rem solid ${({ theme }) => theme.color.grey4};
-  border-radius: ${({ theme }) => theme.radius.sm};
+  background: ${({ theme }) => theme.generic.color.white};
+  border: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
+  border-radius: ${({ theme }) => theme.generic.radius.sm};
   overflow-y: scroll;
   max-height: 25.4rem;
   scroll-behavior: smooth;
@@ -109,10 +109,10 @@ export const SearchResultsWrapper = styled.div`
 `
 
 const ListTitle = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.labelText};
-  line-height: ${({ theme }) => theme.lineHeight.labelText};
+  font-size: ${({ theme }) => theme.generic.fontSize.labelText};
+  line-height: ${({ theme }) => theme.generic.lineHeight.labelText};
   letter-spacing: 0.04em;
-  color: ${({ theme }) => theme.color.grey3};
+  color: ${({ theme }) => theme.generic.color.grey3};
   margin: 0;
   padding: 1.4rem 1.6rem 0.8rem;
 `
@@ -131,24 +131,24 @@ const ListItemLink = styled(NavLink)`
   transition: background 0.2s ease-in-out;
 
   &.active {
-    background: ${({ theme }) => theme.color.grey5};
+    background: ${({ theme }) => theme.generic.color.grey5};
   }
 `
 
 const CategoryName = styled(P3)`
-  color: ${({ theme }) => theme.color.grey2};
+  color: ${({ theme }) => theme.generic.color.grey2};
   white-space: nowrap;
 `
 
 const ArticleTitle = styled(P3)`
-  color: ${({ theme }) => theme.color.black};
+  color: ${({ theme }) => theme.generic.color.black};
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
   white-space: nowrap;
 
   strong {
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
   }
 `
 
@@ -157,7 +157,7 @@ const EmptyResults = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: ${({ theme }) => theme.space.xl};
+  padding: ${({ theme }) => theme.generic.space.xl};
 
   > div {
     width: 4.8rem;
@@ -165,10 +165,10 @@ const EmptyResults = styled.div`
     margin: 1rem;
   }
   svg * {
-    fill: ${({ theme }) => theme.color.black};
+    fill: ${({ theme }) => theme.generic.color.black};
   }
 
   p {
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.generic.color.black};
   }
 `

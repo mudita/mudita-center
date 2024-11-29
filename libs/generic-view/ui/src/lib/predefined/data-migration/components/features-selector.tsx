@@ -111,7 +111,7 @@ export const FeaturesSelector: FunctionComponent<Props> = ({ features }) => {
 
 const Wrapper = styled.div`
   padding: 3.2rem 4rem;
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.generic.color.white};
 `
 
 const AllCheckbox = styled(Form.CheckboxInput)`

@@ -20,9 +20,9 @@ export const ModalTitle: APIFC<undefined, ModalTitleConfig> = ({
 
 const Title = styled.h1`
   margin: 0;
-  font-size: ${({ theme }) => theme.fontSize.modalTitle};
-  line-height: ${({ theme }) => theme.lineHeight.modalTitle};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  font-size: ${({ theme }) => theme.generic.fontSize.modalTitle};
+  line-height: ${({ theme }) => theme.generic.lineHeight.modalTitle};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
   text-align: center;
   align-self: center;
 `

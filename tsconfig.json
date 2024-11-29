@@ -15,6 +15,11 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["./apps/mudita-center/src", "./libs"],
-  "extends": "./tsconfig.base.json"
+  "include": ["./apps/mudita-center/src", "./libs", "./styled.d.ts"],
+  "extends": "./tsconfig.base.json",
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }

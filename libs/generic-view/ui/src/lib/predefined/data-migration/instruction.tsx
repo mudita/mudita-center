@@ -105,21 +105,21 @@ const Steps = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-top: 2.4rem;
-  gap: ${({ theme }) => theme.space.xl};
+  gap: ${({ theme }) => theme.generic.space.xl};
 `
 
 const Step = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space.xs};
+  gap: ${({ theme }) => theme.generic.space.xs};
 
   p {
-    color: ${({ theme }) => theme.color.grey1};
+    color: ${({ theme }) => theme.generic.color.grey1};
     text-align: center;
 
     &:first-of-type {
-      color: ${({ theme }) => theme.color.grey3};
+      color: ${({ theme }) => theme.generic.color.grey3};
     }
   }
 `

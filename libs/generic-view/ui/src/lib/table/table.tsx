@@ -203,7 +203,7 @@ const TableBody = styled.tbody`
 // TODO: Add proper styles for the table row
 const Row = styled.tr<{ $active?: boolean }>`
   height: ${rowHeight / 10}rem;
-  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
+  border-bottom: solid 0.1rem ${({ theme }) => theme.generic.color.grey5};
   border-left: 0.2rem solid transparent;
   ${({ $active }) =>
     $active &&
@@ -214,5 +214,5 @@ const Row = styled.tr<{ $active?: boolean }>`
 
 const RowPlaceholder = styled.tr`
   height: ${rowHeight / 10}rem;
-  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
+  border-bottom: solid 0.1rem ${({ theme }) => theme.generic.color.grey5};
 `

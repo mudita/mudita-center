@@ -5,13 +5,13 @@
 
 import React, { FunctionComponent, PropsWithChildren } from "react"
 import { createGlobalStyle, ThemeProvider } from "styled-components"
-import { Theme, theme } from "./theme"
+import { AppTheme, appTheme } from "Root/app-theme"
 
 export const GenericThemeProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={appTheme}>
       <GlobalStyle />
       <div className="box-sizing-wrapper">{children}</div>
     </ThemeProvider>
@@ -20,7 +20,7 @@ export const GenericThemeProvider: FunctionComponent<PropsWithChildren> = ({
 
 export const modalTransitionDuration = 400
 
-const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
+const GlobalStyle = createGlobalStyle<{ theme: AppTheme }>`
   .box-sizing-wrapper {
     height: 100%;
     & > * {
@@ -41,7 +41,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${({ theme }) => theme.color.black + "4D"};
+    background-color: ${({ theme }) => theme.generic.color.black + "4D"};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -72,10 +72,11 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     position: relative;
 
     .modal-content {
-      background-color: ${({ theme }) => theme.color.white};
-      border-radius: ${({ theme }) => theme.radius.sm};
+      background-color: ${({ theme }) => theme.generic.color.white};
+      border-radius: ${({ theme }) => theme.generic.radius.sm};
       overflow: hidden;
-      box-shadow: 0 2rem 10rem 0 ${({ theme }) => theme.color.black + "26"};
+      box-shadow: 0 2rem 10rem 0 ${({ theme }) =>
+        theme.generic.color.black + "26"};
     }
 
     .modal-close-icon-button:nth-child(2) {
@@ -95,7 +96,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.color.grey2};
+    background-color: ${({ theme }) => theme.generic.color.grey2};
     border-radius: 0.25rem;
   }
 `

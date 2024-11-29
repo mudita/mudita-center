@@ -16,21 +16,21 @@ export const ButtonSecondary: APIFC<undefined, ButtonSecondaryConfig> = (
 }
 
 const Button = styled(ButtonPrimary)`
-  background-color: ${({ theme }) => theme.color.white};
-  border: 0.1rem solid ${({ theme }) => theme.color.black};
-  color: ${({ theme }) => theme.color.black};
+  background-color: ${({ theme }) => theme.generic.color.white};
+  border: 0.1rem solid ${({ theme }) => theme.generic.color.black};
+  color: ${({ theme }) => theme.generic.color.black};
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.grey5};
+    background-color: ${({ theme }) => theme.generic.color.grey5};
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.generic.color.white};
   }
 
   &:disabled {
-    background-color: ${({ theme }) => theme.color.white};
-    border-color: ${({ theme }) => theme.color.grey4};
-    color: ${({ theme }) => theme.color.grey3};
+    background-color: ${({ theme }) => theme.generic.color.white};
+    border-color: ${({ theme }) => theme.generic.color.grey4};
+    color: ${({ theme }) => theme.generic.color.grey3};
   }
 `

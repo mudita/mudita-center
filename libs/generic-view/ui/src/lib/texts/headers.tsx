@@ -18,8 +18,8 @@ export const Header3: APIFC<undefined, HeaderConfig> = ({
 }
 
 export const H3 = styled.h3`
-  font-size: ${({ theme }) => theme.fontSize.headline3};
-  line-height: ${({ theme }) => theme.lineHeight.headline3};
+  font-size: ${({ theme }) => theme.generic.fontSize.headline3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.headline3};
   margin: 0;
 `
 
@@ -32,8 +32,8 @@ export const Header4: APIFC<undefined, HeaderConfig> = ({
 }
 
 export const H4 = styled.h4`
-  font-size: ${({ theme }) => theme.fontSize.headline4};
-  line-height: ${({ theme }) => theme.lineHeight.headline4};
+  font-size: ${({ theme }) => theme.generic.fontSize.headline4};
+  line-height: ${({ theme }) => theme.generic.lineHeight.headline4};
   letter-spacing: 0.02em;
   margin: 0;
 `
@@ -47,9 +47,9 @@ export const Header5: APIFC<undefined, HeaderConfig> = ({
 }
 
 export const H5 = styled.h5`
-  font-size: ${({ theme }) => theme.fontSize.headline5};
-  line-height: ${({ theme }) => theme.lineHeight.headline5};
+  font-size: ${({ theme }) => theme.generic.fontSize.headline5};
+  line-height: ${({ theme }) => theme.generic.lineHeight.headline5};
   letter-spacing: 0.04em;
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
   margin: 0;
 `

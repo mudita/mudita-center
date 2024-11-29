@@ -9,16 +9,17 @@ import translationConfig from "App/translations.config.json"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
 import GlobalStyle from "Core/core/styles/global-style.component"
-import theme from "Core/core/styles/theming/theme"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
-import { ModalProvider } from "Core/__deprecated__/renderer/components/core/modal/modal.service"
-import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
+import modalService, {
+  ModalProvider,
+} from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import AppsSwitch from "Core/core/components/apps-switch"
+import { appTheme } from "Root/app-theme"
 
 const RootWrapper: FunctionComponent = () => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={appTheme}>
       <IntlProvider
         defaultLocale={translationConfig.defaultLanguage}
         locale={translationConfig.defaultLanguage}

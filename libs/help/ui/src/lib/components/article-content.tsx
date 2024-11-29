@@ -137,12 +137,12 @@ const Wrapper = styled.div`
 `
 
 const Article = styled.article`
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.generic.color.white};
   padding: 3.2rem;
   width: 52.8rem;
 
   strong {
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
   }
 
   p {
@@ -153,11 +153,11 @@ const Article = styled.article`
 
   a,
   button {
-    color: ${({ theme }) => theme.color.blue1};
+    color: ${({ theme }) => theme.generic.color.blue1};
     text-decoration: none;
 
     &:hover {
-      color: ${({ theme }) => theme.color.blue1};
+      color: ${({ theme }) => theme.generic.color.blue1};
       text-decoration: underline;
     }
   }
@@ -186,8 +186,8 @@ const Article = styled.article`
 
   li {
     ::marker {
-      color: ${({ theme }) => theme.color.black};
-      font-size: ${({ theme }) => theme.fontSize.paragraph3};
+      color: ${({ theme }) => theme.generic.color.black};
+      font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
     }
 
     p {
@@ -199,12 +199,12 @@ const Article = styled.article`
 
 const Heading = styled.h2`
   font-size: 1.8rem;
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
   line-height: 2.4rem;
   letter-spacing: 0.02em;
   margin: 0 0 1.4rem;
 `
 
 const Paragraph = styled(P3)`
-  color: ${({ theme }) => theme.color.black};
+  color: ${({ theme }) => theme.generic.color.black};
 `

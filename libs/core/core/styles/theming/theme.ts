@@ -159,7 +159,7 @@ const theme = {
     passCodeModal: 10,
     agreementModal: 20,
   },
-}
+} as const
 
 export type Theme = typeof theme
 

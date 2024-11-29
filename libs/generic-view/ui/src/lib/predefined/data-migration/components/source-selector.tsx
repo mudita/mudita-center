@@ -59,5 +59,5 @@ const Wrapper = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space.md};
+  gap: ${({ theme }) => theme.generic.space.md};
 `

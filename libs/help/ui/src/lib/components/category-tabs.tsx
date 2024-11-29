@@ -47,8 +47,8 @@ const Tab = styled(NavLink)`
   border-radius: 2rem;
   min-width: 7.2rem;
   text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  color: ${({ theme }) => theme.color.grey1};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+  color: ${({ theme }) => theme.generic.color.grey1};
   position: relative;
 
   span {
@@ -61,15 +61,15 @@ const Tab = styled(NavLink)`
       white-space: nowrap;
     }
     &.bold {
-      font-weight: ${({ theme }) => theme.fontWeight.bold};
+      font-weight: ${({ theme }) => theme.generic.fontWeight.bold};
       visibility: hidden;
     }
   }
 
   &:hover,
   &.active {
-    background-color: ${({ theme }) => theme.color.grey7};
-    color: ${({ theme }) => theme.color.black};
+    background-color: ${({ theme }) => theme.generic.color.grey7};
+    color: ${({ theme }) => theme.generic.color.black};
   }
 
   &.active {

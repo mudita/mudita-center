@@ -11,10 +11,10 @@ import React, {
 } from "react"
 import ReactModal from "react-modal"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
-import { theme } from "generic-view/theme"
 import { getModalSize } from "./helpers/modal-content"
 import { ModalBaseConfig, ModalConfig } from "generic-view/models"
 import { ModalSize } from "generic-view/utils"
+import { appTheme } from "Root/app-theme"
 
 interface Props extends PropsWithChildren {
   opened: boolean
@@ -67,7 +67,7 @@ export const ModalBase: FunctionComponent<Props> = ({
 
   const modalGap = useMemo(() => {
     if (config?.gap === undefined) {
-      return theme.space.xl
+      return appTheme.generic.space.xl
     }
     return typeof config.gap === "number" ? `${config.gap}px` : config.gap
   }, [config?.gap])

@@ -201,7 +201,7 @@ const ContactLabelWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  gap: ${({ theme }) => theme.space.md};
+  gap: ${({ theme }) => theme.generic.space.md};
 
   && p {
     text-align: left;
@@ -221,12 +221,12 @@ const StyledPhoneInfoWrapper = styled.div`
   align-items: center;
 
   && * {
-    font-size: ${({ theme }) => theme.fontSize.labelText};
-    font-weight: ${({ theme }) => theme.fontWeight.regular};
-    line-height: ${({ theme }) => theme.lineHeight.labelText};
+    font-size: ${({ theme }) => theme.generic.fontSize.labelText};
+    font-weight: ${({ theme }) => theme.generic.fontWeight.regular};
+    line-height: ${({ theme }) => theme.generic.lineHeight.labelText};
     letter-spacing: 0.04em;
     text-align: right;
-    color: ${({ theme }) => theme.color.grey2};
+    color: ${({ theme }) => theme.generic.color.grey2};
   }
 `
 
@@ -244,26 +244,26 @@ const ScrollableContent = styled(Modal.ScrollableContent)`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space.xs};
+  gap: ${({ theme }) => theme.generic.space.xs};
   padding-top: var(--modal-padding);
 `
 
 const MoreNumbersButton = styled.p`
   width: 2.3rem;
   height: 2.3rem;
-  border-radius: ${({ theme }) => theme.radius.xs};
+  border-radius: ${({ theme }) => theme.generic.radius.xs};
   display: flex;
   justify-content: center;
   align-items: center;
 
   &:hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.color.grey5};
+    background-color: ${({ theme }) => theme.generic.color.grey5};
   }
 `
 
 const CustomDivider = styled(Divider)`
-  border-color: ${({ theme }) => theme.color.grey3};
+  border-color: ${({ theme }) => theme.generic.color.grey3};
   margin: 1.4rem calc(var(--modal-padding) * -1) 0;
   width: calc(100% + var(--modal-padding) * 2);
 `
@@ -276,11 +276,11 @@ const AllCheckbox = styled(Form.CheckboxInput)`
 
 const SelectedInfo = styled.p`
   padding: 0 1.4rem 0 0;
-  font-size: ${({ theme }) => theme.fontSize.labelText};
-  font-weight: ${({ theme }) => theme.fontWeight.regular};
-  line-height: ${({ theme }) => theme.lineHeight.labelText};
+  font-size: ${({ theme }) => theme.generic.fontSize.labelText};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.regular};
+  line-height: ${({ theme }) => theme.generic.lineHeight.labelText};
   letter-spacing: 0.04em;
-  color: ${({ theme }) => theme.color.grey1};
+  color: ${({ theme }) => theme.generic.color.grey1};
   text-align: right;
 `
 

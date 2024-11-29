@@ -43,20 +43,20 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 2rem 2.4rem;
-  border-radius: ${({ theme }) => theme.radius.sm};
-  background-color: ${({ theme }) => theme.color.white};
+  border-radius: ${({ theme }) => theme.generic.radius.sm};
+  background-color: ${({ theme }) => theme.generic.color.white};
 `
 
 const Title = styled.p`
   margin: 0;
-  color: ${({ theme }) => theme.color.grey2};
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+  color: ${({ theme }) => theme.generic.color.grey2};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
   letter-spacing: 0.032rem;
 `
 
 const Value = styled.p`
   margin: 0;
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
 `

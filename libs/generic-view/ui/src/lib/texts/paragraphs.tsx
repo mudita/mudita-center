@@ -15,8 +15,8 @@ type Color = NonNullable<ParagraphConfig>["color"]
 const commonStyles = css<{ $color?: Color }>`
   white-space: pre-wrap;
   margin: 0;
-  color: ${({ theme, $color = "grey2" }) => theme.color[$color]};
-  font-weight: ${({ theme }) => theme.fontWeight.regular};
+  color: ${({ theme, $color = "grey2" }) => theme.generic.color[$color]};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.regular};
 `
 
 export const Paragraph1: APIFC<undefined, ParagraphConfig> = ({
@@ -34,8 +34,8 @@ export const Paragraph1: APIFC<undefined, ParagraphConfig> = ({
 export const P1 = styled.p<{ $color?: Color }>`
   &,
   ${Content} p {
-    font-size: ${({ theme }) => theme.fontSize.paragraph1};
-    line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+    font-size: ${({ theme }) => theme.generic.fontSize.paragraph1};
+    line-height: ${({ theme }) => theme.generic.lineHeight.paragraph1};
     letter-spacing: 0.02em;
     ${commonStyles};
   }
@@ -54,10 +54,10 @@ export const Paragraph2: APIFC<undefined, ParagraphConfig> = ({
 }
 
 export const P2 = styled.p<{ $color?: Color }>`
-  font-size: ${({ theme }) => theme.fontSize.paragraph2};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph2};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph2};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph2};
   letter-spacing: 0.02em;
-  font-weight: ${({ theme }) => theme.fontWeight.light};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.light};
   ${commonStyles};
 `
 
@@ -74,8 +74,8 @@ export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
 }
 
 export const P3 = styled.p<{ $color?: Color }>`
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
   letter-spacing: 0.02em;
   ${commonStyles};
 `
@@ -93,9 +93,9 @@ export const Paragraph4: APIFC<undefined, ParagraphConfig> = ({
 }
 
 export const P4 = styled.p<{ $color?: Color }>`
-  font-size: ${({ theme }) => theme.fontSize.paragraph4};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph4};
-  font-weight: ${({ theme }) => theme.fontWeight.light};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph4};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph4};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.light};
   letter-spacing: 0.02em;
   ${commonStyles};
 `
@@ -114,7 +114,7 @@ export const Paragraph5: APIFC<undefined, ParagraphConfig> = ({
 
 export const P5 = styled.p<{ $color?: Color }>`
   ${commonStyles};
-  font-size: ${({ theme }) => theme.fontSize.paragraph5};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph5};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph5};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph5};
   letter-spacing: 0.04em;
 `

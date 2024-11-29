@@ -13,7 +13,7 @@ import {
 } from "Core/core/styles/theming/theme-getters"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
-import { Theme } from "Core/core/styles/theming/theme"
+import { AppTheme } from "Root/app-theme"
 
 const uppercaseTextSharedStyles = css`
   font-size: 1.2rem;
@@ -77,14 +77,14 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
       return paragraph1SharedStyles
     case TextDisplayStyle.Paragraph2:
       return css`
-        ${paragraph1SharedStyles}
+        ${paragraph1SharedStyles};
         font-weight: ${fontWeight("light")};
       `
     case TextDisplayStyle.Paragraph3:
       return paragraph3SharedStyles
     case TextDisplayStyle.Paragraph4:
       return css`
-        ${paragraph3SharedStyles}
+        ${paragraph3SharedStyles};
         font-weight: ${fontWeight("light")};
       `
     case TextDisplayStyle.Title:
@@ -105,7 +105,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
 
 const TextWrapper = styled.div<{
   displayStyle: TextDisplayStyle
-  color: keyof Theme["color"]["text"]
+  color: keyof AppTheme["core"]["color"]["text"]
 }>`
   margin: 0;
   ${({ displayStyle }) => getTextStyles(displayStyle)};
@@ -117,7 +117,7 @@ export interface TextProps {
   readonly element?: Element
   readonly message?: MessageInterface | string
   readonly displayStyle?: TextDisplayStyle
-  readonly color?: keyof Theme["color"]["text"]
+  readonly color?: keyof AppTheme["core"]["color"]["text"]
   readonly onClick?: () => void
   readonly testId?: string
   readonly textRef?: React.Ref<HTMLElement>

@@ -11,7 +11,7 @@ export const FormInputLabel = styled(Text)<{ withError?: boolean }>`
   color: ${({ theme, withError }) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
-    withError ? theme.color.text.error : theme.color.text.primary};
+    withError ? theme.core.color.text.error : theme.core.color.text.primary};
 `
 
 export const FormInput = styled(InputComponent)`

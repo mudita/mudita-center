@@ -24,9 +24,9 @@ const Wrapper = styled.div<{
     backgroundColor &&
     (backgroundColor === "white"
       ? css`
-          background-color: ${theme.color.white};
+          background-color: ${theme.generic.color.white};
         `
       : css`
-          background-color: ${theme.color.grey6};
+          background-color: ${theme.generic.color.grey6};
         `)}
 `

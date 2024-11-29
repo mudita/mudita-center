@@ -27,9 +27,9 @@ import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
 import history from "Core/core/history"
 import { Store } from "Core/__deprecated__/renderer/store"
 import { ThemeProvider } from "styled-components"
-import theme from "Core/core/styles/theming/theme"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { createRoot, Root } from "react-dom/client"
+import { appTheme } from "Root/app-theme"
 
 enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
@@ -235,7 +235,7 @@ export class ModalService {
       this.modalRoot.render(
         <Provider store={this.store}>
           <ModalProvider service={this}>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={appTheme}>
               <IntlProvider
                 defaultLocale={this.defaultLocale}
                 locale={this.defaultLocale}
@@ -256,7 +256,7 @@ export class ModalService {
   private renderBackdrop = () => {
     if (this.backdropRoot) {
       this.backdropRoot.render(
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={appTheme}>
           <ModalBackdrop />
         </ThemeProvider>
       )

@@ -50,9 +50,9 @@ export const DeviceCard: FunctionComponent<
 
 export const deviceCardStyles = css`
   overflow: hidden;
-  border: solid 0.2rem ${({ theme }) => theme.color.grey5};
-  border-radius: ${({ theme }) => theme.radius.md};
-  background-color: ${({ theme }) => theme.color.white};
+  border: solid 0.2rem ${({ theme }) => theme.generic.color.grey5};
+  border-radius: ${({ theme }) => theme.generic.radius.md};
+  background-color: ${({ theme }) => theme.generic.color.white};
 `
 
 const Wrapper = styled.div`
@@ -70,7 +70,7 @@ const Wrapper = styled.div`
 
 export const Tag = styled.div`
   grid-area: tag;
-  background-color: ${({ theme }) => theme.color.green};
+  background-color: ${({ theme }) => theme.generic.color.green};
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -79,10 +79,10 @@ export const Tag = styled.div`
   padding: 0.1rem 0.4rem;
   margin-top: -0.2rem;
 
-  font-size: ${({ theme }) => theme.fontSize.labelText};
+  font-size: ${({ theme }) => theme.generic.fontSize.labelText};
   line-height: 2.2rem;
   letter-spacing: 0.04em;
-  border-radius: ${({ theme }) => theme.radius.sm};
+  border-radius: ${({ theme }) => theme.generic.radius.sm};
 `
 
 export const Image = styled.div`
@@ -101,7 +101,7 @@ export const Info = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-left: ${({ theme }) => theme.space.sm};
+  padding-left: ${({ theme }) => theme.generic.space.sm};
 
   ${H4} {
     margin-bottom: 0.2rem;
@@ -110,5 +110,5 @@ export const Info = styled.div`
 
 const SelectButton = styled(ButtonPrimary)`
   grid-area: button;
-  margin-top: ${({ theme }) => theme.space.xxl};
+  margin-top: ${({ theme }) => theme.generic.space.xxl};
 `

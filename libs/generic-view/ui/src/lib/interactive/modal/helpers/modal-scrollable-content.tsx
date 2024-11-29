@@ -23,6 +23,6 @@ export const ScrollableContent = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.color.grey2};
+    background-color: ${({ theme }) => theme.generic.color.grey2};
   }
 `

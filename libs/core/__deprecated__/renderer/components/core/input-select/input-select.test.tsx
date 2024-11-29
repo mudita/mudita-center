@@ -10,8 +10,18 @@ import InputSelect, {
 } from "Core/__deprecated__/renderer/components/core/input-select/input-select.component"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
-import { basicItems } from "Core/__deprecated__/renderer/components/core/list/list.stories"
 import { waitFor } from "@testing-library/react"
+
+const basicItems = [
+  "apple",
+  "banana",
+  "orange",
+  "pineapple",
+  "strawberry",
+  "potato",
+  "tomato",
+  "cabbage",
+]
 
 const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
   const outcome = renderWithThemeAndIntl(

@@ -25,9 +25,9 @@ export const ModalTitleIcon: APIFC<undefined, ModalTitleIconConfig> = ({
 export const TitleIcon = styled(Icon)<{ $spin?: boolean }>`
   width: 6.8rem;
   height: 6.8rem;
-  padding: ${({ theme }) => theme.space.md};
+  padding: ${({ theme }) => theme.generic.space.md};
   border-radius: 50%;
-  background-color: ${({ theme }) => theme.color.grey5};
+  background-color: ${({ theme }) => theme.generic.color.grey5};
   align-self: center;
 
   ${({ $spin }) => $spin && spinAnimation}

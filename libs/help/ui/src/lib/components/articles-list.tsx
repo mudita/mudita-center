@@ -57,14 +57,14 @@ const Wrapper = styled.ul`
 `
 
 const Link = styled(NavLink)`
-  color: ${({ theme }) => theme.color.grey1};
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+  color: ${({ theme }) => theme.generic.color.grey1};
+  font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
   letter-spacing: 0.05em;
   white-space: nowrap;
 
   &:hover {
     text-decoration: underline;
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.generic.color.black};
   }
 `

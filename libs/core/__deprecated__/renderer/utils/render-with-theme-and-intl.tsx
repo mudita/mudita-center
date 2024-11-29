@@ -18,7 +18,7 @@ import { createHashHistory } from "history"
 import translationConfig from "App/translations.config.json"
 import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
 import extractLanguageKeys from "Core/__deprecated__/renderer/utils/extract-test-locale"
-import theme from "Core/core/styles/theming/theme"
+import { appTheme } from "Root/app-theme"
 
 ReactModal.setAppElement(document.createElement("div"))
 const testLocale = extractLanguageKeys(localeEn)
@@ -27,7 +27,7 @@ const testLocale = extractLanguageKeys(localeEn)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function constructWrapper(ui: React.ReactElement) {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={appTheme}>
       <IntlProvider
         defaultLocale={translationConfig.defaultLanguage}
         locale={translationConfig.defaultLanguage}

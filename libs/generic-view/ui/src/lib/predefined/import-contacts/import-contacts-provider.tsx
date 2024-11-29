@@ -195,6 +195,6 @@ const HelpLink = styled(ButtonText)`
   }
 
   span {
-    font-size: ${({ theme }) => theme.fontSize.labelText};
+    font-size: ${({ theme }) => theme.generic.fontSize.labelText};
   }
 `

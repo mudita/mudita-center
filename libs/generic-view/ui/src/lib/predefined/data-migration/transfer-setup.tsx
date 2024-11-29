@@ -85,8 +85,8 @@ export const TransferSetup: FunctionComponent<Props> = ({
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space.xxl};
-  padding: ${({ theme }) => theme.space.xxl};
+  gap: ${({ theme }) => theme.generic.space.xxl};
+  padding: ${({ theme }) => theme.generic.space.xxl};
   flex: 1;
   overflow: auto;
 `
@@ -98,8 +98,8 @@ const Footer = styled.div`
   align-items: center;
   height: 8.8rem;
   min-height: 8.8rem;
-  border-top: 0.1rem solid ${({ theme }) => theme.color.grey4};
-  background-color: ${({ theme }) => theme.color.white};
+  border-top: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
+  background-color: ${({ theme }) => theme.generic.color.white};
   padding-left: 7.3rem;
   padding-right: 3.2rem;
   box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.08);
@@ -115,10 +115,10 @@ const FooterMessage = styled.div`
   gap: 0.9rem;
 
   p {
-    font-size: ${({ theme }) => theme.fontSize.labelText};
-    line-height: ${({ theme }) => theme.lineHeight.labelText};
+    font-size: ${({ theme }) => theme.generic.fontSize.labelText};
+    line-height: ${({ theme }) => theme.generic.lineHeight.labelText};
     letter-spacing: 0.04em;
-    color: ${({ theme }) => theme.color.grey1};
+    color: ${({ theme }) => theme.generic.color.grey1};
   }
 `
 

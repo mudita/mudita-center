@@ -100,16 +100,16 @@ const ToastWrapper = styled.div<{
   right: 0;
   padding: 2rem;
   width: max-content;
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.generic.color.white};
   box-shadow: 0 0.2rem 3rem rgba(0, 0, 0, 0.0793816);
-  border-radius: ${({ theme }) => theme.radius.sm};
+  border-radius: ${({ theme }) => theme.generic.radius.sm};
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.4rem;
 
   p {
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.generic.color.black};
   }
 
   ${({ $opened, $animationDuration }) =>

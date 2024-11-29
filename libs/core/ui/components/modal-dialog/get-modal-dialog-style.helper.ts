@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import muditaTheme, { Theme } from "Core/core/styles/theming/theme"
 import {
   backgroundColor,
   zIndex as getZIndex,
@@ -11,12 +10,13 @@ import {
 import { ModalProps } from "Core/__deprecated__/renderer/components/core/modal/modal.component"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import { Styles } from "react-modal"
+import { appTheme, AppTheme } from "Root/app-theme"
 
 export interface GetModalDialogStyleProps {
   size: ModalProps["size"]
   noOverlayBg?: boolean
   zIndex?: number
-  theme?: Theme
+  theme?: AppTheme
 }
 
 const getModalSize = (size: ModalProps["size"]) => {
@@ -52,7 +52,7 @@ const getModalSize = (size: ModalProps["size"]) => {
 export const getModalDialogStyle = ({
   zIndex,
   size,
-  theme = muditaTheme,
+  theme = appTheme,
   noOverlayBg = false,
 }: GetModalDialogStyleProps): Styles => {
   return {

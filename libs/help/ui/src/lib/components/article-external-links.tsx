@@ -63,8 +63,8 @@ export const ExternalLinksWrapper = styled.div`
 const Title = styled.p`
   font-size: 1.8rem;
   line-height: 2.2rem;
-  font-weight: ${({ theme }) => theme.fontWeight.regular};
-  color: ${({ theme }) => theme.color.grey1};
+  font-weight: ${({ theme }) => theme.generic.fontWeight.regular};
+  color: ${({ theme }) => theme.generic.color.grey1};
   letter-spacing: 0.04em;
   margin: 0;
 `
@@ -78,10 +78,10 @@ const Links = styled.ul`
   margin: 0;
 
   a {
-    font-size: ${({ theme }) => theme.fontSize.paragraph3};
-    line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+    font-size: ${({ theme }) => theme.generic.fontSize.paragraph3};
+    line-height: ${({ theme }) => theme.generic.lineHeight.paragraph3};
     letter-spacing: 0.05em;
-    color: ${({ theme }) => theme.color.blue1};
+    color: ${({ theme }) => theme.generic.color.blue1};
 
     &:hover {
       text-decoration: underline;

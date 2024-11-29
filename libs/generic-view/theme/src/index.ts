@@ -4,4 +4,3 @@
  */
 
 export * from "./lib/generic-theme-provider"
-export * from "./lib/theme"

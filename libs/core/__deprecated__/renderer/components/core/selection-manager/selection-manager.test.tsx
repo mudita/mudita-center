@@ -5,12 +5,33 @@
 
 import React from "react"
 import { SelectionManagerProps } from "Core/__deprecated__/renderer/components/core/selection-manager/selection-manager.interface"
-import {
-  deleteButton,
-  exportButton,
-} from "Core/__deprecated__/renderer/components/core/selection-manager/selection-manager.stories"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import SelectionManager from "Core/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
+import ButtonComponent from "../button/button.component"
+import { DisplayStyle } from "../button/button.config"
+import { IconType } from "../icon/icon-type"
+
+const deleteButton = (
+  <ButtonComponent
+    key="delete"
+    label={"Delete"}
+    displayStyle={DisplayStyle.Link}
+    Icon={IconType.Delete}
+    data-testid="button"
+    onClick={() => console.log("delete")}
+  />
+)
+
+const exportButton = (
+  <ButtonComponent
+    key="export"
+    label={"Export"}
+    displayStyle={DisplayStyle.Link}
+    Icon={IconType.Upload}
+    data-testid="button"
+    onClick={() => console.log("export")}
+  />
+)
 
 const PredefinedSelectionManager = ({
   selectedItemsNumber = 1,

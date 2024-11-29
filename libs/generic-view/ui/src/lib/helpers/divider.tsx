@@ -15,5 +15,5 @@ export const Line = styled.hr`
   border: none;
   width: 100%;
   margin: 0;
-  border-top: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  border-top: 0.1rem solid ${({ theme }) => theme.generic.color.grey4};
 `
