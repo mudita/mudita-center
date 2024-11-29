@@ -11,12 +11,11 @@ import React, {
 } from "react"
 import { defineMessages } from "react-intl"
 import { Modal } from "../../interactive/modal"
-import { IconType } from "generic-view/utils"
+import { IconType, useViewFormContext } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { UnifiedContact } from "device/models"
-import { useFormContext } from "react-hook-form"
 import { Tooltip } from "../../interactive/tooltip/tooltip"
 import { getDisplayName, importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
@@ -53,7 +52,8 @@ interface Props {
 export const ImportContactsList: FunctionComponent<Props> = ({
   nextAction,
 }) => {
-  const { watch, setValue } = useFormContext()
+  const getFormContext = useViewFormContext()
+  const { watch, setValue } = getFormContext()
   const contacts = useSelector(importContactsSelector)
   const searchPhrase = watch("search")
   const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []

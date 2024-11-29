@@ -18,5 +18,5 @@ export const ButtonBase: FunctionComponent<Props> = ({ actions, ...props }) => {
   const callButtonAction = useButtonAction(props.viewKey as string)
   const callAction = () => callButtonAction(actions)
 
-  return <DefaultButton {...props} onClick={callAction} type={"button"} />
+  return <DefaultButton {...props} onClick={callAction} type={"button"} role="button" />
 }

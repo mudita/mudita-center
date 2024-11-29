@@ -138,7 +138,7 @@ export const P4 = styled.p<ParagraphsProps>`
 
   b,
   strong {
-    font-weight: ${({ theme }) => theme.fontWeight.regular};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
   ${commonStyles};
 `

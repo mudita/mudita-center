@@ -111,6 +111,31 @@ const filtersSchema = z
 
 export type DataProviderFiltersConfig = z.infer<typeof filtersSchema>
 
+export const phraseSourceSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("form-fields"),
+    formKey: z.string(),
+    field: z.string(),
+  }),
+])
+
+const searchSchema = z
+  .object({
+    fields: z.array(
+      z.object({
+        field: z.string(),
+        mode: z.enum(["includes", "exact", "startsWith"]),
+        caseSensitive: z.boolean().optional(),
+      })
+    ),
+    phraseSource: phraseSourceSchema,
+    minPhraseLength: z.number().nonnegative().optional(),
+    separatePhraseWords: z.boolean().optional(),
+  })
+  .optional()
+
+export type DataProviderSearchConfig = z.infer<typeof searchSchema>
+
 const entitiesMetadataSchema = z.object({
   source: z.literal("entities-metadata"),
   entitiesType: entitiesTypeSchema,
@@ -123,6 +148,8 @@ const entitiesArraySchema = z.object({
   entitiesType: entitiesTypeSchema,
   sort: sortSchema,
   filters: filtersSchema,
+  search: searchSchema,
+  limit: z.number().nonnegative().optional(),
 })
 export type EntitiesArrayConfig = z.infer<typeof entitiesArraySchema>
 

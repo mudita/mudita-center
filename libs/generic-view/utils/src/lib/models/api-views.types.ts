@@ -21,6 +21,7 @@ type ComponentProps<T> = T extends {
       layout?: Layout
       childrenKeys?: string[]
       dataProvider?: DataProviderConfig
+      dataProviderSecondary?: DataProviderConfig
     } & ComponentConfigProp<z.infer<T["configValidator"]>>
   : never
 

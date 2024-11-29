@@ -4,18 +4,18 @@
  */
 
 import { z } from "zod"
+import { buttonActionsValidator } from "./common-validators"
 
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  formFieldName: z.string(),
-  renderIfFalse: z.boolean().optional(),
+  actions: buttonActionsValidator,
 })
 
-export type FormConditionalRendererConfig = z.infer<typeof configValidator>
+export type ButtonPlainConfig = z.infer<typeof configValidator>
 
-export const formConditionalRenderer = {
-  key: "form.conditionalRenderer",
+export const buttonPlain = {
+  key: "button-plain",
   dataValidator,
   configValidator,
 } as const

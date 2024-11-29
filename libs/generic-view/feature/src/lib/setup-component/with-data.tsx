@@ -3,13 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, ReactElement, useMemo } from "react"
+import React, { FunctionComponent, ReactElement } from "react"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
   selectActiveApiDeviceId,
   selectComponentData,
   selectComponentDataProvider,
+  selectComponentSecondaryDataProvider,
   selectEntitiesData,
   selectEntitiesIdFieldKey,
   selectEntitiesMetadata,
@@ -22,14 +23,16 @@ import {
   EntityData,
   FormFieldsConfig,
 } from "device/models"
-import { cloneDeep, get, isString, set } from "lodash"
+import { cloneDeep, get, set } from "lodash"
 import {
   ComponentPropsByName,
   dataFilter,
+  dataSearch,
   dataSort,
   useViewFormContext,
 } from "generic-view/utils"
 import { processField } from "./process-field"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 interface Props {
   config?: ComponentPropsByName["config"]
@@ -43,6 +46,7 @@ interface Props {
     dataItemId?: string
     componentName?: string
   }) => ReactElement
+  secondaryDataProvider?: boolean
 }
 
 export const ComponentWithData: FunctionComponent<Props> = ({
@@ -52,84 +56,75 @@ export const ComponentWithData: FunctionComponent<Props> = ({
   componentName,
   dataItemId,
   config,
+  secondaryDataProvider,
 }) => {
   const dataProvider = useSelector((state: ReduxRootState) => {
-    return selectComponentDataProvider(state, { viewKey, componentKey })
+    return secondaryDataProvider
+      ? selectComponentSecondaryDataProvider(state, { viewKey, componentKey })
+      : selectComponentDataProvider(state, { viewKey, componentKey })
   })
-  const dataProviderDependency = JSON.stringify(dataProvider)
-  const configDependency = JSON.stringify(config)
 
-  return useMemo(() => {
-    switch (dataProvider?.source) {
-      case "entities-metadata":
-        return (
-          <EntitiesMetadataDataProvider
-            viewKey={viewKey}
-            componentKey={componentKey}
-            dataProvider={dataProvider}
-            config={config}
-          >
-            {children}
-          </EntitiesMetadataDataProvider>
-        )
-      case "entities-array":
-        return (
-          <EntitiesArrayDataProvider
-            viewKey={viewKey}
-            componentKey={componentKey}
-            dataProvider={dataProvider}
-            config={config}
-          >
-            {children}
-          </EntitiesArrayDataProvider>
-        )
-      case "entities-field":
-        return dataItemId ? (
-          <EntitiesFieldDataProvider
-            viewKey={viewKey}
-            componentKey={componentKey}
-            dataProvider={dataProvider}
-            config={config}
-            dataItemId={dataItemId}
-          >
-            {children}
-          </EntitiesFieldDataProvider>
-        ) : null
-      case "form-fields":
-        return (
-          <FormFieldsDataProvider
-            viewKey={viewKey}
-            componentKey={componentKey}
-            componentName={componentName}
-            dataProvider={dataProvider}
-            config={config}
-            dataItemId={dataItemId}
-          >
-            {children}
-          </FormFieldsDataProvider>
-        )
-      default:
-        return (
-          <DefaultDataProvider
-            viewKey={viewKey}
-            componentKey={componentKey}
-            componentName={componentName}
-            dataItemId={dataItemId}
-            config={config}
-          >
-            {children}
-          </DefaultDataProvider>
-        )
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    componentKey,
-    componentName,
-    dataItemId,
-    viewKey,
-    dataProviderDependency,
-    configDependency,
-  ])
+  switch (dataProvider?.source) {
+    case "entities-metadata":
+      return (
+        <EntitiesMetadataDataProvider
+          viewKey={viewKey}
+          componentKey={componentKey}
+          dataProvider={dataProvider}
+          config={config}
+        >
+          {children}
+        </EntitiesMetadataDataProvider>
+      )
+    case "entities-array":
+      return (
+        <EntitiesArrayDataProvider
+          viewKey={viewKey}
+          componentKey={componentKey}
+          dataProvider={dataProvider}
+          config={config}
+        >
+          {children}
+        </EntitiesArrayDataProvider>
+      )
+    case "entities-field":
+      return dataItemId ? (
+        <EntitiesFieldDataProvider
+          viewKey={viewKey}
+          componentKey={componentKey}
+          dataProvider={dataProvider}
+          config={config}
+          dataItemId={dataItemId}
+        >
+          {children}
+        </EntitiesFieldDataProvider>
+      ) : null
+    case "form-fields":
+      return (
+        <FormFieldsDataProvider
+          viewKey={viewKey}
+          componentKey={componentKey}
+          componentName={componentName}
+          dataProvider={dataProvider}
+          config={config}
+          dataItemId={dataItemId}
+        >
+          {children}
+        </FormFieldsDataProvider>
+      )
+    default:
+      return (
+        <DefaultDataProvider
+          viewKey={viewKey}
+          componentKey={componentKey}
+          componentName={componentName}
+          dataItemId={dataItemId}
+          config={config}
+        >
+          {children}
+        </DefaultDataProvider>
+      )
+  }
 }
 
 const DefaultDataProvider: FunctionComponent<Props> = ({
@@ -174,6 +169,7 @@ const EntitiesMetadataDataProvider: FunctionComponent<
 const EntitiesArrayDataProvider: FunctionComponent<
   Props & { dataProvider: EntitiesArrayConfig }
 > = ({ children, dataProvider, ...rest }) => {
+  const formContext = useViewFormContext()
   const deviceId = useSelector(selectActiveApiDeviceId)!
   const idFieldKey = useSelector((state: ReduxRootState) => {
     return selectEntitiesIdFieldKey(state, {
@@ -187,13 +183,27 @@ const EntitiesArrayDataProvider: FunctionComponent<
       deviceId,
     })
   })
+  if (!idFieldKey) {
+    logger.error(
+      `Missing 'idFieldKey' for entities type ${dataProvider.entitiesType}.`
+    )
+    return undefined
+  }
 
   const filteredData = dataFilter(
     [...(entitiesData || [])],
     dataProvider.filters
   )
   const sortedData = dataSort([...filteredData], dataProvider.sort)
-  const data = sortedData?.map((item) => item[idFieldKey!])
+  const searchedData = dataProvider.search
+    ? dataSearch(formContext)([...sortedData], dataProvider.search)
+    : sortedData
+  const data = searchedData
+    ? searchedData
+        .slice(0, dataProvider.limit || searchedData.length)
+        ?.map((item) => item[idFieldKey])
+    : undefined
+
   return children({ data, ...rest })
 }
 
@@ -218,10 +228,6 @@ const EntitiesFieldDataProvider: FunctionComponent<
   for (const fieldConfig of dataProvider.fields) {
     const { componentField, providerField, ...config } = fieldConfig
     const value = processField(config, get(entityData, providerField))
-    if (isString(value) && componentField === "dataItemId") {
-      dataItemId = value
-      continue
-    }
     set(childrenProps, componentField, value)
   }
 
@@ -255,11 +261,6 @@ const FormFieldsDataProvider: FunctionComponent<
       ? formContext.getValues(providerField)
       : formContext.watch(providerField)
     const value = processField(config, fieldValue)
-
-    if (isString(value) && componentField === "dataItemId") {
-      childrenProps.dataItemId = value
-      continue
-    }
     set(childrenProps, componentField, value)
   }
 
