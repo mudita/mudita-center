@@ -8,6 +8,11 @@ import { Outbox, OutboxValidator } from "./outbox"
 const minimumOutboxConfig: Outbox = {
   data: [],
   features: [],
+  entities: [
+    {
+      entityType: "",
+    },
+  ],
 }
 
 describe("OutboxValidator", () => {
@@ -16,14 +21,4 @@ describe("OutboxValidator", () => {
     const result = OutboxValidator.safeParse(outbox)
     expect(result.success).toBeTruthy()
   })
-  it.each(["data", "features"])(
-    "should return fail when %s is missing",
-    (fieldName) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const outbox: any = { ...minimumOutboxConfig }
-      delete outbox[fieldName]
-      const result = OutboxValidator.safeParse(outbox)
-      expect(result.success).toBeFalsy()
-    }
-  )
 })

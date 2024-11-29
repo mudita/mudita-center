@@ -128,7 +128,6 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
                             return (
                               <ComponentToRender
                                 key={key}
-                                {...recursiveComponentMetadata}
                                 viewKey={viewKey}
                                 componentKey={componentKey}
                                 componentName={componentName}

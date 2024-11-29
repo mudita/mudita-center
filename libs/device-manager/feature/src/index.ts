@@ -5,4 +5,5 @@
 
 export * from "./actions"
 export * from "./selectors"
+export * from "./hooks"
 export * from "./reducers"

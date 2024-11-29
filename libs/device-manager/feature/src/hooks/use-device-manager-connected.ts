@@ -6,23 +6,23 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
+import { selectDialogOpenState } from "shared/app-state"
 import { answerMain } from "shared/utils"
-import {
-  deactivateDevice,
-  getDevicesSelector,
-  isActiveApiDeviceLockedSelector,
-} from "device-manager/feature"
 import {
   setActiveDevice,
   activeDeviceIdSelector,
 } from "active-device-registry/feature"
-import { getDeviceConfigurationRequest } from "core-device/feature"
+import {
+  addDevice as addCoreDevice,
+  configureDevice as configureCoreDevice,
+  getDeviceConfigurationRequest,
+} from "core-device/feature"
 import {
   DeviceProtocolMainEvent,
   DeviceType,
   DeviceBaseProperties,
 } from "device-protocol/models"
-import { selectDialogOpenState } from "shared/app-state"
+import { addDevice as addAPIDevice, getAPIConfig } from "generic-view/store"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
@@ -38,8 +38,14 @@ import { getTmpMuditaHarmonyPortInfoSelector } from "Core/update/selectors/get-t
 import { isUnknownSerialNumber } from "Core/device/constants/unknown-serial-number.constant"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
 import { checkIsAnyModalPresent } from "Core/utils/check-is-any-other-modal-present"
+import {
+  getDevicesSelector,
+  isActiveApiDeviceLockedSelector,
+} from "../selectors"
+import { deactivateDevice } from "../actions"
+import { isCoreDevice } from "../helpers"
 
-export const useDeviceConnectedEffect = () => {
+export const useDeviceManagerConnected = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
 
@@ -54,25 +60,36 @@ export const useDeviceConnectedEffect = () => {
   const continueProcess = useContinueProcess()
 
   useEffect(() => {
-    const handler = async (properties: DeviceBaseProperties) => {
-      if (activeApiDeviceLocked) {
-        await dispatch(deactivateDevice())
-        dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
-      }
-
-      if (activeDeviceId) {
-        await continueProcess(properties)
-        return
-      }
-
-      if (!shouldDiscoverySkipOnConnect()) {
-        history.push(URL_DISCOVERY_DEVICE.root)
-      }
-    }
-
     return answerMain<DeviceBaseProperties>(
       DeviceProtocolMainEvent.DeviceConnected,
-      handler
+      async (properties) => {
+        const { id, deviceType } = properties
+
+        if (deviceType === DeviceType.APIDevice) {
+          dispatch(addAPIDevice(properties))
+          dispatch(getAPIConfig({ deviceId: id, retry: true }))
+        } else if (deviceType === DeviceType.MuditaHarmonyMsc) {
+          dispatch(addCoreDevice(properties))
+          dispatch(configureCoreDevice(id))
+        } else if (isCoreDevice(deviceType)) {
+          dispatch(addCoreDevice(properties))
+          dispatch(configureCoreDevice(id))
+        }
+
+        if (activeApiDeviceLocked) {
+          await dispatch(deactivateDevice())
+          dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
+        }
+
+        if (activeDeviceId) {
+          await continueProcess(properties)
+          return
+        }
+
+        if (!shouldDiscoverySkipOnConnect()) {
+          history.push(URL_DISCOVERY_DEVICE.root)
+        }
+      }
     )
   }, [
     history,

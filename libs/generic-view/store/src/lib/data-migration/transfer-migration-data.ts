@@ -139,6 +139,18 @@ export const transferMigrationData = createAsyncThunk<
             }
             break
           }
+          case DataMigrationFeature.Notes: {
+            const { notes } = databaseResponse.payload as AllIndexes
+            const transformedData = Object.values(notes)
+
+            if (!isEmpty(transformedData)) {
+              domainsData.push({
+                domain: "notes-v1", // TODO: As part of CP-3255: retrieve domain from Data Migration configuration.
+                data: transformedData,
+              })
+            }
+            break
+          }
         }
       }
 
@@ -157,7 +169,7 @@ export const transferMigrationData = createAsyncThunk<
       }
       dispatch(setDataMigrationStatus(DataMigrationStatus.DataTransferred))
 
-      await delay(500)
+      await delay()
 
       dispatch(setDataMigrationStatus(DataMigrationStatus.Completed))
 

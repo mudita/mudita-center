@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Outbox } from "device/models"
+import { EventEmitter } from "events"
 
-export const outboxReloadOverview: Outbox = {
-  features: ["mc-overview"],
-  data: [],
-  entities: [],
+export enum ModelEvent {
+  Close = "modal/close"
 }
+
+export const modalEventEmitter = new EventEmitter()

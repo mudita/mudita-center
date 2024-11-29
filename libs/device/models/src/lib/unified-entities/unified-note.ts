@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Outbox } from "device/models"
-
-export const outboxReloadOverview: Outbox = {
-  features: ["mc-overview"],
-  data: [],
-  entities: [],
+export interface UnifiedNote {
+  id: string
+  content: string
+  isPinned: boolean
+  createDate: number
+  updateDate: number
 }
