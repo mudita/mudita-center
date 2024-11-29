@@ -4,19 +4,15 @@
  */
 
 import { z } from "zod"
-import { color } from "../../../theme/src/lib/color"
+import { commonTextValidators } from "./common-text-validators"
 
 const dataValidator = z.undefined()
 
 const configValidator = z
   .object({
     text: z.string().optional(),
-    color: z
-      .enum(
-        Object.keys(color) as [keyof typeof color, ...(keyof typeof color)[]]
-      )
-      .optional(),
   })
+  .merge(commonTextValidators)
   .optional()
 
 export type ParagraphConfig = z.infer<typeof configValidator>

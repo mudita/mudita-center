@@ -9,147 +9,15 @@ import { View } from "generic-view/utils"
 const view: View = {
   main: {
     component: "block-plain",
-    config: {
-      backgroundColor: "white",
-    },
-    layout: {
-      gridLayout: {
-        rows: ["auto", "1fr"],
-        columns: ["1fr"],
-      },
-    },
-    childrenKeys: ["emptyListWrapper", "listWrapper"],
+    childrenKeys: ["contactsWrapper"],
     // @ts-ignore
     screenTitle: "Contacts",
   },
-  emptyListWrapper: {
-    component: "conditional-renderer",
-    dataProvider: {
-      source: "entities-metadata",
-      entitiesType: "contacts",
-      fields: [
-        {
-          modifier: "length",
-          providerField: "totalEntities",
-          componentField: "data.render",
-          condition: "eq",
-          value: 0,
-        },
-      ],
-    },
-    childrenKeys: ["fullScreenWrapper"],
-  },
-  listWrapper: {
-    component: "conditional-renderer",
-    dataProvider: {
-      source: "entities-metadata",
-      entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "totalEntities",
-          componentField: "data.render",
-          condition: "gt",
-          value: 0,
-        },
-      ],
-    },
-    childrenKeys: ["contactsForm"],
-  },
-  contactsForm: {
-    component: "form",
+  contactsWrapper: {
+    component: "mc-contacts-view",
     config: {
-      formOptions: {
-        defaultValues: {
-          selectedContacts: [],
-          allContacts: [],
-        },
-      },
-      defaultValues: {
-        selectedContacts: [],
-        allContacts: [],
-      },
+      entityType: "contacts",
     },
-    childrenKeys: ["contactsLoader"],
-  },
-  contactsLoader: {
-    component: "entities-loader",
-    config: {
-      entitiesTypes: ["contacts"],
-      text: "Loading contacts, please wait...",
-    },
-    layout: {
-      flexLayout: {
-        rowGap: "24px",
-        direction: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      },
-      gridPlacement: {
-        row: 1,
-        column: 1,
-        width: 1,
-        height: 2,
-      },
-    },
-    childrenKeys: ["contactsPanel", "contactsTableWrapper", "appHeaderCounter"],
-  },
-  contactsTableWrapper: {
-    component: "block-plain",
-    layout: {
-      flexLayout: {
-        direction: "row",
-      },
-    },
-    childrenKeys: ["contactsListTable", "detailsWrapper"],
-  },
-  appHeaderCounterText: {
-    component: "format-message",
-    config: {
-      messageTemplate: "{contactsCount, plural, =0 {} other { (#)}}",
-    },
-    dataProvider: {
-      source: "entities-metadata",
-      entitiesType: "contacts",
-      fields: [
-        {
-          providerField: "totalEntities",
-          componentField: "data.fields.contactsCount",
-        },
-      ],
-    },
-  },
-  contactsListTable: {
-    component: "table",
-    config: {
-      formOptions: {
-        selectedIdsFieldName: "selectedContacts",
-        allIdsFieldName: "allContacts",
-      },
-    },
-    dataProvider: {
-      source: "entities-array",
-      entitiesType: "contacts",
-    },
-    childrenKeys: [
-      "columnCheckbox",
-      "columnName",
-      "columnEmpty",
-      "columnPhoneNumberOptional",
-      "columnPhoneNumberLengthOptional",
-    ],
-  },
-  columnEmpty: {
-    component: "table.cell",
-    config: {
-      width: "100%",
-    },
-  },
-  columnName: {
-    component: "table.cell",
-    config: {
-      width: "479px",
-    },
-    childrenKeys: ["contactDisplayName"],
   },
 }
 
