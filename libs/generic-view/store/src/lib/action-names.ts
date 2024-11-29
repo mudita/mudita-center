@@ -105,6 +105,7 @@ export enum ActionName {
   GetEntitiesData = "entities/get-entities-data",
   GetEntityData = "entities/get-entity-data",
   ClearEntitiesData = "entities/clear-entities-data",
+  DeleteEntitiesData = "entities/delete-entities-data",
   DeleteEntityData = "entities/delete-entity-data",
   CreateEntityData = "entities/create-entity-data",
   UpdateEntityData = "entities/update-entity-data",
