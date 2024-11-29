@@ -365,6 +365,9 @@ const generateFileList = ({
       config: {
         width: "394px",
       },
+      layout: {
+        padding: "0 32px 0 0",
+      },
       childrenKeys: [`${id}columnNameText`],
     },
     [`${id}columnNameText`]: {
