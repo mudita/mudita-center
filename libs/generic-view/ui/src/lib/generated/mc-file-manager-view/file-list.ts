@@ -222,10 +222,7 @@ const generateFileList = ({
             field: "fileName",
             priority: 1,
             direction: "asc",
-            orderingPatterns: [
-              "/^[a-zA-Z0-9]/u",
-              "/^[^a-zA-Z0-9]/u",
-            ],
+            orderingPatterns: ["/^[a-zA-Z0-9]/u", "/^[^a-zA-Z0-9]/u"],
             sensitivity: "base",
           },
         ],
@@ -270,7 +267,7 @@ const generateFileList = ({
     [`${id}headerCellType`]: {
       component: "table.headerCell",
       config: {
-        width: "100px",
+        width: "94px",
       },
       layout: {
         padding: "14px 0 12px 0",
@@ -389,7 +386,7 @@ const generateFileList = ({
     [`${id}columnType`]: {
       component: "table.cell",
       config: {
-        width: "100px",
+        width: "94px",
       },
       childrenKeys: [`${id}columnTypeText`],
     },
@@ -413,7 +410,7 @@ const generateFileList = ({
     [`${id}columnSize`]: {
       component: "table.cell",
       config: {
-        width: "82px",
+        width: "88px",
       },
       childrenKeys: [`${id}columnSizeText`],
     },
@@ -421,6 +418,10 @@ const generateFileList = ({
       component: "p3-component",
       config: {
         color: "black",
+        textTransform: "format-bytes",
+        textTransformOptions: {
+          minUnit: "KB",
+        },
       },
       dataProvider: {
         source: "entities-field",

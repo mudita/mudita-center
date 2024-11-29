@@ -10,6 +10,7 @@ import { ParagraphConfig } from "generic-view/models"
 import { isEmpty } from "lodash"
 import { Content } from "../data-rows/text-formatted"
 import { CommonTextProps, commonTextStyles } from "./common-text-styles"
+import { applyTextTransform } from "./apply-text-transform"
 
 type ParagraphsProps = CommonTextProps
 
@@ -25,6 +26,11 @@ export const Paragraph1: APIFC<undefined, ParagraphConfig> = ({
   children,
   ...props
 }) => {
+  const text = applyTextTransform(
+    config?.text,
+    config?.textTransform,
+    config?.textTransformOptions
+  )
   return (
     <P1
       {...props}
@@ -33,7 +39,7 @@ export const Paragraph1: APIFC<undefined, ParagraphConfig> = ({
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
     >
-      {isEmpty(children) ? config?.text : children}
+      {isEmpty(children) ? text : children}
     </P1>
   )
 }
@@ -59,6 +65,11 @@ export const Paragraph2: APIFC<undefined, ParagraphConfig> = ({
   children,
   ...props
 }) => {
+  const text = applyTextTransform(
+    config?.text,
+    config?.textTransform,
+    config?.textTransformOptions
+  )
   return (
     <P2
       {...props}
@@ -67,7 +78,7 @@ export const Paragraph2: APIFC<undefined, ParagraphConfig> = ({
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
     >
-      {isEmpty(children) ? config?.text : children}
+      {isEmpty(children) ? text : children}
     </P2>
   )
 }
@@ -90,6 +101,11 @@ export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
   children,
   ...props
 }) => {
+  const text = applyTextTransform(
+    config?.text,
+    config?.textTransform,
+    config?.textTransformOptions
+  )
   return (
     <P3
       {...props}
@@ -98,7 +114,7 @@ export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
     >
-      {isEmpty(children) ? config?.text : children}
+      {isEmpty(children) ? text : children}
     </P3>
   )
 }
@@ -121,6 +137,11 @@ export const Paragraph4: APIFC<undefined, ParagraphConfig> = ({
   children,
   ...props
 }) => {
+  const text = applyTextTransform(
+    config?.text,
+    config?.textTransform,
+    config?.textTransformOptions
+  )
   return (
     <P4
       {...props}
@@ -129,7 +150,7 @@ export const Paragraph4: APIFC<undefined, ParagraphConfig> = ({
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
     >
-      {isEmpty(children) ? config?.text : children}
+      {isEmpty(children) ? text : children}
     </P4>
   )
 }
@@ -152,6 +173,11 @@ export const Paragraph5: APIFC<undefined, ParagraphConfig> = ({
   children,
   ...props
 }) => {
+  const text = applyTextTransform(
+    config?.text,
+    config?.textTransform,
+    config?.textTransformOptions
+  )
   return (
     <P5
       {...props}
@@ -160,7 +186,7 @@ export const Paragraph5: APIFC<undefined, ParagraphConfig> = ({
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
     >
-      {isEmpty(children) ? config?.text : children}
+      {isEmpty(children) ? text : children}
     </P5>
   )
 }
