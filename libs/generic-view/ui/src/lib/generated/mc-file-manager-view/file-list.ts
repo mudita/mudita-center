@@ -217,6 +217,18 @@ const generateFileList = ({
       dataProvider: {
         entitiesType,
         source: "entities-array",
+        sort: [
+          {
+            field: "fileName",
+            priority: 1,
+            direction: "asc",
+            orderingPatterns: [
+              "/^[a-zA-Z0-9]/u",
+              "/^[^a-zA-Z0-9]/u",
+            ],
+            sensitivity: "base",
+          },
+        ],
       },
       childrenKeys: [
         `${id}headerCellCheckbox`,
