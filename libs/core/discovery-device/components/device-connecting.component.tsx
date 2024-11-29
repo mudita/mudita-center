@@ -39,7 +39,7 @@ const DeviceConnecting: FunctionComponent = () => {
         return
       }
 
-      await delay(500)
+      await delay()
 
       if (activeDevice.deviceType !== DeviceType.APIDevice) {
         const { payload: ok } = await dispatch(connectDevice(activeDevice.id))

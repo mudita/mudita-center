@@ -11,12 +11,11 @@ import React, {
 } from "react"
 import { defineMessages } from "react-intl"
 import { Modal } from "../../interactive/modal"
-import { IconType } from "generic-view/utils"
+import { IconType, useViewFormContext } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { UnifiedContact } from "device/models"
-import { useFormContext } from "react-hook-form"
 import { Tooltip } from "../../interactive/tooltip/tooltip"
 import { getDisplayName, importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
@@ -53,7 +52,8 @@ interface Props {
 export const ImportContactsList: FunctionComponent<Props> = ({
   nextAction,
 }) => {
-  const { watch, setValue } = useFormContext()
+  const getFormContext = useViewFormContext()
+  const { watch, setValue } = getFormContext()
   const contacts = useSelector(importContactsSelector)
   const searchPhrase = watch("search")
   const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
@@ -161,9 +161,11 @@ const ContactItem: React.FC<UnifiedContact> = ({
             {phoneNumbers.length > 0 && <p>{phoneNumbers[0].value}</p>}
             {phoneNumbers.length > 1 && (
               <Tooltip
-                offset={{
-                  x: 0,
-                  y: 11,
+                config={{
+                  offset: {
+                    x: 3,
+                    y: 11,
+                  },
                 }}
               >
                 <Tooltip.Anchor>
@@ -171,7 +173,7 @@ const ContactItem: React.FC<UnifiedContact> = ({
                     {`+${phoneNumbers.length - 1}`}
                   </MoreNumbersButton>
                 </Tooltip.Anchor>
-                <Tooltip.Content $defaultStyles $placement={"bottom-right"}>
+                <Tooltip.Content>
                   {phoneNumbers.slice(1).map((number) => (
                     <Paragraph5 key={number.value}>{number.value}</Paragraph5>
                   ))}

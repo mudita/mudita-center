@@ -8,4 +8,5 @@ import { Outbox } from "device/models"
 export const outboxReloadOverview: Outbox = {
   features: ["mc-overview"],
   data: [],
+  entities: [],
 }

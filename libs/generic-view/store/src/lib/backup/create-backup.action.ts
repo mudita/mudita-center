@@ -21,6 +21,7 @@ import {
   setBackupProcessStatus,
 } from "./actions"
 import { refreshBackupList } from "./refresh-backup-list.action"
+import { delay } from "shared/utils"
 
 export const createBackup = createAsyncThunk<
   undefined,
@@ -94,6 +95,7 @@ export const createBackup = createAsyncThunk<
       if (aborted) {
         return rejectWithValue(undefined)
       }
+      await delay()
       const checkPreBackupResponse = await checkPreBackupRequest(
         backupId,
         features,

@@ -5,7 +5,7 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { EntitiesConfig, EntitiesMetadata, EntityData } from "device/models"
-import { clearEntities, setEntityData } from "./actions"
+import { clearEntities, deleteEntityData, setEntityData } from "./actions"
 import { getEntitiesDataAction } from "./get-entities-data.action"
 import { DeviceId } from "Core/device/constants/device-id"
 import { deleteEntitiesDataAction } from "./delete-entities-data.action"
@@ -84,8 +84,13 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     const entityIndex = state[deviceId]![entitiesType]!.data?.findIndex(
       (entity) => entity[idFieldKey] === entityId
     )
-    if (entityIndex !== -1 && state[deviceId]![entitiesType]?.data) {
-      state[deviceId]![entitiesType]!.data![entityIndex!] = data
+
+    if (state[deviceId]![entitiesType]?.data) {
+      if (entityIndex !== -1) {
+        state[deviceId]![entitiesType]!.data![entityIndex!] = data
+      } else {
+        state[deviceId]![entitiesType]!.data!.push(data)
+      }
     }
   })
   builder.addCase(getEntitiesMetadataAction.fulfilled, (state, action) => {
@@ -112,6 +117,20 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
       entities.data = entities.data.filter(
         (entity) =>
           !entitiesIds.includes(entity[entities.idFieldKey!] as string)
+      )
+    }
+  })
+  builder.addCase(deleteEntityData, (state, action) => {
+    const { entitiesType, deviceId, entityId } = action.payload
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
+
+    const entities = state[deviceId]![entitiesType]
+
+    if (entities && entities.data && entities.idFieldKey) {
+      entities.data = entities.data.filter(
+        (entity) => entity[entities.idFieldKey!] !== entityId
       )
     }
   })

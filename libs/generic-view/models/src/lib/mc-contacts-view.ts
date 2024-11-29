@@ -8,14 +8,13 @@ import { z } from "zod"
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  formFieldName: z.string(),
-  renderIfFalse: z.boolean().optional(),
+  entityType: z.string().min(1),
 })
 
-export type FormConditionalRendererConfig = z.infer<typeof configValidator>
+export type McContactsView = z.infer<typeof configValidator>
 
-export const formConditionalRenderer = {
-  key: "form.conditionalRenderer",
+export const mcContactsView = {
+  key: "mc-contacts-view",
   dataValidator,
   configValidator,
 } as const

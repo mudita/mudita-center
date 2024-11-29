@@ -18,6 +18,7 @@ import { TableConfig, TableData } from "generic-view/models"
 import { TableCell } from "./table-cell"
 import { P1 } from "../texts/paragraphs"
 import { difference, intersection } from "lodash"
+import { CheckboxInputWrapper } from "../interactive/form/input/checkbox-input"
 
 const rowHeight = 64
 
@@ -33,6 +34,7 @@ export const Table: APIFC<TableData, TableConfig> & {
 
   const { formOptions, columnsNames } = config
   const { activeIdFieldName } = formOptions
+  const isClickable = Boolean(activeIdFieldName)
 
   const activeRowId = activeIdFieldName
     ? formContext.watch(activeIdFieldName)
@@ -61,6 +63,21 @@ export const Table: APIFC<TableData, TableConfig> & {
     setVisibleRowsBounds([firstVisibleRowIndex, lastVisibleRowIndex])
   }, [])
 
+  const scrollToActiveItem = useCallback(() => {
+    const activeElement = scrollWrapperRef.current?.querySelector("tr.active")
+    if (activeElement) {
+      activeElement.scrollIntoView({
+        block: "nearest",
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (activeRowId) {
+      scrollToActiveItem()
+    }
+  }, [activeRowId, scrollToActiveItem])
+
   useEffect(() => {
     if (formOptions.allIdsFieldName) {
       formContext.setValue(formOptions.allIdsFieldName, data)
@@ -85,6 +102,17 @@ export const Table: APIFC<TableData, TableConfig> & {
   }, [data, formOptions.selectedIdsFieldName])
 
   useEffect(() => {
+    if (
+      formOptions.activeIdFieldName &&
+      activeRowId &&
+      !data.includes(activeRowId)
+    ) {
+      formContext.setValue(formOptions.activeIdFieldName, undefined)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeRowId, data, formOptions.activeIdFieldName])
+
+  useEffect(() => {
     const scrollWrapper = scrollWrapperRef.current
     if (!scrollWrapper) return
 
@@ -95,15 +123,19 @@ export const Table: APIFC<TableData, TableConfig> & {
     }
   }, [data.length, handleScroll])
 
-  const placeholder = useMemo(() => {
-    return (
-      <RowPlaceholder>
-        <td colSpan={Children.count(children)}>
-          <div />
-        </td>
-      </RowPlaceholder>
-    )
-  }, [children])
+  const renderPlaceholder = useCallback(
+    (id: string) => {
+      const isActive = activeRowId === id
+      return (
+        <RowPlaceholder key={id} className={isActive ? "active" : ""}>
+          <td colSpan={Children.count(children)}>
+            <div />
+          </td>
+        </RowPlaceholder>
+      )
+    },
+    [activeRowId, children]
+  )
 
   const renderChildren = useCallback(
     (id: string) => {
@@ -120,18 +152,24 @@ export const Table: APIFC<TableData, TableConfig> & {
   const renderRow = useCallback(
     (id: string, index: number) => {
       if (index < visibleRowsBounds[0] || index > visibleRowsBounds[1]) {
-        return placeholder
+        return renderPlaceholder(id)
       }
       const onClick = () => onRowClick(id)
       const isActive = activeRowId === id
 
       return (
-        <Row onClick={onClick} $active={isActive}>
+        <tr key={id} onClick={onClick} className={isActive ? "active" : ""}>
           {renderChildren(id)}
-        </Row>
+        </tr>
       )
     },
-    [activeRowId, onRowClick, placeholder, renderChildren, visibleRowsBounds]
+    [
+      activeRowId,
+      onRowClick,
+      renderChildren,
+      renderPlaceholder,
+      visibleRowsBounds,
+    ]
   )
 
   return useMemo(
@@ -149,13 +187,13 @@ export const Table: APIFC<TableData, TableConfig> & {
               </tr>
             </TableHeader>
           )}
-          <TableBody>
+          <TableBody $clickable={isClickable}>
             {data?.map((id, index) => renderRow(id, index))}
           </TableBody>
         </TableWrapper>
       </ScrollableWrapper>
     ),
-    [columnsNames, data, props, renderRow]
+    [columnsNames, data, isClickable, props, renderRow]
   )
 }
 
@@ -163,9 +201,9 @@ Table.Cell = TableCell
 
 const ScrollableWrapper = styled.div`
   height: 100%;
-  width: 100%;
   overflow: auto;
   position: relative;
+  scroll-behavior: smooth;
 `
 
 const TableWrapper = styled.table`
@@ -191,28 +229,62 @@ const TableHeader = styled.thead`
   }
 `
 
-const TableBody = styled.tbody`
-  tr {
+const RowPlaceholder = styled.tr`
+  height: ${rowHeight / 10}rem;
+  border-bottom: solid 0.1rem ${({ theme }) => theme.generic.color.grey5};
+`
+
+const TableBody = styled.tbody<{ $clickable?: boolean }>`
+  tr:not(${RowPlaceholder}) {
+    position: relative;
     height: ${rowHeight / 10}rem;
+    border-bottom: solid 0.1rem ${({ theme }) => theme.generic.color.grey5};
+    transition: background 0.15s ease-in-out, border 0.15s ease-in-out;
+
+    &:hover {
+      background: ${({ theme }) => theme.generic.color.grey6};
+      border-bottom-color: ${({ theme }) => theme.generic.color.grey4};
+    }
+
+    &.active {
+      background: ${({ theme }) => theme.generic.color.grey5};
+      &:before {
+        background: ${({ theme }) => theme.generic.color.grey1};
+      }
+      &:hover {
+        background: ${({ theme }) => theme.generic.color.grey8};
+        border-bottom-color: ${({ theme }) => theme.generic.color.grey4};
+      }
+    }
+
+    ${({ $clickable }) =>
+      $clickable &&
+      css`
+        cursor: pointer;
+
+        &:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 0.5rem;
+          height: 100%;
+          background: transparent;
+          z-index: 1;
+          transition: background 0.15s ease-in-out;
+        }
+      `}
+
+    &:has(${CheckboxInputWrapper} input:checked) {
+      background: ${({ theme }) => theme.generic.color.grey5};
+
+      &:hover {
+        background: ${({ theme }) => theme.generic.color.grey8};
+        border-bottom-color: ${({ theme }) => theme.generic.color.grey4};
+      }
+    }
   }
   td {
     text-align: left;
   }
-`
-
-// TODO: Add proper styles for the table row
-const Row = styled.tr<{ $active?: boolean }>`
-  height: ${rowHeight / 10}rem;
-  border-bottom: solid 0.1rem ${({ theme }) => theme.generic.color.grey5};
-  border-left: 0.2rem solid transparent;
-  ${({ $active }) =>
-    $active &&
-    css`
-      border-left: 0.2rem solid #000;
-    `}
-`
-
-const RowPlaceholder = styled.tr`
-  height: ${rowHeight / 10}rem;
-  border-bottom: solid 0.1rem ${({ theme }) => theme.generic.color.grey5};
 `

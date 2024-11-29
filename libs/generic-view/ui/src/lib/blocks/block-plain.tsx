@@ -8,17 +8,32 @@ import { APIFC } from "generic-view/utils"
 import styled, { css } from "styled-components"
 import { BlockPlainConfig } from "generic-view/models"
 
+interface BlockConfig {
+  backgroundColor?: NonNullable<BlockPlainConfig>["backgroundColor"]
+  $borderTop?: string
+  $borderRight?: string
+  $borderBottom?: string
+  $borderLeft?: string
+}
+
 export const BlockPlain: APIFC<undefined, BlockPlainConfig> = ({
   config,
   data,
   ...props
 }) => {
-  return <Wrapper {...props} backgroundColor={config?.backgroundColor} />
+  return (
+    <Wrapper
+      $borderTop={config?.borderTop}
+      $borderRight={config?.borderRight}
+      $borderBottom={config?.borderBottom}
+      $borderLeft={config?.borderLeft}
+      {...props}
+      backgroundColor={config?.backgroundColor}
+    />
+  )
 }
 
-const Wrapper = styled.div<{
-  backgroundColor?: NonNullable<BlockPlainConfig>["backgroundColor"]
-}>`
+const Wrapper = styled.div<BlockConfig>`
   position: relative;
   ${({ theme, backgroundColor }) =>
     backgroundColor &&
@@ -29,4 +44,8 @@ const Wrapper = styled.div<{
       : css`
           background-color: ${theme.generic.color.grey6};
         `)}
+  border-top: ${({ $borderTop = "none" }) => $borderTop};
+  border-right: ${({ $borderRight = "none" }) => $borderRight};
+  border-bottom: ${({ $borderBottom = "none" }) => $borderBottom};
+  border-left: ${({ $borderLeft = "none" }) => $borderLeft};
 `
