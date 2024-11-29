@@ -12,6 +12,7 @@ export type FormSearchInputResultsData = z.infer<typeof dataValidator>
 const configValidator = z
   .object({
     maxHeight: z.string().optional(),
+    noResultsMessage: z.string().optional(),
   })
   .optional()
 

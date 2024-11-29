@@ -26,11 +26,8 @@ import {
 } from "generic-view/models"
 
 const messages = defineMessages({
-  description: {
-    id: "module.help.search.dropdown.description",
-  },
   noResults: {
-    id: "module.help.search.dropdown.noResults",
+    id: "component.searchResults.noResults",
   },
 })
 
@@ -71,7 +68,7 @@ export const SearchResults: APIFC<
     if (!data) return
     keyboardNavigationRef.current = true
     const index = Math.max(activeItemId ? data.indexOf(activeItemId) : 0, 0)
-    const nextIndex = index + 1
+    const nextIndex = !activeItemId ? 0 : index + 1
     if (nextIndex < data.length) {
       setActiveItemId(data?.[nextIndex])
     }
@@ -81,7 +78,7 @@ export const SearchResults: APIFC<
     if (!data) return
     keyboardNavigationRef.current = true
     const index = Math.max(activeItemId ? data.indexOf(activeItemId) : 0, 0)
-    const previousIndex = index - 1
+    const previousIndex = !activeItemId ? 0 : index - 1
     if (previousIndex >= 0) {
       setActiveItemId(data?.[previousIndex])
     }
@@ -101,7 +98,7 @@ export const SearchResults: APIFC<
   }, [activeItemId, scrollToActiveItem])
 
   useEffect(() => {
-    setActiveItemId(data?.[0])
+    setActiveItemId(undefined)
   }, [data])
 
   useImperativeHandle(
@@ -146,7 +143,9 @@ export const SearchResults: APIFC<
       ) : (
         <EmptyResults>
           <Icon config={{ type: IconType.Search }} />
-          <P3>{intl.formatMessage(messages.noResults)}</P3>
+          <P3>
+            {config?.noResultsMessage || intl.formatMessage(messages.noResults)}
+          </P3>
         </EmptyResults>
       )}
     </SearchResultsWrapper>
@@ -160,7 +159,7 @@ export const SearchResultsWrapper = styled.div`
   position: absolute;
   z-index: 1;
   top: 100%;
-  box-shadow: 0 1rem 3rem 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
   background: ${({ theme }) => theme.color.white};
   border: 0.1rem solid ${({ theme }) => theme.color.grey4};
   border-radius: ${({ theme }) => theme.radius.sm};
@@ -193,12 +192,12 @@ const EmptyResults = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: ${({ theme }) => theme.space.xl};
+  padding: ${({ theme }) => theme.space.lg};
+  padding-bottom: ${({ theme }) => theme.space.xl};
 
   > div {
-    width: 4.8rem;
-    height: 4.8rem;
-    margin: 1rem;
+    width: 4.4rem;
+    height: 4.4rem;
   }
   svg * {
     fill: ${({ theme }) => theme.color.black};
