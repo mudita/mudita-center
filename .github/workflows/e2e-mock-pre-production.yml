@@ -1,4 +1,4 @@
-name: e2e (standalone) for production
+name: e2e (standalone) for pre-production
 
 on:
   push:
@@ -7,11 +7,11 @@ on:
 
 jobs:
   e2e:
-    if: github.event.base_ref == 'refs/heads/main'
+    if: startsWith(github.event.base_ref, 'refs/heads/v') && !(endsWith(github.ref, '-latest'))
     strategy:
       matrix:
-        os: [ Windows, Linux ]
-    environment: production
+        os: [Windows, Linux]
+    environment: pre-production
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

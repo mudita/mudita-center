@@ -1,17 +1,16 @@
-name: e2e (standalone) for production
+name: e2e (standalone) for development
 
 on:
   push:
-    tags:
-      - "*"
-
+    branches:
+      - develop
 jobs:
   e2e:
-    if: github.event.base_ref == 'refs/heads/main'
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ Windows, Linux ]
-    environment: production
+        os: [Windows, Linux]
+    environment: development
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -98,7 +97,7 @@ jobs:
       - name: Run E2E tests headless with Xvfb on Linux
         if: matrix.os == 'Linux'
         run: |
-          npm run e2e:test:cicd:mock
+          npm run e2e:test:cicd:standalone
       - name: Run E2E tests headless on Windows
         env:
           TEST_BINARY_PATH: 'C:\actions-runner\_work\mudita-center\mudita-center\apps\mudita-center\release\win-unpacked\Mudita Center.exe'

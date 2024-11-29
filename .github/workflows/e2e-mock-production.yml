@@ -10,7 +10,7 @@ jobs:
     if: github.event.base_ref == 'refs/heads/main'
     strategy:
       matrix:
-        os: [ Windows, Linux ]
+        os: [Windows, Linux]
     environment: production
     steps:
       - name: Checkout code
