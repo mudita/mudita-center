@@ -15,9 +15,14 @@ import React, {
 import styled from "styled-components"
 import { difference, intersection } from "lodash"
 import { APIFC, useViewFormContext } from "generic-view/utils"
-import { TableConfig, TableData } from "generic-view/models"
+import {
+  tableCell,
+  TableConfig,
+  TableData,
+  tableHeaderCell,
+} from "generic-view/models"
 import { TableCell } from "./table-cell"
-import { P1 } from "../texts/paragraphs"
+import { TableHeaderCell } from "./table-header-cell"
 import {
   listItemActiveStyles,
   listItemBaseStyles,
@@ -30,15 +35,16 @@ const rowHeight = 64
 
 export const Table: APIFC<TableData, TableConfig> & {
   Cell: typeof TableCell
+  HeaderCell: typeof TableCell
 } = ({ data = [], config, children, ...props }) => {
   const getFormContext = useViewFormContext()
   const formContext = getFormContext(config.formOptions.formKey)
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
-  const [visibleRowsBounds, setVisibleRowsBounds] = useState<[number, number]>([
-    -1, -1,
-  ])
+  const [visibleRowsBounds, setVisibleRowsBounds] = useState<
+    [number, number] | null
+  >(null)
 
-  const { formOptions, columnsNames } = config
+  const { formOptions } = config
   const { activeIdFieldName } = formOptions
   const isClickable = Boolean(activeIdFieldName)
 
@@ -126,19 +132,39 @@ export const Table: APIFC<TableData, TableConfig> & {
 
   const renderChildren = useCallback(
     (id: string) => {
-      return Children.map(children, (child) => {
-        if (!React.isValidElement(child)) return null
-        return React.cloneElement(child as ReactElement, {
-          dataItemId: id,
+      const filteredChildren = React.Children.toArray(children)
+        .filter((child) => {
+          if (!React.isValidElement(child)) return false
+          return child.props.componentName === tableCell.key
         })
-      })
+        .map((child) => {
+          return React.cloneElement(child as ReactElement, {
+            dataItemId: id,
+          })
+        })
+
+      return <>{filteredChildren}</>
     },
     [children]
   )
 
+  const renderHeaderChildren = useCallback(() => {
+    const filteredChildren = React.Children.toArray(children).filter(
+      (child) => {
+        if (!React.isValidElement(child)) return false
+        return child.props.componentName === tableHeaderCell.key
+      }
+    )
+
+    return <>{filteredChildren}</>
+  }, [children])
+
   const renderRow = useCallback(
     (id: string, index: number) => {
-      if (index < visibleRowsBounds[0] || index > visibleRowsBounds[1]) {
+      if (
+        visibleRowsBounds !== null &&
+        (index < visibleRowsBounds[0] || index > visibleRowsBounds[1])
+      ) {
         return placeholder
       }
       const onClick = () => onRowClick(id)
@@ -157,28 +183,21 @@ export const Table: APIFC<TableData, TableConfig> & {
     () => (
       <ScrollableWrapper ref={scrollWrapperRef} {...props}>
         <TableWrapper>
-          {columnsNames && columnsNames?.length > 0 && (
-            <TableHeader>
-              <tr>
-                {columnsNames.map((columnName) => (
-                  <th key={columnName}>
-                    <P1>{columnName}</P1>
-                  </th>
-                ))}
-              </tr>
-            </TableHeader>
-          )}
+          <TableHeader>
+            <tr>{renderHeaderChildren()}</tr>
+          </TableHeader>
           <TableBody $clickable={isClickable}>
             {data?.map((id, index) => renderRow(id, index))}
           </TableBody>
         </TableWrapper>
       </ScrollableWrapper>
     ),
-    [columnsNames, data, isClickable, props, renderRow]
+    [data, isClickable, props, renderRow, renderHeaderChildren]
   )
 }
 
 Table.Cell = TableCell
+Table.HeaderCell = TableHeaderCell
 
 const ScrollableWrapper = styled.div`
   height: 100%;
@@ -198,7 +217,6 @@ const TableWrapper = styled.table`
 
 const TableHeader = styled.thead`
   background: #fff;
-  height: ${rowHeight / 10}rem;
   position: sticky;
   z-index: 2;
   top: 0;
@@ -206,6 +224,10 @@ const TableHeader = styled.thead`
   th {
     text-align: left;
     white-space: nowrap;
+  }
+
+  tr {
+    border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey4};
   }
 `
 

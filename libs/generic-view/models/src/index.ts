@@ -60,7 +60,7 @@ import { mcFileManagerView } from "./lib/mc-file-manager-view"
 import { incomingFeatureInfo } from "./lib/incoming-feature-info"
 import { table } from "./lib/table"
 import { formConditionalRenderer } from "./lib/form-conditional-renderer"
-import { tableCell } from "./lib/table-cell"
+import { tableCell, tableHeaderCell } from "./lib/table-cell"
 import { entitiesLoader } from "./lib/entities-loader"
 import { conditionalRenderer } from "./lib/conditional-renderer"
 import { toast } from "./lib/toast"
@@ -189,6 +189,7 @@ export default {
   [incomingFeatureInfo.key]: incomingFeatureInfo,
   [table.key]: table,
   [tableCell.key]: tableCell,
+  [tableHeaderCell.key]: tableHeaderCell,
   [entitiesLoader.key]: entitiesLoader,
   [conditionalRenderer.key]: conditionalRenderer,
   [formatMessage.key]: formatMessage,

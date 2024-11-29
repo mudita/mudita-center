@@ -40,7 +40,7 @@ const generateFileList = ({
       config: {
         formOptions: {
           defaultValues: {
-            selectedFiles: [],
+            selectedItems: [],
           },
         },
       },
@@ -122,6 +122,26 @@ const generateFileList = ({
           columns: [],
         },
       },
+      childrenKeys: [
+        `${id}fileListEmptyStateWrapper`,
+        `${id}fileListEmptyTableWrapper`,
+      ],
+    },
+    [`${id}fileListEmptyStateWrapper`]: {
+      component: "conditional-renderer",
+      dataProvider: {
+        source: "entities-metadata",
+        entitiesType,
+        fields: [
+          {
+            modifier: "length",
+            providerField: "totalEntities",
+            componentField: "data.render",
+            condition: "eq",
+            value: 0,
+          },
+        ],
+      },
       childrenKeys: [`${id}fileListEmptyState`],
     },
     [`${id}fileListEmptyState`]: {
@@ -153,7 +173,7 @@ const generateFileList = ({
       component: "p3-component",
       layout: {
         margin: "0 auto 24px auto",
-        width: "362px",
+        width: "388px",
       },
       config: {
         text: "Add music files from your computer and they’ll transfer\nto your device automatically.",
@@ -168,6 +188,237 @@ const generateFileList = ({
       config: {
         text: "Add file",
         actions: [],
+      },
+    },
+    [`${id}fileListEmptyTableWrapper`]: {
+      component: "conditional-renderer",
+      dataProvider: {
+        source: "entities-metadata",
+        entitiesType,
+        fields: [
+          {
+            modifier: "length",
+            providerField: "totalEntities",
+            componentField: "data.render",
+            condition: "gt",
+            value: 0,
+          },
+        ],
+      },
+      childrenKeys: [`${id}fileListEmptyTable`],
+    },
+    [`${id}fileListEmptyTable`]: {
+      component: "table",
+      config: {
+        formOptions: {
+          selectedIdsFieldName: "selectedItems",
+        },
+      },
+      dataProvider: {
+        entitiesType,
+        source: "entities-array",
+      },
+      childrenKeys: [
+        `${id}headerCellCheckbox`,
+        `${id}headerCellName`,
+        `${id}headerCellType`,
+        `${id}headerCellSize`,
+        `${id}columnCheckbox`,
+        `${id}columnName`,
+        `${id}columnType`,
+        `${id}columnSize`,
+      ],
+    },
+    [`${id}headerCellCheckbox`]: {
+      component: "table.headerCell",
+      config: {
+        width: "74",
+      },
+      layout: {
+        padding: "14px 0 12px 32px",
+      },
+    },
+    [`${id}headerCellName`]: {
+      component: "table.headerCell",
+      config: {
+        width: "394px",
+      },
+      layout: {
+        padding: "14px 0 12px 0",
+      },
+      childrenKeys: [`${id}headerCellNameText`],
+    },
+    [`${id}headerCellNameText`]: {
+      component: "p5-component",
+      config: {
+        textTransform: "uppercase",
+        text: "Name",
+      },
+    },
+    [`${id}headerCellType`]: {
+      component: "table.headerCell",
+      config: {
+        width: "100px",
+      },
+      layout: {
+        padding: "14px 0 12px 0",
+      },
+      childrenKeys: [`${id}headerCellTypeText`],
+    },
+    [`${id}headerCellTypeText`]: {
+      component: "p5-component",
+      config: {
+        textTransform: "uppercase",
+        text: "Type",
+      },
+    },
+    [`${id}headerCellSize`]: {
+      component: "table.headerCell",
+      config: {
+        width: "88px",
+      },
+      layout: {
+        padding: "14px 0 12px 0",
+      },
+      childrenKeys: [`${id}headerCellSizeText`],
+    },
+    [`${id}headerCellSizeText`]: {
+      component: "p5-component",
+      config: {
+        textTransform: "uppercase",
+        text: "Size",
+      },
+    },
+    [`${id}columnCheckbox`]: {
+      component: "table.cell",
+      config: {
+        width: "74",
+      },
+      layout: {
+        padding: "0 0 0 32px",
+      },
+      childrenKeys: [`${id}columnCheckboxTooltip`],
+    },
+    [`${id}columnCheckboxTooltip`]: {
+      component: "tooltip",
+      config: {
+        offset: {
+          x: 15,
+          y: 15,
+        },
+        placement: "bottom-right",
+      },
+      childrenKeys: [
+        `${id}contactCheckboxTooltipAnchor`,
+        `${id}contactCheckboxTooltipContent`,
+      ],
+    },
+    [`${id}contactCheckboxTooltipAnchor`]: {
+      component: "tooltip.anchor",
+      childrenKeys: [`${id}contactCheckbox`],
+    },
+    [`${id}contactCheckboxTooltipContent`]: {
+      component: "tooltip.content",
+      childrenKeys: [`${id}contactCheckboxTooltipContentTextWrapper`],
+    },
+    [`${id}contactCheckboxTooltipContentTextWrapper`]: {
+      component: "p5-component",
+      config: {
+        color: "grey1",
+      },
+      childrenKeys: [`${id}contactCheckboxTooltipContentText`],
+    },
+    [`${id}contactCheckboxTooltipContentText`]: {
+      component: "format-message",
+      config: {
+        messageTemplate: "Select",
+      },
+    },
+    [`${id}contactCheckbox`]: {
+      component: "form.checkboxInput",
+      config: {
+        name: "selectedItems",
+        size: "small",
+      },
+      dataProvider: {
+        source: "entities-field",
+        entitiesType,
+        fields: [
+          {
+            providerField: "id",
+            componentField: "config.value",
+          },
+        ],
+      },
+    },
+    [`${id}columnName`]: {
+      component: "table.cell",
+      config: {
+        width: "394px",
+      },
+      childrenKeys: [`${id}columnNameText`],
+    },
+    [`${id}columnNameText`]: {
+      component: "p1-component",
+      config: {
+        color: "black",
+      },
+      dataProvider: {
+        source: "entities-field",
+        entitiesType,
+        fields: [
+          {
+            providerField: "fileName",
+            componentField: "config.text",
+          },
+        ],
+      },
+    },
+    [`${id}columnType`]: {
+      component: "table.cell",
+      config: {
+        width: "100px",
+      },
+      childrenKeys: [`${id}columnTypeText`],
+    },
+    [`${id}columnTypeText`]: {
+      component: "p3-component",
+      config: {
+        color: "black",
+        textTransform: "uppercase",
+      },
+      dataProvider: {
+        source: "entities-field",
+        entitiesType,
+        fields: [
+          {
+            providerField: "extension",
+            componentField: "config.text",
+          },
+        ],
+      },
+    },
+    [`${id}columnSize`]: {
+      component: "table.cell",
+      config: {
+        width: "82px",
+      },
+      childrenKeys: [`${id}columnSizeText`],
+    },
+    [`${id}columnSizeText`]: {
+      component: "p3-component",
+      config: {
+        color: "black",
+      },
+      dataProvider: {
+        source: "entities-field",
+        entitiesType,
+        fields: [
+          {
+            providerField: "fileSize",
+            componentField: "config.text",
+          },
+        ],
       },
     },
   }
