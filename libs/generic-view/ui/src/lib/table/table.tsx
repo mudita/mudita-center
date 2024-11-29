@@ -133,16 +133,17 @@ export const Table: APIFC<TableData, TableConfig> & {
 
   const renderChildren = useCallback(
     (id: string) => {
-      const filteredChildren = React.Children.toArray(children)
-        .filter((child) => {
-          if (!React.isValidElement(child)) return false
-          return child.props.componentName === tableCell.key
+      const filteredChildren = React.Children.toArray(children).map((child) => {
+        if (
+          !React.isValidElement(child) ||
+          child.props.componentName !== tableCell.key
+        ) {
+          return null
+        }
+        return React.cloneElement(child as ReactElement, {
+          dataItemId: id,
         })
-        .map((child) => {
-          return React.cloneElement(child as ReactElement, {
-            dataItemId: id,
-          })
-        })
+      })
 
       return <>{filteredChildren}</>
     },
