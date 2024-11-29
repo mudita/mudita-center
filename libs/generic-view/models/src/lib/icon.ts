@@ -5,9 +5,16 @@
 
 import { z } from "zod"
 import { IconType } from "generic-view/utils"
+import { color } from "../../../theme/src/lib/color"
+
+export const iconSize = z.enum(["tiny", "small", "medium", "large"])
 
 export const iconTypeValidator = z.object({
   type: z.nativeEnum(IconType),
+  color: z
+    .enum(Object.keys(color) as [keyof typeof color, ...(keyof typeof color)[]])
+    .optional(),
+  size: iconSize.optional(),
 })
 
 const dataValidator = iconTypeValidator.optional()

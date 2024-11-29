@@ -169,7 +169,7 @@ export const transferMigrationData = createAsyncThunk<
       }
       dispatch(setDataMigrationStatus(DataMigrationStatus.DataTransferred))
 
-      await delay(500)
+      await delay()
 
       dispatch(setDataMigrationStatus(DataMigrationStatus.Completed))
 

@@ -18,3 +18,9 @@ export const setEntityData = createAction<{
 export const clearEntities = createAction<{ deviceId: DeviceId }>(
   ActionName.ClearEntitiesData
 )
+
+export const deleteEntityData = createAction<{
+  entitiesType: string
+  entityId: EntityId
+  deviceId: DeviceId
+}>(ActionName.DeleteEntityData)

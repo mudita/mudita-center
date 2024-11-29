@@ -133,6 +133,8 @@
   "component.passcodeModalTryAgain": "Please try again",
   "component.rowCheckTooltipDescription": "Select the row",
   "component.rowUncheckTooltipDescription": "Unselect the row",
+  "component.searchInput.placeholder": "Search",
+  "component.searchResults.noResults": "We couldn't find anything...",
   "component.selectionSelectAllTooltipDescription": "Select all row",
   "component.selectionUnselectAllTooltipDescription": "Unselect all rows",
   "component.supportButton": "Contact support",

@@ -15,12 +15,14 @@ import {
   h3Component,
   h4Component,
   h5Component,
+  highlightText,
   p1Component,
   p2Component,
   p3Component,
   p4Component,
   p5Component,
 } from "generic-view/models"
+import { HighlightText } from "./highlight-text"
 
 export const texts = {
   [h3Component.key]: Header3,
@@ -31,4 +33,5 @@ export const texts = {
   [p3Component.key]: Paragraph3,
   [p4Component.key]: Paragraph4,
   [p5Component.key]: Paragraph5,
+  [highlightText.key]: HighlightText,
 }
