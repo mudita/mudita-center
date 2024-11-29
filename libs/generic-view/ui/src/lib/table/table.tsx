@@ -211,22 +211,19 @@ const TableWrapper = styled.table`
   left: 0;
   width: 100%;
   max-height: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
   border-spacing: 0;
 `
 
 const TableHeader = styled.thead`
-  background: #fff;
   position: sticky;
   z-index: 2;
   top: 0;
+  background: #fff;
 
   th {
     text-align: left;
     white-space: nowrap;
-  }
-
-  tr {
     border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey4};
   }
 `

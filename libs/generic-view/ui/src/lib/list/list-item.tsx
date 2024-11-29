@@ -27,17 +27,25 @@ export const ListItem: APIFC<undefined, ListItemConfig> = ({
 }
 
 export const listRawItemStyles = css`
-  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
+  &, td {
+    border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
+  }
 `
 
 export const listItemBaseStyles = css`
   position: relative;
-  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
   transition: background 0.15s ease-in-out, border 0.15s ease-in-out;
+
+  &, td {
+    border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
+  }
 
   &:hover {
     background: ${({ theme }) => theme.color.grey6};
-    border-bottom-color: ${({ theme }) => theme.color.grey4};
+
+    &, td {
+      border-bottom-color: ${({ theme }) => theme.color.grey4};
+    }
   }
 `
 
@@ -50,7 +58,9 @@ export const listItemActiveStyles = css`
 
   &:hover {
     background: ${({ theme }) => theme.color.grey8};
-    border-bottom-color: ${({ theme }) => theme.color.grey4};
+    &, td {
+      border-bottom-color: ${({ theme }) => theme.color.grey4};
+    }
   }
 `
 
@@ -60,7 +70,9 @@ export const listItemSelectedStyles = css`
 
     &:hover {
       background: ${({ theme }) => theme.color.grey8};
-      border-bottom-color: ${({ theme }) => theme.color.grey4};
+      &, td {
+        border-bottom-color: ${({ theme }) => theme.color.grey4};
+      }
     }
   }
 `
@@ -85,7 +97,9 @@ export const listItemClickableStyles = css`
 
     &:hover {
       background: ${({ theme }) => theme.color.grey8};
-      border-bottom-color: ${({ theme }) => theme.color.grey4};
+      &, td {
+        border-bottom-color: ${({ theme }) => theme.color.grey4};
+      }
     }
   }
 `
