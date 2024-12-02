@@ -36,7 +36,7 @@
     "e2e:test:standalone": "nx e2e:test:standalone mudita-center-e2e",
     "e2e:test:cicd:standalone": "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' nx e2e:test:cicd:standalone mudita-center-e2e",
     "e2e:test:cicd:mock": "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' nx e2e:test:cicd:mock mudita-center-e2e",
-    "test-file:create": "ts-node scripts/generate-test-files.ts"
+    "test-file:generate-and-push": "ts-node scripts/generate-and-push-test-files.ts"
   },
   "repository": {
     "type": "git",
