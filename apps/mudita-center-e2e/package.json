@@ -2,7 +2,10 @@
   "name": "mudita-center-e2e",
   "version": "0.0.1",
   "description": "The E2E tests of Mudita Center",
-  "author": "igorbezsmertnyii <mr.igor96@outlook.com>",
+  "author": {
+    "name": "Mudita",
+    "email": "contact@mudita.com"
+  },
   "homepage": "https://github.com/Mudita/mudita-center/tree/main/packages/mudita-center-e2e#readme",
   "license": "ISC",
   "directories": {},

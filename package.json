@@ -157,7 +157,7 @@
     "babel-preset-react-app": "^10.0.1",
     "babel-runtime": "^6.26.0",
     "brie": "^3.0.4",
-    "chromedriver": "^116.0.0",
+    "chromedriver": "^131.0.1",
     "circular-dependency-plugin": "^5.2.2",
     "contentful": "^9.2.4",
     "copy-webpack-plugin": "^11.0.0",
