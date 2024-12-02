@@ -8,7 +8,7 @@ import { z } from "zod"
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  entityType: z.string().min(1),
+  entityTypes: z.array(z.string()).min(1),
 })
 
 export type McContactsView = z.infer<typeof configValidator>

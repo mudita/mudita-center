@@ -43,7 +43,7 @@ export const generateMcFileManagerView: ComponentGenerator<
     fileManagerLoader: {
       component: "entities-loader",
       config: {
-        entitiesTypes: config.entityTypes,
+        entityTypes: config.entityTypes,
         text: "Loading, please wait...",
       },
       layout: {
