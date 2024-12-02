@@ -17,7 +17,6 @@ import styled from "styled-components"
 import { difference, intersection } from "lodash"
 import { APIFC, useViewFormContext } from "generic-view/utils"
 import {
-  tableCell,
   TableConfig,
   TableData,
   tableHeaderCell,
@@ -155,7 +154,7 @@ export const Table: APIFC<TableData, TableConfig> & {
       const filteredChildren = React.Children.toArray(children).map((child) => {
         if (
           !React.isValidElement(child) ||
-          child.props.componentName !== tableCell.key
+          child.props.componentName === tableHeaderCell.key
         ) {
           return null
         }
