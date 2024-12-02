@@ -13,30 +13,26 @@ interface CategoryListItemConfig {
   icon: IconType
 }
 
-const CONFIG_MAP: Record<string, CategoryListItemConfig> = {
+const CONFIG_MAP: Record<string, Omit<CategoryListItemConfig, "id">> = {
   audioFiles: {
-    id: "0",
     name: "Music",
     icon: IconType.MusicNote,
     markerColor: "#E38577",
     entitiesType: "audioFiles",
   },
   imageFiles: {
-    id: "1",
     name: "Photos",
     icon: IconType.PhotoCatalog,
     markerColor: "#0E7490",
     entitiesType: "imageFiles",
   },
   ebookFiles: {
-    id: "2",
     name: "Ebooks",
     icon: IconType.Book,
     markerColor: "#A8DADC",
     entitiesType: "ebookFiles",
   },
   applicationFiles: {
-    id: "3",
     name: "Apps",
     icon: IconType.Grid,
     markerColor: "#AEBEC9",
@@ -45,9 +41,10 @@ const CONFIG_MAP: Record<string, CategoryListItemConfig> = {
 }
 
 function getConfigByEntityType(
-  entityType: string
+  entityType: string,
+  id: string
 ): CategoryListItemConfig | undefined {
-  return CONFIG_MAP[entityType] || undefined
+  return { ...CONFIG_MAP[entityType], id } || undefined
 }
 
 const generateFileCategoryListItem = ({
@@ -212,8 +209,8 @@ export const generateFileCategoryList = (entitiesTypes: string[]): Subview => {
     },
   }
 
-  return entitiesTypes.reduce((previousValue, entitiesType) => {
-    const config = getConfigByEntityType(entitiesType)
+  return entitiesTypes.reduce((previousValue, entitiesType, index) => {
+    const config = getConfigByEntityType(entitiesType, String(index))
     if (!config) {
       return previousValue
     }
