@@ -9,6 +9,14 @@ import { View } from "generic-view/utils"
 export const fileManagerView: View = {
   main: {
     component: "mc-file-manager-view",
+    config: {
+      entityTypes: [
+        "audioFiles",
+        "imageFiles",
+        "ebookFiles",
+        "applicationFiles",
+      ],
+    },
     // @ts-ignore
     screenTitle: "Manage Files",
   },

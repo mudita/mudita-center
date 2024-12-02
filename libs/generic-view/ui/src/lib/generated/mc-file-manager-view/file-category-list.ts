@@ -13,6 +13,43 @@ interface CategoryListItemConfig {
   icon: IconType
 }
 
+const CONFIG_MAP: Record<string, CategoryListItemConfig> = {
+  audioFiles: {
+    id: "0",
+    name: "Music",
+    icon: IconType.MusicNote,
+    markerColor: "#E38577",
+    entitiesType: "audioFiles",
+  },
+  imageFiles: {
+    id: "1",
+    name: "Photos",
+    icon: IconType.PhotoCatalog,
+    markerColor: "#0E7490",
+    entitiesType: "imageFiles",
+  },
+  ebookFiles: {
+    id: "2",
+    name: "Ebooks",
+    icon: IconType.Book,
+    markerColor: "#A8DADC",
+    entitiesType: "ebookFiles",
+  },
+  applicationFiles: {
+    id: "3",
+    name: "Apps",
+    icon: IconType.Grid,
+    markerColor: "#AEBEC9",
+    entitiesType: "applicationFiles",
+  },
+}
+
+function getConfigByEntityType(
+  entityType: string
+): CategoryListItemConfig | undefined {
+  return CONFIG_MAP[entityType] || undefined
+}
+
 const generateFileCategoryListItem = ({
   id,
   name,
@@ -162,11 +199,7 @@ const generateFileCategoryListItem = ({
   }
 }
 
-export const generateFileCategoryList = ({
-  configs,
-}: {
-  configs: CategoryListItemConfig[]
-}): Subview => {
+export const generateFileCategoryList = (entitiesTypes: string[]): Subview => {
   const initialListConfig: Subview = {
     fileCategoryList: {
       component: "block-plain",
@@ -179,7 +212,11 @@ export const generateFileCategoryList = ({
     },
   }
 
-  return configs.reduce((previousValue, config) => {
+  return entitiesTypes.reduce((previousValue, entitiesType) => {
+    const config = getConfigByEntityType(entitiesType)
+    if (!config) {
+      return previousValue
+    }
     const categoryItemKey = `${config.id}CategoryListItem`
     previousValue["fileCategoryList"]?.childrenKeys?.push(categoryItemKey)
     previousValue = {
