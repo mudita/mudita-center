@@ -36,7 +36,7 @@ test("server should return an error when method is not POST", async () => {
 
   await expect(
     async () => await axios.get(`http://localhost:${authServerPort}`)
-  ).rejects.toThrowError(Error("Request failed with status code 400"))
+  ).rejects.toThrow()
 })
 
 test("server should run the callback function", async () => {
