@@ -34,7 +34,9 @@ export const generateMcFileManagerView: ComponentGenerator<
         formOptions: {
           defaultValues: {
             activeFileCategoryId: "0",
-            fileCategoryIds: ["0", "1", "2", "3"],
+            fileCategoryIds: config.entityTypes.map((_, index) =>
+              index.toString()
+            ),
           },
         },
       },
