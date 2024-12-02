@@ -15,7 +15,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["./apps/mudita-center/src", "./libs", "./styled.d.ts"],
+  "include": ["./apps/mudita-center/src", "./libs", "./styled.d.ts", "./serialport.d.ts"],
   "extends": "./tsconfig.base.json",
   "ts-node": {
     "compilerOptions": {

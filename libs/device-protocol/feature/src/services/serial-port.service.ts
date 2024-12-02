@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import SerialPort from "serialport"
+import { SerialPort, PortInfo } from "serialport"
 
 export interface ISerialPortService {
-  list(): Promise<SerialPort.PortInfo[]>
+  list(): Promise<PortInfo[]>
 }
 
 export class SerialPortService implements ISerialPortService {
-  list(): Promise<SerialPort.PortInfo[]> {
+  list(): Promise<PortInfo[]> {
     return SerialPort.list()
   }
 }

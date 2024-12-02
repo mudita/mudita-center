@@ -17,9 +17,9 @@ export interface USBDevice {
   vendorId?: string | undefined
 }
 
-export interface USBPortDevice extends USBDevice, PortInfo {
+export interface USBPortDevice extends USBDevice, Partial<PortInfo> {
   path: string
   pnpId?: string | undefined
 }
 
-export type USBPortDeviceFilters = Partial<USBPortDevice>;
+export type USBPortDeviceFilters = Partial<USBPortDevice>

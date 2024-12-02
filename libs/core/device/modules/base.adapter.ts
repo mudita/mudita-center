@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import SerialPort, { PortInfo } from "serialport"
+import { SerialPort, PortInfo } from "serialport"
 import { EventEmitter } from "events"
 import PQueue from "p-queue"
 import { log, LogConfig } from "Core/core/decorators/log.decorator"
@@ -32,18 +32,24 @@ export abstract class BaseAdapter<
 
   public connect(): Promise<ResultObject<undefined>> {
     return new Promise((resolve) => {
-      const serialPort = new SerialPort(this.path, (error) => {
-        if (error) {
-          resolve(
-            Result.failed(
-              new AppError(DeviceError.Initialization, error.message)
+      const serialPort = new SerialPort(
+        {
+          path: this.path,
+          baudRate: 9600,
+        },
+        (error) => {
+          if (error) {
+            resolve(
+              Result.failed(
+                new AppError(DeviceError.Initialization, error.message)
+              )
             )
-          )
-        } else {
-          this.serialPort = serialPort
-          resolve(Result.success(undefined))
+          } else {
+            this.serialPort = serialPort
+            resolve(Result.success(undefined))
+          }
         }
-      })
+      )
     })
   }
 

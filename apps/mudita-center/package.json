@@ -98,12 +98,11 @@
     "url": "https://github.com/Mudita/mudita-center/issues"
   },
   "homepage": "https://github.com/Mudita/mudita-center",
-  "devDependencies": {},
   "dependencies": {
-    "serialport": "10.1.0"
+    "serialport": "^12.0.0"
   },
   "engines": {
-    "node": ">=18.18.0",
-    "npm": ">=9.8.1"
+    "node": ">=20.18.1",
+    "npm": ">=10.8.2"
   }
 }

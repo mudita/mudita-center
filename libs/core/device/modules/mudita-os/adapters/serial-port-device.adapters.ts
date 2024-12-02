@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import SerialPort from "serialport"
+import { SerialPort } from "serialport"
 import { ipcMain } from "electron-better-ipc"
 import { log, LogConfig } from "Core/core/decorators/log.decorator"
 import { Result, ResultObject } from "Core/core/builder"

@@ -6,6 +6,7 @@
 import { DeviceType } from "device-protocol/models"
 import { ProductID } from "Core/device/constants"
 import { DeviceResolverService } from "../services"
+import { PortInfo } from "serialport"
 
 const subject = new DeviceResolverService()
 
@@ -14,7 +15,7 @@ describe("Pure descriptor", () => {
     "returns Device with MuditaPure device type if %s productID has been provided",
     (productId) => {
       expect(
-        subject.resolve({ productId, path: "/dev/123" })?.deviceType
+        subject.resolve({ productId, path: "/dev/123" } as PortInfo)?.deviceType
       ).toEqual(DeviceType.MuditaPure)
     }
   )
@@ -23,8 +24,10 @@ describe("Pure descriptor", () => {
 describe("Harmony descriptor", () => {
   test("returns Device with MuditaPure device type if 0300 productID has been provided", () => {
     expect(
-      subject.resolve({ productId: ProductID.MuditaHarmony, path: "/dev/123" })
-        ?.deviceType
+      subject.resolve({
+        productId: ProductID.MuditaHarmony,
+        path: "/dev/123",
+      } as PortInfo)?.deviceType
     ).toEqual(DeviceType.MuditaHarmony)
   })
 })
@@ -33,7 +36,7 @@ describe("Harmony descriptor", () => {
 describe.skip("Unknown descriptor", () => {
   test("returns undefined if unknown product id has been provided", () => {
     expect(
-      subject.resolve({ productId: "0000", path: "/dev/123" })
+      subject.resolve({ productId: "0000", path: "/dev/123" } as PortInfo)
     ).toBeUndefined()
   })
 })

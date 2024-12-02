@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import SerialPort from "serialport"
+import { SerialPort } from "serialport"
 import { ipcMain } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import PQueue from "p-queue"
@@ -42,19 +42,25 @@ export class SerialPortDeviceAPIAdapter {
 
   public connect(): Promise<ResultObject<undefined>> {
     return new Promise((resolve) => {
-      const serialPort = new SerialPort(this.path, (error) => {
-        if (error) {
-          resolve(
-            Result.failed(
-              new AppError(DeviceError.Initialization, error.message)
+      const serialPort = new SerialPort(
+        {
+          path: this.path,
+          baudRate: 9600,
+        },
+        (error) => {
+          if (error) {
+            resolve(
+              Result.failed(
+                new AppError(DeviceError.Initialization, error.message)
+              )
             )
-          )
-        } else {
-          this.serialPort = serialPort
-          this.mountListeners()
-          resolve(Result.success(undefined))
+          } else {
+            this.serialPort = serialPort
+            this.mountListeners()
+            resolve(Result.success(undefined))
+          }
         }
-      })
+      )
     })
   }
 

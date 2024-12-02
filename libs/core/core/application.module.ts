@@ -76,7 +76,7 @@ export class ApplicationModule {
     DeviceFileSystemModule,
     DeviceLogModule,
     DeviceModule,
-    TimeSynchronizationModule
+    TimeSynchronizationModule,
   ]
 
   public lateModules: Module[] = [
