@@ -20,7 +20,7 @@ export const GenericThemeProvider: FunctionComponent<PropsWithChildren> = ({
 
 export const modalTransitionDuration = 400
 
-const GlobalStyle = createGlobalStyle<{ theme: AppTheme }>`
+export const GlobalStyle = createGlobalStyle<{ theme: AppTheme }>`
   .box-sizing-wrapper {
     height: 100%;
     & > * {

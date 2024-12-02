@@ -57,6 +57,7 @@ tmp/**/*
 
 apps/mudita-center/src/fonts/main/**/*
 !apps/mudita-center/src/fonts/main/.gitkeep
+apps/mudita-center/.storybook/fonts/**/*
 
 # Fetched wasm sql lib
 apps/mudita-center/static/sql-wasm*

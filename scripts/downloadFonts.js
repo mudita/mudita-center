@@ -41,7 +41,7 @@ require("dotenv").config({
       console.log("removing fileName", fileName)
       await fs.remove(path.join(mainFontsDirectory, fileName))
     }
-    
+
     // Then, download all required files inside the fonts/main directory
     console.log("Downloading fonts...")
     for (const [index, fileName] of requiredFiles.entries()) {

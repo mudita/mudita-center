@@ -16,9 +16,10 @@
       }
     ],
     [
-      "react-intl",
+      "formatjs",
       {
-        "messagesDir": "./tmp/extractedMessages"
+        "idInterpolationPattern": "[sha512:contenthash:base64:6]",
+        "ast": true
       }
     ]
   ],
