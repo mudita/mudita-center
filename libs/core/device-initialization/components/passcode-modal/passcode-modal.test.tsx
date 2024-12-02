@@ -8,7 +8,6 @@ import PasscodeModal from "./passcode-modal.component"
 import React, { ComponentProps, KeyboardEvent } from "react"
 import { PasscodeModalTestIds } from "./passcode-modal-test-ids.enum"
 import { fireEvent, waitFor } from "@testing-library/dom"
-import { cleanup } from "@testing-library/react"
 import { InputTextTestIds } from "Core/__deprecated__/renderer/components/core/input-text/input-text-test-ids.enum"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { PasscodeLockedTestIds } from "Core/device-initialization/components/passcode-modal/passcode-locked-test-ids.enum"
@@ -76,10 +75,6 @@ const renderer = (extraProps?: Partial<Props>) => {
       modal.queryByTestId(PasscodeLockedTestIds.Container),
   }
 }
-
-afterEach(() => {
-  cleanup()
-})
 
 jest.mock("help/store", () => ({
   useHelpShortcut: () => jest.fn(),
