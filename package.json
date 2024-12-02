@@ -76,6 +76,7 @@
     "@nx/react": "20.1.4",
     "@nx/storybook": "20.1.4",
     "@nx/web": "20.1.4",
+    "@nx/webpack": "^20.1.4",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@reduxjs/toolkit": "1.9.7",
     "@rematch/core": "^1.4.0",
