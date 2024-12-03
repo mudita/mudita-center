@@ -149,8 +149,12 @@ const generateFileCategoryListItem = ({
     [`${id}CategoryListItemStorageText`]: {
       component: "p3-component",
       config: {
-        text: "0 KB",
+        text: "0",
         color: "black",
+        textTransform: "format-bytes",
+        textTransformOptions: {
+          minUnit: "KB",
+        },
       },
     },
     [`${id}CategoryListItemStorageMarker`]: {

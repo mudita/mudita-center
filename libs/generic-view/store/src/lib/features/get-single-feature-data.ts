@@ -8,6 +8,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { FeaturesActions } from "./featues-action-keys"
 import { getOverviewData } from "./get-overview-data.actions"
+import { getFileManagerData } from "./get-file-manager-data.actions"
 
 export const getSingleFeatureData = createAsyncThunk<
   undefined,
@@ -19,6 +20,9 @@ export const getSingleFeatureData = createAsyncThunk<
     switch (feature) {
       case "mc-overview":
         await dispatch(getOverviewData({ deviceId }))
+        break
+      case "fileManager":
+        await dispatch(getFileManagerData({ deviceId }))
         break
     }
 

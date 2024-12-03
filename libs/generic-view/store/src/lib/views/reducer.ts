@@ -25,6 +25,7 @@ import {
   setMenu,
 } from "./actions"
 import { transformGenericComponents } from "../features/transform-generic-components"
+import { getFileManagerData } from "../features/get-file-manager-data.actions"
 
 export interface GenericState {
   menu: MenuElement[] | undefined
@@ -121,6 +122,17 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
             },
           }
         : {}),
+    }
+  })
+  builder.addCase(getFileManagerData.fulfilled, (state, action) => {
+    state.lastResponse = action.payload
+    const deviceId = action.payload.deviceId
+    state.devices[deviceId].features = {
+      ...state.devices[deviceId].features,
+      fileManager: {
+        config: state.devices[deviceId].features?.["fileManager"]?.config,
+        data: action.payload.data,
+      },
     }
   })
   builder.addCase(getOverviewConfig.fulfilled, (state, action) => {
