@@ -16,6 +16,7 @@ import {
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import {
   abortDataMigration,
+  BackupProcessStatus,
   clearEntities,
   closeAllModals,
   DataMigrationStatus,
@@ -136,8 +137,15 @@ const useHandleDevicesDetached = () => {
       if (apiEvents.length !== 0) {
         dispatch(closeAllModals())
 
-        if (backupProcess) {
-          dispatch(setBackupProcessStatus("FAILED"))
+        if (
+          backupProcess &&
+          [
+            BackupProcessStatus.PreBackup,
+            BackupProcessStatus.SaveFile,
+            BackupProcessStatus.FilesTransfer,
+          ].includes(backupProcess)
+        ) {
+          dispatch(setBackupProcessStatus(BackupProcessStatus.Failed))
         }
       }
 
