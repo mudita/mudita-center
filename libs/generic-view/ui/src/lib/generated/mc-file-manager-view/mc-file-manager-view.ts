@@ -11,7 +11,7 @@ import { generateOtherFilesList } from "./other-files-list"
 
 export const generateMcFileManagerView: ComponentGenerator<
   McFileManagerView
-> = (key) => {
+> = (key, config) => {
   return {
     [key]: {
       component: "block-plain",
@@ -34,7 +34,9 @@ export const generateMcFileManagerView: ComponentGenerator<
         formOptions: {
           defaultValues: {
             activeFileCategoryId: "0",
-            fileCategoryIds: ["0", "1", "2", "3"],
+            fileCategoryIds: config.entityTypes.map((_, index) =>
+              index.toString()
+            ),
           },
         },
       },
@@ -43,12 +45,7 @@ export const generateMcFileManagerView: ComponentGenerator<
     fileManagerLoader: {
       component: "entities-loader",
       config: {
-        entitiesTypes: [
-          "audioFiles",
-          "imageFiles",
-          "ebookFiles",
-          "applicationFiles",
-        ],
+        entityTypes: config.entityTypes,
         text: "Loading, please wait...",
       },
       layout: {
@@ -86,38 +83,7 @@ export const generateMcFileManagerView: ComponentGenerator<
       },
       childrenKeys: ["fileCategoryList", "fileCategoryOtherFilesItem"],
     },
-    ...generateFileCategoryList({
-      configs: [
-        {
-          id: "0",
-          name: "Music",
-          icon: IconType.MusicNote,
-          markerColor: "#E38577",
-          entitiesType: "audioFiles",
-        },
-        {
-          id: "1",
-          name: "Photos",
-          icon: IconType.PhotoCatalog,
-          markerColor: "#0E7490",
-          entitiesType: "imageFiles",
-        },
-        {
-          id: "2",
-          name: "Ebooks",
-          icon: IconType.Book,
-          markerColor: "#A8DADC",
-          entitiesType: "ebookFiles",
-        },
-        {
-          id: "3",
-          name: "Apps",
-          icon: IconType.Grid,
-          markerColor: "#AEBEC9",
-          entitiesType: "applicationFiles",
-        },
-      ],
-    }),
+    ...generateFileCategoryList(config.entityTypes),
     fileCategoryOtherFilesItem: {
       component: "block-plain",
       layout: {
@@ -209,29 +175,6 @@ export const generateMcFileManagerView: ComponentGenerator<
         { id: "1", name: "Other" },
       ],
     }),
-    ...generateFileListWrapper({
-      configs: [
-        {
-          id: "0",
-          name: "Music",
-          entitiesType: "audioFiles",
-        },
-        {
-          id: "1",
-          name: "Photos",
-          entitiesType: "imageFiles",
-        },
-        {
-          id: "2",
-          name: "Ebooks",
-          entitiesType: "ebookFiles",
-        },
-        {
-          id: "3",
-          name: "Apps",
-          entitiesType: "applicationFiles",
-        },
-      ],
-    }),
+    ...generateFileListWrapper(config.entityTypes),
   }
 }

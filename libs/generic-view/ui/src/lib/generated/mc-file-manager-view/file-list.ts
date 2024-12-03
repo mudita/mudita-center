@@ -11,6 +11,32 @@ interface FileListConfig {
   entitiesType: string
 }
 
+const CONFIG_MAP: Record<string, Omit<FileListConfig, "id">> = {
+  audioFiles: {
+    name: "Music",
+    entitiesType: "audioFiles",
+  },
+  imageFiles: {
+    name: "Photos",
+    entitiesType: "imageFiles",
+  },
+  ebookFiles: {
+    name: "Ebooks",
+    entitiesType: "ebookFiles",
+  },
+  applicationFiles: {
+    name: "Apps",
+    entitiesType: "applicationFiles",
+  },
+}
+
+function getConfigByEntityType(
+  entityType: string,
+  id: string
+): FileListConfig | undefined {
+  return { ...CONFIG_MAP[entityType], id } || undefined
+}
+
 const generateFileList = ({
   id,
   name,
@@ -438,11 +464,7 @@ const generateFileList = ({
   }
 }
 
-export const generateFileListWrapper = ({
-  configs,
-}: {
-  configs: FileListConfig[]
-}): Subview => {
+export const generateFileListWrapper = (entitiesTypes: string[]): Subview => {
   const initialListConfig: Subview = {
     fileListWrapper: {
       component: "block-plain",
@@ -456,7 +478,11 @@ export const generateFileListWrapper = ({
     },
   }
 
-  return configs.reduce((previousValue, config) => {
+  return entitiesTypes.reduce((previousValue, entitiesType, index) => {
+    const config = getConfigByEntityType(entitiesType, String(index))
+    if (!config) {
+      return previousValue
+    }
     const categoryItemKey = `${config.id}fileListContainer`
     previousValue["fileListWrapper"]?.childrenKeys?.push(categoryItemKey)
     previousValue = {
