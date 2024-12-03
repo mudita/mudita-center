@@ -38,8 +38,8 @@ export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
 
   const fetchEntityData = useCallback(
     async (entitiesType: string) => {
-      await dispatch(getEntitiesDataAction({ entitiesType, deviceId }))
       await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
+      await dispatch(getEntitiesDataAction({ entitiesType, deviceId }))
     },
     [dispatch, deviceId]
   )
