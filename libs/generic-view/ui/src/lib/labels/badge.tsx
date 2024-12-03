@@ -6,7 +6,7 @@
 import React from "react"
 import styled, { css } from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { Tag } from "../shared/tag"
+import { Tag } from "./tag"
 import { BadgeData } from "generic-view/models"
 
 export const Badge: APIFC<BadgeData> = ({

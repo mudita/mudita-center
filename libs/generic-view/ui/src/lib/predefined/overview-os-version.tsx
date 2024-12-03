@@ -6,7 +6,7 @@
 import React from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
-import { Tag } from "../shared/tag"
+import { Tag } from "../labels/tag"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import {

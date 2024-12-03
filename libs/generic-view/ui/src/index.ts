@@ -8,6 +8,8 @@ import { rows } from "./lib/data-rows/data-rows"
 import { predefinedComponents } from "./lib/predefined/predefined"
 import { helpers } from "./lib/helpers/helpers"
 import { interactive } from "./lib/interactive/interactive"
+import { labels } from "./lib/labels"
+import { list } from "./lib/list"
 import { buttons } from "./lib/buttons/buttons"
 import { texts } from "./lib/texts"
 import { Icon } from "./lib/icon/icon"
@@ -22,6 +24,8 @@ export * from "./lib/interactive/modal"
 export * from "./lib/interactive/modal/modal-base"
 export * from "./lib/interactive/tooltip/tooltip"
 export * from "./lib/shared/shared"
+export * from "./lib/labels"
+export * from "./lib/list"
 export * from "./lib/predefined/backup/backup-error"
 export * from "./lib/predefined/backup-restore/backup-restore-error"
 export * from "./lib/predefined/import-contacts/import-contacts-error"
@@ -40,6 +44,8 @@ const apiComponents = {
   ...rows,
   ...helpers,
   ...interactive,
+  ...labels,
+  ...list,
   ...buttons,
   ...texts,
   ...table,

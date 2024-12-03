@@ -48,6 +48,8 @@ import {
   p5Component,
 } from "./lib/paragraphs"
 import { lastBackupDate } from "./lib/last-backup-date"
+import { listItem } from "./lib/list-item"
+import { marker } from "./lib/marker"
 import { backupCreate } from "./lib/backup-create"
 import { importContacts } from "./lib/import-contacts"
 import { backupRestore } from "./lib/backup-restore"
@@ -55,6 +57,7 @@ import { backupRestoreAvailable } from "./lib/backup-restore-available"
 import { mcImportContactsButton } from "./lib/mc-import-contacts-button"
 import { mcContactsView } from "./lib/mc-contacts-view"
 import { mcDataMigration } from "./lib/mc-data-migration"
+import { mcFileManagerView } from "./lib/mc-file-manager-view"
 import { incomingFeatureInfo } from "./lib/incoming-feature-info"
 import { table } from "./lib/table"
 import { tableCell } from "./lib/table-cell"
@@ -109,6 +112,8 @@ export * from "./lib/common-text-validators"
 export * from "./lib/overview-os-version"
 export * from "./lib/about-data-box"
 export * from "./lib/last-backup-date"
+export * from "./lib/list-item"
+export * from "./lib/marker"
 export * from "./lib/backup-restore-available"
 export * from "./lib/backup-create"
 export * from "./lib/backup-restore"
@@ -117,6 +122,7 @@ export * from "./lib/mc-import-contacts-button"
 export * from "./lib/mc-contacts-view"
 export * from "./lib/modal-visibility-controller"
 export * from "./lib/mc-data-migration"
+export * from "./lib/mc-file-manager-view"
 export * from "./lib/incoming-feature-info"
 export * from "./lib/table"
 export * from "./lib/table-cell"
@@ -177,6 +183,8 @@ export default {
   [overviewOsVersion.key]: overviewOsVersion,
   [aboutDataBox.key]: aboutDataBox,
   [lastBackupDate.key]: lastBackupDate,
+  [listItem.key]: listItem,
+  [marker.key]: marker,
   [backupRestoreAvailable.key]: backupRestoreAvailable,
   [backupCreate.key]: backupCreate,
   [backupRestore.key]: backupRestore,
@@ -184,6 +192,7 @@ export default {
   [mcImportContactsButton.key]: mcImportContactsButton,
   [mcContactsView.key]: mcContactsView,
   [mcDataMigration.key]: mcDataMigration,
+  [mcFileManagerView.key]: mcFileManagerView,
   [incomingFeatureInfo.key]: incomingFeatureInfo,
   [table.key]: table,
   [tableCell.key]: tableCell,

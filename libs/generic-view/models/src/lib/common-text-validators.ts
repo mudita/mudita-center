@@ -22,8 +22,15 @@ const colorValidator = z.object({
     .optional(),
 })
 
+const textAlignValidator = z.object({
+  textAlign: z
+    .enum(["left", "right", "center", "justify", "start", "end"])
+    .optional(),
+})
+
 export const commonTextValidators = singleLineTextValidator
   .merge(textTransformValidator)
   .merge(colorValidator)
+  .merge(textAlignValidator)
 
 export type CommonTextValidators = z.infer<typeof commonTextValidators>

@@ -6,6 +6,4 @@
 import { View } from "generic-view/utils"
 
 // @ts-ignore
-const view: View = {}
-
-export default view
+export const mcDataMigrationView: View = {}
