@@ -9,7 +9,42 @@ interface CategoryListItemConfig {
   id: string
   name: string
   markerColor: string
+  entitiesType: string
   icon: IconType
+}
+
+const CONFIG_MAP: Record<string, Omit<CategoryListItemConfig, "id">> = {
+  audioFiles: {
+    name: "Music",
+    icon: IconType.MusicNote,
+    markerColor: "#E38577",
+    entitiesType: "audioFiles",
+  },
+  imageFiles: {
+    name: "Photos",
+    icon: IconType.PhotoCatalog,
+    markerColor: "#0E7490",
+    entitiesType: "imageFiles",
+  },
+  ebookFiles: {
+    name: "Ebooks",
+    icon: IconType.Book,
+    markerColor: "#A8DADC",
+    entitiesType: "ebookFiles",
+  },
+  applicationFiles: {
+    name: "Apps",
+    icon: IconType.Grid,
+    markerColor: "#AEBEC9",
+    entitiesType: "applicationFiles",
+  },
+}
+
+function getConfigByEntityType(
+  entityType: string,
+  id: string
+): CategoryListItemConfig | undefined {
+  return { ...CONFIG_MAP[entityType], id } || undefined
 }
 
 const generateFileCategoryListItem = ({
@@ -17,6 +52,7 @@ const generateFileCategoryListItem = ({
   name,
   icon,
   markerColor,
+  entitiesType,
 }: CategoryListItemConfig): Subview => {
   return {
     [`${id}CategoryListItem`]: {
@@ -52,7 +88,7 @@ const generateFileCategoryListItem = ({
       childrenKeys: [
         `${id}CategoryListItemName`,
         `${id}CategoryListItemStorage`,
-        `${id}CategoryListItemCountText`,
+        `${id}CategoryListItemCountTextWrapper`,
       ],
     },
     [`${id}CategoryListItemName`]: {
@@ -127,7 +163,7 @@ const generateFileCategoryListItem = ({
         color: markerColor,
       },
     },
-    [`${id}CategoryListItemCountText`]: {
+    [`${id}CategoryListItemCountTextWrapper`]: {
       component: "p3-component",
       layout: {
         margin: "8px 0 0 0",
@@ -138,18 +174,29 @@ const generateFileCategoryListItem = ({
           height: 1,
         },
       },
+      childrenKeys: [`${id}CategoryListItemCountText`],
+    },
+    [`${id}CategoryListItemCountText`]: {
+      component: "format-message",
       config: {
-        text: "0 files",
+        messageTemplate:
+          "{totalEntities} {totalEntities, plural, one {file} other {files}}",
+      },
+      dataProvider: {
+        source: "entities-metadata",
+        entitiesType,
+        fields: [
+          {
+            providerField: "totalEntities",
+            componentField: "data.fields.totalEntities",
+          },
+        ],
       },
     },
   }
 }
 
-export const generateFileCategoryList = ({
-  configs,
-}: {
-  configs: CategoryListItemConfig[]
-}): Subview => {
+export const generateFileCategoryList = (entitiesTypes: string[]): Subview => {
   const initialListConfig: Subview = {
     fileCategoryList: {
       component: "block-plain",
@@ -162,7 +209,11 @@ export const generateFileCategoryList = ({
     },
   }
 
-  return configs.reduce((previousValue, config) => {
+  return entitiesTypes.reduce((previousValue, entitiesType, index) => {
+    const config = getConfigByEntityType(entitiesType, String(index))
+    if (!config) {
+      return previousValue
+    }
     const categoryItemKey = `${config.id}CategoryListItem`
     previousValue["fileCategoryList"]?.childrenKeys?.push(categoryItemKey)
     previousValue = {

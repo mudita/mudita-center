@@ -10,7 +10,7 @@ export const contactsView: View = {
   main: {
     component: "mc-contacts-view",
     config: {
-      entityType: "contacts",
+      entityTypes: ["contacts"],
     },
     // @ts-ignore
     screenTitle: "Contacts",

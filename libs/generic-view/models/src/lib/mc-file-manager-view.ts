@@ -7,7 +7,9 @@ import { z } from "zod"
 
 const dataValidator = z.undefined()
 
-const configValidator = z.undefined()
+const configValidator = z.object({
+  entityTypes: z.array(z.string()).min(1),
+})
 
 export type McFileManagerView = z.infer<typeof configValidator>
 
