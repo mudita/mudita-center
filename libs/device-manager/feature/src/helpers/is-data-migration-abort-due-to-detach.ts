@@ -15,7 +15,7 @@ export const isDataMigrationAbortDueToDetach = (
 ): boolean => {
   return events.some(
     (event) =>
-      migrationStatus === DataMigrationStatus.DataTransferring &&
+      migrationStatus === DataMigrationStatus.DataReading &&
       (sourceDevice?.serialNumber === event.serialNumber ||
         targetDevice?.serialNumber === event.serialNumber)
   )

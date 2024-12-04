@@ -3,14 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useMemo } from "react"
 import { defineMessages } from "react-intl"
 import { useSelector } from "react-redux"
-import {
-  DataMigrationStatus,
-  selectDataMigrationStatus,
-  selectDataTransferErrorType,
-} from "generic-view/store"
+import { selectDataTransferErrorType } from "generic-view/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ApiFileTransferError } from "device/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -27,12 +23,12 @@ const messages = defineMessages({
   },
 })
 
-export const TransferFailMessage: FunctionComponent = () => {
-  const dataMigrationStatus = useSelector(selectDataMigrationStatus)
+export const TransferFailMessage: FunctionComponent<{
+  partialChanges?: boolean
+}> = ({ partialChanges }) => {
   const dataTransferErrorType = useSelector(selectDataTransferErrorType)
-  const [partialChanges, setPartialChanges] = useState(false)
 
-  const description = useMemo(() => {
+  return useMemo(() => {
     const notEnoughSpace =
       dataTransferErrorType === ApiFileTransferError.NotEnoughSpace
 
@@ -50,20 +46,4 @@ export const TransferFailMessage: FunctionComponent = () => {
       </p>
     )
   }, [dataTransferErrorType, partialChanges])
-
-  useEffect(() => {
-    if (
-      ![
-        DataMigrationStatus.Failed,
-        DataMigrationStatus.Cancelled,
-        DataMigrationStatus.Completed,
-      ].includes(dataMigrationStatus)
-    ) {
-      setPartialChanges(
-        dataMigrationStatus === DataMigrationStatus.DataTransferring
-      )
-    }
-  }, [dataMigrationStatus])
-
-  return description
 }

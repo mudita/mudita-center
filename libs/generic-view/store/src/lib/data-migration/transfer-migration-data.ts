@@ -37,8 +37,6 @@ export const transferMigrationData = createAsyncThunk<
     try {
       const { dataMigration } = getState()
 
-      console.log("here")
-
       const abortController = new AbortController()
       abortController.abort = abort
       dispatch(addDataMigrationAbortController(abortController))
@@ -156,7 +154,7 @@ export const transferMigrationData = createAsyncThunk<
         }
       }
 
-      console.log(domainsData)
+      dispatch(setDataMigrationStatus(DataMigrationStatus.DataTransferring))
 
       if (signal.aborted) {
         return rejectWithValue(undefined)

@@ -91,7 +91,7 @@ export const processPureDatabase = createAsyncThunk<
       return rejectWithValue(undefined)
     }
 
-    dispatch(setDataMigrationStatus(DataMigrationStatus.DataTransferring))
+    dispatch(setDataMigrationStatus(DataMigrationStatus.DataReading))
     return
   }
 )

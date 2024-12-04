@@ -75,6 +75,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   const sourceDevice = useSelector(selectDataMigrationSourceDevice)
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
   const pureRestarting = useSelector(selectDataMigrationPureRestarting)
+  const [partialChanges, setPartialChanges] = useState(false)
 
   const [modalOpened, setModalOpened] = useState(false)
 
@@ -87,6 +88,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   const displayTransferSetup = !displayInstruction && !displayTargetSelector
 
   const startMigration = useCallback(() => {
+    setPartialChanges(false)
     dispatch(
       prepareDevicesForDataMigration({
         onSuccess: () => {
@@ -149,7 +151,6 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   ])
 
   useEffect(() => {
-    console.log({ dataMigrationStatus })
     switch (dataMigrationStatus) {
       case DataMigrationStatus.PureDatabaseCreating:
         startPureDatabaseProcessing()
@@ -157,7 +158,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
       case DataMigrationStatus.PureDatabaseIndexing:
         dispatch(setDataMigrationPureRestarting(false))
         break
-      case DataMigrationStatus.DataTransferring:
+      case DataMigrationStatus.DataReading:
         startTransfer()
         break
     }
@@ -188,6 +189,8 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
           })
         )
       }
+    } else if (dataMigrationStatus === DataMigrationStatus.DataTransferring) {
+      setPartialChanges(true)
     }
   }, [dataMigrationStatus, dispatch, pureRestarting, sourceDevice])
 
@@ -233,16 +236,20 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         }}
         componentKey={"data-migration-modal-transfer-failed"}
       >
-        <TransferErrorModal onButtonClick={onFinish} />
+        <TransferErrorModal
+          onButtonClick={onFinish}
+          partialChanges={partialChanges}
+        />
       </Modal>
       <Modal
         config={{
           defaultOpened:
             modalOpened &&
             [
-              DataMigrationStatus.DataTransferring,
               DataMigrationStatus.PureDatabaseCreating,
               DataMigrationStatus.PureDatabaseIndexing,
+              DataMigrationStatus.DataReading,
+              DataMigrationStatus.DataTransferring,
               DataMigrationStatus.DataTransferred,
             ].includes(dataMigrationStatus),
           size: "small",
@@ -260,7 +267,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         }}
         componentKey={"data-migration-modal-cancelled"}
       >
-        <CancelledModal onClose={onFinish} />
+        <CancelledModal onClose={onFinish} partialChanges={partialChanges} />
       </Modal>
       <Modal
         config={{

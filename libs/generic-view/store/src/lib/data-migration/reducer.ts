@@ -25,6 +25,7 @@ export enum DataMigrationStatus {
   PureConnectionFailed = "PURE-CONNECTION-FAILED",
   PureDatabaseCreating = "PURE-DB-CREATING",
   PureDatabaseIndexing = "PURE-DB-INDEXING",
+  DataReading = "DATA-READING",
   DataTransferring = "DATA-TRANSFERRING",
   DataTransferred = "DATA-TRANSFERRED",
   Completed = "COMPLETED",
