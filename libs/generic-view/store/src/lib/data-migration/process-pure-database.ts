@@ -86,6 +86,7 @@ export const processPureDatabase = createAsyncThunk<
     dispatch(setDataMigrationPureBusy(undefined))
 
     if (signal.aborted) {
+      dispatch(setDataMigrationPureBusy(undefined))
       dispatch(clearMigrationData())
       return rejectWithValue(undefined)
     }

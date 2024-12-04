@@ -149,6 +149,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   ])
 
   useEffect(() => {
+    console.log({ dataMigrationStatus })
     switch (dataMigrationStatus) {
       case DataMigrationStatus.PureDatabaseCreating:
         startPureDatabaseProcessing()
