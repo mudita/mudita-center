@@ -23,6 +23,18 @@ export enum PredefinedBackupPasswordTestIds {
   SkipButton = "predefined-backup-password-skip-button",
 }
 
+export enum PredefinedBackupProgressTestIds {
+  Title = "predefined-backup-progress-title",
+  Description = "predefined-backup-progress-description",
+  ProgressBar = "predefined-backup-progress-progressbar",
+}
+
+export enum ProgressBarTestIds {
+  Description = "progressbar-description",
+  Progress = "progressbar-progress",
+  Details = "progressbar-details",
+}
+
 export enum ContactSupportModalTestIds {
   Title = "contact-support-modal-success-title",
   Description = "contact-support-modal-success-description",
