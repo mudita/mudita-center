@@ -69,6 +69,7 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
     setFreezedStatus(importStatus)
     dispatch(closeModalAction({ key: modalKey }))
     dispatch(cleanImportProcess())
+    dataTransferAbortReference.current?.()
     setError(undefined)
   }
 
@@ -108,13 +109,17 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
 
   useEffect(() => {
     if (importError) {
-      let message = importError
+      let message = ""
+
       if (importError === ApiFileTransferError.NotEnoughSpace) {
         message = intl.formatMessage(messages.notEnoughSpace)
       }
-      setError({
-        message: message as string,
-      })
+
+      if (message) {
+        setError({
+          message,
+        })
+      }
     }
   }, [importError])
 
