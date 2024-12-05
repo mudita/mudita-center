@@ -8,7 +8,7 @@ import { z } from "zod"
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  entitiesTypes: z.array(z.string()),
+  entityTypes: z.array(z.string()),
   text: z.string().optional(),
 })
 

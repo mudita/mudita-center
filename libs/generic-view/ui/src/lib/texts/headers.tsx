@@ -6,12 +6,12 @@
 import React from "react"
 import { APIFC } from "generic-view/utils"
 import styled, { css } from "styled-components"
-import { HeaderConfig } from "generic-view/models"
+import { HeaderConfig, UnboldValidator } from "generic-view/models"
 import { isEmpty } from "lodash"
 import { CommonTextProps, commonTextStyles } from "./common-text-styles"
 
 interface HeaderProps extends CommonTextProps {
-  $unbold?: NonNullable<HeaderConfig["unbold"]>
+  $unbold?: NonNullable<UnboldValidator["unbold"]>
 }
 
 const commonStyle = css<HeaderProps>`
@@ -37,13 +37,13 @@ export const Header3: APIFC<undefined, HeaderConfig> = ({
 }) => {
   return (
     <H3
-      $unbold={config.unbold}
-      $singleLine={config.singleLine}
-      $color={config.color}
-      $textTransform={config.textTransform}
+      $unbold={config?.unbold}
+      $singleLine={config?.singleLine}
+      $color={config?.color}
+      $textTransform={config?.textTransform}
       {...props}
     >
-      {isEmpty(children) ? config.text : children}
+      {isEmpty(children) ? config?.text : children}
     </H3>
   )
 }
@@ -63,13 +63,13 @@ export const Header4: APIFC<undefined, HeaderConfig> = ({
 }) => {
   return (
     <H4
-      $unbold={config.unbold}
-      $singleLine={config.singleLine}
-      $color={config.color}
-      $textTransform={config.textTransform}
+      $unbold={config?.unbold}
+      $singleLine={config?.singleLine}
+      $color={config?.color}
+      $textTransform={config?.textTransform}
       {...props}
     >
-      {isEmpty(children) ? config.text : children}
+      {isEmpty(children) ? config?.text : children}
     </H4>
   )
 }
@@ -89,13 +89,13 @@ export const Header5: APIFC<undefined, HeaderConfig> = ({
 }) => {
   return (
     <H5
-      $unbold={config.unbold}
-      $singleLine={config.singleLine}
-      $color={config.color}
-      $textTransform={config.textTransform}
+      $unbold={config?.unbold}
+      $singleLine={config?.singleLine}
+      $color={config?.color}
+      $textTransform={config?.textTransform}
       {...props}
     >
-      {isEmpty(children) ? config.text : children}
+      {isEmpty(children) ? config?.text : children}
     </H5>
   )
 }
