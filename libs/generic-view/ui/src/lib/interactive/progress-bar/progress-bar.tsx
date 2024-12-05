@@ -7,6 +7,7 @@ import React, { useId } from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
 import { ProgressBarConfig, ProgressBarData } from "generic-view/models"
+import { ProgressBarTestIds } from "e2e-test-ids"
 
 export const ProgressBar: APIFC<ProgressBarData, ProgressBarConfig> = ({
   data,
@@ -16,13 +17,21 @@ export const ProgressBar: APIFC<ProgressBarData, ProgressBarConfig> = ({
   const id = useId()
   return (
     <Wrapper {...props}>
-      {data?.message && <Message>{data?.message}</Message>}
+      {data?.message && (
+        <Message data-testid={ProgressBarTestIds.Description}>
+          {data?.message}
+        </Message>
+      )}
       <Progress
         id={"progress-" + id}
         max={config.maxValue}
         value={data?.value}
+        data-testid={ProgressBarTestIds.Progress}
       />
-      <Label htmlFor={"progress-" + id}>
+      <Label
+        htmlFor={"progress-" + id}
+        data-testid={ProgressBarTestIds.Details}
+      >
         {data?.value}
         {config.valueUnit || "%"}
       </Label>
