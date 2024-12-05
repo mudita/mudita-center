@@ -68,24 +68,21 @@ describe("E2E mock sample - overview view", () => {
     const backupInProgressModal =
       await ModalBackupKompaktPage.backupInProgressModal
     await expect(backupInProgressModal).toBeDisplayed()
-    const creatingBackupTitle = await ModalBackupKompaktPage.creatingBackupTitle
-    const creatingBackupTitleText = await creatingBackupTitle?.getProperty(
-      "textContent"
+    await expect(ModalBackupKompaktPage.creatingBackupTitle).toHaveText(
+      "Creating backup"
     )
-    expect(creatingBackupTitleText).toContain("Creating backup")
-    const creatingBackupDescription =
-      await ModalBackupKompaktPage.creatingBackupDescription
-    const creatingBackupDescriptionText =
-      await creatingBackupDescription?.getProperty("textContent")
-    expect(creatingBackupDescriptionText).toContain(
+    await expect(ModalBackupKompaktPage.creatingBackupDescription).toHaveText(
       "Please wait and do not unplug your device from computer."
     )
-
     const creatingBackupProgressBar =
       await ModalBackupKompaktPage.creatingBackupProgressBar
 
     const creatingBackupProgressBarValue =
       await creatingBackupProgressBar.getAttribute("value")
-    await expect(creatingBackupProgressBarValue).toBe("10")
+    expect(creatingBackupProgressBarValue).toBe("10")
+
+    const creatingBackupProgressBarDetails =
+      await ModalBackupKompaktPage.creatingBackupProgressBarDetails
+    await expect(creatingBackupProgressBarDetails).toHaveText("10%")
   })
 })
