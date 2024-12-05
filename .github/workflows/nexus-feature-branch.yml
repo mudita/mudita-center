@@ -1,9 +1,14 @@
 name: Build & deploy to feature branch
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      ["e2e (standalone) for feature branch", "e2e (mock) for feature branch"]
+    types:
+      - completed
     branches:
       - CP-*
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -131,10 +136,10 @@ jobs:
           } | Set-Content -Path 'apps/mudita-center/package.json'
       - name: Setup depedencies
         run: npm run setup
-#      - name: Copy electron-builder environment file for Windows
-#        if: matrix.os == 'Windows'
-#        run: |
-#          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
+      #      - name: Copy electron-builder environment file for Windows
+      #        if: matrix.os == 'Windows'
+      #        run: |
+      #          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.os != 'Windows'
         run: |

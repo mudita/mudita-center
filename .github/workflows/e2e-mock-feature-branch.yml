@@ -1,7 +1,10 @@
 name: e2e (mock) for feature branch
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Automatic Quality Checks"]
+    types:
+      - completed
     branches:
       - CP-*
 

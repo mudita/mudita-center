@@ -1,7 +1,10 @@
 name: e2e (standalone) for feature branch
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Automatic Quality Checks"]
+    types:
+      - completed
     branches:
       - CP-*
 
@@ -10,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ Windows, Linux ]
+        os: [Windows, Linux]
     environment: development
     steps:
       - name: Checkout code
