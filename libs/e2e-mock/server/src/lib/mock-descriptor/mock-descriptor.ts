@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { findIndex, pullAt, find } from "lodash"
+import { findIndex, pullAt, find, merge } from "lodash"
 import { PortInfo } from "serialport"
 import {
   AddKompakt,
@@ -86,6 +86,36 @@ class MockDescriptor {
         ],
       },
     }
+  }
+  // Add method for mocking PRE_BACKUP responses
+  public mockPreBackupResponses(path: string, backupId: number) {
+    // Mock initial PRE_BACKUP response with status 202 (processing)
+    this.addResponse({
+      path,
+      endpoint: "PRE_BACKUP",
+      method: "POST",
+      status: 202,
+      body: {
+        backupId,
+      },
+    })
+
+    // After 10 seconds, update the response to status 200 (completed)
+    setTimeout(() => {
+      this.addResponse({
+        path,
+        endpoint: "PRE_BACKUP",
+        method: "POST",
+        status: 200,
+        body: {
+          backupId,
+          features: {
+            CONTACTS_V1: "path/to/backup/calls.json",
+            CALL_LOGS_V1: "path/to/backup/call_logs.json",
+          },
+        },
+      })
+    }, 10000)
   }
 
   public removeResponses({ path, requests }: RestoreDefaultResponses) {
@@ -205,7 +235,25 @@ class MockDescriptor {
           method,
           responses: perDeviceOnceResponses,
         })
-        return foundResponse.response
+        return merge(
+          foundResponse.response,
+          this.fillEndpointSpecificFields(endpoint, method, body)
+        )
+      }
+    }
+    return undefined
+  }
+
+  private fillEndpointSpecificFields(
+    endpoint: APIEndpointType,
+    method: APIMethodsType,
+    body: Record<string, unknown> | undefined
+  ) {
+    if ((method === "POST" || method === "GET") && endpoint === "PRE_BACKUP") {
+      return {
+        body: {
+          backupId: body?.["backupId"],
+        },
       }
     }
     return undefined
@@ -223,7 +271,10 @@ class MockDescriptor {
       const foundResponse = this.findResponse(perDeviceResponses, body)
 
       if (foundResponse) {
-        return foundResponse.response
+        return merge(
+          foundResponse.response,
+          this.fillEndpointSpecificFields(endpoint, method, body)
+        )
       }
     }
     return undefined

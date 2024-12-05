@@ -87,5 +87,21 @@ class ModalBackupKompaktPage extends OverviewPage {
   public get passwordsDoNotMatch() {
     return $('[data-testid="interactive-text-input-error-text"]')
   }
+
+  public get backupInProgressModal() {
+    return $('//*[@data-testid="modal-content-backupbackup-create"]')
+  }
+
+  public get creatingBackupTitle() {
+    return $('//*[@data-testid="predefined-backup-progress-title"]')
+  }
+
+  public get creatingBackupDescription() {
+    return $('//*[@data-testid="predefined-backup-progress-description"]')
+  }
+
+  public get creatingBackupProgressBar() {
+    return $('//*[@data-testid="progressbar-progress"]')
+  }
 }
 export default new ModalBackupKompaktPage()
