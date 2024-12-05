@@ -10,10 +10,25 @@ const singleLineTextValidator = z.object({
   singleLine: z.boolean().optional(),
 })
 
+const textTransformTypes = z.enum([
+  "capitalize",
+  "uppercase",
+  "lowercase",
+  "capitalize-first-letter",
+  "format-bytes",
+])
+
+export type TextTransformTypes = z.infer<typeof textTransformTypes>
+
+const textTransformOptionsValidator = z.object({
+  minUnit: z.enum(["B", "KB", "MB", "GB", "TB"]).optional(),
+})
+
+export type TextTransformOptions = z.infer<typeof textTransformOptionsValidator>
+
 const textTransformValidator = z.object({
-  textTransform: z
-    .enum(["capitalize", "uppercase", "lowercase", "capitalize-first-letter"])
-    .optional(),
+  textTransform: textTransformTypes.optional(),
+  textTransformOptions: textTransformOptionsValidator.optional(),
 })
 
 const colorValidator = z.object({

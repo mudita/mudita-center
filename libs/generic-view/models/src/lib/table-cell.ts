@@ -20,3 +20,9 @@ export const tableCell = {
   dataValidator,
   configValidator,
 } as const
+
+export const tableHeaderCell = {
+  key: "table.headerCell",
+  dataValidator,
+  configValidator,
+} as const
