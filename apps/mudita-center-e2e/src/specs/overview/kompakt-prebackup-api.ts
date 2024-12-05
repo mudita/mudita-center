@@ -62,11 +62,9 @@ describe("E2E mock sample - overview view", () => {
     const createBackupPasswordSkip =
       await ModalBackupKompaktPage.createBackupPasswordSkip
     await createBackupPasswordSkip.click()
-
-    await browser.pause(10000)
   })
 
-  xit("Click Create backup and click skip password to start backup", async () => {
+  it("Verify backup creating modal, check if backup is in progress", async () => {
     const backupInProgressModal =
       await ModalBackupKompaktPage.backupInProgressModal
     await expect(backupInProgressModal).toBeDisplayed()
@@ -75,5 +73,19 @@ describe("E2E mock sample - overview view", () => {
       "textContent"
     )
     expect(creatingBackupTitleText).toContain("Creating backup")
+    const creatingBackupDescription =
+      await ModalBackupKompaktPage.creatingBackupDescription
+    const creatingBackupDescriptionText =
+      await creatingBackupDescription?.getProperty("textContent")
+    expect(creatingBackupDescriptionText).toContain(
+      "Please wait and do not unplug your device from computer."
+    )
+
+    const creatingBackupProgressBar =
+      await ModalBackupKompaktPage.creatingBackupProgressBar
+
+    const creatingBackupProgressBarValue =
+      await creatingBackupProgressBar.getAttribute("value")
+    await expect(creatingBackupProgressBarValue).toBe("10")
   })
 })
