@@ -6,7 +6,10 @@
 import React, { useMemo } from "react"
 import { defineMessages } from "react-intl"
 import { useSelector } from "react-redux"
-import { selectDataTransferErrorType } from "generic-view/store"
+import {
+  selectDataMigrationPureTransferFinished,
+  selectDataTransferErrorType,
+} from "generic-view/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ApiFileTransferError } from "device/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -23,9 +26,8 @@ const messages = defineMessages({
   },
 })
 
-export const TransferFailMessage: FunctionComponent<{
-  partialChanges?: boolean
-}> = ({ partialChanges }) => {
+export const TransferFailMessage: FunctionComponent = () => {
+  const partialChanges = useSelector(selectDataMigrationPureTransferFinished)
   const dataTransferErrorType = useSelector(selectDataTransferErrorType)
 
   return useMemo(() => {

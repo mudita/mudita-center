@@ -75,7 +75,6 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   const sourceDevice = useSelector(selectDataMigrationSourceDevice)
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
   const pureRestarting = useSelector(selectDataMigrationPureRestarting)
-  const [partialChanges, setPartialChanges] = useState(false)
 
   const [modalOpened, setModalOpened] = useState(false)
 
@@ -88,7 +87,6 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   const displayTransferSetup = !displayInstruction && !displayTargetSelector
 
   const startMigration = useCallback(() => {
-    setPartialChanges(false)
     dispatch(
       prepareDevicesForDataMigration({
         onSuccess: () => {
@@ -189,8 +187,6 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
           })
         )
       }
-    } else if (dataMigrationStatus === DataMigrationStatus.DataTransferring) {
-      setPartialChanges(true)
     }
   }, [dataMigrationStatus, dispatch, pureRestarting, sourceDevice])
 
@@ -236,10 +232,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         }}
         componentKey={"data-migration-modal-transfer-failed"}
       >
-        <TransferErrorModal
-          onButtonClick={onFinish}
-          partialChanges={partialChanges}
-        />
+        <TransferErrorModal onButtonClick={onFinish} />
       </Modal>
       <Modal
         config={{
@@ -267,7 +260,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         }}
         componentKey={"data-migration-modal-cancelled"}
       >
-        <CancelledModal onClose={onFinish} partialChanges={partialChanges} />
+        <CancelledModal onClose={onFinish} />
       </Modal>
       <Modal
         config={{

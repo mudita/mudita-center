@@ -21,12 +21,10 @@ const messages = defineMessages({
 
 interface Props {
   onButtonClick?: VoidFunction
-  partialChanges?: boolean
 }
 
 export const TransferErrorModal: FunctionComponent<Props> = ({
   onButtonClick,
-  partialChanges,
 }) => {
   const title = intl.formatMessage(messages.title)
   const buttonLabel = intl.formatMessage(messages.closeButtonLabel)
@@ -35,7 +33,7 @@ export const TransferErrorModal: FunctionComponent<Props> = ({
     <ErrorModal
       modalIcon={IconType.Failure}
       title={title}
-      description={<TransferFailMessage partialChanges={partialChanges} />}
+      description={<TransferFailMessage />}
       buttonLabel={buttonLabel}
       onButtonClick={onButtonClick}
     />

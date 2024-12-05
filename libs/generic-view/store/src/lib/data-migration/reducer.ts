@@ -41,12 +41,14 @@ interface DataMigrationState {
   pureDbTempDirectory?: string
   pureRestarting?: boolean
   pureBusy?: BaseDevice["serialNumber"]
+  pureTransferFinished: boolean
 }
 
 const initialState: DataMigrationState = {
   selectedFeatures: [],
   status: DataMigrationStatus.Idle,
   abortControllers: [],
+  pureTransferFinished: false,
 }
 
 export const dataMigrationReducer = createReducer(initialState, (builder) => {
@@ -57,7 +59,15 @@ export const dataMigrationReducer = createReducer(initialState, (builder) => {
     state.selectedFeatures = action.payload
   })
   builder.addCase(setDataMigrationStatus, (state, action) => {
-    state.status = action.payload
+    const status = action.payload
+    state.status = status
+
+    if (status === DataMigrationStatus.DataTransferring) {
+      state.pureTransferFinished = true
+    }
+    if (status === DataMigrationStatus.Idle) {
+      state.pureTransferFinished = false
+    }
   })
   builder.addCase(addDataMigrationAbortController, (state, action) => {
     state.abortControllers = [...state.abortControllers, action.payload]

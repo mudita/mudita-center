@@ -23,13 +23,9 @@ const messages = defineMessages({
 
 interface Props {
   onClose?: VoidFunction
-  partialChanges?: boolean
 }
 
-export const CancelledModal: FunctionComponent<Props> = ({
-  onClose,
-  partialChanges,
-}) => {
+export const CancelledModal: FunctionComponent<Props> = ({ onClose }) => {
   const closeAction: ButtonAction = {
     type: "custom",
     callback: () => onClose?.(),
@@ -39,7 +35,7 @@ export const CancelledModal: FunctionComponent<Props> = ({
     <>
       <Modal.TitleIcon config={{ type: IconType.Failure }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
-      <TransferFailMessage partialChanges={partialChanges} />
+      <TransferFailMessage />
       <Modal.Buttons config={{ vertical: true }}>
         <ButtonSecondary
           config={{
