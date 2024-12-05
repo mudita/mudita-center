@@ -47,7 +47,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
     contactsLoader: {
       component: "entities-loader",
       config: {
-        entitiesTypes: [config.entityType],
+        entityTypes: config.entityTypes,
         text: "Loading contacts, please wait...",
       },
       layout: {
