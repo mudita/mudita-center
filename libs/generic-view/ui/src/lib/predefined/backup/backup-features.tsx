@@ -30,17 +30,8 @@ const messages = defineMessages({
 })
 
 const comingSoonMessages = defineMessages({
-  messages: {
-    id: "module.genericViews.backup.features.comingSoon.messages",
-  },
-  notes: {
-    id: "module.genericViews.backup.features.comingSoon.notes",
-  },
   calendar: {
     id: "module.genericViews.backup.features.comingSoon.calendar",
-  },
-  apps: {
-    id: "module.genericViews.backup.features.comingSoon.apps",
   },
 })
 
