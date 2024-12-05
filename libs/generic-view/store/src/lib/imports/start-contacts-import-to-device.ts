@@ -23,6 +23,7 @@ import { sendFile } from "../file-transfer/send-file.action"
 import { selectActiveApiDeviceId } from "../selectors"
 import { setImportProcessFileStatus, setImportProcessStatus } from "./actions"
 import { delay } from "shared/utils"
+import { refreshEntitiesIfMetadataChanged } from "../entities/refresh-entities-if-metadata-changed.action"
 
 export const startImportToDevice = createAsyncThunk<
   undefined,
@@ -231,6 +232,13 @@ export const startImportToDevice = createAsyncThunk<
     if (aborted) {
       return rejectWithValue(undefined)
     }
+
+    await dispatch(
+      refreshEntitiesIfMetadataChanged({
+        deviceId: deviceId,
+        entitiesType: "contacts",
+      })
+    )
 
     return undefined
   }
