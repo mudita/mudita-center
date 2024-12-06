@@ -31,9 +31,11 @@ interface ExternalUsageDeviceResponse {
 export class Client implements ClientInterface {
   private httpClient: AxiosInstance
 
-  constructor(timeout?: number) {
+  constructor(timeout?: number, apiV2?: boolean) {
     this.httpClient = axios.create({
-      baseURL: process.env.MUDITA_CENTER_SERVER_URL as string,
+      baseURL: apiV2
+        ? (process.env.MUDITA_CENTER_SERVER_V2_URL as string)
+        : (process.env.MUDITA_CENTER_SERVER_URL as string),
       httpsAgent: new https.Agent({
         rejectUnauthorized: false,
       }),
