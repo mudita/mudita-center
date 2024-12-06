@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import { overviewDataWithOneSimCard } from "../../../../../libs/e2e-mock/responses/src"
 import OverviewPage from "../../page-objects/overview.page"
@@ -43,7 +48,7 @@ describe("E2E mock sample - overview view", () => {
   it("Verify Overview Page", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
     await expect(kompaktImage).toBeDisplayed()
-    await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
+    expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()

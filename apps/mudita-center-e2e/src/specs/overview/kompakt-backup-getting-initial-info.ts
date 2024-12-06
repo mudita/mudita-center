@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import {
   overviewConfigForBackup,
@@ -139,7 +144,7 @@ describe("E2E mock sample - overview view", () => {
     await inputPassword.setValue(randomPassword)
 
     const checkPassword = await inputPassword.getAttribute("type")
-    await expect(checkPassword).toBe("password")
+    expect(checkPassword).toBe("password")
 
     const unhidePasswordIcon = ModalBackupKompaktPage.unhidePasswordIcon
     await unhidePasswordIcon.click()
@@ -156,7 +161,7 @@ describe("E2E mock sample - overview view", () => {
     await repeatInputPassword.setValue(randomPassword2)
 
     const checkPassword = await repeatInputPassword.getAttribute("type")
-    await expect(checkPassword).toBe("password")
+    expect(checkPassword).toBe("password")
 
     const unhidePasswordIcon = ModalBackupKompaktPage.unhidePasswordIcon
     await unhidePasswordIcon.click()

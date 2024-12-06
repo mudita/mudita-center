@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import { overviewDataWithOneSimCard } from "../../../../../libs/e2e-mock/responses/src"
 import homePage from "../../page-objects/home.page"

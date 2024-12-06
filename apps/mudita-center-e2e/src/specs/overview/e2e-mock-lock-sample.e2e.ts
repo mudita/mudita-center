@@ -1,11 +1,10 @@
-// import { DEFAULT_RESPONSES } from "Libs/e2e-mock/responses/src/lib/default-responses"
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
-import {
-  DEFAULT_RESPONSES,
-  outboxReloadOverview,
-  overviewDataWithoutBadge,
-} from "../../../../../libs/e2e-mock/responses/src"
-// import { outboxReloadOverview } from "Libs/e2e-mock/responses/src"
+import { DEFAULT_RESPONSES } from "../../../../../libs/e2e-mock/responses/src"
 
 describe("E2E mock lock sample", () => {
   before(async () => {
@@ -21,7 +20,7 @@ describe("E2E mock lock sample", () => {
     E2EMockClient.disconnect()
   })
 
-  it.only("Connect locked device", async () => {
+  it("Connect locked device", async () => {
     E2EMockClient.mockResponse({
       path: "path-1",
       body: {},
@@ -66,7 +65,10 @@ describe("E2E mock lock sample", () => {
 
     E2EMockClient.mockResponse({
       path: "path-1",
-      body: DEFAULT_RESPONSES.FEATURE_DATA?.GET?.body as Record<string, any>,
+      body: DEFAULT_RESPONSES.FEATURE_DATA?.GET?.body as Record<
+        string,
+        unknown
+      >,
       endpoint: "FEATURE_DATA",
       method: "GET",
       status: 200,
@@ -77,7 +79,7 @@ describe("E2E mock lock sample", () => {
       path: "path-1",
       body: DEFAULT_RESPONSES.FEATURE_CONFIGURATION?.GET?.body as Record<
         string,
-        any
+        unknown
       >,
       endpoint: "FEATURE_CONFIGURATION",
       method: "GET",
@@ -87,7 +89,7 @@ describe("E2E mock lock sample", () => {
       path: "path-1",
       body: DEFAULT_RESPONSES.MENU_CONFIGURATION?.GET?.body as Record<
         string,
-        any
+        unknown
       >,
       endpoint: "MENU_CONFIGURATION",
       method: "GET",

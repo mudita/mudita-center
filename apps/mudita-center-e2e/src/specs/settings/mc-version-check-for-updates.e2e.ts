@@ -30,7 +30,9 @@ describe("Checking for Mudita Center updates", () => {
 
     const aboutUpToDateLabel = await SettingsPage.aboutUpToDateLabel
     await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
+      setTimeout(() => {
+        done()
+      }, 10000)
     })
     await expect(aboutUpToDateLabel).toBeDisplayed()
     await expect(aboutUpToDateLabel).toHaveText("You’re up to date.")
@@ -53,7 +55,9 @@ describe("Checking for Mudita Center updates", () => {
   it("Check for updates", async () => {
     // Waiting to check if an update is available
     await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
+      setTimeout(() => {
+        done()
+      }, 10000)
     })
     const modalContentUpToDate = await ModalPage.updateNotAvailable
     await expect(modalContentUpToDate).toBeDisplayed()

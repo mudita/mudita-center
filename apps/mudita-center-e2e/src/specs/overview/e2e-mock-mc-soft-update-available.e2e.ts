@@ -1,9 +1,13 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import ModalAppUpdatePage from "../../page-objects/modal-app-update.page"
 import ModalAppUpdateLaterPage from "../../page-objects/modal-app-update-later.page"
 import ModalPage from "../../page-objects/modal.page"
 import packageInfo from "../../../../mudita-center/package.json"
-import { sleep } from "../../helpers/sleep.helper"
 import HomePage from "../../page-objects/home.page"
 import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
@@ -55,7 +59,7 @@ describe("Soft Update MC - Successful Download", () => {
       await paragraphAvailableVersion.getText()
     const availableAppVersion = textParagraphAvailableVersion.split("to ").pop()
     console.log("AVAILABLE VERSION:" + availableAppVersion)
-    await expect(availableAppVersion).toBe(newestAvailableVersion)
+    expect(availableAppVersion).toBe(newestAvailableVersion)
 
     const paragraphCurrentVersion =
       await ModalAppUpdatePage.paragraphCurrentVersion
@@ -80,20 +84,18 @@ describe("Soft Update MC - Successful Download", () => {
     await expect(linkPrivacyPolicy).toHaveText("Privacy Policy")
 
     const linkColor = await linkPrivacyPolicy.getCSSProperty("color")
-    await expect(linkColor.value).toBe("rgba(109,155,188,1)")
+    expect(linkColor.value).toBe("rgba(109,155,188,1)")
     const linkDecoration = await linkPrivacyPolicy.getCSSProperty(
       "text-decoration"
     )
-    await expect(linkDecoration.value).toBe(
-      "underline solid rgb(109, 155, 188)"
-    )
+    expect(linkDecoration.value).toBe("underline solid rgb(109, 155, 188)")
 
     const checkboxPrivacyPolicy = await ModalAppUpdatePage.checkboxPrivacyPolicy
     await expect(checkboxPrivacyPolicy).toBeDisplayed()
-    await expect(checkboxPrivacyPolicy).not.toBeChecked()
+    expect(checkboxPrivacyPolicy).not.toBeChecked()
 
     const buttonUpdate = await ModalAppUpdatePage.buttonUpdate
-    await expect(buttonUpdate.isDisplayed())
+    expect(buttonUpdate.isDisplayed())
     await expect(buttonUpdate).not.toBeClickable()
 
     const modalCloseButton = await ModalPage.modalCloseButton
@@ -157,7 +159,7 @@ describe("Soft Update MC - Successful Download", () => {
     await expect(buttonUpdate).not.toBeClickable()
 
     await checkboxPrivacyPolicy.click()
-    await expect(checkboxPrivacyPolicy).toBeChecked()
+    expect(checkboxPrivacyPolicy).toBeChecked()
 
     await expect(buttonUpdate).toBeClickable()
   })
@@ -181,10 +183,10 @@ describe("Soft Update MC - Successful Download", () => {
     const spinnerLoader = await ModalAppUpdatePage.spinnerLoader
     await expect(spinnerLoader).toBeDisplayed()
     const spinnerColor = await spinnerLoader.getCSSProperty("color")
-    await expect(spinnerColor.value).toBe("rgba(109,155,188,1)")
+    expect(spinnerColor.value).toBe("rgba(109,155,188,1)")
 
     const spinnerAnimation = await spinnerLoader.getCSSProperty("animation")
-    await expect(spinnerAnimation.value).toBe(
+    expect(spinnerAnimation.value).toBe(
       "chase 2.5s linear 0s infinite normal both running"
     )
 

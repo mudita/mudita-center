@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+/// <reference types="@wdio/globals/types" />
 import type { Options } from "@wdio/types"
 import path from "path"
 import * as dotenv from "dotenv"

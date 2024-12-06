@@ -9,7 +9,6 @@ import ModalPage from "../../page-objects/modal.page"
 import McUpdateModalPage from "../../page-objects/mc-update-modal.page"
 import HomePage from "../../page-objects/home.page"
 import testsHelper from "../../helpers/tests.helper"
-import dns from "node:dns"
 import screenshotHelper from "../../helpers/screenshot.helper"
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 
@@ -43,7 +42,7 @@ describe("Checking for Mudita Center updates", () => {
 
     // Verify network conditions
     const isOnline = await testsHelper.isOnline()
-    await expect(isOnline).toBeFalsy()
+    expect(isOnline).toBeFalsy()
 
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
@@ -118,6 +117,6 @@ describe("Checking for Mudita Center updates", () => {
 
     // Verify network conditions
     const isOnline = await testsHelper.isOnline()
-    await expect(isOnline).toBeTruthy()
+    expect(isOnline).toBeTruthy()
   })
 })

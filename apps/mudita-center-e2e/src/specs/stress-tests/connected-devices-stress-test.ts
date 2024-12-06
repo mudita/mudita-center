@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import {
   overviewDataWithOneSimCard,
@@ -73,7 +78,7 @@ describe("Kompakt switching devices", () => {
     const availableDevices = await selectDevicePage.availableDevices
 
     for (const device of availableDevices) {
-      await expect(device).toBeDisplayed();
+      await expect(device).toBeDisplayed()
     }
 
     const firstDeviceOnSelectModal =
@@ -90,13 +95,13 @@ describe("Kompakt switching devices", () => {
 
     const firstDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[0].getText()
-    await expect(firstDeviceSerialNumber).toEqual(firstSerialNumber)
+    expect(firstDeviceSerialNumber).toEqual(firstSerialNumber)
     const firstDeviceName = await selectDeviceModalNames[0]
     await expect(firstDeviceName).toHaveText("Kompakt")
 
     const secondDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[1].getText()
-    await expect(secondDeviceSerialNumber).toEqual(secondSerialNumber)
+    expect(secondDeviceSerialNumber).toEqual(secondSerialNumber)
     const secondDeviceName = await selectDeviceModalNames[1]
     await expect(secondDeviceName).toHaveText("Kompakt")
   })
@@ -157,13 +162,13 @@ describe("Kompakt switching devices", () => {
 
     const thirdDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[2].getText()
-    await expect(thirdDeviceSerialNumber).toEqual(thirdSerialNumber)
+    expect(thirdDeviceSerialNumber).toEqual(thirdSerialNumber)
     const thirdDeviceName = await selectDeviceModalNames[2]
     await expect(thirdDeviceName).toHaveText("Kompakt")
 
     const fourthDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[3].getText()
-    await expect(fourthDeviceSerialNumber).toEqual(fourthSerialNumber)
+    expect(fourthDeviceSerialNumber).toEqual(fourthSerialNumber)
     const fourthDeviceName = await selectDeviceModalNames[3]
     await expect(fourthDeviceName).toHaveText("Kompakt")
 
@@ -177,13 +182,13 @@ describe("Kompakt switching devices", () => {
 
     const fifthDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[4].getText()
-    await expect(fifthDeviceSerialNumber).toEqual(fifthSerialNumber)
+    expect(fifthDeviceSerialNumber).toEqual(fifthSerialNumber)
     const fifthDeviceName = await selectDeviceModalNames[4]
     await expect(fifthDeviceName).toHaveText("Kompakt")
 
     const sixthDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[5].getText()
-    await expect(sixthDeviceSerialNumber).toEqual(sixthSerialNumber)
+    expect(sixthDeviceSerialNumber).toEqual(sixthSerialNumber)
     const sixthDeviceName = await selectDeviceModalNames[5]
     await expect(sixthDeviceName).toHaveText("Kompakt")
   })
@@ -200,7 +205,7 @@ describe("Kompakt switching devices", () => {
   it("Verify Overview Page for 6th device", async () => {
     const kompaktImage = await OverviewKompaktPage.kompaktImage
     await expect(kompaktImage).toBeDisplayed()
-    await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
+    expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
 
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed()

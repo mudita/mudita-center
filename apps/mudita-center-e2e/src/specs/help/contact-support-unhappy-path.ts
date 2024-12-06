@@ -76,12 +76,12 @@ describe("Contact Support - Unhappy Path", () => {
     const sendButtonLabel = HelpModalPage.sendButtonLabel
     await expect(sendButton).toBeDisplayed()
     await expect(sendButtonLabel).toHaveText("SEND")
-    await expect(sendButton).toBeDisabled()
+    expect(sendButton).toBeDisabled()
   })
 
   it("Try to Send form without any input", async () => {
     const sendButton = HelpModalPage.sendButton
-    await expect(sendButton).toBeDisabled()
+    expect(sendButton).toBeDisabled()
   })
 
   it("Verify e-mail without @ character", async () => {

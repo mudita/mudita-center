@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { index } from "@orama/orama/dist/components"
 import Page from "./page"
 
 class SelectDevicePage extends Page {

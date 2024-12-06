@@ -29,7 +29,7 @@ describe("Checking Terms of service", () => {
 
     // Wait 15 seconds to allow the update checking process to potentially timeout.
     const modalOverlay = await ModalPage.modalOverlay
-    await modalOverlay.waitForDisplayed({ timeout: 15000, reverse: true });
+    await modalOverlay.waitForDisplayed({ timeout: 15000, reverse: true })
 
     const aboutTermsOfServiceTextLabel =
       await SettingsPage.aboutTermsOfServiceTextLabel
@@ -37,7 +37,7 @@ describe("Checking Terms of service", () => {
   })
 
   it("Check Terms of service 'LEARN MORE' button", async () => {
-    if(testsHelper.isLinux()){
+    if (testsHelper.isLinux()) {
       sleep(5000)
     }
 
@@ -95,23 +95,20 @@ describe("Checking Terms of service", () => {
 
   it("Check links", async () => {
     const companyWebsiteLink = await ModalTermsOfServicePage.companyWebsiteLink
-    await expect(companyWebsiteLink).toHaveAttribute(
-      "href",
-      "https://www.mudita.com"
-    )
+    expect(companyWebsiteLink).toHaveAttribute("href", "https://www.mudita.com")
 
     const emailLink = await ModalTermsOfServicePage.companyEmailLink
-    await expect(emailLink).toHaveAttribute("href", "mailto:hello@mudita.com")
+    expect(emailLink).toHaveAttribute("href", "mailto:hello@mudita.com")
 
     const privacyPolicyLink = await ModalTermsOfServicePage.privacyPolicyLink
-    await expect(privacyPolicyLink).toHaveAttribute(
+    expect(privacyPolicyLink).toHaveAttribute(
       "href",
       "https://mudita.com/legal/privacy-policy/mudita-center/"
     )
 
     const termsConditionsLink =
       await ModalTermsOfServicePage.termsConditionsLink
-    await expect(termsConditionsLink).toHaveAttribute(
+    expect(termsConditionsLink).toHaveAttribute(
       "href",
       "https://mudita.com/legal/terms-conditions/mudita-center/"
     )

@@ -14,8 +14,8 @@ class TestHelper {
     }
     return false
   }
-  isOnline() {
-    return browser.execute(() => navigator.onLine)
+  isOnline(): Promise<boolean> {
+    return browser.execute(() => navigator.onLine) as Promise<boolean>
   }
 }
 
