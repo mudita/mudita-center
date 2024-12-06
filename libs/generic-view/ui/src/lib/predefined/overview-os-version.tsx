@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
 import { Tag } from "../labels/tag"
@@ -13,6 +13,10 @@ import {
   OverviewOsVersionConfig,
   OverviewOsVersionData,
 } from "generic-view/models"
+import { useSelector } from "react-redux"
+import { selectActiveDeviceConfiguration } from "generic-view/store"
+import axios from "axios"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 const dataTestIds = {
   versionWrapper: "version-wrapper",
@@ -30,6 +34,30 @@ export const OverviewOsVersion: APIFC<
   OverviewOsVersionData,
   OverviewOsVersionConfig
 > = ({ config, data, ...props }) => {
+  const deviceConfiguration = useSelector(selectActiveDeviceConfiguration)
+  const [availableUpdateName, setAvailableUpdateName] = useState<string>()
+  const updateAvailable = availableUpdateName !== undefined
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const { osVersionTimestamp, otaApiKey } =
+          deviceConfiguration?.apiConfig?.otaApiConfig || {}
+        const request = await axios.get<{ available: boolean; name: string }>(
+          `${process.env.MUDITA_CENTER_SERVER_V2_URL}/kompakt-os-update-availability?imei=${otaApiKey}&version=${osVersionTimestamp}`
+        )
+        if (request.data && request.data.available) {
+          setAvailableUpdateName(request.data.name)
+        }
+      } catch (error) {
+        logger.error(
+          "Error while checking Kompakt OS update availability",
+          error
+        )
+      }
+    })()
+  }, [deviceConfiguration?.apiConfig?.otaApiConfig])
+
   return (
     <Wrapper {...props} data-testid={dataTestIds.versionWrapper}>
       {config?.versionLabel && (
@@ -41,19 +69,17 @@ export const OverviewOsVersion: APIFC<
         {data?.text && (
           <Version data-testid={dataTestIds.version}>{data?.text}</Version>
         )}
-        {data?.update?.available && (
+        {updateAvailable && (
           <Tag>
             {intl.formatMessage(messages.updateTag, {
-              version: data?.update.updateText,
+              version: availableUpdateName,
             })}
           </Tag>
         )}
-        {config?.showBadge && !data?.update?.available && (
-          <Tag>{data?.badgeText}</Tag>
-        )}
-        {data?.update?.available && (
+        {config?.showBadge && !updateAvailable && <Tag>{data?.badgeText}</Tag>}
+        {updateAvailable && (
           <ActionLabel data-testid={dataTestIds.actionLabel}>
-            {data.update.actionLabel ??
+            {data?.update?.actionLabel ??
               intl.formatMessage(messages.updateActionLabel)}
           </ActionLabel>
         )}
