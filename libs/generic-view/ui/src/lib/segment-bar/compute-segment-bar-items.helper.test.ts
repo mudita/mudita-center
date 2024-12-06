@@ -3,10 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  computeSegmentBarItems,
-  SegmentBarItem,
-} from "./compute-segment-bar-items.helper"
+import { SegmentBarItem } from "generic-view/models"
+import { computeSegmentBarItems } from "./compute-segment-bar-items.helper"
 
 describe("Single segments", () => {
   test("handles a single segment without minWidth", () => {
@@ -148,6 +146,16 @@ describe("Multiple segments - with minWidth", () => {
 })
 
 describe("Edge cases", () => {
+  test("returns an empty array when containerWidth is 0", () => {
+    const segments: SegmentBarItem[] = [
+      { color: "#000", label: "Segment 1", value: 100, minWidth: 50 },
+      { color: "#111", label: "Segment 2", value: 50, minWidth: 25 },
+    ]
+    const result = computeSegmentBarItems(segments, 0)
+
+    expect(result).toEqual([])
+  })
+
   test("ignores segments with value = 0", () => {
     const segments: SegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 0, minWidth: 50 },

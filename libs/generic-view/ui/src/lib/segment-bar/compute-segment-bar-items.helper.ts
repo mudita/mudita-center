@@ -3,25 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface SegmentBarItem {
-  color: string
-  label: string
-  value: number
-  minWidth: number
-}
+import { SegmentBarItem } from "generic-view/models"
 
 interface AdjustedSegment extends SegmentBarItem {
   usesMinWidth: boolean
 }
 
-interface ComputedSegmentBarItem extends SegmentBarItem {
+export interface ComputedSegmentBarItem extends SegmentBarItem {
   width: string
   left: string
   zIndex: number
-}
-
-export interface SegmentBarProps {
-  segments: SegmentBarItem[]
 }
 
 const calculateTotalSegmentValue = (segments: SegmentBarItem[]): number =>
@@ -81,7 +72,6 @@ const calculateWidth = (
     : (segment.value / remainingSegmentValue) * remainingWidth
 }
 
-
 const calculateSegmentPositions = (
   segments: AdjustedSegment[],
   totalSegmentValue: number,
@@ -128,6 +118,10 @@ export const computeSegmentBarItems = (
   segments: SegmentBarItem[],
   containerWidth: number
 ): ComputedSegmentBarItem[] => {
+  if(containerWidth === 0) {
+    return []
+  }
+
   const filteredSegments = segments.filter((segment) => segment.value > 0)
 
   const totalSegmentValue = calculateTotalSegmentValue(filteredSegments)
