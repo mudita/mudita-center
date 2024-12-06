@@ -19,7 +19,6 @@ import {
 import { AppError } from "Core/core/errors"
 import { DeviceId } from "Core/device/constants/device-id"
 import { View } from "generic-view/utils"
-import { mcFileManagerData, McFileManagerData } from "generic-view/models"
 
 export class APIFeaturesService {
   constructor(private deviceProtocol: DeviceProtocol) {}
@@ -99,8 +98,17 @@ export class APIFeaturesService {
   }
 
   @IpcEvent(APIFeaturesServiceEvents.FeatureData)
-  public async getFeatureData(feature: string): Promise<ResultObject<unknown>> {
-    const device = this.deviceProtocol.apiDevice
+  public async getFeatureData({
+    feature,
+    deviceId,
+  }: {
+    feature: string
+    deviceId?: DeviceId
+  }): Promise<ResultObject<unknown>> {
+    const device = deviceId
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
+
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
@@ -151,39 +159,6 @@ export class APIFeaturesService {
       const validator = OverviewDataValidator(overview, about)
 
       const overviewData = validator.safeParse(response.data.body)
-
-      return overviewData.success
-        ? Result.success(overviewData.data)
-        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
-    }
-
-    return Result.failed(response.error)
-  }
-
-  @IpcEvent(APIFeaturesServiceEvents.GetFileManagerData)
-  public async getFileManagerData({
-    deviceId,
-  }: {
-    deviceId?: DeviceId
-  }): Promise<ResultObject<McFileManagerData>> {
-    const device = deviceId
-      ? this.deviceProtocol.getAPIDeviceById(deviceId)
-      : this.deviceProtocol.apiDevice
-
-    if (!device) {
-      return Result.failed(new AppError(GeneralError.NoDevice, ""))
-    }
-
-    const response = await device.request({
-      endpoint: "FEATURE_DATA",
-      method: "GET",
-      body: {
-        feature: "fileManager",
-        lang: "en-US",
-      },
-    })
-    if (response.ok) {
-      const overviewData = mcFileManagerData.safeParse(response.data.body)
 
       return overviewData.success
         ? Result.success(overviewData.data)

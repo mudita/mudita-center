@@ -10,7 +10,7 @@ import { FeaturesActions } from "./featues-action-keys"
 import { getOverviewConfig } from "./get-overview-config.actions"
 import { getOverviewData } from "./get-overview-data.actions"
 import { getGenericConfig } from "./get-generic-config.actions"
-import { getFileManagerData } from "./get-file-manager-data.actions"
+import { getGenericData } from "./get-generic-data.actions"
 
 export const getSingleFeatures = createAsyncThunk<
   undefined,
@@ -24,12 +24,9 @@ export const getSingleFeatures = createAsyncThunk<
         await dispatch(getOverviewConfig({ deviceId }))
         await dispatch(getOverviewData({ deviceId }))
         break
-      case "fileManager":
-        await dispatch(getGenericConfig({ deviceId, feature }))
-        await dispatch(getFileManagerData({ deviceId }))
-        break
       default:
         await dispatch(getGenericConfig({ deviceId, feature }))
+        await dispatch(getGenericData({ deviceId, feature }))
         break
     }
 

@@ -110,10 +110,7 @@ export const Paragraph3: APIFC<ParagraphData, ParagraphConfig> = ({
   children,
   ...props
 }) => {
-  console.log(data)
   const text = data?.text ?? config?.text
-
-  console.log(text)
 
   const transformedText = applyTextTransform(
     text,

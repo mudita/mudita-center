@@ -4,15 +4,17 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { McFileManagerData } from "generic-view/models"
+import { Feature } from "generic-view/models"
 import { APIFeaturesServiceEvents } from "device/models"
 import { ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
 
-export const getFileManagerDataRequest = (
-  deviceId: DeviceId
-): Promise<ResultObject<McFileManagerData>> => {
-  return ipcRenderer.callMain(APIFeaturesServiceEvents.GetFileManagerData, {
+export const getFeatureDataRequest = (
+  deviceId: DeviceId,
+  feature: string
+): Promise<ResultObject<Feature["data"]>> => {
+  return ipcRenderer.callMain(APIFeaturesServiceEvents.FeatureData, {
     deviceId,
+    feature,
   })
 }

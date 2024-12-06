@@ -16,6 +16,7 @@ import { getAPIAny } from "../get-api-any"
 import { getMenuConfig } from "../get-menu-config"
 import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { getGenericConfig } from "../features/get-generic-config.actions"
+import { getGenericData } from "../features/get-generic-data.actions"
 import {
   addDevice,
   removeDevice,
@@ -25,7 +26,6 @@ import {
   setMenu,
 } from "./actions"
 import { transformGenericComponents } from "../features/transform-generic-components"
-import { getFileManagerData } from "../features/get-file-manager-data.actions"
 
 export interface GenericState {
   menu: MenuElement[] | undefined
@@ -124,17 +124,6 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
         : {}),
     }
   })
-  builder.addCase(getFileManagerData.fulfilled, (state, action) => {
-    state.lastResponse = action.payload
-    const deviceId = action.payload.deviceId
-    state.devices[deviceId].features = {
-      ...state.devices[deviceId].features,
-      fileManager: {
-        config: state.devices[deviceId].features?.["fileManager"]?.config,
-        data: action.payload.data,
-      },
-    }
-  })
   builder.addCase(getOverviewConfig.fulfilled, (state, action) => {
     state.lastResponse = action.payload
     const deviceId = action.payload.deviceId
@@ -172,6 +161,17 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       [feature]: {
         config: view,
         data: state.devices[deviceId].features?.[feature]?.data,
+      },
+    }
+  })
+  builder.addCase(getGenericData.fulfilled, (state, action) => {
+    const { deviceId, feature, data } = action.payload
+    state.lastResponse = action.payload
+    state.devices[deviceId].features = {
+      ...state.devices[deviceId].features,
+      [feature]: {
+        config: state.devices[deviceId].features?.[feature]?.config,
+        data,
       },
     }
   })

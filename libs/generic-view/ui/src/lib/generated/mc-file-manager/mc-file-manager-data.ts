@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { EntitiesLoaderConfig, McFileManagerData } from "generic-view/models"
+import {
+  EntitiesLoaderConfig,
+  Feature,
+  McFileManagerData,
+} from "generic-view/models"
 import { View } from "generic-view/utils"
 
 const isEntitiesLoaderConfig = (
@@ -65,7 +69,7 @@ const generateOtherFilesSpaceInformation = (
 export const generateFileManagerData = (
   data: McFileManagerData,
   config: View
-) => {
+): Feature["data"] => {
   const entitiesLoaderConfig = config.fileManagerLoader.config
   const entityTypes = isEntitiesLoaderConfig(entitiesLoaderConfig)
     ? entitiesLoaderConfig.entityTypes
