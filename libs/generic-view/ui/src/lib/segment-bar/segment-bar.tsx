@@ -15,8 +15,6 @@ const mergeSegments = (
   data: SegmentBarData | undefined,
   config: SegmentBarConfig
 ): SegmentBarConfig["segments"] => {
-  console.log("data?.segments", data?.segments)
-  console.log("config.segments", config.segments)
   if (data?.segments.length !== config.segments.length) {
     return config.segments
   }
@@ -34,27 +32,20 @@ export const SegmentBar: APIFC<SegmentBarData, SegmentBarConfig> = ({
   data,
   ...props
 }) => {
-  const segments = mergeSegments(data, config)
-
   const { ref, containerWidth } = useContainerWidth()
 
-  const computeSegments = React.useCallback(() => {
+  const segments = React.useMemo(() => {
+    return mergeSegments(data, config)
+  }, [data, config])
+
+  const computedSegments = React.useMemo(() => {
     return computeSegmentBarItems(segments, containerWidth)
   }, [segments, containerWidth])
-
-  const computedSegments = computeSegments()
-
-  const segmentBorderRadius = config.segmentBorderRadius || "56px"
 
   return (
     <Wrapper ref={ref} width={"100%"} height={"14px"} {...props}>
       {computedSegments.map((segment, index) => (
-        <SegmentBarItem
-          key={index}
-          {...segment}
-          borderRadius={segmentBorderRadius}
-          isFirst={index === 0}
-        />
+        <SegmentBarItem key={index} {...segment} isFirst={index === 0} />
       ))}
     </Wrapper>
   )
