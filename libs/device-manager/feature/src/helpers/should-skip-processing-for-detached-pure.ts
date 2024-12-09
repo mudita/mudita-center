@@ -18,6 +18,7 @@ export const shouldSkipProcessingForDetachedPure = (
       [
         DataMigrationStatus.PureDatabaseCreating,
         DataMigrationStatus.PureDatabaseIndexing,
+        DataMigrationStatus.DataReading,
       ].includes(migrationStatus)
   )
 }

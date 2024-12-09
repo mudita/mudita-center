@@ -162,6 +162,8 @@ export const transferMigrationData = createAsyncThunk<
         }
       }
 
+      dispatch(setDataMigrationStatus(DataMigrationStatus.DataTransferring))
+
       if (signal.aborted) {
         return rejectWithValue(undefined)
       }
