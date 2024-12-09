@@ -31,11 +31,17 @@ export const selectDataMigrationProgress = createSelector(
       }
     }
 
+    if (dataMigrationStatus === DataMigrationStatus.DataReading) {
+      return {
+        value: 40,
+      }
+    }
+
     if (dataMigrationStatus === DataMigrationStatus.DataTransferring) {
       // Calculate overall progress as a weighted sum of data migration and data transfer progress
-      const dataTransferProgressFactor = (70 - 1) / 100
+      const dataTransferProgressFactor = (60 - 1) / 100
       const value = Math.floor(
-        30 + dataTransferProgressFactor * dataTransferProgress
+        40 + dataTransferProgressFactor * dataTransferProgress
       )
 
       return {

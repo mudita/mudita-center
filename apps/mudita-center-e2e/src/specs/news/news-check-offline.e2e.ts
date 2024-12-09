@@ -76,7 +76,7 @@ describe("News Page Check in Offline Mode", () => {
     await expect(lastNewsCardCommunityLinkText).toBeDisplayedInViewport()
   })
 
-  it.skip("Verify News Cards", async () => {
+  it("Verify News Cards", async () => {
     const newsCardElements = await NewsPage.newsCardElements
     await expect(newsCardElements).toHaveLength(6)
 
