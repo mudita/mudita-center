@@ -16,6 +16,7 @@ import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-i
 import { setLastRefresh } from "../views/actions"
 import { getEntityDataAction } from "../entities/get-entity-data.action"
 import { deleteEntityData, setEntityData } from "../entities/actions"
+import { getEntitiesMetadataAction } from "../entities/get-entities-metadata.action"
 
 export const getOutboxData = createAsyncThunk<
   {
@@ -44,16 +45,24 @@ export const getOutboxData = createAsyncThunk<
         return !featuresToFullReload.includes(feature)
       })
 
-      featuresToFullReload.forEach(async (feature) => {
+      for (const feature of featuresToFullReload) {
         await dispatch(getSingleFeatures({ deviceId, feature }))
-      })
+      }
 
-      dataToReload.forEach(async (feature) => {
+      for (const feature of dataToReload) {
         await dispatch(getSingleFeatureData({ deviceId, feature }))
-      })
+      }
     }
 
     if (response.data.entities && response.data.entities.length > 0) {
+      const uniqueEntityTypes = new Set(
+        response.data.entities.map((entity) => entity.entityType)
+      )
+
+      for (const entitiesType of uniqueEntityTypes) {
+        await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
+      }
+
       for (const entity of response.data.entities) {
         if (entity.action === "deleted") {
           dispatch(
