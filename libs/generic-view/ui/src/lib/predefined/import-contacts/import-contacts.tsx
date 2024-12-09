@@ -182,7 +182,16 @@ export const ImportContacts: APIFC<undefined, ImportContactsConfig> = ({
   ...props
 }) => {
   return (
-    <Form {...props}>
+    <Form
+      {...props}
+      config={{
+        formOptions: {
+          defaultValues: {
+            [SELECTED_CONTACTS_FIELD]: [],
+          },
+        },
+      }}
+    >
       <ImportContactsForm {...config} />
     </Form>
   )
