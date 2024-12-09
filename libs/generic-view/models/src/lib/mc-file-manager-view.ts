@@ -17,6 +17,7 @@ export const mcFileManagerData = z.object({
       storageType: z.string(),
       totalSpaceBytes: z.number(),
       usedSpaceBytes: z.number(),
+      // TODO: `totalSpaceString` & `usedSpaceString` to pass-through after https://appnroll.atlassian.net/browse/CP-3275
       totalSpaceString: z.string(),
       usedSpaceString: z.string(),
       categoriesSpaceInformation: z.record(

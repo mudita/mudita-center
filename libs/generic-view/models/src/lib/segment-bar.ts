@@ -5,7 +5,11 @@
 
 import { z } from "zod"
 
-const dataValidator = z.undefined()
+const dataValidator = z.object({
+  segments: z.array(z.number()),
+})
+
+export type SegmentBarData = z.infer<typeof dataValidator>
 
 const segmentBarItemSchema = z.object({
   color: z.string(),

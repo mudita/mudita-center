@@ -6,21 +6,41 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { SegmentBarConfig } from "generic-view/models"
+import { SegmentBarConfig, SegmentBarData } from "generic-view/models"
 import { computeSegmentBarItems } from "./compute-segment-bar-items.helper"
 import { SegmentBarItem } from "./segment-bar-item"
 import { useContainerWidth } from "./use-container-width.hook"
 
-export const SegmentBar: APIFC<undefined, SegmentBarConfig> = ({
+const mergeSegments = (
+  data: SegmentBarData | undefined,
+  config: SegmentBarConfig
+): SegmentBarConfig["segments"] => {
+  console.log("data?.segments", data?.segments)
+  console.log("config.segments", config.segments)
+  if (data?.segments.length !== config.segments.length) {
+    return config.segments
+  }
+
+  return config.segments.map((segment, index) => {
+    return {
+      ...segment,
+      value: data.segments[index],
+    }
+  })
+}
+
+export const SegmentBar: APIFC<SegmentBarData, SegmentBarConfig> = ({
   config,
   data,
   ...props
 }) => {
+  const segments = mergeSegments(data, config)
+
   const { ref, containerWidth } = useContainerWidth()
 
   const computeSegments = React.useCallback(() => {
-    return computeSegmentBarItems(config.segments, containerWidth)
-  }, [config.segments, containerWidth])
+    return computeSegmentBarItems(segments, containerWidth)
+  }, [segments, containerWidth])
 
   const computedSegments = computeSegments()
 
