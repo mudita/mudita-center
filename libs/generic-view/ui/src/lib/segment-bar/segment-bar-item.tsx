@@ -9,7 +9,6 @@ import { ComputedSegmentBarItem } from "./compute-segment-bar-items.helper"
 import { BaseGenericComponent } from "generic-view/utils"
 
 interface SegmentBarItemProps extends ComputedSegmentBarItem {
-  borderRadius: string
   isFirst: boolean
 }
 
@@ -30,13 +29,9 @@ export const SegmentBarItem: BaseGenericComponent<
 ))
 
 const Wrapper = styled.div<{
-  borderRadius: string
   isFirst: boolean
 }>`
   position: absolute;
   height: 100%;
-  border-radius: ${(props) =>
-    props.isFirst
-      ? `${props.borderRadius}`
-      : `0 ${props.borderRadius} ${props.borderRadius} 0`};
+  border-radius: ${(props) => (props.isFirst ? `56px` : `0 56px 56px 0`)};
 `

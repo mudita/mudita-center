@@ -6,35 +6,46 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { SegmentBarConfig } from "generic-view/models"
+import { SegmentBarConfig, SegmentBarData } from "generic-view/models"
 import { computeSegmentBarItems } from "./compute-segment-bar-items.helper"
 import { SegmentBarItem } from "./segment-bar-item"
 import { useContainerWidth } from "./use-container-width.hook"
 
-export const SegmentBar: APIFC<undefined, SegmentBarConfig> = ({
+const mergeSegments = (
+  data: SegmentBarData | undefined,
+  config: SegmentBarConfig
+): SegmentBarConfig["segments"] => {
+  if (data?.segments.length !== config.segments.length) {
+    return config.segments
+  }
+
+  return config.segments.map((segment, index) => {
+    return {
+      ...segment,
+      value: data.segments[index],
+    }
+  })
+}
+
+export const SegmentBar: APIFC<SegmentBarData, SegmentBarConfig> = ({
   config,
   data,
   ...props
 }) => {
   const { ref, containerWidth } = useContainerWidth()
 
-  const computeSegments = React.useCallback(() => {
-    return computeSegmentBarItems(config.segments, containerWidth)
-  }, [config.segments, containerWidth])
+  const segments = React.useMemo(() => {
+    return mergeSegments(data, config)
+  }, [data, config])
 
-  const computedSegments = computeSegments()
-
-  const segmentBorderRadius = config.segmentBorderRadius || "56px"
+  const computedSegments = React.useMemo(() => {
+    return computeSegmentBarItems(segments, containerWidth)
+  }, [segments, containerWidth])
 
   return (
     <Wrapper ref={ref} width={"100%"} height={"14px"} {...props}>
       {computedSegments.map((segment, index) => (
-        <SegmentBarItem
-          key={index}
-          {...segment}
-          borderRadius={segmentBorderRadius}
-          isFirst={index === 0}
-        />
+        <SegmentBarItem key={index} {...segment} isFirst={index === 0} />
       ))}
     </Wrapper>
   )

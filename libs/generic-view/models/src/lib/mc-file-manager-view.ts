@@ -6,7 +6,7 @@
 import { z } from "zod"
 
 const storageCategoryValidator = z.object({
-  spaceUsedBytes: z.number(),
+  spaceUsedBytes: z.number().nonnegative(),
   spaceUsedString: z.string(),
   storageCategory: z.string(),
 })
@@ -15,8 +15,9 @@ export const mcFileManagerData = z.object({
   storageInformation: z.array(
     z.object({
       storageType: z.string(),
-      totalSpaceBytes: z.number(),
-      usedSpaceBytes: z.number(),
+      totalSpaceBytes: z.number().nonnegative(),
+      usedSpaceBytes: z.number().nonnegative(),
+      // TODO: `totalSpaceString` & `usedSpaceString` to pass-through after https://appnroll.atlassian.net/browse/CP-3275
       totalSpaceString: z.string(),
       usedSpaceString: z.string(),
       categoriesSpaceInformation: z.record(
