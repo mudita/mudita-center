@@ -156,7 +156,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
       case DataMigrationStatus.PureDatabaseIndexing:
         dispatch(setDataMigrationPureRestarting(false))
         break
-      case DataMigrationStatus.DataTransferring:
+      case DataMigrationStatus.DataReading:
         startTransfer()
         break
     }
@@ -239,9 +239,10 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
           defaultOpened:
             modalOpened &&
             [
-              DataMigrationStatus.DataTransferring,
               DataMigrationStatus.PureDatabaseCreating,
               DataMigrationStatus.PureDatabaseIndexing,
+              DataMigrationStatus.DataReading,
+              DataMigrationStatus.DataTransferring,
               DataMigrationStatus.DataTransferred,
             ].includes(dataMigrationStatus),
           size: "small",

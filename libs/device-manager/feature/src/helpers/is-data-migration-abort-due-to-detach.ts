@@ -6,7 +6,6 @@
 import { DeviceBaseProperties } from "device-protocol/models"
 import { DataMigrationStatus } from "generic-view/store"
 
-
 export const isDataMigrationAbortDueToDetach = (
   events: DeviceBaseProperties[],
   migrationStatus: DataMigrationStatus,
@@ -15,7 +14,12 @@ export const isDataMigrationAbortDueToDetach = (
 ): boolean => {
   return events.some(
     (event) =>
-      migrationStatus === DataMigrationStatus.DataTransferring &&
+      ![
+        DataMigrationStatus.Cancelled,
+        DataMigrationStatus.Failed,
+        DataMigrationStatus.Completed,
+        DataMigrationStatus.Idle,
+      ].includes(migrationStatus) &&
       (sourceDevice?.serialNumber === event.serialNumber ||
         targetDevice?.serialNumber === event.serialNumber)
   )
