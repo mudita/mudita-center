@@ -16,12 +16,6 @@ const messages = defineMessages({
   title: {
     id: "module.genericViews.dataMigration.cancelled.title",
   },
-  noChangesDescription: {
-    id: "module.genericViews.dataMigration.cancelled.noChanges.description",
-  },
-  partialChangesDescription: {
-    id: "module.genericViews.dataMigration.cancelled.partialChanges.description",
-  },
   closeButtonLabel: {
     id: "module.genericViews.dataMigration.failure.closeButtonLabel",
   },
