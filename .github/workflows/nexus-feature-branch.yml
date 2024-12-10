@@ -139,12 +139,12 @@ jobs:
         if: matrix.os != 'Windows'
         run: |
           cp ~/actions-runner/envs/electron-builder.env apps/app/electron-builder.env
-      - name: Build App for Windows
-        if: matrix.os == 'Windows'
-        run: |
-          $env:NODE_OPTIONS="--max-old-space-size=4096"
-          $env:LOCALAPPDATA=""
-          npx nx build:win app
+#      - name: Build App for Windows
+#        if: matrix.os == 'Windows'
+#        run: |
+#          $env:NODE_OPTIONS="--max-old-space-size=4096"
+#          $env:LOCALAPPDATA=""
+#          npx nx build:win app
       - name: Build App for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
