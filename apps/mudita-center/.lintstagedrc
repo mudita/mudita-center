@@ -1,9 +1,0 @@
-{
-  "*.{js,json,css,md,ts,tsx}": [
-    "prettier --write"
-  ],
-  "*.{ts,tsx}": [
-    "npm run lint:css:lint-staged",
-    "npm run lint:js:lint-staged"
-  ]
-}

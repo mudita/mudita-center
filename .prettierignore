@@ -1,7 +1,11 @@
-package.json
-node_modules
-storybook-static
-tmp
-dist
-coverage
+# Add files here to ignore them from prettier formatting
+/dist
+/coverage
+/.nx/cache
+/.nx/workspace-data
 
+/apps/electron-app/out
+/apps/electron-app/dist
+/apps/electron-app/LICENSE.md
+/apps/electron-app/tsconfig.json
+/apps/electron-app/tsconfig.*.json
