@@ -1,7 +1,9 @@
-appId: com.electron.app
-productName: app
+appId: com.mudita.center
+productName: Mudita Center
+copyright: Copyright (c) 2017-2024, Mudita sp. z o.o. All rights reserved.
 directories:
-  buildResources: build
+  buildResources: resources
+  output: release
 electronVersion: 31.0.2
 files:
   - "!**/.vscode/*"
@@ -10,35 +12,37 @@ files:
   - "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
   - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
   - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
-asarUnpack:
-  - resources/**
 win:
-  executableName: app
+  icon: ./resources/icons/win/icon.ico
+  target:
+    - nsis
 nsis:
-  artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: ${productName}
+  artifactName: Mudita-Center.${ext}
   uninstallDisplayName: ${productName}
-  createDesktopShortcut: always
+  createDesktopShortcut: true
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: false
+  runAfterFinish: true
+  deleteAppDataOnUninstall: true
+  license: ./resources/license_en.txt
 mac:
-  entitlementsInherit: build/entitlements.mac.plist
-  extendInfo:
-    - NSCameraUsageDescription: Application requests access to the device's camera.
-    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
-    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
-    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
-  notarize: false
-dmg:
-  artifactName: ${name}-${version}.${ext}
+  category: public.app-category.utilities
+  artifactName: Mudita-Center.${ext}
+  icon: ./resources/icons/mac/icon.icns
+  hardenedRuntime: true
+  entitlements: ./entitlements.mac.plist
+  target:
+    - dmg
+    - zip
 linux:
   target:
     - AppImage
-    - snap
-    - deb
-  maintainer: electronjs.org
   category: Utility
+  executableName: Mudita Center
+  artifactName: Mudita-Center.${ext}
 appImage:
-  artifactName: ${name}-${version}.${ext}
-npmRebuild: false
+  license: ./resources/license_en.txt
 publish:
   provider: generic
   url: https://example.com/auto-updates

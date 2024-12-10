@@ -10,6 +10,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "@app/*": ["./*"],
       "@web/*": ["../web/src/*"],
       "@renderer/*": ["src/renderer/*"]
     }
