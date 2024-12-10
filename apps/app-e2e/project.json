@@ -1,0 +1,16 @@
+{
+  "name": "app-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "implicitDependencies": ["app"],
+  "targets": {
+    "start": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "wdio run ./wdio.conf.ts",
+        "cwd": "apps/app-e2e"
+      }
+    }
+  }
+}

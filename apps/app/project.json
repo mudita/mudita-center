@@ -1,0 +1,48 @@
+{
+  "name": "app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/app/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "electron-vite dev",
+        "cwd": "apps/app"
+      }
+    },
+    "e2e": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "nx start app-e2e"
+      }
+    },
+    "build:mac": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "electron-vite build && electron-builder --mac",
+        "cwd": "apps/app"
+      }
+    },
+    "build:linux": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "electron-vite build && electron-builder --linux",
+        "cwd": "apps/app"
+      }
+    },
+    "build:win": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "electron-vite build && electron-builder --win",
+        "cwd": "apps/app"
+      }
+    }
+  }
+}

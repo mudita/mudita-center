@@ -1,0 +1,18 @@
+{
+  "ignoreFiles": ["**/*"],
+  "extends": ["stylelint-config-standard"],
+  "customSyntax": "postcss-styled-syntax",
+  "overrides": [
+    {
+      "files": ["**/*.css"],
+      "extends": ["stylelint-config-standard"]
+    },
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "rules": {
+        "unit-allowed-list": ["em", "rem", "s"]
+      }
+    }
+  ],
+  "rules": {}
+}

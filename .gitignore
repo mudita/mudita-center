@@ -43,10 +43,14 @@ Thumbs.db
 
 vite.config.*.timestamp*
 
-/apps/electron-app/node_modules
-/apps/electron-app/dist
-/apps/electron-app/out
-/apps/electron-app/*.log*
+/apps/app/node_modules
+/apps/app/dist
+/apps/app/out
+/apps/app/*.log*
 
 
 storybook-static
+
+.env.*
+.env
+!.env.example

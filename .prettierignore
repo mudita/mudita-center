@@ -4,8 +4,8 @@
 /.nx/cache
 /.nx/workspace-data
 
-/apps/electron-app/out
-/apps/electron-app/dist
-/apps/electron-app/LICENSE.md
-/apps/electron-app/tsconfig.json
-/apps/electron-app/tsconfig.*.json
+/apps/app/out
+/apps/app/dist
+/apps/app/LICENSE.md
+/apps/app/tsconfig.json
+/apps/app/tsconfig.*.json

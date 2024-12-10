@@ -14,9 +14,10 @@
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/tsconfig.storybook.json",
-      "!{projectRoot}/tsconfig.web.json"
+      "!{projectRoot}/tsconfig.web.json",
+      "!{projectRoot}/.stylelintrc(.(json|yml|yaml|js))?"
     ],
-    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
+    "sharedGlobals": ["{workspaceRoot}/.github/workflows/validate.yml"]
   },
   "nxCloudId": "6756e54e8998481a544ffd00",
   "plugins": [
@@ -32,6 +33,13 @@
       }
     },
     {
+      "plugin": "nx-stylelint/plugin",
+      "options": {
+        "targetName": "stylelint",
+        "extensions": ["css", "ts", "tsx"]
+      }
+    },
+    {
       "plugin": "@nx/eslint/plugin",
       "options": {
         "targetName": "lint"
@@ -42,7 +50,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/electron-app-e2e/**/*"]
+      "exclude": ["apps/app-e2e/**/*"]
     },
     {
       "plugin": "@nx/storybook/plugin",
@@ -76,6 +84,16 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "stylelint": {
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.stylelintrc(.(json|yml|yaml|js))?"
+      ],
+      "cache": true,
+      "options": {
+        "args": ["--allow-empty-input"]
+      }
     }
   }
 }
