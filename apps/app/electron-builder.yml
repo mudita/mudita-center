@@ -46,3 +46,4 @@ appImage:
 publish:
   provider: generic
   url: https://example.com/auto-updates
+afterSign: ../../scripts/notarize.js
