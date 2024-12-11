@@ -9,7 +9,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [Linux, Windows, macOS]
+        os: [macOS]
+#        os: [Linux, Windows, macOS]
     environment: development
     steps:
       - name: Checkout code
@@ -139,14 +140,14 @@ jobs:
         if: matrix.os != 'Windows'
         run: |
           cp ~/actions-runner/envs/electron-builder.env apps/app/electron-builder.env
-#      - name: Build App for Windows
-#        if: matrix.os == 'Windows'
-#        run: |
-#          $env:NODE_OPTIONS="--max-old-space-size=4096"
-#          $env:LOCALAPPDATA=""
-#          npx nx build:win app
+      - name: Build App for Windows
+        if: matrix.os == 'Windows'
+        run: |
+          $env:NODE_OPTIONS="--max-old-space-size=4096"
+          $env:LOCALAPPDATA=""
+          npx nx build:win app
       - name: Build App for Linux/Mac
-        if: matrix.os == 'macOS'
+        if: matrix.os != 'Windows'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:mac app --no-cloud --output-style stream --verbose
@@ -155,37 +156,37 @@ jobs:
         if: matrix.os == 'macOS'
         run: |
           codesign -v -v apps/app/release/mac/Mudita\ Center.app
-#      - name: Push artifacts to nexus registry from Windows
-#        if: matrix.os == 'Windows'
-#        env:
-#          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-#          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-#        run: |
-#          jq -r -j .version package.json > version
-#          $APP_VERSION = Get-Content -Path "version"
-#          $SOURCE_BRANCH = "${{ github.ref_name }}"
-#          $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
-#          $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
-#          $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force
-#          $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)
-#          copy ./apps/app/release/builder-debug.yml ./apps/app/release/builder-debug-win.yml
-#          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./apps/app/release/Mudita-Center.exe -Method Put -Credential $AUTH
-#          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
-#          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/app/release/latest.yml -Method Put -Credential $AUTH
-#          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/app/release/builder-debug-win.yml -Method Put -Credential $AUTH
-#      - name: Push artifacts to nexus registry from Linux
-#        if: matrix.os == 'Linux'
-#        env:
-#          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-#          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-#        run: |
-#          export APP_VERSION=`cat package.json | jq -r .version`
-#          export SOURCE_BRANCH=${{ github.ref_name }}
-#          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-#          cp ./apps/app/release/builder-debug.yml ./apps/app/release/builder-debug-linux.yml
-#          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
-#          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
-#          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
+      - name: Push artifacts to nexus registry from Windows
+        if: matrix.os == 'Windows'
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+        run: |
+          jq -r -j .version package.json > version
+          $APP_VERSION = Get-Content -Path "version"
+          $SOURCE_BRANCH = "${{ github.ref_name }}"
+          $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
+          $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
+          $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force
+          $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)
+          copy ./apps/app/release/builder-debug.yml ./apps/app/release/builder-debug-win.yml
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./apps/app/release/Mudita-Center.exe -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/app/release/latest.yml -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/app/release/builder-debug-win.yml -Method Put -Credential $AUTH
+      - name: Push artifacts to nexus registry from Linux
+        if: matrix.os == 'Linux'
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+        run: |
+          export APP_VERSION=`cat package.json | jq -r .version`
+          export SOURCE_BRANCH=${{ github.ref_name }}
+          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
+          cp ./apps/app/release/builder-debug.yml ./apps/app/release/builder-debug-linux.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
       - name: Push artifacts to nexus registry from macOS
         if: matrix.os == 'macOS'
         env:
