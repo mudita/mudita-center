@@ -9,8 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [Linux, macOS]
-#        os: [Linux, Windows, macOS]
+        os: [Linux, macOS, Windows]
     environment: development
     steps:
       - name: Checkout code
