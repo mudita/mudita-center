@@ -43,7 +43,4 @@ linux:
   artifactName: Mudita-Center.${ext}
 appImage:
   license: ./resources/license_en.txt
-publish:
-  provider: generic
-  url: https://example.com/auto-updates
 afterSign: ../../scripts/notarize.js
