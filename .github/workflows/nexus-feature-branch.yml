@@ -174,7 +174,7 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./apps/app/release/Mudita-Center.exe -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/dev.yml -InFile ./apps/app/release/dev.yml -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug.yml -InFile ./apps/app/release/builder-debug-win.yml -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/app/release/builder-debug.yml -Method Put -Credential $AUTH
       - name: Push artifacts to nexus registry from Linux
         if: matrix.os == 'Linux'
         env:
