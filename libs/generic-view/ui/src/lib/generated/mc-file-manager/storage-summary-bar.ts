@@ -7,7 +7,7 @@ import { Subview } from "generic-view/utils"
 import { SegmentBarItem } from "generic-view/models"
 import { color } from "./color"
 
-const CONFIG_MAP: Record<string, SegmentBarItem> = {
+export const SEGMENTS_CONFIG_MAP: Record<string, SegmentBarItem> = {
   audioFiles: {
     color: color.audioFiles,
     label: "Music",
@@ -48,11 +48,11 @@ const CONFIG_MAP: Record<string, SegmentBarItem> = {
 
 export const generateStorageSummaryBar = (entityTypes: string[]): Subview => {
   const dynamicSegments: SegmentBarItem[] = entityTypes.map(
-    (entityType) => CONFIG_MAP[entityType]
+    (entityType) => SEGMENTS_CONFIG_MAP[entityType]
   )
   const fixedSegments: SegmentBarItem[] = [
-    CONFIG_MAP["otherFiles"],
-    CONFIG_MAP["free"],
+    SEGMENTS_CONFIG_MAP["otherFiles"],
+    SEGMENTS_CONFIG_MAP["free"],
   ]
 
   return {

@@ -5,8 +5,10 @@
 
 import React from "react"
 import styled from "styled-components"
-import { ComputedSegmentBarItem } from "./compute-segment-bar-items.helper"
 import { BaseGenericComponent } from "generic-view/utils"
+import { Tooltip } from "../interactive/tooltip/tooltip"
+import { P5 } from "../texts/paragraphs"
+import { ComputedSegmentBarItem } from "./compute-segment-bar-items.helper"
 
 interface SegmentBarItemProps extends ComputedSegmentBarItem {
   isFirst: boolean
@@ -17,7 +19,12 @@ export const SegmentBarItem: BaseGenericComponent<
   undefined,
   SegmentBarItemProps
 > = React.memo(({ color, width, left, zIndex, label, ...props }) => (
-  <Wrapper
+  <TooltipStyled
+    config={{
+      placement: "bottom-right",
+      strategy: "cursor-horizontal",
+      offset: { x: 0, y: 9 },
+    }}
     style={{
       width,
       left,
@@ -25,13 +32,19 @@ export const SegmentBarItem: BaseGenericComponent<
       backgroundColor: color,
     }}
     {...props}
-  />
+  >
+    <Tooltip.Content>
+      <P5 $color={"grey1"}>{label}</P5>
+    </Tooltip.Content>
+    <Tooltip.Anchor />
+  </TooltipStyled>
 ))
 
-const Wrapper = styled.div<{
+const TooltipStyled = styled(Tooltip)<{
   isFirst: boolean
 }>`
   position: absolute;
+  display: block;
   height: 100%;
   border-radius: ${(props) => (props.isFirst ? `56px` : `0 56px 56px 0`)};
 `

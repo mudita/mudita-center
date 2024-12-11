@@ -5,8 +5,15 @@
 
 import { z } from "zod"
 
+const segmentBarItemDataSchema = z.object({
+  label: z.string(),
+  value: z.number().nonnegative(),
+})
+
+export type segmentBarItemData = z.infer<typeof segmentBarItemDataSchema>
+
 const dataValidator = z.object({
-  segments: z.array(z.number().nonnegative()),
+  segments: z.array(segmentBarItemDataSchema),
 })
 
 export type SegmentBarData = z.infer<typeof dataValidator>
