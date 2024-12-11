@@ -5,6 +5,7 @@
 
 import { ComponentGenerator, IconType } from "generic-view/utils"
 import { McContactsView } from "generic-view/models"
+import { generateDeleteModals } from "./delete-modal"
 
 export const generateMcContactsView: ComponentGenerator<McContactsView> = (
   key,
@@ -399,7 +400,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         actions: [
           {
             type: "open-modal",
-            modalKey: "deleteModal",
+            modalKey: "globalDeleteModal",
             domain: "contacts-delete",
           },
         ],
@@ -796,117 +797,9 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         ],
       },
     },
-    deleteModal: {
-      component: "modal",
-      config: {
-        size: "small",
-      },
-      childrenKeys: [
-        "deleteModalIcon",
-        "deleteModalTitle",
-        "deleteModalContent",
-        "deleteModalButtons",
-      ],
-    },
-    deleteModalIcon: {
-      component: "modal.titleIcon",
-      config: {
-        type: IconType.Exclamation,
-      },
-    },
-    deleteModalTitle: {
-      component: "modal.title",
-      childrenKeys: ["deleteModalTitleText"],
-    },
-    deleteModalContent: {
-      component: "p1-component",
-      config: {
-        text: "This can't be undone so please make a copy of any important information first.",
-      },
-    },
     contactsDeletedToastText: {
       component: "p1-component",
       childrenKeys: ["contactsDeletedToastMessage"],
-    },
-    deleteModalButtons: {
-      component: "modal.buttons",
-      childrenKeys: ["deleteModalCancelButton", "deleteModalConfirmButton"],
-    },
-    deleteModalCancelButton: {
-      component: "button-secondary",
-      config: {
-        text: "Cancel",
-        actions: [
-          {
-            type: "close-modal",
-            modalKey: "deleteModal",
-          },
-        ],
-      },
-    },
-    deleteModalConfirmButton: {
-      component: "button-primary",
-      config: {
-        actions: [
-          {
-            type: "open-modal",
-            modalKey: "deleteProgressModal",
-            domain: "contacts-delete",
-          },
-          {
-            type: "entities-delete",
-            entitiesType: "contacts",
-            ids: [],
-            postActions: {
-              success: [
-                {
-                  type: "close-domain-modals",
-                  domain: "contacts-delete",
-                },
-                {
-                  type: "open-toast",
-                  toastKey: "contactsDeletedToast",
-                },
-              ],
-            },
-          },
-        ],
-      },
-      childrenKeys: ["deleteModalConfirmButtonText"],
-      layout: {
-        flexLayout: {
-          direction: "row",
-          justifyContent: "center",
-        },
-      },
-      dataProvider: {
-        source: "form-fields",
-        formKey: "contactsForm",
-        fields: [
-          {
-            providerField: "selectedContacts",
-            componentField: "config.actions[1].ids",
-          },
-        ],
-      },
-    },
-    deleteModalConfirmButtonText: {
-      component: "format-message",
-      config: {
-        messageTemplate:
-          "Delete {selectedContacts, plural, one {contact} other {contacts}}",
-      },
-      dataProvider: {
-        source: "form-fields",
-        formKey: "contactsForm",
-        fields: [
-          {
-            providerField: "selectedContacts",
-            componentField: "data.fields.selectedContacts",
-            modifier: "length",
-          },
-        ],
-      },
     },
     deleteProgressModal: {
       component: "modal",
@@ -1042,24 +935,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         },
       },
     },
-    deleteModalTitleText: {
-      component: "format-message",
-      config: {
-        messageTemplate:
-          "Delete {selectedContacts, plural, one {contact} other {# contacts}}?",
-      },
-      dataProvider: {
-        source: "form-fields",
-        formKey: "contactsForm",
-        fields: [
-          {
-            providerField: "selectedContacts",
-            componentField: "data.fields.selectedContacts",
-            modifier: "length",
-          },
-        ],
-      },
-    },
     appHeaderCounter: {
       component: "app-portal",
       config: {
@@ -1185,7 +1060,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         },
         padding: "24px 32px",
       },
-      childrenKeys: ["contactDisplayNameHeader", "disableButton"],
+      childrenKeys: ["contactDisplayNameHeader", "contactDetailsHeaderActions"],
     },
     contactDisplayNameHeader: {
       component: "h3-component",
@@ -1195,6 +1070,31 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         singleLine: true,
       },
       childrenKeys: ["contactDisplayNameValue"],
+    },
+    contactDetailsHeaderActions: {
+      component: "block-plain",
+      layout: {
+        flexLayout: {
+          direction: "row",
+          alignItems: "center",
+          columnGap: "14px",
+        },
+      },
+      childrenKeys: ["contactDetailsHeaderDeleteAction", "disableButton"],
+    },
+    contactDetailsHeaderDeleteAction: {
+      component: "button-icon",
+      config: {
+        icon: IconType.Delete,
+        iconSize: "large",
+        actions: [
+          {
+            type: "open-modal",
+            modalKey: "detailsDeleteModal",
+            domain: "contacts-delete",
+          },
+        ],
+      },
     },
     contactInformationText: {
       component: "h4-component",
@@ -2162,5 +2062,15 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         ],
       },
     },
+    ...generateDeleteModals({
+      configs: [
+        { id: "global", contactsToDelete: "selectedContacts" },
+        {
+          id: "details",
+          contactsToDelete: "activeContactId",
+          singleContact: true,
+        },
+      ],
+    }),
   }
 }

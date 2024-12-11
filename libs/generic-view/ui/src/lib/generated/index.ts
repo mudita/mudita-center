@@ -8,12 +8,12 @@ import {
   mcFileManagerView,
   mcImportContactsButton,
 } from "generic-view/models"
-import { generateMcContactsView } from "./mc-contacts-view"
+import { generateMcContactsView } from "./mc-contacts-view/mc-contacts-view"
 import { generateMcFileManagerView } from "./mc-file-manager-view/mc-file-manager-view"
 import { generateMcImportContactsButton } from "./mc-import-contacts-button"
 
 export * from "./mc-import-contacts-button"
-export * from "./mc-contacts-view"
+export * from "./mc-contacts-view/mc-contacts-view"
 
 export const generated = {
   [mcContactsView.key]: generateMcContactsView,
