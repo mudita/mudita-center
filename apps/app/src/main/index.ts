@@ -3,9 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { app, shell, BrowserWindow, ipcMain } from "electron"
+import { app, BrowserWindow, ipcMain, shell } from "electron"
+import { autoUpdater } from "electron-updater"
 import { join } from "path"
-import { electronApp, optimizer, is } from "@electron-toolkit/utils"
+import { electronApp, is, optimizer } from "@electron-toolkit/utils"
 import icon from "../../resources/icons/icon.png"
 
 function createWindow(): void {
@@ -21,6 +22,8 @@ function createWindow(): void {
       sandbox: false,
     },
   })
+
+  void autoUpdater.checkForUpdatesAndNotify()
 
   mainWindow.on("ready-to-show", () => {
     mainWindow.show()

@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macOS]
+        os: [Linux, macOS]
 #        os: [Linux, Windows, macOS]
     environment: development
     steps:
@@ -147,12 +147,16 @@ jobs:
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
           npx nx build:win app
-      - name: Build App for Linux/Mac
-        if: matrix.os != 'Windows'
+      - name: Build App for Mac
+        if: matrix.os == 'macOS'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          npx nx build:mac app --no-cloud --output-style stream --verbose
-#          npx nx build:linux app && npx nx build:mac app
+          npx nx build:mac app --output-style stream
+      - name: Build App for Linux
+        if: matrix.os == 'Linux'
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=4096"
+          npx nx build:linux app --output-style stream
       - name: Verify apple sign
         if: matrix.os == 'macOS'
         run: |

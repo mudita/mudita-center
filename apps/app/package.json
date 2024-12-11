@@ -11,10 +11,10 @@
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
-    "build": "npm run typecheck && npx electron-vite build",
-    "build:unpack": "npm run build && npx electron-builder --dir",
-    "build:win": "npm run build && npx electron-builder --win --publish never",
-    "build:mac": "electron-vite build && npx electron-builder --mac --publish never",
-    "build:linux": "electron-vite build && npx electron-builder --linux --publish never"
+    "build": "npm run typecheck && electron-vite build",
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "electron-vite build && electron-builder --win --publish never",
+    "build:mac": "electron-vite build && electron-builder --mac --publish never",
+    "build:linux": "electron-vite build && electron-builder --linux --publish never"
   }
 }
