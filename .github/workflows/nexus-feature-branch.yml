@@ -142,19 +142,18 @@ jobs:
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
           npx nx build:win app --output-style stream
+          dir apps\app\release
       - name: Build App for Mac
         if: matrix.os == 'macOS'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:mac app --output-style stream
+          ls -la apps/app/release
       - name: Build App for Linux
         if: matrix.os == 'Linux'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app --output-style stream
-          ls -la apps/app/release
-          ls -la apps/app/release/linux-unpacked
-          cat apps/app/release/dev-linux.yml
       - name: Verify apple sign
         if: matrix.os == 'macOS'
         run: |
@@ -188,8 +187,8 @@ jobs:
           export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
           cp ./apps/app/release/builder-debug.yml ./apps/app/release/builder-debug-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/dev-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
       - name: Push artifacts to nexus registry from macOS
         if: matrix.os == 'macOS'
         env:
