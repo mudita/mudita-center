@@ -37,11 +37,11 @@ mac:
     - dmg
     - zip
 linux:
-  target:
-    - AppImage
-  category: Utility
   executableName: Mudita Center
   artifactName: Mudita-Center.${ext}
+  category: Utility
+  target:
+    - AppImage
 appImage:
   license: ./resources/license_en.txt
 afterSign: ../../scripts/notarize.js

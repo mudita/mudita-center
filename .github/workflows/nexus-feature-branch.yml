@@ -153,6 +153,8 @@ jobs:
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app --output-style stream
           ls -la apps/app/release
+          ls -la apps/app/release/linux-unpacked
+          cat apps/app/release/dev-linux.yml
       - name: Verify apple sign
         if: matrix.os == 'macOS'
         run: |
