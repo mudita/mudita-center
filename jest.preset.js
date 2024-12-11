@@ -7,11 +7,9 @@ const nxPreset = require("@nx/jest/preset").default
 
 module.exports = {
   ...nxPreset,
-  moduleNameMapper: {
-    ...nxPreset.moduleNameMapper,
-    "App/(.*)": `${__dirname}/apps/mudita-center/src/$1`,
-    "Core/(.*)": `${__dirname}/libs/core/$1`,
-    "p-queue$": `${__dirname}/__mocks__/p-queue.ts`,
-  },
-  setupFilesAfterEnv: [`${__dirname}/jest.setup.js`],
+  ci: process.env.CI === "true",
+  collectCoverage: true,
+  coverageReporters: ["lcov", "text-summary", "json-summary", "text"],
+  coverageDirectory: "coverage",
+  passWithNoTests: true,
 }

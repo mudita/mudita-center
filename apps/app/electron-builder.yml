@@ -1,0 +1,50 @@
+appId: com.mudita.center
+productName: Mudita Center
+copyright: Copyright (c) 2017-2024, Mudita sp. z o.o. All rights reserved.
+directories:
+  buildResources: resources
+  output: release
+electronVersion: 31.0.2
+files:
+  - "!**/.vscode/*"
+  - "!src/*"
+  - "!electron.vite.config.{js,ts,mjs,cjs}"
+  - "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
+  - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
+  - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
+win:
+  icon: ./resources/icons/win/icon.ico
+  target:
+    - nsis
+nsis:
+  artifactName: Mudita-Center.${ext}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: true
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: false
+  runAfterFinish: true
+  deleteAppDataOnUninstall: true
+  license: ./resources/license_en.txt
+mac:
+  category: public.app-category.utilities
+  artifactName: Mudita-Center.${ext}
+  icon: ./resources/icons/mac/icon.icns
+  hardenedRuntime: true
+  entitlements: ./entitlements.mac.plist
+  notarize: false
+  target:
+    - dmg
+    - zip
+linux:
+  executableName: Mudita Center
+  artifactName: Mudita-Center.${ext}
+  category: Utility
+  target:
+    - AppImage
+appImage:
+  license: ./resources/license_en.txt
+afterSign: ../../scripts/notarize.js
+publish:
+  provider: s3
+  bucket: mudita-desktop-app

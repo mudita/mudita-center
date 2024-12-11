@@ -1,10 +1,14 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 const fs = require("fs")
 const path = require("path")
-const { build } = require("../apps/mudita-center/package.json")
 const { notarize } = require("@electron/notarize")
 
 require("dotenv").config({
-  path: path.join(__dirname, "../apps/mudita-center/electron-builder.env"),
+  path: path.join(__dirname, "../apps/app/electron-builder.env"),
 })
 
 module.exports = async function (context) {
@@ -22,7 +26,7 @@ module.exports = async function (context) {
     return
   }
 
-  const appBundleId = build.appId
+  const appBundleId = "com.mudita.center"
   const appPath = path.join(
     appOutDir,
     `${context.packager.appInfo.productFilename}.app`

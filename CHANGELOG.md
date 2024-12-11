@@ -104,7 +104,7 @@ In this update, we have released the functionality of Multidevice support, the f
 ### Changed
 
 - **Electron**: updated to version 26.0.0
-- **Node.js**: updated to version 18.16.1
+- **Node.js**: updated to version 20.18.1
 - **Chromedriver**: updated to version 116.0.0
 - **Jest**: updated to version 29.0.0
 - **React**: updated to version 18.2.0
