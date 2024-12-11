@@ -24,7 +24,7 @@
       "executor": "nx:run-commands",
       "outputs": [],
       "options": {
-        "command": "electron-vite build && electron-builder --mac",
+        "command": "electron-vite build && electron-builder --mac --universal",
         "cwd": "apps/app"
       }
     },
