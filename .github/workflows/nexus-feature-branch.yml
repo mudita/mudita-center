@@ -146,7 +146,7 @@ jobs:
 #          $env:LOCALAPPDATA=""
 #          npx nx build:win app
       - name: Build App for Linux/Mac
-        if: matrix.os != 'Windows'
+        if: matrix.os == 'macOS'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:mac app --no-cloud --output-style stream --verbose
