@@ -67,7 +67,7 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
       }
 
       const updateTooltipPosition = () => {
-        const boundary = event.currentTarget.parentElement?.getBoundingClientRect();
+        const boundary = event.currentTarget.parentElement?.parentElement?.getBoundingClientRect();
         const viewportWidth = boundary?.width || window.innerWidth
         const viewportHeight = boundary?.height || window.innerHeight
         const viewportTop = boundary?.top || 0
@@ -92,7 +92,6 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
       }
 
       const updateTooltipPositionX = () => {
-
         switch (placementVertical) {
           case "top":
             bottom - contentRect.height > 0 ? moveToTop() : moveToBottom()
@@ -104,7 +103,7 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
             break
         }
 
-        const boundary = event.currentTarget.parentElement?.getBoundingClientRect();
+        const boundary = event.currentTarget.parentElement?.parentElement?.getBoundingClientRect();
         const viewportWidth = boundary?.width || window.innerWidth
         const viewportLeft = boundary?.left || 0
         const cursorX = event.clientX + offset.x
