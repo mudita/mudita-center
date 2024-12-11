@@ -32,6 +32,7 @@ mac:
   icon: ./resources/icons/mac/icon.icns
   hardenedRuntime: true
   entitlements: ./entitlements.mac.plist
+  notarize: false
   target:
     - dmg
     - zip
