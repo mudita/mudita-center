@@ -5,7 +5,8 @@
   "productName": "Mudita Center",
   "private": true,
   "scripts": {
-    "setup": "npm ci"
+    "setup": "npm ci",
+    "postinstall": "nx postinstall app"
   },
   "repository": {
     "type": "git",
