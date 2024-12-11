@@ -111,7 +111,7 @@ jobs:
           export SOURCE_BRANCH=${{ github.ref_name }}
           export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" package.json
+          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" ./package.json
       - name: Changing app version in packages.json for Mac
         if: matrix.os == 'macOS'
         run: |
@@ -119,7 +119,7 @@ jobs:
           export SOURCE_BRANCH=${{ github.ref_name }}
           export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" package.json
+          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" ./package.json
       - name: Changing app version in packages.json for Windows
         if: matrix.os == 'Windows'
         run: |
