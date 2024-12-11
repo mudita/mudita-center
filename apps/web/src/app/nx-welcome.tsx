@@ -439,7 +439,7 @@ export function NxWelcome({ title }: { title: string }) {
           <div id="welcome">
             <Test>
               <p>
-                Test <span>test 2 update</span>
+                Test <span>test 2 update 2</span>
               </p>
             </Test>
             <h1>
