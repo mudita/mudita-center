@@ -149,7 +149,7 @@ jobs:
         if: matrix.os != 'Windows'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          npx nx build:mac app
+          npx nx build:mac app --no-cloud
 #          npx nx build:linux app && npx nx build:mac app
       - name: Verify apple sign
         if: matrix.os == 'macOS'
