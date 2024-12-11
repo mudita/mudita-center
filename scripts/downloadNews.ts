@@ -19,7 +19,7 @@ import { normalizeContentfulData } from "../libs/core/news/helpers/normalize-con
       __dirname,
       "../libs/core/news/default-news.json"
     )
-    const url = `${process.env.MUDITA_CENTER_SERVER_URL}/news`
+    const url = `${process.env.MUDITA_CENTER_SERVER_V2_URL}/news`
     const { data } = await axios.get(url, {
       params: { limit: 6 },
     })
