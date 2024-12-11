@@ -18,9 +18,10 @@ import { TooltipConfig } from "generic-view/models"
 export const Tooltip: APIFC<undefined, TooltipConfig> & {
   Anchor: typeof TooltipAnchor
   Content: typeof TooltipContent
-} = ({ children, config }) => {
+} = ({ children, config, ...props }) => {
   const {
     placement = "bottom-right",
+    strategy = "element-oriented",
     offset = {
       x: 0,
       y: 0,
@@ -65,33 +66,89 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
         content.style.right = `${right}px`
       }
 
-      switch (placementVertical) {
-        case "top": {
-          bottom - contentRect.height > 0 ? moveToTop() : moveToBottom()
-          break
+      const updateTooltipPosition = () => {
+        const cursorY = event.clientY + offset.y
+        const cursorX = event.clientX + offset.x
+
+        const adjustedY =
+          cursorY + contentRect.height > viewportHeight &&
+          cursorY - contentRect.height > 0
+            ? cursorY - contentRect.height
+            : cursorY
+
+        const adjustedX =
+          cursorX + contentRect.width > viewportWidth &&
+          cursorX - contentRect.width > 0
+            ? cursorX - contentRect.width
+            : cursorX
+
+        content.style.top = `${adjustedY}px`
+        content.style.left = `${adjustedX}px`
+        content.style.right = ""
+        content.style.bottom = ""
+      }
+
+      const updateTooltipPositionX = () => {
+        const cursorX = event.clientX + offset.x
+
+        switch (placementVertical) {
+          case "top":
+            bottom - contentRect.height > 0 ? moveToTop() : moveToBottom()
+            break
+          case "bottom":
+            top + contentRect.height < viewportHeight
+              ? moveToBottom()
+              : moveToTop()
+            break
         }
-        case "bottom": {
-          top + contentRect.height < viewportHeight
-            ? moveToBottom()
-            : moveToTop()
-          break
+
+        const adjustedX =
+          cursorX + contentRect.width > viewportWidth &&
+          cursorX - contentRect.width > 0
+            ? cursorX - contentRect.width
+            : cursorX
+
+        content.style.left = `${adjustedX}px`
+        content.style.right = ""
+      }
+
+      const applyElementPositioning = () => {
+        switch (placementVertical) {
+          case "top": {
+            bottom - contentRect.height > 0 ? moveToTop() : moveToBottom()
+            break
+          }
+          case "bottom": {
+            top + contentRect.height < viewportHeight
+              ? moveToBottom()
+              : moveToTop()
+            break
+          }
+        }
+
+        switch (placementHorizontal) {
+          case "left":
+            viewportWidth - right - contentRect.width > 0
+              ? moveToLeft()
+              : moveToRight()
+            break
+          case "right":
+            left + contentRect.width < viewportWidth
+              ? moveToRight()
+              : moveToLeft()
+            break
         }
       }
 
-      switch (placementHorizontal) {
-        case "left":
-          viewportWidth - right - contentRect.width > 0
-            ? moveToLeft()
-            : moveToRight()
-          break
-        case "right":
-          left + contentRect.width < viewportWidth
-            ? moveToRight()
-            : moveToLeft()
-          break
+      if (strategy === "cursor") {
+        updateTooltipPosition()
+      } else if (strategy === "cursor-horizontal") {
+        updateTooltipPositionX()
+      } else {
+        applyElementPositioning()
       }
     },
-    [offset, placement]
+    [offset, placement, strategy]
   )
 
   const anchor = useMemo(() => {
@@ -126,7 +183,7 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
   }, [children])
 
   return (
-    <Container>
+    <Container {...props}>
       {anchor}
       {content}
     </Container>
@@ -164,6 +221,8 @@ const Content = styled.div`
 `
 
 const Anchor = styled.div`
+  width: 100%;
+  height: 100%;
   cursor: pointer;
   &:hover {
     + ${Content} {

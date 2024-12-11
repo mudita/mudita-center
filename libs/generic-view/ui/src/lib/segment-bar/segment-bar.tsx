@@ -22,7 +22,8 @@ const mergeSegments = (
   return config.segments.map((segment, index) => {
     return {
       ...segment,
-      value: data.segments[index],
+      value: data.segments[index].value,
+      label: data.segments[index].label,
     }
   })
 }

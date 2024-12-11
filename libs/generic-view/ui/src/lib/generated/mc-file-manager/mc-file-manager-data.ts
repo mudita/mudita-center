@@ -7,8 +7,11 @@ import {
   EntitiesLoaderConfig,
   Feature,
   McFileManagerData,
+  segmentBarItemData,
 } from "generic-view/models"
 import { View } from "generic-view/utils"
+import { formatBytes } from "../../texts/format-bytes"
+import { SEGMENTS_CONFIG_MAP } from "./storage-summary-bar"
 
 const isEntitiesLoaderConfig = (
   subview: unknown
@@ -62,8 +65,19 @@ const generateOtherFilesSpaceInformation = (
   return {
     fileCategoryOtherFilesItemNameSize: {
       // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
-      text: `(${otherFilesSpaceInformation.spaceUsedString})`,
+      text: `(${formatBytes(otherFilesSpaceInformation.spaceUsedBytes, {
+        minUnit: "KB",
+      })})`,
     },
+  }
+}
+
+const getSegmentBarItemData = (entityType: string, value: number) => {
+  return {
+    value,
+    label: `${SEGMENTS_CONFIG_MAP[entityType].label} (${formatBytes(value, {
+      minUnit: "KB",
+    })})`,
   }
 }
 
@@ -73,7 +87,7 @@ const generateStorageSummary = (
     ReturnType<typeof findInternalStorageInformation>
   >
 ) => {
-  const segments: number[] = []
+  const segments: segmentBarItemData[] = []
 
   const dynamicSegmentValues = entityTypes
     .filter(
@@ -84,7 +98,7 @@ const generateStorageSummary = (
       const { spaceUsedBytes } =
         internalStorageInformation.categoriesSpaceInformation[entityType]
 
-      return spaceUsedBytes
+      return getSegmentBarItemData(entityType, spaceUsedBytes)
     })
 
   segments.push(...dynamicSegmentValues)
@@ -93,22 +107,24 @@ const generateStorageSummary = (
     internalStorageInformation.categoriesSpaceInformation["otherFiles"]
 
   if (otherFilesSpaceInformation !== undefined) {
-    segments.push(
+    const { spaceUsedBytes } =
       internalStorageInformation.categoriesSpaceInformation["otherFiles"]
-        .spaceUsedBytes
-    )
+
+    segments.push(getSegmentBarItemData("otherFiles", spaceUsedBytes))
   }
 
   const freeTotalSpaceBytes =
     internalStorageInformation.totalSpaceBytes -
     internalStorageInformation.usedSpaceBytes
 
-  segments.push(freeTotalSpaceBytes)
+  segments.push(getSegmentBarItemData("free", freeTotalSpaceBytes))
 
   return {
     // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
     storageSummaryUsedText: {
-      text: `Used: ${internalStorageInformation.usedSpaceString}`,
+      text: `Used: ${formatBytes(internalStorageInformation.usedSpaceBytes, {
+        minUnit: "KB",
+      })}`,
     },
     storageSummaryFreeText: {
       text: freeTotalSpaceBytes,
