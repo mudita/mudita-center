@@ -3,8 +3,19 @@
   "description": "Mudita Center",
   "version": "1.2.3",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mudita/mudita-center"
+  },
+  "author": {
+    "name": "Mudita",
+    "email": "contact@mudita.com"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Mudita/mudita-center/issues"
+  },
+  "homepage": "https://github.com/Mudita/mudita-center",
   "scripts": {
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
