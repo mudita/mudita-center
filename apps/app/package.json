@@ -1,7 +1,8 @@
 {
   "name": "app",
-  "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "Mudita Center",
+  "productName": "Mudita Center",
+  "version": "1.2.3",
   "main": "./out/main/index.js",
   "author": "example.com",
   "homepage": "https://electron-vite.org",

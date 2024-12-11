@@ -1,8 +1,6 @@
 {
   "name": "mudita-center",
-  "version": "2.5.0",
   "description": "Mudita Center",
-  "productName": "Mudita Center",
   "private": true,
   "scripts": {
     "setup": "npm ci"
