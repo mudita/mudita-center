@@ -67,20 +67,23 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
       }
 
       const updateTooltipPosition = () => {
+        const boundary = event.currentTarget.parentElement?.getBoundingClientRect();
+        const viewportWidth = boundary?.width || window.innerWidth
+        const viewportHeight = boundary?.height || window.innerHeight
+        const viewportTop = boundary?.top || 0
+        const viewportLeft = boundary?.left || 0
         const cursorY = event.clientY + offset.y
         const cursorX = event.clientX + offset.x
 
-        const adjustedY =
-          cursorY + contentRect.height > viewportHeight &&
-          cursorY - contentRect.height > 0
-            ? cursorY - contentRect.height
-            : cursorY
+        const adjustedY = Math.min(
+          Math.max(cursorY, viewportTop),
+          viewportTop + viewportHeight - contentRect.height
+        )
 
-        const adjustedX =
-          cursorX + contentRect.width > viewportWidth &&
-          cursorX - contentRect.width > 0
-            ? cursorX - contentRect.width
-            : cursorX
+        const adjustedX = Math.min(
+          Math.max(cursorX, viewportLeft),
+          viewportLeft + viewportWidth - contentRect.width
+        )
 
         content.style.top = `${adjustedY}px`
         content.style.left = `${adjustedX}px`
@@ -89,7 +92,6 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
       }
 
       const updateTooltipPositionX = () => {
-        const cursorX = event.clientX + offset.x
 
         switch (placementVertical) {
           case "top":
@@ -102,11 +104,15 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
             break
         }
 
-        const adjustedX =
-          cursorX + contentRect.width > viewportWidth &&
-          cursorX - contentRect.width > 0
-            ? cursorX - contentRect.width
-            : cursorX
+        const boundary = event.currentTarget.parentElement?.getBoundingClientRect();
+        const viewportWidth = boundary?.width || window.innerWidth
+        const viewportLeft = boundary?.left || 0
+        const cursorX = event.clientX + offset.x
+
+        const adjustedX = Math.min(
+          Math.max(cursorX, viewportLeft),
+          viewportLeft + viewportWidth - contentRect.width
+        )
 
         content.style.left = `${adjustedX}px`
         content.style.right = ""
