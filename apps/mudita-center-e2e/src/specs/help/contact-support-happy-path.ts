@@ -11,21 +11,7 @@ import HelpPage from "../../page-objects/help.page"
 import ContactSupportSuccessModalPage from "../../page-objects/contact-support-success-modal.page"
 import testsHelper from "../../helpers/tests.helper"
 import dns from "node:dns"
-import screenshotHelper from "../../helpers/screenshot.helper"
 
-/**
- * Check if contact support shows up
-Check contents of Contact Form
-Check if send button exists, it is called “Send” and it is clickable.
-[Screenshot]
-Fill the form correctly
-Check fields
-Verify attachment field - add assertion to check attachment date to be current date 
-Click send button - Use mocking to intercept request and prepare a response mock | WebdriverIO Intercept Service | WebdriverIO 
-Close success modal
-Close Contact Support window :warning: Wait
-Verify Result - check if Contact Support modal is not visible.
- */
 describe("Mock Using Contact Support Form", () => {
   before(async () => {
     dns.setDefaultResultOrder("ipv4first")
@@ -196,10 +182,6 @@ attachments[]: (binary)
 
     const modalHeaderTitle =
       await ContactSupportSuccessModalPage.modalHeaderTitle
-
-      
-
-      sleep(3000000)
     await expect(modalHeaderTitle).toBeDisplayed()
     await expect(modalHeaderTitle).toHaveText("Message sent")
 
