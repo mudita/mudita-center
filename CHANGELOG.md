@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [2.5.0] - 2024-12-02
+
+Starting with version 2.5.0, users will be able to synchronize the time and date on the Harmony and will be informed about an error in case of fail in the synchronization.
+
+### Added
+
+- Added time synchronization for Mudita Harmony.
+
 ## [2.4.0] - 2024-09-16
 
 In this release, we have updated the Help section in the Mudita Center application. As of version 2.4.0, users can benefit from a refreshed help section with intuitive navigation. The article search functionality is also available. In addition, we have fixed two bugs occurring in our software.

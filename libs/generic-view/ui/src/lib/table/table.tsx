@@ -8,21 +8,34 @@ import React, {
   ReactElement,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from "react"
-import styled, { css } from "styled-components"
-import { APIFC, useViewFormContext } from "generic-view/utils"
-import { TableConfig, TableData } from "generic-view/models"
-import { TableCell } from "./table-cell"
-import { P1 } from "../texts/paragraphs"
+import styled from "styled-components"
 import { difference, intersection } from "lodash"
+import { APIFC, useViewFormContext } from "generic-view/utils"
+import {
+  TableConfig,
+  TableData,
+  tableHeaderCell,
+} from "generic-view/models"
+import { TableCell } from "./table-cell"
+import { TableHeaderCell } from "./table-header-cell"
+import {
+  listItemActiveStyles,
+  listItemBaseStyles,
+  listItemClickableStyles,
+  listItemSelectedStyles,
+  listRawItemStyles,
+} from "../list/list-item"
 
 const rowHeight = 64
 
 export const Table: APIFC<TableData, TableConfig> & {
   Cell: typeof TableCell
+  HeaderCell: typeof TableCell
 } = ({ data = [], config, children, ...props }) => {
   const getFormContext = useViewFormContext()
   const formContext = getFormContext(config.formOptions.formKey)
@@ -31,8 +44,9 @@ export const Table: APIFC<TableData, TableConfig> & {
     -1, -1,
   ])
 
-  const { formOptions, columnsNames } = config
+  const { formOptions } = config
   const { activeIdFieldName } = formOptions
+  const isClickable = Boolean(activeIdFieldName)
 
   const activeRowId = activeIdFieldName
     ? formContext.watch(activeIdFieldName)
@@ -61,6 +75,21 @@ export const Table: APIFC<TableData, TableConfig> & {
     setVisibleRowsBounds([firstVisibleRowIndex, lastVisibleRowIndex])
   }, [])
 
+  const scrollToActiveItem = useCallback(() => {
+    const activeElement = scrollWrapperRef.current?.querySelector("tr.active")
+    if (activeElement) {
+      activeElement.scrollIntoView({
+        block: "nearest",
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (activeRowId) {
+      scrollToActiveItem()
+    }
+  }, [activeRowId, scrollToActiveItem])
+
   useEffect(() => {
     if (formOptions.allIdsFieldName) {
       formContext.setValue(formOptions.allIdsFieldName, data)
@@ -85,6 +114,17 @@ export const Table: APIFC<TableData, TableConfig> & {
   }, [data, formOptions.selectedIdsFieldName])
 
   useEffect(() => {
+    if (
+      formOptions.activeIdFieldName &&
+      activeRowId &&
+      !data.includes(activeRowId)
+    ) {
+      formContext.setValue(formOptions.activeIdFieldName, undefined)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeRowId, data, formOptions.activeIdFieldName])
+
+  useLayoutEffect(() => {
     const scrollWrapper = scrollWrapperRef.current
     if (!scrollWrapper) return
 
@@ -95,77 +135,98 @@ export const Table: APIFC<TableData, TableConfig> & {
     }
   }, [data.length, handleScroll])
 
-  const placeholder = useMemo(() => {
-    return (
-      <RowPlaceholder>
-        <td colSpan={Children.count(children)}>
-          <div />
-        </td>
-      </RowPlaceholder>
-    )
-  }, [children])
+  const renderPlaceholder = useCallback(
+    (id: string) => {
+      const isActive = activeRowId === id
+      return (
+        <RowPlaceholder key={id} className={isActive ? "active" : ""}>
+          <td colSpan={Children.count(children)}>
+            <div />
+          </td>
+        </RowPlaceholder>
+      )
+    },
+    [activeRowId, children]
+  )
 
   const renderChildren = useCallback(
     (id: string) => {
-      return Children.map(children, (child) => {
-        if (!React.isValidElement(child)) return null
+      const filteredChildren = React.Children.toArray(children).map((child) => {
+        if (
+          !React.isValidElement(child) ||
+          child.props.componentName === tableHeaderCell.key
+        ) {
+          return null
+        }
         return React.cloneElement(child as ReactElement, {
           dataItemId: id,
         })
       })
+
+      return <>{filteredChildren}</>
     },
     [children]
   )
 
+  const renderHeaderChildren = useCallback(() => {
+    const filteredChildren = React.Children.toArray(children).filter(
+      (child) => {
+        if (!React.isValidElement(child)) return false
+        return child.props.componentName === tableHeaderCell.key
+      }
+    )
+
+    return <>{filteredChildren}</>
+  }, [children])
+
   const renderRow = useCallback(
     (id: string, index: number) => {
       if (index < visibleRowsBounds[0] || index > visibleRowsBounds[1]) {
-        return placeholder
+        return renderPlaceholder(id)
       }
       const onClick = () => onRowClick(id)
       const isActive = activeRowId === id
 
       return (
-        <Row onClick={onClick} $active={isActive}>
+        <tr key={id} onClick={onClick} className={isActive ? "active" : ""}>
           {renderChildren(id)}
-        </Row>
+        </tr>
       )
     },
-    [activeRowId, onRowClick, placeholder, renderChildren, visibleRowsBounds]
+    [
+      activeRowId,
+      onRowClick,
+      renderChildren,
+      renderPlaceholder,
+      visibleRowsBounds,
+    ]
   )
 
   return useMemo(
     () => (
       <ScrollableWrapper ref={scrollWrapperRef} {...props}>
         <TableWrapper>
-          {columnsNames && columnsNames?.length > 0 && (
-            <TableHeader>
-              <tr>
-                {columnsNames.map((columnName) => (
-                  <th key={columnName}>
-                    <P1>{columnName}</P1>
-                  </th>
-                ))}
-              </tr>
-            </TableHeader>
-          )}
-          <TableBody>
+          <TableHeader>
+            <tr>{renderHeaderChildren()}</tr>
+          </TableHeader>
+          <TableBody $clickable={isClickable}>
             {data?.map((id, index) => renderRow(id, index))}
           </TableBody>
         </TableWrapper>
       </ScrollableWrapper>
     ),
-    [columnsNames, data, props, renderRow]
+    [data, isClickable, props, renderRow, renderHeaderChildren]
   )
 }
 
 Table.Cell = TableCell
+Table.HeaderCell = TableHeaderCell
 
 const ScrollableWrapper = styled.div`
   height: 100%;
-  width: 100%;
   overflow: auto;
   position: relative;
+  scroll-behavior: smooth;
 `
 
 const TableWrapper = styled.table`
@@ -174,45 +235,40 @@ const TableWrapper = styled.table`
   left: 0;
   width: 100%;
   max-height: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
   border-spacing: 0;
 `
 
 const TableHeader = styled.thead`
-  background: #fff;
-  height: ${rowHeight / 10}rem;
   position: sticky;
   z-index: 2;
   top: 0;
+  background: #fff;
 
   th {
     text-align: left;
     white-space: nowrap;
+    border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey4};
   }
 `
 
-const TableBody = styled.tbody`
-  tr {
+const RowPlaceholder = styled.tr`
+  ${listRawItemStyles};
+  height: ${rowHeight / 10}rem;
+`
+
+const TableBody = styled.tbody<{ $clickable?: boolean }>`
+  tr:not(${RowPlaceholder}) {
+    ${listItemBaseStyles};
+    ${listItemSelectedStyles};
     height: ${rowHeight / 10}rem;
+
+    &.active {
+      ${listItemActiveStyles};
+    }
+    ${({ $clickable }) => $clickable && listItemClickableStyles}
   }
   td {
     text-align: left;
   }
-`
-
-// TODO: Add proper styles for the table row
-const Row = styled.tr<{ $active?: boolean }>`
-  height: ${rowHeight / 10}rem;
-  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
-  border-left: 0.2rem solid transparent;
-  ${({ $active }) =>
-    $active &&
-    css`
-      border-left: 0.2rem solid #000;
-    `}
-`
-
-const RowPlaceholder = styled.tr`
-  height: ${rowHeight / 10}rem;
-  border-bottom: solid 0.1rem ${({ theme }) => theme.color.grey5};
 `

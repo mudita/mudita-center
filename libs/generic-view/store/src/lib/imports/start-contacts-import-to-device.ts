@@ -22,6 +22,7 @@ import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
 import { selectActiveApiDeviceId } from "../selectors"
 import { setImportProcessFileStatus, setImportProcessStatus } from "./actions"
+import { delay } from "shared/utils"
 
 export const startImportToDevice = createAsyncThunk<
   undefined,
@@ -124,7 +125,7 @@ export const startImportToDevice = createAsyncThunk<
         data: dataToImport[domain.domainKey],
       })
 
-      const preSendResponse = await startPreSendWithDataFileRequest(
+      let preSendResponse = await startPreSendWithDataFileRequest(
         `${dataTransferId}-${domain.domainKey}`,
         domain.path,
         data,
@@ -132,10 +133,32 @@ export const startImportToDevice = createAsyncThunk<
       )
 
       if (!preSendResponse.ok) {
-        clearTransfers()
-        return rejectWithValue(
-          preSendResponse.error?.type as ApiFileTransferError
-        )
+        if (
+          preSendResponse.error.type ===
+            ApiFileTransferError.FileAlreadyExists &&
+          dataTransferId &&
+          deviceId
+        ) {
+          await cancelDataTransferRequest(dataTransferId, deviceId)
+          await delay(1000)
+          preSendResponse = await startPreSendWithDataFileRequest(
+            `${dataTransferId}-${domain.domainKey}`,
+            domain.path,
+            data,
+            deviceId
+          )
+          if (!preSendResponse.ok) {
+            clearTransfers()
+            return rejectWithValue(
+              preSendResponse.error?.type as ApiFileTransferError
+            )
+          }
+        } else {
+          clearTransfers()
+          return rejectWithValue(
+            preSendResponse.error?.type as ApiFileTransferError
+          )
+        }
       }
 
       domainsPaths[i].transfer = preSendResponse.data
@@ -213,6 +236,7 @@ export const startImportToDevice = createAsyncThunk<
       if (aborted) {
         return rejectWithValue(undefined)
       }
+      await delay()
       const checkPreRestoreResponse = await checkDataTransferRequest(
         dataTransferId,
         deviceId

@@ -33,7 +33,7 @@ export const unlockDevice = createAsyncThunk<
     )
   }
 
-  await delay(500)
+  await delay()
 
   const { payload } = (await dispatch(
     getUnlockStatus()
@@ -61,7 +61,7 @@ export const unlockDeviceById = createAsyncThunk<
       )
     }
 
-    await delay(500)
+    await delay()
 
     const unlockStatus = await unlockDeviceStatusRequest(deviceId)
 

@@ -21,10 +21,12 @@ import {
   importContacts,
   incomingFeatureInfo,
   lastBackupDate,
+  mcContactsSearchResults,
   mcDataMigration,
   overviewOsVersion,
   selectionManager,
 } from "generic-view/models"
+import { McContactsSearchResult } from "./contacts/mc-contacts-search-result"
 
 export const predefinedComponents = {
   [overviewOsVersion.key]: OverviewOsVersion,
@@ -37,4 +39,5 @@ export const predefinedComponents = {
   [mcDataMigration.key]: DataMigration,
   [incomingFeatureInfo.key]: IncomingFeatureInfo,
   [selectionManager.key]: SelectionManager,
+  [mcContactsSearchResults.key]: McContactsSearchResult,
 }

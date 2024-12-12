@@ -147,7 +147,8 @@ const contactWithLongLastName = {
   entityType: "contacts",
 }
 const contactWithLongFirstName = {
-  firstName: "Aleksandra-Marianna-Katarzyna-Magdalena-Joanna-Weronika-Zofia-Karolina-Małgorzata-Anastazja",
+  firstName:
+    "Aleksandra-Marianna-Katarzyna-Magdalena-Joanna-Weronika-Zofia-Karolina-Małgorzata-Anastazja",
   lastName: "Long Display Name (first name is long)",
   phoneNumbers: [{ phoneNumber: "+48234567890", phoneType: "MOBILE" }],
   entityType: "contacts",
@@ -178,6 +179,16 @@ const contactWithPlusAsSpecialCharacterInFirstName = {
   firstName: "+",
   lastName: "Plus (first name with plus)",
   phoneNumbers: [{ phoneNumber: "+49123156789", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+const contactWithRepetitions = {
+  firstName: "Marek",
+  lastName: "Marmarecki",
+  phoneNumbers: [
+    { phoneNumber: "500500500", phoneType: "MOBILE" },
+    { phoneNumber: "500500600", phoneType: "WORK" },
+  ],
   entityType: "contacts",
 }
 
@@ -495,7 +506,6 @@ const contactWithOnlyEmojiNotes = {
   entityType: "contacts",
 }
 
-
 export const contactsSeedData: EntityData[] = [
   contactFullData1,
   contactFullData2,
@@ -508,6 +518,7 @@ export const contactsSeedData: EntityData[] = [
   contactWithSpecialCharactersInFirstName,
   contactWithPlusAsSpecialCharacterInLastName,
   contactWithPlusAsSpecialCharacterInFirstName,
+  contactWithRepetitions,
   contactWithNumbersInName,
   contactWithPrefixSuffix,
   contactWithMiddleNameOnly,

@@ -5,8 +5,28 @@
 
 import { z } from "zod"
 
+const OutboxEntitiesValidator = z
+  .object({
+    entityType: z.string(),
+    entityId: z.string().optional(),
+    action: z.enum(["deleted", "modified", "created"]).optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.entityId && !data.action) {
+        return false
+      }
+      return true
+    },
+    {
+      message: "Field action is required if entityId is specified",
+      path: ["action"],
+    }
+  )
+
 export const OutboxValidator = z.object({
-  features: z.array(z.string()),
+  features: z.array(z.string()).optional(),
+  entities: z.array(OutboxEntitiesValidator).optional(),
   data: z.array(z.string()),
 })
 

@@ -4,6 +4,7 @@
  */
 
 export const space = {
+  xxs: "0.2rem",
   xs: "0.4rem",
   sm: "0.8rem",
   md: "1.2rem",

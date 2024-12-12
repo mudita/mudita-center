@@ -79,3 +79,5 @@ export const useViewFormContext = () => {
     ) as UseFormReturn
   }
 }
+
+export type UseViewFormContext = ReturnType<typeof useViewFormContext>

@@ -8,6 +8,7 @@ import { BackupRestoreError, Modal } from "generic-view/ui"
 import { useDispatch, useSelector } from "react-redux"
 import {
   cleanRestoreProcess,
+  RestoreProcessStatus,
   selectActiveApiDeviceId,
   selectBackupRestoreStatus,
   setDeviceErrorModalOpened,
@@ -18,7 +19,7 @@ const RestoreErrorModal: FunctionComponent = () => {
   const dispatch = useDispatch()
   const activeDevice = useSelector(selectActiveApiDeviceId)
   const restoreStatus = useSelector(selectBackupRestoreStatus)
-  const opened = restoreStatus === "FAILED" && !activeDevice
+  const opened = restoreStatus === RestoreProcessStatus.Failed && !activeDevice
 
   const onClose = () => {
     dispatch(cleanRestoreProcess())

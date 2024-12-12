@@ -34,6 +34,7 @@ import { SafeParseReturnType, SafeParseSuccess } from "zod"
 import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
 import logger from "Core/__deprecated__/main/utils/logger"
+import { delay } from "shared/utils"
 
 export class APIEntitiesService {
   constructor(
@@ -165,6 +166,7 @@ export class APIEntitiesService {
 
     if (responseType === "file") {
       if (response.data.status === 202) {
+        await delay()
         return this.getEntitiesData({
           entitiesType,
           entityId,
@@ -234,7 +236,7 @@ export class APIEntitiesService {
   }
 
   @IpcEvent(APIEntitiesServiceEvents.EntitiesDataDelete)
-  public async deleteEntityData({
+  public async deleteEntitiesData({
     entitiesType,
     ids,
     deviceId,

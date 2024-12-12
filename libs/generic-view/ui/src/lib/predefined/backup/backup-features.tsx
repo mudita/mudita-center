@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent } from "react"
+import React, { FunctionComponent, useMemo } from "react"
 import styled from "styled-components"
 import { IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../buttons/button-secondary"
@@ -30,17 +30,8 @@ const messages = defineMessages({
 })
 
 const comingSoonMessages = defineMessages({
-  messages: {
-    id: "module.genericViews.backup.features.comingSoon.messages",
-  },
-  notes: {
-    id: "module.genericViews.backup.features.comingSoon.notes",
-  },
   calendar: {
     id: "module.genericViews.backup.features.comingSoon.calendar",
-  },
-  apps: {
-    id: "module.genericViews.backup.features.comingSoon.apps",
   },
 })
 
@@ -50,11 +41,38 @@ interface Props {
   nextAction: ButtonAction
 }
 
+const getRawBackupFeatureKey = (key: string) => {
+  const [rawKey] = key.split("_")
+  return rawKey.toLowerCase()
+}
+
+const filterComingSoonMessages = (features: BackupFeature[]) => {
+  return Object.entries(comingSoonMessages).reduce(
+    (prev, [comingSoonMessagesKey, message]) => {
+      if (
+        !features.some(
+          ({ key }) => getRawBackupFeatureKey(key) === comingSoonMessagesKey
+        )
+      ) {
+        prev[comingSoonMessagesKey] = message
+      }
+
+      return prev
+    },
+    {} as Record<string, { id: string }>
+  )
+}
+
 export const BackupFeatures: FunctionComponent<Props> = ({
   features,
   closeAction,
   nextAction,
 }) => {
+  const filteredComingSoonMessages = useMemo(
+    () => filterComingSoonMessages(features),
+    [features]
+  )
+
   return (
     <>
       <Modal.TitleIcon config={{ type: IconType.Backup }} />
@@ -75,16 +93,18 @@ export const BackupFeatures: FunctionComponent<Props> = ({
                 {feature.label}
               </li>
             ))}
-            {Object.entries(comingSoonMessages).map(([key, message], index) => {
-              return (
-                <ComingSoonListItem
-                  key={key + index}
-                  data-testid={BackupModalTestIds.FeatureElementInactive}
-                >
-                  {intl.formatMessage(message)}
-                </ComingSoonListItem>
-              )
-            })}
+            {Object.entries(filteredComingSoonMessages).map(
+              ([key, message], index) => {
+                return (
+                  <ComingSoonListItem
+                    key={key + index}
+                    data-testid={BackupModalTestIds.FeatureElementInactive}
+                  >
+                    {intl.formatMessage(message)}
+                  </ComingSoonListItem>
+                )
+              }
+            )}
           </ul>
         </Modal.ScrollableContent>
       </Article>

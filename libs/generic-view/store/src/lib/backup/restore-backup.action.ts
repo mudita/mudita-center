@@ -19,6 +19,8 @@ import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
 import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
+import { BackupProcessFileStatus, RestoreProcessStatus } from "./backup.types"
+import { delay } from "shared/utils"
 
 export const restoreBackup = createAsyncThunk<
   undefined,
@@ -133,12 +135,14 @@ export const restoreBackup = createAsyncThunk<
       dispatch(
         setRestoreProcessFileStatus({
           feature: featurePath.feature,
-          status: "PENDING",
+          status: BackupProcessFileStatus.Pending,
         })
       )
     }
 
-    dispatch(setRestoreProcessStatus({ status: "FILES_TRANSFER" }))
+    dispatch(
+      setRestoreProcessStatus({ status: RestoreProcessStatus.FilesTransfer })
+    )
 
     for (let i = 0; i < features.length; ++i) {
       if (aborted) {
@@ -148,7 +152,7 @@ export const restoreBackup = createAsyncThunk<
       dispatch(
         setRestoreProcessFileStatus({
           feature: featurePath.feature,
-          status: "IN_PROGRESS",
+          status: BackupProcessFileStatus.InProgress,
         })
       )
       const sendFilePromise = dispatch(
@@ -170,7 +174,7 @@ export const restoreBackup = createAsyncThunk<
         dispatch(
           setRestoreProcessFileStatus({
             feature: featurePath.feature,
-            status: "DONE",
+            status: BackupProcessFileStatus.Done,
           })
         )
       }
@@ -178,7 +182,9 @@ export const restoreBackup = createAsyncThunk<
 
     clearTransfers()
 
-    dispatch(setRestoreProcessStatus({ status: "RESTORING" }))
+    dispatch(
+      setRestoreProcessStatus({ status: RestoreProcessStatus.Restoring })
+    )
 
     if (aborted) {
       return rejectWithValue(undefined)
@@ -197,6 +203,7 @@ export const restoreBackup = createAsyncThunk<
       if (aborted) {
         return rejectWithValue(undefined)
       }
+      await delay()
       const checkPreRestoreResponse = await checkRestoreRequest(
         restoreId,
         deviceId
@@ -213,7 +220,7 @@ export const restoreBackup = createAsyncThunk<
     if (aborted) {
       return rejectWithValue(undefined)
     }
-    dispatch(setRestoreProcessStatus({ status: "DONE" }))
+    dispatch(setRestoreProcessStatus({ status: RestoreProcessStatus.Done }))
     return undefined
   }
 )
