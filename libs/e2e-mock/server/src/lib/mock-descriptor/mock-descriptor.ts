@@ -87,36 +87,6 @@ class MockDescriptor {
       },
     }
   }
-  // Add method for mocking PRE_BACKUP responses
-  public mockPreBackupResponses(path: string, backupId: number) {
-    // Mock initial PRE_BACKUP response with status 202 (processing)
-    this.addResponse({
-      path,
-      endpoint: "PRE_BACKUP",
-      method: "POST",
-      status: 202,
-      body: {
-        backupId,
-      },
-    })
-
-    // After 10 seconds, update the response to status 200 (completed)
-    setTimeout(() => {
-      this.addResponse({
-        path,
-        endpoint: "PRE_BACKUP",
-        method: "POST",
-        status: 200,
-        body: {
-          backupId,
-          features: {
-            CONTACTS_V1: "path/to/backup/calls.json",
-            CALL_LOGS_V1: "path/to/backup/call_logs.json",
-          },
-        },
-      })
-    }, 10000)
-  }
 
   public removeResponses({ path, requests }: RestoreDefaultResponses) {
     requests?.forEach((request) => {

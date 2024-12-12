@@ -4,6 +4,7 @@ import {
   overviewDataWithOneSimCard,
 } from "../../../../../libs/e2e-mock/responses/src"
 import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page"
+import { mockPreBackupResponses } from "../../helpers/mock-prebackup"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -44,6 +45,11 @@ describe("E2E mock sample - overview view", () => {
 
     await menuItem.waitForDisplayed({ timeout: 10000 })
     await expect(menuItem).toBeDisplayed()
+  })
+
+  it("Mock Pre-Backup Responses", async () => {
+    // Use the helper function to mock PRE_BACKUP responses (so the backup process will be progressing)
+    mockPreBackupResponses("path-1", 12345)
   })
 
   it("Wait for Overview Page and click Create Backup", async () => {
