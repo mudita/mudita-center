@@ -30,6 +30,9 @@ const messages = defineMessages({
   updateActionLabel: { id: "module.genericViews.update.actionLabel" },
 })
 
+const devToken = process.env.KOMPAKT_OS_UPDATE_DEV_TOKEN
+const serverUrl = process.env.MUDITA_CENTER_SERVER_V2_URL
+
 export const OverviewOsVersion: APIFC<
   OverviewOsVersionData,
   OverviewOsVersionConfig
@@ -37,26 +40,30 @@ export const OverviewOsVersion: APIFC<
   const deviceConfiguration = useSelector(selectActiveDeviceConfiguration)
   const [availableUpdateName, setAvailableUpdateName] = useState<string>()
   const updateAvailable = availableUpdateName !== undefined
+  const { osVersionTimestamp, otaApiKey } =
+    deviceConfiguration?.apiConfig?.otaApiConfig || {}
 
   useEffect(() => {
     void (async () => {
       try {
-        const { osVersionTimestamp, otaApiKey } =
-          deviceConfiguration?.apiConfig?.otaApiConfig || {}
-        const request = await axios.get<{ available: boolean; name: string }>(
-          `${process.env.MUDITA_CENTER_SERVER_V2_URL}/kompakt-os-update-availability?imei=${otaApiKey}&version=${osVersionTimestamp}`
+        const devTokenParam = devToken ? `&devToken=${devToken}` : ""
+        const { data } = await axios.get<{
+          available: boolean
+          versionName?: string
+        }>(
+          `${serverUrl}/kompakt-os-update-availability?imei=${otaApiKey}&version=${osVersionTimestamp}${devTokenParam}`
         )
-        if (request.data && request.data.available) {
-          setAvailableUpdateName(request.data.name)
+        if (data && data.available && data.versionName) {
+          setAvailableUpdateName(data.versionName)
         }
       } catch (error) {
         logger.error(
-          "Error while checking Kompakt OS update availability",
+          `Error while checking Kompakt OS update availability for ${otaApiKey}, version ${osVersionTimestamp}.`,
           error
         )
       }
     })()
-  }, [deviceConfiguration?.apiConfig?.otaApiConfig])
+  }, [osVersionTimestamp, otaApiKey])
 
   return (
     <Wrapper {...props} data-testid={dataTestIds.versionWrapper}>
