@@ -146,7 +146,7 @@ jobs:
         if: matrix.os == 'macOS'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          npx nx build:mac app --output-style stream
+          npx nx build:mac app --universal --output-style stream
       - name: Build App for Linux
         if: matrix.os == 'Linux'
         run: |
@@ -155,7 +155,8 @@ jobs:
       - name: Verify apple sign
         if: matrix.os == 'macOS'
         run: |
-          codesign -v -v apps/app/release/mac/Mudita\ Center.app
+          ls -la ./apps/app/release
+          codesign -v -v apps/app/release/mac-universal/Mudita\ Center.app
       - name: Push artifacts to nexus registry from Windows
         if: matrix.os == 'Windows'
         env:

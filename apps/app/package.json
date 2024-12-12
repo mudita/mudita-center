@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "mudita-center",
   "description": "Mudita Center",
   "version": "2.5.0",
   "main": "./out/main/index.js",
