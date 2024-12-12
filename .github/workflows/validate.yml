@@ -25,11 +25,13 @@ jobs:
         run: npx nx run-many --targets=lint,stylelint,typecheck
         env:
           CI: true
+          NX_NO_CLOUD: true
       - name: Test
         run: npx nx run-many --target=test
         env:
           CI: true
           NODE_OPTIONS: "--max_old_space_size=8192"
+          NX_NO_CLOUD: true
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
