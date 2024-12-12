@@ -14,6 +14,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -135,9 +139,9 @@ jobs:
           } | Set-Content -Path 'apps/app/package.json'
       - name: Setup dependencies
         run: npm run setup
-      - name: Install additional dependencies for Linux & Mac
-        if: matrix.os != 'Windows'
-        run: pip install setuptools
+      #      - name: Install additional dependencies for Linux & Mac
+      #        if: matrix.os != 'Windows'
+      #        run: pip install setuptools
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
