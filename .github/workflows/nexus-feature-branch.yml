@@ -133,8 +133,14 @@ jobs:
           (Get-Content -Path 'apps/app/package.json') | ForEach-Object {
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
           } | Set-Content -Path 'apps/app/package.json'
-      - name: Setup depedencies
+      - name: Setup dependencies
         run: npm run setup
+      - name: Install additional dependencies for Linux
+        if: matrix.os == 'Linux'
+        run: sudo apt install python3-setuptools
+      - name: Install additional dependencies for Mac
+        if: matrix.os == 'macOS'
+        run: pip install setuptools
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
