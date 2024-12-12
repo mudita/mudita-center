@@ -58,7 +58,9 @@ export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
 
     const totalProgress =
       Object.keys(progress).length > 0
-        ? sum(Object.values(progress)) / Object.keys(progress).length
+        ? Math.round(
+            sum(Object.values(progress)) / Object.keys(progress).length
+          )
         : 0
     setTotalProgress(totalProgress)
   }, [config.entityTypes, dispatch, entitiesLoadingStates, fetchEntityData])
