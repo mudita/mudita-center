@@ -12,4 +12,5 @@ module.exports = {
   coverageReporters: ["lcov", "text-summary", "json-summary", "text"],
   coverageDirectory: "coverage",
   passWithNoTests: true,
+  setupFilesAfterEnv: [`${__dirname}/jest.setup.js`],
 }
