@@ -5,4 +5,4 @@
 
 import { Client } from "Core/__deprecated__/api/mudita-center-server/client"
 
-export const createClient = (timeout?: number): Client => new Client(timeout)
+export const createClient = (timeout?: number, apiV2?: boolean): Client => new Client(timeout, apiV2)
