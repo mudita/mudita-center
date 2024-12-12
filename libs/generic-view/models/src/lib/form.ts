@@ -22,7 +22,6 @@ const configValidator: z.ZodType<Config | undefined> = z
       reValidateMode: z.enum(["onChange", "onBlur", "onSubmit"]).optional(),
       defaultValues: z.record(z.string(), z.any()).optional(),
     }),
-    defaultValues: z.record(z.string(), z.any()).optional(),
   })
   .optional()
 
