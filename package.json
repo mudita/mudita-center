@@ -83,6 +83,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-environment-node": "^29.7.0",
     "jsdom": "~22.1.0",
+    "node-gyp": "^11.0.0",
     "nx": "20.2.1",
     "nx-stylelint": "^18.0.0",
     "postcss-styled-syntax": "^0.7.0",
