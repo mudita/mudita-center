@@ -13,7 +13,7 @@ files:
   - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
   - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
 win:
-  icon: ./resources/icons/win/icon.ico
+  icon: ./resources/icons/icon.ico
   target:
     - nsis
 nsis:
@@ -29,7 +29,7 @@ nsis:
 mac:
   category: public.app-category.utilities
   artifactName: Mudita-Center.${ext}
-  icon: ./resources/icons/mac/icon.icns
+  icon: ./resources/icons/icon.icns
   hardenedRuntime: true
   entitlements: ./entitlements.mac.plist
   notarize: false
