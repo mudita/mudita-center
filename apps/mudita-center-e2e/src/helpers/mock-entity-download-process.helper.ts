@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { E2EMockClient } from "e2e-mock-client"
+import { E2EMockClient } from "../../../../libs/e2e-mock/client/src/lib/e2e-mock-client"
 import { generateUniqueNumber } from "./utils/generate-unique-number-id.helper"
 import { generateBase64Info } from "./utils/generate-base-64-info.helper"
 

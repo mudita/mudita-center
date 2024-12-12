@@ -1,10 +1,10 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import { DEFAULT_RESPONSES } from "../../../../../libs/e2e-mock/responses/src"
-import { mockEntityDownloadProcess } from "E2E/helpers"
+import { mockEntityDownloadProcess } from "../../helpers/mock-entity-download-process.helper"
 import {
   audioFileEntities,
   selectedContactsEntities,
-} from "E2E/helpers/entity-fixtures"
+} from "../../helpers/entity-fixtures"
 
 function getBodyAsRecord(body: unknown): Record<string, any> {
   return body ? (body as Record<string, any>) : {}
