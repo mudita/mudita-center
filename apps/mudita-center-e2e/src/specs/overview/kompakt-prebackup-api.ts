@@ -48,7 +48,7 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Mock prebackup, wait for Overview Page and click Create Backup", async () => {
-    mockPreBackupResponses("path-1")
+    mockPreBackupResponses("path-1", 12345)
     const createBackupButton = await ModalBackupKompaktPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed()
     await expect(createBackupButton).toBeClickable()
