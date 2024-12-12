@@ -12,6 +12,7 @@ import {
   createEntityDataAction,
   updateEntityDataAction,
   deleteEntitiesDataAction,
+  sendFile,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -111,6 +112,13 @@ export const useDevConsole = () => {
               getEntitiesMetadataAction({ entitiesType, deviceId })
             )
           }
+        },
+        _sendFile: async (
+          filePath: string,
+          targetPath: string,
+          deviceId = activeDeviceId
+        ) => {
+          await dispatch(sendFile({ filePath, targetPath, deviceId }))
         },
       })
     }
