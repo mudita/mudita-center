@@ -98,8 +98,17 @@ export class APIFeaturesService {
   }
 
   @IpcEvent(APIFeaturesServiceEvents.FeatureData)
-  public async getFeatureData(feature: string): Promise<ResultObject<unknown>> {
-    const device = this.deviceProtocol.apiDevice
+  public async getFeatureData({
+    feature,
+    deviceId,
+  }: {
+    feature: string
+    deviceId?: DeviceId
+  }): Promise<ResultObject<unknown>> {
+    const device = deviceId
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
+
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }

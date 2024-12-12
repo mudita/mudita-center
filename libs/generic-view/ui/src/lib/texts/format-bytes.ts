@@ -23,12 +23,12 @@ export const formatBytes = (
     return `0 ${units[minIndex]}`
   }
 
-  let calculatedIndex = Math.floor(Math.log(bytes) / Math.log(1024))
+  let calculatedIndex = Math.floor(Math.log(bytes) / Math.log(1000))
   calculatedIndex = Math.min(calculatedIndex, units.length - 1)
 
   const index = Math.max(minIndex, calculatedIndex)
 
-  const adjustedBytes = bytes / Math.pow(1024, index)
+  const adjustedBytes = bytes / Math.pow(1000, index)
 
   const roundedValue = parseFloat(adjustedBytes.toFixed(1))
 
