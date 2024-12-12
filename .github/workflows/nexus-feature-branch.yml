@@ -9,16 +9,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [Linux, macOS, Windows]
+        os: [macOS]
+#        os: [Linux, macOS, Windows]
     environment: development
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Setup Make
-        if: matrix.os == 'Linux'
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          brew install make
       - name: Setup node
         uses: actions/setup-node@v4
         with:
