@@ -250,8 +250,9 @@ export const generateMcFileManagerView: ComponentGenerator<
     },
     ...generateOtherFilesList({
       configs: [
-        { id: "0", name: "System" },
-        { id: "1", name: "Other" },
+        { id: "0", name: "Apps" },
+        { id: "1", name: "System" },
+        { id: "2", name: "Other" },
       ],
     }),
     ...generateFileListWrapper(config.entityTypes),
