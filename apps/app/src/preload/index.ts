@@ -5,9 +5,14 @@
 
 import { contextBridge } from "electron"
 import { electronAPI } from "@electron-toolkit/preload"
+import { SerialPort } from "serialport"
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+  SerialPort: {
+    list: () => SerialPort.list(),
+  },
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

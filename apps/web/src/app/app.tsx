@@ -6,6 +6,7 @@
 import styled from "styled-components"
 
 import NxWelcome from "./nx-welcome"
+import { useSerialPortListener } from "./serialport-test"
 
 const StyledApp = styled.div`
   /* Your style here */
@@ -13,6 +14,8 @@ const StyledApp = styled.div`
 `
 
 export function App() {
+  useSerialPortListener()
+
   return (
     <StyledApp>
       <NxWelcome title="frontend-app" />
