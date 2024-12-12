@@ -77,6 +77,14 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
     [config, fieldRegistrar, getValues, inputName, multiSelect, setValue]
   )
 
+  const handleRef = useCallback(
+    (e: HTMLInputElement) => {
+      inputRef.current = e
+      fieldRegistrar.ref(e)
+    },
+    [fieldRegistrar]
+  )
+
   useEffect(() => {
     if (multiSelect) {
       if (multiSelect.selectedValues.length === multiSelect.allValues.length) {
@@ -108,10 +116,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
         disabled={config.disabled}
         {...fieldRegistrar}
         onChange={handleChange}
-        ref={(e) => {
-          inputRef.current = e
-          fieldRegistrar.ref(e)
-        }}
+        ref={handleRef}
       />
       <Label htmlFor={"checkbox-" + id}>
         <InputBox>
