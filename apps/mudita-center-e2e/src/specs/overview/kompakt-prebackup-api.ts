@@ -47,12 +47,8 @@ describe("E2E mock sample - overview view", () => {
     await expect(menuItem).toBeDisplayed()
   })
 
-  it("Mock Pre-Backup Responses", async () => {
-    // Use the helper function to mock PRE_BACKUP responses (so the backup process will be progressing)
-    mockPreBackupResponses("path-1", 12345)
-  })
-
-  it("Wait for Overview Page and click Create Backup", async () => {
+  it("Mock prebackup, wait for Overview Page and click Create Backup", async () => {
+    mockPreBackupResponses("path-1")
     const createBackupButton = await ModalBackupKompaktPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed()
     await expect(createBackupButton).toBeClickable()
