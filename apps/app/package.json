@@ -22,6 +22,7 @@
     "typecheck": "npm run typecheck:node && npm run typecheck:web"
   },
   "dependencies": {
-    "serialport": "*"
+    "serialport": "*",
+    "sql.js": "*"
   }
 }

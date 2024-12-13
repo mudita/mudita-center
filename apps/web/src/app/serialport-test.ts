@@ -4,18 +4,19 @@
  */
 
 import { useCallback, useEffect, useRef } from "react"
-import { electronApi } from "../electron-api"
+import { SerialPort } from "@modules/serialport"
 
 export const useSerialPortListener = () => {
   const interval = useRef<NodeJS.Timeout>()
 
   const listenPorts = useCallback(async () => {
-    const ports = await electronApi.SerialPort.list()
+    const ports = await SerialPort.list()
     console.log(ports)
   }, [])
 
   useEffect(() => {
-    interval.current = setInterval(listenPorts, 2000)
-    return () => clearInterval(interval.current)
-  })
+    void listenPorts()
+    // interval.current = setInterval(listenPorts, 2000)
+    // return () => clearInterval(interval.current)
+  }, [listenPorts])
 }

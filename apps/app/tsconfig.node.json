@@ -7,6 +7,7 @@
   ],
   "compilerOptions": {
     "composite": true,
+    "resolveJsonModule": true,
     "types": [
       "electron-vite/node",
       "./images.d.ts"

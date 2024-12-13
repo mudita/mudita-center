@@ -4,9 +4,10 @@
  */
 
 import styled from "styled-components"
-
+import PQueue from "p-queue"
 import NxWelcome from "./nx-welcome"
 import { useSerialPortListener } from "./serialport-test"
+import { useSql } from "./sql-test"
 
 const StyledApp = styled.div`
   /* Your style here */
@@ -15,6 +16,10 @@ const StyledApp = styled.div`
 
 export function App() {
   useSerialPortListener()
+  useSql()
+  const requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
+
+  console.log(requestsQueue)
 
   return (
     <StyledApp>
