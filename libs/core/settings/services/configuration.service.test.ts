@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MockAdapter from "axios-mock-adapter"
-import axios from "axios"
 import { Configuration } from "Core/settings/dto"
 import { ConfigurationService } from "Core/settings/services/configuration.service"
 
@@ -18,12 +16,6 @@ jest.mock("history", () => ({
     location: { pathname: "", search: "", hash: "", state: null },
   })),
 }))
-
-const createMockAdapter = (): MockAdapter => {
-  return new MockAdapter(axios)
-}
-
-let axiosMock: MockAdapter = createMockAdapter()
 
 const previousEnvironment = { ...process.env }
 
@@ -45,10 +37,6 @@ const defaultConfig = {
   },
 }
 
-beforeEach(() => {
-  axiosMock = createMockAdapter()
-})
-
 beforeAll(() => {
   process.env = {
     ...previousEnvironment,
@@ -62,6 +50,16 @@ afterAll(() => {
   }
 })
 
+const mockGet = jest.fn()
+
+jest.mock("shared/http-client", () => ({
+  HttpClient: {
+    create: jest.fn(() => ({
+      get: mockGet,
+    })),
+  },
+}))
+
 jest.doMock(
   "Core/settings/static/default-app-configuration.json",
   () => defaultConfig
@@ -69,9 +67,7 @@ jest.doMock(
 
 describe("When API return success status code", () => {
   test("returns API response", async () => {
-    axiosMock
-      .onGet("http://localhost/v2-app-configuration")
-      .replyOnce(200, configuration)
+    mockGet.mockResolvedValueOnce({ data: configuration, status: 200 })
 
     const subject = new ConfigurationService()
     const result = await subject.getConfiguration()
@@ -81,11 +77,8 @@ describe("When API return success status code", () => {
 
 describe("When API return failed status code", () => {
   test("returns default configuration value", async () => {
-    axiosMock.onGet("http://localhost/v2-app-configuration").replyOnce(500, {
-      error: "Luke, I'm your error",
-    })
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    mockGet.mockResolvedValueOnce({ error: "Luke, I'm your error", status: 500 })
+
     const appConfiguration = require("../static/app-configuration.json")
     const subject = new ConfigurationService()
     const result = await subject.getConfiguration()

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { findIndex, pullAt, find } from "lodash"
+import { findIndex, pullAt, find, merge } from "lodash"
 import { PortInfo } from "serialport"
 import {
   AddKompakt,
@@ -205,7 +205,25 @@ class MockDescriptor {
           method,
           responses: perDeviceOnceResponses,
         })
-        return foundResponse.response
+        return merge(
+          foundResponse.response,
+          this.fillEndpointSpecificFields(endpoint, method, body)
+        )
+      }
+    }
+    return undefined
+  }
+
+  private fillEndpointSpecificFields(
+    endpoint: APIEndpointType,
+    method: APIMethodsType,
+    body: Record<string, unknown> | undefined
+  ) {
+    if ((method === "POST" || method === "GET") && endpoint === "PRE_BACKUP") {
+      return {
+        body: {
+          backupId: body?.["backupId"],
+        },
       }
     }
     return undefined
@@ -223,7 +241,10 @@ class MockDescriptor {
       const foundResponse = this.findResponse(perDeviceResponses, body)
 
       if (foundResponse) {
-        return foundResponse.response
+        return merge(
+          foundResponse.response,
+          this.fillEndpointSpecificFields(endpoint, method, body)
+        )
       }
     }
     return undefined

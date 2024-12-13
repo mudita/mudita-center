@@ -37,11 +37,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
             activeContactId: null,
           },
         },
-        defaultValues: {
-          selectedContacts: [],
-          allContacts: [],
-          searchedContact: "",
-        },
       },
       childrenKeys: ["contactsLoader"],
     },

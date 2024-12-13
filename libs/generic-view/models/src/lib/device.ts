@@ -9,7 +9,7 @@ import { DeviceProperties } from "device-manager/models"
 import { ApiConfig, MenuConfig, OverviewData } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 
-interface Feature<Data = Record<string, unknown>> {
+export interface Feature<Data = Record<string, unknown>> {
   config?: View
   data?: Data
 }

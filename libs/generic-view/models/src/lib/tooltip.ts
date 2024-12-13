@@ -14,6 +14,12 @@ const tooltipPlacementSchema = z.enum([
   "top-left",
 ])
 
+const tooltipStrategySchema = z.enum([
+  "element-oriented",
+  "cursor",
+  "cursor-horizontal",
+])
+
 const tooltipOffsetSchema = z.object({
   x: z.number(),
   y: z.number(),
@@ -22,6 +28,7 @@ const tooltipOffsetSchema = z.object({
 const configValidator = z
   .object({
     placement: tooltipPlacementSchema.optional(),
+    strategy: tooltipStrategySchema.optional(),
     offset: tooltipOffsetSchema.optional(),
   })
   .optional()
