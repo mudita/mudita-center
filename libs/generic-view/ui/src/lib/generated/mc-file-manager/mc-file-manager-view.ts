@@ -8,6 +8,7 @@ import { McFileManagerView } from "generic-view/models"
 import { generateFileCategoryList } from "./file-category-list"
 import { generateFileListWrapper } from "./file-list"
 import { generateOtherFilesList } from "./other-files-list"
+import { generateStorageSummaryBar } from "./storage-summary-bar"
 
 export const generateMcFileManagerView: ComponentGenerator<
   McFileManagerView
@@ -81,8 +82,85 @@ export const generateMcFileManagerView: ComponentGenerator<
           direction: "row",
         },
       },
-      childrenKeys: ["fileCategoryList", "fileCategoryOtherFilesItem"],
+      childrenKeys: [
+        "storageSummary",
+        "fileCategoryList",
+        "fileCategoryOtherFilesItem",
+      ],
     },
+    storageSummary: {
+      component: "block-plain",
+      layout: {
+        padding: "32px 32px 64px 32px",
+        flexLayout: {
+          direction: "column",
+        },
+      },
+      childrenKeys: ["storageSummaryHeader", "storageSummaryContent"],
+    },
+    storageSummaryHeader: {
+      component: "h3-component",
+      layout: {
+        margin: "0 0 24px 0",
+      },
+      config: {
+        text: "Phone storage",
+      },
+    },
+    storageSummaryContent: {
+      component: "block-plain",
+      layout: {
+        gridLayout: {
+          rows: ["auto", "auto"],
+          columns: ["auto", "auto"],
+        },
+      },
+      childrenKeys: [
+        "storageSummaryUsedText",
+        "storageSummaryFreeText",
+        "storageSummaryBar",
+      ],
+    },
+    storageSummaryUsedText: {
+      component: "p3-component",
+      config: {
+        // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
+        text: "Used: 0 KB",
+        color: "black",
+      },
+      layout: {
+        gridPlacement: {
+          row: 1,
+          column: 1,
+          width: 1,
+          height: 1,
+        },
+      },
+    },
+    storageSummaryFreeText: {
+      component: "p3-component",
+      config: {
+        text: "0",
+        color: "grey2",
+        textTransform: "format-bytes",
+        textTransformOptions: {
+          minUnit: "KB",
+        },
+      },
+      layout: {
+        gridPlacement: {
+          row: 1,
+          column: 2,
+          width: 1,
+          height: 1,
+        },
+        flexLayout: {
+          direction: "row",
+          justifyContent: "flex-end",
+        },
+      },
+    },
+    ...generateStorageSummaryBar(config.entityTypes),
     ...generateFileCategoryList(config.entityTypes),
     fileCategoryOtherFilesItem: {
       component: "block-plain",
@@ -124,6 +202,7 @@ export const generateMcFileManagerView: ComponentGenerator<
         margin: "0 0 0 3px",
       },
       config: {
+        // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
         text: "(0 KB)",
         color: "black",
       },
@@ -171,8 +250,9 @@ export const generateMcFileManagerView: ComponentGenerator<
     },
     ...generateOtherFilesList({
       configs: [
-        { id: "0", name: "System" },
-        { id: "1", name: "Other" },
+        { id: "0", name: "Apps" },
+        { id: "1", name: "System" },
+        { id: "2", name: "Other" },
       ],
     }),
     ...generateFileListWrapper(config.entityTypes),

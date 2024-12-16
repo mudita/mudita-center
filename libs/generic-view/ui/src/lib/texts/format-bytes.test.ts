@@ -14,27 +14,27 @@ describe("formatBytes", () => {
   it('should format bytes to "KB" correctly', () => {
     expect(formatBytes(1024)).toBe("1 KB")
     expect(formatBytes(2048)).toBe("2 KB")
-    expect(formatBytes(1024 * 1023)).toBe("1023 KB")
+    expect(formatBytes(999 * 1000)).toBe("999 KB")
     expect(formatBytes(1536)).toBe("1.5 KB")
   })
 
   it('should format bytes to "MB" correctly', () => {
-    expect(formatBytes(1024 * 1024)).toBe("1 MB")
-    expect(formatBytes(1572864)).toBe("1.5 MB")
-    expect(formatBytes(1024 * 1024 * 1023)).toBe("1023 MB")
-    expect(formatBytes(2097152)).toBe("2 MB")
+    expect(formatBytes(1024 * 1000)).toBe("1 MB")
+    expect(formatBytes(1536000)).toBe("1.5 MB")
+    expect(formatBytes(999 * 1000 * 1000)).toBe("999 MB")
+    expect(formatBytes(2000000)).toBe("2 MB")
   })
 
   it('should format bytes to "GB" correctly', () => {
-    expect(formatBytes(1024 * 1024 * 1024)).toBe("1 GB")
-    expect(formatBytes(1610612736)).toBe("1.5 GB")
-    expect(formatBytes(2147483648)).toBe("2 GB")
+    expect(formatBytes(1000 * 1000 * 1000)).toBe("1 GB")
+    expect(formatBytes(1500000000)).toBe("1.5 GB")
+    expect(formatBytes(2000000000)).toBe("2 GB")
   })
 
   it('should format bytes to "TB" correctly', () => {
-    expect(formatBytes(1099511627776)).toBe("1 TB")
-    expect(formatBytes(1649267441664)).toBe("1.5 TB")
-    expect(formatBytes(2199023255552)).toBe("2 TB")
+    expect(formatBytes(1000 * 1000 * 1000 * 1000)).toBe("1 TB")
+    expect(formatBytes(1500000000000)).toBe("1.5 TB")
+    expect(formatBytes(2000000000000)).toBe("2 TB")
   })
 
   it("should return a warning and the original value as a string for invalid sizes", () => {
@@ -50,7 +50,7 @@ describe("formatBytes", () => {
     expect(formatBytes(0, { minUnit: "MB" })).toBe("0 MB")
     expect(formatBytes(1, { minUnit: "MB" })).toBe("0 MB")
     expect(formatBytes(1, { minUnit: "KB" })).toBe("0 KB")
-    expect(formatBytes(1048576, { minUnit: "MB" })).toBe("1 MB")
-    expect(formatBytes(1073741824, { minUnit: "GB" })).toBe("1 GB")
+    expect(formatBytes(1000000, { minUnit: "MB" })).toBe("1 MB")
+    expect(formatBytes(1000000000, { minUnit: "GB" })).toBe("1 GB")
   })
 })
