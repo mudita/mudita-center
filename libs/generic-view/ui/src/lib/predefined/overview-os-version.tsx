@@ -45,6 +45,9 @@ export const OverviewOsVersion: APIFC<
 
   useEffect(() => {
     void (async () => {
+      if (!serverUrl) {
+        return
+      }
       try {
         const devTokenParam = devToken ? `&devToken=${devToken}` : ""
         const { data } = await axios.get<{

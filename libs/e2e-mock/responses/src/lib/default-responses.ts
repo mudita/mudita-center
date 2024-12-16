@@ -51,6 +51,7 @@ export const DEFAULT_RESPONSES: MockResponsesMap = {
       status: ResponseStatus.Ok,
       body: {
         apiVersion: "1.0.0",
+        osVersion: "0.0.46 MuditaOS K",
         lang: "en-US",
         variant: "black",
         features: ["mc-overview"],
