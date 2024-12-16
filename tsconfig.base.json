@@ -16,7 +16,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@modules/serialport": ["libs/modules/serialport/src/index.ts"]
+      "app-serialport/main": ["libs/app-serialport/main/src/index.ts"],
+      "app-serialport/models": ["libs/app-serialport/models/src/index.ts"],
+      "app-serialport/renderer": ["libs/app-serialport/renderer/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

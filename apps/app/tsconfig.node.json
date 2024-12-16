@@ -3,7 +3,8 @@
   "include": [
     "electron.vite.config.*",
     "src/main/**/*",
-    "src/preload/**/*"
+    "src/preload/**/*",
+    "../../libs/app-serialport/main/**/*",
   ],
   "compilerOptions": {
     "composite": true,
@@ -12,5 +13,8 @@
       "electron-vite/node",
       "./images.d.ts"
     ],
-  }
+    "paths": {
+      "app-serialport/main": ["../../libs/app-serialport/main/src/index.ts"],
+    }
+  },
 }

@@ -4,14 +4,17 @@
  */
 
 import { useCallback, useEffect, useRef } from "react"
-import { SerialPort } from "@modules/serialport"
+import { AppSerialPort } from "app-serialport/renderer"
 
 export const useSerialPortListener = () => {
   const interval = useRef<NodeJS.Timeout>()
 
   const listenPorts = useCallback(async () => {
-    const ports = await SerialPort.list()
-    console.log(ports)
+    const ports = await AppSerialPort.list()
+
+    await AppSerialPort.write(ports[0].path, "Hello from the web app!")
+    // const port = SerialPort.open(ports[0].path, 9600)
+    // console.log(port)
   }, [])
 
   useEffect(() => {

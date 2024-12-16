@@ -1,15 +1,15 @@
-import { ElectronAPI } from "@electron-toolkit/preload"
-import { SerialPort } from "serialport"
-// import { SqlJsStatic } from "sql.js"
+import {
+  ElectronAPI,
+  IpcRenderer as IpcRendererOriginal,
+} from "@electron-toolkit/preload"
+import { IpcAppSerialport } from "app-serialport/main"
 
 declare global {
+  type CustomIpcRenderer = IpcAppSerialport & IpcRendererOriginal
+  interface Electron extends ElectronAPI {
+    ipcRenderer: CustomIpcRenderer
+  }
   interface Window {
-    electron: ElectronAPI
-    api: {
-      SerialPort: typeof SerialPort
-      // SQL: {
-      //   init: () => Promise<SqlJsStatic>
-      // }
-    }
+    electron: Electron
   }
 }

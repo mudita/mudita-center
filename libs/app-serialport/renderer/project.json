@@ -1,0 +1,9 @@
+{
+  "name": "app-serialport-renderer",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/app-serialport/renderer/src",
+  "projectType": "library",
+  "tags": ["scope:renderer"],
+  "// targets": "to see all targets run: nx show project app-serialport-renderer --web",
+  "targets": {}
+}

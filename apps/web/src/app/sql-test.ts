@@ -9,6 +9,7 @@ import initSqlJs from "sql.js"
 export const useSql = () => {
   useEffect(() => {
     void (async () => {
+      // const sql = await window.api.SQL.init()
       const sql = initSqlJs({
         locateFile: () => "sql-wasm.wasm",
       })

@@ -5,15 +5,24 @@
 
 import { contextBridge } from "electron"
 import { electronAPI } from "@electron-toolkit/preload"
-import { SerialPort } from "serialport"
+import initSqlJs from "sql.js"
 // import initSqlJs from "sql.js"
 // import fs from "fs"
-// import path from "path"
+import path from "path"
 
 // Custom APIs for renderer
 const api = {
-  SerialPort: {
-    list: () => SerialPort.list(),
+  SQL: {
+    init: async function () {
+      const sql = initSqlJs({
+        locateFile: () =>
+          path.join(__dirname, "..", "renderer", "sql-wasm.wasm"),
+      })
+      return (await sql).Database
+      // const db = new (await sql).Database()
+      // console.log({ db })
+      // return db
+    },
   },
   // SQL: {
   //   init: () =>

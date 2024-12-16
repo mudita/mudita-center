@@ -6,26 +6,14 @@
 import { join, resolve } from "path"
 import { defineConfig, externalizeDepsPlugin } from "electron-vite"
 import react from "@vitejs/plugin-react"
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import tsConfig from "../../tsconfig.base.json"
 import { viteStaticCopy } from "vite-plugin-static-copy"
 import { nodePolyfills } from "vite-plugin-node-polyfills"
-
-const resolveProjectAliases = () => {
-  return Object.entries(tsConfig.compilerOptions.paths).reduce(
-    (acc, [alias, [path]]) => {
-      acc[alias.replace("/*", "")] = resolve(
-        join(__dirname, "..", "..", ...path.split("/"))
-      )
-      return acc
-    },
-    {}
-  )
-}
+import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
   main: {
     plugins: [
+      tsconfigPaths({ root: resolve(__dirname, "..", "..") }),
       externalizeDepsPlugin(),
       viteStaticCopy({
         targets: [
@@ -44,9 +32,50 @@ export default defineConfig({
         ],
       }),
     ],
+    resolve: {
+      alias: {
+        // "app-serialport/main": resolve(
+        //   __dirname,
+        //   "..",
+        //   "..",
+        //   "libs",
+        //   "app-serialport",
+        //   "main",
+        //   "src"
+        // ),
+        // "app-serialport/models": resolve(
+        //   __dirname,
+        //   "..",
+        //   "..",
+        //   "libs",
+        //   "app-serialport",
+        //   "models",
+        //   "src"
+        // ),
+        // ...resolveMainAliases(),
+      },
+    },
   },
   preload: {
-    plugins: [externalizeDepsPlugin()],
+    plugins: [
+      externalizeDepsPlugin(),
+      viteStaticCopy({
+        targets: [
+          {
+            src: join(
+              __dirname,
+              "..",
+              "..",
+              "node_modules",
+              "sql.js",
+              "dist",
+              "sql-wasm.wasm"
+            ),
+            dest: join(__dirname, "resources"),
+          },
+        ],
+      }),
+    ],
   },
   renderer: {
     resolve: {
@@ -54,9 +83,12 @@ export default defineConfig({
         "@app": resolve("./"),
         "@web": resolve("../web/src"),
         "@renderer": resolve("src/renderer/src"),
-        ...resolveProjectAliases(),
       },
     },
-    plugins: [react(), nodePolyfills()],
+    plugins: [
+      react(),
+      nodePolyfills(),
+      tsconfigPaths({ root: resolve(__dirname, "..", "..") }),
+    ],
   },
 })

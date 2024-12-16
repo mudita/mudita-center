@@ -8,6 +8,7 @@ import { autoUpdater } from "electron-updater"
 import { join } from "path"
 import { electronApp, is, optimizer } from "@electron-toolkit/utils"
 import icon from "../../resources/icons/icon.png"
+import { initSerialPort } from "app-serialport/main"
 
 function createWindow(): void {
   // Create the browser window.
@@ -20,7 +21,7 @@ function createWindow(): void {
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
       sandbox: false,
-      nodeIntegration: true,
+      nodeIntegration: false,
       contextIsolation: true,
     },
   })
@@ -63,6 +64,8 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on("ping", () => console.log("pong"))
+
+  initSerialPort(ipcMain)
 
   createWindow()
 

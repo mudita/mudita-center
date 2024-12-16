@@ -8,7 +8,7 @@ import { nxCopyAssetsPlugin } from "@nx/vite/plugins/nx-copy-assets.plugin"
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: "../../../node_modules/.vite/libs/modules/serialport",
+  cacheDir: "../../../node_modules/.vite/libs/app-serialport/main",
   plugins: [
     react(),
     nxViteTsPaths(),
@@ -25,7 +25,7 @@ export default defineConfig({
   // Configuration for building your library.
   // See: https://vitejs.dev/guide/build.html#library-mode
   build: {
-    outDir: "../../../dist/libs/modules/serialport",
+    outDir: "../../../dist/libs/app-serialport/main",
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {
@@ -34,7 +34,7 @@ export default defineConfig({
     lib: {
       // Could also be a dictionary or array of multiple entry points.
       entry: "src/index.ts",
-      name: "serialport",
+      name: "app-serialport-main",
       fileName: "index",
       // Change this to the formats you want to support.
       // Don't forget to update your package.json as well.
