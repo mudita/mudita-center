@@ -44,18 +44,31 @@ export class SerialPortDeviceAPIAdapter {
     return new Promise((resolve) => {
       const serialPort = new SerialPort(this.path, (error) => {
         if (error) {
+          console.error(error)
           resolve(
             Result.failed(
               new AppError(DeviceError.Initialization, error.message)
             )
           )
         } else {
+          console.error("USTAWIONY")
           this.serialPort = serialPort
           this.mountListeners()
           resolve(Result.success(undefined))
         }
       })
     })
+  }
+
+  public closeConnection() {
+    console.log("CLOSE CONNECTION")
+    if (this.serialPort) {
+      console.log("CLOSE CONNECTION - 1")
+      this.serialPort.close((error) => {
+        console.error("CLOSE CONNECTION - 2")
+        console.error(error)
+      })
+    }
   }
 
   public async request(config: APIRequestData) {
@@ -222,7 +235,6 @@ export class SerialPortDeviceAPIAdapter {
         )
       }
     })
-
     this.serialPort.on("close", () => {
       callRenderer(
         ApiSerialPortToRendererEvents.Closed,

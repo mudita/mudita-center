@@ -30,6 +30,10 @@ export class APIDevice extends BaseDevice {
     return this.adapter.connect()
   }
 
+  override disconnect() {
+    this.adapter.closeConnection()
+  }
+
   public request<R, T extends APIEndpointType>(
     config: APIRequestWithPayload<T>
   ) {

@@ -41,6 +41,10 @@ export abstract class BaseDevice {
 
   abstract connect(): Promise<ResultObject<undefined>>
 
+  public disconnect() {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+  }
+
   abstract request(config: unknown): Promise<unknown>
 
   private generateDeviceIdBySerialNumber = (

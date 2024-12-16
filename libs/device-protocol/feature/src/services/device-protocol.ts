@@ -106,7 +106,7 @@ export class DeviceProtocol {
   }
 
   public async addDevice(port: PortInfo): Promise<void> {
-    console.log("===== addDevice =====")
+    // console.log("===== addDevice =====")
     await this.mutex.runExclusive(async () => {
       await this.addDeviceTask(port)
     })
@@ -160,7 +160,9 @@ export class DeviceProtocol {
   }
 
   private async addDeviceTask(port: PortInfo): Promise<void> {
+    console.log("addDeviceTask", port)
     const device = await this.initializeDevice(port)
+    console.log("device", device)
     if (!device) {
       return
     }
@@ -168,6 +170,7 @@ export class DeviceProtocol {
     this.devicesMap.set(device.id, device)
     const result = await device.connect()
     const data = device.toSerializableObject()
+    this.devicesMap.set(device.id, device)
     if (result.ok) {
       callRenderer(DeviceProtocolMainEvent.DeviceConnected, data)
     } else {

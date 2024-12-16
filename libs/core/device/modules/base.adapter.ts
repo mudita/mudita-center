@@ -34,12 +34,14 @@ export abstract class BaseAdapter<
     return new Promise((resolve) => {
       const serialPort = new SerialPort(this.path, (error) => {
         if (error) {
+          console.error(error)
           resolve(
             Result.failed(
               new AppError(DeviceError.Initialization, error.message)
             )
           )
         } else {
+          console.error("USTAWIONY")
           this.serialPort = serialPort
           resolve(Result.success(undefined))
         }
