@@ -13,13 +13,11 @@ export const useSerialPortListener = () => {
     const ports = await AppSerialPort.list()
 
     await AppSerialPort.write(ports[0].path, "Hello from the web app!")
-    // const port = SerialPort.open(ports[0].path, 9600)
-    // console.log(port)
   }, [])
 
   useEffect(() => {
     void listenPorts()
-    // interval.current = setInterval(listenPorts, 2000)
-    // return () => clearInterval(interval.current)
+    interval.current = setInterval(listenPorts, 2000)
+    return () => clearInterval(interval.current)
   }, [listenPorts])
 }

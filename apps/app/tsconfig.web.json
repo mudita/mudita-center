@@ -12,7 +12,8 @@
     "paths": {
       "@app/*": ["./*"],
       "@web/*": ["../web/src/*"],
-      "@renderer/*": ["src/renderer/*"]
+      "@renderer/*": ["src/renderer/*"],
+      "app-serialport/*": ["../../libs/app-serialport/*/src/index.ts"],
     }
   }
 }

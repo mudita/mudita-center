@@ -3,7 +3,9 @@
   "description": "Mudita Center",
   "private": true,
   "scripts": {
-    "setup": "npm ci"
+    "setup": "npm ci",
+    "lint": "nx run-many --targets=lint,stylelint,typecheck",
+    "test": "npx nx run-many --target=test"
   },
   "repository": {
     "type": "git",

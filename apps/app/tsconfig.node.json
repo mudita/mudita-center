@@ -14,7 +14,7 @@
       "./images.d.ts"
     ],
     "paths": {
-      "app-serialport/main": ["../../libs/app-serialport/main/src/index.ts"],
+      "app-serialport/*": ["../../libs/app-serialport/*/src/index.ts"],
     }
   },
 }
