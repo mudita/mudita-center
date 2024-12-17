@@ -3,12 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-} from "react"
+import React, { FunctionComponent, useMemo } from "react"
 import { defineMessages } from "react-intl"
 import { Modal } from "../../interactive/modal"
 import { IconType, useViewFormContext } from "generic-view/utils"
@@ -25,7 +20,6 @@ import { ButtonAction } from "generic-view/models"
 import { Paragraph5 } from "../../texts/paragraphs"
 
 export const SELECTED_CONTACTS_FIELD = "selected-contacts"
-export const ALL_CONTACTS_FIELD = "all-contacts"
 
 const messages = defineMessages({
   title: {
@@ -53,12 +47,10 @@ export const ImportContactsList: FunctionComponent<Props> = ({
   nextAction,
 }) => {
   const getFormContext = useViewFormContext()
-  const { watch, setValue } = getFormContext()
+  const { watch } = getFormContext()
   const contacts = useSelector(importContactsSelector)
   const searchPhrase = watch("search")
   const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
-  const allContactsSelected =
-    selectedContacts.length === contacts?.length && contacts?.length > 0
 
   const filteredContacts = useMemo(() => {
     return contacts.filter(({ firstName, middleName, lastName }) => {
@@ -70,23 +62,6 @@ export const ImportContactsList: FunctionComponent<Props> = ({
         .includes(searchPhrase.toLowerCase())
     })
   }, [contacts, searchPhrase])
-
-  const toggleAll = useCallback(() => {
-    if (allContactsSelected) {
-      setValue(SELECTED_CONTACTS_FIELD, [])
-      setValue(ALL_CONTACTS_FIELD, "")
-    } else {
-      setValue(
-        SELECTED_CONTACTS_FIELD,
-        contacts.map(({ id }) => id)
-      )
-      setValue(ALL_CONTACTS_FIELD, "true")
-    }
-  }, [allContactsSelected, contacts, setValue])
-
-  useEffect(() => {
-    setValue(ALL_CONTACTS_FIELD, allContactsSelected ? "true" : "")
-  }, [allContactsSelected, setValue])
 
   return (
     <>
@@ -101,11 +76,9 @@ export const ImportContactsList: FunctionComponent<Props> = ({
       <AllContactsSelector>
         <AllCheckbox
           config={{
-            name: ALL_CONTACTS_FIELD,
-            value: "true",
+            name: SELECTED_CONTACTS_FIELD,
+            multipleValues: (contacts || []).map(({ id }) => id),
             label: intl.formatMessage(messages.selectAllButton),
-            onToggle: toggleAll,
-            checked: allContactsSelected,
           }}
         />
         <SelectedInfo>

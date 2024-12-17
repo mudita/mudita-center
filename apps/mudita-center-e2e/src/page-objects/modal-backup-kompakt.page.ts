@@ -3,6 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import {
+  PredefinedBackupProgressTestIds,
+  ProgressBarTestIds,
+} from "../../../../libs/e2e-test-ids/src"
 import { OverviewPage } from "./overview.page"
 
 class ModalBackupKompaktPage extends OverviewPage {
@@ -86,6 +90,28 @@ class ModalBackupKompaktPage extends OverviewPage {
 
   public get passwordsDoNotMatch() {
     return $('[data-testid="interactive-text-input-error-text"]')
+  }
+
+  public get backupInProgressModal() {
+    return $('//*[@data-testid="modal-content-backupbackup-create"]')
+  }
+
+  public get creatingBackupTitle() {
+    return $(`//*[@data-testid="predefined-backup-progress-title"]`)
+  }
+
+  public get creatingBackupDescription() {
+    return $(
+      `//*[@data-testid="${PredefinedBackupProgressTestIds.Description}"]`
+    )
+  }
+
+  public get creatingBackupProgressBar() {
+    return $(`//*[@data-testid="${ProgressBarTestIds.Progress}"]`)
+  }
+
+  public get creatingBackupProgressBarDetails() {
+    return $(`//*[@data-testid="${ProgressBarTestIds.Details}"]`)
   }
 }
 export default new ModalBackupKompaktPage()

@@ -1,15 +1,19 @@
 name: Build & deploy to feature branch
 
 on:
-  push:
-    branches:
-      - CP-*
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [Linux, Windows, macOS]
+    if: startsWith(github.ref, 'refs/heads/CP-')
     environment: development
     steps:
       - name: Checkout code
