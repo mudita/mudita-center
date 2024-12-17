@@ -4,7 +4,7 @@
     "electron.vite.config.*",
     "src/main/**/*",
     "src/preload/**/*",
-    "../../libs/app-serialport/main/**/*",
+    "../../libs/app-*/main/**/*",
   ],
   "compilerOptions": {
     "composite": true,
@@ -14,7 +14,7 @@
       "./images.d.ts"
     ],
     "paths": {
-      "app-serialport/*": ["../../libs/app-serialport/*/src/index.ts"],
+      "app-*": ["../../libs/app-*/src/index.ts"],
     }
   },
 }

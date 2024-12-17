@@ -5,8 +5,8 @@
 
 import { SerialPort } from "serialport"
 
-export class AppSerialport {
-  private instances: Map<string, SerialPort>
+export class AppSerialPort {
+  private readonly instances: Map<string, SerialPort>
 
   constructor() {
     this.instances = new Map()

@@ -13,7 +13,7 @@
       "@app/*": ["./*"],
       "@web/*": ["../web/src/*"],
       "@renderer/*": ["src/renderer/*"],
-      "app-serialport/*": ["../../libs/app-serialport/*/src/index.ts"],
+      "app-*": ["../../libs/app-*/src/index.ts"]
     }
   }
 }

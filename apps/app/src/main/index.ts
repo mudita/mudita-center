@@ -9,6 +9,7 @@ import { join } from "path"
 import { electronApp, is, optimizer } from "@electron-toolkit/utils"
 import icon from "../../resources/icons/icon.png"
 import { initSerialPort } from "app-serialport/main"
+import { initSql } from "app-sql/main"
 
 function createWindow(): void {
   // Create the browser window.
@@ -66,6 +67,7 @@ app.whenReady().then(() => {
   ipcMain.on("ping", () => console.log("pong"))
 
   initSerialPort(ipcMain)
+  initSql(ipcMain)
 
   createWindow()
 

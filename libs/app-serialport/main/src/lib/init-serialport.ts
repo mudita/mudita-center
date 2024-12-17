@@ -6,10 +6,10 @@
 import { IpcMain } from "electron"
 import { SerialPort } from "serialport"
 import { SerialportIpcEvents } from "app-serialport/models"
-import { AppSerialport } from "./app-serialport"
+import { AppSerialPort } from "./app-serial-port"
 
 export const initSerialPort = (ipcMain: IpcMain) => {
-  const serialport = new AppSerialport()
+  const serialport = new AppSerialPort()
 
   ipcMain.handle(SerialportIpcEvents.List, async () => {
     return (await SerialPort.list()).filter((port) => {

@@ -3,9 +3,24 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { PortInfo } from "@serialport/bindings-interface"
 import { render } from "@testing-library/react"
-
 import App from "./app"
+
+jest.mock("app-serialport/renderer", () => {
+  return {
+    AppSerialPort: {
+      list: jest.fn().mockResolvedValue([
+        {
+          vendorId: "0e8d",
+          productId: "2006",
+          path: "/dev/ttyUSB0.KOM123456789",
+        },
+      ] as PortInfo[]),
+      write: jest.fn(),
+    },
+  }
+})
 
 describe("App", () => {
   it("should render successfully", () => {
