@@ -81,6 +81,7 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
           KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
+          SKIP_MAC_NOTARIZE_ENABLED: "1"
         run: |
           printenv > .env
       - name: Setup Env for Linux
@@ -154,10 +155,6 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist
-      - name: Verify apple sign
-        if: matrix.os == 'macOS'
-        run: |
-          codesign -v -v apps/mudita-center/release/mac/Mudita\ Center.app
       - name: Push artifacts to nexus registry from Windows
         if: matrix.os == 'Windows'
         env:
