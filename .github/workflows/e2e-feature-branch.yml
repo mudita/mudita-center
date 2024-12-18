@@ -5,6 +5,7 @@ on:
     types:
       - opened
       - synchronize
+      - ready_for_review
       - reopened
   workflow_dispatch:
 jobs:
@@ -13,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [Windows, Linux]
-    if: startsWith(github.ref, 'refs/heads/CP-')
+    if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:
       - name: Checkout code

@@ -5,6 +5,7 @@ on:
     types:
       - opened
       - synchronize
+      - ready_for_review
       - reopened
   workflow_dispatch:
 jobs:
@@ -13,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [Linux, Windows, macOS]
-    if: startsWith(github.ref, 'refs/heads/CP-')
+    if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:
       - name: Checkout code
@@ -78,6 +79,7 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
+          SKIP_MAC_NOTARIZE_ENABLED: "1"
         run: |
           printenv > .env
       - name: Setup Env for Linux
@@ -135,10 +137,6 @@ jobs:
           } | Set-Content -Path 'apps/mudita-center/package.json'
       - name: Setup depedencies
         run: npm run setup
-#      - name: Copy electron-builder environment file for Windows
-#        if: matrix.os == 'Windows'
-#        run: |
-#          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
@@ -154,10 +152,6 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist
-      - name: Verify apple sign
-        if: matrix.os == 'macOS'
-        run: |
-          codesign -v -v apps/mudita-center/release/mac/Mudita\ Center.app
       - name: Push artifacts to nexus registry from Windows
         if: matrix.os == 'Windows'
         env:
