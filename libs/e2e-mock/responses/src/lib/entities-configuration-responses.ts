@@ -79,25 +79,8 @@ export const entitiesConfiguration = {
     },
     phoneNumbers: {
       type: "array",
-      validators: [
-        {
-          required: false,
-        },
-      ],
       items: {
         type: "object",
-        validators: [
-          {
-            unique: true,
-            error: "Given phone object is not unique inside the array",
-          },
-          {
-            pattern:
-              '/^\\{"id":"[^"]+","phoneNumber":"[^"]+","phoneType":"[^"]+"\\}$/',
-            negatePattern: false,
-            error: "Phone data is invalid",
-          },
-        ],
         fields: {
           id: {
             type: "id",
@@ -130,29 +113,29 @@ export const entitiesConfiguration = {
             ],
           },
         },
+        validators: [
+          {
+            unique: true,
+            error: "Given phone object is not unique inside the array",
+          },
+          {
+            pattern:
+              '/^\\{"id":"[^"]+","phoneNumber":"[^"]+","phoneType":"[^"]+"\\}$/',
+            negatePattern: false,
+            error: "Phone data is invalid",
+          },
+        ],
       },
-    },
-    emailAddresses: {
-      type: "array",
       validators: [
         {
           required: false,
         },
       ],
+    },
+    emailAddresses: {
+      type: "array",
       items: {
         type: "object",
-        validators: [
-          {
-            unique: true,
-            error: "Given email object is not unique inside the array",
-          },
-          {
-            pattern:
-              '/^\\{"id":"[^"]+","emailAddress":"[^"]+","emailType":"[^"]+"\\}$/',
-            negatePattern: false,
-            error: "Email data is invalid",
-          },
-        ],
         fields: {
           id: {
             type: "id",
@@ -184,7 +167,24 @@ export const entitiesConfiguration = {
             ],
           },
         },
+        validators: [
+          {
+            unique: true,
+            error: "Given email object is not unique inside the array",
+          },
+          {
+            pattern:
+              '/^\\{"id":"[^"]+","emailAddress":"[^"]+","emailType":"[^"]+"\\}$/',
+            negatePattern: false,
+            error: "Email data is invalid",
+          },
+        ],
       },
+      validators: [
+        {
+          required: false,
+        },
+      ],
     },
     nickName: {
       type: "string",
@@ -240,11 +240,6 @@ export const entitiesConfiguration = {
     },
     address: {
       type: "array",
-      validators: [
-        {
-          required: false,
-        },
-      ],
       items: {
         type: "object",
         fields: {
@@ -354,6 +349,11 @@ export const entitiesConfiguration = {
           },
         },
       },
+      validators: [
+        {
+          required: false,
+        },
+      ],
     },
     website: {
       type: "string",
@@ -395,12 +395,12 @@ export const entitiesConfiguration = {
     },
     entityType: {
       type: "string",
-      defaultValue: "contacts",
       validators: [
         {
           required: true,
         },
       ],
+      defaultValue: "contacts",
     },
     sip: {
       type: "string",
@@ -415,7 +415,19 @@ export const entitiesConfiguration = {
         },
       ],
     },
-    displayName: {
+    searchName: {
+      type: "string",
+    },
+    displayName1: {
+      type: "string",
+    },
+    displayName2: {
+      type: "string",
+    },
+    displayName3: {
+      type: "string",
+    },
+    displayName4: {
       type: "string",
     },
     sortField: {
