@@ -4,10 +4,11 @@
  */
 
 import React from "react"
-import { APIFC } from "generic-view/utils"
-import styled, { css } from "styled-components"
-import { HeaderConfig, UnboldValidator } from "generic-view/models"
 import { isEmpty } from "lodash"
+import styled, { css } from "styled-components"
+import { TypographyTestIds } from "e2e-test-ids"
+import { APIFC } from "generic-view/utils"
+import { HeaderConfig, UnboldValidator } from "generic-view/models"
 import { CommonTextProps, commonTextStyles } from "./common-text-styles"
 
 interface HeaderProps extends CommonTextProps {
@@ -37,6 +38,7 @@ export const Header3: APIFC<undefined, HeaderConfig> = ({
 }) => {
   return (
     <H3
+      data-testid={TypographyTestIds.H3}
       $unbold={config?.unbold}
       $singleLine={config?.singleLine}
       $color={config?.color}
@@ -63,6 +65,7 @@ export const Header4: APIFC<undefined, HeaderConfig> = ({
 }) => {
   return (
     <H4
+      data-testid={TypographyTestIds.H4}
       $unbold={config?.unbold}
       $singleLine={config?.singleLine}
       $color={config?.color}
@@ -89,6 +92,7 @@ export const Header5: APIFC<undefined, HeaderConfig> = ({
 }) => {
   return (
     <H5
+      data-testid={TypographyTestIds.H5}
       $unbold={config?.unbold}
       $singleLine={config?.singleLine}
       $color={config?.color}
