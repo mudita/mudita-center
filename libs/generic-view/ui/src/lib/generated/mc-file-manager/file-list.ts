@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Subview } from "generic-view/utils"
+import { Subview, IconType } from "generic-view/utils"
+import { generateDeleteFiles } from "./delete-files"
 
 interface FileListConfig {
   id: string
@@ -65,6 +66,7 @@ const generateFileList = ({
         formOptions: {
           defaultValues: {
             selectedItems: [],
+            allItems: [],
           },
         },
       },
@@ -82,7 +84,38 @@ const generateFileList = ({
           columns: [],
         },
       },
-      childrenKeys: [`${id}fileListPanel`, `${id}fileListContent`],
+      childrenKeys: [`${id}fileListPanelManager`, `${id}fileListContent`],
+    },
+    [`${id}fileListPanelManager`]: {
+      component: "block-plain",
+      childrenKeys: [
+        `${id}fileListPanelDefaultMode`,
+        `${id}fileListPanelSelectMode`,
+      ],
+      layout: {
+        gridPlacement: {
+          row: 1,
+          column: 1,
+          width: 1,
+          height: 1,
+        },
+      },
+    },
+    [`${id}fileListPanelDefaultMode`]: {
+      component: "conditional-renderer",
+      childrenKeys: [`${id}fileListPanel`],
+      dataProvider: {
+        source: "form-fields",
+        fields: [
+          {
+            providerField: "selectedItems",
+            componentField: "data.render",
+            modifier: "length",
+            condition: "eq",
+            value: 0,
+          },
+        ],
+      },
     },
     [`${id}fileListPanel`]: {
       component: "block-plain",
@@ -138,6 +171,93 @@ const generateFileList = ({
       },
       childrenKeys: [`${id}fileListEmptyStateAddFileButton`],
     },
+    [`${id}fileListPanelSelectMode`]: {
+      component: "conditional-renderer",
+      childrenKeys: [`${id}fileListPanelSelector`],
+      dataProvider: {
+        source: "form-fields",
+        fields: [
+          {
+            providerField: "selectedItems",
+            componentField: "data.render",
+            modifier: "length",
+            condition: "gt",
+            value: 0,
+          },
+        ],
+      },
+    },
+    [`${id}fileListPanelSelector`]: {
+      component: "selection-manager",
+      childrenKeys: [
+        `${id}selectAllCheckbox`,
+        `${id}selectedItemsCounter`,
+        `${id}deleteButton`,
+      ],
+      layout: {
+        margin: "32px",
+        padding: "8px 24px 8px 12px",
+        gridLayout: {
+          rows: ["auto"],
+          columns: ["auto", "1fr", "auto"],
+          alignItems: "center",
+          columnGap: "14px",
+        },
+      },
+    },
+    [`${id}selectAllCheckbox`]: {
+      component: "form.checkboxInput",
+      config: {
+        name: "selectedItems",
+        size: "small",
+      },
+      dataProvider: {
+        source: "form-fields",
+        fields: [
+          {
+            providerField: "allItems",
+            componentField: "config.multipleValues",
+          },
+        ],
+      },
+    },
+    [`${id}selectedItemsCounter`]: {
+      component: "p4-component",
+      childrenKeys: [`${id}selectedItemsCounterText`],
+    },
+    [`${id}selectedItemsCounterText`]: {
+      component: "format-message",
+      config: {
+        messageTemplate:
+          "{selectedItems} {selectedItems, plural, one {file} other {files}} selected",
+      },
+      dataProvider: {
+        source: "form-fields",
+        fields: [
+          {
+            providerField: "selectedItems",
+            componentField: "data.fields.selectedItems",
+            modifier: "length",
+          },
+        ],
+      },
+    },
+    [`${id}deleteButton`]: {
+      component: "button-text",
+      config: {
+        text: "Delete",
+        icon: IconType.Delete,
+        actions: [
+          {
+            type: "open-modal",
+            modalKey: `${id}deleteModal`,
+            domain: "files-delete",
+          },
+        ],
+        modifiers: ["uppercase"],
+      },
+    },
+    ...generateDeleteFiles(id, entitiesType),
     [`${id}fileListContent`]: {
       component: "block-plain",
       layout: {
@@ -236,6 +356,7 @@ const generateFileList = ({
       config: {
         formOptions: {
           selectedIdsFieldName: "selectedItems",
+          allIdsFieldName: "allItems",
         },
       },
       dataProvider: {

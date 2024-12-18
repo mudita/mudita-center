@@ -14,7 +14,7 @@ export const fileManagerView: View = {
         "audioFiles",
         "imageFiles",
         "ebookFiles",
-        "applicationFiles",
+        // "applicationFiles",
       ],
     },
     // @ts-ignore
