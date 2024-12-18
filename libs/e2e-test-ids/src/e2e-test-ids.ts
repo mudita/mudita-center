@@ -14,6 +14,15 @@ export enum InteractiveTextInputTestIds {
   ErrorText = "interactive-text-input-error-text",
 }
 
+export enum TableTestIds {
+  Table = "ui-table",
+  TableRow = "ui-table-row",
+  TableHeaderRow = "ui-table-header-row",
+  TablePlaceholderRow = "ui-table-place-holder-row",
+  TableCell = "ui-table-cell",
+  TableHeaderCell = "ui-table-header-cell",
+}
+
 export enum PredefinedBackupPasswordTestIds {
   Title = "predefined-backup-password-title",
   Description = "predefined-backup-password-description",
