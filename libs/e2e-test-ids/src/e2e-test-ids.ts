@@ -14,6 +14,10 @@ export enum InteractiveTextInputTestIds {
   ErrorText = "interactive-text-input-error-text",
 }
 
+export enum CheckboxTestIds {
+  Checkbox = "ui-checkbox",
+}
+
 export enum TableTestIds {
   Table = "ui-table",
   TableRow = "ui-table-row",
