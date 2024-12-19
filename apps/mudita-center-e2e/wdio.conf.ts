@@ -28,7 +28,6 @@ export const config: Options.Testrunner = {
   // If you need to configure how ts-node runs please use the
   // environment variables for ts-node or use wdio config's autoCompileOpts section.
   //
-  port: 31337,
   autoCompileOpts: {
     autoCompile: true,
     // see https://github.com/TypeStrong/ts-node#cli-and-programmatic-options
@@ -194,7 +193,7 @@ export const config: Options.Testrunner = {
       browserName: "chrome",
       "goog:chromeOptions": {
         binary: process.env.TEST_BINARY_PATH,
-        args: [],
+        args: [--port 31337],
       },
       "wdio:chromedriverOptions": {
         binary: path.resolve(
@@ -206,7 +205,6 @@ export const config: Options.Testrunner = {
           "bin",
           "chromedriver"
         ),
-        port: 93117,
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
