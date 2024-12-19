@@ -194,7 +194,7 @@ export const config: Options.Testrunner = {
       browserName: "chrome",
       "goog:chromeOptions": {
         binary: process.env.TEST_BINARY_PATH,
-        args: [],
+        args: ["--port", "31337"],
       },
       "wdio:chromedriverOptions": {
         binary: path.resolve(
@@ -206,6 +206,7 @@ export const config: Options.Testrunner = {
           "bin",
           "chromedriver"
         ),
+        port: 31337,
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
@@ -262,7 +263,6 @@ export const config: Options.Testrunner = {
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
   services: ["chromedriver"],
-  chromeDriverArgs: ['--verbose', '--port', '31337'],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
