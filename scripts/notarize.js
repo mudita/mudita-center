@@ -10,10 +10,7 @@ require("dotenv").config({
 module.exports = async function (context) {
   const { electronPlatformName, appOutDir } = context
 
-  if (
-    electronPlatformName !== "darwin" ||
-    process.env.SKIP_MAC_NOTARIZE_ENABLED === "1"
-  ) {
+  if (electronPlatformName !== "darwin") {
     return
   }
 
