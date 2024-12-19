@@ -28,7 +28,7 @@ export const config: Options.Testrunner = {
   // If you need to configure how ts-node runs please use the
   // environment variables for ts-node or use wdio config's autoCompileOpts section.
   //
-
+  port: 31337,
   autoCompileOpts: {
     autoCompile: true,
     // see https://github.com/TypeStrong/ts-node#cli-and-programmatic-options
