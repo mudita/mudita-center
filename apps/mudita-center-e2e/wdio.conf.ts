@@ -28,6 +28,7 @@ export const config: Options.Testrunner = {
   // If you need to configure how ts-node runs please use the
   // environment variables for ts-node or use wdio config's autoCompileOpts section.
   //
+
   autoCompileOpts: {
     autoCompile: true,
     // see https://github.com/TypeStrong/ts-node#cli-and-programmatic-options
@@ -193,7 +194,7 @@ export const config: Options.Testrunner = {
       browserName: "chrome",
       "goog:chromeOptions": {
         binary: process.env.TEST_BINARY_PATH,
-        args: [--port 31337],
+        args: ["--port 31337"],
       },
       "wdio:chromedriverOptions": {
         binary: path.resolve(
