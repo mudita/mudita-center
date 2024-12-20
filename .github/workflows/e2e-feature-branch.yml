@@ -22,11 +22,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.16.1
-      - name: Set up Python for Windows
-        if: matrix.os == 'Windows'
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
       - name: Find open port for ChromeBrowser on Linux/Mac
         if: matrix.os != 'Windows'
         id: find-port-unix
