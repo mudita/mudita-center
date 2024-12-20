@@ -5,7 +5,7 @@
 
 import styled from "styled-components"
 import NxWelcome from "./nx-welcome"
-import { useSerialPortListener } from "./serialport-test"
+import { useSerialPortListener } from "./serialport-demo"
 import { useSql } from "./sql-test"
 
 const StyledApp = styled.div`
