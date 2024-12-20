@@ -67,8 +67,6 @@ jobs:
               exit 1
             }
             echo "CHROME_OPEN_PORT=$port" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
-      - name: Display chosen port
-        run: echo "Chosen open port is $CHROME_OPEN_PORT"
       - name: Setup environment variables for Linux
         if: matrix.os == 'Linux'
         env:
