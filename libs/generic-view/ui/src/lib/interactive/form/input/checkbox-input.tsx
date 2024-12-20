@@ -4,10 +4,11 @@
  */
 
 import React, { useCallback, useEffect, useId, useMemo, useRef } from "react"
-import { APIFC, IconType, useViewFormContext } from "generic-view/utils"
 import styled from "styled-components"
-import { Icon } from "../../../icon/icon"
+import { CheckboxTestIds } from "e2e-test-ids"
+import { APIFC, IconType, useViewFormContext } from "generic-view/utils"
 import { FormCheckboxInputConfig } from "generic-view/models"
+import { Icon } from "../../../icon/icon"
 
 interface Config extends FormCheckboxInputConfig {
   onToggle?: (checked: boolean) => void
@@ -110,6 +111,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
     >
       <Input
         id={"checkbox-" + id}
+        data-testid={CheckboxTestIds.Checkbox}
         type={"checkbox"}
         value={config.value}
         checked={config.checked}
