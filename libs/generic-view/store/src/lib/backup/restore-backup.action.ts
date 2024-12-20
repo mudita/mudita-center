@@ -21,6 +21,7 @@ import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-i
 import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
 import { BackupProcessFileStatus, RestoreProcessStatus } from "./backup.types"
 import { delay } from "shared/utils"
+import { refreshEntitiesIfMetadataChanged } from "../entities/refresh-entities-if-metadata-changed.action"
 
 export const restoreBackup = createAsyncThunk<
   undefined,
@@ -221,6 +222,14 @@ export const restoreBackup = createAsyncThunk<
       return rejectWithValue(undefined)
     }
     dispatch(setRestoreProcessStatus({ status: RestoreProcessStatus.Done }))
+
+    await dispatch(
+      refreshEntitiesIfMetadataChanged({
+        deviceId: deviceId,
+        entitiesType: "contacts",
+      })
+    )
+
     return undefined
   }
 )
