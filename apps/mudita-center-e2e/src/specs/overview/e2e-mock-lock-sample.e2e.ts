@@ -1,5 +1,10 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import { DEFAULT_RESPONSES } from "../../../../../libs/e2e-mock/responses/src"
+import { mockEntityDownloadProcess } from "E2E/helpers"
+import {
+  audioFileEntities,
+  selectedContactsEntities,
+} from "E2E/helpers/entity-fixtures"
 
 function getBodyAsRecord(body: unknown): Record<string, any> {
   return body ? (body as Record<string, any>) : {}
@@ -64,22 +69,46 @@ describe("E2E mock lock sample", () => {
 
     E2EMockClient.mockResponse({
       path: "path-1",
-      body: getBodyAsRecord(DEFAULT_RESPONSES.FEATURE_DATA?.GET?.[0]?.body),
-      endpoint: "FEATURE_DATA",
+      body: getBodyAsRecord(
+        DEFAULT_RESPONSES.API_CONFIGURATION?.GET?.[0]?.body
+      ),
+      endpoint: "API_CONFIGURATION",
       method: "GET",
       status: 200,
     })
 
     await browser.pause(2000)
+
     E2EMockClient.mockResponse({
       path: "path-1",
       body: getBodyAsRecord(DEFAULT_RESPONSES.FEATURE_DATA?.GET?.[0]?.body),
+      match: {
+        expected: {
+          feature: "mc-overview",
+          lang: "en-US",
+        },
+      },
+      endpoint: "FEATURE_DATA",
+      method: "GET",
+      status: 200,
+    })
+
+    E2EMockClient.mockResponse({
+      path: "path-1",
+      body: getBodyAsRecord(DEFAULT_RESPONSES.FEATURE_DATA?.GET?.[1]?.body),
+      match: {
+        expected: {
+          feature: "fileManager",
+          lang: "en-US",
+        },
+      },
       endpoint: "FEATURE_DATA",
       method: "GET",
       status: 200,
     })
 
     await browser.pause(2000)
+
     E2EMockClient.mockResponse({
       path: "path-1",
       body: getBodyAsRecord(
@@ -113,6 +142,21 @@ describe("E2E mock lock sample", () => {
     E2EMockClient.mockResponse({
       path: "path-1",
       body: getBodyAsRecord(
+        DEFAULT_RESPONSES.FEATURE_CONFIGURATION?.GET?.[2]?.body
+      ),
+      match: {
+        expected: {
+          feature: "fileManager",
+          lang: "en-US",
+        },
+      },
+      endpoint: "FEATURE_CONFIGURATION",
+      method: "GET",
+      status: 200,
+    })
+    E2EMockClient.mockResponse({
+      path: "path-1",
+      body: getBodyAsRecord(
         DEFAULT_RESPONSES.MENU_CONFIGURATION?.GET?.[0]?.body
       ),
       endpoint: "MENU_CONFIGURATION",
@@ -132,32 +176,6 @@ describe("E2E mock lock sample", () => {
 
     E2EMockClient.mockResponse({
       path: "path-1",
-      body: getBodyAsRecord(DEFAULT_RESPONSES.ENTITIES_DATA?.GET?.[0]?.body),
-      endpoint: "ENTITIES_DATA",
-      method: "GET",
-      status: 200,
-    })
-
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: getBodyAsRecord(
-        DEFAULT_RESPONSES.PRE_FILE_TRANSFER?.GET?.[0]?.body
-      ),
-      endpoint: "PRE_FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    })
-
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: getBodyAsRecord(DEFAULT_RESPONSES.FILE_TRANSFER?.GET?.[0]?.body),
-      endpoint: "FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    })
-
-    E2EMockClient.mockResponse({
-      path: "path-1",
       body: {
         features: [],
         data: [],
@@ -165,6 +183,39 @@ describe("E2E mock lock sample", () => {
       endpoint: "OUTBOX",
       method: "GET",
       status: 200,
+    })
+
+    E2EMockClient.mockResponse({
+      path: "path-1",
+      body: getBodyAsRecord(
+        DEFAULT_RESPONSES.ENTITIES_CONFIGURATION?.GET?.[0]?.body
+      ),
+      match: { expected: { entityType: "contacts" } },
+      endpoint: "ENTITIES_CONFIGURATION",
+      method: "GET",
+      status: 200,
+    })
+
+    E2EMockClient.mockResponse({
+      path: "path-1",
+      body: getBodyAsRecord(
+        DEFAULT_RESPONSES.ENTITIES_CONFIGURATION?.GET?.[1]?.body
+      ),
+      match: { expected: { entityType: "audioFiles" } },
+      endpoint: "ENTITIES_CONFIGURATION",
+      method: "GET",
+      status: 200,
+    })
+
+    mockEntityDownloadProcess({
+      path: "path-1",
+      data: selectedContactsEntities,
+      entityType: "contacts",
+    })
+    mockEntityDownloadProcess({
+      path: "path-1",
+      data: audioFileEntities,
+      entityType: "audioFiles",
     })
 
     await browser.pause(10000)
