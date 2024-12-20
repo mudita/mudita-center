@@ -60,14 +60,14 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         status: ResponseStatus.Ok,
         body: {
           apiVersion: "1.0.0",
-          osVersion: "0.0.48 MuditaOS K",
+          osVersion: "0.0.46 MuditaOS K",
           lang: "en-US",
           variant: "black",
           features: ["mc-overview", "contacts", "fileManager"],
           entityTypes: ["contacts", "audioFiles"],
           productId: "2006",
           vendorId: "0e8d",
-          serialNumber: "LD20240700294",
+          serialNumber: "0123456789ABCDEF",
           otaApiConfig: {
             otaApiKey: "864055030180383",
             osVersionTimestamp: 1733752055000,
