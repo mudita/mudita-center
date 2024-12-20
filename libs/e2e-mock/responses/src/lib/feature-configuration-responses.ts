@@ -3,6 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export const featureConfigurationFileManager = {
+  main: {
+    screenTitle: "Manage Files",
+    component: "mc-file-manager-view",
+    config: { entityTypes: ["audioFiles"] },
+  },
+}
+
 export const featureConfigurationContacts = {
   main: {
     component: "mc-contacts-view",

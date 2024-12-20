@@ -3,6 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export const entitiesConfigurationAudioFiles = {
+  globalValidators: { requiredFieldsCombinations: [] },
+  fields: {
+    id: { type: "id" },
+    filePath: { type: "string", validators: [{ required: true }] },
+    fileName: { type: "string", validators: [{ required: true }] },
+    extension: { type: "string", validators: [{ required: true }] },
+    fileSize: { type: "number", validators: [{ required: true }] },
+    fileType: { type: "string", validators: [{ required: true }] },
+    mimeType: { type: "string", validators: [{ required: true }] },
+    isInternal: { type: "boolean" },
+    entityType: { type: "string", validators: [{ required: true }] },
+  },
+}
+
 export const entitiesConfiguration = {
   globalValidators: {
     requiredFieldsCombinations: [
