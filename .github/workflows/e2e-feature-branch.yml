@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ macOS ]
+        os: [Linux, Windows, macOS]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:
