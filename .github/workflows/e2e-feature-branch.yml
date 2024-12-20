@@ -127,10 +127,14 @@ jobs:
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
           npm run app:dist
-      - name: Run E2E tests headless with Xvfb on Linux/Mac
-        if: matrix.os != 'Windows'
+      - name: Run E2E tests headless with Xvfb on Linux
+        if: matrix.os == 'Linux'
         run: |
           npm run e2e:test:cicd:standalone
+      - name: Run E2E tests headless on Mac
+        if: matrix.os == 'macOS'
+        run: |
+          npm run e2e:test:standalone
       - name: Run E2E tests headless on Windows
         env:
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
