@@ -4,15 +4,16 @@ on:
   pull_request:
     types:
       - opened
-      - synchronize
+      - ready_for_review
       - reopened
+  workflow_dispatch:
 jobs:
   e2e:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [Windows, Linux]
-    if: startsWith(github.ref, 'refs/heads/CP-')
+    if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:
       - name: Checkout code
@@ -49,6 +50,8 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MOCK_SERVICE_ENABLED: "1"
+          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
+          KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
         run: |
           printenv > .env
       - name: Setup environment variables for Windows
@@ -56,7 +59,7 @@ jobs:
         env:
           E2ECI: "true"
           TEST_GITHUB_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          TEST_BINARY_PATH: 'C:\actions-runner\_work\mudita-center\mudita-center\apps\mudita-center\release\win-unpacked\Mudita Center.exe'
+          TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
@@ -80,6 +83,7 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MOCK_SERVICE_ENABLED: "1"
           NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
+          KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
         shell: cmd
         run: |
           SET > .env
@@ -102,7 +106,7 @@ jobs:
           npm run e2e:test:cicd:mock
       - name: Run E2E tests headless on Windows
         env:
-          TEST_BINARY_PATH: 'C:\actions-runner\_work\mudita-center\mudita-center\apps\mudita-center\release\win-unpacked\Mudita Center.exe'
+          TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
         if: matrix.os == 'Windows'
         run: |
           cd apps/mudita-center-e2e
