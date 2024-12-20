@@ -4,7 +4,6 @@ on:
   pull_request:
     types:
       - opened
-      - synchronize
       - ready_for_review
       - reopened
   workflow_dispatch:
@@ -81,7 +80,6 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
           KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
-          SKIP_MAC_NOTARIZE_ENABLED: "1"
         run: |
           printenv > .env
       - name: Setup Env for Linux
@@ -116,23 +114,23 @@ jobs:
         if: matrix.os == 'Linux'
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
+          export SOURCE_BRANCH=${{ github.head_ref }}
+          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.head_ref }}"
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Mac
         if: matrix.os == 'macOS'
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
+          export SOURCE_BRANCH=${{ github.head_ref }}
+          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.head_ref }}"
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Windows
         if: matrix.os == 'Windows'
         run: |
-          $SOURCE_BRANCH = "${{ github.ref_name }}"
-          $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
+          $SOURCE_BRANCH = "${{ github.head_ref }}"
+          $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.head_ref }}"
           $BUILD_VERSION = "-dev.${{ github.run_number }}"
           $APP_VERSION = (Get-Content -Path "apps/mudita-center/version") + $BUILD_VERSION
           (Get-Content -Path 'apps/mudita-center/package.json') | ForEach-Object {
@@ -163,8 +161,8 @@ jobs:
         run: |
           jq -r -j .version apps/mudita-center/package.json > apps/mudita-center/version
           $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
-          $SOURCE_BRANCH = "${{ github.ref_name }}"
-          $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
+          $SOURCE_BRANCH = "${{ github.head_ref }}"
+          $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.head_ref }}"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
           $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force
           $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)
@@ -180,8 +178,8 @@ jobs:
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
+          export SOURCE_BRANCH=${{ github.head_ref }}
+          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.head_ref }}"
           cp ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
@@ -193,8 +191,8 @@ jobs:
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
+          export SOURCE_BRANCH=${{ github.head_ref }}
+          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.head_ref }}"
           cp ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-mac.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip
