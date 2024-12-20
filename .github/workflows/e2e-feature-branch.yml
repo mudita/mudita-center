@@ -54,8 +54,8 @@ jobs:
           KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
         run: |
           printenv > .env
-      - name: Setup environment variables for Linux
-        if: matrix.os == 'Linux'
+      - name: Setup Env for Mac
+        if: matrix.os == 'macOS'
         env:
           E2ECI: "true"
           TEST_GITHUB_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
