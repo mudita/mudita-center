@@ -85,7 +85,7 @@ const generateDeleteModal = ({
                 },
                 {
                   type: "open-toast",
-                  toastKey: "contactsDeletedToast",
+                  toastKey: `${id}ContactsDeletedToast`,
                 },
               ],
             },
@@ -137,6 +137,42 @@ const generateDeleteModal = ({
         messageTemplate: singleContact
           ? "Delete contact"
           : "Delete {contactsToDelete, plural, one {contact} other {# contacts}}?",
+      },
+      dataProvider: {
+        source: "form-fields",
+        formKey: "contactsForm",
+        fields: [
+          {
+            providerField: contactsToDelete,
+            componentField: "data.fields.contactsToDelete",
+            modifier: "length",
+          },
+        ],
+      },
+    },
+    [`${id}ContactsDeletedToast`]: {
+      component: "toast",
+      childrenKeys: [
+        `${id}ContactsDeletedToastIcon`,
+        `${id}ContactsDeletedToastText`,
+      ],
+    },
+    [`${id}ContactsDeletedToastIcon`]: {
+      component: "icon",
+      config: {
+        type: IconType.Success,
+      },
+    },
+    [`${id}ContactsDeletedToastText`]: {
+      component: "p1-component",
+      childrenKeys: [`${id}ContactsDeletedToastMessage`],
+    },
+    [`${id}ContactsDeletedToastMessage`]: {
+      component: "format-message",
+      config: {
+        messageTemplate: singleContact
+          ? "1 contact deleted"
+          : "{contactsToDelete} {contactsToDelete, plural, one {contact} other {contacts}} deleted",
       },
       dataProvider: {
         source: "form-fields",

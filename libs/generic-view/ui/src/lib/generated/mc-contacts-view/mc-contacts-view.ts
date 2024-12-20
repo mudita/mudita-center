@@ -402,28 +402,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         modifiers: ["uppercase"],
       },
     },
-    contactsDeletedToast: {
-      component: "toast",
-      childrenKeys: ["contactsDeletedToastIcon", "contactsDeletedToastText"],
-    },
-    contactsDeletedToastMessage: {
-      component: "format-message",
-      config: {
-        messageTemplate:
-          "{selectedContacts} {selectedContacts, plural, one {contact} other {contacts}} deleted",
-      },
-      dataProvider: {
-        source: "form-fields",
-        formKey: "contactsForm",
-        fields: [
-          {
-            providerField: "selectedContacts",
-            componentField: "data.fields.selectedContacts",
-            modifier: "length",
-          },
-        ],
-      },
-    },
     contactsTableWrapper: {
       component: "block-plain",
       layout: {
@@ -792,10 +770,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         ],
       },
     },
-    contactsDeletedToastText: {
-      component: "p1-component",
-      childrenKeys: ["contactsDeletedToastMessage"],
-    },
     deleteProgressModal: {
       component: "modal",
       config: {
@@ -813,12 +787,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       component: "modal.title",
       config: {
         text: "Deleting, please wait...",
-      },
-    },
-    contactsDeletedToastIcon: {
-      component: "icon",
-      config: {
-        type: IconType.Success,
       },
     },
     emptyListWrapper: {
