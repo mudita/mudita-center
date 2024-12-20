@@ -33,6 +33,7 @@ jobs:
             START_PORT=30000
             END_PORT=40000
             PORT=$START_PORT
+            RUNNER_OS="${{ matrix.os }}"
             while [ $PORT -le $END_PORT ]; do
               if [[ "$RUNNER_OS" == "Linux" ]]; then
                 nc -z 127.0.0.1 $PORT 2>/dev/null || break
