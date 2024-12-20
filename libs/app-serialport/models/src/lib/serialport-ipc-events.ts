@@ -4,6 +4,6 @@
  */
 
 export enum SerialportIpcEvents {
-  List = "serialport:list",
+  Change = "serialport:change",
   Write = "serialport:write",
 }

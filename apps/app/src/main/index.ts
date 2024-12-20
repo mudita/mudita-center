@@ -32,6 +32,9 @@ function createWindow(): void {
   mainWindow.webContents.openDevTools()
 
   mainWindow.on("ready-to-show", () => {
+    initSerialPort(ipcMain, mainWindow.webContents)
+    initSql(ipcMain)
+
     mainWindow.show()
   })
 
@@ -65,9 +68,6 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on("ping", () => console.log("pong"))
-
-  initSerialPort(ipcMain)
-  initSql(ipcMain)
 
   createWindow()
 

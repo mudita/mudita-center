@@ -3,13 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SerialportIpcEvents } from "app-serialport/models"
+import {
+  APIRequestData,
+  ChangedDevices,
+  SerialportIpcEvents,
+} from "app-serialport/models"
 
 export const AppSerialPort = {
-  list: () => {
-    return window.electron.ipcRenderer.invoke(SerialportIpcEvents.List)
+  onChange: (callback: (changes: ChangedDevices) => void) => {
+    return window.electron.ipcRenderer.on(
+      SerialportIpcEvents.Change,
+      (_, changes) => {
+        callback(changes)
+      }
+    )
   },
-  write: (path: string, data: string) => {
+  write: (path: string, data: APIRequestData) => {
     return window.electron.ipcRenderer.invoke(
       SerialportIpcEvents.Write,
       path,
