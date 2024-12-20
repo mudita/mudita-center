@@ -35,17 +35,12 @@ class NavigationTabs extends Page {
     return $('[data-testid="contacts-menu-link"]')
   }
 
-  async clickContactsTab() {
-    await this.contactsTab.waitForClickable()
-    await this.contactsTab.click()
+  public get contactsKompaktTab() {
+    return $('[data-testid="icon-MenuContacts"]')
   }
 
   public get settingsTab() {
     return $('[data-testid="icon-MenuSettings"]')
-  }
-
-  async settingsTabClick() {
-    await this.settingsTab.click()
   }
 
   public get helpTab() {
@@ -53,9 +48,9 @@ class NavigationTabs extends Page {
   }
 
   public async openHelpPage() {
-    const helpTab = await this.helpTab;
-    await helpTab.waitForDisplayed({ timeout: 15000 });
-    await helpTab.click();
+    const helpTab = await this.helpTab
+    await helpTab.waitForDisplayed({ timeout: 15000 })
+    await helpTab.click()
   }
 }
 
