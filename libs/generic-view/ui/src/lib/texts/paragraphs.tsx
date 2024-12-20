@@ -11,6 +11,7 @@ import { ParagraphConfig, ParagraphData } from "generic-view/models"
 import { Content } from "../data-rows/text-formatted"
 import { CommonTextProps, commonTextStyles } from "./common-text-styles"
 import { applyTextTransform } from "./apply-text-transform"
+import { TypographyTestIds } from "e2e-test-ids"
 
 type ParagraphsProps = CommonTextProps
 
@@ -37,11 +38,12 @@ export const Paragraph1: APIFC<ParagraphData, ParagraphConfig> = ({
 
   return (
     <P1
-      {...props}
+      data-testid={TypographyTestIds.P1}
       $color={config?.color}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
+      {...props}
     >
       {isEmpty(children) ? transformedText : children}
     </P1>
@@ -80,11 +82,12 @@ export const Paragraph2: APIFC<ParagraphData, ParagraphConfig> = ({
 
   return (
     <P2
-      {...props}
+      data-testid={TypographyTestIds.P2}
       $color={config?.color}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
+      {...props}
     >
       {isEmpty(children) ? transformedText : children}
     </P2>
@@ -120,11 +123,12 @@ export const Paragraph3: APIFC<ParagraphData, ParagraphConfig> = ({
 
   return (
     <P3
-      {...props}
+      data-testid={TypographyTestIds.P3}
       $color={config?.color}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
+      {...props}
     >
       {isEmpty(children) ? transformedText : children}
     </P3>
@@ -160,11 +164,12 @@ export const Paragraph4: APIFC<ParagraphData, ParagraphConfig> = ({
 
   return (
     <P4
-      {...props}
+      data-testid={TypographyTestIds.P4}
       $color={config?.color}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
+      {...props}
     >
       {isEmpty(children) ? transformedText : children}
     </P4>
@@ -200,11 +205,12 @@ export const Paragraph5: APIFC<ParagraphData, ParagraphConfig> = ({
 
   return (
     <P5
-      {...props}
+      data-testid={TypographyTestIds.P5}
       $color={config?.color}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
+      {...props}
     >
       {isEmpty(children) ? transformedText : children}
     </P5>
