@@ -27,8 +27,9 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-      - name: Find open port for ChromeBrowser
-        id: find-port
+      - name: Find open port for ChromeBrowser on Linux/Mac
+        if: matrix.os != 'Windows'
+        id: find-port-unix
         run: |
             START_PORT=30000
             END_PORT=40000
@@ -39,8 +40,6 @@ jobs:
                 nc -z 127.0.0.1 $PORT 2>/dev/null || break
               elif [[ "$RUNNER_OS" == "macOS" ]]; then
                 nc -z -w1 127.0.0.1 $PORT 2>/dev/null || break
-              elif [[ "$RUNNER_OS" == "Windows" ]]; then
-                python -c "import socket; s=socket.socket(); s.connect_ex(('127.0.0.1', $PORT))" || break
               fi
               PORT=$((PORT+1))
             done
@@ -49,6 +48,25 @@ jobs:
               exit 1
             fi
             echo "CHROME_OPEN_PORT=$PORT" >> $GITHUB_ENV
+      - name: Find open port for ChromeBrowser on Windows
+        if: matrix.os == 'Windows'
+        id: find-port-windows
+        run: |
+            $startPort = 30000
+            $endPort = 40000
+            $port = $startPort
+            while ($port -le $endPort) {
+              $isUsed = (Test-NetConnection -ComputerName 127.0.0.1 -Port $port).TcpTestSucceeded
+              if (-not $isUsed) {
+                break
+              }
+              $port++
+            }
+            if ($port -gt $endPort) {
+              Write-Error "No available port found in the range $startPort-$endPort"
+              exit 1
+            }
+            echo "CHROME_OPEN_PORT=$port" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
       - name: Display chosen port
         run: echo "Chosen open port is $CHROME_OPEN_PORT"
       - name: Setup environment variables for Linux
