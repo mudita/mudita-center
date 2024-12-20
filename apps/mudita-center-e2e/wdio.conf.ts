@@ -194,7 +194,7 @@ export const config: Options.Testrunner = {
       browserName: "chrome",
       "goog:chromeOptions": {
         binary: process.env.TEST_BINARY_PATH,
-        args: ["--port", "31337"],
+        args: [],
       },
       "wdio:chromedriverOptions": {
         binary: path.resolve(
@@ -206,7 +206,6 @@ export const config: Options.Testrunner = {
           "bin",
           "chromedriver"
         ),
-        port: 31337,
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
