@@ -22,6 +22,34 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.16.1
+      - name: Set up Python for Windows
+        if: matrix.os == 'Windows'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Find open port for ChromeBrowser
+        id: find-port
+        run: |
+            START_PORT=30000
+            END_PORT=40000
+            PORT=$START_PORT
+            while [ $PORT -le $END_PORT ]; do
+              if [[ "$RUNNER_OS" == "Linux" ]]; then
+                nc -z 127.0.0.1 $PORT 2>/dev/null || break
+              elif [[ "$RUNNER_OS" == "macOS" ]]; then
+                nc -z -w1 127.0.0.1 $PORT 2>/dev/null || break
+              elif [[ "$RUNNER_OS" == "Windows" ]]; then
+                python -c "import socket; s=socket.socket(); s.connect_ex(('127.0.0.1', $PORT))" || break
+              fi
+              PORT=$((PORT+1))
+            done
+            if [ $PORT -gt $END_PORT ]; then
+              echo "No available port found in the range $START_PORT-$END_PORT" >&2
+              exit 1
+            fi
+            echo "CHROME_OPEN_PORT=$PORT" >> $GITHUB_ENV
+      - name: Display chosen port
+        run: echo "Chosen open port is $CHROME_OPEN_PORT"
       - name: Setup environment variables for Linux
         if: matrix.os == 'Linux'
         env:
