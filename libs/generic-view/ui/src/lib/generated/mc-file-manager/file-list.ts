@@ -80,12 +80,60 @@ const generateFileList = ({
       layout: {
         width: "656px",
         gridLayout: {
+          rows: [],
+          columns: [],
+        },
+      },
+      childrenKeys: [`${id}fileListContent`],
+    },
+    [`${id}fileListContent`]: {
+      component: "block-plain",
+      layout: {
+        gridLayout: {
           rows: ["auto", "1fr"],
           columns: [],
         },
       },
-      childrenKeys: [`${id}fileListPanelManager`, `${id}fileListContent`],
+      childrenKeys: [
+        `${id}fileListEmptyStateWrapper`,
+        `${id}fileListEmptyTableWrapper`,
+      ],
     },
+    [`${id}fileListEmptyStateWrapper`]: {
+      component: "conditional-renderer",
+      dataProvider: {
+        source: "entities-metadata",
+        entitiesType,
+        fields: [
+          {
+            modifier: "length",
+            providerField: "totalEntities",
+            componentField: "data.render",
+            condition: "eq",
+            value: 0,
+          },
+        ],
+      },
+      childrenKeys: [`${id}fileListPanel`, `${id}fileListEmptyState`],
+    },
+    [`${id}fileListEmptyTableWrapper`]: {
+      component: "conditional-renderer",
+      dataProvider: {
+        source: "entities-metadata",
+        entitiesType,
+        fields: [
+          {
+            modifier: "length",
+            providerField: "totalEntities",
+            componentField: "data.render",
+            condition: "gt",
+            value: 0,
+          },
+        ],
+      },
+      childrenKeys: [`${id}fileListPanelManager`, `${id}fileListEmptyTable`],
+    },
+
     [`${id}fileListPanelManager`]: {
       component: "block-plain",
       childrenKeys: [
@@ -195,7 +243,7 @@ const generateFileList = ({
         `${id}deleteButton`,
       ],
       layout: {
-        margin: "32px",
+        margin: "28px 32px",
         padding: "8px 24px 8px 12px",
         gridLayout: {
           rows: ["auto"],
@@ -258,36 +306,6 @@ const generateFileList = ({
       },
     },
     ...generateDeleteFiles(id, entitiesType),
-    [`${id}fileListContent`]: {
-      component: "block-plain",
-      layout: {
-        gridLayout: {
-          rows: [],
-          columns: [],
-        },
-      },
-      childrenKeys: [
-        `${id}fileListEmptyStateWrapper`,
-        `${id}fileListEmptyTableWrapper`,
-      ],
-    },
-    [`${id}fileListEmptyStateWrapper`]: {
-      component: "conditional-renderer",
-      dataProvider: {
-        source: "entities-metadata",
-        entitiesType,
-        fields: [
-          {
-            modifier: "length",
-            providerField: "totalEntities",
-            componentField: "data.render",
-            condition: "eq",
-            value: 0,
-          },
-        ],
-      },
-      childrenKeys: [`${id}fileListEmptyState`],
-    },
     [`${id}fileListEmptyState`]: {
       component: "block-plain",
       layout: {
@@ -333,23 +351,6 @@ const generateFileList = ({
         text: "Add file",
         actions: [],
       },
-    },
-    [`${id}fileListEmptyTableWrapper`]: {
-      component: "conditional-renderer",
-      dataProvider: {
-        source: "entities-metadata",
-        entitiesType,
-        fields: [
-          {
-            modifier: "length",
-            providerField: "totalEntities",
-            componentField: "data.render",
-            condition: "gt",
-            value: 0,
-          },
-        ],
-      },
-      childrenKeys: [`${id}fileListEmptyTable`],
     },
     [`${id}fileListEmptyTable`]: {
       component: "table",
