@@ -1045,5 +1045,5 @@
   "module.recoveryMode.modal.terminalInfo.step3": "3. Enter your computer password when prompted",
   "module.recoveryMode.modal.terminalInfo.step4": "4. Repeat your computer password when prompted",
   "module.recoveryMode.modal.completed.subtitle": "Recovery process complete",
-  "module.recoveryMode.modal.completed.description": "Harmony is in transport mode. Press the light button when \"ON\" and \"OFF\" appear on harmony's screen."
+  "module.recoveryMode.modal.completed.description": "Hold down the light button on Harmony to turn it on when prompted."
 }
