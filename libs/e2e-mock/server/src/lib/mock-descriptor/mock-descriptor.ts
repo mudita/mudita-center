@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { findIndex, pullAt, find, merge } from "lodash"
+import { find, findIndex, merge, pullAt } from "lodash"
 import { PortInfo } from "serialport"
 import {
   AddKompakt,
@@ -11,8 +11,8 @@ import {
   RestoreDefaultResponses,
 } from "./mock-descriptor-validators"
 import {
-  ApiResponseWithConfig,
   ApiResponsesWithConfigArray,
+  ApiResponseWithConfig,
   DEFAULT_RESPONSES,
   MocksArrayResponsesMap,
 } from "e2e-mock-responses"
@@ -66,7 +66,7 @@ class MockDescriptor {
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method] ?? []
 
     const filteredResponses = currentResponses.filter((item) => {
-      if (match?.options?.id === item.match?.options?.id) {
+      if (item.match === undefined) {
         return false
       }
       return true
@@ -120,7 +120,7 @@ class MockDescriptor {
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method] ?? []
 
     const filteredResponses = currentResponses.filter((item) => {
-      if (match?.options?.id === item.match?.options?.id) {
+      if (item.match === undefined) {
         return false
       }
       return true
@@ -205,9 +205,11 @@ class MockDescriptor {
           method,
           responses: perDeviceOnceResponses,
         })
-        return merge(
-          foundResponse.response,
-          this.fillEndpointSpecificFields(endpoint, method, body)
+        return this.mapResponseWithoutMatch(
+          merge(
+            foundResponse.response,
+            this.fillEndpointSpecificFields(endpoint, method, body)
+          )
         )
       }
     }
@@ -241,9 +243,11 @@ class MockDescriptor {
       const foundResponse = this.findResponse(perDeviceResponses, body)
 
       if (foundResponse) {
-        return merge(
-          foundResponse.response,
-          this.fillEndpointSpecificFields(endpoint, method, body)
+        return this.mapResponseWithoutMatch(
+          merge(
+            foundResponse.response,
+            this.fillEndpointSpecificFields(endpoint, method, body)
+          )
         )
       }
     }
@@ -259,7 +263,7 @@ class MockDescriptor {
     if (perDeviceResponses !== undefined) {
       const foundResponse = this.findResponse(perDeviceResponses, body)
       if (foundResponse) {
-        return foundResponse.response
+        return this.mapResponseWithoutMatch(foundResponse.response)
       }
     }
     return undefined
@@ -289,6 +293,13 @@ class MockDescriptor {
     const defaultResponse = this.getDefaultResponse(endpoint, method, body)
 
     return defaultResponse
+  }
+
+  private mapResponseWithoutMatch({
+    match,
+    ...response
+  }: ApiResponseWithConfig): ApiResponse<unknown> {
+    return response
   }
 }
 
