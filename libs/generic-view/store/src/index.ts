@@ -52,6 +52,7 @@ export * from "./lib/entities/get-entities-metadata.action"
 export * from "./lib/entities/delete-entities-data.action"
 export * from "./lib/entities/create-entity-data.action"
 export * from "./lib/entities/update-entity-data.action"
+export * from "./lib/entities/refresh-entities-if-metadata-changed.action"
 
 export * from "./lib/data-migration/reducer"
 export * from "./lib/data-migration/actions"
