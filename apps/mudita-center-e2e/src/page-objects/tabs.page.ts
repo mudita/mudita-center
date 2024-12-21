@@ -14,25 +14,12 @@ class NavigationTabs extends Page {
     return $('[data-testid="overview-link"]')
   }
 
-  async overviewTabClick() {
-    await this.overviewTab.click()
-  }
-
   public get overviewKompaktTab() {
     return $('[data-testid="icon-MenuOverview"]')
   }
 
   public get messagesTab() {
     return $('[data-testid="overview-menu-link"]')
-  }
-
-  async clickMessagesTab() {
-    await this.messagesTab.waitForClickable({ timeout: 5000 })
-    await this.messagesTab.click()
-  }
-
-  public get contactsTab() {
-    return $('[data-testid="contacts-menu-link"]')
   }
 
   public get contactsKompaktTab() {

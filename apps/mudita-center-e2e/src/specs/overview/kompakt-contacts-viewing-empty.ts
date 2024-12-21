@@ -1,11 +1,9 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
-import {
-  overviewConfigForBackup,
-  overviewDataWithOneSimCard,
-} from "../../../../../libs/e2e-mock/responses/src"
 import { mockEntityDownloadProcess } from "../../helpers/mock-entity-download-process.helper"
 import { selectedContactsEntities } from "../../helpers/entity-fixtures"
 import tabsPage from "../../page-objects/tabs.page"
+import ContactsKompaktPage from "../../page-objects/contacts-kompakt"
+import { icon } from "Libs/generic-view/models/src"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -40,14 +38,24 @@ describe("E2E mock sample - overview view", () => {
     await expect(menuItem).toBeDisplayed()
   })
 
-  it("Mock contacts for Kompakt device and click Contacts tab", async () => {
-    // mock contacts function for testing/modification purposes
-    // mockEntityDownloadProcess({
-    //   path: "path-1",
-    //   data: selectedContactsEntities,
-    //   entityType: "contacts",
-    // })
+  it("Click Contacts tab", async () => {
     const contactsKompaktTab = tabsPage.contactsKompaktTab
     await contactsKompaktTab.click()
+  })
+
+  it("Check if no contacts are displayed in the Contacts", async () => {
+    const contactRow = ContactsKompaktPage.contactRow
+    await expect(contactRow).not.toBeDisplayed()
+
+    const iconContactsBook = ContactsKompaktPage.iconContactsBook
+    await expect(iconContactsBook).toBeDisplayed()
+    const importContactsSubtext = ContactsKompaktPage.importContactsSubtext
+    await expect(importContactsSubtext).toHaveText(
+      "Import all your contacts from a single source."
+    )
+    const importContactsButton = ContactsKompaktPage.importContactsButton
+    await expect(importContactsButton).toBeDisplayed()
+    await expect(importContactsButton).toBeClickable()
+    await browser.pause(2000)
   })
 })
