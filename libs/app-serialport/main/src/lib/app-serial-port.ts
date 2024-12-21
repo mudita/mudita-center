@@ -80,6 +80,20 @@ export class AppSerialPort {
     })
 
     if (this.addedDevices.length > 0 || this.removedDevices.length > 0) {
+      this.currentDevices = this.currentDevices.map((device) => {
+        const SerialPortInstance = this.getDeviceSerialPortInstance(
+          device.path
+        ) as typeof SerialPortDevice
+        return { ...device, deviceType: SerialPortInstance.deviceType }
+      })
+
+      this.addedDevices = this.addedDevices.map((device) => {
+        const SerialPortInstance = this.getDeviceSerialPortInstance(
+          device.path
+        ) as typeof SerialPortDevice
+        return { ...device, deviceType: SerialPortInstance.deviceType }
+      })
+
       this.eventEmitter.emit(SerialPortEvents.DevicesChanged, {
         removed: this.removedDevices,
         added: this.addedDevices,

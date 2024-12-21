@@ -7,7 +7,7 @@ import { SerialPort, SerialPortOpenOptions } from "serialport"
 import { AutoDetectTypes } from "@serialport/bindings-cpp"
 import { Transform } from "stream"
 import { APIRequestData, APIResponseData } from "app-serialport/models"
-import { uniqueId } from "lodash"
+import { get, set, uniqueId } from "lodash"
 import EventEmitter from "events"
 import PQueue from "p-queue"
 
@@ -26,9 +26,10 @@ export type SerialPortDeviceOptions = Omit<
 export class SerialPortDevice extends SerialPort {
   private responseEmitter = new EventEmitter()
   private queue: PQueue
-  matchingVendorIds: string[] = []
-  matchingProductIds: string[] = []
-  idKey = "id"
+  static deviceType = "unknown"
+  static matchingVendorIds: string[] = []
+  static matchingProductIds: string[] = []
+  requestIdKey = "id"
 
   constructor(
     {
@@ -45,8 +46,11 @@ export class SerialPortDevice extends SerialPort {
     })
     super.pipe(parser).on("data", (buffer: Buffer) => {
       const data = JSON.parse(buffer.toString())
-      if (this.idKey in data) {
-        this.responseEmitter.emit(`response-${data[this.idKey]}`, data)
+      if (get(data, this.requestIdKey)) {
+        this.responseEmitter.emit(
+          `response-${get(data, this.requestIdKey)}`,
+          data
+        )
       }
     })
   }
@@ -75,7 +79,8 @@ export class SerialPortDevice extends SerialPort {
 
     return new Promise((resolve) => {
       void this.queue.add(async () => {
-        this.write({ ...data, [this.idKey]: id })
+        const dataWithId = set({ ...data }, this.requestIdKey, id)
+        this.write(dataWithId)
         const response = await this.listenForResponse(id)
         resolve(response)
       })

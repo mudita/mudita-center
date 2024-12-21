@@ -8,6 +8,7 @@ import { PortInfo } from "@serialport/bindings-interface"
 export interface SerialPortDeviceInfo extends PortInfo {
   productId: string
   vendorId: string
+  deviceType: string
 }
 
 export interface SerialPortChangedDevices {

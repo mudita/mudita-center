@@ -16,13 +16,14 @@ import {
 export class SerialPortApiDevice extends SerialPortDevice {
   static matchingVendorIds = ["0e8d", "3725"]
   static matchingProductIds = ["200a", "2006", "2012", "8198", "8202", "8210"]
+  static deviceType = "ApiDevice"
 
   constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
     super(
       { baudRate, ...options },
       new ApiDeviceResponseParser({ matcher: /#\d{9}/g })
     )
-    this.idKey = "rid"
+    this.requestIdKey = "rid"
   }
 
   parseRequest(data: ApiDeviceRequest) {
