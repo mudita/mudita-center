@@ -3,153 +3,58 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useCallback, useEffect, useRef } from "react"
-import { AppSerialPort } from "app-serialport/renderer"
-import { ChangedDevices } from "app-serialport/models"
+import { useCallback, useEffect } from "react"
 import { isEmpty } from "lodash"
+import { SerialPortDeviceInfo } from "app-serialport/models"
+import { AppSerialPort } from "app-serialport/renderer"
 
 export const useSerialPortListener = () => {
-  // const interval = useRef<NodeJS.Timeout>()
-  const ref = useRef(false)
-
-  const listenPorts = useCallback(async () => {
-    if (!ref.current) {
-      ref.current = true
-      const onAttach = async (added: NonNullable<ChangedDevices["added"]>) => {
-        const apiConfigurationResponse = await AppSerialPort.write(added.path, {
-          endpoint: "API_CONFIGURATION",
-          method: "GET",
-          body: {},
-          options: {
-            connectionTimeOut: 30000,
-          },
-        })
-        const entitiesConfigurationResponse = await AppSerialPort.write(
-          added.path,
-          {
-            endpoint: "ENTITIES_CONFIGURATION",
-            method: "GET",
-            body: {
-              entityType: "contacts",
-            },
-            options: {
-              connectionTimeOut: 30000,
-            },
-          }
-        )
-        console.log({ apiConfigurationResponse, entitiesConfigurationResponse })
-      }
-      AppSerialPort.onChange((changes) => {
-        console.log(changes)
-        if (!isEmpty(changes.added)) {
-          void onAttach(changes.added)
-        }
+  const listenForDevicesChange = useCallback(async () => {
+    const onAttach = async (device: SerialPortDeviceInfo) => {
+      const resp1 = await AppSerialPort.request(device.path, {
+        endpoint: "API_CONFIGURATION",
+        method: "GET",
+        body: {},
+        options: {
+          connectionTimeOut: 30000,
+        },
       })
+      console.log(resp1)
+
+      const resp2 = await AppSerialPort.request(device.path, {
+        endpoint: "ENTITIES_CONFIGURATION",
+        method: "GET",
+        body: {
+          entityType: "contacts",
+        },
+        options: {
+          connectionTimeOut: 30000,
+        },
+      })
+      console.log(resp2)
+
+      const resp3 = await AppSerialPort.request(device.path, {
+        endpoint: "ENTITIES_DATA",
+        method: "GET",
+        body: {
+          entityType: "contacts",
+          responseType: "json",
+        },
+        options: {
+          connectionTimeOut: 30000,
+        },
+      })
+      console.log(resp3)
     }
-
-    // const req1 = () =>
-    //   AppSerialPort.write(ports[0].path, {
-    //     endpoint: "API_CONFIGURATION",
-    //     method: "GET",
-    //     body: {},
-    //     options: {
-    //       connectionTimeOut: 30000,
-    //     },
-    //   })
-
-    // const req2 = () =>
-    //   AppSerialPort.write(ports[0].path, {
-    //     endpoint: "ENTITIES_CONFIGURATION",
-    //     method: "GET",
-    //     body: {
-    //       entityType: "contacts",
-    //     },
-    //     options: {
-    //       connectionTimeOut: 30000,
-    //     },
-    //   })
-
-    // await AppSerialPort.write(ports[0].path, {
-    //   endpoint: "API_CONFIGURATION",
-    //   method: "GET",
-    //   body: {},
-    //   options: {
-    //     connectionTimeOut: 30000,
-    //   },
-    // })
-    // await new Promise((resolve) => setTimeout(resolve, 100))
-    // await AppSerialPort.write(ports[0].path, {
-    //   endpoint: "ENTITIES_CONFIGURATION",
-    //   method: "GET",
-    //   body: {
-    //     entityType: "contacts",
-    //   },
-    //   options: {
-    //     connectionTimeOut: 30000,
-    //   },
-    // })
-    // await new Promise((resolve) => setTimeout(resolve, 100))
-    // void AppSerialPort.write(ports[0].path, {
-    //   endpoint: "ENTITIES_DATA",
-    //   method: "GET",
-    //   body: {
-    //     entityType: "contacts",
-    //     responseType: "json",
-    //   },
-    //   options: {
-    //     connectionTimeOut: 30000,
-    //   },
-    // })
-    // await new Promise((resolve) => setTimeout(resolve, 100))
-    // await AppSerialPort.write(ports[0].path, {
-    //   endpoint: "ENTITIES_CONFIGURATION",
-    //   method: "GET",
-    //   body: {
-    //     entityType: "contacts",
-    //   },
-    //   options: {
-    //     connectionTimeOut: 30000,
-    //   },
-    // })
-
-    Promise.all([
-      // AppSerialPort.write(ports[0].path, {
-      //   endpoint: "API_CONFIGURATION",
-      //   method: "GET",
-      //   body: {},
-      //   options: {
-      //     connectionTimeOut: 30000,
-      //   },
-      // }),
-      // AppSerialPort.write(ports[0].path, {
-      //   endpoint: "ENTITIES_CONFIGURATION",
-      //   method: "GET",
-      //   body: {
-      //     entityType: "contacts",
-      //   },
-      //   options: {
-      //     connectionTimeOut: 30000,
-      //   },
-      // }),
-      // AppSerialPort.write(ports[0].path, {
-      //   endpoint: "ENTITIES_DATA",
-      //   method: "GET",
-      //   body: {
-      //     entityType: "contacts",
-      //     responseType: "json",
-      //   },
-      //   options: {
-      //     connectionTimeOut: 30000,
-      //   },
-      // }),
-    ]).then((resp) => {
-      console.log(resp)
+    AppSerialPort.onDevicesChanged((changes) => {
+      console.log(changes)
+      if (!isEmpty(changes.added)) {
+        void onAttach(changes.added[0])
+      }
     })
   }, [])
 
   useEffect(() => {
-    void listenPorts()
-    // interval.current = setInterval(listenPorts, 2000)
-    // return () => clearInterval(interval.current)
-  }, [listenPorts])
+    void listenForDevicesChange()
+  }, [listenForDevicesChange])
 }

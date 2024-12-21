@@ -11,9 +11,16 @@ import { uniqueId } from "lodash"
 import EventEmitter from "events"
 import PQueue from "p-queue"
 
-export type SerialPortDeviceOptions = SerialPortOpenOptions<AutoDetectTypes> & {
+type BaseSerialPortDeviceOptions = SerialPortOpenOptions<AutoDetectTypes> & {
   queueInterval?: number
   queueConcurrency?: number
+}
+
+export type SerialPortDeviceOptions = Omit<
+  BaseSerialPortDeviceOptions,
+  "baudRate"
+> & {
+  baudRate?: number
 }
 
 export class SerialPortDevice extends SerialPort {
@@ -28,7 +35,7 @@ export class SerialPortDevice extends SerialPort {
       queueInterval = 1,
       queueConcurrency = 1,
       ...options
-    }: SerialPortDeviceOptions,
+    }: BaseSerialPortDeviceOptions,
     parser: Transform
   ) {
     super(options)
@@ -73,5 +80,9 @@ export class SerialPortDevice extends SerialPort {
         resolve(response)
       })
     })
+  }
+
+  destroy(error?: Error): this {
+    return super.destroy(error)
   }
 }

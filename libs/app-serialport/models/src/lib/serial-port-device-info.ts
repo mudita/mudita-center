@@ -5,13 +5,13 @@
 
 import { PortInfo } from "@serialport/bindings-interface"
 
-export interface Device extends PortInfo {
+export interface SerialPortDeviceInfo extends PortInfo {
   productId: string
   vendorId: string
 }
 
-export interface ChangedDevices {
-  all: Device[]
-  added?: Device
-  removed?: Device
+export interface SerialPortChangedDevices {
+  all: SerialPortDeviceInfo[]
+  added: SerialPortDeviceInfo[]
+  removed: SerialPortDeviceInfo[]
 }

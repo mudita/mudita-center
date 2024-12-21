@@ -5,22 +5,22 @@
 
 import {
   APIRequestData,
-  ChangedDevices,
-  SerialportIpcEvents,
+  SerialPortChangedDevices,
+  SerialPortIpcEvents,
 } from "app-serialport/models"
 
 export const AppSerialPort = {
-  onChange: (callback: (changes: ChangedDevices) => void) => {
+  onDevicesChanged: (callback: (changes: SerialPortChangedDevices) => void) => {
     return window.electron.ipcRenderer.on(
-      SerialportIpcEvents.Change,
+      SerialPortIpcEvents.DevicesChanged,
       (_, changes) => {
         callback(changes)
       }
     )
   },
-  write: (path: string, data: APIRequestData) => {
+  request: (path: string, data: APIRequestData) => {
     return window.electron.ipcRenderer.invoke(
-      SerialportIpcEvents.Write,
+      SerialPortIpcEvents.Request,
       path,
       data
     )

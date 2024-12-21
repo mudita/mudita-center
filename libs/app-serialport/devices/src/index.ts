@@ -3,8 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { getJestProjectsAsync } from "@nx/jest"
-
-export default async () => ({
-  projects: await getJestProjectsAsync(),
-})
+export * from "./lib/serial-port-device"
+export * from "./lib/devices"

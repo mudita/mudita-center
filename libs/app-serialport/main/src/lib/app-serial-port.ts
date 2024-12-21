@@ -5,31 +5,40 @@
 
 import { SerialPort } from "serialport"
 import { PortInfo } from "@serialport/bindings-interface"
-import { SerialPortApiDevice } from "./devices/api-device/serial-port-api-device"
-import { SerialPortDevice } from "./devices/request-parser.interface"
-import { APIRequestData, ChangedDevices, Device } from "app-serialport/models"
 import EventEmitter from "events"
+import {
+  APIRequestData,
+  SerialPortChangedDevices,
+  SerialPortDeviceInfo,
+} from "app-serialport/models"
+import { devices, SerialPortDevice } from "app-serialport/devices"
 
-type DevicesChangeCallback = (data: ChangedDevices) => void
+type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
+type Path = string
+enum SerialPortEvents {
+  DevicesChanged = "devicesChanged",
+}
 
-const isKnownDevice = (port: PortInfo): port is Device => {
+const isKnownDevice = (port: PortInfo): port is SerialPortDeviceInfo => {
   return port.productId !== undefined && port.vendorId !== undefined
 }
 
 export class AppSerialPort {
-  private readonly instances = new Map<string, SerialPortDevice>()
-  supportedDevices = [SerialPortApiDevice]
-  attachedDevices: Device[] = []
-  eventEmitter = new EventEmitter()
+  private readonly instances = new Map<Path, SerialPortDevice>()
+  private readonly supportedDevices = devices
+  private readonly eventEmitter = new EventEmitter()
+  private currentDevices: SerialPortDeviceInfo[] = []
+  private addedDevices: SerialPortDeviceInfo[] = []
+  private removedDevices: SerialPortDeviceInfo[] = []
 
   constructor() {
-    void this.checkForPortChanges()
+    void this.detectChanges()
     setInterval(() => {
-      void this.checkForPortChanges()
-    }, 2000)
+      void this.detectChanges()
+    }, 3000)
   }
 
-  private async checkForPortChanges() {
+  private async detectChanges() {
     const currentDevices = (await SerialPort.list()).filter((port) => {
       if (!isKnownDevice(port)) {
         return false
@@ -40,63 +49,80 @@ export class AppSerialPort {
           device.matchingProductIds.includes(port.productId)
         )
       })
-    }) as Device[]
+    }) as SerialPortDeviceInfo[]
 
-    const removedDevices = this.attachedDevices.filter((device) => {
-      return !currentDevices.find((newDevice) => newDevice.path === device.path)
-    })
-
-    this.attachedDevices = currentDevices
-
-    removedDevices.forEach((device) => {
-      this.removeInstance(device)
-    })
+    this.currentDevices
+      .filter((device) => {
+        return !currentDevices.find(
+          (newDevice) => newDevice.path === device.path
+        )
+      })
+      .forEach((device) => {
+        this.removedDevices.push(device)
+      })
 
     currentDevices.forEach((device) => {
-      this.ensureInstance(device.path)
+      if (!this.instances.has(device.path)) {
+        this.addedDevices.push(device)
+      }
     })
+
+    this.currentDevices = currentDevices
+    this.applyChanges()
   }
 
-  private instanceExists(path: string) {
+  private applyChanges() {
+    this.removedDevices.forEach((device) => {
+      this.removeInstance(device.path)
+    })
+    this.currentDevices.forEach((device) => {
+      this.ensureInstance(device.path)
+    })
+
+    if (this.addedDevices.length > 0 || this.removedDevices.length > 0) {
+      this.eventEmitter.emit(SerialPortEvents.DevicesChanged, {
+        removed: this.removedDevices,
+        added: this.addedDevices,
+        all: this.currentDevices,
+      })
+    }
+
+    this.addedDevices = []
+    this.removedDevices = []
+  }
+
+  private instanceExists(path: Path) {
     return this.instances.has(path)
   }
 
-  private createInstance(path: string) {
-    const instance = this.getInstanceForDevice(path)
-    if (instance) {
-      const serialPort = new instance({ path, baudRate: 9600 })
+  private createInstance(path: Path) {
+    const SerialPortInstance = this.getDeviceSerialPortInstance(path)
+    if (SerialPortInstance) {
+      const serialPort = new SerialPortInstance({ path })
       this.instances.set(path, serialPort)
-      const change: Pick<ChangedDevices, "added"> = {
-        added: this.getDeviceByPath(path),
-      }
-      this.eventEmitter.emit("devicesChanged", change)
     }
   }
 
-  private removeInstance(device: Device) {
-    const serialPort = this.instances.get(device.path)
-    if (serialPort) {
-      serialPort.destroy()
-      this.instances.delete(device.path)
-      const change: Pick<ChangedDevices, "removed"> = {
-        removed: device,
-      }
-      this.eventEmitter.emit("devicesChanged", change)
-    }
-  }
-
-  private ensureInstance(path: string) {
+  private ensureInstance(path: Path) {
     if (!this.instanceExists(path)) {
       this.createInstance(path)
     }
-    return this.instances.get(path)
+    return this.instances.get(path) as SerialPortDevice
   }
 
-  private getDeviceByPath(path: string) {
-    return this.attachedDevices.find((device) => device.path === path)
+  private removeInstance(path: Path) {
+    const serialPort = this.instances.get(path)
+    if (serialPort) {
+      serialPort.destroy()
+      this.instances.delete(path)
+    }
   }
 
-  private getInstanceForDevice(path: string) {
+  private getDeviceByPath(path: Path) {
+    return this.currentDevices.find((device) => device.path === path)
+  }
+
+  private getDeviceSerialPortInstance(path: Path) {
     const port = this.getDeviceByPath(path)
     if (!port) {
       return
@@ -109,24 +135,21 @@ export class AppSerialPort {
     })
   }
 
-  changeBaudRate(path: string, baudRate: number) {
+  changeBaudRate(path: Path, baudRate: number) {
     const serialPort = this.ensureInstance(path)
     serialPort?.update({ baudRate })
   }
 
-  async request(path: string, data: APIRequestData) {
-    return this.ensureInstance(path)?.request(data)
-  }
-
   onDevicesChange(callback: DevicesChangeCallback) {
     this.eventEmitter.on(
-      "devicesChanged",
-      (changes: Omit<ChangedDevices, "all">) => {
-        callback({
-          all: this.attachedDevices,
-          ...changes,
-        })
+      SerialPortEvents.DevicesChanged,
+      (changes: SerialPortChangedDevices) => {
+        callback(changes)
       }
     )
+  }
+
+  async request(path: Path, data: APIRequestData) {
+    return this.ensureInstance(path)?.request(data)
   }
 }

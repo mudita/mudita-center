@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/serialport-ipc-events"
-export * from "./lib/serialport-requests"
-export * from "./lib/serial-port-device"
+export * from "./lib/serial-port-ipc-events"
+export * from "./lib/serial-port-requests"
+export * from "./lib/serial-port-device-info"

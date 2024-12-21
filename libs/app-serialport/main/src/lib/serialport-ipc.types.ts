@@ -3,16 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChangedDevices, SerialportIpcEvents } from "app-serialport/models"
+import { SerialPortChangedDevices, SerialPortIpcEvents } from "app-serialport/models"
 import { IpcRenderer, IpcRendererEvent } from "electron"
 
 export interface IpcAppSerialport extends IpcRenderer {
   on(
-    channel: SerialportIpcEvents.Change,
-    callback: (event: IpcRendererEvent, data: ChangedDevices) => void
+    channel: SerialPortIpcEvents.DevicesChanged,
+    callback: (event: IpcRendererEvent, data: SerialPortChangedDevices) => void
   ): this
   invoke(
-    channel: SerialportIpcEvents.Write,
+    channel: SerialPortIpcEvents.Request,
     path: string,
     data: string
   ): Promise<void>

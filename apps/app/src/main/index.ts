@@ -32,10 +32,10 @@ function createWindow(): void {
   mainWindow.webContents.openDevTools()
 
   mainWindow.on("ready-to-show", () => {
+    mainWindow.show()
+
     initSerialPort(ipcMain, mainWindow.webContents)
     initSql(ipcMain)
-
-    mainWindow.show()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -65,9 +65,6 @@ app.whenReady().then(() => {
   app.on("browser-window-created", (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
-
-  // IPC test
-  ipcMain.on("ping", () => console.log("pong"))
 
   createWindow()
 

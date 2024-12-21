@@ -4,19 +4,26 @@
  */
 
 import { IpcMain, WebContents } from "electron"
-import { APIRequestData, SerialportIpcEvents } from "app-serialport/models"
+import { APIRequestData, SerialPortIpcEvents } from "app-serialport/models"
 import { AppSerialPort } from "./app-serial-port"
 
-export const initSerialPort = (ipcMain: IpcMain, webContents: WebContents) => {
-  const serialport = new AppSerialPort()
+let serialport: AppSerialPort | null = null
 
-  serialport.onDevicesChange((data) => {
-    webContents.send(SerialportIpcEvents.Change, data)
-  })
-  ipcMain.handle(
-    SerialportIpcEvents.Write,
-    (_, path: string, data: APIRequestData) => {
-      return serialport.request(path, data)
+export const initSerialPort = (ipcMain: IpcMain, webContents: WebContents) => {
+  if (!serialport) {
+    serialport = new AppSerialPort()
+
+    if (serialport) {
+      serialport.onDevicesChange((data) => {
+        webContents.send(SerialPortIpcEvents.DevicesChanged, data)
+      })
+      ipcMain.removeHandler(SerialPortIpcEvents.Request)
+      ipcMain.handle(
+        SerialPortIpcEvents.Request,
+        (_, path: string, data: APIRequestData) => {
+          return (serialport as AppSerialPort).request(path, data)
+        }
+      )
     }
-  )
+  }
 }

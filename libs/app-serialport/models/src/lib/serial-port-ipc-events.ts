@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum SerialportIpcEvents {
-  Change = "serialport:change",
-  Write = "serialport:write",
+export enum SerialPortIpcEvents {
+  DevicesChanged = "serialport:devices-changed",
+  Request = "serialport:request",
 }

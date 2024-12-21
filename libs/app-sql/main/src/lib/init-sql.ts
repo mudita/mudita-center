@@ -7,19 +7,24 @@ import { IpcMain } from "electron"
 import { SqlIpcEvents } from "app-sql/models"
 import { AppSql } from "./app-sql"
 
-export const initSql = (ipcMain: IpcMain) => {
-  const sql = new AppSql()
+let sql: AppSql | null = null
 
-  ipcMain.handle(
-    SqlIpcEvents.RunQuery,
-    async (_, name: string, query: string) => {
-      await sql.runQuery(name, query)
-    }
-  )
-  ipcMain.handle(
-    SqlIpcEvents.ExecuteQuery,
-    (_, name: string, query: string) => {
-      return sql.executeQuery(name, query)
-    }
-  )
+export const initSql = (ipcMain: IpcMain) => {
+  if (!sql) {
+    sql = new AppSql()
+    ipcMain.removeHandler(SqlIpcEvents.RunQuery)
+    ipcMain.handle(
+      SqlIpcEvents.RunQuery,
+      async (_, name: string, query: string) => {
+        await (sql as AppSql).runQuery(name, query)
+      }
+    )
+    ipcMain.removeHandler(SqlIpcEvents.ExecuteQuery)
+    ipcMain.handle(
+      SqlIpcEvents.ExecuteQuery,
+      (_, name: string, query: string) => {
+        return (sql as AppSql).executeQuery(name, query)
+      }
+    )
+  }
 }
