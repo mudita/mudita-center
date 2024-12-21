@@ -103,11 +103,4 @@ export class ApiDeviceResponseParser extends Transform {
     }
     callback()
   }
-
-  _flush(callback: TransformCallback) {
-    if (this.isFullResponse()) {
-      this.sendResponse(this.buffer)
-    }
-    callback()
-  }
 }
