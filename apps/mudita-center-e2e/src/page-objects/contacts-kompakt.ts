@@ -6,10 +6,6 @@
 import Page from "./page"
 
 class ContactsKompaktPage extends Page {
-  public get contactRow() {
-    return $(`//*[@data-testid="ui-table-row"]`)
-  }
-
   public get iconContactsBook() {
     return $(`//*[@data-testid="icon-contacts-book"]`)
   }
@@ -20,6 +16,25 @@ class ContactsKompaktPage extends Page {
 
   public get importContactsButton() {
     return $('//*[@data-testid="primary-button-importContactsButton"]')
+  }
+
+  public get addContactButton() {
+    return $('//*[@data-testid="primary-button-createContactsButton"]')
+  }
+
+  public get contactsCounter() {
+    return $('//h4[@data-testid="location"]')
+  }
+  public get contactsSearchField() {
+    return $('//input[@type="search"]')
+  }
+
+  public get contactsTableRow() {
+    return $('//*[@data-testid="ui-table-row"]')
+  }
+
+  public get allContactsTableRows() {
+    return $$('//*[@data-testid="ui-table-row"]')
   }
 }
 export default new ContactsKompaktPage()

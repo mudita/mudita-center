@@ -1,9 +1,7 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import { mockEntityDownloadProcess } from "../../helpers/mock-entity-download-process.helper"
-import { selectedContactsEntities } from "../../helpers/entity-fixtures"
 import tabsPage from "../../page-objects/tabs.page"
 import ContactsKompaktPage from "../../page-objects/contacts-kompakt"
-import { icon } from "Libs/generic-view/models/src"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -44,18 +42,21 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Check if no contacts are displayed in the Contacts", async () => {
-    const contactRow = ContactsKompaktPage.contactRow
-    await expect(contactRow).not.toBeDisplayed()
+    // check if no contact row is displayed
+    const contactsTableRow = ContactsKompaktPage.contactsTableRow
+    await expect(contactsTableRow).not.toBeDisplayed()
 
+    //check if contacts icon that is displayed only on empty contacts page is present
     const iconContactsBook = ContactsKompaktPage.iconContactsBook
     await expect(iconContactsBook).toBeDisplayed()
+    //check if contacts import subtext that is displayed only on empty contacts page is present
     const importContactsSubtext = ContactsKompaktPage.importContactsSubtext
     await expect(importContactsSubtext).toHaveText(
       "Import all your contacts from a single source."
     )
+    //check if contacts import button is present
     const importContactsButton = ContactsKompaktPage.importContactsButton
     await expect(importContactsButton).toBeDisplayed()
     await expect(importContactsButton).toBeClickable()
-    await browser.pause(2000)
   })
 })
