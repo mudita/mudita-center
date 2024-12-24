@@ -16,9 +16,8 @@ describe("Mock Using Contact Support Form", () => {
   before(async () => {
     dns.setDefaultResultOrder("ipv4first")
     const notNowButton = await HomePage.notNowButton
-    await notNowButton.waitForDisplayed()
+    await notNowButton.waitForDisplayed({timeout: 20000})
     await notNowButton.click()
-    await sleep(20000)
   })
 
   it("Open Help window and check if Contact Support modal opens up", async () => {
