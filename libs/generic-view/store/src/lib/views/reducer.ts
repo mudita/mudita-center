@@ -16,6 +16,7 @@ import { getAPIAny } from "../get-api-any"
 import { getMenuConfig } from "../get-menu-config"
 import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { getGenericConfig } from "../features/get-generic-config.actions"
+import { getGenericData } from "../features/get-generic-data.actions"
 import {
   addDevice,
   removeDevice,
@@ -160,6 +161,17 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       [feature]: {
         config: view,
         data: state.devices[deviceId].features?.[feature]?.data,
+      },
+    }
+  })
+  builder.addCase(getGenericData.fulfilled, (state, action) => {
+    const { deviceId, feature, data } = action.payload
+    state.lastResponse = action.payload
+    state.devices[deviceId].features = {
+      ...state.devices[deviceId].features,
+      [feature]: {
+        config: state.devices[deviceId].features?.[feature]?.config,
+        data,
       },
     }
   })
