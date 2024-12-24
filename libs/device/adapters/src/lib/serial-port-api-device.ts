@@ -51,7 +51,7 @@ export class SerialPortDeviceAPIAdapter {
             )
           )
         } else {
-          console.error("USTAWIONY")
+          console.info("USTAWIONY")
           this.serialPort = serialPort
           this.mountListeners()
           resolve(Result.success(undefined))
@@ -61,14 +61,21 @@ export class SerialPortDeviceAPIAdapter {
   }
 
   public closeConnection() {
-    console.log("CLOSE CONNECTION")
-    if (this.serialPort) {
-      console.log("CLOSE CONNECTION - 1")
-      this.serialPort.close((error) => {
-        console.error("CLOSE CONNECTION - 2")
-        console.error(error)
-      })
-    }
+    return new Promise((resolve) => {
+      if (this.serialPort) {
+        console.log("CLOSE CONNECTION - PORT DO ZAMKNIECIA")
+        this.serialPort.close((error) => {
+          if (error) {
+            console.log("CLOSE CONNECTION - PORT ZAMKNIETY Z BŁĘDEM")
+            console.error(error)
+          }
+          console.log("CLOSE CONNECTION - PORT ZAMKNIETY Z SUKCESEM")
+          resolve(undefined)
+        })
+      }
+      console.log("CLOSE CONNECTION - BRAK PORTU")
+      resolve(undefined)
+    })
   }
 
   public async request(config: APIRequestData) {
