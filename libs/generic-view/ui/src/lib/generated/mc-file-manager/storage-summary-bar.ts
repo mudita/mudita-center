@@ -22,7 +22,7 @@ export const SEGMENTS_CONFIG_MAP: Record<string, SegmentBarItem> = {
   },
   ebookFiles: {
     color: color.ebookFiles,
-    label: "Ebooks",
+    label: "E-books",
     value: 0,
     minWidth: 24,
   },
