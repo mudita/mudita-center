@@ -22,7 +22,7 @@ const CONFIG_MAP: Record<string, Omit<FileListConfig, "id">> = {
     entitiesType: "imageFiles",
   },
   ebookFiles: {
-    name: "Ebooks",
+    name: "E-books",
     entitiesType: "ebookFiles",
   },
   applicationFiles: {
@@ -31,10 +31,10 @@ const CONFIG_MAP: Record<string, Omit<FileListConfig, "id">> = {
   },
 }
 
-function getConfigByEntityType(
+const getConfigByEntityType = (
   entityType: string,
   id: string
-): FileListConfig | undefined {
+): FileListConfig | undefined => {
   return { ...CONFIG_MAP[entityType], id } || undefined
 }
 

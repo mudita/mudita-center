@@ -28,7 +28,7 @@ const CONFIG_MAP: Record<string, Omit<CategoryListItemConfig, "id">> = {
     entitiesType: "imageFiles",
   },
   ebookFiles: {
-    name: "Ebooks",
+    name: "E-books",
     icon: IconType.Book,
     markerColor: color.ebookFiles,
     entitiesType: "ebookFiles",
