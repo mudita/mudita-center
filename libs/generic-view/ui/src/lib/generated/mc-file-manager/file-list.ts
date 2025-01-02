@@ -9,24 +9,33 @@ interface FileListConfig {
   id: string
   name: string
   entitiesType: string
+  fileListEmptyStateDescriptionText: string
 }
 
 const CONFIG_MAP: Record<string, Omit<FileListConfig, "id">> = {
   audioFiles: {
     name: "Music",
     entitiesType: "audioFiles",
+    fileListEmptyStateDescriptionText:
+      "Add music files from your computer and they’ll transfer to your device automatically.",
   },
   imageFiles: {
     name: "Photos",
     entitiesType: "imageFiles",
+    fileListEmptyStateDescriptionText:
+      "Add image files from your computer and they’ll transfer to your device automatically.",
   },
   ebookFiles: {
     name: "Ebooks",
     entitiesType: "ebookFiles",
+    fileListEmptyStateDescriptionText:
+      "Add E-book or PDF files from your computer and they’ll transfer to your device automatically.",
   },
   applicationFiles: {
     name: "Apps",
     entitiesType: "applicationFiles",
+    fileListEmptyStateDescriptionText:
+      "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly. ",
   },
 }
 
@@ -41,6 +50,7 @@ const generateFileList = ({
   id,
   name,
   entitiesType,
+  fileListEmptyStateDescriptionText,
 }: FileListConfig): Subview => {
   return {
     [`${id}fileListContainer`]: {
@@ -200,7 +210,7 @@ const generateFileList = ({
         width: "388px",
       },
       config: {
-        text: "Add music files from your computer and they’ll transfer\nto your device automatically.",
+        text: fileListEmptyStateDescriptionText,
         textAlign: "center",
       },
     },
