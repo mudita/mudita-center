@@ -458,8 +458,8 @@ const generateFileList = ({
       component: "tooltip",
       config: {
         offset: {
-          x: 15,
-          y: 15,
+          x: 16,
+          y: 14,
         },
         placement: "bottom-right",
       },

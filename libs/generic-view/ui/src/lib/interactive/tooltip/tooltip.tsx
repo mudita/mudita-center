@@ -4,16 +4,22 @@
  */
 
 import React, {
-  cloneElement,
+  createContext,
   isValidElement,
   MouseEvent,
-  ReactElement,
   useCallback,
+  useContext,
   useMemo,
 } from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
 import { TooltipConfig } from "generic-view/models"
+
+const TooltipContext = createContext<{
+  onAnchorHover: (event: MouseEvent) => void
+}>({
+  onAnchorHover: () => {},
+})
 
 export const Tooltip: APIFC<undefined, TooltipConfig> & {
   Anchor: typeof TooltipAnchor
@@ -67,8 +73,10 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
       }
 
       const updateTooltipPosition = () => {
-        const boundaryElement = event.currentTarget.closest('[data-tooltip-boundary]') as HTMLElement;
-        const boundary = boundaryElement?.getBoundingClientRect();
+        const boundaryElement = event.currentTarget.closest(
+          "[data-tooltip-boundary]"
+        ) as HTMLElement
+        const boundary = boundaryElement?.getBoundingClientRect()
 
         const viewportWidth = boundary?.width || window.innerWidth
         const viewportHeight = boundary?.height || window.innerHeight
@@ -105,8 +113,10 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
             break
         }
 
-        const boundaryElement = event.currentTarget.closest('[data-tooltip-boundary]') as HTMLElement;
-        const boundary = boundaryElement?.getBoundingClientRect();
+        const boundaryElement = event.currentTarget.closest(
+          "[data-tooltip-boundary]"
+        ) as HTMLElement
+        const boundary = boundaryElement?.getBoundingClientRect()
 
         const viewportWidth = boundary?.width || window.innerWidth
         const viewportLeft = boundary?.left || 0
@@ -167,16 +177,11 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
         (child.props.componentName === "tooltip.anchor" ||
           child.type === Tooltip.Anchor)
       ) {
-        return cloneElement(child as ReactElement, {
-          onMouseEnter: (event: MouseEvent) => {
-            child.props.onMouseEnter?.(event)
-            handleAnchorHover(event)
-          },
-        })
+        return child
       }
       return null
     })
-  }, [children, handleAnchorHover])
+  }, [children])
 
   const content = useMemo(() => {
     return React.Children.map(children, (child) => {
@@ -185,24 +190,31 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
         (child.props.componentName === "tooltip.content" ||
           child.type === Tooltip.Content)
       ) {
-        return cloneElement(child as ReactElement)
+        return child
       }
       return null
     })
   }, [children])
 
   return (
-    <Container {...props}>
-      {anchor}
-      {content}
-    </Container>
+    <TooltipContext.Provider value={{ onAnchorHover: handleAnchorHover }}>
+      <Container {...props}>
+        {anchor}
+        {content}
+      </Container>
+    </TooltipContext.Provider>
   )
 }
 
 export default Tooltip
 
 const TooltipAnchor: APIFC = ({ data, config, children, ...rest }) => {
-  return <Anchor {...rest}>{children}</Anchor>
+  const { onAnchorHover } = useContext(TooltipContext)
+  return (
+    <Anchor {...rest} onMouseEnter={onAnchorHover}>
+      {children}
+    </Anchor>
+  )
 }
 Tooltip.Anchor = TooltipAnchor
 
