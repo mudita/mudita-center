@@ -4,11 +4,14 @@
  */
 
 import { PortInfo } from "@serialport/bindings-interface"
+import { SerialPortDeviceType } from "./serial-port-device-type"
+
+export type SerialPortDevicePath = string
 
 export interface SerialPortDeviceInfo extends PortInfo {
   productId: string
   vendorId: string
-  deviceType: string
+  deviceType: SerialPortDeviceType
 }
 
 export interface SerialPortChangedDevices {

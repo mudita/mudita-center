@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SerialPortChangedDevices, SerialPortIpcEvents } from "app-serialport/models"
+import {
+  SerialPortChangedDevices,
+  SerialPortDevicePath,
+  SerialPortIpcEvents,
+  SerialPortRequest,
+  SerialPortResponse,
+} from "app-serialport/models"
 import { IpcRenderer, IpcRendererEvent } from "electron"
 
 export interface IpcAppSerialport extends IpcRenderer {
@@ -13,7 +19,7 @@ export interface IpcAppSerialport extends IpcRenderer {
   ): this
   invoke(
     channel: SerialPortIpcEvents.Request,
-    path: string,
-    data: string
-  ): Promise<void>
+    path: SerialPortDevicePath,
+    data: SerialPortRequest
+  ): Promise<SerialPortResponse>
 }

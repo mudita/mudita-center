@@ -4,13 +4,9 @@
  */
 
 import { TextEncoder } from "util"
-import { APIRequestData } from "app-serialport/models"
+import { SerialPortRequest } from "app-serialport/models"
 
-export interface ApiDeviceRequest extends APIRequestData {
-  rid?: number
-}
-
-export const apiDeviceRequestParser = (data: ApiDeviceRequest): string => {
+export const apiDeviceRequestParser = (data: SerialPortRequest): string => {
   const encoder = new TextEncoder()
   const payload = JSON.stringify(data)
   const header = String(encoder.encode(payload).length).padStart(9, "0")

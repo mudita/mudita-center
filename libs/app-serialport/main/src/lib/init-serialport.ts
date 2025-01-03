@@ -4,7 +4,7 @@
  */
 
 import { IpcMain, WebContents } from "electron"
-import { APIRequestData, SerialPortIpcEvents } from "app-serialport/models"
+import { SerialPortIpcEvents, SerialPortRequest } from "app-serialport/models"
 import { AppSerialPort } from "./app-serial-port"
 
 let serialport: AppSerialPort | null = null
@@ -20,7 +20,7 @@ export const initSerialPort = (ipcMain: IpcMain, webContents: WebContents) => {
       ipcMain.removeHandler(SerialPortIpcEvents.Request)
       ipcMain.handle(
         SerialPortIpcEvents.Request,
-        (_, path: string, data: APIRequestData) => {
+        (_, path: string, data: SerialPortRequest) => {
           return (serialport as AppSerialPort).request(path, data)
         }
       )

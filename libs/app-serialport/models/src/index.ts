@@ -4,5 +4,7 @@
  */
 
 export * from "./lib/serial-port-ipc-events"
-export * from "./lib/serial-port-requests"
+export * from "./lib/serial-port-request"
 export * from "./lib/serial-port-device-info"
+export * from "./lib/serial-port-device-type"
+export * from "./lib/serial-port-error"

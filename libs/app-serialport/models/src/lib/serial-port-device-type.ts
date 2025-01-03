@@ -3,5 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/init-serialport"
-export * from "./lib/serialport-ipc.types"
+export enum SerialPortDeviceType {
+  ApiDevice = "ApiDevice",
+  Harmony = "Harmony",
+  HarmonyMsc = "HarmonyMsc",
+  Pure = "Pure",
+}

@@ -7,14 +7,14 @@ import { SerialPort } from "serialport"
 import { PortInfo } from "@serialport/bindings-interface"
 import EventEmitter from "events"
 import {
-  APIRequestData,
   SerialPortChangedDevices,
   SerialPortDeviceInfo,
+  SerialPortDevicePath,
+  SerialPortRequest,
 } from "app-serialport/models"
 import { devices, SerialPortDevice } from "app-serialport/devices"
 
 type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
-type Path = string
 enum SerialPortEvents {
   DevicesChanged = "devicesChanged",
 }
@@ -24,7 +24,7 @@ const isKnownDevice = (port: PortInfo): port is SerialPortDeviceInfo => {
 }
 
 export class AppSerialPort {
-  private readonly instances = new Map<Path, SerialPortDevice>()
+  private readonly instances = new Map<SerialPortDevicePath, SerialPortDevice>()
   private readonly supportedDevices = devices
   private readonly eventEmitter = new EventEmitter()
   private currentDevices: SerialPortDeviceInfo[] = []
@@ -105,11 +105,11 @@ export class AppSerialPort {
     this.removedDevices = []
   }
 
-  private instanceExists(path: Path) {
+  private instanceExists(path: SerialPortDevicePath) {
     return this.instances.has(path)
   }
 
-  private createInstance(path: Path) {
+  private createInstance(path: SerialPortDevicePath) {
     const SerialPortInstance = this.getDeviceSerialPortInstance(path)
     if (SerialPortInstance) {
       const serialPort = new SerialPortInstance({ path })
@@ -117,14 +117,14 @@ export class AppSerialPort {
     }
   }
 
-  private ensureInstance(path: Path) {
+  private ensureInstance(path: SerialPortDevicePath) {
     if (!this.instanceExists(path)) {
       this.createInstance(path)
     }
     return this.instances.get(path) as SerialPortDevice
   }
 
-  private removeInstance(path: Path) {
+  private removeInstance(path: SerialPortDevicePath) {
     const serialPort = this.instances.get(path)
     if (serialPort) {
       serialPort.destroy()
@@ -132,11 +132,11 @@ export class AppSerialPort {
     }
   }
 
-  private getDeviceByPath(path: Path) {
+  private getDeviceByPath(path: SerialPortDevicePath) {
     return this.currentDevices.find((device) => device.path === path)
   }
 
-  private getDeviceSerialPortInstance(path: Path) {
+  private getDeviceSerialPortInstance(path: SerialPortDevicePath) {
     const port = this.getDeviceByPath(path)
     if (!port) {
       return
@@ -149,7 +149,7 @@ export class AppSerialPort {
     })
   }
 
-  changeBaudRate(path: Path, baudRate: number) {
+  changeBaudRate(path: SerialPortDevicePath, baudRate: number) {
     const serialPort = this.ensureInstance(path)
     serialPort?.update({ baudRate })
   }
@@ -163,7 +163,7 @@ export class AppSerialPort {
     )
   }
 
-  async request(path: Path, data: APIRequestData) {
+  request(path: SerialPortDevicePath, data: SerialPortRequest) {
     return this.ensureInstance(path)?.request(data)
   }
 }
