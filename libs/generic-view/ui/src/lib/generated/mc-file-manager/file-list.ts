@@ -10,20 +10,57 @@ interface FileListConfig {
   id: string
   name: string
   entitiesType: string
+  supportedFileTypes?: string[]
+  storagePath?: string
 }
 
 const CONFIG_MAP: Record<string, Omit<FileListConfig, "id">> = {
   audioFiles: {
     name: "Music",
     entitiesType: "audioFiles",
+    supportedFileTypes: [
+      "3gp",
+      "mp4",
+      "m4a",
+      "aac",
+      "ts",
+      "amr",
+      "flac",
+      "mid",
+      "xmf",
+      "mxmf",
+      "rtttl",
+      "rtx",
+      "ota",
+      "imy",
+      "mp3",
+      "mkv",
+      "wav",
+      "ogg",
+    ],
+    storagePath: "/storage/emulated/0/Music",
   },
   imageFiles: {
     name: "Photos",
     entitiesType: "imageFiles",
+    supportedFileTypes: [
+      "jpg",
+      "jpeg",
+      "png",
+      "gif",
+      "bmp",
+      "webp",
+      "heic",
+      "heif",
+      "avif",
+    ],
+    storagePath: "/storage/emulated/0/Pictures",
   },
   ebookFiles: {
     name: "E-books",
     entitiesType: "ebookFiles",
+    supportedFileTypes: ["epub", "pdf"],
+    storagePath: "/storage/emulated/0/Documents",
   },
   applicationFiles: {
     name: "Apps",
@@ -349,7 +386,33 @@ const generateFileList = ({
       },
       config: {
         text: "Add file",
-        actions: [],
+        actions: [
+          {
+            type: "file-upload",
+            storagePath: "/storage/emulated/0/Music/",
+            typesName: "Audio",
+            fileTypes: [
+              "3gp",
+              "mp4",
+              "m4a",
+              "aac",
+              "ts",
+              "amr",
+              "flac",
+              "mid",
+              "xmf",
+              "mxmf",
+              "rtttl",
+              "rtx",
+              "ota",
+              "imy",
+              "mp3",
+              "mkv",
+              "wav",
+              "ogg",
+            ],
+          },
+        ],
       },
     },
     [`${id}fileListEmptyTable`]: {

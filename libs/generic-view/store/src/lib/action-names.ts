@@ -51,6 +51,7 @@ export enum ActionName {
   ChunkFileTransferGet = "generic-file-transfer/chunk-get",
   ClearFileTransferGetError = "generic-file-transfer/clear-get-errors",
   TransferDataToDevice = "generic-file-transfer/transfer-data-to-device",
+  SendSelectedFiles = "generic-file-transfer/send-selected-files",
 
   SetDataTransfer = "generic-data-transfer/set-data-transfer",
   SetDataTransferStatus = "generic-data-transfer/set-data-transfer-status",

@@ -18,17 +18,23 @@ export const createEntityDataAction = createAsyncThunk<
     entitiesType: string
     data: EntityData
     deviceId: DeviceId
+    onSuccess?: () => Promise<void> | void
+    onError?: () => Promise<void> | void
   },
   { state: ReduxRootState }
 >(
   ActionName.CreateEntityData,
-  async ({ entitiesType, data, deviceId }, { rejectWithValue, getState }) => {
+  async (
+    { entitiesType, data, deviceId, onError, onSuccess },
+    { rejectWithValue, getState }
+  ) => {
     const response = await createEntityDataRequest({
       entitiesType,
       data,
       deviceId,
     })
     if (!response.ok) {
+      await onError?.()
       return rejectWithValue(response.error)
     }
 
@@ -39,6 +45,7 @@ export const createEntityDataAction = createAsyncThunk<
       logger.error(
         `Entities of type ${entitiesType} for device ${deviceId} not found`
       )
+      await onError?.()
       return rejectWithValue(undefined)
     }
     if (
@@ -51,11 +58,13 @@ export const createEntityDataAction = createAsyncThunk<
           response.data.data[idFieldKey] as string
         } already exists`
       )
+      await onError?.()
       return rejectWithValue(undefined)
     }
 
     const computedFields =
       genericEntities[deviceId]?.[entitiesType]?.config.computedFields || {}
+    await onSuccess?.()
     return enhanceEntity(response.data.data, { computedFields })
   }
 )

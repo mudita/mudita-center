@@ -34,6 +34,19 @@ const configValidator = z.object({
   entityTypes: z.array(z.string()).min(1),
 })
 
+//
+// const configValidator = z.object({
+//   entityTypes: z
+//     .array(
+//       z.object({
+//         entityType: z.string(),
+//         storagePath: z.string(),
+//         supportedFileTypes: z.array(z.string()),
+//       })
+//     )
+//     .min(1),
+// })
+
 export type McFileManagerView = z.infer<typeof configValidator>
 
 export const mcFileManagerView = {

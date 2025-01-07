@@ -7,11 +7,13 @@ import {
   closeAllModals,
   closeDomainModals,
   closeModal,
+  createEntityDataAction,
   deleteEntitiesDataAction,
   openModal,
   openToastAction,
   replaceModal,
   selectActiveApiDeviceId,
+  selectAndSendFilesAction,
   useScreenTitle,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
@@ -124,6 +126,30 @@ const runActions = (actions?: ButtonActions) => {
               onError: () => {
                 return runActions(action.postActions?.failure)(providers)
               },
+            })
+          )
+          break
+        case "entity-create":
+          await dispatch(
+            createEntityDataAction({
+              data: action.data,
+              entitiesType: action.entitiesType,
+              deviceId: activeDeviceId,
+              onSuccess: () => {
+                return runActions(action.postActions?.success)(providers)
+              },
+              onError: () => {
+                return runActions(action.postActions?.failure)(providers)
+              },
+            })
+          )
+          break
+        case "file-upload":
+          await dispatch(
+            selectAndSendFilesAction({
+              storagePath: action.storagePath,
+              typesName: action.typesName,
+              fileTypes: action.fileTypes,
             })
           )
           break
