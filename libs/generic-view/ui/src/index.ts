@@ -16,6 +16,7 @@ import { texts } from "./lib/texts"
 import { Icon } from "./lib/icon/icon"
 import { table } from "./lib/table"
 import { entities } from "./lib/entities"
+import { typography } from "./lib/typography"
 
 export * from "./lib/icon/icon"
 export * from "./lib/api-connection-demo"
@@ -39,6 +40,7 @@ export * from "./lib/texts/paragraphs"
 export * from "./lib/texts/headers"
 export * from "./lib/texts/highlight-text"
 export * from "./lib/entities"
+export * from "./lib/typography"
 
 const apiComponents = {
   ...predefinedComponents,
@@ -53,7 +55,10 @@ const apiComponents = {
   ...texts,
   ...table,
   ...entities,
+  ...typography,
   icon: Icon,
 }
+
+export { ExampleRenderer } from "./lib/typography/example-renderer"
 
 export default apiComponents
