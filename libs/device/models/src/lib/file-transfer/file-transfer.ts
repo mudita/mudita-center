@@ -17,6 +17,14 @@ export const TransferSendValidator = z.object({
 
 export type TransferSend = z.infer<typeof TransferSendValidator>
 
+export const PostTransferSendValidator = z.object({
+  transferId: z.number(),
+  progress: z.number().positive().optional(),
+  message: z.string().optional(),
+})
+
+export type PostTransferSend = z.infer<typeof PostTransferSendValidator>
+
 export const PreTransferGetValidator = z.object({
   transferId: z.number(),
   chunkSize: z.number().positive(),

@@ -11,6 +11,7 @@ import { sendFile } from "./send-file.action"
 import { selectActiveApiDeviceId } from "../selectors"
 import * as path from "node:path"
 import { isEmpty } from "lodash"
+import { postSendFile } from "./post-send-file.action"
 
 interface SendSelectedFilesActionPayload {
   typesName: string
@@ -18,8 +19,8 @@ interface SendSelectedFilesActionPayload {
   storagePath: string
   onFileSuccess?: (file: string) => Promise<void>
   onFileError?: (file: string) => Promise<void>
-  onSuccess?: () => Promise<void>
-  onError?: () => Promise<void>
+  onSuccess?: (files: string[]) => Promise<void>
+  onError?: (files: string[]) => Promise<void>
 }
 
 export const selectAndSendFilesAction = createAsyncThunk<
@@ -38,9 +39,28 @@ export const selectAndSendFilesAction = createAsyncThunk<
       onSuccess,
       onError,
     },
-    { rejectWithValue, dispatch, getState }
+    { rejectWithValue, dispatch, getState, signal }
   ) => {
-    const failedFiles = []
+    const failedFiles: string[] = []
+    let postFileTransferInterval: NodeJS.Timeout | undefined
+    let aborted = false
+
+    const abortListener = async () => {
+      signal.removeEventListener("abort", abortListener)
+      aborted = true
+    }
+    signal.addEventListener("abort", abortListener)
+
+    const onFileFail = async (file: string, error?: string) => {
+      console.error(error)
+      postFileTransferInterval && clearInterval(postFileTransferInterval)
+      failedFiles.push(file)
+      await onFileError?.(file)
+    }
+
+    if (aborted) {
+      return rejectWithValue(undefined)
+    }
 
     const deviceId = selectActiveApiDeviceId(getState())
     const openFileResult = await openFileRequest({
@@ -53,6 +73,9 @@ export const selectAndSendFilesAction = createAsyncThunk<
       properties: ["openFile", "multiSelections"],
     })
 
+    if (aborted) {
+      return rejectWithValue(undefined)
+    }
     if (!openFileResult.ok) {
       return rejectWithValue("cancelled")
     }
@@ -62,6 +85,9 @@ export const selectAndSendFilesAction = createAsyncThunk<
     }
 
     for (const file of openFileResult.data) {
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
       const fileName = path.basename(file)
       const sentFile = await dispatch(
         sendFile({
@@ -70,17 +96,38 @@ export const selectAndSendFilesAction = createAsyncThunk<
           deviceId,
         })
       )
-      if (sentFile.meta.requestStatus === "fulfilled") {
-        await onFileSuccess?.(file)
+
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
+      if (
+        sentFile.meta.requestStatus === "fulfilled" &&
+        sentFile.payload &&
+        "transferId" in sentFile.payload
+      ) {
+        const transferId = sentFile.payload.transferId
+        const postSendRequest = dispatch(postSendFile({ deviceId, transferId }))
+
+        if (aborted) {
+          postSendRequest.abort()
+          return rejectWithValue(undefined)
+        }
+
+        const postSendResponse = await postSendRequest
+        if (postSendResponse.meta.requestStatus === "rejected") {
+          await onFileFail(file, postSendResponse.payload?.error.message)
+        } else {
+          onFileSuccess?.(file)
+        }
       } else {
-        failedFiles.push(file)
-        await onFileError?.(file)
+        await onFileFail(file)
       }
     }
+
     if (isEmpty(failedFiles)) {
-      await onSuccess?.()
+      await onSuccess?.(openFileResult.data.map((file) => path.basename(file)))
     } else {
-      await onError?.()
+      await onError?.(failedFiles)
     }
     return
   }

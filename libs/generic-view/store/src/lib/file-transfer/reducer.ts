@@ -11,6 +11,7 @@ import {
   fileTransferChunkGet,
   fileTransferChunkSent,
   fileTransferGetPrepared,
+  fileTransferSendPostProcessing,
   fileTransferSendPrepared,
 } from "./actions"
 import { sendFile } from "./send-file.action"
@@ -30,9 +31,17 @@ export interface FileProgress {
   filePath?: string
 }
 
+export interface PostProcessingFileProgress {
+  progress?: number
+  transferId: number
+}
+
 interface FileTransferState {
   sendingFilesProgress: {
     [transferId: number]: FileProgress
+  }
+  postProcessingProgress: {
+    [transferId: number]: PostProcessingFileProgress
   }
   sendingErrors?: FileTransferError[]
   receivingFilesProgress: {
@@ -43,6 +52,7 @@ interface FileTransferState {
 
 const initialState: FileTransferState = {
   sendingFilesProgress: {},
+  postProcessingProgress: {},
   sendingErrors: [],
   receivingFilesProgress: {},
   receivingErrors: [],
@@ -64,6 +74,9 @@ export const genericFileTransferReducer = createReducer(
           action.payload.transferId
         ].chunksTransferred = action.payload.chunksTransferred
       }
+    })
+    builder.addCase(fileTransferSendPostProcessing, (state, action) => {
+      state.postProcessingProgress[action.payload.transferId] = action.payload
     })
     builder.addCase(sendFile.fulfilled, (state, action) => {
       delete state.sendingFilesProgress[action.payload.transferId]
@@ -136,7 +149,7 @@ export const genericFileTransferReducer = createReducer(
           code: action.payload?.error.type,
           message: action.payload?.error.message,
           transferId,
-          filePath: action.payload?.error.payload?.filePath,
+          filePath,
         })
       }
     })

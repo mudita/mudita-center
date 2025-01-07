@@ -10,5 +10,6 @@ export enum ApiFileTransferServiceEvents {
   PreSendWithData = "apiservice_file_transfer-pre-transfer-with-data-send",
   RestorePreSend = "apiservice_file_transfer-restore-pre-transfer-send",
   Send = "apiservice_file_transfer-transfer-send",
+  PostSend = "apiservice_file_transfer-post-transfer-send",
   Clear = "apiservice_file_transfer-transfer-clear",
 }
