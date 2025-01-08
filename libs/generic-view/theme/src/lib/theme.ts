@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DefaultTheme } from "styled-components"
 import { color } from "./color"
 import { fontSize } from "./font-size"
 import { radius } from "./radius"
 import { space } from "./space"
 import { lineHeight } from "./line-height"
 import { fontWeight } from "./font-weight"
-import { DefaultTheme } from "styled-components"
 
 export const theme = {
   color,

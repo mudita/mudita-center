@@ -5,15 +5,22 @@
 
 import { z } from "zod"
 import { commonTextValidators } from "./common-text-validators"
+import { formatMessageFieldsSchema } from "./format-message"
 
-const dataValidator = z.object({
-  text: z.string().optional(),
-})
+const dataValidator = z
+  .object({
+    text: z.string().optional(),
+    fields: formatMessageFieldsSchema.optional(),
+  })
+  .optional()
+
 export type TypographyData = z.infer<typeof dataValidator>
 
 const configValidator = z
   .object({
     text: z.string().optional(),
+    messageTemplate: z.string().optional(),
+    fields: formatMessageFieldsSchema.optional(),
   })
   .merge(commonTextValidators)
   .optional()

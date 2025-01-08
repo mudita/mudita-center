@@ -5,7 +5,6 @@
 
 import React from "react"
 import styled, { css } from "styled-components"
-import { isEmpty } from "lodash"
 import { APIFC } from "generic-view/utils"
 import {
   CommonTextValidators,
@@ -14,44 +13,30 @@ import {
   TypographyKey,
   UnboldValidator,
 } from "generic-view/models"
-import { typographyConfig, TypographyStyle } from "./typography.config"
-import { applyTextTransform } from "../texts/apply-text-transform"
 import { Content } from "../data-rows/text-formatted"
+import { typographyConfig, TypographyStyle } from "./typography.config"
+import { TypographyContent } from "./typography-content"
 
-const BaseTypography: APIFC<TypographyData, TypographyConfig> = ({
-  componentName,
-  config,
-  data,
-  children,
-  ...props
-}) => {
-  const text = data?.text ?? config?.text
-
-  const transformedText = applyTextTransform(
-    text,
-    config?.textTransform,
-    config?.textTransformOptions
-  )
-
+const BaseTypography: APIFC<TypographyData, TypographyConfig> = (props) => {
+  const { componentName, config, ...restProps } = props
   const variant = componentName as TypographyKey
   const staticTypographyConfig = typographyConfig[variant]
 
   return (
-    <Wrapper
-      styled={styled}
+    <TypographyWrapper
       $color={config?.color ?? staticTypographyConfig.defaultColor}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
       {...staticTypographyConfig}
-      {...props}
+      {...restProps}
     >
-      {isEmpty(children) ? transformedText : children}
-    </Wrapper>
+      <TypographyContent {...props} />
+    </TypographyWrapper>
   )
 }
 
-interface WrapperStyledProps extends TypographyStyle {
+interface TypographyWrapperStyledProps extends TypographyStyle {
   as?: React.ElementType
   $singleLine?: NonNullable<CommonTextValidators["singleLine"]>
   $textTransform?: NonNullable<CommonTextValidators["textTransform"]>
@@ -60,7 +45,7 @@ interface WrapperStyledProps extends TypographyStyle {
   $color: NonNullable<CommonTextValidators["color"]>
 }
 
-const Wrapper = styled.div<WrapperStyledProps>`
+const TypographyWrapper = styled.div<TypographyWrapperStyledProps>`
   &,
   ${Content} p {
     margin: 0;
@@ -117,10 +102,46 @@ const Wrapper = styled.div<WrapperStyledProps>`
 
 const Typography = BaseTypography as typeof BaseTypography & {
   H3: typeof BaseTypography
+  H4: typeof BaseTypography
+  H5: typeof BaseTypography
+  P1: typeof BaseTypography
+  P2: typeof BaseTypography
+  P3: typeof BaseTypography
+  P4: typeof BaseTypography
+  P5: typeof BaseTypography
 }
+
 
 Typography.H3 = (props) => (
   <BaseTypography {...props} componentName="typography.h3" />
+)
+
+Typography.H4 = (props) => (
+  <BaseTypography {...props} componentName="typography.h4" />
+)
+
+Typography.H5 = (props) => (
+  <BaseTypography {...props} componentName="typography.h5" />
+)
+
+Typography.P1 = (props) => (
+  <BaseTypography {...props} componentName="typography.p1" />
+)
+
+Typography.P2 = (props) => (
+  <BaseTypography {...props} componentName="typography.p2" />
+)
+
+Typography.P3 = (props) => (
+  <BaseTypography {...props} componentName="typography.p3" />
+)
+
+Typography.P4 = (props) => (
+  <BaseTypography {...props} componentName="typography.p4" />
+)
+
+Typography.P5 = (props) => (
+  <BaseTypography {...props} componentName="typography.p5" />
 )
 
 export default Typography
