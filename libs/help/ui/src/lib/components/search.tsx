@@ -106,10 +106,10 @@ export const Search: FunctionComponent = () => {
 
   return (
     <Wrapper>
-      <Typography.H3 config={undefined} data-testid={HelpTestId.MainHeader}>
+      <Typography.H3 data-testid={HelpTestId.MainHeader}>
         {intl.formatMessage(messages.title)}
       </Typography.H3>
-      <Typography.P3 config={undefined} data-testid={HelpTestId.MainSubheader}>
+      <Typography.P3 data-testid={HelpTestId.MainSubheader}>
         {intl.formatMessage(messages.description)}
       </Typography.P3>
       <InputWrapper

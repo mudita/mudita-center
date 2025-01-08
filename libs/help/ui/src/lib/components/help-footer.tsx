@@ -33,10 +33,7 @@ export const HelpFooter: FunctionComponent = () => {
   }
   return (
     <Wrapper data-testid={HelpTestId.MainFooter}>
-      <Typography.H5
-        config={undefined}
-        data-testid={HelpTestId.MainFooterTitle}
-      >
+      <Typography.H5 data-testid={HelpTestId.MainFooterTitle}>
         {intl.formatMessage(messages.title)}
       </Typography.H5>
       <Text data-testid={HelpTestId.MainFooterDescription}>

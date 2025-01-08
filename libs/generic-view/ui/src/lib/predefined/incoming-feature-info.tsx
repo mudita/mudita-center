@@ -28,16 +28,10 @@ export const IncomingFeatureInfo: APIFC<
     <Wrapper {...props} data-testid={dataTestId.wrapper}>
       <IconWrapper config={{ type: config.icon }} />
       <TextWrapper>
-        <Typography.H4
-          config={undefined}
-          data-testid={`${dataTestId.header}-${dataTestIdSuffix}`}
-        >
+        <Typography.H4 data-testid={`${dataTestId.header}-${dataTestIdSuffix}`}>
           {config.header}
         </Typography.H4>
-        <Typography.P2
-          config={undefined}
-          data-testid={`${dataTestId.text}-${dataTestIdSuffix}`}
-        >
+        <Typography.P2 data-testid={`${dataTestId.text}-${dataTestIdSuffix}`}>
           {" "}
           {config.text}
         </Typography.P2>

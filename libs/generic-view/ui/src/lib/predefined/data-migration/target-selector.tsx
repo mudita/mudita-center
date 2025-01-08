@@ -32,7 +32,7 @@ export const TargetSelector: FunctionComponent<Props> = ({ devices }) => {
     <TargetSelectorWrapper>
       <Header>
         <h2>{intl.formatMessage(messages.title)}</h2>
-        <Typography.P3 config={undefined}>
+        <Typography.P3>
           {intl.formatMessage(messages.description)}
         </Typography.P3>
       </Header>

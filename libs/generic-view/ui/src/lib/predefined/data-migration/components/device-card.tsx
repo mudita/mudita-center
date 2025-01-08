@@ -34,10 +34,10 @@ export const DeviceCard: FunctionComponent<
       </Image>
       <Info>
         <H4>{name}</H4>
-        <Typography.P3 config={undefined}>
+        <Typography.P3>
           {intl.formatMessage(messages.serialNumber)}
         </Typography.P3>
-        <Typography.H5 config={undefined}>{serialNumber}</Typography.H5>
+        <Typography.H5>{serialNumber}</Typography.H5>
       </Info>
       <SelectButton
         config={{

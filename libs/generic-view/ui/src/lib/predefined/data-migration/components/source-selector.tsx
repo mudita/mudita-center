@@ -31,19 +31,15 @@ export const SourceSelector: FunctionComponent = () => {
   return (
     <Wrapper>
       <Column>
-        <Typography.H4 config={undefined}>
-          {intl.formatMessage(messages.from)}
-        </Typography.H4>
+        <Typography.H4>{intl.formatMessage(messages.from)}</Typography.H4>
         <DeviceSelector type={"source"} devices={sourceDevices} />
       </Column>
       <Column>
-        <Typography.H4 config={undefined}>&nbsp;</Typography.H4>
+        <Typography.H4>&nbsp;</Typography.H4>
         <ArrowSvg />
       </Column>
       <Column>
-        <Typography.H4 config={undefined}>
-          {intl.formatMessage(messages.to)}
-        </Typography.H4>
+        <Typography.H4>{intl.formatMessage(messages.to)}</Typography.H4>
         <DeviceSelector
           type={"target"}
           devices={targetDevice ? [targetDevice] : []}

@@ -34,7 +34,7 @@ export const ArticleHeader: FunctionComponent<Props> = ({ title }) => {
           modifiers: ["uppercase"],
         }}
       />
-      <Typography.H3 config={undefined} data-testid={HelpTestId.ArticleTitle}>
+      <Typography.H3 data-testid={HelpTestId.ArticleTitle}>
         {title}
       </Typography.H3>
     </Wrapper>

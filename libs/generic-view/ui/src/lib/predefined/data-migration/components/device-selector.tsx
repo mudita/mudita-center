@@ -75,15 +75,11 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
           <img src={selectedDevice?.image} alt={""} />
         </Image>
         <Info>
-          <Typography.H4 config={undefined}>
-            {selectedDevice?.name}
-          </Typography.H4>
-          <Typography.P3 config={undefined}>
+          <Typography.H4>{selectedDevice?.name}</Typography.H4>
+          <Typography.P3>
             {intl.formatMessage(messages.serialNumber)}
           </Typography.P3>
-          <Typography.H5 config={undefined}>
-            {selectedDevice?.serialNumber}
-          </Typography.H5>
+          <Typography.H5>{selectedDevice?.serialNumber}</Typography.H5>
         </Info>
         <Arrow>{dropdownVisible && <DropdownArrowSvg />}</Arrow>
       </CardWrapper>
@@ -117,11 +113,11 @@ const ListItem: FunctionComponent<
         <img src={image} alt={name} />
       </Image>
       <Info>
-        <Typography.H4 config={undefined}>{name}</Typography.H4>
-        <Typography.P3 config={undefined}>
+        <Typography.H4>{name}</Typography.H4>
+        <Typography.P3>
           {intl.formatMessage(messages.serialNumber)}
         </Typography.P3>
-        <Typography.H5 config={undefined}>{serialNumber}</Typography.H5>
+        <Typography.H5>{serialNumber}</Typography.H5>
       </Info>
       <Check>{active && <CheckSvg />}</Check>
     </ListItemCard>

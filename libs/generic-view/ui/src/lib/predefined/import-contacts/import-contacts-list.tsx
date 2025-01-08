@@ -148,7 +148,7 @@ const ContactItem: React.FC<UnifiedContact> = ({
                 </Tooltip.Anchor>
                 <Tooltip.Content>
                   {phoneNumbers.slice(1).map((number) => (
-                    <Typography.P5 config={undefined} key={number.value}>
+                    <Typography.P5 key={number.value}>
                       {number.value}
                     </Typography.P5>
                   ))}

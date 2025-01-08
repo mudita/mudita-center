@@ -48,10 +48,7 @@ export const ArticleFeedback: FunctionComponent = () => {
 
   return (
     <Wrapper data-testid={HelpTestId.ArticleFeedback}>
-      <Typography.H5
-        config={undefined}
-        data-testid={HelpTestId.ArticleFeedbackTitle}
-      >
+      <Typography.H5 data-testid={HelpTestId.ArticleFeedbackTitle}>
         {intl.formatMessage(messages.title)}
       </Typography.H5>
       <Content>
@@ -68,7 +65,7 @@ export const ArticleFeedback: FunctionComponent = () => {
               onClick={givePositiveFeedback}
               data-testid={HelpTestId.ArticleFeedbackYesButton}
             >
-              <Typography.P1 config={undefined}>
+              <Typography.P1>
                 {intl.formatMessage(messages.yesButtonLabel)}
               </Typography.P1>
             </FeedbackButton>
@@ -76,7 +73,7 @@ export const ArticleFeedback: FunctionComponent = () => {
               onClick={giveNegativeFeedback}
               data-testid={HelpTestId.ArticleFeedbackNoButton}
             >
-              <Typography.P1 config={undefined}>
+              <Typography.P1>
                 {intl.formatMessage(messages.noButtonLabel)}
               </Typography.P1>
             </FeedbackButton>

@@ -59,9 +59,7 @@ export const WarrningBox: FunctionComponent<WarningBoxProps> = ({
         <Icon type={IconType.Exclamation} size={IconSize.ExtraLarge} />
       </Top>
       <Header>
-        <Typography.H4 config={undefined}>
-          {intl.formatMessage(messages.header)}
-        </Typography.H4>
+        <Typography.H4>{intl.formatMessage(messages.header)}</Typography.H4>
       </Header>
       <Content>{children}</Content>
     </Wrapper>

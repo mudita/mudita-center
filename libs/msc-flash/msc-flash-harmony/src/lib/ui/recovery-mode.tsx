@@ -146,10 +146,8 @@ const RecoveryModeUI: FunctionComponent = () => {
       <Wrapper>
         <Header>
           <Icon type={IconType.RecoveryModeBlack} size={IconSize.ExtraLarge} />
-          <Typography.H3 config={undefined}>
-            {intl.formatMessage(messages.header)}
-          </Typography.H3>
-          <Typography.P3 config={undefined}>
+          <Typography.H3>{intl.formatMessage(messages.header)}</Typography.H3>
+          <Typography.P3>
             {intl.formatMessage(messages.description)}
           </Typography.P3>
         </Header>
@@ -157,29 +155,29 @@ const RecoveryModeUI: FunctionComponent = () => {
           <Warning>
             <ul>
               <li>
-                <Typography.P3 config={undefined}>
+                <Typography.P3>
                   {intl.formatMessage(messages.warning1, textFormatters)}
                 </Typography.P3>
               </li>
               {process.platform === "linux" && (
                 <li>
-                  <Typography.P3 config={undefined}>
+                  <Typography.P3>
                     {intl.formatMessage(messages.warningLinux, textFormatters)}
                   </Typography.P3>
                 </li>
               )}
               <li>
-                <Typography.P3 config={undefined}>
+                <Typography.P3>
                   {intl.formatMessage(messages.warning2)}
                 </Typography.P3>
               </li>
               <li>
-                <Typography.P3 config={undefined}>
+                <Typography.P3>
                   {intl.formatMessage(messages.warning3)}
                 </Typography.P3>
               </li>
               <li>
-                <Typography.P3 config={undefined}>
+                <Typography.P3>
                   {intl.formatMessage(messages.warning4)}
                 </Typography.P3>
               </li>

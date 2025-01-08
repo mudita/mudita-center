@@ -143,7 +143,7 @@ export const SearchResults: APIFC<
       ) : (
         <EmptyResults>
           <Icon config={{ type: IconType.Search }} />
-          <Typography.P3 config={undefined}>
+          <Typography.P3>
             {config?.noResultsMessage || intl.formatMessage(messages.noResults)}
           </Typography.P3>
         </EmptyResults>

@@ -55,13 +55,8 @@ export const ArticleWarning: FunctionComponent = () => {
         />
       </svg>
       <Content>
-        <Typography.H4 config={undefined}>
-          {intl.formatMessage(messages.warning)}
-        </Typography.H4>
-        <Typography.P1
-          config={undefined}
-          data-testid={HelpTestId.ArticleWarning}
-        >
+        <Typography.H4>{intl.formatMessage(messages.warning)}</Typography.H4>
+        <Typography.P1 data-testid={HelpTestId.ArticleWarning}>
           {article.warningMessage}
         </Typography.P1>
       </Content>

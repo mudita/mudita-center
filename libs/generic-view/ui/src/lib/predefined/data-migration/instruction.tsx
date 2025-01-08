@@ -36,7 +36,7 @@ export const Instruction: FunctionComponent = () => {
     <InstructionWrapper>
       <Header>
         <h2>{intl.formatMessage(messages.title)}</h2>
-        <Typography.P3 config={undefined}>
+        <Typography.P3>
           {intl.formatMessage(messages.description)}
         </Typography.P3>
       </Header>
@@ -45,28 +45,22 @@ export const Instruction: FunctionComponent = () => {
       </Image>
       <Steps>
         <Step>
-          <Typography.P1 config={undefined}>
+          <Typography.P1>
             {intl.formatMessage(messages.step, { number: 1 })}
           </Typography.P1>
-          <Typography.P3 config={undefined}>
-            {intl.formatMessage(messages.step1)}
-          </Typography.P3>
+          <Typography.P3>{intl.formatMessage(messages.step1)}</Typography.P3>
         </Step>
         <Step>
-          <Typography.P1 config={undefined}>
+          <Typography.P1>
             {intl.formatMessage(messages.step, { number: 2 })}
           </Typography.P1>
-          <Typography.P3 config={undefined}>
-            {intl.formatMessage(messages.step2)}
-          </Typography.P3>
+          <Typography.P3>{intl.formatMessage(messages.step2)}</Typography.P3>
         </Step>
         <Step>
-          <Typography.P1 config={undefined}>
+          <Typography.P1>
             {intl.formatMessage(messages.step, { number: 3 })}
           </Typography.P1>
-          <Typography.P3 config={undefined}>
-            {intl.formatMessage(messages.step3)}
-          </Typography.P3>
+          <Typography.P3>{intl.formatMessage(messages.step3)}</Typography.P3>
         </Step>
       </Steps>
     </InstructionWrapper>

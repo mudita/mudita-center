@@ -83,7 +83,7 @@ const SearchResultsFC: FunctionComponent<
       ) : (
         <EmptyResults>
           <Icon config={{ type: IconType.Search }} />
-          <Typography.P3 config={undefined}>
+          <Typography.P3>
             {intl.formatMessage(messages.noResults)}
           </Typography.P3>
         </EmptyResults>
