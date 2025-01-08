@@ -10,8 +10,7 @@ import LicenseApp from "Core/core/components/apps/license-app.component"
 import TermsOfServiceApp from "Core/core/components/apps/terms-of-service-app.component"
 import PrivacyPolicyApp from "Core/core/components/apps/privacy-policy-app.component"
 import SarApp from "Core/core/components/apps/sar-app.component"
-import { ExampleRenderer } from "generic-view/ui"
-import { GenericThemeProvider } from "generic-view/theme"
+import BaseAppContainer from "Core/core/components/apps/base-app/base-app-container.component"
 
 const AppsSwitch = () => {
   const mode = new URLSearchParams(window.location.search).get("mode")
@@ -28,11 +27,7 @@ const AppsSwitch = () => {
     case Mode.Sar:
       return <SarApp />
     default:
-      return (
-        <GenericThemeProvider>
-          <ExampleRenderer />
-        </GenericThemeProvider>
-      )
+      return <BaseAppContainer />
   }
 }
 export default AppsSwitch

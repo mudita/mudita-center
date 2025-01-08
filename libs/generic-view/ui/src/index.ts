@@ -59,6 +59,4 @@ const apiComponents = {
   icon: Icon,
 }
 
-export { ExampleRenderer } from "./lib/typography/example-renderer"
-
 export default apiComponents
