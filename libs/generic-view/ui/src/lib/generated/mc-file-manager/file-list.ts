@@ -395,6 +395,7 @@ const generateFileList = ({
                   type: "file-upload",
                   storagePath,
                   fileTypes: supportedFileTypes,
+                  entitiesType,
                 },
               ]
             : [],

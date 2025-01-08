@@ -9,16 +9,17 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { openFileRequest } from "system-utils/feature"
 import { sendFile } from "./send-file.action"
 import { selectActiveApiDeviceId } from "../selectors"
-import * as path from "node:path"
+import path from "node:path"
+import fs from "node:fs"
 import { isEmpty } from "lodash"
 import { postSendFile } from "./post-send-file.action"
+import { createEntityDataAction } from "../entities/create-entity-data.action"
 
 interface SendSelectedFilesActionPayload {
   typesName?: string
   fileTypes: string[]
+  entitiesType?: string
   storagePath: string
-  onFileSuccess?: (file: string) => Promise<void>
-  onFileError?: (file: string) => Promise<void>
   onSuccess?: (files: string[]) => Promise<void>
   onError?: (files: string[]) => Promise<void>
 }
@@ -30,15 +31,7 @@ export const selectAndSendFilesAction = createAsyncThunk<
 >(
   ActionName.SendSelectedFiles,
   async (
-    {
-      typesName,
-      fileTypes,
-      storagePath,
-      onFileSuccess,
-      onFileError,
-      onSuccess,
-      onError,
-    },
+    { typesName, fileTypes, storagePath, entitiesType, onSuccess, onError },
     { rejectWithValue, dispatch, getState, signal }
   ) => {
     const failedFiles: string[] = []
@@ -55,7 +48,6 @@ export const selectAndSendFilesAction = createAsyncThunk<
       console.error(error)
       postFileTransferInterval && clearInterval(postFileTransferInterval)
       failedFiles.push(file)
-      await onFileError?.(file)
     }
 
     if (aborted) {
@@ -105,6 +97,26 @@ export const selectAndSendFilesAction = createAsyncThunk<
         sentFile.payload &&
         "transferId" in sentFile.payload
       ) {
+        if (entitiesType) {
+          const resp = await dispatch(
+            createEntityDataAction({
+              deviceId,
+              entitiesType,
+              data: {
+                filePath: storagePath + fileName,
+                fileName,
+                extension: "mp3",
+                fileSize: 90804,
+                fileType: "AUDIO",
+                mimeType: "audio/mpeg",
+                isInternal: true,
+                entityType: entitiesType,
+              },
+            })
+          )
+          console.log(resp)
+        }
+
         const transferId = sentFile.payload.transferId
         const postSendRequest = dispatch(postSendFile({ deviceId, transferId }))
 
@@ -114,10 +126,27 @@ export const selectAndSendFilesAction = createAsyncThunk<
         }
 
         const postSendResponse = await postSendRequest
+
         if (postSendResponse.meta.requestStatus === "rejected") {
           await onFileFail(file, postSendResponse.payload?.error.message)
-        } else {
-          onFileSuccess?.(file)
+        } else if (entitiesType) {
+          const resp = await dispatch(
+            createEntityDataAction({
+              deviceId,
+              entitiesType,
+              data: {
+                filePath: storagePath + fileName,
+                fileName,
+                extension: "mp3",
+                fileSize: 90804,
+                fileType: "AUDIO",
+                mimeType: "audio/mpeg",
+                isInternal: true,
+                entityType: entitiesType,
+              },
+            })
+          )
+          console.log(resp)
         }
       } else {
         await onFileFail(file)

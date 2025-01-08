@@ -150,6 +150,7 @@ const runActions = (actions?: ButtonActions) => {
               storagePath: action.storagePath,
               typesName: action.typesName,
               fileTypes: action.fileTypes,
+              entitiesType: action.entitiesType,
             })
           )
           break

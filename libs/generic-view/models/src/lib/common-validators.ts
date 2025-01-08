@@ -140,6 +140,7 @@ export const fileActionValidator = z.union([
     storagePath: z.string(),
     typesName: z.string().optional(),
     fileTypes: z.array(z.string()),
+    entitiesType: z.string().optional(),
     postActions: z
       .object({
         success: filePostActionsValidator,
