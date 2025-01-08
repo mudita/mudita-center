@@ -36,8 +36,6 @@ export { DataMigrationPage } from "./lib/predefined/data-migration/data-migratio
 export * from "./lib/segment-bar"
 export * from "./lib/buttons/button-text"
 export * from "./lib/buttons/button-primary"
-export * from "./lib/texts/paragraphs"
-export * from "./lib/texts/headers"
 export * from "./lib/texts/highlight-text"
 export * from "./lib/entities"
 export * from "./lib/typography"

@@ -6,7 +6,6 @@
 import React, { FunctionComponent, useRef, useState } from "react"
 import { deviceCardStyles, Image, Info, Tag } from "./device-card"
 import styled, { css } from "styled-components"
-import { H5 } from "../../../texts/headers"
 import { Typography } from "../../../typography"
 import * as DropdownArrowSvg from "../dropdown.svg"
 import * as CheckSvg from "../check.svg"
@@ -82,7 +81,9 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
           <Typography.P3 config={undefined}>
             {intl.formatMessage(messages.serialNumber)}
           </Typography.P3>
-          <H5>{selectedDevice?.serialNumber}</H5>
+          <Typography.H5 config={undefined}>
+            {selectedDevice?.serialNumber}
+          </Typography.H5>
         </Info>
         <Arrow>{dropdownVisible && <DropdownArrowSvg />}</Arrow>
       </CardWrapper>
@@ -120,7 +121,7 @@ const ListItem: FunctionComponent<
         <Typography.P3 config={undefined}>
           {intl.formatMessage(messages.serialNumber)}
         </Typography.P3>
-        <H5>{serialNumber}</H5>
+        <Typography.H5 config={undefined}>{serialNumber}</Typography.H5>
       </Info>
       <Check>{active && <CheckSvg />}</Check>
     </ListItemCard>

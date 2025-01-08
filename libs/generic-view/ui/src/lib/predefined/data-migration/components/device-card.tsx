@@ -5,7 +5,6 @@
 
 import React, { FunctionComponent } from "react"
 import styled, { css } from "styled-components"
-import { H5 } from "../../../texts/headers"
 import { Typography } from "../../../typography"
 import { ButtonPrimary } from "../../../buttons/button-primary"
 import { defineMessages } from "react-intl"
@@ -38,7 +37,7 @@ export const DeviceCard: FunctionComponent<
         <Typography.P3 config={undefined}>
           {intl.formatMessage(messages.serialNumber)}
         </Typography.P3>
-        <H5>{serialNumber}</H5>
+        <Typography.H5 config={undefined}>{serialNumber}</Typography.H5>
       </Info>
       <SelectButton
         config={{
