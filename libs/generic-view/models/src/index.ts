@@ -42,7 +42,6 @@ import { tooltipContent } from "./lib/tooltip-content"
 import { aboutDataBox } from "./lib/about-data-box"
 import { h3Component, h4Component, h5Component } from "./lib/headers"
 import {
-  p1Component,
   p2Component,
   p3Component,
   p4Component,
@@ -180,7 +179,6 @@ export default {
   [h3Component.key]: h3Component,
   [h4Component.key]: h4Component,
   [h5Component.key]: h5Component,
-  [p1Component.key]: p1Component,
   [p2Component.key]: p2Component,
   [p3Component.key]: p3Component,
   [p4Component.key]: p4Component,

@@ -22,34 +22,6 @@ const commonStyles = css<ParagraphsProps>`
   ${commonTextStyles};
 `
 
-export const Paragraph1: APIFC<ParagraphData, ParagraphConfig> = ({
-  config,
-  data,
-  children,
-  ...props
-}) => {
-  const text = data?.text ?? config?.text
-
-  const transformedText = applyTextTransform(
-    text,
-    config?.textTransform,
-    config?.textTransformOptions
-  )
-
-  return (
-    <P1
-      data-testid={TypographyTestIds.P1}
-      $color={config?.color}
-      $textTransform={config?.textTransform}
-      $singleLine={config?.singleLine}
-      $textAlign={config?.textAlign}
-      {...props}
-    >
-      {isEmpty(children) ? transformedText : children}
-    </P1>
-  )
-}
-
 export const P1 = styled.p<ParagraphsProps>`
   &,
   ${Content} p {

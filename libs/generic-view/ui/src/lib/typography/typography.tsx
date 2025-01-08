@@ -104,7 +104,7 @@ const TypographyWrapper = styled.div<TypographyWrapperStyledProps>`
   }
 `
 
-const Typography = BaseTypography as typeof BaseTypography & {
+export const Typography = BaseTypography as typeof BaseTypography & {
   H3: typeof BaseTypography
   H4: typeof BaseTypography
   H5: typeof BaseTypography
@@ -148,4 +148,3 @@ Typography.P5 = (props) => (
   <BaseTypography {...props} componentName="typography.p5" />
 )
 
-export default Typography

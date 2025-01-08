@@ -20,12 +20,6 @@ const configValidator = z
 
 export type ParagraphConfig = z.infer<typeof configValidator>
 
-export const p1Component = {
-  key: "p1-component",
-  dataValidator,
-  configValidator,
-} as const
-
 export const p2Component = {
   key: "p2-component",
   dataValidator,
