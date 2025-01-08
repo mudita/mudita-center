@@ -10,7 +10,7 @@ import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import { GenericThemeProvider } from "generic-view/theme"
 import { H3 } from "../../../../../generic-view/ui/src/lib/texts/headers"
-import { P3 } from "../../../../../generic-view/ui/src/lib/texts/paragraphs"
+import { Typography } from "../../../../../generic-view/ui/src/lib/typography"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import Icon, {
   IconSize,
@@ -148,29 +148,39 @@ const RecoveryModeUI: FunctionComponent = () => {
         <Header>
           <Icon type={IconType.RecoveryModeBlack} size={IconSize.ExtraLarge} />
           <H3>{intl.formatMessage(messages.header)}</H3>
-          <P3>{intl.formatMessage(messages.description)}</P3>
+          <Typography.P3 config={undefined}>
+            {intl.formatMessage(messages.description)}
+          </Typography.P3>
         </Header>
         <WarrningBox>
           <Warning>
             <ul>
               <li>
-                <P3>{intl.formatMessage(messages.warning1, textFormatters)}</P3>
+                <Typography.P3 config={undefined}>
+                  {intl.formatMessage(messages.warning1, textFormatters)}
+                </Typography.P3>
               </li>
               {process.platform === "linux" && (
                 <li>
-                  <P3>
+                  <Typography.P3 config={undefined}>
                     {intl.formatMessage(messages.warningLinux, textFormatters)}
-                  </P3>
+                  </Typography.P3>
                 </li>
               )}
               <li>
-                <P3>{intl.formatMessage(messages.warning2)}</P3>
+                <Typography.P3 config={undefined}>
+                  {intl.formatMessage(messages.warning2)}
+                </Typography.P3>
               </li>
               <li>
-                <P3>{intl.formatMessage(messages.warning3)}</P3>
+                <Typography.P3 config={undefined}>
+                  {intl.formatMessage(messages.warning3)}
+                </Typography.P3>
               </li>
               <li>
-                <P3>{intl.formatMessage(messages.warning4)}</P3>
+                <Typography.P3 config={undefined}>
+                  {intl.formatMessage(messages.warning4)}
+                </Typography.P3>
               </li>
             </ul>
             <Form>

@@ -16,7 +16,7 @@ import styled, { css } from "styled-components"
 import { useFormContext } from "react-hook-form"
 import { useHelpSearch } from "help/feature"
 import { SearchResults, SearchResultsWrapper } from "./search-results"
-import { H3, P3, SearchInput } from "generic-view/ui"
+import { H3, SearchInput, Typography } from "generic-view/ui"
 import { useHistory } from "react-router"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { HelpTestId } from "../test-ids"
@@ -109,9 +109,9 @@ export const Search: FunctionComponent = () => {
       <H3 data-testid={HelpTestId.MainHeader}>
         {intl.formatMessage(messages.title)}
       </H3>
-      <P3 data-testid={HelpTestId.MainSubheader}>
+      <Typography.P3 config={undefined} data-testid={HelpTestId.MainSubheader}>
         {intl.formatMessage(messages.description)}
-      </P3>
+      </Typography.P3>
       <InputWrapper
         onKeyDown={handleKeyDown}
         dropdownActive={deferredSearchPhrase.length > 1}

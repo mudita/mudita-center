@@ -7,7 +7,7 @@ import React, { FunctionComponent, useRef, useState } from "react"
 import { deviceCardStyles, Image, Info, Tag } from "./device-card"
 import styled, { css } from "styled-components"
 import { H4, H5 } from "../../../texts/headers"
-import { P3 } from "../../../texts/paragraphs"
+import { Typography } from "../../../typography"
 import * as DropdownArrowSvg from "../dropdown.svg"
 import * as CheckSvg from "../check.svg"
 import useOutsideClick from "Core/__deprecated__/renderer/utils/hooks/useOutsideClick"
@@ -77,7 +77,9 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
         </Image>
         <Info>
           <H4>{selectedDevice?.name}</H4>
-          <P3>{intl.formatMessage(messages.serialNumber)}</P3>
+          <Typography.P3 config={undefined}>
+            {intl.formatMessage(messages.serialNumber)}
+          </Typography.P3>
           <H5>{selectedDevice?.serialNumber}</H5>
         </Info>
         <Arrow>{dropdownVisible && <DropdownArrowSvg />}</Arrow>
@@ -113,7 +115,9 @@ const ListItem: FunctionComponent<
       </Image>
       <Info>
         <H4>{name}</H4>
-        <P3>{intl.formatMessage(messages.serialNumber)}</P3>
+        <Typography.P3 config={undefined}>
+          {intl.formatMessage(messages.serialNumber)}
+        </Typography.P3>
         <H5>{serialNumber}</H5>
       </Info>
       <Check>{active && <CheckSvg />}</Check>

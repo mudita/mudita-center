@@ -39,48 +39,6 @@ export const P1 = styled.p<ParagraphsProps>`
   }
 `
 
-export const Paragraph3: APIFC<ParagraphData, ParagraphConfig> = ({
-  config,
-  data,
-  children,
-  ...props
-}) => {
-  const text = data?.text ?? config?.text
-
-  const transformedText = applyTextTransform(
-    text,
-    config?.textTransform,
-    config?.textTransformOptions
-  )
-
-  return (
-    <P3
-      data-testid={TypographyTestIds.P3}
-      $color={config?.color}
-      $textTransform={config?.textTransform}
-      $singleLine={config?.singleLine}
-      $textAlign={config?.textAlign}
-      {...props}
-    >
-      {isEmpty(children) ? transformedText : children}
-    </P3>
-  )
-}
-
-export const P3 = styled.p<ParagraphsProps>`
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-  letter-spacing: 0.05em;
-  font-weight: ${({ theme }) => theme.fontWeight.regular};
-
-  b,
-  strong {
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
-  }
-
-  ${commonStyles};
-`
-
 export const Paragraph4: APIFC<ParagraphData, ParagraphConfig> = ({
   config,
   data,

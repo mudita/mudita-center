@@ -6,7 +6,7 @@
 import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
-import { H5, Icon, P1, P3 } from "generic-view/ui"
+import { H5, Icon, P1, Typography } from "generic-view/ui"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { useDispatch, useSelector } from "react-redux"
@@ -131,6 +131,6 @@ const FeedbackButton = styled.button`
   }
 `
 
-const Thanks = styled(P3)`
+const Thanks = styled(Typography.P3)`
   color: ${({ theme }) => theme.color.grey1};
 `
