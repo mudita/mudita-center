@@ -34,49 +34,9 @@ export const P1 = styled.p<ParagraphsProps>`
     strong {
       font-weight: ${({ theme }) => theme.fontWeight.bold};
     }
+
     ${commonStyles};
   }
-`
-
-export const Paragraph2: APIFC<ParagraphData, ParagraphConfig> = ({
-  config,
-  data,
-  children,
-  ...props
-}) => {
-  const text = data?.text ?? config?.text
-
-  const transformedText = applyTextTransform(
-    text,
-    config?.textTransform,
-    config?.textTransformOptions
-  )
-
-  return (
-    <P2
-      data-testid={TypographyTestIds.P2}
-      $color={config?.color}
-      $textTransform={config?.textTransform}
-      $singleLine={config?.singleLine}
-      $textAlign={config?.textAlign}
-      {...props}
-    >
-      {isEmpty(children) ? transformedText : children}
-    </P2>
-  )
-}
-
-export const P2 = styled.p<ParagraphsProps>`
-  font-size: ${({ theme }) => theme.fontSize.paragraph2};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph2};
-  letter-spacing: 0.02em;
-  font-weight: ${({ theme }) => theme.fontWeight.light};
-
-  b,
-  strong {
-    font-weight: ${({ theme }) => theme.fontWeight.regular};
-  }
-  ${commonStyles};
 `
 
 export const Paragraph3: APIFC<ParagraphData, ParagraphConfig> = ({
@@ -117,6 +77,7 @@ export const P3 = styled.p<ParagraphsProps>`
   strong {
     font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
+
   ${commonStyles};
 `
 
@@ -158,6 +119,7 @@ export const P4 = styled.p<ParagraphsProps>`
   strong {
     font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
+
   ${commonStyles};
 `
 

@@ -7,8 +7,7 @@ import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
 import { IncomingFeatureInfoConfig } from "generic-view/models"
-import { H4 } from "../texts/headers"
-import { P2 } from "../texts/paragraphs"
+import { Typography } from "../typography"
 import { Icon } from "../icon/icon"
 
 const dataTestId = {
@@ -29,13 +28,19 @@ export const IncomingFeatureInfo: APIFC<
     <Wrapper {...props} data-testid={dataTestId.wrapper}>
       <IconWrapper config={{ type: config.icon }} />
       <TextWrapper>
-        <H4 data-testid={`${dataTestId.header}-${dataTestIdSuffix}`}>
+        <Typography.H4
+          config={undefined}
+          data-testid={`${dataTestId.header}-${dataTestIdSuffix}`}
+        >
           {config.header}
-        </H4>
-        <P2 data-testid={`${dataTestId.text}-${dataTestIdSuffix}`}>
+        </Typography.H4>
+        <Typography.P2
+          config={undefined}
+          data-testid={`${dataTestId.text}-${dataTestIdSuffix}`}
+        >
           {" "}
           {config.text}
-        </P2>
+        </Typography.P2>
       </TextWrapper>
     </Wrapper>
   )

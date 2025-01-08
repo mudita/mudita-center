@@ -4,18 +4,12 @@
  */
 
 import { Header3, Header4, Header5 } from "./headers"
-import {
-  Paragraph2,
-  Paragraph3,
-  Paragraph4,
-  Paragraph5,
-} from "./paragraphs"
+import { Paragraph3, Paragraph4, Paragraph5 } from "./paragraphs"
 import {
   h3Component,
   h4Component,
   h5Component,
   highlightText,
-  p2Component,
   p3Component,
   p4Component,
   p5Component,
@@ -26,7 +20,6 @@ export const texts = {
   [h3Component.key]: Header3,
   [h4Component.key]: Header4,
   [h5Component.key]: Header5,
-  [p2Component.key]: Paragraph2,
   [p3Component.key]: Paragraph3,
   [p4Component.key]: Paragraph4,
   [p5Component.key]: Paragraph5,
