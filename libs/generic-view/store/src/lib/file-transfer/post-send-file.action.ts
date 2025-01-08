@@ -10,6 +10,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { ActionName } from "../action-names"
 import { fileTransferSendPostProcessing } from "./actions"
 import { AppError, AppErrorType } from "Core/core/errors"
+import { delay } from "shared/utils"
 
 export type SendFileErrorPayload = {
   transferId: number
@@ -69,6 +70,7 @@ export const postSendFile = createAsyncThunk<
           transferId,
         })
       )
+      await delay(1000)
     } while (!finished)
 
     return

@@ -13,17 +13,17 @@ export const fileManagerView: View = {
       entityTypes: [
         {
           entityType: "audioFiles",
-          storagePath: "/media/audio",
+          storagePath: "/storage/emulated/0/Music/",
           supportedFileTypes: ["mp3", "wav", "flac"],
         },
         {
           entityType: "imageFiles",
-          storagePath: "/media/images",
+          storagePath: "/storage/emulated/0/Pictures/",
           supportedFileTypes: ["jpg", "jpeg", "png"],
         },
         {
           entityType: "ebookFiles",
-          storagePath: "/media/ebooks",
+          storagePath: "/storage/emulated/0/Books/",
           supportedFileTypes: ["pdf", "epub"],
         },
         // {
