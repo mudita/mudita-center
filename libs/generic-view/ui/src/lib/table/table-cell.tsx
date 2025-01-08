@@ -11,7 +11,7 @@ import { TableTestIds } from "e2e-test-ids"
 
 export const TableCell: APIFC<undefined, TableCellConfig> = ({
   children,
-  config,
+  config = {},
   data,
   ...props
 }) => {

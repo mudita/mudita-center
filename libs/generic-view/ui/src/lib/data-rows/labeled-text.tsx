@@ -10,7 +10,7 @@ import { LabeledTextConfig, LabeledTextData } from "generic-view/models"
 
 export const LabeledText: APIFC<LabeledTextData, LabeledTextConfig> = ({
   data,
-  config,
+  config = {},
   ...props
 }) => {
   return (
