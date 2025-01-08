@@ -14,7 +14,7 @@ import { isEmpty } from "lodash"
 import { postSendFile } from "./post-send-file.action"
 
 interface SendSelectedFilesActionPayload {
-  typesName: string
+  typesName?: string
   fileTypes: string[]
   storagePath: string
   onFileSuccess?: (file: string) => Promise<void>
@@ -66,7 +66,7 @@ export const selectAndSendFilesAction = createAsyncThunk<
     const openFileResult = await openFileRequest({
       filters: [
         {
-          name: typesName,
+          name: typesName || "Media",
           extensions: fileTypes,
         },
       ],

@@ -138,7 +138,7 @@ export const fileActionValidator = z.union([
   z.object({
     type: z.literal("file-upload"),
     storagePath: z.string(),
-    typesName: z.string(),
+    typesName: z.string().optional(),
     fileTypes: z.array(z.string()),
     postActions: z
       .object({

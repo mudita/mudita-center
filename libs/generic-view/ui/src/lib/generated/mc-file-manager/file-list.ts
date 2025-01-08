@@ -79,6 +79,8 @@ const generateFileList = ({
   id,
   name,
   entitiesType,
+  storagePath,
+  supportedFileTypes,
 }: FileListConfig): Subview => {
   return {
     [`${id}fileListContainer`]: {
@@ -386,33 +388,16 @@ const generateFileList = ({
       },
       config: {
         text: "Add file",
-        actions: [
-          {
-            type: "file-upload",
-            storagePath: "/storage/emulated/0/Music/",
-            typesName: "Audio",
-            fileTypes: [
-              "3gp",
-              "mp4",
-              "m4a",
-              "aac",
-              "ts",
-              "amr",
-              "flac",
-              "mid",
-              "xmf",
-              "mxmf",
-              "rtttl",
-              "rtx",
-              "ota",
-              "imy",
-              "mp3",
-              "mkv",
-              "wav",
-              "ogg",
-            ],
-          },
-        ],
+        actions:
+          storagePath && supportedFileTypes
+            ? [
+                {
+                  type: "file-upload",
+                  storagePath,
+                  fileTypes: supportedFileTypes,
+                },
+              ]
+            : [],
       },
     },
     [`${id}fileListEmptyTable`]: {
