@@ -3,15 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
-import { APIFC } from "generic-view/utils"
 import styled, { css } from "styled-components"
-import { isEmpty } from "lodash"
-import { ParagraphConfig, ParagraphData } from "generic-view/models"
 import { Content } from "../data-rows/text-formatted"
 import { CommonTextProps, commonTextStyles } from "./common-text-styles"
-import { applyTextTransform } from "./apply-text-transform"
-import { TypographyTestIds } from "e2e-test-ids"
 
 type ParagraphsProps = CommonTextProps
 
@@ -36,46 +30,5 @@ export const P1 = styled.p<ParagraphsProps>`
     }
 
     ${commonStyles};
-  }
-`
-
-export const Paragraph5: APIFC<ParagraphData, ParagraphConfig> = ({
-  config,
-  data,
-  children,
-  ...props
-}) => {
-  const text = data?.text ?? config?.text
-
-  const transformedText = applyTextTransform(
-    text,
-    config?.textTransform,
-    config?.textTransformOptions
-  )
-
-  return (
-    <P5
-      data-testid={TypographyTestIds.P5}
-      $color={config?.color}
-      $textTransform={config?.textTransform}
-      $singleLine={config?.singleLine}
-      $textAlign={config?.textAlign}
-      {...props}
-    >
-      {isEmpty(children) ? transformedText : children}
-    </P5>
-  )
-}
-
-export const P5 = styled.p<ParagraphsProps>`
-  ${commonStyles};
-  font-size: ${({ theme }) => theme.fontSize.paragraph5};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph5};
-  letter-spacing: 0.04em;
-  font-weight: ${({ theme }) => theme.fontWeight.regular};
-
-  b,
-  strong {
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
 `
