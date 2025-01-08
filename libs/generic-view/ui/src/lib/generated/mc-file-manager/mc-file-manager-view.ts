@@ -4,14 +4,14 @@
  */
 
 import { ComponentGenerator, IconType } from "generic-view/utils"
-import { McFileManagerView } from "generic-view/models"
+import { McFileManagerConfig } from "generic-view/models"
 import { generateFileCategoryList } from "./file-category-list"
 import { generateFileListWrapper } from "./file-list"
 import { generateOtherFilesList } from "./other-files-list"
 import { generateStorageSummaryBar } from "./storage-summary-bar"
 
 export const generateMcFileManagerView: ComponentGenerator<
-  McFileManagerView
+  McFileManagerConfig
 > = (key, config) => {
   return {
     [key]: {
@@ -46,7 +46,7 @@ export const generateMcFileManagerView: ComponentGenerator<
     fileManagerLoader: {
       component: "entities-loader",
       config: {
-        entityTypes: config.entityTypes,
+        entityTypes: config.entityTypes.map((entity) => entity.entityType),
         text: "Loading, please wait...",
       },
       layout: {
@@ -79,7 +79,6 @@ export const generateMcFileManagerView: ComponentGenerator<
       layout: {
         flexPlacement: {
           grow: 1,
-          direction: "row",
         },
       },
       childrenKeys: [
@@ -160,8 +159,12 @@ export const generateMcFileManagerView: ComponentGenerator<
         },
       },
     },
-    ...generateStorageSummaryBar(config.entityTypes),
-    ...generateFileCategoryList(config.entityTypes),
+    ...generateStorageSummaryBar(
+      config.entityTypes.map((entity) => entity.entityType)
+    ),
+    ...generateFileCategoryList(
+      config.entityTypes.map((entity) => entity.entityType)
+    ),
     fileCategoryOtherFilesItem: {
       component: "block-plain",
       layout: {
@@ -209,9 +212,6 @@ export const generateMcFileManagerView: ComponentGenerator<
     },
     fileCategoryOtherFilesItemInfoIconWrapper: {
       component: "block-plain",
-      gridPlacement: {
-        justifySelf: "end",
-      },
       childrenKeys: ["fileCategoryOtherFilesItemInfoIconTooltip"],
     },
     fileCategoryOtherFilesItemInfoIconTooltip: {
@@ -255,6 +255,8 @@ export const generateMcFileManagerView: ComponentGenerator<
         { id: "2", name: "Other" },
       ],
     }),
-    ...generateFileListWrapper(config.entityTypes),
+    ...generateFileListWrapper(
+      config.entityTypes.map((entity) => entity.entityType)
+    ),
   }
 }

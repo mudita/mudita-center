@@ -11,10 +11,26 @@ export const fileManagerView: View = {
     component: "mc-file-manager-view",
     config: {
       entityTypes: [
-        "audioFiles",
-        "imageFiles",
-        "ebookFiles",
-        // "applicationFiles",
+        {
+          entityType: "audioFiles",
+          storagePath: "/media/audio",
+          supportedFileTypes: ["mp3", "wav", "flac"],
+        },
+        {
+          entityType: "imageFiles",
+          storagePath: "/media/images",
+          supportedFileTypes: ["jpg", "jpeg", "png"],
+        },
+        {
+          entityType: "ebookFiles",
+          storagePath: "/media/ebooks",
+          supportedFileTypes: ["pdf", "epub"],
+        },
+        // {
+        //   entityType: "applicationFiles",
+        //   storagePath: "/media/apps",
+        //   supportedFileTypes: ["apk"],
+        // }
       ],
     },
     // @ts-ignore
