@@ -5,7 +5,6 @@
 
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
-import { P1 } from "../../texts/paragraphs"
 import { Typography } from "../../typography"
 import * as ConnectionSvg from "./connection.svg"
 import { defineMessages } from "react-intl"
@@ -46,19 +45,25 @@ export const Instruction: FunctionComponent = () => {
       </Image>
       <Steps>
         <Step>
-          <P1>{intl.formatMessage(messages.step, { number: 1 })}</P1>
+          <Typography.P1 config={undefined}>
+            {intl.formatMessage(messages.step, { number: 1 })}
+          </Typography.P1>
           <Typography.P3 config={undefined}>
             {intl.formatMessage(messages.step1)}
           </Typography.P3>
         </Step>
         <Step>
-          <P1>{intl.formatMessage(messages.step, { number: 2 })}</P1>
+          <Typography.P1 config={undefined}>
+            {intl.formatMessage(messages.step, { number: 2 })}
+          </Typography.P1>
           <Typography.P3 config={undefined}>
             {intl.formatMessage(messages.step2)}
           </Typography.P3>
         </Step>
         <Step>
-          <P1>{intl.formatMessage(messages.step, { number: 3 })}</P1>
+          <Typography.P1 config={undefined}>
+            {intl.formatMessage(messages.step, { number: 3 })}
+          </Typography.P1>
           <Typography.P3 config={undefined}>
             {intl.formatMessage(messages.step3)}
           </Typography.P3>
