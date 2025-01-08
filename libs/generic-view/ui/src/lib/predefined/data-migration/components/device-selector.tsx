@@ -6,7 +6,7 @@
 import React, { FunctionComponent, useRef, useState } from "react"
 import { deviceCardStyles, Image, Info, Tag } from "./device-card"
 import styled, { css } from "styled-components"
-import { H4, H5 } from "../../../texts/headers"
+import { H5 } from "../../../texts/headers"
 import { Typography } from "../../../typography"
 import * as DropdownArrowSvg from "../dropdown.svg"
 import * as CheckSvg from "../check.svg"
@@ -76,7 +76,9 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
           <img src={selectedDevice?.image} alt={""} />
         </Image>
         <Info>
-          <H4>{selectedDevice?.name}</H4>
+          <Typography.H4 config={undefined}>
+            {selectedDevice?.name}
+          </Typography.H4>
           <Typography.P3 config={undefined}>
             {intl.formatMessage(messages.serialNumber)}
           </Typography.P3>
@@ -114,7 +116,7 @@ const ListItem: FunctionComponent<
         <img src={image} alt={name} />
       </Image>
       <Info>
-        <H4>{name}</H4>
+        <Typography.H4 config={undefined}>{name}</Typography.H4>
         <Typography.P3 config={undefined}>
           {intl.formatMessage(messages.serialNumber)}
         </Typography.P3>

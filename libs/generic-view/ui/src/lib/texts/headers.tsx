@@ -31,33 +31,6 @@ const commonStyle = css<HeaderProps>`
     `}
 `
 
-export const Header4: APIFC<undefined, HeaderConfig> = ({
-  config,
-  children,
-  ...props
-}) => {
-  return (
-    <H4
-      data-testid={TypographyTestIds.H4}
-      $unbold={config?.unbold}
-      $singleLine={config?.singleLine}
-      $color={config?.color}
-      $textTransform={config?.textTransform}
-      {...props}
-    >
-      {isEmpty(children) ? config?.text : children}
-    </H4>
-  )
-}
-
-export const H4 = styled.h4<HeaderProps>`
-  font-size: ${({ theme }) => theme.fontSize.headline4};
-  line-height: ${({ theme }) => theme.lineHeight.headline4};
-  letter-spacing: 0.02em;
-  margin: 0;
-  ${commonStyle};
-`
-
 export const Header5: APIFC<undefined, HeaderConfig> = ({
   config,
   children,

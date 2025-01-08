@@ -5,7 +5,7 @@
 
 import React, { FunctionComponent } from "react"
 import styled, { css } from "styled-components"
-import { H4, H5 } from "../../../texts/headers"
+import { H5 } from "../../../texts/headers"
 import { Typography } from "../../../typography"
 import { ButtonPrimary } from "../../../buttons/button-primary"
 import { defineMessages } from "react-intl"
@@ -96,6 +96,8 @@ export const Image = styled.div`
     object-fit: contain;
   }
 `
+
+const H4 = styled(Typography.H4)``
 
 export const Info = styled.div`
   grid-area: info;
