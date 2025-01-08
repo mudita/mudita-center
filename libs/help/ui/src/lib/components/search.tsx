@@ -16,7 +16,7 @@ import styled, { css } from "styled-components"
 import { useFormContext } from "react-hook-form"
 import { useHelpSearch } from "help/feature"
 import { SearchResults, SearchResultsWrapper } from "./search-results"
-import { H3, SearchInput, Typography } from "generic-view/ui"
+import { SearchInput, Typography } from "generic-view/ui"
 import { useHistory } from "react-router"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { HelpTestId } from "../test-ids"
@@ -106,9 +106,9 @@ export const Search: FunctionComponent = () => {
 
   return (
     <Wrapper>
-      <H3 data-testid={HelpTestId.MainHeader}>
+      <Typography.H3 config={undefined} data-testid={HelpTestId.MainHeader}>
         {intl.formatMessage(messages.title)}
-      </H3>
+      </Typography.H3>
       <Typography.P3 config={undefined} data-testid={HelpTestId.MainSubheader}>
         {intl.formatMessage(messages.description)}
       </Typography.P3>

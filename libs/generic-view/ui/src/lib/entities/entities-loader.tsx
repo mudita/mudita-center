@@ -16,7 +16,7 @@ import {
   selectEntitiesLoadingState,
 } from "generic-view/store"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { H3 } from "../texts/headers"
+import { Typography } from "../typography"
 import { ProgressBar } from "../interactive/progress-bar/progress-bar"
 
 export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
@@ -80,7 +80,7 @@ export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
   }
   return (
     <div {...props}>
-      {config.text && <H3>{config.text}</H3>}
+      {config.text && <Typography.H3 config={config} />}
       <Progress config={{ maxValue: 100 }} data={{ value: totalProgress }} />
     </div>
   )

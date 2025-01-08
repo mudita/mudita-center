@@ -9,7 +9,6 @@ import styled, { ThemeProvider } from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import { GenericThemeProvider } from "generic-view/theme"
-import { H3 } from "../../../../../generic-view/ui/src/lib/texts/headers"
 import { Typography } from "../../../../../generic-view/ui/src/lib/typography"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import Icon, {
@@ -147,7 +146,9 @@ const RecoveryModeUI: FunctionComponent = () => {
       <Wrapper>
         <Header>
           <Icon type={IconType.RecoveryModeBlack} size={IconSize.ExtraLarge} />
-          <H3>{intl.formatMessage(messages.header)}</H3>
+          <Typography.H3 config={undefined}>
+            {intl.formatMessage(messages.header)}
+          </Typography.H3>
           <Typography.P3 config={undefined}>
             {intl.formatMessage(messages.description)}
           </Typography.P3>

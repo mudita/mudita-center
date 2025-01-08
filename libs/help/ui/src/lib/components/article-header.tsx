@@ -8,7 +8,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import { IconType } from "generic-view/utils"
 import { useHistory } from "react-router"
-import { ButtonText, H3 } from "generic-view/ui"
+import { ButtonText, Typography } from "generic-view/ui"
 import { HelpTestId } from "../test-ids"
 
 interface Props {
@@ -34,7 +34,9 @@ export const ArticleHeader: FunctionComponent<Props> = ({ title }) => {
           modifiers: ["uppercase"],
         }}
       />
-      <H3 data-testid={HelpTestId.ArticleTitle}>{title}</H3>
+      <Typography.H3 config={undefined} data-testid={HelpTestId.ArticleTitle}>
+        {title}
+      </Typography.H3>
     </Wrapper>
   )
 }
