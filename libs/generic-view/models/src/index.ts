@@ -40,8 +40,6 @@ import { tooltipAnchor } from "./lib/tooltip-anchor"
 import { overviewOsVersion } from "./lib/overview-os-version"
 import { tooltipContent } from "./lib/tooltip-content"
 import { aboutDataBox } from "./lib/about-data-box"
-import { h3Component, h4Component, h5Component } from "./lib/headers"
-import { p3Component, p4Component, p5Component } from "./lib/paragraphs"
 import { lastBackupDate } from "./lib/last-backup-date"
 import { listItem } from "./lib/list-item"
 import { marker } from "./lib/marker"
@@ -171,12 +169,6 @@ export default {
   [tooltip.key]: tooltip,
   [tooltipAnchor.key]: tooltipAnchor,
   [tooltipContent.key]: tooltipContent,
-  [h3Component.key]: h3Component,
-  [h4Component.key]: h4Component,
-  [h5Component.key]: h5Component,
-  [p3Component.key]: p3Component,
-  [p4Component.key]: p4Component,
-  [p5Component.key]: p5Component,
   [overviewOsVersion.key]: overviewOsVersion,
   [aboutDataBox.key]: aboutDataBox,
   [lastBackupDate.key]: lastBackupDate,

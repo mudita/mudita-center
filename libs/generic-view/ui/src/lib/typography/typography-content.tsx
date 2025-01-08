@@ -12,7 +12,7 @@ import {
   TypographyConfig,
   TypographyData,
 } from "generic-view/models"
-import { applyTextTransform } from "../texts/apply-text-transform"
+import { applyTextTransform } from "./apply-text-transform"
 import { FormatMessage } from "../interactive/format-message"
 
 export const TypographyContent: APIFC<TypographyData, TypographyConfig> = ({
