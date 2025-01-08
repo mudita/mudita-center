@@ -11,7 +11,6 @@ import {
   ContactsSearchResultsData,
 } from "generic-view/models"
 import { Typography } from "../../typography"
-import { P4 } from "../../texts/paragraphs"
 import { findMatches, HighlightText } from "../../texts/highlight-text"
 
 export const McContactsSearchResult: APIFC<
@@ -61,7 +60,7 @@ export const McContactsSearchResult: APIFC<
         />
       </Typography.P3>
       {renderSecondLine && (
-        <P4 $color={"black"} $singleLine>
+        <Typography.P4 config={{ color: "black", singleLine: true }}>
           <HighlightText
             data={{
               text: secondLineMatches.text,
@@ -71,7 +70,7 @@ export const McContactsSearchResult: APIFC<
               matches: secondLineMatches.matches,
             }}
           />
-        </P4>
+        </Typography.P4>
       )}
     </>
   )

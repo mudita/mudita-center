@@ -32,11 +32,6 @@ export const p3Component = {
   configValidator,
 } as const
 
-export const p4Component = {
-  key: "p4-component",
-  dataValidator,
-  configValidator,
-} as const
 
 export const p5Component = {
   key: "p5-component",
