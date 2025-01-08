@@ -16,14 +16,18 @@ import {
 import { Content } from "../data-rows/text-formatted"
 import { typographyConfig, TypographyStyle } from "./typography.config"
 import { TypographyContent } from "./typography-content"
+import { useOverflowTitle } from "./use-overflow-title"
 
 const BaseTypography: APIFC<TypographyData, TypographyConfig> = (props) => {
   const { componentName, config, ...restProps } = props
   const variant = componentName as TypographyKey
   const staticTypographyConfig = typographyConfig[variant]
+  const { containerRef, title } = useOverflowTitle()
 
   return (
     <TypographyWrapper
+      ref={containerRef}
+      title={title}
       $color={config?.color ?? staticTypographyConfig.defaultColor}
       $textTransform={config?.textTransform}
       $singleLine={config?.singleLine}
