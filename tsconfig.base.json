@@ -34,6 +34,7 @@
       "active-device-registry/models": [
         "libs/active-device-registry/models/src/index.ts"
       ],
+      "api-devices-testing": ["libs/api-devices-testing/src/index.ts"],
       "core-device/feature": ["libs/core-device/feature/src/index.ts"],
       "core-device/models": ["libs/core-device/models/src/index.ts"],
       "device-manager/feature": ["libs/device-manager/feature/src/index.ts"],
