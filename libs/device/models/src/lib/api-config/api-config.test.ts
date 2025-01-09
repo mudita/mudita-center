@@ -7,6 +7,7 @@ import { ApiConfig, ApiConfigValidator } from "./api-config"
 
 const minimumApiConfig: ApiConfig = {
   apiVersion: "1.0.0",
+  osVersion: "0.0.46 MuditaOS K",
   features: ["mc-overview"],
   productId: "productId",
   vendorId: "vendorId",

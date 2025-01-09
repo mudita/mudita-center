@@ -6,7 +6,10 @@
 import { z } from "zod"
 import { commonTextValidators } from "./common-text-validators"
 
-const dataValidator = z.undefined()
+const dataValidator = z.object({
+  text: z.string().optional(),
+})
+export type ParagraphData = z.infer<typeof dataValidator>
 
 const configValidator = z
   .object({

@@ -6,6 +6,7 @@
 import { blocks } from "./lib/blocks/blocks"
 import { rows } from "./lib/data-rows/data-rows"
 import { predefinedComponents } from "./lib/predefined/predefined"
+import { segmentBar } from "./lib/segment-bar"
 import { helpers } from "./lib/helpers/helpers"
 import { interactive } from "./lib/interactive/interactive"
 import { labels } from "./lib/labels"
@@ -31,6 +32,7 @@ export * from "./lib/predefined/backup-restore/backup-restore-error"
 export * from "./lib/predefined/import-contacts/import-contacts-error"
 export * from "./lib/predefined/data-migration/components/transfer-error-modal"
 export { DataMigrationPage } from "./lib/predefined/data-migration/data-migration"
+export * from "./lib/segment-bar"
 export * from "./lib/buttons/button-text"
 export * from "./lib/buttons/button-primary"
 export * from "./lib/texts/paragraphs"
@@ -40,6 +42,7 @@ export * from "./lib/entities"
 
 const apiComponents = {
   ...predefinedComponents,
+  ...segmentBar,
   ...blocks,
   ...rows,
   ...helpers,

@@ -4,11 +4,12 @@
  */
 
 import { IconType, Subview } from "generic-view/utils"
+import { color } from "./color"
 
 interface CategoryListItemConfig {
   id: string
   name: string
-  markerColor: string
+  markerColor: (typeof color)[keyof typeof color]
   entitiesType: string
   icon: IconType
 }
@@ -17,25 +18,25 @@ const CONFIG_MAP: Record<string, Omit<CategoryListItemConfig, "id">> = {
   audioFiles: {
     name: "Music",
     icon: IconType.MusicNote,
-    markerColor: "#E38577",
+    markerColor: color.audioFiles,
     entitiesType: "audioFiles",
   },
   imageFiles: {
     name: "Photos",
     icon: IconType.PhotoCatalog,
-    markerColor: "#0E7490",
+    markerColor: color.imageFiles,
     entitiesType: "imageFiles",
   },
   ebookFiles: {
-    name: "Ebooks",
+    name: "E-books",
     icon: IconType.Book,
-    markerColor: "#A8DADC",
+    markerColor: color.ebookFiles,
     entitiesType: "ebookFiles",
   },
   applicationFiles: {
     name: "Apps",
     icon: IconType.Grid,
-    markerColor: "#AEBEC9",
+    markerColor: color.applicationFiles,
     entitiesType: "applicationFiles",
   },
 }
@@ -61,7 +62,7 @@ const generateFileCategoryListItem = ({
         padding: "12px 32px 10px 32px",
         gridLayout: {
           rows: ["auto", "auto"],
-          columns: ["auto", "65px"],
+          columns: ["auto", "100px"],
         },
       },
       config: {
@@ -149,8 +150,12 @@ const generateFileCategoryListItem = ({
     [`${id}CategoryListItemStorageText`]: {
       component: "p3-component",
       config: {
-        text: "0 KB",
+        text: "0",
         color: "black",
+        textTransform: "format-bytes",
+        textTransformOptions: {
+          minUnit: "KB",
+        },
       },
     },
     [`${id}CategoryListItemStorageMarker`]: {

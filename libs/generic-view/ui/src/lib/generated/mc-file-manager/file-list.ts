@@ -3,37 +3,47 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Subview } from "generic-view/utils"
+import { Subview, IconType } from "generic-view/utils"
+import { generateDeleteFiles } from "./delete-files"
 
 interface FileListConfig {
   id: string
   name: string
   entitiesType: string
+  fileListEmptyStateDescriptionText: string
 }
 
 const CONFIG_MAP: Record<string, Omit<FileListConfig, "id">> = {
   audioFiles: {
     name: "Music",
     entitiesType: "audioFiles",
+    fileListEmptyStateDescriptionText:
+      "Add music files from your computer and they’ll transfer to your device automatically.",
   },
   imageFiles: {
     name: "Photos",
     entitiesType: "imageFiles",
+    fileListEmptyStateDescriptionText:
+      "Add image files from your computer and they’ll transfer to your device automatically.",
   },
   ebookFiles: {
-    name: "Ebooks",
+    name: "E-books",
     entitiesType: "ebookFiles",
+    fileListEmptyStateDescriptionText:
+      "Add E-book or PDF files from your computer and they’ll transfer to your device automatically.",
   },
   applicationFiles: {
     name: "Apps",
     entitiesType: "applicationFiles",
+    fileListEmptyStateDescriptionText:
+      "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly. ",
   },
 }
 
-function getConfigByEntityType(
+const getConfigByEntityType = (
   entityType: string,
   id: string
-): FileListConfig | undefined {
+): FileListConfig | undefined => {
   return { ...CONFIG_MAP[entityType], id } || undefined
 }
 
@@ -41,6 +51,7 @@ const generateFileList = ({
   id,
   name,
   entitiesType,
+  fileListEmptyStateDescriptionText,
 }: FileListConfig): Subview => {
   return {
     [`${id}fileListContainer`]: {
@@ -65,6 +76,7 @@ const generateFileList = ({
         formOptions: {
           defaultValues: {
             selectedItems: [],
+            allItems: [],
           },
         },
       },
@@ -78,11 +90,90 @@ const generateFileList = ({
       layout: {
         width: "656px",
         gridLayout: {
+          rows: [],
+          columns: [],
+        },
+      },
+      childrenKeys: [`${id}fileListContent`],
+    },
+    [`${id}fileListContent`]: {
+      component: "block-plain",
+      layout: {
+        gridLayout: {
           rows: ["auto", "1fr"],
           columns: [],
         },
       },
-      childrenKeys: [`${id}fileListPanel`, `${id}fileListContent`],
+      childrenKeys: [
+        `${id}fileListEmptyStateWrapper`,
+        `${id}fileListEmptyTableWrapper`,
+      ],
+    },
+    [`${id}fileListEmptyStateWrapper`]: {
+      component: "conditional-renderer",
+      dataProvider: {
+        source: "entities-metadata",
+        entitiesType,
+        fields: [
+          {
+            modifier: "length",
+            providerField: "totalEntities",
+            componentField: "data.render",
+            condition: "eq",
+            value: 0,
+          },
+        ],
+      },
+      childrenKeys: [`${id}fileListPanel`, `${id}fileListEmptyState`],
+    },
+    [`${id}fileListEmptyTableWrapper`]: {
+      component: "conditional-renderer",
+      dataProvider: {
+        source: "entities-metadata",
+        entitiesType,
+        fields: [
+          {
+            modifier: "length",
+            providerField: "totalEntities",
+            componentField: "data.render",
+            condition: "gt",
+            value: 0,
+          },
+        ],
+      },
+      childrenKeys: [`${id}fileListPanelManager`, `${id}fileListEmptyTable`],
+    },
+
+    [`${id}fileListPanelManager`]: {
+      component: "block-plain",
+      childrenKeys: [
+        `${id}fileListPanelDefaultMode`,
+        `${id}fileListPanelSelectMode`,
+      ],
+      layout: {
+        gridPlacement: {
+          row: 1,
+          column: 1,
+          width: 1,
+          height: 1,
+        },
+      },
+    },
+    [`${id}fileListPanelDefaultMode`]: {
+      component: "conditional-renderer",
+      childrenKeys: [`${id}fileListPanel`],
+      dataProvider: {
+        source: "form-fields",
+        fields: [
+          {
+            providerField: "selectedItems",
+            componentField: "data.render",
+            modifier: "length",
+            condition: "eq",
+            value: 0,
+          },
+        ],
+      },
     },
     [`${id}fileListPanel`]: {
       component: "block-plain",
@@ -138,36 +229,93 @@ const generateFileList = ({
       },
       childrenKeys: [`${id}fileListEmptyStateAddFileButton`],
     },
-    [`${id}fileListContent`]: {
-      component: "block-plain",
-      layout: {
-        gridLayout: {
-          rows: [],
-          columns: [],
-        },
-      },
-      childrenKeys: [
-        `${id}fileListEmptyStateWrapper`,
-        `${id}fileListEmptyTableWrapper`,
-      ],
-    },
-    [`${id}fileListEmptyStateWrapper`]: {
+    [`${id}fileListPanelSelectMode`]: {
       component: "conditional-renderer",
+      childrenKeys: [`${id}fileListPanelSelector`],
       dataProvider: {
-        source: "entities-metadata",
-        entitiesType,
+        source: "form-fields",
         fields: [
           {
-            modifier: "length",
-            providerField: "totalEntities",
+            providerField: "selectedItems",
             componentField: "data.render",
-            condition: "eq",
+            modifier: "length",
+            condition: "gt",
             value: 0,
           },
         ],
       },
-      childrenKeys: [`${id}fileListEmptyState`],
     },
+    [`${id}fileListPanelSelector`]: {
+      component: "selection-manager",
+      childrenKeys: [
+        `${id}selectAllCheckbox`,
+        `${id}selectedItemsCounter`,
+        `${id}deleteButton`,
+      ],
+      layout: {
+        margin: "28px 32px",
+        padding: "8px 24px 8px 12px",
+        gridLayout: {
+          rows: ["auto"],
+          columns: ["auto", "1fr", "auto"],
+          alignItems: "center",
+          columnGap: "14px",
+        },
+      },
+    },
+    [`${id}selectAllCheckbox`]: {
+      component: "form.checkboxInput",
+      config: {
+        name: "selectedItems",
+        size: "small",
+      },
+      dataProvider: {
+        source: "form-fields",
+        fields: [
+          {
+            providerField: "allItems",
+            componentField: "config.multipleValues",
+          },
+        ],
+      },
+    },
+    [`${id}selectedItemsCounter`]: {
+      component: "p4-component",
+      childrenKeys: [`${id}selectedItemsCounterText`],
+    },
+    [`${id}selectedItemsCounterText`]: {
+      component: "format-message",
+      config: {
+        messageTemplate:
+          "{selectedItems} {selectedItems, plural, one {file} other {files}} selected",
+      },
+      dataProvider: {
+        source: "form-fields",
+        fields: [
+          {
+            providerField: "selectedItems",
+            componentField: "data.fields.selectedItems",
+            modifier: "length",
+          },
+        ],
+      },
+    },
+    [`${id}deleteButton`]: {
+      component: "button-text",
+      config: {
+        text: "Delete",
+        icon: IconType.Delete,
+        actions: [
+          {
+            type: "open-modal",
+            modalKey: `${id}deleteModal`,
+            domain: "files-delete",
+          },
+        ],
+        modifiers: ["uppercase"],
+      },
+    },
+    ...generateDeleteFiles(id, entitiesType),
     [`${id}fileListEmptyState`]: {
       component: "block-plain",
       layout: {
@@ -200,7 +348,7 @@ const generateFileList = ({
         width: "388px",
       },
       config: {
-        text: "Add music files from your computer and they’ll transfer\nto your device automatically.",
+        text: fileListEmptyStateDescriptionText,
         textAlign: "center",
       },
     },
@@ -214,28 +362,12 @@ const generateFileList = ({
         actions: [],
       },
     },
-    [`${id}fileListEmptyTableWrapper`]: {
-      component: "conditional-renderer",
-      dataProvider: {
-        source: "entities-metadata",
-        entitiesType,
-        fields: [
-          {
-            modifier: "length",
-            providerField: "totalEntities",
-            componentField: "data.render",
-            condition: "gt",
-            value: 0,
-          },
-        ],
-      },
-      childrenKeys: [`${id}fileListEmptyTable`],
-    },
     [`${id}fileListEmptyTable`]: {
       component: "table",
       config: {
         formOptions: {
           selectedIdsFieldName: "selectedItems",
+          allIdsFieldName: "allItems",
         },
       },
       dataProvider: {
@@ -336,8 +468,8 @@ const generateFileList = ({
       component: "tooltip",
       config: {
         offset: {
-          x: 15,
-          y: 15,
+          x: 16,
+          y: 14,
         },
         placement: "bottom-right",
       },

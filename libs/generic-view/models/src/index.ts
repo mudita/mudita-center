@@ -35,6 +35,7 @@ import { formRadioInput } from "./lib/form-radio-input"
 import { formCheckboxInput } from "./lib/form-checkbox-input"
 import { tooltip } from "./lib/tooltip"
 import { progressBar } from "./lib/progress-bar"
+import { segmentBar } from "./lib/segment-bar"
 import { tooltipAnchor } from "./lib/tooltip-anchor"
 import { overviewOsVersion } from "./lib/overview-os-version"
 import { tooltipContent } from "./lib/tooltip-content"
@@ -103,6 +104,7 @@ export * from "./lib/form-search-input"
 export * from "./lib/form-search-input-results"
 export * from "./lib/form-checkbox-input"
 export * from "./lib/progress-bar"
+export * from "./lib/segment-bar"
 export * from "./lib/tooltip"
 export * from "./lib/tooltip-anchor"
 export * from "./lib/tooltip-content"
@@ -169,6 +171,7 @@ export default {
   [formSearchInputResults.key]: formSearchInputResults,
   [formCheckboxInput.key]: formCheckboxInput,
   [progressBar.key]: progressBar,
+  [segmentBar.key]: segmentBar,
   [tooltip.key]: tooltip,
   [tooltipAnchor.key]: tooltipAnchor,
   [tooltipContent.key]: tooltipContent,

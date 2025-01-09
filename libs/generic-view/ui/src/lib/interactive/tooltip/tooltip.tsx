@@ -4,23 +4,30 @@
  */
 
 import React, {
-  cloneElement,
+  createContext,
   isValidElement,
   MouseEvent,
-  ReactElement,
   useCallback,
+  useContext,
   useMemo,
 } from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
 import { TooltipConfig } from "generic-view/models"
 
+const TooltipContext = createContext<{
+  onAnchorHover: (event: MouseEvent) => void
+}>({
+  onAnchorHover: () => {},
+})
+
 export const Tooltip: APIFC<undefined, TooltipConfig> & {
   Anchor: typeof TooltipAnchor
   Content: typeof TooltipContent
-} = ({ children, config }) => {
+} = ({ children, config, ...props }) => {
   const {
     placement = "bottom-right",
+    strategy = "element-oriented",
     offset = {
       x: 0,
       y: 0,
@@ -65,33 +72,102 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
         content.style.right = `${right}px`
       }
 
-      switch (placementVertical) {
-        case "top": {
-          bottom - contentRect.height > 0 ? moveToTop() : moveToBottom()
-          break
+      const updateTooltipPosition = () => {
+        const boundaryElement = event.currentTarget.closest(
+          "[data-tooltip-boundary]"
+        ) as HTMLElement
+        const boundary = boundaryElement?.getBoundingClientRect()
+
+        const viewportWidth = boundary?.width || window.innerWidth
+        const viewportHeight = boundary?.height || window.innerHeight
+        const viewportTop = boundary?.top || 0
+        const viewportLeft = boundary?.left || 0
+        const cursorY = event.clientY + offset.y
+        const cursorX = event.clientX + offset.x
+
+        const adjustedY = Math.min(
+          Math.max(cursorY, viewportTop),
+          viewportTop + viewportHeight - contentRect.height
+        )
+
+        const adjustedX = Math.min(
+          Math.max(cursorX, viewportLeft),
+          viewportLeft + viewportWidth - contentRect.width
+        )
+
+        content.style.top = `${adjustedY}px`
+        content.style.left = `${adjustedX}px`
+        content.style.right = ""
+        content.style.bottom = ""
+      }
+
+      const updateTooltipPositionX = () => {
+        switch (placementVertical) {
+          case "top":
+            bottom - contentRect.height > 0 ? moveToTop() : moveToBottom()
+            break
+          case "bottom":
+            top + contentRect.height < viewportHeight
+              ? moveToBottom()
+              : moveToTop()
+            break
         }
-        case "bottom": {
-          top + contentRect.height < viewportHeight
-            ? moveToBottom()
-            : moveToTop()
-          break
+
+        const boundaryElement = event.currentTarget.closest(
+          "[data-tooltip-boundary]"
+        ) as HTMLElement
+        const boundary = boundaryElement?.getBoundingClientRect()
+
+        const viewportWidth = boundary?.width || window.innerWidth
+        const viewportLeft = boundary?.left || 0
+        const cursorX = event.clientX + offset.x
+
+        const adjustedX = Math.min(
+          Math.max(cursorX, viewportLeft),
+          viewportLeft + viewportWidth - contentRect.width
+        )
+
+        content.style.left = `${adjustedX}px`
+        content.style.right = ""
+      }
+
+      const applyElementPositioning = () => {
+        switch (placementVertical) {
+          case "top": {
+            bottom - contentRect.height > 0 ? moveToTop() : moveToBottom()
+            break
+          }
+          case "bottom": {
+            top + contentRect.height < viewportHeight
+              ? moveToBottom()
+              : moveToTop()
+            break
+          }
+        }
+
+        switch (placementHorizontal) {
+          case "left":
+            viewportWidth - right - contentRect.width > 0
+              ? moveToLeft()
+              : moveToRight()
+            break
+          case "right":
+            left + contentRect.width < viewportWidth
+              ? moveToRight()
+              : moveToLeft()
+            break
         }
       }
 
-      switch (placementHorizontal) {
-        case "left":
-          viewportWidth - right - contentRect.width > 0
-            ? moveToLeft()
-            : moveToRight()
-          break
-        case "right":
-          left + contentRect.width < viewportWidth
-            ? moveToRight()
-            : moveToLeft()
-          break
+      if (strategy === "cursor") {
+        updateTooltipPosition()
+      } else if (strategy === "cursor-horizontal") {
+        updateTooltipPositionX()
+      } else {
+        applyElementPositioning()
       }
     },
-    [offset, placement]
+    [offset, placement, strategy]
   )
 
   const anchor = useMemo(() => {
@@ -101,16 +177,11 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
         (child.props.componentName === "tooltip.anchor" ||
           child.type === Tooltip.Anchor)
       ) {
-        return cloneElement(child as ReactElement, {
-          onMouseEnter: (event: MouseEvent) => {
-            child.props.onMouseEnter?.(event)
-            handleAnchorHover(event)
-          },
-        })
+        return child
       }
       return null
     })
-  }, [children, handleAnchorHover])
+  }, [children])
 
   const content = useMemo(() => {
     return React.Children.map(children, (child) => {
@@ -119,24 +190,31 @@ export const Tooltip: APIFC<undefined, TooltipConfig> & {
         (child.props.componentName === "tooltip.content" ||
           child.type === Tooltip.Content)
       ) {
-        return cloneElement(child as ReactElement)
+        return child
       }
       return null
     })
   }, [children])
 
   return (
-    <Container>
-      {anchor}
-      {content}
-    </Container>
+    <TooltipContext.Provider value={{ onAnchorHover: handleAnchorHover }}>
+      <Container {...props}>
+        {anchor}
+        {content}
+      </Container>
+    </TooltipContext.Provider>
   )
 }
 
 export default Tooltip
 
 const TooltipAnchor: APIFC = ({ data, config, children, ...rest }) => {
-  return <Anchor {...rest}>{children}</Anchor>
+  const { onAnchorHover } = useContext(TooltipContext)
+  return (
+    <Anchor {...rest} onMouseEnter={onAnchorHover}>
+      {children}
+    </Anchor>
+  )
 }
 Tooltip.Anchor = TooltipAnchor
 
@@ -164,6 +242,8 @@ const Content = styled.div`
 `
 
 const Anchor = styled.div`
+  width: 100%;
+  height: 100%;
   cursor: pointer;
   &:hover {
     + ${Content} {

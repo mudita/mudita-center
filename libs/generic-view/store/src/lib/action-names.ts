@@ -109,4 +109,5 @@ export enum ActionName {
   DeleteEntityData = "entities/delete-entity-data",
   CreateEntityData = "entities/create-entity-data",
   UpdateEntityData = "entities/update-entity-data",
+  RefreshEntitiesIfMetadataChanged = "entities/refresh-entities-if-metadata-changed",
 }
