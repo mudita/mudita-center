@@ -6,6 +6,4 @@
 export enum FileTransferStatuses {
   WholeFileTransferred = 200,
   FileChunkTransferred = 206,
-  PostTransferProcessing = 206,
-  PostTransferFinished = 200,
 }
