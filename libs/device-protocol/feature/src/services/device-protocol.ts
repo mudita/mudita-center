@@ -106,7 +106,6 @@ export class DeviceProtocol {
   }
 
   public async addDevice(port: PortInfo): Promise<void> {
-    // console.log("===== addDevice =====")
     await this.mutex.runExclusive(async () => {
       await this.addDeviceTask(port)
     })
@@ -160,9 +159,7 @@ export class DeviceProtocol {
   }
 
   private async addDeviceTask(port: PortInfo): Promise<void> {
-    console.log("addDeviceTask", port)
     const device = await this.initializeDevice(port)
-    console.log("device", device)
     if (!device) {
       return
     }

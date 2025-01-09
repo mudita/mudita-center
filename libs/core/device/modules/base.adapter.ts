@@ -41,7 +41,6 @@ export abstract class BaseAdapter<
             )
           )
         } else {
-          console.error("USTAWIONY")
           this.serialPort = serialPort
           resolve(Result.success(undefined))
         }
