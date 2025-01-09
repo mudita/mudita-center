@@ -13,8 +13,6 @@ import {
   ApiFileTransferServiceEvents,
   FileTransferStatuses,
   GeneralError,
-  PostTransferSend,
-  PostTransferSendValidator,
   PreTransferGet,
   PreTransferGetValidator,
   PreTransferSendValidator,
@@ -243,56 +241,6 @@ export class APIFileTransferService {
     }
 
     return Result.success(transferResponse.data)
-  }
-
-  @IpcEvent(ApiFileTransferServiceEvents.PostSend)
-  public async postTransferSend({
-    transferId,
-    deviceId,
-  }: {
-    transferId: number
-    deviceId?: DeviceId
-  }): Promise<ResultObject<PostTransferSend & { finished: boolean }>> {
-    const device = deviceId
-      ? this.deviceProtocol.getAPIDeviceById(deviceId)
-      : this.deviceProtocol.apiDevice
-
-    if (!device) {
-      return Result.failed(new AppError(GeneralError.NoDevice, ""))
-    }
-
-    const response = await device.request({
-      endpoint: "POST_FILE_TRANSFER",
-      method: "GET",
-      body: {
-        transferId,
-      },
-    })
-
-    if (response.ok) {
-      const preTransferResponse = PostTransferSendValidator.safeParse(
-        response.data.body
-      )
-
-      const success = preTransferResponse.success
-
-      if (!success) {
-        return handleError(response.data.status)
-      }
-
-      const finished =
-        (response.data.status as number) ===
-        FileTransferStatuses.PostTransferFinished
-
-      return Result.success({
-        transferId: preTransferResponse.data.transferId,
-        progress: preTransferResponse.data.progress,
-        message: preTransferResponse.data.message,
-        finished,
-      })
-    } else {
-      return handleError(response.error.type)
-    }
   }
 
   private validateChecksum(transferId: number) {

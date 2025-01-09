@@ -12,7 +12,6 @@ import { selectActiveApiDeviceId } from "../selectors"
 import path from "node:path"
 import fs from "node:fs"
 import { isEmpty } from "lodash"
-import { postSendFile } from "./post-send-file.action"
 import { createEntityDataAction } from "../entities/create-entity-data.action"
 
 interface SendSelectedFilesActionPayload {
@@ -98,38 +97,6 @@ export const selectAndSendFilesAction = createAsyncThunk<
         "transferId" in sentFile.payload
       ) {
         if (entitiesType) {
-          const resp = await dispatch(
-            createEntityDataAction({
-              deviceId,
-              entitiesType,
-              data: {
-                filePath: storagePath + fileName,
-                fileName,
-                extension: "mp3",
-                fileSize: 90804,
-                fileType: "AUDIO",
-                mimeType: "audio/mpeg",
-                isInternal: true,
-                entityType: entitiesType,
-              },
-            })
-          )
-          console.log(resp)
-        }
-
-        const transferId = sentFile.payload.transferId
-        const postSendRequest = dispatch(postSendFile({ deviceId, transferId }))
-
-        if (aborted) {
-          postSendRequest.abort()
-          return rejectWithValue(undefined)
-        }
-
-        const postSendResponse = await postSendRequest
-
-        if (postSendResponse.meta.requestStatus === "rejected") {
-          await onFileFail(file, postSendResponse.payload?.error.message)
-        } else if (entitiesType) {
           const resp = await dispatch(
             createEntityDataAction({
               deviceId,

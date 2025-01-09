@@ -5,7 +5,7 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
-import { FileProgress, PostProcessingFileProgress } from "./reducer"
+import { FileProgress } from "./reducer"
 import { SendFileErrorPayload } from "./send-file.action"
 import { GetFileErrorPayload } from "./get-file.action"
 
@@ -15,8 +15,6 @@ export const fileTransferSendPrepared = createAction<
 export const fileTransferChunkSent = createAction<
   Pick<FileProgress, "chunksTransferred" | "transferId">
 >(ActionName.ChunkFileTransferSend)
-export const fileTransferSendPostProcessing =
-  createAction<PostProcessingFileProgress>(ActionName.PostFileTransferSend)
 export const fileTransferGetPrepared = createAction<
   Pick<FileProgress, "chunksCount" | "transferId" | "filePath">
 >(ActionName.PreFileTransferGet)

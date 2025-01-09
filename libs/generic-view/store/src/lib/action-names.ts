@@ -44,7 +44,6 @@ export enum ActionName {
 
   FileTransferSend = "generic-file-transfer/send",
   PreFileTransferSend = "generic-file-transfer/pre-send",
-  PostFileTransferSend = "generic-file-transfer/post-send",
   ChunkFileTransferSend = "generic-file-transfer/chunk-sent",
   ClearFileTransferSendError = "generic-file-transfer/clear-send-errors",
   PreFileTransferGet = "generic-file-transfer/pre-get",
