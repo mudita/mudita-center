@@ -167,7 +167,6 @@ export class DeviceProtocol {
     this.devicesMap.set(device.id, device)
     const result = await device.connect()
     const data = device.toSerializableObject()
-    this.devicesMap.set(device.id, device)
     if (result.ok) {
       callRenderer(DeviceProtocolMainEvent.DeviceConnected, data)
     } else {

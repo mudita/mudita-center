@@ -43,7 +43,6 @@ export class UsbDeviceDetectionObserver implements Observer {
 
   private async detectDeviceStateChange(): Promise<void> {
     const attachedDevices = await this.deviceProtocol.getAttachedDevices()
-    console.log(attachedDevices)
     const detachedDevicePaths = Array.from(
       this.previousAttachedDevicePaths
     ).filter(
