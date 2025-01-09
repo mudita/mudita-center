@@ -3,36 +3,36 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Subview, IconType } from "generic-view/utils"
+import { ComponentGenerator, IconType } from "generic-view/utils"
 
-export const generateDeleteFiles = (
-  id: string,
-  entitiesType: string
-): Subview => {
+export const generateDeleteFiles: ComponentGenerator<{
+  id: string
+  entityType: string
+}> = (key, { id, entityType }) => {
   return {
-    [`${id}deleteModal`]: {
+    [`deleteModal${key}${id}`]: {
       component: "modal",
       config: {
         size: "small",
       },
       childrenKeys: [
-        `${id}deleteModalIcon`,
-        `${id}deleteModalTitle`,
-        `${id}deleteModalContent`,
-        `${id}deleteModalButtons`,
+        `deleteModalIcon${key}${id}`,
+        `deleteModalTitle${key}${id}`,
+        `deleteModalContent${key}${id}`,
+        `deleteModalButtons${key}${id}`,
       ],
     },
-    [`${id}deleteModalIcon`]: {
+    [`deleteModalIcon${key}${id}`]: {
       component: "modal.titleIcon",
       config: {
         type: IconType.Exclamation,
       },
     },
-    [`${id}deleteModalTitle`]: {
+    [`deleteModalTitle${key}${id}`]: {
       component: "modal.title",
-      childrenKeys: [`${id}deleteModalTitleText`],
+      childrenKeys: [`deleteModalTitleText${key}${id}`],
     },
-    [`${id}deleteModalTitleText`]: {
+    [`deleteModalTitleText${key}${id}`]: {
       component: "format-message",
       config: {
         messageTemplate:
@@ -40,7 +40,7 @@ export const generateDeleteFiles = (
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `${id}fileListForm`,
+        formKey: `fileListForm${key}${id}`,
         fields: [
           {
             providerField: "selectedItems",
@@ -50,11 +50,11 @@ export const generateDeleteFiles = (
         ],
       },
     },
-    [`${id}deleteModalContent`]: {
+    [`deleteModalContent${key}${id}`]: {
       component: "p1-component",
-      childrenKeys: [`${id}deleteModalContentText`],
+      childrenKeys: [`deleteModalContentText${key}${id}`],
     },
-    [`${id}deleteModalContentText`]: {
+    [`deleteModalContentText${key}${id}`]: {
       component: "format-message",
       config: {
         messageTemplate:
@@ -62,7 +62,7 @@ export const generateDeleteFiles = (
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `${id}fileListForm`,
+        formKey: `fileListForm${key}${id}`,
         fields: [
           {
             providerField: "selectedItems",
@@ -72,37 +72,37 @@ export const generateDeleteFiles = (
         ],
       },
     },
-    [`${id}deleteModalButtons`]: {
+    [`deleteModalButtons${key}${id}`]: {
       component: "modal.buttons",
       childrenKeys: [
-        `${id}deleteModalCancelButton`,
-        `${id}deleteModalConfirmButton`,
+        `deleteModalCancelButton${key}${id}`,
+        `deleteModalConfirmButton${key}${id}`,
       ],
     },
-    [`${id}deleteModalCancelButton`]: {
+    [`deleteModalCancelButton${key}${id}`]: {
       component: "button-secondary",
       config: {
         text: "Cancel",
         actions: [
           {
             type: "close-modal",
-            modalKey: `${id}deleteModal`,
+            modalKey: `deleteModal${key}${id}`,
           },
         ],
       },
     },
-    [`${id}deleteModalConfirmButton`]: {
+    [`deleteModalConfirmButton${key}${id}`]: {
       component: "button-primary",
       config: {
         actions: [
           {
             type: "open-modal",
-            modalKey: `${id}deleteProgressModal`,
+            modalKey: `deleteProgressModal${key}${id}`,
             domain: "files-delete",
           },
           {
             type: "entities-delete",
-            entitiesType,
+            entitiesType: entityType,
             ids: [],
             postActions: {
               success: [
@@ -112,14 +112,14 @@ export const generateDeleteFiles = (
                 },
                 {
                   type: "open-toast",
-                  toastKey: `${id}filesDeletedToast`,
+                  toastKey: `filesDeletedToast${key}${id}`,
                 },
               ],
             },
           },
         ],
       },
-      childrenKeys: [`${id}deleteModalConfirmButtonText`],
+      childrenKeys: [`deleteModalConfirmButtonText${key}${id}`],
       layout: {
         flexLayout: {
           direction: "row",
@@ -128,7 +128,7 @@ export const generateDeleteFiles = (
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `${id}fileListForm`,
+        formKey: `fileListForm${key}${id}`,
         fields: [
           {
             providerField: "selectedItems",
@@ -137,7 +137,7 @@ export const generateDeleteFiles = (
         ],
       },
     },
-    [`${id}deleteModalConfirmButtonText`]: {
+    [`deleteModalConfirmButtonText${key}${id}`]: {
       component: "format-message",
       config: {
         messageTemplate:
@@ -145,7 +145,7 @@ export const generateDeleteFiles = (
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `${id}fileListForm`,
+        formKey: `fileListForm${key}${id}`,
         fields: [
           {
             providerField: "selectedItems",
@@ -155,24 +155,24 @@ export const generateDeleteFiles = (
         ],
       },
     },
-    [`${id}filesDeletedToast`]: {
+    [`filesDeletedToast${key}${id}`]: {
       component: "toast",
       childrenKeys: [
-        `${id}filesDeletedToastIcon`,
-        `${id}filesDeletedToastText`,
+        `filesDeletedToastIcon${key}${id}`,
+        `filesDeletedToastText${key}${id}`,
       ],
     },
-    [`${id}filesDeletedToastIcon`]: {
+    [`filesDeletedToastIcon${key}${id}`]: {
       component: "icon",
       config: {
         type: IconType.Success,
       },
     },
-    [`${id}filesDeletedToastText`]: {
+    [`filesDeletedToastText${key}${id}`]: {
       component: "p1-component",
-      childrenKeys: [`${id}filesDeletedToastMessage`],
+      childrenKeys: [`filesDeletedToastMessage${key}${id}`],
     },
-    [`${id}filesDeletedToastMessage`]: {
+    [`filesDeletedToastMessage${key}${id}`]: {
       component: "format-message",
       config: {
         messageTemplate:
@@ -180,7 +180,7 @@ export const generateDeleteFiles = (
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `${id}fileListForm`,
+        formKey: `fileListForm${key}${id}`,
         fields: [
           {
             providerField: "selectedItems",
@@ -190,23 +190,23 @@ export const generateDeleteFiles = (
         ],
       },
     },
-    [`${id}deleteProgressModal`]: {
+    [`deleteProgressModal${key}${id}`]: {
       component: "modal",
       config: {
         size: "small",
       },
       childrenKeys: [
-        `${id}deleteProgressModalIcon`,
-        `${id}deleteProgressModalTitle`,
+        `deleteProgressModalIcon${key}${id}`,
+        `deleteProgressModalTitle${key}${id}`,
       ],
     },
-    [`${id}deleteProgressModalIcon`]: {
+    [`deleteProgressModalIcon${key}${id}`]: {
       component: "modal.titleIcon",
       config: {
         type: IconType.SpinnerDark,
       },
     },
-    [`${id}deleteProgressModalTitle`]: {
+    [`deleteProgressModalTitle${key}${id}`]: {
       component: "modal.title",
       config: {
         text: "Deleting, please wait...",

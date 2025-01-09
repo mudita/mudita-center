@@ -3,60 +3,53 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IconType, Subview } from "generic-view/utils"
+import { ComponentGenerator, IconType, Subview } from "generic-view/utils"
 import { color } from "./color"
+import { McFileManagerConfig } from "generic-view/models"
 
 interface CategoryListItemConfig {
   id: string
-  name: string
   markerColor: (typeof color)[keyof typeof color]
   entitiesType: string
   icon: IconType
 }
 
+// TODO: Implement getting this data from the API
 const CONFIG_MAP: Record<string, Omit<CategoryListItemConfig, "id">> = {
   audioFiles: {
-    name: "Music",
     icon: IconType.MusicNote,
     markerColor: color.audioFiles,
     entitiesType: "audioFiles",
   },
   imageFiles: {
-    name: "Photos",
     icon: IconType.PhotoCatalog,
     markerColor: color.imageFiles,
     entitiesType: "imageFiles",
   },
   ebookFiles: {
-    name: "E-books",
     icon: IconType.Book,
     markerColor: color.ebookFiles,
     entitiesType: "ebookFiles",
   },
   applicationFiles: {
-    name: "Apps",
     icon: IconType.Grid,
     markerColor: color.applicationFiles,
     entitiesType: "applicationFiles",
   },
 }
 
-function getConfigByEntityType(
+const getConfigByEntityType = (
   entityType: string,
   id: string
-): CategoryListItemConfig | undefined {
+): CategoryListItemConfig | undefined => {
   return { ...CONFIG_MAP[entityType], id } || undefined
 }
 
-const generateFileCategoryListItem = ({
-  id,
-  name,
-  icon,
-  markerColor,
-  entitiesType,
-}: CategoryListItemConfig): Subview => {
+const generateFileCategoryListItem: ComponentGenerator<
+  CategoryListItemConfig & { directoryPath: string; label: string }
+> = (key, { id, label, icon, markerColor, entitiesType, directoryPath }) => {
   return {
-    [`${id}CategoryListItem`]: {
+    [`categoryListItem${key}${id}`]: {
       component: "list-item",
       layout: {
         padding: "12px 32px 10px 32px",
@@ -69,30 +62,31 @@ const generateFileCategoryListItem = ({
         actions: [
           {
             type: "form-set-field",
-            key: "activeFileCategoryId",
-            value: id,
+            formKey: `storageForm${key}`,
+            key: "activeCategory",
+            value: directoryPath,
           },
         ],
       },
       dataProvider: {
         source: "form-fields",
-        formKey: "fileManagerForm",
+        formKey: `storageForm${key}`,
         fields: [
           {
-            providerField: "activeFileCategoryId",
+            providerField: "activeCategory",
             componentField: "config.active",
             condition: "eq",
-            value: id,
+            value: directoryPath,
           },
         ],
       },
       childrenKeys: [
-        `${id}CategoryListItemName`,
-        `${id}CategoryListItemStorage`,
-        `${id}CategoryListItemCountTextWrapper`,
+        `categoryListItemName${key}${id}`,
+        `categoryListItemStorage${key}${id}`,
+        `categoryListItemCountTextWrapper${key}${id}`,
       ],
     },
-    [`${id}CategoryListItemName`]: {
+    [`categoryListItemName${key}${id}`]: {
       component: "block-plain",
       layout: {
         flexLayout: {
@@ -101,11 +95,11 @@ const generateFileCategoryListItem = ({
         },
       },
       childrenKeys: [
-        `${id}CategoryListItemNameIcon`,
-        `${id}CategoryListItemNameText`,
+        `categoryListItemNameIcon${key}${id}`,
+        `categoryListItemNameText${key}${id}`,
       ],
     },
-    [`${id}CategoryListItemNameIcon`]: {
+    [`categoryListItemNameIcon${key}${id}`]: {
       component: "icon",
       layout: {
         width: "24px",
@@ -121,13 +115,13 @@ const generateFileCategoryListItem = ({
         type: icon,
       },
     },
-    [`${id}CategoryListItemNameText`]: {
+    [`categoryListItemNameText${key}${id}`]: {
       component: "h4-component",
       config: {
-        text: name,
+        text: label,
       },
     },
-    [`${id}CategoryListItemStorage`]: {
+    [`categoryListItemStorage${key}${id}`]: {
       component: "block-plain",
       layout: {
         gridPlacement: {
@@ -143,11 +137,11 @@ const generateFileCategoryListItem = ({
         },
       },
       childrenKeys: [
-        `${id}CategoryListItemStorageText`,
-        `${id}CategoryListItemStorageMarker`,
+        `categoryListItemStorageText${key}${id}`,
+        `categoryListItemStorageMarker${key}${id}`,
       ],
     },
-    [`${id}CategoryListItemStorageText`]: {
+    [`categoryListItemStorageText${key}${id}`]: {
       component: "p3-component",
       config: {
         text: "0",
@@ -158,7 +152,7 @@ const generateFileCategoryListItem = ({
         },
       },
     },
-    [`${id}CategoryListItemStorageMarker`]: {
+    [`categoryListItemStorageMarker${key}${id}`]: {
       component: "marker",
       layout: {
         width: "10px",
@@ -168,7 +162,7 @@ const generateFileCategoryListItem = ({
         color: markerColor,
       },
     },
-    [`${id}CategoryListItemCountTextWrapper`]: {
+    [`categoryListItemCountTextWrapper${key}${id}`]: {
       component: "p3-component",
       layout: {
         margin: "8px 0 0 0",
@@ -179,9 +173,9 @@ const generateFileCategoryListItem = ({
           height: 1,
         },
       },
-      childrenKeys: [`${id}CategoryListItemCountText`],
+      childrenKeys: [`categoryListItemCountText${key}${id}`],
     },
-    [`${id}CategoryListItemCountText`]: {
+    [`categoryListItemCountText${key}${id}`]: {
       component: "format-message",
       config: {
         messageTemplate:
@@ -201,9 +195,15 @@ const generateFileCategoryListItem = ({
   }
 }
 
-export const generateFileCategoryList = (entitiesTypes: string[]): Subview => {
+export const generateFileCategoryListKey = (key: string) => {
+  return `fileCategoryList${key}`
+}
+
+export const generateFileCategoryList: ComponentGenerator<
+  McFileManagerConfig["categories"]
+> = (key, categories) => {
   const initialListConfig: Subview = {
-    fileCategoryList: {
+    [generateFileCategoryListKey(key)]: {
       component: "block-plain",
       layout: {
         flexLayout: {
@@ -214,16 +214,21 @@ export const generateFileCategoryList = (entitiesTypes: string[]): Subview => {
     },
   }
 
-  return entitiesTypes.reduce((previousValue, entitiesType, index) => {
-    const config = getConfigByEntityType(entitiesType, String(index))
+  return categories.reduce((previousValue, category, index) => {
+    const config = getConfigByEntityType(category.entityType, String(index))
     if (!config) {
       return previousValue
     }
-    const categoryItemKey = `${config.id}CategoryListItem`
-    previousValue["fileCategoryList"]?.childrenKeys?.push(categoryItemKey)
+    const categoryItemKey = `categoryListItem${key}${config.id}`
+    previousValue[
+      generateFileCategoryListKey(key) as keyof typeof previousValue
+    ]?.childrenKeys?.push(categoryItemKey)
     previousValue = {
       ...previousValue,
-      ...generateFileCategoryListItem(config),
+      ...generateFileCategoryListItem(key, {
+        ...config,
+        ...category,
+      }),
     }
     return previousValue
   }, initialListConfig)

@@ -12,30 +12,41 @@ const storageCategoryValidator = z.object({
 })
 
 export const mcFileManagerData = z.object({
-  storageInformation: z.array(
-    z.object({
-      storageType: z.string(),
-      totalSpaceBytes: z.number().nonnegative(),
-      usedSpaceBytes: z.number().nonnegative(),
-      // TODO: `totalSpaceString` & `usedSpaceString` to pass-through after https://appnroll.atlassian.net/browse/CP-3275
-      totalSpaceString: z.string(),
-      usedSpaceString: z.string(),
-      categoriesSpaceInformation: z.record(
-        z.string(),
-        storageCategoryValidator
-      ),
-    })
-  ),
+  storageInformation: z
+    .array(
+      z.object({
+        path: z.string().endsWith("/"),
+        totalSpaceBytes: z.number().nonnegative(),
+        usedSpaceBytes: z.number().nonnegative(),
+        // TODO: `totalSpaceString` & `usedSpaceString` to pass-through after https://appnroll.atlassian.net/browse/CP-3275
+        totalSpaceString: z.string(),
+        usedSpaceString: z.string(),
+        categoriesSpaceInformation: z.record(
+          z.string(),
+          storageCategoryValidator
+        ),
+      })
+    )
+    .min(1),
 })
 
 export type McFileManagerData = z.infer<typeof mcFileManagerData>
 
 const configValidator = z.object({
-  entities: z
+  storages: z
     .array(
       z.object({
+        label: z.string(),
+        path: z.string().endsWith("/"),
+      })
+    )
+    .min(1),
+  categories: z
+    .array(
+      z.object({
+        label: z.string(),
+        directoryPath: z.string().endsWith("/"),
         entityType: z.string(),
-        storagePath: z.string(),
         supportedFileTypes: z.array(z.string()),
       })
     )

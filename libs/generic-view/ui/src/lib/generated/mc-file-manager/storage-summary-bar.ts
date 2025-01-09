@@ -3,10 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Subview } from "generic-view/utils"
+import { ComponentGenerator } from "generic-view/utils"
 import { SegmentBarItem } from "generic-view/models"
 import { color } from "./color"
 
+// TODO: Implement getting this data from the API
 export const SEGMENTS_CONFIG_MAP: Record<string, SegmentBarItem> = {
   audioFiles: {
     color: color.audioFiles,
@@ -46,7 +47,14 @@ export const SEGMENTS_CONFIG_MAP: Record<string, SegmentBarItem> = {
   },
 }
 
-export const generateStorageSummaryBar = (entityTypes: string[]): Subview => {
+export const generateStorageSummaryBarKey = (key: string) => {
+  return `storageSummaryBar${key}`
+}
+
+export const generateStorageSummaryBar: ComponentGenerator<string[]> = (
+  key,
+  entityTypes
+) => {
   const dynamicSegments: SegmentBarItem[] = entityTypes.map(
     (entityType) => SEGMENTS_CONFIG_MAP[entityType]
   )
@@ -56,7 +64,7 @@ export const generateStorageSummaryBar = (entityTypes: string[]): Subview => {
   ]
 
   return {
-    storageSummaryBar: {
+    [generateStorageSummaryBarKey(key)]: {
       component: "segment-bar",
       layout: {
         margin: "4px 0 0 0",

@@ -3,19 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Subview } from "generic-view/utils"
+import { ComponentGenerator, Subview } from "generic-view/utils"
 
 interface OtherFilesListItemConfig {
   id: string
   name: string
 }
 
-const generateOtherFilesListItem = ({
-  id,
-  name,
-}: OtherFilesListItemConfig): Subview => {
+const generateOtherFilesListItem: ComponentGenerator<
+  OtherFilesListItemConfig
+> = (key, { id, name }: OtherFilesListItemConfig): Subview => {
   return {
-    [`${id}otherFilesListItem`]: {
+    [`otherFilesListItem${key}${id}`]: {
       component: "block-plain",
       layout: {
         flexLayout: {
@@ -23,11 +22,11 @@ const generateOtherFilesListItem = ({
         },
       },
       childrenKeys: [
-        `${id}otherFilesListItemMarker`,
-        `${id}otherFilesListItemText`,
+        `otherFilesListItemMarker${key}${id}`,
+        `otherFilesListItemText${key}${id}`,
       ],
     },
-    [`${id}otherFilesListItemMarker`]: {
+    [`otherFilesListItemMarker${key}${id}`]: {
       component: "p5-component",
       layout: {
         margin: "0 6px",
@@ -37,7 +36,7 @@ const generateOtherFilesListItem = ({
         color: "grey1",
       },
     },
-    [`${id}otherFilesListItemText`]: {
+    [`otherFilesListItemText${key}${id}`]: {
       component: "p5-component",
       config: {
         text: name,
@@ -47,13 +46,11 @@ const generateOtherFilesListItem = ({
   }
 }
 
-export const generateOtherFilesList = ({
-  configs,
-}: {
-  configs: OtherFilesListItemConfig[]
-}): Subview => {
+export const generateOtherFilesList: ComponentGenerator<
+  OtherFilesListItemConfig[]
+> = (key, configs): Subview => {
   const initialListConfig: Subview = {
-    otherFilesList: {
+    [`otherFilesList${key}`]: {
       component: "block-plain",
       layout: {
         padding: "6px 0",
@@ -66,11 +63,13 @@ export const generateOtherFilesList = ({
   }
 
   return configs.reduce((previousValue, config) => {
-    const categoryItemKey = `${config.id}otherFilesListItem`
-    previousValue["otherFilesList"]?.childrenKeys?.push(categoryItemKey)
+    const categoryItemKey = `otherFilesListItem${key}${config.id}`
+    previousValue[
+      `otherFilesList${key}` as keyof typeof previousValue
+    ]?.childrenKeys?.push(categoryItemKey)
     previousValue = {
       ...previousValue,
-      ...generateOtherFilesListItem(config),
+      ...generateOtherFilesListItem(key, config),
     }
     return previousValue
   }, initialListConfig)
