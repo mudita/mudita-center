@@ -30,13 +30,8 @@ export const mcFileManagerData = z.object({
 
 export type McFileManagerData = z.infer<typeof mcFileManagerData>
 
-// const configValidator = z.object({
-//   entityTypes: z.array(z.string()).min(1),
-// })
-
-
 const configValidator = z.object({
-  entityTypes: z
+  entities: z
     .array(
       z.object({
         entityType: z.string(),

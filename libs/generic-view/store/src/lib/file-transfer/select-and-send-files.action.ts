@@ -10,7 +10,6 @@ import { openFileRequest } from "system-utils/feature"
 import { sendFile } from "./send-file.action"
 import { selectActiveApiDeviceId } from "../selectors"
 import path from "node:path"
-import fs from "node:fs"
 import { isEmpty } from "lodash"
 import { createEntityDataAction } from "../entities/create-entity-data.action"
 
@@ -97,23 +96,21 @@ export const selectAndSendFilesAction = createAsyncThunk<
         "transferId" in sentFile.payload
       ) {
         if (entitiesType) {
-          const resp = await dispatch(
+          const fileEntity = await dispatch(
             createEntityDataAction({
               deviceId,
               entitiesType,
               data: {
                 filePath: storagePath + fileName,
-                fileName,
-                extension: "mp3",
-                fileSize: 90804,
-                fileType: "AUDIO",
-                mimeType: "audio/mpeg",
-                isInternal: true,
                 entityType: entitiesType,
               },
             })
           )
-          console.log(resp)
+          if (fileEntity.meta.requestStatus === "rejected") {
+            await onFileFail(file)
+          }
+          console.log(fileEntity.payload)
+          // TODO: add entity to a list
         }
       } else {
         await onFileFail(file)
@@ -121,8 +118,10 @@ export const selectAndSendFilesAction = createAsyncThunk<
     }
 
     if (isEmpty(failedFiles)) {
+      console.log("All files sent successfully")
       await onSuccess?.(openFileResult.data.map((file) => path.basename(file)))
     } else {
+      console.error("Some files failed to send", JSON.stringify(failedFiles))
       await onError?.(failedFiles)
     }
     return

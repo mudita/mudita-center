@@ -35,7 +35,7 @@ export const generateMcFileManagerView: ComponentGenerator<
         formOptions: {
           defaultValues: {
             activeFileCategoryId: "0",
-            fileCategoryIds: config.entityTypes.map((_, index) =>
+            fileCategoryIds: config.entities.map((_, index) =>
               index.toString()
             ),
           },
@@ -46,7 +46,7 @@ export const generateMcFileManagerView: ComponentGenerator<
     fileManagerLoader: {
       component: "entities-loader",
       config: {
-        entityTypes: config.entityTypes.map((entity) => entity.entityType),
+        entityTypes: config.entities.map((entity) => entity.entityType),
         text: "Loading, please wait...",
       },
       layout: {
@@ -160,10 +160,10 @@ export const generateMcFileManagerView: ComponentGenerator<
       },
     },
     ...generateStorageSummaryBar(
-      config.entityTypes.map((entity) => entity.entityType)
+      config.entities.map((entity) => entity.entityType)
     ),
     ...generateFileCategoryList(
-      config.entityTypes.map((entity) => entity.entityType)
+      config.entities.map((entity) => entity.entityType)
     ),
     fileCategoryOtherFilesItem: {
       component: "block-plain",
@@ -255,8 +255,6 @@ export const generateMcFileManagerView: ComponentGenerator<
         { id: "2", name: "Other" },
       ],
     }),
-    ...generateFileListWrapper(
-      config.entityTypes.map((entity) => entity.entityType)
-    ),
+    ...generateFileListWrapper(config.entities),
   }
 }

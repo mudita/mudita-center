@@ -5,6 +5,7 @@
 
 import { Subview, IconType } from "generic-view/utils"
 import { generateDeleteFiles } from "./delete-files"
+import { McFileManagerConfig } from "generic-view/models"
 
 interface FileListConfig {
   id: string
@@ -12,6 +13,7 @@ interface FileListConfig {
   entitiesType: string
   supportedFileTypes?: string[]
   storagePath?: string
+  internalStorage?: boolean
 }
 
 const CONFIG_MAP: Record<string, Omit<FileListConfig, "id">> = {
@@ -81,6 +83,7 @@ const generateFileList = ({
   entitiesType,
   storagePath,
   supportedFileTypes,
+  internalStorage = true,
 }: FileListConfig): Subview => {
   return {
     [`${id}fileListContainer`]: {
@@ -421,6 +424,12 @@ const generateFileList = ({
             sensitivity: "base",
           },
         ],
+        filters: [
+          {
+            field: "isInternal",
+            patterns: [internalStorage ? "/^true$/m" : "/^false$/m"],
+          },
+        ],
       },
       childrenKeys: [
         `${id}headerCellCheckbox`,
@@ -635,7 +644,9 @@ const generateFileList = ({
   }
 }
 
-export const generateFileListWrapper = (entitiesTypes: string[]): Subview => {
+export const generateFileListWrapper = (
+  entities: McFileManagerConfig["entities"]
+): Subview => {
   const initialListConfig: Subview = {
     fileListWrapper: {
       component: "block-plain",
@@ -649,8 +660,8 @@ export const generateFileListWrapper = (entitiesTypes: string[]): Subview => {
     },
   }
 
-  return entitiesTypes.reduce((previousValue, entitiesType, index) => {
-    const config = getConfigByEntityType(entitiesType, String(index))
+  return entities.reduce((previousValue, entity, index) => {
+    const config = getConfigByEntityType(entity.entityType, String(index))
     if (!config) {
       return previousValue
     }

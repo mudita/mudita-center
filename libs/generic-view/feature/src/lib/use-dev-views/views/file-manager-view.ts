@@ -10,7 +10,7 @@ export const fileManagerView: View = {
   main: {
     component: "mc-file-manager-view",
     config: {
-      entityTypes: [
+      entities: [
         {
           entityType: "audioFiles",
           storagePath: "/storage/emulated/0/Music/",
@@ -23,7 +23,7 @@ export const fileManagerView: View = {
         },
         {
           entityType: "ebookFiles",
-          storagePath: "/storage/emulated/0/Books/",
+          storagePath: "/storage/emulated/0/Documents/",
           supportedFileTypes: ["pdf", "epub"],
         },
         // {
