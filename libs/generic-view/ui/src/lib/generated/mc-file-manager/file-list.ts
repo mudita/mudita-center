@@ -334,7 +334,7 @@ const generateFileList: ComponentGenerator<
         actions: [
           {
             type: "file-upload",
-            storagePath: directoryPath,
+            storagePath: storagePath + directoryPath,
             fileTypes: supportedFileTypes,
             entitiesType: entityType,
           },
