@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { TypographyKey } from "generic-view/models"
-import { TypographyTestIds } from "e2e-test-ids"
 import React from "react"
-import { ThemeProps } from "styled-components"
+import { TypographyTestIds } from "e2e-test-ids"
+import { TypographyKey } from "generic-view/models"
 import { Theme } from "generic-view/theme"
+import { ThemeProps } from "styled-components"
 
 interface BaseTypographyConfig {
   as: React.ElementType
