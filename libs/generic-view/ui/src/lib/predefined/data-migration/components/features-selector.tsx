@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent, useCallback } from "react"
-import { H4 } from "../../../texts/headers"
+import { Typography } from "../../../typography"
 import styled from "styled-components"
 import { DataMigrationFeature } from "generic-view/models"
 import { Divider } from "../../../helpers/divider"
@@ -75,7 +75,7 @@ export const FeaturesSelector: FunctionComponent<Props> = ({ features }) => {
 
   return (
     <Wrapper>
-      <H4>{intl.formatMessage(messages.title)}</H4>
+      <Typography.H4>{intl.formatMessage(messages.title)}</Typography.H4>
       <AllCheckbox
         config={{
           name: "all-features",

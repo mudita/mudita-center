@@ -193,11 +193,7 @@ const generateFileList = ({
       ],
     },
     [`${id}fileListPanelHeaderWrapper`]: {
-      component: "h3-component",
-      childrenKeys: [`${id}fileListPanelHeader`],
-    },
-    [`${id}fileListPanelHeader`]: {
-      component: "format-message",
+      component: "typography.h3",
       config: {
         messageTemplate: `${name} {totalEntities, plural, =0 {} other { (#)}}`,
       },
@@ -280,11 +276,7 @@ const generateFileList = ({
       },
     },
     [`${id}selectedItemsCounter`]: {
-      component: "p4-component",
-      childrenKeys: [`${id}selectedItemsCounterText`],
-    },
-    [`${id}selectedItemsCounterText`]: {
-      component: "format-message",
+      component: "typography.p4",
       config: {
         messageTemplate:
           "{selectedItems} {selectedItems, plural, one {file} other {files}} selected",
@@ -333,7 +325,7 @@ const generateFileList = ({
       ],
     },
     [`${id}fileListEmptyStateHeader`]: {
-      component: "h4-component",
+      component: "typography.h4",
       layout: {
         margin: "0 0 8px 0",
       },
@@ -342,7 +334,7 @@ const generateFileList = ({
       },
     },
     [`${id}fileListEmptyStateDescription`]: {
-      component: "p3-component",
+      component: "typography.p3",
       layout: {
         margin: "0 auto 24px auto",
         width: "388px",
@@ -414,7 +406,7 @@ const generateFileList = ({
       childrenKeys: [`${id}headerCellNameText`],
     },
     [`${id}headerCellNameText`]: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         textTransform: "uppercase",
         text: "Name",
@@ -431,7 +423,7 @@ const generateFileList = ({
       childrenKeys: [`${id}headerCellTypeText`],
     },
     [`${id}headerCellTypeText`]: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         textTransform: "uppercase",
         text: "Type",
@@ -448,7 +440,7 @@ const generateFileList = ({
       childrenKeys: [`${id}headerCellSizeText`],
     },
     [`${id}headerCellSizeText`]: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         textTransform: "uppercase",
         text: "Size",
@@ -487,16 +479,10 @@ const generateFileList = ({
       childrenKeys: [`${id}contactCheckboxTooltipContentTextWrapper`],
     },
     [`${id}contactCheckboxTooltipContentTextWrapper`]: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         color: "grey1",
-      },
-      childrenKeys: [`${id}contactCheckboxTooltipContentText`],
-    },
-    [`${id}contactCheckboxTooltipContentText`]: {
-      component: "format-message",
-      config: {
-        messageTemplate: "Select",
+        text: "Select",
       },
     },
     [`${id}contactCheckbox`]: {
@@ -527,7 +513,7 @@ const generateFileList = ({
       childrenKeys: [`${id}columnNameText`],
     },
     [`${id}columnNameText`]: {
-      component: "p1-component",
+      component: "typography.p1",
       config: {
         color: "black",
       },
@@ -550,7 +536,7 @@ const generateFileList = ({
       childrenKeys: [`${id}columnTypeText`],
     },
     [`${id}columnTypeText`]: {
-      component: "p3-component",
+      component: "typography.p3",
       config: {
         color: "black",
         textTransform: "uppercase",
@@ -574,7 +560,7 @@ const generateFileList = ({
       childrenKeys: [`${id}columnSizeText`],
     },
     [`${id}columnSizeText`]: {
-      component: "p3-component",
+      component: "typography.p3",
       config: {
         color: "black",
         textTransform: "format-bytes",
