@@ -106,7 +106,6 @@ export class DeviceProtocol {
   }
 
   public async addDevice(port: PortInfo): Promise<void> {
-    console.log("===== addDevice =====")
     await this.mutex.runExclusive(async () => {
       await this.addDeviceTask(port)
     })
