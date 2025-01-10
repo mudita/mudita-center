@@ -6,6 +6,10 @@
 import { ComponentGenerator, IconType, Subview } from "generic-view/utils"
 import { generateDeleteFiles } from "./delete-files"
 import { McFileManagerConfig } from "generic-view/models"
+import {
+  generateFileUploadButton,
+  generateFileUploadButtonKey,
+} from "./file-upload-button"
 
 const generateFileList: ComponentGenerator<
   McFileManagerConfig["categories"][number] & {
@@ -196,8 +200,14 @@ const generateFileList: ComponentGenerator<
           },
         ],
       },
-      childrenKeys: [`fileListEmptyStateAddFileButton${key}${id}`],
+      childrenKeys: [generateFileUploadButtonKey(`${key}${id}`)],
     },
+    ...generateFileUploadButton(`${key}${id}`, {
+      directoryPath,
+      entityType,
+      storagePath,
+      supportedFileTypes,
+    }),
     [`fileListPanelSelectMode${key}${id}`]: {
       component: "conditional-renderer",
       childrenKeys: [`fileListPanelSelector${key}${id}`],
@@ -322,23 +332,6 @@ const generateFileList: ComponentGenerator<
       config: {
         text: "Add music files from your computer and they’ll transfer\nto your device automatically.",
         textAlign: "center",
-      },
-    },
-    [`fileListEmptyStateAddFileButton${key}${id}`]: {
-      component: "button-primary",
-      layout: {
-        width: "156px",
-      },
-      config: {
-        text: "Add file",
-        actions: [
-          {
-            type: "file-upload",
-            storagePath: storagePath + directoryPath,
-            fileTypes: supportedFileTypes,
-            entitiesType: entityType,
-          },
-        ],
       },
     },
     [`fileListEmptyTable${key}${id}`]: {

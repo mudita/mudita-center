@@ -121,47 +121,6 @@ export const entityActionValidator = z.union([
 
 export type EntityAction = z.infer<typeof entityActionValidator>
 
-const filePostActionsValidator = z
-  .array(
-    z.union([
-      modalActionValidator,
-      navigateActionValidator,
-      customActionValidator,
-      formActionValidator,
-      toastActionValidator,
-      entityActionValidator,
-    ])
-  )
-  .optional()
-
-export const fileActionValidator = z.union([
-  z.object({
-    type: z.literal("file-upload"),
-    storagePath: z.string(),
-    typesName: z.string().optional(),
-    fileTypes: z.array(z.string()),
-    entitiesType: z.string().optional(),
-    postActions: z
-      .object({
-        success: filePostActionsValidator,
-        failure: filePostActionsValidator,
-      })
-      .optional(),
-  }),
-  z.object({
-    type: z.literal("file-download"),
-    storagePath: z.string(),
-    postActions: z
-      .object({
-        success: filePostActionsValidator,
-        failure: filePostActionsValidator,
-      })
-      .optional(),
-  }),
-])
-
-export type FileAction = z.infer<typeof fileActionValidator>
-
 export const buttonActionsValidator = z.array(
   z.union([
     modalActionValidator,
@@ -170,7 +129,6 @@ export const buttonActionsValidator = z.array(
     formActionValidator,
     entityActionValidator,
     toastActionValidator,
-    fileActionValidator,
   ])
 )
 

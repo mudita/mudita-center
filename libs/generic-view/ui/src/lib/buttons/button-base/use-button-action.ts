@@ -13,7 +13,6 @@ import {
   openToastAction,
   replaceModal,
   selectActiveApiDeviceId,
-  selectAndSendFilesAction,
   useScreenTitle,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
@@ -51,7 +50,6 @@ interface RunActionsProviders {
 const runActions = (actions?: ButtonActions) => {
   return async (providers: RunActionsProviders) => {
     if (!actions) return
-
     const {
       dispatch,
       navigate,
@@ -141,16 +139,6 @@ const runActions = (actions?: ButtonActions) => {
               onError: () => {
                 return runActions(action.postActions?.failure)(providers)
               },
-            })
-          )
-          break
-        case "file-upload":
-          await dispatch(
-            selectAndSendFilesAction({
-              storagePath: action.storagePath,
-              typesName: action.typesName,
-              fileTypes: action.fileTypes,
-              entitiesType: action.entitiesType,
             })
           )
           break

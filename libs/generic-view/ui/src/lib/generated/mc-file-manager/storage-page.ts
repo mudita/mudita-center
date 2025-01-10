@@ -52,6 +52,10 @@ export const generateStoragePage: ComponentGenerator<
             categories: config.categories.map(
               (category) => category.directoryPath
             ),
+            upload: {
+              current: "",
+              all: [],
+            },
           },
         },
       },
