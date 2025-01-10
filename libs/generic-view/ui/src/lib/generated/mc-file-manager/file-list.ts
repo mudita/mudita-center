@@ -175,6 +175,7 @@ const generateFileList: ComponentGenerator<
       entityType,
       storagePath,
       supportedFileTypes,
+      label,
     }),
     [`${key}${id}fileListPanelSelectMode`]: {
       component: "conditional-renderer",

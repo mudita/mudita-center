@@ -23,10 +23,12 @@ import {
   lastBackupDate,
   mcContactsSearchResults,
   mcDataMigration,
+  mcFilesManagerUpload,
   overviewOsVersion,
   selectionManager,
 } from "generic-view/models"
 import { McContactsSearchResult } from "./contacts/mc-contacts-search-result"
+import { FilesManagerUpload } from "./files-manager-upload/files-manager-upload"
 
 export const predefinedComponents = {
   [overviewOsVersion.key]: OverviewOsVersion,
@@ -40,4 +42,5 @@ export const predefinedComponents = {
   [incomingFeatureInfo.key]: IncomingFeatureInfo,
   [selectionManager.key]: SelectionManager,
   [mcContactsSearchResults.key]: McContactsSearchResult,
+  [mcFilesManagerUpload.key]: FilesManagerUpload,
 }

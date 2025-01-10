@@ -1014,6 +1014,7 @@
   "module.genericViews.dataMigration.failure.partialChangesDescription": "Some data transferred, but you'll need to check Kompakt to see what's missing.",
   "module.genericViews.dataMigration.failure.notEnoughSpace": "Your phone’s storage is full.",
   "module.genericViews.dataMigration.failure.closeButtonLabel": "Close",
+  "module.genericViews.filesManager.upload.progress.modalTitle": "{filesCount, plural, one {Adding file...} other {Adding files...}}",
   "module.recoveryMode.harmony.title": "Recovery Mode",
   "module.recoveryMode.harmony.header": "Harmony is Ready for Recovery",
   "module.recoveryMode.harmony.description": "Please read the instructions carefully. Not following the instructions may void the\nwarranty!",

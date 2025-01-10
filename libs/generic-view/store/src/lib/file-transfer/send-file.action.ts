@@ -26,9 +26,15 @@ interface SendFileError {
   error: AppError<AppErrorType, SendFileErrorPayload>
 }
 
+export type SendFileResponse = Awaited<ReturnType<ReturnType<typeof sendFile>>>
+
 export const sendFile = createAsyncThunk<
   { transferId: number },
-  | { deviceId: DeviceId; filePath: string; targetPath: string }
+  | {
+      deviceId: DeviceId
+      filePath: string
+      targetPath: string
+    }
   | { deviceId: DeviceId; transferId: number; chunksCount: number },
   { state: ReduxRootState; rejectValue: SendFileError | undefined }
 >(
