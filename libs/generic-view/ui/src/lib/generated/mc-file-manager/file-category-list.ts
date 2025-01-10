@@ -46,10 +46,17 @@ const getConfigByEntityType = (
 }
 
 const generateFileCategoryListItem: ComponentGenerator<
-  CategoryListItemConfig & { directoryPath: string; label: string }
-> = (key, { id, label, icon, markerColor, entitiesType, directoryPath }) => {
+  CategoryListItemConfig & {
+    storagePath: string
+    directoryPath: string
+    label: string
+  }
+> = (
+  key,
+  { id, label, icon, markerColor, entitiesType, storagePath, directoryPath }
+) => {
   return {
-    [`categoryListItem${key}${id}`]: {
+    [`${key}${id}categoryListItem`]: {
       component: "list-item",
       layout: {
         padding: "12px 32px 10px 32px",
@@ -62,7 +69,7 @@ const generateFileCategoryListItem: ComponentGenerator<
         actions: [
           {
             type: "form-set-field",
-            formKey: `storageForm${key}`,
+            formKey: `${key}storageForm`,
             key: "activeCategory",
             value: directoryPath,
           },
@@ -70,7 +77,7 @@ const generateFileCategoryListItem: ComponentGenerator<
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `storageForm${key}`,
+        formKey: `${key}storageForm`,
         fields: [
           {
             providerField: "activeCategory",
@@ -81,12 +88,12 @@ const generateFileCategoryListItem: ComponentGenerator<
         ],
       },
       childrenKeys: [
-        `categoryListItemName${key}${id}`,
-        `categoryListItemStorage${key}${id}`,
-        `categoryListItemCountTextWrapper${key}${id}`,
+        `${key}${id}categoryListItemName`,
+        `${key}${id}categoryListItemStorage`,
+        `${key}${id}categoryListItemCountTextWrapper`,
       ],
     },
-    [`categoryListItemName${key}${id}`]: {
+    [`${key}${id}categoryListItemName`]: {
       component: "block-plain",
       layout: {
         flexLayout: {
@@ -95,11 +102,11 @@ const generateFileCategoryListItem: ComponentGenerator<
         },
       },
       childrenKeys: [
-        `categoryListItemNameIcon${key}${id}`,
-        `categoryListItemNameText${key}${id}`,
+        `${key}${id}categoryListItemNameIcon`,
+        `${key}${id}categoryListItemNameText`,
       ],
     },
-    [`categoryListItemNameIcon${key}${id}`]: {
+    [`${key}${id}categoryListItemNameIcon`]: {
       component: "icon",
       layout: {
         width: "24px",
@@ -115,13 +122,13 @@ const generateFileCategoryListItem: ComponentGenerator<
         type: icon,
       },
     },
-    [`categoryListItemNameText${key}${id}`]: {
+    [`${key}${id}categoryListItemNameText`]: {
       component: "h4-component",
       config: {
         text: label,
       },
     },
-    [`categoryListItemStorage${key}${id}`]: {
+    [`${key}${id}categoryListItemStorage`]: {
       component: "block-plain",
       layout: {
         gridPlacement: {
@@ -137,11 +144,11 @@ const generateFileCategoryListItem: ComponentGenerator<
         },
       },
       childrenKeys: [
-        `categoryListItemStorageText${key}${id}`,
-        `categoryListItemStorageMarker${key}${id}`,
+        `${key}${id}categoryListItemStorageText`,
+        `${key}${id}categoryListItemStorageMarker`,
       ],
     },
-    [`categoryListItemStorageText${key}${id}`]: {
+    [`${key}${id}categoryListItemStorageText`]: {
       component: "p3-component",
       config: {
         text: "0",
@@ -152,7 +159,7 @@ const generateFileCategoryListItem: ComponentGenerator<
         },
       },
     },
-    [`categoryListItemStorageMarker${key}${id}`]: {
+    [`${key}${id}categoryListItemStorageMarker`]: {
       component: "marker",
       layout: {
         width: "10px",
@@ -162,7 +169,7 @@ const generateFileCategoryListItem: ComponentGenerator<
         color: markerColor,
       },
     },
-    [`categoryListItemCountTextWrapper${key}${id}`]: {
+    [`${key}${id}categoryListItemCountTextWrapper`]: {
       component: "p3-component",
       layout: {
         margin: "8px 0 0 0",
@@ -173,21 +180,27 @@ const generateFileCategoryListItem: ComponentGenerator<
           height: 1,
         },
       },
-      childrenKeys: [`categoryListItemCountText${key}${id}`],
+      childrenKeys: [`${key}${id}categoryListItemCountText`],
     },
-    [`categoryListItemCountText${key}${id}`]: {
+    [`${key}${id}categoryListItemCountText`]: {
       component: "format-message",
       config: {
         messageTemplate:
           "{totalEntities} {totalEntities, plural, one {file} other {files}}",
       },
       dataProvider: {
-        source: "entities-metadata",
+        source: "entities-array",
         entitiesType,
+        filters: [
+          {
+            field: "filePath",
+            patterns: [`/^${storagePath}/m`],
+          },
+        ],
         fields: [
           {
-            providerField: "totalEntities",
             componentField: "data.fields.totalEntities",
+            modifier: "length",
           },
         ],
       },
@@ -196,12 +209,13 @@ const generateFileCategoryListItem: ComponentGenerator<
 }
 
 export const generateFileCategoryListKey = (key: string) => {
-  return `fileCategoryList${key}`
+  return `${key}fileCategoryList`
 }
 
-export const generateFileCategoryList: ComponentGenerator<
-  McFileManagerConfig["categories"]
-> = (key, categories) => {
+export const generateFileCategoryList: ComponentGenerator<{
+  categories: McFileManagerConfig["categories"]
+  storage: McFileManagerConfig["storages"][number]
+}> = (key, { categories, storage }) => {
   const initialListConfig: Subview = {
     [generateFileCategoryListKey(key)]: {
       component: "block-plain",
@@ -219,7 +233,7 @@ export const generateFileCategoryList: ComponentGenerator<
     if (!config) {
       return previousValue
     }
-    const categoryItemKey = `categoryListItem${key}${config.id}`
+    const categoryItemKey = `${key}${config.id}categoryListItem`
     previousValue[
       generateFileCategoryListKey(key) as keyof typeof previousValue
     ]?.childrenKeys?.push(categoryItemKey)
@@ -228,6 +242,7 @@ export const generateFileCategoryList: ComponentGenerator<
       ...generateFileCategoryListItem(key, {
         ...config,
         ...category,
+        storagePath: storage.path,
       }),
     }
     return previousValue

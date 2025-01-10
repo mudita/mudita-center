@@ -7,7 +7,7 @@ import { ComponentGenerator, IconType } from "generic-view/utils"
 import { McFileManagerConfig } from "generic-view/models"
 
 export const generateFileUploadButtonKey = (key: string) =>
-  `filesUploadButton${key}`
+  `${key}filesUploadButton`
 
 export const generateFileUploadButton: ComponentGenerator<
   Pick<
@@ -28,7 +28,7 @@ export const generateFileUploadButton: ComponentGenerator<
         actions: [
           // {
           //   type: "open-modal",
-          //   modalKey: `filesUploadModal${key}`,
+          //   modalKey: `${key}filesUploadModal`,
           // },
           // {
           //   type: "file-upload",
@@ -39,38 +39,38 @@ export const generateFileUploadButton: ComponentGenerator<
         ],
       },
     },
-    [`filesUploadModal${key}`]: {
+    [`${key}filesUploadModal`]: {
       component: "modal",
       config: {
         size: "small",
       },
       childrenKeys: [
-        `filesUploadModalIcon${key}`,
-        `filesUploadModalTitle${key}`,
-        `filesUploadModalContent${key}`,
+        `${key}filesUploadModalIcon`,
+        `${key}filesUploadModalTitle`,
+        `${key}filesUploadModalContent`,
       ],
     },
-    [`filesUploadModalIcon${key}`]: {
+    [`${key}filesUploadModalIcon`]: {
       component: "modal.titleIcon",
       config: {
         type: IconType.Spinner,
       },
     },
-    [`filesUploadModalTitle${key}`]: {
+    [`${key}filesUploadModalTitle`]: {
       component: "modal.title",
-      childrenKeys: [`filesUploadModalTitleText${key}`],
+      childrenKeys: [`${key}filesUploadModalTitleText`],
     },
-    [`filesUploadModalTitleText${key}`]: {
+    [`${key}filesUploadModalTitleText`]: {
       component: "format-message",
       config: {
         messageTemplate: "Adding file",
       },
     },
-    [`filesUploadModalContent${key}`]: {
+    [`${key}filesUploadModalContent`]: {
       component: "p1-component",
-      childrenKeys: [`filesUploadModalContentText${key}`],
+      childrenKeys: [`${key}filesUploadModalContentText`],
     },
-    [`filesUploadModalContentText${key}`]: {
+    [`${key}filesUploadModalContentText`]: {
       component: "format-message",
       config: {
         messageTemplate: "Uploading...",

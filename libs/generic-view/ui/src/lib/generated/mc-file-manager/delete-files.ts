@@ -10,29 +10,29 @@ export const generateDeleteFiles: ComponentGenerator<{
   entityType: string
 }> = (key, { id, entityType }) => {
   return {
-    [`deleteModal${key}${id}`]: {
+    [`${key}${id}deleteModal`]: {
       component: "modal",
       config: {
         size: "small",
       },
       childrenKeys: [
-        `deleteModalIcon${key}${id}`,
-        `deleteModalTitle${key}${id}`,
-        `deleteModalContent${key}${id}`,
-        `deleteModalButtons${key}${id}`,
+        `${key}${id}deleteModalIcon`,
+        `${key}${id}deleteModalTitle`,
+        `${key}${id}deleteModalContent`,
+        `${key}${id}deleteModalButtons`,
       ],
     },
-    [`deleteModalIcon${key}${id}`]: {
+    [`${key}${id}deleteModalIcon`]: {
       component: "modal.titleIcon",
       config: {
         type: IconType.Exclamation,
       },
     },
-    [`deleteModalTitle${key}${id}`]: {
+    [`${key}${id}deleteModalTitle`]: {
       component: "modal.title",
-      childrenKeys: [`deleteModalTitleText${key}${id}`],
+      childrenKeys: [`${key}${id}deleteModalTitleText`],
     },
-    [`deleteModalTitleText${key}${id}`]: {
+    [`${key}${id}deleteModalTitleText`]: {
       component: "format-message",
       config: {
         messageTemplate:
@@ -40,7 +40,7 @@ export const generateDeleteFiles: ComponentGenerator<{
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `fileListForm${key}${id}`,
+        formKey: `${key}${id}fileListForm`,
         fields: [
           {
             providerField: "selectedItems",
@@ -50,11 +50,11 @@ export const generateDeleteFiles: ComponentGenerator<{
         ],
       },
     },
-    [`deleteModalContent${key}${id}`]: {
+    [`${key}${id}deleteModalContent`]: {
       component: "p1-component",
-      childrenKeys: [`deleteModalContentText${key}${id}`],
+      childrenKeys: [`${key}${id}deleteModalContentText`],
     },
-    [`deleteModalContentText${key}${id}`]: {
+    [`${key}${id}deleteModalContentText`]: {
       component: "format-message",
       config: {
         messageTemplate:
@@ -62,7 +62,7 @@ export const generateDeleteFiles: ComponentGenerator<{
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `fileListForm${key}${id}`,
+        formKey: `${key}${id}fileListForm`,
         fields: [
           {
             providerField: "selectedItems",
@@ -72,32 +72,32 @@ export const generateDeleteFiles: ComponentGenerator<{
         ],
       },
     },
-    [`deleteModalButtons${key}${id}`]: {
+    [`${key}${id}deleteModalButtons`]: {
       component: "modal.buttons",
       childrenKeys: [
-        `deleteModalCancelButton${key}${id}`,
-        `deleteModalConfirmButton${key}${id}`,
+        `${key}${id}deleteModalCancelButton`,
+        `${key}${id}deleteModalConfirmButton`,
       ],
     },
-    [`deleteModalCancelButton${key}${id}`]: {
+    [`${key}${id}deleteModalCancelButton`]: {
       component: "button-secondary",
       config: {
         text: "Cancel",
         actions: [
           {
             type: "close-modal",
-            modalKey: `deleteModal${key}${id}`,
+            modalKey: `${key}${id}deleteModal`,
           },
         ],
       },
     },
-    [`deleteModalConfirmButton${key}${id}`]: {
+    [`${key}${id}deleteModalConfirmButton`]: {
       component: "button-primary",
       config: {
         actions: [
           {
             type: "open-modal",
-            modalKey: `deleteProgressModal${key}${id}`,
+            modalKey: `${key}${id}deleteProgressModal`,
             domain: "files-delete",
           },
           {
@@ -112,14 +112,14 @@ export const generateDeleteFiles: ComponentGenerator<{
                 },
                 {
                   type: "open-toast",
-                  toastKey: `filesDeletedToast${key}${id}`,
+                  toastKey: `${key}${id}filesDeletedToast`,
                 },
               ],
             },
           },
         ],
       },
-      childrenKeys: [`deleteModalConfirmButtonText${key}${id}`],
+      childrenKeys: [`${key}${id}deleteModalConfirmButtonText`],
       layout: {
         flexLayout: {
           direction: "row",
@@ -128,7 +128,7 @@ export const generateDeleteFiles: ComponentGenerator<{
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `fileListForm${key}${id}`,
+        formKey: `${key}${id}fileListForm`,
         fields: [
           {
             providerField: "selectedItems",
@@ -137,7 +137,7 @@ export const generateDeleteFiles: ComponentGenerator<{
         ],
       },
     },
-    [`deleteModalConfirmButtonText${key}${id}`]: {
+    [`${key}${id}deleteModalConfirmButtonText`]: {
       component: "format-message",
       config: {
         messageTemplate:
@@ -145,7 +145,7 @@ export const generateDeleteFiles: ComponentGenerator<{
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `fileListForm${key}${id}`,
+        formKey: `${key}${id}fileListForm`,
         fields: [
           {
             providerField: "selectedItems",
@@ -155,24 +155,24 @@ export const generateDeleteFiles: ComponentGenerator<{
         ],
       },
     },
-    [`filesDeletedToast${key}${id}`]: {
+    [`${key}${id}filesDeletedToast`]: {
       component: "toast",
       childrenKeys: [
-        `filesDeletedToastIcon${key}${id}`,
-        `filesDeletedToastText${key}${id}`,
+        `${key}${id}filesDeletedToastIcon`,
+        `${key}${id}filesDeletedToastText`,
       ],
     },
-    [`filesDeletedToastIcon${key}${id}`]: {
+    [`${key}${id}filesDeletedToastIcon`]: {
       component: "icon",
       config: {
         type: IconType.Success,
       },
     },
-    [`filesDeletedToastText${key}${id}`]: {
+    [`${key}${id}filesDeletedToastText`]: {
       component: "p1-component",
-      childrenKeys: [`filesDeletedToastMessage${key}${id}`],
+      childrenKeys: [`${key}${id}filesDeletedToastMessage`],
     },
-    [`filesDeletedToastMessage${key}${id}`]: {
+    [`${key}${id}filesDeletedToastMessage`]: {
       component: "format-message",
       config: {
         messageTemplate:
@@ -180,7 +180,7 @@ export const generateDeleteFiles: ComponentGenerator<{
       },
       dataProvider: {
         source: "form-fields",
-        formKey: `fileListForm${key}${id}`,
+        formKey: `${key}${id}fileListForm`,
         fields: [
           {
             providerField: "selectedItems",
@@ -190,23 +190,23 @@ export const generateDeleteFiles: ComponentGenerator<{
         ],
       },
     },
-    [`deleteProgressModal${key}${id}`]: {
+    [`${key}${id}deleteProgressModal`]: {
       component: "modal",
       config: {
         size: "small",
       },
       childrenKeys: [
-        `deleteProgressModalIcon${key}${id}`,
-        `deleteProgressModalTitle${key}${id}`,
+        `${key}${id}deleteProgressModalIcon`,
+        `${key}${id}deleteProgressModalTitle`,
       ],
     },
-    [`deleteProgressModalIcon${key}${id}`]: {
+    [`${key}${id}deleteProgressModalIcon`]: {
       component: "modal.titleIcon",
       config: {
         type: IconType.SpinnerDark,
       },
     },
-    [`deleteProgressModalTitle${key}${id}`]: {
+    [`${key}${id}deleteProgressModalTitle`]: {
       component: "modal.title",
       config: {
         text: "Deleting, please wait...",

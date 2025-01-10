@@ -14,7 +14,7 @@ const generateOtherFilesListItem: ComponentGenerator<
   OtherFilesListItemConfig
 > = (key, { id, name }: OtherFilesListItemConfig): Subview => {
   return {
-    [`otherFilesListItem${key}${id}`]: {
+    [`${key}${id}otherFilesListItem`]: {
       component: "block-plain",
       layout: {
         flexLayout: {
@@ -22,11 +22,11 @@ const generateOtherFilesListItem: ComponentGenerator<
         },
       },
       childrenKeys: [
-        `otherFilesListItemMarker${key}${id}`,
-        `otherFilesListItemText${key}${id}`,
+        `${key}${id}otherFilesListItemMarker`,
+        `${key}${id}otherFilesListItemText`,
       ],
     },
-    [`otherFilesListItemMarker${key}${id}`]: {
+    [`${key}${id}otherFilesListItemMarker`]: {
       component: "p5-component",
       layout: {
         margin: "0 6px",
@@ -36,7 +36,7 @@ const generateOtherFilesListItem: ComponentGenerator<
         color: "grey1",
       },
     },
-    [`otherFilesListItemText${key}${id}`]: {
+    [`${key}${id}otherFilesListItemText`]: {
       component: "p5-component",
       config: {
         text: name,
@@ -50,7 +50,7 @@ export const generateOtherFilesList: ComponentGenerator<
   OtherFilesListItemConfig[]
 > = (key, configs): Subview => {
   const initialListConfig: Subview = {
-    [`otherFilesList${key}`]: {
+    [`${key}otherFilesList`]: {
       component: "block-plain",
       layout: {
         padding: "6px 0",
@@ -63,9 +63,9 @@ export const generateOtherFilesList: ComponentGenerator<
   }
 
   return configs.reduce((previousValue, config) => {
-    const categoryItemKey = `otherFilesListItem${key}${config.id}`
+    const categoryItemKey = `${key}${config.id}otherFilesListItem`
     previousValue[
-      `otherFilesList${key}` as keyof typeof previousValue
+      `${key}otherFilesList` as keyof typeof previousValue
     ]?.childrenKeys?.push(categoryItemKey)
     previousValue = {
       ...previousValue,

@@ -150,6 +150,15 @@ const entitiesArraySchema = z.object({
   filters: filtersSchema,
   search: searchSchema,
   limit: z.number().nonnegative().optional(),
+  fields: z
+    .array(
+      z.union([
+        z.object({ componentField: z.string() }).strict(),
+        enhancedFieldSchema,
+        superEnhancedFieldSchema,
+      ])
+    )
+    .optional(),
 })
 export type EntitiesArrayConfig = z.infer<typeof entitiesArraySchema>
 

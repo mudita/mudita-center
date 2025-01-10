@@ -35,7 +35,7 @@ const generateCategoryListItemStorageTexts = (
       return prevState
     }
 
-    prevState[`categoryListItemStorageText${key}${id}`] = {
+    prevState[`${key}${id}categoryListItemStorageText`] = {
       text: categoriesSpaceInformation.spaceUsedBytes,
     }
 
@@ -55,7 +55,7 @@ const generateOtherFilesSpaceInformation = (
   }
 
   return {
-    [`fileCategoryOtherFilesItemNameSize${key}`]: {
+    [`${key}fileCategoryOtherFilesItemNameSize`]: {
       // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
       text: `(${formatBytes(otherFilesSpaceInformation.spaceUsedBytes, {
         minUnit: "KB",
@@ -111,15 +111,15 @@ const generateStorageSummary = (
 
   return {
     // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
-    [`storageSummaryUsedText${key}`]: {
+    [`${key}storageSummaryUsedText`]: {
       text: `Used: ${formatBytes(storageInformation.usedSpaceBytes, {
         minUnit: "KB",
       })}`,
     },
-    [`storageSummaryFreeText${key}`]: {
+    [`${key}storageSummaryFreeText`]: {
       text: freeTotalSpaceBytes,
     },
-    [`storageSummaryBar${key}`]: {
+    [`${key}storageSummaryBar`]: {
       segments,
     },
   }

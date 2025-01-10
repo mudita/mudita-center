@@ -16,7 +16,7 @@ import {
 import { generateOtherFilesList } from "./other-files-list"
 import { generateFileListWrapper } from "./file-list"
 
-export const generateStoragePageKey = (key: string) => `storage${key}`
+export const generateStoragePageKey = (key: string) => `${key}storage`
 
 export const generateStoragePage: ComponentGenerator<
   {
@@ -25,7 +25,7 @@ export const generateStoragePage: ComponentGenerator<
   },
   NonNullable<Subview>
 > = (key, config) => {
-  const storageFormKey = `storageForm${key}`
+  const storageFormKey = `${key}storageForm`
   return {
     [generateStoragePageKey(key)]: {
       component: "conditional-renderer",
@@ -59,18 +59,18 @@ export const generateStoragePage: ComponentGenerator<
           },
         },
       },
-      childrenKeys: [`fileManagerWrapper${key}`],
+      childrenKeys: [`${key}fileManagerWrapper`],
     },
-    [`fileManagerWrapper${key}`]: {
+    [`${key}fileManagerWrapper`]: {
       component: "block-plain",
       layout: {
         flexLayout: {
           direction: "row",
         },
       },
-      childrenKeys: [`fileCategoriesContainer${key}`, `fileListWrapper${key}`],
+      childrenKeys: [`${key}fileCategoriesContainer`, `${key}fileListWrapper`],
     },
-    [`fileCategoriesContainer${key}`]: {
+    [`${key}fileCategoriesContainer`]: {
       component: "block-plain",
       layout: {
         flexPlacement: {
@@ -78,12 +78,12 @@ export const generateStoragePage: ComponentGenerator<
         },
       },
       childrenKeys: [
-        `storageSummary${key}`,
+        `${key}storageSummary`,
         generateFileCategoryListKey(key),
-        `fileCategoryOtherFilesItem${key}`,
+        `${key}fileCategoryOtherFilesItem`,
       ],
     },
-    [`storageSummary${key}`]: {
+    [`${key}storageSummary`]: {
       component: "block-plain",
       layout: {
         padding: "32px 32px 64px 32px",
@@ -92,11 +92,11 @@ export const generateStoragePage: ComponentGenerator<
         },
       },
       childrenKeys: [
-        `storageSummaryHeader${key}`,
-        `storageSummaryContent${key}`,
+        `${key}storageSummaryHeader`,
+        `${key}storageSummaryContent`,
       ],
     },
-    [`storageSummaryHeader${key}`]: {
+    [`${key}storageSummaryHeader`]: {
       component: "h3-component",
       layout: {
         margin: "0 0 24px 0",
@@ -105,7 +105,7 @@ export const generateStoragePage: ComponentGenerator<
         text: "Phone storage",
       },
     },
-    [`storageSummaryContent${key}`]: {
+    [`${key}storageSummaryContent`]: {
       component: "block-plain",
       layout: {
         gridLayout: {
@@ -114,12 +114,12 @@ export const generateStoragePage: ComponentGenerator<
         },
       },
       childrenKeys: [
-        `storageSummaryUsedText${key}`,
-        `storageSummaryFreeText${key}`,
+        `${key}storageSummaryUsedText`,
+        `${key}storageSummaryFreeText`,
         generateStorageSummaryBarKey(key),
       ],
     },
-    [`storageSummaryUsedText${key}`]: {
+    [`${key}storageSummaryUsedText`]: {
       component: "p3-component",
       config: {
         // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
@@ -135,7 +135,7 @@ export const generateStoragePage: ComponentGenerator<
         },
       },
     },
-    [`storageSummaryFreeText${key}`]: {
+    [`${key}storageSummaryFreeText`]: {
       component: "p3-component",
       config: {
         text: "0",
@@ -162,8 +162,8 @@ export const generateStoragePage: ComponentGenerator<
       key,
       config.categories.map((category) => category.entityType)
     ),
-    ...generateFileCategoryList(key, config.categories),
-    [`fileCategoryOtherFilesItem${key}`]: {
+    ...generateFileCategoryList(key, config),
+    [`${key}fileCategoryOtherFilesItem`]: {
       component: "block-plain",
       layout: {
         padding: "28px 32px 10px 32px",
@@ -174,11 +174,11 @@ export const generateStoragePage: ComponentGenerator<
         },
       },
       childrenKeys: [
-        `fileCategoryOtherFilesItemName${key}`,
-        `fileCategoryOtherFilesItemInfoIconWrapper${key}`,
+        `${key}fileCategoryOtherFilesItemName`,
+        `${key}fileCategoryOtherFilesItemInfoIconWrapper`,
       ],
     },
-    [`fileCategoryOtherFilesItemName${key}`]: {
+    [`${key}fileCategoryOtherFilesItemName`]: {
       component: "block-plain",
       layout: {
         flexLayout: {
@@ -187,17 +187,17 @@ export const generateStoragePage: ComponentGenerator<
         },
       },
       childrenKeys: [
-        `fileCategoryOtherFilesItemNameText${key}`,
-        `fileCategoryOtherFilesItemNameSize${key}`,
+        `${key}fileCategoryOtherFilesItemNameText`,
+        `${key}fileCategoryOtherFilesItemNameSize`,
       ],
     },
-    [`fileCategoryOtherFilesItemNameText${key}`]: {
+    [`${key}fileCategoryOtherFilesItemNameText`]: {
       component: "h4-component",
       config: {
         text: "Other files",
       },
     },
-    [`fileCategoryOtherFilesItemNameSize${key}`]: {
+    [`${key}fileCategoryOtherFilesItemNameSize`]: {
       component: "p3-component",
       layout: {
         margin: "0 0 0 3px",
@@ -208,11 +208,11 @@ export const generateStoragePage: ComponentGenerator<
         color: "black",
       },
     },
-    [`fileCategoryOtherFilesItemInfoIconWrapper${key}`]: {
+    [`${key}fileCategoryOtherFilesItemInfoIconWrapper`]: {
       component: "block-plain",
-      childrenKeys: [`fileCategoryOtherFilesItemInfoIconTooltip${key}`],
+      childrenKeys: [`${key}fileCategoryOtherFilesItemInfoIconTooltip`],
     },
-    [`fileCategoryOtherFilesItemInfoIconTooltip${key}`]: {
+    [`${key}fileCategoryOtherFilesItemInfoIconTooltip`]: {
       component: "tooltip",
       config: {
         offset: {
@@ -222,15 +222,15 @@ export const generateStoragePage: ComponentGenerator<
         placement: "bottom-left",
       },
       childrenKeys: [
-        `fileCategoryOtherFilesItemInfoIconTooltipAnchor${key}`,
-        `fileCategoryOtherFilesItemInfoIconTooltipContent${key}`,
+        `${key}fileCategoryOtherFilesItemInfoIconTooltipAnchor`,
+        `${key}fileCategoryOtherFilesItemInfoIconTooltipContent`,
       ],
     },
-    [`fileCategoryOtherFilesItemInfoIconTooltipAnchor${key}`]: {
+    [`${key}fileCategoryOtherFilesItemInfoIconTooltipAnchor`]: {
       component: "tooltip.anchor",
-      childrenKeys: [`fileCategoryOtherFilesItemInfoIcon${key}`],
+      childrenKeys: [`${key}fileCategoryOtherFilesItemInfoIcon`],
     },
-    [`fileCategoryOtherFilesItemInfoIcon${key}`]: {
+    [`${key}fileCategoryOtherFilesItemInfoIcon`]: {
       component: "icon",
       layout: {
         width: "25px",
@@ -242,9 +242,9 @@ export const generateStoragePage: ComponentGenerator<
         size: "small",
       },
     },
-    [`fileCategoryOtherFilesItemInfoIconTooltipContent${key}`]: {
+    [`${key}fileCategoryOtherFilesItemInfoIconTooltipContent`]: {
       component: "tooltip.content",
-      childrenKeys: [`otherFilesList${key}`],
+      childrenKeys: [`${key}otherFilesList`],
     },
     // TODO: Implement getting this data from the API
     ...generateOtherFilesList(key, [

@@ -48,7 +48,7 @@ export const SEGMENTS_CONFIG_MAP: Record<string, SegmentBarItem> = {
 }
 
 export const generateStorageSummaryBarKey = (key: string) => {
-  return `storageSummaryBar${key}`
+  return `${key}storageSummaryBar`
 }
 
 export const generateStorageSummaryBar: ComponentGenerator<string[]> = (
