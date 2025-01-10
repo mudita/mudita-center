@@ -6,6 +6,7 @@
 import { ComponentGenerator, IconType, Subview } from "generic-view/utils"
 import { color } from "./color"
 import { McFileManagerConfig } from "generic-view/models"
+import { fileCounterDataProvider } from "./file-counter-data-provider"
 
 interface CategoryListItemConfig {
   id: string
@@ -188,22 +189,7 @@ const generateFileCategoryListItem: ComponentGenerator<
         messageTemplate:
           "{totalEntities} {totalEntities, plural, one {file} other {files}}",
       },
-      dataProvider: {
-        source: "entities-array",
-        entitiesType,
-        filters: [
-          {
-            field: "filePath",
-            patterns: [`/^${storagePath}/m`],
-          },
-        ],
-        fields: [
-          {
-            componentField: "data.fields.totalEntities",
-            modifier: "length",
-          },
-        ],
-      },
+      ...fileCounterDataProvider(entitiesType, storagePath),
     },
   }
 }

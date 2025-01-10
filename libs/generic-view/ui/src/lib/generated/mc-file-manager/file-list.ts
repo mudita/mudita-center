@@ -10,6 +10,7 @@ import {
   generateFileUploadButton,
   generateFileUploadButtonKey,
 } from "./file-upload-button"
+import { fileCounterDataProvider } from "./file-counter-data-provider"
 
 const generateFileList: ComponentGenerator<
   McFileManagerConfig["categories"][number] & {
@@ -78,19 +79,11 @@ const generateFileList: ComponentGenerator<
     },
     [`${key}${id}fileListEmptyStateWrapper`]: {
       component: "conditional-renderer",
-      dataProvider: {
-        source: "entities-metadata",
-        entitiesType: entityType,
-        fields: [
-          {
-            modifier: "length",
-            providerField: "totalEntities",
-            componentField: "data.render",
-            condition: "eq",
-            value: 0,
-          },
-        ],
-      },
+      ...fileCounterDataProvider(entityType, storagePath, {
+        componentField: "data.render",
+        condition: "eq",
+        value: 0,
+      }),
       childrenKeys: [
         `${key}${id}fileListPanel`,
         `${key}${id}fileListEmptyState`,
@@ -98,19 +91,11 @@ const generateFileList: ComponentGenerator<
     },
     [`${key}${id}fileListEmptyTableWrapper`]: {
       component: "conditional-renderer",
-      dataProvider: {
-        source: "entities-metadata",
-        entitiesType: entityType,
-        fields: [
-          {
-            modifier: "length",
-            providerField: "totalEntities",
-            componentField: "data.render",
-            condition: "gt",
-            value: 0,
-          },
-        ],
-      },
+      ...fileCounterDataProvider(entityType, storagePath, {
+        componentField: "data.render",
+        condition: "gt",
+        value: 0,
+      }),
       childrenKeys: [
         `${key}${id}fileListPanelManager`,
         `${key}${id}fileListEmptyTable`,
@@ -174,32 +159,15 @@ const generateFileList: ComponentGenerator<
       config: {
         messageTemplate: `${label} {totalEntities, plural, =0 {} other { (#)}}`,
       },
-      dataProvider: {
-        source: "entities-metadata",
-        entitiesType: entityType,
-        fields: [
-          {
-            providerField: "totalEntities",
-            componentField: "data.fields.totalEntities",
-          },
-        ],
-      },
+      ...fileCounterDataProvider(entityType, storagePath),
     },
     [`${key}${id}fileListEmptyStateAddFileButtonWrapper`]: {
       component: "conditional-renderer",
-      dataProvider: {
-        source: "entities-metadata",
-        entitiesType: entityType,
-        fields: [
-          {
-            modifier: "length",
-            providerField: "totalEntities",
-            componentField: "data.render",
-            condition: "gt",
-            value: 0,
-          },
-        ],
-      },
+      ...fileCounterDataProvider(entityType, storagePath, {
+        componentField: "data.render",
+        condition: "gt",
+        value: 0,
+      }),
       childrenKeys: [generateFileUploadButtonKey(`${key}${id}`)],
     },
     ...generateFileUploadButton(`${key}${id}`, {
