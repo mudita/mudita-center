@@ -151,10 +151,10 @@ const generateFileList: ComponentGenerator<
       ],
     },
     [`${key}${id}fileListPanelHeaderWrapper`]: {
-      component: "h3-component",
-      childrenKeys: [`${key}${id}fileListPanelHeader`],
+      component: "typography.h3",
+      childrenKeys: [`${key}${id}fileListPanelHeaderText`],
     },
-    [`${key}${id}fileListPanelHeader`]: {
+    [`${key}${id}fileListPanelHeaderText`]: {
       component: "format-message",
       config: {
         messageTemplate: `${label} {totalEntities, plural, =0 {} other { (#)}}`,
@@ -227,11 +227,7 @@ const generateFileList: ComponentGenerator<
       },
     },
     [`${key}${id}selectedItemsCounter`]: {
-      component: "p4-component",
-      childrenKeys: [`${key}${id}selectedItemsCounterText`],
-    },
-    [`${key}${id}selectedItemsCounterText`]: {
-      component: "format-message",
+      component: "typography.p4",
       config: {
         messageTemplate:
           "{selectedItems} {selectedItems, plural, one {file} other {files}} selected",
@@ -283,7 +279,7 @@ const generateFileList: ComponentGenerator<
       ],
     },
     [`${key}${id}fileListEmptyStateHeader`]: {
-      component: "h4-component",
+      component: "typography.h4",
       layout: {
         margin: "0 0 8px 0",
       },
@@ -292,13 +288,13 @@ const generateFileList: ComponentGenerator<
       },
     },
     [`${key}${id}fileListEmptyStateDescription`]: {
-      component: "p3-component",
+      component: "typography.p3",
       layout: {
         margin: "0 auto 24px auto",
         width: "388px",
       },
       config: {
-        text: "Add music files from your computer and they’ll transfer\nto your device automatically.",
+        text: "Add music files from your computer and they’ll transfer to your device automatically.",
         textAlign: "center",
       },
     },
@@ -360,7 +356,7 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [`${key}${id}headerCellNameText`],
     },
     [`${key}${id}headerCellNameText`]: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         textTransform: "uppercase",
         text: "Name",
@@ -377,7 +373,7 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [`${key}${id}headerCellTypeText`],
     },
     [`${key}${id}headerCellTypeText`]: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         textTransform: "uppercase",
         text: "Type",
@@ -394,7 +390,7 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [`${key}${id}headerCellSizeText`],
     },
     [`${key}${id}headerCellSizeText`]: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         textTransform: "uppercase",
         text: "Size",
@@ -433,16 +429,10 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [`${key}${id}contactCheckboxTooltipContentTextWrapper`],
     },
     [`${key}${id}contactCheckboxTooltipContentTextWrapper`]: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         color: "grey1",
-      },
-      childrenKeys: [`${key}${id}contactCheckboxTooltipContentText`],
-    },
-    [`${key}${id}contactCheckboxTooltipContentText`]: {
-      component: "format-message",
-      config: {
-        messageTemplate: "Select",
+        text: "Select",
       },
     },
     [`${key}${id}contactCheckbox`]: {
@@ -473,7 +463,7 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [`${key}${id}columnNameText`],
     },
     [`${key}${id}columnNameText`]: {
-      component: "p1-component",
+      component: "typography.p1",
       config: {
         color: "black",
       },
@@ -496,7 +486,7 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [`${key}${id}columnTypeText`],
     },
     [`${key}${id}columnTypeText`]: {
-      component: "p3-component",
+      component: "typography.p3",
       config: {
         color: "black",
         textTransform: "uppercase",
@@ -520,7 +510,7 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [`${key}${id}columnSizeText`],
     },
     [`${key}${id}columnSizeText`]: {
-      component: "p3-component",
+      component: "typography.p3",
       config: {
         color: "black",
         textTransform: "format-bytes",

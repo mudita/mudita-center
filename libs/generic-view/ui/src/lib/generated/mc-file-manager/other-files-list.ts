@@ -27,7 +27,7 @@ const generateOtherFilesListItem: ComponentGenerator<
       ],
     },
     [`${key}${id}otherFilesListItemMarker`]: {
-      component: "p5-component",
+      component: "typography.p5",
       layout: {
         margin: "0 6px",
       },
@@ -37,7 +37,7 @@ const generateOtherFilesListItem: ComponentGenerator<
       },
     },
     [`${key}${id}otherFilesListItemText`]: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         text: name,
         color: "grey1",

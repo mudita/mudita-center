@@ -10,7 +10,7 @@ import { ArticlesList } from "./articles-list"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectCurrentSubcategory, selectHelpAssets } from "help/store"
-import { H5 } from "generic-view/ui"
+import { Typography } from "generic-view/ui"
 import { HelpTestId } from "../test-ids"
 
 interface Props {
@@ -52,6 +52,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 1.4rem;
 `
+
+const H5 = styled(Typography.H5)``
 
 const Title = styled(H5)`
   display: flex;

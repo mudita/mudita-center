@@ -40,14 +40,6 @@ import { tooltipAnchor } from "./lib/tooltip-anchor"
 import { overviewOsVersion } from "./lib/overview-os-version"
 import { tooltipContent } from "./lib/tooltip-content"
 import { aboutDataBox } from "./lib/about-data-box"
-import { h3Component, h4Component, h5Component } from "./lib/headers"
-import {
-  p1Component,
-  p2Component,
-  p3Component,
-  p4Component,
-  p5Component,
-} from "./lib/paragraphs"
 import { lastBackupDate } from "./lib/last-backup-date"
 import { listItem } from "./lib/list-item"
 import { marker } from "./lib/marker"
@@ -71,6 +63,7 @@ import { appPortal } from "./lib/app-portal"
 import { buttonPlain } from "./lib/button-plain"
 import { highlightText } from "./lib/highlight-text"
 import { mcContactsSearchResults } from "./lib/mc-contacts-search-results"
+import { TypographyMap } from "./lib/typography"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -137,6 +130,7 @@ export * from "./lib/selection-manager"
 export * from "./lib/app-portal"
 export * from "./lib/highlight-text"
 export * from "./lib/mc-contacts-search-results"
+export * from "./lib/typography"
 
 export default {
   [blockBox.key]: blockBox,
@@ -175,14 +169,6 @@ export default {
   [tooltip.key]: tooltip,
   [tooltipAnchor.key]: tooltipAnchor,
   [tooltipContent.key]: tooltipContent,
-  [h3Component.key]: h3Component,
-  [h4Component.key]: h4Component,
-  [h5Component.key]: h5Component,
-  [p1Component.key]: p1Component,
-  [p2Component.key]: p2Component,
-  [p3Component.key]: p3Component,
-  [p4Component.key]: p4Component,
-  [p5Component.key]: p5Component,
   [overviewOsVersion.key]: overviewOsVersion,
   [aboutDataBox.key]: aboutDataBox,
   [lastBackupDate.key]: lastBackupDate,
@@ -208,4 +194,5 @@ export default {
   [appPortal.key]: appPortal,
   [highlightText.key]: highlightText,
   [mcContactsSearchResults.key]: mcContactsSearchResults,
+  ...TypographyMap,
 } as const

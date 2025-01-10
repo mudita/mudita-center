@@ -97,7 +97,7 @@ export const generateStoragePage: ComponentGenerator<
       ],
     },
     [`${key}storageSummaryHeader`]: {
-      component: "h3-component",
+      component: "typography.h3",
       layout: {
         margin: "0 0 24px 0",
       },
@@ -120,7 +120,7 @@ export const generateStoragePage: ComponentGenerator<
       ],
     },
     [`${key}storageSummaryUsedText`]: {
-      component: "p3-component",
+      component: "typography.p3",
       config: {
         // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
         text: "Used: 0 KB",
@@ -136,7 +136,7 @@ export const generateStoragePage: ComponentGenerator<
       },
     },
     [`${key}storageSummaryFreeText`]: {
-      component: "p3-component",
+      component: "typography.p3",
       config: {
         text: "0",
         color: "grey2",
@@ -192,13 +192,13 @@ export const generateStoragePage: ComponentGenerator<
       ],
     },
     [`${key}fileCategoryOtherFilesItemNameText`]: {
-      component: "h4-component",
+      component: "typography.h4",
       config: {
         text: "Other files",
       },
     },
     [`${key}fileCategoryOtherFilesItemNameSize`]: {
-      component: "p3-component",
+      component: "typography.p3",
       layout: {
         margin: "0 0 0 3px",
       },

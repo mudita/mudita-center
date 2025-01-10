@@ -10,7 +10,7 @@ import {
   segmentBarItemData,
 } from "generic-view/models"
 import { View } from "generic-view/utils"
-import { formatBytes } from "../../texts/format-bytes"
+import { formatBytes } from "../../typography/format-bytes"
 import { SEGMENTS_CONFIG_MAP } from "./storage-summary-bar"
 
 type StorageInformation = McFileManagerData["storageInformation"][number]

@@ -8,7 +8,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { H4, P1 } from "generic-view/ui"
+import { Typography } from "generic-view/ui"
 import { useParams } from "react-router"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -55,10 +55,10 @@ export const ArticleWarning: FunctionComponent = () => {
         />
       </svg>
       <Content>
-        <H4>{intl.formatMessage(messages.warning)}</H4>
-        <P1 data-testid={HelpTestId.ArticleWarning}>
+        <Typography.H4>{intl.formatMessage(messages.warning)}</Typography.H4>
+        <Typography.P1 data-testid={HelpTestId.ArticleWarning}>
           {article.warningMessage}
-        </P1>
+        </Typography.P1>
       </Content>
     </Wrapper>
   )

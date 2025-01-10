@@ -124,7 +124,7 @@ const generateFileCategoryListItem: ComponentGenerator<
       },
     },
     [`${key}${id}categoryListItemNameText`]: {
-      component: "h4-component",
+      component: "typography.h4",
       config: {
         text: label,
       },
@@ -150,7 +150,7 @@ const generateFileCategoryListItem: ComponentGenerator<
       ],
     },
     [`${key}${id}categoryListItemStorageText`]: {
-      component: "p3-component",
+      component: "typography.p3",
       config: {
         text: "0",
         color: "black",
@@ -171,7 +171,7 @@ const generateFileCategoryListItem: ComponentGenerator<
       },
     },
     [`${key}${id}categoryListItemCountTextWrapper`]: {
-      component: "p3-component",
+      component: "typography.p3",
       layout: {
         margin: "8px 0 0 0",
         gridPlacement: {
@@ -181,9 +181,9 @@ const generateFileCategoryListItem: ComponentGenerator<
           height: 1,
         },
       },
-      childrenKeys: [`${key}${id}categoryListItemCountText`],
+      childrenKeys: [`${key}${id}CategoryListItemCountText`],
     },
-    [`${key}${id}categoryListItemCountText`]: {
+    [`${key}${id}CategoryListItemCountText`]: {
       component: "format-message",
       config: {
         messageTemplate:

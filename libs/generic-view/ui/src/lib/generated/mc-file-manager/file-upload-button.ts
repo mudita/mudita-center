@@ -67,11 +67,7 @@ export const generateFileUploadButton: ComponentGenerator<
       },
     },
     [`${key}filesUploadModalContent`]: {
-      component: "p1-component",
-      childrenKeys: [`${key}filesUploadModalContentText`],
-    },
-    [`${key}filesUploadModalContentText`]: {
-      component: "format-message",
+      component: "typography.p1",
       config: {
         messageTemplate: "Uploading...",
       },

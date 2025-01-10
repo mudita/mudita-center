@@ -7,7 +7,7 @@ import React from "react"
 import styled from "styled-components"
 import { BaseGenericComponent } from "generic-view/utils"
 import { Tooltip } from "../interactive/tooltip/tooltip"
-import { P5 } from "../texts/paragraphs"
+import { Typography } from "../typography"
 import { ComputedSegmentBarItem } from "./compute-segment-bar-items.helper"
 
 interface SegmentBarItemProps extends ComputedSegmentBarItem {
@@ -34,7 +34,7 @@ export const SegmentBarItem: BaseGenericComponent<
     {...props}
   >
     <Tooltip.Content>
-      <P5 $color={"grey1"}>{label}</P5>
+      <Typography.P5 config={{ color: "grey1" }}>{label}</Typography.P5>
     </Tooltip.Content>
     <Tooltip.Anchor />
   </TooltipStyled>

@@ -5,8 +5,7 @@
 
 import React, { FunctionComponent } from "react"
 import styled, { css } from "styled-components"
-import { H4, H5 } from "../../../texts/headers"
-import { P3 } from "../../../texts/paragraphs"
+import { Typography } from "../../../typography"
 import { ButtonPrimary } from "../../../buttons/button-primary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -35,8 +34,10 @@ export const DeviceCard: FunctionComponent<
       </Image>
       <Info>
         <H4>{name}</H4>
-        <P3>{intl.formatMessage(messages.serialNumber)}</P3>
-        <H5>{serialNumber}</H5>
+        <Typography.P3>
+          {intl.formatMessage(messages.serialNumber)}
+        </Typography.P3>
+        <Typography.H5>{serialNumber}</Typography.H5>
       </Info>
       <SelectButton
         config={{
@@ -94,6 +95,8 @@ export const Image = styled.div`
     object-fit: contain;
   }
 `
+
+const H4 = styled(Typography.H4)``
 
 export const Info = styled.div`
   grid-area: info;

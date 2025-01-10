@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DefaultTheme } from "styled-components"
 import { color } from "./color"
 import { fontSize } from "./font-size"
 import { radius } from "./radius"
@@ -19,4 +20,11 @@ export const theme = {
   fontWeight,
 } as const
 
-export type Theme = typeof theme
+export interface Theme extends DefaultTheme {
+  color: typeof color
+  radius: typeof radius
+  space: typeof space
+  fontSize: typeof fontSize
+  lineHeight: typeof lineHeight
+  fontWeight: typeof fontWeight
+}
