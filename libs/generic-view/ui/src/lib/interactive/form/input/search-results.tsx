@@ -19,7 +19,7 @@ import styled from "styled-components"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { APIFC, IconType } from "generic-view/utils"
 import { Icon } from "../../../icon/icon"
-import { P3 } from "../../../texts/paragraphs"
+import { Typography } from "../../../typography"
 import {
   FormSearchInputResultsConfig,
   FormSearchInputResultsData,
@@ -143,9 +143,9 @@ export const SearchResults: APIFC<
       ) : (
         <EmptyResults>
           <Icon config={{ type: IconType.Search }} />
-          <P3>
+          <Typography.P3>
             {config?.noResultsMessage || intl.formatMessage(messages.noResults)}
-          </P3>
+          </Typography.P3>
         </EmptyResults>
       )}
     </SearchResultsWrapper>

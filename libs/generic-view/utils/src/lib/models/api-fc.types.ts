@@ -17,9 +17,15 @@ type DefaultProps = Partial<
   componentRef?: Ref<any>
 }
 
-type ComponentConfigProp<T> = T extends undefined
-  ? { config?: T }
-  : { config: T }
+type HasRequired<T> = {
+  [K in keyof T]-?: NonNullable<unknown> extends Pick<T, K> ? never : K
+}[keyof T] extends never
+  ? false
+  : true
+
+type ComponentConfigProp<T> = HasRequired<T> extends true
+  ? { config: T }
+  : { config?: T }
 
 export type BaseGenericComponent<
   Data = undefined,

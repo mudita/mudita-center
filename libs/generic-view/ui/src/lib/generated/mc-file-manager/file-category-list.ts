@@ -122,7 +122,7 @@ const generateFileCategoryListItem = ({
       },
     },
     [`${id}CategoryListItemNameText`]: {
-      component: "h4-component",
+      component: "typography.h4",
       config: {
         text: name,
       },
@@ -148,7 +148,7 @@ const generateFileCategoryListItem = ({
       ],
     },
     [`${id}CategoryListItemStorageText`]: {
-      component: "p3-component",
+      component: "typography.p3",
       config: {
         text: "0",
         color: "black",
@@ -169,7 +169,7 @@ const generateFileCategoryListItem = ({
       },
     },
     [`${id}CategoryListItemCountTextWrapper`]: {
-      component: "p3-component",
+      component: "typography.p3",
       layout: {
         margin: "8px 0 0 0",
         gridPlacement: {
@@ -179,10 +179,6 @@ const generateFileCategoryListItem = ({
           height: 1,
         },
       },
-      childrenKeys: [`${id}CategoryListItemCountText`],
-    },
-    [`${id}CategoryListItemCountText`]: {
-      component: "format-message",
       config: {
         messageTemplate:
           "{totalEntities} {totalEntities, plural, one {file} other {files}}",

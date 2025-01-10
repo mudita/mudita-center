@@ -44,6 +44,7 @@ export class SerialPortDeviceAPIAdapter {
     return new Promise((resolve) => {
       const serialPort = new SerialPort(this.path, (error) => {
         if (error) {
+          console.error(error)
           resolve(
             Result.failed(
               new AppError(DeviceError.Initialization, error.message)
@@ -55,6 +56,17 @@ export class SerialPortDeviceAPIAdapter {
           resolve(Result.success(undefined))
         }
       })
+    })
+  }
+
+  public closeConnection() {
+    return new Promise((resolve) => {
+      if (this.serialPort) {
+        this.serialPort.close((error) => {
+          resolve(undefined)
+        })
+      }
+      resolve(undefined)
     })
   }
 
@@ -222,7 +234,6 @@ export class SerialPortDeviceAPIAdapter {
         )
       }
     })
-
     this.serialPort.on("close", () => {
       callRenderer(
         ApiSerialPortToRendererEvents.Closed,

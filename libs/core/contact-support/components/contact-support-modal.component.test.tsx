@@ -12,19 +12,6 @@ import { ContactSupportModalTestIds } from "Core/contact-support/components/cont
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { FileListTestIds } from "Core/__deprecated__/renderer/components/core/file-list/file-list-test-ids.enum"
 
-jest.mock("e2e-test-ids", () => {
-  return {
-    NewContactSupportModalTestIds: {
-      Title: "contact-support-modal-title",
-      Subtitle: "contact-support-modal-subtitle",
-      EmailLabel: "email-label",
-      MessageLabel: "message-label",
-      AttachedFilesLabel: "attached-files-label",
-      AttachedFilesSubtext: "attached-files-subtext",
-    },
-  }
-})
-
 type Props = ComponentProps<typeof ContactSupportModal>
 const defaultProps: Props = {
   open: true,
