@@ -109,8 +109,6 @@ export const selectAndSendFilesAction = createAsyncThunk<
           if (fileEntity.meta.requestStatus === "rejected") {
             await onFileFail(file)
           }
-          console.log(fileEntity.payload)
-          // TODO: add entity to a list
         }
       } else {
         await onFileFail(file)
