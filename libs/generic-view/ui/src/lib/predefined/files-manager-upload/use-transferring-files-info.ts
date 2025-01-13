@@ -137,11 +137,12 @@ export const useTransferringFilesInfo = () => {
     if (totalFilesSize === 0) {
       return 0
     }
-    return Object.values(files).reduce((acc, fileInfo) => {
+    const progress = Object.values(files).reduce((acc, fileInfo) => {
       const fileProgress = fileInfo.progress || 0
       const fileSizeWeight = fileInfo.size / totalFilesSize
       return acc + fileProgress * fileSizeWeight
     }, 0)
+    return Math.round(progress)
   }, [files, totalFilesSize])
 
   const initFiles = useCallback(async (filesPaths: FilePath[]) => {
