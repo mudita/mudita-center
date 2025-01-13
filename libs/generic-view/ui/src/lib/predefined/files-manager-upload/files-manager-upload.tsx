@@ -5,7 +5,11 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { APIFC, CustomModalError, IconType } from "generic-view/utils"
-import { ButtonAction, McFilesManagerUploadConfig } from "generic-view/models"
+import {
+  ButtonAction,
+  McFileManagerData,
+  McFilesManagerUploadConfig,
+} from "generic-view/models"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { openFileRequest } from "system-utils/feature"
 import { Modal } from "../../interactive/modal/modal"
@@ -16,6 +20,7 @@ import {
   createEntityDataAction,
   CreateEntityResponse,
   selectActiveApiDeviceId,
+  selectActiveDeviceFeatureByKey,
   selectEntitiesData,
   selectFileSendingProgress,
   sendFile,
@@ -29,6 +34,7 @@ import { modalTransitionDuration } from "generic-view/theme"
 import { startPreSendFileRequest } from "device/feature"
 import { FilesManagerUploadError } from "./files-manager-upload-error"
 import { areAllFilesDuplicated } from "./are-all-files-duplicated.helper"
+import { isStorageSpaceSufficientForUpload } from "./is-storage-space-sufficient-for-upload"
 
 const messages = defineMessages({
   progressModalTitle: {
@@ -90,6 +96,12 @@ export const FilesManagerUpload: APIFC<
       }) ?? []
     )
   })
+  const fileManagerFeatureData = useSelector(
+    (state: ReduxRootState) =>
+      selectActiveDeviceFeatureByKey(state, "fileManager") as
+        | McFileManagerData
+        | undefined
+  )
 
   const fileSendingAbortReference = useRef<VoidFunction>()
   const entityCreatingAbortReference = useRef<VoidFunction>()
@@ -113,8 +125,16 @@ export const FilesManagerUpload: APIFC<
 
       console.log("allFilesDuplicated")
       console.log(allFilesDuplicated)
+
+      const { isSufficient, formattedDifference } =
+        await isStorageSpaceSufficientForUpload(
+          // @ts-ignore
+          fileManagerFeatureData?.["0storageSummaryFreeText"].text,
+          selectedFiles
+        )
+      console.log({ isSufficient, formattedDifference })
     },
-    [config, entitiesData]
+    [config, entitiesData, fileManagerFeatureData]
   )
 
   const selectFiles = useCallback(async () => {

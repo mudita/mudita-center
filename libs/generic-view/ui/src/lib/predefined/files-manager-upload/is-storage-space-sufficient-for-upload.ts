@@ -1,0 +1,73 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { promises as fs } from "fs"
+import { formatBytes } from "../../typography/format-bytes"
+
+/**
+ * Calculates the total size of files given their paths (async version).
+ *
+ * @param filePaths - An array of file paths.
+ * @returns The total size of all files in bytes.
+ */
+const getTotalFileSizeAsync = async (filePaths: string[]): Promise<number> => {
+  let totalSize = 0
+
+  for (const filePath of filePaths) {
+    try {
+      const stats = await fs.stat(filePath)
+      if (stats.isFile()) {
+        totalSize += stats.size
+      }
+    } catch (error) {
+      console.error(`Error reading file: ${filePath}`, error)
+    }
+  }
+
+  return totalSize
+}
+
+/**
+ * Compares two numeric values and checks if the first value is sufficient to accommodate the second.
+ *
+ * @param available - The available amount (e.g., free space in bytes).
+ * @param required - The required amount (e.g., total size of files in bytes).
+ * @returns A result object indicating if the first value is sufficient and the difference.
+ */
+const compareValues = (
+  available: number,
+  required: number
+): { isSufficient: boolean; difference: number } => {
+  const difference = available - required
+
+  return {
+    isSufficient: difference >= 0,
+    difference,
+  }
+}
+
+export async function isStorageSpaceSufficientForUpload(
+  availableSpace: number,
+  filePaths: string[]
+): Promise<{
+  isSufficient: boolean
+  difference: number
+  formattedDifference: string
+}> {
+  const totalFileSize = await getTotalFileSizeAsync(filePaths)
+
+  console.log("totalFileSize", totalFileSize)
+
+  const { isSufficient, difference } = compareValues(
+    availableSpace,
+    totalFileSize
+  )
+
+  const formattedDifference = formatBytes(Math.abs(difference), {
+    minUnit: "B",
+  })
+
+  return { isSufficient, difference, formattedDifference }
+}
