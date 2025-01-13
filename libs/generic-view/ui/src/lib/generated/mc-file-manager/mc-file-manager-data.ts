@@ -10,7 +10,6 @@ import {
   segmentBarItemData,
 } from "generic-view/models"
 import { View } from "generic-view/utils"
-import { formatBytes } from "../../typography/format-bytes"
 import { SEGMENTS_CONFIG_MAP } from "./storage-summary-bar"
 import { generateFileUploadButtonModalKey } from "./file-upload-button"
 
@@ -37,7 +36,7 @@ const generateCategoryListItemStorageTexts = (
     }
 
     prevState[`${key}${id}categoryListItemStorageText`] = {
-      text: categoriesSpaceInformation.spaceUsedBytes,
+      text: categoriesSpaceInformation.spaceUsedString,
     }
 
     return prevState
@@ -57,20 +56,19 @@ const generateOtherFilesSpaceInformation = (
 
   return {
     [`${key}fileCategoryOtherFilesItemNameSize`]: {
-      // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
-      text: `(${formatBytes(otherFilesSpaceInformation.spaceUsedBytes, {
-        minUnit: "KB",
-      })})`,
+      text: `(${otherFilesSpaceInformation.spaceUsedString})`,
     },
   }
 }
 
-const getSegmentBarItemData = (entityType: string, value: number) => {
+const getSegmentBarItemData = (
+  entityType: string,
+  value: number,
+  bytesString: string
+) => {
   return {
     value,
-    label: `${SEGMENTS_CONFIG_MAP[entityType].label} (${formatBytes(value, {
-      minUnit: "KB",
-    })})`,
+    label: `${SEGMENTS_CONFIG_MAP[entityType].label} (${bytesString})`,
   }
 }
 
@@ -87,10 +85,10 @@ const generateStorageSummary = (
         !!storageInformation.categoriesSpaceInformation[entityType]
     )
     .map((entityType) => {
-      const { spaceUsedBytes } =
+      const { spaceUsedBytes, spaceUsedString } =
         storageInformation.categoriesSpaceInformation[entityType]
 
-      return getSegmentBarItemData(entityType, spaceUsedBytes)
+      return getSegmentBarItemData(entityType, spaceUsedBytes, spaceUsedString)
     })
 
   segments.push(...dynamicSegmentValues)
@@ -99,26 +97,28 @@ const generateStorageSummary = (
     storageInformation.categoriesSpaceInformation["otherFiles"]
 
   if (otherFilesSpaceInformation !== undefined) {
-    const { spaceUsedBytes } =
+    const { spaceUsedBytes, spaceUsedString } =
       storageInformation.categoriesSpaceInformation["otherFiles"]
 
-    segments.push(getSegmentBarItemData("otherFiles", spaceUsedBytes))
+    segments.push(
+      getSegmentBarItemData("otherFiles", spaceUsedBytes, spaceUsedString)
+    )
   }
 
-  const freeTotalSpaceBytes =
-    storageInformation.totalSpaceBytes - storageInformation.usedSpaceBytes
-
-  segments.push(getSegmentBarItemData("free", freeTotalSpaceBytes))
+  segments.push(
+    getSegmentBarItemData(
+      "free",
+      storageInformation.freeSpaceBytes,
+      storageInformation.freeSpaceString
+    )
+  )
 
   return {
-    // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
     [`${key}storageSummaryUsedText`]: {
-      text: `Used: ${formatBytes(storageInformation.usedSpaceBytes, {
-        minUnit: "KB",
-      })}`,
+      text: `Used: ${storageInformation.usedSpaceString}`,
     },
     [`${key}storageSummaryFreeText`]: {
-      text: freeTotalSpaceBytes,
+      text: storageInformation.freeSpaceString,
     },
     [`${key}storageSummaryBar`]: {
       segments,
@@ -131,7 +131,7 @@ const generateStorageSummary = (
             `${key}${index}`,
             "FinishedContent"
           )]: {
-            freeSpace: freeTotalSpaceBytes,
+            freeSpace: storageInformation.freeSpaceBytes,
           },
         }
       },

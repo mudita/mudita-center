@@ -18,9 +18,10 @@ export const mcFileManagerData = z.object({
         path: z.string().endsWith("/"),
         totalSpaceBytes: z.number().nonnegative(),
         usedSpaceBytes: z.number().nonnegative(),
-        // TODO: `totalSpaceString` & `usedSpaceString` to pass-through after https://appnroll.atlassian.net/browse/CP-3275
+        freeSpaceBytes: z.number().nonnegative(),
         totalSpaceString: z.string(),
         usedSpaceString: z.string(),
+        freeSpaceString: z.string(),
         categoriesSpaceInformation: z.record(
           z.string(),
           storageCategoryValidator

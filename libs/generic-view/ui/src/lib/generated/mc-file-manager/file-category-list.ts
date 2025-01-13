@@ -152,12 +152,8 @@ const generateFileCategoryListItem: ComponentGenerator<
     [`${key}${id}categoryListItemStorageText`]: {
       component: "typography.p3",
       config: {
-        text: "0",
+        text: "0 KB",
         color: "black",
-        textTransform: "format-bytes",
-        textTransformOptions: {
-          minUnit: "KB",
-        },
       },
     },
     [`${key}${id}categoryListItemStorageMarker`]: {
