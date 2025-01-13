@@ -35,7 +35,12 @@ export const sendFile = createAsyncThunk<
       filePath: string
       targetPath: string
     }
-  | { deviceId: DeviceId; transferId: number; chunksCount: number },
+  | {
+      deviceId: DeviceId
+      transferId: number
+      chunksCount: number
+      filePath?: string
+    },
   { state: ReduxRootState; rejectValue: SendFileError | undefined }
 >(
   ActionName.FileTransferSend,
@@ -54,9 +59,14 @@ export const sendFile = createAsyncThunk<
 
     const { deviceId } = params
 
-    const transfer: { transferId: number; chunksCount: number } = {
+    const transfer: {
+      transferId: number
+      chunksCount: number
+      filePath?: string
+    } = {
       transferId: 0,
       chunksCount: 0,
+      filePath: "",
     }
 
     if (aborted) {
@@ -100,6 +110,7 @@ export const sendFile = createAsyncThunk<
       fileTransferSendPrepared({
         transferId,
         chunksCount,
+        filePath: params.filePath,
       })
     )
 
@@ -114,7 +125,7 @@ export const sendFile = createAsyncThunk<
             ...error,
             payload: {
               transferId,
-              filePath: "filePath" in params ? params.filePath : "",
+              filePath: params.filePath || "",
             },
           },
         })

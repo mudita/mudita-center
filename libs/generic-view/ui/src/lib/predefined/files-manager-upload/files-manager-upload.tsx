@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import React, { Fragment, useCallback, useEffect, useRef } from "react"
 import { APIFC, IconType } from "generic-view/utils"
 import { ButtonAction, McFilesManagerUploadConfig } from "generic-view/models"
 import { ButtonPrimary } from "../../buttons/button-primary"
@@ -16,16 +16,18 @@ import {
   createEntityDataAction,
   CreateEntityResponse,
   selectActiveApiDeviceId,
-  selectFileSendingProgress,
   sendFile,
   SendFileResponse,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
-import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
-import { platform } from "Core/__deprecated__/renderer/utils/platform"
 import { modalTransitionDuration } from "generic-view/theme"
 import { startPreSendFileRequest } from "device/feature"
+import {
+  TransferStatus,
+  useTransferringFilesInfo,
+} from "./use-transferring-files-info"
 
 const messages = defineMessages({
   progressModalTitle: {
@@ -33,38 +35,26 @@ const messages = defineMessages({
   },
 })
 
-enum Status {
-  Idle = "idle",
-  Selecting = "selecting",
-  Sending = "sending",
-  Finished = "finished",
-  Failed = "failed",
-  Cancelled = "cancelled",
-}
-
 export const FilesManagerUpload: APIFC<
   undefined,
   McFilesManagerUploadConfig
 > = ({ config, data, ...rest }) => {
   const dispatch = useDispatch<Dispatch>()
   const deviceId = useSelector(selectActiveApiDeviceId)
-
-  const [status, setStatus] = useState<Status>(Status.Idle)
-  const [selectedFiles, setSelectedFiles] = useState<string[]>([])
-  const [sentFiles, setSentFiles] = useState<string[]>([])
-  const [failedFiles, setFailedFiles] = useState<string[]>([])
-  const [currentFileIndex, setCurrentFileIndex] = useState(0)
-  const [currentFileTransferId, setCurrentFileTransferId] = useState<number>()
-  const fileSendingProgress = useSelector((state: ReduxRootState) => {
-    return selectFileSendingProgress(state, currentFileTransferId)
-  })
-
   const fileSendingAbortReference = useRef<VoidFunction>()
   const entityCreatingAbortReference = useRef<VoidFunction>()
-
-  const getFileName = useCallback((filePath?: string) => {
-    return filePath?.split(platform.windows() ? "\\" : "/").pop() ?? ""
-  }, [])
+  const {
+    files,
+    filesCount,
+    currentFile,
+    sentFiles,
+    failedFiles,
+    transferStatus,
+    transferProgress,
+    initFiles,
+    updateFile,
+    clearFiles,
+  } = useTransferringFilesInfo()
 
   const selectFiles = useCallback(async () => {
     const selectorResponse = await openFileRequest({
@@ -74,22 +64,21 @@ export const FilesManagerUpload: APIFC<
           extensions: config.fileTypes,
         },
       ],
-      properties: ["openFile", "multiSelections"],
+      properties:
+        config.multiple ?? true
+          ? ["openFile", "multiSelections"]
+          : ["openFile"],
     })
     if (selectorResponse.ok) {
-      setSelectedFiles(selectorResponse.data)
-      setStatus(Status.Sending)
-    } else {
-      setStatus(Status.Idle)
+      await initFiles(selectorResponse.data)
     }
-  }, [config.fileTypeGroupName, config.fileTypes])
+  }, [config.fileTypeGroupName, config.fileTypes, config.multiple, initFiles])
 
   const createFileEntity = useCallback(
-    async (file: string) => {
+    async (fileName: string) => {
       if (!deviceId) {
         return
       }
-      const fileName = getFileName(file)
       const promise = dispatch(
         createEntityDataAction({
           deviceId,
@@ -120,26 +109,30 @@ export const FilesManagerUpload: APIFC<
     if (!deviceId) {
       return
     }
-    for (const [index, file] of selectedFiles.entries()) {
-      setCurrentFileIndex(index)
-      const fileName = getFileName(file)
+    for (const [filePath, fileInfo] of Object.entries(files)) {
+      updateFile(filePath, { status: "in-progress" })
+      const fileName = fileInfo.name
       const preTransferResponse = await startPreSendFileRequest(
-        file,
+        filePath,
         config.storagePath + config.directoryPath + fileName,
         deviceId
       )
 
       if (!preTransferResponse.ok) {
-        setFailedFiles((prevState) => [...prevState, file])
+        updateFile(filePath, { status: "failed" })
         continue
       }
-      setCurrentFileTransferId(preTransferResponse.data.transferId)
+
+      const { transferId, chunksCount } = preTransferResponse.data
+
+      updateFile(filePath, { transferId, progress: 0 })
 
       const transferPromise = dispatch(
         sendFile({
           deviceId,
-          transferId: preTransferResponse.data.transferId,
-          chunksCount: preTransferResponse.data.chunksCount,
+          transferId,
+          chunksCount,
+          filePath,
         })
       )
       fileSendingAbortReference.current = (
@@ -148,73 +141,50 @@ export const FilesManagerUpload: APIFC<
         }
       ).abort
 
-      const result = (await transferPromise) as SendFileResponse
-
-      if (result.meta.requestStatus === "fulfilled") {
-        const entityResponse = await createFileEntity(file)
-
-        if (
-          entityResponse &&
-          entityResponse.meta.requestStatus === "fulfilled"
-        ) {
-          setSentFiles((prevState) => [...prevState, file])
-        } else {
-          setFailedFiles((prevState) => [...prevState, file])
-        }
-      } else {
-        setFailedFiles((prevState) => [...prevState, file])
+      const sendFileResponse = (await transferPromise) as SendFileResponse
+      if (sendFileResponse.meta.requestStatus === "rejected") {
+        updateFile(filePath, { status: "failed" })
+        continue
       }
+
+      const entityResponse = await createFileEntity(fileInfo.name)
+      if (!entityResponse || entityResponse.meta.requestStatus === "rejected") {
+        updateFile(filePath, { status: "failed" })
+        continue
+      }
+
+      updateFile(filePath, { status: "sent" })
     }
-    setStatus(Status.Finished)
   }, [
     config.directoryPath,
     config.storagePath,
     createFileEntity,
     deviceId,
     dispatch,
-    getFileName,
-    selectedFiles,
+    files,
+    updateFile,
   ])
 
-  const sendingProgress = useMemo(() => {
-    if (!currentFileTransferId) {
-      return 0
-    }
-
-    const filesProgress = currentFileIndex / selectedFiles.length
-    const singleFileProgressFactor = 1 / selectedFiles.length
-    return parseFloat(
-      (
-        (filesProgress +
-          (fileSendingProgress || 0) * singleFileProgressFactor) *
-        100
-      ).toFixed(2)
-    )
-  }, [
-    currentFileIndex,
-    currentFileTransferId,
-    fileSendingProgress,
-    selectedFiles.length,
-  ])
+  const abort = useCallback(() => {
+    fileSendingAbortReference.current?.()
+    entityCreatingAbortReference.current?.()
+  }, [])
 
   const reset = useCallback(() => {
-    setSelectedFiles([])
-    setSentFiles([])
-    setFailedFiles([])
-    setCurrentFileIndex(0)
-    fileSendingAbortReference.current = undefined
-    entityCreatingAbortReference.current = undefined
-  }, [])
+    clearFiles()
+    abort()
+  }, [abort, clearFiles])
 
   const addFileButtonAction: ButtonAction = {
     type: "custom",
-    callback: () => setStatus(Status.Selecting),
+    callback: () => {
+      void selectFiles()
+    },
   }
 
   const modalCloseAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      setStatus(Status.Idle)
       setTimeout(reset, modalTransitionDuration)
     },
   }
@@ -222,30 +192,15 @@ export const FilesManagerUpload: APIFC<
   const modalCancelButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      fileSendingAbortReference.current?.()
-      entityCreatingAbortReference.current?.()
-      setStatus(Status.Cancelled)
+      reset()
     },
   }
 
   useEffect(() => {
-    switch (status) {
-      case Status.Idle:
-        break
-      case Status.Selecting:
-        void selectFiles()
-        break
-      case Status.Sending:
-        void uploadFiles()
-        break
-      case Status.Finished:
-        break
-      case Status.Cancelled:
-        break
-      case Status.Failed:
-        break
+    if (transferStatus === TransferStatus.Ready) {
+      void uploadFiles()
     }
-  }, [reset, selectFiles, status, uploadFiles])
+  }, [files, transferStatus, uploadFiles])
 
   return (
     <>
@@ -256,7 +211,7 @@ export const FilesManagerUpload: APIFC<
       <Modal
         componentKey={"files-manager-upload-modal-sending"}
         config={{
-          defaultOpened: status === Status.Sending,
+          defaultOpened: transferStatus === TransferStatus.Sending,
           closeButtonAction: modalCancelButtonAction,
           size: "small",
         }}
@@ -264,7 +219,7 @@ export const FilesManagerUpload: APIFC<
         <Modal.TitleIcon config={{ type: IconType.SpinnerDark }} />
         <Modal.Title>
           {intl.formatMessage(messages.progressModalTitle, {
-            filesCount: selectedFiles.length,
+            filesCount: Object.keys(filesCount).length,
           })}
         </Modal.Title>
         <ProgressBar
@@ -272,15 +227,15 @@ export const FilesManagerUpload: APIFC<
             maxValue: 100,
           }}
           data={{
-            value: sendingProgress,
-            message: getFileName(selectedFiles[currentFileIndex]),
+            value: transferProgress,
+            message: currentFile?.name,
           }}
         />
       </Modal>
       <Modal
         componentKey={"files-manager-upload-modal-finished"}
         config={{
-          defaultOpened: status === Status.Finished,
+          defaultOpened: transferStatus === TransferStatus.Finished,
           closeButtonAction: modalCloseAction,
           size: "small",
         }}
@@ -293,11 +248,11 @@ export const FilesManagerUpload: APIFC<
         </Modal.Title>
         <p>Sent:</p>
         {sentFiles.map((file) => (
-          <div key={file}>{file && getFileName(file)}</div>
+          <div key={file.path}>{file.name}</div>
         ))}
         <p>Failed:</p>
         {failedFiles.map((file) => (
-          <div key={file}>{file && getFileName(file)}</div>
+          <div key={file.path}>{file.name}</div>
         ))}
         <Modal.Buttons config={{ vertical: true }}>
           <ButtonSecondary

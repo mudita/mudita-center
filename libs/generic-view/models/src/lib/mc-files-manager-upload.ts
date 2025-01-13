@@ -14,6 +14,7 @@ const configValidator = z.object({
   entitiesType: z.string(),
   fileTypes: z.array(z.string()),
   fileTypeGroupName: z.string(),
+  multiple: z.boolean().optional(),
 })
 
 export type McFilesManagerUploadConfig = z.infer<typeof configValidator>

@@ -10,7 +10,7 @@ import { SendFileErrorPayload } from "./send-file.action"
 import { GetFileErrorPayload } from "./get-file.action"
 
 export const fileTransferSendPrepared = createAction<
-  Pick<FileProgress, "chunksCount" | "transferId">
+  Pick<FileProgress, "chunksCount" | "transferId" | "filePath">
 >(ActionName.PreFileTransferSend)
 export const fileTransferChunkSent = createAction<
   Pick<FileProgress, "chunksTransferred" | "transferId">

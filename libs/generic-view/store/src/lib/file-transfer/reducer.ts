@@ -54,6 +54,7 @@ export const genericFileTransferReducer = createReducer(
     builder.addCase(fileTransferSendPrepared, (state, action) => {
       state.sendingFilesProgress[action.payload.transferId] = {
         transferId: action.payload.transferId,
+        filePath: action.payload.filePath,
         chunksCount: action.payload.chunksCount,
         chunksTransferred: 0,
       }
