@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { View } from "generic-view/utils"
+import { FileManagerMarkerColor } from "generic-view/models"
+import { IconType, View } from "generic-view/utils"
 
 // @ts-ignore
 export const fileManagerView: View = {
@@ -22,6 +23,8 @@ export const fileManagerView: View = {
       ],
       categories: [
         {
+          icon: IconType.MusicNote,
+          markerColor: FileManagerMarkerColor.audioFiles,
           label: "Music",
           directoryPath: "Music/",
           supportedFileTypes: ["mp3", "wav", "flac"],
@@ -29,17 +32,23 @@ export const fileManagerView: View = {
         },
         {
           label: "Photos",
+          icon: IconType.PhotoCatalog,
+          markerColor: FileManagerMarkerColor.imageFiles,
           directoryPath: "Pictures/",
           supportedFileTypes: ["jpg", "jpeg", "png"],
           entityType: "imageFiles",
         },
         {
+          icon: IconType.Book,
+          markerColor: FileManagerMarkerColor.ebookFiles,
           label: "E-books",
           directoryPath: "Documents/",
           supportedFileTypes: ["pdf", "epub"],
           entityType: "ebookFiles",
         },
         // {
+        //   icon: IconType.Grid,
+        //   markerColor: FileManagerMarkerColor.applicationFiles,
         //   entityType: "applicationFiles",
         //   storagePath: "/media/apps",
         //   supportedFileTypes: ["apk"],

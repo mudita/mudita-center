@@ -4,6 +4,16 @@
  */
 
 import { z } from "zod"
+import { IconType } from "generic-view/utils"
+
+export enum FileManagerMarkerColor {
+  audioFiles = "#E38577",
+  imageFiles = "#0E7490",
+  ebookFiles = "#A8DADC",
+  applicationFiles = "#AEBEC9",
+  otherFiles = "#3B3F42",
+  free = "#F4F5F6",
+}
 
 const storageCategoryValidator = z.object({
   spaceUsedBytes: z.number().nonnegative(),
@@ -45,6 +55,8 @@ const configValidator = z.object({
   categories: z
     .array(
       z.object({
+        icon: z.nativeEnum(IconType),
+        markerColor: z.nativeEnum(FileManagerMarkerColor),
         label: z.string(),
         directoryPath: z.string().endsWith("/"),
         entityType: z.string(),
