@@ -35,6 +35,8 @@ import { startPreSendFileRequest } from "device/feature"
 import { FilesManagerUploadError } from "./files-manager-upload-error"
 import { areAllFilesDuplicated } from "./are-all-files-duplicated.helper"
 import { isStorageSpaceSufficientForUpload } from "./is-storage-space-sufficient-for-upload"
+import { isFileLargerThan } from "./is-file-larger-than"
+import { selectValidEntityFilePaths } from "./valid-entity-file-paths.selector"
 
 const messages = defineMessages({
   progressModalTitle: {
@@ -113,18 +115,22 @@ export const FilesManagerUpload: APIFC<
 
   const validateSelectedFiles = useCallback(
     async (selectedFiles: string[]) => {
+      console.log("selectedFiles: ", selectedFiles)
+
+      if (selectedFiles.length === 1) {
+        const fileLargerThan = await isFileLargerThan(
+          selectedFiles[0],
+          2000000000 // 2GB
+        )
+        console.log("fileLargerThan: ", fileLargerThan)
+      }
+
       const allFilesDuplicated = areAllFilesDuplicated(
         selectedFiles,
-        entitiesData.map((entityData) => {
-          if (typeof entityData.filePath === "string") {
-            return entityData.filePath
-          }
-          throw new Error("Invalid entity: filePath is missing or not a string")
-        })
+        selectValidEntityFilePaths(entitiesData)
       )
 
-      console.log("allFilesDuplicated")
-      console.log(allFilesDuplicated)
+      console.log("allFilesDuplicated: ", allFilesDuplicated)
 
       const { isSufficient, formattedDifference } =
         await isStorageSpaceSufficientForUpload(
@@ -134,7 +140,7 @@ export const FilesManagerUpload: APIFC<
         )
       console.log({ isSufficient, formattedDifference })
     },
-    [config, entitiesData, fileManagerFeatureData]
+    [entitiesData, fileManagerFeatureData]
   )
 
   const selectFiles = useCallback(async () => {
