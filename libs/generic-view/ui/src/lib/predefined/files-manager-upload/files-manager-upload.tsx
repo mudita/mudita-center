@@ -89,12 +89,13 @@ export const FilesManagerUpload: APIFC<
       if (!deviceId) {
         return
       }
+      const fileName = getFileName(file)
       const promise = dispatch(
         createEntityDataAction({
           deviceId,
           entitiesType: config.entitiesType,
           data: {
-            filePath: config.storagePath + config.directoryPath + file,
+            filePath: config.storagePath + config.directoryPath + fileName,
             entityType: config.entitiesType,
           },
         })
