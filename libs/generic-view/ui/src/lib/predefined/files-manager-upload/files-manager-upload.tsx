@@ -16,6 +16,7 @@ import {
   createEntityDataAction,
   CreateEntityResponse,
   selectActiveApiDeviceId,
+  selectEntitiesData,
   selectFileSendingProgress,
   sendFile,
   SendFileResponse,
@@ -27,6 +28,7 @@ import { platform } from "Core/__deprecated__/renderer/utils/platform"
 import { modalTransitionDuration } from "generic-view/theme"
 import { startPreSendFileRequest } from "device/feature"
 import { FilesManagerUploadError } from "./files-manager-upload-error"
+import { areAllFilesDuplicated } from "./are-all-files-duplicated.helper"
 
 const messages = defineMessages({
   progressModalTitle: {
@@ -77,6 +79,17 @@ export const FilesManagerUpload: APIFC<
   const fileSendingProgress = useSelector((state: ReduxRootState) => {
     return selectFileSendingProgress(state, currentFileTransferId)
   })
+  const entitiesData = useSelector((state: ReduxRootState) => {
+    if (deviceId === undefined) {
+      return []
+    }
+    return (
+      selectEntitiesData(state, {
+        entitiesType: config.entitiesType,
+        deviceId,
+      }) ?? []
+    )
+  })
 
   const fileSendingAbortReference = useRef<VoidFunction>()
   const entityCreatingAbortReference = useRef<VoidFunction>()
@@ -85,6 +98,24 @@ export const FilesManagerUpload: APIFC<
   const getFileName = useCallback((filePath?: string) => {
     return filePath?.split(platform.windows() ? "\\" : "/").pop() ?? ""
   }, [])
+
+  const validateSelectedFiles = useCallback(
+    async (selectedFiles: string[]) => {
+      const allFilesDuplicated = areAllFilesDuplicated(
+        selectedFiles,
+        entitiesData.map((entityData) => {
+          if (typeof entityData.filePath === "string") {
+            return entityData.filePath
+          }
+          throw new Error("Invalid entity: filePath is missing or not a string")
+        })
+      )
+
+      console.log("allFilesDuplicated")
+      console.log(allFilesDuplicated)
+    },
+    [config, entitiesData]
+  )
 
   const selectFiles = useCallback(async () => {
     const selectorResponse = await openFileRequest({
@@ -99,11 +130,12 @@ export const FilesManagerUpload: APIFC<
     if (selectorResponse.ok) {
       // setSelectedFiles(selectorResponse.data)
       // setStatus(Status.Sending)
+      await validateSelectedFiles(selectorResponse.data)
       setStatus(Status.Failed)
     } else {
       setStatus(Status.Idle)
     }
-  }, [config.fileTypeGroupName, config.fileTypes])
+  }, [config.fileTypeGroupName, config.fileTypes, validateSelectedFiles])
 
   const createFileEntity = useCallback(
     async (file: string) => {
