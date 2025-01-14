@@ -98,6 +98,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
     summary: {
       component: "block-box",
       layout: {
+        shadow: true,
         gridPlacement: {
           row: 1,
           column: 1,
