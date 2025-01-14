@@ -67,7 +67,7 @@ class MockDescriptor {
 
     const filteredResponses = currentResponses.filter((item) => {
       if (item.match === undefined) {
-        return false
+        return match === undefined
       }
       return true
     })
@@ -121,7 +121,7 @@ class MockDescriptor {
 
     const filteredResponses = currentResponses.filter((item) => {
       if (item.match === undefined) {
-        return false
+        return match === undefined
       }
       return true
     })
