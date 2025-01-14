@@ -2,6 +2,8 @@ import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import tabsPage from "../../page-objects/tabs.page"
 import ContactsKompaktPage from "../../page-objects/contacts-kompakt"
 import exp from "constants"
+import { mockEntityDownloadProcess } from "../../helpers"
+import { selectedContactsEntities } from "../../helpers/entity-fixtures"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -23,6 +25,13 @@ describe("E2E mock sample - overview view", () => {
       serialNumber: "first-serial-number",
     })
 
+    // mock contacts function for testing/modification purposes
+    mockEntityDownloadProcess({
+      path: "path-1",
+      data: selectedContactsEntities,
+      entityType: "contacts",
+    })
+
     await browser.pause(6000)
     const menuItem = await $(`//a[@href="#/generic/mc-overview"]`)
 
@@ -31,18 +40,12 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Click Contacts tab and check contacts counter", async () => {
-    // mock contacts function for testing/modification purposes
-    // mockEntityDownloadProcess({
-    //   path: "path-1",
-    //   data: selectedContactsEntities,
-    //   entityType: "contacts",
-    // })
     const contactsKompaktTab = tabsPage.contactsKompaktTab
     await contactsKompaktTab.click()
 
     const contactsCounter = ContactsKompaktPage.contactsCounter
     await expect(contactsCounter).toBeDisplayed()
-    await expect(contactsCounter).toHaveText("Contacts (1)")
+    await expect(contactsCounter).toHaveText("Contacts (17)")
   })
 
   it("Verify Page elements ", async () => {
