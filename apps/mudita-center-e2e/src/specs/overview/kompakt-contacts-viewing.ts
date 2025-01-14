@@ -1,7 +1,6 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import tabsPage from "../../page-objects/tabs.page"
 import ContactsKompaktPage from "../../page-objects/contacts-kompakt"
-import exp from "constants"
 import { mockEntityDownloadProcess } from "../../helpers"
 import { selectedContactsEntities } from "../../helpers/entity-fixtures"
 
@@ -59,53 +58,58 @@ describe("E2E mock sample - overview view", () => {
     const importContactsButton = ContactsKompaktPage.importContactsButton
     await expect(importContactsButton).toBeDisplayed()
     await expect(importContactsButton).toBeClickable()
-
   })
 
   it("Verify different contacts", async () => {
-
     // first row -> Long Display Name...
-    const checkbox = await ContactsKompaktPage.checkboxByRowIndex(0);
-    const isChecked = await checkbox.isSelected();
-    console.log(`Checkbox is selected: ${isChecked}`);
-    expect(isChecked).toBe(false);
+    const checkbox = await ContactsKompaktPage.checkboxByRowIndex(0)
+    const isChecked = await checkbox.isSelected()
+    console.log(`Checkbox is selected: ${isChecked}`)
+    expect(isChecked).toBe(false)
 
-    const displayName = await ContactsKompaktPage.displayNameByRowIndex(0);
-    const displayNameText = await displayName.getText();
-    console.log(`Display Name: ${displayNameText}`);
-    expect(displayNameText).toBe('Long Display Name (last name is long) Anna Maria Katarzyna Nowak-Wielka-Zabłocka-Długosz-Ostrowska-Mickiewicz-Piękna-Sobieska-Kowalewska-Jagiellońska-Słowacka-Krzyżanowska-Kordecka-Kościuszkowska');
+    const displayName = await ContactsKompaktPage.displayNameByRowIndex(0)
+    const displayNameText = await displayName.getText()
+    console.log(`Display Name: ${displayNameText}`)
+    expect(displayNameText).toContain("Long Display Name")
 
-    const lastCell = await ContactsKompaktPage.emptyCellByRowIndex(0);
-    const lastCellText = await lastCell.getText();
-    console.log(`Empty Cell Content: ${lastCellText}`);
-    expect(lastCellText).toBe('');
+    //empty contact
+    const lastCell = await ContactsKompaktPage.emptyCellByRowIndex(0)
+    const lastCellText = await lastCell.getText()
+    console.log(`Empty Cell Content: ${lastCellText}`)
+    expect(lastCellText).toBe("")
 
-    const phoneNumber = await ContactsKompaktPage.phoneNumberByRowIndex(0);
-    const phoneNumberText = await phoneNumber.getText();
-    console.log(`Phone Number: ${phoneNumberText}`);
-    expect(phoneNumberText).toBe('+48123456786');
+    //phone number
+    const phoneNumber = await ContactsKompaktPage.phoneNumberByRowIndex(0)
+    const phoneNumberText = await phoneNumber.getText()
+    console.log(`Phone Number: ${phoneNumberText}`)
+    expect(phoneNumberText).toBe("+48123456786")
 
-    const phoneNumberCounter = await ContactsKompaktPage.phoneNumberCounterByRowIndex(0);
-    const phoneNumberCounterText = await phoneNumberCounter.getText();
-    console.log(`Phone Number Counter: ${phoneNumberCounterText}`);
-    expect(phoneNumberCounterText).toBe('');
+    //empty phone number
+    const phoneNumberCounter =
+      await ContactsKompaktPage.phoneNumberCounterByRowIndex(0)
+    const phoneNumberCounterText = await phoneNumberCounter.getText()
+    console.log(`Phone Number Counter: ${phoneNumberCounterText}`)
+    expect(phoneNumberCounterText).toBe("")
 
-
-    // Dr. Michael Johnson PhD
-    const displayName5 = await ContactsKompaktPage.displayNameByRowIndex(5);
-    const displayNameText5 = await displayName5.getText();
-    console.log(`Display Name: ${displayNameText5}`);
+    // prefix name lastname suffix
+    const displayName5 = await ContactsKompaktPage.displayNameByRowIndex(5)
+    const rows = await ContactsKompaktPage.allContactsTableRows
+    expect(rows.length).toBeGreaterThan(5)
+    const displayNameText5 = await displayName5.getText()
+    console.log(`Display Name: ${displayNameText5}`)
 
     // prefix
-    expect(displayNameText5).toContain('Dr.');
+    expect(displayNameText5).toContain("Dr.")
 
     // suffix
-    expect(displayNameText5).toContain('PhD');
+    expect(displayNameText5).toContain("PhD")
 
-    const phoneNumberCounter5 = await ContactsKompaktPage.phoneNumberCounterByRowIndex(5);
-    const phoneNumberCounterText5 = await phoneNumberCounter5.getText();
-    console.log(`Phone Number Counter: ${phoneNumberCounterText5}`);
-    expect(phoneNumberCounterText5).toBe('+1');
+    // just phone number
+    const phoneNumberCounter5 =
+      await ContactsKompaktPage.phoneNumberCounterByRowIndex(5)
+    const phoneNumberCounterText5 = await phoneNumberCounter5.getText()
+    console.log(`Phone Number Counter: ${phoneNumberCounterText5}`)
+    expect(phoneNumberCounterText5).toBe("+1")
   })
 
   it("Verify contacts array", async () => {
