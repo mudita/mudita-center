@@ -36,5 +36,25 @@ class ContactsKompaktPage extends Page {
   public get allContactsTableRows() {
     return $$('//*[@data-testid="ui-table-row"]')
   }
+
+  public get checkboxByRowIndex() {
+    return (rowIndex: number) => $(`(//*[@data-testid="ui-table-row"])[${rowIndex + 1}]//td[1]//input[@type="checkbox"]`);
+  }
+
+  public get displayNameByRowIndex() {
+    return (rowIndex: number) => $(`(//*[@data-testid="ui-table-row"])[${rowIndex + 1}]//td[2]//p[@data-testid="ui-typography-p1"]`);
+  }
+
+  public get emptyCellByRowIndex() {
+    return (rowIndex: number) => $(`(//*[@data-testid="ui-table-row"])[${rowIndex + 1}]//td[3]`);
+  }
+
+  public get phoneNumberByRowIndex() {
+    return (rowIndex: number) => $(`(//*[@data-testid="ui-table-row"])[${rowIndex + 1}]//td[4]`);
+  }
+
+  public get phoneNumberCounterByRowIndex() {
+    return (rowIndex: number) => $(`(//*[@data-testid="ui-table-row"])[${rowIndex + 1}]//td[5]`);
+  }
 }
 export default new ContactsKompaktPage()
