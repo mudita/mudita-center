@@ -7,8 +7,8 @@ import { ComponentGenerator, IconType, Subview } from "generic-view/utils"
 import { generateDeleteFiles } from "./delete-files"
 import { McFileManagerConfig } from "generic-view/models"
 import {
-  generateFileUploadButton,
-  generateFileUploadButtonKey,
+  generateFileUploadProcessButton,
+  generateFileUploadProcessButtonKey,
 } from "./file-upload-button"
 import { fileCounterDataProvider } from "./file-counter-data-provider"
 
@@ -45,6 +45,7 @@ const generateFileList: ComponentGenerator<
           defaultValues: {
             selectedItems: [],
             allItems: [],
+            filesToUpload: [],
           },
         },
       },
@@ -168,9 +169,9 @@ const generateFileList: ComponentGenerator<
         condition: "gt",
         value: 0,
       }),
-      childrenKeys: [generateFileUploadButtonKey(`${key}${id}`)],
+      childrenKeys: [generateFileUploadProcessButtonKey(`${key}${id}`)],
     },
-    ...generateFileUploadButton(`${key}${id}`, {
+    ...generateFileUploadProcessButton(`${key}${id}`, {
       directoryPath,
       entityType,
       storagePath,
@@ -276,7 +277,7 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [
         `${key}${id}fileListEmptyStateHeader`,
         `${key}${id}fileListEmptyStateDescription`,
-        generateFileUploadButtonKey(`${key}${id}`),
+        generateFileUploadProcessButtonKey(`${key}${id}`),
       ],
     },
     [`${key}${id}fileListEmptyStateHeader`]: {

@@ -45,13 +45,19 @@ export class APIFileTransferService {
     private transfers: Record<string, Transfer> = {}
   ) {}
 
-  private prepareFile(path: string) {
-    const file = readFileSync(path, {
-      encoding: "base64",
-    })
+  private prepareFile(source: { path: string } | { base64: string }) {
+    if ("path" in source) {
+      const file = readFileSync(source.path, {
+        encoding: "base64",
+      })
+      return {
+        file,
+        crc32: crc.crc32(file),
+      }
+    }
     return {
-      file,
-      crc32: crc.crc32(file),
+      file: source.base64,
+      crc32: crc.crc32(source.base64),
     }
   }
 
@@ -110,13 +116,19 @@ export class APIFileTransferService {
   // Sending files to device
   @IpcEvent(ApiFileTransferServiceEvents.PreSend)
   public async preTransferSend({
-    filePath,
     targetPath,
     deviceId,
+    source,
   }: {
-    filePath: string
     targetPath: string
     deviceId?: DeviceId
+    source:
+      | {
+          path: string
+        }
+      | {
+          base64: string
+        }
   }): Promise<
     ResultObject<{
       transferId: number
@@ -130,12 +142,12 @@ export class APIFileTransferService {
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
-    const { crc32, file } = this.prepareFile(filePath)
+    const { crc32, file } = this.prepareFile(source)
 
     return await this.preTransferSendRequest(
       device,
       targetPath,
-      filePath,
+      "path" in source ? source.path : "base64",
       file,
       crc32
     )

@@ -13,6 +13,9 @@ import { ImportContacts } from "./import-contacts/import-contacts"
 import { DataMigration } from "./data-migration/data-migration"
 import { IncomingFeatureInfo } from "./incoming-feature-info"
 import { SelectionManager } from "./selection-manager"
+import { McContactsSearchResult } from "./contacts/mc-contacts-search-result"
+import { FilesManagerUploadProgress } from "./files-manager-upload/files-manager-upload-progress"
+import { FilesManagerUploadFinished } from "./files-manager-upload/files-manager-upload-finished"
 import {
   aboutDataBox,
   backupCreate,
@@ -23,12 +26,11 @@ import {
   lastBackupDate,
   mcContactsSearchResults,
   mcDataMigration,
-  mcFilesManagerUpload,
+  mcFilesManagerUploadFinished,
+  mcFilesManagerUploadProgress,
   overviewOsVersion,
   selectionManager,
 } from "generic-view/models"
-import { McContactsSearchResult } from "./contacts/mc-contacts-search-result"
-import { FilesManagerUpload } from "./files-manager-upload/files-manager-upload"
 
 export const predefinedComponents = {
   [overviewOsVersion.key]: OverviewOsVersion,
@@ -42,5 +44,6 @@ export const predefinedComponents = {
   [incomingFeatureInfo.key]: IncomingFeatureInfo,
   [selectionManager.key]: SelectionManager,
   [mcContactsSearchResults.key]: McContactsSearchResult,
-  [mcFilesManagerUpload.key]: FilesManagerUpload,
+  [mcFilesManagerUploadProgress.key]: FilesManagerUploadProgress,
+  [mcFilesManagerUploadFinished.key]: FilesManagerUploadFinished,
 }

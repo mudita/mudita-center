@@ -26,8 +26,6 @@ interface SendFileError {
   error: AppError<AppErrorType, SendFileErrorPayload>
 }
 
-export type SendFileResponse = Awaited<ReturnType<ReturnType<typeof sendFile>>>
-
 export const sendFile = createAsyncThunk<
   { transferId: number },
   | {
@@ -79,8 +77,8 @@ export const sendFile = createAsyncThunk<
     } else {
       const { filePath, targetPath } = params
       const preTransferResponse = await startPreSendFileRequest(
-        filePath,
         targetPath,
+        { path: filePath },
         deviceId
       )
       if (!preTransferResponse.ok) {

@@ -64,7 +64,8 @@ import { buttonPlain } from "./lib/button-plain"
 import { highlightText } from "./lib/highlight-text"
 import { mcContactsSearchResults } from "./lib/mc-contacts-search-results"
 import { TypographyMap } from "./lib/typography"
-import { mcFilesManagerUpload } from "./lib/mc-files-manager-upload"
+import { mcFilesManagerUploadProgress } from "./lib/mc-files-manager-upload-progress"
+import { mcFilesManagerUploadFinished } from "./lib/mc-files-manager-upload-finished"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -132,7 +133,8 @@ export * from "./lib/app-portal"
 export * from "./lib/highlight-text"
 export * from "./lib/mc-contacts-search-results"
 export * from "./lib/typography"
-export * from "./lib/mc-files-manager-upload"
+export * from "./lib/mc-files-manager-upload-progress"
+export * from "./lib/mc-files-manager-upload-finished"
 
 export default {
   [blockBox.key]: blockBox,
@@ -196,6 +198,7 @@ export default {
   [appPortal.key]: appPortal,
   [highlightText.key]: highlightText,
   [mcContactsSearchResults.key]: mcContactsSearchResults,
-  [mcFilesManagerUpload.key]: mcFilesManagerUpload,
+  [mcFilesManagerUploadProgress.key]: mcFilesManagerUploadProgress,
+  [mcFilesManagerUploadFinished.key]: mcFilesManagerUploadFinished,
   ...TypographyMap,
 } as const

@@ -6,124 +6,151 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { sendFile } from "./send-file.action"
 import { selectActiveApiDeviceId } from "../selectors"
-import path from "node:path"
+import { FileBase, FileId } from "./reducer"
+import { DeviceId } from "Core/device/constants/device-id"
+import {
+  sendFilesAbortRegister,
+  sendFilesChunkSent,
+  sendFilesError,
+  sendFilesFinished,
+  sendFilesPreSend,
+} from "./actions"
+import { sendFileRequest, startPreSendFileRequest } from "device/feature"
+import { createEntityDataAction } from "../entities/create-entity-data.action"
 
-type Path = string
-
-interface SendSelectedFilesActionReturned {
-  sentFiles: Path[]
-  failedFiles: Path[]
+export interface SendFilesPayload {
+  actionId: string
+  files: FileBase[]
+  targetPath: string
+  entitiesType?: string
+  customDeviceId?: DeviceId
 }
 
-interface SendSelectedFilesActionPayload {
-  filesPaths: Path[]
-  targetPath: Path
-  onFileSuccess?: (file: Path) => Promise<void>
-  onFileError?: (file: Path, error?: string) => Promise<void>
-}
-
-export const sendFilesAction = createAsyncThunk<
-  SendSelectedFilesActionReturned,
-  SendSelectedFilesActionPayload,
+export const sendFiles = createAsyncThunk<
+  undefined,
+  SendFilesPayload,
   { state: ReduxRootState }
 >(
-  ActionName.SendSelectedFiles,
+  ActionName.SendFiles,
   async (
-    { filesPaths, targetPath, onFileSuccess, onFileError },
-    { rejectWithValue, dispatch, getState, signal }
+    { actionId, files, targetPath, entitiesType, customDeviceId },
+    { dispatch, getState, signal, rejectWithValue, abort }
   ) => {
-    const failedFiles: string[] = []
-    const sentFiles: string[] = []
-
-    const sendFileAbortController = new AbortController()
-
-    let postFileTransferInterval: NodeJS.Timeout | undefined
-    let aborted = false
-
-    const abortListener = async () => {
-      signal.removeEventListener("abort", abortListener)
-      aborted = true
-      sendFileAbortController.abort()
-    }
-    signal.addEventListener("abort", abortListener)
-
-    const handleFileError = async (file: string, error?: string) => {
-      console.error(error)
-      postFileTransferInterval && clearInterval(postFileTransferInterval)
-      failedFiles.push(file)
-      await onFileError?.(file, error)
-    }
-
-    const handleFileSuccess = async (file: string) => {
-      sentFiles.push(file)
-      onFileSuccess?.(file)
-    }
-
-    if (aborted) {
-      return rejectWithValue(undefined)
-    }
-
-    const deviceId = selectActiveApiDeviceId(getState())
+    const deviceId = customDeviceId || selectActiveApiDeviceId(getState())
     if (!deviceId) {
       return rejectWithValue(undefined)
     }
 
-    for (const file of filesPaths) {
-      if (aborted) {
-        return rejectWithValue(undefined)
-      }
-      const fileName = path.basename(file)
-      const sentFilePromise = dispatch(
-        sendFile({
-          filePath: file,
-          targetPath: targetPath + fileName,
-          deviceId,
+    const mainAbortController = new AbortController()
+    mainAbortController.abort = abort
+    dispatch(
+      sendFilesAbortRegister({ actionId, abortController: mainAbortController })
+    )
+
+    const createEntityDataAbortController = new AbortController()
+
+    const abortListener = async () => {
+      signal.removeEventListener("abort", abortListener)
+      createEntityDataAbortController.abort()
+    }
+    signal.addEventListener("abort", abortListener)
+
+    const handleFileError = (fileId: FileId, error: string) => {
+      console.error(error)
+      dispatch(
+        sendFilesError({
+          id: fileId,
+          error,
         })
       )
-      sendFileAbortController.abort = sentFilePromise.abort
-      const sentFile = await sentFilePromise
+    }
 
-      if (aborted) {
+    for (const file of files) {
+      if (signal.aborted) {
+        handleFileError(file.id, "Aborted")
         return rejectWithValue(undefined)
       }
-      if (
-        sentFile.meta.requestStatus === "fulfilled" &&
-        sentFile.payload &&
-        "transferId" in sentFile.payload
-      ) {
-        await handleFileSuccess(file)
-        // if (entitiesType) {
-        //   const fileEntity = await dispatch(
-        //     createEntityDataAction({
-        //       deviceId,
-        //       entitiesType,
-        //       data: {
-        //         filePath: targetPath + fileName,
-        //         entityType: entitiesType,
-        //       },
-        //     })
-        //   )
-        //   if (fileEntity.meta.requestStatus === "rejected") {
-        //     await onFileFail(file)
-        //   }
-        // }
-      } else {
-        await handleFileError(file)
+
+      const preTransferResponse = await startPreSendFileRequest(
+        targetPath + file.name,
+        file,
+        deviceId
+      )
+      if (!preTransferResponse.ok) {
+        handleFileError(file.id, preTransferResponse.error.message)
+        continue
       }
+      const { transferId, chunksCount } = preTransferResponse.data
+
+      dispatch(
+        sendFilesPreSend({
+          transferId,
+          id: file.id,
+          size: file.size,
+          progress: { chunksCount, chunksTransferred: 0 },
+        })
+      )
+
+      let failed = false
+
+      for (let chunkNumber = 1; chunkNumber <= chunksCount; chunkNumber++) {
+        if (signal.aborted) {
+          handleFileError(file.id, "Aborted")
+          return rejectWithValue(undefined)
+        }
+
+        const { ok, error } = await sendFileRequest(transferId, chunkNumber)
+        if (!ok) {
+          handleFileError(file.id, error.message)
+          failed = true
+          break
+        }
+        dispatch(
+          sendFilesChunkSent({
+            id: file.id,
+            chunksTransferred: chunkNumber,
+          })
+        )
+      }
+      if (failed) {
+        continue
+      }
+
+      if (!entitiesType) {
+        dispatch(sendFilesFinished({ id: file.id }))
+        continue
+      }
+
+      if (signal.aborted) {
+        handleFileError(file.id, "Aborted")
+        return rejectWithValue(undefined)
+      }
+
+      const createEntityRequest = dispatch(
+        createEntityDataAction({
+          deviceId,
+          entitiesType,
+          data: {
+            filePath: targetPath + file.name,
+            entityType: entitiesType,
+          },
+        })
+      )
+      createEntityDataAbortController.abort = (
+        createEntityRequest as unknown as { abort: AbortController["abort"] }
+      ).abort
+
+      const fileEntity = await createEntityRequest
+      if (fileEntity.meta.requestStatus === "rejected") {
+        handleFileError(
+          file.id,
+          (fileEntity.payload?.message as string) || "Entity creation failed"
+        )
+        continue
+      }
+      dispatch(sendFilesFinished({ id: file.id }))
     }
-    //
-    // if (isEmpty(failedFiles)) {
-    //   console.log("All files sent successfully")
-    //   await onSuccess?.(openFileResult.data.map((file) => path.basename(file)))
-    // } else {
-    //   console.error("Some files failed to send", JSON.stringify(failedFiles))
-    //   await onError?.(failedFiles)
-    // }
-    return {
-      sentFiles,
-      failedFiles,
-    }
+    return
   }
 )

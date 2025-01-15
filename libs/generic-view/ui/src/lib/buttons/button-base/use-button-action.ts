@@ -21,6 +21,8 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { ButtonActions } from "generic-view/models"
 import { useViewFormContext } from "generic-view/utils"
+import { useSelectFilesButtonAction } from "./use-select-files-button-action"
+import { useUploadFilesButtonAction } from "./use-upload-files-button-action"
 
 export const useButtonAction = (viewKey: string) => {
   const dispatch = useDispatch<Dispatch>()
@@ -28,18 +30,26 @@ export const useButtonAction = (viewKey: string) => {
   const currentViewName = useScreenTitle(viewKey)!
   const getFormContext = useViewFormContext()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)!
+  const selectFiles = useSelectFilesButtonAction()
+  const uploadFiles = useUploadFilesButtonAction()
 
   return (actions: ButtonActions) =>
-    runActions(actions)({
-      dispatch,
-      navigate,
-      currentViewName,
-      getFormContext,
-      activeDeviceId,
-    })
+    runActions(actions)(
+      {
+        dispatch,
+        navigate,
+        currentViewName,
+        getFormContext,
+        activeDeviceId,
+      },
+      {
+        selectFiles,
+        uploadFiles,
+      }
+    )
 }
 
-interface RunActionsProviders {
+export interface RunActionsProviders {
   dispatch: Dispatch
   navigate: ReturnType<typeof useHistory>
   currentViewName: string
@@ -47,8 +57,16 @@ interface RunActionsProviders {
   activeDeviceId: string
 }
 
+interface CustomActions {
+  selectFiles: ReturnType<typeof useSelectFilesButtonAction>
+  uploadFiles: ReturnType<typeof useUploadFilesButtonAction>
+}
+
 const runActions = (actions?: ButtonActions) => {
-  return async (providers: RunActionsProviders) => {
+  return async (
+    providers: RunActionsProviders,
+    customActions: CustomActions
+  ) => {
     if (!actions) return
     const {
       dispatch,
@@ -112,17 +130,47 @@ const runActions = (actions?: ButtonActions) => {
         case "form-reset":
           getFormContext(action.formKey)?.reset()
           break
+        case "select-files":
+          {
+            const selected = await customActions.selectFiles(action)
+            if (!selected) {
+              return
+            }
+          }
+          break
+        case "upload-files":
+          await customActions.uploadFiles(action, {
+            onSuccess: async () => {
+              await runActions(action.postActions?.success)(
+                providers,
+                customActions
+              )
+            },
+            onFailure: async () => {
+              await runActions(action.postActions?.failure)(
+                providers,
+                customActions
+              )
+            },
+          })
+          break
         case "entities-delete":
           await dispatch(
             deleteEntitiesDataAction({
               entitiesType: action.entitiesType,
               ids: action.ids,
               deviceId: activeDeviceId,
-              onSuccess: () => {
-                return runActions(action.postActions?.success)(providers)
+              onSuccess: async () => {
+                await runActions(action.postActions?.success)(
+                  providers,
+                  customActions
+                )
               },
-              onError: () => {
-                return runActions(action.postActions?.failure)(providers)
+              onError: async () => {
+                await runActions(action.postActions?.failure)(
+                  providers,
+                  customActions
+                )
               },
             })
           )
@@ -133,11 +181,17 @@ const runActions = (actions?: ButtonActions) => {
               data: action.data,
               entitiesType: action.entitiesType,
               deviceId: activeDeviceId,
-              onSuccess: () => {
-                return runActions(action.postActions?.success)(providers)
+              onSuccess: async () => {
+                await runActions(action.postActions?.success)(
+                  providers,
+                  customActions
+                )
               },
-              onError: () => {
-                return runActions(action.postActions?.failure)(providers)
+              onError: async () => {
+                await runActions(action.postActions?.failure)(
+                  providers,
+                  customActions
+                )
               },
             })
           )
