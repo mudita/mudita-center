@@ -4,7 +4,7 @@
  */
 
 import { z } from "zod"
-import { entityDataSchema } from "../../../../device/models/src/lib/entities/entity-data.validator"
+import { entityDataSchema } from "device/models"
 
 export const modalSizeValidator = z.enum(["small", "medium", "large"])
 
