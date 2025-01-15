@@ -5,7 +5,6 @@ import {
   audioFileEntities,
   selectedContactsEntities,
 } from "../../helpers/entity-fixtures"
-import { mockEntityDeleteProcess } from "../../helpers/mock-entity-delete-process"
 
 function getBodyAsRecord(body: unknown): Record<string, any> {
   return body ? (body as Record<string, any>) : {}
@@ -219,11 +218,6 @@ describe("E2E mock lock sample", () => {
       entityType: "audioFiles",
     })
 
-    await browser.pause(1000)
-
-    mockEntityDeleteProcess({
-      totalEntities: 16,
-    })
     await browser.pause(10000)
   })
 })
