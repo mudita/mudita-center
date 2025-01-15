@@ -111,6 +111,16 @@ export const generateDeleteFiles = (
                   toastKey: `${id}filesDeletedToast`,
                 },
               ],
+              failure: [
+                {
+                  type: "close-domain-modals",
+                  domain: "files-delete",
+                },
+                {
+                  type: "open-modal",
+                  modalKey: `${id}deleteErrorModal`,
+                },
+              ],
             },
           },
         ],
@@ -202,6 +212,52 @@ export const generateDeleteFiles = (
       component: "modal.title",
       config: {
         text: "Deleting, please wait...",
+      },
+    },
+    [`${id}deleteErrorModal`]: {
+      component: "modal",
+      config: {
+        size: "small",
+      },
+      childrenKeys: [
+        `${id}deleteErrorModalIcon`,
+        `${id}deleteErrorModalTitle`,
+        `${id}deleteErrorModalContent`,
+        `${id}deleteErrorModalButton`,
+      ],
+    },
+    [`${id}deleteErrorModalIcon`]: {
+      component: "modal.titleIcon",
+      config: {
+        type: IconType.Failure,
+      },
+    },
+    [`${id}deleteErrorModalTitle`]: {
+      component: "modal.title",
+      config: {
+        text: "Deleting failed",
+      },
+    },
+    [`${id}deleteErrorModalContent`]: {
+      component: "typography.p1",
+      config: {
+        messageTemplate: "The file is still on Kompakt, please try again.",
+      },
+    },
+    [`${id}deleteErrorModalButton`]: {
+      component: "modal.buttons",
+      childrenKeys: [`${id}deleteErrorModalCloseButton`],
+    },
+    [`${id}deleteErrorModalCloseButton`]: {
+      component: "button-secondary",
+      config: {
+        text: "Close",
+        actions: [
+          {
+            type: "close-modal",
+            modalKey: `${id}deleteErrorModal`,
+          },
+        ],
       },
     },
   }
