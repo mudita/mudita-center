@@ -111,7 +111,9 @@ export const FilesManagerUploadFinished: APIFC<
     if (!oversizeFilesSum) {
       return ""
     }
-    return formatBytes(oversizeFilesSum - availableMemory)
+    const neededBytes =
+      Math.ceil((oversizeFilesSum - availableMemory) / 1000 ** 2) * 1000 ** 2
+    return formatBytes(neededBytes)
   }, [data?.freeSpace, failedFiles])
 
   const closeActions: ButtonAction[] = [
