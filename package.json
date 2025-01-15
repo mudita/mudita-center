@@ -21,7 +21,7 @@
     "app:translations:sync": "nx translations:sync mudita-center",
     "test": "npm run test:nx && npm run test:core",
     "test:core": "cross-env TZ=UTC jest --config=jest/jest.config.js",
-    "test:nx": "nx run-many --target=test",
+    "test:nx": "nx run-many --target=test --exclude api-devices-testing",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "cross-env stylelint '{libs,apps/mudita-center/src}/**/*.{ts,tsx}'",
     "lint:fix": "npm run lint:js -- --fix",
@@ -37,7 +37,8 @@
     "e2e:test:cicd:standalone": "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' nx e2e:test:cicd:standalone mudita-center-e2e",
     "e2e:test:cicd:mock": "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' nx e2e:test:cicd:mock mudita-center-e2e",
     "test-file:generate-and-push": "ts-node scripts/manage-test-files/generate-and-push-test-files.ts",
-    "test-file:clear": "ts-node scripts/manage-test-files/clear-test-files.ts"
+    "test-file:clear": "ts-node scripts/manage-test-files/clear-test-files.ts",
+    "api-device-testing": "npx nx run api-devices-testing:test"
   },
   "repository": {
     "type": "git",

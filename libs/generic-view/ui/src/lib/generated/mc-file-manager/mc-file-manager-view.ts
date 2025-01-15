@@ -99,7 +99,7 @@ export const generateMcFileManagerView: ComponentGenerator<
       childrenKeys: ["storageSummaryHeader", "storageSummaryContent"],
     },
     storageSummaryHeader: {
-      component: "h3-component",
+      component: "typography.h3",
       layout: {
         margin: "0 0 24px 0",
       },
@@ -122,7 +122,7 @@ export const generateMcFileManagerView: ComponentGenerator<
       ],
     },
     storageSummaryUsedText: {
-      component: "p3-component",
+      component: "typography.p3",
       config: {
         // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
         text: "Used: 0 KB",
@@ -138,7 +138,7 @@ export const generateMcFileManagerView: ComponentGenerator<
       },
     },
     storageSummaryFreeText: {
-      component: "p3-component",
+      component: "typography.p3",
       config: {
         text: "0",
         color: "grey2",
@@ -191,13 +191,13 @@ export const generateMcFileManagerView: ComponentGenerator<
       ],
     },
     fileCategoryOtherFilesItemNameText: {
-      component: "h4-component",
+      component: "typography.h4",
       config: {
         text: "Other files",
       },
     },
     fileCategoryOtherFilesItemNameSize: {
-      component: "p3-component",
+      component: "typography.p3",
       layout: {
         margin: "0 0 0 3px",
       },

@@ -40,7 +40,7 @@ const generateDeleteModal = ({
       childrenKeys: [`${id}DeleteModalTitleText`],
     },
     [`${id}DeleteModalContent`]: {
-      component: "p1-component",
+      component: "typography.p1",
       config: {
         text: "This can't be undone so please make a copy of any important information first.",
       },
@@ -164,11 +164,7 @@ const generateDeleteModal = ({
       },
     },
     [`${id}ContactsDeletedToastText`]: {
-      component: "p1-component",
-      childrenKeys: [`${id}ContactsDeletedToastMessage`],
-    },
-    [`${id}ContactsDeletedToastMessage`]: {
-      component: "format-message",
+      component: "typography.p1",
       config: {
         messageTemplate: singleContact
           ? "1 contact deleted"

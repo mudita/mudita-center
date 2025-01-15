@@ -7,7 +7,7 @@ import React, { FunctionComponent } from "react"
 import { DeviceSelector } from "./device-selector"
 import styled from "styled-components"
 import * as ArrowSvg from "../arrow.svg"
-import { H4 } from "../../../texts/headers"
+import { Typography } from "../../../typography"
 import { useSelector } from "react-redux"
 import {
   selectDataMigrationSourceDevices,
@@ -31,15 +31,15 @@ export const SourceSelector: FunctionComponent = () => {
   return (
     <Wrapper>
       <Column>
-        <H4>{intl.formatMessage(messages.from)}</H4>
+        <Typography.H4>{intl.formatMessage(messages.from)}</Typography.H4>
         <DeviceSelector type={"source"} devices={sourceDevices} />
       </Column>
       <Column>
-        <H4>&nbsp;</H4>
+        <Typography.H4>&nbsp;</Typography.H4>
         <ArrowSvg />
       </Column>
       <Column>
-        <H4>{intl.formatMessage(messages.to)}</H4>
+        <Typography.H4>{intl.formatMessage(messages.to)}</Typography.H4>
         <DeviceSelector
           type={"target"}
           devices={targetDevice ? [targetDevice] : []}
