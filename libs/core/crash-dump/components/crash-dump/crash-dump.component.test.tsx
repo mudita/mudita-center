@@ -51,6 +51,10 @@ jest.mock("Core/crash-dump/actions", () => ({
   resetCrashDump: () => resetCrashDump,
 }))
 
+jest.mock("../../../generic-view/ui/src/lib/shared/spinner-loader", () => ({
+  SpinnerLoader: () => <div data-testid="spinner" />,
+}))
+
 beforeEach(() => {
   jest.resetAllMocks()
 })
