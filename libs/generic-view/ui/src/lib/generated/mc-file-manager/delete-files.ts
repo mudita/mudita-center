@@ -51,11 +51,7 @@ export const generateDeleteFiles = (
       },
     },
     [`${id}deleteModalContent`]: {
-      component: "p1-component",
-      childrenKeys: [`${id}deleteModalContentText`],
-    },
-    [`${id}deleteModalContentText`]: {
-      component: "format-message",
+      component: "typography.p1",
       config: {
         messageTemplate:
           "This will remove the {selectedItems, plural, one {file} other {files}} from Kompakt.",
@@ -169,11 +165,7 @@ export const generateDeleteFiles = (
       },
     },
     [`${id}filesDeletedToastText`]: {
-      component: "p1-component",
-      childrenKeys: [`${id}filesDeletedToastMessage`],
-    },
-    [`${id}filesDeletedToastMessage`]: {
-      component: "format-message",
+      component: "typography.p1",
       config: {
         messageTemplate:
           "{selectedItems} {selectedItems, plural, one {file} other {files}} deleted",

@@ -6,7 +6,7 @@
 import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
-import { H5, Icon, P1, P3 } from "generic-view/ui"
+import { Icon, Typography } from "generic-view/ui"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { useDispatch, useSelector } from "react-redux"
@@ -48,9 +48,9 @@ export const ArticleFeedback: FunctionComponent = () => {
 
   return (
     <Wrapper data-testid={HelpTestId.ArticleFeedback}>
-      <H5 data-testid={HelpTestId.ArticleFeedbackTitle}>
+      <Typography.H5 data-testid={HelpTestId.ArticleFeedbackTitle}>
         {intl.formatMessage(messages.title)}
-      </H5>
+      </Typography.H5>
       <Content>
         {isRated ? (
           <>
@@ -65,13 +65,17 @@ export const ArticleFeedback: FunctionComponent = () => {
               onClick={givePositiveFeedback}
               data-testid={HelpTestId.ArticleFeedbackYesButton}
             >
-              <P1>{intl.formatMessage(messages.yesButtonLabel)}</P1>
+              <Typography.P1>
+                {intl.formatMessage(messages.yesButtonLabel)}
+              </Typography.P1>
             </FeedbackButton>
             <FeedbackButton
               onClick={giveNegativeFeedback}
               data-testid={HelpTestId.ArticleFeedbackNoButton}
             >
-              <P1>{intl.formatMessage(messages.noButtonLabel)}</P1>
+              <Typography.P1>
+                {intl.formatMessage(messages.noButtonLabel)}
+              </Typography.P1>
             </FeedbackButton>
           </>
         )}
@@ -131,6 +135,6 @@ const FeedbackButton = styled.button`
   }
 `
 
-const Thanks = styled(P3)`
+const Thanks = styled(Typography.P3)`
   color: ${({ theme }) => theme.color.grey1};
 `

@@ -16,7 +16,7 @@ import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { ModalStateKey, showModal } from "Core/modals-manager"
 import { useDispatch, useSelector } from "react-redux"
 import { ButtonTextConfig } from "generic-view/models"
-import { ButtonText, P3 } from "generic-view/ui"
+import { ButtonText, Typography } from "generic-view/ui"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectCurrentArticle } from "help/store"
 import { useParams } from "react-router"
@@ -205,6 +205,6 @@ const Heading = styled.h2`
   margin: 0 0 1.4rem;
 `
 
-const Paragraph = styled(P3)`
+const Paragraph = styled(Typography.P3)`
   color: ${({ theme }) => theme.color.black};
 `

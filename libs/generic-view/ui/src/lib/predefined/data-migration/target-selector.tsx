@@ -5,7 +5,7 @@
 
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
-import { P3 } from "../../texts/paragraphs"
+import { Typography } from "../../typography"
 import { DeviceCard } from "./components/device-card"
 import { useDataMigrationDeviceSelector } from "shared/feature"
 import { defineMessages } from "react-intl"
@@ -32,7 +32,9 @@ export const TargetSelector: FunctionComponent<Props> = ({ devices }) => {
     <TargetSelectorWrapper>
       <Header>
         <h2>{intl.formatMessage(messages.title)}</h2>
-        <P3>{intl.formatMessage(messages.description)}</P3>
+        <Typography.P3>
+          {intl.formatMessage(messages.description)}
+        </Typography.P3>
       </Header>
       <Devices>
         {devices.map((device) => {
