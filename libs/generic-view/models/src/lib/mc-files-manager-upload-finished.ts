@@ -5,7 +5,11 @@
 
 import { z } from "zod"
 
-const dataValidator = z.undefined()
+const dataValidator = z.object({
+  freeSpace: z.number(),
+})
+
+export type McFilesManagerUploadFinishedData = z.infer<typeof dataValidator>
 
 const configValidator = z.object({
   modalKey: z.string(),

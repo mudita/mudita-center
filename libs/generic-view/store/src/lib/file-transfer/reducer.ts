@@ -4,7 +4,7 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { AppErrorType } from "Core/core/errors"
+import { AppError, AppErrorType } from "Core/core/errors"
 import {
   clearGetErrors,
   clearSendErrors,
@@ -23,6 +23,7 @@ import {
 import { sendFile } from "./send-file.action"
 import { getFile } from "./get-file.action"
 import { sendFiles } from "./send-files.action"
+import { ApiFileTransferError } from "device/models"
 
 interface FileTransferError {
   code?: AppErrorType
@@ -73,7 +74,7 @@ export type FileTransferProgress = FileBase & {
 
 export type FileTransferFailed = FileBase & {
   status: "finished"
-  error: string
+  error: AppError<ApiFileTransferError>
 }
 
 export type FileTransferSucceeded = FileBase & {

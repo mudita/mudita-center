@@ -3,11 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useCallback, useMemo } from "react"
 import { APIFC, IconType } from "generic-view/utils"
 import {
   ButtonAction,
   McFilesManagerUploadFinishedConfig,
+  McFilesManagerUploadFinishedData,
 } from "generic-view/models"
 import { Modal } from "../../interactive/modal/modal"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -22,29 +23,96 @@ import { useDispatch, useSelector } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { modalTransitionDuration } from "generic-view/theme"
+import { Typography } from "../../typography"
+import { uniq } from "lodash"
+import { ApiFileTransferError } from "device/models"
+import styled from "styled-components"
+import { formatBytes } from "../../typography/format-bytes"
 
 const messages = defineMessages({
-  failedModalTitle: {
-    id: "module.genericViews.filesManager.upload.failure.modalTitle",
+  allModalTitle: {
+    id: "module.genericViews.filesManager.upload.failure.all.modalTitle",
+  },
+  allUnknownError: {
+    id: "module.genericViews.filesManager.upload.failure.all.unknownError",
+  },
+  allDuplicatesError: {
+    id: "module.genericViews.filesManager.upload.failure.all.duplicatesError",
+  },
+  allNotEnoughMemoryError: {
+    id: "module.genericViews.filesManager.upload.failure.all.notEnoughMemoryError",
+  },
+  someModalTitle: {
+    id: "module.genericViews.filesManager.upload.failure.some.modalTitle",
+  },
+  someGeneralInfo: {
+    id: "module.genericViews.filesManager.upload.failure.some.generalInfo",
+  },
+  someDuplicatesError: {
+    id: "module.genericViews.filesManager.upload.failure.some.duplicatesError",
+  },
+  someNotEnoughMemoryError: {
+    id: "module.genericViews.filesManager.upload.failure.some.notEnoughMemoryError",
+  },
+  errorLabelUnknown: {
+    id: "module.genericViews.filesManager.upload.failure.errorLabels.unknown",
+  },
+  errorLabelDuplicate: {
+    id: "module.genericViews.filesManager.upload.failure.errorLabels.duplicate",
+  },
+  errorLabelTooBig: {
+    id: "module.genericViews.filesManager.upload.failure.errorLabels.tooBig",
+  },
+  errorLabelCancelled: {
+    id: "module.genericViews.filesManager.upload.failure.errorLabels.cancelled",
+  },
+  multipleErrorsStart: {
+    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.start",
+  },
+  multipleErrorsDuplicates: {
+    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.duplicates",
+  },
+  multipleErrorsTooBig: {
+    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.tooBig",
+  },
+  multipleErrorsEnd: {
+    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.end",
   },
 })
 
 export const FilesManagerUploadFinished: APIFC<
-  undefined,
+  McFilesManagerUploadFinishedData,
   McFilesManagerUploadFinishedConfig
-> = ({ config }) => {
+> = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
   const selectorsConfig = { groupId: config.uploadActionId }
 
   const filesCount = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCount(state, selectorsConfig)
   })
-  const sentFiles = useSelector((state: ReduxRootState) => {
+  const succeededFiles = useSelector((state: ReduxRootState) => {
     return selectFilesSendingSucceeded(state, selectorsConfig)
   })
   const failedFiles = useSelector((state: ReduxRootState) => {
     return selectFilesSendingFailed(state, selectorsConfig)
   })
+  const allFilesFailed = failedFiles.length === filesCount
+  const errorTypes = uniq(failedFiles.map((file) => file.error.message))
+
+  const memoryNeeded = useMemo(() => {
+    const oversizeFilesSum = failedFiles
+      .filter(
+        (file) =>
+          file.error.message ===
+          ApiFileTransferError[ApiFileTransferError.NotEnoughSpace]
+      )
+      .reduce((acc, file) => acc + file.size, 0)
+    const availableMemory = data?.freeSpace ?? 0
+    if (!oversizeFilesSum) {
+      return ""
+    }
+    return formatBytes(oversizeFilesSum - availableMemory)
+  }, [data?.freeSpace, failedFiles])
 
   const closeActions: ButtonAction[] = [
     {
@@ -61,27 +129,204 @@ export const FilesManagerUploadFinished: APIFC<
     },
   ]
 
+  const getFileErrorReason = useCallback(
+    (file: (typeof failedFiles)[number]) => {
+      switch (file.error.message) {
+        case ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]:
+          return intl.formatMessage(messages.errorLabelDuplicate)
+        case ApiFileTransferError[ApiFileTransferError.NotEnoughSpace]:
+          return intl.formatMessage(messages.errorLabelTooBig, {})
+        case ApiFileTransferError[ApiFileTransferError.Aborted]:
+          return intl.formatMessage(messages.errorLabelCancelled)
+        default:
+          return intl.formatMessage(messages.errorLabelUnknown)
+      }
+    },
+    []
+  )
+
+  const title = useMemo(() => {
+    if (allFilesFailed) {
+      return intl.formatMessage(messages.allModalTitle, {
+        filesCount,
+      })
+    } else {
+      return intl.formatMessage(messages.someModalTitle)
+    }
+  }, [allFilesFailed, filesCount])
+
+  const errorMessage = useMemo(() => {
+    if (errorTypes.length > 1) {
+      return
+    }
+    if (allFilesFailed) {
+      switch (errorTypes[0]) {
+        case ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]:
+          return intl.formatMessage(messages.allDuplicatesError, {
+            filesCount,
+          })
+        case ApiFileTransferError[ApiFileTransferError.NotEnoughSpace]:
+          return intl.formatMessage(messages.allNotEnoughMemoryError, {
+            filesCount,
+            memory: memoryNeeded,
+          })
+        default:
+          return intl.formatMessage(messages.allUnknownError, {
+            filesCount,
+          })
+      }
+    } else {
+      switch (errorTypes[0]) {
+        case ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]:
+          return intl.formatMessage(messages.someDuplicatesError)
+        case ApiFileTransferError[ApiFileTransferError.NotEnoughSpace]:
+          return intl.formatMessage(messages.someNotEnoughMemoryError, {
+            memory: memoryNeeded,
+          })
+        default:
+          return
+      }
+    }
+  }, [allFilesFailed, errorTypes, filesCount, memoryNeeded])
+
+  const filesList = useMemo(() => {
+    if (filesCount === 1 || (allFilesFailed && errorTypes.length === 1)) {
+      return
+    }
+    const list = [
+      ...failedFiles.filter(
+        (file) =>
+          file.error.message ===
+          ApiFileTransferError[ApiFileTransferError.NotEnoughSpace]
+      ),
+      ...failedFiles.filter(
+        (file) =>
+          file.error.message ===
+          ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]
+      ),
+      ...failedFiles.filter(
+        (file) =>
+          file.error.message ===
+          ApiFileTransferError[ApiFileTransferError.Aborted]
+      ),
+      ...failedFiles.filter(
+        (file) =>
+          file.error.message !==
+            ApiFileTransferError[ApiFileTransferError.NotEnoughSpace] &&
+          file.error.message !==
+            ApiFileTransferError[ApiFileTransferError.FileAlreadyExists] &&
+          file.error.message !==
+            ApiFileTransferError[ApiFileTransferError.Aborted]
+      ),
+    ]
+    return (
+      <Modal.ScrollableContent>
+        <FilesList>
+          {list.map((file) => (
+            <li key={file.id}>
+              <FileListItem>
+                <Typography.P1>{file.name}</Typography.P1>
+                {errorTypes.length > 1 && (
+                  <Typography.P1>({getFileErrorReason(file)})</Typography.P1>
+                )}
+              </FileListItem>
+            </li>
+          ))}
+        </FilesList>
+      </Modal.ScrollableContent>
+    )
+  }, [
+    allFilesFailed,
+    errorTypes.length,
+    failedFiles,
+    filesCount,
+    getFileErrorReason,
+  ])
+
+  const generalInfo = useMemo(() => {
+    if (allFilesFailed && errorTypes.length === 1) {
+      return
+    }
+    const sentenceEnding = errorMessage || !filesList ? "." : ":"
+    return (
+      intl.formatMessage(messages.someGeneralInfo, {
+        succeededFiles: succeededFiles.length,
+        failedFiles: failedFiles.length,
+      }) + sentenceEnding
+    )
+  }, [
+    allFilesFailed,
+    errorMessage,
+    errorTypes.length,
+    failedFiles.length,
+    filesList,
+    succeededFiles.length,
+  ])
+
+  const multipleErrorsMessage = useMemo(() => {
+    if (errorTypes.length === 1) {
+      return
+    }
+    const messageStart = intl.formatMessage(messages.multipleErrorsStart)
+
+    const messagesMiddle = errorTypes.map((errorType) => {
+      if (
+        errorType ===
+        ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]
+      ) {
+        return intl.formatMessage(messages.multipleErrorsDuplicates)
+      }
+      if (
+        errorType === ApiFileTransferError[ApiFileTransferError.NotEnoughSpace]
+      ) {
+        return intl.formatMessage(messages.multipleErrorsTooBig)
+      }
+      return
+    })
+
+    const messageEnd = intl.formatMessage(messages.multipleErrorsEnd)
+    return messageStart + messagesMiddle.join(", ") + messageEnd
+  }, [errorTypes])
+
   return (
     <>
-      <Modal.TitleIcon config={{ type: IconType.Success }} />
-      <Modal.Title>
-        {intl.formatMessage(messages.failedModalTitle, {
-          filesCount,
-        })}
-      </Modal.Title>
-      <p>Sent:</p>
-      {sentFiles.map((file) => (
-        <div key={file.id}>{file.name}</div>
-      ))}
-      <p>Failed:</p>
-      {failedFiles.map((file) => (
-        <div key={file.id}>
-          {file.name} ({file.error})
-        </div>
-      ))}
+      <Modal.TitleIcon config={{ type: IconType.Failure }} />
+      <Modal.Title>{title}</Modal.Title>
+      {generalInfo && <Typography.P1>{generalInfo}</Typography.P1>}
+      {errorMessage && <Typography.P1>{errorMessage}</Typography.P1>}
+      {filesList}
+      {multipleErrorsMessage && (
+        <Typography.P1>{multipleErrorsMessage}</Typography.P1>
+      )}
       <Modal.Buttons config={{ vertical: true }}>
         <ButtonSecondary config={{ text: "Close", actions: closeActions }} />
       </Modal.Buttons>
     </>
   )
 }
+
+const FilesList = styled.ul`
+  li {
+    p {
+      &:first-child {
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      &:nth-child(2) {
+        white-space: nowrap;
+        color: ${({ theme }) => theme.color.grey2};
+      }
+    }
+  }
+`
+
+const FileListItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.4rem;
+  justify-content: space-between;
+  overflow: hidden;
+`
