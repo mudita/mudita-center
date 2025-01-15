@@ -67,9 +67,9 @@ class MockDescriptor {
 
     const filteredResponses = currentResponses.filter((item) => {
       if (item.match === undefined) {
-        return match === undefined
+        return match !== undefined
       }
-      return true
+      return JSON.stringify(item.match) !== JSON.stringify(match)
     })
 
     this._mockResponsesPerDevice[path] = {
@@ -121,9 +121,9 @@ class MockDescriptor {
 
     const filteredResponses = currentResponses.filter((item) => {
       if (item.match === undefined) {
-        return match === undefined
+        return match !== undefined
       }
-      return true
+      return JSON.stringify(item.match) !== JSON.stringify(match)
     })
 
     this.setResponseOnce({
