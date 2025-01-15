@@ -16,7 +16,11 @@ import {
   sendFilesFinished,
   sendFilesPreSend,
 } from "./actions"
-import { sendFileRequest, startPreSendFileRequest } from "device/feature"
+import {
+  abortTransferRequest,
+  sendFileRequest,
+  startPreSendFileRequest,
+} from "device/feature"
 import { createEntityDataAction } from "../entities/create-entity-data.action"
 
 export interface SendFilesPayload {
@@ -97,6 +101,7 @@ export const sendFiles = createAsyncThunk<
       for (let chunkNumber = 1; chunkNumber <= chunksCount; chunkNumber++) {
         if (signal.aborted) {
           handleFileError(file.id, "Aborted")
+          await abortTransferRequest(transferId, deviceId)
           return rejectWithValue(undefined)
         }
 

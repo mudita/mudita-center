@@ -268,6 +268,37 @@ export class APIFileTransferService {
     return validChecksum
   }
 
+  @IpcEvent(ApiFileTransferServiceEvents.SendDelete)
+  public async transferSendDelete({
+    transferId,
+    deviceId,
+  }: {
+    transferId: number
+    deviceId?: DeviceId
+  }) {
+    const device = deviceId
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "FILE_TRANSFER",
+      method: "DELETE",
+      body: {
+        fileTransferId: transferId,
+      },
+    })
+
+    if (!response.ok) {
+      return handleError(response.error.type)
+    }
+
+    return Result.success(undefined)
+  }
+
   @IpcEvent(ApiFileTransferServiceEvents.PreGet)
   public async preTransferGet({
     filePath,
