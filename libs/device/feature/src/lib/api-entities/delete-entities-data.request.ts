@@ -17,5 +17,6 @@ export const deleteEntitiesDataRequest = (data: {
   ids: EntityId[]
   deviceId?: DeviceId
 }): Promise<ResultObject<EntitiesDeleteResponse>> => {
+  console.log("Ajdiczki: ", data)
   return ipcRenderer.callMain(APIEntitiesServiceEvents.EntitiesDataDelete, data)
 }

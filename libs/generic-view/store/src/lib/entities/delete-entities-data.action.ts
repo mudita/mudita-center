@@ -31,10 +31,11 @@ export const deleteEntitiesDataAction = createAsyncThunk<
     { entitiesType, ids, deviceId, onSuccess, onError },
     { rejectWithValue, dispatch }
   ) => {
+    const idsToDelete = ids.concat(["555555555555555"])
     const response = await delayResponse(
       deleteEntitiesDataRequest({
         entitiesType,
-        ids,
+        ids: idsToDelete,
         deviceId,
       }),
       1000
@@ -43,6 +44,7 @@ export const deleteEntitiesDataAction = createAsyncThunk<
       await onError?.()
       return rejectWithValue(response.error)
     }
+    console.log("Łodpowiedź: ", response)
     await onSuccess?.()
     await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
     return response.data?.failedIds
