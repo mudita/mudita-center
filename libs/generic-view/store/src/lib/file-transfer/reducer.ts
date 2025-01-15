@@ -12,11 +12,19 @@ import {
   fileTransferChunkSent,
   fileTransferGetPrepared,
   fileTransferSendPrepared,
+  sendFilesAbort,
+  sendFilesAbortRegister,
+  sendFilesChunkSent,
+  sendFilesClear,
+  sendFilesError,
+  sendFilesFinished,
+  sendFilesPreSend,
 } from "./actions"
 import { sendFile } from "./send-file.action"
 import { getFile } from "./get-file.action"
+import { sendFiles } from "./send-files.action"
 
-export interface FileTransferError {
+interface FileTransferError {
   code?: AppErrorType
   message?: string
   filePath?: string
@@ -30,6 +38,55 @@ export interface FileProgress {
   filePath?: string
 }
 
+export type FileId = string | number
+export type FileGroupId = string | number
+export type ActionId = string
+
+export type FileBase =
+  | {
+      id: FileId
+      size: number
+      path: string
+      name: string
+      groupId?: FileGroupId
+    }
+  | {
+      id: FileId
+      size: number
+      base64: string
+      name: string
+      groupId?: FileGroupId
+    }
+
+type FileTransferPending = FileBase & {
+  status: "pending"
+}
+
+export type FileTransferProgress = FileBase & {
+  status: "in-progress"
+  transferId: number
+  progress: {
+    chunksCount: number
+    chunksTransferred: number
+  }
+}
+
+export type FileTransferFailed = FileBase & {
+  status: "finished"
+  error: string
+}
+
+export type FileTransferSucceeded = FileBase & {
+  status: "finished"
+}
+
+export type FileTransferFinished = FileTransferSucceeded | FileTransferFailed
+
+export type File =
+  | FileTransferPending
+  | FileTransferProgress
+  | FileTransferFinished
+
 interface FileTransferState {
   sendingFilesProgress: {
     [transferId: number]: FileProgress
@@ -39,6 +96,13 @@ interface FileTransferState {
     [transferId: number]: FileProgress
   }
   receivingErrors?: FileTransferError[]
+  // New approach for transferring files
+  filesTransferSend: {
+    [id: FileId]: File
+  }
+  filesTransferSendAbortActions: {
+    [actionId: ActionId]: AbortController
+  }
 }
 
 const initialState: FileTransferState = {
@@ -46,6 +110,9 @@ const initialState: FileTransferState = {
   sendingErrors: [],
   receivingFilesProgress: {},
   receivingErrors: [],
+  // New approach for transferring files
+  filesTransferSend: {},
+  filesTransferSendAbortActions: {},
 }
 
 export const genericFileTransferReducer = createReducer(
@@ -54,6 +121,7 @@ export const genericFileTransferReducer = createReducer(
     builder.addCase(fileTransferSendPrepared, (state, action) => {
       state.sendingFilesProgress[action.payload.transferId] = {
         transferId: action.payload.transferId,
+        filePath: action.payload.filePath,
         chunksCount: action.payload.chunksCount,
         chunksTransferred: 0,
       }
@@ -144,6 +212,61 @@ export const genericFileTransferReducer = createReducer(
       state.receivingErrors = state.receivingErrors?.filter(
         (error) => error.transferId !== action.payload.transferId
       )
+    })
+    // New approach for transferring files
+    builder.addCase(sendFiles.pending, (state, action) => {
+      for (const file of action.meta.arg.files) {
+        state.filesTransferSend[file.id] = { ...file, status: "pending" }
+      }
+    })
+    builder.addCase(sendFiles.rejected, (state, action) => {
+      delete state.filesTransferSendAbortActions[action.meta.requestId]
+    })
+    builder.addCase(sendFiles.fulfilled, (state, action) => {
+      delete state.filesTransferSendAbortActions[action.meta.requestId]
+    })
+    builder.addCase(sendFilesPreSend, (state, action) => {
+      const file = state.filesTransferSend[action.payload.id]
+      file.status = "in-progress"
+      ;(file as FileTransferProgress).transferId = action.payload.transferId
+      ;(file as FileTransferProgress).progress = action.payload.progress
+    })
+    builder.addCase(sendFilesChunkSent, (state, action) => {
+      const file = state.filesTransferSend[action.payload.id]
+      if (file?.status === "in-progress") {
+        file.progress.chunksTransferred = action.payload.chunksTransferred
+      }
+    })
+    builder.addCase(sendFilesFinished, (state, action) => {
+      const file = state.filesTransferSend[action.payload.id]
+      file.status = "finished"
+    })
+    builder.addCase(sendFilesError, (state, action) => {
+      const file = state.filesTransferSend[
+        action.payload.id
+      ] as FileTransferFailed
+      file.status = "finished"
+      file.error = action.payload.error
+    })
+    builder.addCase(sendFilesClear, (state, action) => {
+      if ("groupId" in action.payload) {
+        for (const file of Object.values(state.filesTransferSend)) {
+          if (file.groupId === action.payload.groupId) {
+            delete state.filesTransferSend[file.id]
+          }
+        }
+      } else {
+        for (const fileId of action.payload.filesIds) {
+          delete state.filesTransferSend[fileId]
+        }
+      }
+    })
+    builder.addCase(sendFilesAbortRegister, (state, action) => {
+      state.filesTransferSendAbortActions[action.payload.actionId] =
+        action.payload.abortController
+    })
+    builder.addCase(sendFilesAbort.fulfilled, (state, action) => {
+      delete state.filesTransferSendAbortActions[action.meta.arg]
     })
   }
 )

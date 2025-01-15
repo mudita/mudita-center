@@ -11,6 +11,11 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { enhanceEntity } from "./helpers/enhance-entity"
+import { AppError } from "Core/core/errors"
+
+export type CreateEntityResponse = Awaited<
+  ReturnType<ReturnType<typeof createEntityDataAction>>
+>
 
 export const createEntityDataAction = createAsyncThunk<
   EntityData,
@@ -21,7 +26,7 @@ export const createEntityDataAction = createAsyncThunk<
     onSuccess?: () => Promise<void> | void
     onError?: () => Promise<void> | void
   },
-  { state: ReduxRootState }
+  { state: ReduxRootState; rejectValue: AppError | undefined }
 >(
   ActionName.CreateEntityData,
   async (
