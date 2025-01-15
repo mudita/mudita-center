@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { v4 as uuid } from "uuid"
 import { E2EMockClient } from "../../../../libs/e2e-mock/client/src/lib/e2e-mock-client"
 
 interface mockEntityDeleteProcessOptions {
@@ -13,7 +14,7 @@ interface mockEntityDeleteProcessOptions {
 export const mockEntityDeleteProcess = ({ totalEntities, entityType }: mockEntityDeleteProcessOptions) => {
   E2EMockClient.mockResponseOnce({
     path: "path-1",
-    body: { totalEntities, uniqueKey: "1733750368391" },
+    body: { totalEntities, uniqueKey: `${uuid()}` },
     match: {
       expected: {
         entityType: entityType,
