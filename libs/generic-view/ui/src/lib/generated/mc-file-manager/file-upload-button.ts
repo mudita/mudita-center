@@ -57,6 +57,15 @@ export const generateFileUploadProcessButton: ComponentGenerator<
             destinationPath: storagePath + directoryPath,
             entitiesType: entityType,
             actionId: uploadActionId,
+            preActions: {
+              validationFailure: [
+                {
+                  type: "replace-modal",
+                  modalKey:
+                    generateFileUploadButtonModalKey("ValidationFailure"),
+                },
+              ],
+            },
             postActions: {
               success: [
                 {
@@ -76,17 +85,13 @@ export const generateFileUploadProcessButton: ComponentGenerator<
               ],
               failure: [
                 {
-                  type: "close-modal",
-                  modalKey: generateFileUploadButtonModalKey("Progress"),
-                },
-                {
                   type: "form-set-field",
                   formKey: `${key}fileListForm`,
                   key: "filesToUpload",
                   value: [],
                 },
                 {
-                  type: "open-modal",
+                  type: "replace-modal",
                   modalKey: generateFileUploadButtonModalKey("Finished"),
                 },
               ],
@@ -155,6 +160,18 @@ export const generateFileUploadProcessButton: ComponentGenerator<
         modalKey: generateFileUploadButtonModalKey("Finished"),
         uploadActionId,
       },
+    },
+    [generateFileUploadButtonModalKey("ValidationFailure")]: {
+      component: "modal",
+      config: {
+        size: "small",
+      },
+      childrenKeys: [
+        generateFileUploadButtonModalKey("ValidationFailureContent"),
+      ],
+    },
+    [generateFileUploadButtonModalKey("ValidationFailureContent")]: {
+      component: "block-plain",
     },
   }
 }

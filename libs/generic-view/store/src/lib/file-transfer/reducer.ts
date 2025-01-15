@@ -220,9 +220,6 @@ export const genericFileTransferReducer = createReducer(
       }
     })
     builder.addCase(sendFiles.rejected, (state, action) => {
-      // for (const file of action.meta.arg.files) {
-      //   delete state.filesTransferSend[file.id]
-      // }
       delete state.filesTransferSendAbortActions[action.meta.requestId]
     })
     builder.addCase(sendFiles.fulfilled, (state, action) => {

@@ -23,6 +23,7 @@ import { ButtonActions } from "generic-view/models"
 import { useViewFormContext } from "generic-view/utils"
 import { useSelectFilesButtonAction } from "./use-select-files-button-action"
 import { useUploadFilesButtonAction } from "./use-upload-files-button-action"
+import { modalTransitionDuration } from "generic-view/theme"
 
 export const useButtonAction = (viewKey: string) => {
   const dispatch = useDispatch<Dispatch>()
@@ -62,6 +63,10 @@ interface CustomActions {
   uploadFiles: ReturnType<typeof useUploadFilesButtonAction>
 }
 
+const waitForModalTransition = () => {
+  return new Promise((resolve) => setTimeout(resolve, modalTransitionDuration))
+}
+
 const runActions = (actions?: ButtonActions) => {
   return async (
     providers: RunActionsProviders,
@@ -89,6 +94,7 @@ const runActions = (actions?: ButtonActions) => {
           break
         case "close-modal":
           dispatch(closeModal({ key: action.modalKey }))
+          await waitForModalTransition()
           break
         case "replace-modal":
           dispatch(
@@ -101,9 +107,11 @@ const runActions = (actions?: ButtonActions) => {
           break
         case "close-domain-modals":
           dispatch(closeDomainModals({ domain: action.domain }))
+          await waitForModalTransition()
           break
         case "close-all-modals":
           dispatch(closeAllModals())
+          await waitForModalTransition()
           break
         case "navigate":
           navigate.push({
@@ -140,6 +148,12 @@ const runActions = (actions?: ButtonActions) => {
           break
         case "upload-files":
           await customActions.uploadFiles(action, {
+            onValidationFailure: async () => {
+              await runActions(action.preActions?.validationFailure)(
+                providers,
+                customActions
+              )
+            },
             onSuccess: async () => {
               await runActions(action.postActions?.success)(
                 providers,

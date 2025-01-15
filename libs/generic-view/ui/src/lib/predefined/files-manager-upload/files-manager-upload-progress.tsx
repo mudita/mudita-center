@@ -32,9 +32,8 @@ export const FilesManagerUploadProgress: APIFC<
   undefined,
   McFilesManagerUploadProgressConfig
 > = ({ config }) => {
-  const selectorsConfig = { groupId: config.uploadActionId }
-
   const dispatch = useDispatch<Dispatch>()
+  const selectorsConfig = { groupId: config.uploadActionId }
 
   const filesCount = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCount(state, selectorsConfig)
@@ -68,7 +67,7 @@ export const FilesManagerUploadProgress: APIFC<
         }}
         data={{
           value: transferProgress,
-          message: currentFile?.name,
+          message: currentFile?.name || "",
         }}
       />
     </>

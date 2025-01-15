@@ -28,6 +28,7 @@ export const useUploadFilesButtonAction = () => {
       callbacks: {
         onSuccess: () => Promise<void>
         onFailure: () => Promise<void>
+        onValidationFailure: () => Promise<void>
       }
     ) => {
       const filesPaths: string[] = getFormContext(
@@ -48,6 +49,15 @@ export const useUploadFilesButtonAction = () => {
           name: path.basename(filePath),
         })
       }
+
+      // TODO: Validate files before sending
+      /* Example:
+      if (validationFailed) {
+        await callbacks.onValidationFailure()
+        return
+      }
+      */
+
       const response = (await dispatch(
         sendFiles({
           files,

@@ -155,6 +155,11 @@ const filesTransferUploadFilesActionValidator = z.object({
     formKey: z.string().optional(),
     filesToUploadFieldName: z.string(),
   }),
+  preActions: z
+    .object({
+      validationFailure: entityPostActionsValidator,
+    })
+    .optional(),
   postActions: z
     .object({
       success: entityPostActionsValidator,
