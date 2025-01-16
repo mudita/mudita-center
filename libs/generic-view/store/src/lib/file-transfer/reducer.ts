@@ -311,7 +311,7 @@ export const genericFileTransferReducer = createReducer(
     })
     builder.addCase(clearFileTransferErrors, (state, action) => {
       const actionId = action.payload.actionId
-      state.filesTransferErrors[actionId] = []
+      delete state.filesTransferErrors[actionId]
     })
   }
 )

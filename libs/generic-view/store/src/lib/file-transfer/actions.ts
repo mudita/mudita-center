@@ -14,7 +14,6 @@ import {
   FileTransferFailed,
   FileTransferFinished,
   FileTransferProgress,
-  FileTransferValidationError,
 } from "./reducer"
 import { SendFileErrorPayload } from "./send-file.action"
 import { GetFileErrorPayload } from "./get-file.action"

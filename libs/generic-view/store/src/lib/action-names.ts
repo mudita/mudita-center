@@ -2,7 +2,6 @@
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
-import { addFileTransferErrors } from "Libs/generic-view/store/src"
 
 export enum ActionName {
   GetConfig = "api-actions/get-config",

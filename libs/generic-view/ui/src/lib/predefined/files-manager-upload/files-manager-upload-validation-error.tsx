@@ -14,7 +14,6 @@ import {
 import { McFilesManagerUploadValidationErrorConfig } from "generic-view/models"
 import {
   selectValidationFailureType,
-  addFileTransferErrors,
   clearFileTransferErrors,
 } from "generic-view/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
