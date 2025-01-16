@@ -15,12 +15,11 @@ export const validateSelectedFiles = async (
   entityFilePaths: string[],
   availableSpace: number
 ): Promise<ValidationFailure | undefined> => {
-  if (selectedFiles.length === 1) {
-    const fileLargerThan = await isFileLargerThan(
-      selectedFiles[0],
-      2000000000 // 2GB
-    )
-    if (fileLargerThan) return { status: "fileLargerThan2GB" }
+  for (const file of selectedFiles) {
+    const fileLargerThan = await isFileLargerThan(file, 2000000000) // 2GB
+    if (fileLargerThan) {
+      return { status: "someFileLargerThan2GB" }
+    }
   }
 
   const allFilesDuplicated = areAllFilesDuplicated(

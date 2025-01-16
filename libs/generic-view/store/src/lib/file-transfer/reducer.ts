@@ -88,8 +88,8 @@ export type File =
   | FileTransferProgress
   | FileTransferFinished
 
-type ValidationFailureFileLargerThan2GB = {
-  status: "fileLargerThan2GB"
+type ValidationFailureSomeFileLargerThan2GB = {
+  status: "someFileLargerThan2GB"
 }
 type ValidationFailureAllFilesDuplicated = {
   status: "allFilesDuplicated"
@@ -100,7 +100,7 @@ type ValidationFailureNotHaveSpaceForUpload = {
 }
 
 export type ValidationFailure =
-  | ValidationFailureFileLargerThan2GB
+  | ValidationFailureSomeFileLargerThan2GB
   | ValidationFailureAllFilesDuplicated
   | ValidationFailureNotHaveSpaceForUpload
 

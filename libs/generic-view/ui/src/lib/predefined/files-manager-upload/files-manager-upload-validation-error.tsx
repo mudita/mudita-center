@@ -7,7 +7,10 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
 import { APIFC, CustomModalError, IconType } from "generic-view/utils"
-import { ButtonAction } from "generic-view/models"
+import {
+  ButtonAction,
+  McFilesManagerUploadValidationErrorData,
+} from "generic-view/models"
 import { McFilesManagerUploadValidationErrorConfig } from "generic-view/models"
 import {
   selectValidationFailureType,
@@ -49,9 +52,9 @@ const messages = defineMessages({
 })
 
 export const FilesManagerUploadValidationError: APIFC<
-  undefined,
+  McFilesManagerUploadValidationErrorData,
   McFilesManagerUploadValidationErrorConfig
-> = ({ config }) => {
+> = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
   const [error, setError] = useState<CustomModalError>()
   const validationFailureType = useSelector(selectValidationFailureType)
@@ -70,24 +73,37 @@ export const FilesManagerUploadValidationError: APIFC<
   ]
 
   useEffect(() => {
-    if (validationFailureType?.status === "fileLargerThan2GB") {
+    if (validationFailureType?.status === "someFileLargerThan2GB") {
       setError({
-        title: intl.formatMessage(messages.uploadFileTooLargeTitle),
-        message: intl.formatMessage(messages.uploadFileTooLargeDescription),
+        title: intl.formatMessage(messages.uploadFileTooLargeTitle, {
+          filesCount: data?.fileList.length,
+        }),
+        message: intl.formatMessage(messages.uploadFileTooLargeDescription, {
+          filesCount: data?.fileList.length,
+        }),
       })
     }
     if (validationFailureType?.status === "allFilesDuplicated") {
       setError({
-        title: intl.formatMessage(messages.uploadDuplicateFileTitle),
-        message: intl.formatMessage(messages.uploadDuplicateFileDescription),
+        title: intl.formatMessage(messages.uploadDuplicateFileTitle, {
+          filesCount: data?.fileList.length,
+        }),
+        message: intl.formatMessage(messages.uploadDuplicateFileDescription, {
+          filesCount: data?.fileList.length,
+        }),
       })
     }
     if (validationFailureType?.status === "notHaveSpaceForUpload") {
       setError({
-        title: intl.formatMessage(messages.uploadInsufficientMemoryTitle),
+        title: intl.formatMessage(messages.uploadInsufficientMemoryTitle, {
+          filesCount: data?.fileList.length,
+        }),
         message: intl.formatMessage(
           messages.uploadInsufficientMemoryDescription,
-          { value: validationFailureType.formattedDifference }
+          {
+            value: validationFailureType.formattedDifference,
+            filesCount: data?.fileList.length,
+          }
         ),
       })
     }

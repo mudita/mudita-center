@@ -175,6 +175,16 @@ export const generateFileUploadProcessButton: ComponentGenerator<
       config: {
         modalKey: generateFileUploadButtonModalKey("ValidationFailure"),
       },
+      dataProvider: {
+        source: "form-fields",
+        formKey: `${key}fileListForm`,
+        fields: [
+          {
+            providerField: "filesToUpload",
+            componentField: "data.fileList",
+          },
+        ],
+      },
     },
   }
 }
