@@ -31,7 +31,7 @@ export const deleteEntitiesDataAction = createAsyncThunk<
     { entitiesType, ids, deviceId, onSuccess, onError },
     { rejectWithValue, dispatch }
   ) => {
-    const idsToDelete = ids.concat(["555555555555555"])
+    const idsToDelete = ids.concat(["12345"])
     const response = await delayResponse(
       deleteEntitiesDataRequest({
         entitiesType,
