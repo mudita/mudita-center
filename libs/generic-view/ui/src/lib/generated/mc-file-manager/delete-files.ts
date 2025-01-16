@@ -241,11 +241,14 @@ export const generateDeleteFiles: ComponentGenerator<{
     [`${id}deleteErrorModalContent`]: {
       component: "typography.p1",
       config: {
-        messageTemplate: "The file is still on Kompakt, please try again.",
+        text: "The file is still on Kompakt, please try again.",
       },
     },
     [`${id}deleteErrorModalButton`]: {
       component: "modal.buttons",
+      config: {
+        vertical: true,
+      },
       childrenKeys: [`${id}deleteErrorModalCloseButton`],
     },
     [`${id}deleteErrorModalCloseButton`]: {
