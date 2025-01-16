@@ -103,10 +103,12 @@ export const Table: APIFC<TableData, TableConfig> & {
 
       if (unavailableIds.length > 0) {
         setTimeout(() => {
-          formContext.setValue(
-            formOptions.selectedIdsFieldName!,
-            intersection(data, unavailableIds)
-          )
+          if (formOptions.selectedIdsFieldName !== undefined) {
+            formContext.setValue(
+              formOptions.selectedIdsFieldName,
+              intersection(data, unavailableIds)
+            )
+          }
         }, 500)
       }
     }
