@@ -15,6 +15,7 @@ export type McFilesManagerUploadValidationErrorData = z.infer<
 
 const configValidator = z.object({
   modalKey: z.string(),
+  uploadActionId: z.string(),
 })
 
 export type McFilesManagerUploadValidationErrorConfig = z.infer<

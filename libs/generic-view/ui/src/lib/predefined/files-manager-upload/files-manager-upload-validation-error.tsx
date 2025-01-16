@@ -14,10 +14,11 @@ import {
 import { McFilesManagerUploadValidationErrorConfig } from "generic-view/models"
 import {
   selectValidationFailureType,
-  setFileTransferValidationFailure,
+  addFileTransferErrors,
+  clearFileTransferErrors,
 } from "generic-view/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { Modal } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 
@@ -57,7 +58,9 @@ export const FilesManagerUploadValidationError: APIFC<
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
   const [error, setError] = useState<CustomModalError>()
-  const validationFailureType = useSelector(selectValidationFailureType)
+  const validationFailureType = useSelector((state: ReduxRootState) =>
+    selectValidationFailureType(state, config.uploadActionId)
+  )
 
   const closeActions: ButtonAction[] = [
     {
@@ -67,7 +70,7 @@ export const FilesManagerUploadValidationError: APIFC<
     {
       type: "custom",
       callback: () => {
-        dispatch(setFileTransferValidationFailure(undefined))
+        dispatch(clearFileTransferErrors({ actionId: config.uploadActionId }))
       },
     },
   ]

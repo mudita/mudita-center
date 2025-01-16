@@ -8,17 +8,17 @@ import {
   isFileLargerThan,
   isStorageSpaceSufficientForUpload,
 } from "generic-view/utils"
-import { FileTransferValidationFailure } from "generic-view/store"
+import { FileTransferValidationError } from "generic-view/store"
 
 export const validateSelectedFiles = async (
   selectedFiles: string[],
   entityFilePaths: string[],
   availableSpace: number
-): Promise<FileTransferValidationFailure | undefined> => {
+): Promise<FileTransferValidationError | undefined> => {
   for (const file of selectedFiles) {
     const fileLargerThan = await isFileLargerThan(file, 2000000000) // 2GB
     if (fileLargerThan) {
-      return { status: "someFileLargerThan2GB" }
+      return { type: "validation", error: { status: "someFileLargerThan2GB" } }
     }
   }
 
@@ -27,7 +27,8 @@ export const validateSelectedFiles = async (
     entityFilePaths
   )
 
-  if (allFilesDuplicated) return { status: "allFilesDuplicated" }
+  if (allFilesDuplicated)
+    return { type: "validation", error: { status: "allFilesDuplicated" } }
 
   const { isSufficient, formattedDifference } =
     await isStorageSpaceSufficientForUpload(availableSpace, selectedFiles)
@@ -35,8 +36,8 @@ export const validateSelectedFiles = async (
 
   if (!isSufficient) {
     return {
-      status: "notHaveSpaceForUpload",
-      formattedDifference,
+      type: "validation",
+      error: { status: "notHaveSpaceForUpload", formattedDifference },
     }
   }
 

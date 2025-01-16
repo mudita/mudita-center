@@ -2,6 +2,7 @@
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
+import { addFileTransferErrors } from "Libs/generic-view/store/src"
 
 export enum ActionName {
   GetConfig = "api-actions/get-config",
@@ -60,7 +61,8 @@ export enum ActionName {
   SendFilesClear = "generic-file-transfer/send-files-clear",
   SendFilesAbortRegister = "generic-file-transfer/send-files-abort-register",
   SendFilesAbort = "generic-file-transfer/send-files-abort",
-  SetValidationFailure = "generic-file-transfer/validation-failure",
+  addFileTransferErrors = "generic-file-transfer/add-errosr",
+  clearFileTransferErrors = "generic-file-transfer/clear-errors",
 
   SetDataTransfer = "generic-data-transfer/set-data-transfer",
   SetDataTransferStatus = "generic-data-transfer/set-data-transfer-status",

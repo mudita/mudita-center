@@ -17,7 +17,7 @@ import {
   sendFiles,
   sendFilesClear,
   SendFilesPayload,
-  setFileTransferValidationFailure,
+  addFileTransferErrors,
 } from "generic-view/store"
 import { useDispatch, useStore } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -60,7 +60,7 @@ export const useUploadFilesButtonAction = () => {
         "fileManager"
       ) as McFileManagerData | undefined
 
-      const validationFailed = await validateSelectedFiles(
+      const validationError = await validateSelectedFiles(
         filesPaths,
         entityFilePaths,
         // @ts-ignore
@@ -68,8 +68,13 @@ export const useUploadFilesButtonAction = () => {
         fileManagerFeatureData?.["0storageSummaryFreeText"].text
       )
 
-      if (validationFailed !== undefined) {
-        dispatch(setFileTransferValidationFailure(validationFailed))
+      if (validationError !== undefined) {
+        dispatch(
+          addFileTransferErrors({
+            actionId: action.actionId,
+            errors: [validationError],
+          })
+        )
         await callbacks.onValidationFailure()
         return
       }
