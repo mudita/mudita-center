@@ -17,7 +17,7 @@ import {
   sendFiles,
   sendFilesClear,
   SendFilesPayload,
-  setValidationFailure,
+  setFileTransferValidationFailure,
 } from "generic-view/store"
 import { useDispatch, useStore } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -68,7 +68,7 @@ export const useUploadFilesButtonAction = () => {
       )
 
       if (validationFailed !== undefined) {
-        dispatch(setValidationFailure(validationFailed))
+        dispatch(setFileTransferValidationFailure(validationFailed))
         await callbacks.onValidationFailure()
         return
       }

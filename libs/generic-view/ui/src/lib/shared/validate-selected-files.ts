@@ -8,13 +8,13 @@ import {
   isFileLargerThan,
   isStorageSpaceSufficientForUpload,
 } from "generic-view/utils"
-import { ValidationFailure } from "generic-view/store"
+import { FileTransferValidationFailure } from "generic-view/store"
 
 export const validateSelectedFiles = async (
   selectedFiles: string[],
   entityFilePaths: string[],
   availableSpace: number
-): Promise<ValidationFailure | undefined> => {
+): Promise<FileTransferValidationFailure | undefined> => {
   for (const file of selectedFiles) {
     const fileLargerThan = await isFileLargerThan(file, 2000000000) // 2GB
     if (fileLargerThan) {

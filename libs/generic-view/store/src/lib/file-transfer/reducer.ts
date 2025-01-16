@@ -19,7 +19,7 @@ import {
   sendFilesError,
   sendFilesFinished,
   sendFilesPreSend,
-  setValidationFailure,
+  setFileTransferValidationFailure,
 } from "./actions"
 import { sendFile } from "./send-file.action"
 import { getFile } from "./get-file.action"
@@ -99,7 +99,7 @@ type ValidationFailureNotHaveSpaceForUpload = {
   formattedDifference: string
 }
 
-export type ValidationFailure =
+export type FileTransferValidationFailure =
   | ValidationFailureSomeFileLargerThan2GB
   | ValidationFailureAllFilesDuplicated
   | ValidationFailureNotHaveSpaceForUpload
@@ -114,7 +114,7 @@ interface FileTransferState {
   }
   receivingErrors?: FileTransferError[]
   // New approach for transferring files
-  validationFailureError?: ValidationFailure
+  filesTransferValidationFailureError?: FileTransferValidationFailure
   filesTransferSend: {
     [id: FileId]: File
   }
@@ -129,7 +129,7 @@ const initialState: FileTransferState = {
   receivingFilesProgress: {},
   receivingErrors: [],
   // New approach for transferring files
-  validationFailureError: undefined,
+  filesTransferValidationFailureError: undefined,
   filesTransferSend: {},
   filesTransferSendAbortActions: {},
 }
@@ -287,8 +287,8 @@ export const genericFileTransferReducer = createReducer(
     builder.addCase(sendFilesAbort.fulfilled, (state, action) => {
       delete state.filesTransferSendAbortActions[action.meta.arg]
     })
-    builder.addCase(setValidationFailure, (state, action) => {
-      state.validationFailureError = action.payload
+    builder.addCase(setFileTransferValidationFailure, (state, action) => {
+      state.filesTransferValidationFailureError = action.payload
     })
   }
 )

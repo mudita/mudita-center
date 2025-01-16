@@ -155,5 +155,6 @@ export const selectFilesSendingProgress = createSelector(
 
 export const selectValidationFailureType = createSelector(
   (state: ReduxRootState) => state.genericFileTransfer,
-  (genericFileTransfer) => genericFileTransfer.validationFailureError
+  (genericFileTransfer) =>
+    genericFileTransfer.filesTransferValidationFailureError
 )

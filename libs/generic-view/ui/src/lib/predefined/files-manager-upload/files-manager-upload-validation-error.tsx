@@ -14,7 +14,7 @@ import {
 import { McFilesManagerUploadValidationErrorConfig } from "generic-view/models"
 import {
   selectValidationFailureType,
-  setValidationFailure,
+  setFileTransferValidationFailure,
 } from "generic-view/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -67,7 +67,7 @@ export const FilesManagerUploadValidationError: APIFC<
     {
       type: "custom",
       callback: () => {
-        dispatch(setValidationFailure(undefined))
+        dispatch(setFileTransferValidationFailure(undefined))
       },
     },
   ]
