@@ -3,18 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
+import React, { useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
-import { APIFC, CustomModalError, IconType } from "generic-view/utils"
+import { APIFC, IconType } from "generic-view/utils"
 import {
   ButtonAction,
+  McFilesManagerUploadValidationErrorConfig,
   McFilesManagerUploadValidationErrorData,
 } from "generic-view/models"
-import { McFilesManagerUploadValidationErrorConfig } from "generic-view/models"
 import {
-  selectValidationFailureType,
   clearFileTransferErrors,
+  selectValidationFailureType,
+  ValidationErrorNotHaveSpaceForUpload,
 } from "generic-view/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -23,31 +24,19 @@ import { ButtonSecondary } from "../../buttons/button-secondary"
 
 const messages = defineMessages({
   title: {
-    id: "module.genericViews.filesManager.upload.failure.title",
-  },
-  defaultErrorMessage: {
-    id: "module.genericViews.filesManager.upload.failure.defaultErrorMessage",
+    id: "module.genericViews.filesManager.upload.validationFailure.modalTitle",
   },
   closeButtonLabel: {
-    id: "module.genericViews.filesManager.upload.failure.closeButtonLabel",
-  },
-  uploadDuplicateFileTitle: {
-    id: "module.genericViews.filesManager.uploadDuplicateFile.title",
+    id: "module.genericViews.filesManager.upload.failure.modalCloseButton",
   },
   uploadDuplicateFileDescription: {
-    id: "module.genericViews.filesManager.uploadDuplicateFile.description",
-  },
-  uploadInsufficientMemoryTitle: {
-    id: "module.genericViews.filesManager.uploadInsufficientMemory.title",
+    id: "module.genericViews.filesManager.upload.validationFailure.duplicatesDescription",
   },
   uploadInsufficientMemoryDescription: {
-    id: "module.genericViews.filesManager.uploadInsufficientMemory.description",
-  },
-  uploadFileTooLargeTitle: {
-    id: "module.genericViews.filesManager.uploadFileTooLarge.title",
+    id: "module.genericViews.filesManager.upload.validationFailure.insufficientMemoryDescription",
   },
   uploadFileTooLargeDescription: {
-    id: "module.genericViews.filesManager.uploadFileTooLarge.description",
+    id: "module.genericViews.filesManager.upload.validationFailure.fileTooLargeDescription",
   },
 })
 
@@ -56,10 +45,11 @@ export const FilesManagerUploadValidationError: APIFC<
   McFilesManagerUploadValidationErrorConfig
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
-  const [error, setError] = useState<CustomModalError>()
   const validationFailureType = useSelector((state: ReduxRootState) =>
     selectValidationFailureType(state, config.uploadActionId)
   )
+
+  const filesCount = data?.fileList.length || 0
 
   const closeActions: ButtonAction[] = [
     {
@@ -74,43 +64,26 @@ export const FilesManagerUploadValidationError: APIFC<
     },
   ]
 
-  useEffect(() => {
+  const errorMessage = useMemo(() => {
     if (validationFailureType?.status === "someFileLargerThan2GB") {
-      setError({
-        title: intl.formatMessage(messages.uploadFileTooLargeTitle, {
-          filesCount: data?.fileList.length,
-        }),
-        message: intl.formatMessage(messages.uploadFileTooLargeDescription, {
-          filesCount: data?.fileList.length,
-        }),
+      return intl.formatMessage(messages.uploadFileTooLargeDescription, {
+        filesCount,
       })
     }
     if (validationFailureType?.status === "allFilesDuplicated") {
-      setError({
-        title: intl.formatMessage(messages.uploadDuplicateFileTitle, {
-          filesCount: data?.fileList.length,
-        }),
-        message: intl.formatMessage(messages.uploadDuplicateFileDescription, {
-          filesCount: data?.fileList.length,
-        }),
+      return intl.formatMessage(messages.uploadDuplicateFileDescription, {
+        filesCount,
       })
     }
     if (validationFailureType?.status === "notHaveSpaceForUpload") {
-      setError({
-        title: intl.formatMessage(messages.uploadInsufficientMemoryTitle, {
-          filesCount: data?.fileList.length,
-        }),
-        message: intl.formatMessage(
-          messages.uploadInsufficientMemoryDescription,
-          {
-            value: validationFailureType.formattedDifference,
-            filesCount: data?.fileList.length,
-          }
-        ),
+      return intl.formatMessage(messages.uploadInsufficientMemoryDescription, {
+        value: (validationFailureType as ValidationErrorNotHaveSpaceForUpload)
+          .formattedDifference,
+        filesCount,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [validationFailureType?.status])
+    return ""
+  }, [filesCount, validationFailureType])
 
   return (
     <>
@@ -120,11 +93,11 @@ export const FilesManagerUploadValidationError: APIFC<
         }}
       />
       <Modal.Title>
-        {error?.title || intl.formatMessage(messages.title)}
+        {intl.formatMessage(messages.title, {
+          filesCount,
+        })}
       </Modal.Title>
-      <p>
-        {error?.message || intl.formatMessage(messages.defaultErrorMessage)}
-      </p>
+      <p>{errorMessage}</p>
       <Modal.Buttons config={{ vertical: true }}>
         <ButtonSecondary
           config={{

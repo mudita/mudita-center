@@ -21,10 +21,14 @@ import {
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { ButtonSecondary } from "../../buttons/button-secondary"
 
 const messages = defineMessages({
   progressModalTitle: {
     id: "module.genericViews.filesManager.upload.progress.modalTitle",
+  },
+  cancelButton: {
+    id: "module.genericViews.filesManager.upload.progress.cancelButton",
   },
 })
 
@@ -54,7 +58,6 @@ export const FilesManagerUploadProgress: APIFC<
 
   return (
     <>
-      <Modal.CloseButton config={{ actions: [abortAction] }} />
       <Modal.TitleIcon config={{ type: IconType.SpinnerDark }} />
       <Modal.Title>
         {intl.formatMessage(messages.progressModalTitle, {
@@ -70,6 +73,11 @@ export const FilesManagerUploadProgress: APIFC<
           message: currentFile?.name || "",
         }}
       />
+      <Modal.Buttons config={{ vertical: true }}>
+        <ButtonSecondary config={{ actions: [abortAction] }}>
+          {intl.formatMessage(messages.cancelButton)}
+        </ButtonSecondary>
+      </Modal.Buttons>
     </>
   )
 }

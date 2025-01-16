@@ -4,7 +4,7 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { AppErrorType } from "Core/core/errors"
+import { AppError, AppErrorType } from "Core/core/errors"
 import {
   clearGetErrors,
   clearSendErrors,
@@ -25,6 +25,7 @@ import {
 import { sendFile } from "./send-file.action"
 import { getFile } from "./get-file.action"
 import { sendFiles } from "./send-files.action"
+import { ApiFileTransferError } from "device/models"
 
 interface FileTransferError {
   code?: AppErrorType
@@ -75,7 +76,7 @@ export type FileTransferProgress = FileBase & {
 
 export type FileTransferFailed = FileBase & {
   status: "finished"
-  error: string
+  error: AppError<ApiFileTransferError>
 }
 
 export type FileTransferSucceeded = FileBase & {
@@ -95,7 +96,7 @@ type ValidationErrorSomeFileLargerThan2GB = {
 type ValidationErrorAllFilesDuplicated = {
   status: "allFilesDuplicated"
 }
-type ValidationErrorNotHaveSpaceForUpload = {
+export type ValidationErrorNotHaveSpaceForUpload = {
   status: "notHaveSpaceForUpload"
   formattedDifference: string
 }
@@ -300,10 +301,8 @@ export const genericFileTransferReducer = createReducer(
     builder.addCase(addFileTransferErrors, (state, action) => {
       const actionId = action.payload.actionId
       const errors = action.payload.errors
-      state.filesTransferErrors[actionId] = [
-        ...state.filesTransferErrors[actionId],
-        ...errors,
-      ]
+      state.filesTransferErrors[actionId] = []
+      state.filesTransferErrors[actionId].push(...errors)
     })
     builder.addCase(clearFileTransferErrors, (state, action) => {
       const actionId = action.payload.actionId
