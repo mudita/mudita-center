@@ -178,7 +178,21 @@ export const generateFileUploadProcessButton: ComponentGenerator<
       ],
     },
     [generateFileUploadButtonModalKey(key, "ValidationFailureContent")]: {
-      component: "block-plain",
+      component: "mc-files-manager-upload-validation-error",
+      config: {
+        modalKey: generateFileUploadButtonModalKey(key, "ValidationFailure"),
+        uploadActionId,
+      },
+      dataProvider: {
+        source: "form-fields",
+        formKey: `${key}fileListForm`,
+        fields: [
+          {
+            providerField: "filesToUpload",
+            componentField: "data.fileList",
+          },
+        ],
+      },
     },
   }
 }

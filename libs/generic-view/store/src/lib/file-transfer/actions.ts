@@ -9,7 +9,9 @@ import {
   ActionId,
   FileGroupId,
   FileId,
-  FileProgress, FileTransferFailed,
+  FileProgress,
+  FilesTransferError,
+  FileTransferFailed,
   FileTransferFinished,
   FileTransferProgress,
 } from "./reducer"
@@ -65,3 +67,12 @@ export const sendFilesAbort = createAsyncThunk<
   const { filesTransferSendAbortActions } = getState().genericFileTransfer
   filesTransferSendAbortActions[actionId]?.abort()
 })
+
+export const addFileTransferErrors = createAction<{
+  actionId: ActionId
+  errors: FilesTransferError[]
+}>(ActionName.addFileTransferErrors)
+
+export const clearFileTransferErrors = createAction<{ actionId: ActionId }>(
+  ActionName.clearFileTransferErrors
+)
