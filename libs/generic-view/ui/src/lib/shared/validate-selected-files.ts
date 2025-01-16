@@ -32,7 +32,6 @@ export const validateSelectedFiles = async (
 
   const { isSufficient, formattedDifference } =
     await isStorageSpaceSufficientForUpload(availableSpace, selectedFiles)
-  console.log({ isSufficient, formattedDifference })
 
   if (!isSufficient) {
     return {

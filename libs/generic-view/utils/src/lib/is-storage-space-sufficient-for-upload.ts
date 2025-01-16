@@ -29,6 +29,11 @@ const getTotalFileSizeAsync = async (filePaths: string[]): Promise<number> => {
   return totalSize
 }
 
+interface CompareValuesResult {
+  isSufficient: boolean
+  difference: number
+}
+
 /**
  * Compares two numeric values and checks if the first value is sufficient to accommodate the second.
  *
@@ -36,10 +41,10 @@ const getTotalFileSizeAsync = async (filePaths: string[]): Promise<number> => {
  * @param required - The required amount (e.g., total size of files in bytes).
  * @returns A result object indicating if the first value is sufficient and the difference.
  */
-const compareValues = (
+export const compareValues = (
   available: number,
   required: number
-): { isSufficient: boolean; difference: number } => {
+): CompareValuesResult => {
   const difference = Math.ceil((available - required) / 1000 ** 2) * 1000 ** 2
 
   return {
@@ -51,11 +56,11 @@ const compareValues = (
 export async function isStorageSpaceSufficientForUpload(
   availableSpace: number,
   filePaths: string[]
-): Promise<{
-  isSufficient: boolean
-  difference: number
-  formattedDifference: string
-}> {
+): Promise<
+  CompareValuesResult & {
+    formattedDifference: string
+  }
+> {
   const totalFileSize = await getTotalFileSizeAsync(filePaths)
 
   const { isSufficient, difference } = compareValues(

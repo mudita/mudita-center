@@ -4,7 +4,7 @@
  */
 
 import React, { useCallback, useMemo } from "react"
-import { APIFC, IconType } from "generic-view/utils"
+import { APIFC, compareValues, IconType } from "generic-view/utils"
 import {
   ButtonAction,
   McFilesManagerUploadFinishedConfig,
@@ -112,9 +112,9 @@ export const FilesManagerUploadFinished: APIFC<
     if (!oversizeFilesSum) {
       return ""
     }
-    const neededBytes =
-      Math.ceil((oversizeFilesSum - availableMemory) / 1000 ** 2) * 1000 ** 2
-    return formatBytes(neededBytes)
+    return formatBytes(
+      Math.abs(compareValues(availableMemory, oversizeFilesSum).difference)
+    )
   }, [data?.freeSpace, failedFiles])
 
   const closeActions: ButtonAction[] = [
