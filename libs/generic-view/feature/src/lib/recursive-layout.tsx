@@ -135,6 +135,9 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
                                 config={props.config}
                                 data={props.data}
                                 dataItemId={dataItemId}
+                                {...(process.env.NODE_ENV === "development" && {
+                                  "data-component": `${componentKey}/${componentName}`,
+                                })}
                               >
                                 {renderChildren(dataItemId)}
                               </ComponentToRender>

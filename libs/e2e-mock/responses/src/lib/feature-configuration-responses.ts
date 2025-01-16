@@ -7,7 +7,34 @@ export const featureConfigurationFileManager = {
   main: {
     screenTitle: "Manage Files",
     component: "mc-file-manager-view",
-    config: { entityTypes: ["audioFiles"] },
+    config: {
+      storages: [
+        {
+          label: "Phone Storage",
+          path: "/storage/emulated/0/",
+        },
+      ],
+      categories: [
+        {
+          label: "Music",
+          directoryPath: "Music/",
+          supportedFileTypes: ["mp3", "wav", "flac"],
+          entityType: "audioFiles",
+        },
+        {
+          label: "Photos",
+          directoryPath: "Pictures/",
+          supportedFileTypes: ["jpg", "jpeg", "png"],
+          entityType: "imageFiles",
+        },
+        {
+          label: "E-books",
+          directoryPath: "Documents/",
+          supportedFileTypes: ["pdf", "epub"],
+          entityType: "ebookFiles",
+        },
+      ],
+    },
   },
 }
 

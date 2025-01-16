@@ -8,25 +8,12 @@ import { ApiFileTransferServiceEvents } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ResultObject } from "Core/core/builder"
 
-export const startPreSendFileRequest = (
-  targetPath: string,
-  source:
-    | {
-        path: string
-      }
-    | {
-        base64: string
-      },
+export const abortTransferRequest = (
+  transferId: number,
   deviceId?: DeviceId
-): Promise<
-  ResultObject<{
-    transferId: number
-    chunksCount: number
-  }>
-> => {
-  return ipcRenderer.callMain(ApiFileTransferServiceEvents.PreSend, {
-    targetPath,
-    source,
+): Promise<ResultObject<undefined>> => {
+  return ipcRenderer.callMain(ApiFileTransferServiceEvents.SendDelete, {
+    transferId,
     deviceId,
   })
 }
