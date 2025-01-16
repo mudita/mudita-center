@@ -18,6 +18,7 @@ import {
   sendFilesClear,
   SendFilesPayload,
   addFileTransferErrors,
+  clearFileTransferErrors,
 } from "generic-view/store"
 import { useDispatch, useStore } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -114,6 +115,7 @@ export const useUploadFilesButtonAction = () => {
       } else if (filesPaths.length > 0) {
         await callbacks.onSuccess()
         dispatch(sendFilesClear({ groupId: action.actionId }))
+        dispatch(clearFileTransferErrors({ actionId: action.actionId }))
       }
     },
     [dispatch, getFormContext, store]

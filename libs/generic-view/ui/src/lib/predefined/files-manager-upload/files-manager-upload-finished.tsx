@@ -13,6 +13,7 @@ import { Modal } from "../../interactive/modal/modal"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import {
+  clearFileTransferErrors,
   selectFilesSendingCount,
   selectFilesSendingFailed,
   selectFilesSendingSucceeded,
@@ -56,6 +57,7 @@ export const FilesManagerUploadFinished: APIFC<
       callback: () => {
         setTimeout(() => {
           dispatch(sendFilesClear({ groupId: config.uploadActionId }))
+          dispatch(clearFileTransferErrors({ actionId: config.uploadActionId }))
         }, modalTransitionDuration)
       },
     },
