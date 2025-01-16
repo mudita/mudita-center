@@ -10,6 +10,13 @@ export const generateFileUploadProcessButtonKey = (key: string) => {
   return `${key}filesUploadButton`
 }
 
+export const generateFileUploadButtonModalKey = (
+  key: string,
+  modalName: string
+) => {
+  return generateFileUploadProcessButtonKey(key) + "Modal" + modalName
+}
+
 export const generateFileUploadProcessButton: ComponentGenerator<
   Pick<
     McFileManagerConfig["categories"][number],
@@ -21,9 +28,6 @@ export const generateFileUploadProcessButton: ComponentGenerator<
   key,
   { directoryPath, storagePath, entityType, supportedFileTypes, label }
 ) => {
-  const generateFileUploadButtonModalKey = (modalName: string) => {
-    return generateFileUploadProcessButtonKey(key) + "Modal" + modalName
-  }
   const uploadActionId = entityType + "Upload"
   return {
     [generateFileUploadProcessButtonKey(key)]: {
@@ -46,7 +50,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
           },
           {
             type: "open-modal",
-            modalKey: generateFileUploadButtonModalKey("Progress"),
+            modalKey: generateFileUploadButtonModalKey(key, "Progress"),
           },
           {
             type: "upload-files",
@@ -61,8 +65,10 @@ export const generateFileUploadProcessButton: ComponentGenerator<
               validationFailure: [
                 {
                   type: "replace-modal",
-                  modalKey:
-                    generateFileUploadButtonModalKey("ValidationFailure"),
+                  modalKey: generateFileUploadButtonModalKey(
+                    key,
+                    "ValidationFailure"
+                  ),
                 },
               ],
             },
@@ -70,7 +76,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
               success: [
                 {
                   type: "close-modal",
-                  modalKey: generateFileUploadButtonModalKey("Progress"),
+                  modalKey: generateFileUploadButtonModalKey(key, "Progress"),
                 },
                 {
                   type: "open-toast",
@@ -92,7 +98,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
                 },
                 {
                   type: "replace-modal",
-                  modalKey: generateFileUploadButtonModalKey("Finished"),
+                  modalKey: generateFileUploadButtonModalKey(key, "Finished"),
                 },
               ],
             },
@@ -131,14 +137,14 @@ export const generateFileUploadProcessButton: ComponentGenerator<
         ],
       },
     },
-    [generateFileUploadButtonModalKey("Progress")]: {
+    [generateFileUploadButtonModalKey(key, "Progress")]: {
       component: "modal",
       config: {
         size: "small",
       },
-      childrenKeys: [generateFileUploadButtonModalKey("ProgressContent")],
+      childrenKeys: [generateFileUploadButtonModalKey(key, "ProgressContent")],
     },
-    [generateFileUploadButtonModalKey("ProgressContent")]: {
+    [generateFileUploadButtonModalKey(key, "ProgressContent")]: {
       component: "mc-files-manager-upload-progress",
       config: {
         storagePath,
@@ -147,30 +153,31 @@ export const generateFileUploadProcessButton: ComponentGenerator<
         uploadActionId,
       },
     },
-    [generateFileUploadButtonModalKey("Finished")]: {
+    [generateFileUploadButtonModalKey(key, "Finished")]: {
       component: "modal",
       config: {
         size: "small",
+        maxHeight: "538px",
       },
-      childrenKeys: [generateFileUploadButtonModalKey("FinishedContent")],
+      childrenKeys: [generateFileUploadButtonModalKey(key, "FinishedContent")],
     },
-    [generateFileUploadButtonModalKey("FinishedContent")]: {
+    [generateFileUploadButtonModalKey(key, "FinishedContent")]: {
       component: "mc-files-manager-upload-finished",
       config: {
-        modalKey: generateFileUploadButtonModalKey("Finished"),
+        modalKey: generateFileUploadButtonModalKey(key, "Finished"),
         uploadActionId,
       },
     },
-    [generateFileUploadButtonModalKey("ValidationFailure")]: {
+    [generateFileUploadButtonModalKey(key, "ValidationFailure")]: {
       component: "modal",
       config: {
         size: "small",
       },
       childrenKeys: [
-        generateFileUploadButtonModalKey("ValidationFailureContent"),
+        generateFileUploadButtonModalKey(key, "ValidationFailureContent"),
       ],
     },
-    [generateFileUploadButtonModalKey("ValidationFailureContent")]: {
+    [generateFileUploadButtonModalKey(key, "ValidationFailureContent")]: {
       component: "block-plain",
     },
   }

@@ -22,6 +22,8 @@ import {
   startPreSendFileRequest,
 } from "device/feature"
 import { createEntityDataAction } from "../entities/create-entity-data.action"
+import { ApiFileTransferError } from "device/models"
+import { AppError } from "Core/core/errors"
 
 export interface SendFilesPayload {
   actionId: string
@@ -60,8 +62,10 @@ export const sendFiles = createAsyncThunk<
     }
     signal.addEventListener("abort", abortListener)
 
-    const handleFileError = (fileId: FileId, error: string) => {
-      console.error(error)
+    const handleFileError = (
+      fileId: FileId,
+      error: AppError<ApiFileTransferError>
+    ) => {
       dispatch(
         sendFilesError({
           id: fileId,
@@ -72,7 +76,10 @@ export const sendFiles = createAsyncThunk<
 
     for (const file of files) {
       if (signal.aborted) {
-        handleFileError(file.id, "Aborted")
+        handleFileError(
+          file.id,
+          new AppError(ApiFileTransferError.Aborted, "Aborted")
+        )
         return rejectWithValue(undefined)
       }
 
@@ -82,7 +89,10 @@ export const sendFiles = createAsyncThunk<
         deviceId
       )
       if (!preTransferResponse.ok) {
-        handleFileError(file.id, preTransferResponse.error.message)
+        handleFileError(
+          file.id,
+          preTransferResponse.error as AppError<ApiFileTransferError>
+        )
         continue
       }
       const { transferId, chunksCount } = preTransferResponse.data
@@ -100,14 +110,17 @@ export const sendFiles = createAsyncThunk<
 
       for (let chunkNumber = 1; chunkNumber <= chunksCount; chunkNumber++) {
         if (signal.aborted) {
-          handleFileError(file.id, "Aborted")
+          handleFileError(
+            file.id,
+            new AppError(ApiFileTransferError.Aborted, "Aborted")
+          )
           await abortTransferRequest(transferId, deviceId)
           return rejectWithValue(undefined)
         }
 
         const { ok, error } = await sendFileRequest(transferId, chunkNumber)
         if (!ok) {
-          handleFileError(file.id, error.message)
+          handleFileError(file.id, error as AppError<ApiFileTransferError>)
           failed = true
           break
         }
@@ -128,7 +141,10 @@ export const sendFiles = createAsyncThunk<
       }
 
       if (signal.aborted) {
-        handleFileError(file.id, "Aborted")
+        handleFileError(
+          file.id,
+          new AppError(ApiFileTransferError.Aborted, "Aborted")
+        )
         return rejectWithValue(undefined)
       }
 
@@ -150,7 +166,7 @@ export const sendFiles = createAsyncThunk<
       if (fileEntity.meta.requestStatus === "rejected") {
         handleFileError(
           file.id,
-          (fileEntity.payload?.message as string) || "Entity creation failed"
+          new AppError(ApiFileTransferError.Unknown, "Entity creation failed")
         )
         continue
       }
