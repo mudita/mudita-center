@@ -300,10 +300,6 @@ export const genericFileTransferReducer = createReducer(
     builder.addCase(addFileTransferErrors, (state, action) => {
       const actionId = action.payload.actionId
       const errors = action.payload.errors
-      if (state.filesTransferErrors[actionId] === undefined) {
-        state.filesTransferErrors[actionId] = []
-      }
-
       state.filesTransferErrors[actionId] = [
         ...state.filesTransferErrors[actionId],
         ...errors,
