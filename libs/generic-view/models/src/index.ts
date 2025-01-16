@@ -66,6 +66,7 @@ import { mcContactsSearchResults } from "./lib/mc-contacts-search-results"
 import { TypographyMap } from "./lib/typography"
 import { mcFilesManagerUploadProgress } from "./lib/mc-files-manager-upload-progress"
 import { mcFilesManagerUploadFinished } from "./lib/mc-files-manager-upload-finished"
+import { mcFilesManagerUploadValidationError } from "./lib/mc-files-manager-upload-validation-error"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -135,6 +136,7 @@ export * from "./lib/mc-contacts-search-results"
 export * from "./lib/typography"
 export * from "./lib/mc-files-manager-upload-progress"
 export * from "./lib/mc-files-manager-upload-finished"
+export * from "./lib/mc-files-manager-upload-validation-error"
 
 export default {
   [blockBox.key]: blockBox,
@@ -200,5 +202,7 @@ export default {
   [mcContactsSearchResults.key]: mcContactsSearchResults,
   [mcFilesManagerUploadProgress.key]: mcFilesManagerUploadProgress,
   [mcFilesManagerUploadFinished.key]: mcFilesManagerUploadFinished,
+  [mcFilesManagerUploadValidationError.key]:
+    mcFilesManagerUploadValidationError,
   ...TypographyMap,
 } as const

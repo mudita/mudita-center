@@ -6,16 +6,24 @@
 import { useCallback } from "react"
 import path from "node:path"
 import { getFileStatsRequest } from "system-utils/feature"
-import { FilesTransferUploadFilesAction } from "generic-view/models"
 import {
+  FilesTransferUploadFilesAction,
+  McFileManagerData,
+} from "generic-view/models"
+import {
+  selectActiveDeviceFeatureByKey,
   selectFilesSendingFailed,
+  selectValidEntityFilePaths,
   sendFiles,
   sendFilesClear,
   SendFilesPayload,
+  setValidationFailure,
 } from "generic-view/store"
 import { useDispatch, useStore } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { useViewFormContext } from "generic-view/utils"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
+import { validateSelectedFiles } from "../../shared/validate-selected-files"
 
 export const useUploadFilesButtonAction = () => {
   const store = useStore<ReduxRootState>()
@@ -31,10 +39,39 @@ export const useUploadFilesButtonAction = () => {
         onValidationFailure: () => Promise<void>
       }
     ) => {
+      const deviceId = activeDeviceIdSelector(store.getState())
+
       const filesPaths: string[] = getFormContext(
         action.formOptions.formKey
       ).getValues(action.formOptions.filesToUploadFieldName)
       if (filesPaths.length === 0) return
+      if (action.entitiesType === undefined) return
+      if (deviceId === undefined) return
+
+      const entityFilePaths = selectValidEntityFilePaths(store.getState(), {
+        entitiesType: action.entitiesType,
+        deviceId,
+      })
+
+      if (entityFilePaths === undefined) return
+
+      const fileManagerFeatureData = selectActiveDeviceFeatureByKey(
+        store.getState(),
+        "fileManager"
+      ) as McFileManagerData | undefined
+
+      const validationFailed = await validateSelectedFiles(
+        filesPaths,
+        entityFilePaths,
+        // @ts-ignore
+        fileManagerFeatureData?.["0storageSummaryFreeText"].text
+      )
+
+      if (validationFailed !== undefined) {
+        dispatch(setValidationFailure(validationFailed))
+        await callbacks.onValidationFailure()
+        return
+      }
 
       const files: SendFilesPayload["files"] = []
 
@@ -49,14 +86,6 @@ export const useUploadFilesButtonAction = () => {
           name: path.basename(filePath),
         })
       }
-
-      // TODO: Validate files before sending
-      /* Example:
-      if (validationFailed) {
-        await callbacks.onValidationFailure()
-        return
-      }
-      */
 
       const response = (await dispatch(
         sendFiles({

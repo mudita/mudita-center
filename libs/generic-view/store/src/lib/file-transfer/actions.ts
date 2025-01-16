@@ -9,9 +9,11 @@ import {
   ActionId,
   FileGroupId,
   FileId,
-  FileProgress, FileTransferFailed,
+  FileProgress,
+  FileTransferFailed,
   FileTransferFinished,
   FileTransferProgress,
+  ValidationFailure,
 } from "./reducer"
 import { SendFileErrorPayload } from "./send-file.action"
 import { GetFileErrorPayload } from "./get-file.action"
@@ -65,3 +67,7 @@ export const sendFilesAbort = createAsyncThunk<
   const { filesTransferSendAbortActions } = getState().genericFileTransfer
   filesTransferSendAbortActions[actionId]?.abort()
 })
+
+export const setValidationFailure = createAction<ValidationFailure | undefined>(
+  ActionName.SetValidationFailure
+)

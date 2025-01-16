@@ -4,7 +4,7 @@
  */
 
 import { promises as fs } from "fs"
-import { formatBytes } from "../../typography/format-bytes"
+import { formatBytes } from "../../../ui/src/lib/typography/format-bytes"
 
 /**
  * Calculates the total size of files given their paths (async version).

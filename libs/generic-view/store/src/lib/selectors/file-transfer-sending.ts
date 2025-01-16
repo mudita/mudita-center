@@ -152,3 +152,8 @@ export const selectFilesSendingProgress = createSelector(
     return Math.round(progress * 100)
   }
 )
+
+export const selectValidationFailureType = createSelector(
+  (state: ReduxRootState) => state.genericFileTransfer,
+  (genericFileTransfer) => genericFileTransfer.validationFailureType
+)

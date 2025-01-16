@@ -19,6 +19,7 @@ import {
   sendFilesError,
   sendFilesFinished,
   sendFilesPreSend,
+  setValidationFailure,
 } from "./actions"
 import { sendFile } from "./send-file.action"
 import { getFile } from "./get-file.action"
@@ -87,6 +88,22 @@ export type File =
   | FileTransferProgress
   | FileTransferFinished
 
+type ValidationFailureFileLargerThan2GB = {
+  status: "fileLargerThan2GB"
+}
+type ValidationFailureAllFilesDuplicated = {
+  status: "allFilesDuplicated"
+}
+type ValidationFailureNotHaveSpaceForUpload = {
+  status: "notHaveSpaceForUpload"
+  formattedDifference: string
+}
+
+export type ValidationFailure =
+  | ValidationFailureFileLargerThan2GB
+  | ValidationFailureAllFilesDuplicated
+  | ValidationFailureNotHaveSpaceForUpload
+
 interface FileTransferState {
   sendingFilesProgress: {
     [transferId: number]: FileProgress
@@ -97,6 +114,7 @@ interface FileTransferState {
   }
   receivingErrors?: FileTransferError[]
   // New approach for transferring files
+  validationFailureType?: ValidationFailure
   filesTransferSend: {
     [id: FileId]: File
   }
@@ -111,6 +129,7 @@ const initialState: FileTransferState = {
   receivingFilesProgress: {},
   receivingErrors: [],
   // New approach for transferring files
+  validationFailureType: undefined,
   filesTransferSend: {},
   filesTransferSendAbortActions: {},
 }
@@ -267,6 +286,9 @@ export const genericFileTransferReducer = createReducer(
     })
     builder.addCase(sendFilesAbort.fulfilled, (state, action) => {
       delete state.filesTransferSendAbortActions[action.meta.arg]
+    })
+    builder.addCase(setValidationFailure, (state, action) => {
+      state.validationFailureType = action.payload
     })
   }
 )
