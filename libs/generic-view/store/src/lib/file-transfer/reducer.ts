@@ -126,6 +126,7 @@ interface FileTransferState {
   filesTransferErrors: {
     [actionId: ActionId]: FilesTransferError[]
   }
+  // TODO: Consider refactor it to { [actionId: ActionId]: File[] }
   filesTransferSend: {
     [id: FileId]: File
   }
