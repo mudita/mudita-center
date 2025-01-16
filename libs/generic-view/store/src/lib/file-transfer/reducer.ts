@@ -114,7 +114,7 @@ interface FileTransferState {
   }
   receivingErrors?: FileTransferError[]
   // New approach for transferring files
-  validationFailureType?: ValidationFailure
+  validationFailureError?: ValidationFailure
   filesTransferSend: {
     [id: FileId]: File
   }
@@ -129,7 +129,7 @@ const initialState: FileTransferState = {
   receivingFilesProgress: {},
   receivingErrors: [],
   // New approach for transferring files
-  validationFailureType: undefined,
+  validationFailureError: undefined,
   filesTransferSend: {},
   filesTransferSendAbortActions: {},
 }
@@ -288,7 +288,7 @@ export const genericFileTransferReducer = createReducer(
       delete state.filesTransferSendAbortActions[action.meta.arg]
     })
     builder.addCase(setValidationFailure, (state, action) => {
-      state.validationFailureType = action.payload
+      state.validationFailureError = action.payload
     })
   }
 )
