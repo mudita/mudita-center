@@ -120,7 +120,7 @@ export const FilesManagerUploadFinished: APIFC<
     )
   }, [data?.freeSpace, failedFiles])
 
-  const closeActions: ButtonAction[] = config?.actions ? config?.actions : []
+  const closeActions: ButtonAction[] = config?.actions || []
 
   if (config?.modalKey) {
     closeActions.push({
@@ -152,9 +152,6 @@ export const FilesManagerUploadFinished: APIFC<
       },
     })
   }
-
-  console.log("closeActions")
-  console.log(closeActions)
 
   const getFileErrorReason = useCallback(
     (file: (typeof failedFiles)[number]) => {
