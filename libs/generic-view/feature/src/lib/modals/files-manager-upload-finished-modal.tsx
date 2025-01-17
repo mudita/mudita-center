@@ -7,7 +7,6 @@ import React, { FunctionComponent, useEffect } from "react"
 import { FilesManagerUploadFinished, Modal } from "generic-view/ui"
 import { useDispatch, useSelector } from "react-redux"
 import {
-  cleanRestoreProcess,
   clearFileTransferErrors,
   selectActiveApiDeviceId,
   selectFilesSendingFailed,
@@ -22,17 +21,8 @@ const FilesManagerUploadFinishedModal: FunctionComponent = () => {
   const dispatch = useDispatch()
   const activeDevice = useSelector(selectActiveApiDeviceId)
   const filesSendingFailed = useSelector(selectFilesSendingFailed)
-  console.log(
-    "FilesManagerUploadFinishedModal FilesManagerUploadFinishedModal FilesManagerUploadFinishedModal FilesManagerUploadFinishedModal FilesManagerUploadFinishedModal FilesManagerUploadFinishedModal"
-  )
-  console.log(filesSendingFailed)
-  console.log(activeDevice)
-  const opened = filesSendingFailed.length > 0 && !activeDevice
 
-  const onClose = () => {
-    dispatch(cleanRestoreProcess())
-    dispatch(setDeviceErrorModalOpened(false))
-  }
+  const opened = filesSendingFailed.length > 0 && !activeDevice
 
   useEffect(() => {
     dispatch(setDeviceErrorModalOpened(opened))
