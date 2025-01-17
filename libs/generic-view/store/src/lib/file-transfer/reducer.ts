@@ -4,7 +4,7 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { AppErrorType } from "Core/core/errors"
+import { AppError, AppErrorType } from "Core/core/errors"
 import {
   clearGetErrors,
   clearSendErrors,
@@ -19,10 +19,13 @@ import {
   sendFilesError,
   sendFilesFinished,
   sendFilesPreSend,
+  addFileTransferErrors,
+  clearFileTransferErrors,
 } from "./actions"
 import { sendFile } from "./send-file.action"
 import { getFile } from "./get-file.action"
 import { sendFiles } from "./send-files.action"
+import { ApiFileTransferError } from "device/models"
 
 interface FileTransferError {
   code?: AppErrorType
@@ -73,7 +76,7 @@ export type FileTransferProgress = FileBase & {
 
 export type FileTransferFailed = FileBase & {
   status: "finished"
-  error: string
+  error: AppError<ApiFileTransferError>
 }
 
 export type FileTransferSucceeded = FileBase & {
@@ -87,6 +90,29 @@ export type File =
   | FileTransferProgress
   | FileTransferFinished
 
+type ValidationErrorSomeFileLargerThan2GB = {
+  status: "someFileLargerThan2GB"
+}
+type ValidationErrorAllFilesDuplicated = {
+  status: "allFilesDuplicated"
+}
+export type ValidationErrorNotHaveSpaceForUpload = {
+  status: "notHaveSpaceForUpload"
+  formattedDifference: string
+}
+
+export type FileTransferValidationErrorPayload =
+  | ValidationErrorSomeFileLargerThan2GB
+  | ValidationErrorAllFilesDuplicated
+  | ValidationErrorNotHaveSpaceForUpload
+
+export interface FileTransferValidationError {
+  type: "validation"
+  error: FileTransferValidationErrorPayload
+}
+
+export type FilesTransferError = FileTransferValidationError
+
 interface FileTransferState {
   sendingFilesProgress: {
     [transferId: number]: FileProgress
@@ -97,6 +123,10 @@ interface FileTransferState {
   }
   receivingErrors?: FileTransferError[]
   // New approach for transferring files
+  filesTransferErrors: {
+    [actionId: ActionId]: FilesTransferError[]
+  }
+  // TODO: Consider refactor it to { [actionId: ActionId]: File[] }
   filesTransferSend: {
     [id: FileId]: File
   }
@@ -111,6 +141,7 @@ const initialState: FileTransferState = {
   receivingFilesProgress: {},
   receivingErrors: [],
   // New approach for transferring files
+  filesTransferErrors: {},
   filesTransferSend: {},
   filesTransferSendAbortActions: {},
 }
@@ -267,6 +298,16 @@ export const genericFileTransferReducer = createReducer(
     })
     builder.addCase(sendFilesAbort.fulfilled, (state, action) => {
       delete state.filesTransferSendAbortActions[action.meta.arg]
+    })
+    builder.addCase(addFileTransferErrors, (state, action) => {
+      const actionId = action.payload.actionId
+      const errors = action.payload.errors
+      state.filesTransferErrors[actionId] = []
+      state.filesTransferErrors[actionId].push(...errors)
+    })
+    builder.addCase(clearFileTransferErrors, (state, action) => {
+      const actionId = action.payload.actionId
+      delete state.filesTransferErrors[actionId]
     })
   }
 )

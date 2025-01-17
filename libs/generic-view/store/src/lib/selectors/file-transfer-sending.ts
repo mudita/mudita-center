@@ -152,3 +152,14 @@ export const selectFilesSendingProgress = createSelector(
     return Math.round(progress * 100)
   }
 )
+
+export const selectValidationFailureType = createSelector(
+  (state: ReduxRootState) => state.genericFileTransfer,
+  (state: ReduxRootState, uploadActionId: string) => uploadActionId,
+  (genericFileTransfer, uploadActionId) => {
+    const error = genericFileTransfer.filesTransferErrors?.[uploadActionId]?.find(
+      ({ type }) => type
+    )
+    return error?.error
+  }
+)
