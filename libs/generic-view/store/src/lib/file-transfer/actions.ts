@@ -9,13 +9,17 @@ import {
   ActionId,
   FileGroupId,
   FileId,
-  FileProgress, FileTransferFailed,
+  FileProgress,
+  FilesTransferError,
+  FileTransferFailed,
   FileTransferFinished,
   FileTransferProgress,
 } from "./reducer"
 import { SendFileErrorPayload } from "./send-file.action"
 import { GetFileErrorPayload } from "./get-file.action"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { AppError } from "Core/core/errors"
+import { ApiFileTransferError } from "device/models"
 
 export const fileTransferSendPrepared = createAction<
   Pick<FileProgress, "chunksCount" | "transferId" | "filePath">
@@ -61,7 +65,28 @@ export const sendFilesAbort = createAsyncThunk<
   void,
   ActionId,
   { state: ReduxRootState }
->(ActionName.SendFilesAbort, (actionId, { getState }) => {
-  const { filesTransferSendAbortActions } = getState().genericFileTransfer
+>(ActionName.SendFilesAbort, (actionId, { getState, dispatch }) => {
+  const { filesTransferSendAbortActions, filesTransferSend } =
+    getState().genericFileTransfer
   filesTransferSendAbortActions[actionId]?.abort()
+
+  for (const file of Object.values(filesTransferSend)) {
+    if (file.groupId === actionId && file.status === "pending") {
+      dispatch(
+        sendFilesError({
+          id: file.id,
+          error: new AppError(ApiFileTransferError.Aborted, "Aborted"),
+        })
+      )
+    }
+  }
 })
+
+export const addFileTransferErrors = createAction<{
+  actionId: ActionId
+  errors: FilesTransferError[]
+}>(ActionName.addFileTransferErrors)
+
+export const clearFileTransferErrors = createAction<{ actionId: ActionId }>(
+  ActionName.clearFileTransferErrors
+)

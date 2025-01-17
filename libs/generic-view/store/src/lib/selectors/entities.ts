@@ -103,3 +103,15 @@ export const selectEntitiesLoadingState = createSelector(
     )
   }
 )
+
+export const selectValidEntityFilePaths = createSelector(
+  selectEntitiesData,
+  (entitiesData) => {
+    return entitiesData?.map((entityData) => {
+      if (typeof entityData.filePath === "string") {
+        return entityData.filePath
+      }
+      throw new Error("Invalid entity: filePath is missing or not a string")
+    })
+  }
+)
