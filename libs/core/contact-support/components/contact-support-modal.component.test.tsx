@@ -42,6 +42,10 @@ const renderWithWaitFor = async (extraProps?: Partial<Props>) => {
   return outcome
 }
 
+jest.mock("../../../generic-view/ui/src/lib/shared/spinner-loader", () => ({
+  SpinnerLoader: () => <div data-testid="spinner" />,
+}))
+
 test("form renders properly", async () => {
   const { emailInput, descriptionInput, fileList, queryByTestId } =
     await renderWithWaitFor()

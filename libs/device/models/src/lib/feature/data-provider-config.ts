@@ -59,6 +59,14 @@ const fieldsSchema = z.array(
   z.union([baseFieldSchema, enhancedFieldSchema, superEnhancedFieldSchema])
 )
 
+const entitiesArrayFieldSchema = z.array(
+  z.union([
+    baseFieldSchema.omit({ providerField: true }),
+    enhancedFieldSchema.omit({ providerField: true }),
+    superEnhancedFieldSchema.omit({ providerField: true }),
+  ])
+)
+
 export type DataProviderField =
   | z.infer<typeof baseFieldSchema>
   | z.infer<typeof enhancedFieldSchema>
@@ -150,6 +158,7 @@ const entitiesArraySchema = z.object({
   filters: filtersSchema,
   search: searchSchema,
   limit: z.number().nonnegative().optional(),
+  fields: entitiesArrayFieldSchema.optional(),
 })
 export type EntitiesArrayConfig = z.infer<typeof entitiesArraySchema>
 
