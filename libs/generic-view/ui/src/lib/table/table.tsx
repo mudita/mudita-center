@@ -27,6 +27,7 @@ import {
   listItemSelectedStyles,
   listRawItemStyles,
 } from "../list/list-item"
+import { toastAnimationDuration } from "../interactive/toast/toast"
 
 const rowHeight = 64
 
@@ -109,7 +110,7 @@ export const Table: APIFC<TableData, TableConfig> & {
               intersection(data, unavailableIds)
             )
           }
-        }, 500)
+        }, toastAnimationDuration)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
