@@ -60,6 +60,8 @@ export enum ActionName {
   SendFilesClear = "generic-file-transfer/send-files-clear",
   SendFilesAbortRegister = "generic-file-transfer/send-files-abort-register",
   SendFilesAbort = "generic-file-transfer/send-files-abort",
+  addFileTransferErrors = "generic-file-transfer/add-errosr",
+  clearFileTransferErrors = "generic-file-transfer/clear-errors",
 
   SetDataTransfer = "generic-data-transfer/set-data-transfer",
   SetDataTransferStatus = "generic-data-transfer/set-data-transfer-status",

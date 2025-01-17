@@ -12,6 +12,7 @@ import {
 import { View } from "generic-view/utils"
 import { formatBytes } from "../../typography/format-bytes"
 import { SEGMENTS_CONFIG_MAP } from "./storage-summary-bar"
+import { generateFileUploadButtonModalKey } from "./file-upload-button"
 
 type StorageInformation = McFileManagerData["storageInformation"][number]
 
@@ -122,6 +123,20 @@ const generateStorageSummary = (
     [`${key}storageSummaryBar`]: {
       segments,
     },
+    ...Object.values(storageInformation.categoriesSpaceInformation).reduce(
+      (acc, _, index) => {
+        return {
+          ...acc,
+          [generateFileUploadButtonModalKey(
+            `${key}${index}`,
+            "FinishedContent"
+          )]: {
+            freeSpace: freeTotalSpaceBytes,
+          },
+        }
+      },
+      {}
+    ),
   }
 }
 
