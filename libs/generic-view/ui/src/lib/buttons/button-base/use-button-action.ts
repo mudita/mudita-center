@@ -175,7 +175,6 @@ const runActions = (actions?: ButtonActions) => {
               ids: action.ids,
               deviceId: activeDeviceId,
               onSuccess: () => {
-                console.log("PROWIDERZY: ", providers)
                 return runActions(action.postActions?.success)(
                   providers,
                   customActions
