@@ -4,6 +4,7 @@
  */
 
 import { z } from "zod"
+import { entityDataSchema } from "../../../../device/models/src/lib/entities/entity-data.validator"
 
 export const modalSizeValidator = z.enum(["small", "medium", "large"])
 
@@ -93,10 +94,72 @@ const entityPostActionsValidator = z
   )
   .optional()
 
-export const entityActionValidator = z.object({
-  type: z.literal("entities-delete"),
-  entitiesType: z.string(),
-  ids: z.array(z.string()),
+export const entityActionValidator = z.union([
+  z.object({
+    type: z.literal("entities-delete"),
+    entitiesType: z.string(),
+    ids: z.array(z.string()),
+    postActions: z
+      .object({
+        success: entityPostActionsValidator,
+        failure: entityPostActionsValidator,
+      })
+      .optional(),
+  }),
+  z.object({
+    type: z.literal("entity-create"),
+    entitiesType: z.string(),
+    data: entityDataSchema,
+    postActions: z
+      .object({
+        success: entityPostActionsValidator,
+        failure: entityPostActionsValidator,
+      })
+      .optional(),
+  }),
+])
+
+export type EntityAction = z.infer<typeof entityActionValidator>
+
+const nativeActionSelectFilesValidator = z.object({
+  type: z.literal("select-files"),
+  multiple: z.boolean().optional(),
+  extensions: z.array(z.string()).optional(),
+  extensionsGroupName: z.string().optional(),
+  formOptions: z.object({
+    formKey: z.string().optional(),
+    selectedFilesFieldName: z.string(),
+  }),
+})
+
+export type NativeActionSelectFiles = z.infer<
+  typeof nativeActionSelectFilesValidator
+>
+
+const nativeActionSelectDirectoryValidator = z.object({
+  // TODO: Implement "select-directory" action
+  type: z.literal("select-directory"),
+})
+
+export const nativeActionsValidator = z.union([
+  nativeActionSelectFilesValidator,
+  nativeActionSelectDirectoryValidator,
+])
+
+const filesTransferUploadFilesActionValidator = z.object({
+  type: z.literal("upload-files"),
+  destinationPath: z.string(),
+  entitiesType: z.string().optional(),
+  actionId: z.string(),
+  formOptions: z.object({
+    formKey: z.string().optional(),
+    filesToUploadFieldName: z.string(),
+  }),
+  preActions: z
+    .object({
+      validationFailure: entityPostActionsValidator,
+    })
+    .optional(),
   postActions: z
     .object({
       success: entityPostActionsValidator,
@@ -105,7 +168,19 @@ export const entityActionValidator = z.object({
     .optional(),
 })
 
-export type EntityAction = z.infer<typeof entityActionValidator>
+export type FilesTransferUploadFilesAction = z.infer<
+  typeof filesTransferUploadFilesActionValidator
+>
+
+const filesTransferDownloadFilesActionValidator = z.object({
+  // TODO: Implement "download-files" action
+  type: z.literal("download-files"),
+})
+
+export const filesTransferActionValidator = z.union([
+  filesTransferUploadFilesActionValidator,
+  filesTransferDownloadFilesActionValidator,
+])
 
 export const buttonActionsValidator = z.array(
   z.union([
@@ -115,6 +190,8 @@ export const buttonActionsValidator = z.array(
     formActionValidator,
     entityActionValidator,
     toastActionValidator,
+    nativeActionsValidator,
+    filesTransferActionValidator,
   ])
 )
 

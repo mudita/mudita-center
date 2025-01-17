@@ -174,7 +174,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: {
           storageInformation: [
             {
-              storageType: "INTERNAL",
+              path: "/storage/emulated/0/",
               totalSpaceBytes: 32000000000,
               usedSpaceBytes: 9576652800,
               totalSpaceString: "32 GB",

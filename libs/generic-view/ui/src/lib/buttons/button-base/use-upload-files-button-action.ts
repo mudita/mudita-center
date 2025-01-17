@@ -1,0 +1,86 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { useCallback } from "react"
+import path from "node:path"
+import { getFileStatsRequest } from "system-utils/feature"
+import { FilesTransferUploadFilesAction } from "generic-view/models"
+import {
+  selectFilesSendingFailed,
+  sendFiles,
+  sendFilesClear,
+  SendFilesPayload,
+} from "generic-view/store"
+import { useDispatch, useStore } from "react-redux"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { useViewFormContext } from "generic-view/utils"
+
+export const useUploadFilesButtonAction = () => {
+  const store = useStore<ReduxRootState>()
+  const getFormContext = useViewFormContext()
+  const dispatch = useDispatch<Dispatch>()
+
+  return useCallback(
+    async (
+      action: FilesTransferUploadFilesAction,
+      callbacks: {
+        onSuccess: () => Promise<void>
+        onFailure: () => Promise<void>
+        onValidationFailure: () => Promise<void>
+      }
+    ) => {
+      const filesPaths: string[] = getFormContext(
+        action.formOptions.formKey
+      ).getValues(action.formOptions.filesToUploadFieldName)
+      if (filesPaths.length === 0) return
+
+      const files: SendFilesPayload["files"] = []
+
+      for (const filePath of filesPaths) {
+        const fileStats = await getFileStatsRequest(filePath)
+        if (!fileStats.ok) continue
+        files.push({
+          id: filePath,
+          path: filePath,
+          size: fileStats.data.size,
+          groupId: action.actionId,
+          name: path.basename(filePath),
+        })
+      }
+
+      // TODO: Validate files before sending
+      /* Example:
+      if (validationFailed) {
+        await callbacks.onValidationFailure()
+        return
+      }
+      */
+
+      const response = (await dispatch(
+        sendFiles({
+          files,
+          actionId: action.actionId,
+          targetPath: action.destinationPath,
+          entitiesType: action.entitiesType,
+        })
+      )) as Awaited<ReturnType<ReturnType<typeof sendFiles>>>
+
+      const failedFiles = selectFilesSendingFailed(store.getState(), {
+        groupId: action.actionId,
+      })
+
+      if (
+        response.meta.requestStatus === "rejected" ||
+        failedFiles.length > 0
+      ) {
+        await callbacks.onFailure()
+      } else if (filesPaths.length > 0) {
+        await callbacks.onSuccess()
+        dispatch(sendFilesClear({ groupId: action.actionId }))
+      }
+    },
+    [dispatch, getFormContext, store]
+  )
+}

@@ -28,6 +28,10 @@ const render = (extraProps?: CrashDumpProps) => {
   )
 }
 
+jest.mock("../../../generic-view/ui/src/lib/shared/spinner-loader", () => ({
+  SpinnerLoader: () => <div data-testid="spinner" />,
+}))
+
 test("Modal isn't rendering if `open` flag is equal to `false`", () => {
   render()
 

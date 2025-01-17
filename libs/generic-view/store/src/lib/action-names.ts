@@ -51,6 +51,15 @@ export enum ActionName {
   ChunkFileTransferGet = "generic-file-transfer/chunk-get",
   ClearFileTransferGetError = "generic-file-transfer/clear-get-errors",
   TransferDataToDevice = "generic-file-transfer/transfer-data-to-device",
+  // New approach for transferring files
+  SendFiles = "generic-file-transfer/send-files",
+  SendFilesPreSend = "generic-file-transfer/send-files-pre-send",
+  SendFilesChunkSent = "generic-file-transfer/send-files-chunk-sent",
+  SendFilesError = "generic-file-transfer/send-files-error",
+  SendFilesFinished = "generic-file-transfer/send-files-finished",
+  SendFilesClear = "generic-file-transfer/send-files-clear",
+  SendFilesAbortRegister = "generic-file-transfer/send-files-abort-register",
+  SendFilesAbort = "generic-file-transfer/send-files-abort",
 
   SetDataTransfer = "generic-data-transfer/set-data-transfer",
   SetDataTransferStatus = "generic-data-transfer/set-data-transfer-status",
