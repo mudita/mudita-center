@@ -2,7 +2,7 @@ import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import tabsPage from "../../page-objects/tabs.page"
 import ContactsKompaktPage from "../../page-objects/contacts-kompakt"
 import { mockEntityDownloadProcess } from "../../helpers"
-import { mockEntityDownloadProcess } from "../../helpers/mock-entity-delete-process.helper"
+import { mockEntityDeleteProcess } from "../../helpers/mock-entity-delete-process"
 import { selectedContactsEntities } from "../../helpers/entity-fixtures"
 
 describe("E2E mock sample - overview view", () => {
@@ -67,13 +67,13 @@ describe("E2E mock sample - overview view", () => {
     await expect(deleteContactCancelButton).toBeClickable()
     await deleteContactCancelButton.click()
 
-    //click again to open modal again
-    await contactDetailsDeleteButton.click()
-
+    //mock delete action
     mockEntityDeleteProcess({
       entityType: "contacts",
       totalEntities: selectedContactsEntities.length - 1,
     })
+    //click again to open modal again
+    await contactDetailsDeleteButton.click()
 
     const deleteContactConfirmButton =
       ContactsKompaktPage.deleteContactConfirmButton

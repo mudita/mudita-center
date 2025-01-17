@@ -227,7 +227,6 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
       {
         status: ResponseStatus.Ok,
         body: { totalEntities: 17, uniqueKey: "1733750368393" },
-        body: { totalEntities: 17, uniqueKey: "1733750368393" },
         match: { expected: { entityType: "contacts" } },
       },
       {
