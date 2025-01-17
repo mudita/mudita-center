@@ -139,6 +139,5 @@ describe("E2E mock sample - overview view", () => {
       entityType: "contacts",
       totalEntities: selectedContactsEntities.length - 1,
     })
-    await browser.pause(10000)
   })
 })

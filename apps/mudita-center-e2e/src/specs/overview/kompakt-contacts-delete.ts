@@ -52,35 +52,56 @@ describe("E2E mock sample - overview view", () => {
     const contactsList = await ContactsKompaktPage.allContactsTableRows
     await contactsList[0].click()
   })
-  it("Click Delete contact", async () => {
+  it("Check delete modal", async () => {
     const contactDetailsDeleteButton =
       ContactsKompaktPage.contactDetailsDeleteButton
     await expect(contactDetailsDeleteButton).toBeClickable()
     await contactDetailsDeleteButton.click()
 
+    //check delete modal
     const contactDeleteModal = ContactsKompaktPage.contactDeleteModal
     await expect(contactDeleteModal).toBeDisplayed()
+
+    const contactDeleteModalIcon = ContactsKompaktPage.contactDeleteModalIcon
+    await expect(contactDeleteModalIcon).toBeDisplayed()
+
+    const contactDeleteModalTitle = ContactsKompaktPage.contactDeleteModalTitle
+    await expect(contactDeleteModalTitle).toHaveText("Delete contact")
+
+    const contactDeleteModalText = ContactsKompaktPage.contactDeleteModalText
+    await expect(contactDeleteModalText).toHaveText(
+      "This can't be undone so please make a copy of any important information first."
+    )
+  })
+  it("Check if clicking on background is impossible, check modal cancellation", async () => {
+    //check if backgroud is not working while delete modal is open <- check if user is able to click Settings tab
+    const settingsTabKompaktTab = tabsPage.settingsTab
+    const isClickable = await settingsTabKompaktTab.isClickable()
+    expect(isClickable).toBe(false)
 
     //check modal cancellation
     const deleteContactCancelButton =
       ContactsKompaktPage.deleteContactCancelButton
     await expect(deleteContactCancelButton).toBeClickable()
     await deleteContactCancelButton.click()
+  })
+  it("Check contact deletion and counter update", async () => {
+    //click again to open modal again
+    const contactDetailsDeleteButton =
+      ContactsKompaktPage.contactDetailsDeleteButton
+    await contactDetailsDeleteButton.click()
 
-    //mock delete action
+    //mock deletion of contacts process
     mockEntityDeleteProcess({
       entityType: "contacts",
       totalEntities: selectedContactsEntities.length - 1,
     })
-    //click again to open modal again
-    await contactDetailsDeleteButton.click()
-
     const deleteContactConfirmButton =
       ContactsKompaktPage.deleteContactConfirmButton
     await expect(deleteContactConfirmButton).toBeClickable()
     await deleteContactConfirmButton.click()
 
-    //verify if counter is updated after deleting
+    //verify if counter is updated after deleting (number should be deducted by 1)
     const contactsCounter = ContactsKompaktPage.contactsCounter
     await expect(contactsCounter).toBeDisplayed()
     await expect(contactsCounter).toHaveText("Contacts (16)")

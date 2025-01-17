@@ -45,6 +45,19 @@ class ContactsKompaktPage extends Page {
     return $('//*[@data-testid="modal-content-detailsDeleteModal"]')
   }
 
+  public get contactDeleteModalIcon() {
+    return $('//*[@data-testid="icon-exclamation"]')
+  }
+  public get contactDeleteModalTitle() {
+    return $('//h1[text()="Delete contact"]')
+  }
+
+  public get contactDeleteModalText() {
+    return $(
+      '//p[@data-testid="ui-typography-p1" and text()="This can\'t be undone so please make a copy of any important information first."]'
+    )
+  }
+
   public get deleteContactConfirmButton() {
     return $(
       '//*[@data-testid="primary-button-detailsDeleteModalConfirmButton"]'
