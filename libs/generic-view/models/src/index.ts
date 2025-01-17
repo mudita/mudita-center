@@ -50,7 +50,7 @@ import { backupRestoreAvailable } from "./lib/backup-restore-available"
 import { mcImportContactsButton } from "./lib/mc-import-contacts-button"
 import { mcContactsView } from "./lib/mc-contacts-view"
 import { mcDataMigration } from "./lib/mc-data-migration"
-import { mcFileManagerView } from "./lib/mc-file-manager-view"
+import { mcFileManagerView } from "./lib/mc-file-manager"
 import { incomingFeatureInfo } from "./lib/incoming-feature-info"
 import { table } from "./lib/table"
 import { tableCell, tableHeaderCell } from "./lib/table-cell"
@@ -64,6 +64,9 @@ import { buttonPlain } from "./lib/button-plain"
 import { highlightText } from "./lib/highlight-text"
 import { mcContactsSearchResults } from "./lib/mc-contacts-search-results"
 import { TypographyMap } from "./lib/typography"
+import { mcFilesManagerUploadProgress } from "./lib/mc-files-manager-upload-progress"
+import { mcFilesManagerUploadFinished } from "./lib/mc-files-manager-upload-finished"
+import { mcFilesManagerUploadValidationError } from "./lib/mc-files-manager-upload-validation-error"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -117,7 +120,7 @@ export * from "./lib/mc-import-contacts-button"
 export * from "./lib/mc-contacts-view"
 export * from "./lib/modal-visibility-controller"
 export * from "./lib/mc-data-migration"
-export * from "./lib/mc-file-manager-view"
+export * from "./lib/mc-file-manager"
 export * from "./lib/incoming-feature-info"
 export * from "./lib/table"
 export * from "./lib/table-cell"
@@ -131,6 +134,9 @@ export * from "./lib/app-portal"
 export * from "./lib/highlight-text"
 export * from "./lib/mc-contacts-search-results"
 export * from "./lib/typography"
+export * from "./lib/mc-files-manager-upload-progress"
+export * from "./lib/mc-files-manager-upload-finished"
+export * from "./lib/mc-files-manager-upload-validation-error"
 
 export default {
   [blockBox.key]: blockBox,
@@ -194,5 +200,9 @@ export default {
   [appPortal.key]: appPortal,
   [highlightText.key]: highlightText,
   [mcContactsSearchResults.key]: mcContactsSearchResults,
+  [mcFilesManagerUploadProgress.key]: mcFilesManagerUploadProgress,
+  [mcFilesManagerUploadFinished.key]: mcFilesManagerUploadFinished,
+  [mcFilesManagerUploadValidationError.key]:
+    mcFilesManagerUploadValidationError,
   ...TypographyMap,
 } as const

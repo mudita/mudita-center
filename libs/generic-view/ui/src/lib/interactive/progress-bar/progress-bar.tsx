@@ -17,9 +17,9 @@ export const ProgressBar: APIFC<ProgressBarData, ProgressBarConfig> = ({
   const id = useId()
   return (
     <Wrapper {...props}>
-      {data?.message && (
+      {data?.message !== undefined && (
         <Message data-testid={ProgressBarTestIds.Description}>
-          {data?.message}
+          {data.message}
         </Message>
       )}
       <Progress
@@ -54,10 +54,17 @@ const Message = styled.span`
   font-weight: ${({ theme }) => theme.fontWeight.light};
   letter-spacing: 0.05em;
   margin: 0 0 0.6rem 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  min-height: ${({ theme }) => theme.lineHeight.paragraph4};
 `
 
 const Progress = styled.progress`
   width: 100%;
+  max-width: 22.3rem;
   height: 0.4rem;
   border-radius: 0.2rem;
   overflow: hidden;

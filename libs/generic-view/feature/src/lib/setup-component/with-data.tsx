@@ -168,7 +168,7 @@ const EntitiesMetadataDataProvider: FunctionComponent<
 
 const EntitiesArrayDataProvider: FunctionComponent<
   Props & { dataProvider: EntitiesArrayConfig }
-> = ({ children, dataProvider, ...rest }) => {
+> = ({ children, dataProvider, config, ...rest }) => {
   const formContext = useViewFormContext()
   const deviceId = useSelector(selectActiveApiDeviceId)!
   const idFieldKey = useSelector((state: ReduxRootState) => {
@@ -204,7 +204,19 @@ const EntitiesArrayDataProvider: FunctionComponent<
         ?.map((item) => item[idFieldKey])
     : undefined
 
-  return children({ data, ...rest })
+  if (dataProvider.fields) {
+    const childrenProps = cloneDeep({
+      data,
+      config,
+    })
+    for (const fieldConfig of dataProvider.fields) {
+      const { componentField, ...config } = fieldConfig
+      const value = processField(config, data)
+      set(childrenProps, componentField, value)
+    }
+    return children({ ...childrenProps, ...rest })
+  }
+  return children({ data, config, ...rest })
 }
 
 const EntitiesFieldDataProvider: FunctionComponent<

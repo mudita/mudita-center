@@ -10,11 +10,40 @@ export const fileManagerView: View = {
   main: {
     component: "mc-file-manager-view",
     config: {
-      entityTypes: [
-        "audioFiles",
-        "imageFiles",
-        "ebookFiles",
-        // "applicationFiles",
+      storages: [
+        {
+          label: "Phone Storage",
+          path: "/storage/emulated/0/",
+        },
+        // {
+        //   label: "SD Card",
+        //   path: "/storage/external_sd/",
+        // }
+      ],
+      categories: [
+        {
+          label: "Music",
+          directoryPath: "Music/",
+          supportedFileTypes: ["mp3", "wav", "flac"],
+          entityType: "audioFiles",
+        },
+        {
+          label: "Photos",
+          directoryPath: "Pictures/",
+          supportedFileTypes: ["jpg", "jpeg", "png"],
+          entityType: "imageFiles",
+        },
+        {
+          label: "E-books",
+          directoryPath: "Documents/",
+          supportedFileTypes: ["pdf", "epub"],
+          entityType: "ebookFiles",
+        },
+        // {
+        //   entityType: "applicationFiles",
+        //   storagePath: "/media/apps",
+        //   supportedFileTypes: ["apk"],
+        // }
       ],
     },
     // @ts-ignore

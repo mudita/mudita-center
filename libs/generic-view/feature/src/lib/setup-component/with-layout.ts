@@ -88,6 +88,7 @@ const setupStyles = (style?: CSSProperties, layout?: Layout): CSSProperties => {
       justifyContent: layout.gridLayout.justifyContent,
       alignItems: layout.gridLayout.alignItems,
       justifyItems: layout.gridLayout.justifyItems,
+      justifySelf: layout.gridLayout.justifySelf,
     }),
   }
 }
