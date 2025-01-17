@@ -280,7 +280,10 @@ export const genericFileTransferReducer = createReducer(
       file.error = action.payload.error
     })
     builder.addCase(sendFilesClear, (state, action) => {
-      if ("groupId" in action.payload) {
+      if (action.payload === undefined) {
+        state.filesTransferSend = {}
+        state.filesTransferSend = {}
+      } else if ("groupId" in action.payload) {
         for (const file of Object.values(state.filesTransferSend)) {
           if (file.groupId === action.payload.groupId) {
             delete state.filesTransferSend[file.id]
@@ -306,8 +309,12 @@ export const genericFileTransferReducer = createReducer(
       state.filesTransferErrors[actionId].push(...errors)
     })
     builder.addCase(clearFileTransferErrors, (state, action) => {
-      const actionId = action.payload.actionId
-      delete state.filesTransferErrors[actionId]
+      if (action.payload?.actionId === undefined) {
+        state.filesTransferErrors = {}
+      } else {
+        const actionId = action.payload.actionId
+        delete state.filesTransferErrors[actionId]
+      }
     })
   }
 )

@@ -4,6 +4,7 @@
  */
 
 import { z } from "zod"
+import { buttonActionsValidator } from "./common-validators"
 
 const dataValidator = z.object({
   freeSpace: z.number(),
@@ -12,8 +13,9 @@ const dataValidator = z.object({
 export type McFilesManagerUploadFinishedData = z.infer<typeof dataValidator>
 
 const configValidator = z.object({
-  modalKey: z.string(),
-  uploadActionId: z.string(),
+  modalKey: z.string().optional(),
+  uploadActionId: z.string().optional(),
+  actions: buttonActionsValidator.optional(),
 })
 
 export type McFilesManagerUploadFinishedConfig = z.infer<typeof configValidator>

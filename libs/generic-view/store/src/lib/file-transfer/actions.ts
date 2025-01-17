@@ -54,7 +54,7 @@ export const sendFilesError = createAction<
   Pick<NonNullable<FileTransferFailed>, "id" | "error">
 >(ActionName.SendFilesError)
 export const sendFilesClear = createAction<
-  { groupId: FileGroupId } | { filesIds: FileId[] }
+  { groupId: FileGroupId } | { filesIds: FileId[] } | undefined
 >(ActionName.SendFilesClear)
 export const sendFilesAbortRegister = createAction<{
   actionId: ActionId
@@ -87,6 +87,6 @@ export const addFileTransferErrors = createAction<{
   errors: FilesTransferError[]
 }>(ActionName.addFileTransferErrors)
 
-export const clearFileTransferErrors = createAction<{ actionId: ActionId }>(
-  ActionName.clearFileTransferErrors
-)
+export const clearFileTransferErrors = createAction<
+  { actionId: ActionId } | undefined
+>(ActionName.clearFileTransferErrors)

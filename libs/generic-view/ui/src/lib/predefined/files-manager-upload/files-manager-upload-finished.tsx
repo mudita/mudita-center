@@ -86,7 +86,10 @@ export const FilesManagerUploadFinished: APIFC<
   McFilesManagerUploadFinishedConfig
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
-  const selectorsConfig = { groupId: config.uploadActionId }
+  const selectorsConfig =
+    config?.uploadActionId !== undefined
+      ? { groupId: config.uploadActionId }
+      : undefined
 
   const filesCount = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCount(state, selectorsConfig)
@@ -117,21 +120,41 @@ export const FilesManagerUploadFinished: APIFC<
     )
   }, [data?.freeSpace, failedFiles])
 
-  const closeActions: ButtonAction[] = [
-    {
+  const closeActions: ButtonAction[] = config?.actions ? config?.actions : []
+
+  if (config?.modalKey) {
+    closeActions.push({
       type: "close-modal",
       modalKey: config.modalKey,
-    },
-    {
+    })
+  }
+
+  if (config?.uploadActionId) {
+    closeActions.push({
       type: "custom",
       callback: () => {
         setTimeout(() => {
-          dispatch(sendFilesClear({ groupId: config.uploadActionId }))
-          dispatch(clearFileTransferErrors({ actionId: config.uploadActionId }))
+          dispatch(
+            sendFilesClear(
+              config?.uploadActionId
+                ? { groupId: config.uploadActionId }
+                : undefined
+            )
+          )
+          dispatch(
+            clearFileTransferErrors(
+              config?.uploadActionId
+                ? { actionId: config.uploadActionId }
+                : undefined
+            )
+          )
         }, modalTransitionDuration)
       },
-    },
-  ]
+    })
+  }
+
+  console.log("closeActions")
+  console.log(closeActions)
 
   const getFileErrorReason = useCallback(
     (file: (typeof failedFiles)[number]) => {

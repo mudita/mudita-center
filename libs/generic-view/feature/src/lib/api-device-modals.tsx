@@ -9,6 +9,7 @@ import BackupErrorModal from "./modals/backup-error-modal"
 import RestoreErrorModal from "./modals/restore-error-modal"
 import ImportContactsErrorModal from "./modals/import-contacts-error-modal"
 import { DataMigrationErrorModal } from "./modals/data-migration-error-modal"
+import FilesManagerUploadFinishedModal from "./modals/files-manager-upload-finished-modal"
 
 export const ApiDeviceModals: FunctionComponent = () => {
   return (
@@ -16,6 +17,7 @@ export const ApiDeviceModals: FunctionComponent = () => {
       <BackupErrorModal />
       <RestoreErrorModal />
       <ImportContactsErrorModal />
+      <FilesManagerUploadFinishedModal />
       <DataMigrationErrorModal />
     </GenericThemeProvider>
   )
