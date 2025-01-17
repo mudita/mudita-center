@@ -10,7 +10,6 @@ import { sum } from "lodash"
 import { APIFC } from "generic-view/utils"
 import { EntitiesLoaderConfig } from "generic-view/models"
 import {
-  getEntitiesDataAction,
   getEntitiesMetadataAction,
   selectActiveApiDeviceId,
   selectEntitiesLoadingState,
