@@ -3,6 +3,7 @@ import tabsPage from "../../page-objects/tabs.page"
 import ContactsKompaktPage from "../../page-objects/contacts-kompakt"
 import { mockEntityDownloadProcess } from "../../helpers"
 import { selectedContactsEntities } from "../../helpers/entity-fixtures"
+import { mockEntityDeleteProcess } from "../../helpers/mock-entity-delete-process"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -133,5 +134,11 @@ describe("E2E mock sample - overview view", () => {
     expect(isDisplayed).toBe(true)
     const contactsTableRow = ContactsKompaktPage.contactsTableRow
     await contactsTableRow.click()
+
+    mockEntityDeleteProcess({
+      entityType: "contacts",
+      totalEntities: selectedContactsEntities.length - 1,
+    })
+    await browser.pause(10000)
   })
 })
