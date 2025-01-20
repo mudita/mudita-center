@@ -268,8 +268,8 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
     DELETE: [
       {
         status: ResponseStatus.Ok,
-      }
-    ]
+      },
+    ],
   },
   PRE_FILE_TRANSFER: {
     GET: [
@@ -315,7 +315,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         match: {
           expected: {
             transferId: 48647,
-            chunkNumber: 1
+            chunkNumber: 1,
           },
         },
       },
@@ -329,7 +329,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         match: {
           expected: {
             transferId: 1734669809788,
-            chunkNumber: 1
+            chunkNumber: 1,
           },
         },
       },
