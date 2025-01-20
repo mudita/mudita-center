@@ -49,6 +49,14 @@ export const selectEntitiesData = createSelector(
   (entities) => entities?.data
 )
 
+export const selectEntitiesFailedIds = createSelector(
+  selectEntities,
+  (entities) => entities?.failedIds
+  // (entities) => {
+  //   const failedEntities = entities?.data?.find((entity) => entities.failedIds?.includes((entity.id as string)))
+  // }
+)
+
 export const selectEntityData = createSelector(
   selectEntities,
   (state: ReduxRootState, { entityId }: { entityId: string }) => entityId,

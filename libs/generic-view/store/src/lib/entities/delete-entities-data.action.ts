@@ -8,7 +8,7 @@ import { deleteEntitiesDataRequest } from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
-import { EntityId } from "device/models"
+import { EntitiesDeleteResponse, EntityId } from "device/models"
 import { difference } from "lodash"
 import delayResponse from "@appnroll/delay-response"
 import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
@@ -24,7 +24,7 @@ interface DeleteEntitiesDataActionPayload {
 export const deleteEntitiesDataAction = createAsyncThunk<
   EntityId[],
   DeleteEntitiesDataActionPayload,
-  { state: ReduxRootState }
+  { state: ReduxRootState; rejectValue: string[] }
 >(
   ActionName.DeleteEntitiesData,
   async (
@@ -35,14 +35,24 @@ export const deleteEntitiesDataAction = createAsyncThunk<
     const response = await delayResponse(
       deleteEntitiesDataRequest({
         entitiesType,
-        ids: idsToDelete,
+        ids: ids,
         deviceId,
       }),
       1000
     )
-    if (!response.ok) {
+    if (!response.ok || response.data?.failedIds) {
       await onError?.()
-      return rejectWithValue(response.error)
+      if (response.data) {
+        const failedIds = (response.data as EntitiesDeleteResponse)!.failedIds
+          ? difference(
+              (response.data as EntitiesDeleteResponse)!.failedIds,
+              ids
+            )
+          : (response.data as EntitiesDeleteResponse)!.failedIds
+
+        return rejectWithValue(failedIds)
+      }
+      return rejectWithValue(ids)
     }
     console.log("Łodpowiedź: ", response)
     await onSuccess?.()

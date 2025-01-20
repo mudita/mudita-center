@@ -24,6 +24,7 @@ interface Entities {
   loading?: boolean
   progress?: number
   error?: boolean
+  failedIds?: string[]
 }
 
 export type DeviceEntitiesMap = Record<EntitiesType, Entities | undefined>
@@ -60,7 +61,24 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
       return
     }
 
-    state[deviceId]![entitiesType]!.data = action.payload
+    const newData = action.payload.concat([
+      {
+        id: "12345",
+        filePath:
+          "/storage/emulated/0/DCIM/Camera/aaaaa_testowy_do_usuniecia.jpg'",
+        fileName: "aaaaa_testowy_do_usuniecia.jpg",
+        extension: "jpg",
+        fileSize: 477233,
+        fileType: "IMAGE",
+        mimeType: "image/jpeg",
+        isInternal: true,
+        entityType: "imageFiles",
+      },
+    ])
+
+    console.log()
+
+    state[deviceId]![entitiesType]!.data = newData
     state[deviceId]![entitiesType]!.loading = false
   })
   builder.addCase(getEntitiesDataAction.rejected, (state, action) => {
@@ -118,6 +136,19 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
         (entity) =>
           !entitiesIds.includes(entity[entities.idFieldKey!] as string)
       )
+    }
+  })
+  builder.addCase(deleteEntitiesDataAction.rejected, (state, action) => {
+    const { entitiesType, deviceId } = action.meta.arg
+    const failedIds = action.payload
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
+
+    const entities = state[deviceId]![entitiesType]
+
+    if (entities) {
+      entities.failedIds = failedIds
     }
   })
   builder.addCase(deleteEntityData, (state, action) => {
