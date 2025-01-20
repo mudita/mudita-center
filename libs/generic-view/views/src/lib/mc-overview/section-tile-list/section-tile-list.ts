@@ -17,6 +17,7 @@ export const generateMcOverviewTileListLayout: ViewGenerator<
         title: config.title,
       },
       layout: {
+        shadow: true,
         gridPlacement: {
           row: 1,
           column: 2,

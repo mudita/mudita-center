@@ -16,6 +16,7 @@ export const generateMcAboutDetailsLayout: ViewGenerator<Config, Subview> = (
     details: {
       component: "block-plain",
       layout: {
+        shadow: true,
         flexLayout: {
           direction: "column",
           rowGap: "0.8rem",

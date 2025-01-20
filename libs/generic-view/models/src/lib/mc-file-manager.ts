@@ -4,6 +4,16 @@
  */
 
 import { z } from "zod"
+import { IconType } from "generic-view/utils"
+
+export enum FileManagerMarkerColor {
+  audioFiles = "#E38577",
+  imageFiles = "#0E7490",
+  ebookFiles = "#A8DADC",
+  applicationFiles = "#AEBEC9",
+  otherFiles = "#3B3F42",
+  free = "#F4F5F6",
+}
 
 const storageCategoryValidator = z.object({
   spaceUsedBytes: z.number().nonnegative(),
@@ -18,9 +28,10 @@ export const mcFileManagerData = z.object({
         path: z.string().endsWith("/"),
         totalSpaceBytes: z.number().nonnegative(),
         usedSpaceBytes: z.number().nonnegative(),
-        // TODO: `totalSpaceString` & `usedSpaceString` to pass-through after https://appnroll.atlassian.net/browse/CP-3275
+        freeSpaceBytes: z.number().nonnegative(),
         totalSpaceString: z.string(),
         usedSpaceString: z.string(),
+        freeSpaceString: z.string(),
         categoriesSpaceInformation: z.record(
           z.string(),
           storageCategoryValidator
@@ -44,7 +55,10 @@ const configValidator = z.object({
   categories: z
     .array(
       z.object({
+        icon: z.nativeEnum(IconType),
+        markerColor: z.nativeEnum(FileManagerMarkerColor),
         label: z.string(),
+        fileListEmptyStateDescription: z.string(),
         directoryPath: z.string().endsWith("/"),
         entityType: z.string(),
         supportedFileTypes: z.array(z.string()),
