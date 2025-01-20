@@ -122,7 +122,6 @@ export const generateStoragePage: ComponentGenerator<
     [`${key}storageSummaryUsedText`]: {
       component: "typography.p3",
       config: {
-        // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
         text: "Used: 0 KB",
         color: "black",
       },
@@ -140,10 +139,6 @@ export const generateStoragePage: ComponentGenerator<
       config: {
         text: "0",
         color: "grey2",
-        textTransform: "format-bytes",
-        textTransformOptions: {
-          minUnit: "KB",
-        },
       },
       layout: {
         gridPlacement: {
@@ -203,7 +198,6 @@ export const generateStoragePage: ComponentGenerator<
         margin: "0 0 0 3px",
       },
       config: {
-        // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
         text: "(0 KB)",
         color: "black",
       },
