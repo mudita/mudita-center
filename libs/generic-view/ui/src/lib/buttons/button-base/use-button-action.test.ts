@@ -15,6 +15,14 @@ jest.mock("generic-view/store", () => ({
   useScreenTitle: jest.fn().mockReturnValue("testScreenTitle"),
 }))
 
+jest.mock("./use-select-files-button-action", () => ({
+  useSelectFilesButtonAction: jest.fn().mockReturnValue(jest.fn()),
+}))
+
+jest.mock("./use-upload-files-button-action", () => ({
+  useUploadFilesButtonAction: jest.fn().mockReturnValue(jest.fn()),
+}))
+
 jest.mock("react-redux", () => ({
   useDispatch: jest.fn().mockReturnValue(jest.fn()),
   useSelector: jest.fn(),

@@ -17,7 +17,7 @@ import { useSelector } from "react-redux"
 import { Divider } from "../../helpers/divider"
 import { Form } from "../../interactive/form/form"
 import { ButtonAction } from "generic-view/models"
-import { Paragraph5 } from "../../texts/paragraphs"
+import { Typography } from "../../typography"
 
 export const SELECTED_CONTACTS_FIELD = "selected-contacts"
 
@@ -148,7 +148,9 @@ const ContactItem: React.FC<UnifiedContact> = ({
                 </Tooltip.Anchor>
                 <Tooltip.Content>
                   {phoneNumbers.slice(1).map((number) => (
-                    <Paragraph5 key={number.value}>{number.value}</Paragraph5>
+                    <Typography.P5 key={number.value}>
+                      {number.value}
+                    </Typography.P5>
                   ))}
                 </Tooltip.Content>
               </Tooltip>

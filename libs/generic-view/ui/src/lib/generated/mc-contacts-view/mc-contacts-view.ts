@@ -5,6 +5,7 @@
 
 import { ComponentGenerator, IconType } from "generic-view/utils"
 import { McContactsView } from "generic-view/models"
+import { generateDeleteModals } from "./delete-modal"
 
 export const generateMcContactsView: ComponentGenerator<McContactsView> = (
   key,
@@ -254,7 +255,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
     },
     contactsSearchResultsItemPhoneNumber: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -366,11 +367,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
     },
     selectedContactsCounter: {
-      component: "p4-component",
-      childrenKeys: ["selectedContactsCounterText"],
-    },
-    selectedContactsCounterText: {
-      component: "format-message",
+      component: "typography.p4",
       config: {
         messageTemplate:
           "{selectedContacts} {selectedContacts, plural, one {contact} other {contacts}} selected",
@@ -394,33 +391,11 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         actions: [
           {
             type: "open-modal",
-            modalKey: "deleteModal",
+            modalKey: "globalDeleteModal",
             domain: "contacts-delete",
           },
         ],
         modifiers: ["uppercase"],
-      },
-    },
-    contactsDeletedToast: {
-      component: "toast",
-      childrenKeys: ["contactsDeletedToastIcon", "contactsDeletedToastText"],
-    },
-    contactsDeletedToastMessage: {
-      component: "format-message",
-      config: {
-        messageTemplate:
-          "{selectedContacts} {selectedContacts, plural, one {contact} other {contacts}} deleted",
-      },
-      dataProvider: {
-        source: "form-fields",
-        formKey: "contactsForm",
-        fields: [
-          {
-            providerField: "selectedContacts",
-            componentField: "data.fields.selectedContacts",
-            modifier: "length",
-          },
-        ],
       },
     },
     contactsTableWrapper: {
@@ -511,16 +486,10 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactCheckboxTooltipContentTextWrapper"],
     },
     contactCheckboxTooltipContentTextWrapper: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         color: "grey1",
-      },
-      childrenKeys: ["contactCheckboxTooltipContentText"],
-    },
-    contactCheckboxTooltipContentText: {
-      component: "format-message",
-      config: {
-        messageTemplate: "Select",
+        text: "Select",
       },
     },
     contactCheckbox: {
@@ -541,7 +510,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
     },
     contactDisplayName: {
-      component: "p1-component",
+      component: "typography.p1",
       config: {
         color: "black",
       },
@@ -571,7 +540,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactPhoneNumberWrapper"],
     },
     contactPhoneNumber: {
-      component: "p1-component",
+      component: "typography.p1",
       config: {
         color: "black",
       },
@@ -679,7 +648,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["phoneDropdownCounterTooltipContentText"],
     },
     phoneDropdownCounterTooltipContentText: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         color: "grey1",
       },
@@ -791,118 +760,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         ],
       },
     },
-    deleteModal: {
-      component: "modal",
-      config: {
-        size: "small",
-      },
-      childrenKeys: [
-        "deleteModalIcon",
-        "deleteModalTitle",
-        "deleteModalContent",
-        "deleteModalButtons",
-      ],
-    },
-    deleteModalIcon: {
-      component: "modal.titleIcon",
-      config: {
-        type: IconType.Exclamation,
-      },
-    },
-    deleteModalTitle: {
-      component: "modal.title",
-      childrenKeys: ["deleteModalTitleText"],
-    },
-    deleteModalContent: {
-      component: "p1-component",
-      config: {
-        text: "This can't be undone so please make a copy of any important information first.",
-      },
-    },
-    contactsDeletedToastText: {
-      component: "p1-component",
-      childrenKeys: ["contactsDeletedToastMessage"],
-    },
-    deleteModalButtons: {
-      component: "modal.buttons",
-      childrenKeys: ["deleteModalCancelButton", "deleteModalConfirmButton"],
-    },
-    deleteModalCancelButton: {
-      component: "button-secondary",
-      config: {
-        text: "Cancel",
-        actions: [
-          {
-            type: "close-modal",
-            modalKey: "deleteModal",
-          },
-        ],
-      },
-    },
-    deleteModalConfirmButton: {
-      component: "button-primary",
-      config: {
-        actions: [
-          {
-            type: "open-modal",
-            modalKey: "deleteProgressModal",
-            domain: "contacts-delete",
-          },
-          {
-            type: "entities-delete",
-            entitiesType: "contacts",
-            ids: [],
-            postActions: {
-              success: [
-                {
-                  type: "close-domain-modals",
-                  domain: "contacts-delete",
-                },
-                {
-                  type: "open-toast",
-                  toastKey: "contactsDeletedToast",
-                },
-              ],
-            },
-          },
-        ],
-      },
-      childrenKeys: ["deleteModalConfirmButtonText"],
-      layout: {
-        flexLayout: {
-          direction: "row",
-          justifyContent: "center",
-        },
-      },
-      dataProvider: {
-        source: "form-fields",
-        formKey: "contactsForm",
-        fields: [
-          {
-            providerField: "selectedContacts",
-            componentField: "config.actions[1].ids",
-          },
-        ],
-      },
-    },
-    deleteModalConfirmButtonText: {
-      component: "format-message",
-      config: {
-        messageTemplate:
-          "Delete {selectedContacts, plural, one {contact} other {contacts}}",
-      },
-      dataProvider: {
-        source: "form-fields",
-        formKey: "contactsForm",
-        fields: [
-          {
-            providerField: "selectedContacts",
-            componentField: "data.fields.selectedContacts",
-            modifier: "length",
-          },
-        ],
-      },
-    },
     deleteProgressModal: {
       component: "modal",
       config: {
@@ -920,12 +777,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       component: "modal.title",
       config: {
         text: "Deleting, please wait...",
-      },
-    },
-    contactsDeletedToastIcon: {
-      component: "icon",
-      config: {
-        type: IconType.Success,
       },
     },
     emptyListWrapper: {
@@ -985,13 +836,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
     },
     emptyStateTitle: {
-      component: "h3-component",
+      component: "typography.h3",
       config: {
         text: "Import your contacts",
       },
     },
     emptyStateDetailText: {
-      component: "p1-component",
+      component: "typography.p1",
       config: {
         text: "Import all your contacts from a single source.",
       },
@@ -1035,24 +886,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           justifyContent: "flex-end",
           alignItems: "center",
         },
-      },
-    },
-    deleteModalTitleText: {
-      component: "format-message",
-      config: {
-        messageTemplate:
-          "Delete {selectedContacts, plural, one {contact} other {# contacts}}?",
-      },
-      dataProvider: {
-        source: "form-fields",
-        formKey: "contactsForm",
-        fields: [
-          {
-            providerField: "selectedContacts",
-            componentField: "data.fields.selectedContacts",
-            modifier: "length",
-          },
-        ],
       },
     },
     appHeaderCounter: {
@@ -1180,10 +1013,10 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         },
         padding: "24px 32px",
       },
-      childrenKeys: ["contactDisplayNameHeader", "disableButton"],
+      childrenKeys: ["contactDisplayNameHeader", "contactDetailsHeaderActions"],
     },
     contactDisplayNameHeader: {
-      component: "h3-component",
+      component: "typography.h3",
       config: {
         text: "",
         unbold: true,
@@ -1191,8 +1024,33 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
       childrenKeys: ["contactDisplayNameValue"],
     },
+    contactDetailsHeaderActions: {
+      component: "block-plain",
+      layout: {
+        flexLayout: {
+          direction: "row",
+          alignItems: "center",
+          columnGap: "14px",
+        },
+      },
+      childrenKeys: ["contactDetailsHeaderDeleteAction", "disableButton"],
+    },
+    contactDetailsHeaderDeleteAction: {
+      component: "button-icon",
+      config: {
+        icon: IconType.Delete,
+        iconSize: "large",
+        actions: [
+          {
+            type: "open-modal",
+            modalKey: "detailsDeleteModal",
+            domain: "contacts-delete",
+          },
+        ],
+      },
+    },
     contactInformationText: {
-      component: "h4-component",
+      component: "typography.h4",
       layout: {
         margin: "0 0 16px 0",
       },
@@ -1226,7 +1084,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsPhoneNumberLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Phone number",
       },
@@ -1262,7 +1120,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsPhoneNumber1Value: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1278,15 +1136,9 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
     },
     contactDetailsPhoneNumber1Type: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
-      },
-      childrenKeys: ["contactDetailsPhoneNumber1TypeText"],
-    },
-    contactDetailsPhoneNumber1TypeText: {
-      component: "format-message",
-      config: {
         messageTemplate: "• <c>{phoneType}</c>",
       },
       dataProvider: {
@@ -1329,17 +1181,12 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsPhoneNumber1DefaultIconTooltipContentTextWrapper: {
-      component: "p5-component",
+      component: "typography.p5",
       config: {
         color: "grey1",
-      },
-      childrenKeys: ["contactDetailsPhoneNumber1DefaultIconTooltipContentText"],
-    },
-    contactDetailsPhoneNumber1DefaultIconTooltipContentText: {
-      component: "format-message",
-      config: {
         messageTemplate: "Calls and SMS will go to this number by default.",
       },
+      childrenKeys: ["contactDetailsPhoneNumber1DefaultIconTooltipContentText"],
     },
     contactDetailsPhoneNumber1DefaultIcon: {
       component: "icon",
@@ -1379,7 +1226,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsPhoneNumber2Value: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1395,15 +1242,9 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
     },
     contactDetailsPhoneNumber2Type: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
-      },
-      childrenKeys: ["contactDetailsPhoneNumber2TypeText"],
-    },
-    contactDetailsPhoneNumber2TypeText: {
-      component: "format-message",
-      config: {
         messageTemplate: "• <c>{phoneType}</c>",
       },
       dataProvider: {
@@ -1440,13 +1281,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsFirstNameLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "First name",
       },
     },
     contactDetailsFirstNameValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1484,13 +1325,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsLastNameLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Last name",
       },
     },
     contactDetailsLastNameValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1528,13 +1369,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsNamePrefixLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Name prefix",
       },
     },
     contactDetailsNamePrefixValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1572,13 +1413,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsMiddleNameLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Middle name",
       },
     },
     contactDetailsMiddleNameValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1616,13 +1457,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsNameSuffixLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Name suffix",
       },
     },
     contactDetailsNameSuffixValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1653,7 +1494,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactDetailsEmail"],
     },
     contactDetailsEmailLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Email",
       },
@@ -1670,7 +1511,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactDetailsEmailValue", "contactDetailsEmailType"],
     },
     contactDetailsEmailValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1686,15 +1527,9 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
     },
     contactDetailsEmailType: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
-      },
-      childrenKeys: ["contactDetailsEmailTypeText"],
-    },
-    contactDetailsEmailTypeText: {
-      component: "format-message",
-      config: {
         messageTemplate: "• <c>{emailType}</c>",
       },
       dataProvider: {
@@ -1731,13 +1566,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsNickNameLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Nickname",
       },
     },
     contactDetailsNickNameValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1775,13 +1610,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsCompanyLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Company",
       },
     },
     contactDetailsCompanyValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1819,13 +1654,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsDepartmentLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Department",
       },
     },
     contactDetailsDepartmentValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1860,13 +1695,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactDetailsTitleLabel", "contactDetailsTitleValue"],
     },
     contactDetailsTitleLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Job Title",
       },
     },
     contactDetailsTitleValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1901,13 +1736,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactDetailsSipLabel", "contactDetailsSipValue"],
     },
     contactDetailsSipLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "SIP",
       },
     },
     contactDetailsSipValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -1949,7 +1784,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsAddressLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Address",
       },
@@ -1970,15 +1805,9 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactDetailsAddressStreetValue"],
     },
     contactDetailsAddressStreetValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
-      },
-      childrenKeys: ["contactDetailsAddressStreetValueText"],
-    },
-    contactDetailsAddressStreetValueText: {
-      component: "format-message",
-      config: {
         messageTemplate: "{streetAddress} • <c>{addressType}</c>",
       },
       dataProvider: {
@@ -2012,15 +1841,9 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactDetailsAddressCity"],
     },
     contactDetailsAddressCity: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
-      },
-      childrenKeys: ["contactDetailsAddressCityValue"],
-    },
-    contactDetailsAddressCityValue: {
-      component: "format-message",
-      config: {
         messageTemplate: "{city} {zipCode}",
       },
       dataProvider: {
@@ -2054,7 +1877,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactDetailsAddressCountryValue"],
     },
     contactDetailsAddressCountryValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -2092,13 +1915,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       ],
     },
     contactDetailsWebsiteLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       config: {
         text: "Website",
       },
     },
     contactDetailsWebsiteValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -2133,7 +1956,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: ["contactDetailsNotesLabel", "contactDetailsNotesValue"],
     },
     contactDetailsNotesLabel: {
-      component: "h5-component",
+      component: "typography.h5",
       layout: {
         margin: "16px 0 0 0",
       },
@@ -2142,7 +1965,7 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
     },
     contactDetailsNotesValue: {
-      component: "p4-component",
+      component: "typography.p4",
       config: {
         color: "black",
       },
@@ -2157,5 +1980,15 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
         ],
       },
     },
+    ...generateDeleteModals({
+      configs: [
+        { id: "global", contactsToDelete: "selectedContacts" },
+        {
+          id: "details",
+          contactsToDelete: "activeContactId",
+          singleContact: true,
+        },
+      ],
+    }),
   }
 }

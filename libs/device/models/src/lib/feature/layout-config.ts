@@ -38,6 +38,14 @@ const gridLayoutSchema = z.intersection(
         z.literal("stretch"),
       ])
       .optional(),
+    justifySelf: z
+      .union([
+        z.literal("start"),
+        z.literal("end"),
+        z.literal("center"),
+        z.literal("stretch"),
+      ])
+      .optional(),
     alignItems: z
       .union([
         z.literal("start"),
@@ -143,6 +151,7 @@ export const layoutSchema = z.intersection(
     width: z.string().optional(),
     height: z.string().optional(),
     overflow: z.enum(["visible", "hidden", "scroll", "auto"]).optional(),
+    shadow: z.boolean().optional(),
   })
 )
 

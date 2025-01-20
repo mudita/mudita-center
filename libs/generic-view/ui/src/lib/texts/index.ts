@@ -3,35 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Header3, Header4, Header5 } from "./headers"
-import {
-  Paragraph1,
-  Paragraph2,
-  Paragraph3,
-  Paragraph4,
-  Paragraph5,
-} from "./paragraphs"
-import {
-  h3Component,
-  h4Component,
-  h5Component,
-  highlightText,
-  p1Component,
-  p2Component,
-  p3Component,
-  p4Component,
-  p5Component,
-} from "generic-view/models"
+import { highlightText } from "generic-view/models"
 import { HighlightText } from "./highlight-text"
 
 export const texts = {
-  [h3Component.key]: Header3,
-  [h4Component.key]: Header4,
-  [h5Component.key]: Header5,
-  [p1Component.key]: Paragraph1,
-  [p2Component.key]: Paragraph2,
-  [p3Component.key]: Paragraph3,
-  [p4Component.key]: Paragraph4,
-  [p5Component.key]: Paragraph5,
   [highlightText.key]: HighlightText,
 }

@@ -3,19 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Subview } from "generic-view/utils"
+import { ComponentGenerator, Subview } from "generic-view/utils"
 
 interface OtherFilesListItemConfig {
   id: string
   name: string
 }
 
-const generateOtherFilesListItem = ({
-  id,
-  name,
-}: OtherFilesListItemConfig): Subview => {
+const generateOtherFilesListItem: ComponentGenerator<
+  OtherFilesListItemConfig
+> = (key, { id, name }: OtherFilesListItemConfig): Subview => {
   return {
-    [`${id}otherFilesListItem`]: {
+    [`${key}${id}otherFilesListItem`]: {
       component: "block-plain",
       layout: {
         flexLayout: {
@@ -23,12 +22,12 @@ const generateOtherFilesListItem = ({
         },
       },
       childrenKeys: [
-        `${id}otherFilesListItemMarker`,
-        `${id}otherFilesListItemText`,
+        `${key}${id}otherFilesListItemMarker`,
+        `${key}${id}otherFilesListItemText`,
       ],
     },
-    [`${id}otherFilesListItemMarker`]: {
-      component: "p5-component",
+    [`${key}${id}otherFilesListItemMarker`]: {
+      component: "typography.p5",
       layout: {
         margin: "0 6px",
       },
@@ -37,8 +36,8 @@ const generateOtherFilesListItem = ({
         color: "grey1",
       },
     },
-    [`${id}otherFilesListItemText`]: {
-      component: "p5-component",
+    [`${key}${id}otherFilesListItemText`]: {
+      component: "typography.p5",
       config: {
         text: name,
         color: "grey1",
@@ -47,13 +46,11 @@ const generateOtherFilesListItem = ({
   }
 }
 
-export const generateOtherFilesList = ({
-  configs,
-}: {
-  configs: OtherFilesListItemConfig[]
-}): Subview => {
+export const generateOtherFilesList: ComponentGenerator<
+  OtherFilesListItemConfig[]
+> = (key, configs): Subview => {
   const initialListConfig: Subview = {
-    otherFilesList: {
+    [`${key}otherFilesList`]: {
       component: "block-plain",
       layout: {
         padding: "6px 0",
@@ -66,11 +63,13 @@ export const generateOtherFilesList = ({
   }
 
   return configs.reduce((previousValue, config) => {
-    const categoryItemKey = `${config.id}otherFilesListItem`
-    previousValue["otherFilesList"]?.childrenKeys?.push(categoryItemKey)
+    const categoryItemKey = `${key}${config.id}otherFilesListItem`
+    previousValue[
+      `${key}otherFilesList` as keyof typeof previousValue
+    ]?.childrenKeys?.push(categoryItemKey)
     previousValue = {
       ...previousValue,
-      ...generateOtherFilesListItem(config),
+      ...generateOtherFilesListItem(key, config),
     }
     return previousValue
   }, initialListConfig)

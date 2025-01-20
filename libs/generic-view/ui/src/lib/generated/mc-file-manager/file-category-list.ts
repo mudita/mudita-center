@@ -3,60 +3,32 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IconType, Subview } from "generic-view/utils"
-import { color } from "./color"
+import { ComponentGenerator, IconType, Subview } from "generic-view/utils"
+import {
+  FileManagerMarkerColor,
+  McFileManagerConfig,
+} from "generic-view/models"
+import { fileCounterDataProvider } from "./file-counter-data-provider"
 
 interface CategoryListItemConfig {
   id: string
-  name: string
-  markerColor: (typeof color)[keyof typeof color]
-  entitiesType: string
+  markerColor: FileManagerMarkerColor
+  entityType: string
   icon: IconType
 }
 
-const CONFIG_MAP: Record<string, Omit<CategoryListItemConfig, "id">> = {
-  audioFiles: {
-    name: "Music",
-    icon: IconType.MusicNote,
-    markerColor: color.audioFiles,
-    entitiesType: "audioFiles",
-  },
-  imageFiles: {
-    name: "Photos",
-    icon: IconType.PhotoCatalog,
-    markerColor: color.imageFiles,
-    entitiesType: "imageFiles",
-  },
-  ebookFiles: {
-    name: "Ebooks",
-    icon: IconType.Book,
-    markerColor: color.ebookFiles,
-    entitiesType: "ebookFiles",
-  },
-  applicationFiles: {
-    name: "Apps",
-    icon: IconType.Grid,
-    markerColor: color.applicationFiles,
-    entitiesType: "applicationFiles",
-  },
-}
-
-function getConfigByEntityType(
-  entityType: string,
-  id: string
-): CategoryListItemConfig | undefined {
-  return { ...CONFIG_MAP[entityType], id } || undefined
-}
-
-const generateFileCategoryListItem = ({
-  id,
-  name,
-  icon,
-  markerColor,
-  entitiesType,
-}: CategoryListItemConfig): Subview => {
+const generateFileCategoryListItem: ComponentGenerator<
+  CategoryListItemConfig & {
+    storagePath: string
+    directoryPath: string
+    label: string
+  }
+> = (
+  key,
+  { id, label, icon, markerColor, entityType, storagePath, directoryPath }
+) => {
   return {
-    [`${id}CategoryListItem`]: {
+    [`${key}${id}categoryListItem`]: {
       component: "list-item",
       layout: {
         padding: "12px 32px 10px 32px",
@@ -69,30 +41,31 @@ const generateFileCategoryListItem = ({
         actions: [
           {
             type: "form-set-field",
-            key: "activeFileCategoryId",
-            value: id,
+            formKey: `${key}storageForm`,
+            key: "activeCategory",
+            value: directoryPath,
           },
         ],
       },
       dataProvider: {
         source: "form-fields",
-        formKey: "fileManagerForm",
+        formKey: `${key}storageForm`,
         fields: [
           {
-            providerField: "activeFileCategoryId",
+            providerField: "activeCategory",
             componentField: "config.active",
             condition: "eq",
-            value: id,
+            value: directoryPath,
           },
         ],
       },
       childrenKeys: [
-        `${id}CategoryListItemName`,
-        `${id}CategoryListItemStorage`,
-        `${id}CategoryListItemCountTextWrapper`,
+        `${key}${id}categoryListItemName`,
+        `${key}${id}categoryListItemStorage`,
+        `${key}${id}categoryListItemCountTextWrapper`,
       ],
     },
-    [`${id}CategoryListItemName`]: {
+    [`${key}${id}categoryListItemName`]: {
       component: "block-plain",
       layout: {
         flexLayout: {
@@ -101,11 +74,11 @@ const generateFileCategoryListItem = ({
         },
       },
       childrenKeys: [
-        `${id}CategoryListItemNameIcon`,
-        `${id}CategoryListItemNameText`,
+        `${key}${id}categoryListItemNameIcon`,
+        `${key}${id}categoryListItemNameText`,
       ],
     },
-    [`${id}CategoryListItemNameIcon`]: {
+    [`${key}${id}categoryListItemNameIcon`]: {
       component: "icon",
       layout: {
         width: "24px",
@@ -121,13 +94,13 @@ const generateFileCategoryListItem = ({
         type: icon,
       },
     },
-    [`${id}CategoryListItemNameText`]: {
-      component: "h4-component",
+    [`${key}${id}categoryListItemNameText`]: {
+      component: "typography.h4",
       config: {
-        text: name,
+        text: label,
       },
     },
-    [`${id}CategoryListItemStorage`]: {
+    [`${key}${id}categoryListItemStorage`]: {
       component: "block-plain",
       layout: {
         gridPlacement: {
@@ -143,22 +116,18 @@ const generateFileCategoryListItem = ({
         },
       },
       childrenKeys: [
-        `${id}CategoryListItemStorageText`,
-        `${id}CategoryListItemStorageMarker`,
+        `${key}${id}categoryListItemStorageText`,
+        `${key}${id}categoryListItemStorageMarker`,
       ],
     },
-    [`${id}CategoryListItemStorageText`]: {
-      component: "p3-component",
+    [`${key}${id}categoryListItemStorageText`]: {
+      component: "typography.p3",
       config: {
-        text: "0",
+        text: "0 KB",
         color: "black",
-        textTransform: "format-bytes",
-        textTransformOptions: {
-          minUnit: "KB",
-        },
       },
     },
-    [`${id}CategoryListItemStorageMarker`]: {
+    [`${key}${id}categoryListItemStorageMarker`]: {
       component: "marker",
       layout: {
         width: "10px",
@@ -168,8 +137,8 @@ const generateFileCategoryListItem = ({
         color: markerColor,
       },
     },
-    [`${id}CategoryListItemCountTextWrapper`]: {
-      component: "p3-component",
+    [`${key}${id}categoryListItemCountTextWrapper`]: {
+      component: "typography.p3",
       layout: {
         margin: "8px 0 0 0",
         gridPlacement: {
@@ -179,31 +148,29 @@ const generateFileCategoryListItem = ({
           height: 1,
         },
       },
-      childrenKeys: [`${id}CategoryListItemCountText`],
+      childrenKeys: [`${key}${id}CategoryListItemCountText`],
     },
-    [`${id}CategoryListItemCountText`]: {
+    [`${key}${id}CategoryListItemCountText`]: {
       component: "format-message",
       config: {
         messageTemplate:
           "{totalEntities} {totalEntities, plural, one {file} other {files}}",
       },
-      dataProvider: {
-        source: "entities-metadata",
-        entitiesType,
-        fields: [
-          {
-            providerField: "totalEntities",
-            componentField: "data.fields.totalEntities",
-          },
-        ],
-      },
+      ...fileCounterDataProvider(entityType, storagePath),
     },
   }
 }
 
-export const generateFileCategoryList = (entitiesTypes: string[]): Subview => {
+export const generateFileCategoryListKey = (key: string) => {
+  return `${key}fileCategoryList`
+}
+
+export const generateFileCategoryList: ComponentGenerator<{
+  categories: McFileManagerConfig["categories"]
+  storage: McFileManagerConfig["storages"][number]
+}> = (key, { categories, storage }) => {
   const initialListConfig: Subview = {
-    fileCategoryList: {
+    [generateFileCategoryListKey(key)]: {
       component: "block-plain",
       layout: {
         flexLayout: {
@@ -214,16 +181,19 @@ export const generateFileCategoryList = (entitiesTypes: string[]): Subview => {
     },
   }
 
-  return entitiesTypes.reduce((previousValue, entitiesType, index) => {
-    const config = getConfigByEntityType(entitiesType, String(index))
-    if (!config) {
-      return previousValue
-    }
-    const categoryItemKey = `${config.id}CategoryListItem`
-    previousValue["fileCategoryList"]?.childrenKeys?.push(categoryItemKey)
+  return categories.reduce((previousValue, category, index) => {
+    const id = String(index)
+    const categoryItemKey = `${key}${id}categoryListItem`
+    previousValue[
+      generateFileCategoryListKey(key) as keyof typeof previousValue
+    ]?.childrenKeys?.push(categoryItemKey)
     previousValue = {
       ...previousValue,
-      ...generateFileCategoryListItem(config),
+      ...generateFileCategoryListItem(key, {
+        id,
+        ...category,
+        storagePath: storage.path,
+      }),
     }
     return previousValue
   }, initialListConfig)

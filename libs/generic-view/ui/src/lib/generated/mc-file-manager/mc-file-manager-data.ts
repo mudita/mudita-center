@@ -10,8 +10,10 @@ import {
   segmentBarItemData,
 } from "generic-view/models"
 import { View } from "generic-view/utils"
-import { formatBytes } from "../../texts/format-bytes"
 import { SEGMENTS_CONFIG_MAP } from "./storage-summary-bar"
+import { generateFileUploadButtonModalKey } from "./file-upload-button"
+
+type StorageInformation = McFileManagerData["storageInformation"][number]
 
 const isEntitiesLoaderConfig = (
   subview: unknown
@@ -21,19 +23,10 @@ const isEntitiesLoaderConfig = (
   )
 }
 
-const findInternalStorageInformation = (
-  storageInformation: McFileManagerData["storageInformation"]
-) => {
-  return storageInformation.find(
-    (storage) => storage.storageType === "INTERNAL"
-  )
-}
-
 const generateCategoryListItemStorageTexts = (
+  key: string,
   entityTypes: string[],
-  internalStorageInformation: NonNullable<
-    ReturnType<typeof findInternalStorageInformation>
-  >
+  internalStorageInformation: StorageInformation
 ) => {
   return entityTypes.reduce((prevState, entityType, id) => {
     const categoriesSpaceInformation =
@@ -42,8 +35,8 @@ const generateCategoryListItemStorageTexts = (
       return prevState
     }
 
-    prevState[`${id}CategoryListItemStorageText`] = {
-      text: categoriesSpaceInformation.spaceUsedBytes,
+    prevState[`${key}${id}categoryListItemStorageText`] = {
+      text: categoriesSpaceInformation.spaceUsedString,
     }
 
     return prevState
@@ -51,87 +44,99 @@ const generateCategoryListItemStorageTexts = (
 }
 
 const generateOtherFilesSpaceInformation = (
-  internalStorageInformation: NonNullable<
-    ReturnType<typeof findInternalStorageInformation>
-  >
+  key: string,
+  storageInformation: StorageInformation
 ) => {
   const otherFilesSpaceInformation =
-    internalStorageInformation.categoriesSpaceInformation["otherFiles"]
+    storageInformation.categoriesSpaceInformation["otherFiles"]
 
   if (!otherFilesSpaceInformation) {
     return {}
   }
 
   return {
-    fileCategoryOtherFilesItemNameSize: {
-      // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
-      text: `(${formatBytes(otherFilesSpaceInformation.spaceUsedBytes, {
-        minUnit: "KB",
-      })})`,
+    [`${key}fileCategoryOtherFilesItemNameSize`]: {
+      text: `(${otherFilesSpaceInformation.spaceUsedString})`,
     },
   }
 }
 
-const getSegmentBarItemData = (entityType: string, value: number) => {
+const getSegmentBarItemData = (
+  entityType: string,
+  value: number,
+  bytesString: string
+) => {
   return {
     value,
-    label: `${SEGMENTS_CONFIG_MAP[entityType].label} (${formatBytes(value, {
-      minUnit: "KB",
-    })})`,
+    label: `${SEGMENTS_CONFIG_MAP[entityType].label} (${bytesString})`,
   }
 }
 
 const generateStorageSummary = (
+  key: string,
   entityTypes: string[],
-  internalStorageInformation: NonNullable<
-    ReturnType<typeof findInternalStorageInformation>
-  >
+  storageInformation: StorageInformation
 ) => {
   const segments: segmentBarItemData[] = []
 
   const dynamicSegmentValues = entityTypes
     .filter(
       (entityType) =>
-        !!internalStorageInformation.categoriesSpaceInformation[entityType]
+        !!storageInformation.categoriesSpaceInformation[entityType]
     )
     .map((entityType) => {
-      const { spaceUsedBytes } =
-        internalStorageInformation.categoriesSpaceInformation[entityType]
+      const { spaceUsedBytes, spaceUsedString } =
+        storageInformation.categoriesSpaceInformation[entityType]
 
-      return getSegmentBarItemData(entityType, spaceUsedBytes)
+      return getSegmentBarItemData(entityType, spaceUsedBytes, spaceUsedString)
     })
 
   segments.push(...dynamicSegmentValues)
 
   const otherFilesSpaceInformation =
-    internalStorageInformation.categoriesSpaceInformation["otherFiles"]
+    storageInformation.categoriesSpaceInformation["otherFiles"]
 
   if (otherFilesSpaceInformation !== undefined) {
-    const { spaceUsedBytes } =
-      internalStorageInformation.categoriesSpaceInformation["otherFiles"]
+    const { spaceUsedBytes, spaceUsedString } =
+      storageInformation.categoriesSpaceInformation["otherFiles"]
 
-    segments.push(getSegmentBarItemData("otherFiles", spaceUsedBytes))
+    segments.push(
+      getSegmentBarItemData("otherFiles", spaceUsedBytes, spaceUsedString)
+    )
   }
 
-  const freeTotalSpaceBytes =
-    internalStorageInformation.totalSpaceBytes -
-    internalStorageInformation.usedSpaceBytes
-
-  segments.push(getSegmentBarItemData("free", freeTotalSpaceBytes))
+  segments.push(
+    getSegmentBarItemData(
+      "free",
+      storageInformation.freeSpaceBytes,
+      storageInformation.freeSpaceString
+    )
+  )
 
   return {
-    // TODO: Refactor to template after https://appnroll.atlassian.net/browse/CP-3275
-    storageSummaryUsedText: {
-      text: `Used: ${formatBytes(internalStorageInformation.usedSpaceBytes, {
-        minUnit: "KB",
-      })}`,
+    [`${key}storageSummaryUsedText`]: {
+      text: `Used: ${storageInformation.usedSpaceString}`,
     },
-    storageSummaryFreeText: {
-      text: freeTotalSpaceBytes,
+    [`${key}storageSummaryFreeText`]: {
+      text: storageInformation.freeSpaceString,
     },
-    storageSummaryBar: {
+    [`${key}storageSummaryBar`]: {
       segments,
     },
+    ...Object.values(storageInformation.categoriesSpaceInformation).reduce(
+      (acc, _, index) => {
+        return {
+          ...acc,
+          [generateFileUploadButtonModalKey(
+            `${key}${index}`,
+            "FinishedContent"
+          )]: {
+            freeSpace: storageInformation.freeSpaceBytes,
+          },
+        }
+      },
+      {}
+    ),
   }
 }
 
@@ -144,31 +149,20 @@ export const generateFileManagerData = (
     ? entitiesLoaderConfig.entityTypes
     : []
 
-  const internalStorageInformation = findInternalStorageInformation(
-    data.storageInformation
+  return data.storageInformation.reduce(
+    (acc, storageInformation, currentIndex) => {
+      const pageKey = currentIndex.toString()
+      return {
+        ...acc,
+        ...generateOtherFilesSpaceInformation(pageKey, storageInformation),
+        ...generateCategoryListItemStorageTexts(
+          pageKey,
+          entityTypes,
+          storageInformation
+        ),
+        ...generateStorageSummary(pageKey, entityTypes, storageInformation),
+      }
+    },
+    {}
   )
-
-  if (!internalStorageInformation) {
-    return {}
-  }
-
-  const categoryListItemStorageTexts = generateCategoryListItemStorageTexts(
-    entityTypes,
-    internalStorageInformation
-  )
-
-  const otherFilesSpaceInformation = generateOtherFilesSpaceInformation(
-    internalStorageInformation
-  )
-
-  const storageSummary = generateStorageSummary(
-    entityTypes,
-    internalStorageInformation
-  )
-
-  return {
-    ...otherFilesSpaceInformation,
-    ...categoryListItemStorageTexts,
-    ...storageSummary,
-  }
 }

@@ -43,7 +43,12 @@ const textAlignValidator = z.object({
     .optional(),
 })
 
+const unboldValidator = z.object({
+  unbold: z.boolean().optional(),
+})
+
 export const commonTextValidators = singleLineTextValidator
+  .merge(unboldValidator)
   .merge(textTransformValidator)
   .merge(colorValidator)
   .merge(textAlignValidator)

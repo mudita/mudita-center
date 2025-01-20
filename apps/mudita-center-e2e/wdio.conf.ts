@@ -84,6 +84,8 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.helpLinkInsideContainer),
     toRelativePath(TestFilesPaths.contactSupportHappyPath),
     toRelativePath(TestFilesPaths.kompaktPrebackupApi),
+    toRelativePath(TestFilesPaths.kompaktContactsViewing),
+    toRelativePath(TestFilesPaths.kompaktContactsViewingEmpty),
   ],
   suites: {
     standalone: [
@@ -117,6 +119,8 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
       toRelativePath(TestFilesPaths.contactSupportHappyPath),
       toRelativePath(TestFilesPaths.kompaktPrebackupApi),
+      toRelativePath(TestFilesPaths.kompaktContactsViewing),
+      toRelativePath(TestFilesPaths.kompaktContactsViewingEmpty),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -158,6 +162,8 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
       toRelativePath(TestFilesPaths.contactSupportHappyPath),
       toRelativePath(TestFilesPaths.kompaktPrebackupApi),
+      toRelativePath(TestFilesPaths.kompaktContactsViewing),
+      toRelativePath(TestFilesPaths.kompaktContactsViewingEmpty),
     ],
   },
   // Patterns to exclude.

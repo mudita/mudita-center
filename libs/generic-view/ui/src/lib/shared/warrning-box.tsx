@@ -12,7 +12,7 @@ import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { H4 } from "../texts/headers"
+import { Typography } from "../typography"
 
 const Wrapper = styled.div`
   display: block;
@@ -59,7 +59,7 @@ export const WarrningBox: FunctionComponent<WarningBoxProps> = ({
         <Icon type={IconType.Exclamation} size={IconSize.ExtraLarge} />
       </Top>
       <Header>
-        <H4>{intl.formatMessage(messages.header)}</H4>
+        <Typography.H4>{intl.formatMessage(messages.header)}</Typography.H4>
       </Header>
       <Content>{children}</Content>
     </Wrapper>

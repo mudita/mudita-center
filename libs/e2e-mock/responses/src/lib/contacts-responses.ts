@@ -32,11 +32,11 @@ export const contactsConfig = {
     },
   },
   title: {
-    component: "h3-component",
+    component: "typography.h3",
     config: { text: "Import your contacts" },
   },
   detailText: {
-    component: "p1-component",
+    component: "typography.p1",
     config: { text: "Import all your contacts from a singles ource." },
   },
   importContactsButton: {
