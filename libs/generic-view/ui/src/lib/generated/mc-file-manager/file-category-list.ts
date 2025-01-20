@@ -4,46 +4,17 @@
  */
 
 import { ComponentGenerator, IconType, Subview } from "generic-view/utils"
-import { color } from "./color"
-import { McFileManagerConfig } from "generic-view/models"
+import {
+  FileManagerMarkerColor,
+  McFileManagerConfig,
+} from "generic-view/models"
 import { fileCounterDataProvider } from "./file-counter-data-provider"
 
 interface CategoryListItemConfig {
   id: string
-  markerColor: (typeof color)[keyof typeof color]
-  entitiesType: string
+  markerColor: FileManagerMarkerColor
+  entityType: string
   icon: IconType
-}
-
-// TODO: Implement getting this data from the API
-const CONFIG_MAP: Record<string, Omit<CategoryListItemConfig, "id">> = {
-  audioFiles: {
-    icon: IconType.MusicNote,
-    markerColor: color.audioFiles,
-    entitiesType: "audioFiles",
-  },
-  imageFiles: {
-    icon: IconType.PhotoCatalog,
-    markerColor: color.imageFiles,
-    entitiesType: "imageFiles",
-  },
-  ebookFiles: {
-    icon: IconType.Book,
-    markerColor: color.ebookFiles,
-    entitiesType: "ebookFiles",
-  },
-  applicationFiles: {
-    icon: IconType.Grid,
-    markerColor: color.applicationFiles,
-    entitiesType: "applicationFiles",
-  },
-}
-
-const getConfigByEntityType = (
-  entityType: string,
-  id: string
-): CategoryListItemConfig | undefined => {
-  return { ...CONFIG_MAP[entityType], id } || undefined
 }
 
 const generateFileCategoryListItem: ComponentGenerator<
@@ -54,7 +25,7 @@ const generateFileCategoryListItem: ComponentGenerator<
   }
 > = (
   key,
-  { id, label, icon, markerColor, entitiesType, storagePath, directoryPath }
+  { id, label, icon, markerColor, entityType, storagePath, directoryPath }
 ) => {
   return {
     [`${key}${id}categoryListItem`]: {
@@ -185,7 +156,7 @@ const generateFileCategoryListItem: ComponentGenerator<
         messageTemplate:
           "{totalEntities} {totalEntities, plural, one {file} other {files}}",
       },
-      ...fileCounterDataProvider(entitiesType, storagePath),
+      ...fileCounterDataProvider(entityType, storagePath),
     },
   }
 }
@@ -211,18 +182,15 @@ export const generateFileCategoryList: ComponentGenerator<{
   }
 
   return categories.reduce((previousValue, category, index) => {
-    const config = getConfigByEntityType(category.entityType, String(index))
-    if (!config) {
-      return previousValue
-    }
-    const categoryItemKey = `${key}${config.id}categoryListItem`
+    const id = String(index)
+    const categoryItemKey = `${key}${id}categoryListItem`
     previousValue[
       generateFileCategoryListKey(key) as keyof typeof previousValue
     ]?.childrenKeys?.push(categoryItemKey)
     previousValue = {
       ...previousValue,
       ...generateFileCategoryListItem(key, {
-        ...config,
+        id,
         ...category,
         storagePath: storage.path,
       }),
