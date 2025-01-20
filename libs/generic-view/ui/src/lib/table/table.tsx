@@ -17,11 +17,7 @@ import styled from "styled-components"
 import { difference, intersection } from "lodash"
 import { TableTestIds } from "e2e-test-ids"
 import { APIFC, useViewFormContext } from "generic-view/utils"
-import {
-  TableConfig,
-  TableData,
-  tableHeaderCell,
-} from "generic-view/models"
+import { TableConfig, TableData, tableHeaderCell } from "generic-view/models"
 import { TableCell } from "./table-cell"
 import { TableHeaderCell } from "./table-header-cell"
 import {
@@ -140,8 +136,15 @@ export const Table: APIFC<TableData, TableConfig> & {
     (id: string) => {
       const isActive = activeRowId === id
       return (
-        <RowPlaceholder key={id} data-testid={TableTestIds.TablePlaceholderRow} className={isActive ? "active" : ""}>
-          <td data-testid={TableTestIds.TableCell} colSpan={Children.count(children)}>
+        <RowPlaceholder
+          key={id}
+          data-testid={TableTestIds.TablePlaceholderRow}
+          className={isActive ? "active" : ""}
+        >
+          <td
+            data-testid={TableTestIds.TableCell}
+            colSpan={Children.count(children)}
+          >
             <div />
           </td>
         </RowPlaceholder>
@@ -189,7 +192,12 @@ export const Table: APIFC<TableData, TableConfig> & {
       const isActive = activeRowId === id
 
       return (
-        <tr key={id} data-testid={TableTestIds.TableRow} onClick={onClick} className={isActive ? "active" : ""}>
+        <tr
+          key={id}
+          data-testid={TableTestIds.TableRow}
+          onClick={onClick}
+          className={isActive ? "active" : ""}
+        >
           {renderChildren(id)}
         </tr>
       )
@@ -206,9 +214,11 @@ export const Table: APIFC<TableData, TableConfig> & {
   return useMemo(
     () => (
       <ScrollableWrapper ref={scrollWrapperRef} {...props}>
-        <TableWrapper data-testid={TableTestIds.Table} >
+        <TableWrapper data-testid={TableTestIds.Table}>
           <TableHeader>
-            <tr data-testid={TableTestIds.TableHeaderRow} >{renderHeaderChildren()}</tr>
+            <tr data-testid={TableTestIds.TableHeaderRow}>
+              {renderHeaderChildren()}
+            </tr>
           </TableHeader>
           <TableBody $clickable={isClickable}>
             {data?.map((id, index) => renderRow(id, index))}

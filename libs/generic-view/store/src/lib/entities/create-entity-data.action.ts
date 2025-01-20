@@ -69,7 +69,6 @@ export const createEntityDataAction = createAsyncThunk<
 
     const computedFields =
       genericEntities[deviceId]?.[entitiesType]?.config.computedFields || {}
-    await onSuccess?.()
     return enhanceEntity(response.data.data, { computedFields })
   }
 )
