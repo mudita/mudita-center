@@ -19,7 +19,15 @@ const generateFileList: ComponentGenerator<
   }
 > = (
   key,
-  { id, label, directoryPath, storagePath, entityType, supportedFileTypes }
+  {
+    id,
+    label,
+    fileListEmptyStateDescription,
+    directoryPath,
+    storagePath,
+    entityType,
+    supportedFileTypes,
+  }
 ) => {
   return {
     [`${key}${id}fileListContainer`]: {
@@ -296,7 +304,7 @@ const generateFileList: ComponentGenerator<
         width: "388px",
       },
       config: {
-        text: "Add music files from your computer and they’ll transfer to your device automatically.",
+        text: fileListEmptyStateDescription,
         textAlign: "center",
       },
     },
@@ -565,7 +573,6 @@ export const generateFileListWrapper: ComponentGenerator<{
       ...generateFileList(key, {
         id: index.toString(),
         ...category,
-        directoryPath: category.directoryPath,
         storagePath: storage.path,
       }),
     }

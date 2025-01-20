@@ -243,4 +243,69 @@ describe("MockDescriptor", () => {
       expect(result).toEqual(DEFAULT_RESPONSES[endpoint]?.[method]?.[0])
     })
   })
+
+  describe("match handling", () => {
+    test("filters out previous response when both match objects are undefined", () => {
+      const firstResponse: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { key: "firstValue" },
+        match: undefined,
+      }
+      mockDescriptor.addResponse(firstResponse)
+
+      const secondResponse: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { key: "secondValue" },
+        match: undefined,
+      }
+      mockDescriptor.addResponse(secondResponse)
+
+      const filteredResponses = mockDescriptor.getResponse(
+        path,
+        endpoint,
+        method,
+        {}
+      )
+      expect(filteredResponses).toEqual({
+        status: 200,
+        body: { key: "secondValue" },
+      })
+    })
+
+    test("removes previous response when both match objects are identical", () => {
+      const firstResponse: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { key: "value" },
+        match: { expected: { key: "value" } },
+      }
+      mockDescriptor.addResponse(firstResponse)
+
+      const secondResponse: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { key: "value" },
+        match: { expected: { key: "value" } },
+      }
+      mockDescriptor.addResponse(secondResponse)
+
+      const filteredResponses = mockDescriptor.getResponse(
+        path,
+        endpoint,
+        method,
+        { key: "value" }
+      )
+      expect(filteredResponses).toEqual({ status: 200, body: { key: "value" } })
+    })
+  })
 })
