@@ -58,6 +58,7 @@ const configValidator = z.object({
         icon: z.nativeEnum(IconType),
         markerColor: z.nativeEnum(FileManagerMarkerColor),
         label: z.string(),
+        fileListEmptyStateDescription: z.string(),
         directoryPath: z.string().endsWith("/"),
         entityType: z.string(),
         supportedFileTypes: z.array(z.string()),
