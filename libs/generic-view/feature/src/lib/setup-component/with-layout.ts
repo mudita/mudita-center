@@ -70,6 +70,9 @@ const setupStyles = (style?: CSSProperties, layout?: Layout): CSSProperties => {
     ...(layout?.overflow && {
       overflow: layout.overflow,
     }),
+    ...(layout?.shadow && {
+      boxShadow: "0 0.2rem 3rem 0 rgba(0, 0, 0, 0.08)",
+    }),
     ...(layout?.flexLayout && {
       display: "flex",
       flexDirection: layout.flexLayout.direction,
