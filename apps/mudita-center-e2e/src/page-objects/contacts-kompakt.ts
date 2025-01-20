@@ -29,7 +29,7 @@ class ContactsKompaktPage extends Page {
     return $('//input[@type="search"]')
   }
 
-  public get contactsTableRow() {
+  public get contactsTableCell() {
     return $('//*[@data-testid="ui-table-cell"]')
   }
 
