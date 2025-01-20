@@ -43,8 +43,8 @@ describe("E2E mock sample - overview view", () => {
 
   it("Check if no contacts are displayed in the Contacts", async () => {
     // check if no contact row is displayed
-    const contactsTableRow = ContactsKompaktPage.contactsTableRow
-    await expect(contactsTableRow).not.toBeDisplayed()
+    const contactsTableCell = ContactsKompaktPage.contactsTableCell
+    await expect(contactsTableCell).not.toBeDisplayed()
 
     //check if contacts icon that is displayed only on empty contacts page is present
     const iconContactsBook = ContactsKompaktPage.iconContactsBook

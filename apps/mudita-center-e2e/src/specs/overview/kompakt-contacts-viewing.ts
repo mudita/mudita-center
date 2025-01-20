@@ -3,6 +3,7 @@ import tabsPage from "../../page-objects/tabs.page"
 import ContactsKompaktPage from "../../page-objects/contacts-kompakt"
 import { mockEntityDownloadProcess } from "../../helpers"
 import { selectedContactsEntities } from "../../helpers/entity-fixtures"
+import { mockEntityDeleteProcess } from "../../helpers/mock-entity-delete-process"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -131,7 +132,7 @@ describe("E2E mock sample - overview view", () => {
     const lastRow = rows[rows.length - 1]
     const isDisplayed = await lastRow.isDisplayed()
     expect(isDisplayed).toBe(true)
-    const contactsTableRow = ContactsKompaktPage.contactsTableRow
-    await contactsTableRow.click()
+    const contactsTableCell = ContactsKompaktPage.contactsTableCell
+    await contactsTableCell.click()
   })
 })

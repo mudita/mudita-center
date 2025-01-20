@@ -26,6 +26,7 @@ export const generateMcOverviewUpdateLayout: ViewGenerator<
         title: config.title,
       },
       layout: {
+        shadow: true,
         gridPlacement: {
           row: 2,
           column: 2,
