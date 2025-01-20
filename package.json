@@ -21,7 +21,7 @@
     "app:translations:sync": "nx translations:sync mudita-center",
     "test": "npm run test:nx && npm run test:core",
     "test:core": "cross-env TZ=UTC jest --config=jest/jest.config.js",
-    "test:nx": "nx run-many --target=test",
+    "test:nx": "nx run-many --target=test --exclude api-devices-testing",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "cross-env stylelint '{libs,apps/mudita-center/src}/**/*.{ts,tsx}'",
     "lint:fix": "npm run lint:js -- --fix",
@@ -36,7 +36,9 @@
     "e2e:test:standalone": "nx e2e:test:standalone mudita-center-e2e",
     "e2e:test:cicd:standalone": "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' nx e2e:test:cicd:standalone mudita-center-e2e",
     "e2e:test:cicd:mock": "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' nx e2e:test:cicd:mock mudita-center-e2e",
-    "matomo-to-gsheet:run": "ts-node libs/external-tools/matomo-to-gsheet/src/lib/script.ts"
+    "test-file:generate-and-push": "ts-node scripts/manage-test-files/generate-and-push-test-files.ts",
+    "test-file:clear": "ts-node scripts/manage-test-files/clear-test-files.ts",
+    "api-device-testing": "npx nx run api-devices-testing:test"
   },
   "repository": {
     "type": "git",
@@ -287,6 +289,7 @@
     "react-is": "18.2.0",
     "react-markdown": "^9.0.1",
     "serialport": "10.1.0",
+    "sharp": "^0.32.5",
     "tar": "^7.4.3",
     "tslib": "^2.3.0",
     "zod": "^3.22.4"

@@ -16,7 +16,6 @@ const configValidator = z.object({
     selectedIdsFieldName: z.string().optional(),
     allIdsFieldName: z.string().optional(),
   }),
-  columnsNames: z.array(z.string()).optional(),
 })
 
 export type TableConfig = z.infer<typeof configValidator>

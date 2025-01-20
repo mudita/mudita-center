@@ -4,17 +4,19 @@
  */
 
 import { View } from "generic-view/utils"
-import { generated } from "../../../../ui/src/lib/generated"
+import { generatedViews } from "../../../../ui/src/lib/generated"
 
 export const transformGenericComponents = (view: View): View => {
   const fullView = { ...view }
   for (const [key, { component, config, layout }] of Object.entries(fullView)) {
-    const transformComponent = generated[component as keyof typeof generated]
+    const transformComponent =
+      generatedViews[component as keyof typeof generatedViews]
     if (transformComponent) {
       Object.assign(
         fullView,
         transformComponent(
           key,
+          // @ts-ignore
           config as Parameters<typeof transformComponent>[1],
           layout
         )

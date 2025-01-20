@@ -4,10 +4,11 @@
  */
 
 import React, { useCallback, useEffect, useId, useMemo, useRef } from "react"
-import { APIFC, IconType, useViewFormContext } from "generic-view/utils"
 import styled from "styled-components"
-import { Icon } from "../../../icon/icon"
+import { CheckboxTestIds } from "e2e-test-ids"
+import { APIFC, IconType, useViewFormContext } from "generic-view/utils"
 import { FormCheckboxInputConfig } from "generic-view/models"
+import { Icon } from "../../../icon/icon"
 
 interface Config extends FormCheckboxInputConfig {
   onToggle?: (checked: boolean) => void
@@ -77,6 +78,14 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
     [config, fieldRegistrar, getValues, inputName, multiSelect, setValue]
   )
 
+  const handleRef = useCallback(
+    (e: HTMLInputElement) => {
+      inputRef.current = e
+      fieldRegistrar.ref(e)
+    },
+    [fieldRegistrar]
+  )
+
   useEffect(() => {
     if (multiSelect) {
       if (multiSelect.selectedValues.length === multiSelect.allValues.length) {
@@ -93,7 +102,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
   }, [fieldRegistrar.ref, inputName, multiSelect, setValue])
 
   return (
-    <Wrapper
+    <CheckboxInputWrapper
       {...props}
       $size={config.size}
       onClick={(e) => {
@@ -102,16 +111,14 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
     >
       <Input
         id={"checkbox-" + id}
+        data-testid={CheckboxTestIds.Checkbox}
         type={"checkbox"}
         value={config.value}
         checked={config.checked}
         disabled={config.disabled}
         {...fieldRegistrar}
         onChange={handleChange}
-        ref={(e) => {
-          inputRef.current = e
-          fieldRegistrar.ref(e)
-        }}
+        ref={handleRef}
       />
       <Label htmlFor={"checkbox-" + id}>
         <InputBox>
@@ -121,11 +128,11 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
         </InputBox>
         {children || (config.label ? <span>{config.label}</span> : null)}
       </Label>
-    </Wrapper>
+    </CheckboxInputWrapper>
   )
 }
 
-const Wrapper = styled.div<{ $size: Config["size"] }>`
+export const CheckboxInputWrapper = styled.div<{ $size: Config["size"] }>`
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -5,7 +5,7 @@
 
 import { z } from "zod"
 import componentsValidators from "generic-view/models"
-import { DataProviderConfig, ExtraConfig, Layout } from "device/models"
+import { DataProviderConfig, Layout } from "device/models"
 
 type ComponentConfigProp<T> = T extends undefined
   ? { config?: T }
@@ -21,7 +21,7 @@ type ComponentProps<T> = T extends {
       layout?: Layout
       childrenKeys?: string[]
       dataProvider?: DataProviderConfig
-      extra?: ExtraConfig
+      dataProviderSecondary?: DataProviderConfig
     } & ComponentConfigProp<z.infer<T["configValidator"]>>
   : never
 

@@ -3,16 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
-import { Tag } from "../shared/tag"
+import { Tag } from "../labels/tag"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import {
   OverviewOsVersionConfig,
   OverviewOsVersionData,
 } from "generic-view/models"
+import { useSelector } from "react-redux"
+import { selectActiveDeviceConfiguration } from "generic-view/store"
+import axios from "axios"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 const dataTestIds = {
   versionWrapper: "version-wrapper",
@@ -26,10 +30,44 @@ const messages = defineMessages({
   updateActionLabel: { id: "module.genericViews.update.actionLabel" },
 })
 
+const devToken = process.env.KOMPAKT_OS_UPDATE_DEV_TOKEN
+const serverUrl = process.env.MUDITA_CENTER_SERVER_V2_URL
+
 export const OverviewOsVersion: APIFC<
   OverviewOsVersionData,
   OverviewOsVersionConfig
 > = ({ config, data, ...props }) => {
+  const deviceConfiguration = useSelector(selectActiveDeviceConfiguration)
+  const [availableUpdateName, setAvailableUpdateName] = useState<string>()
+  const updateAvailable = availableUpdateName !== undefined
+  const { osVersionTimestamp, otaApiKey } =
+    deviceConfiguration?.apiConfig?.otaApiConfig || {}
+
+  useEffect(() => {
+    void (async () => {
+      if (!serverUrl) {
+        return
+      }
+      try {
+        const devTokenParam = devToken ? `&devToken=${devToken}` : ""
+        const { data } = await axios.get<{
+          available: boolean
+          versionName?: string
+        }>(
+          `${serverUrl}/kompakt-os-update-availability?imei=${otaApiKey}&version=${osVersionTimestamp}${devTokenParam}`
+        )
+        if (data && data.available && data.versionName) {
+          setAvailableUpdateName(data.versionName)
+        }
+      } catch (error) {
+        logger.error(
+          `Error while checking Kompakt OS update availability for ${otaApiKey}, version ${osVersionTimestamp}.`,
+          error
+        )
+      }
+    })()
+  }, [osVersionTimestamp, otaApiKey])
+
   return (
     <Wrapper {...props} data-testid={dataTestIds.versionWrapper}>
       {config?.versionLabel && (
@@ -41,19 +79,17 @@ export const OverviewOsVersion: APIFC<
         {data?.text && (
           <Version data-testid={dataTestIds.version}>{data?.text}</Version>
         )}
-        {data?.update?.available && (
+        {updateAvailable && (
           <Tag>
             {intl.formatMessage(messages.updateTag, {
-              version: data?.update.updateText,
+              version: availableUpdateName,
             })}
           </Tag>
         )}
-        {config?.showBadge && !data?.update?.available && (
-          <Tag>{data?.badgeText}</Tag>
-        )}
-        {data?.update?.available && (
+        {config?.showBadge && !updateAvailable && <Tag>{data?.badgeText}</Tag>}
+        {updateAvailable && (
           <ActionLabel data-testid={dataTestIds.actionLabel}>
-            {data.update.actionLabel ??
+            {data?.update?.actionLabel ??
               intl.formatMessage(messages.updateActionLabel)}
           </ActionLabel>
         )}

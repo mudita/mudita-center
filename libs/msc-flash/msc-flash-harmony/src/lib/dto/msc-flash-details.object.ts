@@ -4,7 +4,7 @@
  */
 
 import { Product } from "Core/update/constants"
-import { SupportedPlatform } from "Libs/msc-flash/msc-flash-harmony/src/lib/constants"
+import { SupportedPlatform } from "../constants"
 
 interface File {
   url: string

@@ -7,10 +7,11 @@ import React, { useMemo } from "react"
 import { APIFC } from "generic-view/utils"
 import { TableCellConfig } from "generic-view/models"
 import styled from "styled-components"
+import { TableTestIds } from "e2e-test-ids"
 
 export const TableCell: APIFC<undefined, TableCellConfig> = ({
   children,
-  config,
+  config = {},
   data,
   ...props
 }) => {
@@ -20,6 +21,7 @@ export const TableCell: APIFC<undefined, TableCellConfig> = ({
     () => {
       return (
         <Cell
+          data-testid={TableTestIds.TableCell}
           {...props}
           colSpan={config.colSpan}
           rowSpan={config.rowSpan}
@@ -50,7 +52,8 @@ export const Cell = styled.td<{
   min-width: var(--cell-width);
   overflow: hidden;
 
-  p {
+  > p,
+  > p * {
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;

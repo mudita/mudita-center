@@ -7,6 +7,7 @@ import React, { useId } from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
 import { ProgressBarConfig, ProgressBarData } from "generic-view/models"
+import { ProgressBarTestIds } from "e2e-test-ids"
 
 export const ProgressBar: APIFC<ProgressBarData, ProgressBarConfig> = ({
   data,
@@ -16,13 +17,21 @@ export const ProgressBar: APIFC<ProgressBarData, ProgressBarConfig> = ({
   const id = useId()
   return (
     <Wrapper {...props}>
-      {data?.message && <Message>{data?.message}</Message>}
+      {data?.message !== undefined && (
+        <Message data-testid={ProgressBarTestIds.Description}>
+          {data.message}
+        </Message>
+      )}
       <Progress
         id={"progress-" + id}
         max={config.maxValue}
         value={data?.value}
+        data-testid={ProgressBarTestIds.Progress}
       />
-      <Label htmlFor={"progress-" + id}>
+      <Label
+        htmlFor={"progress-" + id}
+        data-testid={ProgressBarTestIds.Details}
+      >
         {data?.value}
         {config.valueUnit || "%"}
       </Label>
@@ -45,10 +54,17 @@ const Message = styled.span`
   font-weight: ${({ theme }) => theme.fontWeight.light};
   letter-spacing: 0.05em;
   margin: 0 0 0.6rem 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  min-height: ${({ theme }) => theme.lineHeight.paragraph4};
 `
 
 const Progress = styled.progress`
   width: 100%;
+  max-width: 22.3rem;
   height: 0.4rem;
   border-radius: 0.2rem;
   overflow: hidden;

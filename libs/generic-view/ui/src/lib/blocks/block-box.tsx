@@ -6,7 +6,7 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { Badge } from "../data-rows/badge"
+import { Badge } from "../labels/badge"
 import { BlockBoxConfig, BlockBoxData } from "generic-view/models"
 
 export const BlockBox: APIFC<BlockBoxData, BlockBoxConfig> = ({

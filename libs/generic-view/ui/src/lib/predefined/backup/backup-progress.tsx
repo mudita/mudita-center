@@ -12,6 +12,7 @@ import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { useSelector } from "react-redux"
 import { backupProgress } from "generic-view/store"
+import { PredefinedBackupProgressTestIds } from "e2e-test-ids"
 
 const messages = defineMessages({
   title: {
@@ -50,8 +51,12 @@ export const BackupProgress: FunctionComponent<Props> = ({ features }) => {
   return (
     <>
       <Modal.TitleIcon config={{ type: IconType.Backup }} />
-      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
-      <p>{intl.formatMessage(messages.description)}</p>
+      <Modal.Title data-testid={PredefinedBackupProgressTestIds.Title}>
+        {intl.formatMessage(messages.title)}
+      </Modal.Title>
+      <p data-testid={PredefinedBackupProgressTestIds.Description}>
+        {intl.formatMessage(messages.description)}
+      </p>
       <Progress
         config={{
           maxValue: 100,
@@ -60,6 +65,7 @@ export const BackupProgress: FunctionComponent<Props> = ({ features }) => {
           value: progressStatus.progress,
           message: detailMessage,
         }}
+        data-testid={PredefinedBackupProgressTestIds.ProgressBar}
       />
     </>
   )

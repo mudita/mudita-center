@@ -26,6 +26,8 @@ import { removeDirectory } from "system-utils/feature"
 import { DataMigrationStatus } from "./reducer"
 import { clearMigrationData } from "./clear-migration-data"
 import { pureToUnifiedMessage } from "./data-migration-mappers/pure-to-unified-message"
+import { refreshEntitiesIfMetadataChanged } from "../entities/refresh-entities-if-metadata-changed.action"
+import { selectActiveApiDeviceId } from "../selectors"
 
 export const transferMigrationData = createAsyncThunk<
   void,
@@ -54,6 +56,12 @@ export const transferMigrationData = createAsyncThunk<
         dispatch(abortDataTransfer())
         dispatch(clearMigrationData())
         return rejectWithValue(undefined)
+      }
+
+      const deviceId = selectActiveApiDeviceId(getState())
+
+      if (!deviceId) {
+        return handleError("Device not found")
       }
 
       const sourceDeviceId = dataMigration.sourceDevice
@@ -139,8 +147,22 @@ export const transferMigrationData = createAsyncThunk<
             }
             break
           }
+          case DataMigrationFeature.Notes: {
+            const { notes } = databaseResponse.payload as AllIndexes
+            const transformedData = Object.values(notes)
+
+            if (!isEmpty(transformedData)) {
+              domainsData.push({
+                domain: "notes-v1", // TODO: As part of CP-3255: retrieve domain from Data Migration configuration.
+                data: transformedData,
+              })
+            }
+            break
+          }
         }
       }
+
+      dispatch(setDataMigrationStatus(DataMigrationStatus.DataTransferring))
 
       if (signal.aborted) {
         return rejectWithValue(undefined)
@@ -157,7 +179,16 @@ export const transferMigrationData = createAsyncThunk<
       }
       dispatch(setDataMigrationStatus(DataMigrationStatus.DataTransferred))
 
-      await delay(500)
+      await delay()
+
+      if (domainsData.some((obj) => obj.domain === "contacts-v1")) {
+        await dispatch(
+          refreshEntitiesIfMetadataChanged({
+            deviceId: deviceId,
+            entitiesType: "contacts",
+          })
+        )
+      }
 
       dispatch(setDataMigrationStatus(DataMigrationStatus.Completed))
 

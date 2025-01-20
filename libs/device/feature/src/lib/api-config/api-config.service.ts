@@ -15,6 +15,7 @@ import {
 import { DeviceId } from "Core/device/constants/device-id"
 import { AppError } from "Core/core/errors"
 import { APIConfigError } from "./api-config-error"
+import { DevApiConfigAdapter } from "./dev-api-config.adapter"
 
 export class APIConfigService {
   constructor(private deviceProtocol: DeviceProtocol) {}
@@ -30,7 +31,7 @@ export class APIConfigService {
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
-    const response = await device.request({
+    let response = await device.request({
       endpoint: "API_CONFIGURATION",
       method: "GET",
       body: {},
@@ -38,6 +39,10 @@ export class APIConfigService {
         connectionTimeOut: 2000,
       },
     })
+
+    if (process.env.DEV_API_CONFIG === "1") {
+      response = DevApiConfigAdapter.processDevModeResponse(response)
+    }
 
     if (response.ok) {
       const apiConfig = ApiConfigValidator.safeParse(response.data.body)

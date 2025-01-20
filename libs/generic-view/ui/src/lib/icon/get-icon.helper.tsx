@@ -25,6 +25,7 @@ import SignalVeryHighRange from "Core/__deprecated__/renderer/svg/signal-very-hi
 
 import AirplaneMode from "Core/__deprecated__/renderer/svg/airplane-mode.svg"
 import MenuOverview from "Core/__deprecated__/renderer/svg/menu-overview.svg"
+import MenuFilesManager from "Core/__deprecated__/renderer/svg/files-manager.svg"
 import CloseIcon from "Core/__deprecated__/renderer/svg/close.svg"
 import Device from "Core/__deprecated__/renderer/svg/device.svg"
 import Mudita from "Core/__deprecated__/renderer/svg/mudita.svg"
@@ -33,12 +34,16 @@ import Contact from "Core/__deprecated__/renderer/svg/contact.svg"
 import ContactsBook from "Core/__deprecated__/renderer/svg/menu-contacts.svg"
 
 import Backup from "./svg/backup.svg"
+import Book from "./svg/book.svg"
+import MusicNote from "./svg/music-note.svg"
 import Settings from "./svg/settings.svg"
 import PasswordShow from "./svg/password-show.svg"
 import PasswordHide from "./svg/password-hide.svg"
+import PhotoCatalog from "./svg/photo-catalog.svg"
 import Success from "./svg/confirm.svg"
 import Failure from "./svg/failed.svg"
 import Folder from "./svg/folder.svg"
+import Grid from "./svg/grid.svg"
 import SpinnerDark from "./svg/spinner-dark.svg"
 import Check from "./svg/check.svg"
 import Minus from "./svg/minus.svg"
@@ -69,6 +74,8 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.BatteryCharging3]: BatteryChargingMedium,
   [IconType.BatteryCharging4]: BatteryChargingHigh,
   [IconType.BatteryCharging5]: BatteryChargingFull,
+  [IconType.Book]: Book,
+  [IconType.MusicNote]: MusicNote,
   [IconType.NetworkSignal0]: SignalNoRange,
   [IconType.NetworkSignal1]: SignalVeryLowRange,
   [IconType.NetworkSignal2]: SignalMediumRange,
@@ -77,6 +84,7 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.NoSimCard]: SignalNoRange,
   [IconType.AirplaneMode]: AirplaneMode,
   [IconType.Overview]: MenuOverview,
+  [IconType.FileManager]: MenuFilesManager,
   [IconType.Close]: CloseIcon,
   [IconType.Device]: Device,
   [IconType.Mudita]: Mudita,
@@ -86,9 +94,11 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Settings]: Settings,
   [IconType.PasswordShow]: PasswordShow,
   [IconType.PasswordHide]: PasswordHide,
+  [IconType.PhotoCatalog]: PhotoCatalog,
   [IconType.Success]: Success,
   [IconType.Failure]: Failure,
   [IconType.Folder]: Folder,
+  [IconType.Grid]: Grid,
   [IconType.Contact]: Contact,
   [IconType.ContactsBook]: ContactsBook,
   [IconType.Check]: Check,

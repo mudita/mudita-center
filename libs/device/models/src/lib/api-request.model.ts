@@ -40,7 +40,7 @@ const APIRequests = {
   PRE_BACKUP: ["POST", "GET"],
   POST_BACKUP: ["POST"],
   PRE_FILE_TRANSFER: ["POST", "GET"],
-  FILE_TRANSFER: ["POST", "GET"],
+  FILE_TRANSFER: ["POST", "GET", "DELETE"],
   PRE_RESTORE: ["POST"],
   RESTORE: ["POST", "GET", "DELETE"],
   SYSTEM: ["POST"],

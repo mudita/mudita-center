@@ -10,12 +10,11 @@ import styled from "styled-components"
 import { HelpSearchResult } from "help/models"
 import { useSelector } from "react-redux"
 import { selectHelpCategories } from "help/store"
-import { HighlightText } from "./higlights"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { NavLink } from "react-router-dom"
 import { useFormContext } from "react-hook-form"
 import { IconType } from "generic-view/utils"
-import { Icon, P3 } from "generic-view/ui"
+import { HighlightText, Icon, Typography } from "generic-view/ui"
 import { HelpTestId } from "../test-ids"
 import { cleanSearchPhrase } from "help/feature"
 
@@ -63,10 +62,16 @@ const SearchResultsFC: FunctionComponent<
                     data-testid={HelpTestId.SearchResultsItem}
                   >
                     <CategoryName>{category.name}/</CategoryName>
+                    {/*@ts-ignore*/}
                     <ArticleTitle>
                       <HighlightText
-                        text={result.document.title}
-                        phrase={cleanedHighlightPhrase}
+                        config={{
+                          scope: "all",
+                        }}
+                        data={{
+                          text: result.document.title,
+                          phrase: cleanedHighlightPhrase,
+                        }}
                       />
                     </ArticleTitle>
                   </ListItemLink>
@@ -78,7 +83,9 @@ const SearchResultsFC: FunctionComponent<
       ) : (
         <EmptyResults>
           <Icon config={{ type: IconType.Search }} />
-          <P3>{intl.formatMessage(messages.noResults)}</P3>
+          <Typography.P3>
+            {intl.formatMessage(messages.noResults)}
+          </Typography.P3>
         </EmptyResults>
       )}
     </SearchResultsWrapper>
@@ -135,12 +142,12 @@ const ListItemLink = styled(NavLink)`
   }
 `
 
-const CategoryName = styled(P3)`
+const CategoryName = styled(Typography.P3)`
   color: ${({ theme }) => theme.color.grey2};
   white-space: nowrap;
 `
 
-const ArticleTitle = styled(P3)`
+const ArticleTitle = styled(Typography.P3)`
   color: ${({ theme }) => theme.color.black};
   overflow: hidden;
   text-overflow: ellipsis;
@@ -164,6 +171,7 @@ const EmptyResults = styled.div`
     height: 4.8rem;
     margin: 1rem;
   }
+
   svg * {
     fill: ${({ theme }) => theme.color.black};
   }
