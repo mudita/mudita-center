@@ -259,8 +259,6 @@ export class APIEntitiesService {
       },
     })
 
-    console.log("Reszponsz: ", response)
-
     if (!response.ok) {
       return this.handleError(response.error.type)
     }

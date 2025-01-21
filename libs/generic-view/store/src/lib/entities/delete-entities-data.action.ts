@@ -24,37 +24,40 @@ interface DeleteEntitiesDataActionPayload {
 export const deleteEntitiesDataAction = createAsyncThunk<
   EntityId[],
   DeleteEntitiesDataActionPayload,
-  { state: ReduxRootState; rejectValue: string[] }
+  {
+    state: ReduxRootState
+    rejectValue: { failedIds: string[]; successIds: string[] } | undefined
+  }
 >(
   ActionName.DeleteEntitiesData,
   async (
     { entitiesType, ids, deviceId, onSuccess, onError },
     { rejectWithValue, dispatch }
   ) => {
-    const idsToDelete = ids.concat(["12345"])
     const response = await delayResponse(
       deleteEntitiesDataRequest({
         entitiesType,
-        ids: ids,
+        ids,
         deviceId,
       }),
       1000
     )
+
     if (!response.ok || response.data?.failedIds) {
       await onError?.()
       if (response.data) {
         const failedIds = (response.data as EntitiesDeleteResponse)!.failedIds
+        const successIds = (response.data as EntitiesDeleteResponse)!.failedIds
           ? difference(
-              (response.data as EntitiesDeleteResponse)!.failedIds,
-              ids
+              ids,
+              (response.data as EntitiesDeleteResponse)!.failedIds
             )
-          : (response.data as EntitiesDeleteResponse)!.failedIds
+          : ids
 
-        return rejectWithValue(failedIds)
+        return rejectWithValue({ failedIds, successIds })
       }
-      return rejectWithValue(ids)
+      return rejectWithValue(undefined)
     }
-    console.log("Łodpowiedź: ", response)
     await onSuccess?.()
     await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
     return response.data?.failedIds

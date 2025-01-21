@@ -5,7 +5,12 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { EntitiesConfig, EntitiesMetadata, EntityData } from "device/models"
-import { clearEntities, deleteEntityData, setEntityData } from "./actions"
+import {
+  clearAfterDeleteEntities,
+  clearEntities,
+  deleteEntityData,
+  setEntityData,
+} from "./actions"
 import { getEntitiesDataAction } from "./get-entities-data.action"
 import { DeviceId } from "Core/device/constants/device-id"
 import { deleteEntitiesDataAction } from "./delete-entities-data.action"
@@ -25,6 +30,7 @@ interface Entities {
   progress?: number
   error?: boolean
   failedIds?: string[]
+  successIds?: string[]
 }
 
 export type DeviceEntitiesMap = Record<EntitiesType, Entities | undefined>
@@ -61,24 +67,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
       return
     }
 
-    const newData = action.payload.concat([
-      {
-        id: "12345",
-        filePath:
-          "/storage/emulated/0/DCIM/Camera/aaaaa_testowy_do_usuniecia.jpg'",
-        fileName: "aaaaa_testowy_do_usuniecia.jpg",
-        extension: "jpg",
-        fileSize: 477233,
-        fileType: "IMAGE",
-        mimeType: "image/jpeg",
-        isInternal: true,
-        entityType: "imageFiles",
-      },
-    ])
-
-    console.log()
-
-    state[deviceId]![entitiesType]!.data = newData
+    state[deviceId]![entitiesType]!.data = action.payload
     state[deviceId]![entitiesType]!.loading = false
   })
   builder.addCase(getEntitiesDataAction.rejected, (state, action) => {
@@ -140,7 +129,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(deleteEntitiesDataAction.rejected, (state, action) => {
     const { entitiesType, deviceId } = action.meta.arg
-    const failedIds = action.payload
+    const { failedIds = [], successIds = [] } = action.payload || {}
     if (!state[deviceId]?.[entitiesType]) {
       return
     }
@@ -149,6 +138,17 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
 
     if (entities) {
       entities.failedIds = failedIds
+      entities.successIds = successIds
+    }
+  })
+  builder.addCase(clearAfterDeleteEntities, (state, action) => {
+    const { entitiesType, deviceId } = action.payload
+
+    const entities = state[deviceId]![entitiesType]
+
+    if (entities) {
+      entities.failedIds = []
+      entities.successIds = []
     }
   })
   builder.addCase(deleteEntityData, (state, action) => {
