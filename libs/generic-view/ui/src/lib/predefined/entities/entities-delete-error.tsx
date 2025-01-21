@@ -75,7 +75,7 @@ export const EntitiesDeleteError: APIFC<
     } else {
       return intl.formatMessage(messages.allModalDescription)
     }
-  }, [failedFiles])
+  }, [successIds, failedFiles])
 
   const closeActions: ButtonAction[] = [
     {
