@@ -27,6 +27,7 @@ import {
   listItemSelectedStyles,
   listRawItemStyles,
 } from "../list/list-item"
+import { toastAnimationDuration } from "../interactive/toast/toast"
 
 const rowHeight = 64
 
@@ -100,11 +101,16 @@ export const Table: APIFC<TableData, TableConfig> & {
         formOptions.selectedIdsFieldName
       )
       const unavailableIds = difference(selectedIds, data)
+
       if (unavailableIds.length > 0) {
-        formContext.setValue(
-          formOptions.selectedIdsFieldName,
-          intersection(data, unavailableIds)
-        )
+        setTimeout(() => {
+          if (formOptions.selectedIdsFieldName !== undefined) {
+            formContext.setValue(
+              formOptions.selectedIdsFieldName,
+              intersection(data, unavailableIds)
+            )
+          }
+        }, toastAnimationDuration)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -132,13 +132,7 @@ describe("E2E mock sample - overview view", () => {
     const lastRow = rows[rows.length - 1]
     const isDisplayed = await lastRow.isDisplayed()
     expect(isDisplayed).toBe(true)
-    const contactsTableRow = ContactsKompaktPage.contactsTableRow
-    await contactsTableRow.click()
-
-    mockEntityDeleteProcess({
-      entityType: "contacts",
-      totalEntities: selectedContactsEntities.length - 1,
-    })
-    await browser.pause(10000)
+    const contactsTableCell = ContactsKompaktPage.contactsTableCell
+    await contactsTableCell.click()
   })
 })

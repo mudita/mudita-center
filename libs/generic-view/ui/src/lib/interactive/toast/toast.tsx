@@ -11,7 +11,7 @@ import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { useDispatch, useSelector } from "react-redux"
 import { removeToast } from "generic-view/store"
 
-const toastAnimationDuration = 300
+export const toastAnimationDuration = 300
 
 export const Toast: APIFC<undefined, ToastConfig> = ({
   config,

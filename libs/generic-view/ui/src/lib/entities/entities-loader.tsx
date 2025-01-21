@@ -3,15 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 import { sum } from "lodash"
 import { APIFC } from "generic-view/utils"
 import { EntitiesLoaderConfig } from "generic-view/models"
 import {
-  getEntitiesDataAction,
-  getEntitiesMetadataAction,
   selectActiveApiDeviceId,
   selectEntitiesLoadingState,
 } from "generic-view/store"
@@ -36,21 +34,11 @@ export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
   const [showProgress, setShowProgress] = useState(!allLoaded)
   const [totalProgress, setTotalProgress] = useState(0)
 
-  const fetchEntityData = useCallback(
-    async (entitiesType: string) => {
-      await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
-      await dispatch(getEntitiesDataAction({ entitiesType, deviceId }))
-    },
-    [dispatch, deviceId]
-  )
-
   useEffect(() => {
     const progress = config.entityTypes.reduce((acc, entityType) => {
       acc[entityType] = 0
       const entity = entitiesLoadingStates[entityType]
-      if (entity?.state === "idle") {
-        void fetchEntityData(entityType)
-      } else if (entity?.state === "loading" || entity?.state === "loaded") {
+      if (entity?.state === "loading" || entity?.state === "loaded") {
         acc[entityType] = entity.progress
       }
       return acc
@@ -63,7 +51,7 @@ export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
           )
         : 0
     setTotalProgress(totalProgress)
-  }, [config.entityTypes, dispatch, entitiesLoadingStates, fetchEntityData])
+  }, [config.entityTypes, dispatch, entitiesLoadingStates])
 
   useEffect(() => {
     let timeout: NodeJS.Timeout

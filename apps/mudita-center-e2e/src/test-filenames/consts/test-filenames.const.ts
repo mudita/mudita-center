@@ -33,6 +33,7 @@ export enum TestFilesPaths {
   helpVerifyFeedback = "src/specs/help/help-verify-feedback.ts",
   helpSectionSearchNoResults = "src/specs/help/help-section-search-noresults.e2e.ts",
   helpLinkInsideContainer = "src/specs/help/help-link-inside-container.ts",
+  contactSupportHappyPath = "src/specs/help/contact-support-happy-path.ts",
   kompaktPrebackupApi = "src/specs/overview/kompakt-prebackup-api.ts",
   kompaktContactsViewing = "src/specs/overview/kompakt-contacts-viewing.ts",
   kompaktContactsViewingEmpty = "src/specs/overview/kompakt-contacts-viewing-empty.ts",
