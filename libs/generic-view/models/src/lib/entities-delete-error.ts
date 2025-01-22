@@ -12,8 +12,6 @@ const configValidator = z.object({
   entitiesType: z.string(),
 })
 
-// export type EntitiesDeleteError = z.infer<typeof dataValidator>
-
 export type EntitiesDeleteErrorConfig = z.infer<typeof configValidator>
 
 export const entitiesDeleteError = {
