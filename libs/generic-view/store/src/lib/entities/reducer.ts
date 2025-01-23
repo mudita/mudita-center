@@ -67,7 +67,34 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
       return
     }
 
-    state[deviceId]![entitiesType]!.data = action.payload
+    const newData = action.payload.concat([
+      {
+        id: "12345",
+        filePath:
+          "/storage/emulated/0/DCIM/Camera/aaaaa_testowy_do_usuniecia.jpg'",
+        fileName: "aaaaa_testowy_do_usuniecia.jpg",
+        extension: "jpg",
+        fileSize: 477233,
+        fileType: "IMAGE",
+        mimeType: "image/jpeg",
+        isInternal: true,
+        entityType: "imageFiles",
+      },
+      {
+        id: "112233",
+        filePath:
+          "/storage/emulated/0/DCIM/Camera/aaaaa_testowy_do_usuniecia_2.jpg'",
+        fileName: "aaaaa_testowy_do_usuniecia_2.jpg",
+        extension: "jpg",
+        fileSize: 400233,
+        fileType: "IMAGE",
+        mimeType: "image/jpeg",
+        isInternal: true,
+        entityType: "imageFiles",
+      },
+    ])
+
+    state[deviceId]![entitiesType]!.data = newData
     state[deviceId]![entitiesType]!.loading = false
   })
   builder.addCase(getEntitiesDataAction.rejected, (state, action) => {
