@@ -26,6 +26,7 @@ const generateDeleteModal = ({
         `${id}DeleteModalIcon`,
         `${id}DeleteModalTitle`,
         `${id}DeleteModalContent`,
+        `${id}DeleteAccordion`,
         `${id}DeleteModalButtons`,
       ],
     },
@@ -42,7 +43,15 @@ const generateDeleteModal = ({
     [`${id}DeleteModalContent`]: {
       component: "typography.p1",
       config: {
-        text: "This can't be undone so please make a copy of any important information first.",
+        text: "This can't be undone so please make a copy of any important information first. !!!!!!!",
+      },
+    },
+    [`${id}DeleteAccordion`]: {
+      component: "accordion",
+      config: {
+        buttonType: "primary",
+        collapsedButtonText: "+ More details",
+        expandedButtonText: "- Less details",
       },
     },
     [`${id}DeleteModalButtons`]: {
