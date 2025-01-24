@@ -32,7 +32,7 @@ const MenuWrapper = styled.div`
   background-color: ${backgroundColor("row")};
   z-index: ${zIndex("menu")};
   grid-area: Menu;
-  max-height: 825px;
+  max-height: 82.5rem;
 `
 
 export const HeaderTabs = styled(Tabs)`
