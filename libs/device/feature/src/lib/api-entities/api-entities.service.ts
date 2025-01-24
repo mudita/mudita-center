@@ -263,6 +263,10 @@ export class APIEntitiesService {
       return this.handleError(response.error.type)
     }
 
+    if (response.data.status === 404) {
+      return this.handleError(response.data.status)
+    }
+
     if (response.data.status === 207) {
       const failedIdsValidator =
         entitiesDeletePartialSuccessValidator.safeParse(response.data.body)

@@ -5,7 +5,12 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { EntitiesConfig, EntitiesMetadata, EntityData } from "device/models"
-import { clearEntities, deleteEntityData, setEntityData } from "./actions"
+import {
+  clearAfterDeleteEntities,
+  clearEntities,
+  deleteEntityData,
+  setEntityData,
+} from "./actions"
 import { getEntitiesDataAction } from "./get-entities-data.action"
 import { DeviceId } from "Core/device/constants/device-id"
 import { deleteEntitiesDataAction } from "./delete-entities-data.action"
@@ -24,6 +29,8 @@ interface Entities {
   loading?: boolean
   progress?: number
   error?: boolean
+  failedIds?: string[]
+  successIds?: string[]
 }
 
 export type DeviceEntitiesMap = Record<EntitiesType, Entities | undefined>
@@ -118,6 +125,30 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
         (entity) =>
           !entitiesIds.includes(entity[entities.idFieldKey!] as string)
       )
+    }
+  })
+  builder.addCase(deleteEntitiesDataAction.rejected, (state, action) => {
+    const { entitiesType, deviceId } = action.meta.arg
+    const { failedIds = [], successIds = [] } = action.payload || {}
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
+
+    const entities = state[deviceId]![entitiesType]
+
+    if (entities) {
+      entities.failedIds = failedIds
+      entities.successIds = successIds
+    }
+  })
+  builder.addCase(clearAfterDeleteEntities, (state, action) => {
+    const { entitiesType, deviceId } = action.payload
+
+    const entities = state[deviceId]![entitiesType]
+
+    if (entities) {
+      entities.failedIds = []
+      entities.successIds = []
     }
   })
   builder.addCase(deleteEntityData, (state, action) => {
