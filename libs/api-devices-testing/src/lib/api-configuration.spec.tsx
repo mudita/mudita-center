@@ -34,7 +34,7 @@ describe("API configuration", () => {
 
   it("should receive API configuration", async () => {
     expect(deviceProtocol?.devices).toHaveLength(1)
-
+    expect(deviceProtocol).toBeTruthy()
     if (deviceProtocol === undefined) {
       return
     }
