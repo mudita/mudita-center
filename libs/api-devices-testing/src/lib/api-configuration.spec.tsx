@@ -10,7 +10,6 @@ import {
   ApiConfig,
   GeneralError
 } from "device/models"
-import exp from "constants"
 
 jest.mock("shared/utils", () => {
   return { callRenderer: () => {} }
