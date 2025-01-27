@@ -6,10 +6,8 @@
 import { DeviceProtocol } from "device-protocol/feature"
 import { setKompaktConnection } from "./helpers/set-connection"
 import { APIConfigService } from "device/feature"
-import {
-  ApiConfig,
-  GeneralError
-} from "device/models"
+import { setActiveDevice } from "./helpers/protocol-validator"
+import { ApiConfig, GeneralError } from "device/models"
 
 jest.mock("shared/utils", () => {
   return { callRenderer: () => {} }
@@ -26,28 +24,21 @@ jest.mock("electron-better-ipc", () => {
 })
 
 describe("API configuration", () => {
-  let deviceProtocol: DeviceProtocol | undefined = undefined
+  let deviceProtocol: DeviceProtocol
   const testFeatures = ["mc-overview","contacts","mc-data-migration","fileManager"].sort()
   const testEntityTypes = ["contacts","audioFiles","imageFiles","ebookFiles"].sort()
-  const productId = 
+
 
   beforeEach(async () => {
-    deviceProtocol = await setKompaktConnection()
+    deviceProtocol = setActiveDevice(await setKompaktConnection())
   })
 
   afterEach(async () => {
-    await deviceProtocol?.activeDevice?.disconnect()
+    await deviceProtocol.activeDevice?.disconnect()
   }, 10000)
 
-  it("should receive API configuration success on default device id", async () => {
-    expect(deviceProtocol?.devices).toHaveLength(1)
-    expect(deviceProtocol).toBeTruthy()
-    if (deviceProtocol === undefined) {
-      return
-    }
-
-    deviceProtocol.setActiveDevice(deviceProtocol.devices[0].id)
-
+  it("should receive API configuration", async () => {
+  
     const apiConfigService = new APIConfigService(deviceProtocol)
 
     const result = await apiConfigService.getAPIConfig()
@@ -72,14 +63,6 @@ describe("API configuration", () => {
   })
   
   it("should receive valid API configuration response", async () => {
-    expect(deviceProtocol?.devices).toHaveLength(1)
-
-    if (deviceProtocol === undefined) {
-      return
-    }
-
-    deviceProtocol.setActiveDevice(deviceProtocol.devices[0].id)
-
     const apiConfigService = new APIConfigService(deviceProtocol)
 
     const result = await apiConfigService.getAPIConfig()
