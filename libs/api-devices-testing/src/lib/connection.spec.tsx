@@ -31,7 +31,7 @@ describe("Connection", () => {
       expect(deviceProtocol.devices).toHaveLength(0)
       const attachedDevice = (await deviceProtocol.getAttachedDevices()).find(
         (port) => {
-          return port.vendorId === vendorId && port.productId === productId
+          return port.vendorId?.toLowerCase() === vendorId.toLowerCase() && port.productId?.toLowerCase() === productId.toLowerCase()
         }
       )
 
