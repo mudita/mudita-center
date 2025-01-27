@@ -6,6 +6,7 @@
 import { DeviceProtocol } from "device-protocol/feature"
 import { setKompaktConnection } from "./helpers/set-connection"
 import { APIConfigService } from "device/feature"
+import { setActiveDevice } from "./helpers/protocol-validator"
 
 jest.mock("shared/utils", () => {
   return { callRenderer: () => {} }
@@ -22,25 +23,18 @@ jest.mock("electron-better-ipc", () => {
 })
 
 describe("API configuration", () => {
-  let deviceProtocol: DeviceProtocol | undefined = undefined
+  let deviceProtocol: DeviceProtocol
 
   beforeEach(async () => {
-    deviceProtocol = await setKompaktConnection()
+    deviceProtocol = setActiveDevice(await setKompaktConnection())
   })
 
   afterEach(async () => {
-    await deviceProtocol?.activeDevice?.disconnect()
+    await deviceProtocol.activeDevice?.disconnect()
   }, 10000)
 
   it("should receive API configuration", async () => {
-    expect(deviceProtocol?.devices).toHaveLength(1)
-
-    if (deviceProtocol === undefined) {
-      return
-    }
-
-    deviceProtocol.setActiveDevice(deviceProtocol.devices[0].id)
-
+  
     const apiConfigService = new APIConfigService(deviceProtocol)
 
     const result = await apiConfigService.getAPIConfig()
