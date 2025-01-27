@@ -27,6 +27,9 @@ jest.mock("electron-better-ipc", () => {
 
 describe("API configuration", () => {
   let deviceProtocol: DeviceProtocol | undefined = undefined
+  const testFeatures = ["mc-overview","contacts","mc-data-migration","fileManager"].sort()
+  const testEntityTypes = ["contacts","audioFiles","imageFiles","ebookFiles"].sort()
+  const productId = 
 
   beforeEach(async () => {
     deviceProtocol = await setKompaktConnection()
@@ -86,8 +89,8 @@ describe("API configuration", () => {
     expect(apiConfig.osVersion).toMatch(/^MuditaOS K/)
     expect(apiConfig.lang).toMatch(/^[a-z]{2}-[A-Z]{2}$/)
     expect(apiConfig.variant?.length).toBeGreaterThan(0)
-    expect(apiConfig.features.sort()).toEqual(["mc-overview","contacts","mc-data-migration","fileManager"].sort())
-    expect(apiConfig.entityTypes?.sort()).toEqual(["contacts","audioFiles","imageFiles","ebookFiles"].sort())
+    expect(apiConfig.features.sort()).toEqual(testFeatures)
+    expect(apiConfig.entityTypes?.sort()).toEqual(testEntityTypes)
     expect(apiConfig.productId).toEqual("2006")
     expect(apiConfig.vendorId).toEqual("0e8d")
     expect(apiConfig.serialNumber).toMatch(/^[A-Z0-9]{13}$/)
