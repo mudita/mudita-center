@@ -28,9 +28,7 @@ export const sendTicket = createAsyncThunk<undefined, SendTicketPayload>(
   async ({ email, description }, { getState, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
     const activeDeviceId = activeDeviceIdSelector(state)
-    const serialNumber = state.device.data?.serialNumber
-      ? state.device.data?.serialNumber
-      : activeDeviceId
+    const serialNumber = state.device.data?.serialNumber ?? activeDeviceId
     const deviceID = activeDeviceId
       ? state.genericViews.devices[activeDeviceId].apiConfig?.deviceID
       : undefined
