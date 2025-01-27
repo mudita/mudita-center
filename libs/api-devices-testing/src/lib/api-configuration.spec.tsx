@@ -41,7 +41,7 @@ describe("API configuration", () => {
 
   it("should receive API configuration success on default device id", async () => {
     expect(deviceProtocol?.devices).toHaveLength(1)
-
+    expect(deviceProtocol).toBeTruthy()
     if (deviceProtocol === undefined) {
       return
     }
