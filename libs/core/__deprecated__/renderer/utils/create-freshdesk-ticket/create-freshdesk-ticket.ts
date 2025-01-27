@@ -48,7 +48,7 @@ const createFreshdeskTicket = async ({
     formData.append("custom_fields[cf_serial_number_imei]", serialNumber)
   }
   if (deviceID) {
-    formData.append("custom_fields[cf_DeviceID]", deviceID)
+    formData.append("custom_fields[cf_deviceid]", deviceID)
   }
 
   attachments.forEach((attachment) => {
