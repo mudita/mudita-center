@@ -30,7 +30,7 @@ describe("Feature Configuration and Data", () => {
   const genericFeatures = ["contacts","mc-data-migration","fileManager"]
   const notSupportedDataFeatures = ["contacts", "mc-data-migration"]
 
-  function validateDeviceProtocol(deviceProtocol: any) {
+  function validateDeviceProtocol(deviceProtocol: DeviceProtocol | undefined) {
     expect(deviceProtocol?.devices).toHaveLength(1);
     expect(deviceProtocol).toBeTruthy();
     
