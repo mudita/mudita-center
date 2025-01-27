@@ -5,7 +5,7 @@
 
 import { DeviceProtocol } from "device-protocol/feature"
 import { setKompaktConnection } from "./helpers/set-connection"
-import { APIFeaturesService, getOverviewConfigRequest } from "device/feature"
+import { APIFeaturesService } from "device/feature"
 import {
   generateMcAboutLayout,
   generateMcOverviewLayout,
