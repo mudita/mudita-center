@@ -67,6 +67,7 @@ import { TypographyMap } from "./lib/typography"
 import { mcFilesManagerUploadProgress } from "./lib/mc-files-manager-upload-progress"
 import { mcFilesManagerUploadFinished } from "./lib/mc-files-manager-upload-finished"
 import { mcFilesManagerUploadValidationError } from "./lib/mc-files-manager-upload-validation-error"
+import { entitiesDeleteError } from "./lib/entities-delete-error"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -137,6 +138,7 @@ export * from "./lib/typography"
 export * from "./lib/mc-files-manager-upload-progress"
 export * from "./lib/mc-files-manager-upload-finished"
 export * from "./lib/mc-files-manager-upload-validation-error"
+export * from "./lib/entities-delete-error"
 
 export default {
   [blockBox.key]: blockBox,
@@ -204,5 +206,6 @@ export default {
   [mcFilesManagerUploadFinished.key]: mcFilesManagerUploadFinished,
   [mcFilesManagerUploadValidationError.key]:
     mcFilesManagerUploadValidationError,
+  [entitiesDeleteError.key]: entitiesDeleteError,
   ...TypographyMap,
 } as const

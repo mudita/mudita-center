@@ -10,6 +10,7 @@ const dataValidator = z.object({
   icon: z.nativeEnum(IconType),
   text: z.string(),
   subText: z.string().optional(),
+  show: z.boolean().default(false),
 })
 
 export type IconTextData = z.infer<typeof dataValidator>

@@ -66,7 +66,7 @@ export const useUploadFilesButtonAction = () => {
         entityFilePaths,
         // @ts-ignore
         // TODO: Add support for multiple storage in file management feature: https://appnroll.atlassian.net/browse/CP-3398
-        fileManagerFeatureData?.["0storageSummaryFreeText"].text
+        fileManagerFeatureData?.["0storageSummaryFreeBytes"].value
       )
 
       if (validationError !== undefined) {

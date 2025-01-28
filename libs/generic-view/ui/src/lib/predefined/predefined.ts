@@ -17,11 +17,13 @@ import { McContactsSearchResult } from "./contacts/mc-contacts-search-result"
 import { FilesManagerUploadProgress } from "./files-manager-upload/files-manager-upload-progress"
 import { FilesManagerUploadFinished } from "./files-manager-upload/files-manager-upload-finished"
 import { FilesManagerUploadValidationError } from "./files-manager-upload/files-manager-upload-validation-error"
+import { EntitiesDeleteError } from "./entities/entities-delete-error"
 import {
   aboutDataBox,
   backupCreate,
   backupRestore,
   backupRestoreAvailable,
+  entitiesDeleteError,
   importContacts,
   incomingFeatureInfo,
   lastBackupDate,
@@ -41,6 +43,7 @@ export const predefinedComponents = {
   [backupRestoreAvailable.key]: BackupRestoreAvailable,
   [backupCreate.key]: BackupCreate,
   [backupRestore.key]: BackupRestore,
+  [entitiesDeleteError.key]: EntitiesDeleteError,
   [importContacts.key]: ImportContacts,
   [mcDataMigration.key]: DataMigration,
   [incomingFeatureInfo.key]: IncomingFeatureInfo,

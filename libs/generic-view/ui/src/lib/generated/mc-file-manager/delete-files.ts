@@ -111,6 +111,16 @@ export const generateDeleteFiles: ComponentGenerator<{
                   toastKey: `${key}${id}filesDeletedToast`,
                 },
               ],
+              failure: [
+                {
+                  type: "close-domain-modals",
+                  domain: "files-delete",
+                },
+                {
+                  type: "open-modal",
+                  modalKey: `${key}${id}deleteErrorModal`,
+                },
+              ],
             },
           },
         ],
@@ -202,6 +212,20 @@ export const generateDeleteFiles: ComponentGenerator<{
       component: "modal.title",
       config: {
         text: "Deleting, please wait...",
+      },
+    },
+    [`${key}${id}deleteErrorModal`]: {
+      component: "modal",
+      config: {
+        size: "small",
+      },
+      childrenKeys: [`${key}${id}deleteErrorModalContent`],
+    },
+    [`${key}${id}deleteErrorModalContent`]: {
+      component: "entities-delete-error",
+      config: {
+        modalKey: `${key}${id}deleteErrorModal`,
+        entitiesType: entityType,
       },
     },
   }

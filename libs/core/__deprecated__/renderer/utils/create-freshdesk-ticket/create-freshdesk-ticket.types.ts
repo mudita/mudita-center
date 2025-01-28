@@ -21,6 +21,7 @@ export interface FreshdeskTicketData {
   subject: string
   description?: string
   serialNumber?: string
+  deviceID?: string
   attachments: File[]
   product: FreshdeskTicketProduct
 }

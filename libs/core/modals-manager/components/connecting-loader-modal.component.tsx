@@ -83,6 +83,7 @@ const ConnectingLoaderModal: FunctionComponent = () => {
         if (
           ![
             URL_DISCOVERY_DEVICE.root,
+            URL_DISCOVERY_DEVICE.availableDeviceListModal,
             URL_MAIN.dataMigration,
             URL_MAIN.dataMigrationKompakt,
           ].includes(pathname) &&
