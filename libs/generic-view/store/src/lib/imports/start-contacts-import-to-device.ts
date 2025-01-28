@@ -235,6 +235,12 @@ export const startImportToDevice = createAsyncThunk<
 
     while (progress < 100) {
       if (aborted) {
+        await dispatch(
+          refreshEntitiesIfMetadataChanged({
+            deviceId: deviceId,
+            entitiesType: "contacts",
+          })
+        )
         return rejectWithValue(undefined)
       }
       await delay()
@@ -251,16 +257,16 @@ export const startImportToDevice = createAsyncThunk<
       progress = checkPreRestoreResponse.data.progress
     }
 
-    if (aborted) {
-      return rejectWithValue(undefined)
-    }
-
     await dispatch(
       refreshEntitiesIfMetadataChanged({
         deviceId: deviceId,
         entitiesType: "contacts",
       })
     )
+
+    if (aborted) {
+      return rejectWithValue(undefined)
+    }
 
     return undefined
   }
