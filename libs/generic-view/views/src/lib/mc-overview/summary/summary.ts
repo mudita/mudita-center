@@ -71,6 +71,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
             component: "divider",
             layout: {
               margin: "0 -24px",
+              width: "280px",
             },
           },
           [SummaryKeys.About]: {
