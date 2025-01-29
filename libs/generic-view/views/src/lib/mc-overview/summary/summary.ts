@@ -30,7 +30,9 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
             flexPlacement: {
               alignSelf: "center",
             },
-            padding: "32px 27px 16px 27px",
+            width: "177px",
+            height: "319px",
+            margin: "16px auto",
           },
           config: {
             // TODO: implement support for config.imgVariant
