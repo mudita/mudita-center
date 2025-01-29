@@ -67,6 +67,9 @@ const setupStyles = (style?: CSSProperties, layout?: Layout): CSSProperties => {
     ...(layout?.height && {
       height: layout.height,
     }),
+    ...(layout?.maxHeight && {
+      maxHeight: layout.maxHeight,
+    }),
     ...(layout?.overflow && {
       overflow: layout.overflow,
     }),
