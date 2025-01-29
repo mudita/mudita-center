@@ -54,6 +54,8 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     },
     layout: {
       padding: "32px",
+      height: "100%",
+      maxHeight: "800px",
       gridLayout: {
         rows:
           sections.length === 3
