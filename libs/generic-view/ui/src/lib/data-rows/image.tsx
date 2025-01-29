@@ -11,12 +11,8 @@ const dataTestId = {
   image: "generic-view-image",
 }
 
-export const Image: APIFC<ImageData, ImageConfig> = ({
-  data,
-  config,
-  ...props
-}) => {
+export const Image: APIFC<ImageData, ImageConfig> = ({ data, config }) => {
   const { src, alt } = data || config || {}
   if (!src) return null
-  return <img src={src} alt={alt} data-testid={dataTestId.image} {...props} />
+  return <img src={src} alt={alt} data-testid={dataTestId.image} />
 }
