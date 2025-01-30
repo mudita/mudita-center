@@ -45,28 +45,40 @@ describe("Backup feature", () => {
 
   it("should prepare valid backup files for all features", async () => {
     const apiBackupService = new APIBackupService(deviceProtocol)
-    await validateBackupFeatures(apiBackupService, backupFeatures)
+    await performFullBackup(apiBackupService, backupFeatures)
   }, 30000)
 
   it("should prepare valid backup file for every single feature", async () => {
     const apiBackupService = new APIBackupService(deviceProtocol)
     for (const feature of backupFeatures) {
-      await validateBackupFeatures(apiBackupService, [feature])
+      await performFullBackup(apiBackupService, [feature])
     }
   }, 30000)
 
-  //TODO result.ok should be falsy if backupId is invalid
-  xit("should return error for invalid backupId", async () => {
+  it("should return an error for startPreBackup for unknown features.", async () => {
     const apiConfigService = new APIBackupService(deviceProtocol)
-    const result = await apiConfigService.postBackup({ backupId: -1 })
-    expect(result.ok).toBeFalsy()
+    const result = await apiConfigService.startPreBackup({ features: ["dummyFeature", "dummyFeature2"] })
+    console.log(result)
+    expect(result.error).toBeTruthy()
+  })
+
+  it("should prepare valid backup if features contains known feature.", async () => {
+    const apiConfigService = new APIBackupService(deviceProtocol)
+    const result = await apiConfigService.startPreBackup({ features: ["CONTACTS_V1", "dummyFeature", "dummyFeature2"] })
+    expect(result.ok).toBeTruthy()
+  })
+
+  it("should return an error for checkPreBackup with an invalid backupId.", async () => {
+    const apiConfigService = new APIBackupService(deviceProtocol)
+    const result = await apiConfigService.checkPreBackup({ backupId: -1, features: backupFeatures })
+    expect(result.error).toBeTruthy()
   })
 
   async function fetchSupportedFeatures() {
     backupFeatures = ["CONTACTS_V1", "CALL_LOGS_V1", "MESSAGES_V1", "ALARMS_V1", "NOTES_V1"]
   }
 
-  async function validateBackupFeatures(
+  async function performFullBackup(
     apiBackupService: APIBackupService,
     featuresArray: string[],
   ): Promise<void> {
