@@ -8,7 +8,6 @@ import { z } from "zod"
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  buttonType: z.enum(["primary", "secondary", "text", "plain"]),
   expandedButtonText: z.string(),
   collapsedButtonText: z.string(),
 })

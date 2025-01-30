@@ -26,7 +26,7 @@ const generateDeleteModal = ({
         `${id}DeleteModalIcon`,
         `${id}DeleteModalTitle`,
         `${id}DeleteModalContent`,
-        `${id}DeleteAccordion`,
+        `${id}DeleteModalAccordion`,
         `${id}DeleteModalButtons`,
       ],
     },
@@ -43,15 +43,45 @@ const generateDeleteModal = ({
     [`${id}DeleteModalContent`]: {
       component: "typography.p1",
       config: {
-        text: "This can't be undone so please make a copy of any important information first. !!!!!!!",
+        text: "This can't be undone so please make a copy of any important information first.",
       },
     },
-    [`${id}DeleteAccordion`]: {
+    [`${id}DeleteModalAccordion`]: {
       component: "accordion",
       config: {
         buttonType: "primary",
-        collapsedButtonText: "+ More details",
-        expandedButtonText: "- Less details",
+        collapsedButtonText: "+ More detail",
+        expandedButtonText: "- Less detail",
+      },
+      childrenKeys: [
+        `${id}DeleteModalTestAccordionData1`,
+        `${id}DeleteModalTestAccordionData2`,
+        `${id}DeleteModalTestAccordionData3`,
+        `${id}DeleteModalTestAccordionData4`,
+      ],
+    },
+    [`${id}DeleteModalTestAccordionData1`]: {
+      component: "typography.h3",
+      config: {
+        text: "This is test component nr 1",
+      },
+    },
+    [`${id}DeleteModalTestAccordionData2`]: {
+      component: "typography.h4",
+      config: {
+        text: "This is test component nr 2",
+      },
+    },
+    [`${id}DeleteModalTestAccordionData3`]: {
+      component: "typography.p1",
+      config: {
+        text: "This is test component nr 3",
+      },
+    },
+    [`${id}DeleteModalTestAccordionData4`]: {
+      component: "typography.p2",
+      config: {
+        text: "This is test component nr 4",
       },
     },
     [`${id}DeleteModalButtons`]: {

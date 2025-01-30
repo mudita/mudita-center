@@ -3,11 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState } from "react"
-import styled from "styled-components"
 import { AccordionConfig } from "Libs/generic-view/models/src"
 import { APIFC } from "generic-view/utils"
-import { ButtonBase } from "../../buttons/button-base/button-base"
+import React, { useEffect, useRef, useState } from "react"
+import { ButtonText } from "../../buttons/button-text"
+import styled from "styled-components"
+import { ButtonSecondary } from "../../buttons/button-secondary"
+import { ButtonPrimary } from "../../buttons/button-primary"
+
+const accordionAnimationDuration = 300
 
 export const Accordion: APIFC<undefined, AccordionConfig> = ({
   config,
@@ -15,36 +19,90 @@ export const Accordion: APIFC<undefined, AccordionConfig> = ({
   ...props
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [contentHeight, setContentHeight] = useState<number | null>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  // const [accordionButtonText, setAccordionButtonText] = useState(
+  //   config.collapsedButtonText
+  // )
 
-  return <Button {...props}>{config.collapsedButtonText}</Button>
+  const collapseOrExpand = () => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight)
+    }
+    return setIsExpanded((prev) => !prev)
+  }
+
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     setAccordionButtonText(
+  //       isExpanded ? config.expandedButtonText : config.collapsedButtonText
+  //     )
+  //   }, 300)
+
+  //   return () => clearTimeout(timeout)
+  // }, [isExpanded, config.expandedButtonText, config.collapsedButtonText])
+
+  const accordionButtonText = isExpanded
+    ? config.expandedButtonText
+    : config.collapsedButtonText
+
+  return (
+    <AccordionWrapper>
+      <AccordionContent
+        ref={contentRef}
+        $isExpanded={isExpanded}
+        $contentHeight={contentHeight}
+      >
+        {children}
+      </AccordionContent>
+      <Button
+        config={{
+          text: accordionButtonText,
+          actions: [
+            {
+              type: "custom",
+              callback: collapseOrExpand,
+            },
+          ],
+        }}
+      />
+    </AccordionWrapper>
+  )
 }
 
-const Button = styled(ButtonBase)`
-  justify-content: center;
-  background-color: ${({ theme }) => theme.color.grey1};
-  padding: 0 1rem;
-  transition: background-color 0.15s ease-in-out;
-  border-radius: ${({ theme }) => theme.radius.sm};
-  font-size: ${({ theme }) => theme.fontSize.buttonText};
-  line-height: ${({ theme }) => theme.lineHeight.buttonText};
-  color: ${({ theme }) => theme.color.white};
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+const AccordionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+`
 
-  && {
-    height: 4rem;
-  }
+const AccordionContent = styled.div<{
+  $isExpanded: boolean
+  $contentHeight: number | null
+}>`
+  max-height: ${({ $isExpanded, $contentHeight }) =>
+    $isExpanded ? `${$contentHeight}px` : "0"};
+  overflow: hidden;
+  transition: max-height ${accordionAnimationDuration}ms ease-in-out;
+`
+
+const Button = styled(ButtonPrimary)`
+  background-color: ${({ theme }) => theme.color.white};
+  color: ${({ theme }) => theme.color.grey2};
+  padding: 1rem;
+  line-height: 2.2rem;
+  text-transform: none;
+  font-size: 1.4rem;
+  font-weight: 400;
+  height: 3.2rem !important;
+  cursor: pointer;
+  border-radius: unset;
+  transition: 0.2s ease-in-out;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.black};
-  }
-
-  &:active {
-    background-color: ${({ theme }) => theme.color.grey1};
-  }
-
-  &:disabled {
-    background-color: ${({ theme }) => theme.color.grey4};
-    color: ${({ theme }) => theme.color.grey2};
+    background-color: ${({ theme }) => theme.color.grey5};
+    color: ${({ theme }) => theme.color.black};
   }
 `
