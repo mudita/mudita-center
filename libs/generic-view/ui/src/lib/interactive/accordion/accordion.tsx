@@ -14,14 +14,10 @@ const accordionAnimationDuration = 300
 export const Accordion: APIFC<undefined, AccordionConfig> = ({
   config,
   children,
-  ...props
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [contentHeight, setContentHeight] = useState<number | null>(null)
   const contentRef = useRef<HTMLDivElement>(null)
-  // const [accordionButtonText, setAccordionButtonText] = useState(
-  //   config.collapsedButtonText
-  // )
 
   const collapseOrExpand = () => {
     if (contentRef.current) {
@@ -29,16 +25,6 @@ export const Accordion: APIFC<undefined, AccordionConfig> = ({
     }
     return setIsExpanded((prev) => !prev)
   }
-
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     setAccordionButtonText(
-  //       isExpanded ? config.expandedButtonText : config.collapsedButtonText
-  //     )
-  //   }, 300)
-
-  //   return () => clearTimeout(timeout)
-  // }, [isExpanded, config.expandedButtonText, config.collapsedButtonText])
 
   const accordionButtonText = isExpanded
     ? config.expandedButtonText
