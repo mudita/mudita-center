@@ -5,10 +5,8 @@
 
 import { AccordionConfig } from "Libs/generic-view/models/src"
 import { APIFC } from "generic-view/utils"
-import React, { useEffect, useRef, useState } from "react"
-import { ButtonText } from "../../buttons/button-text"
+import React, { useRef, useState } from "react"
 import styled from "styled-components"
-import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
 
 const accordionAnimationDuration = 300

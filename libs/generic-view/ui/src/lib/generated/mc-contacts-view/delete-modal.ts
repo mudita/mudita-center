@@ -49,7 +49,6 @@ const generateDeleteModal = ({
     [`${id}DeleteModalAccordion`]: {
       component: "accordion",
       config: {
-        buttonType: "primary",
         collapsedButtonText: "+ More detail",
         expandedButtonText: "- Less detail",
       },
