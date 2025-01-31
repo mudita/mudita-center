@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { APIFC } from "generic-view/utils"
 import styled, { css, keyframes } from "styled-components"
 import { ToastConfig } from "generic-view/models"
