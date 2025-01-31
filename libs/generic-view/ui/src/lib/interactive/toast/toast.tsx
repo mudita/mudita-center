@@ -19,61 +19,52 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
   ...props
 }) => {
   const toastVisibilityDuration = config?.visibilityDuration ?? 2000
-
   const dispatch = useDispatch<Dispatch>()
   const toastsQueue = useSelector(
     (state: ReduxRootState) => state.genericToasts.queue
   )
-  const [opened, setOpened] = useState(false)
+
   const [visible, setVisible] = useState(false)
-
-  const animationTimeoutRef = useRef<NodeJS.Timeout>()
-  const visibilityTimeoutRef = useRef<NodeJS.Timeout>()
-
+  const [exiting, setExiting] = useState(false)
   useEffect(() => {
-    const toastOpened =
+    const isToastOpened =
       toastsQueue.length > 0 && toastsQueue[0].key === props.componentKey
-    setOpened(toastOpened)
-    if (toastOpened) {
+
+    if (isToastOpened) {
+      setExiting(false)
       setVisible(true)
+
+      const visibilityTimeout = setTimeout(() => {
+        setExiting(true)
+      }, toastVisibilityDuration)
+
+      return () => clearTimeout(visibilityTimeout)
     }
-  }, [props.componentKey, toastsQueue])
+    return undefined
+  }, [props.componentKey, toastsQueue, toastVisibilityDuration])
 
   useEffect(() => {
-    if (visible) {
-      visibilityTimeoutRef.current = setTimeout(() => {
+    if (exiting) {
+      const removeTimeout = setTimeout(() => {
         setVisible(false)
-      }, toastVisibilityDuration + toastAnimationDuration)
-    } else {
-      animationTimeoutRef.current = setTimeout(() => {
-        setOpened(false)
+        dispatch(removeToast())
       }, toastAnimationDuration)
-    }
-    return () => {
-      clearTimeout(visibilityTimeoutRef.current)
-      clearTimeout(animationTimeoutRef.current)
-    }
-  }, [toastVisibilityDuration, visible])
 
-  useEffect(() => {
-    if (!opened) {
-      dispatch(removeToast())
+      return () => clearTimeout(removeTimeout)
     }
-  }, [dispatch, opened])
+    return undefined
+  }, [exiting, dispatch])
 
-  if (!opened) return null
+  if (!visible) return null
+
   return (
-    <ToastWrapper
-      {...props}
-      $opened={visible}
-      $animationDuration={toastAnimationDuration}
-    >
+    <ToastWrapper {...props} $exiting={exiting} $animationDuration={toastAnimationDuration}>
       {children}
     </ToastWrapper>
   )
 }
 
-const transitionIn = keyframes`
+const slideIn = keyframes`
   from {
     transform: translateX(calc(100% + 7rem));
   }
@@ -82,7 +73,7 @@ const transitionIn = keyframes`
   }
 `
 
-const transitionOut = keyframes`
+const slideOut = keyframes`
   from {
     transform: translateX(0);
   }
@@ -91,10 +82,7 @@ const transitionOut = keyframes`
   }
 `
 
-const ToastWrapper = styled.div<{
-  $opened?: boolean
-  $animationDuration: number
-}>`
+const ToastWrapper = styled.div<{ $exiting: boolean; $animationDuration: number }>` 
   position: absolute;
   bottom: 0;
   right: 0;
@@ -108,16 +96,12 @@ const ToastWrapper = styled.div<{
   align-items: center;
   gap: 0.4rem;
 
+  animation: ${({ $exiting, $animationDuration }) =>
+    $exiting
+      ? css`${slideOut} ${$animationDuration}ms ease-in forwards`
+      : css`${slideIn} ${$animationDuration}ms ease-out`};
+
   p {
     color: ${({ theme }) => theme.color.black};
   }
-
-  ${({ $opened, $animationDuration }) =>
-    $opened
-      ? css`
-          animation: ${transitionIn} ${$animationDuration}ms ease-in-out;
-        `
-      : css`
-          animation: ${transitionOut} ${$animationDuration}ms ease-in-out;
-        `}
 `
