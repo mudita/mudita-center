@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { accordion } from "./lib/accordion"
 import { blockBox } from "./lib/block-box"
 import { blockPlain } from "./lib/block-plain"
 import { blockHeading } from "./lib/block-heading"
@@ -69,6 +70,7 @@ import { mcFilesManagerUploadFinished } from "./lib/mc-files-manager-upload-fini
 import { mcFilesManagerUploadValidationError } from "./lib/mc-files-manager-upload-validation-error"
 import { entitiesDeleteError } from "./lib/entities-delete-error"
 
+export * from "./lib/accordion"
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
 export * from "./lib/block-heading"
@@ -141,6 +143,7 @@ export * from "./lib/mc-files-manager-upload-validation-error"
 export * from "./lib/entities-delete-error"
 
 export default {
+  [accordion.key]: accordion,
   [blockBox.key]: blockBox,
   [blockPlain.key]: blockPlain,
   [blockHeading.key]: blockHeading,
