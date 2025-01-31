@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AccordionConfig } from "Libs/generic-view/models/src"
+import { AccordionConfig } from "generic-view/models"
 import { APIFC } from "generic-view/utils"
 import React, { useRef, useState } from "react"
 import styled from "styled-components"
