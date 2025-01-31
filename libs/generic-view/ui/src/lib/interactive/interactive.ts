@@ -11,6 +11,7 @@ import Tooltip from "./tooltip/tooltip"
 import { Toast } from "./toast/toast"
 import { ConditionalRenderer } from "./conditional-renderer"
 import {
+  accordion,
   conditionalRenderer,
   form,
   formatMessage,
@@ -35,6 +36,7 @@ import {
   tooltipContent,
 } from "generic-view/models"
 import { FormatMessage } from "./format-message"
+import { Accordion } from "./accordion/accordion"
 
 export const interactive = {
   [modal.key]: Modal,
@@ -59,4 +61,5 @@ export const interactive = {
   [formatMessage.key]: FormatMessage,
   [toast.key]: Toast,
   [conditionalRenderer.key]: ConditionalRenderer,
+  [accordion.key]: Accordion,
 }
