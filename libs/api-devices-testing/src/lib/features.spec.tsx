@@ -31,14 +31,14 @@ describe("Feature Configuration and Data", () => {
   const notSupportedDataFeatures = ["contacts", "mc-data-migration"]
 
   function validateDeviceProtocol(deviceProtocol: DeviceProtocol | undefined) {
-    expect(deviceProtocol?.devices).toHaveLength(1);
-    expect(deviceProtocol).toBeTruthy();
+    expect(deviceProtocol?.devices).toHaveLength(1)
+    expect(deviceProtocol).toBeTruthy()
     
     if (deviceProtocol === undefined) {
-      return;
+      return
     }
   
-    deviceProtocol.setActiveDevice(deviceProtocol.devices[0].id);
+    deviceProtocol.setActiveDevice(deviceProtocol.devices[0].id)
   }
   
 
@@ -120,7 +120,7 @@ describe("Feature Configuration and Data", () => {
     expect(result.ok).toBeTruthy()
   })
 
-  it.each(notSupportedDataFeatures)("should receive error data for %s feature", async(feature) => {
+  it.each(notSupportedDataFeatures)("should return error for %s feature", async(feature) => {
     if (deviceProtocol === undefined) {
       return
     }
@@ -129,7 +129,7 @@ describe("Feature Configuration and Data", () => {
     const apiFeaturesService = new APIFeaturesService(deviceProtocol)
 
     const result = await apiFeaturesService.getFeatureData({feature})
-    expect(result.ok).toBeFalsy()
+    expect(result.error).toBeTruthy()
   })
 
 })
