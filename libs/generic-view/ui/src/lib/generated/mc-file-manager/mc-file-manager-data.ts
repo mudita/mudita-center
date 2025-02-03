@@ -114,6 +114,9 @@ const generateStorageSummary = (
   )
 
   return {
+    [`${key}storageSummaryFreeBytes`]: {
+      value: storageInformation.freeSpaceBytes,
+    },
     [`${key}storageSummaryUsedText`]: {
       text: `Used: ${storageInformation.usedSpaceString}`,
     },
