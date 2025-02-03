@@ -9,6 +9,7 @@ import {
   EntityDataResponseType,
   getEntitiesDataRequest,
   readEntitiesDataFromFileRequest,
+  sendClearRequest,
 } from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import { EntitiesFileData, EntitiesJsonData, EntityData } from "device/models"
@@ -16,6 +17,7 @@ import { getFile } from "../file-transfer/get-file.action"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { AppError } from "Core/core/errors"
 import { enhanceEntity } from "./helpers/enhance-entity"
+import { selectDeviceEntityAbortController } from "../selectors/entities"
 
 export const getEntitiesDataAction = createAsyncThunk<
   EntityData[],
@@ -31,6 +33,27 @@ export const getEntitiesDataAction = createAsyncThunk<
     { responseType = "file", entitiesType, deviceId },
     { rejectWithValue, dispatch, getState }
   ) => {
+    let transferId: number | undefined
+    let abortGetFileAction: VoidFunction | undefined
+
+    const abortController = selectDeviceEntityAbortController(getState(), {
+      deviceId,
+      entitiesType,
+    })
+
+    if (abortController?.signal.aborted) {
+      return rejectWithValue(undefined)
+    }
+
+    abortController?.signal.addEventListener("abort", () => {
+      if (transferId) {
+        sendClearRequest(transferId)
+      }
+      if (abortGetFileAction) {
+        abortGetFileAction()
+      }
+    })
+
     let data = []
     const { genericEntities } = getState()
 
@@ -44,13 +67,18 @@ export const getEntitiesDataAction = createAsyncThunk<
     }
 
     if (responseType === "file") {
+      if (abortController?.signal.aborted) {
+        return rejectWithValue(undefined)
+      }
       const { filePath } = response.data as EntitiesFileData
-      const getFileResponse = await dispatch(
+      const getFilePromise = dispatch(
         getFile({
           deviceId,
           filePath,
         })
       )
+      abortGetFileAction = getFilePromise.abort
+      const getFileResponse = await getFilePromise
       if (
         !getFileResponse.payload ||
         !("transferId" in getFileResponse.payload)
@@ -58,8 +86,13 @@ export const getEntitiesDataAction = createAsyncThunk<
         return rejectWithValue(getFileResponse.payload)
       }
 
+      transferId = getFileResponse.payload.transferId
+
+      if (abortController?.signal.aborted) {
+        return rejectWithValue(undefined)
+      }
       const readFileResponse = await readEntitiesDataFromFileRequest({
-        transferId: getFileResponse.payload.transferId,
+        transferId,
       })
       if (!readFileResponse.ok) {
         return rejectWithValue(readFileResponse.error)
@@ -70,7 +103,7 @@ export const getEntitiesDataAction = createAsyncThunk<
     }
 
     const computedFields =
-      genericEntities[deviceId]?.[entitiesType]?.config.computedFields || {}
+      genericEntities[deviceId]?.[entitiesType]?.config?.computedFields || {}
     return data.map((entity) => {
       return enhanceEntity(entity, { computedFields })
     })

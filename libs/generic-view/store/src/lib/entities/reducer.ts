@@ -10,6 +10,7 @@ import {
   clearEntities,
   deleteEntityData,
   setEntityData,
+  setLoadEntitiesAbortController,
 } from "./actions"
 import { getEntitiesDataAction } from "./get-entities-data.action"
 import { DeviceId } from "Core/device/constants/device-id"
@@ -22,8 +23,8 @@ import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
 type EntitiesType = string
 
 interface Entities {
-  idFieldKey: string
-  config: EntitiesConfig
+  idFieldKey?: string
+  config?: EntitiesConfig
   data?: EntityData[]
   metadata?: EntitiesMetadata
   loading?: boolean
@@ -31,6 +32,7 @@ interface Entities {
   error?: boolean
   failedIds?: string[]
   successIds?: string[]
+  abortController?: AbortController
 }
 
 export type DeviceEntitiesMap = Record<EntitiesType, Entities | undefined>
@@ -50,6 +52,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
       [entitiesType]: {
         config: action.payload.config,
         idFieldKey: action.payload.idFieldKey,
+        abortController: state[deviceId]?.[entitiesType]?.abortController,
       },
     }
   })
@@ -198,5 +201,16 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     )
     if (entityIndex === -1) return
     entities.data[entityIndex] = updatedEntity
+  })
+  builder.addCase(setLoadEntitiesAbortController, (state, action) => {
+    const { deviceId, entitiesType, abortController } = action.payload
+
+    state[deviceId] = {
+      ...state[deviceId],
+      [entitiesType]: {
+        ...state[deviceId]?.[entitiesType],
+        abortController,
+      },
+    }
   })
 })

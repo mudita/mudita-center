@@ -9,6 +9,7 @@ import { getEntitiesConfigRequest } from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { EntitiesConfig } from "device/models"
+import { selectDeviceEntityAbortController } from "../selectors/entities"
 
 type GetEntitiesConfigActionPayload = {
   config: EntitiesConfig
@@ -21,7 +22,16 @@ export const getEntitiesConfigAction = createAsyncThunk<
   { state: ReduxRootState }
 >(
   ActionName.GetEntitiesConfig,
-  async ({ deviceId, entitiesType }, { rejectWithValue, dispatch }) => {
+  async ({ deviceId, entitiesType }, { rejectWithValue, getState }) => {
+    const abortController = selectDeviceEntityAbortController(getState(), {
+      deviceId,
+      entitiesType,
+    })
+
+    if (abortController?.signal.aborted) {
+      return rejectWithValue(undefined)
+    }
+
     const response = await getEntitiesConfigRequest({
       deviceId,
       entitiesType,
