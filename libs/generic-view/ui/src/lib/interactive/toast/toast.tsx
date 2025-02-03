@@ -64,7 +64,11 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
   if (!visible) return null
 
   return (
-    <ToastWrapper {...props} $exiting={exiting} $animationDuration={toastAnimationDuration}>
+    <ToastWrapper
+      {...props}
+      $exiting={exiting}
+      $animationDuration={toastAnimationDuration}
+    >
       {children}
     </ToastWrapper>
   )
@@ -88,7 +92,10 @@ const slideOut = keyframes`
   }
 `
 
-const ToastWrapper = styled.div<{ $exiting: boolean; $animationDuration: number }>`
+const ToastWrapper = styled.div<{
+  $exiting: boolean
+  $animationDuration: number
+}>`
   position: absolute;
   bottom: 0;
   right: 0;
@@ -104,8 +111,12 @@ const ToastWrapper = styled.div<{ $exiting: boolean; $animationDuration: number 
 
   animation: ${({ $exiting, $animationDuration }) =>
     $exiting
-      ? css`${slideOut} ${$animationDuration}ms ease-in forwards`
-      : css`${slideIn} ${$animationDuration}ms ease-out`};
+      ? css`
+          ${slideOut} ${$animationDuration}ms ease-in forwards
+        `
+      : css`
+          ${slideIn} ${$animationDuration}ms ease-out
+        `};
 
   p {
     color: ${({ theme }) => theme.color.black};
