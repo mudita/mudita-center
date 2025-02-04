@@ -5,7 +5,7 @@
 
 import axios from "axios"
 import { Configuration } from "../libs/core/settings/dto"
-import { MuditaCenterServerRoutes } from "../libs/shared/utils/src"
+import { MuditaCenterServerRoutes } from "../libs/shared/utils/src/lib/mudita-center-server-routes"
 
 const path = require("path")
 const fs = require("fs-extra")
