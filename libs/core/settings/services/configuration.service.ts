@@ -14,7 +14,6 @@ import defaultConfiguration from "Core/settings/static/default-app-configuration
 import { Configuration } from "Core/settings/dto"
 
 export enum AppConfigurationVersion {
-  v1 = "app-configuration",
   v2 = "v2-app-configuration",
 }
 
