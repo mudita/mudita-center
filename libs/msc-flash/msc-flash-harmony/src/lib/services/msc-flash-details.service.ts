@@ -4,7 +4,7 @@
  */
 
 import axios from "axios"
-import { MuditaCenterServerRoutes } from "Core/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
+import { MuditaCenterServerRoutes } from "shared/utils"
 import { Product, SupportedPlatform, OsEnvironment } from "../constants"
 import { MscFlashDetails } from "../dto"
 

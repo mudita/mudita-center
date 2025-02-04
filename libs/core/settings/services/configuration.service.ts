@@ -9,9 +9,9 @@ import {
   BaseHttpClientService,
   HttpClient,
 } from "shared/http-client"
+import { MuditaCenterServerRoutes } from "shared/utils"
 import defaultConfiguration from "Core/settings/static/default-app-configuration.json"
 import { Configuration } from "Core/settings/dto"
-import { MuditaCenterServerRoutes } from "Core/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
 
 export enum AppConfigurationVersion {
   v1 = "app-configuration",

@@ -5,6 +5,7 @@
 
 import https from "https"
 import axios, { Axios } from "axios"
+import { MuditaCenterServerRoutes } from "shared/utils"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { IpcEvent } from "Core/core/decorators"
@@ -37,7 +38,7 @@ export class ServerService {
   }): Promise<ResultObject<ServerAPIDeviceOSVersion>> {
     try {
       const response = await this.axiosInstance.get<ServerAPIDeviceOSVersion>(
-        `get-api-device-os-version`,
+        MuditaCenterServerRoutes.GetApiDeviceOsVersion,
         {
           params: {
             vendorId,

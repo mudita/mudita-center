@@ -5,6 +5,7 @@
 
 export enum MuditaCenterServerRoutes {
   News = "news",
+  GetApiDeviceOsVersion = "get-api-device-os-version",
   GetReleaseV2 = "v2-get-release",
   AppConfigurationV2 = "v2-app-configuration",
   ExternalUsageDevice = "external-usage-device",
