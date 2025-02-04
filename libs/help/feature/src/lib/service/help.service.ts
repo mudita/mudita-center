@@ -24,10 +24,20 @@ export class HelpService {
     this.mainApplicationWindow = win
   }
 
+  async initialize() {
+    await this.initializeDefaultData()
+    void this.update()
+  }
+
+  @IpcEvent(HelpEvent.GetData)
+  async getData() {
+    return (await readJSON(helpPath)) as HelpData
+  }
+
   private async getNewestData(nextSyncToken?: string) {
     try {
       const { data } = await axios.get<HelpData>(
-        `${process.env.MUDITA_CENTER_SERVER_V2_URL}/${MuditaCenterServerRoutes.HelpV2}`,
+        `${process.env.MUDITA_CENTER_SERVER_URL}/${MuditaCenterServerRoutes.HelpV2}`,
         {
           params: {
             nextSyncToken,
@@ -63,15 +73,5 @@ export class HelpService {
       await writeJSON(helpPath, defaultHelp)
       logger.info("Default help data initialized")
     }
-  }
-
-  async initialize() {
-    await this.initializeDefaultData()
-    void this.update()
-  }
-
-  @IpcEvent(HelpEvent.GetData)
-  async getData() {
-    return (await readJSON(helpPath)) as HelpData
   }
 }

@@ -32,7 +32,7 @@ const messages = defineMessages({
 })
 
 const devToken = process.env.KOMPAKT_OS_UPDATE_DEV_TOKEN
-const serverUrl = process.env.MUDITA_CENTER_SERVER_V2_URL
+const serverUrl = process.env.MUDITA_CENTER_SERVER_URL
 
 export const OverviewOsVersion: APIFC<
   OverviewOsVersionData,

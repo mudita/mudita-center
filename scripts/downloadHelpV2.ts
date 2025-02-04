@@ -24,9 +24,9 @@ require("dotenv").config({
     if (previewToken) {
       params.append("previewToken", previewToken)
     }
-    const url = `${
-      process.env.MUDITA_CENTER_SERVER_V2_URL
-    }/${MuditaCenterServerRoutes.HelpV2}?${params.toString()}`
+    const url = `${process.env.MUDITA_CENTER_SERVER_URL}/${
+      MuditaCenterServerRoutes.HelpV2
+    }?${params.toString()}`
 
     const { data } = await axios.get(url)
 

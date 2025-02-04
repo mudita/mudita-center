@@ -5,10 +5,10 @@
 
 import axios from "axios"
 import { MuditaCenterServerRoutes } from "shared/utils"
-import { Product, SupportedPlatform, OsEnvironment } from "../constants"
+import { OsEnvironment, Product, SupportedPlatform } from "../constants"
 import { MscFlashDetails } from "../dto"
 
-const API_BASE_URL = process.env.MUDITA_CENTER_SERVER_V2_URL as string
+const API_BASE_URL = process.env.MUDITA_CENTER_SERVER_URL as string
 
 export class MscFlashDetailsService {
   static async getMscFlashDetails(
