@@ -12,4 +12,5 @@ export enum MuditaCenterServerRoutes {
   GetMscFlashDetails = "msc-flash",
   GoogleAuthInit = "google-auth-init",
   GoogleAuthRefreshToken = "google-auth-refresh-token",
+  HelpV2 = "help-v2",
 }
