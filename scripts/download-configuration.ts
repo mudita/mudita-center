@@ -4,9 +4,11 @@
  */
 
 import axios from "axios"
+import { Configuration } from "../libs/core/settings/dto"
+import { MuditaCenterServerRoutes } from "../libs/shared/utils/src"
+
 const path = require("path")
 const fs = require("fs-extra")
-import { Configuration } from "../libs/core/settings/dto"
 
 require("dotenv").config({
   path: path.join(__dirname, "../.env"),
@@ -28,7 +30,7 @@ let defaultData = require("../libs/core/settings/static/default-app-configuratio
   try {
     await fs.ensureDir(path.resolve(jsonPath))
 
-    const url = `${process.env.MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v2-app-configuration`
+    const url = `${process.env.MUDITA_CENTER_SERVER_URL}/${MuditaCenterServerRoutes.AppConfigurationV2}?version=v2-app-configuration`
     const { status, data } = await axios.get<Configuration>(url)
 
     if (status === 200 && data !== undefined) {
