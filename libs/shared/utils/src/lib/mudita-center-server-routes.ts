@@ -13,4 +13,5 @@ export enum MuditaCenterServerRoutes {
   GoogleAuthInit = "google-auth-init",
   GoogleAuthRefreshToken = "google-auth-refresh-token",
   HelpV2 = "help-v2",
+  KompaktOsUpdateAvailability = "kompakt-os-update-availability",
 }
