@@ -10,4 +10,6 @@ export enum MuditaCenterServerRoutes {
   AppConfigurationV2 = "v2-app-configuration",
   ExternalUsageDevice = "external-usage-device",
   GetMscFlashDetails = "msc-flash",
+  GoogleAuthInit = "google-auth-init",
+  GoogleAuthRefreshToken = "google-auth-refresh-token",
 }
