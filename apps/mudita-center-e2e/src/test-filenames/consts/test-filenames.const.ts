@@ -37,5 +37,6 @@ export enum TestFilesPaths {
   kompaktPrebackupApi = "src/specs/overview/kompakt-prebackup-api.ts",
   kompaktContactsViewing = "src/specs/overview/kompakt-contacts-viewing.ts",
   kompaktContactsViewingEmpty = "src/specs/overview/kompakt-contacts-viewing-empty.ts",
+  kompaktContactsDeleteDetails = "src/specs/overview/kompakt-contacts-delete-details.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`
