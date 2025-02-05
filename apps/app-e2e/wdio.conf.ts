@@ -120,7 +120,7 @@ export const config: WebdriverIO.Config = {
     [
       "vite",
       {
-        configFile: "../app/electron.vite.config.ts",
+        configFile: "../app/electron.vite.config.mts",
       },
     ],
     [
