@@ -22,6 +22,7 @@ import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
 import { BackupProcessFileStatus, RestoreProcessStatus } from "./backup.types"
 import { delay } from "shared/utils"
 import { refreshEntitiesIfMetadataChanged } from "../entities/refresh-entities-if-metadata-changed.action"
+import { cancelLoadEntities } from "../entities/cancel-load-entities.action"
 
 export const restoreBackup = createAsyncThunk<
   undefined,
@@ -61,6 +62,8 @@ export const restoreBackup = createAsyncThunk<
       console.log("invalid deviceId, restoreFileId, or fileKeys")
       return rejectWithValue(undefined)
     }
+
+    await dispatch(cancelLoadEntities({ deviceId }))
 
     const featuresWithKeys = features
       .map((item) => {
