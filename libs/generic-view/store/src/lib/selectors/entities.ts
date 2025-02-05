@@ -151,9 +151,20 @@ export const selectDeviceEntityAbortController = createSelector(
 
 export const selectIsSomeLoadEntitiesCanceled = createSelector(
   selectDeviceEntities,
-  (entities) => {
-    return Object.values(entities ?? {}).some(
-      (entity) => entity?.abortController?.signal.aborted
+  (
+    _: ReduxRootState,
+    { entityTypes }: { deviceId: string; entityTypes: string[] }
+  ) => entityTypes,
+  (entities, entityTypes) => {
+    if (entities === undefined) {
+      return false
+    }
+
+    return entityTypes.some(
+      (entityType) =>
+        entities[entityType]?.error ||
+        (entities[entityType]?.loading === false &&
+          entities[entityType]?.data === undefined)
     )
   }
 )

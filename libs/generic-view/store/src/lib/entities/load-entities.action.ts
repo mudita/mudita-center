@@ -10,10 +10,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { getEntitiesConfigAction } from "./get-entities-config.action"
 import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
 import { getEntitiesDataAction } from "./get-entities-data.action"
-import {
-  selectEntitiesLoadingState,
-  selectIsSomeLoadEntitiesCanceled,
-} from "../selectors/entities"
+import { selectEntitiesLoadingState } from "../selectors/entities"
 import { setLoadEntitiesAbortController } from "./actions"
 
 export const loadEntities = createAsyncThunk<
@@ -34,13 +31,6 @@ export const loadEntities = createAsyncThunk<
     }
 
     for (const entitiesType of entitiesTypes) {
-      const someLoadEntitiesCanceled = selectIsSomeLoadEntitiesCanceled(
-        getState(),
-        { deviceId }
-      )
-      if (someLoadEntitiesCanceled) {
-        return
-      }
       await dispatch(
         getEntitiesConfigAction({
           deviceId,

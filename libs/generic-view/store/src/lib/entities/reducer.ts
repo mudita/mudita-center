@@ -63,6 +63,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     }
 
     state[deviceId]![entitiesType]!.loading = true
+    state[deviceId]![entitiesType]!.error = false
   })
   builder.addCase(getEntitiesDataAction.fulfilled, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
@@ -72,6 +73,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
 
     state[deviceId]![entitiesType]!.data = action.payload
     state[deviceId]![entitiesType]!.loading = false
+    state[deviceId]![entitiesType]!.abortController = new AbortController()
   })
   builder.addCase(getEntitiesDataAction.rejected, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
@@ -81,6 +83,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
 
     state[deviceId]![entitiesType]!.loading = false
     state[deviceId]![entitiesType]!.error = true
+    state[deviceId]![entitiesType]!.abortController = new AbortController()
   })
 
   builder.addCase(setEntityData, (state, action) => {
