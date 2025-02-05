@@ -42,16 +42,15 @@ class MockDescriptor {
     this.addDevice({ ...KOMPAKT_PORT_INFO, path, serialNumber })
   }
 
-  private addDevice(portInfo: PortInfo) {
-    const existingDevice = find(this._devices, { path: portInfo.path })
-    if (existingDevice === undefined) {
-      this._devices = [...this.devices, portInfo]
-    }
-  }
-
   public removeDevice(path: string) {
     this._devices = this._devices.filter((item) => item.path != path)
     delete this._mockResponsesPerDevice[path]
+  }
+
+  public addResponses(responses: AddKompaktResponse[]) {
+    responses.forEach((response) => {
+      this.addResponse(response)
+    })
   }
 
   public addResponse({
@@ -108,6 +107,12 @@ class MockDescriptor {
     })
   }
 
+  public addResponsesOnce(responses: AddKompaktResponse[]) {
+    responses.forEach((response) => {
+      this.addResponseOnce(response)
+    })
+  }
+
   public addResponseOnce({
     body,
     endpoint,
@@ -139,6 +144,39 @@ class MockDescriptor {
         },
       ],
     })
+  }
+
+  public getResponse(
+    path: string,
+    endpoint: APIEndpointType,
+    method: APIMethodsType,
+    body: Record<string, unknown> | undefined
+  ): ApiResponse<unknown> | undefined {
+    const onceResponse = this.getPerDeviceOnceResponse(
+      path,
+      endpoint,
+      method,
+      body
+    )
+    if (onceResponse) {
+      return onceResponse
+    }
+
+    const response = this.getPerDeviceResponse(path, endpoint, method, body)
+    if (response) {
+      return response
+    }
+
+    const defaultResponse = this.getDefaultResponse(endpoint, method, body)
+
+    return defaultResponse
+  }
+
+  private addDevice(portInfo: PortInfo) {
+    const existingDevice = find(this._devices, { path: portInfo.path })
+    if (existingDevice === undefined) {
+      this._devices = [...this.devices, portInfo]
+    }
   }
 
   private setResponseOnce({
@@ -267,32 +305,6 @@ class MockDescriptor {
       }
     }
     return undefined
-  }
-
-  public getResponse(
-    path: string,
-    endpoint: APIEndpointType,
-    method: APIMethodsType,
-    body: Record<string, unknown> | undefined
-  ): ApiResponse<unknown> | undefined {
-    const onceResponse = this.getPerDeviceOnceResponse(
-      path,
-      endpoint,
-      method,
-      body
-    )
-    if (onceResponse) {
-      return onceResponse
-    }
-
-    const response = this.getPerDeviceResponse(path, endpoint, method, body)
-    if (response) {
-      return response
-    }
-
-    const defaultResponse = this.getDefaultResponse(endpoint, method, body)
-
-    return defaultResponse
   }
 
   private mapResponseWithoutMatch({

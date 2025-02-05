@@ -6,7 +6,7 @@
 import ipc from "node-ipc"
 import logger from "Core/__deprecated__/main/utils/logger"
 import {
-  addKompaktResponseValidator,
+  addKompaktResponsesValidator,
   addKompaktValidator,
   restoreDefaultResponsesValidator,
 } from "./mock-descriptor/mock-descriptor-validators"
@@ -26,37 +26,37 @@ ipc.config.retry = 15
 const instanceID = Math.floor(Math.random() * 10000)
 
 ipc.serve(function () {
-  ipc.server.on("mock.add.device", function (data, socket) {
+  ipc.server.on("mock.add.device", function (data) {
     logger.info(`mock.add.device fro instanceID: ${instanceID}`)
     const params = addKompaktValidator.safeParse(data)
     if (params.success) {
       mockDescriptor.addKompakt(params.data)
     }
   })
-  ipc.server.on("mock.remove.device", function (data, socket) {
+  ipc.server.on("mock.remove.device", function (data) {
     if (typeof data === "string") {
       mockDescriptor.removeDevice(data)
     }
   })
-  ipc.server.on("mock.response.every", function (data, socket) {
-    const params = addKompaktResponseValidator.safeParse(data)
+  ipc.server.on("mock.responses.every", function (data) {
+    const params = addKompaktResponsesValidator.safeParse(data)
     if (params.success) {
-      mockDescriptor.addResponse(params.data)
+      mockDescriptor.addResponses(params.data)
     }
   })
-  ipc.server.on("mock.response.once", function (data, socket) {
-    const params = addKompaktResponseValidator.safeParse(data)
+  ipc.server.on("mock.responses.once", function (data) {
+    const params = addKompaktResponsesValidator.safeParse(data)
     if (params.success) {
-      mockDescriptor.addResponseOnce(params.data)
+      mockDescriptor.addResponsesOnce(params.data)
     }
   })
-  ipc.server.on("mock.response.reset", function (data, socket) {
+  ipc.server.on("mock.response.reset", function (data) {
     const params = restoreDefaultResponsesValidator.safeParse(data)
     if (params.success) {
       mockDescriptor.removeResponses(params.data)
     }
   })
-  ipc.server.on("server.stop", function (data, socket) {
+  ipc.server.on("server.stop", function () {
     stopServer()
   })
   ipc.server.on("set.mock.update.state", function (data: UpdateState) {
