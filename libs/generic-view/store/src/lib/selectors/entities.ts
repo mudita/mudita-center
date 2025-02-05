@@ -148,3 +148,12 @@ export const selectDeviceEntityAbortController = createSelector(
     return entities[entitiesType]?.abortController
   }
 )
+
+export const selectIsSomeLoadEntitiesCanceled = createSelector(
+  selectDeviceEntities,
+  (entities) => {
+    return Object.values(entities ?? {}).some(
+      (entity) => entity?.abortController?.signal.aborted
+    )
+  }
+)
