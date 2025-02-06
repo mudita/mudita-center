@@ -15,9 +15,30 @@ export const overviewDataWithoutBadge = {
     },
   },
   sections: {
-    battery: { icon: "battery-charging-5", text: "100%", subText: "" },
+    battery: {
+      icon: "battery-charging-5",
+      text: "100%",
+      subText: "",
+      show: true,
+    },
     update: { text: "ANDROID 12", version: "0.3.0" },
-    "airplane-mode": { icon: "airplane-mode", text: "Airplane mode" },
+    "airplane-mode": {
+      icon: "airplane-mode",
+      text: "Airplane mode",
+      show: true,
+    },
+    connection0: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 1 - no network",
+      show: false,
+    },
+    connection1: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 2 - no network",
+      show: false,
+    },
   },
 }
 
@@ -33,12 +54,30 @@ export const overviewDataWithOneSimCard = {
     },
   },
   sections: {
-    battery: { icon: "battery-charging-5", text: "100%", subText: "" },
+    battery: {
+      icon: "battery-charging-5",
+      text: "100%",
+      subText: "",
+      show: true,
+    },
     update: { text: "Mudita OS", version: "0.3.0" },
     "airplane-mode": {
       icon: "network-signal-2",
       text: "T-Mobile",
       subText: "SIM 1",
+      show: true,
+    },
+    connection0: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 1 - no network",
+      show: false,
+    },
+    connection1: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 2 - no network",
+      show: false,
     },
   },
 }
@@ -59,12 +98,26 @@ export const overviewDataWithOneSimCard2nd = {
       icon: "battery-charging-2",
       text: "40%",
       subText: "",
+      show: true,
     },
     update: { text: "Mudita OS", version: "0.3.1" },
     "airplane-mode": {
       icon: "network-signal-4",
       text: "Play",
       subText: "SIM 1",
+      show: true,
+    },
+    connection0: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 1 - no network",
+      show: false,
+    },
+    connection1: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 2 - no network",
+      show: false,
     },
   },
 }
@@ -85,12 +138,26 @@ export const overviewDataWithOneSimCard3rd = {
       icon: "battery-charging-3",
       text: "60%",
       subText: "",
+      show: true,
     },
     update: { text: "Mudita OS", version: "0.3.1" },
     "airplane-mode": {
       icon: "network-signal-3",
       text: "Orange",
       subText: "SIM 1",
+      show: true,
+    },
+    connection0: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 1 - no network",
+      show: false,
+    },
+    connection1: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 2 - no network",
+      show: false,
     },
   },
 }
@@ -111,12 +178,26 @@ export const overviewDataWithOneSimCard4th = {
       icon: "battery-charging-2",
       text: "80%",
       subText: "",
+      show: true,
     },
     update: { text: "Mudita OS", version: "0.3.1" },
     "airplane-mode": {
       icon: "network-signal-4",
       text: "O2",
       subText: "SIM 1",
+      show: true,
+    },
+    connection0: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 1 - no network",
+      show: false,
+    },
+    connection1: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 2 - no network",
+      show: false,
     },
   },
 }
@@ -137,12 +218,26 @@ export const overviewDataWithOneSimCard5th = {
       icon: "battery-charging-2",
       text: "100%",
       subText: "",
+      show: true,
     },
     update: { text: "Mudita OS", version: "0.3.1" },
     "airplane-mode": {
       icon: "network-signal-4",
       text: "Vodafone",
       subText: "SIM 1",
+      show: true,
+    },
+    connection0: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 1 - no network",
+      show: false,
+    },
+    connection1: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 2 - no network",
+      show: false,
     },
   },
 }
@@ -163,12 +258,26 @@ export const overviewDataWithOneSimCard6th = {
       icon: "battery-charging-2",
       text: "20%",
       subText: "",
+      show: true,
     },
     update: { text: "Mudita OS", version: "0.3.1" },
     "airplane-mode": {
       icon: "network-signal-4",
       text: "Telia",
       subText: "SIM 1",
+      show: true,
+    },
+    connection0: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 1 - no network",
+      show: false,
+    },
+    connection1: {
+      icon: "network-signal-0",
+      text: "No SIM",
+      subText: "SIM 2 - no network",
+      show: false,
     },
   },
 }

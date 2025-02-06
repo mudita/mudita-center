@@ -15,6 +15,7 @@ import {
   featureConfigurationFileManager,
   featureConfigurationOverview,
 } from "./feature-configuration-responses"
+
 //import from "Core/device" breaks usage in e2e
 enum ResponseStatus {
   Ok = 200,
@@ -161,10 +162,31 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
             },
           },
           sections: {
-            battery: { icon: "battery-charging-5", text: "100%", subText: "" },
+            battery: {
+              icon: "battery-charging-5",
+              text: "100%",
+              subText: "",
+              show: true,
+            },
             update: { text: "ANDROID 12", version: "0.3.0" },
             status: { badgeText: "Offline+" },
-            "airplane-mode": { icon: "airplane-mode", text: "Airplane mode" },
+            "airplane-mode": {
+              icon: "airplane-mode",
+              text: "Airplane mode",
+              show: true,
+            },
+            connection0: {
+              icon: "network-signal-0",
+              text: "No SIM",
+              subText: "SIM 1 - no network",
+              show: false,
+            },
+            connection1: {
+              icon: "network-signal-0",
+              text: "No SIM",
+              subText: "SIM 2 - no network",
+              show: false,
+            },
           },
         },
         match: { expected: { feature: "mc-overview", lang: "en-US" } },
