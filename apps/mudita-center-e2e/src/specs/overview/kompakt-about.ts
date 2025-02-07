@@ -17,13 +17,15 @@ describe("Checking About your Kompakt", () => {
   })
 
   it("Connect device", async () => {
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: overviewDataWithOneSimCard,
-      endpoint: "FEATURE_DATA",
-      method: "GET",
-      status: 200,
-    })
+    E2EMockClient.mockResponses([
+      {
+        path: "path-1",
+        body: overviewDataWithOneSimCard,
+        endpoint: "FEATURE_DATA",
+        method: "GET",
+        status: 200,
+      },
+    ])
 
     E2EMockClient.addDevice({
       path: "path-1",

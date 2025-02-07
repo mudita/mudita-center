@@ -27,13 +27,15 @@ describe("Kompakt switching devices", () => {
   })
 
   it("Connect device", async () => {
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: overviewDataWithOneSimCard,
-      endpoint: "FEATURE_DATA",
-      method: "GET",
-      status: 200,
-    })
+    E2EMockClient.mockResponses([
+      {
+        path: "path-1",
+        body: overviewDataWithOneSimCard,
+        endpoint: "FEATURE_DATA",
+        method: "GET",
+        status: 200,
+      },
+    ])
     E2EMockClient.addDevice({
       path: "path-1",
       serialNumber: firstSerialNumber,
@@ -69,13 +71,15 @@ describe("Kompakt switching devices", () => {
   })
 
   it("Connect 2nd device", async () => {
-    E2EMockClient.mockResponse({
-      path: "path-2",
-      body: overviewDataWithOneSimCard2nd,
-      endpoint: "FEATURE_DATA",
-      method: "GET",
-      status: 200,
-    })
+    E2EMockClient.mockResponses([
+      {
+        path: "path-2",
+        body: overviewDataWithOneSimCard2nd,
+        endpoint: "FEATURE_DATA",
+        method: "GET",
+        status: 200,
+      },
+    ])
     E2EMockClient.addDevice({
       path: "path-2",
       serialNumber: secondSerialNumber,
