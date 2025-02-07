@@ -47,13 +47,15 @@ describe("Kompakt switching devices", () => {
     ]
 
     const mockResponses = devices.map((device) => {
-      E2EMockClient.mockResponse({
-        path: device.path,
-        body: device.body,
-        endpoint: "FEATURE_DATA",
-        method: "GET",
-        status: 200,
-      })
+      E2EMockClient.mockResponses([
+        {
+          path: device.path,
+          body: device.body,
+          endpoint: "FEATURE_DATA",
+          method: "GET",
+          status: 200,
+        },
+      ])
       return E2EMockClient.addDevice({
         path: device.path,
         serialNumber: device.serialNumber,
@@ -73,7 +75,7 @@ describe("Kompakt switching devices", () => {
     const availableDevices = await selectDevicePage.availableDevices
 
     for (const device of availableDevices) {
-      await expect(device).toBeDisplayed();
+      await expect(device).toBeDisplayed()
     }
 
     const firstDeviceOnSelectModal =
@@ -126,13 +128,15 @@ describe("Kompakt switching devices", () => {
     ]
 
     for (const device of devices) {
-      E2EMockClient.mockResponse({
-        path: device.path,
-        body: device.body,
-        endpoint: "FEATURE_DATA",
-        method: "GET",
-        status: 200,
-      })
+      E2EMockClient.mockResponses([
+        {
+          path: device.path,
+          body: device.body,
+          endpoint: "FEATURE_DATA",
+          method: "GET",
+          status: 200,
+        },
+      ])
       E2EMockClient.addDevice({
         path: device.path,
         serialNumber: device.serialNumber,

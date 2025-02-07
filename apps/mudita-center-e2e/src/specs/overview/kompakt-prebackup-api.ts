@@ -21,20 +21,22 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Connect device", async () => {
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: overviewConfigForBackup,
-      endpoint: "FEATURE_CONFIGURATION",
-      method: "GET",
-      status: 200,
-    })
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: overviewDataWithOneSimCard,
-      endpoint: "FEATURE_DATA",
-      method: "GET",
-      status: 200,
-    })
+    E2EMockClient.mockResponses([
+      {
+        path: "path-1",
+        body: overviewConfigForBackup,
+        endpoint: "FEATURE_CONFIGURATION",
+        method: "GET",
+        status: 200,
+      },
+      {
+        path: "path-1",
+        body: overviewDataWithOneSimCard,
+        endpoint: "FEATURE_DATA",
+        method: "GET",
+        status: 200,
+      },
+    ])
     E2EMockClient.addDevice({
       path: "path-1",
       serialNumber: "first-serial-number",

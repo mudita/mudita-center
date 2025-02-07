@@ -39,22 +39,26 @@ describe("E2E mock sample - overview view", () => {
     await expect(badge).toBeDisplayed()
 
     // overwrite default response for given device
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: overviewDataWithoutBadge,
-      endpoint: "FEATURE_DATA",
-      method: "GET",
-      status: 200,
-    })
+    E2EMockClient.mockResponses([
+      {
+        path: "path-1",
+        body: overviewDataWithoutBadge,
+        endpoint: "FEATURE_DATA",
+        method: "GET",
+        status: 200,
+      },
+    ])
 
     // overwrite newest response for given device
-    E2EMockClient.mockResponseOnce({
-      path: "path-1",
-      body: outboxReloadOverview,
-      endpoint: "OUTBOX",
-      method: "GET",
-      status: 200,
-    })
+    E2EMockClient.mockResponsesOnce([
+      {
+        path: "path-1",
+        body: outboxReloadOverview,
+        endpoint: "OUTBOX",
+        method: "GET",
+        status: 200,
+      },
+    ])
 
     await badge.waitForDisplayed({ reverse: true })
     screenshotHelper.makeViewScreenshot()
