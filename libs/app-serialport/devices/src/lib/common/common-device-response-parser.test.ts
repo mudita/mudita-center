@@ -5,11 +5,11 @@
 
 import { SerialPortStream } from "@serialport/stream"
 import { MockBinding } from "@serialport/binding-mock"
-import { ApiDeviceResponseParser } from "./api-device-response-parser"
+import { CommonDeviceResponseParser } from "./common-device-response-parser"
 import { waitFor } from "@testing-library/react"
 
 let serialport: SerialPortStream
-let parser: ApiDeviceResponseParser
+let parser: CommonDeviceResponseParser
 
 beforeEach(() => {
   MockBinding.createPort("/dev/ROBOT", { echo: true, record: true })
@@ -19,7 +19,7 @@ beforeEach(() => {
     path: "/dev/ROBOT",
     baudRate: 9600,
   })
-  parser = serialport.pipe(new ApiDeviceResponseParser({ matcher: /#\d/g }))
+  parser = serialport.pipe(new CommonDeviceResponseParser({ matcher: /#\d/g }))
 })
 
 afterEach(() => {

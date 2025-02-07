@@ -6,7 +6,7 @@
 import { TextEncoder } from "util"
 import { SerialPortRequest } from "app-serialport/models"
 
-export const apiDeviceRequestParser = (data: SerialPortRequest): string => {
+export const commonDeviceRequestParser = (data: SerialPortRequest): string => {
   const encoder = new TextEncoder()
   const payload = JSON.stringify(data)
   const header = String(encoder.encode(payload).length).padStart(9, "0")

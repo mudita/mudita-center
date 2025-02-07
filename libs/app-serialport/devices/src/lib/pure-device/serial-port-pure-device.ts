@@ -11,17 +11,17 @@ import { SerialPortDeviceType, SerialPortRequest } from "app-serialport/models"
 import { CommonDeviceResponseParser } from "../common/common-device-response-parser"
 import { commonDeviceRequestParser } from "../common/common-device-request-parser"
 
-export class SerialPortApiDevice extends SerialPortDevice {
-  static matchingVendorIds = ["0e8d", "3725"]
-  static matchingProductIds = ["200a", "2006", "2012", "8198", "8202", "8210"]
-  static deviceType = SerialPortDeviceType.ApiDevice
+export class SerialPortPureDevice extends SerialPortDevice {
+  static matchingVendorIds = ["3310"]
+  static matchingProductIds = ["0102", "0100"]
+  static deviceType = SerialPortDeviceType.Pure
 
   constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
     super(
       { baudRate, ...options },
       new CommonDeviceResponseParser({ matcher: /#\d{9}/g })
     )
-    this.requestIdKey = "rid"
+    this.requestIdKey = "uuid"
   }
 
   parseRequest(data: SerialPortRequest) {

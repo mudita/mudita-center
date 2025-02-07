@@ -5,22 +5,22 @@
 
 import { Transform, TransformCallback, TransformOptions } from "stream"
 
-interface ApiDeviceParserOptions extends TransformOptions {
+interface CommonDeviceParserOptions extends TransformOptions {
   matcher: RegExp
 }
 
 /**
  * ApiDeviceParser is a Transform stream that processes incoming data chunks
- * and emits complete responses based on a specified matcher pattern
- * that points to the beginning of a response along with its expected length.
+ * and emits complete responses based on a specified matcher pattern pointing
+ * to the beginning of a response along with its expected length.
  */
-export class ApiDeviceResponseParser extends Transform {
+export class CommonDeviceResponseParser extends Transform {
   private readonly encoding: BufferEncoding = "utf8"
   private readonly matcher: RegExp
   private buffer = Buffer.alloc(0)
   private bufferExpectedLength = 0
 
-  constructor({ matcher, ...options }: ApiDeviceParserOptions) {
+  constructor({ matcher, ...options }: CommonDeviceParserOptions) {
     super(options)
     this.matcher = matcher
     this.encoding = options.encoding || this.encoding
