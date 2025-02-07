@@ -64,7 +64,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           osVersion: "0.0.46 MuditaOS K",
           lang: "en-US",
           variant: "black",
-          features: ["mc-overview", "contacts", "fileManager"],
+          features: ["mc-overview", "mc-contacts", "mc-file-manager-internal"],
           entityTypes: ["contacts", "audioFiles"],
           productId: "2006",
           vendorId: "0e8d",
@@ -90,12 +90,12 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
               icon: "overview",
             },
             {
-              feature: "contacts",
+              feature: "mc-contacts",
               displayName: "Contacts",
               icon: "contacts-book",
             },
             {
-              feature: "fileManager",
+              feature: "mc-file-manager-internal",
               displayName: "Manage Files",
               icon: "file-manager",
             },
@@ -119,7 +119,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: featureConfigurationContacts,
         match: {
           expected: {
-            feature: "contacts",
+            feature: "mc-contacts",
             lang: "en-US",
           },
         },
@@ -139,7 +139,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: featureConfigurationFileManager,
         match: {
           expected: {
-            feature: "fileManager",
+            feature: "mc-file-manager-internal",
             lang: "en-US",
           },
         },
@@ -226,7 +226,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
             },
           ],
         },
-        match: { expected: { feature: "fileManager", lang: "en-US" } },
+        match: { expected: { feature: "mc-file-manager-internal", lang: "en-US" } },
       },
     ],
   },

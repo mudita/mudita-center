@@ -98,7 +98,7 @@ describe("E2E mock lock sample", () => {
       body: getBodyAsRecord(DEFAULT_RESPONSES.FEATURE_DATA?.GET?.[1]?.body),
       match: {
         expected: {
-          feature: "fileManager",
+          feature: "mc-file-manager-internal",
           lang: "en-US",
         },
       },
@@ -116,7 +116,7 @@ describe("E2E mock lock sample", () => {
       ),
       match: {
         expected: {
-          feature: "contacts",
+          feature: "mc-contacts",
           lang: "en-US",
         },
       },
@@ -146,7 +146,7 @@ describe("E2E mock lock sample", () => {
       ),
       match: {
         expected: {
-          feature: "fileManager",
+          feature: "mc-file-manager-internal",
           lang: "en-US",
         },
       },
