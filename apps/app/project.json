@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/app/src",
   "projectType": "application",
-  "tags": ["scope:main"],
+  "tags": ["process:main"],
   "targets": {
     "serve": {
       "executor": "nx:run-commands",

@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/app-sql/models/src",
   "projectType": "library",
-  "tags": ["scope:models"],
+  "tags": ["type:models"],
   "// targets": "to see all targets run: nx show project app-sql-models --web",
   "targets": {}
 }

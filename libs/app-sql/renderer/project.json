@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/app-sql/renderer/src",
   "projectType": "library",
-  "tags": ["scope:renderer"],
+  "tags": ["process:renderer"],
   "// targets": "to see all targets run: nx show project app-sql-renderer --web",
   "targets": {}
 }
