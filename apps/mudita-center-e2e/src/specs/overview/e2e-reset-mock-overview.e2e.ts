@@ -1,9 +1,8 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import {
   outboxReloadOverview,
-  overviewDataWithOneSimCard
+  overviewDataWithOneSimCard,
 } from "../../../../../libs/e2e-mock/responses/src"
-import screenshotHelper from "../../helpers/screenshot.helper"
 
 describe("E2E reset mock sample - overview view", () => {
   before(async () => {
@@ -33,24 +32,26 @@ describe("E2E reset mock sample - overview view", () => {
   })
 
   it("Overwrite device response", async () => {
-
     // overwrite default response for given device
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: overviewDataWithOneSimCard,
-      endpoint: "FEATURE_DATA",
-      method: "GET",
-      status: 200,
-    })
+    E2EMockClient.mockResponses([
+      {
+        path: "path-1",
+        body: overviewDataWithOneSimCard,
+        endpoint: "FEATURE_DATA",
+        method: "GET",
+        status: 200,
+      },
+    ])
     // overwrite newest response for given device
-    E2EMockClient.mockResponseOnce({
-      path: "path-1",
-      body: outboxReloadOverview,
-      endpoint: "OUTBOX",
-      method: "GET",
-      status: 200,
-    })
-    
+    E2EMockClient.mockResponsesOnce([
+      {
+        path: "path-1",
+        body: outboxReloadOverview,
+        endpoint: "OUTBOX",
+        method: "GET",
+        status: 200,
+      },
+    ])
 
     await browser.pause(30000)
   })
@@ -74,7 +75,6 @@ describe("E2E reset mock sample - overview view", () => {
         },
       ],
     })
-
 
     await browser.pause(30000)
   })

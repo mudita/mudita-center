@@ -11,25 +11,29 @@ interface mockEntityDeleteProcessOptions {
   entityType: string
 }
 
-export const mockEntityDeleteProcess = ({ totalEntities, entityType }: mockEntityDeleteProcessOptions) => {
-  E2EMockClient.mockResponseOnce({
-    path: "path-1",
-    body: { totalEntities, uniqueKey: `${uuid()}` },
-    match: {
-      expected: {
-        entityType: entityType,
+export const mockEntityDeleteProcess = ({
+  totalEntities,
+  entityType,
+}: mockEntityDeleteProcessOptions) => {
+  E2EMockClient.mockResponsesOnce([
+    {
+      path: "path-1",
+      body: { totalEntities, uniqueKey: `${uuid()}` },
+      match: {
+        expected: {
+          entityType: entityType,
+        },
       },
+      endpoint: "ENTITIES_METADATA",
+      method: "GET",
+      status: 200,
     },
-    endpoint: "ENTITIES_METADATA",
-    method: "GET",
-    status: 200,
-  })
-
-  E2EMockClient.mockResponseOnce({
-    path: "path-1",
-    endpoint: "ENTITIES_DATA",
-    method: "DELETE",
-    status: 200,
-    body: {}
-  })
+    {
+      path: "path-1",
+      endpoint: "ENTITIES_DATA",
+      method: "DELETE",
+      status: 200,
+      body: {},
+    },
+  ])
 }

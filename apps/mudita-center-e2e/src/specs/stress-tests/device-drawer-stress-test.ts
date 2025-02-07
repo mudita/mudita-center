@@ -48,13 +48,15 @@ describe("Kompakt switching devices", () => {
 
     for (let i = 0; i < devices.length; i++) {
       const device = devices[i]
-      E2EMockClient.mockResponse({
-        path: device.path,
-        body: device.body,
-        endpoint: "FEATURE_DATA",
-        method: "GET",
-        status: 200,
-      })
+      E2EMockClient.mockResponses([
+        {
+          path: device.path,
+          body: device.body,
+          endpoint: "FEATURE_DATA",
+          method: "GET",
+          status: 200,
+        },
+      ])
       E2EMockClient.addDevice({
         path: device.path,
         serialNumber: device.serialNumber,
@@ -101,13 +103,15 @@ describe("Kompakt switching devices", () => {
   })
 
   it("Connect 3rd Kompakt device", async () => {
-    E2EMockClient.mockResponse({
-      path: "path-3",
-      body: overviewDataWithOneSimCard3rd,
-      endpoint: "FEATURE_DATA",
-      method: "GET",
-      status: 200,
-    })
+    E2EMockClient.mockResponses([
+      {
+        path: "path-3",
+        body: overviewDataWithOneSimCard3rd,
+        endpoint: "FEATURE_DATA",
+        method: "GET",
+        status: 200,
+      },
+    ])
     E2EMockClient.addDevice({
       path: "path-3",
       serialNumber: thirdSerialNumber,
@@ -159,13 +163,15 @@ describe("Kompakt switching devices", () => {
     ]
 
     for (const device of devices) {
-      E2EMockClient.mockResponse({
-        path: device.path,
-        body: device.body,
-        endpoint: "FEATURE_DATA",
-        method: "GET",
-        status: 200,
-      })
+      E2EMockClient.mockResponses([
+        {
+          path: device.path,
+          body: device.body,
+          endpoint: "FEATURE_DATA",
+          method: "GET",
+          status: 200,
+        },
+      ])
       E2EMockClient.addDevice({
         path: device.path,
         serialNumber: device.serialNumber,
