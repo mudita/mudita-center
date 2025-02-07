@@ -5,7 +5,7 @@
 
 import { DEFAULT_RESPONSES } from "e2e-mock-responses"
 import { APIEndpoints } from "device/models"
-import { mockDescriptor, getMockedDevices } from "./mock-descriptor"
+import { getMockedDevices, mockDescriptor } from "./mock-descriptor"
 import { AddKompaktResponse } from "./mock-descriptor-validators"
 
 const path = "/dev/ttyUSB0"
@@ -64,7 +64,7 @@ describe("MockDescriptor", () => {
         status: 200,
         body: { key: "value" },
       }
-      mockDescriptor.addResponse(response)
+      mockDescriptor.addResponses([response])
 
       const result = mockDescriptor.getResponse(path, endpoint, method, {})
       expect(result).toEqual({ status: 200, body: { key: "value" } })
@@ -79,7 +79,7 @@ describe("MockDescriptor", () => {
         body: { key: "value" },
         match: { expected: { key: "value" } },
       }
-      mockDescriptor.addResponse(response)
+      mockDescriptor.addResponses([response])
 
       const result = mockDescriptor.getResponse(path, endpoint, method, {
         key: "value",
@@ -96,7 +96,7 @@ describe("MockDescriptor", () => {
         body: { key: "firstValue" },
         match: undefined,
       }
-      mockDescriptor.addResponse(firstResponse)
+      mockDescriptor.addResponses([firstResponse])
 
       const secondResponse: AddKompaktResponse = {
         path,
@@ -106,7 +106,7 @@ describe("MockDescriptor", () => {
         body: { key: "secondValue" },
         match: { expected: { key: "secondValue" } },
       }
-      mockDescriptor.addResponse(secondResponse)
+      mockDescriptor.addResponses([secondResponse])
 
       const result = mockDescriptor.getResponse(path, endpoint, method, {
         key: "secondValue",
@@ -123,7 +123,7 @@ describe("MockDescriptor", () => {
         body: { key: "value" },
         match: { expected: { key: "notValue" } },
       }
-      mockDescriptor.addResponse(response)
+      mockDescriptor.addResponses([response])
 
       const result = mockDescriptor.getResponse(path, endpoint, method, {
         key: "otherValue",
@@ -140,7 +140,7 @@ describe("MockDescriptor", () => {
         body: { key: "firstValue" },
         match: undefined,
       }
-      mockDescriptor.addResponse(firstResponse)
+      mockDescriptor.addResponses([firstResponse])
 
       const secondResponse: AddKompaktResponse = {
         path,
@@ -150,7 +150,7 @@ describe("MockDescriptor", () => {
         body: { key: "secondValue" },
         match: undefined,
       }
-      mockDescriptor.addResponse(secondResponse)
+      mockDescriptor.addResponses([secondResponse])
 
       const result = mockDescriptor.getResponse(path, endpoint, method, {
         key: "secondValue",
@@ -254,7 +254,7 @@ describe("MockDescriptor", () => {
         body: { key: "firstValue" },
         match: undefined,
       }
-      mockDescriptor.addResponse(firstResponse)
+      mockDescriptor.addResponses([firstResponse])
 
       const secondResponse: AddKompaktResponse = {
         path,
@@ -264,7 +264,7 @@ describe("MockDescriptor", () => {
         body: { key: "secondValue" },
         match: undefined,
       }
-      mockDescriptor.addResponse(secondResponse)
+      mockDescriptor.addResponses([secondResponse])
 
       const filteredResponses = mockDescriptor.getResponse(
         path,
@@ -287,7 +287,7 @@ describe("MockDescriptor", () => {
         body: { key: "value" },
         match: { expected: { key: "value" } },
       }
-      mockDescriptor.addResponse(firstResponse)
+      mockDescriptor.addResponses([firstResponse])
 
       const secondResponse: AddKompaktResponse = {
         path,
@@ -297,7 +297,7 @@ describe("MockDescriptor", () => {
         body: { key: "value" },
         match: { expected: { key: "value" } },
       }
-      mockDescriptor.addResponse(secondResponse)
+      mockDescriptor.addResponses([secondResponse])
 
       const filteredResponses = mockDescriptor.getResponse(
         path,

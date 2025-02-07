@@ -36,6 +36,8 @@ export const addKompaktResponseValidator = z.object({
 
 export type AddKompaktResponse = z.infer<typeof addKompaktResponseValidator>
 
+export const addKompaktResponsesValidator = z.array(addKompaktResponseValidator)
+
 export const restoreDefaultResponsesValidator = z.object({
   path: z.string().min(1),
   requests: z

@@ -6,7 +6,7 @@
 import ipc from "node-ipc"
 import logger from "Core/__deprecated__/main/utils/logger"
 import {
-  addKompaktResponseValidator,
+  addKompaktResponsesValidator,
   addKompaktValidator,
   restoreDefaultResponsesValidator,
 } from "./mock-descriptor/mock-descriptor-validators"
@@ -38,16 +38,16 @@ ipc.serve(function () {
       mockDescriptor.removeDevice(data)
     }
   })
-  ipc.server.on("mock.response.every", function (data, socket) {
-    const params = addKompaktResponseValidator.safeParse(data)
+  ipc.server.on("mock.responses.every", function (data, socket) {
+    const params = addKompaktResponsesValidator.safeParse(data)
     if (params.success) {
-      mockDescriptor.addResponse(params.data)
+      mockDescriptor.addResponses(params.data)
     }
   })
-  ipc.server.on("mock.response.once", function (data, socket) {
-    const params = addKompaktResponseValidator.safeParse(data)
+  ipc.server.on("mock.responses.once", function (data, socket) {
+    const params = addKompaktResponsesValidator.safeParse(data)
     if (params.success) {
-      mockDescriptor.addResponseOnce(params.data)
+      mockDescriptor.addResponsesOnce(params.data)
     }
   })
   ipc.server.on("mock.response.reset", function (data, socket) {
