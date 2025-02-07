@@ -29,7 +29,7 @@ export class DevMenuAdapter {
     const menuConfig = body as MenuConfig
     const newMenuItems = [
       {
-        feature: "fileManager",
+        feature: "mc-file-manager-internal",
         displayName: "Manage Files",
         icon: IconType.FileManager,
       },

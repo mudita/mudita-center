@@ -28,5 +28,5 @@ export const generatedViews = {
 type generatedDataFn = (data: any, config: View) => Feature["data"]
 
 export const generatedData: Record<string, generatedDataFn> = {
-  ["fileManager"]: generateFileManagerData,
+  ["mc-file-manager-internal"]: generateFileManagerData,
 }
