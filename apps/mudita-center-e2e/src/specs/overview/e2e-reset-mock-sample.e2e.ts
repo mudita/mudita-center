@@ -1,9 +1,4 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
-import {
-  outboxReloadOverview,
-  overviewDataWithoutBadge,
-} from "../../../../../libs/e2e-mock/responses/src"
-import screenshotHelper from "../../helpers/screenshot.helper"
 
 describe("E2E reset mock sample", () => {
   before(async () => {
@@ -20,35 +15,36 @@ describe("E2E reset mock sample", () => {
   })
 
   it("Connect locked device", async () => {
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: {},
-      endpoint: "FEATURE_DATA",
-      method: "GET",
-      status: 423,
-    })
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: {},
-      endpoint: "FEATURE_CONFIGURATION",
-      method: "GET",
-      status: 423,
-    })
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: {},
-      endpoint: "MENU_CONFIGURATION",
-      method: "GET",
-      status: 423,
-    })
-
-    E2EMockClient.mockResponse({
-      path: "path-1",
-      body: {},
-      endpoint: "OUTBOX",
-      method: "GET",
-      status: 423,
-    })
+    E2EMockClient.mockResponses([
+      {
+        path: "path-1",
+        body: {},
+        endpoint: "FEATURE_DATA",
+        method: "GET",
+        status: 423,
+      },
+      {
+        path: "path-1",
+        body: {},
+        endpoint: "FEATURE_CONFIGURATION",
+        method: "GET",
+        status: 423,
+      },
+      {
+        path: "path-1",
+        body: {},
+        endpoint: "MENU_CONFIGURATION",
+        method: "GET",
+        status: 423,
+      },
+      {
+        path: "path-1",
+        body: {},
+        endpoint: "OUTBOX",
+        method: "GET",
+        status: 423,
+      },
+    ])
 
     E2EMockClient.addDevice({
       path: "path-1",

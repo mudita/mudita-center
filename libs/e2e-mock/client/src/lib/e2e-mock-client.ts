@@ -31,11 +31,11 @@ export const E2EMockClient = {
   mockReset: (param: RestoreDefaultResponses) => {
     getClientEmiter()?.("mock.response.reset", param)
   },
-  mockResponse: (param: AddKompaktResponse) => {
-    getClientEmiter()?.("mock.response.every", param)
+  mockResponses: (param: AddKompaktResponse[]) => {
+    getClientEmiter()?.("mock.responses.every", param)
   },
-  mockResponseOnce: (param: AddKompaktResponse) => {
-    getClientEmiter()?.("mock.response.once", param)
+  mockResponsesOnce: (param: AddKompaktResponse[]) => {
+    getClientEmiter()?.("mock.responses.once", param)
   },
   connect: () => {
     connect()
