@@ -150,8 +150,7 @@ export class AppSerialPort {
   }
 
   changeBaudRate(path: SerialPortDevicePath, baudRate: number) {
-    const serialPort = this.ensureInstance(path)
-    serialPort?.update({ baudRate })
+    return this.ensureInstance(path)?.update({ baudRate })
   }
 
   onDevicesChange(callback: DevicesChangeCallback) {
