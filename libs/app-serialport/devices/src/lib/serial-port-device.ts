@@ -12,7 +12,7 @@ import {
   SerialPortRequest,
   SerialPortResponse,
 } from "app-serialport/models"
-import { get, set, uniqueId } from "lodash"
+import { clone, get, set, uniqueId } from "lodash"
 import EventEmitter from "events"
 import PQueue from "p-queue"
 
@@ -103,16 +103,16 @@ export class SerialPortDevice extends SerialPort {
     return data
   }
 
-  async request(data: SerialPortRequest) {
+  async request({ options, ...data }: SerialPortRequest) {
     const id = parseInt(uniqueId())
     return new Promise<SerialPortResponse>((resolve, reject) => {
       void this.queue.add(async () => {
         try {
-          const enrichedData = set({ ...data }, this.requestIdKey, id)
+          const enrichedData = set(clone(data), this.requestIdKey, id)
           this.write(enrichedData)
           const response = await this.listenForResponse(
             id,
-            enrichedData.options?.timeout || DEFAULT_RESPONSE_TIMEOUT
+            options?.timeout || DEFAULT_RESPONSE_TIMEOUT
           )
           resolve(response)
         } catch (error) {

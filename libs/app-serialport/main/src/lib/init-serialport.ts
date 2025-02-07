@@ -24,6 +24,12 @@ export const initSerialPort = (ipcMain: IpcMain, webContents: WebContents) => {
           return (serialport as AppSerialPort).request(path, data)
         }
       )
+      ipcMain.handle(
+        SerialPortIpcEvents.ChangeBaudRate,
+        (_, path: string, baudRate: number) => {
+          return (serialport as AppSerialPort).changeBaudRate(path, baudRate)
+        }
+      )
     }
   }
 }

@@ -40,4 +40,11 @@ export const AppSerialPort = {
       throw error
     }
   },
+  changeBaudRate: async (path: SerialPortDevicePath, baudRate: number) => {
+    return await window.electron.ipcRenderer.invoke(
+      SerialPortIpcEvents.ChangeBaudRate,
+      path,
+      baudRate
+    )
+  },
 }
