@@ -26,37 +26,37 @@ ipc.config.retry = 15
 const instanceID = Math.floor(Math.random() * 10000)
 
 ipc.serve(function () {
-  ipc.server.on("mock.add.device", function (data) {
+  ipc.server.on("mock.add.device", function (data, socket) {
     logger.info(`mock.add.device fro instanceID: ${instanceID}`)
     const params = addKompaktValidator.safeParse(data)
     if (params.success) {
       mockDescriptor.addKompakt(params.data)
     }
   })
-  ipc.server.on("mock.remove.device", function (data) {
+  ipc.server.on("mock.remove.device", function (data, socket) {
     if (typeof data === "string") {
       mockDescriptor.removeDevice(data)
     }
   })
-  ipc.server.on("mock.responses.every", function (data) {
+  ipc.server.on("mock.responses.every", function (data, socket) {
     const params = addKompaktResponsesValidator.safeParse(data)
     if (params.success) {
       mockDescriptor.addResponses(params.data)
     }
   })
-  ipc.server.on("mock.responses.once", function (data) {
+  ipc.server.on("mock.responses.once", function (data, socket) {
     const params = addKompaktResponsesValidator.safeParse(data)
     if (params.success) {
       mockDescriptor.addResponsesOnce(params.data)
     }
   })
-  ipc.server.on("mock.response.reset", function (data) {
+  ipc.server.on("mock.response.reset", function (data, socket) {
     const params = restoreDefaultResponsesValidator.safeParse(data)
     if (params.success) {
       mockDescriptor.removeResponses(params.data)
     }
   })
-  ipc.server.on("server.stop", function () {
+  ipc.server.on("server.stop", function (data, socket) {
     stopServer()
   })
   ipc.server.on("set.mock.update.state", function (data: UpdateState) {
