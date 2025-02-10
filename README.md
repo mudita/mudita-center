@@ -4,7 +4,7 @@
 
 [![codecov](https://codecov.io/gh/mudita/mudita-center/branch/master/graph/badge.svg?token=10F4ZOOS5S)](https://codecov.io/gh/mudita/mudita-center)
 
-Mudita Center is written in JavaScript and distributed as an Electron app.
+Mudita Center is written in JavaScript and distributed as an Electron app!
 
 Mudita Center allows you to expand and update the features of Mudita Pure and Mudita Harmony, while using your computer. One application for every platform, open-sourced for transparency.
 
