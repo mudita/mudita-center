@@ -31,7 +31,6 @@ const messages = defineMessages({
   updateActionLabel: { id: "module.genericViews.update.actionLabel" },
 })
 
-const devToken = process.env.KOMPAKT_OS_UPDATE_DEV_TOKEN
 const serverUrl = process.env.MUDITA_CENTER_SERVER_URL
 
 export const OverviewOsVersion: APIFC<
@@ -50,12 +49,11 @@ export const OverviewOsVersion: APIFC<
         return
       }
       try {
-        const devTokenParam = devToken ? `&devToken=${devToken}` : ""
         const { data } = await axios.get<{
           available: boolean
           versionName?: string
         }>(
-          `${serverUrl}/${MuditaCenterServerRoutes.KompaktOsUpdateAvailability}?imei=${otaApiKey}&version=${osVersionTimestamp}${devTokenParam}`
+          `${serverUrl}/${MuditaCenterServerRoutes.KompaktOsUpdateAvailability}?imei=${otaApiKey}&version=${osVersionTimestamp}`
         )
         if (data && data.available && data.versionName) {
           setAvailableUpdateName(data.versionName)
