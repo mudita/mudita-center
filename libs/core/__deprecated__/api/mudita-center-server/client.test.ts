@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Client } from "Core/__deprecated__/api/mudita-center-server/client"
-import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
-import { MuditaCenterServerRoutes } from "Core/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
+import MockAdapter from "axios-mock-adapter"
+import { MuditaCenterServerRoutes } from "shared/utils"
+import { Client } from "Core/__deprecated__/api/mudita-center-server/client"
 
 const previousEnvironment = { ...process.env }
 

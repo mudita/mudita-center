@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { getDeviceOSVersion, getOverviewDataRequest } from "device/feature"
+import { getOverviewDataRequest } from "device/feature"
 import { generateMcAboutData, generateMcOverviewData } from "generic-view/views"
 import { View } from "generic-view/utils"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -29,11 +29,6 @@ export const getOverviewData = createAsyncThunk<
       return rejectWithValue("no device")
     }
 
-    const serverResponse = await getDeviceOSVersion(
-      apiConfig.productId,
-      apiConfig.vendorId
-    )
-
     const features = selectConfiguredDevice(getState(), deviceId)?.features
     const overviewConfig = features?.["mc-overview"]?.config
     const aboutConfig = features?.["mc-about"]?.config
@@ -46,11 +41,7 @@ export const getOverviewData = createAsyncThunk<
     if (response.ok) {
       return {
         deviceId,
-        overviewData: generateMcOverviewData(
-          response.data,
-          overviewConfig,
-          serverResponse.ok ? serverResponse.data : undefined
-        ),
+        overviewData: generateMcOverviewData(response.data, overviewConfig),
         aboutData: response.data.summary?.about
           ? generateMcAboutData(response.data.summary?.about, aboutConfig)
           : undefined,

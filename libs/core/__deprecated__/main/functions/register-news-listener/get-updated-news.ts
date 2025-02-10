@@ -19,7 +19,7 @@ const checkForUpdateAndGetNewData = async (
   const { newsItems: localNews } = await fs.readJson(newsFilePath)
 
   try {
-    const client = createClient(undefined, true)
+    const client = createClient()
     const onlineNews: EntryCollection<NewsEntry> = await client.getNews({
       limit: 6,
     })

@@ -4,19 +4,20 @@
  */
 
 import React, { useEffect, useState } from "react"
-import { APIFC } from "generic-view/utils"
-import styled from "styled-components"
-import { Tag } from "../labels/tag"
+import { useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
-import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import axios from "axios"
+import styled from "styled-components"
+import { MuditaCenterServerRoutes } from "shared/utils"
+import { selectActiveDeviceConfiguration } from "generic-view/store"
+import { APIFC } from "generic-view/utils"
 import {
   OverviewOsVersionConfig,
   OverviewOsVersionData,
 } from "generic-view/models"
-import { useSelector } from "react-redux"
-import { selectActiveDeviceConfiguration } from "generic-view/store"
-import axios from "axios"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import logger from "Core/__deprecated__/main/utils/logger"
+import { Tag } from "../labels/tag"
 
 const dataTestIds = {
   versionWrapper: "version-wrapper",
@@ -30,8 +31,7 @@ const messages = defineMessages({
   updateActionLabel: { id: "module.genericViews.update.actionLabel" },
 })
 
-const devToken = process.env.KOMPAKT_OS_UPDATE_DEV_TOKEN
-const serverUrl = process.env.MUDITA_CENTER_SERVER_V2_URL
+const serverUrl = process.env.MUDITA_CENTER_SERVER_URL
 
 export const OverviewOsVersion: APIFC<
   OverviewOsVersionData,
@@ -49,12 +49,11 @@ export const OverviewOsVersion: APIFC<
         return
       }
       try {
-        const devTokenParam = devToken ? `&devToken=${devToken}` : ""
         const { data } = await axios.get<{
           available: boolean
           versionName?: string
         }>(
-          `${serverUrl}/kompakt-os-update-availability?imei=${otaApiKey}&version=${osVersionTimestamp}${devTokenParam}`
+          `${serverUrl}/${MuditaCenterServerRoutes.KompaktOsUpdateAvailability}?imei=${otaApiKey}&version=${osVersionTimestamp}`
         )
         if (data && data.available && data.versionName) {
           setAvailableUpdateName(data.versionName)

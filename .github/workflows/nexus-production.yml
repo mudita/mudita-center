@@ -119,6 +119,19 @@ jobs:
           SET PATH=%PATH%;"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64"
           signtool.exe sign /sha1 %SM_CODE_SIGNING_CERT_SHA1_HASH% /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 ./apps/mudita-center/release/Mudita-Center.exe
         shell: cmd
+      - name: Calculate new checksum and file size for Mudita-Center.exe
+        if: matrix.os == 'Windows'
+        run: |
+          $filePath = "./apps/mudita-center/release/Mudita-Center.exe"
+          $sha512 = Get-FileHash -Path $filePath -Algorithm SHA512 | Select-Object -ExpandProperty Hash
+          $fileSize = (Get-Item -Path $filePath).length
+
+          $latestYmlPath = "./apps/mudita-center/release/latest.yml"
+          (Get-Content $latestYmlPath) -replace 'sha512:.*', "sha512: $sha512" |
+          Set-Content $latestYmlPath
+          (Get-Content $latestYmlPath) -replace 'size:.*', "size: $fileSize" |
+          Set-Content $latestYmlPath
+        shell: powershell
       - name: Push artifacts to nexus registry from Windows
         if: matrix.os == 'Windows'
         env:

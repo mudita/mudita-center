@@ -58,7 +58,7 @@ export const useUploadFilesButtonAction = () => {
 
       const fileManagerFeatureData = selectActiveDeviceFeatureByKey(
         store.getState(),
-        "fileManager"
+        "mc-file-manager-internal"
       ) as McFileManagerData | undefined
 
       const validationError = await validateSelectedFiles(
