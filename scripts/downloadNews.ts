@@ -13,7 +13,8 @@ const path = require("path")
 const fs = require("fs-extra")
 require("dotenv").config({
   path: path.join(__dirname, "../.env"),
-})(async () => {
+})
+;(async () => {
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))
     const jsonPath = path.resolve(
