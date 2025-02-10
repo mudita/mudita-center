@@ -135,7 +135,7 @@ const generateDeleteModal = ({
       component: "format-message",
       config: {
         messageTemplate: singleContact
-          ? "Delete contact"
+          ? "Delete contact?"
           : "Delete {contactsToDelete, plural, one {contact} other {# contacts}}?",
       },
       dataProvider: {
