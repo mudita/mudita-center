@@ -56,4 +56,5 @@ export enum IconType {
   Exclamation = "exclamation",
   Namaste = "namaste",
   Delete = "delete",
+  DropdownArrow = "dropdown-arrow",
 }
