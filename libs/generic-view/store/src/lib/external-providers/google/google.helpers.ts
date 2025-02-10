@@ -11,6 +11,7 @@ import axios, { AxiosResponse } from "axios"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { googleAuthorize } from "./google-authorize.action"
 import { setGoogleAuthData } from "../actions"
+import { MuditaCenterServerRoutes } from "shared/utils"
 
 export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   let firstName = ""
@@ -102,7 +103,7 @@ export const requestWrapper = async <ReturnType>(
       const refreshToken =
         getState().externalProviders.google[scope].refresh_token
 
-      const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-refresh-token`
+      const url = `${process.env.MUDITA_CENTER_SERVER_URL}/${MuditaCenterServerRoutes.GoogleAuthRefreshToken}`
       const { data } = await axios.post(`${url}?refreshToken=${refreshToken}`)
       await dispatch(setGoogleAuthData({ scope, data }))
       return requestWrapper(
