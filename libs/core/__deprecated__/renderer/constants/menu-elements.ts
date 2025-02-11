@@ -72,7 +72,7 @@ const YOUR_PURE_BUTTONS = [
   },
 ]
 
-const DESKTOP_APP_BUTTONS: MenuElementItem[] = [
+const DESKTOP_APP_BUTTONS: Item[] = [
   {
     button: views.settings,
     icon: IconType.MenuSettings,
@@ -97,7 +97,7 @@ const DESKTOP_APP_BUTTONS: MenuElementItem[] = [
   },
 ]
 
-export interface MenuElementItem {
+interface Item {
   button: (typeof views)[View]
   icon?: IconType
   testId?: MenuGroupTestIds
@@ -108,7 +108,7 @@ export interface MenuElementItem {
 }
 
 export interface MenuElement {
-  items?: MenuElementItem[]
+  items?: Item[]
   label?:
     | {
         id: string
