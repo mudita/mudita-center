@@ -6,10 +6,16 @@
 import { IconType } from "generic-view/utils"
 import { z } from "zod"
 
+const SubmenuItemConfigValidator = z.object({
+  feature: z.string(),
+  displayName: z.string().optional(),
+})
+
 const MenuItemConfigValidator = z.object({
   feature: z.string(),
   displayName: z.string().optional(),
   icon: z.nativeEnum(IconType).optional(),
+  submenu: z.array(SubmenuItemConfigValidator).optional(),
 })
 
 export type MenuItemConfig = z.infer<typeof MenuItemConfigValidator>

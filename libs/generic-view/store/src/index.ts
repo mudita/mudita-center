@@ -71,3 +71,4 @@ export * from "./lib/toasts/actions"
 export * from "./lib/toasts/open-toast.action"
 
 export * from "./lib/action-names"
+export * from "./lib/get-menu-config"
