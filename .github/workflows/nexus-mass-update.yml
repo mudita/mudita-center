@@ -177,11 +177,12 @@ jobs:
         if: matrix.os == 'Windows'
         run: |
           $filePath = "./apps/mudita-center/release/Mudita-Center.exe"
-          $sha512 = Get-FileHash -Path $filePath -Algorithm SHA512 | Select-Object -ExpandProperty Hash
+          $sha512Bytes = [System.Security.Cryptography.SHA512]::Create().ComputeHash([System.IO.File]::ReadAllBytes($filePath))
+          $sha512Base64 = [Convert]::ToBase64String($sha512Bytes)
           $fileSize = (Get-Item -Path $filePath).length
 
           $latestYmlPath = "./apps/mudita-center/release/latest.yml"
-          (Get-Content $latestYmlPath) -replace 'sha512:.*', "sha512: $sha512" |
+          (Get-Content $latestYmlPath) -replace 'sha512:.*', "sha512: $sha512Base64" |
           Set-Content $latestYmlPath
           (Get-Content $latestYmlPath) -replace 'size:.*', "size: $fileSize" |
           Set-Content $latestYmlPath
