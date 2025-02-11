@@ -39,6 +39,82 @@ describe("dataProviderSort", () => {
     ])
   })
 
+  it("sorts data with leading and trailing spaces in ascending order", () => {
+    const data = [
+      { name: " Alice" },
+      { name: "Bob " },
+      { name: " Charlie " },
+      { name: "a" },
+    ]
+    const sort: DataSortConfig = [
+      { field: "name", direction: "asc", priority: 1 },
+    ]
+    const result = dataSort(data, sort)
+    expect(result).toEqual([
+      { name: "a" },
+      { name: " Alice" },
+      { name: "Bob " },
+      { name: " Charlie " },
+    ])
+  })
+
+  it("sorts data with leading and trailing spaces in descending order", () => {
+    const data = [
+      { name: " Alice" },
+      { name: "Bob " },
+      { name: " Charlie " },
+      { name: "a" },
+    ]
+    const sort: DataSortConfig = [
+      { field: "name", direction: "desc", priority: 1 },
+    ]
+    const result = dataSort(data, sort)
+    expect(result).toEqual([
+      { name: " Charlie " },
+      { name: "Bob " },
+      { name: " Alice" },
+      { name: "a" },
+    ])
+  })
+
+  it("sorts data with mixed spaces correctly", () => {
+    const data = [
+      { name: " a1" },
+      { name: "a " },
+      { name: " a" },
+      { name: "b" },
+    ]
+    const sort: DataSortConfig = [
+      { field: "name", direction: "asc", priority: 1 },
+    ]
+    const result = dataSort(data, sort)
+    expect(result).toEqual([
+      { name: "a " },
+      { name: " a" },
+      { name: " a1" },
+      { name: "b" },
+    ])
+  })
+
+  it("sorts data with empty and whitespace-only strings", () => {
+    const data = [
+      { name: "   " },
+      { name: " Alice" },
+      { name: "Bob " },
+      { name: "" },
+    ]
+    const sort: DataSortConfig = [
+      { field: "name", direction: "asc", priority: 1 },
+    ]
+    const result = dataSort(data, sort)
+    expect(result).toEqual([
+      { name: "" },
+      { name: "   " },
+      { name: " Alice" },
+      { name: "Bob " },
+    ])
+  })
+
   it("sorts data based on nested field in ascending order", () => {
     const data = [
       { user: { name: "Charlie" } },
