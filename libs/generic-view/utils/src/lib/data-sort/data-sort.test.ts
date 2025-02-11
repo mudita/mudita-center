@@ -108,10 +108,10 @@ describe("dataProviderSort", () => {
     ]
     const result = dataSort(data, sort)
     expect(result).toEqual([
-      { name: "" },
-      { name: "   " },
       { name: " Alice" },
       { name: "Bob " },
+      { name: "   " },
+      { name: "" },
     ])
   })
 
