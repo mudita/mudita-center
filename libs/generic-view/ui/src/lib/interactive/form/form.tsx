@@ -13,6 +13,7 @@ import { SearchInput } from "./input/search-input"
 import { SearchResults } from "./input/search-results"
 import { FormConfig } from "generic-view/models"
 import { SelectInput } from "./input/select-input"
+import { DynamicInputList } from "./input/dynamic-input/dynamic-input-list"
 
 export const Form: APIFC<undefined, FormConfig> & {
   TextInput: typeof TextInput
@@ -21,6 +22,7 @@ export const Form: APIFC<undefined, FormConfig> & {
   SearchInput: typeof SearchInput
   SearchInputResults: typeof SearchResults
   SelectInput: typeof SelectInput
+  DynamicInput: typeof DynamicInputList
 } = ({ config, children, componentKey }) => {
   const methods = useForm({
     mode: "onTouched",
@@ -43,5 +45,6 @@ Form.CheckboxInput = CheckboxInput
 Form.SearchInput = SearchInput
 Form.SearchInputResults = SearchResults
 Form.SelectInput = SelectInput
+Form.DynamicInput = DynamicInputList
 
 export default Form

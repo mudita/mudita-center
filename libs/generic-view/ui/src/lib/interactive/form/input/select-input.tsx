@@ -12,6 +12,7 @@ import styled, { css } from "styled-components"
 export const SelectInput: APIFC<FormSelectInputData, FormSelectInputConfig> = ({
   data,
   config,
+  ...props
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
@@ -36,9 +37,9 @@ export const SelectInput: APIFC<FormSelectInputData, FormSelectInputConfig> = ({
   }, [])
 
   return (
-    <Wrapper ref={selectRef}>
+    <Wrapper ref={selectRef} {...props}>
       <Select onClick={() => setIsOpen(!isOpen)} $selected={data?.value}>
-        {data?.value || "Select an option"}
+        {data?.value || config.options[0]}
         <Icon config={{ type: IconType.DropdownArrow, size: "tiny" }} />
       </Select>
       {isOpen && (
@@ -56,12 +57,10 @@ export const SelectInput: APIFC<FormSelectInputData, FormSelectInputConfig> = ({
 
 const Wrapper = styled.div`
   position: relative;
-  width: fit-content;
+  min-width: fit-content;
 `
 
-const Label = styled.label``
-
-const Select = styled.div<{ $selected?: string }>`
+export const Select = styled.div<{ $selected?: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
