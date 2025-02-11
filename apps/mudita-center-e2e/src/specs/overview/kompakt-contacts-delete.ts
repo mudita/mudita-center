@@ -48,19 +48,25 @@ describe("E2E mock sample - overview view", () => {
     await expect(contactsCounter).toHaveText("Contacts (17)")
   })
 
-  it("Select first contact to open contact details", async () => {
-    const contactsList = await ContactsKompaktPage.allContactsTableRows
-    await contactsList[0].click()
+  it("Select first contact's checkbox", async () => {
+    const checkboxesLabels = await ContactsKompaktPage.contactsCheckboxesLabels
+    await checkboxesLabels[0].click()
+  })
+
+  it("Check contact selected bar", async () => {
+    const contactSelectedBar = ContactsKompaktPage.contactSelectedBar
+    await expect(contactSelectedBar).toHaveText("1 contact selected")
+
+    const contactSelectedDeleteButton =
+      ContactsKompaktPage.contactSelectedDeleteButton
+    await expect(contactSelectedDeleteButton).toBeClickable()
+    await contactSelectedDeleteButton.click()
   })
   it("Check delete modal", async () => {
-    const contactDetailsDeleteButton =
-      ContactsKompaktPage.contactDetailsDeleteButton
-    await expect(contactDetailsDeleteButton).toBeClickable()
-    await contactDetailsDeleteButton.click()
-
     //check delete modal
-    const contactDeleteModal = ContactsKompaktPage.contactDeleteModal
-    await expect(contactDeleteModal).toBeDisplayed()
+    const contactDeleteModalFromList =
+      ContactsKompaktPage.contactDeleteModalFromList
+    await expect(contactDeleteModalFromList).toBeDisplayed()
 
     const contactDeleteModalIcon = ContactsKompaktPage.contactDeleteModalIcon
     await expect(contactDeleteModalIcon).toBeDisplayed()
@@ -80,10 +86,10 @@ describe("E2E mock sample - overview view", () => {
     expect(isClickable).toBe(false)
 
     //check modal cancellation
-    const deleteContactCancelButton =
-      ContactsKompaktPage.deleteContactCancelButton
-    await expect(deleteContactCancelButton).toBeClickable()
-    await deleteContactCancelButton.click()
+    const deleteContactCancelButtonFromList =
+      ContactsKompaktPage.deleteContactCancelButtonFromList
+    await expect(deleteContactCancelButtonFromList).toBeClickable()
+    await deleteContactCancelButtonFromList.click()
   })
   it("Check contact deletion and counter update", async () => {
     //click again to open modal again
@@ -96,10 +102,10 @@ describe("E2E mock sample - overview view", () => {
       entityType: "contacts",
       totalEntities: selectedContactsEntities.length - 1,
     })
-    const deleteContactConfirmButton =
-      ContactsKompaktPage.deleteContactConfirmButton
-    await expect(deleteContactConfirmButton).toBeClickable()
-    await deleteContactConfirmButton.click()
+    const deleteContactConfirmButtonFromList =
+      ContactsKompaktPage.deleteContactConfirmButtonFromList
+    await expect(deleteContactConfirmButtonFromList).toBeClickable()
+    await deleteContactConfirmButtonFromList.click()
 
     //verify if counter is updated after deleting (number should be deducted by 1)
     const contactsCounter = ContactsKompaktPage.contactsCounter
