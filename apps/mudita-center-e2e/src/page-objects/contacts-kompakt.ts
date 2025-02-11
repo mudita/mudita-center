@@ -37,6 +37,18 @@ class ContactsKompaktPage extends Page {
     return $$('//*[@data-testid="ui-table-row"]')
   }
 
+  public get contactsCheckboxesLabels() {
+    return $$('//label[contains(@for, "checkbox-")]')
+  }
+
+  public get contactSelectedBar() {
+    return $('//*[@data-testid="ui-typography-p4"]')
+  }
+
+  public get contactSelectedDeleteButton() {
+    return $('//*[@data-testid="button-text_deleteButton"]')
+  }
+
   public get contactDetailsDeleteButton() {
     return $('//*[@data-testid="icon-delete"]')
   }
@@ -45,11 +57,15 @@ class ContactsKompaktPage extends Page {
     return $('//*[@data-testid="modal-content-detailsDeleteModal"]')
   }
 
+  public get contactDeleteModalFromList() {
+    return $('//*[@data-testid="modal-content-globalDeleteModal"]')
+  }
+
   public get contactDeleteModalIcon() {
     return $('//*[@data-testid="icon-exclamation"]')
   }
   public get contactDeleteModalTitle() {
-    return $('//h1[text()="Delete contact"]')
+    return $('//h1[text()="Delete contact?"]')
   }
 
   public get contactDeleteModalText() {
@@ -68,6 +84,16 @@ class ContactsKompaktPage extends Page {
       '//*[@data-testid="primary-button-detailsDeleteModalCancelButton"]'
     )
   }
+
+  public get deleteContactConfirmButtonFromList() {
+    return $(
+      '//*[@data-testid="primary-button-globalDeleteModalConfirmButton"]'
+    )
+  }
+  public get deleteContactCancelButtonFromList() {
+    return $('//*[@data-testid="primary-button-globalDeleteModalCancelButton"]')
+  }
+
   public get checkboxByRowIndex() {
     return (rowIndex: number) =>
       $(
