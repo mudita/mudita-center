@@ -45,9 +45,16 @@ export const getEntitiesDataAction = createAsyncThunk<
       return rejectWithValue(undefined)
     }
 
-    abortController?.signal.addEventListener("abort", () => {
+    abortController?.signal.addEventListener("abort", async () => {
+      void getEntitiesDataRequest({
+        entitiesType,
+        deviceId,
+        responseType,
+        action: "abort",
+      })
+
       if (transferId) {
-        sendClearRequest(transferId)
+        void sendClearRequest(transferId)
       }
       if (abortGetFileAction) {
         abortGetFileAction()
