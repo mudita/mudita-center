@@ -8,6 +8,7 @@ on:
 jobs:
   e2e:
     if: startsWith(github.event.base_ref, 'refs/heads/v') && !(endsWith(github.ref, '-latest'))
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [Windows, Linux]
