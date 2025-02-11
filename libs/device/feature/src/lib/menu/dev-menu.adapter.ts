@@ -32,6 +32,16 @@ export class DevMenuAdapter {
         feature: "mc-file-manager-internal",
         displayName: "Manage Files",
         icon: IconType.FileManager,
+        submenu: [
+          {
+            feature: "mc-file-manager-internal",
+            displayName: "Phone storage",
+          },
+          {
+            feature: "mc-file-manager-external",
+            displayName: "SD card",
+          },
+        ],
       },
     ]
     return {
