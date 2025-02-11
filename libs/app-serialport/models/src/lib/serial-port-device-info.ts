@@ -8,10 +8,11 @@ import { SerialPortDeviceType } from "./serial-port-device-type"
 
 export type SerialPortDevicePath = string
 
-export interface SerialPortDeviceInfo extends PortInfo {
+export interface SerialPortDeviceInfo<DeviceType = SerialPortDeviceType>
+  extends PortInfo {
   productId: string
   vendorId: string
-  deviceType: SerialPortDeviceType
+  deviceType: DeviceType
 }
 
 export interface SerialPortChangedDevices {

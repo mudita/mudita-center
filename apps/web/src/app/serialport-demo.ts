@@ -9,44 +9,53 @@ import {
   SerialPortDeviceInfo,
   SerialPortDeviceType,
 } from "app-serialport/models"
-import { AppSerialPort, AppSerialPortErrors } from "app-serialport/renderer"
+import { AppSerialPort } from "app-serialport/renderer"
+import { getApiConfig } from "api-device/feature"
+import { ApiDeviceError, ApiDeviceSerialPort } from "api-device/adapters"
 
 export const useSerialPortListener = () => {
   const listenForDevicesChange = useCallback(async () => {
     const onAttach = async (device: SerialPortDeviceInfo) => {
-      if (device.deviceType === SerialPortDeviceType.ApiDevice) {
-        for (let i = 0; i < 50; i++) {
-          const timeout = Math.random() * 1000
-          try {
-            if (i % 2 === 0) {
-              const res = await AppSerialPort.request(device.path, {
-                endpoint: "ENTITIES_CONFIGURATION",
-                method: "GET",
-                body: {
-                  entityType: "contacts",
-                },
-                options: {
-                  timeout,
-                },
-              })
-              console.log(i, timeout, res)
-            } else {
-              const res = await AppSerialPort.request(device.path, {
-                endpoint: "API_CONFIGURATION",
-                method: "GET",
-                body: {},
-                options: {
-                  timeout,
-                },
-              })
-              console.log(i, timeout, res)
-            }
-          } catch (e) {
-            if (e instanceof AppSerialPortErrors.ResponseTimeoutError) {
-              console.log("Timeout error", i, timeout)
-            }
-          }
+      if (ApiDeviceSerialPort.isCompatible(device)) {
+        try {
+          const resp = await getApiConfig(device)
+          console.log(resp)
+        } catch (error) {
+          ApiDeviceError.ensure(error)
+          console.log(error.status, error.message)
         }
+        // for (let i = 0; i < 50; i++) {
+        // const timeout = Math.random() * 1000
+        // try {
+        //   if (i % 2 === 0) {
+        //     const res = await AppSerialPort.request(device.path, {
+        //       endpoint: "ENTITIES_CONFIGURATION",
+        //       method: "GET",
+        //       body: {
+        //         entityType: "contacts",
+        //       },
+        //       options: {
+        //         timeout,
+        //       },
+        //     })
+        //     console.log(i, timeout, res)
+        //   } else {
+        //     const res = await AppSerialPort.request(device.path, {
+        //       endpoint: "API_CONFIGURATION",
+        //       method: "GET",
+        //       body: {},
+        //       options: {
+        //         timeout,
+        //       },
+        //     })
+        //     console.log(i, timeout, res)
+        //   }
+        // } catch (e) {
+        //   if (e instanceof AppSerialPortErrors.ResponseTimeoutError) {
+        //     console.log("Timeout error", i, timeout)
+        //   }
+        // }
+        // }
       } else if (device.deviceType === SerialPortDeviceType.Pure) {
         console.log("Pure device attached", device)
 

@@ -48,7 +48,7 @@ export class SerialPortDevice extends SerialPort {
     }: BaseSerialPortDeviceOptions,
     parser?: Transform
   ) {
-    super(options)
+    super({ ...options, autoOpen: true })
     this.queue = new PQueue({
       concurrency: queueConcurrency,
       interval: queueInterval,
@@ -81,7 +81,7 @@ export class SerialPortDevice extends SerialPort {
       }
 
       timeout = setTimeout(() => {
-        super.flush()
+        super.drain()
         this.responseEmitter.removeListener(`response-${id}`, listener)
         reject(SerialPortError.ResponseTimeout)
       }, timeoutMs)
@@ -103,7 +103,7 @@ export class SerialPortDevice extends SerialPort {
     return data
   }
 
-  async request({ options, ...data }: SerialPortRequest) {
+  private createRequest({ options, ...data }: SerialPortRequest) {
     const id = parseInt(uniqueId())
     return new Promise<SerialPortResponse>((resolve, reject) => {
       void this.queue.add(async () => {
@@ -120,6 +120,29 @@ export class SerialPortDevice extends SerialPort {
         }
       })
     })
+  }
+
+  async request({
+    options,
+    ...data
+  }: SerialPortRequest): ReturnType<typeof this.createRequest> {
+    const maxRetries = options?.retries || 0
+
+    try {
+      return await this.createRequest({ options, ...data })
+    } catch (error) {
+      if (error === SerialPortError.ResponseTimeout && maxRetries > 0) {
+        return await this.request({
+          options: {
+            ...options,
+            retries: maxRetries - 1,
+          },
+          ...data,
+        })
+      } else {
+        throw error
+      }
+    }
   }
 
   destroy(error?: Error): this {

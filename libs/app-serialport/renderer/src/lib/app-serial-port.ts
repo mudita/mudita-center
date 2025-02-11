@@ -5,26 +5,56 @@
 
 import {
   SerialPortChangedDevices,
+  SerialPortDeviceInfo,
   SerialPortDevicePath,
+  SerialPortDeviceType,
   SerialPortIpcEvents,
   SerialPortRequest,
+  SerialPortResponse,
 } from "app-serialport/models"
 import { AppSerialPortErrors } from "./app-serial-port-errors"
 
-export const AppSerialPort = {
-  onDevicesChanged: (callback: (changes: SerialPortChangedDevices) => void) => {
+export class AppSerialPort {
+  static onDevicesChanged(
+    callback: (changes: SerialPortChangedDevices) => void
+  ) {
     return window.electron.ipcRenderer.on(
       SerialPortIpcEvents.DevicesChanged,
       (_, changes) => {
         callback(changes)
       }
     )
-  },
-  request: async (path: SerialPortDevicePath, data: SerialPortRequest) => {
+  }
+
+  static async changeBaudRate(
+    path: SerialPortDevicePath,
+    baudRate: number
+  ): Promise<void> {
+    return await window.electron.ipcRenderer.invoke(
+      SerialPortIpcEvents.ChangeBaudRate,
+      path,
+      baudRate
+    )
+  }
+
+  static isCompatible(
+    device: SerialPortDeviceInfo
+  ): device is SerialPortDeviceInfo {
+    if (!Object.values(SerialPortDeviceType).includes(device.deviceType)) {
+      throw new Error("Device type is not supported")
+    }
+    return true
+  }
+
+  static async request(
+    device: SerialPortDeviceInfo,
+    data: SerialPortRequest
+  ): Promise<SerialPortResponse> {
     try {
+      this.isCompatible(device)
       return await window.electron.ipcRenderer.invoke(
         SerialPortIpcEvents.Request,
-        path,
+        device.path,
         data
       )
     } catch (error) {
@@ -39,12 +69,5 @@ export const AppSerialPort = {
       }
       throw error
     }
-  },
-  changeBaudRate: async (path: SerialPortDevicePath, baudRate: number) => {
-    return await window.electron.ipcRenderer.invoke(
-      SerialPortIpcEvents.ChangeBaudRate,
-      path,
-      baudRate
-    )
-  },
+  }
 }

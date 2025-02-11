@@ -57,3 +57,4 @@ storybook-static
 !.env.example
 
 /apps/app/src/renderer/public/*.wasm
+vitest.config.*.timestamp*
