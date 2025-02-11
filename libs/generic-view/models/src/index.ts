@@ -35,6 +35,7 @@ import { formSearchInputResults } from "./lib/form-search-input-results"
 import { formRadioInput } from "./lib/form-radio-input"
 import { formCheckboxInput } from "./lib/form-checkbox-input"
 import { formSelectInput } from "./lib/form-select-input"
+import { formDynamicInput } from "./lib/form-dynamic-input"
 import { tooltip } from "./lib/tooltip"
 import { progressBar } from "./lib/progress-bar"
 import { segmentBar } from "./lib/segment-bar"
@@ -104,6 +105,7 @@ export * from "./lib/form-search-input"
 export * from "./lib/form-search-input-results"
 export * from "./lib/form-checkbox-input"
 export * from "./lib/form-select-input"
+export * from "./lib/form-dynamic-input"
 export * from "./lib/progress-bar"
 export * from "./lib/segment-bar"
 export * from "./lib/tooltip"
@@ -178,6 +180,7 @@ export default {
   [formSearchInputResults.key]: formSearchInputResults,
   [formCheckboxInput.key]: formCheckboxInput,
   [formSelectInput.key]: formSelectInput,
+  [formDynamicInput.key]: formDynamicInput,
   [progressBar.key]: progressBar,
   [segmentBar.key]: segmentBar,
   [tooltip.key]: tooltip,
