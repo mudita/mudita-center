@@ -5,13 +5,14 @@
 
 import { useEffect } from "react"
 import {
+  createEntityDataAction,
+  deleteEntitiesDataAction,
   getEntitiesDataAction,
   getEntitiesMetadataAction,
   getEntityDataAction,
+  getMenuConfig,
   selectActiveApiDeviceId,
-  createEntityDataAction,
   updateEntityDataAction,
-  deleteEntitiesDataAction,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -111,6 +112,9 @@ export const useDevConsole = () => {
               getEntitiesMetadataAction({ entitiesType, deviceId })
             )
           }
+        },
+        _getMenuConfig: async (deviceId = activeDeviceId) => {
+          return dispatch(getMenuConfig({ deviceId }))
         },
       })
     }
