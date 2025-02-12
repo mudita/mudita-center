@@ -43,16 +43,14 @@ export const TextInput: APIFC<FormTextInputData, FormTextInputConfig> = ({
 
   return (
     <Wrapper {...props}>
-      {config.label && (
-        <Label
-          data-testid={InteractiveTextInputTestIds.Text}
-          htmlFor={"input-" + id}
-          $inactive={value.length === 0}
-          $withError={!!error}
-        >
-          {config.label}
-        </Label>
-      )}
+      <Label
+        data-testid={InteractiveTextInputTestIds.Text}
+        htmlFor={"input-" + id}
+        $inactive={value.length === 0}
+        $withError={!!error}
+      >
+        {config.label}
+      </Label>
       <InputWrapper>
         <Input
           data-testid={InteractiveTextInputTestIds.Input}
@@ -124,7 +122,7 @@ const inputFocusStyles = css`
   border-bottom-color: ${({ theme }) => theme.color.black};
 `
 
-export const Input = styled.input<{ $withError?: boolean }>`
+const Input = styled.input<{ $withError?: boolean }>`
   color: ${({ theme }) => theme.color.black};
   font-size: ${({ theme }) => theme.fontSize.paragraph3};
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
