@@ -5,20 +5,15 @@
 
 import { render } from "@testing-library/react"
 import App from "./app"
-import { SerialPortDeviceInfo } from "app-serialport/models"
 
 jest.mock("app-serialport/renderer", () => {
+  class AppSerialPort {
+    static onDevicesChanged = jest.fn()
+    static request = jest.fn()
+    static isCompatible = jest.fn().mockResolvedValue(true)
+  }
   return {
-    AppSerialPort: {
-      onDevicesChanged: jest.fn().mockResolvedValue([
-        {
-          vendorId: "0e8d",
-          productId: "2006",
-          path: "/dev/ttyUSB0.KOM123456789",
-        },
-      ] as SerialPortDeviceInfo[]),
-      request: jest.fn(),
-    },
+    AppSerialPort,
   }
 })
 

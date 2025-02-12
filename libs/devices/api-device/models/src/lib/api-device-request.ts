@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { z } from "zod"
 import { SerialPortRequest, SerialPortResponse } from "app-serialport/models"
 import { ApiDeviceEndpoints } from "./api-device-endpoints"

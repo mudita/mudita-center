@@ -4,11 +4,9 @@
  */
 
 export enum ApiDeviceErrorType {
-  RequestParsingFailed = 400,
-  ResponseParsingFailed = 501,
   DataNotFound = 404,
   DeviceLocked = 423,
   EulaNotAccepted = 451,
   DeviceInternalError = 500,
-  UnknownError = 418,
+  Unknown = 599,
 }

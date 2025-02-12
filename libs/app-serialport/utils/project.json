@@ -1,0 +1,9 @@
+{
+  "name": "app-serialport/utils",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/app-serialport/utils/src",
+  "projectType": "library",
+  "tags": ["type:utils"],
+  "// targets": "to see all targets run: nx show project app-serialport/utils --web",
+  "targets": {}
+}

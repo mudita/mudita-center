@@ -8,6 +8,7 @@ import {
   SerialPortDeviceInfo,
   SerialPortDeviceType,
 } from "app-serialport/models"
+import { SerialPortError } from "app-serialport/utils"
 import {
   ApiDevice,
   ApiDeviceEndpoint,
@@ -45,22 +46,33 @@ export class ApiDeviceSerialPort extends AppSerialPort {
       const requestParseResult = requestValidator.safeParse(request.body)
       if (!requestParseResult.success) {
         throw new ApiDeviceError(
-          ApiDeviceErrorType.RequestParsingFailed,
+          ApiDeviceErrorType.Unknown,
           requestParseResult.error
         )
       }
     }
 
-    const response = (await AppSerialPort.request(
-      device,
-      request
-    )) as ApiDeviceResponse<E, M>
+    let response: ApiDeviceResponse<E, M>
+    try {
+      response = (await AppSerialPort.request(
+        device,
+        request
+      )) as ApiDeviceResponse<E, M>
+    } catch (error) {
+      if (error instanceof SerialPortError) {
+        throw new ApiDeviceError(ApiDeviceErrorType.Unknown, {
+          type: error.type,
+          requestId: error.requestId,
+        })
+      }
+      throw new ApiDeviceError(ApiDeviceErrorType.Unknown)
+    }
 
     if (responseValidator && "body" in response) {
       const responseParseResult = responseValidator.safeParse(response.body)
       if (!responseParseResult.success) {
         throw new ApiDeviceError(
-          ApiDeviceErrorType.ResponseParsingFailed,
+          ApiDeviceErrorType.Unknown,
           responseParseResult.error
         )
       }

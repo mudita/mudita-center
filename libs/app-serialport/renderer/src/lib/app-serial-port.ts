@@ -12,7 +12,7 @@ import {
   SerialPortRequest,
   SerialPortResponse,
 } from "app-serialport/models"
-import { SerialPortError } from "./app-serial-port-errors"
+import { SerialPortError } from "app-serialport/utils"
 
 export class AppSerialPort {
   static onDevicesChanged(

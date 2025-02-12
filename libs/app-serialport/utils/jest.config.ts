@@ -4,12 +4,12 @@
  */
 
 export default {
-  displayName: "api-device/models",
-  preset: "../../../../jest.preset.js",
+  displayName: "app-serialport/utils",
+  preset: "../../../jest.preset.js",
   transform: {
     "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "@nx/react/plugins/jest",
     "^.+\\.[tj]sx?$": ["babel-jest", { presets: ["@nx/react/babel"] }],
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
-  coverageDirectory: "../../../../coverage/libs/devices/api-device/models",
+  coverageDirectory: "../../../coverage/libs/app-serialport/utils",
 }

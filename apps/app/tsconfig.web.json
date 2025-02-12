@@ -13,7 +13,8 @@
       "@app/*": ["./*"],
       "@web/*": ["../web/src/*"],
       "@renderer/*": ["src/renderer/*"],
-      "app-*": ["../../libs/app-*/src/index.ts"]
+      "app-*": ["../../libs/app-*/src/index.ts"],
+      "api-device/*": ["../../libs/devices/api-device/*/src/index.ts"],
     }
   }
 }

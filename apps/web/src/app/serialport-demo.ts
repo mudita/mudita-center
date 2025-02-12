@@ -6,9 +6,10 @@
 import { useCallback, useEffect } from "react"
 import { isEmpty } from "lodash"
 import { SerialPortDeviceInfo } from "app-serialport/models"
-import { AppSerialPort, SerialPortError } from "app-serialport/renderer"
+import { AppSerialPort } from "app-serialport/renderer"
 import { getApiConfig, getMenuConfig } from "api-device/feature"
-import { ApiDeviceSerialPort } from "api-device/adapters"
+import { ApiDeviceError, ApiDeviceSerialPort } from "api-device/adapters"
+import { ApiDeviceErrorType } from "api-device/models"
 
 export const useSerialPortListener = () => {
   const listenForDevicesChange = useCallback(async () => {
@@ -19,11 +20,10 @@ export const useSerialPortListener = () => {
           const menuConfig = await getMenuConfig(device)
           console.log(apiConfig, menuConfig)
         } catch (error) {
-          if (error instanceof SerialPortError) {
-            console.log(error.type, error.requestId)
+          ApiDeviceError.ensure(error)
+          if (error.status === ApiDeviceErrorType.DeviceLocked) {
+            console.log("Device is locked")
           }
-          // ApiDeviceError.ensure(error)
-          // console.log(error.status, error.message, error.details)
         }
       }
       // else if (device.deviceType === SerialPortDeviceType.Pure) {

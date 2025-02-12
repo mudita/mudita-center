@@ -15,7 +15,7 @@ import {
 import { clone, get, set, uniqueId } from "lodash"
 import EventEmitter from "events"
 import PQueue from "p-queue"
-import { SerialPortError } from "app-serialport/renderer"
+import { SerialPortError } from "app-serialport/utils"
 
 const DEFAULT_QUEUE_INTERVAL = 1
 const DEFAULT_QUEUE_CONCURRENCY = 1
@@ -135,7 +135,7 @@ export class SerialPortDevice extends SerialPort {
     try {
       return await this.createRequest({ options, ...data })
     } catch (error) {
-      if (error === SerialPortErrorType.ResponseTimeout && maxRetries > 0) {
+      if (maxRetries > 0) {
         return await this.request({
           options: {
             ...options,

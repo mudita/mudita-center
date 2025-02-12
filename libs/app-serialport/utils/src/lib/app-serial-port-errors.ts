@@ -5,7 +5,12 @@
 
 import { SerialPortErrorType } from "app-serialport/models"
 
-export class SerialPortError extends Error {
+export interface SerialPortErrorDetails {
+  type: SerialPortErrorType
+  requestId?: number | string
+}
+
+export class SerialPortError extends Error implements SerialPortErrorDetails {
   type: SerialPortErrorType = SerialPortErrorType.Unknown
   requestId?: number | string
 

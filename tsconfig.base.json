@@ -23,6 +23,7 @@
       "app-serialport/main": ["libs/app-serialport/main/src/index.ts"],
       "app-serialport/models": ["libs/app-serialport/models/src/index.ts"],
       "app-serialport/renderer": ["libs/app-serialport/renderer/src/index.ts"],
+      "app-serialport/utils": ["libs/app-serialport/utils/src/index.ts"],
       "app-sql/main": ["libs/app-sql/main/src/index.ts"],
       "app-sql/models": ["libs/app-sql/models/src/index.ts"],
       "app-sql/renderer": ["libs/app-sql/renderer/src/index.ts"]

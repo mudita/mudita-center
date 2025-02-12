@@ -16,11 +16,17 @@ export class ApiDeviceError extends Error {
     if (details) {
       this.details = details
     }
+    if (
+      status === ApiDeviceErrorType.Unknown &&
+      process.env.NODE_ENV === "development"
+    ) {
+      console.error(details)
+    }
   }
 
   static ensure(error: unknown): asserts error is ApiDeviceError {
     if (!(error instanceof ApiDeviceError)) {
-      throw new ApiDeviceError(ApiDeviceErrorType.UnknownError, error)
+      throw new ApiDeviceError(ApiDeviceErrorType.Unknown, error)
     }
   }
 }
