@@ -45,7 +45,7 @@ const inputValidation: z.ZodType<
 
 const configValidator = z.object({
   name: z.string(),
-  label: z.string().optional(),
+  label: z.string(),
   type: z.enum(["text", "password", "email", "tel", "url"]),
   validation: inputValidation.optional(),
 })
