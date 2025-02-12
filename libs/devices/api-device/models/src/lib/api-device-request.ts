@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ApiDeviceEndpoints } from "./api-device-endpoints"
-import { ApiDeviceErrorType } from "./api-device-error-type"
 import { z } from "zod"
 import { SerialPortRequest, SerialPortResponse } from "app-serialport/models"
+import { ApiDeviceEndpoints } from "./api-device-endpoints"
+import { ApiDeviceErrorType } from "./api-device-error-type"
 
 export type ApiDeviceEndpoint = keyof typeof ApiDeviceEndpoints
 export type ApiDeviceMethod<E extends ApiDeviceEndpoint> =
@@ -51,15 +51,11 @@ export type ApiDeviceResponse<
   M extends keyof (typeof ApiDeviceEndpoints)[E],
 > = SerialPortResponse<
   | {
-      rid: number
-      ok: true
       status: number
       endpoint: E
       body: ResponseBody<E, M>
     }
   | {
-      rid: number
-      ok: false
       status: ApiDeviceErrorType
       endpoint: E
     }

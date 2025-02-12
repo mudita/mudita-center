@@ -8,13 +8,14 @@ import { AutoDetectTypes } from "@serialport/bindings-cpp"
 import { Transform } from "stream"
 import {
   SerialPortDeviceType,
-  SerialPortError,
+  SerialPortErrorType,
   SerialPortRequest,
   SerialPortResponse,
 } from "app-serialport/models"
 import { clone, get, set, uniqueId } from "lodash"
 import EventEmitter from "events"
 import PQueue from "p-queue"
+import { SerialPortError } from "app-serialport/renderer"
 
 const DEFAULT_QUEUE_INTERVAL = 1
 const DEFAULT_QUEUE_CONCURRENCY = 1
@@ -59,16 +60,16 @@ export class SerialPortDevice extends SerialPort {
   }
 
   private parseResponse(buffer: Buffer) {
-    const response = JSON.parse(buffer.toString())
-    try {
-      const id = get(response, this.requestIdKey)
-      if (!id) {
-        console.error(SerialPortError.ResponseWithoutId)
-      }
-      this.responseEmitter.emit(`response-${id}`, response)
-    } catch {
-      console.error(SerialPortError.InvalidResponse)
+    const rawResponse = buffer.toString()
+    if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+      console.info(`SerialPort response: ${rawResponse}`)
     }
+    const response = JSON.parse(rawResponse)
+    const id = get(response, this.requestIdKey)
+    if (!id) {
+      throw new SerialPortError(SerialPortErrorType.ResponseWithoutId)
+    }
+    this.responseEmitter.emit(`response-${id}`, response)
   }
 
   private listenForResponse(id: number | string, timeoutMs: number) {
@@ -83,7 +84,7 @@ export class SerialPortDevice extends SerialPort {
       timeout = setTimeout(() => {
         super.drain()
         this.responseEmitter.removeListener(`response-${id}`, listener)
-        reject(SerialPortError.ResponseTimeout)
+        reject(new SerialPortError(SerialPortErrorType.ResponseTimeout, id))
       }, timeoutMs)
 
       this.responseEmitter.once(`response-${id}`, listener)
@@ -93,9 +94,12 @@ export class SerialPortDevice extends SerialPort {
   write(data: unknown) {
     try {
       const parsedData = this.parseRequest(data)
+      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+        console.info(`SerialPort write: ${parsedData}`)
+      }
       return super.write(parsedData)
     } catch {
-      throw SerialPortError.InvalidRequest
+      throw SerialPortErrorType.InvalidRequest
     }
   }
 
@@ -116,7 +120,7 @@ export class SerialPortDevice extends SerialPort {
           )
           resolve(response)
         } catch (error) {
-          reject(error)
+          reject(new SerialPortError(error))
         }
       })
     })
@@ -131,7 +135,7 @@ export class SerialPortDevice extends SerialPort {
     try {
       return await this.createRequest({ options, ...data })
     } catch (error) {
-      if (error === SerialPortError.ResponseTimeout && maxRetries > 0) {
+      if (error === SerialPortErrorType.ResponseTimeout && maxRetries > 0) {
         return await this.request({
           options: {
             ...options,

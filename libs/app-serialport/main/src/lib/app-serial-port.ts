@@ -19,10 +19,6 @@ enum SerialPortEvents {
   DevicesChanged = "devicesChanged",
 }
 
-const isKnownDevice = (port: PortInfo): port is SerialPortDeviceInfo => {
-  return port.productId !== undefined && port.vendorId !== undefined
-}
-
 export class AppSerialPort {
   private readonly instances = new Map<SerialPortDevicePath, SerialPortDevice>()
   private readonly supportedDevices = devices
@@ -38,9 +34,13 @@ export class AppSerialPort {
     }, 3000)
   }
 
+  private isKnownDevice(port: PortInfo): port is SerialPortDeviceInfo {
+    return port.productId !== undefined && port.vendorId !== undefined
+  }
+
   private async detectChanges() {
     const currentDevices = (await SerialPort.list()).filter((port) => {
-      if (!isKnownDevice(port)) {
+      if (!this.isKnownDevice(port)) {
         return false
       }
       return this.supportedDevices.some((device) => {

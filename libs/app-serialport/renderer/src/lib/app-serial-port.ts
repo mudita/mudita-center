@@ -12,7 +12,7 @@ import {
   SerialPortRequest,
   SerialPortResponse,
 } from "app-serialport/models"
-import { AppSerialPortErrors } from "./app-serial-port-errors"
+import { SerialPortError } from "./app-serial-port-errors"
 
 export class AppSerialPort {
   static onDevicesChanged(
@@ -58,16 +58,7 @@ export class AppSerialPort {
         data
       )
     } catch (error) {
-      if (error instanceof Error) {
-        for (const AppSerialPortError of Object.values(AppSerialPortErrors)) {
-          const predefinedError = new AppSerialPortError(error.message)
-          if (predefinedError.parse()) {
-            throw predefinedError
-          }
-        }
-        throw error
-      }
-      throw error
+      throw new SerialPortError(error)
     }
   }
 }

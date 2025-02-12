@@ -6,12 +6,15 @@
 import { ApiDeviceSerialPort } from "api-device/adapters"
 import { ApiDevice } from "api-device/models"
 
-export const getApiConfig = async (device: ApiDevice) => {
+export const getMenuConfig = async (device: ApiDevice) => {
   return await ApiDeviceSerialPort.request(device, {
-    endpoint: "API_CONFIGURATION",
+    endpoint: "MENU_CONFIGURATION",
     method: "GET",
+    body: {
+      lang: "en-US",
+    },
     options: {
-      timeout: 2,
+      timeout: 1000,
       retries: 3,
     },
   })

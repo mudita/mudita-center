@@ -6,8 +6,8 @@
 import { ApiDeviceErrorType } from "api-device/models"
 
 export class ApiDeviceError extends Error {
-  public status: ApiDeviceErrorType
-  public details?: unknown
+  status: ApiDeviceErrorType
+  details?: unknown
 
   constructor(status: ApiDeviceErrorType, details?: unknown) {
     super(ApiDeviceErrorType[status])
@@ -20,7 +20,7 @@ export class ApiDeviceError extends Error {
 
   static ensure(error: unknown): asserts error is ApiDeviceError {
     if (!(error instanceof ApiDeviceError)) {
-      throw error
+      throw new ApiDeviceError(ApiDeviceErrorType.UnknownError, error)
     }
   }
 }

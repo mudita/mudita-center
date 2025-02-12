@@ -4,3 +4,4 @@
  */
 
 export * from "./lib/get-api-config"
+export * from "./lib/get-menu-config"

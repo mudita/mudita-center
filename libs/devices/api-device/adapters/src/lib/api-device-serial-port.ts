@@ -9,6 +9,7 @@ import {
   SerialPortDeviceType,
 } from "app-serialport/models"
 import {
+  ApiDevice,
   ApiDeviceEndpoint,
   ApiDeviceEndpoints,
   ApiDeviceErrorType,
@@ -18,13 +19,11 @@ import {
 } from "api-device/models"
 import { ApiDeviceError } from "./api-device-error"
 
-type ApiDevice = SerialPortDeviceInfo<SerialPortDeviceType.ApiDevice>
-
 export class ApiDeviceSerialPort extends AppSerialPort {
   static isCompatible(device: SerialPortDeviceInfo): device is ApiDevice {
     if (device.deviceType !== SerialPortDeviceType.ApiDevice) {
       throw new Error(
-        `Device ${device.serialNumber} of ${device.deviceType} type is not an ApiDevice.`
+        `Device ${device.serialNumber} of type ${device.deviceType} is not an ApiDevice.`
       )
     }
     return true

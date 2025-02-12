@@ -8,7 +8,7 @@ import { z } from "zod"
 const MenuItemConfigValidator = z.object({
   feature: z.string(),
   displayName: z.string().optional(),
-  icon: z.enum(["icon-1", "icon-2"]).optional(),
+  icon: z.string().optional(),
 })
 
 export type MenuItemConfig = z.infer<typeof MenuItemConfigValidator>
