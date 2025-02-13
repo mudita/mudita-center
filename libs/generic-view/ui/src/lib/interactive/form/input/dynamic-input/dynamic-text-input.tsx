@@ -9,6 +9,8 @@ import { useFormContext } from "react-hook-form"
 import { APIFC, IconType } from "generic-view/utils"
 import { IconButton } from "../../../../shared/button"
 import { Icon } from "../../../../icon/icon"
+import Tooltip from "../../../tooltip/tooltip"
+import { Typography } from "../../../../typography"
 
 interface Props {
   name: string
@@ -66,27 +68,45 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
           onBlur={(e) => handleOnBlur(e)}
         />
         {(isFocused || isDefault) && (
-          <DefaultButton type={"button"} onClick={onSetDefault}>
+          <Tooltip
+            config={{
+              placement: "bottom-left",
+              strategy: "element-oriented",
+              offset: { x: 0, y: 8 },
+            }}
+          >
+            <Tooltip.Anchor>
+              <DefaultButton type={"button"} onClick={onSetDefault}>
+                {!isDefault && isFocused && (
+                  <ButtonWrapper>
+                    <span>Set as default</span>
+                    <Icon
+                      config={{
+                        type: IconType.CheckCircle,
+                        size: "tiny",
+                      }}
+                    />
+                  </ButtonWrapper>
+                )}
+                {isDefault && (
+                  <Icon
+                    config={{
+                      type: IconType.Checkmark,
+                      size: "tiny",
+                    }}
+                  />
+                )}
+              </DefaultButton>
+            </Tooltip.Anchor>
             {!isDefault && isFocused && (
-              <ButtonWrapper>
-                <span>Set as default</span>
-                <Icon
-                  config={{
-                    type: IconType.CheckCircle,
-                    size: "tiny",
-                  }}
-                />
-              </ButtonWrapper>
+              <Tooltip.Content>
+                <Label>Set as default for this contact</Label>
+                <Typography.P5>
+                  Always send calls and SMS to this number.
+                </Typography.P5>
+              </Tooltip.Content>
             )}
-            {isDefault && (
-              <Icon
-                config={{
-                  type: IconType.Checkmark,
-                  size: "tiny",
-                }}
-              />
-            )}
-          </DefaultButton>
+          </Tooltip>
         )}
       </InputWrapper>
     </Wrapper>
@@ -143,6 +163,7 @@ const InputWrapper = styled.div`
 
 const DefaultButton = styled(IconButton)`
   position: absolute;
+  min-width: max-content;
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
@@ -164,5 +185,12 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 0.6rem;
-  margin-right: 0.8rem;
+  /* margin-right: 0.8rem; */
+`
+
+const Label = styled.label`
+  font-size: ${({ theme }) => theme.fontSize.paragraph5};
+  line-height: ${({ theme }) => theme.lineHeight.paragraph5};
+  color: ${({ theme }) => theme.color.black};
+  letter-spacing: 0.05em;
 `
