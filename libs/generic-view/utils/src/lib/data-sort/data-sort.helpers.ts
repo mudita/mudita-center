@@ -84,5 +84,10 @@ export const getFirstNonEmptyField = (
     return true
   })
 
-  return fieldKey ? get(obj, fieldKey) : ""
+  const fieldValue = fieldKey ? get(obj, fieldKey) : ""
+  if (typeof fieldValue === "string") {
+    return fieldValue.trim()
+  }
+
+  return fieldValue
 }
