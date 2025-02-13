@@ -26,7 +26,10 @@
       "app-serialport/utils": ["libs/app-serialport/utils/src/index.ts"],
       "app-sql/main": ["libs/app-sql/main/src/index.ts"],
       "app-sql/models": ["libs/app-sql/models/src/index.ts"],
-      "app-sql/renderer": ["libs/app-sql/renderer/src/index.ts"]
+      "app-sql/renderer": ["libs/app-sql/renderer/src/index.ts"],
+      "app-store/feature": ["libs/app-store/feature/src/index.ts"],
+      "app-store-types": ["libs/app-store/feature/src/lib/app-store.types.ts"],
+      "devices/common/feature": ["libs/devices/common/feature/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

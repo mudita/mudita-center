@@ -4,8 +4,8 @@
  */
 
 import styled from "styled-components"
+import { useDevicesListener } from "devices/common/feature"
 import NxWelcome from "./nx-welcome"
-import { useSerialPortListener } from "./serialport-demo"
 import { useSql } from "./sql-test"
 
 const StyledApp = styled.div`
@@ -14,7 +14,7 @@ const StyledApp = styled.div`
 `
 
 export function App() {
-  useSerialPortListener()
+  useDevicesListener()
   useSql()
 
   return (
