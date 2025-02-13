@@ -85,7 +85,7 @@ export class ApiDeviceSerialPort extends AppSerialPort {
     return {
       endpoint: request.endpoint,
       status: response.status,
-      body: "body" in response ? response.body : undefined,
+      data: "body" in response ? response.body : undefined,
     }
   }
 }

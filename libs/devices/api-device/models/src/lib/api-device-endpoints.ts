@@ -4,7 +4,7 @@
  */
 
 import { ApiConfigValidator, MCLangValidator } from "./api-config/api-config"
-import { MenuConfigValidator } from "./menu/menu-config"
+import { MenuConfigValidator } from "./menu-config/menu-config"
 import { z } from "zod"
 
 export const ApiDeviceEndpoints = {
