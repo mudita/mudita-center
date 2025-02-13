@@ -11,6 +11,7 @@ const dataValidator = z.object({
     z.object({
       type: z.string(),
       value: z.string(),
+      isDefault: z.boolean(),
     })
   ),
 })

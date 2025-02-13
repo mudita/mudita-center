@@ -46,6 +46,8 @@ import Folder from "./svg/folder.svg"
 import Grid from "./svg/grid.svg"
 import SpinnerDark from "./svg/spinner-dark.svg"
 import Check from "./svg/check.svg"
+import CheckCircle from "./svg/check-circle.svg"
+import Checkmark from "./svg/checkmark.svg"
 import Minus from "./svg/minus.svg"
 import Search from "./svg/search.svg"
 import Import from "./svg/import.svg"
@@ -103,6 +105,8 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Contact]: Contact,
   [IconType.ContactsBook]: ContactsBook,
   [IconType.Check]: Check,
+  [IconType.CheckCircle]: CheckCircle,
+  [IconType.Checkmark]: Checkmark,
   [IconType.Minus]: Minus,
   [IconType.Search]: Search,
   [IconType.Import]: Import,

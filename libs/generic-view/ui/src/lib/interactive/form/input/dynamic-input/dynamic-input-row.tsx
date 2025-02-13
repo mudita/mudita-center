@@ -6,15 +6,17 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { SelectInput, Select } from "../select-input"
-import TextInput, { Input } from "../text-input"
+import DynamicTextInput from "./dynamic-text-input"
 
 interface Props {
   name: string
   options: string[]
-  type: "text" | "password" | "email" | "tel" | "url"
+  type: "text" | "email" | "tel" | "url"
+  onSetDefault: () => void
   data: {
     type: string
     value: string
+    isDefault: boolean
   }
 }
 
@@ -23,6 +25,7 @@ export const DynamicInputRow: FunctionComponent<Props> = ({
   options,
   type,
   data,
+  onSetDefault,
 }) => {
   return (
     <Wrapper>
@@ -31,13 +34,9 @@ export const DynamicInputRow: FunctionComponent<Props> = ({
         data={{ value: data.type }}
       />
       <DynamicTextInput
-        config={{
-          name: `${name}-input`,
-          type: type,
-        }}
-        data={{
-          value: data.value,
-        }}
+        name={`${name}`}
+        type={type}
+        onSetDefault={onSetDefault}
       />
     </Wrapper>
   )
@@ -47,23 +46,9 @@ const Wrapper = styled.div`
   display: flex;
 `
 
-const DynamicTextInput = styled(TextInput)`
-  ${Input} {
-    border-radius: 0px 4px 4px 0px;
-    border: 1px solid ${({ theme }) => theme.color.grey4};
-    border-left: none;
-    background: ${({ theme }) => theme.color.white};
-    padding: 1rem 1.4rem;
-    min-height: unset;
-
-    &:hover {
-      border-bottom-color: ${({ theme }) => theme.color.grey4};
-    }
-  }
-`
-
 const DynamicSelectInput = styled(SelectInput)`
   ${Select} {
     border-radius: 0.4rem 0px 0px 0.4rem;
+    border-right: none;
   }
 `
