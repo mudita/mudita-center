@@ -26,21 +26,20 @@ export const DynamicInputRow: FunctionComponent<Props> = ({
   type,
   data,
   onSetDefault,
-}) => {
-  return (
-    <Wrapper>
-      <DynamicSelectInput
-        config={{ name: `${name}-select`, options }}
-        data={{ value: data.type }}
-      />
-      <DynamicTextInput
-        name={`${name}`}
-        type={type}
-        onSetDefault={onSetDefault}
-      />
-    </Wrapper>
-  )
-}
+}) => (
+  <Wrapper>
+    <DynamicSelectInput
+      config={{ name: `${name}-select`, options }}
+      data={{ value: data.type }}
+    />
+    <DynamicTextInput
+      name={name}
+      type={type}
+      isDefault={data.isDefault}
+      onSetDefault={onSetDefault}
+    />
+  </Wrapper>
+)
 
 const Wrapper = styled.div`
   display: flex;

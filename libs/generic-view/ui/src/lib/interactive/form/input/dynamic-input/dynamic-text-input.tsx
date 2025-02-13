@@ -15,25 +15,21 @@ import { Typography } from "../../../../typography"
 interface Props {
   name: string
   type: "text" | "email" | "tel" | "url"
+  isDefault: boolean
   onSetDefault: () => void
 }
 
 export const DynamicTextInput: FunctionComponent<Props> = ({
   name,
   type,
+  isDefault,
   onSetDefault,
 }) => {
   const id = useId()
   const { register, watch, setValue } = useFormContext()
-  const value = (watch(name) as string) || ""
-  const isDefault = watch(`${name}-isDefault`) || false
+  const value = watch(`${name}-value`) || ""
+  const formIsDefault = watch(`${name}-isDefault`)
   const [isFocused, setIsFocused] = useState(false)
-
-  useEffect(() => {
-    if (watch(`${name}-isDefault`) === undefined) {
-      setValue(`${name}-isDefault`, false)
-    }
-  }, [])
 
   useEffect(() => {
     if (name) {
@@ -42,10 +38,14 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
   }, [name, value, setValue])
 
   useEffect(() => {
-    if (!isDefault) {
+    if (!formIsDefault) {
       setIsFocused(false)
     }
-  }, [isDefault])
+  }, [formIsDefault])
+
+  useEffect(() => {
+    setValue(`${name}-isDefault`, isDefault ?? false)
+  }, [])
 
   const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const target = e.currentTarget
@@ -61,13 +61,13 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
     <Wrapper>
       <InputWrapper>
         <Input
-          id={"input-" + id}
+          id={`input-${id}`}
           type={type}
           {...register(`${name}-value`)}
           onFocus={() => setIsFocused(true)}
           onBlur={(e) => handleOnBlur(e)}
         />
-        {(isFocused || isDefault) && (
+        {(isFocused || formIsDefault) && (
           <Tooltip
             config={{
               placement: "bottom-left",
@@ -76,8 +76,8 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
             }}
           >
             <Tooltip.Anchor>
-              <DefaultButton type={"button"} onClick={onSetDefault}>
-                {!isDefault && isFocused && (
+              <DefaultButton type="button" onClick={onSetDefault}>
+                {!formIsDefault && isFocused && (
                   <ButtonWrapper>
                     <span>Set as default</span>
                     <Icon
@@ -88,7 +88,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
                     />
                   </ButtonWrapper>
                 )}
-                {isDefault && (
+                {formIsDefault && (
                   <Icon
                     config={{
                       type: IconType.Checkmark,
@@ -98,7 +98,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
                 )}
               </DefaultButton>
             </Tooltip.Anchor>
-            {!isDefault && isFocused && (
+            {!formIsDefault && isFocused && (
               <Tooltip.Content>
                 <Label>Set as default for this contact</Label>
                 <Typography.P5>
