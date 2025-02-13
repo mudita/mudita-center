@@ -29,10 +29,6 @@ export const DynamicInputList: APIFC<
   }, [data, setValue, config.name])
 
   const handleSetDefault = (index: number) => {
-    // data?.values.forEach((_, i) => {
-    //   setValue(`${config.name}-${i}-isDefault`, i === index)
-    // })
-
     Object.keys(formValues).forEach((key) => {
       if (key.endsWith("-isDefault")) {
         setValue(key, false)
