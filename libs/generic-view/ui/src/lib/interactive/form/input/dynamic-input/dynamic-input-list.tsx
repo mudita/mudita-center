@@ -18,18 +18,20 @@ export const DynamicInputList: APIFC<
   FormDynamicInputConfig
 > = ({ data, config }) => {
   const { setValue, watch } = useFormContext()
-  const formValues = watch()
+  // const formValues = watch(
+  //   data?.values.map((_, i) => `${config.name}-${i}-isDefault`) || []
+  // )
 
   useEffect(() => {
-    if (data?.values) {
-      data.values.forEach((value, index) => {
-        setValue(`${config.name}-${index}-value`, value.value)
-      })
-    }
+    data?.values.forEach((value, index) =>
+      setValue(`${config.name}-${index}-value`, value.value)
+    )
   }, [data, setValue, config.name])
 
   const handleSetDefault = (index: number) => {
-    Object.keys(formValues).forEach((key) => {
+    const formValues = watch()
+
+    Object.entries(formValues).forEach(([key, _]) => {
       if (key.endsWith("-isDefault")) {
         setValue(key, false)
       }
@@ -41,18 +43,16 @@ export const DynamicInputList: APIFC<
   return (
     <ListWrapper>
       <Label>{config.label}</Label>
-      {data?.values.map((value, index) => {
-        return (
-          <DynamicInputRow
-            key={index}
-            name={`${config.name}-${index}`}
-            options={config.options}
-            type={config.type}
-            data={value}
-            onSetDefault={() => handleSetDefault(index)}
-          />
-        )
-      })}
+      {data?.values.map((value, index) => (
+        <DynamicInputRow
+          key={index}
+          name={`${config.name}-${index}`}
+          options={config.options}
+          type={config.type}
+          data={value}
+          onSetDefault={() => handleSetDefault(index)}
+        />
+      ))}
     </ListWrapper>
   )
 }
