@@ -47,7 +47,7 @@ const Wrapper = styled.div`
 
 const DynamicSelectInput = styled(SelectInput)`
   ${Select} {
-    border-radius: 0.4rem 0px 0px 0.4rem;
+    border-radius: 0.4rem 0 0 0.4rem;
     border-right: none;
   }
 `
