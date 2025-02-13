@@ -6,7 +6,7 @@
 import React, { useEffect, useId, useState, FunctionComponent } from "react"
 import styled, { css } from "styled-components"
 import { useFormContext } from "react-hook-form"
-import { APIFC, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { IconButton } from "../../../../shared/button"
 import { Icon } from "../../../../icon/icon"
 import Tooltip from "../../../tooltip/tooltip"
@@ -45,7 +45,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
 
   useEffect(() => {
     setValue(`${name}-isDefault`, isDefault ?? false)
-  }, [])
+  }, [name, isDefault, setValue])
 
   const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const target = e.currentTarget
@@ -132,8 +132,8 @@ const Input = styled.input`
   letter-spacing: 0.05em;
   padding: 1rem 1.4rem;
   background: ${({ theme }) => theme.color.white};
-  border: 1px solid ${({ theme }) => theme.color.grey4};
-  border-radius: 0px 4px 4px 0px;
+  border: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  border-radius: 0 0.4rem 0.4rem 0;
   box-sizing: content-box;
   flex: 1;
   outline: none;

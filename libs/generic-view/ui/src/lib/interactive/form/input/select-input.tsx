@@ -65,7 +65,7 @@ export const Select = styled.div<{ $selected?: string }>`
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
-  padding: 10px;
+  padding: 1rem;
   border: 0.1rem solid ${({ theme }) => theme.color.grey4};
   color: ${({ theme }) => theme.color.grey3};
   font-size: ${({ theme }) => theme.fontSize.paragraph3};
@@ -89,8 +89,8 @@ const DropdownList = styled.ul`
   left: 0;
   width: 100%;
   background: ${({ theme }) => theme.color.white};
-  border-radius: 8px;
-  box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.08);
+  border-radius: 0.8rem;
+  box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
   list-style: none;
   padding: 1.2rem 0;
   margin: 0;
@@ -98,7 +98,7 @@ const DropdownList = styled.ul`
 `
 
 const DropdownItem = styled.li`
-  padding: 10px;
+  padding: 1rem;
   cursor: pointer;
   &:hover {
     background: ${({ theme }) => theme.color.grey5};
