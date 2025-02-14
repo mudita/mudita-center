@@ -30,7 +30,7 @@ export const sendTicket = createAsyncThunk<undefined, SendTicketPayload>(
     const activeDeviceId = activeDeviceIdSelector(state)
     const serialNumber = state.device.data?.serialNumber ?? activeDeviceId
     const deviceID = activeDeviceId
-      ? state.genericViews.devices[activeDeviceId].apiConfig?.deviceID
+      ? state.genericViews.devices[activeDeviceId]?.apiConfig?.deviceID
       : undefined
     const product = mapDeviceTypeToProduct(state.device.deviceType)
 
