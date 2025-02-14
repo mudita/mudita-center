@@ -6,9 +6,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
-import { StartAppInstallation } from "Libs/device/models/src"
 import { DeviceId } from "Core/device/constants/device-id"
-import { startAppInstallationRequest } from "Libs/device/feature/src"
+import { startAppInstallationRequest } from "device/feature"
 
 export const startAppinstallation = createAsyncThunk<
   { deviceId: string; installationId: number },

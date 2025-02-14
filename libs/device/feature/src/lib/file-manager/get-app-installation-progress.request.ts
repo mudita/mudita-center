@@ -8,7 +8,6 @@ import { DeviceId } from "Core/device/constants/device-id"
 import {
   AppInstallationServiceEvents,
   GetAppInstallationProgress,
-  StartAppInstallation,
 } from "device/models"
 import { ipcRenderer } from "electron-better-ipc"
 

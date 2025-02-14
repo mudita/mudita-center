@@ -36,7 +36,7 @@ export class AppInstallationService {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
-    let response = await device.request({
+    const response = await device.request({
       endpoint: "APP_INSTALL",
       method: "POST",
       body: {
@@ -76,7 +76,7 @@ export class AppInstallationService {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
-    let response = await device.request({
+    const response = await device.request({
       endpoint: "APP_INSTALL",
       method: "GET",
       body: {
