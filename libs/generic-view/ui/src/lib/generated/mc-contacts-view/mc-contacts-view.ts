@@ -713,7 +713,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       childrenKeys: [
         "contactInformationText",
         "contactDetailsPhoneNumberWrapper",
-        "contactDetailsSelectBoxTest",
         "contactDetailsFirstNameWrapper",
         "contactDetailsLastNameWrapper",
         "contactDetailsNamePrefixWrapper",
@@ -1255,49 +1254,6 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
           {
             providerField: "phoneNumbers[1].phoneType",
             componentField: "data.fields.phoneType",
-          },
-        ],
-      },
-    },
-    contactDetailsSelectBoxTest: {
-      component: "form.dynamicInput",
-      config: {
-        name: "TestSelect",
-        typeOptions: ["Test 1", "Test 2", "Test 3"],
-        label: "Phone Numbers",
-        inputType: "text",
-        tooltip: {
-          title: "Set as default for this contact",
-          content: "Always send calls and SMS to this number.",
-        },
-      },
-      dataProvider: {
-        source: "entities-field",
-        entitiesType: "contacts",
-        fields: [
-          {
-            providerField: "phoneNumbers[0].phoneType",
-            componentField: "data.values[0].type",
-          },
-          {
-            providerField: "phoneNumbers[0].phoneNumber",
-            componentField: "data.values[0].value",
-          },
-          {
-            providerField: "phoneNumbers[1].phoneType",
-            componentField: "data.values[1].type",
-          },
-          {
-            providerField: "phoneNumbers[1].phoneNumber",
-            componentField: "data.values[1].value",
-          },
-          {
-            providerField: "",
-            componentField: "data.values[2].type",
-          },
-          {
-            providerField: "",
-            componentField: "data.values[2].value",
           },
         ],
       },
