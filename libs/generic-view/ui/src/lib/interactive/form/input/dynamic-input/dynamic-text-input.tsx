@@ -78,7 +78,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
           type={type}
           {...register(`${name}-value`)}
           onFocus={() => setIsFocused(true)}
-          // onBlur={(e) => handleOnBlur(e)}
+          onBlur={(e) => handleOnBlur(e)}
         />
         {(isFocused || formIsDefault) && (
           <Tooltip
