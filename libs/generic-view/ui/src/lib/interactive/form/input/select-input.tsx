@@ -6,7 +6,7 @@
 import { FormSelectInputConfig, FormSelectInputData } from "generic-view/models"
 import { APIFC, IconType } from "generic-view/utils"
 import { Icon } from "../../../icon/icon"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 import styled, { css } from "styled-components"
 import useOutsideClick from "Core/__deprecated__/renderer/utils/hooks/useOutsideClick"
 
