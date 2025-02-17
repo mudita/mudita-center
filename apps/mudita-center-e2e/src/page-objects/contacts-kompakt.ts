@@ -37,6 +37,86 @@ class ContactsKompaktPage extends Page {
     return $$('//*[@data-testid="ui-table-row"]')
   }
 
+  public get contactDetailsTitle() {
+    return $('//*[@data-testid="ui-typography-h3"]')
+  }
+
+  public get contactDetailsSubtitleContactInformation() {
+    return $('//*[@data-testid="ui-typography-h4"]')
+  }
+  // TO FILL
+  public get contactDetailsPhoneNumber() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsPhoneNumberValue() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsFirstName() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsFirstNameValue() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsLastName() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsLastNameValue() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsNamePrefix() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsNamePrefixValue() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsMiddleName() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsMiddleNameValue() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsNameSuffix() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsNameSuffixValue() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsEmail() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsEmailValue() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsCompany() {
+    return $('//*[@data-testid=""]')
+  }
+
+  public get contactDetailsCompanyValue() {
+    return $('//*[@data-testid=""]')
+  }
+  ///////////////////////////////
+  public get closeContactDetailsButton() {
+    return $('//*[@data-testid="icon-close"]')
+  }
+
+  public get contactPhoneNumberColumn() {
+    return $('//*[@data-testid="="]')
+  }
+
   public get contactsCheckboxesLabels() {
     return $$('//label[contains(@for, "checkbox-")]')
   }
