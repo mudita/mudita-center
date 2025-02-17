@@ -5,8 +5,9 @@
 
 import { app, BrowserWindow, ipcMain, shell } from "electron"
 import { autoUpdater } from "electron-updater"
+import * as path from "path"
 import { join } from "path"
-import { electronApp, is, optimizer } from "@electron-toolkit/utils"
+import { electronApp, optimizer } from "@electron-toolkit/utils"
 import icon from "../../resources/icons/icon.png"
 import { initSerialPort } from "app-serialport/main"
 import { initSql } from "app-sql/main"
@@ -14,7 +15,6 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from "electron-devtools-installer"
-import * as path from "path"
 
 function createWindow(): void {
   // Create the browser window.
