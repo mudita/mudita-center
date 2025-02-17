@@ -19,17 +19,13 @@ enum SerialPortEvents {
   DevicesChanged = "devicesChanged",
 }
 
-const isKnownDevice = (port: PortInfo): port is SerialPortDeviceInfo => {
-  return port.productId !== undefined && port.vendorId !== undefined
-}
-
 export class AppSerialPort {
   private readonly instances = new Map<SerialPortDevicePath, SerialPortDevice>()
   private readonly supportedDevices = devices
   private readonly eventEmitter = new EventEmitter()
-  private currentDevices: SerialPortDeviceInfo[] = []
-  private addedDevices: SerialPortDeviceInfo[] = []
-  private removedDevices: SerialPortDeviceInfo[] = []
+  currentDevices: SerialPortDeviceInfo[] = []
+  addedDevices: SerialPortDeviceInfo[] = []
+  removedDevices: SerialPortDeviceInfo[] = []
 
   constructor() {
     void this.detectChanges()
@@ -38,18 +34,49 @@ export class AppSerialPort {
     }, 3000)
   }
 
-  private async detectChanges() {
-    const currentDevices = (await SerialPort.list()).filter((port) => {
-      if (!isKnownDevice(port)) {
-        return false
-      }
-      return this.supportedDevices.some((device) => {
-        return (
-          device.matchingVendorIds.includes(port.vendorId) &&
-          device.matchingProductIds.includes(port.productId)
-        )
+  private getDeviceSerialPortInstance({
+    vendorId,
+    productId,
+  }: Pick<SerialPortDeviceInfo | PortInfo, "vendorId" | "productId">) {
+    if (!vendorId || !productId) {
+      return undefined
+    }
+    return this.supportedDevices.find((device) => {
+      return (
+        device.matchingVendorIds.includes(vendorId) &&
+        device.matchingProductIds.includes(productId)
+      )
+    })
+  }
+
+  private isSupportedDevice({ vendorId, productId }: PortInfo) {
+    if (!vendorId || !productId) {
+      return false
+    }
+    return (
+      this.getDeviceSerialPortInstance({ vendorId, productId }) !== undefined
+    )
+  }
+
+  private async listDevices() {
+    const devices = await SerialPort.list()
+    return devices
+      .filter((portInfo) => this.isSupportedDevice(portInfo))
+      .map((portInfo) => {
+        const serialPortDevice = this.getDeviceSerialPortInstance(portInfo)
+        if (!serialPortDevice) {
+          return null
+        }
+        return {
+          ...portInfo,
+          deviceType: serialPortDevice.deviceType,
+        }
       })
-    }) as SerialPortDeviceInfo[]
+      .filter(Boolean) as SerialPortDeviceInfo[]
+  }
+
+  private async detectChanges() {
+    const currentDevices = await this.listDevices()
 
     this.currentDevices
       .filter((device) => {
@@ -80,20 +107,6 @@ export class AppSerialPort {
     })
 
     if (this.addedDevices.length > 0 || this.removedDevices.length > 0) {
-      this.currentDevices = this.currentDevices.map((device) => {
-        const SerialPortInstance = this.getDeviceSerialPortInstance(
-          device.path
-        ) as typeof SerialPortDevice
-        return { ...device, deviceType: SerialPortInstance.deviceType }
-      })
-
-      this.addedDevices = this.addedDevices.map((device) => {
-        const SerialPortInstance = this.getDeviceSerialPortInstance(
-          device.path
-        ) as typeof SerialPortDevice
-        return { ...device, deviceType: SerialPortInstance.deviceType }
-      })
-
       this.eventEmitter.emit(SerialPortEvents.DevicesChanged, {
         removed: this.removedDevices,
         added: this.addedDevices,
@@ -110,7 +123,13 @@ export class AppSerialPort {
   }
 
   private createInstance(path: SerialPortDevicePath) {
-    const SerialPortInstance = this.getDeviceSerialPortInstance(path)
+    const deviceInfo = this.currentDevices.find(
+      (device) => device.path === path
+    )
+    if (!deviceInfo) {
+      throw new Error(`Could not create instance for device ${path}.`)
+    }
+    const SerialPortInstance = this.getDeviceSerialPortInstance(deviceInfo)
     if (SerialPortInstance) {
       const serialPort = new SerialPortInstance({ path })
       this.instances.set(path, serialPort)
@@ -130,23 +149,6 @@ export class AppSerialPort {
       serialPort.destroy()
       this.instances.delete(path)
     }
-  }
-
-  private getDeviceByPath(path: SerialPortDevicePath) {
-    return this.currentDevices.find((device) => device.path === path)
-  }
-
-  private getDeviceSerialPortInstance(path: SerialPortDevicePath) {
-    const port = this.getDeviceByPath(path)
-    if (!port) {
-      return
-    }
-    return this.supportedDevices.find((device) => {
-      return (
-        device.matchingVendorIds.includes(port.vendorId) &&
-        device.matchingProductIds.includes(port.productId)
-      )
-    })
   }
 
   changeBaudRate(path: SerialPortDevicePath, baudRate: number) {

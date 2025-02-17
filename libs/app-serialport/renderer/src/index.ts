@@ -4,4 +4,4 @@
  */
 
 export * from "./lib/app-serial-port"
-export * from "./lib/app-serial-port-errors"
+

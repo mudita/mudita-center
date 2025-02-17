@@ -17,9 +17,9 @@ export interface IpcAppSerialport extends IpcRenderer {
     channel: SerialPortIpcEvents.DevicesChanged,
     callback: (event: IpcRendererEvent, data: SerialPortChangedDevices) => void
   ): this
-  invoke(
+  invoke<R>(
     channel: SerialPortIpcEvents.Request,
     path: SerialPortDevicePath,
     data: SerialPortRequest
-  ): Promise<SerialPortResponse>
+  ): Promise<SerialPortResponse<R>>
 }

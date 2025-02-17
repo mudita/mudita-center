@@ -12,16 +12,16 @@ import { CommonDeviceResponseParser } from "../shared/common-device-response-par
 import { commonDeviceRequestParser } from "../shared/common-device-request-parser"
 
 export class SerialPortHarmonyDevice extends SerialPortDevice {
-  static matchingVendorIds = ["3310"]
-  static matchingProductIds = ["0300"]
-  static deviceType = SerialPortDeviceType.Harmony
+  static readonly matchingVendorIds = ["3310"]
+  static readonly matchingProductIds = ["0300"]
+  static readonly deviceType = SerialPortDeviceType.Harmony
+  readonly requestIdKey = "uuid"
 
   constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
     super(
       { baudRate, ...options },
       new CommonDeviceResponseParser({ matcher: /#\d{9}/g })
     )
-    this.requestIdKey = "uuid"
   }
 
   parseRequest(data: SerialPortRequest) {

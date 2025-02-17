@@ -8,13 +8,14 @@ import { AutoDetectTypes } from "@serialport/bindings-cpp"
 import { Transform } from "stream"
 import {
   SerialPortDeviceType,
-  SerialPortError,
+  SerialPortErrorType,
   SerialPortRequest,
   SerialPortResponse,
 } from "app-serialport/models"
 import { clone, get, set, uniqueId } from "lodash"
 import EventEmitter from "events"
 import PQueue from "p-queue"
+import { SerialPortError } from "app-serialport/utils"
 
 const DEFAULT_QUEUE_INTERVAL = 1
 const DEFAULT_QUEUE_CONCURRENCY = 1
@@ -33,12 +34,12 @@ export type SerialPortDeviceOptions = Omit<
 }
 
 export class SerialPortDevice extends SerialPort {
-  private responseEmitter = new EventEmitter()
-  private queue: PQueue
-  static deviceType: SerialPortDeviceType
-  static matchingVendorIds: string[] = []
-  static matchingProductIds: string[] = []
-  requestIdKey = "id"
+  #responseEmitter = new EventEmitter()
+  #queue: PQueue
+  static readonly deviceType: SerialPortDeviceType
+  static readonly matchingVendorIds: string[] = []
+  static readonly matchingProductIds: string[] = []
+  readonly requestIdKey: string = "id"
 
   constructor(
     {
@@ -48,8 +49,8 @@ export class SerialPortDevice extends SerialPort {
     }: BaseSerialPortDeviceOptions,
     parser?: Transform
   ) {
-    super(options)
-    this.queue = new PQueue({
+    super({ ...options, autoOpen: true })
+    this.#queue = new PQueue({
       concurrency: queueConcurrency,
       interval: queueInterval,
     })
@@ -59,16 +60,16 @@ export class SerialPortDevice extends SerialPort {
   }
 
   private parseResponse(buffer: Buffer) {
-    const response = JSON.parse(buffer.toString())
-    try {
-      const id = get(response, this.requestIdKey)
-      if (!id) {
-        console.error(SerialPortError.ResponseWithoutId)
-      }
-      this.responseEmitter.emit(`response-${id}`, response)
-    } catch {
-      console.error(SerialPortError.InvalidResponse)
+    const rawResponse = buffer.toString()
+    if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+      console.info(`SerialPort response: ${rawResponse}`)
     }
+    const response = JSON.parse(rawResponse)
+    const id = get(response, this.requestIdKey)
+    if (!id) {
+      throw new SerialPortError(SerialPortErrorType.ResponseWithoutId)
+    }
+    this.#responseEmitter.emit(`response-${id}`, response)
   }
 
   private listenForResponse(id: number | string, timeoutMs: number) {
@@ -81,21 +82,24 @@ export class SerialPortDevice extends SerialPort {
       }
 
       timeout = setTimeout(() => {
-        super.flush()
-        this.responseEmitter.removeListener(`response-${id}`, listener)
-        reject(SerialPortError.ResponseTimeout)
+        super.drain()
+        this.#responseEmitter.removeListener(`response-${id}`, listener)
+        reject(new SerialPortError(SerialPortErrorType.ResponseTimeout, id))
       }, timeoutMs)
 
-      this.responseEmitter.once(`response-${id}`, listener)
+      this.#responseEmitter.once(`response-${id}`, listener)
     })
   }
 
   write(data: unknown) {
     try {
       const parsedData = this.parseRequest(data)
+      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+        console.info(`SerialPort write: ${parsedData}`)
+      }
       return super.write(parsedData)
     } catch {
-      throw SerialPortError.InvalidRequest
+      throw SerialPortErrorType.InvalidRequest
     }
   }
 
@@ -103,10 +107,10 @@ export class SerialPortDevice extends SerialPort {
     return data
   }
 
-  async request({ options, ...data }: SerialPortRequest) {
+  private createRequest({ options, ...data }: SerialPortRequest) {
     const id = parseInt(uniqueId())
     return new Promise<SerialPortResponse>((resolve, reject) => {
-      void this.queue.add(async () => {
+      void this.#queue.add(async () => {
         try {
           const enrichedData = set(clone(data), this.requestIdKey, id)
           this.write(enrichedData)
@@ -116,10 +120,33 @@ export class SerialPortDevice extends SerialPort {
           )
           resolve(response)
         } catch (error) {
-          reject(error)
+          reject(new SerialPortError(error))
         }
       })
     })
+  }
+
+  async request({
+    options,
+    ...data
+  }: SerialPortRequest): ReturnType<typeof this.createRequest> {
+    const maxRetries = options?.retries || 0
+
+    try {
+      return await this.createRequest({ options, ...data })
+    } catch (error) {
+      if (maxRetries > 0) {
+        return await this.request({
+          options: {
+            ...options,
+            retries: maxRetries - 1,
+          },
+          ...data,
+        })
+      } else {
+        throw error
+      }
+    }
   }
 
   destroy(error?: Error): this {
