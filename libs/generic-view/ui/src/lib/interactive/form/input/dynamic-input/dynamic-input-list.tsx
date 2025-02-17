@@ -18,7 +18,7 @@ export const DynamicInputList: APIFC<
   FormDynamicInputData,
   FormDynamicInputConfig
 > = ({ data, config }) => {
-  const { setValue, watch } = useFormContext()
+  const { getValues, setValue } = useFormContext()
 
   useEffect(() => {
     data?.values.forEach((value, index) =>
@@ -27,7 +27,9 @@ export const DynamicInputList: APIFC<
   }, [data, setValue, config.name])
 
   const handleSetDefault = (index: number) => {
-    const formValues = watch()
+    const formValues = getValues()
+
+    console.log(formValues)
 
     Object.entries(formValues).forEach(([key, _]) => {
       if (key.endsWith("-isDefault")) {
