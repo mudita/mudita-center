@@ -7,11 +7,13 @@ import { useEffect } from "react"
 import {
   createEntityDataAction,
   deleteEntitiesDataAction,
+  getAppinstallationProgress,
   getEntitiesDataAction,
   getEntitiesMetadataAction,
   getEntityDataAction,
   getMenuConfig,
   selectActiveApiDeviceId,
+  startAppInstallation,
   updateEntityDataAction,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
@@ -115,6 +117,20 @@ export const useDevConsole = () => {
         },
         _getMenuConfig: async (deviceId = activeDeviceId) => {
           return dispatch(getMenuConfig({ deviceId }))
+        },
+        _startAppInstallation: async (
+          filePath: string,
+          deviceId = activeDeviceId
+        ) => {
+          return dispatch(startAppInstallation({ filePath, deviceId }))
+        },
+        _getAppInstallationProgress: async (
+          installationId: number,
+          deviceId = activeDeviceId
+        ) => {
+          return dispatch(
+            getAppinstallationProgress({ installationId, deviceId })
+          )
         },
       })
     }

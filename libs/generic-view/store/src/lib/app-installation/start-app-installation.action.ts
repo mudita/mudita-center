@@ -9,7 +9,7 @@ import { ActionName } from "../action-names"
 import { DeviceId } from "Core/device/constants/device-id"
 import { startAppInstallationRequest } from "device/feature"
 
-export const startAppinstallation = createAsyncThunk<
+export const startAppInstallation = createAsyncThunk<
   { deviceId: string; installationId: number },
   { filePath: string; deviceId: DeviceId },
   { state: ReduxRootState }
