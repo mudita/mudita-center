@@ -5,12 +5,10 @@
 
 import { configureStore } from "@reduxjs/toolkit"
 import { devicesReducer } from "devices/common/feature"
+import { AppState } from "app-store/models"
 
-export const store = configureStore({
+export const store = configureStore<AppState>({
   reducer: {
     devices: devicesReducer,
   },
 })
-
-export type StoreInstance = typeof store
-export type AppStore = typeof store.getState

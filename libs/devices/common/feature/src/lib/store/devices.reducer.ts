@@ -4,14 +4,10 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { SerialPortDeviceInfo } from "app-serialport/models"
 import { setDevices } from "./devices.actions"
+import { DevicesReducer } from "devices/common/models"
 
-interface DevicesState {
-  current: SerialPortDeviceInfo[]
-}
-
-const initialState: DevicesState = {
+const initialState: DevicesReducer = {
   current: [],
 }
 

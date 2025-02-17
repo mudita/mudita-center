@@ -4,9 +4,9 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { RootState } from "app-store-types"
+import { AppState } from "app-store/models"
 
 export const selectCurrentDevices = createSelector(
-  (state: RootState) => state.devices,
+  (state: AppState) => state.devices,
   (devices) => devices.current
 )

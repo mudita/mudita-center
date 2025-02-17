@@ -10,6 +10,11 @@ import { electronApp, is, optimizer } from "@electron-toolkit/utils"
 import icon from "../../resources/icons/icon.png"
 import { initSerialPort } from "app-serialport/main"
 import { initSql } from "app-sql/main"
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
+} from "electron-devtools-installer"
+import * as path from "path"
 
 function createWindow(): void {
   // Create the browser window.
@@ -17,6 +22,7 @@ function createWindow(): void {
     width: 1280,
     height: 800,
     show: false,
+    useContentSize: true,
     autoHideMenuBar: true,
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
@@ -32,10 +38,10 @@ function createWindow(): void {
   mainWindow.webContents.openDevTools()
 
   mainWindow.on("ready-to-show", () => {
-    mainWindow.show()
-
     initSerialPort(ipcMain, mainWindow.webContents)
     initSql(ipcMain)
+
+    mainWindow.showInactive()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -45,10 +51,10 @@ function createWindow(): void {
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env["ELECTRON_RENDERER_URL"]) {
+  if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
     mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"])
   } else {
-    mainWindow.loadFile(join(__dirname, "../renderer/index.html"))
+    mainWindow.loadFile(path.join(__dirname, "../renderer/index.html"))
   }
 }
 
@@ -56,6 +62,14 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
+    loadExtensionOptions: { allowFileAccess: true },
+  })
+    .then(([redux, react]) =>
+      console.log(`Added Extensions:  ${redux.name}, ${react.name}`)
+    )
+    .catch((err) => console.log("An error occurred: ", err))
+
   // Set app user model id for windows
   electronApp.setAppUserModelId("com.electron")
 

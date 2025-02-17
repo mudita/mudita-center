@@ -12,8 +12,8 @@ export const useDevicesListener = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    AppSerialPort.onDevicesChanged((changes) => {
-      dispatch(setDevices(changes.all))
+    AppSerialPort.onDevicesChanged((changed) => {
+      dispatch(setDevices(changed.all))
     })
   }, [dispatch])
 }

@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppStore, StoreInstance } from "./app-store"
+import { DevicesReducer } from "devices/common/models"
 
-export type RootState = ReturnType<AppStore>
-export type AppDispatch = StoreInstance["dispatch"]
+export type AppState = {
+  devices: DevicesReducer
+}

@@ -7,6 +7,15 @@ import { ApiConfigValidator, MCLangValidator } from "./api-config/api-config"
 import { MenuConfigValidator } from "./menu-config/menu-config"
 import { z } from "zod"
 
+type Method = "GET" | "POST" | "PUT" | "DELETE"
+
+type EndpointsDefinition = Record<
+  string,
+  Partial<
+    Record<Method, { request: z.ZodType | undefined; response: z.ZodType }>
+  >
+>
+
 export const ApiDeviceEndpoints = {
   API_CONFIGURATION: {
     GET: {
@@ -22,4 +31,4 @@ export const ApiDeviceEndpoints = {
       response: MenuConfigValidator,
     },
   },
-} as const
+} as const satisfies EndpointsDefinition
