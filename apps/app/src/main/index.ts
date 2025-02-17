@@ -35,13 +35,19 @@ function createWindow(): void {
 
   void autoUpdater.checkForUpdatesAndNotify()
 
-  mainWindow.webContents.openDevTools()
+  if (process.env.NODE_ENV === "development") {
+    mainWindow.webContents.openDevTools()
+  }
 
   mainWindow.on("ready-to-show", () => {
     initSerialPort(ipcMain, mainWindow.webContents)
     initSql(ipcMain)
 
-    mainWindow.showInactive()
+    if (process.env.NODE_ENV === "development") {
+      mainWindow.showInactive()
+    } else {
+      mainWindow.show()
+    }
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

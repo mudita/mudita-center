@@ -20,7 +20,10 @@ export const initSerialPort = (ipcMain: IpcMain, webContents: WebContents) => {
       removed: serialport.removedDevices,
       all: serialport.currentDevices,
     }
-    webContents.send(SerialPortIpcEvents.DevicesChanged, changedDevices)
+    const emitDevicesChanged = () => {
+      webContents.send(SerialPortIpcEvents.DevicesChanged, changedDevices)
+    }
+    webContents.once("did-finish-load", emitDevicesChanged)
   } else {
     serialport = new AppSerialPort()
     serialport.onDevicesChange((data) => {
