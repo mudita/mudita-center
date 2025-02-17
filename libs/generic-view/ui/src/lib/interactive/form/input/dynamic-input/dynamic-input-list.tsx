@@ -12,15 +12,13 @@ import React, { useEffect } from "react"
 import styled from "styled-components"
 import { DynamicInputRow } from "./dynamic-input-row"
 import { useFormContext } from "react-hook-form"
+import { Typography } from "../../../../typography"
 
 export const DynamicInputList: APIFC<
   FormDynamicInputData,
   FormDynamicInputConfig
 > = ({ data, config }) => {
   const { setValue, watch } = useFormContext()
-  // const formValues = watch(
-  //   data?.values.map((_, i) => `${config.name}-${i}-isDefault`) || []
-  // )
 
   useEffect(() => {
     data?.values.forEach((value, index) =>
@@ -47,10 +45,14 @@ export const DynamicInputList: APIFC<
         <DynamicInputRow
           key={index}
           name={`${config.name}-${index}`}
-          options={config.options}
-          type={config.type}
+          options={config.typeOptions}
+          type={config.inputType}
           data={value}
           onSetDefault={() => handleSetDefault(index)}
+          tooltip={{
+            title: config.tooltip.title,
+            content: config.tooltip.content,
+          }}
         />
       ))}
     </ListWrapper>
@@ -63,9 +65,7 @@ const ListWrapper = styled.div`
   gap: 0.8rem;
 `
 
-const Label = styled.label`
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+const Label = styled(Typography.P3)`
   color: ${({ theme }) => theme.color.black};
-  letter-spacing: 0.05em;
+  letter-spacing: 0.07rem;
 `

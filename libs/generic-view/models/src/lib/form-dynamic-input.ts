@@ -49,9 +49,13 @@ const inputValidation: z.ZodType<
 
 const configValidator = z.object({
   name: z.string(),
-  options: z.array(z.string()).min(1),
+  typeOptions: z.array(z.string()).min(1),
   label: z.string(),
-  type: z.enum(["text", "email", "tel", "url"]),
+  inputType: z.enum(["text", "email", "tel", "url"]),
+  tooltip: z.object({
+    title: z.string(),
+    content: z.string(),
+  }),
   validation: inputValidation.optional(),
 })
 

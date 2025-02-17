@@ -8,7 +8,7 @@ import { RegisterOptions } from "react-hook-form"
 
 const dataValidator = z
   .object({
-    value: z.string(),
+    option: z.string(),
   })
   .optional()
 
