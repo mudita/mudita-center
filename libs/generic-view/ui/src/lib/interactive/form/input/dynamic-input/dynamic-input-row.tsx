@@ -13,6 +13,10 @@ interface Props {
   options: string[]
   type: "text" | "email" | "tel" | "url"
   onSetDefault: () => void
+  tooltip: {
+    title: string
+    content: string
+  }
   data: {
     type: string
     value: string
@@ -25,18 +29,20 @@ export const DynamicInputRow: FunctionComponent<Props> = ({
   options,
   type,
   data,
+  tooltip,
   onSetDefault,
 }) => (
   <Wrapper>
     <DynamicSelectInput
       config={{ name: `${name}-select`, options }}
-      data={{ value: data.type }}
+      data={{ option: data.type }}
     />
     <DynamicTextInput
       name={name}
       type={type}
       isDefault={data.isDefault}
       onSetDefault={onSetDefault}
+      tooltip={tooltip}
     />
   </Wrapper>
 )

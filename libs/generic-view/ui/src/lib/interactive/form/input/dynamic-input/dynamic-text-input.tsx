@@ -5,6 +5,8 @@
 
 import React, { useEffect, useId, useState, FunctionComponent } from "react"
 import styled, { css } from "styled-components"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { useFormContext } from "react-hook-form"
 import { IconType } from "generic-view/utils"
 import { IconButton } from "../../../../shared/button"
@@ -16,6 +18,10 @@ interface Props {
   name: string
   type: "text" | "email" | "tel" | "url"
   isDefault: boolean
+  tooltip: {
+    title: string
+    content: string
+  }
   onSetDefault: () => void
 }
 
@@ -23,6 +29,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
   name,
   type,
   isDefault,
+  tooltip,
   onSetDefault,
 }) => {
   const id = useId()
@@ -30,6 +37,12 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
   const value = watch(`${name}-value`) || ""
   const formIsDefault = watch(`${name}-isDefault`)
   const [isFocused, setIsFocused] = useState(false)
+
+  const messages = defineMessages({
+    default: {
+      id: "component.dynamicInput.default",
+    },
+  })
 
   useEffect(() => {
     if (name) {
@@ -65,7 +78,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
           type={type}
           {...register(`${name}-value`)}
           onFocus={() => setIsFocused(true)}
-          onBlur={(e) => handleOnBlur(e)}
+          // onBlur={(e) => handleOnBlur(e)}
         />
         {(isFocused || formIsDefault) && (
           <Tooltip
@@ -79,11 +92,11 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
               <DefaultButton type="button" onClick={onSetDefault}>
                 {!formIsDefault && isFocused && (
                   <ButtonWrapper>
-                    <span>Set as default</span>
+                    <span>{intl.formatMessage(messages.default)}</span>
                     <Icon
                       config={{
                         type: IconType.CheckCircle,
-                        size: "tiny",
+                        size: "small",
                       }}
                     />
                   </ButtonWrapper>
@@ -92,7 +105,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
                   <Icon
                     config={{
                       type: IconType.Checkmark,
-                      size: "tiny",
+                      size: "small",
                     }}
                   />
                 )}
@@ -100,10 +113,10 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
             </Tooltip.Anchor>
             {!formIsDefault && isFocused && (
               <Tooltip.Content>
-                <Label>Set as default for this contact</Label>
-                <Typography.P5>
-                  Always send calls and SMS to this number.
-                </Typography.P5>
+                <CustomTooltip>
+                  <Label>{tooltip.title}</Label>
+                  <TooltipContent>{tooltip.content}</TooltipContent>
+                </CustomTooltip>
               </Tooltip.Content>
             )}
           </Tooltip>
@@ -174,6 +187,7 @@ const DefaultButton = styled(IconButton)`
   border: none;
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSize.label};
+  margin-right: 0.6rem;
 
   &:hover {
     color: ${({ theme }) => theme.color.black};
@@ -185,12 +199,20 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 0.6rem;
-  /* margin-right: 0.8rem; */
+  font-size: 1.2rem;
+  line-height: normal;
 `
 
-const Label = styled.label`
-  font-size: ${({ theme }) => theme.fontSize.paragraph5};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph5};
-  color: ${({ theme }) => theme.color.black};
-  letter-spacing: 0.05em;
+const Label = styled(Typography.P5)`
+  color: ${({ theme }) => theme.color.grey1};
+`
+
+const TooltipContent = styled(Typography.P5)`
+  font-weight: 300;
+  color: ${({ theme }) => theme.color.grey1};
+`
+
+const CustomTooltip = styled.div`
+  width: 18rem;
+  padding: 0.6rem 0;
 `

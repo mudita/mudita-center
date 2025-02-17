@@ -8,6 +8,7 @@ import { APIFC, IconType } from "generic-view/utils"
 import { Icon } from "../../../icon/icon"
 import React, { useEffect, useRef, useState } from "react"
 import styled, { css } from "styled-components"
+import useOutsideClick from "Core/__deprecated__/renderer/utils/hooks/useOutsideClick"
 
 export const SelectInput: APIFC<FormSelectInputData, FormSelectInputConfig> = ({
   data,
@@ -16,36 +17,33 @@ export const SelectInput: APIFC<FormSelectInputData, FormSelectInputConfig> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
+  useOutsideClick(selectRef, () => setIsOpen(false))
 
   const handleSelect = (selectedValue: string) => {
-    data!.value = selectedValue
-    setIsOpen(false)
-  }
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        selectRef.current &&
-        !selectRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false)
-      }
+    if (data && data.option) {
+      data.option = selectedValue
+      setIsOpen(false)
     }
-
-    document.addEventListener("click", handleClickOutside, true)
-    return () => document.removeEventListener("click", handleClickOutside, true)
-  }, [])
+  }
 
   return (
     <Wrapper ref={selectRef} {...props}>
-      <Select onClick={() => setIsOpen(!isOpen)} $selected={data?.value}>
-        {data?.value || config.options[0]}
+      <Select
+        onClick={() => setIsOpen(!isOpen)}
+        $selected={data?.option}
+        $isOpen={isOpen}
+      >
+        {data?.option || config.options[0]}
         <Icon config={{ type: IconType.DropdownArrow, size: "tiny" }} />
       </Select>
       {isOpen && (
         <DropdownList>
           {config.options.map((option, index) => (
-            <DropdownItem key={index} onClick={() => handleSelect(option)}>
+            <DropdownItem
+              key={index}
+              onClick={() => handleSelect(option)}
+              $isSelected={option === data?.option}
+            >
               {option}
             </DropdownItem>
           ))}
@@ -60,7 +58,7 @@ const Wrapper = styled.div`
   min-width: fit-content;
 `
 
-export const Select = styled.div<{ $selected?: string }>`
+export const Select = styled.div<{ $selected?: string; $isOpen?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -72,6 +70,16 @@ export const Select = styled.div<{ $selected?: string }>`
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
   border-radius: 0.4rem;
   cursor: pointer;
+
+  &:hover {
+    border: 0.1rem solid ${({ theme }) => theme.color.black} !important;
+  }
+
+  ${({ $isOpen }) =>
+    $isOpen &&
+    css`
+      border-color: ${({ theme }) => theme.color.black};
+    `}
 
   ${({ $selected, theme }) =>
     $selected &&
@@ -97,11 +105,20 @@ const DropdownList = styled.ul`
   z-index: 100;
 `
 
-const DropdownItem = styled.li`
+const DropdownItem = styled.li<{ $isSelected?: boolean }>`
   padding: 1rem;
   cursor: pointer;
+  line-height: normal;
+
   &:hover {
     background: ${({ theme }) => theme.color.grey5};
     color: ${({ theme }) => theme.color.black};
   }
+
+  ${({ $isSelected }) =>
+    $isSelected &&
+    css`
+      background: ${({ theme }) => theme.color.grey5};
+      color: ${({ theme }) => theme.color.black};
+    `}
 `
