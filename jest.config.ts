@@ -5,11 +5,6 @@
 
 import { getJestProjectsAsync } from "@nx/jest"
 
-void (async () => {
-  const p = await getJestProjectsAsync()
-  console.log(p)
-})()
-
 export default async () => ({
   projects: await getJestProjectsAsync(),
 })

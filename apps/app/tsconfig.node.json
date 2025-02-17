@@ -3,13 +3,22 @@
   "include": [
     "electron.vite.config.*",
     "src/main/**/*",
-    "src/preload/**/*"
+    "src/preload/**/*",
+    "../../libs/app-*/main/**/*.ts",
+  ],
+  "exclude": [
+    "../../libs/app-*/main/**/*.test.ts"
   ],
   "compilerOptions": {
     "composite": true,
+    "resolveJsonModule": true,
     "types": [
+      "node",
       "electron-vite/node",
       "./images.d.ts"
     ],
+    "paths": {
+      "app-*": ["../../libs/app-*/src/index.ts"]
+    }
   }
 }

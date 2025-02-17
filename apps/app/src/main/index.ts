@@ -5,9 +5,16 @@
 
 import { app, BrowserWindow, ipcMain, shell } from "electron"
 import { autoUpdater } from "electron-updater"
+import * as path from "path"
 import { join } from "path"
-import { electronApp, is, optimizer } from "@electron-toolkit/utils"
+import { electronApp, optimizer } from "@electron-toolkit/utils"
 import icon from "../../resources/icons/icon.png"
+import { initSerialPort } from "app-serialport/main"
+import { initSql } from "app-sql/main"
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
+} from "electron-devtools-installer"
 
 function createWindow(): void {
   // Create the browser window.
@@ -15,20 +22,32 @@ function createWindow(): void {
     width: 1280,
     height: 800,
     show: false,
+    useContentSize: true,
     autoHideMenuBar: true,
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
       sandbox: false,
+      nodeIntegration: false,
+      contextIsolation: true,
     },
   })
 
   void autoUpdater.checkForUpdatesAndNotify()
 
-  mainWindow.webContents.openDevTools()
+  if (process.env.NODE_ENV === "development") {
+    mainWindow.webContents.openDevTools()
+  }
 
   mainWindow.on("ready-to-show", () => {
-    mainWindow.show()
+    initSerialPort(ipcMain, mainWindow.webContents)
+    initSql(ipcMain)
+
+    if (process.env.NODE_ENV === "development") {
+      mainWindow.showInactive()
+    } else {
+      mainWindow.show()
+    }
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -38,10 +57,10 @@ function createWindow(): void {
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env["ELECTRON_RENDERER_URL"]) {
+  if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
     mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"])
   } else {
-    mainWindow.loadFile(join(__dirname, "../renderer/index.html"))
+    mainWindow.loadFile(path.join(__dirname, "../renderer/index.html"))
   }
 }
 
@@ -49,6 +68,14 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
+    loadExtensionOptions: { allowFileAccess: true },
+  })
+    .then(([redux, react]) =>
+      console.log(`Added Extensions:  ${redux.name}, ${react.name}`)
+    )
+    .catch((err) => console.log("An error occurred: ", err))
+
   // Set app user model id for windows
   electronApp.setAppUserModelId("com.electron")
 
@@ -58,9 +85,6 @@ app.whenReady().then(() => {
   app.on("browser-window-created", (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
-
-  // IPC test
-  ipcMain.on("ping", () => console.log("pong"))
 
   createWindow()
 
