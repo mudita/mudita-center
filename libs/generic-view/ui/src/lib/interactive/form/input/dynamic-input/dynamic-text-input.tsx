@@ -32,10 +32,12 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
   tooltip,
   onSetDefault,
 }) => {
+  console.log("Rerender", name)
   const id = useId()
   const { register, watch, setValue } = useFormContext()
   const value = watch(`${name}-value`) || ""
   const formIsDefault = watch(`${name}-isDefault`)
+  const [isLocalDefault, setIsLocalDefault] = useState()
   const [isFocused, setIsFocused] = useState(false)
 
   const messages = defineMessages({
@@ -51,6 +53,12 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
   }, [name, value, setValue])
 
   useEffect(() => {
+    return () => {
+      console.log(name)
+    }
+  }, [])
+
+  useEffect(() => {
     if (!formIsDefault) {
       setIsFocused(false)
     }
@@ -61,13 +69,12 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
   }, [name, isDefault, setValue])
 
   const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    console.log("BLUR", name)
     const target = e.currentTarget
 
-    setTimeout(() => {
-      if (target && !target.parentElement?.contains(e.relatedTarget)) {
-        setIsFocused(false)
-      }
-    }, 50)
+    if (target && !target.parentElement?.contains(e.relatedTarget)) {
+      setIsFocused(false)
+    }
   }
 
   return (
@@ -80,47 +87,47 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
           onFocus={() => setIsFocused(true)}
           onBlur={(e) => handleOnBlur(e)}
         />
-        {(isFocused || formIsDefault) && (
-          <Tooltip
-            config={{
-              placement: "bottom-left",
-              strategy: "element-oriented",
-              offset: { x: 0, y: 8 },
-            }}
-          >
-            <Tooltip.Anchor>
-              <DefaultButton type="button" onClick={onSetDefault}>
-                {!formIsDefault && isFocused && (
-                  <ButtonWrapper>
-                    <span>{intl.formatMessage(messages.default)}</span>
-                    <Icon
-                      config={{
-                        type: IconType.CheckCircle,
-                        size: "small",
-                      }}
-                    />
-                  </ButtonWrapper>
-                )}
-                {formIsDefault && (
+        {/* {(isFocused || formIsDefault) && ( */}
+        <Tooltip
+          config={{
+            placement: "bottom-left",
+            strategy: "element-oriented",
+            offset: { x: 0, y: 8 },
+          }}
+        >
+          <Tooltip.Anchor>
+            <DefaultButton type="button" onClick={onSetDefault}>
+              {!formIsDefault && (
+                <ButtonWrapper>
+                  <span>{intl.formatMessage(messages.default)}</span>
                   <Icon
                     config={{
-                      type: IconType.Checkmark,
+                      type: IconType.CheckCircle,
                       size: "small",
                     }}
                   />
-                )}
-              </DefaultButton>
-            </Tooltip.Anchor>
-            {!formIsDefault && isFocused && (
-              <Tooltip.Content>
-                <CustomTooltip>
-                  <Label>{tooltip.title}</Label>
-                  <TooltipContent>{tooltip.content}</TooltipContent>
-                </CustomTooltip>
-              </Tooltip.Content>
-            )}
-          </Tooltip>
-        )}
+                </ButtonWrapper>
+              )}
+              {formIsDefault && (
+                <Icon
+                  config={{
+                    type: IconType.Checkmark,
+                    size: "small",
+                  }}
+                />
+              )}
+            </DefaultButton>
+          </Tooltip.Anchor>
+          {!formIsDefault && isFocused && (
+            <Tooltip.Content>
+              <CustomTooltip>
+                <Label>{tooltip.title}</Label>
+                <TooltipContent>{tooltip.content}</TooltipContent>
+              </CustomTooltip>
+            </Tooltip.Content>
+          )}
+        </Tooltip>
+        {/* )} */}
       </InputWrapper>
     </Wrapper>
   )
@@ -157,6 +164,16 @@ const Input = styled.input`
   }
 `
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.2rem;
+  line-height: normal;
+  opacity: 0;
+`
+
 const InputWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -166,6 +183,14 @@ const InputWrapper = styled.div`
   &:hover {
     ${Input} {
       ${inputFocusStyles};
+    }
+  }
+
+  ${Input} {
+    &:focus {
+      + ${ButtonWrapper} {
+        opacity: 1;
+      }
     }
   }
 
@@ -192,15 +217,6 @@ const DefaultButton = styled(IconButton)`
   &:hover {
     color: ${({ theme }) => theme.color.black};
   }
-`
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 1.2rem;
-  line-height: normal;
 `
 
 const Label = styled(Typography.P5)`
