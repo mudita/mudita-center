@@ -4,9 +4,12 @@
  */
 
 import styled from "styled-components"
-import NxWelcome from "./nx-welcome"
-import { useSerialPortListener } from "./serialport-demo"
+import {
+  selectCurrentDevices,
+  useDevicesListener,
+} from "devices/common/feature"
 import { useSql } from "./sql-test"
+import { useSelector } from "react-redux"
 
 const StyledApp = styled.div`
   /* Your style here */
@@ -14,12 +17,21 @@ const StyledApp = styled.div`
 `
 
 export function App() {
-  useSerialPortListener()
+  useDevicesListener()
   useSql()
+
+  const devices = useSelector(selectCurrentDevices)
 
   return (
     <StyledApp>
-      <NxWelcome title="frontend-app" />
+      <h1>Devices:</h1>
+      <ul>
+        {devices.map((device) => (
+          <li key={device.path}>
+            {device.path} ({device.deviceType})
+          </li>
+        ))}
+      </ul>
     </StyledApp>
   )
 }

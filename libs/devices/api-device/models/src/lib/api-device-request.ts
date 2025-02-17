@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { z } from "zod"
 import { SerialPortRequest, SerialPortResponse } from "app-serialport/models"
 import { ApiDeviceEndpoints } from "./api-device-endpoints"
@@ -18,7 +16,7 @@ type RequestBody<
   E extends ApiDeviceEndpoint,
   M extends keyof (typeof ApiDeviceEndpoints)[E],
 > = (typeof ApiDeviceEndpoints)[E][M] extends {
-  request: infer R extends z.ZodObject<any>
+  request: infer R extends z.ZodType
 }
   ? z.infer<R>
   : never
@@ -27,7 +25,7 @@ type ResponseBody<
   E extends ApiDeviceEndpoint,
   M extends keyof (typeof ApiDeviceEndpoints)[E],
 > = (typeof ApiDeviceEndpoints)[E][M] extends {
-  response: infer R extends z.ZodObject<any>
+  response: infer R extends z.ZodType
 }
   ? z.infer<R>
   : never

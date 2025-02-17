@@ -5,7 +5,7 @@
 
 export enum SerialPortDeviceType {
   ApiDevice = "ApiDevice",
-  Harmony = "Harmony",
-  HarmonyMsc = "HarmonyMsc",
-  Pure = "Pure",
+  Harmony = "MuditaHarmony",
+  HarmonyMsc = "MuditaHarmonyMsc",
+  Pure = "MuditaPure",
 }

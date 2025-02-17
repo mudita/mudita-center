@@ -4,6 +4,7 @@
  */
 
 export enum SerialPortIpcEvents {
+  Reload = "serialport:reload",
   DevicesChanged = "serialport:devices-changed",
   Request = "serialport:request",
   ChangeBaudRate = "serialport:change-baud-rate",

@@ -12,16 +12,23 @@ import { CommonDeviceResponseParser } from "../shared/common-device-response-par
 import { commonDeviceRequestParser } from "../shared/common-device-request-parser"
 
 export class SerialPortApiDevice extends SerialPortDevice {
-  static matchingVendorIds = ["0e8d", "3725"]
-  static matchingProductIds = ["200a", "2006", "2012", "8198", "8202", "8210"]
-  static deviceType = SerialPortDeviceType.ApiDevice
+  static readonly matchingVendorIds = ["0e8d", "3725"]
+  static readonly matchingProductIds = [
+    "200a",
+    "2006",
+    "2012",
+    "8198",
+    "8202",
+    "8210",
+  ]
+  static readonly deviceType = SerialPortDeviceType.ApiDevice
+  readonly requestIdKey = "rid"
 
   constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
     super(
       { baudRate, ...options },
       new CommonDeviceResponseParser({ matcher: /#\d{9}/g })
     )
-    this.requestIdKey = "rid"
   }
 
   parseRequest(data: SerialPortRequest) {

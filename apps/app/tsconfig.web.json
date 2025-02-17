@@ -10,11 +10,9 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["./*"],
-      "@web/*": ["../web/src/*"],
-      "@renderer/*": ["src/renderer/*"],
-      "app-*": ["../../libs/app-*/src/index.ts"],
-      "api-device/*": ["../../libs/devices/api-device/*/src/index.ts"],
+      "*": [
+        "../../libs/*/src/index.ts"
+      ]
     }
   }
 }

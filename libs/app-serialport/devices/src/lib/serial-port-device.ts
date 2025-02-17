@@ -34,12 +34,12 @@ export type SerialPortDeviceOptions = Omit<
 }
 
 export class SerialPortDevice extends SerialPort {
-  private responseEmitter = new EventEmitter()
-  private queue: PQueue
-  static deviceType: SerialPortDeviceType
-  static matchingVendorIds: string[] = []
-  static matchingProductIds: string[] = []
-  requestIdKey = "id"
+  #responseEmitter = new EventEmitter()
+  #queue: PQueue
+  static readonly deviceType: SerialPortDeviceType
+  static readonly matchingVendorIds: string[] = []
+  static readonly matchingProductIds: string[] = []
+  readonly requestIdKey: string = "id"
 
   constructor(
     {
@@ -50,7 +50,7 @@ export class SerialPortDevice extends SerialPort {
     parser?: Transform
   ) {
     super({ ...options, autoOpen: true })
-    this.queue = new PQueue({
+    this.#queue = new PQueue({
       concurrency: queueConcurrency,
       interval: queueInterval,
     })
@@ -69,7 +69,7 @@ export class SerialPortDevice extends SerialPort {
     if (!id) {
       throw new SerialPortError(SerialPortErrorType.ResponseWithoutId)
     }
-    this.responseEmitter.emit(`response-${id}`, response)
+    this.#responseEmitter.emit(`response-${id}`, response)
   }
 
   private listenForResponse(id: number | string, timeoutMs: number) {
@@ -83,11 +83,11 @@ export class SerialPortDevice extends SerialPort {
 
       timeout = setTimeout(() => {
         super.drain()
-        this.responseEmitter.removeListener(`response-${id}`, listener)
+        this.#responseEmitter.removeListener(`response-${id}`, listener)
         reject(new SerialPortError(SerialPortErrorType.ResponseTimeout, id))
       }, timeoutMs)
 
-      this.responseEmitter.once(`response-${id}`, listener)
+      this.#responseEmitter.once(`response-${id}`, listener)
     })
   }
 
@@ -110,7 +110,7 @@ export class SerialPortDevice extends SerialPort {
   private createRequest({ options, ...data }: SerialPortRequest) {
     const id = parseInt(uniqueId())
     return new Promise<SerialPortResponse>((resolve, reject) => {
-      void this.queue.add(async () => {
+      void this.#queue.add(async () => {
         try {
           const enrichedData = set(clone(data), this.requestIdKey, id)
           this.write(enrichedData)
