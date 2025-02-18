@@ -11,7 +11,7 @@ class ContactsKompaktPage extends Page {
   }
 
   public get importContactsSubtext() {
-    return $('//p[@data-testid="ui-typography-p1"]')
+    return $('//p[@data-testid="ui-typography-p1-emptyStateDetailText"]')
   }
 
   public get importContactsButton() {
@@ -122,7 +122,7 @@ class ContactsKompaktPage extends Page {
   }
 
   public get contactSelectedBar() {
-    return $('//*[@data-testid="ui-typography-p4"]')
+    return $('//*[@data-testid="ui-typography-p4-selectedContactsCounter"]')
   }
 
   public get contactSelectedDeleteButton() {
@@ -150,7 +150,13 @@ class ContactsKompaktPage extends Page {
 
   public get contactDeleteModalText() {
     return $(
-      '//p[@data-testid="ui-typography-p1" and text()="This can\'t be undone so please make a copy of any important information first."]'
+      '//p[@data-testid="ui-typography-p1-globalDeleteModalContent" and text()="This can\'t be undone so please make a copy of any important information first."]'
+    )
+  }
+
+  public get contactDeleteDetailsModalText() {
+    return $(
+      '//p[@data-testid="ui-typography-p1-detailsDeleteModalContent" and text()="This can\'t be undone so please make a copy of any important information first."]'
     )
   }
 
@@ -188,7 +194,7 @@ class ContactsKompaktPage extends Page {
       $(
         `(//*[@data-testid="ui-table-row"])[${
           rowIndex + 1
-        }]//td[2]//p[@data-testid="ui-typography-p1"]`
+        }]//td[2]//p[@data-testid="ui-typography-p1-contactDisplayName"]`
       )
   }
 
