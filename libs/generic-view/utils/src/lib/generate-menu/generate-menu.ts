@@ -3,12 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MenuConfig, MenuItemConfig } from "device/models"
+import { MenuConfig } from "device/models"
 import { IconType as CoreIconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import {
-  MenuElement,
-  MenuElementItem,
-} from "Core/__deprecated__/renderer/constants/menu-elements"
+import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { IconType } from "../models/icons.types"
 
 const mapIcons: Partial<Record<IconType, CoreIconType>> = {
@@ -49,31 +46,20 @@ const getIcon = (feature: string, iconType?: IconType) => {
   return (iconType && mapIcons[iconType]) ?? featureIcon
 }
 
-const processMenuItem = (
-  item: MenuItemConfig,
-  parentIcon?: IconType
-): MenuElementItem => ({
-  icon: getIcon(item.feature, item.icon || parentIcon),
-  button: {
-    label: item.displayName as string,
-    url: `/generic/${item.feature}`,
-  },
-})
-
-// workaround until https://appnroll.atlassian.net/browse/CP-3435 is implemented
 export const generateMenu = (config: MenuConfig): MenuElement[] => {
-  const itemsWithSubmenu = config.menuItems.filter((item) => item.submenu)
-  const itemsWithoutSubmenu = config.menuItems.filter((item) => !item.submenu)
-
-  const menuWithoutSubmenu: MenuElement = {
-    items: itemsWithoutSubmenu.map((item) => processMenuItem(item)),
-    label: config.title,
-  }
-
-  const menuWithSubmenu: MenuElement[] = itemsWithSubmenu.map((item) => ({
-    items: item.submenu?.map((subItem) => processMenuItem(subItem, item.icon)),
-    label: item.displayName,
-  }))
-
-  return [menuWithoutSubmenu, ...menuWithSubmenu]
+  return [
+    {
+      label: config.title,
+      items: config.menuItems
+        .filter((item) => item.displayName)
+        .map((item) => ({
+          icon: getIcon(item.feature, item.icon),
+          label: item.displayName as string,
+          button: {
+            label: item.displayName as string,
+            url: `/generic/${item.feature}`,
+          },
+        })),
+    },
+  ]
 }
