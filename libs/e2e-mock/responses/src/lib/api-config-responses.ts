@@ -12,6 +12,6 @@ export const apiConfigWithContacts: ApiConfig = {
   variant: "black",
   features: ["mc-overview", "contacts"],
   productId: "2006",
-  vendorId: "0e8d",
+  vendorId: "3310",
   serialNumber: "0123456789ABCDEF",
 }

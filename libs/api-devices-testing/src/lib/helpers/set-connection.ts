@@ -34,5 +34,5 @@ export const setConnection = async (vendorId: string, productId: string) => {
 }
 
 export const setKompaktConnection = () => {
-  return setConnection("0e8d", "200a")
+  return setConnection("3310", "200a")
 }

@@ -67,7 +67,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           features: ["mc-overview", "mc-contacts", "mc-file-manager-internal"],
           entityTypes: ["contacts", "audioFiles"],
           productId: "2006",
-          vendorId: "0e8d",
+          vendorId: "3310",
           serialNumber: "0123456789ABCDEF",
           otaApiConfig: {
             otaApiKey: "864055030180383",
@@ -226,7 +226,9 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
             },
           ],
         },
-        match: { expected: { feature: "mc-file-manager-internal", lang: "en-US" } },
+        match: {
+          expected: { feature: "mc-file-manager-internal", lang: "en-US" },
+        },
       },
     ],
   },
