@@ -9,18 +9,23 @@ import { LinkWrapper } from "Core/__deprecated__/renderer/components/rest/menu/m
 import { NotificationBadge } from "Core/notification/components"
 import { MenuElementItem } from "Core/__deprecated__/renderer/constants/menu-elements"
 import MenuItemButton from "Core/__deprecated__/renderer/components/rest/menu-item-button.component"
+import ExpandableMenuItem from "Core/__deprecated__/renderer/components/rest/menu/expandable-menu-item.component"
 
 export interface MenuItemProps extends MenuElementItem {
   badgeActive: boolean
 }
 
 const MenuItem: FunctionComponent<MenuItemProps> = (props) => {
-  const { badgeActive, ...menuElementItem } = props
+  const { badgeActive, items, ...menuElementItem } = props
 
   return (
     <LinkWrapper>
       <NotificationBadge active={badgeActive}>
-        <MenuItemButton {...menuElementItem} />
+        {items && items.length > 0 ? (
+          <ExpandableMenuItem items={items} {...menuElementItem} />
+        ) : (
+          <MenuItemButton {...menuElementItem} />
+        )}
       </NotificationBadge>
     </LinkWrapper>
   )
