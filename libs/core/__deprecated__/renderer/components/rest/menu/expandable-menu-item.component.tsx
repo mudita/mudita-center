@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
+import React, { CSSProperties, useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useLocation } from "react-router"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -47,6 +47,7 @@ const ExpandableMenuItem: FunctionComponent<Props> = ({
       ? { label: button.label }
       : { labelMessage: button.label }),
   }
+  const buttonStyle: CSSProperties = isExpanded ? { pointerEvents: "none" } : {}
 
   return (
     <>
@@ -54,6 +55,7 @@ const ExpandableMenuItem: FunctionComponent<Props> = ({
         {...buttonMenuConfig}
         data-testid={testId}
         onClick={expandAndRedirect}
+        style={buttonStyle}
       />
       {isExpanded && <ExpandableMenuSubitems items={items} />}
     </>
