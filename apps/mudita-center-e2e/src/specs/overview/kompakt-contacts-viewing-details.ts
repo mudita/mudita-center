@@ -135,6 +135,12 @@ describe("E2E mock sample - overview view", () => {
     const closeContactDetailsButton =
       await ContactsKompaktPage.closeContactDetailsButton
     await closeContactDetailsButton.click()
+
+    //check if elements from contacts details bar are not displayed, to assure that Contacts Details panel is closed
+    await expect(closeContactDetailsButton).not.toBeDisplayed()
+    const contactDetailsDeleteButton =
+      ContactsKompaktPage.contactDetailsDeleteButton
+    await expect(contactDetailsDeleteButton).not.toBeDisplayed()
   })
 
   it("Select first contact to open contact details and check if there is ellipsis at the end", async () => {
