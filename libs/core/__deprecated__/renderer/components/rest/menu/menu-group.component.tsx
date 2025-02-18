@@ -51,16 +51,15 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
         <MenuHeader label={label} icons={icons} deviceType={deviceType} />
       )}
       {filteredItems.map((item, index) => {
-        const { button, icon, testId, disableWhenActive = true, viewKey } = item
+        const { disableWhenActive = true, ...restProps } = item
+        const { viewKey } = item
+        const badgeActive = viewKey === View.Messages && notifications[viewKey]
         return (
           <MenuItem
             key={index}
-            button={button}
-            icon={icon}
-            testId={testId}
-            viewKey={viewKey}
-            notifications={notifications}
+            badgeActive={badgeActive}
             disableWhenActive={disableWhenActive}
+            {...restProps}
           />
         )
       })}
