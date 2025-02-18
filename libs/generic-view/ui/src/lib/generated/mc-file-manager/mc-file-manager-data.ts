@@ -12,6 +12,10 @@ import {
 import { View } from "generic-view/utils"
 import { SEGMENTS_CONFIG_MAP } from "./storage-summary-bar"
 import { generateFileUploadButtonModalKey } from "./file-upload-button"
+import {
+  getFileManagerLoaderKey,
+  getFileManagerStoragePageKey,
+} from "./helpers"
 
 type StorageInformation = McFileManagerData["storageInformation"][number]
 
@@ -145,16 +149,17 @@ const generateStorageSummary = (
 
 export const generateFileManagerData = (
   data: McFileManagerData,
-  config: View
+  config: View,
+  feature: string
 ): Feature["data"] => {
-  const entitiesLoaderConfig = config.fileManagerLoader.config
+  const entitiesLoaderConfig = config[getFileManagerLoaderKey(feature)].config
   const entityTypes = isEntitiesLoaderConfig(entitiesLoaderConfig)
     ? entitiesLoaderConfig.entityTypes
     : []
 
   return data.storageInformation.reduce(
     (acc, storageInformation, currentIndex) => {
-      const pageKey = currentIndex.toString()
+      const pageKey = getFileManagerStoragePageKey(feature, currentIndex)
       return {
         ...acc,
         ...generateOtherFilesSpaceInformation(pageKey, storageInformation),

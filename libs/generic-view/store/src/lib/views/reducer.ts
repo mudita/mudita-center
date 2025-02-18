@@ -194,7 +194,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
         ...state.devices[deviceId].features,
         [feature]: {
           ...state.devices[deviceId].features?.[feature],
-          config: transformGenericComponents({
+          config: transformGenericComponents(feature, {
             ...state.devices[deviceId].features?.[feature]?.config,
             ...config,
           }),
