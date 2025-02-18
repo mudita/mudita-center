@@ -39,6 +39,6 @@ export enum TestFilesPaths {
   kompaktContactsViewingEmpty = "src/specs/overview/kompakt-contacts-viewing-empty.ts",
   kompaktContactsDeleteDetails = "src/specs/overview/kompakt-contacts-delete-details.ts",
   kompaktContactsDelete = "src/specs/overview/kompakt-contacts-delete.ts",
-  kompaktContactsViewingDetails = "src/specs/overview/kompakt-contacts-viewing-details.ts.ts",
+  kompaktContactsViewingDetails = "src/specs/overview/kompakt-contacts-viewing-details.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`
