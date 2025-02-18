@@ -52,6 +52,7 @@ const cleanEscapeCharacters = (value: string) => {
 
 const getFields = (item: jCard, key: string) => {
   const fields = item[1].filter((property) => property[0] === key)
+
   return fields
     .map((field) => {
       const type = isArray(field[1].type) ? last(field[1].type) : field[1].type
@@ -79,14 +80,18 @@ const getNameFields = (
   | "honorificSuffix"
 > => {
   const { value } = first(getFields(item, "n")) || {}
-  const [lastName, firstName, middleName, honorificPrefix, honorificSuffix] =
-    value as string[]
-  return {
-    ...(lastName && { lastName }),
-    ...(firstName && { firstName }),
-    ...(middleName && { middleName }),
-    ...(honorificPrefix && { honorificPrefix }),
-    ...(honorificSuffix && { honorificSuffix }),
+  if (value) {
+    const [lastName, firstName, middleName, honorificPrefix, honorificSuffix] =
+      value as string[]
+    return {
+      ...(lastName && { lastName }),
+      ...(firstName && { firstName }),
+      ...(middleName && { middleName }),
+      ...(honorificPrefix && { honorificPrefix }),
+      ...(honorificSuffix && { honorificSuffix }),
+    }
+  } else {
+    return {}
   }
 }
 
