@@ -52,10 +52,11 @@ describe("E2E mock sample - overview view", () => {
     await contactsList[5].click()
   })
 
-  xit("Check contact's details", async () => {
+  it("Check contact's details", async () => {
     //check contact title in Details view
-    const contactDetailsTitle = await ContactsKompaktPage.contactDetailsTitle
-    await expect(contactDetailsTitle).toHaveText("Dr. Michael Johnson PhD")
+    const contactDisplayNameHeader =
+      await ContactsKompaktPage.contactDisplayNameHeader
+    await expect(contactDisplayNameHeader).toHaveText("Dr. Michael Johnson PhD")
 
     //check contact information subtitle
     const contactDetailsSubtitleContactInformation =
@@ -127,7 +128,7 @@ describe("E2E mock sample - overview view", () => {
     const contactDetailsCompanyValue =
       await ContactsKompaktPage.contactDetailsCompanyValue
     await expect(contactDetailsCompany).toHaveText("Company")
-    await expect(contactDetailsCompanyValue).toHaveText("")
+    await expect(contactDetailsCompanyValue).toHaveText("Research Labs")
   })
 
   it("Close contact details page", async () => {
@@ -140,14 +141,26 @@ describe("E2E mock sample - overview view", () => {
     const contactsList = await ContactsKompaktPage.allContactsTableRows
     await contactsList[0].click()
 
-    const contactDetailsTitle = await ContactsKompaktPage.contactDetailsTitle
-    //await expect(contactDetailsTitle).toHaveTextContaining("...")
-    // const titleText = await contactDetailsTitle.getText()
+    const elementEllipsis = await ContactsKompaktPage.contactDisplayNameHeader
 
-    // await expect(titleText.endsWith("...")).toBe(true)
+    const computedStyle = await browser.execute((el) => {
+      const domElement = el as unknown as HTMLElement // Ensure it's treated correctly
+      const styles = window.getComputedStyle(domElement)
+
+      return {
+        textOverflow: styles.textOverflow,
+        whiteSpace: styles.whiteSpace,
+        overflow: styles.overflow,
+      }
+    }, elementEllipsis)
+
+    // Assertions to verify if ellipsis is actually applied
+    await expect(computedStyle.textOverflow).toBe("ellipsis")
+    await expect(computedStyle.whiteSpace).toBe("nowrap")
+    await expect(computedStyle.overflow).toBe("hidden")
   })
 
-  xit("Check if phone number columns are not visible when Contact Details are opened", async () => {
+  it("Check if phone number columns are not visible when Contact Details are opened", async () => {
     const contactPhoneNumberColumn =
       await ContactsKompaktPage.contactPhoneNumberColumn
     await expect(contactPhoneNumberColumn).not.toBeDisplayed()
