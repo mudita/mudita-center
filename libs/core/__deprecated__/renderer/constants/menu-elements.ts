@@ -105,6 +105,7 @@ export interface MenuElementItem {
   visibleOn?: DeviceType[]
   viewKey?: View
   disableWhenActive?: boolean
+  items?: MenuElementItem[]
 }
 
 export interface MenuElement {

@@ -58,28 +58,13 @@ const processMenuItem = (
     label: item.displayName as string,
     url: `/generic/${item.feature}`,
   },
+  items: item.submenu?.map((subitem) => processMenuItem(subitem, item.icon)),
 })
-
-// workaround until https://appnroll.atlassian.net/browse/CP-3435 is implemented
-const flattenMenuItems = (
-  items: MenuItemConfig[],
-  parentIcon?: IconType
-): MenuElementItem[] => {
-  return items.reduce((acc, item) => {
-    acc.push(processMenuItem(item, parentIcon))
-
-    if (item.submenu) {
-      acc.push(...flattenMenuItems(item.submenu, item.icon || parentIcon))
-    }
-
-    return acc
-  }, [] as MenuElementItem[])
-}
 
 export const generateMenu = (config: MenuConfig): MenuElement[] => {
   return [
     {
-      items: flattenMenuItems(config.menuItems),
+      items: config.menuItems.map((item) => processMenuItem(item)),
       label: config.title,
     },
   ]
