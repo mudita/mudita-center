@@ -37,6 +37,106 @@ class ContactsKompaktPage extends Page {
     return $$('//*[@data-testid="ui-table-row"]')
   }
 
+  public get contactDisplayNameHeader() {
+    return $('//*[@data-testid="ui-typography-h3-contactDisplayNameHeader"]')
+  }
+
+  public get contactDetailsSubtitleContactInformation() {
+    return $('//*[@data-testid="ui-typography-h4-contactInformationText"]')
+  }
+
+  public get contactDetailsPhoneNumber() {
+    return $(
+      '//*[@data-testid="ui-typography-h5-contactDetailsPhoneNumberLabel"]'
+    )
+  }
+
+  public get contactDetailsPhoneNumberValue() {
+    return $(
+      '//*[@data-testid="ui-typography-p4-contactDetailsPhoneNumber1Value"]'
+    )
+  }
+
+  public get contactDetailsFirstName() {
+    return $(
+      '//*[@data-testid="ui-typography-h5-contactDetailsFirstNameLabel"]'
+    )
+  }
+
+  public get contactDetailsFirstNameValue() {
+    return $(
+      '//*[@data-testid="ui-typography-p4-contactDetailsFirstNameValue"]'
+    )
+  }
+
+  public get contactDetailsLastName() {
+    return $('//*[@data-testid="ui-typography-h5-contactDetailsLastNameLabel"]')
+  }
+
+  public get contactDetailsLastNameValue() {
+    return $('//*[@data-testid="ui-typography-p4-contactDetailsLastNameValue"]')
+  }
+
+  public get contactDetailsNamePrefix() {
+    return $(
+      '//*[@data-testid="ui-typography-h5-contactDetailsNamePrefixLabel"]'
+    )
+  }
+
+  public get contactDetailsNamePrefixValue() {
+    return $(
+      '//*[@data-testid="ui-typography-p4-contactDetailsNamePrefixValue"]'
+    )
+  }
+
+  public get contactDetailsMiddleName() {
+    return $(
+      '//*[@data-testid="ui-typography-h5-contactDetailsMiddleNameLabel"]'
+    )
+  }
+
+  public get contactDetailsMiddleNameValue() {
+    return $(
+      '//*[@data-testid="ui-typography-p4-contactDetailsMiddleNameValue"]'
+    )
+  }
+
+  public get contactDetailsNameSuffix() {
+    return $(
+      '//*[@data-testid="ui-typography-h5-contactDetailsNameSuffixLabel"]'
+    )
+  }
+
+  public get contactDetailsNameSuffixValue() {
+    return $(
+      '//*[@data-testid="ui-typography-p4-contactDetailsNameSuffixValue"]'
+    )
+  }
+
+  public get contactDetailsEmail() {
+    return $('//*[@data-testid="ui-typography-h5-contactDetailsEmailLabel"]')
+  }
+
+  public get contactDetailsEmailValue() {
+    return $('//*[@data-testid="ui-typography-p4-contactDetailsEmailValue"]')
+  }
+
+  public get contactDetailsCompany() {
+    return $('//*[@data-testid="ui-typography-h5-contactDetailsCompanyLabel"]')
+  }
+
+  public get contactDetailsCompanyValue() {
+    return $('//*[@data-testid="ui-typography-p4-contactDetailsCompanyValue"]')
+  }
+
+  public get closeContactDetailsButton() {
+    return $('//*[@data-testid="icon-close"]')
+  }
+
+  public get contactPhoneNumberColumn() {
+    return $('//*[@data-testid="ui-typography-p1-contactPhoneNumber"]')
+  }
+
   public get contactsCheckboxesLabels() {
     return $$('//label[contains(@for, "checkbox-")]')
   }
