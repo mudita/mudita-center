@@ -20,7 +20,10 @@ export const setConnection = async (vendorId: string, productId: string) => {
   )
   const attachedDevice = (await deviceProtocol.getAttachedDevices()).find(
     (port) => {
-      return port.vendorId?.toLowerCase() === vendorId.toLowerCase() && port.productId?.toLowerCase() === productId.toLowerCase()
+      return (
+        port.vendorId?.toLowerCase() === vendorId.toLowerCase() &&
+        port.productId?.toLowerCase() === productId.toLowerCase()
+      )
     }
   )
 
@@ -34,5 +37,5 @@ export const setConnection = async (vendorId: string, productId: string) => {
 }
 
 export const setKompaktConnection = () => {
-  return setConnection("0e8d", "200a")
+  return setConnection("3310", "200a")
 }

@@ -25,9 +25,18 @@ jest.mock("electron-better-ipc", () => {
 
 describe("API configuration", () => {
   let deviceProtocol: DeviceProtocol
-  const testFeatures = ["mc-overview","contacts","mc-data-migration","fileManager"].sort()
-  const testEntityTypes = ["contacts","audioFiles","imageFiles","ebookFiles"].sort()
-
+  const testFeatures = [
+    "mc-overview",
+    "contacts",
+    "mc-data-migration",
+    "fileManager",
+  ].sort()
+  const testEntityTypes = [
+    "contacts",
+    "audioFiles",
+    "imageFiles",
+    "ebookFiles",
+  ].sort()
 
   beforeEach(async () => {
     deviceProtocol = setActiveDevice(await setKompaktConnection())
@@ -38,7 +47,6 @@ describe("API configuration", () => {
   }, 10000)
 
   it("should receive API configuration", async () => {
-  
     const apiConfigService = new APIConfigService(deviceProtocol)
 
     const result = await apiConfigService.getAPIConfig()
@@ -61,7 +69,7 @@ describe("API configuration", () => {
     expect(result.ok).toBeFalsy()
     expect(result.error?.type).toBe(GeneralError.NoDevice)
   })
-  
+
   it("should receive valid API configuration response", async () => {
     const apiConfigService = new APIConfigService(deviceProtocol)
 
@@ -75,10 +83,11 @@ describe("API configuration", () => {
     expect(apiConfig.features.sort()).toEqual(testFeatures)
     expect(apiConfig.entityTypes?.sort()).toEqual(testEntityTypes)
     expect(apiConfig.productId).toEqual("2006")
-    expect(apiConfig.vendorId).toEqual("0e8d")
+    expect(apiConfig.vendorId).toEqual("3310")
     expect(apiConfig.serialNumber).toMatch(/^[A-Z0-9]{13}$/)
     expect(apiConfig.otaApiConfig?.otaApiKey.length).toEqual(15)
-    expect(apiConfig.otaApiConfig?.osVersionTimestamp.toString().length).toEqual(10)
+    expect(
+      apiConfig.otaApiConfig?.osVersionTimestamp.toString().length
+    ).toEqual(10)
   })
-
 })

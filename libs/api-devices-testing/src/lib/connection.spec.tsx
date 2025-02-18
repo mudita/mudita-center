@@ -18,7 +18,7 @@ jest.mock("Core/device-manager/services/usb-devices/usb-devices.helper", () => {
 })
 
 describe("Connection", () => {
-  it.each([{ vendorId: "0e8d", productId: "200a" }])(
+  it.each([{ vendorId: "3310", productId: "200a" }])(
     "should connect successfully",
     async ({ vendorId, productId }) => {
       const eventEmitter = new EventEmitter()
@@ -31,7 +31,10 @@ describe("Connection", () => {
       expect(deviceProtocol.devices).toHaveLength(0)
       const attachedDevice = (await deviceProtocol.getAttachedDevices()).find(
         (port) => {
-          return port.vendorId?.toLowerCase() === vendorId.toLowerCase() && port.productId?.toLowerCase() === productId.toLowerCase()
+          return (
+            port.vendorId?.toLowerCase() === vendorId.toLowerCase() &&
+            port.productId?.toLowerCase() === productId.toLowerCase()
+          )
         }
       )
 

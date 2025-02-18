@@ -23,7 +23,7 @@ const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
   manufacturer: "Mudita",
   pnpId: undefined,
   locationId: "00140000",
-  vendorId: "0e8d",
+  vendorId: "3310",
   productId: "2006",
 }
 
