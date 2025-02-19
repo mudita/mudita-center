@@ -122,4 +122,7 @@ export enum ActionName {
   CreateEntityData = "entities/create-entity-data",
   UpdateEntityData = "entities/update-entity-data",
   RefreshEntitiesIfMetadataChanged = "entities/refresh-entities-if-metadata-changed",
+
+  StartAppInstallation = "app-installation/start-app-installation",
+  GetAppInstallationProgress = "app-installation/get-app-installation-progress",
 }
