@@ -22,6 +22,7 @@ import {
   EntitiesMetadataConfig,
   EntityData,
   FormFieldsConfig,
+  SelfConfig,
 } from "device/models"
 import { cloneDeep, get, set } from "lodash"
 import {
@@ -112,6 +113,19 @@ export const ComponentWithData: FunctionComponent<Props> = ({
           {children}
         </FormFieldsDataProvider>
       )
+    case "self":
+      return (
+        <SelfDataProvider
+          viewKey={viewKey}
+          componentKey={componentKey}
+          componentName={componentName}
+          dataProvider={dataProvider}
+          config={config}
+          dataItemId={dataItemId}
+        >
+          {children}
+        </SelfDataProvider>
+      )
     default:
       return (
         <DefaultDataProvider
@@ -137,6 +151,38 @@ const DefaultDataProvider: FunctionComponent<Props> = ({
     return selectComponentData(state, { viewKey, componentKey })
   })
   return children({ data: componentData, ...rest })
+}
+
+const SelfDataProvider: FunctionComponent<
+  Props & { dataProvider: SelfConfig }
+> = ({
+  children,
+  viewKey,
+  componentKey,
+  config,
+  dataItemId,
+  dataProvider,
+  ...rest
+}) => {
+  const componentData = useSelector((state: ReduxRootState) => {
+    return selectComponentData(state, { viewKey, componentKey })
+  })
+
+  const childrenProps = cloneDeep({
+    data: {},
+    config,
+    dataItemId,
+  })
+
+  for (const fieldConfig of dataProvider.fields) {
+    const { componentField, providerField, ...config } = fieldConfig
+    const fieldValue = get({ data: componentData }, providerField)
+    const value = processField(config, fieldValue)
+
+    set(childrenProps, componentField, value)
+  }
+
+  return children({ ...childrenProps, data: componentData, ...rest })
 }
 
 const EntitiesMetadataDataProvider: FunctionComponent<

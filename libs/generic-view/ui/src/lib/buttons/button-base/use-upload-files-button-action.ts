@@ -6,19 +6,15 @@
 import { useCallback } from "react"
 import path from "node:path"
 import { getFileStatsRequest } from "system-utils/feature"
+import { FilesTransferUploadFilesAction } from "generic-view/models"
 import {
-  FilesTransferUploadFilesAction,
-  McFileManagerData,
-} from "generic-view/models"
-import {
-  selectActiveDeviceFeatureByKey,
+  addFileTransferErrors,
+  clearFileTransferErrors,
   selectFilesSendingFailed,
   selectValidEntityFilePaths,
   sendFiles,
   sendFilesClear,
   SendFilesPayload,
-  addFileTransferErrors,
-  clearFileTransferErrors,
 } from "generic-view/store"
 import { useDispatch, useStore } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -56,17 +52,10 @@ export const useUploadFilesButtonAction = () => {
 
       if (entityFilePaths === undefined) return
 
-      const fileManagerFeatureData = selectActiveDeviceFeatureByKey(
-        store.getState(),
-        "mc-file-manager-internal"
-      ) as McFileManagerData | undefined
-
       const validationError = await validateSelectedFiles(
         filesPaths,
         entityFilePaths,
-        // @ts-ignore
-        // TODO: Add support for multiple storage in file management feature: https://appnroll.atlassian.net/browse/CP-3398
-        fileManagerFeatureData?.["0storageSummaryFreeBytes"].value
+        action.freeSpace
       )
 
       if (validationError !== undefined) {

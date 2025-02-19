@@ -59,6 +59,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
               filesToUploadFieldName: "filesToUpload",
             },
             destinationPath: storagePath + directoryPath,
+            freeSpace: 0,
             entitiesType: entityType,
             actionId: uploadActionId,
             preActions: {
@@ -102,6 +103,15 @@ export const generateFileUploadProcessButton: ComponentGenerator<
                 },
               ],
             },
+          },
+        ],
+      },
+      dataProvider: {
+        source: "self",
+        fields: [
+          {
+            providerField: "data.freeSpace",
+            componentField: "config.actions[2].freeSpace",
           },
         ],
       },
