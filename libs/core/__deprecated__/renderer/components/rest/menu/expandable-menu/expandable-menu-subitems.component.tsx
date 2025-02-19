@@ -17,7 +17,7 @@ import {
   SubitemWrapper,
 } from "Core/__deprecated__/renderer/components/rest/menu/expandable-menu/expandable-menu-subitems.styles"
 
-const FirstSubitem = () => {
+const EmptySubitem = () => {
   return (
     <SubitemWrapper>
       <SubitemBranchMarkerWrapper>
@@ -66,7 +66,7 @@ const ExpandableMenuSubitems: FunctionComponent<
   if (items.length === 1) {
     return (
       <>
-        <FirstSubitem />
+        <EmptySubitem />
         <LatestSubitem {...items[0]} />
       </>
     )
@@ -77,7 +77,7 @@ const ExpandableMenuSubitems: FunctionComponent<
 
   return (
     <>
-      <FirstSubitem />
+      <EmptySubitem />
       {nonLatestItems.map((item, index) => (
         <Subitem key={index} {...item} />
       ))}
