@@ -36,6 +36,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
   const { register, watch, setValue } = useFormContext()
   const value = watch(`${name}-value`) || ""
   const formIsDefault = watch(`${name}-isDefault`)
+  const [localFormIsDefault, setLocalFormIsDefault] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
 
   const messages = defineMessages({
@@ -54,6 +55,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
     if (!formIsDefault) {
       setIsFocused(false)
     }
+    setLocalFormIsDefault(formIsDefault)
   }, [formIsDefault])
 
   useEffect(() => {
@@ -80,7 +82,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
           onFocus={() => setIsFocused(true)}
           onBlur={(e) => handleOnBlur(e)}
         />
-        {(isFocused || formIsDefault) && (
+        {(isFocused || localFormIsDefault) && (
           <Tooltip
             config={{
               placement: "bottom-left",
@@ -90,7 +92,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
           >
             <Tooltip.Anchor>
               <DefaultButton type="button" onClick={onSetDefault}>
-                {!formIsDefault && isFocused && (
+                {!localFormIsDefault && isFocused && (
                   <ButtonWrapper>
                     <span>{intl.formatMessage(messages.default)}</span>
                     <Icon
@@ -101,7 +103,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
                     />
                   </ButtonWrapper>
                 )}
-                {formIsDefault && (
+                {localFormIsDefault && (
                   <Icon
                     config={{
                       type: IconType.Checkmark,
@@ -111,7 +113,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
                 )}
               </DefaultButton>
             </Tooltip.Anchor>
-            {!formIsDefault && isFocused && (
+            {!localFormIsDefault && isFocused && (
               <Tooltip.Content>
                 <CustomTooltip>
                   <Label>{tooltip.title}</Label>
