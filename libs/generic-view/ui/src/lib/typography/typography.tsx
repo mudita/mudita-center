@@ -33,6 +33,11 @@ const BaseTypography: APIFC<TypographyData, TypographyConfig> = (props) => {
       $singleLine={config?.singleLine}
       $textAlign={config?.textAlign}
       {...staticTypographyConfig}
+      {...(restProps.componentKey
+        ? {
+            "data-testid": `${staticTypographyConfig["data-testid"]}-${restProps.componentKey}`,
+          }
+        : {})}
       {...restProps}
     >
       <TypographyContent {...props} />
@@ -115,7 +120,6 @@ export const Typography = BaseTypography as typeof BaseTypography & {
   P5: typeof BaseTypography
 }
 
-
 Typography.H3 = (props) => (
   <BaseTypography {...props} componentName="typography.h3" />
 )
@@ -147,4 +151,3 @@ Typography.P4 = (props) => (
 Typography.P5 = (props) => (
   <BaseTypography {...props} componentName="typography.p5" />
 )
-
