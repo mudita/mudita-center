@@ -18,6 +18,7 @@ import { DeviceSystemActionsService } from "./device-system-actions/device-syste
 import { APIDataTransferService } from "./data-transfer"
 import { APIEntitiesService } from "./api-entities"
 import { ISettingsService } from "shared/utils"
+import { AppInstallationService } from "./file-manager/app-installation.service"
 
 export class APIModule {
   private apiConfigService: APIConfigService
@@ -32,6 +33,7 @@ export class APIModule {
   private deviceSystemActionsService: DeviceSystemActionsService
   private serviceBridge: ServiceBridge
   private apiDataTransferService: APIDataTransferService
+  private appInstallationService: AppInstallationService
 
   constructor(
     deviceProtocol: DeviceProtocol,
@@ -58,6 +60,7 @@ export class APIModule {
       this.serviceBridge
     )
     this.fileManager = new FileManager(deviceProtocol, this.serviceBridge)
+    this.appInstallationService = new AppInstallationService(deviceProtocol)
     this.deviceSystemActionsService = new DeviceSystemActionsService(
       deviceProtocol
     )
@@ -82,6 +85,7 @@ export class APIModule {
       this.fileManager,
       this.deviceSystemActionsService,
       this.apiDataTransferService,
+      this.appInstallationService,
     ]
   }
 }
