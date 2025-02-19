@@ -44,21 +44,18 @@ const mapDefaultIcons: Record<string, CoreIconType> = {
 }
 
 const getIcon = (feature: string, iconType?: IconType) => {
-  const featureIcon = mapDefaultIcons[feature] ?? CoreIconType.VeryLowBattery
+  const featureIcon = mapDefaultIcons[feature]
 
   return (iconType && mapIcons[iconType]) ?? featureIcon
 }
 
-const processMenuItem = (
-  item: MenuItemConfig,
-  parentIcon?: IconType
-): MenuElementItem => ({
-  icon: getIcon(item.feature, item.icon || parentIcon),
+const processMenuItem = (item: MenuItemConfig): MenuElementItem => ({
+  icon: getIcon(item.feature, item.icon),
   button: {
     label: item.displayName as string,
     url: `/generic/${item.feature}`,
   },
-  items: item.submenu?.map((subitem) => processMenuItem(subitem, item.icon)),
+  items: item.submenu?.map((subitem) => processMenuItem(subitem)),
 })
 
 export const generateMenu = (config: MenuConfig): MenuElement[] => {

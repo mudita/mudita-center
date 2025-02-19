@@ -3,12 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, {
-  ComponentProps,
-  CSSProperties,
-  MouseEventHandler,
-  Ref,
-} from "react"
+import React, { ComponentProps, MouseEventHandler, Ref } from "react"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
@@ -49,7 +44,6 @@ export interface ButtonComponentProps {
   type?: Type
   buttonRef?: Ref<HTMLElement>
   loading?: boolean
-  style?: CSSProperties | undefined
 }
 
 const ButtonText = styled(Text)`

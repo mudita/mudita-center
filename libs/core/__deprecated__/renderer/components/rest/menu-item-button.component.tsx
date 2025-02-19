@@ -16,20 +16,26 @@ const MenuItemButton: FunctionComponent<Props> = ({
   button,
   icon,
   testId,
-  disableWhenActive,
+  ...props
 }) => {
-  const buttonMenuConfig = {
-    nav: true,
-    displayStyle: DisplayStyle.MenuLink,
-    Icon: icon,
-    iconSize: IconSize.Large,
+  const labelButtonMenuConfig = {
     ...(typeof button.label === "string"
       ? { label: button.label }
       : { labelMessage: button.label }),
-    disableWhenActive,
   }
 
-  return <Button {...buttonMenuConfig} to={button.url} data-testid={testId} />
+  return (
+    <Button
+      nav={true}
+      displayStyle={DisplayStyle.MenuLink}
+      Icon={icon}
+      iconSize={IconSize.Large}
+      to={button.url}
+      data-testid={testId}
+      {...props}
+      {...labelButtonMenuConfig}
+    />
+  )
 }
 
 export default MenuItemButton

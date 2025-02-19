@@ -9,7 +9,7 @@ import { LinkWrapper } from "Core/__deprecated__/renderer/components/rest/menu/m
 import { NotificationBadge } from "Core/notification/components"
 import { MenuElementItem } from "Core/__deprecated__/renderer/constants/menu-elements"
 import MenuItemButton from "Core/__deprecated__/renderer/components/rest/menu-item-button.component"
-import ExpandableMenuItem from "Core/__deprecated__/renderer/components/rest/menu/expandable-menu-item.component"
+import ExpandableMenuItem from "Core/__deprecated__/renderer/components/rest/menu/expandable-menu/expandable-menu-item.component"
 
 export interface MenuItemProps extends MenuElementItem {
   badgeActive: boolean

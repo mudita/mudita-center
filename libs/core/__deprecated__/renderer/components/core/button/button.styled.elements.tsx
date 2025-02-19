@@ -371,7 +371,8 @@ export const StyledNavLink = styled(NavLink)<{
   disableWhenActive: boolean
   size: Size
 }>`
-  ${buttonStyles}
+  ${buttonStyles};
+  border-radius: ${borderRadius("regular")};
 
   &.${activeClassName} {
     pointer-events: ${({ disableWhenActive }) =>
