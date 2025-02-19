@@ -16,10 +16,9 @@ import {
 import { generateOtherFilesList } from "./other-files-list"
 import { generateFileListWrapper } from "./file-list"
 
-export const generateStoragePageKey = (key: string) => `${key}storage`
-
 export const generateStoragePage: ComponentGenerator<
   {
+    mainFormKey: string
     storage: McFileManagerConfig["storages"][number]
     categories: McFileManagerConfig["categories"]
   },
@@ -27,11 +26,11 @@ export const generateStoragePage: ComponentGenerator<
 > = (key, config) => {
   const storageFormKey = `${key}storageForm`
   return {
-    [generateStoragePageKey(key)]: {
+    [`${key}Storage`]: {
       component: "conditional-renderer",
       dataProvider: {
         source: "form-fields",
-        formKey: "mainStorageForm",
+        formKey: `${config.mainFormKey}`,
         fields: [
           {
             providerField: "activeStoragePath",

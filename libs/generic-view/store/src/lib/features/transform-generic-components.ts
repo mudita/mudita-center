@@ -6,7 +6,10 @@
 import { View } from "generic-view/utils"
 import { generatedViews } from "../../../../ui/src/lib/generated"
 
-export const transformGenericComponents = (view: View): View => {
+export const transformGenericComponents = (
+  feature: string,
+  view: View
+): View => {
   const fullView = { ...view }
   for (const [key, { component, config, layout }] of Object.entries(fullView)) {
     const transformComponent =
@@ -18,7 +21,8 @@ export const transformGenericComponents = (view: View): View => {
           key,
           // @ts-ignore
           config as Parameters<typeof transformComponent>[1],
-          layout
+          layout,
+          feature
         )
       )
     }
