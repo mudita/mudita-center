@@ -7,8 +7,8 @@ import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { MenuElementItem } from "Core/__deprecated__/renderer/constants/menu-elements"
 import {
-  LatestSubitemBranchMarker,
-  LatestSubitemBranchMarkerWrapper,
+  LastSubitemBranchMarker,
+  LastSubitemBranchMarkerWrapper,
   SubitemBranchMarkerHorizontalLine,
   SubitemBranchMarkerVerticalLine,
   SubitemBranchMarkerWrapper,
@@ -29,12 +29,12 @@ const EmptySubitem = () => {
   )
 }
 
-const LatestSubitem: FunctionComponent<MenuElementItem> = (props) => {
+const LastSubitem: FunctionComponent<MenuElementItem> = (props) => {
   return (
     <SubitemWrapper>
-      <LatestSubitemBranchMarkerWrapper>
-        <LatestSubitemBranchMarker />
-      </LatestSubitemBranchMarkerWrapper>
+      <LastSubitemBranchMarkerWrapper>
+        <LastSubitemBranchMarker />
+      </LastSubitemBranchMarkerWrapper>
       <SubitemButton {...props} />
     </SubitemWrapper>
   )
@@ -67,21 +67,21 @@ const ExpandableMenuSubitems: FunctionComponent<
     return (
       <>
         <EmptySubitem />
-        <LatestSubitem {...items[0]} />
+        <LastSubitem {...items[0]} />
       </>
     )
   }
 
-  const nonLatestItems = items.slice(0, items.length - 1)
+  const nonLastItems = items.slice(0, items.length - 1)
   const lastItem = items[items.length - 1]
 
   return (
     <>
       <EmptySubitem />
-      {nonLatestItems.map((item, index) => (
+      {nonLastItems.map((item, index) => (
         <Subitem key={index} {...item} />
       ))}
-      <LatestSubitem {...lastItem} />
+      <LastSubitem {...lastItem} />
     </>
   )
 }

@@ -48,13 +48,13 @@ export const SubitemBranchMarkerHorizontalLine = styled.div<{
     transparent ? "transparent" : borderColor("separator")};
 `
 
-export const LatestSubitemBranchMarkerWrapper = styled(
+export const LastSubitemBranchMarkerWrapper = styled(
   SubitemBranchMarkerWrapper
 )`
   align-items: flex-start;
 `
 
-export const LatestSubitemBranchMarker = styled.div`
+export const LastSubitemBranchMarker = styled.div`
   width: 1.2rem;
   height: calc(50% - 0.2rem);
   border-left: 0.1rem solid ${borderColor("separator")};
