@@ -6,6 +6,7 @@
 import { contextBridge } from "electron"
 import { electronAPI } from "@electron-toolkit/preload"
 
+// TODO: Implement custom API instead of exposing IPC
 // Custom APIs for renderer
 const api = {}
 
@@ -19,6 +20,7 @@ if (process.contextIsolated) {
   } catch (error) {
     console.error(error)
   }
+  // TODO: Check if this is necessary
 } else {
   // @ts-expect-error (define in dts)
   window.electron = electronAPI
