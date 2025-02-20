@@ -13,6 +13,7 @@ interface Props {
   options: string[]
   type: "text" | "email" | "tel" | "url"
   onSetDefault: () => void
+  placeholder: string
   tooltip: {
     title: string
     content: string
@@ -29,6 +30,7 @@ export const DynamicInputRow: FunctionComponent<Props> = ({
   options,
   type,
   data,
+  placeholder,
   tooltip,
   onSetDefault,
 }) => (
@@ -42,6 +44,7 @@ export const DynamicInputRow: FunctionComponent<Props> = ({
       type={type}
       isDefault={data.isDefault}
       onSetDefault={onSetDefault}
+      placeholder={placeholder}
       tooltip={tooltip}
     />
   </Wrapper>

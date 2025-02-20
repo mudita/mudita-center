@@ -18,6 +18,7 @@ interface Props {
   name: string
   type: "text" | "email" | "tel" | "url"
   isDefault: boolean
+  placeholder: string
   tooltip: {
     title: string
     content: string
@@ -29,6 +30,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
   name,
   type,
   isDefault,
+  placeholder,
   tooltip,
   onSetDefault,
 }) => {
@@ -79,6 +81,7 @@ export const DynamicTextInput: FunctionComponent<Props> = ({
           id={`input-${id}`}
           type={type}
           {...register(`${name}-value`)}
+          placeholder={placeholder}
           onFocus={() => setIsFocused(true)}
           onBlur={(e) => handleOnBlur(e)}
         />
@@ -156,6 +159,10 @@ const Input = styled.input`
 
   &:focus {
     ${inputFocusStyles};
+  }
+
+  &::placeholder {
+    color: ${({ theme }) => theme.color.grey3};
   }
 `
 

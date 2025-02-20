@@ -7,6 +7,7 @@ import { FormSelectInputConfig, FormSelectInputData } from "generic-view/models"
 import { APIFC, IconType } from "generic-view/utils"
 import { Icon } from "../../../icon/icon"
 import React, { useRef, useState } from "react"
+import { useFormContext } from "react-hook-form"
 import styled, { css } from "styled-components"
 import useOutsideClick from "Core/__deprecated__/renderer/utils/hooks/useOutsideClick"
 
@@ -15,25 +16,29 @@ export const SelectInput: APIFC<FormSelectInputData, FormSelectInputConfig> = ({
   config,
   ...props
 }) => {
+  const { setValue, watch } = useFormContext()
   const [isOpen, setIsOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
   useOutsideClick(selectRef, () => setIsOpen(false))
 
+  const selectedValue = watch(config.name) || data?.option
+  const placeholder = config.options[0]
+
   const handleSelect = (selectedValue: string) => {
-    if (data && data.option) {
-      data.option = selectedValue
-      setIsOpen(false)
-    }
+    setValue(config.name, selectedValue)
+    setIsOpen(false)
   }
+
+  const displayedValue = selectedValue ?? placeholder
 
   return (
     <Wrapper ref={selectRef} {...props}>
       <Select
         onClick={() => setIsOpen(!isOpen)}
-        $selected={data?.option}
+        $isPlaceholder={!selectedValue}
         $isOpen={isOpen}
       >
-        {data?.option || config.options[0]}
+        {displayedValue}
         <Icon config={{ type: IconType.DropdownArrow, size: "tiny" }} />
       </Select>
       {isOpen && (
@@ -58,18 +63,24 @@ const Wrapper = styled.div`
   min-width: fit-content;
 `
 
-export const Select = styled.div<{ $selected?: string; $isOpen?: boolean }>`
+export const Select = styled.div<{
+  $isPlaceholder?: boolean
+  $isOpen?: boolean
+}>`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-width: 10rem;
   gap: 2rem;
   padding: 1rem;
   border: 0.1rem solid ${({ theme }) => theme.color.grey4};
-  color: ${({ theme }) => theme.color.grey3};
   font-size: ${({ theme }) => theme.fontSize.paragraph3};
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
   border-radius: 0.4rem;
   cursor: pointer;
+
+  color: ${({ theme, $isPlaceholder }) =>
+    $isPlaceholder ? theme.color.grey3 : theme.color.black};
 
   &:hover {
     border: 0.1rem solid ${({ theme }) => theme.color.black} !important;
@@ -78,13 +89,7 @@ export const Select = styled.div<{ $selected?: string; $isOpen?: boolean }>`
   ${({ $isOpen }) =>
     $isOpen &&
     css`
-      border-color: ${({ theme }) => theme.color.black};
-    `}
-
-  ${({ $selected, theme }) =>
-    $selected &&
-    css`
-      color: ${theme.color.black};
+      border: 0.1rem solid ${({ theme }) => theme.color.black} !important;
     `}
 `
 

@@ -52,6 +52,7 @@ const configValidator = z.object({
   typeOptions: z.array(z.string()).min(1),
   label: z.string(),
   inputType: z.enum(["text", "email", "tel", "url"]),
+  inputPlaceholder: z.string(),
   tooltip: z.object({
     title: z.string(),
     content: z.string(),
