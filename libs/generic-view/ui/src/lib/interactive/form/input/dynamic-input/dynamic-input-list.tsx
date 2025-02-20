@@ -11,24 +11,56 @@ import { APIFC } from "generic-view/utils"
 import React, { useEffect } from "react"
 import styled from "styled-components"
 import { DynamicInputRow } from "./dynamic-input-row"
-import { useFormContext } from "react-hook-form"
+import { useFormContext, useWatch } from "react-hook-form"
 import { Typography } from "../../../../typography"
 
 export const DynamicInputList: APIFC<
   FormDynamicInputData,
   FormDynamicInputConfig
 > = ({ data, config }) => {
-  const { setValue, watch } = useFormContext()
+  const { setValue } = useFormContext()
+  const formValues = useWatch()
 
   useEffect(() => {
-    data?.values.forEach((value, index) =>
+    data?.values.forEach((value, index) => {
       setValue(`${config.name}-${index}-value`, value.value)
-    )
+      setValue(`${config.name}-${index}-select`, value.type)
+    })
   }, [data, setValue, config.name])
 
-  const handleSetDefault = (index: number) => {
-    const formValues = watch()
+  useEffect(() => {
+    const inputKeys = Object.keys(formValues).filter((key) =>
+      key.endsWith("-value")
+    )
 
+    const defaultKey = Object.keys(formValues).find(
+      (key) => key.endsWith("-isDefault") && formValues[key]
+    )
+
+    if (defaultKey) {
+      const correspondingValueKey = defaultKey.replace("-isDefault", "-value")
+      const currentValue = formValues[correspondingValueKey]?.trim()
+
+      if (!currentValue) {
+        const newDefaultKey = inputKeys.find(
+          (key) => key !== correspondingValueKey && formValues[key]?.trim()
+        )
+
+        if (newDefaultKey) {
+          setValue(defaultKey, false)
+          setValue(newDefaultKey.replace("-value", "-isDefault"), true)
+        }
+      }
+    } else {
+      const firstFilledKey = inputKeys.find((key) => formValues[key]?.trim())
+
+      if (firstFilledKey) {
+        setValue(firstFilledKey.replace("-value", "-isDefault"), true)
+      }
+    }
+  }, [formValues, setValue])
+
+  const handleSetDefault = (index: number) => {
     Object.entries(formValues).forEach(([key, _]) => {
       if (key.endsWith("-isDefault")) {
         setValue(key, false)
@@ -48,6 +80,7 @@ export const DynamicInputList: APIFC<
           options={config.typeOptions}
           type={config.inputType}
           data={value}
+          placeholder={config.inputPlaceholder}
           onSetDefault={() => handleSetDefault(index)}
           tooltip={{
             title: config.tooltip.title,
