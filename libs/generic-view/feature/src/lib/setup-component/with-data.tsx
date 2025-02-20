@@ -310,6 +310,11 @@ const FormFieldsDataProvider: FunctionComponent<
   ...rest
 }) => {
   const getFormContext = useViewFormContext()
+  const formContext = getFormContext(dataProvider.formKey)
+
+  if (!formContext) {
+    return null
+  }
 
   const childrenProps = cloneDeep({
     data: {},
@@ -317,7 +322,6 @@ const FormFieldsDataProvider: FunctionComponent<
     dataItemId,
   })
 
-  const formContext = getFormContext(dataProvider.formKey)
   const isFormElement = componentName!.startsWith("form.")
 
   for (const fieldConfig of dataProvider.fields) {
