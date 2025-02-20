@@ -13,7 +13,8 @@ import { FileTransferValidationError } from "generic-view/store"
 export const validateSelectedFiles = async (
   selectedFiles: string[],
   entityFilePaths: string[],
-  availableSpace: number
+  availableSpace: number,
+  destinationPath: string
 ): Promise<FileTransferValidationError | undefined> => {
   for (const file of selectedFiles) {
     const fileLargerThan = await isFileLargerThan(file, 2000000000) // 2GB
@@ -24,7 +25,8 @@ export const validateSelectedFiles = async (
 
   const allFilesDuplicated = areAllFilesDuplicated(
     selectedFiles,
-    entityFilePaths
+    entityFilePaths,
+    destinationPath
   )
 
   if (allFilesDuplicated)

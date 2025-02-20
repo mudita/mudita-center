@@ -55,7 +55,8 @@ export const useUploadFilesButtonAction = () => {
       const validationError = await validateSelectedFiles(
         filesPaths,
         entityFilePaths,
-        action.freeSpace
+        action.freeSpace,
+        action.destinationPath
       )
 
       if (validationError !== undefined) {
