@@ -59,11 +59,18 @@ export const ComponentWithData: FunctionComponent<Props> = ({
   config,
   secondaryDataProvider,
 }) => {
-  const dataProvider = useSelector((state: ReduxRootState) => {
-    return secondaryDataProvider
-      ? selectComponentSecondaryDataProvider(state, { viewKey, componentKey })
-      : selectComponentDataProvider(state, { viewKey, componentKey })
+  const primaryProvider = useSelector((state: ReduxRootState) => {
+    return selectComponentDataProvider(state, { viewKey, componentKey })
   })
+  const secondaryProvider = useSelector((state: ReduxRootState) => {
+    return selectComponentSecondaryDataProvider(state, {
+      viewKey,
+      componentKey,
+    })
+  })
+  const dataProvider = secondaryDataProvider
+    ? secondaryProvider || primaryProvider
+    : primaryProvider
 
   switch (dataProvider?.source) {
     case "entities-metadata":
@@ -169,7 +176,7 @@ const SelfDataProvider: FunctionComponent<
   })
 
   const childrenProps = cloneDeep({
-    data: {},
+    data: componentData,
     config,
     dataItemId,
   })
@@ -182,7 +189,7 @@ const SelfDataProvider: FunctionComponent<
     set(childrenProps, componentField, value)
   }
 
-  return children({ ...childrenProps, data: componentData, ...rest })
+  return children({ ...childrenProps, ...rest })
 }
 
 const EntitiesMetadataDataProvider: FunctionComponent<
