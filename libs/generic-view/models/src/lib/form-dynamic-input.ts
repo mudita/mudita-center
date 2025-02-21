@@ -6,13 +6,17 @@
 import { z } from "zod"
 import { RegisterOptions } from "react-hook-form"
 
-const dataValidator = z
-  .object({
-    value: z.string(),
-  })
-  .optional()
+const dataValidator = z.object({
+  values: z.array(
+    z.object({
+      type: z.string(),
+      value: z.string(),
+      isDefault: z.boolean(),
+    })
+  ),
+})
 
-export type FormTextInputData = z.infer<typeof dataValidator>
+export type FormDynamicInputData = z.infer<typeof dataValidator>
 
 const inputValidation: z.ZodType<
   Pick<
@@ -45,15 +49,21 @@ const inputValidation: z.ZodType<
 
 const configValidator = z.object({
   name: z.string(),
+  typeOptions: z.array(z.string()).min(1),
   label: z.string(),
-  type: z.enum(["text", "password", "email", "tel", "url"]),
+  inputType: z.enum(["text", "email", "tel", "url"]),
+  inputPlaceholder: z.string(),
+  tooltip: z.object({
+    title: z.string(),
+    content: z.string(),
+  }),
   validation: inputValidation.optional(),
 })
 
-export type FormTextInputConfig = z.infer<typeof configValidator>
+export type FormDynamicInputConfig = z.infer<typeof configValidator>
 
-export const formTextInput = {
-  key: "form.textInput",
+export const formDynamicInput = {
+  key: "form.dynamicInput",
   dataValidator,
   configValidator,
 } as const
