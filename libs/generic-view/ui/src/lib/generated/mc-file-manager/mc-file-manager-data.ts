@@ -11,7 +11,10 @@ import {
 } from "generic-view/models"
 import { View } from "generic-view/utils"
 import { SEGMENTS_CONFIG_MAP } from "./storage-summary-bar"
-import { generateFileUploadButtonModalKey } from "./file-upload-button"
+import {
+  generateFileUploadButtonModalKey,
+  generateFileUploadProcessButtonKey,
+} from "./file-upload-button"
 import {
   getFileManagerLoaderKey,
   getFileManagerStoragePageKey,
@@ -138,6 +141,9 @@ const generateStorageSummary = (
             `${key}${index}`,
             "FinishedContent"
           )]: {
+            freeSpace: storageInformation.freeSpaceBytes,
+          },
+          [generateFileUploadProcessButtonKey(`${key}${index}`)]: {
             freeSpace: storageInformation.freeSpaceBytes,
           },
         }

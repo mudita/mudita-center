@@ -11,20 +11,22 @@ import path from "path"
  *
  * @param filesToCheck - Array of file paths to verify.
  * @param referenceFiles - Array of file paths used as a reference.
+ * @param destinationPath - Path to the destination directory for detecting duplicates only in this directory.
  * @returns `true` if all file names from `filesToCheck` are found in `referenceFiles`.
  */
 export const areAllFilesDuplicated = (
   filesToCheck: string[],
-  referenceFiles: string[]
+  referenceFiles: string[],
+  destinationPath: string
 ): boolean => {
-  const fileNamesToCheck = filesToCheck.map((filePath) =>
-    path.basename(filePath)
-  )
-  const referenceFileNames = referenceFiles.map((filePath) =>
-    path.basename(filePath)
-  )
+  const fileNamesToCheck = filesToCheck.map((filePath) => {
+    return path.basename(filePath)
+  })
+  const referenceFileNames = referenceFiles
+    .filter((filePath) => filePath.startsWith(destinationPath))
+    .map((filePath) => path.basename(filePath))
 
-  return fileNamesToCheck.every((fileName) =>
-    referenceFileNames.includes(fileName)
-  )
+  return fileNamesToCheck.every((fileName) => {
+    return referenceFileNames.includes(fileName)
+  })
 }
