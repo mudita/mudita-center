@@ -68,8 +68,9 @@ describe("E2E mock sample - overview view", () => {
     const contactDeleteModalTitle = ContactsKompaktPage.contactDeleteModalTitle
     await expect(contactDeleteModalTitle).toHaveText("Delete contact?")
 
-    const contactDeleteModalText = ContactsKompaktPage.contactDeleteModalText
-    await expect(contactDeleteModalText).toHaveText(
+    const contactDeleteDetailsModalText =
+      ContactsKompaktPage.contactDeleteDetailsModalText
+    await expect(contactDeleteDetailsModalText).toHaveText(
       "This can't be undone so please make a copy of any important information first."
     )
   })
