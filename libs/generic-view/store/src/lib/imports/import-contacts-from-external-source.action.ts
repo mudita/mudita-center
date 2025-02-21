@@ -21,7 +21,7 @@ export const importContactsFromExternalSource = createAsyncThunk<
   { state: ReduxRootState }
 >(
   ActionName.ImportContactsFromExternalSource,
-  async (_, { getState, dispatch, rejectWithValue, signal }) => {
+  async (_, { getState, dispatch }) => {
     const provider = getState().genericImport.currentImportProvider
 
     if (provider === "GOOGLE") {
