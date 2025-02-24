@@ -101,7 +101,7 @@ export const generateStoragePage: ComponentGenerator<
         margin: "0 0 24px 0",
       },
       config: {
-        text: "Phone storage",
+        text: config.storage.label,
       },
     },
     [`${key}storageSummaryContent`]: {
