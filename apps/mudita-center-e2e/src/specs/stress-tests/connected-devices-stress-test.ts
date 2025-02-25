@@ -92,13 +92,13 @@ describe("Kompakt switching devices", () => {
 
     const firstDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[0].getText()
-    await expect(firstDeviceSerialNumber).toEqual(firstSerialNumber)
+    await expect(firstDeviceSerialNumber).toEqual(secondSerialNumber)
     const firstDeviceName = await selectDeviceModalNames[0]
     await expect(firstDeviceName).toHaveText("Kompakt")
 
     const secondDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[1].getText()
-    await expect(secondDeviceSerialNumber).toEqual(secondSerialNumber)
+    await expect(secondDeviceSerialNumber).toEqual(firstSerialNumber)
     const secondDeviceName = await selectDeviceModalNames[1]
     await expect(secondDeviceName).toHaveText("Kompakt")
   })
