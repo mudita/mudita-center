@@ -24,9 +24,14 @@ export const generatedViews = {
   [mcImportContactsButton.key]: generateMcImportContactsButton,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type generatedDataFn = (data: any, config: View) => Feature["data"]
+type generatedDataFn = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any,
+  config: View,
+  feature: string
+) => Feature["data"]
 
 export const generatedData: Record<string, generatedDataFn> = {
   ["mc-file-manager-internal"]: generateFileManagerData,
+  ["mc-file-manager-external"]: generateFileManagerData,
 }
