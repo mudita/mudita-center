@@ -92,13 +92,13 @@ describe("Kompakt switching devices", () => {
 
     const firstDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[0].getText()
-    await expect(firstDeviceSerialNumber).toEqual(firstSerialNumber)
+    await expect(firstDeviceSerialNumber).toEqual(secondSerialNumber)
     const firstDeviceName = await selectDeviceModalNames[0]
     await expect(firstDeviceName).toHaveText("Kompakt")
 
     const secondDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[1].getText()
-    await expect(secondDeviceSerialNumber).toEqual(secondSerialNumber)
+    await expect(secondDeviceSerialNumber).toEqual(firstSerialNumber)
     const secondDeviceName = await selectDeviceModalNames[1]
     await expect(secondDeviceName).toHaveText("Kompakt")
   })
@@ -161,13 +161,13 @@ describe("Kompakt switching devices", () => {
 
     const thirdDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[2].getText()
-    await expect(thirdDeviceSerialNumber).toEqual(thirdSerialNumber)
+    await expect(thirdDeviceSerialNumber).toEqual(fourthSerialNumber)
     const thirdDeviceName = await selectDeviceModalNames[2]
     await expect(thirdDeviceName).toHaveText("Kompakt")
 
     const fourthDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[3].getText()
-    await expect(fourthDeviceSerialNumber).toEqual(fourthSerialNumber)
+    await expect(fourthDeviceSerialNumber).toEqual(thirdSerialNumber)
     const fourthDeviceName = await selectDeviceModalNames[3]
     await expect(fourthDeviceName).toHaveText("Kompakt")
 
@@ -181,13 +181,13 @@ describe("Kompakt switching devices", () => {
 
     const fifthDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[4].getText()
-    await expect(fifthDeviceSerialNumber).toEqual(fifthSerialNumber)
+    await expect(fifthDeviceSerialNumber).toEqual(secondSerialNumber)
     const fifthDeviceName = await selectDeviceModalNames[4]
     await expect(fifthDeviceName).toHaveText("Kompakt")
 
     const sixthDeviceSerialNumber =
       await selectDeviceModalSerialNumbers[5].getText()
-    await expect(sixthDeviceSerialNumber).toEqual(sixthSerialNumber)
+    await expect(sixthDeviceSerialNumber).toEqual(firstSerialNumber)
     const sixthDeviceName = await selectDeviceModalNames[5]
     await expect(sixthDeviceName).toHaveText("Kompakt")
   })
@@ -216,12 +216,12 @@ describe("Kompakt switching devices", () => {
 
     const kompaktNetworkName = await OverviewKompaktPage.kompaktNetworkName
     await expect(kompaktNetworkName).toBeDisplayed()
-    await expect(kompaktNetworkName).toHaveText("Telia")
+    await expect(kompaktNetworkName).toHaveText("T-Mobile")
 
     const kompaktBatteryLevelValue =
       await OverviewKompaktPage.kompaktBatteryLevelValue
     await expect(kompaktBatteryLevelValue).toBeDisplayed()
-    await expect(kompaktBatteryLevelValue).toHaveText("20%")
+    await expect(kompaktBatteryLevelValue).toHaveText("100%")
   })
 
   it("Disconnect the devices and check if News page is present", async () => {
