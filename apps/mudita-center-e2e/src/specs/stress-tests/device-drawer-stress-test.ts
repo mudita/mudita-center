@@ -235,7 +235,7 @@ describe("Kompakt switching devices", () => {
     const serialNumberValue = await OverviewKompaktPage.serialNumberValue
     await expect(serialNumberLabel).toHaveText("Serial number")
     await expect(serialNumberValue).toHaveText(
-      overviewDataWithOneSimCard.summary.about.serialNumber.text.toString()
+      overviewDataWithOneSimCard6th.summary.about.serialNumber.text.toString()
     )
     const selectConnectedDevices = await overviewPage.selectConnectedDevices
     await selectConnectedDevices.waitForClickable()
