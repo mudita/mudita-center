@@ -22,6 +22,7 @@ import {
   EntitiesMetadataConfig,
   EntityData,
   FormFieldsConfig,
+  SelfConfig,
 } from "device/models"
 import { cloneDeep, get, set } from "lodash"
 import {
@@ -58,11 +59,18 @@ export const ComponentWithData: FunctionComponent<Props> = ({
   config,
   secondaryDataProvider,
 }) => {
-  const dataProvider = useSelector((state: ReduxRootState) => {
-    return secondaryDataProvider
-      ? selectComponentSecondaryDataProvider(state, { viewKey, componentKey })
-      : selectComponentDataProvider(state, { viewKey, componentKey })
+  const primaryProvider = useSelector((state: ReduxRootState) => {
+    return selectComponentDataProvider(state, { viewKey, componentKey })
   })
+  const secondaryProvider = useSelector((state: ReduxRootState) => {
+    return selectComponentSecondaryDataProvider(state, {
+      viewKey,
+      componentKey,
+    })
+  })
+  const dataProvider = secondaryDataProvider
+    ? secondaryProvider || primaryProvider
+    : primaryProvider
 
   switch (dataProvider?.source) {
     case "entities-metadata":
@@ -112,6 +120,19 @@ export const ComponentWithData: FunctionComponent<Props> = ({
           {children}
         </FormFieldsDataProvider>
       )
+    case "self":
+      return (
+        <SelfDataProvider
+          viewKey={viewKey}
+          componentKey={componentKey}
+          componentName={componentName}
+          dataProvider={dataProvider}
+          config={config}
+          dataItemId={dataItemId}
+        >
+          {children}
+        </SelfDataProvider>
+      )
     default:
       return (
         <DefaultDataProvider
@@ -137,6 +158,38 @@ const DefaultDataProvider: FunctionComponent<Props> = ({
     return selectComponentData(state, { viewKey, componentKey })
   })
   return children({ data: componentData, ...rest })
+}
+
+const SelfDataProvider: FunctionComponent<
+  Props & { dataProvider: SelfConfig }
+> = ({
+  children,
+  viewKey,
+  componentKey,
+  config,
+  dataItemId,
+  dataProvider,
+  ...rest
+}) => {
+  const componentData = useSelector((state: ReduxRootState) => {
+    return selectComponentData(state, { viewKey, componentKey })
+  })
+
+  const childrenProps = cloneDeep({
+    data: componentData,
+    config,
+    dataItemId,
+  })
+
+  for (const fieldConfig of dataProvider.fields) {
+    const { componentField, providerField, ...config } = fieldConfig
+    const fieldValue = get({ data: componentData }, providerField)
+    const value = processField(config, fieldValue)
+
+    set(childrenProps, componentField, value)
+  }
+
+  return children({ ...childrenProps, ...rest })
 }
 
 const EntitiesMetadataDataProvider: FunctionComponent<
@@ -257,6 +310,11 @@ const FormFieldsDataProvider: FunctionComponent<
   ...rest
 }) => {
   const getFormContext = useViewFormContext()
+  const formContext = getFormContext(dataProvider.formKey)
+
+  if (!formContext) {
+    return null
+  }
 
   const childrenProps = cloneDeep({
     data: {},
@@ -264,7 +322,6 @@ const FormFieldsDataProvider: FunctionComponent<
     dataItemId,
   })
 
-  const formContext = getFormContext(dataProvider.formKey)
   const isFormElement = componentName!.startsWith("form.")
 
   for (const fieldConfig of dataProvider.fields) {
