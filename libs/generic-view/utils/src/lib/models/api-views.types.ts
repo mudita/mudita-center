@@ -52,5 +52,6 @@ export type ViewGenerator<Config, ReturnType = View> = (
 export type ComponentGenerator<Config, ReturnType = Subview> = (
   key: string,
   config: Config,
-  layout?: Layout
+  layout?: Layout,
+  feature?: string
 ) => ReturnType
