@@ -36,10 +36,10 @@ const dataTestIds = {
 const Device = styled("div")<{ active: boolean }>`
   padding: 1.8rem 2.4rem 1.8rem 1rem;
   display: flex;
-  min-width: 27.2rem;
-  max-width: 27.2rem;
-
   position: relative;
+  height: 13.2rem;
+  gap: 1.8rem;
+  width: 100%;
 
   &:hover {
     background: ${backgroundColor("main")};
@@ -64,35 +64,14 @@ const DeviceImageContainer = styled("div")`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 9.6rem;
-  min-width: 9.1rem;
-  padding: 0 2.4rem 0 0rem;
+  width: 9.1rem;
 `
 
 export const DeviceImageStyled = styled(DeviceImage)`
-  ${({ deviceType }) => {
-    switch (deviceType) {
-      case DeviceType.MuditaPure:
-        return css`
-          max-height: 9.6rem;
-          max-width: 4.2rem;
-        `
-      case DeviceType.MuditaHarmony:
-      case DeviceType.MuditaHarmonyMsc:
-        return css`
-          max-height: 7.5rem;
-          max-width: 7rem;
-        `
-      case DeviceType.APIDevice:
-        //sizes for Kompakt
-        return css`
-          max-height: 9.6rem;
-          max-width: 5.3rem;
-        `
-      default:
-        return
-    }
-  }}
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 `
 
 const DeviceDetailsWrapper = styled("div")`

@@ -6,11 +6,15 @@
 import "react-modern-drawer/dist/index.css"
 import Drawer from "react-modern-drawer"
 import * as React from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { defineMessages } from "react-intl"
 import {
+  deactivateDevice,
+  getAvailableDevicesSelector,
   getFailedDevicesSelector,
+  handleDeviceActivated,
   setSelectDeviceDrawerOpen,
 } from "device-manager/feature"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -23,11 +27,6 @@ import styled from "styled-components"
 import { Close } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import {
-  getAvailableDevicesSelector,
-  deactivateDevice,
-  handleDeviceActivated,
-} from "device-manager/feature"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import {
   URL_DEVICE_INITIALIZATION,
@@ -36,7 +35,6 @@ import {
 import { DrawerDevice } from "Core/device-select/components/drawer-device.component"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
-import { useEffect } from "react"
 
 const dataTestIds = {
   drawerContent: "device-select-drawer-content",
@@ -59,7 +57,7 @@ const DrawerWrapper = styled("div")`
 `
 
 const DrawerChildrenContainer = styled("div")`
-  padding: 1.8rem;
+  padding: 1.8rem 1.2rem 1.8rem 1.8rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -70,7 +68,7 @@ const DrawerChildrenContainer = styled("div")`
 const Header = styled("div")`
   display: flex;
   justify-content: space-between;
-  padding-right: 0.7rem;
+  padding-right: 0.8rem;
 `
 
 const DevicesContainer = styled("div")`
