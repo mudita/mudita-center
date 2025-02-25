@@ -7,7 +7,7 @@ import { useEffect } from "react"
 import {
   createEntityDataAction,
   deleteEntitiesDataAction,
-  getAppinstallationProgress,
+  getAppInstallationProgress,
   getEntitiesDataAction,
   getEntitiesMetadataAction,
   getEntityDataAction,
@@ -129,7 +129,7 @@ export const useDevConsole = () => {
           deviceId = activeDeviceId
         ) => {
           return dispatch(
-            getAppinstallationProgress({ installationId, deviceId })
+            getAppInstallationProgress({ installationId, deviceId })
           )
         },
       })

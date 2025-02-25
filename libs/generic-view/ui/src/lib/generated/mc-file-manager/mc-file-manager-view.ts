@@ -5,11 +5,17 @@
 
 import { ComponentGenerator } from "generic-view/utils"
 import { McFileManagerConfig } from "generic-view/models"
-import { generateStoragePage, generateStoragePageKey } from "./storage-page"
+import { generateStoragePage } from "./storage-page"
+import { camelCase } from "lodash"
+import {
+  getFileManagerLoaderKey,
+  getFileManagerMainStorageFormKey,
+  getFileManagerStoragePageKey,
+} from "./helpers"
 
 export const generateMcFileManagerView: ComponentGenerator<
   McFileManagerConfig
-> = (key, config) => {
+> = (key, config, _layout, feature = "") => {
   return {
     [key]: {
       component: "block-plain",
@@ -24,9 +30,9 @@ export const generateMcFileManagerView: ComponentGenerator<
           columns: ["1fr"],
         },
       },
-      childrenKeys: ["fileManagerLoader"],
+      childrenKeys: [`${camelCase(feature)}fileManagerLoader`],
     },
-    fileManagerLoader: {
+    [getFileManagerLoaderKey(feature)]: {
       component: "entities-loader",
       config: {
         entityTypes: config.categories.map((category) => category.entityType),
@@ -46,9 +52,9 @@ export const generateMcFileManagerView: ComponentGenerator<
           height: 2,
         },
       },
-      childrenKeys: ["mainStorageForm"],
+      childrenKeys: [getFileManagerMainStorageFormKey(feature)],
     },
-    mainStorageForm: {
+    [getFileManagerMainStorageFormKey(feature)]: {
       component: "form",
       config: {
         formOptions: {
@@ -57,14 +63,15 @@ export const generateMcFileManagerView: ComponentGenerator<
           },
         },
       },
-      childrenKeys: config.storages.map((_storage, index) =>
-        generateStoragePageKey(index.toString())
-      ),
+      childrenKeys: config.storages.map((_storage, index) => {
+        return getFileManagerStoragePageKey(feature, index, "Storage")
+      }),
     },
     ...config.storages.reduce((acc, storage, index) => {
       return {
         ...acc,
-        ...generateStoragePage(index.toString(), {
+        ...generateStoragePage(getFileManagerStoragePageKey(feature, index), {
+          mainFormKey: getFileManagerMainStorageFormKey(feature),
           storage,
           categories: config.categories,
         }),

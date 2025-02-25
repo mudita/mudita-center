@@ -176,11 +176,18 @@ const formFieldsSchema = z.object({
 })
 export type FormFieldsConfig = z.infer<typeof formFieldsSchema>
 
+const selfSchema = z.object({
+  source: z.literal("self"),
+  fields: fieldsSchema,
+})
+export type SelfConfig = z.infer<typeof selfSchema>
+
 export const dataProviderSchema = z.union([
   entitiesMetadataSchema,
   entitiesArraySchema,
   entitiesFieldSchema,
   formFieldsSchema,
+  selfSchema,
 ])
 
 export type DataProviderConfig = z.infer<typeof dataProviderSchema>

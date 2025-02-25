@@ -12,5 +12,5 @@ export const transformDataComponents = (
   data: Feature["data"],
   config: View
 ): Feature["data"] => {
-  return generatedData[feature](data, config)
+  return generatedData[feature](data, config, feature)
 }
