@@ -44,6 +44,12 @@ export const Toast: APIFC<undefined, ToastConfig> = ({
   }, [props.componentKey, toastsQueue, toastVisibilityDuration])
 
   useEffect(() => {
+    return () => {
+      dispatch(removeToast())
+    }
+  }, [dispatch])
+
+  useEffect(() => {
     if (exiting) {
       const removeTimeout = setTimeout(() => {
         setVisible(false)
@@ -82,7 +88,7 @@ const slideOut = keyframes`
   }
 `
 
-const ToastWrapper = styled.div<{ $exiting: boolean; $animationDuration: number }>` 
+const ToastWrapper = styled.div<{ $exiting: boolean; $animationDuration: number }>`
   position: absolute;
   bottom: 0;
   right: 0;
