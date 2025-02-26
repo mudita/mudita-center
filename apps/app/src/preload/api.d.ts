@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum SqlIpcEvents {
-  RunQuery = "sql:run-query",
-  ExecuteQuery = "sql:execute-query",
+import { WindowAPI } from "./index"
+
+declare global {
+  interface Window {
+    api: WindowAPI
+  }
 }

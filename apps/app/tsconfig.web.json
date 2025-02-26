@@ -10,9 +10,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "../../libs/*/src/index.ts"
-      ]
+      "*": ["../../libs/*/src/index.ts"]
     }
   }
 }

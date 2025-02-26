@@ -4,4 +4,4 @@
  */
 
 export * from "./lib/init-sql"
-export * from "./lib/sql-ipc.types"
+export * from "./lib/app-sql.preload"

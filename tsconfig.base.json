@@ -34,5 +34,5 @@
       "devices/common/models": ["libs/devices/common/models/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "apps/app/out"]
 }

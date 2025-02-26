@@ -12,7 +12,7 @@ import { CommonDeviceResponseParser } from "../shared/common-device-response-par
 import { commonDeviceRequestParser } from "../shared/common-device-request-parser"
 
 export class SerialPortApiDevice extends SerialPortDevice {
-  static readonly matchingVendorIds = ["0e8d", "3725"]
+  static readonly matchingVendorIds = ["3310", "13072"]
   static readonly matchingProductIds = [
     "200a",
     "2006",

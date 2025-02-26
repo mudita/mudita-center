@@ -18,7 +18,7 @@
       "./images.d.ts"
     ],
     "paths": {
-      "app-*": ["../../libs/app-*/src/index.ts"]
+      "*": ["../../libs/*/src/index.ts"]
     }
   }
 }

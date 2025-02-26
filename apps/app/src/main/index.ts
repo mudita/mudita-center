@@ -3,21 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { app, BrowserWindow, ipcMain, shell } from "electron"
+import { app, BrowserWindow, shell } from "electron"
 import { autoUpdater } from "electron-updater"
 import * as path from "path"
 import { join } from "path"
 import { electronApp, optimizer } from "@electron-toolkit/utils"
 import icon from "../../resources/icons/icon.png"
-import { initSerialPort } from "app-serialport/main"
-import { initSql } from "app-sql/main"
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from "electron-devtools-installer"
+import { initAppLibs } from "./init-app-libs"
 
-function createWindow(): void {
-  // Create the browser window.
+const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1280,
     height: 800,
@@ -40,8 +38,7 @@ function createWindow(): void {
   }
 
   mainWindow.on("ready-to-show", () => {
-    initSerialPort(ipcMain, mainWindow.webContents)
-    initSql(ipcMain)
+    initAppLibs(mainWindow.webContents)
 
     if (process.env.NODE_ENV === "development") {
       mainWindow.showInactive()
@@ -51,16 +48,16 @@ function createWindow(): void {
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
+    void shell.openExternal(details.url)
     return { action: "deny" }
   })
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
-    mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"])
+    void mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"])
   } else {
-    mainWindow.loadFile(path.join(__dirname, "../renderer/index.html"))
+    void mainWindow.loadFile(path.join(__dirname, "../renderer/index.html"))
   }
 }
 

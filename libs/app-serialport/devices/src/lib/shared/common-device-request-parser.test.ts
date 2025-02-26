@@ -3,9 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  commonDeviceRequestParser,
-} from "./common-device-request-parser"
+import { commonDeviceRequestParser } from "./common-device-request-parser"
 import { SerialPortRequest } from "app-serialport/models"
 
 describe("apiDeviceRequestParser", () => {

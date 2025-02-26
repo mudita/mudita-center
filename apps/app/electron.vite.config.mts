@@ -17,7 +17,10 @@ export default defineConfig({
     ],
   },
   preload: {
-    plugins: [externalizeDepsPlugin()],
+    plugins: [
+      tsconfigPaths({ root: resolve(__dirname, "..", "..") }),
+      externalizeDepsPlugin(),
+    ],
   },
   renderer: {
     resolve: {

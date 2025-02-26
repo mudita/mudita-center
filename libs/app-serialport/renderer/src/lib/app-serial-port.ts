@@ -3,12 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import "../../../../../apps/app/src/preload/api.d"
 import {
   SerialPortChangedDevices,
   SerialPortDeviceInfo,
   SerialPortDevicePath,
   SerialPortDeviceType,
-  SerialPortIpcEvents,
   SerialPortRequest,
   SerialPortResponse,
 } from "app-serialport/models"
@@ -18,23 +19,11 @@ export class AppSerialPort {
   static onDevicesChanged(
     callback: (changes: SerialPortChangedDevices) => void
   ) {
-    return window.electron.ipcRenderer.on(
-      SerialPortIpcEvents.DevicesChanged,
-      (_, changes) => {
-        callback(changes)
-      }
-    )
+    window.api.serialPort.onDevicesChanged(callback)
   }
 
-  static async changeBaudRate(
-    path: SerialPortDevicePath,
-    baudRate: number
-  ): Promise<void> {
-    return await window.electron.ipcRenderer.invoke(
-      SerialPortIpcEvents.ChangeBaudRate,
-      path,
-      baudRate
-    )
+  static async changeBaudRate(path: SerialPortDevicePath, baudRate: number) {
+    await window.api.serialPort.changeBaudRate(path, baudRate)
   }
 
   static isCompatible(
@@ -52,11 +41,7 @@ export class AppSerialPort {
   ): Promise<SerialPortResponse> {
     try {
       this.isCompatible(device)
-      return await window.electron.ipcRenderer.invoke(
-        SerialPortIpcEvents.Request,
-        device.path,
-        data
-      )
+      return await window.api.serialPort.request(device.path, data)
     } catch (error) {
       throw new SerialPortError(error)
     }
