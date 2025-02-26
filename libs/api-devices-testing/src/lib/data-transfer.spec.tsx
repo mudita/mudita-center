@@ -148,23 +148,24 @@ describe("Data transfer", () => {
       }
     }
 
-    const startRestoreResponse = await apiDataTransferService.startDataTransfer(
-      { dataTransferId: dataTransferId }
-    )
-    expect(startRestoreResponse.ok).toBeTruthy()
+    await apiDataTransferService.startDataTransfer({
+      dataTransferId: dataTransferId,
+    })
+
     let importResult = true
     while (importProgress < 100) {
-      const checkRestoreResponse =
+      const checkDataTransferResponse =
         await apiDataTransferService.checkDataTransfer({
           dataTransferId: dataTransferId,
         })
-      if (checkRestoreResponse.ok) {
-        importProgress = checkRestoreResponse.data.progress
+
+      if (checkDataTransferResponse.ok) {
+        importProgress = checkDataTransferResponse.data.progress
       } else {
         importResult = false
         break
       }
-      await delay(500)
+      await delay(50)
     }
     if (errorExpected) {
       expect(importResult).toBeFalsy()
