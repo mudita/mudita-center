@@ -34,6 +34,7 @@ import {
   externalProvidersReducer,
   genericEntitiesReducer,
   genericToastsReducer,
+  genericAppInstallationReducer,
 } from "generic-view/store"
 import { appStateReducer } from "shared/app-state"
 import { activeDeviceRegistryReducer } from "active-device-registry/feature"
@@ -76,6 +77,7 @@ export const reducers = {
   flashing: flashingReducer,
   genericEntities: genericEntitiesReducer,
   genericToasts: genericToastsReducer,
+  genericAppInstallation: genericAppInstallationReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

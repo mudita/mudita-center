@@ -10,7 +10,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { getAppInstallationProgressRequest } from "device/feature"
 import { GetAppInstallationProgress } from "device/models"
 
-export const getAppinstallationProgress = createAsyncThunk<
+export const getAppinstallationProgressAction = createAsyncThunk<
   {
     deviceId: string
     appInstallationProcessConfig: GetAppInstallationProgress
