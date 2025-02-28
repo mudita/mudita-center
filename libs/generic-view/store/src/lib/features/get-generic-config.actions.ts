@@ -29,14 +29,14 @@ export const getGenericConfig = createAsyncThunk<
       let fullView
 
       if (process.env.DEV_API_CONFIG !== "1") {
-        fullView = transformGenericComponents(response.data)
+        fullView = transformGenericComponents(feature, response.data)
       } else {
         const devConfig =
           feature in devViews
             ? devViews[feature as keyof typeof devViews]
             : undefined
 
-        fullView = transformGenericComponents({
+        fullView = transformGenericComponents(feature, {
           ...response.data,
           ...devConfig,
         })

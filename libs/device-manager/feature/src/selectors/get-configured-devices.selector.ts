@@ -12,6 +12,6 @@ export const getConfiguredDevicesSelector = createSelector(
   getConfiguredCoreDevicesSelector,
   selectConfiguredDevices,
   (coreDevices, apiDevices): DeviceProperties[] => {
-    return [...coreDevices, ...Object.values(apiDevices)]
+    return [...Object.values(apiDevices).reverse(), ...coreDevices]
   }
 )
