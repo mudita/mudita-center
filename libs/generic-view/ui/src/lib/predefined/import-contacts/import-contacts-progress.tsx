@@ -12,7 +12,7 @@ import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { useSelector } from "react-redux"
-import { importContactsProgress } from "generic-view/store"
+import { selectDataTransferProgress } from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { ButtonAction } from "generic-view/models"
@@ -52,7 +52,7 @@ export const ImportContactsProgress: FunctionComponent<Props> = ({
   cancelAction,
 }) => {
   const [cancelRequested, setCancelRequested] = useState(false)
-  const { progress } = useSelector(importContactsProgress)
+  const { progress } = useSelector(selectDataTransferProgress)
   const detailMessage = intl.formatMessage(messages.progressDetails)
 
   const requestCancel = () => {
