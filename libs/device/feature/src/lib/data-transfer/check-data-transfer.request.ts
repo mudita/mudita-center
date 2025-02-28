@@ -11,7 +11,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 export const checkDataTransferRequest = (
   dataTransferId: number,
   deviceId?: DeviceId
-): Promise<ResultObject<DataTransfer>> => {
+): Promise<ResultObject<DataTransfer & { status: 200 | 202 }>> => {
   return ipcRenderer.callMain(APIDataTransferServiceEvents.CheckDataTransfer, {
     dataTransferId,
     deviceId,

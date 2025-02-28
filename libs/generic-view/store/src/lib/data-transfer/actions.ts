@@ -5,7 +5,7 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
-import { DataTransfer, DataTransferStatus } from "./reducer"
+import { DataTransferStatus, DataTransfer } from "./data-transfer.types"
 
 export const setDataTransfer = createAction<DataTransfer>(
   ActionName.SetDataTransfer
@@ -19,4 +19,8 @@ export const clearDataTransfer = createAction(ActionName.ClearDataTransfer)
 
 export const setDataTransferAbort = createAction<AbortController | undefined>(
   ActionName.SetDataTransferAbort
+)
+
+export const setPostProcessingProgress = createAction<number>(
+  ActionName.SetDataTransferPostProcessingProgress
 )

@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
   importContactsFromFile,
+  ImportStatus,
   setImportProcessStatus,
   startImportAuthorization,
 } from "generic-view/store"
@@ -143,7 +144,7 @@ export const ImportContactsProvider = () => {
                 type: "custom",
                 callback: () => {
                   dispatch(importContactsFromFile())
-                  dispatch(setImportProcessStatus({ status: "FILE-SELECT" }))
+                  dispatch(setImportProcessStatus(ImportStatus.FileSelect))
                 },
               },
             ],
