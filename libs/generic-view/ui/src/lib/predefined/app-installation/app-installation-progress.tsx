@@ -11,7 +11,6 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import {
-  clearAppInstallationData,
   closeModal,
   getAppinstallationProgressAction,
   openModal,
@@ -85,7 +84,14 @@ export const AppInstallationProgress: APIFC<
     }
 
     return
-  }, [dispatch, installationId, installationProgress, activeDeviceId, error])
+  }, [
+    dispatch,
+    installationId,
+    installationProgress,
+    activeDeviceId,
+    error,
+    config,
+  ])
 
   return (
     <>

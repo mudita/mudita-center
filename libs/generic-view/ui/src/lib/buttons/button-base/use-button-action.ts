@@ -170,7 +170,6 @@ const runActions = (actions?: ButtonActions) => {
           })
           break
         case "start-app-installation":
-          console.log("Akcyjniak ", action)
           await dispatch(
             startAppInstallationAction({
               filePath: action.filePath,

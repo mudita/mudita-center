@@ -9,8 +9,6 @@ export const generateAppInstallaion: ComponentGenerator<{
   id: string
   entityType: string
 }> = (key, { id, entityType }) => {
-  console.log("Klucz: ", key)
-  console.log("Typek: ", entityType)
   return {
     [`${key}${id}startAppInstallationModal`]: {
       component: "modal",
