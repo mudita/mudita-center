@@ -168,7 +168,8 @@ export const CheckboxInputWrapper = styled.div<{ $size: Config["size"] }>`
 const Label = styled.label`
   color: ${({ theme }) => theme.color.grey1};
   letter-spacing: 0.02em;
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
+  font-size: ${({ theme }) => theme.fontSize.paragraph3};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   line-height: 2.2rem;
   cursor: pointer;
   user-select: none;

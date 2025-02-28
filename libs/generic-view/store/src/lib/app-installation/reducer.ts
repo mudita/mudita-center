@@ -6,12 +6,15 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { startAppInstallationAction } from "./start-app-installation.action"
 import { getAppinstallationProgressAction } from "./get-app-installation-progress.action"
+import { AppError } from "Core/core/errors"
+import { clearAppInstallationData } from "./actions"
 
 interface AppInstallationState {
   installationProgress: {
     fileName: string
     installationId: number
     progress: number
+    error?: AppError
   }
 }
 
@@ -20,6 +23,7 @@ const initialState: AppInstallationState = {
     fileName: "",
     installationId: 0,
     progress: 0,
+    error: undefined,
   },
 }
 
@@ -37,6 +41,18 @@ export const genericAppInstallationReducer = createReducer(
       .addCase(getAppinstallationProgressAction.fulfilled, (state, action) => {
         state.installationProgress.progress =
           action.payload.appInstallationProcessConfig.progress
+        state.installationProgress.error = undefined
+      })
+      .addCase(getAppinstallationProgressAction.rejected, (state, action) => {
+        state.installationProgress.error = action.payload as AppError
+      })
+      .addCase(clearAppInstallationData, (state) => {
+        state.installationProgress = {
+          fileName: "",
+          installationId: 0,
+          progress: 0,
+          error: undefined,
+        }
       })
   }
 )

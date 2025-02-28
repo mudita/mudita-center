@@ -44,6 +44,7 @@ export * from "./lib/external-providers/outlook/outlook.constants"
 export * from "./lib/external-providers/outlook/token-requester"
 export * from "./lib/external-providers/external-providers.interface"
 
+export * from "./lib/app-installation/actions"
 export * from "./lib/app-installation/reducer"
 export * from "./lib/app-installation/start-app-installation.action"
 export * from "./lib/app-installation/get-app-installation-progress.action"

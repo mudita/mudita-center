@@ -8,15 +8,13 @@ import { z } from "zod"
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  progressModalKey: z.string(),
-  completeModalKey: z.string(),
-  errorModalKey: z.string(),
+  modalKey: z.string(),
 })
 
-export type AppInstallationProgressConfig = z.infer<typeof configValidator>
+export type AppInstallationSuccessConfig = z.infer<typeof configValidator>
 
-export const mcAppInstallationProgress = {
-  key: "mc-app-installation-progress",
+export const mcAppInstallationSuccess = {
+  key: "mc-app-installation-success",
   dataValidator,
   configValidator,
 } as const

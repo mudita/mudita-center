@@ -72,6 +72,8 @@ import { mcFilesManagerUploadFinished } from "./lib/mc-files-manager-upload-fini
 import { mcFilesManagerUploadValidationError } from "./lib/mc-files-manager-upload-validation-error"
 import { entitiesDeleteError } from "./lib/entities-delete-error"
 import { mcAppInstallationProgress } from "./lib/mc-app-installation-progress"
+import { mcAppInstallationError } from "./lib/mc-app-installation-error"
+import { mcAppInstallationSuccess } from "./lib/mc-app-installation-success"
 
 export * from "./lib/accordion"
 export * from "./lib/block-box"
@@ -147,6 +149,8 @@ export * from "./lib/mc-files-manager-upload-finished"
 export * from "./lib/mc-files-manager-upload-validation-error"
 export * from "./lib/entities-delete-error"
 export * from "./lib/mc-app-installation-progress"
+export * from "./lib/mc-app-installation-error"
+export * from "./lib/mc-app-installation-success"
 
 export default {
   [accordion.key]: accordion,
@@ -219,5 +223,7 @@ export default {
     mcFilesManagerUploadValidationError,
   [entitiesDeleteError.key]: entitiesDeleteError,
   [mcAppInstallationProgress.key]: mcAppInstallationProgress,
+  [mcAppInstallationError.key]: mcAppInstallationError,
+  [mcAppInstallationSuccess.key]: mcAppInstallationSuccess,
   ...TypographyMap,
 } as const

@@ -68,6 +68,9 @@ export const generateAppInstallaion: ComponentGenerator<{
     },
     [`${key}${id}startAppInstallationModalContentText`]: {
       component: "typography.p1",
+      layout: {
+        margin: "0 0 24px 0",
+      },
       config: {
         messageTemplate:
           "Warning! Installing {fileName} may void your device's warranty. Continuing the install means you understand accept this risk.",
@@ -119,27 +122,13 @@ export const generateAppInstallaion: ComponentGenerator<{
             modalKey: `${key}${id}startAppInstallationModal`,
           },
           {
+            type: "open-modal",
+            modalKey: `${key}${id}progressAppInstallationModal`,
+          },
+          {
             type: "start-app-installation",
             filePath: "",
             fileName: "",
-            postActions: {
-              success: [
-                {
-                  type: "open-modal",
-                  modalKey: `${key}${id}progressAppInstallationModal`,
-                },
-              ],
-              failure: [
-                // {
-                //   type: "close-domain-modals",
-                //   domain: "files-delete",
-                // },
-                // {
-                //   type: "open-modal",
-                //   modalKey: `${key}${id}deleteErrorModal`,
-                // },
-              ],
-            },
           },
         ],
       },
@@ -169,11 +158,11 @@ export const generateAppInstallaion: ComponentGenerator<{
         fields: [
           {
             providerField: "activeFilePath",
-            componentField: "config.actions[1].filePath",
+            componentField: "config.actions[2].filePath",
           },
           {
             providerField: "activeFileName",
-            componentField: "config.actions[1].fileName",
+            componentField: "config.actions[2].fileName",
           },
         ],
       },
@@ -196,6 +185,20 @@ export const generateAppInstallaion: ComponentGenerator<{
       config: {
         progressModalKey: `${key}${id}progressAppInstallationModal`,
         completeModalKey: `${key}${id}completeAppInstallationModal`,
+        errorModalKey: `${key}${id}errorAppInstallationModal`,
+      },
+    },
+    [`${key}${id}errorAppInstallationModal`]: {
+      component: "modal",
+      config: {
+        size: "small",
+      },
+      childrenKeys: [`${key}${id}errorAppInstallationModalContent`],
+    },
+    [`${key}${id}errorAppInstallationModalContent`]: {
+      component: "mc-app-installation-error",
+      config: {
+        modalKey: `${key}${id}errorAppInstallationModal`,
       },
     },
     [`${key}${id}completeAppInstallationModal`]: {
@@ -203,52 +206,12 @@ export const generateAppInstallaion: ComponentGenerator<{
       config: {
         size: "small",
       },
-      childrenKeys: [
-        `${key}${id}completeAppInstallationModalIcon`,
-        `${key}${id}completeAppInstallationModalTitle`,
-        `${key}${id}completeAppInstallationModalContent`,
-        `${key}${id}completeAppInstallationModalButtons`,
-      ],
-    },
-    [`${key}${id}completeAppInstallationModalIcon`]: {
-      component: "modal.titleIcon",
-      config: {
-        type: IconType.Confirm,
-      },
-    },
-    [`${key}${id}completeAppInstallationModalTitle`]: {
-      component: "modal.title",
-      childrenKeys: [`${key}${id}completeAppInstallationModalTitleText`],
-    },
-    [`${key}${id}completeAppInstallationModalTitleText`]: {
-      component: "format-message",
-      config: {
-        messageTemplate: "Installation complete",
-      },
+      childrenKeys: [`${key}${id}completeAppInstallationModalContent`],
     },
     [`${key}${id}completeAppInstallationModalContent`]: {
-      component: "typography.p1",
+      component: "mc-app-installation-success",
       config: {
-        text: "It is safe to disconnect and use Kompakt.",
-      },
-    },
-    [`${key}${id}completeAppInstallationModalButtons`]: {
-      component: "modal.buttons",
-      childrenKeys: [`${key}${id}completeAppInstallationModalCancelButton`],
-      config: {
-        vertical: true,
-      },
-    },
-    [`${key}${id}completeAppInstallationModalCancelButton`]: {
-      component: "button-secondary",
-      config: {
-        text: "Close",
-        actions: [
-          {
-            type: "close-modal",
-            modalKey: `${key}${id}completeAppInstallationModal`,
-          },
-        ],
+        modalKey: `${key}${id}completeAppInstallationModal`,
       },
     },
   }

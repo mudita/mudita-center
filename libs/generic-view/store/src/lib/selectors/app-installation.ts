@@ -20,3 +20,8 @@ export const selectInstallationId = createSelector(
   (state: ReduxRootState) => state.genericAppInstallation.installationProgress,
   (installationProgress) => installationProgress.installationId
 )
+
+export const selectInstallationError = createSelector(
+  (state: ReduxRootState) => state.genericAppInstallation.installationProgress,
+  (installationProgress) => installationProgress.error
+)

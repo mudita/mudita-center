@@ -11,11 +11,13 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import {
+  clearAppInstallationData,
   closeModal,
   getAppinstallationProgressAction,
   openModal,
   selectActiveApiDeviceId,
   selectAppInstallationFileName,
+  selectInstallationError,
   selectInstallationId,
   selectInstallationProgress,
 } from "generic-view/store"
@@ -44,31 +46,46 @@ export const AppInstallationProgress: APIFC<
   const installationId = useSelector((state: ReduxRootState) => {
     return selectInstallationId(state)
   })
+  const error = useSelector((state: ReduxRootState) => {
+    return selectInstallationError(state)
+  })
 
   useEffect(() => {
-    if (!installationId) return
+    if (installationId) {
+      const interval = setInterval(() => {
+        dispatch(
+          getAppinstallationProgressAction({
+            installationId,
+            deviceId: activeDeviceId,
+          })
+        )
+      }, 1000)
 
-    const interval = setInterval(() => {
-      dispatch(
-        getAppinstallationProgressAction({
-          installationId,
-          deviceId: activeDeviceId,
-        })
-      )
-    }, 1000)
+      if (installationProgress >= 100) {
+        clearInterval(interval)
+        dispatch(closeModal({ key: config.progressModalKey }))
+        dispatch(
+          openModal({
+            key: config.completeModalKey,
+          })
+        )
+      }
 
-    if (installationProgress >= 100) {
-      clearInterval(interval)
-      dispatch(closeModal({ key: config.progressModalKey }))
-      dispatch(
-        openModal({
-          key: config.completeModalKey,
-        })
-      )
+      if (error) {
+        clearInterval(interval)
+        dispatch(closeModal({ key: config.progressModalKey }))
+        dispatch(
+          openModal({
+            key: config.errorModalKey,
+          })
+        )
+      }
+
+      return () => clearInterval(interval)
     }
 
-    return () => clearInterval(interval)
-  }, [dispatch, installationId, installationProgress, activeDeviceId])
+    return
+  }, [dispatch, installationId, installationProgress, activeDeviceId, error])
 
   return (
     <>
