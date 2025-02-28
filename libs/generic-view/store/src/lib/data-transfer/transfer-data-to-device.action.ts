@@ -252,8 +252,9 @@ export const transferDataToDevice = createAsyncThunk<
 
     dispatch(setPostProcessingProgress(0))
 
-    let progress = startDataTransferResponse.data.progress
-    while (progress < 100) {
+    let { status, progress } = startDataTransferResponse.data
+
+    while (status === 202) {
       if (signal.aborted) {
         return handleError()
       }
@@ -265,8 +266,8 @@ export const transferDataToDevice = createAsyncThunk<
       if (!checkPreRestoreResponse.ok) {
         return handleError()
       }
-      progress = checkPreRestoreResponse.data.progress
-      dispatch(setPostProcessingProgress(progress))
+      ;({ progress, status } = checkPreRestoreResponse.data)
+      dispatch(setPostProcessingProgress(Math.min(100, progress)))
     }
     dispatch(setPostProcessingProgress(100))
 
