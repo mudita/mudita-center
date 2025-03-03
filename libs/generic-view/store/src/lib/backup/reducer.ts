@@ -32,6 +32,7 @@ export interface Backup {
 
 export interface BackupProcess {
   status: BackupProcessStatus
+  progress: number
   featureFilesTransfer: Record<
     string,
     { transferId?: number; status: BackupProcessFileStatus }
@@ -40,6 +41,7 @@ export interface BackupProcess {
 
 export interface RestoreProcess {
   status: RestoreProcessStatus
+  progress?: number
   metadata?: RestoreMetadata
   restoreFileId?: string
   featureFilesTransfer?: Record<
@@ -75,7 +77,8 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(setBackupProcessStatus, (state, action) => {
     if (state.backupProcess) {
-      state.backupProcess.status = action.payload
+      state.backupProcess.status = action.payload.status
+      state.backupProcess.progress = action.payload.progress
     }
   })
   builder.addCase(createBackup.rejected, (state, action) => {
@@ -85,6 +88,7 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
       state.backupProcess = {
         status: BackupProcessStatus.Failed,
         featureFilesTransfer: {},
+        progress: 0,
       }
     }
   })
@@ -95,6 +99,7 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
       state.backupProcess = {
         status: BackupProcessStatus.Done,
         featureFilesTransfer: {},
+        progress: 100,
       }
     }
   })
