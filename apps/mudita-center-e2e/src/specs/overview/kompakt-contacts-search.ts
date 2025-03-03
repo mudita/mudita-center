@@ -3,7 +3,7 @@ import tabsPage from "../../page-objects/tabs.page"
 import ContactsKompaktPage from "../../page-objects/contacts-kompakt"
 import { mockEntityDownloadProcess } from "../../helpers"
 import { selectedContactsEntities } from "../../helpers/entity-fixtures"
-import { search } from "@orama/orama/dist/components/index"
+import { expect } from "@wdio/globals"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -45,11 +45,32 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Activate search field, input text and check if suggestion list appears", async () => {
+    //input "Dr." as a search phrase
     const searchField = ContactsKompaktPage.searchField
     await searchField.click()
     await searchField.setValue("Dr.")
 
-    const searchSuggestionsField = ContactsKompaktPage.searchSuggestionsField
-    await expect(searchSuggestionsField).toBeDisplayed()
+    //check if suggestion list is displayed
+    const searchSuggestionsList = ContactsKompaktPage.searchSuggestionsList
+    await expect(searchSuggestionsList).toBeDisplayed()
+  })
+  it("Find all search results and ensure exactly two results exist", async () => {
+    // Fetch only visible elements with a valid number in `data-testid`
+    const results = await $$(
+      '//li[@data-testid and starts-with(@data-testid, "ui-form-search-results-")]'
+    )
+
+    // Ensure exactly 2 results exist
+    await expect(results.length).toEqual(2)
+
+    // Verify that results 1 and 2 are displayed
+    const firstResult = await ContactsKompaktPage.getSearchSuggestionListResult(
+      0
+    ).isDisplayed()
+    const secondResult =
+      await ContactsKompaktPage.getSearchSuggestionListResult(1).isDisplayed()
+
+    expect(firstResult).toBe(true)
+    expect(secondResult).toBe(true)
   })
 })

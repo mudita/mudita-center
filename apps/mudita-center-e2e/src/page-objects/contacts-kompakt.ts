@@ -235,8 +235,12 @@ class ContactsKompaktPage extends Page {
   public get searchField() {
     return $('//*[@data-testid="ui-form-search-input"]')
   }
-  public get searchSuggestionsField() {
+  public get searchSuggestionsList() {
     return $('//*[@data-testid="ui-form-search-results-list"]')
+  }
+
+  public getSearchSuggestionListResult(index: number) {
+    return $(`//*[@data-testid="ui-form-search-results-${index}"]`)
   }
 }
 export default new ContactsKompaktPage()
