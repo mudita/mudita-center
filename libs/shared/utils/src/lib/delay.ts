@@ -6,7 +6,7 @@
 /**
  * Creates a promise that resolves after a specified delay.
  *
- * @param {number} ms The delay in milliseconds.
+ * @param {number} [ms=500] The delay in milliseconds.
  * @returns {Promise<void>} A promise that resolves after the delay.
  */
 
