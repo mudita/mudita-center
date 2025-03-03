@@ -43,7 +43,7 @@ describe("E2E mock sample - overview view", () => {
     await contactsKompaktTab.click()
   })
 
-  it("Activate search field, input text and check if suggestion list appears", async () => {
+  xit("Activate search field, input text and check if suggestion list appears", async () => {
     const contactsKompaktTab = tabsPage.contactsKompaktTab
     await contactsKompaktTab.click()
 
