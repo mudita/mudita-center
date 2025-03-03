@@ -19,6 +19,7 @@ import { FormSearchInputConfig, FormSearchInputData } from "generic-view/models"
 import { SearchResults, SearchResultsWrapper } from "./search-results"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { FormTestIds } from "e2e-test-ids"
 
 const messages = defineMessages({
   placeholder: {
@@ -83,6 +84,7 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
           {...rest}
           ref={handleRef}
           onKeyDown={handleKeyDown}
+          data-testId={FormTestIds.SearchInput}
         />
         {value.length > 0 && (
           <ClearButton
