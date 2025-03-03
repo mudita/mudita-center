@@ -41,7 +41,7 @@ export interface BackupProcess {
 
 export interface RestoreProcess {
   status: RestoreProcessStatus
-  progress?: number
+  progress: number
   metadata?: RestoreMetadata
   restoreFileId?: string
   featureFilesTransfer?: Record<
@@ -116,6 +116,7 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
         : RestoreProcessStatus.PasswordNotRequired,
       metadata: action.payload.restoreMetadata,
       restoreFileId: action.payload.restoreFileId,
+      progress: 0,
     }
   })
   builder.addCase(cleanRestoreProcess, (state, action) => {
@@ -124,23 +125,27 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
   builder.addCase(loadBackupMetadata.rejected, (state, action) => {
     state.restoreProcess = {
       status: RestoreProcessStatus.Failed,
+      progress: 0,
     }
   })
   builder.addCase(restoreBackup.pending, (state, action) => {
     state.restoreProcess = {
       ...state.restoreProcess,
       status: RestoreProcessStatus.PreRestore,
+      progress: 0,
     }
   })
   builder.addCase(restoreBackup.rejected, (state, action) => {
     state.restoreProcess = {
       status: RestoreProcessStatus.Failed,
+      progress: 0,
     }
   })
   builder.addCase(setRestoreProcessStatus, (state, action) => {
     state.restoreProcess = {
       ...state.restoreProcess,
       status: action.payload.status,
+      progress: action.payload.progress,
     }
   })
   builder.addCase(setRestoreProcessFileStatus, (state, action) => {
