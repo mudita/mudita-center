@@ -4,16 +4,17 @@
  */
 
 import { DeviceProtocol } from "device-protocol/feature"
-import { expect } from '@jest/globals'
+import { expect } from "@jest/globals"
 
-export function setActiveDevice(deviceProtocol: DeviceProtocol | undefined): DeviceProtocol {
-    expect(deviceProtocol).toBeDefined()
-    expect(deviceProtocol?.devices).toHaveLength(1)
-  
-    expect(() => {
-      deviceProtocol?.setActiveDevice(deviceProtocol.devices[0].id);
-    }).not.toThrow()
+export function setActiveDevice(
+  deviceProtocol: DeviceProtocol | undefined
+): DeviceProtocol {
+  expect(deviceProtocol).toBeDefined()
+  expect(deviceProtocol?.devices).toHaveLength(1)
 
-    return deviceProtocol!
-  }
-  
+  expect(() => {
+    deviceProtocol?.setActiveDevice(deviceProtocol.devices[0].id)
+  }).not.toThrow()
+
+  return deviceProtocol!
+}
