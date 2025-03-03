@@ -24,6 +24,7 @@ import {
   FormSearchInputResultsConfig,
   FormSearchInputResultsData,
 } from "generic-view/models"
+import { FormTestIds } from "e2e-test-ids"
 
 const messages = defineMessages({
   noResults: {
@@ -118,8 +119,8 @@ export const SearchResults: APIFC<
   return (
     <SearchResultsWrapper style={{ maxHeight: config?.maxHeight }}>
       {(data.length || 0) > 0 ? (
-        <ResultsList ref={listRef}>
-          {data.map((itemId) => {
+        <ResultsList ref={listRef} data-testId={FormTestIds.SearchResultsList}>
+          {data.map((itemId, index) => {
             const onMouseEnter = () => handleMouseEnter(itemId)
             const isActive = itemId === activeItemId
             return (
@@ -127,6 +128,7 @@ export const SearchResults: APIFC<
                 key={itemId}
                 onMouseEnter={onMouseEnter}
                 className={isActive ? "active" : ""}
+                data-testId={`${FormTestIds.SearchResults}-${index}`}
               >
                 {Children.map(children, (child) => {
                   if (isValidElement(child)) {
@@ -141,7 +143,7 @@ export const SearchResults: APIFC<
           })}
         </ResultsList>
       ) : (
-        <EmptyResults>
+        <EmptyResults data-testId={FormTestIds.SearchResultsEmpty}>
           <Icon config={{ type: IconType.Search }} />
           <Typography.P3>
             {config?.noResultsMessage || intl.formatMessage(messages.noResults)}
