@@ -73,4 +73,27 @@ describe("E2E mock sample - overview view", () => {
     expect(firstResult).toBe(true)
     expect(secondResult).toBe(true)
   })
+  it("Remove search phrase, input wrong search phrase (not found), check if no results is displayed", async () => {
+    //click remove/close button (X) in search field to remove searched phrase
+    const searchSuggestionsListEraseButton =
+      ContactsKompaktPage.searchSuggestionsListEraseButton
+    await expect(searchSuggestionsListEraseButton).toBeDisplayed()
+    await searchSuggestionsListEraseButton.click()
+
+    //input non-searchable phrase
+    const searchField = ContactsKompaktPage.searchField
+    await searchField.click()
+    await searchField.setValue("@#@#@#@#@@#hisdhisdh")
+
+    const searchSuggestionsListEmpty =
+      ContactsKompaktPage.searchSuggestionsListEmpty
+    await expect(searchSuggestionsListEmpty).toBeDisplayed()
+    const searchSuggestionsListEmptyText =
+      ContactsKompaktPage.searchSuggestionsListEmptyText
+    await expect(searchSuggestionsListEmptyText).toHaveText(
+      "We couldn't find anything..."
+    )
+
+    //await browser.pause(500000)
+  })
 })

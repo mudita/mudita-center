@@ -242,5 +242,16 @@ class ContactsKompaktPage extends Page {
   public getSearchSuggestionListResult(index: number) {
     return $(`//*[@data-testid="ui-form-search-results-${index}"]`)
   }
+
+  public get searchSuggestionsListEraseButton() {
+    return $('//*[@data-testid="input-clear-button"]')
+  }
+  public get searchSuggestionsListEmpty() {
+    return $('//*[@data-testid="ui-form-search-results-empty"]')
+  }
+
+  public get searchSuggestionsListEmptyText() {
+    return $('//*[@data-testid="ui-form-search-results-empty"]//p')
+  }
 }
 export default new ContactsKompaktPage()
