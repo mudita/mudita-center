@@ -232,9 +232,11 @@ class ContactsKompaktPage extends Page {
     return (rowIndex: number) =>
       $(`(//*[@data-testid="ui-table-row"])[${rowIndex + 1}]//td[5]`)
   }
-  //to update
-  public get iconSearch() {
-    return $('//*[@data-testid="icon-search"]')
+  public get searchField() {
+    return $('//*[@data-testid="ui-form-search-input"]')
+  }
+  public get searchSuggestionsField() {
+    return $('//*[@data-testid="ui-form-search-results-list"]')
   }
 }
 export default new ContactsKompaktPage()

@@ -3,6 +3,7 @@ import tabsPage from "../../page-objects/tabs.page"
 import ContactsKompaktPage from "../../page-objects/contacts-kompakt"
 import { mockEntityDownloadProcess } from "../../helpers"
 import { selectedContactsEntities } from "../../helpers/entity-fixtures"
+import { search } from "@orama/orama/dist/components/index"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -43,12 +44,12 @@ describe("E2E mock sample - overview view", () => {
     await contactsKompaktTab.click()
   })
 
-  xit("Activate search field, input text and check if suggestion list appears", async () => {
-    const contactsKompaktTab = tabsPage.contactsKompaktTab
-    await contactsKompaktTab.click()
+  it("Activate search field, input text and check if suggestion list appears", async () => {
+    const searchField = ContactsKompaktPage.searchField
+    await searchField.click()
+    await searchField.setValue("Dr.")
 
-    const iconSearch = ContactsKompaktPage.iconSearch
-    await iconSearch.click()
-    await iconSearch.setValue("Dr.")
+    const searchSuggestionsField = ContactsKompaktPage.searchSuggestionsField
+    await expect(searchSuggestionsField).toBeDisplayed()
   })
 })
