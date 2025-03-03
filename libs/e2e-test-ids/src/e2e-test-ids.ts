@@ -27,6 +27,13 @@ export enum TypographyTestIds {
   P5 = "ui-typography-p5",
 }
 
+export enum FormTestIds {
+  SearchInput = "ui-form-search-input",
+  SearchResults = "ui-form-search-results",
+  SearchResultsList = "ui-form-search-results-list",
+  SearchResultsEmpty = "ui-form-search-results-empty",
+}
+
 export enum CheckboxTestIds {
   Checkbox = "ui-checkbox",
 }
