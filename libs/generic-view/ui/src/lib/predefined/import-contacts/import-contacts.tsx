@@ -77,11 +77,11 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
   const closeModal = () => {
     setFrozenStatus(importStatus)
     dispatch(closeModalAction({ key: modalKey }))
-    dispatch(cleanImportProcess())
     dispatch(clearDataTransfer())
     dataTransferAbortReference.current?.()
     setTimeout(() => {
       setError(undefined)
+      dispatch(cleanImportProcess())
     }, modalTransitionDuration)
   }
 
