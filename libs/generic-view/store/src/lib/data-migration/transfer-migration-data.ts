@@ -28,7 +28,6 @@ import { clearMigrationData } from "./clear-migration-data"
 import { pureToUnifiedMessage } from "./data-migration-mappers/pure-to-unified-message"
 import { refreshEntitiesIfMetadataChanged } from "../entities/refresh-entities-if-metadata-changed.action"
 import { selectActiveApiDeviceId } from "../selectors"
-import { cancelLoadEntities } from "../entities/cancel-load-entities.action"
 
 export const transferMigrationData = createAsyncThunk<
   void,
@@ -78,8 +77,6 @@ export const transferMigrationData = createAsyncThunk<
       if (signal.aborted) {
         return rejectWithValue(undefined)
       }
-
-      await dispatch(cancelLoadEntities({ deviceId }))
 
       const databaseResponse = await dispatch(readAllIndexes())
       await removeDirectory(dataMigration.pureDbTempDirectory!)
