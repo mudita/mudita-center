@@ -32,6 +32,7 @@ export const cleanRestoreProcess = createAction(ActionName.CleanRestoreProcess)
 
 export const setRestoreProcessStatus = createAction<{
   status: RestoreProcessStatus
+  progress: number
 }>(ActionName.SetRestoreProcessStatus)
 
 export const setRestoreProcessFileStatus = createAction<{
