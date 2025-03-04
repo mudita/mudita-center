@@ -28,7 +28,7 @@ import { clearMigrationData } from "./clear-migration-data"
 import { pureToUnifiedMessage } from "./data-migration-mappers/pure-to-unified-message"
 import { refreshEntitiesIfMetadataChanged } from "../entities/refresh-entities-if-metadata-changed.action"
 import { selectActiveApiDeviceId } from "../selectors"
-import { cancelLoadEntities } from "Libs/generic-view/store/src/lib/entities/cancel-load-entities.action"
+import { cancelLoadEntities } from "../entities/cancel-load-entities.action"
 
 export const transferMigrationData = createAsyncThunk<
   void,
