@@ -43,7 +43,7 @@ export interface GetEntitiesDataRequestConfig {
   entityId?: EntityId
   responseType: "json" | "file"
   deviceId?: DeviceId
-  action?: "abort"
+  action?: "abort" | "create" | "get"
 }
 
 export class APIEntitiesService {
@@ -328,9 +328,10 @@ export class APIEntitiesService {
     }
 
     const response = await device.request({
-      endpoint: "PRE_ENTITIES_DATA",
+      endpoint: "ENTITIES_DATA",
       method: "GET",
       body: {
+        action: "create",
         entityType: entitiesType,
         responseType,
         ...(entityId && { entityId }),
@@ -440,6 +441,7 @@ export class APIEntitiesService {
       endpoint: "ENTITIES_DATA",
       method: "GET",
       body: {
+        action: "get",
         entityType: entitiesType,
         responseType,
         ...(entityId && { entityId }),
