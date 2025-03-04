@@ -24,6 +24,10 @@ import { refreshBackupList } from "./refresh-backup-list.action"
 import { BackupProcessFileStatus, BackupProcessStatus } from "./backup.types"
 import { delay } from "shared/utils"
 
+const readingProgressFactor = 0.8
+const fileTransferProgressFactor = 0.1
+// Sums to 0.9, because we need to leave 10% for the save file progress
+
 export const createBackup = createAsyncThunk<
   undefined,
   {
@@ -37,6 +41,7 @@ export const createBackup = createAsyncThunk<
     { features, password },
     { getState, dispatch, rejectWithValue, signal }
   ) => {
+    let totalProgress = 0
     let aborted = false
 
     const abortListener = async () => {
@@ -60,6 +65,7 @@ export const createBackup = createAsyncThunk<
         featureFilesTransfer: features.reduce((acc, item) => {
           return { ...acc, [item]: { done: false } }
         }, {}),
+        progress: 0,
       })
     )
 
@@ -108,16 +114,30 @@ export const createBackup = createAsyncThunk<
         return rejectWithValue(undefined)
       }
 
+      dispatch(
+        setBackupProcessStatus({
+          status: BackupProcessStatus.PreBackup,
+          progress:
+            (checkPreBackupResponse.data.progress ?? 11) *
+            readingProgressFactor,
+        })
+      )
       backupFeaturesFiles = checkPreBackupResponse.data.features
     }
-    dispatch(setBackupProcessStatus(BackupProcessStatus.FilesTransfer))
+    totalProgress = 100 * readingProgressFactor
+    dispatch(
+      setBackupProcessStatus({
+        status: BackupProcessStatus.FilesTransfer,
+        progress: totalProgress,
+      })
+    )
 
-    for (let i = 0; i < features.length; ++i) {
+    const singleFeatureProgressFactor = 1 / features.length
+
+    for (const feature of features) {
       if (aborted) {
         return rejectWithValue(undefined)
       }
-      const feature = features[i]
-
       dispatch(
         setBackupProcessFileStatus({
           feature,
@@ -129,6 +149,18 @@ export const createBackup = createAsyncThunk<
           deviceId,
           filePath: backupFeaturesFiles[feature],
           targetPath: "",
+          onProgress: (progress) => {
+            dispatch(
+              setBackupProcessStatus({
+                status: BackupProcessStatus.FilesTransfer,
+                progress:
+                  totalProgress +
+                  progress *
+                    fileTransferProgressFactor *
+                    singleFeatureProgressFactor,
+              })
+            )
+          },
         })
       )
       abortFileRequest = filePromise.abort
@@ -145,6 +177,8 @@ export const createBackup = createAsyncThunk<
             status: BackupProcessFileStatus.Done,
           })
         )
+        totalProgress +=
+          singleFeatureProgressFactor * fileTransferProgressFactor
       } else if (!aborted) {
         console.log("Error while downloading file")
         await clearTransfers()
@@ -155,7 +189,12 @@ export const createBackup = createAsyncThunk<
     if (aborted) {
       return rejectWithValue(undefined)
     }
-    dispatch(setBackupProcessStatus(BackupProcessStatus.SaveFile))
+    dispatch(
+      setBackupProcessStatus({
+        status: BackupProcessStatus.SaveFile,
+        progress: 100 * (readingProgressFactor + fileTransferProgressFactor),
+      })
+    )
     const saveBackupFileResponse = await saveBackupFileRequest(
       featureToTransferId,
       deviceId,
@@ -169,7 +208,15 @@ export const createBackup = createAsyncThunk<
       return rejectWithValue(undefined)
     }
 
+    dispatch(
+      setBackupProcessStatus({
+        status: BackupProcessStatus.SaveFile,
+        progress: 100,
+      })
+    )
     dispatch(refreshBackupList())
+
+    await delay()
 
     if (!aborted) {
       await postBackupRequest(backupId, deviceId)
