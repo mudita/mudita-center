@@ -122,7 +122,7 @@ const runActions = (actions?: ButtonActions) => {
           })
           break
         case "form-set-field":
-          getFormContext(action.formKey).setValue(action.key, action.value)
+          getFormContext(action.formKey)?.setValue(action.key, action.value)
           break
         case "form-toggle-field": {
           const formContext = getFormContext(action.formKey)
