@@ -63,6 +63,7 @@ export const transferDataToDevice = createAsyncThunk<
     domainsData,
     { getState, dispatch, abort, rejectWithValue, signal }
   ) => {
+    const deviceId = selectActiveApiDeviceId(getState())
     let abortFileRequest: VoidFunction
 
     const transferAbortController = new AbortController()
@@ -79,13 +80,22 @@ export const transferDataToDevice = createAsyncThunk<
       signal.removeEventListener("abort", abortListener)
       abortFileRequest?.()
       await clearTransfers?.()
-      if (dataTransferId && deviceId) {
-        await cancelDataTransferRequest(dataTransferId, deviceId)
+      if (deviceId) {
+        if (dataTransferId) {
+          await cancelDataTransferRequest(dataTransferId, deviceId)
+        }
+        for (const domain of domainsData) {
+          if (!domain.entitiesType) continue
+          await dispatch(
+            refreshEntitiesIfMetadataChanged({
+              deviceId,
+              entitiesType: domain.entitiesType,
+            })
+          )
+        }
       }
     }
     signal.addEventListener("abort", abortListener)
-
-    const deviceId = selectActiveApiDeviceId(getState())
 
     if (!deviceId) {
       return handleError()
