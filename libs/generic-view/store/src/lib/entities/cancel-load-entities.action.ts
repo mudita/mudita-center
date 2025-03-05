@@ -16,9 +16,6 @@ export const cancelLoadEntities = createAsyncThunk<
   const entities = selectDeviceEntities(getState(), { deviceId })
 
   for (const entitiesType in entities) {
-    const abortController = entities[entitiesType]?.abortController
-    if (abortController) {
-      abortController.abort()
-    }
+    entities[entitiesType]?.abortController?.abort()
   }
 })
