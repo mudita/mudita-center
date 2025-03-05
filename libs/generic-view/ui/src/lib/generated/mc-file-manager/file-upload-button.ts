@@ -36,7 +36,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
         width: "156px",
       },
       config: {
-        text: "Add file",
+        text: entityType === "applicationFiles" ? "Add app files" : "Add file",
         actions: [
           {
             type: "select-files",
