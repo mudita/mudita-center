@@ -34,6 +34,9 @@ describe("Feature Configuration and Data", () => {
     "mc-contacts",
     "mc-data-migration",
   ]
+
+  const optionalFeatures = ["mc-file-manager-external"].sort()
+
   const notSupportedDataFeatures: string[] = ["dummy-feature"]
 
   function validateDeviceProtocol(deviceProtocol: DeviceProtocol | undefined) {
