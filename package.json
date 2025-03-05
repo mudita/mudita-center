@@ -33,7 +33,7 @@
   "homepage": "https://github.com/Mudita/mudita-center",
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
-    "@electron-toolkit/utils": "^3.0.0",
+    "@electron-toolkit/utils": "^4.0.0",
     "@reduxjs/toolkit": "^2.5.1",
     "axios": "^1.8.1",
     "bullmq": "^5.41.7",
@@ -52,7 +52,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
-    "@electron-toolkit/eslint-config-ts": "^2.0.0",
+    "@electron-toolkit/eslint-config-ts": "^3.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@eslint/js": "^9.8.0",
     "@nx/esbuild": "20.4.6",
@@ -92,8 +92,8 @@
     "@wdio/spec-reporter": "^9.8.0",
     "babel-jest": "^29.7.0",
     "babel-plugin-styled-components": "1.10.7",
-    "chromedriver": "^132.0.2",
-    "electron": "34.1.1",
+    "chromedriver": "^134.0.0",
+    "electron": "35.0.0",
     "electron-builder": "^25.1.8",
     "electron-devtools-installer": "^4.0.0",
     "electron-vite": "^3.0.0",
