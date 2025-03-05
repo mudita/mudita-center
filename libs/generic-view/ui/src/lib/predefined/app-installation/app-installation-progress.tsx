@@ -36,18 +36,10 @@ export const AppInstallationProgress: APIFC<
   const dispatch = useDispatch<Dispatch>()
   const activeDeviceId = useSelector(selectActiveApiDeviceId) ?? ""
 
-  const installationProgress = useSelector((state: ReduxRootState) => {
-    return selectInstallationProgress(state)
-  })
-  const currentFileName = useSelector((state: ReduxRootState) => {
-    return selectAppInstallationFileName(state)
-  })
-  const installationId = useSelector((state: ReduxRootState) => {
-    return selectInstallationId(state)
-  })
-  const error = useSelector((state: ReduxRootState) => {
-    return selectInstallationError(state)
-  })
+  const installationProgress = useSelector(selectInstallationProgress)
+  const currentFileName = useSelector(selectAppInstallationFileName)
+  const installationId = useSelector(selectInstallationId)
+  const error = useSelector(selectInstallationError)
 
   useEffect(() => {
     if (installationId) {

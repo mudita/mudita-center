@@ -88,8 +88,17 @@ export const generateAppInstallaion: ComponentGenerator<{
       component: "form.checkboxInput",
       config: {
         name: "userEnabledAppInstallation",
-        label: "I understand and accept this risk",
-        size: "small",
+        size: "large",
+      },
+      childrenKeys: [`${key}${id}startAppInstallationModalContentCheckText`],
+    },
+    [`${key}${id}startAppInstallationModalContentCheckText`]: {
+      component: "typography.h5",
+      layout: {
+        margin: "0 0 0 14px",
+      },
+      config: {
+        text: "I understand and accept this risk",
       },
     },
     [`${key}${id}startAppInstallationModalButtons`]: {

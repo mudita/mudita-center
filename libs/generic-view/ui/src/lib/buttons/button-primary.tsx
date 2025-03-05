@@ -58,5 +58,6 @@ const Button = styled(ButtonBase)`
   &:disabled {
     background-color: ${({ theme }) => theme.color.grey4};
     color: ${({ theme }) => theme.color.grey2};
+    cursor: not-allowed;
   }
 `

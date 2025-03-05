@@ -9,7 +9,7 @@ import { ActionName } from "../action-names"
 import { DeviceId } from "Core/device/constants/device-id"
 import { startAppInstallationRequest } from "device/feature"
 
-interface DeleteEntitiesDataActionPayload {
+interface StartAppInstallationActionPayload {
   filePath: string
   deviceId: DeviceId
   fileName: string
@@ -19,7 +19,7 @@ interface DeleteEntitiesDataActionPayload {
 
 export const startAppInstallationAction = createAsyncThunk<
   { deviceId: string; installationId: number; fileName?: string },
-  DeleteEntitiesDataActionPayload,
+  StartAppInstallationActionPayload,
   { state: ReduxRootState }
 >(
   ActionName.StartAppInstallation,

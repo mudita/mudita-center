@@ -38,9 +38,7 @@ export const AppInstallationError: APIFC<
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
 
-  const error = useSelector((state: ReduxRootState) => {
-    return selectInstallationError(state)
-  })
+  const error = useSelector(selectInstallationError)
 
   const closeActions: ButtonAction[] = [
     {
