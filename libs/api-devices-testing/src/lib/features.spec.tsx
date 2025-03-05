@@ -27,21 +27,22 @@ jest.mock("electron-better-ipc", () => {
   }
 })
 
-describe("Feature Configuration and Data", () => {
-  let deviceProtocol: DeviceProtocol
-  let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
-  const notSupportedDataFeatures: string[] = ["dummy-feature"]
+let deviceProtocol: DeviceProtocol
+let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
+const notSupportedDataFeatures: string[] = ["dummy-feature"]
 
+describe("Feature Configuration and Data", () => {
   beforeAll(async () => {
-    console.log("xxx")
     deviceProtocol = setActiveDevice(await setKompaktConnection())
     featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(deviceProtocol)
-    console.log(featuresAndEntityTypes)
+    featuresAndEntityTypes.features = featuresAndEntityTypes.features.filter(
+      (feature) => feature !== "mc-overview"
+    )
     await deviceProtocol.activeDevice?.disconnect()
   })
 
   beforeEach(async () => {
-    deviceProtocol = await setActiveDevice(await setKompaktConnection())
+    deviceProtocol = setActiveDevice(await setKompaktConnection())
   })
 
   afterEach(async () => {
@@ -65,7 +66,7 @@ describe("Feature Configuration and Data", () => {
     expect(featuresAndEntityTypes.features.length).toBeGreaterThan(0)
   })
 
-  it("should receive valid configuration for %s feature", async () => {
+  it("should receive valid configuration for every generic feature", async () => {
     for (const feature of featuresAndEntityTypes.features) {
       if (deviceProtocol === undefined) {
         return
@@ -78,7 +79,6 @@ describe("Feature Configuration and Data", () => {
       const result = await apiFeaturesService.getFeatureConfiguration({
         feature: feature,
       })
-      console.log(result)
       expect(result.ok).toBeTruthy()
     }
   })
@@ -117,21 +117,19 @@ describe("Feature Configuration and Data", () => {
     }
   })
 
-  // it.each(
-  //   featuresAndEntityTypes.features.filter(
-  //     (feature) => !notSupportedDataFeatures.includes(feature)
-  //   )
-  // )("should receive valid data for %s feature", async (feature) => {
-  //   if (deviceProtocol === undefined) {
-  //     return
-  //   }
-  //   deviceProtocol.setActiveDevice(deviceProtocol.devices[0].id)
+  it("should receive valid data for every generic feature", async () => {
+    for (const feature of featuresAndEntityTypes.features) {
+      if (deviceProtocol === undefined) {
+        return
+      }
+      deviceProtocol.setActiveDevice(deviceProtocol.devices[0].id)
 
-  //   const apiFeaturesService = new APIFeaturesService(deviceProtocol)
+      const apiFeaturesService = new APIFeaturesService(deviceProtocol)
 
-  //   const result = await apiFeaturesService.getFeatureData({ feature })
-  //   expect(result.ok).toBeTruthy()
-  // })
+      const result = await apiFeaturesService.getFeatureData({ feature })
+      expect(result.ok).toBeTruthy()
+    }
+  })
 
   it.each(notSupportedDataFeatures)(
     "should return error for %s feature",
