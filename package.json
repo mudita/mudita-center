@@ -35,8 +35,8 @@
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
     "@reduxjs/toolkit": "^2.5.1",
-    "axios": "^1.7.9",
-    "bullmq": "^5.40.2",
+    "axios": "^1.8.1",
+    "bullmq": "^5.41.7",
     "electron-updater": "^6.3.9",
     "lodash": "^4.17.21",
     "p-queue": "^8.1.0",
@@ -47,7 +47,7 @@
     "serialport": "^13.0.0",
     "sql.js": "^1.12.0",
     "styled-components": "^6.1.15",
-    "zod": "^3.24.1"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
@@ -109,7 +109,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-environment-node": "^29.7.0",
     "jsdom": "~22.1.0",
-    "node-gyp": "^11.0.0",
+    "node-gyp": "^11.1.0",
     "nx": "20.4.6",
     "nx-stylelint": "^18.0.0",
     "postcss-styled-syntax": "^0.7.0",
