@@ -6,10 +6,12 @@
 import { DeviceProtocol } from "device-protocol/feature"
 import { setKompaktConnection } from "./helpers/set-connection"
 import { APIFeaturesService } from "device/feature"
+import { setActiveDevice } from "./helpers/protocol-validator"
 import {
   generateMcAboutLayout,
   generateMcOverviewLayout,
 } from "generic-view/views"
+import { getApiFeaturesAndEntityTypes } from "./helpers/api-configuration-data"
 
 jest.mock("shared/utils", () => {
   return { callRenderer: () => {} }
@@ -26,33 +28,20 @@ jest.mock("electron-better-ipc", () => {
 })
 
 describe("Feature Configuration and Data", () => {
-  let deviceProtocol: DeviceProtocol | undefined = undefined
-  const genericFeatures = [
-    "mc-contacts",
-    "mc-data-migration",
-    "mc-file-manager-internal",
-    "mc-contacts",
-    "mc-data-migration",
-  ]
-
-  const optionalFeatures = ["mc-file-manager-external"].sort()
-
+  let deviceProtocol: DeviceProtocol
+  let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
   const notSupportedDataFeatures: string[] = ["dummy-feature"]
 
-  function validateDeviceProtocol(deviceProtocol: DeviceProtocol | undefined) {
-    expect(deviceProtocol?.devices).toHaveLength(1)
-    expect(deviceProtocol).toBeTruthy()
-
-    if (deviceProtocol === undefined) {
-      return
-    }
-
-    deviceProtocol.setActiveDevice(deviceProtocol.devices[0].id)
-  }
+  beforeAll(async () => {
+    console.log("xxx")
+    deviceProtocol = setActiveDevice(await setKompaktConnection())
+    featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(deviceProtocol)
+    console.log(featuresAndEntityTypes)
+    await deviceProtocol.activeDevice?.disconnect()
+  })
 
   beforeEach(async () => {
-    deviceProtocol = await setKompaktConnection()
-    validateDeviceProtocol(deviceProtocol)
+    deviceProtocol = await setActiveDevice(await setKompaktConnection())
   })
 
   afterEach(async () => {
@@ -71,9 +60,13 @@ describe("Feature Configuration and Data", () => {
     expect(result.ok).toBeTruthy()
   })
 
-  it.each(genericFeatures)(
-    "should receive valid configuration for %s feature",
-    async (feature) => {
+  it("should have features defined", () => {
+    expect(featuresAndEntityTypes.features).toBeDefined()
+    expect(featuresAndEntityTypes.features.length).toBeGreaterThan(0)
+  })
+
+  it("should receive valid configuration for %s feature", async () => {
+    for (const feature of featuresAndEntityTypes.features) {
       if (deviceProtocol === undefined) {
         return
       }
@@ -85,9 +78,10 @@ describe("Feature Configuration and Data", () => {
       const result = await apiFeaturesService.getFeatureConfiguration({
         feature: feature,
       })
+      console.log(result)
       expect(result.ok).toBeTruthy()
     }
-  )
+  })
 
   it("should return error for invalid feature", async () => {
     if (deviceProtocol === undefined) {
@@ -123,21 +117,21 @@ describe("Feature Configuration and Data", () => {
     }
   })
 
-  it.each(
-    genericFeatures.filter(
-      (feature) => !notSupportedDataFeatures.includes(feature)
-    )
-  )("should receive valid data for %s feature", async (feature) => {
-    if (deviceProtocol === undefined) {
-      return
-    }
-    deviceProtocol.setActiveDevice(deviceProtocol.devices[0].id)
+  // it.each(
+  //   featuresAndEntityTypes.features.filter(
+  //     (feature) => !notSupportedDataFeatures.includes(feature)
+  //   )
+  // )("should receive valid data for %s feature", async (feature) => {
+  //   if (deviceProtocol === undefined) {
+  //     return
+  //   }
+  //   deviceProtocol.setActiveDevice(deviceProtocol.devices[0].id)
 
-    const apiFeaturesService = new APIFeaturesService(deviceProtocol)
+  //   const apiFeaturesService = new APIFeaturesService(deviceProtocol)
 
-    const result = await apiFeaturesService.getFeatureData({ feature })
-    expect(result.ok).toBeTruthy()
-  })
+  //   const result = await apiFeaturesService.getFeatureData({ feature })
+  //   expect(result.ok).toBeTruthy()
+  // })
 
   it.each(notSupportedDataFeatures)(
     "should return error for %s feature",

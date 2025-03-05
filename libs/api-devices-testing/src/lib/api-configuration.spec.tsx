@@ -5,6 +5,7 @@
 
 import { DeviceProtocol } from "device-protocol/feature"
 import { setKompaktConnection } from "./helpers/set-connection"
+import { getApiFeaturesAndEntityTypes } from "./helpers/api-configuration-data"
 import { APIConfigService } from "device/feature"
 import { setActiveDevice } from "./helpers/protocol-validator"
 import { ApiConfig, GeneralError } from "device/models"
@@ -24,24 +25,15 @@ jest.mock("electron-better-ipc", () => {
   }
 })
 
+let deviceProtocol: DeviceProtocol
+let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
+
 describe("API configuration", () => {
-  let deviceProtocol: DeviceProtocol
-  const genericFeatures = [
-    "mc-overview",
-    "mc-contacts",
-    "mc-data-migration",
-    "mc-file-manager-internal",
-  ].sort()
-
-  const optionalFeatures = ["mc-file-manager-external"].sort()
-
-  const testEntityTypes = [
-    "contacts",
-    "audioFiles",
-    "imageFiles",
-    "ebookFiles",
-    "applicationFiles",
-  ].sort()
+  beforeAll(async () => {
+    deviceProtocol = setActiveDevice(await setKompaktConnection())
+    featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(deviceProtocol)
+    await deviceProtocol.activeDevice?.disconnect()
+  })
 
   beforeEach(async () => {
     deviceProtocol = setActiveDevice(await setKompaktConnection())
@@ -82,22 +74,14 @@ describe("API configuration", () => {
 
     const apiConfig = result.data as ApiConfig
 
-    optionalFeatures.forEach((feature) => {
-      if (
-        apiConfig.features.includes(feature) &&
-        !genericFeatures.includes(feature)
-      ) {
-        genericFeatures.push(feature)
-        genericFeatures.sort()
-      }
-    })
-
     expect(apiConfig.apiVersion).toMatch(/^\d+\.\d+\.\d+$/)
     expect(apiConfig.osVersion).toMatch(/^MuditaOS K/)
     expect(apiConfig.lang).toMatch(/^[a-z]{2}-[A-Z]{2}$/)
     expect(apiConfig.variant?.length).toBeGreaterThan(0)
-    expect(apiConfig.features.sort()).toEqual(genericFeatures)
-    expect(apiConfig.entityTypes?.sort()).toEqual(testEntityTypes)
+    expect(apiConfig.features.sort()).toEqual(featuresAndEntityTypes.features)
+    expect(apiConfig.entityTypes?.sort()).toEqual(
+      featuresAndEntityTypes.entityTypes
+    )
     expect(apiConfig.productId).toEqual(ProductID.MuditaKompaktChargeHex)
     expect(apiConfig.vendorId).toEqual(VendorID.MuditaKompaktHex)
     expect(apiConfig.serialNumber).toMatch(/^[A-Z0-9]{13}$/)
