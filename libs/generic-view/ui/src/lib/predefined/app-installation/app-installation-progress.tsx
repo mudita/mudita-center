@@ -21,7 +21,7 @@ import {
   selectInstallationProgress,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
-import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 const messages = defineMessages({
   progressModalTitle: {

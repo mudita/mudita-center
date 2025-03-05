@@ -13,7 +13,7 @@ import {
   clearAppInstallationData,
 } from "generic-view/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { Modal } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 
