@@ -6,7 +6,16 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { AppState } from "app-store/models"
 
-export const selectCurrentDevices = createSelector(
+export const selectConnectedDevices = createSelector(
   (state: AppState) => state.devices,
-  (devices) => devices.current
+  (devices) => {
+    return devices.connected
+  }
+)
+
+export const selectCurrentDevice = createSelector(
+  selectConnectedDevices,
+  (devices) => {
+    return devices.find((device) => device.active)
+  }
 )

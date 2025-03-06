@@ -9,4 +9,7 @@ export type SerialPortRequest<R = Record<string, unknown>> = R & {
     retries?: number
   }
 }
-export type SerialPortResponse<R = Record<string, unknown>> = R
+export type SerialPortResponse<R = Record<string, unknown>> = {
+  status: string | number
+  endpoint: string | number
+} & R

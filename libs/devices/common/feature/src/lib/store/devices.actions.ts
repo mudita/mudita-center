@@ -4,7 +4,12 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { SerialPortDeviceInfo } from "app-serialport/models"
+import { AppDeviceInfo } from "devices/common/models"
 
-export const setDevices =
-  createAction<SerialPortDeviceInfo[]>("devices/setDevices")
+export const setConnectedDevices = createAction<AppDeviceInfo[]>(
+  "devices/setConnectedDevices"
+)
+
+export const setCurrentDevice = createAction<AppDeviceInfo["path"] | null>(
+  "devices/setCurrentDevice"
+)

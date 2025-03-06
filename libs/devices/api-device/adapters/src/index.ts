@@ -4,4 +4,3 @@
  */
 
 export * from "./lib/api-device-serial-port"
-export * from "./lib/api-device-error"

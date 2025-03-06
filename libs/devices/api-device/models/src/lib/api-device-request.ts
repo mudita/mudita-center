@@ -4,11 +4,9 @@
  */
 
 import { z } from "zod"
-import { SerialPortRequest, SerialPortResponse } from "app-serialport/models"
-import { ApiDeviceEndpoints } from "./api-device-endpoints"
-import { ApiDeviceErrorType } from "./api-device-error-type"
+import { SerialPortRequest } from "app-serialport/models"
+import { ApiDeviceEndpoint, ApiDeviceEndpoints } from "./api-device-endpoints"
 
-export type ApiDeviceEndpoint = keyof typeof ApiDeviceEndpoints
 export type ApiDeviceMethod<E extends ApiDeviceEndpoint> =
   keyof (typeof ApiDeviceEndpoints)[E]
 
@@ -17,15 +15,6 @@ type RequestBody<
   M extends keyof (typeof ApiDeviceEndpoints)[E],
 > = (typeof ApiDeviceEndpoints)[E][M] extends {
   request: infer R extends z.ZodType
-}
-  ? z.infer<R>
-  : never
-
-type ResponseBody<
-  E extends ApiDeviceEndpoint,
-  M extends keyof (typeof ApiDeviceEndpoints)[E],
-> = (typeof ApiDeviceEndpoints)[E][M] extends {
-  response: infer R extends z.ZodType
 }
   ? z.infer<R>
   : never
@@ -44,19 +33,4 @@ export type ApiDeviceRequest<
         method: M
         body: RequestBody<E, M>
       }
->
-
-export type ApiDeviceResponse<
-  E extends keyof typeof ApiDeviceEndpoints,
-  M extends keyof (typeof ApiDeviceEndpoints)[E],
-> = SerialPortResponse<
-  | {
-      status: number
-      endpoint: E
-      body: ResponseBody<E, M>
-    }
-  | {
-      status: ApiDeviceErrorType
-      endpoint: E
-    }
 >

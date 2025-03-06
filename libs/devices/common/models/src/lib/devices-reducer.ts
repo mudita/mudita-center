@@ -5,6 +5,10 @@
 
 import { SerialPortDeviceInfo } from "app-serialport/models"
 
+export interface AppDeviceInfo extends SerialPortDeviceInfo {
+  active: boolean
+}
+
 export interface DevicesReducer {
-  current: SerialPortDeviceInfo[]
+  connected: AppDeviceInfo[]
 }

@@ -5,11 +5,17 @@
 
 import styled from "styled-components"
 import {
-  selectCurrentDevices,
+  selectConnectedDevices,
+  selectCurrentDevice,
+  setCurrentDevice,
   useDevicesListener,
 } from "devices/common/feature"
 import { useSql } from "./sql-test"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { useCallback } from "react"
+import { SerialPortDeviceInfo } from "app-serialport/models"
+import { getApiConfig, getMenuConfig } from "api-device/feature"
+import { ApiDeviceSerialPort } from "api-device/adapters"
 
 const StyledApp = styled.div`
   /* Your style here */
@@ -17,21 +23,80 @@ const StyledApp = styled.div`
 `
 
 export function App() {
+  const dispatch = useDispatch()
   useDevicesListener()
   useSql()
 
-  const devices = useSelector(selectCurrentDevices)
+  const connectedDevices = useSelector(selectConnectedDevices)
+  const currentDevice = useSelector(selectCurrentDevice)
+
+  const handleSelect = useCallback(
+    (device: SerialPortDeviceInfo) => {
+      dispatch(setCurrentDevice(device.path))
+    },
+    [dispatch]
+  )
+
+  const handleApiConfigurationCall = useCallback(async () => {
+    if (ApiDeviceSerialPort.isCompatible(currentDevice)) {
+      const response = await getApiConfig(currentDevice)
+
+      if (response.ok) {
+        console.log(response.body)
+      } else {
+        console.warn(response.status, response.body, response.error)
+      }
+    }
+  }, [currentDevice])
+
+  const handleMenuConfigurationCall = useCallback(async () => {
+    if (ApiDeviceSerialPort.isCompatible(currentDevice)) {
+      const response = await getMenuConfig(currentDevice)
+
+      if (response.ok) {
+        console.log(response.body)
+      } else {
+        console.warn(response.status, response.body, response.error)
+      }
+    }
+  }, [currentDevice])
 
   return (
     <StyledApp>
       <h1>Devices:</h1>
       <ul>
-        {devices.map((device) => (
-          <li key={device.path}>
-            {device.path} ({device.deviceType})
+        {connectedDevices.map((device) => (
+          <li
+            key={device.path}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 10,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <p>
+              {device.path} ({device.deviceType})
+            </p>
+            <button onClick={() => handleSelect(device)}>Select</button>
           </li>
         ))}
       </ul>
+      <h1>Selected device:</h1>
+      {currentDevice && (
+        <>
+          <p>
+            {currentDevice?.path} ({currentDevice?.deviceType})
+          </p>
+          <button onClick={handleApiConfigurationCall}>
+            Call API_CONFIGURATION
+          </button>
+          <button onClick={handleMenuConfigurationCall}>
+            Call MENU_CONFIGURATION
+          </button>
+        </>
+      )}
     </StyledApp>
   )
 }

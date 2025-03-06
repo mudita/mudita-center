@@ -16,6 +16,7 @@ import { clone, get, set, uniqueId } from "lodash"
 import EventEmitter from "events"
 import PQueue from "p-queue"
 import { SerialPortError } from "app-serialport/utils"
+import { styleText } from "util"
 
 const DEFAULT_QUEUE_INTERVAL = 1
 const DEFAULT_QUEUE_CONCURRENCY = 1
@@ -62,7 +63,12 @@ export class SerialPortDevice extends SerialPort {
   private parseResponse(buffer: Buffer) {
     const rawResponse = buffer.toString()
     if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
-      console.info(`SerialPort response: ${rawResponse}`)
+      console.log(
+        styleText(["bold", "bgMagenta"], "SerialPort response"),
+        styleText(["bgMagenta"], this.path),
+        styleText(["magenta"], `${rawResponse}`),
+        "\n"
+      )
     }
     const response = JSON.parse(rawResponse)
     const id = get(response, this.requestIdKey)
@@ -95,7 +101,11 @@ export class SerialPortDevice extends SerialPort {
     try {
       const parsedData = this.parseRequest(data)
       if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
-        console.info(`SerialPort write: ${parsedData}`)
+        console.log(
+          styleText(["bold", "bgCyan"], "SerialPort write"),
+          styleText(["bgCyan"], this.path),
+          styleText(["cyan"], `${parsedData}`)
+        )
       }
       return super.write(parsedData)
     } catch {

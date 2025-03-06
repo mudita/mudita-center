@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ApiConfigValidator, MCLangValidator } from "./api-config/api-config"
-import { MenuConfigValidator } from "./menu-config/menu-config"
+import { ApiConfigValidator, MCLangValidator } from "./endpoints/api-config/api-config"
+import { MenuConfigValidator } from "./endpoints/menu-config/menu-config"
 import { z } from "zod"
 
 type Method = "GET" | "POST" | "PUT" | "DELETE"
@@ -32,3 +32,5 @@ export const ApiDeviceEndpoints = {
     },
   },
 } as const satisfies EndpointsDefinition
+
+export type ApiDeviceEndpoint = keyof typeof ApiDeviceEndpoints

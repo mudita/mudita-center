@@ -17,11 +17,29 @@ import {
   ApiDeviceMethod,
   ApiDeviceRequest,
   ApiDeviceResponse,
+  ResponseBody,
 } from "api-device/models"
-import { ApiDeviceError } from "./api-device-error"
 
-export class ApiDeviceSerialPort extends AppSerialPort {
-  static isCompatible(device: SerialPortDeviceInfo): device is ApiDevice {
+type Response<E extends ApiDeviceEndpoint, M extends ApiDeviceMethod<E>> =
+  | {
+      ok: true
+      endpoint: E
+      status: number
+      body: ResponseBody<E, M>
+    }
+  | {
+      ok: false
+      endpoint: E
+      status: ApiDeviceErrorType
+      body?: unknown
+      error?: unknown
+    }
+
+export class ApiDeviceSerialPort {
+  static isCompatible(device?: SerialPortDeviceInfo): device is ApiDevice {
+    if (!device) {
+      return true
+    }
     if (device.deviceType !== SerialPortDeviceType.ApiDevice) {
       throw new Error(
         `Device ${device.serialNumber} of type ${device.deviceType} is not an ApiDevice.`
@@ -32,7 +50,10 @@ export class ApiDeviceSerialPort extends AppSerialPort {
   static async request<
     E extends ApiDeviceEndpoint,
     M extends ApiDeviceMethod<E>,
-  >(device: ApiDevice, request: ApiDeviceRequest<E, M>) {
+  >(
+    device: ApiDevice,
+    request: ApiDeviceRequest<E, M>
+  ): Promise<Response<E, M>> {
     ApiDeviceSerialPort.isCompatible(device)
 
     const endpointConfig =
@@ -45,10 +66,12 @@ export class ApiDeviceSerialPort extends AppSerialPort {
     if (requestValidator && "body" in request) {
       const requestParseResult = requestValidator.safeParse(request.body)
       if (!requestParseResult.success) {
-        throw new ApiDeviceError(
-          ApiDeviceErrorType.Unknown,
-          requestParseResult.error
-        )
+        return {
+          ok: false,
+          endpoint: request.endpoint,
+          status: ApiDeviceErrorType.RequestParsingFailed,
+          error: requestParseResult.error,
+        }
       }
     }
 
@@ -60,32 +83,45 @@ export class ApiDeviceSerialPort extends AppSerialPort {
       )) as ApiDeviceResponse<E, M>
     } catch (error) {
       if (error instanceof SerialPortError) {
-        throw new ApiDeviceError(ApiDeviceErrorType.Unknown, {
-          type: error.type,
-          requestId: error.requestId,
-        })
+        const message = new SerialPortError(error).message
+        return {
+          ok: false,
+          endpoint: request.endpoint,
+          status: ApiDeviceErrorType.Critical,
+          error: message,
+        }
       }
-      throw new ApiDeviceError(ApiDeviceErrorType.Unknown)
+      return {
+        ok: false,
+        endpoint: request.endpoint,
+        status: ApiDeviceErrorType.Critical,
+        error: error,
+      }
     }
 
-    if (responseValidator && "body" in response) {
+    if (responseValidator && "body" in response && response.status < 400) {
       const responseParseResult = responseValidator.safeParse(response.body)
       if (!responseParseResult.success) {
-        throw new ApiDeviceError(
-          ApiDeviceErrorType.Unknown,
-          responseParseResult.error
-        )
+        return {
+          ok: false,
+          endpoint: request.endpoint,
+          status: ApiDeviceErrorType.ResponseParsingFailed,
+          error: responseParseResult.error,
+        }
       }
-    }
-
-    if (response.status >= 400) {
-      throw new ApiDeviceError(response.status)
+      return {
+        ok: true,
+        endpoint: request.endpoint,
+        status: response.status,
+        body: response.body as ResponseBody<E, M>,
+      }
     }
 
     return {
+      ok: false,
       endpoint: request.endpoint,
       status: response.status,
-      data: "body" in response ? response.body : undefined,
+      body: response.body,
     }
   }
 }
