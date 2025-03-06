@@ -16,9 +16,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "api-device/adapters": ["libs/devices/api-device/adapters/src/index.ts"],
-      "api-device/feature": ["libs/devices/api-device/feature/src/index.ts"],
-      "api-device/models": ["libs/devices/api-device/models/src/index.ts"],
       "app-serialport/devices": ["libs/app-serialport/devices/src/index.ts"],
       "app-serialport/main": ["libs/app-serialport/main/src/index.ts"],
       "app-serialport/models": ["libs/app-serialport/models/src/index.ts"],
@@ -31,7 +28,16 @@
       "app-store/feature": ["libs/app-store/feature/src/index.ts"],
       "app-store/models": ["libs/app-store/models/src/index.ts"],
       "devices/common/feature": ["libs/devices/common/feature/src/index.ts"],
-      "devices/common/models": ["libs/devices/common/models/src/index.ts"]
+      "devices/common/models": ["libs/devices/common/models/src/index.ts"],
+      "devices/api-device/adapters": [
+        "libs/devices/api-device/adapters/src/index.ts"
+      ],
+      "devices/api-device/feature": [
+        "libs/devices/api-device/feature/src/index.ts"
+      ],
+      "devices/api-device/models": [
+        "libs/devices/api-device/models/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp", "apps/app/out"]

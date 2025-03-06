@@ -14,8 +14,8 @@ import { useSql } from "./sql-test"
 import { useDispatch, useSelector } from "react-redux"
 import { useCallback } from "react"
 import { SerialPortDeviceInfo } from "app-serialport/models"
-import { getApiConfig, getMenuConfig } from "api-device/feature"
-import { ApiDeviceSerialPort } from "api-device/adapters"
+import { getApiConfig, getMenuConfig } from "devices/api-device/feature"
+import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 
 const StyledApp = styled.div`
   /* Your style here */

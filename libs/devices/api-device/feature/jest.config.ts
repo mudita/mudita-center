@@ -4,7 +4,7 @@
  */
 
 export default {
-  displayName: "api-device/feature",
+  displayName: "devices/api-device/feature",
   preset: "../../../../jest.preset.js",
   transform: {
     "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "@nx/react/plugins/jest",

@@ -1,5 +1,5 @@
 {
-  "name": "api-device/feature",
+  "name": "devices/api-device/feature",
   "version": "0.0.1",
   "main": "./index.js",
   "types": "./index.d.ts",

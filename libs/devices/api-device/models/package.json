@@ -1,5 +1,5 @@
 {
-  "name": "api-device/models",
+  "name": "devices/api-device/models",
   "version": "0.0.1",
   "main": "./index.js",
   "types": "./index.d.ts",

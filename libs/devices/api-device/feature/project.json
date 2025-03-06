@@ -1,5 +1,5 @@
 {
-  "name": "api-device/feature",
+  "name": "devices/api-device/feature",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/devices/api-device/feature/src",
   "projectType": "library",

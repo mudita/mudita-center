@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ApiDeviceSerialPort } from "api-device/adapters"
-import { ApiDevice } from "api-device/models"
+import { ApiDeviceSerialPort } from "devices/api-device/adapters"
+import { ApiDevice } from "devices/api-device/models"
 
 export const getApiConfig = async (device: ApiDevice) => {
   return await ApiDeviceSerialPort.request(device, {

@@ -18,7 +18,7 @@ import {
   ApiDeviceRequest,
   ApiDeviceResponse,
   ResponseBody,
-} from "api-device/models"
+} from "devices/api-device/models"
 
 type Response<E extends ApiDeviceEndpoint, M extends ApiDeviceMethod<E>> =
   | {

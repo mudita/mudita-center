@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ApiConfigValidator, MCLangValidator } from "./endpoints/api-config/api-config"
+import {
+  ApiConfigValidator,
+  MCLangValidator,
+} from "./endpoints/api-config/api-config"
 import { MenuConfigValidator } from "./endpoints/menu-config/menu-config"
 import { z } from "zod"
 
