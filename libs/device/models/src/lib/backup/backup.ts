@@ -16,6 +16,7 @@ export const PreBackupValidator200 = (features: string[]) => {
   return z.object({
     backupId: z.number().min(1),
     features: z.object(featuresValidator),
+    progress: z.number().optional(),
   })
 }
 export const PreBackupValidator202 = (features: string[]) => {
@@ -29,6 +30,7 @@ export const PreBackupValidator202 = (features: string[]) => {
   return z.object({
     backupId: z.number().min(1),
     features: z.object(featuresValidator).optional(),
+    progress: z.number().optional(),
   })
 }
 

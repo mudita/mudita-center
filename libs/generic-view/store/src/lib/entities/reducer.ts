@@ -9,6 +9,7 @@ import {
   clearAfterDeleteEntities,
   clearEntities,
   deleteEntityData,
+  setEntitiesProgress,
   setEntityData,
 } from "./actions"
 import { getEntitiesDataAction } from "./get-entities-data.action"
@@ -69,6 +70,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
 
     state[deviceId]![entitiesType]!.data = action.payload
     state[deviceId]![entitiesType]!.loading = false
+    state[deviceId]![entitiesType]!.progress = 0
   })
   builder.addCase(getEntitiesDataAction.rejected, (state, action) => {
     const { deviceId, entitiesType } = action.meta.arg
@@ -77,6 +79,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     }
 
     state[deviceId]![entitiesType]!.loading = false
+    state[deviceId]![entitiesType]!.progress = 0
     state[deviceId]![entitiesType]!.error = true
   })
 
@@ -198,5 +201,12 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     )
     if (entityIndex === -1) return
     entities.data[entityIndex] = updatedEntity
+  })
+  builder.addCase(setEntitiesProgress, (state, action) => {
+    const { deviceId, entitiesType, progress } = action.payload
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
+    state[deviceId]![entitiesType]!.progress = progress
   })
 })
