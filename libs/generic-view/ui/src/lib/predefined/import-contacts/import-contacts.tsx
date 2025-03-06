@@ -8,7 +8,7 @@ import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { Form } from "../../interactive/form/form"
 import { Modal } from "../../interactive/modal"
 import { useDispatch, useSelector } from "react-redux"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
   cleanImportProcess,
   clearDataTransfer,
@@ -18,8 +18,10 @@ import {
   importContactsSelector,
   ImportStatus,
   importStatusSelector,
+  selectActiveApiDeviceId,
   selectDataTransferErrorType,
   selectDataTransferStatus,
+  selectEntities,
   setImportProcessStatus,
   transferDataToDevice,
 } from "generic-view/store"
@@ -38,6 +40,7 @@ import { useFormContext } from "react-hook-form"
 import { ButtonAction, ImportContactsConfig } from "generic-view/models"
 import { ApiFileTransferError } from "device/models"
 import { modalTransitionDuration } from "generic-view/theme"
+import { ImportContactsRefreshing } from "./import-contats-refreshing"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -65,14 +68,24 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
   const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
   const loadedContacts = useSelector(importContactsSelector)
   const dataTransferStatus = useSelector(selectDataTransferStatus)
+  const deviceId = useSelector(selectActiveApiDeviceId)
+  const contactsEntitiesInfo = useSelector((state: ReduxRootState) => {
+    if (!deviceId) {
+      return
+    }
+    return selectEntities(state, { deviceId, entitiesType: "contacts" })
+  })
 
   const importError = importProcessError || dataTransferError
   const currentStatus = frozenStatus || importStatus
   const importInProgress =
     dataTransferStatus === "IN-PROGRESS" || dataTransferStatus === "FINALIZING"
+  const contactsRefreshing =
+    contactsEntitiesInfo?.loading &&
+    (currentStatus === "FAILED" || currentStatus === "DONE")
 
   const closeButtonVisible =
-    currentStatus !== "PENDING-AUTH" && !importInProgress
+    currentStatus !== "PENDING-AUTH" && !importInProgress && !contactsRefreshing
 
   const closeModal = () => {
     setFrozenStatus(importStatus)
@@ -186,13 +199,14 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
       {importInProgress && (
         <ImportContactsProgress cancelAction={importAbortButtonAction} />
       )}
-      {currentStatus === "FAILED" && (
+      {contactsRefreshing && <ImportContactsRefreshing />}
+      {!contactsRefreshing && currentStatus === "FAILED" && (
         <ImportContactsError
           closeAction={importCloseButtonAction}
           customError={error}
         />
       )}
-      {currentStatus === "DONE" && (
+      {!contactsRefreshing && currentStatus === "DONE" && (
         <ImportContactsSuccess closeAction={importCloseButtonAction} />
       )}
     </>
