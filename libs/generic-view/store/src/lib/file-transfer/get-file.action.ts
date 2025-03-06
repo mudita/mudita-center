@@ -35,12 +35,13 @@ export const getFile = createAsyncThunk<
     filePath: string
     targetPath?: string
     preTransfer?: PreTransferGet
+    onProgress?: (progress: number) => void
   },
   { state: ReduxRootState; rejectValue: GetFileError | undefined }
 >(
   ActionName.FileTransferGet,
   async (
-    { deviceId, filePath, targetPath, preTransfer },
+    { deviceId, filePath, targetPath, preTransfer, onProgress },
     { rejectWithValue, dispatch, signal }
   ) => {
     let aborted = false
@@ -95,6 +96,7 @@ export const getFile = createAsyncThunk<
             },
           })
         }
+        onProgress?.(100 * (chunkNumber / chunksCount))
         dispatch(
           fileTransferChunkGet({
             transferId,
