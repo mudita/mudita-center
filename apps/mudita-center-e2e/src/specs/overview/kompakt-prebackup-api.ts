@@ -5,6 +5,7 @@ import {
 } from "../../../../../libs/e2e-mock/responses/src"
 import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page"
 import { mockPreBackupResponses } from "../../helpers/mock-prebackup"
+import { BrowserRouter } from "react-router-dom"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -66,6 +67,7 @@ describe("E2E mock sample - overview view", () => {
     const createBackupPasswordSkip =
       await ModalBackupKompaktPage.createBackupPasswordSkip
     await createBackupPasswordSkip.click()
+    await browser.pause(2000) // wait for animation to load from 0% to10%
   })
 
   it("Verify backup creating modal, check if backup is in progress", async () => {
