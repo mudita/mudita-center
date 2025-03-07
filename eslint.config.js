@@ -11,7 +11,14 @@ module.exports = [
   ...nx.configs["flat/typescript"],
   ...nx.configs["flat/javascript"],
   {
-    ignores: ["**/dist", "**/out", "**/node_modules", "**/*.d.ts"],
+    ignores: [
+      "**/dist",
+      "**/out",
+      "**/node_modules",
+      "**/*.d.ts",
+      "**/vite.config.*.timestamp*",
+      "**/vitest.config.*.timestamp*",
+    ],
   },
   {
     files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
@@ -24,11 +31,19 @@ module.exports = [
           depConstraints: [
             {
               sourceTag: "process:renderer",
-              onlyDependOnLibsWithTags: ["process:renderer", "type:models", "type:utils"],
+              onlyDependOnLibsWithTags: [
+                "process:renderer",
+                "type:models",
+                "type:utils",
+              ],
             },
             {
               sourceTag: "process:main",
-              onlyDependOnLibsWithTags: ["process:main", "type:models", "type:utils"],
+              onlyDependOnLibsWithTags: [
+                "process:main",
+                "type:models",
+                "type:utils",
+              ],
             },
             {
               sourceTag: "type:utils",

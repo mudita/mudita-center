@@ -8,8 +8,8 @@ import {
   SerialPortDeviceOptions,
 } from "../serial-port-device"
 import { SerialPortDeviceType, SerialPortRequest } from "app-serialport/models"
-import { CommonDeviceResponseParser } from "../shared/common-device-response-parser"
-import { commonDeviceRequestParser } from "../shared/common-device-request-parser"
+import { CommonDeviceResponseParser } from "../common/common-device-response-parser"
+import { commonDeviceRequestParser } from "../common/common-device-request-parser"
 
 export class SerialPortApiDevice extends SerialPortDevice {
   static readonly matchingVendorIds = ["3310", "13072"]

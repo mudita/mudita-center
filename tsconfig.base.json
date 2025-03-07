@@ -27,8 +27,6 @@
       "app-store-types": ["libs/app-store/feature/src/lib/app-store.types.ts"],
       "app-store/feature": ["libs/app-store/feature/src/index.ts"],
       "app-store/models": ["libs/app-store/models/src/index.ts"],
-      "devices/common/feature": ["libs/devices/common/feature/src/index.ts"],
-      "devices/common/models": ["libs/devices/common/models/src/index.ts"],
       "devices/api-device/adapters": [
         "libs/devices/api-device/adapters/src/index.ts"
       ],
@@ -37,7 +35,9 @@
       ],
       "devices/api-device/models": [
         "libs/devices/api-device/models/src/index.ts"
-      ]
+      ],
+      "devices/common/feature": ["libs/devices/common/feature/src/index.ts"],
+      "devices/common/models": ["libs/devices/common/models/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "apps/app/out"]
