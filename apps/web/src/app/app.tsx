@@ -16,6 +16,7 @@ import { useCallback } from "react"
 import { SerialPortDeviceInfo } from "app-serialport/models"
 import { getApiConfig, getMenuConfig } from "devices/api-device/feature"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
+import { FormattedMessage } from "react-intl"
 
 const StyledApp = styled.div`
   /* Your style here */
@@ -63,7 +64,9 @@ export function App() {
 
   return (
     <StyledApp>
-      <h1>Devices:</h1>
+      <h1>
+        <FormattedMessage id={"demo.devices"} />:
+      </h1>
       <ul>
         {connectedDevices.map((device) => (
           <li
