@@ -43,6 +43,11 @@ export const getEntityDataAction = createAsyncThunk<
 
     if (responseType === "file") {
       const { filePath } = response.data as EntitiesFileData
+
+      if (!filePath) {
+        return rejectWithValue(undefined)
+      }
+
       const getFileResponse = await dispatch(
         getFile({
           deviceId,

@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useMemo } from "react"
+import React, {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { defineMessages } from "react-intl"
 import { Modal } from "../../interactive/modal"
 import { IconType, useViewFormContext } from "generic-view/utils"
@@ -43,6 +49,8 @@ interface Props {
   nextAction: ButtonAction
 }
 
+const rowHeight = 36
+
 export const ImportContactsList: FunctionComponent<Props> = ({
   nextAction,
 }) => {
@@ -62,6 +70,10 @@ export const ImportContactsList: FunctionComponent<Props> = ({
         .includes(searchPhrase.toLowerCase())
     })
   }, [contacts, searchPhrase])
+
+  const list = useMemo(() => {
+    return <ContactsList contacts={filteredContacts} />
+  }, [filteredContacts])
 
   return (
     <>
@@ -93,11 +105,7 @@ export const ImportContactsList: FunctionComponent<Props> = ({
         {searchPhrase && filteredContacts.length === 0 && (
           <p>{intl.formatMessage(messages.noResults)}</p>
         )}
-        <ScrollableContent>
-          {filteredContacts.map((item) => {
-            return <ContactItem key={item.id} {...item} />
-          })}
-        </ScrollableContent>
+        {list}
       </Article>
       <Modal.Buttons config={{ vertical: true }}>
         <ButtonPrimary
@@ -112,6 +120,43 @@ export const ImportContactsList: FunctionComponent<Props> = ({
       </Modal.Buttons>
       <Modal.SizeController config={{ size: "medium" }} />
     </>
+  )
+}
+
+const ContactsList: FunctionComponent<{ contacts: UnifiedContact[] }> = ({
+  contacts,
+}) => {
+  const [visibleRowsBounds, setVisibleRowsBounds] = useState<[number, number]>([
+    0, 30,
+  ])
+  const scrollableRef = useRef<HTMLDivElement>(null)
+
+  const handleScroll = useCallback(() => {
+    if (!scrollableRef.current) return
+    const { scrollTop, clientHeight } = scrollableRef.current
+    const rowsPerPage = Math.ceil(clientHeight / rowHeight) || 0
+    const currentRowIndex = Math.floor(scrollTop / rowHeight)
+    const firstVisibleRowIndex = currentRowIndex - rowsPerPage
+    const lastVisibleRowIndex = currentRowIndex + rowsPerPage * 2
+    setVisibleRowsBounds([firstVisibleRowIndex, lastVisibleRowIndex])
+  }, [])
+
+  const renderRow = useCallback(
+    (item: UnifiedContact, index: number) => {
+      if (index < visibleRowsBounds[0] || index > visibleRowsBounds[1]) {
+        return <ScrollableItemPlaceholder />
+      }
+      return <ContactItem {...item} />
+    },
+    [visibleRowsBounds]
+  )
+
+  return (
+    <ScrollableContent ref={scrollableRef} onScroll={handleScroll}>
+      {contacts.map((item, index) => (
+        <ScrollableItem key={item.id}>{renderRow(item, index)}</ScrollableItem>
+      ))}
+    </ScrollableContent>
   )
 }
 
@@ -210,19 +255,25 @@ const StyledPhoneInfoWrapper = styled.div`
 const Article = styled.article`
   width: 100%;
   margin-top: calc(var(--modal-padding) * -1);
-  min-height: 30.6rem;
+  height: 30.6rem;
 
   && > p {
     margin-top: 6.7rem;
   }
 `
 
-const ScrollableContent = styled(Modal.ScrollableContent)`
+const ScrollableContent = styled.div`
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.space.xs};
+  overflow: auto;
   padding-top: var(--modal-padding);
+`
+
+const ScrollableItem = styled.div`
+  padding-bottom: 0.4rem;
+`
+
+const ScrollableItemPlaceholder = styled.div`
+  height: 3.2rem;
 `
 
 const MoreNumbersButton = styled.p`
