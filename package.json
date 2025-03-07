@@ -96,7 +96,7 @@
     "@wdio/mocha-framework": "^9.11.0",
     "@wdio/spec-reporter": "^9.11.0",
     "babel-jest": "^29.7.0",
-    "babel-plugin-styled-components": "1.10.7",
+    "babel-plugin-styled-components": "2.1.4",
     "chromedriver": "^134.0.0",
     "electron": "35.0.0",
     "electron-builder": "^25.1.8",
