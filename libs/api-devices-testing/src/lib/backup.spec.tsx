@@ -10,17 +10,20 @@ import { setActiveDevice } from "./helpers/protocol-validator"
 import { delay } from "shared/utils"
 
 jest.mock("shared/utils", () => {
-  return { 
+  return {
     callRenderer: () => {},
-    delay: () => { return new Promise((resolve) => setTimeout(resolve, 500))}  }
+    delay: () => {
+      return new Promise((resolve) => setTimeout(resolve, 500))
+    },
+  }
 })
 jest.mock("Core/device-manager/services/usb-devices/usb-devices.helper", () => {
-  return { getUsbDevices: () => { } }
+  return { getUsbDevices: () => {} }
 })
 jest.mock("electron-better-ipc", () => {
   return {
     ipcMain: {
-      emit: () => { },
+      emit: () => {},
     },
   }
 })
@@ -57,33 +60,47 @@ describe("Backup feature", () => {
 
   it("should return an error for startPreBackup for unknown features.", async () => {
     const apiConfigService = new APIBackupService(deviceProtocol)
-    const result = await apiConfigService.startPreBackup({ features: ["dummyFeature", "dummyFeature2"] })
-    console.log(result)
+    const result = await apiConfigService.startPreBackup({
+      features: ["dummyFeature", "dummyFeature2"],
+    })
     expect(result.error).toBeTruthy()
   })
 
   it("should prepare valid backup if features contains known feature.", async () => {
     const apiConfigService = new APIBackupService(deviceProtocol)
-    const result = await apiConfigService.startPreBackup({ features: ["CONTACTS_V1", "dummyFeature", "dummyFeature2"] })
+    const result = await apiConfigService.startPreBackup({
+      features: ["CONTACTS_V1", "dummyFeature", "dummyFeature2"],
+    })
     expect(result.ok).toBeTruthy()
   })
 
   it("should return an error for checkPreBackup with an invalid backupId.", async () => {
     const apiConfigService = new APIBackupService(deviceProtocol)
-    const result = await apiConfigService.checkPreBackup({ backupId: -1, features: backupFeatures })
+    const result = await apiConfigService.checkPreBackup({
+      backupId: -1,
+      features: backupFeatures,
+    })
     expect(result.error).toBeTruthy()
   })
 
   async function fetchSupportedFeatures() {
-    backupFeatures = ["CONTACTS_V1", "CALL_LOGS_V1", "MESSAGES_V1", "ALARMS_V1", "NOTES_V1"]
+    backupFeatures = [
+      "CONTACTS_V1",
+      "CALL_LOGS_V1",
+      "MESSAGES_V1",
+      "ALARMS_V1",
+      "NOTES_V1",
+    ]
   }
 
   async function performFullBackup(
     apiBackupService: APIBackupService,
-    featuresArray: string[],
+    featuresArray: string[]
   ): Promise<void> {
     let features: Record<string, string> | undefined = undefined
-    const preBackupResult = await apiBackupService.startPreBackup({ features: featuresArray })
+    const preBackupResult = await apiBackupService.startPreBackup({
+      features: featuresArray,
+    })
 
     expect(preBackupResult.ok).toBeTruthy()
 
@@ -93,7 +110,10 @@ describe("Backup feature", () => {
           backupId: preBackupResult.data.backupId,
           features: featuresArray,
         })
-        if (checkPreBackupResponse.ok && checkPreBackupResponse.data.features !== undefined) {
+        if (
+          checkPreBackupResponse.ok &&
+          checkPreBackupResponse.data.features !== undefined
+        ) {
           features = checkPreBackupResponse.data.features
         }
         await delay(1000)
@@ -101,10 +121,14 @@ describe("Backup feature", () => {
 
       expect(Object.keys(features).sort()).toEqual(featuresArray.sort())
       expect(
-        Object.values(features).every(value => value !== undefined && value !== null && value !== '')
+        Object.values(features).every(
+          (value) => value !== undefined && value !== null && value !== ""
+        )
       ).toBeTruthy()
 
-      const postBackupResult = await apiBackupService.postBackup({ backupId: preBackupResult.data.backupId })
+      const postBackupResult = await apiBackupService.postBackup({
+        backupId: preBackupResult.data.backupId,
+      })
 
       expect(postBackupResult).toBeTruthy()
     }

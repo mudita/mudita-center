@@ -6,10 +6,17 @@ export function mockPreBackupResponses(path: string) {
   E2EMockClient.mockResponses([
     {
       path,
+      body: { progress: 12.5 },
       endpoint: "PRE_BACKUP",
       method: "POST",
       status: 202,
-      body: {},
+    },
+    {
+      path,
+      body: { progress: 12.5 },
+      endpoint: "PRE_BACKUP",
+      method: "GET",
+      status: 202,
     },
   ])
 
