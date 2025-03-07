@@ -36,7 +36,7 @@ import { SafeParseReturnType, SafeParseSuccess } from "zod"
 import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { delay } from "shared/utils"
+import { ResponseStatus } from "../../../../../core/device/constants/response-status.constant"
 
 export interface GetEntitiesDataRequestConfig {
   entitiesType: string
@@ -113,6 +113,70 @@ export class APIEntitiesService {
     }
     return this.handleSuccess(metadata)
   }
+
+  // @IpcEvent(APIEntitiesServiceEvents.EntitiesDataGet)
+  // public async getEntitiesData({
+  //   entitiesType,
+  //   entityId,
+  //   responseType,
+  //   deviceId,
+  // }: {
+  //   entitiesType: string
+  //   responseType: "json" | "file"
+  //   entityId?: EntityId
+  //   deviceId?: DeviceId
+  // }): Promise<
+  //   ResultObject<
+  //     | EntitiesJsonData
+  //     | EntityJsonData
+  //     | (EntitiesFileData & { status: ResponseStatus })
+  //   >
+  // > {
+  //   const device = this.getDevice(deviceId)
+  //   if (!device) {
+  //     return Result.failed(new AppError(GeneralError.NoDevice, ""))
+  //   }
+  //
+  //   const response = await device.request({
+  //     endpoint: "ENTITIES_DATA",
+  //     method: "GET",
+  //     body: {
+  //       entityType: entitiesType,
+  //       responseType,
+  //       ...(entityId && { entityId }),
+  //     },
+  //   })
+  //
+  //   if (!response.ok) {
+  //     return this.handleError(response.error.type)
+  //   }
+  //
+  //   let data: SafeParseReturnType<
+  //     typeof response.data.body,
+  //     | EntitiesJsonData
+  //     | EntityJsonData
+  //     | (EntitiesFileData & { status: ResponseStatus })
+  //   >
+  //
+  //   if (responseType === "file") {
+  //     const parsedResponse = entitiesFileDataValidator.safeParse(
+  //       response.data.body
+  //     ) as SafeParseSuccess<EntitiesFileData & { status: ResponseStatus }>
+  //     parsedResponse.data.status = response.data.status
+  //     data = parsedResponse
+  //   } else if (responseType === "json") {
+  //     if (entityId === undefined) {
+  //       data = entitiesJsonDataValidator.safeParse(response.data.body)
+  //     } else {
+  //       data = entityJsonDataValidator.safeParse(response.data.body)
+  //     }
+  //   }
+  //
+  //   if (!data!.success) {
+  //     return this.handleError(response.data.status)
+  //   }
+  //   return this.handleSuccess(data!)
+  // }
 
   @IpcEvent(APIEntitiesServiceEvents.EntitiesDataGet)
   public async getEntitiesData(

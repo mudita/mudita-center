@@ -9,6 +9,7 @@ import {
   clearAfterDeleteEntities,
   clearEntities,
   deleteEntityData,
+  setEntitiesProgress,
   setEntityData,
   setLoadEntitiesAbortController,
 } from "./actions"
@@ -73,6 +74,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
 
     state[deviceId]![entitiesType]!.data = action.payload
     state[deviceId]![entitiesType]!.loading = false
+    state[deviceId]![entitiesType]!.progress = 0
     state[deviceId]![entitiesType]!.abortController = new AbortController()
   })
   builder.addCase(getEntitiesDataAction.rejected, (state, action) => {
@@ -82,6 +84,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     }
 
     state[deviceId]![entitiesType]!.loading = false
+    state[deviceId]![entitiesType]!.progress = 0
     state[deviceId]![entitiesType]!.error = true
     state[deviceId]![entitiesType]!.abortController = new AbortController()
   })
@@ -216,4 +219,11 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
       },
     }
   })
+  // builder.addCase(setEntitiesProgress, (state, action) => {
+  //   const { deviceId, entitiesType, progress } = action.payload
+  //   if (!state[deviceId]?.[entitiesType]) {
+  //     return
+  //   }
+  //   state[deviceId]![entitiesType]!.progress = progress
+  // })
 })

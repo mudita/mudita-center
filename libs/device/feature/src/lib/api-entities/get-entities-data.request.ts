@@ -13,6 +13,7 @@ import {
   EntityId,
   EntityJsonData,
 } from "device/models"
+import { ResponseStatus } from "../../../../../core/device/constants/response-status.constant"
 
 export type EntityDataResponseType = "json" | "file"
 
@@ -23,7 +24,7 @@ type ReturnType<
   ? E extends undefined
     ? EntitiesJsonData
     : EntityJsonData
-  : EntitiesFileData
+  : EntitiesFileData & { status: ResponseStatus }
 
 export const getEntitiesDataRequest = <
   R extends string = EntityDataResponseType,

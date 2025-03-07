@@ -18,6 +18,12 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { AppError } from "Core/core/errors"
 import { enhanceEntity } from "./helpers/enhance-entity"
 import { selectDeviceEntityAbortController } from "../selectors/entities"
+import { delay } from "shared/utils"
+import { ResponseStatus } from "../../../../../core/device/constants/response-status.constant"
+import { setEntitiesProgress } from "./actions"
+
+const readingProgressFactor = 0.9
+const fileTransferProgressFactor = 0.1
 
 export const getEntitiesDataAction = createAsyncThunk<
   EntityData[],
@@ -74,6 +80,56 @@ export const getEntitiesDataAction = createAsyncThunk<
     }
 
     if (responseType === "file") {
+      // let {
+      //   filePath,
+      //   progress = 0,
+      //   status,
+      // } = response.data as EntitiesFileData & {
+      //   status: ResponseStatus
+      // }
+      // dispatch(
+      //   setEntitiesProgress({
+      //     entitiesType,
+      //     progress: progress * readingProgressFactor,
+      //     deviceId,
+      //   })
+      // )
+      //
+      // while (status !== ResponseStatus.Ok) {
+      //   await delay(250)
+      //   const progressResponse = await getEntitiesDataRequest({
+      //     entitiesType,
+      //     deviceId,
+      //     responseType,
+      //   })
+      //   if (!progressResponse.ok) {
+      //     return rejectWithValue(response.error)
+      //   }
+      //   ;({ filePath, status, progress = 0 } = progressResponse.data)
+      //   dispatch(
+      //     setEntitiesProgress({
+      //       entitiesType,
+      //       progress: progress * readingProgressFactor,
+      //       deviceId,
+      //     })
+      //   )
+      // }
+      //
+      // if (!filePath) {
+      //   return rejectWithValue(undefined)
+      // }
+      // const readingFinalProgress = 100 * readingProgressFactor
+      // dispatch(
+      //   setEntitiesProgress({
+      //     entitiesType,
+      //     progress: readingFinalProgress,
+      //     deviceId,
+      //   })
+      // )
+      //
+      // const getFileResponse = await dispatch(
+
+
       if (abortController?.signal.aborted) {
         return rejectWithValue(undefined)
       }
@@ -82,6 +138,16 @@ export const getEntitiesDataAction = createAsyncThunk<
         getFile({
           deviceId,
           filePath,
+          // onProgress: (progress) => {
+          //   dispatch(
+          //     setEntitiesProgress({
+          //       entitiesType,
+          //       progress:
+          //         readingFinalProgress + progress * fileTransferProgressFactor,
+          //       deviceId,
+          //     })
+          //   )
+          // },
         })
       )
       abortGetFileAction = getFilePromise.abort
