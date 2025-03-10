@@ -54,7 +54,7 @@ export const sendFilesError = createAction<
   Pick<NonNullable<FileTransferFailed>, "id" | "error">
 >(ActionName.SendFilesError)
 export const sendFilesClear = createAction<
-  { groupId: FileGroupId } | { filesIds: FileId[] }
+  { groupId: FileGroupId } | { filesIds: FileId[] } | undefined
 >(ActionName.SendFilesClear)
 export const sendFilesAbortRegister = createAction<{
   actionId: ActionId
@@ -63,14 +63,29 @@ export const sendFilesAbortRegister = createAction<{
 
 export const sendFilesAbort = createAsyncThunk<
   void,
-  ActionId,
+  ActionId | undefined,
   { state: ReduxRootState }
 >(ActionName.SendFilesAbort, (actionId, { getState, dispatch }) => {
   const { filesTransferSendAbortActions, filesTransferSend } =
     getState().genericFileTransfer
-  filesTransferSendAbortActions[actionId]?.abort()
+  if (!actionId) {
+    Object.values(filesTransferSendAbortActions).forEach(({ abort }) => {
+      abort()
+    })
+  } else {
+    filesTransferSendAbortActions[actionId]?.abort()
+  }
 
   for (const file of Object.values(filesTransferSend)) {
+    if (!actionId) {
+      dispatch(
+        sendFilesError({
+          id: file.id,
+          error: new AppError(ApiFileTransferError.Aborted, "Aborted"),
+        })
+      )
+      continue
+    }
     if (file.groupId === actionId && file.status === "pending") {
       dispatch(
         sendFilesError({
