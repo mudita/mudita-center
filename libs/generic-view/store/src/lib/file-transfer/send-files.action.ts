@@ -88,6 +88,13 @@ export const sendFiles = createAsyncThunk<
         file,
         deviceId
       )
+      if (signal.aborted) {
+        handleFileError(
+          file.id,
+          new AppError(ApiFileTransferError.Aborted, "Aborted")
+        )
+        return rejectWithValue(undefined)
+      }
       if (!preTransferResponse.ok) {
         handleFileError(
           file.id,
@@ -119,6 +126,13 @@ export const sendFiles = createAsyncThunk<
         }
 
         const { ok, error } = await sendFileRequest(transferId, chunkNumber)
+        if (signal.aborted) {
+          handleFileError(
+            file.id,
+            new AppError(ApiFileTransferError.Aborted, "Aborted")
+          )
+          return rejectWithValue(undefined)
+        }
         if (!ok) {
           handleFileError(file.id, error as AppError<ApiFileTransferError>)
           failed = true
@@ -163,6 +177,13 @@ export const sendFiles = createAsyncThunk<
       ).abort
 
       const fileEntity = await createEntityRequest
+      if (signal.aborted) {
+        handleFileError(
+          file.id,
+          new AppError(ApiFileTransferError.Aborted, "Aborted")
+        )
+        return rejectWithValue(undefined)
+      }
       if (fileEntity.meta.requestStatus === "rejected") {
         handleFileError(
           file.id,
