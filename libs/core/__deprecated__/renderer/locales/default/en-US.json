@@ -948,6 +948,8 @@
   "module.genericViews.importContacts.progress.progressDetails": "Preparing contacts",
   "module.genericViews.importContacts.progress.progressDetailsForFeature": "Importing {featureLabel}",
   "module.genericViews.importContacts.progress.cancelButtonLabel": "Cancel",
+  "module.genericViews.importContacts.refreshingModal.title": "Loading contacts",
+  "module.genericViews.importContacts.refreshingModal.description": "This will only take a moment...",
   "module.genericViews.importContacts.cancelConfirm.title": "Cancel import?",
   "module.genericViews.importContacts.cancelConfirm.description": "Some contacts might already be imported into Kompakt.",
   "module.genericViews.importContacts.cancelConfirm.backButtonLabel": "Back",
