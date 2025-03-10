@@ -258,9 +258,11 @@ export const genericFileTransferReducer = createReducer(
     })
     builder.addCase(sendFilesPreSend, (state, action) => {
       const file = state.filesTransferSend[action.payload.id]
-      file.status = "in-progress"
-      ;(file as FileTransferProgress).transferId = action.payload.transferId
-      ;(file as FileTransferProgress).progress = action.payload.progress
+      if (file) {
+        file.status = "in-progress"
+        ;(file as FileTransferProgress).transferId = action.payload.transferId
+        ;(file as FileTransferProgress).progress = action.payload.progress
+      }
     })
     builder.addCase(sendFilesChunkSent, (state, action) => {
       const file = state.filesTransferSend[action.payload.id]
@@ -270,16 +272,26 @@ export const genericFileTransferReducer = createReducer(
     })
     builder.addCase(sendFilesFinished, (state, action) => {
       const file = state.filesTransferSend[action.payload.id]
-      file.status = "finished"
+      if (file) {
+        file.status = "finished"
+      }
     })
     builder.addCase(sendFilesError, (state, action) => {
       const file = state.filesTransferSend[
         action.payload.id
       ] as FileTransferFailed
-      file.status = "finished"
-      file.error = action.payload.error
+      if (file) {
+        file.status = "finished"
+        file.error = action.payload.error
+      }
     })
     builder.addCase(sendFilesClear, (state, action) => {
+      if (!action.payload) {
+        state.filesTransferSend = {}
+        state.filesTransferErrors = {}
+        state.filesTransferSendAbortActions = {}
+        return
+      }
       if ("groupId" in action.payload) {
         for (const file of Object.values(state.filesTransferSend)) {
           if (file.groupId === action.payload.groupId) {
@@ -297,7 +309,11 @@ export const genericFileTransferReducer = createReducer(
         action.payload.abortController
     })
     builder.addCase(sendFilesAbort.fulfilled, (state, action) => {
-      delete state.filesTransferSendAbortActions[action.meta.arg]
+      if (action.meta.arg) {
+        delete state.filesTransferSendAbortActions[action.meta.arg]
+      } else {
+        state.filesTransferSendAbortActions = {}
+      }
     })
     builder.addCase(addFileTransferErrors, (state, action) => {
       const actionId = action.payload.actionId
