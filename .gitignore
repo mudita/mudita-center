@@ -48,6 +48,7 @@ vite.config.*.timestamp*
 /apps/app/out
 /apps/app/release
 /apps/app/*.log*
+/apps/app/resources/fonts/main
 
 
 storybook-static
@@ -56,5 +57,4 @@ storybook-static
 .env
 !.env.example
 
-/apps/app/src/renderer/public/*.wasm
 vitest.config.*.timestamp*

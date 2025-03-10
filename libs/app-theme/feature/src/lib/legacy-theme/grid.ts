@@ -3,4 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/provider"
+import { columnWidth, gutterWidth } from "./constants"
+
+export const grid = {
+  columnWidth,
+  gutterWidth,
+}

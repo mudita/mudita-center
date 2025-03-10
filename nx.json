@@ -96,5 +96,10 @@
         "args": ["--allow-empty-input"]
       }
     }
+  },
+  "release": {
+    "version": {
+      "preVersionCommand": "npx nx run-many -t build"
+    }
   }
 }

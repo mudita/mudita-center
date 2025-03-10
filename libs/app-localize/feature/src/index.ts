@@ -4,5 +4,4 @@
  */
 
 export * from "./lib/app-intl"
-
-export { default as enUS } from "./lib/locales/en-US.json"
+export * from "./lib/provider"

@@ -73,7 +73,7 @@ export function App() {
 
   return (
     <StyledApp>
-      <h1>{formatMessage(messages.title)}</h1>
+      <Header>{formatMessage(messages.title)}</Header>
       <ul>
         {connectedDevices.map((device) => (
           <li
@@ -93,7 +93,7 @@ export function App() {
           </li>
         ))}
       </ul>
-      <h1>{formatMessage(messages.selected)}</h1>
+      <Header>{formatMessage(messages.selected)}</Header>
       {currentDevice && (
         <>
           <p>
@@ -112,3 +112,7 @@ export function App() {
 }
 
 export default App
+
+const Header = styled.h1`
+  font-size: ${({ theme }) => theme.app.fontSize.headline4};
+`
