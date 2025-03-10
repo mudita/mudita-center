@@ -7,7 +7,8 @@ import { z } from "zod"
 import { entityDataSchema } from "./entity-data.validator"
 
 export const entitiesFileDataValidator = z.object({
-  filePath: z.string().min(1),
+  filePath: z.string().min(1).optional(),
+  progress: z.number().min(0).max(100).optional(),
 })
 export type EntitiesFileData = z.infer<typeof entitiesFileDataValidator>
 
