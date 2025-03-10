@@ -35,12 +35,15 @@ export const FormsProvider: FunctionComponent = ({ children }) => {
     }
   }, [])
 
-  const getFormContext = useCallback((formKey?: string) => {
-    if (!formKey) {
-      throw new Error(`Form key is required`)
-    }
-    return forms.current[formKey]
-  }, [])
+  const getFormContext = useCallback(
+    (formKey?: string) => {
+      if (!formKey) {
+        throw new Error(`Form key is required`)
+      }
+      return forms.current[formKey]
+    },
+    [forms]
+  )
 
   const clear = useCallback((formKey: string) => {
     delete forms.current[formKey]
