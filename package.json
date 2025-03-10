@@ -38,7 +38,7 @@
     "e2e:test:cicd:mock": "xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' nx e2e:test:cicd:mock mudita-center-e2e",
     "test-file:generate-and-push": "ts-node scripts/manage-test-files/generate-and-push-test-files.ts",
     "test-file:clear": "ts-node scripts/manage-test-files/clear-test-files.ts",
-    "api-device-testing": "npx nx run api-devices-testing:test"
+    "api-device-testing": "npx nx run api-devices-testing:test --skip-nx-cache"
   },
   "repository": {
     "type": "git",

@@ -149,7 +149,12 @@ const useHandleDevicesDetached = () => {
             BackupProcessStatus.FilesTransfer,
           ].includes(backupProcess)
         ) {
-          dispatch(setBackupProcessStatus(BackupProcessStatus.Failed))
+          dispatch(
+            setBackupProcessStatus({
+              status: BackupProcessStatus.Failed,
+              progress: 0,
+            })
+          )
         }
       }
 
