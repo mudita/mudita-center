@@ -5,12 +5,11 @@
 
 import * as ReactDOM from "react-dom/client"
 import App from "./app/app"
-import { Provider } from "react-redux"
-import { store } from "app-store/feature"
+import { Providers } from "./providers"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
-  <Provider store={store}>
+  <Providers>
     <App />
-  </Provider>
+  </Providers>
 )
