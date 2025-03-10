@@ -62,6 +62,7 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
   const [frozenStatus, setFrozenStatus] = useState<ImportStatus | undefined>()
   const dataTransferError = useSelector(selectDataTransferErrorType)
   const importProcessError = useSelector(importContactsErrorSelector)
+  const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<CustomModalError>()
   const dataTransferAbortReference = useRef<VoidFunction>()
   const { watch } = useFormContext<{ [SELECTED_CONTACTS_FIELD]?: string[] }>()
@@ -80,12 +81,8 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
   const currentStatus = frozenStatus || importStatus
   const importInProgress =
     dataTransferStatus === "IN-PROGRESS" || dataTransferStatus === "FINALIZING"
-  const contactsRefreshing =
-    contactsEntitiesInfo?.loading &&
-    (currentStatus === "FAILED" || currentStatus === "DONE")
-
   const closeButtonVisible =
-    currentStatus !== "PENDING-AUTH" && !importInProgress && !contactsRefreshing
+    currentStatus !== "PENDING-AUTH" && !importInProgress && !refreshing
 
   const closeModal = () => {
     setFrozenStatus(importStatus)
@@ -123,6 +120,7 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
       dataTransferAbortReference.current = promise.abort
 
       const result = await promise
+      setRefreshing(true)
       if (result.meta.requestStatus === "rejected") {
         dispatch(setImportProcessStatus(ImportStatus.Failed))
       } else {
@@ -141,6 +139,19 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
       dataTransferAbortReference.current?.()
     },
   }
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout | undefined
+    if (refreshing && !contactsEntitiesInfo?.loading) {
+      timeout = setTimeout(() => {
+        setRefreshing(false)
+      }, 500)
+    }
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [contactsEntitiesInfo?.loading, refreshing])
 
   useEffect(() => {
     if (importError) {
@@ -199,14 +210,14 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
       {importInProgress && (
         <ImportContactsProgress cancelAction={importAbortButtonAction} />
       )}
-      {contactsRefreshing && <ImportContactsRefreshing />}
-      {!contactsRefreshing && currentStatus === "FAILED" && (
+      {refreshing && <ImportContactsRefreshing />}
+      {!refreshing && currentStatus === "FAILED" && (
         <ImportContactsError
           closeAction={importCloseButtonAction}
           customError={error}
         />
       )}
-      {!contactsRefreshing && currentStatus === "DONE" && (
+      {!refreshing && currentStatus === "DONE" && (
         <ImportContactsSuccess closeAction={importCloseButtonAction} />
       )}
     </>
