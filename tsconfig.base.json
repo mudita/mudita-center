@@ -16,6 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "app-localize/feature": ["libs/app-localize/feature/src/index.ts"],
       "app-serialport/devices": ["libs/app-serialport/devices/src/index.ts"],
       "app-serialport/main": ["libs/app-serialport/main/src/index.ts"],
       "app-serialport/models": ["libs/app-serialport/models/src/index.ts"],

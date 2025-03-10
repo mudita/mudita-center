@@ -7,22 +7,16 @@ import { FunctionComponent, PropsWithChildren } from "react"
 import { store } from "app-store/feature"
 import { Provider as ReduxProvider } from "react-redux"
 import { IntlProvider } from "react-intl"
-import enUS from "./locales/en-US.json"
-
-const Translations: FunctionComponent<PropsWithChildren> = ({ children }) => {
-  return (
-    <IntlProvider messages={enUS} locale={"en"} defaultLocale={"en"}>
-      {children}
-    </IntlProvider>
-  )
-}
+import { enUS } from "app-localize/feature"
 
 export const Providers: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   return (
     <ReduxProvider store={store}>
-      <Translations>{children}</Translations>
+      <IntlProvider messages={enUS} locale={"en"} defaultLocale={"en"}>
+        {children}
+      </IntlProvider>
     </ReduxProvider>
   )
 }
