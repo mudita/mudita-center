@@ -58,7 +58,7 @@ dotenv.config({
       })
       fs.writeFileSync(path.join(mainFontsDirectory, fileName), data)
       console.log(
-        `Downloaded file (${index + 1}/${requiredFiles.length}): ${fileName}`
+        `Downloaded file (${Number(index) + 1}/${requiredFiles.length}): ${fileName}`
       )
     }
   } catch (error) {
