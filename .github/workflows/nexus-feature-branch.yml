@@ -10,6 +10,7 @@ jobs:
     strategy:
       matrix:
         os: [Linux, macOS, Windows]
+        node-version: [22]
     environment: development
     steps:
       - name: Checkout code
@@ -17,7 +18,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20.18.1
+          node-version: ${{ matrix.node-version }}
       - name: Setup Env for Windows
         if: matrix.os == 'Windows'
         env:
