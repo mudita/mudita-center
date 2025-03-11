@@ -10,6 +10,7 @@ jobs:
         os: [Linux]
         node-version: [22]
     timeout-minutes: 40
+    environment: development
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
