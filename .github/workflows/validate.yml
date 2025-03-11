@@ -5,39 +5,17 @@ on: [push]
 jobs:
   validate:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [20.18.1]
-
     timeout-minutes: 40
-
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Setup Env for Windows
-        if: matrix.os == 'Windows'
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          CI: true
-        shell: cmd
-        run: |
-          SET > .env
-          jq -r -j .version apps/app/package.json > apps/app/version
-      - name: Setup Env for Mac
-        if: matrix.os == 'macOS'
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          CI: true
-        run: |
-          printenv > .env
-      - name: Setup Env for Linux
-        if: matrix.os == 'Linux'
+      - name: Setup Env
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
@@ -46,17 +24,10 @@ jobs:
           printenv > .env
       - name: Install dependencies
         run: npm run setup
-        env:
-          CI: true
       - name: Lint, stylelint and typecheck
         run: npm run lint
-        env:
-          CI: true
       - name: Test
         run: npm run test
-        env:
-          CI: true
-          NODE_OPTIONS: "--max_old_space_size=8192"
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
