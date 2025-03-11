@@ -23,7 +23,6 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          NX_NO_CLOUD: true
           CI: true
         shell: cmd
         run: |
@@ -34,7 +33,6 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          NX_NO_CLOUD: true
           CI: true
         run: |
           printenv > .env
@@ -43,7 +41,6 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          NX_NO_CLOUD: true
           CI: true
         run: |
           printenv > .env
