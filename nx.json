@@ -19,7 +19,7 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/.github/workflows/validate.yml"]
   },
-  "nxCloudId": "6756e54e8998481a544ffd00",
+  "neverConnectToCloud": true,
   "plugins": [
     {
       "plugin": "@nx/vite/plugin",
