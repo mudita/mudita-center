@@ -7,7 +7,7 @@ import { createGlobalStyle } from "styled-components"
 import { modalTransitionDuration } from "./app-theme/constants"
 
 export const GlobalStyle = createGlobalStyle`
-  html, body  {
+  html {
     background-color: ${({ theme }) => theme.app.color.grey6};
     font-family: GT Pressura, Roboto Condensed, sans-serif;
     /* stylelint-disable unit-allowed-list */
@@ -17,13 +17,18 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
 
-  .box-sizing-wrapper {
+  html, body, #root {
     height: 100%;
-    & > * {
-      height: 100%;
-    }
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
-  .box-sizing-wrapper * {
+
+  #root > * {
+    height: 100%;
+  }
+
+  #root * {
     box-sizing: border-box;
   }
 
@@ -51,12 +56,13 @@ export const GlobalStyle = createGlobalStyle`
     &.ReactModal__Overlay--after-open {
       opacity: 1;
     }
+
     &.ReactModal__Overlay--before-close {
       opacity: 0;
     }
   }
 
-  .generic-modal  {
+  .generic-modal {
     box-sizing: border-box;
 
     width: auto;
@@ -77,6 +83,7 @@ export const GlobalStyle = createGlobalStyle`
     .modal-close-icon-button:nth-child(2) {
       display: none;
     }
+
     * {
       box-sizing: border-box;
     }
@@ -111,6 +118,7 @@ export const GlobalStyle = createGlobalStyle`
     &.place-bottom {
       margin-top: -0px !important;
     }
+
     &.place-top {
       margin-top: -0px !important;
     }

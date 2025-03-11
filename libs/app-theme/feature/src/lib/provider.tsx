@@ -5,6 +5,7 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import { ThemeProvider } from "styled-components"
+import { Normalize } from "styled-normalize"
 import { theme } from "./theme"
 import { GlobalStyle } from "./global-style"
 
@@ -14,6 +15,7 @@ export const AppThemeProvider: FunctionComponent<PropsWithChildren> = ({
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
+      <Normalize />
       {children}
     </ThemeProvider>
   )

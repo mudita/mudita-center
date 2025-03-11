@@ -27,6 +27,7 @@ dotenv.config({
     "fonts"
   )
   const mainFontsDirectory = path.join(fontsDirectory, "main")
+  const fallbackFontsDirectory = path.join(fontsDirectory, "fallback")
 
   const requiredFiles = [
     "GT-Pressura-Bold.otf",
@@ -36,14 +37,15 @@ dotenv.config({
   ]
 
   try {
+    // Ensure that the fonts main directory exists
     console.log("Cleaning fonts directory...")
-    // First, remove all files except a .gitkeep from the fonts/main directory
-    const unnecessaryFiles = fs
-      .readdirSync(mainFontsDirectory)
-      .filter((file) => ".gitkeep" !== file)
-
-    for (const fileName of unnecessaryFiles) {
-      fs.rmSync(path.join(mainFontsDirectory, fileName))
+    if (!fs.existsSync(mainFontsDirectory)) {
+      fs.mkdirSync(mainFontsDirectory)
+    } else {
+      const filesToRemove = fs.readdirSync(mainFontsDirectory)
+      for (const fileName of filesToRemove) {
+        fs.rmSync(path.join(mainFontsDirectory, fileName))
+      }
     }
 
     // Then, download all required files inside the fonts/main directory
@@ -63,7 +65,7 @@ dotenv.config({
     }
   } catch (error) {
     // In case of an error, copy content of fonts/fallback directory to fonts/main
-    fs.copyFileSync(path.join(fontsDirectory, "fallback"), mainFontsDirectory)
+    fs.copyFileSync(fallbackFontsDirectory, mainFontsDirectory)
     console.warn(
       "Error while downloading fonts. Fallback font will be used instead.",
       error

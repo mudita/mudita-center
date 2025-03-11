@@ -49,7 +49,6 @@ vite.config.*.timestamp*
 /apps/app/release
 /apps/app/*.log*
 /apps/app/resources/fonts/main
-!/apps/app/resources/fonts/main/.gitkeep
 
 
 storybook-static
