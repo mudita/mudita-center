@@ -3,4 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/provider"
+export const font = {
+  primary: "GT Pressura, Roboto Condensed, sans-serif",
+  helper: "caption",
+}

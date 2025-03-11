@@ -3,4 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/provider"
+export const height = {
+  small: 0.3,
+  medium: 0.8,
+}

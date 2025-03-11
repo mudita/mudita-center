@@ -4,3 +4,4 @@
  */
 
 import "@web/main"
+import "../../resources/fonts/main/style.css"

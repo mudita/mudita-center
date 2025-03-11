@@ -4,19 +4,18 @@
  */
 
 import { FunctionComponent, PropsWithChildren } from "react"
-import { store } from "app-store/feature"
-import { Provider as ReduxProvider } from "react-redux"
-import { IntlProvider } from "react-intl"
-import { enUS } from "app-localize/feature"
+import { AppStoreProvider } from "app-store/feature"
+import { AppIntlProvider } from "app-localize/feature"
+import { AppThemeProvider } from "app-theme/feature"
 
 export const Providers: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   return (
-    <ReduxProvider store={store}>
-      <IntlProvider messages={enUS} locale={"en"} defaultLocale={"en"}>
-        {children}
-      </IntlProvider>
-    </ReduxProvider>
+    <AppStoreProvider>
+      <AppThemeProvider>
+        <AppIntlProvider>{children}</AppIntlProvider>
+      </AppThemeProvider>
+    </AppStoreProvider>
   )
 }
