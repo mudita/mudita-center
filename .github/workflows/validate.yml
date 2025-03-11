@@ -18,12 +18,35 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: |
-          npm run setup
+      - name: Setup Env for Windows
+        if: matrix.os == 'Windows'
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
+          CI: true
+        shell: cmd
+        run: |
+          SET > .env
+          jq -r -j .version apps/app/package.json > apps/app/version
+      - name: Setup Env for Mac
+        if: matrix.os == 'macOS'
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
+          CI: true
+        run: |
+          printenv > .env
+      - name: Setup Env for Linux
+        if: matrix.os == 'Linux'
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
+          CI: true
+        run: |
+          printenv > .env
+      - name: Install dependencies
+        run: npm run setup
+        env:
           CI: true
       - name: Lint, stylelint and typecheck
         run: npm run lint

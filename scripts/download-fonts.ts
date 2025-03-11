@@ -64,6 +64,10 @@ dotenv.config({
       )
     }
   } catch (error) {
+    // Ensure that the fonts main directory exists
+    if (!fs.existsSync(mainFontsDirectory)) {
+      fs.mkdirSync(mainFontsDirectory)
+    }
     // In case of an error, copy content of fonts/fallback directory to fonts/main
     fs.copyFileSync(fallbackFontsDirectory, mainFontsDirectory)
     console.warn(
