@@ -28,7 +28,7 @@ export const selectEntitiesIdFieldKey = createSelector(
   }
 )
 
-const selectEntities = createSelector(
+export const selectEntities = createSelector(
   selectDeviceEntities,
   (_: ReduxRootState, { entitiesType }: { entitiesType: string }) =>
     entitiesType,
