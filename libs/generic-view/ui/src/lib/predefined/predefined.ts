@@ -18,6 +18,9 @@ import { FilesManagerUploadProgress } from "./files-manager-upload/files-manager
 import { FilesManagerUploadFinished } from "./files-manager-upload/files-manager-upload-finished"
 import { FilesManagerUploadValidationError } from "./files-manager-upload/files-manager-upload-validation-error"
 import { EntitiesDeleteError } from "./entities/entities-delete-error"
+import { AppInstallationProgress } from "./app-installation/app-installation-progress"
+import { AppInstallationError } from "./app-installation/app-installation-error"
+import { AppInstallationSuccess } from "./app-installation/app-installation-success"
 import {
   aboutDataBox,
   backupCreate,
@@ -34,6 +37,9 @@ import {
   mcFilesManagerUploadValidationError,
   overviewOsVersion,
   selectionManager,
+  mcAppInstallationProgress,
+  mcAppInstallationError,
+  mcAppInstallationSuccess,
 } from "generic-view/models"
 
 export const predefinedComponents = {
@@ -52,4 +58,7 @@ export const predefinedComponents = {
   [mcFilesManagerUploadProgress.key]: FilesManagerUploadProgress,
   [mcFilesManagerUploadFinished.key]: FilesManagerUploadFinished,
   [mcFilesManagerUploadValidationError.key]: FilesManagerUploadValidationError,
+  [mcAppInstallationProgress.key]: AppInstallationProgress,
+  [mcAppInstallationError.key]: AppInstallationError,
+  [mcAppInstallationSuccess.key]: AppInstallationSuccess,
 }
