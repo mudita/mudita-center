@@ -9,7 +9,6 @@ import {
   clearAfterDeleteEntities,
   clearEntities,
   deleteEntityData,
-  setEntitiesProgress,
   setEntityData,
   setLoadEntitiesAbortController,
 } from "./actions"

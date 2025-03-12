@@ -81,13 +81,8 @@ export const getEntitiesDataAction = createAsyncThunk<
     }
 
     if (responseType === "file") {
-      let {
-        filePath,
-        progress = 0,
-        status,
-      } = response.data as EntitiesFileData & {
-        status: ResponseStatus
-      }
+      let status = undefined
+      let { filePath, progress = 0 } = response.data as EntitiesFileData
       dispatch(
         setEntitiesProgress({
           entitiesType,

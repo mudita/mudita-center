@@ -114,70 +114,6 @@ export class APIEntitiesService {
     return this.handleSuccess(metadata)
   }
 
-  // @IpcEvent(APIEntitiesServiceEvents.EntitiesDataGet)
-  // public async getEntitiesData({
-  //   entitiesType,
-  //   entityId,
-  //   responseType,
-  //   deviceId,
-  // }: {
-  //   entitiesType: string
-  //   responseType: "json" | "file"
-  //   entityId?: EntityId
-  //   deviceId?: DeviceId
-  // }): Promise<
-  //   ResultObject<
-  //     | EntitiesJsonData
-  //     | EntityJsonData
-  //     | (EntitiesFileData & { status: ResponseStatus })
-  //   >
-  // > {
-  //   const device = this.getDevice(deviceId)
-  //   if (!device) {
-  //     return Result.failed(new AppError(GeneralError.NoDevice, ""))
-  //   }
-  //
-  //   const response = await device.request({
-  //     endpoint: "ENTITIES_DATA",
-  //     method: "GET",
-  //     body: {
-  //       entityType: entitiesType,
-  //       responseType,
-  //       ...(entityId && { entityId }),
-  //     },
-  //   })
-  //
-  //   if (!response.ok) {
-  //     return this.handleError(response.error.type)
-  //   }
-  //
-  //   let data: SafeParseReturnType<
-  //     typeof response.data.body,
-  //     | EntitiesJsonData
-  //     | EntityJsonData
-  //     | (EntitiesFileData & { status: ResponseStatus })
-  //   >
-  //
-  //   if (responseType === "file") {
-  //     const parsedResponse = entitiesFileDataValidator.safeParse(
-  //       response.data.body
-  //     ) as SafeParseSuccess<EntitiesFileData & { status: ResponseStatus }>
-  //     parsedResponse.data.status = response.data.status
-  //     data = parsedResponse
-  //   } else if (responseType === "json") {
-  //     if (entityId === undefined) {
-  //       data = entitiesJsonDataValidator.safeParse(response.data.body)
-  //     } else {
-  //       data = entityJsonDataValidator.safeParse(response.data.body)
-  //     }
-  //   }
-  //
-  //   if (!data!.success) {
-  //     return this.handleError(response.data.status)
-  //   }
-  //   return this.handleSuccess(data!)
-  // }
-
   @IpcEvent(APIEntitiesServiceEvents.EntitiesDataGet)
   public async getEntitiesData(
     config: GetEntitiesDataRequestConfig
@@ -398,7 +334,7 @@ export class APIEntitiesService {
     } else if (config.action === "get") {
       return this.getEntitiesDataAction(config)
     } else {
-      // for compatibility with old implementation
+      // for compatibility with old implementation - to remove?
       const response = await this.createEntitiesData(config)
       if (!response.ok) {
         return this.handleError(response.error.type)
@@ -493,13 +429,7 @@ export class APIEntitiesService {
     entityId,
     responseType,
     deviceId,
-  }: GetEntitiesDataRequestConfig): Promise<
-    ResultObject<
-      EntitiesFileData & {
-        status: ResponseStatus
-      }
-    >
-  > {
+  }: GetEntitiesDataRequestConfig): Promise<ResultObject<EntitiesFileData>> {
     const device = this.getDevice(deviceId)
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -520,12 +450,9 @@ export class APIEntitiesService {
       return this.handleError(response.error.type)
     }
 
-    const data = entitiesFileDataValidator.safeParse(
-      response.data.body
-    ) as SafeParseSuccess<EntitiesFileData & { status: ResponseStatus }>
+    const data = entitiesFileDataValidator.safeParse(response.data.body)
 
     if (data.success) {
-      data.data.status = response.data.status
       return Result.success(data.data)
     } else {
       return this.handleError(response.data.status)
