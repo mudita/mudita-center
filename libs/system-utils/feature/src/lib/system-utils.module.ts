@@ -6,10 +6,12 @@
 import { Directory } from "./directory/directory.service"
 import { FileDialog } from "./file-dialog/file-dialog.service"
 import { FileStats } from "./file-stats/file-stats.service"
+import { mockServiceEnabled, mockFileDialog } from "e2e-mock-server"
 
 export class SystemUtilsModule {
   public directory = new Directory()
-  public fileDialog = new FileDialog()
+  public fileDialog = mockServiceEnabled ? mockFileDialog : new FileDialog()
+  // public fileDialog = new FileDialog()
   public fileStats = new FileStats()
 
   constructor() {}
