@@ -34,7 +34,7 @@ import { SafeParseReturnType, SafeParseSuccess } from "zod"
 import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { delay } from "shared/utils"
+import { ResponseStatus } from "../../../../../core/device/constants/response-status.constant"
 
 export class APIEntitiesService {
   constructor(
@@ -139,7 +139,11 @@ export class APIEntitiesService {
     entityId?: EntityId
     deviceId?: DeviceId
   }): Promise<
-    ResultObject<EntitiesJsonData | EntityJsonData | EntitiesFileData>
+    ResultObject<
+      | EntitiesJsonData
+      | EntityJsonData
+      | (EntitiesFileData & { status: ResponseStatus })
+    >
   > {
     const device = this.getDevice(deviceId)
     if (!device) {
@@ -155,29 +159,25 @@ export class APIEntitiesService {
         ...(entityId && { entityId }),
       },
     })
+
     if (!response.ok) {
       return this.handleError(response.error.type)
     }
 
     let data: SafeParseReturnType<
       typeof response.data.body,
-      EntitiesJsonData | EntityJsonData | EntitiesFileData
+      | EntitiesJsonData
+      | EntityJsonData
+      | (EntitiesFileData & { status: ResponseStatus })
     >
 
     if (responseType === "file") {
-      if (response.data.status === 202) {
-        await delay()
-        return this.getEntitiesData({
-          entitiesType,
-          entityId,
-          responseType,
-          deviceId,
-        })
-      } else if (response.data.status === 200) {
-        data = entitiesFileDataValidator.safeParse(response.data.body)
-      }
-    }
-    if (responseType === "json") {
+      const parsedResponse = entitiesFileDataValidator.safeParse(
+        response.data.body
+      ) as SafeParseSuccess<EntitiesFileData & { status: ResponseStatus }>
+      parsedResponse.data.status = response.data.status
+      data = parsedResponse
+    } else if (responseType === "json") {
       if (entityId === undefined) {
         data = entitiesJsonDataValidator.safeParse(response.data.body)
       } else {

@@ -15,6 +15,12 @@ export const setEntityData = createAction<{
   deviceId: DeviceId
 }>(ActionName.SetEntityData)
 
+export const setEntitiesProgress = createAction<{
+  entitiesType: string
+  progress: number
+  deviceId: DeviceId
+}>(ActionName.SetEntitiesProgress)
+
 export const clearEntities = createAction<{ deviceId: DeviceId }>(
   ActionName.ClearEntitiesData
 )
