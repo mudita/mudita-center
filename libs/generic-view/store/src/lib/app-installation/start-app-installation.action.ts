@@ -9,19 +9,36 @@ import { ActionName } from "../action-names"
 import { DeviceId } from "Core/device/constants/device-id"
 import { startAppInstallationRequest } from "device/feature"
 
-export const startAppInstallation = createAsyncThunk<
-  { deviceId: string; installationId: number },
-  { filePath: string; deviceId: DeviceId },
+interface StartAppInstallationActionPayload {
+  filePath: string
+  deviceId: DeviceId
+  fileName: string
+  onSuccess?: () => Promise<void> | void
+  onError?: () => Promise<void> | void
+}
+
+export const startAppInstallationAction = createAsyncThunk<
+  { deviceId: string; installationId: number; fileName?: string },
+  StartAppInstallationActionPayload,
   { state: ReduxRootState }
 >(
   ActionName.StartAppInstallation,
-  async ({ filePath, deviceId }, { rejectWithValue }) => {
+  async (
+    { filePath, deviceId, fileName, onSuccess, onError },
+    { rejectWithValue }
+  ) => {
     const response = await startAppInstallationRequest(filePath, deviceId)
 
     if (response.ok) {
-      return { deviceId, installationId: response.data.installationId }
+      await onSuccess?.()
+      return {
+        deviceId,
+        installationId: response.data.installationId,
+        fileName,
+      }
     }
 
+    await onError?.()
     return rejectWithValue(response.error)
   }
 )
