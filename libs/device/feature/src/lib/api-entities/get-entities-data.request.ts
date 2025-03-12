@@ -34,7 +34,7 @@ export const getEntitiesDataRequest = <
   entityId?: E
   responseType: R
   deviceId: DeviceId
-  action?: "abort"
+  action?: "abort" | "create" | "get"
 }): Promise<ResultObject<ReturnType<R, E>>> => {
   return ipcRenderer.callMain(APIEntitiesServiceEvents.EntitiesDataGet, data)
 }

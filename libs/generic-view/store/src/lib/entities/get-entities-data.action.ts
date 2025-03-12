@@ -74,80 +74,78 @@ export const getEntitiesDataAction = createAsyncThunk<
       entitiesType,
       deviceId,
       responseType,
+      action: "create",
     })
     if (!response.ok) {
       return rejectWithValue(response.error)
     }
 
     if (responseType === "file") {
-      // let {
-      //   filePath,
-      //   progress = 0,
-      //   status,
-      // } = response.data as EntitiesFileData & {
-      //   status: ResponseStatus
-      // }
-      // dispatch(
-      //   setEntitiesProgress({
-      //     entitiesType,
-      //     progress: progress * readingProgressFactor,
-      //     deviceId,
-      //   })
-      // )
-      //
-      // while (status !== ResponseStatus.Ok) {
-      //   await delay(250)
-      //   const progressResponse = await getEntitiesDataRequest({
-      //     entitiesType,
-      //     deviceId,
-      //     responseType,
-      //   })
-      //   if (!progressResponse.ok) {
-      //     return rejectWithValue(response.error)
-      //   }
-      //   ;({ filePath, status, progress = 0 } = progressResponse.data)
-      //   dispatch(
-      //     setEntitiesProgress({
-      //       entitiesType,
-      //       progress: progress * readingProgressFactor,
-      //       deviceId,
-      //     })
-      //   )
-      // }
-      //
-      // if (!filePath) {
-      //   return rejectWithValue(undefined)
-      // }
-      // const readingFinalProgress = 100 * readingProgressFactor
-      // dispatch(
-      //   setEntitiesProgress({
-      //     entitiesType,
-      //     progress: readingFinalProgress,
-      //     deviceId,
-      //   })
-      // )
-      //
-      // const getFileResponse = await dispatch(
+      let {
+        filePath,
+        progress = 0,
+        status,
+      } = response.data as EntitiesFileData & {
+        status: ResponseStatus
+      }
+      dispatch(
+        setEntitiesProgress({
+          entitiesType,
+          progress: progress * readingProgressFactor,
+          deviceId,
+        })
+      )
 
+      while (status !== ResponseStatus.Ok) {
+        if (abortController?.signal.aborted) {
+          return rejectWithValue(undefined)
+        }
+        await delay(250)
+        const progressResponse = await getEntitiesDataRequest({
+          entitiesType,
+          deviceId,
+          responseType,
+          action: "get",
+        })
+        if (!progressResponse.ok) {
+          return rejectWithValue(response.error)
+        }
+        ;({ filePath, status, progress = 0 } = progressResponse.data)
+        dispatch(
+          setEntitiesProgress({
+            entitiesType,
+            progress: progress * readingProgressFactor,
+            deviceId,
+          })
+        )
+      }
 
-      if (abortController?.signal.aborted) {
+      if (!filePath) {
         return rejectWithValue(undefined)
       }
-      const { filePath } = response.data as EntitiesFileData
+      const readingFinalProgress = 100 * readingProgressFactor
+      dispatch(
+        setEntitiesProgress({
+          entitiesType,
+          progress: readingFinalProgress,
+          deviceId,
+        })
+      )
+
       const getFilePromise = dispatch(
         getFile({
           deviceId,
           filePath,
-          // onProgress: (progress) => {
-          //   dispatch(
-          //     setEntitiesProgress({
-          //       entitiesType,
-          //       progress:
-          //         readingFinalProgress + progress * fileTransferProgressFactor,
-          //       deviceId,
-          //     })
-          //   )
-          // },
+          onProgress: (progress) => {
+            dispatch(
+              setEntitiesProgress({
+                entitiesType,
+                progress:
+                  readingFinalProgress + progress * fileTransferProgressFactor,
+                deviceId,
+              })
+            )
+          },
         })
       )
       abortGetFileAction = getFilePromise.abort

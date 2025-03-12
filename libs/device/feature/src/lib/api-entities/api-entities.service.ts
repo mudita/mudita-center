@@ -183,7 +183,11 @@ export class APIEntitiesService {
     config: GetEntitiesDataRequestConfig
   ): Promise<
     ResultObject<
-      EntitiesJsonData | EntityJsonData | EntitiesFileData | CancelEntitiesData
+      | EntitiesJsonData
+      | EntityJsonData
+      | undefined
+      | (EntitiesFileData & { status: ResponseStatus })
+      | CancelEntitiesData
     >
   > {
     if (config.responseType === "json") {
@@ -380,33 +384,27 @@ export class APIEntitiesService {
 
   private async getEntitiesDataViaFileResponseType(
     config: GetEntitiesDataRequestConfig
-  ): Promise<ResultObject<EntitiesFileData | CancelEntitiesData>> {
-    const { entitiesType, entityId, responseType, deviceId, action } = config
-    if (action === "abort") {
+  ): Promise<
+    ResultObject<
+      | undefined
+      | (EntitiesFileData & { status: ResponseStatus })
+      | CancelEntitiesData
+    >
+  > {
+    if (config.action === "abort") {
       return this.cancelGetEntitiesData(config)
+    } else if (config.action === "create") {
+      return this.createEntitiesData(config)
+    } else if (config.action === "get") {
+      return this.getEntitiesDataAction(config)
+    } else {
+      // for compatibility with old implementation
+      const response = await this.createEntitiesData(config)
+      if (!response.ok) {
+        return this.handleError(response.error.type)
+      }
+      return this.getEntitiesDataAction(config)
     }
-
-    const device = this.getDevice(deviceId)
-    if (!device) {
-      return Result.failed(new AppError(GeneralError.NoDevice, ""))
-    }
-
-    const response = await device.request({
-      endpoint: "ENTITIES_DATA",
-      method: "GET",
-      body: {
-        action: "create",
-        entityType: entitiesType,
-        responseType,
-        ...(entityId && { entityId }),
-      },
-    })
-
-    if (!response.ok) {
-      return this.handleError(response.error.type)
-    }
-
-    return this.retrieveEntitiesDataRecursively(config)
   }
 
   private async getEntitiesDataViaJsonResponseType({
@@ -490,12 +488,62 @@ export class APIEntitiesService {
     return this.handleSuccess(data)
   }
 
-  private async retrieveEntitiesDataRecursively({
+  private async createEntitiesData({
     entitiesType,
     entityId,
     responseType,
     deviceId,
-  }: GetEntitiesDataRequestConfig): Promise<ResultObject<EntitiesFileData>> {
+  }: GetEntitiesDataRequestConfig): Promise<
+    ResultObject<
+      EntitiesFileData & {
+        status: ResponseStatus
+      }
+    >
+  > {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "GET",
+      body: {
+        action: "create",
+        entityType: entitiesType,
+        responseType,
+        ...(entityId && { entityId }),
+      },
+    })
+
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    const data = entitiesFileDataValidator.safeParse(
+      response.data.body
+    ) as SafeParseSuccess<EntitiesFileData & { status: ResponseStatus }>
+
+    if (data.success) {
+      data.data.status = response.data.status
+      return Result.success(data.data)
+    } else {
+      return this.handleError(response.data.status)
+    }
+  }
+
+  private async getEntitiesDataAction({
+    entitiesType,
+    entityId,
+    responseType,
+    deviceId,
+  }: GetEntitiesDataRequestConfig): Promise<
+    ResultObject<
+      EntitiesFileData & {
+        status: ResponseStatus
+      }
+    >
+  > {
     const device = this.getDevice(deviceId)
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -516,24 +564,10 @@ export class APIEntitiesService {
       return this.handleError(response.error.type)
     }
 
-    if (response.data.status === 202) {
-      await delay()
-      return this.retrieveEntitiesDataRecursively({
-        entitiesType,
-        entityId,
-        responseType,
-        deviceId,
-      })
-    } else if (response.data.status === 200) {
-      const data = entitiesFileDataValidator.safeParse(response.data.body)
-
-      if (!data!.success) {
-        return this.handleError(response.data.status)
-      }
-
-      return this.handleSuccess(data)
-    } else {
-      return this.handleError(response.data.status)
-    }
+    const data = entitiesFileDataValidator.safeParse(
+      response.data.body
+    ) as SafeParseSuccess<EntitiesFileData & { status: ResponseStatus }>
+    data.data.status = response.data.status
+    return this.handleSuccess(data)
   }
 }
