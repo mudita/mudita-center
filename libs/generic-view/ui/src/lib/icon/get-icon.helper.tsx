@@ -45,6 +45,7 @@ import Failure from "./svg/failed.svg"
 import Folder from "./svg/folder.svg"
 import Grid from "./svg/grid.svg"
 import SpinnerDark from "./svg/spinner-dark.svg"
+import Confirm from "./svg/confirm.svg"
 import Check from "./svg/check.svg"
 import CheckCircle from "./svg/check-circle.svg"
 import Checkmark from "./svg/checkmark.svg"
@@ -102,6 +103,7 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Failure]: Failure,
   [IconType.Folder]: Folder,
   [IconType.Grid]: Grid,
+  [IconType.Confirm]: Confirm,
   [IconType.Contact]: Contact,
   [IconType.ContactsBook]: ContactsBook,
   [IconType.Check]: Check,

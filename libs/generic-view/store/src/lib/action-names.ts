@@ -123,4 +123,5 @@ export enum ActionName {
 
   StartAppInstallation = "app-installation/start-app-installation",
   GetAppInstallationProgress = "app-installation/get-app-installation-progress",
+  ClearAppInstallationData = "app-installation/clear-app-installation-data",
 }
