@@ -1,4 +1,9 @@
 {
-  "demo.devices": "Devices",
-  "demo.selectedDevice": "Selected device"
+  "page.news.title": "News",
+  "page.news.headerTitle": "What's new",
+  "page.news.headerButton.text": "More news",
+  "page.settings.title": "Settings",
+  "page.settingsBackup.title": "Backup",
+  "page.settingsAbout.title": "About",
+  "page.help.title": "Mudita Help Center"
 }

@@ -17,6 +17,9 @@
     "baseUrl": ".",
     "paths": {
       "app-localize/feature": ["libs/app-localize/feature/src/index.ts"],
+      "app-routing/feature": ["libs/app-routing/feature/src/index.ts"],
+      "app-routing/models": ["libs/app-routing/models/src/index.ts"],
+      "app-routing/routes": ["libs/app-routing/routes/src/index.ts"],
       "app-serialport/devices": ["libs/app-serialport/devices/src/index.ts"],
       "app-serialport/main": ["libs/app-serialport/main/src/index.ts"],
       "app-serialport/models": ["libs/app-serialport/models/src/index.ts"],
@@ -29,6 +32,8 @@
       "app-store/feature": ["libs/app-store/feature/src/index.ts"],
       "app-store/models": ["libs/app-store/models/src/index.ts"],
       "app-theme/feature": ["libs/app-theme/feature/src/index.ts"],
+      "app-theme/models": ["libs/app-theme/models/src/index.ts"],
+      "app-theme/ui": ["libs/app-theme/ui/src/index.ts"],
       "devices/api-device/adapters": [
         "libs/devices/api-device/adapters/src/index.ts"
       ],
@@ -39,7 +44,13 @@
         "libs/devices/api-device/models/src/index.ts"
       ],
       "devices/common/feature": ["libs/devices/common/feature/src/index.ts"],
-      "devices/common/models": ["libs/devices/common/models/src/index.ts"]
+      "devices/common/models": ["libs/devices/common/models/src/index.ts"],
+      "help/feature": ["libs/help/feature/src/index.ts"],
+      "help/routes": ["libs/help/routes/src/index.ts"],
+      "news/feature": ["libs/news/feature/src/index.ts"],
+      "news/routes": ["libs/news/routes/src/index.ts"],
+      "settings/feature": ["libs/settings/feature/src/index.ts"],
+      "settings/routes": ["libs/settings/routes/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "apps/app/out", "scripts"]

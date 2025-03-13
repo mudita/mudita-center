@@ -7,15 +7,18 @@ import { FunctionComponent, PropsWithChildren } from "react"
 import { AppStoreProvider } from "app-store/feature"
 import { AppIntlProvider } from "app-localize/feature"
 import { AppThemeProvider } from "app-theme/feature"
+import { AppRoutingProvider } from "app-routing/feature"
 
 export const Providers: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   return (
-    <AppStoreProvider>
-      <AppThemeProvider>
-        <AppIntlProvider>{children}</AppIntlProvider>
-      </AppThemeProvider>
-    </AppStoreProvider>
+    <AppRoutingProvider>
+      <AppStoreProvider>
+        <AppThemeProvider>
+          <AppIntlProvider>{children}</AppIntlProvider>
+        </AppThemeProvider>
+      </AppStoreProvider>
+    </AppRoutingProvider>
   )
 }

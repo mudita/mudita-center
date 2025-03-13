@@ -33,14 +33,24 @@ module.exports = [
               sourceTag: "process:renderer",
               onlyDependOnLibsWithTags: [
                 "process:renderer",
+                "type:ui",
                 "type:models",
                 "type:utils",
+                "type:routes",
               ],
             },
             {
               sourceTag: "process:main",
               onlyDependOnLibsWithTags: [
                 "process:main",
+                "type:models",
+                "type:utils",
+              ],
+            },
+            {
+              sourceTag: "type:ui",
+              onlyDependOnLibsWithTags: [
+                "type:ui",
                 "type:models",
                 "type:utils",
               ],
@@ -60,6 +70,7 @@ module.exports = [
   },
   {
     files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+    ignores: ["**/vite.config.*", "**/jest.config.*"],
     // Override or add rules here
     plugins: {
       "license-header": licenseHeader,

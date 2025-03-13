@@ -15,9 +15,11 @@ import installExtension, {
 } from "electron-devtools-installer"
 import { initAppLibs } from "./init-app-libs"
 
+const appWidth = process.env.APP_WIDTH
+
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: 1280,
+    width: appWidth ? Number(appWidth) : 1280,
     height: 800,
     show: false,
     useContentSize: true,

@@ -4,11 +4,13 @@
  */
 
 import { configureStore } from "@reduxjs/toolkit"
-import { devicesReducer } from "devices/common/feature"
 import { AppState } from "app-store/models"
+import { devicesReducer } from "devices/common/feature"
+import { appMenuReducer } from "app-routing/feature"
 
 export const store = configureStore<AppState>({
   reducer: {
     devices: devicesReducer,
+    appMenu: appMenuReducer,
   },
 })

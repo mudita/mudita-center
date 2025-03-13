@@ -4,7 +4,9 @@
  */
 
 import { DevicesReducer } from "devices/common/models"
+import { AppMenuReducer } from "app-routing/models"
 
 export type AppState = {
   devices: DevicesReducer
+  appMenu: AppMenuReducer
 }

@@ -1,13 +1,9 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
 /// <reference types='vitest' />
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin"
 import { nxCopyAssetsPlugin } from "@nx/vite/plugins/nx-copy-assets.plugin"
+import svgLoader from "vite-svg-loader"
 
 export default defineConfig({
   root: __dirname,

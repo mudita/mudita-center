@@ -8,6 +8,7 @@ import { defineConfig, externalizeDepsPlugin } from "electron-vite"
 import react from "@vitejs/plugin-react"
 import { nodePolyfills } from "vite-plugin-node-polyfills"
 import tsconfigPaths from "vite-tsconfig-paths"
+import svgr from "vite-plugin-svgr"
 
 export default defineConfig({
   main: {
@@ -34,6 +35,7 @@ export default defineConfig({
       react(),
       nodePolyfills(),
       tsconfigPaths({ root: resolve(__dirname, "..", "..") }),
+      svgr(),
     ],
   },
 })
