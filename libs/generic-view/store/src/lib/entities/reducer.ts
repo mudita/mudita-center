@@ -9,6 +9,7 @@ import {
   clearAfterDeleteEntities,
   clearEntities,
   deleteEntityData,
+  setEntitiesProgress,
   setEntityData,
   setLoadEntitiesAbortController,
 } from "./actions"
@@ -218,11 +219,11 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
       },
     }
   })
-  // builder.addCase(setEntitiesProgress, (state, action) => {
-  //   const { deviceId, entitiesType, progress } = action.payload
-  //   if (!state[deviceId]?.[entitiesType]) {
-  //     return
-  //   }
-  //   state[deviceId]![entitiesType]!.progress = progress
-  // })
+  builder.addCase(setEntitiesProgress, (state, action) => {
+    const { deviceId, entitiesType, progress } = action.payload
+    if (!state[deviceId]?.[entitiesType]) {
+      return
+    }
+    state[deviceId]![entitiesType]!.progress = progress
+  })
 })
