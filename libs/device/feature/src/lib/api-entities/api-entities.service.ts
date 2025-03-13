@@ -334,12 +334,7 @@ export class APIEntitiesService {
     } else if (config.action === "get") {
       return this.getEntitiesDataAction(config)
     } else {
-      // for compatibility with old implementation - to remove?
-      const response = await this.createEntitiesData(config)
-      if (!response.ok) {
-        return this.handleError(response.error.type)
-      }
-      return this.getEntitiesDataAction(config)
+      return this.handleError(GeneralError.InternalError)
     }
   }
 
