@@ -58,6 +58,7 @@ import { CoreDeviceModule } from "core-device/feature"
 import { createSettingsService } from "Core/settings/containers"
 import { HelpModule } from "help/feature"
 import { TimeSynchronizationModule } from "Core/time-synchronization/time-synchronization.module"
+import { mockFileDialog } from "e2e-mock-server"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -76,7 +77,7 @@ export class ApplicationModule {
     DeviceFileSystemModule,
     DeviceLogModule,
     DeviceModule,
-    TimeSynchronizationModule
+    TimeSynchronizationModule,
   ]
 
   public lateModules: Module[] = [
@@ -102,7 +103,7 @@ export class ApplicationModule {
   private apiModule: APIModule
 
   private deviceProtocol = this.resolveDeviceProtocol()
-  private systemUtilsModule = new SystemUtilsModule()
+  private systemUtilsModule = new SystemUtilsModule(mockFileDialog)
 
   constructor(
     private ipc: MainProcessIpc,

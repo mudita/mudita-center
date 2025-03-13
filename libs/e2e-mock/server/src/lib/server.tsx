@@ -19,7 +19,7 @@ import {
   MockHttpResponse,
   mockHttpStateService,
 } from "./mock-http-state.service"
-import { MockFileDialog, mockFileDialog } from "./mock-file-dialog.service"
+import { mockFileDialog } from "./mock-file-dialog.service"
 
 ipc.config.id = "MC"
 ipc.config.retry = 15
