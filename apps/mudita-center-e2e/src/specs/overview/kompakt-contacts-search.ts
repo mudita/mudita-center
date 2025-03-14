@@ -42,6 +42,7 @@ describe("E2E mock sample - overview view", () => {
   it("Open Contacts tab", async () => {
     const contactsKompaktTab = tabsPage.contactsKompaktTab
     await contactsKompaktTab.click()
+    //await browser.pause(55555555)
   })
 
   it("Activate search field, input text and check if suggestion list appears", async () => {
@@ -146,6 +147,17 @@ describe("E2E mock sample - overview view", () => {
     await searchSuggestionsList.click()
     //5.2check contact title in Details view to compare
     await expect(contactDisplayNameHeader).toHaveText(website)
+
+    //6.0 search by email contact attribute only
+    const email: string = "work@email.com"
+    await searchField.click()
+    await searchField.setValue(email)
+    //6.1click the only result on the search list
+    await searchSuggestionsList.click()
+    //6.2check contact title in Details view to compare
+    await expect(contactDisplayNameHeader).toHaveText(email)
+
+    //7.0 sorting
   })
 
   it("Check if the selected contact from search opens contact details, the search field is cleared and the selected contact is highlighted in the contact list.", async () => {
