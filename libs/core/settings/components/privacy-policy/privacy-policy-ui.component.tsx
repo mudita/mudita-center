@@ -12,10 +12,6 @@ import {
   WindowHeader,
   LightText,
   LightTextNested,
-  BoldText,
-  GridWrapper,
-  GridItem,
-  GridBoldItem,
   WindowTitle,
 } from "Core/settings/components/about/shared"
 
@@ -33,7 +29,8 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
       ensure transparency and clarity on privacy matters so that you can feel
       safe while using our products and software along with all content,
       updates, related documentation, provided by Mudita and distributed under
-      the name "Mudita Center" (hereinafter: <b>"Mudita Center”</b>).
+      the name &quot;Mudita Center&quot; (hereinafter:{" "}
+      <b>&quot;Mudita Center&quot;</b>).
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       We make every effort to minimize the collection of personal data. Whenever
@@ -74,8 +71,8 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
       The controller of personal data processed in connection with your use of
       the Mudita Center is Mudita sp. z o.o. with its registered office in
       Warsaw (02-607), Jana Czeczota 6 street, KRS no: 0000467620, Tax
-      Identification Number: 5252558282 (hereinafter: <b>"Mudita"</b> or{" "}
-      <b>"We"</b>).
+      Identification Number: 5252558282 (hereinafter: <b>&quot;Mudita&quot;</b>{" "}
+      or <b>&quot;We&quot;</b>).
     </LightTextNested>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       3. CONTACT
@@ -108,9 +105,9 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       <b>[Categories of Data]</b> In such cases, Mudita may process, in
-      particular, data contained in system logs, the IMEI number, the device's
-      serial number, and other identifiers specific to the software /
-      application, network, or device (e.g., device ID).
+      particular, data contained in system logs, the IMEI number, the
+      device&apos;s serial number, and other identifiers specific to the
+      software / application, network, or device (e.g., device ID).
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       <b>[Legal Basis / Retention Period]</b> The processing of data is
@@ -138,13 +135,13 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       <b>[Categories of Data]</b> To effectively achieve these purposes, we may
       process personal data, including, in particular, data contained in system
-      logs, the IMEI number, the device's serial number, and other identifiers
-      specific to the software / application, network, or device (e.g., device
-      ID).
+      logs, the IMEI number, the device&apos;s serial number, and other
+      identifiers specific to the software / application, network, or device
+      (e.g., device ID).
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       <b>[Legal Basis / Retention Period]</b> The processing of data for the
-      above purposes is necessary to pursue Mudita's legitimate interest in
+      above purposes is necessary to pursue Mudita&apos;s legitimate interest in
       asserting or defending legal claims, as well as preventing fraud and
       misuse (Article 6(1)(f) of the GDPR). Mudita may process the data for the
       period necessary to achieve these purposes, particularly for the duration
@@ -160,13 +157,13 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
       of the user initiating contact may be processed.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      <b>[Categories of Data]</b> In such cases, Mudita may process the user's
-      contact details and any other personal data provided by the user during
-      the communication.
+      <b>[Categories of Data]</b> In such cases, Mudita may process the
+      user&apos;s contact details and any other personal data provided by the
+      user during the communication.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       <b>[Legal Basis / Retention Period]</b> The legal basis for processing
-      your personal data for this purpose is the Controller's legitimate
+      your personal data for this purpose is the Controller&apos;s legitimate
       interest – Article 6(1)(f) of the GDPR. Personal data will be processed
       for the period necessary to review your inquiry and provide a response.
     </LightTextNested>
@@ -244,9 +241,9 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
     </WindowTitle>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       Your personal data will generally be processed within the EEA. However,
-      data may be transferred to Mudita's partners who process it outside the
-      EEA, but only to the extent necessary for Mudita’s cooperation with these
-      partners.
+      data may be transferred to Mudita&apos;s partners who process it outside
+      the EEA, but only to the extent necessary for Mudita’s cooperation with
+      these partners.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       In such cases, Mudita takes all possible measures to ensure the security

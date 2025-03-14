@@ -73,9 +73,9 @@ export const TermsOfServiceUI: FunctionComponent = () => (
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       e. <b>Mudita Center</b> - A software, along with all Content and Updates,
       as well as the accompanying documentation, provided by Mudita and
-      distributed under the name "Mudita Center," which the User may install on
-      their end device upon meeting the conditions specified in the Terms of
-      Service, including the Technical Requirements.
+      distributed under the name &quot;Mudita Center&quot;, which the User may
+      install on their end device upon meeting the conditions specified in the
+      Terms of Service, including the Technical Requirements.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       f. <b>Open Source Licences</b> - Separate licenses for software components
@@ -152,15 +152,15 @@ export const TermsOfServiceUI: FunctionComponent = () => (
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       3.1. Mudita provides through Mudita Center, electronic services such as
-      providing information about Mudita's products and services, as well as
-      enabling Users to manage Mudita devices, including but not limited to
+      providing information about Mudita&apos;s products and services, as well
+      as enabling Users to manage Mudita devices, including but not limited to
       updating them, importing or exporting data and backups.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      3.2. The scope of available services varies depending on the User's device
-      type and model (e.g. Pure, Harmony, Kompakt). Detailed information on
-      supported devices and available features can be found in Mudita Center or
-      on the Website.
+      3.2. The scope of available services varies depending on the User&apos;s
+      device type and model (e.g. Pure, Harmony, Kompakt). Detailed information
+      on supported devices and available features can be found in Mudita Center
+      or on the Website.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       3.3. To start using Mudita Center, the User must download the appropriate
@@ -190,9 +190,9 @@ export const TermsOfServiceUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       4.3. Mudita grants the User a non-exclusive, personal, non-transferable,
-      and limited license to download and install Mudita Center on the User's
-      end device and to use a single copy of Mudita Center under the terms set
-      forth in Terms of Service.
+      and limited license to download and install Mudita Center on the
+      User&apos;s end device and to use a single copy of Mudita Center under the
+      terms set forth in Terms of Service.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       4.4. Among the components of Mudita Center, there may be elements subject
@@ -241,11 +241,11 @@ export const TermsOfServiceUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       5.2. If the User does not install the provided Updates, including those
-      related to security, necessary to maintain Mudita Center's compliance with
-      the Terms of Service and services provided through it, Mudita will not be
-      responsible for any lack of compliance with Mudita Center and the services
-      provided, resulting solely from the failure to install such Updates,
-      provided that:
+      related to security, necessary to maintain Mudita Center&apos;s compliance
+      with the Terms of Service and services provided through it, Mudita will
+      not be responsible for any lack of compliance with Mudita Center and the
+      services provided, resulting solely from the failure to install such
+      Updates, provided that:
     </LightText>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       5.2.1. The User has been informed about the need for an update and the
@@ -323,7 +323,7 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       7.2. The User is particularly obligated to:
     </LightText>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      7.2.1. use Mudita Center in a manner that does not disrupt Mudita's
+      7.2.1. use Mudita Center in a manner that does not disrupt Mudita&apos;s
       operations or the functioning of Mudita Center, in compliance with
       applicable law, the provisions of the Terms of Service, as well as
       accepted customs and principles of social coexistence;
@@ -366,27 +366,28 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       applicable law.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      8.2. The entire Mudita Center is provided to the User "AS IS" and "AS
-      AVAILABLE". In particular, to the fullest extent permitted by applicable
-      law, Mudita does not provide any express or implied warranties for Mudita
-      Center, nor shall the provision of any information or guidance regarding
-      the use of Mudita Center be considered as such a warranty.
+      8.2. The entire Mudita Center is provided to the User AS &quot;IS&quot;
+      and &quot;AS AVAILABLE&quot;. In particular, to the fullest extent
+      permitted by applicable law, Mudita does not provide any express or
+      implied warranties for Mudita Center, nor shall the provision of any
+      information or guidance regarding the use of Mudita Center be considered
+      as such a warranty.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      8.3. Mudita's liability towards Users who are not Consumers for warranty
-      claims in connection with the performance of the Terms of Service is
-      excluded. Furthermore, to the fullest extent permitted by applicable law,
-      Mudita excludes its liability towards the User for any damages, including
-      lost profits or failure to fulfill its obligations due to force majeure,
-      resulting from the Terms of Service.
+      8.3. Mudita&apos;s liability towards Users who are not Consumers for
+      warranty claims in connection with the performance of the Terms of Service
+      is excluded. Furthermore, to the fullest extent permitted by applicable
+      law, Mudita excludes its liability towards the User for any damages,
+      including lost profits or failure to fulfill its obligations due to force
+      majeure, resulting from the Terms of Service.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       8.4. The User acknowledges that the use of Mudita Center is at their own
-      risk and responsibility. Mudita’s liability for damages, whether directly
-      or indirectly arising from the use or inability to use Mudita Center,
-      including but not limited to personal injury, data loss, lost profits,
-      costs of substitute equipment or software, is excluded to the fullest
-      extent permitted by applicable law.
+      risk and responsibility. Mudita&apos;s liability for damages, whether
+      directly or indirectly arising from the use or inability to use Mudita
+      Center, including but not limited to personal injury, data loss, lost
+      profits, costs of substitute equipment or software, is excluded to the
+      fullest extent permitted by applicable law.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       8.5. Notwithstanding the above, to the fullest extent permitted by
@@ -408,8 +409,8 @@ export const TermsOfServiceUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       9.3. The Terms of Service may also be terminated as a result of the sale
-      of the User's end device on which Mudita Center is installed. In such a
-      case, the moment of termination of the Terms of Service is considered to
+      of the User&apos;s end device on which Mudita Center is installed. In such
+      a case, the moment of termination of the Terms of Service is considered to
       be the moment when the purchaser of such a device accepts the Terms of
       Service.
     </LightText>
@@ -427,7 +428,7 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       Mudita Center). In such a case, the User will be informed of the decision
       at least 6 months before the planned discontinuation date (notice period)
       via a notification displayed within Mudita Center, or an email sent to the
-      User's email address, and on the Website. After the expiration of the
+      User&apos;s email address, and on the Website. After the expiration of the
       notice period, the agreements regarding Mudita Center concluded between
       the User and the Provider will be terminated.
     </LightText>
@@ -437,7 +438,7 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       termination notice on this basis will be provided to the User within
       Mudita Center or via an email sent to Users. In that case, depending on
       the circumstances User may need to discontinue the use of Mudita Center
-      and uninstall it from the User’s end device
+      and uninstall it from the User&apos;s end device
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       9.7. All provisions contained in the Terms of Service that should remain
@@ -469,7 +470,7 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       10.2.3. the model of the device managed via Mudita Center (if applicable);
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      10.2.4. contact details (including, if applicable the User's e-mail
+      10.2.4. contact details (including, if applicable the User&apos;s e-mail
       address used for downloading Mudita Center);
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
@@ -489,7 +490,8 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       cooperate with Mudita to a reasonable extent in order to determine – using
       the least burdensome technical means for the User –whether the
       non-compliance of Mudita Center, including the services provided through
-      it, results from the characteristics of the User's digital environment.
+      it, results from the characteristics of the User&apos;s digital
+      environment.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       11. DISPUTE RESOLUTION
@@ -616,7 +618,7 @@ export const TermsOfServiceUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       13.1. Terms of Service are governed by Polish law and shall be interpreted
       in accordance with it, regardless of any applicable conflict-of-laws
-      rules, except in cases where mandatory provisions of the User's
+      rules, except in cases where mandatory provisions of the User&apos;s
       jurisdiction provide otherwise.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -629,7 +631,7 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       requirements, and in the event of any discrepancies between the English
       version and the translated version, the English version shall prevail, to
       the extent that such is not prohibited by mandatory legal provisions in
-      the User's jurisdiction.
+      the User&apos;s jurisdiction.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       14. FINAL PROVISIONS
@@ -645,7 +647,7 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       remaining provisions.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      14.3. Using Mudita Center may involve the processing of the User's
+      14.3. Using Mudita Center may involve the processing of the User&apos;s
       personal data. Detailed information on personal data processing can be
       found in the Privacy Policy.
     </LightText>
