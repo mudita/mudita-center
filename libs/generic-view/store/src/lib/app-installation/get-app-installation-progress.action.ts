@@ -9,8 +9,9 @@ import { ActionName } from "../action-names"
 import { DeviceId } from "Core/device/constants/device-id"
 import { getAppInstallationProgressRequest } from "device/feature"
 import { GetAppInstallationProgress } from "device/models"
+import { AppError } from "Core/core/errors"
 
-export const getAppInstallationProgress = createAsyncThunk<
+export const getAppinstallationProgressAction = createAsyncThunk<
   {
     deviceId: string
     appInstallationProcessConfig: GetAppInstallationProgress
@@ -29,6 +30,6 @@ export const getAppInstallationProgress = createAsyncThunk<
       return { deviceId, appInstallationProcessConfig: response.data }
     }
 
-    return rejectWithValue(response.error)
+    return rejectWithValue(response.error as AppError)
   }
 )

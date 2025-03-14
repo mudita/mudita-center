@@ -183,6 +183,22 @@ export const filesTransferActionValidator = z.union([
   filesTransferDownloadFilesActionValidator,
 ])
 
+const startAppInstallationActionValidator = z.object({
+  type: z.literal("start-app-installation"),
+  filePath: z.string(),
+  fileName: z.string(),
+  postActions: z
+    .object({
+      success: entityPostActionsValidator,
+      failure: entityPostActionsValidator,
+    })
+    .optional(),
+})
+
+export type StartAppInstallationAction = z.infer<
+  typeof startAppInstallationActionValidator
+>
+
 export const buttonActionsValidator = z.array(
   z.union([
     modalActionValidator,
@@ -193,6 +209,7 @@ export const buttonActionsValidator = z.array(
     toastActionValidator,
     nativeActionsValidator,
     filesTransferActionValidator,
+    startAppInstallationActionValidator,
   ])
 )
 

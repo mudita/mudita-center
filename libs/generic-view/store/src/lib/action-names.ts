@@ -109,6 +109,7 @@ export enum ActionName {
   LoadEntities = "entities/load-entities",
   GetEntitiesConfig = "entities/get-entities-config",
   SetEntityData = "entities/set-entity-data",
+  SetEntitiesProgress = "entities/set-entities-progress",
   GetEntitiesMetadata = "entities/get-entities-metadata",
   GetEntitiesData = "entities/get-entities-data",
   GetEntityData = "entities/get-entity-data",
@@ -122,4 +123,5 @@ export enum ActionName {
 
   StartAppInstallation = "app-installation/start-app-installation",
   GetAppInstallationProgress = "app-installation/get-app-installation-progress",
+  ClearAppInstallationData = "app-installation/clear-app-installation-data",
 }

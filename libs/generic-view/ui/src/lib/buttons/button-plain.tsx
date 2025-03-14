@@ -7,6 +7,7 @@ import React from "react"
 import { APIFC } from "generic-view/utils"
 import { ButtonPlainConfig } from "generic-view/models"
 import { useButtonAction } from "./button-base/use-button-action"
+import styled from "styled-components"
 
 export const ButtonPlain: APIFC<undefined, ButtonPlainConfig> = ({
   data,
@@ -24,7 +25,7 @@ export const ButtonPlain: APIFC<undefined, ButtonPlainConfig> = ({
   }
 
   return (
-    <div
+    <Button
       data-testid={`button-plain_${props.componentKey}`}
       {...props}
       role={"button"}
@@ -33,6 +34,10 @@ export const ButtonPlain: APIFC<undefined, ButtonPlainConfig> = ({
       onKeyDown={handleKeyDown}
     >
       {children}
-    </div>
+    </Button>
   )
 }
+
+const Button = styled.div`
+  cursor: pointer;
+`

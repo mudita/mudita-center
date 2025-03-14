@@ -11,6 +11,7 @@ import {
   generateFileUploadProcessButtonKey,
 } from "./file-upload-button"
 import { fileCounterDataProvider } from "./file-counter-data-provider"
+import { generateAppInstallaion } from "./app-installation"
 
 const generateFileList: ComponentGenerator<
   McFileManagerConfig["categories"][number] & {
@@ -54,6 +55,8 @@ const generateFileList: ComponentGenerator<
             selectedItems: [],
             allItems: [],
             filesToUpload: [],
+            activeFileName: null,
+            activeFilePath: null,
           },
         },
       },
@@ -470,7 +473,57 @@ const generateFileList: ComponentGenerator<
       layout: {
         padding: "0 32px 0 0",
       },
+      childrenKeys:
+        entityType === "applicationFiles"
+          ? [`${key}${id}columnNameButton`]
+          : [`${key}${id}columnNameText`],
+    },
+    [`${key}${id}columnNameButton`]: {
+      component: "button-plain",
+      layout: {
+        flexLayout: {
+          direction: "column",
+          justifyContent: "center",
+        },
+        padding: "8px 16px",
+        height: "60px",
+      },
+      config: {
+        actions: [
+          {
+            type: "form-set-field",
+            key: "activeFileName",
+            formKey: `${key}${id}fileListForm`,
+            value: undefined,
+          },
+          {
+            type: "form-set-field",
+            key: "activeFilePath",
+            formKey: `${key}${id}fileListForm`,
+            value: undefined,
+          },
+          {
+            type: "open-modal",
+            modalKey: `${key}${id}startAppInstallationModal`,
+            domain: "start-app-intallation",
+          },
+        ],
+      },
       childrenKeys: [`${key}${id}columnNameText`],
+      dataProvider: {
+        source: "entities-field",
+        entitiesType: entityType,
+        fields: [
+          {
+            providerField: "fileName",
+            componentField: "config.actions[0].value",
+          },
+          {
+            providerField: "filePath",
+            componentField: "config.actions[1].value",
+          },
+        ],
+      },
     },
     [`${key}${id}columnNameText`]: {
       component: "typography.p1",
@@ -488,6 +541,10 @@ const generateFileList: ComponentGenerator<
         ],
       },
     },
+    ...generateAppInstallaion(key, {
+      id,
+      entityType,
+    }),
     [`${key}${id}columnType`]: {
       component: "table.cell",
       config: {

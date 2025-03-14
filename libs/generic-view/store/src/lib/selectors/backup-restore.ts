@@ -32,25 +32,8 @@ export const selectBackupRestoreProgress = createSelector(
       return { progress: 0 }
     }
 
-    if (
-      restoreProcess.status === RestoreProcessStatus.PasswordNotRequired ||
-      restoreProcess.status === RestoreProcessStatus.PasswordRequired ||
-      restoreProcess.status === RestoreProcessStatus.PreRestore
-    ) {
-      return { progress: 0 }
-    }
-
     if (restoreProcess.status === RestoreProcessStatus.Done) {
       return { progress: 100 }
-    }
-
-    const features = Object.values(restoreProcess.featureFilesTransfer ?? [])
-    const downloadedFilesCount = features.filter(
-      (item) => item.status === BackupProcessFileStatus.Done
-    ).length
-
-    if (features.length <= downloadedFilesCount) {
-      return { progress: 90 }
     }
 
     const [featureInProgress] =
@@ -59,7 +42,7 @@ export const selectBackupRestoreProgress = createSelector(
       ) ?? []
 
     return {
-      progress: Math.floor(10 + (downloadedFilesCount / features.length) * 80),
+      progress: Math.round(restoreProcess.progress ?? 0),
       featureInProgress,
     }
   }

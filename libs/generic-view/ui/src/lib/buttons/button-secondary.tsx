@@ -32,5 +32,6 @@ const Button = styled(ButtonPrimary)`
     background-color: ${({ theme }) => theme.color.white};
     border-color: ${({ theme }) => theme.color.grey4};
     color: ${({ theme }) => theme.color.grey3};
+    cursor: not-allowed;
   }
 `

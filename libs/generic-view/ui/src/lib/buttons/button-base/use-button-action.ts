@@ -13,6 +13,7 @@ import {
   openToastAction,
   replaceModal,
   selectActiveApiDeviceId,
+  startAppInstallationAction,
   useScreenTitle,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
@@ -122,7 +123,7 @@ const runActions = (actions?: ButtonActions) => {
           })
           break
         case "form-set-field":
-          getFormContext(action.formKey).setValue(action.key, action.value)
+          getFormContext(action.formKey)?.setValue(action.key, action.value)
           break
         case "form-toggle-field": {
           const formContext = getFormContext(action.formKey)
@@ -167,6 +168,27 @@ const runActions = (actions?: ButtonActions) => {
               )
             },
           })
+          break
+        case "start-app-installation":
+          await dispatch(
+            startAppInstallationAction({
+              filePath: action.filePath,
+              deviceId: activeDeviceId,
+              fileName: action.fileName,
+              onSuccess: () => {
+                return runActions(action.postActions?.success)(
+                  providers,
+                  customActions
+                )
+              },
+              onError: async () => {
+                await runActions(action.postActions?.failure)(
+                  providers,
+                  customActions
+                )
+              },
+            })
+          )
           break
         case "entities-delete":
           await dispatch(
