@@ -42,7 +42,6 @@ describe("E2E mock sample - overview view", () => {
   it("Open Contacts tab", async () => {
     const contactsKompaktTab = tabsPage.contactsKompaktTab
     await contactsKompaktTab.click()
-    //await browser.pause(55555555)
   })
 
   it("Activate search field, input text and check if suggestion list appears", async () => {
@@ -156,8 +155,31 @@ describe("E2E mock sample - overview view", () => {
     await searchSuggestionsList.click()
     //6.2check contact title in Details view to compare
     await expect(contactDisplayNameHeader).toHaveText(email)
+  })
+  it("Test Order rules", async () => {
+    // Get the first search result (index 0) and verify its text
+    const searchField = ContactsKompaktPage.searchField
+    await searchField.click()
+    await searchField.setValue("Micha")
+    const firstResult = await ContactsKompaktPage.getSearchSuggestionListResult(
+      0
+    )
+    await expect(firstResult).toHaveText("Michael Brown")
 
-    //7.0 sorting
+    // Get the third search result (index 2) and verify its text
+    const thirdResult = await ContactsKompaktPage.getSearchSuggestionListResult(
+      2
+    )
+    // Find the specific element that contains only the name
+    const nameElement = await thirdResult.$('p[data-testid="ui-typography-p3"]')
+
+    // Assert only the name, ignoring the phone number
+    await expect(nameElement).toHaveText("Dr. Michael Johnson PhD")
+
+    // Get all search result elements
+    const searchResults = await $$(
+      '//*[@data-testid and starts-with(@data-testid, "ui-form-search-results-")]'
+    )
   })
 
   it("Check if the selected contact from search opens contact details, the search field is cleared and the selected contact is highlighted in the contact list.", async () => {
