@@ -8,10 +8,10 @@ This documentation explains how to use the mock mechanism with `E2EMockClient` t
 2. [Mocking HTTP Response](#mocking-http-response)
 3. [Mock Updater State](#mock-updater-state)
 4. [Usage Examples](#usage-examples)
-    - [No Update Available](#no-update-available)
-    - [Update Available](#update-available)
-    - [Required Mudita Center Update](#required-mudita-center-update)
-    - [Example Without Forced Update](#example-without-forced-update)
+   - [No Update Available](#no-update-available)
+   - [Update Available](#update-available)
+   - [Required Mudita Center Update](#required-mudita-center-update)
+   - [Example Without Forced Update](#example-without-forced-update)
 
 ## Introduction
 
@@ -20,10 +20,11 @@ The mock mechanism allows you to simulate different aspects of the application's
 ## Mocking HTTP Response
 
 To set up mocking of the HTTP response for any request, use the following command:
+
 ```javascript
 E2EMockClient.mockHttpResponse({
-  url: 'https://example.io/v2-app-configuration',
-  method: 'GET',
+  url: "https://example.io/v2-app-configuration",
+  method: "GET",
   status: 200,
   data: {
     centerVersion: "3.0.0",
@@ -51,6 +52,7 @@ E2EMockClient.setMockUpdateState({ available: boolean, downloaded?: boolean, ver
 ```
 
 ### Parameters
+
 - `available` (boolean): This parameter indicates whether an update is available (`true`) or not (`false`).
 
 - `version` (string, optional): This parameter specifies the version of the update that is available. It is only required if `available` is set to `true`.
@@ -62,6 +64,7 @@ E2EMockClient.setMockUpdateState({ available: boolean, downloaded?: boolean, ver
 ### No Update Available
 
 To set the response indicating that no update is available, use the following command:
+
 ```javascript
 E2EMockClient.setMockUpdateState({ available: false })
 ```
@@ -69,6 +72,7 @@ E2EMockClient.setMockUpdateState({ available: false })
 ### Update Available
 
 To set the response indicating that an update is available with a specified version, use the following command:
+
 ```javascript
 E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0" })
 ```
@@ -76,25 +80,36 @@ E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0" })
 ### Update Available with Download Failure
 
 To set the response indicating that an update is available with a specified version, but the download process fails, use the following command:
+
 ```javascript
-E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0", downloaded: false })
+E2EMockClient.setMockUpdateState({
+  available: true,
+  version: "4.0.0",
+  downloaded: false,
+})
 ```
 
 ### Update Available with Successful Download
 
 To set the response indicating that an update is available with a specified version and the download process is successful, use the following command:
+
 ```javascript
-E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0", downloaded: true })
+E2EMockClient.setMockUpdateState({
+  available: true,
+  version: "4.0.0",
+  downloaded: true,
+})
 ```
 
 ### Required Mudita Center Update
 
 To set the response indicating that an update is available and a Mudita Center update is required for versions lower than 3.0.0, use the following commands:
+
 ```javascript
 E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0" })
 E2EMockClient.mockHttpResponse({
-  url: 'v2-app-configuration',
-  method: 'GET',
+  url: "v2-app-configuration",
+  method: "GET",
   status: 200,
   data: {
     centerVersion: "3.0.0",
@@ -110,11 +125,12 @@ E2EMockClient.mockHttpResponse({
 ### Example Without Forced Update
 
 To set the response indicating that an update is available and the application is presented in a version above 0.0.1, use the following commands:
+
 ```javascript
 E2EMockClient.setMockUpdateState({ available: true, version: "4.0.0" })
 E2EMockClient.mockHttpResponse({
-  url: 'v2-app-configuration',
-  method: 'GET',
+  url: "v2-app-configuration",
+  method: "GET",
   status: 200,
   data: {
     centerVersion: "0.0.1",
@@ -125,4 +141,12 @@ E2EMockClient.mockHttpResponse({
     },
   },
 })
+```
+
+### Mocking Opening File
+
+To use previously prepared files instead of selecting them from the dialog box, use the following commands:
+
+```javascript
+E2EMockClient.mockFileDialog(["/path/to/file/file.abc"])
 ```
