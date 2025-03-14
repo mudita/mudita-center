@@ -50,4 +50,10 @@ export const E2EMockClient = {
   mockHttpResponse: (param: MockHttpResponse) => {
     getClientEmiter()?.("mock.http.response", param)
   },
+  mockFileDialog: (paths: string[]) => {
+    getClientEmiter()?.("mock.file.dialog", paths)
+  },
+  resetMockFileDialog: () => {
+    getClientEmiter()?.("mock.file.dialog.reset", undefined)
+  },
 }
