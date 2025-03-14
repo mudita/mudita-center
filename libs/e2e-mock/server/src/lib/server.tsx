@@ -19,6 +19,7 @@ import {
   MockHttpResponse,
   mockHttpStateService,
 } from "./mock-http-state.service"
+import { mockFileDialog } from "./mock-file-dialog.service"
 
 ipc.config.id = "MC"
 ipc.config.retry = 15
@@ -64,6 +65,12 @@ ipc.serve(function () {
   })
   ipc.server.on("mock.http.response", function (data: MockHttpResponse) {
     mockHttpStateService.mockHttpResponse(data)
+  })
+  ipc.server.on("mock.file.dialog", function (data: string[], socket) {
+    mockFileDialog.setMockFilePaths(data)
+  })
+  ipc.server.on("mock.file.dialog.reset", function (data, socket) {
+    mockFileDialog.clearMockFilePaths()
   })
 })
 
