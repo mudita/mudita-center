@@ -16,6 +16,14 @@ import {
 export const generateMcFileManagerView: ComponentGenerator<
   McFileManagerConfig
 > = (key, config, _layout, feature = "") => {
+  console.log(config)
+  // TODO: Replace temporaryConfig with original config when MTP will be implemented
+  const temporaryConfig = {
+    ...config,
+    categories: config.categories.filter(
+      (category) => category.entityType !== "audioFiles"
+    ),
+  }
   return {
     [key]: {
       component: "block-plain",
@@ -35,7 +43,9 @@ export const generateMcFileManagerView: ComponentGenerator<
     [getFileManagerLoaderKey(feature)]: {
       component: "entities-loader",
       config: {
-        entityTypes: config.categories.map((category) => category.entityType),
+        entityTypes: temporaryConfig.categories.map(
+          (category) => category.entityType
+        ),
         text: "Loading, please wait...",
       },
       layout: {
@@ -59,21 +69,21 @@ export const generateMcFileManagerView: ComponentGenerator<
       config: {
         formOptions: {
           defaultValues: {
-            activeStoragePath: config.storages[0].path,
+            activeStoragePath: temporaryConfig.storages[0].path,
           },
         },
       },
-      childrenKeys: config.storages.map((_storage, index) => {
+      childrenKeys: temporaryConfig.storages.map((_storage, index) => {
         return getFileManagerStoragePageKey(feature, index, "Storage")
       }),
     },
-    ...config.storages.reduce((acc, storage, index) => {
+    ...temporaryConfig.storages.reduce((acc, storage, index) => {
       return {
         ...acc,
         ...generateStoragePage(getFileManagerStoragePageKey(feature, index), {
           mainFormKey: getFileManagerMainStorageFormKey(feature),
           storage,
-          categories: config.categories,
+          categories: temporaryConfig.categories,
         }),
       }
     }, {}),

@@ -19,6 +19,7 @@ import {
   getFileManagerLoaderKey,
   getFileManagerStoragePageKey,
 } from "./helpers"
+import { formatBytes } from "../../typography/format-bytes"
 
 type StorageInformation = McFileManagerData["storageInformation"][number]
 
@@ -57,13 +58,21 @@ const generateOtherFilesSpaceInformation = (
   const otherFilesSpaceInformation =
     storageInformation.categoriesSpaceInformation["otherFiles"]
 
+  // TODO: Remove musicFilesSpaceInformation when MTP will be implemented
+  const musicFilesSpaceInformation =
+    storageInformation.categoriesSpaceInformation["audioFiles"]
+
   if (!otherFilesSpaceInformation) {
     return {}
   }
 
+  const totalSize =
+    otherFilesSpaceInformation.spaceUsedBytes +
+    musicFilesSpaceInformation.spaceUsedBytes
+  const totalSizeString = formatBytes(totalSize)
   return {
     [`${key}fileCategoryOtherFilesItemNameSize`]: {
-      text: `(${otherFilesSpaceInformation.spaceUsedString})`,
+      text: `(${totalSizeString})`,
     },
   }
 }
@@ -104,11 +113,17 @@ const generateStorageSummary = (
     storageInformation.categoriesSpaceInformation["otherFiles"]
 
   if (otherFilesSpaceInformation !== undefined) {
+    // TODO: Remove musicFilesSpaceInformation when MTP will be implemented
+    const musicFilesSpaceInformation =
+      storageInformation.categoriesSpaceInformation["audioFiles"]
+
     const { spaceUsedBytes, spaceUsedString } =
       storageInformation.categoriesSpaceInformation["otherFiles"]
+    const totalSize = spaceUsedBytes + musicFilesSpaceInformation.spaceUsedBytes
+    const totalSizeString = formatBytes(totalSize)
 
     segments.push(
-      getSegmentBarItemData("otherFiles", spaceUsedBytes, spaceUsedString)
+      getSegmentBarItemData("otherFiles", totalSize, totalSizeString)
     )
   }
 
