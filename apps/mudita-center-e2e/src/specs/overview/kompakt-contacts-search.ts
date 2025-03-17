@@ -199,7 +199,7 @@ describe("E2E mock sample - overview view", () => {
     await searchSuggestionsList.click()
 
     //check if contacts search field is cleared
-    await expect(searchField).not.toHaveText()
+    await expect(searchField).not.toHaveText
 
     //check contact title in Details view
     const contactDisplayNameHeader =
