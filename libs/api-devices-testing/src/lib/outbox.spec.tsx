@@ -44,11 +44,8 @@ describe("Outbox", () => {
 
   it("should return valid outbox response for valid deviceId", async () => {
     expect(deviceId).toBeDefined()
-    if (deviceId == undefined) {
-      return
-    }
     const apiOutboxService = new APIOutboxService(deviceProtocol)
-    const result = await apiOutboxService.getOutboxData(deviceId)
+    const result = await apiOutboxService.getOutboxData(deviceId!)
     expect(result.ok).toBeTruthy()
     const data = result.data as Outbox
     expect(data.features).toEqual(expect.any(Array))
@@ -58,10 +55,7 @@ describe("Outbox", () => {
 
   it("should return error outbox response for invalid deviceId", async () => {
     expect(deviceId).toBeDefined()
-    if (deviceId == undefined) {
-      return
-    }
-    const apiOutboxService = new APIOutboxService(deviceProtocol)
+    const apiOutboxService = new APIOutboxService(deviceProtocol!)
     const result = await apiOutboxService.getOutboxData(dummyDeviceId)
     expect(result.ok).toBeFalsy()
     expect(result.error?.type).toBe(GeneralError.NoDevice)
