@@ -20,7 +20,7 @@ test("License component renders", () => {
 })
 
 test("render title correctly", () => {
-  const titleText = "Mudita Center Terms of Use"
+  const titleText = "Mudita Center Terms of Service"
   const { getByTestId } = renderer()
   expect(getByTestId(TermsOfServiceComponentTestIds.Title)).toHaveTextContent(
     titleText
