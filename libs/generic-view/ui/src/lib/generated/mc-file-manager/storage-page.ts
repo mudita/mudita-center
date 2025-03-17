@@ -243,8 +243,7 @@ export const generateStoragePage: ComponentGenerator<
     ...generateOtherFilesList(key, [
       { id: "0", name: "Apps" },
       { id: "1", name: "System" },
-      { id: "2", name: "Music" },
-      { id: "3", name: "Other" },
+      { id: "2", name: "Other" },
     ]),
     ...generateFileListWrapper(key, config),
   }
