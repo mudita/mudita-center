@@ -107,6 +107,7 @@ describe("E2E mock sample - overview view", () => {
       ContactsKompaktPage.searchSuggestionsListEraseButton
     await expect(searchSuggestionsListEraseButton).toBeDisplayed()
     await searchSuggestionsListEraseButton.click()
+    await browser.pause(500)
 
     //2.0 input a number and check if there are many search results on the list
     await searchField.setValue("1")
@@ -117,6 +118,7 @@ describe("E2E mock sample - overview view", () => {
     await expect(results.length).toBeGreaterThan(4) //there are 5 results for this search
     //2.2 clear search field
     await searchSuggestionsListEraseButton.click()
+    await browser.pause(500)
 
     //3.0 input an empty space " " and check if there are many search results on the list
     await searchField.setValue(" ")
@@ -127,6 +129,7 @@ describe("E2E mock sample - overview view", () => {
     await expect(updatedresults.length).toBeGreaterThan(16) //there are 17 results for this search
     //3.2 clear search field
     await searchSuggestionsListEraseButton.click()
+    await browser.pause(500)
 
     //4.0 search using only phone number
     const telNum: string = "+48345678902"
@@ -137,6 +140,7 @@ describe("E2E mock sample - overview view", () => {
     const contactDisplayNameHeader =
       await ContactsKompaktPage.contactDisplayNameHeader
     await expect(contactDisplayNameHeader).toHaveText(telNum)
+    await browser.pause(500)
 
     //5.0 search by website contact attribute only
     const website: string = "https://websiteonly.com"
@@ -146,6 +150,7 @@ describe("E2E mock sample - overview view", () => {
     await searchSuggestionsList.click()
     //5.2check contact title in Details view to compare
     await expect(contactDisplayNameHeader).toHaveText(website)
+    await browser.pause(500)
 
     //6.0 search by email contact attribute only
     const email: string = "work@email.com"
@@ -155,6 +160,7 @@ describe("E2E mock sample - overview view", () => {
     await searchSuggestionsList.click()
     //6.2check contact title in Details view to compare
     await expect(contactDisplayNameHeader).toHaveText(email)
+    await browser.pause(500)
   })
   it("Test Order rules", async () => {
     // Get the first search result (index 0) and verify its text
