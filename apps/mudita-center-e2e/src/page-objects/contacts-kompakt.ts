@@ -232,5 +232,29 @@ class ContactsKompaktPage extends Page {
     return (rowIndex: number) =>
       $(`(//*[@data-testid="ui-table-row"])[${rowIndex + 1}]//td[5]`)
   }
+  public get searchField() {
+    return $('//*[@data-testid="ui-form-search-input"]')
+  }
+  public get searchSuggestionsList() {
+    return $('//*[@data-testid="ui-form-search-results-list"]')
+  }
+
+  public getSearchSuggestionListResult(index: number) {
+    return $(`//*[@data-testid="ui-form-search-results-${index}"]`)
+  }
+
+  public get searchSuggestionsListEraseButton() {
+    return $('//*[@data-testid="input-clear-button"]')
+  }
+  public get searchSuggestionsListEmpty() {
+    return $('//*[@data-testid="ui-form-search-results-empty"]')
+  }
+
+  public get searchSuggestionsListEmptyText() {
+    return $('//*[@data-testid="ui-form-search-results-empty"]//p')
+  }
+  public get searchResultFirst() {
+    return $('//*[@data-testid=ui-form-search-results-0"]')
+  }
 }
 export default new ContactsKompaktPage()

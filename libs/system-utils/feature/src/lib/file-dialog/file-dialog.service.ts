@@ -14,6 +14,7 @@ import { Result, ResultObject } from "Core/core/builder"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { AppError } from "Core/core/errors"
 import { callRenderer } from "shared/utils"
+import { MockFileDialog } from "e2e-mock-server"
 
 const defaultOptions: OpenDialogOptions = {
   title: intl.formatMessage({ id: "component.dialog.title" }),
@@ -24,7 +25,10 @@ const defaultOptions: OpenDialogOptions = {
 export class FileDialog {
   private lastSelectedPath: string | undefined
 
-  constructor() {}
+  constructor(
+    public mockFileDialog: MockFileDialog,
+    public mockServiceEnabled: boolean
+  ) {}
 
   @IpcEvent(FileDialogToMainEvents.OpenFile)
   public async openFile({
@@ -32,13 +36,19 @@ export class FileDialog {
   }: {
     options?: OpenDialogOptions
   }): Promise<ResultObject<string[]>> {
-    callRenderer(FileDialogToRendererEvents.FileDialogOpened)
+    if (this.mockServiceEnabled) {
+      const mockFilePaths = this.mockFileDialog.getMockFilePaths()
 
-    const result = await this.performOpenFile(options)
+      return Result.success(mockFilePaths)
+    } else {
+      callRenderer(FileDialogToRendererEvents.FileDialogOpened)
 
-    callRenderer(FileDialogToRendererEvents.FileDialogClosed)
+      const result = await this.performOpenFile(options)
 
-    return result
+      callRenderer(FileDialogToRendererEvents.FileDialogClosed)
+
+      return result
+    }
   }
 
   public async performOpenFile(
