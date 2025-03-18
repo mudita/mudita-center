@@ -16,11 +16,12 @@ import installExtension, {
 import { initAppLibs } from "./init-app-libs"
 
 const appWidth = process.env.APP_WIDTH
+const appHeight = process.env.APP_HEIGHT
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: appWidth ? Number(appWidth) : 1280,
-    height: 800,
+    height: appHeight ? Number(appHeight) : 800,
     show: false,
     useContentSize: true,
     autoHideMenuBar: true,

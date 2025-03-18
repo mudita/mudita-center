@@ -10,9 +10,10 @@ import { formatMessage } from "app-localize/feature"
 import { HelpPage } from "help/feature"
 import { HelpLayout, messages } from "./layout"
 import { helpPaths } from "./paths"
+import { MenuIndex } from "app-routing/models"
 
 export const useHelpRouter = () => {
-  useMenuItemsRegister(2, [
+  useMenuItemsRegister(MenuIndex.App, [
     {
       index: 1,
       title: formatMessage(messages.title),

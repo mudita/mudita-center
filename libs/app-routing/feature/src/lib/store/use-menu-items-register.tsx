@@ -15,6 +15,7 @@ export const useMenuItemsRegister = (groupIndex: number, items: MenuItem[]) => {
   const menuGroupExists = useSelector((state: AppState) =>
     checkMenuGroup(state, groupIndex)
   )
+  const itemsDependency = JSON.stringify(items)
 
   useLayoutEffect(() => {
     if (menuGroupExists) {
@@ -25,5 +26,6 @@ export const useMenuItemsRegister = (groupIndex: number, items: MenuItem[]) => {
         })
       )
     }
-  }, [dispatch, groupIndex, items, menuGroupExists])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, groupIndex, itemsDependency, menuGroupExists])
 }

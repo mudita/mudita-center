@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren } from "react"
+import { FunctionComponent, PropsWithChildren, useId } from "react"
 import styled from "styled-components"
 import { createPortal } from "react-dom"
 
@@ -14,7 +14,6 @@ interface Props {
 }
 
 export const DashboardHeader: FunctionComponent<Props> = ({ className }) => {
-  // Content is provided via portal
   return (
     <Wrapper className={className}>
       <LeftPortal />
@@ -35,6 +34,13 @@ const Wrapper = styled.header`
   gap: ${({ theme }) => theme.app.space.xxl};
   background: ${({ theme }) => theme.app.color.white};
   border-bottom: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
+
+  > div {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    white-space: pre;
+  }
 `
 
 const LeftPortal = styled.div.attrs({ id: headerPortalId + "left" })`
@@ -55,9 +61,11 @@ const RightPortal = styled.div.attrs({ id: headerPortalId + "right" })`
 export const DashboardHeaderPortal: FunctionComponent<
   PropsWithChildren & { placement?: "left" | "center" | "right" }
 > = ({ children, placement = "left" }) => {
+  const uid = useId()
   const slot = document.getElementById(headerPortalId + placement)
-  if (!slot) {
-    return null
+
+  if (slot) {
+    return createPortal(children, slot, uid)
   }
-  return createPortal(children, slot)
+  return null
 }

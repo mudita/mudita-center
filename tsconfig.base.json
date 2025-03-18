@@ -43,6 +43,9 @@
       "devices/api-device/models": [
         "libs/devices/api-device/models/src/index.ts"
       ],
+      "devices/api-device/routes": [
+        "libs/devices/api-device/routes/src/index.ts"
+      ],
       "devices/common/feature": ["libs/devices/common/feature/src/index.ts"],
       "devices/common/models": ["libs/devices/common/models/src/index.ts"],
       "help/feature": ["libs/help/feature/src/index.ts"],

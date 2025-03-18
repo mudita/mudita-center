@@ -6,9 +6,14 @@
 export enum IconType {
   ArrowBack = "arrow-back",
   BackupFolder = "backup-folder",
+  ContactsBook = "contacts-book",
+  DataMigration = "data-migration",
+  FileManager = "file-manager",
   Help = "help",
+  Messages = "messages",
   MuditaLogo = "mudita-logo",
   MuditaLogoFull = "mudita-logo-full",
   News = "news",
+  Overview = "overview",
   Settings = "settings",
 }

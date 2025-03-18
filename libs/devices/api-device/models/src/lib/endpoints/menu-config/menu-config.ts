@@ -4,11 +4,20 @@
  */
 
 import { z } from "zod"
+import { IconType } from "app-theme/models"
 
 const MenuItemConfigValidator = z.object({
   feature: z.string(),
-  displayName: z.string().optional(),
-  icon: z.string().optional(),
+  displayName: z.string(),
+  icon: z.nativeEnum(IconType),
+  submenu: z
+    .array(
+      z.object({
+        displayName: z.string(),
+        feature: z.string(),
+      })
+    )
+    .optional(),
 })
 
 export type MenuItemConfig = z.infer<typeof MenuItemConfigValidator>

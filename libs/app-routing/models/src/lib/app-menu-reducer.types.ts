@@ -5,16 +5,22 @@
 
 import { IconType } from "app-theme/models"
 
+export enum MenuIndex {
+  Basic,
+  Device,
+  App,
+}
+
 export interface MenuItem {
   title: string
   icon: IconType
-  items?: MenuItem[]
+  items?: Omit<MenuItem, "icon" | "items">[]
   index?: number
   path: string
 }
 
 export interface MenuGroup {
-  index: number
+  index: MenuIndex
   title?: string
   items?: MenuItem[]
 }

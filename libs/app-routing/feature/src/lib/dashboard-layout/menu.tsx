@@ -11,10 +11,17 @@ import { registerMenuGroups } from "../store/app-menu.actions"
 import { selectMenuGroups } from "../store/app-menu.selectors"
 import { NavLink } from "react-router"
 import { IconType } from "app-theme/models"
+import { defineMessages, formatMessage } from "app-localize/feature"
 
 interface Props {
   className?: string
 }
+
+const messages = defineMessages({
+  menuTitle: {
+    id: "menu.app.title",
+  },
+})
 
 export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
   const dispatch = useDispatch()
@@ -22,7 +29,10 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
 
   useLayoutEffect(() => {
     dispatch(
-      registerMenuGroups([{ index: 0 }, { index: 2, title: "Mudita Center" }])
+      registerMenuGroups([
+        { index: 0 },
+        { index: 2, title: formatMessage(messages.menuTitle) },
+      ])
     )
   }, [dispatch])
 
@@ -38,17 +48,43 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
             {menuGroup.items && menuGroup.items?.length > 0 && (
               <MenuGroupItems>
                 {menuGroup.items.map((item) => {
+                  const submenu = item.items
                   return (
                     <MenuItem key={item.path}>
                       <NavLink
                         to={item.path}
-                        className={({ isActive }) => (isActive ? "active" : "")}
+                        className={({ isActive }) => {
+                          return [
+                            isActive && "active",
+                            submenu?.length && "parent",
+                          ]
+                            .filter(Boolean)
+                            .join(" ")
+                        }}
                       >
                         <MenuItemIcon>
                           <Icon name={item.icon} />
                         </MenuItemIcon>
                         <MenuItemLabel>{item.title}</MenuItemLabel>
                       </NavLink>
+                      {submenu?.length && (
+                        <MenuGroupItems>
+                          {submenu.map((submenu) => {
+                            return (
+                              <MenuItem key={submenu.path}>
+                                <NavLink
+                                  to={submenu.path}
+                                  className={({ isActive }) =>
+                                    isActive ? "active" : ""
+                                  }
+                                >
+                                  <MenuItemLabel>{submenu.title}</MenuItemLabel>
+                                </NavLink>
+                              </MenuItem>
+                            )
+                          })}
+                        </MenuGroupItems>
+                      )}
                     </MenuItem>
                   )
                 })}
@@ -103,28 +139,12 @@ const MenuGroupItems = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
-`
 
-const MenuItem = styled.li`
-  & > a {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  & & {
+    margin-left: 3.6rem;
+    margin-top: ${({ theme }) => theme.app.space.md};
     gap: ${({ theme }) => theme.app.space.md};
-    padding: ${({ theme }) => theme.app.space.xs};
-    color: ${({ theme }) => theme.app.color.grey2};
-    border-radius: ${({ theme }) => theme.app.radius.md};
-    text-decoration: none;
-    transition:
-      color 0.2s ease-in-out,
-      background 0.2s ease-in-out;
-
-    &.active,
-    &:hover {
-      color: ${({ theme }) => theme.app.color.black};
-      background: ${({ theme }) => theme.app.color.grey5};
-    }
+    padding-bottom: 0.4rem;
   }
 `
 
@@ -142,4 +162,80 @@ const MenuItemLabel = styled.div`
   line-height: ${({ theme }) => theme.app.lineHeight.paragraph1};
   font-weight: ${({ theme }) => theme.app.fontWeight.regular};
   letter-spacing: 0.02em;
+`
+
+const MenuItem = styled.li`
+  position: relative;
+
+  & > a {
+    height: 4rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: ${({ theme }) => theme.app.space.md};
+    padding: ${({ theme }) => theme.app.space.xs};
+    color: ${({ theme }) => theme.app.color.grey2};
+    border-radius: ${({ theme }) => theme.app.radius.md};
+    text-decoration: none;
+    transition:
+      color 0.2s ease-in-out,
+      background 0.2s ease-in-out;
+
+    &:hover {
+      color: ${({ theme }) => theme.app.color.black};
+      background: ${({ theme }) => theme.app.color.grey5};
+    }
+
+    &.active {
+      color: ${({ theme }) => theme.app.color.black};
+
+      &:not(.parent) {
+        background: ${({ theme }) => theme.app.color.grey5};
+      }
+    }
+
+    &:not(.active) + ${MenuGroupItems} {
+      display: none;
+    }
+  }
+
+  & & {
+    &:before,
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 1.2rem;
+      left: -1.6rem;
+      background: none;
+      border: solid 0.1rem ${({ theme }) => theme.app.color.grey4};
+    }
+    &:before {
+      top: -0.7rem;
+      height: 2.8rem;
+      border-right: none;
+      border-top: none;
+    }
+    &:after {
+      top: 2.1rem;
+      height: 2.4rem;
+      border-right: none;
+      border-bottom: none;
+      border-top: none;
+    }
+
+    &:last-child {
+      &:before {
+        border-radius: 0 0 0 ${({ theme }) => theme.app.radius.sm};
+      }
+      &:after {
+        display: none;
+      }
+    }
+
+    a {
+      padding: 0 1rem;
+    }
+  }
 `

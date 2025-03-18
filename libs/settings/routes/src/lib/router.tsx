@@ -10,9 +10,10 @@ import { IconType } from "app-theme/models"
 import { formatMessage } from "app-localize/feature"
 import { messages, SettingsLayout } from "./layout"
 import { settingsPaths } from "./paths"
+import { MenuIndex } from "app-routing/models"
 
 export const useSettingsRouter = () => {
-  useMenuItemsRegister(2, [
+  useMenuItemsRegister(MenuIndex.App, [
     {
       index: 0,
       title: formatMessage(messages.settings),

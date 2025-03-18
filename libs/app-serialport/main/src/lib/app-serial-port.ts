@@ -76,12 +76,15 @@ export class AppSerialPort {
   }
 
   private async detectChanges() {
+    const previousDevices = this.currentDevices
     const currentDevices = await this.listDevices()
 
-    this.currentDevices
+    previousDevices
       .filter((device) => {
         return !currentDevices.find(
-          (newDevice) => newDevice.path === device.path
+          (newDevice) =>
+            newDevice.path === device.path &&
+            newDevice.productId === device.productId
         )
       })
       .forEach((device) => {

@@ -12,12 +12,17 @@ module.exports = [
   ...nx.configs["flat/javascript"],
   {
     ignores: [
+      ".nx/**",
+      ".verdaccio/**",
       "**/dist",
       "**/out",
       "**/node_modules",
+      "**/coverage",
       "**/*.d.ts",
       "**/vite.config.*.timestamp*",
       "**/vitest.config.*.timestamp*",
+      "**/vite.config.*",
+      "**/jest.config.*",
     ],
   },
   {

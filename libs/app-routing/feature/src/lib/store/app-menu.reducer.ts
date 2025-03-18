@@ -5,7 +5,11 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { unionBy } from "lodash"
-import { registerMenuGroups, registerMenuItems } from "./app-menu.actions"
+import {
+  registerMenuGroups,
+  registerMenuItems,
+  unregisterMenuGroups,
+} from "./app-menu.actions"
 import { AppMenuReducer } from "app-routing/models"
 
 const initialState: AppMenuReducer = {
@@ -30,5 +34,9 @@ export const appMenuReducer = createReducer(initialState, (builder) => {
     group.items = unionBy(group.items, items, "path").sort((a, b) => {
       return (a.index || 0) - (b.index || 0)
     })
+  })
+  builder.addCase(unregisterMenuGroups, (state, action) => {
+    const indexes = action.payload
+    state.groups = state.groups.filter(({ index }) => !indexes.includes(index))
   })
 })

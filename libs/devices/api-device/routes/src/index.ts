@@ -3,5 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/api/get-api-config"
-export * from "./lib/api/get-menu-config"
+export * from "./lib/router"

@@ -15,4 +15,8 @@ export const registerMenuItems = createAction<{
   items: MenuItem[]
 }>("app-menu/registerMenuItems")
 
+export const unregisterMenuGroups = createAction<MenuGroup["index"][]>(
+  "app-menu/unregisterMenuGroups"
+)
+
 // export const unref = createAction<>("devices/setCurrentDevice")
