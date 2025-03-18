@@ -10,6 +10,13 @@ import { generateStoragePage, generateStoragePageKey } from "./storage-page"
 export const generateMcFileManagerView: ComponentGenerator<
   McFileManagerConfig
 > = (key, config) => {
+  const temporaryConfig = {
+    ...config,
+    categories: config.categories.filter(
+      (category) => category.entityType !== "audioFiles"
+    ),
+  }
+
   return {
     [key]: {
       component: "block-plain",
@@ -29,7 +36,7 @@ export const generateMcFileManagerView: ComponentGenerator<
     fileManagerLoader: {
       component: "entities-loader",
       config: {
-        entityTypes: config.categories.map((category) => category.entityType),
+        entityTypes: temporaryConfig.categories.map((category) => category.entityType),
         text: "Loading, please wait...",
       },
       layout: {
@@ -53,20 +60,20 @@ export const generateMcFileManagerView: ComponentGenerator<
       config: {
         formOptions: {
           defaultValues: {
-            activeStoragePath: config.storages[0].path,
+            activeStoragePath: temporaryConfig.storages[0].path,
           },
         },
       },
-      childrenKeys: config.storages.map((_storage, index) =>
+      childrenKeys: temporaryConfig.storages.map((_storage, index) =>
         generateStoragePageKey(index.toString())
       ),
     },
-    ...config.storages.reduce((acc, storage, index) => {
+    ...temporaryConfig.storages.reduce((acc, storage, index) => {
       return {
         ...acc,
         ...generateStoragePage(index.toString(), {
           storage,
-          categories: config.categories,
+          categories: temporaryConfig.categories,
         }),
       }
     }, {}),
