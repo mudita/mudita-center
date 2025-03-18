@@ -242,14 +242,13 @@ export const restoreBackup = createAsyncThunk<
     let restoreProgress = startRestoreResponse.data.progress
 
     while (restoreProgress < 100) {
-      if (aborted) {
-        return rejectWithValue(undefined)
-      }
-      await delay()
       const checkPreRestoreResponse = await checkRestoreRequest(
         restoreId,
         deviceId
       )
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
 
       if (!checkPreRestoreResponse.ok) {
         console.log(checkPreRestoreResponse.error)
@@ -263,6 +262,7 @@ export const restoreBackup = createAsyncThunk<
           progress: totalProgress + restoreProgress * restoringProgressFactor,
         })
       )
+      await delay()
     }
 
     if (aborted) {
