@@ -8,7 +8,6 @@ import { ActionName } from "../action-names"
 import { getEntitiesMetadataRequest } from "device/feature"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { EntitiesMetadata } from "device/models"
-import { selectDeviceEntityAbortController } from "../selectors/entities"
 
 export const getEntitiesMetadataAction = createAsyncThunk<
   EntitiesMetadata,
