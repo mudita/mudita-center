@@ -52,6 +52,7 @@ import {
   MockDeviceResolverService,
   MockSerialPortService,
   mockServiceEnabled,
+  mockFileDialog,
 } from "e2e-mock-server"
 import { ApplicationUpdaterModule } from "electron/application-updater"
 import { CoreDeviceModule } from "core-device/feature"
@@ -76,7 +77,7 @@ export class ApplicationModule {
     DeviceFileSystemModule,
     DeviceLogModule,
     DeviceModule,
-    TimeSynchronizationModule
+    TimeSynchronizationModule,
   ]
 
   public lateModules: Module[] = [
@@ -102,7 +103,10 @@ export class ApplicationModule {
   private apiModule: APIModule
 
   private deviceProtocol = this.resolveDeviceProtocol()
-  private systemUtilsModule = new SystemUtilsModule()
+  private systemUtilsModule = new SystemUtilsModule(
+    mockServiceEnabled,
+    mockFileDialog
+  )
 
   constructor(
     private ipc: MainProcessIpc,
