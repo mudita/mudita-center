@@ -42,56 +42,30 @@ describe("Checking License", () => {
 
     const modalHeader = await ModalLicense.modalHeader
     await modalHeader.waitForDisplayed()
-    await expect(modalHeader).toHaveText(
-      "Mudita Center Software – Terms of Use"
-    )
-  })
-
-  it("Check keywords", async () => {
-    const muditaDefinition = ModalLicense.muditaDefinition
-    await expect(muditaDefinition).toHaveTextContaining("0000467620")
-    await expect(muditaDefinition).toHaveTextContaining("5252558282")
-    await expect(muditaDefinition).toHaveTextContaining(
-      "Jana Czeczota 6, 02- 607 Warsaw, Poland"
-    )
+    await expect(modalHeader).toHaveText("Notice for Mudita Center")
   })
 
   it("Check License sections", async () => {
-    const noteParagraph = ModalLicense.noteParagraph
-    await expect(noteParagraph).toHaveTextContaining(
-      "BY USING THE MUDITA CENTER SOFTWARE, YOU AGREE TO COMPLY WITH THE TERMS LISTED BELOW."
+    const firstParagraph = ModalLicense.firstParagraph
+    await expect(firstParagraph).toHaveTextContaining(
+      "Please note that we provide an open source software notice with this app. "
     )
 
-    const definitionsParagraph = await ModalLicense.definitionsParagraph
-    await expect(definitionsParagraph).toHaveText("Definitions:")
+    const sectionWarrantyDisclaimer =
+      await ModalLicense.sectionWarrantyDisclaimer
+    await expect(sectionWarrantyDisclaimer).toHaveText("WARRANTY DISCLAIMER")
 
-    const licenseTermsParagraph = await ModalLicense.licenseTermsParagraph
-    await expect(licenseTermsParagraph).toHaveText("License terms:")
-
-    const transferOfDataParagraph = await ModalLicense.transferOfDataParagraph
-    await expect(transferOfDataParagraph).toHaveText("Transfer of data:")
-
-    const limitationParagraph = await ModalLicense.limitationParagraph
-    await expect(limitationParagraph).toHaveText("Limitation of liability:")
-
-    const copyrightParagraph = await ModalLicense.copyrightParagraph
-    await expect(copyrightParagraph).toHaveText(
-      "Copyright / Third-party services:"
-    )
-
-    const amendmentsParagraph = await ModalLicense.amendmentsParagraph
-    await expect(amendmentsParagraph).toHaveText("Amendments to the Terms:")
-
-    const applicableLawParagraph = await ModalLicense.applicableLawParagraph
-    await expect(applicableLawParagraph).toHaveText("Applicable law:")
+    const sectionNoticeForFile = await ModalLicense.sectionNoticeForFile
+    await expect(sectionNoticeForFile).toHaveText("Notice for file(s):")
   })
 
   it("Check content after scroll", async () => {
-    const copyrightParagraph = await ModalLicense.copyrightParagraph
-    await copyrightParagraph.scrollIntoView()
-    await expect(copyrightParagraph).toBeDisplayedInViewport
-    const definitionsParagraph = await ModalLicense.definitionsParagraph
-    await expect(definitionsParagraph).not.toBeDisplayedInViewport
+    const zodLibrarySection = await ModalLicense.zodLibrarySection
+    await zodLibrarySection.scrollIntoView()
+    await expect(zodLibrarySection).toBeDisplayedInViewport
+    const zodLibraryCopyrightSection =
+      await ModalLicense.zodLibraryCopyrightSection
+    await expect(zodLibraryCopyrightSection).not.toBeDisplayedInViewport
   })
 
   it("Close modal", async () => {
