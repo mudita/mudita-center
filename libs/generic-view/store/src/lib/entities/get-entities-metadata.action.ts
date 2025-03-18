@@ -16,16 +16,7 @@ export const getEntitiesMetadataAction = createAsyncThunk<
   { state: ReduxRootState }
 >(
   ActionName.GetEntitiesMetadata,
-  async (data, { rejectWithValue, getState }) => {
-    const abortController = selectDeviceEntityAbortController(getState(), {
-      deviceId: data.deviceId,
-      entitiesType: data.entitiesType,
-    })
-
-    if (abortController?.signal.aborted) {
-      return rejectWithValue(undefined)
-    }
-
+  async (data, { rejectWithValue }) => {
     const response = await getEntitiesMetadataRequest(data)
 
     if (!response.ok) {
