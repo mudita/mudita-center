@@ -15,7 +15,7 @@ class ModalTermsOfService extends Page {
   }
 
   public get sectionGeneralProvisions() {
-    return $("p=GENERAL PROVISIONS")
+    return $("p=2. GENERAL PROVISIONS")
   }
 
   public get sectionPurposeAndUse() {

@@ -29,7 +29,7 @@ describe("Checking Terms of service", () => {
 
     // Wait 15 seconds to allow the update checking process to potentially timeout.
     const modalOverlay = await ModalPage.modalOverlay
-    await modalOverlay.waitForDisplayed({ timeout: 15000, reverse: true });
+    await modalOverlay.waitForDisplayed({ timeout: 15000, reverse: true })
 
     const aboutTermsOfServiceTextLabel =
       await SettingsPage.aboutTermsOfServiceTextLabel
@@ -37,7 +37,7 @@ describe("Checking Terms of service", () => {
   })
 
   it("Check Terms of service 'LEARN MORE' button", async () => {
-    if(testsHelper.isLinux()){
+    if (testsHelper.isLinux()) {
       sleep(5000)
     }
 
@@ -51,7 +51,7 @@ describe("Checking Terms of service", () => {
 
     const modalHeader = await ModalTermsOfServicePage.modalHeader
     await modalHeader.waitForDisplayed()
-    await expect(modalHeader).toHaveText("Mudita Center Terms of Use")
+    await expect(modalHeader).toHaveText("Mudita Center Terms of Service")
   })
 
   it("Check keywords", async () => {
@@ -63,7 +63,7 @@ describe("Checking Terms of service", () => {
       "Tax Identification Number: 5252558282"
     )
     await expect(firstParagraph).toHaveTextContaining(
-      "Statistical Identification Number: 14676767613"
+      "Statistical Identification Number: 146767613"
     )
   })
 
