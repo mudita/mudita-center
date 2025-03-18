@@ -43,96 +43,99 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@contentful/rich-text-react-renderer": "^15.22.7"
+      &quot;@contentful/rich-text-react-renderer&quot;: &quot;^15.22.7&quot;
       <br />
-      "@contentful/rich-text-types": "^16.8.1"
+      &quot;@contentful/rich-text-types&quot;: &quot;^16.8.1&quot;
       <br />
       Copyright (c) 2018 Contentful
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@electron/notarize": "^2.3.2"
+      &quot;@electron/notarize&quot;: &quot;^2.3.2&quot;
       <br />
       Copyright 2018 Samuel Attard and contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@electron/remote": "^2.0.11"
+      &quot;@electron/remote&quot;: &quot;^2.0.11&quot;
       <br />
       Copyright (c) 2019-2022 Electron contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@faker-js/faker": "^7.5.0"
+      &quot;@faker-js/faker&quot;: &quot;^7.5.0&quot;
       <br />
       Faker - Copyright (c) 2022
     </LightText>
@@ -143,24 +146,25 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       From:
@@ -190,148 +194,153 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@mudita/stylelint-config": "^1.0.4"
+      &quot;@mudita/stylelint-config&quot;: &quot;^1.0.4&quot;
       <br />
       Copyright (c) Mudita Sp. z o.o.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11"
+      &quot;@pmmmwh/react-refresh-webpack-plugin&quot;: &quot;^0.5.11&quot;
       <br />
       Copyright (c) 2019 Michael Mok
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@reduxjs/toolkit": "1.9.7"
+      &quot;@reduxjs/toolkit&quot;: &quot;1.9.7&quot;
       <br />
       Copyright (c) 2018 Mark Erikson
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@rematch/core": "^1.4.0"
+      &quot;@rematch/core&quot;: &quot;^1.4.0&quot;
       <br />
-      "@rematch/select": "^2.0.5"
+      &quot;@rematch/select&quot;: &quot;^2.0.5&quot;
       <br />
       Copyright (c) 2017 Rematch
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@seznam/compose-react-refs": "1.0.4"
+      &quot;@seznam/compose-react-refs&quot;: &quot;1.0.4&quot;
       <br />
       Copyright (c) 2019, Seznam.cz, a.s.
     </LightText>
@@ -341,19 +350,19 @@ export const LicenseUI: FunctionComponent = () => (
       copyright notice and this permission notice appear in all copies.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@swc-node/register": "~1.6.7"
+      &quot;@swc-node/register&quot;: &quot;~1.6.7&quot;
       <br />
       MIT License
       <br />
@@ -361,43 +370,45 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@swc/core": "~1.3.85"
+      &quot;@swc/core&quot;: &quot;~1.3.85&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "name": "@swc/core",
+      &quot;name&quot;: &quot;@swc/core&quot;,
       <br />
-      "version": "1.3.85", "description": "Super-fast alternative for babel",
+      &quot;version&quot;: &quot;1.3.85&quot;, &quot;description&quot;:
+      &quot;Super-fast alternative for babel&quot;,
       <br />
-      "homepage": "https://swc.rs",
+      &quot;homepage&quot;: &quot;https://swc.rs&quot;,
       <br />
-      "main": "./index.js",
+      &quot;main&quot;: &quot;./index.js&quot;,
       <br />
-      "author": "강동윤 {"<"}kdy1997.dev@gmail.com{">"}",
+      &quot;author&quot;: &quot;강동윤 {"<"}kdy1997.dev@gmail.com{">"}&quot;,
       <br />
-      "license": "Apache-2.0"
+      &quot;license&quot;: &quot;Apache-2.0&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Apache License
@@ -413,70 +424,72 @@ export const LicenseUI: FunctionComponent = () => (
       1. Definitions.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "License" shall mean the terms and conditions for use, reproduction, and
-      distribution as defined by Sections 1 through 9 of this document.
+      &quot;License&quot; shall mean the terms and conditions for use,
+      reproduction, and distribution as defined by Sections 1 through 9 of this
+      document.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Licensor" shall mean the copyright owner or entity authorized by the
-      copyright owner that is granting the License.
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized
+      by the copyright owner that is granting the License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Legal Entity" shall mean the union of the acting entity and all other
-      entities that control, are controlled by, or are under common control with
-      that entity. For the purposes of this definition, "control" means (i) the
-      power, direct or indirect, to cause the direction or management of such
-      entity, whether by contract or otherwise, or (ii) ownership of fifty
-      percent (50%) or more of the outstanding shares, or (iii) beneficial
-      ownership of such entity.
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or otherwise,
+      or (ii) ownership of fifty percent (50%) or more of the outstanding
+      shares, or (iii) beneficial ownership of such entity.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "You" (or "Your") shall mean an individual or Legal Entity exercising
-      permissions granted by this License.
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal
+      Entity exercising permissions granted by this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Source" form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation source,
-      and configuration files.
+      &quot;Source&quot; form shall mean the preferred form for making
+      modifications, including but not limited to software source code,
+      documentation source, and configuration files.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Object" form shall mean any form resulting from mechanical transformation
-      or translation of a Source form, including but not limited to compiled
-      object code, generated documentation, and conversions to other media
-      types.
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but not limited
+      to compiled object code, generated documentation, and conversions to other
+      media types.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Work" shall mean the work of authorship, whether in Source or Object
-      form, made available under the License, as indicated by a copyright notice
-      that is included in or attached to the work (an example is provided in the
-      Appendix below).
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a copyright
+      notice that is included in or attached to the work (an example is provided
+      in the Appendix below).
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Derivative Works" shall mean any work, whether in Source or Object form,
-      that is based on (or derived from) the Work and for which the editorial
-      revisions, annotations, elaborations, or other modifications represent, as
-      a whole, an original work of authorship. For the purposes of this License,
-      Derivative Works shall not include works that remain separable from, or
-      merely link (or bind by name) to the interfaces of, the Work and
-      Derivative Works thereof.
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or
+      Object form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes of
+      this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of, the
+      Work and Derivative Works thereof.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contribution" shall mean any work of authorship, including the original
-      version of the Work and any modifications or additions to that Work or
-      Derivative Works thereof, that is intentionally submitted to Licensor for
-      inclusion in the Work by the copyright owner or by an individual or Legal
-      Entity authorized to submit on behalf of the copyright owner. For the
-      purposes of this definition, "submitted" means any form of electronic,
-      verbal, or written communication sent to the Licensor or its
-      representatives, including but not limited to communication on electronic
-      mailing lists, source code control systems, and issue tracking systems
-      that are managed by, or on behalf of, the Licensor for the purpose of
-      discussing and improving the Work, but excluding communication that is
-      conspicuously marked or otherwise designated in writing by the copyright
-      owner as "Not a Contribution."
+      &quot;Contribution&quot; shall mean any work of authorship, including the
+      original version of the Work and any modifications or additions to that
+      Work or Derivative Works thereof, that is intentionally submitted to
+      Licensor for inclusion in the Work by the copyright owner or by an
+      individual or Legal Entity authorized to submit on behalf of the copyright
+      owner. For the purposes of this definition, &quot;submitted&quot; means
+      any form of electronic, verbal, or written communication sent to the
+      Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a
+      Contribution.&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contributor" shall mean Licensor and any individual or Legal Entity on
-      behalf of whom a Contribution has been received by Licensor and
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal
+      Entity on behalf of whom a Contribution has been received by Licensor and
       subsequently incorporated within the Work.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -523,14 +536,14 @@ export const LicenseUI: FunctionComponent = () => (
       to any part of the Derivative Works; and
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      (d) If the Work includes a "NOTICE" text file as part of its distribution,
-      then any Derivative Works that You distribute must include a readable copy
-      of the attribution notices contained within such NOTICE file, excluding
-      those notices that do not pertain to any part of the Derivative Works, in
-      at least one of the following places: within a NOTICE text file
-      distributed as part of the Derivative Works; within the Source form or
-      documentation, if provided along with the Derivative Works; or, within a
-      display generated by the Derivative Works, if and wherever such
+      (d) If the Work includes a &quot;NOTICE&quot; text file as part of its
+      distribution, then any Derivative Works that You distribute must include a
+      readable copy of the attribution notices contained within such NOTICE
+      file, excluding those notices that do not pertain to any part of the
+      Derivative Works, in at least one of the following places: within a NOTICE
+      text file distributed as part of the Derivative Works; within the Source
+      form or documentation, if provided along with the Derivative Works; or,
+      within a display generated by the Derivative Works, if and wherever such
       third-party notices normally appear. The contents of the NOTICE file are
       for informational purposes only and do not modify the License. You may add
       Your own attribution notices within Derivative Works that You distribute,
@@ -564,13 +577,13 @@ export const LicenseUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       7. Disclaimer of Warranty. Unless required by applicable law or agreed to
       in writing, Licensor provides the Work (and each Contributor provides its
-      Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-      ANY KIND, either express or implied, including, without limitation, any
-      warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or
-      FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for
-      determining the appropriateness of using or redistributing the Work and
-      assume any risks associated with Your exercise of permissions under this
-      License.
+      Contributions) on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR
+      CONDITIONS OF ANY KIND, either express or implied, including, without
+      limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT,
+      MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely
+      responsible for determining the appropriateness of using or redistributing
+      the Work and assume any risks associated with Your exercise of permissions
+      under this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       8. Limitation of Liability. In no event and under no legal theory, whether
@@ -603,35 +616,35 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       To apply the Apache License to your work, attach the following boilerplate
-      notice, with the fields enclosed by brackets "[]" replaced with your own
-      identifying information. (Don't include the brackets!) The text should be
-      enclosed in the appropriate comment syntax for the file format. We also
-      recommend that a file or class name and description of purpose be included
-      on the same "printed page" as the copyright notice for easier
-      identification within third-party archives.
+      notice, with the fields enclosed by brackets &quot;[]&quot; replaced with
+      your own identifying information. (Don&apos;t include the brackets!) The
+      text should be enclosed in the appropriate comment syntax for the file
+      format. We also recommend that a file or class name and description of
+      purpose be included on the same &quot;printed page&quot; as the copyright
+      notice for easier identification within third-party archives.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright [yyyy] [name of copyright owner]
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      Licensed under the Apache License, Version 2.0 (the "License"); you may
-      not use this file except in compliance with the License. You may obtain a
-      copy of the License at
+      Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+      you may not use this file except in compliance with the License. You may
+      obtain a copy of the License at
       <br />
-      ​http://www.apache.org/licenses/LICENSE-2.0
+      http://www.apache.org/licenses/LICENSE-2.0
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Unless required by applicable law or agreed to in writing, software
-      distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-      WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-      License for the specific language governing permissions and limitations
-      under the License.
+      distributed under the License is distributed on an &quot;AS IS&quot;
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied. See the License for the specific language governing permissions
+      and limitations under the License.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@welldone-software/why-did-you-render": "^8.0.3"
+      &quot;@welldone-software/why-did-you-render&quot;: &quot;^8.0.3&quot;
       <br />
       MIT License
       <br />
@@ -639,59 +652,61 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "archiver": "^5.3.1"
+      &quot;archiver&quot;: &quot;^5.3.1&quot;
       <br />
       Copyright (c) 2012-2014 Chris Talkington, contributors.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "async-mutex": "^0.4.0"
+      &quot;async-mutex&quot;: &quot;^0.4.0&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -699,59 +714,61 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "axios": "^0.27.2"
+      &quot;axios&quot;: &quot;^0.27.2&quot;
       <br />
       Copyright (c) 2014-present Matt Zabriskie
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "axios-mock-adapter": "^1.21.2"
+      &quot;axios-mock-adapter&quot;: &quot;^1.21.2&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -759,30 +776,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "brie": "^3.0.4"
+      &quot;brie&quot;: &quot;^3.0.4&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -790,30 +808,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@swc-node/register": "~1.6.7"
+      &quot;@swc-node/register&quot;: &quot;~1.6.7&quot;
       <br />
       MIT License
       <br />
@@ -821,30 +840,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "chromedriver": "^116.0.0"
+      &quot;chromedriver&quot;: &quot;^116.0.0&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Apache License
@@ -860,70 +880,72 @@ export const LicenseUI: FunctionComponent = () => (
       1. Definitions.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "License" shall mean the terms and conditions for use, reproduction, and
-      distribution as defined by Sections 1 through 9 of this document.
+      &quot;License&quot; shall mean the terms and conditions for use,
+      reproduction, and distribution as defined by Sections 1 through 9 of this
+      document.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Licensor" shall mean the copyright owner or entity authorized by the
-      copyright owner that is granting the License.
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized
+      by the copyright owner that is granting the License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Legal Entity" shall mean the union of the acting entity and all other
-      entities that control, are controlled by, or are under common control with
-      that entity. For the purposes of this definition, "control" means (i) the
-      power, direct or indirect, to cause the direction or management of such
-      entity, whether by contract or otherwise, or (ii) ownership of fifty
-      percent (50%) or more of the outstanding shares, or (iii) beneficial
-      ownership of such entity.
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or otherwise,
+      or (ii) ownership of fifty percent (50%) or more of the outstanding
+      shares, or (iii) beneficial ownership of such entity.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "You" (or "Your") shall mean an individual or Legal Entity exercising
-      permissions granted by this License.
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal
+      Entity exercising permissions granted by this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Source" form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation source,
-      and configuration files.
+      &quot;Source&quot; form shall mean the preferred form for making
+      modifications, including but not limited to software source code,
+      documentation source, and configuration files.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Object" form shall mean any form resulting from mechanical transformation
-      or translation of a Source form, including but not limited to compiled
-      object code, generated documentation, and conversions to other media
-      types.
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but not limited
+      to compiled object code, generated documentation, and conversions to other
+      media types.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Work" shall mean the work of authorship, whether in Source or Object
-      form, made available under the License, as indicated by a copyright notice
-      that is included in or attached to the work (an example is provided in the
-      Appendix below).
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a copyright
+      notice that is included in or attached to the work (an example is provided
+      in the Appendix below).
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Derivative Works" shall mean any work, whether in Source or Object form,
-      that is based on (or derived from) the Work and for which the editorial
-      revisions, annotations, elaborations, or other modifications represent, as
-      a whole, an original work of authorship. For the purposes of this License,
-      Derivative Works shall not include works that remain separable from, or
-      merely link (or bind by name) to the interfaces of, the Work and
-      Derivative Works thereof.
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or
+      Object form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes of
+      this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of, the
+      Work and Derivative Works thereof.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contribution" shall mean any work of authorship, including the original
-      version of the Work and any modifications or additions to that Work or
-      Derivative Works thereof, that is intentionally submitted to Licensor for
-      inclusion in the Work by the copyright owner or by an individual or Legal
-      Entity authorized to submit on behalf of the copyright owner. For the
-      purposes of this definition, "submitted" means any form of electronic,
-      verbal, or written communication sent to the Licensor or its
-      representatives, including but not limited to communication on electronic
-      mailing lists, source code control systems, and issue tracking systems
-      that are managed by, or on behalf of, the Licensor for the purpose of
-      discussing and improving the Work, but excluding communication that is
-      conspicuously marked or otherwise designated in writing by the copyright
-      owner as "Not a Contribution."
+      &quot;Contribution&quot; shall mean any work of authorship, including the
+      original version of the Work and any modifications or additions to that
+      Work or Derivative Works thereof, that is intentionally submitted to
+      Licensor for inclusion in the Work by the copyright owner or by an
+      individual or Legal Entity authorized to submit on behalf of the copyright
+      owner. For the purposes of this definition, &quot;submitted&quot; means
+      any form of electronic, verbal, or written communication sent to the
+      Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a
+      Contribution.&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contributor" shall mean Licensor and any individual or Legal Entity on
-      behalf of whom a Contribution has been received by Licensor and
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal
+      Entity on behalf of whom a Contribution has been received by Licensor and
       subsequently incorporated within the Work.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -970,14 +992,14 @@ export const LicenseUI: FunctionComponent = () => (
       to any part of the Derivative Works; and
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      (d) If the Work includes a "NOTICE" text file as part of its distribution,
-      then any Derivative Works that You distribute must include a readable copy
-      of the attribution notices contained within such NOTICE file, excluding
-      those notices that do not pertain to any part of the Derivative Works, in
-      at least one of the following places: within a NOTICE text file
-      distributed as part of the Derivative Works; within the Source form or
-      documentation, if provided along with the Derivative Works; or, within a
-      display generated by the Derivative Works, if and wherever such
+      (d) If the Work includes a &quot;NOTICE&quot; text file as part of its
+      distribution, then any Derivative Works that You distribute must include a
+      readable copy of the attribution notices contained within such NOTICE
+      file, excluding those notices that do not pertain to any part of the
+      Derivative Works, in at least one of the following places: within a NOTICE
+      text file distributed as part of the Derivative Works; within the Source
+      form or documentation, if provided along with the Derivative Works; or,
+      within a display generated by the Derivative Works, if and wherever such
       third-party notices normally appear. The contents of the NOTICE file are
       for informational purposes only and do not modify the License. You may add
       Your own attribution notices within Derivative Works that You distribute,
@@ -1011,13 +1033,13 @@ export const LicenseUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       7. Disclaimer of Warranty. Unless required by applicable law or agreed to
       in writing, Licensor provides the Work (and each Contributor provides its
-      Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-      ANY KIND, either express or implied, including, without limitation, any
-      warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or
-      FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for
-      determining the appropriateness of using or redistributing the Work and
-      assume any risks associated with Your exercise of permissions under this
-      License.
+      Contributions) on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR
+      CONDITIONS OF ANY KIND, either express or implied, including, without
+      limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT,
+      MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely
+      responsible for determining the appropriateness of using or redistributing
+      the Work and assume any risks associated with Your exercise of permissions
+      under this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       8. Limitation of Liability. In no event and under no legal theory, whether
@@ -1050,35 +1072,35 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       To apply the Apache License to your work, attach the following boilerplate
-      notice, with the fields enclosed by brackets "[]" replaced with your own
-      identifying information. (Don't include the brackets!) The text should be
-      enclosed in the appropriate comment syntax for the file format. We also
-      recommend that a file or class name and description of purpose be included
-      on the same "printed page" as the copyright notice for easier
-      identification within third-party archives.
+      notice, with the fields enclosed by brackets &quot;[]&quot; replaced with
+      your own identifying information. (Don&apos;t include the brackets!) The
+      text should be enclosed in the appropriate comment syntax for the file
+      format. We also recommend that a file or class name and description of
+      purpose be included on the same &quot;printed page&quot; as the copyright
+      notice for easier identification within third-party archives.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright 2014 Giovanni Bassi and Elemar Jr.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      Licensed under the Apache License, Version 2.0 (the "License"); you may
-      not use this file except in compliance with the License. You may obtain a
-      copy of the License at
+      Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+      you may not use this file except in compliance with the License. You may
+      obtain a copy of the License at
       <br />
-      ​http://www.apache.org/licenses/LICENSE-2.0
+      http://www.apache.org/licenses/LICENSE-2.0
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Unless required by applicable law or agreed to in writing, software
-      distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-      WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-      License for the specific language governing permissions and limitations
-      under the License.
+      distributed under the License is distributed on an &quot;AS IS&quot;
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied. See the License for the specific language governing permissions
+      and limitations under the License.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "circular-dependency-plugin": "^5.2.2"
+      &quot;circular-dependency-plugin&quot;: &quot;^5.2.2&quot;
       <br />
       Copyright (c) 2016, Aaron Ackerman {"<"}theron17@gmail.com{">"}
     </LightText>
@@ -1088,19 +1110,19 @@ export const LicenseUI: FunctionComponent = () => (
       copyright notice and this permission notice appear in all copies.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "contentful": "^9.2.4"
+      &quot;contentful&quot;: &quot;^9.2.4&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -1108,59 +1130,61 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "copy-webpack-plugin": "^11.0.0"
+      &quot;copy-webpack-plugin&quot;: &quot;^11.0.0&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "cross-env": "^7.0.3"
+      &quot;cross-env&quot;: &quot;^7.0.3&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -1168,59 +1192,61 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "css-loader": "^6.7.1"
+      &quot;css-loader&quot;: &quot;^6.7.1&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "dotenv": "^16.0.2"
+      &quot;dotenv&quot;: &quot;^16.0.2&quot;
       <br />
       Copyright (c) 2015, Scott Motte
     </LightText>
@@ -1242,13 +1268,13 @@ export const LicenseUI: FunctionComponent = () => (
       documentation and/or other materials provided with the distribution.
     </LightTextNested>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-      IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-      THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-      PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-      CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-      EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-      PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+      &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+      NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+      A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+      HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+      TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
       PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
       LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
       NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
@@ -1258,7 +1284,7 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "elasticlunr": "^0.9.5"
+      &quot;elasticlunr&quot;: &quot;^0.9.5&quot;
       <br />
       Copyright (C) 2013 by Oliver Nightingale
       <br />
@@ -1266,30 +1292,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "electron": "^26.0.0"
+      &quot;electron&quot;: &quot;^26.0.0&quot;
       <br />
       Copyright (c) Electron contributors
       <br />
@@ -1297,30 +1324,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "electron-better-ipc": "^2.0.1"
+      &quot;electron-better-ipc&quot;: &quot;^2.0.1&quot;
       <br />
       MIT License
       <br />
@@ -1329,30 +1357,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "electron-builder": "^24.12.0"
+      &quot;electron-builder&quot;: &quot;^24.12.0&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -1360,30 +1389,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "electron-devtools-installer": "^3.2.0"
+      &quot;electron-devtools-installer&quot;: &quot;^3.2.0&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -1391,30 +1421,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "electron-localshortcut": "^3.2.1"
+      &quot;electron-localshortcut&quot;: &quot;^3.2.1&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -1422,30 +1453,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "electron-store": "^8.0.1"
+      &quot;electron-store&quot;: &quot;^8.0.1&quot;
       <br />
       MIT License
       <br />
@@ -1454,30 +1486,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "electron-updater": "6.2.1"
+      &quot;electron-updater&quot;: &quot;6.2.1&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -1485,59 +1518,61 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "file-loader": "^6.2.0"
+      &quot;file-loader&quot;: &quot;^6.2.0&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "fork-ts-checker-webpack-plugin": "^7.2.13"
+      &quot;fork-ts-checker-webpack-plugin&quot;: &quot;^7.2.13&quot;
       <br />
       MIT License
       <br />
@@ -1545,30 +1580,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "fs-extra": "^10.1.0"
+      &quot;fs-extra&quot;: &quot;^10.1.0&quot;
       <br />
       (The MIT License)
       <br />
@@ -1576,30 +1612,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "getmac": "^5.21.0"
+      &quot;getmac&quot;: &quot;^5.21.0&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       <b>License</b>
@@ -1648,54 +1685,56 @@ export const LicenseUI: FunctionComponent = () => (
       Definitions
     </LightText>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "Copyright Holder" means the individual(s) or organization(s) named in the
-      copyright notice for the entire Package.
+      &quot;Copyright Holder&quot; means the individual(s) or organization(s)
+      named in the copyright notice for the entire Package.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contributor" means any party that has contributed code or other material
-      to the Package, in accordance with the Copyright Holder's procedures.
+      &quot;Contributor&quot; means any party that has contributed code or other
+      material to the Package, in accordance with the Copyright Holder&apos;s
+      procedures.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "You" and "your" means any person who would like to copy, distribute, or
-      modify the Package.
+      &quot;You&quot; and &quot;your&quot; means any person who would like to
+      copy, distribute, or modify the Package.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "Package" means the collection of files distributed by the Copyright
-      Holder, and derivatives of that collection and/or of those files. A given
-      Package may consist of either the Standard Version, or a Modified Version.
+      &quot;Package&quot; means the collection of files distributed by the
+      Copyright Holder, and derivatives of that collection and/or of those
+      files. A given Package may consist of either the Standard Version, or a
+      Modified Version.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "Distribute" means providing a copy of the Package or making it accessible
-      to anyone else, or in the case of a company or organization, to others
-      outside of your company or organization.
+      &quot;Distribute&quot; means providing a copy of the Package or making it
+      accessible to anyone else, or in the case of a company or organization, to
+      others outside of your company or organization.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "Distributor Fee" means any fee that you charge for Distributing this
-      Package or providing support for this Package to another party. It does
-      not mean licensing fees.
+      &quot;Distributor Fee&quot; means any fee that you charge for Distributing
+      this Package or providing support for this Package to another party. It
+      does not mean licensing fees.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "Standard Version" refers to the Package if it has not been modified, or
-      has been modified only in ways explicitly requested by the Copyright
-      Holder.
+      &quot;Standard Version&quot; refers to the Package if it has not been
+      modified, or has been modified only in ways explicitly requested by the
+      Copyright Holder.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "Modified Version" means the Package, if it has been changed, and such
-      changes were not explicitly requested by the Copyright Holder.
+      &quot;Modified Version&quot; means the Package, if it has been changed,
+      and such changes were not explicitly requested by the Copyright Holder.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "Original License" means this Artistic License as Distributed with the
-      Standard Version of the Package, in its current version or as it may be
-      modified by The Perl Foundation in the future.
+      &quot;Original License&quot; means this Artistic License as Distributed
+      with the Standard Version of the Package, in its current version or as it
+      may be modified by The Perl Foundation in the future.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "Source" form means the source code, documentation source, and
+      &quot;Source&quot; form means the source code, documentation source, and
       configuration files for the Package.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      "Compiled" form means the compiled bytecode, object code, binary, or any
-      other form resulting from mechanical transformation or translation of the
-      Source form.
+      &quot;Compiled&quot; form means the compiled bytecode, object code,
+      binary, or any other form resulting from mechanical transformation or
+      translation of the Source form.
     </LightTextNested>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission for Use and Modification Without Distribution
@@ -1838,19 +1877,20 @@ export const LicenseUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       (14) Disclaimer of Warranty:
       <br />
-      THE PACKAGE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS "AS IS"
-      AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES. THE IMPLIED WARRANTIES OF
-      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT ARE
-      DISCLAIMED TO THE EXTENT PERMITTED BY YOUR LOCAL LAW. UNLESS REQUIRED BY
-      LAW, NO COPYRIGHT HOLDER OR CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT,
-      INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF
-      THE USE OF THE PACKAGE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+      THE PACKAGE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS &quot;AS
+      IS&quot; AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES. THE IMPLIED
+      WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR
+      NON-INFRINGEMENT ARE DISCLAIMED TO THE EXTENT PERMITTED BY YOUR LOCAL LAW.
+      UNLESS REQUIRED BY LAW, NO COPYRIGHT HOLDER OR CONTRIBUTOR WILL BE LIABLE
+      FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING IN
+      ANY WAY OUT OF THE USE OF THE PACKAGE, EVEN IF ADVISED OF THE POSSIBILITY
+      OF SUCH DAMAGE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "history": "^4.10.1"
+      &quot;history&quot;: &quot;^4.10.1&quot;
       <br />
       MIT License
       <br />
@@ -1858,59 +1898,61 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "html-webpack-plugin": "^5.5.0"
+      &quot;html-webpack-plugin&quot;: &quot;^5.5.0&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "husky": "^7.0.4"
+      &quot;husky&quot;: &quot;^7.0.4&quot;
       <br />
       MIT License
       <br />
@@ -1918,30 +1960,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "ical-generator": "^3.5.1"
+      &quot;ical-generator&quot;: &quot;^3.5.1&quot;
       <br />
       MIT License
       <br />
@@ -1949,30 +1992,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "ical-js-parser": "^0.7.0"
+      &quot;ical-js-parser&quot;: &quot;^0.7.0&quot;
       <br />
       MIT License
       <br />
@@ -1980,30 +2024,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "identity-obj-proxy": "^3.0.0"
+      &quot;identity-obj-proxy&quot;: &quot;^3.0.0&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -2011,30 +2056,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "is-electron-renderer": "^2.0.1"
+      &quot;is-electron-renderer&quot;: &quot;^2.0.1&quot;
       <br />
       License
       <br />
@@ -2044,30 +2090,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "lint-staged": "^13.0.3"
+      &quot;lint-staged&quot;: &quot;^13.0.3&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -2075,30 +2122,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "lodash": "^4.17.21"
+      &quot;lodash&quot;: &quot;^4.17.21&quot;
       <br />
       Copyright OpenJS Foundation and other contributors {"<"}
       https://openjsf.org/{">"}
@@ -2118,24 +2166,25 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright and related rights for sample code are waived via CC0. Sample
@@ -2155,7 +2204,7 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "chromedriver": "^116.0.0"
+      &quot;chromedriver&quot;: &quot;^116.0.0&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Apache License
@@ -2171,70 +2220,72 @@ export const LicenseUI: FunctionComponent = () => (
       1. Definitions.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "License" shall mean the terms and conditions for use, reproduction, and
-      distribution as defined by Sections 1 through 9 of this document.
+      &quot;License&quot; shall mean the terms and conditions for use,
+      reproduction, and distribution as defined by Sections 1 through 9 of this
+      document.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Licensor" shall mean the copyright owner or entity authorized by the
-      copyright owner that is granting the License.
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized
+      by the copyright owner that is granting the License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Legal Entity" shall mean the union of the acting entity and all other
-      entities that control, are controlled by, or are under common control with
-      that entity. For the purposes of this definition, "control" means (i) the
-      power, direct or indirect, to cause the direction or management of such
-      entity, whether by contract or otherwise, or (ii) ownership of fifty
-      percent (50%) or more of the outstanding shares, or (iii) beneficial
-      ownership of such entity.
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or otherwise,
+      or (ii) ownership of fifty percent (50%) or more of the outstanding
+      shares, or (iii) beneficial ownership of such entity.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "You" (or "Your") shall mean an individual or Legal Entity exercising
-      permissions granted by this License.
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal
+      Entity exercising permissions granted by this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Source" form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation source,
-      and configuration files.
+      &quot;Source&quot; form shall mean the preferred form for making
+      modifications, including but not limited to software source code,
+      documentation source, and configuration files.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Object" form shall mean any form resulting from mechanical transformation
-      or translation of a Source form, including but not limited to compiled
-      object code, generated documentation, and conversions to other media
-      types.
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but not limited
+      to compiled object code, generated documentation, and conversions to other
+      media types.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Work" shall mean the work of authorship, whether in Source or Object
-      form, made available under the License, as indicated by a copyright notice
-      that is included in or attached to the work (an example is provided in the
-      Appendix below).
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a copyright
+      notice that is included in or attached to the work (an example is provided
+      in the Appendix below).
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Derivative Works" shall mean any work, whether in Source or Object form,
-      that is based on (or derived from) the Work and for which the editorial
-      revisions, annotations, elaborations, or other modifications represent, as
-      a whole, an original work of authorship. For the purposes of this License,
-      Derivative Works shall not include works that remain separable from, or
-      merely link (or bind by name) to the interfaces of, the Work and
-      Derivative Works thereof.
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or
+      Object form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes of
+      this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of, the
+      Work and Derivative Works thereof.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contribution" shall mean any work of authorship, including the original
-      version of the Work and any modifications or additions to that Work or
-      Derivative Works thereof, that is intentionally submitted to Licensor for
-      inclusion in the Work by the copyright owner or by an individual or Legal
-      Entity authorized to submit on behalf of the copyright owner. For the
-      purposes of this definition, "submitted" means any form of electronic,
-      verbal, or written communication sent to the Licensor or its
-      representatives, including but not limited to communication on electronic
-      mailing lists, source code control systems, and issue tracking systems
-      that are managed by, or on behalf of, the Licensor for the purpose of
-      discussing and improving the Work, but excluding communication that is
-      conspicuously marked or otherwise designated in writing by the copyright
-      owner as "Not a Contribution."
+      &quot;Contribution&quot; shall mean any work of authorship, including the
+      original version of the Work and any modifications or additions to that
+      Work or Derivative Works thereof, that is intentionally submitted to
+      Licensor for inclusion in the Work by the copyright owner or by an
+      individual or Legal Entity authorized to submit on behalf of the copyright
+      owner. For the purposes of this definition, &quot;submitted&quot; means
+      any form of electronic, verbal, or written communication sent to the
+      Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a
+      Contribution.&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contributor" shall mean Licensor and any individual or Legal Entity on
-      behalf of whom a Contribution has been received by Licensor and
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal
+      Entity on behalf of whom a Contribution has been received by Licensor and
       subsequently incorporated within the Work.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -2281,14 +2332,14 @@ export const LicenseUI: FunctionComponent = () => (
       to any part of the Derivative Works; and
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      (d) If the Work includes a "NOTICE" text file as part of its distribution,
-      then any Derivative Works that You distribute must include a readable copy
-      of the attribution notices contained within such NOTICE file, excluding
-      those notices that do not pertain to any part of the Derivative Works, in
-      at least one of the following places: within a NOTICE text file
-      distributed as part of the Derivative Works; within the Source form or
-      documentation, if provided along with the Derivative Works; or, within a
-      display generated by the Derivative Works, if and wherever such
+      (d) If the Work includes a &quot;NOTICE&quot; text file as part of its
+      distribution, then any Derivative Works that You distribute must include a
+      readable copy of the attribution notices contained within such NOTICE
+      file, excluding those notices that do not pertain to any part of the
+      Derivative Works, in at least one of the following places: within a NOTICE
+      text file distributed as part of the Derivative Works; within the Source
+      form or documentation, if provided along with the Derivative Works; or,
+      within a display generated by the Derivative Works, if and wherever such
       third-party notices normally appear. The contents of the NOTICE file are
       for informational purposes only and do not modify the License. You may add
       Your own attribution notices within Derivative Works that You distribute,
@@ -2322,13 +2373,13 @@ export const LicenseUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       7. Disclaimer of Warranty. Unless required by applicable law or agreed to
       in writing, Licensor provides the Work (and each Contributor provides its
-      Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-      ANY KIND, either express or implied, including, without limitation, any
-      warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or
-      FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for
-      determining the appropriateness of using or redistributing the Work and
-      assume any risks associated with Your exercise of permissions under this
-      License.
+      Contributions) on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR
+      CONDITIONS OF ANY KIND, either express or implied, including, without
+      limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT,
+      MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely
+      responsible for determining the appropriateness of using or redistributing
+      the Work and assume any risks associated with Your exercise of permissions
+      under this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       8. Limitation of Liability. In no event and under no legal theory, whether
@@ -2361,65 +2412,66 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       To apply the Apache License to your work, attach the following boilerplate
-      notice, with the fields enclosed by brackets "[]" replaced with your own
-      identifying information. (Don't include the brackets!) The text should be
-      enclosed in the appropriate comment syntax for the file format. We also
-      recommend that a file or class name and description of purpose be included
-      on the same "printed page" as the copyright notice for easier
-      identification within third-party archives.
+      notice, with the fields enclosed by brackets &quot;[]&quot; replaced with
+      your own identifying information. (Don&apos;t include the brackets!) The
+      text should be enclosed in the appropriate comment syntax for the file
+      format. We also recommend that a file or class name and description of
+      purpose be included on the same &quot;printed page&quot; as the copyright
+      notice for easier identification within third-party archives.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright 2023 Vadim @streamich Dalecky {"<"}vadimsdaleckis@gmail.com{">"}{" "}
       and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      Licensed under the Apache License, Version 2.0 (the "License"); you may
-      not use this file except in compliance with the License. You may obtain a
-      copy of the License at
+      Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+      you may not use this file except in compliance with the License. You may
+      obtain a copy of the License at
       <br />
-      ​http://www.apache.org/licenses/LICENSE-2.0
+      http://www.apache.org/licenses/LICENSE-2.0
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Unless required by applicable law or agreed to in writing, software
-      distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-      WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-      License for the specific language governing permissions and limitations
-      under the License.
+      distributed under the License is distributed on an &quot;AS IS&quot;
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied. See the License for the specific language governing permissions
+      and limitations under the License.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "mini-css-extract-plugin": "^2.6.1"
+      &quot;mini-css-extract-plugin&quot;: &quot;^2.6.1&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "mock-fs": "^5.2.0"
+      &quot;mock-fs&quot;: &quot;^5.2.0&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       # License for mock-fs
@@ -2433,60 +2485,62 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      # Node's license
+      # Node&apos;s license
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       This module includes parts of the Node library itself (specifically, the
       fs module is included from several different versions of Node). Find
-      Node's license below:
+      Node&apos;s license below:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright Joyent, Inc. and other Node contributors. All rights reserved.
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "mockdate": "^3.0.5"
+      &quot;mockdate&quot;: &quot;^3.0.5&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -2494,59 +2548,61 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "moment": "^2.29.4"
+      &quot;moment&quot;: &quot;^2.29.4&quot;
       <br />
       Copyright (c) JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "node-gyp": "^10.0.1"
+      &quot;node-gyp&quot;: &quot;^10.0.1&quot;
       <br />
       (The MIT License)
       <br />
@@ -2554,30 +2610,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "node-polyfill-webpack-plugin": "^2.0.1"
+      &quot;node-polyfill-webpack-plugin&quot;: &quot;^2.0.1&quot;
       <br />
       MIT License
       <br />
@@ -2585,30 +2642,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "nodemon": "^2.0.19"
+      &quot;nodemon&quot;: &quot;^2.0.19&quot;
       <br />
       MIT License
       <br />
@@ -2617,30 +2675,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "p-queue": "^7.3.0"
+      &quot;p-queue&quot;: &quot;^7.3.0&quot;
       <br />
       MIT License
       <br />
@@ -2649,32 +2708,33 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react": "^18.2.0"
+      &quot;react&quot;: &quot;^18.2.0&quot;
       <br />
-      "react-dom": "^18.2.0"
+      &quot;react-dom&quot;: &quot;^18.2.0&quot;
       <br />
       MIT License
       <br />
@@ -2682,53 +2742,54 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-beautiful-dnd": "^13.1.1"
+      &quot;react-beautiful-dnd&quot;: &quot;^13.1.1&quot;
       <br />
       Copyright 2019 Atlassian Pty Ltd
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      Licensed under the Apache License, Version 2.0 (the "License"); you may
-      not use this file except in compliance with the License. You may obtain a
-      copy of the License at
+      Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+      you may not use this file except in compliance with the License. You may
+      obtain a copy of the License at
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       http://www.apache.org/licenses/LICENSE-2.0
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Unless required by applicable law or agreed to in writing, software
-      distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-      WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-      License for the specific language governing permissions and limitations
-      under the License.
+      distributed under the License is distributed on an &quot;AS IS&quot;
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied. See the License for the specific language governing permissions
+      and limitations under the License.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-google-button": "^0.7.2"
+      &quot;react-google-button&quot;: &quot;^0.7.2&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -2736,30 +2797,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-hook-form": "~7.53.0"
+      &quot;react-hook-form&quot;: &quot;~7.53.0&quot;
       <br />
       MIT License
       <br />
@@ -2767,30 +2829,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-intersection-observer": "^9.4.0”
+      &quot;react-intersection-observer&quot;: &quot;^9.4.0”
       <br />
       The MIT License (MIT)
       <br />
@@ -2798,30 +2861,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-intl": "6.4.7"
+      &quot;react-intl&quot;: &quot;6.4.7&quot;
       <br />
       Copyright 2019 Oath Inc.
       <br />
@@ -2847,12 +2911,12 @@ export const LicenseUI: FunctionComponent = () => (
       specific prior written permission.
     </LightTextNested>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-      IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-      THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-      PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Oath INC. BE LIABLE FOR ANY
-      DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-      (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+      &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+      NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+      A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Oath INC. BE LIABLE
+      FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+      DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
       SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
       CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
       LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
@@ -2863,36 +2927,37 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-modal": "^3.15.1"
+      &quot;react-modal&quot;: &quot;^3.15.1&quot;
       <br />
       Copyright (c) 2017 Ryan Florence
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-modern-drawer": "^1.2.2"
+      &quot;react-modern-drawer&quot;: &quot;^1.2.2&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>## License</LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -2902,7 +2967,7 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-redux": "8.1.3"
+      &quot;react-redux&quot;: &quot;8.1.3&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -2910,30 +2975,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-refresh": "^0.14.0"
+      &quot;react-refresh&quot;: &quot;^0.14.0&quot;
       <br />
       MIT License
       <br />
@@ -2941,32 +3007,33 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-router": "^5.2.0"
+      &quot;react-router&quot;: &quot;^5.2.0&quot;
       <br />
-      "react-router-dom": "^5.2.0"
+      &quot;react-router-dom&quot;: &quot;^5.2.0&quot;
       <br />
       MIT License
       <br />
@@ -2974,30 +3041,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-syntax-highlighter": "^15.5.0"
+      &quot;react-syntax-highlighter&quot;: &quot;^15.5.0&quot;
       <br />
       MIT License
       <br />
@@ -3005,30 +3073,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-tooltip": "^4.2.21"
+      &quot;react-tooltip&quot;: &quot;^4.2.21&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -3036,30 +3105,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-viewport-list": "^6.0.1"
+      &quot;react-viewport-list&quot;: &quot;^6.0.1&quot;
       <br />
       MIT License
       <br />
@@ -3067,30 +3137,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-virtualized": "^9.22.3"
+      &quot;react-virtualized&quot;: &quot;^9.22.3&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -3098,30 +3169,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-virtuoso": "^4.6.2"
+      &quot;react-virtuoso&quot;: &quot;^4.6.2&quot;
       <br />
       MIT License
       <br />
@@ -3129,30 +3201,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "redux": "4.2.1"
+      &quot;redux&quot;: &quot;4.2.1&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -3160,59 +3233,61 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "redux-logger": "^3.0.6"
+      &quot;redux-logger&quot;: &quot;^3.0.6&quot;
       <br />
       Copyright (c) 2016 Eugene Rodionov
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "redux-mock-store": "^1.5.4"
+      &quot;redux-mock-store&quot;: &quot;^1.5.4&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -3220,30 +3295,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "redux-thunk": "2.4.2"
+      &quot;redux-thunk&quot;: &quot;2.4.2&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -3251,37 +3327,38 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "reflect-metadata": "^0.1.13"
+      &quot;reflect-metadata&quot;: &quot;^0.1.13&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright (c) Microsoft Corporation. All rights reserved.
       <br />
-      Licensed under the Apache License, Version 2.0 (the "License"); you may
-      not use this file except in compliance with the License. You may obtain a
-      copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+      Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+      you may not use this file except in compliance with the License. You may
+      obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR
@@ -3307,70 +3384,72 @@ export const LicenseUI: FunctionComponent = () => (
       1. Definitions.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "License" shall mean the terms and conditions for use, reproduction, and
-      distribution as defined by Sections 1 through 9 of this document.
+      &quot;License&quot; shall mean the terms and conditions for use,
+      reproduction, and distribution as defined by Sections 1 through 9 of this
+      document.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Licensor" shall mean the copyright owner or entity authorized by the
-      copyright owner that is granting the License.
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized
+      by the copyright owner that is granting the License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Legal Entity" shall mean the union of the acting entity and all other
-      entities that control, are controlled by, or are under common control with
-      that entity. For the purposes of this definition, "control" means (i) the
-      power, direct or indirect, to cause the direction or management of such
-      entity, whether by contract or otherwise, or (ii) ownership of fifty
-      percent (50%) or more of the outstanding shares, or (iii) beneficial
-      ownership of such entity.
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or otherwise,
+      or (ii) ownership of fifty percent (50%) or more of the outstanding
+      shares, or (iii) beneficial ownership of such entity.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "You" (or "Your") shall mean an individual or Legal Entity exercising
-      permissions granted by this License.
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal
+      Entity exercising permissions granted by this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Source" form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation source,
-      and configuration files.
+      &quot;Source&quot; form shall mean the preferred form for making
+      modifications, including but not limited to software source code,
+      documentation source, and configuration files.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Object" form shall mean any form resulting from mechanical transformation
-      or translation of a Source form, including but not limited to compiled
-      object code, generated documentation, and conversions to other media
-      types.
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but not limited
+      to compiled object code, generated documentation, and conversions to other
+      media types.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Work" shall mean the work of authorship, whether in Source or Object
-      form, made available under the License, as indicated by a copyright notice
-      that is included in or attached to the work (an example is provided in the
-      Appendix below).
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a copyright
+      notice that is included in or attached to the work (an example is provided
+      in the Appendix below).
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Derivative Works" shall mean any work, whether in Source or Object form,
-      that is based on (or derived from) the Work and for which the editorial
-      revisions, annotations, elaborations, or other modifications represent, as
-      a whole, an original work of authorship. For the purposes of this License,
-      Derivative Works shall not include works that remain separable from, or
-      merely link (or bind by name) to the interfaces of, the Work and
-      Derivative Works thereof.
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or
+      Object form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes of
+      this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of, the
+      Work and Derivative Works thereof.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contribution" shall mean any work of authorship, including the original
-      version of the Work and any modifications or additions to that Work or
-      Derivative Works thereof, that is intentionally submitted to Licensor for
-      inclusion in the Work by the copyright owner or by an individual or Legal
-      Entity authorized to submit on behalf of the copyright owner. For the
-      purposes of this definition, "submitted" means any form of electronic,
-      verbal, or written communication sent to the Licensor or its
-      representatives, including but not limited to communication on electronic
-      mailing lists, source code control systems, and issue tracking systems
-      that are managed by, or on behalf of, the Licensor for the purpose of
-      discussing and improving the Work, but excluding communication that is
-      conspicuously marked or otherwise designated in writing by the copyright
-      owner as "Not a Contribution."
+      &quot;Contribution&quot; shall mean any work of authorship, including the
+      original version of the Work and any modifications or additions to that
+      Work or Derivative Works thereof, that is intentionally submitted to
+      Licensor for inclusion in the Work by the copyright owner or by an
+      individual or Legal Entity authorized to submit on behalf of the copyright
+      owner. For the purposes of this definition, &quot;submitted&quot; means
+      any form of electronic, verbal, or written communication sent to the
+      Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a
+      Contribution.&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contributor" shall mean Licensor and any individual or Legal Entity on
-      behalf of whom a Contribution has been received by Licensor and
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal
+      Entity on behalf of whom a Contribution has been received by Licensor and
       subsequently incorporated within the Work.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -3417,14 +3496,14 @@ export const LicenseUI: FunctionComponent = () => (
       to any part of the Derivative Works; and
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      (d) If the Work includes a "NOTICE" text file as part of its distribution,
-      then any Derivative Works that You distribute must include a readable copy
-      of the attribution notices contained within such NOTICE file, excluding
-      those notices that do not pertain to any part of the Derivative Works, in
-      at least one of the following places: within a NOTICE text file
-      distributed as part of the Derivative Works; within the Source form or
-      documentation, if provided along with the Derivative Works; or, within a
-      display generated by the Derivative Works, if and wherever such
+      (d) If the Work includes a &quot;NOTICE&quot; text file as part of its
+      distribution, then any Derivative Works that You distribute must include a
+      readable copy of the attribution notices contained within such NOTICE
+      file, excluding those notices that do not pertain to any part of the
+      Derivative Works, in at least one of the following places: within a NOTICE
+      text file distributed as part of the Derivative Works; within the Source
+      form or documentation, if provided along with the Derivative Works; or,
+      within a display generated by the Derivative Works, if and wherever such
       third-party notices normally appear. The contents of the NOTICE file are
       for informational purposes only and do not modify the License. You may add
       Your own attribution notices within Derivative Works that You distribute,
@@ -3458,13 +3537,13 @@ export const LicenseUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       7. Disclaimer of Warranty. Unless required by applicable law or agreed to
       in writing, Licensor provides the Work (and each Contributor provides its
-      Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-      ANY KIND, either express or implied, including, without limitation, any
-      warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or
-      FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for
-      determining the appropriateness of using or redistributing the Work and
-      assume any risks associated with Your exercise of permissions under this
-      License.
+      Contributions) on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR
+      CONDITIONS OF ANY KIND, either express or implied, including, without
+      limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT,
+      MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely
+      responsible for determining the appropriateness of using or redistributing
+      the Work and assume any risks associated with Your exercise of permissions
+      under this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       8. Limitation of Liability. In no event and under no legal theory, whether
@@ -3496,7 +3575,7 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "reselect": "4.0.0"
+      &quot;reselect&quot;: &quot;4.0.0&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -3504,30 +3583,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "rrule": "^2.7.1"
+      &quot;rrule&quot;: &quot;^2.7.1&quot;
       <br />
       rrule.js: Library for working with recurrence rules for calendar dates.
       <br />
@@ -3554,11 +3634,11 @@ export const LicenseUI: FunctionComponent = () => (
       specific prior written permission.
     </LightTextNested>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS "AS IS" AND ANY
-      EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-      WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-      DISCLAIMED. IN NO EVENT SHALL THE AUTHOR AND CONTRIBUTORS BE LIABLE FOR
-      ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+      THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS &quot;AS IS&quot;
+      AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+      IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+      ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR AND CONTRIBUTORS BE LIABLE
+      FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
       DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
       SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
       CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
@@ -3600,11 +3680,11 @@ export const LicenseUI: FunctionComponent = () => (
       specific prior written permission.
     </LightTextNested>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-      IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-      THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-      PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-      CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+      &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+      NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+      A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+      OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
       EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
       PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
       PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
@@ -3616,7 +3696,7 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "sanitize-filename": "^1.6.3"
+      &quot;sanitize-filename&quot;: &quot;^1.6.3&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       This project is licensed under the [WTFPL][] and [ISC][] licenses.
@@ -3654,9 +3734,9 @@ export const LicenseUI: FunctionComponent = () => (
       copyright notice and this permission notice appear in all copies.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-      WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-      MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+      WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
+      OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
       ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
       WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
       ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
@@ -3666,36 +3746,37 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "sass-loader": "^13.0.2"
+      &quot;sass-loader&quot;: &quot;^13.0.2&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "semver": "^7.3.7"
+      &quot;semver&quot;: &quot;^7.3.7&quot;
       <br />
       The ISC License
       <br />
@@ -3707,9 +3788,9 @@ export const LicenseUI: FunctionComponent = () => (
       copyright notice and this permission notice appear in all copies.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-      WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-      MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+      WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
+      OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
       ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
       WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
       ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
@@ -3719,36 +3800,37 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "source-map-loader": "^3.0.1"
+      &quot;source-map-loader&quot;: &quot;^3.0.1&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "sql.js": "^1.7.0"
+      &quot;sql.js&quot;: &quot;^1.7.0&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Ophir LOJKINE {"<"}pere.jobs@gmail.com{">"} (https://github.com/lovasoa)
@@ -3775,24 +3857,25 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       # Some portions of the Makefile taken from:
@@ -3801,30 +3884,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "stylelint-config-styled-components": "^0.1.1"
+      &quot;stylelint-config-styled-components&quot;: &quot;^0.1.1&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       ## License
@@ -3833,24 +3917,25 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       [version-url]:
@@ -3871,7 +3956,7 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "stylelint-processor-styled-components": "^1.10.0"{" "}
+      &quot;stylelint-processor-styled-components&quot;: &quot;^1.10.0&quot;{" "}
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>## License</LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -3879,7 +3964,7 @@ export const LicenseUI: FunctionComponent = () => (
       [LICENSE.md](./LICENSE.md) for more information!
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      Based on Mapbox' excellent
+      Based on Mapbox&apos; excellent
       [`stylelint-processor-markdown`](https://github.com/mapbox/stylelint-processor-markdown),
       thanks to @davidtheclark!{" "}
     </LightText>
@@ -3891,59 +3976,61 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "svg-react-loader": "^0.4.6"
+      &quot;svg-react-loader&quot;: &quot;^0.4.6&quot;
       <br />
       Copyright (c) 2016 Jerry Hamlet {"<"}jerry@hamletink.com{">"}
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "tar-stream": "^2.2.0"
+      &quot;tar-stream&quot;: &quot;^2.2.0&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -3951,30 +4038,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "tcp-port-used": "^1.0.2"
+      &quot;tcp-port-used&quot;: &quot;^1.0.2&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -3982,59 +4070,61 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "terser-webpack-plugin": "^5.3.6"
+      &quot;terser-webpack-plugin&quot;: &quot;^5.3.6&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "ts-jest": "^29.1.1"
+      &quot;ts-jest&quot;: &quot;^29.1.1&quot;
       <br />
       MIT License
       <br />
@@ -4042,30 +4132,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "ts-node": "^10.9.1"
+      &quot;ts-node&quot;: &quot;^10.9.1&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}># License</LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -4090,88 +4181,91 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "url-loader": "4.1.1"
+      &quot;url-loader&quot;: &quot;4.1.1&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "usb": "^1.9.2"
+      &quot;usb&quot;: &quot;^1.9.2&quot;
       <br />
       Copyright (c) 2012 Nonolith Labs, LLC
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "usehooks-ts": "^2.6.0"
+      &quot;usehooks-ts&quot;: &quot;^2.6.0&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -4179,89 +4273,92 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "utf8": "^3.0.0"
+      &quot;utf8&quot;: &quot;^3.0.0&quot;
       <br />
       Copyright Mathias Bynens {"<"}https://mathiasbynens.be/{">"}
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "util": "^0.12.4"
+      &quot;util&quot;: &quot;^0.12.4&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright Joyent, Inc. and other Node contributors. All rights reserved.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "uuid": "^9.0.1"
+      &quot;uuid&quot;: &quot;^9.0.1&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -4269,30 +4366,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "vcf": "^2.1.2"
+      &quot;vcf&quot;: &quot;^2.1.2&quot;
       <br />
       # The MIT License (MIT)
       <br />
@@ -4300,146 +4398,151 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "webpack": "^5.74.0"
+      &quot;webpack&quot;: &quot;^5.74.0&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "webpack-cli": "^4.10.0"
+      &quot;webpack-cli&quot;: &quot;^4.10.0&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "webpack-dev-server": "^4.15.1"
+      &quot;webpack-dev-server&quot;: &quot;^4.15.1&quot;
       <br />
       Copyright JS Foundation and other contributors
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "winston": "^3.8.2"
+      &quot;winston&quot;: &quot;^3.8.2&quot;
       <br />
       Copyright (c) 2010 Charlie Robbins
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "winston-daily-rotate-file": "^4.7.1"
+      &quot;winston-daily-rotate-file&quot;: &quot;^4.7.1&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -4447,30 +4550,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "winston-transport-rollbar-3": "^3.2.0"
+      &quot;winston-transport-rollbar-3&quot;: &quot;^3.2.0&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -4478,30 +4582,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@contentful/rich-text-plain-text-renderer": "^16.2.6"
+      &quot;@contentful/rich-text-plain-text-renderer&quot;: &quot;^16.2.6&quot;
       <br />
       MIT License
       <br />
@@ -4509,53 +4614,54 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@orama/orama": "^2.0.22"
+      &quot;@orama/orama&quot;: &quot;^2.0.22&quot;
       <br />
       Copyright 2023 OramaSearch Inc
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      Licensed under the Apache License, Version 2.0 (the "License"); you may
-      not use this file except in compliance with the License. You may obtain a
-      copy of the License at
+      Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+      you may not use this file except in compliance with the License. You may
+      obtain a copy of the License at
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       http://www.apache.org/licenses/LICENSE-2.0
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Unless required by applicable law or agreed to in writing, software
-      distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-      WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-      License for the specific language governing permissions and limitations
-      under the License.
+      distributed under the License is distributed on an &quot;AS IS&quot;
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied. See the License for the specific language governing permissions
+      and limitations under the License.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "@vscode/sudo-prompt": "^9.3.1"
+      &quot;@vscode/sudo-prompt&quot;: &quot;^9.3.1&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -4563,24 +4669,25 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
@@ -4590,30 +4697,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "crypto-js": "^4.2.0"
+      &quot;crypto-js&quot;: &quot;^4.2.0&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       # License
@@ -4626,66 +4734,68 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "js-crc": "^0.2.0"
+      &quot;js-crc&quot;: &quot;^0.2.0&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright 2015-2017 Chen, Yi-Cyuan
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "jschardet": "^3.1.2"
+      &quot;jschardet&quot;: &quot;^3.1.2&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright 2015-2017 Chen, Yi-Cyuan
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      /* <br />
+      {"/*"} <br />
       * The Original Code is Mozilla Universal charset detector code.
       <br />
       *<br />
@@ -4733,7 +4843,7 @@ export const LicenseUI: FunctionComponent = () => (
       <br />
       * 02110-1301 USA
       <br />
-      */
+      {"*/"}
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       GNU LESSER GENERAL PUBLIC LICENSE
@@ -4798,8 +4908,8 @@ export const LicenseUI: FunctionComponent = () => (
       To protect each distributor, we want to make it very clear that there is
       no warranty for the free library. Also, if the library is modified by
       someone else and passed on, the recipients should know that what they have
-      is not the original version, so that the original author's reputation will
-      not be affected by problems that might be introduced by others.
+      is not the original version, so that the original author&apos;s reputation
+      will not be affected by problems that might be introduced by others.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Finally, software patents pose a constant threat to the existence of any
@@ -4826,9 +4936,9 @@ export const LicenseUI: FunctionComponent = () => (
       lax criteria for linking other code with the library.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      We call this license the "Lesser" General Public License because it does
-      Less to protect the user's freedom than the ordinary General Public
-      License. It also provides other free software developers Less of an
+      We call this license the &quot;Lesser&quot; General Public License because
+      it does Less to protect the user&apos;s freedom than the ordinary General
+      Public License. It also provides other free software developers Less of an
       advantage over competing non-free programs. These disadvantages are the
       reason we use the ordinary General Public License for many libraries.
       However, the Lesser license provides advantages in certain special
@@ -4852,16 +4962,16 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Although the Lesser General Public License is Less protective of the
-      users' freedom, it does ensure that the user of a program that is linked
-      with the Library has the freedom and the wherewithal to run that program
-      using a modified version of the Library.
+      users&apos; freedom, it does ensure that the user of a program that is
+      linked with the Library has the freedom and the wherewithal to run that
+      program using a modified version of the Library.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The precise terms and conditions for copying, distribution and
-      modification follow. Pay close attention to the difference between a "work
-      based on the library" and a "work that uses the library". The former
-      contains code derived from the library, whereas the latter must be
-      combined with the library in order to run.
+      modification follow. Pay close attention to the difference between a
+      &quot;work based on the library&quot; and a &quot;work that uses the
+      library&quot;. The former contains code derived from the library, whereas
+      the latter must be combined with the library in order to run.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       GNU LESSER GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING,
@@ -4871,29 +4981,29 @@ export const LicenseUI: FunctionComponent = () => (
       0. This License Agreement applies to any software library or other program
       which contains a notice placed by the copyright holder or other authorized
       party saying it may be distributed under the terms of this Lesser General
-      Public License (also called "this License"). Each licensee is addressed as
-      "you".
+      Public License (also called &quot;this License&quot;). Each licensee is
+      addressed as &quot;you&quot;.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      A "library" means a collection of software functions and/or data prepared
-      so as to be conveniently linked with application programs (which use some
-      of those functions and data) to form executables.
+      A &quot;library&quot; means a collection of software functions and/or data
+      prepared so as to be conveniently linked with application programs (which
+      use some of those functions and data) to form executables.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      The "Library", below, refers to any such software library or work which
-      has been distributed under these terms. A "work based on the Library"
-      means either the Library or any derivative work under copyright law: that
-      is to say, a work containing the Library or a portion of it, either
-      verbatim or with modifications and/or translated straightforwardly into
-      another language. (Hereinafter, translation is included without limitation
-      in the term "modification".)
+      The &quot;Library&quot;, below, refers to any such software library or
+      work which has been distributed under these terms. A &quot;work based on
+      the Library&quot; means either the Library or any derivative work under
+      copyright law: that is to say, a work containing the Library or a portion
+      of it, either verbatim or with modifications and/or translated
+      straightforwardly into another language. (Hereinafter, translation is
+      included without limitation in the term &quot;modification&quot;.)
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Source code" for a work means the preferred form of the work for making
-      modifications to it. For a library, complete source code means all the
-      source code for all modules it contains, plus any associated interface
-      definition files, plus the scripts used to control compilation and
-      installation of the library.
+      &quot;Source code&quot; for a work means the preferred form of the work
+      for making modifications to it. For a library, complete source code means
+      all the source code for all modules it contains, plus any associated
+      interface definition files, plus the scripts used to control compilation
+      and installation of the library.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Activities other than copying, distribution and modification are not
@@ -4905,8 +5015,8 @@ export const LicenseUI: FunctionComponent = () => (
       that uses the Library does.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      1. You may copy and distribute verbatim copies of the Library's complete
-      source code as you receive it, in any medium, provided that you
+      1. You may copy and distribute verbatim copies of the Library&apos;s
+      complete source code as you receive it, in any medium, provided that you
       conspicuously and appropriately publish on each copy an appropriate
       copyright notice and disclaimer of warranty; keep intact all the notices
       that refer to this License and to the absence of any warranty; and
@@ -5007,24 +5117,24 @@ export const LicenseUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       5. A program that contains no derivative of any portion of the Library,
       but is designed to work with the Library by being compiled or linked with
-      it, is called a "work that uses the Library". Such a work, in isolation,
-      is not a derivative work of the Library, and therefore falls outside the
-      scope of this License.
+      it, is called a &quot;work that uses the Library&quot;. Such a work, in
+      isolation, is not a derivative work of the Library, and therefore falls
+      outside the scope of this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      However, linking a "work that uses the Library" with the Library creates
-      an executable that is a derivative of the Library (because it contains
-      portions of the Library), rather than a "work that uses the library". The
-      executable is therefore covered by this License. Section 6 states terms
-      for distribution of such executables.
+      However, linking a &quot;work that uses the Library&quot; with the Library
+      creates an executable that is a derivative of the Library (because it
+      contains portions of the Library), rather than a &quot;work that uses the
+      library&quot;. The executable is therefore covered by this License.
+      Section 6 states terms for distribution of such executables.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      When a "work that uses the Library" uses material from a header file that
-      is part of the Library, the object code for the work may be a derivative
-      work of the Library even though the source code is not. Whether this is
-      true is especially significant if the work can be linked without the
-      Library, or if the work is itself a library. The threshold for this to be
-      true is not precisely defined by law.
+      When a &quot;work that uses the Library&quot; uses material from a header
+      file that is part of the Library, the object code for the work may be a
+      derivative work of the Library even though the source code is not. Whether
+      this is true is especially significant if the work can be linked without
+      the Library, or if the work is itself a library. The threshold for this to
+      be true is not precisely defined by law.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       If such an object file uses only numerical parameters, data structure
@@ -5042,10 +5152,10 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       6. As an exception to the Sections above, you may also combine or link a
-      "work that uses the Library" with the Library to produce a work containing
-      portions of the Library, and distribute that work under terms of your
-      choice, provided that the terms permit modification of the work for the
-      customer's own use and reverse engineering for debugging such
+      &quot;work that uses the Library&quot; with the Library to produce a work
+      containing portions of the Library, and distribute that work under terms
+      of your choice, provided that the terms permit modification of the work
+      for the customer&apos;s own use and reverse engineering for debugging such
       modifications.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -5061,21 +5171,21 @@ export const LicenseUI: FunctionComponent = () => (
       source code for the Library including whatever changes were used in the
       work (which must be distributed under Sections 1 and 2 above); and, if the
       work is an executable linked with the Library, with the complete
-      machine-readable "work that uses the Library", as object code and/or
-      source code, so that the user can modify the Library and then relink to
-      produce a modified executable containing the modified Library. (It is
-      understood that the user who changes the contents of definitions files in
-      the Library will not necessarily be able to recompile the application to
-      use the modified definitions.)
+      machine-readable &quot;work that uses the Library&quot;, as object code
+      and/or source code, so that the user can modify the Library and then
+      relink to produce a modified executable containing the modified Library.
+      (It is understood that the user who changes the contents of definitions
+      files in the Library will not necessarily be able to recompile the
+      application to use the modified definitions.)
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       b) Use a suitable shared library mechanism for linking with the Library. A
       suitable mechanism is one that (1) uses at run time a copy of the library
-      already present on the user's computer system, rather than copying library
-      functions into the executable, and (2) will operate properly with a
-      modified version of the library, if the user installs one, as long as the
-      modified version is interface-compatible with the version that the work
-      was made with.
+      already present on the user&apos;s computer system, rather than copying
+      library functions into the executable, and (2) will operate properly with
+      a modified version of the library, if the user installs one, as long as
+      the modified version is interface-compatible with the version that the
+      work was made with.
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       c) Accompany the work with a written offer, valid for at least three
@@ -5092,13 +5202,13 @@ export const LicenseUI: FunctionComponent = () => (
       that you have already sent this user a copy.
     </LightTextNested>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      For an executable, the required form of the "work that uses the Library"
-      must include any data and utility programs needed for reproducing the
-      executable from it. However, as a special exception, the materials to be
-      distributed need not include anything that is normally distributed (in
-      either source or binary form) with the major components (compiler, kernel,
-      and so on) of the operating system on which the executable runs, unless
-      that component itself accompanies the executable.
+      For an executable, the required form of the &quot;work that uses the
+      Library&quot; must include any data and utility programs needed for
+      reproducing the executable from it. However, as a special exception, the
+      materials to be distributed need not include anything that is normally
+      distributed (in either source or binary form) with the major components
+      (compiler, kernel, and so on) of the operating system on which the
+      executable runs, unless that component itself accompanies the executable.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       It may happen that this requirement contradicts the license restrictions
@@ -5147,7 +5257,7 @@ export const LicenseUI: FunctionComponent = () => (
       Library), the recipient automatically receives a license from the original
       licensor to copy, distribute, link with or modify the Library subject to
       these terms and conditions. You may not impose any further restrictions on
-      the recipients' exercise of the rights granted herein. You are not
+      the recipients&apos; exercise of the rights granted herein. You are not
       responsible for enforcing compliance by third parties with this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -5201,12 +5311,12 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Each version is given a distinguishing version number. If the Library
-      specifies a version number of this License which applies to it and "any
-      later version", you have the option of following the terms and conditions
-      either of that version or of any later version published by the Free
-      Software Foundation. If the Library does not specify a license version
-      number, you may choose any version ever published by the Free Software
-      Foundation.
+      specifies a version number of this License which applies to it and
+      &quot;any later version&quot;, you have the option of following the terms
+      and conditions either of that version or of any later version published by
+      the Free Software Foundation. If the Library does not specify a license
+      version number, you may choose any version ever published by the Free
+      Software Foundation.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       14. If you wish to incorporate parts of the Library into other free
@@ -5224,12 +5334,12 @@ export const LicenseUI: FunctionComponent = () => (
       15. BECAUSE THE LIBRARY IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
       FOR THE LIBRARY, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
       OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
-      PROVIDE THE LIBRARY "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED
-      OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-      MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS
-      TO THE QUALITY AND PERFORMANCE OF THE LIBRARY IS WITH YOU. SHOULD THE
-      LIBRARY PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
-      REPAIR OR CORRECTION.
+      PROVIDE THE LIBRARY &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND, EITHER
+      EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+      WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+      ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE LIBRARY IS WITH YOU.
+      SHOULD THE LIBRARY PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY
+      SERVICING, REPAIR OR CORRECTION.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       16. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
@@ -5259,7 +5369,8 @@ export const LicenseUI: FunctionComponent = () => (
       To apply these terms, attach the following notices to the library. It is
       safest to attach them to the start of each source file to most effectively
       convey the exclusion of warranty; and each file should have at least the
-      "copyright" line and a pointer to where the full notice is found.
+      &quot;copyright&quot; line and a pointer to where the full notice is
+      found.
     </LightText>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       {"{"}description{"}"}
@@ -5288,24 +5399,24 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       You should also get your employer (if you work as a programmer) or your
-      school, if any, to sign a "copyright disclaimer" for the library, if
-      necessary. Here is a sample; alter the names:
+      school, if any, to sign a &quot;copyright disclaimer&quot; for the
+      library, if necessary. Here is a sample; alter the names:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Yoyodyne, Inc., hereby disclaims all copyright interest in the library
-      `Frob' (a library for tweaking knobs) written by James Random Hacker.
+      `Frob&apos; (a library for tweaking knobs) written by James Random Hacker.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       {"{"}signature of Ty Coon{"}"}, 1 April 1990 Ty Coon, President of Vice
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      That's all there is to it!
+      That&apos;s all there is to it!
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "node-ipc": "10.1.0"
+      &quot;node-ipc&quot;: &quot;10.1.0&quot;
       <br />
       MIT License
       <br />
@@ -5313,30 +5424,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "papaparse": "^5.4.1"
+      &quot;papaparse&quot;: &quot;^5.4.1&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -5344,30 +5456,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-is": "18.2.0"
+      &quot;react-is&quot;: &quot;18.2.0&quot;
       <br />
       MIT License
       <br />
@@ -5375,30 +5488,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "react-markdown": "^9.0.1"
+      &quot;react-markdown&quot;: &quot;^9.0.1&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -5406,30 +5520,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "serialport": "10.1.0"
+      &quot;serialport&quot;: &quot;10.1.0&quot;
       <br />
       The MIT License (MIT)
       <br />
@@ -5437,30 +5552,31 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "sharp": "^0.32.5"
+      &quot;sharp&quot;: &quot;^0.32.5&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       ## Licensing
@@ -5469,18 +5585,18 @@ export const LicenseUI: FunctionComponent = () => (
       Copyright 2013 Lovell Fuller and others.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      Licensed under the Apache License, Version 2.0 (the "License"); you may
-      not use this file except in compliance with the License.
+      Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+      you may not use this file except in compliance with the License.
       <br />
       You may obtain a copy of the License at
       [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Unless required by applicable law or agreed to in writing, software
-      distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-      WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-      License for the specific language governing permissions and limitations
-      under the License.
+      distributed under the License is distributed on an &quot;AS IS&quot;
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied. See the License for the specific language governing permissions
+      and limitations under the License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Apache License
@@ -5496,70 +5612,72 @@ export const LicenseUI: FunctionComponent = () => (
       1. Definitions.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "License" shall mean the terms and conditions for use, reproduction, and
-      distribution as defined by Sections 1 through 9 of this document.
+      &quot;License&quot; shall mean the terms and conditions for use,
+      reproduction, and distribution as defined by Sections 1 through 9 of this
+      document.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Licensor" shall mean the copyright owner or entity authorized by the
-      copyright owner that is granting the License.
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized
+      by the copyright owner that is granting the License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Legal Entity" shall mean the union of the acting entity and all other
-      entities that control, are controlled by, or are under common control with
-      that entity. For the purposes of this definition, "control" means (i) the
-      power, direct or indirect, to cause the direction or management of such
-      entity, whether by contract or otherwise, or (ii) ownership of fifty
-      percent (50%) or more of the outstanding shares, or (iii) beneficial
-      ownership of such entity.
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or otherwise,
+      or (ii) ownership of fifty percent (50%) or more of the outstanding
+      shares, or (iii) beneficial ownership of such entity.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "You" (or "Your") shall mean an individual or Legal Entity exercising
-      permissions granted by this License.
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal
+      Entity exercising permissions granted by this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Source" form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation source,
-      and configuration files.
+      &quot;Source&quot; form shall mean the preferred form for making
+      modifications, including but not limited to software source code,
+      documentation source, and configuration files.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Object" form shall mean any form resulting from mechanical transformation
-      or translation of a Source form, including but not limited to compiled
-      object code, generated documentation, and conversions to other media
-      types.
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but not limited
+      to compiled object code, generated documentation, and conversions to other
+      media types.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Work" shall mean the work of authorship, whether in Source or Object
-      form, made available under the License, as indicated by a copyright notice
-      that is included in or attached to the work (an example is provided in the
-      Appendix below).
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a copyright
+      notice that is included in or attached to the work (an example is provided
+      in the Appendix below).
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Derivative Works" shall mean any work, whether in Source or Object form,
-      that is based on (or derived from) the Work and for which the editorial
-      revisions, annotations, elaborations, or other modifications represent, as
-      a whole, an original work of authorship. For the purposes of this License,
-      Derivative Works shall not include works that remain separable from, or
-      merely link (or bind by name) to the interfaces of, the Work and
-      Derivative Works thereof.
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or
+      Object form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes of
+      this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of, the
+      Work and Derivative Works thereof.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contribution" shall mean any work of authorship, including the original
-      version of the Work and any modifications or additions to that Work or
-      Derivative Works thereof, that is intentionally submitted to Licensor for
-      inclusion in the Work by the copyright owner or by an individual or Legal
-      Entity authorized to submit on behalf of the copyright owner. For the
-      purposes of this definition, "submitted" means any form of electronic,
-      verbal, or written communication sent to the Licensor or its
-      representatives, including but not limited to communication on electronic
-      mailing lists, source code control systems, and issue tracking systems
-      that are managed by, or on behalf of, the Licensor for the purpose of
-      discussing and improving the Work, but excluding communication that is
-      conspicuously marked or otherwise designated in writing by the copyright
-      owner as "Not a Contribution."
+      &quot;Contribution&quot; shall mean any work of authorship, including the
+      original version of the Work and any modifications or additions to that
+      Work or Derivative Works thereof, that is intentionally submitted to
+      Licensor for inclusion in the Work by the copyright owner or by an
+      individual or Legal Entity authorized to submit on behalf of the copyright
+      owner. For the purposes of this definition, &quot;submitted&quot; means
+      any form of electronic, verbal, or written communication sent to the
+      Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a
+      Contribution.&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "Contributor" shall mean Licensor and any individual or Legal Entity on
-      behalf of whom a Contribution has been received by Licensor and
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal
+      Entity on behalf of whom a Contribution has been received by Licensor and
       subsequently incorporated within the Work.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -5606,14 +5724,14 @@ export const LicenseUI: FunctionComponent = () => (
       to any part of the Derivative Works; and
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      (d) If the Work includes a "NOTICE" text file as part of its distribution,
-      then any Derivative Works that You distribute must include a readable copy
-      of the attribution notices contained within such NOTICE file, excluding
-      those notices that do not pertain to any part of the Derivative Works, in
-      at least one of the following places: within a NOTICE text file
-      distributed as part of the Derivative Works; within the Source form or
-      documentation, if provided along with the Derivative Works; or, within a
-      display generated by the Derivative Works, if and wherever such
+      (d) If the Work includes a &quot;NOTICE&quot; text file as part of its
+      distribution, then any Derivative Works that You distribute must include a
+      readable copy of the attribution notices contained within such NOTICE
+      file, excluding those notices that do not pertain to any part of the
+      Derivative Works, in at least one of the following places: within a NOTICE
+      text file distributed as part of the Derivative Works; within the Source
+      form or documentation, if provided along with the Derivative Works; or,
+      within a display generated by the Derivative Works, if and wherever such
       third-party notices normally appear. The contents of the NOTICE file are
       for informational purposes only and do not modify the License. You may add
       Your own attribution notices within Derivative Works that You distribute,
@@ -5647,13 +5765,13 @@ export const LicenseUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       7. Disclaimer of Warranty. Unless required by applicable law or agreed to
       in writing, Licensor provides the Work (and each Contributor provides its
-      Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-      ANY KIND, either express or implied, including, without limitation, any
-      warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or
-      FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for
-      determining the appropriateness of using or redistributing the Work and
-      assume any risks associated with Your exercise of permissions under this
-      License.
+      Contributions) on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR
+      CONDITIONS OF ANY KIND, either express or implied, including, without
+      limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT,
+      MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely
+      responsible for determining the appropriateness of using or redistributing
+      the Work and assume any risks associated with Your exercise of permissions
+      under this License.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       8. Limitation of Liability. In no event and under no legal theory, whether
@@ -5686,35 +5804,35 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       To apply the Apache License to your work, attach the following boilerplate
-      notice, with the fields enclosed by brackets "[]" replaced with your own
-      identifying information. (Don't include the brackets!) The text should be
-      enclosed in the appropriate comment syntax for the file format. We also
-      recommend that a file or class name and description of purpose be included
-      on the same "printed page" as the copyright notice for easier
-      identification within third-party archives.
+      notice, with the fields enclosed by brackets &quot;[]&quot; replaced with
+      your own identifying information. (Don&apos;t include the brackets!) The
+      text should be enclosed in the appropriate comment syntax for the file
+      format. We also recommend that a file or class name and description of
+      purpose be included on the same &quot;printed page&quot; as the copyright
+      notice for easier identification within third-party archives.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright [yyyy] [name of copyright owner]
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      Licensed under the Apache License, Version 2.0 (the "License"); you may
-      not use this file except in compliance with the License. You may obtain a
-      copy of the License at
+      Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+      you may not use this file except in compliance with the License. You may
+      obtain a copy of the License at
       <br />
-      ​http://www.apache.org/licenses/LICENSE-2.0
+      http://www.apache.org/licenses/LICENSE-2.0
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Unless required by applicable law or agreed to in writing, software
-      distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-      WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-      License for the specific language governing permissions and limitations
-      under the License.
+      distributed under the License is distributed on an &quot;AS IS&quot;
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied. See the License for the specific language governing permissions
+      and limitations under the License.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "tar": "^7.4.3"
+      &quot;tar&quot;: &quot;^7.4.3&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The ISC License
@@ -5727,9 +5845,9 @@ export const LicenseUI: FunctionComponent = () => (
       copyright notice and this permission notice appear in all copies.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-      WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-      MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+      WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
+      OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
       ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
       WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
       ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
@@ -5739,7 +5857,7 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "tslib": "^2.3.0"
+      &quot;tslib&quot;: &quot;^2.3.0&quot;
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Copyright (c) Microsoft Corporation.
@@ -5749,9 +5867,9 @@ export const LicenseUI: FunctionComponent = () => (
       purpose with or without fee is hereby granted.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-      WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-      MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+      WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
+      OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
       ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
       WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
       ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
@@ -5761,7 +5879,7 @@ export const LicenseUI: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      "zod": "^3.22.4"
+      &quot;zod&quot;: &quot;^3.22.4&quot;
       <br />
       MIT License
       <br />
@@ -5769,24 +5887,25 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
-      copy of this software and associated documentation files (the "Software"),
-      to deal in the Software without restriction, including without limitation
-      the rights to use, copy, modify, merge, publish, distribute, sublicense,
-      and/or sell copies of the Software, and to permit persons to whom the
-      Software is furnished to do so, subject to the following conditions:
+      copy of this software and associated documentation files (the
+      &quot;Software&quot;), to deal in the Software without restriction,
+      including without limitation the rights to use, copy, modify, merge,
+      publish, distribute, sublicense, and/or sell copies of the Software, and
+      to permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The above copyright notice and this permission notice shall be included in
       all copies or substantial portions of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-      THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-      FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-      DEALINGS IN THE SOFTWARE.
+      THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+      NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+      DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+      OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+      USE OR OTHER DEALINGS IN THE SOFTWARE.
     </LightText>
   </WindowContainer>
 )
