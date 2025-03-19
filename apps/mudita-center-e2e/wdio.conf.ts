@@ -90,6 +90,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktContactsDelete),
     toRelativePath(TestFilesPaths.kompaktContactsViewingDetails),
     toRelativePath(TestFilesPaths.kompaktContactsSearch),
+    toRelativePath(TestFilesPaths.kompaktConnectingSecondKompaktWhileInNews),
   ],
   suites: {
     standalone: [
@@ -129,6 +130,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktContactsDelete),
       toRelativePath(TestFilesPaths.kompaktContactsViewingDetails),
       toRelativePath(TestFilesPaths.kompaktContactsSearch),
+      toRelativePath(TestFilesPaths.kompaktConnectingSecondKompaktWhileInNews),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -176,6 +178,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktContactsDelete),
       toRelativePath(TestFilesPaths.kompaktContactsViewingDetails),
       toRelativePath(TestFilesPaths.kompaktContactsSearch),
+      toRelativePath(TestFilesPaths.kompaktConnectingSecondKompaktWhileInNews),
     ],
   },
   // Patterns to exclude.
