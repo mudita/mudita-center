@@ -6,8 +6,8 @@ import {
 import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
 import HomePage from "../../page-objects/home.page"
 import { kompaktImageRegex } from "../../consts/regex-const"
-import overviewPage from "../../page-objects/overview.page"
 import drawerPage from "../../page-objects/drawer.page"
+import tabsPage from "../../page-objects/tabs.page"
 
 describe("Kompakt switching devices", () => {
   const firstSerialNumber = "KOM1234567890"
@@ -68,6 +68,11 @@ describe("Kompakt switching devices", () => {
       await OverviewKompaktPage.kompaktBatteryLevelValue
     await expect(kompaktBatteryLevelValue).toBeDisplayed()
     await expect(kompaktBatteryLevelValue).toHaveText("100%")
+  })
+
+  it("Open News tab", async () => {
+    const muditaNewsTab = tabsPage.muditaNewsTab
+    await muditaNewsTab.click()
   })
 
   it("Connect 2nd device", async () => {
