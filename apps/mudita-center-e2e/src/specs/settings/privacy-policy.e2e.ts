@@ -37,7 +37,7 @@ describe("Checking Privacy Policy", () => {
   })
 
   it("Check Privacy Policy 'LEARN MORE' button", async () => {
-    if(testsHelper.isLinux()){
+    if (testsHelper.isLinux()) {
       sleep(5000)
     }
 
@@ -54,85 +54,71 @@ describe("Checking Privacy Policy", () => {
 
   it("Check keywords", async () => {
     const firstParagraph = modalPrivacyPolicyPage.firstPoint
+    await expect(firstParagraph).toHaveTextContaining("KRS no: 0000467620")
     await expect(firstParagraph).toHaveTextContaining(
-      "KRS [National Court Register Number] 0000467620"
-    )
-    await expect(firstParagraph).toHaveTextContaining(
-      "NIP [Polish Taxpayer Identification Number] 5252558282"
-    )
-    await expect(firstParagraph).toHaveTextContaining(
-      "REGON [National Business Registration Number] 146767613"
+      "Tax Identification Number: 5252558282"
     )
   })
 
   it("Check Privacy Policy sections", async () => {
-    const controllerQuestion = await modalPrivacyPolicyPage.controllerQuestion
-    await expect(controllerQuestion).toHaveText(
-      "Who is the controller of your personal data and who can you contact about it?"
+    const sectionAboutDocument =
+      await modalPrivacyPolicyPage.sectionAboutDocument
+    await expect(sectionAboutDocument).toHaveText("1. ABOUT DOCUMENT")
+
+    const sectionDataController =
+      await modalPrivacyPolicyPage.sectionDataController
+    await expect(sectionDataController).toHaveText("2. DATA CONTROLLER")
+
+    const sectionContact = await modalPrivacyPolicyPage.sectionContact
+    await expect(sectionContact).toHaveText("3. CONTACT")
+
+    const sectionPurposesAndLegalBasis =
+      await modalPrivacyPolicyPage.sectionPurposesAndLegalBasis
+    await expect(sectionPurposesAndLegalBasis).toHaveText(
+      "4. PURPOSES AND LEGAL BASIS FOR THE PROCESSING OF YOUR PERSONAL DATA / RETENTION PERIOD"
     )
 
-    const purposesQuestion = await modalPrivacyPolicyPage.purposesQuestion
-    await expect(purposesQuestion).toHaveText(
-      "For what purposes and on what grounds do we process your personal data?"
+    const sectionDataRecipients =
+      await modalPrivacyPolicyPage.sectionDataRecipients
+    await expect(sectionDataRecipients).toHaveText("5. DATA RECIPIENTS")
+
+    const sectionAutomatedIndividual =
+      await modalPrivacyPolicyPage.sectionAutomatedIndividual
+    await expect(sectionAutomatedIndividual).toHaveText(
+      "6. AUTOMATED INDIVIDUAL DECISION-MAKING / PROFILING"
     )
 
-    const firstColumnHeader = await modalPrivacyPolicyPage.firstColumnHeader
-    await expect(firstColumnHeader).toHaveText("the purpose of the processing")
-    const firstColumnHeaderBorder = (
-      await firstColumnHeader.getCSSProperty("border")
-    ).value
-    await expect(firstColumnHeaderBorder).toBe("1px solid rgb(0, 0, 0)")
-
-    const accessQuestion = await modalPrivacyPolicyPage.accessQuestion
-    await expect(accessQuestion).toHaveText(
-      "Who has access to your personal data?"
+    const sectionRightsOfTheData =
+      await modalPrivacyPolicyPage.sectionRightsOfTheData
+    await expect(sectionRightsOfTheData).toHaveText(
+      "7. RIGHTS OF THE DATA SUBJECTS"
     )
 
-    const storageLengthQuestion =
-      await modalPrivacyPolicyPage.storageLengthQuestion
-    await expect(storageLengthQuestion).toHaveText(
-      "How long is your personal data stored?"
+    const sectionTransferOfPersonalData =
+      await modalPrivacyPolicyPage.sectionTransferOfPersonalData
+    await expect(sectionTransferOfPersonalData).toHaveText(
+      "8. TRANSFER OF PERSONAL DATA TO THIRD COUNTRIES"
     )
 
-    const rightsQuestion = await modalPrivacyPolicyPage.rightsQuestion
-    await expect(rightsQuestion).toHaveText(
-      "What rights do you have in relation to the processing of your personal data?"
+    const sectionOtherInformations =
+      await modalPrivacyPolicyPage.sectionOtherInformations
+    await expect(sectionOtherInformations).toHaveText(
+      "9. OTHER INFORMATIONS ABOUR YOUR PRIVACY / BACKUP / MANAGE MUDITA DEVICE"
     )
 
-    const rightsExcerciseQuestion =
-      await modalPrivacyPolicyPage.rightsExcerciseQuestion
-    await expect(rightsExcerciseQuestion).toHaveText(
-      "How to exercise your personal data rights?"
-    )
-
-    const dataProvidingMandatoryQuestion =
-      await modalPrivacyPolicyPage.dataProvidingMandatoryQuestion
-    await expect(dataProvidingMandatoryQuestion).toHaveText(
-      "Is providing personal data mandatory?"
-    )
-
-    const cookiesParagraph = await modalPrivacyPolicyPage.cookiesParagraph
-    await expect(cookiesParagraph).toHaveText("Cookies")
-
-    const cookiesInfoLinks = await modalPrivacyPolicyPage.cookiesInfoLinks
-    await expect(cookiesInfoLinks).toBeElementsArrayOfSize({ gte: 5 })
-    for (let cookiesInfoLink of cookiesInfoLinks) {
-      const link = await cookiesInfoLink.$("a")
-      await expect(link).toHaveAttribute("href")
-      await expect(link).toBeClickable()
-    }
-
-    const addInformationParagraph =
-      await modalPrivacyPolicyPage.addInformationParagraph
-    await expect(addInformationParagraph).toHaveText("Additional information")
+    const sectionFinalProvisions =
+      await modalPrivacyPolicyPage.sectionFinalProvisions
+    await expect(sectionFinalProvisions).toHaveText("10. FINAL PROVISIONS")
   })
 
   it("Check content after scroll", async () => {
-    const firstColumnHeader = await modalPrivacyPolicyPage.firstColumnHeader
+    const firstColumnHeader =
+      await modalPrivacyPolicyPage.sectionFinalProvisions
     await firstColumnHeader.scrollIntoView()
-    const purposesQuestion = await modalPrivacyPolicyPage.purposesQuestion
+    const purposesQuestion = await modalPrivacyPolicyPage.privacyPolicyVersion
     await expect(purposesQuestion).toBeDisplayedInViewport
-    const accessQuestion = await modalPrivacyPolicyPage.accessQuestion
+    const accessQuestion =
+      await modalPrivacyPolicyPage.rightsToAmendPrivacyPolicy
     await expect(accessQuestion).toBeDisplayedInViewport
   })
 

@@ -10,40 +10,26 @@ class ModalLicense extends Page {
     return $('h2[data-testid="license-component-title"]')
   }
 
-  public get noteParagraph() {
-    return $("p*=NOTE:")
+  public get firstParagraph() {
+    return $(
+      "p*=Please note that we provide an open source software notice with this app. "
+    )
   }
 
-  public get definitionsParagraph() {
-    return $("p*=Definitions:")
+  public get sectionWarrantyDisclaimer() {
+    return $("p*=WARRANTY DISCLAIMER")
   }
 
-  public get muditaDefinition() {
-    return $("p*=Mudita sp. z o.o.")
+  public get sectionNoticeForFile() {
+    return $("p*=Notice for file(s):")
   }
 
-  public get licenseTermsParagraph() {
-    return $("p*=License terms:")
+  public get zodLibrarySection() {
+    return $(`//p[contains(., concat('"', 'zod', '": "', '^3.22.4', '"'))]`)
   }
 
-  public get transferOfDataParagraph() {
-    return $("p*=Transfer of data:")
-  }
-
-  public get limitationParagraph() {
-    return $("p*=Limitation of liability:")
-  }
-
-  public get copyrightParagraph() {
-    return $("p*=Copyright / Third-party services:")
-  }
-
-  public get amendmentsParagraph() {
-    return $("p*=Amendments to the Terms:")
-  }
-
-  public get applicableLawParagraph() {
-    return $("p*=Applicable law:")
+  public get zodLibraryCopyrightSection() {
+    return $("p*=Copyright (c) 2020 Colin McDonnell")
   }
 }
 

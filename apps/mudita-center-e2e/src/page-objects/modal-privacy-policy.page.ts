@@ -10,62 +10,64 @@ class ModalPrivacyPolicy extends Page {
     return $('[data-testid="privacy-policy-component-title"]')
   }
 
-  public get controllerQuestion() {
-    return $(
-      "p*=Who is the controller of your personal data and who can you contact about it?"
-    )
-  }
-
-  public get purposesQuestion() {
-    return $(
-      "p*=For what purposes and on what grounds do we process your personal data?"
-    )
-  }
-
-  public get accessQuestion() {
-    return $("p*=Who has access to your personal data?")
-  }
-
-  public get storageLengthQuestion() {
-    return $("p*=How long is your personal data stored?")
-  }
-
-  public get rightsQuestion() {
-    return $(
-      "p*=What rights do you have in relation to the processing of your personal data?"
-    )
-  }
-
-  public get rightsExcerciseQuestion() {
-    return $("p*=How to exercise your personal data rights?")
-  }
-
-  public get dataProvidingMandatoryQuestion() {
-    return $("p*=Is providing personal data mandatory?")
-  }
-
-  public get cookiesParagraph() {
-    return $("p*=Cookies")
-  }
-
-  public get addInformationParagraph() {
-    return $("p*=Additional information")
-  }
-
-  public get firstColumnHeader() {
-    return $("p*=the purpose of the processing")
-  }
-
-  public get secondColumnHeader() {
-    return $("p*=legal basis for the processing")
-  }
-
   public get firstPoint() {
-    return $("p*=The Controller of your personal data")
+    return $("p*=The controller of personal data")
   }
 
-  public get cookiesInfoLinks() {
-    return $$("#app > div > ul > li")
+  public get sectionAboutDocument() {
+    return $("p=1. ABOUT DOCUMENT")
+  }
+
+  public get sectionDataController() {
+    return $("p=2. DATA CONTROLLER")
+  }
+
+  public get sectionContact() {
+    return $("p=3. CONTACT")
+  }
+
+  public get sectionPurposesAndLegalBasis() {
+    return $(
+      "p=4. PURPOSES AND LEGAL BASIS FOR THE PROCESSING OF YOUR PERSONAL DATA / RETENTION PERIOD"
+    )
+  }
+
+  public get sectionDataRecipients() {
+    return $("p=5. DATA RECIPIENTS")
+  }
+
+  public get sectionAutomatedIndividual() {
+    return $("p=6. AUTOMATED INDIVIDUAL DECISION-MAKING / PROFILING")
+  }
+
+  public get sectionRightsOfTheData() {
+    return $("p=7. RIGHTS OF THE DATA SUBJECTS")
+  }
+
+  public get sectionTransferOfPersonalData() {
+    return $("p=8. TRANSFER OF PERSONAL DATA TO THIRD COUNTRIES")
+  }
+
+  public get sectionOtherInformations() {
+    return $(
+      "p=9. OTHER INFORMATIONS ABOUR YOUR PRIVACY / BACKUP / MANAGE MUDITA DEVICE"
+    )
+  }
+
+  public get sectionFinalProvisions() {
+    return $("p=10. FINAL PROVISIONS")
+  }
+
+  public get privacyPolicyVersion() {
+    return $(
+      "p=This version of the Privacy Policy is effective as of 14.03.2025."
+    )
+  }
+
+  public get rightsToAmendPrivacyPolicy() {
+    return $(
+      "p=In connection with the Mudita’s development and application updates,"
+    )
   }
 }
 
