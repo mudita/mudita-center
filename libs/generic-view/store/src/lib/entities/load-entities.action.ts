@@ -11,6 +11,7 @@ import { getEntitiesConfigAction } from "./get-entities-config.action"
 import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
 import { getEntitiesDataAction } from "./get-entities-data.action"
 import { selectEntitiesLoadingState } from "../selectors/entities"
+import { setLoadEntitiesAbortController } from "./actions"
 
 export const loadEntities = createAsyncThunk<
   void,
@@ -19,6 +20,16 @@ export const loadEntities = createAsyncThunk<
 >(
   ActionName.LoadEntities,
   async ({ deviceId, entitiesTypes = [] }, { dispatch, getState }) => {
+    for (const entitiesType of entitiesTypes) {
+      dispatch(
+        setLoadEntitiesAbortController({
+          deviceId,
+          entitiesType,
+          abortController: new AbortController(),
+        })
+      )
+    }
+
     for (const entitiesType of entitiesTypes) {
       await dispatch(
         getEntitiesConfigAction({
