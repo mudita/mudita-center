@@ -35,3 +35,9 @@ export const clearAfterDeleteEntities = createAction<{
   entitiesType: string
   deviceId: DeviceId
 }>(ActionName.ClearAfterDeleteEntities)
+
+export const setLoadEntitiesAbortController = createAction<{
+  deviceId: DeviceId
+  entitiesType: string
+  abortController: AbortController
+}>(ActionName.SetLoadEntitiesAbortController)

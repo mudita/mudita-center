@@ -7,7 +7,7 @@ import { createSelector } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { EntityData } from "Libs/device/models/src"
 
-const selectDeviceEntities = createSelector(
+export const selectDeviceEntities = createSelector(
   (state: ReduxRootState) => state.genericEntities,
   (_: ReduxRootState, { deviceId }: { deviceId: string }) => deviceId,
   (deviceEntitiesMap, deviceId) => {
@@ -130,5 +130,41 @@ export const selectValidEntityFilePaths = createSelector(
       }
       throw new Error("Invalid entity: filePath is missing or not a string")
     })
+  }
+)
+
+export const selectDeviceEntityAbortController = createSelector(
+  selectDeviceEntities,
+  (
+    _: ReduxRootState,
+    { entitiesType }: { deviceId: string; entitiesType?: string }
+  ) => {
+    return entitiesType
+  },
+  (entities, entitiesType) => {
+    if (!entitiesType || !entities) {
+      return undefined
+    }
+    return entities[entitiesType]?.abortController
+  }
+)
+
+export const selectIsSomeLoadEntitiesCanceled = createSelector(
+  selectDeviceEntities,
+  (
+    _: ReduxRootState,
+    { entityTypes }: { deviceId: string; entityTypes: string[] }
+  ) => entityTypes,
+  (entities, entityTypes) => {
+    if (entities === undefined) {
+      return false
+    }
+
+    return entityTypes.some(
+      (entityType) =>
+        entities[entityType]?.error ||
+        (entities[entityType]?.loading === false &&
+          entities[entityType]?.data === undefined)
+    )
   }
 )
