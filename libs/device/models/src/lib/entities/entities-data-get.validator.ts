@@ -16,3 +16,7 @@ export const entitiesJsonDataValidator = z.object({
   data: z.array(entityDataSchema),
 })
 export type EntitiesJsonData = z.infer<typeof entitiesJsonDataValidator>
+
+export const cancelEntitiesDataValidator = z.object({})
+
+export type CancelEntitiesData = z.infer<typeof cancelEntitiesDataValidator>
