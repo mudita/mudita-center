@@ -1,1 +1,28 @@
 # app-mtp
+
+# app-mtp-cli
+
+`app-mtp-cli` is a CLI tool for interacting with MTP devices, supporting actions like retrieving devices, storages, and
+uploading files.
+
+### Example Commands
+
+The examples are in Bash. Escaping quotes (\") is only required in the first example. The others work without it.
+
+#### 1. Get Devices
+
+```bash
+npm run app-mtp:cli '{\"action\":\"GET_DEVICES\"}'
+```
+
+#### 2. Get Device Storages
+
+```bash
+npm run app-mtp:cli '{"action":"GET_DEVICE_STORAGES", "deviceId":"device123"}'
+```
+
+#### 3. Upload File
+
+```bash
+npm run app-mtp:cli '{"action":"UPLOAD_FILE", "deviceId":"device123", "storageId":"storage456", "destinationPath":"/path/to/destination", "sourcePath":"/path/to/source"}'
+```
