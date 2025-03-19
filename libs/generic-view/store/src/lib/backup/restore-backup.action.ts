@@ -22,6 +22,7 @@ import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
 import { BackupProcessFileStatus, RestoreProcessStatus } from "./backup.types"
 import { delay } from "shared/utils"
 import { refreshEntitiesIfMetadataChanged } from "../entities/refresh-entities-if-metadata-changed.action"
+import { cancelLoadEntities } from "../entities/cancel-load-entities.action"
 
 const preRestoreProgressFactor = 0.05
 const preSendFileProgressFactor = 0.05
@@ -67,6 +68,8 @@ export const restoreBackup = createAsyncThunk<
       console.log("invalid deviceId, restoreFileId, or fileKeys")
       return rejectWithValue(undefined)
     }
+
+    await dispatch(cancelLoadEntities({ deviceId }))
 
     const featuresWithKeys = features
       .map((item) => {
@@ -239,14 +242,13 @@ export const restoreBackup = createAsyncThunk<
     let restoreProgress = startRestoreResponse.data.progress
 
     while (restoreProgress < 100) {
-      if (aborted) {
-        return rejectWithValue(undefined)
-      }
-      await delay()
       const checkPreRestoreResponse = await checkRestoreRequest(
         restoreId,
         deviceId
       )
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
 
       if (!checkPreRestoreResponse.ok) {
         console.log(checkPreRestoreResponse.error)
@@ -260,6 +262,7 @@ export const restoreBackup = createAsyncThunk<
           progress: totalProgress + restoreProgress * restoringProgressFactor,
         })
       )
+      await delay()
     }
 
     if (aborted) {

@@ -13,12 +13,15 @@ export const getEntitiesMetadataAction = createAsyncThunk<
   EntitiesMetadata,
   Required<Parameters<typeof getEntitiesMetadataRequest>[0]>,
   { state: ReduxRootState }
->(ActionName.GetEntitiesMetadata, async (data, { rejectWithValue }) => {
-  const response = await getEntitiesMetadataRequest(data)
+>(
+  ActionName.GetEntitiesMetadata,
+  async (data, { rejectWithValue }) => {
+    const response = await getEntitiesMetadataRequest(data)
 
-  if (!response.ok) {
-    return rejectWithValue(response.error)
+    if (!response.ok) {
+      return rejectWithValue(response.error)
+    }
+
+    return response.data
   }
-
-  return response.data
-})
+)
