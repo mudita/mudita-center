@@ -123,4 +123,13 @@ describe("Kompakt switching devices", () => {
     await expect(kompaktBatteryLevelValue).toBeDisplayed()
     await expect(kompaktBatteryLevelValue).toHaveText("40%")
   })
+
+  it("Disconnect the devices and check if Home page is present", async () => {
+    E2EMockClient.removeDevice("path-1")
+    E2EMockClient.removeDevice("path-2")
+
+    const homeHeader = await HomePage.homeHeader
+    await homeHeader.waitForDisplayed()
+    await expect(homeHeader).toHaveText("Welcome to Mudita Center")
+  })
 })
