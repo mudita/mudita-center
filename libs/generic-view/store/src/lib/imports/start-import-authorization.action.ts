@@ -11,6 +11,8 @@ import { googleAuthorize } from "../external-providers/google/google-authorize.a
 import { ImportProvider } from "./reducer"
 import { outlookAuthorize } from "../external-providers/outlook/outlook-authorize.action"
 import { OutLookScope } from "../external-providers/outlook/outlook.interface"
+import { cancelLoadEntities } from "../entities/cancel-load-entities.action"
+import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 
 export const startImportAuthorization = createAsyncThunk<
   unknown,
@@ -18,7 +20,15 @@ export const startImportAuthorization = createAsyncThunk<
   { state: ReduxRootState }
 >(
   ActionName.StartImportAuthorization,
-  async (provider, { dispatch, rejectWithValue }) => {
+  async (provider, { dispatch, rejectWithValue, getState }) => {
+    const deviceId = selectActiveApiDeviceId(getState())
+
+    if (!deviceId) {
+      return rejectWithValue(undefined)
+    }
+
+    await dispatch(cancelLoadEntities({ deviceId }))
+
     switch (provider) {
       case "GOOGLE":
         return await dispatch(googleAuthorize(Scope.Contacts)).unwrap()
