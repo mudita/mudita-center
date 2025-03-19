@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import express, { Application, Router, Request, Response } from "express"
+import express, { Application, Request, Response, Router } from "express"
 import bodyParser from "body-parser"
 import http from "http"
-import { AppMtp } from "./app-mtp"
+import { AppMtp } from "../app-mtp"
 
 const appMtp = new AppMtp()
 

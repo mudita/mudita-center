@@ -8,25 +8,18 @@ import {
   MtpInterface,
   MtpStorage,
   MtpUploadFileData,
-} from "./app-mtp.interface"
-import { MtpFactory } from "./app-mtp.factory"
+} from "../app-mtp.interface"
 
-export class AppMtp {
-  private mtp: MtpInterface
-
-  constructor() {
-    this.mtp = MtpFactory.createInstance()
-  }
-
+export class NodeMtp implements MtpInterface {
   async getDevices(): Promise<MtpDevice[]> {
-    return this.mtp.getDevices()
+    return Promise.resolve([{ id: "device-1" }])
   }
 
   async getDeviceStorages(deviceId: string): Promise<MtpStorage[]> {
-    return this.mtp.getDeviceStorages(deviceId)
+    return Promise.resolve([{ id: "storage-1" }, { id: "storage-2" }])
   }
 
   async uploadFile(data: MtpUploadFileData): Promise<void> {
-    return this.mtp.uploadFile(data)
+    return Promise.resolve()
   }
 }
