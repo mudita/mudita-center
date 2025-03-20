@@ -71,6 +71,7 @@ import {
   AppEvents,
   callRenderer,
   getMainAppWindow,
+  MuditaCenterServerRoutes,
   openDevToolsOnceDomReady,
   preventDefaultShortcuts,
   registerShortcuts,
@@ -327,7 +328,9 @@ const createOpenWindowListener = (
 
 ipcMain.answerRenderer(BrowserActions.PolicyOpenBrowser, () =>
   shell.openExternal(
-    `${process.env.MUDITA_CENTER_SERVER_URL ?? ""}/privacy-policy-url`
+    `${process.env.MUDITA_CENTER_SERVER_URL ?? ""}/${
+      MuditaCenterServerRoutes.PrivacyPolicyUrl
+    }`
   )
 )
 ipcMain.answerRenderer(BrowserActions.UpdateOpenBrowser, () =>
@@ -457,7 +460,7 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           scopeUrl = "https://www.googleapis.com/auth/contacts"
           break
       }
-      const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-init`
+      const url = `${process.env.MUDITA_CENTER_SERVER_URL}/${MuditaCenterServerRoutes.GoogleAuthInit}`
       void (await googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`))
     } else {
       googleAuthWindow.show()

@@ -13,11 +13,7 @@ import {
   generateMcOverviewSummaryData,
   generateMcOverviewSummaryLayout,
 } from "./summary/summary"
-import {
-  OverviewConfig,
-  OverviewData,
-  ServerAPIDeviceOSVersion,
-} from "device/models"
+import { OverviewConfig, OverviewData } from "device/models"
 import { generateMcOverviewTileListLayout } from "./section-tile-list/section-tile-list"
 import {
   generateMcOverviewUpdateData,
@@ -54,6 +50,8 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     },
     layout: {
       padding: "32px",
+      height: "100%",
+      maxHeight: "739px",
       gridLayout: {
         rows:
           sections.length === 3
@@ -71,17 +69,9 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
   return generateViewConfig(mainConfig, [summary, ...sections])
 }
 
-export const generateMcOverviewData = (
-  data: OverviewData,
-  config?: View,
-  updateData?: ServerAPIDeviceOSVersion
-) => {
+export const generateMcOverviewData = (data: OverviewData, config?: View) => {
   const summary = generateMcOverviewSummaryData(data.summary)
-  const sections = generateMcOverviewUpdateData(
-    data.sections,
-    config,
-    updateData
-  )
+  const sections = generateMcOverviewUpdateData(data.sections, config)
   return {
     ...summary,
     ...sections,

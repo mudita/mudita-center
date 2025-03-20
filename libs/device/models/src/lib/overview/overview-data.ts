@@ -26,6 +26,7 @@ interface IconTextRowData {
   icon: IconType
   text: string
   subText?: string
+  show?: boolean
 }
 
 type TileListFieldData = IconTextRowData
@@ -62,6 +63,7 @@ const getValidatorByComponentName = (component: string) => {
         icon: z.nativeEnum(IconType),
         text: z.string(),
         subText: z.string().optional(),
+        show: z.boolean().default(false),
       })
     case "overview-os-version":
       return z.object({

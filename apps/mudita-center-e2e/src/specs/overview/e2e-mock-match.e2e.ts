@@ -30,7 +30,7 @@ describe("E2E mock match sample", () => {
       method: "GET",
       status: 200,
       match: {
-        expected: { feature: "contacts", lang: "en-US" },
+        expected: { feature: "mc-contacts", lang: "en-US" },
       },
     })
     // if body of FEATURE_DATA request is equal to { feature: "contacts", lang: "en-US" } then return body: contactsConfig.
@@ -42,7 +42,7 @@ describe("E2E mock match sample", () => {
       method: "GET",
       status: 200,
       match: {
-        expected: { feature: "contacts", lang: "en-US" },
+        expected: { feature: "mc-contacts", lang: "en-US" },
       },
     })
     E2EMockClient.mockResponse({

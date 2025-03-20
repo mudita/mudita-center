@@ -10,7 +10,6 @@ import { APIBackupService } from "./backup"
 import { FileManager } from "./file-manager"
 import { APIMenuService } from "./menu"
 import { APIOutboxService } from "./outbox/outbox.service"
-import { ServerService } from "./server/server.service"
 import { APIFileTransferService } from "./file-transfer"
 import { ServiceBridge } from "./service-bridge"
 import { SystemUtilsModule } from "system-utils/feature"
@@ -26,7 +25,6 @@ export class APIModule {
   private apiOutboxService: APIOutboxService
   private apiMenuService: APIMenuService
   private apiEntitiesService: APIEntitiesService
-  private serverService: ServerService
   private backupService: APIBackupService
   private restoreService: APIRestoreService
   private fileTransferService: APIFileTransferService
@@ -49,7 +47,6 @@ export class APIModule {
       deviceProtocol,
       this.serviceBridge
     )
-    this.serverService = new ServerService()
     this.backupService = new APIBackupService(deviceProtocol)
     this.apiDataTransferService = new APIDataTransferService(deviceProtocol)
     this.restoreService = new APIRestoreService(
@@ -79,7 +76,6 @@ export class APIModule {
       this.apiOutboxService,
       this.apiMenuService,
       this.apiEntitiesService,
-      this.serverService,
       this.backupService,
       this.restoreService,
       this.fileTransferService,

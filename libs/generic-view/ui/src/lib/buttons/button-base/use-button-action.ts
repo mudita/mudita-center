@@ -174,8 +174,8 @@ const runActions = (actions?: ButtonActions) => {
               entitiesType: action.entitiesType,
               ids: action.ids,
               deviceId: activeDeviceId,
-              onSuccess: async () => {
-                await runActions(action.postActions?.success)(
+              onSuccess: () => {
+                return runActions(action.postActions?.success)(
                   providers,
                   customActions
                 )

@@ -8,6 +8,7 @@ on:
 jobs:
   e2e:
     if: github.event.base_ref == 'refs/heads/main'
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [Windows, Linux]

@@ -24,3 +24,8 @@ export const deleteEntityData = createAction<{
   entityId: EntityId
   deviceId: DeviceId
 }>(ActionName.DeleteEntityData)
+
+export const clearAfterDeleteEntities = createAction<{
+  entitiesType: string
+  deviceId: DeviceId
+}>(ActionName.ClearAfterDeleteEntities)

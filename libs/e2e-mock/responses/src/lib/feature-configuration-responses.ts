@@ -93,6 +93,8 @@ export const featureConfigurationOverview = {
       fields: [
         { dataKey: "battery", type: "icon-text" },
         { dataKey: "airplane-mode", type: "icon-text" },
+        { dataKey: "connection0", type: "icon-text" },
+        { dataKey: "connection1", type: "icon-text" },
       ],
     },
     {

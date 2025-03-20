@@ -5,6 +5,7 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { EntityData } from "Libs/device/models/src"
 
 const selectDeviceEntities = createSelector(
   (state: ReduxRootState) => state.genericEntities,
@@ -47,6 +48,22 @@ export const selectEntitiesMetadata = createSelector(
 export const selectEntitiesData = createSelector(
   selectEntities,
   (entities) => entities?.data
+)
+
+export const selectFailedEntities = createSelector(
+  selectEntities,
+  (entities) => {
+    const failedEntities = entities?.data?.filter((entity) =>
+      entities.failedIds?.includes(entity.id as string)
+    ) as EntityData[]
+
+    return failedEntities ? failedEntities : []
+  }
+)
+
+export const selectSuccessDeletedEntitiesIds = createSelector(
+  selectEntities,
+  (entities) => (entities?.successIds ? entities?.successIds : [])
 )
 
 export const selectEntityData = createSelector(

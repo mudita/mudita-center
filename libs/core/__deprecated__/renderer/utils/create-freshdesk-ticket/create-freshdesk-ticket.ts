@@ -15,6 +15,7 @@ const createFreshdeskTicket = async ({
   subject,
   description: tmpDescription,
   serialNumber,
+  deviceID,
   attachments,
   product,
 }: FreshdeskTicketData): Promise<AxiosResponse<unknown>> => {
@@ -45,6 +46,9 @@ const createFreshdeskTicket = async ({
   formData.append("custom_fields[cf_product]", product)
   if (serialNumber) {
     formData.append("custom_fields[cf_serial_number_imei]", serialNumber)
+  }
+  if (deviceID) {
+    formData.append("custom_fields[cf_deviceid]", deviceID)
   }
 
   attachments.forEach((attachment) => {

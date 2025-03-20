@@ -26,7 +26,7 @@ export class DevApiConfigAdapter {
 
   private static extendDataBody = (body: unknown): ApiConfig => {
     const apiConfig = body as ApiConfig
-    const newFeatures = ["fileManager"]
+    const newFeatures = ["mc-file-manager-internal"]
     return {
       ...apiConfig,
       features: uniq([...apiConfig.features, ...newFeatures]),

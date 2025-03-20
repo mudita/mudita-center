@@ -15,6 +15,7 @@ import {
   featureConfigurationFileManager,
   featureConfigurationOverview,
 } from "./feature-configuration-responses"
+
 //import from "Core/device" breaks usage in e2e
 enum ResponseStatus {
   Ok = 200,
@@ -63,10 +64,10 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           osVersion: "0.0.46 MuditaOS K",
           lang: "en-US",
           variant: "black",
-          features: ["mc-overview", "contacts", "fileManager"],
+          features: ["mc-overview", "mc-contacts", "mc-file-manager-internal"],
           entityTypes: ["contacts", "audioFiles"],
           productId: "2006",
-          vendorId: "0e8d",
+          vendorId: "3310",
           serialNumber: "0123456789ABCDEF",
           otaApiConfig: {
             otaApiKey: "864055030180383",
@@ -89,12 +90,12 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
               icon: "overview",
             },
             {
-              feature: "contacts",
+              feature: "mc-contacts",
               displayName: "Contacts",
               icon: "contacts-book",
             },
             {
-              feature: "fileManager",
+              feature: "mc-file-manager-internal",
               displayName: "Manage Files",
               icon: "file-manager",
             },
@@ -118,7 +119,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: featureConfigurationContacts,
         match: {
           expected: {
-            feature: "contacts",
+            feature: "mc-contacts",
             lang: "en-US",
           },
         },
@@ -138,7 +139,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: featureConfigurationFileManager,
         match: {
           expected: {
-            feature: "fileManager",
+            feature: "mc-file-manager-internal",
             lang: "en-US",
           },
         },
@@ -161,10 +162,31 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
             },
           },
           sections: {
-            battery: { icon: "battery-charging-5", text: "100%", subText: "" },
+            battery: {
+              icon: "battery-charging-5",
+              text: "100%",
+              subText: "",
+              show: true,
+            },
             update: { text: "ANDROID 12", version: "0.3.0" },
             status: { badgeText: "Offline+" },
-            "airplane-mode": { icon: "airplane-mode", text: "Airplane mode" },
+            "airplane-mode": {
+              icon: "airplane-mode",
+              text: "Airplane mode",
+              show: true,
+            },
+            connection0: {
+              icon: "network-signal-0",
+              text: "No SIM",
+              subText: "SIM 1 - no network",
+              show: false,
+            },
+            connection1: {
+              icon: "network-signal-0",
+              text: "No SIM",
+              subText: "SIM 2 - no network",
+              show: false,
+            },
           },
         },
         match: { expected: { feature: "mc-overview", lang: "en-US" } },
@@ -204,7 +226,9 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
             },
           ],
         },
-        match: { expected: { feature: "fileManager", lang: "en-US" } },
+        match: {
+          expected: { feature: "mc-file-manager-internal", lang: "en-US" },
+        },
       },
     ],
   },

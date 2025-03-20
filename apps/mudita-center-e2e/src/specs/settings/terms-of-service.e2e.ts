@@ -29,7 +29,7 @@ describe("Checking Terms of service", () => {
 
     // Wait 15 seconds to allow the update checking process to potentially timeout.
     const modalOverlay = await ModalPage.modalOverlay
-    await modalOverlay.waitForDisplayed({ timeout: 15000, reverse: true });
+    await modalOverlay.waitForDisplayed({ timeout: 15000, reverse: true })
 
     const aboutTermsOfServiceTextLabel =
       await SettingsPage.aboutTermsOfServiceTextLabel
@@ -37,7 +37,7 @@ describe("Checking Terms of service", () => {
   })
 
   it("Check Terms of service 'LEARN MORE' button", async () => {
-    if(testsHelper.isLinux()){
+    if (testsHelper.isLinux()) {
       sleep(5000)
     }
 
@@ -51,7 +51,7 @@ describe("Checking Terms of service", () => {
 
     const modalHeader = await ModalTermsOfServicePage.modalHeader
     await modalHeader.waitForDisplayed()
-    await expect(modalHeader).toHaveText("Mudita Center Terms of Use")
+    await expect(modalHeader).toHaveText("Mudita Center Terms of Service")
   })
 
   it("Check keywords", async () => {
@@ -63,51 +63,76 @@ describe("Checking Terms of service", () => {
       "Tax Identification Number: 5252558282"
     )
     await expect(firstParagraph).toHaveTextContaining(
-      "Statistical Identification Number: 14676767613"
+      "Statistical Identification Number: 146767613"
     )
   })
 
   it("Check Terms of service sections", async () => {
     const sectionGeneralProvisions =
       await ModalTermsOfServicePage.sectionGeneralProvisions
-    await expect(sectionGeneralProvisions).toHaveText("GENERAL PROVISIONS")
+    await expect(sectionGeneralProvisions).toHaveText("2. GENERAL PROVISIONS")
 
-    const sectionPurposeAndUse =
-      await ModalTermsOfServicePage.sectionPurposeAndUse
-    await expect(sectionPurposeAndUse).toHaveText("PURPOSE AND USE OF THE APP")
+    const sectionServices = await ModalTermsOfServicePage.sectionServices
+    await expect(sectionServices).toHaveText(
+      "3. SERVICES / MUDITA CENTER FEATURES"
+    )
 
-    const sectionResponsibility =
-      await ModalTermsOfServicePage.sectionResponsibility
-    await expect(sectionResponsibility).toHaveText("RESPONSIBILITY")
+    const sectionIntellectualProperty =
+      await ModalTermsOfServicePage.sectionIntellectualProperty
+    await expect(sectionIntellectualProperty).toHaveText(
+      "4. INTELLECTUAL PROPERTY / LICENSE"
+    )
 
-    const sectionConditionsOfUse =
-      await ModalTermsOfServicePage.sectionConditionsOfUse
-    await expect(sectionConditionsOfUse).toHaveText("CONDITIONS OF USE")
+    const sectionUpdates = await ModalTermsOfServicePage.sectionUpdates
+    await expect(sectionUpdates).toHaveText("5. UPDATES")
 
-    const sectionCommunication =
-      await ModalTermsOfServicePage.sectionCommunication
-    await expect(sectionCommunication).toHaveText("COMMUNICATION AND FEEDBACK")
+    const sectionHealthDisclaimer =
+      await ModalTermsOfServicePage.sectionHealthDisclaimer
+    await expect(sectionHealthDisclaimer).toHaveText("6. HEALTH DISCLAIMER")
+
+    const sectionUserObligations =
+      await ModalTermsOfServicePage.sectionUserObligations
+    await expect(sectionUserObligations).toHaveText("7. USER OBLIGATIONS")
+
+    const sectionLiability = await ModalTermsOfServicePage.sectionLiability
+    await expect(sectionLiability).toHaveText("8. LIABILITY")
+
+    const sectionTerminationOfTheTerms =
+      await ModalTermsOfServicePage.sectionTerminationOfTheTerms
+    await expect(sectionTerminationOfTheTerms).toHaveText(
+      "9. TERMINATION OF THE TERMS OF SERVICE"
+    )
+
+    const sectionComplaints = await ModalTermsOfServicePage.sectionComplaints
+    await expect(sectionComplaints).toHaveText("10. COMPLAINTS")
+
+    const sectionDisputeResolution =
+      await ModalTermsOfServicePage.sectionDisputeResolution
+    await expect(sectionDisputeResolution).toHaveText("11. DISPUTE RESOLUTION")
+
+    const sectionAmendments = await ModalTermsOfServicePage.sectionAmendments
+    await expect(sectionAmendments).toHaveText("12. AMENDMENTS")
+
+    const sectinonApplicableLaw =
+      await ModalTermsOfServicePage.sectinonApplicableLaw
+    await expect(sectinonApplicableLaw).toHaveText(
+      "13. APPLICABLE LAW / LANGUAGE VERSIONS"
+    )
 
     const sectionFinalProvisions =
       await ModalTermsOfServicePage.sectionFinalProvisions
-    await expect(sectionFinalProvisions).toHaveText("FINAL PROVISIONS")
+    await expect(sectionFinalProvisions).toHaveText("14. FINAL PROVISIONS")
   })
 
   it("Check links", async () => {
     const companyWebsiteLink = await ModalTermsOfServicePage.companyWebsiteLink
     await expect(companyWebsiteLink).toHaveAttribute(
       "href",
-      "https://www.mudita.com"
+      "https://www.mudita.com/"
     )
 
     const emailLink = await ModalTermsOfServicePage.companyEmailLink
     await expect(emailLink).toHaveAttribute("href", "mailto:hello@mudita.com")
-
-    const privacyPolicyLink = await ModalTermsOfServicePage.privacyPolicyLink
-    await expect(privacyPolicyLink).toHaveAttribute(
-      "href",
-      "https://mudita.com/legal/privacy-policy/mudita-center/"
-    )
 
     const termsConditionsLink =
       await ModalTermsOfServicePage.termsConditionsLink

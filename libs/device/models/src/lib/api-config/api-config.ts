@@ -19,6 +19,7 @@ export const ApiConfigValidator = z.object({
   serialNumber: z.string().optional(),
   features: z.array(z.string()).min(1),
   entityTypes: z.array(z.string()).min(1).optional(),
+  deviceID: z.string().optional(),
   otaApiConfig: z
     .object({
       otaApiKey: z.string(),

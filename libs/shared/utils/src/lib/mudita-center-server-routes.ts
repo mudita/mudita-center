@@ -9,4 +9,9 @@ export enum MuditaCenterServerRoutes {
   AppConfigurationV2 = "v2-app-configuration",
   ExternalUsageDevice = "external-usage-device",
   GetMscFlashDetails = "msc-flash",
+  GoogleAuthInit = "google-auth-init",
+  GoogleAuthRefreshToken = "google-auth-refresh-token",
+  HelpV2 = "help-v2",
+  KompaktOsUpdateAvailability = "kompakt-os-update-availability",
+  PrivacyPolicyUrl = "privacy-policy-url",
 }

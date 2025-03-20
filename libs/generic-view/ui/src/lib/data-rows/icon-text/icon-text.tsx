@@ -11,7 +11,7 @@ import dataTestIds from "./data-test-ids"
 import { IconTextData } from "generic-view/models"
 
 export const IconText: APIFC<IconTextData> = ({ data, ...props }) => {
-  if (!data) return null
+  if (!data || !data.show) return null
 
   const { icon, text, subText } = data
 
