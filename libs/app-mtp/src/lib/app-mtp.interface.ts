@@ -24,4 +24,6 @@ export interface MtpInterface {
   getDeviceStorages(deviceId: string): Promise<MtpStorage[]>
 
   uploadFile(data: MtpUploadFileData): Promise<void>
+
+  checkProgress(): Promise<number>
 }

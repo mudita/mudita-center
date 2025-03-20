@@ -29,4 +29,8 @@ export class AppMtp {
   async uploadFile(data: MtpUploadFileData): Promise<void> {
     return this.mtp.uploadFile(data)
   }
+
+  async checkProgress(): Promise<number> {
+    return this.mtp.checkProgress()
+  }
 }

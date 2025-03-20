@@ -34,6 +34,13 @@ router.post("/upload-file", (req: Request, res: Response) => {
   })
 })
 
+
+router.get("/upload-file-progress", (req: Request, res: Response) => {
+  appMtp.checkProgress().then((progress) => {
+    res.json({ progress })
+  })
+})
+
 app.use("/", router)
 
 const server = http.createServer(app)

@@ -22,4 +22,8 @@ export class DotnetMtp implements MtpInterface {
   async uploadFile(data: MtpUploadFileData): Promise<void> {
     return Promise.resolve()
   }
+
+  async checkProgress(): Promise<number> {
+    return Promise.resolve(100)
+  }
 }
