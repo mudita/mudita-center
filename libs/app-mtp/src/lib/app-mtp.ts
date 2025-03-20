@@ -4,6 +4,7 @@
  */
 
 import {
+  CheckProgressData,
   MtpDevice,
   MtpInterface,
   MtpStorage,
@@ -26,11 +27,11 @@ export class AppMtp {
     return this.mtp.getDeviceStorages(deviceId)
   }
 
-  async uploadFile(data: MtpUploadFileData): Promise<void> {
+  async uploadFile(data: MtpUploadFileData): Promise<string> {
     return this.mtp.uploadFile(data)
   }
 
-  async checkProgress(): Promise<number> {
-    return this.mtp.checkProgress()
+  async checkProgress(data: CheckProgressData): Promise<number> {
+    return this.mtp.checkProgress(data)
   }
 }

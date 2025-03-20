@@ -19,8 +19,8 @@ export class DotnetMtp implements MtpInterface {
     return Promise.resolve([{ id: "storage-1" }, { id: "storage-2" }])
   }
 
-  async uploadFile(data: MtpUploadFileData): Promise<void> {
-    return Promise.resolve()
+  async uploadFile(data: MtpUploadFileData): Promise<string> {
+    return Promise.resolve("transaction-id")
   }
 
   async checkProgress(): Promise<number> {

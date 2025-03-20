@@ -6,7 +6,7 @@
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
 import { AppMtp } from "../app-mtp"
-import { MtpUploadFileData } from "Libs/app-mtp/src/lib/app-mtp.interface"
+import { MtpUploadFileData } from "../app-mtp.interface"
 
 const appMtp = new AppMtp()
 

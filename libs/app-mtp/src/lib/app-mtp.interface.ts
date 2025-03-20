@@ -18,12 +18,16 @@ export interface MtpUploadFileData {
   sourcePath: string
 }
 
+export interface CheckProgressData {
+  transactionId: string
+}
+
 export interface MtpInterface {
   getDevices(): Promise<MtpDevice[]>
 
   getDeviceStorages(deviceId: string): Promise<MtpStorage[]>
 
-  uploadFile(data: MtpUploadFileData): Promise<void>
+  uploadFile(data: MtpUploadFileData): Promise<string>
 
-  checkProgress(): Promise<number>
+  checkProgress(data: CheckProgressData): Promise<number>
 }
