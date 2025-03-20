@@ -7,7 +7,9 @@ import express, { Application, Request, Response, Router } from "express"
 import bodyParser from "body-parser"
 import http from "http"
 import { AppMtp } from "../app-mtp"
+import * as dotenv from "dotenv"
 
+dotenv.config()
 const appMtp = new AppMtp()
 
 const app: Application = express()

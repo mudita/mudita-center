@@ -7,7 +7,9 @@ import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
 import { AppMtp } from "../app-mtp"
 import { MtpUploadFileData } from "../app-mtp.interface"
+import * as dotenv from "dotenv"
 
+dotenv.config()
 const appMtp = new AppMtp()
 
 const handleAction = (action: string, parsedData: unknown) => {

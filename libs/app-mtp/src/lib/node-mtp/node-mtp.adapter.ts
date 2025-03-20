@@ -7,7 +7,12 @@ import fs from "node:fs"
 import * as path from "node:path"
 import { NodeMtpDevice } from "./node-mtp-device"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
-import { MtpDevice, MtpStorage, MtpUploadFileData, CheckProgressData } from "../app-mtp.interface"
+import {
+  CheckProgressData,
+  MtpDevice,
+  MtpStorage,
+  MtpUploadFileData,
+} from "../app-mtp.interface"
 
 const delay = (ms: number = 500): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -26,7 +31,10 @@ export class NodeMtpAdapter {
     return Promise.resolve([{ id: "storage-1" }, { id: "storage-2" }])
   }
 
-  async uploadFile(data: MtpUploadFileData, transactionId: string) {
+  async uploadFile(
+    data: MtpUploadFileData,
+    transactionId: string
+  ): Promise<void> {
     this.uploadFileProgress[transactionId] = 0
 
     const PHONE_STORAGE_ID = 65537
