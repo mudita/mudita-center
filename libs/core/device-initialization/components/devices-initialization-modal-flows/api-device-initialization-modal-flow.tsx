@@ -37,6 +37,7 @@ import {
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { ButtonAction } from "generic-view/models"
+import { ApiDeviceLockedModalTestIds } from "e2e-test-ids"
 
 const messages = defineMessages({
   lockedModalHeadline: {
@@ -82,7 +83,12 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
       return "/generic/mc-data-migration"
     }
     return firstMenuItemUrl
-  }, [dataMigrationSourceDevice, dataMigrationTargetDevice, menuElements, pathToGoBack])
+  }, [
+    dataMigrationSourceDevice,
+    dataMigrationTargetDevice,
+    menuElements,
+    pathToGoBack,
+  ])
 
   const onModalClose = useCallback(async () => {
     if (pathToGoBack === URL_MAIN.dataMigration && dataMigrationSourceDevice) {
@@ -138,10 +144,14 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
           }}
         >
           <Modal.TitleIcon config={{ type: IconType.Mudita }} />
-          <Modal.Title>
+          <Modal.Title
+            data-testid={ApiDeviceLockedModalTestIds.LockedModalHeadline}
+          >
             {intl.formatMessage(messages.lockedModalHeadline)}
           </Modal.Title>
-          <p>{intl.formatMessage(messages.lockedModalParagraph)}</p>
+          <p data-testid={ApiDeviceLockedModalTestIds.LockedModalParagraph}>
+            {intl.formatMessage(messages.lockedModalParagraph)}
+          </p>
         </Modal>
       </Wrapper>
     </GenericThemeProvider>
