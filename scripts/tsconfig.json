@@ -3,10 +3,14 @@
     "target": "es6",
     "module": "commonjs",
     "esModuleInterop": true,
-    "rootDir": ".",
+    "rootDir": "..",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "news/utils": ["../libs/news/utils/src"],
+      "news/models": ["../libs/news/models/src"]
+    }
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
