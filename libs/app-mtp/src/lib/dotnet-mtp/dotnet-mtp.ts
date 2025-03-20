@@ -10,7 +10,7 @@ import {
   MtpUploadFileData,
 } from "../app-mtp.interface"
 
-export class DotNetMtp implements MtpInterface {
+export class DotnetMtp implements MtpInterface {
   async getDevices(): Promise<MtpDevice[]> {
     return Promise.resolve([{ id: "device-1" }])
   }
