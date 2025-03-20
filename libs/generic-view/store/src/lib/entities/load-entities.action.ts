@@ -10,6 +10,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { getEntitiesConfigAction } from "./get-entities-config.action"
 import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
 import { getEntitiesDataAction } from "./get-entities-data.action"
+import { selectEntitiesLoadingState } from "../selectors/entities"
 
 export const loadEntities = createAsyncThunk<
   void,
@@ -17,7 +18,7 @@ export const loadEntities = createAsyncThunk<
   { state: ReduxRootState }
 >(
   ActionName.LoadEntities,
-  async ({ deviceId, entitiesTypes = [] }, { dispatch }) => {
+  async ({ deviceId, entitiesTypes = [] }, { dispatch, getState }) => {
     for (const entitiesType of entitiesTypes) {
       await dispatch(
         getEntitiesConfigAction({
@@ -25,6 +26,14 @@ export const loadEntities = createAsyncThunk<
           entitiesType,
         })
       )
+      const entitiesLoadingStates = selectEntitiesLoadingState(getState(), {
+        deviceId,
+      })
+      const state = entitiesLoadingStates[entitiesType]?.state
+      if (state === "loading" || state === "loaded") {
+        continue
+      }
+
       await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
       await dispatch(getEntitiesDataAction({ entitiesType, deviceId }))
     }

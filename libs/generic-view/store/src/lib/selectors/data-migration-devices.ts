@@ -16,7 +16,7 @@ import { selectDataMigrationStatus } from "./data-migration-status"
 
 // FIXME: The device name should be moved to the API config response of API device
 const messages = {
-  "0e8d.2006": "Kompakt",
+  "3310.2006": "Kompakt",
 }
 
 export const selectDataMigrationSourceDevices = createSelector(

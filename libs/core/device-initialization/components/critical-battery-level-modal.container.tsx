@@ -6,7 +6,7 @@
 import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import CriticalBatteryLevelModal from "Core/connecting/components/critical-battery-level-modal/critical-battery-level-modal"
-import { useHandleActiveDeviceAborted } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-aborted.hook"
+import { useHandleActiveDeviceAborted } from "device-manager/feature"
 
 const CriticalBatteryLevelModalContainer: FunctionComponent = () => {
   const handleActiveDeviceAborted = useHandleActiveDeviceAborted()

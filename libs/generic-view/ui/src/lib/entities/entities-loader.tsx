@@ -4,19 +4,18 @@
  */
 
 import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import styled from "styled-components"
+import { sum } from "lodash"
 import { APIFC } from "generic-view/utils"
 import { EntitiesLoaderConfig } from "generic-view/models"
 import {
-  getEntitiesDataAction,
   selectActiveApiDeviceId,
   selectEntitiesLoadingState,
 } from "generic-view/store"
-import { useDispatch, useSelector } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import styled from "styled-components"
-import { H3 } from "../texts/headers"
+import { Typography } from "../typography"
 import { ProgressBar } from "../interactive/progress-bar/progress-bar"
-import { sum } from "lodash"
 
 export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
   config,
@@ -29,28 +28,30 @@ export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
   const entitiesLoadingStates = useSelector((state: ReduxRootState) =>
     selectEntitiesLoadingState(state, { deviceId })
   )
-  const allLoaded = config.entitiesTypes.every(
-    (entitiesType) => entitiesLoadingStates[entitiesType].state === "loaded"
+  const allLoaded = config.entityTypes.every(
+    (entitiesType) => entitiesLoadingStates[entitiesType]?.state === "loaded"
   )
   const [showProgress, setShowProgress] = useState(!allLoaded)
   const [totalProgress, setTotalProgress] = useState(0)
 
   useEffect(() => {
-    const progress: Record<string, number> = {}
-
-    for (const entitiesType of config.entitiesTypes) {
-      const entity = entitiesLoadingStates[entitiesType]
-      if (entity.state === "idle") {
-        progress[entitiesType] = 0
-        dispatch(getEntitiesDataAction({ entitiesType, deviceId }))
-      } else if (entity.state === "loading" || entity.state === "loaded") {
-        progress[entitiesType] = entity.progress
+    const progress = config.entityTypes.reduce((acc, entityType) => {
+      acc[entityType] = 0
+      const entity = entitiesLoadingStates[entityType]
+      if (entity?.state === "loading" || entity?.state === "loaded") {
+        acc[entityType] = entity.progress
       }
-    }
-    setTotalProgress(
-      sum(Object.values(progress)) / Object.keys(progress).length
-    )
-  }, [config.entitiesTypes, deviceId, dispatch, entitiesLoadingStates])
+      return acc
+    }, {} as Record<string, number>)
+
+    const totalProgress =
+      Object.keys(progress).length > 0
+        ? Math.round(
+            sum(Object.values(progress)) / Object.keys(progress).length
+          )
+        : 0
+    setTotalProgress(totalProgress)
+  }, [config.entityTypes, dispatch, entitiesLoadingStates])
 
   useEffect(() => {
     let timeout: NodeJS.Timeout
@@ -67,7 +68,7 @@ export const EntitiesLoader: APIFC<undefined, EntitiesLoaderConfig> = ({
   }
   return (
     <div {...props}>
-      {config.text && <H3>{config.text}</H3>}
+      {config.text && <Typography.H3 config={config} />}
       <Progress config={{ maxValue: 100 }} data={{ value: totalProgress }} />
     </div>
   )

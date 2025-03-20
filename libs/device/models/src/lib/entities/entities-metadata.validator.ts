@@ -7,6 +7,7 @@ import { z } from "zod"
 
 export const entitiesMetadataValidator = z.object({
   totalEntities: z.number().nonnegative(),
+  uniqueKey: z.string().optional(),
 })
 
 export type EntitiesMetadata = z.infer<typeof entitiesMetadataValidator>

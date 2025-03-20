@@ -30,7 +30,9 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
             flexPlacement: {
               alignSelf: "center",
             },
-            padding: "32px 27px 16px 27px",
+            width: "177px",
+            height: "319px",
+            margin: "16px auto",
           },
           config: {
             // TODO: implement support for config.imgVariant
@@ -71,6 +73,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
             component: "divider",
             layout: {
               margin: "0 -24px",
+              width: "280px",
             },
           },
           [SummaryKeys.About]: {
@@ -98,6 +101,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
     summary: {
       component: "block-box",
       layout: {
+        shadow: true,
         gridPlacement: {
           row: 1,
           column: 1,

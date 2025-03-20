@@ -65,3 +65,4 @@ apps/mudita-center/static/sql-wasm*
 .nx
 
 matomo-to-gsheet-*.json
+scripts/manage-test-files/file-manager-test-files/*

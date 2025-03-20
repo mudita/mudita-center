@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { MuditaCenterServerRoutes } from "../libs/shared/utils/src/lib/mudita-center-server-routes"
+
 const axios = require("axios")
 const path = require("path")
 const fs = require("fs-extra")
@@ -22,9 +24,9 @@ require("dotenv").config({
     if (previewToken) {
       params.append("previewToken", previewToken)
     }
-    const url = `${
-      process.env.MUDITA_CENTER_SERVER_V2_URL
-    }/help-v2?${params.toString()}`
+    const url = `${process.env.MUDITA_CENTER_SERVER_URL}/${
+      MuditaCenterServerRoutes.HelpV2
+    }?${params.toString()}`
 
     const { data } = await axios.get(url)
 

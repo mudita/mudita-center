@@ -28,8 +28,17 @@ interface SendFileError {
 
 export const sendFile = createAsyncThunk<
   { transferId: number },
-  | { deviceId: DeviceId; filePath: string; targetPath: string }
-  | { deviceId: DeviceId; transferId: number; chunksCount: number },
+  | {
+      deviceId: DeviceId
+      filePath: string
+      targetPath: string
+    }
+  | {
+      deviceId: DeviceId
+      transferId: number
+      chunksCount: number
+      filePath?: string
+    },
   { state: ReduxRootState; rejectValue: SendFileError | undefined }
 >(
   ActionName.FileTransferSend,
@@ -48,9 +57,14 @@ export const sendFile = createAsyncThunk<
 
     const { deviceId } = params
 
-    const transfer: { transferId: number; chunksCount: number } = {
+    const transfer: {
+      transferId: number
+      chunksCount: number
+      filePath?: string
+    } = {
       transferId: 0,
       chunksCount: 0,
+      filePath: "",
     }
 
     if (aborted) {
@@ -63,8 +77,8 @@ export const sendFile = createAsyncThunk<
     } else {
       const { filePath, targetPath } = params
       const preTransferResponse = await startPreSendFileRequest(
-        filePath,
         targetPath,
+        { path: filePath },
         deviceId
       )
       if (!preTransferResponse.ok) {
@@ -94,6 +108,7 @@ export const sendFile = createAsyncThunk<
       fileTransferSendPrepared({
         transferId,
         chunksCount,
+        filePath: params.filePath,
       })
     )
 
@@ -108,7 +123,7 @@ export const sendFile = createAsyncThunk<
             ...error,
             payload: {
               transferId,
-              filePath: "filePath" in params ? params.filePath : "",
+              filePath: params.filePath || "",
             },
           },
         })

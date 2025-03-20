@@ -27,6 +27,7 @@ describe("Icon text component", () => {
             icon: IconType.Battery1,
             text: "Dummy text",
             subText: "Dummy subtext",
+            show: true,
           }}
         />
       </ThemeProvider>
@@ -43,6 +44,7 @@ describe("Icon text component", () => {
           data={{
             icon: IconType.Battery1,
             text: "Dummy text",
+            show: true,
           }}
         />
       </ThemeProvider>

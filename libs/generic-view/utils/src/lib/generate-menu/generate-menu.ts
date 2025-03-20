@@ -27,6 +27,7 @@ const mapIcons: Partial<Record<IconType, CoreIconType>> = {
   [IconType.NoSimCard]: CoreIconType.NoRange,
   [IconType.AirplaneMode]: CoreIconType.NoRange,
   [IconType.Overview]: CoreIconType.MenuOverview,
+  [IconType.FileManager]: CoreIconType.FilesManager,
   [IconType.Close]: CoreIconType.Close,
   [IconType.Device]: CoreIconType.MenuPhone,
   [IconType.Mudita]: CoreIconType.MuditaLogo,

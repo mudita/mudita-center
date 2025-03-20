@@ -3,15 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import axios, { AxiosInstance, AxiosResponse } from "axios"
+import { EntryCollection } from "contentful"
+import https from "https"
+import { MuditaCenterServerRoutes } from "shared/utils"
 import { NewsEntry } from "Core/news/dto"
 import { OsEnvironment } from "Core/update/constants"
 import { ReleaseManifest } from "Core/update/dto"
 import { ClientInterface } from "Core/__deprecated__/api/mudita-center-server/client.interface"
-import { MuditaCenterServerRoutes } from "Core/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
 import { Product } from "Core/__deprecated__/main/constants"
-import axios, { AxiosInstance, AxiosResponse } from "axios"
-import { EntryCollection } from "contentful"
-import https from "https"
 
 export interface getLatestProductionReleaseParams {
   product: Product

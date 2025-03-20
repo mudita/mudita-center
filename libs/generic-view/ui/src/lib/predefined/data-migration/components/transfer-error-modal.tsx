@@ -12,10 +12,7 @@ import { TransferFailMessage } from "./transfer-fail-message"
 
 const messages = defineMessages({
   title: {
-    id: "module.genericViews.dataMigration.transferError.title",
-  },
-  description: {
-    id: "module.genericViews.dataMigration.transferError.genericDescription",
+    id: "module.genericViews.dataMigration.failure.title",
   },
   closeButtonLabel: {
     id: "module.genericViews.dataMigration.failure.closeButtonLabel",

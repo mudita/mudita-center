@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactSupportEvent } from "Core/contact-support/constants"
-import { hideModals } from "Core/modals-manager"
+import { hideModals } from "../../modals-manager/actions/base.action"
 
 export const closeContactSupportFlow = createAsyncThunk<void, undefined>(
   ContactSupportEvent.CloseContactSupportFlow,

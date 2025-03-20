@@ -16,6 +16,11 @@ describe("stringToRegex", () => {
     expect(regex).toEqual(new RegExp("abc"))
   })
 
+  it("converts regex string slashes properly", () => {
+    const regex = stringToRegex("/^/storage/emulated/0//m")
+    expect(regex).toEqual(new RegExp("^/storage/emulated/0/", "m"))
+  })
+
   it("throws error for invalid regex string", () => {
     expect(() => stringToRegex("abc")).toThrow("Invalid regex")
   })

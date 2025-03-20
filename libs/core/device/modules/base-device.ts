@@ -41,6 +41,10 @@ export abstract class BaseDevice {
 
   abstract connect(): Promise<ResultObject<undefined>>
 
+  public disconnect(): Promise<unknown> {
+    return Promise.resolve()
+  }
+
   abstract request(config: unknown): Promise<unknown>
 
   private generateDeviceIdBySerialNumber = (

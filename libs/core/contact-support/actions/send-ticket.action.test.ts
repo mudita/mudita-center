@@ -38,6 +38,9 @@ const payload: SendTicketPayload = {
 }
 
 const state: Partial<RootState & ReduxRootState> = {
+  activeDeviceRegistry: {
+    activeDeviceId: "",
+  },
   device: {
     data: undefined,
     deviceType: DeviceType.MuditaPure,
@@ -84,7 +87,8 @@ describe("async `sendTicket` ", () => {
       expect(sendTicketRequest).toHaveBeenCalledWith({
         email: "",
         subject: "Error",
-        serialNumber: undefined,
+        serialNumber: "",
+        deviceID: undefined,
         description: "Hello<br/><br/>World<br/>...<br/>Bye",
         product: FreshdeskTicketProduct.Pure,
       })

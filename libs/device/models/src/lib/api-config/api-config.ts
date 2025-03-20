@@ -11,6 +11,7 @@ export type MCLang = z.infer<typeof MCLangValidator>
 
 export const ApiConfigValidator = z.object({
   apiVersion: z.string(),
+  osVersion: z.string(),
   lang: MCLangValidator.optional(),
   variant: z.string().optional(),
   productId: z.string(),
@@ -18,6 +19,13 @@ export const ApiConfigValidator = z.object({
   serialNumber: z.string().optional(),
   features: z.array(z.string()).min(1),
   entityTypes: z.array(z.string()).min(1).optional(),
+  deviceID: z.string().optional(),
+  otaApiConfig: z
+    .object({
+      otaApiKey: z.string(),
+      osVersionTimestamp: z.number(),
+    })
+    .optional(),
 })
 
 export type ApiConfig = z.infer<typeof ApiConfigValidator>

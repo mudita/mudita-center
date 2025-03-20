@@ -51,6 +51,17 @@ export enum ActionName {
   ChunkFileTransferGet = "generic-file-transfer/chunk-get",
   ClearFileTransferGetError = "generic-file-transfer/clear-get-errors",
   TransferDataToDevice = "generic-file-transfer/transfer-data-to-device",
+  // New approach for transferring files
+  SendFiles = "generic-file-transfer/send-files",
+  SendFilesPreSend = "generic-file-transfer/send-files-pre-send",
+  SendFilesChunkSent = "generic-file-transfer/send-files-chunk-sent",
+  SendFilesError = "generic-file-transfer/send-files-error",
+  SendFilesFinished = "generic-file-transfer/send-files-finished",
+  SendFilesClear = "generic-file-transfer/send-files-clear",
+  SendFilesAbortRegister = "generic-file-transfer/send-files-abort-register",
+  SendFilesAbort = "generic-file-transfer/send-files-abort",
+  addFileTransferErrors = "generic-file-transfer/add-errosr",
+  clearFileTransferErrors = "generic-file-transfer/clear-errors",
 
   SetDataTransfer = "generic-data-transfer/set-data-transfer",
   SetDataTransferStatus = "generic-data-transfer/set-data-transfer-status",
@@ -105,7 +116,10 @@ export enum ActionName {
   GetEntitiesData = "entities/get-entities-data",
   GetEntityData = "entities/get-entity-data",
   ClearEntitiesData = "entities/clear-entities-data",
+  DeleteEntitiesData = "entities/delete-entities-data",
+  ClearAfterDeleteEntities = "entities/clear-after-delete-entities",
   DeleteEntityData = "entities/delete-entity-data",
   CreateEntityData = "entities/create-entity-data",
   UpdateEntityData = "entities/update-entity-data",
+  RefreshEntitiesIfMetadataChanged = "entities/refresh-entities-if-metadata-changed",
 }

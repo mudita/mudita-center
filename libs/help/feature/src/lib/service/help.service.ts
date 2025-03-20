@@ -4,15 +4,16 @@
  */
 
 import path from "path"
-import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
-import { pathExists, readJSON, writeJSON } from "fs-extra"
 import axios from "axios"
-import { HelpData, HelpEvent } from "help/models"
+import { BrowserWindow } from "electron"
 import { ipcMain } from "electron-better-ipc"
-import defaultHelp from "../default-help.json"
+import { pathExists, readJSON, writeJSON } from "fs-extra"
+import { MuditaCenterServerRoutes } from "shared/utils"
+import { HelpData, HelpEvent } from "help/models"
+import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { IpcEvent } from "Core/core/decorators"
-import { BrowserWindow } from "electron"
+import defaultHelp from "../default-help.json"
 
 const helpPath = path.join(`${getAppPath()}`, "help-v2.json")
 
@@ -23,10 +24,20 @@ export class HelpService {
     this.mainApplicationWindow = win
   }
 
+  async initialize() {
+    await this.initializeDefaultData()
+    void this.update()
+  }
+
+  @IpcEvent(HelpEvent.GetData)
+  async getData() {
+    return (await readJSON(helpPath)) as HelpData
+  }
+
   private async getNewestData(nextSyncToken?: string) {
     try {
       const { data } = await axios.get<HelpData>(
-        `${process.env.MUDITA_CENTER_SERVER_V2_URL}/help-v2`,
+        `${process.env.MUDITA_CENTER_SERVER_URL}/${MuditaCenterServerRoutes.HelpV2}`,
         {
           params: {
             nextSyncToken,
@@ -62,15 +73,5 @@ export class HelpService {
       await writeJSON(helpPath, defaultHelp)
       logger.info("Default help data initialized")
     }
-  }
-
-  async initialize() {
-    await this.initializeDefaultData()
-    void this.update()
-  }
-
-  @IpcEvent(HelpEvent.GetData)
-  async getData() {
-    return (await readJSON(helpPath)) as HelpData
   }
 }

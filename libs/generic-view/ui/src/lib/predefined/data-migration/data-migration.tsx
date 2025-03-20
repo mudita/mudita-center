@@ -5,12 +5,7 @@
 
 /* stylelint-disable no-duplicate-selectors */
 
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react"
+import React, { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { defineMessages } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
 import { APIFC } from "generic-view/utils"
@@ -36,15 +31,12 @@ import {
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
 import styled from "styled-components"
-import { H3 } from "../../texts/headers"
+import { Typography } from "../../typography"
 import { Divider } from "../../helpers/divider"
 import { TargetSelector, TargetSelectorWrapper } from "./target-selector"
 import Form from "../../interactive/form/form"
 import { TransferSetup } from "./transfer-setup"
-import {
-  GenericThemeProvider,
-  modalTransitionDuration,
-} from "generic-view/theme"
+import { GenericThemeProvider, modalTransitionDuration } from "generic-view/theme"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { PureErrorModal } from "./components/pure-error-modal"
@@ -156,7 +148,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
       case DataMigrationStatus.PureDatabaseIndexing:
         dispatch(setDataMigrationPureRestarting(false))
         break
-      case DataMigrationStatus.DataTransferring:
+      case DataMigrationStatus.DataReading:
         startTransfer()
         break
     }
@@ -239,9 +231,10 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
           defaultOpened:
             modalOpened &&
             [
-              DataMigrationStatus.DataTransferring,
               DataMigrationStatus.PureDatabaseCreating,
               DataMigrationStatus.PureDatabaseIndexing,
+              DataMigrationStatus.DataReading,
+              DataMigrationStatus.DataTransferring,
               DataMigrationStatus.DataTransferred,
             ].includes(dataMigrationStatus),
           size: "small",
@@ -303,6 +296,8 @@ const Wrapper = styled.div`
     background-color: ${({ theme }) => theme.color.white};
   }
 `
+
+const H3 = styled(Typography.H3)``
 
 const Header = styled.div`
   display: flex;

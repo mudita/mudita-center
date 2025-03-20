@@ -1,167 +1,326 @@
-BEFORE INSTALLING MUDITA CENTER, PLEASE READ AND ACCEPT THE REQUIRED DOCUMENTS: PRIVACY POLICY AND TERMS OF USE
-
-PRIVACY POLICY
-WE HEREBY INFORM THAT WE PROCESS YOUR PERSONAL DATA. DETAILS REGARDING THIS CAN BE FOUND BELOW
-
-Who is the controller of your personal data and who can you contact about it?
-
-1. The Controller of your personal data is Mudita sp. z o.o. with its registered office in Warsaw at ul. Jana Czeczota 6, 02-607 Warsaw, entered into the Register of Entrepreneurs held by the Regional Court for the Capital City of Warsaw, 12th Commercial Division of the National Court Register, under KRS [National Court Register Number] 0000467620, NIP [Polish Taxpayer Identification Number] 5252558282, REGON [National Business Registration Number] 146767613, share capital:600.000,00 PLN, hereinafter referred to as "Controller or Mudita".
-
-2. In cases regarding the protection of your personal data and the exercising your rights you can contact us by e-mail: office@mudita.com or in writing to our address indicated in clause 1.
-For what purposes and on what grounds do we process your personal data?
-
-3. Your personal data is processed for the following purposes:
-the purpose of the processing & legal basis for the processing
-Mudita's software users:
-
-    - sharing and enabling the use of the offered software - indispensability to perform the agreement (Article 6 (1) (b) of the GDPR)
-    - analyze of data provided - your consent (Article 6 (1) (a) of the GDPR)
-
-Mudita's website and forum users:
-
-    - necessary cookies - our legitimate interest (Article 6 (1) (f) of the GDPR)
-    - marketing, functional, analytical cookies or our partners cookies - your consent  (Article 6 (1) (a) of the GDPR)
-    - transferring marketing and promotional information including our partners - our legitimate interest (Article 6 (1) (f) of the GDPR) or your consent  (Article 6 (1) (a) of the GDPR)
-    - performance of the agreement concluded with us (forum users) - indispensability to perform the agreement (Article 6 (1) (b) of the GDPR)
-
-Sales:
-
-    - leading to the conclusion of the agreement with us - indispensability to perform the agreement (Article 6 (1) (b) of the GDPR)
-    - performance of the agreement concluded with us and handling complaints concerning the agreements concluded with us - indispensability to perform the agreement (Article 6 (1) (b) of the GDPR)
-    - performance of additional services - our legitimate interest (Article 6 (1) (f) of the GDPR)
-    - transferring marketing and promotional information including our partners - our legitimate interest (Article 6 (1) (f) of the GDPR) or your consent (Article 6 (1) (a) of the GDPR)
-
-questions for us:
-
-    - responding to the questions sent via: contact form, forum, email or phone number - our legitimate interest (Article 6 (1) (f) of the GDPR)
-
-general:
-
-    - analytical purposes (e.g. selection of the services to the needs of our clients, optimization of our products / services based on your comments on this topic, optimalization of the service processes based on the process of sales service and after-sales service, including complaint, clients' satisfaction survey and determining of the quality of our service) -  our legitimate interest (Article 6 (1) (f) of the GDPR)
-    - possible establishment, investigation or defence against claims (i.e. evidence purposes) - our legitimate interest (Article 6 (1) (f) of the GDPR)
-    - storage of accounting documents - our obligation to keep accounting documents under tax law
-    - (Article 6 (1) (c) of the GDPR in conjunction with Article 86 paragraph 1 of the Tax Ordinance Act)
-
-Who has access to your personal data?
-
-4. We may share your personal data with the following categories of entities:
-
-    a) employees and associates,
-    b) related undertakings and cooperating entities, including our partners,
-    c) entities supporting our activity, including but not limited to legal, accounting, IT, logistics, marketing terms, etc.
-    How long is your personal data stored?
-
-5. Your personal data is processed:
-
-    a) in relation to conclusion and performance of the agreement or providing other services (using Mudita's website/forum, software users, products sales, necessary cookies) - for the time necessary to perform the contract;
-    b) provided under your consent (cookies files or marketing data) - unless you withdraw your consent or further processing will be pointless;
-    c) related to answering to your inquiries - for the time necessary to perform the obligation and for the time necessary to achieve our goals;
-    d) for evidence purposes to establish the existence of claims, their pursuit or defence against them - until the end of the limitation period for possible claims in this respect (this period is determined by the provisions of the Polish Civil Code), and in the case of its use in public legal proceedings until the time when after their final termination, extraordinary appeal measures are not be applicable any more (such period shall be determined by the provisions of the Polish Code of Civil Procedure);
-    e) in connection with the storage of accounting documentation - until the expiry of the limitation period for the tax obligation related to the relevant transaction (this period is determined by the provisions of the Tax Ordinance Act);
-    What rights do you have in relation to the processing of your personal data?
-
-6. You shall have the right:
-
-    a) to access to your data and receive a copy of it;
-    b) to rectify (correct) your data;
-    c) to delete data:  if, in your opinion, there are no grounds for us to process your data, you can request us to delete it;
-    d) to limit data processing: you can request that we limit the processing of your personal data only to their storage or performance of the activities agreed with you, if in your opinion we have incorrect data about you or we process it unreasonably; or you do not want us to delete it because you need it to establish, pursue or defend claims; or for the duration of your objection to data processing;
-    e) to object to the processing of data: objection due to special situation - you shall have the right to object to the processing of your data on the basis of a legitimate interest for purposes other than direct marketing, as well as when the processing is necessary for us to fulfil a task carried out in the public interest or the exercising public authority entrusted to us, then you should indicate your special situation, which, in your opinion, justifies the our discontinuation of the processing covered by the objection, we will stop processing your data for such purposes, unless we demonstrate that the grounds for processing your data override your rights or that your data is necessary for us to establish, pursue or defend claims;
-    f) to transfer data;
-
-    g) to lodge a complaint with the supervisory authority: if you think that we process your data unlawfully, you can lodge a complaint to the supervisory authority responsible for overseeing compliance with the provisions on the protection of personal data (the President of the Office for Personal Data Protection);
-
-    h) to withdraw your consent to the processing of personal data: at any time you shall have the right to withdraw your consent to the processing of your personal data, which we process on the basis of your consent, the withdrawal of consent will not influence the legal compliance of the processing which was performed on the basis of your consent before its withdrawal.
-
-How to exercise your personal data rights?
-
-7. In order to exercise your rights, send a request to the contact details indicated in clause 1. Before exercising your rights you shall remember that we will have to make sure it is you, that is, to appropriately identify you.
-Is providing personal data mandatory?
-
-8. Concluding the agreement with us is voluntary. However, providing personal data in connection with the agreement is a condition for its conclusion and then performance - without providing your personal data, it is not possible to conclude the agreement with us.
-
-Cookies
-
-9. Cookies are tiny text files that are downloaded to your computer, to improve your experience during using our website. They serve also many functions. They are very important for the proper operation of most websites, including those where we log in to our account. These files identify the computer and the user, they are not malicious programs or associated with any private data.
-
-We use cookies to improve your experience while you navigate through the our websites accordingly to our cookies policy. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they as essential for the working of basic functionalities of the our websites.
-
-We also use marketing, functional, analytical or third-party cookies that help us analyze and understand how you use our websites, to store user preferences and provide them with content and advertisements that are relevant to you. These cookies will only be stored on your browser with your consent to do so. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience.
-
-You can express your consent or objection to the use of cookies after entering our website. Before granting your consent, you can read the full list and details about cookies that we use on our website.
-
-Details about settings the rules for the use of cookies, including disabling cookies, by the browser are available at the links below:
-
-    - Internet Explorer: https://support.microsoft.com/pl-pl/help/17442/windows-internet-explorer-delete-manage-cookies
-    - Mozilla Firefox: http://support.mozilla.org/pl/kb/ciasteczka
-    - Google Chrome: http://support.google.com/chrome/bin/answer.py?hl=pl&answer=95647
-    - Opera: http://help.opera.com/Windows/12.10/pl/cookies.html
-    - Safari: https://support.apple.com/kb/PH5042?locale=en-GB
-Additional information
-
-10. Controller does not share and has no intention to share client's personal data with third country or international organisation. Only except may be the United States (based on standard contractual clauses according to Commission Implementing Decision (EU) 2021/914 of 4 June 2021 on standard contractual clauses for the transfer of personal data to third countries pursuant to Regulation (EU) 2016/679 of the European Parliament and of the Council), which results from the fact, that personal data may be uploaded to the servers of applications, software and IT services providers, located in the United States.
-
-
-MUDITA CENTER SOFTWARE - TERMS OF USE
-
-NOTE: BY USING THE MUDITA CENTER SOFTWARE, YOU AGREE TO COMPLY WITH THE TERMS LISTED BELOW. WITHOUT ACCEPTING THEM, YOU WILL NOT ACQUIRE THE RIGHT TO USE THE SOFTWARE. THEREFORE, YOU SHOULD READ THESE TERMS THOROUGHLY BEFORE INSTALLING MUDITA CENTER. IF YOU DO NOT AGREE WITH THESE TERMS, YOU CANNOT OBTAIN AND USE THE SOFTWARE OR DOWNLOAD OR USE ITS UPDATES.
-
-
-
-Definitions:
-
-"Software" refers to the Mudita Center computer application available on computers, used primarily for managing the Mudita Pure device. As of the publication date of these Terms, the application can be installed on the macOS, Windows, and Linux operating systems. The features offered by the Software and its compatibility with computer systems are subject to change with subsequent Updates, e.g., they can be limited or expanded.
-
-"Update" refers to any update to the Software, including the addition or changing of features or replacing the Software with a new application.
-
-"Mudita" refers to Mudita sp. z o.o. with its registered office in Warsaw (address: Jana Czeczota 9, 02- 607 Warsaw, Poland), entered into the Register of Entrepreneurs of the National Court Register under KRS number 0000467620, tax identification number (NIP) 5252558282, share capital PLN 21,100.00.
-
-"User" (also referred to as "you") refers to any person who has accepted the Terms of Use for the Mudita Center Software and installed the Software.
-
-
-
-License terms:
-
-- Upon your acceptance of these Terms, Mudita will grant you a free license to use the Software. When you download an Update, you will similarly acquire a free license to use the Update. This license grants you a non-exclusive, territorially unlimited right to use the Software and/or Updates without limitation to the number of copies installed on computers, provided that you are entitled to use those computers and install software on them. The license includes:
-
-    - storing the Software and/or Updates using the computer's disk space or on data storage devices,
-
-    - running, displaying, and using the Software and/or Updates on the computer in accordance with their intended purpose.
-
-- This license does not grant you any rights to use the Software and/or Updates for purposes other than those specified in these Terms.
-
-- You may not modify, translate, disassemble, decompile, or reproduce the Software in whole or in part (except for cases in which it is expressly permitted by the generally applicable laws or an open- source license covering the source code of the Software).
-
-- You may not use the Software on devices whose malfunction or misuse may cause death, injury, major physical harm, or major environmental damage.
-
-- The license shall remain effective until terminated. However, if you violate these Terms in any way, you shall lose the rights to use the Software. Upon losing such rights, you should stop using the Software and destroy any remaining copies.
-
-
-
-Transfer of data:
-
-With your permission, Mudita will gain access to information concerning the following errors (general errors, crash dumps, warnings, hard faults; Bluetooth data - state, signal power, controls state; VoLTE - network mode, on/off settings, phone call state; power management - average battery voltage level, minimal and maximal voltage, average current from the battery, state of charge; cellular - SIM slot selected, Mobile Network Code and Mobile Country Code) that may occur while using Mudita Pure and the Software. The aim of accessing such information is to fix errors and further develop the Mudita Pure device and the Software. Information accessed this way will be limited to diagnostic data, including the description of the error, type of operating system, version of the Software, and other technical data, as well as data containing the IP address of the computer that was used to check for Updates for the Software or the Mudita Pure device. No other data will be accessed by Mudita in connection with your use of the Software.
-
-
-
-Limitation of liability:
-
-To the maximum extent permitted by the generally applicable laws that apply to the User, Mudita shall not be liable for any losses related to the use of the Software, with the exception of situations resulting from willful misconduct or gross negligence by Mudita.
-
-
-
-Copyright / Third-party services:
-
-Mudita holds all copyrights and licenses for the Software. Certain elements of the Software use or contain software provided by third parties as well as other copyrighted material, which you are entitled to use as part of the Software in accordance with these Terms. The Software may also use certain services provided by third parties. However, before accessing any service, you will be asked to give your permission and accept the terms defined by the service's provider.
-
-
-
-Amendments to the Terms:
-
-Mudita reserves the right to amend these Terms under justified circumstances (such as changes to the applicable law, the Software's functionality, or the nature of Mudita's business). The updated Terms will always be available in the corresponding tab of the Software as well as on the Mudita  website. Choosing not to uninstall the Software upon receiving information about amendments to the Terms will be deemed to constitute acceptance of the changes.
-
-
-
-Applicable law:
-
-The agreement entered into by accepting these Terms is governed by the laws of the Republic of Poland. However, it does not deprive the consumer of protection granted by the legal regulations of their country of habitual residence that cannot be derogated from by agreement if the regulations applicable in that country are more beneficial to the consumer than the regulations of the Republic of Poland.
+BEFORE INSTALLING MUDITA CENTER, PLEASE READ AND ACCEPT THE REQUIRED DOCUMENTS: PRIVACY POLICY AND TERMS OF SERVICE
+
+Mudita Center – Terms of Service
+Version dated: 14.03.2025
+The User should carefully review this document. It includes in particular the terms of use for Mudita Center, licences, Updates, the choice of governing law, and liability rules. However, no provisions of this document affect Consumer protection rights granted under mandatory legal regulations. To learn more about your rights, we recommend contacting a local Consumer protection organization.
+ 
+1. DEFINITIONS
+ 
+    1.1. For the purposes of the Terms of Service, the following definitions shall apply:
+ 
+        a. Consumer
+        A User who is a natural person entering into a contract or other legal transaction with Mudita that is not directly related to their business or professional activity.
+
+        b. Content
+        All content, in particular textual, graphic, or multimedia elements (e.g., information about Mudita Center, services, visualizations, images, descriptions of the Mudita), as well as images of natural persons, that are published and distributed within Mudita Center by the Mudia.
+
+        c. Minor
+        A natural person who does not have full legal capacity or a natural person with an equivalent status under the laws applicable in their place of residence. In particular, Minors are considered to be individuals who have not reached the age of 18, subject to the preceding sentence.
+
+        d. Mudita
+        Mudita sp. z o.o. with its registered office in Warsaw (02-607), Jana Czeczota 6 street, entered into the register of entrepreneurs of the National Court Register kept by the District Court for the Capital City of Warsaw, 13th Commercial Division of the National Court Register, entry no. 0000467620, Tax Identification Number: 5252558282 and Statistical Identification Number: 146767613, the share capital of PLN: 1,040,000.00.
+
+        e. Mudita Center
+        A software, along with all Content and Updates, as well as the accompanying documentation, provided by Mudita and distributed under the name "Mudita Center," which the User may install on their end device upon meeting the conditions specified in the Terms of Service, including the Technical Requirements.
+
+        f. Open Source Licences
+        Separate licenses for software components used to create Mudita Center that are granted to the User outside the scope of the Terms of Service.
+
+        g. Technical Requirements
+        The minimum technical requirements necessary for installing and using Mudita Center are as follows: computer or other end device connected to the Internet with a minimum bandwidth allowing the download of Mudita Center, and with an installed operating system: macOS Big Sur 11 and up (236 MB HDD space), Windows 10 or later (258 MB HDD space), 64-bit Ubuntu 18.04+ (102 MB HDD space).
+
+        h. Terms of Service
+        The present Terms of Service available at: https://www.mudita.com/legal/terms-conditions/mudita-center/, constituting an agreement between the User and Mudita.
+
+        i. Updates
+        Any modified version of Mudita Center provided by Mudita. In particular, an Update may include upgrades, enhancements, add-ons, and other modifications to Mudita Center, including bug fixes, updates, the addition of new services, as well as functional improvements and refinements.
+
+        j. User
+        You – the person using Mudita Center.
+
+        k. Website
+        https://www.mudita.com/
+ 
+2. GENERAL PROVISIONS
+ 
+    2.1. The Terms of Service specify the rules for using Mudita Center. Acceptance of the Terms of Service is voluntary, but necessary for the User to install and use Mudita Center on their end device. The Terms of Service also apply to any Updates, unless these Updates are governed by another document or agreement, in which case the provisions of that document or agreement will apply.
+    
+    2.2. Minors with limited legal capacity are required to review the Terms of Service with a parent or other legal representative, who must provide valid consent for the minor to use Mudita Center. Mudita has the right to verify that the appropriate consent has been obtained by the User. Minors who do not have full or limited legal capacity are not allowed to use Mudita Center.
+    
+    2.3. No provisions of this document affect Consumer protection rights granted under mandatory legal regulations. To learn more about your rights, we recommend contacting a local consumer protection organization.
+    
+    2.4. In matters related to the operation of the Mudita Center, Users may contact Mudita by sending an email to the following email address: hello@mudita.com or calling the phone number +48 22 3433783
+ 
+3. SERVICES / MUDITA CENTER FEATURES
+ 
+    3.1. Mudita provides through Mudita Center, electronic services such as providing information about Mudita's products and services, as well as enabling Users to manage Mudita devices, including but not limited to updating them, importing or exporting data and backups.
+    
+    3.2. The scope of available services varies depending on the User's device type and model (e.g. Pure, Harmony, Kompakt). Detailed information on supported devices and available features can be found in Mudita Center or on the Website.
+    
+    3.3. To start using Mudita Center, the User must download the appropriate installation file for their operating system type and version from the Website and complete the installation process. Alternatively.
+    
+    3.4. Installing and use of Mudita Center requires the User to accept the Terms of Service. The agreement for the provision of electronic services via Mudita Center between the User and Mudita is concluded at the moment of the successful installation of Mudita Center on the User’s end device.
+ 
+4. INTELLECTUAL PROPERTY / LICENSE
+ 
+    4.1. All rights, including exclusive rights, to Mudita Center and its Content – particularly graphic elements, logos, names, source code, and database rights – are legally protected and belong to Mudita.
+    
+    4.2. The User acknowledges that the use of Mudita Center and its Content is strictly for personal use and may not be used commercially. Content also may not be distributed. Any use of Mudita Center for purposes related to scientific research, analysis, or evaluation of Mudita Center is prohibited without the express prior written consent of Mudita.
+    
+    4.3. Mudita grants the User a non-exclusive, personal, non-transferable, and limited license to download and install Mudita Center on the User's end device and to use a single copy of Mudita Center under the terms set forth in Terms of Service.
+    
+    4.4. Among the components of Mudita Center, there may be elements subject to separate open-source software licenses with the User, which specifically include licenses approved by the Open Source Initiative or other similar licenses.
+    
+    4.5. The granting of an Open Source License to the User is independent of the Terms of Service and is based on separate license agreements with the User. The applicable provisions of Open Source Licenses are made available to the User in the Third-Party Licenses document, accessible within Mudita Center. To the extent that specific Open Source Licenses prohibit the usage restrictions indicated in these Terms of Service, the provisions of the Open Source Licenses shall prevail over its provisions. The User acknowledges that Open Source Licenses may be subject to changes in licensing terms independently of Mudita.
+    
+    4.6. For the avoidance of doubt, Mudita reserves all rights not expressly granted to the User under the Terms of Service. Mudita Center is protected under applicable law, particularly copyright law, intellectual property law, and international treaties, including but not limited to the Agreement on Trade-Related Aspects of Intellectual Property Rights (TRIPS). This license is subject to the limitations set forth in the Terms of Service.
+    
+    4.7. The transfer of the license granted under the Terms of Service to third parties by the User is only possible if the ownership of the User’s end device, along with the installed Mudita Center, is transferred. Before starting to use Mudita Center, the acquiring User must accept the Terms of Service in the same manner as the transferring User.
+ 
+5. UPDATES
+ 
+    5.1. Mudita may allow the User to download and install Updates. Mudita will notify (within Mudita Center and Website) the User of any available Updates, including those related to security, which are necessary to ensure that Mudita Center remains in compliance with the Terms of Service. The User acknowledges that some Updates, particularly those concerning security and resolving security issues reported to Mudita, are crucial for the proper functioning of Mudita Center.
+    
+    5.2. If the User does not install the provided Updates, including those related to security, necessary to maintain Mudita Center's compliance with the Terms of Service and services provided through it, Mudita will not be responsible for any lack of compliance with Mudita Center and the services provided, resulting solely from the failure to install such Updates, provided that:
+    
+    5.2.1. The User has been informed about the need for an update and the consequences of not installing it;
+    
+    5.2.2. The failure to install or improper installation of the Update was not due to errors in the provided installation instructions.
+    
+    5.3. All components of the Updates are subject to the Terms of Service, unless additional provisions are included through the Update. In the case of an Update requiring a change to the Terms of Service, the provisions of section 12 shall apply until the modified version of the Terms of Service comes into effect. The User cannot install the Update without prior acceptance of the Terms of Service if such updates have been introduced.
+ 
+6. HEALTH DISCLAIMER
+    
+    6.1. The User acknowledge and agree that Mudita Center and the services provided through it are not intended or designed to prevent, treat or diagnose any condition, illness or disease, nor Mudita Center and the services provided through it should be considered, in whole or in part, express or implied to contain or constitute medical or psychological advice.
+    
+    6.2. Any advice or other materials contained in the Mudita Center and the services provided through it are intended for general information purposes only. Mudita makes no guarantees that the Mudita Center and the services provided through it provide a physical, mental or therapeutic health benefit and does not purport to give medical advice. The Mudita Center and the services provided through it are not a substitute for professional medical or psychological advice or treatment based on your personal circumstances. The User should seek the advice of your medical physician, doctor or other qualified health care provider if you have any concerns that using the Mudita Center and the services provided through it will detrimentally impact their physical or mental health and well-being. You acknowledge that Mudita has advised you of the necessity of doing so.
+    
+    6.3. Actions or omissions based on this content may also cause damage to the extent that the content may not take into account the specific, individual circumstances of a given case, and therefore are not recommended without consulting a licensed professional who will take such circumstances into account.
+ 
+7. USER OBLIGATIONS
+ 
+    7.1. The User may not (except for cases in which it is expressly permitted by the generally applicable laws, by Mudita, or an open-source license covering the source code of Mudita Center):
+ 
+        7.1.1. copy, publish, adapt, reproduce, decompile, disassemble, or attempt in any way to determine the source code or any other element of Mudita Center;
+        
+        7.1.2. modify, disable, or bypass any features of Mudita Center, any security mechanisms, or create derivative works based on Mudita Center;
+        
+        7.1.3. share, distribute, lease, rent, sublicense, or sell Mudita Center;
+        
+        7.1.4. allow or enable other persons to perform any of the above actions – this also applies to any elements of Mudita Center.
+ 
+    7.2. The User is particularly obligated to:
+ 
+        7.2.1. use Mudita Center in a manner that does not disrupt Mudita's operations or the functioning of Mudita Center, in compliance with applicable law, the provisions of the Terms of Service, as well as accepted customs and principles of social coexistence;
+        
+        7.2.2. not provide or transmit any content through Mudita Center that is prohibited by applicable law, especially content that infringes third-party copyrights or personal rights;
+        
+        7.2.3. not engage in IT activities or any other actions aimed at obtaining information not intended for the User or interfering with the rules or technical aspects of Mudita Center’s functioning;
+        
+        7.2.4. not modify Content provided by Mudita through Mudita Center in an unauthorized manner;
+        
+        7.2.5. provide only true, up-to-date, and necessary User data within Mudita Center, and promptly update such data, including personal data, provided to Mudita in connection with the conclusion of the agreement (if applicable).
+ 
+    7.3. The User are strongly advised not to use Mudita Center and the services provided through it while operating heavy machinery, driving, flying or performing any activity or task that, with due regard to the safety of yourself and others, requires your attention and concentration.
+ 
+8. LIABILITY
+ 
+    8.1. None of the provisions of this section are intended to limit or exclude any mandatory rights granted to Users, particularly those who are Consumers, and any potential doubts shall be resolved in favor of the User. If any exclusions or limitations are found to be inadmissible, they shall be deemed reserved to the maximum extent permissible under applicable law.
+ 
+    8.2. The entire Mudita Center is provided to the User "AS IS" and "AS AVAILABLE". In particular, to the fullest extent permitted by applicable law, Mudita does not provide any express or implied warranties for Mudita Center, nor shall the provision of any information or guidance regarding the use of Mudita Center be considered as such a warranty.
+ 
+    8.3. Mudita's liability towards Users who are not Consumers for warranty claims in connection with the performance of the Terms of Service is excluded. Furthermore, to the fullest extent permitted by applicable law, Mudita excludes its liability towards the User for any damages, including lost profits or failure to fulfill its obligations due to force majeure, resulting from the Terms of Service.
+ 
+    8.4. The User acknowledges that the use of Mudita Center is at their own risk and responsibility. Mudita’s liability for damages, whether directly or indirectly arising from the use or inability to use Mudita Center, including but not limited to personal injury, data loss, lost profits, costs of substitute equipment or software, is excluded to the fullest extent permitted by applicable law.
+ 
+    8.5. Notwithstanding the above, to the fullest extent permitted by applicable law, Mudita’s liability for damages arising directly or indirectly from the use or inability to use the Mudita Center, regardless of the legal basis, shall not exceed 50€.
+ 
+9. TERMINATION OF THE TERMS OF SERVICE
+ 
+    9.1. This agreement (Terms of Service) is concluded for an indefinite period, having regard to the provisions of this section 9.
+ 
+    9.2. The User may terminate the Terms of Service with immediate effect at any time by ceasing to use Mudita Center and uninstalling it from the end device.
+ 
+    9.3. The Terms of Service may also be terminated as a result of the sale of the User's end device on which Mudita Center is installed. In such a case, the moment of termination of the Terms of Service is considered to be the moment when the purchaser of such a device accepts the Terms of Service.
+ 
+    9.4. Mudita may terminate the Terms of Service with immediate effect if the User has violated the Terms of Service or any other provisions binding the User and Mudita regarding Mudita Center. In the event of termination of the Terms of Service by Mudita, the User must immediately and completely cease using Mudita Center and uninstall it from their end device.
+ 
+    9.5. Mudita is entitled to decide on the complete discontinuation of Mudita Center (cessation of operations related to providing access to Mudita Center). In such a case, the User will be informed of the decision at least 6 months before the planned discontinuation date (notice period) via a notification displayed within Mudita Center, or an email sent to the User's email address, and on the Website. After the expiration of the notice period, the agreements regarding Mudita Center concluded between the User and the Provider will be terminated.
+ 
+    9.6. Mudita may terminate the Terms of Service in the event of the circumstances specified in pt. 12.1, with a 14-day notice period. A termination notice on this basis will be provided to the User within Mudita Center or via an email sent to Users. In that case, depending on the circumstances User may need to discontinue the use of Mudita Center and uninstall it from the User’s end device
+ 
+    9.7. All provisions contained in the Terms of Service that should remain in force due to their nature shall continue to be valid and binding, regardless of the method of termination of the Terms of Service.
+ 
+10. COMPLAINTS
+ 
+    10.1. Complaints regarding issues related to Mudita Center and the services provided through it, as covered by the Terms of Service, may be submitted in particular via email to hello@mudita.com or by mail to the following address: ul. Jana Czeczota 6, 02-607 Warsaw, Poland.
+    
+    10.2. To expedite the complaint resolution process, the complaint should include, in particular:
+ 
+        10.2.1. information on the current Mudita Center version;
+        
+        10.2.2. the technical specifications of the device on which Mudita Center is installed,
+        
+        10.2.3. the model of the device managed via Mudita Center (if applicable);
+        
+        10.2.4. contact details (including, if applicable the User's e-mail address used for downloading Mudita Center);
+        
+        10.2.5. a description of the issue. 
+ 
+    10.3. Complaints will be processed within 14 days from the date of receipt by Mudita. If Mudita is unable to process the complaint due to missing necessary information, the User will be informed about the missing details. The response to the complaint will be sent to the email address provided in the complaint unless the User requests to receive the response via traditional mail to the specified address.
+ 
+    10.4. In the event of any non-compliance of Mudita Center, including the services provided through it, with the agreement, the User is obliged to cooperate with Mudita to a reasonable extent in order to determine – using the least burdensome technical means for the User –whether the non-compliance of Mudita Center, including the services provided through it, results from the characteristics of the User's digital environment.
+ 
+11. DISPUTE RESOLUTION
+ 
+    11.1. In the event of any disputes arising directly or indirectly from the Terms of Service, they may first be resolved amicably, including through Mudita’s complaint procedure, if applicable. For Consumers, additional methods specified below may also be available.
+    
+    11.2. The use of out-of-court methods for handling complaints and pursuing claims is voluntary. The following provisions are for informational purposes only and do not constitute an obligation for Mudita to participate in out-of-court dispute resolution procedures. Mudita’s statement regarding consent or refusal to participate in a consumer dispute resolution procedure will be provided in writing or on another durable medium if a dispute remains unresolved following a Consumer’s complaint.
+    
+    11.3. The rules governing out-of-court consumer dispute resolution procedures and the obligations of businesses in this regard are separately defined in applicable laws. Detailed information on the Consumer’s ability to use out-of-court complaint handling and dispute resolution methods, as well as access to such procedures, may be available at the offices and on the websites of relevant consumer protection authorities.
+    
+    11.4. A Consumer who is a permanent resident of the EU, Norway, Iceland, or Liechtenstein may submit a complaint via the online ODR platform: https://ec.europa.eu/consumers/odr/ (the ability to submit complaints will expire on 20 March 2025, and the ODR platform will be discontinued on 20 July 2025).
+    
+    11.5. Any disputes arising from the Terms of Service shall be subject to the jurisdiction of the national courts of Poland or the EU Member State where the user resides, unless mandatory provisions of law state otherwise.
+ 
+12. AMENDMENTS
+ 
+    12.1. Terms of Service may be amended by Mudita if at least one of the following important reasons occurs:
+ 
+        12.1.1. a change in legal regulations governing functioning of Mudita Center and the provision of services through it, as covered by Terms of Service, affecting the mutual rights and obligations of the User and Mudita, or a change in the interpretation of these legal regulations as a result of court rulings, decisions, recommendations, or guidelines issued by the relevant authorities;
+ 
+        12.1.2. a change in the method of functioning of Mudita Center and the provision of services through it, as covered by Terms of Service due to technical or technological reasons;
+ 
+        12.1.3. a modification of the scope or method of functioning of Mudita Center and the provision of services through it, as covered by Terms of Service, particularly through the introduction of new functionalities, modification, or withdrawal of existing functionalities or services by Mudita;
+ 
+        12.1.4. a modification of the scope or method of service provision by entities cooperating with Mudita, involving the introduction of new functionalities, modification, or withdrawal of existing functionalities or services by these entities, impacting the mutual rights and obligations between the User and Mudita.
+ 
+    12.2. Amendments to the Terms of Service shall take effect after a 14-day notice period granted to the User, unless the User actively accepts the amended Terms of Service earlier, or a shorter period is required by mandatory legal regulations or decisions of competent authorities or courts.
+ 
+    12.3. The active acceptance of the amended Terms of Service, as well as the continued use of Mudita Center, after the amended Terms of Service comes into effect, shall constitute acceptance of the introduced changes. If the User does not wish to accept the modified Terms of Service, depending on the circumstances they may need to discontinue the use of Mudita Center and uninstall it from the User’s end device.
+ 
+    12.4. Mudita reserves the right to make changes to the operation of Mudita Center, including the services provided through it, that are not necessary to maintain compliance with the agreement and do not lead to its modification (pt. 12.1.), when such changes result from:
+ 
+        12.4.1. improvement or modification of existing functionalities, enhancement of Mudita Center’s performance, including the services provided through it, in particular through changes to the layout, design, modification of content, and the removal of selected elements;
+ 
+        12.4.2. editorial changes necessary to correct or eliminate errors;
+ 
+        12.4.3. security improvements that do not impact compliance with the agreement, including, in particular, patching exploits and bugs.
+ 
+    12.5. Mudita will inform Users of the changes referred to in section 12 within Mudita Center or via an email sent to Users, as well as on the Website.
+ 
+13. APPLICABLE LAW / LANGUAGE VERSIONS
+ 
+    13.1. Terms of Service are governed by Polish law and shall be interpreted in accordance with it, regardless of any applicable conflict-of-laws rules, except in cases where mandatory provisions of the User's jurisdiction provide otherwise.
+    
+    13.2. The parties expressly exclude the application of the provisions of the Convention on Contracts for the International Sale of Goods to these Terms of Service.
+    
+    13.3. The translation has been made in accordance with national requirements, and in the event of any discrepancies between the English version and the translated version, the English version shall prevail, to the extent that such is not prohibited by mandatory legal provisions in the User's jurisdiction.
+ 
+14. FINAL PROVISIONS
+ 
+    14.1. Terms of Service constitute the entire agreement between the User and Mudita regarding Mudita Center, unless expressly stated otherwise in the Terms of Service.
+     
+    14.2. If any provision of these Terms of Service is found to be invalid or unenforceable, it shall not affect the validity or enforceability of the remaining provisions.
+    
+    14.3. Using Mudita Center may involve the processing of the User's personal data. Detailed information on personal data processing can be found in the Privacy Policy.
+    
+    14.4. Mudita Center may contain links to websites or other resources of third-party entities. Mudita is not responsible for the content on such websites or resources, nor for any actions taken by the User in connection with the use of services, goods, or content available on such third-party websites.
+    
+    14.5. Services provided through Mudita Center are electronic services and, as such, involve typical risks associated with data transmission over the Internet, such as the disclosure of User data, unauthorized access, or data loss. Both parties are obligated to take measures to minimize these risks – Mudita, in particular, by implementing appropriate technical and organizational safeguards, and the User by exercising due care, maintaining data confidentiality, and not sharing it with unauthorized persons.
+
+
+MUDITA CENTER – PRIVACY POLICY
+This document explains in particular what personal data we collect, how we use it, and what rights you have regarding its processing. Our goal is to ensure transparency and clarity on privacy matters so that you can feel safe while using our products and software along with all content, updates, related documentation, provided by Mudita and distributed under the name "Mudita Center" (hereinafter: "Mudita Center”).
+ 
+We make every effort to minimize the collection of personal data. Whenever possible and economically justified, we use technologies that do not require us to store user information. However, if data collection is necessary for the proper functioning of our products and services, we do so in compliance with applicable regulations (e.g. Regulation (EU) 2016/679 - General Data Protection Regulation / “GDPR”), with a valid legal basis, and in accordance with industry best practices for privacy protection.
+ 
+We encourage you to review this Privacy Policy and contact us if you have any questions or concerns.
+ 
+1. ABOUT DOCUMENT
+ 
+    Please note that this Privacy Policy applies only to the processing of personal data related to the use of the Mudita Center. It does not cover the processing of personal data related to your use of Mudita devices (e.g., Pure, Kompakt, Harmony). Information in this regard is available within the legal documents of the respective product (e.g. “About Phone” tab”).
+ 
+    Providing personal data is voluntary but necessary to fulfill the purposes outlined in section 4 below.
+ 
+2. DATA CONTROLLER
+ 
+    The controller of personal data processed in connection with your use of the Mudita Center is Mudita sp. z o.o. with its registered office in Warsaw (02-607), Jana Czeczota 6 street, KRS no: 0000467620, Tax Identification Number: 5252558282 (hereinafter: "Mudita" or "We").
+ 
+3. CONTACT
+ 
+    If you have any questions regarding the processing of your personal data, you can contact Mudita via email at office@mudita.com or by writing to the address specified in section 2 above.
+ 
+    We strive to respond promptly to every message. However, in more complex cases, the process may take longer. Additionally, Mudita may request further information to properly verify your identity, provide a comprehensive response, or, in special situations, inform you that more time is needed to address your inquiry.
+ 
+4. PURPOSES AND LEGAL BASIS FOR THE PROCESSING OF YOUR PERSONAL DATA / RETENTION PERIOD
+ 
+    4.1. Proper Functioning of the Mudita Center / Services
+ 
+    [Purpose] In order to properly provide electronic services (functioning of Mudita Center and provide services through it), including in particular technical support and bug fixes, informing you about available software updates, and processing statutory claims, we may process your personal data.
+    
+    [Categories of Data] In such cases, Mudita may process, in particular, data contained in system logs, the IMEI number, the device's serial number, and other identifiers specific to the software / application, network, or device (e.g., device ID).
+    
+    [Legal Basis / Retention Period] The processing of data is necessary to take action at your request before entering into a contract or for its performance (Article 6(1)(b) of the GDPR) and to fulfill our legitimate interests, particularly in continuously improving our products and services (Article 6(1)(f) of the GDPR). Mudita may process this data for the period necessary to achieve the above-mentioned purposes, and in particular, this period will not exceed the duration of the use (and installation) of the Mudita Center in the case of the legal basis under Article 6(1)(b) of the GDPR. In the case of the legal basis under Article 6(1)(f), the processing will continue until the legitimate interest no longer exists or until an effective objection is raised.
+ 
+    4.2. Fraud Prevention / Claim Pursuit / Defending against claims 
+    
+    [Purpose] We strive to detect and prevent fraud, unauthorized use of our software / application (Mudita Center), violations of our rights, etc., as well as handle any reports regarding legal violations. Additionally, we may take actions related to asserting and pursuing claims or defending against claims brought against Mudita.
+    
+    [Categories of Data] To effectively achieve these purposes, we may process personal data, including, in particular, data contained in system logs, the IMEI number, the device's serial number, and other identifiers specific to the software / application, network, or device (e.g., device ID).
+    
+    [Legal Basis / Retention Period] The processing of data for the above purposes is necessary to pursue Mudita's legitimate interest in asserting or defending legal claims, as well as preventing fraud and misuse (Article 6(1)(f) of the GDPR). Mudita may process the data for the period necessary to achieve these purposes, particularly for the duration of the limitation periods for claims applicable to or against Mudita, as provided by law.
+    
+    4.3. Contact
+    
+    [Purpose] In case of any inquiries regarding Mudita Center, you have the option to contact Mudita. In such situations, the personal data of the user initiating contact may be processed.
+    
+    [Categories of Data] In such cases, Mudita may process the user's contact details and any other personal data provided by the user during the communication.
+    
+    [Legal Basis / Retention Period] The legal basis for processing your personal data for this purpose is the Controller's legitimate interest – Article 6(1)(f) of the GDPR. Personal data will be processed for the period necessary to review your inquiry and provide a response.
+ 
+5. DATA RECIPIENTS
+ 
+    Your personal data may be shared or entrusted by Mudita to third parties to the extent necessary to achieve the intended purposes. The recipients of personal data may include, in particular: (i) entities affiliated with us, (ii) IT services and support providers (iii) professional advisors, such as lawyers, auditors, accountants, and (iv) other entities cooperating with Mudita, if justified or necessary for the purposes of data processing.
+ 
+    Mudita may also share your personal data to local or foreign public administration authorities and law enforcement agencies if required by law. These authorities may be located both in your country of residence and abroad.
+ 
+6. AUTOMATED INDIVIDUAL DECISION-MAKING / PROFILING
+ 
+    No decisions based on automated processing of personal data, including profiling, will be made concerning you.
+ 
+7. RIGHTS OF THE DATA SUBJECTS
+ 
+    In connection with the processing of your personal data, you have the following rights under applicable laws:
+ 
+        a. The right to access your data, including obtaining a copy of your data,
+        b. The right to request rectification of your data,
+        c. The right to restrict the processing of your data,
+        d. The right to request the deletion of your data (in certain situations),
+        e. The right to data portability for data you have provided and that is processed automatically based on your consent or a contract, e.g., to another controller,
+        f. The right to object to the processing of personal data – to the extent that processing is based on the legitimate interest of the controller or a third party.
+    
+    If your data is processed based on consent, you have the right to withdraw your consent to the extent that the data is processed on this basis. The withdrawal of consent does not affect the lawfulness of processing carried out before its withdrawal.
+    
+    The scope of each of these rights and the situations in which they can be exercised are determined by legal regulations. The specific right you may exercise will depend, among other factors, on the purpose and legal basis of the data processing. To exercise the above rights, you should contact Mudita in the manner specified in section 3. We will respond to your inquiries within the timeframes provided by applicable law.
+    
+    If you have concerns about how Mudita processes your personal data, you may file a complaint with the appropriate data protection authority. A list of such authorities is available at this link. The jurisdiction of authorities is governed by the applicable law.
+ 
+8. TRANSFER OF PERSONAL DATA TO THIRD COUNTRIES
+ 
+    Your personal data will generally be processed within the EEA. However, data may be transferred to Mudita's partners who process it outside the EEA, but only to the extent necessary for Mudita’s cooperation with these partners.
+    
+    In such cases, Mudita takes all possible measures to ensure the security of the transferred personal data, including, in particular, transferring personal data to countries that the European Commission has determined, by decision, to provide an adequate level of protection. In the absence of such a decision, Mudita ensures the security of personal data through safeguards such as the standard contractual clauses approved by the European Commission.
+    
+    For more information about the applied safeguards, including obtaining a copy of them, you may contact Mudita using the methods indicated in section 3 above.
+ 
+9. OTHER INFORMATIONS ABOUR YOUR PRIVACY / BACKUP / MANAGE MUDITA DEVICE
+    The data stored on your device that is backed up using Mudita Center (e.g., contact list, call log, messages, alarms, notes, etc.) is not processed by us, and the backup is performed locally on the device where Mudita Center is installed. Similarly, when using other features of Mudita Center designed to manage your Mudita device (e.g., editing contacts, managing sounds, etc.), Mudita does not process this data.
+ 
+    In connection with your use of Mudita Center, besides the data specified in section 4, we may process also other information (e.g., summary records of Mudita Center or Mudita device updates). However, this data is collected in a way that prevents the identification of specific users (which means that these are not personal data), including through data aggregation.
+ 
+10. FINAL PROVISIONS
+ 
+    This version of the Privacy Policy is effective as of 14.03.2025.
+ 
+    In connection with the Mudita’s development and application updates, Mudita reserves the right to amend this Privacy Policy.

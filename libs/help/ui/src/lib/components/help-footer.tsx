@@ -11,7 +11,7 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ModalStateKey, showModal } from "Core/modals-manager"
 import { defineMessages } from "react-intl"
 import { IconType } from "generic-view/utils"
-import { ButtonText, H5 } from "generic-view/ui"
+import { ButtonText, Typography } from "generic-view/ui"
 import { HelpTestId } from "../test-ids"
 
 const messages = defineMessages({
@@ -33,9 +33,9 @@ export const HelpFooter: FunctionComponent = () => {
   }
   return (
     <Wrapper data-testid={HelpTestId.MainFooter}>
-      <H5 data-testid={HelpTestId.MainFooterTitle}>
+      <Typography.H5 data-testid={HelpTestId.MainFooterTitle}>
         {intl.formatMessage(messages.title)}
-      </H5>
+      </Typography.H5>
       <Text data-testid={HelpTestId.MainFooterDescription}>
         {intl.formatMessage(messages.description)}
       </Text>

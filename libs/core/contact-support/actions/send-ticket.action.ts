@@ -11,6 +11,7 @@ import {
 import sendTicketRequest, {
   CreateBugTicketResponseStatus,
 } from "Core/contact-support/requests/send-ticket.request"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { AppError } from "Core/core/errors"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { ReduxRootState, RootState } from "Core/__deprecated__/renderer/store"
@@ -26,13 +27,18 @@ export const sendTicket = createAsyncThunk<undefined, SendTicketPayload>(
   ContactSupportEvent.SendTicket,
   async ({ email, description }, { getState, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
-    const serialNumber = state.device.data?.serialNumber
+    const activeDeviceId = activeDeviceIdSelector(state)
+    const serialNumber = state.device.data?.serialNumber ?? activeDeviceId
+    const deviceID = activeDeviceId
+      ? state.genericViews.devices[activeDeviceId]?.apiConfig?.deviceID
+      : undefined
     const product = mapDeviceTypeToProduct(state.device.deviceType)
 
     const response = await sendTicketRequest({
       email,
       description: (description || "").replace(/\r\n|\r|\n/g, "<br/>"),
       serialNumber,
+      deviceID,
       subject: `Error`,
       product,
     })

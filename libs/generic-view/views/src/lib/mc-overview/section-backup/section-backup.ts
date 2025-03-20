@@ -36,6 +36,7 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
         title: "Backup",
       },
       layout: {
+        shadow: true,
         gridPlacement: {
           row: 3,
           column: 2,

@@ -13,15 +13,25 @@ import { ImportContacts } from "./import-contacts/import-contacts"
 import { DataMigration } from "./data-migration/data-migration"
 import { IncomingFeatureInfo } from "./incoming-feature-info"
 import { SelectionManager } from "./selection-manager"
+import { McContactsSearchResult } from "./contacts/mc-contacts-search-result"
+import { FilesManagerUploadProgress } from "./files-manager-upload/files-manager-upload-progress"
+import { FilesManagerUploadFinished } from "./files-manager-upload/files-manager-upload-finished"
+import { FilesManagerUploadValidationError } from "./files-manager-upload/files-manager-upload-validation-error"
+import { EntitiesDeleteError } from "./entities/entities-delete-error"
 import {
   aboutDataBox,
   backupCreate,
   backupRestore,
   backupRestoreAvailable,
+  entitiesDeleteError,
   importContacts,
   incomingFeatureInfo,
   lastBackupDate,
+  mcContactsSearchResults,
   mcDataMigration,
+  mcFilesManagerUploadFinished,
+  mcFilesManagerUploadProgress,
+  mcFilesManagerUploadValidationError,
   overviewOsVersion,
   selectionManager,
 } from "generic-view/models"
@@ -33,8 +43,13 @@ export const predefinedComponents = {
   [backupRestoreAvailable.key]: BackupRestoreAvailable,
   [backupCreate.key]: BackupCreate,
   [backupRestore.key]: BackupRestore,
+  [entitiesDeleteError.key]: EntitiesDeleteError,
   [importContacts.key]: ImportContacts,
   [mcDataMigration.key]: DataMigration,
   [incomingFeatureInfo.key]: IncomingFeatureInfo,
   [selectionManager.key]: SelectionManager,
+  [mcContactsSearchResults.key]: McContactsSearchResult,
+  [mcFilesManagerUploadProgress.key]: FilesManagerUploadProgress,
+  [mcFilesManagerUploadFinished.key]: FilesManagerUploadFinished,
+  [mcFilesManagerUploadValidationError.key]: FilesManagerUploadValidationError,
 }

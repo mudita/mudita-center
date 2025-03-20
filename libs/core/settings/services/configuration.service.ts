@@ -4,14 +4,16 @@
  */
 
 import https from "https"
-import { Axios, AxiosResponse } from "axios"
-import { HttpClient } from "shared/http-client"
+import {
+  BaseHttpAxiosResponse,
+  BaseHttpClientService,
+  HttpClient,
+} from "shared/http-client"
+import { MuditaCenterServerRoutes } from "shared/utils"
 import defaultConfiguration from "Core/settings/static/default-app-configuration.json"
 import { Configuration } from "Core/settings/dto"
-import { MuditaCenterServerRoutes } from "Core/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
 
 export enum AppConfigurationVersion {
-  v1 = "app-configuration",
   v2 = "v2-app-configuration",
 }
 
@@ -20,7 +22,7 @@ export interface getNewConfigurationParams {
 }
 
 export class ConfigurationService {
-  private instance: Axios
+  private instance: BaseHttpClientService
   private defaultConfiguration: Configuration =
     defaultConfiguration as unknown as Configuration
 
@@ -52,7 +54,7 @@ export class ConfigurationService {
 
   private async getNewConfiguration(
     params: getNewConfigurationParams
-  ): Promise<AxiosResponse<Configuration>> {
+  ): Promise<BaseHttpAxiosResponse<Configuration>> {
     return this.instance.get<Configuration>(
       MuditaCenterServerRoutes.AppConfigurationV2,
       {

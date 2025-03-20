@@ -4,252 +4,246 @@
  */
 
 import React, {
-  forwardRef,
-  useRef,
+  createContext,
+  isValidElement,
   MouseEvent,
-  ReactElement,
   useCallback,
+  useContext,
   useMemo,
-  useState,
 } from "react"
-import styled, { css } from "styled-components"
-import { BaseGenericComponent } from "generic-view/utils"
-import { TooltipOffsetType, TooltipPlacement } from "device/models"
-import {
-  flipHorizontal,
-  flipTooltipPlacement,
-  flipVertical,
-  getFlipStatus,
-} from "./tooltip-helpers"
+import styled from "styled-components"
+import { APIFC } from "generic-view/utils"
+import { TooltipConfig } from "generic-view/models"
 
-interface Position {
-  left: number
-  top: number
-}
+const TooltipContext = createContext<{
+  onAnchorHover: (event: MouseEvent) => void
+}>({
+  onAnchorHover: () => {},
+})
 
-export const Tooltip: BaseGenericComponent<
-  undefined,
-  undefined,
-  { placement?: TooltipPlacement; offset?: TooltipOffsetType }
-> & {
+export const Tooltip: APIFC<undefined, TooltipConfig> & {
   Anchor: typeof TooltipAnchor
   Content: typeof TooltipContent
-} = ({ children, placement = "bottom-right", offset = { x: 0, y: 0 } }) => {
-  const [contentPosition, setContentPosition] = useState<Partial<Position>>({})
-  const originalPlacement = useRef<TooltipPlacement>(placement)
-
-  const contentRef = useRef<HTMLDivElement>(null)
+} = ({ children, config, ...props }) => {
+  const {
+    placement = "bottom-right",
+    strategy = "element-oriented",
+    offset = {
+      x: 0,
+      y: 0,
+    },
+  } = config || {}
 
   const handleAnchorHover = useCallback(
     (event: MouseEvent) => {
-      const anchorRect = event.currentTarget.getBoundingClientRect()
-      const contentRect = contentRef.current?.getBoundingClientRect()
-
-      if (!contentRect) return
-
+      const [placementVertical, placementHorizontal] = placement.split("-")
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
+      const anchorRect = event.currentTarget.getBoundingClientRect()
+      const content = event.currentTarget.nextElementSibling as HTMLDivElement
 
-      const placements: TooltipPlacement[] = [
-        placement,
-        flipVertical(placement),
-        flipHorizontal(placement),
-        flipTooltipPlacement(placement),
-      ]
+      if (!content) return
 
-      const calculatePosition = (placement: TooltipPlacement): Position => {
-        let top = 0
-        let left = 0
+      const contentRect = content.getBoundingClientRect()
 
-        const adjustedOffset: TooltipOffsetType = { ...offset }
-        const { isFlippedVertically, isFlippedHorizontally } = getFlipStatus(
-          originalPlacement.current,
-          placement
+      const top = anchorRect.bottom + offset.y
+      const bottom = viewportHeight - anchorRect.top + offset.y
+      const left = anchorRect.right + offset.x - anchorRect.width
+      const right =
+        viewportWidth - anchorRect.left + offset.x - anchorRect.width
+
+      const moveToTop = () => {
+        content.style.top = ""
+        content.style.bottom = `${bottom}px`
+      }
+
+      const moveToBottom = () => {
+        content.style.top = `${top}px`
+        content.style.bottom = ""
+      }
+
+      const moveToRight = () => {
+        content.style.left = `${left}px`
+        content.style.right = ""
+      }
+
+      const moveToLeft = () => {
+        content.style.left = ""
+        content.style.right = `${right}px`
+      }
+
+      const updateTooltipPosition = () => {
+        const boundaryElement = event.currentTarget.closest(
+          "[data-tooltip-boundary]"
+        ) as HTMLElement
+        const boundary = boundaryElement?.getBoundingClientRect()
+
+        const viewportWidth = boundary?.width || window.innerWidth
+        const viewportHeight = boundary?.height || window.innerHeight
+        const viewportTop = boundary?.top || 0
+        const viewportLeft = boundary?.left || 0
+        const cursorY = event.clientY + offset.y
+        const cursorX = event.clientX + offset.x
+
+        const adjustedY = Math.min(
+          Math.max(cursorY, viewportTop),
+          viewportTop + viewportHeight - contentRect.height
         )
 
-        if (isFlippedVertically) {
-          adjustedOffset.y = -offset.y
-        }
-        if (isFlippedHorizontally) {
-          adjustedOffset.x = -offset.x
-        }
-
-        switch (placement) {
-          case "bottom-right":
-            top = anchorRect.top + anchorRect.height + adjustedOffset.y
-            left = anchorRect.left + adjustedOffset.x
-            break
-          case "bottom-left":
-            top = anchorRect.top + anchorRect.height + adjustedOffset.y
-            left =
-              anchorRect.left -
-              contentRect.width +
-              anchorRect.width +
-              adjustedOffset.x
-            break
-          case "top-right":
-            top = anchorRect.top + adjustedOffset.y - contentRect.height
-            left = anchorRect.left + adjustedOffset.x
-            break
-          case "top-left":
-            top = anchorRect.top + adjustedOffset.y - contentRect.height
-            left =
-              anchorRect.left -
-              contentRect.width +
-              anchorRect.width +
-              adjustedOffset.x
-            break
-        }
-
-        return { top, left }
-      }
-
-      const isWithinViewport = (position: Position): boolean => {
-        return (
-          position.left >= 0 &&
-          position.top >= 0 &&
-          position.left + contentRect.width <= viewportWidth &&
-          position.top + contentRect.height <= viewportHeight
+        const adjustedX = Math.min(
+          Math.max(cursorX, viewportLeft),
+          viewportLeft + viewportWidth - contentRect.width
         )
+
+        content.style.top = `${adjustedY}px`
+        content.style.left = `${adjustedX}px`
+        content.style.right = ""
+        content.style.bottom = ""
       }
 
-      for (const placement of placements) {
-        const position = calculatePosition(placement)
-        if (isWithinViewport(position)) {
-          setContentPosition(position)
-          return
+      const updateTooltipPositionX = () => {
+        switch (placementVertical) {
+          case "top":
+            bottom - contentRect.height > 0 ? moveToTop() : moveToBottom()
+            break
+          case "bottom":
+            top + contentRect.height < viewportHeight
+              ? moveToBottom()
+              : moveToTop()
+            break
+        }
+
+        const boundaryElement = event.currentTarget.closest(
+          "[data-tooltip-boundary]"
+        ) as HTMLElement
+        const boundary = boundaryElement?.getBoundingClientRect()
+
+        const viewportWidth = boundary?.width || window.innerWidth
+        const viewportLeft = boundary?.left || 0
+        const cursorX = event.clientX + offset.x
+
+        const adjustedX = Math.min(
+          Math.max(cursorX, viewportLeft),
+          viewportLeft + viewportWidth - contentRect.width
+        )
+
+        content.style.left = `${adjustedX}px`
+        content.style.right = ""
+      }
+
+      const applyElementPositioning = () => {
+        switch (placementVertical) {
+          case "top": {
+            bottom - contentRect.height > 0 ? moveToTop() : moveToBottom()
+            break
+          }
+          case "bottom": {
+            top + contentRect.height < viewportHeight
+              ? moveToBottom()
+              : moveToTop()
+            break
+          }
+        }
+
+        switch (placementHorizontal) {
+          case "left":
+            viewportWidth - right - contentRect.width > 0
+              ? moveToLeft()
+              : moveToRight()
+            break
+          case "right":
+            left + contentRect.width < viewportWidth
+              ? moveToRight()
+              : moveToLeft()
+            break
         }
       }
 
-      const position = calculatePosition(placement)
-      setContentPosition(position)
+      if (strategy === "cursor") {
+        updateTooltipPosition()
+      } else if (strategy === "cursor-horizontal") {
+        updateTooltipPositionX()
+      } else {
+        applyElementPositioning()
+      }
     },
-    [placement, offset]
+    [offset, placement, strategy]
   )
 
   const anchor = useMemo(() => {
     return React.Children.map(children, (child) => {
-      if (!React.isValidElement(child)) {
-        return null
+      if (
+        isValidElement(child) &&
+        (child.props.componentName === "tooltip.anchor" ||
+          child.type === Tooltip.Anchor)
+      ) {
+        return child
       }
-      if (!child.props["data-tooltip-anchor"]) {
-        return null
-      }
-      return React.cloneElement(child as ReactElement, {
-        onMouseEnter: (event: MouseEvent) => {
-          child.props.onMouseEnter && child.props.onMouseEnter(event)
-          handleAnchorHover(event)
-        },
-      })
+      return null
     })
-  }, [children, handleAnchorHover])
+  }, [children])
 
   const content = useMemo(() => {
     return React.Children.map(children, (child) => {
-      if (!React.isValidElement(child)) {
-        return null
+      if (
+        isValidElement(child) &&
+        (child.props.componentName === "tooltip.content" ||
+          child.type === Tooltip.Content)
+      ) {
+        return child
       }
-      if (!child.props["data-tooltip-content"]) {
-        return null
-      }
-      return React.cloneElement(child as ReactElement, {
-        ...child.props,
-        $top: contentPosition.top,
-        $left: contentPosition.left,
-        ref: contentRef,
-        $placement: placement,
-      })
+      return null
     })
-  }, [children, contentPosition.top, contentPosition.left, placement])
+  }, [children])
 
   return (
-    <Container>
-      {anchor}
-      {content}
-    </Container>
+    <TooltipContext.Provider value={{ onAnchorHover: handleAnchorHover }}>
+      <Container {...props}>
+        {anchor}
+        {content}
+      </Container>
+    </TooltipContext.Provider>
   )
 }
 
 export default Tooltip
 
-const TooltipAnchor: BaseGenericComponent<
-  undefined,
-  undefined,
-  { viewKey?: string; "data-tooltip-anchor"?: boolean }
-> = ({ data, config, children, ...rest }) => {
-  return <Anchor {...rest}>{children}</Anchor>
-}
-
-Tooltip.Anchor = TooltipAnchor
-Tooltip.Anchor.defaultProps = {
-  "data-tooltip-anchor": true,
-}
-
-const TooltipContent = forwardRef<
-  HTMLDivElement,
-  {
-    viewKey?: string
-    "data-tooltip-content"?: boolean
-    $defaultStyles?: boolean
-    $placement?: TooltipPlacement
-    children: React.ReactNode
-  }
->(({ children, ...rest }, ref) => {
+const TooltipAnchor: APIFC = ({ data, config, children, ...rest }) => {
+  const { onAnchorHover } = useContext(TooltipContext)
   return (
-    <Content ref={ref} {...rest}>
+    <Anchor {...rest} onMouseEnter={onAnchorHover}>
       {children}
-    </Content>
+    </Anchor>
   )
-})
-
-Tooltip.Content = TooltipContent
-Tooltip.Content.defaultProps = {
-  "data-tooltip-content": true,
 }
+Tooltip.Anchor = TooltipAnchor
+
+const TooltipContent: APIFC = ({ children, ...rest }) => {
+  return <Content {...rest}>{children}</Content>
+}
+Tooltip.Content = TooltipContent
 
 const Container = styled.div`
   display: inline-block;
+  position: relative;
 `
 
-const Content = styled.div<{
-  $top?: number
-  $left?: number
-  $placement?: TooltipPlacement
-  $defaultStyles?: boolean
-}>`
+const Content = styled.div`
   position: fixed;
   z-index: 2;
   pointer-events: none;
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
-
-  ${({ $top }) => ($top ? `top: ${$top}px;` : "")}
-  ${({ $left }) => ($left ? `left: ${$left}px;` : "")}
-
-  ${({ $defaultStyles, theme, $placement }) =>
-    $defaultStyles &&
-    css`
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: ${theme.space.xs} ${theme.space.sm};
-      background-color: ${theme.color.grey4};
-      border-radius: ${theme.radius.sm};
-      box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
-
-      && > p {
-        width: 100%;
-        color: ${theme.color.grey1};
-        white-space: pre-wrap;
-        text-align: ${$placement === "bottom-left" || $placement === "top-left"
-          ? "right"
-          : "left"};
-      }
-    `}
+  padding: ${({ theme }) => `${theme.space.xxs} ${theme.space.sm}`};
+  background-color: ${({ theme }) => theme.color.grey4};
+  border-radius: ${({ theme }) => theme.radius.sm};
+  box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
 `
 
 const Anchor = styled.div`
+  width: 100%;
+  height: 100%;
   cursor: pointer;
   &:hover {
     + ${Content} {

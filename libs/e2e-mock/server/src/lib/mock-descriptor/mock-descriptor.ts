@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { findIndex, pullAt, find } from "lodash"
+import { find, findIndex, merge, pullAt } from "lodash"
 import { PortInfo } from "serialport"
 import {
   AddKompakt,
@@ -11,8 +11,8 @@ import {
   RestoreDefaultResponses,
 } from "./mock-descriptor-validators"
 import {
-  ApiResponseWithConfig,
   ApiResponsesWithConfigArray,
+  ApiResponseWithConfig,
   DEFAULT_RESPONSES,
   MocksArrayResponsesMap,
 } from "e2e-mock-responses"
@@ -23,7 +23,7 @@ const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
   manufacturer: "Mudita",
   pnpId: undefined,
   locationId: "00140000",
-  vendorId: "0e8d",
+  vendorId: "3310",
   productId: "2006",
 }
 
@@ -66,10 +66,10 @@ class MockDescriptor {
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method] ?? []
 
     const filteredResponses = currentResponses.filter((item) => {
-      if (match?.options?.id === item.match?.options?.id) {
-        return false
+      if (item.match === undefined) {
+        return match !== undefined
       }
-      return true
+      return JSON.stringify(item.match) !== JSON.stringify(match)
     })
 
     this._mockResponsesPerDevice[path] = {
@@ -120,10 +120,10 @@ class MockDescriptor {
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method] ?? []
 
     const filteredResponses = currentResponses.filter((item) => {
-      if (match?.options?.id === item.match?.options?.id) {
-        return false
+      if (item.match === undefined) {
+        return match !== undefined
       }
-      return true
+      return JSON.stringify(item.match) !== JSON.stringify(match)
     })
 
     this.setResponseOnce({
@@ -205,7 +205,27 @@ class MockDescriptor {
           method,
           responses: perDeviceOnceResponses,
         })
-        return foundResponse.response
+        return this.mapResponseWithoutMatch(
+          merge(
+            foundResponse.response,
+            this.fillEndpointSpecificFields(endpoint, method, body)
+          )
+        )
+      }
+    }
+    return undefined
+  }
+
+  private fillEndpointSpecificFields(
+    endpoint: APIEndpointType,
+    method: APIMethodsType,
+    body: Record<string, unknown> | undefined
+  ) {
+    if ((method === "POST" || method === "GET") && endpoint === "PRE_BACKUP") {
+      return {
+        body: {
+          backupId: body?.["backupId"],
+        },
       }
     }
     return undefined
@@ -223,7 +243,27 @@ class MockDescriptor {
       const foundResponse = this.findResponse(perDeviceResponses, body)
 
       if (foundResponse) {
-        return foundResponse.response
+        return this.mapResponseWithoutMatch(
+          merge(
+            foundResponse.response,
+            this.fillEndpointSpecificFields(endpoint, method, body)
+          )
+        )
+      }
+    }
+    return undefined
+  }
+
+  private getDefaultResponse(
+    endpoint: APIEndpointType,
+    method: APIMethodsType,
+    body: Record<string, unknown> | undefined
+  ): ApiResponse<unknown> | undefined {
+    const perDeviceResponses = DEFAULT_RESPONSES[endpoint]?.[method]
+    if (perDeviceResponses !== undefined) {
+      const foundResponse = this.findResponse(perDeviceResponses, body)
+      if (foundResponse) {
+        return this.mapResponseWithoutMatch(foundResponse.response)
       }
     }
     return undefined
@@ -250,10 +290,16 @@ class MockDescriptor {
       return response
     }
 
-    const defaultResponse: ApiResponse<unknown> | undefined =
-      DEFAULT_RESPONSES[endpoint]?.[method]
+    const defaultResponse = this.getDefaultResponse(endpoint, method, body)
 
     return defaultResponse
+  }
+
+  private mapResponseWithoutMatch({
+    match,
+    ...response
+  }: ApiResponseWithConfig): ApiResponse<unknown> {
+    return response
   }
 }
 

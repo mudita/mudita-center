@@ -68,6 +68,12 @@ class HelpPage extends Page {
   public get helpMainFooterContactSupportButton() {
     return $('//button[@data-testid="help-main-footer-contact-support-button"]')
   }
+  public get ContactSupportButton() {
+    return $('[data-testid="button-text_undefined"]')
+  }
+  public get iconContactSupport() {
+    return $('[data-testid="icon-support"]')
+  }
   public async searchForArticle(text:string) {
     const searchInput = await this.helpSearchInput
     await searchInput.setValue(text)

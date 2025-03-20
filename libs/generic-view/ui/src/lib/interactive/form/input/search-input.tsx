@@ -3,37 +3,73 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useId, useRef } from "react"
-import { APIFC, IconType } from "generic-view/utils"
+import React, {
+  Children,
+  cloneElement,
+  isValidElement,
+  ReactElement,
+  useId,
+  useRef,
+} from "react"
+import { APIFC, IconType, useViewFormContext } from "generic-view/utils"
 import styled, { css } from "styled-components"
 import { IconButton } from "../../../shared/button"
 import { Icon } from "../../../icon/icon"
-import { useFormContext } from "react-hook-form"
 import { FormSearchInputConfig, FormSearchInputData } from "generic-view/models"
+import { SearchResults, SearchResultsWrapper } from "./search-results"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  placeholder: {
+    id: "component.searchInput.placeholder",
+  },
+})
 
 export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
   data,
   config,
   className,
   style,
+  children,
   ...props
 }) => {
   const id = useId()
-  const { register, watch, setValue } = useFormContext()
+  const getFormContext = useViewFormContext()
+  const { register, watch, setValue } = getFormContext(config.formKey)
+
   const value = (watch(config.name) as string) || ""
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const resultsRef = useRef<SearchResults>()
+  const { name, label } = config
   const { ref, ...rest } = register(config.name)
 
   const clear = () => {
-    setValue(config.name, "")
+    setValue(name, "")
     inputRef.current?.focus()
   }
 
-  useEffect(() => {
-    if (config.name) {
-      setValue(config.name, data?.value)
+  const handleRef = (event: HTMLInputElement | null) => {
+    ref(event)
+    inputRef.current = event
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    switch (event.key) {
+      case "ArrowDown":
+        event.preventDefault()
+        resultsRef.current?.scrollToNextItem()
+        break
+      case "ArrowUp":
+        event.preventDefault()
+        resultsRef.current?.scrollToPreviousItem()
+        break
+      case "Enter":
+        event.preventDefault()
+        resultsRef.current?.activateCurrentItem()
+        break
     }
-  }, [config.name, data?.value, setValue])
+  }
 
   return (
     <Wrapper style={style} className={className}>
@@ -43,12 +79,10 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
           {...props}
           id={"input-" + id}
           type={"search"}
-          placeholder={config.label}
+          placeholder={label || intl.formatMessage(messages.placeholder)}
           {...rest}
-          ref={(event) => {
-            ref(event)
-            inputRef.current = event
-          }}
+          ref={handleRef}
+          onKeyDown={handleKeyDown}
         />
         {value.length > 0 && (
           <ClearButton
@@ -60,17 +94,43 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
           </ClearButton>
         )}
       </InputWrapper>
+      {Children.map(children, (child) => {
+        if (
+          isValidElement(child) &&
+          child.props.componentName === "form.searchInputResults"
+        ) {
+          return cloneElement(child as ReactElement, {
+            componentRef: resultsRef,
+          })
+        }
+        return null
+      })}
     </Wrapper>
   )
 }
 
-export default SearchInput
-
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   background-color: ${({ theme }) => theme.color.grey6};
+
+  ${SearchResultsWrapper} {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-1rem);
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out,
+      transform 0.2s ease-in-out;
+  }
+
+  &:focus-within {
+    ${SearchResultsWrapper} {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
 `
 
 const SearchIcon = styled(Icon)`
@@ -135,6 +195,7 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  z-index: 2;
 
   &:hover {
     ${Input} {

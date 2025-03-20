@@ -25,7 +25,7 @@ export const getFiles = createAsyncThunk<
 >(
   FilesManagerEvent.GetFiles,
   async (_, { rejectWithValue, dispatch, getState }) => {
-    await delay(500)
+    await delay()
     const deviceType = getActiveDeviceTypeSelector(getState())
     if (deviceType === undefined) {
       return rejectWithValue("device Type isn't set")
