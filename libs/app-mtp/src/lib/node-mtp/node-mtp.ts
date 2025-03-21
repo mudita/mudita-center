@@ -5,7 +5,7 @@
 
 import path from "node:path"
 import fs from "node:fs"
-import { delay } from "shared/utils"
+// import { delay } from "shared/utils"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
   CheckProgressData,
@@ -16,6 +16,9 @@ import {
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
 
+export const delay = (ms: number = 500): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
 export class NodeMtp implements MtpInterface {
   private uploadFileProgress: Record<string, number> = {}

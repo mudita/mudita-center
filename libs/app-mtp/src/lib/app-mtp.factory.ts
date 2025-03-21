@@ -6,7 +6,7 @@
 import { MtpInterface } from "./app-mtp.interface"
 import { DotnetMtp } from "./dotnet-mtp/dotnet-mtp"
 import { NodeMtp } from "./node-mtp/node-mtp"
-import { NodeMtpDeviceManager } from "Libs/app-mtp/src/lib/node-mtp/node-mtp-device-manager"
+import { NodeMtpDeviceManager } from "./node-mtp/node-mtp-device-manager"
 
 export class MtpFactory {
   static createInstance(): MtpInterface {
