@@ -6,21 +6,29 @@
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/libs/app-mtp",
         "main": "libs/app-mtp/src/index.ts",
         "tsConfig": "libs/app-mtp/tsconfig.lib.json",
-        "assets": ["libs/app-mtp/*.md"]
+        "assets": [
+          "libs/app-mtp/*.md"
+        ]
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "libs/app-mtp/jest.config.ts"
       }
