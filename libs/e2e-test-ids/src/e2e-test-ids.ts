@@ -99,3 +99,8 @@ export enum NewContactSupportModalTestIds {
   AttachedFilesLabel = "attached-files-label",
   AttachedFilesSubtext = "attached-files-subtext",
 }
+
+export enum ApiDeviceLockedModalTestIds {
+  LockedModalHeadline = "device-locked-modal-headline",
+  LockedModalParagraph = "device-locked-modal-paragraph",
+}
