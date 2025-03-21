@@ -32,6 +32,18 @@
       "options": {
         "jestConfig": "libs/app-mtp/jest.config.ts"
       }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nodemon --watch './libs/app-mtp/src/**' --ext 'ts' --exec 'ts-node --project libs/app-mtp/tsconfig.lib.json libs/app-mtp/src/lib/app-examples/app-mtp-server.ts'"
+      }
+    },
+    "cli": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nodemon --watch './libs/app-mtp/src/**' --ext 'ts' --exec 'ts-node --project libs/app-mtp/tsconfig.lib.json libs/app-mtp/src/lib/app-examples/app-mtp-cli.ts'"
+      }
     }
   },
   "tags": []

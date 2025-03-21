@@ -8,7 +8,8 @@
     ]
   },
   "include": [
-    "src/**/*.ts"
+    "./libs/app-mtp/src/**/*.ts",
+    "./libs/core/**/*.ts"
   ],
   "exclude": [
     "jest.config.ts",
