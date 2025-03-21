@@ -5,10 +5,9 @@
 
 import path from "node:path"
 import fs from "node:fs"
-// import { delay } from "shared/utils"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
-  CheckProgressData,
+  GetUploadFileProgress,
   MtpDevice,
   MtpInterface,
   MtpStorage,
@@ -36,10 +35,13 @@ export class NodeMtp implements MtpInterface {
   async uploadFile(data: MtpUploadFileData): Promise<string> {
     const transactionId = generateId()
     void this.processFileUpload(data, transactionId)
+    console.log(`[app-mtp-server/node-mtp] transactionId: ${transactionId}%`)
     return transactionId
   }
 
-  async checkProgress({ transactionId }: CheckProgressData): Promise<number> {
+  async getUploadFileProgress({
+    transactionId,
+  }: GetUploadFileProgress): Promise<number> {
     return this.uploadFileProgress[transactionId]
   }
 
@@ -79,7 +81,7 @@ export class NodeMtp implements MtpInterface {
       uploadedBytes += chunk.length
       const progress = (uploadedBytes / size) * 100
       this.uploadFileProgress[transactionId] = progress
-      console.log(`[app-mtp-server/node-mtp]: ${progress}%`)
+      console.log(`[app-mtp-server/node-mtp] progress: ${progress}%`)
     }
   }
 

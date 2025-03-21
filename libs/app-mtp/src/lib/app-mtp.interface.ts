@@ -18,7 +18,7 @@ export interface MtpUploadFileData {
   sourcePath: string
 }
 
-export interface CheckProgressData {
+export interface GetUploadFileProgress {
   transactionId: string
 }
 
@@ -29,5 +29,5 @@ export interface MtpInterface {
 
   uploadFile(data: MtpUploadFileData): Promise<string>
 
-  checkProgress(data: CheckProgressData): Promise<number>
+  getUploadFileProgress(data: GetUploadFileProgress): Promise<number>
 }

@@ -6,15 +6,28 @@
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
 import { AppMtp } from "../app-mtp"
-import { MtpUploadFileData } from "../app-mtp.interface"
+import { GetUploadFileProgress, MtpUploadFileData } from "../app-mtp.interface"
 import * as dotenv from "dotenv"
 
 dotenv.config()
 const appMtp = new AppMtp()
 
-const handleAction = (action: string, parsedData: unknown) => {
+enum MtpCliCommandAction {
+  GET_DEVICES = "GET_DEVICES",
+  GET_DEVICE_STORAGES = "GET_DEVICE_STORAGES",
+  UPLOAD_FILE = "UPLOAD_FILE",
+  GET_UPLOAD_FILE_PROGRESS = "GET_UPLOAD_FILE_PROGRESS",
+}
+
+interface MtpCliCommand {
+  action: MtpCliCommandAction
+
+  [key: string]: unknown
+}
+
+const handleAction = (action: MtpCliCommandAction, parsedData: unknown) => {
   switch (action) {
-    case "GET_DEVICES":
+    case MtpCliCommandAction.GET_DEVICES:
       appMtp
         .getDevices()
         .then((devices) => {
@@ -25,7 +38,7 @@ const handleAction = (action: string, parsedData: unknown) => {
         })
       break
 
-    case "GET_DEVICE_STORAGES":
+    case MtpCliCommandAction.GET_DEVICE_STORAGES:
       appMtp
         .getDeviceStorages(parsedData as string)
         .then((storages) => {
@@ -39,7 +52,7 @@ const handleAction = (action: string, parsedData: unknown) => {
         })
       break
 
-    case "UPLOAD_FILE":
+    case MtpCliCommandAction.UPLOAD_FILE:
       appMtp
         .uploadFile(parsedData as MtpUploadFileData)
         .then(() => {
@@ -47,6 +60,20 @@ const handleAction = (action: string, parsedData: unknown) => {
         })
         .catch((err) => {
           console.error("[app-mtp-cli] output: Error uploading file:", err)
+        })
+      break
+
+    case MtpCliCommandAction.GET_UPLOAD_FILE_PROGRESS:
+      appMtp
+        .checkProgress(parsedData as GetUploadFileProgress)
+        .then((progress) => {
+          console.log("[app-mtp-cli] output:", progress)
+        })
+        .catch((err) => {
+          console.error(
+            "[app-mtp-cli] output: Error fetching upload file progress:",
+            err
+          )
         })
       break
 
@@ -60,7 +87,7 @@ yargs(hideBin(process.argv))
     const jsonString = argv._[0] as string
     if (jsonString) {
       try {
-        const parsedData = JSON.parse(jsonString)
+        const parsedData: MtpCliCommand = JSON.parse(jsonString)
         console.log("[app-mtp-cli] input: ", parsedData)
 
         const { action } = parsedData

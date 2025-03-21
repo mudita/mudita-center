@@ -26,3 +26,10 @@ npm run app-mtp:cli '{"action":"GET_DEVICE_STORAGES", "deviceId":"device123"}'
 ```bash
 npm run app-mtp:cli '{"action":"UPLOAD_FILE", "deviceId":"device123", "storageId":"storage456", "destinationPath":"/path/to/destination", "sourcePath":"/path/to/source"}'
 ```
+
+#### 4. Get Upload File Progress
+
+```bash
+npm run app-mtp:cli '{"action":"GET_UPLOAD_FILE_PROGRESS", "transactionId":"transaction123"}'
+```
+

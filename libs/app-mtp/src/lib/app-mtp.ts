@@ -4,7 +4,7 @@
  */
 
 import {
-  CheckProgressData,
+  GetUploadFileProgress,
   MtpDevice,
   MtpInterface,
   MtpStorage,
@@ -31,7 +31,7 @@ export class AppMtp {
     return this.mtp.uploadFile(data)
   }
 
-  async checkProgress(data: CheckProgressData): Promise<number> {
-    return this.mtp.checkProgress(data)
+  async checkProgress(data: GetUploadFileProgress): Promise<number> {
+    return this.mtp.getUploadFileProgress(data)
   }
 }

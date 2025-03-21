@@ -5,7 +5,7 @@
 
 import { spawn } from "child_process"
 import {
-  CheckProgressData,
+  GetUploadFileProgress,
   MtpDevice,
   MtpInterface,
   MtpStorage,
@@ -28,10 +28,13 @@ export class DotnetMtp implements MtpInterface {
   async uploadFile(data: MtpUploadFileData): Promise<string> {
     const transactionId = generateId()
     void this.processFileUpload(data, transactionId)
+    console.log(`[app-mtp-server/dotnet-mtp] transactionId: ${transactionId}%`)
     return Promise.resolve(transactionId)
   }
 
-  async checkProgress({ transactionId }: CheckProgressData): Promise<number> {
+  async getUploadFileProgress({
+    transactionId,
+  }: GetUploadFileProgress): Promise<number> {
     return this.uploadFileProgress[transactionId]
   }
 
