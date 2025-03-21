@@ -54,7 +54,7 @@ export class DotnetMtp implements MtpInterface {
 
       child.stdout.on("data", (data) => {
         console.log(`[app-mtp-server/dotnet-mtp] data stdout: ${data}`)
-        this.uploadFileProgress[transactionId] = JSON.parse(data).data.Progress
+        this.uploadFileProgress[transactionId] = JSON.parse(data).data.progress
       })
 
       child.stderr.on("data", (data) => {
