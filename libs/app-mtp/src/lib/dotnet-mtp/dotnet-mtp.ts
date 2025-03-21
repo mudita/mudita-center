@@ -42,9 +42,10 @@ export class DotnetMtp implements MtpInterface {
     this.uploadFileProgress[transactionId] = 0
 
     return new Promise((resolve, reject) => {
-      // const exePath = process.env.MTP_WINDOWS_APP_PATH as string
-      // const exePath = "apps\\mudita-center\\resources\\MtpFileTransfer_boxed2.exe"
-      const exePath = path.join(__dirname, "..", "..", "..", "apps", "mudita-center", "resources", "MtpFileTransfer_boxed2.exe")
+      const exePath = path.join(
+        __dirname,
+        "../../../../../apps/mudita-center/resources/MtpFileTransfer_boxed.exe"
+      )
       const args = '{"action":"UPLOAD_FILE"}'
       const child = spawn(exePath, [args])
 
@@ -54,9 +55,7 @@ export class DotnetMtp implements MtpInterface {
       })
 
       child.stderr.on("data", (data) => {
-        console.error(
-          `[app-mtp-server/dotnet-mtp] data stderr: ${data}`
-        )
+        console.error(`[app-mtp-server/dotnet-mtp] data stderr: ${data}`)
       })
 
       child.on("close", (code) => {
