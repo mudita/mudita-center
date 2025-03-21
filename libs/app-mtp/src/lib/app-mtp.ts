@@ -5,12 +5,15 @@
 
 import {
   GetUploadFileProgress,
+  GetUploadFileProgressResultData,
   MtpDevice,
   MtpInterface,
   MtpStorage,
   MtpUploadFileData,
+  UploadFileResultData,
 } from "./app-mtp.interface"
 import { MtpFactory } from "./app-mtp.factory"
+import { ResultObject } from "../../../core/core/builder/result.builder"
 
 export class AppMtp {
   private mtp: MtpInterface
@@ -23,15 +26,21 @@ export class AppMtp {
     return this.mtp.getDevices()
   }
 
-  async getDeviceStorages(deviceId: string): Promise<MtpStorage[]> {
+  async getDeviceStorages(
+    deviceId: string
+  ): Promise<ResultObject<MtpStorage[]>> {
     return this.mtp.getDeviceStorages(deviceId)
   }
 
-  async uploadFile(data: MtpUploadFileData): Promise<string> {
+  async uploadFile(
+    data: MtpUploadFileData
+  ): Promise<ResultObject<UploadFileResultData>> {
     return this.mtp.uploadFile(data)
   }
 
-  async checkProgress(data: GetUploadFileProgress): Promise<number> {
+  async getUploadFileProgress(
+    data: GetUploadFileProgress
+  ): Promise<ResultObject<GetUploadFileProgressResultData>> {
     return this.mtp.getUploadFileProgress(data)
   }
 }

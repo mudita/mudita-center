@@ -8,12 +8,20 @@ import fs from "node:fs"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
   GetUploadFileProgress,
+  GetUploadFileProgressResultData,
   MtpDevice,
   MtpInterface,
   MtpStorage,
   MtpUploadFileData,
+  UploadFileResultData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
+import { isEmpty } from "../utils/is-empty"
+import {
+  Result,
+  ResultObject,
+} from "../../../../core/core/builder/result.builder"
+import { AppError } from "../../../../core/core/errors/app-error"
 
 export const delay = (ms: number = 500): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -28,21 +36,45 @@ export class NodeMtp implements MtpInterface {
     return Promise.resolve([{ id: "device-1" }])
   }
 
-  async getDeviceStorages(deviceId: string): Promise<MtpStorage[]> {
-    return Promise.resolve([{ id: "storage-1" }, { id: "storage-2" }])
+  async getDeviceStorages(
+    deviceId: string
+  ): Promise<ResultObject<MtpStorage[]>> {
+    if (isEmpty(deviceId)) {
+      return Promise.resolve(
+        Result.failed({ type: "MTP_DEVICE_NOT_FOUND" } as AppError)
+      )
+    }
+
+    return Promise.resolve(
+      Result.success([{ id: "storage-1" }, { id: "storage-2" }])
+    )
   }
 
-  async uploadFile(data: MtpUploadFileData): Promise<string> {
+  async uploadFile(
+    data: MtpUploadFileData
+  ): Promise<ResultObject<UploadFileResultData>> {
+    if (isEmpty(data.deviceId)) {
+      return Promise.resolve(
+        Result.failed({ type: "MTP_DEVICE_NOT_FOUND" } as AppError)
+      )
+    }
     const transactionId = generateId()
     void this.processFileUpload(data, transactionId)
-    console.log(`[app-mtp-server/node-mtp] transactionId: ${transactionId}%`)
-    return transactionId
+    console.log(`[app-mtp-server/node-mtp] transactionId: ${transactionId}`)
+    return Result.success({ transactionId })
   }
 
   async getUploadFileProgress({
     transactionId,
-  }: GetUploadFileProgress): Promise<number> {
-    return this.uploadFileProgress[transactionId]
+  }: GetUploadFileProgress): Promise<
+    ResultObject<GetUploadFileProgressResultData>
+  > {
+    if (isEmpty(this.uploadFileProgress[transactionId])) {
+      return Promise.resolve(
+        Result.failed({ type: "MTP_TRANSACTION_NOT_FOUND" } as AppError)
+      )
+    }
+    return Result.success({ progress: this.uploadFileProgress[transactionId] })
   }
 
   private async processFileUpload(

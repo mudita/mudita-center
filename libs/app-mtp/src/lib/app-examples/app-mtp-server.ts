@@ -31,14 +31,14 @@ router.get("/get-device-storages/:deviceId", (req: Request, res: Response) => {
 })
 
 router.post("/upload-file", (req: Request, res: Response) => {
-  appMtp.uploadFile(req.body).then((transactionId) => {
-    res.json({ transactionId })
+  appMtp.uploadFile(req.body).then((result) => {
+    res.json(result)
   })
 })
 
 router.get("/upload-file-progress", (req: Request, res: Response) => {
-  appMtp.checkProgress(req.body).then((progress) => {
-    res.json({ progress })
+  appMtp.getUploadFileProgress(req.body).then((result) => {
+    res.json(result)
   })
 })
 

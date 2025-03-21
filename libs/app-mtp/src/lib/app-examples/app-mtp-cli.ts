@@ -65,7 +65,7 @@ const handleAction = (action: MtpCliCommandAction, parsedData: unknown) => {
 
     case MtpCliCommandAction.GET_UPLOAD_FILE_PROGRESS:
       appMtp
-        .checkProgress(parsedData as GetUploadFileProgress)
+        .getUploadFileProgress(parsedData as GetUploadFileProgress)
         .then((progress) => {
           console.log("[app-mtp-cli] output:", progress)
         })
