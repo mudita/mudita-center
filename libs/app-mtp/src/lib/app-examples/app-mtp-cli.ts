@@ -40,7 +40,7 @@ const handleAction = (action: MtpCliCommandAction, parsedData: unknown) => {
 
     case MtpCliCommandAction.GET_DEVICE_STORAGES:
       appMtp
-        .getDeviceStorages(parsedData as string)
+        .getDeviceStorages((parsedData as { deviceId: string }).deviceId)
         .then((storages) => {
           console.log("[app-mtp-cli] output:", storages)
         })

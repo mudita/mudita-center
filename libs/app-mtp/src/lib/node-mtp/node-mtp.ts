@@ -33,34 +33,27 @@ export class NodeMtp implements MtpInterface {
   constructor(private deviceManager: NodeMtpDeviceManager) {}
 
   async getDevices(): Promise<MtpDevice[]> {
-    return Promise.resolve([{ id: "device-1" }])
+    return [{ id: "device-1" }]
   }
 
   async getDeviceStorages(
     deviceId: string
   ): Promise<ResultObject<MtpStorage[]>> {
     if (isEmpty(deviceId)) {
-      return Promise.resolve(
-        Result.failed({ type: "MTP_DEVICE_NOT_FOUND" } as AppError)
-      )
+      return Result.failed({ type: "MTP_DEVICE_NOT_FOUND" } as AppError)
     }
 
-    return Promise.resolve(
-      Result.success([{ id: "storage-1" }, { id: "storage-2" }])
-    )
+    return Result.success([{ id: "storage-1" }, { id: "storage-2" }])
   }
 
   async uploadFile(
     data: MtpUploadFileData
   ): Promise<ResultObject<UploadFileResultData>> {
     if (isEmpty(data.deviceId)) {
-      return Promise.resolve(
-        Result.failed({ type: "MTP_DEVICE_NOT_FOUND" } as AppError)
-      )
+      return Result.failed({ type: "MTP_DEVICE_NOT_FOUND" } as AppError)
     }
     const transactionId = generateId()
     void this.processFileUpload(data, transactionId)
-    console.log(`[app-mtp-server/node-mtp] transactionId: ${transactionId}`)
     return Result.success({ transactionId })
   }
 
@@ -70,9 +63,7 @@ export class NodeMtp implements MtpInterface {
     ResultObject<GetUploadFileProgressResultData>
   > {
     if (isEmpty(this.uploadFileProgress[transactionId])) {
-      return Promise.resolve(
-        Result.failed({ type: "MTP_TRANSACTION_NOT_FOUND" } as AppError)
-      )
+      return Result.failed({ type: "MTP_TRANSACTION_NOT_FOUND" } as AppError)
     }
     return Result.success({ progress: this.uploadFileProgress[transactionId] })
   }
@@ -113,7 +104,7 @@ export class NodeMtp implements MtpInterface {
       uploadedBytes += chunk.length
       const progress = (uploadedBytes / size) * 100
       this.uploadFileProgress[transactionId] = progress
-      console.log(`[app-mtp-server/node-mtp] progress: ${progress}%`)
+      console.log(`[app-mtp/node-mtp] progress: ${progress}%`)
     }
   }
 

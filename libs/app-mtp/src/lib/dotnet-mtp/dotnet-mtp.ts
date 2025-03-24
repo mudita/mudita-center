@@ -15,32 +15,22 @@ import {
   UploadFileResultData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
-import { isEmpty } from "../utils/is-empty"
 import {
   Result,
   ResultObject,
 } from "../../../../core/core/builder/result.builder"
-import { AppError } from "../../../../core/core/errors/app-error"
 
 export class DotnetMtp implements MtpInterface {
   private uploadFileProgress: Record<string, number> = {}
 
   async getDevices(): Promise<MtpDevice[]> {
-    return Promise.resolve([{ id: "device-1" }])
+    return [{ id: "device-1" }]
   }
 
   async getDeviceStorages(
     deviceId: string
   ): Promise<ResultObject<MtpStorage[]>> {
-    if (isEmpty(deviceId)) {
-      return Promise.resolve(
-        Result.failed({ message: "Device ID is required" } as AppError)
-      )
-    }
-
-    return Promise.resolve(
-      Result.success([{ id: "storage-1" }, { id: "storage-2" }])
-    )
+    return Result.success([{ id: "storage-1" }, { id: "storage-2" }])
   }
 
   async uploadFile(
@@ -48,7 +38,6 @@ export class DotnetMtp implements MtpInterface {
   ): Promise<ResultObject<UploadFileResultData>> {
     const transactionId = generateId()
     void this.processFileUpload(data, transactionId)
-    console.log(`[app-mtp-server/dotnet-mtp] transactionId: ${transactionId}%`)
     return Result.success({ transactionId })
   }
 
@@ -75,23 +64,21 @@ export class DotnetMtp implements MtpInterface {
       const child = spawn(exePath, [args])
 
       child.stdout.on("data", (data) => {
-        console.log(`[app-mtp-server/dotnet-mtp] data stdout: ${data}`)
+        console.log(`[app-mtp/dotnet-mtp] data stdout: ${data}`)
         this.uploadFileProgress[transactionId] = JSON.parse(data).data.progress
       })
 
       child.stderr.on("data", (data) => {
-        console.error(`[app-mtp-server/dotnet-mtp] data stderr: ${data}`)
+        console.error(`[app-mtp/dotnet-mtp] data stderr: ${data}`)
       })
 
       child.on("close", (code) => {
         if (code !== 0) {
           console.log(
-            `[app-mtp-server/dotnet-mtp] child process exited with code: ${code}`
+            `[app-mtp/dotnet-mtp] child process exited with code: ${code}`
           )
         } else {
-          console.log(
-            `[app-mtp-server/dotnet-mtp] child process exited successfully`
-          )
+          console.log(`[app-mtp/dotnet-mtp] child process exited successfully`)
         }
 
         resolve()

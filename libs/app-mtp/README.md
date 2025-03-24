@@ -10,7 +10,7 @@ uploading files.
 #### 1. Get Devices
 
 ```bash
-npm run app-mtp:cli \'{\"action\":\"GET_DEVICE_STORAGES\", \"deviceId\":\"device123\"}\'
+npm run app-mtp:cli \'{\"action\":\"GET_DEVICES\", \"data\":\"\"}\'
 ```
 
 #### 2. Get Device Storages

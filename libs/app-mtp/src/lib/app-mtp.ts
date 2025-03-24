@@ -23,24 +23,45 @@ export class AppMtp {
   }
 
   async getDevices(): Promise<MtpDevice[]> {
-    return this.mtp.getDevices()
+    console.log(`[app-mtp] getting devices`)
+    const result = await this.mtp.getDevices()
+    console.log(`[app-mtp] getting devices result: ${JSON.stringify(result)}`)
+    return result
   }
 
   async getDeviceStorages(
     deviceId: string
   ): Promise<ResultObject<MtpStorage[]>> {
-    return this.mtp.getDeviceStorages(deviceId)
+    console.log(`[app-mtp] getting device storages for device: ${deviceId}`)
+    const result = await this.mtp.getDeviceStorages(deviceId)
+    console.log(
+      `[app-mtp] getting device storages result: ${JSON.stringify(result)}`
+    )
+    return result
   }
 
   async uploadFile(
     data: MtpUploadFileData
   ): Promise<ResultObject<UploadFileResultData>> {
-    return this.mtp.uploadFile(data)
+    const result = await this.mtp.uploadFile(data)
+    console.log(
+      `[app-mtp] starting upload file process: ${JSON.stringify(result)}`
+    )
+    return result
   }
 
   async getUploadFileProgress(
     data: GetUploadFileProgress
   ): Promise<ResultObject<GetUploadFileProgressResultData>> {
-    return this.mtp.getUploadFileProgress(data)
+    console.log(
+      `[app-mtp] getting upload file progress for transaction: ${data.transactionId}`
+    )
+    const result = await this.mtp.getUploadFileProgress(data)
+
+    console.log(
+      `[app-mtp] getting upload file progress result: ${JSON.stringify(result)}`
+    )
+
+    return result
   }
 }
