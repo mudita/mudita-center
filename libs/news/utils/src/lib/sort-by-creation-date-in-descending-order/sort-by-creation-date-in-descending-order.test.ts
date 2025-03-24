@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { NewsData } from "news/models"
+import { NewsRawData } from "news/models"
 import { sortByDateInDescendingOrder } from "./sort-by-creation-date-in-descending-order"
 
-const newsEntityMock: NewsData[] = [
+const newsEntityMock: NewsRawData[] = [
   {
     category: "Blog",
     title: "Remote work",

@@ -5,14 +5,16 @@
 
 import { getBase64 } from "../get-base64/get-base64"
 import { getAssetForEntry } from "./get-asset-for-entry"
-import { NewsData } from "news/models"
+import { NewsData, NewsRawData } from "news/models"
 
 const DPI = 2
 export const WIDTH = 273 * DPI
 export const HEIGHT = 220 * DPI
 const QUALITY = 100
 
-export const normalizeContentfulData = async (data: NewsData) => {
+export const normalizeContentfulData = async (
+  data: NewsRawData
+): Promise<NewsData> => {
   const newsItems = []
 
   for (const item of data.items) {

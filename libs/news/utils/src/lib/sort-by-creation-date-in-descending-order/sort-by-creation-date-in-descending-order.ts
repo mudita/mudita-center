@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { NewsData } from "news/models"
+import { NewsItem } from "news/models"
 
-export const sortByDateInDescendingOrder = (newsItems: NewsData[]) => {
-  return [...newsItems].sort((firstId, secondId) => {
-    return Number(new Date(secondId.date)) - Number(new Date(firstId.date))
+export const sortByDateInDescendingOrder = (newsItems: NewsItem[]) => {
+  return newsItems.sort((a, b) => {
+    return Number(new Date(b.date)) - Number(new Date(a.date))
   })
 }

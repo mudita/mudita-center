@@ -4,13 +4,13 @@
  */
 
 import { normalizeContentfulData } from "./normalize-contentful-data"
-import { NewsData } from "news/models"
+import { NewsRawData } from "news/models"
 
 jest.mock("../get-base64/get-base64", () => ({
   getBase64: jest.fn().mockReturnValue("data:base64"),
 }))
 
-const entryCollectionMock: NewsData = {
+const entryCollectionMock: NewsRawData = {
   items: [
     {
       sys: {

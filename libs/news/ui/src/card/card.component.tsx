@@ -5,17 +5,16 @@
 
 import {
   CardContainer,
+  CardContent,
   CardDate,
   CardDescription,
   CardImage,
-  CardContent,
 } from "./card.styled"
 import CommunityCommentsCount from "../community-comments-count/community-comments-count.component"
-// import Text, {
-//   TextDisplayStyle,
-// } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import moment from "moment"
 import { FunctionComponent } from "react"
+import { TextDisplayStyle } from "app-theme/models"
+import { LegacyText } from "app-theme/ui"
 
 export interface Props {
   content: string
@@ -50,7 +49,7 @@ const Card: FunctionComponent<Props> = ({
           target="_blank"
           rel="noreferrer"
         >
-          <Text displayStyle={TextDisplayStyle.Title}>{title}</Text>
+          <LegacyText displayStyle={TextDisplayStyle.Title}>{title}</LegacyText>
           <CardDate displayStyle={TextDisplayStyle.Label} color="secondary">
             {moment(date).format("ll")}
           </CardDate>

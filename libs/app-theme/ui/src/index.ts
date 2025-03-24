@@ -3,4 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./icon"
+export * from "./lib/icon/icon"
+export * from "./lib/legacy-text/text.component"

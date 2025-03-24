@@ -3,14 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  CommentsLine,
-  CommentsText,
-} from "Core/news/components/community-comments-count/community-comments-count.styled"
-import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
-import * as React from "react"
+import { FunctionComponent } from "react"
 import { FormattedMessage } from "react-intl"
+import { CommentsLine, CommentsText } from "./community-comments-count.styled"
+import { TextDisplayStyle } from "app-theme/models"
 
 interface Props {
   count?: number

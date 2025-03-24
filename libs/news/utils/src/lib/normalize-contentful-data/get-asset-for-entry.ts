@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { NewsData } from "news/models"
+import { NewsRawData } from "news/models"
 
 export const getAssetForEntry = (
-  data?: NewsData,
+  data?: NewsRawData,
   assetId?: string
 ): { title: string; url: string } => {
   if (!assetId) {

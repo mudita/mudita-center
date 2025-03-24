@@ -4,16 +4,14 @@
  */
 
 import * as React from "react"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
-import Card from "Core/news/components/card/card.component"
+import { FunctionComponent, useEffect } from "react"
 import styled from "styled-components"
-import { useEffect } from "react"
-import { noop } from "Core/__deprecated__/renderer/utils/noop"
-import { NewsEntry } from "Core/news/dto"
+import Card from "../card/card.component"
+import { NewsItem } from "news/models"
 
 interface Props {
-  newsItems: NewsEntry[]
-  loadData?: () => void
+  newsItems: NewsItem[]
+  loadData?: VoidFunction
 }
 
 const CardContainer = styled.div`
@@ -22,12 +20,10 @@ const CardContainer = styled.div`
   grid-column-gap: 4rem;
 `
 
-const Cards: FunctionComponent<Props> = ({ newsItems, loadData = noop }) => {
+const Cards: FunctionComponent<Props> = ({ newsItems, loadData }) => {
   useEffect(() => {
-    loadData()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    loadData?.()
+  }, [loadData])
   return (
     <CardContainer>
       {newsItems.map((newsItem) => {

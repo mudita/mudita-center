@@ -3,50 +3,24 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export type NewsEntry = {
-  category?: string
+export type NewsItem = {
+  newsId: string
   title: string
+  category?: string
   content: string
-  communityLink: string
   link: string
-  discussionId?: string
   commentsCount?: number
+  communityLink: string
+  discussionId?: string
+  imageId: string
+  imageAlt: string
+  imageSource: string
   date: string
-  image: {
-    sys: {
-      id: string
-    }
-    fields: {
-      title: string
-      file: {
-        url: string
-      }
-    }
-  }
-}
-
-type Asset = {
-  sys: {
-    id: string
-  }
-  fields: {
-    title: string
-    file: {
-      url: string
-    }
-  }
+  createdAt: string
+  updatedAt: string
 }
 
 export type NewsData = {
-  items: {
-    sys: {
-      id: string
-      createdAt: string
-      updatedAt: string
-    }
-    fields: NewsEntry
-  }[]
-  includes?: {
-    Asset: Asset[]
-  }
+  newsItems: NewsItem[]
+  lastUpdate: string
 }

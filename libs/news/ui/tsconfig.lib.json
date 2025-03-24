@@ -22,5 +22,11 @@
     "src/**/*.spec.ts",
     "src/**/*.test.ts"
   ],
-  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
+  "include": [
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "../../app-theme/feature/src/lib/styled.d.ts"
+  ]
 }
