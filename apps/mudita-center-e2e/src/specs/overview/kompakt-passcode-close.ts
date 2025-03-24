@@ -18,7 +18,7 @@ describe("Kompakt passcode close", () => {
     E2EMockClient.disconnect()
   })
 
-  it("Connect device and check welcome screen", async () => {
+  it("Connect locked device and check welcome screen", async () => {
     E2EMockClient.mockResponses([
       {
         path: "path-1",
@@ -45,7 +45,7 @@ describe("Kompakt passcode close", () => {
     await expect(passcodeModal).toBeDisplayed()
     const passcodeModalHeader = LockedPageKompakt.passcodeModalHeader
     await expect(passcodeModalHeader).toHaveText("Unlock your phone")
-    const passcodeModalSubtext = LockedPageKompakt.passcodeModalHeader
+    const passcodeModalSubtext = LockedPageKompakt.passcodeModalSubtext
     await expect(passcodeModalSubtext).toHaveText(
       "Enter your passcode or scan your fingerprint"
     )
