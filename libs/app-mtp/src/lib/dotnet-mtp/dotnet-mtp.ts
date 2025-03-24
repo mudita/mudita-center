@@ -12,6 +12,7 @@ import {
   MtpInterface,
   MtpStorage,
   MtpUploadFileData,
+  TransactionStatus,
   UploadFileResultData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
@@ -21,7 +22,7 @@ import {
 } from "../../../../core/core/builder/result.builder"
 
 export class DotnetMtp implements MtpInterface {
-  private uploadFileProgress: Record<string, number> = {}
+  private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
 
   async getDevices(): Promise<MtpDevice[]> {
     return [{ id: "device-1" }]
@@ -46,14 +47,18 @@ export class DotnetMtp implements MtpInterface {
   }: GetUploadFileProgress): Promise<
     ResultObject<GetUploadFileProgressResultData>
   > {
-    return Result.success({ progress: this.uploadFileProgress[transactionId] })
+    return Result.success({
+      progress: this.uploadFileTransactionStatus[transactionId].progress,
+    })
   }
 
   private async processFileUpload(
     data: MtpUploadFileData,
     transactionId: string
   ): Promise<void> {
-    this.uploadFileProgress[transactionId] = 0
+    this.uploadFileTransactionStatus[transactionId] = {
+      progress: 0,
+    }
 
     return new Promise((resolve, reject) => {
       const exePath = path.join(
@@ -65,7 +70,8 @@ export class DotnetMtp implements MtpInterface {
 
       child.stdout.on("data", (data) => {
         console.log(`[app-mtp/dotnet-mtp] data stdout: ${data}`)
-        this.uploadFileProgress[transactionId] = JSON.parse(data).data.progress
+        this.uploadFileTransactionStatus[transactionId].progress =
+          JSON.parse(data).data.progress
       })
 
       child.stderr.on("data", (data) => {

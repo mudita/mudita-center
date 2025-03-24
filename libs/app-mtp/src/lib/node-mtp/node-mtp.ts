@@ -13,6 +13,7 @@ import {
   MtpInterface,
   MtpStorage,
   MtpUploadFileData,
+  TransactionStatus,
   UploadFileResultData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
@@ -28,7 +29,7 @@ export const delay = (ms: number = 500): Promise<void> => {
 }
 
 export class NodeMtp implements MtpInterface {
-  private uploadFileProgress: Record<string, number> = {}
+  private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
 
   constructor(private deviceManager: NodeMtpDeviceManager) {}
 
@@ -62,17 +63,29 @@ export class NodeMtp implements MtpInterface {
   }: GetUploadFileProgress): Promise<
     ResultObject<GetUploadFileProgressResultData>
   > {
-    if (isEmpty(this.uploadFileProgress[transactionId])) {
+    if (isEmpty(this.uploadFileTransactionStatus[transactionId])) {
       return Result.failed({ type: "MTP_TRANSACTION_NOT_FOUND" } as AppError)
     }
-    return Result.success({ progress: this.uploadFileProgress[transactionId] })
+
+    if (this.uploadFileTransactionStatus[transactionId].error) {
+      return Result.failed({
+        type: "MTP_TRANSACTION_ERROR",
+        message: this.uploadFileTransactionStatus[transactionId].error,
+      } as AppError)
+    }
+
+    return Result.success({
+      progress: this.uploadFileTransactionStatus[transactionId].progress,
+    })
   }
 
   private async processFileUpload(
     { sourcePath, destinationPath }: MtpUploadFileData,
     transactionId: string
   ): Promise<void> {
-    this.uploadFileProgress[transactionId] = 0
+    this.uploadFileTransactionStatus[transactionId] = {
+      progress: 0,
+    }
 
     const PHONE_STORAGE_ID = 65537
     // const SD_CARD_STORAGE_ID = 131073
@@ -103,7 +116,7 @@ export class NodeMtp implements MtpInterface {
 
       uploadedBytes += chunk.length
       const progress = (uploadedBytes / size) * 100
-      this.uploadFileProgress[transactionId] = progress
+      this.uploadFileTransactionStatus[transactionId].progress = progress
       console.log(`[app-mtp/node-mtp] progress: ${progress}%`)
     }
   }

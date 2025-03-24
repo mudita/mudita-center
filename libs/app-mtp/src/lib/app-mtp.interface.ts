@@ -20,6 +20,11 @@ export interface MtpUploadFileData {
   sourcePath: string
 }
 
+export interface TransactionStatus {
+  progress: number
+  error?: string
+}
+
 export interface UploadFileResultData {
   transactionId: string
 }
