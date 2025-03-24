@@ -17,6 +17,10 @@ export class LockedPageKompakt extends Page {
   public get passcodeModalSubtext() {
     return $('//div[@data-testid="modal-content-device-initialization"]//p')
   }
+
+  public get closePasscodeModalButton() {
+    return $('//div[@data-testid="modal-close-button-icon-button"]')
+  }
 }
 
 export default new LockedPageKompakt()
