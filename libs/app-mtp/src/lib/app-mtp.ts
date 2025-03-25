@@ -15,7 +15,7 @@ import {
 import { MtpFactory } from "./app-mtp.factory"
 import { ResultObject } from "../../../core/core/builder/result.builder"
 
-export class AppMtp {
+export class AppMtp implements MtpInterface {
   private mtp: MtpInterface
 
   constructor() {

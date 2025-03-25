@@ -4,6 +4,7 @@
  */
 
 import { ResultObject } from "../../../core/core/builder/result.builder"
+import { AppError } from "../../../core/core/errors/app-error"
 
 export interface MtpDevice {
   id?: string
@@ -13,16 +14,24 @@ export interface MtpStorage {
   id: string
 }
 
+export interface TransactionStatus {
+  progress: number
+  error?: AppError
+}
+
+export enum MTPError {
+  MTP_DEVICE_NOT_FOUND = "MTP_DEVICE_NOT_FOUND",
+  MTP_STORAGE_NOT_FOUND = "MTP_STORAGE_NOT_FOUND",
+  MTP_SOURCE_PATH_NOT_FOUND = "MTP_SOURCE_PATH_NOT_FOUND",
+  MTP_TRANSACTION_NOT_FOUND = "MTP_TRANSACTION_NOT_FOUND",
+  MTP_GENERAL_ERROR = "MTP_GENERAL_ERROR",
+}
+
 export interface MtpUploadFileData {
   deviceId: string
   storageId: string
   destinationPath: string
   sourcePath: string
-}
-
-export interface TransactionStatus {
-  progress: number
-  error?: string
 }
 
 export interface UploadFileResultData {
