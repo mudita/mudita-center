@@ -7,11 +7,13 @@ import { ResultObject } from "../../../core/core/builder/result.builder"
 import { AppError } from "../../../core/core/errors/app-error"
 
 export interface MtpDevice {
-  id?: string
+  id: string
+  name: string
 }
 
 export interface MtpStorage {
   id: string
+  name: string
 }
 
 export interface TransactionStatus {

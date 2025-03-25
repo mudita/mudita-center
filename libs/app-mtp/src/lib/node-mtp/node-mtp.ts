@@ -35,7 +35,7 @@ export class NodeMtp implements MtpInterface {
   constructor(private deviceManager: NodeMtpDeviceManager) {}
 
   async getDevices(): Promise<MtpDevice[]> {
-    return [{ id: "device-1" }]
+    return [{ id: "device-1", name: "Device 1" }]
   }
 
   async getDeviceStorages(
@@ -45,7 +45,10 @@ export class NodeMtp implements MtpInterface {
       return Result.failed({ type: MTPError.MTP_DEVICE_NOT_FOUND } as AppError)
     }
 
-    return Result.success([{ id: "storage-1" }, { id: "storage-2" }])
+    return Result.success([
+      { id: "storage-1", name: "Storage 1" },
+      { id: "storage-2", name: "Storage 2" },
+    ])
   }
 
   async uploadFile(
