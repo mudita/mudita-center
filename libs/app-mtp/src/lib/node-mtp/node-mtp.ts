@@ -165,6 +165,7 @@ export class NodeMtp implements MtpInterface {
       console.log(`[app-mtp/node-mtp] process upload file error: ${error}`)
       this.uploadFileTransactionStatus[transactionId].error = {
         type: MTPError.MTP_GENERAL_ERROR,
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         message: `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${error}`,
       } as AppError
     }
