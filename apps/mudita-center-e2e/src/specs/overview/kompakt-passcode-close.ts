@@ -1,6 +1,7 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import { passcodeLockedKompakt } from "../../../../../libs/e2e-mock/responses/src"
 import LockedPageKompakt from "../../page-objects/locked-page-kompakt"
+import NewsPage from "../../page-objects/news.page"
 
 describe("Kompakt passcode close", () => {
   const firstSerialNumber = "KOM1234567890"
@@ -56,5 +57,15 @@ describe("Kompakt passcode close", () => {
   it("Close passcode locked modal", async () => {
     const closePasscodeModalButton = LockedPageKompakt.closePasscodeModalButton
     await closePasscodeModalButton.click()
+  })
+
+  it("Check if passcode locked modal is gone", async () => {
+    const passcodeModal = LockedPageKompakt.passcodeModal
+    await expect(passcodeModal).not.toBeDisplayed()
+  })
+
+  it("Check if News page is opened", async () => {
+    const newsHeader = await NewsPage.newsHeader
+    await expect(newsHeader).toHaveText("Mudita News")
   })
 })
