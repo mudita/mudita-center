@@ -1,10 +1,13 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 import { passcodeLockedKompakt } from "../../../../../libs/e2e-mock/responses/src"
+import { overviewDataWithOneSimCard2nd } from "../../../../../libs/e2e-mock/responses/src"
 import LockedPageKompakt from "../../page-objects/locked-page-kompakt"
 import NewsPage from "../../page-objects/news.page"
+import HomePage from "../../page-objects/home.page"
 
 describe("Kompakt passcode close", () => {
   const firstSerialNumber = "KOM1234567890"
+  const secondSerialNumber = "KOM1234567891"
 
   before(async () => {
     E2EMockClient.connect()
@@ -35,11 +38,6 @@ describe("Kompakt passcode close", () => {
     })
 
     await browser.pause(6000)
-    //the device shouldn't appear
-    // const menuItem = await $(`//a[@href="#/generic/mc-overview"]`)
-
-    // await menuItem.waitForDisplayed({ timeout: 10000 })
-    // await expect(menuItem).toBeDisplayed()
   })
 
   it("Check passcode locked modal", async () => {
@@ -51,7 +49,6 @@ describe("Kompakt passcode close", () => {
     await expect(passcodeModalSubtext).toHaveText(
       "Enter your passcode or scan your fingerprint"
     )
-    //await browser.pause(5555555)
   })
 
   it("Close passcode locked modal", async () => {
@@ -65,6 +62,31 @@ describe("Kompakt passcode close", () => {
   })
 
   it("Check if News page is opened", async () => {
+    const newsHeader = await NewsPage.newsHeader
+    await expect(newsHeader).toHaveText("Mudita News")
+  })
+
+  it("Connect 2nd locked device", async () => {
+    E2EMockClient.mockResponses([
+      {
+        path: "path-2",
+        body: overviewDataWithOneSimCard2nd,
+        endpoint: "MENU_CONFIGURATION",
+        method: "GET",
+        status: 423,
+      },
+    ])
+    E2EMockClient.addDevice({
+      path: "path-2",
+      serialNumber: secondSerialNumber,
+    })
+
+    await browser.pause(3000)
+  })
+  it("Disconnect the devices and check if News page is still present", async () => {
+    E2EMockClient.removeDevice("path-1")
+    E2EMockClient.removeDevice("path-2")
+
     const newsHeader = await NewsPage.newsHeader
     await expect(newsHeader).toHaveText("Mudita News")
   })
