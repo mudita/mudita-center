@@ -6,7 +6,7 @@
 import ipc from "node-ipc"
 import logger from "Core/__deprecated__/main/utils/logger"
 import {
-  addKompaktResponsesValidator,
+  addKompaktResponseValidator,
   addKompaktValidator,
   restoreDefaultResponsesValidator,
 } from "./mock-descriptor/mock-descriptor-validators"
@@ -19,7 +19,6 @@ import {
   MockHttpResponse,
   mockHttpStateService,
 } from "./mock-http-state.service"
-import { mockFileDialog } from "./mock-file-dialog.service"
 
 ipc.config.id = "MC"
 ipc.config.retry = 15
@@ -39,16 +38,16 @@ ipc.serve(function () {
       mockDescriptor.removeDevice(data)
     }
   })
-  ipc.server.on("mock.responses.every", function (data, socket) {
-    const params = addKompaktResponsesValidator.safeParse(data)
+  ipc.server.on("mock.response.every", function (data, socket) {
+    const params = addKompaktResponseValidator.safeParse(data)
     if (params.success) {
-      mockDescriptor.addResponses(params.data)
+      mockDescriptor.addResponse(params.data)
     }
   })
-  ipc.server.on("mock.responses.once", function (data, socket) {
-    const params = addKompaktResponsesValidator.safeParse(data)
+  ipc.server.on("mock.response.once", function (data, socket) {
+    const params = addKompaktResponseValidator.safeParse(data)
     if (params.success) {
-      mockDescriptor.addResponsesOnce(params.data)
+      mockDescriptor.addResponseOnce(params.data)
     }
   })
   ipc.server.on("mock.response.reset", function (data, socket) {
@@ -66,12 +65,6 @@ ipc.serve(function () {
   ipc.server.on("mock.http.response", function (data: MockHttpResponse) {
     mockHttpStateService.mockHttpResponse(data)
   })
-  ipc.server.on("mock.file.dialog", function (data: string[], socket) {
-    mockFileDialog.setMockFilePaths(data)
-  })
-  ipc.server.on("mock.file.dialog.reset", function (data, socket) {
-    mockFileDialog.clearMockFilePaths()
-  })
 })
 
 export function startServer() {
@@ -82,4 +75,6 @@ export function stopServer() {
   ipc.server.stop()
 }
 
-export const mockServiceEnabled = process.env.MOCK_SERVICE_ENABLED === "1"
+// export const mockServiceEnabled = process.env.MOCK_SERVICE_ENABLED === "1"
+
+export const mockServiceEnabled = true
