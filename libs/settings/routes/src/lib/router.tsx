@@ -6,8 +6,8 @@
 import { Navigate, Route } from "react-router"
 import { useMenuItemsRegister } from "app-routing/feature"
 import { SettingsAboutPage, SettingsBackupPage } from "settings/feature"
-import { IconType } from "app-theme/models"
-import { formatMessage } from "app-localize/feature"
+import { LegacyIconType } from "app-theme/models"
+import { formatMessage } from "app-localize/utils"
 import { messages, SettingsLayout } from "./layout"
 import { settingsPaths } from "./paths"
 import { MenuIndex } from "app-routing/models"
@@ -17,7 +17,7 @@ export const useSettingsRouter = () => {
     {
       index: 0,
       title: formatMessage(messages.settings),
-      icon: IconType.Settings,
+      icon: LegacyIconType.Settings,
       path: settingsPaths.index,
     },
   ])

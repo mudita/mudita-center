@@ -10,8 +10,8 @@ import {
 } from "app-routing/feature"
 import { Outlet } from "react-router"
 import { settingsPaths } from "./paths"
-import { defineMessages, formatMessage } from "app-localize/feature"
-import { IconType } from "app-theme/models"
+import { defineMessages, formatMessage } from "app-localize/utils"
+import { LegacyIconType } from "app-theme/models"
 
 export const messages = defineMessages({
   settings: {
@@ -28,12 +28,12 @@ export const messages = defineMessages({
 const tabs: Tab[] = [
   {
     title: formatMessage(messages.backup),
-    icon: IconType.BackupFolder,
+    icon: LegacyIconType.BackupFolder,
     path: settingsPaths.backup,
   },
   {
     title: formatMessage(messages.about),
-    icon: IconType.MuditaLogo,
+    icon: LegacyIconType.MuditaLogo,
     path: settingsPaths.about,
   },
 ]

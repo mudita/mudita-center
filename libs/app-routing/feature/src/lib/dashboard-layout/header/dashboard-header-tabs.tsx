@@ -7,12 +7,12 @@ import styled from "styled-components"
 import { FunctionComponent, useCallback, useRef } from "react"
 import { NavLink, useLocation } from "react-router"
 import { DashboardHeaderPortal } from "./header"
-import { IconType } from "app-theme/models"
+import { LegacyIconType } from "app-theme/models"
 import { Icon } from "app-theme/ui"
 
 export type Tab = {
   title: string
-  icon: IconType
+  icon: LegacyIconType
   path: string
 }
 

@@ -4,3 +4,4 @@
  */
 
 export * from "./card/card.constans"
+export * from "./news/news.component"

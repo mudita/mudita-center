@@ -13,26 +13,26 @@ import {
 import styled, { css, DefaultTheme } from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { TextDisplayStyle } from "app-theme/models"
+import { fontWeight, letterSpacing, textColor } from "app-theme/utils"
 
 const uppercaseTextSharedStyles = css`
   font-size: 1.2rem;
   line-height: 1.67;
-  font-weight: ${({ theme }) => theme.legacy.fontWeight.default};
-  letter-spacing: ${({ theme }) => theme.legacy.letterSpacing.regular}rem;
+  font-weight: ${fontWeight("default")};
+  letter-spacing: ${letterSpacing("regular")}rem;
   text-transform: uppercase;
-  padding: 0 ${({ theme }) => theme.app.space.xxl};
 `
 
 const paragraph1SharedStyles = css`
   font-size: 1.6rem;
   line-height: 1.5;
-  letter-spacing: ${({ theme }) => theme.legacy.letterSpacing.smaller}rem;
+  letter-spacing: ${letterSpacing("smaller")}rem;
 `
 
 const paragraph3SharedStyles = css`
   font-size: 1.4rem;
   line-height: 1.57;
-  letter-spacing: ${({ theme }) => theme.legacy.letterSpacing.small}rem;
+  letter-spacing: ${letterSpacing("small")}rem;
 `
 
 export const getTextStyles = (displayStyle: TextDisplayStyle) => {
@@ -41,51 +41,49 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
       return css`
         font-size: 4rem;
         line-height: 1.2;
-        font-weight: ${({ theme }) => theme.legacy.fontWeight.default};
-        letter-spacing: ${({ theme }) =>
-          theme.legacy.letterSpacing.negative}rem;
+        font-weight: ${fontWeight("default")};
+        letter-spacing: ${letterSpacing("negative")}rem;
       `
     case TextDisplayStyle.Headline2:
       return css`
         font-size: 3.2rem;
         line-height: 1.25;
-        font-weight: ${({ theme }) => theme.legacy.fontWeight.default};
+        font-weight: ${fontWeight("default")};
       `
     case TextDisplayStyle.Headline3:
       return css`
         font-size: 2.4rem;
         line-height: 1.33;
-        font-weight: ${({ theme }) => theme.legacy.fontWeight.bold};
-        letter-spacing: ${({ theme }) =>
-          theme.legacy.letterSpacing.negative}rem;
+        font-weight: ${fontWeight("bold")};
+        letter-spacing: ${letterSpacing("negative")}rem;
       `
     case TextDisplayStyle.Headline4:
       return css`
         font-size: 1.6rem;
         line-height: 1.5;
-        font-weight: ${({ theme }) => theme.legacy.fontWeight.bold};
-        letter-spacing: ${({ theme }) => theme.legacy.letterSpacing.smaller}rem;
+        font-weight: ${fontWeight("bold")};
+        letter-spacing: ${letterSpacing("smaller")}rem;
       `
     case TextDisplayStyle.Headline5:
       return css`
         font-size: 1.4rem;
         line-height: 1.57;
-        font-weight: ${({ theme }) => theme.legacy.fontWeight.bold};
-        letter-spacing: ${({ theme }) => theme.legacy.letterSpacing.small}rem;
+        font-weight: ${fontWeight("bold")};
+        letter-spacing: ${letterSpacing("small")}rem;
       `
     case TextDisplayStyle.Paragraph1:
       return paragraph1SharedStyles
     case TextDisplayStyle.Paragraph2:
       return css`
         ${paragraph1SharedStyles};
-        font-weight: ${({ theme }) => theme.legacy.fontWeight.light};
+        font-weight: ${fontWeight("light")};
       `
     case TextDisplayStyle.Paragraph3:
       return paragraph3SharedStyles
     case TextDisplayStyle.Paragraph4:
       return css`
         ${paragraph3SharedStyles};
-        font-weight: ${({ theme }) => theme.legacy.fontWeight.light};
+        font-weight: ${fontWeight("light")};
       `
     case TextDisplayStyle.Title:
       return uppercaseTextSharedStyles
@@ -95,8 +93,8 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
       return css`
         font-size: 1.2rem;
         line-height: 1.67;
-        font-weight: ${({ theme }) => theme.legacy.fontWeight.default};
-        letter-spacing: ${({ theme }) => theme.legacy.letterSpacing.small}rem;
+        font-weight: ${fontWeight("default")};
+        letter-spacing: ${letterSpacing("small")}rem;
       `
     default:
       return null
@@ -109,7 +107,7 @@ const TextWrapper = styled.div<{
 }>`
   margin: 0;
   ${({ displayStyle }) => getTextStyles(displayStyle)};
-  color: ${({ color, theme }) => theme.legacy.color.text[color]};
+  color: ${({ color }) => textColor(color)};
   white-space: pre-wrap;
 `
 

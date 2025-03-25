@@ -4,14 +4,23 @@
  */
 
 import { FunctionComponent } from "react"
-import { FormattedMessage } from "react-intl"
 import { CommentsLine, CommentsText } from "./community-comments-count.styled"
 import { TextDisplayStyle } from "app-theme/models"
+import { defineMessages, formatMessage } from "app-localize/utils"
 
 interface Props {
   count?: number
   communityLink: string
 }
+
+const messages = defineMessages({
+  loading: {
+    id: "page.news.cardCommunityCommentsLoading",
+  },
+  comments: {
+    id: "page.news.cardCommunityComments",
+  },
+})
 
 const CommunityCommentsCount: FunctionComponent<Props> = ({
   count,
@@ -27,14 +36,11 @@ const CommunityCommentsCount: FunctionComponent<Props> = ({
         rel="noreferrer"
       >
         <CommentsText displayStyle={TextDisplayStyle.Paragraph3}>
-          {count === undefined ? (
-            <FormattedMessage id="module.news.cardCommunityCommentsLoading" />
-          ) : (
-            <FormattedMessage
-              id="module.news.cardCommunityComments"
-              values={{ count }}
-            />
-          )}
+          {count === undefined
+            ? formatMessage(messages.loading)
+            : formatMessage(messages.comments, {
+                count,
+              })}
         </CommentsText>
       </a>
     </>

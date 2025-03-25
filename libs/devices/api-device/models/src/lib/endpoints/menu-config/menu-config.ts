@@ -4,12 +4,12 @@
  */
 
 import { z } from "zod"
-import { IconType } from "app-theme/models"
+import { LegacyIconType } from "app-theme/models"
 
 const MenuItemConfigValidator = z.object({
   feature: z.string(),
   displayName: z.string(),
-  icon: z.nativeEnum(IconType),
+  icon: z.nativeEnum(LegacyIconType),
   submenu: z
     .array(
       z.object({

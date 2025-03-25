@@ -7,7 +7,9 @@ import styled from "styled-components"
 import { LegacyText } from "app-theme/ui"
 
 export const CommentsLine = styled.div`
-  border-top: 0.01rem solid ${({ theme }) => theme.legacy.color.border.verticalSeparator});
+  flex: 1;
+  border-bottom: solid 0.01rem
+    ${({ theme }) => theme.legacy.color.border.verticalSeparator};
   margin-bottom: 2.4rem;
 `
 

@@ -6,13 +6,21 @@
 import styled from "styled-components"
 import { LegacyText } from "app-theme/ui"
 import { CARD_IMAGE_MAX_HEIGHT_PIXEL } from "./card.constans"
+import { backgroundColor, borderRadius } from "app-theme/utils"
 
 export const CardContainer = styled.div`
   max-width: 27.5rem;
   box-sizing: border-box;
-  border-radius: ${({ theme }) => theme.legacy.borderRadius.medium};
+  border-radius: ${borderRadius("medium")};
   overflow: hidden;
   margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+
+  a {
+    text-decoration: none;
+    display: block;
+  }
 `
 
 export const CardImage = styled.img.attrs({ alt: "" })`
@@ -22,8 +30,11 @@ export const CardImage = styled.img.attrs({ alt: "" })`
 `
 
 export const CardContent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 2.4rem;
-  background-color: ${({ theme }) => theme.legacy.color.background.row};
+  background-color: ${backgroundColor("row")};
 `
 
 export const CardDescription = styled(LegacyText)`

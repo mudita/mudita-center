@@ -3,6 +3,8 @@
   "page.news.title": "News",
   "page.news.headerTitle": "What's new",
   "page.news.headerButton.text": "More news",
+  "page.news.cardCommunityComments": "{count, plural, =0 {Be the first to comment} one {# comment} other {# comments}}",
+  "page.news.cardCommunityCommentsLoading": "Loading comments...",
   "page.settings.title": "Settings",
   "page.settingsBackup.title": "Backup",
   "page.settingsAbout.title": "About",

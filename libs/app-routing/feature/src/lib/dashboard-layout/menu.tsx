@@ -11,7 +11,7 @@ import { registerMenuGroups } from "../store/app-menu.actions"
 import { selectMenuGroups } from "../store/app-menu.selectors"
 import { NavLink } from "react-router"
 import { IconType } from "app-theme/models"
-import { defineMessages, formatMessage } from "app-localize/feature"
+import { defineMessages, formatMessage } from "app-localize/utils"
 
 interface Props {
   className?: string

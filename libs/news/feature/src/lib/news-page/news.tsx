@@ -4,12 +4,16 @@
  */
 
 import { FunctionComponent } from "react"
+import { newsItems } from "../default-news.json"
+import { News } from "news/ui"
 
 export const NewsPage: FunctionComponent = () => {
   return (
-    <div>
-      <h1>News Page</h1>
-      <p>This is the news page.</p>
-    </div>
+    <News
+      newsItems={newsItems}
+      loadData={() => {
+        //
+      }}
+    />
   )
 }

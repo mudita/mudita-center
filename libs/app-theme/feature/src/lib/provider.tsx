@@ -4,7 +4,9 @@
  */
 
 import { FunctionComponent, PropsWithChildren } from "react"
-import { ThemeProvider } from "styled-components"
+import { StyleSheetManager, ThemeProvider } from "styled-components"
+import { IStyleSheetManager } from "styled-components/dist/models/StyleSheetManager"
+import isPropValid from "@emotion/is-prop-valid"
 import { Normalize } from "styled-normalize"
 import { theme } from "./theme"
 import { GlobalStyle } from "./global-style"
@@ -13,10 +15,21 @@ export const AppThemeProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Normalize />
-      {children}
-    </ThemeProvider>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <Normalize />
+        {children}
+      </ThemeProvider>
+    </StyleSheetManager>
   )
+}
+
+type ShouldForwardProp = IStyleSheetManager["shouldForwardProp"]
+
+const shouldForwardProp: ShouldForwardProp = (prop, target) => {
+  if (typeof target === "string") {
+    return isPropValid(prop)
+  }
+  return true
 }

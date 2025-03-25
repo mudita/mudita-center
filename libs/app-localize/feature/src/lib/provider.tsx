@@ -5,7 +5,7 @@
 
 import { IntlProvider } from "react-intl"
 import { FunctionComponent, PropsWithChildren } from "react"
-import enUS from "./locales/en-US.json"
+import { enUS } from "app-localize/utils"
 
 export const AppIntlProvider: FunctionComponent<PropsWithChildren> = ({
   children,
