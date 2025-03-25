@@ -50,6 +50,7 @@ describe("Kompakt passcode close", () => {
     await expect(passcodeModalSubtext).toHaveText(
       "Enter your passcode or scan your fingerprint"
     )
+    //await browser.pause(5555555)
   })
 
   it("Close passcode locked modal", async () => {

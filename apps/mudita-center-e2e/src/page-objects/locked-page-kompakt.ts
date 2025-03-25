@@ -19,7 +19,7 @@ export class LockedPageKompakt extends Page {
   }
 
   public get closePasscodeModalButton() {
-    return $('//div[@data-testid="modal-close-button-icon-button"]')
+    return $('//div[@data-testid="icon-close"]')
   }
 }
 
