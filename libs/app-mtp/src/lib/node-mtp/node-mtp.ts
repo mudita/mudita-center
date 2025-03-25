@@ -35,7 +35,7 @@ export class NodeMtp implements MtpInterface {
   constructor(private deviceManager: NodeMtpDeviceManager) {}
 
   async getDevices(): Promise<MtpDevice[]> {
-    return [{ id: "device-1", name: "Device 1" }]
+    return this.deviceManager.getDevices()
   }
 
   async getDeviceStorages(
