@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { contextBridge } from "electron"
-import { api } from "./api"
+import { createAction } from "@reduxjs/toolkit"
+import { NewsItem } from "news/models"
 
-contextBridge.exposeInMainWorld("api", api)
+export const setNews = createAction<NewsItem[]>("news/set")

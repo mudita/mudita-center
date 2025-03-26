@@ -53,6 +53,7 @@
       "help/feature": ["libs/help/feature/src/index.ts"],
       "help/routes": ["libs/help/routes/src/index.ts"],
       "news/feature": ["libs/news/feature/src/index.ts"],
+      "news/main": ["libs/news/main/src/index.ts"],
       "news/models": ["libs/news/models/src/index.ts"],
       "news/routes": ["libs/news/routes/src/index.ts"],
       "news/ui": ["libs/news/ui/src/index.ts"],

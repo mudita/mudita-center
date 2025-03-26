@@ -3,14 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useEffect } from "react"
+import { FunctionComponent } from "react"
 import styled from "styled-components"
 import Card from "../card/card.component"
 import { NewsItem } from "news/models"
 
 interface Props {
   newsItems: NewsItem[]
-  loadData?: VoidFunction
 }
 
 const CardContainer = styled.div`
@@ -19,10 +18,7 @@ const CardContainer = styled.div`
   grid-column-gap: 4rem;
 `
 
-const Cards: FunctionComponent<Props> = ({ newsItems, loadData }) => {
-  useEffect(() => {
-    loadData?.()
-  }, [loadData])
+const Cards: FunctionComponent<Props> = ({ newsItems }) => {
   return (
     <CardContainer>
       {newsItems.map((newsItem) => {

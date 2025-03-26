@@ -20,6 +20,7 @@ const appHeight = process.env.APP_HEIGHT
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
+    title: "Mudita Center",
     width: appWidth ? Number(appWidth) : 1280,
     height: appHeight ? Number(appHeight) : 800,
     show: false,

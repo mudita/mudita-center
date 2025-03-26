@@ -17,7 +17,13 @@ dotenv.config({
   try {
     const jsonPath = path.resolve(
       __dirname,
-      "../libs/news/feature/src/lib/default-news.json"
+      "..",
+      "libs",
+      "news",
+      "main",
+      "src",
+      "lib",
+      "default-news.json"
     )
     const url = `${process.env.MUDITA_CENTER_SERVER_URL}/news`
     const { data } = await axios.get(url, {

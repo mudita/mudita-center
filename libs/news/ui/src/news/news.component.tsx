@@ -15,13 +15,12 @@ const MuditaNews = styled.section`
 
 interface NewsProps {
   newsItems: NewsItem[]
-  loadData: VoidFunction
 }
 
-export const News: FunctionComponent<NewsProps> = ({ newsItems, loadData }) => {
+export const News: FunctionComponent<NewsProps> = ({ newsItems }) => {
   return (
     <MuditaNews>
-      <Cards newsItems={newsItems} loadData={loadData} />
+      <Cards newsItems={newsItems} />
     </MuditaNews>
   )
 }

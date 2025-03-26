@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { contextBridge } from "electron"
-import { api } from "./api"
+import { NewsItem } from "./news-data"
 
-contextBridge.exposeInMainWorld("api", api)
+export interface NewsReducer {
+  items: NewsItem[]
+}

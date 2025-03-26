@@ -5,3 +5,5 @@
 
 export * from "./lib/news-raw-data"
 export * from "./lib/news-data"
+export * from "./lib/news-ipc-events"
+export * from "./lib/news-reducer"
