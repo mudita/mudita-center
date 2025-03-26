@@ -24,7 +24,7 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           CI: true
         shell: cmd
         run: |
@@ -35,7 +35,7 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           CI: true
         run: |
           printenv > .env
@@ -44,7 +44,7 @@ jobs:
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           CI: true
         run: |
           printenv > .env
@@ -76,9 +76,6 @@ jobs:
           } | Set-Content -Path 'apps/app/package.json'
       - name: Setup dependencies
         run: npm run setup
-      #      - name: Install additional dependencies for Linux & Mac
-      #        if: matrix.os != 'Windows'
-      #        run: pip install setuptools
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.os != 'Windows'
         run: |

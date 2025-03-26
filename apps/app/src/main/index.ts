@@ -14,6 +14,7 @@ import installExtension, {
   REDUX_DEVTOOLS,
 } from "electron-devtools-installer"
 import { initAppLibs } from "./init-app-libs"
+import "./setup-logger"
 
 const appWidth = process.env.APP_WIDTH
 const appHeight = process.env.APP_HEIGHT

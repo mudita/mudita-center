@@ -5,7 +5,7 @@
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import "../../../../../../apps/app/src/preload/api.d"
-import { FunctionComponent, useLayoutEffect } from "react"
+import { FunctionComponent, useEffect } from "react"
 import { News } from "news/ui"
 import { useDispatch, useSelector } from "react-redux"
 import { selectNews } from "../news.selectors"
@@ -15,7 +15,7 @@ export const NewsPage: FunctionComponent = () => {
   const dispatch = useDispatch()
   const news = useSelector(selectNews)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!news.length) {
       void (async () => {
         const newsItems = await window.api.news.get()

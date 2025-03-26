@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import axios, { AxiosError } from "axios"
+import axios from "axios"
 import fs from "fs-extra"
 import path from "path"
 import { app } from "electron"
@@ -11,6 +11,7 @@ import EventEmitter from "events"
 import { NewsData, NewsItem, NewsRawData } from "news/models"
 import { normalizeContentfulData } from "news/utils"
 import defaultNews from "./default-news.json"
+import logger from "electron-log/main"
 
 export class NewsService {
   private readonly eventEmitter = new EventEmitter()
@@ -37,24 +38,37 @@ export class NewsService {
   }
 
   private async downloadNews() {
+    logger.log("Downloading news")
     try {
       const rawData = await axios.get<NewsRawData>(
-        process.env.MUDITA_CENTER_SERVER_URL + "/news",
+        import.meta.env.VITE_MUDITA_CENTER_SERVER_URL + "/news",
         { params: { limit: 6 } }
       )
       const normalizedData = await normalizeContentfulData(rawData.data)
       this.eventEmitter.emit("news-update", normalizedData.newsItems)
       await this.saveNews(normalizedData)
     } catch (error) {
-      console.error(
-        "Error while downloading news. Status:",
-        (error as AxiosError)?.response?.status
-      )
+      if (axios.isAxiosError(error)) {
+        logger.error(
+          "Error while downloading news. Got status",
+          error.response?.status,
+          "for",
+          error.request?.method,
+          `${error.request?.protocol}//${error.request?.host}${error.request?.path}`
+        )
+        return
+      }
+      if (error instanceof Error) {
+        logger.error("Error while downloading news:", error.message)
+        return
+      }
+      logger.error("Error while downloading news:", error)
     }
   }
 
   private async saveNews(news: NewsData) {
     await fs.ensureDir(path.join(this.newsFilePath, ".."))
     await fs.writeJson(this.newsFilePath, news)
+    logger.log("News saved to", "<userData>/news.json")
   }
 }
