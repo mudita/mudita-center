@@ -4,9 +4,10 @@
  */
 
 import { WindowAPI } from "./index"
+import { api } from "./api"
 
 declare global {
   interface Window {
-    api: WindowAPI
+    api: typeof api
   }
 }

@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "app-localize/feature": ["libs/app-localize/feature/src/index.ts"],
+      "app-localize/utils": ["libs/app-localize/utils/src/index.ts"],
       "app-routing/feature": ["libs/app-routing/feature/src/index.ts"],
       "app-routing/models": ["libs/app-routing/models/src/index.ts"],
       "app-routing/routes": ["libs/app-routing/routes/src/index.ts"],
@@ -34,6 +35,7 @@
       "app-theme/feature": ["libs/app-theme/feature/src/index.ts"],
       "app-theme/models": ["libs/app-theme/models/src/index.ts"],
       "app-theme/ui": ["libs/app-theme/ui/src/index.ts"],
+      "app-theme/utils": ["libs/app-theme/utils/src/index.ts"],
       "devices/api-device/adapters": [
         "libs/devices/api-device/adapters/src/index.ts"
       ],
@@ -51,7 +53,11 @@
       "help/feature": ["libs/help/feature/src/index.ts"],
       "help/routes": ["libs/help/routes/src/index.ts"],
       "news/feature": ["libs/news/feature/src/index.ts"],
+      "news/main": ["libs/news/main/src/index.ts"],
+      "news/models": ["libs/news/models/src/index.ts"],
       "news/routes": ["libs/news/routes/src/index.ts"],
+      "news/ui": ["libs/news/ui/src/index.ts"],
+      "news/utils": ["libs/news/utils/src/index.ts"],
       "settings/feature": ["libs/settings/feature/src/index.ts"],
       "settings/routes": ["libs/settings/routes/src/index.ts"]
     }

@@ -3,4 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./icon"
+export * from "./lib/icon/icon"
+export * from "./lib/button/button"
+
+// Legacy components
+export * from "./lib/legacy-text/text.component"
+export * from "./lib/legacy-button/button.component"
+export * from "./lib/legacy-icon/icon.component"
+export * from "./lib/legacy-icon/range-icon.component"
+export * from "./lib/legacy-icon/icons"

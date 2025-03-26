@@ -7,15 +7,14 @@ import { Navigate, Route } from "react-router"
 import { useMenuItemsRegister } from "app-routing/feature"
 import { IconType } from "app-theme/models"
 import { NewsPage } from "news/feature"
-import { formatMessage } from "app-localize/feature"
+import { formatMessage } from "app-localize/utils"
 import { messages, NewsLayout } from "./layout"
 import { newsPaths } from "./paths"
 import { MenuIndex } from "app-routing/models"
 
 export const useNewsRouter = () => {
-  useMenuItemsRegister(0, [
+  useMenuItemsRegister(MenuIndex.Basic, [
     {
-      index: MenuIndex.Basic,
       title: formatMessage(messages.title),
       icon: IconType.News,
       path: newsPaths.index,

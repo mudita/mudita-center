@@ -8,7 +8,9 @@ import {
   DashboardHeaderTitle,
 } from "app-routing/feature"
 import { Outlet } from "react-router"
-import { defineMessages, formatMessage } from "app-localize/feature"
+import { defineMessages, formatMessage } from "app-localize/utils"
+import { Button } from "app-theme/ui"
+import styled from "styled-components"
 
 export const messages = defineMessages({
   title: {
@@ -27,9 +29,20 @@ export const NewsLayout = () => {
     <>
       <DashboardHeaderTitle title={formatMessage(messages.headerTitle)} />
       <DashboardHeaderPortal placement={"right"}>
-        <button>{formatMessage(messages.buttonText)}</button>
+        <MoreNewsButton
+          data-testid={"more-news-button"}
+          size={"large"}
+          to={"https://mudita.com/pl/community/blog/"}
+        >
+          {formatMessage(messages.buttonText)}
+        </MoreNewsButton>
       </DashboardHeaderPortal>
       <Outlet />
     </>
   )
 }
+
+const MoreNewsButton = styled(Button)`
+  align-self: center;
+  justify-self: end;
+`

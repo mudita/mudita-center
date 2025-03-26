@@ -4,12 +4,6 @@
  */
 
 import { contextBridge } from "electron"
-import { serialPort } from "app-serialport/main"
-import { sql } from "app-sql/main"
-
-const api = {
-  serialPort,
-  sql,
-} as const
+import { api } from "./api"
 
 contextBridge.exposeInMainWorld("api", api)

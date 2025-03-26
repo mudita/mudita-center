@@ -5,7 +5,7 @@
 
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { Outlet } from "react-router"
-import { defineMessages, formatMessage } from "app-localize/feature"
+import { defineMessages, formatMessage } from "app-localize/utils"
 
 export const messages = defineMessages({
   title: {

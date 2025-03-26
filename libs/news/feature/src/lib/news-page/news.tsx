@@ -3,13 +3,30 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import "../../../../../../apps/app/src/preload/api.d"
+import { FunctionComponent, useEffect } from "react"
+import { News } from "news/ui"
+import { useDispatch, useSelector } from "react-redux"
+import { selectNews } from "../store/news.selectors"
+import { setNews } from "../store/news.actions"
 
 export const NewsPage: FunctionComponent = () => {
-  return (
-    <div>
-      <h1>News Page</h1>
-      <p>This is the news page.</p>
-    </div>
-  )
+  const dispatch = useDispatch()
+  const news = useSelector(selectNews)
+
+  useEffect(() => {
+    if (!news.length) {
+      void (async () => {
+        const newsItems = await window.api.news.get()
+        dispatch(setNews(newsItems))
+
+        window.api.news.onRefreshed((data) => {
+          dispatch(setNews(data))
+        })
+      })()
+    }
+  }, [dispatch, news.length])
+
+  return <News newsItems={news} />
 }

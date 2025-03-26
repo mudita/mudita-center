@@ -13,6 +13,14 @@
         "cwd": "apps/app"
       }
     },
+    "preview": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "electron-vite preview",
+        "cwd": "apps/app"
+      }
+    },
     "e2e": {
       "executor": "nx:run-commands",
       "outputs": [],

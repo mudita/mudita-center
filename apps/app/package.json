@@ -1,5 +1,5 @@
 {
-  "name": "mudita-center",
+  "name": "@mudita/mudita-center-app",
   "description": "Mudita Center",
   "version": "2.5.0",
   "main": "./out/main/index.js",
@@ -20,7 +20,8 @@
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
-    "fonts:download": "ts-node ../../scripts/download-fonts.ts"
+    "fonts:download": "ts-node ../../scripts/download-fonts.ts",
+    "news:download": "ts-node ../../scripts/download-news.ts"
   },
   "dependencies": {
     "serialport": "*",

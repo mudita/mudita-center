@@ -10,7 +10,7 @@ import {
 } from "app-routing/feature"
 import { Outlet } from "react-router"
 import { settingsPaths } from "./paths"
-import { defineMessages, formatMessage } from "app-localize/feature"
+import { defineMessages, formatMessage } from "app-localize/utils"
 import { IconType } from "app-theme/models"
 
 export const messages = defineMessages({

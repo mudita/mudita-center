@@ -6,8 +6,10 @@
 import { initSerialPort } from "app-serialport/main"
 import { ipcMain, WebContents } from "electron"
 import { initSql } from "app-sql/main"
+import { initNews } from "news/main"
 
 export const initAppLibs = (webContents: WebContents) => {
   initSerialPort(ipcMain, webContents)
   initSql(ipcMain)
+  initNews(ipcMain, webContents)
 }
