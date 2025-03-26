@@ -11,7 +11,7 @@ export const news = {
     return electronAPI.ipcRenderer.invoke(NewsIpcEvents.Get)
   },
   onRefreshed: (callback: (data: NewsItem[]) => void) => {
-    electronAPI.ipcRenderer.once(NewsIpcEvents.Refreshed, (_, data) => {
+    electronAPI.ipcRenderer.on(NewsIpcEvents.Refreshed, (_, data) => {
       callback(data)
     })
   },

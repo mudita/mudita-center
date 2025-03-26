@@ -8,8 +8,8 @@ import "../../../../../../apps/app/src/preload/api.d"
 import { FunctionComponent, useEffect } from "react"
 import { News } from "news/ui"
 import { useDispatch, useSelector } from "react-redux"
-import { selectNews } from "../news.selectors"
-import { setNews } from "../news.actions"
+import { selectNews } from "../store/news.selectors"
+import { setNews } from "../store/news.actions"
 
 export const NewsPage: FunctionComponent = () => {
   const dispatch = useDispatch()

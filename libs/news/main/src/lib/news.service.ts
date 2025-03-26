@@ -34,7 +34,7 @@ export class NewsService {
   }
 
   public onNewsUpdate(callback: (data: NewsItem[]) => void) {
-    this.eventEmitter.on("news-update", callback)
+    this.eventEmitter.once("news-update", callback)
   }
 
   private async downloadNews() {

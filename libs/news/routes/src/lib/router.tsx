@@ -13,9 +13,8 @@ import { newsPaths } from "./paths"
 import { MenuIndex } from "app-routing/models"
 
 export const useNewsRouter = () => {
-  useMenuItemsRegister(0, [
+  useMenuItemsRegister(MenuIndex.Basic, [
     {
-      index: MenuIndex.Basic,
       title: formatMessage(messages.title),
       icon: IconType.News,
       path: newsPaths.index,

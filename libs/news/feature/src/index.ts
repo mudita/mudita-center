@@ -4,4 +4,4 @@
  */
 
 export * from "./lib/news-page/news"
-export * from "./lib/news.reducer"
+export * from "./lib/store/news.reducer"
