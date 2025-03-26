@@ -10,15 +10,17 @@ export class AppError<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Payload = any
 > extends Error {
+  override message: string
+
   constructor(
     public readonly type: Type,
-    public readonly message: string = "",
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+    message: string = "",
     public readonly payload?: Payload
   ) {
-    super()
+    super(message)
+    this.message = message
 
+    // Capture the stack trace for better debugging
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, AppError)
     }
