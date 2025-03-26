@@ -41,6 +41,7 @@ export const overviewDataWithoutBadge = {
     },
   },
 }
+export const passcodeLockedKompakt = {}
 
 export const overviewDataWithOneSimCard = {
   summary: {
