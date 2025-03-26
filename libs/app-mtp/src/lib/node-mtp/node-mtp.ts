@@ -30,6 +30,8 @@ export const delay = (ms: number = 500): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+const PREFIX_LOG = `[app-mtp/node-mtp]`
+
 export class NodeMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
 
@@ -122,7 +124,7 @@ export class NodeMtp implements MtpInterface {
 
       if (newObjectID === undefined) {
         console.log(
-          `[app-mtp/node-mtp] process upload file info error - newObjectID is undefined`
+          `${PREFIX_LOG} process upload file info error - newObjectID is undefined`
         )
         return Result.failed(new AppError(MTPError.MTP_GENERAL_ERROR))
       }
@@ -130,7 +132,7 @@ export class NodeMtp implements MtpInterface {
       return Result.success(newObjectID)
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      console.log(`[app-mtp/node-mtp] process upload file info error: ${error}`)
+      console.log(`${PREFIX_LOG} process upload file info error: ${error}`)
       return handleMtpError(error)
     }
   }
@@ -159,11 +161,11 @@ export class NodeMtp implements MtpInterface {
         uploadedBytes += chunk.length
         const progress = (uploadedBytes / size) * 100
         this.uploadFileTransactionStatus[transactionId].progress = progress
-        console.log(`[app-mtp/node-mtp] progress: ${progress}%`)
+        console.log(`${PREFIX_LOG} progress: ${progress}%`)
       }
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      console.log(`[app-mtp/node-mtp] process upload file error: ${error}`)
+      console.log(`${PREFIX_LOG} process upload file error: ${error}`)
       this.uploadFileTransactionStatus[transactionId].error = new AppError(
         MTPError.MTP_GENERAL_ERROR,
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
