@@ -4,7 +4,7 @@
  */
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { legacyTheme } from "libs/app-theme/feature/src/lib/legacy-theme"
+import { legacyTheme } from "../../../../app-theme/feature/src/lib/legacy-theme"
 
 /**
  * Util returning transition property taken from theme defaults.

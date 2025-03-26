@@ -6,7 +6,7 @@
 import { Navigate, Route } from "react-router"
 import { useMenuItemsRegister } from "app-routing/feature"
 import { SettingsAboutPage, SettingsBackupPage } from "settings/feature"
-import { LegacyIconType } from "app-theme/models"
+import { IconType } from "app-theme/models"
 import { formatMessage } from "app-localize/utils"
 import { messages, SettingsLayout } from "./layout"
 import { settingsPaths } from "./paths"
@@ -17,7 +17,7 @@ export const useSettingsRouter = () => {
     {
       index: 0,
       title: formatMessage(messages.settings),
-      icon: LegacyIconType.Settings,
+      icon: IconType.Settings,
       path: settingsPaths.index,
     },
   ])

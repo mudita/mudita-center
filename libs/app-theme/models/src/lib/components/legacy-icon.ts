@@ -38,8 +38,8 @@ export enum LegacyIconType {
   MenuPhone,
   MenuSettings,
   MenuTethering,
-  MenuRange,
-  MenuBattery,
+  // MenuRange,
+  // MenuBattery,
   Message,
   ExternalLink,
   MuditaLogo,
@@ -129,9 +129,9 @@ export enum LegacyIconType {
   MarkAsUnread,
   Conversation,
   Exclamation,
-  DataMigration,
-  RecoveryModeWhite,
-  RecoveryModeBlack,
+  // DataMigration,
+  // RecoveryModeWhite,
+  // RecoveryModeBlack,
   ButtonSuccess,
   LightButton,
 }
@@ -139,4 +139,12 @@ export enum LegacyIconType {
 export enum LegacyIconBadgeType {
   Badge,
   BadgeWithCounter,
+}
+
+export enum LegacyIconSize {
+  Small = 1.6,
+  Medium = 2.4,
+  Big = 2.8,
+  Large = 3.2,
+  ExtraLarge = 3.6,
 }

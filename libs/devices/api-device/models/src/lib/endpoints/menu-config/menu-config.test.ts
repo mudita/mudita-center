@@ -4,11 +4,14 @@
  */
 
 import { MenuConfig, MenuConfigValidator } from "./menu-config"
+import { IconType } from "app-theme/models"
 
 const minimumMenuConfig: MenuConfig = {
   menuItems: [
     {
       feature: "mc-overview",
+      displayName: "Overview",
+      icon: IconType.Overview,
     },
   ],
 }

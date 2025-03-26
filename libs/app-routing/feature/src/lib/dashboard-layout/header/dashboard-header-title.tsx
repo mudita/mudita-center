@@ -8,7 +8,7 @@ import { FunctionComponent } from "react"
 import { Link } from "react-router"
 import { DashboardHeaderPortal } from "./header"
 import { Icon } from "app-theme/ui"
-import { LegacyIconType } from "app-theme/models"
+import { IconType } from "app-theme/models"
 
 interface Props {
   title: string
@@ -24,7 +24,7 @@ export const DashboardHeaderTitle: FunctionComponent<Props> = ({
       <Wrapper>
         {back ? (
           <BackLink to={".."} relative={"route"}>
-            <Icon name={LegacyIconType.ArrowBack} />
+            <Icon name={IconType.ArrowBack} />
             <BackTitle>back to {title}</BackTitle>
           </BackLink>
         ) : (

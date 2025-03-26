@@ -5,24 +5,23 @@
 
 import styled, { css } from "styled-components"
 import { FunctionComponent } from "react"
-import { LegacyIconBadgeType, LegacyIconType } from "app-theme/models"
+import {
+  LegacyIconBadgeType,
+  LegacyIconSize,
+  LegacyIconType,
+} from "app-theme/models"
 import { backgroundColor, getIconBadgeType } from "app-theme/utils"
 import { BadgeWithCounter } from "./badge-with-counter.component"
-
-export enum IconSize {
-  Small = 1.6,
-  Medium = 2.4,
-  Big = 2.8,
-  Large = 3.2,
-  ExtraLarge = 3.6,
-}
+import { getIconType } from "./legacy-get-icon-type"
+import { LegacySvg } from "./svg.component"
+import { getEnumName } from "./legacy-get-enum-name"
 
 export interface Props {
   badge?: boolean | LegacyIconBadgeType
   badgeCountIndicator?: number
   height?: number
   width?: number
-  size?: IconSize
+  size?: LegacyIconSize
   type?: LegacyIconType
   disabled?: boolean
   className?: string
@@ -46,7 +45,7 @@ const Wrapper = styled.span<{
   badge: boolean
   height?: number
   width?: number
-  size?: IconSize
+  size?: LegacyIconSize
 }>`
   display: flex;
   justify-content: center;
@@ -88,7 +87,7 @@ export const LegacyIcon: FunctionComponent<Props> = ({
       {iconBadgeType === LegacyIconBadgeType.BadgeWithCounter && (
         <BadgeWithCounter indicator={badgeCountIndicator} disabled={disabled} />
       )}
-      <Svg Image={getIconType(type)} />
+      <LegacySvg Image={getIconType(type)} />
     </Wrapper>
   )
 }

@@ -118,18 +118,14 @@ export interface TextProps extends PropsWithChildren {
   color?: keyof DefaultTheme["legacy"]["color"]["text"]
   onClick?: () => void
   testId?: string
-  textRef?: Ref<HTMLElement>
+  textRef?: Ref<HTMLDivElement>
   id?: string
   className?: string
 }
 
-interface ElementsMapping {
-  [key: number]: Element
-}
-
 type Element = "div" | "h1" | "h2" | "h3" | "h4" | "h5" | "span" | "p" | "li"
 
-const mapping: ElementsMapping = {
+const mapping: Record<TextDisplayStyle, string> = {
   [TextDisplayStyle.Default]: "div",
   [TextDisplayStyle.Headline1]: "h1",
   [TextDisplayStyle.Headline2]: "h2",
@@ -173,6 +169,7 @@ const Text: FunctionComponent<TextProps> = ({
   </TextWrapper>
 )
 
-export const LegacyText = forwardRef<HTMLElement, ComponentProps<typeof Text>>(
-  (props, ref) => <Text {...props} textRef={ref} />
-)
+export const LegacyText = forwardRef<
+  HTMLDivElement,
+  ComponentProps<typeof Text>
+>((props, ref) => <Text {...props} textRef={ref} />)

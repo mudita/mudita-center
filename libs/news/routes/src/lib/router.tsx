@@ -5,7 +5,7 @@
 
 import { Navigate, Route } from "react-router"
 import { useMenuItemsRegister } from "app-routing/feature"
-import { LegacyIconType } from "app-theme/models"
+import { IconType } from "app-theme/models"
 import { NewsPage } from "news/feature"
 import { formatMessage } from "app-localize/utils"
 import { messages, NewsLayout } from "./layout"
@@ -17,7 +17,7 @@ export const useNewsRouter = () => {
     {
       index: MenuIndex.Basic,
       title: formatMessage(messages.title),
-      icon: LegacyIconType.News,
+      icon: IconType.News,
       path: newsPaths.index,
     },
   ])

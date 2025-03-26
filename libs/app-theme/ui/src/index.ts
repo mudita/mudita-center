@@ -4,7 +4,11 @@
  */
 
 export * from "./lib/icon/icon"
+export * from "./lib/button/button"
+
+// Legacy components
 export * from "./lib/legacy-text/text.component"
 export * from "./lib/legacy-button/button.component"
 export * from "./lib/legacy-icon/icon.component"
 export * from "./lib/legacy-icon/range-icon.component"
+export * from "./lib/legacy-icon/icons"

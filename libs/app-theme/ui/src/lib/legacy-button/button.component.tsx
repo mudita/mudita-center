@@ -3,8 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, {
+import {
   ComponentProps,
+  forwardRef,
   FunctionComponent,
   JSX,
   MouseEventHandler,
@@ -19,12 +20,12 @@ import {
   StyledLink,
   StyledNavLink,
 } from "./button.styled.elements"
-import { IconSize } from "../legacy-icon/icon.component"
 import {
   LegacyButtonDisplayStyle,
   LegacyButtonSize,
   LegacyButtonType,
   LegacyIconBadgeType,
+  LegacyIconSize,
   LegacyIconType,
   TextDisplayStyle,
 } from "app-theme/models"
@@ -39,7 +40,7 @@ export interface ButtonComponentProps {
   displayStyle?: LegacyButtonDisplayStyle
   href?: string
   Icon?: LegacyIconType
-  iconSize?: IconSize
+  iconSize?: LegacyIconSize
   iconBadgeType?: LegacyIconBadgeType
   iconBadgeCountIndicator?: number
   label?: string | JSX.Element
@@ -67,7 +68,7 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
   disableWhenActive = true,
   href,
   Icon,
-  iconSize = IconSize.Big,
+  iconSize = LegacyIconSize.Big,
   label,
   labelMessage,
   nav,
@@ -166,7 +167,7 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
           displayStyle={displayStyle}
           withMargin={Boolean(label || labelMessage)}
           type={LegacyIconType.Refresh}
-          size={IconSize.Medium}
+          size={LegacyIconSize.Medium}
           badge={badge}
           badgeCountIndicator={iconBadgeCountIndicator}
           rotate
@@ -189,7 +190,9 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
   )
 }
 
-export default React.forwardRef<
+export const LegacyButton = forwardRef<
   HTMLElement,
   ComponentProps<typeof ButtonComponent>
->((props, ref) => <ButtonComponent {...props} buttonRef={ref} />)
+>((props, ref) => {
+  return <ButtonComponent {...props} buttonRef={ref} />
+})

@@ -36,26 +36,29 @@ const Wrapper = styled.header`
   border-bottom: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
 
   > div {
-    flex: 1;
     display: flex;
     flex-direction: row;
     white-space: pre;
+    width: 100%;
   }
 `
 
 const LeftPortal = styled.div.attrs({ id: headerPortalId + "left" })`
   grid-area: left;
   justify-self: flex-start;
+  justify-content: flex-start;
 `
 
 const CenterPortal = styled.div.attrs({ id: headerPortalId + "center" })`
   grid-area: center;
   justify-self: center;
+  justify-content: center;
 `
 
 const RightPortal = styled.div.attrs({ id: headerPortalId + "right" })`
   grid-area: right;
   justify-self: flex-end;
+  justify-content: flex-end;
 `
 
 export const DashboardHeaderPortal: FunctionComponent<

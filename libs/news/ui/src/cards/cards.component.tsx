@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import * as React from "react"
 import { FunctionComponent, useEffect } from "react"
 import styled from "styled-components"
 import Card from "../card/card.component"

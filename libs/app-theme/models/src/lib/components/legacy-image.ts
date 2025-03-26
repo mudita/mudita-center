@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { NewsEntry } from "Core/news/dto"
-
-export interface NewsProps {
-  newsItems: NewsEntry[]
-  loadData: () => void
+export interface LegacyImage {
+  width?: string
+  height?: string
+  viewBox?: string
+  className?: string
 }

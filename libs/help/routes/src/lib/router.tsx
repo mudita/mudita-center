@@ -5,7 +5,7 @@
 
 import { Route } from "react-router"
 import { useMenuItemsRegister } from "app-routing/feature"
-import { LegacyIconType } from "app-theme/models"
+import { IconType } from "app-theme/models"
 import { formatMessage } from "app-localize/utils"
 import { HelpPage } from "help/feature"
 import { HelpLayout, messages } from "./layout"
@@ -17,7 +17,7 @@ export const useHelpRouter = () => {
     {
       index: 1,
       title: formatMessage(messages.title),
-      icon: LegacyIconType.Help,
+      icon: IconType.Help,
       path: helpPaths.index,
     },
   ])
