@@ -4,10 +4,10 @@
  */
 
 import { MTPError } from "../../app-mtp.interface"
-import { StatusCode } from "../dotnet-mtp.interface"
+import { DotnetCliStatusCode } from "../dotnet-mtp.interface"
 
-export function translateStatus(statusCode: StatusCode): MTPError {
-  if (statusCode === StatusCode.UnknownDevice) {
+export function translateStatus(statusCode: DotnetCliStatusCode): MTPError {
+  if (statusCode === DotnetCliStatusCode.UnknownDevice) {
     return MTPError.MTP_DEVICE_NOT_FOUND
   } else {
     return MTPError.MTP_GENERAL_ERROR

@@ -8,20 +8,20 @@ import { hideBin } from "yargs/helpers"
 import { AppMtp } from "../app-mtp"
 import { GetUploadFileProgress, MtpUploadFileData } from "../app-mtp.interface"
 import * as dotenv from "dotenv"
-import { MtpCliCommandAction } from "../dotnet-mtp/dotnet-mtp.interface"
+import { DotnetCliCommandAction } from "../dotnet-mtp/dotnet-mtp.interface"
 
 dotenv.config()
 const appMtp = new AppMtp()
 
 interface MtpCliCommand {
-  action: MtpCliCommandAction
+  action: DotnetCliCommandAction
 
   [key: string]: unknown
 }
 
-const handleAction = (action: MtpCliCommandAction, parsedData: unknown) => {
+const handleAction = (action: DotnetCliCommandAction, parsedData: unknown) => {
   switch (action) {
-    case MtpCliCommandAction.GET_DEVICES:
+    case DotnetCliCommandAction.GET_DEVICES:
       appMtp
         .getDevices()
         .then((devices) => {
@@ -32,7 +32,7 @@ const handleAction = (action: MtpCliCommandAction, parsedData: unknown) => {
         })
       break
 
-    case MtpCliCommandAction.GET_DEVICE_STORAGES:
+    case DotnetCliCommandAction.GET_DEVICE_STORAGES:
       appMtp
         .getDeviceStorages((parsedData as { deviceId: string }).deviceId)
         .then((storages) => {
@@ -46,7 +46,7 @@ const handleAction = (action: MtpCliCommandAction, parsedData: unknown) => {
         })
       break
 
-    case MtpCliCommandAction.UPLOAD_FILE:
+    case DotnetCliCommandAction.UPLOAD_FILE:
       appMtp
         .uploadFile(parsedData as MtpUploadFileData)
         .then(() => {
@@ -57,7 +57,7 @@ const handleAction = (action: MtpCliCommandAction, parsedData: unknown) => {
         })
       break
 
-    case MtpCliCommandAction.GET_UPLOAD_FILE_PROGRESS:
+    case DotnetCliCommandAction.GET_UPLOAD_FILE_PROGRESS:
       appMtp
         .getUploadFileProgress(parsedData as GetUploadFileProgress)
         .then((progress) => {

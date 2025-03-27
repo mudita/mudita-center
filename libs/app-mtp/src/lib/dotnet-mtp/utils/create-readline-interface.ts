@@ -6,11 +6,9 @@
 import * as readline from "readline"
 import { Readable } from "stream"
 
-export function createReadlineInterface(
-  processOut: Readable
-): readline.Interface {
+export function createReadlineInterface(input: Readable): readline.Interface {
   return readline.createInterface({
-    input: processOut,
+    input,
     crlfDelay: Infinity,
   })
 }

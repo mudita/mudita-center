@@ -23,7 +23,7 @@ import {
 } from "../../../../core/core/builder/result.builder"
 import { translateStatus } from "./utils/map-to-mtp-error"
 import { AppError } from "../../../../core/core/errors/app-error"
-import { MtpCliCommandAction } from "./dotnet-mtp.interface"
+import { DotnetCliCommandAction } from "./dotnet-mtp.interface"
 import { createReadlineInterface } from "./utils/create-readline-interface"
 
 export class DotnetMtp implements MtpInterface {
@@ -81,7 +81,7 @@ export class DotnetMtp implements MtpInterface {
         "../../../../../apps/mudita-center/resources/MtpFileTransfer_boxed.exe"
       )
       const uploadRequest = {
-        action: MtpCliCommandAction.UPLOAD_FILE,
+        action: DotnetCliCommandAction.UPLOAD_FILE,
         ...data,
       }
 
