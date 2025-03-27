@@ -9,6 +9,7 @@ import {
   GetUploadFileProgress,
   GetUploadFileProgressResultData,
   MtpDevice,
+  MTPError,
   MtpInterface,
   MtpStorage,
   MtpUploadFileData,
@@ -20,6 +21,10 @@ import {
   Result,
   ResultObject,
 } from "../../../../core/core/builder/result.builder"
+import { translateStatus } from "./utils/map-to-mtp-error"
+import { AppError } from "../../../../core/core/errors/app-error"
+import { DotnetCliCommandAction } from "./dotnet-mtp.interface"
+import { createReadlineInterface } from "./utils/create-readline-interface"
 
 export class DotnetMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
@@ -50,9 +55,16 @@ export class DotnetMtp implements MtpInterface {
   }: GetUploadFileProgress): Promise<
     ResultObject<GetUploadFileProgressResultData>
   > {
-    return Result.success({
-      progress: this.uploadFileTransactionStatus[transactionId].progress,
-    })
+    const transactionStatus = this.uploadFileTransactionStatus[transactionId]
+
+    if (!transactionStatus) {
+      return Result.failed({
+        type: MTPError.MTP_TRANSACTION_NOT_FOUND,
+      } as AppError)
+    }
+    return transactionStatus.error !== undefined
+      ? Result.failed(transactionStatus.error)
+      : Result.success({ progress: transactionStatus.progress })
   }
 
   private async processFileUpload(
@@ -68,20 +80,32 @@ export class DotnetMtp implements MtpInterface {
         __dirname,
         "../../../../../apps/mudita-center/resources/MtpFileTransfer_boxed.exe"
       )
-      const args = '{"action":"UPLOAD_FILE"}'
+      const uploadRequest = {
+        action: DotnetCliCommandAction.UPLOAD_FILE,
+        ...data,
+      }
+
+      const args = JSON.stringify(uploadRequest)
       const child = spawn(exePath, [args])
+      const stdOut = createReadlineInterface(child.stdout)
+      const stdErr = createReadlineInterface(child.stderr)
 
-      child.stdout.on("data", (data) => {
-        console.log(`[app-mtp/dotnet-mtp] data stdout: ${data}`)
+      stdOut.on("line", (line) => {
+        console.log(`[app-mtp/dotnet-mtp] data stdout: ${line}`)
         this.uploadFileTransactionStatus[transactionId].progress =
-          JSON.parse(data).data.progress
+          JSON.parse(line).data.progress
       })
 
-      child.stderr.on("data", (data) => {
-        console.error(`[app-mtp/dotnet-mtp] data stderr: ${data}`)
+      stdErr.on("line", (line) => {
+        const errorType = translateStatus(JSON.parse(line).status)
+        const appError = { type: errorType } as AppError
+        console.error(
+          `[app-mtp/dotnet-mtp] data stderr: ${JSON.stringify(appError)}`
+        )
+        this.uploadFileTransactionStatus[transactionId].error = appError
       })
 
-      child.on("close", (code) => {
+      child.on("close", (code: number) => {
         if (code !== 0) {
           console.log(
             `[app-mtp/dotnet-mtp] child process exited with code: ${code}`
