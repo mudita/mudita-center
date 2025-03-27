@@ -5,6 +5,7 @@ import {
 } from "../../../../../libs/e2e-mock/responses/src"
 import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page"
 import { mockPreBackupResponses } from "../../helpers/mock-prebackup"
+import HomePage from "../../page-objects/home.page"
 
 describe("Disconnect during backup", () => {
   before(async () => {
@@ -71,5 +72,11 @@ describe("Disconnect during backup", () => {
 
   it("Disconnect the device while backup is in progress", async () => {
     E2EMockClient.removeDevice("path-1")
+  })
+
+  it("Check if Home page is present", async () => {
+    const homeHeader = await HomePage.homeHeader
+    await homeHeader.waitForDisplayed()
+    await expect(homeHeader).toHaveText("Welcome to Mudita Center")
   })
 })
