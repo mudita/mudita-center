@@ -73,30 +73,101 @@ describe("buildContainerPacket", () => {
   })
 
   it("should correctly build a packet for a UTF8 string payload converted to UTF16le", () => {
+    const filename = "test.txt"
+
     const container: RequestContainerPacket = {
       transactionId: 4,
       type: 4,
       code: 0x100d,
-      payload: [{ value: "test.txt", type: "UTF16le" }],
+      payload: [{ value: filename, type: "UTF16le" }],
     }
 
-    const result = buildContainerPacket(container)
-    const expected = new ArrayBuffer(30)
-    const bytes = new DataView(expected)
-    const utf8Buffer = Buffer.from("test.txt", "utf-8")
+    const packet = buildContainerPacket(container)
 
-    bytes.setUint32(0, 30, true)
-    bytes.setUint16(4, 4, true)
-    bytes.setUint16(6, 0x100d, true)
-    bytes.setUint32(8, 4, true)
-    bytes.setUint8(12, utf8Buffer.length * 2)
-    for (let i = 0; i < utf8Buffer.length; i++) {
-      bytes.setUint8(13 + i * 2, utf8Buffer[i])
-      bytes.setUint8(13 + i * 2 + 1, 0)
+    const nullTerminatorSize = 1
+    const stringLengthFieldSize = 1
+    const charSize = 2
+    const headerSize = 12
+
+    const totalChars = filename.length + nullTerminatorSize
+    const bufferSize =
+      headerSize + stringLengthFieldSize + totalChars * charSize
+
+    const buffer = new ArrayBuffer(bufferSize)
+    const dataView = new DataView(buffer)
+
+    dataView.setUint32(0, bufferSize, true)
+    dataView.setUint16(4, 4, true)
+    dataView.setUint16(6, 0x100d, true)
+    dataView.setUint32(8, 4, true)
+
+    const textStart = headerSize
+    dataView.setUint8(textStart, totalChars)
+
+    for (let i = 0; i < filename.length; i++) {
+      dataView.setUint16(
+        textStart + stringLengthFieldSize + i * charSize,
+        filename.charCodeAt(i),
+        true
+      )
     }
-    bytes.setUint8(29, 0)
 
-    expect(new Uint8Array(result)).toEqual(new Uint8Array(expected))
+    dataView.setUint16(
+      textStart + stringLengthFieldSize + filename.length * charSize,
+      0,
+      true
+    )
+
+    expect(new Uint8Array(packet)).toEqual(new Uint8Array(buffer))
+  })
+
+  it("should correctly build a packet for an empty UTF8 string payload converted to UTF16le", () => {
+    const filename = ""
+
+    const container: RequestContainerPacket = {
+      transactionId: 4,
+      type: 4,
+      code: 0x100d,
+      payload: [{ value: filename, type: "UTF16le" }],
+    }
+
+    const packet = buildContainerPacket(container)
+
+    const nullTerminatorSize = 1
+    const stringLengthFieldSize = 1
+    const charSize = 2
+    const headerSize = 12
+
+    const totalChars = filename.length + nullTerminatorSize
+    const bufferSize =
+      headerSize + stringLengthFieldSize + totalChars * charSize
+
+    const buffer = new ArrayBuffer(bufferSize)
+    const dataView = new DataView(buffer)
+
+    dataView.setUint32(0, bufferSize, true)
+    dataView.setUint16(4, 4, true)
+    dataView.setUint16(6, 0x100d, true)
+    dataView.setUint32(8, 4, true)
+
+    const textStart = headerSize
+    dataView.setUint8(textStart, totalChars)
+
+    for (let i = 0; i < filename.length; i++) {
+      dataView.setUint16(
+        textStart + stringLengthFieldSize + i * charSize,
+        filename.charCodeAt(i),
+        true
+      )
+    }
+
+    dataView.setUint16(
+      textStart + stringLengthFieldSize + filename.length * charSize,
+      0,
+      true
+    )
+
+    expect(new Uint8Array(packet)).toEqual(new Uint8Array(buffer))
   })
 
   it("should throw an error when an unsupported payload type is provided", () => {
