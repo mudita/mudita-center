@@ -8,16 +8,10 @@ import { hideBin } from "yargs/helpers"
 import { AppMtp } from "../app-mtp"
 import { GetUploadFileProgress, MtpUploadFileData } from "../app-mtp.interface"
 import * as dotenv from "dotenv"
+import { MtpCliCommandAction } from "../dotnet-mtp/dotnet-mtp.interface"
 
 dotenv.config()
 const appMtp = new AppMtp()
-
-enum MtpCliCommandAction {
-  GET_DEVICES = "GET_DEVICES",
-  GET_DEVICE_STORAGES = "GET_DEVICE_STORAGES",
-  UPLOAD_FILE = "UPLOAD_FILE",
-  GET_UPLOAD_FILE_PROGRESS = "GET_UPLOAD_FILE_PROGRESS",
-}
 
 interface MtpCliCommand {
   action: MtpCliCommandAction
