@@ -10,10 +10,7 @@ import { AppError } from "../../../../core/core/errors/app-error"
 
 export class NodeMtpDeviceManager {
   async getDevices(): Promise<MtpDevice[]> {
-    const devices = (await usb.getDevices()) as {
-      serialNumber: string
-      productName: string
-    }[]
+    const devices = await usb.getDevices()
 
     return devices.map((device) => ({
       id: device.serialNumber,
@@ -23,9 +20,7 @@ export class NodeMtpDeviceManager {
 
   async getDevice({ id }: Partial<MtpDevice>): Promise<NodeMtpDevice> {
     const devices = await usb.getDevices()
-    const device = devices.find(
-      (device: { serialNumber: string }) => device.serialNumber === id
-    )
+    const device = devices.find((device) => device.serialNumber === id)
 
     if (!device) {
       throw new AppError(MTPError.MTP_DEVICE_NOT_FOUND)
