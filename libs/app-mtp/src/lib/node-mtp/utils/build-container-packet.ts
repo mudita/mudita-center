@@ -59,14 +59,21 @@ export function buildContainerPacket(
       currentPacketLength += 1
     } else if (item.type === "UTF16le") {
       const utf16Buffer = convertTextEncoding(item.value, "utf-8", "utf16le")
-      bytes.setUint8(currentPacketLength, utf16Buffer.byteLength)
-      currentPacketLength += 1
-      new Uint8Array(utf16Buffer).forEach((byte, index) => {
-        bytes.setUint8(currentPacketLength + index, byte)
-      })
-      currentPacketLength += utf16Buffer.byteLength
-      bytes.setUint8(currentPacketLength, 0)
-      currentPacketLength += 1
+
+      const nullTerminatorSize = 1
+      const stringLength = item.value.length + nullTerminatorSize
+
+      let offset = currentPacketLength
+
+      bytes.setUint8(offset++, stringLength)
+
+      const utf16Bytes = new Uint8Array(utf16Buffer)
+      utf16Bytes.forEach((byte) => bytes.setUint8(offset++, byte))
+
+      bytes.setUint16(offset, 0, true)
+
+      currentPacketLength = offset += 2
+
       console.log(`${PREFIX_LOG} UTF16le: ${item.value}`, utf16Buffer)
     } else {
       throw new Error(`Unsupported type for item: ${JSON.stringify(item)}`)
