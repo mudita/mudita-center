@@ -12,6 +12,7 @@ import {
   parseContainerPacket,
   ResponseContainerPacket,
 } from "./utils/parse-container-packet"
+import { withTimeout } from "./utils/with-timeout"
 
 export interface UploadFileInfoOptions {
   size: number
@@ -47,16 +48,36 @@ export class NodeMtpDevice {
     // mock implementation
   }
 
+  private async transferOut(
+    buffer: ArrayBuffer,
+    timeoutMs: number = 5000,
+    error = new AppError(MTPError.MTP_WRITE_TIMEOUT)
+  ): ReturnType<WebUSBDevice["transferIn"]> {
+    return withTimeout(this.device.transferOut(0x01, buffer), timeoutMs, error)
+  }
+
+  private async transferIn(
+    timeoutMs: number = 5000,
+    error = new AppError(MTPError.MTP_READ_TIMEOUT)
+  ): ReturnType<WebUSBDevice["transferIn"]> {
+    return withTimeout(
+      this.device.transferIn(0x01, this.packetSize),
+      timeoutMs,
+      error
+    )
+  }
+
   private async write(
     buffer: ArrayBuffer
   ): ReturnType<WebUSBDevice["transferOut"]> {
     console.log(`${PREFIX_LOG} write... buffer length: ${buffer.byteLength}`)
-    return this.device.transferOut(0x01, buffer)
+    return this.transferOut(buffer)
   }
 
   private async read(): Promise<ResponseContainerPacket> {
     try {
-      let result = await this.device.transferIn(0x01, this.packetSize)
+      console.log(`${PREFIX_LOG} read...`)
+      let result = await this.transferIn()
 
       if (
         result &&
@@ -74,8 +95,10 @@ export class NodeMtpDevice {
         console.log(`${PREFIX_LOG} read... buffer length: ${raw.byteLength}`)
 
         while (raw.byteLength !== containerLength) {
-          result = await this.device.transferIn(0x01, this.packetSize)
-          console.log(`Adding ${result.data.byteLength} bytes`)
+          result = await this.transferIn()
+          console.log(
+            `${PREFIX_LOG} read... buffer length: ${result.data.byteLength}`
+          )
 
           const uint8array = raw.slice()
           raw = new Uint8Array(uint8array.byteLength + result.data.byteLength)
@@ -120,7 +143,8 @@ export class NodeMtpDevice {
       throw new AppError(MTPError.MTP_GENERAL_ERROR, "MTP interface not found")
     }
 
-    this.packetSize = mtpInterface.alternate.endpoints[0].packetSize * 2
+    // The following line is commented out because the packet size limit definition is currently in progress.
+    // this.packetSize = mtpInterface.alternate.endpoints[0].packetSize * 2
 
     console.log(`${PREFIX_LOG} claimInterface successfully`)
   }
