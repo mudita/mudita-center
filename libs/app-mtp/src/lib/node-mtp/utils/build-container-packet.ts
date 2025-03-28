@@ -8,7 +8,6 @@ import { convertTextEncoding } from "./convert-text-encoding"
 
 export interface PayloadItemBase {
   name?: string
-  optional?: boolean
 }
 
 export interface PayloadItemString extends PayloadItemBase {
@@ -27,7 +26,8 @@ export interface RequestContainerPacket {
   transactionId: number
   type: ContainerTypeCode
   code: ContainerCode
-  payload: RequestPayloadItem[]
+  payload?: RequestPayloadItem[]
+  fixSize?: number
 }
 
 const PREFIX_LOG = `[app-mtp/build-container-packet]`
@@ -36,6 +36,7 @@ export function buildContainerPacket(
   container: RequestContainerPacket,
   maxBufferSize = 512
 ): ArrayBuffer {
+  container.payload = container.payload || []
   console.log(`${PREFIX_LOG} container: ${JSON.stringify(container)}`)
 
   let currentPacketLength = 12
@@ -80,10 +81,13 @@ export function buildContainerPacket(
     }
   })
 
-  bytes.setUint32(0, currentPacketLength, true)
+  const packetLength = container.fixSize ?? currentPacketLength
+  bytes.setUint32(0, packetLength, true)
 
-  console.log(`${PREFIX_LOG} container packet buffer:`, bytes.buffer)
+  const finalBuffer = buffer.slice(0, currentPacketLength)
+
+  console.log(`${PREFIX_LOG} container packet buffer:`, finalBuffer)
   console.log(`${PREFIX_LOG} packetLength: ${currentPacketLength}`)
 
-  return buffer.slice(0, currentPacketLength)
+  return finalBuffer
 }

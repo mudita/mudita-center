@@ -224,4 +224,26 @@ describe("buildContainerPacket", () => {
       `Offset is outside the bounds of the DataView`
     )
   })
+
+  it("should correctly build a packet when fixSize is provided", () => {
+    const container: RequestContainerPacket = {
+      transactionId: 7,
+      type: 1,
+      code: 0x100d,
+      payload: [{ value: 123456789, type: "UINT32" }],
+      fixSize: 20,
+    }
+
+    const result = buildContainerPacket(container)
+    const expected = new ArrayBuffer(16)
+    const bytes = new DataView(expected)
+
+    bytes.setUint32(0, 20, true)
+    bytes.setUint16(4, 1, true)
+    bytes.setUint16(6, 0x100d, true)
+    bytes.setUint32(8, 7, true)
+    bytes.setUint32(12, 123456789, true)
+
+    expect(new Uint8Array(result)).toEqual(new Uint8Array(expected))
+  })
 })
