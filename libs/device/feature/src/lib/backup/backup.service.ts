@@ -48,6 +48,8 @@ export class APIBackupService {
       },
     })
 
+    console.log("PRE_BACKUP POST!!!!!!", response)
+
     return this.parsePreBackupResponse(response, features)
   }
 
@@ -76,6 +78,12 @@ export class APIBackupService {
         backupId,
       },
     })
+
+    console.log("PRE_BACKUP GET!!!!!!", response)
+    console.log(
+      "PRE_BACKUP GET features!!!!!!",
+      (response as any).data.body.features
+    )
 
     return this.parsePreBackupResponse(response, features)
   }

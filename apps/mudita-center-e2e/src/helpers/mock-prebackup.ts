@@ -6,17 +6,44 @@ export function mockPreBackupResponses(path: string) {
   E2EMockClient.mockResponses([
     {
       path,
-      body: { progress: 12.5 },
+      body: { backupId: 12345, progress: 0 },
       endpoint: "PRE_BACKUP",
       method: "POST",
       status: 202,
     },
+    // {
+    //   path,
+    //   endpoint: "PRE_BACKUP",
+    //   status: 200,
+    //   method: "POST",
+    //   body: {
+    //     backupId: 12345,
+    //     features: {
+    //       calls: "path/to/backup/calls.json",
+    //       call_logs: "path/to/backup/call_logs.json",
+    //     },
+    //   },
+    // },
+    // {
+    //   path,
+    //   body: { backupId: 12345 },
+    //   endpoint: "PRE_BACKUP",
+    //   method: "GET",
+    //   status: 202,
+    // },
     {
       path,
-      body: { progress: 12.5 },
+      body: {
+        backupId: 12345,
+        progress: 100,
+        features: {
+          CONTACTS_V1: "path/to/backup/calls.json",
+          CALL_LOGS_V1: "path/to/backup/call_logs.json",
+        },
+      },
       endpoint: "PRE_BACKUP",
       method: "GET",
-      status: 202,
+      status: 200,
     },
   ])
 
