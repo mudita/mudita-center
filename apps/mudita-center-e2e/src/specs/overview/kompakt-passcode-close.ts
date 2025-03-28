@@ -3,7 +3,6 @@ import { passcodeLockedKompakt } from "../../../../../libs/e2e-mock/responses/sr
 import { overviewDataWithOneSimCard2nd } from "../../../../../libs/e2e-mock/responses/src"
 import LockedPageKompakt from "../../page-objects/locked-page-kompakt"
 import NewsPage from "../../page-objects/news.page"
-import HomePage from "../../page-objects/home.page"
 
 describe("Kompakt passcode close", () => {
   const firstSerialNumber = "KOM1234567890"
