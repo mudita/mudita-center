@@ -78,5 +78,6 @@ describe("Disconnect during backup", () => {
     const homeHeader = await HomePage.homeHeader
     await homeHeader.waitForDisplayed()
     await expect(homeHeader).toHaveText("Welcome to Mudita Center")
+    await browser.pause(500)
   })
 })
