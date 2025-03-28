@@ -24,10 +24,13 @@ export interface UploadFileInfoOptions {
 const PREFIX_LOG = `[app-mtp/node-mtp-device]`
 
 export class NodeMtpDevice {
+  public id: string = ""
   private transactionId = 0
   private packetSize = 1024
 
-  constructor(private device: WebUSBDevice) {}
+  constructor(private device: WebUSBDevice) {
+    this.id = String(this.device.serialNumber)
+  }
 
   async initialize() {
     await this.openDevice()
