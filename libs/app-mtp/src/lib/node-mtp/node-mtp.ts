@@ -125,6 +125,10 @@ export class NodeMtp implements MtpInterface {
         parentObjectHandle,
       })
 
+      console.log(
+        `${PREFIX_LOG} process upload file info newObjectID: ${newObjectID}`
+      )
+
       if (newObjectID === undefined) {
         console.log(
           `${PREFIX_LOG} process upload file info error - newObjectID is undefined`
@@ -145,6 +149,7 @@ export class NodeMtp implements MtpInterface {
     transactionId: string
   ): Promise<void> {
     try {
+      const startTime = Date.now()
       this.uploadFileTransactionStatus[transactionId] = {
         progress: 0,
       }
@@ -152,13 +157,14 @@ export class NodeMtp implements MtpInterface {
       const device = await this.deviceManager.getDevice({ id: deviceId })
       const size = await this.getFileSize(sourcePath)
 
+      await device.initiateUploadFile(size)
+
+      let uploadedBytes = 0
       const fileStream = fs.createReadStream(sourcePath, {
         highWaterMark: 1024,
       })
-      let uploadedBytes = 0
 
       for await (const chunk of fileStream) {
-        await delay(200)
         await device.uploadFileData(chunk)
 
         uploadedBytes += chunk.length
@@ -166,6 +172,20 @@ export class NodeMtp implements MtpInterface {
         this.uploadFileTransactionStatus[transactionId].progress = progress
         console.log(`${PREFIX_LOG} progress: ${progress}%`)
       }
+
+      const endTime = Date.now()
+      const durationInSeconds = (endTime - startTime) / 1000
+      const speedInMBps = size / 1024 / 1024 / durationInSeconds
+
+      // upload file response isn't timed as it's not always received.
+      await device.getUploadFileResponse()
+
+      console.log(
+        `${PREFIX_LOG} File upload completed in ${durationInSeconds.toFixed(
+          2
+        )} seconds.`
+      )
+      console.log(`${PREFIX_LOG} Upload speed: ${speedInMBps.toFixed(2)} MB/s`)
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} process upload file error: ${error}`)
@@ -190,7 +210,7 @@ export class NodeMtp implements MtpInterface {
     const device = await this.deviceManager.getDevice({ id: deviceId })
     await device.getObjectHandles()
 
-    // mock implementation
-    return 0
+    // mock implementation, `7` is the Picture folder
+    return 7
   }
 }

@@ -18,6 +18,8 @@ import {
   ResponseContainerPacket,
 } from "./utils/parse-container-packet"
 import { getUint32s } from "./utils/get-uint-32s"
+import { getObjectFormat } from "./utils/get-object-format"
+import { getObjectInfoDataset } from "./utils/get-object-info-dataset"
 import { withTimeout } from "./utils/with-timeout"
 
 export interface UploadFileInfoOptions {
@@ -86,17 +88,138 @@ export class NodeMtpDevice {
     return objectHandles
   }
 
-  async uploadFileInfo(options: UploadFileInfoOptions): Promise<number> {
-    // mock implementation
-    return 0
+  async uploadFileInfo({
+    name,
+    size,
+    storageId,
+    parentObjectHandle,
+  }: UploadFileInfoOptions): Promise<number> {
+    console.log(`${PREFIX_LOG} uploadFileInfo...`)
+
+    const transactionId = this.getTransactionId()
+
+    const sendObjectInfoCommandPacket = buildContainerPacket({
+      transactionId,
+      type: ContainerTypeCode.Command,
+      code: ContainerCode.SendObjectInfo,
+      payload: [
+        {
+          value: storageId,
+          type: "UINT32",
+        },
+        {
+          value: parentObjectHandle,
+          type: "UINT32",
+        },
+      ],
+    })
+
+    const sendObjectInfoCommandResult = await this.write(
+      sendObjectInfoCommandPacket
+    )
+    console.log(
+      `${PREFIX_LOG} uploadFileInfo result: ${JSON.stringify(
+        sendObjectInfoCommandResult
+      )}`
+    )
+
+    try {
+      const sendObjectInfoCommandResponse = await this.read()
+
+      console.log(
+        `${PREFIX_LOG} uploadFileInfo response: ${JSON.stringify(
+          sendObjectInfoCommandResponse
+        )}`
+      )
+    } catch (e) {
+      console.log(e)
+    }
+
+    const objectFormat = getObjectFormat(name)
+
+    const sendObjectInfoDataPacket = buildContainerPacket({
+      transactionId,
+      type: ContainerTypeCode.Data,
+      code: ContainerCode.SendObjectInfo,
+      payload: getObjectInfoDataset({
+        objectFormat,
+        objectCompressedSize: size,
+        filename: name,
+        storageID: storageId,
+        parentObject: parentObjectHandle,
+      }),
+    })
+
+    const sendObjectInfoDataResult = await this.write(sendObjectInfoDataPacket)
+    console.log(
+      `${PREFIX_LOG} uploadFileInfo result: ${JSON.stringify(
+        sendObjectInfoDataResult
+      )}`
+    )
+    const sendObjectInfoDataResponse = await this.read()
+    console.log(
+      `${PREFIX_LOG} uploadFileInfo response: ${JSON.stringify(
+        sendObjectInfoDataResponse
+      )}`
+    )
+
+    const parameters = getUint32s(sendObjectInfoDataResponse.payload)
+
+    return parameters[2]
   }
 
-  async uploadFileCommand() {
-    // mock implementation
+  async initiateUploadFile(size: number): Promise<void> {
+    console.log(`${PREFIX_LOG} initiateUploadFile...`)
+    const transactionId = this.getTransactionId()
+    const uploadFileCommandPacket = buildContainerPacket({
+      transactionId,
+      type: ContainerTypeCode.Command,
+      code: ContainerCode.SendObject,
+    })
+
+    const uploadFileCommandResult = await this.write(uploadFileCommandPacket)
+    console.log(
+      `${PREFIX_LOG} initiateUploadFile uploadFileCommandResult: ${JSON.stringify(
+        uploadFileCommandResult
+      )}`
+    )
+
+    const uploadFileDataPacket = buildContainerPacket({
+      transactionId,
+      type: ContainerTypeCode.Data,
+      code: ContainerCode.SendObject,
+      fixSize: size + 12,
+    })
+
+    const uploadFileDataResult = await this.write(uploadFileDataPacket)
+    console.log(
+      `${PREFIX_LOG} initiateUploadFile uploadFileDataResult: ${JSON.stringify(
+        uploadFileDataResult
+      )}`
+    )
   }
 
-  async uploadFileData(chunk: Buffer | string) {
-    // mock implementation
+  async uploadFileData(chunk: Uint8Array): Promise<void> {
+    console.log(`${PREFIX_LOG} uploadFileData...`)
+    const result = await this.write(new Uint8Array(chunk))
+    console.log(
+      `${PREFIX_LOG} uploadFileData result: ${JSON.stringify(result)}`
+    )
+  }
+
+  async getUploadFileResponse(): Promise<void> {
+    console.log(`${PREFIX_LOG} getUploadFileResponse...`)
+    try {
+      const sendObjectDataBlockResponse = await this.read()
+      console.log(
+        `${PREFIX_LOG} getUploadFileResponse response: ${JSON.stringify(
+          sendObjectDataBlockResponse
+        )}`
+      )
+    } catch (e) {
+      // The error is skipped because the response is not always received.
+      console.log(`${PREFIX_LOG} getUploadFileResponse error: ${JSON.stringify(e)}`)
+    }
   }
 
   private async transferOut(

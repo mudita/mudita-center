@@ -20,7 +20,6 @@ export class AppError<
     super(message)
     this.message = message
 
-    // Capture the stack trace for better debugging
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, AppError)
     }
