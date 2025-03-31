@@ -113,7 +113,10 @@ export class NodeMtp implements MtpInterface {
       const device = await this.deviceManager.getDevice({ id: deviceId })
       const size = await this.getFileSize(sourcePath)
       const name = path.basename(sourcePath)
-      const parentObjectHandle = this.getParentObjectHandle(destinationPath)
+      const parentObjectHandle = await this.getParentObjectHandle(
+        destinationPath,
+        deviceId
+      )
 
       const newObjectID = await device.uploadFileInfo({
         size,
@@ -179,7 +182,14 @@ export class NodeMtp implements MtpInterface {
     return stats.size
   }
 
-  private getParentObjectHandle(filePath: string): number {
+  private async getParentObjectHandle(
+    filePath: string,
+    deviceId: string
+  ): Promise<number> {
+    // getObjectHandles request is obligatory to allows correctly start the upload process - temporary solution
+    const device = await this.deviceManager.getDevice({ id: deviceId })
+    await device.getObjectHandles()
+
     // mock implementation
     return 0
   }

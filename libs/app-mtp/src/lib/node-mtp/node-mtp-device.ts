@@ -7,11 +7,17 @@ import { WebUSBDevice } from "usb"
 import { AppError } from "../../../../core/core/errors/app-error"
 import { MTPError } from "../app-mtp.interface"
 import { buildContainerPacket } from "./utils/build-container-packet"
-import { ContainerCode, ContainerTypeCode } from "./mtp-packet-definitions"
+import {
+  allStorage,
+  ContainerCode,
+  ContainerTypeCode,
+  rootObjectHandle,
+} from "./mtp-packet-definitions"
 import {
   parseContainerPacket,
   ResponseContainerPacket,
 } from "./utils/parse-container-packet"
+import { getUint32s } from "./utils/get-uint-32s"
 import { withTimeout } from "./utils/with-timeout"
 
 export interface UploadFileInfoOptions {
@@ -36,6 +42,48 @@ export class NodeMtpDevice {
     await this.openDevice()
     await this.claimInterface()
     await this.openSession()
+  }
+
+  async getObjectHandles(
+    parentHandle = rootObjectHandle,
+    storageID = allStorage,
+    formatCode = 0
+  ): Promise<number[]> {
+    console.log(`${PREFIX_LOG} getObjectHandles...`)
+    const transactionId = this.getTransactionId()
+    await this.write(
+      buildContainerPacket({
+        transactionId,
+        type: ContainerTypeCode.Command,
+        code: ContainerCode.GetObjectHandles,
+        payload: [
+          {
+            value: storageID,
+            type: "UINT32",
+          },
+          {
+            value: formatCode,
+            type: "UINT32",
+          },
+          {
+            value: parentHandle,
+            type: "UINT32",
+          },
+        ],
+      })
+    )
+    const response = await this.read()
+    console.log(
+      `${PREFIX_LOG} getObjectHandles response: ${JSON.stringify(response)}`
+    )
+
+    const [_length, ...objectHandles] = getUint32s(response.payload)
+
+    console.log(
+      `${PREFIX_LOG} getObjectHandles data: ${JSON.stringify(objectHandles)}`
+    )
+
+    return objectHandles
   }
 
   async uploadFileInfo(options: UploadFileInfoOptions): Promise<number> {

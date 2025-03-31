@@ -137,7 +137,5 @@ export const containerCodeNames: Record<ContainerCode, string> = {
   [ContainerCode.ObjectPropNotSupported]: "Object Prop Not Supported",
 }
 
-const rootObjectHandle = 0xffffffff
-const allStorage = 0xffffffff
-
-const undefinedObjectFormat = 0x3000
+export const rootObjectHandle = 0xffffffff
+export const allStorage = 0xffffffff
