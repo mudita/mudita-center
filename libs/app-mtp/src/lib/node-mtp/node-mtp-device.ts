@@ -46,6 +46,30 @@ export class NodeMtpDevice {
     await this.openSession()
   }
 
+  async getStorageIds(): Promise<number[]>{
+    console.log(`${PREFIX_LOG} getStorageIds...`)
+    const transactionId = this.getTransactionId()
+    const packet = buildContainerPacket({
+      transactionId,
+      type: ContainerTypeCode.Command,
+      code: ContainerCode.GetStorageIds,
+    })
+
+    await this.write(packet)
+    const response = await this.read()
+    console.log(
+      `${PREFIX_LOG} getStorageIds response: ${JSON.stringify(response)}`
+    )
+
+    const [_length, ...storageIds] = getUint32s(response.payload)
+
+    console.log(
+      `${PREFIX_LOG} getStorageIds data: ${JSON.stringify(storageIds)}`
+    )
+
+    return storageIds
+  }
+
   async getObjectHandles(
     parentHandle = rootObjectHandle,
     storageID = allStorage,
