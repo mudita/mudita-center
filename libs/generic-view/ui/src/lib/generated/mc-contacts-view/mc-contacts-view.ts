@@ -296,12 +296,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       },
     },
     createContactsButton: {
-      component: "button-secondary",
-      config: {
-        disabled: true,
-        text: "add contact",
-        actions: [],
-      },
+      // TODO: revert changes after contacts adding is implemented
+      component: "block-plain", // "button-secondary",
+      // config: {
+      //   disabled: true,
+      //   text: "add contact",
+      //   actions: [],
+      // },
     },
     importContactsButton: {
       component: "button-primary",
