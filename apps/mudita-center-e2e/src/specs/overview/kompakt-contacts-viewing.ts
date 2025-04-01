@@ -53,8 +53,8 @@ describe("E2E mock sample - overview view", () => {
     await expect(contactsSearchField).toBeDisplayed()
     await expect(contactsSearchField).toHaveAttribute("type", "search")
 
-    const addContactButton = ContactsKompaktPage.addContactButton
-    await expect(addContactButton).not.toBeDefined() // TODO: replace this line with commented one when adding contact is implemented
+    // TODO: Uncomment when adding contacts is implemented
+    // const addContactButton = ContactsKompaktPage.addContactButton
     // await expect(addContactButton).toBeDisplayed()
 
     const importContactsButton = ContactsKompaktPage.importContactsButton
