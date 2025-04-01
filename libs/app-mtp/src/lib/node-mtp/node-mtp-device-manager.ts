@@ -24,13 +24,17 @@ export class NodeMtpDeviceManager {
     }))
   }
 
-  async getDevice({ id }: { id: MtpDevice["id"] }): Promise<NodeMtpDevice> {
+  async getNodeMtpDevice({
+    id,
+  }: {
+    id: MtpDevice["id"]
+  }): Promise<NodeMtpDevice> {
     if (this.nodeMtpDevices.has(id)) {
       return this.nodeMtpDevices.get(id)!
     }
 
     const devices = await usb.getDevices()
-    const device = devices.find((device) => device.serialNumber === id)
+    const device = devices.find(({ serialNumber }) => serialNumber === id)
 
     if (!device) {
       throw new AppError(MTPError.MTP_DEVICE_NOT_FOUND)
