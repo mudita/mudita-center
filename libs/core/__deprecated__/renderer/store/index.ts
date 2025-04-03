@@ -20,11 +20,9 @@ import { combinedReducers, reducers } from "./reducers"
 
 const middlewares: Middleware[] = [thunk]
 
-// if (process.env.DEV_REDUX_LOGGER_ENABLED !== "0") {
-//   middlewares.push(logger)
-// }
-
-middlewares.push(logger)
+if (process.env.DEV_REDUX_LOGGER_ENABLED !== "0") {
+  middlewares.push(logger)
+}
 
 const config: InitConfig<RootModel> = {
   models,
