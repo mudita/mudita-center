@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { parseStorageInfo, ResponseStorageInfo } from "./parse-storage-info"
+import {
+  parseStorageInfo,
+  ResponseStorageInfo,
+  StorageType,
+} from "./parse-storage-info"
 import { encodeToUtf16le } from "./encode-to-utf16le"
 
 describe("parseStorageInfo", () => {
@@ -28,7 +32,7 @@ describe("parseStorageInfo", () => {
     const result = parseStorageInfo(buffer)
 
     const expected: ResponseStorageInfo = {
-      storageType: 1,
+      storageType: StorageType.FixedROM,
       filesystemType: 2,
       accessCapability: 3,
       maxCapacity: 12345 + 2 ** 32 * 67890,
@@ -105,7 +109,7 @@ describe("parseStorageInfo", () => {
     const result = parseStorageInfo(buffer)
 
     const expected: ResponseStorageInfo = {
-      storageType: 1,
+      storageType: StorageType.FixedROM,
       filesystemType: 2,
       accessCapability: 3,
       maxCapacity: 12345 + 2 ** 32 * 67890,

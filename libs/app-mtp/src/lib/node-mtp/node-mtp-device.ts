@@ -24,6 +24,10 @@ import { getUint32s } from "./utils/get-uint-32s"
 import { getObjectFormat } from "./utils/get-object-format"
 import { getObjectInfoDataset } from "./utils/get-object-info-dataset"
 import { withTimeout } from "./utils/with-timeout"
+import {
+  parseStorageInfo,
+  ResponseStorageInfo,
+} from "./utils/parse-storage-info"
 
 export interface UploadFileInfoOptions {
   size: number
@@ -70,6 +74,34 @@ export class NodeMtpDevice {
     )
 
     return storageIds
+  }
+
+  async getStorageInfo(storageId: number): Promise<ResponseStorageInfo> {
+    console.log(`${PREFIX_LOG} getStorageInfo...`)
+    const transactionId = this.getTransactionId()
+
+    await this.write({
+      transactionId,
+      type: ContainerTypeCode.Command,
+      code: ContainerCode.GetStorageInfo,
+      payload: [
+        {
+          value: storageId,
+          type: "UINT32",
+        },
+      ],
+    })
+
+    const response = await this.read(transactionId, "Data")
+
+    const responseStorageInfo = parseStorageInfo(response.payload)
+    console.log(
+      `${PREFIX_LOG} getStorageInfo via storageId: ${storageId} data: ${JSON.stringify(
+        responseStorageInfo
+      )}`
+    )
+
+    return responseStorageInfo
   }
 
   async getObjectHandles(

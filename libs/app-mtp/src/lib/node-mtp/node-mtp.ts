@@ -24,6 +24,7 @@ import {
 } from "../../../../core/core/builder/result.builder"
 import { AppError } from "../../../../core/core/errors/app-error"
 import { handleMtpError } from "../utils/handle-mtp-error"
+import { StorageType } from "./utils/parse-storage-info"
 
 const PREFIX_LOG = `[app-mtp/node-mtp]`
 
@@ -43,12 +44,24 @@ export class NodeMtp implements MtpInterface {
       const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const storageIds = await device.getStorageIds()
 
-      console.log(`${PREFIX_LOG} getting device storages storageIds: ${JSON.stringify(storageIds)}`)
+      const storages: MtpStorage[] = []
 
-      return Result.success([
-        { id: "storage-1", name: "Storage 1" },
-        { id: "storage-2", name: "Storage 2" },
-      ])
+      for await (const storageId of storageIds) {
+        const storageInfo = await device.getStorageInfo(storageId)
+        const storage: MtpStorage = {
+          id: String(storageId),
+        }
+        if (
+          storageInfo.storageType === StorageType.FixedRAM ||
+          storageInfo.storageType === StorageType.RemovableRAM
+        ) {
+          storage["isInternal"] =
+            storageInfo.storageType === StorageType.FixedRAM
+        }
+        storages.push(storage)
+      }
+
+      return Result.success(storages)
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} getting device storages error: ${error}`)
