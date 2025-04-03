@@ -40,7 +40,10 @@ export class NodeMtp implements MtpInterface {
     deviceId: string
   ): Promise<ResultObject<MtpStorage[]>> {
     try {
-      await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+      const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+      const storageIds = await device.getStorageIds()
+
+      console.log(`${PREFIX_LOG} getting device storages storageIds: ${JSON.stringify(storageIds)}`)
 
       return Result.success([
         { id: "storage-1", name: "Storage 1" },
