@@ -175,9 +175,6 @@ export class NodeMtp implements MtpInterface {
       const durationInSeconds = (endTime - startTime) / 1000
       const speedInMBps = size / 1024 / 1024 / durationInSeconds
 
-      // upload file response isn't timed as it's not always received.
-      await device.getUploadFileResponse()
-
       console.log(
         `${PREFIX_LOG} File upload completed in ${durationInSeconds.toFixed(
           2

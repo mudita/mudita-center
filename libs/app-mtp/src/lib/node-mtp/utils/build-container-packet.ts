@@ -30,14 +30,11 @@ export interface RequestContainerPacket {
   fixSize?: number
 }
 
-const PREFIX_LOG = `[app-mtp/build-container-packet]`
-
 export function buildContainerPacket(
   container: RequestContainerPacket,
   maxBufferSize = 512
 ): ArrayBuffer {
   container.payload = container.payload || []
-  console.log(`${PREFIX_LOG} container: ${JSON.stringify(container)}`)
 
   let currentPacketLength = 12
   const buffer = new ArrayBuffer(maxBufferSize)
@@ -74,8 +71,6 @@ export function buildContainerPacket(
       bytes.setUint16(offset, 0, true)
 
       currentPacketLength = offset += 2
-
-      console.log(`${PREFIX_LOG} UTF16le: ${item.value}`, utf16Buffer)
     } else {
       throw new Error(`Unsupported type for item: ${JSON.stringify(item)}`)
     }
@@ -84,10 +79,5 @@ export function buildContainerPacket(
   const packetLength = container.fixSize ?? currentPacketLength
   bytes.setUint32(0, packetLength, true)
 
-  const finalBuffer = buffer.slice(0, currentPacketLength)
-
-  console.log(`${PREFIX_LOG} container packet buffer:`, finalBuffer)
-  console.log(`${PREFIX_LOG} packetLength: ${currentPacketLength}`)
-
-  return finalBuffer
+  return buffer.slice(0, currentPacketLength)
 }
