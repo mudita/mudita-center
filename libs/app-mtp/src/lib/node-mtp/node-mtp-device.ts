@@ -63,9 +63,6 @@ export class NodeMtpDevice {
     })
 
     const response = await this.read(transactionId, ContainerTypeCode.Data)
-    console.log(
-      `${PREFIX_LOG} getStorageIds response: ${JSON.stringify(response)}`
-    )
 
     const [_length, ...storageIds] = getUint32s(response.payload)
 
@@ -184,11 +181,6 @@ export class NodeMtpDevice {
     })
 
     const sendObjectInfoDataResponse = await this.read(transactionId)
-    console.log(
-      `${PREFIX_LOG} uploadFileInfo response: ${JSON.stringify(
-        sendObjectInfoDataResponse
-      )}`
-    )
 
     const parameters = getUint32s(sendObjectInfoDataResponse.payload)
 
