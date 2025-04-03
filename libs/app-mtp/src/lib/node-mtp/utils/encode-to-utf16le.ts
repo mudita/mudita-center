@@ -5,7 +5,7 @@
 
 import { convertTextEncoding } from "./convert-text-encoding"
 
-export const encodeToUtf16leWithNullTerminator = (
+export const encodeToUtf16le = (
   bytes: DataView,
   offset: number,
   string: string

@@ -4,7 +4,7 @@
  */
 
 import { parseTextFields } from "./parse-text-fields"
-import { encodeToUtf16leWithNullTerminator } from "./encode-to-utf16le-with-null-terminator"
+import { encodeToUtf16le } from "./encode-to-utf16le"
 
 describe("parseTextFields", () => {
   it("should correctly parse multiple text fields", () => {
@@ -12,9 +12,9 @@ describe("parseTextFields", () => {
     const bytes = new DataView(buffer)
 
     let offset = 0
-    offset = encodeToUtf16leWithNullTerminator(bytes, offset, "Storage1")
-    offset = encodeToUtf16leWithNullTerminator(bytes, offset, "Volume1")
-    offset = encodeToUtf16leWithNullTerminator(bytes, offset, "AdditionalText")
+    offset = encodeToUtf16le(bytes, offset, "Storage1")
+    offset = encodeToUtf16le(bytes, offset, "Volume1")
+    offset = encodeToUtf16le(bytes, offset, "AdditionalText")
 
     const textFieldKeys = [
       "storageDescription",

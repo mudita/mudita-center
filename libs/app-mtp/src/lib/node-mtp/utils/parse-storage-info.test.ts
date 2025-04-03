@@ -4,8 +4,7 @@
  */
 
 import { parseStorageInfo, ResponseStorageInfo } from "./parse-storage-info"
-import { encodeToUtf16leWithNullTerminator } from "./encode-to-utf16le-with-null-terminator"
-
+import { encodeToUtf16le } from "./encode-to-utf16le"
 
 describe("parseStorageInfo", () => {
   it("should correctly parse a storage info buffer", () => {
@@ -23,8 +22,8 @@ describe("parseStorageInfo", () => {
 
     let offset = 26
 
-    offset = encodeToUtf16leWithNullTerminator(bytes, offset, "Storage1")
-    offset = encodeToUtf16leWithNullTerminator(bytes, offset, "Volume1")
+    offset = encodeToUtf16le(bytes, offset, "Storage1")
+    offset = encodeToUtf16le(bytes, offset, "Volume1")
 
     const result = parseStorageInfo(buffer)
 
@@ -77,7 +76,7 @@ describe("parseStorageInfo", () => {
     bytes.setUint32(22, 100, true)
 
     let offset = 26
-    offset = encodeToUtf16leWithNullTerminator(bytes, offset, "Storage1")
+    offset = encodeToUtf16le(bytes, offset, "Storage1")
 
     bytes.setUint8(offset++, 5)
     bytes.setUint8(offset, 0)

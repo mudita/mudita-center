@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { parseTextFromBuffer } from "./parse-text-from-buffer"
+import { decodeFromUtf16leToString } from "./decode-from-utf16le-to-string"
 
 describe("parseTextFromBuffer", () => {
   it("should correctly parse text with null terminator", () => {
@@ -28,7 +28,7 @@ describe("parseTextFromBuffer", () => {
       bytes.setUint8(i + 1, utf16leEncoded[i])
     }
 
-    const result = parseTextFromBuffer(buffer, 0)
+    const result = decodeFromUtf16leToString(buffer, 0)
     expect(result).toEqual(string)
   })
 
@@ -52,7 +52,7 @@ describe("parseTextFromBuffer", () => {
       bytes.setUint8(i + 1, utf16leEncoded[i])
     }
 
-    expect(() => parseTextFromBuffer(buffer, 0)).toThrowError(
+    expect(() => decodeFromUtf16leToString(buffer, 0)).toThrowError(
       "Missing null terminator at the end of the string"
     )
   })
@@ -63,7 +63,7 @@ describe("parseTextFromBuffer", () => {
 
     bytes.setUint8(0, 0)
 
-    const result = parseTextFromBuffer(buffer, 0)
+    const result = decodeFromUtf16leToString(buffer, 0)
     expect(result).toEqual("")
   })
 
@@ -75,7 +75,7 @@ describe("parseTextFromBuffer", () => {
     bytes.setUint8(1, 0)
     bytes.setUint8(2, 0)
 
-    const result = parseTextFromBuffer(buffer, 0)
+    const result = decodeFromUtf16leToString(buffer, 0)
     expect(result).toEqual("")
   })
 })

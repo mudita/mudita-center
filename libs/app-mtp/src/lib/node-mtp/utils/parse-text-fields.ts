@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { parseTextFromBuffer } from "./parse-text-from-buffer"
+import { decodeFromUtf16leToString } from "./decode-from-utf16le-to-string"
 
 export const parseTextFields = <T extends string>(
   buffer: ArrayBuffer,
@@ -12,7 +12,7 @@ export const parseTextFields = <T extends string>(
 ): { [K in T]: string } => {
   return textFieldKeys.reduce((textFields, key, index) => {
     if (index === 0) {
-      textFields[key] = parseTextFromBuffer(buffer, currentOffset)
+      textFields[key] = decodeFromUtf16leToString(buffer, currentOffset)
     } else {
       const previousTextLength = (
         textFields[textFieldKeys[index - 1]] as string
@@ -27,7 +27,7 @@ export const parseTextFields = <T extends string>(
           : (previousTextLength + nullTerminatorSize) * utf8EncodingMultiplier
 
       currentOffset = currentOffset + lengthPrefixOffset + encodedTextSize
-      textFields[key] = parseTextFromBuffer(buffer, currentOffset)
+      textFields[key] = decodeFromUtf16leToString(buffer, currentOffset)
     }
     return textFields
   }, {} as { [K in T]: string })

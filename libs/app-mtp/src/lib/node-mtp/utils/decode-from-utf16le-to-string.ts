@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const parseTextFromBuffer = (
+export const decodeFromUtf16leToString = (
   buffer: ArrayBuffer,
   offset: number
 ): string => {
