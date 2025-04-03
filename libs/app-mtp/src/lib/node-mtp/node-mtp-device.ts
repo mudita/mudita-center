@@ -214,7 +214,7 @@ export class NodeMtpDevice {
     buffer: ArrayBuffer,
     timeoutMs: number = 5000,
     error = new AppError(MTPError.MTP_WRITE_TIMEOUT)
-  ): ReturnType<WebUSBDevice["transferIn"]> {
+  ): ReturnType<WebUSBDevice["transferOut"]> {
     return withTimeout(this.device.transferOut(0x01, buffer), timeoutMs, error)
   }
 
@@ -239,7 +239,7 @@ export class NodeMtpDevice {
     console.log(`${PREFIX_LOG} write... `, buffer)
     const result = await this.transferOut(buffer)
     console.log(`${PREFIX_LOG} write... result: ${JSON.stringify(result)}`)
-    return result
+    return result as ReturnType<WebUSBDevice["transferOut"]>
   }
 
   private async readDataInChunks(): Promise<ResponseContainerPacket> {
