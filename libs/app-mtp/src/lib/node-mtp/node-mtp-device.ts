@@ -62,7 +62,7 @@ export class NodeMtpDevice {
       code: ContainerCode.GetStorageIds,
     })
 
-    const response = await this.read(transactionId, "Data")
+    const response = await this.read(transactionId, ContainerTypeCode.Data)
     console.log(
       `${PREFIX_LOG} getStorageIds response: ${JSON.stringify(response)}`
     )
@@ -92,7 +92,7 @@ export class NodeMtpDevice {
       ],
     })
 
-    const response = await this.read(transactionId, "Data")
+    const response = await this.read(transactionId, ContainerTypeCode.Data)
 
     const responseStorageInfo = parseStorageInfo(response.payload)
     console.log(
@@ -131,7 +131,7 @@ export class NodeMtpDevice {
       ],
     })
 
-    const response = await this.read(transactionId, "Data")
+    const response = await this.read(transactionId, ContainerTypeCode.Data)
 
     const [_length, ...objectHandles] = getUint32s(response.payload)
 
@@ -295,7 +295,7 @@ export class NodeMtpDevice {
 
   private async read(
     transactionId: number,
-    typeName: string = "Response",
+    type: ContainerTypeCode = ContainerTypeCode.Response,
     maxAttempts: number = 10
   ): Promise<ResponseContainerPacket> {
     let attempts = 0
@@ -313,15 +313,12 @@ export class NodeMtpDevice {
         )}`
       )
 
-      if (
-        response.typeName === typeName &&
-        response.transactionId === transactionId
-      ) {
+      if (response.type === type && response.transactionId === transactionId) {
         return response
       }
 
       console.log(
-        `${PREFIX_LOG} read retry: transactionId or typeName mismatch. Attempt ${attempts} failed, retrying...`
+        `${PREFIX_LOG} read retry: transactionId or type mismatch. Attempt ${attempts} failed, retrying...`
       )
     }
 
