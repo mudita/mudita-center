@@ -263,6 +263,19 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
   ENTITIES_DATA: {
     GET: [
       {
+        status: ResponseStatus.Accepted,
+        body: {
+          progress: 0,
+        },
+        match: {
+          expected: {
+            action: "create",
+            entityType: "contacts",
+            responseType: "file",
+          },
+        },
+      },
+      {
         status: ResponseStatus.Ok,
         body: {
           filePath: "../contact_entities.json",
@@ -270,6 +283,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         },
         match: {
           expected: {
+            action: "get",
             entityType: "contacts",
             responseType: "file",
           },
