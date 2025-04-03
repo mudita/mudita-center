@@ -78,10 +78,10 @@ jobs:
           printenv > .env
       - name: Setup depedencies
         run: npm run setup
-      #      - name: Copy electron-builder environment file for Windows
-      #        if: matrix.os == 'Windows'
-      #        run: |
-      #          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
+#      - name: Copy electron-builder environment file for Windows
+#        if: matrix.os == 'Windows'
+#        run: |
+#          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
