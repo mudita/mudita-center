@@ -35,7 +35,7 @@ describe("parseContainerPacket", () => {
       type: 1,
       typeName: "Command",
       code: 0x100c,
-      codeName: "SendObjectInfo",
+      codeName: "Send Object Info",
       transactionId: 1,
       payload: buffer.slice(12),
     }
