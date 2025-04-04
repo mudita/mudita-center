@@ -173,16 +173,24 @@ describe("E2E mock sample - overview view", () => {
     await expect(firstResult).toHaveText("Michael Brown")
 
     // Get the third search result (index 2) and verify its text
+    await browser.pause(500)
+
     const thirdResult = await ContactsKompaktPage.getSearchSuggestionListResult(
       2
     )
     // Find the specific element that contains only the name
+    await browser.pause(500)
+
     const nameElement = await thirdResult.$('p[data-testid="ui-typography-p3"]')
 
     // Assert only the name, ignoring the phone number
+    await browser.pause(500)
+
     await expect(nameElement).toHaveText("Dr. Michael Johnson PhD")
 
     // Get all search result elements
+    await browser.pause(500)
+
     const searchResults = await $$(
       '//*[@data-testid and starts-with(@data-testid, "ui-form-search-results-")]'
     )
@@ -190,11 +198,13 @@ describe("E2E mock sample - overview view", () => {
 
   it("Check if the selected contact from search opens contact details, the search field is cleared and the selected contact is highlighted in the contact list.", async () => {
     //input "Dr. Anna" as a search phrase
+    await browser.pause(500)
     const searchField = ContactsKompaktPage.searchField
     await searchField.click()
     await searchField.setValue("Dr. Anna")
 
     //click the only result on the search list
+    await browser.pause(500)
     const searchSuggestionsList = ContactsKompaktPage.searchSuggestionsList
     await searchSuggestionsList.click()
 
@@ -202,6 +212,7 @@ describe("E2E mock sample - overview view", () => {
     await expect(searchField).not.toHaveText
 
     //check contact title in Details view
+    await browser.pause(500)
     const contactDisplayNameHeader =
       await ContactsKompaktPage.contactDisplayNameHeader
     await expect(contactDisplayNameHeader).toHaveText("Dr. Anna Nowak Jr.")
