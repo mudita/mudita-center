@@ -46,6 +46,7 @@ describe("E2E mock sample - overview view", () => {
     const contactsCounter = ContactsKompaktPage.contactsCounter
     await expect(contactsCounter).toBeDisplayed()
     await expect(contactsCounter).toHaveText("Contacts (17)")
+    await browser.pause(500)
   })
 
   it("Select first contact to open contact details", async () => {
@@ -73,6 +74,7 @@ describe("E2E mock sample - overview view", () => {
     await expect(contactDeleteDetailsModalText).toHaveText(
       "This can't be undone so please make a copy of any important information first."
     )
+    await browser.pause(500)
   })
   it("Check if clicking on background is impossible, check modal cancellation", async () => {
     //check if backgroud is not working while delete modal is open <- check if user is able to click Settings tab
@@ -85,6 +87,7 @@ describe("E2E mock sample - overview view", () => {
       ContactsKompaktPage.deleteContactCancelButton
     await expect(deleteContactCancelButton).toBeClickable()
     await deleteContactCancelButton.click()
+    await browser.pause(500)
   })
   it("Check contact deletion and counter update", async () => {
     //click again to open modal again
