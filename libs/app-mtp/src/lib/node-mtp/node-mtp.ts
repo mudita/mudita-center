@@ -18,16 +18,16 @@ import {
   UploadFileResultData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
-import { isEmpty } from "../utils/is-empty"
 import {
   Result,
   ResultObject,
 } from "../../../../core/core/builder/result.builder"
 import { AppError } from "../../../../core/core/errors/app-error"
+import { handleMtpError } from "../utils/handle-mtp-error"
+import { StorageType } from "./utils/parse-storage-info"
+import { rootObjectHandle } from "./mtp-packet-definitions"
 
-export const delay = (ms: number = 500): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
+const PREFIX_LOG = `[app-mtp/node-mtp]`
 
 export class NodeMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
@@ -35,29 +35,44 @@ export class NodeMtp implements MtpInterface {
   constructor(private deviceManager: NodeMtpDeviceManager) {}
 
   async getDevices(): Promise<MtpDevice[]> {
-    return [{ id: "device-1", name: "Device 1" }]
+    return this.deviceManager.getDevices()
   }
 
   async getDeviceStorages(
     deviceId: string
   ): Promise<ResultObject<MtpStorage[]>> {
-    if (isEmpty(deviceId)) {
-      return Result.failed({ type: MTPError.MTP_DEVICE_NOT_FOUND } as AppError)
-    }
+    try {
+      const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+      const storageIds = await device.getStorageIds()
 
-    return Result.success([
-      { id: "storage-1", name: "Storage 1" },
-      { id: "storage-2", name: "Storage 2" },
-    ])
+      const storages: MtpStorage[] = []
+
+      for await (const storageId of storageIds) {
+        const storageInfo = await device.getStorageInfo(storageId)
+        const storage: MtpStorage = {
+          id: String(storageId),
+        }
+        if (
+          storageInfo.storageType === StorageType.FixedRAM ||
+          storageInfo.storageType === StorageType.RemovableRAM
+        ) {
+          storage["isInternal"] =
+            storageInfo.storageType === StorageType.FixedRAM
+        }
+        storages.push(storage)
+      }
+
+      return Result.success(storages)
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      console.log(`${PREFIX_LOG} getting device storages error: ${error}`)
+      return handleMtpError(error)
+    }
   }
 
   async uploadFile(
     data: MtpUploadFileData
   ): Promise<ResultObject<UploadFileResultData>> {
-    if (isEmpty(data.deviceId)) {
-      return Result.failed({ type: MTPError.MTP_DEVICE_NOT_FOUND } as AppError)
-    }
-
     const result = await this.processUploadFileInfo(data)
 
     if (!result.ok) {
@@ -74,10 +89,8 @@ export class NodeMtp implements MtpInterface {
   }: GetUploadFileProgress): Promise<
     ResultObject<GetUploadFileProgressResultData>
   > {
-    if (isEmpty(this.uploadFileTransactionStatus[transactionId])) {
-      return Result.failed({
-        type: MTPError.MTP_TRANSACTION_NOT_FOUND,
-      } as AppError)
+    if (this.uploadFileTransactionStatus[transactionId] === undefined) {
+      return Result.failed(new AppError(MTPError.MTP_TRANSACTION_NOT_FOUND))
     }
 
     if (this.uploadFileTransactionStatus[transactionId].error) {
@@ -94,80 +107,103 @@ export class NodeMtp implements MtpInterface {
   private async processUploadFileInfo({
     sourcePath,
     destinationPath,
+    deviceId,
+    storageId,
   }: MtpUploadFileData): Promise<ResultObject<number>> {
     try {
       if (!fs.existsSync(sourcePath)) {
-        return Result.failed({
-          type: MTPError.MTP_SOURCE_PATH_NOT_FOUND,
-          message:
-            "`sourcePath` not found. Please check the provided path in the request.",
-        } as AppError)
+        return Result.failed(
+          new AppError(
+            MTPError.MTP_SOURCE_PATH_NOT_FOUND,
+            "`sourcePath` not found. Please check the provided path in the request."
+          )
+        )
       }
 
-      const PHONE_STORAGE_ID = 65537
-      // const SD_CARD_STORAGE_ID = 131073
+      const storageIdNumber = Number(storageId)
 
-      const device = this.deviceManager.getDevice()
+      const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const size = await this.getFileSize(sourcePath)
       const name = path.basename(sourcePath)
-      const parentObjectHandle = this.getParentObjectHandle(destinationPath)
+      const parentObjectHandle = await this.getParentObjectHandle(
+        destinationPath,
+        deviceId,
+        storageIdNumber
+      )
 
       const newObjectID = await device.uploadFileInfo({
         size,
         name,
-        storageId: PHONE_STORAGE_ID,
+        storageId: storageIdNumber,
         parentObjectHandle,
       })
 
+      console.log(
+        `${PREFIX_LOG} process upload file info newObjectID: ${newObjectID}`
+      )
+
       if (newObjectID === undefined) {
         console.log(
-          `[app-mtp/node-mtp] process upload file info error - newObjectID is undefined`
+          `${PREFIX_LOG} process upload file info error - newObjectID is undefined`
         )
-        return Result.failed({ type: MTPError.MTP_GENERAL_ERROR } as AppError)
+        return Result.failed(new AppError(MTPError.MTP_GENERAL_ERROR))
       }
 
       return Result.success(newObjectID)
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      console.log(`[app-mtp/node-mtp] process upload file info error: ${error}`)
-      return Result.failed({ type: MTPError.MTP_GENERAL_ERROR } as AppError)
+      console.log(`${PREFIX_LOG} process upload file info error: ${error}`)
+      return handleMtpError(error)
     }
   }
 
   private async processUploadFile(
-    { sourcePath, destinationPath }: MtpUploadFileData,
+    { sourcePath, deviceId }: MtpUploadFileData,
     transactionId: string
   ): Promise<void> {
     try {
+      const startTime = Date.now()
       this.uploadFileTransactionStatus[transactionId] = {
         progress: 0,
       }
 
-      const device = this.deviceManager.getDevice()
+      const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const size = await this.getFileSize(sourcePath)
 
+      await device.initiateUploadFile(size)
+
+      let uploadedBytes = 0
       const fileStream = fs.createReadStream(sourcePath, {
         highWaterMark: 1024,
       })
-      let uploadedBytes = 0
 
       for await (const chunk of fileStream) {
-        await delay(200)
         await device.uploadFileData(chunk)
 
         uploadedBytes += chunk.length
         const progress = (uploadedBytes / size) * 100
         this.uploadFileTransactionStatus[transactionId].progress = progress
-        console.log(`[app-mtp/node-mtp] progress: ${progress}%`)
+        console.log(`${PREFIX_LOG} progress: ${progress}%`)
       }
+
+      const endTime = Date.now()
+      const durationInSeconds = (endTime - startTime) / 1000
+      const speedInMBps = size / 1024 / 1024 / durationInSeconds
+
+      console.log(
+        `${PREFIX_LOG} File upload completed in ${durationInSeconds.toFixed(
+          2
+        )} seconds.`
+      )
+      console.log(`${PREFIX_LOG} Upload speed: ${speedInMBps.toFixed(2)} MB/s`)
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      console.log(`[app-mtp/node-mtp] process upload file error: ${error}`)
-      this.uploadFileTransactionStatus[transactionId].error = {
-        type: MTPError.MTP_GENERAL_ERROR,
+      console.log(`${PREFIX_LOG} process upload file error: ${error}`)
+      this.uploadFileTransactionStatus[transactionId].error = new AppError(
+        MTPError.MTP_GENERAL_ERROR,
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        message: `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${error}`,
-      } as AppError
+        `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${error}`
+      )
     }
   }
 
@@ -176,8 +212,16 @@ export class NodeMtp implements MtpInterface {
     return stats.size
   }
 
-  private getParentObjectHandle(filePath: string): number {
-    // mock implementation
-    return 0
+  private async getParentObjectHandle(
+    filePath: string,
+    deviceId: string,
+    storageId: number
+  ): Promise<number> {
+    // getObjectHandles request is obligatory to allows correctly start the upload process - temporary solution
+    const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+    await device.getObjectHandles(rootObjectHandle, Number(storageId))
+
+    // mock implementation, `7` is the Picture folder
+    return 7
   }
 }
