@@ -1,4 +1,4 @@
-name: e2e (standalone) for pre-production
+name: e2e (mock) for pre-production
 
 on:
   push:
@@ -108,4 +108,4 @@ jobs:
         if: matrix.os == 'Windows'
         run: |
           cd apps/mudita-center-e2e
-          npm run e2e:test:cicd:standalone
+          npm run e2e:test:cicd:mock
