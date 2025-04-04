@@ -339,6 +339,34 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           },
         },
       },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1743672201446,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/calls.json",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1743672201351,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/call_logs.json",
+          },
+        },
+      },
     ],
   },
   FILE_TRANSFER: {
@@ -368,6 +396,66 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           expected: {
             transferId: 1734669809788,
             chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1743672201446,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1743672201446,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1743672201351,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1743672201351,
+            chunkNumber: 1,
+          },
+        },
+      },
+    ],
+  },
+  PRE_BACKUP: {
+    POST: [
+      {
+        status: ResponseStatus.Accepted,
+        body: { backupId: 12345, progress: 0 },
+        match: {
+          expected: {
+            backupId: 12345,
+            features: ["CONTACTS_V1", "CALL_LOGS_V1"],
+          },
+        },
+      },
+    ],
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          backupId: 12345,
+          features: {
+            CONTACTS_V1: "path/to/backup/calls.json",
+            CALL_LOGS_V1: "path/to/backup/call_logs.json",
+          },
+          progress: 100,
+        },
+        match: {
+          expected: {
+            backupId: 12345,
           },
         },
       },
