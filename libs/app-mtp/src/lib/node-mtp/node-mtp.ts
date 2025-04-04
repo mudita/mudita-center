@@ -25,6 +25,7 @@ import {
 import { AppError } from "../../../../core/core/errors/app-error"
 import { handleMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
+import { rootObjectHandle } from "./mtp-packet-definitions"
 
 const PREFIX_LOG = `[app-mtp/node-mtp]`
 
@@ -107,6 +108,7 @@ export class NodeMtp implements MtpInterface {
     sourcePath,
     destinationPath,
     deviceId,
+    storageId,
   }: MtpUploadFileData): Promise<ResultObject<number>> {
     try {
       if (!fs.existsSync(sourcePath)) {
@@ -118,21 +120,21 @@ export class NodeMtp implements MtpInterface {
         )
       }
 
-      const PHONE_STORAGE_ID = 65537
-      // const SD_CARD_STORAGE_ID = 131073
+      const storageIdNumber = Number(storageId)
 
       const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const size = await this.getFileSize(sourcePath)
       const name = path.basename(sourcePath)
       const parentObjectHandle = await this.getParentObjectHandle(
         destinationPath,
-        deviceId
+        deviceId,
+        storageIdNumber
       )
 
       const newObjectID = await device.uploadFileInfo({
         size,
         name,
-        storageId: PHONE_STORAGE_ID,
+        storageId: storageIdNumber,
         parentObjectHandle,
       })
 
@@ -212,11 +214,12 @@ export class NodeMtp implements MtpInterface {
 
   private async getParentObjectHandle(
     filePath: string,
-    deviceId: string
+    deviceId: string,
+    storageId: number
   ): Promise<number> {
     // getObjectHandles request is obligatory to allows correctly start the upload process - temporary solution
     const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
-    await device.getObjectHandles()
+    await device.getObjectHandles(rootObjectHandle, Number(storageId))
 
     // mock implementation, `7` is the Picture folder
     return 7
