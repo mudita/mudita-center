@@ -1,4 +1,4 @@
-name: e2e (standalone) for development
+name: e2e (mock) for development
 
 on:
   push:
@@ -99,11 +99,11 @@ jobs:
       - name: Run E2E tests headless with Xvfb on Linux
         if: matrix.os == 'Linux'
         run: |
-          npm run e2e:test:cicd:standalone
+          npm run e2e:test:cicd:mock
       - name: Run E2E tests headless on Windows
         env:
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
         if: matrix.os == 'Windows'
         run: |
           cd apps/mudita-center-e2e
-          npm run e2e:test:cicd:standalone
+          npm run e2e:test:cicd:mock

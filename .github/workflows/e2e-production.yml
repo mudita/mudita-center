@@ -101,7 +101,7 @@ jobs:
       - name: Run E2E tests headless with Xvfb on Linux
         if: matrix.os == 'Linux'
         run: |
-          npm run e2e:test:cicd:mock
+          npm run e2e:test:cicd:standalone
       - name: Run E2E tests headless on Windows
         env:
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
