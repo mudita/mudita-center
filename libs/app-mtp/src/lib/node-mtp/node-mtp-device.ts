@@ -6,7 +6,10 @@
 import { WebUSBDevice } from "usb"
 import { AppError } from "../../../../core/core/errors/app-error"
 import { MTPError } from "../app-mtp.interface"
-import { buildContainerPacket } from "./utils/build-container-packet"
+import {
+  buildContainerPacket,
+  RequestContainerPacket,
+} from "./utils/build-container-packet"
 import {
   allStorage,
   ContainerCode,
@@ -21,6 +24,10 @@ import { getUint32s } from "./utils/get-uint-32s"
 import { getObjectFormat } from "./utils/get-object-format"
 import { getObjectInfoDataset } from "./utils/get-object-info-dataset"
 import { withTimeout } from "./utils/with-timeout"
+import {
+  parseStorageInfo,
+  ResponseStorageInfo,
+} from "./utils/parse-storage-info"
 
 export interface UploadFileInfoOptions {
   size: number
@@ -33,7 +40,6 @@ const PREFIX_LOG = `[app-mtp/node-mtp-device]`
 
 export class NodeMtpDevice {
   public id: string = ""
-  private transactionId = 0
   private packetSize = 1024
 
   constructor(private device: WebUSBDevice) {
@@ -46,6 +52,55 @@ export class NodeMtpDevice {
     await this.openSession()
   }
 
+  async getStorageIds(): Promise<number[]> {
+    console.log(`${PREFIX_LOG} getStorageIds...`)
+    const transactionId = this.getTransactionId()
+
+    await this.write({
+      transactionId,
+      type: ContainerTypeCode.Command,
+      code: ContainerCode.GetStorageIds,
+    })
+
+    const response = await this.read(transactionId, ContainerTypeCode.Data)
+
+    const [_length, ...storageIds] = getUint32s(response.payload)
+
+    console.log(
+      `${PREFIX_LOG} getStorageIds data: ${JSON.stringify(storageIds)}`
+    )
+
+    return storageIds
+  }
+
+  async getStorageInfo(storageId: number): Promise<ResponseStorageInfo> {
+    console.log(`${PREFIX_LOG} getStorageInfo...`)
+    const transactionId = this.getTransactionId()
+
+    await this.write({
+      transactionId,
+      type: ContainerTypeCode.Command,
+      code: ContainerCode.GetStorageInfo,
+      payload: [
+        {
+          value: storageId,
+          type: "UINT32",
+        },
+      ],
+    })
+
+    const response = await this.read(transactionId, ContainerTypeCode.Data)
+
+    const responseStorageInfo = parseStorageInfo(response.payload)
+    console.log(
+      `${PREFIX_LOG} getStorageInfo via storageId: ${storageId} data: ${JSON.stringify(
+        responseStorageInfo
+      )}`
+    )
+
+    return responseStorageInfo
+  }
+
   async getObjectHandles(
     parentHandle = rootObjectHandle,
     storageID = allStorage,
@@ -53,31 +108,27 @@ export class NodeMtpDevice {
   ): Promise<number[]> {
     console.log(`${PREFIX_LOG} getObjectHandles...`)
     const transactionId = this.getTransactionId()
-    await this.write(
-      buildContainerPacket({
-        transactionId,
-        type: ContainerTypeCode.Command,
-        code: ContainerCode.GetObjectHandles,
-        payload: [
-          {
-            value: storageID,
-            type: "UINT32",
-          },
-          {
-            value: formatCode,
-            type: "UINT32",
-          },
-          {
-            value: parentHandle,
-            type: "UINT32",
-          },
-        ],
-      })
-    )
-    const response = await this.read()
-    console.log(
-      `${PREFIX_LOG} getObjectHandles response: ${JSON.stringify(response)}`
-    )
+    await this.write({
+      transactionId,
+      type: ContainerTypeCode.Command,
+      code: ContainerCode.GetObjectHandles,
+      payload: [
+        {
+          value: storageID,
+          type: "UINT32",
+        },
+        {
+          value: formatCode,
+          type: "UINT32",
+        },
+        {
+          value: parentHandle,
+          type: "UINT32",
+        },
+      ],
+    })
+
+    const response = await this.read(transactionId, ContainerTypeCode.Data)
 
     const [_length, ...objectHandles] = getUint32s(response.payload)
 
@@ -98,7 +149,7 @@ export class NodeMtpDevice {
 
     const transactionId = this.getTransactionId()
 
-    const sendObjectInfoCommandPacket = buildContainerPacket({
+    await this.write({
       transactionId,
       type: ContainerTypeCode.Command,
       code: ContainerCode.SendObjectInfo,
@@ -114,30 +165,9 @@ export class NodeMtpDevice {
       ],
     })
 
-    const sendObjectInfoCommandResult = await this.write(
-      sendObjectInfoCommandPacket
-    )
-    console.log(
-      `${PREFIX_LOG} uploadFileInfo result: ${JSON.stringify(
-        sendObjectInfoCommandResult
-      )}`
-    )
-
-    try {
-      const sendObjectInfoCommandResponse = await this.read()
-
-      console.log(
-        `${PREFIX_LOG} uploadFileInfo response: ${JSON.stringify(
-          sendObjectInfoCommandResponse
-        )}`
-      )
-    } catch (e) {
-      console.log(e)
-    }
-
     const objectFormat = getObjectFormat(name)
 
-    const sendObjectInfoDataPacket = buildContainerPacket({
+    await this.write({
       transactionId,
       type: ContainerTypeCode.Data,
       code: ContainerCode.SendObjectInfo,
@@ -150,18 +180,7 @@ export class NodeMtpDevice {
       }),
     })
 
-    const sendObjectInfoDataResult = await this.write(sendObjectInfoDataPacket)
-    console.log(
-      `${PREFIX_LOG} uploadFileInfo result: ${JSON.stringify(
-        sendObjectInfoDataResult
-      )}`
-    )
-    const sendObjectInfoDataResponse = await this.read()
-    console.log(
-      `${PREFIX_LOG} uploadFileInfo response: ${JSON.stringify(
-        sendObjectInfoDataResponse
-      )}`
-    )
+    const sendObjectInfoDataResponse = await this.read(transactionId)
 
     const parameters = getUint32s(sendObjectInfoDataResponse.payload)
 
@@ -171,62 +190,31 @@ export class NodeMtpDevice {
   async initiateUploadFile(size: number): Promise<void> {
     console.log(`${PREFIX_LOG} initiateUploadFile...`)
     const transactionId = this.getTransactionId()
-    const uploadFileCommandPacket = buildContainerPacket({
+
+    await this.write({
       transactionId,
       type: ContainerTypeCode.Command,
       code: ContainerCode.SendObject,
     })
 
-    const uploadFileCommandResult = await this.write(uploadFileCommandPacket)
-    console.log(
-      `${PREFIX_LOG} initiateUploadFile uploadFileCommandResult: ${JSON.stringify(
-        uploadFileCommandResult
-      )}`
-    )
-
-    const uploadFileDataPacket = buildContainerPacket({
+    await this.write({
       transactionId,
       type: ContainerTypeCode.Data,
       code: ContainerCode.SendObject,
       fixSize: size + 12,
     })
-
-    const uploadFileDataResult = await this.write(uploadFileDataPacket)
-    console.log(
-      `${PREFIX_LOG} initiateUploadFile uploadFileDataResult: ${JSON.stringify(
-        uploadFileDataResult
-      )}`
-    )
   }
 
   async uploadFileData(chunk: Uint8Array): Promise<void> {
     console.log(`${PREFIX_LOG} uploadFileData...`)
-    const result = await this.write(new Uint8Array(chunk))
-    console.log(
-      `${PREFIX_LOG} uploadFileData result: ${JSON.stringify(result)}`
-    )
-  }
-
-  async getUploadFileResponse(): Promise<void> {
-    console.log(`${PREFIX_LOG} getUploadFileResponse...`)
-    try {
-      const sendObjectDataBlockResponse = await this.read()
-      console.log(
-        `${PREFIX_LOG} getUploadFileResponse response: ${JSON.stringify(
-          sendObjectDataBlockResponse
-        )}`
-      )
-    } catch (e) {
-      // The error is skipped because the response is not always received.
-      console.log(`${PREFIX_LOG} getUploadFileResponse error: ${JSON.stringify(e)}`)
-    }
+    await this.transferOut(new Uint8Array(chunk))
   }
 
   private async transferOut(
     buffer: ArrayBuffer,
     timeoutMs: number = 5000,
     error = new AppError(MTPError.MTP_WRITE_TIMEOUT)
-  ): ReturnType<WebUSBDevice["transferIn"]> {
+  ): ReturnType<WebUSBDevice["transferOut"]> {
     return withTimeout(this.device.transferOut(0x01, buffer), timeoutMs, error)
   }
 
@@ -242,15 +230,20 @@ export class NodeMtpDevice {
   }
 
   private async write(
-    buffer: ArrayBuffer
+    container: RequestContainerPacket
   ): ReturnType<WebUSBDevice["transferOut"]> {
-    console.log(`${PREFIX_LOG} write... buffer length: ${buffer.byteLength}`)
-    return this.transferOut(buffer)
+    console.log(
+      `${PREFIX_LOG} write... container: ${JSON.stringify(container)}`
+    )
+    const buffer = buildContainerPacket(container)
+    console.log(`${PREFIX_LOG} write... `, buffer)
+    const result = await this.transferOut(buffer)
+    console.log(`${PREFIX_LOG} write... result: ${JSON.stringify(result)}`)
+    return result as ReturnType<WebUSBDevice["transferOut"]>
   }
 
-  private async read(): Promise<ResponseContainerPacket> {
+  private async readDataInChunks(): Promise<ResponseContainerPacket> {
     try {
-      console.log(`${PREFIX_LOG} read...`)
       let result = await this.transferIn()
 
       if (
@@ -292,6 +285,38 @@ export class NodeMtpDevice {
     }
   }
 
+  private async read(
+    transactionId: number,
+    type: ContainerTypeCode = ContainerTypeCode.Response,
+    maxAttempts: number = 10
+  ): Promise<ResponseContainerPacket> {
+    let attempts = 0
+
+    console.log(`${PREFIX_LOG} read transactionId: ${transactionId}...`)
+
+    while (attempts < maxAttempts) {
+      attempts++
+
+      const response = await this.readDataInChunks()
+
+      console.log(
+        `${PREFIX_LOG} read ${attempts}/${maxAttempts}: transactionId ${transactionId}, response: ${JSON.stringify(
+          response
+        )}`
+      )
+
+      if (response.type === type && response.transactionId === transactionId) {
+        return response
+      }
+
+      console.log(
+        `${PREFIX_LOG} read retry: transactionId or type mismatch. Attempt ${attempts} failed, retrying...`
+      )
+    }
+
+    throw new AppError(MTPError.MTP_READ_FAILURE)
+  }
+
   private async openDevice(): Promise<void> {
     console.log(`${PREFIX_LOG} openDevice opened: ${this.device.opened}`)
     if (!this.device.opened) {
@@ -328,7 +353,7 @@ export class NodeMtpDevice {
 
     const transactionId = this.getTransactionId()
 
-    const packet = buildContainerPacket({
+    await this.write({
       transactionId,
       type: ContainerTypeCode.Command,
       code: ContainerCode.OpenSession,
@@ -340,19 +365,22 @@ export class NodeMtpDevice {
       ],
     })
 
-    const result = await this.write(packet)
-    console.log(`${PREFIX_LOG} openSession result: ${JSON.stringify(result)}`)
+    const response = await this.read(transactionId)
 
-    const response = await this.read()
-
-    console.log(
-      `${PREFIX_LOG} openSession response: ${JSON.stringify(response)}`
-    )
-
-    console.log(`${PREFIX_LOG} openSession successfully`)
+    if (
+      response.code === ContainerCode.SessionAlreadyOpen ||
+      response.code === ContainerCode.StatusOk
+    ) {
+      console.log(`${PREFIX_LOG} openSession successfully`)
+    } else {
+      console.log(`${PREFIX_LOG} openSession failed`)
+      throw new AppError(MTPError.MTP_GENERAL_ERROR, "Failed to open session")
+    }
   }
 
   private getTransactionId(): number {
-    return this.transactionId++
+    const timeStamp = Date.now()
+    const randomPart = Math.floor(Math.random() * 0x100000)
+    return (timeStamp + randomPart) % 0x100000000
   }
 }
