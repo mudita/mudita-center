@@ -6,6 +6,7 @@
 import { spawn } from "child_process"
 import * as readline from "readline"
 import path from "path"
+import { PREFIX_LOG } from "../dotnet-mtp"
 
 const exePath = path.join(
   __dirname,
@@ -36,15 +37,15 @@ export async function runCommand(
       if (stdErrHandler) {
         stdErrHandler(line)
       } else {
-        console.error(`[dotnet-mtp] stderr: ${line}`)
+        console.error(`${PREFIX_LOG} stderr: ${line}`)
       }
     })
     child.on("close", (code: number) => {
       if (code !== 0) {
-        console.log(`[dotnet-mtp] Process exited with code ${code}`)
+        console.log(`${PREFIX_LOG} Process exited with code ${code}`)
         reject(new Error(`Process exited with code ${code}`))
       } else {
-        console.log(`[dotnet-mtp] Process exited successfully`)
+        console.log(`${PREFIX_LOG} Process exited successfully`)
 
         resolve()
       }
