@@ -139,6 +139,32 @@ export class NodeMtpDevice {
     return objectHandles
   }
 
+  async getObjectHandleName(objectHandle: number): Promise<string> {
+    console.log(`${PREFIX_LOG} getObjectHandleName...`)
+    const transactionId = this.getTransactionId()
+
+    await this.write({
+      transactionId,
+      type: ContainerTypeCode.Command,
+      code: ContainerCode.GetObjectPropValue,
+      payload: [
+        {
+          value: objectHandle,
+          type: "UINT32",
+        },
+        {
+          value: ContainerCode.ObjectFileName,
+          type: "UINT32",
+        },
+      ],
+    })
+
+    const response = await this.read(transactionId, ContainerTypeCode.Data)
+    const array = new Uint8Array(response.payload)
+    const decoder = new TextDecoder("utf-16le")
+    return decoder.decode(array.subarray(1, array.byteLength - 2))
+  }
+
   async uploadFileInfo({
     name,
     size,
