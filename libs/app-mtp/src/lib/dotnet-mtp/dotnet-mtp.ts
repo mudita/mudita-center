@@ -37,8 +37,8 @@ export class DotnetMtp implements MtpInterface {
     deviceId: string
   ): Promise<ResultObject<MtpStorage[]>> {
     return Result.success([
-      { id: "storage-1", name: "Storage 1" },
-      { id: "storage-2", name: "Storage 2" },
+      { id: "storage-1", isInternal: false },
+      { id: "storage-2", isInternal: true },
     ])
   }
 

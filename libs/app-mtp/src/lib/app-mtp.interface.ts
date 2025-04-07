@@ -13,7 +13,7 @@ export interface MtpDevice {
 
 export interface MtpStorage {
   id: string
-  name: string
+  isInternal?: boolean
 }
 
 export interface TransactionStatus {
@@ -30,7 +30,7 @@ export enum MTPError {
 }
 
 export interface MtpUploadFileData {
-  deviceId: string
+  deviceId: string // on Mac and Linux: Kompakt serial number; on Windows: PID
   storageId: string
   destinationPath: string
   sourcePath: string

@@ -174,6 +174,9 @@ export const generateFileManagerData = (
   config: View,
   feature: string
 ): Feature["data"] => {
+  console.log(data)
+  console.log(config)
+  console.log(feature)
   const entitiesLoaderConfig = config[getFileManagerLoaderKey(feature)].config
   const entityTypes = isEntitiesLoaderConfig(entitiesLoaderConfig)
     ? entitiesLoaderConfig.entityTypes
