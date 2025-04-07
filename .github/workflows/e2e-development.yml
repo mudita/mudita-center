@@ -46,7 +46,6 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
-          KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
         run: |
           printenv > .env
       - name: Setup environment variables for Windows
@@ -77,7 +76,6 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
-          KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
         shell: cmd
         run: |
           SET > .env

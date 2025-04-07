@@ -49,7 +49,6 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
           LOCALAPPDATA: ""
-          KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
         shell: cmd
         run: |
           SET > .env
@@ -79,7 +78,6 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
-          KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
         run: |
           printenv > .env
       - name: Setup Env for Linux
@@ -107,7 +105,6 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
-          KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux
