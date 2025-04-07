@@ -349,7 +349,8 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         },
         match: {
           expected: {
-            filePath: "path/to/backup/calls.json",
+            filePath:
+              "/data/user/0/com.mudita.muditacenter/files/backups/CONTACTS_V1",
           },
         },
       },
@@ -363,7 +364,53 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         },
         match: {
           expected: {
-            filePath: "path/to/backup/call_logs.json",
+            filePath:
+              "/data/user/0/com.mudita.muditacenter/files/backups/CALL_LOGS_V1",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744018209710,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath:
+              "/data/user/0/com.mudita.muditacenter/files/backups/MESSAGES_V1",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744018209475,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath:
+              "/data/user/0/com.mudita.muditacenter/files/backups/ALARMS_V1",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744018209329,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath:
+              "/data/user/0/com.mudita.muditacenter/files/backups/NOTES_V1",
           },
         },
       },
@@ -427,6 +474,48 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           },
         },
       },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744018209710,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744018209710,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744018209475,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744018209475,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744018209329,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744018209329,
+            chunkNumber: 1,
+          },
+        },
+      },
     ],
   },
   PRE_BACKUP: {
@@ -437,7 +526,13 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         match: {
           expected: {
             backupId: 12345,
-            features: ["CONTACTS_V1", "CALL_LOGS_V1"],
+            features: [
+              "CONTACTS_V1",
+              "CALL_LOGS_V1",
+              "MESSAGES_V1",
+              "ALARMS_V1",
+              "NOTES_V1",
+            ],
           },
         },
       },
@@ -448,8 +543,16 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: {
           backupId: 12345,
           features: {
-            CONTACTS_V1: "path/to/backup/calls.json",
-            CALL_LOGS_V1: "path/to/backup/call_logs.json",
+            CONTACTS_V1:
+              "/data/user/0/com.mudita.muditacenter/files/backups/CONTACTS_V1",
+            CALL_LOGS_V1:
+              "/data/user/0/com.mudita.muditacenter/files/backups/CALL_LOGS_V1",
+            MESSAGES_V1:
+              "/data/user/0/com.mudita.muditacenter/files/backups/MESSAGES_V1",
+            NOTES_V1:
+              "/data/user/0/com.mudita.muditacenter/files/backups/NOTES_V1",
+            ALARMS_V1:
+              "/data/user/0/com.mudita.muditacenter/files/backups/ALARMS_V1",
           },
           progress: 100,
         },

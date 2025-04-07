@@ -93,7 +93,7 @@ describe("E2E mock sample - overview view", () => {
     const createBackupPasswordSkip =
       await ModalBackupKompaktPage.createBackupPasswordSkip
     await createBackupPasswordSkip.click()
-    // await browser.pause(2000) // wait for animation to load from 0% to10%
+    await browser.pause(2000) // wait for animation to load from 0% to10%
   })
 
   it("Verify backup creating modal, check if backup is in progress", async () => {
