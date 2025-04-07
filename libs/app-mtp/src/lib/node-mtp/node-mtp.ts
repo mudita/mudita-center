@@ -29,6 +29,11 @@ import { rootObjectHandle } from "./mtp-packet-definitions"
 
 const PREFIX_LOG = `[app-mtp/node-mtp]`
 
+interface ObjectHandleWithName {
+  objectHandle: number
+  name: string
+}
+
 export class NodeMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
 
@@ -216,13 +221,60 @@ export class NodeMtp implements MtpInterface {
   private async getParentObjectHandle(
     filePath: string,
     deviceId: string,
-    storageId: number
+    storageId: number,
+    parentObjectHandleId: number = rootObjectHandle
   ): Promise<number> {
-    // getObjectHandles request is obligatory to allows correctly start the upload process - temporary solution
-    const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
-    await device.getObjectHandles(rootObjectHandle, Number(storageId))
+    const pathSegments = filePath.split("/").filter((segment) => segment !== "")
 
-    // mock implementation, `7` is the Picture folder
-    return 7
+    if (pathSegments.length === 0) {
+      return parentObjectHandleId
+    } else {
+      const truncatedPath = pathSegments.slice(1).join("/")
+
+      const objectHandleWithNameList = await this.getObjectHandleWithNameList(
+        parentObjectHandleId,
+        deviceId,
+        Number(storageId)
+      )
+
+      const objectHandleWithNameItem = objectHandleWithNameList.find(
+        ({ name }) => name === pathSegments[0]
+      )
+
+      if (objectHandleWithNameItem) {
+        return this.getParentObjectHandle(
+          truncatedPath,
+          deviceId,
+          storageId,
+          objectHandleWithNameItem.objectHandle
+        )
+      } else {
+        throw new AppError(
+          MTPError.MTP_OBJECT_HANDLE_NOT_FOUND,
+          `Parent object handle not found for ${parentObjectHandleId} and ${storageId}`
+        )
+      }
+    }
+  }
+
+  async getObjectHandleWithNameList(
+    parentHandle: number,
+    deviceId: string,
+    storageId: number
+  ): Promise<ObjectHandleWithName[]> {
+    const objectHandleWithNameList: ObjectHandleWithName[] = []
+    const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+    const objectHandles = await device.getObjectHandles(
+      parentHandle,
+      Number(storageId)
+    )
+
+    for await (const objectHandle of objectHandles) {
+      const name = await device.getObjectHandleName(objectHandle)
+      console.log(`File name for handle ${objectHandle}: ${name}`)
+      objectHandleWithNameList.push({ objectHandle, name })
+    }
+
+    return objectHandleWithNameList
   }
 }
