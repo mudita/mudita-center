@@ -39,6 +39,7 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Click Contacts tab and check contacts counter", async () => {
+    await browser.pause(500)
     const contactsKompaktTab = tabsPage.contactsKompaktTab
     await contactsKompaktTab.click()
 
@@ -48,11 +49,13 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Select sixth contact to open contact details", async () => {
+    await browser.pause(500)
     const contactsList = await ContactsKompaktPage.allContactsTableRows
     await contactsList[5].click()
   })
 
   it("Check contact's details", async () => {
+    await browser.pause(500)
     //check contact title in Details view
     const contactDisplayNameHeader =
       await ContactsKompaktPage.contactDisplayNameHeader
@@ -132,6 +135,7 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Close contact details page", async () => {
+    await browser.pause(500)
     const closeContactDetailsButton =
       await ContactsKompaktPage.closeContactDetailsButton
     await closeContactDetailsButton.click()
@@ -144,6 +148,7 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Select first contact to open contact details and check if there is ellipsis at the end", async () => {
+    await browser.pause(500)
     const contactsList = await ContactsKompaktPage.allContactsTableRows
     await contactsList[0].click()
 
@@ -167,6 +172,7 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Check if phone number columns are not visible when Contact Details are opened", async () => {
+    await browser.pause(500)
     const contactPhoneNumberColumn =
       await ContactsKompaktPage.contactPhoneNumberColumn
     await expect(contactPhoneNumberColumn).not.toBeDisplayed()

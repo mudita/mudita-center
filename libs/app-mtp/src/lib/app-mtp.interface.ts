@@ -14,7 +14,7 @@ export interface MtpDevice {
 export interface MtpStorage {
   id: string
   name: string
-  isInternal: boolean
+  isInternal?: boolean
 }
 
 export interface TransactionStatus {
@@ -28,6 +28,7 @@ export enum MTPError {
   MTP_SOURCE_PATH_NOT_FOUND = "MTP_SOURCE_PATH_NOT_FOUND",
   MTP_TRANSACTION_NOT_FOUND = "MTP_TRANSACTION_NOT_FOUND",
   MTP_READ_TIMEOUT = "MTP_READ_TIMEOUT",
+  MTP_READ_FAILURE = "MTP_READ_FAILURE",
   MTP_WRITE_TIMEOUT = "MTP_WRITE_TIMEOUT",
   MTP_GENERAL_ERROR = "MTP_GENERAL_ERROR",
 }

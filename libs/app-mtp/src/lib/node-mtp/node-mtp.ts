@@ -24,6 +24,8 @@ import {
 } from "../../../../core/core/builder/result.builder"
 import { AppError } from "../../../../core/core/errors/app-error"
 import { handleMtpError } from "../utils/handle-mtp-error"
+import { StorageType } from "./utils/parse-storage-info"
+import { rootObjectHandle } from "./mtp-packet-definitions"
 
 const PREFIX_LOG = `[app-mtp/node-mtp]`
 
@@ -40,12 +42,28 @@ export class NodeMtp implements MtpInterface {
     deviceId: string
   ): Promise<ResultObject<MtpStorage[]>> {
     try {
-      await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+      const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+      const storageIds = await device.getStorageIds()
 
-      return Result.success([
-        { id: "storage-1", name: "Storage 1", isInternal: true },
-        { id: "storage-2", name: "Storage 2", isInternal: false },
-      ])
+      const storages: MtpStorage[] = []
+
+      for await (const storageId of storageIds) {
+        const storageInfo = await device.getStorageInfo(storageId)
+        const storage: MtpStorage = {
+          id: String(storageId),
+          name: storageInfo.storageDescription,
+        }
+        if (
+          storageInfo.storageType === StorageType.FixedRAM ||
+          storageInfo.storageType === StorageType.RemovableRAM
+        ) {
+          storage["isInternal"] =
+            storageInfo.storageType === StorageType.FixedRAM
+        }
+        storages.push(storage)
+      }
+
+      return Result.success(storages)
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} getting device storages error: ${error}`)
@@ -91,6 +109,7 @@ export class NodeMtp implements MtpInterface {
     sourcePath,
     destinationPath,
     deviceId,
+    storageId,
   }: MtpUploadFileData): Promise<ResultObject<number>> {
     try {
       if (!fs.existsSync(sourcePath)) {
@@ -102,21 +121,21 @@ export class NodeMtp implements MtpInterface {
         )
       }
 
-      const PHONE_STORAGE_ID = 65537
-      // const SD_CARD_STORAGE_ID = 131073
+      const storageIdNumber = Number(storageId)
 
       const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const size = await this.getFileSize(sourcePath)
       const name = path.basename(sourcePath)
       const parentObjectHandle = await this.getParentObjectHandle(
         destinationPath,
-        deviceId
+        deviceId,
+        storageIdNumber
       )
 
       const newObjectID = await device.uploadFileInfo({
         size,
         name,
-        storageId: PHONE_STORAGE_ID,
+        storageId: storageIdNumber,
         parentObjectHandle,
       })
 
@@ -172,9 +191,6 @@ export class NodeMtp implements MtpInterface {
       const durationInSeconds = (endTime - startTime) / 1000
       const speedInMBps = size / 1024 / 1024 / durationInSeconds
 
-      // upload file response isn't timed as it's not always received.
-      await device.getUploadFileResponse()
-
       console.log(
         `${PREFIX_LOG} File upload completed in ${durationInSeconds.toFixed(
           2
@@ -199,11 +215,12 @@ export class NodeMtp implements MtpInterface {
 
   private async getParentObjectHandle(
     filePath: string,
-    deviceId: string
+    deviceId: string,
+    storageId: number
   ): Promise<number> {
     // getObjectHandles request is obligatory to allows correctly start the upload process - temporary solution
     const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
-    await device.getObjectHandles()
+    await device.getObjectHandles(rootObjectHandle, Number(storageId))
 
     // mock implementation, `7` is the Picture folder
     return 7

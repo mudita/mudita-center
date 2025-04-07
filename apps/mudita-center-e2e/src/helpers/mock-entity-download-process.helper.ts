@@ -38,11 +38,28 @@ export const mockEntityDownloadProcess = ({
     {
       path,
       body: {
+        progress: 0,
+      },
+      match: {
+        expected: {
+          action: "create",
+          entityType: entityType,
+          responseType: "file",
+        },
+      },
+      endpoint: "ENTITIES_DATA",
+      method: "GET",
+      status: 202,
+    },
+    {
+      path,
+      body: {
         filePath: `../${entityType}_entities.json`,
         progress: 100,
       },
       match: {
         expected: {
+          action: "get",
           entityType: entityType,
           responseType: "file",
         },
