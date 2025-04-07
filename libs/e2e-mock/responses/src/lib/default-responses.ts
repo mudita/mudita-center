@@ -349,8 +349,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         },
         match: {
           expected: {
-            filePath:
-              "/data/user/0/com.mudita.muditacenter/files/backups/CONTACTS_V1",
+            filePath: "path/to/backup/CONTACT_LIST",
           },
         },
       },
@@ -364,8 +363,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         },
         match: {
           expected: {
-            filePath:
-              "/data/user/0/com.mudita.muditacenter/files/backups/CALL_LOGS_V1",
+            filePath: "path/to/backup/CALL_LOG",
           },
         },
       },
@@ -379,23 +377,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         },
         match: {
           expected: {
-            filePath:
-              "/data/user/0/com.mudita.muditacenter/files/backups/MESSAGES_V1",
-          },
-        },
-      },
-      {
-        status: ResponseStatus.Ok,
-        body: {
-          transferId: 1744018209475,
-          chunkSize: 21,
-          fileSize: 21,
-          crc32: "918a0549",
-        },
-        match: {
-          expected: {
-            filePath:
-              "/data/user/0/com.mudita.muditacenter/files/backups/ALARMS_V1",
+            filePath: "path/to/backup/MESSAGES",
           },
         },
       },
@@ -409,8 +391,49 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         },
         match: {
           expected: {
-            filePath:
-              "/data/user/0/com.mudita.muditacenter/files/backups/NOTES_V1",
+            filePath: "path/to/backup/NOTES",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253669,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/CALENDAR_EVENTS",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253594,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/OS_VERSION_AND_SETTINGS",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253664,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/APP_SETTINGS",
           },
         },
       },
@@ -491,20 +514,6 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
       {
         status: ResponseStatus.Ok,
         body: {
-          transferId: 1744018209475,
-          chunkNumber: 1,
-          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
-        },
-        match: {
-          expected: {
-            transferId: 1744018209475,
-            chunkNumber: 1,
-          },
-        },
-      },
-      {
-        status: ResponseStatus.Ok,
-        body: {
           transferId: 1744018209329,
           chunkNumber: 1,
           data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
@@ -512,6 +521,48 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         match: {
           expected: {
             transferId: 1744018209329,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253669,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744026253669,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253594,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744026253594,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253664,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744026253664,
             chunkNumber: 1,
           },
         },
@@ -527,11 +578,13 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           expected: {
             backupId: 12345,
             features: [
-              "CONTACTS_V1",
-              "CALL_LOGS_V1",
-              "MESSAGES_V1",
-              "ALARMS_V1",
-              "NOTES_V1",
+              "CONTACT_LIST",
+              "CALL_LOG",
+              "MESSAGES",
+              "NOTES",
+              "CALENDAR_EVENTS",
+              "OS_VERSION_AND_SETTINGS",
+              "APP_SETTINGS",
             ],
           },
         },
@@ -543,16 +596,13 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: {
           backupId: 12345,
           features: {
-            CONTACTS_V1:
-              "/data/user/0/com.mudita.muditacenter/files/backups/CONTACTS_V1",
-            CALL_LOGS_V1:
-              "/data/user/0/com.mudita.muditacenter/files/backups/CALL_LOGS_V1",
-            MESSAGES_V1:
-              "/data/user/0/com.mudita.muditacenter/files/backups/MESSAGES_V1",
-            NOTES_V1:
-              "/data/user/0/com.mudita.muditacenter/files/backups/NOTES_V1",
-            ALARMS_V1:
-              "/data/user/0/com.mudita.muditacenter/files/backups/ALARMS_V1",
+            CONTACT_LIST: "path/to/backup/CONTACT_LIST",
+            CALL_LOG: "path/to/backup/CALL_LOG",
+            MESSAGES: "path/to/backup/MESSAGES",
+            NOTES: "path/to/backup/NOTES",
+            CALENDAR_EVENTS: "path/to/backup/CALENDAR_EVENTS",
+            OS_VERSION_AND_SETTINGS: "path/to/backup/OS_VERSION_AND_SETTINGS",
+            APP_SETTINGS: "path/to/backup/APP_SETTINGS",
           },
           progress: 100,
         },

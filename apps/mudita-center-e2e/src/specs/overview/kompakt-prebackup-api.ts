@@ -72,6 +72,7 @@ describe("E2E mock sample - overview view", () => {
     const createBackupProceedNext =
       await ModalBackupKompaktPage.createBackupProceedNext
     await expect(createBackupProceedNext).toBeClickable()
+    await browser.pause(10000)
     await createBackupProceedNext.click()
 
     // E2EMockClient.mockResponses([

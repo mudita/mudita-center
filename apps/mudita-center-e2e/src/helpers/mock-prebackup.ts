@@ -15,22 +15,26 @@ export function mockPreBackupResponses(path: string) {
   const contactsTransferId = generateUniqueNumber()
   const callLogTransferId = generateUniqueNumber()
   const messagesTransferId = generateUniqueNumber()
-  const alarmsTransferId = generateUniqueNumber()
   const notesTransferId = generateUniqueNumber()
+  const calendarEventsTransferId = generateUniqueNumber()
+  const osVersionAndSettingsTransferId = generateUniqueNumber()
+  const appSettingsTransferId = generateUniqueNumber()
 
   E2EMockClient.mockResponses([
     {
       path,
-      body: { backupId: 12345, progress: 0 },
+      body: { backupId: 12345, progress: 10 },
       match: {
         expected: {
           backupId: 12345,
           features: [
-            "CONTACTS_V1",
-            "CALL_LOGS_V1",
-            "MESSAGES_V1",
-            "ALARMS_V1",
-            "NOTES_V1",
+            "CONTACT_LIST",
+            "CALL_LOG",
+            "MESSAGES",
+            "NOTES",
+            "CALENDAR_EVENTS",
+            "OS_VERSION_AND_SETTINGS",
+            "APP_SETTINGS",
           ],
         },
       },
@@ -43,16 +47,13 @@ export function mockPreBackupResponses(path: string) {
       body: {
         backupId: 12345,
         features: {
-          CONTACTS_V1:
-            "/data/user/0/com.mudita.muditacenter/files/backups/CONTACTS_V1",
-          CALL_LOGS_V1:
-            "/data/user/0/com.mudita.muditacenter/files/backups/CALL_LOGS_V1",
-          MESSAGES_V1:
-            "/data/user/0/com.mudita.muditacenter/files/backups/MESSAGES_V1",
-          NOTES_V1:
-            "/data/user/0/com.mudita.muditacenter/files/backups/NOTES_V1",
-          ALARMS_V1:
-            "/data/user/0/com.mudita.muditacenter/files/backups/ALARMS_V1",
+          CONTACT_LIST: "path/to/backup/CONTACT_LIST",
+          CALL_LOG: "path/to/backup/CALL_LOG",
+          MESSAGES: "path/to/backup/MESSAGES",
+          NOTES: "path/to/backup/NOTES",
+          CALENDAR_EVENTS: "path/to/backup/CALENDAR_EVENTS",
+          OS_VERSION_AND_SETTINGS: "path/to/backup/OS_VERSION_AND_SETTINGS",
+          APP_SETTINGS: "path/to/backup/APP_SETTINGS",
         },
         progress: 100,
       },
@@ -76,8 +77,7 @@ export function mockPreBackupResponses(path: string) {
       },
       match: {
         expected: {
-          filePath:
-            "/data/user/0/com.mudita.muditacenter/files/backups/CONTACTS_V1",
+          filePath: "path/to/backup/CONTACT_LIST",
         },
       },
       endpoint: "PRE_FILE_TRANSFER",
@@ -112,8 +112,7 @@ export function mockPreBackupResponses(path: string) {
       },
       match: {
         expected: {
-          filePath:
-            "/data/user/0/com.mudita.muditacenter/files/backups/CALL_LOGS_V1",
+          filePath: "path/to/backup/CALL_LOG",
         },
       },
       endpoint: "PRE_FILE_TRANSFER",
@@ -148,8 +147,7 @@ export function mockPreBackupResponses(path: string) {
       },
       match: {
         expected: {
-          filePath:
-            "/data/user/0/com.mudita.muditacenter/files/backups/MESSAGES_V1",
+          filePath: "path/to/backup/MESSAGES",
         },
       },
       endpoint: "PRE_FILE_TRANSFER",
@@ -173,42 +171,6 @@ export function mockPreBackupResponses(path: string) {
       method: "GET",
       status: 200,
     },
-    // ALARMS
-    {
-      path,
-      body: {
-        transferId: alarmsTransferId,
-        chunkSize: sizeInBytes,
-        fileSize: sizeInBytes,
-        crc32: crc32Hex,
-      },
-      match: {
-        expected: {
-          filePath:
-            "/data/user/0/com.mudita.muditacenter/files/backups/ALARMS_V1",
-        },
-      },
-      endpoint: "PRE_FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    {
-      path,
-      body: {
-        transferId: alarmsTransferId,
-        chunkNumber: 1,
-        data: base64,
-      },
-      match: {
-        expected: {
-          transferId: alarmsTransferId,
-          chunkNumber: 1,
-        },
-      },
-      endpoint: "FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
     // NOTES
     {
       path,
@@ -220,8 +182,7 @@ export function mockPreBackupResponses(path: string) {
       },
       match: {
         expected: {
-          filePath:
-            "/data/user/0/com.mudita.muditacenter/files/backups/NOTES_V1",
+          filePath: "path/to/backup/NOTES",
         },
       },
       endpoint: "PRE_FILE_TRANSFER",
@@ -238,6 +199,112 @@ export function mockPreBackupResponses(path: string) {
       match: {
         expected: {
           transferId: notesTransferId,
+          chunkNumber: 1,
+        },
+      },
+      endpoint: "FILE_TRANSFER",
+      method: "GET",
+      status: 200,
+    },
+    // CALENDAR_EVENTS
+    {
+      path,
+      body: {
+        transferId: calendarEventsTransferId,
+        chunkSize: sizeInBytes,
+        fileSize: sizeInBytes,
+        crc32: crc32Hex,
+      },
+      match: {
+        expected: {
+          filePath: "path/to/backup/CALENDAR_EVENTS",
+        },
+      },
+      endpoint: "PRE_FILE_TRANSFER",
+      method: "GET",
+      status: 200,
+    },
+    {
+      path,
+      body: {
+        transferId: calendarEventsTransferId,
+        chunkNumber: 1,
+        data: base64,
+      },
+      match: {
+        expected: {
+          transferId: calendarEventsTransferId,
+          chunkNumber: 1,
+        },
+      },
+      endpoint: "FILE_TRANSFER",
+      method: "GET",
+      status: 200,
+    },
+    // OS_VERSION_AND_SETTINGS
+    {
+      path,
+      body: {
+        transferId: osVersionAndSettingsTransferId,
+        chunkSize: sizeInBytes,
+        fileSize: sizeInBytes,
+        crc32: crc32Hex,
+      },
+      match: {
+        expected: {
+          filePath: "path/to/backup/OS_VERSION_AND_SETTINGS",
+        },
+      },
+      endpoint: "PRE_FILE_TRANSFER",
+      method: "GET",
+      status: 200,
+    },
+    {
+      path,
+      body: {
+        transferId: osVersionAndSettingsTransferId,
+        chunkNumber: 1,
+        data: base64,
+      },
+      match: {
+        expected: {
+          transferId: osVersionAndSettingsTransferId,
+          chunkNumber: 1,
+        },
+      },
+      endpoint: "FILE_TRANSFER",
+      method: "GET",
+      status: 200,
+    },
+    // APP_SETTINGS
+    {
+      path,
+      body: {
+        transferId: appSettingsTransferId,
+        chunkSize: sizeInBytes,
+        fileSize: sizeInBytes,
+        crc32: crc32Hex,
+      },
+      match: {
+        expected: {
+          filePath:
+            "/data/user/0/com.mudita.muditacenter/files/backups/APP_SETTINGS",
+        },
+      },
+      endpoint: "PRE_FILE_TRANSFER",
+      method: "GET",
+      status: 200,
+    },
+    {
+      path,
+      body: {
+        transferId: appSettingsTransferId,
+        chunkNumber: 1,
+        data: base64,
+      },
+      match: {
+        expected: {
+          transferId: appSettingsTransferId,
           chunkNumber: 1,
         },
       },
