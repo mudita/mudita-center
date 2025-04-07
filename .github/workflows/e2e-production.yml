@@ -24,13 +24,11 @@ jobs:
         if: matrix.os == 'Linux'
         env:
           E2ECI: "true"
-          TEST_GITHUB_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           TEST_BINARY_PATH: "../mudita-center/release/linux-unpacked/Mudita Center"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
-          MUDITA_CENTER_SERVER_V2_URL: ${{ secrets.MUDITA_CENTER_SERVER_V2_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
@@ -48,21 +46,17 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
-          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
-          KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
         run: |
           printenv > .env
       - name: Setup environment variables for Windows
         if: matrix.os == 'Windows'
         env:
           E2ECI: "true"
-          TEST_GITHUB_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
-          MUDITA_CENTER_SERVER_V2_URL: ${{ secrets.MUDITA_CENTER_SERVER_V2_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
@@ -80,8 +74,6 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
-          NEW_HELP_ENABLED: ${{ secrets.NEW_HELP_ENABLED }}
-          KOMPAKT_OS_UPDATE_DEV_TOKEN: ${{ secrets.KOMPAKT_OS_UPDATE_DEV_TOKEN }}
         shell: cmd
         run: |
           SET > .env
