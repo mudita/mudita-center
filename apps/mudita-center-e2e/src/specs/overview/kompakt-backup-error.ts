@@ -7,7 +7,7 @@ import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page
 import { mockPreBackupResponses } from "../../helpers/mock-prebackup"
 import { BrowserRouter } from "react-router-dom"
 
-describe("E2E mock sample - overview view", () => {
+describe("Backup error test", () => {
   before(async () => {
     E2EMockClient.connect()
     //wait for a connection to be established
@@ -58,7 +58,7 @@ describe("E2E mock sample - overview view", () => {
     await createBackupButton.click()
   })
 
-  it("Click Create backup and click skip password to start backup nd cancel it", async () => {
+  it("Click Create backup and click skip password to start backup and cancel it", async () => {
     const createBackupProceedNext =
       await ModalBackupKompaktPage.createBackupProceedNext
     await expect(createBackupProceedNext).toBeClickable()
@@ -71,7 +71,19 @@ describe("E2E mock sample - overview view", () => {
 
     const backupModalClose = ModalBackupKompaktPage.backupModalClose
     await expect(backupModalClose).toBeDisplayed()
-    await backupModalClose.click()
+    await backupModalClose.click() //click "X" button to cancel backup popup
+  })
+
+  it("Verify Backup cancelled modal", async () => {
+    const backupInProgressModalCancelled =
+      ModalBackupKompaktPage.backupInProgressModalCancelled
+    await expect(backupInProgressModalCancelled).toBeDisplayed()
+
+    const backupCanceledTitle = ModalBackupKompaktPage.backupCanceledTitle
+    await expect(backupCanceledTitle).toHaveText("Backup canceled")
+
+    const backupCanceledSubTitle = ModalBackupKompaktPage.backupCanceledSubTitle
+    await expect(backupCanceledSubTitle).toHaveText("No changes were made.")
   })
 
   // it("Verify backup creating modal, check if backup is in progress", async () => {

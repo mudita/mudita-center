@@ -113,5 +113,17 @@ class ModalBackupKompaktPage extends OverviewPage {
   public get creatingBackupProgressBarDetails() {
     return $(`//*[@data-testid="${ProgressBarTestIds.Details}"]`)
   }
+
+  public get backupInProgressModalCancelled() {
+    return $('//*[@data-testid="modal-content-backupbackup-create"]')
+  }
+
+  public get backupCanceledTitle() {
+    return $('//h1[text()="Backup canceled"]')
+  }
+
+  public get backupCanceledSubTitle() {
+    return $('//p[text()="No changes were made."]')
+  }
 }
 export default new ModalBackupKompaktPage()
