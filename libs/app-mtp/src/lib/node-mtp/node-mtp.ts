@@ -51,6 +51,7 @@ export class NodeMtp implements MtpInterface {
         const storageInfo = await device.getStorageInfo(storageId)
         const storage: MtpStorage = {
           id: String(storageId),
+          name: storageInfo.storageDescription,
         }
         if (
           storageInfo.storageType === StorageType.FixedRAM ||
