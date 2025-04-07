@@ -14,6 +14,7 @@ export interface MtpDevice {
 export interface MtpStorage {
   id: string
   name: string
+  isInternal: boolean
 }
 
 export interface TransactionStatus {

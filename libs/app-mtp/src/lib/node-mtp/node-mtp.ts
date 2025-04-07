@@ -43,8 +43,8 @@ export class NodeMtp implements MtpInterface {
       await this.deviceManager.getNodeMtpDevice({ id: deviceId })
 
       return Result.success([
-        { id: "storage-1", name: "Storage 1" },
-        { id: "storage-2", name: "Storage 2" },
+        { id: "storage-1", name: "Storage 1", isInternal: true },
+        { id: "storage-2", name: "Storage 2", isInternal: false },
       ])
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
