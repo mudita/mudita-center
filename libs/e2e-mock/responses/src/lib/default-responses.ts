@@ -574,20 +574,6 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
       {
         status: ResponseStatus.Accepted,
         body: { backupId: 12345, progress: 0 },
-        match: {
-          expected: {
-            backupId: 12345,
-            features: [
-              "CONTACT_LIST",
-              "CALL_LOG",
-              "MESSAGES",
-              "NOTES",
-              "CALENDAR_EVENTS",
-              "OS_VERSION_AND_SETTINGS",
-              "APP_SETTINGS",
-            ],
-          },
-        },
       },
     ],
     GET: [
