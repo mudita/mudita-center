@@ -5,9 +5,9 @@ import {
 } from "../../../../../libs/e2e-mock/responses/src"
 import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page"
 import { mockPreBackupResponses } from "../../helpers/mock-prebackup"
-import { BrowserRouter } from "react-router-dom"
+import HomePage from "../../page-objects/home.page"
 
-describe("Backup error test", () => {
+describe("Backup error - disconnect", () => {
   before(async () => {
     E2EMockClient.connect()
     //wait for a connection to be established
@@ -58,7 +58,7 @@ describe("Backup error test", () => {
     await createBackupButton.click()
   })
 
-  it("Click Create backup and click skip password to start backup and cancel it", async () => {
+  it("Click Create backup and click skip password to start backup and disconnect the device", async () => {
     const createBackupProceedNext =
       await ModalBackupKompaktPage.createBackupProceedNext
     await expect(createBackupProceedNext).toBeClickable()
@@ -69,42 +69,34 @@ describe("Backup error test", () => {
     await createBackupPasswordSkip.click()
     await browser.pause(2000) // wait for animation to load from 0% to10%
 
-    const backupModalClose = ModalBackupKompaktPage.backupModalClose
-    await expect(backupModalClose).toBeDisplayed()
-    await backupModalClose.click() //click "X" button to cancel backup popup
+    E2EMockClient.removeDevice("path-1") //disconnect the device
   })
 
-  it("Verify Backup cancelled modal", async () => {
-    const backupInProgressModalCancelled =
-      ModalBackupKompaktPage.backupInProgressModalCancelled
-    await expect(backupInProgressModalCancelled).toBeDisplayed()
+  it("Verify Backup failed modal", async () => {
+    const backupFailedModal = ModalBackupKompaktPage.backupFailedModal
+    await expect(backupFailedModal).toBeDisplayed()
 
-    const backupCanceledTitle = ModalBackupKompaktPage.backupCanceledTitle
-    await expect(backupCanceledTitle).toHaveText("Backup canceled")
+    const backupFailureIcon = ModalBackupKompaktPage.backupFailureIcon
+    await expect(backupFailureIcon).toBeDisplayed()
 
-    const backupCanceledSubTitle = ModalBackupKompaktPage.backupCanceledSubTitle
-    await expect(backupCanceledSubTitle).toHaveText("No changes were made.")
+    const backupFailedTitle = ModalBackupKompaktPage.backupFailedTitle
+    await expect(backupFailedTitle).toHaveText("Backup failed")
+
+    const backupDisconnectedSubTitle =
+      ModalBackupKompaktPage.backupDisconnectedSubTitle
+    await expect(backupDisconnectedSubTitle).toHaveText(
+      "The backup process was interrupted."
+    )
   })
 
-  // it("Verify backup creating modal, check if backup is in progress", async () => {
-  //   const backupInProgressModal =
-  //     await ModalBackupKompaktPage.backupInProgressModal
-  //   await expect(backupInProgressModal).toBeDisplayed()
-  //   await expect(ModalBackupKompaktPage.creatingBackupTitle).toHaveText(
-  //     "Creating backup"
-  //   )
-  //   await expect(ModalBackupKompaktPage.creatingBackupDescription).toHaveText(
-  //     "Please wait and do not unplug your device from computer."
-  //   )
-  //   const creatingBackupProgressBar =
-  //     await ModalBackupKompaktPage.creatingBackupProgressBar
+  it("Close backup failed modal and verify if home screen is present", async () => {
+    const backupFailedModalCloseButton =
+      ModalBackupKompaktPage.backupFailedModalCloseButton
+    await backupFailedModalCloseButton.click()
 
-  //   const creatingBackupProgressBarValue =
-  //     await creatingBackupProgressBar.getAttribute("value")
-  //   expect(creatingBackupProgressBarValue).toBe("10")
-
-  //   const creatingBackupProgressBarDetails =
-  //     await ModalBackupKompaktPage.creatingBackupProgressBarDetails
-  //   await expect(creatingBackupProgressBarDetails).toHaveText("10%")
-  // })
+    //check if home page is displayed
+    const homeHeader = await HomePage.homeHeader
+    await homeHeader.waitForDisplayed()
+    await expect(homeHeader).toHaveText("Welcome to Mudita Center")
+  })
 })
