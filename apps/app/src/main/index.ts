@@ -15,41 +15,11 @@ import installExtension, {
 } from "electron-devtools-installer"
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
-console.log(process.env["ELECTRON_RENDERER_URL"])
 
 const appWidth = process.env.APP_WIDTH
 const appHeight = process.env.APP_HEIGHT
 
-const createSplashWindow = () => {
-  const splashWindow = new BrowserWindow({
-    width: 1280,
-    height: 800,
-    frame: false,
-    show: false,
-    alwaysOnTop: true,
-    resizable: false,
-    skipTaskbar: true,
-    transparent: true,
-    hasShadow: false,
-    ...(process.platform === "linux" ? { icon } : {}),
-  })
-  if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
-    void splashWindow.loadURL(
-      path.join(process.env["ELECTRON_RENDERER_URL"], "splash.html")
-    )
-  } else {
-    void splashWindow.loadFile(path.join(__dirname, "../renderer/splash.html"))
-  }
-
-  splashWindow.on("ready-to-show", () => {
-    splashWindow.show()
-  })
-  return splashWindow
-}
-
 const createWindow = () => {
-  const splash = createSplashWindow()
-
   const mainWindow = new BrowserWindow({
     title: "Mudita Center",
     width: appWidth ? Number(appWidth) : 1280,
@@ -63,7 +33,6 @@ const createWindow = () => {
       symbolColor: "#000000",
       height: 32,
     },
-    // frame: false,
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
@@ -82,15 +51,11 @@ const createWindow = () => {
   mainWindow.on("ready-to-show", () => {
     initAppLibs(mainWindow.webContents)
 
-    setTimeout(() => {
-      splash.destroy()
-
-      if (process.env.NODE_ENV === "development") {
-        mainWindow.showInactive()
-      } else {
-        mainWindow.show()
-      }
-    }, 500)
+    if (process.env.NODE_ENV === "development") {
+      mainWindow.showInactive()
+    } else {
+      mainWindow.show()
+    }
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

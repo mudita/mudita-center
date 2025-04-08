@@ -3,8 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import "../../../../../apps/app/src/preload/api.d"
+import "preload-types"
 
 export class AppSql {
   static run(name: string, query: string) {

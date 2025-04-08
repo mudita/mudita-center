@@ -5,3 +5,5 @@
 
 export * from "./lib/init-news"
 export * from "./lib/news.preload"
+import * as defaultNews from "./lib/default-news.json"
+export { defaultNews }

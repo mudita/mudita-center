@@ -3,8 +3,11 @@
   "files": [],
   "include": ["src/**/*.ts"],
   "compilerOptions": {
+    "resolveJsonModule": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "types": [
+      "./types.d.ts",
       "node",
       "@wdio/globals/types",
       "@wdio/mocha-framework",

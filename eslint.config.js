@@ -32,7 +32,7 @@ module.exports = [
         "error",
         {
           enforceBuildableLibDependency: true,
-          allow: ["^.*/eslint(\\.base)?\\.config\\.[cm]?js$"],
+          allow: ["^.*/eslint(\\.base)?\\.config\\.[cm]?js$", "*.d.ts$"],
           depConstraints: [
             {
               sourceTag: "process:renderer",
