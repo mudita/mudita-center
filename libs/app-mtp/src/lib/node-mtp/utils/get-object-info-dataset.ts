@@ -4,27 +4,12 @@
  */
 
 import { RequestPayloadItem } from "./build-container-packet"
+import { ObjectInfoDataset } from "./object-info-dataset.interface"
 
-interface ObjectInfoDatasetInput {
-  storageID?: number
+interface ObjectInfoDatasetInput extends Partial<ObjectInfoDataset> {
   objectFormat: number
-  protectionStatus?: number
   objectCompressedSize: number
-  thumbFormat?: number
-  thumbCompressedSize?: number
-  thumbPixWidth?: number
-  thumbPixHeight?: number
-  imagePixWidth?: number
-  imagePixHeight?: number
-  imageBitDepth?: number
-  parentObject?: number
-  associationType?: number
-  associationDesc?: number
-  sequenceNumber?: number
   filename: string
-  dateCreated?: string
-  dateModified?: string
-  keywords?: string
 }
 
 export function getObjectInfoDataset({
