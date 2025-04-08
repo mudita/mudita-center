@@ -2,16 +2,28 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Electron</title>
+    <title>Mudita Center</title>
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
     />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      .custom-titlebar {
+        height: 32px;
+        background-color: #fff;
+        -webkit-app-region: drag;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        color: black;
+      }
+    </style>
   </head>
-
   <body>
+    <div class="custom-titlebar"></div>
     <div id="root"></div>
-    <script type="module" src="main.tsx"></script>
+    <script defer type="module" src="main.tsx"></script>
   </body>
 </html>

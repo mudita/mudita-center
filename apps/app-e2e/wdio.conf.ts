@@ -4,6 +4,38 @@
  */
 
 /// <reference types="wdio-electron-service" />
+import * as path from "path"
+import * as os from "os"
+
+// Based on node_modules/@puppeteer/browsers/src/browser-data/chromedriver.ts
+// and
+// node_modules/@puppeteer/browsers/src/detectPlatform.ts
+const getReleasePath = () => {
+  switch (os.platform()) {
+    case "darwin":
+      return [
+        os.arch() === "arm64" ? "mac-arm64" : "mac",
+        "Mudita Center.app",
+        "Contents",
+        "MacOS",
+        "Mudita Center",
+      ]
+    case "linux":
+      return [
+        os.arch() === "arm64" ? "linux-arm64-unpacked" : "linux-x64-unpacked",
+        "Mudita Center",
+      ]
+    case "win32":
+      return [
+        os.arch() === "arm64" ? "win-arm64-unpacked" : "win-unpacked",
+        "Mudita Center.exe",
+      ]
+  }
+}
+
+const appBinaryPath =
+  process.env.TEST_BINARY_PATH ||
+  path.join(__dirname, "..", "app", "release", ...getReleasePath())
 
 export const config: WebdriverIO.Config = {
   //
@@ -62,7 +94,7 @@ export const config: WebdriverIO.Config = {
       // Electron service options
       // see https://webdriver.io/docs/desktop-testing/electron/configuration/#service-options
       "wdio:electronServiceOptions": {
-        appBinaryPath: process.env.TEST_BINARY_PATH,
+        appBinaryPath,
         // custom application args
         appArgs: [],
       },
@@ -126,7 +158,7 @@ export const config: WebdriverIO.Config = {
     [
       "electron",
       {
-        appBinaryPath: process.env.TEST_BINARY_PATH,
+        appBinaryPath,
       },
     ],
   ],
