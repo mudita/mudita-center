@@ -73,15 +73,19 @@ describe("Backup error - disconnect", () => {
   })
 
   it("Verify Backup failed modal", async () => {
+    //check fail modal
     const backupFailedModal = ModalBackupKompaktPage.backupFailedModal
     await expect(backupFailedModal).toBeDisplayed()
 
+    //check failed icon
     const backupFailureIcon = ModalBackupKompaktPage.backupFailureIcon
     await expect(backupFailureIcon).toBeDisplayed()
 
+    //check failed title
     const backupFailedTitle = ModalBackupKompaktPage.backupFailedTitle
     await expect(backupFailedTitle).toHaveText("Backup failed")
 
+    //check failed subtitle
     const backupDisconnectedSubTitle =
       ModalBackupKompaktPage.backupDisconnectedSubTitle
     await expect(backupDisconnectedSubTitle).toHaveText(
