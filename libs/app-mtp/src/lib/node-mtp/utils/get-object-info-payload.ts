@@ -4,15 +4,9 @@
  */
 
 import { RequestPayloadItem } from "./build-container-packet"
-import { ObjectInfoDataset } from "./object-info-dataset.interface"
+import { ObjectInfoInput } from "./object-info.interface"
 
-interface ObjectInfoDatasetInput extends Partial<ObjectInfoDataset> {
-  objectFormat: number
-  objectCompressedSize: number
-  filename: string
-}
-
-export function getObjectInfoDataset({
+export function getObjectInfoPayload({
   storageID = 0,
   objectFormat,
   protectionStatus = 0,
@@ -32,7 +26,7 @@ export function getObjectInfoDataset({
   dateCreated = "",
   dateModified = "",
   keywords = "",
-}: ObjectInfoDatasetInput): RequestPayloadItem[] {
+}: ObjectInfoInput): RequestPayloadItem[] {
   return [
     { name: "StorageID", type: "UINT32", value: storageID },
     { name: "ObjectFormat", type: "UINT16", value: objectFormat },

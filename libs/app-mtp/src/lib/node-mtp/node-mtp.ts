@@ -26,13 +26,9 @@ import { AppError } from "../../../../core/core/errors/app-error"
 import { handleMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
 import { rootObjectHandle } from "./mtp-packet-definitions"
+import { ResponseObjectInfo } from "./utils/object-info.interface"
 
 const PREFIX_LOG = `[app-mtp/node-mtp]`
-
-interface ObjectHandleWithName {
-  objectHandle: number
-  name: string
-}
 
 export class NodeMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
@@ -144,10 +140,6 @@ export class NodeMtp implements MtpInterface {
         parentObjectHandle,
       })
 
-      console.log(
-        `${PREFIX_LOG} process upload file info newObjectID: ${newObjectID}`
-      )
-
       if (newObjectID === undefined) {
         console.log(
           `${PREFIX_LOG} process upload file info error - newObjectID is undefined`
@@ -224,6 +216,10 @@ export class NodeMtp implements MtpInterface {
     storageId: number,
     parentObjectHandleId: number = rootObjectHandle
   ): Promise<number> {
+    console.log(
+      `${PREFIX_LOG} getParentObjectHandle... filePath: ${filePath}, parentObjectHandleId: ${parentObjectHandleId}`
+    )
+
     const pathSegments = filePath.split("/").filter((segment) => segment !== "")
 
     if (pathSegments.length === 0) {
@@ -231,14 +227,14 @@ export class NodeMtp implements MtpInterface {
     } else {
       const truncatedPath = pathSegments.slice(1).join("/")
 
-      const objectHandleWithNameList = await this.getObjectHandleWithNameList(
+      const objectHandleWithNameList = await this.getChildObjectInfoList(
         parentObjectHandleId,
         deviceId,
         Number(storageId)
       )
 
       const objectHandleWithNameItem = objectHandleWithNameList.find(
-        ({ name }) => name === pathSegments[0]
+        ({ filename }) => filename === pathSegments[0]
       )
 
       if (objectHandleWithNameItem) {
@@ -257,12 +253,12 @@ export class NodeMtp implements MtpInterface {
     }
   }
 
-  async getObjectHandleWithNameList(
+  private async getChildObjectInfoList(
     parentHandle: number,
     deviceId: string,
     storageId: number
-  ): Promise<ObjectHandleWithName[]> {
-    const objectHandleWithNameList: ObjectHandleWithName[] = []
+  ): Promise<ResponseObjectInfo[]> {
+    const objectInfoList: ResponseObjectInfo[] = []
     const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
     const objectHandles = await device.getObjectHandles(
       parentHandle,
@@ -270,11 +266,10 @@ export class NodeMtp implements MtpInterface {
     )
 
     for await (const objectHandle of objectHandles) {
-      const name = await device.getObjectHandleName(objectHandle)
-      console.log(`File name for handle ${objectHandle}: ${name}`)
-      objectHandleWithNameList.push({ objectHandle, name })
+      const objectInfo = await device.getObjectInfo(objectHandle)
+      objectInfoList.push(objectInfo)
     }
 
-    return objectHandleWithNameList
+    return objectInfoList
   }
 }

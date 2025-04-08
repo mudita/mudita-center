@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { parseObjectInfoDataset } from "./parse-object-info-dataset"
+import { parseObjectInfo } from "./parse-object-info"
 import { encodeToUtf16le } from "./encode-to-utf16le"
 
-describe("parseObjectInfoDataset", () => {
+describe("parseObjectInfo", () => {
   it("should correctly parse an ObjectInfo dataset", () => {
     const buffer = new ArrayBuffer(164)
     const bytes = new DataView(buffer)
@@ -33,7 +33,7 @@ describe("parseObjectInfoDataset", () => {
     offset = encodeToUtf16le(bytes, offset, "2025-04-07")
     offset = encodeToUtf16le(bytes, offset, "keyword1, keyword2")
 
-    const result = parseObjectInfoDataset(buffer)
+    const result = parseObjectInfo(buffer)
 
     const expected = {
       storageID: 12345,
@@ -63,7 +63,7 @@ describe("parseObjectInfoDataset", () => {
   it("should throw an error if the buffer is invalid", () => {
     const buffer = new ArrayBuffer(10)
 
-    expect(() => parseObjectInfoDataset(buffer)).toThrowError(
+    expect(() => parseObjectInfo(buffer)).toThrowError(
       "Offset is outside the bounds of the DataView"
     )
   })
