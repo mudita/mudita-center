@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ObjectInfoDataset } from "./object-info-dataset.interface"
+import { ObjectInfo } from "./object-info.interface"
 import { parseTextFields } from "./parse-text-fields"
 
-export function parseObjectInfoDataset(buffer: ArrayBuffer): ObjectInfoDataset {
+export function parseObjectInfo(buffer: ArrayBuffer): ObjectInfo {
   const bytes = new DataView(buffer)
 
   const storageID = bytes.getUint32(0, true)

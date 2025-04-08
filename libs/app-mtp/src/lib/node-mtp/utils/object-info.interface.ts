@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface ObjectInfoDataset {
+export interface ObjectInfo {
   storageID: number
   objectFormat: number
   protectionStatus: number
@@ -23,4 +23,14 @@ export interface ObjectInfoDataset {
   dateCreated: string
   dateModified: string
   keywords: string
+}
+
+export interface ObjectInfoInput extends Partial<ObjectInfo> {
+  objectFormat: number
+  objectCompressedSize: number
+  filename: string
+}
+
+export interface ResponseObjectInfo extends ObjectInfo {
+  objectHandle: number
 }

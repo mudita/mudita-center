@@ -5,7 +5,7 @@
 
 import {
   parseStorageInfo,
-  ResponseStorageInfo,
+  StorageInfo,
   StorageType,
 } from "./parse-storage-info"
 import { encodeToUtf16le } from "./encode-to-utf16le"
@@ -31,7 +31,7 @@ describe("parseStorageInfo", () => {
 
     const result = parseStorageInfo(buffer)
 
-    const expected: ResponseStorageInfo = {
+    const expected: StorageInfo = {
       storageType: StorageType.FixedROM,
       filesystemType: 2,
       accessCapability: 3,
@@ -108,7 +108,7 @@ describe("parseStorageInfo", () => {
 
     const result = parseStorageInfo(buffer)
 
-    const expected: ResponseStorageInfo = {
+    const expected: StorageInfo = {
       storageType: StorageType.FixedROM,
       filesystemType: 2,
       accessCapability: 3,
