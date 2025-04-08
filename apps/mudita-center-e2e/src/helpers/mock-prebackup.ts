@@ -6,6 +6,7 @@
 import { E2EMockClient } from "../../../../libs/e2e-mock/client/src"
 import { generateUniqueNumber } from "./utils/generate-unique-number-id.helper"
 import { generateBase64Info } from "./utils/generate-base-64-info.helper"
+import { prepareMockForFileTransfer } from "./prepare-mock-for-file-transfer.helper"
 
 // Helper function to mock PRE_BACKUP responses
 export function mockPreBackupResponses(path: string) {
@@ -66,253 +67,33 @@ export function mockPreBackupResponses(path: string) {
       method: "GET",
       status: 200,
     },
-    // CONTACTS
-    {
-      path,
-      body: {
-        transferId: contactsTransferId,
-        chunkSize: sizeInBytes,
-        fileSize: sizeInBytes,
-        crc32: crc32Hex,
-      },
-      match: {
-        expected: {
-          filePath: "path/to/backup/CONTACT_LIST",
-        },
-      },
-      endpoint: "PRE_FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    {
-      path,
-      body: {
-        transferId: contactsTransferId,
-        chunkNumber: 1,
-        data: base64,
-      },
-      match: {
-        expected: {
-          transferId: contactsTransferId,
-          chunkNumber: 1,
-        },
-      },
-      endpoint: "FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    // CALL LOG
-    {
-      path,
-      body: {
-        transferId: callLogTransferId,
-        chunkSize: sizeInBytes,
-        fileSize: sizeInBytes,
-        crc32: crc32Hex,
-      },
-      match: {
-        expected: {
-          filePath: "path/to/backup/CALL_LOG",
-        },
-      },
-      endpoint: "PRE_FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    {
-      path,
-      body: {
-        transferId: callLogTransferId,
-        chunkNumber: 1,
-        data: base64,
-      },
-      match: {
-        expected: {
-          transferId: callLogTransferId,
-          chunkNumber: 1,
-        },
-      },
-      endpoint: "FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    // MESSAGES
-    {
-      path,
-      body: {
-        transferId: messagesTransferId,
-        chunkSize: sizeInBytes,
-        fileSize: sizeInBytes,
-        crc32: crc32Hex,
-      },
-      match: {
-        expected: {
-          filePath: "path/to/backup/MESSAGES",
-        },
-      },
-      endpoint: "PRE_FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    {
-      path,
-      body: {
-        transferId: messagesTransferId,
-        chunkNumber: 1,
-        data: base64,
-      },
-      match: {
-        expected: {
-          transferId: messagesTransferId,
-          chunkNumber: 1,
-        },
-      },
-      endpoint: "FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    // NOTES
-    {
-      path,
-      body: {
-        transferId: notesTransferId,
-        chunkSize: sizeInBytes,
-        fileSize: sizeInBytes,
-        crc32: crc32Hex,
-      },
-      match: {
-        expected: {
-          filePath: "path/to/backup/NOTES",
-        },
-      },
-      endpoint: "PRE_FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    {
-      path,
-      body: {
-        transferId: notesTransferId,
-        chunkNumber: 1,
-        data: base64,
-      },
-      match: {
-        expected: {
-          transferId: notesTransferId,
-          chunkNumber: 1,
-        },
-      },
-      endpoint: "FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    // CALENDAR_EVENTS
-    {
-      path,
-      body: {
-        transferId: calendarEventsTransferId,
-        chunkSize: sizeInBytes,
-        fileSize: sizeInBytes,
-        crc32: crc32Hex,
-      },
-      match: {
-        expected: {
-          filePath: "path/to/backup/CALENDAR_EVENTS",
-        },
-      },
-      endpoint: "PRE_FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    {
-      path,
-      body: {
-        transferId: calendarEventsTransferId,
-        chunkNumber: 1,
-        data: base64,
-      },
-      match: {
-        expected: {
-          transferId: calendarEventsTransferId,
-          chunkNumber: 1,
-        },
-      },
-      endpoint: "FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    // OS_VERSION_AND_SETTINGS
-    {
-      path,
-      body: {
-        transferId: osVersionAndSettingsTransferId,
-        chunkSize: sizeInBytes,
-        fileSize: sizeInBytes,
-        crc32: crc32Hex,
-      },
-      match: {
-        expected: {
-          filePath: "path/to/backup/OS_VERSION_AND_SETTINGS",
-        },
-      },
-      endpoint: "PRE_FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    {
-      path,
-      body: {
-        transferId: osVersionAndSettingsTransferId,
-        chunkNumber: 1,
-        data: base64,
-      },
-      match: {
-        expected: {
-          transferId: osVersionAndSettingsTransferId,
-          chunkNumber: 1,
-        },
-      },
-      endpoint: "FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    // APP_SETTINGS
-    {
-      path,
-      body: {
-        transferId: appSettingsTransferId,
-        chunkSize: sizeInBytes,
-        fileSize: sizeInBytes,
-        crc32: crc32Hex,
-      },
-      match: {
-        expected: {
-          filePath:
-            "/data/user/0/com.mudita.muditacenter/files/backups/APP_SETTINGS",
-        },
-      },
-      endpoint: "PRE_FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
-    {
-      path,
-      body: {
-        transferId: appSettingsTransferId,
-        chunkNumber: 1,
-        data: base64,
-      },
-      match: {
-        expected: {
-          transferId: appSettingsTransferId,
-          chunkNumber: 1,
-        },
-      },
-      endpoint: "FILE_TRANSFER",
-      method: "GET",
-      status: 200,
-    },
   ])
+
+  E2EMockClient.mockResponses(
+    prepareMockForFileTransfer(path, data, "path/to/backup/CONTACT_LIST")
+  )
+  E2EMockClient.mockResponses(
+    prepareMockForFileTransfer(path, data, "path/to/backup/CALL_LOG")
+  )
+  E2EMockClient.mockResponses(
+    prepareMockForFileTransfer(path, data, "path/to/backup/MESSAGES")
+  )
+  E2EMockClient.mockResponses(
+    prepareMockForFileTransfer(path, data, "path/to/backup/NOTES")
+  )
+  E2EMockClient.mockResponses(
+    prepareMockForFileTransfer(path, data, "path/to/backup/CALENDAR_EVENTS")
+  )
+  E2EMockClient.mockResponses(
+    prepareMockForFileTransfer(
+      path,
+      data,
+      "path/to/backup/OS_VERSION_AND_SETTINGS"
+    )
+  )
+  E2EMockClient.mockResponses(
+    prepareMockForFileTransfer(path, data, "path/to/backup/APP_SETTINGS")
+  )
 
   // After 10 seconds, update the response to status 200 (completed)
   //   setTimeout(() => {
