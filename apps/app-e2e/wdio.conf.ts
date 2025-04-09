@@ -22,7 +22,7 @@ const getReleasePath = () => {
       ]
     case "linux":
       return [
-        os.arch() === "arm64" ? "linux-arm64-unpacked" : "linux-x64-unpacked",
+        os.arch() === "arm64" ? "linux-arm64-unpacked" : "linux-unpacked",
         "Mudita Center",
       ]
     case "win32":
