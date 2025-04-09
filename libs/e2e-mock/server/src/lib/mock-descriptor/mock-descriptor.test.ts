@@ -310,7 +310,7 @@ describe("MockDescriptor", () => {
   })
 
   describe("compareObjectsWithWildcard", () => {
-    test("returns default response when no match is found", () => {
+    test("returns default response when no exact match is found", () => {
       const response1: AddKompaktResponse = {
         path,
         endpoint,
@@ -330,7 +330,7 @@ describe("MockDescriptor", () => {
       expect(result).toEqual(DEFAULT_RESPONSES[endpoint]?.[method]?.[0])
     })
 
-    test("returns response with __ANY__ when exact match is not found", () => {
+    test("returns response with __ANY__ is available", () => {
       const response1: AddKompaktResponse = {
         path,
         endpoint,
@@ -371,7 +371,7 @@ describe("MockDescriptor", () => {
       })
     })
 
-    test("returns exact match response when found", () => {
+    test("returns exact match response when found first even when __ANY__ is available", () => {
       const response1: AddKompaktResponse = {
         path,
         endpoint,
