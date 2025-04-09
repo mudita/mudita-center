@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { find, findIndex, merge, pullAt } from "lodash"
+import { find, findIndex, pullAt } from "lodash"
 import { PortInfo } from "serialport"
 import {
   AddKompakt,
