@@ -97,6 +97,4 @@ jobs:
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app --output-style stream --no-cloud
       - name: Run e2e tests
-        run: |
-          export NODE_OPTIONS="--max-old-space-size=4096"
-          npx nx start app-e2e --no-cloud --output-style stream
+        run: npx nx start app-e2e --no-cloud --output-style stream
