@@ -173,6 +173,7 @@ export const config: WebdriverIO.Config = {
         appBinaryPath,
       },
     ],
+    "chromedriver",
   ],
 
   // Framework you want to run your specs with.
