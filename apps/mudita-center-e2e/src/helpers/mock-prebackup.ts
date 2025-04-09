@@ -27,16 +27,8 @@ export function mockPreBackupResponses(path: string) {
       body: { backupId: 12345, progress: 10 },
       match: {
         expected: {
-          backupId: 12345,
-          features: [
-            "CONTACT_LIST",
-            "CALL_LOG",
-            "MESSAGES",
-            "NOTES",
-            "CALENDAR_EVENTS",
-            "OS_VERSION_AND_SETTINGS",
-            "APP_SETTINGS",
-          ],
+          backupId: "__ANY__",
+          features: "__ANY__",
         },
       },
       endpoint: "PRE_BACKUP",

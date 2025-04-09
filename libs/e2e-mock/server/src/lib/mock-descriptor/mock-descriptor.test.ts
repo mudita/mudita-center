@@ -308,4 +308,108 @@ describe("MockDescriptor", () => {
       expect(filteredResponses).toEqual({ status: 200, body: { key: "value" } })
     })
   })
+
+  describe("compareObjectsWithWildcard", () => {
+    test("returns default response when no exact match is found", () => {
+      const response1: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { id: "123", type: "admin" },
+        match: { expected: { id: "123", type: "admin" } },
+      }
+
+      mockDescriptor.addResponses([response1])
+
+      const result = mockDescriptor.getResponse(path, endpoint, method, {
+        id: "999",
+        type: "admin",
+      })
+
+      expect(result).toEqual(DEFAULT_RESPONSES[endpoint]?.[method]?.[0])
+    })
+
+    test("returns response with __ANY__ is available", () => {
+      const response1: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { id: "123", type: "admin" },
+        match: { expected: { id: "123", type: "admin" } },
+      }
+
+      const response2: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { id: "777", type: "admin" },
+        match: { expected: { id: "__ANY__", type: "admin" } },
+      }
+
+      const response3: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { id: "999", type: "admin" },
+        match: { expected: { id: "999", type: "admin" } },
+      }
+
+      mockDescriptor.addResponses([response1, response2, response3])
+
+      const result = mockDescriptor.getResponse(path, endpoint, method, {
+        id: "999",
+        type: "admin",
+      })
+
+      expect(result).toEqual({
+        status: 200,
+        body: { id: "777", type: "admin" },
+      })
+    })
+
+    test("returns exact match response when found first even when __ANY__ is available", () => {
+      const response1: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { id: "123", type: "admin" },
+        match: { expected: { id: "123", type: "admin" } },
+      }
+
+      const response2: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { id: "999", type: "admin" },
+        match: { expected: { id: "999", type: "admin" } },
+      }
+
+      const response3: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { id: "777", type: "admin" },
+        match: { expected: { id: "__ANY__", type: "admin" } },
+      }
+
+      mockDescriptor.addResponses([response1, response2, response3])
+
+      const result = mockDescriptor.getResponse(path, endpoint, method, {
+        id: "999",
+        type: "admin",
+      })
+
+      expect(result).toEqual({
+        status: 200,
+        body: { id: "999", type: "admin" },
+      })
+    })
+  })
 })
