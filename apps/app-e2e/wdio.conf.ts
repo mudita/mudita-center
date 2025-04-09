@@ -93,22 +93,22 @@ export const config: WebdriverIO.Config = {
       browserName: "electron",
       // Electron service options
       // see https://webdriver.io/docs/desktop-testing/electron/configuration/#service-options
-      "wdio:electronServiceOptions": {
-        appBinaryPath,
-        // custom application args
-        appArgs: [],
-      },
-      "wdio:chromedriverOptions": {
-        binary: path.resolve(
-          __dirname,
-          "..",
-          "..",
-          "node_modules",
-          "chromedriver",
-          "bin",
-          "chromedriver"
-        ),
-      },
+      // "wdio:electronServiceOptions": {
+      //   appBinaryPath,
+      //   // custom application args
+      //   appArgs: [],
+      // },
+      //   "wdio:chromedriverOptions": {
+      //     binary: path.resolve(
+      //       __dirname,
+      //       "..",
+      //       "..",
+      //       "node_modules",
+      //       "chromedriver",
+      //       "bin",
+      //       "chromedriver"
+      //     ),
+      //   },
     },
   ],
 
@@ -173,7 +173,6 @@ export const config: WebdriverIO.Config = {
         appBinaryPath,
       },
     ],
-    "chromedriver",
   ],
 
   // Framework you want to run your specs with.
