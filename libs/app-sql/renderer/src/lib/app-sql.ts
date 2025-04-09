@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "preload-types"
+import "types-preload"
 
 export class AppSql {
   static run(name: string, query: string) {

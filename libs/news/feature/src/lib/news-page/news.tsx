@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "preload-types"
+import "types-preload"
 import { FunctionComponent, useEffect } from "react"
 import { News } from "news/ui"
 import { useDispatch, useSelector } from "react-redux"

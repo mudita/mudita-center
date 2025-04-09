@@ -8,10 +8,16 @@
  * that is shared across all page objects
  */
 
-export class Page {
+export default class Page {
   public get appHeader() {
     return $('[data-testid="dashboard-header-title"]')
   }
-}
 
-export default new Page()
+  public get activeMenuItem() {
+    return $("[aria-current=page]")
+  }
+
+  public async scrollIntoView(element: ChainablePromiseElement) {
+    await browser.execute((el) => el.scrollIntoView(), element)
+  }
+}

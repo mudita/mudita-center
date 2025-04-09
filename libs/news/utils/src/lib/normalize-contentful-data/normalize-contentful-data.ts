@@ -6,9 +6,10 @@
 import { getBase64 } from "../get-base64/get-base64"
 import { getAssetForEntry } from "./get-asset-for-entry"
 import { NewsData, NewsItem, NewsRawData } from "news/models"
+import { format } from "date-fns"
 
 const DPI = 2
-export const WIDTH = 273 * DPI
+export const WIDTH = 275 * DPI
 export const HEIGHT = 220 * DPI
 const QUALITY = 95
 
@@ -27,20 +28,22 @@ export const normalizeContentfulData = async (
     const imageSource = await getBase64(url)
     const imageAlt = title
     const { image, ...rest } = fields
+    const date = sys.updatedAt || sys.createdAt
     newsItems.push({
       newsId: sys.id,
-      updatedAt: sys.updatedAt,
-      createdAt: sys.createdAt,
-      imageId: fields?.image?.sys?.id,
-      imageSource,
+      title: rest.title.trim(),
+      description: rest.content.trim(),
+      link: rest.link,
+      formattedDate: format(new Date(date), "PP"),
+      communityLink: rest.communityLink,
+      commentsCount: rest.commentsCount ?? 0,
+      updatedAt: date,
       imageAlt,
-      category: fields.category,
-      ...rest,
+      imageSource,
     })
   }
 
-  return {
-    newsItems,
-    lastUpdate: new Date().toISOString(),
-  }
+  return newsItems.sort((a, b) => {
+    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+  })
 }

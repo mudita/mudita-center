@@ -16,18 +16,32 @@ import installExtension, {
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
 
+if (process.env.NODE_ENV === "test") {
+  import("wdio-electron-service/main")
+}
+
 const appWidth = process.env.APP_WIDTH
 const appHeight = process.env.APP_HEIGHT
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     title: "Mudita Center",
-    width: appWidth ? Number(appWidth) : 1280,
-    height: appHeight ? Number(appHeight) : 800,
+    width:
+      appWidth && process.env.NODE_ENV === "development"
+        ? Number(appWidth)
+        : 1280,
+    height:
+      appHeight && process.env.NODE_ENV === "development"
+        ? Number(appHeight)
+        : 800,
     show: false,
     useContentSize: true,
     autoHideMenuBar: true,
-    titleBarStyle: "hidden",
+    titleBarStyle: "hiddenInset",
+    trafficLightPosition: {
+      x: 32,
+      y: 10,
+    },
     titleBarOverlay: {
       color: "#FFFFFF",
       symbolColor: "#000000",
@@ -37,7 +51,7 @@ const createWindow = () => {
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
       sandbox: false,
-      nodeIntegration: false,
+      nodeIntegration: process.env.NODE_ENV === "test",
       contextIsolation: true,
     },
   })

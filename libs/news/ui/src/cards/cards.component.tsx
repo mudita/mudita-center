@@ -24,10 +24,8 @@ const Cards: FunctionComponent<Props> = ({ newsItems }) => {
       {newsItems.map((newsItem) => {
         return (
           <Card
-            {...newsItem}
             key={newsItem.newsId}
-            url={newsItem.link}
-            count={newsItem.commentsCount}
+            {...newsItem}
           />
         )
       })}
