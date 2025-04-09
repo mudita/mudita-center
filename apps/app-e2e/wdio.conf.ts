@@ -14,7 +14,7 @@ const getReleasePath = () => {
   switch (os.platform()) {
     case "darwin":
       return [
-        os.arch() === "arm64" ? "mac-arm64" : "mac",
+        os.arch() === "arm64" ? "mac-arm64" : "mac-universal",
         "Mudita Center.app",
         "Contents",
         "MacOS",
