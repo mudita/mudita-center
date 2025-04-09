@@ -27,7 +27,7 @@ export function mockPreBackupResponses(path: string) {
       body: { backupId: 12345, progress: 10 },
       match: {
         expected: {
-          backupId: 12345,
+          backupId: "__ANY__",
           features: [
             "CONTACT_LIST",
             "CALL_LOG",
