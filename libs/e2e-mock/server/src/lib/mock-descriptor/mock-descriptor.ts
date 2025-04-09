@@ -159,16 +159,19 @@ class MockDescriptor {
       method,
       body
     )
+    console.log("getResponse -> onceResponse", onceResponse)
     if (onceResponse) {
       return onceResponse
     }
 
     const response = this.getPerDeviceResponse(path, endpoint, method, body)
+    console.log("getResponse -> response", response)
     if (response) {
       return response
     }
 
     const defaultResponse = this.getDefaultResponse(endpoint, method, body)
+    console.log("getResponse -> defaultResponse", defaultResponse)
 
     return defaultResponse
   }
@@ -260,8 +263,14 @@ class MockDescriptor {
   ): ApiResponse<unknown> | undefined {
     const perDeviceResponses =
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
+    console.log(
+      "getPerDeviceResponse -> perDeviceResponses",
+      perDeviceResponses
+    )
+    console.log("getPerDeviceResponse -> body", body)
     if (perDeviceResponses !== undefined) {
       const foundResponse = this.findResponse(perDeviceResponses, body)
+      console.log("getPerDeviceResponse -> foundResponse", foundResponse)
 
       if (foundResponse) {
         return this.mapResponseWithoutMatch(foundResponse.response)

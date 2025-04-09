@@ -41,6 +41,7 @@ export const createBackup = createAsyncThunk<
     { features, password },
     { getState, dispatch, rejectWithValue, signal }
   ) => {
+    console.log("createBackup", features, password)
     let totalProgress = 0
     let aborted = false
 
@@ -80,8 +81,11 @@ export const createBackup = createAsyncThunk<
       deviceId
     )
 
+    console.log(startPreBackupResponse)
+    console.log("startPreBackupResponse")
+
     if (!startPreBackupResponse.ok || aborted) {
-      console.log(startPreBackupResponse.error)
+      console.log("error", startPreBackupResponse.error)
       return rejectWithValue(undefined)
     }
 

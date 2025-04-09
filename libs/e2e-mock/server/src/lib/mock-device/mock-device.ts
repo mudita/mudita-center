@@ -11,9 +11,9 @@ import { BaseDevice } from "Core/device/modules/base-device"
 import { ApiResponse } from "Core/device/types/mudita-os"
 import {
   APIEndpointType,
+  ApiError,
   APIMethodsType,
   APIRequestWithPayload,
-  ApiError,
 } from "device/models"
 import { PortInfo } from "serialport"
 import { mockDescriptor } from "../mock-descriptor/mock-descriptor"
@@ -31,6 +31,7 @@ export class MockDevice extends BaseDevice {
   public request<R, T extends APIEndpointType>(
     config: APIRequestWithPayload<T>
   ): Promise<unknown> {
+    console.log("MockDevice request", config)
     const response = mockDescriptor.getResponse(
       this.portInfo.path,
       config.endpoint,
@@ -63,6 +64,8 @@ export class MockDevice extends BaseDevice {
         }
       )
     }
+
+    console.log(`MockDevice request result`, result)
 
     return new Promise<ResultObject<ApiResponse<unknown>>>((resolve) => {
       resolve(result!)

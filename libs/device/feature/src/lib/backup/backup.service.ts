@@ -11,6 +11,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { ApiResponse } from "Core/device/types/mudita-os"
 import {
   APIBackupServiceEvents,
+  APIRequestWithPayload,
   GeneralError,
   PreBackup,
   PreBackupValidator200,
@@ -33,20 +34,29 @@ export class APIBackupService {
       ? this.deviceProtocol.getAPIDeviceById(deviceId)
       : this.deviceProtocol.apiDevice
 
+    console.log("startPreBackup", features, deviceId)
+
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
     const backupId = random(1, 100000)
-
-    const response = await device.request({
+    const requestConfig: APIRequestWithPayload<"PRE_BACKUP"> = {
       endpoint: "PRE_BACKUP",
       method: "POST",
       body: {
         backupId,
         features,
       },
-    })
+    }
+    console.log(
+      "startPreBackup requestConfig",
+      JSON.stringify(requestConfig, null, 2)
+    )
+
+    const response = await device.request(requestConfig)
+
+    console.log("startPreBackup response", JSON.stringify(response, null, 2))
 
     return this.parsePreBackupResponse(response, features)
   }
