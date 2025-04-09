@@ -136,8 +136,8 @@ describe("Check Help window", () => {
     }
   })
   it("Search for questions and verify results", async () => {
-    // Add a small delay to ensure all elements are visible
-    await browser.pause(500)
+    // Add a slightly bigger delay than usual to ensure all elements are visible
+    await browser.pause(2000)
     const helpSearchInput = await HelpPage.helpSearchInput
     await helpSearchInput.setValue("How to do factory reset on Pure")
 
@@ -154,8 +154,8 @@ describe("Check Help window", () => {
     helpSearchResultsItems[0].click()
   })
   it("Check first article", async () => {
-    // Add a small delay to ensure all elements are visible
-    await browser.pause(500)
+    // Add a slightly bigger delay than usual to ensure all elements are visible
+    await browser.pause(2000)
     //Check window title
     const helpTabTitle = await HelpPage.helpTabTitle
     await helpTabTitle.waitForDisplayed({ timeout: 15000 })
@@ -221,8 +221,8 @@ describe("Check Help window", () => {
     helpArticleBackButton.click()
   })
   it("Verify you are back in active first category", async () => {
-    // Add a small delay to ensure all elements are visible
-    await browser.pause(500)
+    // Add a slightly bigger delay than usual to ensure all elements are visible
+    await browser.pause(2000)
     const helpCategoriesListItems = await HelpPage.helpCategoriesListItems
 
     // Ensure that the helpCategoriesListItems array has at least one element
