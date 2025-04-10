@@ -45,3 +45,6 @@ linux:
 appImage:
   license: ./resources/license_en.txt
 afterSign: ../../scripts/notarize.js
+publish:
+  provider: s3
+  bucket: mudita-desktop-app
