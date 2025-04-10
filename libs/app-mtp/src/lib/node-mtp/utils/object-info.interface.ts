@@ -8,10 +8,18 @@ import {
   ObjectFormatExtension,
 } from "./object-format.interface"
 
+export enum ProtectionStatus {
+  NoProtection = "NoProtection",
+  ReadOnly = "ReadOnly",
+  ReadOnlyData = "ReadOnlyData",
+  NonTransferableData = "NonTransferableData",
+  Reserved = "Reserved",
+}
+
 export interface ObjectInfo {
   storageID: number
   objectFormat: ObjectFormatExtension | undefined
-  protectionStatus: number
+  protectionStatus: ProtectionStatus
   objectCompressedSize: number
   thumbFormat: number
   thumbCompressedSize: number
@@ -31,8 +39,9 @@ export interface ObjectInfo {
 }
 
 export interface ObjectInfoInput
-  extends Partial<Omit<ObjectInfo, "objectFormat">> {
+  extends Partial<Omit<ObjectInfo, "objectFormat" | "protectionStatus">> {
   objectFormat: ObjectFormatCode
+  protectionStatus: number
   objectCompressedSize: number
   filename: string
 }
