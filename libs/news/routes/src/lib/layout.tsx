@@ -11,6 +11,7 @@ import { Outlet } from "react-router"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { Button } from "app-theme/ui"
 import styled from "styled-components"
+import { NewsTestId } from "news/models"
 
 export const messages = defineMessages({
   title: {
@@ -22,6 +23,9 @@ export const messages = defineMessages({
   buttonText: {
     id: "page.news.headerButton.text",
   },
+  buttonLink: {
+    id: "page.news.headerButton.link",
+  },
 })
 
 export const NewsLayout = () => {
@@ -30,9 +34,9 @@ export const NewsLayout = () => {
       <DashboardHeaderTitle title={formatMessage(messages.headerTitle)} />
       <DashboardHeaderPortal placement={"right"}>
         <MoreNewsButton
-          data-testid={"more-news-button"}
           size={"large"}
-          to={"https://mudita.com/pl/community/blog/"}
+          to={formatMessage(messages.buttonLink)}
+          data-testid={NewsTestId.MoreNewsButton}
         >
           {formatMessage(messages.buttonText)}
         </MoreNewsButton>

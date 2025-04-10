@@ -7,23 +7,18 @@ import { FunctionComponent } from "react"
 import { CommentsLine, CommentsText } from "./community-comments-count.styled"
 import { TextDisplayStyle } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
+import { NewsItem, NewsTestId } from "news/models"
 
-interface Props {
-  count?: number
-  communityLink: string
-}
+type Props = Pick<NewsItem, "communityLink" | "commentsCount">
 
 const messages = defineMessages({
-  loading: {
-    id: "page.news.cardCommunityCommentsLoading",
-  },
   comments: {
     id: "page.news.cardCommunityComments",
   },
 })
 
 const CommunityCommentsCount: FunctionComponent<Props> = ({
-  count,
+  commentsCount,
   communityLink,
 }) => {
   return (
@@ -31,16 +26,14 @@ const CommunityCommentsCount: FunctionComponent<Props> = ({
       <CommentsLine />
       <a
         href={communityLink}
-        data-testid="community-link"
         target="_blank"
         rel="noreferrer"
+        data-testid={NewsTestId.CommunityLink}
       >
         <CommentsText displayStyle={TextDisplayStyle.Paragraph3}>
-          {count === undefined
-            ? formatMessage(messages.loading)
-            : formatMessage(messages.comments, {
-                count,
-              })}
+          {formatMessage(messages.comments, {
+            count: commentsCount,
+          })}
         </CommentsText>
       </a>
     </>

@@ -27,10 +27,9 @@ export class NewsService {
   public async getNews(): Promise<NewsItem[]> {
     const downloadedNewsExists = await fs.pathExists(this.newsFilePath)
     if (downloadedNewsExists) {
-      const news = (await fs.readJson(this.newsFilePath)) as NewsData
-      return news.newsItems
+      return (await fs.readJson(this.newsFilePath)) as NewsData
     }
-    return defaultNews.newsItems
+    return defaultNews
   }
 
   public onNewsUpdate(callback: (data: NewsItem[]) => void) {
@@ -38,6 +37,12 @@ export class NewsService {
   }
 
   private async downloadNews() {
+    if (!import.meta.env.VITE_MUDITA_CENTER_SERVER_URL) {
+      logger.error(
+        "VITE_MUDITA_CENTER_SERVER_URL is not set. News will not be downloaded."
+      )
+      return
+    }
     logger.log("Downloading news")
     try {
       const rawData = await axios.get<NewsRawData>(
@@ -45,7 +50,7 @@ export class NewsService {
         { params: { limit: 6 } }
       )
       const normalizedData = await normalizeContentfulData(rawData.data)
-      this.eventEmitter.emit("news-update", normalizedData.newsItems)
+      this.eventEmitter.emit("news-update", normalizedData)
       await this.saveNews(normalizedData)
     } catch (error) {
       if (axios.isAxiosError(error)) {

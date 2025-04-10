@@ -11,57 +11,63 @@ import {
   CardImage,
 } from "./card.styled"
 import CommunityCommentsCount from "../community-comments-count/community-comments-count.component"
-import moment from "moment"
 import { FunctionComponent } from "react"
 import { TextDisplayStyle } from "app-theme/models"
 import { LegacyText } from "app-theme/ui"
+import { NewsItem, NewsTestId } from "news/models"
 
-export interface Props {
-  content: string
-  communityLink: string
-  count?: number
-  title: string
-  imageSource?: string
-  imageAlt?: string
-  url: string
-  date: string
-}
-
-const Card: FunctionComponent<Props> = ({
-  content,
-  communityLink,
-  count,
+const Card: FunctionComponent<NewsItem> = ({
   title,
+  description,
+  link,
+  formattedDate,
   imageSource,
   imageAlt,
-  url,
-  date,
+  communityLink,
+  commentsCount,
 }) => {
   return (
-    <CardContainer data-testid="news-card">
-      <a href={url} target="_blank" rel="noreferrer" data-testid="image-link">
+    <CardContainer data-testid={NewsTestId.Card}>
+      <a
+        href={link}
+        target="_blank"
+        rel="noreferrer"
+        data-testid={NewsTestId.ImageLink}
+      >
         <CardImage src={imageSource} alt={imageAlt} />
       </a>
       <CardContent>
         <a
-          href={url}
-          data-testid="header-link"
+          href={link}
           target="_blank"
           rel="noreferrer"
+          data-testid={NewsTestId.HeaderLink}
         >
-          <LegacyText displayStyle={TextDisplayStyle.Title}>{title}</LegacyText>
-          <CardDate displayStyle={TextDisplayStyle.Label} color="secondary">
-            {moment(date).format("ll")}
+          <LegacyText
+            displayStyle={TextDisplayStyle.Title}
+            data-testid={NewsTestId.Title}
+          >
+            {title}
+          </LegacyText>
+          <CardDate
+            displayStyle={TextDisplayStyle.Label}
+            color="secondary"
+            data-testid={NewsTestId.Date}
+          >
+            {formattedDate}
           </CardDate>
         </a>
         <CardDescription
           displayStyle={TextDisplayStyle.Paragraph4}
-          data-testid="content"
           color="secondary"
+          data-testid={NewsTestId.Description}
         >
-          {content}
+          {description}
         </CardDescription>
-        <CommunityCommentsCount count={count} communityLink={communityLink} />
+        <CommunityCommentsCount
+          commentsCount={commentsCount}
+          communityLink={communityLink}
+        />
       </CardContent>
     </CardContainer>
   )

@@ -27,8 +27,8 @@ export default defineConfig({
     resolve: {
       alias: {
         "@app": resolve("./"),
-        "@web": resolve("../web/src"),
-        "@renderer": resolve("src/renderer/src"),
+        "@web": resolve("..", "web", "src"),
+        "@renderer": resolve("src", "renderer", "src"),
       },
     },
     plugins: [

@@ -2,6 +2,7 @@
   "name": "app-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "tags": ["process:main"],
   "implicitDependencies": ["app"],
   "targets": {
     "start": {

@@ -21,7 +21,7 @@ export const DashboardHeaderTitle: FunctionComponent<Props> = ({
 }) => {
   return (
     <DashboardHeaderPortal>
-      <Wrapper>
+      <Wrapper data-testid="dashboard-header-title">
         {back ? (
           <BackLink to={".."} relative={"route"}>
             <Icon name={IconType.ArrowBack} />

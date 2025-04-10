@@ -16,6 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "types-preload": ["apps/app/src/preload/api.d.ts"],
       "app-localize/feature": ["libs/app-localize/feature/src/index.ts"],
       "app-localize/utils": ["libs/app-localize/utils/src/index.ts"],
       "app-routing/feature": ["libs/app-routing/feature/src/index.ts"],
