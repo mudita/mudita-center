@@ -21,18 +21,19 @@ import {
   ResponseContainerPacket,
 } from "./utils/parse-container-packet"
 import { getUint32s } from "./utils/get-uint-32s"
-import { getObjectFormat } from "./utils/object-format.helpers"
 import { getObjectInfoPayload } from "./utils/get-object-info-payload"
 import { withTimeout } from "./utils/with-timeout"
 import { parseStorageInfo, StorageInfo } from "./utils/parse-storage-info"
 import { ResponseObjectInfo } from "./utils/object-info.interface"
 import { parseObjectInfo } from "./utils/parse-object-info"
+import { ObjectFormatCode } from "./utils/object-format.interface"
 
 export interface UploadFileInfoOptions {
   size: number
   name: string
   storageId: number
   parentObjectHandle: number
+  objectFormat: ObjectFormatCode
 }
 
 const PREFIX_LOG = `[app-mtp/node-mtp-device]`
@@ -173,6 +174,7 @@ export class NodeMtpDevice {
     size,
     storageId,
     parentObjectHandle,
+    objectFormat,
   }: UploadFileInfoOptions): Promise<number> {
     console.log(`${PREFIX_LOG} uploadFileInfo...`)
 
@@ -193,8 +195,6 @@ export class NodeMtpDevice {
         },
       ],
     })
-
-    const objectFormat = getObjectFormat(name)
 
     await this.write({
       transactionId,
