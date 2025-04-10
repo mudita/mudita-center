@@ -37,6 +37,12 @@ export class NewsService {
   }
 
   private async downloadNews() {
+    if (!import.meta.env.VITE_MUDITA_CENTER_SERVER_URL) {
+      logger.error(
+        "VITE_MUDITA_CENTER_SERVER_URL is not set. News will not be downloaded."
+      )
+      return
+    }
     logger.log("Downloading news")
     try {
       const rawData = await axios.get<NewsRawData>(
