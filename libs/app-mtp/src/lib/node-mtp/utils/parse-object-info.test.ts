@@ -37,8 +37,8 @@ describe("parseObjectInfo", () => {
 
     const expected = {
       storageID: 12345,
-      objectFormat: 2,
-      protectionStatus: 1,
+      objectFormat: "Undefined",
+      protectionStatus: "ReadOnly",
       objectCompressedSize: 5000,
       thumbFormat: 1,
       thumbCompressedSize: 1000,
@@ -48,7 +48,7 @@ describe("parseObjectInfo", () => {
       imagePixHeight: 1080,
       imageBitDepth: 24,
       parentObject: 123,
-      associationType: 0,
+      associationType: "Undefined",
       associationDesc: 0,
       sequenceNumber: 1,
       filename: "testfile.txt",
