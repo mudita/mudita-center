@@ -4,30 +4,9 @@
  */
 
 import { RequestPayloadItem } from "./build-container-packet"
+import { ObjectInfoInput } from "./object-info.interface"
 
-interface ObjectInfoDatasetInput {
-  storageID?: number
-  objectFormat: number
-  protectionStatus?: number
-  objectCompressedSize: number
-  thumbFormat?: number
-  thumbCompressedSize?: number
-  thumbPixWidth?: number
-  thumbPixHeight?: number
-  imagePixWidth?: number
-  imagePixHeight?: number
-  imageBitDepth?: number
-  parentObject?: number
-  associationType?: number
-  associationDesc?: number
-  sequenceNumber?: number
-  filename: string
-  dateCreated?: string
-  dateModified?: string
-  keywords?: string
-}
-
-export function getObjectInfoDataset({
+export function getObjectInfoPayload({
   storageID = 0,
   objectFormat,
   protectionStatus = 0,
@@ -47,7 +26,7 @@ export function getObjectInfoDataset({
   dateCreated = "",
   dateModified = "",
   keywords = "",
-}: ObjectInfoDatasetInput): RequestPayloadItem[] {
+}: ObjectInfoInput): RequestPayloadItem[] {
   return [
     { name: "StorageID", type: "UINT32", value: storageID },
     { name: "ObjectFormat", type: "UINT16", value: objectFormat },

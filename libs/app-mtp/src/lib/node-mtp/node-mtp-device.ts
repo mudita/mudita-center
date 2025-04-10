@@ -21,19 +21,19 @@ import {
   ResponseContainerPacket,
 } from "./utils/parse-container-packet"
 import { getUint32s } from "./utils/get-uint-32s"
-import { getObjectFormat } from "./utils/get-object-format"
-import { getObjectInfoDataset } from "./utils/get-object-info-dataset"
+import { getObjectInfoPayload } from "./utils/get-object-info-payload"
 import { withTimeout } from "./utils/with-timeout"
-import {
-  parseStorageInfo,
-  ResponseStorageInfo,
-} from "./utils/parse-storage-info"
+import { parseStorageInfo, StorageInfo } from "./utils/parse-storage-info"
+import { ResponseObjectInfo } from "./utils/object-info.interface"
+import { parseObjectInfo } from "./utils/parse-object-info"
+import { ObjectFormatCode } from "./utils/object-format.interface"
 
 export interface UploadFileInfoOptions {
   size: number
   name: string
   storageId: number
   parentObjectHandle: number
+  objectFormat: ObjectFormatCode
 }
 
 const PREFIX_LOG = `[app-mtp/node-mtp-device]`
@@ -73,7 +73,7 @@ export class NodeMtpDevice {
     return storageIds
   }
 
-  async getStorageInfo(storageId: number): Promise<ResponseStorageInfo> {
+  async getStorageInfo(storageId: number): Promise<StorageInfo> {
     console.log(`${PREFIX_LOG} getStorageInfo...`)
     const transactionId = this.getTransactionId()
 
@@ -91,14 +91,14 @@ export class NodeMtpDevice {
 
     const response = await this.read(transactionId, ContainerTypeCode.Data)
 
-    const responseStorageInfo = parseStorageInfo(response.payload)
+    const storageInfo = parseStorageInfo(response.payload)
     console.log(
       `${PREFIX_LOG} getStorageInfo via storageId: ${storageId} data: ${JSON.stringify(
-        responseStorageInfo
+        storageInfo
       )}`
     )
 
-    return responseStorageInfo
+    return storageInfo
   }
 
   async getObjectHandles(
@@ -139,11 +139,42 @@ export class NodeMtpDevice {
     return objectHandles
   }
 
+  async getObjectInfo(objectHandle: number): Promise<ResponseObjectInfo> {
+    console.log(`${PREFIX_LOG} getObjectInfo...`)
+    const transactionId = this.getTransactionId()
+
+    await this.write({
+      transactionId,
+      type: ContainerTypeCode.Command,
+      code: ContainerCode.GetObjectInfo,
+      payload: [
+        {
+          value: objectHandle,
+          type: "UINT32",
+        },
+      ],
+    })
+
+    const response = await this.read(transactionId, ContainerTypeCode.Data)
+
+    const objectInfo = parseObjectInfo(response.payload)
+    const responseObjectInfo = { ...objectInfo, objectHandle }
+
+    console.log(
+      `${PREFIX_LOG} getObjectInfo via objectHandle: ${objectHandle} data: ${JSON.stringify(
+        responseObjectInfo
+      )}`
+    )
+
+    return responseObjectInfo
+  }
+
   async uploadFileInfo({
     name,
     size,
     storageId,
     parentObjectHandle,
+    objectFormat,
   }: UploadFileInfoOptions): Promise<number> {
     console.log(`${PREFIX_LOG} uploadFileInfo...`)
 
@@ -165,13 +196,11 @@ export class NodeMtpDevice {
       ],
     })
 
-    const objectFormat = getObjectFormat(name)
-
     await this.write({
       transactionId,
       type: ContainerTypeCode.Data,
       code: ContainerCode.SendObjectInfo,
-      payload: getObjectInfoDataset({
+      payload: getObjectInfoPayload({
         objectFormat,
         objectCompressedSize: size,
         filename: name,
@@ -183,8 +212,10 @@ export class NodeMtpDevice {
     const sendObjectInfoDataResponse = await this.read(transactionId)
 
     const parameters = getUint32s(sendObjectInfoDataResponse.payload)
+    const newObjectID = parameters[2]
+    console.log(`${PREFIX_LOG} uploadFileInfo newObjectID: ${newObjectID}`)
 
-    return parameters[2]
+    return newObjectID
   }
 
   async initiateUploadFile(size: number): Promise<void> {
