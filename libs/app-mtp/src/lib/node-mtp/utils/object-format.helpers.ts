@@ -8,6 +8,7 @@ import {
   ObjectFormatCode,
   ObjectFormatExtension,
 } from "./object-format.interface"
+import { ProtectionStatus } from "./object-info.interface"
 
 export const generateMaps = () => {
   const extensionToCodeMap = {} as Record<
@@ -50,4 +51,19 @@ export const getObjectFormatExtension = (
   code: ObjectFormatCode
 ): ObjectFormatExtension | undefined => {
   return codeToExtensionMap[code]
+}
+
+export const mapProtectionStatus = (rawValue: number): ProtectionStatus => {
+  switch (rawValue) {
+    case 0x0000:
+      return ProtectionStatus.NoProtection
+    case 0x0001:
+      return ProtectionStatus.ReadOnly
+    case 0x8002:
+      return ProtectionStatus.ReadOnlyData
+    case 0x8003:
+      return ProtectionStatus.NonTransferableData
+    default:
+      return ProtectionStatus.Reserved
+  }
 }
