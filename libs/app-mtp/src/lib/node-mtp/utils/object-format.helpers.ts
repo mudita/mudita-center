@@ -8,7 +8,7 @@ import {
   ObjectFormatCode,
   ObjectFormatExtension,
 } from "./object-format.interface"
-import { ProtectionStatus } from "./object-info.interface"
+import { AssociationType, ProtectionStatus } from "./object-info.interface"
 
 export const generateMaps = () => {
   const extensionToCodeMap = {} as Record<
@@ -65,5 +65,26 @@ export const mapProtectionStatus = (rawValue: number): ProtectionStatus => {
       return ProtectionStatus.NonTransferableData
     default:
       return ProtectionStatus.Reserved
+  }
+}
+
+export const mapAssociationType = (rawValue: number): AssociationType => {
+  switch (rawValue) {
+    case 0x0001:
+      return AssociationType.Image
+    case 0x0002:
+      return AssociationType.Video
+    case 0x0003:
+      return AssociationType.Audio
+    case 0x0004:
+      return AssociationType.Text
+    case 0x0005:
+      return AssociationType.Document
+    case 0x0006:
+      return AssociationType.Hardware
+    case 0x0007:
+      return AssociationType.Application
+    default:
+      return AssociationType.Undefined
   }
 }

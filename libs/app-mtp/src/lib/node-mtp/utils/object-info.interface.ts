@@ -16,6 +16,17 @@ export enum ProtectionStatus {
   Reserved = "Reserved",
 }
 
+export enum AssociationType {
+  Undefined = "Undefined",
+  Image = "Image",
+  Video = "Video",
+  Audio = "Audio",
+  Text = "Text",
+  Document = "Document",
+  Hardware = "Hardware",
+  Application = "Application",
+}
+
 export interface ObjectInfo {
   storageID: number
   objectFormat: ObjectFormatExtension | undefined
@@ -29,7 +40,7 @@ export interface ObjectInfo {
   imagePixHeight: number
   imageBitDepth: number
   parentObject: number
-  associationType: number
+  associationType: AssociationType
   associationDesc: number
   sequenceNumber: number
   filename: string
@@ -39,10 +50,13 @@ export interface ObjectInfo {
 }
 
 export interface ObjectInfoInput
-  extends Partial<Omit<ObjectInfo, "objectFormat" | "protectionStatus">> {
+  extends Partial<
+    Omit<ObjectInfo, "objectFormat" | "protectionStatus" | "associationType">
+  > {
   objectFormat: ObjectFormatCode
   protectionStatus: number
   objectCompressedSize: number
+  associationType: number
   filename: string
 }
 
