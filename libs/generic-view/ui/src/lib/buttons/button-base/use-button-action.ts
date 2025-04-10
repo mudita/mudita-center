@@ -25,6 +25,7 @@ import { useViewFormContext } from "generic-view/utils"
 import { useSelectFilesButtonAction } from "./use-select-files-button-action"
 import { useUploadFilesButtonAction } from "./use-upload-files-button-action"
 import { modalTransitionDuration } from "generic-view/theme"
+import { useMtpUploadFilesButtonAction } from "./use-mtp-upload-files-button-action"
 
 export const useButtonAction = (viewKey: string) => {
   const dispatch = useDispatch<Dispatch>()
@@ -33,7 +34,10 @@ export const useButtonAction = (viewKey: string) => {
   const getFormContext = useViewFormContext()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)!
   const selectFiles = useSelectFilesButtonAction()
-  const uploadFiles = useUploadFilesButtonAction()
+  // Serial Port
+  // const uploadFiles = useUploadFilesButtonAction()
+  // MTP
+  const uploadFiles = useMtpUploadFilesButtonAction()
 
   return (actions: ButtonActions) =>
     runActions(actions)(
