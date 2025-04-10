@@ -29,7 +29,7 @@ export enum AssociationType {
 
 export interface ObjectInfo {
   storageID: number
-  objectFormat: ObjectFormatExtension | undefined
+  objectFormat: ObjectFormatExtension
   protectionStatus: ProtectionStatus
   objectCompressedSize: number
   thumbFormat: number
@@ -54,10 +54,10 @@ export interface ObjectInfoInput
     Omit<ObjectInfo, "objectFormat" | "protectionStatus" | "associationType">
   > {
   objectFormat: ObjectFormatCode
-  protectionStatus: number
   objectCompressedSize: number
-  associationType: number
   filename: string
+  protectionStatus?: number
+  associationType?: number
 }
 
 export interface ResponseObjectInfo extends ObjectInfo {
