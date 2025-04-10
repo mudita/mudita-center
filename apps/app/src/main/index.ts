@@ -49,7 +49,7 @@ const createWindow = () => {
     },
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, "../preload/index.js"),
+      preload: join(__dirname, "..", "preload", "index.js"),
       sandbox: false,
       nodeIntegration: false,
       contextIsolation: true,
@@ -84,7 +84,9 @@ const createWindow = () => {
   if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
     void mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"])
   } else {
-    void mainWindow.loadFile(path.join(__dirname, "../renderer/index.html"))
+    void mainWindow.loadFile(
+      path.join(__dirname, "..", "renderer", "index.html")
+    )
   }
 }
 
