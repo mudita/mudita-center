@@ -44,7 +44,6 @@ export class NodeMtpDeviceManager {
 
     await nodeMtpDevice.initialize()
     this.nodeMtpDevices.set(id, nodeMtpDevice)
-
     return nodeMtpDevice
   }
 

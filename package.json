@@ -21,6 +21,7 @@
     "app:translations:sync": "nx translations:sync mudita-center",
     "app-mtp:cli": "nx run app-mtp:cli",
     "app-mtp:serve": "nx run app-mtp:serve",
+    "app-mtp:killer": "nx run app-mtp:killer",
     "test": "npm run test:nx && npm run test:core",
     "test:core": "cross-env TZ=UTC jest --config=jest/jest.config.js",
     "test:nx": "nx run-many --target=test --exclude api-devices-testing",

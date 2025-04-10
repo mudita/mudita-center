@@ -27,12 +27,17 @@ import { handleMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
 import { rootObjectHandle } from "./mtp-packet-definitions"
 
+import { unlocklMtp, resetUsbDevice } from "./utils/unlock-mtp"
+
 const PREFIX_LOG = `[app-mtp/node-mtp]`
 
 export class NodeMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
 
-  constructor(private deviceManager: NodeMtpDeviceManager) {}
+  constructor(private deviceManager: NodeMtpDeviceManager) {
+    unlocklMtp()
+    resetUsbDevice()
+  }
 
   async getDevices(): Promise<MtpDevice[]> {
     return this.deviceManager.getDevices()
@@ -167,12 +172,13 @@ export class NodeMtp implements MtpInterface {
       this.uploadFileTransactionStatus[transactionId] = {
         progress: 0,
       }
-
+      console.log(`${PREFIX_LOG} Start`)
       const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+      console.log(`${PREFIX_LOG} device ${JSON.stringify(device)}`)
       const size = await this.getFileSize(sourcePath)
-
+      console.log(`${PREFIX_LOG} file size ${size}`)
       await device.initiateUploadFile(size)
-
+      console.log(`${PREFIX_LOG} upload inited`)
       let uploadedBytes = 0
       const fileStream = fs.createReadStream(sourcePath, {
         highWaterMark: 1024,
