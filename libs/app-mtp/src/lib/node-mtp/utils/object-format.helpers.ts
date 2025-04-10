@@ -37,20 +37,18 @@ export const generateMaps = () => {
 
 const { extensionToCodeMap, codeToExtensionMap } = generateMaps()
 
-const undefinedObjectFormat = 0x3000
-
-export const getObjectFormat = (name: string): number => {
+export const getObjectFormat = (name: string): ObjectFormatCode => {
   const extension = path
     .extname(name)
     .slice(1)
     .toLowerCase() as ObjectFormatExtension
-  return extensionToCodeMap[extension] || undefinedObjectFormat
+  return extensionToCodeMap[extension] ?? ObjectFormatCode.Undefined
 }
 
 export const getObjectFormatExtension = (
   code: ObjectFormatCode
-): ObjectFormatExtension | undefined => {
-  return codeToExtensionMap[code]
+): ObjectFormatExtension => {
+  return codeToExtensionMap[code] ?? ObjectFormatExtension.Undefined
 }
 
 export const mapProtectionStatus = (rawValue: number): ProtectionStatus => {
