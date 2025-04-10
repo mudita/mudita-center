@@ -7,6 +7,7 @@ import { ObjectInfo } from "./object-info.interface"
 import { parseTextFields } from "./parse-text-fields"
 import {
   getObjectFormatExtension,
+  mapAssociationType,
   mapProtectionStatus,
 } from "./object-format.helpers"
 
@@ -25,12 +26,13 @@ export function parseObjectInfo(buffer: ArrayBuffer): ObjectInfo {
   const imagePixHeight = bytes.getUint32(30, true)
   const imageBitDepth = bytes.getUint32(34, true)
   const parentObject = bytes.getUint32(38, true)
-  const associationType = bytes.getUint16(42, true)
+  const associationTypeRaw = bytes.getUint16(42, true)
   const associationDesc = bytes.getUint32(44, true)
   const sequenceNumber = bytes.getUint32(48, true)
 
   const objectFormat = getObjectFormatExtension(objectFormatRaw)
   const protectionStatus = mapProtectionStatus(protectionStatusRaw)
+  const associationType = mapAssociationType(associationTypeRaw)
 
   const testFieldKeys = [
     "filename",
