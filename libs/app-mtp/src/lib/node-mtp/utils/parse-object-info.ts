@@ -5,12 +5,13 @@
 
 import { ObjectInfo } from "./object-info.interface"
 import { parseTextFields } from "./parse-text-fields"
+import { getObjectFormatExtension } from "./object-format.helpers"
 
 export function parseObjectInfo(buffer: ArrayBuffer): ObjectInfo {
   const bytes = new DataView(buffer)
 
   const storageID = bytes.getUint32(0, true)
-  const objectFormat = bytes.getUint16(4, true)
+  const objectFormatRaw = bytes.getUint16(4, true)
   const protectionStatus = bytes.getUint16(6, true)
   const objectCompressedSize = bytes.getUint32(8, true)
   const thumbFormat = bytes.getUint16(12, true)
@@ -24,6 +25,8 @@ export function parseObjectInfo(buffer: ArrayBuffer): ObjectInfo {
   const associationType = bytes.getUint16(42, true)
   const associationDesc = bytes.getUint32(44, true)
   const sequenceNumber = bytes.getUint32(48, true)
+
+  const objectFormat = getObjectFormatExtension(objectFormatRaw)
 
   const testFieldKeys = [
     "filename",

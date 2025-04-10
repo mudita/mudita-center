@@ -21,7 +21,7 @@ import {
   ResponseContainerPacket,
 } from "./utils/parse-container-packet"
 import { getUint32s } from "./utils/get-uint-32s"
-import { getObjectFormat } from "./utils/get-object-format"
+import { getObjectFormat } from "./utils/object-format.helpers"
 import { getObjectInfoPayload } from "./utils/get-object-info-payload"
 import { withTimeout } from "./utils/with-timeout"
 import { parseStorageInfo, StorageInfo } from "./utils/parse-storage-info"
