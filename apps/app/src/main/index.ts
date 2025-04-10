@@ -56,7 +56,9 @@ const createWindow = () => {
     },
   })
 
-  void autoUpdater.checkForUpdatesAndNotify()
+  if (process.env.AUTOUPDATE_ENABLED === "true") {
+    void autoUpdater.checkForUpdatesAndNotify()
+  }
 
   if (process.env.NODE_ENV === "development") {
     mainWindow.webContents.openDevTools()
@@ -90,13 +92,17 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
-    loadExtensionOptions: { allowFileAccess: true },
-  })
-    .then(([redux, react]) =>
-      console.log(`Added Extensions:  ${redux.name}, ${react.name}`)
-    )
-    .catch((err) => console.log("An error occurred: ", err))
+  if (process.env.NODE_ENV === "development") {
+    installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
+      loadExtensionOptions: { allowFileAccess: true },
+    })
+      .then(([redux, react]) =>
+        console.log(`Added Extensions: ${redux.name}, ${react.name}`)
+      )
+      .catch((err) =>
+        console.error("An error occurred during extensions installation:", err)
+      )
+  }
 
   // Set app user model id for windows
   electronApp.setAppUserModelId("com.electron")
