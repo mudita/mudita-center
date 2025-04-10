@@ -8,7 +8,11 @@ import {
   ObjectFormatCode,
   ObjectFormatExtension,
 } from "./object-format.interface"
-import { AssociationType, ProtectionStatus } from "./object-info.interface"
+import {
+  AssociationType,
+  ObjectInfo,
+  ProtectionStatus,
+} from "./object-info.interface"
 
 export const generateMaps = () => {
   const extensionToCodeMap = {} as Record<
@@ -86,3 +90,7 @@ export const mapAssociationType = (rawValue: number): AssociationType => {
       return AssociationType.Undefined
   }
 }
+
+export const isObjectCatalog = ({ objectFormat }: ObjectInfo): boolean =>
+  objectFormat === ObjectFormatExtension.Association ||
+  objectFormat === ObjectFormatExtension.Undefined

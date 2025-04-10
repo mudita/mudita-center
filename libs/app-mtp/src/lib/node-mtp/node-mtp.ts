@@ -27,6 +27,7 @@ import { handleMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
 import { rootObjectHandle } from "./mtp-packet-definitions"
 import { ResponseObjectInfo } from "./utils/object-info.interface"
+import { isObjectCatalog } from "./utils/object-format.helpers"
 
 const PREFIX_LOG = `[app-mtp/node-mtp]`
 
@@ -127,7 +128,7 @@ export class NodeMtp implements MtpInterface {
       const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const size = await this.getFileSize(sourcePath)
       const name = path.basename(sourcePath)
-      const parentObjectHandle = await this.getParentObjectHandle(
+      const parentObjectHandle = await this.getObjectHandleFromLastPathSegment(
         destinationPath,
         deviceId,
         storageIdNumber
@@ -210,44 +211,45 @@ export class NodeMtp implements MtpInterface {
     return stats.size
   }
 
-  private async getParentObjectHandle(
+  private async getObjectHandleFromLastPathSegment(
     filePath: string,
     deviceId: string,
     storageId: number,
-    parentObjectHandleId: number = rootObjectHandle
+    objectHandle: number = rootObjectHandle
   ): Promise<number> {
     console.log(
-      `${PREFIX_LOG} getParentObjectHandle... filePath: ${filePath}, parentObjectHandleId: ${parentObjectHandleId}`
+      `${PREFIX_LOG} getObjectHandleFromLastPathSegment... filePath: ${filePath}, objectHandle: ${objectHandle}`
     )
 
     const pathSegments = filePath.split("/").filter((segment) => segment !== "")
 
     if (pathSegments.length === 0) {
-      return parentObjectHandleId
+      return objectHandle
     } else {
       const truncatedPath = pathSegments.slice(1).join("/")
 
-      const objectHandleWithNameList = await this.getChildObjectInfoList(
-        parentObjectHandleId,
+      const childObjectInfoList = await this.getChildObjectInfoList(
+        objectHandle,
         deviceId,
         Number(storageId)
       )
 
-      const objectHandleWithNameItem = objectHandleWithNameList.find(
-        ({ filename }) => filename === pathSegments[0]
+      const childObjectInfo = childObjectInfoList.find(
+        (objectInfo) =>
+          objectInfo.filename === pathSegments[0] && isObjectCatalog(objectInfo)
       )
 
-      if (objectHandleWithNameItem) {
-        return this.getParentObjectHandle(
+      if (childObjectInfo) {
+        return this.getObjectHandleFromLastPathSegment(
           truncatedPath,
           deviceId,
           storageId,
-          objectHandleWithNameItem.objectHandle
+          childObjectInfo.objectHandle
         )
       } else {
         throw new AppError(
           MTPError.MTP_OBJECT_HANDLE_NOT_FOUND,
-          `Parent object handle not found for ${parentObjectHandleId} and ${storageId}`
+          `Object handle not found for the part of filePath: ${filePath}`
         )
       }
     }

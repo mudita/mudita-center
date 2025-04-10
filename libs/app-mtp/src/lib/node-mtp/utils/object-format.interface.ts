@@ -4,10 +4,10 @@
  */
 
 export enum ObjectFormatExtension {
-  Undefined = "undefined",
-  Association = "association",
-  Script = "script",
-  Executable = "executable",
+  Undefined = "Undefined",
+  Association = "Association",
+  Script = "Script",
+  Executable = "Executable",
   TXT = "txt",
   HTML = "html",
   AIFF = "aiff",
