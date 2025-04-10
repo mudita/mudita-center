@@ -3,9 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import {
+  ObjectFormatCode,
+  ObjectFormatExtension,
+} from "./object-format.interface"
+
 export interface ObjectInfo {
   storageID: number
-  objectFormat: number
+  objectFormat: ObjectFormatExtension | undefined
   protectionStatus: number
   objectCompressedSize: number
   thumbFormat: number
@@ -25,8 +30,9 @@ export interface ObjectInfo {
   keywords: string
 }
 
-export interface ObjectInfoInput extends Partial<ObjectInfo> {
-  objectFormat: number
+export interface ObjectInfoInput
+  extends Partial<Omit<ObjectInfo, "objectFormat">> {
+  objectFormat: ObjectFormatCode
   objectCompressedSize: number
   filename: string
 }
