@@ -23,10 +23,10 @@ router.get("/get-devices", (req: Request, res: Response) => {
   })
 })
 
-router.get("/get-device-storages/:deviceId", (req: Request, res: Response) => {
-  const { deviceId } = req.params
-  appMtp.getDeviceStorages(deviceId).then((storages) => {
-    res.json(storages)
+router.get("/get-device-storages", (req: Request, res: Response) => {
+  const deviceId = req.body.deviceId
+  appMtp.getDeviceStorages(deviceId).then((result) => {
+    res.json(result)
   })
 })
 
