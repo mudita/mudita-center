@@ -28,7 +28,7 @@ describe("News in offline mode", () => {
     await expect(activeMenuItem).toHaveText(
       formatMessage({ id: "page.news.title" })
     )
-    await expect(activeMenuItem).toHaveAttribute("href", "/news")
+    await expect(activeMenuItem).toHaveAttribute("href", "#/news")
   })
 
   it("have proper title in app header", async () => {

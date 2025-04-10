@@ -38,7 +38,7 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
 
   return (
     <Wrapper className={className}>
-      <SystemHeader />
+      {navigator.userAgent.includes("Mac") && <SystemHeader />}
       <Logo name={IconType.MuditaLogoFull} />
       {menu.map((menuGroup) => {
         return (

@@ -22,6 +22,9 @@ if (process.env.NODE_ENV === "test") {
 
 const appWidth = process.env.APP_WIDTH
 const appHeight = process.env.APP_HEIGHT
+const devToolsEnabled =
+  process.env.ENABLE_DEVTOOLS === "true" ||
+  process.env.NODE_ENV === "development"
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -60,7 +63,7 @@ const createWindow = () => {
     void autoUpdater.checkForUpdatesAndNotify()
   }
 
-  if (process.env.NODE_ENV === "development") {
+  if (devToolsEnabled) {
     mainWindow.webContents.openDevTools()
   }
 
@@ -94,7 +97,7 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  if (process.env.NODE_ENV === "development") {
+  if (devToolsEnabled) {
     installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
       loadExtensionOptions: { allowFileAccess: true },
     })
