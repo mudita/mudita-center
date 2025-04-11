@@ -27,6 +27,8 @@ import { useUploadFilesButtonAction } from "./use-upload-files-button-action"
 import { modalTransitionDuration } from "generic-view/theme"
 import { useMtpUploadFilesButtonAction } from "./use-mtp-upload-files-button-action"
 
+const MTP_AVAILABLE = false
+
 export const useButtonAction = (viewKey: string) => {
   const dispatch = useDispatch<Dispatch>()
   const navigate = useHistory()
@@ -34,10 +36,10 @@ export const useButtonAction = (viewKey: string) => {
   const getFormContext = useViewFormContext()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)!
   const selectFiles = useSelectFilesButtonAction()
-  // Serial Port
-  const uploadFiles = useUploadFilesButtonAction()
-  // MTP
-  // const uploadFiles = useMtpUploadFilesButtonAction()
+  // If MTP is available, then use MTP Action
+  const uploadFiles = MTP_AVAILABLE
+    ? useMtpUploadFilesButtonAction()
+    : useUploadFilesButtonAction()
 
   return (actions: ButtonActions) =>
     runActions(actions)(
