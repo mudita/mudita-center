@@ -36,10 +36,11 @@ export const useButtonAction = (viewKey: string) => {
   const getFormContext = useViewFormContext()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)!
   const selectFiles = useSelectFilesButtonAction()
+
   // If MTP is available, then use MTP Action
-  const uploadFiles = MTP_AVAILABLE
-    ? useMtpUploadFilesButtonAction()
-    : useUploadFilesButtonAction()
+  const oldUploadFiles = useUploadFilesButtonAction()
+  const mtpUploadFiles = useMtpUploadFilesButtonAction()
+  const uploadFiles = MTP_AVAILABLE ? mtpUploadFiles : oldUploadFiles
 
   return (actions: ButtonActions) =>
     runActions(actions)(
