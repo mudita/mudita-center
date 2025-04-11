@@ -3,35 +3,27 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppMtp, MtpStorage, UploadFileResultData } from "app-mtp"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
-  AppMtp,
-  MtpDevice,
-  MtpStorage,
-  MtpUploadFileData,
-  UploadFileResultData,
-  GetUploadFileProgressResultData,
-} from "app-mtp"
-import { useSelector } from "react-redux"
-
-type UploadContext = {
-  deviceId: string
-  storageId: string
-  transactionId: string
-  sourcePath: string
-  destinationPath: string
-}
+  registerMtpUpload,
+  updateMtpUploadProgress,
+  finishMtpUpload,
+  failMtpUpload,
+} from "../../../../../generic-view/store/src/lib/mtp-file-transfer/actions"
 
 export class MtpFileManagerService {
   private static instance: MtpFileManagerService
   private mtp = new AppMtp()
+  private dispatch: Dispatch
 
-  private uploads: Map<string, UploadContext> = new Map()
+  private constructor(dispatch: Dispatch) {
+    this.dispatch = dispatch
+  }
 
-  private constructor() {}
-
-  public static getInstance(): MtpFileManagerService {
+  public static getInstance(dispatch: Dispatch): MtpFileManagerService {
     if (!MtpFileManagerService.instance) {
-      MtpFileManagerService.instance = new MtpFileManagerService()
+      MtpFileManagerService.instance = new MtpFileManagerService(dispatch)
     }
     return MtpFileManagerService.instance
   }
@@ -45,28 +37,40 @@ export class MtpFileManagerService {
     if (!deviceId) throw new Error("No active MTP device found")
 
     const storages = await this.getDeviceStorages(deviceId)
-    const storageId = storages.find(
-      (storage) => storage.isInternal === isInternal
-    )?.id
+    const storageId = storages.find((s) => s.isInternal === isInternal)?.id
 
     if (!storageId) throw new Error("No storage found for device")
 
     const uploadResults: UploadFileResultData[] = []
 
     for (const sourcePath of sourcePaths) {
-      const result = await this.uploadFile(
+      const result = await this.mtp.uploadFile({
         deviceId,
         storageId,
         sourcePath,
-        destinationPath
-      )
+        destinationPath,
+      })
 
-      if (result) {
-        uploadResults.push(result)
+      if (result.ok && result.data.transactionId) {
+        const transactionId = result.data.transactionId
+
+        this.dispatch?.(
+          registerMtpUpload({
+            transactionId: transactionId,
+            deviceId,
+            storageId,
+            filePath: sourcePath,
+            destinationPath,
+          })
+        )
+
+        this.trackProgress(transactionId)
+
+        uploadResults.push(result.data)
+      } else {
+        console.error("Upload error", result)
       }
     }
-
-    console.log("Upload Results: ", uploadResults)
 
     return uploadResults
   }
@@ -74,56 +78,37 @@ export class MtpFileManagerService {
   private async getDeviceStorages(deviceId: string): Promise<MtpStorage[]> {
     const result = await this.mtp.getDeviceStorages(deviceId)
 
-    if (result.ok) {
-      return result.data
-    }
-
-    return []
+    return result.ok ? result.data : []
   }
 
-  private async uploadFile(
-    deviceId: string,
-    storageId: string,
-    sourcePath: string,
-    destinationPath: string
-  ): Promise<UploadFileResultData | undefined> {
-    const result = await this.mtp.uploadFile({
-      deviceId,
-      storageId,
-      sourcePath,
-      destinationPath,
-    })
-
-    if (result.ok) {
-      return result.data
-    }
-
-    return undefined
-  }
-
-  private async getUploadProgress(transactionId: string): Promise<number> {
-    const result = await this.mtp.getUploadFileProgress({ transactionId })
-
-    return result.ok ? result.data.progress : 0
-  }
-
-  public async waitUntilUploadComplete(
+  private async trackProgress(
     transactionId: string,
     intervalMs = 500
   ): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const interval = setInterval(async () => {
-        try {
-          const progress = await this.getUploadProgress(transactionId)
-          if (progress >= 100) {
-            clearInterval(interval)
-            resolve()
-          }
-        } catch (e) {
+    const interval = setInterval(async () => {
+      try {
+        const progressResult = await this.mtp.getUploadFileProgress({
+          transactionId,
+        })
+
+        if (!progressResult.ok) throw new Error("Failed to fetch progress")
+
+        const progress = progressResult.data.progress
+
+        this.dispatch?.(updateMtpUploadProgress({ transactionId, progress }))
+
+        if (progress >= 100) {
           clearInterval(interval)
-          reject(e)
+
+          this.dispatch?.(finishMtpUpload({ transactionId }))
         }
-      }, intervalMs)
-    })
+      } catch (error) {
+        clearInterval(interval)
+
+        this.dispatch?.(
+          failMtpUpload({ transactionId, error: (error as Error).message })
+        )
+      }
+    }, intervalMs)
   }
 }

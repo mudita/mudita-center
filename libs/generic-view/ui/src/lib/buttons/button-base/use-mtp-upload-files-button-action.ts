@@ -4,15 +4,13 @@
  */
 
 import { useCallback } from "react"
-import path from "node:path"
 import { getFileStatsRequest } from "system-utils/feature"
 import { FilesTransferUploadFilesAction } from "generic-view/models"
 import {
   addFileTransferErrors,
   clearFileTransferErrors,
-  selectFilesSendingFailed,
   selectValidEntityFilePaths,
-  sendFilesClear,
+  clearMtpUploads,
 } from "generic-view/store"
 import { useDispatch, useStore } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -41,15 +39,13 @@ export const useMtpUploadFilesButtonAction = () => {
         action.formOptions.formKey
       ).getValues(action.formOptions.filesToUploadFieldName)
 
-      if (filesPaths.length === 0) return
-      if (action.entitiesType === undefined) return
-      if (deviceId === undefined) return
+      if (!filesPaths.length || !action.entitiesType || !deviceId) return
 
       const entityFilePaths = selectValidEntityFilePaths(store.getState(), {
         entitiesType: action.entitiesType,
         deviceId,
       })
-      if (entityFilePaths === undefined) return
+      if (!entityFilePaths) return
 
       const validationError = await validateSelectedFiles(
         filesPaths,
@@ -69,17 +65,38 @@ export const useMtpUploadFilesButtonAction = () => {
         return
       }
 
-      // Statystyki plików (jeśli kiedyś będą potrzebne)
-      const validFiles = []
+      const validFiles: string[] = []
       for (const filePath of filesPaths) {
         const stats = await getFileStatsRequest(filePath)
-        if (stats.ok) {
-          validFiles.push(filePath)
-        }
+        if (stats.ok) validFiles.push(filePath)
+      }
+
+      const waitUntilAllUploadsFinished = (
+        transactionIds: string[],
+        interval = 500
+      ): Promise<void> => {
+        return new Promise((resolve) => {
+          const check = () => {
+            const state = store.getState()
+            const allDone = transactionIds.every((txId) => {
+              const upload = state.mtpFileTransfer.uploads[txId]
+              return upload?.status === "finished"
+            })
+
+            if (allDone) {
+              resolve()
+            } else {
+              setTimeout(check, interval)
+            }
+          }
+
+          check()
+        })
       }
 
       try {
-        const mtpFileManagerService = MtpFileManagerService.getInstance()
+        const mtpFileManagerService =
+          MtpFileManagerService.getInstance(dispatch)
 
         const uploadResults = await mtpFileManagerService.uploadFiles(
           validFiles,
@@ -88,12 +105,14 @@ export const useMtpUploadFilesButtonAction = () => {
           getActiveMtpDeviceId(store.getState())
         )
 
-        await mtpFileManagerService.waitUntilUploadComplete(
-          uploadResults[0].transactionId
-        )
+        const transactionIds = uploadResults
+          .map((r) => r.transactionId)
+          .filter(Boolean)
+
+        await waitUntilAllUploadsFinished(transactionIds)
 
         await callbacks.onSuccess()
-        dispatch(sendFilesClear({ groupId: action.actionId }))
+        dispatch(clearMtpUploads())
         dispatch(clearFileTransferErrors({ actionId: action.actionId }))
       } catch (error) {
         console.error("MTP upload failed", error)
