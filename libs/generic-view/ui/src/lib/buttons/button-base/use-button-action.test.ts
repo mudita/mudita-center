@@ -23,6 +23,10 @@ jest.mock("./use-upload-files-button-action", () => ({
   useUploadFilesButtonAction: jest.fn().mockReturnValue(jest.fn()),
 }))
 
+jest.mock("./use-mtp-upload-files-button-action", () => ({
+  useMtpUploadFilesButtonAction: jest.fn().mockReturnValue(jest.fn()),
+}))
+
 jest.mock("react-redux", () => ({
   useDispatch: jest.fn().mockReturnValue(jest.fn()),
   useSelector: jest.fn(),
