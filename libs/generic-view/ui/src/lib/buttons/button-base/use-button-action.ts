@@ -35,9 +35,9 @@ export const useButtonAction = (viewKey: string) => {
   const activeDeviceId = useSelector(selectActiveApiDeviceId)!
   const selectFiles = useSelectFilesButtonAction()
   // Serial Port
-  // const uploadFiles = useUploadFilesButtonAction()
+  const uploadFiles = useUploadFilesButtonAction()
   // MTP
-  const uploadFiles = useMtpUploadFilesButtonAction()
+  // const uploadFiles = useMtpUploadFilesButtonAction()
 
   return (actions: ButtonActions) =>
     runActions(actions)(
