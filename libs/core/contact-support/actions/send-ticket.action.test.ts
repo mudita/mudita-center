@@ -23,6 +23,7 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 
 jest.mock("Core/contact-support/requests/send-ticket.request")
+jest.mock("device/feature/src/lib/file-manager/mtp-file-manager.service")
 
 const successResponse: CreateBugTicketResponse = {
   status: CreateBugTicketResponseStatus.Ok,

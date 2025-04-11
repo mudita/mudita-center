@@ -19,6 +19,10 @@ jest.mock("./use-select-files-button-action", () => ({
   useSelectFilesButtonAction: jest.fn().mockReturnValue(jest.fn()),
 }))
 
+jest.mock("./use-mtp-upload-files-button-action", () => ({
+  useMtpUploadFilesButtonAction: jest.fn().mockReturnValue(jest.fn()),
+}))
+
 jest.mock("./use-upload-files-button-action", () => ({
   useUploadFilesButtonAction: jest.fn().mockReturnValue(jest.fn()),
 }))
