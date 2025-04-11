@@ -38,8 +38,6 @@ export const useUploadFilesButtonAction = () => {
     ) => {
       const deviceId = activeDeviceIdSelector(store.getState())
 
-      console.log("Device ID: ", deviceId)
-
       const filesPaths: string[] = getFormContext(
         action.formOptions.formKey
       ).getValues(action.formOptions.filesToUploadFieldName)
