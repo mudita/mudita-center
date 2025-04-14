@@ -130,7 +130,7 @@ jobs:
         if: matrix.os == 'macOS'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          npx nx build:mac app dir --universal --config -c.mac.identity=null --output-style stream --no-cloud
+          npx nx build:mac app dir --universal --output-style stream --no-cloud
       - name: Build App for Linux
         if: matrix.os == 'Linux'
         run: |
