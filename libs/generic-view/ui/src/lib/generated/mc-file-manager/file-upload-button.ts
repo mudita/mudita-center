@@ -59,6 +59,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
               filesToUploadFieldName: "filesToUpload",
             },
             destinationPath: storagePath + directoryPath,
+            isInternal: storagePath.startsWith("/storage/emulated/0"),
             freeSpace: 0,
             entitiesType: entityType,
             actionId: uploadActionId,

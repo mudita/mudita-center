@@ -18,6 +18,7 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 
 jest.mock("Core/contacts/requests/delete-contacts.request")
+jest.mock("device/feature/src/lib/file-manager/mtp-file-manager.service")
 
 const contact: Contact = {
   id: "0",

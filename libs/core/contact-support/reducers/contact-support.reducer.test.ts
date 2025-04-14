@@ -16,6 +16,8 @@ import {
   rejectedAction,
 } from "Core/__deprecated__/renderer/store/helpers"
 
+jest.mock("device/feature/src/lib/file-manager/mtp-file-manager.service")
+
 test("empty event returns initial state", () => {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

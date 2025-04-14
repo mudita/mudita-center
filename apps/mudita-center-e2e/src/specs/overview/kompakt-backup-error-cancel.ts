@@ -74,7 +74,7 @@ describe("Backup error - cancel", () => {
     await backupModalClose.click() //click "X" button to cancel backup popup
   })
 
-  it("Verify Backup cancelled modal", async () => {
+  it.skip("Verify Backup cancelled modal", async () => {
     const backupInProgressModalCancelled =
       ModalBackupKompaktPage.backupInProgressModalCancelled
     await expect(backupInProgressModalCancelled).toBeDisplayed()

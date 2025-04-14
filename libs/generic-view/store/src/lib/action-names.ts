@@ -62,6 +62,12 @@ export enum ActionName {
   SendFilesAbort = "generic-file-transfer/send-files-abort",
   addFileTransferErrors = "generic-file-transfer/add-errosr",
   clearFileTransferErrors = "generic-file-transfer/clear-errors",
+  // MTP file transfer
+  RegisterMtpUpload = "mtp-file-transfer/register-upload",
+  UpdateMtpUploadProgress = "mtp-file-transfer/update-mtp-upload-progress",
+  FinishMtpUpload = "mtp-file-transfer/finish-upload",
+  FailMtpUpload = "mtp-file-transfer/fail-upload",
+  ClearMtpUploads = "mtp-file-transfer/clear-uploads",
 
   SetDataTransfer = "generic-data-transfer/set-data-transfer",
   SetDataTransferStatus = "generic-data-transfer/set-data-transfer-status",
