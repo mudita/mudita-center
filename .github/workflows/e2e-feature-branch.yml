@@ -125,17 +125,17 @@ jobs:
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
-          npx nx build:win app --output-style stream --no-cloud
+          npx nx build:win app dir --output-style stream --no-cloud
       - name: Build App for Mac
         if: matrix.os == 'macOS'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          npx nx build:mac app --universal --output-style stream --no-cloud
+          npx nx build:mac app dir --universal --output-style stream --no-cloud
       - name: Build App for Linux
         if: matrix.os == 'Linux'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          npx nx build:linux app --output-style stream --no-cloud
+          npx nx build:linux app dir --output-style stream --no-cloud
       - name: Run e2e tests for Linux
         if: matrix.os == 'Linux'
         run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' npx nx start app-e2e --no-cloud --output-style stream

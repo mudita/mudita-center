@@ -91,6 +91,17 @@ export const config: WebdriverIO.Config = {
   capabilities: [
     {
       browserName: "electron",
+      "wdio:chromedriverOptions": {
+        binary: path.resolve(
+          __dirname,
+          "..",
+          "..",
+          "node_modules",
+          "chromedriver",
+          "bin",
+          "chromedriver"
+        ),
+      },
       // Electron service options
       // see https://webdriver.io/docs/desktop-testing/electron/configuration/#service-options
       // "wdio:electronServiceOptions": {
@@ -171,6 +182,9 @@ export const config: WebdriverIO.Config = {
       "electron",
       {
         appBinaryPath,
+        env: {
+          NODE_ENV: "test",
+        },
       },
     ],
   ],

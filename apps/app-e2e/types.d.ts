@@ -18,11 +18,11 @@ declare module "app-localize/utils" {
 declare global {
   function $(
     ...args: Parameters<WebdriverIO.Browser["$"]>
-  ): Promise<ReturnType<WebdriverIO.Browser["$"]>>
+  ): Promise<ReturnType<typeof $>>
 
   function $$(
     ...args: Parameters<WebdriverIO.Browser["$$"]>
-  ): Promise<ReturnType<WebdriverIO.Browser["$$"]>>
+  ): Promise<ReturnType<typeof $$>>
 
   namespace WebdriverIO {
     interface Element {

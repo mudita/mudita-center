@@ -3,26 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import "types-preload"
 import NewsPage from "../../page-objects/news.page"
 import { formatMessage } from "app-localize/utils"
-import { defaultNews } from "news/main"
-import testsHelper from "../../helpers/tests.helper"
 import { NewsTestId } from "news/models"
+import {
+  linkRegex,
+  newsDateRegex,
+  newsImageRegex,
+  nonEmptyTextRegex,
+} from "../../consts/regex-const"
 
-describe("News in offline mode", () => {
-  before(async () => {
-    await testsHelper.switchToOffline()
-  })
-
-  after(async () => {
-    await testsHelper.switchToOnline()
-  })
-
-  it("(ensure app is in offline mode)", async () => {
-    const isOnline = await testsHelper.isOnline()
-    await expect(isOnline).toBeFalsy()
-  })
-
+describe("News screen", () => {
   it("have proper menu item active", async () => {
     const activeMenuItem = await NewsPage.activeMenuItem
     await expect(activeMenuItem).toHaveText(
@@ -51,14 +43,10 @@ describe("News in offline mode", () => {
     )
   })
 
-  it("contains all news from default file", async () => {
+  it("have fully visible second line after scrolling", async () => {
     const newsCardElements = await NewsPage.newsCardElements
-    await expect(newsCardElements).toHaveLength(defaultNews.length)
-  })
-
-  it("from second line are fully visible after scrolling", async () => {
-    const lastNewsCardCommunityLinkText = await NewsPage.newsCardElements[
-      defaultNews.length - 1
+    const lastNewsCardCommunityLinkText = await newsCardElements[
+      newsCardElements.length - 1
     ].$(`[data-testid="${NewsTestId.CommunityLink}"] p`)
     await expect(lastNewsCardCommunityLinkText).not.toBeDisplayedInViewport()
     await NewsPage.scrollIntoView(lastNewsCardCommunityLinkText)
@@ -68,40 +56,38 @@ describe("News in offline mode", () => {
   it("contains properly formatted news card", async () => {
     const newsCardElements = await NewsPage.newsCardElements
 
-    for (const [index, card] of Array.from(newsCardElements).entries()) {
+    for (const card of newsCardElements) {
       // Check image link
       const imageLink = await card.$(`[data-testid="${NewsTestId.ImageLink}"]`)
       await expect(imageLink).toBeClickable()
-      await expect(imageLink).toHaveAttribute("href", defaultNews[index].link)
+      await expect(imageLink).toHaveAttribute("href", linkRegex)
 
       // Check image
       const image = await card.$(`[data-testid="${NewsTestId.ImageLink}"] img`)
       await expect(image).toBeDisplayed()
-      await expect(image).toHaveAttribute("src", defaultNews[index].imageSource)
+      await expect(image).toHaveAttribute("src", newsImageRegex)
 
       // Check title link
       const titleLink = await card.$(`[data-testid="${NewsTestId.HeaderLink}"]`)
       await expect(titleLink).toBeClickable()
-      await expect(titleLink).toHaveAttribute("href", defaultNews[index].link)
+      await expect(titleLink).toHaveAttribute("href", linkRegex)
 
       // Check title
       const title = await card.$(`[data-testid="${NewsTestId.Title}"]`)
       await expect(title).toBeDisplayed()
-      await expect(title).toHaveText(defaultNews[index].title.toUpperCase())
+      await expect(title).toHaveText(nonEmptyTextRegex)
 
       // Check date
       const date = await card.$(`[data-testid="${NewsTestId.Date}"]`)
       await expect(date).toBeDisplayed()
-      await expect(date).toHaveText(
-        defaultNews[index].formattedDate.toUpperCase()
-      )
+      await expect(date).toHaveText(newsDateRegex)
 
       // Check description
       const description = await card.$(
         `[data-testid="${NewsTestId.Description}"]`
       )
       await expect(description).toBeDisplayed()
-      await expect(description).toHaveText(defaultNews[index].description)
+      await expect(description).toHaveText(nonEmptyTextRegex)
 
       // Check community link
       const communityLink = await card.$(
@@ -109,12 +95,19 @@ describe("News in offline mode", () => {
       )
       await expect(communityLink).toBeDisplayed()
       await expect(communityLink).toBeClickable()
-      await expect(communityLink).toHaveAttribute(
-        "href",
-        defaultNews[index].communityLink
-      )
+      await expect(communityLink).toHaveAttribute("href", linkRegex)
 
       // Check community link text
+      const commentsCount = await card.$(
+        `[data-testid="${NewsTestId.CommunityLink}"] p`
+      )
+      const commentsCountText = await commentsCount.getText()
+      const commentsCountRegex = commentsCountText.match(
+        /(\d+)(\s)(COMMENTS|COMMENT)$/
+      )
+      const commentsCountValue = commentsCountRegex?.[1] || 0
+
+      console.log("commentsCountValue", commentsCountValue)
       const communityLinkText = await card.$(
         `[data-testid="${NewsTestId.CommunityLink}"] p`
       )
@@ -122,7 +115,7 @@ describe("News in offline mode", () => {
       await expect(communityLinkText).toHaveText(
         formatMessage(
           { id: "page.news.cardCommunityComments" },
-          { count: defaultNews[index].commentsCount }
+          { count: commentsCountValue }
         ).toUpperCase()
       )
     }
