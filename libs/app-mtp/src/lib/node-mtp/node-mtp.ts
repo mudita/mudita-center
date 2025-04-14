@@ -280,7 +280,7 @@ export class NodeMtp implements MtpInterface {
       const childObjectInfoList = await this.getChildObjectInfoList(
         objectHandle,
         deviceId,
-        Number(storageId)
+        storageId
       )
 
       const childObjectInfo = childObjectInfoList.find(
@@ -315,7 +315,7 @@ export class NodeMtp implements MtpInterface {
     const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
     const objectHandles = await device.getObjectHandles(
       parentHandle,
-      Number(storageId)
+      storageId
     )
 
     for await (const objectHandle of objectHandles) {

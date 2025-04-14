@@ -6,12 +6,13 @@
 import { spawn } from "child_process"
 import * as readline from "readline"
 import path from "path"
-import { PREFIX_LOG } from "../dotnet-mtp"
 
 const exePath = path.join(
   __dirname,
   "../../../../../../apps/mudita-center/resources/MtpFileTransfer.exe"
 )
+
+const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 
 export async function runCommand(
   request: object,
