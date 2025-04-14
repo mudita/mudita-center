@@ -149,7 +149,6 @@ export const nativeActionsValidator = z.union([
 const filesTransferUploadFilesActionValidator = z.object({
   type: z.literal("upload-files"),
   destinationPath: z.string(),
-  isInternal: z.boolean().optional(),
   freeSpace: z.number().positive(),
   entitiesType: z.string().optional(),
   actionId: z.string(),

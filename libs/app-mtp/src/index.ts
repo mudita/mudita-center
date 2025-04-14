@@ -4,4 +4,3 @@
  */
 
 export * from "./lib/app-mtp"
-export * from "./lib/app-mtp.interface"
