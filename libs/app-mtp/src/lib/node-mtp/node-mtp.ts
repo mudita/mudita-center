@@ -27,17 +27,12 @@ import { handleMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
 import { rootObjectHandle } from "./mtp-packet-definitions"
 
-import { unlocklMtp, resetUsbDevice } from "./utils/unlock-mtp"
-
 const PREFIX_LOG = `[app-mtp/node-mtp]`
 
 export class NodeMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
 
-  constructor(private deviceManager: NodeMtpDeviceManager) {
-    unlocklMtp()
-    resetUsbDevice()
-  }
+  constructor(private deviceManager: NodeMtpDeviceManager) {}
 
   async getDevices(): Promise<MtpDevice[]> {
     return this.deviceManager.getDevices()
