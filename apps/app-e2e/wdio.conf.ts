@@ -33,6 +33,18 @@ const getReleasePath = () => {
   }
 }
 
+const getChromedriverPath = () => {
+  const directory = [__dirname, "..", "..", "node_modules", "chromedriver"]
+  switch (os.platform()) {
+    case "win32":
+      directory.push("lib", "chromedriver", "chromedriver.exe")
+      break
+    default:
+      directory.push("bin", "chromedriver")
+  }
+  return path.resolve(path.join(...directory))
+}
+
 const appBinaryPath =
   process.env.TEST_BINARY_PATH ||
   path.join(__dirname, "..", "app", "release", ...getReleasePath())
@@ -92,15 +104,7 @@ export const config: WebdriverIO.Config = {
     {
       browserName: "electron",
       "wdio:chromedriverOptions": {
-        binary: path.resolve(
-          __dirname,
-          "..",
-          "..",
-          "node_modules",
-          "chromedriver",
-          "bin",
-          "chromedriver"
-        ),
+        binary: getChromedriverPath(),
       },
       // Electron service options
       // see https://webdriver.io/docs/desktop-testing/electron/configuration/#service-options

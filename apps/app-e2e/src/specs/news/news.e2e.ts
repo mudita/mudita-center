@@ -106,8 +106,6 @@ describe("News screen", () => {
         /(\d+)(\s)(COMMENTS|COMMENT)$/
       )
       const commentsCountValue = commentsCountRegex?.[1] || 0
-
-      console.log("commentsCountValue", commentsCountValue)
       const communityLinkText = await card.$(
         `[data-testid="${NewsTestId.CommunityLink}"] p`
       )
