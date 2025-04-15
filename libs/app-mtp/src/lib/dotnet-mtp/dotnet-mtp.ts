@@ -24,7 +24,7 @@ import { AppError } from "../../../../core/core/errors/app-error"
 import { DotnetCliCommandAction } from "./dotnet-mtp.interface"
 import { runCommand } from "./utils/handle-command"
 
-export const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
+const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 
 export class DotnetMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}

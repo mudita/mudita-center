@@ -26,6 +26,9 @@ import { AppError } from "../../../../core/core/errors/app-error"
 import { handleMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
 import { rootObjectHandle } from "./mtp-packet-definitions"
+import { ResponseObjectInfo } from "./utils/object-info.interface"
+import { getObjectFormat, isObjectCatalog } from "./utils/object-format.helpers"
+import { ObjectFormatCode } from "./utils/object-format.interface"
 
 const PREFIX_LOG = `[app-mtp/node-mtp]`
 
@@ -105,6 +108,51 @@ export class NodeMtp implements MtpInterface {
     })
   }
 
+  private async createDirectories(
+    deviceId: string,
+    storageId: number,
+    filePath: string,
+    parentObjectHandle: number
+  ): Promise<number> {
+    const pathSegments = filePath.split("/").filter((segment) => segment !== "")
+    if (pathSegments.length === 0) {
+      return parentObjectHandle
+    } else {
+      const truncatedPath = pathSegments.slice(1).join("/")
+      const objectHandle = await this.createFolder(
+        deviceId,
+        storageId,
+        pathSegments[0],
+        parentObjectHandle
+      )
+      return this.createDirectories(
+        deviceId,
+        storageId,
+        truncatedPath,
+        objectHandle
+      )
+    }
+  }
+
+  private async createFolder(
+    deviceId: string,
+    storageId: number,
+    name: string,
+    parentObjectHandle: number
+  ): Promise<number> {
+    console.log(
+      `${PREFIX_LOG} createFolder... deviceId: ${deviceId}, storageId: ${storageId}, name: ${name}, parentObjectHandle: ${parentObjectHandle}`
+    )
+    const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+    return device.uploadFileInfo({
+      size: 0,
+      name,
+      storageId,
+      parentObjectHandle,
+      objectFormat: ObjectFormatCode.Association,
+    })
+  }
+
   private async processUploadFileInfo({
     sourcePath,
     destinationPath,
@@ -126,22 +174,21 @@ export class NodeMtp implements MtpInterface {
       const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const size = await this.getFileSize(sourcePath)
       const name = path.basename(sourcePath)
-      const parentObjectHandle = await this.getParentObjectHandle(
-        destinationPath,
+      const parentObjectHandle = await this.getObjectHandleFromLastPathSegment(
         deviceId,
-        storageIdNumber
+        storageIdNumber,
+        destinationPath
       )
+
+      const objectFormat = getObjectFormat(name)
 
       const newObjectID = await device.uploadFileInfo({
         size,
         name,
         storageId: storageIdNumber,
         parentObjectHandle,
+        objectFormat,
       })
-
-      console.log(
-        `${PREFIX_LOG} process upload file info newObjectID: ${newObjectID}`
-      )
 
       if (newObjectID === undefined) {
         console.log(
@@ -213,16 +260,69 @@ export class NodeMtp implements MtpInterface {
     return stats.size
   }
 
-  private async getParentObjectHandle(
+  private async getObjectHandleFromLastPathSegment(
+    deviceId: string,
+    storageId: number,
     filePath: string,
+    objectHandle: number = rootObjectHandle
+  ): Promise<number> {
+    console.log(
+      `${PREFIX_LOG} getObjectHandleFromLastPathSegment... filePath: ${filePath}, objectHandle: ${objectHandle}`
+    )
+
+    const pathSegments = filePath.split("/").filter((segment) => segment !== "")
+
+    if (pathSegments.length === 0) {
+      return objectHandle
+    } else {
+      const truncatedPath = pathSegments.slice(1).join("/")
+
+      const childObjectInfoList = await this.getChildObjectInfoList(
+        objectHandle,
+        deviceId,
+        storageId
+      )
+
+      const childObjectInfo = childObjectInfoList.find(
+        (objectInfo) =>
+          objectInfo.filename === pathSegments[0] && isObjectCatalog(objectInfo)
+      )
+
+      if (childObjectInfo) {
+        return this.getObjectHandleFromLastPathSegment(
+          deviceId,
+          storageId,
+          truncatedPath,
+          childObjectInfo.objectHandle
+        )
+      } else {
+        return this.createDirectories(
+          deviceId,
+          storageId,
+          filePath,
+          objectHandle
+        )
+      }
+    }
+  }
+
+  private async getChildObjectInfoList(
+    parentHandle: number,
     deviceId: string,
     storageId: number
-  ): Promise<number> {
-    // getObjectHandles request is obligatory to allows correctly start the upload process - temporary solution
+  ): Promise<ResponseObjectInfo[]> {
+    const objectInfoList: ResponseObjectInfo[] = []
     const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
-    await device.getObjectHandles(rootObjectHandle, Number(storageId))
+    const objectHandles = await device.getObjectHandles(
+      parentHandle,
+      storageId
+    )
 
-    // mock implementation, `7` is the Picture folder
-    return 7
+    for await (const objectHandle of objectHandles) {
+      const objectInfo = await device.getObjectInfo(objectHandle)
+      objectInfoList.push(objectInfo)
+    }
+
+    return objectInfoList
   }
 }

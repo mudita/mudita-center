@@ -15,7 +15,7 @@ export enum StorageType {
   Reserved = "Reserved",
 }
 
-export interface ResponseStorageInfo {
+export interface StorageInfo {
   storageType: StorageType
   filesystemType: number
   accessCapability: number
@@ -43,7 +43,7 @@ const mapStorageType = (rawValue: number): StorageType => {
   }
 }
 
-export const parseStorageInfo = (buffer: ArrayBuffer): ResponseStorageInfo => {
+export const parseStorageInfo = (buffer: ArrayBuffer): StorageInfo => {
   const bytes = new DataView(buffer)
 
   const testFieldKeys = ["storageDescription", "volumeLabel"] as const
