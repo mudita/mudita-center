@@ -17,8 +17,8 @@ export const NewsPage: FunctionComponent = () => {
   useEffect(() => {
     if (!news.length) {
       void (async () => {
-        const newsItems = await window.api.news.get()
-        dispatch(setNews(newsItems))
+        const newsData = await window.api.news.get()
+        dispatch(setNews(newsData))
 
         window.api.news.onRefreshed((data) => {
           dispatch(setNews(data))

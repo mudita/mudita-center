@@ -4,13 +4,13 @@
  */
 
 import { electronAPI } from "@electron-toolkit/preload"
-import { NewsIpcEvents, NewsItem } from "news/models"
+import { NewsData, NewsIpcEvents } from "news/models"
 
 export const news = {
-  get: (): Promise<NewsItem[]> => {
+  get: (): Promise<NewsData> => {
     return electronAPI.ipcRenderer.invoke(NewsIpcEvents.Get)
   },
-  onRefreshed: (callback: (data: NewsItem[]) => void) => {
+  onRefreshed: (callback: (data: NewsData) => void) => {
     electronAPI.ipcRenderer.on(NewsIpcEvents.Refreshed, (_, data) => {
       callback(data)
     })

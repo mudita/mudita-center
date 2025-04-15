@@ -4,6 +4,6 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { NewsItem } from "news/models"
+import { NewsData } from "news/models"
 
-export const setNews = createAction<NewsItem[]>("news/set")
+export const setNews = createAction<NewsData>("news/set")

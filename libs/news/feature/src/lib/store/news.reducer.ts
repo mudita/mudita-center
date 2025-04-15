@@ -13,6 +13,6 @@ const initialState: NewsReducer = {
 
 export const newsReducer = createReducer(initialState, (builder) => {
   builder.addCase(setNews, (state, action) => {
-    state.items = action.payload
+    state.items = action.payload.items
   })
 })
