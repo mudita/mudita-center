@@ -16,29 +16,54 @@ import installExtension, {
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
 
+if (process.env.NODE_ENV === "test") {
+  import("wdio-electron-service/main")
+}
+
 const appWidth = process.env.APP_WIDTH
 const appHeight = process.env.APP_HEIGHT
+const devToolsEnabled =
+  process.env.ENABLE_DEVTOOLS === "true" ||
+  process.env.NODE_ENV === "development"
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     title: "Mudita Center",
-    width: appWidth ? Number(appWidth) : 1280,
-    height: appHeight ? Number(appHeight) : 800,
+    width:
+      appWidth && process.env.NODE_ENV === "development"
+        ? Number(appWidth)
+        : 1280,
+    height:
+      appHeight && process.env.NODE_ENV === "development"
+        ? Number(appHeight)
+        : 800,
     show: false,
     useContentSize: true,
     autoHideMenuBar: true,
+    titleBarStyle: "hiddenInset",
+    trafficLightPosition: {
+      x: 32,
+      y: 10,
+    },
+    titleBarOverlay: {
+      color: "#FFFFFF",
+      symbolColor: "#000000",
+      height: 32,
+    },
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, "../preload/index.js"),
+      preload: join(__dirname, "..", "preload", "index.js"),
       sandbox: false,
       nodeIntegration: false,
       contextIsolation: true,
     },
   })
 
-  void autoUpdater.checkForUpdatesAndNotify()
+  if (process.env.AUTOUPDATE_ENABLED === "true") {
+    void autoUpdater.checkForUpdatesAndNotify()
+  }
 
-  if (process.env.NODE_ENV === "development") {
+  if (devToolsEnabled) {
     mainWindow.webContents.openDevTools()
   }
 
@@ -62,7 +87,9 @@ const createWindow = () => {
   if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
     void mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"])
   } else {
-    void mainWindow.loadFile(path.join(__dirname, "../renderer/index.html"))
+    void mainWindow.loadFile(
+      path.join(__dirname, "..", "renderer", "index.html")
+    )
   }
 }
 
@@ -70,13 +97,17 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
-    loadExtensionOptions: { allowFileAccess: true },
-  })
-    .then(([redux, react]) =>
-      console.log(`Added Extensions:  ${redux.name}, ${react.name}`)
-    )
-    .catch((err) => console.log("An error occurred: ", err))
+  if (devToolsEnabled) {
+    installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
+      loadExtensionOptions: { allowFileAccess: true },
+    })
+      .then(([redux, react]) =>
+        console.log(`Added Extensions: ${redux.name}, ${react.name}`)
+      )
+      .catch((err) =>
+        console.error("An error occurred during extensions installation:", err)
+      )
+  }
 
   // Set app user model id for windows
   electronApp.setAppUserModelId("com.electron")

@@ -6,21 +6,14 @@
 export type NewsItem = {
   newsId: string
   title: string
-  category?: string
-  content: string
+  description: string
   link: string
+  formattedDate: string
   commentsCount?: number
   communityLink: string
-  discussionId?: string
-  imageId: string
+  updatedAt: string
   imageAlt: string
   imageSource: string
-  date: string
-  createdAt: string
-  updatedAt: string
 }
 
-export type NewsData = {
-  newsItems: NewsItem[]
-  lastUpdate: string
-}
+export type NewsData = NewsItem[]

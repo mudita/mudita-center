@@ -4,6 +4,50 @@
  */
 
 /// <reference types="wdio-electron-service" />
+import * as path from "path"
+import * as os from "os"
+
+// Based on node_modules/@puppeteer/browsers/src/browser-data/chromedriver.ts
+// and
+// node_modules/@puppeteer/browsers/src/detectPlatform.ts
+const getReleasePath = () => {
+  switch (os.platform()) {
+    case "darwin":
+      return [
+        os.arch() === "arm64" ? "mac-arm64" : "mac-universal",
+        "Mudita Center.app",
+        "Contents",
+        "MacOS",
+        "Mudita Center",
+      ]
+    case "linux":
+      return [
+        os.arch() === "arm64" ? "linux-arm64-unpacked" : "linux-unpacked",
+        "Mudita Center",
+      ]
+    case "win32":
+      return [
+        os.arch() === "arm64" ? "win-arm64-unpacked" : "win-unpacked",
+        "Mudita Center.exe",
+      ]
+  }
+}
+
+const getChromedriverPath = () => {
+  const directory = [__dirname, "..", "..", "node_modules", "chromedriver"]
+  switch (os.platform()) {
+    case "win32":
+      directory.push("lib", "chromedriver", "chromedriver.exe")
+      break
+    default:
+      directory.push("bin", "chromedriver")
+  }
+  return path.resolve(path.join(...directory))
+}
+
+const appBinaryPath =
+  process.env.TEST_BINARY_PATH ||
+  path.join(__dirname, "..", "app", "release", ...getReleasePath())
 
 export const config: WebdriverIO.Config = {
   //
@@ -59,13 +103,27 @@ export const config: WebdriverIO.Config = {
   capabilities: [
     {
       browserName: "electron",
+      "wdio:chromedriverOptions": {
+        binary: getChromedriverPath(),
+      },
       // Electron service options
       // see https://webdriver.io/docs/desktop-testing/electron/configuration/#service-options
-      "wdio:electronServiceOptions": {
-        appBinaryPath: process.env.TEST_BINARY_PATH,
-        // custom application args
-        appArgs: [],
-      },
+      // "wdio:electronServiceOptions": {
+      //   appBinaryPath,
+      //   // custom application args
+      //   appArgs: [],
+      // },
+      //   "wdio:chromedriverOptions": {
+      //     binary: path.resolve(
+      //       __dirname,
+      //       "..",
+      //       "..",
+      //       "node_modules",
+      //       "chromedriver",
+      //       "bin",
+      //       "chromedriver"
+      //     ),
+      //   },
     },
   ],
 
@@ -76,7 +134,8 @@ export const config: WebdriverIO.Config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: "info",
+  logLevel:
+    (process.env.TEST_LOG_LEVEL as WebdriverIO.Config["logLevel"]) || "info",
   //
   // Set specific log levels per logger
   // loggers:
@@ -126,7 +185,10 @@ export const config: WebdriverIO.Config = {
     [
       "electron",
       {
-        appBinaryPath: process.env.TEST_BINARY_PATH,
+        appBinaryPath,
+        env: {
+          NODE_ENV: "test",
+        },
       },
     ],
   ],
