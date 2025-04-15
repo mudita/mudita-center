@@ -16,7 +16,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "types-preload": ["apps/app/src/preload/api.d.ts"],
       "app-localize/feature": ["libs/app-localize/feature/src/index.ts"],
       "app-localize/utils": ["libs/app-localize/utils/src/index.ts"],
       "app-routing/feature": ["libs/app-routing/feature/src/index.ts"],
@@ -27,6 +26,9 @@
       "app-serialport/models": ["libs/app-serialport/models/src/index.ts"],
       "app-serialport/renderer": ["libs/app-serialport/renderer/src/index.ts"],
       "app-serialport/utils": ["libs/app-serialport/utils/src/index.ts"],
+      "app-settings/main": ["libs/app-settings/main/src/index.ts"],
+      "app-settings/models": ["libs/app-settings/models/src/index.ts"],
+      "app-settings/renderer": ["libs/app-settings/renderer/src/index.ts"],
       "app-sql/main": ["libs/app-sql/main/src/index.ts"],
       "app-sql/models": ["libs/app-sql/models/src/index.ts"],
       "app-sql/renderer": ["libs/app-sql/renderer/src/index.ts"],
@@ -37,6 +39,8 @@
       "app-theme/models": ["libs/app-theme/models/src/index.ts"],
       "app-theme/ui": ["libs/app-theme/ui/src/index.ts"],
       "app-theme/utils": ["libs/app-theme/utils/src/index.ts"],
+      "app-utils/main": ["libs/app-utils/main/src/index.ts"],
+      "app-utils/models": ["libs/app-utils/models/src/index.ts"],
       "devices/api-device/adapters": [
         "libs/devices/api-device/adapters/src/index.ts"
       ],
@@ -60,7 +64,8 @@
       "news/ui": ["libs/news/ui/src/index.ts"],
       "news/utils": ["libs/news/utils/src/index.ts"],
       "settings/feature": ["libs/settings/feature/src/index.ts"],
-      "settings/routes": ["libs/settings/routes/src/index.ts"]
+      "settings/routes": ["libs/settings/routes/src/index.ts"],
+      "types-preload": ["apps/app/src/preload/api.d.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "apps/app/out", "scripts"]

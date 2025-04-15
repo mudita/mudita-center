@@ -4,35 +4,27 @@
  */
 
 import axios from "axios"
-import fs from "fs-extra"
-import path from "path"
-import { app } from "electron"
 import EventEmitter from "events"
-import { NewsData, NewsItem, NewsRawData } from "news/models"
+import { NewsData, NewsRawData } from "news/models"
 import { normalizeContentfulData } from "news/utils"
 import defaultNews from "./default-news.json"
 import logger from "electron-log/main"
+import { JsonStoreService } from "app-utils/main"
 
 export class NewsService {
+  private readonly jsonStore: JsonStoreService<NewsData>
   private readonly eventEmitter = new EventEmitter()
 
   constructor() {
     void this.downloadNews()
+    this.jsonStore = new JsonStoreService<NewsData>("news", defaultNews)
   }
 
-  private get newsFilePath() {
-    return path.join(app.getPath("userData"), "news.json")
+  public getNews() {
+    return this.jsonStore.get()
   }
 
-  public async getNews(): Promise<NewsItem[]> {
-    const downloadedNewsExists = await fs.pathExists(this.newsFilePath)
-    if (downloadedNewsExists) {
-      return (await fs.readJson(this.newsFilePath)) as NewsData
-    }
-    return defaultNews
-  }
-
-  public onNewsUpdate(callback: (data: NewsItem[]) => void) {
+  public onNewsUpdate(callback: (data: NewsData) => void) {
     this.eventEmitter.once("news-update", callback)
   }
 
@@ -43,23 +35,21 @@ export class NewsService {
       )
       return
     }
-    logger.log("Downloading news")
     try {
+      logger.log("Downloading news...")
       const rawData = await axios.get<NewsRawData>(
         import.meta.env.VITE_MUDITA_CENTER_SERVER_URL + "/news",
         { params: { limit: 6 } }
       )
+      logger.log("News downloaded successfully.")
       const normalizedData = await normalizeContentfulData(rawData.data)
       this.eventEmitter.emit("news-update", normalizedData)
       await this.saveNews(normalizedData)
     } catch (error) {
       if (axios.isAxiosError(error)) {
         logger.error(
-          "Error while downloading news. Got status",
-          error.response?.status,
-          "for",
-          error.request?.method,
-          `${error.request?.protocol}//${error.request?.host}${error.request?.path}`
+          "Error while downloading news. Status",
+          error.response?.status
         )
         return
       }
@@ -72,8 +62,6 @@ export class NewsService {
   }
 
   private async saveNews(news: NewsData) {
-    await fs.ensureDir(path.join(this.newsFilePath, ".."))
-    await fs.writeJson(this.newsFilePath, news)
-    logger.log("News saved to", "<userData>/news.json")
+    this.jsonStore.set(news)
   }
 }

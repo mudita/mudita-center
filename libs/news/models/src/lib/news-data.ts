@@ -16,4 +16,6 @@ export type NewsItem = {
   imageSource: string
 }
 
-export type NewsData = NewsItem[]
+export type NewsData = {
+  items: NewsItem[]
+}

@@ -43,7 +43,9 @@ export const normalizeContentfulData = async (
     })
   }
 
-  return newsItems.sort((a, b) => {
-    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-  })
+  return {
+    items: newsItems.sort((a, b) => {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+    }),
+  }
 }
