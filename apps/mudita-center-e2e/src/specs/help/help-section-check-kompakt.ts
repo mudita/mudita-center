@@ -8,7 +8,7 @@ import HelpPage from "../../page-objects/help.page"
 import HelpArticlePage from "../../page-objects/help-article.page"
 import HomePage from "../../page-objects/home.page"
 
-describe("Check Help window", () => {
+describe("Check Help - Kompakt Category", () => {
   before(async () => {
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
@@ -21,41 +21,6 @@ describe("Check Help window", () => {
     const helpTab = await NavigationTabs.helpTab
     await helpTab.waitForDisplayed({ timeout: 15000 })
     await helpTab.click()
-
-    //Check window title
-    const helpTabTitle = await HelpPage.helpTabTitle
-    await helpTabTitle.waitForDisplayed({ timeout: 15000 })
-    await expect(helpTabTitle).toHaveText("Mudita Help Center")
-
-    //Verify welcome message
-    const helpMainHeader = await HelpPage.helpMainHeader
-    await expect(helpMainHeader).toHaveText("Welcome! How can we help you?")
-
-    //Verify welcome paragraph
-    const helpMainSubHeader = await HelpPage.helpMainSubHeader
-    await expect(helpMainSubHeader).toHaveText(
-      "Browse our selection of how-to and troubleshooting guides"
-    )
-
-    //Verify search bar
-    const iconSearch = await HelpPage.iconSearch
-    await expect(iconSearch).toBeDisplayed()
-
-    //Verify search bar icon
-    const helpSearchInput = await HelpPage.helpSearchInput
-    await expect(helpSearchInput).toBeDisplayed()
-
-    //Verify placeholder
-    await expect(helpSearchInput).toHaveAttrContaining(
-      "placeholder",
-      "Search topics"
-    )
-
-    //Verify main section title
-    const helpCategoriesTitle = await HelpPage.helpCategoriesTitle
-    await expect(helpCategoriesTitle).toHaveText(
-      "Which device are you using with Mudita Center?"
-    )
 
     //Section tabs
     const helpCategoriesList = await HelpPage.helpCategoriesList
@@ -93,73 +58,45 @@ describe("Check Help window", () => {
     await expect(hoverTabBackground.value).toBe("rgba(237,237,237,1)")
   })
 
-  it("Verify Harmony Section titles", async () => {
-    // Add a small delay to ensure all elements are visible
+  it("Verify Kompakt Section titles", async () => {
+    // Click on the 'Kompakt' category — assuming it's the 3rd one in the list
+    const helpCategoriesListItems = await $$(
+      '[data-testid="help-categories-list-item"]'
+    )
+    await helpCategoriesListItems[2].click()
+
+    // Small delay to ensure all elements load
     await browser.pause(500)
-    //Verify all items
-    const helpSubCategoriesListItems = await HelpPage.helpSubCategoriesListItems
+
+    // Verify all items
+    const helpSubCategoriesListItems = await $$(
+      '[data-testid="help-subcategories-list-item"]'
+    )
     await expect(helpSubCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
 
-    //Verify left column
-    const helpSubCategoriesListItemsLeftColumn =
-      await HelpPage.helpSubCategoriesListItemsLeftColumn
+    // Verify left column
+    const helpSubCategoriesListItemsLeftColumn = await $$(
+      '(//div[@data-testid="help-subcategories-list"]/div)[1]//div[@data-testid="help-subcategories-list-item"]'
+    )
     await expect(helpSubCategoriesListItemsLeftColumn).toBeElementsArrayOfSize({
       gte: 1,
     })
 
-    //Verify right column
-    const helpSubCategoriesListItemsRightColumn =
-      await HelpPage.helpSubCategoriesListItemsRightColumn
+    // Verify right column
+    const helpSubCategoriesListItemsRightColumn = await $$(
+      '(//div[@data-testid="help-subcategories-list"]/div)[2]//div[@data-testid="help-subcategories-list-item"]'
+    )
     await expect(helpSubCategoriesListItemsRightColumn).toBeElementsArrayOfSize(
       { gte: 1 }
     )
-
-    //Every sub category should not be empty
-    const helpSubCategoryArticlesListItemTitles =
-      await helpSubCategoriesListItems.map((element) => {
-        return element
-          .$('[data-testid="help-subcategories-list-item-title"]')
-          .getText()
-      })
-    await expect(
-      helpSubCategoryArticlesListItemTitles.length
-    ).toBeGreaterThanOrEqual(1)
-
-    //List of articles should not be empty in any of the categories
-    let helpSubCategoriesListItem
-    for await (helpSubCategoriesListItem of helpSubCategoriesListItems) {
-      await expect(
-        helpSubCategoriesListItem.$$(
-          '[data-testid="help-subcategory-articles-list-item"]'
-        )
-      ).toBeElementsArrayOfSize({ gte: 1 })
-    }
   })
-  it("Search for questions and verify results", async () => {
-    // Add a slightly bigger delay than usual to ensure all elements are visible
-    await browser.pause(2000)
-    const helpSearchInput = await HelpPage.helpSearchInput
-    await helpSearchInput.setValue("How to do factory reset on Pure")
 
-    //Verify quick search results
-    const helpSearchResults = await HelpPage.helpSearchResults
-    await expect(helpSearchResults).toBeDisplayed()
-    const helpSearchResultsParagraph = await HelpPage.helpSearchResultsParagraph
-    await expect(helpSearchResultsParagraph).toBeDisplayed()
-    await expect(helpSearchResultsParagraph).toHaveText("Quick Links")
-    //List should not be empty, bigger than 1
-    const helpSearchResultsItems = await HelpPage.helpSearchResultsItems
-    await expect(helpSearchResultsItems).toBeElementsArrayOfSize({ gte: 1 })
-    //Click first article
-    helpSearchResultsItems[0].click()
-  })
   it("Check first article", async () => {
     // Add a slightly bigger delay than usual to ensure all elements are visible
-    await browser.pause(2000)
-    //Check window title
-    const helpTabTitle = await HelpPage.helpTabTitle
-    await helpTabTitle.waitForDisplayed({ timeout: 15000 })
-    await expect(helpTabTitle).toHaveText("Mudita Help Center")
+    await browser.pause(500)
+
+    const helpArticleItems = HelpArticlePage.helpArticleItems
+    await helpArticleItems[0].click()
 
     //Check back button
     const helpArticleBackButton = await HelpArticlePage.helpArticleBackButton
@@ -167,31 +104,16 @@ describe("Check Help window", () => {
 
     //Check article title
     const helpArticleTitle = await HelpArticlePage.helpArticleTitle
-    await expect(helpArticleTitle).toHaveText("How to do factory reset on Pure")
+    await expect(helpArticleTitle).toHaveText("How to change the volume level")
 
-    //Check article warning
-    const helpArticleWarningIcon = await HelpArticlePage.helpArticleWarningIcon
-    await expect(helpArticleWarningIcon).toBeDisplayed()
+    //Check article content block
+    const contentBlocks = await HelpArticlePage.helpArticleContentBlocks
 
-    const helpArticleWarning = await HelpArticlePage.helpArticleWarning
-    await expect(helpArticleWarning).toHaveTextContaining(
-      "This will delete everything on your phone!"
-    )
+    await expect(contentBlocks).toBeElementsArrayOfSize({ gte: 1 })
 
-    //Check article content
-    const helpArticleContent = await HelpArticlePage.helpArticleContent
-    await expect(helpArticleContent).toBeDisplayed()
-    const helpArticleContentBlocks =
-      await HelpArticlePage.helpArticleContentBlocks
-    await expect(helpArticleContentBlocks).toBeElementsArrayOfSize({ gte: 2 })
-    await expect(
-      HelpArticlePage.getHelpArticleContentBlockTitle(0)
-    ).toHaveTextContaining("If your Pure is locked:")
-    await expect(
-      HelpArticlePage.getHelpArticleContentBlockText(0)
-    ).toHaveTextContaining(
-      "Turn off your Pure, hold down the right selection key > select Yes"
-    )
+    for (const block of contentBlocks) {
+      await expect(block).toBeDisplayed()
+    }
 
     //Check article helpful section
     const helpArticleFeedbackYesButton =
@@ -204,36 +126,71 @@ describe("Check Help window", () => {
     await expect(helpArticleFeedbackNoButton).toBeDisplayed()
     await expect(helpArticleFeedbackNoButton).toBeClickable()
 
-    const helpArticleFooter = await HelpArticlePage.helpArticleFooter
-    await helpArticleFooter.scrollIntoView()
-
-    const helpArticleFooterTitle = await HelpArticlePage.helpArticleFooterTitle
-    await expect(helpArticleFooterTitle).toHaveText(
-      "Need more help?\nVisit our Support Website"
-    )
-
-    const helpArticleFooterVisitSupportButton =
-      await HelpArticlePage.helpArticleFooterVisitSupportButton
-    await expect(helpArticleFooterVisitSupportButton).toHaveText(
-      "VISIT SUPPORT WEBSITE"
-    )
-
+    //click back button to return to Kompakt section
     helpArticleBackButton.click()
   })
-  it("Verify you are back in active first category", async () => {
+
+  it("Check second article", async () => {
     // Add a slightly bigger delay than usual to ensure all elements are visible
-    await browser.pause(2000)
-    const helpCategoriesListItems = await HelpPage.helpCategoriesListItems
+    await browser.pause(500)
 
-    // Ensure that the helpCategoriesListItems array has at least one element
-    await expect(helpCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
+    const helpArticleItems = HelpArticlePage.helpArticleItems
+    await helpArticleItems[1].click()
 
-    // Check if the first category item is displayed
-    await expect(helpCategoriesListItems[0]).toBeDisplayed()
+    //Check article title
+    const helpArticleTitle = await HelpArticlePage.helpArticleTitle
+    await expect(helpArticleTitle).toHaveText("How to unhide or hide app icons")
 
-    // Verify the first item has the 'active' class
-    await expect(helpCategoriesListItems[0]).toHaveElementClassContaining(
-      "active"
+    //Check article helpful section and vote NO
+    const helpArticleFeedbackNoButton =
+      await HelpArticlePage.helpArticleFeedbackNoButton
+    await expect(helpArticleFeedbackNoButton).toBeDisplayed()
+    await expect(helpArticleFeedbackNoButton).toBeClickable()
+    await helpArticleFeedbackNoButton.click()
+
+    //Verify if "NO" vote was sent
+    await expect(helpArticleFeedbackNoButton).not.toBeDisplayed()
+    const iconNamaste = HelpArticlePage.iconNamaste
+    const feedbackThanksText = HelpArticlePage.feedbackThanksText
+    await expect(iconNamaste).toBeDisplayed()
+    await expect(feedbackThanksText).toBeDisplayed()
+    await expect(feedbackThanksText).toHaveText("Thank you for your opinion!")
+
+    //click back button to return to Kompakt section
+    const helpArticleBackButton = await HelpArticlePage.helpArticleBackButton
+    helpArticleBackButton.click()
+  })
+
+  it("Check last article", async () => {
+    // Add a slightly bigger delay than usual to ensure all elements are visible
+    await browser.pause(500)
+
+    const helpArticleItems = await HelpArticlePage.helpArticleItems
+    await helpArticleItems[helpArticleItems.length - 1].click()
+
+    //Check article title
+    const helpArticleTitle = await HelpArticlePage.helpArticleTitle
+    await expect(helpArticleTitle).toHaveText(
+      "Files don't show when connecting Kompakt via USB-C"
     )
+
+    //Check article helpful section and vote YES
+    const helpArticleFeedbackYesButton =
+      await HelpArticlePage.helpArticleFeedbackYesButton
+    await expect(helpArticleFeedbackYesButton).toBeDisplayed()
+    await expect(helpArticleFeedbackYesButton).toBeClickable()
+    await helpArticleFeedbackYesButton.click()
+
+    //Verify if "NO" vote was sent
+    await expect(helpArticleFeedbackYesButton).not.toBeDisplayed()
+    const iconNamaste = HelpArticlePage.iconNamaste
+    const feedbackThanksText = HelpArticlePage.feedbackThanksText
+    await expect(iconNamaste).toBeDisplayed()
+    await expect(feedbackThanksText).toBeDisplayed()
+    await expect(feedbackThanksText).toHaveText("Thank you for your opinion!")
+
+    //click back button to return to Kompakt section
+    const helpArticleBackButton = await HelpArticlePage.helpArticleBackButton
+    helpArticleBackButton.click()
   })
 })
