@@ -156,13 +156,13 @@ describe("Check Help - Kompakt Category", () => {
     await expect(feedbackThanksText).toBeDisplayed()
     await expect(feedbackThanksText).toHaveText("Thank you for your opinion!")
 
-    //click back button to return to Kompakt section
+    //Click back button to return to Kompakt section
     const helpArticleBackButton = await HelpArticlePage.helpArticleBackButton
     helpArticleBackButton.click()
   })
 
   it("Check last article", async () => {
-    // Add a slightly bigger delay than usual to ensure all elements are visible
+    //Add a slightly bigger delay than usual to ensure all elements are visible
     await browser.pause(500)
 
     const helpArticleItems = await HelpArticlePage.helpArticleItems
@@ -189,8 +189,20 @@ describe("Check Help - Kompakt Category", () => {
     await expect(feedbackThanksText).toBeDisplayed()
     await expect(feedbackThanksText).toHaveText("Thank you for your opinion!")
 
-    //click back button to return to Kompakt section
+    //Click back button to return to Kompakt section
     const helpArticleBackButton = await HelpArticlePage.helpArticleBackButton
     helpArticleBackButton.click()
+  })
+
+  it("Verify you are back in active first category", async () => {
+    //Add a slightly bigger delay than usual to ensure all elements are visible
+    await browser.pause(2000)
+    const helpCategoriesListItems = await HelpPage.helpCategoriesListItems
+
+    //Ensure that the helpCategoriesListItems array has at least one element
+    await expect(helpCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
+
+    //Check if the first category item is displayed
+    await expect(helpCategoriesListItems[0]).toBeDisplayed()
   })
 })
