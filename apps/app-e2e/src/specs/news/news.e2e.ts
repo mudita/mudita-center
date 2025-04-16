@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "types-preload"
 import NewsPage from "../../page-objects/news.page"
 import { formatMessage } from "app-localize/utils"
 import { NewsTestId } from "news/models"

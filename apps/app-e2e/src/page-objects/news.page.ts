@@ -4,7 +4,7 @@
  */
 
 import Page from "./page"
-import { NewsTestId } from "news/models"
+import { NewsTestId } from "../all-test-ids"
 
 class NewsPage extends Page {
   public get moreNewsButton() {
