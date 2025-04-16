@@ -53,6 +53,8 @@ export enum ActionName {
   TransferDataToDevice = "generic-file-transfer/transfer-data-to-device",
   // New approach for transferring files
   SendFiles = "generic-file-transfer/send-files",
+  SendFileBase = "generic-file-transfer/send-file-base",
+  SendFileViaSerialPort = "generic-file-transfer/send-file-via-serial-port",
   SendFilesPreSend = "generic-file-transfer/send-files-pre-send",
   SendFilesChunkSent = "generic-file-transfer/send-files-chunk-sent",
   SendFilesError = "generic-file-transfer/send-files-error",
