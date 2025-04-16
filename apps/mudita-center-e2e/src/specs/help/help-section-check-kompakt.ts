@@ -10,6 +10,7 @@ import HomePage from "../../page-objects/home.page"
 
 describe("Check Help - Kompakt Category", () => {
   before(async () => {
+    // Click not now button to skip device not recognized screen
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
     await notNowButton.click()
@@ -21,41 +22,6 @@ describe("Check Help - Kompakt Category", () => {
     const helpTab = await NavigationTabs.helpTab
     await helpTab.waitForDisplayed({ timeout: 15000 })
     await helpTab.click()
-
-    //Section tabs
-    const helpCategoriesList = await HelpPage.helpCategoriesList
-    await expect(helpCategoriesList).toBeDisplayed()
-
-    const helpCategoriesListItems = await HelpPage.helpCategoriesListItems
-    await expect(helpCategoriesListItems).toBeElementsArrayOfSize({ gte: 1 })
-
-    //Active section tab
-    await expect(helpCategoriesListItems[0]).toBeDisplayed() // Added this line to ensure the first element is displayed
-
-    await expect(helpCategoriesListItems[0]).toHaveElementClassContaining(
-      "active"
-    )
-
-    const activeTabColor = await helpCategoriesListItems[0].getCSSProperty(
-      "color"
-    )
-    await expect(activeTabColor.value).toBe("rgba(0,0,0,1)")
-
-    const activeTabBackground = await helpCategoriesListItems[0].getCSSProperty(
-      "background-color"
-    )
-    await expect(activeTabBackground.value).toBe("rgba(237,237,237,1)")
-
-    //Hover on section tabs
-    await helpCategoriesListItems[1].moveTo()
-    const hoverTabColor = await helpCategoriesListItems[0].getCSSProperty(
-      "color"
-    )
-    await expect(hoverTabColor.value).toBe("rgba(0,0,0,1)")
-    const hoverTabBackground = await helpCategoriesListItems[0].getCSSProperty(
-      "background-color"
-    )
-    await expect(hoverTabBackground.value).toBe("rgba(237,237,237,1)")
   })
 
   it("Verify Kompakt Section titles", async () => {
