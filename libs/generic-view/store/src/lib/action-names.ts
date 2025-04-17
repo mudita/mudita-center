@@ -42,7 +42,7 @@ export enum ActionName {
   RefreshBackupList = "generic-backups/refresh-backup-list",
   LoadBackupMetadata = "generic-backups/load-backup-metadata",
 
-  FileTransferSend = "generic-file-transfer/send",
+  LegacySendFile = "generic-file-transfer/legacy-send-file",
   PreFileTransferSend = "generic-file-transfer/pre-send",
   ChunkFileTransferSend = "generic-file-transfer/chunk-sent",
   ClearFileTransferSendError = "generic-file-transfer/clear-send-errors",
