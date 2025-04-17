@@ -17,11 +17,11 @@
     "url": "git+https://github.com/mudita/mudita-center.git"
   },
   "scripts": {
-    "e2e:test": "npm run validate-test-paths && npx wdio run wdio.conf.ts",
-    "e2e:test:cicd:standalone": "npm run validate-test-paths && npx wdio run wdio.conf.ts --suite cicdStandalone",
-    "e2e:test:cicd:mock": "npm run validate-test-paths && npx wdio run wdio.conf.ts --suite cicdMock",
-    "e2e:test:mock": "npm run validate-test-paths && npx wdio run wdio.conf.ts --suite mock",
-    "e2e:test:standalone": "npm run validate-test-paths && npx wdio run wdio.conf.ts --suite standalone",
+    "e2e:test": "npm run validate-test-paths && cross-env WDIO_PORT=$(get-port) npx wdio run wdio.conf.ts",
+    "e2e:test:cicd:standalone": "npm run validate-test-paths && cross-env WDIO_PORT=$(get-port) npx wdio run wdio.conf.ts --suite cicdStandalone",
+    "e2e:test:cicd:mock": "npm run validate-test-paths && cross-env WDIO_PORT=$(get-port) npx wdio run wdio.conf.ts --suite cicdMock",
+    "e2e:test:mock": "npm run validate-test-paths && cross-env WDIO_PORT=$(get-port) npx wdio run wdio.conf.ts --suite mock",
+    "e2e:test:standalone": "npm run validate-test-paths && cross-env WDIO_PORT=$(get-port) npx wdio run wdio.conf.ts --suite standalone",
     "lint:typecheck:to-fix": "tsc --noEmit",
     "validate-test-paths": "ts-node ./scripts/validate-test-paths.ts"
   },

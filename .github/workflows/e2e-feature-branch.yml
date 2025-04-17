@@ -22,46 +22,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.16.1
-      - name: Find open port for ChromeBrowser on Linux/Mac
-        if: matrix.os != 'Windows'
-        id: find-port-unix
-        run: |
-            START_PORT=30000
-            END_PORT=40000
-            PORT=$START_PORT
-            RUNNER_OS="${{ matrix.os }}"
-            while [ $PORT -le $END_PORT ]; do
-              if [[ "$RUNNER_OS" == "Linux" ]]; then
-                nc -z 127.0.0.1 $PORT 2>/dev/null || break
-              elif [[ "$RUNNER_OS" == "macOS" ]]; then
-                nc -z -w1 127.0.0.1 $PORT 2>/dev/null || break
-              fi
-              PORT=$((PORT+1))
-            done
-            if [ $PORT -gt $END_PORT ]; then
-              echo "No available port found in the range $START_PORT-$END_PORT" >&2
-              exit 1
-            fi
-            echo "CHROME_OPEN_PORT=$PORT" >> $GITHUB_ENV
-      - name: Find open port for ChromeBrowser on Windows
-        if: matrix.os == 'Windows'
-        id: find-port-windows
-        run: |
-            $startPort = 30000
-            $endPort = 40000
-            $port = $startPort
-            while ($port -le $endPort) {
-              $isUsed = (Test-NetConnection -ComputerName 127.0.0.1 -Port $port).TcpTestSucceeded
-              if (-not $isUsed) {
-                break
-              }
-              $port++
-            }
-            if ($port -gt $endPort) {
-              Write-Error "No available port found in the range $startPort-$endPort"
-              exit 1
-            }
-            echo "CHROME_OPEN_PORT=$port" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
       - name: Setup environment variables for Linux
         if: matrix.os == 'Linux'
         env:
