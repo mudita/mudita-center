@@ -10,7 +10,6 @@ import {
   segmentBarItemData,
 } from "generic-view/models"
 import { View } from "generic-view/utils"
-import { formatBytes } from "../../typography/format-bytes"
 import { SEGMENTS_CONFIG_MAP } from "./storage-summary-bar"
 import {
   generateFileUploadButtonModalKey,
