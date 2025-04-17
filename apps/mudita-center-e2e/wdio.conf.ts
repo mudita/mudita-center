@@ -8,11 +8,11 @@ import * as path from "path"
 import * as dotenv from "dotenv"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
 
+
 const freePort = process.env.WDIO_PORT
-  ? parseInt(process.env.WDIO_PORT)
+  ? Number(process.env.WDIO_PORT)
   : undefined
 
-console.log("Found free port:", freePort)
 dotenv.config()
 
 export const config: Options.Testrunner = {
