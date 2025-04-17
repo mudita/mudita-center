@@ -105,17 +105,11 @@ const generateStorageSummary = (
     storageInformation.categoriesSpaceInformation["otherFiles"]
 
   if (otherFilesSpaceInformation !== undefined) {
-    // TODO: Remove musicFilesSpaceInformation when MTP will be implemented
-    const musicFilesSpaceInformation =
-      storageInformation.categoriesSpaceInformation["audioFiles"]
-    const { spaceUsedBytes } =
+    const { spaceUsedBytes, spaceUsedString } =
       storageInformation.categoriesSpaceInformation["otherFiles"]
 
-    const totalSize = spaceUsedBytes + musicFilesSpaceInformation.spaceUsedBytes
-    const totalSizeString = formatBytes(totalSize)
-
     segments.push(
-      getSegmentBarItemData("otherFiles", totalSize, totalSizeString)
+      getSegmentBarItemData("otherFiles", spaceUsedBytes, spaceUsedString)
     )
   }
 
