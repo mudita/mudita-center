@@ -9,17 +9,9 @@ import { generateBase64Info } from "./utils/generate-base-64-info.helper"
 import { prepareMockForFileTransfer } from "./prepare-mock-for-file-transfer.helper"
 
 // Helper function to mock PRE_BACKUP responses
-export function mockPreBackupResponses(path: string) {
+export function mockBackupResponses(path: string) {
   // Mock initial PRE_BACKUP response with status 202 (processing)
   const data = "1234567890"
-  const { base64, sizeInBytes, crc32Hex } = generateBase64Info({ data })
-  const contactsTransferId = generateUniqueNumber()
-  const callLogTransferId = generateUniqueNumber()
-  const messagesTransferId = generateUniqueNumber()
-  const notesTransferId = generateUniqueNumber()
-  const calendarEventsTransferId = generateUniqueNumber()
-  const osVersionAndSettingsTransferId = generateUniqueNumber()
-  const appSettingsTransferId = generateUniqueNumber()
 
   E2EMockClient.mockResponses([
     {
@@ -86,21 +78,4 @@ export function mockPreBackupResponses(path: string) {
   E2EMockClient.mockResponses(
     prepareMockForFileTransfer(path, data, "path/to/backup/APP_SETTINGS")
   )
-
-  // After 10 seconds, update the response to status 200 (completed)
-  //   setTimeout(() => {
-  //     E2EMockClient.mockResponse({
-  //       path,
-  //       endpoint: "PRE_BACKUP",
-  //       method: "POST",
-  //       status: 200,
-  //       body: {
-  //         backupId,
-  //         features: {
-  //           CONTACTS_V1: "path/to/backup/calls.json",
-  //           CALL_LOGS_V1: "path/to/backup/call_logs.json",
-  //         },
-  //       },
-  //     })
-  //   }, 10000)
 }
