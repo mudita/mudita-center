@@ -9,7 +9,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { FileBase } from "./reducer"
 import { DeviceId } from "Core/device/constants/device-id"
 import { sendFilesAbortRegister, sendFilesError } from "./actions"
-import { sendFileBase } from "./send-file-base.action"
+import { sendFile } from "./send-file.action"
 import { ApiFileTransferError } from "device/models"
 import { AppError } from "Core/core/errors"
 
@@ -47,7 +47,7 @@ export const sendFiles = createAsyncThunk<
 
     for (const file of files) {
       const sendFileBaseDispatch = dispatch(
-        sendFileBase({
+        sendFile({
           file,
           targetPath,
           entitiesType,

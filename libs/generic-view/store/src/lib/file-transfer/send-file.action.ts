@@ -22,14 +22,14 @@ export interface SendFilePayload {
   customDeviceId?: DeviceId
 }
 
-export const sendFileBase = createAsyncThunk<
+export const sendFile = createAsyncThunk<
   void,
   SendFilePayload,
   {
     state: ReduxRootState
   }
 >(
-  ActionName.SendFileBase,
+  ActionName.SendFile,
   async (
     sendFileBasePayload,
     { dispatch, getState, signal, rejectWithValue }
