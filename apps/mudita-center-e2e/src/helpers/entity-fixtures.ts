@@ -996,3 +996,45 @@ export const audioFileEntities: EntityData[] = [
     entityType: "audioFiles",
   },
 ]
+
+export const imageFileEntities: EntityData[] = [
+  {
+    id: "357",
+    filePath: "/storage/emulated/0/image.png",
+    fileName: "image.png",
+    extension: "png",
+    fileSize: 108576000,
+    fileType: "IMAGE",
+    mimeType: "image/png",
+    isInternal: true,
+    entityType: "imageFiles",
+  },
+]
+
+export const ebookFileEntities: EntityData[] = [
+  {
+    id: "657",
+    filePath: "/storage/emulated/0/ebook.pdf",
+    fileName: "ebook.pdf",
+    extension: "pdf",
+    fileSize: 708576000,
+    fileType: "EBOOK",
+    mimeType: "application/pdf",
+    isInternal: true,
+    entityType: "ebookFiles",
+  },
+]
+
+export const applicationFileEntities: EntityData[] = [
+  {
+    id: "687",
+    filePath: "/storage/emulated/0/app.apk",
+    fileName: "app.apk",
+    extension: "apk",
+    fileSize: 1708576000,
+    fileType: "APPLICATION",
+    mimeType: "application/vnd.android.package-archive",
+    isInternal: true,
+    entityType: "applicationFiles",
+  },
+]

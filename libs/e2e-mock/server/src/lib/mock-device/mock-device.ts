@@ -37,7 +37,6 @@ export class MockDevice extends BaseDevice {
       config.method as APIMethodsType,
       config.body
     )
-
     let result: ResultObject<ApiResponse<unknown>> | undefined = undefined
 
     const status = Number.parseInt(`${response?.status ?? 500}`)
