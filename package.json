@@ -189,7 +189,7 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "fs-extra": "^10.1.0",
-    "get-port-cli": "^3.0.0",
+    "get-port-sync": "^1.0.1",
     "getmac": "^5.21.0",
     "history": "^4.10.1",
     "html-webpack-plugin": "^5.5.0",
