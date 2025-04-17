@@ -35,6 +35,7 @@ import {
   genericEntitiesReducer,
   genericToastsReducer,
   genericAppInstallationReducer,
+  mtpFileTransferReducer,
 } from "generic-view/store"
 import { appStateReducer } from "shared/app-state"
 import { activeDeviceRegistryReducer } from "active-device-registry/feature"
@@ -78,6 +79,7 @@ export const reducers = {
   genericEntities: genericEntitiesReducer,
   genericToasts: genericToastsReducer,
   genericAppInstallation: genericAppInstallationReducer,
+  mtpFileTransfer: mtpFileTransferReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

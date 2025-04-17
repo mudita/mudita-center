@@ -5,6 +5,7 @@ import {
 } from "../../../../../libs/e2e-mock/responses/src"
 import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page"
 import { mockPreBackupResponses } from "../../helpers/mock-prebackup"
+import { BrowserRouter } from "react-router-dom"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
