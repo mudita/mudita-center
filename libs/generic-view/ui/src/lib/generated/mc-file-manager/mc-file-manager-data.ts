@@ -58,22 +58,13 @@ const generateOtherFilesSpaceInformation = (
   const otherFilesSpaceInformation =
     storageInformation.categoriesSpaceInformation["otherFiles"]
 
-  // TODO: Remove musicFilesSpaceInformation when MTP will be implemented
-  const musicFilesSpaceInformation =
-    storageInformation.categoriesSpaceInformation["audioFiles"]
-
   if (!otherFilesSpaceInformation) {
     return {}
   }
 
-  const totalSize =
-    otherFilesSpaceInformation.spaceUsedBytes +
-    musicFilesSpaceInformation.spaceUsedBytes
-  const totalSizeString = formatBytes(totalSize)
-
   return {
     [`${key}fileCategoryOtherFilesItemNameSize`]: {
-      text: `(${totalSizeString})`,
+      text: `(${otherFilesSpaceInformation.spaceUsedString})`,
     },
   }
 }

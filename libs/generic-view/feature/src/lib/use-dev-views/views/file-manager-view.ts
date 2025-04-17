@@ -52,16 +52,16 @@ export const fileManagerView: View = {
           supportedFileTypes: ["pdf", "epub"],
           entityType: "ebookFiles",
         },
-        // {
-        //   icon: IconType.Grid,
-        //   markerColor: FileManagerMarkerColor.applicationFiles,
-        //   label: "Apps",
-        //   fileListEmptyStateDescription:
-        //     "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly. ",
-        //   entityType: "applicationFiles",
-        //   directoryPath: "/media/apps",
-        //   supportedFileTypes: ["apk"],
-        // },
+        {
+          icon: IconType.Grid,
+          markerColor: FileManagerMarkerColor.applicationFiles,
+          label: "Apps",
+          fileListEmptyStateDescription:
+            "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly. ",
+          entityType: "applicationFiles",
+          directoryPath: "/media/apps",
+          supportedFileTypes: ["apk"],
+        },
       ],
     },
     // @ts-ignore
