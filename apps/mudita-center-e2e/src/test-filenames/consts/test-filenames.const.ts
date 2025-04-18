@@ -46,5 +46,6 @@ export enum TestFilesPaths {
   kompaktDisconnectDuringBackup = "src/specs/overview/kompakt-disconnect-during-backup.ts",
   kompaktBackupErrorCancel = "src/specs/overview/kompakt-backup-error-cancel.ts",
   kompaktBackupErrorDisconnect = "src/specs/overview/kompakt-backup-error-disconnect.ts",
+  helpSectionKompakt = "src/specs/help/help-section-check-kompakt.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`

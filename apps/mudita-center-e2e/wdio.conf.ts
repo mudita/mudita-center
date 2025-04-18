@@ -100,6 +100,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktDisconnectDuringBackup),
     toRelativePath(TestFilesPaths.kompaktBackupErrorCancel),
     toRelativePath(TestFilesPaths.kompaktBackupErrorDisconnect),
+    toRelativePath(TestFilesPaths.helpSectionKompakt),
   ],
   suites: {
     standalone: [
@@ -116,6 +117,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.helpVerifyFeedback),
       toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
       toRelativePath(TestFilesPaths.helpLinkInsideContainer),
+      toRelativePath(TestFilesPaths.helpSectionKompakt),
     ],
     mock: [
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
@@ -167,6 +169,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.helpVerifyFeedback),
       toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
       toRelativePath(TestFilesPaths.helpLinkInsideContainer),
+      toRelativePath(TestFilesPaths.helpSectionKompakt),
     ],
     cicdMock: [
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
