@@ -4,6 +4,7 @@
  */
 
 export function mapToCoreUsbId(inputString: string, delimiter = "#"): string {
+  console.log("inputString", inputString)
   const inputStringUp = inputString.toUpperCase()
   if (!inputStringUp.includes("VID_") || !inputStringUp.includes("PID_")) {
     return inputString
@@ -21,6 +22,9 @@ export function mapToCoreUsbId(inputString: string, delimiter = "#"): string {
   instanceId = [usbPortNumber, uniqueDeviceIdentifier, deviceIndex]
     .filter(Boolean)
     .join("&")
-
+  console.log(
+    "result",
+    ["USB", deviceId, instanceId].filter(Boolean).join("\\")
+  )
   return ["USB", deviceId, instanceId].filter(Boolean).join("\\")
 }

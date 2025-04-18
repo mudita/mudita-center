@@ -68,7 +68,14 @@ export const sendFileViaMTP = createAsyncThunk<
       })
     )
 
-    const checkSendFileProgress = async (): Promise<undefined | AppError> => {
+    const checkSendFileProgress = async (attempts: number = 0): Promise<undefined | AppError> => {
+
+      // temporary solution to avoid infinite loop in debug mode
+      if (attempts >= 120) {
+        console.log("Exceeded maximum retries")
+        return new AppError(ApiFileTransferError.Unknown, "Exceeded maximum retries")
+      }
+
       const { ok, error, data } = await getSendFileProgressViaMtpRequest(
         transactionId
       )
@@ -98,7 +105,7 @@ export const sendFileViaMTP = createAsyncThunk<
         return
       }
 
-      return await checkSendFileProgress()
+      return await checkSendFileProgress(attempts + 1)
     }
 
     const checkSendFileProgressResult = await checkSendFileProgress()

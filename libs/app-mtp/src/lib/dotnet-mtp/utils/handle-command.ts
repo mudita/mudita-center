@@ -9,7 +9,7 @@ import path from "path"
 
 const exePath = path.join(
   __dirname,
-  "../../../../../../apps/mudita-center/resources/MtpFileTransfer.exe"
+  "../../../apps/mudita-center/resources/MtpFileTransfer.exe"
 )
 
 const PREFIX_LOG = `[app-mtp/dotnet-mtp]`

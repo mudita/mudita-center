@@ -52,8 +52,8 @@ export const sendFiles = createAsyncThunk<
           targetPath,
           entitiesType,
           customDeviceId,
-          sendFileMode: "serial-port",
-          // sendFileMode: "mtp",
+          // sendFileMode: "serial-port",
+          sendFileMode: "mtp",
         })
       )
 

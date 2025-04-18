@@ -14,7 +14,7 @@ import { MtpFileTransferServiceEvents } from "device/models"
 import { IpcEvent } from "Core/core/decorators"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import { mapToCoreUsbId } from "Libs/device/feature/src/lib/file-transfer/map-to-core-usb-id"
+import { mapToCoreUsbId } from "./map-to-core-usb-id"
 
 export interface StartSendFilePayload {
   sourcePath: string
@@ -80,7 +80,8 @@ export class MtpFileTransferService {
           return portInfo.serialNumber === device.id
         case "win32":
           return (
-            mapToCoreUsbId(portInfo.pnpId ?? "") === mapToCoreUsbId(device.id)
+            mapToCoreUsbId(portInfo.pnpId ?? "",  "\\") ===
+            mapToCoreUsbId(device.id)
           )
         default:
           throw new Error(`Unsupported platform: ${process.platform}`)
