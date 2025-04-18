@@ -6,6 +6,8 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { AppError, AppErrorType } from "Core/core/errors"
 import {
+  addFileTransferErrors,
+  clearFileTransferErrors,
   clearGetErrors,
   clearSendErrors,
   fileTransferChunkGet,
@@ -19,10 +21,8 @@ import {
   sendFilesError,
   sendFilesFinished,
   sendFilesPreSend,
-  addFileTransferErrors,
-  clearFileTransferErrors,
 } from "./actions"
-import { sendFile } from "./send-file.action"
+import { legacySendFile } from "./legacy-send-file.action"
 import { getFile } from "./get-file.action"
 import { sendFiles } from "./send-files.action"
 import { ApiFileTransferError } from "device/models"
@@ -45,21 +45,23 @@ export type FileId = string | number
 export type FileGroupId = string | number
 export type ActionId = string
 
-export type FileBase =
-  | {
-      id: FileId
-      size: number
-      path: string
-      name: string
-      groupId?: FileGroupId
-    }
-  | {
-      id: FileId
-      size: number
-      base64: string
-      name: string
-      groupId?: FileGroupId
-    }
+export type FileWithPath = {
+  id: FileId
+  size: number
+  path: string
+  name: string
+  groupId?: FileGroupId
+}
+
+export type FileWithBase64 = {
+  id: FileId
+  size: number
+  base64: string
+  name: string
+  groupId?: FileGroupId
+}
+
+export type FileBase = FileWithPath | FileWithBase64
 
 type FileTransferPending = FileBase & {
   status: "pending"
@@ -67,7 +69,7 @@ type FileTransferPending = FileBase & {
 
 export type FileTransferProgress = FileBase & {
   status: "in-progress"
-  transferId: number
+  transferId: number | string
   progress: {
     chunksCount: number
     chunksTransferred: number
@@ -164,10 +166,10 @@ export const genericFileTransferReducer = createReducer(
         ].chunksTransferred = action.payload.chunksTransferred
       }
     })
-    builder.addCase(sendFile.fulfilled, (state, action) => {
+    builder.addCase(legacySendFile.fulfilled, (state, action) => {
       delete state.sendingFilesProgress[action.payload.transferId]
     })
-    builder.addCase(sendFile.rejected, (state, action) => {
+    builder.addCase(legacySendFile.rejected, (state, action) => {
       if (action.meta.aborted && "filePath" in action.meta.arg) {
         const transfer = Object.entries(state.receivingFilesProgress).find(
           ([, item]) =>

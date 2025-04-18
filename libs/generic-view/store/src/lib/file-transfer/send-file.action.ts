@@ -4,138 +4,109 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { sliceSegments } from "shared/utils"
+import { ApiFileTransferError } from "device/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import {
-  sendClearRequest,
-  sendFileRequest,
-  startPreSendFileRequest,
-} from "device/feature"
+import { FileBase } from "./reducer"
 import { DeviceId } from "Core/device/constants/device-id"
+import { AppError } from "Core/core/errors"
+import { selectActiveApiDeviceId, selectDeviceById } from "../selectors"
 import { ActionName } from "../action-names"
-import { fileTransferChunkSent, fileTransferSendPrepared } from "./actions"
-import { AppError, AppErrorType } from "Core/core/errors"
-import { GeneralError } from "device/models"
+import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
+import { sendFileViaMTP } from "./send-file-via-mtp.action"
 
-export type SendFileErrorPayload = {
-  transferId?: number
-  filePath: string
-}
-
-interface SendFileError {
-  deviceId: DeviceId
-  error: AppError<AppErrorType, SendFileErrorPayload>
+interface SendFilePayload {
+  file: FileBase
+  targetPath: string
+  entitiesType?: string
+  customDeviceId?: DeviceId
+  sendFileMode?: "serial-port" | "mtp"
 }
 
 export const sendFile = createAsyncThunk<
-  { transferId: number },
-  | {
-      deviceId: DeviceId
-      filePath: string
-      targetPath: string
-    }
-  | {
-      deviceId: DeviceId
-      transferId: number
-      chunksCount: number
-      filePath?: string
-    },
-  { state: ReduxRootState; rejectValue: SendFileError | undefined }
+  void,
+  SendFilePayload,
+  {
+    state: ReduxRootState
+  }
 >(
-  ActionName.FileTransferSend,
-  async (params, { rejectWithValue, dispatch, signal }) => {
-    let aborted = false
+  ActionName.SendFile,
+  async (
+    sendFileBasePayload,
+    { dispatch, getState, signal, rejectWithValue }
+  ) => {
+    const {
+      file,
+      targetPath,
+      customDeviceId,
+      sendFileMode = "serial-port",
+    } = sendFileBasePayload
+
+    const deviceId = customDeviceId || selectActiveApiDeviceId(getState())
+    const activeDevice = deviceId
+      ? selectDeviceById(getState(), deviceId)
+      : undefined
+
+    if (!deviceId || !activeDevice) {
+      return rejectWithValue(
+        new AppError(ApiFileTransferError.Unknown, "Device not found")
+      )
+    }
+
+    const sendFileAbortController = new AbortController()
+    const createEntityDataAbortController = new AbortController()
 
     const abortListener = async () => {
       signal.removeEventListener("abort", abortListener)
-      aborted = true
-      const transferId = transfer.transferId
-      if (transferId) {
-        await sendClearRequest(transferId)
-      }
+      sendFileAbortController.abort()
+      createEntityDataAbortController.abort()
     }
     signal.addEventListener("abort", abortListener)
 
-    const { deviceId } = params
+    if (sendFileMode === "mtp" && "path" in file) {
+      const isInternal = targetPath.startsWith("/storage/emulated/0")
+      const destinationPath = isInternal
+        ? targetPath.replace(/\/storage\/emulated\/0/, "")
+        : sliceSegments(targetPath, 2)
 
-    const transfer: {
-      transferId: number
-      chunksCount: number
-      filePath?: string
-    } = {
-      transferId: 0,
-      chunksCount: 0,
-      filePath: "",
-    }
+      const sendFileViaMTPDispatch = dispatch(
+        sendFileViaMTP({
+          file,
+          portInfo: activeDevice,
+          isInternal,
+          destinationPath,
+        })
+      )
 
-    if (aborted) {
-      return rejectWithValue(undefined)
-    }
+      sendFileAbortController.abort = (
+        sendFileViaMTPDispatch as unknown as {
+          abort: AbortController["abort"]
+        }
+      ).abort
 
-    if ("transferId" in params) {
-      transfer.transferId = params.transferId
-      transfer.chunksCount = params.chunksCount
+      const sendFileViaMTPResponse = await sendFileViaMTPDispatch
+
+      if (sendFileViaMTPResponse.meta.requestStatus === "rejected") {
+        return rejectWithValue(sendFileViaMTPResponse.payload)
+      }
     } else {
-      const { filePath, targetPath } = params
-      const preTransferResponse = await startPreSendFileRequest(
-        targetPath,
-        { path: filePath },
-        deviceId
+      const sendFileViaSerialPortDispatch = dispatch(
+        sendFileViaSerialPort({ ...sendFileBasePayload, file })
       )
-      if (!preTransferResponse.ok) {
-        return rejectWithValue({
-          deviceId,
-          error: {
-            name: GeneralError.IncorrectResponse,
-            type: GeneralError.IncorrectResponse,
-            message: "Incorrect response",
-            payload: {
-              transferId: preTransferResponse.error.payload,
-              filePath,
-            },
-          },
-        })
-      }
-      transfer.transferId = preTransferResponse.data.transferId
-      transfer.chunksCount = preTransferResponse.data.chunksCount
-      if (aborted) {
-        await sendClearRequest(transfer.transferId)
-        return rejectWithValue(undefined)
+
+      sendFileAbortController.abort = (
+        sendFileViaSerialPortDispatch as unknown as {
+          abort: AbortController["abort"]
+        }
+      ).abort
+
+      const sendFileViaSerialPortResponse = await sendFileViaSerialPortDispatch
+
+      if (sendFileViaSerialPortResponse.meta.requestStatus === "rejected") {
+        return rejectWithValue(sendFileViaSerialPortResponse.payload)
       }
     }
 
-    const { transferId, chunksCount } = transfer
-    dispatch(
-      fileTransferSendPrepared({
-        transferId,
-        chunksCount,
-        filePath: params.filePath,
-      })
-    )
-
-    for (let chunkNumber = 1; chunkNumber <= chunksCount; chunkNumber++) {
-      // TODO: consider using signal to abort
-      const { ok, error } = await sendFileRequest(transferId, chunkNumber)
-      if (!ok) {
-        await sendClearRequest(transferId)
-        return rejectWithValue({
-          deviceId,
-          error: {
-            ...error,
-            payload: {
-              transferId,
-              filePath: params.filePath || "",
-            },
-          },
-        })
-      }
-      dispatch(
-        fileTransferChunkSent({
-          transferId,
-          chunksTransferred: chunkNumber,
-        })
-      )
-    }
-    await sendClearRequest(transferId)
-    return { transferId }
+    return
   }
 )

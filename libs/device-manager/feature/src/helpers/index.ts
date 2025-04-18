@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./get-active-mtp-device-id"
 export * from "./group-events-by-device-type"
 export * from "./is-core-device"
 export * from "./is-data-migration-abort-due-to-detach"

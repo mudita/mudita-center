@@ -23,7 +23,7 @@ import {
   startPreDataTransferRequest,
   startPreSendWithDataFileRequest,
 } from "device/feature"
-import { sendFile } from "../file-transfer/send-file.action"
+import { legacySendFile } from "../file-transfer/legacy-send-file.action"
 import {
   clearDataTransfer,
   setDataTransfer,
@@ -206,7 +206,7 @@ export const transferDataToDevice = createAsyncThunk<
       }
 
       const sendFilePromise = dispatch(
-        sendFile({
+        legacySendFile({
           deviceId,
           // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           transferId: domain.transfer?.transferId!,

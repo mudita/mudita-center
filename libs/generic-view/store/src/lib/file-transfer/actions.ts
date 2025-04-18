@@ -15,7 +15,7 @@ import {
   FileTransferFinished,
   FileTransferProgress,
 } from "./reducer"
-import { SendFileErrorPayload } from "./send-file.action"
+import { SendFileErrorPayload } from "./legacy-send-file.action"
 import { GetFileErrorPayload } from "./get-file.action"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { AppError } from "Core/core/errors"

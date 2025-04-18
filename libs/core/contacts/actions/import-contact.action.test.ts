@@ -25,7 +25,6 @@ import thunk from "redux-thunk"
 
 jest.mock("Core/contacts/requests/create-contact.request")
 jest.mock("Core/contacts/requests/edit-contact.request")
-jest.mock("device/feature/src/lib/file-manager/mtp-file-manager.service")
 
 const newContact: NewContact = {
   firstName: "Sławomir",

@@ -10,7 +10,6 @@ import {
   segmentBarItemData,
 } from "generic-view/models"
 import { View } from "generic-view/utils"
-import { formatBytes } from "../../typography/format-bytes"
 import { SEGMENTS_CONFIG_MAP } from "./storage-summary-bar"
 import {
   generateFileUploadButtonModalKey,
@@ -58,22 +57,13 @@ const generateOtherFilesSpaceInformation = (
   const otherFilesSpaceInformation =
     storageInformation.categoriesSpaceInformation["otherFiles"]
 
-  // TODO: Remove musicFilesSpaceInformation when MTP will be implemented
-  const musicFilesSpaceInformation =
-    storageInformation.categoriesSpaceInformation["audioFiles"]
-
   if (!otherFilesSpaceInformation) {
     return {}
   }
 
-  const totalSize =
-    otherFilesSpaceInformation.spaceUsedBytes +
-    musicFilesSpaceInformation.spaceUsedBytes
-  const totalSizeString = formatBytes(totalSize)
-
   return {
     [`${key}fileCategoryOtherFilesItemNameSize`]: {
-      text: `(${totalSizeString})`,
+      text: `(${otherFilesSpaceInformation.spaceUsedString})`,
     },
   }
 }
@@ -114,17 +104,11 @@ const generateStorageSummary = (
     storageInformation.categoriesSpaceInformation["otherFiles"]
 
   if (otherFilesSpaceInformation !== undefined) {
-    // TODO: Remove musicFilesSpaceInformation when MTP will be implemented
-    const musicFilesSpaceInformation =
-      storageInformation.categoriesSpaceInformation["audioFiles"]
-    const { spaceUsedBytes } =
+    const { spaceUsedBytes, spaceUsedString } =
       storageInformation.categoriesSpaceInformation["otherFiles"]
 
-    const totalSize = spaceUsedBytes + musicFilesSpaceInformation.spaceUsedBytes
-    const totalSizeString = formatBytes(totalSize)
-
     segments.push(
-      getSegmentBarItemData("otherFiles", totalSize, totalSizeString)
+      getSegmentBarItemData("otherFiles", spaceUsedBytes, spaceUsedString)
     )
   }
 

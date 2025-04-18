@@ -18,9 +18,6 @@ import {
   selectFilesSendingCurrentFile,
   selectFilesSendingProgress,
   sendFilesAbort,
-  selectMtpFilesCount,
-  selectMtpTransferProgress,
-  selectMtpCurrentFile,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -35,8 +32,6 @@ const messages = defineMessages({
   },
 })
 
-const MTP_AVAILABLE = false
-
 export const FilesManagerUploadProgress: APIFC<
   undefined,
   McFilesManagerUploadProgressConfig
@@ -45,21 +40,13 @@ export const FilesManagerUploadProgress: APIFC<
   const selectorsConfig = { groupId: config.uploadActionId }
 
   const filesCount = useSelector((state: ReduxRootState) => {
-    return MTP_AVAILABLE
-      ? selectMtpFilesCount(state)
-      : selectFilesSendingCount(state, selectorsConfig)
+    return selectFilesSendingCount(state, selectorsConfig)
   })
   const transferProgress = useSelector((state: ReduxRootState) => {
-    return MTP_AVAILABLE
-      ? selectMtpTransferProgress(state)
-      : selectFilesSendingProgress(state, selectorsConfig)
+    return selectFilesSendingProgress(state, selectorsConfig)
   })
   const currentFile = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCurrentFile(state, selectorsConfig)
-  })
-  const mtpCurrentFile = useSelector((state: ReduxRootState) => {
-    const path = selectMtpCurrentFile(state)
-    return path ? path.split(/[\\/]/).pop() ?? "" : ""
   })
 
   const abortAction: ButtonAction = {
@@ -83,7 +70,7 @@ export const FilesManagerUploadProgress: APIFC<
         }}
         data={{
           value: transferProgress,
-          message: MTP_AVAILABLE ? mtpCurrentFile : currentFile?.name || "",
+          message: currentFile?.name || "",
         }}
       />
       <Modal.Buttons config={{ vertical: true }}>

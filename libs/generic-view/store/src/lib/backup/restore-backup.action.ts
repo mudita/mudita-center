@@ -16,7 +16,7 @@ import {
 import { RestoreFeature } from "generic-view/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
-import { sendFile } from "../file-transfer/send-file.action"
+import { legacySendFile } from "../file-transfer/legacy-send-file.action"
 import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
 import { BackupProcessFileStatus, RestoreProcessStatus } from "./backup.types"
@@ -188,7 +188,7 @@ export const restoreBackup = createAsyncThunk<
         })
       )
       const sendFilePromise = dispatch(
-        sendFile({
+        legacySendFile({
           deviceId,
           // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           transferId: featurePath.transfer?.transferId!,

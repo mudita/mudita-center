@@ -214,13 +214,9 @@ export class NodeMtp implements MtpInterface {
       this.uploadFileTransactionStatus[transactionId] = {
         progress: 0,
       }
-      console.log(`${PREFIX_LOG} Start`)
       const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
-      console.log(`${PREFIX_LOG} device ${JSON.stringify(device)}`)
       const size = await this.getFileSize(sourcePath)
-      console.log(`${PREFIX_LOG} file size ${size}`)
       await device.initiateUploadFile(size)
-      console.log(`${PREFIX_LOG} upload inited`)
       let uploadedBytes = 0
       const fileStream = fs.createReadStream(sourcePath, {
         highWaterMark: 1024,
@@ -314,10 +310,7 @@ export class NodeMtp implements MtpInterface {
   ): Promise<ResponseObjectInfo[]> {
     const objectInfoList: ResponseObjectInfo[] = []
     const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
-    const objectHandles = await device.getObjectHandles(
-      parentHandle,
-      storageId
-    )
+    const objectHandles = await device.getObjectHandles(parentHandle, storageId)
 
     for await (const objectHandle of objectHandles) {
       const objectInfo = await device.getObjectInfo(objectHandle)
