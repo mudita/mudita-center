@@ -42,7 +42,9 @@ export const generateMcFileManagerView: ComponentGenerator<
     [getFileManagerLoaderKey(feature)]: {
       component: "entities-loader",
       config: {
-        entityTypes: temporaryConfig.categories.map((category) => category.entityType),
+        entityTypes: temporaryConfig.categories.map(
+          (category) => category.entityType
+        ),
         text: "Loading, please wait...",
       },
       layout: {

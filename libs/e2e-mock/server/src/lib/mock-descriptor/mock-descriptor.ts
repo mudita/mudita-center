@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { find, findIndex, merge, pullAt } from "lodash"
+import { find, findIndex, pullAt } from "lodash"
 import { PortInfo } from "serialport"
 import {
   AddKompakt,
@@ -18,6 +18,7 @@ import {
 } from "e2e-mock-responses"
 import { APIEndpointType, APIMethodsType } from "device/models"
 import { ApiResponse } from "Core/device/types/mudita-os"
+import { compareObjectsWithWildcard } from "./compare-objects-with-wildcard"
 
 const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
   manufacturer: "Mudita",
@@ -201,7 +202,9 @@ class MockDescriptor {
     body: Record<string, unknown> | undefined
   ) {
     const matchArray = responses.map((item) => item.match?.expected)
-    const matchIndex = findIndex(matchArray, body)
+    const matchIndex = findIndex(matchArray, (item) =>
+      compareObjectsWithWildcard(item, body)
+    )
     if (matchIndex > -1) {
       const response = responses[matchIndex]
 
@@ -243,27 +246,7 @@ class MockDescriptor {
           method,
           responses: perDeviceOnceResponses,
         })
-        return this.mapResponseWithoutMatch(
-          merge(
-            foundResponse.response,
-            this.fillEndpointSpecificFields(endpoint, method, body)
-          )
-        )
-      }
-    }
-    return undefined
-  }
-
-  private fillEndpointSpecificFields(
-    endpoint: APIEndpointType,
-    method: APIMethodsType,
-    body: Record<string, unknown> | undefined
-  ) {
-    if ((method === "POST" || method === "GET") && endpoint === "PRE_BACKUP") {
-      return {
-        body: {
-          backupId: body?.["backupId"],
-        },
+        return this.mapResponseWithoutMatch(foundResponse.response)
       }
     }
     return undefined
@@ -281,12 +264,7 @@ class MockDescriptor {
       const foundResponse = this.findResponse(perDeviceResponses, body)
 
       if (foundResponse) {
-        return this.mapResponseWithoutMatch(
-          merge(
-            foundResponse.response,
-            this.fillEndpointSpecificFields(endpoint, method, body)
-          )
-        )
+        return this.mapResponseWithoutMatch(foundResponse.response)
       }
     }
     return undefined

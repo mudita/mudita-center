@@ -4,7 +4,7 @@ import {
   overviewDataWithOneSimCard,
 } from "../../../../../libs/e2e-mock/responses/src"
 import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page"
-import { mockPreBackupResponses } from "../../helpers/mock-prebackup"
+import { mockBackupResponses } from "../../helpers/mock-backup"
 import HomePage from "../../page-objects/home.page"
 
 describe("Backup error - disconnect", () => {
@@ -51,7 +51,7 @@ describe("Backup error - disconnect", () => {
   })
 
   it("Mock prebackup, wait for Overview Page and click Create Backup", async () => {
-    mockPreBackupResponses("path-1")
+    mockBackupResponses("path-1")
     const createBackupButton = await ModalBackupKompaktPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed()
     await expect(createBackupButton).toBeClickable()
