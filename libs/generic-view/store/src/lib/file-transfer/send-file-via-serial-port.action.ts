@@ -9,7 +9,11 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectActiveApiDeviceId } from "../selectors"
 import { FileBase } from "./reducer"
 import { DeviceId } from "Core/device/constants/device-id"
-import { sendFilesChunkSent, sendFilesPreSend } from "./actions"
+import {
+  sendFilesChunkSent,
+  sendFilesFinished,
+  sendFilesPreSend,
+} from "./actions"
 import {
   abortTransferRequest,
   sendFileRequest,
@@ -17,23 +21,25 @@ import {
 } from "device/feature"
 import { ApiFileTransferError } from "device/models"
 import { AppError } from "Core/core/errors"
+import { createEntityDataAction } from "../entities/create-entity-data.action"
 
-export interface SendFilePayload {
+interface SendFileViaSerialPortPayload {
   file: FileBase
   targetPath: string
   customDeviceId?: DeviceId
+  entitiesType?: string
 }
 
 export const sendFileViaSerialPort = createAsyncThunk<
   void,
-  SendFilePayload,
+  SendFileViaSerialPortPayload,
   {
     state: ReduxRootState
   }
 >(
   ActionName.SendFileViaSerialPort,
   async (
-    { file, targetPath, customDeviceId },
+    { file, targetPath, customDeviceId, entitiesType },
     { dispatch, getState, signal, rejectWithValue }
   ) => {
     const deviceId = customDeviceId || selectActiveApiDeviceId(getState())
@@ -41,6 +47,13 @@ export const sendFileViaSerialPort = createAsyncThunk<
       return rejectWithValue(
         new AppError(ApiFileTransferError.Unknown, "Device not found")
       )
+    }
+
+    const createEntityDataAbortController = new AbortController()
+
+    const abortListener = async () => {
+      signal.removeEventListener("abort", abortListener)
+      createEntityDataAbortController.abort()
     }
 
     const preTransferResponse = await startPreSendFileRequest(
@@ -95,6 +108,43 @@ export const sendFileViaSerialPort = createAsyncThunk<
         })
       )
     }
+
+    if (!entitiesType) {
+      dispatch(sendFilesFinished({ id: file.id }))
+      return
+    }
+
+    const fileEntityDispatch = dispatch(
+      createEntityDataAction({
+        deviceId,
+        entitiesType,
+        data: {
+          filePath: targetPath + file.name,
+          entityType: entitiesType,
+        },
+      })
+    )
+
+    createEntityDataAbortController.abort = (
+      fileEntityDispatch as unknown as { abort: AbortController["abort"] }
+    ).abort
+
+    const fileEntity = await fileEntityDispatch
+
+    console.log("fileEntity", fileEntity)
+
+    if (signal.aborted) {
+      return rejectWithValue(
+        new AppError(ApiFileTransferError.Aborted, "Aborted")
+      )
+    }
+    if (fileEntity.meta.requestStatus === "rejected") {
+      return rejectWithValue(
+        new AppError(ApiFileTransferError.Unknown, "Entity creation failed")
+      )
+    }
+    dispatch(sendFilesFinished({ id: file.id }))
+
     return
   }
 )

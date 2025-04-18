@@ -55,6 +55,7 @@ export enum ActionName {
   SendFiles = "generic-file-transfer/send-files",
   SendFile = "generic-file-transfer/send-file",
   SendFileViaSerialPort = "generic-file-transfer/send-file-via-serial-port",
+  SendFileViaMTP = "generic-file-transfer/send-file-via-mtp",
   SendFilesPreSend = "generic-file-transfer/send-files-pre-send",
   SendFilesChunkSent = "generic-file-transfer/send-files-chunk-sent",
   SendFilesError = "generic-file-transfer/send-files-error",

@@ -4,14 +4,14 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ActionName } from "../action-names"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { FileBase } from "./reducer"
-import { DeviceId } from "Core/device/constants/device-id"
-import { sendFilesAbortRegister, sendFilesError } from "./actions"
-import { sendFile } from "./send-file.action"
 import { ApiFileTransferError } from "device/models"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { DeviceId } from "Core/device/constants/device-id"
 import { AppError } from "Core/core/errors"
+import { ActionName } from "../action-names"
+import { FileBase } from "./reducer"
+import { sendFile } from "./send-file.action"
+import { sendFilesAbortRegister, sendFilesError } from "./actions"
 
 export interface SendFilesPayload {
   actionId: string
@@ -52,6 +52,8 @@ export const sendFiles = createAsyncThunk<
           targetPath,
           entitiesType,
           customDeviceId,
+          sendFileMode: "serial-port",
+          // sendFileMode: "mtp",
         })
       )
 

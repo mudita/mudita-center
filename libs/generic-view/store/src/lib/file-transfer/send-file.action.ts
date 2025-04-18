@@ -4,22 +4,23 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ActionName } from "../action-names"
+import { sliceSegments } from "shared/utils"
+import { ApiFileTransferError } from "device/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { selectActiveApiDeviceId } from "../selectors"
 import { FileBase } from "./reducer"
 import { DeviceId } from "Core/device/constants/device-id"
-import { sendFilesFinished } from "./actions"
-import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
-import { createEntityDataAction } from "../entities/create-entity-data.action"
 import { AppError } from "Core/core/errors"
-import { ApiFileTransferError } from "device/models"
+import { selectActiveApiDeviceId, selectDeviceById } from "../selectors"
+import { ActionName } from "../action-names"
+import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
+import { sendFileViaMTP } from "./send-file-via-mtp.action"
 
-export interface SendFilePayload {
+interface SendFilePayload {
   file: FileBase
   targetPath: string
   entitiesType?: string
   customDeviceId?: DeviceId
+  sendFileMode?: "serial-port" | "mtp"
 }
 
 export const sendFile = createAsyncThunk<
@@ -34,74 +35,78 @@ export const sendFile = createAsyncThunk<
     sendFileBasePayload,
     { dispatch, getState, signal, rejectWithValue }
   ) => {
-    const { file, targetPath, entitiesType, customDeviceId } =
-      sendFileBasePayload
+    const {
+      file,
+      targetPath,
+      customDeviceId,
+      sendFileMode = "serial-port",
+    } = sendFileBasePayload
 
     const deviceId = customDeviceId || selectActiveApiDeviceId(getState())
-    if (!deviceId) {
+    const activeDevice = deviceId
+      ? selectDeviceById(getState(), deviceId)
+      : undefined
+
+    if (!deviceId || !activeDevice) {
       return rejectWithValue(
         new AppError(ApiFileTransferError.Unknown, "Device not found")
       )
     }
 
-    const sendFileViaSerialPortAbortController = new AbortController()
+    const sendFileAbortController = new AbortController()
     const createEntityDataAbortController = new AbortController()
 
     const abortListener = async () => {
       signal.removeEventListener("abort", abortListener)
-      sendFileViaSerialPortAbortController.abort()
+      sendFileAbortController.abort()
       createEntityDataAbortController.abort()
     }
     signal.addEventListener("abort", abortListener)
 
-    const sendFileViaSerialPortDispatch = dispatch(
-      sendFileViaSerialPort({ ...sendFileBasePayload, file })
-    )
+    if (sendFileMode === "mtp" && "path" in file) {
+      const isInternal = targetPath.startsWith("/storage/emulated/0")
+      const destinationPath = isInternal
+        ? targetPath.replace(/\/storage\/emulated\/0/, "")
+        : sliceSegments(targetPath, 2)
 
-    sendFileViaSerialPortAbortController.abort = (
-      sendFileViaSerialPortDispatch as unknown as {
-        abort: AbortController["abort"]
+      const sendFileViaMTPDispatch = dispatch(
+        sendFileViaMTP({
+          file,
+          portInfo: activeDevice,
+          isInternal,
+          destinationPath,
+        })
+      )
+
+      sendFileAbortController.abort = (
+        sendFileViaMTPDispatch as unknown as {
+          abort: AbortController["abort"]
+        }
+      ).abort
+
+      const sendFileViaMTPResponse = await sendFileViaMTPDispatch
+
+      if (sendFileViaMTPResponse.meta.requestStatus === "rejected") {
+        return rejectWithValue(sendFileViaMTPResponse.payload)
       }
-    ).abort
-
-    const sendFileViaSerialPortResponse = await sendFileViaSerialPortDispatch
-
-    if (sendFileViaSerialPortResponse.meta.requestStatus === "rejected") {
-      return rejectWithValue(sendFileViaSerialPortResponse.payload)
-    }
-
-    if (!entitiesType) {
-      dispatch(sendFilesFinished({ id: file.id }))
-      return
-    }
-
-    const fileEntityDispatch = dispatch(
-      createEntityDataAction({
-        deviceId,
-        entitiesType,
-        data: {
-          filePath: targetPath + file.name,
-          entityType: entitiesType,
-        },
-      })
-    )
-
-    createEntityDataAbortController.abort = (
-      fileEntityDispatch as unknown as { abort: AbortController["abort"] }
-    ).abort
-
-    const fileEntity = await fileEntityDispatch
-    if (signal.aborted) {
-      return rejectWithValue(
-        new AppError(ApiFileTransferError.Aborted, "Aborted")
+    } else {
+      const sendFileViaSerialPortDispatch = dispatch(
+        sendFileViaSerialPort({ ...sendFileBasePayload, file })
       )
+
+      sendFileAbortController.abort = (
+        sendFileViaSerialPortDispatch as unknown as {
+          abort: AbortController["abort"]
+        }
+      ).abort
+
+      const sendFileViaSerialPortResponse = await sendFileViaSerialPortDispatch
+
+      if (sendFileViaSerialPortResponse.meta.requestStatus === "rejected") {
+        return rejectWithValue(sendFileViaSerialPortResponse.payload)
+      }
     }
-    if (fileEntity.meta.requestStatus === "rejected") {
-      return rejectWithValue(
-        new AppError(ApiFileTransferError.Unknown, "Entity creation failed")
-      )
-    }
-    dispatch(sendFilesFinished({ id: file.id }))
+
     return
   }
 )

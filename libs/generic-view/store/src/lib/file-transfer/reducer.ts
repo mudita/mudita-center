@@ -45,21 +45,23 @@ export type FileId = string | number
 export type FileGroupId = string | number
 export type ActionId = string
 
-export type FileBase =
-  | {
-      id: FileId
-      size: number
-      path: string
-      name: string
-      groupId?: FileGroupId
-    }
-  | {
-      id: FileId
-      size: number
-      base64: string
-      name: string
-      groupId?: FileGroupId
-    }
+export type FileWithPath = {
+  id: FileId
+  size: number
+  path: string
+  name: string
+  groupId?: FileGroupId
+}
+
+export type FileWithBase64 = {
+  id: FileId
+  size: number
+  base64: string
+  name: string
+  groupId?: FileGroupId
+}
+
+export type FileBase = FileWithPath | FileWithBase64
 
 type FileTransferPending = FileBase & {
   status: "pending"
@@ -67,7 +69,7 @@ type FileTransferPending = FileBase & {
 
 export type FileTransferProgress = FileBase & {
   status: "in-progress"
-  transferId: number
+  transferId: number | string
   progress: {
     chunksCount: number
     chunksTransferred: number
