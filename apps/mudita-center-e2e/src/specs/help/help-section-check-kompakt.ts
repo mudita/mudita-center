@@ -162,7 +162,7 @@ describe("Check Help - Kompakt Category", () => {
 
   it("Verify you are back in active first category", async () => {
     //Add a slightly bigger delay than usual to ensure all elements are visible
-    await browser.pause(2000)
+    await browser.pause(1000)
     const helpCategoriesListItems = await HelpPage.helpCategoriesListItems
 
     //Ensure that the helpCategoriesListItems array has at least one element
