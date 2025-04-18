@@ -14,6 +14,7 @@ import { MtpFileTransferServiceEvents } from "device/models"
 import { IpcEvent } from "Core/core/decorators"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
+import { mapToCoreUsbId } from "./map-to-core-usb-id"
 
 export interface StartSendFilePayload {
   sourcePath: string
@@ -71,25 +72,22 @@ export class MtpFileTransferService {
   private async getMtpDeviceId(
     portInfo: PortInfo
   ): Promise<string | undefined> {
-    const mtpDeviceId = this.mapToMtpDeviceId(portInfo)
-
-    if (!mtpDeviceId) {
-      return undefined
-    }
-
     const devices = await this.mtp.getDevices()
-    return devices.find((device) => device.id.includes(mtpDeviceId))?.id
-  }
+    const device = devices.find((device) => {
+      switch (process.platform) {
+        case "darwin":
+        case "linux":
+          return portInfo.serialNumber === device.id
+        case "win32":
+          return (
+            mapToCoreUsbId(portInfo.pnpId ?? "",  "\\") ===
+            mapToCoreUsbId(device.id)
+          )
+        default:
+          throw new Error(`Unsupported platform: ${process.platform}`)
+      }
+    })
 
-  private mapToMtpDeviceId(portInfo: PortInfo): string | undefined {
-    switch (process.platform) {
-      case "darwin":
-      case "linux":
-        return portInfo.serialNumber
-      case "win32":
-        return portInfo.pnpId
-      default:
-        throw new Error(`Unsupported platform: ${process.platform}`)
-    }
+    return device?.id
   }
 }
