@@ -78,7 +78,7 @@ import {
 } from "shared/utils"
 import { mockServiceEnabled, startServer, stopServer } from "e2e-mock-server"
 
-console.log("Starting Mudita Center...")
+console.log("Starting Mudita Center....")
 console.log("App data", app.getPath("appData"))
 console.log("User data", app.getPath("userData"))
 
