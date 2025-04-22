@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PortInfo } from "serialport"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ApiFileTransferError } from "device/models"
 import {
@@ -16,11 +15,11 @@ import { FileWithPath } from "./reducer"
 import { sendFilesChunkSent, sendFilesPreSend } from "./actions"
 import { ActionName } from "../action-names"
 
-interface SendFileViaMTPPayload {
+export interface SendFileViaMTPPayload {
   file: FileWithPath
-  portInfo: PortInfo
+  deviceId: string
+  storageId: string
   destinationPath: string
-  isInternal: boolean
 }
 
 export const sendFileViaMTP = createAsyncThunk<
@@ -32,12 +31,12 @@ export const sendFileViaMTP = createAsyncThunk<
 >(
   ActionName.SendFileViaMTP,
   async (
-    { file, portInfo, destinationPath, isInternal },
+    { file, deviceId, destinationPath, storageId },
     { dispatch, signal, rejectWithValue }
   ) => {
     const startSendFileViaMtpResult = await startSendFileViaMtpRequest({
-      portInfo,
-      isInternal,
+      deviceId,
+      storageId,
       destinationPath,
       sourcePath: file.path,
     })

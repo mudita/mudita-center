@@ -8,44 +8,52 @@ import {
   AppMtp,
   GetUploadFileProgressResultData,
   MtpStorage,
+  MtpUploadFileData,
   UploadFileResultData,
 } from "app-mtp"
 import { MtpFileTransferServiceEvents } from "device/models"
 import { IpcEvent } from "Core/core/decorators"
-import { Result, ResultObject } from "Core/core/builder"
-import { AppError } from "Core/core/errors"
+import { ResultObject } from "Core/core/builder"
 import { mapToCoreUsbId } from "./map-to-core-usb-id"
-
-export interface StartSendFilePayload {
-  sourcePath: string
-  destinationPath: string
-  isInternal: boolean
-  portInfo: PortInfo
-}
 
 export class MtpFileTransferService {
   constructor(private mtp: AppMtp) {}
 
+  @IpcEvent(MtpFileTransferServiceEvents.GetMtpDeviceId)
+  async getMtpDeviceId(portInfo: PortInfo): Promise<string | undefined> {
+    const devices = await this.mtp.getDevices()
+    const device = devices.find((device) => {
+      switch (process.platform) {
+        case "darwin":
+        case "linux":
+          return portInfo.serialNumber === device.id
+        case "win32":
+          return (
+            mapToCoreUsbId(portInfo.pnpId ?? "", "\\") ===
+            mapToCoreUsbId(device.id)
+          )
+        default:
+          throw new Error(`Unsupported platform: ${process.platform}`)
+      }
+    })
+
+    return device?.id
+  }
+
+  @IpcEvent(MtpFileTransferServiceEvents.GetDeviceStorages)
+  async getDeviceStorages(
+    deviceId: string
+  ): Promise<ResultObject<MtpStorage[]>> {
+    return this.mtp.getDeviceStorages(deviceId)
+  }
+
   @IpcEvent(MtpFileTransferServiceEvents.StartSendFile)
   async startSendFile({
-    portInfo,
-    isInternal,
+    deviceId,
+    storageId,
     sourcePath,
     destinationPath,
-  }: StartSendFilePayload): Promise<ResultObject<UploadFileResultData>> {
-    const deviceId = await this.getMtpDeviceId(portInfo)
-
-    if (!deviceId) {
-      return Result.failed(new AppError(""))
-    }
-
-    const storages = await this.getDeviceStorages(deviceId)
-    const storageId = storages.find((s) => s.isInternal === isInternal)?.id
-
-    if (!storageId) {
-      return Result.failed(new AppError(""))
-    }
-
+  }: MtpUploadFileData): Promise<ResultObject<UploadFileResultData>> {
     return this.mtp.uploadFile({
       deviceId,
       storageId,
@@ -61,33 +69,5 @@ export class MtpFileTransferService {
     return this.mtp.getUploadFileProgress({
       transactionId,
     })
-  }
-
-  private async getDeviceStorages(deviceId: string): Promise<MtpStorage[]> {
-    const result = await this.mtp.getDeviceStorages(deviceId)
-
-    return result.ok ? result.data : []
-  }
-
-  private async getMtpDeviceId(
-    portInfo: PortInfo
-  ): Promise<string | undefined> {
-    const devices = await this.mtp.getDevices()
-    const device = devices.find((device) => {
-      switch (process.platform) {
-        case "darwin":
-        case "linux":
-          return portInfo.serialNumber === device.id
-        case "win32":
-          return (
-            mapToCoreUsbId(portInfo.pnpId ?? "",  "\\") ===
-            mapToCoreUsbId(device.id)
-          )
-        default:
-          throw new Error(`Unsupported platform: ${process.platform}`)
-      }
-    })
-
-    return device?.id
   }
 }

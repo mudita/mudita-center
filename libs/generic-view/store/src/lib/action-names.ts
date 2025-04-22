@@ -53,7 +53,6 @@ export enum ActionName {
   TransferDataToDevice = "generic-file-transfer/transfer-data-to-device",
   // New approach for transferring files
   SendFiles = "generic-file-transfer/send-files",
-  SendFile = "generic-file-transfer/send-file",
   SendFileViaSerialPort = "generic-file-transfer/send-file-via-serial-port",
   SendFileViaMTP = "generic-file-transfer/send-file-via-mtp",
   SendFilesPreSend = "generic-file-transfer/send-files-pre-send",
@@ -63,6 +62,7 @@ export enum ActionName {
   SendFilesClear = "generic-file-transfer/send-files-clear",
   SendFilesAbortRegister = "generic-file-transfer/send-files-abort-register",
   SendFilesAbort = "generic-file-transfer/send-files-abort",
+  GetMtpSendFileMetadata = "generic-file-transfer/get-mtp-send-file-metadata",
   addFileTransferErrors = "generic-file-transfer/add-errosr",
   clearFileTransferErrors = "generic-file-transfer/clear-errors",
 

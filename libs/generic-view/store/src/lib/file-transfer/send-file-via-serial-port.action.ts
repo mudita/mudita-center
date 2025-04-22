@@ -23,9 +23,9 @@ import { ApiFileTransferError } from "device/models"
 import { AppError } from "Core/core/errors"
 import { createEntityDataAction } from "../entities/create-entity-data.action"
 
-interface SendFileViaSerialPortPayload {
+export interface SendFileViaSerialPortPayload {
   file: FileBase
-  targetPath: string
+  destinationPath: string
   customDeviceId?: DeviceId
   entitiesType?: string
 }
@@ -39,7 +39,7 @@ export const sendFileViaSerialPort = createAsyncThunk<
 >(
   ActionName.SendFileViaSerialPort,
   async (
-    { file, targetPath, customDeviceId, entitiesType },
+    { file, destinationPath, customDeviceId, entitiesType },
     { dispatch, getState, signal, rejectWithValue }
   ) => {
     const deviceId = customDeviceId || selectActiveApiDeviceId(getState())
@@ -57,7 +57,7 @@ export const sendFileViaSerialPort = createAsyncThunk<
     }
 
     const preTransferResponse = await startPreSendFileRequest(
-      targetPath + file.name,
+      destinationPath + file.name,
       file,
       deviceId
     )
@@ -119,7 +119,7 @@ export const sendFileViaSerialPort = createAsyncThunk<
         deviceId,
         entitiesType,
         data: {
-          filePath: targetPath + file.name,
+          filePath: destinationPath + file.name,
           entityType: entitiesType,
         },
       })
