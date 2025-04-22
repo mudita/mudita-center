@@ -7,6 +7,7 @@ import { sleep } from "../../helpers"
 import HomePage from "../../page-objects/home.page"
 import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
+import path from "path"
 
 describe("Open Settings and check if change location button is clickable", () => {
   before(async function () {
@@ -30,7 +31,7 @@ describe("Open Settings and check if change location button is clickable", () =>
     await backupLocationValue.waitForDisplayed()
 
     await expect(backupLocationValue).toHaveTextContaining(
-      app.getPath("userData"),
+      path.join("pure", "phone", "backups")
     )
   })
 })
