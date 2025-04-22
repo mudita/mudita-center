@@ -113,13 +113,13 @@ jobs:
         if: matrix.os != 'Windows'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          npm run app:dist
+          npm run app:dist -- --dir
       - name: Build App for Windows
         if: matrix.os == 'Windows'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
-          npm run app:dist
+          npm run app:dist -- --dir
       - name: Run E2E tests headless with Xvfb on Linux
         if: matrix.os == 'Linux'
         run: |
