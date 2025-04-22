@@ -54,6 +54,9 @@ class HelpPage extends Page {
   public get helpSubCategoriesListItems() {
     return $$('//div[@data-testid="help-subcategories-list-item"]')
   }
+  public get helpSubCategoriesArticle() {
+    return $$('//div[@data-testid="help-subcategory-articles-list"]')
+  }
   public getHelpSubCategoriesListItemsFromColumn(columnIndex: number) {
     return $$(
       `(//div[@data-testid="help-subcategories-list"]/div)[${
