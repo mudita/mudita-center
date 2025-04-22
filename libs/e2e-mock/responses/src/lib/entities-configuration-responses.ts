@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const entitiesConfigurationAudioFiles = {
+export const filesEntitiesConfiguration = {
   globalValidators: { requiredFieldsCombinations: [] },
   fields: {
     id: { type: "id" },
@@ -18,7 +18,7 @@ export const entitiesConfigurationAudioFiles = {
   },
 }
 
-export const entitiesConfiguration = {
+export const contactsEntitiesConfiguration = {
   globalValidators: {
     requiredFieldsCombinations: [
       {
