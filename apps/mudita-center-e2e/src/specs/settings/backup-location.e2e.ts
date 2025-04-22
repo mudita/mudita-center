@@ -2,6 +2,7 @@
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
+import { app } from "electron"
 import { sleep } from "../../helpers"
 import HomePage from "../../page-objects/home.page"
 import SettingsPage from "../../page-objects/settings.page"
@@ -29,7 +30,7 @@ describe("Open Settings and check if change location button is clickable", () =>
     await backupLocationValue.waitForDisplayed()
 
     await expect(backupLocationValue).toHaveTextContaining(
-      /^(\/{1}|C\:\\)(Users|home).*(\/Library\/Application Support|\/.config|\\AppData\\Roaming)(\/@mudita\/mudita-center-app|\\@mudita\\mudita-center-app).*/gm
+      app.getPath("userData"),
     )
   })
 })
