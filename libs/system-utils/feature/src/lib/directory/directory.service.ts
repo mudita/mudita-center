@@ -42,18 +42,9 @@ export class Directory {
     return Result.success(undefined)
   }
 
-  private getSystemPath(type: SystemPathType) {
-    return Result.success(app.getPath(type))
-  }
-
   @IpcEvent(DirectoryServiceEvents.GetAppPath)
   public getAppPath(type: AppPathType) {
-    const baseAppPath = path.join(
-      this.getSystemPath("appData").data,
-      "@mudita",
-      "mudita-center-app",
-      ...appPathType[type]
-    )
+    const baseAppPath = path.join(app.getPath("userData"), ...appPathType[type])
 
     return Result.success(baseAppPath)
   }

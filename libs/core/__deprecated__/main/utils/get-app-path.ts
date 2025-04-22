@@ -40,9 +40,8 @@ export const resolve: AppResolver = () => {
 
 const getAppPath = (...paths: string[]): string => {
   try {
-    const appDataPath = resolve().app.getPath("appData");
-    const baseAppPath = path.join(appDataPath, '@mudita', 'mudita-center-app');
-    return path.join(baseAppPath, ...paths);
+    const userDataPath = resolve().app.getPath("userData")
+    return path.join(userDataPath, ...paths)
   } catch {
     return ""
   }

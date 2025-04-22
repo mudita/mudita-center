@@ -78,6 +78,10 @@ import {
 } from "shared/utils"
 import { mockServiceEnabled, startServer, stopServer } from "e2e-mock-server"
 
+console.log("Starting Mudita Center...")
+console.log("App data", app.getPath("appData"))
+console.log("User data", app.getPath("userData"))
+
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 require("dotenv").config()

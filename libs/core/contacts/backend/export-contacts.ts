@@ -34,11 +34,15 @@ const registerContactsExportListener = (): void => {
   ipcMain.answerRenderer<Contact[], Promise<ExportContactsResult>>(
     IpcRequest.ExportContacts,
     async (contacts) => {
+      const documentsPath =
+        process.env.E2ECI === "true"
+          ? path.join(app.getPath("userData"), "documents")
+          : app.getPath("documents")
       const { canceled, filePath } = await dialog.showSaveDialog({
         title: intl.formatMessage(messages.dialogTitle, {
           count: contacts.length,
         }),
-        defaultPath: path.join(app.getPath("documents"), getFileName(contacts)),
+        defaultPath: path.join(documentsPath, getFileName(contacts)),
         properties: ["createDirectory", "showOverwriteConfirmation"],
         filters: [{ name: "vcf", extensions: ["vcf"] }],
       })
