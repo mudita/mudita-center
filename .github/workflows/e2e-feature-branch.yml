@@ -9,9 +9,10 @@ on:
   workflow_dispatch:
 jobs:
   e2e:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runners }}
     strategy:
       matrix:
+        runners: ["gh-runner-linux", "gh-runner-macos", "gh-runner-windows"]
         os: [Windows, Linux, macOS]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
