@@ -8,11 +8,11 @@ on:
       - reopened
   workflow_dispatch:
 jobs:
-  e2e:
+  build:
+    runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
         runner_label: [linux-nexus, windows-nexus, macos-nexus]
-    runs-on: ${{ matrix.runner_label }}
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:
