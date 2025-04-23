@@ -65,6 +65,7 @@
       "news/utils": ["libs/news/utils/src/index.ts"],
       "settings/feature": ["libs/settings/feature/src/index.ts"],
       "settings/routes": ["libs/settings/routes/src/index.ts"],
+      "settings/ui": ["libs/settings/ui/src/index.ts"],
       "types-preload": ["apps/app/src/preload/api.d.ts"]
     }
   },
