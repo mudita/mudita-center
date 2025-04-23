@@ -7,12 +7,13 @@ import { ApiResponse } from "Core/device/types/mudita-os"
 import { MatchConfig } from "Libs/e2e-mock/server/src"
 import { APIEndpointType, APIMethodsType } from "device/models"
 import {
-  entitiesConfiguration,
-  entitiesConfigurationAudioFiles,
+  contactsEntitiesConfiguration,
+  filesEntitiesConfiguration,
 } from "./entities-configuration-responses"
 import {
   featureConfigurationContacts,
-  featureConfigurationFileManager,
+  featureConfigurationFileManagerInternal,
+  featureConfigurationFileManagerExternal,
   featureConfigurationOverview,
 } from "./feature-configuration-responses"
 
@@ -64,8 +65,19 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           osVersion: "0.0.46 MuditaOS K",
           lang: "en-US",
           variant: "black",
-          features: ["mc-overview", "mc-contacts", "mc-file-manager-internal"],
-          entityTypes: ["contacts", "audioFiles"],
+          features: [
+            "mc-overview",
+            "mc-contacts",
+            "mc-file-manager-internal",
+            "mc-file-manager-external",
+          ],
+          entityTypes: [
+            "contacts",
+            "audioFiles",
+            "imageFiles",
+            "ebookFiles",
+            "applicationFiles",
+          ],
           productId: "2006",
           vendorId: "3310",
           serialNumber: "0123456789ABCDEF",
@@ -98,6 +110,16 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
               feature: "mc-file-manager-internal",
               displayName: "Manage Files",
               icon: "file-manager",
+              submenu: [
+                {
+                  feature: "mc-file-manager-internal",
+                  displayName: "Phone storage",
+                },
+                {
+                  feature: "mc-file-manager-external",
+                  displayName: "SD card",
+                },
+              ],
             },
           ],
         },
@@ -136,10 +158,20 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
       },
       {
         status: ResponseStatus.Ok,
-        body: featureConfigurationFileManager,
+        body: featureConfigurationFileManagerInternal,
         match: {
           expected: {
             feature: "mc-file-manager-internal",
+            lang: "en-US",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: featureConfigurationFileManagerExternal,
+        match: {
+          expected: {
+            feature: "mc-file-manager-external",
             lang: "en-US",
           },
         },
@@ -196,16 +228,18 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: {
           storageInformation: [
             {
-              path: "/storage/emulated/0/",
+              path: "/storage/emulated/0",
               totalSpaceBytes: 32000000000,
-              usedSpaceBytes: 9576652800,
+              usedSpaceBytes: 9497676627,
+              freeSpaceBytes: 22502323373,
               totalSpaceString: "32 GB",
-              usedSpaceString: "9.6 GB",
+              usedSpaceString: "9,5 GB",
+              freeSpaceString: "22,5 GB",
               categoriesSpaceInformation: {
                 imageFiles: {
                   storageCategory: "imageFiles",
-                  spaceUsedBytes: 90085267,
-                  spaceUsedString: "90.1 MB",
+                  spaceUsedBytes: 11109094,
+                  spaceUsedString: "108.6 MB",
                 },
                 audioFiles: {
                   storageCategory: "audioFiles",
@@ -217,9 +251,14 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
                   spaceUsedBytes: 0,
                   spaceUsedString: "0 B",
                 },
+                applicationFiles: {
+                  storageCategory: "applicationFiles",
+                  spaceUsedBytes: 0,
+                  spaceUsedString: "0 B",
+                },
                 otherFiles: {
                   storageCategory: "otherFiles",
-                  spaceUsedBytes: 8437991533,
+                  spaceUsedBytes: 8400000000,
                   spaceUsedString: "8.4 GB",
                 },
               },
@@ -230,19 +269,80 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           expected: { feature: "mc-file-manager-internal", lang: "en-US" },
         },
       },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          storageInformation: [
+            {
+              path: "/storage/9EBD-E8C5",
+              totalSpaceBytes: 125064839168,
+              usedSpaceBytes: 5690831667,
+              freeSpaceBytes: 119374007501,
+              totalSpaceString: "125,1 GB",
+              usedSpaceString: "5,3 GB",
+              freeSpaceString: "119,8 GB",
+              categoriesSpaceInformation: {
+                imageFiles: {
+                  storageCategory: "imageFiles",
+                  spaceUsedBytes: 0,
+                  spaceUsedString: "0 B",
+                },
+                audioFiles: {
+                  storageCategory: "audioFiles",
+                  spaceUsedBytes: 0,
+                  spaceUsedString: "0 B",
+                },
+                ebookFiles: {
+                  storageCategory: "ebookFiles",
+                  spaceUsedBytes: 743020953,
+                  spaceUsedString: "708,6 MB",
+                },
+                applicationFiles: {
+                  storageCategory: "applicationFiles",
+                  spaceUsedBytes: 1825361100,
+                  spaceUsedString: "1.7 GB",
+                },
+                otherFiles: {
+                  storageCategory: "otherFiles",
+                  spaceUsedBytes: 2895179610,
+                  spaceUsedString: "2.9 GB",
+                },
+              },
+            },
+          ],
+        },
+        match: {
+          expected: { feature: "mc-file-manager-external", lang: "en-US" },
+        },
+      },
     ],
   },
   ENTITIES_CONFIGURATION: {
     GET: [
       {
         status: ResponseStatus.Ok,
-        body: entitiesConfiguration,
+        body: contactsEntitiesConfiguration,
         match: { expected: { entityType: "contacts" } },
       },
       {
         status: ResponseStatus.Ok,
-        body: entitiesConfigurationAudioFiles,
+        body: filesEntitiesConfiguration,
         match: { expected: { entityType: "audioFiles" } },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: filesEntitiesConfiguration,
+        match: { expected: { entityType: "imageFiles" } },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: filesEntitiesConfiguration,
+        match: { expected: { entityType: "ebookFiles" } },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: filesEntitiesConfiguration,
+        match: { expected: { entityType: "applicationFiles" } },
       },
     ],
   },
@@ -257,6 +357,21 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         status: ResponseStatus.Ok,
         body: { totalEntities: 1, uniqueKey: "1733750368394" },
         match: { expected: { entityType: "audioFiles" } },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: { totalEntities: 1, uniqueKey: "2733750368394" },
+        match: { expected: { entityType: "imageFiles" } },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: { totalEntities: 1, uniqueKey: "3733750368394" },
+        match: { expected: { entityType: "ebookFiles" } },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: { totalEntities: 1, uniqueKey: "4733750368394" },
+        match: { expected: { entityType: "applicationFiles" } },
       },
     ],
   },
@@ -290,6 +405,19 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         },
       },
       {
+        status: ResponseStatus.Accepted,
+        body: {
+          progress: 0,
+        },
+        match: {
+          expected: {
+            action: "create",
+            entityType: "audioFiles",
+            responseType: "file",
+          },
+        },
+      },
+      {
         status: ResponseStatus.Ok,
         body: {
           filePath: "../audioFiles_entities.json",
@@ -297,7 +425,89 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         },
         match: {
           expected: {
+            action: "get",
             entityType: "audioFiles",
+            responseType: "file",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Accepted,
+        body: {
+          progress: 0,
+        },
+        match: {
+          expected: {
+            action: "create",
+            entityType: "imageFiles",
+            responseType: "file",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          filePath: "../imageFiles_entities.json",
+          progress: 100,
+        },
+        match: {
+          expected: {
+            action: "get",
+            entityType: "imageFiles",
+            responseType: "file",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Accepted,
+        body: {
+          progress: 0,
+        },
+        match: {
+          expected: {
+            action: "create",
+            entityType: "ebookFiles",
+            responseType: "file",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          filePath: "../ebookFiles_entities.json",
+          progress: 100,
+        },
+        match: {
+          expected: {
+            action: "get",
+            entityType: "ebookFiles",
+            responseType: "file",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Accepted,
+        body: {
+          progress: 0,
+        },
+        match: {
+          expected: {
+            action: "create",
+            entityType: "applicationFiles",
+            responseType: "file",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          filePath: "../applicationFiles_entities.json",
+          progress: 100,
+        },
+        match: {
+          expected: {
+            action: "get",
+            entityType: "applicationFiles",
             responseType: "file",
           },
         },
@@ -328,14 +538,42 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
       {
         status: ResponseStatus.Ok,
         body: {
-          transferId: 1734669809788,
-          chunkSize: 214,
-          fileSize: 214,
-          crc32: "217b0c15",
+          transferId: 30001,
+          chunkSize: 314,
+          fileSize: 314,
+          crc32: "398cd2f3",
         },
         match: {
           expected: {
             filePath: "../audioFiles_entities.json",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 30002,
+          chunkSize: 312,
+          fileSize: 312,
+          crc32: "414499ca",
+        },
+        match: {
+          expected: {
+            filePath: "../imageFiles_entities.json",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 30003,
+          chunkSize: 322,
+          fileSize: 322,
+          crc32: "d65de84a",
+        },
+        match: {
+          expected: {
+            filePath: "../ebookFiles_entities.json",
           },
         },
       },
@@ -437,6 +675,20 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           },
         },
       },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 30004,
+          chunkSize: 372,
+          fileSize: 372,
+          crc32: "9526c492",
+        },
+        match: {
+          expected: {
+            filePath: "../applicationFiles_entities.json",
+          },
+        },
+      },
     ],
   },
   FILE_TRANSFER: {
@@ -458,13 +710,56 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
       {
         status: ResponseStatus.Ok,
         body: {
-          transferId: 1734669809788,
+          transferId: 30001,
           chunkNumber: 1,
-          data: "eyJkYXRhIjpbeyJlbnRpdHlUeXBlIjoiYXVkaW9GaWxlcyIsImlkIjoiNDU3IiwiZmlsZVBhdGgiOiIvc3RvcmFnZS9lbXVsYXRlZC8wL3Rlc3QubXAzIiwiZmlsZU5hbWUiOiJ0ZXN0Lm1wMyIsImV4dGVuc2lvbiI6Im1wMyIsImZpbGVTaXplIjoxMDQ4NTc2MDAwLCJmaWxlVHlwZSI6IkFVRElPIiwibWltZVR5cGUiOiJhdWRpby9tcGVnIiwiaXNJbnRlcm5hbCI6dHJ1ZX1dfQ==",
+          data: "eyJkYXRhIjpbeyJlbnRpdHlUeXBlIjoiYXVkaW9GaWxlcyIsImlkIjoiNDU3IiwiZmlsZVBhdGgiOiIvc3RvcmFnZS9lbXVsYXRlZC8wL011c2ljL011ZGl0YUNlbnRlci90ZXN0Lm1wMyIsImZpbGVOYW1lIjoidGVzdC5tcDMiLCJleHRlbnNpb24iOiJtcDMiLCJmaWxlU2l6ZSI6MTA0ODU3NjAwMCwiZmlsZVR5cGUiOiJBVURJTyIsIm1pbWVUeXBlIjoiYXVkaW8vbXBlZyIsImlzSW50ZXJuYWwiOnRydWV9XX0===",
         },
         match: {
           expected: {
-            transferId: 1734669809788,
+            transferId: 30001,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 30002,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjpbeyJpZCI6IjM1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvZW11bGF0ZWQvMC9EQ0lNL011ZGl0YUNlbnRlci9pbWFnZS5wbmciLCJmaWxlTmFtZSI6ImltYWdlLnBuZyIsImV4dGVuc2lvbiI6InBuZyIsImZpbGVTaXplIjoxMDg1NzYwMDAsImZpbGVUeXBlIjoiSU1BR0UiLCJtaW1lVHlwZSI6ImltYWdlL3BuZyIsImlzSW50ZXJuYWwiOnRydWUsImVudGl0eVR5cGUiOiJpbWFnZUZpbGVzIn1dfQ==",
+        },
+        match: {
+          expected: {
+            transferId: 30002,
+            chunkNumber: 1,
+          },
+        },
+      },
+
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 30003,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjpbeyJpZCI6IjY1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvOUVCRC1FOEM1L0Vib29rcy9NdWRpdGFDZW50ZXIvZWJvb2sucGRmIiwiZmlsZU5hbWUiOiJlYm9vay5wZGYiLCJleHRlbnNpb24iOiJwZGYiLCJmaWxlU2l6ZSI6NzA4NTc2MDAwLCJmaWxlVHlwZSI6IkVCT09LIiwibWltZVR5cGUiOiJhcHBsaWNhdGlvbi9wZGYiLCJpc0ludGVybmFsIjp0cnVlLCJlbnRpdHlUeXBlIjoiZWJvb2tGaWxlcyJ9XX0===",
+        },
+        match: {
+          expected: {
+            transferId: 30003,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 30004,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjpbeyJpZCI6IjY1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvOUVCRC1FOEM1L0FwcGxpY2F0aW9ucy9NdWRpdGFDZW50ZXIvYXBwLmFwayIsImZpbGVOYW1lIjoiYXBwLmFwayIsImV4dGVuc2lvbiI6ImFwayIsImZpbGVTaXplIjoxNzA4NTc2MDAwLCJmaWxlVHlwZSI6IkFQUExJQ0FUSU9OIiwibWltZVR5cGUiOiJhcHBsaWNhdGlvbi92bmQuYW5kcm9pZC5wYWNrYWdlLWFyY2hpdmUiLCJpc0ludGVybmFsIjp0cnVlLCJlbnRpdHlUeXBlIjoiYXBwbGljYXRpb25GaWxlcyJ9XX0=",
+        },
+        match: {
+          expected: {
+            transferId: 30004,
             chunkNumber: 1,
           },
         },

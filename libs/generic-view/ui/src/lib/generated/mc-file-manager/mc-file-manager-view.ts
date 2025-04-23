@@ -18,9 +18,7 @@ export const generateMcFileManagerView: ComponentGenerator<
 > = (key, config, _layout, feature = "") => {
   const temporaryConfig = {
     ...config,
-    categories: config.categories.filter(
-      (category) => category.entityType !== "audioFiles"
-    ),
+    categories: config.categories,
   }
 
   return {
