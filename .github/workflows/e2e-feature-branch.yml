@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         runners: ["gh-runner-linux", "gh-runner-macos", "gh-runner-windows"]
-        os: [Windows, Linux, macOS]
+#       os: [Windows, Linux, macOS]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:
@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 18.16.1
       - name: Setup environment variables for Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runners == 'gh-runner-linux'
         env:
           E2ECI: "true"
           TEST_BINARY_PATH: "../mudita-center/release/linux-unpacked/Mudita Center"
@@ -52,7 +52,7 @@ jobs:
         run: |
           printenv > .env
       - name: Setup Env for Mac
-        if: matrix.os == 'macOS'
+        if: matrix.runners == 'gh-runner-macos'
         env:
           E2ECI: "true"
           TEST_BINARY_PATH: "../mudita-center/release/mac/Mudita Center.app/Contents/MacOS/Mudita Center"
@@ -80,7 +80,7 @@ jobs:
         run: |
           printenv > .env
       - name: Setup environment variables for Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runners == 'gh-runner-windows'
         env:
           E2ECI: "true"
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
@@ -111,28 +111,28 @@ jobs:
       - name: Setup dependencies
         run: npm run setup
       - name: Build App for Linux/Mac
-        if: matrix.os != 'Windows'
+        if: matrix.runners != 'gh-runner-windows'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist -- --dir
       - name: Build App for Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runners == 'gh-runner-windows'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
           npm run app:dist -- --dir
       - name: Run E2E tests headless with Xvfb on Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runners == 'gh-runner-linux'
         run: |
           npm run e2e:test:cicd:standalone
       - name: Run E2E tests headless on Windows
         env:
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
-        if: matrix.os == 'Windows'
+        if: matrix.runners == 'gh-runner-windows'
         run: |
           cd apps/mudita-center-e2e
           npm run e2e:test:cicd:standalone
       - name: Run E2E tests headless on Mac
-        if: matrix.os == 'macOS'
+        if: matrix.runners == 'gh-runner-macos'
         run: |
           npm run e2e:test:standalone
