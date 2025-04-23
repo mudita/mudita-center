@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.runners }}
     strategy:
       matrix:
-        runners: ["linux-1", "windows-1"]
+        runners: ["linux-2", "windows-2"]
     #        os: [Windows, Linux]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
