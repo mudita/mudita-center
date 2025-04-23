@@ -12,7 +12,6 @@ import styled from "styled-components"
 import { Button } from "../button/button"
 import { Description, Stories, Subtitle, Title } from "@storybook/blocks"
 import { FunctionComponent, PropsWithChildren, ReactElement } from "react"
-import { withActions } from "@storybook/addon-actions/decorator"
 import { action } from "@storybook/addon-actions"
 
 const Decorator = styled.div`
@@ -34,7 +33,7 @@ const Decorator = styled.div`
 `
 
 const meta: Meta<typeof ModalContent> = {
-  title: "UI/Modal/Components",
+  title: "UI/Modal/Subcomponents",
   tags: ["autodocs"],
   decorators: [
     (Story, context) => (
@@ -58,6 +57,10 @@ const meta: Meta<typeof ModalContent> = {
   ],
   parameters: {
     docs: {
+      description: {
+        component:
+          "The `<Modal>` component is a wrapper around the `react-modal` library. It provides a set of subcomponents that can be used to build a modal.\n\n",
+      },
       page: () => (
         <>
           <Title />
@@ -73,12 +76,12 @@ const meta: Meta<typeof ModalContent> = {
 export default meta
 
 export const Default: StoryObj<typeof Modal.TitleIcon> = {
-  name: "Modal Title Icon",
+  name: "<Modal.TitleIcon />",
   parameters: {
     docs: {
       description: {
         story:
-          "The `<Modal.TitleIcon />` component is used to display the icon of the modal.\n\n" +
+          "This component is used to display the icon of the modal.\n\n" +
           "It accepts `type` prop, which is an `IconType` enum.",
       },
     },
@@ -95,14 +98,14 @@ export const Default: StoryObj<typeof Modal.TitleIcon> = {
 }
 
 export const ModalTitleIcon: StoryObj<typeof Modal.Title> = {
-  name: "Modal Title",
+  name: "<Modal.Title />",
   parameters: {
     docs: {
       description: {
         story:
-          "The `<Modal.Title />` component is used to display the title of the modal.\n\n" +
-          "It accepts `children` prop, which is a React component. " +
-          "Alternatively, it can accept a `text` prop that will be displayed as a title, but the `children` prop must be empty to make the `text` prop work.",
+          "This component is used to display the title of the modal.\n\n" +
+          "It accepts `children` prop, which is a standard React's children component. " +
+          "Alternatively, it can accept a `text` prop of type `string` that will be displayed as a title, but the `children` prop must be empty to make the `text` prop work.",
       },
     },
   },
@@ -115,12 +118,12 @@ export const ModalTitleIcon: StoryObj<typeof Modal.Title> = {
 }
 
 export const ModalCloseButton: StoryObj<typeof Modal.CloseButton> = {
-  name: "Close button",
+  name: "<Modal.CloseButton />",
   parameters: {
     docs: {
       description: {
         story:
-          "The `<Modal.CloseButton />` component is used to display the close button of the modal.\n\n" +
+          "This component is used to display the close button of the modal.\n\n" +
           "It accepts the `onClick` prop, which is called when the button is clicked.",
       },
     },
@@ -139,12 +142,12 @@ export const ModalCloseButton: StoryObj<typeof Modal.CloseButton> = {
 }
 
 export const ModalButtonsSingle: StoryObj<typeof Modal.Buttons> = {
-  name: "Modal Buttons (with single button)",
+  name: "<Modal.Buttons /> (with single button)",
   parameters: {
     docs: {
       description: {
         story:
-          "The `<Modal.Buttons />` component is a predefined helper to ensure consistency in handling buttons inside modals.\n\n" +
+          "This component is used to prepare a container for buttons inside the modal. " +
           "It can be used to display single or two buttons.",
       },
     },
@@ -159,12 +162,12 @@ export const ModalButtonsSingle: StoryObj<typeof Modal.Buttons> = {
 }
 
 export const ModalButtonsMultiple: StoryObj<typeof Modal.Buttons> = {
-  name: "Modal Buttons (with two buttons)",
+  name: "<Modal.Buttons /> (with two buttons)",
   parameters: {
     docs: {
       description: {
         story:
-          "The `<Modal.Buttons />` component is a predefined helper to ensure consistency in handling buttons inside modals.\n\n" +
+          "This component is used to prepare a container for buttons inside the modal. " +
           "It can be used to display single or two buttons.",
       },
     },
@@ -181,13 +184,13 @@ export const ModalButtonsMultiple: StoryObj<typeof Modal.Buttons> = {
 
 export const ModalScrollableContent: StoryObj<typeof Modal.ScrollableContent> =
   {
-    name: "Scrollable content",
+    name: "<Modal.ScrollableContent />",
     parameters: {
       docs: {
         description: {
           story:
-            "The `<Modal.ScrollableContent />` component is used to display modal content that can be scrolled " +
-            "if it exceeds the maximum height of the modal.\n\n",
+            "This component is used to display the content of the modal that can become scrollable " +
+            "in case of exceeding the maximum height of the modal.",
         },
       },
     },
@@ -245,7 +248,7 @@ export const ModalTextContent: StoryObj<FunctionComponent<PropsWithChildren>> =
             "- `<p>` for paragraphs\n" +
             "- `<ul>` with `<li>` for unordered lists\n\n" +
             "- `<ol>` with `<li>` for orderd lists\n\n" +
-            "or one of the predefined components from this UI library.",
+            "or one of the components from this UI library.",
         },
       },
     },
@@ -272,13 +275,13 @@ export const ModalTextContent: StoryObj<FunctionComponent<PropsWithChildren>> =
   }
 
 export const ModalSizeController: StoryObj<typeof Modal.SizeController> = {
-  name: "Size controller",
+  name: "<Modal.SizeController />",
   parameters: {
     docs: {
       description: {
         story:
-          "The `<Modal.SizeController />` component is used to manipulate the size of the modal.\n\n" +
-          "It accepts the same `size` prop as the modal itself. Its purpose is to set the size of the modal dynamically based on internal logic.",
+          "This component is used to manipulate the size of the modal based on the internal logic.\n\n" +
+          "It accepts the same `size` prop as the modal itself.",
       },
     },
   },
@@ -300,19 +303,20 @@ export const ModalSizeController: StoryObj<typeof Modal.SizeController> = {
 export const ModalVisibilityController: StoryObj<
   typeof Modal.VisibilityController
 > = {
-  name: "Visibility controller",
+  name: "<Modal.VisibilityController />",
   parameters: {
     docs: {
       description: {
         story:
-          "The `<Modal.VisibilityController />` component is used to manipulate the visibility of the modal.\n\n" +
-          "It accepts the `visibility` prop. Its purpose is to set the visibility of the modal dynamically based on internal logic.",
+          "This component is used to manipulate the visibility of the modal based on the internal logic.\n\n" +
+          "It accepts the `visibility` prop\n\n" +
+          "⚠️ This does not disable the modal, it just hides it. To close the modal, set the `opened` prop of `<Modal>` to `false`.",
       },
     },
   },
   argTypes: {},
   args: {
-    visible: false,
+    visible: true,
   },
   render: (args) => {
     return <Modal.VisibilityController {...args} />

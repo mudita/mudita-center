@@ -33,15 +33,6 @@ const meta: Meta<typeof ModalContent> = {
   title: "UI/Modal",
   component: Modal,
   tags: ["autodocs"],
-  subcomponents: {
-    "Modal.TitleIcon": Modal.TitleIcon,
-    "Modal.Title": Modal.Title,
-    "Modal.ScrollableContent": Modal.ScrollableContent,
-    "Modal.Buttons": Modal.Buttons,
-    "Modal.CloseButton": Modal.CloseButton,
-    "Modal.SizeController": Modal.SizeController,
-    "Modal.VisibilityController": Modal.VisibilityController,
-  },
   decorators: [
     (Story) => (
       <Decorator className={"story-decorator"}>
@@ -49,6 +40,49 @@ const meta: Meta<typeof ModalContent> = {
       </Decorator>
     ),
   ],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "The `<Modal>` component is a wrapper around the `react-modal` library. It provides a set of subcomponents that can be used to build a modal:\n" +
+          "- `<Modal.TitleIcon>` - displays an icon in the title bar of the modal.\n" +
+          "- `<Modal.Title>` - displays the title of the modal.\n" +
+          "- `<Modal.CloseButton>` - displays a close button in the modal.\n" +
+          "- `<Modal.Buttons>` - creates a buttons wrapper in the modal.\n" +
+          "- `<Modal.ScrollableContent>` - creates a scrollable area in the modal.\n\n" +
+          "- `<Modal.SizeController>` - manages the size of the modal.\n" +
+          "- `<Modal.VisibilityController>` - manages the visibility of the modal.\n\n" +
+          "\n\n" +
+          "## Usage\n" +
+          "```tsx\n" +
+          "import { Modal } from 'app-theme/ui'\n" +
+          "\n" +
+          "const App = () => {\n" +
+          "  const [opened, setOpened] = useState(true)\n" +
+          "  const closeFunction = useCallback(() => setOpened(false), [])\n" +
+          "\n" +
+          "  return (\n" +
+          "    <Modal \n" +
+          "      opened={opened}\n" +
+          "    />\n" +
+          "      <Modal.CloseButton onClick={closeFunction()} />\n" +
+          "      <Modal.TitleIcon type={IconType.Spinner} />\n" +
+          "      <Modal.Title text={'Lorem Ipsum'} />\n" +
+          "      <p>\n" +
+          "        Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+          "        Vestibulum ullamcorper diam at mauris egestas malesuada.\n" +
+          "      </p>\n" +
+          "      <Modal.Buttons>\n" +
+          "        <Button type={'secondary'}>Lorem</Button>\n" +
+          "        <Button type={'primary'}>Ipsum</Button>\n" +
+          "      </Modal.Buttons>\n" +
+          "    </Modal>\n" +
+          "  )\n" +
+          "}\n" +
+          "```\n\n",
+      },
+    },
+  },
 }
 
 export default meta
@@ -56,7 +90,7 @@ export default meta
 type Story = StoryObj<typeof Modal>
 
 export const Default: Story = {
-  name: "With basic elements",
+  name: "Composed modal",
   argTypes: {
     opened: storybookHelper
       .assignCategory("Functional")
@@ -107,65 +141,9 @@ export const Default: Story = {
           ) as HTMLElement
         }}
         {...args}
-      >
-        <Modal.CloseButton />
-        <Modal.TitleIcon type={IconType.Spinner} />
-        <Modal.Title text={"Lorem Ipsum"} />
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-          ullamcorper diam at mauris egestas malesuada.
-        </p>
-        <Modal.Buttons>
-          <Button type={"secondary"}>Lorem</Button>
-          <Button type={"primary"}>Ipsum</Button>
-        </Modal.Buttons>
-      </Modal>
-    )
-  },
-}
-
-export const WithSingleButton: Story = {
-  ...Default,
-  name: "With single button",
-  render: (args, context) => {
-    return (
-      <Modal
-        appElement={context.canvasElement}
-        parentSelector={() => {
-          return context.canvasElement.querySelector(
-            ".story-decorator"
-          ) as HTMLElement
+        customStyles={{
+          maxHeight: 500,
         }}
-        {...args}
-      >
-        <Modal.CloseButton />
-        <Modal.TitleIcon type={IconType.Spinner} />
-        <Modal.Title text={"Lorem Ipsum"} />
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-          ullamcorper diam at mauris egestas malesuada.
-        </p>
-        <Modal.Buttons>
-          <Button type={"secondary"}>Lorem</Button>
-        </Modal.Buttons>
-      </Modal>
-    )
-  },
-}
-
-export const WithScrollableContent: Story = {
-  ...Default,
-  name: "With scrollable content",
-  render: (args, context) => {
-    return (
-      <Modal
-        appElement={context.canvasElement}
-        parentSelector={() => {
-          return context.canvasElement.querySelector(
-            ".story-decorator"
-          ) as HTMLElement
-        }}
-        {...args}
       >
         <Modal.CloseButton />
         <Modal.TitleIcon type={IconType.Spinner} />
@@ -175,99 +153,18 @@ export const WithScrollableContent: Story = {
           ullamcorper diam at mauris egestas malesuada.
         </p>
         <Modal.ScrollableContent>
+          <p>Lorem ipsum dolor sit amet, consectetur:</p>
           <ul>
+            <li>Lorem ipsum dolor sit amet dolor sit amet</li>
+            <li>Consectetur adipiscing elit</li>
+          </ul>
+          <p>Vestibulum ullamcorper diam at mauris egestas:</p>
+          <ol>
             <li>Lorem ipsum dolor sit amet</li>
             <li>Consectetur adipiscing elit</li>
             <li>Vestibulum ullamcorper diam at mauris egestas malesuada</li>
-            <li>Aliquam erat volutpat</li>
-            <li>Nullam in ligula euismod, bibendum nisi a, fringilla enim</li>
-            <li>Donec ac nunc nec felis bibendum varius</li>
-            <li>Proin in nunc nec enim fringilla efficitur</li>
-            <li>Integer nec nunc ut enim bibendum tincidunt</li>
-          </ul>
+          </ol>
         </Modal.ScrollableContent>
-        <Modal.Buttons>
-          <Button type={"secondary"}>Lorem</Button>
-          <Button type={"primary"}>Ipsum</Button>
-        </Modal.Buttons>
-      </Modal>
-    )
-  },
-}
-
-export const WithSizeController: Story = {
-  ...Default,
-  name: "With size controller",
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "The size of the modal can be defined using the `size` prop.\n\n" +
-          "However, there is also a helper component `<Modal.SizeController />` that can be used to set the size of the modal dynamically, by simply rendering it inside a given modal.\n\n" +
-          "This can be helpful when you want to have a modal that can be resized depending on internal state.",
-      },
-    },
-  },
-  render: (args, context) => {
-    return (
-      <Modal
-        appElement={context.canvasElement}
-        parentSelector={() => {
-          return context.canvasElement.querySelector(
-            ".story-decorator"
-          ) as HTMLElement
-        }}
-        {...args}
-      >
-        <Modal.SizeController size={"medium"} />
-        <Modal.CloseButton />
-        <Modal.TitleIcon type={IconType.Spinner} />
-        <Modal.Title text={"Lorem Ipsum"} />
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-          ullamcorper diam at mauris egestas malesuada.
-        </p>
-        <Modal.Buttons>
-          <Button type={"secondary"}>Lorem</Button>
-          <Button type={"primary"}>Ipsum</Button>
-        </Modal.Buttons>
-      </Modal>
-    )
-  },
-}
-
-export const WithVisibilityController: Story = {
-  ...Default,
-  name: "With visibility controller",
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "The visibility of the modal can be defined using the `opened` prop.\n\n" +
-          "However, there is also a helper component `<Modal.VisibilityController />` that can be used to set the visibility of the modal dynamically, by simply rendering it inside a given modal.\n\n" +
-          "This can be helpful when you want to have a modal that disappears depending on internal state.",
-      },
-    },
-  },
-  render: (args, context) => {
-    return (
-      <Modal
-        appElement={context.canvasElement}
-        parentSelector={() => {
-          return context.canvasElement.querySelector(
-            ".story-decorator"
-          ) as HTMLElement
-        }}
-        {...args}
-      >
-        <Modal.VisibilityController visible={false} />
-        <Modal.CloseButton />
-        <Modal.TitleIcon type={IconType.Spinner} />
-        <Modal.Title text={"Lorem Ipsum"} />
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-          ullamcorper diam at mauris egestas malesuada.
-        </p>
         <Modal.Buttons>
           <Button type={"secondary"}>Lorem</Button>
           <Button type={"primary"}>Ipsum</Button>
