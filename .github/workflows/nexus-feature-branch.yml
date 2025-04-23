@@ -9,10 +9,10 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: [${{ matrix.os }}, 'nexus']
     strategy:
       matrix:
         os: [Linux, Windows, macOS]
+    runs-on: [${{ matrix.os }}, nexus]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:
