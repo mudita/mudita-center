@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [Linux, Windows, macOS]
+        runners: ["nexus"]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:

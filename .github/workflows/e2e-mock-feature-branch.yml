@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [Windows, Linux]
+        runners: ["e2e"]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:
