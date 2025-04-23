@@ -12,8 +12,8 @@ jobs:
     runs-on: ${{ matrix.runners }}
     strategy:
       matrix:
-        runners: ["gh-runner-linux", "gh-runner-windows"]
-    #        os: [Windows, Linux, macOS]
+        runners: ["linux-1", "windows-1"]
+    #        os: [Windows, Linux]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:
@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 18.16.1
       - name: Setup environment variables for Linux
-        if: matrix.runners == 'gh-runner-linux'
+        if: matrix.runners == 'linux-1'
         env:
           E2ECI: "true"
           TEST_BINARY_PATH: "../mudita-center/release/linux-unpacked/Mudita Center"
@@ -52,7 +52,7 @@ jobs:
         run: |
           printenv > .env
       - name: Setup environment variables for Windows
-        if: matrix.runners == 'gh-runner-windows'
+        if: matrix.runners == 'windows-1'
         env:
           E2ECI: "true"
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
@@ -83,24 +83,24 @@ jobs:
       - name: Setup dependencies
         run: npm run setup
       - name: Build App for Linux
-        if: matrix.runners == 'gh-runner-linux'
+        if: matrix.runners == 'linux-1'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist -- --dir
       - name: Build App for Windows
-        if: matrix.runners == 'gh-runner-windows'
+        if: matrix.runners == 'windows-1'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
           npm run app:dist -- --dir
       - name: Run E2E tests headless with Xvfb on Linux
-        if: matrix.runners == 'gh-runner-linux'
+        if: matrix.runners == 'linux-1'
         run: |
           npm run e2e:test:cicd:mock
       - name: Run E2E tests headless on Windows
         env:
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
-        if: matrix.runners == 'gh-runner-windows'
+        if: matrix.runners == 'windows-1'
         run: |
           cd apps/mudita-center-e2e
           npm run e2e:test:cicd:mock
