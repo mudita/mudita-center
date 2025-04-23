@@ -14,6 +14,7 @@ import {
   allStorage,
   ContainerCode,
   ContainerTypeCode,
+  mtpUploadChunkSize,
   rootObjectHandle,
 } from "./mtp-packet-definitions"
 import {
@@ -40,7 +41,7 @@ const PREFIX_LOG = `[app-mtp/node-mtp-device]`
 
 export class NodeMtpDevice {
   public id: string = ""
-  private packetSize = 1024
+  private packetSize = mtpUploadChunkSize
 
   constructor(private device: WebUSBDevice) {
     this.id = String(this.device.serialNumber)
