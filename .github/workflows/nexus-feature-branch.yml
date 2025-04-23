@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: [${{ matrix.os }}, nexus]
+    runs-on: [${{ matrix.os }}, 'nexus']
     strategy:
       matrix:
         os: [Linux, Windows, macOS]
