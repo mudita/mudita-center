@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [Linux, Windows, macOS]
-    runs-on: [${{ matrix.os }}, nexus]
+    runs-on: [self-hosted, ${{ matrix.os }}, nexus]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:

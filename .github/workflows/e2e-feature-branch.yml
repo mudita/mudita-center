@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [Windows, Linux, macOS]
-    runs-on: [${{ matrix.os }}, e2e]
+    runs-on: [self-hosted, ${{ matrix.os }}, e2e]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     steps:
