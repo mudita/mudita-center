@@ -4,9 +4,14 @@
  */
 
 import type { Options } from "@wdio/types"
-import path from "path"
+import * as path from "path"
 import * as dotenv from "dotenv"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
+
+
+const freePort = process.env.WDIO_PORT
+  ? Number(process.env.WDIO_PORT)
+  : undefined
 
 dotenv.config()
 
@@ -95,6 +100,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktDisconnectDuringBackup),
     toRelativePath(TestFilesPaths.kompaktBackupErrorCancel),
     toRelativePath(TestFilesPaths.kompaktBackupErrorDisconnect),
+    toRelativePath(TestFilesPaths.helpSectionKompakt),
   ],
   suites: {
     standalone: [
@@ -111,6 +117,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.helpVerifyFeedback),
       toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
       toRelativePath(TestFilesPaths.helpLinkInsideContainer),
+      toRelativePath(TestFilesPaths.helpSectionKompakt),
     ],
     mock: [
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
@@ -162,6 +169,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.helpVerifyFeedback),
       toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
       toRelativePath(TestFilesPaths.helpLinkInsideContainer),
+      toRelativePath(TestFilesPaths.helpSectionKompakt),
     ],
     cicdMock: [
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
@@ -282,6 +290,7 @@ export const config: Options.Testrunner = {
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
   baseUrl: "http://localhost",
+  ...(freePort && { port: freePort }),
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 6000,
@@ -297,7 +306,14 @@ export const config: Options.Testrunner = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: ["chromedriver"],
+  services: [
+    [
+      "chromedriver",
+      {
+        ...(freePort && { port: freePort }),
+      },
+    ],
+  ],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber

@@ -3,6 +3,9 @@ import { DEFAULT_RESPONSES } from "../../../../../libs/e2e-mock/responses/src"
 import { mockEntityDownloadProcess } from "../../helpers/mock-entity-download-process.helper"
 import {
   audioFileEntities,
+  imageFileEntities,
+  ebookFileEntities,
+  applicationFileEntities,
   selectedContactsEntities,
 } from "../../helpers/entity-fixtures"
 
@@ -207,6 +210,36 @@ describe("E2E mock lock sample", () => {
         method: "GET",
         status: 200,
       },
+      {
+        path: "path-1",
+        body: getBodyAsRecord(
+          DEFAULT_RESPONSES.ENTITIES_CONFIGURATION?.GET?.[2]?.body
+        ),
+        match: { expected: { entityType: "imageFiles" } },
+        endpoint: "ENTITIES_CONFIGURATION",
+        method: "GET",
+        status: 200,
+      },
+      {
+        path: "path-1",
+        body: getBodyAsRecord(
+          DEFAULT_RESPONSES.ENTITIES_CONFIGURATION?.GET?.[3]?.body
+        ),
+        match: { expected: { entityType: "ebookFiles" } },
+        endpoint: "ENTITIES_CONFIGURATION",
+        method: "GET",
+        status: 200,
+      },
+      {
+        path: "path-1",
+        body: getBodyAsRecord(
+          DEFAULT_RESPONSES.ENTITIES_CONFIGURATION?.GET?.[4]?.body
+        ),
+        match: { expected: { entityType: "applicationFiles" } },
+        endpoint: "ENTITIES_CONFIGURATION",
+        method: "GET",
+        status: 200,
+      },
     ])
 
     mockEntityDownloadProcess({
@@ -214,10 +247,29 @@ describe("E2E mock lock sample", () => {
       data: selectedContactsEntities,
       entityType: "contacts",
     })
+
     mockEntityDownloadProcess({
       path: "path-1",
       data: audioFileEntities,
       entityType: "audioFiles",
+    })
+
+    mockEntityDownloadProcess({
+      path: "path-1",
+      data: imageFileEntities,
+      entityType: "imageFiles",
+    })
+
+    mockEntityDownloadProcess({
+      path: "path-1",
+      data: ebookFileEntities,
+      entityType: "ebookFiles",
+    })
+
+    mockEntityDownloadProcess({
+      path: "path-1",
+      data: applicationFileEntities,
+      entityType: "applicationFiles",
     })
 
     await browser.pause(10000)
