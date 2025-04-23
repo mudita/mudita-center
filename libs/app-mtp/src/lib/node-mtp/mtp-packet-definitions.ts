@@ -19,6 +19,8 @@ export const containerTypeNames: Record<ContainerTypeCode, string> = {
   [ContainerTypeCode.Event]: "Event",
 }
 
+export const mtpUploadChunkSize = 256000
+
 export enum ContainerCode {
   OpenSession = 0x1002,
   CloseSession = 0x1003,
@@ -162,7 +164,8 @@ export const containerCodeNames: Record<ContainerCode, string> = {
   [ContainerCode.SelfTestFailed]: "Self Test Failed",
   [ContainerCode.PartialDeletion]: "Partial Deletion",
   [ContainerCode.StoreNotAvailable]: "Store Not Available",
-  [ContainerCode.SpecificationByFormatUnsupported]: "Specification By Format Unsupported",
+  [ContainerCode.SpecificationByFormatUnsupported]:
+    "Specification By Format Unsupported",
   [ContainerCode.NoValidObjectInfo]: "No Valid Object Info",
   [ContainerCode.InvalidCodeFormat]: "Invalid Code Format",
   [ContainerCode.UnknownVendorCode]: "Unknown Vendor Code",
@@ -174,18 +177,21 @@ export const containerCodeNames: Record<ContainerCode, string> = {
   [ContainerCode.InvalidParameter]: "Invalid Parameter",
   [ContainerCode.SessionAlreadyOpen]: "Session Already Open",
   [ContainerCode.TransactionCancelled]: "Transaction Cancelled",
-  [ContainerCode.SpecificationOfDestinationUnsupported]: "Specification of Destination Unsupported",
+  [ContainerCode.SpecificationOfDestinationUnsupported]:
+    "Specification of Destination Unsupported",
   [ContainerCode.InvalidObjectPropCode]: "Invalid Object Prop Code",
   [ContainerCode.InvalidObjectPropFormat]: "Invalid Object Prop Format",
   [ContainerCode.InvalidObjectPropValue]: "Invalid Object Prop Value",
   [ContainerCode.InvalidObjectReference]: "Invalid Object Reference",
   [ContainerCode.GroupNotSupported]: "Group Not Supported",
   [ContainerCode.InvalidDataset]: "Invalid Dataset",
-  [ContainerCode.SpecificationByGroupUnsupported]: "Specification By Group Unsupported",
-  [ContainerCode.SpecificationByDepthUnsupported]: "Specification By Depth Unsupported",
+  [ContainerCode.SpecificationByGroupUnsupported]:
+    "Specification By Group Unsupported",
+  [ContainerCode.SpecificationByDepthUnsupported]:
+    "Specification By Depth Unsupported",
   [ContainerCode.ObjectTooLarge]: "Object Too Large",
   [ContainerCode.ObjectPropNotSupported]: "Object Prop Not Supported",
-};
+}
 
 export const rootObjectHandle = 0xffffffff
 export const allStorage = 0xffffffff

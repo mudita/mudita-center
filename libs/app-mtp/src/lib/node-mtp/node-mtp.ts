@@ -25,7 +25,7 @@ import {
 import { AppError } from "../../../../core/core/errors/app-error"
 import { handleMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
-import { rootObjectHandle } from "./mtp-packet-definitions"
+import { mtpUploadChunkSize, rootObjectHandle } from "./mtp-packet-definitions"
 import { ResponseObjectInfo } from "./utils/object-info.interface"
 import { getObjectFormat, isObjectCatalog } from "./utils/object-format.helpers"
 import { ObjectFormatCode } from "./utils/object-format.interface"
@@ -219,7 +219,7 @@ export class NodeMtp implements MtpInterface {
       await device.initiateUploadFile(size)
       let uploadedBytes = 0
       const fileStream = fs.createReadStream(sourcePath, {
-        highWaterMark: 1024,
+        highWaterMark: mtpUploadChunkSize,
       })
 
       for await (const chunk of fileStream) {
