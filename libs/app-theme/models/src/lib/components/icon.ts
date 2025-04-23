@@ -6,6 +6,7 @@
 export enum IconType {
   ArrowBack = "arrow-back",
   BackupFolder = "backup-folder",
+  Close = "close",
   ContactsBook = "contacts-book",
   DataMigration = "data-migration",
   FileManager = "file-manager",
@@ -16,4 +17,5 @@ export enum IconType {
   News = "news",
   Overview = "overview",
   Settings = "settings",
+  Spinner = "spinner",
 }

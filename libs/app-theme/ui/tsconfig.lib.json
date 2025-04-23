@@ -27,6 +27,6 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "../feature/src/lib/styled.d.ts"
+    "../utils/src/lib/styled.d.ts"
   ]
 }

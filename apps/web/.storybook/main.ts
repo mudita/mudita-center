@@ -6,8 +6,11 @@
 import type { StorybookConfig } from "@storybook/react-vite"
 
 const config: StorybookConfig = {
-  stories: ["../src/app/**/*.@(mdx|stories.@(js|jsx|ts|tsx))"],
+  stories: ["../../../libs/**/*.@(mdx|stories.@(js|jsx|ts|tsx))"],
   addons: ["@storybook/addon-essentials"],
+  core: {
+    builder: "@storybook/builder-vite",
+  },
   framework: {
     name: "@storybook/react-vite",
     options: {
@@ -15,6 +18,28 @@ const config: StorybookConfig = {
         viteConfigPath: "vite.config.ts",
       },
     },
+  },
+  staticDirs: [
+    {
+      from: "../../app/resources/fonts",
+      to: "/assets/fonts",
+    },
+    {
+      from: "../../app/resources/icons",
+      to: "/assets/icons",
+    },
+  ],
+  docs: {
+    defaultName: "Documentation",
+  },
+  async viteFinal(config) {
+    // Merge custom configuration into the default config
+    const { mergeConfig } = await import("vite")
+
+    return mergeConfig(config, {
+      // Add dependencies to pre-optimization
+      optimizeDeps: {},
+    })
   },
 }
 

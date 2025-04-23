@@ -4,5 +4,4 @@
  */
 
 export * from "./lib/provider"
-export * from "./lib/styled.d"
-export * from "./lib/theme"
+export * from "./lib/global-style"

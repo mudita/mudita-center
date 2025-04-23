@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/legacy-transition"
-export * from "./lib/legacy-theme-getters"
-export * from "./lib/legacy-get-icon-badge-type.helper"
+export * from "./lib/helpers/legacy-transition"
+export * from "./lib/helpers/legacy-theme-getters"
+export * from "./lib/helpers/legacy-get-icon-badge-type.helper"
+export * from "./lib/theme"
+export * from "./lib/storybook-helpers"

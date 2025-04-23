@@ -66,7 +66,7 @@ export const DashboardHeaderTabs: FunctionComponent<Props> = ({ tabs }) => {
             onClick={setLineActive}
           >
             <TabWrapper>
-              <TabIcon name={tab.icon} />
+              <TabIcon type={tab.icon} />
               <TabTitle>{tab.title}</TabTitle>
             </TabWrapper>
           </NavLink>
