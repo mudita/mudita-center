@@ -5,6 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ApiFileTransferError } from "device/models"
+import { delay } from "shared/utils"
 import {
   getSendFileProgressViaMtpRequest,
   startSendFileViaMtpRequest,
@@ -97,6 +98,7 @@ export const sendFileViaMTP = createAsyncThunk<
         return
       }
 
+      await delay(500)
       return await checkSendFileProgress()
     }
 
