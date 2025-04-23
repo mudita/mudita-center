@@ -26,7 +26,7 @@ interface SendFileError {
   error: AppError<AppErrorType, SendFileErrorPayload>
 }
 
-export const sendFile = createAsyncThunk<
+export const legacySendFile = createAsyncThunk<
   { transferId: number },
   | {
       deviceId: DeviceId
@@ -41,7 +41,7 @@ export const sendFile = createAsyncThunk<
     },
   { state: ReduxRootState; rejectValue: SendFileError | undefined }
 >(
-  ActionName.FileTransferSend,
+  ActionName.LegacySendFile,
   async (params, { rejectWithValue, dispatch, signal }) => {
     let aborted = false
 

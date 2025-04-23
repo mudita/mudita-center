@@ -42,7 +42,7 @@ export enum ActionName {
   RefreshBackupList = "generic-backups/refresh-backup-list",
   LoadBackupMetadata = "generic-backups/load-backup-metadata",
 
-  FileTransferSend = "generic-file-transfer/send",
+  LegacySendFile = "generic-file-transfer/legacy-send-file",
   PreFileTransferSend = "generic-file-transfer/pre-send",
   ChunkFileTransferSend = "generic-file-transfer/chunk-sent",
   ClearFileTransferSendError = "generic-file-transfer/clear-send-errors",
@@ -53,6 +53,8 @@ export enum ActionName {
   TransferDataToDevice = "generic-file-transfer/transfer-data-to-device",
   // New approach for transferring files
   SendFiles = "generic-file-transfer/send-files",
+  SendFileViaSerialPort = "generic-file-transfer/send-file-via-serial-port",
+  SendFileViaMTP = "generic-file-transfer/send-file-via-mtp",
   SendFilesPreSend = "generic-file-transfer/send-files-pre-send",
   SendFilesChunkSent = "generic-file-transfer/send-files-chunk-sent",
   SendFilesError = "generic-file-transfer/send-files-error",
@@ -60,14 +62,9 @@ export enum ActionName {
   SendFilesClear = "generic-file-transfer/send-files-clear",
   SendFilesAbortRegister = "generic-file-transfer/send-files-abort-register",
   SendFilesAbort = "generic-file-transfer/send-files-abort",
+  GetMtpSendFileMetadata = "generic-file-transfer/get-mtp-send-file-metadata",
   addFileTransferErrors = "generic-file-transfer/add-errosr",
   clearFileTransferErrors = "generic-file-transfer/clear-errors",
-  // MTP file transfer
-  RegisterMtpUpload = "mtp-file-transfer/register-upload",
-  UpdateMtpUploadProgress = "mtp-file-transfer/update-mtp-upload-progress",
-  FinishMtpUpload = "mtp-file-transfer/finish-upload",
-  FailMtpUpload = "mtp-file-transfer/fail-upload",
-  ClearMtpUploads = "mtp-file-transfer/clear-uploads",
 
   SetDataTransfer = "generic-data-transfer/set-data-transfer",
   SetDataTransferStatus = "generic-data-transfer/set-data-transfer-status",

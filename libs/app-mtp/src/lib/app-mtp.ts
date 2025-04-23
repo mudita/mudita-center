@@ -43,9 +43,12 @@ export class AppMtp implements MtpInterface {
   async uploadFile(
     data: MtpUploadFileData
   ): Promise<ResultObject<UploadFileResultData>> {
+    console.log(
+      `[app-mtp] starting upload file process for data: ${JSON.stringify(data)}`
+    )
     const result = await this.mtp.uploadFile(data)
     console.log(
-      `[app-mtp] starting upload file process: ${JSON.stringify(result)}`
+      `[app-mtp] starting upload file process result: ${JSON.stringify(result)}`
     )
     return result
   }
