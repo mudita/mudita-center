@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { registerMenuGroups } from "../store/app-menu.actions"
 import { selectMenuGroups } from "../store/app-menu.selectors"
 import { NavLink } from "react-router"
-import { IconType } from "app-theme/models"
+import { IconSize, IconType } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
 
 interface Props {
@@ -64,7 +64,7 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
                         }}
                       >
                         <MenuItemIcon>
-                          <Icon type={item.icon} />
+                          <Icon type={item.icon} size={IconSize.Big} />
                         </MenuItemIcon>
                         <MenuItemLabel>{item.title}</MenuItemLabel>
                       </NavLink>
@@ -122,6 +122,7 @@ const SystemHeader = styled.div`
 const Logo = styled(Icon)`
   width: auto;
   height: 2rem;
+  aspect-ratio: initial;
 `
 
 const MenuGroupWrapper = styled.div`

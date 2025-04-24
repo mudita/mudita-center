@@ -177,6 +177,7 @@ const baseStyles = css<StyledButtonProps>`
           width: fit-content;
         `
       case ButtonSize.AutoMax:
+      default:
         return css`
           width: 100%;
         `

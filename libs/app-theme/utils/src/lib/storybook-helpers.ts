@@ -5,7 +5,6 @@
 
 import { InputType } from "@storybook/core/csf"
 import { merge } from "lodash"
-import { ButtonType } from "app-theme/models"
 
 export const storybookHelper = {
   config: {} as InputType,

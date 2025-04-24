@@ -5,9 +5,9 @@
 
 export enum IconType {
   ArrowBack = "arrow-back",
-  BackupFolder = "backup-folder",
+  Backup = "backup",
   Close = "close",
-  ContactsBook = "contacts-book",
+  Contacts = "contacts",
   DataMigration = "data-migration",
   FileManager = "file-manager",
   Help = "help",

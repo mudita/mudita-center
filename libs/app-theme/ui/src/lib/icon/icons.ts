@@ -8,9 +8,9 @@
 import Svg from "*.svg?react"
 import { IconType } from "app-theme/models"
 import ArrowBack from "./svg/arrow-back.svg?react"
-import BackupFolder from "./svg/backup-folder.svg?react"
+import Backup from "./svg/backup.svg?react"
 import Close from "./svg/close.svg?react"
-import ContactsBook from "./svg/contacts-book.svg?react"
+import Contacts from "./svg/contacts.svg?react"
 import DataMigration from "./svg/data-migration.svg?react"
 import FileManager from "./svg/file-manager.svg?react"
 import Help from "./svg/help.svg?react"
@@ -24,9 +24,9 @@ import Spinner from "./svg/spinner.svg?react"
 
 export const icons = {
   [IconType.ArrowBack]: ArrowBack,
-  [IconType.BackupFolder]: BackupFolder,
+  [IconType.Backup]: Backup,
   [IconType.Close]: Close,
-  [IconType.ContactsBook]: ContactsBook,
+  [IconType.Contacts]: Contacts,
   [IconType.DataMigration]: DataMigration,
   [IconType.FileManager]: FileManager,
   [IconType.Help]: Help,
@@ -36,5 +36,5 @@ export const icons = {
   [IconType.News]: News,
   [IconType.Overview]: Overview,
   [IconType.Settings]: Settings,
-  [IconType.Spinner]: Spinner
+  [IconType.Spinner]: Spinner,
 } as const satisfies Record<IconType, typeof Svg>

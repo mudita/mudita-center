@@ -4,7 +4,6 @@
  */
 
 import { createGlobalStyle } from "styled-components"
-import { theme } from "app-theme/utils"
 
 export const GlobalStyle = createGlobalStyle`
   html {
@@ -32,62 +31,6 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  // .generic-modal-overlay, .app-modal-overlay {
-  //   --modal-transition-duration: ${theme.app.constants.modalTransitionDuration}ms;
-  //   --modal-transition-timing-function: ease-out;
-  //   --modal-opacity: 1;
-  //   --modal-visibility: visible;
-  //   // position: fixed;
-  //   // top: 0;
-  //   // left: 0;
-  //   // width: 100%;
-  //   // height: 100%;
-  //   // background-color: ${({ theme }) => theme.app.color.black + "4D"};
-  //   // display: flex;
-  //   // align-items: center;
-  //   // justify-content: center;
-  //   // opacity: 0;
-  //   // transition: opacity var(--modal-transition-duration) var(--modal-transition-timing-function);
-  //
-  //   &.hidden {
-  //     background-color: transparent;
-  //   }
-  //
-  //   &.ReactModal__Overlay--after-open {
-  //     opacity: 1;
-  //   }
-  //
-  //   &.ReactModal__Overlay--before-close {
-  //     opacity: 0;
-  //   }
-  // }
-
-  // .generic-modal, .app-modal {
-  //   box-sizing: border-box;
-  //
-  //   width: auto;
-  //   max-height: var(--modal-max-height);
-  //   overflow: hidden;
-  //   outline: none;
-  //   display: flex;
-  //   flex-direction: column;
-  //   position: relative;
-  //
-  //   .modal-content {
-  //     background-color: ${({ theme }) => theme.app.color.white};
-  //     border-radius: ${({ theme }) => theme.app.radius.sm};
-  //     overflow: hidden;
-  //     box-shadow: 0 2rem 10rem 0 ${({ theme }) => theme.app.color.black + "26"};
-  //   }
-  //
-  //   .modal-close-icon-button:nth-child(2) {
-  //     display: none;
-  //   }
-  //
-  //   * {
-  //     box-sizing: border-box;
-  //   }
-  // }
 
   *::-webkit-scrollbar {
     width: 0.5rem;

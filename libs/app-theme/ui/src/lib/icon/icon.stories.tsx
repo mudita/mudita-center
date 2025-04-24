@@ -24,7 +24,7 @@ const AllIconsDecorator = styled.div`
   display: grid;
   align-self: flex-start;
   justify-self: flex-start;
-  grid-template-columns: auto 2.4rem;
+  grid-template-columns: auto 5rem;
   align-items: center;
   grid-auto-flow: row;
   grid-auto-rows: auto;
@@ -163,7 +163,7 @@ export const AllIcons: Story = {
       {Object.entries(IconType).map(([key, value]) => (
         <Fragment key={value}>
           <h2 style={{ fontWeight: "normal" }}>IconType.{key}</h2>
-          <Icon type={value} size={IconSize.AutoMax} />
+          <Icon type={value} size={IconSize.Big} />
         </Fragment>
       ))}
     </>

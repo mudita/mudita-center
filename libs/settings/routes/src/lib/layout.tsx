@@ -28,7 +28,7 @@ export const messages = defineMessages({
 const tabs: Tab[] = [
   {
     title: formatMessage(messages.backup),
-    icon: IconType.BackupFolder,
+    icon: IconType.Backup,
     path: settingsPaths.backup,
   },
   {
