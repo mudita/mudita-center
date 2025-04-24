@@ -14,6 +14,7 @@ jobs:
         runner_label: [linux-nexus, windows-nexus, macos-nexus]
         type: [standard, force]
     environment: pre-production
+    timeout-minutes: 40
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

@@ -11,6 +11,7 @@ jobs:
       matrix:
         runner_label: [ linux-nexus, windows-nexus, macos-nexus ]
     environment: development
+    timeout-minutes: 40
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
