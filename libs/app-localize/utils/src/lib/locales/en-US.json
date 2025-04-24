@@ -7,6 +7,8 @@
   "page.news.cardCommunityComments": "{count, plural, =0 {Be the first to comment} one {# comment} other {# comments}}",
   "page.settings.title": "Settings",
   "page.settingsBackup.title": "Backup",
+  "page.settingsBackup.label": "Backup Location",
+  "page.settingsBackup.buttonLabel": "Change location",
   "page.settingsAbout.title": "About",
   "page.help.title": "Mudita Help Center"
 }

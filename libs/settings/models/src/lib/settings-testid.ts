@@ -3,4 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/backup/backup.component"
+export enum SettingsTestId {
+  ChangeBackupLocationButton = "settings-backup-change-location-button",
+}
