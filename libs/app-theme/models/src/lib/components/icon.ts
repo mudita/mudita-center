@@ -19,3 +19,12 @@ export enum IconType {
   Settings = "settings",
   Spinner = "spinner",
 }
+
+export enum IconSize {
+  Tiny = "tiny",
+  Small = "small",
+  Medium = "medium",
+  Big = "big",
+  Large = "large",
+  AutoMax = "auto-max",
+}

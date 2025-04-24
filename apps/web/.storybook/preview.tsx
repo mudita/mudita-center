@@ -5,6 +5,7 @@
 
 import { Preview } from "@storybook/react"
 import { AppThemeProvider } from "app-theme/feature"
+import { AppRoutingProvider } from "app-routing/feature"
 
 const preview: Preview = {
   parameters: {
@@ -18,9 +19,11 @@ const preview: Preview = {
   },
   decorators: [
     (Story) => (
-      <AppThemeProvider>
-        <Story />
-      </AppThemeProvider>
+      <AppRoutingProvider>
+        <AppThemeProvider>
+          <Story />
+        </AppThemeProvider>
+      </AppRoutingProvider>
     ),
   ],
 }

@@ -4,18 +4,18 @@
  */
 
 import { FunctionComponent } from "react"
-import { IconType } from "app-theme/models"
+import { IconSize, IconType } from "app-theme/models"
 import { icons } from "./icons"
 import styled, { css, keyframes } from "styled-components"
 
 interface Props {
   type: IconType
-  size?: "auto-min" | "auto-max" | "tiny" | "small" | "medium" | "big" | "large"
+  size?: IconSize
 }
 
 export const Icon: FunctionComponent<Props> = ({
   type,
-  size = "auto-max",
+  size = IconSize.Medium,
   ...props
 }) => {
   const spin = [IconType.Spinner].includes(type)
@@ -37,7 +37,7 @@ const spinAnimation = keyframes({
   },
 })
 
-const Wrapper = styled.div<{ $spin?: boolean; $size: Props["size"] }>`
+const Wrapper = styled.div<{ $spin?: boolean; $size: IconSize }>`
   aspect-ratio: 1;
 
   ${({ $spin }) =>
@@ -48,37 +48,34 @@ const Wrapper = styled.div<{ $spin?: boolean; $size: Props["size"] }>`
 
   ${({ $size }) => {
     switch ($size) {
-      case "tiny":
+      case IconSize.Tiny:
         return css`
           width: 1.2rem;
           height: 1.2rem;
         `
-      case "small":
+      case IconSize.Small:
         return css`
           width: 1.8rem;
           height: 1.8rem;
         `
-      case "medium":
+      case IconSize.Medium:
         return css`
           width: 2.4rem;
           height: 2.4rem;
         `
-      case "big":
+      case IconSize.Big:
         return css`
           width: 3.2rem;
           height: 3.2rem;
         `
-      case "large":
+      case IconSize.Large:
         return css`
           width: 4rem;
           height: 4rem;
         `
-      case "auto-min":
+      case IconSize.AutoMax:
         return css`
-          height: fit-content;
-        `
-      case "auto-max":
-        return css`
+          width: 100%;
           height: 100%;
         `
     }

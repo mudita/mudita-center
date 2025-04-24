@@ -5,8 +5,8 @@
 
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
-import { Button } from "../button/button"
-import { IconType } from "app-theme/models"
+import { IconSize, IconType } from "app-theme/models"
+import { IconButton } from "../button/icon-button"
 
 interface Props {
   onClick?: VoidFunction
@@ -14,16 +14,11 @@ interface Props {
 
 export const ModalCloseButton: FunctionComponent<Props> = ({ onClick }) => {
   return (
-    <ModalClose
-      onClick={onClick}
-      icon={IconType.Close}
-      type={"icon"}
-      size={"big"}
-    />
+    <ModalClose onClick={onClick} icon={IconType.Close} size={IconSize.Big} />
   )
 }
 
-const ModalClose = styled(Button)`
+const ModalClose = styled(IconButton)`
   position: absolute;
   right: ${({ theme }) => theme.app.space.xl};
   top: ${({ theme }) => theme.app.space.xl};

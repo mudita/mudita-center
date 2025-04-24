@@ -4,11 +4,11 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react"
-import { IconType, ModalLayer, ModalSize } from "app-theme/models"
+import { ButtonType, IconType, ModalLayer, ModalSize } from "app-theme/models"
 import { storybookHelper } from "app-theme/utils"
+import styled from "styled-components"
 import { ModalContent } from "../modal-content"
 import { Modal } from "../modal"
-import styled from "styled-components"
 import { Button } from "../../button/button"
 
 const Decorator = styled.div`
@@ -44,7 +44,7 @@ const meta: Meta<typeof ModalContent> = {
     docs: {
       description: {
         component:
-          "The `<Modal>` component is a wrapper around the `react-modal` library. It provides a set of subcomponents that can be used to build a modal:\n" +
+          "The `<Modal>` component is a wrapper around the `react-modal` library. It also provides a set of subcomponents that can be used to build the fully functional modal:\n\n" +
           "- `<Modal.TitleIcon>` - displays an icon in the title bar of the modal.\n" +
           "- `<Modal.Title>` - displays the title of the modal.\n" +
           "- `<Modal.CloseButton>` - displays a close button in the modal.\n" +
@@ -62,20 +62,8 @@ const meta: Meta<typeof ModalContent> = {
           "  const closeFunction = useCallback(() => setOpened(false), [])\n" +
           "\n" +
           "  return (\n" +
-          "    <Modal \n" +
-          "      opened={opened}\n" +
-          "    />\n" +
-          "      <Modal.CloseButton onClick={closeFunction()} />\n" +
-          "      <Modal.TitleIcon type={IconType.Spinner} />\n" +
-          "      <Modal.Title text={'Lorem Ipsum'} />\n" +
-          "      <p>\n" +
-          "        Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
-          "        Vestibulum ullamcorper diam at mauris egestas malesuada.\n" +
-          "      </p>\n" +
-          "      <Modal.Buttons>\n" +
-          "        <Button type={'secondary'}>Lorem</Button>\n" +
-          "        <Button type={'primary'}>Ipsum</Button>\n" +
-          "      </Modal.Buttons>\n" +
+          "    <Modal opened={opened}>\n" +
+          "    // ...\n" +
           "    </Modal>\n" +
           "  )\n" +
           "}\n" +
@@ -131,6 +119,44 @@ export const Default: Story = {
       gap: undefined,
     },
   },
+  parameters: {
+    docs: {
+      source: {
+        code:
+          "<Modal\n" +
+          "  opened={true}\n" +
+          "  customStyles={{\n" +
+          "    maxHeight: 500,\n" +
+          "  }}\n" +
+          ">\n" +
+          "  <Modal.CloseButton />\n" +
+          "  <Modal.TitleIcon type={IconType.Spinner} />\n" +
+          '  <Modal.Title text={"Lorem Ipsum"} />\n' +
+          "  <p>\n" +
+          "    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum\n" +
+          "    ullamcorper diam at mauris egestas malesuada.\n" +
+          "  </p>\n" +
+          "  <Modal.ScrollableContent>\n" +
+          "    <p>Lorem ipsum dolor sit amet, consectetur:</p>\n" +
+          "    <ul>\n" +
+          "      <li>Lorem ipsum dolor sit amet dolor sit amet</li>\n" +
+          "      <li>Consectetur adipiscing elit</li>\n" +
+          "    </ul>\n" +
+          "    <p>Vestibulum ullamcorper diam at mauris egestas:</p>\n" +
+          "    <ol>\n" +
+          "      <li>Lorem ipsum dolor sit amet</li>\n" +
+          "      <li>Consectetur adipiscing elit</li>\n" +
+          "      <li>Vestibulum ullamcorper diam at mauris egestas malesuada</li>\n" +
+          "    </ol>\n" +
+          "  </Modal.ScrollableContent>\n" +
+          "  <Modal.Buttons>\n" +
+          "    <Button type={ButtonType.Secondary}>Lorem</Button>\n" +
+          "    <Button type={ButtonType.Primary}>Ipsum</Button>\n" +
+          "  </Modal.Buttons>\n" +
+          "</Modal>",
+      },
+    },
+  },
   render: (args, context) => {
     return (
       <Modal
@@ -166,8 +192,8 @@ export const Default: Story = {
           </ol>
         </Modal.ScrollableContent>
         <Modal.Buttons>
-          <Button type={"secondary"}>Lorem</Button>
-          <Button type={"primary"}>Ipsum</Button>
+          <Button type={ButtonType.Secondary}>Lorem</Button>
+          <Button type={ButtonType.Primary}>Ipsum</Button>
         </Modal.Buttons>
       </Modal>
     )

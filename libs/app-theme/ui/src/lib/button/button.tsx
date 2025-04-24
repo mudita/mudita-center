@@ -3,53 +3,37 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  ComponentProps,
-  FunctionComponent,
-  PropsWithChildren,
-  useMemo,
-} from "react"
+import { FunctionComponent, PropsWithChildren, useMemo } from "react"
 import styled, { css } from "styled-components"
 import { Link, LinkProps } from "react-router"
-import { IconType } from "app-theme/models"
+import { ButtonSize, ButtonType, IconType } from "app-theme/models"
 import { Icon } from "../icon/icon"
+import { isEmpty } from "lodash"
 
-interface ButtonLinkProps {
+export interface ButtonLinkProps {
   to: LinkProps["to"]
   target?: LinkProps["target"]
   onClick?: undefined
 }
 
-interface ButtonDefaultProps {
+export interface ButtonDefaultProps {
   to?: undefined
   target?: undefined
   onClick?: VoidFunction
 }
 
-type IconSize = ComponentProps<typeof Icon>["size"]
-
-type StandardButtonProps = {
-  type?: "primary" | "secondary" | "tertiary"
-  size?: "auto-min" | "auto-max" | "small" | "medium" | "large"
-}
-
-type IconButtonProps = {
-  type: "icon"
-  size?: Omit<IconSize, "auto-min" | "auto-max">
-}
-
-type TypeSpecificProps = StandardButtonProps | IconButtonProps
-
-type Props = PropsWithChildren &
-  TypeSpecificProps & {
-    icon?: IconType
-    disabled?: boolean
-    className?: string
-  } & (ButtonLinkProps | ButtonDefaultProps)
+type Props = PropsWithChildren & {
+  type?: ButtonType
+  size?: ButtonSize
+  text?: string
+  icon?: IconType
+  disabled?: boolean
+} & (ButtonLinkProps | ButtonDefaultProps)
 
 export const Button: FunctionComponent<Props> = ({
-  type = "primary",
-  size = "auto-max",
+  type = ButtonType.Primary,
+  size = ButtonSize.AutoMax,
+  text,
   icon,
   to,
   target,
@@ -63,11 +47,11 @@ export const Button: FunctionComponent<Props> = ({
       return null
     }
     switch (type) {
-      case "primary":
+      case ButtonType.Primary:
         return PrimaryNavigationComponent
-      case "secondary":
+      case ButtonType.Secondary:
         return SecondaryNavigationComponent
-      case "tertiary":
+      case ButtonType.Tertiary:
         return TertiaryNavigationComponent
     }
   }, [to, type])
@@ -77,16 +61,23 @@ export const Button: FunctionComponent<Props> = ({
       return null
     }
     switch (type) {
-      case "primary":
+      case ButtonType.Primary:
         return PrimaryButtonComponent
-      case "secondary":
+      case ButtonType.Secondary:
         return SecondaryButtonComponent
-      case "tertiary":
+      case ButtonType.Tertiary:
         return TertiaryButtonComponent
-      case "icon":
-        return IconButtonComponent
     }
   }, [to, type])
+
+  const content = useMemo(() => {
+    return (
+      <>
+        {icon && <ButtonIcon type={icon} />}
+        {isEmpty(children) ? text : children}
+      </>
+    )
+  }, [children, icon, text])
 
   if (to && NavigationComponent) {
     const linkTarget = retrieveLinkTarget(to, target)
@@ -105,8 +96,7 @@ export const Button: FunctionComponent<Props> = ({
         }}
         {...rest}
       >
-        {icon && <ButtonIcon type={icon} />}
-        {children}
+        {content}
       </NavigationComponent>
     )
   }
@@ -122,14 +112,7 @@ export const Button: FunctionComponent<Props> = ({
       disabled={disabled}
       {...rest}
     >
-      {type === "icon" && icon ? (
-        <ButtonIcon type={icon} size={size as IconSize} />
-      ) : (
-        <>
-          {icon && <ButtonIcon type={icon} />}
-          {children}
-        </>
-      )}
+      {content}
     </ButtonComponent>
   )
 }
@@ -177,50 +160,28 @@ const baseStyles = css<StyledButtonProps>`
 
   ${({ $size }) => {
     switch ($size) {
-      case "small":
+      case ButtonSize.Small:
         return css`
           width: 11.8rem;
         `
-      case "medium":
+      case ButtonSize.Medium:
         return css`
           width: 15.6rem;
         `
-      case "large":
+      case ButtonSize.Large:
         return css`
           width: 17.6rem;
         `
-      case "auto-min":
+      case ButtonSize.AutoMin:
         return css`
           width: fit-content;
         `
-      case "auto-max":
+      case ButtonSize.AutoMax:
         return css`
-          width: auto;
+          width: 100%;
         `
     }
   }}
-`
-
-const baseIconStyles = css`
-  border: none;
-  border-radius: ${({ theme }) => theme.app.radius.sm};
-  appearance: none;
-  background: transparent;
-  cursor: pointer;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  width: min-content;
-  height: min-content;
-  aspect-ratio: 1;
-  transition-property: background-color, color;
-  transition-duration: ${({ theme }) =>
-    theme.app.constants.buttonTransitionDuration}ms;
-  transition-timing-function: ease-in-out;
 `
 
 const primaryDefaultStyles = css`
@@ -359,36 +320,6 @@ const TertiaryButtonComponent = styled.button<StyledButtonProps>`
   }
   &:disabled {
     ${tertiaryDisabledStyles};
-  }
-`
-
-const iconButtonHoverStyles = css`
-  background-color: ${({ theme }) => theme.app.color.grey6};
-`
-
-const iconButtonActiveStyles = css`
-  background-color: transparent;
-`
-
-const iconButtonDisabledStyles = css`
-  color: ${({ theme }) => theme.app.color.grey3};
-  background-color: transparent;
-  cursor: not-allowed;
-`
-
-const IconButtonComponent = styled.button<StyledButtonProps>`
-  ${baseIconStyles};
-
-  &:hover {
-    ${iconButtonHoverStyles};
-  }
-
-  &:active {
-    ${iconButtonActiveStyles};
-  }
-
-  &:disabled {
-    ${iconButtonDisabledStyles};
   }
 `
 

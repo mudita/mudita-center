@@ -5,6 +5,7 @@
 
 import { InputType } from "@storybook/core/csf"
 import { merge } from "lodash"
+import { ButtonType } from "app-theme/models"
 
 export const storybookHelper = {
   config: {} as InputType,
@@ -20,16 +21,31 @@ export const storybookHelper = {
   },
 
   // Assigns selector control with options mapped to enum keys
-  generateEnumSelector(enumObj: object, enumName = "enum") {
+  generateEnumSelector(enumObj: object, enumName: string, optional = false) {
+    const hasNumericValues = Object.values(enumObj).some((value) => {
+      return typeof value === "number" && !isNaN(value)
+    })
     merge(this.config, {
-      control: { type: "select" },
-      options: Object.values(enumObj).filter((v) => typeof v === "string"),
-      mapping: Object.fromEntries(
-        Object.keys(enumObj).map((key) => [
-          key,
-          enumObj[key as keyof typeof enumObj],
-        ])
-      ),
+      options: [
+        ...(optional ? ["none"] : []),
+        ...Object.values(enumObj).filter((value) =>
+          hasNumericValues
+            ? typeof value === "number"
+            : typeof value === "string"
+        ),
+      ],
+      control: {
+        type: "select",
+        labels: {
+          ...(optional ? { none: "" } : {}),
+          ...Object.fromEntries(
+            Object.entries(enumObj).map(([key, value]) => [
+              value,
+              `${enumName}.${key}`,
+            ])
+          ),
+        },
+      },
     })
     return this.setType(enumName)
   },

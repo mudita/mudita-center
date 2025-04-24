@@ -4,6 +4,7 @@
  */
 
 export * from "./lib/components/icon"
+export * from "./lib/components/button"
 export * from "./lib/components/legacy-text"
 export * from "./lib/components/legacy-button"
 export * from "./lib/components/legacy-icon"
