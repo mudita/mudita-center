@@ -4,6 +4,7 @@
  */
 
 import {
+  CancelUploadResultData,
   GetUploadFileProgress,
   GetUploadFileProgressResultData,
   MtpDevice,
@@ -65,6 +66,14 @@ export class AppMtp implements MtpInterface {
       `[app-mtp] getting upload file progress result: ${JSON.stringify(result)}`
     )
 
+    return result
+  }
+
+  async cancelUpload(
+    data: GetUploadFileProgress
+  ): Promise<ResultObject<CancelUploadResultData>> {
+    const result = await this.mtp.cancelUpload(data)
+    console.log(`[app-mtp] canceling status: ${JSON.stringify(result)}`)
     return result
   }
 }

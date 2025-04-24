@@ -4,6 +4,7 @@
  */
 
 import {
+  CancelUploadResultData,
   GetUploadFileProgress,
   GetUploadFileProgressResultData,
   MtpDevice,
@@ -28,6 +29,7 @@ const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 
 export class DotnetMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
+  private abortController: AbortController | undefined
 
   async getDevices(): Promise<MtpDevice[]> {
     const mtpDevices: MtpDevice[] = []
@@ -118,10 +120,27 @@ export class DotnetMtp implements MtpInterface {
       : Result.success({ progress: transactionStatus.progress })
   }
 
+  async cancelUpload(
+    data: GetUploadFileProgress
+  ): Promise<ResultObject<CancelUploadResultData>> {
+    if (this.uploadFileTransactionStatus[data.transactionId] !== undefined) {
+      this.abortController?.abort()
+      console.log(
+        `${PREFIX_LOG} Canceling upload for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
+      )
+      return Result.success({})
+    } else {
+      return Result.failed({
+        type: MTPError.MTP_TRANSACTION_NOT_FOUND,
+      } as AppError)
+    }
+  }
+
   private async processFileUpload(
     data: MtpUploadFileData,
     transactionId: string
   ): Promise<void> {
+    this.abortController = new AbortController()
     this.uploadFileTransactionStatus[transactionId] = { progress: 0 }
     const request = { action: DotnetCliCommandAction.UPLOAD_FILE, ...data }
 
@@ -138,7 +157,16 @@ export class DotnetMtp implements MtpInterface {
         const appError = { type: errorType } as AppError
         console.error(`${PREFIX_LOG} stderr: ${JSON.stringify(appError)}`)
         this.uploadFileTransactionStatus[transactionId].error = appError
-      }
+      },
+      this.abortController.signal
     )
+      .then(() => {
+        console.log(`${PREFIX_LOG} command status: finished`)
+      })
+      .catch((error) => {
+        const appError = { type: error } as AppError
+        this.uploadFileTransactionStatus[transactionId].error = appError
+        console.error(`${PREFIX_LOG} command status: error`, error)
+      })
   }
 }

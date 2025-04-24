@@ -6,10 +6,11 @@
 import { spawn } from "child_process"
 import * as readline from "readline"
 import path from "path"
+import { MTPError } from "../../app-mtp.interface"
 
 const exePath = path.join(
   __dirname,
-  "../../../apps/mudita-center/resources/MtpFileTransfer.exe"
+  "../../../../../../apps/mudita-center/resources/MtpFileTransfer.exe"
 )
 
 const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
@@ -17,7 +18,8 @@ const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 export async function runCommand(
   request: object,
   stdOutHandler: (line: string) => void,
-  stdErrHandler?: (line: string) => void
+  stdErrHandler?: (line: string) => void,
+  abortSignal?: AbortSignal
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const args = JSON.stringify(request)
@@ -32,6 +34,7 @@ export async function runCommand(
     })
 
     stdOut.on("line", (line: string) => {
+      console.log(abortSignal?.aborted)
       stdOutHandler(line)
     })
     stdErr.on("line", (line: string) => {
@@ -41,13 +44,29 @@ export async function runCommand(
         console.error(`${PREFIX_LOG} stderr: ${line}`)
       }
     })
+
+    const handleAbort = () => {
+      const killed = child.kill()
+      if (killed) {
+        reject(MTPError.MTP_PROCESS_CANCELLED)
+      } else {
+        reject(MTPError.MTP_GENERAL_ERROR)
+      }
+    }
+
+    if (abortSignal?.aborted) {
+      return handleAbort()
+    }
+
+    abortSignal?.addEventListener("abort", handleAbort)
+
     child.on("close", (code: number) => {
+      abortSignal?.removeEventListener("abort", handleAbort)
       if (code !== 0) {
         console.log(`${PREFIX_LOG} Process exited with code ${code}`)
         reject(new Error(`Process exited with code ${code}`))
       } else {
         console.log(`${PREFIX_LOG} Process exited successfully`)
-
         resolve()
       }
     })

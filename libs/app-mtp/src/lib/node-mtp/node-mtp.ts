@@ -7,6 +7,7 @@ import path from "node:path"
 import fs from "node:fs"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
+  CancelUploadResultData,
   GetUploadFileProgress,
   GetUploadFileProgressResultData,
   MtpDevice,
@@ -106,6 +107,15 @@ export class NodeMtp implements MtpInterface {
     return Result.success({
       progress: this.uploadFileTransactionStatus[transactionId].progress,
     })
+  }
+
+  async cancelUpload(
+    data: GetUploadFileProgress
+  ): Promise<ResultObject<CancelUploadResultData>> {
+    console.log(
+      `${PREFIX_LOG} cancelling upload: //TODO NOT IMPLEMENTED YET FOR NODE-MTP`
+    )
+    return Result.success({})
   }
 
   private async createDirectories(
