@@ -4,16 +4,19 @@
  */
 
 import styled, { css } from "styled-components"
-import { ButtonSize } from "app-theme/models"
+import { ButtonSize, ButtonTextModifier } from "app-theme/models"
 import { Icon } from "../icon/icon"
+
+export type ModifiersProp = { $modifiers?: ButtonTextModifier[] }
 
 export type StyledButtonProps = {
   $size: ButtonSize
-}
+} & ModifiersProp
+
 export type StyledLinkProps = {
   $size: ButtonSize
   $disabled?: boolean
-}
+} & ModifiersProp
 
 export const baseStyles = css<StyledButtonProps>`
   border: none;

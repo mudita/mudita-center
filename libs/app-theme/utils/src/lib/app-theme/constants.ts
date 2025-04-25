@@ -5,3 +5,4 @@
 
 export const modalTransitionDuration = 400
 export const buttonTransitionDuration = 150
+export const buttonTransitionEasing = "ease-in-out"

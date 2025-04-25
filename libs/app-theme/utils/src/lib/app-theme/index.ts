@@ -9,7 +9,11 @@ import { space } from "./space"
 import { fontSize } from "./font-size"
 import { lineHeight } from "./line-height"
 import { fontWeight } from "./font-weight"
-import { buttonTransitionDuration, modalTransitionDuration } from "./constants"
+import {
+  buttonTransitionDuration,
+  buttonTransitionEasing,
+  modalTransitionDuration,
+} from "./constants"
 
 export const appTheme = {
   color,
@@ -21,5 +25,6 @@ export const appTheme = {
   constants: {
     modalTransitionDuration,
     buttonTransitionDuration,
+    buttonTransitionEasing,
   },
 } as const

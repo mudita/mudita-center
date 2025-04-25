@@ -7,8 +7,8 @@ import styled from "styled-components"
 import { FunctionComponent } from "react"
 import { Link } from "react-router"
 import { DashboardHeaderPortal } from "./header"
-import { Icon } from "app-theme/ui"
-import { IconType } from "app-theme/models"
+import { Button } from "app-theme/ui"
+import { ButtonType, IconType } from "app-theme/models"
 
 interface Props {
   title: string
@@ -23,10 +23,13 @@ export const DashboardHeaderTitle: FunctionComponent<Props> = ({
     <DashboardHeaderPortal>
       <Wrapper data-testid="dashboard-header-title">
         {back ? (
-          <BackLink to={".."} relative={"route"}>
-            <Icon type={IconType.ArrowBack} />
+          <Button
+            to={".."}
+            type={ButtonType.Text}
+            icon={IconType.ArrowBack}
+          >
             <BackTitle>back to {title}</BackTitle>
-          </BackLink>
+          </Button>
         ) : (
           <PageTitle>{title}</PageTitle>
         )}

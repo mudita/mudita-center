@@ -6,7 +6,7 @@
 export enum ButtonType {
   Primary = "primary",
   Secondary = "secondary",
-  Tertiary = "tertiary",
+  Text = "text",
 }
 
 export enum ButtonSize {
@@ -15,4 +15,11 @@ export enum ButtonSize {
   Small = "small",
   Medium = "medium",
   Large = "large",
+}
+
+export enum ButtonTextModifier {
+  DefaultCase = "default-case",
+  Link = "link",
+  HoverUnderline = "hover-underline",
+  HoverBackground = "hover-background",
 }
