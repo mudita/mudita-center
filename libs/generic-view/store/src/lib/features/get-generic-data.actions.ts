@@ -8,7 +8,7 @@ import { Feature } from "generic-view/models"
 import { getFeatureDataRequest } from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { selectConfiguredDevice } from "../selectors/select-configured-devices"
+import { selectConfiguredDevice } from "../selectors"
 import { FeaturesActions } from "./featues-action-keys"
 import { transformDataComponents } from "./transform-data-components"
 

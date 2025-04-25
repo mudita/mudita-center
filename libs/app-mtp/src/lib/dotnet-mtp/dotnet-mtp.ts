@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { spawn } from "child_process"
-import path from "path"
 import {
   GetUploadFileProgress,
   GetUploadFileProgressResultData,
@@ -24,22 +22,75 @@ import {
 import { translateStatus } from "./utils/map-to-mtp-error"
 import { AppError } from "../../../../core/core/errors/app-error"
 import { DotnetCliCommandAction } from "./dotnet-mtp.interface"
-import { createReadlineInterface } from "./utils/create-readline-interface"
+import { runCommand } from "./utils/handle-command"
+
+const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 
 export class DotnetMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
 
   async getDevices(): Promise<MtpDevice[]> {
-    return [{ id: "device-1", name: "Device 1" }]
+    const mtpDevices: MtpDevice[] = []
+    const request = { action: DotnetCliCommandAction.GET_DEVICES }
+
+    await runCommand(
+      request,
+      (line: string) => {
+        console.log(`${PREFIX_LOG} stdout: ${line}`)
+        const result = JSON.parse(line).data as {
+          deviceId: string
+          label: string
+        }[]
+        result.forEach((item) => {
+          mtpDevices.push({ id: item.deviceId, name: item.label })
+        })
+      },
+      (line: string) => {
+        const errorType = translateStatus(JSON.parse(line).status)
+        const appError = { type: errorType } as AppError
+        console.error(`${PREFIX_LOG} stderr: ${JSON.stringify(appError)}`)
+      }
+    )
+    return mtpDevices
   }
 
   async getDeviceStorages(
     deviceId: string
   ): Promise<ResultObject<MtpStorage[]>> {
-    return Result.success([
-      { id: "storage-1", isInternal: false },
-      { id: "storage-2", isInternal: true },
-    ])
+    const mtpDeviceStorages: MtpStorage[] = []
+    let appError: AppError | undefined
+    const request = {
+      action: DotnetCliCommandAction.GET_DEVICE_STORAGES,
+      deviceId,
+    }
+
+    await runCommand(
+      request,
+      (line: string) => {
+        console.log(`${PREFIX_LOG} stdout: ${line}`)
+        const result = JSON.parse(line).data as {
+          volumeId: string
+          volumeName: string
+          isInternal: boolean
+        }[]
+        result.forEach((item) => {
+          mtpDeviceStorages.push({
+            id: item.volumeId,
+            name: item.volumeName,
+            isInternal: item.isInternal,
+          })
+        })
+      },
+      (line: string) => {
+        const errorType = translateStatus(JSON.parse(line).status)
+        appError = { type: errorType } as AppError
+        console.error(`${PREFIX_LOG} stderr: ${JSON.stringify(appError)}`)
+      }
+    )
+
+    return appError
+      ? Result.failed(appError)
+      : Result.success(mtpDeviceStorages)
   }
 
   async uploadFile(
@@ -71,51 +122,23 @@ export class DotnetMtp implements MtpInterface {
     data: MtpUploadFileData,
     transactionId: string
   ): Promise<void> {
-    this.uploadFileTransactionStatus[transactionId] = {
-      progress: 0,
-    }
+    this.uploadFileTransactionStatus[transactionId] = { progress: 0 }
+    const request = { action: DotnetCliCommandAction.UPLOAD_FILE, ...data }
 
-    return new Promise((resolve, reject) => {
-      const exePath = path.join(
-        __dirname,
-        "../../../../../apps/mudita-center/resources/MtpFileTransfer_boxed.exe"
-      )
-      const uploadRequest = {
-        action: DotnetCliCommandAction.UPLOAD_FILE,
-        ...data,
-      }
-
-      const args = JSON.stringify(uploadRequest)
-      const child = spawn(exePath, [args])
-      const stdOut = createReadlineInterface(child.stdout)
-      const stdErr = createReadlineInterface(child.stderr)
-
-      stdOut.on("line", (line) => {
-        console.log(`[app-mtp/dotnet-mtp] data stdout: ${line}`)
+    await runCommand(
+      request,
+      (line: string) => {
+        console.log(`${PREFIX_LOG} stdout: ${line}`)
+        const parsed = JSON.parse(line)
         this.uploadFileTransactionStatus[transactionId].progress =
-          JSON.parse(line).data.progress
-      })
-
-      stdErr.on("line", (line) => {
+          parsed.data.progress
+      },
+      (line: string) => {
         const errorType = translateStatus(JSON.parse(line).status)
         const appError = { type: errorType } as AppError
-        console.error(
-          `[app-mtp/dotnet-mtp] data stderr: ${JSON.stringify(appError)}`
-        )
+        console.error(`${PREFIX_LOG} stderr: ${JSON.stringify(appError)}`)
         this.uploadFileTransactionStatus[transactionId].error = appError
-      })
-
-      child.on("close", (code: number) => {
-        if (code !== 0) {
-          console.log(
-            `[app-mtp/dotnet-mtp] child process exited with code: ${code}`
-          )
-        } else {
-          console.log(`[app-mtp/dotnet-mtp] child process exited successfully`)
-        }
-
-        resolve()
-      })
-    })
+      }
+    )
   }
 }
