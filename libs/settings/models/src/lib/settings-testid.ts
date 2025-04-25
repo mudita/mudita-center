@@ -5,4 +5,10 @@
 
 export enum SettingsTestId {
   ChangeBackupLocationButton = "settings-backup-change-location-button",
+  AboutWrapper = "about-wrapper",
+  AboutTableRow = "about-tablerow",
+  AboutTermsOfServiceButton = "about-terms-of-service-button",
+  AboutPrivacyPolicyButton = "about-privacy-policy-button",
+  AboutLicenseButton = "about-license-button",
+  AboutUpdateButton = "about-update-button",
 }

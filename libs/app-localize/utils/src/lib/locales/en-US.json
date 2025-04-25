@@ -10,5 +10,15 @@
   "page.settingsBackup.label": "Backup Location",
   "page.settingsBackup.buttonLabel": "Change location",
   "page.settingsAbout.title": "About",
+  "page.settingsAbout.installedVersion": "Mudita Center - installed version: {version}",
+  "page.settingsAbout.availableVersion": "Version {version} is available",
+  "page.settingsAbout.systemUpdateCheckFailed": "Checking for update failed",
+  "page.settingsAbout.systemUpdateUpToDate": "You’re up to date.",
+  "page.settingsAbout.appUpdateAction": "Update now",
+  "page.settingsAbout.systemCheckForUpdates": "Check for updates",
+  "page.settingsAbout.termsOfService": "Terms of service",
+  "page.settingsAbout.privacyPolicy": "Privacy Policy",
+  "page.settingsAbout.license": "License",
+  "page.settingsAbout.learnMore": "Learn more",
   "page.help.title": "Mudita Help Center"
 }

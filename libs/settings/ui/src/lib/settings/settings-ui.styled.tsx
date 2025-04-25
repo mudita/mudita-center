@@ -7,6 +7,8 @@ import styled from "styled-components"
 import { borderColor } from "app-theme/utils"
 import { LegacyText } from "app-theme/ui"
 
+export const SettingsWrapper = styled.section``
+
 export const SettingsTableRow = styled.div`
   display: grid;
   box-sizing: border-box;
@@ -22,6 +24,14 @@ export const Data = styled.div`
   align-self: center;
   display: flex;
   flex-direction: row;
+`
+
+export const SettingsActionsWrapper = styled.div`
+  grid-area: Actions;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 9rem;
 `
 
 export const SettingsLabel = styled(LegacyText)`

@@ -10,6 +10,7 @@ import {
   Data,
   SettingsTableRow,
   SettingsLabel,
+  SettingsActionsWrapper,
 } from "../settings/settings-ui.styled"
 import { TextDisplayStyle } from "app-theme/models"
 import { borderColor } from "app-theme/utils"
@@ -38,11 +39,7 @@ const BackupData = styled(Data)`
     "Message";
 `
 
-const BackupActionsWrapper = styled.div`
-  grid-area: Actions;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const BackupActionsWrapper = styled(SettingsActionsWrapper)`
   width: fit-content;
 `
 
