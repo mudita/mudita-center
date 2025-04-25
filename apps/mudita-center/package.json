@@ -53,7 +53,13 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "./icons/win/icon.ico"
+      "icon": "./icons/win/icon.ico",
+      "extraFiles": [
+        {
+          "from": "./resources/MtpFileTransfer.exe",
+          "to": "resources/MtpFileTransfer.exe"
+        }
+      ]
     },
     "nsis": {
       "include": "installer.nsh",

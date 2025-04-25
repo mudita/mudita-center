@@ -7,10 +7,18 @@ import { spawn } from "child_process"
 import * as readline from "readline"
 import path from "path"
 
-const exePath = path.join(
-  __dirname,
-  "../../../apps/mudita-center/resources/MtpFileTransfer.exe"
-)
+const getExecPath = () => {
+  if (process.env["NODE_ENV"] === "production") {
+    return path.join(process.resourcesPath, "MtpFileTransfer.exe")
+  } else {
+    return path.join(
+      process.cwd().replace("apps\\mudita-center", ""),
+      "apps/mudita-center/resources/MtpFileTransfer.exe"
+    )
+  }
+}
+
+const exePath = getExecPath()
 
 const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 
