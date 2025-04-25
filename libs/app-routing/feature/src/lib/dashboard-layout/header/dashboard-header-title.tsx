@@ -5,7 +5,6 @@
 
 import styled from "styled-components"
 import { FunctionComponent } from "react"
-import { Link } from "react-router"
 import { DashboardHeaderPortal } from "./header"
 import { Button } from "app-theme/ui"
 import { ButtonType, IconType } from "app-theme/models"
@@ -23,11 +22,7 @@ export const DashboardHeaderTitle: FunctionComponent<Props> = ({
     <DashboardHeaderPortal>
       <Wrapper data-testid="dashboard-header-title">
         {back ? (
-          <Button
-            to={".."}
-            type={ButtonType.Text}
-            icon={IconType.ArrowBack}
-          >
+          <Button to={".."} type={ButtonType.Text} icon={IconType.ArrowBack}>
             <BackTitle>back to {title}</BackTitle>
           </Button>
         ) : (
@@ -52,17 +47,6 @@ const PageTitle = styled.h1`
   font-weight: ${({ theme }) => theme.app.fontWeight.bold};
   letter-spacing: 0.02em;
   margin: 0;
-`
-
-const BackLink = styled(Link)`
-  align-self: center;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
-  text-decoration: none;
-  padding: ${({ theme }) => theme.app.space.xs} 0;
-  color: ${({ theme }) => theme.app.color.grey1};
 `
 
 const BackTitle = styled.h1`
