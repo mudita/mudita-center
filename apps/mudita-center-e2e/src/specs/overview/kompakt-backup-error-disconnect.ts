@@ -67,7 +67,6 @@ describe("Backup error - disconnect", () => {
     const createBackupPasswordSkip =
       await ModalBackupKompaktPage.createBackupPasswordSkip
     await createBackupPasswordSkip.click()
-    await browser.pause(2000) // wait for animation to load from 0% to10%
 
     E2EMockClient.removeDevice("path-1") //disconnect the device
   })
