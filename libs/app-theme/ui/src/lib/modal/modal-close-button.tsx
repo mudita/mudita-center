@@ -6,7 +6,7 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { IconSize, IconType } from "app-theme/models"
-import { IconButton } from "../button/icon-button"
+import { IconButton } from "../icon-button/icon-button"
 
 interface Props {
   onClick?: VoidFunction

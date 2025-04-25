@@ -5,7 +5,7 @@
 
 import { FunctionComponent } from "react"
 import { IconSize, IconType } from "app-theme/models"
-import { Button, ButtonDefaultProps, ButtonLinkProps } from "./button"
+import { Button, ButtonDefaultProps, ButtonLinkProps } from "../button/button"
 import { Icon } from "../icon/icon"
 import styled, { css } from "styled-components"
 

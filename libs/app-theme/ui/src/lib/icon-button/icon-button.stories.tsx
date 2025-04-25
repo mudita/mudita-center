@@ -8,7 +8,7 @@ import { storybookHelper } from "app-theme/utils"
 import { IconSize, IconType } from "app-theme/models"
 import styled from "styled-components"
 import { IconButton } from "./icon-button"
-import { Default as DefaultButtonStory } from "./button.stories"
+import { Default as DefaultButtonStory } from "../button/button.stories"
 
 const Decorator = styled.div`
   align-self: center;

@@ -7,9 +7,9 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { ButtonType, IconType, ModalLayer, ModalSize } from "app-theme/models"
 import { storybookHelper } from "app-theme/utils"
 import styled from "styled-components"
-import { ModalContent } from "../modal-content"
-import { Modal } from "../modal"
-import { Button } from "../../button/button"
+import { ModalContent } from "./modal-content"
+import { Modal } from "./modal"
+import { Button } from "../button/button"
 
 const Decorator = styled.div`
   width: 100%;
