@@ -88,7 +88,7 @@ export const useUploadFilesButtonAction = () => {
         sendFiles({
           files,
           actionId: action.actionId,
-          targetPath: action.destinationPath,
+          destinationPath: action.destinationPath,
           entitiesType: action.entitiesType,
         })
       )) as Awaited<ReturnType<ReturnType<typeof sendFiles>>>

@@ -36,6 +36,12 @@
       "options": {
         "command": "nodemon --watch './libs/app-mtp/src/**' --ext 'ts' --exec ts-node --project libs/app-mtp/tsconfig.lib.json libs/app-mtp/src/lib/app-examples/app-mtp-cli.ts"
       }
+    },
+    "killer": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "./scripts/mtp-killer.sh"
+      }
     }
   },
   "tags": []
