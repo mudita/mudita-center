@@ -29,6 +29,7 @@ export const baseStyles = css<StyledButtonProps>`
   gap: 0.4rem;
   padding: 0 1rem;
   letter-spacing: 0.1em;
+  text-align: center;
   text-transform: uppercase;
   text-decoration: none;
   user-select: none;

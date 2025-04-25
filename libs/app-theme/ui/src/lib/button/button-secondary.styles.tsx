@@ -13,6 +13,7 @@ import {
 } from "./button-base.styles"
 
 const secondaryDefaultStyles = css`
+  padding: 0 0.9rem;
   background-color: ${({ theme }) => theme.app.color.white};
   transition:
     color 0.15s ease-in-out,
