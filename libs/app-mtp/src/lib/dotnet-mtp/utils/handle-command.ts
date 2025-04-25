@@ -10,7 +10,7 @@ import { MTPError } from "../../app-mtp.interface"
 
 const exePath = path.join(
   __dirname,
-  "../../../../../../apps/mudita-center/resources/MtpFileTransfer.exe"
+  "../../../apps/mudita-center/resources/MtpFileTransfer.exe"
 )
 
 const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
@@ -34,7 +34,6 @@ export async function runCommand(
     })
 
     stdOut.on("line", (line: string) => {
-      console.log(abortSignal?.aborted)
       stdOutHandler(line)
     })
     stdErr.on("line", (line: string) => {
