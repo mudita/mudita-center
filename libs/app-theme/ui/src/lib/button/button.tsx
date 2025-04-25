@@ -21,13 +21,13 @@ import {
   TertiaryNavigationComponent,
 } from "./button-tertiary.styles"
 
-interface ButtonLinkProps {
+export interface ButtonLinkProps {
   to: LinkProps["to"]
   target?: LinkProps["target"]
   onClick?: undefined
 }
 
-interface ButtonDefaultProps {
+export interface ButtonDefaultProps {
   to?: undefined
   target?: undefined
   onClick?: VoidFunction
