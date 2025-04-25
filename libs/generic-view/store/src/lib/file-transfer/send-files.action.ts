@@ -17,6 +17,7 @@ import {
 } from "./send-file-via-mtp.action"
 import { getMtpSendFileMetadata } from "./get-mtp-send-file-metadata.action"
 import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
+import { FilesTransferMode } from "./files-transfer-mode.type"
 
 export interface SendFilesPayload {
   actionId: string
@@ -34,7 +35,7 @@ export const sendFiles = createAsyncThunk<
   ActionName.SendFiles,
   async (
     { actionId, files, destinationPath, entitiesType, customDeviceId },
-    { dispatch, signal, abort, rejectWithValue }
+    { dispatch, signal, abort, rejectWithValue, getState }
   ) => {
     const mainAbortController = new AbortController()
     mainAbortController.abort = abort
@@ -52,12 +53,12 @@ export const sendFiles = createAsyncThunk<
     }
     signal.addEventListener("abort", abortListener)
 
-    const sendFileMode = "mtp"
+    const filesTransferMode = getState().genericFileTransfer.filesTransferMode
 
     let mtpSendFileMetadata: Omit<SendFileViaMTPPayload, "file"> | undefined =
       undefined
 
-    if (sendFileMode === "mtp") {
+    if (filesTransferMode === FilesTransferMode.Mtp) {
       const getMtpSendFileMetadataDispatch = dispatch(
         getMtpSendFileMetadata({ destinationPath, customDeviceId })
       )
@@ -88,7 +89,7 @@ export const sendFiles = createAsyncThunk<
     for (const file of files) {
       if (
         "path" in file &&
-        sendFileMode === "mtp" &&
+        filesTransferMode === FilesTransferMode.Mtp &&
         mtpSendFileMetadata !== undefined
       ) {
         const sendFileBaseDispatch = dispatch(
