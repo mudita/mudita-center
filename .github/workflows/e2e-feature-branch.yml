@@ -6,10 +6,10 @@ on:
       - CP-*
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        os: [Linux, macOS, Windows]
+        runner_label: [linux-e2e, windows-e2e, macos-e2e]
         node-version: [22]
     environment: development
     steps:
@@ -19,48 +19,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Find open port for ChromeBrowser on Linux/Mac
-        if: matrix.os != 'Windows'
-        id: find-port-unix
-        run: |
-          START_PORT=30000
-          END_PORT=40000
-          PORT=$START_PORT
-          RUNNER_OS="${{ matrix.os }}"
-          while [ $PORT -le $END_PORT ]; do
-            if [[ "$RUNNER_OS" == "Linux" ]]; then
-              nc -z 127.0.0.1 $PORT 2>/dev/null || break
-            elif [[ "$RUNNER_OS" == "macOS" ]]; then
-              nc -z -w1 127.0.0.1 $PORT 2>/dev/null || break
-            fi
-            PORT=$((PORT+1))
-          done
-          if [ $PORT -gt $END_PORT ]; then
-            echo "No available port found in the range $START_PORT-$END_PORT" >&2
-            exit 1
-          fi
-          echo "CHROME_OPEN_PORT=$PORT" >> $GITHUB_ENV
-      - name: Find open port for ChromeBrowser on Windows
-        if: matrix.os == 'Windows'
-        id: find-port-windows
-        run: |
-          $startPort = 30000
-          $endPort = 40000
-          $port = $startPort
-          while ($port -le $endPort) {
-            $isUsed = (Test-NetConnection -ComputerName 127.0.0.1 -Port $port).TcpTestSucceeded
-            if (-not $isUsed) {
-              break
-            }
-            $port++
-          }
-          if ($port -gt $endPort) {
-            Write-Error "No available port found in the range $startPort-$endPort"
-            exit 1
-          }
-          echo "CHROME_OPEN_PORT=$port" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
       - name: Setup Env for Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-e2e'
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
@@ -71,7 +31,7 @@ jobs:
           SET > .env
           jq -r -j .version apps/app/package.json > apps/app/version
       - name: Setup Env for Mac
-        if: matrix.os == 'macOS'
+        if: matrix.runner_label == 'macos-e2e'
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
@@ -80,7 +40,7 @@ jobs:
         run: |
           printenv > .env
       - name: Setup Env for Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runner_label == 'linux-e2e'
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
@@ -89,7 +49,7 @@ jobs:
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runner_label == 'linux-e2e'
         run: |
           export APP_VERSION=`cat apps/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
@@ -97,7 +57,7 @@ jobs:
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
       - name: Changing app version in packages.json for Mac
-        if: matrix.os == 'macOS'
+        if: matrix.runner_label == 'macos-e2e'
         run: |
           export APP_VERSION=`cat apps/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
@@ -105,7 +65,7 @@ jobs:
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
       - name: Changing app version in packages.json for Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-e2e'
         run: |
           $SOURCE_BRANCH = "${{ github.ref_name }}"
           $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
@@ -116,30 +76,26 @@ jobs:
           } | Set-Content -Path 'apps/app/package.json'
       - name: Setup dependencies
         run: npm run setup
-      - name: Copy electron-builder environment file for Linux/Mac
-        if: matrix.os != 'Windows'
-        run: |
-          cp ~/actions-runner/envs/electron-builder.env apps/app/electron-builder.env
       - name: Build App for Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-e2e'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
           npx nx build:win app dir --output-style stream --no-cloud
       - name: Build App for Mac
-        if: matrix.os == 'macOS'
+        if: matrix.runner_label == 'macos-e2e'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:mac app dir --universal --output-style stream --no-cloud
       - name: Build App for Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runner_label == 'linux-e2e'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app dir --output-style stream --no-cloud
       - name: Run e2e tests for Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runner_label == 'linux-e2e'
         run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' npx nx start app-e2e --no-cloud --output-style stream
         shell: bash
       - name: Run e2e tests for Mac/Windows
-        if: matrix.os != 'Linux'
+        if: matrix.runner_label != 'linux-e2e'
         run: npx nx start app-e2e --no-cloud --output-style stream
