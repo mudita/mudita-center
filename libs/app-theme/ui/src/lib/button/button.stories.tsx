@@ -18,7 +18,7 @@ import { action } from "@storybook/addon-actions"
 const MainDecorator = styled.div`
   align-self: center;
   justify-self: center;
-  width: 25rem;
+  width: 32rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -111,10 +111,11 @@ export const Default: Story = {
       .assignCategory("Styles")
       .addDescription(
         "Defines additional style modifiers for the `ButtonType.Text` button:\n\n" +
-          "- `Link` for link-like styles,\n" +
           "- `DefaultCase` for restoring the original text casing,\n" +
+          "- `Link` for link-like styles,\n" +
           "- `HoverUnderline` for showing underline on hover,\n" +
-          "- `HoverBackground` for showing colored background on hover.\n\n" +
+          "- `HoverBackground` for showing colored background on hover.\n" +
+          "- `Danger` for coloring the text and icon in red.\n\n" +
           "They can be mixed together to create custom styles."
       )
       .generateEnumSelector(ButtonTextModifier, "ButtonTextModifier", {
@@ -250,44 +251,49 @@ export const ButtonsWithIcon: Story = {
 export const TextButtonWithModifiers: Story = {
   parameters: {
     docs: {
+      description: {
+        story:
+          "Below are examples of the most common modifiers combinations used in the app.",
+      },
       source: {
         code:
           "<Button\n" +
+          "  size={ButtonSize.AutoMin}\n" +
           "  type={ButtonType.Text}\n" +
           "  modifiers={[ButtonTextModifier.Link]}\n" +
           ">\n" +
           "  Link style\n" +
           "</Button>\n" +
           "<Button\n" +
+          "  size={ButtonSize.AutoMin}\n" +
           "  type={ButtonType.Text}\n" +
-          "  modifiers={[ButtonTextModifier.DefaultCase]}\n" +
+          "  modifiers={[\n" +
+          "    ButtonTextModifier.Link,\n" +
+          "    ButtonTextModifier.DefaultCase,\n" +
+          "    ButtonTextModifier.HoverUnderline\n" +
+          "  ]}\n" +
           ">\n" +
-          "  Default case\n" +
+          "  Link style with default case and underline on hover\n" +
           "</Button>\n" +
           "<Button\n" +
-          "  type={ButtonType.Text}\n" +
-          "  modifiers={[ButtonTextModifier.HoverUnderline]}\n" +
-          ">\n" +
-          "  Hover underline\n" +
-          "</Button>\n" +
-          "<Button\n" +
+          "  size={ButtonSize.AutoMin}\n" +
           "  type={ButtonType.Text}\n" +
           "  modifiers={[ButtonTextModifier.HoverBackground]}\n" +
+          "  icon={IconType.Backup}\n" +
           ">\n" +
           "  Hover background\n" +
           "</Button>\n" +
           "<Button\n" +
+          "  size={ButtonSize.AutoMin}\n" +
           "  type={ButtonType.Text}\n" +
-          "  modifiers={[ButtonTextModifier.Link, ButtonTextModifier.HoverUnderline]}\n" +
+          "  modifiers={[\n" +
+          "    ButtonTextModifier.HoverBackground,\n" +
+          "    ButtonTextModifier.Danger\n" +
+          "  ]}\n" +
+          "  icon={IconType.Backup}\n" +
           ">\n" +
-          "  Link style with hover underline\n" +
-          "</Button>\n" +
-          "<Button\n" +
-          "  type={ButtonType.Text}\n" +
-          "  modifiers={[ButtonTextModifier.DefaultCase, ButtonTextModifier.HoverBackground]}\n" +
-          ">\n" +
-          "  Default case with hover background\n" +
-          "</Button>\n",
+          "  Danger with hover background\n" +
+          "</Button>",
       },
     },
   },
@@ -303,40 +309,32 @@ export const TextButtonWithModifiers: Story = {
       <Button
         size={ButtonSize.AutoMin}
         type={ButtonType.Text}
-        modifiers={[ButtonTextModifier.DefaultCase]}
+        modifiers={[
+          ButtonTextModifier.Link,
+          ButtonTextModifier.DefaultCase,
+          ButtonTextModifier.HoverUnderline,
+        ]}
       >
-        Default case
-      </Button>
-      <Button
-        size={ButtonSize.AutoMin}
-        type={ButtonType.Text}
-        modifiers={[ButtonTextModifier.HoverUnderline]}
-      >
-        Hover underline
+        Link style with default case and underline on hover
       </Button>
       <Button
         size={ButtonSize.AutoMin}
         type={ButtonType.Text}
         modifiers={[ButtonTextModifier.HoverBackground]}
+        icon={IconType.Backup}
       >
         Hover background
       </Button>
       <Button
         size={ButtonSize.AutoMin}
         type={ButtonType.Text}
-        modifiers={[ButtonTextModifier.Link, ButtonTextModifier.HoverUnderline]}
-      >
-        Link style with hover underline
-      </Button>
-      <Button
-        size={ButtonSize.AutoMin}
-        type={ButtonType.Text}
         modifiers={[
-          ButtonTextModifier.DefaultCase,
           ButtonTextModifier.HoverBackground,
+          ButtonTextModifier.Danger,
         ]}
+        icon={IconType.Backup}
       >
-        Default case with hover background
+        Danger with hover background
       </Button>
     </>
   ),
