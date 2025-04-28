@@ -56,5 +56,6 @@ storybook-static
 .env.*
 .env
 !.env.example
+apps/app/electron-builder.env
 
 vitest.config.*.timestamp*
