@@ -4,7 +4,7 @@ import {
   overviewDataWithOneSimCard,
 } from "../../../../../libs/e2e-mock/responses/src"
 import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page"
-import { mockPreBackupResponses } from "../../helpers/mock-prebackup"
+import { mockBackupResponses } from "../../helpers/mock-backup"
 import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
 
 describe("Backup error - cancel", () => {
@@ -51,7 +51,7 @@ describe("Backup error - cancel", () => {
   })
 
   it("Mock prebackup, wait for Overview Page and click Create Backup", async () => {
-    mockPreBackupResponses("path-1")
+    mockBackupResponses("path-1")
     const createBackupButton = await ModalBackupKompaktPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed()
     await expect(createBackupButton).toBeClickable()
@@ -74,6 +74,7 @@ describe("Backup error - cancel", () => {
     await backupModalClose.click() //click "X" button to cancel backup popup
   })
 
+  // Skip until response delay handling is implemented. Task: https://appnroll.atlassian.net/browse/CP-3609
   it.skip("Verify Backup cancelled modal", async () => {
     const backupInProgressModalCancelled =
       ModalBackupKompaktPage.backupInProgressModalCancelled

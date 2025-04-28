@@ -580,6 +580,104 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
       {
         status: ResponseStatus.Ok,
         body: {
+          transferId: 1743672201446,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/CONTACT_LIST",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1743672201351,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/CALL_LOG",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744018209710,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/MESSAGES",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744018209329,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/NOTES",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253669,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/CALENDAR_EVENTS",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253594,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/OS_VERSION_AND_SETTINGS",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253664,
+          chunkSize: 21,
+          fileSize: 21,
+          crc32: "918a0549",
+        },
+        match: {
+          expected: {
+            filePath: "path/to/backup/APP_SETTINGS",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
           transferId: 30004,
           chunkSize: 372,
           fileSize: 372,
@@ -663,6 +761,149 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           expected: {
             transferId: 30004,
             chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1743672201446,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1743672201446,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1743672201351,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1743672201351,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744018209710,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744018209710,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744018209329,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744018209329,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253669,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744026253669,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253594,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744026253594,
+            chunkNumber: 1,
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          transferId: 1744026253664,
+          chunkNumber: 1,
+          data: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+        },
+        match: {
+          expected: {
+            transferId: 1744026253664,
+            chunkNumber: 1,
+          },
+        },
+      },
+    ],
+  },
+  PRE_BACKUP: {
+    POST: [
+      {
+        status: ResponseStatus.Accepted,
+        body: { backupId: 12345, progress: 0 },
+        match: {
+          expected: {
+            backupId: 12345,
+            features: [
+              "CONTACT_LIST",
+              "CALL_LOG",
+              "MESSAGES",
+              "NOTES",
+              "CALENDAR_EVENTS",
+              "OS_VERSION_AND_SETTINGS",
+              "APP_SETTINGS",
+            ],
+          },
+        },
+      },
+    ],
+    GET: [
+      {
+        status: ResponseStatus.Ok,
+        body: {
+          backupId: 12345,
+          features: {
+            CONTACT_LIST: "path/to/backup/CONTACT_LIST",
+            CALL_LOG: "path/to/backup/CALL_LOG",
+            MESSAGES: "path/to/backup/MESSAGES",
+            NOTES: "path/to/backup/NOTES",
+            CALENDAR_EVENTS: "path/to/backup/CALENDAR_EVENTS",
+            OS_VERSION_AND_SETTINGS: "path/to/backup/OS_VERSION_AND_SETTINGS",
+            APP_SETTINGS: "path/to/backup/APP_SETTINGS",
+          },
+          progress: 100,
+        },
+        match: {
+          expected: {
+            backupId: 12345,
           },
         },
       },
