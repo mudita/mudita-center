@@ -25,7 +25,8 @@ const textDefaultStyles = css<ModifiersProp>`
   color: ${({ theme }) => theme.app.color.grey1};
   font-size: ${({ theme }) => theme.app.fontSize.buttonText};
   line-height: ${({ theme }) => theme.app.lineHeight.buttonText};
-  height: 2.4rem;
+  height: 3.2rem;
+  border-radius: 0;
 
   ${({ $modifiers }) =>
     $modifiers?.includes(ButtonTextModifier.DefaultCase) &&
@@ -42,13 +43,24 @@ const textDefaultStyles = css<ModifiersProp>`
   ${({ $modifiers }) =>
     $modifiers?.includes(ButtonTextModifier.HoverBackground) &&
     css`
-      padding: 0 0.5rem;
+      color: ${({ theme }) => theme.app.color.grey2};
+      padding: 0 1rem;
     `};
 
+  ${({ $modifiers }) =>
+    $modifiers?.includes(ButtonTextModifier.Danger) &&
+    css`
+      color: ${({ theme }) => theme.app.color.red};
+    `};
+
+  &:has(${ButtonIcon}) {
+    padding-top: 0.2rem;
+  }
+
   ${ButtonIcon} {
-    width: 2.4rem;
-    height: 2.4rem;
-    margin-right: ${({ theme }) => theme.app.space.xs};
+    width: 2.2rem;
+    height: 2.2rem;
+    margin-top: -0.2rem;
   }
 `
 
@@ -71,7 +83,14 @@ const textHoverStyles = css<ModifiersProp>`
   ${({ $modifiers }) =>
     $modifiers?.includes(ButtonTextModifier.HoverBackground) &&
     css`
+      color: ${({ theme }) => theme.app.color.black};
       background-color: ${({ theme }) => theme.app.color.grey5};
+    `};
+
+  ${({ $modifiers }) =>
+    $modifiers?.includes(ButtonTextModifier.Danger) &&
+    css`
+      color: ${({ theme }) => theme.app.color.red};
     `};
 `
 
@@ -94,19 +113,20 @@ const textActiveStyles = css<ModifiersProp>`
   ${({ $modifiers }) =>
     $modifiers?.includes(ButtonTextModifier.HoverBackground) &&
     css`
-      background-color: ${({ theme }) => theme.app.color.grey6};
+      color: ${({ theme }) => theme.app.color.black};
+      background-color: ${({ theme }) => theme.app.color.grey5};
+    `};
+
+  ${({ $modifiers }) =>
+    $modifiers?.includes(ButtonTextModifier.Danger) &&
+    css`
+      color: ${({ theme }) => theme.app.color.red};
     `};
 `
 
 const textDisabledStyles = css<ModifiersProp>`
   color: ${({ theme }) => theme.app.color.grey3};
   cursor: not-allowed;
-
-  ${({ $modifiers }) =>
-    $modifiers?.includes(ButtonTextModifier.Link) &&
-    css`
-      color: ${({ theme }) => theme.app.color.blue3};
-    `};
 
   ${({ $modifiers }) =>
     $modifiers?.includes(ButtonTextModifier.HoverUnderline) &&
