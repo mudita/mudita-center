@@ -72,7 +72,7 @@ describe("Backup error - disconnect", () => {
     E2EMockClient.removeDevice("path-1") //disconnect the device
   })
 
-  // Skip until delay will be ready
+  // Skip until response delay handling is implemented. Task: https://appnroll.atlassian.net/browse/CP-3609
   it.skip("Verify Backup failed modal", async () => {
     //check fail modal
     const backupFailedModal = ModalBackupKompaktPage.backupFailedModal
@@ -94,7 +94,7 @@ describe("Backup error - disconnect", () => {
     )
   })
 
-  // Skip until delay will be ready
+  // Skip until response delay handling is implemented. Task: https://appnroll.atlassian.net/browse/CP-3609
   it.skip("Close backup failed modal and verify if home screen is present", async () => {
     const backupFailedModalCloseButton =
       ModalBackupKompaktPage.backupFailedModalCloseButton
