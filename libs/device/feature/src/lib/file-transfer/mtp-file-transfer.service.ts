@@ -6,6 +6,7 @@
 import { PortInfo } from "serialport"
 import {
   AppMtp,
+  CancelUploadFileResultData,
   GetUploadFileProgressResultData,
   MtpStorage,
   MtpUploadFileData,
@@ -67,6 +68,15 @@ export class MtpFileTransferService {
     transactionId: string
   ): Promise<ResultObject<GetUploadFileProgressResultData>> {
     return this.mtp.getUploadFileProgress({
+      transactionId,
+    })
+  }
+
+  @IpcEvent(MtpFileTransferServiceEvents.CancelSendFile)
+  async cancelSendFile(
+    transactionId: string
+  ): Promise<ResultObject<CancelUploadFileResultData>> {
+    return this.mtp.cancelUpload({
       transactionId,
     })
   }

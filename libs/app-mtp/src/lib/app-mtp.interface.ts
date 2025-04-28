@@ -53,6 +53,8 @@ export interface GetUploadFileProgressResultData {
   progress: number
 }
 
+export interface CancelUploadFileResultData {}
+
 export interface CancelUploadResultData {}
 
 export interface MtpInterface {
