@@ -15,6 +15,7 @@ jobs:
         runner_label: [linux-e2e, windows-e2e]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
+    timeout-minutes: 40
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

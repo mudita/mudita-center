@@ -11,6 +11,7 @@ jobs:
       matrix:
         runner_label: [ linux-e2e, windows-e2e ]
     environment: development
+    timeout-minutes: 40
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
