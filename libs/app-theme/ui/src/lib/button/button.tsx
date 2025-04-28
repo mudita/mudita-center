@@ -3,66 +3,145 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren } from "react"
-import styled, { css } from "styled-components"
-import { Link, LinkProps } from "react-router"
+import { FunctionComponent, PropsWithChildren, useMemo } from "react"
+import { LinkProps } from "react-router"
+import {
+  ButtonSize,
+  ButtonTextModifier,
+  ButtonType,
+  IconType,
+} from "app-theme/models"
+import { isEmpty } from "lodash"
+import { ButtonIcon } from "./button-base.styles"
+import {
+  PrimaryButtonComponent,
+  PrimaryNavigationComponent,
+} from "./button-primary.styles"
+import {
+  SecondaryButtonComponent,
+  SecondaryNavigationComponent,
+} from "./button-secondary.styles"
+import {
+  TextButtonComponent,
+  TextNavigationComponent,
+} from "./button-text.styles"
 
-interface ButtonLinkProps {
+export interface ButtonLinkProps {
   to: LinkProps["to"]
   target?: LinkProps["target"]
   onClick?: undefined
 }
 
-interface ButtonDefaultProps {
+export interface ButtonDefaultProps {
   to?: undefined
   target?: undefined
   onClick?: VoidFunction
 }
 
+interface StandardButtonProps {
+  type: Exclude<ButtonType, ButtonType.Text>
+  modifiers?: undefined
+}
+
+interface TextButtonProps {
+  type?: ButtonType.Text
+  modifiers?: ButtonTextModifier[]
+}
+
 type Props = PropsWithChildren & {
-  type?: "primary" | "secondary"
-  size?: "auto" | "small" | "medium" | "large"
+  size?: ButtonSize
+  text?: string
+  icon?: IconType
   disabled?: boolean
-  className?: string
-} & (ButtonLinkProps | ButtonDefaultProps)
+} & (ButtonLinkProps | ButtonDefaultProps) &
+  (StandardButtonProps | TextButtonProps)
 
 export const Button: FunctionComponent<Props> = ({
-  type = "primary",
-  size = "auto",
+  type = ButtonType.Primary,
+  size = ButtonSize.AutoMax,
+  modifiers,
+  text,
+  icon,
   to,
   target,
   onClick,
+  disabled,
   children,
   ...rest
 }) => {
-  if (to) {
-    const LinkComponent = type === "primary" ? PrimaryLink : SecondaryLink
+  const NavigationComponent = useMemo(() => {
+    if (!to) {
+      return null
+    }
+    switch (type) {
+      case ButtonType.Primary:
+        return PrimaryNavigationComponent
+      case ButtonType.Secondary:
+        return SecondaryNavigationComponent
+      case ButtonType.Text:
+        return TextNavigationComponent
+    }
+  }, [to, type])
 
+  const ButtonComponent = useMemo(() => {
+    if (to) {
+      return null
+    }
+    switch (type) {
+      case ButtonType.Primary:
+        return PrimaryButtonComponent
+      case ButtonType.Secondary:
+        return SecondaryButtonComponent
+      case ButtonType.Text:
+        return TextButtonComponent
+    }
+  }, [to, type])
+
+  const content = useMemo(() => {
+    return (
+      <>
+        {icon && <ButtonIcon type={icon} />}
+        {isEmpty(children) ? text : children}
+      </>
+    )
+  }, [children, icon, text])
+
+  if (to && NavigationComponent) {
     const linkTarget = retrieveLinkTarget(to, target)
     return (
-      <LinkComponent
+      <NavigationComponent
         to={to}
         target={linkTarget}
-        size={size}
-        aria-disabled={rest.disabled}
+        $size={size}
+        $modifiers={modifiers}
+        $disabled={disabled}
+        aria-disabled={disabled}
         onClick={(e) => {
-          if (rest.disabled) {
+          if (disabled) {
             e.preventDefault()
             return
           }
         }}
         {...rest}
       >
-        {children}
-      </LinkComponent>
+        {content}
+      </NavigationComponent>
     )
   }
 
-  const ButtonComponent = type === "primary" ? PrimaryButton : SecondaryButton
+  if (!ButtonComponent) {
+    return null
+  }
 
   return (
-    <ButtonComponent onClick={onClick} size={size} {...rest}>
-      {children}
+    <ButtonComponent
+      onClick={onClick}
+      $size={size}
+      $modifiers={modifiers}
+      disabled={disabled}
+      {...rest}
+    >
+      {content}
     </ButtonComponent>
   )
 }
@@ -79,123 +158,3 @@ const retrieveLinkTarget = (
   }
   return undefined
 }
-
-const buttonStyles = css<Pick<Props, "size">>`
-  border: none;
-  outline: none;
-  appearance: none;
-  background: transparent;
-  box-sizing: border-box;
-  cursor: pointer;
-  margin: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  padding: 0 1rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  user-select: none;
-
-  ${({ size }) => {
-    switch (size) {
-      case "small":
-        return css`
-          width: 11.8rem;
-        `
-      case "medium":
-        return css`
-          width: 15.6rem;
-        `
-      case "large":
-        return css`
-          width: 17.6rem;
-        `
-      default:
-        return css`
-          width: min-content;
-        `
-    }
-  }}
-`
-
-const primaryHoverStyles = css`
-  background-color: ${({ theme }) => theme.app.color.black};
-`
-
-const primaryActiveStyles = css`
-  background-color: ${({ theme }) => theme.app.color.grey1};
-`
-
-const primaryDisabledStyles = css`
-  background-color: ${({ theme }) => theme.app.color.grey4};
-  color: ${({ theme }) => theme.app.color.grey2};
-  cursor: not-allowed;
-`
-
-// const buttonIconStyles = css`
-//   min-width: 3.2rem;
-//   min-height: 3.2rem;
-//   justify-content: center;
-// `
-
-const primaryDefaultStyles = css`
-  background-color: ${({ theme }) => theme.app.color.grey1};
-  transition: background-color 0.15s ease-in-out;
-  border-radius: ${({ theme }) => theme.app.radius.sm};
-  font-size: ${({ theme }) => theme.app.fontSize.buttonText};
-  line-height: ${({ theme }) => theme.app.lineHeight.buttonText};
-  color: ${({ theme }) => theme.app.color.white};
-  height: 4rem;
-`
-
-const secondaryDefaultStyles = css``
-
-const PrimaryButton = styled.button<Pick<Props, "size">>`
-  ${buttonStyles};
-  ${primaryDefaultStyles};
-
-  &:hover {
-    ${primaryHoverStyles};
-  }
-
-  &:active {
-    ${primaryActiveStyles};
-  }
-
-  &:disabled {
-    ${primaryDisabledStyles};
-  }
-`
-
-const SecondaryButton = styled.button<Pick<Props, "size">>`
-  ${buttonStyles};
-  ${secondaryDefaultStyles};
-`
-
-const PrimaryLink = styled(Link)<Pick<Props, "size" | "disabled">>`
-  ${buttonStyles};
-  ${primaryDefaultStyles};
-
-  ${({ disabled }) =>
-    disabled
-      ? css`
-          ${primaryDisabledStyles};
-        `
-      : css`
-          &:hover {
-            ${primaryHoverStyles};
-          }
-
-          &:active {
-            ${primaryActiveStyles};
-          }
-        `};
-`
-
-const SecondaryLink = styled(Link)<Pick<Props, "size" | "disabled">>`
-  ${buttonStyles};
-  ${secondaryDefaultStyles};
-`

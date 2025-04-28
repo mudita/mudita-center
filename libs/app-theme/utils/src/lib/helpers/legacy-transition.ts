@@ -3,8 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { legacyTheme } from "../../../../app-theme/feature/src/lib/legacy-theme"
+import { theme } from "../theme"
 
 /**
  * Util returning transition property taken from theme defaults.
@@ -16,8 +15,8 @@ import { legacyTheme } from "../../../../app-theme/feature/src/lib/legacy-theme"
  */
 export const transition = (
   property: string,
-  time: string = legacyTheme.transitionTime.standard,
-  timingFunction: string = legacyTheme.transitionTimingFunction.standard
+  time: string = theme.legacy.transitionTime.standard,
+  timingFunction: string = theme.legacy.transitionTimingFunction.standard
 ) => {
   if (property && property !== "all") {
     return `${property} ${time} ${timingFunction}`

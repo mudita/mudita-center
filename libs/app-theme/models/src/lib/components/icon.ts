@@ -5,8 +5,9 @@
 
 export enum IconType {
   ArrowBack = "arrow-back",
-  BackupFolder = "backup-folder",
-  ContactsBook = "contacts-book",
+  Backup = "backup",
+  Close = "close",
+  Contacts = "contacts",
   DataMigration = "data-migration",
   FileManager = "file-manager",
   Help = "help",
@@ -16,4 +17,14 @@ export enum IconType {
   News = "news",
   Overview = "overview",
   Settings = "settings",
+  Spinner = "spinner",
+}
+
+export enum IconSize {
+  Tiny = "tiny",
+  Small = "small",
+  Medium = "medium",
+  Big = "big",
+  Large = "large",
+  AutoMax = "auto-max",
 }

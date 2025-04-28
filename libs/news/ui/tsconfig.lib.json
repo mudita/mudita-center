@@ -27,6 +27,6 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "../../app-theme/feature/src/lib/styled.d.ts"
+    "../../app-theme/utils/src/lib/styled.d.ts"
   ]
 }

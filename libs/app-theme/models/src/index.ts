@@ -4,7 +4,9 @@
  */
 
 export * from "./lib/components/icon"
+export * from "./lib/components/button"
 export * from "./lib/components/legacy-text"
 export * from "./lib/components/legacy-button"
 export * from "./lib/components/legacy-icon"
 export * from "./lib/components/legacy-image"
+export * from "./lib/components/modal"

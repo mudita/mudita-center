@@ -7,7 +7,7 @@ import styled from "styled-components"
 import { FunctionComponent, useCallback, useRef } from "react"
 import { NavLink, useLocation } from "react-router"
 import { DashboardHeaderPortal } from "./header"
-import { IconType } from "app-theme/models"
+import { IconSize, IconType } from "app-theme/models"
 import { Icon } from "app-theme/ui"
 
 export type Tab = {
@@ -66,7 +66,7 @@ export const DashboardHeaderTabs: FunctionComponent<Props> = ({ tabs }) => {
             onClick={setLineActive}
           >
             <TabWrapper>
-              <TabIcon name={tab.icon} />
+              <TabIcon type={tab.icon} size={IconSize.Medium} />
               <TabTitle>{tab.title}</TabTitle>
             </TabWrapper>
           </NavLink>

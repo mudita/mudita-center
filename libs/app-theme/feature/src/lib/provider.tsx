@@ -8,8 +8,8 @@ import { StyleSheetManager, ThemeProvider } from "styled-components"
 import { IStyleSheetManager } from "styled-components/dist/models/StyleSheetManager"
 import isPropValid from "@emotion/is-prop-valid"
 import { Normalize } from "styled-normalize"
-import { theme } from "./theme"
 import { GlobalStyle } from "./global-style"
+import { theme } from "app-theme/utils"
 
 export const AppThemeProvider: FunctionComponent<PropsWithChildren> = ({
   children,
