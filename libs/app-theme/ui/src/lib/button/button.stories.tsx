@@ -6,7 +6,12 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import { Button } from "./button"
 import { storybookHelper } from "app-theme/utils"
-import { ButtonSize, ButtonType, IconType } from "app-theme/models"
+import {
+  ButtonSize,
+  ButtonTextModifier,
+  ButtonType,
+  IconType,
+} from "app-theme/models"
 import styled from "styled-components"
 import { action } from "@storybook/addon-actions"
 
@@ -41,7 +46,7 @@ const meta: Meta<typeof Button> = {
           "- as a regular `<button>` with an `onClick` handler,\n" +
           "- as a [React Router's Link](https://reactrouter.com/api/components/Link) component with a `to` prop.\n\n" +
           "There is also a similar `<IconButton />` component, designed specifically for displaying icon buttons.\n" +
-          "To read more about it, see the [IconButton](/docs/ui-iconbutton--docs) documentation.\n\n",
+          "To read more about it, see the [IconButton](/docs/ui-iconbutton--docs) documentation.",
       },
     },
   },
@@ -65,7 +70,7 @@ export const Default: Story = {
       .addDescription(
         "Defines the icon displayed inside the button, on the left side of the text."
       )
-      .generateEnumSelector(IconType, "IconType", true)
+      .generateEnumSelector(IconType, "IconType", { optional: true })
       .apply(),
     to: storybookHelper
       .assignCategory("Functional")
@@ -96,9 +101,31 @@ export const Default: Story = {
       .apply(),
     type: storybookHelper
       .assignCategory("Styles")
-      .addDescription("Defines the style of the button.")
+      .addDescription(
+        "Defines the style of the button.\n\n" +
+          "The `Text` type enables an additional `modifiers` prop allowing for even more styles customization."
+      )
       .generateEnumSelector(ButtonType, "ButtonType")
       .apply(),
+    modifiers: storybookHelper
+      .assignCategory("Styles")
+      .addDescription(
+        "Defines additional style modifiers for the `ButtonType.Text` button:\n\n" +
+          "- `Link` for link-like styles,\n" +
+          "- `DefaultCase` for restoring the original text casing,\n" +
+          "- `HoverUnderline` for showing underline on hover,\n" +
+          "- `HoverBackground` for showing colored background on hover.\n\n" +
+          "They can be mixed together to create custom styles."
+      )
+      .generateEnumSelector(ButtonTextModifier, "ButtonTextModifier", {
+        multiSelect: true,
+      })
+      .apply({
+        if: {
+          arg: "type",
+          eq: ButtonType.Text,
+        },
+      }),
     size: storybookHelper
       .assignCategory("Styles")
       .addDescription(
@@ -122,7 +149,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<Button>Primary button</Button>`,
+        code: `<Button>Default button</Button>`,
       },
     },
   },
@@ -135,7 +162,7 @@ export const ButtonStyles: Story = {
         code:
           '<Button type={ButtonType.Primary} text="Primary button" />\n' +
           '<Button type={ButtonType.Secondary} text="Secondary button" />\n' +
-          '<Button type={ButtonType.Tertiary} text="Tertiary button" />\n',
+          '<Button type={ButtonType.Text} text="Text button" />\n',
       },
     },
   },
@@ -143,7 +170,7 @@ export const ButtonStyles: Story = {
     <>
       <Button type={ButtonType.Primary} text="Primary button" />
       <Button type={ButtonType.Secondary} text="Secondary button" />
-      <Button type={ButtonType.Tertiary} text="Tertiary button" />
+      <Button type={ButtonType.Text} text="Text button" />
     </>
   ),
 }
@@ -155,7 +182,7 @@ export const DisabledButtonStyles: Story = {
         code:
           '<Button type={ButtonType.Primary} disabled={true} text="Primary button" />\n' +
           '<Button type={ButtonType.Secondary} disabled={true} text="Secondary button" />\n' +
-          '<Button type={ButtonType.Tertiary} disabled={true} text="Tertiary button" />\n',
+          '<Button type={ButtonType.Text} disabled={true} text="Text button" />\n',
       },
     },
   },
@@ -167,11 +194,7 @@ export const DisabledButtonStyles: Story = {
         disabled={true}
         text="Secondary button"
       />
-      <Button
-        type={ButtonType.Tertiary}
-        disabled={true}
-        text="Tertiary button"
-      />
+      <Button type={ButtonType.Text} disabled={true} text="Text button" />
     </>
   ),
 }
@@ -207,7 +230,7 @@ export const ButtonsWithIcon: Story = {
         code:
           "<Button icon={IconType.Spinner} text='Saving...' />\n" +
           "<Button type={ButtonType.Secondary} icon={IconType.Spinner} text='Saving...' />\n" +
-          "<Button type={ButtonType.Tertiary} icon={IconType.Spinner} text='Saving...' />\n",
+          "<Button type={ButtonType.Text} icon={IconType.Spinner} text='Saving...' />\n",
       },
     },
   },
@@ -219,11 +242,102 @@ export const ButtonsWithIcon: Story = {
         icon={IconType.Spinner}
         text="Saving..."
       />
+      <Button type={ButtonType.Text} icon={IconType.Spinner} text="Saving..." />
+    </>
+  ),
+}
+
+export const TextButtonWithModifiers: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code:
+          "<Button\n" +
+          "  type={ButtonType.Text}\n" +
+          "  modifiers={[ButtonTextModifier.Link]}\n" +
+          ">\n" +
+          "  Link style\n" +
+          "</Button>\n" +
+          "<Button\n" +
+          "  type={ButtonType.Text}\n" +
+          "  modifiers={[ButtonTextModifier.DefaultCase]}\n" +
+          ">\n" +
+          "  Default case\n" +
+          "</Button>\n" +
+          "<Button\n" +
+          "  type={ButtonType.Text}\n" +
+          "  modifiers={[ButtonTextModifier.HoverUnderline]}\n" +
+          ">\n" +
+          "  Hover underline\n" +
+          "</Button>\n" +
+          "<Button\n" +
+          "  type={ButtonType.Text}\n" +
+          "  modifiers={[ButtonTextModifier.HoverBackground]}\n" +
+          ">\n" +
+          "  Hover background\n" +
+          "</Button>\n" +
+          "<Button\n" +
+          "  type={ButtonType.Text}\n" +
+          "  modifiers={[ButtonTextModifier.Link, ButtonTextModifier.HoverUnderline]}\n" +
+          ">\n" +
+          "  Link style with hover underline\n" +
+          "</Button>\n" +
+          "<Button\n" +
+          "  type={ButtonType.Text}\n" +
+          "  modifiers={[ButtonTextModifier.DefaultCase, ButtonTextModifier.HoverBackground]}\n" +
+          ">\n" +
+          "  Default case with hover background\n" +
+          "</Button>\n",
+      },
+    },
+  },
+  render: () => (
+    <>
       <Button
-        type={ButtonType.Tertiary}
-        icon={IconType.Spinner}
-        text="Saving..."
-      />
+        size={ButtonSize.AutoMin}
+        type={ButtonType.Text}
+        modifiers={[ButtonTextModifier.Link]}
+      >
+        Link style
+      </Button>
+      <Button
+        size={ButtonSize.AutoMin}
+        type={ButtonType.Text}
+        modifiers={[ButtonTextModifier.DefaultCase]}
+      >
+        Default case
+      </Button>
+      <Button
+        size={ButtonSize.AutoMin}
+        type={ButtonType.Text}
+        modifiers={[ButtonTextModifier.HoverUnderline]}
+      >
+        Hover underline
+      </Button>
+      <Button
+        size={ButtonSize.AutoMin}
+        type={ButtonType.Text}
+        modifiers={[ButtonTextModifier.HoverBackground]}
+      >
+        Hover background
+      </Button>
+      <Button
+        size={ButtonSize.AutoMin}
+        type={ButtonType.Text}
+        modifiers={[ButtonTextModifier.Link, ButtonTextModifier.HoverUnderline]}
+      >
+        Link style with hover underline
+      </Button>
+      <Button
+        size={ButtonSize.AutoMin}
+        type={ButtonType.Text}
+        modifiers={[
+          ButtonTextModifier.DefaultCase,
+          ButtonTextModifier.HoverBackground,
+        ]}
+      >
+        Default case with hover background
+      </Button>
     </>
   ),
 }

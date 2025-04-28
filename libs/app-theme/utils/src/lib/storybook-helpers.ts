@@ -20,13 +20,17 @@ export const storybookHelper = {
   },
 
   // Assigns selector control with options mapped to enum keys
-  generateEnumSelector(enumObj: object, enumName: string, optional = false) {
+  generateEnumSelector(
+    enumObj: object,
+    enumName: string,
+    options: { optional?: boolean; multiSelect?: boolean } = {}
+  ) {
     const hasNumericValues = Object.values(enumObj).some((value) => {
       return typeof value === "number" && !isNaN(value)
     })
     merge(this.config, {
       options: [
-        ...(optional ? ["none"] : []),
+        ...(options.optional && !options.multiSelect ? ["none"] : []),
         ...Object.values(enumObj).filter((value) =>
           hasNumericValues
             ? typeof value === "number"
@@ -34,9 +38,9 @@ export const storybookHelper = {
         ),
       ],
       control: {
-        type: "select",
+        type: options.multiSelect ? "check" : "select",
         labels: {
-          ...(optional ? { none: "" } : {}),
+          ...(options.optional && !options.multiSelect ? { none: "" } : {}),
           ...Object.fromEntries(
             Object.entries(enumObj).map(([key, value]) => [
               value,
@@ -46,7 +50,7 @@ export const storybookHelper = {
         },
       },
     })
-    return this.setType(enumName)
+    return this.setType(options.multiSelect ? `${enumName}[]` : enumName)
   },
 
   setType(type: string, details?: string) {

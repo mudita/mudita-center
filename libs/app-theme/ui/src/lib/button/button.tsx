@@ -5,7 +5,12 @@
 
 import { FunctionComponent, PropsWithChildren, useMemo } from "react"
 import { LinkProps } from "react-router"
-import { ButtonSize, ButtonType, IconType } from "app-theme/models"
+import {
+  ButtonSize,
+  ButtonTextModifier,
+  ButtonType,
+  IconType,
+} from "app-theme/models"
 import { isEmpty } from "lodash"
 import { ButtonIcon } from "./button-base.styles"
 import {
@@ -17,9 +22,9 @@ import {
   SecondaryNavigationComponent,
 } from "./button-secondary.styles"
 import {
-  TertiaryButtonComponent,
-  TertiaryNavigationComponent,
-} from "./button-tertiary.styles"
+  TextButtonComponent,
+  TextNavigationComponent,
+} from "./button-text.styles"
 
 export interface ButtonLinkProps {
   to: LinkProps["to"]
@@ -33,17 +38,28 @@ export interface ButtonDefaultProps {
   onClick?: VoidFunction
 }
 
+interface StandardButtonProps {
+  type: Exclude<ButtonType, ButtonType.Text>
+  modifiers?: undefined
+}
+
+interface TextButtonProps {
+  type?: ButtonType.Text
+  modifiers?: ButtonTextModifier[]
+}
+
 type Props = PropsWithChildren & {
-  type?: ButtonType
   size?: ButtonSize
   text?: string
   icon?: IconType
   disabled?: boolean
-} & (ButtonLinkProps | ButtonDefaultProps)
+} & (ButtonLinkProps | ButtonDefaultProps) &
+  (StandardButtonProps | TextButtonProps)
 
 export const Button: FunctionComponent<Props> = ({
   type = ButtonType.Primary,
   size = ButtonSize.AutoMax,
+  modifiers,
   text,
   icon,
   to,
@@ -62,8 +78,8 @@ export const Button: FunctionComponent<Props> = ({
         return PrimaryNavigationComponent
       case ButtonType.Secondary:
         return SecondaryNavigationComponent
-      case ButtonType.Tertiary:
-        return TertiaryNavigationComponent
+      case ButtonType.Text:
+        return TextNavigationComponent
     }
   }, [to, type])
 
@@ -76,8 +92,8 @@ export const Button: FunctionComponent<Props> = ({
         return PrimaryButtonComponent
       case ButtonType.Secondary:
         return SecondaryButtonComponent
-      case ButtonType.Tertiary:
-        return TertiaryButtonComponent
+      case ButtonType.Text:
+        return TextButtonComponent
     }
   }, [to, type])
 
@@ -97,6 +113,7 @@ export const Button: FunctionComponent<Props> = ({
         to={to}
         target={linkTarget}
         $size={size}
+        $modifiers={modifiers}
         $disabled={disabled}
         aria-disabled={disabled}
         onClick={(e) => {
@@ -120,6 +137,7 @@ export const Button: FunctionComponent<Props> = ({
     <ButtonComponent
       onClick={onClick}
       $size={size}
+      $modifiers={modifiers}
       disabled={disabled}
       {...rest}
     >
