@@ -148,7 +148,7 @@ const initialState: FileTransferState = {
   filesTransferErrors: {},
   filesTransferSend: {},
   filesTransferSendAbortActions: {},
-  filesTransferMode: FilesTransferMode.SerialPort,
+  filesTransferMode: FilesTransferMode.Mtp,
 }
 
 export const genericFileTransferReducer = createReducer(
