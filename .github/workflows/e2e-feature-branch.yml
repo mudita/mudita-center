@@ -85,8 +85,9 @@ jobs:
       - name: Build App for Mac
         if: matrix.runner_label == 'macos-e2e'
         run: |
+          export CSC_IDENTITY_AUTO_DISCOVERY=false
           export NODE_OPTIONS="--max-old-space-size=4096"
-          npx nx build:mac app dir --universal --output-style stream --no-cloud
+          npx nx build:mac app dir --output-style stream --no-cloud
       - name: Build App for Linux
         if: matrix.runner_label == 'linux-e2e'
         run: |

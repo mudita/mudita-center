@@ -85,6 +85,7 @@ jobs:
       - name: Build App for Mac
         if: matrix.runner_label == 'macos-nexus'
         run: |
+          export CSC_IDENTITY_AUTO_DISCOVERY=false
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:mac app --universal --output-style stream --no-cloud
       - name: Build App for Linux
