@@ -6,8 +6,12 @@
 import { Migrations } from "app-utils/main"
 
 export const migrations: Migrations = {
-  // Example migration
-  // "5.0.0": (settings) => {
-  //   return { ...settings, newKey: "newValue" }
+  // TODO: Migrate from old app when new version is about to be released
+  // "4.0.0": (settings) => {
+  //   return {
+  //     user: {
+  //       privacyPolicyAccepted: settings.privacyPolicyAccepted,
+  //     },
+  //   }
   // },
 }
