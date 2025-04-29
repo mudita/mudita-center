@@ -4,7 +4,7 @@ import {
   overviewDataWithOneSimCard,
 } from "../../../../../libs/e2e-mock/responses/src"
 import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page"
-import { mockPreBackupResponses } from "../../helpers/mock-prebackup"
+import { mockBackupResponses } from "../../helpers/mock-backup"
 import HomePage from "../../page-objects/home.page"
 
 describe("Backup error - disconnect", () => {
@@ -51,7 +51,7 @@ describe("Backup error - disconnect", () => {
   })
 
   it("Mock prebackup, wait for Overview Page and click Create Backup", async () => {
-    mockPreBackupResponses("path-1")
+    mockBackupResponses("path-1")
     const createBackupButton = await ModalBackupKompaktPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed()
     await expect(createBackupButton).toBeClickable()
@@ -67,12 +67,13 @@ describe("Backup error - disconnect", () => {
     const createBackupPasswordSkip =
       await ModalBackupKompaktPage.createBackupPasswordSkip
     await createBackupPasswordSkip.click()
-    await browser.pause(2000) // wait for animation to load from 0% to10%
+    await browser.pause(2000)
 
     E2EMockClient.removeDevice("path-1") //disconnect the device
   })
 
-  it("Verify Backup failed modal", async () => {
+  // Skip until response delay handling is implemented. Task: https://appnroll.atlassian.net/browse/CP-3609
+  it.skip("Verify Backup failed modal", async () => {
     //check fail modal
     const backupFailedModal = ModalBackupKompaktPage.backupFailedModal
     await expect(backupFailedModal).toBeDisplayed()
@@ -93,7 +94,8 @@ describe("Backup error - disconnect", () => {
     )
   })
 
-  it("Close backup failed modal and verify if home screen is present", async () => {
+  // Skip until response delay handling is implemented. Task: https://appnroll.atlassian.net/browse/CP-3609
+  it.skip("Close backup failed modal and verify if home screen is present", async () => {
     const backupFailedModalCloseButton =
       ModalBackupKompaktPage.backupFailedModalCloseButton
     await backupFailedModalCloseButton.click()

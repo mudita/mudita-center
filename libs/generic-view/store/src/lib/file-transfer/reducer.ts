@@ -26,6 +26,7 @@ import { legacySendFile } from "./legacy-send-file.action"
 import { getFile } from "./get-file.action"
 import { sendFiles } from "./send-files.action"
 import { ApiFileTransferError } from "device/models"
+import { FilesTransferMode } from "./files-transfer-mode.type"
 
 interface FileTransferError {
   code?: AppErrorType
@@ -135,6 +136,7 @@ interface FileTransferState {
   filesTransferSendAbortActions: {
     [actionId: ActionId]: AbortController
   }
+  filesTransferMode: FilesTransferMode
 }
 
 const initialState: FileTransferState = {
@@ -146,6 +148,7 @@ const initialState: FileTransferState = {
   filesTransferErrors: {},
   filesTransferSend: {},
   filesTransferSendAbortActions: {},
+  filesTransferMode: FilesTransferMode.Mtp,
 }
 
 export const genericFileTransferReducer = createReducer(

@@ -87,7 +87,9 @@ export const getMtpSendFileMetadata = createAsyncThunk<
       storageId,
       deviceId: mtpDeviceId,
       destinationPath: isInternal
-        ? destinationPath.replace(/\/storage\/emulated\/0/, "")
+        ? destinationPath
+            .replace(/^\/storage\/emulated\/0\//, "")
+            .replace(/\/$/, "")
         : sliceSegments(destinationPath, 2),
     }
   }

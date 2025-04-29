@@ -114,6 +114,28 @@ class ModalBackupKompaktPage extends OverviewPage {
     return $(`//*[@data-testid="${ProgressBarTestIds.Details}"]`)
   }
 
+  public get backupInProgressModalSuccess() {
+    return $('//*[@data-testid="modal-content-backupbackup-create"]')
+  }
+
+  public get backupSuccessIcon() {
+    return $('//*[@data-testid="icon-success"]')
+  }
+
+  public get backupSuccessTitle() {
+    return $('//h1[text()="Backup complete"]')
+  }
+
+  public get backupSuccessSubTitle() {
+    return $(
+      '//p[text()="Your data was successfully secured.\nOpen the backup folder to see your backup data or close this window."]'
+    )
+  }
+
+  public get backupSuccessModalCloseButton() {
+    return $('//*[@data-testid="primary-button-undefined"]')
+  }
+
   public get backupInProgressModalCancelled() {
     return $('//*[@data-testid="modal-content-backupbackup-create"]')
   }
