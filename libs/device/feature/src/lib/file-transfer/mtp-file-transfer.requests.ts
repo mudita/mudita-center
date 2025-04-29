@@ -6,6 +6,7 @@
 import { PortInfo } from "serialport"
 import { ipcRenderer } from "electron-better-ipc"
 import {
+  CancelUploadFileResultData,
   GetUploadFileProgressResultData,
   MtpStorage,
   MtpUploadFileData,
@@ -27,6 +28,15 @@ export const getSendFileProgressViaMtpRequest = (
 ): Promise<ResultObject<GetUploadFileProgressResultData>> => {
   return ipcRenderer.callMain(
     MtpFileTransferServiceEvents.GetSendFileProgress,
+    transactionId
+  )
+}
+
+export const cancelSendFileViaMtpRequest = (
+  transactionId: string
+): Promise<ResultObject<CancelUploadFileResultData>> => {
+  return ipcRenderer.callMain(
+    MtpFileTransferServiceEvents.CancelSendFile,
     transactionId
   )
 }

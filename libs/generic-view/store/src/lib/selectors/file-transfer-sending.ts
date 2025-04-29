@@ -157,9 +157,9 @@ export const selectValidationFailureType = createSelector(
   (state: ReduxRootState) => state.genericFileTransfer,
   (state: ReduxRootState, uploadActionId: string) => uploadActionId,
   (genericFileTransfer, uploadActionId) => {
-    const error = genericFileTransfer.filesTransferErrors?.[uploadActionId]?.find(
-      ({ type }) => type
-    )
+    const error = genericFileTransfer.filesTransferErrors?.[
+      uploadActionId
+    ]?.find(({ type }) => type)
     return error?.error
   }
 )

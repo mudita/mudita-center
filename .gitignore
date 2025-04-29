@@ -68,3 +68,5 @@ matomo-to-gsheet-*.json
 scripts/manage-test-files/file-manager-test-files/*
 
 libs/app-mtp/**/*.js
+
+*.orig
