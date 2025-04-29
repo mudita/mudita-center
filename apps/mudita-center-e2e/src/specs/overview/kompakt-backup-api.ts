@@ -4,7 +4,9 @@ import {
   overviewDataWithOneSimCard,
 } from "../../../../../libs/e2e-mock/responses/src"
 import ModalBackupKompaktPage from "../../page-objects/modal-backup-kompakt.page"
-import { mockPreBackupResponses } from "../../helpers/mock-prebackup"
+import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
+import { mockBackupResponses } from "../../helpers/mock-backup"
+import { prepareMockForFileTransfer } from "../../helpers/prepare-mock-for-file-transfer.helper"
 import { BrowserRouter } from "react-router-dom"
 
 describe("E2E mock sample - overview view", () => {
@@ -50,8 +52,8 @@ describe("E2E mock sample - overview view", () => {
     await expect(menuItem).toBeDisplayed()
   })
 
-  it("Mock prebackup, wait for Overview Page and click Create Backup", async () => {
-    mockPreBackupResponses("path-1")
+  it("Mock backup, wait for Overview Page and click Create Backup", async () => {
+    mockBackupResponses("path-1")
     const createBackupButton = await ModalBackupKompaktPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed()
     await expect(createBackupButton).toBeClickable()
@@ -67,7 +69,6 @@ describe("E2E mock sample - overview view", () => {
     const createBackupPasswordSkip =
       await ModalBackupKompaktPage.createBackupPasswordSkip
     await createBackupPasswordSkip.click()
-    await browser.pause(2000) // wait for animation to load from 0% to10%
   })
 
   it("Verify backup creating modal, check if backup is in progress", async () => {
@@ -85,10 +86,34 @@ describe("E2E mock sample - overview view", () => {
 
     const creatingBackupProgressBarValue =
       await creatingBackupProgressBar.getAttribute("value")
-    expect(creatingBackupProgressBarValue).toBe("10")
+    expect(creatingBackupProgressBarValue).toBe("0")
 
-    const creatingBackupProgressBarDetails =
-      await ModalBackupKompaktPage.creatingBackupProgressBarDetails
-    await expect(creatingBackupProgressBarDetails).toHaveText("10%")
+    await browser.pause(2000)
+  })
+
+  it("Verify Backup success modal", async () => {
+    const backupInProgressModalSuccess =
+      ModalBackupKompaktPage.backupInProgressModalSuccess
+    await expect(backupInProgressModalSuccess).toBeDisplayed()
+
+    const backupSuccessIcon = ModalBackupKompaktPage.backupSuccessIcon
+    await expect(backupSuccessIcon).toBeDisplayed()
+
+    const backupSuccessTitle = ModalBackupKompaktPage.backupSuccessTitle
+    await expect(backupSuccessTitle).toHaveText("Backup complete")
+
+    const backupSuccessSubTitle = ModalBackupKompaktPage.backupSuccessSubTitle
+    await expect(backupSuccessSubTitle).toHaveText(
+      "Your data was successfully secured.\nOpen the backup folder to see your backup data or close this window."
+    )
+  })
+
+  it("Close backup success modal and verify if overview page is still displayed", async () => {
+    const backupSuccessModalCloseButton =
+      ModalBackupKompaktPage.backupSuccessModalCloseButton
+    await backupSuccessModalCloseButton.click()
+
+    const kompaktImage = await OverviewKompaktPage.kompaktImage
+    await expect(kompaktImage).toBeDisplayed()
   })
 })
