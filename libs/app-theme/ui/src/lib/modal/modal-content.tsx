@@ -83,6 +83,7 @@ const Content = styled.div<{
   outline: none;
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: var(--modal-padding);
   width: var(--modal-width);
   max-height: var(--modal-max-height);
@@ -97,6 +98,7 @@ const Content = styled.div<{
 
   overflow: hidden;
   gap: var(--modal-gap);
+  --gap-reducer: calc(var(--modal-gap) * -1 / 2.4);
 
   &:has(${ModalSizeControllerSmall}) {
     --modal-width: ${getModalSize(ModalSize.Small)};
@@ -114,7 +116,7 @@ const Content = styled.div<{
   }
 
   ${TitleIconWrapper} {
-    margin-bottom: -1rem;
+    margin-bottom: var(--gap-reducer);
   }
 
   p {
@@ -127,11 +129,12 @@ const Content = styled.div<{
     white-space: pre-line;
   }
 
-  > p {
+  > p,
+  ${ScrollableContent} > p {
     + p,
     + ul,
     + ol {
-      margin-top: -1rem;
+      margin-top: var(--gap-reducer);
     }
   }
 

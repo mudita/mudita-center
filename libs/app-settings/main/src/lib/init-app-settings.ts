@@ -6,7 +6,7 @@
 import { IpcMain } from "electron"
 import { AppSettingsService } from "./app-settings.service"
 import { AppSettings, AppSettingsIpcEvents } from "app-settings/models"
-import { NestedPartial } from "app-utils/models"
+import { DotNotation, NestedPartial } from "app-utils/models"
 
 let appSettingsService: AppSettingsService | null = null
 
@@ -15,9 +15,12 @@ export const initAppSettings = (ipcMain: IpcMain) => {
     appSettingsService = new AppSettingsService()
 
     ipcMain.removeHandler(AppSettingsIpcEvents.Get)
-    ipcMain.handle(AppSettingsIpcEvents.Get, async () => {
-      return (appSettingsService as AppSettingsService).get()
-    })
+    ipcMain.handle(
+      AppSettingsIpcEvents.Get,
+      async (_, path?: DotNotation<AppSettings>) => {
+        return (appSettingsService as AppSettingsService).get(path)
+      }
+    )
 
     ipcMain.removeHandler(AppSettingsIpcEvents.Set)
     ipcMain.handle(

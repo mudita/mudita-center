@@ -44,7 +44,6 @@ module.exports = [
                 "type:ui",
                 "type:models",
                 "type:utils",
-                "type:routes",
               ],
             },
             {

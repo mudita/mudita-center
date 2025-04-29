@@ -13,6 +13,9 @@ export const ModalScrollableContent: FunctionComponent<PropsWithChildren> = (
 }
 
 export const ScrollableContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--modal-gap);
   overflow-y: auto;
 
   &::-webkit-scrollbar {

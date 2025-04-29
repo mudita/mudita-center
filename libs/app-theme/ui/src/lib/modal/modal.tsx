@@ -16,6 +16,7 @@ import { ModalButtons } from "./modal-buttons"
 import { ModalSizeController } from "./modal-size-controller"
 import { ModalVisibilityController } from "./modal-visibility-controller"
 import { ModalCloseButton } from "./modal-close-button"
+import { ModalDenseContent } from "./modal-dense-content"
 
 interface Props extends PropsWithChildren, Omit<ReactModal.Props, "isOpen"> {
   opened: boolean
@@ -33,6 +34,7 @@ interface Props extends PropsWithChildren, Omit<ReactModal.Props, "isOpen"> {
 interface Subcomponents {
   TitleIcon: typeof ModalTitleIcon
   Title: typeof ModalTitle
+  DenseContent: typeof ModalDenseContent
   ScrollableContent: typeof ModalScrollableContent
   Buttons: typeof ModalButtons
   CloseButton: typeof ModalCloseButton
@@ -87,6 +89,7 @@ export const Modal: FunctionComponent<Props> & Subcomponents = ({
 
 Modal.TitleIcon = ModalTitleIcon
 Modal.Title = ModalTitle
+Modal.DenseContent = ModalDenseContent
 Modal.ScrollableContent = ModalScrollableContent
 Modal.Buttons = ModalButtons
 Modal.CloseButton = ModalCloseButton

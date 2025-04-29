@@ -4,15 +4,8 @@
  */
 
 import "types-preload"
-import { AppSettings as AppSettingsModel } from "app-settings/models"
-import { NestedPartial } from "app-utils/models"
 
-export class AppSettings {
-  static get() {
-    return window.api.appSettings.get()
-  }
-
-  static set(settings: NestedPartial<AppSettingsModel>) {
-    return window.api.appSettings.set(settings)
-  }
+export const AppSettings = {
+  get: window.api.appSettings.get,
+  set: window.api.appSettings.set,
 }

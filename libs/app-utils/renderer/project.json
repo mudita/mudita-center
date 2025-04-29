@@ -1,0 +1,9 @@
+{
+  "name": "app-utils/renderer",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/app-utils/renderer/src",
+  "projectType": "library",
+  "tags": ["process:renderer"],
+  "// targets": "to see all targets run: nx show project app-utils/renderer --web",
+  "targets": {}
+}
