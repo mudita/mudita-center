@@ -8,7 +8,7 @@ import fs from "node:fs"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
   CancelUploadResultData,
-  GetUploadFileProgress,
+  UploadTransactionData,
   GetUploadFileProgressResultData,
   MtpDevice,
   MTPError,
@@ -91,7 +91,7 @@ export class NodeMtp implements MtpInterface {
 
   async getUploadFileProgress({
     transactionId,
-  }: GetUploadFileProgress): Promise<
+  }: UploadTransactionData): Promise<
     ResultObject<GetUploadFileProgressResultData>
   > {
     if (this.uploadFileTransactionStatus[transactionId] === undefined) {
@@ -110,7 +110,7 @@ export class NodeMtp implements MtpInterface {
   }
 
   async cancelUpload(
-    data: GetUploadFileProgress
+    data: UploadTransactionData
   ): Promise<ResultObject<CancelUploadResultData>> {
     console.log(
       `${PREFIX_LOG} cancelling upload: //TODO NOT IMPLEMENTED YET FOR NODE-MTP`

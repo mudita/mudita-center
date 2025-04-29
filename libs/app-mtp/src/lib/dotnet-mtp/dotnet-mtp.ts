@@ -5,7 +5,7 @@
 
 import {
   CancelUploadResultData,
-  GetUploadFileProgress,
+  UploadTransactionData,
   GetUploadFileProgressResultData,
   MtpDevice,
   MTPError,
@@ -105,7 +105,7 @@ export class DotnetMtp implements MtpInterface {
 
   async getUploadFileProgress({
     transactionId,
-  }: GetUploadFileProgress): Promise<
+  }: UploadTransactionData): Promise<
     ResultObject<GetUploadFileProgressResultData>
   > {
     const transactionStatus = this.uploadFileTransactionStatus[transactionId]
@@ -121,7 +121,7 @@ export class DotnetMtp implements MtpInterface {
   }
 
   async cancelUpload(
-    data: GetUploadFileProgress
+    data: UploadTransactionData
   ): Promise<ResultObject<CancelUploadResultData>> {
     if (this.uploadFileTransactionStatus[data.transactionId] !== undefined) {
       this.abortController?.abort()

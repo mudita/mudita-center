@@ -45,7 +45,7 @@ export interface UploadFileResultData {
   transactionId: string
 }
 
-export interface GetUploadFileProgress {
+export interface UploadTransactionData {
   transactionId: string
 }
 
@@ -67,10 +67,10 @@ export interface MtpInterface {
   ): Promise<ResultObject<UploadFileResultData>>
 
   getUploadFileProgress(
-    data: GetUploadFileProgress
+    data: UploadTransactionData
   ): Promise<ResultObject<GetUploadFileProgressResultData>>
 
   cancelUpload(
-    data: GetUploadFileProgress
+    data: UploadTransactionData
   ): Promise<ResultObject<CancelUploadResultData>>
 }
