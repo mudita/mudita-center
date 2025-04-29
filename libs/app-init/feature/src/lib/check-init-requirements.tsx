@@ -35,18 +35,18 @@ export const CheckInitRequirements = () => {
   }
 
   const openPrivacyPolicyContent = async () => {
-    // Open privacy policy in a new window
+    // TODO: Implement privacy policy window opening
   }
 
   const isForceUpdateRequired = async () => {
     console.log("Checking for force update...")
-    //
+    // TODO: Implement force update check
     return false
   }
 
   const isUsbAccessRequired = async () => {
     console.log("Checking for USB access...")
-    //
+    // TODO: Implement USB access check
     return false
   }
 
@@ -76,5 +76,6 @@ export const CheckInitRequirements = () => {
       onClose={AppActions.close}
       onLinkClick={openPrivacyPolicyContent}
     />
+    // TODO: Implement modals for force update and USB access
   )
 }
