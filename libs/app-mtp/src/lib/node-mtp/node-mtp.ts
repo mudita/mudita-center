@@ -35,6 +35,7 @@ const PREFIX_LOG = `[app-mtp/node-mtp]`
 
 export class NodeMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
+  private abortController: AbortController | undefined
 
   constructor(private deviceManager: NodeMtpDeviceManager) {}
 
@@ -112,10 +113,17 @@ export class NodeMtp implements MtpInterface {
   async cancelUpload(
     data: UploadTransactionData
   ): Promise<ResultObject<CancelUploadResultData>> {
-    console.log(
-      `${PREFIX_LOG} cancelling upload: //TODO NOT IMPLEMENTED YET FOR NODE-MTP`
-    )
-    return Result.success({})
+    if (this.uploadFileTransactionStatus[data.transactionId] !== undefined) {
+      this.abortController?.abort()
+      console.log(
+        `${PREFIX_LOG} Canceling upload for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
+      )
+      return Result.success({})
+    } else {
+      return Result.failed({
+        type: MTPError.MTP_TRANSACTION_NOT_FOUND,
+      } as AppError)
+    }
   }
 
   private async createDirectories(
@@ -220,6 +228,7 @@ export class NodeMtp implements MtpInterface {
     transactionId: string
   ): Promise<void> {
     try {
+      this.abortController = new AbortController()
       const startTime = Date.now()
       this.uploadFileTransactionStatus[transactionId] = {
         progress: 0,
@@ -233,8 +242,18 @@ export class NodeMtp implements MtpInterface {
       })
 
       for await (const chunk of fileStream) {
+        if (this.abortController.signal.aborted) {
+          this.uploadFileTransactionStatus[transactionId].error = new AppError(
+            MTPError.MTP_PROCESS_CANCELLED,
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${MTPError.MTP_PROCESS_CANCELLED}`
+          )
+          console.log(
+            `${PREFIX_LOG} process upload file canceled: ${this.uploadFileTransactionStatus[transactionId].error}`
+          )
+          return
+        }
         await device.uploadFileData(chunk)
-
         uploadedBytes += chunk.length
         const progress = (uploadedBytes / size) * 100
         this.uploadFileTransactionStatus[transactionId].progress = progress
