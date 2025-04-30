@@ -4,13 +4,7 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react"
-import {
-  ButtonTextModifier,
-  ButtonType,
-  IconSize,
-  IconType,
-  ModalSize,
-} from "app-theme/models"
+import { ButtonType, IconType, ModalSize } from "app-theme/models"
 import { storybookHelper } from "app-theme/utils"
 import { ModalContent } from "./modal-content"
 import { Modal } from "./modal"
@@ -19,7 +13,7 @@ import { Button } from "../button/button"
 import { Description, Stories, Subtitle, Title } from "@storybook/blocks"
 import { FunctionComponent, PropsWithChildren, ReactElement } from "react"
 import { action } from "@storybook/addon-actions"
-import { Icon } from "app-theme/ui"
+import { Icon } from "../icon/icon"
 
 const Decorator = styled.div`
   width: 100%;

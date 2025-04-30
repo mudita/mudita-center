@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent } from "react"
+import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { IconSize, IconType } from "app-theme/models"
 import { IconButton } from "../icon-button/icon-button"

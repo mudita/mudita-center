@@ -17,12 +17,13 @@ import { FunctionComponent, PropsWithChildren } from "react"
 
 const getModalSize = (size: ModalSize) => {
   switch (size) {
-    case "small":
-      return "38.4rem"
     case "medium":
       return "48.8rem"
     case "large":
       return "61.4rem"
+    case "small":
+    default:
+      return "38.4rem"
   }
 }
 
@@ -36,11 +37,12 @@ const getModalWidth = (size: ModalSize, width?: string | number) => {
 const getModalPadding = (size: ModalSize, padding?: number | string) => {
   if (padding === undefined) {
     switch (size) {
-      case "small":
-      case "medium":
-        return "2.4rem"
       case "large":
         return "4.8rem"
+      case "small":
+      case "medium":
+      default:
+        return "2.4rem"
     }
   }
   return typeof padding === "number" ? `${padding}px` : padding

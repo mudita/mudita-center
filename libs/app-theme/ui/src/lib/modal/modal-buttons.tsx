@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { Children, FunctionComponent, PropsWithChildren } from "react"
+import { Children, FunctionComponent, PropsWithChildren } from "react"
 import styled, { css } from "styled-components"
 
 export const ModalButtons: FunctionComponent<PropsWithChildren> = ({
