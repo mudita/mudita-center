@@ -54,18 +54,11 @@ describe("Privacy Policy modal", () => {
   })
 
   it("closes the app when close button is clicked", async () => {
+    const mockQuit = await browser.electron.mock("app", "quit")
     const closeButton = await AppInitPage.privacyPolicyCancelButton
 
-    try {
-      await closeButton.click()
-    } catch (e: Error | unknown) {
-      // Possible error expected on linux during e2e testing
-      if (!(e instanceof Error) || !/invalid session id/i.test(e.message)) {
-        throw e
-      }
-    }
-
-    await AppInitPage.ensureAppIsClosed()
+    await closeButton.click()
+    await expect(mockQuit).toHaveBeenCalled()
     await AppInitPage.reloadApp()
   })
 })

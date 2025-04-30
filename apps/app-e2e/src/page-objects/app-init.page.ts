@@ -30,23 +30,6 @@ class AppInitPage extends Page {
     )
   }
 
-  public ensureAppIsClosed() {
-    return browser.waitUntil(
-      async () => {
-        try {
-          await browser.getTitle()
-          return false
-        } catch {
-          return true
-        }
-      },
-      {
-        timeout: 10000,
-        timeoutMsg: "App did not close in expected time",
-      }
-    )
-  }
-
   public get privacyPolicyModal() {
     return $(
       `//div[@data-testid="${ModalTestId.Modal}"][.//h1[@data-testid="${ModalTestId.Title}" and text()="${formatMessage({ id: "general.privacyPolicyModal.title" })}"]]`
