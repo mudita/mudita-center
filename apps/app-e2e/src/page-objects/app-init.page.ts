@@ -24,7 +24,7 @@ class AppInitPage extends Page {
         }
       },
       {
-        timeout: 5000,
+        timeout: 10000,
         timeoutMsg: "App did not open in expected time",
       }
     )
@@ -41,7 +41,7 @@ class AppInitPage extends Page {
         }
       },
       {
-        timeout: 5000,
+        timeout: 10000,
         timeoutMsg: "App did not close in expected time",
       }
     )

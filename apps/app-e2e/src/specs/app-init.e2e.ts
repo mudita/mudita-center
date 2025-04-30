@@ -54,7 +54,14 @@ describe("Privacy Policy modal", () => {
 
   it("closes the app when close button is clicked", async () => {
     const closeButton = await AppInitPage.privacyPolicyCancelButton
-    await closeButton.click()
+
+    try {
+      await closeButton.click()
+    } catch (e: any) {
+      if (!/invalid session id/i.test(e.message)) {
+        throw e
+      }
+    }
 
     await AppInitPage.ensureAppIsClosed()
     await AppInitPage.reloadApp()

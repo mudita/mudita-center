@@ -4,7 +4,6 @@
  */
 
 import NewsPage from "../page-objects/news.page"
-import { formatMessage } from "app-localize/utils"
 import { NewsTestId } from "news/models"
 import {
   linkRegex,
@@ -94,20 +93,9 @@ describe("News screen", () => {
       const commentsCount = await card.$(
         `[data-testid="${NewsTestId.CommunityLink}"] p`
       )
-      const commentsCountText = await commentsCount.getText()
-      const commentsCountRegex = commentsCountText.match(
-        /(\d+)(\s)(COMMENTS|COMMENT)$/
-      )
-      const commentsCountValue = commentsCountRegex?.[1] || 0
-      const communityLinkText = await card.$(
-        `[data-testid="${NewsTestId.CommunityLink}"] p`
-      )
-      await expect(communityLinkText).toBeDisplayed()
-      await expect(communityLinkText).toHaveText(
-        formatMessage(
-          { id: "page.news.cardCommunityComments" },
-          { count: commentsCountValue }
-        ).toUpperCase()
+      await expect(commentsCount).toBeDisplayed()
+      await expect(commentsCount).toHaveText(
+        /^(\d+)(\s)(COMMENTS|COMMENT)$|^(BE THE FIRST TO COMMENT)$/
       )
     }
   })
