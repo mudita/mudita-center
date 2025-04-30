@@ -21,8 +21,8 @@ export const FilesManagerUploadProgressWarning: FunctionComponent = () => {
 
 const Wrapper = styled.div`
   background: ${({ theme }) => theme.color.grey5};
-  padding: 12px;
-  margin: -10px 12px 0 12px;
+  padding: 1.2rem;
+  margin: -1rem 1.2rem 0 1.2rem;
 
   p {
     color: ${({ theme }) => theme.color.black};
