@@ -107,6 +107,9 @@ export const config: WebdriverIO.Config = {
       "wdio:chromedriverOptions": {
         binary: getChromedriverPath(),
       },
+      "goog:chromeOptions": {
+        args: ["--no-sandbox", "--disable-gpu"],
+      },
       // Electron service options
       // see https://webdriver.io/docs/desktop-testing/electron/configuration/#service-options
       // "wdio:electronServiceOptions": {

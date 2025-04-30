@@ -7,10 +7,6 @@ import AppInitPage from "../page-objects/app-init.page"
 import { ModalTestId } from "../all-test-ids"
 
 describe("Privacy Policy modal", () => {
-  before(async () => {
-    await AppInitPage.reloadApp()
-  })
-
   it("is visible after app start", async () => {
     const modal = await AppInitPage.privacyPolicyModal
     await modal.waitForExist()
