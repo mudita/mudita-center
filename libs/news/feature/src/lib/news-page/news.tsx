@@ -15,17 +15,19 @@ export const NewsPage: FunctionComponent = () => {
   const news = useSelector(selectNews)
 
   useEffect(() => {
-    if (!news.length) {
-      void (async () => {
-        const newsData = await window.api.news.get()
-        dispatch(setNews(newsData))
+    void (async () => {
+      const newsData = await window.api.news.get()
+      dispatch(setNews(newsData))
+    })()
+  }, [dispatch])
 
-        window.api.news.onRefreshed((data) => {
-          dispatch(setNews(data))
-        })
-      })()
-    }
-  }, [dispatch, news.length])
+  useEffect(() => {
+    void (async () => {
+      window.api.news.onRefreshed((data) => {
+        dispatch(setNews(data))
+      })
+    })()
+  }, [dispatch])
 
   return <News newsItems={news} />
 }
