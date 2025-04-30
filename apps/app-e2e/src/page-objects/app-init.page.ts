@@ -10,6 +10,24 @@ import { ModalTestId } from "../all-test-ids"
 class AppInitPage extends Page {
   public async reloadApp() {
     await browser.reloadSession()
+    await this.ensureAppIsOpen()
+  }
+
+  public ensureAppIsOpen() {
+    return browser.waitUntil(
+      async () => {
+        try {
+          await browser.getTitle()
+          return true
+        } catch {
+          return false
+        }
+      },
+      {
+        timeout: 5000,
+        timeoutMsg: "App did not open in expected time",
+      }
+    )
   }
 
   public ensureAppIsClosed() {
