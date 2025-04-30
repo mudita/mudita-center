@@ -9,6 +9,7 @@ import { AppSettings } from "app-settings/models"
 import { JsonStoreService, MigrationService } from "app-utils/main"
 import { migrations } from "./migrations"
 import { DotNotation, NestedPartial } from "app-utils/models"
+import logger from "electron-log"
 
 export class AppSettingsService {
   private readonly jsonStore: JsonStoreService<AppSettings>
@@ -49,7 +50,9 @@ export class AppSettingsService {
 
   get<P extends DotNotation<AppSettings>>(path?: P) {
     if (path) {
-      return this.jsonStore.get(path)
+      const data = this.jsonStore.get(path)
+      logger.log("AppSettingsService get", path, data)
+      return data
     }
     return this.jsonStore.get()
   }
