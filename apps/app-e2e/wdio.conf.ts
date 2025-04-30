@@ -291,7 +291,7 @@ export const config: WebdriverIO.Config = {
    */
   beforeSuite: async function (suite) {
     // Defines which suites should skip automated app initialization
-    const suitesToSkipAutoInit = ["Privacy Policy Modal"]
+    const suitesToSkipAutoInit = ["Privacy Policy modal"]
     if (suitesToSkipAutoInit.includes(suite.title)) {
       return
     }
