@@ -5,11 +5,10 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { AppState } from "app-store/models"
-import { NewsItem } from "news/models"
 
 export const selectNews = createSelector(
   (state: AppState) => state.news,
   (news) => {
-    return news.items as NewsItem[] | undefined
+    return news.items
   }
 )
