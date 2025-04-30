@@ -20,6 +20,7 @@ import { GetFileErrorPayload } from "./get-file.action"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { AppError } from "Core/core/errors"
 import { ApiFileTransferError } from "device/models"
+import { FilesTransferMode } from "./files-transfer-mode.type"
 
 export const fileTransferSendPrepared = createAction<
   Pick<FileProgress, "chunksCount" | "transferId" | "filePath">
@@ -105,3 +106,12 @@ export const addFileTransferErrors = createAction<{
 export const clearFileTransferErrors = createAction<{ actionId: ActionId }>(
   ActionName.clearFileTransferErrors
 )
+
+export const setFilesTransferMode = createAction<FilesTransferMode>(
+  ActionName.setFilesTransferMode
+)
+
+export const setModeWithProgressReset = createAction<{
+  fileId: FileId
+  filesTransferMode: FilesTransferMode
+}>(ActionName.setModeWithProgressReset)

@@ -54,12 +54,7 @@ export const sendFileViaMTP = createAsyncThunk<
     }
 
     if (!startSendFileViaMtpResult.ok) {
-      return rejectWithValue(
-        new AppError(
-          ApiFileTransferError.Unknown,
-          startSendFileViaMtpResult.error.message
-        )
-      )
+      return rejectWithValue(startSendFileViaMtpResult.error)
     }
 
     const { transactionId } = startSendFileViaMtpResult.data
@@ -68,7 +63,7 @@ export const sendFileViaMTP = createAsyncThunk<
       signal.removeEventListener("abort", abortListener)
       const { ok, error } = await cancelSendFileViaMtpRequest(transactionId)
       if (!ok) {
-        return new AppError(ApiFileTransferError.Unknown, error.message)
+        return error
       } else {
         return new AppError(ApiFileTransferError.Aborted, "Aborted")
       }
@@ -94,7 +89,7 @@ export const sendFileViaMTP = createAsyncThunk<
       }
 
       if (!ok) {
-        return new AppError(ApiFileTransferError.Unknown, error.message)
+        return error
       }
 
       dispatch(
