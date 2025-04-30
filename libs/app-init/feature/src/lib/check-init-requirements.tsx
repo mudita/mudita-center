@@ -34,6 +34,10 @@ export const CheckInitRequirements = () => {
     setStatus(RequirementsStatus.Unknown)
   }
 
+  const closePrivacyPolicy = () => {
+    AppActions.close()
+  }
+
   const openPrivacyPolicyContent = async () => {
     // TODO: Implement privacy policy window opening
   }
@@ -73,7 +77,7 @@ export const CheckInitRequirements = () => {
     <PrivacyPolicyModal
       opened={status === RequirementsStatus.PrivacyPolicyAcceptRequired}
       onAccept={acceptPrivacyPolicy}
-      onClose={AppActions.close}
+      onClose={closePrivacyPolicy}
       onLinkClick={openPrivacyPolicyContent}
     />
     // TODO: Implement modals for force update and USB access
