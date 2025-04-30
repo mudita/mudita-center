@@ -6,6 +6,7 @@
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
 import { isEmpty } from "lodash"
+import { ModalTestId } from "app-theme/models"
 
 interface Props extends PropsWithChildren {
   text?: string
@@ -16,7 +17,11 @@ export const ModalTitle: FunctionComponent<Props> = ({
   text,
   ...rest
 }) => {
-  return <Title {...rest}>{isEmpty(children) ? text : children}</Title>
+  return (
+    <Title {...rest} data-testid={ModalTestId.Title}>
+      {isEmpty(children) ? text : children}
+    </Title>
+  )
 }
 
 const Title = styled.h1`

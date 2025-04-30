@@ -6,6 +6,7 @@
 /// <reference types="wdio-electron-service" />
 import * as path from "path"
 import * as os from "os"
+import AppInitPage from "./src/page-objects/app-init.page"
 
 // Based on node_modules/@puppeteer/browsers/src/browser-data/chromedriver.ts
 // and
@@ -288,8 +289,15 @@ export const config: WebdriverIO.Config = {
    * Hook that gets executed before the suite starts
    * @param {object} suite suite details
    */
-  // beforeSuite: function (suite) {
-  // },
+  beforeSuite: async function (suite) {
+    // Defines which suites should skip automated app initialization
+    const suitesToSkipAutoInit = ["Privacy Policy Modal"]
+    if (suitesToSkipAutoInit.includes(suite.title)) {
+      return
+    }
+    // Automatically perform app initialization for other suites
+    await AppInitPage.acceptPrivacyPolicy()
+  },
   /**
    * Function to be executed before a test (in Mocha/Jasmine) starts.
    */

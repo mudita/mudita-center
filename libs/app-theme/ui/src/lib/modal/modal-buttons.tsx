@@ -5,13 +5,19 @@
 
 import { Children, FunctionComponent, PropsWithChildren } from "react"
 import styled, { css } from "styled-components"
+import { ModalTestId } from "app-theme/models"
 
 export const ModalButtons: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   const childrenCount = Children.count(children)
   return (
-    <ButtonsWrapper $single={childrenCount === 1}>{children}</ButtonsWrapper>
+    <ButtonsWrapper
+      $single={childrenCount === 1}
+      data-testid={ModalTestId.Buttons}
+    >
+      {children}
+    </ButtonsWrapper>
   )
 }
 
