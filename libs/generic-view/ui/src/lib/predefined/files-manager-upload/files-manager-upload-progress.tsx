@@ -15,6 +15,7 @@ import {
   selectFilesSendingCount,
   selectFilesSendingCurrentFile,
   selectFilesSendingProgress,
+  selectFilesTransferMode,
   sendFilesAbort,
 } from "generic-view/store"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -47,9 +48,7 @@ export const FilesManagerUploadProgress: APIFC<
   const transferProgress = useSelector((state: ReduxRootState) => {
     return selectFilesSendingProgress(state, selectorsConfig)
   })
-  const filesTransferMode = useSelector((state: ReduxRootState) => {
-    return state.genericFileTransfer.filesTransferMode
-  })
+  const filesTransferMode = useSelector(selectFilesTransferMode)
   const currentFile = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCurrentFile(state, selectorsConfig)
   })

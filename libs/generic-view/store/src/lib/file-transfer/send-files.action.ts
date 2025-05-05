@@ -24,6 +24,7 @@ import { getMtpSendFileMetadata } from "./get-mtp-send-file-metadata.action"
 import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
 import { FilesTransferMode } from "./files-transfer-mode.type"
 import { isMtpInitializeAccessError } from "./is-mtp-initialize-access-error"
+import { selectFilesTransferMode } from "../selectors/file-transfer-sending"
 
 export interface SendFilesPayload {
   actionId: string
@@ -59,7 +60,7 @@ export const sendFiles = createAsyncThunk<
     }
     signal.addEventListener("abort", abortListener)
 
-    let filesTransferMode = getState().genericFileTransfer.filesTransferMode
+    let filesTransferMode = selectFilesTransferMode(getState())
 
     let mtpSendFileMetadata: Omit<SendFileViaMTPPayload, "file"> | undefined =
       undefined
@@ -88,7 +89,7 @@ export const sendFiles = createAsyncThunk<
     }
 
     for (const file of files) {
-      filesTransferMode = getState().genericFileTransfer.filesTransferMode
+      filesTransferMode = selectFilesTransferMode(getState())
 
       const handleSendFileViaSerialPort = async () => {
         const sendFileBaseDispatch = dispatch(
