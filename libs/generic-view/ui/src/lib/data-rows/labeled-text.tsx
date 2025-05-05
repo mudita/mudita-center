@@ -11,12 +11,13 @@ import { LabeledTextConfig, LabeledTextData } from "generic-view/models"
 export const LabeledText: APIFC<LabeledTextData, LabeledTextConfig> = ({
   data,
   config = {},
+  children,
   ...props
 }) => {
   return (
     <div {...props}>
       <Label>{config.label}</Label>
-      <Text>{data?.text}</Text>
+      <Text>{children || data?.text}</Text>
     </div>
   )
 }
@@ -32,6 +33,6 @@ const Label = styled.p`
   color: ${({ theme }) => theme.color.grey2};
   font-size: ${({ theme }) => theme.fontSize.paragraph3};
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-  font-weight: ${({ theme }) => theme.fontWeight.light};
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
   letter-spacing: 0.04rem;
 `

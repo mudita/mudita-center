@@ -21,6 +21,7 @@ import { EntitiesDeleteError } from "./entities/entities-delete-error"
 import { AppInstallationProgress } from "./app-installation/app-installation-progress"
 import { AppInstallationError } from "./app-installation/app-installation-error"
 import { AppInstallationSuccess } from "./app-installation/app-installation-success"
+import { SummaryDeviceVersion } from "./summary-device-version"
 import {
   aboutDataBox,
   backupCreate,
@@ -40,6 +41,7 @@ import {
   mcAppInstallationProgress,
   mcAppInstallationError,
   mcAppInstallationSuccess,
+  mcSummaryDeviceVersion,
 } from "generic-view/models"
 
 export const predefinedComponents = {
@@ -61,4 +63,5 @@ export const predefinedComponents = {
   [mcAppInstallationProgress.key]: AppInstallationProgress,
   [mcAppInstallationError.key]: AppInstallationError,
   [mcAppInstallationSuccess.key]: AppInstallationSuccess,
+  [mcSummaryDeviceVersion.key]: SummaryDeviceVersion,
 }

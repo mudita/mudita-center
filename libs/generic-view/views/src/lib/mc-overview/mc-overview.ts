@@ -70,6 +70,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
 }
 
 export const generateMcOverviewData = (data: OverviewData, config?: View) => {
+  console.log("generateMcOverviewData", data)
   const summary = generateMcOverviewSummaryData(data.summary)
   const sections = generateMcOverviewUpdateData(data.sections, config)
   return {
