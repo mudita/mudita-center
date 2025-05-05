@@ -68,7 +68,9 @@ export const ModalContent = styled.div`
     margin-bottom: -1rem;
   }
 
-  p {
+  // TODO: Remove workaround by moving default styles to a separate style,
+  //  eliminating the need for 'modal-content-original-paragraph' class.
+  p:not(.modal-content-original-paragraph) {
     font-size: ${({ theme }) => theme.fontSize.paragraph1};
     line-height: ${({ theme }) => theme.lineHeight.paragraph1};
     text-align: center;
