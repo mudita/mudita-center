@@ -1,0 +1,19 @@
+<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="information-circle--information-frame-info-more-help-point-circle">
+        <path id="Vector"
+              d="M8.49891 15.9822C12.6319 15.9822 15.9822 12.6319 15.9822 8.49891C15.9822 4.36601 12.6319 1.01562 8.49891 1.01562C4.36601 1.01562 1.01562 4.36601 1.01562 8.49891C1.01562 12.6319 4.36601 15.9822 8.49891 15.9822Z"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <path id="Vector_2" d="M6.77344 11.9531H10.2273" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+        <path id="Vector_3" d="M8.49893 11.9513V7.92188H7.34766" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" />
+        <g id="Group 2605">
+            <path id="Ellipse 1111"
+                  d="M8.49876 5.33345C8.3398 5.33345 8.21094 5.20459 8.21094 5.04563C8.21094 4.88667 8.3398 4.75781 8.49876 4.75781"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path id="Ellipse 1112"
+                  d="M8.5 5.33345C8.65896 5.33345 8.78782 5.20459 8.78782 5.04563C8.78782 4.88668 8.65896 4.75781 8.5 4.75781"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+    </g>
+</svg>
