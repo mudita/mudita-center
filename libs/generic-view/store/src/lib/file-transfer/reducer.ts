@@ -21,6 +21,8 @@ import {
   sendFilesError,
   sendFilesFinished,
   sendFilesPreSend,
+  setFilesTransferMode,
+  setModeWithProgressReset,
 } from "./actions"
 import { legacySendFile } from "./legacy-send-file.action"
 import { getFile } from "./get-file.action"
@@ -329,6 +331,19 @@ export const genericFileTransferReducer = createReducer(
     builder.addCase(clearFileTransferErrors, (state, action) => {
       const actionId = action.payload.actionId
       delete state.filesTransferErrors[actionId]
+    })
+    builder.addCase(setFilesTransferMode, (state, action) => {
+      state.filesTransferMode = action.payload
+    })
+    builder.addCase(setModeWithProgressReset, (state, action) => {
+      const file = state.filesTransferSend[action.payload.fileId]
+      if (file.status === "in-progress") {
+        ;(file as FileTransferProgress).progress = {
+          chunksCount: file.progress.chunksCount,
+          chunksTransferred: 0,
+        }
+      }
+      state.filesTransferMode = action.payload.filesTransferMode
     })
   }
 )

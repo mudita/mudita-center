@@ -4,24 +4,27 @@
  */
 
 import React from "react"
+import { defineMessages } from "react-intl"
+import { useDispatch, useSelector } from "react-redux"
 import { APIFC, IconType } from "generic-view/utils"
 import {
   ButtonAction,
   McFilesManagerUploadProgressConfig,
 } from "generic-view/models"
-import { Modal } from "../../interactive/modal/modal"
-import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { defineMessages } from "react-intl"
-import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import {
   selectFilesSendingCount,
   selectFilesSendingCurrentFile,
   selectFilesSendingProgress,
+  selectFilesTransferMode,
   sendFilesAbort,
 } from "generic-view/store"
-import { useDispatch, useSelector } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
+import { Modal } from "../../interactive/modal/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
+import { FilesManagerUploadProgressWarning } from "./files-manager-upload-progress-warning"
+import { FilesTransferMode } from "../../../../../store/src/lib/file-transfer/files-transfer-mode.type"
 
 const messages = defineMessages({
   progressModalTitle: {
@@ -45,6 +48,7 @@ export const FilesManagerUploadProgress: APIFC<
   const transferProgress = useSelector((state: ReduxRootState) => {
     return selectFilesSendingProgress(state, selectorsConfig)
   })
+  const filesTransferMode = useSelector(selectFilesTransferMode)
   const currentFile = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCurrentFile(state, selectorsConfig)
   })
@@ -64,6 +68,9 @@ export const FilesManagerUploadProgress: APIFC<
           filesCount,
         })}
       </Modal.Title>
+      {filesTransferMode === FilesTransferMode.SerialPort && (
+        <FilesManagerUploadProgressWarning />
+      )}
       <ProgressBar
         config={{
           maxValue: 100,

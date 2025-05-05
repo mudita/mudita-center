@@ -65,6 +65,8 @@ export enum ActionName {
   GetMtpSendFileMetadata = "generic-file-transfer/get-mtp-send-file-metadata",
   addFileTransferErrors = "generic-file-transfer/add-errosr",
   clearFileTransferErrors = "generic-file-transfer/clear-errors",
+  setFilesTransferMode = "generic-file-transfer/set-files-transfer-mode",
+  setModeWithProgressReset = "generic-file-transfer/set-mode-with-progress-reset",
 
   SetDataTransfer = "generic-data-transfer/set-data-transfer",
   SetDataTransferStatus = "generic-data-transfer/set-data-transfer-status",
