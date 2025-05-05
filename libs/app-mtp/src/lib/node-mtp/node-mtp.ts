@@ -242,6 +242,7 @@ export class NodeMtp implements MtpInterface {
 
       for await (const chunk of fileStream) {
         if (this.abortController.signal.aborted) {
+          await device.cancelTransaction()
           this.uploadFileTransactionStatus[transactionId].error = new AppError(
             MTPError.MTP_PROCESS_CANCELLED,
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
