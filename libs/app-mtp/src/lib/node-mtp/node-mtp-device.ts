@@ -371,11 +371,11 @@ export class NodeMtpDevice {
     if (mtpInterface) {
       await this.device.claimInterface(mtpInterface.interfaceNumber)
     } else {
-      throw new AppError(MTPError.MTP_GENERAL_ERROR, "MTP interface not found")
+      throw new AppError(
+        MTPError.MTP_INITIALIZE_ACCESS_ERROR,
+        "MTP interface not found"
+      )
     }
-
-    // The following line is commented out because the packet size limit definition is currently in progress.
-    // this.packetSize = mtpInterface.alternate.endpoints[0].packetSize * 2
 
     console.log(`${PREFIX_LOG} claimInterface successfully`)
   }
@@ -406,7 +406,10 @@ export class NodeMtpDevice {
       console.log(`${PREFIX_LOG} openSession successfully`)
     } else {
       console.log(`${PREFIX_LOG} openSession failed`)
-      throw new AppError(MTPError.MTP_GENERAL_ERROR, "Failed to open session")
+      throw new AppError(
+        MTPError.MTP_INITIALIZE_ACCESS_ERROR,
+        "Failed to open session"
+      )
     }
   }
 

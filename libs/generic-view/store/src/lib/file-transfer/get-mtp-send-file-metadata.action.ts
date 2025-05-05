@@ -48,7 +48,7 @@ export const getMtpSendFileMetadata = createAsyncThunk<
 
     if (!mtpDeviceId) {
       const error = new AppError(
-        ApiFileTransferError.Unknown,
+        ApiFileTransferError.MtpInitializeAccessError,
         "Not found MTP device ID"
       )
       return rejectWithValue(error)
@@ -65,7 +65,7 @@ export const getMtpSendFileMetadata = createAsyncThunk<
 
     if (!mtpDeviceStorages.ok) {
       const error = new AppError(
-        ApiFileTransferError.Unknown,
+        mtpDeviceStorages.error.type,
         "Not found MTP device storages"
       )
       return rejectWithValue(error)
@@ -77,7 +77,7 @@ export const getMtpSendFileMetadata = createAsyncThunk<
 
     if (!storageId) {
       const error = new AppError(
-        ApiFileTransferError.Unknown,
+        ApiFileTransferError.MtpInitializeAccessError,
         "Not found MTP device storage ID"
       )
       return rejectWithValue(error)

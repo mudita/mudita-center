@@ -8,14 +8,19 @@ import {
   AppMtp,
   CancelUploadFileResultData,
   GetUploadFileProgressResultData,
+  MTPError,
   MtpStorage,
   MtpUploadFileData,
   UploadFileResultData,
 } from "app-mtp"
-import { MtpFileTransferServiceEvents } from "device/models"
+import {
+  ApiFileTransferError,
+  MtpFileTransferServiceEvents,
+} from "device/models"
 import { IpcEvent } from "Core/core/decorators"
 import { ResultObject } from "Core/core/builder"
 import { mapToCoreUsbId } from "./map-to-core-usb-id"
+import { AppError } from "Core/core/errors"
 
 export class MtpFileTransferService {
   constructor(private mtp: AppMtp) {}
@@ -45,7 +50,8 @@ export class MtpFileTransferService {
   async getDeviceStorages(
     deviceId: string
   ): Promise<ResultObject<MtpStorage[]>> {
-    return this.mtp.getDeviceStorages(deviceId)
+    const result = await this.mtp.getDeviceStorages(deviceId)
+    return this.mapToApiFileTransferErrorResult(result)
   }
 
   @IpcEvent(MtpFileTransferServiceEvents.StartSendFile)
@@ -55,29 +61,47 @@ export class MtpFileTransferService {
     sourcePath,
     destinationPath,
   }: MtpUploadFileData): Promise<ResultObject<UploadFileResultData>> {
-    return this.mtp.uploadFile({
+    const result = await this.mtp.uploadFile({
       deviceId,
       storageId,
       sourcePath,
       destinationPath,
     })
+    return this.mapToApiFileTransferErrorResult(result)
   }
 
   @IpcEvent(MtpFileTransferServiceEvents.GetSendFileProgress)
   async getSendFileProgress(
     transactionId: string
   ): Promise<ResultObject<GetUploadFileProgressResultData>> {
-    return this.mtp.getUploadFileProgress({
+    const result = await this.mtp.getUploadFileProgress({
       transactionId,
     })
+    return this.mapToApiFileTransferErrorResult(result)
   }
 
   @IpcEvent(MtpFileTransferServiceEvents.CancelSendFile)
   async cancelSendFile(
     transactionId: string
   ): Promise<ResultObject<CancelUploadFileResultData>> {
-    return this.mtp.cancelUpload({
+    const result = await this.mtp.cancelUpload({
       transactionId,
     })
+    return this.mapToApiFileTransferErrorResult(result)
+  }
+
+  private mapToApiFileTransferErrorResult<T>(
+    result: ResultObject<T>
+  ): ResultObject<T, ApiFileTransferError> {
+    if (result.ok) {
+      return result
+    }
+
+    const errorType =
+      result.error.type === MTPError.MTP_INITIALIZE_ACCESS_ERROR
+        ? ApiFileTransferError.MtpInitializeAccessError
+        : ApiFileTransferError.Unknown
+
+    return { ...result, error: new AppError(errorType, result.error.message) }
   }
 }

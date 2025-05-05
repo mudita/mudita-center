@@ -17,6 +17,11 @@ const selectFilesSending = createSelector(
   (genericFileTransfer) => genericFileTransfer.filesTransferSend
 )
 
+export const selectFilesTransferMode = createSelector(
+  (state: ReduxRootState) => state.genericFileTransfer,
+  (genericFileTransfer) => genericFileTransfer.filesTransferMode
+)
+
 const selectFilesSendingGroup = createSelector(
   selectFilesSending,
   (

@@ -24,7 +24,7 @@ import {
   ResultObject,
 } from "../../../../core/core/builder/result.builder"
 import { AppError } from "../../../../core/core/errors/app-error"
-import { handleMtpError } from "../utils/handle-mtp-error"
+import { handleMtpError, mapToMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
 import { mtpUploadChunkSize, rootObjectHandle } from "./mtp-packet-definitions"
 import { ResponseObjectInfo } from "./utils/object-info.interface"
@@ -204,7 +204,6 @@ export class NodeMtp implements MtpInterface {
         console.log(
           `${PREFIX_LOG} process upload file info error - newObjectID is undefined`
         )
-        return Result.failed(new AppError(MTPError.MTP_GENERAL_ERROR))
       }
 
       return Result.success(newObjectID)
@@ -254,11 +253,16 @@ export class NodeMtp implements MtpInterface {
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} process upload file error: ${error}`)
-      this.uploadFileTransactionStatus[transactionId].error = new AppError(
-        MTPError.MTP_GENERAL_ERROR,
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${error}`
-      )
+
+      const mtpError = mapToMtpError(error)
+      this.uploadFileTransactionStatus[transactionId].error =
+        mtpError.type === MTPError.MTP_INITIALIZE_ACCESS_ERROR
+          ? mtpError
+          : new AppError(
+              MTPError.MTP_GENERAL_ERROR,
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${error}`
+            )
     }
   }
 
