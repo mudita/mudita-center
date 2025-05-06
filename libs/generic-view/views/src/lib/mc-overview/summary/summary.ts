@@ -168,7 +168,6 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
 export const generateMcOverviewSummaryData = (
   data: OverviewData["summary"]
 ) => {
-  console.log("DATA", data)
   const serialNumber = data?.about?.serialNumber
     ? {
         [SummaryKeys.SerialNumber]: {
