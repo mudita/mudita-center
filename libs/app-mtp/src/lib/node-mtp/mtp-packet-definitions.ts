@@ -93,6 +93,7 @@ export enum ContainerCode {
   SessionAlreadyOpen = 0x201e,
   TransactionCancelled = 0x201f,
   SpecificationOfDestinationUnsupported = 0x2020,
+  CancelTransaction = 0x4001,
   InvalidObjectPropCode = 0xa801,
   InvalidObjectPropFormat = 0xa802,
   InvalidObjectPropValue = 0xa803,
@@ -166,6 +167,7 @@ export const containerCodeNames: Record<ContainerCode, string> = {
   [ContainerCode.StoreNotAvailable]: "Store Not Available",
   [ContainerCode.SpecificationByFormatUnsupported]:
     "Specification By Format Unsupported",
+  [ContainerCode.CancelTransaction]: "Cancel Transaction",
   [ContainerCode.NoValidObjectInfo]: "No Valid Object Info",
   [ContainerCode.InvalidCodeFormat]: "Invalid Code Format",
   [ContainerCode.UnknownVendorCode]: "Unknown Vendor Code",

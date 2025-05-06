@@ -42,6 +42,8 @@ const PREFIX_LOG = `[app-mtp/node-mtp-device]`
 export class NodeMtpDevice {
   public id: string = ""
   private packetSize = mtpUploadChunkSize
+  private uploadTransactionId: number | null = null
+  private transactionIdCounter = 0
 
   constructor(private device: WebUSBDevice) {
     this.id = String(this.device.serialNumber)
@@ -220,17 +222,17 @@ export class NodeMtpDevice {
   }
 
   async initiateUploadFile(size: number): Promise<void> {
-    console.log(`${PREFIX_LOG} initiateUploadFile...`)
-    const transactionId = this.getTransactionId()
-
+    this.uploadTransactionId = this.getTransactionId()
+    console.log(
+      `${PREFIX_LOG} initiateUploadFile... transactionId ${this.uploadTransactionId}`
+    )
     await this.write({
-      transactionId,
+      transactionId: this.uploadTransactionId,
       type: ContainerTypeCode.Command,
       code: ContainerCode.SendObject,
     })
-
     await this.write({
-      transactionId,
+      transactionId: this.uploadTransactionId,
       type: ContainerTypeCode.Data,
       code: ContainerCode.SendObject,
       fixSize: size + 12,
@@ -239,7 +241,39 @@ export class NodeMtpDevice {
 
   async uploadFileData(chunk: Uint8Array): Promise<void> {
     console.log(`${PREFIX_LOG} uploadFileData...`)
-    await this.transferOut(new Uint8Array(chunk))
+    await this.transferOut(new Uint8Array(chunk).buffer)
+  }
+
+  async cancelTransaction(): Promise<void> {
+    if (!this.uploadTransactionId) {
+      console.log(
+        `${PREFIX_LOG} cancelTransaction called without active upload`
+      )
+      return
+    }
+    await this.write({
+      transactionId: this.uploadTransactionId,
+      type: ContainerTypeCode.Event,
+      code: ContainerCode.CancelTransaction,
+    })
+    const response = await this.read(
+      this.uploadTransactionId,
+      ContainerTypeCode.Response
+    )
+    this.uploadTransactionId = null
+    const expectedStatuses = [
+      ContainerCode.GeneralError,
+      ContainerCode.TransactionCancelled,
+    ]
+    if (expectedStatuses.includes(response.code)) {
+      console.log(`${PREFIX_LOG} transfer aborted, status: ${response.code}`)
+      return
+    } else {
+      await this.transferOut(new Uint8Array(0).buffer)
+      console.log(
+        `${PREFIX_LOG} Cancel transfer: unknown error: status code ${response.code}`
+      )
+    }
   }
 
   private async transferOut(
@@ -414,8 +448,10 @@ export class NodeMtpDevice {
   }
 
   private getTransactionId(): number {
-    const timeStamp = Date.now()
-    const randomPart = Math.floor(Math.random() * 0x100000)
-    return (timeStamp + randomPart) % 0x100000000
+    const id = this.transactionIdCounter++
+    if (this.transactionIdCounter >= 0xffffffff) {
+      this.transactionIdCounter = 1
+    }
+    return id
   }
 }
