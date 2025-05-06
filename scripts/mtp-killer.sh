@@ -28,6 +28,7 @@ APPS=(
   "WhatsApp"
   "Lightroom"
   "Preview"
+  "iMovie"
 )
 
 for app in "${APPS[@]}"; do
