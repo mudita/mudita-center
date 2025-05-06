@@ -6,6 +6,7 @@
 /// <reference types="wdio-electron-service" />
 import * as path from "path"
 import * as os from "os"
+import AppInitPage from "./src/page-objects/app-init.page"
 
 // Based on node_modules/@puppeteer/browsers/src/browser-data/chromedriver.ts
 // and
@@ -106,6 +107,9 @@ export const config: WebdriverIO.Config = {
       "wdio:chromedriverOptions": {
         binary: getChromedriverPath(),
       },
+      "goog:chromeOptions": {
+        args: ["--no-sandbox", "--disable-gpu"],
+      },
       // Electron service options
       // see https://webdriver.io/docs/desktop-testing/electron/configuration/#service-options
       // "wdio:electronServiceOptions": {
@@ -162,11 +166,10 @@ export const config: WebdriverIO.Config = {
   // baseUrl: 'http://localhost:8080',
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 10000,
-  //
+  waitforTimeout: 20000,
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
-  connectionRetryTimeout: 120000,
+  connectionRetryTimeout: 180000,
   //
   // Default request retries count
   connectionRetryCount: 3,
@@ -288,8 +291,15 @@ export const config: WebdriverIO.Config = {
    * Hook that gets executed before the suite starts
    * @param {object} suite suite details
    */
-  // beforeSuite: function (suite) {
-  // },
+  beforeSuite: async function (suite) {
+    // Skip fresh app initialization for specific suites
+    const suitesToSkipAutoInit = ["Privacy Policy modal"]
+    if (suitesToSkipAutoInit.includes(suite.title)) {
+      return
+    }
+    // For other suites, automatically skip the initialization process
+    await AppInitPage.acceptPrivacyPolicy()
+  },
   /**
    * Function to be executed before a test (in Mocha/Jasmine) starts.
    */

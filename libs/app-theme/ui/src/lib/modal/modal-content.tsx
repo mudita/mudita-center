@@ -9,7 +9,7 @@ import {
   ModalSizeControllerMedium,
   ModalSizeControllerSmall,
 } from "./modal-size-controller"
-import { ModalLayer, ModalSize } from "app-theme/models"
+import { ModalLayer, ModalSize, ModalTestId } from "app-theme/models"
 import { ModalVisibilityControllerHidden } from "./modal-visibility-controller"
 import { ScrollableContent } from "./modal-scrollable-content"
 import { TitleIconWrapper } from "./modal-title-icon"
@@ -209,6 +209,7 @@ export const ModalContent: FunctionComponent<Props> = ({
       $maxHeight={maxHeight}
       $gap={gap}
       $padding={padding}
+      data-testid={ModalTestId.Modal}
     >
       {children}
     </Content>

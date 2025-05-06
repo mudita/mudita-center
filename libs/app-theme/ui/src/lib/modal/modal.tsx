@@ -5,7 +5,7 @@
 
 import ReactModal from "react-modal"
 import { FunctionComponent, PropsWithChildren, useCallback } from "react"
-import { ModalLayer, ModalSize } from "app-theme/models"
+import { ModalLayer, ModalSize, ModalTestId } from "app-theme/models"
 import { theme } from "app-theme/utils"
 import { ModalContent } from "./modal-content"
 import { ModalOverlay } from "./modal-overlay"
@@ -67,7 +67,11 @@ export const Modal: FunctionComponent<Props> & Subcomponents = ({
     useCallback(
       (props, children) => {
         return (
-          <ModalOverlay {...props} $hidden={overlayHidden}>
+          <ModalOverlay
+            {...props}
+            $hidden={overlayHidden}
+            data-testid={ModalTestId.Overlay}
+          >
             {children}
           </ModalOverlay>
         )

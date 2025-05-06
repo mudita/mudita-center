@@ -5,7 +5,7 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-import { IconSize, IconType } from "app-theme/models"
+import { IconSize, IconType, ModalTestId } from "app-theme/models"
 import { IconButton } from "../icon-button/icon-button"
 
 interface Props {
@@ -14,7 +14,12 @@ interface Props {
 
 export const ModalCloseButton: FunctionComponent<Props> = ({ onClick }) => {
   return (
-    <ModalClose onClick={onClick} icon={IconType.Close} size={IconSize.Big} />
+    <ModalClose
+      onClick={onClick}
+      icon={IconType.Close}
+      size={IconSize.Big}
+      data-testid={ModalTestId.CloseButton}
+    />
   )
 }
 

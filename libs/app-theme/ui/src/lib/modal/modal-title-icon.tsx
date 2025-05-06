@@ -5,7 +5,7 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-import { IconType } from "app-theme/models"
+import { IconType, ModalTestId } from "app-theme/models"
 import { Icon } from "../icon/icon"
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 export const ModalTitleIcon: FunctionComponent<Props> = ({ type, ...rest }) => {
   return (
     <TitleIconWrapper {...rest}>
-      <TitleIcon type={type} />
+      <TitleIcon type={type} data-testid={ModalTestId.TitleIcon} />
     </TitleIconWrapper>
   )
 }
