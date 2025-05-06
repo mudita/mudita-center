@@ -4,14 +4,26 @@
  */
 
 import { electronAPI } from "@electron-toolkit/preload"
-import { AppSettings, AppSettingsIpcEvents } from "app-settings/models"
-import { NestedPartial } from "app-utils/models"
+import {
+  AppSettings,
+  AppSettingsIpcEvents,
+} from "app-settings/models"
+import { DotNotation, DotValue, NestedPartial } from "app-utils/models"
+
+interface AppSettingsMethods {
+  get(): Promise<AppSettings>
+  get<P extends DotNotation<AppSettings>>(
+    path: P
+  ): Promise<DotValue<AppSettings, P>>
+
+  set(settings: NestedPartial<AppSettings>): Promise<AppSettings>
+}
 
 export const appSettings = {
-  get: (): Promise<AppSettings> => {
-    return electronAPI.ipcRenderer.invoke(AppSettingsIpcEvents.Get)
+  get: (path) => {
+    return electronAPI.ipcRenderer.invoke(AppSettingsIpcEvents.Get, path)
   },
-  set: (data: NestedPartial<AppSettings>): Promise<AppSettings> => {
+  set: (data) => {
     return electronAPI.ipcRenderer.invoke(AppSettingsIpcEvents.Set, data)
   },
-}
+} as AppSettingsMethods

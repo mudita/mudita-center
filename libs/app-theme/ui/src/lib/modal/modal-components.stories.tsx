@@ -13,6 +13,7 @@ import { Button } from "../button/button"
 import { Description, Stories, Subtitle, Title } from "@storybook/blocks"
 import { FunctionComponent, PropsWithChildren, ReactElement } from "react"
 import { action } from "@storybook/addon-actions"
+import { Icon } from "../icon/icon"
 
 const Decorator = styled.div`
   width: 100%;
@@ -215,15 +216,38 @@ export const ModalScrollableContent: StoryObj<typeof Modal.ScrollableContent> =
       docs: {
         source: {
           code:
-            "<Modal.ScrollableContent>\n" +
-            "  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>\n" +
-            "  <p>Ullamcorper diam at mauris egestas malesuada. Aliquam erat volutpat.</p>\n" +
-            "  <p>Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec ac nunc nec felis bibendum varius.</p>\n" +
-            "  <p>Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut enim bibendum tincidunt.</p>\n" +
-            "  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ullamcorper diam at mauris egestas malesuada.</p>\n" +
-            "  <p>Ullamcorper diam at mauris egestas malesuada. Aliquam erat volutpat.</p>\n" +
-            "  <p>Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec ac nunc nec felis bibendum varius.</p>\n" +
-            "  <p>Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut enim bibendum tincidunt.</p>\n" +
+            "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit:</p>\n" +
+            "<Modal.ScrollableContent {...args}>\n" +
+            "  <ul>\n" +
+            "    <li>\n" +
+            "      Ullamcorper diam at mauris egestas malesuada. Aliquam erat\n" +
+            "      volutpat.\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "      Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec\n" +
+            "      ac nunc nec felis bibendum varius.\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "      Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut\n" +
+            "      enim bibendum tincidunt.\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "      Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+            "      Vestibulum ullamcorper diam at mauris egestas malesuada.\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "      Ullamcorper diam at mauris egestas malesuada. Aliquam erat\n" +
+            "      volutpat.\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "      Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec\n" +
+            "      ac nunc nec felis bibendum varius.\n" +
+            "    </li>\n" +
+            "    <li>\n" +
+            "      Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut\n" +
+            "      enim bibendum tincidunt.\n" +
+            "    </li>\n" +
+            "  </ul>\n" +
             "</Modal.ScrollableContent>",
         },
         description: {
@@ -234,49 +258,95 @@ export const ModalScrollableContent: StoryObj<typeof Modal.ScrollableContent> =
     },
     render: (args) => {
       return (
-        <Modal.ScrollableContent {...args}>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <p>
-            Ullamcorper diam at mauris egestas malesuada. Aliquam erat volutpat.
-          </p>
-          <p>
-            Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec ac
-            nunc nec felis bibendum varius.
-          </p>
-          <p>
-            Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut enim
-            bibendum tincidunt.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-            ullamcorper diam at mauris egestas malesuada.
-          </p>
-          <p>
-            Ullamcorper diam at mauris egestas malesuada. Aliquam erat volutpat.
-          </p>
-          <p>
-            Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec ac
-            nunc nec felis bibendum varius.
-          </p>
-          <p>
-            Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut enim
-            bibendum tincidunt.
-          </p>
-        </Modal.ScrollableContent>
+        <>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit:</p>
+          <Modal.ScrollableContent {...args}>
+            <ul>
+              <li>
+                Ullamcorper diam at mauris egestas malesuada. Aliquam erat
+                volutpat.
+              </li>
+              <li>
+                Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec
+                ac nunc nec felis bibendum varius.
+              </li>
+              <li>
+                Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut
+                enim bibendum tincidunt.
+              </li>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Vestibulum ullamcorper diam at mauris egestas malesuada.
+              </li>
+              <li>
+                Ullamcorper diam at mauris egestas malesuada. Aliquam erat
+                volutpat.
+              </li>
+              <li>
+                Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec
+                ac nunc nec felis bibendum varius.
+              </li>
+              <li>
+                Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut
+                enim bibendum tincidunt.
+              </li>
+            </ul>
+          </Modal.ScrollableContent>
+        </>
       )
     },
   }
+
+export const ModalDenseContent: StoryObj<typeof Modal.DenseContent> = {
+  name: "<Modal.DenseContent />",
+  parameters: {
+    docs: {
+      source: {
+        code:
+          "<Modal.DenseContent>\n" +
+          "  <p>Dense content paragraph 1</p>\n" +
+          "  <Icon type={IconType.MuditaLogo} />\n" +
+          "  <p>Dense content paragraph 2</p>\n" +
+          "  <p>Dense content paragraph 3</p>\n" +
+          "</Modal.DenseContent>\n" +
+          "<p>Paragraph outside dense content 1</p>\n" +
+          "<Icon type={IconType.MuditaLogo} />\n" +
+          "<p>Paragraph outside dense content 2</p>" +
+          "<p>Paragraph outside dense content 3</p>",
+      },
+      description: {
+        story:
+          "By default, subcomponents inside the modal are 24px apart from each other.\n\n" +
+          "This does not apply to `p`, `ul`, `ol` and `li` tags, but only when they follow one another. " +
+          "Separating them with any other component will restore the default gap between the text and that component.\n\n" +
+          "The `DenseContent` subcomponent allows creating a denser layout by reducing the gap between its children to 14px, " +
+          "just like they all would be text-like components.",
+      },
+    },
+  },
+  render: () => {
+    return (
+      <>
+        <Modal.DenseContent>
+          <p>Dense content paragraph 1</p>
+          <Icon type={IconType.MuditaLogo} />
+          <p>Dense content paragraph 2</p>
+          <p>Dense content paragraph 3</p>
+        </Modal.DenseContent>
+        <p>Paragraph outside dense content 1</p>
+        <Icon type={IconType.MuditaLogo} />
+        <p>Paragraph outside dense content 2</p>
+        <p>Paragraph outside dense content 3</p>
+      </>
+    )
+  },
+}
 
 export const ModalTextContent: StoryObj<FunctionComponent<PropsWithChildren>> =
   {
     name: "Text content",
     argTypes: {
-      children: {
-        control: {
-          type: "text",
-        },
-        description: "The text to display in the modal.",
-      },
+      children: storybookHelper.disableControl().apply(),
     },
     parameters: {
       docs: {
@@ -296,7 +366,7 @@ export const ModalTextContent: StoryObj<FunctionComponent<PropsWithChildren>> =
         },
         description: {
           story:
-            "There's no specific component for text content. For best styling support, it's recommended to use the following HTML tags:\n" +
+            "There's no specific component for pure text content. For best styling support, it's recommended to use the following HTML tags:\n" +
             "- `<p>` for paragraphs\n" +
             "- `<ul>` with `<li>` for unordered lists\n\n" +
             "- `<ol>` with `<li>` for orderd lists\n\n" +
@@ -331,7 +401,7 @@ export const ModalSizeController: StoryObj<typeof Modal.SizeController> = {
   parameters: {
     docs: {
       source: {
-        code: "<Modal.SizeController size={ModalSize.Small} />",
+        code: "<Modal.SizeController size={ModalSize.Large} />",
       },
       description: {
         story:
@@ -348,7 +418,7 @@ export const ModalSizeController: StoryObj<typeof Modal.SizeController> = {
       .apply(),
   },
   args: {
-    size: ModalSize.Small,
+    size: ModalSize.Large,
   },
   render: (args) => {
     return <Modal.SizeController {...args} />

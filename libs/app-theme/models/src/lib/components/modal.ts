@@ -23,3 +23,12 @@ export enum ModalLayer {
   ConnectingLoader,
   DisconnectedDeviceError,
 }
+
+export enum ModalTestId {
+  Modal = "modal",
+  CloseButton = "modal-close-button",
+  Title = "modal-title",
+  TitleIcon = "modal-title-icon",
+  Overlay = "modal-overlay",
+  Buttons = "modal-buttons",
+}

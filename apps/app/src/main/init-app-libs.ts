@@ -8,8 +8,10 @@ import { ipcMain, WebContents } from "electron"
 import { initSql } from "app-sql/main"
 import { initNews } from "news/main"
 import { initAppSettings } from "app-settings/main"
+import { initAppActions } from "app-utils/main"
 
 export const initAppLibs = (webContents: WebContents) => {
+  initAppActions(ipcMain)
   initAppSettings(ipcMain)
   initSerialPort(ipcMain, webContents)
   initSql(ipcMain)

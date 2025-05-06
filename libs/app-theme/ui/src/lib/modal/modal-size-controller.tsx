@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent } from "react"
+import { FunctionComponent } from "react"
 import styled from "styled-components"
 
 export const ModalSizeControllerSmall = styled.div`

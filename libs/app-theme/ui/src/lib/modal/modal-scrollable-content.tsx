@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, PropsWithChildren } from "react"
+import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
 
 export const ModalScrollableContent: FunctionComponent<PropsWithChildren> = (
@@ -13,6 +13,9 @@ export const ModalScrollableContent: FunctionComponent<PropsWithChildren> = (
 }
 
 export const ScrollableContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--modal-gap);
   overflow-y: auto;
 
   &::-webkit-scrollbar {

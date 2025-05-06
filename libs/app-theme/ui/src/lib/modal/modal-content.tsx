@@ -9,7 +9,7 @@ import {
   ModalSizeControllerMedium,
   ModalSizeControllerSmall,
 } from "./modal-size-controller"
-import { ModalLayer, ModalSize } from "app-theme/models"
+import { ModalLayer, ModalSize, ModalTestId } from "app-theme/models"
 import { ModalVisibilityControllerHidden } from "./modal-visibility-controller"
 import { ScrollableContent } from "./modal-scrollable-content"
 import { TitleIconWrapper } from "./modal-title-icon"
@@ -17,12 +17,13 @@ import { FunctionComponent, PropsWithChildren } from "react"
 
 const getModalSize = (size: ModalSize) => {
   switch (size) {
-    case "small":
-      return "38.4rem"
     case "medium":
       return "48.8rem"
     case "large":
       return "61.4rem"
+    case "small":
+    default:
+      return "38.4rem"
   }
 }
 
@@ -36,11 +37,12 @@ const getModalWidth = (size: ModalSize, width?: string | number) => {
 const getModalPadding = (size: ModalSize, padding?: number | string) => {
   if (padding === undefined) {
     switch (size) {
-      case "small":
-      case "medium":
-        return "2.4rem"
       case "large":
         return "4.8rem"
+      case "small":
+      case "medium":
+      default:
+        return "2.4rem"
     }
   }
   return typeof padding === "number" ? `${padding}px` : padding
@@ -83,6 +85,7 @@ const Content = styled.div<{
   outline: none;
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: var(--modal-padding);
   width: var(--modal-width);
   max-height: var(--modal-max-height);
@@ -97,6 +100,7 @@ const Content = styled.div<{
 
   overflow: hidden;
   gap: var(--modal-gap);
+  --gap-reducer: calc(var(--modal-gap) * -1 / 2.4);
 
   &:has(${ModalSizeControllerSmall}) {
     --modal-width: ${getModalSize(ModalSize.Small)};
@@ -114,7 +118,7 @@ const Content = styled.div<{
   }
 
   ${TitleIconWrapper} {
-    margin-bottom: -1rem;
+    margin-bottom: var(--gap-reducer);
   }
 
   p {
@@ -127,11 +131,12 @@ const Content = styled.div<{
     white-space: pre-line;
   }
 
-  > p {
+  > p,
+  ${ScrollableContent} > p {
     + p,
     + ul,
     + ol {
-      margin-top: -1rem;
+      margin-top: var(--gap-reducer);
     }
   }
 
@@ -204,6 +209,7 @@ export const ModalContent: FunctionComponent<Props> = ({
       $maxHeight={maxHeight}
       $gap={gap}
       $padding={padding}
+      data-testid={ModalTestId.Modal}
     >
       {children}
     </Content>

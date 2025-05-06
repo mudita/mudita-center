@@ -5,7 +5,7 @@
 
 import ReactModal from "react-modal"
 import { FunctionComponent, PropsWithChildren, useCallback } from "react"
-import { ModalLayer, ModalSize } from "app-theme/models"
+import { ModalLayer, ModalSize, ModalTestId } from "app-theme/models"
 import { theme } from "app-theme/utils"
 import { ModalContent } from "./modal-content"
 import { ModalOverlay } from "./modal-overlay"
@@ -16,6 +16,7 @@ import { ModalButtons } from "./modal-buttons"
 import { ModalSizeController } from "./modal-size-controller"
 import { ModalVisibilityController } from "./modal-visibility-controller"
 import { ModalCloseButton } from "./modal-close-button"
+import { ModalDenseContent } from "./modal-dense-content"
 
 interface Props extends PropsWithChildren, Omit<ReactModal.Props, "isOpen"> {
   opened: boolean
@@ -33,6 +34,7 @@ interface Props extends PropsWithChildren, Omit<ReactModal.Props, "isOpen"> {
 interface Subcomponents {
   TitleIcon: typeof ModalTitleIcon
   Title: typeof ModalTitle
+  DenseContent: typeof ModalDenseContent
   ScrollableContent: typeof ModalScrollableContent
   Buttons: typeof ModalButtons
   CloseButton: typeof ModalCloseButton
@@ -65,7 +67,11 @@ export const Modal: FunctionComponent<Props> & Subcomponents = ({
     useCallback(
       (props, children) => {
         return (
-          <ModalOverlay {...props} $hidden={overlayHidden}>
+          <ModalOverlay
+            {...props}
+            $hidden={overlayHidden}
+            data-testid={ModalTestId.Overlay}
+          >
             {children}
           </ModalOverlay>
         )
@@ -87,6 +93,7 @@ export const Modal: FunctionComponent<Props> & Subcomponents = ({
 
 Modal.TitleIcon = ModalTitleIcon
 Modal.Title = ModalTitle
+Modal.DenseContent = ModalDenseContent
 Modal.ScrollableContent = ModalScrollableContent
 Modal.Buttons = ModalButtons
 Modal.CloseButton = ModalCloseButton

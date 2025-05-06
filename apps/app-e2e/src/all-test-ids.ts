@@ -4,3 +4,4 @@
  */
 
 export { NewsTestId } from "news/models"
+export { ModalTestId } from "app-theme/models"
