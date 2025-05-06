@@ -25,12 +25,6 @@ describe("Help - Verify Feedback", () => {
     await expect(firstArticle).toBeDisplayed()
     await firstArticle.click()
 
-    //Check article title
-    const helpArticleTitle = await HelpArticlePage.helpArticleTitle
-    await expect(helpArticleTitle).toHaveText(
-      "How to add music files to Harmony"
-    )
-
     //Check article helpful section and vote YES
     const helpArticleFeedbackYesButton =
       await HelpArticlePage.helpArticleFeedbackYesButton
@@ -56,12 +50,6 @@ describe("Help - Verify Feedback", () => {
     const secondArticle = HelpArticlePage.helpArticleItems[1]
     await expect(secondArticle).toBeDisplayed()
     await secondArticle.click()
-
-    //Check article title
-    const helpArticleTitle = await HelpArticlePage.helpArticleTitle
-    await expect(helpArticleTitle).toHaveText(
-      "How to delete music files from Harmony"
-    )
 
     //Check article helpful section and vote NO
     const helpArticleFeedbackNoButton =

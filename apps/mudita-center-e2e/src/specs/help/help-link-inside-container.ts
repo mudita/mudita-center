@@ -21,7 +21,7 @@ describe("Help - Link inside container", () => {
   })
 
   it("Open Pure Category in Help", async () => {
-    const pureCategory = HelpArticlePage.helpCategories[1]
+    const pureCategory = HelpArticlePage.helpCategories[2]
     await expect(pureCategory).toBeDisplayed()
     await pureCategory.click()
   })
