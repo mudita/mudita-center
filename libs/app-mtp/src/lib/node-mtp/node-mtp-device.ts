@@ -43,7 +43,7 @@ export class NodeMtpDevice {
   public id: string = ""
   private packetSize = mtpUploadChunkSize
   private uploadTransactionId: number | null = null
-  private transactionIdCounter = 1
+  private transactionIdCounter = 0
 
   constructor(private device: WebUSBDevice) {
     this.id = String(this.device.serialNumber)
@@ -448,8 +448,10 @@ export class NodeMtpDevice {
   }
 
   private getTransactionId(): number {
-    const timeStamp = Date.now()
-    const randomPart = Math.floor(Math.random() * 0x100000)
-    return (timeStamp + randomPart) % 0x100000000
+    const id = this.transactionIdCounter++
+    if (this.transactionIdCounter >= 0xffffffff) {
+      this.transactionIdCounter = 1
+    }
+    return id
   }
 }

@@ -248,9 +248,6 @@ export class NodeMtp implements MtpInterface {
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${MTPError.MTP_PROCESS_CANCELLED}`
           )
-          console.log(
-            `${PREFIX_LOG} process upload file canceled: ${this.uploadFileTransactionStatus[transactionId].error}`
-          )
           return
         }
         await device.uploadFileData(chunk)
