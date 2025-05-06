@@ -37,8 +37,8 @@ import {
   mcFilesManagerUploadValidationError,
   overviewOsVersion,
   selectionManager,
-  mcAppInstallationError,
   mcAppInstallationProgress,
+  mcAppInstallationError,
   mcAppInstallationSuccess,
 } from "generic-view/models"
 
