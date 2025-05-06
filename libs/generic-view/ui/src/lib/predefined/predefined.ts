@@ -30,9 +30,6 @@ import {
   importContacts,
   incomingFeatureInfo,
   lastBackupDate,
-  mcAppInstallationError,
-  mcAppInstallationProgress,
-  mcAppInstallationSuccess,
   mcContactsSearchResults,
   mcDataMigration,
   mcFilesManagerUploadFinished,
@@ -40,6 +37,9 @@ import {
   mcFilesManagerUploadValidationError,
   overviewOsVersion,
   selectionManager,
+  mcAppInstallationError,
+  mcAppInstallationProgress,
+  mcAppInstallationSuccess,
 } from "generic-view/models"
 
 export const predefinedComponents = {

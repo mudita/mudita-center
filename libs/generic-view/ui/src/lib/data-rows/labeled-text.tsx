@@ -11,13 +11,12 @@ import { LabeledTextConfig, LabeledTextData } from "generic-view/models"
 export const LabeledText: APIFC<LabeledTextData, LabeledTextConfig> = ({
   data,
   config = {},
-  children,
   ...props
 }) => {
   return (
     <div {...props}>
       <Label>{config.label}</Label>
-      <Text>{children || data?.text}</Text>
+      <Text>{data?.text}</Text>
     </div>
   )
 }
