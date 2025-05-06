@@ -79,10 +79,6 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
             config: {
               label: config.deviceVersionLabel || "Device type",
             },
-            childrenKeys: [`${SummaryKeys.DeviceVersion}-text`],
-          },
-          [`${SummaryKeys.DeviceVersion}-text`]: {
-            component: "mc-summary-device-version",
           },
         }
 
@@ -172,6 +168,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
 export const generateMcOverviewSummaryData = (
   data: OverviewData["summary"]
 ) => {
+  console.log("DATA", data)
   const serialNumber = data?.about?.serialNumber
     ? {
         [SummaryKeys.SerialNumber]: {
@@ -180,7 +177,16 @@ export const generateMcOverviewSummaryData = (
       }
     : undefined
 
+  const deviceVersion = data?.about?.deviceVersion
+    ? {
+        [SummaryKeys.DeviceVersion]: {
+          text: data.about.deviceVersion.text,
+        },
+      }
+    : undefined
+
   return {
     ...serialNumber,
+    ...deviceVersion,
   }
 }

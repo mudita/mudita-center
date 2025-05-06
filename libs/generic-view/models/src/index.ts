@@ -74,7 +74,6 @@ import { entitiesDeleteError } from "./lib/entities-delete-error"
 import { mcAppInstallationProgress } from "./lib/mc-app-installation-progress"
 import { mcAppInstallationError } from "./lib/mc-app-installation-error"
 import { mcAppInstallationSuccess } from "./lib/mc-app-installation-success"
-import { mcSummaryDeviceVersion } from "./lib/mc-summary-device-version"
 
 export * from "./lib/accordion"
 export * from "./lib/block-box"
@@ -152,7 +151,6 @@ export * from "./lib/entities-delete-error"
 export * from "./lib/mc-app-installation-progress"
 export * from "./lib/mc-app-installation-error"
 export * from "./lib/mc-app-installation-success"
-export * from "./lib/mc-summary-device-version"
 
 export default {
   [accordion.key]: accordion,
@@ -227,6 +225,5 @@ export default {
   [mcAppInstallationProgress.key]: mcAppInstallationProgress,
   [mcAppInstallationError.key]: mcAppInstallationError,
   [mcAppInstallationSuccess.key]: mcAppInstallationSuccess,
-  [mcSummaryDeviceVersion.key]: mcSummaryDeviceVersion,
   ...TypographyMap,
 } as const
