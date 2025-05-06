@@ -39,7 +39,7 @@ const Wrapper = styled.div`
 
 const ParagraphIcon = styled(Icon).attrs({
   config: {
-    type: IconType.Information2,
+    type: IconType.Information,
     size: "tiny",
   },
 })`

@@ -54,7 +54,6 @@ import Search from "./svg/search.svg"
 import Import from "./svg/import.svg"
 import DataMigration from "./svg/data-migration.svg"
 import Information from "./svg/information.svg"
-import Information2 from "./svg/information-2.svg"
 import RecoveryModeWhite from "./svg/recovery-mode-white.svg"
 import RecoveryModeBlack from "./svg/recovery-mode-black.svg"
 import ArrowBack from "./svg/arrow-back.svg"
@@ -115,7 +114,6 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Import]: Import,
   [IconType.DataMigration]: DataMigration,
   [IconType.Information]: Information,
-  [IconType.Information2]: Information2,
   [IconType.RecoveryModeWhite]: RecoveryModeWhite,
   [IconType.RecoveryModeBlack]: RecoveryModeBlack,
   [IconType.ArrowBack]: ArrowBack,
