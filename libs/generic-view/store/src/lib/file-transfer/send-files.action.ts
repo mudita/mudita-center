@@ -65,27 +65,29 @@ export const sendFiles = createAsyncThunk<
     let mtpSendFileMetadata: Omit<SendFileViaMTPPayload, "file"> | undefined =
       undefined
 
-    if (filesTransferMode === FilesTransferMode.Mtp) {
-      const getMtpSendFileMetadataDispatch = dispatch(
-        getMtpSendFileMetadata({ destinationPath, customDeviceId })
-      )
+    if (filesTransferMode !== FilesTransferMode.Mtp) {
+      dispatch(setFilesTransferMode(FilesTransferMode.Mtp))
+    }
 
-      getMtpSendFileMetadataAbortController.abort = (
-        getMtpSendFileMetadataDispatch as unknown as {
-          abort: AbortController["abort"]
-        }
-      ).abort
+    const getMtpSendFileMetadataDispatch = dispatch(
+      getMtpSendFileMetadata({ destinationPath, customDeviceId })
+    )
 
-      const { meta, payload } = await getMtpSendFileMetadataDispatch
-
-      if (meta.requestStatus === "fulfilled" && payload !== undefined) {
-        mtpSendFileMetadata = payload as Omit<SendFileViaMTPPayload, "file">
-      } else if (meta.requestStatus === "rejected" && meta.aborted) {
-        const error = new AppError(ApiFileTransferError.Aborted, "Aborted")
-        return rejectWithValue(error)
-      } else {
-        dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
+    getMtpSendFileMetadataAbortController.abort = (
+      getMtpSendFileMetadataDispatch as unknown as {
+        abort: AbortController["abort"]
       }
+    ).abort
+
+    const { meta, payload } = await getMtpSendFileMetadataDispatch
+
+    if (meta.requestStatus === "fulfilled" && payload !== undefined) {
+      mtpSendFileMetadata = payload as Omit<SendFileViaMTPPayload, "file">
+    } else if (meta.requestStatus === "rejected" && meta.aborted) {
+      const error = new AppError(ApiFileTransferError.Aborted, "Aborted")
+      return rejectWithValue(error)
+    } else {
+      dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
     }
 
     for (const file of files) {
