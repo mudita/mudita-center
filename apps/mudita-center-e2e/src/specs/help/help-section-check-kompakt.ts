@@ -29,7 +29,7 @@ describe("Check Help - Kompakt Category", () => {
     const helpCategoriesListItems = await $$(
       '[data-testid="help-categories-list-item"]'
     )
-    await helpCategoriesListItems[2].click()
+    await helpCategoriesListItems[0].click()
 
     // Small delay to ensure all elements load
     await browser.pause(500)
