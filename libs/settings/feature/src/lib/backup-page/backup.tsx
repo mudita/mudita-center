@@ -11,7 +11,7 @@ import { Backup } from "settings/ui"
 export const SettingsBackupPage: FunctionComponent = () => {
   const changeSettings = async () => {
     const settings = await AppSettings.get()
-    AppSettings.set({
+    void AppSettings.set({
       user: {
         privacyPolicyAccepted: !settings.user.privacyPolicyAccepted,
       },

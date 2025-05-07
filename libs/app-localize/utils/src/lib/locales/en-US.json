@@ -1,4 +1,9 @@
 {
+  "general.privacyPolicyModal.title": "Privacy Policy",
+  "general.privacyPolicyModal.description": "Please read and agree to the Privacy policy to be able to use Mudita Center.",
+  "general.privacyPolicyModal.link.text": "Read the Privacy Policy",
+  "general.privacyPolicyModal.link.url": "https://mudita.com/pl/privacy-policy/",
+  "general.privacyPolicyModal.button.text": "Agree",
   "menu.app.title": "Mudita Center",
   "page.news.title": "News",
   "page.news.headerTitle": "Mudita News",

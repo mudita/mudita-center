@@ -16,6 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "app-init/feature": ["libs/app-init/feature/src/index.ts"],
+      "app-init/ui": ["libs/app-init/ui/src/index.ts"],
       "app-localize/feature": ["libs/app-localize/feature/src/index.ts"],
       "app-localize/utils": ["libs/app-localize/utils/src/index.ts"],
       "app-routing/feature": ["libs/app-routing/feature/src/index.ts"],
@@ -41,6 +43,7 @@
       "app-theme/utils": ["libs/app-theme/utils/src/index.ts"],
       "app-utils/main": ["libs/app-utils/main/src/index.ts"],
       "app-utils/models": ["libs/app-utils/models/src/index.ts"],
+      "app-utils/renderer": ["libs/app-utils/renderer/src/index.ts"],
       "devices/api-device/adapters": [
         "libs/devices/api-device/adapters/src/index.ts"
       ],

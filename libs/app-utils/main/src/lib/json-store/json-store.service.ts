@@ -7,8 +7,8 @@ import path from "path"
 import { app } from "electron"
 import fs from "fs-extra"
 import lodash from "lodash"
-import { DotNotation, DotValue, ExpandPaths } from "./json-store.types"
-import { NestedPartial } from "app-utils/models"
+import { ExpandPaths } from "./json-store.types"
+import { DotNotation, DotValue, NestedPartial } from "app-utils/models"
 import logger from "electron-log"
 
 export class JsonStoreService<Data extends Record<string, unknown>> {

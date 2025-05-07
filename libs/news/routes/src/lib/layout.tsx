@@ -12,6 +12,7 @@ import { defineMessages, formatMessage } from "app-localize/utils"
 import { Button } from "app-theme/ui"
 import styled from "styled-components"
 import { NewsTestId } from "news/models"
+import { ButtonSize } from "app-theme/models"
 
 export const messages = defineMessages({
   title: {
@@ -34,7 +35,7 @@ export const NewsLayout = () => {
       <DashboardHeaderTitle title={formatMessage(messages.headerTitle)} />
       <DashboardHeaderPortal placement={"right"}>
         <MoreNewsButton
-          size={"large"}
+          size={ButtonSize.Large}
           to={formatMessage(messages.buttonLink)}
           data-testid={NewsTestId.MoreNewsButton}
         >

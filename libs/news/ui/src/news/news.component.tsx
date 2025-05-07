@@ -7,20 +7,30 @@ import { FunctionComponent } from "react"
 import styled from "styled-components"
 import Cards from "../cards/cards.component"
 import { NewsItem } from "news/models"
+import { Icon } from "app-theme/ui"
+import { IconSize, IconType } from "app-theme/models"
 
 const MuditaNews = styled.section`
   overflow: auto;
   padding: 3.5rem 3rem 0 3.2rem;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 interface NewsProps {
-  newsItems: NewsItem[]
+  newsItems?: NewsItem[]
 }
 
 export const News: FunctionComponent<NewsProps> = ({ newsItems }) => {
   return (
     <MuditaNews>
-      <Cards newsItems={newsItems} />
+      {newsItems ? (
+        <Cards newsItems={newsItems} />
+      ) : (
+        <Icon type={IconType.Spinner} size={IconSize.Large} />
+      )}
     </MuditaNews>
   )
 }

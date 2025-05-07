@@ -7,8 +7,8 @@ import path from "path"
 import { app } from "electron"
 import { AppSettings } from "app-settings/models"
 import { JsonStoreService, MigrationService } from "app-utils/main"
-import { NestedPartial } from "app-utils/models"
 import { migrations } from "./migrations"
+import { DotNotation, NestedPartial } from "app-utils/models"
 
 export class AppSettingsService {
   private readonly jsonStore: JsonStoreService<AppSettings>
@@ -47,7 +47,10 @@ export class AppSettingsService {
     return this.jsonStore.path
   }
 
-  get() {
+  get<P extends DotNotation<AppSettings>>(path?: P) {
+    if (path) {
+      return this.jsonStore.get(path)
+    }
     return this.jsonStore.get()
   }
 
