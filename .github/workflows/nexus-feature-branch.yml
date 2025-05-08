@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         runner_label: [linux-nexus, windows-nexus, macos-nexus]
-        node-version: [22]
+        node-version: [22.15.0]
     environment: development
     steps:
       - name: Checkout code
