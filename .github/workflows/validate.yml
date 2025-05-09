@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [Linux]
-        node-version: [22]
+        node-version: [22.15.0]
     timeout-minutes: 40
     environment: development
     steps:
