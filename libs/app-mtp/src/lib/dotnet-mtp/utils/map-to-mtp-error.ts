@@ -9,6 +9,8 @@ import { DotnetCliStatusCode } from "../dotnet-mtp.interface"
 export function translateStatus(statusCode: DotnetCliStatusCode): MTPError {
   if (statusCode === DotnetCliStatusCode.UnknownDevice) {
     return MTPError.MTP_DEVICE_NOT_FOUND
+  } else if (statusCode === DotnetCliStatusCode.NotEnoughSpace) {
+    return MTPError.MTP_NOT_ENOUGH_SPACE
   } else {
     return MTPError.MTP_GENERAL_ERROR
   }
