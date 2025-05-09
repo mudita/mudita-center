@@ -16,15 +16,18 @@ export enum IconType {
   MuditaLogoFull = "mudita-logo-full",
   News = "news",
   Overview = "overview",
+  PasswordHide = "password-hide",
+  PasswordShow = "password-show",
+  Search = "search",
   Settings = "settings",
   Spinner = "spinner",
 }
 
 export enum IconSize {
-  Tiny = "tiny",
-  Small = "small",
-  Medium = "medium",
-  Big = "big",
-  Large = "large",
-  AutoMax = "auto-max",
+  Tiny = "tiny", // 1.6rem
+  Small = "small", // 2rem
+  Medium = "medium", // 2.4rem
+  Big = "big", // 3.2rem
+  Large = "large", // 4rem
+  AutoMax = "auto-max", // 100%
 }
