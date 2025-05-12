@@ -13,7 +13,7 @@ import {
 import styled, { css } from "styled-components"
 import { TextInputVariant } from "app-theme/models"
 import { TextInputPassword } from "./text-input-password"
-import { Input, Slot } from "./text-input-shared"
+import { Input, Placeholder, Slot, TextInputDefault } from "./text-input-shared"
 
 type FilledProps = {
   variant: TextInputVariant.Filled
@@ -34,6 +34,7 @@ type TextTypeProps = {
     | "email"
     | "month"
     | "number"
+    | "password"
     | "search"
     | "tel"
     | "text"
@@ -70,14 +71,13 @@ export const TextInput: FunctionComponent<Props> = ({
 }) => {
   const uid = useId()
   const id = `text-input-${uid}`
-  const labelId = `${id}-label`
 
   const InputComponent = useMemo(() => {
     switch (type) {
       case "password":
-        return TextInputPassword
+        return TextInputPassword as typeof Input
       default:
-        return Input
+        return TextInputDefault
     }
   }, [type])
 
@@ -91,20 +91,13 @@ export const TextInput: FunctionComponent<Props> = ({
   return (
     <Wrapper {...rest} className={className} style={style}>
       <InputWrapper $variant={variant} $error={Boolean(error)} htmlFor={id}>
-        <Placeholder>
-          {slots.leftSlot}
-          <span id={labelId}>{placeholder}</span>
-          {slots.rightSlot}
-        </Placeholder>
-        {slots.leftSlot}
         <InputComponent
-          {...rest}
           id={id}
-          aria-labelledby={labelId}
-          placeholder={""}
+          placeholder={placeholder}
           type={type}
+          {...rest}
+          {...slots}
         />
-        {slots.rightSlot}
       </InputWrapper>
       {variant === TextInputVariant.Filled && (
         <Error>{error || <>&nbsp;</>}</Error>
@@ -117,43 +110,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-`
-
-const textStyles = css`
-  font-size: ${({ theme }) => theme.app.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.app.lineHeight.paragraph3};
-  letter-spacing: 0.05em;
-`
-
-const Placeholder = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: inherit;
-  gap: inherit;
-  margin: 0;
-  user-select: none;
-  z-index: 1;
-
-  ${Slot} {
-    height: 0;
-    opacity: 0;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  span {
-    flex: 1;
-    ${textStyles};
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 `
 
 const filledInputStyles = css<{ $error?: boolean }>`
@@ -245,14 +201,10 @@ const InputWrapper = styled.label<{
   align-items: center;
   gap: 0.4rem;
   position: relative;
+  font-size: 1rem;
 
   ${({ $variant }) => $variant === "filled" && filledInputStyles};
   ${({ $variant }) => $variant === "outlined" && outlinedInputStyles};
-
-  > ${Slot} {
-    visibility: visible;
-    z-index: 2;
-  }
 `
 
 const Error = styled.span`
@@ -261,4 +213,5 @@ const Error = styled.span`
   font-size: ${({ theme }) => theme.app.fontSize.labelText};
   line-height: ${({ theme }) => theme.app.lineHeight.labelText};
   letter-spacing: 0.04em;
+  user-select: none;
 `

@@ -3,55 +3,68 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  FunctionComponent,
-  InputHTMLAttributes,
-  useCallback,
-  useState,
-} from "react"
-import { IconButton } from "../../icon-button/icon-button"
+import { FunctionComponent, useCallback, useMemo, useState } from "react"
 import { IconSize, IconType } from "app-theme/models"
 import { styled } from "styled-components"
-import { Input, Slot } from "./text-input-shared"
+import {
+  Input,
+  Placeholder,
+  Slot,
+  TextInputInnerProps,
+} from "./text-input-shared"
+import { Icon } from "../../icon/icon"
 
-type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
-  type: "password"
-}
-
-export const TextInputPassword: FunctionComponent<Props> = ({ ...rest }) => {
+export const TextInputPassword: FunctionComponent<TextInputInnerProps> = ({
+  id,
+  leftSlot,
+  rightSlot: unusedSlot,
+  placeholder,
+  ...rest
+}) => {
+  const labelId = `${id}-label`
   const [passwordVisible, setPasswordVisible] = useState(false)
 
-  const hidePassword = useCallback(() => {
-    setPasswordVisible(false)
+  const togglePasswordVisibility = useCallback(() => {
+    setPasswordVisible((prevState) => !prevState)
   }, [])
 
-  const showPassword = useCallback(() => {
-    setPasswordVisible(true)
-  }, [])
+  const rightSlot = useMemo(() => {
+    return (
+      <PasswordSlot
+        $visible={passwordVisible}
+        onClick={togglePasswordVisibility}
+      >
+        <Icon type={IconType.PasswordHide} size={IconSize.Big} />
+        <Icon type={IconType.PasswordShow} size={IconSize.Big} />
+      </PasswordSlot>
+    )
+  }, [passwordVisible, togglePasswordVisibility])
 
   return (
     <>
-      <PasswordInput {...rest} type={passwordVisible ? "text" : "password"} />
-      <PasswordSlot $visible={passwordVisible}>
-        <IconButton
-          icon={IconType.PasswordHide}
-          size={IconSize.Big}
-          onClick={showPassword}
-        />
-        <IconButton
-          icon={IconType.PasswordShow}
-          size={IconSize.Big}
-          onClick={hidePassword}
-        />
-      </PasswordSlot>
+      {leftSlot}
+      <PasswordInput
+        {...rest}
+        type={passwordVisible ? "text" : "password"}
+        placeholder={""}
+      />
+      {rightSlot}
+      <Placeholder>
+        {leftSlot}
+        <span id={labelId}>{placeholder}</span>
+        {rightSlot}
+      </Placeholder>
     </>
   )
 }
 
 const PasswordSlot = styled(Slot)<{ $visible: boolean }>`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
 
-  button {
+  > div {
     transition-property: opacity, visibility;
     transition-duration: 0.2s;
     transition-timing-function: ease-in-out;
@@ -59,12 +72,10 @@ const PasswordSlot = styled(Slot)<{ $visible: boolean }>`
 
     &:first-child {
       opacity: ${({ $visible }) => ($visible ? 0 : 1)};
-      visibility: ${({ $visible }) => ($visible ? "hidden" : "visible")};
     }
     &:last-child {
       margin-top: -100%;
       opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-      visibility: ${({ $visible }) => ($visible ? "visible" : "hidden")};
     }
   }
 `
