@@ -4,7 +4,7 @@
  */
 
 import { css, styled } from "styled-components"
-import { FunctionComponent, ReactNode } from "react"
+import { FunctionComponent, ReactNode, Ref } from "react"
 
 export const textStyles = css`
   font-size: ${({ theme }) => theme.app.fontSize.paragraph3};
@@ -14,7 +14,7 @@ export const textStyles = css`
 
 export const Input = styled.input`
   position: relative;
-  z-index: 2;
+  z-index: 4;
   appearance: none;
   background: none;
   border: none;
@@ -26,12 +26,12 @@ export const Input = styled.input`
 `
 
 export const Slot = styled.div`
-  visibility: visible;
-  z-index: 2;
+  z-index: 5;
 `
 
 export const Placeholder = styled.div`
   position: absolute;
+  z-index: 3;
   left: 0;
   top: 0;
   width: 100%;
@@ -43,7 +43,6 @@ export const Placeholder = styled.div`
   gap: inherit;
   margin: 0;
   user-select: none;
-  z-index: 1;
 
   span {
     flex: 1;
@@ -63,6 +62,7 @@ export interface TextInputInnerProps {
   leftSlot?: ReactNode
   rightSlot?: ReactNode
   placeholder?: string
+  ref?: Ref<HTMLInputElement>
 }
 
 export const TextInputDefault: FunctionComponent<TextInputInnerProps> = ({

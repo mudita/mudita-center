@@ -30,15 +30,12 @@ export const TextInputPassword: FunctionComponent<TextInputInnerProps> = ({
 
   const rightSlot = useMemo(() => {
     return (
-      <PasswordSlot
-        $visible={passwordVisible}
-        onClick={togglePasswordVisibility}
-      >
+      <PasswordSlot onClick={togglePasswordVisibility} as={"button"}>
         <Icon type={IconType.PasswordHide} size={IconSize.Big} />
         <Icon type={IconType.PasswordShow} size={IconSize.Big} />
       </PasswordSlot>
     )
-  }, [passwordVisible, togglePasswordVisibility])
+  }, [togglePasswordVisibility])
 
   return (
     <>
@@ -58,24 +55,25 @@ export const TextInputPassword: FunctionComponent<TextInputInnerProps> = ({
   )
 }
 
-const PasswordSlot = styled(Slot)<{ $visible: boolean }>`
+const PasswordSlot = styled(Slot)`
   position: relative;
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
 
   > div {
-    transition-property: opacity, visibility;
+    transition-property: opacity;
     transition-duration: 0.2s;
     transition-timing-function: ease-in-out;
     background-color: transparent !important;
 
-    &:first-child {
-      opacity: ${({ $visible }) => ($visible ? 0 : 1)};
-    }
     &:last-child {
       margin-top: -100%;
-      opacity: ${({ $visible }) => ($visible ? 1 : 0)};
     }
   }
 `
@@ -86,5 +84,25 @@ const PasswordInput = styled(Input)`
     letter-spacing: 0.13em;
     font-weight: bold;
     font-size: 1.8rem;
+
+    & + ${PasswordSlot} > div {
+      &:first-child {
+        opacity: 0;
+      }
+      &:last-child {
+        opacity: 1;
+      }
+    }
+  }
+
+  &[type="text"] {
+    & + ${PasswordSlot} > div {
+      &:first-child {
+        opacity: 1;
+      }
+      &:last-child {
+        opacity: 0;
+      }
+    }
   }
 `

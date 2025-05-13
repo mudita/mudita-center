@@ -6,6 +6,10 @@
 import { createGlobalStyle } from "styled-components"
 
 export const GlobalStyle = createGlobalStyle`
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
   html {
     background-color: ${({ theme }) => theme.app.color.grey6};
     font-family: GT Pressura, Roboto Condensed, sans-serif;

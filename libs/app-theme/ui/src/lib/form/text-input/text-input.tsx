@@ -4,8 +4,8 @@
  */
 
 import {
+  ComponentProps,
   FunctionComponent,
-  InputHTMLAttributes,
   ReactNode,
   useId,
   useMemo,
@@ -14,6 +14,7 @@ import styled, { css } from "styled-components"
 import { TextInputVariant } from "app-theme/models"
 import { TextInputPassword } from "./text-input-password"
 import { Input, Placeholder, Slot, TextInputDefault } from "./text-input-shared"
+import { TextInputDropdown, TextInputSearch } from "./text-input-search"
 
 type FilledProps = {
   variant: TextInputVariant.Filled
@@ -21,7 +22,7 @@ type FilledProps = {
 }
 
 type OutlinedProps = {
-  variant: TextInputVariant.Outlined
+  variant?: TextInputVariant.Outlined
   error?: undefined
 }
 
@@ -35,7 +36,6 @@ type TextTypeProps = {
     | "month"
     | "number"
     | "password"
-    | "search"
     | "tel"
     | "text"
     | "time"
@@ -51,18 +51,24 @@ type PasswordTypeProps = {
   rightSlot?: undefined
 }
 
-type InputProps = TextTypeProps | PasswordTypeProps
+type SearchTypeProps = {
+  type: "search"
+  dropdown?: ReactNode
+  leftSlot?: undefined
+  rightSlot?: undefined
+}
 
-type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> &
-  InputWrapperProps &
-  InputProps
+type InputProps = TextTypeProps | PasswordTypeProps | SearchTypeProps
 
-export const TextInput: FunctionComponent<Props> = ({
+type Props = ComponentProps<typeof Input> & InputWrapperProps & InputProps
+
+export const TextInput: FunctionComponent<Props> & {
+  Dropdown: typeof TextInputDropdown
+} = ({
   variant = TextInputVariant.Outlined,
   type = "text",
   placeholder,
   error,
-  style,
   className,
   leftSlot,
   rightSlot,
@@ -76,8 +82,10 @@ export const TextInput: FunctionComponent<Props> = ({
     switch (type) {
       case "password":
         return TextInputPassword as typeof Input
+      case "search":
+        return TextInputSearch as typeof Input
       default:
-        return TextInputDefault
+        return TextInputDefault as typeof Input
     }
   }, [type])
 
@@ -89,7 +97,7 @@ export const TextInput: FunctionComponent<Props> = ({
   }, [leftSlot, rightSlot])
 
   return (
-    <Wrapper {...rest} className={className} style={style}>
+    <Wrapper {...rest} className={className}>
       <InputWrapper $variant={variant} $error={Boolean(error)} htmlFor={id}>
         <InputComponent
           id={id}
@@ -105,11 +113,19 @@ export const TextInput: FunctionComponent<Props> = ({
     </Wrapper>
   )
 }
+TextInput.Dropdown = TextInputDropdown
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  position: relative;
+  z-index: 1;
+  transition: z-index 0.2s ease-in-out;
+
+  &:focus-within {
+    z-index: 2;
+  }
 `
 
 const filledInputStyles = css<{ $error?: boolean }>`
