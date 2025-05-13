@@ -11,6 +11,8 @@ export function translateStatus(statusCode: DotnetCliStatusCode): MTPError {
     return MTPError.MTP_DEVICE_NOT_FOUND
   } else if (statusCode === DotnetCliStatusCode.NotEnoughSpace) {
     return MTPError.MTP_NOT_ENOUGH_SPACE
+  } else if (statusCode === DotnetCliStatusCode.ServiceUnavailable) {
+    return MTPError.MTP_INITIALIZE_ACCESS_ERROR
   } else {
     return MTPError.MTP_GENERAL_ERROR
   }

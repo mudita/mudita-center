@@ -102,6 +102,15 @@ export class MtpFileTransferService {
         ? ApiFileTransferError.MtpInitializeAccessError
         : ApiFileTransferError.Unknown
 
-    return { ...result, error: new AppError(errorType, result.error.message) }
+    const apiError: AppError<ApiFileTransferError> = {
+      type: errorType,
+      message: result.error.message,
+      name: "",
+    }
+
+    return {
+      ...result,
+      error: apiError,
+    }
   }
 }

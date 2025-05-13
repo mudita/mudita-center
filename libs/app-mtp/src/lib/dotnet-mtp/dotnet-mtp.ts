@@ -86,7 +86,11 @@ export class DotnetMtp implements MtpInterface {
       (line: string) => {
         const errorType = translateStatus(JSON.parse(line).status)
         appError = { type: errorType } as AppError
-        console.error(`${PREFIX_LOG} stderr: ${JSON.stringify(appError)}`)
+        console.error(
+          `${PREFIX_LOG} stderr: line: ${JSON.stringify(
+            line
+          )} error: ${JSON.stringify(appError)}`
+        )
       }
     )
 
