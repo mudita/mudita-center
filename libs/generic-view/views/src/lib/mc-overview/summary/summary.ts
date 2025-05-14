@@ -77,7 +77,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
               },
             },
             config: {
-              label: config.deviceVersionLabel || "Device type",
+              label: config.deviceVersionLabel,
             },
           },
         }
