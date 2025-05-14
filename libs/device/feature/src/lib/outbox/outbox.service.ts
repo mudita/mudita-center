@@ -30,6 +30,9 @@ export class APIOutboxService {
     const response = await device.request({
       endpoint: "OUTBOX",
       method: "GET",
+      options: {
+        connectionTimeOut: 5000,
+      },
     })
     if (response.ok) {
       const outbox = OutboxValidator.safeParse(response.data.body)
