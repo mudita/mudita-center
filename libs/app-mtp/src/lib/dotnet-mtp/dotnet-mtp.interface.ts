@@ -17,5 +17,6 @@ export enum DotnetCliStatusCode {
   UnknownDevice = 404,
   BadRequest = 405,
   GeneralError = 500,
+  ServiceUnavailable = 503,
   NotEnoughSpace = 507,
 }
