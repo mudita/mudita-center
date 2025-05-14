@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Searching for MTP processes (libusb)..."
-PIDS=$(lsof +c 0 2>/dev/null | grep -Ei 'libusb|IOUSBLib' | grep -vi 'node' | awk '{print $2}' | sort -u)
+PIDS=$(lsof +c 0 2>/dev/null | grep -Ei 'libusb|IOUSBLib' | grep -vi 'node' | grep -vi 'electron' | awk '{print $2}' | sort -u)
 
 if [ -z "$PIDS" ]; then
   echo "libusb / MTP processes - not found"
@@ -28,6 +28,7 @@ APPS=(
   "WhatsApp"
   "Lightroom"
   "Preview"
+  "iMovie"
 )
 
 for app in "${APPS[@]}"; do

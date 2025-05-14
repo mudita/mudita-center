@@ -31,6 +31,9 @@ export enum MTPError {
   MTP_READ_FAILURE = "MTP_READ_FAILURE",
   MTP_WRITE_TIMEOUT = "MTP_WRITE_TIMEOUT",
   MTP_GENERAL_ERROR = "MTP_GENERAL_ERROR",
+  MTP_PROCESS_CANCELLED = "MTP_PROCESS_CANCELLED",
+  MTP_INITIALIZE_ACCESS_ERROR = "MTP_INITIALIZE_ACCESS_ERROR",
+  MTP_NOT_ENOUGH_SPACE = "MTP_NOT_ENOUGH_SPACE",
 }
 
 export interface MtpUploadFileData {
@@ -44,13 +47,17 @@ export interface UploadFileResultData {
   transactionId: string
 }
 
-export interface GetUploadFileProgress {
+export interface UploadTransactionData {
   transactionId: string
 }
 
 export interface GetUploadFileProgressResultData {
   progress: number
 }
+
+export interface CancelUploadFileResultData {}
+
+export interface CancelUploadResultData {}
 
 export interface MtpInterface {
   getDevices(): Promise<MtpDevice[]>
@@ -62,6 +69,10 @@ export interface MtpInterface {
   ): Promise<ResultObject<UploadFileResultData>>
 
   getUploadFileProgress(
-    data: GetUploadFileProgress
+    data: UploadTransactionData
   ): Promise<ResultObject<GetUploadFileProgressResultData>>
+
+  cancelUpload(
+    data: UploadTransactionData
+  ): Promise<ResultObject<CancelUploadResultData>>
 }

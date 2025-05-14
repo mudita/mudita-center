@@ -68,7 +68,7 @@ export const ModalContent = styled.div`
     margin-bottom: -1rem;
   }
 
-  p {
+  p:not(.modal-content-original-paragraph) {
     font-size: ${({ theme }) => theme.fontSize.paragraph1};
     line-height: ${({ theme }) => theme.lineHeight.paragraph1};
     text-align: center;

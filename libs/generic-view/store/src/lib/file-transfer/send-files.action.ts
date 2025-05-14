@@ -10,7 +10,12 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { AppError } from "Core/core/errors"
 import { ActionName } from "../action-names"
 import { FileBase } from "./reducer"
-import { sendFilesAbortRegister, sendFilesError } from "./actions"
+import {
+  sendFilesAbortRegister,
+  sendFilesError,
+  setFilesTransferMode,
+  setModeWithProgressReset,
+} from "./actions"
 import {
   sendFileViaMTP,
   SendFileViaMTPPayload,
@@ -18,6 +23,8 @@ import {
 import { getMtpSendFileMetadata } from "./get-mtp-send-file-metadata.action"
 import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
 import { FilesTransferMode } from "./files-transfer-mode.type"
+import { isMtpInitializeAccessError } from "./is-mtp-initialize-access-error"
+import { selectFilesTransferMode } from "../selectors/file-transfer-sending"
 
 export interface SendFilesPayload {
   actionId: string
@@ -53,84 +60,40 @@ export const sendFiles = createAsyncThunk<
     }
     signal.addEventListener("abort", abortListener)
 
-    const filesTransferMode = getState().genericFileTransfer.filesTransferMode
+    let filesTransferMode = selectFilesTransferMode(getState())
 
     let mtpSendFileMetadata: Omit<SendFileViaMTPPayload, "file"> | undefined =
       undefined
 
-    if (filesTransferMode === FilesTransferMode.Mtp) {
-      const getMtpSendFileMetadataDispatch = dispatch(
-        getMtpSendFileMetadata({ destinationPath, customDeviceId })
-      )
+    if (filesTransferMode !== FilesTransferMode.Mtp) {
+      dispatch(setFilesTransferMode(FilesTransferMode.Mtp))
+    }
 
-      getMtpSendFileMetadataAbortController.abort = (
-        getMtpSendFileMetadataDispatch as unknown as {
-          abort: AbortController["abort"]
-        }
-      ).abort
+    const getMtpSendFileMetadataDispatch = dispatch(
+      getMtpSendFileMetadata({ destinationPath, customDeviceId })
+    )
 
-      const { meta, payload } = await getMtpSendFileMetadataDispatch
-
-      if (meta.requestStatus === "fulfilled" && payload !== undefined) {
-        mtpSendFileMetadata = payload as Omit<SendFileViaMTPPayload, "file">
-      } else if (meta.requestStatus === "rejected" && meta.aborted) {
-        const error = new AppError(ApiFileTransferError.Aborted, "Aborted")
-        return rejectWithValue(error)
-      } else {
-        // TODO: handle switch from mtp error to serial port transfer
-        const error =
-          payload instanceof AppError
-            ? payload
-            : new AppError(ApiFileTransferError.Unknown)
-        return rejectWithValue(error)
+    getMtpSendFileMetadataAbortController.abort = (
+      getMtpSendFileMetadataDispatch as unknown as {
+        abort: AbortController["abort"]
       }
+    ).abort
+
+    const { meta, payload } = await getMtpSendFileMetadataDispatch
+
+    if (meta.requestStatus === "fulfilled" && payload !== undefined) {
+      mtpSendFileMetadata = payload as Omit<SendFileViaMTPPayload, "file">
+    } else if (meta.requestStatus === "rejected" && meta.aborted) {
+      const error = new AppError(ApiFileTransferError.Aborted, "Aborted")
+      return rejectWithValue(error)
+    } else {
+      dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
     }
 
     for (const file of files) {
-      if (
-        "path" in file &&
-        filesTransferMode === FilesTransferMode.Mtp &&
-        mtpSendFileMetadata !== undefined
-      ) {
-        const sendFileBaseDispatch = dispatch(
-          sendFileViaMTP({
-            ...mtpSendFileMetadata,
-            file,
-          })
-        )
+      filesTransferMode = selectFilesTransferMode(getState())
 
-        sendFileAbortController.abort = (
-          sendFileBaseDispatch as unknown as { abort: AbortController["abort"] }
-        ).abort
-
-        const { meta, payload } = await sendFileBaseDispatch
-
-        if (meta.requestStatus === "rejected" && meta.aborted) {
-          const error = new AppError(ApiFileTransferError.Aborted, "Aborted")
-          dispatch(
-            sendFilesError({
-              id: file.id,
-              error,
-            })
-          )
-          return rejectWithValue(error)
-        }
-
-        if (meta.requestStatus === "rejected") {
-          // TODO: handle switch from mtp error to serial port transfer
-          const error =
-            payload instanceof AppError
-              ? payload
-              : new AppError(ApiFileTransferError.Unknown)
-
-          dispatch(
-            sendFilesError({
-              id: file.id,
-              error,
-            })
-          )
-        }
-      } else {
+      const handleSendFileViaSerialPort = async () => {
         const sendFileBaseDispatch = dispatch(
           sendFileViaSerialPort({
             destinationPath,
@@ -170,6 +133,61 @@ export const sendFiles = createAsyncThunk<
             })
           )
         }
+        return
+      }
+
+      if (
+        "path" in file &&
+        filesTransferMode === FilesTransferMode.Mtp &&
+        mtpSendFileMetadata !== undefined
+      ) {
+        const sendFileBaseDispatch = dispatch(
+          sendFileViaMTP({
+            ...mtpSendFileMetadata,
+            file,
+          })
+        )
+
+        sendFileAbortController.abort = (
+          sendFileBaseDispatch as unknown as { abort: AbortController["abort"] }
+        ).abort
+
+        const { meta, payload } = await sendFileBaseDispatch
+
+        if (meta.requestStatus === "rejected" && meta.aborted) {
+          const error = new AppError(ApiFileTransferError.Aborted, "Aborted")
+          dispatch(
+            sendFilesError({
+              id: file.id,
+              error,
+            })
+          )
+          return rejectWithValue(error)
+        }
+
+        if (isMtpInitializeAccessError(payload)) {
+          dispatch(
+            setModeWithProgressReset({
+              fileId: file.id,
+              filesTransferMode: FilesTransferMode.SerialPort,
+            })
+          )
+          await handleSendFileViaSerialPort()
+        } else if (meta.requestStatus === "rejected") {
+          const error =
+            payload instanceof AppError
+              ? payload
+              : new AppError(ApiFileTransferError.Unknown)
+
+          dispatch(
+            sendFilesError({
+              id: file.id,
+              error,
+            })
+          )
+        }
+      } else {
+        await handleSendFileViaSerialPort()
       }
     }
 

@@ -8,4 +8,5 @@ export enum MtpFileTransferServiceEvents {
   GetMtpDeviceId = "mtp-file-transfer/get-mtp-device-id",
   GetDeviceStorages = "mtp-file-transfer/get-device-storages",
   GetSendFileProgress = "mtp-file-transfer/get-send-file-progress",
+  CancelSendFile = "mtp-file-transfer/cancel-send-file",
 }

@@ -6,17 +6,21 @@
 import { PortInfo } from "serialport"
 import { ipcRenderer } from "electron-better-ipc"
 import {
+  CancelUploadFileResultData,
   GetUploadFileProgressResultData,
   MtpStorage,
   MtpUploadFileData,
   UploadFileResultData,
 } from "app-mtp"
-import { MtpFileTransferServiceEvents } from "device/models"
+import {
+  ApiFileTransferError,
+  MtpFileTransferServiceEvents,
+} from "device/models"
 import { ResultObject } from "Core/core/builder"
 
 export const startSendFileViaMtpRequest = (
   payload: MtpUploadFileData
-): Promise<ResultObject<UploadFileResultData>> => {
+): Promise<ResultObject<UploadFileResultData, ApiFileTransferError>> => {
   return ipcRenderer.callMain(
     MtpFileTransferServiceEvents.StartSendFile,
     payload
@@ -24,9 +28,20 @@ export const startSendFileViaMtpRequest = (
 }
 export const getSendFileProgressViaMtpRequest = (
   transactionId: string
-): Promise<ResultObject<GetUploadFileProgressResultData>> => {
+): Promise<
+  ResultObject<GetUploadFileProgressResultData, ApiFileTransferError>
+> => {
   return ipcRenderer.callMain(
     MtpFileTransferServiceEvents.GetSendFileProgress,
+    transactionId
+  )
+}
+
+export const cancelSendFileViaMtpRequest = (
+  transactionId: string
+): Promise<ResultObject<CancelUploadFileResultData, ApiFileTransferError>> => {
+  return ipcRenderer.callMain(
+    MtpFileTransferServiceEvents.CancelSendFile,
     transactionId
   )
 }
@@ -42,7 +57,7 @@ export const getMtpDeviceIdRequest = (
 
 export const getDeviceStoragesRequest = (
   deviceId: string
-): Promise<ResultObject<MtpStorage[]>> => {
+): Promise<ResultObject<MtpStorage[], ApiFileTransferError>> => {
   return ipcRenderer.callMain(
     MtpFileTransferServiceEvents.GetDeviceStorages,
     deviceId

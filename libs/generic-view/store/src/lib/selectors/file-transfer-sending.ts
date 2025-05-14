@@ -17,6 +17,11 @@ const selectFilesSending = createSelector(
   (genericFileTransfer) => genericFileTransfer.filesTransferSend
 )
 
+export const selectFilesTransferMode = createSelector(
+  (state: ReduxRootState) => state.genericFileTransfer,
+  (genericFileTransfer) => genericFileTransfer.filesTransferMode
+)
+
 const selectFilesSendingGroup = createSelector(
   selectFilesSending,
   (
@@ -157,9 +162,9 @@ export const selectValidationFailureType = createSelector(
   (state: ReduxRootState) => state.genericFileTransfer,
   (state: ReduxRootState, uploadActionId: string) => uploadActionId,
   (genericFileTransfer, uploadActionId) => {
-    const error = genericFileTransfer.filesTransferErrors?.[uploadActionId]?.find(
-      ({ type }) => type
-    )
+    const error = genericFileTransfer.filesTransferErrors?.[
+      uploadActionId
+    ]?.find(({ type }) => type)
     return error?.error
   }
 )
