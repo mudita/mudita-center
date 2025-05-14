@@ -13,6 +13,7 @@ import {
   sendFilesChunkSent,
   sendFilesFinished,
   sendFilesPreSend,
+  trackInfo,
 } from "./actions"
 import {
   abortTransferRequest,
@@ -22,6 +23,7 @@ import {
 import { ApiFileTransferError } from "device/models"
 import { AppError } from "Core/core/errors"
 import { createEntityDataAction } from "../entities/create-entity-data.action"
+import { FilesTransferMode } from "./files-transfer-mode.type"
 
 export interface SendFileViaSerialPortPayload {
   file: FileBase
@@ -48,6 +50,7 @@ export const sendFileViaSerialPort = createAsyncThunk<
         new AppError(ApiFileTransferError.Unknown, "Device not found")
       )
     }
+    dispatch(trackInfo({ mode: FilesTransferMode.SerialPort, fileId: file.id }))
 
     const createEntityDataAbortController = new AbortController()
 
