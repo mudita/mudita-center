@@ -1,6 +1,19 @@
-<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M7.40234 21.0001C7.40234 13.4827 13.486 7.40015 21.0023 7.40015C28.5198 7.40015 34.6023 13.4838 34.6023 21.0001C34.6023 28.5176 28.5188 34.6001 21.0023 34.6001C13.4849 34.6001 7.40234 28.5165 7.40234 21.0001ZM12.1871 29.8154C17.0597 34.688 24.9457 34.6873 29.8177 29.8154C34.6784 24.9547 34.6784 17.0456 29.8177 12.1848C24.9451 7.31218 17.0589 7.31292 12.1871 12.1848C7.32631 17.0456 7.32631 24.9547 12.1871 29.8154Z" fill="black"/>
-<path d="M18.4531 26.1001H23.5531" stroke="black" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M20.6387 16.5072C21.0411 16.5072 21.3673 16.181 21.3673 15.7786C21.3673 15.3762 21.0411 15.05 20.6387 15.05C20.2364 15.05 19.9102 15.3762 19.9102 15.7786C19.9102 16.181 20.2364 16.5072 20.6387 16.5072Z" stroke="black" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M21.0047 26.1001V19.3H19.3047" stroke="black" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="information-circle--information-frame-info-more-help-point-circle">
+        <path id="Vector"
+              d="M8.49891 15.9822C12.6319 15.9822 15.9822 12.6319 15.9822 8.49891C15.9822 4.36601 12.6319 1.01562 8.49891 1.01562C4.36601 1.01562 1.01562 4.36601 1.01562 8.49891C1.01562 12.6319 4.36601 15.9822 8.49891 15.9822Z"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <path id="Vector_2" d="M6.77344 11.9531H10.2273" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+        <path id="Vector_3" d="M8.49893 11.9513V7.92188H7.34766" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" />
+        <g id="Group 2605">
+            <path id="Ellipse 1111"
+                  d="M8.49876 5.33345C8.3398 5.33345 8.21094 5.20459 8.21094 5.04563C8.21094 4.88667 8.3398 4.75781 8.49876 4.75781"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path id="Ellipse 1112"
+                  d="M8.5 5.33345C8.65896 5.33345 8.78782 5.20459 8.78782 5.04563C8.78782 4.88668 8.65896 4.75781 8.5 4.75781"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+    </g>
 </svg>

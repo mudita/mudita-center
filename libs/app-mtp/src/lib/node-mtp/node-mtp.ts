@@ -7,7 +7,8 @@ import path from "node:path"
 import fs from "node:fs"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
-  GetUploadFileProgress,
+  CancelUploadResultData,
+  UploadTransactionData,
   GetUploadFileProgressResultData,
   MtpDevice,
   MTPError,
@@ -23,7 +24,7 @@ import {
   ResultObject,
 } from "../../../../core/core/builder/result.builder"
 import { AppError } from "../../../../core/core/errors/app-error"
-import { handleMtpError } from "../utils/handle-mtp-error"
+import { handleMtpError, mapToMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
 import { mtpUploadChunkSize, rootObjectHandle } from "./mtp-packet-definitions"
 import { ResponseObjectInfo } from "./utils/object-info.interface"
@@ -34,6 +35,7 @@ const PREFIX_LOG = `[app-mtp/node-mtp]`
 
 export class NodeMtp implements MtpInterface {
   private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
+  private abortController: AbortController | undefined
 
   constructor(private deviceManager: NodeMtpDeviceManager) {}
 
@@ -90,7 +92,7 @@ export class NodeMtp implements MtpInterface {
 
   async getUploadFileProgress({
     transactionId,
-  }: GetUploadFileProgress): Promise<
+  }: UploadTransactionData): Promise<
     ResultObject<GetUploadFileProgressResultData>
   > {
     if (this.uploadFileTransactionStatus[transactionId] === undefined) {
@@ -106,6 +108,22 @@ export class NodeMtp implements MtpInterface {
     return Result.success({
       progress: this.uploadFileTransactionStatus[transactionId].progress,
     })
+  }
+
+  async cancelUpload(
+    data: UploadTransactionData
+  ): Promise<ResultObject<CancelUploadResultData>> {
+    if (this.uploadFileTransactionStatus[data.transactionId] !== undefined) {
+      this.abortController?.abort()
+      console.log(
+        `${PREFIX_LOG} Canceling upload for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
+      )
+      return Result.success({})
+    } else {
+      return Result.failed({
+        type: MTPError.MTP_TRANSACTION_NOT_FOUND,
+      } as AppError)
+    }
   }
 
   private async createDirectories(
@@ -194,7 +212,6 @@ export class NodeMtp implements MtpInterface {
         console.log(
           `${PREFIX_LOG} process upload file info error - newObjectID is undefined`
         )
-        return Result.failed(new AppError(MTPError.MTP_GENERAL_ERROR))
       }
 
       return Result.success(newObjectID)
@@ -210,6 +227,7 @@ export class NodeMtp implements MtpInterface {
     transactionId: string
   ): Promise<void> {
     try {
+      this.abortController = new AbortController()
       const startTime = Date.now()
       this.uploadFileTransactionStatus[transactionId] = {
         progress: 0,
@@ -223,8 +241,16 @@ export class NodeMtp implements MtpInterface {
       })
 
       for await (const chunk of fileStream) {
+        if (this.abortController.signal.aborted) {
+          await device.cancelTransaction()
+          this.uploadFileTransactionStatus[transactionId].error = new AppError(
+            MTPError.MTP_PROCESS_CANCELLED,
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${MTPError.MTP_PROCESS_CANCELLED}`
+          )
+          return
+        }
         await device.uploadFileData(chunk)
-
         uploadedBytes += chunk.length
         const progress = (uploadedBytes / size) * 100
         this.uploadFileTransactionStatus[transactionId].progress = progress
@@ -244,11 +270,16 @@ export class NodeMtp implements MtpInterface {
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} process upload file error: ${error}`)
-      this.uploadFileTransactionStatus[transactionId].error = new AppError(
-        MTPError.MTP_GENERAL_ERROR,
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${error}`
-      )
+
+      const mtpError = mapToMtpError(error)
+      this.uploadFileTransactionStatus[transactionId].error =
+        mtpError.type === MTPError.MTP_INITIALIZE_ACCESS_ERROR
+          ? mtpError
+          : new AppError(
+              MTPError.MTP_GENERAL_ERROR,
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${error}`
+            )
     }
   }
 

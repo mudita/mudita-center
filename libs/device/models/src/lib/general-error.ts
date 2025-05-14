@@ -22,6 +22,7 @@ export enum ApiFileTransferError {
   CRCMismatch = 422,
   Unknown = 500,
   NotEnoughSpace = 507,
+  MtpInitializeAccessError = 511,
 }
 
 export enum EntitiesError {

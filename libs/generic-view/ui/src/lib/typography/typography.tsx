@@ -61,6 +61,7 @@ const TypographyWrapper = styled.div<TypographyWrapperStyledProps>`
     padding: 0;
     white-space: pre-wrap;
     color: ${({ theme, $color }) => theme.color[$color]};
+    letter-spacing: ${({ letterSpacing }) => letterSpacing};
 
     font-size: ${({ fontSize, theme }) => fontSize({ theme })};
     line-height: ${({ fontHeight, theme }) => fontHeight({ theme })};

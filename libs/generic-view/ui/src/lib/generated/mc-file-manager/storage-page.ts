@@ -226,7 +226,7 @@ export const generateStoragePage: ComponentGenerator<
     [`${key}fileCategoryOtherFilesItemInfoIcon`]: {
       component: "icon",
       layout: {
-        width: "25px",
+        width: "17px",
         height: "auto",
       },
       config: {

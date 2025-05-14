@@ -42,6 +42,12 @@ router.get("/upload-file-progress", (req: Request, res: Response) => {
   })
 })
 
+router.get("/cancel-upload", (req: Request, res: Response) => {
+  appMtp.cancelUpload(req.body).then((result) => {
+    res.json(result)
+  })
+})
+
 app.use("/", router)
 
 const server = http.createServer(app)
