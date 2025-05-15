@@ -10,7 +10,7 @@ export enum ModalSize {
 }
 
 export enum ModalLayer {
-  Default = 10,
+  Default = 9999,
   CrashDump,
   UpdateOS,
   ContactSupport,
