@@ -8,6 +8,7 @@ import { ApiFileTransferError } from "device/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceId } from "Core/device/constants/device-id"
 import { AppError } from "Core/core/errors"
+import { delay } from "shared/utils"
 import { ActionName } from "../action-names"
 import { FileBase } from "./reducer"
 import {
@@ -28,7 +29,6 @@ import {
   selectFilesSendingGroup,
   selectFilesTransferMode,
 } from "../selectors/file-transfer-sending"
-import { delay } from "shared/utils"
 
 export interface SendFilesPayload {
   actionId: string
@@ -251,9 +251,24 @@ export const sendFiles = createAsyncThunk<
         currentFileIndex++
       }
     }
-
     await processFiles()
     clearInterval(mtpMonitor)
+
+    console.log("Files sent successfully")
+
+    filesTransferMode = selectFilesTransferMode(getState())
+
+    if (filesTransferMode === FilesTransferMode.SerialPort) {
+      return
+    }
+
+    const roundedToHundred: number = Math.ceil(files.length / 100)
+    const delayValue = roundedToHundred * 3.5 * 1000
+
+    console.log("Starting progress delay via length / 100 * 3.5ms", delayValue)
+
+    await delay(delayValue)
+
     return
   }
 )
