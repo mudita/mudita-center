@@ -25,7 +25,7 @@ export const getOutboxData = createAsyncThunk<
     timestamp: number
   },
   { deviceId: DeviceId },
-  { state: ReduxRootState }
+  { state: ReduxRootState; rejectValue: AppError }
 >(
   ActionName.GetOutboxData,
   async ({ deviceId }, { rejectWithValue, dispatch, getState }) => {
@@ -36,7 +36,7 @@ export const getOutboxData = createAsyncThunk<
     }
 
     if (!response.ok) {
-      return rejectWithValue(new AppError(""))
+      return rejectWithValue(response.error)
     }
 
     if (response.data.features) {
