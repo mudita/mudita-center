@@ -103,9 +103,6 @@ export const Default: Story = {
   },
 }
 
-const t = "kompakt"
-console.log(Object.entries(DeviceImageType))
-
 export const AllDevices: Story = {
   name: "All devices",
   decorators: [
@@ -195,15 +192,4 @@ const Device = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  //
-  //img {
-  //  &.small {
-  //    width: 9.1rem;
-  //    height: auto;
-  //  }
-  //  &.big {
-  //    width: 18.2rem;
-  //    height: auto;
-  //  }
-  //}
 `
