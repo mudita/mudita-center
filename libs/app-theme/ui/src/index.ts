@@ -7,6 +7,7 @@ export * from "./lib/icon/icon"
 export * from "./lib/button/button"
 export * from "./lib/icon-button/icon-button"
 export * from "./lib/modal/modal"
+export * from "./lib/form/text-input/text-input"
 
 // Legacy components
 export * from "./lib/legacy-text/text.component"
