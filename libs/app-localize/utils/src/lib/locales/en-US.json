@@ -1,4 +1,7 @@
 {
+  "general.devicesSelector.drawer.recoveryModeLabel": "Recovery Mode",
+  "general.devicesSelector.drawer.serialNumberLabel": "Serial number",
+  "general.devicesSelector.drawer.title": "Select a device",
   "general.privacyPolicyModal.title": "Privacy Policy",
   "general.privacyPolicyModal.description": "Please read and agree to the Privacy policy to be able to use Mudita Center.",
   "general.privacyPolicyModal.link.text": "Read the Privacy Policy",

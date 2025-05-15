@@ -19,6 +19,7 @@ import MuditaLogo from "./svg/mudita-logo.svg?react"
 import MuditaLogoFull from "./svg/mudita-logo-full.svg?react"
 import News from "./svg/news.svg?react"
 import Overview from "./svg/overview.svg?react"
+import RecoveryMode from "./svg/recovery-mode.svg?react"
 import Settings from "./svg/settings.svg?react"
 import Spinner from "./svg/spinner.svg?react"
 
@@ -35,6 +36,7 @@ export const icons = {
   [IconType.MuditaLogoFull]: MuditaLogoFull,
   [IconType.News]: News,
   [IconType.Overview]: Overview,
+  [IconType.RecoveryMode]: RecoveryMode,
   [IconType.Settings]: Settings,
   [IconType.Spinner]: Spinner,
 } as const satisfies Record<IconType, typeof Svg>

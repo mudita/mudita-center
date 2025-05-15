@@ -1,0 +1,9 @@
+{
+  "name": "devices/common/ui",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/devices/common/ui/src",
+  "projectType": "library",
+  "tags": ["type:ui"],
+  "// targets": "to see all targets run: nx show project devices/common/ui --web",
+  "targets": {}
+}

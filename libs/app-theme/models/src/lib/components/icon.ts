@@ -16,6 +16,7 @@ export enum IconType {
   MuditaLogoFull = "mudita-logo-full",
   News = "news",
   Overview = "overview",
+  RecoveryMode = "recovery-mode",
   Settings = "settings",
   Spinner = "spinner",
 }
