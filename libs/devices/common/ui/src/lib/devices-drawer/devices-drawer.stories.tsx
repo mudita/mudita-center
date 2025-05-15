@@ -7,16 +7,8 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { DevicesDrawer } from "./devices-drawer"
 import styled from "styled-components"
 import { DevicesDrawerCard } from "./devices-drawer-card"
-import { devicesDrawerImages } from "./img"
+import { devicesImages } from "../device-image/img"
 import { storybookHelper } from "app-theme/utils"
-
-const Decorator = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  margin: -1rem;
-  overflow: hidden;
-`
 
 const SingleItemDecorator = styled.div`
   width: 100%;
@@ -26,31 +18,6 @@ const SingleItemDecorator = styled.div`
 
   > li {
     width: 33.3rem;
-  }
-`
-
-const ImagesDecorator = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-
-  div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  code {
-    margin: 0;
-  }
-
-  img {
-    width: 9.1rem;
-    height: auto;
   }
 `
 
@@ -66,9 +33,9 @@ type Story = StoryObj<typeof DevicesDrawer>
 export const Default: Story = {
   decorators: [
     (Story) => (
-      <Decorator>
+      <div className={"no-padding"}>
         <Story />
-      </Decorator>
+      </div>
     ),
   ],
   argTypes: {
@@ -133,25 +100,25 @@ export const Default: Story = {
         devices={[
           {
             id: "1",
-            image: devicesDrawerImages.kompakt.black,
+            image: devicesImages.kompakt.black.small,
             name: "Kompakt",
             serialNumber: "0000111122",
           },
           {
             id: "2",
-            image: devicesDrawerImages.harmony.white,
+            image: devicesImages.harmony1.white.small,
             name: "Harmony",
             serialNumber: "1111222233",
           },
           {
             id: "3",
-            image: devicesDrawerImages.harmony.black,
+            image: devicesImages.harmony2.black.small,
             name: "Harmony",
             recoveryMode: true,
           },
           {
             id: "4",
-            image: devicesDrawerImages.pure.black,
+            image: devicesImages.pure.black.small,
             name: "Pure",
             serialNumber: "3333444455",
           },
@@ -180,7 +147,7 @@ export const DeviceCard: StoryObj<typeof DevicesDrawerCard> = {
   ],
   render: () => (
     <DevicesDrawerCard
-      image={devicesDrawerImages.kompakt.black}
+      image={devicesImages.kompakt.black.small}
       name="Kompakt"
       serialNumber="000011112222"
     />
@@ -199,7 +166,7 @@ export const DeviceCardActive: StoryObj<typeof DevicesDrawerCard> = {
   ],
   render: () => (
     <DevicesDrawerCard
-      image={devicesDrawerImages.kompakt.black}
+      image={devicesImages.kompakt.black.small}
       name="Kompakt"
       serialNumber="000011112222"
       active
@@ -219,7 +186,7 @@ export const DeviceCardNoSerialNumber: StoryObj<typeof DevicesDrawerCard> = {
   ],
   render: () => (
     <DevicesDrawerCard
-      image={devicesDrawerImages.kompakt.black}
+      image={devicesImages.kompakt.black.small}
       name="Kompakt"
       serialNumber="0000000000"
     />
@@ -238,7 +205,7 @@ export const DeviceCardRecoveryMode: StoryObj<typeof DevicesDrawerCard> = {
   ],
   render: () => (
     <DevicesDrawerCard
-      image={devicesDrawerImages.harmony.black}
+      image={devicesImages.harmony2.black.small}
       name="Harmony"
       serialNumber="000011112222"
       recoveryMode
@@ -259,7 +226,7 @@ export const DeviceCardRecoveryModeActive: StoryObj<typeof DevicesDrawerCard> =
     ],
     render: () => (
       <DevicesDrawerCard
-        image={devicesDrawerImages.harmony.black}
+        image={devicesImages.harmony2.black.small}
         name="Harmony"
         serialNumber="000011112222"
         recoveryMode
@@ -267,35 +234,3 @@ export const DeviceCardRecoveryModeActive: StoryObj<typeof DevicesDrawerCard> =
       />
     ),
   }
-
-export const DevicesImages: StoryObj = {
-  name: "Devices - images",
-  argTypes: DeviceCard.argTypes,
-  decorators: [
-    (Story) => (
-      <ImagesDecorator>
-        <Story />
-      </ImagesDecorator>
-    ),
-  ],
-  render: () => (
-    <>
-      {Object.entries(devicesDrawerImages).map(([deviceName, device]) => {
-        return Object.entries(device).map(([color, src]) => {
-          return (
-            <div key={`${deviceName}-${color}`}>
-              <code>
-                devicesDrawerImages.{deviceName}.{color}
-              </code>
-              <img
-                key={`${deviceName}-${color}`}
-                src={src}
-                alt={`${deviceName} ${color}`}
-              />
-            </div>
-          )
-        })
-      })}
-    </>
-  ),
-}

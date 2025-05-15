@@ -4,4 +4,4 @@
  */
 
 export * from "./lib/devices-drawer/devices-drawer"
-export * from "./lib/devices-drawer/img"
+export * from "./lib/device-image/device-image"

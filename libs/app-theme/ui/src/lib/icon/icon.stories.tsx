@@ -162,7 +162,7 @@ export const AllIcons: Story = {
     <>
       {Object.entries(IconType).map(([key, value]) => (
         <Fragment key={value}>
-          <h2 style={{ fontWeight: "normal" }}>IconType.{key}</h2>
+          <code>IconType.{key}</code>
           <Icon type={value} size={IconSize.Big} />
         </Fragment>
       ))}

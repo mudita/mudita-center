@@ -88,6 +88,7 @@ const Content = styled.div<{
   align-items: center;
   padding: var(--modal-padding);
   width: var(--modal-width);
+  height: fit-content;
   max-height: var(--modal-max-height);
   opacity: var(--modal-opacity);
   visibility: var(--modal-visibility);
