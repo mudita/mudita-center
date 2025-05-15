@@ -46,15 +46,15 @@ export const DevicesDrawer: FunctionComponent<Props> = ({
           />
         </Header>
         <List>
-          {devices.map((device) => {
+          {devices.map(({ id, ...device }) => {
             const onClick = () => {
-              onSelect?.(device.id)
+              onSelect?.(id)
             }
             return (
               <DevicesDrawerCard
+                key={id}
                 {...device}
-                key={device.id}
-                active={device.id === activeDeviceId}
+                active={activeDeviceId === id}
                 onClick={onClick}
               />
             )

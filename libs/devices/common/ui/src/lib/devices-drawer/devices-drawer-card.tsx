@@ -3,11 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { ComponentProps, FunctionComponent } from "react"
 import styled from "styled-components"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { Icon } from "app-theme/ui"
 import { IconSize, IconType } from "app-theme/models"
+import {
+  DeviceImageColor,
+  DeviceImageSize,
+  DeviceImageType,
+} from "devices/common/models"
+import { DeviceImage } from "../device-image/device-image"
 
 const messages = defineMessages({
   serialNumberLabel: { id: "general.devicesSelector.drawer.serialNumberLabel" },
@@ -16,27 +22,37 @@ const messages = defineMessages({
 
 export interface DrawerCardDevice {
   name: string
-  image: string
+  device: {
+    type: DeviceImageType
+    color?: DeviceImageColor
+  }
   serialNumber?: string
   recoveryMode?: boolean
 }
 
-export interface DrawerItemProps extends DrawerCardDevice {
+export interface DrawerItemProps
+  extends DrawerCardDevice,
+    ComponentProps<typeof DevicesDrawerCardWrapper> {
   active?: boolean
   onClick?: VoidFunction
 }
 
 export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
-  image,
+  device,
   name,
   serialNumber,
   active,
   recoveryMode,
   onClick,
+  ...rest
 }) => {
   return (
-    <Wrapper onClick={active ? undefined : onClick}>
-      <Image src={image} alt="" />
+    <DevicesDrawerCardWrapper onClick={active ? undefined : onClick} {...rest}>
+      <DeviceImage
+        type={device.type}
+        size={DeviceImageSize.Small}
+        color={device.color}
+      />
       <Info>
         <Name>
           {name} {active && <ActiveIndicator aria-label={"Active device"} />}
@@ -54,7 +70,7 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
           <p>{formatMessage(messages.recoveryModeLabel)}</p>
         </RecoveryLabel>
       )}
-    </Wrapper>
+    </DevicesDrawerCardWrapper>
   )
 }
 
@@ -67,7 +83,7 @@ const ActiveIndicator = styled.span`
   vertical-align: top;
 `
 
-const Wrapper = styled.li<{ onClick?: VoidFunction }>`
+export const DevicesDrawerCardWrapper = styled.li<{ onClick?: VoidFunction }>`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -91,19 +107,14 @@ const Wrapper = styled.li<{ onClick?: VoidFunction }>`
   }
 `
 
-const Image = styled.img`
-  width: 9.1rem;
-  height: 9.6rem;
-`
-
-const Info = styled.div`
+export const Info = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
   align-self: center;
 `
 
-const Name = styled.p`
+export const Name = styled.p`
   font-size: ${({ theme }) => theme.app.fontSize.headline4};
   line-height: ${({ theme }) => theme.app.lineHeight.headline4};
   font-weight: ${({ theme }) => theme.app.fontWeight.bold};
@@ -111,7 +122,7 @@ const Name = styled.p`
   margin: 0;
 `
 
-const SerialNumber = styled.div`
+export const SerialNumber = styled.div`
   grid-area: SerialNumber;
 
   p {
@@ -134,7 +145,7 @@ const SerialNumber = styled.div`
   }
 `
 
-const RecoveryLabel = styled.div`
+export const RecoveryLabel = styled.div`
   position: absolute;
   top: 0;
   right: 0;
