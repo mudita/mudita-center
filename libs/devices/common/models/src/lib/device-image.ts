@@ -7,6 +7,7 @@ export enum DeviceImageType {
   Kompakt = "kompakt",
   Harmony1 = "harmony1",
   Harmony2 = "harmony2",
+  HarmonyMsc = "harmonyMsc",
   Pure = "pure",
 }
 

@@ -52,7 +52,7 @@ export const Default: Story = {
     ),
   ],
   argTypes: {
-    device: storybookHelper
+    type: storybookHelper
       .assignCategory("Functional")
       .addDescription(
         "Defines the type of device:\n" +
@@ -84,7 +84,7 @@ export const Default: Story = {
       .apply(),
   },
   args: {
-    device: DeviceImageType.Kompakt,
+    type: DeviceImageType.Kompakt,
     size: DeviceImageSize.Big,
     color: DeviceImageColor.Black,
   },
@@ -154,9 +154,8 @@ export const AllDevices: Story = {
                   {Object.entries(size).map(([sizeName]) => {
                     return (
                       <Device key={sizeName}>
-                        {/* @ts-expect-error device type not matching */}
                         <DeviceImage
-                          device={deviceName as DeviceImageType}
+                          type={deviceName as DeviceImageType}
                           color={color as DeviceImageColor}
                           size={sizeName as DeviceImageSize}
                         />
