@@ -9,6 +9,7 @@ import Svg from "*.svg?react"
 import { IconType } from "app-theme/models"
 import ArrowBack from "./svg/arrow-back.svg?react"
 import Backup from "./svg/backup.svg?react"
+import ChevronDown from "./svg/chevron-down.svg?react"
 import Close from "./svg/close.svg?react"
 import Contacts from "./svg/contacts.svg?react"
 import DataMigration from "./svg/data-migration.svg?react"
@@ -30,6 +31,7 @@ import Spinner from "./svg/spinner.svg?react"
 export const icons = {
   [IconType.ArrowBack]: ArrowBack,
   [IconType.Backup]: Backup,
+  [IconType.ChevronDown]: ChevronDown,
   [IconType.Close]: Close,
   [IconType.Contacts]: Contacts,
   [IconType.DataMigration]: DataMigration,

@@ -18,6 +18,7 @@ import { DeviceImage } from "../device-image/device-image"
 const messages = defineMessages({
   serialNumberLabel: { id: "general.components.deviceCard.serialNumberLabel" },
   recoveryModeLabel: { id: "general.components.deviceCard.recoveryModeLabel" },
+  activeLabel: { id: "general.components.deviceCard.activeLabel" },
 })
 
 export interface DrawerCardDevice {
@@ -55,7 +56,12 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
       />
       <Info>
         <Name>
-          {name} {active && <ActiveIndicator aria-label={"Active device"} />}
+          {name}{" "}
+          {active && (
+            <ActiveIndicator>
+              {formatMessage(messages.activeLabel)}
+            </ActiveIndicator>
+          )}
         </Name>
         {Boolean(serialNumber) && (
           <SerialNumber>
@@ -75,12 +81,7 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
 }
 
 const ActiveIndicator = styled.span`
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.app.color.black};
-  vertical-align: top;
+  text-transform: uppercase;
 `
 
 export const DevicesDrawerCardWrapper = styled.li<{ onClick?: VoidFunction }>`

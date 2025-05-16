@@ -46,11 +46,7 @@ export const DevicesSelector: FunctionComponent<Props> = ({
 }
 
 const Wrapper = styled.div`
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  position: absolute;
+  flex: 1;
   background-color: ${({ theme }) => theme.app.color.white};
   display: flex;
   flex-direction: column;
@@ -93,5 +89,6 @@ const List = styled.ul`
   grid-template-columns: repeat(auto-fill, 34rem);
   grid-auto-rows: 44rem;
   justify-content: center;
-  gap: 3.2rem;
+  column-gap: 2.6rem;
+  row-gap: 3rem;
 `
