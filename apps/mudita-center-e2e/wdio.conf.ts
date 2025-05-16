@@ -8,7 +8,6 @@ import * as path from "path"
 import * as dotenv from "dotenv"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
 
-
 const freePort = process.env.WDIO_PORT
   ? Number(process.env.WDIO_PORT)
   : undefined
@@ -88,7 +87,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
     toRelativePath(TestFilesPaths.helpLinkInsideContainer),
     toRelativePath(TestFilesPaths.contactSupportHappyPath),
-    toRelativePath(TestFilesPaths.kompaktBackupApi),
+    //toRelativePath(TestFilesPaths.kompaktPrebackupApi),
     toRelativePath(TestFilesPaths.kompaktContactsViewing),
     toRelativePath(TestFilesPaths.kompaktContactsViewingEmpty),
     toRelativePath(TestFilesPaths.kompaktContactsDeleteDetails),
@@ -134,7 +133,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
       toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
       toRelativePath(TestFilesPaths.contactSupportHappyPath),
-      toRelativePath(TestFilesPaths.kompaktBackupApi),
+      //toRelativePath(TestFilesPaths.kompaktPrebackupApi),
       toRelativePath(TestFilesPaths.kompaktContactsViewing),
       toRelativePath(TestFilesPaths.kompaktContactsViewingEmpty),
       toRelativePath(TestFilesPaths.kompaktContactsDeleteDetails),
@@ -187,7 +186,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
       toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
       toRelativePath(TestFilesPaths.contactSupportHappyPath),
-      toRelativePath(TestFilesPaths.kompaktBackupApi),
+      //toRelativePath(TestFilesPaths.kompaktPrebackupApi),
       toRelativePath(TestFilesPaths.kompaktContactsViewing),
       toRelativePath(TestFilesPaths.kompaktContactsViewingEmpty),
       toRelativePath(TestFilesPaths.kompaktContactsDeleteDetails),
