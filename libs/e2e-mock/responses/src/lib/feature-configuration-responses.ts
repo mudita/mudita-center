@@ -68,7 +68,7 @@ export const featureConfigurationFileManagerExternal = {
       storages: [
         {
           label: "SD card",
-          path: "/storage/9EBD-E8C5",
+          path: "/storage/9EBD-E8C5/",
         },
       ],
       categories: [
