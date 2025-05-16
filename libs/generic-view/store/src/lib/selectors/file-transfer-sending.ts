@@ -22,7 +22,7 @@ export const selectFilesTransferMode = createSelector(
   (genericFileTransfer) => genericFileTransfer.filesTransferMode
 )
 
-const selectFilesSendingGroup = createSelector(
+export const selectFilesSendingGroup = createSelector(
   selectFilesSending,
   (
     _: ReduxRootState,
