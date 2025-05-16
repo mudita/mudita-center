@@ -253,6 +253,7 @@ const allFieldsOverviewConfig: OverviewConfig = {
     imgVariant: "imgVariant",
     showSerialNumber: true,
     serialNumberLabel: "serialNumberLabel",
+    showDeviceVersion: true,
     showAbout: true,
     aboutTitle: "aboutTitle",
     aboutSubtitle: "aboutSubtitle",

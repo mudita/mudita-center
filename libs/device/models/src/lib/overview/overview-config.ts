@@ -109,6 +109,8 @@ export const OverviewConfigValidator = z.object({
     imgVariant: z.string().optional(),
     showSerialNumber: z.boolean().optional(),
     serialNumberLabel: z.string().optional(),
+    showDeviceVersion: z.boolean().optional(),
+    deviceVersionLabel: z.string().optional(),
     showAbout: z.boolean().optional(),
     aboutTitle: z.string().optional(),
     aboutSubtitle: z.string().optional(),

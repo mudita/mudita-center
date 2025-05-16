@@ -21,7 +21,7 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { EntityData, EntityId } from "device/models"
 import { contactsSeedData } from "./seed-data/contacts-seed-data"
 
-export const useDevConsole = () => {
+export const useDevConsoleGeneric = () => {
   const dispatch = useDispatch<Dispatch>()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)
 

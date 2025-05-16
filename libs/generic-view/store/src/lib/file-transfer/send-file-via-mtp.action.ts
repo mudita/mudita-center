@@ -7,13 +7,18 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ApiFileTransferError } from "device/models"
 import { delay } from "shared/utils"
 import {
+  cancelSendFileViaMtpRequest,
   getSendFileProgressViaMtpRequest,
   startSendFileViaMtpRequest,
 } from "device/feature"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { AppError } from "Core/core/errors"
 import { FileWithPath } from "./reducer"
-import { sendFilesChunkSent, sendFilesPreSend } from "./actions"
+import {
+  sendFilesChunkSent,
+  sendFilesFinished,
+  sendFilesPreSend,
+} from "./actions"
 import { ActionName } from "../action-names"
 
 export interface SendFileViaMTPPayload {
@@ -49,15 +54,21 @@ export const sendFileViaMTP = createAsyncThunk<
     }
 
     if (!startSendFileViaMtpResult.ok) {
-      return rejectWithValue(
-        new AppError(
-          ApiFileTransferError.Unknown,
-          startSendFileViaMtpResult.error.message
-        )
-      )
+      return rejectWithValue(startSendFileViaMtpResult.error)
     }
 
     const { transactionId } = startSendFileViaMtpResult.data
+
+    const abortListener = async () => {
+      signal.removeEventListener("abort", abortListener)
+      const { ok, error } = await cancelSendFileViaMtpRequest(transactionId)
+      if (!ok) {
+        return error
+      } else {
+        return new AppError(ApiFileTransferError.Aborted, "Aborted")
+      }
+    }
+    signal.addEventListener("abort", abortListener)
 
     dispatch(
       sendFilesPreSend({
@@ -78,7 +89,7 @@ export const sendFileViaMTP = createAsyncThunk<
       }
 
       if (!ok) {
-        return new AppError(ApiFileTransferError.Unknown, error.message)
+        return error
       }
 
       dispatch(
@@ -90,9 +101,8 @@ export const sendFileViaMTP = createAsyncThunk<
 
       if (data.progress >= 100) {
         dispatch(
-          sendFilesChunkSent({
+          sendFilesFinished({
             id: file.id,
-            chunksTransferred: 100,
           })
         )
         return

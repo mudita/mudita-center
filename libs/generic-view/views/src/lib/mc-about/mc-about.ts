@@ -26,6 +26,12 @@ export const generateMcAboutLayout: ViewGenerator<OverviewConfig> = (
   const mainConfig: MainView["main"] = {
     screenTitle: config.summary.aboutTitle!,
     component: "block-plain",
+    layout: {
+      height: "100%",
+      flexLayout: {
+        direction: "column",
+      },
+    },
     config: {
       backgroundColor: "grey",
     },

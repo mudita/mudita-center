@@ -6,7 +6,7 @@
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
 import { AppMtp } from "../app-mtp"
-import { GetUploadFileProgress, MtpUploadFileData } from "../app-mtp.interface"
+import { UploadTransactionData, MtpUploadFileData } from "../app-mtp.interface"
 import * as dotenv from "dotenv"
 import { DotnetCliCommandAction } from "../dotnet-mtp/dotnet-mtp.interface"
 
@@ -59,7 +59,7 @@ const handleAction = (action: DotnetCliCommandAction, parsedData: unknown) => {
 
     case DotnetCliCommandAction.GET_UPLOAD_FILE_PROGRESS:
       appMtp
-        .getUploadFileProgress(parsedData as GetUploadFileProgress)
+        .getUploadFileProgress(parsedData as UploadTransactionData)
         .then((progress) => {
           console.log("[app-mtp-cli] output:", progress)
         })
