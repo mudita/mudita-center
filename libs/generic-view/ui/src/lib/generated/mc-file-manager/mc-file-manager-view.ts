@@ -16,11 +16,6 @@ import {
 export const generateMcFileManagerView: ComponentGenerator<
   McFileManagerConfig
 > = (key, config, _layout, feature = "") => {
-  const temporaryConfig = {
-    ...config,
-    categories: config.categories,
-  }
-
   return {
     [key]: {
       component: "block-plain",
@@ -40,7 +35,7 @@ export const generateMcFileManagerView: ComponentGenerator<
     [getFileManagerLoaderKey(feature)]: {
       component: "entities-loader",
       config: {
-        entityTypes: temporaryConfig.categories.map(
+        entityTypes: config.categories.map(
           (category) => category.entityType
         ),
         text: "Loading, please wait...",
@@ -66,7 +61,7 @@ export const generateMcFileManagerView: ComponentGenerator<
       config: {
         formOptions: {
           defaultValues: {
-            activeStoragePath: temporaryConfig.storages[0].path,
+            activeStoragePath: config.storages[0].path,
           },
         },
       },
@@ -74,13 +69,13 @@ export const generateMcFileManagerView: ComponentGenerator<
         return getFileManagerStoragePageKey(feature, index, "Storage")
       }),
     },
-    ...temporaryConfig.storages.reduce((acc, storage, index) => {
+    ...config.storages.reduce((acc, storage, index) => {
       return {
         ...acc,
         ...generateStoragePage(getFileManagerStoragePageKey(feature, index), {
           mainFormKey: getFileManagerMainStorageFormKey(feature),
           storage,
-          categories: temporaryConfig.categories,
+          categories: config.categories,
         }),
       }
     }, {}),
