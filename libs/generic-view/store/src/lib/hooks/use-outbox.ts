@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { DeviceState } from "device-manager/models"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
 import { DeviceError } from "Core/device/modules/mudita-os/constants"
 import { deactivateDevice } from "../../../../../device-manager/feature/src/actions/deactivate-device.action"
@@ -24,7 +24,11 @@ function isTimeOutDeviceError(payload: unknown): boolean {
   return false
 }
 
+const DEFAULT_OUTBOX_TIMEOUT = 2000
+const MAX_OUTBOX_EVENTS = 100
+
 export const useOutbox = () => {
+  const [outboxTimeout, setOutboxTimeout] = useState(DEFAULT_OUTBOX_TIMEOUT)
   const dispatch = useDispatch<Dispatch>()
   const history = useHistory()
   const activeApiDeviceId = useSelector(selectActiveApiDeviceId)
@@ -36,10 +40,21 @@ export const useOutbox = () => {
       return
     }
 
-    const outboxTimeout = setTimeout(async () => {
+    const outboxTimeoutId = setTimeout(async () => {
       const getOutboxDataResult = await dispatch(
         getOutboxData({ deviceId: activeApiDeviceId })
       )
+
+      const entitiesLength = getOutboxDataResult?.payload.data.entities.length
+
+      if (entitiesLength === MAX_OUTBOX_EVENTS && outboxTimeout !== 0) {
+        setOutboxTimeout(0)
+      } else if (
+        entitiesLength !== MAX_OUTBOX_EVENTS &&
+        outboxTimeout !== DEFAULT_OUTBOX_TIMEOUT
+      ) {
+        setOutboxTimeout(DEFAULT_OUTBOX_TIMEOUT)
+      }
 
       if (isTimeOutDeviceError(getOutboxDataResult?.payload)) {
         history.push(URL_ONBOARDING.troubleshooting)
@@ -48,12 +63,18 @@ export const useOutbox = () => {
           setDeviceState({ id: activeApiDeviceId, state: DeviceState.Failed })
         )
       }
-    }, 2000)
+    }, outboxTimeout)
 
     return () => {
-      clearTimeout(outboxTimeout)
+      clearTimeout(outboxTimeoutId)
     }
-  }, [activeApiDeviceId, lastRefreshTimestamp, dispatch, history])
+  }, [
+    activeApiDeviceId,
+    lastRefreshTimestamp,
+    dispatch,
+    history,
+    outboxTimeout,
+  ])
 }
 
 export const OutboxWrapper = () => {
