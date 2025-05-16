@@ -5,7 +5,7 @@
 
 import React, { FunctionComponent } from "react"
 import { GenericThemeProvider } from "generic-view/theme"
-import { useDevConsole } from "./use-dev-console"
+import { useDevConsoleGeneric } from "./use-dev-console-generic"
 import { useDevViews } from "./use-dev-views/use-dev-views"
 import { FormsProvider, useCurrentViewKey } from "generic-view/utils"
 import { RecursiveLayout } from "./recursive-layout"
@@ -13,7 +13,7 @@ import { GenericToasts } from "./generic-toasts"
 import { GenericModals } from "./generic-modals"
 
 export const GenericView: FunctionComponent = () => {
-  useDevConsole()
+  useDevConsoleGeneric()
   const currentViewKey = useCurrentViewKey()
   useDevViews(currentViewKey)
 
