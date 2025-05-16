@@ -8,6 +8,7 @@ export const color = {
   black: "#000000",
   blackAlpha: {
     light: "rgba(0, 0, 0, 0.08)",
+    medium: "rgba(0, 0, 0, 0.3)",
   },
   blue1: "#40749A",
   blue2: "#6D9BBC",
