@@ -52,6 +52,10 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
             getAPIConfig({ deviceId: devices[0].id })
           )
           await dispatch(handleDeviceActivated(devices[0].id))
+
+          if (URL_DISCOVERY_DEVICE.root !== history.location.pathname) {
+            return
+          }
           if (getAPIConfigResult.error !== undefined) {
             history.push(URL_ONBOARDING.troubleshooting)
           } else {

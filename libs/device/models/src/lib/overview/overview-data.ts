@@ -5,7 +5,7 @@
 
 import { IconType, View } from "generic-view/utils"
 import { z } from "zod"
-import { blockBox } from "generic-view/models"
+import { blockBox, labeledText } from "generic-view/models"
 
 export interface DetailListTextData {
   text: string
@@ -40,6 +40,7 @@ export type AboutData = Record<string, DetailListFieldData>
 const keyToCheckForBaseOverview = [
   "icon-text",
   "overview-os-version",
+  "labeled-text",
   blockBox.key,
 ]
 const keyToCheckForAboutOverview = ["about-data-box", "text-formatted"]
@@ -70,6 +71,8 @@ const getValidatorByComponentName = (component: string) => {
         text: z.string(),
         version: z.string(),
       })
+    case labeledText.key:
+      return z.any()
     case blockBox.key:
       return blockBox.dataValidator
     default:
@@ -118,7 +121,7 @@ export const OverviewDataValidator = (
   return z.object({
     summary: z
       .object({
-        about: aboutShape.optional(),
+        about: aboutShape.passthrough().optional(),
       })
       .optional(),
     sections: baseShape.optional(),

@@ -11,8 +11,10 @@ import TermsOfServiceApp from "Core/core/components/apps/terms-of-service-app.co
 import PrivacyPolicyApp from "Core/core/components/apps/privacy-policy-app.component"
 import SarApp from "Core/core/components/apps/sar-app.component"
 import BaseAppContainer from "Core/core/components/apps/base-app/base-app-container.component"
+import { useDevConsoleMock } from "shared/utils"
 
 const AppsSwitch = () => {
+  useDevConsoleMock()
   const mode = new URLSearchParams(window.location.search).get("mode")
 
   switch (mode) {
