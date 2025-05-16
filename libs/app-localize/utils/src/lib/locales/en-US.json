@@ -1,5 +1,6 @@
 {
   "general.components.devicesDrawer.title": "Select a device",
+  "general.components.devicesIndicator.text": "Show connected devices",
   "general.components.deviceCard.recoveryModeLabel": "Recovery Mode",
   "general.components.deviceCard.serialNumberLabel": "Serial number",
   "general.components.deviceSelector.title": "Select a device to continue",
