@@ -8,7 +8,7 @@ import { ApiFileTransferError } from "device/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceId } from "Core/device/constants/device-id"
 import { AppError } from "Core/core/errors"
-import { delay } from "shared/utils"
+import { delay, sliceSegments } from "shared/utils"
 import { ActionName } from "../action-names"
 import { FileBase } from "./reducer"
 import {
@@ -29,6 +29,8 @@ import {
   selectFilesSendingGroup,
   selectFilesTransferMode,
 } from "../selectors/file-transfer-sending"
+import { selectActiveApiDeviceId, selectEntities } from "../selectors"
+
 
 export interface SendFilesPayload {
   actionId: string
@@ -48,8 +50,16 @@ export const sendFiles = createAsyncThunk<
     { actionId, files, destinationPath, entitiesType, customDeviceId },
     { dispatch, signal, abort, rejectWithValue, getState }
   ) => {
+    const deviceId = customDeviceId || selectActiveApiDeviceId(getState())
+
+    if (!deviceId) {
+      return rejectWithValue(
+        new AppError(ApiFileTransferError.Unknown, "Device not found")
+      )
+    }
     let switchToMtpCounter = 0
     const maxSwitchToMtpTries = 1
+
     const mainAbortController = new AbortController()
     mainAbortController.abort = abort
     dispatch(
@@ -262,10 +272,37 @@ export const sendFiles = createAsyncThunk<
       return
     }
 
-    const roundedToHundred: number = Math.ceil(files.length / 100)
+    if (entitiesType === undefined) {
+      return
+    }
+
+    const entities = selectEntities(getState(), {
+      deviceId,
+      entitiesType,
+    })
+
+    if (entities === undefined || entities.data === undefined) {
+      return
+    }
+
+    const filteredEntities = entities.data.filter((entity) => {
+      return (
+        sliceSegments(entity.filePath as string, 0, -1) ===
+        sliceSegments(destinationPath)
+      )
+    })
+
+    const loadedEntities = filteredEntities.length
+    const notLoadedEntities = files.length - loadedEntities
+
+    const roundedToHundred: number = Math.ceil(notLoadedEntities / 100)
     const delayValue = roundedToHundred * 3.5 * 1000
 
-    console.log("Starting progress delay via length / 100 * 3.5ms", delayValue)
+    console.log("Starting progress delay via notLoadedEntities / 100 * 3.5ms", {
+      loadedEntities,
+      notLoadedEntities,
+      delayValue,
+    })
 
     await delay(delayValue)
 
