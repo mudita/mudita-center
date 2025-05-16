@@ -29,6 +29,7 @@ import {
   selectFilesSendingGroup,
   selectFilesTransferMode,
 } from "../selectors/file-transfer-sending"
+import { selectLastOutboxData } from "../selectors/select-last-outbox-data"
 import { selectActiveApiDeviceId, selectEntities } from "../selectors"
 
 
@@ -305,6 +306,35 @@ export const sendFiles = createAsyncThunk<
     })
 
     await delay(delayValue)
+
+    console.log("Progress delay finished")
+
+    const verifyLastOutboxData = async (
+      attempts = 0
+    ): Promise<undefined | AppError> => {
+      const lastOutboxData = selectLastOutboxData(getState())
+
+      console.log(attempts, "verifyLastOutboxData: ", lastOutboxData)
+
+      const lastOutboxDataEntities = lastOutboxData?.entities ?? []
+      if (lastOutboxDataEntities.length === 0) {
+        console.log("No entities in last outbox data")
+        return
+      }
+
+      if (attempts > 10) {
+        console.log("Max attempts reached")
+        return
+      }
+
+      await delay(2000)
+      return await verifyLastOutboxData(++attempts)
+    }
+    console.log("Starting verification of last outbox data")
+
+    await verifyLastOutboxData()
+
+    console.log("Verification of last outbox data finished")
 
     return
   }

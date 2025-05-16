@@ -13,7 +13,7 @@ import { ActionName } from "../action-names"
 import { getSingleFeatures } from "../features/get-single-feature"
 import { getSingleFeatureData } from "../features/get-single-feature-data"
 import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
-import { setLastRefresh } from "../views/actions"
+import { setLastOutboxData, setLastRefresh } from "../views/actions"
 import { getEntityDataAction } from "../entities/get-entity-data.action"
 import { deleteEntityData, setEntityData } from "../entities/actions"
 import { getEntitiesMetadataAction } from "../entities/get-entities-metadata.action"
@@ -97,6 +97,7 @@ export const getOutboxData = createAsyncThunk<
     if (selectActiveApiDeviceId(getState()) === deviceId) {
       dispatch(setLastRefresh(new Date().getTime()))
     }
+    dispatch(setLastOutboxData(response.data))
 
     return {
       deviceId,

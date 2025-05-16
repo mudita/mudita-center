@@ -11,6 +11,7 @@ export enum ActionName {
 
   SetMenu = "generic-views/set-menu",
   SetLastRefresh = "generic-views/set-last-refresh",
+  SetLastOutboxData = "generic-views/set-last-outbox-data",
   AddDevice = "generic-views/add-device",
   RemoveDevice = "generic-views/remove-device",
   SetDeviceState = "generic-views/set-device-state",
