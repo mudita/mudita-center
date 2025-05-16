@@ -19,9 +19,10 @@ import MuditaLogo from "./svg/mudita-logo.svg?react"
 import MuditaLogoFull from "./svg/mudita-logo-full.svg?react"
 import News from "./svg/news.svg?react"
 import Overview from "./svg/overview.svg?react"
-import RecoveryMode from "./svg/recovery-mode.svg?react"
 import PasswordHide from "./svg/password-hide.svg?react"
 import PasswordShow from "./svg/password-show.svg?react"
+import Phone from "./svg/phone.svg?react"
+import RecoveryMode from "./svg/recovery-mode.svg?react"
 import Search from "./svg/search.svg?react"
 import Settings from "./svg/settings.svg?react"
 import Spinner from "./svg/spinner.svg?react"
@@ -39,9 +40,10 @@ export const icons = {
   [IconType.MuditaLogoFull]: MuditaLogoFull,
   [IconType.News]: News,
   [IconType.Overview]: Overview,
-  [IconType.RecoveryMode]: RecoveryMode,
   [IconType.PasswordHide]: PasswordHide,
   [IconType.PasswordShow]: PasswordShow,
+  [IconType.Phone]: Phone,
+  [IconType.RecoveryMode]: RecoveryMode,
   [IconType.Search]: Search,
   [IconType.Settings]: Settings,
   [IconType.Spinner]: Spinner,
