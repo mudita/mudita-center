@@ -16,8 +16,8 @@ import {
 import { DeviceImage } from "../device-image/device-image"
 
 const messages = defineMessages({
-  serialNumberLabel: { id: "general.devicesSelector.drawer.serialNumberLabel" },
-  recoveryModeLabel: { id: "general.devicesSelector.drawer.recoveryModeLabel" },
+  serialNumberLabel: { id: "general.components.deviceCard.serialNumberLabel" },
+  recoveryModeLabel: { id: "general.components.deviceCard.recoveryModeLabel" },
 })
 
 export interface DrawerCardDevice {

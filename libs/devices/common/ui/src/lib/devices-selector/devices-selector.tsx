@@ -7,6 +7,12 @@ import { FunctionComponent } from "react"
 import { DrawerCardDevice } from "../devices-drawer/devices-drawer-card"
 import styled from "styled-components"
 import { DevicesSelectorCard } from "./devices-selector-card"
+import { defineMessages, formatMessage } from "app-localize/utils"
+
+const messages = defineMessages({
+  title: { id: "general.components.deviceSelector.title" },
+  subtitle: { id: "general.components.deviceSelector.subtitle" },
+})
 
 interface Device extends DrawerCardDevice {
   id: string
@@ -24,8 +30,8 @@ export const DevicesSelector: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       <Header>
-        <h1>Select a device to continue</h1>
-        <p>You can switch between connected devices later</p>
+        <h1>{formatMessage(messages.title)}</h1>
+        <p>{formatMessage(messages.subtitle)}</p>
       </Header>
       <List>
         {devices.map(({ id, ...device }) => {

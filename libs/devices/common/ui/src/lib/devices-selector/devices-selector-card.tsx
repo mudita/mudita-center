@@ -20,8 +20,8 @@ import { IconSize, IconType } from "app-theme/models"
 import styled from "styled-components"
 
 const messages = defineMessages({
-  serialNumberLabel: { id: "general.devicesSelector.drawer.serialNumberLabel" },
-  recoveryModeLabel: { id: "general.devicesSelector.drawer.recoveryModeLabel" },
+  serialNumberLabel: { id: "general.components.deviceCard.serialNumberLabel" },
+  recoveryModeLabel: { id: "general.components.deviceCard.recoveryModeLabel" },
 })
 
 export interface SelectorItemProps

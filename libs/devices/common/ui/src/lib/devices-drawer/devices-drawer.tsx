@@ -11,7 +11,7 @@ import { DevicesDrawerCard, DrawerCardDevice } from "./devices-drawer-card"
 import { IconButton } from "app-theme/ui"
 
 const messages = defineMessages({
-  title: { id: "general.devicesSelector.drawer.title" },
+  title: { id: "general.components.devicesDrawer.title" },
 })
 
 interface Device extends DrawerCardDevice {
