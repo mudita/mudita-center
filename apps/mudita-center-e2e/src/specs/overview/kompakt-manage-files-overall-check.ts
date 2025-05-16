@@ -49,7 +49,6 @@ describe("File manager overall check", () => {
     const phoneStorageHeader = ManageFiles.phoneStorageHeader
     await expect(phoneStorageHeader).toBeDisplayed()
     await expect(phoneStorageHeader).toHaveText("Phone Storage")
-    await browser.pause(60000000)
   })
 
   it("Check Music section", async () => {
@@ -59,6 +58,5 @@ describe("File manager overall check", () => {
     const firstFileInTheCategory = ManageFiles.firstFileInTheCategory
     await expect(firstFileInTheCategory).toBeDisplayed()
     await expect(firstFileInTheCategory).toHaveText("test.mp3")
-    //await browser.pause(60000000)
   })
 })
