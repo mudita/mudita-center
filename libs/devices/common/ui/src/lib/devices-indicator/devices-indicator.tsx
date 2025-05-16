@@ -69,8 +69,10 @@ const Badge = styled.span`
   line-height: ${({ theme }) => theme.app.lineHeight.headline5};
   font-weight: ${({ theme }) => theme.app.fontWeight.bold};
   transition-property: background-color;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
+  transition-duration: ${({ theme }) =>
+    theme.app.constants.buttonTransitionDuration}ms;
+  transition-timing-function: ${({ theme }) =>
+    theme.app.constants.buttonTransitionEasing};
 `
 
 const Wrapper = styled(Button)<{ $visible?: boolean }>`
