@@ -18,6 +18,8 @@ export enum IconType {
   Overview = "overview",
   PasswordHide = "password-hide",
   PasswordShow = "password-show",
+  Phone = "phone",
+  RecoveryMode = "recovery-mode",
   Search = "search",
   Settings = "settings",
   Spinner = "spinner",
