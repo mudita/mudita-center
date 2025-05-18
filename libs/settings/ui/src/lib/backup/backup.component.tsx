@@ -15,7 +15,7 @@ import {
 import { TextDisplayStyle } from "app-theme/models"
 import { borderColor } from "app-theme/utils"
 import { FormattedMessage } from "react-intl"
-import { LegacyButton } from "app-theme/ui"
+import { LegacyButton, LegacyText } from "app-theme/ui"
 import { defineMessages, formatMessage } from "app-localize/utils"
 
 const BackupWrapper = styled.section`
@@ -37,6 +37,14 @@ const BackupData = styled(Data)`
   grid-template-areas:
     "Label"
     "Message";
+`
+
+const BackupLocationLabel = styled(LegacyText)`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 3.2rem;
+  grid-area: Message;
 `
 
 const BackupActionsWrapper = styled(SettingsActionsWrapper)`
@@ -72,6 +80,13 @@ export const Backup: FunctionComponent<BackupProps> = ({
           <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id={messages.label.id} />
           </SettingsLabel>
+          <BackupLocationLabel
+            displayStyle={TextDisplayStyle.Paragraph3}
+            data-testid="backup-location"
+            color="secondary"
+          >
+            {backupLocation}
+          </BackupLocationLabel>
           {/* <ElementWithTooltip
             showIfTextEllipsis
             Element={

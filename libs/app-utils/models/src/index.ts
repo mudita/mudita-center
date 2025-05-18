@@ -6,3 +6,4 @@
 export * from "./lib/nested-partial"
 export * from "./lib/dot-notation"
 export * from "./lib/app-actions-ipc-events"
+export * from "./lib/open-dialog-options"
