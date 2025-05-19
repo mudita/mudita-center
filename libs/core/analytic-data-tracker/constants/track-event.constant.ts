@@ -20,4 +20,5 @@ export enum TrackEventCategory {
   HarmonyUpdateDownload = "Harmony Update - download",
   HelpFeedbackVisit = "Help feedback - visits",
   HelpFeedbackVote = "Help feedback - votes",
+  FileTransferSend = "File transfer - send",
 }

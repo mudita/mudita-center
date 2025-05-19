@@ -67,6 +67,8 @@ export enum ActionName {
   clearFileTransferErrors = "generic-file-transfer/clear-errors",
   setFilesTransferMode = "generic-file-transfer/set-files-transfer-mode",
   setModeWithProgressReset = "generic-file-transfer/set-mode-with-progress-reset",
+  TrackInfo = "generic-file-transfer/track-info",
+  SendFilesTransferAnalysis = "generic-file-transfer/send-files-transfer-analysis",
 
   SetDataTransfer = "generic-data-transfer/set-data-transfer",
   SetDataTransferStatus = "generic-data-transfer/set-data-transfer-status",

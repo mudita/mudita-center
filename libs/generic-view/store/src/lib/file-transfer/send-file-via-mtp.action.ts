@@ -18,8 +18,10 @@ import {
   sendFilesChunkSent,
   sendFilesFinished,
   sendFilesPreSend,
+  trackInfo,
 } from "./actions"
 import { ActionName } from "../action-names"
+import { FilesTransferMode } from "./files-transfer-mode.type"
 
 export interface SendFileViaMTPPayload {
   file: FileWithPath
@@ -56,6 +58,8 @@ export const sendFileViaMTP = createAsyncThunk<
     if (!startSendFileViaMtpResult.ok) {
       return rejectWithValue(startSendFileViaMtpResult.error)
     }
+
+    dispatch(trackInfo({ mode: FilesTransferMode.Mtp, fileId: file.id }))
 
     const { transactionId } = startSendFileViaMtpResult.data
 
