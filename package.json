@@ -60,6 +60,7 @@
     "react-modal": "^3.16.3",
     "react-redux": "^9.2.0",
     "react-router": "^7.3.0",
+    "react-tooltip": "^5.28.1",
     "semver": "^7.7.1",
     "serialport": "^13.0.0",
     "sql.js": "^1.12.0",

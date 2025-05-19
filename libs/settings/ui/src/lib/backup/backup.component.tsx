@@ -13,9 +13,14 @@ import {
   SettingsActionsWrapper,
 } from "../settings/settings-ui.styled"
 import { TextDisplayStyle } from "app-theme/models"
-import { borderColor } from "app-theme/utils"
+import { borderColor, backgroundColor, borderRadius } from "app-theme/utils"
 import { FormattedMessage } from "react-intl"
-import { LegacyButton, LegacyText } from "app-theme/ui"
+import {
+  ElementWithTooltipPlace,
+  LegacyButton,
+  LegacyElementWithTooltip,
+  LegacyText,
+} from "app-theme/ui"
 import { defineMessages, formatMessage } from "app-localize/utils"
 
 const BackupWrapper = styled.section`
@@ -55,6 +60,14 @@ const BackupButtonComponent = styled(LegacyButton)`
   padding: 0;
 `
 
+const TooltipText = styled.div`
+  width: 80%;
+  background-color: ${backgroundColor("disabled")};
+  padding: 0.4rem 0.8rem;
+  border-radius: ${borderRadius("medium")};
+  word-break: break-word;
+`
+
 interface BackupProps {
   backupLocation: SettingsData["osBackupLocation"]
   openDialog?: () => void
@@ -80,28 +93,30 @@ export const Backup: FunctionComponent<BackupProps> = ({
           <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id={messages.label.id} />
           </SettingsLabel>
-          <BackupLocationLabel
-            displayStyle={TextDisplayStyle.Paragraph3}
-            data-testid="backup-location"
-            color="secondary"
-          >
-            {backupLocation}
-          </BackupLocationLabel>
-          {/* <ElementWithTooltip
+          <LegacyElementWithTooltip
             showIfTextEllipsis
             Element={
-              <Message
+              <BackupLocationLabel
                 displayStyle={TextDisplayStyle.Paragraph3}
                 data-testid="backup-location"
                 color="secondary"
               >
                 {backupLocation}
-              </Message>
+              </BackupLocationLabel>
             }
-            place={ElementWithTooltipPlace.BottomRight}
+            place={ElementWithTooltipPlace.BottomStart}
           >
-            <TextTooltip description={backupLocation} />
-          </ElementWithTooltip> */}
+            <TooltipText>
+              <LegacyText
+                displayStyle={TextDisplayStyle.Label}
+                color="primary"
+                element={"p"}
+                message={backupLocation}
+              >
+                {backupLocation}
+              </LegacyText>
+            </TooltipText>
+          </LegacyElementWithTooltip>
         </BackupData>
         <BackupActionsWrapper>
           <BackupButtonComponent
