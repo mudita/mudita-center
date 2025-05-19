@@ -23,12 +23,14 @@ import {
   sendFilesPreSend,
   setFilesTransferMode,
   setModeWithProgressReset,
+  trackInfo,
 } from "./actions"
 import { legacySendFile } from "./legacy-send-file.action"
 import { getFile } from "./get-file.action"
 import { sendFiles } from "./send-files.action"
 import { ApiFileTransferError } from "device/models"
 import { FilesTransferMode } from "./files-transfer-mode.type"
+import { sendFilesTransferAnalysis } from "./send-files-transfer-analysis.action"
 
 interface FileTransferError {
   code?: AppErrorType
@@ -139,6 +141,7 @@ interface FileTransferState {
     [actionId: ActionId]: AbortController
   }
   filesTransferMode: FilesTransferMode
+  trackingInfo: Record<FileId, { modes: FilesTransferMode[] }>
 }
 
 const initialState: FileTransferState = {
@@ -151,6 +154,7 @@ const initialState: FileTransferState = {
   filesTransferSend: {},
   filesTransferSendAbortActions: {},
   filesTransferMode: FilesTransferMode.Mtp,
+  trackingInfo: {},
 }
 
 export const genericFileTransferReducer = createReducer(
@@ -293,6 +297,7 @@ export const genericFileTransferReducer = createReducer(
       }
     })
     builder.addCase(sendFilesClear, (state, action) => {
+      state.trackingInfo = {}
       if (!action.payload) {
         state.filesTransferSend = {}
         state.filesTransferErrors = {}
@@ -344,6 +349,23 @@ export const genericFileTransferReducer = createReducer(
         }
       }
       state.filesTransferMode = action.payload.filesTransferMode
+    })
+    builder.addCase(trackInfo, (state, action) => {
+      if (!state.trackingInfo[action.payload.fileId]) {
+        state.trackingInfo[action.payload.fileId] = {
+          modes: [action.payload.mode],
+        }
+      } else {
+        state.trackingInfo[action.payload.fileId].modes.push(
+          action.payload.mode
+        )
+      }
+    })
+    builder.addCase(sendFilesTransferAnalysis.fulfilled, (state) => {
+      state.trackingInfo = {}
+    })
+    builder.addCase(sendFilesTransferAnalysis.rejected, (state) => {
+      state.trackingInfo = {}
     })
   }
 )
