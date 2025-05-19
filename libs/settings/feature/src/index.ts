@@ -5,3 +5,6 @@
 
 export * from "./lib/about-page/about"
 export * from "./lib/backup-page/backup"
+export * from "./lib/license/license"
+export * from "./lib/privacy-policy/privacy-policy"
+export * from "./lib/terms-of-service/terms-of-service"

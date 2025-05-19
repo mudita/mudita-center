@@ -3,20 +3,45 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppActions } from "app-utils/renderer"
 import { FunctionComponent } from "react"
 import { About } from "settings/ui"
 
 export const SettingsAboutPage: FunctionComponent = () => {
+  const legalWindows = {
+    license: {
+      path: "/license",
+      title: "Mudita Center - License",
+    },
+    terms: {
+      path: "/terms-of-service",
+      title: "Mudita Center - Terms of Service",
+    },
+    policy: {
+      path: "/privacy-policy",
+      title: "Mudita Center - Privacy Policy",
+    },
+  }
+
   const openLicenseWindow = () => {
-    console.log("Open License")
+    AppActions.openLegalWindow(
+      legalWindows.license.path,
+      legalWindows.license.title
+    )
   }
 
   const openTermsOfServiceWindow = () => {
-    console.log("Open Terms of Service")
+    AppActions.openLegalWindow(
+      legalWindows.terms.path,
+      legalWindows.terms.title
+    )
   }
 
   const openPrivacyPolicyWindow = () => {
-    console.log("Open Privacy Policy")
+    AppActions.openLegalWindow(
+      legalWindows.policy.path,
+      legalWindows.policy.title
+    )
   }
 
   const handleAppUpdateAvailableCheck = () => {

@@ -18,4 +18,10 @@ export const appActions = {
       options
     )
   },
+  openLegalWindow: (path: string, title: string): void => {
+    void electronAPI.ipcRenderer.invoke(AppActionsIpcEvents.OpenLegalWindow, {
+      path,
+      title,
+    })
+  },
 }

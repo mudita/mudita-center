@@ -12,3 +12,18 @@ export enum SettingsTestId {
   AboutLicenseButton = "about-license-button",
   AboutUpdateButton = "about-update-button",
 }
+
+export enum TermsOfServiceComponentTestIds {
+  Wrapper = "terms-of-service-component-wrapper",
+  Title = "terms-of-service-component-title",
+}
+
+export enum PrivacyPolicyComponentTestIds {
+  Wrapper = "privacy-policy-component-wrapper",
+  Title = "privacy-policy-component-title",
+}
+
+export enum LicenseComponentTestIds {
+  Wrapper = "License-component-wrapper",
+  Title = "license-component-title",
+}

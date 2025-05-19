@@ -6,4 +6,5 @@
 export enum AppActionsIpcEvents {
   Close = "appActions:close",
   OpenDirectoryDialog = "appActions:openDirectoryDialog",
+  OpenLegalWindow = "appActions:openLegalWindow",
 }

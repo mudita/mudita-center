@@ -23,5 +23,12 @@ export const initAppActions = (ipcMain: IpcMain) => {
         return (appActionsService as AppActionsService).openFileDialog(options)
       }
     )
+
+    ipcMain.handle(
+      AppActionsIpcEvents.OpenLegalWindow,
+      (_, { path, title }: { path: string; title: string }) => {
+        return appActionsService?.openLegalWindow(path, title)
+      }
+    )
   }
 }

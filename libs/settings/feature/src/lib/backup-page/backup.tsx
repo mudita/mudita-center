@@ -7,7 +7,7 @@ import { FunctionComponent, useEffect, useState } from "react"
 import styled from "styled-components"
 import { AppSettings } from "app-settings/renderer"
 import { Backup } from "settings/ui"
-import { appActions } from "app-utils/main"
+import { AppActions } from "app-utils/renderer"
 
 export const SettingsBackupPage: FunctionComponent = () => {
   const [backupLocation, setBackupLocation] = useState<string>("")
@@ -31,14 +31,23 @@ export const SettingsBackupPage: FunctionComponent = () => {
   }
 
   const openDialog = async () => {
-    // const location = await appActions.openFileDialog({
-    //   properties: ["openDirectory"],
-    //   title: "Choose backup folder",
-    // })
-    // console.log("Nowa lokalizacja: ", location)
-    // if (location) {
-    //   setBackupLocation(location)
-    // }
+    const location = await AppActions.openFileDialog({
+      properties: ["openDirectory"],
+      title: "Choose backup folder",
+    })
+
+    if (location) {
+      const currentSettings = await AppSettings.get()
+
+      await AppSettings.set({
+        ...currentSettings,
+        user: {
+          ...currentSettings.user,
+          backupLocation: location,
+        },
+      })
+      setBackupLocation(location)
+    }
   }
 
   return <Backup backupLocation={backupLocation} openDialog={openDialog} />
