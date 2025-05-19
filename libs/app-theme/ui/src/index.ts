@@ -8,6 +8,8 @@ export * from "./lib/button/button"
 export * from "./lib/icon-button/icon-button"
 export * from "./lib/modal/modal"
 export * from "./lib/form/text-input/text-input"
+export * from "./lib/typography/typography"
+export * from "./lib/typography/typography-styles"
 
 // Legacy components
 export * from "./lib/legacy-text/text.component"
