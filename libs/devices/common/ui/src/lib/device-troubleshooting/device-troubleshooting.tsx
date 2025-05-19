@@ -16,49 +16,49 @@ import {
 } from "app-theme/models"
 
 const messages = defineMessages({
-  title: { id: "general.components.troubleshooting.title" },
-  subtitle: { id: "general.components.troubleshooting.subtitle" },
+  title: { id: "general.troubleshootingScreen.title" },
+  subtitle: { id: "general.troubleshootingScreen.subtitle" },
   instructionsTitle: {
-    id: "general.components.troubleshooting.instructions.title",
+    id: "general.troubleshootingScreen.instructions.title",
   },
   additionalInstructionsTitle: {
-    id: "general.components.troubleshooting.additionalInstructions.title",
+    id: "general.troubleshootingScreen.additionalInstructions.title",
   },
   tryAgainButton: {
-    id: "general.components.troubleshooting.button.text",
+    id: "general.troubleshootingScreen.button.text",
   },
   contactSupportLabel: {
-    id: "general.components.troubleshooting.contactSupport.text",
+    id: "general.troubleshootingScreen.contactSupport.text",
   },
 })
 
 const basicInstructions = defineMessages({
   step1: {
-    id: "general.components.troubleshooting.instructions.step1",
+    id: "general.troubleshootingScreen.instructions.step1",
   },
   step2: {
-    id: "general.components.troubleshooting.instructions.step2",
+    id: "general.troubleshootingScreen.instructions.step2",
   },
   step3: {
-    id: "general.components.troubleshooting.instructions.step3",
+    id: "general.troubleshootingScreen.instructions.step3",
   },
   step4: {
-    id: "general.components.troubleshooting.instructions.step4",
+    id: "general.troubleshootingScreen.instructions.step4",
   },
 })
 
 const additionalInstructions = defineMessages({
   step1: {
-    id: "general.components.troubleshooting.additionalInstructions.step1",
+    id: "general.troubleshootingScreen.additionalInstructions.step1",
   },
   step2: {
-    id: "general.components.troubleshooting.additionalInstructions.step2",
+    id: "general.troubleshootingScreen.additionalInstructions.step2",
   },
   step3: {
-    id: "general.components.troubleshooting.additionalInstructions.step3",
+    id: "general.troubleshootingScreen.additionalInstructions.step3",
   },
   step4: {
-    id: "general.components.troubleshooting.additionalInstructions.step4",
+    id: "general.troubleshootingScreen.additionalInstructions.step4",
   },
 })
 
