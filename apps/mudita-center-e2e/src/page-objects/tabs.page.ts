@@ -34,6 +34,10 @@ class NavigationTabs extends Page {
     return $('[data-testid="help-menu-button"]')
   }
 
+  public get manageFilesButton() {
+    return $('[data-testid="icon-FilesManager"]')
+  }
+
   public async openHelpPage() {
     const helpTab = await this.helpTab
     await helpTab.waitForDisplayed({ timeout: 15000 })
