@@ -79,7 +79,7 @@ const MacInterferingApps: string[] = [
   "Lightroom",
 ]
 const interferingApps =
-  process.platform === "win32" ? WindowsInterferingApps : MacInterferingApps
+  process.platform === "darwin" ? MacInterferingApps : WindowsInterferingApps
 
 const InterferingAppsTooltipIcon: FunctionComponent = () => {
   return (

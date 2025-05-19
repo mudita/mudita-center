@@ -15,6 +15,7 @@ import {
   sendFiles,
   sendFilesClear,
   SendFilesPayload,
+  sendFilesTransferAnalysis,
 } from "generic-view/store"
 import { useDispatch, useStore } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -97,6 +98,7 @@ export const useUploadFilesButtonAction = () => {
         groupId: action.actionId,
       })
 
+      dispatch(sendFilesTransferAnalysis({ groupId: action.actionId }))
       if (
         response.meta.requestStatus === "rejected" ||
         failedFiles.length > 0

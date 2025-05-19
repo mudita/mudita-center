@@ -115,3 +115,8 @@ export const setModeWithProgressReset = createAction<{
   fileId: FileId
   filesTransferMode: FilesTransferMode
 }>(ActionName.setModeWithProgressReset)
+
+export const trackInfo = createAction<{
+  fileId: FileId
+  mode: FilesTransferMode
+}>(ActionName.TrackInfo)
