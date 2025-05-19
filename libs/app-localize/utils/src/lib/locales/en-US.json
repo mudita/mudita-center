@@ -6,6 +6,8 @@
   "general.components.deviceCard.activeLabel": "(Active)",
   "general.components.deviceSelector.title": "Select a device to continue",
   "general.components.deviceSelector.subtitle": "You can change active devices later",
+  "general.components.deviceConnecting.modal.title": "Connecting, please wait...",
+  "general.components.deviceSwitching.title": "Checking connection, please wait...",
   "general.components.searchInput.emptyState": "We couldn't find anything...",
   "general.privacyPolicyModal.title": "Privacy Policy",
   "general.privacyPolicyModal.description": "Please read and agree to the Privacy policy to be able to use Mudita Center.",
