@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { paragraphs } from "./paragraphs"
-import { headlines } from "./headlines"
+import { paragraphsStyles } from "./paragraphsStyles"
+import { headlinesStyles } from "./headlinesStyles"
 
 export const typographyStyles = {
-  paragraph: paragraphs,
-  headline: headlines,
+  paragraph: paragraphsStyles,
+  headline: headlinesStyles,
 }

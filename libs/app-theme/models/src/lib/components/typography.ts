@@ -15,3 +15,21 @@ export enum TypographyTestId {
   P4 = "ui-typography-p4",
   P5 = "ui-typography-p5",
 }
+
+export enum TypographyTransform {
+  Capitalize = "capitalize",
+  Lowercase = "lowercase",
+  Uppercase = "uppercase",
+  CapitalizeFirstLetter = "capitalize-first-letter",
+}
+
+export enum TypographyAlign {
+  Left = "left",
+  Right = "right",
+  Center = "center",
+  Justify = "justify",
+}
+
+export enum TypographyModifier {
+  FormatBytes = "format-bytes",
+}

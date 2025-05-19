@@ -5,16 +5,20 @@
 
 import styled, { css } from "styled-components"
 import { TypographyTestId } from "app-theme/models"
+import { baseTypographyStyles, BaseTypographyProps } from "./base-typography"
 
-const baseParagraphStyles = css`
+const baseParagraphStyles = css<BaseTypographyProps>`
   font-weight: ${({ theme }) => theme.app.fontWeight.regular};
   color: ${({ theme }) => theme.app.color.grey2};
   margin: 0;
   padding: 0;
 
-  strong {
+  strong,
+  b {
     font-weight: ${({ theme }) => theme.app.fontWeight.bold};
   }
+
+  ${baseTypographyStyles};
 `
 
 const paragraph1Styles = css`
@@ -93,7 +97,7 @@ export const P5 = styled.p.attrs((attrs) => ({
   ${paragraph5Styles};
 `
 
-export const paragraphs = {
+export const paragraphsStyles = {
   P1: paragraph1Styles,
   P2: paragraph2Styles,
   P3: paragraph3Styles,

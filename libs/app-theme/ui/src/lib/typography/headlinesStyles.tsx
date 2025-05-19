@@ -5,12 +5,14 @@
 
 import styled, { css } from "styled-components"
 import { TypographyTestId } from "app-theme/models"
+import { baseTypographyStyles, BaseTypographyProps } from "./base-typography"
 
-const baseHeadingStyles = css`
+const baseHeadingStyles = css<BaseTypographyProps>`
   font-weight: ${({ theme }) => theme.app.fontWeight.bold};
   color: ${({ theme }) => theme.app.color.black};
   margin: 0;
   padding: 0;
+  ${baseTypographyStyles};
 `
 
 const heading1Styles = css`
@@ -83,7 +85,7 @@ export const H5 = styled.h5.attrs((attrs) => ({
   ${heading5Styles};
 `
 
-export const headlines = {
+export const headlinesStyles = {
   H1: heading1Styles,
   H2: heading2Styles,
   H3: heading3Styles,

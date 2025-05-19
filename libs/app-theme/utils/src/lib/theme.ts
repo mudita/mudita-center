@@ -6,6 +6,8 @@
 import { appTheme } from "./app-theme"
 import { legacyTheme } from "./legacy-theme"
 
+export type {AppColor } from "./app-theme/color"
+
 export const theme = {
   app: appTheme,
   legacy: legacyTheme,

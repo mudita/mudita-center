@@ -3,16 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
-import { P1, P2, P3, P4, P5 } from "./paragraphs"
-import { H1, H2, H3, H4, H5 } from "./headlines"
+import { FunctionComponent, PropsWithChildren } from "react"
+import { P1, P2, P3, P4, P5 } from "./paragraphsStyles"
+import { H1, H2, H3, H4, H5 } from "./headlinesStyles"
 import { BaseTypography } from "./base-typography"
 
-interface Props {
-  //
-}
-
-export const Typography: FunctionComponent<Props> & {
+export const Typography: FunctionComponent & {
   H1: typeof BaseTypography
   H2: typeof BaseTypography
   H3: typeof BaseTypography
@@ -23,25 +19,33 @@ export const Typography: FunctionComponent<Props> & {
   P3: typeof BaseTypography
   P4: typeof BaseTypography
   P5: typeof BaseTypography
-} = (props) => {
+} = () => {
   return null
 }
 
-Typography.H1 = (props) => (
-  <BaseTypography {...props}>
-    <H1 {...props} />
-  </BaseTypography>
-)
-Typography.H2 = H2
-Typography.H3 = H3
-Typography.H4 = H4
-Typography.H5 = H5
+const wrapWithBaseTypography = (
+  Component: FunctionComponent<PropsWithChildren>
+) => {
+  return ({ children, ...props }: PropsWithChildren) => {
+    return (
+      <BaseTypography {...props}>
+        <Component>{children}</Component>
+      </BaseTypography>
+    )
+  }
+}
 
-Typography.P1 = P1
-Typography.P2 = P2
-Typography.P3 = P3
-Typography.P4 = P4
-Typography.P5 = P5
+Typography.H1 = wrapWithBaseTypography(H1)
+Typography.H2 = wrapWithBaseTypography(H2)
+Typography.H3 = wrapWithBaseTypography(H3)
+Typography.H4 = wrapWithBaseTypography(H4)
+Typography.H5 = wrapWithBaseTypography(H5)
+
+Typography.P1 = wrapWithBaseTypography(P1)
+Typography.P2 = wrapWithBaseTypography(P2)
+Typography.P3 = wrapWithBaseTypography(P3)
+Typography.P4 = wrapWithBaseTypography(P4)
+Typography.P5 = wrapWithBaseTypography(P5)
 
 //
 // const TypographyWrapper = styled.div<TypographyWrapperStyledProps>`
