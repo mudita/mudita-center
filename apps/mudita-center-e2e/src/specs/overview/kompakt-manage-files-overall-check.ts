@@ -25,13 +25,6 @@ describe("File manager overall check", () => {
       serialNumber: "first-serial-number",
     })
 
-    // mock contacts function for testing/modification purposes
-    mockEntityDownloadProcess({
-      path: "path-1",
-      data: selectedContactsEntities,
-      entityType: "contacts",
-    })
-
     await browser.pause(6000)
     const menuItem = await $(`//a[@href="#/generic/mc-overview"]`)
 
