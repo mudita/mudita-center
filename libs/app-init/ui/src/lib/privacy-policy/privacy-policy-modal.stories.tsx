@@ -27,7 +27,7 @@ const Decorator = styled.div`
 `
 
 const meta: Meta<typeof PrivacyPolicyModal> = {
-  title: "App/Initialization",
+  title: "App/Initialize/Privacy Policy Modal",
   component: PrivacyPolicyModal,
   decorators: [
     (Story) => (
@@ -43,7 +43,6 @@ export default meta
 type Story = StoryObj<typeof PrivacyPolicyModal>
 
 export const Default: Story = {
-  name: "Privacy Policy Acceptance",
   argTypes: {
     opened: storybookHelper
       .assignCategory("Functional")

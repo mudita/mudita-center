@@ -18,7 +18,7 @@ const Decorator = styled.div`
 `
 
 const meta: Meta<typeof DeviceTroubleshooting> = {
-  title: "App/Devices/Troubleshooting",
+  title: "App/Devices/Troubleshooting Screen",
   component: DeviceTroubleshooting,
 }
 

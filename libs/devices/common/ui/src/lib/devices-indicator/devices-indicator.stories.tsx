@@ -10,16 +10,6 @@ import { storybookHelper } from "app-theme/utils"
 const meta: Meta<typeof DevicesIndicator> = {
   title: "App/Devices/Devices indicator",
   component: DevicesIndicator,
-  tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "The `DevicesIndicator` component is used to display the number of connected devices. " +
-          "It inherits props from the `<Button>` component and additionally accepts the `devicesCount` prop.",
-      },
-    },
-  },
 }
 
 export default meta

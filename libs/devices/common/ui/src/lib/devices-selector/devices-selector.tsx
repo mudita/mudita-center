@@ -83,7 +83,7 @@ const List = styled.ul`
   margin: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 1.6rem 0 1.2rem;
+  padding: 1.6rem 2.6rem 1.2rem;
 
   display: grid;
   grid-template-columns: repeat(auto-fill, 34rem);
