@@ -25,6 +25,7 @@ import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
 import { FilesTransferMode } from "./files-transfer-mode.type"
 import { isMtpInitializeAccessError } from "./is-mtp-initialize-access-error"
 import { selectFilesTransferMode } from "../selectors/file-transfer-sending"
+import { delay } from "shared/utils"
 
 export interface SendFilesPayload {
   actionId: string
@@ -45,7 +46,7 @@ export const sendFiles = createAsyncThunk<
     { dispatch, signal, abort, rejectWithValue, getState }
   ) => {
     let switchToSerialCounter = 0
-    const maxSwitchToSerialPortTries = 2
+    const maxSwitchToSerialPortTries = 100
     const mainAbortController = new AbortController()
     mainAbortController.abort = abort
     dispatch(
@@ -110,6 +111,12 @@ export const sendFiles = createAsyncThunk<
       ) {
         const isMtpAvailable = await checkMtpAvailability()
         if (isMtpAvailable) {
+          //TEST CODE START - need to be removed
+          if (switchTimer) {
+            clearTimeout(switchTimer)
+          }
+          testCode()
+          //TEST CODE END
           console.log("MTP became available, switching mode.")
           sendFileAbortController.abort()
           switchToSerialCounter++
@@ -117,6 +124,22 @@ export const sendFiles = createAsyncThunk<
       }
     }, 30000) //Test delay - change this value to 3000ms
     let currentFileIndex = 0
+    let switchTimer: NodeJS.Timeout | null = null
+    const SWITCH_DELAY = 30_000
+    //TEST CODE START - need to be removed
+    const testCode = () => {
+      switchTimer = setTimeout(() => {
+        const currentMode = selectFilesTransferMode(getState())
+        console.log("currentMode:", currentMode)
+        if (currentMode === FilesTransferMode.Mtp) {
+          console.log("[Auto‑switch] 30s w MTP, przełączam na SerialPort")
+          sendFileAbortController.abort()
+          dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
+        }
+      }, SWITCH_DELAY)
+    }
+    testCode()
+    //TEST CODE END
     const processFiles = async () => {
       while (currentFileIndex < files.length) {
         const file = files[currentFileIndex]
@@ -132,19 +155,6 @@ export const sendFiles = createAsyncThunk<
               })
             )
 
-            //TEST CODE START - need to be removed
-            setTimeout(() => {
-              const currentMode = selectFilesTransferMode(getState())
-              console.log("currentMode: " + currentMode)
-              if (currentMode === FilesTransferMode.Mtp) {
-                console.log(
-                  "[TEST] Auto-switching from MTP to SerialPort after 1s"
-                )
-                sendFileAbortController.abort()
-                dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
-              }
-            }, 2500)
-            //TEST CODE END
             sendFileAbortController.abort = (
               sendMtpDispatch as unknown as { abort: AbortController["abort"] }
             ).abort
@@ -204,6 +214,7 @@ export const sendFiles = createAsyncThunk<
 
             if (meta.requestStatus === "rejected" && meta.aborted) {
               wasAborted = true
+              await delay(2000)
               return
             }
 
