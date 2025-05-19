@@ -198,6 +198,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktDisconnectDuringBackup),
       toRelativePath(TestFilesPaths.kompaktBackupErrorCancel),
       toRelativePath(TestFilesPaths.kompaktBackupErrorDisconnect),
+      toRelativePath(TestFilesPaths.kompaktManageFilesOverall),
     ],
   },
   // Patterns to exclude.
