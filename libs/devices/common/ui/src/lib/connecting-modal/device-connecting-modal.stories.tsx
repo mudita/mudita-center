@@ -6,7 +6,7 @@
 import styled from "styled-components"
 import type { Meta, StoryObj } from "@storybook/react"
 import { storybookHelper } from "app-theme/utils"
-import { PrivacyPolicyModal } from "./privacy-policy-modal"
+import { DeviceConnectingModal } from "./device-connecting-modal"
 
 const Decorator = styled.div`
   width: 100%;
@@ -26,9 +26,9 @@ const Decorator = styled.div`
   }
 `
 
-const meta: Meta<typeof PrivacyPolicyModal> = {
-  title: "App/Initialize/Privacy Policy Modal",
-  component: PrivacyPolicyModal,
+const meta: Meta<typeof DeviceConnectingModal> = {
+  title: "App/Devices/Connecting Modal",
+  component: DeviceConnectingModal,
   decorators: [
     (Story) => (
       <Decorator className={"story-decorator"}>
@@ -40,25 +40,13 @@ const meta: Meta<typeof PrivacyPolicyModal> = {
 
 export default meta
 
-type Story = StoryObj<typeof PrivacyPolicyModal>
+type Story = StoryObj<typeof DeviceConnectingModal>
 
 export const Default: Story = {
   argTypes: {
     opened: storybookHelper
       .assignCategory("Functional")
       .addDescription("Decides whether the modal is opened or closed.")
-      .apply(),
-    onClose: storybookHelper
-      .assignCategory("Functional")
-      .addDescription(
-        "Defines an action that is triggered when the modal is closed."
-      )
-      .apply(),
-    onAccept: storybookHelper
-      .assignCategory("Functional")
-      .addDescription(
-        "Defines an action that is triggered when the modal is accepted."
-      )
       .apply(),
   },
   args: {

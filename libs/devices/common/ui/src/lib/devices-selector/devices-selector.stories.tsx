@@ -11,6 +11,16 @@ import { Default as DevicesDrawerStory } from "../devices-drawer/devices-drawer.
 import styled from "styled-components"
 import { DevicesSelectorCard } from "./devices-selector-card"
 
+const Decorator = styled.div`
+  > div {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+`
+
 const SingleItemDecorator = styled.div`
   width: 34rem;
   height: 44rem;
@@ -34,9 +44,9 @@ export const Default: Story = {
   name: "Devices selector",
   decorators: [
     (Story) => (
-      <div className={"no-padding"}>
+      <Decorator className={"no-padding"}>
         <Story />
-      </div>
+      </Decorator>
     ),
   ],
   argTypes: {
