@@ -10,23 +10,10 @@ import styled from "styled-components"
 import { ModalContent } from "./modal-content"
 import { Modal } from "./modal"
 import { Button } from "../button/button"
+import { Description, Stories, Subtitle, Title } from "@storybook/blocks"
 
 const Decorator = styled.div`
-  width: 100%;
-  height: 100%;
-
-  .ReactModalPortal {
-    width: 100%;
-    height: 100%;
-  }
-
-  .ReactModal__Overlay {
-    width: 100%;
-    height: 100%;
-    position: relative !important;
-    padding: 2rem !important;
-    box-sizing: border-box !important;
-  }
+  min-height: 54rem;
 `
 
 const meta: Meta<typeof ModalContent> = {
@@ -35,7 +22,7 @@ const meta: Meta<typeof ModalContent> = {
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <Decorator className={"story-decorator"}>
+      <Decorator className={"story-decorator no-padding"}>
         <Story />
       </Decorator>
     ),
@@ -70,6 +57,14 @@ const meta: Meta<typeof ModalContent> = {
           "```\n\n",
       },
     },
+    page: () => (
+      <>
+        <Title />
+        <Subtitle />
+        <Description />
+        <Stories />
+      </>
+    ),
   },
 }
 

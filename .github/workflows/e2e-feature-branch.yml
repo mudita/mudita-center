@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         runner_label: [linux-e2e, windows-e2e, macos-e2e]
-        node-version: [22]
+        node-version: [22.15.0]
     environment: development
     steps:
       - name: Checkout code

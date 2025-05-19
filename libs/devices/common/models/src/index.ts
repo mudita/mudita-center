@@ -4,3 +4,4 @@
  */
 
 export * from "./lib/devices-reducer"
+export * from "./lib/device-image"

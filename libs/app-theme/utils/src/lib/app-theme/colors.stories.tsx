@@ -99,7 +99,8 @@ const meta: Meta<typeof Color> = {
           "```tsx\n" +
           "import styled from 'styled-components'\n\n" +
           "const SomeComponent = styled.div`\n" +
-          "  background-color: ${({ theme }) => theme.app.color.black};\n" +
+          "  background-color: $" +
+          "{({ theme }) => theme.app.color.black};\n" +
           "`\n" +
           "```\n\n" +
           "They can also be accessed through the `theme` object imported from `app-theme/utils` library, " +

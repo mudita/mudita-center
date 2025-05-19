@@ -15,21 +15,10 @@ import { FunctionComponent, PropsWithChildren, ReactElement } from "react"
 import { action } from "@storybook/addon-actions"
 import { Icon } from "../icon/icon"
 
-const Decorator = styled.div`
-  width: 100%;
-  height: 100%;
-
-  .ReactModalPortal {
-    width: 100%;
-    height: 100%;
-  }
-
+const DocsStoryWrapper = styled.div`
   .ReactModal__Overlay {
-    width: 100%;
-    height: 100%;
     position: relative !important;
     padding: 2rem !important;
-    box-sizing: border-box !important;
   }
 `
 
@@ -38,7 +27,7 @@ const meta: Meta<typeof ModalContent> = {
   tags: ["autodocs"],
   decorators: [
     (Story, context) => (
-      <Decorator className={"story-decorator"}>
+      <div className={"story-decorator no-padding"}>
         <Modal
           appElement={context.canvasElement}
           parentSelector={() => {
@@ -53,7 +42,7 @@ const meta: Meta<typeof ModalContent> = {
         >
           <Story />
         </Modal>
-      </Decorator>
+      </div>
     ),
   ],
   parameters: {
@@ -68,7 +57,9 @@ const meta: Meta<typeof ModalContent> = {
           <Title />
           <Subtitle />
           <Description />
-          <Stories />
+          <DocsStoryWrapper>
+            <Stories />
+          </DocsStoryWrapper>
         </>
       ),
     },
