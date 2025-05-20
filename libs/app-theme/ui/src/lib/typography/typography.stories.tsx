@@ -29,7 +29,7 @@ const Decorator = styled.div<{ $border?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 30rem;
+  max-width: 40rem;
   ${({ $border, theme }) =>
     $border &&
     css`
@@ -56,7 +56,8 @@ const meta: Meta<typeof BaseTypography> = {
     as: storybookHelper
       .assignCategory("Functional")
       .addDescription(
-        "Defines the HTML element to be used instead of the default one (`p` or `h1-h6`)."
+        "Defines the HTML tag to be used instead of the default one for given typography.\n\n" +
+          "**Important!** `<Typography />` components wrapped in another styled-component must use `forwardedAs` prop instead.\n\n"
       )
       .apply({
         control: {
@@ -414,6 +415,52 @@ export const Color: Story = {
         <Typography.P1 {...args} color="red">
           red
         </Typography.P1>
+      </>
+    )
+  },
+}
+
+export const CustomTag: Story = {
+  decorators: [
+    (Story) => (
+      <Decorator>
+        <Story />
+      </Decorator>
+    ),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The `as` prop can be used to define a custom HTML tag to be used instead of the default one. " +
+          "This is useful when you want to use a different HTML element for semantic purposes.\n\n" +
+          'For example, you can use `as="p"` to render the component as a paragraph instead of a heading,' +
+          " while keeping the heading styles.\n\n" +
+          "However, due to how styled-components work, `<Typography />` component wrapped in another styled-component" +
+          " must use the `forwardedAs` prop instead.\n\n",
+      },
+      source: {
+        code:
+          "const EnhancedTypography = styled(Typography.H3)`\n" +
+          "  text-decoration: line-through;\n" +
+          "`\n" +
+          '<Typography.H3 as="p">Typography.H3 as p</Typography.H3>\n\n' +
+          '<EnhancedTypography forwardedAs="p">Typography.H3 as p with custom styles</EnhancedTypography>\n',
+      },
+    },
+  },
+  render: (args) => {
+    const EnhancedTypography = styled(Typography.H3)`
+      text-decoration: line-through;
+    `
+    return (
+      <>
+        <Typography.H3 {...args} as="p">
+          Typography.H3 as p
+        </Typography.H3>
+        <EnhancedTypography forwardedAs="p">
+          Typography.H3 as p with custom styles
+        </EnhancedTypography>
       </>
     )
   },
