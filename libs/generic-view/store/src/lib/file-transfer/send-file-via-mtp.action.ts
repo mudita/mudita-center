@@ -127,7 +127,7 @@ export const sendFileViaMTP = createAsyncThunk<
         return error
       }
 
-      await delay(500)
+      await delay(500, signal)
       return await checkSendFileProgress()
     }
 
