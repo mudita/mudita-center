@@ -110,10 +110,14 @@ export const baseTypographyStyles = css<BaseTypographyProps>`
       text-overflow: ellipsis;
     `}
 
-  text-transform: ${({ textTransform = "inherit" }) =>
-    textTransform === TypographyTransform.CapitalizeFirstLetter
-      ? "lowercase"
-      : textTransform} !important;
+  ${({ textTransform }) =>
+    textTransform &&
+    css`
+      text-transform: ${textTransform ===
+      TypographyTransform.CapitalizeFirstLetter
+        ? "lowercase"
+        : textTransform} !important;
+    `};
 
   ${({ textTransform }) =>
     textTransform === TypographyTransform.CapitalizeFirstLetter &&
@@ -123,7 +127,11 @@ export const baseTypographyStyles = css<BaseTypographyProps>`
       }
     `}
 
-  text-align: ${({ textAlign = "inherit" }) => textAlign} !important;
+  ${({ textAlign }) =>
+    textAlign &&
+    css`
+      text-align: ${textAlign} !important;
+    `};
 
   ${({ unbold }) =>
     unbold &&
@@ -134,7 +142,7 @@ export const baseTypographyStyles = css<BaseTypographyProps>`
       strong {
         font-weight: ${({ theme }) => theme.app.fontWeight.bold} !important;
       }
-    `}
+    `};
 
   ${({ theme, color }) =>
     color &&
