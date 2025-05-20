@@ -13,8 +13,6 @@ import {
   TypographyModifier,
   TypographyTransform,
 } from "app-theme/models"
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { colorsList } from "../../../../utils/src/lib/app-theme/colors.stories"
 import {
   Controls,
   Description,
@@ -24,6 +22,25 @@ import {
   Title,
 } from "@storybook/blocks"
 import { BytesFormatter } from "./bytes-formatter/bytes-formatter"
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { color } from "../../../../utils/src/lib/app-theme/color"
+
+const colorsList = Object.entries(color).flatMap(([name, value]) => {
+  if (typeof value === "object") {
+    return Object.entries(value)
+      .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+      .map(([key, value]) => {
+        return {
+          name: `${name}.${key}`,
+          value: value as string,
+        }
+      })
+  }
+  return {
+    name,
+    value,
+  }
+})
 
 const Decorator = styled.div<{ $border?: boolean }>`
   display: flex;

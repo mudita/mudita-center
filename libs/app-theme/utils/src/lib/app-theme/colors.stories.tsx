@@ -63,7 +63,7 @@ const Color: FunctionComponent<{ name: string; color: string }> = ({
   )
 }
 
-export const colorsList = Object.entries(color).flatMap(([name, value]) => {
+const colorsList = Object.entries(color).flatMap(([name, value]) => {
   if (typeof value === "object") {
     return Object.entries(value)
       .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
