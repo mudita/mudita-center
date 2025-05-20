@@ -265,7 +265,7 @@ export const sendFiles = createAsyncThunk<
                 ? payload
                 : new AppError(ApiFileTransferError.Unknown)
             dispatch(sendFilesError({ id: file.id, error }))
-            break
+            return
           }
         }
         currentFileIndex++
