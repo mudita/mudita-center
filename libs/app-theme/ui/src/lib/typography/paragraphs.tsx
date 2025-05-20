@@ -97,10 +97,25 @@ export const P5 = styled.p.attrs((attrs) => ({
   ${paragraph5Styles};
 `
 
+const labelStyles = css`
+  ${baseParagraphStyles};
+  font-size: ${({ theme }) => theme.app.fontSize.labelText};
+  line-height: ${({ theme }) => theme.app.lineHeight.labelText};
+  letter-spacing: 0.04em;
+`
+
+export const Label = styled.p.attrs((attrs) => ({
+  "data-testid": TypographyTestId.Label,
+  ...attrs,
+}))`
+  ${labelStyles};
+`
+
 export const paragraphsStyles = {
   P1: paragraph1Styles,
   P2: paragraph2Styles,
   P3: paragraph3Styles,
   P4: paragraph4Styles,
   P5: paragraph5Styles,
+  Label: labelStyles,
 }
