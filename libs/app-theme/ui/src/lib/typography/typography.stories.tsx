@@ -506,7 +506,7 @@ export const StandaloneBytesFormatter: StoryObj<typeof BytesFormatter> = {
           "<Typography.P1>\n" +
           "  <BytesFormatter minUnit={'GB'}>700000000</BytesFormatter>\n" +
           "  <br />\n" +
-          "  <BytesFormatter minUnit={'MB'}>700000000 (this won't work)</BytesFormatter>\n" +
+          "  <BytesFormatter minUnit={'GB'}>700000000 (this won't work)</BytesFormatter>\n" +
           "</Typography.P1>\n",
       },
     },
@@ -516,7 +516,7 @@ export const StandaloneBytesFormatter: StoryObj<typeof BytesFormatter> = {
       <Typography.P1>
         <BytesFormatter minUnit={"GB"}>700000000</BytesFormatter>
         <br />
-        <BytesFormatter minUnit={"MB"}>
+        <BytesFormatter minUnit={"GB"}>
           700000000 (this won't work)
         </BytesFormatter>
       </Typography.P1>
