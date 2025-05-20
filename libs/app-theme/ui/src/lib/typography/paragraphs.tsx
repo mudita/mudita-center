@@ -5,7 +5,26 @@
 
 import styled, { css } from "styled-components"
 import { TypographyTestId } from "app-theme/models"
-import { baseTypographyStyles, BaseTypographyProps } from "./base-typography"
+import { BaseTypographyProps, baseTypographyStyles } from "./base-typography"
+
+const baseListStyles = css<BaseTypographyProps>`
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  li {
+    list-style-type: none;
+    padding: 0.4rem 1.2rem 0.4rem 5rem;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    text-align: inherit;
+  }
+`
 
 const baseParagraphStyles = css<BaseTypographyProps>`
   font-weight: ${({ theme }) => theme.app.fontWeight.regular};
@@ -17,6 +36,50 @@ const baseParagraphStyles = css<BaseTypographyProps>`
   b {
     font-weight: ${({ theme }) => theme.app.fontWeight.bold};
   }
+
+  ${({ as, forwardedAs }) =>
+    (as === "ul" || forwardedAs === "ul") &&
+    css`
+      ${baseListStyles};
+
+      li {
+        position: relative;
+
+        &:before {
+          content: "";
+          left: 2.1rem;
+          top: 0.75em;
+          position: absolute;
+          width: 0.7rem;
+          height: 0.7rem;
+          background-color: currentColor;
+          border-radius: 50%;
+        }
+      }
+    `};
+
+  ${({ as, forwardedAs }) =>
+    (as === "ol" || forwardedAs === "ol") &&
+    css`
+      ${baseListStyles};
+
+      counter-reset: list-counter;
+
+      li {
+        position: relative;
+        counter-increment: list-counter;
+
+        &:before {
+          content: counter(list-counter) ".";
+          position: absolute;
+          left: 0.6rem;
+          top: 0.4rem;
+          color: currentColor;
+          text-align: right;
+          min-width: 1.6em;
+        }
+      }
+    `};
 
   ${baseTypographyStyles};
 `
@@ -97,25 +160,21 @@ export const P5 = styled.p.attrs((attrs) => ({
   ${paragraph5Styles};
 `
 
-const labelStyles = css`
-  ${baseParagraphStyles};
-  font-size: ${({ theme }) => theme.app.fontSize.labelText};
-  line-height: ${({ theme }) => theme.app.lineHeight.labelText};
-  letter-spacing: 0.04em;
+const listItemStyles = css`
+  ${baseTypographyStyles};
 `
 
-export const Label = styled.p.attrs((attrs) => ({
-  "data-testid": TypographyTestId.Label,
+export const ListItem = styled.li.attrs((attrs) => ({
+  "data-testid": TypographyTestId.ListItem,
   ...attrs,
 }))`
-  ${labelStyles};
+  ${listItemStyles};
 `
 
 export const paragraphsStyles = {
-  P1: paragraph1Styles,
-  P2: paragraph2Styles,
-  P3: paragraph3Styles,
-  P4: paragraph4Styles,
-  P5: paragraph5Styles,
-  Label: labelStyles,
+  p1: paragraph1Styles,
+  p2: paragraph2Styles,
+  p3: paragraph3Styles,
+  p4: paragraph4Styles,
+  p5: paragraph5Styles,
 }

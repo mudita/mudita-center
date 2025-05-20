@@ -215,6 +215,9 @@ export const Default: Story = {
     return (
       <>
         {Object.keys(Typography).map((key) => {
+          if (key === "LI") {
+            return null
+          }
           const Component = Typography[key as keyof typeof Typography]
           return (
             <Component key={key} {...args}>
@@ -227,7 +230,57 @@ export const Default: Story = {
   },
 }
 
-export const WithTranslation: Story = {
+export const Lists: Story = {
+  decorators: [
+    (Story) => (
+      <Decorator>
+        <Story />
+      </Decorator>
+    ),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "In order to display a bullet or numbered list, a given `<Typography />` component must have " +
+          'the `as="ul"` or `as="ol"` prop assigned.\n\n' +
+          "Then, each list item must be wrapped in `<Typography.LI />` component to provide proper styles and " +
+          "support for custom features. It will also inherit base text styles from the parent (`ul` or `ol`) component.",
+      },
+      source: {
+        code:
+          '<Typography.P1 as="ul">\n' +
+          "  <Typography.LI>List item 1 with P1 styles</Typography.LI>\n" +
+          "  <Typography.LI>List item 2 with P1 styles</Typography.LI>\n" +
+          "  <Typography.LI>List item 3 with P1 styles</Typography.LI>\n" +
+          "</Typography.P1>\n\n" +
+          '<Typography.P2 as="ol">\n' +
+          "  <Typography.LI>List item 1 with P2 styles</Typography.LI>\n" +
+          "  <Typography.LI>List item 2 with P2 styles</Typography.LI>\n" +
+          "  <Typography.LI>List item 3 with P2 styles</Typography.LI>\n" +
+          "</Typography.P2>",
+      },
+    },
+  },
+  render: (args) => {
+    return (
+      <>
+        <Typography.P1 as="ul" {...args}>
+          <Typography.LI>List item 1 with P1 styles</Typography.LI>
+          <Typography.LI>List item 2 with P1 styles</Typography.LI>
+          <Typography.LI>List item 3 with P1 styles</Typography.LI>
+        </Typography.P1>
+        <Typography.P2 as="ol" {...args}>
+          <Typography.LI>List item 1 with P2 styles</Typography.LI>
+          <Typography.LI>List item 2 with P2 styles</Typography.LI>
+          <Typography.LI>List item 3 with P2 styles</Typography.LI>
+        </Typography.P2>
+      </>
+    )
+  },
+}
+
+export const Translations: Story = {
   decorators: [
     (Story) => (
       <Decorator>

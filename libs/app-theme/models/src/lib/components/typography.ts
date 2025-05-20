@@ -14,7 +14,7 @@ export enum TypographyTestId {
   P3 = "ui-typography-p3",
   P4 = "ui-typography-p4",
   P5 = "ui-typography-p5",
-  Label = "ui-typography-label",
+  ListItem = "ui-typography-list-item",
 }
 
 export enum TypographyTransform {

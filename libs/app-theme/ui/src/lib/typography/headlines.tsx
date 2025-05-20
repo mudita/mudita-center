@@ -86,9 +86,9 @@ export const H5 = styled.h5.attrs((attrs) => ({
 `
 
 export const headlinesStyles = {
-  H1: heading1Styles,
-  H2: heading2Styles,
-  H3: heading3Styles,
-  H4: heading4Styles,
-  H5: heading5Styles,
+  h1: heading1Styles,
+  h2: heading2Styles,
+  h3: heading3Styles,
+  h4: heading4Styles,
+  h5: heading5Styles,
 }

@@ -4,7 +4,7 @@
  */
 
 import { FunctionComponent, PropsWithChildren } from "react"
-import { Label, P1, P2, P3, P4, P5 } from "./paragraphs"
+import { ListItem, P1, P2, P3, P4, P5 } from "./paragraphs"
 import { H1, H2, H3, H4, H5 } from "./headlines"
 import { BaseTypography } from "./base-typography"
 
@@ -19,7 +19,7 @@ export const Typography: FunctionComponent & {
   P3: typeof BaseTypography
   P4: typeof BaseTypography
   P5: typeof BaseTypography
-  Label: typeof BaseTypography
+  LI: typeof BaseTypography
 } = () => {
   return null
 }
@@ -48,4 +48,4 @@ Typography.P3 = wrapWithBaseTypography(P3)
 Typography.P4 = wrapWithBaseTypography(P4)
 Typography.P5 = wrapWithBaseTypography(P5)
 
-Typography.Label = wrapWithBaseTypography(Label)
+Typography.LI = wrapWithBaseTypography(ListItem)
