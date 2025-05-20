@@ -114,35 +114,14 @@ export const sendFiles = createAsyncThunk<
       ) {
         const isMtpAvailable = await checkMtpAvailability()
         if (isMtpAvailable) {
-          //TEST CODE START - need to be removed
-          if (switchTimer) {
-            clearTimeout(switchTimer)
-          }
-          testCode()
-          //TEST CODE END
           console.log("MTP became available, switching mode.")
           sendFileAbortController.abort()
           switchToSerialCounter++
         }
       }
-    }, 30000) //Test delay - change this value to 3000ms
+    }, 30000)
     let currentFileIndex = 0
-    let switchTimer: NodeJS.Timeout | null = null
-    const SWITCH_DELAY = 30_000
-    //TEST CODE START - need to be removed
-    const testCode = () => {
-      switchTimer = setTimeout(() => {
-        const currentMode = selectFilesTransferMode(getState())
-        console.log("currentMode:", currentMode)
-        if (currentMode === FilesTransferMode.Mtp) {
-          console.log("[Auto‑switch] 30s w MTP, przełączam na SerialPort")
-          sendFileAbortController.abort()
-          dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
-        }
-      }, SWITCH_DELAY)
-    }
-    testCode()
-    //TEST CODE END
+
     const processFiles = async () => {
       while (currentFileIndex < files.length) {
         const file = files[currentFileIndex]
