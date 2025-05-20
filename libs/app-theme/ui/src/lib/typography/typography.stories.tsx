@@ -80,9 +80,9 @@ const meta: Meta<typeof BaseTypography> = {
     lines: storybookHelper
       .assignCategory("Functional")
       .addDescription(
-        "Defines the number of lines to be displayed. " +
-          "For text taking more space it will be truncated and ended with ellipsis.\n\n" +
-          "Full content will be displayed on hover, using the HTML `title` prop."
+        "Defines the number of lines to be displayed. Must be a number greater than 0.\n\n" +
+          "If text will take more space, it will be truncated and ended with ellipsis. " +
+          "Full text can be displayed on hover, using the HTML `title` prop.\n\n"
       )
       .apply(),
     modifier: storybookHelper
