@@ -24,7 +24,10 @@ import { getMtpSendFileMetadata } from "./get-mtp-send-file-metadata.action"
 import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
 import { FilesTransferMode } from "./files-transfer-mode.type"
 import { isMtpInitializeAccessError } from "./is-mtp-initialize-access-error"
-import { selectFilesTransferMode } from "../selectors/file-transfer-sending"
+import {
+  selectFilesSendingGroup,
+  selectFilesTransferMode,
+} from "../selectors/file-transfer-sending"
 import { delay } from "shared/utils"
 
 export interface SendFilesPayload {
@@ -161,7 +164,17 @@ export const sendFiles = createAsyncThunk<
 
             const { meta, payload } = await sendMtpDispatch
 
+            const files = selectFilesSendingGroup(getState(), {
+              filesIds: [file.id],
+            })
+
+            if (files[0]?.status === "finished") {
+              console.log(`File ${file.name} already sent! Skipping....`)
+              return
+            }
+
             if (meta.requestStatus === "rejected" && meta.aborted) {
+              await delay(2000)
               wasAborted = true
               return
             }
@@ -211,6 +224,15 @@ export const sendFiles = createAsyncThunk<
 
             const { meta, payload } = await sendSerialDispatch
             clearInterval(monitor)
+
+            const files = selectFilesSendingGroup(getState(), {
+              filesIds: [file.id],
+            })
+
+            if (files[0]?.status === "finished") {
+              console.log(`File ${file.name} already sent! Skipping....`)
+              return
+            }
 
             if (meta.requestStatus === "rejected" && meta.aborted) {
               wasAborted = true
