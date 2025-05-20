@@ -15,11 +15,14 @@ export const BytesFormatter: FunctionComponent<Props> = ({
   if (!children) {
     return null
   }
-
-  const bytes = Number(children)
-  if (!isNaN(bytes)) {
-    return formatBytes(Number(children), { minUnit })
+  if (typeof children === "string" && children.trim() === "") {
+    return children
   }
 
-  return children
+  const bytes = Number(children)
+  if (isNaN(bytes)) {
+    return children
+  }
+
+  return formatBytes(Number(children), { minUnit })
 }

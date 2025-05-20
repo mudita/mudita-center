@@ -14,7 +14,7 @@ const appIntl = createIntl({
 
 export const formatMessage = appIntl.formatMessage
 
-interface Messages {
+export interface Messages {
   id: keyof typeof enUS
 }
 

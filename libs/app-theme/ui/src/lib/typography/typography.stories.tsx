@@ -4,7 +4,7 @@
  */
 
 import type { Meta, StoryObj } from "@storybook/react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { Typography } from "./typography"
 import { BaseTypography } from "./base-typography"
 import { storybookHelper } from "app-theme/utils"
@@ -15,13 +15,26 @@ import {
 } from "app-theme/models"
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { colorsList } from "../../../../utils/src/lib/app-theme/colors.stories"
+import {
+  Controls,
+  Description,
+  Primary,
+  Stories,
+  Subtitle,
+  Title,
+} from "@storybook/blocks"
+import { BytesFormatter } from "./bytes-formatter/bytes-formatter"
 
-const Decorator = styled.div`
+const Decorator = styled.div<{ $border?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 25rem;
-  border: dashed 0.1rem ${({ theme }) => theme.app.color.grey4};
+  max-width: 30rem;
+  ${({ $border, theme }) =>
+    $border &&
+    css`
+      border: dashed 0.1rem ${theme.app.color.grey4};
+    `}
 `
 
 const AllDecorator = styled.div`
@@ -40,6 +53,16 @@ const meta: Meta<typeof BaseTypography> = {
   component: BaseTypography,
   tags: ["autodocs"],
   argTypes: {
+    as: storybookHelper
+      .assignCategory("Functional")
+      .addDescription(
+        "Defines the HTML element to be used instead of the default one (`p` or `h1-h6`)."
+      )
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
     title: storybookHelper
       .assignCategory("Functional")
       .addDescription(
@@ -111,6 +134,31 @@ const meta: Meta<typeof BaseTypography> = {
         "Defines whether the text bold styles should be removed or not."
       )
       .apply(),
+    message: storybookHelper
+      .assignCategory("Functional")
+      .addDescription(
+        "Defines the translation key ID.\n\n" +
+          "When provided another prop `values` will be available for passing the variables to the translation function.\n\n" +
+          "This also disables the `children` support."
+      )
+      .apply({
+        control: {
+          type: "text",
+        },
+      }),
+    values: storybookHelper
+      .assignCategory("Functional")
+      .addDescription("Defines the variables for given translation key.")
+      .setType("Object", "Record<string, string | number | boolean>")
+      .apply({
+        control: {
+          type: "object",
+        },
+        if: {
+          arg: "message",
+          neq: undefined,
+        },
+      }),
   },
   args: {
     singleLine: false,
@@ -124,6 +172,16 @@ const meta: Meta<typeof BaseTypography> = {
           "The component itself returns nothing. It must be used in a combination with specific headline or paragraph, using dot-notation. " +
           "For example: `<Typography.H1 />`, `<Typography.P1 />`.",
       },
+      page: () => (
+        <>
+          <Title />
+          <Subtitle />
+          <Description />
+          <Primary />
+          <Controls />
+          <Stories includePrimary={false} />
+        </>
+      ),
     },
   },
 }
@@ -167,10 +225,30 @@ export const Default: Story = {
   },
 }
 
-export const SingleLine: Story = {
+export const WithTranslation: Story = {
   decorators: [
     (Story) => (
       <Decorator>
+        <Story />
+      </Decorator>
+    ),
+  ],
+  parameters: {
+    docs: {
+      source: {
+        code: "<Typography.P1 message='menu.app.title' />\n",
+      },
+    },
+  },
+  render: (args) => {
+    return <Typography.P1 {...args} message="menu.app.title" />
+  },
+}
+
+export const SingleLine: Story = {
+  decorators: [
+    (Story) => (
+      <Decorator $border>
         <Story />
       </Decorator>
     ),
@@ -236,7 +314,7 @@ export const TextTransform: Story = {
 export const TextAlign: Story = {
   decorators: [
     (Story) => (
-      <Decorator>
+      <Decorator $border>
         <Story />
       </Decorator>
     ),
@@ -332,7 +410,8 @@ export const Color: Story = {
   },
 }
 
-export const Modifier: Story = {
+export const BytesModifier: Story = {
+  name: "Modifier - FormatBytes",
   decorators: [
     (Story) => (
       <Decorator>
@@ -342,12 +421,37 @@ export const Modifier: Story = {
   ],
   parameters: {
     docs: {
+      description: {
+        story:
+          "The `TypographyModifier.FormatBytes` modifier formats the text content as bytes " +
+          "and converts it to a human-readable format (e.g. 1.2 MB, 1.5 GB, 2.3 TB).\n" +
+          "When using this modifier, the additional `minUnit` prop can be used to define " +
+          "the minimum unit used in the conversion. The final unit will be calculated automatically, " +
+          "based on the provided value.\n" +
+          "The `minUnit` can be one of the following: `B`, `KB`, `MB`, `GB`, `TB`.\n\n" +
+          "This modifier parses each child separately, but only those being pure numbers " +
+          "or strings parseable***** to numbers will be converted.\n" +
+          "Any other content will be displayed as is. This allows for mixing numbers and text in the same component.\n\n" +
+          "***** Parseable means that the string can be converted to a number type using the `Number` method from JS.\n\n",
+      },
       source: {
         code:
-          '<Typography.P1 modifier="format-bytes">700</Typography.P1>\n' +
-          '<Typography.P1 modifier="format-bytes" minUnit="KB">700</Typography.P1>\n' +
-          '<Typography.P1 modifier="format-bytes" minUnit="MB">700</Typography.P1>\n' +
-          '<Typography.P1 modifier="format-bytes">70000000</Typography.P1>\n',
+          "<Typography.P1 modifier={TypographyModifier.FormatBytes}>\n" +
+          "  700\n" +
+          '  <Typography.P2 as={"span"}> (700 bytes, default unit)</Typography.P2>\n' +
+          "</Typography.P1>\n" +
+          '<Typography.P1 modifier={TypographyModifier.FormatBytes} minUnit={"KB"}>\n' +
+          "  700\n" +
+          '  <Typography.P2 as={"span"}> (700 bytes, min unit KB)</Typography.P2>\n' +
+          "</Typography.P1>\n" +
+          '<Typography.P1 modifier={TypographyModifier.FormatBytes} minUnit={"MB"}>\n' +
+          "  700\n" +
+          '  <Typography.P2 as={"span"}> (700 bytes, min unit MB)</Typography.P2>\n' +
+          "</Typography.P1>\n" +
+          "<Typography.P1 modifier={TypographyModifier.FormatBytes}>\n" +
+          "  70000000\n" +
+          '  <Typography.P2 as={"span"}> (70000000 bytes, default unit)</Typography.P2>\n' +
+          "</Typography.P1>\n",
       },
     },
   },
@@ -356,6 +460,7 @@ export const Modifier: Story = {
       <>
         <Typography.P1 {...args} modifier={TypographyModifier.FormatBytes}>
           700
+          <Typography.P2 as={"span"}> (700 bytes, default unit)</Typography.P2>
         </Typography.P1>
         <Typography.P1
           {...args}
@@ -363,6 +468,7 @@ export const Modifier: Story = {
           minUnit={"KB"}
         >
           700
+          <Typography.P2 as={"span"}> (700 bytes, min unit KB)</Typography.P2>
         </Typography.P1>
         <Typography.P1
           {...args}
@@ -370,11 +476,50 @@ export const Modifier: Story = {
           minUnit={"MB"}
         >
           700
+          <Typography.P2 as={"span"}> (700 bytes, min unit MB)</Typography.P2>
         </Typography.P1>
         <Typography.P1 {...args} modifier={TypographyModifier.FormatBytes}>
           70000000
+          <Typography.P2 as={"span"}>
+            {" "}
+            (70000000 bytes, default unit)
+          </Typography.P2>
         </Typography.P1>
       </>
+    )
+  },
+}
+
+export const StandaloneBytesFormatter: StoryObj<typeof BytesFormatter> = {
+  name: "BytesFormatter - standalone",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "There is also a standalone `<BytesFormatter />` component for formatting bytes that can be used independently. " +
+          "It accepts same `minUnit` prop as in `Typography` component, " +
+          "but it can't parse content other than numeric values (or its string representataion).\n\n" +
+          "It doesn't provide any styling nor translation support and doesn't wrap the content in any HTML tag.\n\n",
+      },
+      source: {
+        code:
+          "<Typography.P1>\n" +
+          "  <BytesFormatter minUnit={'GB'}>700000000</BytesFormatter>\n" +
+          "  <br />\n" +
+          "  <BytesFormatter minUnit={'MB'}>700000000 (this won't work)</BytesFormatter>\n" +
+          "</Typography.P1>\n",
+      },
+    },
+  },
+  render: () => {
+    return (
+      <Typography.P1>
+        <BytesFormatter minUnit={"GB"}>700000000</BytesFormatter>
+        <br />
+        <BytesFormatter minUnit={"MB"}>
+          700000000 (this won't work)
+        </BytesFormatter>
+      </Typography.P1>
     )
   },
 }

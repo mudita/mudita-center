@@ -6,11 +6,14 @@
 import {
   Children,
   cloneElement,
+  ElementType,
   FunctionComponent,
+  memo,
   PropsWithChildren,
   ReactElement,
   ReactNode,
   RefObject,
+  useCallback,
 } from "react"
 import { css } from "styled-components"
 import { AppColor } from "app-theme/utils"
@@ -22,50 +25,78 @@ import {
 } from "app-theme/models"
 import { BytesFormatter } from "./bytes-formatter/bytes-formatter"
 import { useOverflowTitle } from "./use-overflow-title"
+import { formatMessage, Messages } from "app-localize/utils"
 
-type Modifier = {
-  modifier?: TypographyModifier.FormatBytes
-  minUnit?: "B" | "KB" | "MB" | "GB" | "TB"
-}
+type Modifier =
+  | {
+      modifier: TypographyModifier.FormatBytes
+      minUnit?: "B" | "KB" | "MB" | "GB" | "TB"
+    }
+  | {
+      modifier?: undefined
+      minUnit?: undefined
+    }
 
-export type BaseTypographyProps = Modifier & {
+type Translation =
+  | {
+      message: Messages["id"]
+      values?: Record<string, string | number | boolean>
+      children?: undefined
+    }
+  | {
+      message?: undefined
+      values?: undefined
+      children?: PropsWithChildren["children"]
+    }
+
+export type BaseTypographyProps = {
   singleLine?: boolean
   textTransform?: TypographyTransform
   textAlign?: TypographyAlign
   unbold?: boolean
   color?: AppColor
   title?: string
-}
+  as?: ElementType
+} & Modifier &
+  Translation
 
-export const BaseTypography: FunctionComponent<
-  BaseTypographyProps & PropsWithChildren
-> = ({ children, modifier, ...props }) => {
-  const { title, ref } = useOverflowTitle()
+export const BaseTypography: FunctionComponent<BaseTypographyProps> = memo(
+  ({ children, modifier, message, values, ...props }) => {
+    const { title, ref } = useOverflowTitle()
 
-  const child = Children.only(children) as ReactElement<
-    BaseTypographyProps &
-      PropsWithChildren & { ref?: RefObject<HTMLElement | null> }
-  >
-  if (!child) return null
+    const typography = Children.only(children) as ReactElement<
+      BaseTypographyProps &
+        PropsWithChildren & { ref?: RefObject<HTMLElement | null> }
+    >
+    const content = typography?.props?.children
+    const modifierEnabled = Boolean(modifier) && Boolean(content)
+    const translationEnabled = Boolean(message)
 
-  const content = child?.props?.children
-  let innerChildren: ReactNode
+    const parseChildContent = useCallback(
+      (content: ReactNode) => {
+        switch (modifier) {
+          case TypographyModifier.FormatBytes:
+            return <BytesFormatter {...props}>{content}</BytesFormatter>
+          default:
+            return content
+        }
+      },
+      [modifier, props]
+    )
 
-  switch (modifier) {
-    case TypographyModifier.FormatBytes:
-      innerChildren = <BytesFormatter {...props}>{content}</BytesFormatter>
-      break
-    default:
-      innerChildren = content
+    return cloneElement(typography, {
+      ref,
+      ...props,
+      title: props.title ?? title,
+      ...(modifierEnabled && {
+        children: Children.map(content, parseChildContent),
+      }),
+      ...(translationEnabled && {
+        children: formatMessage({ id: message }, values),
+      }),
+    })
   }
-
-  return cloneElement(child, {
-    ref,
-    ...props,
-    title: props.title ?? title,
-    children: innerChildren,
-  })
-}
+)
 
 export const baseTypographyStyles = css<BaseTypographyProps>`
   ${({ singleLine }) =>
