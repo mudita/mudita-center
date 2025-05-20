@@ -50,7 +50,7 @@ type Translation =
     }
 
 export type BaseTypographyProps = {
-  singleLine?: boolean
+  lines?: number
   textTransform?: TypographyTransform
   textAlign?: TypographyAlign
   unbold?: boolean
@@ -99,10 +99,13 @@ export const BaseTypography: FunctionComponent<BaseTypographyProps> = memo(
 )
 
 export const baseTypographyStyles = css<BaseTypographyProps>`
-  ${({ singleLine }) =>
-    singleLine &&
+  ${({ lines }) =>
+    lines &&
+    lines > 0 &&
     css`
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-line-clamp: ${lines};
+      -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
     `}

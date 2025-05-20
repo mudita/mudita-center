@@ -13,7 +13,9 @@ export const useOverflowTitle = () => {
 
   const checkOverflow = useCallback(() => {
     if (ref.current) {
-      const isOverflowing = ref.current.scrollWidth > ref.current.clientWidth
+      const isOverflowing =
+        ref.current.scrollWidth > ref.current.clientWidth ||
+        ref.current.scrollHeight > ref.current.clientHeight
       const text = ref.current.textContent
 
       if (isOverflowing && text) {

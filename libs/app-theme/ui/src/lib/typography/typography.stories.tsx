@@ -77,10 +77,12 @@ const meta: Meta<typeof BaseTypography> = {
         optional: true,
       })
       .apply(),
-    singleLine: storybookHelper
+    lines: storybookHelper
       .assignCategory("Functional")
       .addDescription(
-        "Defines whether the text should be displayed in a single line with ellipsis or not."
+        "Defines the number of lines to be displayed. " +
+          "For text taking more space it will be truncated and ended with ellipsis.\n\n" +
+          "Full content will be displayed on hover, using the HTML `title` prop."
       )
       .apply(),
     modifier: storybookHelper
@@ -161,7 +163,6 @@ const meta: Meta<typeof BaseTypography> = {
       }),
   },
   args: {
-    singleLine: false,
     unbold: false,
   },
   parameters: {
@@ -235,8 +236,15 @@ export const WithTranslation: Story = {
   ],
   parameters: {
     docs: {
+      description: {
+        story:
+          "The `message` prop is used for translation purposes. " +
+          "It accepts a translation key ID defined in `en-US.json` file. " +
+          "The additional `values` prop is used for passing variables to the translation function.\n\n" +
+          "When `message` prop is used, the `children` prop will be ignored.",
+      },
       source: {
-        code: "<Typography.P1 message='menu.app.title' />\n",
+        code: '<Typography.P1 message="menu.app.title" />\n',
       },
     },
   },
@@ -245,7 +253,7 @@ export const WithTranslation: Story = {
   },
 }
 
-export const SingleLine: Story = {
+export const LimitedLines: Story = {
   decorators: [
     (Story) => (
       <Decorator $border>
@@ -256,14 +264,15 @@ export const SingleLine: Story = {
   parameters: {
     docs: {
       source: {
-        code: "<Typography.P1 singleLine>Single line text too long to be displayed inside the container.</Typography.P1>\n",
+        code: "<Typography.P1 lines={2}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Typography.P1>\n",
       },
     },
   },
   render: (args) => {
     return (
-      <Typography.P1 {...args} singleLine>
-        Single line text too long to be displayed inside the container.
+      <Typography.P1 {...args} lines={2}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
       </Typography.P1>
     )
   },
