@@ -159,6 +159,7 @@ export const sendFiles = createAsyncThunk<
             }
 
             if (isMtpInitializeAccessError(payload)) {
+              dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
               dispatch(
                 setModeWithProgressReset({
                   fileId: file.id,
