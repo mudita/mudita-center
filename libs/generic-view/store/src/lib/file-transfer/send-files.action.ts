@@ -110,7 +110,7 @@ export const sendFiles = createAsyncThunk<
       const currentMode = selectFilesTransferMode(getState())
       if (
         currentMode === FilesTransferMode.SerialPort &&
-        switchToMtpCounter <= maxSwitchToMtpTries
+        switchToMtpCounter < maxSwitchToMtpTries
       ) {
         const isMtpAvailable = await checkMtpAvailability()
         if (isMtpAvailable) {
