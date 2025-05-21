@@ -469,10 +469,29 @@ export const Color: Story = {
   ],
   parameters: {
     docs: {
+      description: {
+        story:
+          "The `color` prop is used to define the text color. It accepts any color from the theme. " +
+          "The default color may vary depending on the exact `<Typography />` used.\n\n" +
+          "There's an addittional `currentColor` value that can be used to inherit the color from the parent element. " +
+          "It's useful in cases like changing color depending on some state, without a need of manually switchich the value of `color` prop.",
+      },
       source: {
         code:
-          '<Typography.P1 color="blue1">blue1</Typography.P1>\n' +
-          '<Typography.P1 color="red">red</Typography.P1>\n',
+          '<Typography.P1 color="blue1">\n' +
+          "  blue1\n" +
+          "</Typography.P1>\n" +
+          '<Typography.P1 color="red">\n' +
+          "  red\n" +
+          "</Typography.P1>\n" +
+          '<div style={{ color: "green" }}>\n' +
+          '  <Typography.P1 color="currentColor">\n' +
+          "    inherits green color from the parent\n" +
+          "  </Typography.P1>\n" +
+          "  <Typography.P1>\n" +
+          "    uses default color of Typography.P1\n" +
+          "  </Typography.P1>\n" +
+          "</div>",
       },
     },
   },
@@ -485,6 +504,14 @@ export const Color: Story = {
         <Typography.P1 {...args} color="red">
           red
         </Typography.P1>
+        <div style={{ color: "green" }}>
+          <Typography.P1 {...args} color="currentColor">
+            inherits green color from the parent
+          </Typography.P1>
+          <Typography.P1 {...args}>
+            uses default color of Typography.P1
+          </Typography.P1>
+        </div>
       </>
     )
   },

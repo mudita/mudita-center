@@ -54,7 +54,7 @@ export type BaseTypographyProps = {
   textTransform?: TypographyTransform
   textAlign?: TypographyAlign
   unbold?: boolean
-  color?: AppColor
+  color?: AppColor | "currentColor"
   title?: string
   as?: ElementType
 } & Modifier &
@@ -147,6 +147,8 @@ export const baseTypographyStyles = css<BaseTypographyProps>`
   ${({ theme, color }) =>
     color &&
     css`
-      color: ${get(theme.app.color, color)} !important;
+      color: ${color === "currentColor"
+        ? "currentColor"
+        : get(theme.app.color, color)} !important;
     `};
 `
