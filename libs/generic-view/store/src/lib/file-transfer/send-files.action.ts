@@ -153,7 +153,6 @@ export const sendFiles = createAsyncThunk<
             }
 
             if (meta.requestStatus === "rejected" && meta.aborted) {
-              await delay(2000)
               wasAborted = true
               return
             }
@@ -216,7 +215,6 @@ export const sendFiles = createAsyncThunk<
 
             if (meta.requestStatus === "rejected" && meta.aborted) {
               wasAborted = true
-              await delay(2000)
               return
             }
 
@@ -237,13 +235,12 @@ export const sendFiles = createAsyncThunk<
             console.log(`Retrying ${file.name} due to mode switch.`)
             filesTransferMode = modeAfterSend
             wasAborted = false
+            // To consider reducing the time
+            await delay(2000)
             continue // retry this file
           } else {
             console.log(`File ${file.name} was cancelled by user. Skipping.`)
-            const error =
-              payload instanceof AppError
-                ? payload
-                : new AppError(ApiFileTransferError.Unknown)
+            const error = new AppError(ApiFileTransferError.Aborted, "Aborted")
             dispatch(sendFilesError({ id: file.id, error }))
             return
           }
