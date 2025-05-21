@@ -20,8 +20,7 @@ export interface Messages {
 
 export const defineMessages = intlDefineMessages as <
   K extends string,
-  T = Messages,
-  U = Record<K, T>,
+  T extends Messages,
 >(
-  messages: U
-) => U
+  messages: Record<K, T>
+) => Record<K, T>

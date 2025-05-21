@@ -136,7 +136,7 @@ const paragraph4Styles = css`
   font-size: ${({ theme }) => theme.app.fontSize.paragraph4};
   line-height: ${({ theme }) => theme.app.lineHeight.paragraph4};
   font-weight: ${({ theme }) => theme.app.fontWeight.light};
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
 `
 
 export const P4 = styled.p.attrs((attrs) => ({
