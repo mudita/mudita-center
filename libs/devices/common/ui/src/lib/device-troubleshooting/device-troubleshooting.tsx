@@ -6,7 +6,7 @@
 import { FunctionComponent, useState } from "react"
 import styled, { css } from "styled-components"
 import { defineMessages, formatMessage } from "app-localize/utils"
-import { Button, Icon } from "app-theme/ui"
+import { Button, Icon, Typography } from "app-theme/ui"
 import {
   ButtonSize,
   ButtonTextModifier,
@@ -79,18 +79,22 @@ export const DeviceTroubleshooting: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       <Header>
-        <p>{formatMessage(messages.subtitle)}</p>
-        <h1>{formatMessage(messages.title)}</h1>
+        <Typography.P1 color={"black"}>
+          {formatMessage(messages.subtitle)}
+        </Typography.P1>
+        <Typography.H2 as={"h1"}>{formatMessage(messages.title)}</Typography.H2>
       </Header>
       <InstructionsBox>
-        <p>{formatMessage(messages.instructionsTitle)}</p>
+        <Typography.P2>
+          {formatMessage(messages.instructionsTitle)}
+        </Typography.P2>
         <ol>
           {Object.keys(basicInstructions).map((key) => (
-            <li key={key}>
+            <Typography.P1 as={"li"} color={"black"} key={key}>
               {formatMessage(
                 basicInstructions[key as keyof typeof basicInstructions]
               )}
-            </li>
+            </Typography.P1>
           ))}
         </ol>
       </InstructionsBox>
@@ -110,13 +114,13 @@ export const DeviceTroubleshooting: FunctionComponent<Props> = ({
         </Button>
         <AdditionalInstructionsList $visible={additionalInstructionsVisible}>
           {Object.keys(additionalInstructions).map((key) => (
-            <li key={key}>
+            <Typography.P4 as={"li"} color={"black"} key={key}>
               {formatMessage(
                 additionalInstructions[
                   key as keyof typeof additionalInstructions
                 ]
               )}
-            </li>
+            </Typography.P4>
           ))}
         </AdditionalInstructionsList>
       </AdditionalInstructionsBox>
@@ -156,20 +160,6 @@ const Header = styled.div`
   align-items: center;
   gap: 0.8rem;
   padding-bottom: 1.6rem;
-
-  p {
-    margin: 0;
-    font-size: ${({ theme }) => theme.app.fontSize.paragraph1};
-    line-height: ${({ theme }) => theme.app.lineHeight.paragraph1};
-    letter-spacing: 0.02em;
-  }
-
-  h1 {
-    margin: 0;
-    font-size: ${({ theme }) => theme.app.fontSize.headline2};
-    line-height: ${({ theme }) => theme.app.lineHeight.headline2};
-    font-weight: ${({ theme }) => theme.app.fontWeight.regular};
-  }
 `
 
 const InstructionsBox = styled.div`
@@ -177,15 +167,6 @@ const InstructionsBox = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2.4rem;
-
-  p {
-    font-size: ${({ theme }) => theme.app.fontSize.paragraph2};
-    line-height: ${({ theme }) => theme.app.lineHeight.paragraph2};
-    color: ${({ theme }) => theme.app.color.grey2};
-    font-weight: ${({ theme }) => theme.app.fontWeight.light};
-    letter-spacing: 0.02em;
-    margin: 0;
-  }
 
   ol {
     display: flex;
@@ -198,10 +179,6 @@ const InstructionsBox = styled.div`
 
     li {
       list-style-position: inside;
-      color: ${({ theme }) => theme.app.color.grey1};
-      font-size: ${({ theme }) => theme.app.fontSize.paragraph1};
-      line-height: ${({ theme }) => theme.app.lineHeight.paragraph1};
-      letter-spacing: 0.02em;
     }
   }
 `
@@ -237,13 +214,6 @@ const AdditionalInstructionsList = styled.ul<{ $visible: boolean }>`
       opacity: 1;
       visibility: visible;
     `}
-
-  li {
-    font-size: ${({ theme }) => theme.app.fontSize.paragraph4};
-    line-height: ${({ theme }) => theme.app.lineHeight.paragraph4};
-    font-weight: ${({ theme }) => theme.app.fontWeight.light};
-    letter-spacing: 0.05em;
-  }
 `
 
 const AdditionalInstructionsIcon = styled(Icon)<{ $rotated: boolean }>`

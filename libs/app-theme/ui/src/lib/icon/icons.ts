@@ -33,7 +33,7 @@ export const icons = {
   [IconType.Backup]: Backup,
   [IconType.ChevronDown]: ChevronDown,
   [IconType.Close]: Close,
-  [IconType.Contacts]: Contacts,
+  [IconType.ContactsBook]: Contacts,
   [IconType.DataMigration]: DataMigration,
   [IconType.FileManager]: FileManager,
   [IconType.Help]: Help,

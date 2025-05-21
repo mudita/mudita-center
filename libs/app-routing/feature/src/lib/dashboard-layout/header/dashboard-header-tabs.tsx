@@ -5,10 +5,15 @@
 
 import styled from "styled-components"
 import { FunctionComponent, useCallback, useRef } from "react"
-import { NavLink, useLocation } from "react-router"
+import { useLocation } from "react-router"
 import { DashboardHeaderPortal } from "./header"
-import { IconSize, IconType } from "app-theme/models"
-import { Icon } from "app-theme/ui"
+import {
+  ButtonTextModifier,
+  ButtonType,
+  IconSize,
+  IconType,
+} from "app-theme/models"
+import { Button, Icon, Typography } from "app-theme/ui"
 
 export type Tab = {
   title: string
@@ -59,36 +64,24 @@ export const DashboardHeaderTabs: FunctionComponent<Props> = ({ tabs }) => {
         }}
       >
         {tabs.map((tab) => (
-          <NavLink
+          <Button
+            type={ButtonType.Text}
             to={tab.path}
             key={tab.path}
-            className={({ isActive }) => (isActive ? "active" : "")}
             onClick={setLineActive}
+            modifiers={[ButtonTextModifier.DefaultCase]}
           >
             <TabWrapper>
-              <TabIcon type={tab.icon} size={IconSize.Medium} />
-              <TabTitle>{tab.title}</TabTitle>
+              <Icon type={tab.icon} size={IconSize.Medium} />
+              <Typography.P1 color={"currentColor"}>{tab.title}</Typography.P1>
             </TabWrapper>
-          </NavLink>
+          </Button>
         ))}
         <Line ref={lineRef} />
       </TabsContainer>
     </DashboardHeaderPortal>
   )
 }
-
-const TabIcon = styled(Icon)`
-  transition: color 0.2s ease-in-out;
-`
-
-const TabTitle = styled.h2`
-  font-size: ${({ theme }) => theme.app.fontSize.headline4};
-  line-height: ${({ theme }) => theme.app.lineHeight.headline4};
-  font-weight: ${({ theme }) => theme.app.fontWeight.regular};
-  letter-spacing: 0.02em;
-  margin: 0;
-  transition: color 0.2s ease-in-out;
-`
 
 const TabsContainer = styled.nav`
   position: relative;
@@ -102,10 +95,8 @@ const TabsContainer = styled.nav`
     text-decoration: none;
     color: ${({ theme }) => theme.app.color.grey2};
 
-    &.active {
-      ${TabIcon}, ${TabTitle} {
-        color: ${({ theme }) => theme.app.color.black};
-      }
+    &[aria-current] {
+      color: ${({ theme }) => theme.app.color.black};
     }
   }
 `

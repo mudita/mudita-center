@@ -9,5 +9,3 @@ import { legacyIcons } from "./icons"
 export const getIconType = (icon: LegacyIconType = LegacyIconType.Message) => {
   return legacyIcons[icon]
 }
-
-

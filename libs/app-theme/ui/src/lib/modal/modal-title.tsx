@@ -6,7 +6,8 @@
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
 import { isEmpty } from "lodash"
-import { ModalTestId } from "app-theme/models"
+import { ModalTestId, TypographyAlign } from "app-theme/models"
+import { Typography } from "../typography/typography"
 
 interface Props extends PropsWithChildren {
   text?: string
@@ -18,17 +19,18 @@ export const ModalTitle: FunctionComponent<Props> = ({
   ...rest
 }) => {
   return (
-    <Title {...rest} data-testid={ModalTestId.Title}>
+    <Title
+      {...rest}
+      data-testid={ModalTestId.Title}
+      textAlign={TypographyAlign.Center}
+      forwardedAs="h1"
+    >
       {isEmpty(children) ? text : children}
     </Title>
   )
 }
 
-const Title = styled.h1`
-  margin: 0;
+const Title = styled(Typography.H3)`
   font-size: ${({ theme }) => theme.app.fontSize.modalTitle};
   line-height: ${({ theme }) => theme.app.lineHeight.modalTitle};
-  font-weight: ${({ theme }) => theme.app.fontWeight.bold};
-  text-align: center;
-  align-self: center;
 `

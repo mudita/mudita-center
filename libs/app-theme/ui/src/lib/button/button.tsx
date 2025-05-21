@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren, useMemo } from "react"
+import {
+  FunctionComponent,
+  MouseEventHandler,
+  PropsWithChildren,
+  useCallback,
+  useMemo,
+} from "react"
 import { LinkProps } from "react-router"
 import {
   ButtonSize,
@@ -29,7 +35,7 @@ import { formatMessage, Messages } from "app-localize/utils"
 export interface ButtonLinkProps {
   to: LinkProps["to"]
   target?: LinkProps["target"]
-  onClick?: undefined
+  onClick?: VoidFunction
 }
 
 export interface ButtonDefaultProps {
@@ -64,6 +70,7 @@ type Props = PropsWithChildren & {
   size?: ButtonSize
   icon?: IconType
   disabled?: boolean
+  className?: string
 } & Translation &
   (ButtonLinkProps | ButtonDefaultProps) &
   (StandardButtonProps | TextButtonProps)
@@ -119,6 +126,17 @@ export const Button: FunctionComponent<Props> = ({
     )
   }, [children, icon, message, values])
 
+  const linkClickHandler: MouseEventHandler = useCallback(
+    (event) => {
+      if (disabled) {
+        event.preventDefault()
+        return
+      }
+      onClick?.()
+    },
+    [disabled, onClick]
+  )
+
   if (to && NavigationComponent) {
     const linkTarget = retrieveLinkTarget(to, target)
     return (
@@ -129,12 +147,7 @@ export const Button: FunctionComponent<Props> = ({
         $modifiers={modifiers}
         $disabled={disabled}
         aria-disabled={disabled}
-        onClick={(e) => {
-          if (disabled) {
-            e.preventDefault()
-            return
-          }
-        }}
+        onClick={linkClickHandler}
         {...rest}
       >
         {content}
