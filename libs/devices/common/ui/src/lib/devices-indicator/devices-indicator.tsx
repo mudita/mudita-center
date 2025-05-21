@@ -27,6 +27,8 @@ type Props = Omit<
 
 export const DevicesIndicator: FunctionComponent<Props> = ({
   devicesCount,
+  message,
+  values,
   ...rest
 }) => {
   return (
