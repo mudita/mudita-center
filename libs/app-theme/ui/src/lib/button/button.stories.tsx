@@ -15,7 +15,7 @@ import {
 import styled from "styled-components"
 import { action } from "@storybook/addon-actions"
 
-const MainDecorator = styled.div`
+const Decorator = styled.div`
   align-self: center;
   justify-self: center;
   width: 32rem;
@@ -32,9 +32,9 @@ const meta: Meta<typeof Button> = {
   tags: ["autodocs"],
   decorators: [
     (Story) => (
-      <MainDecorator>
+      <Decorator>
         <Story />
-      </MainDecorator>
+      </Decorator>
     ),
   ],
   parameters: {
@@ -58,13 +58,31 @@ type Story = StoryObj<typeof Button>
 
 export const Default: Story = {
   argTypes: {
-    text: storybookHelper
+    message: storybookHelper
       .assignCategory("Functional")
       .addDescription(
-        "Defines the text displayed on the button.\n\n" +
-          "If the `children` prop is provided, this prop will be ignored."
+        "Defines the translation key ID.\n\n" +
+          "When provided another prop `values` will be available for passing the variables to the translation function.\n\n" +
+          "This also disables the `children` support."
       )
-      .apply(),
+      .apply({
+        control: {
+          type: "text",
+        },
+      }),
+    values: storybookHelper
+      .assignCategory("Functional")
+      .addDescription("Defines the variables for given translation key.")
+      .setType("Object", "Record<string, string | number | boolean>")
+      .apply({
+        control: {
+          type: "object",
+        },
+        if: {
+          arg: "message",
+          neq: undefined,
+        },
+      }),
     icon: storybookHelper
       .assignCategory("Functional")
       .addDescription(
@@ -141,7 +159,7 @@ export const Default: Story = {
   args: {
     type: ButtonType.Primary,
     size: ButtonSize.AutoMax,
-    text: "Default button",
+    children: "Default button",
     icon: undefined,
     to: undefined,
     onClick: action("button clicked"),
@@ -156,22 +174,49 @@ export const Default: Story = {
   },
 }
 
+export const Translations: Story = {
+  decorators: [
+    (Story) => (
+      <Decorator>
+        <Story />
+      </Decorator>
+    ),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The `message` prop is used for translation purposes. " +
+          "It accepts a translation key ID defined in `en-US.json` file. " +
+          "The additional `values` prop is used for passing variables to the translation function.\n\n" +
+          "When `message` prop is used, the `children` prop will be ignored.",
+      },
+      source: {
+        code: '<Button message={"menu.app.title"} />',
+      },
+    },
+  },
+  render: () => {
+    return <Button message={"menu.app.title"} />
+  },
+}
+
 export const ButtonStyles: Story = {
   parameters: {
     docs: {
       source: {
         code:
-          '<Button type={ButtonType.Primary} text="Primary button" />\n' +
-          '<Button type={ButtonType.Secondary} text="Secondary button" />\n' +
-          '<Button type={ButtonType.Text} text="Text button" />\n',
+          "<Button type={ButtonType.Primary}>Primary button</Button>\n" +
+          "<Button type={ButtonType.Secondary}>Secondary button</Button>\n" +
+          "<Button type={ButtonType.Text}>Text button</Button>\n",
       },
     },
   },
   render: () => (
     <>
-      <Button type={ButtonType.Primary} text="Primary button" />
-      <Button type={ButtonType.Secondary} text="Secondary button" />
-      <Button type={ButtonType.Text} text="Text button" />
+      <Button type={ButtonType.Primary}>Primary button</Button>
+      <Button type={ButtonType.Secondary}>Secondary button</Button>
+      <Button type={ButtonType.Text}>Text button</Button>
     </>
   ),
 }
@@ -181,21 +226,23 @@ export const DisabledButtonStyles: Story = {
     docs: {
       source: {
         code:
-          '<Button type={ButtonType.Primary} disabled={true} text="Primary button" />\n' +
-          '<Button type={ButtonType.Secondary} disabled={true} text="Secondary button" />\n' +
-          '<Button type={ButtonType.Text} disabled={true} text="Text button" />\n',
+          "<Button type={ButtonType.Primary} disabled={true}>Primary button</Button>\n" +
+          "<Button type={ButtonType.Secondary} disabled={true}>Secondary button</Button>\n" +
+          "<Button type={ButtonType.Text} disabled={true}>Text button</Button>\n",
       },
     },
   },
   render: () => (
     <>
-      <Button type={ButtonType.Primary} disabled={true} text="Primary button" />
-      <Button
-        type={ButtonType.Secondary}
-        disabled={true}
-        text="Secondary button"
-      />
-      <Button type={ButtonType.Text} disabled={true} text="Text button" />
+      <Button type={ButtonType.Primary} disabled={true}>
+        Primary button
+      </Button>
+      <Button type={ButtonType.Secondary} disabled={true}>
+        Secondary button
+      </Button>
+      <Button type={ButtonType.Text} disabled={true}>
+        Text button
+      </Button>
     </>
   ),
 }
@@ -205,21 +252,21 @@ export const ButtonSizes: Story = {
     docs: {
       source: {
         code:
-          '<Button size={ButtonSize.Small} text="Small" />\n' +
-          '<Button size={ButtonSize.Medium} text="Medium" />\n' +
-          '<Button size={ButtonSize.Large} text="Large" />\n' +
-          '<Button size={ButtonSize.AutoMin} text="Auto min" />\n' +
-          '<Button size={ButtonSize.AutoMax} text="Auto max" />\n',
+          "<Button size={ButtonSize.Small}>Small</Button>\n" +
+          "<Button size={ButtonSize.Medium}>Medium</Button>\n" +
+          "<Button size={ButtonSize.Large}>Large</Button>\n" +
+          "<Button size={ButtonSize.AutoMin}>Auto min</Button>\n" +
+          "<Button size={ButtonSize.AutoMax}>Auto max</Button>",
       },
     },
   },
   render: () => (
     <>
-      <Button size={ButtonSize.Small} text="Small" />
-      <Button size={ButtonSize.Medium} text="Medium" />
-      <Button size={ButtonSize.Large} text="Large" />
-      <Button size={ButtonSize.AutoMin} text="Auto min" />
-      <Button size={ButtonSize.AutoMax} text="Auto max" />
+      <Button size={ButtonSize.Small}>Small</Button>
+      <Button size={ButtonSize.Medium}>Medium</Button>
+      <Button size={ButtonSize.Large}>Large</Button>
+      <Button size={ButtonSize.AutoMin}>Auto min</Button>
+      <Button size={ButtonSize.AutoMax}>Auto max</Button>
     </>
   ),
 }
@@ -229,21 +276,21 @@ export const ButtonsWithIcon: Story = {
     docs: {
       source: {
         code:
-          "<Button icon={IconType.Spinner} text='Saving...' />\n" +
-          "<Button type={ButtonType.Secondary} icon={IconType.Spinner} text='Saving...' />\n" +
-          "<Button type={ButtonType.Text} icon={IconType.Spinner} text='Saving...' />\n",
+          "<Button icon={IconType.Spinner}>Saving...</Button>\n" +
+          "<Button type={ButtonType.Secondary} icon={IconType.Spinner}>Saving...</Button>\n" +
+          "<Button type={ButtonType.Text} icon={IconType.Spinner}>Saving...</Button>\n",
       },
     },
   },
   render: () => (
     <>
-      <Button icon={IconType.Spinner} text="Saving..." />
-      <Button
-        type={ButtonType.Secondary}
-        icon={IconType.Spinner}
-        text="Saving..."
-      />
-      <Button type={ButtonType.Text} icon={IconType.Spinner} text="Saving..." />
+      <Button icon={IconType.Spinner}>Saving...</Button>
+      <Button type={ButtonType.Secondary} icon={IconType.Spinner}>
+        Saving...
+      </Button>
+      <Button type={ButtonType.Text} icon={IconType.Spinner}>
+        Saving...
+      </Button>
     </>
   ),
 }

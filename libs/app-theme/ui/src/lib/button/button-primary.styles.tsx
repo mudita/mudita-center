@@ -20,6 +20,7 @@ const primaryDefaultStyles = css`
     border-color 0.15s ease-in-out;
   font-size: ${({ theme }) => theme.app.fontSize.buttonText};
   line-height: ${({ theme }) => theme.app.lineHeight.buttonText};
+  font-weight: ${({ theme }) => theme.app.fontWeight.regular};
   color: ${({ theme }) => theme.app.color.white};
   height: 4rem;
 

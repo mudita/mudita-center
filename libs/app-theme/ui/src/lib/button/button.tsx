@@ -11,7 +11,6 @@ import {
   ButtonType,
   IconType,
 } from "app-theme/models"
-import { isEmpty } from "lodash"
 import { ButtonIcon } from "./button-base.styles"
 import {
   PrimaryButtonComponent,
@@ -25,6 +24,7 @@ import {
   TextButtonComponent,
   TextNavigationComponent,
 } from "./button-text.styles"
+import { formatMessage, Messages } from "app-localize/utils"
 
 export interface ButtonLinkProps {
   to: LinkProps["to"]
@@ -48,19 +48,32 @@ interface TextButtonProps {
   modifiers?: ButtonTextModifier[]
 }
 
+type Translation =
+  | {
+      message: Messages["id"]
+      values?: Record<string, string | number | boolean>
+      children?: undefined
+    }
+  | {
+      message?: undefined
+      values?: undefined
+      children?: PropsWithChildren["children"]
+    }
+
 type Props = PropsWithChildren & {
   size?: ButtonSize
-  text?: string
   icon?: IconType
   disabled?: boolean
-} & (ButtonLinkProps | ButtonDefaultProps) &
+} & Translation &
+  (ButtonLinkProps | ButtonDefaultProps) &
   (StandardButtonProps | TextButtonProps)
 
 export const Button: FunctionComponent<Props> = ({
   type = ButtonType.Primary,
   size = ButtonSize.AutoMax,
   modifiers,
-  text,
+  message,
+  values,
   icon,
   to,
   target,
@@ -101,10 +114,10 @@ export const Button: FunctionComponent<Props> = ({
     return (
       <>
         {icon && <ButtonIcon type={icon} />}
-        {isEmpty(children) ? text : children}
+        {message ? formatMessage({ id: message }, values) : children}
       </>
     )
-  }, [children, icon, text])
+  }, [children, icon, message, values])
 
   if (to && NavigationComponent) {
     const linkTarget = retrieveLinkTarget(to, target)
