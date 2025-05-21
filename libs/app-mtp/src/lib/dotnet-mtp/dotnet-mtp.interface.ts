@@ -16,6 +16,7 @@ export enum DotnetCliStatusCode {
   InProgress = 202,
   UnknownDevice = 404,
   BadRequest = 405,
+  FileExists = 409,
   GeneralError = 500,
   ServiceUnavailable = 503,
   NotEnoughSpace = 507,
