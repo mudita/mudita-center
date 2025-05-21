@@ -48,8 +48,8 @@ export const sendFiles = createAsyncThunk<
     { actionId, files, destinationPath, entitiesType, customDeviceId },
     { dispatch, signal, abort, rejectWithValue, getState }
   ) => {
-    let switchToSerialCounter = 0
-    const maxSwitchToSerialPortTries = 100
+    let switchToMtpCounter = 0
+    const maxSwitchToMtpTries = 1
     const mainAbortController = new AbortController()
     mainAbortController.abort = abort
     dispatch(
@@ -110,16 +110,16 @@ export const sendFiles = createAsyncThunk<
       const currentMode = selectFilesTransferMode(getState())
       if (
         currentMode === FilesTransferMode.SerialPort &&
-        switchToSerialCounter < maxSwitchToSerialPortTries
+        switchToMtpCounter <= maxSwitchToMtpTries
       ) {
         const isMtpAvailable = await checkMtpAvailability()
         if (isMtpAvailable) {
           console.log("MTP became available, switching mode.")
           sendFileAbortController.abort()
-          switchToSerialCounter++
+          switchToMtpCounter++
         }
       }
-    }, 30000)
+    }, 3_000)
     let currentFileIndex = 0
 
     const processFiles = async () => {
