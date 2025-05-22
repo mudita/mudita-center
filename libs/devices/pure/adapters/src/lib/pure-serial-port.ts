@@ -9,23 +9,25 @@ import {
   SerialPortDeviceType,
 } from "app-serialport/models"
 import { SerialPortError } from "app-serialport/utils"
+import { ApiDeviceErrorType } from "devices/api-device/models"
 import {
-  ApiDevice,
-  ApiDeviceEndpoint,
-  ApiDeviceEndpoints,
-  ApiDeviceErrorType,
-  ApiDeviceMethod,
-  ApiDeviceRequest,
-  ApiDeviceResponse,
-  ApiDeviceResponseBody,
-} from "devices/api-device/models"
+  Pure,
+  PureEndpoint,
+  PureEndpointNamed,
+  PureEndpoints,
+  PureMethod,
+  PureMethodNamed,
+  PureRequest,
+  PureResponse,
+  PureResponseBody,
+} from "devices/pure/models"
 
-type Response<E extends ApiDeviceEndpoint, M extends ApiDeviceMethod<E>> =
+type Response<E extends PureEndpoint, M extends PureMethod<E>> =
   | {
       ok: true
       endpoint: E
       status: number
-      body: ApiDeviceResponseBody<E, M>
+      body: PureResponseBody<E, M>
     }
   | {
       ok: false
@@ -35,24 +37,21 @@ type Response<E extends ApiDeviceEndpoint, M extends ApiDeviceMethod<E>> =
       error?: unknown
     }
 
-export class ApiDeviceSerialPort {
-  static isCompatible(device?: SerialPortDeviceInfo): device is ApiDevice {
+export class PureSerialPort {
+  static isCompatible(device?: SerialPortDeviceInfo): device is Pure {
     if (!device) {
       return true
     }
-    return device.deviceType === SerialPortDeviceType.ApiDevice
+    return device.deviceType === SerialPortDeviceType.Pure
   }
-  static async request<
-    E extends ApiDeviceEndpoint,
-    M extends ApiDeviceMethod<E>,
-  >(
-    device: ApiDevice,
-    request: ApiDeviceRequest<E, M>
+  static async request<E extends PureEndpoint, M extends PureMethod<E>>(
+    device: Pure,
+    request: PureRequest<E, M>
   ): Promise<Response<E, M>> {
-    ApiDeviceSerialPort.isCompatible(device)
+    PureSerialPort.isCompatible(device)
 
     const endpointConfig =
-      ApiDeviceEndpoints[request.endpoint as keyof typeof ApiDeviceEndpoints]
+      PureEndpoints[request.endpoint as keyof typeof PureEndpoints]
     const methodConfig =
       endpointConfig[request.method as keyof typeof endpointConfig]
     const requestValidator = methodConfig?.request
@@ -70,12 +69,12 @@ export class ApiDeviceSerialPort {
       }
     }
 
-    let response: ApiDeviceResponse<E, M>
+    let response: PureResponse<E, M>
     try {
-      response = (await AppSerialPort.request(
-        device,
-        request
-      )) as ApiDeviceResponse<E, M>
+      response = (await AppSerialPort.request(device, request)) as PureResponse<
+        E,
+        M
+      >
     } catch (error) {
       if (error instanceof SerialPortError) {
         const message = new SerialPortError(error).message
@@ -98,7 +97,7 @@ export class ApiDeviceSerialPort {
       const responseParseResult = responseValidator.safeParse(response.body)
       if (!responseParseResult.success) {
         console.error(
-          `Response parsing failed for ${device.path} at ${request.method.toString()} ${request.endpoint.toString()}`
+          `Response parsing failed for ${device.path} at ${PureMethodNamed[request.method as keyof typeof PureMethodNamed]} ${PureEndpointNamed[request.endpoint]}`
         )
         console.error(responseParseResult.error.errors)
         return {
@@ -112,7 +111,7 @@ export class ApiDeviceSerialPort {
         ok: true,
         endpoint: request.endpoint,
         status: response.status,
-        body: responseParseResult.data as ApiDeviceResponseBody<E, M>,
+        body: responseParseResult.data as PureResponseBody<E, M>,
       }
     }
 

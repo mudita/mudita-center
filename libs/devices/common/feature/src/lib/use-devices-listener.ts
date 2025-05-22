@@ -12,6 +12,8 @@ import { AppState } from "app-store/models"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { AppDeviceInfo } from "devices/common/models"
 import { getApiConfig } from "devices/api-device/feature"
+import { PureSerialPort } from "devices/pure/adapters"
+import { getPureInfo } from "devices/pure/feature"
 
 export const useDevicesListener = () => {
   const store = useStore<AppState>()
@@ -34,6 +36,15 @@ export const useDevicesListener = () => {
               ...device,
               active,
               metadata: apiConfig.body,
+            })
+          }
+        } else if (PureSerialPort.isCompatible(device)) {
+          const pureInfo = await getPureInfo(device)
+          if (pureInfo.ok) {
+            connectedDevices.push({
+              ...device,
+              active,
+              metadata: pureInfo.body,
             })
           }
         } else {
