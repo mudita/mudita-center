@@ -34,3 +34,10 @@ export enum TypographyAlign {
 export enum TypographyModifier {
   FormatBytes = "format-bytes",
 }
+
+export enum TypographyWeight {
+  Light = "light",
+  Regular = "regular",
+  Medium = "medium",
+  Bold = "bold",
+}

@@ -12,6 +12,7 @@ import {
   TypographyAlign,
   TypographyModifier,
   TypographyTransform,
+  TypographyWeight,
 } from "app-theme/models"
 import {
   Controls,
@@ -148,10 +149,14 @@ const meta: Meta<typeof BaseTypography> = {
           type: "select",
         },
       }),
-    unbold: storybookHelper
+    weight: storybookHelper
       .assignCategory("Styles")
       .addDescription(
-        "Defines whether the text bold styles should be removed or not."
+        "Defines the text weight style. It will override default setting."
+      )
+      .generateEnumSelector(
+        { ...TypographyWeight, inherit: "inherit" },
+        "TypographyWeight"
       )
       .apply(),
     message: storybookHelper
@@ -179,9 +184,6 @@ const meta: Meta<typeof BaseTypography> = {
           neq: undefined,
         },
       }),
-  },
-  args: {
-    unbold: false,
   },
   parameters: {
     docs: {
@@ -430,7 +432,7 @@ export const TextAlign: Story = {
   },
 }
 
-export const Unbold: Story = {
+export const CustomWeight: Story = {
   decorators: [
     (Story) => (
       <Decorator>
@@ -442,18 +444,24 @@ export const Unbold: Story = {
     docs: {
       source: {
         code:
-          "<Typography.H3 unbold>Typography.H3 - unbold</Typography.H3>\n" +
-          "<Typography.H3>Typography.H3 - default</Typography.H3>\n",
+          "<Typography.H3 weight={TypographyWeight.Light}>\n" +
+          "  Typography.H3 - light\n" +
+          "</Typography.H3>\n" +
+          "<Typography.P1 weight={TypographyWeight.Bold}>\n" +
+          "  Typography.P1 - bold\n" +
+          "</Typography.P1>",
       },
     },
   },
   render: (args) => {
     return (
       <>
-        <Typography.H3 {...args} unbold>
-          Typography.H3 - unbold
+        <Typography.H3 {...args} weight={TypographyWeight.Light}>
+          Typography.H3 - light
         </Typography.H3>
-        <Typography.H3 {...args}>Typography.H3 - default</Typography.H3>
+        <Typography.P1 {...args} weight={TypographyWeight.Bold}>
+          Typography.P1 - bold
+        </Typography.P1>
       </>
     )
   },

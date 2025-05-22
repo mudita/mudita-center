@@ -22,6 +22,7 @@ import {
   TypographyAlign,
   TypographyModifier,
   TypographyTransform,
+  TypographyWeight,
 } from "app-theme/models"
 import { BytesFormatter } from "./bytes-formatter/bytes-formatter"
 import { useOverflowTitle } from "./use-overflow-title"
@@ -53,7 +54,7 @@ export type BaseTypographyProps = {
   lines?: number
   textTransform?: TypographyTransform
   textAlign?: TypographyAlign
-  unbold?: boolean
+  weight?: TypographyWeight | "inherit"
   color?: AppColor | "currentColor"
   title?: string
   as?: ElementType
@@ -133,15 +134,12 @@ export const baseTypographyStyles = css<BaseTypographyProps>`
       text-align: ${textAlign} !important;
     `};
 
-  ${({ unbold }) =>
-    unbold &&
+  ${({ weight, theme }) =>
+    weight &&
     css`
-      font-weight: ${({ theme }) => theme.app.fontWeight.regular} !important;
-
-      b,
-      strong {
-        font-weight: ${({ theme }) => theme.app.fontWeight.bold} !important;
-      }
+      font-weight: ${theme.app.fontWeight[
+        weight as keyof typeof theme.app.fontWeight
+      ]} !important;
     `};
 
   ${({ theme, color }) =>
