@@ -9,8 +9,11 @@ import { AppError } from "Core/core/errors"
 export const isMtpInitializeAccessError = (
   error: unknown
 ): error is ApiFileTransferError => {
-  return (
-    error instanceof AppError &&
-    error.type === ApiFileTransferError.MtpInitializeAccessError
-  )
+  try {
+    return (
+      (error as AppError).type === ApiFileTransferError.MtpInitializeAccessError
+    )
+  } catch (_) {
+    return false
+  }
 }

@@ -97,10 +97,18 @@ export class MtpFileTransferService {
       return result
     }
 
-    const errorType =
-      result.error.type === MTPError.MTP_INITIALIZE_ACCESS_ERROR
-        ? ApiFileTransferError.MtpInitializeAccessError
-        : ApiFileTransferError.Unknown
+    let errorType: ApiFileTransferError = ApiFileTransferError.Unknown
+
+    switch (result.error.type) {
+      case MTPError.MTP_INITIALIZE_ACCESS_ERROR:
+        errorType = ApiFileTransferError.MtpInitializeAccessError
+        break
+      case MTPError.MTP_CANCEL_FAILED_ALREADY_TRANSFERRED:
+        errorType = ApiFileTransferError.MtpCancelFailedAlreadyTransferred
+        break
+      default:
+        break
+    }
 
     const apiError: AppError<ApiFileTransferError> = {
       type: errorType,

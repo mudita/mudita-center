@@ -72,6 +72,7 @@ export const sendFileViaSerialPort = createAsyncThunk<
     }
 
     if (!preTransferResponse.ok) {
+      console.log(preTransferResponse)
       return rejectWithValue(
         new AppError(
           ApiFileTransferError.Unknown,
