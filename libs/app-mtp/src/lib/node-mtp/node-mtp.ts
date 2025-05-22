@@ -196,7 +196,6 @@ export class NodeMtp implements MtpInterface {
 
       const storageIdNumber = Number(storageId)
 
-      const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const size = await this.getFileSize(sourcePath)
       const name = path.basename(sourcePath)
       const parentObjectHandle = await this.getObjectHandleFromLastPathSegment(
@@ -207,21 +206,14 @@ export class NodeMtp implements MtpInterface {
 
       const objectFormat = getObjectFormat(name)
 
-      const newObjectID = await device.uploadFileInfo({
+      return this.uploadFileInfo(
+        deviceId,
+        storageIdNumber,
         size,
         name,
-        storageId: storageIdNumber,
-        parentObjectHandle,
         objectFormat,
-      })
-
-      if (newObjectID === undefined) {
-        console.log(
-          `${PREFIX_LOG} process upload file info error - newObjectID is undefined`
-        )
-      }
-
-      return Result.success(newObjectID)
+        parentObjectHandle
+      )
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} process upload file info error: ${error}`)
@@ -356,5 +348,56 @@ export class NodeMtp implements MtpInterface {
     }
 
     return objectInfoList
+  }
+
+  private async uploadFileInfo(
+    deviceId: string,
+    storageId: number,
+    size: number,
+    name: string,
+    objectFormat: ObjectFormatCode,
+    parentObjectHandle: number
+  ): Promise<ResultObject<number>> {
+    const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+
+    try {
+      const newObjectID = await device.uploadFileInfo({
+        size,
+        name,
+        storageId,
+        parentObjectHandle,
+        objectFormat,
+      })
+
+      if (newObjectID === undefined) {
+        console.log(
+          `${PREFIX_LOG} process upload file info error - newObjectID is undefined`
+        )
+      }
+
+      return Result.success(newObjectID)
+    } catch (e) {
+      const childObjectInfoList = await this.getChildObjectInfoList(
+        parentObjectHandle,
+        deviceId,
+        storageId
+      )
+      const filenameDuplicated = childObjectInfoList.some(
+        ({ filename }) => filename === name
+      )
+      if (filenameDuplicated) {
+        console.log(
+          `${PREFIX_LOG} File ${name} already exists in the destination path.`
+        )
+        return Result.failed(
+          new AppError(
+            MTPError.MTP_FILE_EXISTS_ERROR,
+            `File ${name} already exists in the destination path.`
+          )
+        )
+      }
+
+      throw e
+    }
   }
 }
