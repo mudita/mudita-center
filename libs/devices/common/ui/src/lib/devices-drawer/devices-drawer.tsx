@@ -5,10 +5,10 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled, { css } from "styled-components"
-import { defineMessages, formatMessage } from "app-localize/utils"
+import { defineMessages } from "app-localize/utils"
 import { IconSize, IconType, ModalLayer } from "app-theme/models"
 import { DevicesDrawerCard, DrawerCardDevice } from "./devices-drawer-card"
-import { IconButton } from "app-theme/ui"
+import { IconButton, Typography } from "app-theme/ui"
 
 const messages = defineMessages({
   title: { id: "general.components.devicesDrawer.title" },
@@ -38,7 +38,7 @@ export const DevicesDrawer: FunctionComponent<Props> = ({
       <Backdrop onClick={onClose} $visible={opened} />
       <Wrapper $opened={opened}>
         <Header>
-          <p>{formatMessage(messages.title)}</p>
+          <Typography.H4 as={"p"} message={messages.title.id} />
           <IconButton
             icon={IconType.Close}
             size={IconSize.Big}
@@ -115,14 +115,6 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1.2rem 1.6rem 0;
-
-  p {
-    font-size: ${({ theme }) => theme.app.fontSize.headline4};
-    line-height: ${({ theme }) => theme.app.lineHeight.headline4};
-    font-weight: ${({ theme }) => theme.app.fontWeight.bold};
-    letter-spacing: 0.02em;
-    margin: 0;
-  }
 `
 
 const List = styled.ul`

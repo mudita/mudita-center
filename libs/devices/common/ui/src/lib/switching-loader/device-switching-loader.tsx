@@ -4,9 +4,9 @@
  */
 
 import { FunctionComponent } from "react"
-import { Icon } from "app-theme/ui"
+import { Icon, Typography } from "app-theme/ui"
 import { IconType } from "app-theme/models"
-import { defineMessages, formatMessage } from "app-localize/utils"
+import { defineMessages } from "app-localize/utils"
 import styled from "styled-components"
 
 const messages = defineMessages({
@@ -19,7 +19,7 @@ export const DeviceSwitchingLoader: FunctionComponent = () => {
   return (
     <Overlay>
       <Loader type={IconType.Spinner} />
-      <h3>{formatMessage(messages.title)}</h3>
+      <Typography.H3 as={"p"} message={messages.title.id} color={"white"} />
     </Overlay>
   )
 }
@@ -36,14 +36,6 @@ const Overlay = styled.div`
   justify-content: center;
   gap: 2.4rem;
   background-color: ${({ theme }) => theme.app.color.blackAlpha.medium};
-
-  h3 {
-    font-size: ${({ theme }) => theme.app.fontSize.headline3};
-    line-height: ${({ theme }) => theme.app.lineHeight.headline3};
-    font-weight: ${({ theme }) => theme.app.fontWeight.bold};
-    color: ${({ theme }) => theme.app.color.white};
-    margin: 0;
-  }
 `
 
 const Loader = styled(Icon)`

@@ -4,7 +4,7 @@
  */
 
 import { FunctionComponent } from "react"
-import { Button } from "app-theme/ui"
+import { Button, Typography, typographyStyles } from "app-theme/ui"
 import { ButtonSize, ButtonTextModifier, ButtonType } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import styled from "styled-components"
@@ -53,8 +53,10 @@ export const WelcomeScreen: FunctionComponent<Props> = ({
     <Wrapper>
       <Content>
         <Header>
-          <h1>{formatMessage(messages.title)}</h1>
-          <p>{formatMessage(messages.subtitle)}</p>
+          <WelcomeText>{formatMessage(messages.title)}</WelcomeText>
+          <SubheadingText color={"grey1"}>
+            {formatMessage(messages.subtitle)}
+          </SubheadingText>
         </Header>
         <DevicesList>
           {Object.keys(devicesMessages).map((device) => (
@@ -116,22 +118,19 @@ const Header = styled.div`
   align-items: center;
   justify-content: flex-start;
   gap: 0.4rem;
+`
 
-  h1 {
-    font-size: 4.8rem;
-    line-height: 4.8rem;
-    letter-spacing: -0.02em;
-    font-weight: ${({ theme }) => theme.app.fontWeight.regular};
-    margin: 0;
-  }
+const WelcomeText = styled(Typography.H1)`
+  font-size: 4.8rem;
+  line-height: 4.8rem;
+  letter-spacing: -0.02em;
+  font-weight: ${({ theme }) => theme.app.fontWeight.regular};
+`
 
-  p {
-    font-size: 2.2rem;
-    line-height: 3.2rem;
-    color: ${({ theme }) => theme.app.color.grey1};
-    font-weight: ${({ theme }) => theme.app.fontWeight.light};
-    margin: 0;
-  }
+const SubheadingText = styled(Typography.P2)`
+  font-size: 2.2rem;
+  line-height: 3.2rem;
+  letter-spacing: 0;
 `
 
 const DevicesList = styled.ul`
@@ -145,10 +144,8 @@ const DevicesList = styled.ul`
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-size: ${({ theme }) => theme.app.fontSize.paragraph1};
-    line-height: ${({ theme }) => theme.app.fontSize.paragraph1};
-    letter-spacing: 0.02em;
-    margin: 0;
+    ${typographyStyles.paragraph.p1};
+    color: ${({ theme }) => theme.app.color.black};
 
     &:not(:first-child) {
       &::before {

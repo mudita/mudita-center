@@ -14,6 +14,7 @@ import { Description, Stories, Subtitle, Title } from "@storybook/blocks"
 import { FunctionComponent, PropsWithChildren, ReactElement } from "react"
 import { action } from "@storybook/addon-actions"
 import { Icon } from "../icon/icon"
+import { Typography } from "../typography/typography"
 
 const DocsStoryWrapper = styled.div`
   .ReactModal__Overlay {
@@ -207,38 +208,40 @@ export const ModalScrollableContent: StoryObj<typeof Modal.ScrollableContent> =
       docs: {
         source: {
           code:
-            "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit:</p>\n" +
+            "<Typography.P1>\n" +
+            "  Lorem ipsum dolor sit amet, consectetur adipiscing elit:\n" +
+            "</Typography.P1>\n" +
             "<Modal.ScrollableContent {...args}>\n" +
-            "  <ul>\n" +
-            "    <li>\n" +
+            '  <Typography.P1 as={"ul"}>\n' +
+            "    <Typography.LI>\n" +
             "      Ullamcorper diam at mauris egestas malesuada. Aliquam erat\n" +
             "      volutpat.\n" +
-            "    </li>\n" +
-            "    <li>\n" +
+            "    </Typography.LI>\n" +
+            "    <Typography.LI>\n" +
             "      Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec\n" +
             "      ac nunc nec felis bibendum varius.\n" +
-            "    </li>\n" +
-            "    <li>\n" +
+            "    </Typography.LI>\n" +
+            "    <Typography.LI>\n" +
             "      Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut\n" +
             "      enim bibendum tincidunt.\n" +
-            "    </li>\n" +
-            "    <li>\n" +
+            "    </Typography.LI>\n" +
+            "    <Typography.LI>\n" +
             "      Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
             "      Vestibulum ullamcorper diam at mauris egestas malesuada.\n" +
-            "    </li>\n" +
-            "    <li>\n" +
+            "    </Typography.LI>\n" +
+            "    <Typography.LI>\n" +
             "      Ullamcorper diam at mauris egestas malesuada. Aliquam erat\n" +
             "      volutpat.\n" +
-            "    </li>\n" +
-            "    <li>\n" +
+            "    </Typography.LI>\n" +
+            "    <Typography.LI>\n" +
             "      Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec\n" +
             "      ac nunc nec felis bibendum varius.\n" +
-            "    </li>\n" +
-            "    <li>\n" +
+            "    </Typography.LI>\n" +
+            "    <Typography.LI>\n" +
             "      Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut\n" +
             "      enim bibendum tincidunt.\n" +
-            "    </li>\n" +
-            "  </ul>\n" +
+            "    </Typography.LI>\n" +
+            "  </Typography.P1>\n" +
             "</Modal.ScrollableContent>",
         },
         description: {
@@ -250,38 +253,40 @@ export const ModalScrollableContent: StoryObj<typeof Modal.ScrollableContent> =
     render: (args) => {
       return (
         <>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit:</p>
+          <Typography.P1>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit:
+          </Typography.P1>
           <Modal.ScrollableContent {...args}>
-            <ul>
-              <li>
+            <Typography.P1 as={"ul"}>
+              <Typography.LI>
                 Ullamcorper diam at mauris egestas malesuada. Aliquam erat
                 volutpat.
-              </li>
-              <li>
+              </Typography.LI>
+              <Typography.LI>
                 Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec
                 ac nunc nec felis bibendum varius.
-              </li>
-              <li>
+              </Typography.LI>
+              <Typography.LI>
                 Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut
                 enim bibendum tincidunt.
-              </li>
-              <li>
+              </Typography.LI>
+              <Typography.LI>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Vestibulum ullamcorper diam at mauris egestas malesuada.
-              </li>
-              <li>
+              </Typography.LI>
+              <Typography.LI>
                 Ullamcorper diam at mauris egestas malesuada. Aliquam erat
                 volutpat.
-              </li>
-              <li>
+              </Typography.LI>
+              <Typography.LI>
                 Nullam in ligula euismod, bibendum nisi a, fringilla enim. Donec
                 ac nunc nec felis bibendum varius.
-              </li>
-              <li>
+              </Typography.LI>
+              <Typography.LI>
                 Proin in nunc nec enim fringilla efficitur. Integer nec nunc ut
                 enim bibendum tincidunt.
-              </li>
-            </ul>
+              </Typography.LI>
+            </Typography.P1>
           </Modal.ScrollableContent>
         </>
       )
@@ -295,15 +300,15 @@ export const ModalDenseContent: StoryObj<typeof Modal.DenseContent> = {
       source: {
         code:
           "<Modal.DenseContent>\n" +
-          "  <p>Dense content paragraph 1</p>\n" +
+          "  <Typography.P1>Dense content paragraph 1</Typography.P1>\n" +
           "  <Icon type={IconType.MuditaLogo} />\n" +
-          "  <p>Dense content paragraph 2</p>\n" +
-          "  <p>Dense content paragraph 3</p>\n" +
+          "  <Typography.P1>Dense content paragraph 2</Typography.P1>\n" +
+          "  <Typography.P1>Dense content paragraph 3</Typography.P1>\n" +
           "</Modal.DenseContent>\n" +
-          "<p>Paragraph outside dense content 1</p>\n" +
+          "<Typography.P1>Paragraph outside dense content 1</Typography.P1>\n" +
           "<Icon type={IconType.MuditaLogo} />\n" +
-          "<p>Paragraph outside dense content 2</p>" +
-          "<p>Paragraph outside dense content 3</p>",
+          "<Typography.P1>Paragraph outside dense content 2</Typography.P1>\n" +
+          "<Typography.P1>Paragraph outside dense content 3</Typography.P1>",
       },
       description: {
         story:
@@ -319,15 +324,15 @@ export const ModalDenseContent: StoryObj<typeof Modal.DenseContent> = {
     return (
       <>
         <Modal.DenseContent>
-          <p>Dense content paragraph 1</p>
+          <Typography.P1>Dense content paragraph 1</Typography.P1>
           <Icon type={IconType.MuditaLogo} />
-          <p>Dense content paragraph 2</p>
-          <p>Dense content paragraph 3</p>
+          <Typography.P1>Dense content paragraph 2</Typography.P1>
+          <Typography.P1>Dense content paragraph 3</Typography.P1>
         </Modal.DenseContent>
-        <p>Paragraph outside dense content 1</p>
+        <Typography.P1>Paragraph outside dense content 1</Typography.P1>
         <Icon type={IconType.MuditaLogo} />
-        <p>Paragraph outside dense content 2</p>
-        <p>Paragraph outside dense content 3</p>
+        <Typography.P1>Paragraph outside dense content 2</Typography.P1>
+        <Typography.P1>Paragraph outside dense content 3</Typography.P1>
       </>
     )
   },
@@ -341,44 +346,63 @@ export const ModalTextContent: StoryObj<FunctionComponent<PropsWithChildren>> =
     },
     parameters: {
       docs: {
-        source: {
-          code:
-            "<p>Lorem ipsum dolor sit amet, consectetur:</p>\n" +
-            "<ul>\n" +
-            "  <li>Lorem ipsum dolor sit amet dolor sit amet</li>\n" +
-            "  <li>Consectetur adipiscing elit</li>\n" +
-            "</ul>\n" +
-            "<p>Vestibulum ullamcorper diam at mauris egestas:</p>\n" +
-            "<ol>\n" +
-            "  <li>Lorem ipsum dolor sit amet</li>\n" +
-            "  <li>Consectetur adipiscing elit</li>\n" +
-            "  <li>Vestibulum ullamcorper diam at mauris egestas malesuada</li>\n" +
-            "</ol>",
-        },
         description: {
           story:
-            "There's no specific component for pure text content. For best styling support, it's recommended to use the following HTML tags:\n" +
-            "- `<p>` for paragraphs\n" +
-            "- `<ul>` with `<li>` for unordered lists\n\n" +
-            "- `<ol>` with `<li>` for orderd lists\n\n" +
-            "or one of the components from this UI library.",
+            "This is a simple example of how to use the `Modal` component with text content. " +
+            "It uses the `Typography` component to display the text inside the modal.",
+        },
+        source: {
+          code:
+            "<Typography.P1>\n" +
+            "  Lorem ipsum dolor sit amet, consectetur:\n" +
+            "</Typography.P1>\n" +
+            '<Typography.P1 as={"ul"}>\n' +
+            "  <Typography.LI>\n" +
+            "    Lorem ipsum dolor sit amet dolor sit amet\n" +
+            "  </Typography.LI>\n" +
+            "  <Typography.LI>\n" +
+            "    Consectetur adipiscing elit\n" +
+            "  </Typography.LI>\n" +
+            "</Typography.P1>\n" +
+            "<Typography.P1>\n" +
+            "  Vestibulum ullamcorper diam at mauris egestas:\n" +
+            "</Typography.P1>\n" +
+            '<Typography.P1 as={"ol"}>\n' +
+            "  <Typography.LI>\n" +
+            "    Lorem ipsum dolor sit amet\n" +
+            "  </Typography.LI>\n" +
+            "  <Typography.LI>\n" +
+            "    Consectetur adipiscing elit\n" +
+            "  </Typography.LI>\n" +
+            "  <Typography.LI>\n" +
+            "    Vestibulum ullamcorper diam at mauris egestas malesuada\n" +
+            "  </Typography.LI>\n" +
+            "</Typography.P1>",
         },
       },
     },
     args: {
       children: (
         <>
-          <p>Lorem ipsum dolor sit amet, consectetur:</p>
-          <ul>
-            <li>Lorem ipsum dolor sit amet dolor sit amet</li>
-            <li>Consectetur adipiscing elit</li>
-          </ul>
-          <p>Vestibulum ullamcorper diam at mauris egestas:</p>
-          <ol>
-            <li>Lorem ipsum dolor sit amet</li>
-            <li>Consectetur adipiscing elit</li>
-            <li>Vestibulum ullamcorper diam at mauris egestas malesuada</li>
-          </ol>
+          <Typography.P1>
+            Lorem ipsum dolor sit amet, consectetur:
+          </Typography.P1>
+          <Typography.P1 as={"ul"}>
+            <Typography.LI>
+              Lorem ipsum dolor sit amet dolor sit amet
+            </Typography.LI>
+            <Typography.LI>Consectetur adipiscing elit</Typography.LI>
+          </Typography.P1>
+          <Typography.P1>
+            Vestibulum ullamcorper diam at mauris egestas:
+          </Typography.P1>
+          <Typography.P1 as={"ol"}>
+            <Typography.LI>Lorem ipsum dolor sit amet</Typography.LI>
+            <Typography.LI>Consectetur adipiscing elit</Typography.LI>
+            <Typography.LI>
+              Vestibulum ullamcorper diam at mauris egestas malesuada
+            </Typography.LI>
+          </Typography.P1>
         </>
       ),
     },

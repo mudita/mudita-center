@@ -5,10 +5,10 @@
 
 import { css, styled } from "styled-components"
 import { FunctionComponent, ReactNode, Ref } from "react"
+import { typographyStyles } from "../../typography/typography-styles"
 
 export const textStyles = css`
-  font-size: ${({ theme }) => theme.app.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.app.lineHeight.paragraph3};
+  ${typographyStyles.paragraph.p3};
   letter-spacing: 0.05em;
 `
 
@@ -21,8 +21,8 @@ export const Input = styled.input`
   outline: none;
   padding: 0;
   width: 100%;
-  color: ${({ theme }) => theme.app.color.black};
   ${textStyles};
+  color: ${({ theme }) => theme.app.color.black};
 `
 
 export const Slot = styled.div`

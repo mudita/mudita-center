@@ -6,7 +6,7 @@
 import styled from "styled-components"
 import { FunctionComponent } from "react"
 import { DashboardHeaderPortal } from "./header"
-import { Button } from "app-theme/ui"
+import { Button, Typography } from "app-theme/ui"
 import { ButtonType, IconType } from "app-theme/models"
 
 interface Props {
@@ -23,10 +23,10 @@ export const DashboardHeaderTitle: FunctionComponent<Props> = ({
       <Wrapper data-testid="dashboard-header-title">
         {back ? (
           <Button to={".."} type={ButtonType.Text} icon={IconType.ArrowBack}>
-            <BackTitle>back to {title}</BackTitle>
+            back to {title}
           </Button>
         ) : (
-          <PageTitle>{title}</PageTitle>
+          <Typography.H4 as={"h1"}>{title}</Typography.H4>
         )}
       </Wrapper>
     </DashboardHeaderPortal>
@@ -38,23 +38,4 @@ const Wrapper = styled.div`
   height: 100%;
   flex-direction: row;
   align-items: center;
-`
-
-const PageTitle = styled.h1`
-  color: ${({ theme }) => theme.app.color.black};
-  font-size: ${({ theme }) => theme.app.fontSize.headline4};
-  line-height: ${({ theme }) => theme.app.lineHeight.headline4};
-  font-weight: ${({ theme }) => theme.app.fontWeight.bold};
-  letter-spacing: 0.02em;
-  margin: 0;
-`
-
-const BackTitle = styled.h1`
-  color: ${({ theme }) => theme.app.color.grey1};
-  font-size: ${({ theme }) => theme.app.fontSize.buttonText};
-  line-height: ${({ theme }) => theme.app.lineHeight.buttonText};
-  font-weight: ${({ theme }) => theme.app.fontWeight.regular};
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 0;
 `
