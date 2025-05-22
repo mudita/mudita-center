@@ -11,7 +11,7 @@ import {
   APIEntitiesService,
   ServiceBridge,
 } from "device/feature"
-import { ApiConfig, EntitiesFileData, EntitiesJsonData } from "device/models"
+import { ApiConfig, EntitiesFileData } from "device/models"
 import { ResponseStatus } from "Core/device"
 
 jest.mock("shared/utils", () => {
