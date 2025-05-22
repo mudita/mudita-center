@@ -30,5 +30,9 @@ export const initAppActions = (ipcMain: IpcMain) => {
         return appActionsService?.openLegalWindow(path, title)
       }
     )
+
+    ipcMain.handle(AppActionsIpcEvents.GetVersion, () => {
+      return appActionsService?.getAppVersion()
+    })
   }
 }

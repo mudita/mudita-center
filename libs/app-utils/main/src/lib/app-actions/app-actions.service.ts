@@ -92,4 +92,8 @@ export class AppActionsService {
   openLegalWindow(path: string, title: string) {
     this.createInfoWindow(path, title)
   }
+
+  getAppVersion(): string {
+    return app.getVersion()
+  }
 }

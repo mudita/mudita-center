@@ -24,4 +24,8 @@ export const appActions = {
       title,
     })
   },
+
+  getAppVersion: (): Promise<string> => {
+    return electronAPI.ipcRenderer.invoke(AppActionsIpcEvents.GetVersion)
+  },
 }

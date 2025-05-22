@@ -4,7 +4,8 @@
  */
 
 import { FunctionComponent } from "react"
-import styled from "styled-components"
+import { useDispatch, useSelector } from "react-redux"
+import styled, { css } from "styled-components"
 import {
   Data,
   SettingsActionsWrapper,
@@ -12,9 +13,19 @@ import {
   SettingsTableRow,
   SettingsWrapper,
 } from "../settings/settings-ui.styled"
+import {
+  setCheckingForUpdate,
+  setCheckingForUpdateFailed,
+} from "settings/feature"
+import { AppUpdater } from "app-utils/renderer"
 import { SettingsTestId } from "settings/models"
+import { selectCheckingForUpdateFailed } from "settings/feature"
 import { FormattedMessage } from "react-intl"
-import { LegacyButtonDisplayStyle, TextDisplayStyle } from "app-theme/models"
+import {
+  LegacyIconType,
+  LegacyButtonDisplayStyle,
+  TextDisplayStyle,
+} from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { LegacyButton, LegacyText } from "app-theme/ui"
 import { backgroundColor, borderColor, borderRadius } from "app-theme/utils"
@@ -46,8 +57,27 @@ const AboutAvailableUpdate = styled(LegacyText)`
   margin-right: 1.6rem;
 `
 
-const AboutUpdateButton = styled(LegacyButton)`
+const rotateAnimation = css`
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  animation: rotate 1s infinite ease-in-out;
+`
+
+const AboutUpdateButtonStyled = styled(LegacyButton)<{ $updating?: boolean }>`
   min-width: 17.6rem;
+  display: flex;
+  width: auto;
+
+  svg {
+    ${({ $updating }) => $updating && rotateAnimation}
+  }
 `
 
 const messages = defineMessages({
@@ -108,26 +138,19 @@ export const About: FunctionComponent<AboutProps> = ({
   hideAppUpdateNotAvailable,
   checkingForUpdate,
 }) => {
-  // const { checkingForUpdateFailed } = useSelector(
-  //   (state: ReduxRootState) => state.settings
-  // )
-  const checkingForUpdateFailed = false
+  const dispatch = useDispatch()
 
-  // const { appUpdateFlowShow } = useSelector(
-  //   (state: ReduxRootState) => state.modalsManager
-  // )
+  const checkingForUpdateFailed = useSelector(selectCheckingForUpdateFailed)
   const appUpdateFlowShow = false
 
   const appUpdateAvailableCheckHandler = () => {
-    console.log("appUpdateAvailableCheckHandler")
-    // dispatch(setCheckingForUpdateFailed(false))
-    // setUpdateCheck(true)
-    // onAppUpdateAvailableCheck()
+    dispatch(setCheckingForUpdate(true))
+    dispatch(setCheckingForUpdateFailed(false))
+    void AppUpdater.checkForUpdates()
   }
 
   const handleProcessDownload = () => {
-    console.log("handleProcessDownload")
-    // void dispatch(showModal(ModalStateKey.AppUpdateFlow))
+    void AppUpdater.downloadUpdate()
   }
 
   const badgeText = appUpdateAvailable
@@ -160,20 +183,22 @@ export const About: FunctionComponent<AboutProps> = ({
                 />
               )}
             </AboutAvailableUpdate>
-            <AboutUpdateButton
+            <AboutUpdateButtonStyled
               displayStyle={LegacyButtonDisplayStyle.Primary}
-              // updating={checkingForUpdate}
               label={formatMessage(
                 appUpdateAvailable
                   ? messages.updateAvailableButton
                   : messages.updateCheckButton
               )}
-              data-testid={SettingsTestId.AboutUpdateButton}
+              Icon={checkingForUpdate ? LegacyIconType.Refresh : undefined}
               onClick={
                 appUpdateAvailable
                   ? handleProcessDownload
                   : appUpdateAvailableCheckHandler
               }
+              disabled={checkingForUpdate}
+              $updating={checkingForUpdate}
+              data-testid={SettingsTestId.AboutUpdateButton}
             />
           </AboutActionContainer>
         </AboutVersionTableRow>

@@ -3,11 +3,51 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppActions } from "app-utils/renderer"
-import { FunctionComponent } from "react"
+import { AppActions, AppUpdater } from "app-utils/renderer"
+import { FunctionComponent, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { About } from "settings/ui"
+import {
+  setCheckingForUpdate,
+  setCheckingForUpdateFailed,
+  setCurrentVersion,
+  setLatestVersion,
+  toggleApplicationUpdateAvailable,
+} from "../store/settings.actions"
+import {
+  selectCheckingForUpdate,
+  selectCurrentVersion,
+  selectLatestVersion,
+  selectUpdateAvailable,
+} from "../store/settings.selectors"
 
 export const SettingsAboutPage: FunctionComponent = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    AppActions.getAppVersion().then((version) => {
+      dispatch(setCurrentVersion(version))
+    })
+
+    AppUpdater.onAvailableUpdateEvent((version) => {
+      dispatch(setLatestVersion(version))
+      dispatch(toggleApplicationUpdateAvailable(true))
+      dispatch(setCheckingForUpdate(false))
+      dispatch(setCheckingForUpdateFailed(false))
+    })
+
+    AppUpdater.onNotAvailableUpdateEvent(() => {
+      dispatch(toggleApplicationUpdateAvailable(false))
+      dispatch(setCheckingForUpdate(false))
+      dispatch(setCheckingForUpdateFailed(false))
+    })
+
+    AppUpdater.onUpdateErrorEvent(() => {
+      dispatch(setCheckingForUpdate(false))
+      dispatch(setCheckingForUpdateFailed(true))
+    })
+  }, [dispatch])
+
   const legalWindows = {
     license: {
       path: "/license",
@@ -52,11 +92,11 @@ export const SettingsAboutPage: FunctionComponent = () => {
     console.log("Hide App Update Not Available")
   }
 
-  const latestVersion = "1.2.3"
-  const currentVersion = "3.4.5"
-  const updateAvailable = true
+  const latestVersion = useSelector(selectLatestVersion)
+  const currentVersion = useSelector(selectCurrentVersion)
+  const updateAvailable = useSelector(selectUpdateAvailable)
   const appUpdateNotAvailableShow = true
-  const checkingForUpdate = false
+  const checkingForUpdate = useSelector(selectCheckingForUpdate)
 
   return (
     <About
