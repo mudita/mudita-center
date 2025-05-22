@@ -5,12 +5,16 @@
 
 import { FunctionComponent, useLayoutEffect } from "react"
 import styled from "styled-components"
-import { Icon } from "app-theme/ui"
+import { Button, Icon, Typography } from "app-theme/ui"
 import { useDispatch, useSelector } from "react-redux"
 import { registerMenuGroups } from "../store/app-menu.actions"
 import { selectMenuGroups } from "../store/app-menu.selectors"
-import { NavLink } from "react-router"
-import { IconSize, IconType } from "app-theme/models"
+import {
+  ButtonTextModifier,
+  ButtonType,
+  IconSize,
+  IconType,
+} from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
 
 interface Props {
@@ -52,35 +56,33 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
                   const submenu = item.items
                   return (
                     <MenuItem key={item.path}>
-                      <NavLink
+                      <MenuButton
                         to={item.path}
-                        className={({ isActive }) => {
-                          return [
-                            isActive && "active",
-                            submenu?.length && "parent",
-                          ]
-                            .filter(Boolean)
-                            .join(" ")
-                        }}
+                        type={ButtonType.Text}
+                        modifiers={[ButtonTextModifier.DefaultCase]}
                       >
-                        <MenuItemIcon>
-                          <Icon type={item.icon} size={IconSize.Big} />
-                        </MenuItemIcon>
-                        <MenuItemLabel>{item.title}</MenuItemLabel>
-                      </NavLink>
+                        <Icon type={item.icon} size={IconSize.Big} />
+                        <Typography.P1 as={"span"} color={"currentColor"}>
+                          {item.title}
+                        </Typography.P1>
+                      </MenuButton>
                       {submenu?.length && (
                         <MenuGroupItems>
                           {submenu.map((submenu) => {
                             return (
                               <MenuItem key={submenu.path}>
-                                <NavLink
+                                <MenuButton
                                   to={submenu.path}
-                                  className={({ isActive }) =>
-                                    isActive ? "active" : ""
-                                  }
+                                  type={ButtonType.Text}
+                                  modifiers={[ButtonTextModifier.DefaultCase]}
                                 >
-                                  <MenuItemLabel>{submenu.title}</MenuItemLabel>
-                                </NavLink>
+                                  <Typography.P1
+                                    as={"span"}
+                                    color={"currentColor"}
+                                  >
+                                    {submenu.title}
+                                  </Typography.P1>
+                                </MenuButton>
                               </MenuItem>
                             )
                           })}
@@ -149,6 +151,9 @@ const MenuGroupItems = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
+  transition-property: opacity, visibility, height, margin-top, padding-bottom;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
 
   & & {
     margin-left: 3.6rem;
@@ -158,57 +163,8 @@ const MenuGroupItems = styled.ul`
   }
 `
 
-const MenuItemIcon = styled.div`
-  width: 3.2rem;
-  height: 3.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const MenuItemLabel = styled.div`
-  color: currentColor;
-  font-size: ${({ theme }) => theme.app.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.app.lineHeight.paragraph1};
-  font-weight: ${({ theme }) => theme.app.fontWeight.regular};
-  letter-spacing: 0.02em;
-`
-
 const MenuItem = styled.li`
   position: relative;
-
-  & > a {
-    height: 4rem;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: ${({ theme }) => theme.app.space.md};
-    padding: ${({ theme }) => theme.app.space.xs};
-    color: ${({ theme }) => theme.app.color.grey2};
-    border-radius: ${({ theme }) => theme.app.radius.md};
-    text-decoration: none;
-    transition:
-      color 0.2s ease-in-out,
-      background 0.2s ease-in-out;
-
-    &:hover {
-      color: ${({ theme }) => theme.app.color.black};
-      background: ${({ theme }) => theme.app.color.grey5};
-    }
-
-    &.active {
-      color: ${({ theme }) => theme.app.color.black};
-
-      &:not(.parent) {
-        background: ${({ theme }) => theme.app.color.grey5};
-      }
-    }
-
-    &:not(.active) + ${MenuGroupItems} {
-      display: none;
-    }
-  }
 
   & & {
     &:before,
@@ -216,8 +172,8 @@ const MenuItem = styled.li`
       content: "";
       display: block;
       position: absolute;
-      width: 1.2rem;
-      left: -1.6rem;
+      width: 1.1rem;
+      left: -1.7rem;
       background: none;
       border: solid 0.1rem ${({ theme }) => theme.app.color.grey4};
     }
@@ -247,5 +203,38 @@ const MenuItem = styled.li`
     a {
       padding: 0 1rem;
     }
+  }
+`
+
+const MenuButton = styled(Button)`
+  justify-content: flex-start;
+  height: 4rem;
+  padding-left: 0.4rem;
+  gap: ${({ theme }) => theme.app.space.sm};
+  border-radius: ${({ theme }) => theme.app.radius.md};
+  color: ${({ theme }) => theme.app.color.grey2};
+  transition:
+    color 0.2s ease-in-out,
+    background 0.2s ease-in-out;
+
+  &:hover {
+    color: ${({ theme }) => theme.app.color.black};
+    background: ${({ theme }) => theme.app.color.grey5};
+  }
+
+  &[aria-current] {
+    color: ${({ theme }) => theme.app.color.black};
+
+    &:not(:has(+ ${MenuGroupItems})) {
+      background: ${({ theme }) => theme.app.color.grey5};
+    }
+  }
+
+  &:not([aria-current]) + ${MenuGroupItems} {
+    height: calc-size(auto, size * 0);
+    opacity: 0;
+    visibility: hidden;
+    margin-top: 0;
+    padding-bottom: 0;
   }
 `

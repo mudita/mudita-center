@@ -59,12 +59,6 @@ const getModalGap = (gap?: string | number) => {
   return typeof gap === "number" ? `${gap}px` : gap
 }
 
-const listBulletStyle = css`
-  &::marker {
-    content: url('data:image/svg+xml,<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle fill="%233B3F42" r="3.5" cx="5" cy="4"/></svg>');
-  }
-`
-
 const Content = styled.div<{
   $layer: ModalLayer
   $size: ModalSize
@@ -121,16 +115,6 @@ const Content = styled.div<{
     margin-bottom: var(--gap-reducer);
   }
 
-  p {
-    font-size: ${({ theme }) => theme.app.fontSize.paragraph1};
-    line-height: ${({ theme }) => theme.app.lineHeight.paragraph1};
-    text-align: center;
-    color: ${({ theme }) => theme.app.color.grey1};
-    letter-spacing: 0.02em;
-    margin: 0;
-    white-space: pre-line;
-  }
-
   > p,
   ${ScrollableContent} > p {
     + p,
@@ -140,39 +124,21 @@ const Content = styled.div<{
     }
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
   ul,
-  ol {
-    width: 100%;
-    margin: 0;
-    padding-left: 2.9rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-
-    li {
-      padding: 0.4rem 1.2rem 0.4rem 2.1rem;
-      font-size: ${({ theme }) => theme.app.fontSize.paragraph1};
-      line-height: ${({ theme }) => theme.app.lineHeight.paragraph1};
-      letter-spacing: 0.02em;
-      color: ${({ theme }) => theme.app.color.grey1};
-      text-align: left;
-    }
+  ol,
+  li {
+    color: ${({ theme }) => theme.app.color.grey1};
   }
 
-  ul {
-    li {
-      ${listBulletStyle};
-    }
-  }
-
-  ol {
-    padding-left: 3.5rem;
-    li {
-      padding-left: 1.5rem;
-      &::marker {
-        font-variant-numeric: tabular-nums;
-      }
-    }
+  p {
+    text-align: center;
   }
 
   *:has(${ScrollableContent}) {

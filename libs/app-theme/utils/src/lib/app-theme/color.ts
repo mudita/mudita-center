@@ -3,11 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DotNotation } from "app-utils/models"
+
 export const color = {
   white: "#FFFFFF",
   black: "#000000",
   blackAlpha: {
     light: "rgba(0, 0, 0, 0.08)",
+    medium: "rgba(0, 0, 0, 0.3)",
   },
   blue1: "#40749A",
   blue2: "#6D9BBC",
@@ -27,3 +30,5 @@ export const color = {
   green: "#DFEFDE",
   orange: "#DD802A",
 } as const
+
+export type AppColor = DotNotation<typeof color>

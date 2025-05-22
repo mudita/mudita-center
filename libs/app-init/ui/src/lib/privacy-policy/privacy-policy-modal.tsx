@@ -4,7 +4,7 @@
  */
 
 import { FunctionComponent } from "react"
-import { Button, Modal } from "app-theme/ui"
+import { Button, Modal, Typography } from "app-theme/ui"
 import {
   ButtonTextModifier,
   ButtonType,
@@ -50,7 +50,7 @@ export const PrivacyPolicyModal: FunctionComponent<Props> = ({
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Modal.CloseButton onClick={onClose} />
       <Modal.DenseContent>
-        <p>{formatMessage(messages.description)}</p>
+        <Typography.P1>{formatMessage(messages.description)}</Typography.P1>
         <Button
           onClick={onLinkClick}
           type={ButtonType.Text}

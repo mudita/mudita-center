@@ -4,7 +4,7 @@
  */
 
 export const fontSize = {
-  headline1: "4rem",
+  headline1: "4.8rem",
   headline2: "3.2rem",
   headline3: "2.4rem",
   headline4: "1.6rem",

@@ -9,6 +9,9 @@ export * from "./lib/icon-button/icon-button"
 export * from "./lib/modal/modal"
 export * from "./lib/modal/error-modal/error-modal"
 export * from "./lib/form/text-input/text-input"
+export * from "./lib/typography/typography"
+export * from "./lib/typography/typography-styles"
+export * from "./lib/typography/bytes-formatter/bytes-formatter"
 
 // Legacy components
 export * from "./lib/legacy-text/text.component"

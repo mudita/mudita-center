@@ -14,14 +14,13 @@ const appIntl = createIntl({
 
 export const formatMessage = appIntl.formatMessage
 
-interface Messages {
+export interface Messages {
   id: keyof typeof enUS
 }
 
 export const defineMessages = intlDefineMessages as <
   K extends string,
-  T = Messages,
-  U = Record<K, T>,
+  T extends Messages,
 >(
-  messages: U
-) => U
+  messages: Record<K, T>
+) => Record<K, T>

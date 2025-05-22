@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren, useMemo } from "react"
+import {
+  FunctionComponent,
+  MouseEventHandler,
+  PropsWithChildren,
+  useCallback,
+  useMemo,
+} from "react"
 import { LinkProps } from "react-router"
 import {
   ButtonSize,
@@ -11,7 +17,6 @@ import {
   ButtonType,
   IconType,
 } from "app-theme/models"
-import { isEmpty } from "lodash"
 import { ButtonIcon } from "./button-base.styles"
 import {
   PrimaryButtonComponent,
@@ -25,11 +30,12 @@ import {
   TextButtonComponent,
   TextNavigationComponent,
 } from "./button-text.styles"
+import { formatMessage, Messages } from "app-localize/utils"
 
 export interface ButtonLinkProps {
   to: LinkProps["to"]
   target?: LinkProps["target"]
-  onClick?: undefined
+  onClick?: VoidFunction
 }
 
 export interface ButtonDefaultProps {
@@ -48,19 +54,33 @@ interface TextButtonProps {
   modifiers?: ButtonTextModifier[]
 }
 
+type Translation =
+  | {
+      message: Messages["id"]
+      values?: Record<string, string | number | boolean>
+      children?: undefined
+    }
+  | {
+      message?: undefined
+      values?: undefined
+      children?: PropsWithChildren["children"]
+    }
+
 type Props = PropsWithChildren & {
   size?: ButtonSize
-  text?: string
   icon?: IconType
   disabled?: boolean
-} & (ButtonLinkProps | ButtonDefaultProps) &
+  className?: string
+} & Translation &
+  (ButtonLinkProps | ButtonDefaultProps) &
   (StandardButtonProps | TextButtonProps)
 
 export const Button: FunctionComponent<Props> = ({
   type = ButtonType.Primary,
   size = ButtonSize.AutoMax,
   modifiers,
-  text,
+  message,
+  values,
   icon,
   to,
   target,
@@ -101,10 +121,21 @@ export const Button: FunctionComponent<Props> = ({
     return (
       <>
         {icon && <ButtonIcon type={icon} />}
-        {isEmpty(children) ? text : children}
+        {message ? formatMessage({ id: message }, values) : children}
       </>
     )
-  }, [children, icon, text])
+  }, [children, icon, message, values])
+
+  const linkClickHandler: MouseEventHandler = useCallback(
+    (event) => {
+      if (disabled) {
+        event.preventDefault()
+        return
+      }
+      onClick?.()
+    },
+    [disabled, onClick]
+  )
 
   if (to && NavigationComponent) {
     const linkTarget = retrieveLinkTarget(to, target)
@@ -116,12 +147,7 @@ export const Button: FunctionComponent<Props> = ({
         $modifiers={modifiers}
         $disabled={disabled}
         aria-disabled={disabled}
-        onClick={(e) => {
-          if (disabled) {
-            e.preventDefault()
-            return
-          }
-        }}
+        onClick={linkClickHandler}
         {...rest}
       >
         {content}

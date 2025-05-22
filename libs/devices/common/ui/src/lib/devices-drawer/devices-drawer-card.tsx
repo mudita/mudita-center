@@ -6,7 +6,7 @@
 import { ComponentProps, FunctionComponent } from "react"
 import styled from "styled-components"
 import { defineMessages, formatMessage } from "app-localize/utils"
-import { Icon } from "app-theme/ui"
+import { Icon, Typography } from "app-theme/ui"
 import { IconSize, IconType } from "app-theme/models"
 import {
   DeviceImageColor,
@@ -18,6 +18,7 @@ import { DeviceImage } from "../device-image/device-image"
 const messages = defineMessages({
   serialNumberLabel: { id: "general.components.deviceCard.serialNumberLabel" },
   recoveryModeLabel: { id: "general.components.deviceCard.recoveryModeLabel" },
+  activeLabel: { id: "general.components.deviceCard.activeLabel" },
 })
 
 export interface DrawerCardDevice {
@@ -54,20 +55,27 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
         color={device.color}
       />
       <Info>
-        <Name>
-          {name} {active && <ActiveIndicator aria-label={"Active device"} />}
-        </Name>
+        <Typography.H4 as={"p"}>
+          {name}{" "}
+          {active && (
+            <ActiveIndicator>
+              {formatMessage(messages.activeLabel)}
+            </ActiveIndicator>
+          )}
+        </Typography.H4>
         {Boolean(serialNumber) && (
-          <SerialNumber>
-            <p>{formatMessage(messages.serialNumberLabel)}</p>
-            <p>{serialNumber}</p>
-          </SerialNumber>
+          <div>
+            <Typography.P3 message={messages.serialNumberLabel.id} />
+            <Typography.H5 as={"p"}>{serialNumber}</Typography.H5>
+          </div>
         )}
       </Info>
       {recoveryMode && (
         <RecoveryLabel>
           <Icon type={IconType.RecoveryMode} size={IconSize.AutoMax} />
-          <p>{formatMessage(messages.recoveryModeLabel)}</p>
+          <Typography.P5 color={"white"}>
+            <strong>{formatMessage(messages.recoveryModeLabel)}</strong>
+          </Typography.P5>
         </RecoveryLabel>
       )}
     </DevicesDrawerCardWrapper>
@@ -75,12 +83,7 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
 }
 
 const ActiveIndicator = styled.span`
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.app.color.black};
-  vertical-align: top;
+  text-transform: uppercase;
 `
 
 export const DevicesDrawerCardWrapper = styled.li<{ onClick?: VoidFunction }>`
@@ -114,37 +117,6 @@ export const Info = styled.div`
   align-self: center;
 `
 
-export const Name = styled.p`
-  font-size: ${({ theme }) => theme.app.fontSize.headline4};
-  line-height: ${({ theme }) => theme.app.lineHeight.headline4};
-  font-weight: ${({ theme }) => theme.app.fontWeight.bold};
-  letter-spacing: 0.02em;
-  margin: 0;
-`
-
-export const SerialNumber = styled.div`
-  grid-area: SerialNumber;
-
-  p {
-    margin: 0;
-
-    &:first-child {
-      font-size: ${({ theme }) => theme.app.fontSize.paragraph3};
-      line-height: ${({ theme }) => theme.app.lineHeight.paragraph3};
-      font-weight: ${({ theme }) => theme.app.fontWeight.regular};
-      color: ${({ theme }) => theme.app.color.grey2};
-      letter-spacing: 0.05em;
-    }
-
-    &:last-child {
-      font-size: ${({ theme }) => theme.app.fontSize.headline5};
-      line-height: ${({ theme }) => theme.app.lineHeight.headline5};
-      font-weight: ${({ theme }) => theme.app.fontWeight.bold};
-      letter-spacing: 0.04em;
-    }
-  }
-`
-
 export const RecoveryLabel = styled.div`
   position: absolute;
   top: 0;
@@ -160,10 +132,6 @@ export const RecoveryLabel = styled.div`
   color: ${({ theme }) => theme.app.color.white};
 
   p {
-    margin: 0;
-    font-size: ${({ theme }) => theme.app.fontSize.labelText};
-    line-height: ${({ theme }) => theme.app.lineHeight.labelText};
-    font-weight: ${({ theme }) => theme.app.fontWeight.bold};
     white-space: nowrap;
   }
 `

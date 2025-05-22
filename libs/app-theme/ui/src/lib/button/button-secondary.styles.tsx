@@ -4,7 +4,7 @@
  */
 
 import styled, { css } from "styled-components"
-import { Link } from "react-router"
+import { NavLink } from "react-router"
 import {
   baseStyles,
   ButtonIcon,
@@ -62,7 +62,7 @@ export const SecondaryButtonComponent = styled.button<StyledButtonProps>`
   }
 `
 
-export const SecondaryNavigationComponent = styled(Link)<StyledLinkProps>`
+export const SecondaryNavigationComponent = styled(NavLink)<StyledLinkProps>`
   ${baseStyles};
   ${secondaryDefaultStyles};
 
