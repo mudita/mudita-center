@@ -214,6 +214,14 @@ export class NodeMtpDevice {
 
     const sendObjectInfoDataResponse = await this.read(transactionId)
 
+
+    if(sendObjectInfoDataResponse.code !== ContainerCode.StatusOk) {
+      throw new AppError(
+        MTPError.MTP_GENERAL_ERROR,
+        `uploadFileInfo failed with code: ${sendObjectInfoDataResponse.code}`
+      )
+    }
+
     const parameters = getUint32s(sendObjectInfoDataResponse.payload)
     const newObjectID = parameters[2]
     console.log(`${PREFIX_LOG} uploadFileInfo newObjectID: ${newObjectID}`)
