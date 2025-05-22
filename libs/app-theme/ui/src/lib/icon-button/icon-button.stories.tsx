@@ -53,12 +53,8 @@ export default meta
 
 type Story = StoryObj<typeof IconButton>
 
-const {
-  type: argType,
-  text: argText,
-  ...buttonArgTypes
-} = DefaultButtonStory.argTypes || {}
-const { type, text, children, ...buttonArgs } = DefaultButtonStory.args || {}
+const { type: argType, ...buttonArgTypes } = DefaultButtonStory.argTypes || {}
+const { type, children, ...buttonArgs } = DefaultButtonStory.args || {}
 
 export const Default: Story = {
   argTypes: {

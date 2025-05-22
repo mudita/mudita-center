@@ -11,7 +11,7 @@ import ArrowBack from "./svg/arrow-back.svg?react"
 import Backup from "./svg/backup.svg?react"
 import ChevronDown from "./svg/chevron-down.svg?react"
 import Close from "./svg/close.svg?react"
-import Contacts from "./svg/contacts.svg?react"
+import ContactsBook from "./svg/contacts-book.svg?react"
 import DataMigration from "./svg/data-migration.svg?react"
 import FileManager from "./svg/file-manager.svg?react"
 import Help from "./svg/help.svg?react"
@@ -33,7 +33,7 @@ export const icons = {
   [IconType.Backup]: Backup,
   [IconType.ChevronDown]: ChevronDown,
   [IconType.Close]: Close,
-  [IconType.Contacts]: Contacts,
+  [IconType.ContactsBook]: ContactsBook,
   [IconType.DataMigration]: DataMigration,
   [IconType.FileManager]: FileManager,
   [IconType.Help]: Help,

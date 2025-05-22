@@ -9,14 +9,12 @@ import {
   DevicesDrawerCardWrapper,
   DrawerCardDevice,
   Info,
-  Name,
   RecoveryLabel,
-  SerialNumber,
 } from "../devices-drawer/devices-drawer-card"
 import { DeviceImage } from "../device-image/device-image"
 import { defineMessages, formatMessage } from "app-localize/utils"
-import { Icon } from "app-theme/ui"
-import { IconSize, IconType } from "app-theme/models"
+import { Icon, Typography } from "app-theme/ui"
+import { IconSize, IconType, TypographyAlign } from "app-theme/models"
 import styled from "styled-components"
 
 const messages = defineMessages({
@@ -46,18 +44,27 @@ export const DevicesSelectorCard: FunctionComponent<SelectorItemProps> = ({
         color={device.color}
       />
       <Info>
-        <Name>{name}</Name>
+        <Typography.H4 as={"p"} textAlign={TypographyAlign.Center}>
+          {name}
+        </Typography.H4>
         {Boolean(serialNumber) && (
-          <SerialNumber>
-            <p>{formatMessage(messages.serialNumberLabel)}</p>
-            <p>{serialNumber}</p>
-          </SerialNumber>
+          <div>
+            <Typography.P4
+              message={messages.serialNumberLabel.id}
+              textAlign={TypographyAlign.Center}
+            />
+            <Typography.P3 textAlign={TypographyAlign.Center} color={"black"}>
+              {serialNumber}
+            </Typography.P3>
+          </div>
         )}
       </Info>
       {recoveryMode && (
         <RecoveryLabel>
           <Icon type={IconType.RecoveryMode} size={IconSize.AutoMax} />
-          <p>{formatMessage(messages.recoveryModeLabel)}</p>
+          <Typography.P5 color={"white"}>
+            <strong>{formatMessage(messages.recoveryModeLabel)}</strong>
+          </Typography.P5>
         </RecoveryLabel>
       )}
     </Wrapper>
@@ -84,23 +91,6 @@ const Wrapper = styled(DevicesDrawerCardWrapper)`
     gap: 0;
     height: 100%;
     justify-content: space-between;
-  }
-
-  ${Name} {
-    text-align: center;
-  }
-
-  ${SerialNumber} {
-    text-align: center;
-
-    p {
-      &:first-child {
-        font-weight: ${({ theme }) => theme.app.fontWeight.light};
-      }
-      &:last-child {
-        font-weight: ${({ theme }) => theme.app.fontWeight.regular};
-      }
-    }
   }
 `
 

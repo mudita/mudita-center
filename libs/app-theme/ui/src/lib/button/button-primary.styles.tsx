@@ -4,7 +4,7 @@
  */
 
 import styled, { css } from "styled-components"
-import { Link } from "react-router"
+import { NavLink } from "react-router"
 import {
   baseStyles,
   ButtonIcon,
@@ -20,6 +20,7 @@ const primaryDefaultStyles = css`
     border-color 0.15s ease-in-out;
   font-size: ${({ theme }) => theme.app.fontSize.buttonText};
   line-height: ${({ theme }) => theme.app.lineHeight.buttonText};
+  font-weight: ${({ theme }) => theme.app.fontWeight.regular};
   color: ${({ theme }) => theme.app.color.white};
   height: 4rem;
 
@@ -59,7 +60,7 @@ export const PrimaryButtonComponent = styled.button<StyledButtonProps>`
   }
 `
 
-export const PrimaryNavigationComponent = styled(Link)<StyledLinkProps>`
+export const PrimaryNavigationComponent = styled(NavLink)<StyledLinkProps>`
   ${baseStyles};
   ${primaryDefaultStyles};
 

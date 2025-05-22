@@ -15,6 +15,8 @@ import { TextInputVariant } from "app-theme/models"
 import { TextInputPassword } from "./text-input-password"
 import { Input, Placeholder, Slot, TextInputDefault } from "./text-input-shared"
 import { TextInputDropdown, TextInputSearch } from "./text-input-search"
+import { typographyStyles } from "../../typography/typography-styles"
+import { Typography } from "../../typography/typography"
 
 type FilledProps = {
   variant: TextInputVariant.Filled
@@ -108,7 +110,7 @@ export const TextInput: FunctionComponent<Props> & {
         />
       </InputWrapper>
       {variant === TextInputVariant.Filled && (
-        <Error>{error || <>&nbsp;</>}</Error>
+        <Error color={"red"}>{error || <>&nbsp;</>}</Error>
       )}
     </Wrapper>
   )
@@ -139,13 +141,13 @@ const filledInputStyles = css<{ $error?: boolean }>`
     transition-property: transform, height, gap;
     transition-duration: 0.2s;
     transition-timing-function: ease-in-out;
-    color: ${({ theme, $error }) =>
-      $error ? theme.app.color.red : theme.app.color.grey2};
 
     span {
       transition-property: font-size, line-height, letter-spacing;
       transition-duration: 0.2s;
       transition-timing-function: ease-in-out;
+      color: ${({ theme, $error }) =>
+        $error ? theme.app.color.red : theme.app.color.grey2} !important;
     }
 
     ${Slot} {
@@ -167,9 +169,7 @@ const filledInputStyles = css<{ $error?: boolean }>`
       gap: 0;
 
       span {
-        font-size: ${({ theme }) => theme.app.fontSize.labelText};
-        line-height: ${({ theme }) => theme.app.lineHeight.labelText};
-        letter-spacing: 0.04em;
+        ${typographyStyles.paragraph.p5};
       }
 
       ${Slot} {
@@ -223,11 +223,6 @@ const InputWrapper = styled.label<{
   ${({ $variant }) => $variant === "outlined" && outlinedInputStyles};
 `
 
-const Error = styled.span`
-  margin: 0;
-  color: ${({ theme }) => theme.app.color.red};
-  font-size: ${({ theme }) => theme.app.fontSize.labelText};
-  line-height: ${({ theme }) => theme.app.lineHeight.labelText};
-  letter-spacing: 0.04em;
+const Error = styled(Typography.P5)`
   user-select: none;
 `
