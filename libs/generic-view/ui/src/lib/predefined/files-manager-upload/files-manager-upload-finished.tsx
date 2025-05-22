@@ -164,7 +164,7 @@ export const FilesManagerUploadFinished: APIFC<
     if (errorTypes.length > 1) {
       return
     }
-    if (allFilesFailed) {
+    if (allFilesFailed || succeededFiles.length === 0) {
       switch (errorTypes[0]) {
         case ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]:
           return intl.formatMessage(messages.allDuplicatesError, {
@@ -192,10 +192,14 @@ export const FilesManagerUploadFinished: APIFC<
           return
       }
     }
-  }, [allFilesFailed, errorTypes, filesCount, memoryNeeded])
+  }, [allFilesFailed, errorTypes, filesCount, memoryNeeded, succeededFiles])
 
   const filesList = useMemo(() => {
-    if (filesCount === 1 || (allFilesFailed && errorTypes.length === 1)) {
+    if (
+      filesCount === 1 ||
+      (allFilesFailed && errorTypes.length === 1) ||
+      succeededFiles.length === 0
+    ) {
       return
     }
     const list = [
@@ -249,7 +253,10 @@ export const FilesManagerUploadFinished: APIFC<
   ])
 
   const generalInfo = useMemo(() => {
-    if (allFilesFailed && errorTypes.length === 1) {
+    if (
+      (allFilesFailed && errorTypes.length === 1) ||
+      succeededFiles.length === 0
+    ) {
       return
     }
     const sentenceEnding = errorMessage || !filesList ? "." : ":"
@@ -328,6 +335,7 @@ const FilesList = styled.ul`
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
       &:nth-child(2) {
         white-space: nowrap;
         color: ${({ theme }) => theme.color.grey2};
