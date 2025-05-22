@@ -23,6 +23,7 @@ export enum IconType {
   Search = "search",
   Settings = "settings",
   Spinner = "spinner",
+  ThinFail = "thin-fail",
 }
 
 export enum IconSize {

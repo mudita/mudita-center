@@ -4,7 +4,7 @@
  */
 
 import { AppActions, AppUpdater } from "app-utils/renderer"
-import { FunctionComponent, useEffect } from "react"
+import { FunctionComponent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { About } from "settings/ui"
 import {
@@ -20,8 +20,10 @@ import {
   selectLatestVersion,
   selectUpdateAvailable,
 } from "../store/settings.selectors"
+import { ErrorModal } from "app-theme/ui"
 
 export const SettingsAboutPage: FunctionComponent = () => {
+  const [showTestModal, setShowTestModal] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -99,17 +101,28 @@ export const SettingsAboutPage: FunctionComponent = () => {
   const checkingForUpdate = useSelector(selectCheckingForUpdate)
 
   return (
-    <About
-      openLicense={openLicenseWindow}
-      openTermsOfService={openTermsOfServiceWindow}
-      openPrivacyPolicy={openPrivacyPolicyWindow}
-      appLatestVersion={latestVersion}
-      appCurrentVersion={currentVersion}
-      appUpdateAvailable={updateAvailable}
-      onAppUpdateAvailableCheck={handleAppUpdateAvailableCheck}
-      appUpdateNotAvailableShow={appUpdateNotAvailableShow}
-      hideAppUpdateNotAvailable={hideAppUpdateNotAvailable}
-      checkingForUpdate={checkingForUpdate}
-    />
+    <>
+      <About
+        openLicense={openLicenseWindow}
+        openTermsOfService={openTermsOfServiceWindow}
+        openPrivacyPolicy={openPrivacyPolicyWindow}
+        appLatestVersion={latestVersion}
+        appCurrentVersion={currentVersion}
+        appUpdateAvailable={updateAvailable}
+        onAppUpdateAvailableCheck={handleAppUpdateAvailableCheck}
+        appUpdateNotAvailableShow={appUpdateNotAvailableShow}
+        hideAppUpdateNotAvailable={hideAppUpdateNotAvailable}
+        checkingForUpdate={checkingForUpdate}
+      />
+      <button onClick={() => setShowTestModal(true)}>Test Error Modal</button>
+      <ErrorModal
+        opened={showTestModal}
+        onClose={() => setShowTestModal(false)}
+        title="Aktualizacja nie powiodła się"
+        subtitle="Sprawdź swoje połączenie"
+        body="Nie udało się połączyć z serwerem aktualizacji."
+        subbody="Spróbuj ponownie później."
+      />
+    </>
   )
 }

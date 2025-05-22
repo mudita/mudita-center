@@ -26,6 +26,7 @@ import RecoveryMode from "./svg/recovery-mode.svg?react"
 import Search from "./svg/search.svg?react"
 import Settings from "./svg/settings.svg?react"
 import Spinner from "./svg/spinner.svg?react"
+import ThinFail from "./svg/thin-fail.svg?react"
 
 export const icons = {
   [IconType.ArrowBack]: ArrowBack,
@@ -47,4 +48,5 @@ export const icons = {
   [IconType.Search]: Search,
   [IconType.Settings]: Settings,
   [IconType.Spinner]: Spinner,
+  [IconType.ThinFail]: ThinFail,
 } as const satisfies Record<IconType, typeof Svg>
