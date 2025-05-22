@@ -8,7 +8,6 @@ import fs from "node:fs"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
   CancelUploadResultData,
-  UploadTransactionData,
   GetUploadFileProgressResultData,
   MtpDevice,
   MTPError,
@@ -17,6 +16,7 @@ import {
   MtpUploadFileData,
   TransactionStatus,
   UploadFileResultData,
+  UploadTransactionData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
 import {
@@ -113,16 +113,23 @@ export class NodeMtp implements MtpInterface {
   async cancelUpload(
     data: UploadTransactionData
   ): Promise<ResultObject<CancelUploadResultData>> {
-    if (this.uploadFileTransactionStatus[data.transactionId] !== undefined) {
+    const transactionStatus =
+      this.uploadFileTransactionStatus[data.transactionId]
+
+    if (transactionStatus === undefined) {
+      return Result.failed({
+        type: MTPError.MTP_TRANSACTION_NOT_FOUND,
+      } as AppError)
+    } else if (transactionStatus.progress === 100) {
+      return Result.failed({
+        type: MTPError.MTP_CANCEL_FAILED_ALREADY_TRANSFERRED,
+      } as AppError)
+    } else {
       this.abortController?.abort()
       console.log(
         `${PREFIX_LOG} Canceling upload for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
       )
       return Result.success({})
-    } else {
-      return Result.failed({
-        type: MTPError.MTP_TRANSACTION_NOT_FOUND,
-      } as AppError)
     }
   }
 

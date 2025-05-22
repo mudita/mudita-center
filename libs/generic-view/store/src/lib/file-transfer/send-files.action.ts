@@ -24,7 +24,11 @@ import { getMtpSendFileMetadata } from "./get-mtp-send-file-metadata.action"
 import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
 import { FilesTransferMode } from "./files-transfer-mode.type"
 import { isMtpInitializeAccessError } from "./is-mtp-initialize-access-error"
-import { selectFilesTransferMode } from "../selectors/file-transfer-sending"
+import {
+  selectFilesSendingGroup,
+  selectFilesTransferMode,
+} from "../selectors/file-transfer-sending"
+import { delay } from "shared/utils"
 
 export interface SendFilesPayload {
   actionId: string
@@ -44,6 +48,8 @@ export const sendFiles = createAsyncThunk<
     { actionId, files, destinationPath, entitiesType, customDeviceId },
     { dispatch, signal, abort, rejectWithValue, getState }
   ) => {
+    let switchToMtpCounter = 0
+    const maxSwitchToMtpTries = 1
     const mainAbortController = new AbortController()
     mainAbortController.abort = abort
     dispatch(
@@ -53,7 +59,7 @@ export const sendFiles = createAsyncThunk<
     const sendFileAbortController = new AbortController()
     const getMtpSendFileMetadataAbortController = new AbortController()
 
-    const abortListener = async () => {
+    const abortListener = () => {
       signal.removeEventListener("abort", abortListener)
       sendFileAbortController.abort()
       getMtpSendFileMetadataAbortController.abort()
@@ -61,13 +67,8 @@ export const sendFiles = createAsyncThunk<
     signal.addEventListener("abort", abortListener)
 
     let filesTransferMode = selectFilesTransferMode(getState())
-
     let mtpSendFileMetadata: Omit<SendFileViaMTPPayload, "file"> | undefined =
       undefined
-
-    if (filesTransferMode !== FilesTransferMode.Mtp) {
-      dispatch(setFilesTransferMode(FilesTransferMode.Mtp))
-    }
 
     const getMtpSendFileMetadataDispatch = dispatch(
       getMtpSendFileMetadata({ destinationPath, customDeviceId })
@@ -83,6 +84,7 @@ export const sendFiles = createAsyncThunk<
 
     if (meta.requestStatus === "fulfilled" && payload !== undefined) {
       mtpSendFileMetadata = payload as Omit<SendFileViaMTPPayload, "file">
+      dispatch(setFilesTransferMode(FilesTransferMode.Mtp))
     } else if (meta.requestStatus === "rejected" && meta.aborted) {
       const error = new AppError(ApiFileTransferError.Aborted, "Aborted")
       return rejectWithValue(error)
@@ -90,107 +92,168 @@ export const sendFiles = createAsyncThunk<
       dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
     }
 
-    for (const file of files) {
-      filesTransferMode = selectFilesTransferMode(getState())
+    const checkMtpAvailability = async () => {
+      const res = await dispatch(
+        getMtpSendFileMetadata({ destinationPath, customDeviceId })
+      )
+      const { meta, payload } = res
 
-      const handleSendFileViaSerialPort = async () => {
-        const sendFileBaseDispatch = dispatch(
-          sendFileViaSerialPort({
-            destinationPath,
-            customDeviceId,
-            entitiesType,
-            file,
-          })
-        )
-
-        sendFileAbortController.abort = (
-          sendFileBaseDispatch as unknown as { abort: AbortController["abort"] }
-        ).abort
-
-        const { meta, payload } = await sendFileBaseDispatch
-
-        if (meta.requestStatus === "rejected" && meta.aborted) {
-          const error = new AppError(ApiFileTransferError.Aborted, "Aborted")
-          dispatch(
-            sendFilesError({
-              id: file.id,
-              error,
-            })
-          )
-          return rejectWithValue(error)
-        }
-
-        if (meta.requestStatus === "rejected") {
-          const error =
-            payload instanceof AppError
-              ? payload
-              : new AppError(ApiFileTransferError.Unknown)
-
-          dispatch(
-            sendFilesError({
-              id: file.id,
-              error,
-            })
-          )
-        }
-        return
+      if (meta.requestStatus === "fulfilled" && payload !== undefined) {
+        mtpSendFileMetadata = payload as Omit<SendFileViaMTPPayload, "file">
+        dispatch(setFilesTransferMode(FilesTransferMode.Mtp))
+        return true
       }
+      return false
+    }
 
+    const mtpMonitor = setInterval(async () => {
+      const currentMode = selectFilesTransferMode(getState())
       if (
-        "path" in file &&
-        filesTransferMode === FilesTransferMode.Mtp &&
-        mtpSendFileMetadata !== undefined
+        currentMode === FilesTransferMode.SerialPort &&
+        switchToMtpCounter < maxSwitchToMtpTries
       ) {
-        const sendFileBaseDispatch = dispatch(
-          sendFileViaMTP({
-            ...mtpSendFileMetadata,
-            file,
-          })
-        )
+        const isMtpAvailable = await checkMtpAvailability()
+        if (isMtpAvailable) {
+          console.log("MTP became available, switching mode.")
+          sendFileAbortController.abort()
+          switchToMtpCounter++
+        }
+      }
+    }, 3_000)
+    let currentFileIndex = 0
 
-        sendFileAbortController.abort = (
-          sendFileBaseDispatch as unknown as { abort: AbortController["abort"] }
-        ).abort
+    const processFiles = async () => {
+      while (currentFileIndex < files.length) {
+        const file = files[currentFileIndex]
+        const modeBeforeSend = selectFilesTransferMode(getState())
+        let wasAborted = false
 
-        const { meta, payload } = await sendFileBaseDispatch
+        const handleFileSend = async () => {
+          if (modeBeforeSend === FilesTransferMode.Mtp && "path" in file) {
+            const sendMtpDispatch = dispatch(
+              sendFileViaMTP({
+                ...mtpSendFileMetadata!,
+                file,
+              })
+            )
 
-        if (meta.requestStatus === "rejected" && meta.aborted) {
-          const error = new AppError(ApiFileTransferError.Aborted, "Aborted")
-          dispatch(
-            sendFilesError({
-              id: file.id,
-              error,
+            sendFileAbortController.abort = (
+              sendMtpDispatch as unknown as { abort: AbortController["abort"] }
+            ).abort
+
+            const { meta, payload } = await sendMtpDispatch
+
+            const files = selectFilesSendingGroup(getState(), {
+              filesIds: [file.id],
             })
-          )
-          return rejectWithValue(error)
+
+            if (files[0]?.status === "finished") {
+              console.log(`File ${file.name} already sent! Skipping....`)
+              return
+            }
+
+            if (meta.requestStatus === "rejected" && meta.aborted) {
+              await delay(2000)
+              wasAborted = true
+              return
+            }
+
+            if (isMtpInitializeAccessError(payload)) {
+              dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
+              dispatch(
+                setModeWithProgressReset({
+                  fileId: file.id,
+                  filesTransferMode: FilesTransferMode.SerialPort,
+                })
+              )
+              wasAborted = true
+              return
+            }
+
+            if (meta.requestStatus === "rejected") {
+              const error =
+                payload instanceof AppError
+                  ? payload
+                  : new AppError(ApiFileTransferError.Unknown)
+              dispatch(sendFilesError({ id: file.id, error }))
+            }
+          } else {
+            const sendSerialDispatch = dispatch(
+              sendFileViaSerialPort({
+                destinationPath,
+                customDeviceId,
+                entitiesType,
+                file,
+              })
+            )
+
+            sendFileAbortController.abort = (
+              sendSerialDispatch as unknown as {
+                abort: AbortController["abort"]
+              }
+            ).abort
+
+            const monitor = setInterval(() => {
+              const currentMode = selectFilesTransferMode(getState())
+              if (currentMode !== modeBeforeSend) {
+                console.log(`Mode switch detected. Aborting ${file.name}`)
+                sendFileAbortController.abort()
+                clearInterval(monitor)
+              }
+            }, 500)
+
+            const { meta, payload } = await sendSerialDispatch
+            clearInterval(monitor)
+
+            const files = selectFilesSendingGroup(getState(), {
+              filesIds: [file.id],
+            })
+
+            if (files[0]?.status === "finished") {
+              console.log(`File ${file.name} already sent! Skipping....`)
+              return
+            }
+
+            if (meta.requestStatus === "rejected" && meta.aborted) {
+              wasAborted = true
+              await delay(2000)
+              return
+            }
+
+            if (meta.requestStatus === "rejected") {
+              const error =
+                payload instanceof AppError
+                  ? payload
+                  : new AppError(ApiFileTransferError.Unknown)
+              dispatch(sendFilesError({ id: file.id, error }))
+            }
+          }
         }
 
-        if (isMtpInitializeAccessError(payload)) {
-          dispatch(
-            setModeWithProgressReset({
-              fileId: file.id,
-              filesTransferMode: FilesTransferMode.SerialPort,
-            })
-          )
-          await handleSendFileViaSerialPort()
-        } else if (meta.requestStatus === "rejected") {
-          const error =
-            payload instanceof AppError
-              ? payload
-              : new AppError(ApiFileTransferError.Unknown)
-
-          dispatch(
-            sendFilesError({
-              id: file.id,
-              error,
-            })
-          )
+        await handleFileSend()
+        const modeAfterSend = selectFilesTransferMode(getState())
+        if (wasAborted) {
+          if (modeAfterSend !== modeBeforeSend) {
+            console.log(`Retrying ${file.name} due to mode switch.`)
+            filesTransferMode = modeAfterSend
+            wasAborted = false
+            continue // retry this file
+          } else {
+            console.log(`File ${file.name} was cancelled by user. Skipping.`)
+            const error =
+              payload instanceof AppError
+                ? payload
+                : new AppError(ApiFileTransferError.Unknown)
+            dispatch(sendFilesError({ id: file.id, error }))
+            return
+          }
         }
-      } else {
-        await handleSendFileViaSerialPort()
+        currentFileIndex++
       }
     }
 
+    await processFiles()
+    clearInterval(mtpMonitor)
     return
   }
 )

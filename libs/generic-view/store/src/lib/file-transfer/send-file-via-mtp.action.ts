@@ -42,6 +42,24 @@ export const sendFileViaMTP = createAsyncThunk<
     { file, deviceId, destinationPath, storageId },
     { dispatch, signal, rejectWithValue }
   ) => {
+    const handleAbort = async () => {
+      const { ok, error } = await cancelSendFileViaMtpRequest(transactionId)
+      if (
+        !ok &&
+        error.type === ApiFileTransferError.MtpCancelFailedAlreadyTransferred
+      ) {
+        dispatch(
+          sendFilesFinished({
+            id: file.id,
+          })
+        )
+      }
+
+      return rejectWithValue(
+        new AppError(ApiFileTransferError.Aborted, "Aborted")
+      )
+    }
+
     const startSendFileViaMtpResult = await startSendFileViaMtpRequest({
       deviceId,
       storageId,
@@ -49,31 +67,22 @@ export const sendFileViaMTP = createAsyncThunk<
       sourcePath: file.path,
     })
 
-    if (signal.aborted) {
-      return rejectWithValue(
-        new AppError(ApiFileTransferError.Aborted, "Aborted")
-      )
-    }
-
     if (!startSendFileViaMtpResult.ok) {
       return rejectWithValue(startSendFileViaMtpResult.error)
     }
 
-    dispatch(trackInfo({ mode: FilesTransferMode.Mtp, fileId: file.id }))
-
     const { transactionId } = startSendFileViaMtpResult.data
+
+    if (signal.aborted) {
+       return await handleAbort()
+    }
 
     const abortListener = async () => {
       signal.removeEventListener("abort", abortListener)
-      const { ok, error } = await cancelSendFileViaMtpRequest(transactionId)
-      if (!ok) {
-        return error
-      } else {
-        return new AppError(ApiFileTransferError.Aborted, "Aborted")
-      }
+      await handleAbort()
     }
     signal.addEventListener("abort", abortListener)
-
+    dispatch(trackInfo({ mode: FilesTransferMode.Mtp, fileId: file.id }))
     dispatch(
       sendFilesPreSend({
         transferId: transactionId,
@@ -84,9 +93,31 @@ export const sendFileViaMTP = createAsyncThunk<
     )
 
     const checkSendFileProgress = async (): Promise<undefined | AppError> => {
+      if (signal.aborted) {
+        return new AppError(ApiFileTransferError.Aborted, "Aborted")
+      }
+
       const { ok, error, data } = await getSendFileProgressViaMtpRequest(
         transactionId
       )
+
+      if (ok) {
+        dispatch(
+          sendFilesChunkSent({
+            id: file.id,
+            chunksTransferred: data.progress,
+          })
+        )
+      }
+
+      if (ok && data.progress >= 100) {
+        dispatch(
+          sendFilesFinished({
+            id: file.id,
+          })
+        )
+        return
+      }
 
       if (signal.aborted) {
         return new AppError(ApiFileTransferError.Aborted, "Aborted")
@@ -96,23 +127,7 @@ export const sendFileViaMTP = createAsyncThunk<
         return error
       }
 
-      dispatch(
-        sendFilesChunkSent({
-          id: file.id,
-          chunksTransferred: data.progress,
-        })
-      )
-
-      if (data.progress >= 100) {
-        dispatch(
-          sendFilesFinished({
-            id: file.id,
-          })
-        )
-        return
-      }
-
-      await delay(500)
+      await delay(500, signal)
       return await checkSendFileProgress()
     }
 

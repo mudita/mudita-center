@@ -65,14 +65,14 @@ export class NodeMtpDevice {
       code: ContainerCode.GetStorageIds,
     })
 
-    const response = await this.read(transactionId, ContainerTypeCode.Data)
+    const dataResponse = await this.read(transactionId, ContainerTypeCode.Data)
+    await this.read(transactionId, ContainerTypeCode.Response)
 
-    const [_length, ...storageIds] = getUint32s(response.payload)
+    const [_length, ...storageIds] = getUint32s(dataResponse.payload)
 
     console.log(
       `${PREFIX_LOG} getStorageIds data: ${JSON.stringify(storageIds)}`
     )
-
     return storageIds
   }
 
@@ -93,7 +93,7 @@ export class NodeMtpDevice {
     })
 
     const response = await this.read(transactionId, ContainerTypeCode.Data)
-
+    await this.read(transactionId, ContainerTypeCode.Response)
     const storageInfo = parseStorageInfo(response.payload)
     console.log(
       `${PREFIX_LOG} getStorageInfo via storageId: ${storageId} data: ${JSON.stringify(
@@ -131,14 +131,14 @@ export class NodeMtpDevice {
       ],
     })
 
-    const response = await this.read(transactionId, ContainerTypeCode.Data)
+    const dataResponse = await this.read(transactionId, ContainerTypeCode.Data)
+    await this.read(transactionId, ContainerTypeCode.Response)
 
-    const [_length, ...objectHandles] = getUint32s(response.payload)
+    const [_length, ...objectHandles] = getUint32s(dataResponse.payload)
 
     console.log(
       `${PREFIX_LOG} getObjectHandles data: ${JSON.stringify(objectHandles)}`
     )
-
     return objectHandles
   }
 
@@ -159,6 +159,7 @@ export class NodeMtpDevice {
     })
 
     const response = await this.read(transactionId, ContainerTypeCode.Data)
+    await this.read(transactionId, ContainerTypeCode.Response)
 
     const objectInfo = parseObjectInfo(response.payload)
     const responseObjectInfo = { ...objectInfo, objectHandle }
@@ -168,7 +169,6 @@ export class NodeMtpDevice {
         responseObjectInfo
       )}`
     )
-
     return responseObjectInfo
   }
 
@@ -376,7 +376,7 @@ export class NodeMtpDevice {
       }
 
       console.log(
-        `${PREFIX_LOG} read retry: transactionId or type mismatch. Attempt ${attempts} failed, retrying...`
+        `${PREFIX_LOG} read retry: transactionId or type mismatch. Attempt ${attempts} failed, TransactionId ${transactionId}, responseId: ${response.transactionId} retrying...`
       )
     }
 

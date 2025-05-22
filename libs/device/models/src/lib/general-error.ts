@@ -23,6 +23,7 @@ export enum ApiFileTransferError {
   Unknown = 500,
   NotEnoughSpace = 507,
   MtpInitializeAccessError = 511,
+  MtpCancelFailedAlreadyTransferred = 512,
 }
 
 export enum EntitiesError {
