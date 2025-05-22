@@ -39,17 +39,6 @@ const createWindow = () => {
         : 800,
     show: false,
     useContentSize: true,
-    autoHideMenuBar: true,
-    titleBarStyle: "hiddenInset",
-    trafficLightPosition: {
-      x: 32,
-      y: 10,
-    },
-    titleBarOverlay: {
-      color: "#FFFFFF",
-      symbolColor: "#000000",
-      height: 32,
-    },
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, "..", "preload", "index.js"),
