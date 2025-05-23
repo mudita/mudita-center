@@ -9,6 +9,7 @@ import { DeviceState } from "device-manager/models"
 import { DeviceBaseProperties } from "device-protocol/models"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { ActionName } from "../action-names"
+import { Outbox } from "device/models"
 
 export const addDevice = createAction<
   DeviceBaseProperties & Partial<{ state: DeviceState.Failed }>
@@ -21,6 +22,9 @@ export const removeDevice = createAction<DeviceBaseProperties>(
 export const setMenu = createAction<MenuElement[]>(ActionName.SetMenu)
 
 export const setLastRefresh = createAction<number>(ActionName.SetLastRefresh)
+export const setLastOutboxData = createAction<Outbox>(
+  ActionName.SetLastOutboxData
+)
 
 export const setDeviceState = createAction<{ id: string; state: DeviceState }>(
   ActionName.SetDeviceState
