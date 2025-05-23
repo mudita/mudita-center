@@ -14,16 +14,16 @@ type ApiDeviceInfo = SerialPortDeviceInfo<SerialPortDeviceType.ApiDevice> & {
 }
 
 type PureDeviceInfo = SerialPortDeviceInfo<SerialPortDeviceType.Pure> & {
-  metadata: unknown
+  metadata: PureDeviceInfo
 }
 
 type HarmonyDeviceInfo = SerialPortDeviceInfo<SerialPortDeviceType.Harmony> & {
-  metadata: unknown
+  metadata: HarmonyDeviceInfo
 }
 
 type HarmonyMscDeviceInfo =
   SerialPortDeviceInfo<SerialPortDeviceType.HarmonyMsc> & {
-    metadata: unknown
+    metadata: undefined
   }
 
 type DeviceInfo =

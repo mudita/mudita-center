@@ -14,6 +14,10 @@ import { AppDeviceInfo } from "devices/common/models"
 import { getApiConfig } from "devices/api-device/feature"
 import { PureSerialPort } from "devices/pure/adapters"
 import { getPureInfo } from "devices/pure/feature"
+import { HarmonySerialPort } from "devices/harmony/adapters"
+import { getHarmonyInfo } from "devices/harmony/feature"
+import { HarmonyMscSerialPort } from "devices/harmony-msc/adapters"
+import { flashHarmonyMsc } from "devices/harmony-msc/feature"
 
 export const useDevicesListener = () => {
   const store = useStore<AppState>()
@@ -27,32 +31,33 @@ export const useDevicesListener = () => {
       for (const device of changed.all) {
         const active =
           currentDevice?.path === device.path || changed.all.length === 1
+        let deviceMetadata:
+          | Awaited<ReturnType<typeof getApiConfig>>
+          | Awaited<ReturnType<typeof getPureInfo>>
+          | Awaited<ReturnType<typeof getHarmonyInfo>>
+          | Awaited<ReturnType<typeof flashHarmonyMsc>>
+          | undefined = undefined
 
         if (ApiDeviceSerialPort.isCompatible(device)) {
-          const apiConfig = await getApiConfig(device)
-
-          if (apiConfig.ok) {
-            connectedDevices.push({
-              ...device,
-              active,
-              metadata: apiConfig.body,
-            })
-          }
+          deviceMetadata = await getApiConfig(device)
         } else if (PureSerialPort.isCompatible(device)) {
-          const pureInfo = await getPureInfo(device)
-          if (pureInfo.ok) {
-            connectedDevices.push({
-              ...device,
-              active,
-              metadata: pureInfo.body,
-            })
-          }
-        } else {
+          deviceMetadata = await getPureInfo(device)
+        } else if (HarmonySerialPort.isCompatible(device)) {
+          deviceMetadata = await getHarmonyInfo(device)
+        } else if (HarmonyMscSerialPort.isCompatible(device)) {
           connectedDevices.push({
             ...device,
-            active: active,
-            metadata: {},
-          } as AppDeviceInfo)
+            active,
+            metadata: undefined,
+          })
+        }
+
+        if (deviceMetadata && deviceMetadata.ok) {
+          connectedDevices.push({
+            ...device,
+            active,
+            metadata: deviceMetadata.body as never,
+          })
         }
       }
 

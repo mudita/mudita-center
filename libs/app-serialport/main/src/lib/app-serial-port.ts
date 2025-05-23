@@ -13,6 +13,8 @@ import {
   SerialPortRequest,
 } from "app-serialport/models"
 import { devices, SerialPortDevice } from "app-serialport/devices"
+import { uniqBy } from "lodash"
+import { getUsbDevices } from "./usb-devices/get-usb-devices"
 
 type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
 enum SerialPortEvents {
@@ -59,20 +61,25 @@ export class AppSerialPort {
   }
 
   private async listDevices() {
-    const devices = await SerialPort.list()
-    return devices
-      .filter((portInfo) => this.isSupportedDevice(portInfo))
-      .map((portInfo) => {
-        const serialPortDevice = this.getDeviceSerialPortInstance(portInfo)
-        if (!serialPortDevice) {
-          return null
-        }
-        return {
-          ...portInfo,
-          deviceType: serialPortDevice.deviceType,
-        }
-      })
-      .filter(Boolean) as SerialPortDeviceInfo[]
+    const serialPortDevices = await SerialPort.list()
+    const usbDevices = await getUsbDevices()
+
+    return uniqBy(
+      [...serialPortDevices, ...usbDevices]
+        .filter((portInfo) => this.isSupportedDevice(portInfo))
+        .map((portInfo) => {
+          const serialPortDevice = this.getDeviceSerialPortInstance(portInfo)
+          if (!serialPortDevice) {
+            return null
+          }
+          return {
+            ...portInfo,
+            deviceType: serialPortDevice.deviceType,
+          }
+        })
+        .filter(Boolean) as SerialPortDeviceInfo[],
+      (device) => device.serialNumber
+    )
   }
 
   private async detectChanges() {

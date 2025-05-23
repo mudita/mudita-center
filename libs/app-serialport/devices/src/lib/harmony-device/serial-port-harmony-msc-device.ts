@@ -8,8 +8,6 @@ import {
   SerialPortDeviceOptions,
 } from "../serial-port-device"
 import { SerialPortDeviceType, SerialPortRequest } from "app-serialport/models"
-import { CommonDeviceResponseParser } from "../common/common-device-response-parser"
-import { commonDeviceRequestParser } from "../common/common-device-request-parser"
 
 export class SerialPortHarmonyMscDevice extends SerialPortDevice {
   static readonly matchingVendorIds = ["3310"]
@@ -18,13 +16,21 @@ export class SerialPortHarmonyMscDevice extends SerialPortDevice {
   readonly requestIdKey = "uuid"
 
   constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
-    super(
-      { baudRate, ...options },
-      new CommonDeviceResponseParser({ matcher: /#\d{9}/g })
-    )
+    super({ baudRate, ...options })
   }
 
-  parseRequest(data: SerialPortRequest) {
-    return commonDeviceRequestParser(data)
+  write(data: unknown) {
+    //
+    console.log("Writing data to Harmony MSC device:", data)
+    return true
+  }
+
+  async request({ options, ...data }: SerialPortRequest) {
+    //
+    console.log("Requesting data from Harmony MSC device:", data)
+    return {
+      status: "ok",
+      endpoint: "flash",
+    }
   }
 }
