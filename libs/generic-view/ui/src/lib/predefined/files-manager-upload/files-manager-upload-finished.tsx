@@ -250,6 +250,7 @@ export const FilesManagerUploadFinished: APIFC<
     failedFiles,
     filesCount,
     getFileErrorReason,
+    succeededFiles.length,
   ])
 
   const generalInfo = useMemo(() => {
