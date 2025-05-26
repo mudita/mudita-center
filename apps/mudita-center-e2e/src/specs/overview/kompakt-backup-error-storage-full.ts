@@ -53,7 +53,6 @@ describe("Backup error - full storage", () => {
 
   it("Mock prebackup, mock full storage, wait for Overview Page and click Create Backup", async () => {
     mockBackupResponses("path-1")
-    mockFullStorageDevice("path-1")
 
     const createBackupButton = await ModalBackupKompaktPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed()
@@ -70,6 +69,10 @@ describe("Backup error - full storage", () => {
     const createBackupPasswordSkip =
       await ModalBackupKompaktPage.createBackupPasswordSkip
     await createBackupPasswordSkip.click()
+
+    //mock full memory
+    mockFullStorageDevice("path-1")
+    await browser.pause(1000)
   })
 
   it("Close backup failed modal and check if overview page is still displayed", async () => {
