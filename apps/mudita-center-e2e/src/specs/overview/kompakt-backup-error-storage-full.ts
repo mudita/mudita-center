@@ -73,6 +73,17 @@ describe("Backup error - full storage", () => {
   })
 
   it("Close backup failed modal and check if overview page is still displayed", async () => {
+    const backupFailureIcon = ModalBackupKompaktPage.backupFailureIcon
+    await expect(backupFailureIcon).toBeDisplayed()
+
+    const backupFailedTitle = ModalBackupKompaktPage.backupFailedTitle
+    await expect(backupFailedTitle).toHaveText("Backup failed")
+
+    const backupFailedSubTitle = ModalBackupKompaktPage.backupFailedSubTitle
+    await expect(backupFailedSubTitle).toHaveText(
+      "The backup process was interrupted."
+    )
+
     const backupFailedModalCloseButton =
       ModalBackupKompaktPage.backupFailedModalCloseButton
     await backupFailedModalCloseButton.click()
