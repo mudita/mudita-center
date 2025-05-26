@@ -19,3 +19,10 @@ export const selectCurrentDevice = createSelector(
     return devices.find((device) => device.active)
   }
 )
+
+export const selectDrawerVisibility = createSelector(
+  (state: AppState) => state.devices,
+  (devices) => {
+    return devices.drawerVisible
+  }
+)

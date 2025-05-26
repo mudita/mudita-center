@@ -14,7 +14,7 @@ const messages = defineMessages({
   title: { id: "general.components.devicesDrawer.title" },
 })
 
-interface Device extends DrawerCardDevice {
+export interface Device extends DrawerCardDevice {
   id: string
 }
 

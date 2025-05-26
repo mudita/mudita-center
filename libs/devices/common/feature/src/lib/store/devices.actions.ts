@@ -13,3 +13,7 @@ export const setConnectedDevices = createAction<AppDeviceInfo[]>(
 export const setCurrentDevice = createAction<AppDeviceInfo["path"] | null>(
   "devices/setCurrentDevice"
 )
+
+export const setDrawerVisibility = createAction<boolean>(
+  "devices/setDrawerVisibility"
+)

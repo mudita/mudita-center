@@ -9,7 +9,7 @@ import { DashboardLayout } from "app-routing/feature"
 import { useSettingsRouter } from "settings/routes"
 import { useNewsRouter } from "news/routes"
 import { useHelpRouter } from "help/routes"
-import { useDeviceRouter } from "devices/common/feature"
+import { useDeviceRouter } from "devices/common/routes"
 
 export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
   const newsRouter = useNewsRouter()

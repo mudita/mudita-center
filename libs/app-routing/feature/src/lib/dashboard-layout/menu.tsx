@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useLayoutEffect } from "react"
+import { FunctionComponent, PropsWithChildren, useLayoutEffect } from "react"
 import styled from "styled-components"
 import { Button, Icon, Typography } from "app-theme/ui"
 import { useDispatch, useSelector } from "react-redux"
@@ -16,8 +16,13 @@ import {
   IconType,
 } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
+import { DevicesIndicator } from "devices/common/ui"
+import {
+  selectConnectedDevices,
+  setDrawerVisibility,
+} from "devices/common/feature"
 
-interface Props {
+interface Props extends PropsWithChildren {
   className?: string
 }
 
@@ -27,9 +32,17 @@ const messages = defineMessages({
   },
 })
 
-export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
+export const DashboardMenu: FunctionComponent<Props> = ({
+  children,
+  ...props
+}) => {
   const dispatch = useDispatch()
   const menu = useSelector(selectMenuGroups)
+  const { length: devicesCount } = useSelector(selectConnectedDevices)
+
+  const openDevicesDrawer = () => {
+    dispatch(setDrawerVisibility(true))
+  }
 
   useLayoutEffect(() => {
     dispatch(
@@ -41,7 +54,7 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
   }, [dispatch])
 
   return (
-    <Wrapper className={className}>
+    <Wrapper {...props}>
       <Logo type={IconType.MuditaLogoFull} />
       {menu.map((menuGroup) => {
         return (
@@ -95,6 +108,12 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
           </MenuGroupWrapper>
         )
       })}
+      <DevicesIndicatorWrapper>
+        <DevicesIndicator
+          devicesCount={devicesCount}
+          onClick={openDevicesDrawer}
+        />
+      </DevicesIndicatorWrapper>
     </Wrapper>
   )
 }
@@ -228,4 +247,11 @@ const MenuButton = styled(Button)`
     margin-top: 0;
     padding-bottom: 0;
   }
+`
+
+const DevicesIndicatorWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `

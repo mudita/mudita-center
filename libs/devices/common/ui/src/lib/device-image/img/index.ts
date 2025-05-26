@@ -13,8 +13,8 @@ import harmonyMscWhiteSmall from "./harmony-msc-white-small.png"
 import harmonyMscWhiteBig from "./harmony-msc-white-big.png"
 import pureBlackSmall from "./pure-black-small.png"
 import pureBlackBig from "./pure-black-big.png"
-import pureWhiteSmall from "./pure-white-small.png"
-import pureWhiteBig from "./pure-white-big.png"
+import pureGraySmall from "./pure-gray-small.png"
+import pureGrayBig from "./pure-gray-big.png"
 import {
   DeviceImageColor,
   DeviceImageSize,
@@ -51,9 +51,9 @@ export const devicesImages = {
       [DeviceImageSize.Small]: pureBlackSmall,
       [DeviceImageSize.Big]: pureBlackBig,
     },
-    [DeviceImageColor.White]: {
-      [DeviceImageSize.Small]: pureWhiteSmall,
-      [DeviceImageSize.Big]: pureWhiteBig,
+    [DeviceImageColor.Gray]: {
+      [DeviceImageSize.Small]: pureGraySmall,
+      [DeviceImageSize.Big]: pureGrayBig,
     },
   },
 } satisfies {

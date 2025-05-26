@@ -7,18 +7,20 @@ import {
   SerialPortDeviceInfo,
   SerialPortDeviceType,
 } from "app-serialport/models"
-import { ApiConfig } from "devices/api-device/models"
+import { ApiConfig as KompaktMetadata } from "devices/api-device/models"
+import { DeviceInfoResponse as HarmonyMetadata } from "devices/harmony/models"
+import { DeviceInfo as PureMetadata } from "devices/pure/models"
 
 type ApiDeviceInfo = SerialPortDeviceInfo<SerialPortDeviceType.ApiDevice> & {
-  metadata: ApiConfig
+  metadata: KompaktMetadata
 }
 
 type PureDeviceInfo = SerialPortDeviceInfo<SerialPortDeviceType.Pure> & {
-  metadata: PureDeviceInfo
+  metadata: PureMetadata
 }
 
 type HarmonyDeviceInfo = SerialPortDeviceInfo<SerialPortDeviceType.Harmony> & {
-  metadata: HarmonyDeviceInfo
+  metadata: HarmonyMetadata
 }
 
 type HarmonyMscDeviceInfo =
@@ -38,4 +40,5 @@ export type AppDeviceInfo = DeviceInfo & {
 
 export interface DevicesReducer {
   connected: AppDeviceInfo[]
+  drawerVisible: boolean
 }

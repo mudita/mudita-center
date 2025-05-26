@@ -4,11 +4,16 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { setConnectedDevices, setCurrentDevice } from "./devices.actions"
+import {
+  setConnectedDevices,
+  setCurrentDevice,
+  setDrawerVisibility,
+} from "./devices.actions"
 import { DevicesReducer } from "devices/common/models"
 
 const initialState: DevicesReducer = {
   connected: [],
+  drawerVisible: false,
 }
 
 export const devicesReducer = createReducer(initialState, (builder) => {
@@ -20,5 +25,8 @@ export const devicesReducer = createReducer(initialState, (builder) => {
       ...device,
       active: device.path === action.payload,
     }))
+  })
+  builder.addCase(setDrawerVisibility, (state, action) => {
+    state.drawerVisible = action.payload
   })
 })
