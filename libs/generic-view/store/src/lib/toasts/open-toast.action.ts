@@ -11,10 +11,10 @@ import { addToast } from "./actions"
 
 export const openToastAction = createAsyncThunk<
   void,
-  Toast["key"],
+  Toast,
   { state: ReduxRootState }
->(ActionName.OpenToast, async (toastKey, { dispatch }) => {
-  dispatch(addToast(toastKey))
+>(ActionName.OpenToast, async (toastData, { dispatch }) => {
+  dispatch(addToast(toastData))
   // Delay action to add toast before the state will update
   await new Promise((resolve) => setTimeout(resolve, 100))
   return

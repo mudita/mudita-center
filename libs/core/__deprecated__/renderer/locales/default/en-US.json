@@ -1021,6 +1021,7 @@
   "module.genericViews.entities.delete.failure.some.modalTitle": "Deleting some files failed",
   "module.genericViews.entities.delete.failure.all.modalDescription": "The file is still on Kompakt, please try again.",
   "module.genericViews.entities.delete.failure.some.modalDescription": "{succeededFiles, plural, =0 {No files} one {# file} other {# files}} successfully deleted, {failedFiles, plural, one {# file} other {# files}} not deleted:",
+  "module.genericViews.entities.delete.success.toastMessage": "{count, plural, one {# item} other {# items}} deleted",
   "module.genericViews.filesManager.upload.progress.modalTitle": "{filesCount, plural, one {Transferring file to Kompakt...} other {Transferring # files to Kompakt...}}",
   "module.genericViews.filesManager.upload.progress.cancelButton": "Cancel",
   "module.genericViews.filesManager.upload.failure.all.modalTitle": "Couldn't transfer {filesCount, plural, one {file} other {some files}}",

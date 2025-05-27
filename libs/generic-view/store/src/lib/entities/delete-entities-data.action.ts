@@ -12,6 +12,9 @@ import { EntitiesDeleteResponse, EntityId } from "device/models"
 import { difference } from "lodash"
 import delayResponse from "@appnroll/delay-response"
 import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
+import { openToastAction } from "../toasts/open-toast.action"
+import { IconType } from "generic-view/utils"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
 interface DeleteEntitiesDataActionPayload {
   entitiesType: string
@@ -19,6 +22,7 @@ interface DeleteEntitiesDataActionPayload {
   deviceId: DeviceId
   onSuccess?: () => Promise<void> | void
   onError?: () => Promise<void> | void
+  successMessage?: string
 }
 
 export const deleteEntitiesDataAction = createAsyncThunk<
@@ -31,7 +35,7 @@ export const deleteEntitiesDataAction = createAsyncThunk<
 >(
   ActionName.DeleteEntitiesData,
   async (
-    { entitiesType, ids, deviceId, onSuccess, onError },
+    { entitiesType, ids, deviceId, onSuccess, onError, successMessage },
     { rejectWithValue, dispatch }
   ) => {
     const response = await delayResponse(
@@ -59,9 +63,23 @@ export const deleteEntitiesDataAction = createAsyncThunk<
       return rejectWithValue(undefined)
     }
     await onSuccess?.()
+
+    await dispatch(
+      openToastAction({
+        key: `${entitiesType}DeleteSuccessToast`,
+        text: intl.formatMessage(
+          successMessage
+            ? { id: "none", defaultMessage: successMessage }
+            : {
+                id: "module.genericViews.entities.delete.success.toastMessage",
+              },
+          { count: ids.length }
+        ),
+        icon: IconType.Success,
+      })
+    )
+
     await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
-    return response.data?.failedIds
-      ? difference(ids, response.data.failedIds)
-      : ids
+    return ids
   }
 )
