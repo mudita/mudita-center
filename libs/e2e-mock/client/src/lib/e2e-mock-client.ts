@@ -56,7 +56,7 @@ export const E2EMockClient = {
   resetMockFileDialog: () => {
     getClientEmiter()?.("mock.file.dialog.reset", undefined)
   },
-  sendEventToDevice: (path: string, event: { type: string; payload: any }) => {
+  sendEventToDevice: (path: string, event: { type: string; payload: unknown }) => {
     getClientEmiter()?.("mock.device.event", { path, event })
   },
 }
