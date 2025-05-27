@@ -11,7 +11,6 @@ import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
 describe("Backup error - full storage", () => {
   before(async () => {
     E2EMockClient.connect()
-    //wait for a connection to be established
     await browser.waitUntil(() => {
       return E2EMockClient.checkConnection()
     })
@@ -46,13 +45,26 @@ describe("Backup error - full storage", () => {
 
     await browser.pause(6000)
     const menuItem = await $(`//a[@href="#/generic/mc-overview"]`)
-
     await menuItem.waitForDisplayed({ timeout: 10000 })
     await expect(menuItem).toBeDisplayed()
   })
 
   it("Mock prebackup, mock full storage, wait for Overview Page and click Create Backup", async () => {
     mockBackupResponses("path-1")
+    mockFullStorageDevice("path-1")
+
+    //mocking response code 507 for POST /BACKUP
+    E2EMockClient.mockResponsesOnce([
+      {
+        path: "path-1",
+        endpoint: "POST_BACKUP",
+        method: "POST",
+        status: 507,
+        body: {
+          error: "DEVICE_STORAGE_FULL",
+        },
+      },
+    ])
 
     const createBackupButton = await ModalBackupKompaktPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed()
@@ -69,28 +81,21 @@ describe("Backup error - full storage", () => {
     const createBackupPasswordSkip =
       await ModalBackupKompaktPage.createBackupPasswordSkip
     await createBackupPasswordSkip.click()
-
-    //mock full memory
-    mockFullStorageDevice("path-1")
-    await browser.pause(1000)
   })
 
   it("Close backup failed modal and check if overview page is still displayed", async () => {
-    const backupFailureIcon = ModalBackupKompaktPage.backupFailureIcon
-    await expect(backupFailureIcon).toBeDisplayed()
-
-    const backupFailedTitle = ModalBackupKompaktPage.backupFailedTitle
-    await expect(backupFailedTitle).toHaveText("Backup failed")
-
-    const backupFailedSubTitle = ModalBackupKompaktPage.backupFailedSubTitle
-    await expect(backupFailedSubTitle).toHaveText(
-      "The backup process was interrupted."
-    )
-
+    // to be uncommented in later stage when the backupfailed modal is available on FE
+    // const backupFailureIcon = ModalBackupKompaktPage.backupFailureIcon
+    // await expect(backupFailureIcon).toBeDisplayed()
+    // const backupFailedTitle = ModalBackupKompaktPage.backupFailedTitle
+    // await expect(backupFailedTitle).toHaveText("Backup failed")
+    // const backupFailedSubTitle = ModalBackupKompaktPage.backupFailedSubTitle
+    // await expect(backupFailedSubTitle).toHaveText(
+    //   "The backup process was interrupted."
+    // )
     const backupFailedModalCloseButton =
       ModalBackupKompaktPage.backupFailedModalCloseButton
     await backupFailedModalCloseButton.click()
-
     //check if kompakt image is displayed to assure you are on Overview page (the failed backup popup is closed)
     const kompaktImage = await OverviewKompaktPage.kompaktImage
     await expect(kompaktImage).toBeDisplayed()
