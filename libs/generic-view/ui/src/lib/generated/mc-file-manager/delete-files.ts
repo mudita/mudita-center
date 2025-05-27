@@ -100,15 +100,13 @@ export const generateDeleteFiles: ComponentGenerator<{
             type: "entities-delete",
             entitiesType: entityType,
             ids: [],
+            successMessage:
+              "{count, plural, one {# file} other {# files}} deleted",
             postActions: {
               success: [
                 {
                   type: "close-domain-modals",
                   domain: "files-delete",
-                },
-                {
-                  type: "open-toast",
-                  toastKey: `${key}${id}filesDeletedToast`,
                 },
               ],
               failure: [
@@ -148,37 +146,6 @@ export const generateDeleteFiles: ComponentGenerator<{
       config: {
         messageTemplate:
           "Delete {selectedItems, plural, one {file} other {files}}",
-      },
-      dataProvider: {
-        source: "form-fields",
-        formKey: `${key}${id}fileListForm`,
-        fields: [
-          {
-            providerField: "selectedItems",
-            componentField: "data.fields.selectedItems",
-            modifier: "length",
-          },
-        ],
-      },
-    },
-    [`${key}${id}filesDeletedToast`]: {
-      component: "toast",
-      childrenKeys: [
-        `${key}${id}filesDeletedToastIcon`,
-        `${key}${id}filesDeletedToastText`,
-      ],
-    },
-    [`${key}${id}filesDeletedToastIcon`]: {
-      component: "icon",
-      config: {
-        type: IconType.Success,
-      },
-    },
-    [`${key}${id}filesDeletedToastText`]: {
-      component: "typography.p1",
-      config: {
-        messageTemplate:
-          "{selectedItems} {selectedItems, plural, one {file} other {files}} deleted",
       },
       dataProvider: {
         source: "form-fields",

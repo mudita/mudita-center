@@ -196,6 +196,7 @@ const runActions = (actions?: ButtonActions) => {
               entitiesType: action.entitiesType,
               ids: action.ids,
               deviceId: activeDeviceId,
+              successMessage: action.successMessage,
               onSuccess: () => {
                 return runActions(action.postActions?.success)(
                   providers,
@@ -233,7 +234,7 @@ const runActions = (actions?: ButtonActions) => {
           )
           break
         case "open-toast":
-          await dispatch(openToastAction(action.toastKey))
+          await dispatch(openToastAction({ key: action.toastKey }))
           break
         case "custom":
           action.callback()
