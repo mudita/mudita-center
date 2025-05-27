@@ -50,8 +50,8 @@ describe("Backup error - full storage", () => {
   })
 
   it("Mock prebackup, mock full storage, wait for Overview Page and click Create Backup", async () => {
-    mockBackupResponses("path-1")
-    mockFullStorageDevice("path-1")
+    mockBackupResponses("path-1", true)
+    //mockFullStorageDevice("path-1")
 
     //mocking response code 507 for POST /BACKUP
     E2EMockClient.mockResponsesOnce([
@@ -84,15 +84,15 @@ describe("Backup error - full storage", () => {
   })
 
   it("Close backup failed modal and check if overview page is still displayed", async () => {
-    // to be uncommented in later stage when the backupfailed modal is available on FE
-    // const backupFailureIcon = ModalBackupKompaktPage.backupFailureIcon
-    // await expect(backupFailureIcon).toBeDisplayed()
-    // const backupFailedTitle = ModalBackupKompaktPage.backupFailedTitle
-    // await expect(backupFailedTitle).toHaveText("Backup failed")
-    // const backupFailedSubTitle = ModalBackupKompaktPage.backupFailedSubTitle
-    // await expect(backupFailedSubTitle).toHaveText(
-    //   "The backup process was interrupted."
-    // )
+    const backupFailureIcon = ModalBackupKompaktPage.backupFailureIcon
+    await expect(backupFailureIcon).toBeDisplayed()
+    await browser.pause(500)
+    const backupFailedTitle = ModalBackupKompaktPage.backupFailedTitle
+    await expect(backupFailedTitle).toHaveText("Backup failed")
+    const backupFailedSubTitle = ModalBackupKompaktPage.backupFailedSubTitle
+    await expect(backupFailedSubTitle).toHaveText(
+      "The backup process was interrupted."
+    )
     const backupFailedModalCloseButton =
       ModalBackupKompaktPage.backupFailedModalCloseButton
     await backupFailedModalCloseButton.click()
