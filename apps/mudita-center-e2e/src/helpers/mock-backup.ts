@@ -8,11 +8,31 @@ import { generateUniqueNumber } from "./utils/generate-unique-number-id.helper"
 import { generateBase64Info } from "./utils/generate-base-64-info.helper"
 import { prepareMockForFileTransfer } from "./prepare-mock-for-file-transfer.helper"
 
-// Helper function to mock PRE_BACKUP responses
-export function mockBackupResponses(path: string) {
-  // Mock initial PRE_BACKUP response with status 202 (processing)
+export function mockBackupResponses(path: string, shouldFail = false) {
   const data = "1234567890"
 
+  //   mockBackupResponses("path-1", true) // use in test to force backup error
+  //
+
+  // mockBackupResponses("path-1") // default -> success backup
+
+  if (shouldFail) {
+    // Simulate backup failure due to full storage
+    E2EMockClient.mockResponsesOnce([
+      {
+        path,
+        endpoint: "POST_BACKUP",
+        method: "POST",
+        status: 507,
+        body: {
+          error: "DEVICE_STORAGE_FULL",
+        },
+      },
+    ])
+    return
+  }
+
+  // Default successful backup mocks
   E2EMockClient.mockResponses([
     {
       path,
