@@ -5,7 +5,6 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { EntityData } from "Libs/device/models/src"
 
 export const selectDeviceEntities = createSelector(
   (state: ReduxRootState) => state.genericEntities,
