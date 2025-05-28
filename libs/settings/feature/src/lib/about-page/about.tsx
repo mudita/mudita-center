@@ -6,7 +6,16 @@
 import { AppActions, AppUpdater } from "app-utils/renderer"
 import { FunctionComponent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { About } from "settings/ui"
+import {
+  About,
+  UpdateAvailableModal,
+  UpdateDownloadedModal,
+  UpdateFailedModal,
+  UpdateNotAvailableModal,
+  UpdateDownloadProgressModal,
+  UpdateInstallProgressModal,
+  UpdateCompletedModal,
+} from "settings/ui"
 import {
   setCheckingForUpdate,
   setCheckingForUpdateFailed,
@@ -20,10 +29,8 @@ import {
   selectLatestVersion,
   selectUpdateAvailable,
 } from "../store/settings.selectors"
-import { ErrorModal } from "app-theme/ui"
 
 export const SettingsAboutPage: FunctionComponent = () => {
-  const [showTestModal, setShowTestModal] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -113,15 +120,6 @@ export const SettingsAboutPage: FunctionComponent = () => {
         appUpdateNotAvailableShow={appUpdateNotAvailableShow}
         hideAppUpdateNotAvailable={hideAppUpdateNotAvailable}
         checkingForUpdate={checkingForUpdate}
-      />
-      <button onClick={() => setShowTestModal(true)}>Test Error Modal</button>
-      <ErrorModal
-        opened={showTestModal}
-        onClose={() => setShowTestModal(false)}
-        title="Aktualizacja nie powiodła się"
-        subtitle="Sprawdź swoje połączenie"
-        body="Nie udało się połączyć z serwerem aktualizacji."
-        subbody="Spróbuj ponownie później."
       />
     </>
   )

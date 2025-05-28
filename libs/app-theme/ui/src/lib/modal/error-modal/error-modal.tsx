@@ -4,12 +4,10 @@
  */
 
 import { FunctionComponent, ReactNode } from "react"
-import { Icon, Modal } from "app-theme/ui"
+import { Icon, Modal, Typography } from "app-theme/ui"
 import { IconSize, IconType, ModalSize } from "app-theme/models"
 import styled from "styled-components"
-import { TextDisplayStyle } from "app-theme/models"
-import { LegacyText } from "app-theme/ui"
-import { backgroundColor } from "app-theme/utils"
+import { RoundIconWrapper } from "../../icon/icon-ui.styled"
 
 interface ErrorModalProps {
   opened: boolean
@@ -27,17 +25,6 @@ const Content = styled.div`
   padding: 2rem 2rem 0;
 `
 
-export const RoundIconWrapper = styled.div`
-  width: 8rem;
-  height: 8rem;
-  border-radius: 50%;
-  background-color: ${backgroundColor("icon")};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 3.2rem;
-`
-
 export const ErrorModal: FunctionComponent<ErrorModalProps> = ({
   opened,
   title,
@@ -53,27 +40,9 @@ export const ErrorModal: FunctionComponent<ErrorModalProps> = ({
         <RoundIconWrapper>
           <Icon type={IconType.ThinFail} size={IconSize.Big} />
         </RoundIconWrapper>
-        {subtitle && (
-          <LegacyText displayStyle={TextDisplayStyle.Headline4}>
-            {subtitle}
-          </LegacyText>
-        )}
-        {body && (
-          <LegacyText
-            displayStyle={TextDisplayStyle.Paragraph4}
-            color="secondary"
-          >
-            {body}
-          </LegacyText>
-        )}
-        {subbody && (
-          <LegacyText
-            displayStyle={TextDisplayStyle.Paragraph3}
-            color="secondary"
-          >
-            {subbody}
-          </LegacyText>
-        )}
+        {subtitle && <Typography.H4>{subtitle}</Typography.H4>}
+        {body && <Typography.P4 color="grey1">{body}</Typography.P4>}
+        {subbody && <Typography.P3 color="grey1">{subbody}</Typography.P3>}
       </Content>
       <Modal.Buttons>
         <Modal.CloseButton onClick={onClose} />
