@@ -37,17 +37,14 @@ const messages = defineMessages({
 interface UpdateAvailableModalProps {
   opened: boolean
   onClose: () => void
+  onDownload: () => void
   latestVersion?: string
 }
 
 export const UpdateAvailableModal: FunctionComponent<
   UpdateAvailableModalProps
-> = ({ opened, onClose, latestVersion }) => {
+> = ({ opened, onClose, onDownload, latestVersion }) => {
   const intl = useIntl()
-
-  const handleDownloadUpdate = () => {
-    // to be implemented, start download update
-  }
 
   return (
     <Modal opened={opened} size={ModalSize.Small} onRequestClose={onClose}>
@@ -63,7 +60,7 @@ export const UpdateAvailableModal: FunctionComponent<
           })}
         </Typography.P4>
       </Content>
-      <Button size={ButtonSize.Medium} onClick={handleDownloadUpdate}>
+      <Button size={ButtonSize.Medium} onClick={onDownload}>
         {formatMessage(messages.downloadButton)}
       </Button>
       <Modal.Buttons>

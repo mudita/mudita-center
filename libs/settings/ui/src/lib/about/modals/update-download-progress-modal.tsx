@@ -62,15 +62,17 @@ interface UpdateDownloadProgressModalProps {
   opened: boolean
   progressPercent: number
   onClose: () => void
+  onCancel: () => void
 }
 
 export const UpdateDownloadProgressModal: FunctionComponent<
   UpdateDownloadProgressModalProps
-> = ({ opened, progressPercent, onClose }) => {
+> = ({ opened, progressPercent, onClose, onCancel }) => {
   const intl = useIntl()
 
   const handleDownloadCancel = () => {
-    // abort download, to be implemented
+    onCancel()
+    onClose()
   }
 
   return (

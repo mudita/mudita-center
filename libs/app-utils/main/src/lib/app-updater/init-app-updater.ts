@@ -24,5 +24,9 @@ export const initAppUpdater = (ipcMain: IpcMain) => {
     ipcMain.handle(AppUpdaterIpcEvents.Install, () => {
       return appUpdaterService!.quitAndInstall()
     })
+
+    ipcMain.handle(AppUpdaterIpcEvents.CancelDownload, () => {
+      return appUpdaterService!.quitAndInstall()
+    })
   }
 }

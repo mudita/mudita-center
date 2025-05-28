@@ -17,4 +17,7 @@ export const AppUpdater = {
     window.api.appUpdater.onUpdateEvent.error(callback),
   onUpdateDownloadedEvent: (callback: () => void) =>
     window.api.appUpdater.onUpdateEvent.downloaded(callback),
+  onUpdateDownloadProgress: window.api.appUpdater.onUpdateDownloadProgress,
+  onUpdateInstallProgress: window.api.appUpdater.onUpdateInstallProgress,
+  cancelDownload: window.api.appUpdater.cancelDownload,
 }

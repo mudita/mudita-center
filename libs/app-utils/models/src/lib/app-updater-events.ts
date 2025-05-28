@@ -7,6 +7,9 @@ export enum AppUpdaterIpcEvents {
   Check = "appUpdater:checkForUpdates",
   Download = "appUpdater:downloadUpdate",
   Install = "appUpdater:installUpdate",
+  UpdateDownloadProgress = "appUpdater:updateDownloadProgress",
+  UpdateInstallProgress = "appUpdater:updateInstallProgress",
+  CancelDownload = "appUpdater:cancelDownload",
 }
 
 export enum AppUpdateEvent {

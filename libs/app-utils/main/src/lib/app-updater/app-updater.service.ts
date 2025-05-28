@@ -4,7 +4,7 @@
  */
 
 import { autoUpdater } from "electron-updater"
-import { AppUpdateEvent } from "app-utils/models"
+import { AppUpdateEvent, AppUpdaterIpcEvents } from "app-utils/models"
 import { BrowserWindow } from "electron"
 import { getMainAppWindow } from "../window/window-registry"
 
@@ -35,15 +35,12 @@ export class AppUpdaterService {
 
   private mountListeners(): void {
     autoUpdater.on("update-available", ({ version }) => {
-      console.log("🎉 Aktualizacja dostępna:", version)
       this.window.webContents.send(AppUpdateEvent.Available, version)
     })
     autoUpdater.on("update-not-available", () => {
-      console.log("🎉 Brak aktualizacji")
       this.window.webContents.send(AppUpdateEvent.NotAvailable)
     })
     autoUpdater.on("error", (error) => {
-      console.log("🎉 Jest błąd", error)
       this.window.webContents.send(AppUpdateEvent.Error, error)
       this.window.setProgressBar(-1)
     })
@@ -54,11 +51,36 @@ export class AppUpdaterService {
       this.window.webContents.send(AppUpdateEvent.Downloaded)
       this.window.setProgressBar(-1)
     })
+    autoUpdater.on("download-progress", (progress) => {
+      this.window?.webContents.send(
+        AppUpdaterIpcEvents.UpdateDownloadProgress,
+        Math.floor(progress.percent)
+      )
+    })
+    autoUpdater.on("update-downloaded", () => {
+      let installProgress = 0
+      const installInterval = setInterval(() => {
+        installProgress += 5
+        this.window?.webContents.send(
+          AppUpdaterIpcEvents.UpdateInstallProgress,
+          Math.min(installProgress, 100)
+        )
+
+        if (installProgress >= 100) {
+          clearInterval(installInterval)
+        }
+      }, 200)
+    })
+    autoUpdater.on("update-cancelled", () => {
+      this.window.webContents.send(AppUpdateEvent.Error, {
+        message: "Update download was cancelled by user",
+      })
+      this.window.setProgressBar(-1)
+    })
   }
 
   public async checkForUpdates(): Promise<void> {
     await autoUpdater.checkForUpdatesAndNotify()
-    // console.log("AutoUpdater mock — test")
     // this.window.webContents.send(AppUpdateEvent.Available, "999.0.0")
   }
 

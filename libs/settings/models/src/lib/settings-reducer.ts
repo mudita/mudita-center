@@ -9,4 +9,13 @@ export interface SettingsReducer {
   checkingForUpdateFailed: boolean
   latestVersion?: string
   currentVersion?: string
+  updateAvailableModalOpen: boolean
+  updateNotAvailableModalOpen: boolean
+  updateDownloadProgressModalOpen: boolean
+  updateDownloadedModalOpen: boolean
+  updateInstallProgressModalOpen: boolean
+  updateCompletedModalOpen: boolean
+  updateFailedModalOpen: boolean
+  updateDownloadProgress: number
+  updateInstallProgress: number
 }

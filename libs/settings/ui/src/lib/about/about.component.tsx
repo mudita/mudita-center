@@ -120,7 +120,6 @@ interface AboutProps {
   appLatestVersion?: string
   appCurrentVersion?: string
   appUpdateAvailable?: boolean
-  appUpdateNotAvailableShow?: boolean
   onAppUpdateAvailableCheck: () => void
   hideAppUpdateNotAvailable: () => void
   checkingForUpdate: boolean
@@ -132,7 +131,6 @@ export const About: FunctionComponent<AboutProps> = ({
   openPrivacyPolicy,
   appLatestVersion = "",
   appCurrentVersion,
-  appUpdateNotAvailableShow = false,
   appUpdateAvailable,
   onAppUpdateAvailableCheck,
   hideAppUpdateNotAvailable,

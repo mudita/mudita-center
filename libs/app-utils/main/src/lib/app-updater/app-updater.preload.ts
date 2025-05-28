@@ -30,4 +30,23 @@ export const appUpdater = {
     downloaded: (callback: () => void) =>
       electronAPI.ipcRenderer.on(AppUpdateEvent.Downloaded, callback),
   },
+  onUpdateDownloadProgress: (callback: (percent: number) => void) => {
+    electronAPI.ipcRenderer.on(
+      AppUpdaterIpcEvents.UpdateDownloadProgress,
+      (_, percent) => {
+        callback(percent)
+      }
+    )
+  },
+  onUpdateInstallProgress: (callback: (percent: number) => void) => {
+    electronAPI.ipcRenderer.on(
+      AppUpdaterIpcEvents.UpdateInstallProgress,
+      (_, percent) => {
+        callback(percent)
+      }
+    )
+  },
+  cancelDownload: (): Promise<void> => {
+    return electronAPI.ipcRenderer.invoke(AppUpdaterIpcEvents.CancelDownload)
+  },
 }

@@ -28,7 +28,52 @@ export const selectCurrentVersion = createSelector(
   (state) => state.currentVersion
 )
 
+export const selectUpdateDownloadProgress = createSelector(
+  selectSettingsState,
+  (state) => state.updateDownloadProgress
+)
+
+export const selectUpdateInstallProgress = createSelector(
+  selectSettingsState,
+  (state) => state.updateInstallProgress
+)
+
 export const selectCheckingForUpdateFailed = createSelector(
   selectSettingsState,
   (state) => state.checkingForUpdateFailed
+)
+
+export const selectUpdateAvailableModalOpen = createSelector(
+  selectSettingsState,
+  (state) => state.updateAvailableModalOpen
+)
+
+export const selectUpdateNotAvailableModalOpen = createSelector(
+  selectSettingsState,
+  (state) => state.updateNotAvailableModalOpen
+)
+
+export const selectUpdateDownloadProgressModalOpen = createSelector(
+  selectSettingsState,
+  (state) => state.updateDownloadProgressModalOpen
+)
+
+export const selectUpdateDownloadedModalOpen = createSelector(
+  selectSettingsState,
+  (state) => state.updateDownloadedModalOpen
+)
+
+export const selectUpdateInstallProgressModalOpen = createSelector(
+  selectSettingsState,
+  (state) => state.updateInstallProgressModalOpen
+)
+
+export const selectUpdateCompletedModalOpen = createSelector(
+  selectSettingsState,
+  (state) => state.updateCompletedModalOpen
+)
+
+export const selectUpdateFailedModalOpen = createSelector(
+  selectSettingsState,
+  (state) => state.updateFailedModalOpen
 )
