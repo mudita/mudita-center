@@ -31,6 +31,7 @@ import {
 } from "../selectors/file-transfer-sending"
 import { selectLastOutboxData } from "../selectors/select-last-outbox-data"
 import { selectActiveApiDeviceId, selectEntities } from "../selectors"
+import { preSendFilesCleanup } from "./pre-send-files-cleanup"
 
 
 export interface SendFilesPayload {
@@ -90,6 +91,8 @@ export const sendFiles = createAsyncThunk<
         abort: AbortController["abort"]
       }
     ).abort
+
+    await preSendFilesCleanup()
 
     const { meta, payload } = await getMtpSendFileMetadataDispatch
 
