@@ -51,7 +51,6 @@ describe("Backup error - full storage", () => {
 
   it("Mock prebackup, mock full storage, wait for Overview Page and click Create Backup", async () => {
     mockBackupResponses("path-1", true)
-    //mockFullStorageDevice("path-1")
 
     //mocking response code 507 for POST /BACKUP
     E2EMockClient.mockResponsesOnce([
