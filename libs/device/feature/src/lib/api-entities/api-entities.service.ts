@@ -194,7 +194,7 @@ export class APIEntitiesService {
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
-    const chunkSize = 800
+    const chunkSize = 500
     const chunks: EntityId[][] = []
     for (let i = 0; i < ids.length; i += chunkSize) {
       chunks.push(ids.slice(i, i + chunkSize))
