@@ -53,11 +53,7 @@ export const selectEntitiesData = createSelector(
 export const selectFailedEntities = createSelector(
   selectEntities,
   (entities) => {
-    const failedEntities = entities?.data?.filter((entity) =>
-      entities.failedIds?.includes(entity.id as string)
-    ) as EntityData[]
-
-    return failedEntities ? failedEntities : []
+    return entities?.failedEntities ? entities.failedEntities : []
   }
 )
 

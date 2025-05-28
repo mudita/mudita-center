@@ -20,6 +20,7 @@ import { createEntityDataAction } from "./create-entity-data.action"
 import { updateEntityDataAction } from "./update-entity-data.action"
 import { getEntitiesConfigAction } from "./get-entities-config.action"
 import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
+import { Entity } from "Core/data-sync/types/entity.type"
 
 type EntitiesType = string
 
@@ -31,7 +32,7 @@ interface Entities {
   loading?: boolean
   progress?: number
   error?: boolean
-  failedIds?: string[]
+  failedEntities?: EntityData[]
   successIds?: string[]
   abortController?: AbortController
 }
@@ -146,8 +147,17 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     const entities = state[deviceId]![entitiesType]
 
     if (entities) {
-      entities.failedIds = failedIds
+      entities.failedEntities = entities.data?.filter((entity) =>
+        failedIds.includes(entity.id as string)
+      )
       entities.successIds = successIds
+      console.log(failedIds)
+      if (entities && entities.data && entities.idFieldKey) {
+        entities.data = entities.data.filter(
+          (entity) =>
+            !successIds.includes(entity[entities.idFieldKey!] as string)
+        )
+      }
     }
   })
   builder.addCase(clearAfterDeleteEntities, (state, action) => {
@@ -156,7 +166,7 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     const entities = state[deviceId]![entitiesType]
 
     if (entities) {
-      entities.failedIds = []
+      entities.failedEntities = []
       entities.successIds = []
     }
   })
