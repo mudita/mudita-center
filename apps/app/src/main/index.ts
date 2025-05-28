@@ -40,17 +40,6 @@ const createWindow = () => {
         : 800,
     show: false,
     useContentSize: true,
-    autoHideMenuBar: true,
-    titleBarStyle: "hiddenInset",
-    trafficLightPosition: {
-      x: 32,
-      y: 10,
-    },
-    titleBarOverlay: {
-      color: "#FFFFFF",
-      symbolColor: "#000000",
-      height: 32,
-    },
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, "..", "preload", "index.js"),
@@ -131,6 +120,11 @@ app.whenReady().then(() => {
   })
 })
 
+// Quit the app on dev process kill
+app.on("before-quit", () => {
+  app.quit()
+})
+
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
@@ -139,6 +133,3 @@ app.on("window-all-closed", () => {
     app.quit()
   }
 })
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.

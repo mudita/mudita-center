@@ -42,7 +42,6 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
 
   return (
     <Wrapper className={className}>
-      {navigator.userAgent.includes("Mac") && <SystemHeader />}
       <Logo type={IconType.MuditaLogoFull} />
       {menu.map((menuGroup) => {
         return (
@@ -111,14 +110,6 @@ const Wrapper = styled.div`
     `${theme.app.space.lg} ${theme.app.space.xxl} ${theme.app.space.xl}`};
   background: ${({ theme }) => theme.app.color.white};
   box-shadow: 0.2rem 0 3rem ${({ theme }) => theme.app.color.blackAlpha.light};
-`
-
-const SystemHeader = styled.div`
-  -webkit-app-region: drag;
-  height: 3.6rem;
-  width: calc(100% + 2 * ${({ theme }) => theme.app.space.xxl});
-  margin: ${({ theme }) =>
-    `-${theme.app.space.lg} -${theme.app.space.xxl} -${theme.app.space.xl}`};
 `
 
 const Logo = styled(Icon)`
