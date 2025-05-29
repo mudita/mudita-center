@@ -11,8 +11,14 @@ import {
   APIEntitiesService,
   ServiceBridge,
 } from "device/feature"
-import { ApiConfig, EntitiesFileData } from "device/models"
+import {
+  ApiConfig,
+  EntitiesDeleteResponse,
+  EntitiesFileData,
+  EntityData,
+} from "device/models"
 import { ResponseStatus } from "Core/device"
+import { contactsSeedData } from "../../../generic-view/feature/src/lib/seed-data/contacts-seed-data"
 
 jest.mock("shared/utils", () => {
   return {
@@ -136,4 +142,72 @@ describe("Entities configuration, metadata and data", () => {
       expect(status).toBe(ResponseStatus.Ok)
     }
   }, 30_000)
+
+  it("should remove contact entity with valid entityId", async () => {
+    const service = new APIEntitiesService(deviceProtocol, new ServiceBridge())
+
+    const id = await createContact(service, contactsSeedData[0])
+
+    expect(id).toBeDefined()
+
+    if (id === undefined) {
+      return
+    }
+
+    const removeEntitiesResult = await service.deleteEntitiesData({
+      entitiesType: "contacts",
+      ids: [id],
+    })
+
+    expect(removeEntitiesResult.ok).toBeTruthy()
+  })
+
+  it("should return success with failedIds while removing valid and invalid contacts entityIds in one request", async () => {
+    const service = new APIEntitiesService(deviceProtocol, new ServiceBridge())
+
+    const id = await createContact(service, contactsSeedData[0])
+
+    expect(id).toBeDefined()
+
+    const removeEntitiesResult = await service.deleteEntitiesData({
+      entitiesType: "contacts",
+      ids: [id!, "0", "-1"],
+    })
+
+    expect(removeEntitiesResult.ok).toBeTruthy()
+
+    const data = removeEntitiesResult.data as EntitiesDeleteResponse
+    expect(data?.failedIds[0]).toBe("0")
+    expect(data?.failedIds[1]).toBe("-1")
+  })
+
+  it("should return error with incorrect-response type for invalid contacts entityIds", async () => {
+    const service = new APIEntitiesService(deviceProtocol, new ServiceBridge())
+    const removeEntitiesResult = await service.deleteEntitiesData({
+      entitiesType: "contacts",
+      ids: ["0", "-1"],
+    })
+
+    expect(removeEntitiesResult.ok).toBeFalsy()
+    expect(removeEntitiesResult.error?.type).toBe("incorrect-response")
+  })
+
+  async function createContact(
+    entitiesService: APIEntitiesService,
+    data: EntityData
+  ): Promise<string | undefined> {
+    const createEntityResult = await entitiesService.createEntityData(
+      {
+        entitiesType: "contacts",
+        data: contactsSeedData[0],
+      },
+      {}
+    )
+
+    if (createEntityResult.ok && createEntityResult.data) {
+      const id = createEntityResult.data.data.contactId
+      return id as string
+    }
+    return undefined
+  }
 })
