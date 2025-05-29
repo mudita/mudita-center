@@ -4,7 +4,7 @@
  */
 
 import { FunctionComponent } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import styled, { css } from "styled-components"
 import {
   Data,
@@ -13,10 +13,6 @@ import {
   SettingsTableRow,
   SettingsWrapper,
 } from "../settings/settings-ui.styled"
-import {
-  setCheckingForUpdate,
-  setCheckingForUpdateFailed,
-} from "settings/feature"
 import { AppUpdater } from "app-utils/renderer"
 import { SettingsTestId } from "settings/models"
 import { selectCheckingForUpdateFailed } from "settings/feature"
@@ -121,7 +117,6 @@ interface AboutProps {
   appCurrentVersion?: string
   appUpdateAvailable?: boolean
   onAppUpdateAvailableCheck: () => void
-  hideAppUpdateNotAvailable: () => void
   checkingForUpdate: boolean
 }
 
@@ -133,19 +128,10 @@ export const About: FunctionComponent<AboutProps> = ({
   appCurrentVersion,
   appUpdateAvailable,
   onAppUpdateAvailableCheck,
-  hideAppUpdateNotAvailable,
   checkingForUpdate,
 }) => {
-  const dispatch = useDispatch()
-
   const checkingForUpdateFailed = useSelector(selectCheckingForUpdateFailed)
   const appUpdateFlowShow = false
-
-  const appUpdateAvailableCheckHandler = () => {
-    dispatch(setCheckingForUpdate(true))
-    dispatch(setCheckingForUpdateFailed(false))
-    void AppUpdater.checkForUpdates()
-  }
 
   const handleProcessDownload = () => {
     void AppUpdater.downloadUpdate()
@@ -192,7 +178,7 @@ export const About: FunctionComponent<AboutProps> = ({
               onClick={
                 appUpdateAvailable
                   ? handleProcessDownload
-                  : appUpdateAvailableCheckHandler
+                  : onAppUpdateAvailableCheck
               }
               disabled={checkingForUpdate}
               $updating={checkingForUpdate}

@@ -4,6 +4,7 @@
  */
 
 export * from "./lib/icon/icon"
+export * from "./lib/icon/icon-ui.styled"
 export * from "./lib/button/button"
 export * from "./lib/icon-button/icon-button"
 export * from "./lib/modal/modal"

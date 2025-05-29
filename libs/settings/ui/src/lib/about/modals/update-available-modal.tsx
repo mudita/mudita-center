@@ -6,9 +6,8 @@
 import { FunctionComponent } from "react"
 import { defineMessages, useIntl } from "react-intl"
 import styled from "styled-components"
-import { Button, Icon, Modal, Typography } from "app-theme/ui"
+import { Button, Icon, Modal, Typography, RoundIconWrapper } from "app-theme/ui"
 import { IconSize, IconType, ModalSize } from "app-theme/models"
-import { RoundIconWrapper } from "libs/app-theme/ui/src/lib/icon/icon-ui.styled"
 import { formatMessage } from "app-localize/utils"
 import { ButtonSize } from "app-theme/models"
 

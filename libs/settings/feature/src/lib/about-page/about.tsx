@@ -4,7 +4,7 @@
  */
 
 import { AppActions, AppUpdater } from "app-utils/renderer"
-import { FunctionComponent, useEffect, useState } from "react"
+import { FunctionComponent, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {
   About,
@@ -27,9 +27,7 @@ import {
   showUpdateNotAvailableModal,
   hideUpdateNotAvailableModal,
   showUpdateDownloadProgressModal,
-  showUpdateDownloadedModal,
   showUpdateInstallProgressModal,
-  showUpdateCompletedModal,
   showUpdateFailedModal,
   hideUpdateDownloadProgressModal,
   hideUpdateDownloadedModal,
@@ -134,10 +132,6 @@ export const SettingsAboutPage: FunctionComponent = () => {
     AppUpdater.checkForUpdates()
   }
 
-  const hideAppUpdateNotAvailable = () => {
-    dispatch(hideUpdateNotAvailableModal())
-  }
-
   const handleDownloadUpdate = () => {
     dispatch(hideUpdateAvailableModal())
     dispatch(showUpdateDownloadProgressModal())
@@ -188,7 +182,6 @@ export const SettingsAboutPage: FunctionComponent = () => {
         appCurrentVersion={currentVersion}
         appUpdateAvailable={updateAvailable}
         onAppUpdateAvailableCheck={handleAppUpdateAvailableCheck}
-        hideAppUpdateNotAvailable={hideAppUpdateNotAvailable}
         checkingForUpdate={checkingForUpdate}
       />
       <UpdateAvailableModal
