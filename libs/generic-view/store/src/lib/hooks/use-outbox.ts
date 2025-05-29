@@ -45,7 +45,7 @@ export const useOutbox = () => {
         getOutboxData({ deviceId: activeApiDeviceId })
       )
 
-      const entitiesLength = getOutboxDataResult?.payload.data.entities.length
+      const entitiesLength = getOutboxDataResult?.payload?.data?.entities?.length
 
       if (entitiesLength === MAX_OUTBOX_EVENTS && outboxTimeout !== 0) {
         setOutboxTimeout(0)
