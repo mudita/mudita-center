@@ -160,6 +160,10 @@ class ModalBackupKompaktPage extends OverviewPage {
     return $('//h1[text()="Backup failed"]')
   }
 
+  public get backupFailedSubTitle() {
+    return $('//p[text()="The backup process was interrupted."]')
+  }
+
   public get backupDisconnectedSubTitle() {
     return $('//p[text()="The backup process was interrupted."]')
   }
