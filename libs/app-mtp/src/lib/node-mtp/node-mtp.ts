@@ -376,7 +376,13 @@ export class NodeMtp implements MtpInterface {
       }
 
       return Result.success(newObjectID)
-    } catch (e) {
+    } catch (error) {
+      const mtpError = mapToMtpError(error)
+
+      if(mtpError.type !== MTPError.MTP_GENERAL_ERROR) {
+        return Result.failed(mtpError)
+      }
+
       const childObjectInfoList = await this.getChildObjectInfoList(
         parentObjectHandle,
         deviceId,
@@ -397,7 +403,7 @@ export class NodeMtp implements MtpInterface {
         )
       }
 
-      throw e
+      return Result.failed(mtpError)
     }
   }
 }
