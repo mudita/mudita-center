@@ -214,8 +214,9 @@ export class NodeMtpDevice {
 
     const sendObjectInfoDataResponse = await this.read(transactionId)
 
-
-    if(sendObjectInfoDataResponse.code !== ContainerCode.StatusOk) {
+    if (sendObjectInfoDataResponse.code === ContainerCode.StoreFull) {
+      throw new AppError(MTPError.MTP_NOT_ENOUGH_SPACE)
+    } else if (sendObjectInfoDataResponse.code !== ContainerCode.StatusOk) {
       throw new AppError(
         MTPError.MTP_GENERAL_ERROR,
         `uploadFileInfo failed with code: ${sendObjectInfoDataResponse.code}`
