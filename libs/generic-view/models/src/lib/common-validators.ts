@@ -99,6 +99,7 @@ export const entityActionValidator = z.union([
     type: z.literal("entities-delete"),
     entitiesType: z.string(),
     ids: z.array(z.string()),
+    successMessage: z.string().optional(),
     postActions: z
       .object({
         success: entityPostActionsValidator,

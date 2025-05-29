@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Subview, IconType } from "generic-view/utils"
+import { IconType, Subview } from "generic-view/utils"
 
 interface OtherFilesListItemConfig {
   id: string
@@ -77,15 +77,13 @@ const generateDeleteModal = ({
             type: "entities-delete",
             entitiesType: "contacts",
             ids: [],
+            successMessage:
+              "{count, plural, one {# contact} other {# contacts}} deleted",
             postActions: {
               success: [
                 {
                   type: "close-domain-modals",
                   domain: "contacts-delete",
-                },
-                {
-                  type: "open-toast",
-                  toastKey: `${id}ContactsDeletedToast`,
                 },
               ],
             },
@@ -137,38 +135,6 @@ const generateDeleteModal = ({
         messageTemplate: singleContact
           ? "Delete contact?"
           : "Delete {contactsToDelete, plural, one {contact} other {# contacts}}?",
-      },
-      dataProvider: {
-        source: "form-fields",
-        formKey: "contactsForm",
-        fields: [
-          {
-            providerField: contactsToDelete,
-            componentField: "data.fields.contactsToDelete",
-            modifier: "length",
-          },
-        ],
-      },
-    },
-    [`${id}ContactsDeletedToast`]: {
-      component: "toast",
-      childrenKeys: [
-        `${id}ContactsDeletedToastIcon`,
-        `${id}ContactsDeletedToastText`,
-      ],
-    },
-    [`${id}ContactsDeletedToastIcon`]: {
-      component: "icon",
-      config: {
-        type: IconType.Success,
-      },
-    },
-    [`${id}ContactsDeletedToastText`]: {
-      component: "typography.p1",
-      config: {
-        messageTemplate: singleContact
-          ? "1 contact deleted"
-          : "{contactsToDelete} {contactsToDelete, plural, one {contact} other {contacts}} deleted",
       },
       dataProvider: {
         source: "form-fields",
