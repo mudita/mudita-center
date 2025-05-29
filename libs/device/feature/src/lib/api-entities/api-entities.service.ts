@@ -37,7 +37,6 @@ import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { ResponseStatus } from "../../../../../core/device/constants/response-status.constant"
-import { ApiResponse } from "Core/device/types/mudita-os"
 
 export interface GetEntitiesDataRequestConfig {
   entitiesType: string
@@ -200,17 +199,16 @@ export class APIEntitiesService {
       chunks.push(ids.slice(i, i + chunkSize))
     }
 
-    type DeleteResponse = ResultObject<ApiResponse<unknown>>
     let overallStatus = ResponseStatus.Ok
     const failedIds: EntityId[] = []
 
     for (let i = 0; i < chunks.length; i++) {
       const chunk = chunks[i]
-      const response = (await device.request({
+      const response = await device.request({
         endpoint: "ENTITIES_DATA",
         method: "DELETE",
         body: { entityType: entitiesType, ids: chunk },
-      })) as DeleteResponse
+      })
 
       const status = response.ok
         ? response.data.status
@@ -237,7 +235,6 @@ export class APIEntitiesService {
         }
       }
     }
-    console.log(overallStatus)
     if (overallStatus === ResponseStatus.Ok) {
       return Result.success(undefined)
     }
@@ -248,7 +245,6 @@ export class APIEntitiesService {
     ) {
       return this.handleError(ResponseStatus.NotFound)
     }
-    console.log(failedIds)
     return Result.success({ failedIds })
   }
 
