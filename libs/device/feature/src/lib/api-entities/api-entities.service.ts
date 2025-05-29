@@ -193,35 +193,59 @@ export class APIEntitiesService {
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
-
-    const response = await device.request({
-      endpoint: "ENTITIES_DATA",
-      method: "DELETE",
-      body: {
-        entityType: entitiesType,
-        ids,
-      },
-    })
-
-    if (!response.ok) {
-      return this.handleError(response.error.type)
+    const chunkSize = 500
+    const chunks: EntityId[][] = []
+    for (let i = 0; i < ids.length; i += chunkSize) {
+      chunks.push(ids.slice(i, i + chunkSize))
     }
 
-    if (response.data.status === 404) {
-      return this.handleError(response.data.status)
-    }
+    let overallStatus = ResponseStatus.Ok
+    const failedIds: EntityId[] = []
 
-    if (response.data.status === 207) {
-      const failedIdsValidator =
-        entitiesDeletePartialSuccessValidator.safeParse(response.data.body)
-      if (!failedIdsValidator.success) {
-        logger.error(failedIdsValidator.error)
-        return this.handleError(response.data.status)
+    for (let i = 0; i < chunks.length; i++) {
+      const chunk = chunks[i]
+      const response = await device.request({
+        endpoint: "ENTITIES_DATA",
+        method: "DELETE",
+        body: { entityType: entitiesType, ids: chunk },
+      })
+
+      const status = response.ok
+        ? response.data.status
+        : ResponseStatus.NotFound
+
+      if (response.ok && status === ResponseStatus.MultiResponse) {
+        const partialSuccessValidator =
+          entitiesDeletePartialSuccessValidator.safeParse(response.data!.body)
+        if (!partialSuccessValidator.success) {
+          logger.error(partialSuccessValidator.error)
+          return this.handleError(status)
+        }
+        failedIds.push(...partialSuccessValidator.data.failedIds)
+        overallStatus = ResponseStatus.MultiResponse
+      } else if (
+        status === ResponseStatus.NotFound ||
+        status == ResponseStatus.InternalServerError
+      ) {
+        failedIds.push(...chunk)
+
+        if (overallStatus === ResponseStatus.Ok) {
+          overallStatus =
+            i === 0 ? ResponseStatus.NotFound : ResponseStatus.MultiResponse
+        }
       }
-      return Result.success({ failedIds: failedIdsValidator.data.failedIds })
+    }
+    if (overallStatus === ResponseStatus.Ok) {
+      return Result.success(undefined)
     }
 
-    return Result.success(undefined)
+    if (
+      overallStatus === ResponseStatus.NotFound &&
+      failedIds.length === ids.length
+    ) {
+      return this.handleError(ResponseStatus.NotFound)
+    }
+    return Result.success({ failedIds })
   }
 
   @IpcEvent(APIEntitiesServiceEvents.EntityDataCreate)
