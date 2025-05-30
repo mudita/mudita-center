@@ -196,13 +196,10 @@ describe("Entities configuration, metadata and data", () => {
     entitiesService: APIEntitiesService,
     data: EntityData
   ): Promise<string | undefined> {
-    const createEntityResult = await entitiesService.createEntityData(
-      {
-        entitiesType: "contacts",
-        data: contactsSeedData[0],
-      },
-      {}
-    )
+    const createEntityResult = await entitiesService.createEntityData({
+      entitiesType: "contacts",
+      data: contactsSeedData[0],
+    })
 
     if (createEntityResult.ok && createEntityResult.data) {
       const id = createEntityResult.data.data.contactId

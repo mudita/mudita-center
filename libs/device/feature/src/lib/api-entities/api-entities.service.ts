@@ -249,18 +249,15 @@ export class APIEntitiesService {
   }
 
   @IpcEvent(APIEntitiesServiceEvents.EntityDataCreate)
-  public async createEntityData(
-    {
-      entitiesType,
-      data,
-      deviceId,
-    }: {
-      entitiesType: string
-      data: EntityData
-      deviceId?: DeviceId
-    },
-    p0: unknown
-  ): Promise<ResultObject<EntityDataPost>> {
+  public async createEntityData({
+    entitiesType,
+    data,
+    deviceId,
+  }: {
+    entitiesType: string
+    data: EntityData
+    deviceId?: DeviceId
+  }): Promise<ResultObject<EntityDataPost>> {
     const device = this.getDevice(deviceId)
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
