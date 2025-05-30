@@ -305,10 +305,16 @@ export const FilesManagerUploadFinished: APIFC<
   }, [errorTypes])
 
   useLayoutEffect(() => {
-    if (failedFiles.length === 0) {
+    if (succeededFiles.length !== 0 && failedFiles.length === 0) {
       dispatch(closeModal({ key: config.modalKey }))
     }
-  }, [config.modalKey, config.uploadActionId, dispatch, failedFiles.length])
+  }, [
+    config.modalKey,
+    config.uploadActionId,
+    dispatch,
+    failedFiles.length,
+    succeededFiles.length,
+  ])
 
   return (
     <>
