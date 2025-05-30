@@ -51,6 +51,7 @@ import {
   selectUpdateFailedModalOpen,
   selectUpdateDownloadProgress,
   selectUpdateInstallProgress,
+  selectCheckingForUpdateFailed,
 } from "../store/settings.selectors"
 
 export const SettingsAboutPage: FunctionComponent = () => {
@@ -126,6 +127,10 @@ export const SettingsAboutPage: FunctionComponent = () => {
     )
   }
 
+  const handleProcessDownload = () => {
+    void AppUpdater.downloadUpdate()
+  }
+
   const handleAppUpdateAvailableCheck = () => {
     dispatch(setCheckingForUpdate(true))
     dispatch(setCheckingForUpdateFailed(false))
@@ -152,6 +157,7 @@ export const SettingsAboutPage: FunctionComponent = () => {
   const currentVersion = useSelector(selectCurrentVersion)
   const updateAvailable = useSelector(selectUpdateAvailable)
   const checkingForUpdate = useSelector(selectCheckingForUpdate)
+  const checkingForUpdateFailed = useSelector(selectCheckingForUpdateFailed)
 
   const isUpdateAvailableModalOpen = useSelector(selectUpdateAvailableModalOpen)
   const isUpdateNotAvailableModalOpen = useSelector(
@@ -182,7 +188,9 @@ export const SettingsAboutPage: FunctionComponent = () => {
         appCurrentVersion={currentVersion}
         appUpdateAvailable={updateAvailable}
         onAppUpdateAvailableCheck={handleAppUpdateAvailableCheck}
+        onProcessDownload={handleProcessDownload}
         checkingForUpdate={checkingForUpdate}
+        checkingForUpdateFailed={checkingForUpdateFailed}
       />
       <UpdateAvailableModal
         opened={isUpdateAvailableModalOpen}

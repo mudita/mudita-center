@@ -4,10 +4,12 @@
  */
 
 import { FunctionComponent, ReactNode } from "react"
-import { Icon, Modal, Typography } from "app-theme/ui"
 import { IconSize, IconType, ModalSize } from "app-theme/models"
 import styled from "styled-components"
+import { Modal } from "../modal"
 import { RoundIconWrapper } from "../../icon/icon-ui.styled"
+import { Icon } from "../../icon/icon"
+import { Typography } from "../../typography/typography"
 
 interface ErrorModalProps {
   opened: boolean

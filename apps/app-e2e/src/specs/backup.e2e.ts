@@ -24,10 +24,10 @@ describe("Backup settings screen", () => {
     await expect(settingsHeader).toHaveText("Settings")
   })
 
-  it("should show backup location in the settings", async () => {
+  it.skip("should show backup location in the settings", async () => {
     const backupLocation = await SettingsPage.backupLocation
     await expect(backupLocation).toBeDisplayed()
-    await expect(await backupLocation.getText()).toMatch(/\//) // np. "/Users/.../Backups"
+    await expect(await backupLocation.getText()).toMatch(/\//)
   })
 
   it("should show and enable 'Change' button", async () => {

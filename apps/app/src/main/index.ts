@@ -15,7 +15,7 @@ import installExtension, {
 } from "electron-devtools-installer"
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
-import { setMainAppWindow } from "../../../../libs/app-utils/main/src/lib/window/window-registry"
+import { setMainAppWindow } from "app-utils/main"
 
 if (process.env.NODE_ENV === "test") {
   import("wdio-electron-service/main")

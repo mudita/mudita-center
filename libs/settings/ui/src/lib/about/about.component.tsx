@@ -4,7 +4,6 @@
  */
 
 import { FunctionComponent } from "react"
-import { useSelector } from "react-redux"
 import styled, { css } from "styled-components"
 import {
   Data,
@@ -13,9 +12,7 @@ import {
   SettingsTableRow,
   SettingsWrapper,
 } from "../settings/settings-ui.styled"
-import { AppUpdater } from "app-utils/renderer"
 import { SettingsTestId } from "settings/models"
-import { selectCheckingForUpdateFailed } from "settings/feature"
 import { FormattedMessage } from "react-intl"
 import {
   LegacyIconType,
@@ -116,7 +113,9 @@ interface AboutProps {
   appLatestVersion?: string
   appCurrentVersion?: string
   appUpdateAvailable?: boolean
+  checkingForUpdateFailed?: boolean
   onAppUpdateAvailableCheck: () => void
+  onProcessDownload: () => void
   checkingForUpdate: boolean
 }
 
@@ -127,15 +126,12 @@ export const About: FunctionComponent<AboutProps> = ({
   appLatestVersion = "",
   appCurrentVersion,
   appUpdateAvailable,
+  checkingForUpdateFailed,
   onAppUpdateAvailableCheck,
+  onProcessDownload,
   checkingForUpdate,
 }) => {
-  const checkingForUpdateFailed = useSelector(selectCheckingForUpdateFailed)
   const appUpdateFlowShow = false
-
-  const handleProcessDownload = () => {
-    void AppUpdater.downloadUpdate()
-  }
 
   const badgeText = appUpdateAvailable
     ? messages.updateAvailableBadge
@@ -177,7 +173,7 @@ export const About: FunctionComponent<AboutProps> = ({
               Icon={checkingForUpdate ? LegacyIconType.Refresh : undefined}
               onClick={
                 appUpdateAvailable
-                  ? handleProcessDownload
+                  ? onProcessDownload
                   : onAppUpdateAvailableCheck
               }
               disabled={checkingForUpdate}
