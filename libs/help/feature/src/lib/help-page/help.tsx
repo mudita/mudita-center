@@ -4,12 +4,8 @@
  */
 
 import { FunctionComponent } from "react"
+import { Help } from "help/ui"
 
 export const HelpPage: FunctionComponent = () => {
-  return (
-    <div>
-      <h1>Help Page</h1>
-      <p>This is the help page.</p>
-    </div>
-  )
+  return <Help />
 }

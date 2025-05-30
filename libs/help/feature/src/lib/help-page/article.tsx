@@ -3,8 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const helpPaths = {
-  index: "/help",
-  category: "/help/:categoryId",
-  article: "/help/:categoryId/:articleId",
+import { Article } from "help/ui"
+import { FunctionComponent } from "react"
+
+export const ArticlePage: FunctionComponent = () => {
+  return <Article />
 }
