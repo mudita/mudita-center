@@ -19,7 +19,7 @@ const Decorator = styled.div`
 `
 
 const meta: Meta<typeof WelcomeScreen> = {
-  title: "App/Initialize/Welcome screen",
+  title: "App/Devices/Welcome screen",
   component: WelcomeScreen,
   decorators: [
     (Story) => (
