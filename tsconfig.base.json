@@ -37,6 +37,7 @@
       "app-store-types": ["libs/app-store/feature/src/lib/app-store.types.ts"],
       "app-store/feature": ["libs/app-store/feature/src/index.ts"],
       "app-store/models": ["libs/app-store/models/src/index.ts"],
+      "app-store/utils": ["libs/app-store/utils/src/index.ts"],
       "app-theme/feature": ["libs/app-theme/feature/src/index.ts"],
       "app-theme/models": ["libs/app-theme/models/src/index.ts"],
       "app-theme/ui": ["libs/app-theme/ui/src/index.ts"],
