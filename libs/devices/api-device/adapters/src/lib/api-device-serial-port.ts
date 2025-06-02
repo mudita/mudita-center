@@ -17,7 +17,7 @@ import {
   ApiDeviceMethod,
   ApiDeviceRequest,
   ApiDeviceResponse,
-  ResponseBody,
+  ApiDeviceResponseBody,
 } from "devices/api-device/models"
 
 type Response<E extends ApiDeviceEndpoint, M extends ApiDeviceMethod<E>> =
@@ -25,7 +25,7 @@ type Response<E extends ApiDeviceEndpoint, M extends ApiDeviceMethod<E>> =
       ok: true
       endpoint: E
       status: number
-      body: ResponseBody<E, M>
+      body: ApiDeviceResponseBody<E, M>
     }
   | {
       ok: false
@@ -40,12 +40,7 @@ export class ApiDeviceSerialPort {
     if (!device) {
       return true
     }
-    if (device.deviceType !== SerialPortDeviceType.ApiDevice) {
-      throw new Error(
-        `Device ${device.serialNumber} of type ${device.deviceType} is not an ApiDevice.`
-      )
-    }
-    return true
+    return device.deviceType === SerialPortDeviceType.ApiDevice
   }
   static async request<
     E extends ApiDeviceEndpoint,
@@ -60,8 +55,8 @@ export class ApiDeviceSerialPort {
       ApiDeviceEndpoints[request.endpoint as keyof typeof ApiDeviceEndpoints]
     const methodConfig =
       endpointConfig[request.method as keyof typeof endpointConfig]
-    const requestValidator = methodConfig.request
-    const responseValidator = methodConfig.response
+    const requestValidator = methodConfig?.request
+    const responseValidator = methodConfig?.response
 
     if (requestValidator && "body" in request) {
       const requestParseResult = requestValidator.safeParse(request.body)
@@ -102,6 +97,10 @@ export class ApiDeviceSerialPort {
     if (responseValidator && "body" in response && response.status < 400) {
       const responseParseResult = responseValidator.safeParse(response.body)
       if (!responseParseResult.success) {
+        console.error(
+          `Response parsing failed for ${device.path} at ${request.method.toString()} ${request.endpoint.toString()}`
+        )
+        console.error(responseParseResult.error.errors)
         return {
           ok: false,
           endpoint: request.endpoint,
@@ -113,7 +112,7 @@ export class ApiDeviceSerialPort {
         ok: true,
         endpoint: request.endpoint,
         status: response.status,
-        body: response.body as ResponseBody<E, M>,
+        body: responseParseResult.data as ApiDeviceResponseBody<E, M>,
       }
     }
 
