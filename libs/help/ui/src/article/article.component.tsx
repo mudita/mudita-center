@@ -3,10 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { FunctionComponent, useEffect } from "react"
 // import { GenericThemeProvider } from "generic-view/theme"
 // import { useHistory, useParams } from "react-router"
 import styled from "styled-components"
+import { AppHelp } from "app-utils/renderer"
 // import { ArticleHeader } from "./components/article-header"
 // import { ArticleWarning } from "./components/article-warning"
 // import { ArticleContent } from "./components/article-content"
@@ -32,6 +33,10 @@ export const Article: FunctionComponent = () => {
   //   history.goBack()
   //   return null
   // }
+
+  useEffect(() => {
+    AppHelp.getData().then(console.log)
+  }, [])
 
   return (
     <Wrapper>
