@@ -33,7 +33,6 @@ import { selectLastOutboxData } from "../selectors/select-last-outbox-data"
 import { selectActiveApiDeviceId, selectEntities } from "../selectors"
 import { preSendFilesCleanup } from "./pre-send-files-cleanup"
 
-
 export interface SendFilesPayload {
   actionId: string
   files: FileBase[]
@@ -136,11 +135,12 @@ export const sendFiles = createAsyncThunk<
     }, 3_000)
     let currentFileIndex = 0
 
+    let wasAborted = false
+
     const processFiles = async () => {
       while (currentFileIndex < files.length) {
         const file = files[currentFileIndex]
         const modeBeforeSend = selectFilesTransferMode(getState())
-        let wasAborted = false
 
         const handleFileSend = async () => {
           if (modeBeforeSend === FilesTransferMode.Mtp && "path" in file) {
@@ -265,6 +265,9 @@ export const sendFiles = createAsyncThunk<
     await processFiles()
     clearInterval(mtpMonitor)
 
+    if (wasAborted) {
+      return
+    }
     console.log("Files sent successfully")
 
     filesTransferMode = selectFilesTransferMode(getState())
