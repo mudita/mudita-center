@@ -4,28 +4,12 @@
  */
 
 import "types-preload"
-import { FunctionComponent, useEffect } from "react"
+import { FunctionComponent } from "react"
 import { News } from "news/ui"
-import { useDispatch, useSelector } from "react-redux"
-import { selectNews } from "../store/news.selectors"
-import { setNews } from "../store/news.actions"
+import { useNews } from "../queries/use-news"
 
 export const NewsPage: FunctionComponent = () => {
-  const dispatch = useDispatch()
-  const news = useSelector(selectNews)
+  const { data } = useNews()
 
-  useEffect(() => {
-    if (!news.length) {
-      void (async () => {
-        const newsData = await window.api.news.get()
-        dispatch(setNews(newsData))
-
-        window.api.news.onRefreshed((data) => {
-          dispatch(setNews(data))
-        })
-      })()
-    }
-  }, [dispatch, news.length])
-
-  return <News newsItems={news} />
+  return <News newsItems={data} />
 }

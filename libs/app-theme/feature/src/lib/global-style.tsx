@@ -70,4 +70,8 @@ export const GlobalStyle = createGlobalStyle`
       margin-top: -0px !important;
     }
   }
+
+  .tsqd-parent-container {
+    --tsqd-font-size: 14px !important;
+  }
 `
