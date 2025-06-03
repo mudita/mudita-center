@@ -6,7 +6,7 @@
 import { DeviceProtocol } from "device-protocol/feature"
 import { setKompaktConnection } from "./helpers/set-connection"
 import { setActiveDevice } from "./helpers/protocol-validator"
-import { APIFileTransferService, ServiceBridge } from "Libs/device/feature/src"
+import { APIFileTransferService, ServiceBridge } from "device/feature"
 import * as path from "path"
 import { exec } from "child_process"
 import util from "util"
@@ -101,12 +101,12 @@ describe("File transfer", () => {
     }
   }, 30000)
 
-  async function sendFile(
+  const sendFile = async (
     apiTransferService: APIFileTransferService,
     sourceFile: string,
     targetPath: string,
     expectedResult: boolean
-  ): Promise<number> {
+  ): Promise<number> => {
     const preTransferResponse = await apiTransferService.preTransferSend({
       targetPath,
       source: { path: sourceFile },
@@ -130,7 +130,7 @@ describe("File transfer", () => {
     return transferId
   }
 
-  async function removeFile(targetPath: string): Promise<void> {
+  const removeFile = async (targetPath: string): Promise<void> => {
     try {
       const command = `adb shell rm ${targetPath}`
       await execPromise(command)
@@ -139,7 +139,7 @@ describe("File transfer", () => {
     }
   }
 
-  async function isFileExists(targetPath: string): Promise<boolean> {
+  const isFileExists = async (targetPath: string): Promise<boolean> => {
     try {
       const command = `adb shell "[ -f ${targetPath} ] && echo 1 || echo 0"`
       const { stdout } = await execPromise(command)
