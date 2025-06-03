@@ -5,10 +5,8 @@
 
 import { DevicesReducer } from "devices/common/models"
 import { AppMenuReducer } from "app-routing/models"
-import { NewsReducer } from "news/models"
 
-export type AppState = {
+export type AppStore = {
   devices: DevicesReducer
   appMenu: AppMenuReducer
-  news: NewsReducer
 }

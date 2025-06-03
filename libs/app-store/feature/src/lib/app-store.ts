@@ -4,15 +4,13 @@
  */
 
 import { configureStore } from "@reduxjs/toolkit"
-import { AppState } from "app-store/models"
+import { AppStore } from "app-store/models"
 import { devicesReducer } from "devices/common/feature"
 import { appMenuReducer } from "app-routing/feature"
-import { newsReducer } from "news/feature"
 
-export const store = configureStore<AppState>({
+export const store = configureStore<AppStore>({
   reducer: {
     devices: devicesReducer,
     appMenu: appMenuReducer,
-    news: newsReducer,
   },
 })
