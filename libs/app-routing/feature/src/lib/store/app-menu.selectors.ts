@@ -4,11 +4,11 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { AppState } from "app-store/models"
+import { AppStore } from "app-store/models"
 import { MenuGroup } from "app-routing/models"
 
 export const selectMenuGroups = createSelector(
-  (state: AppState) => state.appMenu,
+  (state: AppStore) => state.appMenu,
   ({ groups }) => {
     return groups as MenuGroup[]
   }
@@ -16,7 +16,7 @@ export const selectMenuGroups = createSelector(
 
 export const checkMenuGroup = createSelector(
   selectMenuGroups,
-  (_: AppState, groupIndex: number) => groupIndex,
+  (_: AppStore, groupIndex: number) => groupIndex,
   (groups, groupIndex) => {
     return groups.some((group) => group.index === groupIndex)
   }

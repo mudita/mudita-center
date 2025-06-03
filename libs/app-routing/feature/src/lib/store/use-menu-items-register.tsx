@@ -4,7 +4,7 @@
  */
 
 import { useDispatch, useSelector } from "react-redux"
-import { AppState } from "app-store/models"
+import { AppStore } from "app-store/models"
 import { useLayoutEffect } from "react"
 import { MenuIndex, MenuItem } from "app-routing/models"
 import { checkMenuGroup } from "./app-menu.selectors"
@@ -12,7 +12,7 @@ import { registerMenuItems } from "./app-menu.actions"
 
 export const useMenuItemsRegister = (groupIndex: MenuIndex, items: MenuItem[]) => {
   const dispatch = useDispatch()
-  const menuGroupExists = useSelector((state: AppState) =>
+  const menuGroupExists = useSelector((state: AppStore) =>
     checkMenuGroup(state, groupIndex)
   )
   const itemsDependency = JSON.stringify(items)
