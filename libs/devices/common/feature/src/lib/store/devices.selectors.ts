@@ -4,10 +4,10 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { AppState } from "app-store/models"
+import { AppStore } from "app-store/models"
 
 export const selectConnectedDevices = createSelector(
-  (state: AppState) => state.devices,
+  (state: AppStore) => state.devices,
   (devices) => {
     return devices.connected
   }

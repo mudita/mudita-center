@@ -8,13 +8,13 @@ import { useEffect } from "react"
 import { useDispatch, useStore } from "react-redux"
 import { setConnectedDevices } from "./store/devices.actions"
 import { selectCurrentDevice } from "./store/devices.selectors"
-import { AppState } from "app-store/models"
+import { AppStore } from "app-store/models"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { AppDeviceInfo } from "devices/common/models"
 import { getApiConfig } from "devices/api-device/feature"
 
 export const useDevicesListener = () => {
-  const store = useStore<AppState>()
+  const store = useStore<AppStore>()
   const dispatch = useDispatch()
 
   useEffect(() => {
