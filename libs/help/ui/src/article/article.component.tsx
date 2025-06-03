@@ -3,11 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useEffect } from "react"
+import { FunctionComponent } from "react"
 // import { GenericThemeProvider } from "generic-view/theme"
 // import { useHistory, useParams } from "react-router"
 import styled from "styled-components"
-import { AppHelp } from "app-utils/renderer"
 // import { ArticleHeader } from "./components/article-header"
 // import { ArticleWarning } from "./components/article-warning"
 // import { ArticleContent } from "./components/article-content"
@@ -34,10 +33,6 @@ export const Article: FunctionComponent = () => {
   //   return null
   // }
 
-  useEffect(() => {
-    AppHelp.getData().then(console.log)
-  }, [])
-
   return (
     <Wrapper>
       {/* <ArticleTracker /> */}
@@ -62,17 +57,17 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const ScrollArea = styled.div`
-  flex: 1;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-`
+// const ScrollArea = styled.div`
+//   flex: 1;
+//   overflow: auto;
+//   display: flex;
+//   flex-direction: column;
+// `
 
-const ArticleWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 3.2rem 3.2rem 5.2rem;
-  gap: 3.2rem;
-`
+// const ArticleWrapper = styled.div`
+//   flex: 1;
+//   display: flex;
+//   flex-direction: column;
+//   padding: 3.2rem 3.2rem 5.2rem;
+//   gap: 3.2rem;
+// `

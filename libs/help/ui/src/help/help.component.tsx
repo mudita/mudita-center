@@ -7,29 +7,30 @@ import { FunctionComponent } from "react"
 // import { intl } from "Core/__deprecated__/renderer/utils/intl"
 // import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 // import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { Navigate, useParams } from "react-router"
-import { defineMessages } from "react-intl"
-import styled from "styled-components"
+import { Navigate } from "react-router"
+// import { Navigate, useParams } from "react-router"
+// import { defineMessages } from "react-intl"
+// import styled from "styled-components"
 // import { GenericThemeProvider } from "generic-view/theme"
 // import { CategoryTabs } from "./components/category-tabs"
 // import { SubcategoriesList } from "./components/subcategories-list"
 // import { HelpFooter } from "./components/help-footer"
 // import { Search } from "./components/search"
-import { useSelector } from "react-redux"
+// import { useSelector } from "react-redux"
 // import { selectHelpCategoriesList } from "help/store"
 // import { Form, SpinnerLoader } from "generic-view/ui"
 // import { HelpTestId } from "./test-ids"
 
-const messages = defineMessages({
-  selectorTitle: {
-    id: "module.help.deviceSelectorTitle",
-  },
-})
+// const messages = defineMessages({
+//   selectorTitle: {
+//     id: "module.help.deviceSelectorTitle",
+//   },
+// })
 
 export const Help: FunctionComponent = () => {
-  const { categoryId } = useParams<{
-    categoryId?: string
-  }>()
+  // const { categoryId } = useParams<{
+  //   categoryId?: string
+  // }>()
   // const categories = useSelector(selectHelpCategoriesList)
   // const categories = []
 
@@ -72,36 +73,36 @@ export const Help: FunctionComponent = () => {
   // )
 }
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`
+// const Wrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+// `
 
-const SearchWrapper = styled.div`
-  padding: 6.4rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${({ theme }) => theme.color.white};
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.grey4};
-`
+// const SearchWrapper = styled.div`
+//   padding: 6.4rem 0;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: ${({ theme }) => theme.color.white};
+//   border-bottom: 0.1rem solid ${({ theme }) => theme.color.grey4};
+// `
 
-const ContentWrapper = styled.div`
-  flex: 1;
-  padding: ${({ theme }) => theme.space.xxl};
-  max-width: 86.2rem;
+// const ContentWrapper = styled.div`
+//   flex: 1;
+//   padding: ${({ theme }) => theme.space.xxl};
+//   max-width: 86.2rem;
 
-  & > h2 {
-    font-size: 1.8rem;
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
-    letter-spacing: 0.02em;
-    margin: 0 0 2.4rem 0;
-  }
-`
+//   & > h2 {
+//     font-size: 1.8rem;
+//     font-weight: ${({ theme }) => theme.fontWeight.bold};
+//     letter-spacing: 0.02em;
+//     margin: 0 0 2.4rem 0;
+//   }
+// `
 
-const LoaderWrapper = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
+// const LoaderWrapper = styled.div`
+//   height: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `
