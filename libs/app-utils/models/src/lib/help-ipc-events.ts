@@ -5,4 +5,6 @@
 
 export enum HelpIpcEvents {
   GetData = "help:getData",
+  DataUpdated = "help:dataUpdated",
+  Sync = "help:sync",
 }

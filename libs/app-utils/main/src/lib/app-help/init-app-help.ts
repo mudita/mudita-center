@@ -7,15 +7,15 @@ import { IpcMain } from "electron"
 import { AppHelpService } from "./app-help.service"
 import { HelpIpcEvents } from "app-utils/models"
 
-let helpService: AppHelpService | null = null
-
 export const initAppHelp = (ipcMain: IpcMain) => {
-  if (!helpService) {
-    helpService = new AppHelpService()
-    void helpService.initialize()
-  }
+  const helpService = new AppHelpService()
+  void helpService.initialize()
 
   ipcMain.handle(HelpIpcEvents.GetData, () => {
-    return helpService!.getData()
+    return helpService.getData()
+  })
+
+  ipcMain.handle(HelpIpcEvents.Sync, () => {
+    return helpService.syncWithServer()
   })
 }
