@@ -24,6 +24,7 @@ export enum IconType {
   Search = "search",
   Settings = "settings",
   Spinner = "spinner",
+  Support = "support",
 }
 
 export enum IconSize {
