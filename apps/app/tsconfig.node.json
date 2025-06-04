@@ -5,7 +5,7 @@
     "src/main/**/*",
     "src/preload/**/*",
     "../../libs/app-*/main/**/*.ts",
-    "../web/src/env.d.ts",
+    "../web/src/env.d.ts", "../../libs/help/models/src/lib/help-data.ts",
   ],
   "exclude": [
     "../../libs/app-*/main/**/*.test.ts"

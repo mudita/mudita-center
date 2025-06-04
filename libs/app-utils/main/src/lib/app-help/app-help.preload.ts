@@ -4,7 +4,7 @@
  */
 
 import { electronAPI } from "@electron-toolkit/preload"
-import { HelpData } from "./app-help.types"
+import { HelpData } from "help/models"
 import { HelpIpcEvents } from "app-utils/models"
 
 export const appHelp = {
