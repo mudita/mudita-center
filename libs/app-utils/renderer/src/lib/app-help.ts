@@ -7,4 +7,6 @@ import "types-preload"
 
 export const AppHelp = {
   getData: window.api.appHelp.getData,
+  onDataUpdated: window.api.appHelp.onDataUpdated,
+  removeDataUpdatedListener: window.api.appHelp.removeDataUpdatedListener,
 }

@@ -11,4 +11,14 @@ export const appHelp = {
   getData: (): Promise<HelpData> => {
     return electronAPI.ipcRenderer.invoke(HelpIpcEvents.GetData)
   },
+
+  onDataUpdated: (callback: (_event: unknown, data: HelpData) => void) => {
+    electronAPI.ipcRenderer.on(HelpIpcEvents.DataUpdated, callback)
+  },
+
+  removeDataUpdatedListener: (
+    callback: (_event: unknown, data: HelpData) => void
+  ) => {
+    electronAPI.ipcRenderer.removeListener(HelpIpcEvents.DataUpdated, callback)
+  },
 }
