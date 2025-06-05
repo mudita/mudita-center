@@ -24,7 +24,7 @@ export const ArticleContent: FunctionComponent<ArticleContentProps> = ({
 }) => {
   const blocks = splitContentToBlocks(article!.content as Document)
 
-  // will be added later
+  // TODO: will be added later
   const openContactSupportFlow = () => {
     console.log("Open Contact Support")
     // return dispatch(showModal(ModalStateKey.ContactSupportFlow))
@@ -32,12 +32,12 @@ export const ArticleContent: FunctionComponent<ArticleContentProps> = ({
 
   const options: Options = {
     renderNode: {
-      [BLOCKS.HEADING_1]: (node, children) => (
+      [BLOCKS.HEADING_1]: (_, children) => (
         <Heading data-testid={HelpTestId.ArticleContentBlockTitle}>
           {children}
         </Heading>
       ),
-      [BLOCKS.PARAGRAPH]: (node, children) => (
+      [BLOCKS.PARAGRAPH]: (_, children) => (
         <Paragraph data-testid={HelpTestId.ArticleContentBlockText}>
           {children}
         </Paragraph>

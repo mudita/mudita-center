@@ -4,3 +4,4 @@
  */
 
 export * from "./lib/app-state"
+export * from "./lib/dispatch"

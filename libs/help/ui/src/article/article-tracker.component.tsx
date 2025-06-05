@@ -16,13 +16,12 @@ export const ArticleTracker: FunctionComponent<ArticleTrackerProps> = ({
 }) => {
   useEffect(() => {
     if (!article) return
-    const startTime = Date.now()
+    // TODO: for analitycs, will be implemented later
+    // const startTime = Date.now()
 
     return () => {
-      const endTime = Date.now()
-      const time = Math.max(Math.round((endTime - startTime) / 1000), 1)
-
-      // for analitycs, will be implemented later
+      // const endTime = Date.now()
+      // const time = Math.max(Math.round((endTime - startTime) / 1000), 1)
       // void trackWithoutDeviceCheckRequest({
       //   e_c: TrackEventCategory.HelpFeedbackVisit,
       //   e_a: `${article.id}/${article.version}/${time}`,

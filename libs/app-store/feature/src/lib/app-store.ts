@@ -18,5 +18,3 @@ export const store = configureStore<AppState>({
     help: helpReducer,
   },
 })
-
-export type AppDispatch = typeof store.dispatch

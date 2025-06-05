@@ -14,20 +14,6 @@ import { ArticleWarning } from "./article-warning.component"
 import { ArticleContent } from "./article-content.component"
 import { ArticleFeedback } from "./article-feedback.component"
 import { ArticleExternalLinks } from "./article-external-links.component"
-// import { GenericThemeProvider } from "generic-view/theme"
-// import { ArticleHeader } from "./components/article-header"
-// import { ArticleWarning } from "./components/article-warning"
-// import { ArticleContent } from "./components/article-content"
-// import { ArticleFooter } from "./components/article-footer"
-// import { useSelector } from "react-redux"
-// import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-// import { selectCurrentArticle } from "help/store"
-// import {
-//   ArticleExternalLinks,
-//   ExternalLinksWrapper,
-// } from "./components/article-external-links"
-// import { ArticleFeedback } from "./components/article-feedback"
-// import { ArticleTracker } from "./components/article-tracker"
 
 interface ArticleProps {
   articles: Record<string, HelpArticle>
@@ -96,6 +82,3 @@ const ArticleWrapper = styled.div`
   padding: 3.2rem 3.2rem 5.2rem;
   gap: 3.2rem;
 `
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.")
-}

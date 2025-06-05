@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit"
 import { AppState } from "app-store/models"
 import { HelpData } from "help/models"
@@ -13,15 +15,18 @@ export const rateArticle = createAsyncThunk<
   string,
   { articleId: string; positive: boolean },
   { state: AppState }
->("help/rate", async ({ articleId, positive }, { getState }) => {
-  const article = getState().help.data.articles[articleId]
-  const version = article?.version ?? "unknown"
+>(
+  "help/rate",
+  async ({ articleId, positive: _positive }, { getState: _getState }) => {
+    // TODO: will be added later
+    // const article = getState().help.data.articles[articleId]
+    // const version = article?.version ?? "unknown"
 
-  // will be added later
-  // await trackWithoutDeviceCheckRequest({
-  //   e_c: TrackEventCategory.HelpFeedbackVote,
-  //   e_a: `${articleId}/${version}/${positive ? "y" : "n"}`,
-  // })
+    // await trackWithoutDeviceCheckRequest({
+    //   e_c: TrackEventCategory.HelpFeedbackVote,
+    //   e_a: `${articleId}/${version}/${positive ? "y" : "n"}`,
+    // })
 
-  return articleId
-})
+    return articleId
+  }
+)

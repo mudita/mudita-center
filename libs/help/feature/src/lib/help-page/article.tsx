@@ -11,7 +11,7 @@ import {
   selectRatedArticles,
 } from "../store/help.selectors"
 import { rateArticle } from "../store/help.actions"
-import { AppDispatch } from "app-store/feature"
+import type { AppDispatch } from "app-store/models"
 
 export const ArticlePage: FunctionComponent = () => {
   const articles = useSelector(selectHelpArticles)
