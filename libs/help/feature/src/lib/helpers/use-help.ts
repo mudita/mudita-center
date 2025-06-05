@@ -3,15 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { setHelpData } from "../store/help.actions"
 import { AppHelp } from "app-utils/renderer"
-import { HelpData, HelpSearchResult } from "help/models"
-import { cleanSearchPhrase } from "./clean-search-phrase"
+import { HelpData } from "help/models"
 import type { AppDispatch } from "app-store/models"
-
-import { helpDatabase } from "../database/help-database"
+import { setHelpData } from "../store/help.actions"
 
 export const useHelp = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -38,23 +35,4 @@ export const useHelpSyncListener = () => {
       AppHelp.removeDataUpdatedListener(listener)
     }
   }, [dispatch])
-}
-
-export const useHelpSearch = (searchPhrase?: string) => {
-  const [searchResults, setSearchResults] = useState<HelpSearchResult>()
-  const { search: cleanedSearchPhrase } = cleanSearchPhrase(searchPhrase)
-
-  useEffect(() => {
-    void (async () => {
-      if (cleanedSearchPhrase && cleanedSearchPhrase?.length > 1) {
-        const db = await helpDatabase
-        const searchResults = await db.search(cleanedSearchPhrase)
-        setSearchResults(searchResults)
-      } else {
-        setSearchResults(undefined)
-      }
-    })()
-  }, [cleanedSearchPhrase])
-
-  return searchResults
 }

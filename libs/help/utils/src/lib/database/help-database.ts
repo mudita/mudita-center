@@ -10,15 +10,12 @@ import {
   search as oramaSearch,
   updateMultiple,
 } from "@orama/orama"
-import { HelpData } from "help/models"
-import { articlesSchema } from "./help-database.schema"
+import { HelpData, articlesSchema } from "help/models"
 import stopWords from "./stopwords.json"
 
 class HelpDatabase {
   private articlesDb?: Orama<typeof articlesSchema>
   private articlesIds: string[] = []
-
-  public constructor() {}
 
   async initialize(): Promise<Omit<HelpDatabase, "initialize">> {
     if (!this.articlesDb) {

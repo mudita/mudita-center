@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router"
 import styled, { css } from "styled-components"
 import { useIntl, defineMessages } from "react-intl"
-import { useHelpSearch } from "help/feature"
+import { useHelpSearch } from "help/utils"
 import { HelpCategory, HelpTestId } from "help/models"
 import { Typography, TextInput } from "app-theme/ui"
 import { SearchResults, SearchResultsWrapper } from "./search-results.component"
@@ -45,9 +45,6 @@ export const Search: FunctionComponent<SearchProps> = ({ categories }) => {
   const searchResultsRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
   const intl = useIntl()
-
-  console.log("deferredSearchPhrase", deferredSearchPhrase)
-  console.log("Results", results)
 
   useEffect(() => {
     setActiveResultIndex(0)

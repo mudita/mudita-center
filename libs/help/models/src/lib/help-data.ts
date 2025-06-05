@@ -5,7 +5,7 @@
 
 import { Document } from "@contentful/rich-text-types"
 import { InternalTypedDocument, Results } from "@orama/orama"
-import { ArticleDocument } from "help/feature"
+import { ArticleDocument } from "./help-database.schema"
 
 export interface HelpExternalLink {
   title: string

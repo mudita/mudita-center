@@ -10,7 +10,7 @@ import { HelpCategory, HelpSearchResult, HelpTestId } from "help/models"
 import { NavLink } from "react-router"
 import { IconType } from "app-theme/models"
 import { HighlightText, Icon, Typography } from "app-theme/ui"
-import { cleanSearchPhrase } from "libs/help/feature/src/lib/helpers/clean-search-phrase"
+import { cleanSearchPhrase } from "help/utils"
 
 const messages = defineMessages({
   description: {
@@ -129,6 +129,7 @@ const ListItemLink = styled(NavLink)`
   flex-direction: row;
   padding: 1rem 1.6rem;
   transition: background 0.2s ease-in-out;
+  text-decoration: none;
 
   &.active {
     background: ${({ theme }) => theme.app.color.grey5};
