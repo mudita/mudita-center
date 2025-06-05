@@ -45,3 +45,14 @@ export const selectHelpAssets = createSelector(
   (state: AppState) => state.help.data.assets,
   (assets) => assets
 )
+
+export const selectRatedArticles = createSelector(
+  (state: AppState) => state.help.ratedArticles,
+  (ratedArticles) => ratedArticles
+)
+
+export const selectArticleRateStatus = createSelector(
+  (state: AppState) => state.help.ratedArticles,
+  (_: AppState, articleId: string) => articleId,
+  (ratedArticles, articleId) => ratedArticles.includes(articleId)
+)

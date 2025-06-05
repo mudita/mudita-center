@@ -27,10 +27,6 @@ export const Subcategory: FunctionComponent<SubcategoryProps> = ({
   subcategories,
   articles,
 }) => {
-  // const subcategory = useSelector((state: AppState) =>
-  //   selectCurrentSubcategory(state, id)
-  // )
-
   const subcategory = id ? subcategories[id] : undefined
 
   if (!subcategory || !subcategory.articles.length) {

@@ -5,7 +5,34 @@
 
 import { Article } from "help/ui"
 import { FunctionComponent } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  selectHelpArticles,
+  selectRatedArticles,
+} from "../store/help.selectors"
+import { rateArticle } from "../store/help.actions"
+import { AppDispatch } from "app-store/feature"
 
 export const ArticlePage: FunctionComponent = () => {
-  return <Article />
+  const articles = useSelector(selectHelpArticles)
+  const ratedArticles = useSelector(selectRatedArticles)
+  const dispatch = useDispatch<AppDispatch>()
+
+  const rateCurrentArticle = ({
+    articleId,
+    positive,
+  }: {
+    articleId: string
+    positive: boolean
+  }) => {
+    dispatch(rateArticle({ articleId, positive }))
+  }
+
+  return (
+    <Article
+      articles={articles}
+      ratedArticles={ratedArticles}
+      rateArticle={rateCurrentArticle}
+    />
+  )
 }

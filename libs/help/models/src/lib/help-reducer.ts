@@ -7,4 +7,5 @@ import { HelpData } from "./help-data"
 
 export interface HelpReducer {
   data: Omit<HelpData, "nextSyncToken">
+  ratedArticles: string[]
 }
