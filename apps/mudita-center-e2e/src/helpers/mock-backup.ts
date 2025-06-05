@@ -46,7 +46,7 @@ export function mockBackupResponses(path: string, shouldFail = false) {
       endpoint: "PRE_BACKUP",
       method: "POST",
       status: 202,
-      delay: 3000,
+      delay: 6000,
     },
     {
       path,
