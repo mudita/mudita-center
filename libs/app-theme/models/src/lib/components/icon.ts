@@ -25,6 +25,7 @@ export enum IconType {
   Search = "search",
   Settings = "settings",
   Spinner = "spinner",
+  SpinnerDark = "spinner-dark",
   Support = "support",
 }
 

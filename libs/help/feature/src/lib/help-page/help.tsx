@@ -10,6 +10,7 @@ import {
   selectHelp,
   selectHelpArticles,
   selectHelpAssets,
+  selectHelpCategories,
   selectHelpCategoriesList,
   selectHelpSubcategories,
 } from "../store/help.selectors"
@@ -25,12 +26,14 @@ export const HelpPage: FunctionComponent = () => {
   const helpSubcategoriesList = useSelector(selectHelpSubcategories)
   const assets = useSelector(selectHelpAssets)
   const articles = useSelector(selectHelpArticles)
+  const categories = useSelector(selectHelpCategories)
 
   console.log("Redux HelpData:", helpData)
 
   return (
     <Help
-      categories={helpCategoriesList}
+      categoriesList={helpCategoriesList}
+      categories={categories}
       assets={assets}
       subcategories={helpSubcategoriesList}
       articles={articles}

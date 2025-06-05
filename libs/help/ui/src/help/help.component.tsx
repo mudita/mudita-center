@@ -18,6 +18,8 @@ import { CategoryTabs } from "./category-tabs.components"
 import { SubcategoriesList } from "./subcategories-list.component"
 import { Navigate, useParams } from "react-router"
 import { HelpFooter } from "./help-footer.component"
+import { SpinnerLoader } from "app-theme/ui"
+import { Search } from "./search.component"
 
 const messages = defineMessages({
   selectorTitle: {
@@ -26,13 +28,15 @@ const messages = defineMessages({
 })
 
 interface HelpProps {
-  categories: HelpCategory[]
+  categoriesList: HelpCategory[]
+  categories: Record<string, HelpCategory>
   subcategories: Record<string, HelpSubcategory>
   assets: Record<string, HelpAsset>
   articles: Record<string, HelpArticle>
 }
 
 export const Help: FunctionComponent<HelpProps> = ({
+  categoriesList,
   categories,
   assets,
   subcategories,
@@ -43,18 +47,16 @@ export const Help: FunctionComponent<HelpProps> = ({
   }>()
   const intl = useIntl()
 
-  if (!categoryId && categories && categories.length > 0) {
-    return <Navigate to={`${helpPaths.index}/${categories[0].id}`} />
+  if (!categoryId && categoriesList && categoriesList.length > 0) {
+    return <Navigate to={`${helpPaths.index}/${categoriesList[0].id}`} />
   }
 
   return (
-    // <Form>
-    <Wrapper>
-      {/* <SearchWrapper>
-          <Search />
-        </SearchWrapper> */}
-      <ContentWrapper>
-        {/* {!categories ? (
+    <form>
+      <Wrapper>
+        <SearchWrapper>{<Search categories={categories} />}</SearchWrapper>
+        <ContentWrapper>
+          {!categoriesList ? (
             <LoaderWrapper>
               <SpinnerLoader dark />
             </LoaderWrapper>
@@ -63,38 +65,23 @@ export const Help: FunctionComponent<HelpProps> = ({
               <h2 data-testid={HelpTestId.CategoriesTitle}>
                 {intl.formatMessage(messages.selectorTitle)}
               </h2>
-              <CategoryTabs />
-              <SubcategoriesList />
+              <CategoryTabs categories={categoriesList} />
+              <SubcategoriesList
+                categories={categoriesList}
+                subcategories={subcategories}
+                assets={assets}
+                articles={articles}
+              />
             </>
-          )} */}
-        {!categories ? (
-          <LoaderWrapper>{/* <SpinnerLoader dark /> */}</LoaderWrapper>
-        ) : (
-          <>
-            <h2 data-testid={HelpTestId.CategoriesTitle}>
-              {intl.formatMessage(messages.selectorTitle)}
-            </h2>
-            <CategoryTabs categories={categories} />
-            <SubcategoriesList
-              categories={categories}
-              subcategories={subcategories}
-              assets={assets}
-              articles={articles}
-            />
-          </>
-        )}
-      </ContentWrapper>
-      <HelpFooter />
-    </Wrapper>
+          )}
+        </ContentWrapper>
+        <HelpFooter />
+      </Wrapper>
+    </form>
   )
   {
     /* </Form> */
   }
-  // <>
-  //   <h1>Help Page</h1>
-  //   <p>This is the help page.</p>
-  //   <HelpCategoryList />
-  // </>
 }
 
 const Wrapper = styled.div`
@@ -103,14 +90,14 @@ const Wrapper = styled.div`
   height: 100%;
 `
 
-// const SearchWrapper = styled.div`
-//   padding: 6.4rem 0;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   background-color: ${({ theme }) => theme.color.white};
-//   border-bottom: 0.1rem solid ${({ theme }) => theme.color.grey4};
-// `
+const SearchWrapper = styled.div`
+  padding: 6.4rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.app.color.white};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
+`
 
 const ContentWrapper = styled.div`
   flex: 1;

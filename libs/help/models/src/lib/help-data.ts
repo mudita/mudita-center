@@ -4,6 +4,8 @@
  */
 
 import { Document } from "@contentful/rich-text-types"
+import { InternalTypedDocument, Results } from "@orama/orama"
+import { ArticleDocument } from "help/feature"
 
 export interface HelpExternalLink {
   title: string
@@ -53,3 +55,5 @@ export interface HelpData {
   shortcuts: Record<string, HelpShortcut>
   nextSyncToken: string
 }
+
+export type HelpSearchResult = Results<InternalTypedDocument<ArticleDocument>>

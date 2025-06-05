@@ -8,6 +8,11 @@ import { AppState } from "app-store/models"
 
 export const selectHelp = (state: AppState) => state.help.data
 
+export const selectHelpCategories = createSelector(
+  (state: AppState) => state.help.data.categories,
+  (categories) => categories
+)
+
 export const selectHelpCategoriesList = createSelector(selectHelp, (help) =>
   Object.values(help.categories).sort((a, b) => a.order - b.order)
 )

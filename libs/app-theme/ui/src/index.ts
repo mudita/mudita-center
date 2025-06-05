@@ -11,6 +11,8 @@ export * from "./lib/form/text-input/text-input"
 export * from "./lib/typography/typography"
 export * from "./lib/typography/typography-styles"
 export * from "./lib/typography/bytes-formatter/bytes-formatter"
+export * from "./lib/spinner-loader/spinner-loader"
+export * from "./lib/highlight-text/highlight-text"
 
 // Legacy components
 export * from "./lib/legacy-text/text.component"
