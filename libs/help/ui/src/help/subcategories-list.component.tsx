@@ -32,9 +32,9 @@ export const SubcategoriesList: FunctionComponent<SubcategoriesListProps> = ({
     categoryId?: string
   }>()
 
-  const currentCategory =
-    categories &&
-    categories.find((category) => (categoryId ? category.id : undefined))
+  const currentCategory = categories.find(
+    (category) => category.id === categoryId
+  )
 
   if (!currentCategory) {
     return null

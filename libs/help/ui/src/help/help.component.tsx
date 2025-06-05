@@ -18,20 +18,6 @@ import { CategoryTabs } from "./category-tabs.components"
 import { SubcategoriesList } from "./subcategories-list.component"
 import { Navigate, useParams } from "react-router"
 import { HelpFooter } from "./help-footer.component"
-// import { intl } from "Core/__deprecated__/renderer/utils/intl"
-// import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
-// import { FunctionComponent } from "Core/core/types/function-component.interface"
-// import { Navigate } from "react-router"
-// import { Navigate, useParams } from "react-router"
-// import { defineMessages } from "react-intl"
-// import { GenericThemeProvider } from "generic-view/theme"
-// import { CategoryTabs } from "./components/category-tabs"
-// import { SubcategoriesList } from "./components/subcategories-list"
-// import { HelpFooter } from "./components/help-footer"
-// import { Search } from "./components/search"
-// import { selectHelpCategoriesList } from "help/store"
-// import { Form, SpinnerLoader } from "generic-view/ui"
-// import { HelpTestId } from "./test-ids"
 
 const messages = defineMessages({
   selectorTitle: {
@@ -114,6 +100,7 @@ export const Help: FunctionComponent<HelpProps> = ({
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `
 
 // const SearchWrapper = styled.div`
