@@ -74,7 +74,6 @@ describe("Backup error - cancel", () => {
     await backupModalClose.click() //click "X" button to cancel backup popup
   })
 
-  // Skip until response delay handling is implemented. Task: https://appnroll.atlassian.net/browse/CP-3609
   it("Verify Backup cancelled modal", async () => {
     const backupInProgressModalCancelled =
       ModalBackupKompaktPage.backupInProgressModalCancelled
