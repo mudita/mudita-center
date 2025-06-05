@@ -73,7 +73,7 @@ describe("Backup error - disconnect", () => {
   })
 
   // Skip until response delay handling is implemented. Task: https://appnroll.atlassian.net/browse/CP-3609
-  it.skip("Verify Backup failed modal", async () => {
+  it("Verify Backup failed modal", async () => {
     //check fail modal
     const backupFailedModal = ModalBackupKompaktPage.backupFailedModal
     await expect(backupFailedModal).toBeDisplayed()
@@ -95,7 +95,7 @@ describe("Backup error - disconnect", () => {
   })
 
   // Skip until response delay handling is implemented. Task: https://appnroll.atlassian.net/browse/CP-3609
-  it.skip("Close backup failed modal and verify if home screen is present", async () => {
+  it("Close backup failed modal and verify if home screen is present", async () => {
     const backupFailedModalCloseButton =
       ModalBackupKompaktPage.backupFailedModalCloseButton
     await backupFailedModalCloseButton.click()

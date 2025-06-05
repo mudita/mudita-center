@@ -75,7 +75,7 @@ describe("Backup error - cancel", () => {
   })
 
   // Skip until response delay handling is implemented. Task: https://appnroll.atlassian.net/browse/CP-3609
-  it.skip("Verify Backup cancelled modal", async () => {
+  it("Verify Backup cancelled modal", async () => {
     const backupInProgressModalCancelled =
       ModalBackupKompaktPage.backupInProgressModalCancelled
     await expect(backupInProgressModalCancelled).toBeDisplayed()
