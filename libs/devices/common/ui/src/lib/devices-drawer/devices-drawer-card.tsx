@@ -8,59 +8,55 @@ import styled from "styled-components"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { Icon, Typography } from "app-theme/ui"
 import { IconSize, IconType } from "app-theme/models"
-import {
-  DeviceImageColor,
-  DeviceImageSize,
-  DeviceImageType,
-} from "devices/common/models"
+import { DeviceImageSize, DeviceMetadata } from "devices/common/models"
 import { DeviceImage } from "../device-image/device-image"
 
 const messages = defineMessages({
   serialNumberLabel: { id: "general.components.deviceCard.serialNumberLabel" },
   recoveryModeLabel: { id: "general.components.deviceCard.recoveryModeLabel" },
   activeLabel: { id: "general.components.deviceCard.activeLabel" },
+  lockedLabel: { id: "general.components.deviceCard.lockedLabel" },
 })
 
-export interface DrawerCardDevice {
-  name: string
-  device: {
-    type: DeviceImageType
-    color?: DeviceImageColor
-  }
-  serialNumber?: string
-  recoveryMode?: boolean
-}
-
 export interface DrawerItemProps
-  extends DrawerCardDevice,
+  extends Omit<DeviceMetadata, "id">,
     ComponentProps<typeof DevicesDrawerCardWrapper> {
   active?: boolean
   onClick?: VoidFunction
 }
 
 export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
-  device,
+  image,
   name,
   serialNumber,
   active,
   recoveryMode,
   onClick,
+  locked,
   ...rest
 }) => {
   return (
-    <DevicesDrawerCardWrapper onClick={active ? undefined : onClick} {...rest}>
+    <DevicesDrawerCardWrapper
+      onClick={active && !locked ? undefined : onClick}
+      {...rest}
+    >
       <DeviceImage
-        type={device.type}
+        type={image.type}
         size={DeviceImageSize.Small}
-        color={device.color}
+        color={image.color}
       />
       <Info>
         <Typography.H4 as={"p"}>
           {name}{" "}
-          {active && (
+          {!locked && active && (
             <ActiveIndicator>
               {formatMessage(messages.activeLabel)}
             </ActiveIndicator>
+          )}
+          {locked && (
+            <LockedIndicator>
+              {formatMessage(messages.lockedLabel)}
+            </LockedIndicator>
           )}
         </Typography.H4>
         {Boolean(serialNumber) && (
@@ -83,6 +79,10 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
 }
 
 const ActiveIndicator = styled.span`
+  text-transform: uppercase;
+`
+
+const LockedIndicator = styled.span`
   text-transform: uppercase;
 `
 
