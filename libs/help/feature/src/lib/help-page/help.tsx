@@ -6,7 +6,13 @@
 import { FunctionComponent } from "react"
 import { Help } from "help/ui"
 import { useSelector } from "react-redux"
-import { selectHelpCategoriesList } from "../store/help.selectors"
+import {
+  selectHelp,
+  selectHelpArticles,
+  selectHelpAssets,
+  selectHelpCategoriesList,
+  selectHelpSubcategories,
+} from "../store/help.selectors"
 import { useHelp, useHelpSyncListener } from "../helpers/use-help"
 
 export const HelpPage: FunctionComponent = () => {
@@ -14,9 +20,20 @@ export const HelpPage: FunctionComponent = () => {
   useHelp()
   useHelpSyncListener()
 
-  const helpData = useSelector(selectHelpCategoriesList)
+  const helpData = useSelector(selectHelp)
+  const helpCategoriesList = useSelector(selectHelpCategoriesList)
+  const helpSubcategoriesList = useSelector(selectHelpSubcategories)
+  const assets = useSelector(selectHelpAssets)
+  const articles = useSelector(selectHelpArticles)
 
   console.log("Redux HelpData:", helpData)
 
-  return <Help />
+  return (
+    <Help
+      categories={helpCategoriesList}
+      assets={assets}
+      subcategories={helpSubcategoriesList}
+      articles={articles}
+    />
+  )
 }

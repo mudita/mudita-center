@@ -5,18 +5,18 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-import { useSelector } from "react-redux"
 import { NavLink } from "react-router"
-import { helpPaths } from "help/routes"
-import { selectHelpArticles } from "help/feature"
-import { HelpTestId } from "help/models"
+import { HelpArticle, HelpTestId, helpPaths } from "help/models"
 
 interface Props {
+  articles: Record<string, HelpArticle>
   articleIds: string[]
 }
 
-export const ArticlesList: FunctionComponent<Props> = ({ articleIds = [] }) => {
-  const articles = useSelector(selectHelpArticles)
+export const ArticlesList: FunctionComponent<Props> = ({
+  articles,
+  articleIds = [],
+}) => {
   return (
     <Wrapper data-testid={HelpTestId.SubcategoryArticlesList}>
       {articleIds.map((id) => {

@@ -6,18 +6,21 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { AppState } from "app-store/models"
 
-export const selectHelp = (state: AppState) => state.help
+export const selectHelp = (state: AppState) => state.help.data
 
 export const selectHelpCategoriesList = createSelector(selectHelp, (help) =>
-  Object.values(help.data.categories).sort((a, b) => a.order - b.order)
+  Object.values(help.categories).sort((a, b) => a.order - b.order)
 )
 
 export const selectCurrentCategory = createSelector(
   (state: AppState) => state.help.data.categories,
   (_: AppState, categoryId?: string) => categoryId,
-  (categories, categoryId) => {
-    return categoryId ? categories[categoryId] : undefined
-  }
+  (categories, categoryId) => (categoryId ? categories[categoryId] : undefined)
+)
+
+export const selectHelpSubcategories = createSelector(
+  selectHelp,
+  (help) => help.subcategories
 )
 
 export const selectCurrentSubcategory = createSelector(
@@ -29,7 +32,7 @@ export const selectCurrentSubcategory = createSelector(
 
 export const selectHelpArticles = createSelector(
   selectHelp,
-  (help) => help.data.articles
+  (help) => help.articles
 )
 
 export const selectCurrentArticle = createSelector(

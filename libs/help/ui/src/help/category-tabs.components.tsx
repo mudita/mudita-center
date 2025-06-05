@@ -4,16 +4,17 @@
  */
 
 import { FunctionComponent } from "react"
-import { useSelector } from "react-redux"
 import { NavLink } from "react-router"
 import styled from "styled-components"
-import { selectHelpCategoriesList } from "help/feature"
-import { helpPaths } from "help/routes"
-import { HelpTestId } from "help/models"
+import { HelpCategory, HelpTestId, helpPaths } from "help/models"
 
-export const CategoryTabs: FunctionComponent = () => {
-  const categories = useSelector(selectHelpCategoriesList)
+interface CategoryTabsProps {
+  categories: HelpCategory[]
+}
 
+export const CategoryTabs: FunctionComponent<CategoryTabsProps> = ({
+  categories,
+}) => {
   return (
     <Wrapper data-testid={HelpTestId.CategoriesList}>
       {categories?.map((category) => {

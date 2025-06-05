@@ -5,14 +5,18 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-import { useSelector } from "react-redux"
-import { selectHelpCategoriesList } from "help/feature"
-import { HelpTestId } from "help/models"
+import {
+  HelpArticle,
+  HelpAsset,
+  HelpCategory,
+  HelpSubcategory,
+  HelpTestId,
+  helpPaths,
+} from "help/models"
 import { defineMessages, useIntl } from "react-intl"
 import { CategoryTabs } from "./category-tabs.components"
 import { SubcategoriesList } from "./subcategories-list.component"
 import { Navigate, useParams } from "react-router"
-import { helpPaths } from "help/routes"
 import { HelpFooter } from "./help-footer.component"
 // import { intl } from "Core/__deprecated__/renderer/utils/intl"
 // import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
@@ -35,11 +39,22 @@ const messages = defineMessages({
   },
 })
 
-export const Help: FunctionComponent = () => {
+interface HelpProps {
+  categories: HelpCategory[]
+  subcategories: Record<string, HelpSubcategory>
+  assets: Record<string, HelpAsset>
+  articles: Record<string, HelpArticle>
+}
+
+export const Help: FunctionComponent<HelpProps> = ({
+  categories,
+  assets,
+  subcategories,
+  articles,
+}) => {
   const { categoryId } = useParams<{
     categoryId?: string
   }>()
-  const categories = useSelector(selectHelpCategoriesList)
   const intl = useIntl()
 
   if (!categoryId && categories && categories.length > 0) {
@@ -73,8 +88,13 @@ export const Help: FunctionComponent = () => {
             <h2 data-testid={HelpTestId.CategoriesTitle}>
               {intl.formatMessage(messages.selectorTitle)}
             </h2>
-            <CategoryTabs />
-            <SubcategoriesList />
+            <CategoryTabs categories={categories} />
+            <SubcategoriesList
+              categories={categories}
+              subcategories={subcategories}
+              assets={assets}
+              articles={articles}
+            />
           </>
         )}
       </ContentWrapper>

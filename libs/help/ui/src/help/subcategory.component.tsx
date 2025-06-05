@@ -4,23 +4,34 @@
  */
 
 import { FunctionComponent } from "react"
-import { AppState } from "app-store/models"
 import styled from "styled-components"
-import { useSelector } from "react-redux"
-import { selectCurrentSubcategory, selectHelpAssets } from "help/feature"
 import { Typography } from "app-theme/ui"
-import { HelpTestId } from "help/models"
+import {
+  HelpArticle,
+  HelpAsset,
+  HelpSubcategory,
+  HelpTestId,
+} from "help/models"
 import { ArticlesList } from "./articles-list.component"
 
-interface Props {
+interface SubcategoryProps {
   id: string
+  assets: Record<string, HelpAsset>
+  subcategories: Record<string, HelpSubcategory>
+  articles: Record<string, HelpArticle>
 }
 
-export const Subcategory: FunctionComponent<Props> = ({ id }) => {
-  const subcategory = useSelector((state: AppState) =>
-    selectCurrentSubcategory(state, id)
-  )
-  const assets = useSelector(selectHelpAssets)
+export const Subcategory: FunctionComponent<SubcategoryProps> = ({
+  id,
+  assets,
+  subcategories,
+  articles,
+}) => {
+  // const subcategory = useSelector((state: AppState) =>
+  //   selectCurrentSubcategory(state, id)
+  // )
+
+  const subcategory = id ? subcategories[id] : undefined
 
   if (!subcategory || !subcategory.articles.length) {
     return null
@@ -41,7 +52,7 @@ export const Subcategory: FunctionComponent<Props> = ({ id }) => {
         )}
         {subcategory.name}
       </Title>
-      <ArticlesList articleIds={subcategory.articles} />
+      <ArticlesList articles={articles} articleIds={subcategory.articles} />
     </Wrapper>
   )
 }

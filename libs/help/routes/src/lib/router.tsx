@@ -9,7 +9,7 @@ import { IconType } from "app-theme/models"
 import { formatMessage } from "app-localize/utils"
 import { ArticlePage, HelpPage } from "help/feature"
 import { HelpLayout, messages } from "./layout"
-import { helpPaths } from "./paths"
+import { helpPaths } from "help/models"
 import { MenuIndex } from "app-routing/models"
 
 export const useHelpRouter = () => {

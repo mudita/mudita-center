@@ -4,29 +4,45 @@
  */
 
 import { FunctionComponent } from "react"
-import { AppState } from "app-store/models"
 import styled from "styled-components"
 import { useParams } from "react-router"
-import { useSelector } from "react-redux"
-import { selectCurrentCategory } from "help/feature"
-import { HelpTestId } from "help/models"
+import {
+  HelpArticle,
+  HelpAsset,
+  HelpCategory,
+  HelpSubcategory,
+  HelpTestId,
+} from "help/models"
 import { Subcategory } from "./subcategory.component"
 
-export const SubcategoriesList: FunctionComponent = () => {
+interface SubcategoriesListProps {
+  categories: HelpCategory[]
+  subcategories: Record<string, HelpSubcategory>
+  assets: Record<string, HelpAsset>
+  articles: Record<string, HelpArticle>
+}
+
+export const SubcategoriesList: FunctionComponent<SubcategoriesListProps> = ({
+  categories,
+  assets,
+  subcategories,
+  articles,
+}) => {
   const { categoryId } = useParams<{
     categoryId?: string
   }>()
-  const category = useSelector((state: AppState) =>
-    selectCurrentCategory(state, categoryId)
-  )
 
-  if (!category) {
+  const currentCategory =
+    categories &&
+    categories.find((category) => (categoryId ? category.id : undefined))
+
+  if (!currentCategory) {
     return null
   }
 
   const columns = [
-    category.subcategoriesLeftColumn,
-    category.subcategoriesRightColumn,
+    currentCategory.subcategoriesLeftColumn,
+    currentCategory.subcategoriesRightColumn,
   ]
 
   return (
@@ -34,7 +50,15 @@ export const SubcategoriesList: FunctionComponent = () => {
       {columns.map((column, index) => {
         return (
           <Column key={index}>
-            {column?.map((id) => <Subcategory key={id} id={id} />)}
+            {column?.map((id) => (
+              <Subcategory
+                key={id}
+                id={id}
+                assets={assets}
+                subcategories={subcategories}
+                articles={articles}
+              />
+            ))}
           </Column>
         )
       })}
