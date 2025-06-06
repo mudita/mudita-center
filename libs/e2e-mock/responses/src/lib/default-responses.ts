@@ -42,6 +42,7 @@ enum ResponseStatus {
 
 export type ApiResponseWithConfig = ApiResponse<unknown> & {
   match?: MatchConfig
+  delay?: number
 }
 
 export type ApiResponsesWithConfigArray = ApiResponseWithConfig[]
