@@ -19,6 +19,7 @@ import {
 import { APIEndpointType, APIMethodsType } from "device/models"
 import { ApiResponse } from "Core/device/types/mudita-os"
 import { compareObjectsWithWildcard } from "./compare-objects-with-wildcard"
+import { delay } from "shared/utils"
 
 const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
   manufacturer: "Mudita",
@@ -61,6 +62,7 @@ class MockDescriptor {
     path,
     status,
     match,
+    delay,
   }: AddKompaktResponse) {
     const currentResponses =
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method] ?? []
@@ -82,6 +84,7 @@ class MockDescriptor {
             status,
             body,
             match,
+            delay,
           },
         ],
       },
@@ -121,6 +124,7 @@ class MockDescriptor {
     path,
     status,
     match,
+    delay,
   }: AddKompaktResponse) {
     const currentResponses =
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method] ?? []
@@ -142,18 +146,19 @@ class MockDescriptor {
           status,
           body,
           match,
+          delay,
         },
       ],
     })
   }
 
-  public getResponse(
+  public async getResponse(
     path: string,
     endpoint: APIEndpointType,
     method: APIMethodsType,
     body: Record<string, unknown> | undefined
-  ): ApiResponse<unknown> | undefined {
-    const onceResponse = this.getPerDeviceOnceResponse(
+  ): Promise<ApiResponse<unknown> | undefined> {
+    const onceResponse = await this.getPerDeviceOnceResponse(
       path,
       endpoint,
       method,
@@ -162,13 +167,20 @@ class MockDescriptor {
     if (onceResponse) {
       return onceResponse
     }
-
-    const response = this.getPerDeviceResponse(path, endpoint, method, body)
+    const response = await this.getPerDeviceResponse(
+      path,
+      endpoint,
+      method,
+      body
+    )
     if (response) {
       return response
     }
-
-    const defaultResponse = this.getDefaultResponse(endpoint, method, body)
+    const defaultResponse = await this.getDefaultResponse(
+      endpoint,
+      method,
+      body
+    )
 
     return defaultResponse
   }
@@ -197,7 +209,7 @@ class MockDescriptor {
     }
   }
 
-  private findResponse(
+  private async findResponse(
     responses: ApiResponsesWithConfigArray,
     body: Record<string, unknown> | undefined
   ) {
@@ -207,7 +219,9 @@ class MockDescriptor {
     )
     if (matchIndex > -1) {
       const response = responses[matchIndex]
-
+      if (response.delay) {
+        await delay(response.delay)
+      }
       return {
         response,
         index: matchIndex,
@@ -218,7 +232,9 @@ class MockDescriptor {
 
     if (index > -1) {
       const response = responses[index]
-
+      if (response.delay) {
+        await delay(response.delay)
+      }
       return {
         response,
         index: index,
@@ -228,17 +244,23 @@ class MockDescriptor {
     return
   }
 
-  private getPerDeviceOnceResponse(
+  private async getPerDeviceOnceResponse(
     path: string,
     endpoint: APIEndpointType,
     method: APIMethodsType,
     body: Record<string, unknown> | undefined
-  ): ApiResponse<unknown> | undefined {
+  ): Promise<ApiResponse<unknown> | undefined> {
     const perDeviceOnceResponses =
       this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method]
     if (perDeviceOnceResponses !== undefined) {
-      const foundResponse = this.findResponse(perDeviceOnceResponses, body)
+      const foundResponse = await this.findResponse(
+        perDeviceOnceResponses,
+        body
+      )
       if (foundResponse) {
+        if (foundResponse.response.delay) {
+          delay(foundResponse.response.delay)
+        }
         pullAt(perDeviceOnceResponses, [foundResponse.index])
         this.setResponseOnce({
           path,
@@ -252,16 +274,16 @@ class MockDescriptor {
     return undefined
   }
 
-  private getPerDeviceResponse(
+  private async getPerDeviceResponse(
     path: string,
     endpoint: APIEndpointType,
     method: APIMethodsType,
     body: Record<string, unknown> | undefined
-  ): ApiResponse<unknown> | undefined {
+  ): Promise<ApiResponse<unknown> | undefined> {
     const perDeviceResponses =
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
     if (perDeviceResponses !== undefined) {
-      const foundResponse = this.findResponse(perDeviceResponses, body)
+      const foundResponse = await this.findResponse(perDeviceResponses, body)
 
       if (foundResponse) {
         return this.mapResponseWithoutMatch(foundResponse.response)
@@ -270,14 +292,14 @@ class MockDescriptor {
     return undefined
   }
 
-  private getDefaultResponse(
+  private async getDefaultResponse(
     endpoint: APIEndpointType,
     method: APIMethodsType,
     body: Record<string, unknown> | undefined
-  ): ApiResponse<unknown> | undefined {
+  ): Promise<ApiResponse<unknown> | undefined> {
     const perDeviceResponses = DEFAULT_RESPONSES[endpoint]?.[method]
     if (perDeviceResponses !== undefined) {
-      const foundResponse = this.findResponse(perDeviceResponses, body)
+      const foundResponse = await this.findResponse(perDeviceResponses, body)
       if (foundResponse) {
         return this.mapResponseWithoutMatch(foundResponse.response)
       }
@@ -287,6 +309,7 @@ class MockDescriptor {
 
   private mapResponseWithoutMatch({
     match,
+    delay,
     ...response
   }: ApiResponseWithConfig): ApiResponse<unknown> {
     return response

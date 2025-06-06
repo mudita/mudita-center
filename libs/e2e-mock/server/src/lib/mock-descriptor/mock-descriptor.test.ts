@@ -56,7 +56,7 @@ describe("MockDescriptor", () => {
   })
 
   describe("addResponse and getResponse", () => {
-    test("adds and retrieves a response for a device", () => {
+    test("adds and retrieves a response for a device", async () => {
       const response: AddKompaktResponse = {
         path,
         endpoint,
@@ -66,11 +66,16 @@ describe("MockDescriptor", () => {
       }
       mockDescriptor.addResponses([response])
 
-      const result = mockDescriptor.getResponse(path, endpoint, method, {})
+      const result = await mockDescriptor.getResponse(
+        path,
+        endpoint,
+        method,
+        {}
+      )
       expect(result).toEqual({ status: 200, body: { key: "value" } })
     })
 
-    test("adds and retrieves a response with matching data", () => {
+    test("adds and retrieves a response with matching data", async () => {
       const response: AddKompaktResponse = {
         path,
         endpoint,
@@ -81,13 +86,13 @@ describe("MockDescriptor", () => {
       }
       mockDescriptor.addResponses([response])
 
-      const result = mockDescriptor.getResponse(path, endpoint, method, {
+      const result = await mockDescriptor.getResponse(path, endpoint, method, {
         key: "value",
       })
       expect(result).toEqual({ status: 200, body: { key: "value" } })
     })
 
-    test("adds a new response and filters out previous one without match", () => {
+    test("adds a new response and filters out previous one without match", async () => {
       const firstResponse: AddKompaktResponse = {
         path,
         endpoint,
@@ -108,13 +113,13 @@ describe("MockDescriptor", () => {
       }
       mockDescriptor.addResponses([secondResponse])
 
-      const result = mockDescriptor.getResponse(path, endpoint, method, {
+      const result = await mockDescriptor.getResponse(path, endpoint, method, {
         key: "secondValue",
       })
       expect(result).toEqual({ status: 200, body: { key: "secondValue" } })
     })
 
-    test("does not retrieve a response if match does not pass", () => {
+    test("does not retrieve a response if match does not pass", async () => {
       const response: AddKompaktResponse = {
         path,
         endpoint,
@@ -125,13 +130,13 @@ describe("MockDescriptor", () => {
       }
       mockDescriptor.addResponses([response])
 
-      const result = mockDescriptor.getResponse(path, endpoint, method, {
+      const result = await mockDescriptor.getResponse(path, endpoint, method, {
         key: "otherValue",
       })
       expect(result).toEqual(DEFAULT_RESPONSES[endpoint]?.[method]?.[0])
     })
 
-    test("includes the response without match if it's the last one added", () => {
+    test("includes the response without match if it's the last one added", async () => {
       const firstResponse: AddKompaktResponse = {
         path,
         endpoint,
@@ -152,20 +157,25 @@ describe("MockDescriptor", () => {
       }
       mockDescriptor.addResponses([secondResponse])
 
-      const result = mockDescriptor.getResponse(path, endpoint, method, {
+      const result = await mockDescriptor.getResponse(path, endpoint, method, {
         key: "secondValue",
       })
       expect(result).toEqual({ status: 200, body: { key: "secondValue" } })
     })
 
-    test("returns default response if no custom response exists", () => {
-      const result = mockDescriptor.getResponse(path, endpoint, method, {})
+    test("returns default response if no custom response exists", async () => {
+      const result = await mockDescriptor.getResponse(
+        path,
+        endpoint,
+        method,
+        {}
+      )
       expect(result).toEqual(DEFAULT_RESPONSES[endpoint]?.[method]?.[0])
     })
   })
 
-  describe("ddResponseOnce and getResponse", () => {
-    test("adds and retrieves a one-time response with matching data", () => {
+  describe("addResponseOnce and getResponse", () => {
+    test("adds and retrieves a one-time response with matching data", async () => {
       const response: AddKompaktResponse = {
         path,
         endpoint,
@@ -176,21 +186,31 @@ describe("MockDescriptor", () => {
       }
       mockDescriptor.addResponseOnce(response)
 
-      const firstResult = mockDescriptor.getResponse(path, endpoint, method, {
-        key: "value",
-      })
+      const firstResult = await mockDescriptor.getResponse(
+        path,
+        endpoint,
+        method,
+        {
+          key: "value",
+        }
+      )
       expect(firstResult).toEqual({
         status: 200,
         body: { once: true, key: "value" },
       })
 
-      const secondResult = mockDescriptor.getResponse(path, endpoint, method, {
-        key: "value",
-      })
+      const secondResult = await mockDescriptor.getResponse(
+        path,
+        endpoint,
+        method,
+        {
+          key: "value",
+        }
+      )
       expect(secondResult).toEqual(DEFAULT_RESPONSES[endpoint]?.[method]?.[0])
     })
 
-    test("does not retrieve a one-time response if match does not pass", () => {
+    test("does not retrieve a one-time response if match does not pass", async () => {
       const response: AddKompaktResponse = {
         path,
         endpoint,
@@ -201,7 +221,7 @@ describe("MockDescriptor", () => {
       }
       mockDescriptor.addResponseOnce(response)
 
-      const result = mockDescriptor.getResponse(path, endpoint, method, {
+      const result = await mockDescriptor.getResponse(path, endpoint, method, {
         key: "otherValue",
       })
       expect(result).toEqual(DEFAULT_RESPONSES[endpoint]?.[method]?.[0])
@@ -209,7 +229,7 @@ describe("MockDescriptor", () => {
   })
 
   describe("addResponseOnce", () => {
-    test("adds a one-time response and removes it after retrieval", () => {
+    test("adds a one-time response and removes it after retrieval", async () => {
       const response: AddKompaktResponse = {
         path,
         endpoint,
@@ -219,10 +239,15 @@ describe("MockDescriptor", () => {
       }
       mockDescriptor.addResponseOnce(response)
 
-      const firstResult = mockDescriptor.getResponse(path, endpoint, method, {})
+      const firstResult = await mockDescriptor.getResponse(
+        path,
+        endpoint,
+        method,
+        {}
+      )
       expect(firstResult).toEqual({ status: 200, body: { once: true } })
 
-      const secondResult = mockDescriptor.getResponse(
+      const secondResult = await mockDescriptor.getResponse(
         path,
         endpoint,
         method,
@@ -233,8 +258,8 @@ describe("MockDescriptor", () => {
   })
 
   describe("getResponse fallback to default", () => {
-    test("returns default response if no per-device response exists", () => {
-      const result = mockDescriptor.getResponse(
+    test("returns default response if no per-device response exists", async () => {
+      const result = await mockDescriptor.getResponse(
         "non-existing-path",
         endpoint,
         method,
@@ -245,7 +270,7 @@ describe("MockDescriptor", () => {
   })
 
   describe("match handling", () => {
-    test("filters out previous response when both match objects are undefined", () => {
+    test("filters out previous response when both match objects are undefined", async () => {
       const firstResponse: AddKompaktResponse = {
         path,
         endpoint,
@@ -266,7 +291,7 @@ describe("MockDescriptor", () => {
       }
       mockDescriptor.addResponses([secondResponse])
 
-      const filteredResponses = mockDescriptor.getResponse(
+      const filteredResponses = await mockDescriptor.getResponse(
         path,
         endpoint,
         method,
@@ -278,7 +303,7 @@ describe("MockDescriptor", () => {
       })
     })
 
-    test("removes previous response when both match objects are identical", () => {
+    test("removes previous response when both match objects are identical", async () => {
       const firstResponse: AddKompaktResponse = {
         path,
         endpoint,
@@ -299,7 +324,7 @@ describe("MockDescriptor", () => {
       }
       mockDescriptor.addResponses([secondResponse])
 
-      const filteredResponses = mockDescriptor.getResponse(
+      const filteredResponses = await mockDescriptor.getResponse(
         path,
         endpoint,
         method,
@@ -310,7 +335,7 @@ describe("MockDescriptor", () => {
   })
 
   describe("compareObjectsWithWildcard", () => {
-    test("returns default response when no exact match is found", () => {
+    test("returns default response when no exact match is found", async () => {
       const response1: AddKompaktResponse = {
         path,
         endpoint,
@@ -322,7 +347,7 @@ describe("MockDescriptor", () => {
 
       mockDescriptor.addResponses([response1])
 
-      const result = mockDescriptor.getResponse(path, endpoint, method, {
+      const result = await mockDescriptor.getResponse(path, endpoint, method, {
         id: "999",
         type: "admin",
       })
@@ -330,7 +355,7 @@ describe("MockDescriptor", () => {
       expect(result).toEqual(DEFAULT_RESPONSES[endpoint]?.[method]?.[0])
     })
 
-    test("returns response with __ANY__ is available", () => {
+    test("returns response with __ANY__ is available", async () => {
       const response1: AddKompaktResponse = {
         path,
         endpoint,
@@ -360,7 +385,7 @@ describe("MockDescriptor", () => {
 
       mockDescriptor.addResponses([response1, response2, response3])
 
-      const result = mockDescriptor.getResponse(path, endpoint, method, {
+      const result = await mockDescriptor.getResponse(path, endpoint, method, {
         id: "999",
         type: "admin",
       })
@@ -371,7 +396,7 @@ describe("MockDescriptor", () => {
       })
     })
 
-    test("returns exact match response when found first even when __ANY__ is available", () => {
+    test("returns exact match response when found first even when __ANY__ is available", async () => {
       const response1: AddKompaktResponse = {
         path,
         endpoint,
@@ -401,7 +426,7 @@ describe("MockDescriptor", () => {
 
       mockDescriptor.addResponses([response1, response2, response3])
 
-      const result = mockDescriptor.getResponse(path, endpoint, method, {
+      const result = await mockDescriptor.getResponse(path, endpoint, method, {
         id: "999",
         type: "admin",
       })
@@ -409,6 +434,37 @@ describe("MockDescriptor", () => {
       expect(result).toEqual({
         status: 200,
         body: { id: "999", type: "admin" },
+      })
+    })
+  })
+
+  describe("delayedResponseTest", () => {
+    test("returns delayed response", async () => {
+      const delay = 2000
+      const response1: AddKompaktResponse = {
+        path,
+        endpoint,
+        method,
+        status: 200,
+        body: { id: "666", type: "admin" },
+        match: { expected: { id: "666", type: "admin" } },
+        delay,
+      }
+
+      mockDescriptor.addResponses([response1])
+      const start = Date.now()
+      const result = await mockDescriptor.getResponse(
+        response1.path,
+        response1.endpoint,
+        response1.method,
+        response1.body
+      )
+      const end = Date.now()
+      const duration = end - start
+      expect(duration).toBeGreaterThanOrEqual(delay)
+      expect(result).toEqual({
+        status: response1.status,
+        body: response1.body,
       })
     })
   })
