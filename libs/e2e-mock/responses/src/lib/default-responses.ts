@@ -230,11 +230,11 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
             {
               path: "/storage/emulated/0",
               totalSpaceBytes: 32_000_000_000,
-              usedSpaceBytes: 9_497_676_627,
-              freeSpaceBytes: 22_502_323_373,
+              usedSpaceBytes: 12_016_958_053,
+              freeSpaceBytes: 19_983_041_947,
               totalSpaceString: "32 GB",
-              usedSpaceString: "9,5 GB",
-              freeSpaceString: "22,5 GB",
+              usedSpaceString: "11,91 GB",
+              freeSpaceString: "20,9 GB",
               categoriesSpaceInformation: {
                 imageFiles: {
                   storageCategory: "imageFiles",
@@ -275,12 +275,12 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           storageInformation: [
             {
               path: "/storage/9EBD-E8C5",
-              totalSpaceBytes: 125064839168,
-              usedSpaceBytes: 5690831667,
-              freeSpaceBytes: 119374007501,
+              totalSpaceBytes: 125_064_839_168,
+              usedSpaceBytes: 8_348_607_857,
+              freeSpaceBytes: 116_716_231_311,
               totalSpaceString: "125,1 GB",
-              usedSpaceString: "5,3 GB",
-              freeSpaceString: "119,8 GB",
+              usedSpaceString: "8,1 GB",
+              freeSpaceString: "117,0 GB",
               categoriesSpaceInformation: {
                 imageFiles: {
                   storageCategory: "imageFiles",
