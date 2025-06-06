@@ -46,7 +46,7 @@ export const generateAppInstallaion: ComponentGenerator<{
     [`${key}${id}startAppInstallationModalTitleText`]: {
       component: "format-message",
       config: {
-        messageTemplate: "App installation",
+        messageTemplate: "Continue install of third party app?",
       },
     },
     [`${key}${id}startAppInstallationModalContent`]: {
@@ -71,7 +71,7 @@ export const generateAppInstallaion: ComponentGenerator<{
       },
       config: {
         messageTemplate:
-          "Warning! Installing {fileName} may void your device's warranty. Continuing the install means you understand accept this risk.",
+          "We can’t guarantee that Kompakt or the third party app will work correctly if you continue the install.",
       },
       dataProvider: {
         source: "form-fields",
