@@ -34,6 +34,6 @@ export const ApiDeviceEndpoints = {
       response: MenuConfigValidator,
     },
   },
-} as const satisfies EndpointsDefinition
+} satisfies EndpointsDefinition
 
 export type ApiDeviceEndpoint = keyof typeof ApiDeviceEndpoints

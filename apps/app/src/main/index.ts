@@ -133,3 +133,9 @@ app.on("window-all-closed", () => {
     app.quit()
   }
 })
+
+app.on("before-quit", () => {
+  if (process.env.NODE_ENV === "development") {
+    app.quit()
+  }
+})
