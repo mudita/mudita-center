@@ -29,6 +29,9 @@ export const initSerialPort = (ipcMain: IpcMain, webContents: WebContents) => {
     serialport.onDevicesChange((data) => {
       webContents.send(SerialPortIpcEvents.DevicesChanged, data)
     })
+    ipcMain.handle(SerialPortIpcEvents.GetCurrentDevices, () => {
+      return (serialport as AppSerialPort).getCurrentDevices()
+    })
     ipcMain.removeHandler(SerialPortIpcEvents.Request)
     ipcMain.handle(
       SerialPortIpcEvents.Request,

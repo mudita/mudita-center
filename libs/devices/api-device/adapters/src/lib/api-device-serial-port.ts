@@ -20,7 +20,10 @@ import {
   ApiDeviceResponseBody,
 } from "devices/api-device/models"
 
-type Response<E extends ApiDeviceEndpoint, M extends ApiDeviceMethod<E>> =
+export type Response<
+  E extends ApiDeviceEndpoint,
+  M extends ApiDeviceMethod<E>,
+> =
   | {
       ok: true
       endpoint: E
@@ -36,7 +39,9 @@ type Response<E extends ApiDeviceEndpoint, M extends ApiDeviceMethod<E>> =
     }
 
 export class ApiDeviceSerialPort {
-  static isCompatible(device?: SerialPortDeviceInfo): device is ApiDevice {
+  static isCompatible(
+    device?: Pick<SerialPortDeviceInfo, "deviceType"> | null
+  ): device is ApiDevice {
     if (!device) {
       return true
     }
