@@ -13,6 +13,11 @@ describe("About screen", () => {
 
     const aboutTab = await SettingsPage.aboutTab
     await aboutTab.click()
+
+    await browser.waitUntil(async () => {
+      const activeMenuItem = await SettingsPage.activeMenuItem
+      return (await activeMenuItem.getText()) === "About"
+    })
   })
 
   it("should display 'About' tab item as active", async () => {
