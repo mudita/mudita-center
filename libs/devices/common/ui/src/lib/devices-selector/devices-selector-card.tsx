@@ -4,10 +4,9 @@
  */
 
 import { ComponentProps, FunctionComponent } from "react"
-import { DeviceImageSize } from "devices/common/models"
+import { DeviceImageSize, DeviceMetadata } from "devices/common/models"
 import {
   DevicesDrawerCardWrapper,
-  DrawerCardDevice,
   Info,
   RecoveryLabel,
 } from "../devices-drawer/devices-drawer-card"
@@ -23,13 +22,13 @@ const messages = defineMessages({
 })
 
 export interface SelectorItemProps
-  extends DrawerCardDevice,
+  extends Omit<DeviceMetadata, "id">,
     ComponentProps<typeof Wrapper> {
   onClick?: VoidFunction
 }
 
 export const DevicesSelectorCard: FunctionComponent<SelectorItemProps> = ({
-  device,
+  image,
   name,
   serialNumber,
   recoveryMode,
@@ -38,11 +37,7 @@ export const DevicesSelectorCard: FunctionComponent<SelectorItemProps> = ({
 }) => {
   return (
     <Wrapper onClick={onClick} {...rest}>
-      <Image
-        type={device.type}
-        size={DeviceImageSize.Big}
-        color={device.color}
-      />
+      <Image type={image.type} size={DeviceImageSize.Big} color={image.color} />
       <Info>
         <Typography.H4 as={"p"} textAlign={TypographyAlign.Center}>
           {name}

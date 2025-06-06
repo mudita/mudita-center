@@ -7,31 +7,21 @@ import { FunctionComponent, PropsWithChildren } from "react"
 import styled, { css } from "styled-components"
 import { defineMessages } from "app-localize/utils"
 import { IconSize, IconType, ModalLayer } from "app-theme/models"
-import { DevicesDrawerCard, DrawerCardDevice } from "./devices-drawer-card"
 import { IconButton, Typography } from "app-theme/ui"
 
 const messages = defineMessages({
   title: { id: "general.components.devicesDrawer.title" },
 })
 
-interface Device extends DrawerCardDevice {
-  id: string
-}
-
 interface Props extends PropsWithChildren {
   opened?: boolean
-  devices: Device[]
-  activeDeviceId?: Device["id"]
   onClose?: VoidFunction
-  onSelect?: (id: Device["id"]) => void
 }
 
 export const DevicesDrawer: FunctionComponent<Props> = ({
   opened,
-  devices,
-  activeDeviceId,
   onClose,
-  onSelect,
+  children,
 }) => {
   return (
     <>
@@ -45,21 +35,7 @@ export const DevicesDrawer: FunctionComponent<Props> = ({
             onClick={onClose}
           />
         </Header>
-        <List>
-          {devices.map(({ id, ...device }) => {
-            const onClick = () => {
-              onSelect?.(id)
-            }
-            return (
-              <DevicesDrawerCard
-                key={id}
-                {...device}
-                active={activeDeviceId === id}
-                onClick={onClick}
-              />
-            )
-          })}
-        </List>
+        <List>{children}</List>
       </Wrapper>
     </>
   )
