@@ -70,6 +70,7 @@ export const DashboardHeaderTabs: FunctionComponent<Props> = ({ tabs }) => {
             key={tab.path}
             onClick={setLineActive}
             modifiers={[ButtonTextModifier.DefaultCase]}
+            data-testid={`settings-tab-${tab.title.toLowerCase()}`}
           >
             <TabWrapper>
               <Icon type={tab.icon} size={IconSize.Medium} />

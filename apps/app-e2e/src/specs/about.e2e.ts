@@ -8,11 +8,9 @@ import AboutPage from "../page-objects/about.page"
 
 describe("About screen", () => {
   before(async () => {
-    // Przejdź do Settings
     const settingsMenuItem = await SettingsPage.settingsMenuItem
     await settingsMenuItem.click()
 
-    // Przejdź do zakładki About
     const aboutTab = await SettingsPage.aboutTab
     await aboutTab.click()
   })

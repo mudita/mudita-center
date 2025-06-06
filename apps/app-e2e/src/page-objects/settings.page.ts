@@ -8,15 +8,15 @@ import { SettingsTestId } from "settings/models"
 
 class SettingsPage extends Page {
   public get settingsMenuItem() {
-    return $('a[href="#/settings"]') // lub użyj data-testid, jeśli istnieje
+    return $('a[href="#/settings"]')
   }
 
   public get activeMenuItem() {
-    return $("nav a.active") // lub dopasuj do struktury aplikacji
+    return $("nav a.active")
   }
 
   public get appHeader() {
-    return $("h1") // dostosuj, jeśli header ma data-testid
+    return $("h1")
   }
 
   public get backupLocation() {
@@ -28,11 +28,11 @@ class SettingsPage extends Page {
   }
 
   public get aboutTab() {
-    return $('a[href="#/settings/about"]')
+    return $(`[data-testid="${SettingsTestId.AboutTab}"]`)
   }
 
   public get backupTab() {
-    return $('a[href="#/settings/backup"]')
+    return $(`[data-testid="${SettingsTestId.BackupTab}"]`)
   }
 }
 

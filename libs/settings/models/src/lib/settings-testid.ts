@@ -11,6 +11,8 @@ export enum SettingsTestId {
   AboutPrivacyPolicyButton = "about-privacy-policy-button",
   AboutLicenseButton = "about-license-button",
   AboutUpdateButton = "about-update-button",
+  AboutTab = "settings-tab-about",
+  BackupTab = "settings-tab-backup",
 }
 
 export enum TermsOfServiceComponentTestIds {

@@ -81,7 +81,6 @@ export class AppUpdaterService {
 
   public async checkForUpdates(): Promise<void> {
     await autoUpdater.checkForUpdatesAndNotify()
-    // this.window.webContents.send(AppUpdateEvent.Available, "999.0.0")
   }
 
   public async downloadUpdate(): Promise<void> {

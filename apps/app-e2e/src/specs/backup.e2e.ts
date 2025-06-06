@@ -8,7 +8,6 @@ import { SettingsTestId } from "settings/models"
 
 describe("Backup settings screen", () => {
   before(async () => {
-    // Przejdź do zakładki Settings
     const settingsMenuItem = await SettingsPage.settingsMenuItem
     await settingsMenuItem.click()
   })
