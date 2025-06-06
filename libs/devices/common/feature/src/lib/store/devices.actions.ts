@@ -4,12 +4,11 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { AppDeviceInfo } from "devices/common/models"
 
-export const setConnectedDevices = createAction<AppDeviceInfo[]>(
-  "devices/setConnectedDevices"
+export const setDevicesDrawerVisibility = createAction<boolean>(
+  "devices/setDevicesDrawerVisibility"
 )
 
-export const setCurrentDevice = createAction<AppDeviceInfo["path"] | null>(
-  "devices/setCurrentDevice"
+export const setConnectingModalVisibility = createAction<boolean>(
+  "devices/setConnectingModalVisibility"
 )
