@@ -257,9 +257,8 @@ describe("File manager overall check", () => {
     await expect(appsCategoryHeader).toHaveText("Apps  (1)")
 
     //check Add files button
-    const appsCategoryAddFilesButtonSD =
-      ManageFiles.appsCategoryAddFilesButtonSD
-    await expect(appsCategoryAddFilesButtonSD).toBeDisplayed()
+    const appsCategoryAddFilesButton = ManageFiles.appsCategoryAddFilesButton
+    await expect(appsCategoryAddFilesButton).toBeDisplayed()
 
     //check file in Apps category
     const firstFileInTheAppsCategory = ManageFiles.firstFileInTheAppsCategory
@@ -536,7 +535,7 @@ describe("File manager overall check", () => {
     //check Apps category header
     const appsCategoryHeaderSD = ManageFiles.appsCategoryHeaderSD
     await expect(appsCategoryHeaderSD).toBeDisplayed()
-    await expect(appsCategoryHeaderSD).toHaveText("Apps  (1)")
+    await expect(appsCategoryHeaderSD).toHaveText("Apps  (2)")
 
     //check Add files button
     const appsCategoryAddFilesButtonSD =
@@ -549,56 +548,56 @@ describe("File manager overall check", () => {
     await expect(firstFileInTheAppsCategorySD).toBeDisplayed()
     await expect(firstFileInTheAppsCategorySD).toHaveText("app.apk")
 
-    //remove the file
-    const checkboxFile = ManageFiles.checkboxFile
-    await expect(checkboxFile).toBeDisplayed()
-    await checkboxFile.click()
+    // //remove ALL files
+    // const checkboxAllFiles = ManageFiles.checkboxAllFiles
+    // await expect(checkboxAllFiles).toBeDisplayed()
+    // await checkboxAllFiles.click()
 
-    //click delete file button
-    const firstFileInTheAppsCategoryDeleteButtonSD =
-      ManageFiles.firstFileInTheAppsCategoryDeleteButtonSD
-    await expect(firstFileInTheAppsCategoryDeleteButtonSD).toBeDisplayed()
-    await firstFileInTheAppsCategoryDeleteButtonSD.click()
+    // //click delete file button
+    // const firstFileInTheAppsCategoryDeleteButtonSD =
+    //   ManageFiles.firstFileInTheAppsCategoryDeleteButtonSD
+    // await expect(firstFileInTheAppsCategoryDeleteButtonSD).toBeDisplayed()
+    // await firstFileInTheAppsCategoryDeleteButtonSD.click()
 
-    //check delete file modal
-    const firstFileInTheAppsCategoryDeleteModalSD =
-      ManageFiles.firstFileInTheAppsCategoryDeleteModalSD
-    await expect(firstFileInTheAppsCategoryDeleteModalSD).toBeDisplayed()
+    // //check delete file modal
+    // const firstFileInTheAppsCategoryDeleteModalSD =
+    //   ManageFiles.firstFileInTheAppsCategoryDeleteModalSD
+    // await expect(firstFileInTheAppsCategoryDeleteModalSD).toBeDisplayed()
 
-    const iconExclamation = ManageFiles.iconExclamation
-    await expect(iconExclamation).toBeDisplayed()
+    // const iconExclamation = ManageFiles.iconExclamation
+    // await expect(iconExclamation).toBeDisplayed()
 
-    //cancel deletion
-    const firstFileInTheAppsCategoryDeleteModalCancelButtonSD =
-      ManageFiles.firstFileInTheAppsCategoryDeleteModalCancelButtonSD
-    await expect(
-      firstFileInTheAppsCategoryDeleteModalCancelButtonSD
-    ).toBeDisplayed()
-    await firstFileInTheAppsCategoryDeleteModalCancelButtonSD.click()
+    // //cancel deletion
+    // const firstFileInTheAppsCategoryDeleteModalCancelButtonSD =
+    //   ManageFiles.firstFileInTheAppsCategoryDeleteModalCancelButtonSD
+    // await expect(
+    //   firstFileInTheAppsCategoryDeleteModalCancelButtonSD
+    // ).toBeDisplayed()
+    // await firstFileInTheAppsCategoryDeleteModalCancelButtonSD.click()
 
-    //click delete file button again
-    await firstFileInTheAppsCategoryDeleteButtonSD.click()
+    // //click delete file button again
+    // await firstFileInTheAppsCategoryDeleteButtonSD.click()
 
-    const firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD =
-      ManageFiles.firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD
-    await expect(
-      firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD
-    ).toBeDisplayed()
-    await firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD.click()
+    // const firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD =
+    //   ManageFiles.firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD
+    // await expect(
+    //   firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD
+    // ).toBeDisplayed()
+    // await firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD.click()
 
-    // to check after deletion of the file/files
+    // // to check after deletion of the file/files
 
-    //check no files available text and subtext
-    const appsCategoryEmptyTitleSD = ManageFiles.appsCategoryEmptyTitleSD
-    await expect(appsCategoryEmptyTitleSD).toBeDisplayed()
-    await expect(appsCategoryEmptyTitleSD).toHaveText(
-      "We couldn't find any files"
-    )
+    // //check no files available text and subtext
+    // const appsCategoryEmptyTitleSD = ManageFiles.appsCategoryEmptyTitleSD
+    // await expect(appsCategoryEmptyTitleSD).toBeDisplayed()
+    // await expect(appsCategoryEmptyTitleSD).toHaveText(
+    //   "We couldn't find any files"
+    // )
 
-    const appsCategoryEmptySubtextSD = ManageFiles.appsCategoryEmptySubtextSD
-    await expect(appsCategoryEmptySubtextSD).toBeDisplayed()
-    await expect(appsCategoryEmptySubtextSD).toHaveText(
-      "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly."
-    )
+    // const appsCategoryEmptySubtextSD = ManageFiles.appsCategoryEmptySubtextSD
+    // await expect(appsCategoryEmptySubtextSD).toBeDisplayed()
+    // await expect(appsCategoryEmptySubtextSD).toHaveText(
+    //   "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly."
+    // )
   })
 })

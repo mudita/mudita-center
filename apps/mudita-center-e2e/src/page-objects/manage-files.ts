@@ -469,5 +469,9 @@ class ManageFiles extends OverviewPage {
   public get checkboxFile() {
     return $('label[for^="checkbox-"]')
   }
+
+  public get checkboxAllFiles() {
+    return $('[data-testid=""]')
+  }
 }
 export default new ManageFiles()
