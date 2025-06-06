@@ -160,6 +160,26 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get firstFileInTheEbooksCategoryDeleteButton() {
+    return $('[data-testid="button-text_mcFileManagerInternal2deleteButton"]')
+  }
+
+  public get firstFileInTheEbooksCategoryDeleteModal() {
+    return $('[data-testid="modal-content-mcFileManagerInternal2deleteModal"]')
+  }
+
+  public get firstFileInTheEbooksCategoryDeleteModalCancelButton() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerInternal2deleteModalCancelButton"]'
+    )
+  }
+
+  public get firstFileInTheEbooksCategoryDeleteModalDeleteFileButton() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerInternal2deleteModalConfirmButton"]'
+    )
+  }
+
   public get ebooksCategoryEmptyTitle() {
     return $(
       '[data-testid="ui-typography-h4-mcFileManagerInternal2fileListEmptyStateHeader"]'
@@ -196,6 +216,26 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get firstFileInTheAppsCategoryDeleteButton() {
+    return $('[data-testid="button-text_mcFileManagerInternal3deleteButton"]')
+  }
+
+  public get firstFileInTheAppsCategoryDeleteModal() {
+    return $('[data-testid="modal-content-mcFileManagerInternal3deleteModal"]')
+  }
+
+  public get firstFileInTheAppsCategoryDeleteModalCancelButton() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerInternal3deleteModalCancelButton"]'
+    )
+  }
+
+  public get firstFileInTheAppsCategoryDeleteModalDeleteFileButton() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerInternal3deleteModalConfirmButton"]'
+    )
+  }
+
   public get appsCategoryEmptyTitle() {
     return $(
       '[data-testid="ui-typography-h4-mcFileManagerInternal3fileListEmptyStateHeader"]'
@@ -223,6 +263,26 @@ class ManageFiles extends OverviewPage {
   public get firstFileInTheMusicCategorySD() {
     return $(
       '[data-testid="ui-typography-p1-mcFileManagerExternal0columnNameText"]'
+    )
+  }
+
+  public get firstFileInTheMusicCategoryDeleteButtonSD() {
+    return $("button*=Delete")
+  }
+
+  public get firstFileInTheMusicCategoryDeleteModalSD() {
+    return $('[data-testid="modal-content-mcFileManagerExternal0deleteModal"]')
+  }
+
+  public get firstFileInTheMusicCategoryDeleteModalCancelButtonSD() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerExternal0deleteModalCancelButton"]'
+    )
+  }
+
+  public get firstFileInTheMusicCategoryDeleteModalDeleteFileButtonSD() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerExternal0deleteModalConfirmButton"]'
     )
   }
 
@@ -259,6 +319,26 @@ class ManageFiles extends OverviewPage {
   public get firstFileInThePhotosCategorySD() {
     return $(
       '[data-testid="ui-typography-p1-mcFileManagerExternal1columnNameText"]'
+    )
+  }
+
+  public get firstFileInThePhotosCategoryDeleteButtonSD() {
+    return $("button*=Delete")
+  }
+
+  public get firstFileInThePhotosCategoryDeleteModalSD() {
+    return $('[data-testid="modal-content-mcFileManagerExternal1deleteModal"]')
+  }
+
+  public get firstFileInThePhotosCategoryDeleteModalCancelButtonSD() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerExternal1deleteModalCancelButton"]'
+    )
+  }
+
+  public get firstFileInThePhotosCategoryDeleteModalDeleteFileButtonSD() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerExternal1deleteModalConfirmButton"]'
     )
   }
 
