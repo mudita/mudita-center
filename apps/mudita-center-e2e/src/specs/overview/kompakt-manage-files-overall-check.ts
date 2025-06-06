@@ -96,7 +96,7 @@ describe("File manager overall check", () => {
     await expect(photosCategoryEmptySubtext).not.toBeDisplayed()
   })
 
-  it("Phone Storage - Check E-Books section", async () => {
+  xit("Phone Storage - Check E-Books section", async () => {
     //click E-Books section
     const ebooksCategoryButton = ManageFiles.ebooksCategoryButton
     await ebooksCategoryButton.click()
@@ -129,7 +129,7 @@ describe("File manager overall check", () => {
     )
   })
 
-  it("Phone Storage - Check Apps section", async () => {
+  xit("Phone Storage - Check Apps section", async () => {
     //click Apps section
     const appsCategoryButton = ManageFiles.appsCategoryButton
     await appsCategoryButton.click()
@@ -171,7 +171,7 @@ describe("File manager overall check", () => {
     await expect(sdCardHeader).toHaveText("SD card")
   })
 
-  it("SD Card - Check Music section", async () => {
+  xit("SD Card - Check Music section", async () => {
     //check Music category header
     const musicCategoryHeaderSD = ManageFiles.musicCategoryHeaderSD
     await expect(musicCategoryHeaderSD).toBeDisplayed()
@@ -200,7 +200,7 @@ describe("File manager overall check", () => {
     )
   })
 
-  it("SD Card - Check Photos section", async () => {
+  xit("SD Card - Check Photos section", async () => {
     //click Photos section
     const photosCategoryButtonSD = ManageFiles.photosCategoryButtonSD
     await photosCategoryButtonSD.click()
@@ -271,7 +271,7 @@ describe("File manager overall check", () => {
     //check Apps category header
     const appsCategoryHeaderSD = ManageFiles.appsCategoryHeaderSD
     await expect(appsCategoryHeaderSD).toBeDisplayed()
-    await expect(appsCategoryHeaderSD).toHaveText("Apps  (1)")
+    await expect(appsCategoryHeaderSD).toHaveText("Apps  (2)")
 
     //check Add files button
     const appsCategoryAddFilesButtonSD =

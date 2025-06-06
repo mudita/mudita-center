@@ -230,36 +230,36 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           storageInformation: [
             {
               path: "/storage/emulated/0",
-              totalSpaceBytes: 32000000000,
-              usedSpaceBytes: 9497676627,
-              freeSpaceBytes: 22502323373,
+              totalSpaceBytes: 32_000_000_000,
+              usedSpaceBytes: 12_016_958_053,
+              freeSpaceBytes: 19_983_041_947,
               totalSpaceString: "32 GB",
-              usedSpaceString: "9,5 GB",
-              freeSpaceString: "22,5 GB",
+              usedSpaceString: "11,91 GB",
+              freeSpaceString: "20,9 GB",
               categoriesSpaceInformation: {
                 imageFiles: {
                   storageCategory: "imageFiles",
-                  spaceUsedBytes: 11109094,
+                  spaceUsedBytes: 11_109_094,
                   spaceUsedString: "108.6 MB",
                 },
                 audioFiles: {
                   storageCategory: "audioFiles",
-                  spaceUsedBytes: 1048576000,
+                  spaceUsedBytes: 1_048_576_000,
                   spaceUsedString: "1 GB",
                 },
                 ebookFiles: {
                   storageCategory: "ebookFiles",
-                  spaceUsedBytes: 0,
-                  spaceUsedString: "0 B",
+                  spaceUsedBytes: 743_020_953,
+                  spaceUsedString: "708,6 MB",
                 },
                 applicationFiles: {
                   storageCategory: "applicationFiles",
-                  spaceUsedBytes: 0,
-                  spaceUsedString: "0 B",
+                  spaceUsedBytes: 1_825_361_100,
+                  spaceUsedString: "1.7 GB",
                 },
                 otherFiles: {
                   storageCategory: "otherFiles",
-                  spaceUsedBytes: 8400000000,
+                  spaceUsedBytes: 8_400_000_000,
                   spaceUsedString: "8.4 GB",
                 },
               },
@@ -276,36 +276,36 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           storageInformation: [
             {
               path: "/storage/9EBD-E8C5",
-              totalSpaceBytes: 125064839168,
-              usedSpaceBytes: 5690831667,
-              freeSpaceBytes: 119374007501,
+              totalSpaceBytes: 125_064_839_168,
+              usedSpaceBytes: 8_348_607_857,
+              freeSpaceBytes: 116_716_231_311,
               totalSpaceString: "125,1 GB",
-              usedSpaceString: "5,3 GB",
-              freeSpaceString: "119,8 GB",
+              usedSpaceString: "8,1 GB",
+              freeSpaceString: "117,0 GB",
               categoriesSpaceInformation: {
                 imageFiles: {
                   storageCategory: "imageFiles",
-                  spaceUsedBytes: 0,
-                  spaceUsedString: "0 B",
+                  spaceUsedBytes: 11_109_094,
+                  spaceUsedString: "108.6 MB",
                 },
                 audioFiles: {
                   storageCategory: "audioFiles",
-                  spaceUsedBytes: 0,
-                  spaceUsedString: "0 B",
+                  spaceUsedBytes: 1_048_576_000,
+                  spaceUsedString: "1 GB",
                 },
                 ebookFiles: {
                   storageCategory: "ebookFiles",
-                  spaceUsedBytes: 743020953,
+                  spaceUsedBytes: 743_020_953,
                   spaceUsedString: "708,6 MB",
                 },
                 applicationFiles: {
                   storageCategory: "applicationFiles",
-                  spaceUsedBytes: 1825361100,
-                  spaceUsedString: "1.7 GB",
+                  spaceUsedBytes: 3_650_722_200,
+                  spaceUsedString: "3.4 GB",
                 },
                 otherFiles: {
                   storageCategory: "otherFiles",
-                  spaceUsedBytes: 2895179610,
+                  spaceUsedBytes: 2_895_179_610,
                   spaceUsedString: "2.9 GB",
                 },
               },
@@ -540,9 +540,9 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         status: ResponseStatus.Ok,
         body: {
           transferId: 30001,
-          chunkSize: 314,
-          fileSize: 314,
-          crc32: "398cd2f3",
+          chunkSize: 612,
+          fileSize: 612,
+          crc32: "4a8601a5",
         },
         match: {
           expected: {
@@ -554,9 +554,9 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         status: ResponseStatus.Ok,
         body: {
           transferId: 30002,
-          chunkSize: 312,
-          fileSize: 312,
-          crc32: "414499ca",
+          chunkSize: 608,
+          fileSize: 608,
+          crc32: "40d53082",
         },
         match: {
           expected: {
@@ -568,9 +568,9 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         status: ResponseStatus.Ok,
         body: {
           transferId: 30003,
-          chunkSize: 322,
-          fileSize: 322,
-          crc32: "d65de84a",
+          chunkSize: 628,
+          fileSize: 628,
+          crc32: "22dd5f4a",
         },
         match: {
           expected: {
@@ -680,9 +680,9 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         status: ResponseStatus.Ok,
         body: {
           transferId: 30004,
-          chunkSize: 372,
-          fileSize: 372,
-          crc32: "9526c492",
+          chunkSize: 1096,
+          fileSize: 1096,
+          crc32: "d91101cf",
         },
         match: {
           expected: {
@@ -713,7 +713,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: {
           transferId: 30001,
           chunkNumber: 1,
-          data: "eyJkYXRhIjpbeyJlbnRpdHlUeXBlIjoiYXVkaW9GaWxlcyIsImlkIjoiNDU3IiwiZmlsZVBhdGgiOiIvc3RvcmFnZS9lbXVsYXRlZC8wL011c2ljL011ZGl0YUNlbnRlci90ZXN0Lm1wMyIsImZpbGVOYW1lIjoidGVzdC5tcDMiLCJleHRlbnNpb24iOiJtcDMiLCJmaWxlU2l6ZSI6MTA0ODU3NjAwMCwiZmlsZVR5cGUiOiJBVURJTyIsIm1pbWVUeXBlIjoiYXVkaW8vbXBlZyIsImlzSW50ZXJuYWwiOnRydWV9XX0===",
+          data: "eyJkYXRhIjpbeyJlbnRpdHlUeXBlIjoiYXVkaW9GaWxlcyIsImlkIjoiNDU3IiwiZmlsZVBhdGgiOiIvc3RvcmFnZS9lbXVsYXRlZC8wL011c2ljL011ZGl0YUNlbnRlci90ZXN0Lm1wMyIsImZpbGVOYW1lIjoidGVzdC5tcDMiLCJleHRlbnNpb24iOiJtcDMiLCJmaWxlU2l6ZSI6MTA0ODU3NjAwMCwiZmlsZVR5cGUiOiJBVURJTyIsIm1pbWVUeXBlIjoiYXVkaW8vbXBlZyIsImlzSW50ZXJuYWwiOnRydWV9LHsiZW50aXR5VHlwZSI6ImF1ZGlvRmlsZXMiLCJpZCI6IjE0NTciLCJmaWxlUGF0aCI6Ii9zdG9yYWdlLzlFQkQtRThDNS9NdXNpYy9NdWRpdGFDZW50ZXIvdGVzdC5tcDMiLCJmaWxlTmFtZSI6InRlc3QubXAzIiwiZXh0ZW5zaW9uIjoibXAzIiwiZmlsZVNpemUiOjEwNDg1NzYwMDAsImZpbGVUeXBlIjoiQVVESU8iLCJtaW1lVHlwZSI6ImF1ZGlvL21wZWciLCJpc0ludGVybmFsIjpmYWxzZX1dfQ==",
         },
         match: {
           expected: {
@@ -727,7 +727,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: {
           transferId: 30002,
           chunkNumber: 1,
-          data: "eyJkYXRhIjpbeyJpZCI6IjM1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvZW11bGF0ZWQvMC9EQ0lNL011ZGl0YUNlbnRlci9pbWFnZS5wbmciLCJmaWxlTmFtZSI6ImltYWdlLnBuZyIsImV4dGVuc2lvbiI6InBuZyIsImZpbGVTaXplIjoxMDg1NzYwMDAsImZpbGVUeXBlIjoiSU1BR0UiLCJtaW1lVHlwZSI6ImltYWdlL3BuZyIsImlzSW50ZXJuYWwiOnRydWUsImVudGl0eVR5cGUiOiJpbWFnZUZpbGVzIn1dfQ==",
+          data: "eyJkYXRhIjpbeyJpZCI6IjM1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvZW11bGF0ZWQvMC9EQ0lNL011ZGl0YUNlbnRlci9pbWFnZS5wbmciLCJmaWxlTmFtZSI6ImltYWdlLnBuZyIsImV4dGVuc2lvbiI6InBuZyIsImZpbGVTaXplIjoxMDg1NzYwMDAsImZpbGVUeXBlIjoiSU1BR0UiLCJtaW1lVHlwZSI6ImltYWdlL3BuZyIsImlzSW50ZXJuYWwiOnRydWUsImVudGl0eVR5cGUiOiJpbWFnZUZpbGVzIn0seyJpZCI6IjQ1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvOUVCRC1FOEM1L0RDSU0vTXVkaXRhQ2VudGVyL2ltYWdlLnBuZyIsImZpbGVOYW1lIjoiaW1hZ2UucG5nIiwiZXh0ZW5zaW9uIjoicG5nIiwiZmlsZVNpemUiOjEwODU3NjAwMCwiZmlsZVR5cGUiOiJJTUFHRSIsIm1pbWVUeXBlIjoiaW1hZ2UvcG5nIiwiaXNJbnRlcm5hbCI6ZmFsc2UsImVudGl0eVR5cGUiOiJpbWFnZUZpbGVzIn1dfQ==",
         },
         match: {
           expected: {
@@ -742,7 +742,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: {
           transferId: 30003,
           chunkNumber: 1,
-          data: "eyJkYXRhIjpbeyJpZCI6IjY1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvOUVCRC1FOEM1L0Vib29rcy9NdWRpdGFDZW50ZXIvZWJvb2sucGRmIiwiZmlsZU5hbWUiOiJlYm9vay5wZGYiLCJleHRlbnNpb24iOiJwZGYiLCJmaWxlU2l6ZSI6NzA4NTc2MDAwLCJmaWxlVHlwZSI6IkVCT09LIiwibWltZVR5cGUiOiJhcHBsaWNhdGlvbi9wZGYiLCJpc0ludGVybmFsIjp0cnVlLCJlbnRpdHlUeXBlIjoiZWJvb2tGaWxlcyJ9XX0===",
+          data: "eyJkYXRhIjpbeyJpZCI6IjY1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvZW11bGF0ZWQvMC9FYm9va3MvTXVkaXRhQ2VudGVyL2Vib29rLnBkZiIsImZpbGVOYW1lIjoiZWJvb2sucGRmIiwiZXh0ZW5zaW9uIjoicGRmIiwiZmlsZVNpemUiOjcwODU3NjAwMCwiZmlsZVR5cGUiOiJFQk9PSyIsIm1pbWVUeXBlIjoiYXBwbGljYXRpb24vcGRmIiwiaXNJbnRlcm5hbCI6dHJ1ZSwiZW50aXR5VHlwZSI6ImVib29rRmlsZXMifSx7ImlkIjoiMTc1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvOUVCRC1FOEM1L0Vib29rcy9NdWRpdGFDZW50ZXIvZWJvb2sucGRmIiwiZmlsZU5hbWUiOiJlYm9vay5wZGYiLCJleHRlbnNpb24iOiJwZGYiLCJmaWxlU2l6ZSI6NzA4NTc2MDAwLCJmaWxlVHlwZSI6IkVCT09LIiwibWltZVR5cGUiOiJhcHBsaWNhdGlvbi9wZGYiLCJpc0ludGVybmFsIjpmYWxzZSwiZW50aXR5VHlwZSI6ImVib29rRmlsZXMifV19",
         },
         match: {
           expected: {
@@ -756,7 +756,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         body: {
           transferId: 30004,
           chunkNumber: 1,
-          data: "eyJkYXRhIjpbeyJpZCI6IjY1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvOUVCRC1FOEM1L0FwcGxpY2F0aW9ucy9NdWRpdGFDZW50ZXIvYXBwLmFwayIsImZpbGVOYW1lIjoiYXBwLmFwayIsImV4dGVuc2lvbiI6ImFwayIsImZpbGVTaXplIjoxNzA4NTc2MDAwLCJmaWxlVHlwZSI6IkFQUExJQ0FUSU9OIiwibWltZVR5cGUiOiJhcHBsaWNhdGlvbi92bmQuYW5kcm9pZC5wYWNrYWdlLWFyY2hpdmUiLCJpc0ludGVybmFsIjp0cnVlLCJlbnRpdHlUeXBlIjoiYXBwbGljYXRpb25GaWxlcyJ9XX0=",
+          data: "eyJkYXRhIjpbeyJpZCI6IjY1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvZW11bGF0ZWQvMC9BcHBsaWNhdGlvbnMvTXVkaXRhQ2VudGVyL2FwcC5hcGsiLCJmaWxlTmFtZSI6ImFwcC5hcGsiLCJleHRlbnNpb24iOiJhcGsiLCJmaWxlU2l6ZSI6MTcwODU3NjAwMCwiZmlsZVR5cGUiOiJBUFBMSUNBVElPTiIsIm1pbWVUeXBlIjoiYXBwbGljYXRpb24vdm5kLmFuZHJvaWQucGFja2FnZS1hcmNoaXZlIiwiaXNJbnRlcm5hbCI6dHJ1ZSwiZW50aXR5VHlwZSI6ImFwcGxpY2F0aW9uRmlsZXMifSx7ImlkIjoiMTY1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvOUVCRC1FOEM1L0FwcGxpY2F0aW9ucy9NdWRpdGFDZW50ZXIvYXBwLmFwayIsImZpbGVOYW1lIjoiYXBwLmFwayIsImV4dGVuc2lvbiI6ImFwayIsImZpbGVTaXplIjoxNzA4NTc2MDAwLCJmaWxlVHlwZSI6IkFQUExJQ0FUSU9OIiwibWltZVR5cGUiOiJhcHBsaWNhdGlvbi92bmQuYW5kcm9pZC5wYWNrYWdlLWFyY2hpdmUiLCJpc0ludGVybmFsIjpmYWxzZSwiZW50aXR5VHlwZSI6ImFwcGxpY2F0aW9uRmlsZXMifSx7ImlkIjoiMjY1NyIsImZpbGVQYXRoIjoiL3N0b3JhZ2UvOUVCRC1FOEM1L0FwcGxpY2F0aW9ucy9NdWRpdGFDZW50ZXIvYXBwMi5hcGsiLCJmaWxlTmFtZSI6ImFwcDIuYXBrIiwiZXh0ZW5zaW9uIjoiYXBrIiwiZmlsZVNpemUiOjE3MDg1NzYwMDAsImZpbGVUeXBlIjoiQVBQTElDQVRJT04iLCJtaW1lVHlwZSI6ImFwcGxpY2F0aW9uL3ZuZC5hbmRyb2lkLnBhY2thZ2UtYXJjaGl2ZSIsImlzSW50ZXJuYWwiOmZhbHNlLCJlbnRpdHlUeXBlIjoiYXBwbGljYXRpb25GaWxlcyJ9XX0=",
         },
         match: {
           expected: {
