@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback, useLayoutEffect, useMemo } from "react"
 import { APIFC, compareValues, IconType } from "generic-view/utils"
 import {
   ButtonAction,
@@ -15,6 +15,7 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import {
   clearFileTransferErrors,
+  closeModal,
   selectFilesSendingCount,
   selectFilesSendingFailed,
   selectFilesSendingSucceeded,
@@ -163,7 +164,7 @@ export const FilesManagerUploadFinished: APIFC<
     if (errorTypes.length > 1) {
       return
     }
-    if (allFilesFailed) {
+    if (allFilesFailed || succeededFiles.length === 0) {
       switch (errorTypes[0]) {
         case ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]:
           return intl.formatMessage(messages.allDuplicatesError, {
@@ -191,10 +192,14 @@ export const FilesManagerUploadFinished: APIFC<
           return
       }
     }
-  }, [allFilesFailed, errorTypes, filesCount, memoryNeeded])
+  }, [allFilesFailed, errorTypes, filesCount, memoryNeeded, succeededFiles])
 
   const filesList = useMemo(() => {
-    if (filesCount === 1 || (allFilesFailed && errorTypes.length === 1)) {
+    if (
+      filesCount === 1 ||
+      (allFilesFailed && errorTypes.length === 1) ||
+      succeededFiles.length === 0
+    ) {
       return
     }
     const list = [
@@ -245,10 +250,14 @@ export const FilesManagerUploadFinished: APIFC<
     failedFiles,
     filesCount,
     getFileErrorReason,
+    succeededFiles.length,
   ])
 
   const generalInfo = useMemo(() => {
-    if (allFilesFailed && errorTypes.length === 1) {
+    if (
+      (allFilesFailed && errorTypes.length === 1) ||
+      succeededFiles.length === 0
+    ) {
       return
     }
     const sentenceEnding = errorMessage || !filesList ? "." : ":"
@@ -273,24 +282,39 @@ export const FilesManagerUploadFinished: APIFC<
     }
     const messageStart = intl.formatMessage(messages.multipleErrorsStart)
 
-    const messagesMiddle = errorTypes.map((errorType) => {
-      if (
-        errorType ===
-        ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]
-      ) {
-        return intl.formatMessage(messages.multipleErrorsDuplicates)
-      }
-      if (
-        errorType === ApiFileTransferError[ApiFileTransferError.NotEnoughSpace]
-      ) {
-        return intl.formatMessage(messages.multipleErrorsTooBig)
-      }
-      return
-    })
+    const messagesMiddle = errorTypes
+      .map((errorType) => {
+        if (
+          errorType ===
+          ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]
+        ) {
+          return intl.formatMessage(messages.multipleErrorsDuplicates)
+        }
+        if (
+          errorType ===
+          ApiFileTransferError[ApiFileTransferError.NotEnoughSpace]
+        ) {
+          return intl.formatMessage(messages.multipleErrorsTooBig)
+        }
+        return
+      })
+      .filter(Boolean)
 
     const messageEnd = intl.formatMessage(messages.multipleErrorsEnd)
     return messageStart + messagesMiddle.join(", ") + messageEnd
   }, [errorTypes])
+
+  useLayoutEffect(() => {
+    if (succeededFiles.length !== 0 && failedFiles.length === 0) {
+      dispatch(closeModal({ key: config.modalKey }))
+    }
+  }, [
+    config.modalKey,
+    config.uploadActionId,
+    dispatch,
+    failedFiles.length,
+    succeededFiles.length,
+  ])
 
   return (
     <>
@@ -318,6 +342,7 @@ const FilesList = styled.ul`
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
       &:nth-child(2) {
         white-space: nowrap;
         color: ${({ theme }) => theme.color.grey2};

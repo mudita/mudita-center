@@ -39,8 +39,11 @@ describe("generateMcOverviewSummaryLayout", () => {
       showSerialNumber: true,
     }
     const result = generateMcOverviewSummaryLayout(config)
-    expect(result).toHaveProperty("summary-serial-number")
-    expect(result?.["summary"].childrenKeys).toContain("summary-serial-number")
+    expect(result?.["summary"].childrenKeys).toEqual([
+      "summary-basic-info",
+      "summary-about-divider",
+      "summary-about",
+    ])
   })
 
   it("returns about layout key properly", () => {

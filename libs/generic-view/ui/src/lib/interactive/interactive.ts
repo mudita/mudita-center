@@ -11,13 +11,16 @@ import Tooltip from "./tooltip/tooltip"
 import { Toast } from "./toast/toast"
 import { ConditionalRenderer } from "./conditional-renderer"
 import {
+  accordion,
   conditionalRenderer,
   form,
   formatMessage,
   formCheckboxInput,
+  formDynamicInput,
   formRadioInput,
   formSearchInput,
   formSearchInputResults,
+  formSelectInput,
   formTextInput,
   modal,
   modalButtons,
@@ -35,6 +38,7 @@ import {
   tooltipContent,
 } from "generic-view/models"
 import { FormatMessage } from "./format-message"
+import { Accordion } from "./accordion/accordion"
 
 export const interactive = {
   [modal.key]: Modal,
@@ -52,6 +56,8 @@ export const interactive = {
   [formSearchInputResults.key]: Form.SearchInputResults,
   [formRadioInput.key]: Form.RadioInput,
   [formCheckboxInput.key]: Form.CheckboxInput,
+  [formSelectInput.key]: Form.SelectInput,
+  [formDynamicInput.key]: Form.DynamicInput,
   [progressBar.key]: ProgressBar,
   [tooltip.key]: Tooltip,
   [tooltipAnchor.key]: Tooltip.Anchor,
@@ -59,4 +65,5 @@ export const interactive = {
   [formatMessage.key]: FormatMessage,
   [toast.key]: Toast,
   [conditionalRenderer.key]: ConditionalRenderer,
+  [accordion.key]: Accordion,
 }

@@ -36,7 +36,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
         width: "156px",
       },
       config: {
-        text: "Add file",
+        text: entityType === "applicationFiles" ? "Add app files" : "Add file",
         actions: [
           {
             type: "select-files",
@@ -59,6 +59,8 @@ export const generateFileUploadProcessButton: ComponentGenerator<
               filesToUploadFieldName: "filesToUpload",
             },
             destinationPath: storagePath + directoryPath,
+            isInternal: storagePath.startsWith("/storage/emulated/0"),
+            freeSpace: 0,
             entitiesType: entityType,
             actionId: uploadActionId,
             preActions: {
@@ -102,6 +104,15 @@ export const generateFileUploadProcessButton: ComponentGenerator<
                 },
               ],
             },
+          },
+        ],
+      },
+      dataProvider: {
+        source: "self",
+        fields: [
+          {
+            providerField: "data.freeSpace",
+            componentField: "config.actions[2].freeSpace",
           },
         ],
       },

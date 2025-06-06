@@ -28,16 +28,15 @@ export class MockDevice extends BaseDevice {
     })
   }
 
-  public request<R, T extends APIEndpointType>(
+  public async request<R, T extends APIEndpointType>(
     config: APIRequestWithPayload<T>
   ): Promise<unknown> {
-    const response = mockDescriptor.getResponse(
+    const response = await mockDescriptor.getResponse(
       this.portInfo.path,
       config.endpoint,
       config.method as APIMethodsType,
       config.body
     )
-
     let result: ResultObject<ApiResponse<unknown>> | undefined = undefined
 
     const status = Number.parseInt(`${response?.status ?? 500}`)

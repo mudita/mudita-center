@@ -32,9 +32,12 @@ export const addKompaktResponseValidator = z.object({
   status: z.nativeEnum(ResponseStatus),
   body: z.object({}).passthrough(),
   match: MatchConfigValidator.optional(),
+  delay: z.number().int().min(0).optional(),
 })
 
 export type AddKompaktResponse = z.infer<typeof addKompaktResponseValidator>
+
+export const addKompaktResponsesValidator = z.array(addKompaktResponseValidator)
 
 export const restoreDefaultResponsesValidator = z.object({
   path: z.string().min(1),

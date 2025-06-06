@@ -1,7 +1,16 @@
 import sharp from "sharp"
 import fs from "fs-extra"
 import path from "path"
-import { checkAdbAvailability, checkIfDeviceLocked, ensureSingleDevice, pushToDevice, restartDevice } from "./helpers"
+import {
+  checkAdbAvailability,
+  checkIfDeviceLocked,
+  ensureSingleDevice,
+  pushToDevice,
+  restartDevice,
+} from "./helpers"
+import { getRemotePaths } from "./get-remote-paths"
+import { fileManagerTestFilesFolderName } from "./manage-test-files.const"
+import { parseTargetArg } from "./parse-target-arg"
 
 interface TestCase {
   name: string
@@ -97,16 +106,30 @@ async function main(): Promise<void> {
   try {
     const testCases = await loadTestCases()
 
+    await checkAdbAvailability()
+    await ensureSingleDevice()
+    await checkIfDeviceLocked()
+
+    await fs.remove(outputDir)
+
     await generateImageFiles(testCases.images)
     await generateAudioFiles(testCases.audio)
     await generateEBookFiles(testCases.ebooks)
     await generateAPKFiles(testCases.apk)
 
-    await checkAdbAvailability()
-    await ensureSingleDevice()
-    await checkIfDeviceLocked()
-    await pushToDevice(outputDir)
+    const target = parseTargetArg(process.argv.slice(2))
+
+    const remotePaths = await getRemotePaths(
+      target,
+      fileManagerTestFilesFolderName
+    )
+
+    for (const remotePath of remotePaths) {
+      await pushToDevice(outputDir, remotePath)
+    }
     await restartDevice()
+
+    await fs.remove(outputDir)
   } catch (err) {
     console.error("Error during test file generation:", (err as Error).message)
   }

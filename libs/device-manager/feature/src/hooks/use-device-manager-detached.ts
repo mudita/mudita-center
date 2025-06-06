@@ -25,6 +25,8 @@ import {
   selectDataMigrationSourceDevice,
   selectDataMigrationStatus,
   selectDataMigrationTargetDevice,
+  sendFilesAbort,
+  sendFilesClear,
   setBackupProcessStatus,
 } from "generic-view/store"
 import { removeDevice as removeCoreDevice } from "core-device/feature"
@@ -111,6 +113,8 @@ const useHandleDevicesDetached = () => {
       for (const apiEvent of apiEvents) {
         dispatch(removeAPIDevice(apiEvent))
         dispatch(clearEntities({ deviceId: apiEvent.id }))
+        dispatch(sendFilesAbort())
+        dispatch(sendFilesClear())
       }
 
       if (
@@ -145,7 +149,12 @@ const useHandleDevicesDetached = () => {
             BackupProcessStatus.FilesTransfer,
           ].includes(backupProcess)
         ) {
-          dispatch(setBackupProcessStatus(BackupProcessStatus.Failed))
+          dispatch(
+            setBackupProcessStatus({
+              status: BackupProcessStatus.Failed,
+              progress: 0,
+            })
+          )
         }
       }
 

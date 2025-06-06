@@ -159,17 +159,23 @@ export class APIDataTransferService {
     if (response.data.status === 200) {
       const response200 = DataTransferValidator200.safeParse(response.data.body)
       if (response200.success) {
-        return Result.success(response200.data)
+        return Result.success({ ...response200.data, status: 200 })
       }
-      return Result.success(response.data.body as DataTransfer)
+      return Result.success({
+        ...(response.data.body as DataTransfer),
+        status: 200,
+      })
     }
     if (response.data.status === 202) {
       const response202 = DataTransferValidator202.safeParse(response.data.body)
 
       if (response202.success) {
-        return Result.success(response202.data)
+        return Result.success({ ...response202.data, status: 202 })
       }
-      return Result.success(response.data.body as DataTransfer)
+      return Result.success({
+        ...(response.data.body as DataTransfer),
+        status: 202,
+      })
     }
 
     return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))

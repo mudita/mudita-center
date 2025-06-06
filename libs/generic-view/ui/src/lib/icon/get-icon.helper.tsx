@@ -45,7 +45,10 @@ import Failure from "./svg/failed.svg"
 import Folder from "./svg/folder.svg"
 import Grid from "./svg/grid.svg"
 import SpinnerDark from "./svg/spinner-dark.svg"
+import Confirm from "./svg/confirm.svg"
 import Check from "./svg/check.svg"
+import CheckCircle from "./svg/check-circle.svg"
+import Checkmark from "./svg/checkmark.svg"
 import Minus from "./svg/minus.svg"
 import Search from "./svg/search.svg"
 import Import from "./svg/import.svg"
@@ -58,6 +61,7 @@ import Support from "./svg/support.svg"
 import Exclamation from "./svg/exclamation.svg"
 import Namaste from "./svg/namaste.svg"
 import Delete from "./svg/delete.svg"
+import DropdownArrow from "./svg/dropdown-arrow.svg"
 
 import { IconType } from "generic-view/utils"
 
@@ -99,9 +103,12 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Failure]: Failure,
   [IconType.Folder]: Folder,
   [IconType.Grid]: Grid,
+  [IconType.Confirm]: Confirm,
   [IconType.Contact]: Contact,
   [IconType.ContactsBook]: ContactsBook,
   [IconType.Check]: Check,
+  [IconType.CheckCircle]: CheckCircle,
+  [IconType.Checkmark]: Checkmark,
   [IconType.Minus]: Minus,
   [IconType.Search]: Search,
   [IconType.Import]: Import,
@@ -114,6 +121,7 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Exclamation]: Exclamation,
   [IconType.Namaste]: Namaste,
   [IconType.Delete]: Delete,
+  [IconType.DropdownArrow]: DropdownArrow,
 }
 
 export const getIcon = (

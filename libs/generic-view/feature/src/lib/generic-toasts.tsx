@@ -11,6 +11,7 @@ import { createSelector } from "reselect"
 import { isEmpty } from "lodash"
 import { RecursiveLayout } from "./recursive-layout"
 import styled from "styled-components"
+import { Icon, Toast, Typography } from "generic-view/ui"
 
 const selectToastsToRender = createSelector(selectViewConfig, (config) => {
   return Object.entries(config || {})
@@ -23,9 +24,15 @@ interface Props {
 }
 
 export const GenericToasts: FunctionComponent<Props> = ({ viewKey }) => {
-  const toastsToRender = useSelector((state: ReduxRootState) =>
+  const genericToastsToRender = useSelector((state: ReduxRootState) =>
     selectToastsToRender(state, { viewKey })
   )
+  const predefinedToastsToRender = useSelector(
+    (state: ReduxRootState) => state.genericToasts.queue
+  ).filter((toast) => toast.text || toast.icon)
+
+  const toastsToRender = [...genericToastsToRender, ...predefinedToastsToRender]
+
   const toastsToRenderDependency = JSON.stringify(toastsToRender)
 
   return useMemo(() => {
@@ -34,13 +41,21 @@ export const GenericToasts: FunctionComponent<Props> = ({ viewKey }) => {
     }
     return (
       <ToastsWrapper>
-        {toastsToRender.map((toastKey) => {
+        {genericToastsToRender.map((toastKey) => {
           return (
             <RecursiveLayout
               key={toastKey}
               viewKey={viewKey}
               componentKey={toastKey}
             />
+          )
+        })}
+        {predefinedToastsToRender.map(({ key, text, icon }) => {
+          return (
+            <Toast key={key} componentKey={key}>
+              {icon && <Icon config={{ type: icon }} />}
+              <Typography.P1>{text}</Typography.P1>
+            </Toast>
           )
         })}
       </ToastsWrapper>

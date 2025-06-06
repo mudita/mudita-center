@@ -11,8 +11,14 @@ import {
 } from "generic-view/models"
 import { View } from "generic-view/utils"
 import { SEGMENTS_CONFIG_MAP } from "./storage-summary-bar"
-import { generateFileUploadButtonModalKey } from "./file-upload-button"
-import { formatBytes } from "../../typography/format-bytes"
+import {
+  generateFileUploadButtonModalKey,
+  generateFileUploadProcessButtonKey,
+} from "./file-upload-button"
+import {
+  getFileManagerLoaderKey,
+  getFileManagerStoragePageKey,
+} from "./helpers"
 
 type StorageInformation = McFileManagerData["storageInformation"][number]
 
@@ -51,22 +57,13 @@ const generateOtherFilesSpaceInformation = (
   const otherFilesSpaceInformation =
     storageInformation.categoriesSpaceInformation["otherFiles"]
 
-  // TODO: Remove musicFilesSpaceInformation when MTP will be implemented
-  const musicFilesSpaceInformation =
-    storageInformation.categoriesSpaceInformation["audioFiles"]
-
   if (!otherFilesSpaceInformation) {
     return {}
   }
 
-  const totalSize =
-    otherFilesSpaceInformation.spaceUsedBytes +
-    musicFilesSpaceInformation.spaceUsedBytes
-  const totalSizeString = formatBytes(totalSize)
-
   return {
     [`${key}fileCategoryOtherFilesItemNameSize`]: {
-      text: `(${totalSizeString})`,
+      text: `(${otherFilesSpaceInformation.spaceUsedString})`,
     },
   }
 }
@@ -107,17 +104,11 @@ const generateStorageSummary = (
     storageInformation.categoriesSpaceInformation["otherFiles"]
 
   if (otherFilesSpaceInformation !== undefined) {
-    // TODO: Remove musicFilesSpaceInformation when MTP will be implemented
-    const musicFilesSpaceInformation =
-      storageInformation.categoriesSpaceInformation["audioFiles"]
-    const { spaceUsedBytes } =
+    const { spaceUsedBytes, spaceUsedString } =
       storageInformation.categoriesSpaceInformation["otherFiles"]
 
-    const totalSize = spaceUsedBytes + musicFilesSpaceInformation.spaceUsedBytes
-    const totalSizeString = formatBytes(totalSize)
-
     segments.push(
-      getSegmentBarItemData("otherFiles", totalSize, totalSizeString)
+      getSegmentBarItemData("otherFiles", spaceUsedBytes, spaceUsedString)
     )
   }
 
@@ -152,6 +143,9 @@ const generateStorageSummary = (
           )]: {
             freeSpace: storageInformation.freeSpaceBytes,
           },
+          [generateFileUploadProcessButtonKey(`${key}${index}`)]: {
+            freeSpace: storageInformation.freeSpaceBytes,
+          },
         }
       },
       {}
@@ -161,16 +155,17 @@ const generateStorageSummary = (
 
 export const generateFileManagerData = (
   data: McFileManagerData,
-  config: View
+  config: View,
+  feature: string
 ): Feature["data"] => {
-  const entitiesLoaderConfig = config.fileManagerLoader.config
+  const entitiesLoaderConfig = config[getFileManagerLoaderKey(feature)].config
   const entityTypes = isEntitiesLoaderConfig(entitiesLoaderConfig)
     ? entitiesLoaderConfig.entityTypes
     : []
 
   return data.storageInformation.reduce(
     (acc, storageInformation, currentIndex) => {
-      const pageKey = currentIndex.toString()
+      const pageKey = getFileManagerStoragePageKey(feature, currentIndex)
       return {
         ...acc,
         ...generateOtherFilesSpaceInformation(pageKey, storageInformation),

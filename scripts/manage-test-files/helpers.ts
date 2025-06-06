@@ -68,17 +68,19 @@ export async function checkIfDeviceLocked(): Promise<void> {
   }
 }
 
-export async function pushToDevice(outputDir: string): Promise<void> {
+export async function pushToDevice(
+  outputDir: string,
+  remotePath: string
+): Promise<void> {
   try {
-    const command = `adb push ${outputDir} /storage/emulated/0/`
+    const command = `adb push ${outputDir} ${remotePath}`
     const { stdout, stderr } = await execPromise(command)
     if (stdout) console.log(stdout)
     if (stderr) console.error(stderr)
   } catch (err) {
     console.error(
-      `Failed to push files to the device. Ensure the device is connected and accessible via ADB.`
+      `Failed to push files to the device: ${(err as Error).message}`
     )
-    console.error(`Error Details: ${(err as Error).message}`)
     process.exit(1)
   }
 }

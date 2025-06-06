@@ -9,6 +9,8 @@ import { Result, ResultObject } from "Core/core/builder"
 import { AppError, AppErrorType } from "Core/core/errors"
 import {
   APIEntitiesServiceEvents,
+  CancelEntitiesData,
+  cancelEntitiesDataValidator,
   EntitiesConfig,
   entitiesConfigValidator,
   entitiesDeletePartialSuccessValidator,
@@ -34,36 +36,21 @@ import { SafeParseReturnType, SafeParseSuccess } from "zod"
 import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { delay } from "shared/utils"
+import { ResponseStatus } from "../../../../../core/device/constants/response-status.constant"
+
+export interface GetEntitiesDataRequestConfig {
+  entitiesType: string
+  entityId?: EntityId
+  responseType: "json" | "file"
+  deviceId?: DeviceId
+  action?: "abort" | "create" | "get"
+}
 
 export class APIEntitiesService {
   constructor(
     private deviceProtocol: DeviceProtocol,
     private serviceBridge: ServiceBridge
   ) {}
-
-  private getDevice = (deviceId?: DeviceId) => {
-    return deviceId
-      ? this.deviceProtocol.getAPIDeviceById(deviceId)
-      : this.deviceProtocol.apiDevice
-  }
-
-  private handleError(responseStatus: AppErrorType) {
-    if (EntitiesError[responseStatus as EntitiesError]) {
-      return Result.failed<unknown, AppErrorType>(
-        new AppError(
-          responseStatus,
-          EntitiesError[responseStatus as EntitiesError]
-        )
-      )
-    } else {
-      return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
-    }
-  }
-
-  private handleSuccess<Data>(response: SafeParseSuccess<Data>) {
-    return Result.success(response.data)
-  }
 
   @IpcEvent(APIEntitiesServiceEvents.EntitiesConfig)
   public async getEntitiesConfiguration({
@@ -128,67 +115,24 @@ export class APIEntitiesService {
   }
 
   @IpcEvent(APIEntitiesServiceEvents.EntitiesDataGet)
-  public async getEntitiesData({
-    entitiesType,
-    entityId,
-    responseType,
-    deviceId,
-  }: {
-    entitiesType: string
-    responseType: "json" | "file"
-    entityId?: EntityId
-    deviceId?: DeviceId
-  }): Promise<
-    ResultObject<EntitiesJsonData | EntityJsonData | EntitiesFileData>
-  > {
-    const device = this.getDevice(deviceId)
-    if (!device) {
-      return Result.failed(new AppError(GeneralError.NoDevice, ""))
-    }
-
-    const response = await device.request({
-      endpoint: "ENTITIES_DATA",
-      method: "GET",
-      body: {
-        entityType: entitiesType,
-        responseType,
-        ...(entityId && { entityId }),
-      },
-    })
-    if (!response.ok) {
-      return this.handleError(response.error.type)
-    }
-
-    let data: SafeParseReturnType<
-      typeof response.data.body,
-      EntitiesJsonData | EntityJsonData | EntitiesFileData
+  public async getEntitiesData(
+    config: GetEntitiesDataRequestConfig
+  ): Promise<
+    ResultObject<
+      | EntitiesJsonData
+      | EntityJsonData
+      | undefined
+      | (EntitiesFileData & { status: ResponseStatus })
+      | CancelEntitiesData
     >
-
-    if (responseType === "file") {
-      if (response.data.status === 202) {
-        await delay()
-        return this.getEntitiesData({
-          entitiesType,
-          entityId,
-          responseType,
-          deviceId,
-        })
-      } else if (response.data.status === 200) {
-        data = entitiesFileDataValidator.safeParse(response.data.body)
-      }
+  > {
+    if (config.responseType === "json") {
+      return this.getEntitiesDataViaJsonResponseType(config)
+    } else if (config.responseType === "file") {
+      return this.getEntitiesDataViaFileResponseType(config)
+    } else {
+      return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
     }
-    if (responseType === "json") {
-      if (entityId === undefined) {
-        data = entitiesJsonDataValidator.safeParse(response.data.body)
-      } else {
-        data = entityJsonDataValidator.safeParse(response.data.body)
-      }
-    }
-
-    if (!data!.success) {
-      return this.handleError(response.data.status)
-    }
-    return this.handleSuccess(data!)
   }
 
   @IpcEvent(APIEntitiesServiceEvents.EntitiesDataReadFromFile)
@@ -249,35 +193,59 @@ export class APIEntitiesService {
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
-
-    const response = await device.request({
-      endpoint: "ENTITIES_DATA",
-      method: "DELETE",
-      body: {
-        entityType: entitiesType,
-        ids,
-      },
-    })
-
-    if (!response.ok) {
-      return this.handleError(response.error.type)
+    const chunkSize = 500
+    const chunks: EntityId[][] = []
+    for (let i = 0; i < ids.length; i += chunkSize) {
+      chunks.push(ids.slice(i, i + chunkSize))
     }
 
-    if (response.data.status === 404) {
-      return this.handleError(response.data.status)
-    }
+    let overallStatus = ResponseStatus.Ok
+    const failedIds: EntityId[] = []
 
-    if (response.data.status === 207) {
-      const failedIdsValidator =
-        entitiesDeletePartialSuccessValidator.safeParse(response.data.body)
-      if (!failedIdsValidator.success) {
-        logger.error(failedIdsValidator.error)
-        return this.handleError(response.data.status)
+    for (let i = 0; i < chunks.length; i++) {
+      const chunk = chunks[i]
+      const response = await device.request({
+        endpoint: "ENTITIES_DATA",
+        method: "DELETE",
+        body: { entityType: entitiesType, ids: chunk },
+      })
+
+      const status = response.ok
+        ? response.data.status
+        : ResponseStatus.NotFound
+
+      if (response.ok && status === ResponseStatus.MultiResponse) {
+        const partialSuccessValidator =
+          entitiesDeletePartialSuccessValidator.safeParse(response.data!.body)
+        if (!partialSuccessValidator.success) {
+          logger.error(partialSuccessValidator.error)
+          return this.handleError(status)
+        }
+        failedIds.push(...partialSuccessValidator.data.failedIds)
+        overallStatus = ResponseStatus.MultiResponse
+      } else if (
+        status === ResponseStatus.NotFound ||
+        status == ResponseStatus.InternalServerError
+      ) {
+        failedIds.push(...chunk)
+
+        if (overallStatus === ResponseStatus.Ok) {
+          overallStatus =
+            i === 0 ? ResponseStatus.NotFound : ResponseStatus.MultiResponse
+        }
       }
-      return Result.success({ failedIds: failedIdsValidator.data.failedIds })
+    }
+    if (overallStatus === ResponseStatus.Ok) {
+      return Result.success(undefined)
     }
 
-    return Result.success(undefined)
+    if (
+      overallStatus === ResponseStatus.NotFound &&
+      failedIds.length === ids.length
+    ) {
+      return this.handleError(ResponseStatus.NotFound)
+    }
+    return Result.success({ failedIds })
   }
 
   @IpcEvent(APIEntitiesServiceEvents.EntityDataCreate)
@@ -349,5 +317,203 @@ export class APIEntitiesService {
       return this.handleError(response.data.status)
     }
     return Result.success(dataValidator.data)
+  }
+
+  private getDevice = (deviceId?: DeviceId) => {
+    return deviceId
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
+  }
+
+  private handleError(responseStatus: AppErrorType) {
+    if (EntitiesError[responseStatus as EntitiesError]) {
+      return Result.failed<unknown, AppErrorType>(
+        new AppError(
+          responseStatus,
+          EntitiesError[responseStatus as EntitiesError]
+        )
+      )
+    } else {
+      return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
+    }
+  }
+
+  private handleSuccess<Data>(response: SafeParseSuccess<Data>) {
+    return Result.success(response.data)
+  }
+
+  private async getEntitiesDataViaFileResponseType(
+    config: GetEntitiesDataRequestConfig
+  ): Promise<
+    ResultObject<
+      | undefined
+      | (EntitiesFileData & { status: ResponseStatus })
+      | CancelEntitiesData
+    >
+  > {
+    if (config.action === "abort") {
+      return this.cancelGetEntitiesData(config)
+    } else if (config.action === "create") {
+      return this.createEntitiesData(config)
+    } else if (config.action === "get") {
+      return this.getEntitiesDataAction(config)
+    } else {
+      return this.handleError(GeneralError.InternalError)
+    }
+  }
+
+  private async getEntitiesDataViaJsonResponseType({
+    entitiesType,
+    entityId,
+    deviceId,
+    responseType,
+  }: GetEntitiesDataRequestConfig): Promise<
+    ResultObject<EntitiesJsonData | EntityJsonData>
+  > {
+    const device = this.getDevice(deviceId)
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "GET",
+      body: {
+        entityType: entitiesType,
+        responseType,
+        ...(entityId && { entityId }),
+      },
+    })
+
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    let data: SafeParseReturnType<
+      typeof response.data.body,
+      EntitiesJsonData | EntityJsonData
+    >
+
+    if (entityId === undefined) {
+      data = entitiesJsonDataValidator.safeParse(response.data.body)
+    } else {
+      data = entityJsonDataValidator.safeParse(response.data.body)
+    }
+
+    if (!data!.success) {
+      return this.handleError(response.data.status)
+    }
+    return this.handleSuccess(data!)
+  }
+
+  private async cancelGetEntitiesData({
+    entitiesType,
+    entityId,
+    deviceId,
+    responseType,
+    action,
+  }: GetEntitiesDataRequestConfig): Promise<ResultObject<CancelEntitiesData>> {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "GET",
+      body: {
+        entityType: entitiesType,
+        responseType,
+        ...(entityId && { entityId }),
+        action,
+      },
+    })
+
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    const data = cancelEntitiesDataValidator.safeParse(response.data.body)
+
+    if (!data!.success) {
+      return this.handleError(response.data.status)
+    }
+
+    return this.handleSuccess(data)
+  }
+
+  private async createEntitiesData({
+    entitiesType,
+    entityId,
+    responseType,
+    deviceId,
+  }: GetEntitiesDataRequestConfig): Promise<ResultObject<EntitiesFileData>> {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "GET",
+      body: {
+        action: "create",
+        entityType: entitiesType,
+        responseType,
+        ...(entityId && { entityId }),
+      },
+    })
+
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    const data = entitiesFileDataValidator.safeParse(response.data.body)
+
+    if (data.success) {
+      return Result.success(data.data)
+    } else {
+      return this.handleError(response.data.status)
+    }
+  }
+
+  private async getEntitiesDataAction({
+    entitiesType,
+    entityId,
+    responseType,
+    deviceId,
+  }: GetEntitiesDataRequestConfig): Promise<
+    ResultObject<
+      EntitiesFileData & {
+        status: ResponseStatus
+      }
+    >
+  > {
+    const device = this.getDevice(deviceId)
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "ENTITIES_DATA",
+      method: "GET",
+      body: {
+        action: "get",
+        entityType: entitiesType,
+        responseType,
+        ...(entityId && { entityId }),
+      },
+    })
+
+    if (!response.ok) {
+      return this.handleError(response.error.type)
+    }
+
+    const data = entitiesFileDataValidator.safeParse(
+      response.data.body
+    ) as SafeParseSuccess<EntitiesFileData & { status: ResponseStatus }>
+    data.data.status = response.data.status
+    return this.handleSuccess(data)
   }
 }

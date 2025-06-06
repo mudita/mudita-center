@@ -15,6 +15,12 @@ export const setEntityData = createAction<{
   deviceId: DeviceId
 }>(ActionName.SetEntityData)
 
+export const setEntitiesProgress = createAction<{
+  entitiesType: string
+  progress: number
+  deviceId: DeviceId
+}>(ActionName.SetEntitiesProgress)
+
 export const clearEntities = createAction<{ deviceId: DeviceId }>(
   ActionName.ClearEntitiesData
 )
@@ -29,3 +35,9 @@ export const clearAfterDeleteEntities = createAction<{
   entitiesType: string
   deviceId: DeviceId
 }>(ActionName.ClearAfterDeleteEntities)
+
+export const setLoadEntitiesAbortController = createAction<{
+  deviceId: DeviceId
+  entitiesType: string
+  abortController: AbortController
+}>(ActionName.SetLoadEntitiesAbortController)

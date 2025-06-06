@@ -7,7 +7,7 @@ import { createReducer } from "@reduxjs/toolkit"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { DeviceState } from "device-manager/models"
 import { Device, Features } from "generic-view/models"
-import { ApiError } from "device/models"
+import { ApiError, Outbox } from "device/models"
 import { AppError } from "Core/core/errors"
 import { getAPIConfig } from "../get-api-config"
 import { getOverviewData } from "../features"
@@ -22,6 +22,7 @@ import {
   removeDevice,
   setDeviceState,
   setGenericConfig,
+  setLastOutboxData,
   setLastRefresh,
   setMenu,
 } from "./actions"
@@ -31,6 +32,7 @@ export interface GenericState {
   menu: MenuElement[] | undefined
   lastResponse: unknown
   lastRefresh?: number
+  lastOutboxData?: Outbox
   devices: Record<string, Device>
   apiErrors: Record<string, Record<ApiError, boolean>>
 }
@@ -149,6 +151,9 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   builder.addCase(setLastRefresh, (state, action) => {
     state.lastRefresh = action.payload
   })
+  builder.addCase(setLastOutboxData, (state, action) => {
+    state.lastOutboxData = action.payload
+  })
   builder.addCase(getOutboxData.fulfilled, (state, action) => {
     state.apiErrors[action.payload.deviceId] = {
       [ApiError.DeviceLocked]: false,
@@ -194,7 +199,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
         ...state.devices[deviceId].features,
         [feature]: {
           ...state.devices[deviceId].features?.[feature],
-          config: transformGenericComponents({
+          config: transformGenericComponents(feature, {
             ...state.devices[deviceId].features?.[feature]?.config,
             ...config,
           }),

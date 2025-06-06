@@ -113,5 +113,63 @@ class ModalBackupKompaktPage extends OverviewPage {
   public get creatingBackupProgressBarDetails() {
     return $(`//*[@data-testid="${ProgressBarTestIds.Details}"]`)
   }
+
+  public get backupInProgressModalSuccess() {
+    return $('//*[@data-testid="modal-content-backupbackup-create"]')
+  }
+
+  public get backupSuccessIcon() {
+    return $('//*[@data-testid="icon-success"]')
+  }
+
+  public get backupSuccessTitle() {
+    return $('//h1[text()="Backup complete"]')
+  }
+
+  public get backupSuccessSubTitle() {
+    return $(
+      '//p[text()="Your data was successfully secured.\nOpen the backup folder to see your backup data or close this window."]'
+    )
+  }
+
+  public get backupSuccessModalCloseButton() {
+    return $('//*[@data-testid="primary-button-undefined"]')
+  }
+
+  public get backupInProgressModalCancelled() {
+    return $('//*[@data-testid="modal-content-backupbackup-create"]')
+  }
+
+  public get backupCanceledTitle() {
+    return $('//h1[text()="Backup canceled"]')
+  }
+
+  public get backupCanceledSubTitle() {
+    return $('//p[text()="No changes were made."]')
+  }
+
+  public get backupFailureIcon() {
+    return $('//*[@data-testid="icon-failure"]')
+  }
+
+  public get backupFailedModal() {
+    return $('//*[@data-testid="modal-content-backup-error-modal"]')
+  }
+
+  public get backupFailedTitle() {
+    return $('//h1[text()="Backup failed"]')
+  }
+
+  public get backupFailedSubTitle() {
+    return $('//p[text()="The backup process was interrupted."]')
+  }
+
+  public get backupDisconnectedSubTitle() {
+    return $('//p[text()="The backup process was interrupted."]')
+  }
+
+  public get backupFailedModalCloseButton() {
+    return $('//*[@data-testid="primary-button-undefined"]')
+  }
 }
 export default new ModalBackupKompaktPage()

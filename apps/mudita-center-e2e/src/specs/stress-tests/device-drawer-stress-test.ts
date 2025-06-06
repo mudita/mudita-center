@@ -48,13 +48,15 @@ describe("Kompakt switching devices", () => {
 
     for (let i = 0; i < devices.length; i++) {
       const device = devices[i]
-      E2EMockClient.mockResponse({
-        path: device.path,
-        body: device.body,
-        endpoint: "FEATURE_DATA",
-        method: "GET",
-        status: 200,
-      })
+      E2EMockClient.mockResponses([
+        {
+          path: device.path,
+          body: device.body,
+          endpoint: "FEATURE_DATA",
+          method: "GET",
+          status: 200,
+        },
+      ])
       E2EMockClient.addDevice({
         path: device.path,
         serialNumber: device.serialNumber,
@@ -88,8 +90,8 @@ describe("Kompakt switching devices", () => {
     const drawerSerialNumbers = await drawerPage.drawerDeviceSerialNumber
 
     const devices = [
-      { serialNumber: firstSerialNumber, index: 0 },
-      { serialNumber: secondSerialNumber, index: 1 },
+      { serialNumber: secondSerialNumber, index: 0 },
+      { serialNumber: firstSerialNumber, index: 1 },
     ]
 
     for (const device of devices) {
@@ -101,13 +103,15 @@ describe("Kompakt switching devices", () => {
   })
 
   it("Connect 3rd Kompakt device", async () => {
-    E2EMockClient.mockResponse({
-      path: "path-3",
-      body: overviewDataWithOneSimCard3rd,
-      endpoint: "FEATURE_DATA",
-      method: "GET",
-      status: 200,
-    })
+    E2EMockClient.mockResponses([
+      {
+        path: "path-3",
+        body: overviewDataWithOneSimCard3rd,
+        endpoint: "FEATURE_DATA",
+        method: "GET",
+        status: 200,
+      },
+    ])
     E2EMockClient.addDevice({
       path: "path-3",
       serialNumber: thirdSerialNumber,
@@ -135,7 +139,7 @@ describe("Kompakt switching devices", () => {
 
     const drawerSerialNumbers = drawerPage.drawerDeviceSerialNumber
 
-    const thirdDrawerDeviceSerialNumber = await drawerSerialNumbers[2].getText()
+    const thirdDrawerDeviceSerialNumber = await drawerSerialNumbers[0].getText()
     await expect(thirdDrawerDeviceSerialNumber).toEqual(thirdSerialNumber)
   })
 
@@ -159,13 +163,15 @@ describe("Kompakt switching devices", () => {
     ]
 
     for (const device of devices) {
-      E2EMockClient.mockResponse({
-        path: device.path,
-        body: device.body,
-        endpoint: "FEATURE_DATA",
-        method: "GET",
-        status: 200,
-      })
+      E2EMockClient.mockResponses([
+        {
+          path: device.path,
+          body: device.body,
+          endpoint: "FEATURE_DATA",
+          method: "GET",
+          status: 200,
+        },
+      ])
       E2EMockClient.addDevice({
         path: device.path,
         serialNumber: device.serialNumber,
@@ -199,9 +205,9 @@ describe("Kompakt switching devices", () => {
     const drawerDeviceNames = await drawerPage.drawerDeviceName
 
     const devices = [
-      { serialNumber: fourthSerialNumber, name: "Kompakt", index: 3 },
-      { serialNumber: fifthSerialNumber, name: "Kompakt", index: 4 },
-      { serialNumber: sixthSerialNumber, name: "Kompakt", index: 5 },
+      { serialNumber: sixthSerialNumber, name: "Kompakt", index: 0 },
+      { serialNumber: fifthSerialNumber, name: "Kompakt", index: 1 },
+      { serialNumber: fourthSerialNumber, name: "Kompakt", index: 2 },
     ]
 
     for (const device of devices) {
@@ -210,7 +216,7 @@ describe("Kompakt switching devices", () => {
       ].getText()
       await expect(deviceSerialNumber).toEqual(device.serialNumber)
 
-      const deviceName = await drawerDeviceNames[device.index]
+      const deviceName = drawerDeviceNames[device.index]
       await expect(deviceName).toHaveText(device.name)
     }
 

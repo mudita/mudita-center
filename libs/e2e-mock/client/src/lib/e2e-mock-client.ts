@@ -31,11 +31,11 @@ export const E2EMockClient = {
   mockReset: (param: RestoreDefaultResponses) => {
     getClientEmiter()?.("mock.response.reset", param)
   },
-  mockResponse: (param: AddKompaktResponse) => {
-    getClientEmiter()?.("mock.response.every", param)
+  mockResponses: (param: AddKompaktResponse[]) => {
+    getClientEmiter()?.("mock.responses.every", param)
   },
-  mockResponseOnce: (param: AddKompaktResponse) => {
-    getClientEmiter()?.("mock.response.once", param)
+  mockResponsesOnce: (param: AddKompaktResponse[]) => {
+    getClientEmiter()?.("mock.responses.once", param)
   },
   connect: () => {
     connect()
@@ -49,5 +49,14 @@ export const E2EMockClient = {
   },
   mockHttpResponse: (param: MockHttpResponse) => {
     getClientEmiter()?.("mock.http.response", param)
+  },
+  mockFileDialog: (paths: string[]) => {
+    getClientEmiter()?.("mock.file.dialog", paths)
+  },
+  resetMockFileDialog: () => {
+    getClientEmiter()?.("mock.file.dialog.reset", undefined)
+  },
+  sendEventToDevice: (path: string, event: { type: string; payload: unknown }) => {
+    getClientEmiter()?.("mock.device.event", { path, event })
   },
 }

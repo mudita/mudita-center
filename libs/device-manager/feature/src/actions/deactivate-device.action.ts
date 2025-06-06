@@ -13,7 +13,7 @@ import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { MetadataKey, setValue } from "Core/metadata"
-import { getDevicesSelector } from "../selectors"
+import { getDevicesSelector } from "../selectors/get-devices.selector"
 import { setSelectDeviceDrawerOpen } from "./set-select-device-drawer-open.action"
 
 export const deactivateDevice = createAsyncThunk<

@@ -23,17 +23,19 @@ import {
   startPreDataTransferRequest,
   startPreSendWithDataFileRequest,
 } from "device/feature"
-import { sendFile } from "../file-transfer/send-file.action"
+import { legacySendFile } from "../file-transfer/legacy-send-file.action"
 import {
   clearDataTransfer,
   setDataTransfer,
   setDataTransferAbort,
   setDataTransferStatus,
+  setPostProcessingProgress,
 } from "./actions"
 import { isEmpty } from "lodash"
-import { DataTransfer } from "./reducer"
+import { DataTransfer, DomainTransferStatus } from "./data-transfer.types"
 import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import { delay } from "shared/utils"
+import { refreshEntitiesIfMetadataChanged } from "../entities/refresh-entities-if-metadata-changed.action"
 
 type DomainDataMapping = {
   "contacts-v1": UnifiedContact[]
@@ -47,6 +49,7 @@ export type DomainData = {
   [K in keyof DomainDataMapping]: {
     domain: K
     data: DomainDataMapping[K]
+    entitiesType?: string
   }
 }[keyof DomainDataMapping]
 
@@ -60,6 +63,7 @@ export const transferDataToDevice = createAsyncThunk<
     domainsData,
     { getState, dispatch, abort, rejectWithValue, signal }
   ) => {
+    const deviceId = selectActiveApiDeviceId(getState())
     let abortFileRequest: VoidFunction
 
     const transferAbortController = new AbortController()
@@ -76,13 +80,22 @@ export const transferDataToDevice = createAsyncThunk<
       signal.removeEventListener("abort", abortListener)
       abortFileRequest?.()
       await clearTransfers?.()
-      if (dataTransferId && deviceId) {
-        await cancelDataTransferRequest(dataTransferId, deviceId)
+      if (deviceId) {
+        if (dataTransferId) {
+          await cancelDataTransferRequest(dataTransferId, deviceId)
+        }
+        for (const domain of domainsData) {
+          if (!domain.entitiesType) continue
+          await dispatch(
+            refreshEntitiesIfMetadataChanged({
+              deviceId,
+              entitiesType: domain.entitiesType,
+            })
+          )
+        }
       }
     }
     signal.addEventListener("abort", abortListener)
-
-    const deviceId = selectActiveApiDeviceId(getState())
 
     if (!deviceId) {
       return handleError()
@@ -96,7 +109,7 @@ export const transferDataToDevice = createAsyncThunk<
       setDataTransfer(
         domainsData.reduce((acc: DataTransfer, domainData) => {
           acc[domainData.domain] = {
-            status: "IDLE",
+            status: DomainTransferStatus.Idle,
           }
           return acc
         }, {})
@@ -121,7 +134,7 @@ export const transferDataToDevice = createAsyncThunk<
       setDataTransfer(
         domainsData.reduce((acc: DataTransfer, domainData) => {
           acc[domainData.domain] = {
-            status: "READY",
+            status: DomainTransferStatus.Ready,
           }
           return acc
         }, {})
@@ -181,7 +194,7 @@ export const transferDataToDevice = createAsyncThunk<
       dispatch(
         setDataTransfer({
           [domain.domainKey]: {
-            status: "IN-PROGRESS",
+            status: DomainTransferStatus.InProgress,
           },
         })
       )
@@ -193,7 +206,7 @@ export const transferDataToDevice = createAsyncThunk<
       }
 
       const sendFilePromise = dispatch(
-        sendFile({
+        legacySendFile({
           deviceId,
           // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           transferId: domain.transfer?.transferId!,
@@ -214,7 +227,7 @@ export const transferDataToDevice = createAsyncThunk<
         dispatch(
           setDataTransfer({
             [domain.domainKey]: {
-              status: "PROCESSING",
+              status: DomainTransferStatus.Processing,
             },
           })
         )
@@ -227,6 +240,17 @@ export const transferDataToDevice = createAsyncThunk<
       return handleError()
     }
     dispatch(setDataTransferStatus("FINALIZING"))
+    dispatch(
+      setDataTransfer(
+        domainsData.reduce((acc: DataTransfer, domainData) => {
+          acc[domainData.domain] = {
+            status: DomainTransferStatus.Finished,
+          }
+          return acc
+        }, {})
+      )
+    )
+
     const startDataTransferResponse = await startDataTransferRequest(
       dataTransferId,
       deviceId
@@ -236,12 +260,15 @@ export const transferDataToDevice = createAsyncThunk<
       return handleError()
     }
 
-    let progress = startDataTransferResponse.data.progress
-    while (progress < 100) {
+    dispatch(setPostProcessingProgress(0))
+
+    let { status, progress } = startDataTransferResponse.data
+
+    while (status === 202) {
       if (signal.aborted) {
         return handleError()
       }
-      await delay()
+      await delay(100)
       const checkPreRestoreResponse = await checkDataTransferRequest(
         dataTransferId,
         deviceId
@@ -249,17 +276,25 @@ export const transferDataToDevice = createAsyncThunk<
       if (!checkPreRestoreResponse.ok) {
         return handleError()
       }
-      progress = checkPreRestoreResponse.data.progress
+      ;({ progress, status } = checkPreRestoreResponse.data)
+      dispatch(setPostProcessingProgress(Math.min(100, progress)))
+    }
+    dispatch(setPostProcessingProgress(100))
+
+    for (const domain of domainsData) {
+      if (signal.aborted) {
+        return handleError()
+      }
+      if (!domain.entitiesType) continue
+      await dispatch(
+        refreshEntitiesIfMetadataChanged({
+          deviceId,
+          entitiesType: domain.entitiesType,
+        })
+      )
     }
 
-    setDataTransfer(
-      domainsData.reduce((acc: DataTransfer, domainData) => {
-        acc[domainData.domain] = {
-          status: "FINISHED",
-        }
-        return acc
-      }, {})
-    )
+    await delay()
 
     if (signal.aborted) {
       return handleError()
