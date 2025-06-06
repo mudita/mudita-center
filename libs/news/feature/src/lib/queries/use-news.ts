@@ -18,7 +18,6 @@ export const useNews = () => {
     select: (data) => {
       return data.items
     },
-    staleTime: Infinity,
   })
 
   useEffect(() => {
