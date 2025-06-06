@@ -26,6 +26,10 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get iconExclamation() {
+    return $('[data-testid="icon-exclamation"]')
+  }
+
   public get musicCategoryHeader() {
     return $(
       '[data-testid="ui-typography-h3-mcFileManagerInternal0fileListPanelHeaderWrapper"]'
@@ -41,6 +45,26 @@ class ManageFiles extends OverviewPage {
   public get firstFileInTheMusicCategory() {
     return $(
       '[data-testid="ui-typography-p1-mcFileManagerInternal0columnNameText"]'
+    )
+  }
+
+  public get firstFileInTheMusicCategoryDeleteButton() {
+    return $('[data-testid="button-text_mcFileManagerInternal0deleteButton"]')
+  }
+
+  public get firstFileInTheMusicCategoryDeleteModal() {
+    return $('[data-testid="modal-content-mcFileManagerInternal0deleteModal"]')
+  }
+
+  public get firstFileInTheMusicCategoryDeleteModalCancelButton() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerInternal0deleteModalCancelButton"]'
+    )
+  }
+
+  public get firstFileInTheMusicCategoryDeleteModalDeleteFileButton() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerInternal0deleteModalConfirmButton"]'
     )
   }
 
@@ -77,6 +101,26 @@ class ManageFiles extends OverviewPage {
   public get firstFileInThePhotosCategory() {
     return $(
       '[data-testid="ui-typography-p1-mcFileManagerInternal1columnNameText"]'
+    )
+  }
+
+  public get firstFileInThePhotosCategoryDeleteButton() {
+    return $('[data-testid="button-text_mcFileManagerInternal1deleteButton"]')
+  }
+
+  public get firstFileInThePhotosCategoryDeleteModal() {
+    return $('[data-testid="modal-content-mcFileManagerInternal1deleteModal"]')
+  }
+
+  public get firstFileInThePhotosCategoryDeleteModalCancelButton() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerInternal1deleteModalCancelButton"]'
+    )
+  }
+
+  public get firstFileInThePhotosCategoryDeleteModalDeleteFileButton() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerInternal1deleteModalConfirmButton"]'
     )
   }
 
@@ -254,6 +298,26 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get firstFileInTheEbooksCategoryDeleteButtonSD() {
+    return $("button*=Delete")
+  }
+
+  public get firstFileInTheEbooksCategoryDeleteModalSD() {
+    return $('[data-testid="modal-content-mcFileManagerExternal2deleteModal"]')
+  }
+
+  public get firstFileInTheEbooksCategoryDeleteModalCancelButtonSD() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerExternal2deleteModalCancelButton"]'
+    )
+  }
+
+  public get firstFileInTheEbooksCategoryDeleteModalDeleteFileButtonSD() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerExternal2deleteModalConfirmButton"]'
+    )
+  }
+
   public get ebooksCategoryEmptyTitleSD() {
     return $(
       '[data-testid="ui-typography-h4-mcFileManagerExternal2fileListEmptyStateHeader"]'
@@ -290,6 +354,26 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get firstFileInTheAppsCategoryDeleteButtonSD() {
+    return $("button*=Delete")
+  }
+
+  public get firstFileInTheAppsCategoryDeleteModalSD() {
+    return $('[data-testid="modal-content-mcFileManagerExternal3deleteModal"]')
+  }
+
+  public get firstFileInTheAppsCategoryDeleteModalCancelButtonSD() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerExternal3deleteModalCancelButton"]'
+    )
+  }
+
+  public get firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerExternal3deleteModalConfirmButton"]'
+    )
+  }
+
   public get appsCategoryEmptyTitleSD() {
     return $(
       '[data-testid="ui-typography-h4-mcFileManagerExternal3fileListEmptyStateHeader"]'
@@ -300,6 +384,10 @@ class ManageFiles extends OverviewPage {
     return $(
       '[data-testid="ui-typography-p3-mcFileManagerExternal3fileListEmptyStateDescription"]'
     )
+  }
+
+  public get checkboxFile() {
+    return $('label[for^="checkbox-"]')
   }
 }
 export default new ManageFiles()
