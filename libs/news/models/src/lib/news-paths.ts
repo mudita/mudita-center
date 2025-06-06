@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const newsPaths = {
-  index: "/news",
+export enum NewsPaths {
+  Index = "/news",
 }
