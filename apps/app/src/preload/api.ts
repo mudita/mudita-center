@@ -7,7 +7,8 @@ import { serialPort } from "app-serialport/main"
 import { sql } from "app-sql/main"
 import { news } from "news/main"
 import { appSettings } from "app-settings/main"
-import { appActions, appHelp } from "app-utils/main"
+import { appActions } from "app-utils/main"
+import { appHelp } from "help/main"
 
 export const api = {
   serialPort,

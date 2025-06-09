@@ -61,6 +61,7 @@
       "devices/common/ui": ["libs/devices/common/ui/src/index.ts"],
       "help/feature": ["libs/help/feature/src/index.ts"],
       "help/models": ["libs/help/models/src/index.ts"],
+      "help/main": ["libs/help/main/src/index.ts"],
       "help/routes": ["libs/help/routes/src/index.ts"],
       "help/ui": ["libs/help/ui/src/index.ts"],
       "help/utils": ["libs/help/utils/src/index.ts"],

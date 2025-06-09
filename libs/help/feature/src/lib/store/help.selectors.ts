@@ -6,7 +6,10 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { AppState } from "app-store/models"
 
-export const selectHelp = (state: AppState) => state.help.data
+export const selectHelp = createSelector(
+  (state: AppState) => state.help.data,
+  (help) => help
+)
 
 export const selectHelpCategories = createSelector(
   (state: AppState) => state.help.data.categories,
