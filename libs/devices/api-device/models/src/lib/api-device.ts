@@ -8,4 +8,8 @@ import {
   SerialPortDeviceType,
 } from "app-serialport/models"
 
-export type ApiDevice = SerialPortDeviceInfo<SerialPortDeviceType.ApiDevice>
+export type ApiDevice = Pick<
+  SerialPortDeviceInfo<SerialPortDeviceType.ApiDevice>,
+  "deviceType" | "path"
+> &
+  Partial<Omit<SerialPortDeviceInfo, "deviceType" | "path">>
