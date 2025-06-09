@@ -44,7 +44,7 @@ export const UpdateNotAvailableModal: FunctionComponent<
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Content>
         <RoundIconWrapper>
-          <Icon type={IconType.Pure} size={IconSize.Big} />
+          <Icon type={IconType.Info} size={IconSize.Big} />
         </RoundIconWrapper>
         <Typography.H4>{intl.formatMessage(messages.subtitle)}</Typography.H4>
         <Typography.P4>
