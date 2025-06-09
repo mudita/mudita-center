@@ -49,5 +49,6 @@ export enum TestFilesPaths {
   helpSectionKompakt = "src/specs/help/help-section-check-kompakt.ts",
   kompaktManageFilesOverall = "src/specs/overview/kompakt-manage-files-overall-check.ts",
   kompaktBackupFailedFullStorage = "src/specs/overview/kompakt-backup-error-storage-full.ts",
+  kompaktManageFilesRemoveFiles = "src/specs/overview/kompakt-manage-files-remove-files.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`
