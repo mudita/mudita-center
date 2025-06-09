@@ -1,5 +1,4 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
-import { mockEntityDownloadProcess } from "../../helpers"
 import { selectedContactsEntities } from "../../helpers/entity-fixtures"
 import { expect } from "@wdio/globals"
 import NavigationTabs from "../../page-objects/tabs.page"
