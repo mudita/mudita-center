@@ -53,3 +53,24 @@ export interface HelpData {
   shortcuts: Record<string, HelpShortcut>
   nextSyncToken: string
 }
+
+export interface SerializableRichTextNode {
+  nodeType: string
+  data: Record<string, unknown>
+  content?: SerializableRichTextNode[]
+  value?: string
+  marks?: unknown[]
+}
+
+export interface SerializableDocument extends SerializableRichTextNode {
+  nodeType: "document"
+  content: SerializableRichTextNode[]
+}
+
+export interface SerializableHelpArticle extends Omit<HelpArticle, "content"> {
+  content: SerializableDocument
+}
+
+export interface SerializableHelpData extends HelpData {
+  [key: string]: unknown
+}
