@@ -8,7 +8,7 @@ import { SerialPortResponse } from "app-serialport/models"
 import { z } from "zod"
 import { ApiDeviceErrorType } from "./api-device-error-type"
 
-export type ResponseBody<
+export type ApiDeviceResponseBody<
   E extends ApiDeviceEndpoint,
   M extends keyof (typeof ApiDeviceEndpoints)[E],
 > = (typeof ApiDeviceEndpoints)[E][M] extends {
@@ -24,7 +24,7 @@ export type ApiDeviceResponse<
   | {
       status: number
       endpoint: E
-      body: ResponseBody<E, M>
+      body: ApiDeviceResponseBody<E, M>
     }
   | {
       status: ApiDeviceErrorType

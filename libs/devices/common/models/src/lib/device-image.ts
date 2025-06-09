@@ -14,6 +14,7 @@ export enum DeviceImageType {
 export enum DeviceImageColor {
   Black = "black",
   White = "white",
+  Gray = "gray",
 }
 
 export enum DeviceImageSize {
