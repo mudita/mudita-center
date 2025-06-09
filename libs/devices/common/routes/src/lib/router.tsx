@@ -18,7 +18,7 @@ import { useApiDeviceRouter } from "devices/api-device/routes"
 import { FunctionComponent, useCallback, useEffect } from "react"
 import { Navigate, Route, useLocation, useNavigate } from "react-router"
 import {
-  FullscreenModalLayout,
+  FullscreenLayout,
   registerMenuGroups,
   unregisterMenuGroups,
 } from "app-routing/feature"
@@ -135,7 +135,7 @@ export const useDevicesInitRouter = () => {
       <Route path={"/"} element={<Navigate to={DevicesPaths.Welcome} />} />
       <Route
         element={
-          <FullscreenModalLayout
+          <FullscreenLayout
             onClose={
               [DevicesPaths.Connecting, DevicesPaths.Current].includes(
                 pathname as DevicesPaths

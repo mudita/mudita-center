@@ -59,6 +59,5 @@ describe("Privacy Policy modal", () => {
 
     await closeButton.click()
     await expect(mockQuit).toHaveBeenCalled()
-    await AppInitPage.reloadApp()
   })
 })
