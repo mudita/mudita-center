@@ -6,12 +6,15 @@
 export enum IconType {
   ArrowBack = "arrow-back",
   Backup = "backup",
+  CheckCircleBlack = "check-circle-back",
   ChevronDown = "chevron-down",
   Close = "close",
   ContactsBook = "contacts-book",
   DataMigration = "data-migration",
+  Download = "download",
   FileManager = "file-manager",
   Help = "help",
+  Info = "info",
   Messages = "messages",
   MuditaLogo = "mudita-logo",
   MuditaLogoFull = "mudita-logo-full",
@@ -20,10 +23,12 @@ export enum IconType {
   PasswordHide = "password-hide",
   PasswordShow = "password-show",
   Phone = "phone",
+  Pure = "pure",
   RecoveryMode = "recovery-mode",
   Search = "search",
   Settings = "settings",
   Spinner = "spinner",
+  ThinFail = "thin-fail",
 }
 
 export enum IconSize {
