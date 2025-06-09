@@ -56,9 +56,9 @@ describe("File manager overall check", () => {
     await expect(firstFileInTheMusicCategory).toHaveText("test.mp3")
 
     //remove the file
-    const checkboxFile = ManageFiles.checkboxFile
-    await expect(checkboxFile).toBeDisplayed()
-    await checkboxFile.click()
+    const checkboxFirstFileMusic = ManageFiles.checkboxFirstFileMusic
+    await expect(checkboxFirstFileMusic).toBeDisplayed()
+    await checkboxFirstFileMusic.click()
 
     //click delete file button
     const firstFileInTheMusicCategoryDeleteButton =
@@ -125,9 +125,9 @@ describe("File manager overall check", () => {
     await expect(firstFileInThePhotosCategory).toHaveText("image.png")
 
     //remove the file
-    const checkboxFile = ManageFiles.checkboxFile
-    await expect(checkboxFile).toBeDisplayed()
-    await checkboxFile.click()
+    const checkboxFirstFilePhotos = ManageFiles.checkboxFirstFilePhotos
+    await expect(checkboxFirstFilePhotos).toBeDisplayed()
+    await checkboxFirstFilePhotos.click()
 
     //click delete file button
     const firstFileInThePhotosCategoryDeleteButton =
@@ -194,9 +194,9 @@ describe("File manager overall check", () => {
     await expect(firstFileInTheEbooksCategory).toHaveText("ebook.pdf")
 
     //remove the file
-    const checkboxFile = ManageFiles.checkboxFile
-    await expect(checkboxFile).toBeDisplayed()
-    await checkboxFile.click()
+    const checkboxFirstFileEbooks = ManageFiles.checkboxFirstFileEbooks
+    await expect(checkboxFirstFileEbooks).toBeDisplayed()
+    await checkboxFirstFileEbooks.click()
 
     //click delete file button
     const firstFileInTheEbooksCategoryDeleteButton =
@@ -266,9 +266,9 @@ describe("File manager overall check", () => {
     await expect(firstFileInTheAppsCategory).toHaveText("app.apk")
 
     //remove the file
-    const checkboxFile = ManageFiles.checkboxFile
-    await expect(checkboxFile).toBeDisplayed()
-    await checkboxFile.click()
+    const checkboxFirstFileApps = ManageFiles.checkboxFirstFileApps
+    await expect(checkboxFirstFileApps).toBeDisplayed()
+    await checkboxFirstFileApps.click()
 
     //click delete file button
     const firstFileInTheAppsCategoryDeleteButton =
@@ -335,9 +335,9 @@ describe("File manager overall check", () => {
     await expect(firstFileInTheMusicCategorySD).toHaveText("test.mp3")
 
     //remove the file
-    const checkboxFile = ManageFiles.checkboxFile
-    await expect(checkboxFile).toBeDisplayed()
-    await checkboxFile.click()
+    const checkboxFirstFileMusicSD = ManageFiles.checkboxFirstFileMusicSD
+    await expect(checkboxFirstFileMusicSD).toBeDisplayed()
+    await checkboxFirstFileMusicSD.click()
 
     //click delete file button
     const firstFileInTheMusicCategoryDeleteButtonSD =
@@ -404,9 +404,9 @@ describe("File manager overall check", () => {
     await expect(firstFileInThePhotosCategorySD).toHaveText("image.png")
 
     //remove the file
-    const checkboxFile = ManageFiles.checkboxFile
-    await expect(checkboxFile).toBeDisplayed()
-    await checkboxFile.click()
+    const checkboxFirstFilePhotosSD = ManageFiles.checkboxFirstFilePhotosSD
+    await expect(checkboxFirstFilePhotosSD).toBeDisplayed()
+    await checkboxFirstFilePhotosSD.click()
 
     //click delete file button
     const firstFileInThePhotosCategoryDeleteButtonSD =
@@ -474,9 +474,9 @@ describe("File manager overall check", () => {
     await expect(firstFileInTheEbooksCategorySD).toHaveText("ebook.pdf")
 
     //remove the file
-    const checkboxFile = ManageFiles.checkboxFile
-    await expect(checkboxFile).toBeDisplayed()
-    await checkboxFile.click()
+    const checkboxFirstFileEbooksSD = ManageFiles.checkboxFirstFileEbooksSD
+    await expect(checkboxFirstFileEbooksSD).toBeDisplayed()
+    await checkboxFirstFileEbooksSD.click()
 
     //click delete file button
     const firstFileInTheEbooksCategoryDeleteButtonSD =
@@ -548,56 +548,58 @@ describe("File manager overall check", () => {
     await expect(firstFileInTheAppsCategorySD).toBeDisplayed()
     await expect(firstFileInTheAppsCategorySD).toHaveText("app.apk")
 
-    // //remove ALL files
-    // const checkboxAllFiles = ManageFiles.checkboxAllFiles
-    // await expect(checkboxAllFiles).toBeDisplayed()
-    // await checkboxAllFiles.click()
+    //remove ALL files
+    const checkboxFirstFileAppsSD = ManageFiles.checkboxFirstFileAppsSD
+    await checkboxFirstFileAppsSD.click() //select first file
+    const checkboxAllFilesAppsSD = ManageFiles.checkboxAllFilesAppsSD
+    await expect(checkboxAllFilesAppsSD).toBeDisplayed()
+    await checkboxAllFilesAppsSD.click() //select all files
 
-    // //click delete file button
-    // const firstFileInTheAppsCategoryDeleteButtonSD =
-    //   ManageFiles.firstFileInTheAppsCategoryDeleteButtonSD
-    // await expect(firstFileInTheAppsCategoryDeleteButtonSD).toBeDisplayed()
-    // await firstFileInTheAppsCategoryDeleteButtonSD.click()
+    //click delete file button
+    const firstFileInTheAppsCategoryDeleteButtonSD =
+      ManageFiles.firstFileInTheAppsCategoryDeleteButtonSD
+    await expect(firstFileInTheAppsCategoryDeleteButtonSD).toBeDisplayed()
+    await firstFileInTheAppsCategoryDeleteButtonSD.click()
 
-    // //check delete file modal
-    // const firstFileInTheAppsCategoryDeleteModalSD =
-    //   ManageFiles.firstFileInTheAppsCategoryDeleteModalSD
-    // await expect(firstFileInTheAppsCategoryDeleteModalSD).toBeDisplayed()
+    //check delete file modal
+    const firstFileInTheAppsCategoryDeleteModalSD =
+      ManageFiles.firstFileInTheAppsCategoryDeleteModalSD
+    await expect(firstFileInTheAppsCategoryDeleteModalSD).toBeDisplayed()
 
-    // const iconExclamation = ManageFiles.iconExclamation
-    // await expect(iconExclamation).toBeDisplayed()
+    const iconExclamation = ManageFiles.iconExclamation
+    await expect(iconExclamation).toBeDisplayed()
 
-    // //cancel deletion
-    // const firstFileInTheAppsCategoryDeleteModalCancelButtonSD =
-    //   ManageFiles.firstFileInTheAppsCategoryDeleteModalCancelButtonSD
-    // await expect(
-    //   firstFileInTheAppsCategoryDeleteModalCancelButtonSD
-    // ).toBeDisplayed()
-    // await firstFileInTheAppsCategoryDeleteModalCancelButtonSD.click()
+    //cancel deletion
+    const firstFileInTheAppsCategoryDeleteModalCancelButtonSD =
+      ManageFiles.firstFileInTheAppsCategoryDeleteModalCancelButtonSD
+    await expect(
+      firstFileInTheAppsCategoryDeleteModalCancelButtonSD
+    ).toBeDisplayed()
+    await firstFileInTheAppsCategoryDeleteModalCancelButtonSD.click()
 
-    // //click delete file button again
-    // await firstFileInTheAppsCategoryDeleteButtonSD.click()
+    //click delete file button again
+    await firstFileInTheAppsCategoryDeleteButtonSD.click()
 
-    // const firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD =
-    //   ManageFiles.firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD
-    // await expect(
-    //   firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD
-    // ).toBeDisplayed()
-    // await firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD.click()
+    const firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD =
+      ManageFiles.firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD
+    await expect(
+      firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD
+    ).toBeDisplayed()
+    await firstFileInTheAppsCategoryDeleteModalDeleteFileButtonSD.click()
 
-    // // to check after deletion of the file/files
+    // to check after deletion of the file/files
 
-    // //check no files available text and subtext
-    // const appsCategoryEmptyTitleSD = ManageFiles.appsCategoryEmptyTitleSD
-    // await expect(appsCategoryEmptyTitleSD).toBeDisplayed()
-    // await expect(appsCategoryEmptyTitleSD).toHaveText(
-    //   "We couldn't find any files"
-    // )
+    //check no files available text and subtext
+    const appsCategoryEmptyTitleSD = ManageFiles.appsCategoryEmptyTitleSD
+    await expect(appsCategoryEmptyTitleSD).toBeDisplayed()
+    await expect(appsCategoryEmptyTitleSD).toHaveText(
+      "We couldn't find any files"
+    )
 
-    // const appsCategoryEmptySubtextSD = ManageFiles.appsCategoryEmptySubtextSD
-    // await expect(appsCategoryEmptySubtextSD).toBeDisplayed()
-    // await expect(appsCategoryEmptySubtextSD).toHaveText(
-    //   "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly."
-    // )
+    const appsCategoryEmptySubtextSD = ManageFiles.appsCategoryEmptySubtextSD
+    await expect(appsCategoryEmptySubtextSD).toBeDisplayed()
+    await expect(appsCategoryEmptySubtextSD).toHaveText(
+      "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly."
+    )
   })
 })

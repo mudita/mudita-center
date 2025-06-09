@@ -48,6 +48,12 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get checkboxFirstFileMusic() {
+    return $(
+      '[data-testid="ui-checkbox-mcFileManagerInternal0contactCheckbox"]'
+    )
+  }
+
   public get firstFileInTheMusicCategoryDeleteButton() {
     return $('[data-testid="button-text_mcFileManagerInternal0deleteButton"]')
   }
@@ -101,6 +107,12 @@ class ManageFiles extends OverviewPage {
   public get firstFileInThePhotosCategory() {
     return $(
       '[data-testid="ui-typography-p1-mcFileManagerInternal1columnNameText"]'
+    )
+  }
+
+  public get checkboxFirstFilePhotos() {
+    return $(
+      '[data-testid="ui-checkbox-mcFileManagerInternal1contactCheckbox"]'
     )
   }
 
@@ -160,6 +172,12 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get checkboxFirstFileEbooks() {
+    return $(
+      '[data-testid="ui-checkbox-mcFileManagerInternal2contactCheckbox"]'
+    )
+  }
+
   public get firstFileInTheEbooksCategoryDeleteButton() {
     return $('[data-testid="button-text_mcFileManagerInternal2deleteButton"]')
   }
@@ -216,6 +234,12 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get checkboxFirstFileApps() {
+    return $(
+      '[data-testid="ui-checkbox-mcFileManagerInternal3contactCheckbox"]'
+    )
+  }
+
   public get firstFileInTheAppsCategoryDeleteButton() {
     return $('[data-testid="button-text_mcFileManagerInternal3deleteButton"]')
   }
@@ -263,6 +287,11 @@ class ManageFiles extends OverviewPage {
   public get firstFileInTheMusicCategorySD() {
     return $(
       '[data-testid="ui-typography-p1-mcFileManagerExternal0columnNameText"]'
+    )
+  }
+  public get checkboxFirstFileMusicSD() {
+    return $(
+      '[data-testid="ui-checkbox-mcFileManagerExternal0contactCheckbox"]'
     )
   }
 
@@ -322,6 +351,12 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get checkboxFirstFilePhotosSD() {
+    return $(
+      '[data-testid="ui-checkbox-mcFileManagerExternal1contactCheckbox"]'
+    )
+  }
+
   public get firstFileInThePhotosCategoryDeleteButtonSD() {
     return $("button*=Delete")
   }
@@ -375,6 +410,12 @@ class ManageFiles extends OverviewPage {
   public get firstFileInTheEbooksCategorySD() {
     return $(
       '[data-testid="ui-typography-p1-mcFileManagerExternal2columnNameText"]'
+    )
+  }
+
+  public get checkboxFirstFileEbooksSD() {
+    return $(
+      '[data-testid="ui-checkbox-mcFileManagerExternal2contactCheckbox"]'
     )
   }
 
@@ -434,6 +475,18 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get checkboxFirstFileAppsSD() {
+    return $(
+      '[data-testid="ui-checkbox-mcFileManagerExternal3contactCheckbox"]'
+    )
+  }
+
+  public get checkboxAllFilesAppsSD() {
+    return $(
+      '[data-testid="ui-checkbox-mcFileManagerExternal3selectAllCheckbox"]'
+    )
+  }
+
   public get firstFileInTheAppsCategoryDeleteButtonSD() {
     return $("button*=Delete")
   }
@@ -464,14 +517,6 @@ class ManageFiles extends OverviewPage {
     return $(
       '[data-testid="ui-typography-p3-mcFileManagerExternal3fileListEmptyStateDescription"]'
     )
-  }
-
-  public get checkboxFile() {
-    return $('label[for^="checkbox-"]')
-  }
-
-  public get checkboxAllFiles() {
-    return $('[data-testid=""]')
   }
 }
 export default new ManageFiles()
