@@ -9,12 +9,15 @@ import Svg from "*.svg?react"
 import { IconType } from "app-theme/models"
 import ArrowBack from "./svg/arrow-back.svg?react"
 import Backup from "./svg/backup.svg?react"
+import CheckCircleBlack from "./svg/check-circle-black.svg?react"
 import ChevronDown from "./svg/chevron-down.svg?react"
 import Close from "./svg/close.svg?react"
 import ContactsBook from "./svg/contacts-book.svg?react"
 import DataMigration from "./svg/data-migration.svg?react"
+import Download from "./svg/download.svg?react"
 import FileManager from "./svg/file-manager.svg?react"
 import Help from "./svg/help.svg?react"
+import Info from "./svg/info.svg?react"
 import Messages from "./svg/messages.svg?react"
 import MuditaLogo from "./svg/mudita-logo.svg?react"
 import MuditaLogoFull from "./svg/mudita-logo-full.svg?react"
@@ -24,21 +27,26 @@ import Overview from "./svg/overview.svg?react"
 import PasswordHide from "./svg/password-hide.svg?react"
 import PasswordShow from "./svg/password-show.svg?react"
 import Phone from "./svg/phone.svg?react"
+import Pure from "./svg/pure.svg?react"
 import RecoveryMode from "./svg/recovery-mode.svg?react"
 import Search from "./svg/search.svg?react"
 import Settings from "./svg/settings.svg?react"
 import Spinner from "./svg/spinner.svg?react"
 import Support from "./svg/support.svg?react"
+import ThinFail from "./svg/thin-fail.svg?react"
 
 export const icons = {
   [IconType.ArrowBack]: ArrowBack,
   [IconType.Backup]: Backup,
+  [IconType.CheckCircleBlack]: CheckCircleBlack,
   [IconType.ChevronDown]: ChevronDown,
   [IconType.Close]: Close,
   [IconType.ContactsBook]: ContactsBook,
   [IconType.DataMigration]: DataMigration,
+  [IconType.Download]: Download,
   [IconType.FileManager]: FileManager,
   [IconType.Help]: Help,
+  [IconType.Info]: Info,
   [IconType.Messages]: Messages,
   [IconType.MuditaLogo]: MuditaLogo,
   [IconType.MuditaLogoFull]: MuditaLogoFull,
@@ -48,9 +56,11 @@ export const icons = {
   [IconType.PasswordHide]: PasswordHide,
   [IconType.PasswordShow]: PasswordShow,
   [IconType.Phone]: Phone,
+  [IconType.Pure]: Pure,
   [IconType.RecoveryMode]: RecoveryMode,
   [IconType.Search]: Search,
   [IconType.Settings]: Settings,
   [IconType.Spinner]: Spinner,
   [IconType.Support]: Support,
+  [IconType.ThinFail]: ThinFail,
 } as const satisfies Record<IconType, typeof Svg>

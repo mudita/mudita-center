@@ -85,6 +85,7 @@ export const Modal: FunctionComponent<Props> & Subcomponents = ({
       overlayElement={overlay}
       isOpen={opened}
       closeTimeoutMS={theme.app.constants.modalTransitionDuration}
+      shouldCloseOnOverlayClick={false}
     >
       {children}
     </ReactModal>

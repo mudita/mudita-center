@@ -10,10 +10,12 @@ import { initNews } from "news/main"
 import { initAppHelp } from "help/main"
 import { initAppSettings } from "app-settings/main"
 import { initAppActions } from "app-utils/main"
+import { initAppUpdater } from "app-utils/main"
 
 export const initAppLibs = (webContents: WebContents) => {
   initAppActions(ipcMain)
   initAppSettings(ipcMain)
+  initAppUpdater(ipcMain)
   initSerialPort(ipcMain, webContents)
   initSql(ipcMain)
   initNews(ipcMain, webContents)

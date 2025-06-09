@@ -5,3 +5,4 @@
 
 export * from "./lib/app-actions"
 export * from "./lib/app-help"
+export * from "./lib/app-updater"
