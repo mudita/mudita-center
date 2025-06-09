@@ -5,3 +5,4 @@
 
 export { NewsTestId } from "news/models"
 export { ModalTestId } from "app-theme/models"
+export { HelpTestId } from "help/models"

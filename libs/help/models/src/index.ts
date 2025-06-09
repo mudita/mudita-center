@@ -5,3 +5,5 @@
 
 export * from "./lib/help-data"
 export * from "./lib/help-reducer"
+export * from "./lib/help-testids"
+export * from "./lib/help-paths"

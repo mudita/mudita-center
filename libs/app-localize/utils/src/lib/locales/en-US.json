@@ -45,5 +45,9 @@
   "page.settings.title": "Settings",
   "page.settingsBackup.title": "Backup",
   "page.settingsAbout.title": "About",
-  "page.help.title": "Mudita Help Center"
+  "page.help.title": "Mudita Help Center",
+  "page.help.deviceSelectorTitle": "Which device are you using with Mudita Center?",
+  "page.help.footer.title": "Help request",
+  "page.help.footer.description": "We do our best to reply within 24h",
+  "page.help.footer.buttonLabel": "Contact support"
 }
