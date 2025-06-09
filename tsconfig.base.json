@@ -64,6 +64,7 @@
       "help/main": ["libs/help/main/src/index.ts"],
       "help/routes": ["libs/help/routes/src/index.ts"],
       "help/ui": ["libs/help/ui/src/index.ts"],
+      "help/utils": ["libs/help/utils/src/index.ts"],
       "news/feature": ["libs/news/feature/src/index.ts"],
       "news/main": ["libs/news/main/src/index.ts"],
       "news/models": ["libs/news/models/src/index.ts"],

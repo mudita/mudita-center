@@ -5,12 +5,13 @@
 
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { setHelpData } from "../store/help.actions"
 import { AppHelp } from "app-utils/renderer"
 import { HelpData } from "help/models"
+import type { AppDispatch } from "app-store/models"
+import { setHelpData } from "../store/help.actions"
 
 export const useHelp = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     void (async () => {
@@ -21,7 +22,7 @@ export const useHelp = () => {
 }
 
 export const useHelpSyncListener = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     const listener = (_: unknown, payload: HelpData) => {

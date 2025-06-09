@@ -3,13 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { createAction, createAsyncThunk } from "@reduxjs/toolkit"
+import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppState } from "app-store/models"
 import { HelpData } from "help/models"
+import { helpDatabase } from "help/utils"
 
-export const setHelpData = createAction<HelpData>("help/set")
+export const setHelpData = createAsyncThunk<HelpData, HelpData>(
+  "help/set",
+  async (helpData) => {
+    const db = await helpDatabase
+    await db.updateData(helpData.articles)
+    return helpData
+  }
+)
 
 export const rateArticle = createAsyncThunk<
   string,

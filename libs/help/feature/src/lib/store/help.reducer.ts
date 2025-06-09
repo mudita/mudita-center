@@ -20,8 +20,8 @@ const initialState: HelpReducer = {
 }
 
 export const helpReducer = createReducer(initialState, (builder) => {
-  builder.addCase(setHelpData, (state, { payload }) => {
-    state.data = payload
+  builder.addCase(setHelpData.fulfilled, (state, action) => {
+    state.data = action.payload
   })
   builder.addCase(rateArticle.fulfilled, (state, { payload }) => {
     state.ratedArticles = uniq([...state.ratedArticles, payload])

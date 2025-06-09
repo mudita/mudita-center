@@ -1,0 +1,9 @@
+{
+  "name": "help/utils",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/help/utils/src",
+  "projectType": "library",
+  "tags": ["type:utils"],
+  "// targets": "to see all targets run: nx show project help/utils --web",
+  "targets": {}
+}
