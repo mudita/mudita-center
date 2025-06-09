@@ -1,0 +1,9 @@
+{
+  "name": "help/models",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/help/models/src",
+  "projectType": "library",
+  "tags": ["type:models"],
+  "// targets": "to see all targets run: nx show project help/models --web",
+  "targets": {}
+}

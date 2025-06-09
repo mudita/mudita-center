@@ -18,6 +18,7 @@ export enum IconType {
   Messages = "messages",
   MuditaLogo = "mudita-logo",
   MuditaLogoFull = "mudita-logo-full",
+  Namaste = "namaste",
   News = "news",
   Overview = "overview",
   PasswordHide = "password-hide",
@@ -28,6 +29,7 @@ export enum IconType {
   Search = "search",
   Settings = "settings",
   Spinner = "spinner",
+  Support = "support",
   ThinFail = "thin-fail",
 }
 

@@ -3,6 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const helpPaths = {
-  index: "/help",
+import { HelpData } from "./help-data"
+
+export interface HelpReducer {
+  data: Omit<HelpData, "nextSyncToken">
+  ratedArticles: string[]
 }

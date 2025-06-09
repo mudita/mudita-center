@@ -6,11 +6,13 @@
 import { DevicesReducer } from "devices/common/models"
 import { AppMenuReducer } from "app-routing/models"
 import { NewsReducer } from "news/models"
+import { HelpReducer } from "help/models"
 import { SettingsReducer } from "settings/models"
 
 export type AppState = {
   devices: DevicesReducer
   appMenu: AppMenuReducer
   news: NewsReducer
+  help: HelpReducer
   settings: SettingsReducer
 }
