@@ -57,17 +57,17 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const ScrollArea = styled.div`
-  flex: 1;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-`
+// const ScrollArea = styled.div`
+//   flex: 1;
+//   overflow: auto;
+//   display: flex;
+//   flex-direction: column;
+// `
 
-const ArticleWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 3.2rem 3.2rem 5.2rem;
-  gap: 3.2rem;
-`
+// const ArticleWrapper = styled.div`
+//   flex: 1;
+//   display: flex;
+//   flex-direction: column;
+//   padding: 3.2rem 3.2rem 5.2rem;
+//   gap: 3.2rem;
+// `

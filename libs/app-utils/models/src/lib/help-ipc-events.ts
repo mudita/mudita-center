@@ -3,5 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/app-actions"
-export * from "./lib/app-help"
+export enum HelpIpcEvents {
+  GetData = "help:getData",
+  DataUpdated = "help:dataUpdated",
+  Sync = "help:sync",
+}

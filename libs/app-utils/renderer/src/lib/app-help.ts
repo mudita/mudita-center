@@ -3,5 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/app-actions"
-export * from "./lib/app-help"
+import "types-preload"
+
+export const AppHelp = {
+  getData: window.api.appHelp.getData,
+}
