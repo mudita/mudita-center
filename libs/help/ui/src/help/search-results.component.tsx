@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ComponentProps, forwardRef, Ref, FunctionComponent } from "react"
+import { Ref, FunctionComponent } from "react"
 import { defineMessages, useIntl } from "react-intl"
 import styled from "styled-components"
 import { HelpCategory, HelpSearchResult, HelpTestId } from "help/models"
