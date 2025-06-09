@@ -19,8 +19,6 @@ import { HelpCategory, HelpTestId } from "help/models"
 import { Typography, TextInput } from "app-theme/ui"
 import { SearchResults, SearchResultsWrapper } from "./search-results.component"
 
-// import { SearchResults, SearchResultsWrapper } from "../components/search-results"
-
 const messages = defineMessages({
   title: {
     id: "page.help.search.title",

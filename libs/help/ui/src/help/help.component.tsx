@@ -18,8 +18,9 @@ import { CategoryTabs } from "./category-tabs.components"
 import { SubcategoriesList } from "./subcategories-list.component"
 import { Navigate, useParams } from "react-router"
 import { HelpFooter } from "./help-footer.component"
-import { SpinnerLoader } from "app-theme/ui"
+import { Icon } from "app-theme/ui"
 import { Search } from "./search.component"
+import { IconSize, IconType } from "app-theme/models"
 
 const messages = defineMessages({
   selectorTitle: {
@@ -58,7 +59,7 @@ export const Help: FunctionComponent<HelpProps> = ({
         <ContentWrapper>
           {!categoriesList ? (
             <LoaderWrapper>
-              <SpinnerLoader dark />
+              <DarkSpinnerIcon type={IconType.Spinner} size={IconSize.Big} />
             </LoaderWrapper>
           ) : (
             <>
@@ -117,4 +118,8 @@ const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+const DarkSpinnerIcon = styled(Icon)`
+  color: ${({ theme }) => theme.app.color.white};
 `

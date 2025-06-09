@@ -27,14 +27,13 @@ interface SearchResultsProps {
   categories: Record<string, HelpCategory>
   activeResultIndex: number
   onMouseEnter: (index: number) => void
+  ref?: Ref<HTMLDivElement>
 }
 
-const SearchResultsFC: FunctionComponent<
-  SearchResultsProps & { innerRef?: Ref<HTMLDivElement> }
-> = ({
+export const SearchResults: FunctionComponent<SearchResultsProps> = ({
   results,
   phrase = "",
-  innerRef,
+  ref,
   categories,
   activeResultIndex,
   onMouseEnter,
@@ -43,7 +42,7 @@ const SearchResultsFC: FunctionComponent<
   const { highlight: cleanedHighlightPhrase } = cleanSearchPhrase(phrase)
 
   return (
-    <SearchResultsWrapper ref={innerRef} data-testid={HelpTestId.SearchResults}>
+    <SearchResultsWrapper ref={ref} data-testid={HelpTestId.SearchResults}>
       {(results?.hits.length || 0) > 0 ? (
         <>
           <ListTitle>{intl.formatMessage(messages.description)}</ListTitle>
@@ -84,11 +83,6 @@ const SearchResultsFC: FunctionComponent<
     </SearchResultsWrapper>
   )
 }
-
-export const SearchResults = forwardRef<
-  HTMLDivElement,
-  ComponentProps<typeof SearchResultsFC>
->((props, ref) => <SearchResultsFC {...props} innerRef={ref} />)
 
 export const SearchResultsWrapper = styled.div`
   display: flex;
