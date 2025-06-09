@@ -38,7 +38,7 @@ const AboutActionContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-right: 3rem;
+  margin-right: 2.4rem;
 `
 
 const AboutAvailableUpdate = styled(LegacyText)`

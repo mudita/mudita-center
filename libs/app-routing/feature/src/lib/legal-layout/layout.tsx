@@ -19,4 +19,5 @@ const Wrapper = styled.div`
   height: 100vh;
   overflow-y: auto;
   box-sizing: border-box;
+  padding: 0 2rem;
 `

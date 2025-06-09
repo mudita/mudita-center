@@ -58,7 +58,7 @@
   "page.settingsAbout.privacyPolicy": "Privacy Policy",
   "page.settingsAbout.license": "License",
   "page.settingsAbout.learnMore": "Learn more",
-  "page.settingsAbout.updateModalTitle": "MuditaOS",
+  "page.settingsAbout.updateModalTitle": "Mudita Center",
   "page.settingsAbout.updateNotAvailableMessage": "Your MuditaOS is up to date!",
   "page.settingsAbout.updateVersion": "MuditaOS v{version}",
   "page.settingsAbout.updateAvailable": "New Update is available!",
