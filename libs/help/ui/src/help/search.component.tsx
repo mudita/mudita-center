@@ -90,6 +90,7 @@ export const Search: FunctionComponent<SearchProps> = ({ categories }) => {
       onArrowNavigation(event, Math.max(activeResultIndex - 1, 0), true)
     }
     if (event.key === "Enter") {
+      event.preventDefault()
       const activeResult = results?.hits[activeResultIndex]
       if (activeResult) {
         navigate(

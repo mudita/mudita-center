@@ -64,7 +64,6 @@ export const SearchResults: FunctionComponent<SearchResultsProps> = ({
                         text={result.document.title}
                         phrase={cleanedHighlightPhrase}
                       />
-                      {result.document.title || "[brak tytułu]"}
                     </ArticleTitle>
                   </ListItemLink>
                 </li>
