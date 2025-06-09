@@ -1,0 +1,9 @@
+{
+  "name": "help/main",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/help/main/src",
+  "projectType": "library",
+  "tags": ["process:main"],
+  "// targets": "to see all targets run: nx show project help/main --web",
+  "targets": {}
+}

@@ -6,7 +6,10 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { AppState } from "app-store/models"
 
-export const selectHelp = (state: AppState) => state.help.data
+export const selectHelp = createSelector(
+  (state: AppState) => state.help.data,
+  (help) => help
+)
 
 export const selectHelpCategoriesList = createSelector(selectHelp, (help) =>
   Object.values(help.categories).sort((a, b) => a.order - b.order)

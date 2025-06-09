@@ -7,14 +7,23 @@ import path from "path"
 import { pathExists, readJSON, writeJSON } from "fs-extra"
 import axios from "axios"
 import defaultHelp from "./default-help.json"
-import { HelpData } from "help/models"
+import { HelpData, SerializableHelpData } from "help/models"
 import { BrowserWindow } from "electron"
 import { HelpIpcEvents } from "app-utils/models"
+import { JsonStoreService } from "app-utils/main"
 
 const helpPath = path.join(process.cwd(), "help-v2.json")
 
 export class AppHelpService {
+  private readonly jsonStore: JsonStoreService<SerializableHelpData>
   private mainWindow: BrowserWindow | null = null
+
+  constructor() {
+    this.jsonStore = new JsonStoreService<SerializableHelpData>(
+      "help",
+      defaultHelp as SerializableHelpData
+    )
+  }
 
   setMainWindow(window: BrowserWindow) {
     this.mainWindow = window
@@ -25,13 +34,13 @@ export class AppHelpService {
     if (!helpExists) {
       const freshHelp = await this.getNewestData()
       const helpToSave = freshHelp ?? defaultHelp
-      await writeJSON(helpPath, helpToSave)
+      await this.jsonStore.set(helpToSave as SerializableHelpData)
       console.info("[AppHelpService] Default help data initialized")
     }
   }
 
   async getData(): Promise<HelpData> {
-    return readJSON(helpPath)
+    return this.jsonStore.get()
   }
 
   private async getNewestData(
