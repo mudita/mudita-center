@@ -18,6 +18,7 @@ import Help from "./svg/help.svg?react"
 import Messages from "./svg/messages.svg?react"
 import MuditaLogo from "./svg/mudita-logo.svg?react"
 import MuditaLogoFull from "./svg/mudita-logo-full.svg?react"
+import Namaste from "./svg/namaste.svg?react"
 import News from "./svg/news.svg?react"
 import Overview from "./svg/overview.svg?react"
 import PasswordHide from "./svg/password-hide.svg?react"
@@ -41,6 +42,7 @@ export const icons = {
   [IconType.Messages]: Messages,
   [IconType.MuditaLogo]: MuditaLogo,
   [IconType.MuditaLogoFull]: MuditaLogoFull,
+  [IconType.Namaste]: Namaste,
   [IconType.News]: News,
   [IconType.Overview]: Overview,
   [IconType.PasswordHide]: PasswordHide,

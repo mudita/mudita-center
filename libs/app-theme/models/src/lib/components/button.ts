@@ -23,4 +23,5 @@ export enum ButtonTextModifier {
   HoverUnderline = "hover-underline",
   HoverBackground = "hover-background",
   Danger = "danger",
+  Inline = "inline",
 }
