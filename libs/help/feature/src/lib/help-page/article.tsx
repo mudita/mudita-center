@@ -4,14 +4,19 @@
  */
 
 import { Article } from "help/ui"
-import { FunctionComponent, useEffect } from "react"
-import { AppHelp } from "app-utils/renderer"
+import { FunctionComponent } from "react"
+import { useSelector } from "react-redux"
+import { selectHelpCategoriesList } from "../store/help.selectors"
+import { useHelp, useHelpSyncListener } from "../helpers/use-help"
 
 export const ArticlePage: FunctionComponent = () => {
   // only temporary for test
-  useEffect(() => {
-    AppHelp.getData().then(console.log)
-  }, [])
+  useHelp()
+  useHelpSyncListener()
+
+  const helpData = useSelector(selectHelpCategoriesList)
+
+  console.log("Redux HelpData:", helpData)
 
   return <Article />
 }
