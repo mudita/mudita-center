@@ -4,77 +4,91 @@
  */
 
 import { FunctionComponent } from "react"
-// import { intl } from "Core/__deprecated__/renderer/utils/intl"
-// import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
-// import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { Navigate, useParams } from "react-router"
-import { defineMessages } from "react-intl"
 import styled from "styled-components"
-// import { GenericThemeProvider } from "generic-view/theme"
-// import { CategoryTabs } from "./components/category-tabs"
-// import { SubcategoriesList } from "./components/subcategories-list"
-// import { HelpFooter } from "./components/help-footer"
-// import { Search } from "./components/search"
-import { useSelector } from "react-redux"
-// import { selectHelpCategoriesList } from "help/store"
-// import { Form, SpinnerLoader } from "generic-view/ui"
-// import { HelpTestId } from "./test-ids"
+import {
+  HelpArticle,
+  HelpAsset,
+  HelpCategory,
+  HelpSubcategory,
+  HelpTestId,
+  helpPaths,
+} from "help/models"
+import { defineMessages, useIntl } from "react-intl"
+import { CategoryTabs } from "./category-tabs.components"
+import { SubcategoriesList } from "./subcategories-list.component"
+import { Navigate, useParams } from "react-router"
+import { HelpFooter } from "./help-footer.component"
+import { Icon } from "app-theme/ui"
+import { Search } from "./search.component"
+import { IconSize, IconType } from "app-theme/models"
 
 const messages = defineMessages({
   selectorTitle: {
-    id: "module.help.deviceSelectorTitle",
+    id: "page.help.deviceSelectorTitle",
   },
 })
 
-export const Help: FunctionComponent = () => {
+interface HelpProps {
+  categoriesList: HelpCategory[]
+  categories: Record<string, HelpCategory>
+  subcategories: Record<string, HelpSubcategory>
+  assets: Record<string, HelpAsset>
+  articles: Record<string, HelpArticle>
+}
+
+export const Help: FunctionComponent<HelpProps> = ({
+  categoriesList,
+  categories,
+  assets,
+  subcategories,
+  articles,
+}) => {
   const { categoryId } = useParams<{
     categoryId?: string
   }>()
-  // const categories = useSelector(selectHelpCategoriesList)
-  // const categories = []
+  const intl = useIntl()
 
-  // if (!categoryId && categories) {
-  //   return <Redirect to={`${URL_MAIN.help}/${categories[0].id}`} />
-  // }
+  if (!categoryId && categoriesList && categoriesList.length > 0) {
+    return <Navigate to={`${helpPaths.index}/${categoriesList[0].id}`} />
+  }
 
-  console.log("HELP PAGE!!!")
-
-  return <Navigate to={`/help/1/1}`} />
-
-  // return (
-  //   // <Form>
-  //   //   <Wrapper>
-  //   //     <SearchWrapper>
-  //   //       <Search />
-  //   //     </SearchWrapper>
-  //   //     <ContentWrapper>
-  //   //       {!categories ? (
-  //   //         <LoaderWrapper>
-  //   //           <SpinnerLoader dark />
-  //   //         </LoaderWrapper>
-  //   //       ) : (
-  //   //         <>
-  //   //           <h2 data-testid={HelpTestId.CategoriesTitle}>
-  //   //             {intl.formatMessage(messages.selectorTitle)}
-  //   //           </h2>
-  //   //           <CategoryTabs />
-  //   //           <SubcategoriesList />
-  //   //         </>
-  //   //       )}
-  //   //     </ContentWrapper>
-  //   //     <HelpFooter />
-  //   //   </Wrapper>
-  //   // </Form>
-  //   <>
-  //     <h1>Help Page</h1>
-  //     <p>This is the help page.</p>
-  //   </>
-  // )
+  return (
+    <form>
+      <Wrapper>
+        <SearchWrapper>{<Search categories={categories} />}</SearchWrapper>
+        <ContentWrapper>
+          {!categoriesList ? (
+            <LoaderWrapper>
+              <DarkSpinnerIcon type={IconType.Spinner} size={IconSize.Big} />
+            </LoaderWrapper>
+          ) : (
+            <>
+              <h2 data-testid={HelpTestId.CategoriesTitle}>
+                {intl.formatMessage(messages.selectorTitle)}
+              </h2>
+              <CategoryTabs categories={categoriesList} />
+              <SubcategoriesList
+                categories={categoriesList}
+                subcategories={subcategories}
+                assets={assets}
+                articles={articles}
+              />
+            </>
+          )}
+        </ContentWrapper>
+        <HelpFooter />
+      </Wrapper>
+    </form>
+  )
+  {
+    /* </Form> */
+  }
 }
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `
 
 const SearchWrapper = styled.div`
@@ -82,18 +96,18 @@ const SearchWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.color.white};
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  background-color: ${({ theme }) => theme.app.color.white};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
 `
 
 const ContentWrapper = styled.div`
   flex: 1;
-  padding: ${({ theme }) => theme.space.xxl};
+  padding: ${({ theme }) => theme.app.space.xxl};
   max-width: 86.2rem;
 
   & > h2 {
     font-size: 1.8rem;
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-weight: ${({ theme }) => theme.app.fontWeight.bold};
     letter-spacing: 0.02em;
     margin: 0 0 2.4rem 0;
   }
@@ -104,4 +118,8 @@ const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+const DarkSpinnerIcon = styled(Icon)`
+  color: ${({ theme }) => theme.app.color.white};
 `
