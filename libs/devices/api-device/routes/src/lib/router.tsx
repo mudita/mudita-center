@@ -96,6 +96,7 @@ export const useApiDeviceRouter = (device?: Device) => {
               locked: isDeviceLocked,
             }
           }
+          return null
         }
       )
     }
