@@ -5,7 +5,7 @@
 
 import { EntityData } from "device/models"
 
-const contactFullData1 = {
+export const contactFullData1 = {
   firstName: "Anna",
   lastName: "Nowak",
   namePrefix: "Dr.",
@@ -216,7 +216,7 @@ const contactWithWithSpecialCharactersInMiddleName = {
   entityType: "contacts",
 }
 
-const contactWithGermanyPhoneNumberOnly = {
+export const contactWithGermanyPhoneNumberOnly = {
   phoneNumbers: [{ phoneNumber: "490123456789", phoneType: "MOBILE" }],
   entityType: "contacts",
 }

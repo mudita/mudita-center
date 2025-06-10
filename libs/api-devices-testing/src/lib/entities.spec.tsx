@@ -18,7 +18,11 @@ import {
   EntityData,
 } from "device/models"
 import { ResponseStatus } from "Core/device"
-import { contactsSeedData } from "../../../generic-view/feature/src/lib/seed-data/contacts-seed-data"
+import {
+  contactFullData1,
+  contactWithGermanyPhoneNumberOnly,
+} from "../../../generic-view/feature/src/lib/seed-data/contacts-seed-data"
+import { TestContact } from "./helpers/entities-data"
 
 jest.mock("shared/utils", () => {
   return {
@@ -146,7 +150,7 @@ describe("Entities configuration, metadata and data", () => {
   it("should remove contact entity with valid entityId", async () => {
     const service = new APIEntitiesService(deviceProtocol, new ServiceBridge())
 
-    const id = await createContact(service, contactsSeedData[0])
+    const id = await createContact(service, contactFullData1)
 
     expect(id).toBeDefined()
 
@@ -165,7 +169,7 @@ describe("Entities configuration, metadata and data", () => {
   it("should return success with failedIds while removing valid and invalid contacts entityIds in one request", async () => {
     const service = new APIEntitiesService(deviceProtocol, new ServiceBridge())
 
-    const id = await createContact(service, contactsSeedData[0])
+    const id = await createContact(service, contactFullData1)
 
     expect(id).toBeDefined()
 
@@ -192,13 +196,66 @@ describe("Entities configuration, metadata and data", () => {
     expect(removeEntitiesResult.error?.type).toBe("incorrect-response")
   })
 
+  it("should add contact with full data", async () => {
+    const service = new APIEntitiesService(deviceProtocol, new ServiceBridge())
+
+    const id = await createContact(service, contactFullData1)
+
+    expect(id).toBeDefined()
+
+    if (id === undefined) {
+      return
+    }
+
+    const contactResponse = await service.getEntitiesData({
+      entitiesType: "contacts",
+      responseType: "json",
+      entityId: id,
+    })
+
+    expect(contactResponse).toBeDefined()
+    if (!contactResponse.ok == undefined) {
+      return
+    }
+    const entityData = contactResponse.data as { data: EntityData }
+    expect(clearContact(entityData.data)).toEqual(
+      clearContact(contactFullData1)
+    )
+  })
+
+  it("should add contact with phone number only", async () => {
+    const service = new APIEntitiesService(deviceProtocol, new ServiceBridge())
+
+    const id = await createContact(service, contactWithGermanyPhoneNumberOnly)
+
+    expect(id).toBeDefined()
+
+    if (id === undefined) {
+      return
+    }
+    const contactResponse = await service.getEntitiesData({
+      entitiesType: "contacts",
+      responseType: "json",
+      entityId: id,
+    })
+
+    expect(contactResponse).toBeDefined()
+    if (!contactResponse.ok == undefined) {
+      return
+    }
+    const entityData = contactResponse.data as { data: EntityData }
+    expect(clearContact(entityData.data)).toEqual(
+      clearContact(contactWithGermanyPhoneNumberOnly)
+    )
+  })
+
   async function createContact(
     entitiesService: APIEntitiesService,
     data: EntityData
   ): Promise<string | undefined> {
     const createEntityResult = await entitiesService.createEntityData({
       entitiesType: "contacts",
-      data: contactsSeedData[0],
+      data: data,
     })
 
     if (createEntityResult.ok && createEntityResult.data) {
@@ -206,5 +263,35 @@ describe("Entities configuration, metadata and data", () => {
       return id as string
     }
     return undefined
+  }
+
+  function clearContact(entityData: EntityData): TestContact {
+    const contact = entityData as unknown as TestContact
+    return {
+      address: contact.address,
+      company: contact.company,
+      department: contact.department,
+      emailAddresses: contact.emailAddresses?.map(
+        (email: { emailAddress: string; emailType: string }) => ({
+          emailAddress: email.emailAddress,
+          emailType: email.emailType,
+        })
+      ),
+      entityType: contact.entityType,
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      middleName: contact.middleName,
+      namePrefix: contact.namePrefix,
+      nameSuffix: contact.nameSuffix,
+      notes: contact.notes,
+      phoneNumbers: contact.phoneNumbers?.map(
+        (phone: { phoneNumber: string; phoneType: string }) => ({
+          phoneNumber: phone.phoneNumber,
+          phoneType: phone.phoneType,
+        })
+      ),
+      website: contact.website,
+      workTitle: contact.workTitle,
+    }
   }
 })
