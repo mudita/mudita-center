@@ -11,6 +11,7 @@ import {
 } from "react"
 import { HistoryContext, historyContext } from "./history-context"
 import { useLocation } from "react-router"
+import { NewsPaths } from "news/models"
 
 export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
   children,
@@ -22,7 +23,7 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
     const path = filter
       ? paths.current.filter(filter).reverse()[0]
       : paths.current.reverse()[1]
-    return path === "/" ? "/news" : path || "/news"
+    return path === "/" ? NewsPaths.Index : path || NewsPaths.Index
   }
 
   useLayoutEffect(() => {

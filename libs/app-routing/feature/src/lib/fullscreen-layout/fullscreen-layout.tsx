@@ -9,6 +9,7 @@ import { Outlet } from "react-router"
 import { Icon, IconButton, Typography } from "app-theme/ui"
 import { IconSize, IconType } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
+import { FullscreenLayoutTestIds } from "app-routing/models"
 
 const messages = defineMessages({
   appName: {
@@ -16,11 +17,11 @@ const messages = defineMessages({
   },
 })
 
-export const FullscreenModalLayout: FunctionComponent<{
+export const FullscreenLayout: FunctionComponent<{
   onClose?: VoidFunction
 }> = ({ onClose }) => {
   return (
-    <Wrapper>
+    <Wrapper data-testid={FullscreenLayoutTestIds.FullScreenLayout}>
       <Header>
         <Heading>
           <MuditaLogo type={IconType.MuditaLogoFull} size={IconSize.AutoMax} />

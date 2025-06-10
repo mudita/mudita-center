@@ -30,9 +30,6 @@ export const useDeviceActivate = () => {
 
   return useCallback(
     (device: Device) => {
-      if (!device) {
-        return
-      }
       queryClient.setQueryData(useActiveDevice.queryKey, device)
     },
     [queryClient]
