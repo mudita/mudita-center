@@ -62,7 +62,11 @@
       "devices/common/routes": ["libs/devices/common/routes/src/index.ts"],
       "devices/common/ui": ["libs/devices/common/ui/src/index.ts"],
       "help/feature": ["libs/help/feature/src/index.ts"],
+      "help/models": ["libs/help/models/src/index.ts"],
+      "help/main": ["libs/help/main/src/index.ts"],
       "help/routes": ["libs/help/routes/src/index.ts"],
+      "help/ui": ["libs/help/ui/src/index.ts"],
+      "help/utils": ["libs/help/utils/src/index.ts"],
       "news/feature": ["libs/news/feature/src/index.ts"],
       "news/main": ["libs/news/main/src/index.ts"],
       "news/models": ["libs/news/models/src/index.ts"],
@@ -70,7 +74,9 @@
       "news/ui": ["libs/news/ui/src/index.ts"],
       "news/utils": ["libs/news/utils/src/index.ts"],
       "settings/feature": ["libs/settings/feature/src/index.ts"],
+      "settings/models": ["libs/settings/models/src/index.ts"],
       "settings/routes": ["libs/settings/routes/src/index.ts"],
+      "settings/ui": ["libs/settings/ui/src/index.ts"],
       "types-preload": ["apps/app/src/preload/api.d.ts"]
     }
   },

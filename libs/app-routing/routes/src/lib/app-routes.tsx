@@ -5,11 +5,16 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import { Navigate, Route, Routes } from "react-router"
-import { DashboardLayout } from "app-routing/feature"
+import { DashboardLayout, LegalLayout } from "app-routing/feature"
 import { useSettingsRouter } from "settings/routes"
 import { useNewsRouter } from "news/routes"
 import { useHelpRouter } from "help/routes"
 import { useDevicesInitRouter } from "devices/common/routes"
+import {
+  LicensePage,
+  PrivacyPolicyPage,
+  TermsOfServicePage,
+} from "settings/feature"
 
 export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
   const newsRouter = useNewsRouter()
@@ -24,6 +29,11 @@ export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
         {settingsRouter}
         {helpRouter}
         {devicesRouter}
+      </Route>
+      <Route element={<LegalLayout />}>
+        <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/license" element={<LicensePage />} />
       </Route>
       <Route path={"*"} element={<Navigate to={"/"} />} />
     </Routes>

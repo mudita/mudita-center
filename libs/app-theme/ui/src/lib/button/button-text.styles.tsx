@@ -53,6 +53,25 @@ const textDefaultStyles = css<ModifiersProp>`
       color: ${({ theme }) => theme.app.color.red};
     `};
 
+  ${({ $modifiers }) =>
+    $modifiers?.includes(ButtonTextModifier.Inline) &&
+    css`
+      display: inline-block;
+      height: auto;
+      padding: 0;
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      text-decoration: underline;
+      text-transform: none;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    `}
+
   &:has(${ButtonIcon}) {
     padding-top: 0.2rem;
   }
