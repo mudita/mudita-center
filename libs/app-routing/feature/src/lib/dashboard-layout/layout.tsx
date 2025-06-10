@@ -8,6 +8,7 @@ import { Outlet } from "react-router"
 import styled from "styled-components"
 import { DashboardMenu } from "./menu"
 import { DashboardHeader } from "./header/header"
+import { Drawer } from "./drawer"
 
 export const DashboardLayout: FunctionComponent = () => {
   return (
@@ -16,6 +17,7 @@ export const DashboardLayout: FunctionComponent = () => {
       <Menu />
       <Content>
         <Outlet />
+        <Drawer />
       </Content>
     </Wrapper>
   )

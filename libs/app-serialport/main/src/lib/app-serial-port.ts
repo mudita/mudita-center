@@ -31,7 +31,7 @@ export class AppSerialPort {
     void this.detectChanges()
     setInterval(() => {
       void this.detectChanges()
-    }, 3000)
+    }, 250)
   }
 
   private getDeviceSerialPortInstance({
@@ -165,6 +165,10 @@ export class AppSerialPort {
         callback(changes)
       }
     )
+  }
+
+  getCurrentDevices(): Promise<SerialPortDeviceInfo[]> {
+    return this.listDevices()
   }
 
   request(path: SerialPortDevicePath, data: SerialPortRequest) {

@@ -5,9 +5,14 @@
 
 import { HashRouter } from "react-router"
 import { FunctionComponent, PropsWithChildren } from "react"
+import { HistoryProvider } from "./history-provider/history-provider"
 
 export const AppRoutingProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  return <HashRouter>{children}</HashRouter>
+  return (
+    <HashRouter>
+      <HistoryProvider>{children}</HistoryProvider>
+    </HashRouter>
+  )
 }

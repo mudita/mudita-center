@@ -4,9 +4,9 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { AppState } from "app-store/models"
+import { AppStore } from "app-store/models"
 
-export const selectSettingsState = (state: AppState) => state.settings
+export const selectSettingsState = (state: AppStore) => state.settings
 
 export const selectCheckingForUpdate = createSelector(
   selectSettingsState,

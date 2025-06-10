@@ -5,18 +5,18 @@
 
 import { Article } from "help/ui"
 import { FunctionComponent } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import {
   selectHelpArticles,
   selectRatedArticles,
 } from "../store/help.selectors"
 import { rateArticle } from "../store/help.actions"
-import type { AppDispatch } from "app-store/models"
+import { useAppDispatch } from "app-store/utils"
 
 export const ArticlePage: FunctionComponent = () => {
   const articles = useSelector(selectHelpArticles)
   const ratedArticles = useSelector(selectRatedArticles)
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
 
   const rateCurrentArticle = ({
     articleId,

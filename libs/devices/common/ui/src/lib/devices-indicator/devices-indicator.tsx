@@ -23,10 +23,12 @@ type Props = Omit<
   "type" | "size" | "modifiers" | "children" | "text" | "to" | "target"
 > & {
   devicesCount: number
+  visible?: boolean
 }
 
 export const DevicesIndicator: FunctionComponent<Props> = ({
   devicesCount,
+  visible,
   message,
   values,
   ...rest
@@ -39,7 +41,7 @@ export const DevicesIndicator: FunctionComponent<Props> = ({
         ButtonTextModifier.HoverUnderline,
         ButtonTextModifier.DefaultCase,
       ]}
-      $visible={devicesCount > 1}
+      $visible={visible}
     >
       <Counter>
         <Icon type={IconType.Phone} size={IconSize.Big} />

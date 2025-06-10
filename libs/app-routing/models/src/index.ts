@@ -4,3 +4,4 @@
  */
 
 export * from "./lib/app-menu-reducer.types"
+export * from "./lib/fullscreen-layout-test-ids"

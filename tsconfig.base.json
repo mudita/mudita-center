@@ -59,6 +59,7 @@
       ],
       "devices/common/feature": ["libs/devices/common/feature/src/index.ts"],
       "devices/common/models": ["libs/devices/common/models/src/index.ts"],
+      "devices/common/routes": ["libs/devices/common/routes/src/index.ts"],
       "devices/common/ui": ["libs/devices/common/ui/src/index.ts"],
       "help/feature": ["libs/help/feature/src/index.ts"],
       "help/models": ["libs/help/models/src/index.ts"],

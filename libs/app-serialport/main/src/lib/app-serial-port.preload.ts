@@ -19,6 +19,9 @@ export const serialPort = {
       }
     )
   },
+  getCurrentDevices: () => {
+    return electronAPI.ipcRenderer.invoke(SerialPortIpcEvents.GetCurrentDevices)
+  },
   request: (path: string, data: SerialPortRequest) => {
     return electronAPI.ipcRenderer.invoke(
       SerialPortIpcEvents.Request,

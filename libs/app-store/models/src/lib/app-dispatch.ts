@@ -5,7 +5,7 @@
 
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit"
 import { Dispatch } from "react"
-import { AppState } from "./app-state"
+import { AppStore } from "./app-store"
 
-export type AppDispatch = ThunkDispatch<AppState, undefined, UnknownAction> &
+export type AppDispatch = ThunkDispatch<AppStore, undefined, UnknownAction> &
   Dispatch<UnknownAction>

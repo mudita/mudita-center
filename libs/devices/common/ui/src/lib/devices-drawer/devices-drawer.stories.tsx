@@ -55,102 +55,122 @@ export const Default: Story = {
           disable: true,
         },
       }),
-    devices: storybookHelper
-      .addDescription("Defines a list of devices to display.")
-      .setType(
-        "Device[]",
-        "{\n" +
-          "  id: string\n" +
-          "  name: string\n" +
-          "  device: {\n" +
-          "    type: DeviceImageType\n" +
-          "    color?: DeviceImageColor\n" +
-          "  }\n" +
-          "  serialNumber?: string\n" +
-          "  recoveryMode?: boolean\n" +
-          "}[]"
-      )
-      .apply({
-        control: {
-          disable: true,
-        },
-      }),
-    activeDeviceId: storybookHelper
-      .addDescription("Defines the id of the active device.")
-      .setType("string")
-      .apply(),
-    onSelect: storybookHelper
-      .addDescription(
-        "Defines a function to be called when clicking the device card."
-      )
-      .apply({
-        control: {
-          disable: true,
-        },
-      }),
   },
   args: {
     opened: true,
-    activeDeviceId: "1",
-    devices: [
-      {
-        id: "1",
-        device: {
-          type: DeviceImageType.Kompakt,
-          color: DeviceImageColor.Black,
-        },
-        name: "Kompakt",
-        serialNumber: "0000111122",
-      },
-      {
-        id: "2",
-        device: {
-          type: DeviceImageType.Harmony1,
-          color: DeviceImageColor.White,
-        },
-        name: "Harmony",
-        serialNumber: "1111222233",
-      },
-      {
-        id: "3",
-        device: {
-          type: DeviceImageType.Harmony2,
-          color: DeviceImageColor.Black,
-        },
-        name: "Harmony",
-        serialNumber: "2222333344",
-      },
-      {
-        id: "4",
-        device: {
-          type: DeviceImageType.HarmonyMsc,
-          color: DeviceImageColor.White,
-        },
-        name: "Harmony",
-        recoveryMode: true,
-      },
-      {
-        id: "5",
-        device: {
-          type: DeviceImageType.Pure,
-          color: DeviceImageColor.White,
-        },
-        name: "Pure",
-        serialNumber: "3333444455",
-      },
-    ],
+  },
+  render: (args) => {
+    return (
+      <DevicesDrawer {...args}>
+        {[
+          {
+            id: "1",
+            image: {
+              type: DeviceImageType.Kompakt,
+              color: DeviceImageColor.Black,
+            },
+            name: "Kompakt",
+            serialNumber: "0000111122",
+            locked: true,
+          },
+          {
+            id: "2",
+            image: {
+              type: DeviceImageType.Harmony1,
+              color: DeviceImageColor.White,
+            },
+            name: "Harmony",
+            serialNumber: "1111222233",
+          },
+          {
+            id: "3",
+            image: {
+              type: DeviceImageType.Harmony2,
+              color: DeviceImageColor.Black,
+            },
+            name: "Harmony",
+            serialNumber: "2222333344",
+          },
+          {
+            id: "4",
+            image: {
+              type: DeviceImageType.HarmonyMsc,
+              color: DeviceImageColor.White,
+            },
+            name: "Harmony",
+            recoveryMode: true,
+          },
+          {
+            id: "5",
+            image: {
+              type: DeviceImageType.Pure,
+              color: DeviceImageColor.White,
+            },
+            name: "Pure",
+            serialNumber: "3333444455",
+          },
+        ].map((device) => (
+          <DevicesDrawerCard {...device} key={device.id} />
+        ))}
+      </DevicesDrawer>
+    )
   },
 }
 
 export const DeviceCard: StoryObj<typeof DevicesDrawerCard> = {
   name: "Device card - default",
   argTypes: {
-    // @ts-expect-error devices not exist
-    devices: storybookHelper.disableControl().apply(),
-    activeDeviceSerialNumber: storybookHelper.disableControl().apply(),
+    // @ts-expect-error non-existing property
     opened: storybookHelper.disableControl().apply(),
     onClose: storybookHelper.disableControl().apply(),
-    onSelect: storybookHelper.disableControl().apply(),
+    name: storybookHelper
+      .assignCategory("Styles")
+      .addDescription("Defines the name of the device.")
+      .setType("string")
+      .apply(),
+    serialNumber: storybookHelper
+      .assignCategory("Styles")
+      .addDescription(
+        "Defines the serial number of the device. If not provided, it will not be displayed."
+      )
+      .setType("string")
+      .apply(),
+    recoveryMode: storybookHelper
+      .assignCategory("Styles")
+      .addDescription(
+        "Defines whether the device is in recovery mode or not. If true, a label will be displayed."
+      )
+      .setType("boolean")
+      .apply(),
+    image: storybookHelper
+      .assignCategory("Styles")
+      .addDescription(
+        "Defines the image of the device. It should contain the type and optionally the color."
+      )
+      .setType("{ type: DeviceImageType; color?: DeviceImageColor }")
+      .apply(),
+    active: storybookHelper
+      .assignCategory("Functional")
+      .addDescription(
+        "Defines whether the device is active or not. If true, an active label will be displayed."
+      )
+      .setType("boolean")
+      .apply(),
+    locked: storybookHelper
+      .assignCategory("Functional")
+      .addDescription(
+        "Defines whether the device is locked or not. If true, a locked label will be displayed."
+      )
+      .setType("boolean")
+      .apply(),
+    onClick: storybookHelper
+      .assignCategory("Functional")
+      .addDescription(
+        "Defines a function to be called when clicking the device card.\n\n" +
+          "Not available when the device is active."
+      )
+      .setType("VoidFunction")
+      .apply(),
   },
   decorators: [
     (Story) => (
@@ -159,9 +179,10 @@ export const DeviceCard: StoryObj<typeof DevicesDrawerCard> = {
       </SingleItemDecorator>
     ),
   ],
-  render: () => (
+  render: (args) => (
     <DevicesDrawerCard
-      device={{
+      {...args}
+      image={{
         type: DeviceImageType.Kompakt,
       }}
       name="Kompakt"
@@ -180,14 +201,38 @@ export const DeviceCardActive: StoryObj<typeof DevicesDrawerCard> = {
       </SingleItemDecorator>
     ),
   ],
-  render: () => (
+  render: (args) => (
     <DevicesDrawerCard
-      device={{
+      {...args}
+      image={{
         type: DeviceImageType.Kompakt,
       }}
       name="Kompakt"
       serialNumber="000011112222"
       active
+    />
+  ),
+}
+
+export const DeviceCardLocked: StoryObj<typeof DevicesDrawerCard> = {
+  name: "Device card - locked",
+  argTypes: DeviceCard.argTypes,
+  decorators: [
+    (Story) => (
+      <SingleItemDecorator>
+        <Story />
+      </SingleItemDecorator>
+    ),
+  ],
+  render: (args) => (
+    <DevicesDrawerCard
+      {...args}
+      image={{
+        type: DeviceImageType.Kompakt,
+      }}
+      name="Kompakt"
+      serialNumber="000011112222"
+      locked
     />
   ),
 }
@@ -202,9 +247,10 @@ export const DeviceCardRecoveryMode: StoryObj<typeof DevicesDrawerCard> = {
       </SingleItemDecorator>
     ),
   ],
-  render: () => (
+  render: (args) => (
     <DevicesDrawerCard
-      device={{
+      {...args}
+      image={{
         type: DeviceImageType.HarmonyMsc,
       }}
       name="Harmony 2"
@@ -225,9 +271,10 @@ export const DeviceCardRecoveryModeActive: StoryObj<typeof DevicesDrawerCard> =
         </SingleItemDecorator>
       ),
     ],
-    render: () => (
+    render: (args) => (
       <DevicesDrawerCard
-        device={{
+        {...args}
+        image={{
           type: DeviceImageType.HarmonyMsc,
         }}
         name="Harmony 2"

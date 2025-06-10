@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/app-state"
+export * from "./lib/app-store"
 export * from "./lib/app-dispatch"

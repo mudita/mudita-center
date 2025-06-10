@@ -4,8 +4,10 @@
  */
 
 export * from "./lib/devices-drawer/devices-drawer"
+export * from "./lib/devices-drawer/devices-drawer-card"
 export * from "./lib/device-image/device-image"
 export * from "./lib/devices-selector/devices-selector"
+export * from "./lib/devices-selector/devices-selector-card"
 export * from "./lib/devices-indicator/devices-indicator"
 export * from "./lib/switching-loader/device-switching-loader"
 export * from "./lib/device-troubleshooting/device-troubleshooting"

@@ -9,7 +9,7 @@ import { DashboardLayout, LegalLayout } from "app-routing/feature"
 import { useSettingsRouter } from "settings/routes"
 import { useNewsRouter } from "news/routes"
 import { useHelpRouter } from "help/routes"
-import { useDeviceRouter } from "devices/common/feature"
+import { useDevicesInitRouter } from "devices/common/routes"
 import {
   LicensePage,
   PrivacyPolicyPage,
@@ -20,15 +20,15 @@ export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
   const newsRouter = useNewsRouter()
   const settingsRouter = useSettingsRouter()
   const helpRouter = useHelpRouter()
-  const deviceRouter = useDeviceRouter()
+  const devicesRouter = useDevicesInitRouter()
 
   return (
     <Routes>
       <Route element={<DashboardLayout />}>
         {newsRouter}
         {settingsRouter}
-        {deviceRouter}
         {helpRouter}
+        {devicesRouter}
       </Route>
       <Route element={<LegalLayout />}>
         <Route path="/terms-of-service" element={<TermsOfServicePage />} />

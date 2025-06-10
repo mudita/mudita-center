@@ -118,7 +118,7 @@ export class SerialPortDevice extends SerialPort {
   }
 
   private createRequest({ options, ...data }: SerialPortRequest) {
-    const id = parseInt(uniqueId())
+    const id = parseInt(uniqueId()) % 99999999 || 1
     return new Promise<SerialPortResponse>((resolve, reject) => {
       void this.#queue.add(async () => {
         try {

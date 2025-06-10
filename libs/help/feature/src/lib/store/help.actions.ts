@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { AppState } from "app-store/models"
+import { AppStore } from "app-store/models"
 import { HelpData } from "help/models"
 import { helpDatabase } from "help/utils"
 
@@ -20,7 +20,7 @@ export const setHelpData = createAsyncThunk<HelpData, HelpData>(
 export const rateArticle = createAsyncThunk<
   string,
   { articleId: string; positive: boolean },
-  { state: AppState }
+  { state: AppStore }
 >(
   "help/rate",
   async ({ articleId, positive: _positive }, { getState: _getState }) => {

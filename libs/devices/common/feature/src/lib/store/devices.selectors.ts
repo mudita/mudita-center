@@ -4,18 +4,18 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { AppState } from "app-store/models"
+import { AppStore } from "app-store/models"
 
-export const selectConnectedDevices = createSelector(
-  (state: AppState) => state.devices,
+export const selectDevicesDrawerVisibility = createSelector(
+  (state: AppStore) => state.devices,
   (devices) => {
-    return devices.connected
+    return devices.drawerVisible
   }
 )
 
-export const selectCurrentDevice = createSelector(
-  selectConnectedDevices,
+export const selectConnectingModalVisibility = createSelector(
+  (state: AppStore) => state.devices,
   (devices) => {
-    return devices.find((device) => device.active)
+    return devices.connectingModalVisible
   }
 )

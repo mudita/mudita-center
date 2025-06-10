@@ -4,15 +4,15 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { AppState } from "app-store/models"
+import { AppStore } from "app-store/models"
 
 export const selectHelp = createSelector(
-  (state: AppState) => state.help.data,
+  (state: AppStore) => state.help.data,
   (help) => help
 )
 
 export const selectHelpCategories = createSelector(
-  (state: AppState) => state.help.data.categories,
+  (state: AppStore) => state.help.data.categories,
   (categories) => categories
 )
 
@@ -21,8 +21,8 @@ export const selectHelpCategoriesList = createSelector(selectHelp, (help) =>
 )
 
 export const selectCurrentCategory = createSelector(
-  (state: AppState) => state.help.data.categories,
-  (_: AppState, categoryId?: string) => categoryId,
+  (state: AppStore) => state.help.data.categories,
+  (_: AppStore, categoryId?: string) => categoryId,
   (categories, categoryId) => (categoryId ? categories[categoryId] : undefined)
 )
 
@@ -32,8 +32,8 @@ export const selectHelpSubcategories = createSelector(
 )
 
 export const selectCurrentSubcategory = createSelector(
-  (state: AppState) => state.help.data.subcategories,
-  (_: AppState, subcategoryId?: string) => subcategoryId,
+  (state: AppStore) => state.help.data.subcategories,
+  (_: AppStore, subcategoryId?: string) => subcategoryId,
   (subcategories, subcategoryId) =>
     subcategoryId ? subcategories[subcategoryId] : undefined
 )
@@ -45,22 +45,22 @@ export const selectHelpArticles = createSelector(
 
 export const selectCurrentArticle = createSelector(
   selectHelpArticles,
-  (_: AppState, articleId?: string) => articleId,
+  (_: AppStore, articleId?: string) => articleId,
   (articles, articleId) => (articleId ? articles[articleId] : undefined)
 )
 
 export const selectHelpAssets = createSelector(
-  (state: AppState) => state.help.data.assets,
+  (state: AppStore) => state.help.data.assets,
   (assets) => assets
 )
 
 export const selectRatedArticles = createSelector(
-  (state: AppState) => state.help.ratedArticles,
+  (state: AppStore) => state.help.ratedArticles,
   (ratedArticles) => ratedArticles
 )
 
 export const selectArticleRateStatus = createSelector(
-  (state: AppState) => state.help.ratedArticles,
-  (_: AppState, articleId: string) => articleId,
+  (state: AppStore) => state.help.ratedArticles,
+  (_: AppStore, articleId: string) => articleId,
   (ratedArticles, articleId) => ratedArticles.includes(articleId)
 )

@@ -21,12 +21,16 @@ export class AppSerialPort {
     window.api.serialPort.onDevicesChanged(callback)
   }
 
+  static getCurrentDevices(): Promise<SerialPortDeviceInfo[]> {
+    return window.api.serialPort.getCurrentDevices()
+  }
+
   static async changeBaudRate(path: SerialPortDevicePath, baudRate: number) {
     await window.api.serialPort.changeBaudRate(path, baudRate)
   }
 
   static isCompatible(
-    device: SerialPortDeviceInfo
+    device: Pick<SerialPortDeviceInfo, "deviceType">
   ): device is SerialPortDeviceInfo {
     if (!Object.values(SerialPortDeviceType).includes(device.deviceType)) {
       throw new Error("Device type is not supported")
@@ -35,7 +39,7 @@ export class AppSerialPort {
   }
 
   static async request(
-    device: SerialPortDeviceInfo,
+    device: Pick<SerialPortDeviceInfo, "deviceType" | "path">,
     data: SerialPortRequest
   ): Promise<SerialPortResponse> {
     try {
