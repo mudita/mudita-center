@@ -4,6 +4,7 @@
  */
 
 import { createContext } from "react"
+import { NewsPaths } from "news/models"
 
 export interface HistoryContext {
   paths: string[]
@@ -12,5 +13,5 @@ export interface HistoryContext {
 
 export const historyContext = createContext<HistoryContext>({
   paths: [],
-  getPreviousPath: () => "/news",
+  getPreviousPath: () => NewsPaths.Index,
 })

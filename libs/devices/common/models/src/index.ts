@@ -6,3 +6,6 @@
 export * from "./lib/device-metadata"
 export * from "./lib/devices-reducer"
 export * from "./lib/device-image"
+export * from "./lib/devices-paths"
+export * from "./lib/device-status"
+export * from "./lib/welcome-screen-test-ids"

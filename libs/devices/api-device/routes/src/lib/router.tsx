@@ -3,102 +3,172 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Navigate, Route, useParams } from "react-router"
+import { Navigate, Route, useNavigate, useParams } from "react-router"
+import { FunctionComponent, useCallback, useEffect } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 import { apiDevicePaths } from "./paths"
 import {
-  FunctionComponent,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from "react"
-import { getMenuConfig } from "devices/api-device/feature"
-import { AppDeviceInfo } from "devices/common/models"
-import { registerMenuGroups, unregisterMenuGroups } from "app-routing/feature"
-import { useDispatch } from "react-redux"
-import { MenuIndex } from "app-routing/models"
+  DeviceStatus,
+  DeviceMetadata,
+  DevicesPaths,
+} from "devices/common/models"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
-import { ApiDeviceErrorType, MenuConfig } from "devices/api-device/models"
+import {
+  Device,
+  useActiveDevice,
+  useDeviceConfig,
+  useDeviceMenu,
+  useDeviceMetadata,
+  useDeviceStatus,
+} from "devices/common/feature"
+import { ApiDeviceErrorType } from "devices/api-device/models"
+import { Modal, Typography } from "app-theme/ui"
+import { IconType } from "app-theme/models"
+import { useRoutingHistory } from "app-routing/feature"
+import { defineMessages, formatMessage } from "app-localize/utils"
 
-export const useApiDeviceRouter = (currentDevice?: AppDeviceInfo) => {
-  const dispatch = useDispatch()
-  const [menu, setMenu] = useState<MenuConfig>()
+const messages = defineMessages({
+  passcodeModalTitle: {
+    id: "apiDevice.passcodeModal.title",
+  },
+  passcodeModalDescription: {
+    id: "apiDevice.passcodeModal.description",
+  },
+})
 
-  const apiDevice = ApiDeviceSerialPort.isCompatible(currentDevice)
-    ? currentDevice
+export const useApiDeviceRouter = (device?: Device) => {
+  const queryClient = useQueryClient()
+
+  const activeApiDevice = ApiDeviceSerialPort.isCompatible(device)
+    ? device
     : undefined
 
-  const fetchMenu = useCallback(async () => {
-    if (apiDevice) {
-      const menuConfig = await getMenuConfig(apiDevice)
-      if (menuConfig.ok) {
-        setMenu(menuConfig.body)
-      } else if (menuConfig.status === ApiDeviceErrorType.DeviceLocked) {
-        await new Promise((resolve) => setTimeout(resolve, 500))
-        await fetchMenu()
-      }
-    }
-  }, [apiDevice])
+  const {
+    isLoading: isConfigLoading,
+    isError: isConfigError,
+    isSuccess: isConfigSuccess,
+  } = useDeviceConfig(activeApiDevice)
+  const {
+    data: menu,
+    isLoading: isMenuLoading,
+    isError: isMenuError,
+    failureReason: menuFailureReason,
+    failureCount: menuFailureCount,
+  } = useDeviceMenu<ApiDeviceErrorType>(activeApiDevice)
 
-  const menuGroups = useMemo(() => {
-    if (!menu) {
+  const isDeviceLocked = menuFailureReason === ApiDeviceErrorType.DeviceLocked
+
+  // Define the device status
+  useEffect(() => {
+    if (!activeApiDevice) {
       return
     }
-    return [
-      {
-        index: MenuIndex.Device,
-        title: menu.title,
-        items: menu.menuItems.map((item) => {
-          const submenu = item.submenu?.map((submenu) => ({
-            title: submenu.displayName,
-            path: `${apiDevicePaths.index}/${item.feature}/${submenu.feature}`,
-          }))
-          return {
-            title: item.displayName,
-            icon: item.icon,
-            path: `${apiDevicePaths.index}/${item.feature}`,
-            items: submenu,
-          }
-        }),
-      },
-    ]
-  }, [menu])
 
-  useLayoutEffect(() => {
-    void fetchMenu()
-  }, [fetchMenu])
-
-  useLayoutEffect(() => {
-    if (menuGroups && apiDevice) {
-      dispatch(registerMenuGroups(menuGroups))
-    } else {
-      dispatch(unregisterMenuGroups([MenuIndex.Device]))
+    if (isConfigLoading || (isMenuLoading && menuFailureCount < 3)) {
+      queryClient.setQueryData(
+        useDeviceStatus.queryKey(activeApiDevice.path),
+        DeviceStatus.Initializing
+      )
+      return
     }
-  }, [apiDevice, dispatch, menuGroups])
+    if (
+      isConfigError ||
+      (isMenuError && menuFailureReason !== ApiDeviceErrorType.DeviceLocked)
+    ) {
+      queryClient.setQueryData(
+        useDeviceStatus.queryKey(activeApiDevice.path),
+        DeviceStatus.CriticalError
+      )
+      return
+    }
+    if (isConfigSuccess) {
+      queryClient.setQueryData(
+        useDeviceStatus.queryKey(activeApiDevice.path),
+        DeviceStatus.Initialized
+      )
 
-  if (!apiDevice || !menu) {
+      queryClient.setQueryData(
+        useDeviceMetadata.queryKey(activeApiDevice.path),
+        (currentData: DeviceMetadata) => {
+          if (currentData) {
+            return {
+              ...currentData,
+              locked: isDeviceLocked,
+            }
+          }
+          return null
+        }
+      )
+    }
+  }, [
+    activeApiDevice,
+    isConfigError,
+    isConfigLoading,
+    isConfigSuccess,
+    isDeviceLocked,
+    isMenuError,
+    isMenuLoading,
+    menuFailureCount,
+    menuFailureReason,
+    queryClient,
+  ])
+
+  if (!activeApiDevice) {
     return null
   }
 
+  return {
+    initialization: isDeviceLocked ? (
+      <Route index element={<DeviceLockedPage />} />
+    ) : (
+      <Route index element={<Navigate to={apiDevicePaths.index} replace />} />
+    ),
+    dashboard: (
+      <Route path={apiDevicePaths.index}>
+        <Route
+          index
+          element={<Navigate to={menu?.items?.[0]?.path as string} replace />}
+        />
+        {menu?.items?.map((item) => {
+          if (item.items?.length) {
+            return (
+              <Route
+                key={item.path}
+                path={item.path}
+                element={<Navigate to={item.items[0].path} />}
+              />
+            )
+          }
+          return null
+        })}
+        <Route path={apiDevicePaths.view} element={<GenericView />} />
+      </Route>
+    ),
+  }
+}
+
+const DeviceLockedPage: FunctionComponent = () => {
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
+  const { getPreviousPath } = useRoutingHistory()
+
+  const onPasscodeAbort = useCallback(() => {
+    const previousPath = getPreviousPath((path) => {
+      return !path.startsWith(DevicesPaths.Index)
+    })
+    queryClient.removeQueries({ queryKey: useActiveDevice.queryKey })
+    navigate({ pathname: previousPath })
+  }, [getPreviousPath, navigate, queryClient])
+
   return (
-    <Route path={"/generic"}>
-      {menuGroups?.[0]?.items.map((item) => {
-        if (item.items?.length) {
-          return (
-            <Route
-              key={item.path}
-              path={item.path}
-              element={<Navigate to={item.items[0].path} />}
-            />
-          )
-        }
-        return null
-      })}
-      <Route path={apiDevicePaths.view} element={<GenericView />} />
-      {menuGroups?.[0] && (
-        <Route index element={<Navigate to={menuGroups[0].items[0].path} />} />
-      )}
-    </Route>
+    <Modal opened>
+      <Modal.CloseButton onClick={onPasscodeAbort} />
+      <Modal.TitleIcon type={IconType.MuditaLogo} />
+      <Modal.Title>{formatMessage(messages.passcodeModalTitle)}</Modal.Title>
+      <Typography.P1>
+        {formatMessage(messages.passcodeModalDescription)}
+      </Typography.P1>
+    </Modal>
   )
 }
 

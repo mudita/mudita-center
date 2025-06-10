@@ -3,7 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface DevicesReducer {
-  connectingModalVisible: boolean
-  drawerVisible: boolean
-}
+export { NewsPaths } from "news/models"
+export { DevicesPaths } from "devices/common/models"

@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface DevicesReducer {
-  connectingModalVisible: boolean
-  drawerVisible: boolean
+export enum FullscreenLayoutTestIds {
+  FullScreenLayout = "fullscreen-layout",
 }

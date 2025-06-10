@@ -16,6 +16,7 @@ import {
   IconType,
 } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
+import { MenuDevicesIndicator } from "./menu-devices-indicator"
 
 interface Props {
   className?: string
@@ -95,6 +96,9 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
           </MenuGroupWrapper>
         )
       })}
+      <DevicesIndicatorWrapper>
+        <MenuDevicesIndicator />
+      </DevicesIndicatorWrapper>
     </Wrapper>
   )
 }
@@ -228,4 +232,11 @@ const MenuButton = styled(Button)`
     margin-top: 0;
     padding-bottom: 0;
   }
+`
+
+const DevicesIndicatorWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `
