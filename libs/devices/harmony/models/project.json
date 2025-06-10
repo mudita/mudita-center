@@ -1,0 +1,9 @@
+{
+  "name": "devices/harmony/models",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/devices/harmony/models/src",
+  "projectType": "library",
+  "tags": ["type:models"],
+  "// targets": "to see all targets run: nx show project devices/harmony/models --web",
+  "targets": {}
+}
