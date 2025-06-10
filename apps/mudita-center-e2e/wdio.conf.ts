@@ -102,6 +102,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.helpSectionKompakt),
     toRelativePath(TestFilesPaths.kompaktManageFilesOverall),
     toRelativePath(TestFilesPaths.kompaktBackupFailedFullStorage),
+    toRelativePath(TestFilesPaths.kompaktManageFilesRemoveFiles),
   ],
   suites: {
     standalone: [
@@ -149,6 +150,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktBackupErrorDisconnect),
       toRelativePath(TestFilesPaths.kompaktManageFilesOverall),
       toRelativePath(TestFilesPaths.kompaktBackupFailedFullStorage),
+      toRelativePath(TestFilesPaths.kompaktManageFilesRemoveFiles),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -204,6 +206,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktBackupErrorDisconnect),
       toRelativePath(TestFilesPaths.kompaktManageFilesOverall),
       toRelativePath(TestFilesPaths.kompaktBackupFailedFullStorage),
+      toRelativePath(TestFilesPaths.kompaktManageFilesRemoveFiles),
     ],
   },
   // Patterns to exclude.

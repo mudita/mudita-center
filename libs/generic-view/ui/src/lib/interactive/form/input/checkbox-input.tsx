@@ -108,6 +108,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
       onClick={(e) => {
         e.stopPropagation()
       }}
+      data-testid={`${CheckboxTestIds.Checkbox}-${props.componentKey}`}
     >
       <Input
         id={"checkbox-" + id}
