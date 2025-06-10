@@ -33,6 +33,7 @@ export const Drawer: FunctionComponent = () => {
     (deviceId: DeviceMetadata["id"]) => {
       const device = devices?.find((d) => d.path === deviceId)
       if (!device) {
+        console.warn("Selected device not found:", deviceId)
         return
       }
       activateDevice(device)
