@@ -9,6 +9,7 @@ import { ButtonSize, ButtonTextModifier, ButtonType } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import styled from "styled-components"
 import DiagramSvg from "./img/diagram.svg?react"
+import { WelcomeScreenTestIds } from "devices/common/models"
 
 const messages = defineMessages({
   title: {
@@ -26,6 +27,9 @@ const messages = defineMessages({
 })
 
 const devicesMessages = defineMessages({
+  kompakt: {
+    id: "general.welcomeScreen.devices.kompakt",
+  },
   harmony: {
     id: "general.welcomeScreen.devices.harmony",
   },
@@ -34,9 +38,6 @@ const devicesMessages = defineMessages({
   },
   pure: {
     id: "general.welcomeScreen.devices.pure",
-  },
-  kompakt: {
-    id: "general.welcomeScreen.devices.kompakt",
   },
 })
 
@@ -50,7 +51,7 @@ export const WelcomeScreen: FunctionComponent<Props> = ({
   onTroubleshoot,
 }) => {
   return (
-    <Wrapper>
+    <Wrapper data-testid={WelcomeScreenTestIds.WelcomeScreen}>
       <Content>
         <Header>
           <WelcomeText>{formatMessage(messages.title)}</WelcomeText>

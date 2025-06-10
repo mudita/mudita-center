@@ -5,3 +5,5 @@
 
 export { NewsTestId } from "news/models"
 export { ModalTestId } from "app-theme/models"
+export { FullscreenLayoutTestIds } from "app-routing/models"
+export { WelcomeScreenTestIds } from "devices/common/models"

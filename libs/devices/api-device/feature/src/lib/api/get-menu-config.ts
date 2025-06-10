@@ -4,10 +4,15 @@
  */
 
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
-import { ApiDevice } from "devices/api-device/models"
+import {
+  ApiDevice,
+  ApiDevicePaths,
+  ApiDeviceResponseBody,
+} from "devices/api-device/models"
+import { MenuGroup, MenuIndex } from "app-routing/models"
 
 export const getMenuConfig = async (device: ApiDevice) => {
-  return await ApiDeviceSerialPort.request(device, {
+  const response = await ApiDeviceSerialPort.request(device, {
     endpoint: "MENU_CONFIGURATION",
     method: "GET",
     body: {
@@ -15,7 +20,31 @@ export const getMenuConfig = async (device: ApiDevice) => {
     },
     options: {
       timeout: 1000,
-      retries: 3,
     },
   })
+  return {
+    ...response,
+    body: response.ok ? mapMenuConfig(response.body) : null,
+  }
+}
+
+const mapMenuConfig = (
+  menu: ApiDeviceResponseBody<"MENU_CONFIGURATION", "GET">
+): MenuGroup => {
+  return {
+    index: MenuIndex.Device,
+    title: menu.title,
+    items: menu.menuItems.map((item) => {
+      const submenu = item.submenu?.map((submenu) => ({
+        title: submenu.displayName,
+        path: `${ApiDevicePaths.Index}/${item.feature}/${submenu.feature}`,
+      }))
+      return {
+        title: item.displayName,
+        icon: item.icon,
+        path: `${ApiDevicePaths.Index}/${item.feature}`,
+        items: submenu,
+      }
+    }),
+  }
 }

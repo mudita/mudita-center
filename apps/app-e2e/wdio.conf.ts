@@ -292,13 +292,18 @@ export const config: WebdriverIO.Config = {
    * @param {object} suite suite details
    */
   beforeSuite: async function (suite) {
-    // Skip fresh app initialization for specific suites
-    const suitesToSkipAutoInit = ["Privacy Policy modal"]
-    if (suitesToSkipAutoInit.includes(suite.title)) {
-      return
+    if (!["Privacy Policy modal"].includes(suite.title)) {
+      await AppInitPage.acceptPrivacyPolicy()
     }
-    // For other suites, automatically skip the initialization process
-    await AppInitPage.acceptPrivacyPolicy()
+    if (
+      ![
+        "Privacy Policy modal",
+        "Welcome screen",
+        "Devices - welcome screen",
+      ].includes(suite.title)
+    ) {
+      await AppInitPage.closeFullscreenLayout()
+    }
   },
   /**
    * Function to be executed before a test (in Mocha/Jasmine) starts.
