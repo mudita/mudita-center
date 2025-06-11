@@ -29,7 +29,7 @@ export const contactFullData1 = {
   entityType: "contacts",
 }
 
-const contactFullData2 = {
+export const contactFullData2 = {
   firstName: "John",
   lastName: "Doe",
   namePrefix: "Mr.",
@@ -57,7 +57,7 @@ const contactFullData2 = {
   entityType: "contacts",
 }
 
-const contactFullData3 = {
+export const contactFullData3 = {
   firstName: "Emily",
   lastName: "Clark",
   namePrefix: "Ms.",
@@ -203,6 +203,11 @@ const contactWithPrefixSuffix = {
   namePrefix: "Prof.",
   nameSuffix: "PhD. (prefix & suffix only)",
   phoneNumbers: [{ phoneNumber: "+48345678901", phoneType: "MOBILE" }],
+  entityType: "contacts",
+}
+
+export const contactWithFirstNameOnly = {
+  firstName: "Marian (first name only)",
   entityType: "contacts",
 }
 
@@ -521,6 +526,7 @@ export const contactsSeedData: EntityData[] = [
   contactWithRepetitions,
   contactWithNumbersInName,
   contactWithPrefixSuffix,
+  contactWithFirstNameOnly,
   contactWithMiddleNameOnly,
   contactWithWithSpecialCharactersInMiddleName,
   contactWithGermanyPhoneNumberOnly,
