@@ -4,30 +4,52 @@
  */
 
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
-import { getApiConfig } from "devices/api-device/feature"
+import { getApiConfig, GetApiConfigResponse } from "devices/api-device/feature"
 import { useQuery } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
 import { Device } from "./use-devices"
+import { HarmonySerialPort } from "devices/harmony/adapters"
+import { getHarmonyInfo, GetHarmonyInfoResponse } from "devices/harmony/feature"
+import { ApiDevice } from "devices/api-device/models"
+import { Harmony } from "devices/harmony/models"
 
-const queryFn = async (device?: Device) => {
+type QueryFnResponse<D extends Device | undefined> = Promise<
+  D extends ApiDevice
+    ? GetApiConfigResponse["body"]
+    : D extends Harmony
+      ? GetHarmonyInfoResponse["body"]
+      : null
+>
+
+const queryFn = async <D extends Device | undefined>(
+  device?: D
+): QueryFnResponse<D> => {
   if (!device) {
-    return null
+    return null as unknown as QueryFnResponse<D>
   }
   if (ApiDeviceSerialPort.isCompatible(device)) {
     const config = await getApiConfig(device)
     if (config.ok) {
-      return config.body
+      return config.body as unknown as QueryFnResponse<D>
     } else {
       throw config.status
     }
   }
-  return null
+  if (HarmonySerialPort.isCompatible(device)) {
+    const config = await getHarmonyInfo(device)
+    if (config.ok) {
+      return config.body as unknown as QueryFnResponse<D>
+    } else {
+      throw config.status
+    }
+  }
+  return null as unknown as QueryFnResponse<D>
 }
 
 export const useDeviceConfig = (device?: Device) => {
   return useQuery({
     queryKey: devicesQueryKeys.deviceConfig(device?.path),
-    queryFn: () => queryFn(device),
+    queryFn: () => queryFn(device as ApiDevice | Harmony | undefined),
     retry: 3,
     retryDelay: 250,
     enabled: Boolean(device),

@@ -16,13 +16,17 @@ const messages = defineMessages({
   recoveryModeLabel: { id: "general.components.deviceCard.recoveryModeLabel" },
   activeLabel: { id: "general.components.deviceCard.activeLabel" },
   lockedLabel: { id: "general.components.deviceCard.lockedLabel" },
+  errorLabel: { id: "general.components.deviceCard.errorLabel" },
 })
 
 export interface DrawerItemProps
   extends Omit<DeviceMetadata, "id">,
     ComponentProps<typeof DevicesDrawerCardWrapper> {
   active?: boolean
+  locked?: boolean
   onClick?: VoidFunction
+  placeholder?: boolean
+  error?: boolean
 }
 
 export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
@@ -33,11 +37,16 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
   recoveryMode,
   onClick,
   locked,
+  placeholder,
+  error,
   ...rest
 }) => {
+  const isActive = active && !locked && !placeholder && !error
+  const isLoading = !isActive && placeholder && !error
+  const isClickable = !isLoading && !isActive
   return (
     <DevicesDrawerCardWrapper
-      onClick={active && !locked ? undefined : onClick}
+      onClick={isClickable ? onClick : undefined}
       {...rest}
     >
       <DeviceImage
@@ -46,9 +55,9 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
         color={image.color}
       />
       <Info>
-        <Typography.H4 as={"p"}>
-          {name}{" "}
-          {!locked && active && (
+        <DeviceName forwardedAs={"p"}>
+          {name}&nbsp;
+          {isActive && (
             <ActiveIndicator>
               {formatMessage(messages.activeLabel)}
             </ActiveIndicator>
@@ -58,7 +67,17 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
               {formatMessage(messages.lockedLabel)}
             </LockedIndicator>
           )}
-        </Typography.H4>
+          {error && (
+            <ErrorIndicator>
+              {formatMessage(messages.errorLabel)}
+            </ErrorIndicator>
+          )}
+          {isLoading && (
+            <LoadingIndicator>
+              <Icon type={IconType.Spinner} size={IconSize.Medium} />
+            </LoadingIndicator>
+          )}
+        </DeviceName>
         {Boolean(serialNumber) && (
           <div>
             <Typography.P3 message={messages.serialNumberLabel.id} />
@@ -84,6 +103,24 @@ const ActiveIndicator = styled.span`
 
 const LockedIndicator = styled.span`
   text-transform: uppercase;
+`
+
+const ErrorIndicator = styled.span`
+  text-transform: uppercase;
+`
+
+const LoadingIndicator = styled.span`
+  margin-left: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`
+
+const DeviceName = styled(Typography.H4)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `
 
 export const DevicesDrawerCardWrapper = styled.li<{ onClick?: VoidFunction }>`

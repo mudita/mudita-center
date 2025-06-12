@@ -8,7 +8,4 @@ export enum ApiDeviceErrorType {
   DeviceLocked = 423,
   EulaNotAccepted = 451,
   DeviceInternalError = 500,
-  RequestParsingFailed = 900,
-  ResponseParsingFailed = 901,
-  Critical = 999,
 }

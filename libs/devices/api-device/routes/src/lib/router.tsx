@@ -6,22 +6,17 @@
 import { Navigate, Route, useNavigate, useParams } from "react-router"
 import { FunctionComponent, useCallback, useEffect } from "react"
 import { useQueryClient } from "@tanstack/react-query"
-import { apiDevicePaths } from "./paths"
-import {
-  DeviceStatus,
-  DeviceMetadata,
-  DevicesPaths,
-} from "devices/common/models"
+import { DevicesPaths, DeviceStatus } from "devices/common/models"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import {
   Device,
   useActiveDevice,
   useDeviceConfig,
   useDeviceMenu,
-  useDeviceMetadata,
+  useDevices,
   useDeviceStatus,
 } from "devices/common/feature"
-import { ApiDeviceErrorType } from "devices/api-device/models"
+import { ApiDeviceErrorType, ApiDevicePaths } from "devices/api-device/models"
 import { Modal, Typography } from "app-theme/ui"
 import { IconType } from "app-theme/models"
 import { useRoutingHistory } from "app-routing/feature"
@@ -43,15 +38,13 @@ export const useApiDeviceRouter = (device?: Device) => {
     ? device
     : undefined
 
-  const {
-    isLoading: isConfigLoading,
-    isError: isConfigError,
-    isSuccess: isConfigSuccess,
-  } = useDeviceConfig(activeApiDevice)
+  const { isLoading: isConfigLoading, isError: isConfigError } =
+    useDeviceConfig(activeApiDevice)
   const {
     data: menu,
     isLoading: isMenuLoading,
     isError: isMenuError,
+    isSuccess: isMenuSuccess,
     failureReason: menuFailureReason,
     failureCount: menuFailureCount,
   } = useDeviceMenu<ApiDeviceErrorType>(activeApiDevice)
@@ -81,31 +74,21 @@ export const useApiDeviceRouter = (device?: Device) => {
       )
       return
     }
-    if (isConfigSuccess) {
+    if (menuFailureReason === ApiDeviceErrorType.DeviceLocked) {
       queryClient.setQueryData(
         useDeviceStatus.queryKey(activeApiDevice.path),
-        DeviceStatus.Initialized
+        DeviceStatus.Locked
       )
-
-      queryClient.setQueryData(
-        useDeviceMetadata.queryKey(activeApiDevice.path),
-        (currentData: DeviceMetadata) => {
-          if (currentData) {
-            return {
-              ...currentData,
-              locked: isDeviceLocked,
-            }
-          }
-          return null
-        }
-      )
+      return
     }
+    queryClient.setQueryData(
+      useDeviceStatus.queryKey(activeApiDevice.path),
+      DeviceStatus.Initialized
+    )
   }, [
     activeApiDevice,
     isConfigError,
     isConfigLoading,
-    isConfigSuccess,
-    isDeviceLocked,
     isMenuError,
     isMenuLoading,
     menuFailureCount,
@@ -113,18 +96,21 @@ export const useApiDeviceRouter = (device?: Device) => {
     queryClient,
   ])
 
-  if (!activeApiDevice) {
-    return null
-  }
-
   return {
-    initialization: isDeviceLocked ? (
-      <Route index element={<DeviceLockedPage />} />
-    ) : (
-      <Route index element={<Navigate to={apiDevicePaths.index} replace />} />
-    ),
+    initialization:
+      activeApiDevice &&
+      (isDeviceLocked ? (
+        <Route index element={<DeviceLockedPage />} />
+      ) : (
+        isMenuSuccess && (
+          <Route
+            index
+            element={<Navigate to={ApiDevicePaths.Index} replace />}
+          />
+        )
+      )),
     dashboard: (
-      <Route path={apiDevicePaths.index}>
+      <Route path={ApiDevicePaths.Index}>
         <Route
           index
           element={<Navigate to={menu?.items?.[0]?.path as string} replace />}
@@ -141,7 +127,7 @@ export const useApiDeviceRouter = (device?: Device) => {
           }
           return null
         })}
-        <Route path={apiDevicePaths.view} element={<GenericView />} />
+        <Route path={ApiDevicePaths.View} element={<GenericView />} />
       </Route>
     ),
   }
@@ -151,14 +137,17 @@ const DeviceLockedPage: FunctionComponent = () => {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const { getPreviousPath } = useRoutingHistory()
+  const { data: devices = [] } = useDevices()
 
   const onPasscodeAbort = useCallback(() => {
     const previousPath = getPreviousPath((path) => {
       return !path.startsWith(DevicesPaths.Index)
     })
-    queryClient.removeQueries({ queryKey: useActiveDevice.queryKey })
+    if (devices.length > 1) {
+      queryClient.removeQueries({ queryKey: useActiveDevice.queryKey })
+    }
     navigate({ pathname: previousPath })
-  }, [getPreviousPath, navigate, queryClient])
+  }, [devices.length, getPreviousPath, navigate, queryClient])
 
   return (
     <Modal opened>

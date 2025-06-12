@@ -19,6 +19,7 @@ import {
   ApiDeviceResponse,
   ApiDeviceResponseBody,
 } from "devices/api-device/models"
+import { DeviceErrorType } from "devices/common/models"
 
 export type Response<
   E extends ApiDeviceEndpoint,
@@ -33,7 +34,7 @@ export type Response<
   | {
       ok: false
       endpoint: E
-      status: ApiDeviceErrorType
+      status: ApiDeviceErrorType | DeviceErrorType
       body?: unknown
       error?: unknown
     }
@@ -69,7 +70,7 @@ export class ApiDeviceSerialPort {
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: ApiDeviceErrorType.RequestParsingFailed,
+          status: DeviceErrorType.RequestParsingFailed,
           error: requestParseResult.error,
         }
       }
@@ -87,14 +88,14 @@ export class ApiDeviceSerialPort {
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: ApiDeviceErrorType.Critical,
+          status: DeviceErrorType.Critical,
           error: message,
         }
       }
       return {
         ok: false,
         endpoint: request.endpoint,
-        status: ApiDeviceErrorType.Critical,
+        status: DeviceErrorType.Critical,
         error: error,
       }
     }
@@ -109,7 +110,7 @@ export class ApiDeviceSerialPort {
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: ApiDeviceErrorType.ResponseParsingFailed,
+          status: DeviceErrorType.ResponseParsingFailed,
           error: responseParseResult.error,
         }
       }

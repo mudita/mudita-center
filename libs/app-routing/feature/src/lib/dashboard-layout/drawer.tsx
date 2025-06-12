@@ -15,8 +15,13 @@ import {
   useDeviceActivate,
   useDeviceMetadata,
   useDevices,
+  useDeviceStatus,
 } from "devices/common/feature"
-import { DeviceMetadata, DevicesPaths } from "devices/common/models"
+import {
+  DeviceMetadata,
+  DevicesPaths,
+  DeviceStatus,
+} from "devices/common/models"
 
 export const Drawer: FunctionComponent = () => {
   const dispatch = useDispatch()
@@ -30,14 +35,14 @@ export const Drawer: FunctionComponent = () => {
   }, [dispatch])
 
   const selectDevice = useCallback(
-    (deviceId: DeviceMetadata["id"]) => {
+    async (deviceId: DeviceMetadata["id"]) => {
       const device = devices?.find((d) => d.path === deviceId)
       if (!device) {
         console.warn("Selected device not found:", deviceId)
         return
       }
+      navigate({ pathname: DevicesPaths.Connecting })
       activateDevice(device)
-      navigate({ pathname: DevicesPaths.Current })
       closeDrawer()
     },
     [activateDevice, closeDrawer, devices, navigate]
@@ -47,7 +52,7 @@ export const Drawer: FunctionComponent = () => {
     <DevicesDrawer opened={drawerVisible} onClose={closeDrawer}>
       {devices?.map((device) => {
         const select = () => {
-          selectDevice(device.path)
+          void selectDevice(device.path)
         }
         return <Card key={device.path} {...device} onClick={select} />
       })}
@@ -59,13 +64,24 @@ const Card: FunctionComponent<Device & { onClick: VoidFunction }> = ({
   onClick,
   ...device
 }) => {
-  const { data: metadata } = useDeviceMetadata(device)
+  const { data: metadata, isPlaceholderData } = useDeviceMetadata(device)
   const { data: activeDevice } = useActiveDevice()
+  const { data: status } = useDeviceStatus(device)
 
   if (!metadata) {
     return null
   }
   const isActive = activeDevice?.path === device.path
+  const isLocked = status === DeviceStatus.Locked
 
-  return <DevicesDrawerCard {...metadata} onClick={onClick} active={isActive} />
+  return (
+    <DevicesDrawerCard
+      {...metadata}
+      onClick={onClick}
+      active={isActive}
+      locked={isLocked}
+      placeholder={isPlaceholderData}
+      error={status === DeviceStatus.CriticalError}
+    />
+  )
 }

@@ -11,7 +11,7 @@ import {
 } from "devices/api-device/models"
 import { MenuGroup, MenuIndex } from "app-routing/models"
 
-export const getMenuConfig = async (device: ApiDevice) => {
+export const getApiMenuConfig = async (device: ApiDevice) => {
   const response = await ApiDeviceSerialPort.request(device, {
     endpoint: "MENU_CONFIGURATION",
     method: "GET",

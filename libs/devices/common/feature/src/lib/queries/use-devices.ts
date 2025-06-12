@@ -9,12 +9,10 @@ import { AppSerialPort } from "app-serialport/renderer"
 import { useCallback } from "react"
 import { SerialPortDeviceInfo } from "app-serialport/models"
 import { uniqBy } from "lodash"
-import { useActiveDevice } from "./use-active-device"
+import { ApiDevice } from "devices/api-device/models"
+import { Harmony } from "devices/harmony/models"
 
-export type Device = {
-  path: SerialPortDeviceInfo["path"]
-  deviceType: SerialPortDeviceInfo["deviceType"]
-}
+export type Device = Pick<ApiDevice | Harmony, "path" | "deviceType">
 
 const queryFn = async () => {
   const devices = await AppSerialPort.getCurrentDevices()
@@ -22,7 +20,7 @@ const queryFn = async () => {
   return devices.map(({ path, deviceType }) => ({
     path,
     deviceType,
-  }))
+  })) as Device[]
 }
 
 export const useDevices = ({ enabled } = { enabled: true }) => {
@@ -58,23 +56,28 @@ export const useDeviceAttach = () => {
 
 export const useDeviceDetach = () => {
   const queryClient = useQueryClient()
-  const { data: activeDevice } = useActiveDevice()
 
   return useCallback(
-    (path: SerialPortDeviceInfo["path"]) => {
+    async (path: SerialPortDeviceInfo["path"]) => {
       queryClient.setQueryData(
         useDevices.queryKey,
         (previousDevices: SerialPortDeviceInfo[] = []) => {
           return previousDevices.filter((device) => device.path !== path)
         }
       )
-      queryClient.removeQueries({ queryKey: devicesQueryKeys._device(path) })
+      queryClient.removeQueries({
+        queryKey: devicesQueryKeys._device(path),
+      })
+
+      const activeDevice = queryClient.getQueryData(
+        devicesQueryKeys.activeDevice()
+      ) as Device | null
       if (activeDevice?.path === path) {
         queryClient.removeQueries({
           queryKey: devicesQueryKeys.activeDevice(),
         })
       }
     },
-    [activeDevice, queryClient]
+    [queryClient]
   )
 }
