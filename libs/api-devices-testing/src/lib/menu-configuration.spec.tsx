@@ -47,7 +47,7 @@ describe("API configuration", () => {
 
     expect(response.ok).toBeTruthy()
     if (!response.ok) {
-      return false
+      return
     }
 
     const allFeatures = response.data.menuItems.flatMap((item) => {
