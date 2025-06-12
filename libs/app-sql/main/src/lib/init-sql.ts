@@ -7,7 +7,7 @@ import { IpcMain } from "electron"
 import { SqlIpcEvents } from "app-sql/models"
 import { AppSql } from "./app-sql"
 
-let sql: AppSql | null = null
+let sql: AppSql
 
 export const initSql = (ipcMain: IpcMain) => {
   if (!sql) {
@@ -16,14 +16,14 @@ export const initSql = (ipcMain: IpcMain) => {
     ipcMain.handle(
       SqlIpcEvents.RunQuery,
       async (_, name: string, query: string) => {
-        await (sql as AppSql).runQuery(name, query)
+        await sql.runQuery(name, query)
       }
     )
     ipcMain.removeHandler(SqlIpcEvents.ExecuteQuery)
     ipcMain.handle(
       SqlIpcEvents.ExecuteQuery,
       (_, name: string, query: string) => {
-        return (sql as AppSql).executeQuery(name, query)
+        return sql.executeQuery(name, query)
       }
     )
   }
