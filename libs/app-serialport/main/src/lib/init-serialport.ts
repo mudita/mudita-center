@@ -11,7 +11,7 @@ import {
 } from "app-serialport/models"
 import { AppSerialPort } from "./app-serial-port"
 
-let serialport: AppSerialPort | null = null
+let serialport: AppSerialPort
 
 export const initSerialPort = (ipcMain: IpcMain, webContents: WebContents) => {
   if (serialport) {
@@ -30,20 +30,20 @@ export const initSerialPort = (ipcMain: IpcMain, webContents: WebContents) => {
       webContents.send(SerialPortIpcEvents.DevicesChanged, data)
     })
     ipcMain.handle(SerialPortIpcEvents.GetCurrentDevices, () => {
-      return (serialport as AppSerialPort).getCurrentDevices()
+      return serialport.getCurrentDevices()
     })
     ipcMain.removeHandler(SerialPortIpcEvents.Request)
     ipcMain.handle(
       SerialPortIpcEvents.Request,
       (_, path: string, data: SerialPortRequest) => {
-        return (serialport as AppSerialPort).request(path, data)
+        return serialport.request(path, data)
       }
     )
     ipcMain.removeHandler(SerialPortIpcEvents.ChangeBaudRate)
     ipcMain.handle(
       SerialPortIpcEvents.ChangeBaudRate,
       (_, path: string, baudRate: number) => {
-        return (serialport as AppSerialPort).changeBaudRate(path, baudRate)
+        return serialport.changeBaudRate(path, baudRate)
       }
     )
   }

@@ -8,7 +8,7 @@ import { AppSettingsService } from "./app-settings.service"
 import { AppSettings, AppSettingsIpcEvents } from "app-settings/models"
 import { DotNotation, NestedPartial } from "app-utils/models"
 
-let appSettingsService: AppSettingsService | null = null
+let appSettingsService: AppSettingsService
 
 export const initAppSettings = (ipcMain: IpcMain) => {
   if (!appSettingsService) {
@@ -18,7 +18,7 @@ export const initAppSettings = (ipcMain: IpcMain) => {
     ipcMain.handle(
       AppSettingsIpcEvents.Get,
       async (_, path?: DotNotation<AppSettings>) => {
-        return (appSettingsService as AppSettingsService).get(path)
+        return appSettingsService.get(path)
       }
     )
 
@@ -26,7 +26,7 @@ export const initAppSettings = (ipcMain: IpcMain) => {
     ipcMain.handle(
       AppSettingsIpcEvents.Set,
       async (_, settings: NestedPartial<AppSettings>) => {
-        return (appSettingsService as AppSettingsService).set(settings)
+        return appSettingsService.set(settings)
       }
     )
   }
