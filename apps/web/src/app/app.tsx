@@ -5,19 +5,13 @@
 
 import { AppRoutes } from "app-routing/routes"
 import { useDevicesListener } from "devices/common/feature"
-import { FunctionComponent, useEffect } from "react"
+import { FunctionComponent } from "react"
 import { CheckInitRequirements } from "app-init/feature"
 import ReactModal from "react-modal"
-import { Analytics } from "app-utils/renderer"
 
 export const App: FunctionComponent = () => {
   ReactModal.setAppElement("#root")
   useDevicesListener()
-
-  useEffect(() => {
-    void Analytics.track("example event: app-started")
-  }, [])
-
   return (
     <>
       <CheckInitRequirements />
