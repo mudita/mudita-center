@@ -6,14 +6,14 @@
 import { Device } from "./use-devices"
 import { useQuery } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
-import { getMenuConfig } from "devices/api-device/feature"
+import { getApiMenuConfig } from "devices/api-device/feature"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { ApiDeviceErrorType } from "devices/api-device/models"
 import { MenuGroup } from "app-routing/models"
 
 const queryFn = async (device?: Device) => {
   if (ApiDeviceSerialPort.isCompatible(device)) {
-    const menu = await getMenuConfig(device)
+    const menu = await getApiMenuConfig(device)
     if (menu.ok) {
       return menu.body
     } else if (menu.status === ApiDeviceErrorType.DeviceLocked) {

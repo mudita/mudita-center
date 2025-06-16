@@ -9,20 +9,21 @@ import {
   SerialPortDeviceType,
 } from "app-serialport/models"
 import { SerialPortError } from "app-serialport/utils"
-import { ApiDeviceErrorType } from "devices/api-device/models"
 import {
   Harmony,
   HarmonyEndpoint,
   HarmonyEndpointNamed,
   HarmonyEndpoints,
+  HarmonyErrorType,
   HarmonyMethod,
   HarmonyMethodNamed,
   HarmonyRequest,
   HarmonyResponse,
   HarmonyResponseBody,
 } from "devices/harmony/models"
+import { DeviceErrorType } from "devices/common/models"
 
-type Response<E extends HarmonyEndpoint, M extends HarmonyMethod<E>> =
+export type Response<E extends HarmonyEndpoint, M extends HarmonyMethod<E>> =
   | {
       ok: true
       endpoint: E
@@ -32,13 +33,15 @@ type Response<E extends HarmonyEndpoint, M extends HarmonyMethod<E>> =
   | {
       ok: false
       endpoint: E
-      status: ApiDeviceErrorType
+      status: HarmonyErrorType | DeviceErrorType
       body?: unknown
       error?: unknown
     }
 
 export class HarmonySerialPort {
-  static isCompatible(device?: SerialPortDeviceInfo): device is Harmony {
+  static isCompatible(
+    device?: Pick<SerialPortDeviceInfo, "deviceType"> | null
+  ): device is Harmony {
     if (!device) {
       return true
     }
@@ -63,7 +66,7 @@ export class HarmonySerialPort {
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: ApiDeviceErrorType.RequestParsingFailed,
+          status: DeviceErrorType.RequestParsingFailed,
           error: requestParseResult.error,
         }
       }
@@ -81,14 +84,14 @@ export class HarmonySerialPort {
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: ApiDeviceErrorType.Critical,
+          status: DeviceErrorType.Critical,
           error: message,
         }
       }
       return {
         ok: false,
         endpoint: request.endpoint,
-        status: ApiDeviceErrorType.Critical,
+        status: DeviceErrorType.Critical,
         error: error,
       }
     }
@@ -103,7 +106,7 @@ export class HarmonySerialPort {
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: ApiDeviceErrorType.ResponseParsingFailed,
+          status: DeviceErrorType.ResponseParsingFailed,
           error: responseParseResult.error,
         }
       }

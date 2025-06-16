@@ -3,9 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum ApiDeviceErrorType {
-  DataNotFound = 404,
-  DeviceLocked = 423,
-  EulaNotAccepted = 451,
-  DeviceInternalError = 500,
+export enum HarmonyPaths {
+  Index = "/device/harmony",
+  Overview = "/device/harmony/overview",
+  Sounds = "/device/harmony/sounds",
 }

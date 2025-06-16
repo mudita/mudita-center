@@ -19,24 +19,25 @@ import {
   ApiDeviceResponse,
   ApiDeviceResponseBody,
 } from "devices/api-device/models"
+import { DeviceErrorType } from "devices/common/models"
 
 export type Response<
   E extends ApiDeviceEndpoint,
   M extends ApiDeviceMethod<E>,
 > =
   | {
-      ok: true
-      endpoint: E
-      status: number
-      body: ApiDeviceResponseBody<E, M>
-    }
+  ok: true
+  endpoint: E
+  status: number
+  body: ApiDeviceResponseBody<E, M>
+}
   | {
-      ok: false
-      endpoint: E
-      status: ApiDeviceErrorType
-      body?: unknown
-      error?: unknown
-    }
+  ok: false
+  endpoint: E
+  status: ApiDeviceErrorType | DeviceErrorType
+  body?: unknown
+  error?: unknown
+}
 
 export class ApiDeviceSerialPort {
   static isCompatible(
@@ -69,7 +70,7 @@ export class ApiDeviceSerialPort {
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: ApiDeviceErrorType.RequestParsingFailed,
+          status: DeviceErrorType.RequestParsingFailed,
           error: requestParseResult.error,
         }
       }
@@ -87,14 +88,14 @@ export class ApiDeviceSerialPort {
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: ApiDeviceErrorType.Critical,
+          status: DeviceErrorType.Critical,
           error: message,
         }
       }
       return {
         ok: false,
         endpoint: request.endpoint,
-        status: ApiDeviceErrorType.Critical,
+        status: DeviceErrorType.Critical,
         error: error,
       }
     }
@@ -109,7 +110,7 @@ export class ApiDeviceSerialPort {
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: ApiDeviceErrorType.ResponseParsingFailed,
+          status: DeviceErrorType.ResponseParsingFailed,
           error: responseParseResult.error,
         }
       }
