@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Navigate, Route, useNavigate, useParams } from "react-router"
+import { Navigate, Route, useParams } from "react-router"
+import { useAppNavigate } from "app-routing/utils"
 import { FunctionComponent, useCallback, useEffect } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { apiDevicePaths } from "./paths"
@@ -149,7 +150,7 @@ export const useApiDeviceRouter = (device?: Device) => {
 
 const DeviceLockedPage: FunctionComponent = () => {
   const queryClient = useQueryClient()
-  const navigate = useNavigate()
+  const navigate = useAppNavigate()
   const { getPreviousPath } = useRoutingHistory()
 
   const onPasscodeAbort = useCallback(() => {

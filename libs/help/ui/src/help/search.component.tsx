@@ -11,7 +11,7 @@ import {
   KeyboardEvent,
   FunctionComponent,
 } from "react"
-import { useNavigate } from "react-router"
+import { useAppNavigate } from "app-routing/utils"
 import styled, { css } from "styled-components"
 import { useIntl, defineMessages } from "react-intl"
 import { useHelpSearch } from "help/utils"
@@ -41,7 +41,7 @@ export const Search: FunctionComponent<SearchProps> = ({ categories }) => {
   const deferredSearchPhrase = useDeferredValue(search)
   const results = useHelpSearch(deferredSearchPhrase)
   const searchResultsRef = useRef<HTMLDivElement>(null)
-  const navigate = useNavigate()
+  const navigate = useAppNavigate()
   const intl = useIntl()
 
   useEffect(() => {

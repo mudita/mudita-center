@@ -16,7 +16,8 @@ import {
 } from "devices/common/feature"
 import { useApiDeviceRouter } from "devices/api-device/routes"
 import { FunctionComponent, useCallback, useEffect } from "react"
-import { Navigate, Route, useLocation, useNavigate } from "react-router"
+import { Navigate, Route, useLocation } from "react-router"
+import { useAppNavigate } from "app-routing/utils"
 import {
   FullscreenLayout,
   registerMenuGroups,
@@ -41,7 +42,7 @@ import { NewsPaths } from "news/models"
 export const useDevicesInitRouter = () => {
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const navigate = useAppNavigate()
   const { pathname } = useLocation()
   const activateDevice = useDeviceActivate()
 
@@ -182,7 +183,7 @@ export const useDevicesInitRouter = () => {
 }
 
 export const DevicesSelectingPage: FunctionComponent = () => {
-  const navigate = useNavigate()
+  const navigate = useAppNavigate()
   const { data: devices = [] } = useDevices()
   const activateDevice = useDeviceActivate()
 

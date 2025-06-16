@@ -6,7 +6,7 @@
 import { FunctionComponent, useCallback } from "react"
 import { DevicesDrawer, DevicesDrawerCard } from "devices/common/ui"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router"
+import { useAppNavigate } from "app-routing/utils"
 import {
   Device,
   selectDevicesDrawerVisibility,
@@ -20,7 +20,7 @@ import { DeviceMetadata, DevicesPaths } from "devices/common/models"
 
 export const Drawer: FunctionComponent = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const navigate = useAppNavigate()
   const { data: devices } = useDevices()
   const activateDevice = useDeviceActivate()
   const drawerVisible = useSelector(selectDevicesDrawerVisibility)
