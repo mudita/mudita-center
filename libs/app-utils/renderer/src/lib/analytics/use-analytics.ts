@@ -10,22 +10,41 @@ import { AnalyticsEvent } from "app-utils/models"
 import { analyticsMutationKeys } from "./analytics-mutation-keys"
 import { track } from "./analytics-api"
 
+let cachedPrivacyPolicyAccepted: boolean | undefined
+
+async function getPrivacyPolicyAccepted(): Promise<boolean> {
+  if (cachedPrivacyPolicyAccepted === undefined) {
+    cachedPrivacyPolicyAccepted = await AppSettings.get(
+      "user.privacyPolicyAccepted"
+    )
+  }
+  return cachedPrivacyPolicyAccepted
+}
+
+export const useAnalyticsValidation = () => {
+  return useCallback(async (): Promise<boolean> => {
+    return await getPrivacyPolicyAccepted()
+  }, [])
+}
+
 export const useTrack = () => {
   const { mutate } = useMutation({
     mutationKey: analyticsMutationKeys.track,
     mutationFn: track,
   })
 
+  const validate = useAnalyticsValidation()
+
   return useCallback(
     async (event: AnalyticsEvent) => {
-      const privacyPolicyAccepted = await AppSettings.get(
-        "user.privacyPolicyAccepted"
-      )
+      const validated = await validate()
 
-      if (privacyPolicyAccepted) {
-        return mutate(event)
+      if (!validated) {
+        return
       }
+
+      return mutate({ ...defaultMetadata, ...event })
     },
-    [mutate]
+    [mutate, validate]
   )
 }
