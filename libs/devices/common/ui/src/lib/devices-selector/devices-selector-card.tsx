@@ -115,5 +115,5 @@ const DeviceName = styled(Typography.H4)`
 const Status = styled.div`
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  left: 1rem;
 `
