@@ -14,10 +14,10 @@ interface Props {
 }
 
 export const Icon: FunctionComponent<Props> = ({
-  type,
-  size = IconSize.Medium,
-  ...props
-}) => {
+                                                 type,
+                                                 size = IconSize.Medium,
+                                                 ...props
+                                               }) => {
   const spin = [IconType.Spinner].includes(type)
   const IconComponent = icons[type]
   if (!IconComponent) return null
@@ -37,7 +37,8 @@ const spinAnimation = keyframes({
   },
 })
 
-const Wrapper = styled.div<{ $spin?: boolean; $size: IconSize }>`
+const Wrapper = styled.span<{ $spin?: boolean; $size: IconSize }>`
+  display: inline-block;
   aspect-ratio: 1;
   transition: color 0.2s ease-in-out;
 
