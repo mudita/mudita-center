@@ -9,6 +9,18 @@ import { AppSettings } from "app-settings/renderer"
 import { AnalyticsEvent } from "app-utils/models"
 import { analyticsMutationKeys } from "./analytics-mutation-keys"
 import { track } from "./analytics-api"
+import { analyticsConfig } from "./analytics-config"
+
+const defaultMetadata: Partial<AnalyticsEvent> = {
+  rec: 1,
+  apiv: 1,
+  idsite: analyticsConfig.siteId,
+  ua: window.navigator.userAgent,
+  lang: window.navigator.language,
+  res: `${window.screen.width * window.devicePixelRatio}x${
+    window.screen.height * window.devicePixelRatio
+  }`,
+}
 
 let cachedPrivacyPolicyAccepted: boolean | undefined
 
@@ -23,6 +35,19 @@ async function getPrivacyPolicyAccepted(): Promise<boolean> {
 
 export const useAnalyticsValidation = () => {
   return useCallback(async (): Promise<boolean> => {
+    if (!analyticsConfig.enabled) {
+      console.warn("Analytics tracking is disabled")
+      return false
+    }
+
+    if (isNaN(analyticsConfig.siteId)) {
+      console.warn("Analytics site ID is not set")
+      return false
+    }
+    if (analyticsConfig.apiUrl === "") {
+      console.warn("Analytics API URL is not set")
+      return false
+    }
     return await getPrivacyPolicyAccepted()
   }, [])
 }

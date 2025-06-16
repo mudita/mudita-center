@@ -1,4 +1,5 @@
 {
+  "version": "4.0.0",
   "name": "mudita-center",
   "description": "Mudita Center",
   "private": true,
