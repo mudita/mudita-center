@@ -22,7 +22,6 @@ jobs:
       - name: Setup Env for Windows
         if: matrix.runner_label == 'windows-nexus'
         env:
-	  TESTOWANIE: "false"
           E2ECI: "false"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
@@ -46,6 +45,7 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           DEV_TOOLS_SHORTCUT_ENABLED: "1"
           LOCALAPPDATA: ""
+          TESTOWANIE: "true"
         shell: cmd
         run: |
           SET > .env
