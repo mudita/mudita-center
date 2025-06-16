@@ -4,20 +4,20 @@
  */
 
 import {
+  FunctionComponent,
+  KeyboardEvent,
   useDeferredValue,
   useEffect,
   useRef,
   useState,
-  KeyboardEvent,
-  FunctionComponent,
 } from "react"
-import { useNavigate } from "react-router"
 import styled, { css } from "styled-components"
-import { useIntl, defineMessages } from "react-intl"
+import { defineMessages, useIntl } from "react-intl"
 import { useHelpSearch } from "help/utils"
 import { HelpCategory, HelpTestId } from "help/models"
-import { Typography, TextInput } from "app-theme/ui"
+import { TextInput, Typography } from "app-theme/ui"
 import { SearchResults, SearchResultsWrapper } from "./search-results.component"
+import { useAppNavigate } from "app-routing/utils"
 
 const messages = defineMessages({
   title: {
@@ -41,7 +41,7 @@ export const Search: FunctionComponent<SearchProps> = ({ categories }) => {
   const deferredSearchPhrase = useDeferredValue(search)
   const results = useHelpSearch(deferredSearchPhrase)
   const searchResultsRef = useRef<HTMLDivElement>(null)
-  const navigate = useNavigate()
+  const navigate = useAppNavigate()
   const intl = useIntl()
 
   useEffect(() => {

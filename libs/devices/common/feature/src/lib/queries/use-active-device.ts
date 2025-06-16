@@ -5,15 +5,13 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
-import { Device } from "./use-devices"
+import { Device } from "devices/common/models"
 import { useCallback } from "react"
 
 export const useActiveDevice = () => {
   return useQuery<Device | null>({
     queryKey: devicesQueryKeys.activeDevice(),
-    queryFn: () => {
-      return null
-    },
+    queryFn: () => null,
   })
 }
 useActiveDevice.queryKey = devicesQueryKeys.activeDevice()
@@ -26,5 +24,13 @@ export const useDeviceActivate = () => {
       queryClient.setQueryData(useActiveDevice.queryKey, device)
     },
     [queryClient]
+  )
+}
+
+export const getActiveDevice = (
+  queryClient: ReturnType<typeof useQueryClient>
+) => {
+  return (
+    queryClient.getQueryData<Device | null>(useActiveDevice.queryKey) || null
   )
 }

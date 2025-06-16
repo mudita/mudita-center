@@ -4,61 +4,18 @@
  */
 
 import { Navigate, Route } from "react-router"
-import { useEffect } from "react"
-import { useQueryClient } from "@tanstack/react-query"
-import { DeviceStatus } from "devices/common/models"
-import {
-  Device,
-  useDeviceConfig,
-  useDeviceMenu,
-  useDeviceStatus,
-} from "devices/common/feature"
+import { useDeviceMenu } from "devices/common/feature"
 import { Typography } from "app-theme/ui"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { HarmonyPaths } from "devices/harmony/models"
+import { Device } from "devices/common/models"
 
 export const useHarmonyRouter = (device?: Device) => {
-  const queryClient = useQueryClient()
-
   const activeHarmony = HarmonySerialPort.isCompatible(device)
     ? device
     : undefined
 
-  const { isLoading: isConfigLoading, isError: isConfigError } =
-    useDeviceConfig(activeHarmony)
-  const { isLoading: isMenuLoading, isSuccess: isMenuSuccess } =
-    useDeviceMenu(activeHarmony)
-
-  useEffect(() => {
-    if (!activeHarmony) {
-      return
-    }
-
-    if (isConfigLoading || isMenuLoading) {
-      queryClient.setQueryData(
-        useDeviceStatus.queryKey(activeHarmony.path),
-        DeviceStatus.Initializing
-      )
-      return
-    }
-    if (isConfigError) {
-      queryClient.setQueryData(
-        useDeviceStatus.queryKey(activeHarmony.path),
-        DeviceStatus.CriticalError
-      )
-      return
-    }
-    queryClient.setQueryData(
-      useDeviceStatus.queryKey(activeHarmony.path),
-      DeviceStatus.Initialized
-    )
-  }, [
-    activeHarmony,
-    isConfigError,
-    isConfigLoading,
-    isMenuLoading,
-    queryClient,
-  ])
+  const { isSuccess: isMenuSuccess } = useDeviceMenu(activeHarmony)
 
   return {
     initialization: activeHarmony && isMenuSuccess && (

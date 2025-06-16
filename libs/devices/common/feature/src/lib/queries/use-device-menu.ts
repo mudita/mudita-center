@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Device } from "./use-devices"
+import { Device } from "devices/common/models"
 import { useQuery } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
 import { getApiMenuConfig } from "devices/api-device/feature"
@@ -42,8 +42,9 @@ export const useDeviceMenu = <ErrorType = Error>(device?: Device) => {
           return error === ApiDeviceErrorType.DeviceLocked || failureCount < 3
         }
       : 3,
-    retryDelay: 250,
+    retryDelay: 500,
     enabled: Boolean(device),
   })
 }
 useDeviceMenu.queryKey = devicesQueryKeys.deviceMenu
+useDeviceMenu.queryFn = queryFn

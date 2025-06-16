@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren } from "react"
+import { FunctionComponent, PropsWithChildren, useRef } from "react"
 import { AppStoreProvider } from "app-store/feature"
 import { AppIntlProvider } from "app-localize/feature"
 import { AppThemeProvider } from "app-theme/feature"
@@ -11,17 +11,19 @@ import { AppRoutingProvider } from "app-routing/feature"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: { gcTime: 1000 * 60 * 60 * 6, staleTime: Infinity },
-  },
-})
-
 export const Providers: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
+  const queryClientRef = useRef(
+    new QueryClient({
+      defaultOptions: {
+        queries: { gcTime: 1000 * 60 * 60 * 6, staleTime: Infinity },
+      },
+    })
+  )
+
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClientRef.current}>
       <AppRoutingProvider>
         <AppStoreProvider>
           <AppThemeProvider>

@@ -4,6 +4,7 @@
  */
 
 import {
+  Device,
   DeviceImageColor,
   DeviceImageType,
   DeviceMetadata,
@@ -11,7 +12,6 @@ import {
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { useQuery } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
-import { Device } from "./use-devices"
 import { useDeviceConfig } from "./use-device-config"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { HarmonySerialPort } from "devices/harmony/adapters"

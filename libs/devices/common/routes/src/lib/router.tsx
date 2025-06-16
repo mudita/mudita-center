@@ -5,7 +5,6 @@
 
 import { useDispatch } from "react-redux"
 import {
-  Device,
   useActiveDevice,
   useDeviceActivate,
   useDeviceMenu,
@@ -15,7 +14,7 @@ import {
 } from "devices/common/feature"
 import { useApiDeviceRouter } from "devices/api-device/routes"
 import { FunctionComponent, useCallback, useEffect } from "react"
-import { Navigate, Route, useLocation, useNavigate } from "react-router"
+import { Navigate, Route, useLocation } from "react-router"
 import {
   FullscreenLayout,
   registerMenuGroups,
@@ -29,6 +28,7 @@ import {
   WelcomeScreen,
 } from "devices/common/ui"
 import {
+  Device,
   DeviceMetadata,
   DevicesPaths,
   DeviceStatus,
@@ -36,10 +36,13 @@ import {
 import { MenuIndex } from "app-routing/models"
 import { NewsPaths } from "news/models"
 import { useHarmonyRouter } from "devices/harmony/routes"
+import { useAppNavigate } from "app-routing/utils"
+
+const DEFAULT_UX_DELAY = 500
 
 export const useDevicesInitRouter = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const navigate = useAppNavigate()
   const { pathname } = useLocation()
 
   const { data: devices = [] } = useDevices()
@@ -65,7 +68,8 @@ export const useDevicesInitRouter = () => {
   }
 
   const delayForBetterUX = useCallback(
-    (ms = 500) => new Promise((resolve) => setTimeout(resolve, ms)),
+    (ms = DEFAULT_UX_DELAY) =>
+      new Promise((resolve) => setTimeout(resolve, ms)),
     []
   )
 
@@ -85,7 +89,8 @@ export const useDevicesInitRouter = () => {
       }
       if (
         pathname !== DevicesPaths.Connecting &&
-        activeDeviceStatus === DeviceStatus.Initializing
+        (activeDeviceStatus === DeviceStatus.Initializing ||
+          activeDeviceStatus === DeviceStatus.Attached)
       ) {
         await delayForBetterUX()
         navigate({ pathname: DevicesPaths.Connecting })
@@ -116,7 +121,7 @@ export const useDevicesInitRouter = () => {
   useEffect(() => {
     void (async () => {
       if (menu && activeDeviceStatus === DeviceStatus.Initialized) {
-        await delayForBetterUX(250)
+        await delayForBetterUX(DEFAULT_UX_DELAY - 100)
         dispatch(unregisterMenuGroups([MenuIndex.Device]))
         dispatch(registerMenuGroups([menu]))
       } else {
@@ -175,7 +180,7 @@ export const useDevicesInitRouter = () => {
 }
 
 export const DevicesSelectingPage: FunctionComponent = () => {
-  const navigate = useNavigate()
+  const navigate = useAppNavigate()
   const { data: devices = [] } = useDevices()
   const activateDevice = useDeviceActivate()
 
