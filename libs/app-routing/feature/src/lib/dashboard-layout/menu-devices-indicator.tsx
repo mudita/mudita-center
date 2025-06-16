@@ -9,6 +9,7 @@ import {
   setDevicesDrawerVisibility,
   useActiveDevice,
   useDevices,
+  useDevicesStatuses,
   useDeviceStatus,
 } from "devices/common/feature"
 import { useDispatch } from "react-redux"
@@ -23,12 +24,16 @@ export const MenuDevicesIndicator: FunctionComponent = () => {
   const { data: activeDeviceStatus } = useDeviceStatus(
     fakeActiveDevice || undefined
   )
+  const devicesStatuses = useDevicesStatuses(devices)
 
   const multipleDevicesConnected = devices.length > 1
   const singleDeviceConnected = devices.length === 1
   const activeDeviceLocked = activeDeviceStatus === DeviceStatus.Locked
   const activeDeviceNotInitialized =
     activeDeviceStatus !== DeviceStatus.Initialized
+  const isLoading = devicesStatuses.some(
+    (status) => status === DeviceStatus.Initializing
+  )
 
   const isIndicatorVisible =
     multipleDevicesConnected ||
@@ -50,6 +55,7 @@ export const MenuDevicesIndicator: FunctionComponent = () => {
       devicesCount={devices.length}
       visible={isIndicatorVisible}
       onClick={openDevicesDrawer}
+      loading={isLoading}
     />
   )
 }

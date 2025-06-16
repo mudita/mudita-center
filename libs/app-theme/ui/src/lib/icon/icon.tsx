@@ -14,10 +14,10 @@ interface Props {
 }
 
 export const Icon: FunctionComponent<Props> = ({
-                                                 type,
-                                                 size = IconSize.Medium,
-                                                 ...props
-                                               }) => {
+  type,
+  size = IconSize.Medium,
+  ...props
+}) => {
   const spin = [IconType.Spinner].includes(type)
   const IconComponent = icons[type]
   if (!IconComponent) return null

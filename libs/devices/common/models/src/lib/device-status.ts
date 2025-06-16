@@ -4,7 +4,6 @@
  */
 
 export enum DeviceStatus {
-  Attached = "attached", // Device is detected, but metadata is not available yet
   Initializing = "initializing", // Connection is being established, first api calls are being made (e.g. getting device metadata)
   Locked = "locked", // Device is locked, user needs to unlock it to interact with it
   Initialized = "initialized", // Device fully operational, metadata is available, user can interact with it

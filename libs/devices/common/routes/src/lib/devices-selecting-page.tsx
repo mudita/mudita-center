@@ -4,54 +4,46 @@
  */
 
 import { FunctionComponent, useCallback } from "react"
-import { DevicesDrawer, DevicesDrawerCard } from "devices/common/ui"
-import { useDispatch, useSelector } from "react-redux"
+import { useAppNavigate } from "app-routing/utils"
 import {
-  selectDevicesDrawerVisibility,
-  setDevicesDrawerVisibility,
-  useActiveDevice,
   useDeviceActivate,
   useDeviceMetadata,
   useDevices,
   useDeviceStatus,
 } from "devices/common/feature"
 import { Device, DeviceMetadata, DevicesPaths } from "devices/common/models"
-import { useAppNavigate } from "app-routing/utils"
+import { DevicesSelector, DevicesSelectorCard } from "devices/common/ui"
 
-export const Drawer: FunctionComponent = () => {
-  const dispatch = useDispatch()
+export const DevicesSelectingPage: FunctionComponent = () => {
   const navigate = useAppNavigate()
-  const { data: devices } = useDevices()
+  const { data: devices = [] } = useDevices()
   const activateDevice = useDeviceActivate()
-  const drawerVisible = useSelector(selectDevicesDrawerVisibility)
-
-  const closeDrawer = useCallback(() => {
-    dispatch(setDevicesDrawerVisibility(false))
-  }, [dispatch])
 
   const selectDevice = useCallback(
-    async (deviceId: DeviceMetadata["id"]) => {
+    (deviceId: DeviceMetadata["id"]) => {
       const device = devices?.find((d) => d.path === deviceId)
       if (!device) {
-        console.warn("Selected device not found:", deviceId)
         return
       }
       navigate({ pathname: DevicesPaths.Connecting })
       activateDevice(device)
-      closeDrawer()
     },
-    [activateDevice, closeDrawer, devices, navigate]
+    [activateDevice, devices, navigate]
   )
 
+  if (devices.length === 0) {
+    return null
+  }
+
   return (
-    <DevicesDrawer opened={drawerVisible} onClose={closeDrawer}>
-      {devices?.map((device) => {
+    <DevicesSelector>
+      {devices.map((device) => {
         const select = () => {
-          void selectDevice(device.path)
+          selectDevice(device.path)
         }
         return <Card key={device.path} {...device} onClick={select} />
       })}
-    </DevicesDrawer>
+    </DevicesSelector>
   )
 }
 
@@ -60,19 +52,16 @@ const Card: FunctionComponent<Device & { onClick: VoidFunction }> = ({
   ...device
 }) => {
   const { data: metadata } = useDeviceMetadata(device)
-  const { data: activeDevice } = useActiveDevice()
   const { data: status } = useDeviceStatus(device)
 
   if (!metadata) {
     return null
   }
-  const isActive = activeDevice?.path === device.path
 
   return (
-    <DevicesDrawerCard
+    <DevicesSelectorCard
       {...metadata}
       onClick={onClick}
-      active={isActive}
       status={status || undefined}
     />
   )

@@ -4,7 +4,11 @@
  */
 
 import { ComponentProps, FunctionComponent } from "react"
-import { DeviceImageSize, DeviceMetadata } from "devices/common/models"
+import {
+  DeviceImageSize,
+  DeviceMetadata,
+  DeviceStatus,
+} from "devices/common/models"
 import {
   DevicesDrawerCardWrapper,
   Info,
@@ -15,6 +19,7 @@ import { defineMessages, formatMessage } from "app-localize/utils"
 import { Icon, Typography } from "app-theme/ui"
 import { IconSize, IconType, TypographyAlign } from "app-theme/models"
 import styled from "styled-components"
+import { DeviceStatusIcon } from "../devices-drawer/device-status-icon"
 
 const messages = defineMessages({
   serialNumberLabel: { id: "general.components.deviceCard.serialNumberLabel" },
@@ -25,6 +30,7 @@ export interface SelectorItemProps
   extends Omit<DeviceMetadata, "id">,
     ComponentProps<typeof Wrapper> {
   onClick?: VoidFunction
+  status?: DeviceStatus
 }
 
 export const DevicesSelectorCard: FunctionComponent<SelectorItemProps> = ({
@@ -32,16 +38,20 @@ export const DevicesSelectorCard: FunctionComponent<SelectorItemProps> = ({
   name,
   serialNumber,
   recoveryMode,
+  status,
   onClick,
   ...rest
 }) => {
   return (
     <Wrapper onClick={onClick} {...rest}>
+      <Status>
+        <DeviceStatusIcon status={status} />
+      </Status>
       <Image type={image.type} size={DeviceImageSize.Big} color={image.color} />
       <Info>
-        <Typography.H4 as={"p"} textAlign={TypographyAlign.Center}>
+        <DeviceName forwardedAs={"p"} textAlign={TypographyAlign.Center}>
           {name}
-        </Typography.H4>
+        </DeviceName>
         {Boolean(serialNumber) && (
           <div>
             <Typography.P4
@@ -67,6 +77,7 @@ export const DevicesSelectorCard: FunctionComponent<SelectorItemProps> = ({
 }
 
 const Wrapper = styled(DevicesDrawerCardWrapper)`
+  position: relative;
   flex: 1;
   display: grid;
   align-content: space-between;
@@ -92,4 +103,17 @@ const Wrapper = styled(DevicesDrawerCardWrapper)`
 const Image = styled(DeviceImage)`
   align-self: end;
   object-position: center bottom;
+`
+
+const DeviceName = styled(Typography.H4)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`
+
+const Status = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 `
