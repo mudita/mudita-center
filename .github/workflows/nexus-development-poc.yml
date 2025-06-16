@@ -22,6 +22,7 @@ jobs:
       - name: Setup Env for Windows
         if: matrix.runner_label == 'windows-nexus'
         env:
+	  TESTOWANIE: "ok"
           E2ECI: "false"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
