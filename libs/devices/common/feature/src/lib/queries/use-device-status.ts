@@ -5,20 +5,16 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
-import { DeviceStatus } from "devices/common/models"
-import { Device } from "./use-devices"
 import { useActiveDevice } from "./use-active-device"
+import { Device, DeviceStatus } from "devices/common/models"
 
 export const useDeviceStatus = (device?: Device) => {
   const { data: activeDevice } = useActiveDevice()
   const devicePath = device?.path || activeDevice?.path
 
-  return useQuery({
+  return useQuery<DeviceStatus | null>({
     queryKey: devicesQueryKeys.deviceStatus(devicePath),
-    queryFn: () => {
-      return DeviceStatus.Attached
-    },
-    initialData: DeviceStatus.Attached,
+    queryFn: () => null,
     enabled: Boolean(devicePath),
   })
 }

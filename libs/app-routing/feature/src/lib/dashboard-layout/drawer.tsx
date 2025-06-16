@@ -8,7 +8,6 @@ import { DevicesDrawer, DevicesDrawerCard } from "devices/common/ui"
 import { useDispatch, useSelector } from "react-redux"
 import { useAppNavigate } from "app-routing/utils"
 import {
-  Device,
   selectDevicesDrawerVisibility,
   setDevicesDrawerVisibility,
   useActiveDevice,
@@ -16,7 +15,7 @@ import {
   useDeviceMetadata,
   useDevices,
 } from "devices/common/feature"
-import { DeviceMetadata, DevicesPaths } from "devices/common/models"
+import { Device, DeviceMetadata, DevicesPaths } from "devices/common/models"
 
 export const Drawer: FunctionComponent = () => {
   const dispatch = useDispatch()
