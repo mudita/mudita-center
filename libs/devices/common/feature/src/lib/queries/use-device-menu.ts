@@ -10,8 +10,8 @@ import { getApiMenuConfig } from "devices/api-device/feature"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { ApiDeviceErrorType } from "devices/api-device/models"
 import { MenuGroup } from "app-routing/models"
-// import { HarmonySerialPort } from "devices/harmony/adapters"
-// import { getHarmonyMenu } from "devices/harmony/feature"
+import { HarmonySerialPort } from "devices/harmony/adapters"
+import { getHarmonyMenu } from "devices/harmony/feature"
 
 const queryFn = async (device?: Device): Promise<MenuGroup | null> => {
   if (!device) {
@@ -27,9 +27,9 @@ const queryFn = async (device?: Device): Promise<MenuGroup | null> => {
       throw menu.status
     }
   }
-  // if (HarmonySerialPort.isCompatible(device)) {
-  //   return getHarmonyMenu()
-  // }
+  if (HarmonySerialPort.isCompatible(device)) {
+    return getHarmonyMenu()
+  }
   return null
 }
 

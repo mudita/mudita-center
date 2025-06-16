@@ -29,9 +29,6 @@ const messages = defineMessages({
   kompakt: {
     id: "general.devices.kompakt.name",
   },
-  unknown: {
-    id: "general.devices.unknown.name",
-  },
 })
 
 const queryFn = (
@@ -67,6 +64,7 @@ const queryFn = (
         serialNumber: config.serialNumber,
       }
     }
+    return null
   }
   if (HarmonySerialPort.isCompatible(device)) {
     const isHarmony2 = config.caseColour === "black"
@@ -81,7 +79,7 @@ const queryFn = (
       serialNumber: config.serialNumber,
     }
   }
-  // TODO: Add support for Pure and Harmony 1 and 2 + MSC mode
+  // TODO: Add support for Pure and Harmony in MSC mode
   // if (device.deviceType === SerialPortDeviceType.HarmonyMsc) {
   //   return {
   //     id: device.path,
@@ -101,14 +99,15 @@ const placeholderData = (device?: Device): DeviceMetadata | null => {
     return null
   }
   if (ApiDeviceSerialPort.isCompatible(device)) {
-    return {
-      id: device?.path || "",
-      name: formatMessage(messages.unknown),
-      image: {
-        type: DeviceImageType.Pure,
-        color: DeviceImageColor.Black,
-      },
-      serialNumber: "",
+    if (device.serialNumber?.toLowerCase().startsWith("kom")) {
+      return {
+        id: device?.path || "",
+        name: formatMessage(messages.kompakt),
+        image: {
+          type: DeviceImageType.Kompakt,
+        },
+        serialNumber: device.serialNumber || "",
+      }
     }
   }
   if (HarmonySerialPort.isCompatible(device)) {
@@ -118,7 +117,7 @@ const placeholderData = (device?: Device): DeviceMetadata | null => {
       image: {
         type: DeviceImageType.HarmonyMsc,
       },
-      serialNumber: "",
+      serialNumber: device.serialNumber || "",
     }
   }
   return null

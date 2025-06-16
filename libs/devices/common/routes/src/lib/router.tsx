@@ -28,6 +28,7 @@ import { DevicesPaths, DeviceStatus } from "devices/common/models"
 import { MenuIndex } from "app-routing/models"
 import { NewsPaths } from "news/models"
 import { useAppNavigate } from "app-routing/utils"
+import { useHarmonyRouter } from "devices/harmony/routes"
 import { DevicesSelectingPage } from "./devices-selecting-page"
 
 const DEFAULT_UX_DELAY = 500
@@ -46,6 +47,7 @@ export const useDevicesInitRouter = () => {
   const { data: menu } = useDeviceMenu(activeDevice || undefined)
 
   const apiDeviceRouter = useApiDeviceRouter(activeDevice || undefined)
+  const harmonyRouter = useHarmonyRouter(activeDevice || undefined)
 
   const onWrapperClose = () => {
     if (devices.length > 1) {
@@ -164,9 +166,11 @@ export const useDevicesInitRouter = () => {
         />
         <Route path={DevicesPaths.Current}>
           {apiDeviceRouter?.initialization}
+          {harmonyRouter?.initialization}
         </Route>
       </Route>
       {apiDeviceRouter?.dashboard}
+      {harmonyRouter?.dashboard}
     </>
   )
 }

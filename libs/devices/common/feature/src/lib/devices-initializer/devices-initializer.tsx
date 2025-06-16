@@ -8,6 +8,7 @@ import { useDevices } from "../queries"
 import { Device } from "devices/common/models"
 import { useApiDeviceInitializer } from "./use-api-device-initializer"
 import { useDevicesListener } from "./use-devices-listener"
+import { useHarmonyInitializer } from "./use-harmony-initializer"
 
 export const DevicesInitializer: FunctionComponent = () => {
   useDevicesListener()
@@ -26,6 +27,7 @@ const DeviceInitializer: FunctionComponent<{ device: Device }> = ({
   device,
 }) => {
   useApiDeviceInitializer(device)
+  useHarmonyInitializer(device)
 
   return null
 }

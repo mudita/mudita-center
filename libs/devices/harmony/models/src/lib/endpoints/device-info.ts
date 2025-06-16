@@ -15,9 +15,9 @@ export enum OnboardingState {
   Finished,
 }
 
-export const DeviceInfoRequestValidator = z.undefined().optional()
+export const HarmonyInfoRequestValidator = z.undefined().optional()
 
-export const DeviceInfoResponseValidator = z.object({
+export const HarmonyInfoResponseValidator = z.object({
   // backupLocation is a deprecated field after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
   backupLocation: z.string().optional(),
   batteryLevel: z.preprocess(Number, z.number().min(0).max(100)),
@@ -37,14 +37,14 @@ export const DeviceInfoResponseValidator = z.object({
   onboardingState: z.preprocess(Number, z.nativeEnum(OnboardingState)),
 })
 
-export type DeviceInfoResponse = z.infer<typeof DeviceInfoResponseValidator>
+export type HarmonyInfoResponse = z.infer<typeof HarmonyInfoResponseValidator>
 
-export const DeviceLogsRequestValidator = z.object({
+export const HarmonyLogsRequestValidator = z.object({
   fileList: z.number(),
 })
 
-export const DeviceLogsValidator = z.object({
+export const HarmonyLogsValidator = z.object({
   files: z.array(z.string()),
 })
 
-export type DeviceLogsResponse = z.infer<typeof DeviceLogsValidator>
+export type HarmonyLogsResponse = z.infer<typeof HarmonyLogsValidator>
