@@ -31,10 +31,6 @@ export default class Page {
     return $('//nav[@data-testid="dashboard-header-tabs"]')
   }
 
-  public get activeHeaderTab() {
-    return this.appHeaderTabs.$('.//a[@aria-current="page"]')
-  }
-
   public get activeMenuItem() {
     return $("[aria-current=page]")
   }

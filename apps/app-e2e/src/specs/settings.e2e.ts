@@ -11,20 +11,17 @@ describe("Settings - Backup screen", () => {
     await settingsMenuItem.click()
   })
 
-  it("should be opened", async () => {
+  it("should be opened on 'Backup' tab", async () => {
     const pageUrl = await SettingsPage.getPageUrl()
+    const backupTab = await SettingsPage.backupTab
+
+    expect(backupTab).toHaveAttribute("aria-current", "page")
     expect(pageUrl).toBe("/settings/backup")
   })
 
   it("should have proper title in app header", async () => {
     const settingsHeader = await SettingsPage.appHeader
     expect(await settingsHeader.getText()).toBe("Settings")
-  })
-
-  it("should have 'Backup' tab active", async () => {
-    const activeHeaderTab = await SettingsPage.activeHeaderTab
-    const activeTabName = await activeHeaderTab.$(".//p")
-    expect(await activeTabName.getText()).toBe("Backup")
   })
 
   it("should display a correct backup location", async () => {
@@ -48,10 +45,12 @@ describe("Settings - About screen", () => {
     await aboutTab.click()
   })
 
-  it("should have 'About' tab active", async () => {
-    const activeHeaderTab = await SettingsPage.activeHeaderTab
-    const activeTabName = await activeHeaderTab.$(".//p")
-    expect(await activeTabName.getText()).toBe("About")
+  it("should be opened on 'About' tab", async () => {
+    const pageUrl = await SettingsPage.getPageUrl()
+    const aboutTab = await SettingsPage.aboutTab
+
+    expect(aboutTab).toHaveAttribute("aria-current", "page")
+    expect(pageUrl).toBe("/settings/about")
   })
 
   it("should show current app version", async () => {
