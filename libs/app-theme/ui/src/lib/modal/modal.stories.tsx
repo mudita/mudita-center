@@ -15,12 +15,6 @@ import { storybookHelper } from "app-theme/utils"
 import styled from "styled-components"
 import { Modal } from "./modal"
 import { Button } from "../button/button"
-import {
-  Description,
-  Stories,
-  Subtitle,
-  Title,
-} from "@storybook/addon-docs/blocks"
 import { Typography } from "../typography/typography"
 
 const Decorator = styled.div`
@@ -30,7 +24,6 @@ const Decorator = styled.div`
 const meta: Meta<typeof Modal> = {
   title: "UI/Modal",
   component: Modal,
-  tags: ["autodocs"],
   decorators: [
     (Story) => (
       <Decorator className={"story-decorator no-padding"}>
@@ -38,45 +31,6 @@ const meta: Meta<typeof Modal> = {
       </Decorator>
     ),
   ],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "The `<Modal>` component is a wrapper around the `react-modal` library. It also provides a set of subcomponents that can be used to build the fully functional modal:\n\n" +
-          "- `<Modal.TitleIcon>` - displays an icon in the title bar of the modal.\n" +
-          "- `<Modal.Title>` - displays the title of the modal.\n" +
-          "- `<Modal.CloseButton>` - displays a close button in the modal.\n" +
-          "- `<Modal.Buttons>` - creates a buttons wrapper in the modal.\n" +
-          "- `<Modal.ScrollableContent>` - creates a scrollable area in the modal.\n\n" +
-          "- `<Modal.SizeController>` - manages the size of the modal.\n" +
-          "- `<Modal.VisibilityController>` - manages the visibility of the modal.\n\n" +
-          "\n\n" +
-          "## Usage\n" +
-          "```tsx\n" +
-          "import { Modal } from 'app-theme/ui'\n" +
-          "\n" +
-          "const App = () => {\n" +
-          "  const [opened, setOpened] = useState(true)\n" +
-          "  const closeFunction = useCallback(() => setOpened(false), [])\n" +
-          "\n" +
-          "  return (\n" +
-          "    <Modal opened={opened}>\n" +
-          "    // ...\n" +
-          "    </Modal>\n" +
-          "  )\n" +
-          "}\n" +
-          "```\n\n",
-      },
-    },
-    page: () => (
-      <>
-        <Title />
-        <Subtitle />
-        <Description />
-        <Stories />
-      </>
-    ),
-  },
 }
 
 export default meta
@@ -180,12 +134,6 @@ export const Default: Story = {
   render: (args, context) => {
     return (
       <Modal
-        appElement={context.canvasElement}
-        parentSelector={() => {
-          return context.canvasElement.querySelector(
-            ".story-decorator"
-          ) as HTMLElement
-        }}
         {...args}
         customStyles={{
           maxHeight: 500,

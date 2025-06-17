@@ -10,7 +10,6 @@ import {
   ModalSizeControllerSmall,
 } from "./modal-size-controller"
 import { ModalLayer, ModalSize, ModalTestId } from "app-theme/models"
-import { ModalVisibilityControllerHidden } from "./modal-visibility-controller"
 import { ScrollableContent } from "./modal-scrollable-content"
 import { TitleIconWrapper } from "./modal-title-icon"
 import { FunctionComponent, PropsWithChildren } from "react"
@@ -73,28 +72,19 @@ const Content = styled.div<{
     --modal-width: ${getModalWidth($size, $width)};
     --modal-max-height: ${getModalMaxHeight($maxHeight)};
     --modal-gap: ${getModalGap($gap || theme.app.space.xl)};
+    --gap-reducer: calc(var(--modal-gap) * -1 / 2.4);
   `}
 
+  overflow: hidden;
   position: relative;
   outline: none;
   display: flex;
+  gap: var(--modal-gap);
   flex-direction: column;
   align-items: center;
   padding: var(--modal-padding);
   width: var(--modal-width);
   max-height: var(--modal-max-height);
-  opacity: var(--modal-opacity);
-  visibility: var(--modal-visibility);
-  transition-duration: var(--modal-transition-duration);
-  transition-timing-function: var(--modal-transition-timing-function);
-  transition-property: opacity, visibility;
-  background-color: ${({ theme }) => theme.app.color.white};
-  box-shadow: 0 1rem 5rem ${({ theme }) => theme.app.color.blackAlpha.light};
-  border-radius: ${({ theme }) => theme.app.radius.sm};
-
-  overflow: hidden;
-  gap: var(--modal-gap);
-  --gap-reducer: calc(var(--modal-gap) * -1 / 2.4);
 
   &:has(${ModalSizeControllerSmall}) {
     --modal-width: ${getModalSize(ModalSize.Small)};
@@ -104,11 +94,6 @@ const Content = styled.div<{
   }
   &:has(${ModalSizeControllerLarge}) {
     --modal-width: ${getModalSize(ModalSize.Large)};
-  }
-
-  &:has(${ModalVisibilityControllerHidden}) {
-    --modal-opacity: 0;
-    --modal-visibility: hidden;
   }
 
   ${TitleIconWrapper} {

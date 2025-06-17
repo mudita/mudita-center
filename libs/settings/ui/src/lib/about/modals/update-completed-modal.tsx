@@ -44,7 +44,7 @@ export const UpdateCompletedModal: FunctionComponent<
   const intl = useIntl()
 
   return (
-    <Modal opened={opened} size={ModalSize.Small} onRequestClose={onClose}>
+    <Modal opened={opened} size={ModalSize.Small} onClose={onClose}>
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Content>
         <RoundIconWrapper>

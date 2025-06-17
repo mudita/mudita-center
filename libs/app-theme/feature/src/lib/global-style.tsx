@@ -27,7 +27,7 @@ export const GlobalStyle = createGlobalStyle`
     overflow: hidden;
   }
 
-  #root > * {
+  #root > *:not(dialog) {
     height: 100%;
   }
 

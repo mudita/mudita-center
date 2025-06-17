@@ -21,10 +21,15 @@ import { action } from "storybook/actions"
 import { Icon } from "../icon/icon"
 import { Typography } from "../typography/typography"
 
-const DocsStoryWrapper = styled.div`
-  .ReactModal__Overlay {
-    position: relative !important;
-    padding: 2rem !important;
+const Decorator = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > div {
+    box-shadow: 0 1rem 5rem ${({ theme }) => theme.app.color.blackAlpha.light};
+    background-color: ${({ theme }) => theme.app.color.white};
+    border-radius: ${({ theme }) => theme.app.radius.sm};
   }
 `
 
@@ -33,22 +38,11 @@ const meta: Meta<typeof ModalContent> = {
   tags: ["autodocs"],
   decorators: [
     (Story, context) => (
-      <div className={"story-decorator no-padding"}>
-        <Modal
-          appElement={context.canvasElement}
-          parentSelector={() => {
-            return context.canvasElement.querySelector(
-              ".story-decorator"
-            ) as HTMLElement
-          }}
-          opened
-          customStyles={{
-            maxHeight: 400,
-          }}
-        >
+      <Decorator className={"story-decorator no-padding"}>
+        <ModalContent>
           <Story />
-        </Modal>
-      </div>
+        </ModalContent>
+      </Decorator>
     ),
   ],
   parameters: {
@@ -63,9 +57,7 @@ const meta: Meta<typeof ModalContent> = {
           <Title />
           <Subtitle />
           <Description />
-          <DocsStoryWrapper>
-            <Stories />
-          </DocsStoryWrapper>
+          <Stories />
         </>
       ),
     },

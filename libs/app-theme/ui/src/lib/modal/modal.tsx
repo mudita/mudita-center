@@ -3,23 +3,35 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import ReactModal from "react-modal"
-import { FunctionComponent, PropsWithChildren, useCallback } from "react"
-import { ModalLayer, ModalSize, ModalTestId } from "app-theme/models"
-import { theme } from "app-theme/utils"
+import {
+  ComponentProps,
+  FunctionComponent,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
+import { ModalLayer, ModalSize } from "app-theme/models"
 import { ModalContent } from "./modal-content"
-import { ModalOverlay } from "./modal-overlay"
 import { ModalTitleIcon } from "./modal-title-icon"
 import { ModalTitle } from "./modal-title"
 import { ModalScrollableContent } from "./modal-scrollable-content"
 import { ModalButtons } from "./modal-buttons"
 import { ModalSizeController } from "./modal-size-controller"
-import { ModalVisibilityController } from "./modal-visibility-controller"
+import {
+  ModalVisibilityController,
+  ModalVisibilityControllerHidden,
+} from "./modal-visibility-controller"
 import { ModalCloseButton } from "./modal-close-button"
 import { ModalDenseContent } from "./modal-dense-content"
+import styled, { keyframes } from "styled-components"
 
-interface Props extends PropsWithChildren, Omit<ReactModal.Props, "isOpen"> {
+interface Props
+  extends PropsWithChildren,
+    Omit<ComponentProps<typeof Wrapper>, "$overlayHidden"> {
   opened: boolean
+  onClose?: VoidFunction
   overlayHidden?: boolean
   layer?: ModalLayer
   size?: ModalSize
@@ -45,50 +57,59 @@ interface Subcomponents {
 export const Modal: FunctionComponent<Props> & Subcomponents = ({
   children,
   opened,
+  onClose,
   overlayHidden,
   layer = ModalLayer.Default,
   size = ModalSize.Small,
   customStyles = {},
+  className,
   ...rest
 }) => {
-  const content: NonNullable<ReactModal["props"]["contentElement"]> =
-    useCallback(
-      (props, children) => {
-        return (
-          <ModalContent {...props} size={size} layer={layer} {...customStyles}>
-            {children}
-          </ModalContent>
-        )
-      },
-      [customStyles, layer, size]
-    )
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const [closing, setClosing] = useState(false)
 
-  const overlay: NonNullable<ReactModal["props"]["overlayElement"]> =
-    useCallback(
-      (props, children) => {
-        return (
-          <ModalOverlay
-            {...props}
-            $hidden={overlayHidden}
-            data-testid={ModalTestId.Overlay}
-          >
-            {children}
-          </ModalOverlay>
-        )
-      },
-      [overlayHidden]
-    )
+  const handleAnimationEnd = useCallback(() => {
+    if (closing) {
+      dialogRef.current?.close()
+      setClosing(false)
+      if (onClose) {
+        onClose()
+      }
+    }
+  }, [closing, onClose])
+
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (opened) {
+      if (!dialog?.open) {
+        dialog?.showModal()
+      }
+    } else if (dialog?.open) {
+      setClosing(true)
+    }
+  }, [opened])
+
+  useEffect(() => {
+    const dialog = dialogRef.current
+    dialog?.addEventListener("animationend", handleAnimationEnd)
+
+    return () => {
+      dialog?.removeEventListener("animationend", handleAnimationEnd)
+    }
+  }, [handleAnimationEnd])
+
   return (
-    <ReactModal
+    <Wrapper
+      ref={dialogRef}
+      className={closing ? "closing" : ""}
+      onCancel={() => setClosing(true)}
+      $overlayHidden={overlayHidden}
       {...rest}
-      contentElement={content}
-      overlayElement={overlay}
-      isOpen={opened}
-      closeTimeoutMS={theme.app.constants.modalTransitionDuration}
-      shouldCloseOnOverlayClick={false}
     >
-      {children}
-    </ReactModal>
+      <ModalContent size={size} layer={layer} {...customStyles}>
+        {children}
+      </ModalContent>
+    </Wrapper>
   )
 }
 
@@ -100,3 +121,52 @@ Modal.Buttons = ModalButtons
 Modal.CloseButton = ModalCloseButton
 Modal.SizeController = ModalSizeController
 Modal.VisibilityController = ModalVisibilityController
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`
+
+const fadeOut = keyframes`
+  from { opacity: 1; }
+  to { opacity: 0;  }
+`
+
+const Wrapper = styled.dialog<{
+  $overlayHidden?: boolean
+}>`
+  border: none;
+  padding: 0;
+  box-shadow: 0 1rem 5rem ${({ theme }) => theme.app.color.blackAlpha.light};
+  background-color: ${({ theme }) => theme.app.color.white};
+  border-radius: ${({ theme }) => theme.app.radius.sm};
+
+  &,
+  &::backdrop {
+    animation-duration: ${({ theme }) =>
+      theme.app.constants.modalTransitionDuration}ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+  }
+
+  &::backdrop {
+    background-color: ${({ theme, $overlayHidden }) =>
+      $overlayHidden ? "transparent" : theme.app.color.black + "4D"} !important;
+    animation-name: ${fadeIn};
+  }
+
+  &[open] {
+    animation-name: ${fadeIn};
+  }
+
+  &.closing {
+    &,
+    &::backdrop {
+      animation-name: ${fadeOut};
+    }
+  }
+
+  &:has(${ModalVisibilityControllerHidden}) {
+    display: none;
+  }
+`
