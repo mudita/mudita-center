@@ -33,7 +33,15 @@ class AppInitPage extends Page {
   public async acceptPrivacyPolicy() {
     if (await this.privacyPolicyModal.isDisplayed()) {
       await this.privacyPolicyAcceptButton.click()
-      await browser.pause(1000)
+      await browser.waitUntil(
+        async () => {
+          return !(await this.privacyPolicyModal.isDisplayed())
+        },
+        {
+          timeout: 5000,
+          timeoutMsg: "Privacy Policy modal did not close in time",
+        }
+      )
     }
   }
 }

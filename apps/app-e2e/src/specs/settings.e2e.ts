@@ -51,7 +51,7 @@ describe("Settings - About screen", () => {
 
     await browser.waitUntil(async () => {
       const pageUrl = await SettingsPage.getPageUrl()
-      return pageUrl === "/settings/backup"
+      return pageUrl === "/settings/about"
     })
   })
 
