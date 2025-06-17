@@ -7,6 +7,11 @@ import AppInitPage from "../page-objects/app-init.page"
 import { NewsPaths } from "../all-paths"
 
 describe("Welcome screen", () => {
+  it("should be opened", async () => {
+    const pageUrl = await AppInitPage.getPageUrl()
+    expect(pageUrl).toBe("/devices/welcome")
+  })
+
   it("is visible after app start", async () => {
     const layout = await AppInitPage.fullscreenLayout
     await layout.waitForExist()

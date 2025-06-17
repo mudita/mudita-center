@@ -13,6 +13,11 @@ import {
 } from "../consts/regex-const"
 
 describe("News screen", () => {
+  it("should be opened", async () => {
+    const pageUrl = await NewsPage.getPageUrl()
+    expect(pageUrl).toBe("/news")
+  })
+
   it("have proper menu item active", async () => {
     const activeMenuItem = await NewsPage.activeMenuItem
     await expect(activeMenuItem).toHaveText("News")

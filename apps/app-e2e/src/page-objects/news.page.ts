@@ -5,6 +5,7 @@
 
 import Page from "./page"
 import { NewsTestId } from "../all-test-ids"
+import "../../types.d"
 
 class NewsPage extends Page {
   public get moreNewsButton() {

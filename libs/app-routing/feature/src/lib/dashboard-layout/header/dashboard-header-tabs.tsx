@@ -62,6 +62,7 @@ export const DashboardHeaderTabs: FunctionComponent<Props> = ({ tabs }) => {
           tabsRef.current = node
           moveLine()
         }}
+        data-testid="dashboard-header-tabs"
       >
         {tabs.map((tab) => (
           <Button
@@ -70,7 +71,6 @@ export const DashboardHeaderTabs: FunctionComponent<Props> = ({ tabs }) => {
             key={tab.path}
             onClick={setLineActive}
             modifiers={[ButtonTextModifier.DefaultCase]}
-            data-testid={`settings-tab-${tab.title.toLowerCase()}`}
           >
             <TabWrapper>
               <Icon type={tab.icon} size={IconSize.Medium} />

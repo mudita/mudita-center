@@ -103,7 +103,7 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.menu`
   flex: 1;
   display: flex;
   flex-direction: column;

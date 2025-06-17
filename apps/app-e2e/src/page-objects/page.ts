@@ -12,13 +12,27 @@ import AppInitPage from "./app-init.page"
  */
 
 export default class Page {
+  public getInstancePath() {
+    return browser.electron.execute((electron) => {
+      return electron.app.getPath("userData")
+    })
+  }
+
   public async getPageUrl() {
     const path = await browser.getUrl()
     return path.split("index.html#")[1]
   }
 
   public get appHeader() {
-    return $('[data-testid="dashboard-header-title"]')
+    return $('//div[@data-testid="dashboard-header-title"]')
+  }
+
+  public get appHeaderTabs() {
+    return $('//nav[@data-testid="dashboard-header-tabs"]')
+  }
+
+  public get activeHeaderTab() {
+    return this.appHeaderTabs.$('.//a[@aria-current="page"]')
   }
 
   public get activeMenuItem() {

@@ -11,14 +11,6 @@ class SettingsPage extends Page {
     return $('a[href="#/settings"]')
   }
 
-  public get activeMenuItem() {
-    return $("nav a.active")
-  }
-
-  public get appHeader() {
-    return $("h1")
-  }
-
   public get backupLocation() {
     return $(`[data-testid="backup-location"]`)
   }
@@ -27,12 +19,36 @@ class SettingsPage extends Page {
     return $(`[data-testid="${SettingsTestId.ChangeBackupLocationButton}"]`)
   }
 
-  public get aboutTab() {
-    return $(`[data-testid="${SettingsTestId.AboutTab}"]`)
+  public get backupTab() {
+    return this.appHeaderTabs.$('.//a[@href="#/settings/backup"]')
   }
 
-  public get backupTab() {
-    return $(`[data-testid="${SettingsTestId.BackupTab}"]`)
+  public get aboutTab() {
+    return this.appHeaderTabs.$('.//a[@href="#/settings/about"]')
+  }
+
+  public get aboutWrapper() {
+    return $(`[data-testid="${SettingsTestId.AboutWrapper}"]`)
+  }
+
+  public get installedVersionRow() {
+    return this.aboutWrapper.$("div:nth-child(1) > div > p")
+  }
+
+  public get updateButton() {
+    return $(`[data-testid="${SettingsTestId.AboutUpdateButton}"]`)
+  }
+
+  public get termsOfServiceButton() {
+    return $(`[data-testid="${SettingsTestId.AboutTermsOfServiceButton}"]`)
+  }
+
+  public get privacyPolicyButton() {
+    return $(`[data-testid="${SettingsTestId.AboutPrivacyPolicyButton}"]`)
+  }
+
+  public get licenseButton() {
+    return $(`[data-testid="${SettingsTestId.AboutLicenseButton}"]`)
   }
 }
 
