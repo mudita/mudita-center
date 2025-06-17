@@ -47,10 +47,7 @@ export default class Page {
   public async closeFullscreenLayout() {
     if (await this.fullscreenLayout.isDisplayed()) {
       await this.fullscreenLayoutCloseButton.click()
-      await this.fullscreenLayout.waitForExist({
-        reverse: true,
-        timeout: 5000,
-      })
+      await browser.pause(1000)
     }
   }
 

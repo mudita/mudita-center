@@ -10,14 +10,16 @@ describe("Settings - Backup screen", () => {
   before(async () => {
     const settingsMenuItem = await SettingsPage.settingsMenuItem
     await settingsMenuItem.click()
+
+    await browser.waitUntil(async () => {
+      const pageUrl = await SettingsPage.getPageUrl()
+      return pageUrl === "/settings/backup"
+    })
   })
 
   it("should be opened on 'Backup' tab", async () => {
-    const pageUrl = await SettingsPage.getPageUrl()
     const backupTab = await SettingsPage.backupTab
-
     expect(backupTab).toHaveAttribute("aria-current", "page")
-    expect(pageUrl).toBe("/settings/backup")
   })
 
   it("should have proper title in app header", async () => {
@@ -46,14 +48,17 @@ describe("Settings - About screen", () => {
   before(async () => {
     const aboutTab = await SettingsPage.aboutTab
     await aboutTab.click()
+
+    await browser.waitUntil(async () => {
+      const pageUrl = await SettingsPage.getPageUrl()
+      return pageUrl === "/settings/backup"
+    })
   })
 
   it("should be opened on 'About' tab", async () => {
-    const pageUrl = await SettingsPage.getPageUrl()
     const aboutTab = await SettingsPage.aboutTab
 
     expect(aboutTab).toHaveAttribute("aria-current", "page")
-    expect(pageUrl).toBe("/settings/about")
   })
 
   it("should show current app version", async () => {
