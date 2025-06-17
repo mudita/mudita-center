@@ -4,7 +4,6 @@
  */
 
 import { FullscreenLayoutTestIds } from "../all-test-ids"
-import AppInitPage from "./app-init.page"
 
 /**
  * main page object containing all methods, selectors and functionality
@@ -54,37 +53,5 @@ export default class Page {
 
   public async scrollIntoView(element: ChainablePromiseElement) {
     await browser.execute((el) => el.scrollIntoView(), element)
-  }
-
-  public async reloadApp({
-    skipPrivacyPolicy = false,
-    skipWelcomeScreen = false,
-  } = {}) {
-    await browser.reloadSession()
-    await this.ensureAppIsOpen()
-
-    if (skipPrivacyPolicy) {
-      await AppInitPage.acceptPrivacyPolicy()
-    }
-    if (skipWelcomeScreen) {
-      await this.closeFullscreenLayout()
-    }
-  }
-
-  public ensureAppIsOpen() {
-    return browser.waitUntil(
-      async () => {
-        try {
-          await browser.getTitle()
-          return true
-        } catch {
-          return false
-        }
-      },
-      {
-        timeout: 10000,
-        timeoutMsg: "App did not open in expected time",
-      }
-    )
   }
 }

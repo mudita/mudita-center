@@ -49,6 +49,5 @@ describe("Devices - welcome screen", () => {
 
     const url = await DevicesInitPage.getPageUrl()
     await expect(url).toBe(NewsPaths.Index)
-    await DevicesInitPage.reloadApp({ skipPrivacyPolicy: true })
   })
 })

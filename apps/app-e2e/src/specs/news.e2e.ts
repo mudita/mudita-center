@@ -14,8 +14,7 @@ import {
 
 describe("News screen", () => {
   it("should be opened", async () => {
-    const pageUrl = await NewsPage.getPageUrl()
-    expect(pageUrl).toBe("/news")
+    expect(await NewsPage.getPageUrl()).toBe("/news")
   })
 
   it("have proper menu item active", async () => {
