@@ -113,9 +113,9 @@ export const config: WebdriverIO.Config = {
       },
       "goog:chromeOptions": {
         args: [
-          // "--no-sandbox",
+          "--no-sandbox",
           "--disable-gpu",
-          // ...(process.env.CI === "true" ? ["--headless=new"] : []),
+          ...(process.env.CI === "true" ? ["--headless=new"] : []),
         ],
       },
     },
