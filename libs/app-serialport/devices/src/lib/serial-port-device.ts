@@ -17,6 +17,7 @@ import EventEmitter from "events"
 import PQueue from "p-queue"
 import { SerialPortError } from "app-serialport/utils"
 import { styleText } from "util"
+import { format } from "date-fns"
 
 const DEFAULT_QUEUE_INTERVAL = 1
 const DEFAULT_QUEUE_CONCURRENCY = 1
@@ -66,6 +67,10 @@ export class SerialPortDevice extends SerialPort {
       console.log(
         styleText(["bold", "bgMagenta"], "SerialPort response"),
         styleText(["bgMagenta"], this.path),
+        styleText(
+          ["black", "bgWhite"],
+          ` ${format(new Date(), "HH:mm:ss.SSS")} `
+        ),
         styleText(["magenta"], `${rawResponse}`),
         "\n"
       )
@@ -104,6 +109,10 @@ export class SerialPortDevice extends SerialPort {
         console.log(
           styleText(["bold", "bgCyan"], "SerialPort write"),
           styleText(["bgCyan"], this.path),
+          styleText(
+            ["black", "bgWhite"],
+            ` ${format(new Date(), "HH:mm:ss.SSS")} `
+          ),
           styleText(["cyan"], `${parsedData}`)
         )
       }
