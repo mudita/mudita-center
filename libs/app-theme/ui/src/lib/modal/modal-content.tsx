@@ -9,7 +9,7 @@ import {
   ModalSizeControllerMedium,
   ModalSizeControllerSmall,
 } from "./modal-size-controller"
-import { ModalLayer, ModalSize, ModalTestId } from "app-theme/models"
+import { ModalSize, ModalTestId } from "app-theme/models"
 import { ScrollableContent } from "./modal-scrollable-content"
 import { TitleIconWrapper } from "./modal-title-icon"
 import { FunctionComponent, PropsWithChildren } from "react"
@@ -59,15 +59,13 @@ const getModalGap = (gap?: string | number) => {
 }
 
 const Content = styled.div<{
-  $layer: ModalLayer
   $size: ModalSize
   $width?: string | number
   $maxHeight?: string | number
   $gap?: string | number
   $padding?: string | number
 }>`
-  ${({ theme, $layer, $size, $padding, $width, $maxHeight, $gap }) => css`
-    z-index: ${$layer};
+  ${({ theme, $size, $padding, $width, $maxHeight, $gap }) => css`
     --modal-padding: ${getModalPadding($size, $padding)};
     --modal-width: ${getModalWidth($size, $width)};
     --modal-max-height: ${getModalMaxHeight($maxHeight)};
@@ -135,7 +133,6 @@ const Content = styled.div<{
 `
 
 interface Props extends PropsWithChildren {
-  layer?: ModalLayer
   size?: ModalSize
   width?: string | number
   maxHeight?: string | number
@@ -144,7 +141,6 @@ interface Props extends PropsWithChildren {
 }
 
 export const ModalContent: FunctionComponent<Props> = ({
-  layer = ModalLayer.Default,
   size = ModalSize.Small,
   width,
   maxHeight,
@@ -154,7 +150,6 @@ export const ModalContent: FunctionComponent<Props> = ({
 }) => {
   return (
     <Content
-      $layer={layer}
       $size={size}
       $width={width}
       $maxHeight={maxHeight}

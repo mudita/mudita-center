@@ -7,7 +7,6 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import {
   ButtonType,
   IconType,
-  ModalLayer,
   ModalSize,
   TypographyAlign,
 } from "app-theme/models"
@@ -48,12 +47,6 @@ export const Default: Story = {
       .assignCategory("Functional")
       .addDescription("Decides whether the overlay is hidden or not.")
       .apply(),
-    layer: storybookHelper
-      .assignCategory("Styles")
-      .addDescription("Defines the layer of the modal in the z-index stack.")
-      .generateEnumSelector(ModalLayer, "ModalLayer")
-      .setType("ModalLayer")
-      .apply(),
     size: storybookHelper
       .assignCategory("Styles")
       .addDescription("Defines the size of the modal.")
@@ -70,7 +63,6 @@ export const Default: Story = {
   args: {
     opened: true,
     overlayHidden: false,
-    layer: ModalLayer.Default,
     size: ModalSize.Small,
     customStyles: {
       maxHeight: undefined,

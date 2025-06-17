@@ -6,7 +6,7 @@
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled, { css } from "styled-components"
 import { defineMessages } from "app-localize/utils"
-import { IconSize, IconType, ModalLayer } from "app-theme/models"
+import { IconSize, IconType } from "app-theme/models"
 import { IconButton, Typography } from "app-theme/ui"
 
 const messages = defineMessages({
@@ -43,7 +43,7 @@ export const DevicesDrawer: FunctionComponent<Props> = ({
 
 const Backdrop = styled.div<{ $visible?: boolean }>`
   position: fixed;
-  z-index: ${ModalLayer.ConnectingLoader};
+  z-index: 9998;
   top: 0;
   left: 0;
   width: 100vw;
@@ -65,7 +65,7 @@ const Backdrop = styled.div<{ $visible?: boolean }>`
 
 const Wrapper = styled.div<{ $opened?: boolean }>`
   position: absolute;
-  z-index: ${ModalLayer.ConnectingLoader};
+  z-index: 9999;
   right: 0;
   top: 0;
   height: 100%;

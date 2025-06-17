@@ -5,12 +5,7 @@
 
 import { FunctionComponent } from "react"
 import { Button, Modal, Typography } from "app-theme/ui"
-import {
-  ButtonTextModifier,
-  ButtonType,
-  IconType,
-  ModalLayer,
-} from "app-theme/models"
+import { ButtonTextModifier, ButtonType, IconType } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
 
 interface Props {
@@ -45,7 +40,7 @@ export const PrivacyPolicyModal: FunctionComponent<Props> = ({
   onLinkClick,
 }) => {
   return (
-    <Modal opened={opened} layer={ModalLayer.PrivacyPolicy}>
+    <Modal opened={opened}>
       <Modal.TitleIcon type={IconType.MuditaLogo} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Modal.CloseButton onClick={onClose} />

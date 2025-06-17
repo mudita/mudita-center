@@ -12,7 +12,7 @@ import {
   useRef,
   useState,
 } from "react"
-import { ModalLayer, ModalSize } from "app-theme/models"
+import { ModalSize } from "app-theme/models"
 import { ModalContent } from "./modal-content"
 import { ModalTitleIcon } from "./modal-title-icon"
 import { ModalTitle } from "./modal-title"
@@ -33,7 +33,6 @@ interface Props
   opened: boolean
   onClose?: VoidFunction
   overlayHidden?: boolean
-  layer?: ModalLayer
   size?: ModalSize
   customStyles?: {
     maxHeight?: string | number
@@ -59,7 +58,6 @@ export const Modal: FunctionComponent<Props> & Subcomponents = ({
   opened,
   onClose,
   overlayHidden,
-  layer = ModalLayer.Default,
   size = ModalSize.Small,
   customStyles = {},
   className,
@@ -80,9 +78,11 @@ export const Modal: FunctionComponent<Props> & Subcomponents = ({
 
   useEffect(() => {
     const dialog = dialogRef.current
-    if (opened) {
-      if (!dialog?.open) {
-        dialog?.showModal()
+    if (opened && dialog) {
+      if (!dialog.open) {
+        dialog.inert = true
+        dialog.showModal()
+        dialog.inert = false
       }
     } else if (dialog?.open) {
       setClosing(true)
@@ -106,7 +106,7 @@ export const Modal: FunctionComponent<Props> & Subcomponents = ({
       $overlayHidden={overlayHidden}
       {...rest}
     >
-      <ModalContent size={size} layer={layer} {...customStyles}>
+      <ModalContent size={size} {...customStyles}>
         {children}
       </ModalContent>
     </Wrapper>
@@ -135,6 +135,7 @@ const fadeOut = keyframes`
 const Wrapper = styled.dialog<{
   $overlayHidden?: boolean
 }>`
+  outline: none;
   border: none;
   padding: 0;
   box-shadow: 0 1rem 5rem ${({ theme }) => theme.app.color.blackAlpha.light};

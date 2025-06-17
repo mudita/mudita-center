@@ -2926,11 +2926,6 @@ export const License: FunctionComponent = () => (
       Notice for file(s):
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      &quot;react-modal&quot;: &quot;^3.15.1&quot;
-      <br />
-      Copyright (c) 2017 Ryan Florence
-    </LightText>
-    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Permission is hereby granted, free of charge, to any person obtaining a
       copy of this software and associated documentation files (the
       &quot;Software&quot;), to deal in the Software without restriction,

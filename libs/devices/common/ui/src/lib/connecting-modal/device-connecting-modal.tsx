@@ -5,7 +5,7 @@
 
 import { FunctionComponent } from "react"
 import { Modal } from "app-theme/ui"
-import { IconType, ModalLayer } from "app-theme/models"
+import { IconType } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
 
 interface Props {
@@ -20,7 +20,7 @@ const messages = defineMessages({
 
 export const DeviceConnectingModal: FunctionComponent<Props> = ({ opened }) => {
   return (
-    <Modal opened={opened} layer={ModalLayer.ConnectingLoader}>
+    <Modal opened={opened}>
       <Modal.TitleIcon type={IconType.Spinner} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
     </Modal>

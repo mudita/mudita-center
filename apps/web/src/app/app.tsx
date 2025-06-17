@@ -7,10 +7,8 @@ import { AppRoutes } from "app-routing/routes"
 import { DevicesInitializer } from "devices/common/feature"
 import { FunctionComponent } from "react"
 import { CheckInitRequirements } from "app-init/feature"
-import ReactModal from "react-modal"
 
 export const App: FunctionComponent = () => {
-  ReactModal.setAppElement("#root")
   return (
     <>
       <DevicesInitializer />

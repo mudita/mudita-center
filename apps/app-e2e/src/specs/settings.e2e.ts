@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
 import SettingsPage from "../page-objects/settings.page"
 
 describe("Settings - Backup screen", () => {
@@ -28,7 +29,9 @@ describe("Settings - Backup screen", () => {
     const backupLocation = await SettingsPage.backupLocation
     const appInstancePath = await SettingsPage.getInstancePath()
 
-    expect(await backupLocation.getText()).toBe(`${appInstancePath}/backups`)
+    expect(await backupLocation.getText()).toBe(
+      path.join(appInstancePath, "backups")
+    )
   })
 
   it("should show a location changing button", async () => {
