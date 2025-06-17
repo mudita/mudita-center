@@ -12,7 +12,8 @@ import { AnalyticsEvent } from "app-utils/models"
 import { AppSettings } from "app-settings/renderer"
 import { analyticsConfig } from "./analytics-config"
 
-let cachedPrivacyPolicyAccepted: boolean | undefined
+let cachedPrivacyPolicyAccepted: boolean
+let cachedAnalyticsId: string
 
 const defaultMetadata: Partial<AnalyticsEvent> = {
   rec: 1,
@@ -45,8 +46,20 @@ const getPrivacyPolicyAccepted = async (): Promise<boolean> => {
   return cachedPrivacyPolicyAccepted
 }
 
-const validate = async (): Promise<boolean> => {
+const getAnalyticsId = async (): Promise<string> => {
+  if (cachedAnalyticsId === undefined) {
+    const analyticsId = await AppSettings.get("system.analyticsId")
 
+    if (analyticsId === null || analyticsId === undefined) {
+      throw new Error("Analytics ID is not set in AppSettings")
+    }
+
+    cachedAnalyticsId = analyticsId
+  }
+  return cachedAnalyticsId
+}
+
+const validate = async (): Promise<boolean> => {
   if (!analyticsConfig.enabled) {
     console.warn("Analytics tracking is disabled")
     return false
@@ -65,11 +78,24 @@ const validate = async (): Promise<boolean> => {
   return await getPrivacyPolicyAccepted()
 }
 
-export const track = async (event: AnalyticsEvent): Promise<void> => {
-  const valid = await validate()
-  if (!valid) {
-    return
-  }
+const mergeDefaultMetadataWithEvent = async (
+  event: AnalyticsEvent
+): Promise<AnalyticsEvent> => {
+  const _id = await getAnalyticsId()
 
-  await trackRequest({ ...defaultMetadata, ...event })
+  return { ...defaultMetadata, _id, ...event }
+}
+
+export const track = async (event: AnalyticsEvent): Promise<void> => {
+  try {
+    const valid = await validate()
+    if (!valid) {
+      return
+    }
+
+    const eventWithMetadata = await mergeDefaultMetadataWithEvent(event)
+    await trackRequest(eventWithMetadata)
+  } catch (error) {
+    console.warn("Error tracking event:", error)
+  }
 }
