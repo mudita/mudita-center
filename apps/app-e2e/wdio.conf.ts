@@ -297,6 +297,7 @@ export const config: WebdriverIO.Config = {
     ) {
       await AppInitPage.closeFullscreenLayout()
     }
+    await browser.pause(1000)
   },
   /**
    * Function to be executed before a test (in Mocha/Jasmine) starts.
