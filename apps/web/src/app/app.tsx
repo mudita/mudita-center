@@ -8,13 +8,13 @@ import { useDevicesListener } from "devices/common/feature"
 import { FunctionComponent, useEffect } from "react"
 import { CheckInitRequirements } from "app-init/feature"
 import ReactModal from "react-modal"
-import { useTrack } from "app-utils/renderer"
+import { useUniqueTrack } from "app-utils/renderer"
 import { AnalyticsEventCategory } from "app-utils/models"
 
 export const App: FunctionComponent = () => {
   ReactModal.setAppElement("#root")
   useDevicesListener()
-  const track = useTrack()
+  const track = useUniqueTrack()
 
   useEffect(() => {
     void track({

@@ -11,6 +11,9 @@ import {
 import { AnalyticsEvent } from "app-utils/models"
 import { AppSettings } from "app-settings/renderer"
 import { analyticsConfig } from "./analytics-config"
+import { AnalyticsCacheService } from "./analytics-cache.service"
+
+const analyticsCacheService = new AnalyticsCacheService()
 
 let cachedPrivacyPolicyAccepted: boolean
 let cachedAnalyticsId: string
@@ -97,5 +100,28 @@ export const track = async (event: AnalyticsEvent): Promise<void> => {
     await trackRequest(eventWithMetadata)
   } catch (error) {
     console.warn("Error tracking event:", error)
+  }
+}
+
+export const uniqueTrack = async (event: AnalyticsEvent): Promise<void> => {
+  try {
+    const valid = await validate()
+    if (!valid) {
+      return
+    }
+
+    const isUnique = await analyticsCacheService.isEventUnique(event)
+
+    if (!isUnique) {
+      return
+    }
+
+    const eventWithMetadata = await mergeDefaultMetadataWithEvent(event)
+    const response = await trackRequest(eventWithMetadata)
+    if (response.status === 200) {
+      await analyticsCacheService.saveEvent(event)
+    }
+  } catch (error) {
+    console.warn("Error tracking unique event:", error)
   }
 }
