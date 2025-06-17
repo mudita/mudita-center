@@ -33,10 +33,7 @@ class AppInitPage extends Page {
   public async acceptPrivacyPolicy() {
     if (await this.privacyPolicyModal.isDisplayed()) {
       await this.privacyPolicyAcceptButton.click()
-      await this.privacyPolicyModal.waitForExist({
-        reverse: true,
-        timeout: 5000,
-      })
+      await browser.pause(1000)
     }
   }
 }
