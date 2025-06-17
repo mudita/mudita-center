@@ -21,6 +21,7 @@ import { APIEntitiesService } from "./api-entities"
 import { ISettingsService } from "shared/utils"
 import { AppInstallationService } from "./file-manager/app-installation.service"
 import { MtpFileTransferService } from "./file-transfer/mtp-file-transfer.service"
+import { ApiTestToolsService as ApiTestToolsService } from "./api-test-tools/api-test.service"
 
 export class APIModule {
   private apiConfigService: APIConfigService
@@ -37,6 +38,7 @@ export class APIModule {
   private apiDataTransferService: APIDataTransferService
   private appInstallationService: AppInstallationService
   private mtpFileTransferService: MtpFileTransferService
+  private apiTestToolsService: ApiTestToolsService
 
   constructor(
     deviceProtocol: DeviceProtocol,
@@ -75,6 +77,7 @@ export class APIModule {
     this.serviceBridge.deviceSystemActions = this.deviceSystemActionsService
 
     this.mtpFileTransferService = new MtpFileTransferService(new AppMtp())
+    this.apiTestToolsService = new ApiTestToolsService(deviceProtocol)
   }
 
   public getAPIServices() {
@@ -92,6 +95,7 @@ export class APIModule {
       this.apiDataTransferService,
       this.appInstallationService,
       this.mtpFileTransferService,
+      this.apiTestToolsService,
     ]
   }
 }
