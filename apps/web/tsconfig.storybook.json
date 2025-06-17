@@ -3,7 +3,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "outDir": "",
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
   "exclude": [
     "src/**/*.spec.ts",
@@ -24,7 +24,7 @@
     ".storybook/*.js",
     ".storybook/*.ts",
     ".storybook/*.jsx",
-    ".storybook/*.tsx",
+    ".storybook/*.tsx"
   ],
   "files": [
     "../../node_modules/@nx/react/typings/styled-jsx.d.ts",

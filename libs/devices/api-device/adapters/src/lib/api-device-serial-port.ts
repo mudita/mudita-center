@@ -26,18 +26,18 @@ export type Response<
   M extends ApiDeviceMethod<E>,
 > =
   | {
-  ok: true
-  endpoint: E
-  status: number
-  body: ApiDeviceResponseBody<E, M>
-}
+      ok: true
+      endpoint: E
+      status: number
+      body: ApiDeviceResponseBody<E, M>
+    }
   | {
-  ok: false
-  endpoint: E
-  status: ApiDeviceErrorType | DeviceErrorType
-  body?: unknown
-  error?: unknown
-}
+      ok: false
+      endpoint: E
+      status: ApiDeviceErrorType | DeviceErrorType
+      body?: unknown
+      error?: unknown
+    }
 
 export class ApiDeviceSerialPort {
   static isCompatible(
