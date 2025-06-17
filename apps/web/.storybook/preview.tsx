@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Preview } from "@storybook/react"
+import { Preview } from "@storybook/react-vite"
 import { AppThemeProvider } from "app-theme/feature"
 import { AppRoutingProvider } from "app-routing/feature"
 

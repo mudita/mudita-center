@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import styled from "styled-components"
 import { DeviceImage } from "./device-image"
 import { storybookHelper } from "app-theme/utils"

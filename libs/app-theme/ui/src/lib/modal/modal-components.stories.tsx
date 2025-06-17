@@ -3,16 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import { ButtonType, IconType, ModalSize } from "app-theme/models"
 import { storybookHelper } from "app-theme/utils"
 import { ModalContent } from "./modal-content"
 import { Modal } from "./modal"
 import styled from "styled-components"
 import { Button } from "../button/button"
-import { Description, Stories, Subtitle, Title } from "@storybook/blocks"
+import {
+  Description,
+  Stories,
+  Subtitle,
+  Title,
+} from "@storybook/addon-docs/blocks"
 import { FunctionComponent, PropsWithChildren, ReactElement } from "react"
-import { action } from "@storybook/addon-actions"
+import { action } from "storybook/actions"
 import { Icon } from "../icon/icon"
 import { Typography } from "../typography/typography"
 

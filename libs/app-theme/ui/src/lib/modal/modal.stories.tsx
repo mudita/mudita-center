@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import {
   ButtonType,
   IconType,
@@ -13,17 +13,21 @@ import {
 } from "app-theme/models"
 import { storybookHelper } from "app-theme/utils"
 import styled from "styled-components"
-import { ModalContent } from "./modal-content"
 import { Modal } from "./modal"
 import { Button } from "../button/button"
-import { Description, Stories, Subtitle, Title } from "@storybook/blocks"
+import {
+  Description,
+  Stories,
+  Subtitle,
+  Title,
+} from "@storybook/addon-docs/blocks"
 import { Typography } from "../typography/typography"
 
 const Decorator = styled.div`
   min-height: 54rem;
 `
 
-const meta: Meta<typeof ModalContent> = {
+const meta: Meta<typeof Modal> = {
   title: "UI/Modal",
   component: Modal,
   tags: ["autodocs"],

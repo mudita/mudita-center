@@ -4,7 +4,7 @@
  */
 
 import styled from "styled-components"
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import { storybookHelper } from "app-theme/utils"
 import { DeviceConnectingModal } from "./device-connecting-modal"
 

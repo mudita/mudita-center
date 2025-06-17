@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import styled, { css } from "styled-components"
 import { Typography } from "./typography"
 import { BaseTypography } from "./base-typography"
@@ -21,7 +21,7 @@ import {
   Stories,
   Subtitle,
   Title,
-} from "@storybook/blocks"
+} from "@storybook/addon-docs/blocks"
 import { BytesFormatter } from "./bytes-formatter/bytes-formatter"
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { color } from "../../../../utils/src/lib/app-theme/color"

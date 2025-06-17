@@ -1,3 +1,5 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
@@ -5,6 +7,7 @@
 
 const nx = require("@nx/eslint-plugin")
 const licenseHeader = require("eslint-plugin-license-header")
+const storybook = require("eslint-plugin-storybook")
 
 module.exports = [
   ...nx.configs["flat/base"],
@@ -23,6 +26,7 @@ module.exports = [
       "**/vitest.config.*.timestamp*",
       "**/vite.config.*",
       "**/jest.config.*",
+      "!.storybook",
     ],
   },
   {

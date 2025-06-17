@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 import styled from "styled-components"
 import { TextInput } from "./text-input"
 import { IconSize, IconType, TextInputVariant } from "app-theme/models"
@@ -11,7 +11,7 @@ import { IconButton } from "../../icon-button/icon-button"
 import { Icon } from "../../icon/icon"
 import { storybookHelper } from "app-theme/utils"
 import { FunctionComponent, useMemo, useState } from "react"
-import { action } from "@storybook/addon-actions"
+import { action } from "storybook/actions"
 
 const Decorator = styled.div`
   align-self: center;

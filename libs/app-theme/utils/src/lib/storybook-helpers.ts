@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { InputType } from "@storybook/core/csf"
+import { InputType } from "storybook/internal/csf"
 import { merge } from "lodash"
 
 export const storybookHelper = {
