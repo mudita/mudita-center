@@ -1,0 +1,101 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import {
+  AxiosResponse,
+  AxiosResponseHeaders,
+  InternalAxiosRequestConfig,
+} from "axios"
+import { AnalyticsEvent } from "app-utils/models"
+import { AppSettings } from "app-settings/renderer"
+import { analyticsConfig } from "./analytics-config"
+
+let cachedPrivacyPolicyAccepted: boolean
+let cachedAnalyticsId: string
+
+const defaultMetadata: Partial<AnalyticsEvent> = {
+  rec: 1,
+  apiv: 1,
+  idsite: analyticsConfig.siteId,
+  ua: window.navigator.userAgent,
+  lang: window.navigator.language,
+  res: `${window.screen.width * window.devicePixelRatio}x${
+    window.screen.height * window.devicePixelRatio
+  }`,
+}
+
+const trackRequest = async (event: AnalyticsEvent): Promise<AxiosResponse> => {
+  console.log("trackRequest", event)
+  return {
+    status: 200,
+    statusText: "Ok",
+    headers: {} as AxiosResponseHeaders,
+    config: {} as InternalAxiosRequestConfig,
+    data: undefined,
+  }
+}
+
+const getPrivacyPolicyAccepted = async (): Promise<boolean> => {
+  if (cachedPrivacyPolicyAccepted === undefined) {
+    cachedPrivacyPolicyAccepted = await AppSettings.get(
+      "user.privacyPolicyAccepted"
+    )
+  }
+  return cachedPrivacyPolicyAccepted
+}
+
+const getAnalyticsId = async (): Promise<string> => {
+  if (cachedAnalyticsId === undefined) {
+    const analyticsId = await AppSettings.get("system.analyticsId")
+
+    if (analyticsId === null || analyticsId === undefined) {
+      throw new Error("Analytics ID is not set in AppSettings")
+    }
+
+    cachedAnalyticsId = analyticsId
+  }
+  return cachedAnalyticsId
+}
+
+const validate = async (): Promise<boolean> => {
+  if (!analyticsConfig.enabled) {
+    console.warn("Analytics tracking is disabled")
+    return false
+  }
+
+  if (isNaN(analyticsConfig.siteId)) {
+    console.warn("Analytics site ID is not set")
+    return false
+  }
+
+  if (!analyticsConfig.apiUrl) {
+    console.warn("Analytics API URL is not set")
+    return false
+  }
+
+  return await getPrivacyPolicyAccepted()
+}
+
+const mergeDefaultMetadataWithEvent = async (
+  event: AnalyticsEvent
+): Promise<AnalyticsEvent> => {
+  const _id = await getAnalyticsId()
+
+  return { ...defaultMetadata, _id, ...event }
+}
+
+export const track = async (event: AnalyticsEvent): Promise<void> => {
+  try {
+    const valid = await validate()
+    if (!valid) {
+      return
+    }
+
+    const eventWithMetadata = await mergeDefaultMetadataWithEvent(event)
+    await trackRequest(eventWithMetadata)
+  } catch (error) {
+    console.warn("Error tracking event:", error)
+  }
+}

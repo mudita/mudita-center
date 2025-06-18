@@ -9,6 +9,7 @@ import { FunctionComponent, useEffect } from "react"
 import { CheckInitRequirements } from "app-init/feature"
 import ReactModal from "react-modal"
 import { useTrack } from "app-utils/renderer"
+import { AnalyticsEventCategory } from "app-utils/models"
 
 export const App: FunctionComponent = () => {
   ReactModal.setAppElement("#root")
@@ -16,7 +17,10 @@ export const App: FunctionComponent = () => {
   const track = useTrack()
 
   useEffect(() => {
-    void track("example event: app-started")
+    void track({
+      e_c: AnalyticsEventCategory.CenterVersion,
+      e_a: import.meta.env.VITE_APP_VERSION,
+    })
   }, [track])
 
   return (
