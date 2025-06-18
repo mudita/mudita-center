@@ -3,11 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  AxiosResponse,
-  AxiosResponseHeaders,
-  InternalAxiosRequestConfig,
-} from "axios"
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import { AnalyticsEvent } from "app-utils/models"
 import { AppSettings } from "app-settings/renderer"
 import { analyticsConfig } from "./analytics-config"
@@ -29,19 +25,17 @@ const defaultMetadata: Partial<AnalyticsEvent> = {
   }`,
 }
 
-const trackRequest = async (event: AnalyticsEvent): Promise<AxiosResponse> => {
-  console.log("trackRequest", event)
-  return {
-    status: 200,
-    statusText: "Ok",
-    headers: {} as AxiosResponseHeaders,
-    config: {} as InternalAxiosRequestConfig,
-    data: undefined,
-  }
+const trackRequest = async (
+  params: AxiosRequestConfig["params"]
+): Promise<AxiosResponse> => {
+  return axios.post(analyticsConfig.apiUrl, undefined, {
+    params,
+    timeout: 3000,
+  })
 }
 
 const getPrivacyPolicyAccepted = async (): Promise<boolean> => {
-  if (cachedPrivacyPolicyAccepted === undefined) {
+  if (!cachedPrivacyPolicyAccepted) {
     cachedPrivacyPolicyAccepted = await AppSettings.get(
       "user.privacyPolicyAccepted"
     )
@@ -78,7 +72,14 @@ const validate = async (): Promise<boolean> => {
     return false
   }
 
-  return await getPrivacyPolicyAccepted()
+  const privacyPolicyAccepted = await getPrivacyPolicyAccepted()
+
+  if (!privacyPolicyAccepted) {
+    console.warn("Privacy policy not accepted")
+    return false
+  }
+
+  return true
 }
 
 const mergeDefaultMetadataWithEvent = async (
