@@ -14,5 +14,4 @@ export interface DeviceMetadata {
   }
   serialNumber?: string
   recoveryMode?: boolean
-  locked?: boolean
 }

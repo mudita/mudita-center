@@ -5,6 +5,8 @@
 
 export * from "./lib/harmony"
 export * from "./lib/harmony-endpoints"
+export * from "./lib/harmony-error-type"
+export * from "./lib/harmony-paths"
 export * from "./lib/harmony-request"
 export * from "./lib/harmony-response"
 export * from "./lib/endpoints/device-info"

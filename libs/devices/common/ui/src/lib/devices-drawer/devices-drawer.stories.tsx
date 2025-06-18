@@ -8,7 +8,11 @@ import { DevicesDrawer } from "./devices-drawer"
 import styled from "styled-components"
 import { DevicesDrawerCard } from "./devices-drawer-card"
 import { storybookHelper } from "app-theme/utils"
-import { DeviceImageColor, DeviceImageType } from "devices/common/models"
+import {
+  DeviceImageColor,
+  DeviceImageType,
+  DeviceStatus,
+} from "devices/common/models"
 
 const SingleItemDecorator = styled.div`
   width: 100%;
@@ -71,7 +75,8 @@ export const Default: Story = {
             },
             name: "Kompakt",
             serialNumber: "0000111122",
-            locked: true,
+            status: DeviceStatus.Locked,
+            active: true,
           },
           {
             id: "2",
@@ -81,6 +86,7 @@ export const Default: Story = {
             },
             name: "Harmony",
             serialNumber: "1111222233",
+            status: DeviceStatus.Initialized,
           },
           {
             id: "3",
@@ -90,6 +96,7 @@ export const Default: Story = {
             },
             name: "Harmony",
             serialNumber: "2222333344",
+            status: DeviceStatus.CriticalError,
           },
           {
             id: "4",
@@ -99,6 +106,7 @@ export const Default: Story = {
             },
             name: "Harmony",
             recoveryMode: true,
+            status: DeviceStatus.Initialized,
           },
           {
             id: "5",
@@ -108,6 +116,7 @@ export const Default: Story = {
             },
             name: "Pure",
             serialNumber: "3333444455",
+            status: DeviceStatus.Initialized,
           },
         ].map((device) => (
           <DevicesDrawerCard {...device} key={device.id} />
@@ -156,12 +165,12 @@ export const DeviceCard: StoryObj<typeof DevicesDrawerCard> = {
       )
       .setType("boolean")
       .apply(),
-    locked: storybookHelper
+    status: storybookHelper
       .assignCategory("Functional")
       .addDescription(
-        "Defines whether the device is locked or not. If true, a locked label will be displayed."
+        "Defines the status of the device. If not provided, loading state will be displayed."
       )
-      .setType("boolean")
+      .generateEnumSelector(DeviceStatus, "DeviceStatus")
       .apply(),
     onClick: storybookHelper
       .assignCategory("Functional")
@@ -171,6 +180,9 @@ export const DeviceCard: StoryObj<typeof DevicesDrawerCard> = {
       )
       .setType("VoidFunction")
       .apply(),
+  },
+  args: {
+    status: DeviceStatus.Initialized,
   },
   decorators: [
     (Story) => (
@@ -194,6 +206,9 @@ export const DeviceCard: StoryObj<typeof DevicesDrawerCard> = {
 export const DeviceCardActive: StoryObj<typeof DevicesDrawerCard> = {
   name: "Device card - active",
   argTypes: DeviceCard.argTypes,
+  args: {
+    status: DeviceStatus.Initialized,
+  },
   decorators: [
     (Story) => (
       <SingleItemDecorator>
@@ -217,6 +232,9 @@ export const DeviceCardActive: StoryObj<typeof DevicesDrawerCard> = {
 export const DeviceCardLocked: StoryObj<typeof DevicesDrawerCard> = {
   name: "Device card - locked",
   argTypes: DeviceCard.argTypes,
+  args: {
+    status: DeviceStatus.Locked,
+  },
   decorators: [
     (Story) => (
       <SingleItemDecorator>
@@ -232,7 +250,6 @@ export const DeviceCardLocked: StoryObj<typeof DevicesDrawerCard> = {
       }}
       name="Kompakt"
       serialNumber="000011112222"
-      locked
     />
   ),
 }
@@ -240,6 +257,9 @@ export const DeviceCardLocked: StoryObj<typeof DevicesDrawerCard> = {
 export const DeviceCardRecoveryMode: StoryObj<typeof DevicesDrawerCard> = {
   name: "Device card - recovery mode",
   argTypes: DeviceCard.argTypes,
+  args: {
+    status: DeviceStatus.Initialized,
+  },
   decorators: [
     (Story) => (
       <SingleItemDecorator>
@@ -264,6 +284,9 @@ export const DeviceCardRecoveryModeActive: StoryObj<typeof DevicesDrawerCard> =
   {
     name: "Device card - recovery mode + no serial number + active",
     argTypes: DeviceCard.argTypes,
+    args: {
+      status: DeviceStatus.Initialized,
+    },
     decorators: [
       (Story) => (
         <SingleItemDecorator>
@@ -283,3 +306,28 @@ export const DeviceCardRecoveryModeActive: StoryObj<typeof DevicesDrawerCard> =
       />
     ),
   }
+
+export const DeviceCardError: StoryObj<typeof DevicesDrawerCard> = {
+  name: "Device card - error",
+  argTypes: DeviceCard.argTypes,
+  args: {
+    status: DeviceStatus.CriticalError,
+  },
+  decorators: [
+    (Story) => (
+      <SingleItemDecorator>
+        <Story />
+      </SingleItemDecorator>
+    ),
+  ],
+  render: (args) => (
+    <DevicesDrawerCard
+      {...args}
+      image={{
+        type: DeviceImageType.Harmony2,
+      }}
+      name="Harmony 2"
+      serialNumber="000011112222"
+    />
+  )
+}

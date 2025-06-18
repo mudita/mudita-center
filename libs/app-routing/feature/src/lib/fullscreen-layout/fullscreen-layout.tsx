@@ -25,10 +25,8 @@ export const FullscreenLayout: FunctionComponent<{
       <Header>
         <Heading>
           <MuditaLogo type={IconType.MuditaLogoFull} size={IconSize.AutoMax} />
-          <Typography.P2 color={"grey3"}>|</Typography.P2>
-          <Typography.P3 color={"grey3"}>
-            {formatMessage(messages.appName)}
-          </Typography.P3>
+          <Separator />
+          <AppName color={"grey3"}>{formatMessage(messages.appName)}</AppName>
         </Heading>
         {onClose && (
           <IconButton
@@ -64,6 +62,17 @@ const Header = styled.header`
   width: 100%;
   max-width: 112rem;
   padding: 0 2.4rem;
+`
+
+const Separator = styled.span`
+  display: inline-block;
+  width: 0.1rem;
+  height: 1.6rem;
+  background-color: ${({ theme }) => theme.app.color.grey3};
+`
+
+const AppName = styled(Typography.P3)`
+  margin-top: 0.1rem;
 `
 
 const Heading = styled.div`
