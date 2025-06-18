@@ -13,9 +13,10 @@ const queryFn = async () => {
   const devices = await AppSerialPort.getCurrentDevices()
 
   return uniqBy(
-    devices.map(({ path, deviceType }) => ({
+    devices.map(({ path, deviceType, serialNumber }) => ({
       path,
       deviceType,
+      serialNumber,
     })),
     "path"
   ) as Device[]

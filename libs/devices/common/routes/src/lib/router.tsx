@@ -8,12 +8,11 @@ import {
   useActiveDevice,
   useDeviceActivate,
   useDeviceMenu,
-  useDeviceMetadata,
   useDevices,
   useDeviceStatus,
 } from "devices/common/feature"
 import { useApiDeviceRouter } from "devices/api-device/routes"
-import { FunctionComponent, useCallback, useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { Navigate, Route, useLocation } from "react-router"
 import {
   FullscreenLayout,
@@ -21,21 +20,16 @@ import {
   unregisterMenuGroups,
 } from "app-routing/feature"
 import {
-  DevicesSelector,
-  DevicesSelectorCard,
   DeviceSwitchingLoader,
   DeviceTroubleshooting,
   WelcomeScreen,
 } from "devices/common/ui"
-import {
-  Device,
-  DeviceMetadata,
-  DevicesPaths,
-  DeviceStatus,
-} from "devices/common/models"
+import { DevicesPaths, DeviceStatus } from "devices/common/models"
 import { MenuIndex } from "app-routing/models"
 import { NewsPaths } from "news/models"
 import { useAppNavigate } from "app-routing/utils"
+import { useHarmonyRouter } from "devices/harmony/routes"
+import { DevicesSelectingPage } from "./devices-selecting-page"
 
 const DEFAULT_UX_DELAY = 500
 
@@ -46,14 +40,19 @@ export const useDevicesInitRouter = () => {
 
   const { data: devices = [] } = useDevices()
   const { data: activeDevice } = useActiveDevice()
+  const activateDevice = useDeviceActivate()
   const { data: activeDeviceStatus } = useDeviceStatus(
     activeDevice || undefined
   )
   const { data: menu } = useDeviceMenu(activeDevice || undefined)
 
   const apiDeviceRouter = useApiDeviceRouter(activeDevice || undefined)
+  const harmonyRouter = useHarmonyRouter(activeDevice || undefined)
 
   const onWrapperClose = () => {
+    if (devices.length > 1) {
+      activateDevice(null)
+    }
     navigate({ pathname: NewsPaths.Index })
   }
 
@@ -87,8 +86,7 @@ export const useDevicesInitRouter = () => {
       }
       if (
         pathname !== DevicesPaths.Connecting &&
-        (activeDeviceStatus === DeviceStatus.Initializing ||
-          activeDeviceStatus === DeviceStatus.Attached)
+        activeDeviceStatus === DeviceStatus.Initializing
       ) {
         await delayForBetterUX()
         navigate({ pathname: DevicesPaths.Connecting })
@@ -119,7 +117,7 @@ export const useDevicesInitRouter = () => {
   useEffect(() => {
     void (async () => {
       if (menu && activeDeviceStatus === DeviceStatus.Initialized) {
-        await delayForBetterUX(DEFAULT_UX_DELAY - 100)
+        await delayForBetterUX(DEFAULT_UX_DELAY / 2)
         dispatch(unregisterMenuGroups([MenuIndex.Device]))
         dispatch(registerMenuGroups([menu]))
       } else {
@@ -168,54 +166,11 @@ export const useDevicesInitRouter = () => {
         />
         <Route path={DevicesPaths.Current}>
           {apiDeviceRouter?.initialization}
+          {harmonyRouter?.initialization}
         </Route>
       </Route>
       {apiDeviceRouter?.dashboard}
+      {harmonyRouter?.dashboard}
     </>
   )
-}
-
-export const DevicesSelectingPage: FunctionComponent = () => {
-  const navigate = useAppNavigate()
-  const { data: devices = [] } = useDevices()
-  const activateDevice = useDeviceActivate()
-
-  const selectDevice = useCallback(
-    (deviceId: DeviceMetadata["id"]) => {
-      const device = devices?.find((d) => d.path === deviceId)
-      if (!device) {
-        return
-      }
-      navigate({ pathname: DevicesPaths.Connecting })
-      activateDevice(device)
-    },
-    [activateDevice, devices, navigate]
-  )
-
-  if (devices.length === 0) {
-    return null
-  }
-
-  return (
-    <DevicesSelector>
-      {devices.map((device) => {
-        const select = () => {
-          selectDevice(device.path)
-        }
-        return <Card key={device.path} {...device} onClick={select} />
-      })}
-    </DevicesSelector>
-  )
-}
-
-const Card: FunctionComponent<Device & { onClick: VoidFunction }> = ({
-  onClick,
-  ...device
-}) => {
-  const { data: metadata } = useDeviceMetadata(device)
-
-  if (!metadata) {
-    return null
-  }
-  return <DevicesSelectorCard {...metadata} onClick={onClick} />
 }

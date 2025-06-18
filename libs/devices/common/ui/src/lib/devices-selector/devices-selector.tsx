@@ -67,7 +67,7 @@ const List = styled.ul`
   padding: 1.6rem 2.6rem 1.2rem;
 
   display: grid;
-  grid-template-columns: repeat(auto-fill, 34rem);
+  grid-template-columns: repeat(auto-fit, 34rem);
   grid-auto-rows: 44rem;
   justify-content: center;
   column-gap: 2.6rem;

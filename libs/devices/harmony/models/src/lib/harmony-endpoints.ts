@@ -4,10 +4,10 @@
  */
 
 import {
-  DeviceInfoRequestValidator,
-  DeviceInfoResponseValidator,
-  DeviceLogsRequestValidator,
-  DeviceLogsValidator,
+  HarmonyInfoRequestValidator,
+  HarmonyInfoResponseValidator,
+  HarmonyLogsRequestValidator,
+  HarmonyLogsValidator,
 } from "./endpoints/device-info"
 import { z } from "zod"
 
@@ -45,10 +45,10 @@ export const HarmonyEndpoints = {
   [HarmonyEndpointNamed.DeviceInfo]: {
     [HarmonyMethodNamed.Get]: {
       request: z.union([
-        DeviceInfoRequestValidator,
-        DeviceLogsRequestValidator,
+        HarmonyInfoRequestValidator,
+        HarmonyLogsRequestValidator,
       ]),
-      response: z.union([DeviceInfoResponseValidator, DeviceLogsValidator]),
+      response: z.union([HarmonyInfoResponseValidator, HarmonyLogsValidator]),
     },
   },
 } satisfies EndpointsDefinition
