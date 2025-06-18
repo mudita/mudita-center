@@ -14,14 +14,14 @@ import { AnalyticsEventCategory } from "app-utils/models"
 export const App: FunctionComponent = () => {
   ReactModal.setAppElement("#root")
   useDevicesListener()
-  const track = useUniqueTrack()
+  const uniqueTrack = useUniqueTrack()
 
   useEffect(() => {
-    void track({
+    void uniqueTrack({
       e_c: AnalyticsEventCategory.CenterVersion,
       e_a: import.meta.env.VITE_APP_VERSION,
     })
-  }, [track])
+  }, [uniqueTrack])
 
   return (
     <>

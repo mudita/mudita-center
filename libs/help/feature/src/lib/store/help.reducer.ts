@@ -4,7 +4,7 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { rateArticle, setHelpData } from "./help.actions"
+import { setArticleRated, setHelpData } from "./help.actions"
 import { HelpReducer } from "help/models"
 import { uniq } from "lodash"
 
@@ -23,7 +23,7 @@ export const helpReducer = createReducer(initialState, (builder) => {
   builder.addCase(setHelpData.fulfilled, (state, action) => {
     state.data = action.payload
   })
-  builder.addCase(rateArticle.fulfilled, (state, { payload }) => {
+  builder.addCase(setArticleRated, (state, { payload }) => {
     state.ratedArticles = uniq([...state.ratedArticles, payload])
   })
 })

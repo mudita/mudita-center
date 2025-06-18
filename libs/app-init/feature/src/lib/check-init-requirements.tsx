@@ -6,7 +6,8 @@
 import { AppSettings } from "app-settings/renderer"
 import { useCallback, useEffect, useState } from "react"
 import { PrivacyPolicyModal } from "app-init/ui"
-import { AppActions } from "app-utils/renderer"
+import { AppActions, useUniqueTrack } from "app-utils/renderer"
+import { AnalyticsEventCategory } from "app-utils/models"
 
 enum RequirementsStatus {
   Unknown,
@@ -17,6 +18,7 @@ enum RequirementsStatus {
 
 export const CheckInitRequirements = () => {
   const [status, setStatus] = useState(RequirementsStatus.Unknown)
+  const uniqueTrack = useUniqueTrack()
 
   const isPrivacyPolicyRequired = async () => {
     const privacyPolicyAccepted = await AppSettings.get(
@@ -30,6 +32,10 @@ export const CheckInitRequirements = () => {
       user: {
         privacyPolicyAccepted: true,
       },
+    })
+    void uniqueTrack({
+      e_c: AnalyticsEventCategory.CenterVersion,
+      e_a: import.meta.env.VITE_APP_VERSION,
     })
     setStatus(RequirementsStatus.Unknown)
   }

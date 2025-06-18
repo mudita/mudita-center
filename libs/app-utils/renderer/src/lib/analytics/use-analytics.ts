@@ -9,6 +9,8 @@ import { AnalyticsEvent } from "app-utils/models"
 import { analyticsMutationKeys } from "./analytics-mutation-keys"
 import { track, uniqueTrack } from "./analytics"
 
+// TODO: BEFORE PROD RELEASE – migrate ALL events from the old project!
+
 export const useTrack = () => {
   const { mutate } = useMutation({
     mutationKey: analyticsMutationKeys.track,
