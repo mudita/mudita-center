@@ -1,17 +1,14 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Mudita Center</title>
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script defer type="module" src="main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Mudita Center</title>
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <!-- CSP is handled in apps/app/electron.vite.config.mts to enable dynamic connect-src configuration -->
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+</head>
+<body>
+<div id="root"></div>
+<script defer src="main.tsx" type="module"></script>
+</body>
 </html>
