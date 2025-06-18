@@ -6,5 +6,5 @@
 export * from "./lib/store/devices.reducer"
 export * from "./lib/store/devices.actions"
 export * from "./lib/store/devices.selectors"
-export * from "./lib/use-devices-listener"
 export * from "./lib/queries"
+export * from "./lib/devices-initializer/devices-initializer"

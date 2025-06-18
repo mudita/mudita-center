@@ -7,4 +7,7 @@ import { ApiDevice } from "devices/api-device/models"
 import { Harmony } from "devices/harmony/models"
 
 // TODO: Extend this type by other device types
-export type Device = Pick<ApiDevice | Harmony, "path" | "deviceType">
+export type Device = Pick<
+  ApiDevice | Harmony,
+  "path" | "deviceType" | "serialNumber"
+>

@@ -65,7 +65,9 @@
       "devices/harmony/adapters": [
         "libs/devices/harmony/adapters/src/index.ts"
       ],
+      "devices/harmony/feature": ["libs/devices/harmony/feature/src/index.ts"],
       "devices/harmony/models": ["libs/devices/harmony/models/src/index.ts"],
+      "devices/harmony/routes": ["libs/devices/harmony/routes/src/index.ts"],
       "help/feature": ["libs/help/feature/src/index.ts"],
       "help/main": ["libs/help/main/src/index.ts"],
       "help/models": ["libs/help/models/src/index.ts"],

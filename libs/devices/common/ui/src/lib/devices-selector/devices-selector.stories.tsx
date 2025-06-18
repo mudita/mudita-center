@@ -5,7 +5,11 @@
 
 import type { Meta, StoryObj } from "@storybook/react"
 import { storybookHelper } from "app-theme/utils"
-import { DeviceImageColor, DeviceImageType } from "devices/common/models"
+import {
+  DeviceImageColor,
+  DeviceImageType,
+  DeviceStatus,
+} from "devices/common/models"
 import { DevicesSelector } from "./devices-selector"
 import styled from "styled-components"
 import { DevicesSelectorCard } from "./devices-selector-card"
@@ -60,6 +64,7 @@ export const Default: Story = {
             },
             name: "Kompakt",
             serialNumber: "0000111122",
+            status: DeviceStatus.Locked,
           },
           {
             id: "2",
@@ -69,6 +74,7 @@ export const Default: Story = {
             },
             name: "Harmony",
             serialNumber: "1111222233",
+            status: DeviceStatus.Initialized,
           },
           {
             id: "3",
@@ -78,6 +84,7 @@ export const Default: Story = {
             },
             name: "Harmony",
             serialNumber: "2222333344",
+            status: DeviceStatus.CriticalError,
           },
           {
             id: "4",
@@ -87,6 +94,7 @@ export const Default: Story = {
             },
             name: "Harmony",
             recoveryMode: true,
+            status: DeviceStatus.Initialized,
           },
           {
             id: "5",
@@ -96,6 +104,7 @@ export const Default: Story = {
             },
             name: "Pure",
             serialNumber: "3333444455",
+            status: DeviceStatus.Initialized,
           },
         ].map((device) => {
           return <DevicesSelectorCard {...device} />
@@ -141,6 +150,13 @@ export const DeviceCard: StoryObj<typeof DevicesSelectorCard> = {
       )
       .setType("{ type: DeviceImageType; color?: DeviceImageColor }")
       .apply(),
+    status: storybookHelper
+      .assignCategory("Functional")
+      .addDescription(
+        "Defines the status of the device. If not provided, loading state will be displayed."
+      )
+      .generateEnumSelector(DeviceStatus, "DeviceStatus")
+      .apply(),
     onClick: storybookHelper
       .assignCategory("Functional")
       .addDescription(
@@ -149,6 +165,9 @@ export const DeviceCard: StoryObj<typeof DevicesSelectorCard> = {
       )
       .setType("VoidFunction")
       .apply(),
+  },
+  args: {
+    status: DeviceStatus.Initialized,
   },
   render: (args) => (
     <DevicesSelectorCard
@@ -172,6 +191,9 @@ export const DeviceCardRecoveryMode: StoryObj<typeof DevicesSelectorCard> = {
       </SingleItemDecorator>
     ),
   ],
+  args: {
+    status: DeviceStatus.Initialized,
+  },
   render: (args) => (
     <DevicesSelectorCard
       {...args}

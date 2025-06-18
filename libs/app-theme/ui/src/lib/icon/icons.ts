@@ -15,9 +15,11 @@ import Close from "./svg/close.svg?react"
 import ContactsBook from "./svg/contacts-book.svg?react"
 import DataMigration from "./svg/data-migration.svg?react"
 import Download from "./svg/download.svg?react"
+import Error from "./svg/error.svg?react"
 import FileManager from "./svg/file-manager.svg?react"
 import Help from "./svg/help.svg?react"
 import Info from "./svg/info.svg?react"
+import Lock from "./svg/lock.svg?react"
 import Messages from "./svg/messages.svg?react"
 import MuditaLogo from "./svg/mudita-logo.svg?react"
 import MuditaLogoFull from "./svg/mudita-logo-full.svg?react"
@@ -44,9 +46,11 @@ export const icons = {
   [IconType.ContactsBook]: ContactsBook,
   [IconType.DataMigration]: DataMigration,
   [IconType.Download]: Download,
+  [IconType.Error]: Error,
   [IconType.FileManager]: FileManager,
   [IconType.Help]: Help,
   [IconType.Info]: Info,
+  [IconType.Lock]: Lock,
   [IconType.Messages]: Messages,
   [IconType.MuditaLogo]: MuditaLogo,
   [IconType.MuditaLogoFull]: MuditaLogoFull,
