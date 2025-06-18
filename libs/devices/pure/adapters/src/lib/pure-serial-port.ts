@@ -23,23 +23,29 @@ import {
 } from "devices/pure/models"
 import { DeviceErrorType } from "devices/common/models"
 
-type Response<E extends PureEndpoint, M extends PureMethod<E>> =
-  | {
-      ok: true
-      endpoint: E
-      status: number
-      body: PureResponseBody<E, M>
-    }
-  | {
-      ok: false
-      endpoint: E
-      status: DeviceErrorType | PureErrorType
-      body?: unknown
-      error?: unknown
-    }
+export type OKResponse<E extends PureEndpoint, M extends PureMethod<E>> = {
+  ok: true
+  endpoint: E
+  status: number
+  body: PureResponseBody<E, M>
+}
+
+export type ErrorResponse<E extends PureEndpoint> = {
+  ok: false
+  endpoint: E
+  status: DeviceErrorType | PureErrorType
+  body?: unknown
+  error?: unknown
+}
+
+export type Response<E extends PureEndpoint, M extends PureMethod<E>> =
+  | OKResponse<E, M>
+  | ErrorResponse<E>
 
 export class PureSerialPort {
-  static isCompatible(device?: SerialPortDeviceInfo): device is Pure {
+  static isCompatible(
+    device?: Pick<SerialPortDeviceInfo, "deviceType"> | null
+  ): device is Pure {
     if (!device) {
       return true
     }

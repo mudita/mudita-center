@@ -1,6 +1,8 @@
 {
   "apiDevice.passcodeModal.title": "Unlock your phone",
   "apiDevice.passcodeModal.description": "Enter your passcode or scan your fingerprint",
+  "harmony.menu.overview": "Overview",
+  "harmony.menu.files": "Manage Files",
   "general.components.devicesDrawer.title": "Select a device",
   "general.components.devicesIndicator.text": "Show connected devices",
   "general.components.deviceCard.recoveryModeLabel": "Recovery Mode",

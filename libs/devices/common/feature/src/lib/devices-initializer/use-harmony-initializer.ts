@@ -3,19 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Device, DeviceStatus } from "devices/common/models"
+import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
-import { ApiDeviceErrorType } from "devices/api-device/models"
 import { useDeviceConfig, useDeviceMenu, useDeviceStatus } from "../queries"
 import { useCallback } from "react"
 import { HarmonySerialPort } from "devices/harmony/adapters"
+import { Harmony, HarmonyErrorType } from "devices/harmony/models"
 
-export const useHarmonyInitializer = (device: Device) => {
+export const useHarmonyInitializer = (device: Harmony) => {
   const queryClient = useQueryClient()
 
   const { isLoading: isConfigLoading, isError: isConfigError } =
     useDeviceConfig(device)
-  const { isLoading: isMenuLoading } = useDeviceMenu<ApiDeviceErrorType>(device)
+  const { isLoading: isMenuLoading } = useDeviceMenu<HarmonyErrorType>(device)
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {

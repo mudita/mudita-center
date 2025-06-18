@@ -5,35 +5,31 @@
 
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import {
+  GetApiConfigOkResponse,
   getApiDeviceConfig,
-  GetApiConfigResponse,
 } from "devices/api-device/feature"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, UseQueryOptions } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
-import { Device } from "devices/common/models"
 import { HarmonySerialPort } from "devices/harmony/adapters"
-import { getHarmonyInfo, GetHarmonyInfoResponse } from "devices/harmony/feature"
+import {
+  getHarmonyInfo,
+  GetHarmonyInfoOkResponse,
+} from "devices/harmony/feature"
 import { ApiDevice } from "devices/api-device/models"
 import { Harmony } from "devices/harmony/models"
+// import { Pure } from "devices/pure/models"
+// import { getPureInfo, GetPureInfoOkResponse } from "devices/pure/feature"
+// import { PureSerialPort } from "devices/pure/adapters"
+import { Device } from "devices/common/models"
 
-type QueryFnResponse<D extends Device | undefined> = Promise<
-  D extends ApiDevice
-    ? GetApiConfigResponse["body"]
-    : D extends Harmony
-      ? GetHarmonyInfoResponse["body"]
-      : null
->
-
-const queryFn = async <D extends Device | undefined>(
-  device?: D
-): QueryFnResponse<D> => {
+const queryFn = async <D extends Device>(device?: D) => {
   if (!device) {
-    return null as unknown as QueryFnResponse<D>
+    return null
   }
   if (ApiDeviceSerialPort.isCompatible(device)) {
     const config = await getApiDeviceConfig(device)
     if (config.ok) {
-      return config.body as unknown as QueryFnResponse<D>
+      return config.body
     } else {
       throw config.status
     }
@@ -41,22 +37,50 @@ const queryFn = async <D extends Device | undefined>(
   if (HarmonySerialPort.isCompatible(device)) {
     const config = await getHarmonyInfo(device)
     if (config.ok) {
-      return config.body as unknown as QueryFnResponse<D>
+      return config.body
     } else {
       throw config.status
     }
   }
-  return null as unknown as QueryFnResponse<D>
+  // if (PureSerialPort.isCompatible(device)) {
+  //   const config = await getPureInfo(device)
+  //   if (config.ok) {
+  //     return config.body
+  //   } else {
+  //     throw config.status
+  //   }
+  // }
+  return null
 }
 
-export const useDeviceConfig = (device?: Device) => {
+type QueryFnResponse<D> = D extends ApiDevice
+  ? GetApiConfigOkResponse["body"]
+  : D extends Harmony
+    ? GetHarmonyInfoOkResponse["body"]
+    : // :
+      // D extends Pure
+      //   ? GetPureInfoOkResponse["body"]
+      null
+
+export const useDeviceConfig = <D extends Device>(
+  device?: D,
+  options?: Omit<
+    UseQueryOptions<QueryFnResponse<D>>,
+    "queryFn" | "queryKey" | "enabled" | "retry" | "retryDelay"
+  >
+) => {
   return useQuery({
     queryKey: devicesQueryKeys.deviceConfig(device?.path),
-    queryFn: () => queryFn(device as ApiDevice | Harmony | undefined),
+    queryFn: () => queryFn(device) as Promise<QueryFnResponse<D>>,
     retry: 10,
     retryDelay: 250,
     enabled: Boolean(device),
+    ...options,
   })
 }
 useDeviceConfig.queryKey = devicesQueryKeys.deviceConfig
-useDeviceConfig.queryFn = queryFn
+useDeviceConfig.queryFn = <D extends Device>(
+  device?: D
+) => {
+  return queryFn<D>(device) as Promise<QueryFnResponse<D>>
+}

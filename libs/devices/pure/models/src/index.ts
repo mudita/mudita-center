@@ -4,7 +4,9 @@
  */
 
 export * from "./lib/pure"
+export * from "./lib/endpoints/device-info"
 export * from "./lib/pure-endpoints"
 export * from "./lib/pure-request"
 export * from "./lib/pure-response"
 export * from "./lib/pure-error-type"
+export * from "./lib/pure-paths"

@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Device, DeviceStatus } from "devices/common/models"
+import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
-import { ApiDeviceErrorType } from "devices/api-device/models"
+import { ApiDevice, ApiDeviceErrorType } from "devices/api-device/models"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { useDeviceConfig, useDeviceMenu, useDeviceStatus } from "../queries"
 import { useCallback } from "react"
 
-export const useApiDeviceInitializer = (device: Device) => {
+export const useApiDeviceInitializer = (device: ApiDevice) => {
   const queryClient = useQueryClient()
 
   const { isLoading: isConfigLoading, isError: isConfigError } =

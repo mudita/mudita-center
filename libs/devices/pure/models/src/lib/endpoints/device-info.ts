@@ -63,7 +63,9 @@ export enum OnboardingState {
   Finished,
 }
 
-export const DeviceInfoValidator = z.object({
+export const PureInfoRequestValidator = z.undefined().optional()
+
+export const PureInfoResponseValidator = z.object({
   // backupLocation is a deprecated field after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
   backupLocation: z.string().optional(),
   batteryLevel: z.preprocess(Number, z.number().min(0).max(100)),
@@ -91,4 +93,4 @@ export const DeviceInfoValidator = z.object({
   onboardingState: z.preprocess(Number, z.nativeEnum(OnboardingState)),
 })
 
-export type DeviceInfo = z.infer<typeof DeviceInfoValidator>
+export type PureInfoResponse = z.infer<typeof PureInfoResponseValidator>

@@ -21,23 +21,28 @@ import {
 } from "devices/api-device/models"
 import { DeviceErrorType } from "devices/common/models"
 
-export type Response<
+export type OKResponse<
   E extends ApiDeviceEndpoint,
   M extends ApiDeviceMethod<E>,
-> =
-  | {
+> = {
   ok: true
   endpoint: E
   status: number
   body: ApiDeviceResponseBody<E, M>
 }
-  | {
+
+export type ErrorResponse<E extends ApiDeviceEndpoint> = {
   ok: false
   endpoint: E
-  status: ApiDeviceErrorType | DeviceErrorType
+  status: DeviceErrorType | ApiDeviceErrorType
   body?: unknown
   error?: unknown
 }
+
+export type Response<
+  E extends ApiDeviceEndpoint,
+  M extends ApiDeviceMethod<E>,
+> = OKResponse<E, M> | ErrorResponse<E>
 
 export class ApiDeviceSerialPort {
   static isCompatible(

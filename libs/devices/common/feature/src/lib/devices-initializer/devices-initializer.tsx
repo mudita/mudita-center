@@ -5,10 +5,16 @@
 
 import { FunctionComponent } from "react"
 import { useDevices } from "../queries"
-import { Device } from "devices/common/models"
 import { useApiDeviceInitializer } from "./use-api-device-initializer"
 import { useDevicesListener } from "./use-devices-listener"
 import { useHarmonyInitializer } from "./use-harmony-initializer"
+// import { usePureInitializer } from "./use-pure-initializer"
+import { Pure } from "devices/pure/models"
+import { PureSerialPort } from "devices/pure/adapters"
+import { ApiDevice } from "devices/api-device/models"
+import { Harmony } from "devices/harmony/models"
+import { ApiDeviceSerialPort } from "devices/api-device/adapters"
+import { HarmonySerialPort } from "devices/harmony/adapters"
 
 export const DevicesInitializer: FunctionComponent = () => {
   useDevicesListener()
@@ -16,18 +22,37 @@ export const DevicesInitializer: FunctionComponent = () => {
 
   return (
     <>
-      {devices.map((device) => (
-        <DeviceInitializer key={device.path} device={device} />
-      ))}
+      {devices.map((device) => {
+        if (ApiDeviceSerialPort.isCompatible(device)) {
+          return <ApiDeviceInitializer key={device.path} device={device} />
+        }
+        if (HarmonySerialPort.isCompatible(device)) {
+          return <HarmonyInitializer key={device.path} device={device} />
+        }
+        if (PureSerialPort.isCompatible(device)) {
+          return <PureInitializer key={device.path} device={device} />
+        }
+        return null
+      })}
     </>
   )
 }
 
-const DeviceInitializer: FunctionComponent<{ device: Device }> = ({
+export const ApiDeviceInitializer: FunctionComponent<{ device: ApiDevice }> = ({
   device,
 }) => {
   useApiDeviceInitializer(device)
-  useHarmonyInitializer(device)
+  return null
+}
 
+const PureInitializer: FunctionComponent<{ device: Pure }> = ({ device }) => {
+  // usePureInitializer(device)
+  return null
+}
+
+const HarmonyInitializer: FunctionComponent<{ device: Harmony }> = ({
+  device,
+}) => {
+  useHarmonyInitializer(device)
   return null
 }
