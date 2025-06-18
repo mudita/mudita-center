@@ -23,6 +23,7 @@
       "app-routing/feature": ["libs/app-routing/feature/src/index.ts"],
       "app-routing/models": ["libs/app-routing/models/src/index.ts"],
       "app-routing/routes": ["libs/app-routing/routes/src/index.ts"],
+      "app-routing/utils": ["libs/app-routing/utils/src/index.ts"],
       "app-serialport/devices": ["libs/app-serialport/devices/src/index.ts"],
       "app-serialport/main": ["libs/app-serialport/main/src/index.ts"],
       "app-serialport/models": ["libs/app-serialport/models/src/index.ts"],
@@ -64,7 +65,9 @@
       "devices/harmony/adapters": [
         "libs/devices/harmony/adapters/src/index.ts"
       ],
+      "devices/harmony/feature": ["libs/devices/harmony/feature/src/index.ts"],
       "devices/harmony/models": ["libs/devices/harmony/models/src/index.ts"],
+      "devices/harmony/routes": ["libs/devices/harmony/routes/src/index.ts"],
       "help/feature": ["libs/help/feature/src/index.ts"],
       "help/main": ["libs/help/main/src/index.ts"],
       "help/models": ["libs/help/models/src/index.ts"],

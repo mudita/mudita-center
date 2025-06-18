@@ -39,7 +39,7 @@ export class SerialPortError extends Error implements SerialPortErrorDetails {
   private parse(message: string) {
     try {
       const [, details] = message.split("SERIAL_PORT_ERROR:")
-      const { type, requestId } = JSON.parse(details)
+      const { type, requestId } = details ? JSON.parse(details) : {}
       return new SerialPortError(type, requestId)
     } catch (error) {
       console.error(error)

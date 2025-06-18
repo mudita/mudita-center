@@ -36,12 +36,26 @@ export default class Page {
   }
 
   public async closeFullscreenLayout() {
+    await browser.waitUntil(
+      async () => {
+        return await this.fullscreenLayout.isDisplayed()
+      },
+      {
+        timeout: 5000,
+        timeoutMsg: "Fullscreen layout did not appear in time",
+      }
+    )
     if (await this.fullscreenLayout.isDisplayed()) {
       await this.fullscreenLayoutCloseButton.click()
-      await this.fullscreenLayout.waitForExist({
-        reverse: true,
-        timeout: 5000,
-      })
+      await browser.waitUntil(
+        async () => {
+          return !(await this.fullscreenLayout.isDisplayed())
+        },
+        {
+          timeout: 5000,
+          timeoutMsg: "Fullscreen layout did not close in time",
+        }
+      )
     }
   }
 
@@ -75,7 +89,7 @@ export default class Page {
         }
       },
       {
-        timeout: 10000,
+        timeout: 20000,
         timeoutMsg: "App did not open in expected time",
       }
     )

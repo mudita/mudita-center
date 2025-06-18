@@ -20,14 +20,27 @@ export const Default: Story = {
   decorators: [(Story) => <Story />],
   argTypes: {
     devicesCount: storybookHelper
-      .addDescription(
-        "Defines the number of devices shown in the badge.\n\n" +
-          "For values lower than 2, the whole indicator be hidden."
-      )
+      .addDescription("Defines the number of devices shown in the badge.")
       .assignCategory("Styles")
       .apply(),
     disabled: storybookHelper
       .addDescription("Defines whether the indicator is active or not.")
+      .assignCategory("Functional")
+      .apply({
+        control: {
+          type: "boolean",
+        },
+      }),
+    visible: storybookHelper
+      .addDescription("Defines whether the indicator is visible or not.")
+      .assignCategory("Functional")
+      .apply({
+        control: {
+          type: "boolean",
+        },
+      }),
+    loading: storybookHelper
+      .addDescription("Defines whether the indicator shows a loading state.")
       .assignCategory("Functional")
       .apply({
         control: {
@@ -48,6 +61,8 @@ export const Default: Story = {
   args: {
     devicesCount: 2,
     disabled: false,
+    visible: true,
+    loading: false,
   },
   parameters: {
     docs: {

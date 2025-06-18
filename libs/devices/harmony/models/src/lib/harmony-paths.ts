@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const apiDevicePaths = {
-  index: "/generic",
-  view: "/generic/:viewKey/:subviewKey?",
+export enum HarmonyPaths {
+  Index = "/device/harmony",
+  Overview = "/device/harmony/overview",
+  Sounds = "/device/harmony/sounds",
 }
