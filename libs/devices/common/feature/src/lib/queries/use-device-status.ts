@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useQuery } from "@tanstack/react-query"
+import { useQueries, useQuery } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
 import { useActiveDevice } from "./use-active-device"
 import { Device, DeviceStatus } from "devices/common/models"
@@ -19,3 +19,15 @@ export const useDeviceStatus = (device?: Device) => {
   })
 }
 useDeviceStatus.queryKey = devicesQueryKeys.deviceStatus
+
+export const useDevicesStatuses = (devices: Device[]) => {
+  const queries = useQueries({
+    queries: devices.map((device) => ({
+      queryKey: devicesQueryKeys.deviceStatus(device.path),
+      queryFn: () => null,
+    })),
+  })
+  return queries.map((query) => {
+    return query.data as DeviceStatus | null
+  })
+}

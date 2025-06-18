@@ -8,15 +8,18 @@ import styled from "styled-components"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { Icon, Typography } from "app-theme/ui"
 import { IconSize, IconType } from "app-theme/models"
-import { DeviceImageSize, DeviceMetadata } from "devices/common/models"
+import {
+  DeviceImageSize,
+  DeviceMetadata,
+  DeviceStatus,
+} from "devices/common/models"
 import { DeviceImage } from "../device-image/device-image"
+import { DeviceStatusIcon } from "./device-status-icon"
 
 const messages = defineMessages({
   serialNumberLabel: { id: "general.components.deviceCard.serialNumberLabel" },
   recoveryModeLabel: { id: "general.components.deviceCard.recoveryModeLabel" },
   activeLabel: { id: "general.components.deviceCard.activeLabel" },
-  lockedLabel: { id: "general.components.deviceCard.lockedLabel" },
-  errorLabel: { id: "general.components.deviceCard.errorLabel" },
 })
 
 export interface DrawerItemProps
@@ -25,8 +28,7 @@ export interface DrawerItemProps
   active?: boolean
   locked?: boolean
   onClick?: VoidFunction
-  placeholder?: boolean
-  error?: boolean
+  status?: DeviceStatus
 }
 
 export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
@@ -36,14 +38,10 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
   active,
   recoveryMode,
   onClick,
-  locked,
-  placeholder,
-  error,
+  status,
   ...rest
 }) => {
-  const isActive = active && !locked && !placeholder && !error
-  const isLoading = !isActive && placeholder && !error
-  const isClickable = !isLoading && !isActive
+  const isClickable = !active || status !== DeviceStatus.Initialized
   return (
     <DevicesDrawerCardWrapper
       onClick={isClickable ? onClick : undefined}
@@ -56,26 +54,11 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
       />
       <Info>
         <DeviceName forwardedAs={"p"}>
-          {name}&nbsp;
-          {isActive && (
+          {name}
+          {active && (
             <ActiveIndicator>
-              {formatMessage(messages.activeLabel)}
+              &nbsp;{formatMessage(messages.activeLabel)}
             </ActiveIndicator>
-          )}
-          {locked && (
-            <LockedIndicator>
-              {formatMessage(messages.lockedLabel)}
-            </LockedIndicator>
-          )}
-          {error && (
-            <ErrorIndicator>
-              {formatMessage(messages.errorLabel)}
-            </ErrorIndicator>
-          )}
-          {isLoading && (
-            <LoadingIndicator>
-              <Icon type={IconType.Spinner} size={IconSize.Medium} />
-            </LoadingIndicator>
           )}
         </DeviceName>
         {Boolean(serialNumber) && (
@@ -93,6 +76,9 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
           </Typography.P5>
         </RecoveryLabel>
       )}
+      <GeneralStatus>
+        <DeviceStatusIcon status={status} />
+      </GeneralStatus>
     </DevicesDrawerCardWrapper>
   )
 }
@@ -101,20 +87,12 @@ const ActiveIndicator = styled.span`
   text-transform: uppercase;
 `
 
-const LockedIndicator = styled.span`
-  text-transform: uppercase;
-`
-
-const ErrorIndicator = styled.span`
-  text-transform: uppercase;
-`
-
-const LoadingIndicator = styled.span`
-  margin-left: 0.5rem;
+const GeneralStatus = styled.span`
+  flex: 1;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  padding-right: 1rem;
 `
 
 const DeviceName = styled(Typography.H4)`
