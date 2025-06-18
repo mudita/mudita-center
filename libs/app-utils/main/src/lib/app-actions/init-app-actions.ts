@@ -7,20 +7,20 @@ import { IpcMain, OpenDialogOptions } from "electron"
 import { AppActionsService } from "./app-actions.service"
 import { AppActionsIpcEvents } from "app-utils/models"
 
-let appActionsService: AppActionsService | null = null
+let appActionsService: AppActionsService
 
 export const initAppActions = (ipcMain: IpcMain) => {
   if (!appActionsService) {
     appActionsService = new AppActionsService()
 
     ipcMain.handle(AppActionsIpcEvents.Close, () => {
-      ;(appActionsService as AppActionsService).close()
+      appActionsService.close()
     })
 
     ipcMain.handle(
       AppActionsIpcEvents.OpenDirectoryDialog,
       (_, options: OpenDialogOptions) => {
-        return (appActionsService as AppActionsService).openFileDialog(options)
+        return appActionsService.openFileDialog(options)
       }
     )
 
