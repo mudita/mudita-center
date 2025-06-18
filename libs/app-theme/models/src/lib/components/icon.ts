@@ -6,6 +6,7 @@
 export enum IconType {
   ArrowBack = "arrow-back",
   Backup = "backup",
+  BatteryFlat = "battery-flat",
   CheckCircleBlack = "check-circle-back",
   ChevronDown = "chevron-down",
   Close = "close",

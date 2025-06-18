@@ -17,9 +17,9 @@ import {
 } from "devices/harmony/feature"
 import { ApiDevice } from "devices/api-device/models"
 import { Harmony } from "devices/harmony/models"
-// import { Pure } from "devices/pure/models"
-// import { getPureInfo, GetPureInfoOkResponse } from "devices/pure/feature"
-// import { PureSerialPort } from "devices/pure/adapters"
+import { Pure } from "devices/pure/models"
+import { getPureInfo, GetPureInfoOkResponse } from "devices/pure/feature"
+import { PureSerialPort } from "devices/pure/adapters"
 import { Device } from "devices/common/models"
 
 const queryFn = async <D extends Device>(device?: D) => {
@@ -42,14 +42,14 @@ const queryFn = async <D extends Device>(device?: D) => {
       throw config.status
     }
   }
-  // if (PureSerialPort.isCompatible(device)) {
-  //   const config = await getPureInfo(device)
-  //   if (config.ok) {
-  //     return config.body
-  //   } else {
-  //     throw config.status
-  //   }
-  // }
+  if (PureSerialPort.isCompatible(device)) {
+    const config = await getPureInfo(device)
+    if (config.ok) {
+      return config.body
+    } else {
+      throw config.status
+    }
+  }
   return null
 }
 
@@ -57,10 +57,9 @@ type QueryFnResponse<D> = D extends ApiDevice
   ? GetApiConfigOkResponse["body"]
   : D extends Harmony
     ? GetHarmonyInfoOkResponse["body"]
-    : // :
-      // D extends Pure
-      //   ? GetPureInfoOkResponse["body"]
-      null
+    : D extends Pure
+      ? GetPureInfoOkResponse["body"]
+      : null
 
 export const useDeviceConfig = <D extends Device>(
   device?: D,
@@ -79,8 +78,6 @@ export const useDeviceConfig = <D extends Device>(
   })
 }
 useDeviceConfig.queryKey = devicesQueryKeys.deviceConfig
-useDeviceConfig.queryFn = <D extends Device>(
-  device?: D
-) => {
+useDeviceConfig.queryFn = <D extends Device>(device?: D) => {
   return queryFn<D>(device) as Promise<QueryFnResponse<D>>
 }

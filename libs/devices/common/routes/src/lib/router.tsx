@@ -30,6 +30,7 @@ import { NewsPaths } from "news/models"
 import { useAppNavigate } from "app-routing/utils"
 import { useHarmonyRouter } from "devices/harmony/routes"
 import { DevicesSelectingPage } from "./devices-selecting-page"
+import { usePureRouter } from "devices/pure/routes"
 
 const DEFAULT_UX_DELAY = 500
 
@@ -48,6 +49,7 @@ export const useDevicesInitRouter = () => {
 
   const apiDeviceRouter = useApiDeviceRouter(activeDevice || undefined)
   const harmonyRouter = useHarmonyRouter(activeDevice || undefined)
+  const pureRouter = usePureRouter(activeDevice || undefined)
 
   const onWrapperClose = () => {
     if (devices.length > 1) {
@@ -105,7 +107,8 @@ export const useDevicesInitRouter = () => {
       if (
         pathname !== DevicesPaths.Current &&
         (activeDeviceStatus === DeviceStatus.Initialized ||
-          activeDeviceStatus === DeviceStatus.Locked)
+          activeDeviceStatus === DeviceStatus.Locked ||
+          activeDeviceStatus === DeviceStatus.Warning)
       ) {
         await delayForBetterUX()
         navigate({ pathname: DevicesPaths.Current })
@@ -167,10 +170,12 @@ export const useDevicesInitRouter = () => {
         <Route path={DevicesPaths.Current}>
           {apiDeviceRouter?.initialization}
           {harmonyRouter?.initialization}
+          {pureRouter?.initialization}
         </Route>
       </Route>
       {apiDeviceRouter?.dashboard}
       {harmonyRouter?.dashboard}
+      {pureRouter?.dashboard}
     </>
   )
 }
