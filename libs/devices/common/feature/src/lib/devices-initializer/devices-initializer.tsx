@@ -38,7 +38,7 @@ export const DevicesInitializer: FunctionComponent = () => {
   )
 }
 
-export const ApiDeviceInitializer: FunctionComponent<{ device: ApiDevice }> = ({
+const ApiDeviceInitializer: FunctionComponent<{ device: ApiDevice }> = ({
   device,
 }) => {
   useApiDeviceInitializer(device)
