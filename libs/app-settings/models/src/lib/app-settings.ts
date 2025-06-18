@@ -10,6 +10,6 @@ export type AppSettings = {
     backupLocation: string
   }
   system: {
-    analyticsId: string
+    analyticsId: string | null
   }
 }

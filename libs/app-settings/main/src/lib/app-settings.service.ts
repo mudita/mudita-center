@@ -9,6 +9,7 @@ import { AppSettings } from "app-settings/models"
 import { JsonStoreService, MigrationService } from "app-utils/main"
 import { migrations } from "./migrations"
 import { DotNotation, NestedPartial } from "app-utils/models"
+import { generateAnalyticsId } from "./generate-application-id"
 
 export class AppSettingsService {
   private readonly jsonStore: JsonStoreService<AppSettings>
@@ -30,19 +31,6 @@ export class AppSettingsService {
     this.jsonStore.set(migratedData)
   }
 
-  private initSettings() {
-    return {
-      version: app.getVersion(),
-      user: {
-        privacyPolicyAccepted: false,
-        backupLocation: path.join(app.getPath("userData"), "backups"),
-      },
-      system: {
-        analyticsId: "",
-      },
-    }
-  }
-
   get path() {
     return this.jsonStore.path
   }
@@ -56,5 +44,18 @@ export class AppSettingsService {
 
   set(settings: NestedPartial<AppSettings>) {
     return this.jsonStore.set(settings)
+  }
+
+  private initSettings() {
+    return {
+      version: app.getVersion(),
+      user: {
+        privacyPolicyAccepted: false,
+        backupLocation: path.join(app.getPath("userData"), "backups"),
+      },
+      system: {
+        analyticsId: generateAnalyticsId(),
+      },
+    }
   }
 }
