@@ -6,6 +6,7 @@
 import {
   Pure,
   PureEndpointNamed,
+  PureErrorType,
   PureInfoResponse,
   PureMethodNamed,
 } from "devices/pure/models"
@@ -20,6 +21,12 @@ export const getPureInfo = async (device: Pure) => {
     },
   })
 
+  if (response.ok) {
+    if (response.body.batteryLevel < 5) {
+      throw PureErrorType.BatteryFlat
+    }
+  }
+
   return {
     ...response,
     ...(response.ok ? { body: response.body as PureInfoResponse } : {}),
@@ -30,4 +37,3 @@ export type GetPureInfoOkResponse = OKResponse<
   PureEndpointNamed.DeviceInfo,
   PureMethodNamed.Get
 >
-

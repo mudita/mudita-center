@@ -6,5 +6,3 @@
 export * from "./lib/api/get-pure-info"
 export * from "./lib/api/get-pure-menu"
 export * from "./lib/api/get-pure-lock-status"
-export * from "./lib/queries/use-pure-locked-info"
-export * from "./lib/helpers/is-pure-battery-flat"

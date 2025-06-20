@@ -23,7 +23,7 @@ export const usePureRouter = (device?: Device) => {
       activePure &&
       (status === DeviceStatus.Locked ? (
         <Route index element={<PureLockedPage />} />
-      ) : status === DeviceStatus.Warning ? (
+      ) : status === DeviceStatus.Issue ? (
         <Route index element={<PureWarningPage device={activePure} />} />
       ) : (
         isConfigSuccess && (

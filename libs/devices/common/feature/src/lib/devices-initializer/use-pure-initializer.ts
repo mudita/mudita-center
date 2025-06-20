@@ -5,27 +5,15 @@
 
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
-import { useDeviceConfig, useDeviceMenu, useDeviceStatus } from "../queries"
+import { useDeviceConfig, useDeviceStatus } from "../queries"
 import { useCallback } from "react"
 import { Pure, PureErrorType } from "devices/pure/models"
-import { isPureBatteryFlat, usePureLockedInfo } from "devices/pure/feature"
 
 export const usePureInitializer = (device: Pure) => {
   const queryClient = useQueryClient()
 
-  const {
-    data: isLocked,
-    isError: isLockedError,
-    isLoading,
-  } = usePureLockedInfo(device)
-  const {
-    data: config,
-    isLoading: isConfigLoading,
-    isError: isConfigError,
-  } = useDeviceConfig(isLocked === false ? device : undefined)
-  const { isLoading: isMenuLoading } = useDeviceMenu<PureErrorType>(
-    isLocked === false ? device : undefined
-  )
+  const { isLoading: isConfigLoading, failureReason: configFailureReason } =
+    useDeviceConfig(device)
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {
@@ -34,20 +22,32 @@ export const usePureInitializer = (device: Pure) => {
     [device.path, queryClient]
   )
 
-  if (isConfigLoading || isMenuLoading || isLoading) {
+  const isExpectedError =
+    configFailureReason &&
+    (configFailureReason === PureErrorType.DeviceLocked ||
+      configFailureReason === PureErrorType.EulaNotAccepted ||
+      configFailureReason === PureErrorType.BatteryFlat)
+
+  if (isConfigLoading && !isExpectedError) {
     setStatus(DeviceStatus.Initializing)
     return
   }
-  if (isLocked) {
-    setStatus(DeviceStatus.Locked)
-    return
-  }
-  if (isPureBatteryFlat(config?.batteryLevel)) {
-    setStatus(DeviceStatus.Warning)
-    return
-  }
-  if (isConfigError || isLockedError) {
+
+  if (configFailureReason && !isExpectedError) {
     setStatus(DeviceStatus.CriticalError)
+    return
+  }
+
+  if (
+    configFailureReason === PureErrorType.EulaNotAccepted ||
+    configFailureReason === PureErrorType.BatteryFlat
+  ) {
+    setStatus(DeviceStatus.Issue)
+    return
+  }
+
+  if (configFailureReason === PureErrorType.DeviceLocked) {
+    setStatus(DeviceStatus.Locked)
     return
   }
 

@@ -5,4 +5,6 @@
 
 export enum PureErrorType {
   DeviceLocked = 403,
+  EulaNotAccepted = 423,
+  BatteryFlat = 500,
 }

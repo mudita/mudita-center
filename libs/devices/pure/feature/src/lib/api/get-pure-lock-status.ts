@@ -19,6 +19,6 @@ export const getPureLockStatus = async (device: Pure) => {
   })
   return {
     ...response,
-    ...(response.ok ? { body: response.body } : {}),
+    ok: response.ok || response.status < 300,
   }
 }

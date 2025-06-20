@@ -16,8 +16,7 @@ import { DevicesPaths } from "devices/common/models"
 import { Modal, Typography } from "app-theme/ui"
 import { IconType } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
-import { Pure } from "devices/pure/models"
-import { isPureBatteryFlat } from "devices/pure/feature"
+import { Pure, PureErrorType } from "devices/pure/models"
 
 const messages = defineMessages({
   batteryFlatTitle: {
@@ -26,8 +25,11 @@ const messages = defineMessages({
   batteryFlatDescription: {
     id: "pure.batteryFlatModal.description",
   },
-  batterFlatStatus: {
-    id: "pure.batteryFlatModal.description2",
+  onboardingNotFinishedTitle: {
+    id: "pure.onboardingNotFinishedModal.title",
+  },
+  onboardingNotFinishedDescription: {
+    id: "pure.onboardingNotFinishedModal.description",
   },
 })
 
@@ -40,9 +42,7 @@ export const PureWarningPage: FunctionComponent<Props> = ({ device }) => {
   const navigate = useAppNavigate()
   const { getPreviousPath } = useRoutingHistory()
   const { data: devices = [] } = useDevices()
-  const { data: config } = useDeviceConfig(device, { refetchInterval: 5000 })
-
-  const batteryLevel = config?.batteryLevel
+  const { failureReason } = useDeviceConfig(device)
 
   const onModalClose = useCallback(() => {
     const previousPath = getPreviousPath((path) => {
@@ -59,25 +59,33 @@ export const PureWarningPage: FunctionComponent<Props> = ({ device }) => {
   return (
     <Modal opened>
       <Modal.CloseButton onClick={onModalClose} />
-      {batteryLevel && isPureBatteryFlat(batteryLevel) && (
-        <BatteryFlat batteryLevel={batteryLevel} />
+      {failureReason === PureErrorType.EulaNotAccepted ? (
+        <OnboardingNotFinished />
+      ) : (
+        failureReason === PureErrorType.BatteryFlat && <BatteryFlat />
       )}
     </Modal>
   )
 }
 
-const BatteryFlat: FunctionComponent<{ batteryLevel: number }> = ({
-  batteryLevel,
-}) => {
+const BatteryFlat: FunctionComponent = () => {
   return (
     <>
       <Modal.TitleIcon type={IconType.BatteryFlat} />
       <Modal.Title>{formatMessage(messages.batteryFlatTitle)}</Modal.Title>
       <Typography.P1 message={messages.batteryFlatDescription.id} />
-      <Typography.P1
-        message={messages.batterFlatStatus.id}
-        values={{ batteryLevel }}
-      />
+    </>
+  )
+}
+
+const OnboardingNotFinished: FunctionComponent = () => {
+  return (
+    <>
+      <Modal.TitleIcon type={IconType.Error} />
+      <Modal.Title>
+        {formatMessage(messages.onboardingNotFinishedTitle)}
+      </Modal.Title>
+      <Typography.P1 message={messages.onboardingNotFinishedDescription.id} />
     </>
   )
 }

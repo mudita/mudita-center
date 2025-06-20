@@ -7,7 +7,6 @@ import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
 import { useDeviceConfig, useDeviceMenu, useDeviceStatus } from "../queries"
 import { useCallback } from "react"
-import { HarmonySerialPort } from "devices/harmony/adapters"
 import { Harmony, HarmonyErrorType } from "devices/harmony/models"
 
 export const useHarmonyInitializer = (device: Harmony) => {
@@ -23,10 +22,6 @@ export const useHarmonyInitializer = (device: Harmony) => {
     },
     [device.path, queryClient]
   )
-
-  if (!HarmonySerialPort.isCompatible(device)) {
-    return
-  }
 
   if (isConfigLoading || isMenuLoading) {
     setStatus(DeviceStatus.Initializing)
