@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { accordion } from "./lib/accordion"
 import { blockBox } from "./lib/block-box"
 import { blockPlain } from "./lib/block-plain"
 import { blockHeading } from "./lib/block-heading"
@@ -33,6 +34,8 @@ import { formSearchInput } from "./lib/form-search-input"
 import { formSearchInputResults } from "./lib/form-search-input-results"
 import { formRadioInput } from "./lib/form-radio-input"
 import { formCheckboxInput } from "./lib/form-checkbox-input"
+import { formSelectInput } from "./lib/form-select-input"
+import { formDynamicInput } from "./lib/form-dynamic-input"
 import { tooltip } from "./lib/tooltip"
 import { progressBar } from "./lib/progress-bar"
 import { segmentBar } from "./lib/segment-bar"
@@ -68,7 +71,11 @@ import { mcFilesManagerUploadProgress } from "./lib/mc-files-manager-upload-prog
 import { mcFilesManagerUploadFinished } from "./lib/mc-files-manager-upload-finished"
 import { mcFilesManagerUploadValidationError } from "./lib/mc-files-manager-upload-validation-error"
 import { entitiesDeleteError } from "./lib/entities-delete-error"
+import { mcAppInstallationProgress } from "./lib/mc-app-installation-progress"
+import { mcAppInstallationError } from "./lib/mc-app-installation-error"
+import { mcAppInstallationSuccess } from "./lib/mc-app-installation-success"
 
+export * from "./lib/accordion"
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
 export * from "./lib/block-heading"
@@ -100,6 +107,8 @@ export * from "./lib/form-radio-input"
 export * from "./lib/form-search-input"
 export * from "./lib/form-search-input-results"
 export * from "./lib/form-checkbox-input"
+export * from "./lib/form-select-input"
+export * from "./lib/form-dynamic-input"
 export * from "./lib/progress-bar"
 export * from "./lib/segment-bar"
 export * from "./lib/tooltip"
@@ -139,8 +148,12 @@ export * from "./lib/mc-files-manager-upload-progress"
 export * from "./lib/mc-files-manager-upload-finished"
 export * from "./lib/mc-files-manager-upload-validation-error"
 export * from "./lib/entities-delete-error"
+export * from "./lib/mc-app-installation-progress"
+export * from "./lib/mc-app-installation-error"
+export * from "./lib/mc-app-installation-success"
 
 export default {
+  [accordion.key]: accordion,
   [blockBox.key]: blockBox,
   [blockPlain.key]: blockPlain,
   [blockHeading.key]: blockHeading,
@@ -172,6 +185,8 @@ export default {
   [formSearchInput.key]: formSearchInput,
   [formSearchInputResults.key]: formSearchInputResults,
   [formCheckboxInput.key]: formCheckboxInput,
+  [formSelectInput.key]: formSelectInput,
+  [formDynamicInput.key]: formDynamicInput,
   [progressBar.key]: progressBar,
   [segmentBar.key]: segmentBar,
   [tooltip.key]: tooltip,
@@ -207,5 +222,8 @@ export default {
   [mcFilesManagerUploadValidationError.key]:
     mcFilesManagerUploadValidationError,
   [entitiesDeleteError.key]: entitiesDeleteError,
+  [mcAppInstallationProgress.key]: mcAppInstallationProgress,
+  [mcAppInstallationError.key]: mcAppInstallationError,
+  [mcAppInstallationSuccess.key]: mcAppInstallationSuccess,
   ...TypographyMap,
 } as const

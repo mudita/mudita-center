@@ -8,15 +8,22 @@ import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { Form } from "../../interactive/form/form"
 import { Modal } from "../../interactive/modal"
 import { useDispatch, useSelector } from "react-redux"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
   cleanImportProcess,
+  clearDataTransfer,
   closeModal as closeModalAction,
   importContactsErrorSelector,
   importContactsFromExternalSource,
+  importContactsSelector,
   ImportStatus,
   importStatusSelector,
-  startImportToDevice,
+  selectActiveApiDeviceId,
+  selectDataTransferErrorType,
+  selectDataTransferStatus,
+  selectEntities,
+  setImportProcessStatus,
+  transferDataToDevice,
 } from "generic-view/store"
 import { ImportContactsProvider } from "./import-contacts-provider"
 import { ImportContactsLoader } from "./import-contats-loader"
@@ -32,6 +39,8 @@ import { defineMessages } from "react-intl"
 import { useFormContext } from "react-hook-form"
 import { ButtonAction, ImportContactsConfig } from "generic-view/models"
 import { ApiFileTransferError } from "device/models"
+import { modalTransitionDuration } from "generic-view/theme"
+import { ImportContactsRefreshing } from "./import-contats-refreshing"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -50,27 +59,40 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
 }) => {
   const dispatch = useDispatch<Dispatch>()
   const importStatus = useSelector(importStatusSelector)
-  const [freezedStatus, setFreezedStatus] = useState<ImportStatus | undefined>()
-  const importError = useSelector(importContactsErrorSelector)
+  const [frozenStatus, setFrozenStatus] = useState<ImportStatus | undefined>()
+  const dataTransferError = useSelector(selectDataTransferErrorType)
+  const importProcessError = useSelector(importContactsErrorSelector)
+  const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<CustomModalError>()
   const dataTransferAbortReference = useRef<VoidFunction>()
   const { watch } = useFormContext<{ [SELECTED_CONTACTS_FIELD]?: string[] }>()
   const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
+  const loadedContacts = useSelector(importContactsSelector)
+  const dataTransferStatus = useSelector(selectDataTransferStatus)
+  const deviceId = useSelector(selectActiveApiDeviceId)
+  const contactsEntitiesInfo = useSelector((state: ReduxRootState) => {
+    if (!deviceId) {
+      return
+    }
+    return selectEntities(state, { deviceId, entitiesType: "contacts" })
+  })
 
-  const currentStatus = freezedStatus || importStatus
+  const importError = importProcessError || dataTransferError
+  const currentStatus = frozenStatus || importStatus
   const importInProgress =
-    currentStatus === "IMPORT-INTO-DEVICE-IN-PROGRESS" ||
-    currentStatus === "IMPORT-INTO-DEVICE-FILES-TRANSFER" ||
-    currentStatus === "IMPORT-DEVICE-DATA-TRANSFER"
+    dataTransferStatus === "IN-PROGRESS" || dataTransferStatus === "FINALIZING"
   const closeButtonVisible =
-    currentStatus !== "PENDING-AUTH" && !importInProgress
+    currentStatus !== "PENDING-AUTH" && !importInProgress && !refreshing
 
   const closeModal = () => {
-    setFreezedStatus(importStatus)
+    setFrozenStatus(importStatus)
     dispatch(closeModalAction({ key: modalKey }))
-    dispatch(cleanImportProcess())
+    dispatch(clearDataTransfer())
     dataTransferAbortReference.current?.()
-    setError(undefined)
+    setTimeout(() => {
+      setError(undefined)
+      dispatch(cleanImportProcess())
+    }, modalTransitionDuration)
   }
 
   const importCloseButtonAction: ButtonAction = {
@@ -80,19 +102,30 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
 
   const importConfirmButtonAction: ButtonAction = {
     type: "custom",
-    callback: () => {
-      const promise = dispatch(
-        startImportToDevice({
-          domains: ["contacts-v1"],
-          contactsIds: selectedContacts,
-        })
-      )
+    callback: async () => {
+      dispatch(setImportProcessStatus(ImportStatus.ImportIntoDeviceInProgress))
 
-      dataTransferAbortReference.current = (
-        promise as unknown as {
-          abort: VoidFunction
-        }
-      ).abort
+      const promise = dispatch(
+        transferDataToDevice([
+          {
+            domain: "contacts-v1",
+            data: loadedContacts?.filter((contact) => {
+              return selectedContacts.includes(contact.id)
+            }),
+            entitiesType: "contacts",
+          },
+        ])
+      ) as unknown as ReturnType<ReturnType<typeof transferDataToDevice>>
+
+      dataTransferAbortReference.current = promise.abort
+
+      const result = await promise
+      setRefreshing(true)
+      if (result.meta.requestStatus === "rejected") {
+        dispatch(setImportProcessStatus(ImportStatus.Failed))
+      } else {
+        dispatch(setImportProcessStatus(ImportStatus.Done))
+      }
     },
   }
 
@@ -108,11 +141,26 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
   }
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout | undefined
+    if (refreshing && !contactsEntitiesInfo?.loading) {
+      timeout = setTimeout(() => {
+        setRefreshing(false)
+      }, 500)
+    }
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [contactsEntitiesInfo?.loading, refreshing])
+
+  useEffect(() => {
     if (importError) {
       let message = ""
 
       if (importError === ApiFileTransferError.NotEnoughSpace) {
         message = intl.formatMessage(messages.notEnoughSpace)
+      } else if (typeof importError === "string") {
+        message = importError
       }
 
       if (message) {
@@ -162,13 +210,14 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
       {importInProgress && (
         <ImportContactsProgress cancelAction={importAbortButtonAction} />
       )}
-      {currentStatus === "FAILED" && (
+      {refreshing && <ImportContactsRefreshing />}
+      {!refreshing && currentStatus === "FAILED" && (
         <ImportContactsError
           closeAction={importCloseButtonAction}
           customError={error}
         />
       )}
-      {currentStatus === "DONE" && (
+      {!refreshing && currentStatus === "DONE" && (
         <ImportContactsSuccess closeAction={importCloseButtonAction} />
       )}
     </>

@@ -13,6 +13,7 @@ import {
   EntityId,
   EntityJsonData,
 } from "device/models"
+import { ResponseStatus } from "../../../../../core/device/constants/response-status.constant"
 
 export type EntityDataResponseType = "json" | "file"
 
@@ -23,7 +24,7 @@ type ReturnType<
   ? E extends undefined
     ? EntitiesJsonData
     : EntityJsonData
-  : EntitiesFileData
+  : EntitiesFileData & { status: ResponseStatus }
 
 export const getEntitiesDataRequest = <
   R extends string = EntityDataResponseType,
@@ -33,6 +34,7 @@ export const getEntitiesDataRequest = <
   entityId?: E
   responseType: R
   deviceId: DeviceId
+  action?: "abort" | "create" | "get"
 }): Promise<ResultObject<ReturnType<R, E>>> => {
   return ipcRenderer.callMain(APIEntitiesServiceEvents.EntitiesDataGet, data)
 }

@@ -9,12 +9,13 @@ on:
   workflow_dispatch:
 jobs:
   e2e:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        os: [Windows, Linux, macOS]
+        runner_label: [linux-e2e, windows-e2e, macos-e2e]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
+    timeout-minutes: 40
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,48 +23,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.16.1
-      - name: Find open port for ChromeBrowser on Linux/Mac
-        if: matrix.os != 'Windows'
-        id: find-port-unix
-        run: |
-            START_PORT=30000
-            END_PORT=40000
-            PORT=$START_PORT
-            RUNNER_OS="${{ matrix.os }}"
-            while [ $PORT -le $END_PORT ]; do
-              if [[ "$RUNNER_OS" == "Linux" ]]; then
-                nc -z 127.0.0.1 $PORT 2>/dev/null || break
-              elif [[ "$RUNNER_OS" == "macOS" ]]; then
-                nc -z -w1 127.0.0.1 $PORT 2>/dev/null || break
-              fi
-              PORT=$((PORT+1))
-            done
-            if [ $PORT -gt $END_PORT ]; then
-              echo "No available port found in the range $START_PORT-$END_PORT" >&2
-              exit 1
-            fi
-            echo "CHROME_OPEN_PORT=$PORT" >> $GITHUB_ENV
-      - name: Find open port for ChromeBrowser on Windows
-        if: matrix.os == 'Windows'
-        id: find-port-windows
-        run: |
-            $startPort = 30000
-            $endPort = 40000
-            $port = $startPort
-            while ($port -le $endPort) {
-              $isUsed = (Test-NetConnection -ComputerName 127.0.0.1 -Port $port).TcpTestSucceeded
-              if (-not $isUsed) {
-                break
-              }
-              $port++
-            }
-            if ($port -gt $endPort) {
-              Write-Error "No available port found in the range $startPort-$endPort"
-              exit 1
-            }
-            echo "CHROME_OPEN_PORT=$port" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
       - name: Setup environment variables for Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runner_label == 'linux-e2e'
         env:
           E2ECI: "true"
           TEST_BINARY_PATH: "../mudita-center/release/linux-unpacked/Mudita Center"
@@ -91,7 +52,7 @@ jobs:
         run: |
           printenv > .env
       - name: Setup Env for Mac
-        if: matrix.os == 'macOS'
+        if: matrix.runner_label == 'macos-e2e'
         env:
           E2ECI: "true"
           TEST_BINARY_PATH: "../mudita-center/release/mac/Mudita Center.app/Contents/MacOS/Mudita Center"
@@ -119,7 +80,7 @@ jobs:
         run: |
           printenv > .env
       - name: Setup environment variables for Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-e2e'
         env:
           E2ECI: "true"
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
@@ -150,28 +111,28 @@ jobs:
       - name: Setup dependencies
         run: npm run setup
       - name: Build App for Linux/Mac
-        if: matrix.os != 'Windows'
+        if: matrix.runner_label != 'windows-e2e'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist
       - name: Build App for Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-e2e'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
           npm run app:dist
       - name: Run E2E tests headless with Xvfb on Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runner_label == 'linux-e2e'
         run: |
           npm run e2e:test:cicd:standalone
       - name: Run E2E tests headless on Windows
         env:
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-e2e'
         run: |
           cd apps/mudita-center-e2e
           npm run e2e:test:cicd:standalone
       - name: Run E2E tests headless on Mac
-        if: matrix.os == 'macOS'
+        if: matrix.runner_label == 'macos-e2e'
         run: |
           npm run e2e:test:standalone

@@ -6,6 +6,8 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { AppError, AppErrorType } from "Core/core/errors"
 import {
+  addFileTransferErrors,
+  clearFileTransferErrors,
   clearGetErrors,
   clearSendErrors,
   fileTransferChunkGet,
@@ -19,13 +21,16 @@ import {
   sendFilesError,
   sendFilesFinished,
   sendFilesPreSend,
-  addFileTransferErrors,
-  clearFileTransferErrors,
+  setFilesTransferMode,
+  setModeWithProgressReset,
+  trackInfo,
 } from "./actions"
-import { sendFile } from "./send-file.action"
+import { legacySendFile } from "./legacy-send-file.action"
 import { getFile } from "./get-file.action"
 import { sendFiles } from "./send-files.action"
 import { ApiFileTransferError } from "device/models"
+import { FilesTransferMode } from "./files-transfer-mode.type"
+import { sendFilesTransferAnalysis } from "./send-files-transfer-analysis.action"
 
 interface FileTransferError {
   code?: AppErrorType
@@ -45,21 +50,23 @@ export type FileId = string | number
 export type FileGroupId = string | number
 export type ActionId = string
 
-export type FileBase =
-  | {
-      id: FileId
-      size: number
-      path: string
-      name: string
-      groupId?: FileGroupId
-    }
-  | {
-      id: FileId
-      size: number
-      base64: string
-      name: string
-      groupId?: FileGroupId
-    }
+export type FileWithPath = {
+  id: FileId
+  size: number
+  path: string
+  name: string
+  groupId?: FileGroupId
+}
+
+export type FileWithBase64 = {
+  id: FileId
+  size: number
+  base64: string
+  name: string
+  groupId?: FileGroupId
+}
+
+export type FileBase = FileWithPath | FileWithBase64
 
 type FileTransferPending = FileBase & {
   status: "pending"
@@ -67,7 +74,7 @@ type FileTransferPending = FileBase & {
 
 export type FileTransferProgress = FileBase & {
   status: "in-progress"
-  transferId: number
+  transferId: number | string
   progress: {
     chunksCount: number
     chunksTransferred: number
@@ -133,6 +140,8 @@ interface FileTransferState {
   filesTransferSendAbortActions: {
     [actionId: ActionId]: AbortController
   }
+  filesTransferMode: FilesTransferMode
+  trackingInfo: Record<FileId, { modes: FilesTransferMode[] }>
 }
 
 const initialState: FileTransferState = {
@@ -144,6 +153,8 @@ const initialState: FileTransferState = {
   filesTransferErrors: {},
   filesTransferSend: {},
   filesTransferSendAbortActions: {},
+  filesTransferMode: FilesTransferMode.Mtp,
+  trackingInfo: {},
 }
 
 export const genericFileTransferReducer = createReducer(
@@ -164,10 +175,10 @@ export const genericFileTransferReducer = createReducer(
         ].chunksTransferred = action.payload.chunksTransferred
       }
     })
-    builder.addCase(sendFile.fulfilled, (state, action) => {
+    builder.addCase(legacySendFile.fulfilled, (state, action) => {
       delete state.sendingFilesProgress[action.payload.transferId]
     })
-    builder.addCase(sendFile.rejected, (state, action) => {
+    builder.addCase(legacySendFile.rejected, (state, action) => {
       if (action.meta.aborted && "filePath" in action.meta.arg) {
         const transfer = Object.entries(state.receivingFilesProgress).find(
           ([, item]) =>
@@ -258,9 +269,11 @@ export const genericFileTransferReducer = createReducer(
     })
     builder.addCase(sendFilesPreSend, (state, action) => {
       const file = state.filesTransferSend[action.payload.id]
-      file.status = "in-progress"
-      ;(file as FileTransferProgress).transferId = action.payload.transferId
-      ;(file as FileTransferProgress).progress = action.payload.progress
+      if (file) {
+        file.status = "in-progress"
+        ;(file as FileTransferProgress).transferId = action.payload.transferId
+        ;(file as FileTransferProgress).progress = action.payload.progress
+      }
     })
     builder.addCase(sendFilesChunkSent, (state, action) => {
       const file = state.filesTransferSend[action.payload.id]
@@ -270,16 +283,27 @@ export const genericFileTransferReducer = createReducer(
     })
     builder.addCase(sendFilesFinished, (state, action) => {
       const file = state.filesTransferSend[action.payload.id]
-      file.status = "finished"
+      if (file) {
+        file.status = "finished"
+      }
     })
     builder.addCase(sendFilesError, (state, action) => {
       const file = state.filesTransferSend[
         action.payload.id
       ] as FileTransferFailed
-      file.status = "finished"
-      file.error = action.payload.error
+      if (file) {
+        file.status = "finished"
+        file.error = action.payload.error
+      }
     })
     builder.addCase(sendFilesClear, (state, action) => {
+      state.trackingInfo = {}
+      if (!action.payload) {
+        state.filesTransferSend = {}
+        state.filesTransferErrors = {}
+        state.filesTransferSendAbortActions = {}
+        return
+      }
       if ("groupId" in action.payload) {
         for (const file of Object.values(state.filesTransferSend)) {
           if (file.groupId === action.payload.groupId) {
@@ -297,7 +321,11 @@ export const genericFileTransferReducer = createReducer(
         action.payload.abortController
     })
     builder.addCase(sendFilesAbort.fulfilled, (state, action) => {
-      delete state.filesTransferSendAbortActions[action.meta.arg]
+      if (action.meta.arg) {
+        delete state.filesTransferSendAbortActions[action.meta.arg]
+      } else {
+        state.filesTransferSendAbortActions = {}
+      }
     })
     builder.addCase(addFileTransferErrors, (state, action) => {
       const actionId = action.payload.actionId
@@ -308,6 +336,36 @@ export const genericFileTransferReducer = createReducer(
     builder.addCase(clearFileTransferErrors, (state, action) => {
       const actionId = action.payload.actionId
       delete state.filesTransferErrors[actionId]
+    })
+    builder.addCase(setFilesTransferMode, (state, action) => {
+      state.filesTransferMode = action.payload
+    })
+    builder.addCase(setModeWithProgressReset, (state, action) => {
+      const file = state.filesTransferSend[action.payload.fileId]
+      if (file.status === "in-progress") {
+        ;(file as FileTransferProgress).progress = {
+          chunksCount: file.progress.chunksCount,
+          chunksTransferred: 0,
+        }
+      }
+      state.filesTransferMode = action.payload.filesTransferMode
+    })
+    builder.addCase(trackInfo, (state, action) => {
+      if (!state.trackingInfo[action.payload.fileId]) {
+        state.trackingInfo[action.payload.fileId] = {
+          modes: [action.payload.mode],
+        }
+      } else {
+        state.trackingInfo[action.payload.fileId].modes.push(
+          action.payload.mode
+        )
+      }
+    })
+    builder.addCase(sendFilesTransferAnalysis.fulfilled, (state) => {
+      state.trackingInfo = {}
+    })
+    builder.addCase(sendFilesTransferAnalysis.rejected, (state) => {
+      state.trackingInfo = {}
     })
   }
 )

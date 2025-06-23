@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const featureConfigurationFileManager = {
+export const featureConfigurationFileManagerInternal = {
   main: {
     screenTitle: "Manage Files",
     component: "mc-file-manager-view",
@@ -17,21 +17,100 @@ export const featureConfigurationFileManager = {
       categories: [
         {
           label: "Music",
-          directoryPath: "Music/",
+          icon: "music-note",
+          markerColor: "#E38577",
+          directoryPath: "Music/MuditaCenter/",
           supportedFileTypes: ["mp3", "wav", "flac"],
           entityType: "audioFiles",
+          fileListEmptyStateDescription:
+            "Add music files from your computer and they'll transfer to your device automatically.",
         },
         {
           label: "Photos",
-          directoryPath: "Pictures/",
+          icon: "photo-catalog",
+          markerColor: "#0E7490",
+          directoryPath: "DCIM/MuditaCenter/",
           supportedFileTypes: ["jpg", "jpeg", "png"],
           entityType: "imageFiles",
+          fileListEmptyStateDescription:
+            "Add image files from your computer and they'll transfer to your device automatically.",
         },
         {
           label: "E-books",
-          directoryPath: "Documents/",
+          icon: "book",
+          markerColor: "#A8DADC",
+          directoryPath: "Ebooks/MuditaCenter/",
           supportedFileTypes: ["pdf", "epub"],
           entityType: "ebookFiles",
+          fileListEmptyStateDescription:
+            "Add E-book or PDF files from your computer and they'll transfer to your device automatically.",
+        },
+        {
+          label: "Apps",
+          icon: "grid",
+          markerColor: "#A8DADC",
+          directoryPath: "Applications/MuditaCenter/",
+          supportedFileTypes: ["apk"],
+          entityType: "applicationFiles",
+          fileListEmptyStateDescription:
+            "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly.",
+        },
+      ],
+    },
+  },
+}
+
+export const featureConfigurationFileManagerExternal = {
+  main: {
+    screenTitle: "Manage Files",
+    component: "mc-file-manager-view",
+    config: {
+      storages: [
+        {
+          label: "SD card",
+          path: "/storage/9EBD-E8C5/",
+        },
+      ],
+      categories: [
+        {
+          label: "Music",
+          icon: "music-note",
+          markerColor: "#E38577",
+          directoryPath: "Music/MuditaCenter/",
+          supportedFileTypes: ["mp3", "wav", "flac"],
+          entityType: "audioFiles",
+          fileListEmptyStateDescription:
+            "Add music files from your computer and they'll transfer to your device automatically.",
+        },
+        {
+          label: "Photos",
+          icon: "photo-catalog",
+          markerColor: "#0E7490",
+          directoryPath: "DCIM/MuditaCenter/",
+          supportedFileTypes: ["jpg", "jpeg", "png"],
+          entityType: "imageFiles",
+          fileListEmptyStateDescription:
+            "Add image files from your computer and they'll transfer to your device automatically.",
+        },
+        {
+          label: "E-books",
+          icon: "book",
+          markerColor: "#A8DADC",
+          directoryPath: "Ebooks/MuditaCenter/",
+          supportedFileTypes: ["pdf", "epub"],
+          entityType: "ebookFiles",
+          fileListEmptyStateDescription:
+            "Add E-book or PDF files from your computer and they'll transfer to your device automatically.",
+        },
+        {
+          label: "Apps",
+          icon: "grid",
+          markerColor: "#A8DADC",
+          directoryPath: "Applications/MuditaCenter/",
+          supportedFileTypes: ["apk"],
+          entityType: "applicationFiles",
+          fileListEmptyStateDescription:
+            "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly.",
         },
       ],
     },

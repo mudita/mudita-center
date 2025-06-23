@@ -6,7 +6,6 @@
 import Page from "./page"
 
 class HelpPage extends Page {
-
   //Getters
   public get helpTabTitle() {
     return $('//h4[@data-testid="location"]')
@@ -21,13 +20,15 @@ class HelpPage extends Page {
     return $('//div[@data-testid="icon-search"]')
   }
   public get helpSearchInput() {
-    return $('//input[@data-testid="help-search-input"]')
+    return $('//input[@data-testid="ui-form-search-input"]')
   }
   public get helpSearchResults() {
     return $('//div[@data-testid="help-search-results"]')
   }
   public get iconSearchHelpSearchResults() {
-    return $('//div[@data-testid="help-search-results"]//div[@data-testid="icon-search"]')
+    return $(
+      '//div[@data-testid="help-search-results"]//div[@data-testid="icon-search"]'
+    )
   }
   public get helpSearchResultsParagraph() {
     return $('//div[@data-testid="help-search-results"]//p')
@@ -53,8 +54,15 @@ class HelpPage extends Page {
   public get helpSubCategoriesListItems() {
     return $$('//div[@data-testid="help-subcategories-list-item"]')
   }
-  public getHelpSubCategoriesListItemsFromColumn(columnIndex: number){
-    return $$(`(//div[@data-testid="help-subcategories-list"]/div)[${columnIndex + 1}]//div[@data-testid="help-subcategories-list-item"]`)   
+  public get helpSubCategoriesArticle() {
+    return $$('//div[@data-testid="help-subcategory-articles-list"]')
+  }
+  public getHelpSubCategoriesListItemsFromColumn(columnIndex: number) {
+    return $$(
+      `(//div[@data-testid="help-subcategories-list"]/div)[${
+        columnIndex + 1
+      }]//div[@data-testid="help-subcategories-list-item"]`
+    )
   }
   public get helpSubCategoriesListItemsLeftColumn() {
     return this.getHelpSubCategoriesListItemsFromColumn(0)
@@ -74,7 +82,7 @@ class HelpPage extends Page {
   public get iconContactSupport() {
     return $('[data-testid="icon-support"]')
   }
-  public async searchForArticle(text:string) {
+  public async searchForArticle(text: string) {
     const searchInput = await this.helpSearchInput
     await searchInput.setValue(text)
   }

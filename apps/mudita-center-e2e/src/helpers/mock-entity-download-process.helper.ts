@@ -22,69 +22,85 @@ export const mockEntityDownloadProcess = ({
   const totalEntities = data.length
   const transferId = generateUniqueNumber()
 
-  E2EMockClient.mockResponse({
-    path,
-    body: { totalEntities, uniqueKey: "1733750368390" },
-    match: {
-      expected: {
-        entityType: entityType,
+  E2EMockClient.mockResponses([
+    {
+      path,
+      body: { totalEntities, uniqueKey: "1733750368390" },
+      match: {
+        expected: {
+          entityType: entityType,
+        },
       },
+      endpoint: "ENTITIES_METADATA",
+      method: "GET",
+      status: 200,
     },
-    endpoint: "ENTITIES_METADATA",
-    method: "GET",
-    status: 200,
-  })
-
-  E2EMockClient.mockResponse({
-    path,
-    body: {
-      filePath: `../${entityType}_entities.json`,
-      progress: 100,
-    },
-    match: {
-      expected: {
-        entityType: entityType,
-        responseType: "file",
+    {
+      path,
+      body: {
+        progress: 0,
       },
+      match: {
+        expected: {
+          action: "create",
+          entityType: entityType,
+          responseType: "file",
+        },
+      },
+      endpoint: "ENTITIES_DATA",
+      method: "GET",
+      status: 202,
     },
-    endpoint: "ENTITIES_DATA",
-    method: "GET",
-    status: 200,
-  })
-
-  E2EMockClient.mockResponse({
-    path,
-    body: {
-      transferId,
-      chunkSize: sizeInBytes,
-      fileSize: sizeInBytes,
-      crc32: crc32Hex,
-    },
-    match: {
-      expected: {
+    {
+      path,
+      body: {
         filePath: `../${entityType}_entities.json`,
+        progress: 100,
       },
+      match: {
+        expected: {
+          action: "get",
+          entityType: entityType,
+          responseType: "file",
+        },
+      },
+      endpoint: "ENTITIES_DATA",
+      method: "GET",
+      status: 200,
     },
-    endpoint: "PRE_FILE_TRANSFER",
-    method: "GET",
-    status: 200,
-  })
-
-  E2EMockClient.mockResponse({
-    path,
-    body: {
-      transferId,
-      chunkNumber: 1,
-      data: base64,
+    {
+      path,
+      body: {
+        transferId,
+        chunkSize: sizeInBytes,
+        fileSize: sizeInBytes,
+        crc32: crc32Hex,
+      },
+      match: {
+        expected: {
+          filePath: `../${entityType}_entities.json`,
+        },
+      },
+      endpoint: "PRE_FILE_TRANSFER",
+      method: "GET",
+      status: 200,
     },
-    match: {
-      expected: {
+    {
+      path,
+      body: {
         transferId,
         chunkNumber: 1,
+        data: base64,
       },
+      match: {
+        expected: {
+          transferId,
+          chunkNumber: 1,
+        },
+      },
+      endpoint: "FILE_TRANSFER",
+      method: "GET",
+      status: 200,
     },
-    endpoint: "FILE_TRANSFER",
-    method: "GET",
-    status: 200,
-  })
+  ])
 }

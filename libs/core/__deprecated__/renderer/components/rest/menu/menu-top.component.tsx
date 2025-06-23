@@ -62,9 +62,13 @@ const MenuTop: FunctionComponent<Props> = ({
     .filter(({ simulatePhoneConnection }) =>
       simulatePhoneConnectionEnabled ? true : !simulatePhoneConnection
     )
-    .filter(({ visibleOn }) =>
-      deviceType && visibleOn ? visibleOn.includes(deviceType) : true
-    )
+    .filter(({ visibleOn }) => {
+      if (deviceType === null && visibleOn !== undefined) {
+        return false
+      }
+
+      return deviceType && visibleOn ? visibleOn.includes(deviceType) : true
+    })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(({ connectedPhoneOnly, ...props }, indexMenu) => {

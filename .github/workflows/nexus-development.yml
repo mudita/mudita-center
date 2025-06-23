@@ -6,11 +6,12 @@ on:
       - develop
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        os: [Linux, Windows, macOS]
+        runner_label: [ linux-nexus, windows-nexus, macos-nexus ]
     environment: development
+    timeout-minutes: 40
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,7 +20,7 @@ jobs:
         with:
           node-version: 18.16.1
       - name: Setup Env for Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-nexus'
         env:
           E2ECI: "false"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
@@ -49,7 +50,7 @@ jobs:
           SET > .env
           jq -r -j .version apps/mudita-center/package.json > apps/mudita-center/version
       - name: Setup Env for Mac
-        if: matrix.os == 'macOS'
+        if: matrix.runner_label == 'macos-nexus'
         env:
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
@@ -75,7 +76,7 @@ jobs:
         run: |
           printenv > .env
       - name: Setup Env for Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runner_label == 'linux-nexus'
         env:
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
@@ -101,7 +102,7 @@ jobs:
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runner_label == 'linux-nexus'
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
@@ -109,7 +110,7 @@ jobs:
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Mac
-        if: matrix.os == 'macOS'
+        if: matrix.runner_label == 'macos-nexus'
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
@@ -117,7 +118,7 @@ jobs:
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-nexus'
         run: |
           $SOURCE_BRANCH = "${{ github.ref_name }}"
           $ENVIRONMENT_CATALOG_NAME = "development"
@@ -129,30 +130,30 @@ jobs:
       - name: Setup depedencies
         run: npm run setup
 #      - name: Copy electron-builder environment file for Windows
-#        if: matrix.os == 'Windows'
+#        if: matrix.runner_label == 'windows-nexus'
 #        run: |
 #          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
       - name: Copy electron-builder environment file for Linux/Mac
-        if: matrix.os != 'Windows'
+        if: matrix.runner_label != 'windows-nexus'
         run: |
           cp ~/actions-runner/envs/electron-builder.env apps/mudita-center/electron-builder.env
       - name: Build App for Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-nexus'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
           npm run app:dist
       - name: Build App for Linux/Mac
-        if: matrix.os != 'Windows'
+        if: matrix.runner_label != 'windows-nexus'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist
       - name: Verify apple sign
-        if: matrix.os == 'macOS'
+        if: matrix.runner_label == 'macos-nexus'
         run: |
           codesign -v -v apps/mudita-center/release/mac/Mudita\ Center.app
       - name: Push artifacts to nexus registry from Windows
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-nexus'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -176,7 +177,7 @@ jobs:
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
       - name: Push artifacts to nexus registry from Linux
-        if: matrix.os == 'Linux'
+        if: matrix.runner_label == 'linux-nexus'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -197,7 +198,7 @@ jobs:
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Push artifacts to nexus registry from macOS
-        if: matrix.os == 'macOS'
+        if: matrix.runner_label == 'macos-nexus'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -221,7 +222,7 @@ jobs:
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Create draft release with Windows files
-        if: matrix.os == 'Windows'
+        if: matrix.runner_label == 'windows-nexus'
         id: create_release_windows
         uses: softprops/action-gh-release@v1
         with:
@@ -235,7 +236,7 @@ jobs:
             ./apps/mudita-center/release/latest.yml
             ./apps/mudita-center/release/builder-debug-win.yml
       - name: Create draft release with Linux files
-        if: matrix.os == 'Linux'
+        if: matrix.runner_label == 'linux-nexus'
         id: create_release_linux
         uses: softprops/action-gh-release@v1
         with:
@@ -248,7 +249,7 @@ jobs:
             ./apps/mudita-center/release/latest-linux.yml
             ./apps/mudita-center/release/builder-debug-linux.yml
       - name: Create draft release with Mac files
-        if: matrix.os == 'macOS'
+        if: matrix.runner_label == 'macos-nexus'
         id: create_release_macos
         uses: softprops/action-gh-release@v1
         with:

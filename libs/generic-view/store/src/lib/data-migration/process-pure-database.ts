@@ -19,6 +19,8 @@ import { DataMigrationStatus } from "./reducer"
 import { createBackupRequest } from "Core/backup/requests"
 import { indexAllRequest } from "Core/data-sync/requests"
 import { clearMigrationData } from "./clear-migration-data"
+import { cancelLoadEntities } from "../entities/cancel-load-entities.action"
+import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 
 export const processPureDatabase = createAsyncThunk<
   void,
@@ -56,9 +58,17 @@ export const processPureDatabase = createAsyncThunk<
       return handleError("Source device not selected")
     }
 
+    const deviceId = selectActiveApiDeviceId(getState())
+
+    if (!deviceId) {
+      return handleError("Device not found")
+    }
+
     if (signal.aborted) {
       return rejectWithValue(undefined)
     }
+
+    await dispatch(cancelLoadEntities({ deviceId }))
 
     dispatch(setDataMigrationPureBusy(sourceDevice.serialNumber))
     const downloadDeviceBackupResponse = await createBackupRequest({

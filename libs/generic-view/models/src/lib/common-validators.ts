@@ -99,6 +99,7 @@ export const entityActionValidator = z.union([
     type: z.literal("entities-delete"),
     entitiesType: z.string(),
     ids: z.array(z.string()),
+    successMessage: z.string().optional(),
     postActions: z
       .object({
         success: entityPostActionsValidator,
@@ -149,6 +150,8 @@ export const nativeActionsValidator = z.union([
 const filesTransferUploadFilesActionValidator = z.object({
   type: z.literal("upload-files"),
   destinationPath: z.string(),
+  isInternal: z.boolean().optional(),
+  freeSpace: z.number().positive(),
   entitiesType: z.string().optional(),
   actionId: z.string(),
   formOptions: z.object({
@@ -182,6 +185,22 @@ export const filesTransferActionValidator = z.union([
   filesTransferDownloadFilesActionValidator,
 ])
 
+const startAppInstallationActionValidator = z.object({
+  type: z.literal("start-app-installation"),
+  filePath: z.string(),
+  fileName: z.string(),
+  postActions: z
+    .object({
+      success: entityPostActionsValidator,
+      failure: entityPostActionsValidator,
+    })
+    .optional(),
+})
+
+export type StartAppInstallationAction = z.infer<
+  typeof startAppInstallationActionValidator
+>
+
 export const buttonActionsValidator = z.array(
   z.union([
     modalActionValidator,
@@ -192,6 +211,7 @@ export const buttonActionsValidator = z.array(
     toastActionValidator,
     nativeActionsValidator,
     filesTransferActionValidator,
+    startAppInstallationActionValidator,
   ])
 )
 

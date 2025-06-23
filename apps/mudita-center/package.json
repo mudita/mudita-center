@@ -1,6 +1,6 @@
 {
   "name": "mudita-center",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Mudita Center",
   "main": "./dist/main.js",
   "productName": "Mudita Center",
@@ -53,7 +53,13 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "./icons/win/icon.ico"
+      "icon": "./icons/win/icon.ico",
+      "extraFiles": [
+        {
+          "from": "./resources/MtpFileTransfer.exe",
+          "to": "resources/MtpFileTransfer.exe"
+        }
+      ]
     },
     "nsis": {
       "include": "installer.nsh",
@@ -100,7 +106,8 @@
   "homepage": "https://github.com/Mudita/mudita-center",
   "devDependencies": {},
   "dependencies": {
-    "serialport": "10.1.0"
+    "serialport": "10.1.0",
+    "usb": "^2.15.0"
   },
   "engines": {
     "node": "18.16.1",

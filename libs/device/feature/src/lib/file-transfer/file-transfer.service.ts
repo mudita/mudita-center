@@ -296,7 +296,7 @@ export class APIFileTransferService {
       return handleError(response.error.type)
     }
 
-    return Result.success(undefined)
+    return Result.success({ status: response.data.status })
   }
 
   @IpcEvent(ApiFileTransferServiceEvents.PreGet)

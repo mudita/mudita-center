@@ -19,6 +19,9 @@ class HelpArticlePage extends Page {
   public get helpArticleTitle() {
     return $('[data-testid="help-article-title"]')
   }
+  public get helpArticleText() {
+    return $('[data-testid="  help-article-content-block-text"]')
+  }
   public get helpArticleWarningIcon() {
     return $('[data-testid="help-article-warning-icon"]')
   }

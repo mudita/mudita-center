@@ -41,9 +41,12 @@ export enum IconType {
   Success = "success",
   Failure = "failure",
   Folder = "folder",
+  Confirm = "confirm",
   Contact = "contact",
   ContactsBook = "contacts-book",
   Check = "check",
+  CheckCircle = "check-circle",
+  Checkmark = "checkmark",
   Minus = "minus",
   Search = "search",
   Import = "import",
@@ -56,4 +59,5 @@ export enum IconType {
   Exclamation = "exclamation",
   Namaste = "namaste",
   Delete = "delete",
+  DropdownArrow = "dropdown-arrow",
 }

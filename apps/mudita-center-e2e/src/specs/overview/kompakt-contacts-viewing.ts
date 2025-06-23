@@ -3,7 +3,6 @@ import tabsPage from "../../page-objects/tabs.page"
 import ContactsKompaktPage from "../../page-objects/contacts-kompakt"
 import { mockEntityDownloadProcess } from "../../helpers"
 import { selectedContactsEntities } from "../../helpers/entity-fixtures"
-import { mockEntityDeleteProcess } from "../../helpers/mock-entity-delete-process"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -46,6 +45,7 @@ describe("E2E mock sample - overview view", () => {
     const contactsCounter = ContactsKompaktPage.contactsCounter
     await expect(contactsCounter).toBeDisplayed()
     await expect(contactsCounter).toHaveText("Contacts (17)")
+    await browser.pause(500)
   })
 
   it("Verify Page elements ", async () => {
@@ -60,6 +60,7 @@ describe("E2E mock sample - overview view", () => {
     const importContactsButton = ContactsKompaktPage.importContactsButton
     await expect(importContactsButton).toBeDisplayed()
     await expect(importContactsButton).toBeClickable()
+    await browser.pause(500)
   })
 
   it("Verify different contacts", async () => {
@@ -79,12 +80,14 @@ describe("E2E mock sample - overview view", () => {
     const lastCellText = await lastCell.getText()
     console.log(`Empty Cell Content: ${lastCellText}`)
     expect(lastCellText).toBe("")
+    await browser.pause(500)
 
     //phone number
     const phoneNumber = await ContactsKompaktPage.phoneNumberByRowIndex(0)
     const phoneNumberText = await phoneNumber.getText()
     console.log(`Phone Number: ${phoneNumberText}`)
     expect(phoneNumberText).toBe("+48123456786")
+    await browser.pause(500)
 
     //empty phone number
     const phoneNumberCounter =
@@ -92,6 +95,7 @@ describe("E2E mock sample - overview view", () => {
     const phoneNumberCounterText = await phoneNumberCounter.getText()
     console.log(`Phone Number Counter: ${phoneNumberCounterText}`)
     expect(phoneNumberCounterText).toBe("")
+    await browser.pause(500)
 
     // prefix name lastname suffix
     const displayName5 = await ContactsKompaktPage.displayNameByRowIndex(5)
@@ -99,6 +103,7 @@ describe("E2E mock sample - overview view", () => {
     expect(rows.length).toBeGreaterThan(5)
     const displayNameText5 = await displayName5.getText()
     console.log(`Display Name: ${displayNameText5}`)
+    await browser.pause(500)
 
     // prefix
     expect(displayNameText5).toContain("Dr.")
@@ -112,6 +117,7 @@ describe("E2E mock sample - overview view", () => {
     const phoneNumberCounterText5 = await phoneNumberCounter5.getText()
     console.log(`Phone Number Counter: ${phoneNumberCounterText5}`)
     expect(phoneNumberCounterText5).toBe("+1")
+    await browser.pause(500)
   })
 
   it("Verify contacts array", async () => {
@@ -124,6 +130,7 @@ describe("E2E mock sample - overview view", () => {
     const importContactsButton = ContactsKompaktPage.importContactsButton
     await expect(importContactsButton).toBeDisplayed()
     await expect(importContactsButton).toBeClickable()
+    await browser.pause(500)
 
     //check if there is at least 10 contacts
     const rows = await ContactsKompaktPage.allContactsTableRows
@@ -135,5 +142,6 @@ describe("E2E mock sample - overview view", () => {
     expect(isDisplayed).toBe(true)
     const contactsTableCell = ContactsKompaktPage.contactsTableCell
     await contactsTableCell.click()
+    await browser.pause(500)
   })
 })

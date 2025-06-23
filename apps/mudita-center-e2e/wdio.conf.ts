@@ -4,9 +4,13 @@
  */
 
 import type { Options } from "@wdio/types"
-import path from "path"
+import * as path from "path"
 import * as dotenv from "dotenv"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
+
+const freePort = process.env.WDIO_PORT
+  ? Number(process.env.WDIO_PORT)
+  : undefined
 
 dotenv.config()
 
@@ -83,9 +87,21 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
     toRelativePath(TestFilesPaths.helpLinkInsideContainer),
     toRelativePath(TestFilesPaths.contactSupportHappyPath),
-    toRelativePath(TestFilesPaths.kompaktPrebackupApi),
+    //toRelativePath(TestFilesPaths.kompaktPrebackupApi),
     toRelativePath(TestFilesPaths.kompaktContactsViewing),
     toRelativePath(TestFilesPaths.kompaktContactsViewingEmpty),
+    toRelativePath(TestFilesPaths.kompaktContactsDeleteDetails),
+    toRelativePath(TestFilesPaths.kompaktContactsDelete),
+    toRelativePath(TestFilesPaths.kompaktContactsViewingDetails),
+    toRelativePath(TestFilesPaths.kompaktContactsSearch),
+    toRelativePath(TestFilesPaths.kompaktConnectingSecondKompaktWhileInNews),
+    toRelativePath(TestFilesPaths.kompaktPasscodeClose),
+    toRelativePath(TestFilesPaths.kompaktDisconnectDuringBackup),
+    toRelativePath(TestFilesPaths.kompaktBackupErrorCancel),
+    toRelativePath(TestFilesPaths.kompaktBackupErrorDisconnect),
+    toRelativePath(TestFilesPaths.helpSectionKompakt),
+    toRelativePath(TestFilesPaths.kompaktManageFilesOverall),
+    toRelativePath(TestFilesPaths.kompaktBackupFailedFullStorage),
   ],
   suites: {
     standalone: [
@@ -102,6 +118,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.helpVerifyFeedback),
       toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
       toRelativePath(TestFilesPaths.helpLinkInsideContainer),
+      toRelativePath(TestFilesPaths.helpSectionKompakt),
     ],
     mock: [
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
@@ -118,9 +135,20 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
       toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
       toRelativePath(TestFilesPaths.contactSupportHappyPath),
-      toRelativePath(TestFilesPaths.kompaktPrebackupApi),
+      //toRelativePath(TestFilesPaths.kompaktPrebackupApi),
       toRelativePath(TestFilesPaths.kompaktContactsViewing),
       toRelativePath(TestFilesPaths.kompaktContactsViewingEmpty),
+      toRelativePath(TestFilesPaths.kompaktContactsDeleteDetails),
+      toRelativePath(TestFilesPaths.kompaktContactsDelete),
+      toRelativePath(TestFilesPaths.kompaktContactsViewingDetails),
+      toRelativePath(TestFilesPaths.kompaktContactsSearch),
+      toRelativePath(TestFilesPaths.kompaktConnectingSecondKompaktWhileInNews),
+      toRelativePath(TestFilesPaths.kompaktPasscodeClose),
+      toRelativePath(TestFilesPaths.kompaktDisconnectDuringBackup),
+      toRelativePath(TestFilesPaths.kompaktBackupErrorCancel),
+      toRelativePath(TestFilesPaths.kompaktBackupErrorDisconnect),
+      toRelativePath(TestFilesPaths.kompaktManageFilesOverall),
+      toRelativePath(TestFilesPaths.kompaktBackupFailedFullStorage),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -144,6 +172,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.helpVerifyFeedback),
       toRelativePath(TestFilesPaths.helpSectionSearchNoResults),
       toRelativePath(TestFilesPaths.helpLinkInsideContainer),
+      toRelativePath(TestFilesPaths.helpSectionKompakt),
     ],
     cicdMock: [
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
@@ -161,9 +190,20 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktDrawerStressTest),
       toRelativePath(TestFilesPaths.kompaktBackupModalGettingInitialInfo),
       toRelativePath(TestFilesPaths.contactSupportHappyPath),
-      toRelativePath(TestFilesPaths.kompaktPrebackupApi),
+      //toRelativePath(TestFilesPaths.kompaktPrebackupApi),
       toRelativePath(TestFilesPaths.kompaktContactsViewing),
       toRelativePath(TestFilesPaths.kompaktContactsViewingEmpty),
+      toRelativePath(TestFilesPaths.kompaktContactsDeleteDetails),
+      toRelativePath(TestFilesPaths.kompaktContactsDelete),
+      toRelativePath(TestFilesPaths.kompaktContactsViewingDetails),
+      toRelativePath(TestFilesPaths.kompaktContactsSearch),
+      toRelativePath(TestFilesPaths.kompaktConnectingSecondKompaktWhileInNews),
+      toRelativePath(TestFilesPaths.kompaktPasscodeClose),
+      toRelativePath(TestFilesPaths.kompaktDisconnectDuringBackup),
+      toRelativePath(TestFilesPaths.kompaktBackupErrorCancel),
+      toRelativePath(TestFilesPaths.kompaktBackupErrorDisconnect),
+      toRelativePath(TestFilesPaths.kompaktManageFilesOverall),
+      toRelativePath(TestFilesPaths.kompaktBackupFailedFullStorage),
     ],
   },
   // Patterns to exclude.
@@ -255,6 +295,7 @@ export const config: Options.Testrunner = {
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
   baseUrl: "http://localhost",
+  ...(freePort && { port: freePort }),
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 6000,
@@ -270,7 +311,14 @@ export const config: Options.Testrunner = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: ["chromedriver"],
+  services: [
+    [
+      "chromedriver",
+      {
+        ...(freePort && { port: freePort }),
+      },
+    ],
+  ],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -281,13 +329,13 @@ export const config: Options.Testrunner = {
   framework: "mocha",
   //
   // The number of times to retry the entire specfile when it fails as a whole
-  // specFileRetries: 1,
+  specFileRetries: 2,
   //
   // Delay in seconds between the spec file retry attempts
-  // specFileRetriesDelay: 0,
+  specFileRetriesDelay: 60,
   //
   // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
-  // specFileRetriesDeferred: false,
+  specFileRetriesDeferred: true,
   //
   // Test reporter for stdout.
   // The only one supported by default is 'dot'

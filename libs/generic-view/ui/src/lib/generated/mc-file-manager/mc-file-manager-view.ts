@@ -5,18 +5,17 @@
 
 import { ComponentGenerator } from "generic-view/utils"
 import { McFileManagerConfig } from "generic-view/models"
-import { generateStoragePage, generateStoragePageKey } from "./storage-page"
+import { generateStoragePage } from "./storage-page"
+import { camelCase } from "lodash"
+import {
+  getFileManagerLoaderKey,
+  getFileManagerMainStorageFormKey,
+  getFileManagerStoragePageKey,
+} from "./helpers"
 
 export const generateMcFileManagerView: ComponentGenerator<
   McFileManagerConfig
-> = (key, config) => {
-  const temporaryConfig = {
-    ...config,
-    categories: config.categories.filter(
-      (category) => category.entityType !== "audioFiles"
-    ),
-  }
-
+> = (key, config, _layout, feature = "") => {
   return {
     [key]: {
       component: "block-plain",
@@ -31,12 +30,14 @@ export const generateMcFileManagerView: ComponentGenerator<
           columns: ["1fr"],
         },
       },
-      childrenKeys: ["fileManagerLoader"],
+      childrenKeys: [`${camelCase(feature)}fileManagerLoader`],
     },
-    fileManagerLoader: {
+    [getFileManagerLoaderKey(feature)]: {
       component: "entities-loader",
       config: {
-        entityTypes: temporaryConfig.categories.map((category) => category.entityType),
+        entityTypes: config.categories.map(
+          (category) => category.entityType
+        ),
         text: "Loading, please wait...",
       },
       layout: {
@@ -53,27 +54,28 @@ export const generateMcFileManagerView: ComponentGenerator<
           height: 2,
         },
       },
-      childrenKeys: ["mainStorageForm"],
+      childrenKeys: [getFileManagerMainStorageFormKey(feature)],
     },
-    mainStorageForm: {
+    [getFileManagerMainStorageFormKey(feature)]: {
       component: "form",
       config: {
         formOptions: {
           defaultValues: {
-            activeStoragePath: temporaryConfig.storages[0].path,
+            activeStoragePath: config.storages[0].path,
           },
         },
       },
-      childrenKeys: temporaryConfig.storages.map((_storage, index) =>
-        generateStoragePageKey(index.toString())
-      ),
+      childrenKeys: config.storages.map((_storage, index) => {
+        return getFileManagerStoragePageKey(feature, index, "Storage")
+      }),
     },
-    ...temporaryConfig.storages.reduce((acc, storage, index) => {
+    ...config.storages.reduce((acc, storage, index) => {
       return {
         ...acc,
-        ...generateStoragePage(index.toString(), {
+        ...generateStoragePage(getFileManagerStoragePageKey(feature, index), {
+          mainFormKey: getFileManagerMainStorageFormKey(feature),
           storage,
-          categories: temporaryConfig.categories,
+          categories: config.categories,
         }),
       }
     }, {}),

@@ -3,10 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { MenuConfig, MenuItemConfig } from "device/models"
 import { IconType as CoreIconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
+import {
+  MenuElement,
+  MenuElementItem,
+} from "Core/__deprecated__/renderer/constants/menu-elements"
 import { IconType } from "../models/icons.types"
-import { MenuConfig } from "Root/demo-data/demo-menu"
 
 const mapIcons: Partial<Record<IconType, CoreIconType>> = {
   [IconType.Battery1]: CoreIconType.VeryLowBattery,
@@ -41,25 +44,25 @@ const mapDefaultIcons: Record<string, CoreIconType> = {
 }
 
 const getIcon = (feature: string, iconType?: IconType) => {
-  const featureIcon = mapDefaultIcons[feature] ?? CoreIconType.VeryLowBattery
+  const featureIcon = mapDefaultIcons[feature]
 
   return (iconType && mapIcons[iconType]) ?? featureIcon
 }
 
+const processMenuItem = (item: MenuItemConfig): MenuElementItem => ({
+  icon: getIcon(item.feature, item.icon),
+  button: {
+    label: item.displayName as string,
+    url: `/generic/${item.feature}`,
+  },
+  items: item.submenu?.map((subitem) => processMenuItem(subitem)),
+})
+
 export const generateMenu = (config: MenuConfig): MenuElement[] => {
   return [
     {
+      items: config.menuItems.map((item) => processMenuItem(item)),
       label: config.title,
-      items: config.menuItems
-        .filter((item) => item.displayName)
-        .map((item) => ({
-          icon: getIcon(item.feature, item.icon),
-          label: item.displayName as string,
-          button: {
-            label: item.displayName as string,
-            url: `/generic/${item.feature}`,
-          },
-        })),
     },
   ]
 }

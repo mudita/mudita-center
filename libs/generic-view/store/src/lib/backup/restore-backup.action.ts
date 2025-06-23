@@ -16,12 +16,18 @@ import {
 import { RestoreFeature } from "generic-view/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
-import { sendFile } from "../file-transfer/send-file.action"
+import { legacySendFile } from "../file-transfer/legacy-send-file.action"
 import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
 import { BackupProcessFileStatus, RestoreProcessStatus } from "./backup.types"
 import { delay } from "shared/utils"
 import { refreshEntitiesIfMetadataChanged } from "../entities/refresh-entities-if-metadata-changed.action"
+import { cancelLoadEntities } from "../entities/cancel-load-entities.action"
+
+const preRestoreProgressFactor = 0.05
+const preSendFileProgressFactor = 0.05
+const fileSendProgressFactor = 0.1
+const restoringProgressFactor = 0.8
 
 export const restoreBackup = createAsyncThunk<
   undefined,
@@ -36,6 +42,7 @@ export const restoreBackup = createAsyncThunk<
     { features, password },
     { getState, dispatch, rejectWithValue, signal }
   ) => {
+    let totalProgress = 0
     let aborted = false
     let abortFileRequest: VoidFunction
 
@@ -62,6 +69,8 @@ export const restoreBackup = createAsyncThunk<
       return rejectWithValue(undefined)
     }
 
+    await dispatch(cancelLoadEntities({ deviceId }))
+
     const featuresWithKeys = features
       .map((item) => {
         const keys = intersection(item.keys, fileKeys)
@@ -73,6 +82,13 @@ export const restoreBackup = createAsyncThunk<
       console.log(`restore keys are incompatible with backup keys`)
       return rejectWithValue(undefined)
     }
+
+    dispatch(
+      setRestoreProcessStatus({
+        status: RestoreProcessStatus.PreRestore,
+        progress: 0,
+      })
+    )
 
     const preRestoreResponse = await preRestoreRequest(
       featuresWithKeys,
@@ -112,6 +128,16 @@ export const restoreBackup = createAsyncThunk<
       )
     }
 
+    totalProgress += 100 * preRestoreProgressFactor
+    dispatch(
+      setRestoreProcessStatus({
+        status: RestoreProcessStatus.PreRestore,
+        progress: totalProgress,
+      })
+    )
+
+    const singleFilePreSendProgressFactor =
+      preSendFileProgressFactor / features.length
     for (let i = 0; i < features.length; ++i) {
       if (aborted) {
         return rejectWithValue(undefined)
@@ -128,7 +154,7 @@ export const restoreBackup = createAsyncThunk<
 
       if (!preSendResponse.ok) {
         console.log("cannot start pre send")
-        clearTransfers()
+        void clearTransfers()
         return rejectWithValue(undefined)
       }
 
@@ -139,12 +165,17 @@ export const restoreBackup = createAsyncThunk<
           status: BackupProcessFileStatus.Pending,
         })
       )
+      totalProgress += 100 * singleFilePreSendProgressFactor
+      dispatch(
+        setRestoreProcessStatus({
+          status: RestoreProcessStatus.PreRestore,
+          progress: totalProgress,
+        })
+      )
     }
 
-    dispatch(
-      setRestoreProcessStatus({ status: RestoreProcessStatus.FilesTransfer })
-    )
-
+    const singleFileSendProgressFactor =
+      fileSendProgressFactor / features.length
     for (let i = 0; i < features.length; ++i) {
       if (aborted) {
         return rejectWithValue(undefined)
@@ -157,7 +188,7 @@ export const restoreBackup = createAsyncThunk<
         })
       )
       const sendFilePromise = dispatch(
-        sendFile({
+        legacySendFile({
           deviceId,
           // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           transferId: featurePath.transfer?.transferId!,
@@ -178,13 +209,23 @@ export const restoreBackup = createAsyncThunk<
             status: BackupProcessFileStatus.Done,
           })
         )
+        totalProgress += 100 * singleFileSendProgressFactor
+        dispatch(
+          setRestoreProcessStatus({
+            status: RestoreProcessStatus.PreRestore,
+            progress: totalProgress,
+          })
+        )
       }
     }
 
-    clearTransfers()
+    void clearTransfers()
 
     dispatch(
-      setRestoreProcessStatus({ status: RestoreProcessStatus.Restoring })
+      setRestoreProcessStatus({
+        status: RestoreProcessStatus.Restoring,
+        progress: totalProgress,
+      })
     )
 
     if (aborted) {
@@ -201,14 +242,13 @@ export const restoreBackup = createAsyncThunk<
     let restoreProgress = startRestoreResponse.data.progress
 
     while (restoreProgress < 100) {
-      if (aborted) {
-        return rejectWithValue(undefined)
-      }
-      await delay()
       const checkPreRestoreResponse = await checkRestoreRequest(
         restoreId,
         deviceId
       )
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
 
       if (!checkPreRestoreResponse.ok) {
         console.log(checkPreRestoreResponse.error)
@@ -216,12 +256,24 @@ export const restoreBackup = createAsyncThunk<
       }
 
       restoreProgress = checkPreRestoreResponse.data.progress
+      dispatch(
+        setRestoreProcessStatus({
+          status: RestoreProcessStatus.Restoring,
+          progress: totalProgress + restoreProgress * restoringProgressFactor,
+        })
+      )
+      await delay()
     }
 
     if (aborted) {
       return rejectWithValue(undefined)
     }
-    dispatch(setRestoreProcessStatus({ status: RestoreProcessStatus.Done }))
+    dispatch(
+      setRestoreProcessStatus({
+        status: RestoreProcessStatus.Done,
+        progress: 100,
+      })
+    )
 
     await dispatch(
       refreshEntitiesIfMetadataChanged({
@@ -229,6 +281,8 @@ export const restoreBackup = createAsyncThunk<
         entitiesType: "contacts",
       })
     )
+
+    await delay()
 
     return undefined
   }
