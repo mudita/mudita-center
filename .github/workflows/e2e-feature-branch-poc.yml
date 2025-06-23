@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [ macOS-intel ]
+        runner_label: [ macos-e2e ]
     environment: development
     timeout-minutes: 40
     steps:
@@ -49,7 +49,7 @@ jobs:
         run: |
           printenv > .env
       - name: Setup Env for Mac
-        if: matrix.runner_label == 'macOS-intel'
+        if: matrix.runner_label == 'macos-e2e'
         env:
           E2ECI: "true"
           TEST_BINARY_PATH: "../mudita-center/release/mac/Mudita Center.app/Contents/MacOS/Mudita Center"
@@ -130,6 +130,6 @@ jobs:
           cd apps/mudita-center-e2e
           npm run e2e:test:cicd:standalone
       - name: Run E2E tests headless on Mac
-        if: matrix.runner_label == 'macOS-intel'
+        if: matrix.runner_label == 'macos-e2e'
         run: |
           npm run e2e:test:standalone
