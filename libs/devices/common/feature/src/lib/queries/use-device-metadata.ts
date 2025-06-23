@@ -15,7 +15,7 @@ import { devicesQueryKeys } from "./devices-query-keys"
 import { useDeviceConfig } from "./use-device-config"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { HarmonySerialPort } from "devices/harmony/adapters"
-// import { PureSerialPort } from "devices/pure/adapters"
+import { PureSerialPort } from "devices/pure/adapters"
 
 const messages = defineMessages({
   harmony1: {
@@ -80,21 +80,21 @@ const queryFn = (
       serialNumber: config.serialNumber,
     }
   }
-  // if (PureSerialPort.isCompatible(device)) {
-  //   return {
-  //     id: device.path,
-  //     name: formatMessage(messages.pure),
-  //     image: {
-  //       type: DeviceImageType.Pure,
-  //       color:
-  //         config.caseColour === "black"
-  //           ? DeviceImageColor.Black
-  //           : DeviceImageColor.Gray,
-  //     },
-  //     serialNumber: config.serialNumber,
-  //     recoveryMode: config.recoveryMode,
-  //   }
-  // }
+  if (PureSerialPort.isCompatible(device)) {
+    return {
+      id: device.path,
+      name: formatMessage(messages.pure),
+      image: {
+        type: DeviceImageType.Pure,
+        color:
+          config.caseColour === "black"
+            ? DeviceImageColor.Black
+            : DeviceImageColor.Gray,
+      },
+      serialNumber: config.serialNumber,
+      recoveryMode: config.recoveryMode,
+    }
+  }
   // TODO: Add support for Harmony in MSC mode
   // if (device.deviceType === SerialPortDeviceType.HarmonyMsc) {
   //   return {
@@ -136,17 +136,17 @@ const placeholderData = (device?: Device): DeviceMetadata | null => {
       serialNumber: device.serialNumber || "",
     }
   }
-  // if (PureSerialPort.isCompatible(device)) {
-  //   return {
-  //     id: device?.path || "",
-  //     name: formatMessage(messages.pure),
-  //     image: {
-  //       type: DeviceImageType.Pure,
-  //       color: DeviceImageColor.Gray,
-  //     },
-  //     serialNumber: device.serialNumber || "",
-  //   }
-  // }
+  if (PureSerialPort.isCompatible(device)) {
+    return {
+      id: device?.path || "",
+      name: formatMessage(messages.pure),
+      image: {
+        type: DeviceImageType.Pure,
+        color: DeviceImageColor.Gray,
+      },
+      serialNumber: device.serialNumber || "",
+    }
+  }
   return null
 }
 

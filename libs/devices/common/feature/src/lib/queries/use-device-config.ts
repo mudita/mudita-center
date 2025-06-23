@@ -15,11 +15,15 @@ import {
   getHarmonyInfo,
   GetHarmonyInfoOkResponse,
 } from "devices/harmony/feature"
-import { ApiDevice } from "devices/api-device/models"
-import { Harmony } from "devices/harmony/models"
-// import { Pure } from "devices/pure/models"
-// import { getPureInfo, GetPureInfoOkResponse } from "devices/pure/feature"
-// import { PureSerialPort } from "devices/pure/adapters"
+import { ApiDevice, ApiDeviceErrorType } from "devices/api-device/models"
+import { Harmony, HarmonyErrorType } from "devices/harmony/models"
+import { Pure, PureErrorType } from "devices/pure/models"
+import {
+  getPureInfo,
+  GetPureInfoOkResponse,
+  getPureLockStatus,
+} from "devices/pure/feature"
+import { PureSerialPort } from "devices/pure/adapters"
 import { Device } from "devices/common/models"
 
 const queryFn = async <D extends Device>(device?: D) => {
@@ -42,14 +46,16 @@ const queryFn = async <D extends Device>(device?: D) => {
       throw config.status
     }
   }
-  // if (PureSerialPort.isCompatible(device)) {
-  //   const config = await getPureInfo(device)
-  //   if (config.ok) {
-  //     return config.body
-  //   } else {
-  //     throw config.status
-  //   }
-  // }
+  if (PureSerialPort.isCompatible(device)) {
+    const [lockStatus, config] = await Promise.all([
+      getPureLockStatus(device),
+      getPureInfo(device),
+    ])
+    if (config.ok && lockStatus.ok) {
+      return config.body
+    }
+    throw lockStatus.status || config.status
+  }
   return null
 }
 
@@ -57,30 +63,53 @@ type QueryFnResponse<D> = D extends ApiDevice
   ? GetApiConfigOkResponse["body"]
   : D extends Harmony
     ? GetHarmonyInfoOkResponse["body"]
-    : // :
-      // D extends Pure
-      //   ? GetPureInfoOkResponse["body"]
-      null
+    : D extends Pure
+      ? GetPureInfoOkResponse["body"]
+      : null
 
-export const useDeviceConfig = <D extends Device>(
+type QueryErrorType<D> = D extends ApiDevice
+  ? ApiDeviceErrorType
+  : D extends Harmony
+    ? HarmonyErrorType
+    : D extends Pure
+      ? PureErrorType
+      : Error
+
+export const useDeviceConfig = <D extends Device, E = QueryErrorType<D>>(
   device?: D,
-  options?: Omit<
-    UseQueryOptions<QueryFnResponse<D>>,
-    "queryFn" | "queryKey" | "enabled" | "retry" | "retryDelay"
-  >
+  options?: Omit<UseQueryOptions<QueryFnResponse<D>, E>, "queryFn" | "queryKey">
 ) => {
-  return useQuery({
+  return useQuery<QueryFnResponse<D>, E>({
     queryKey: devicesQueryKeys.deviceConfig(device?.path),
     queryFn: () => queryFn(device) as Promise<QueryFnResponse<D>>,
-    retry: 10,
-    retryDelay: 250,
+    retry: (failureCount, error) => {
+      if (PureSerialPort.isCompatible(device)) {
+        return (
+          error === PureErrorType.DeviceLocked ||
+          error === PureErrorType.EulaNotAccepted ||
+          error === PureErrorType.BatteryFlat
+        )
+      }
+      return failureCount < 10
+    },
+    retryDelay: (_failureCount, error) => {
+      if (PureSerialPort.isCompatible(device)) {
+        return error === PureErrorType.BatteryFlat ? 5000 : 500
+      }
+      return 500
+    },
     enabled: Boolean(device),
+    refetchInterval: (query) => {
+      if (PureSerialPort.isCompatible(device)) {
+        return !query.state.error ? 5000 : undefined
+      }
+      return undefined
+    },
+    refetchIntervalInBackground: true,
     ...options,
   })
 }
 useDeviceConfig.queryKey = devicesQueryKeys.deviceConfig
-useDeviceConfig.queryFn = <D extends Device>(
-  device?: D
-) => {
+useDeviceConfig.queryFn = <D extends Device>(device?: D) => {
   return queryFn<D>(device) as Promise<QueryFnResponse<D>>
 }

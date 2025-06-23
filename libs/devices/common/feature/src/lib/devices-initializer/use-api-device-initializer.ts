@@ -6,7 +6,6 @@
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
 import { ApiDevice, ApiDeviceErrorType } from "devices/api-device/models"
-import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { useDeviceConfig, useDeviceMenu, useDeviceStatus } from "../queries"
 import { useCallback } from "react"
 
@@ -28,10 +27,6 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
     },
     [device.path, queryClient]
   )
-
-  if (!ApiDeviceSerialPort.isCompatible(device)) {
-    return
-  }
 
   if (isConfigLoading || (isMenuLoading && menuFailureCount < 3)) {
     setStatus(DeviceStatus.Initializing)

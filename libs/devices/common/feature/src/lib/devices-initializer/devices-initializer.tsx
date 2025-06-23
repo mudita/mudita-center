@@ -8,7 +8,7 @@ import { useDevices } from "../queries"
 import { useApiDeviceInitializer } from "./use-api-device-initializer"
 import { useDevicesListener } from "./use-devices-listener"
 import { useHarmonyInitializer } from "./use-harmony-initializer"
-// import { usePureInitializer } from "./use-pure-initializer"
+import { usePureInitializer } from "./use-pure-initializer"
 import { Pure } from "devices/pure/models"
 import { PureSerialPort } from "devices/pure/adapters"
 import { ApiDevice } from "devices/api-device/models"
@@ -46,7 +46,7 @@ const ApiDeviceInitializer: FunctionComponent<{ device: ApiDevice }> = ({
 }
 
 const PureInitializer: FunctionComponent<{ device: Pure }> = ({ device }) => {
-  // usePureInitializer(device)
+  usePureInitializer(device)
   return null
 }
 
