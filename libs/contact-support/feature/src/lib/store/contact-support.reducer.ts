@@ -4,12 +4,12 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { ContactSupportState } from "contact-support/models"
+import { ContactSupportState, SendTicketStatus } from "contact-support/models"
 import { sendTicket, closeContactSupportFlow } from "./contact-support.actions"
 
 const initialContactSupportState: ContactSupportState = {
   sendTicket: {
-    status: "idle",
+    status: SendTicketStatus.Idle,
     error: null,
   },
 }
@@ -18,14 +18,14 @@ export const contactSupportReducer = createReducer(
   initialContactSupportState,
   (builder) => {
     builder.addCase(sendTicket.pending, (state) => {
-      state.sendTicket.status = "pending"
+      state.sendTicket.status = SendTicketStatus.Sending
       state.sendTicket.error = null
     })
     builder.addCase(sendTicket.fulfilled, (state) => {
-      state.sendTicket.status = "succeeded"
+      state.sendTicket.status = SendTicketStatus.Success
     })
     builder.addCase(sendTicket.rejected, (state, action) => {
-      state.sendTicket.status = "failed"
+      state.sendTicket.status = SendTicketStatus.Error
       if (action.payload) {
         state.sendTicket.error = action.payload as string
       } else {
@@ -34,7 +34,7 @@ export const contactSupportReducer = createReducer(
     })
     builder.addCase(closeContactSupportFlow, () => {
       return {
-        sendTicket: { status: "idle", error: null },
+        sendTicket: { status: SendTicketStatus.Idle, error: null },
       }
     })
   }
