@@ -23,20 +23,27 @@ import {
 } from "devices/harmony/models"
 import { DeviceErrorType } from "devices/common/models"
 
+export type OKResponse<
+  E extends HarmonyEndpoint,
+  M extends HarmonyMethod<E>,
+> = {
+  ok: true
+  endpoint: E
+  status: number
+  body: HarmonyResponseBody<E, M>
+}
+
+export type ErrorResponse<E extends HarmonyEndpoint> = {
+  ok: false
+  endpoint: E
+  status: DeviceErrorType | HarmonyErrorType
+  body?: unknown
+  error?: unknown
+}
+
 export type Response<E extends HarmonyEndpoint, M extends HarmonyMethod<E>> =
-  | {
-      ok: true
-      endpoint: E
-      status: number
-      body: HarmonyResponseBody<E, M>
-    }
-  | {
-      ok: false
-      endpoint: E
-      status: HarmonyErrorType | DeviceErrorType
-      body?: unknown
-      error?: unknown
-    }
+  | OKResponse<E, M>
+  | ErrorResponse<E>
 
 export class HarmonySerialPort {
   static isCompatible(

@@ -17,6 +17,9 @@ export const DeviceStatusIcon: FunctionComponent<Props> = ({ status }) => {
   if (status === DeviceStatus.CriticalError) {
     return <ErrorIcon type={IconType.Error} size={IconSize.Big} />
   }
+  if (status === DeviceStatus.Issue) {
+    return <WarningIcon type={IconType.Info} size={IconSize.Big} />
+  }
   if (status === DeviceStatus.Locked) {
     return <Icon type={IconType.Lock} size={IconSize.Big} />
   }
@@ -28,4 +31,8 @@ export const DeviceStatusIcon: FunctionComponent<Props> = ({ status }) => {
 
 const ErrorIcon = styled(Icon)`
   color: ${({ theme }) => theme.app.color.red};
+`
+
+const WarningIcon = styled(Icon)`
+  color: ${({ theme }) => theme.app.color.orange};
 `

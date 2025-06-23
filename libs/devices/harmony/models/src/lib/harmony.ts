@@ -8,4 +8,8 @@ import {
   SerialPortDeviceType,
 } from "app-serialport/models"
 
-export type Harmony = SerialPortDeviceInfo<SerialPortDeviceType.Harmony>
+export type Harmony = Pick<
+  SerialPortDeviceInfo<SerialPortDeviceType.Harmony>,
+  "deviceType" | "path"
+> &
+  Partial<Omit<SerialPortDeviceInfo, "deviceType" | "path">>

@@ -9,6 +9,7 @@ import Svg from "*.svg?react"
 import { IconType } from "app-theme/models"
 import ArrowBack from "./svg/arrow-back.svg?react"
 import Backup from "./svg/backup.svg?react"
+import BatteryFlat from "./svg/battery-flat.svg?react"
 import CheckCircleBlack from "./svg/check-circle-black.svg?react"
 import ChevronDown from "./svg/chevron-down.svg?react"
 import Close from "./svg/close.svg?react"
@@ -40,6 +41,7 @@ import ThinFail from "./svg/thin-fail.svg?react"
 export const icons = {
   [IconType.ArrowBack]: ArrowBack,
   [IconType.Backup]: Backup,
+  [IconType.BatteryFlat]: BatteryFlat,
   [IconType.CheckCircleBlack]: CheckCircleBlack,
   [IconType.ChevronDown]: ChevronDown,
   [IconType.Close]: Close,
