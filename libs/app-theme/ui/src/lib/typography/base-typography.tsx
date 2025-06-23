@@ -58,6 +58,7 @@ export type BaseTypographyProps = {
   color?: AppColor | "currentColor"
   title?: string
   as?: ElementType
+  className?: string
 } & Modifier &
   Translation
 

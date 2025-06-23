@@ -118,6 +118,9 @@
       "contact-support/models": [
         "libs/contact-support/models/src/index.ts"
       ],
+      "contact-support/ui": [
+        "libs/contact-support/ui/src/index.ts"
+      ],
       "devices/api-device/adapters": [
         "libs/devices/api-device/adapters/src/index.ts"
       ],

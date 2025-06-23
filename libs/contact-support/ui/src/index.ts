@@ -3,6 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/contact-support-reducer"
-export * from "./lib/contact-support.types"
-export * from "./lib/contact-support-testids"
+export * from "./lib/contact-support-flow/contact-support-flow.component"
