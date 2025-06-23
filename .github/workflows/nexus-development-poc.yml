@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [ macOS-poc ]
+        runner_label: [ macOS-intel ]
     environment: development
     timeout-minutes: 40
     steps:
