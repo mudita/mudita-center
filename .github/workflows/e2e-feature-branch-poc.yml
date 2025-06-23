@@ -23,7 +23,7 @@ jobs:
         if: matrix.runner_label == 'linux-e2e'
         env:
           E2ECI: "true"
-          TESTE: "true"
+          TESTE: "false"
           TEST_BINARY_PATH: "../mudita-center/release/linux-unpacked/Mudita Center"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
