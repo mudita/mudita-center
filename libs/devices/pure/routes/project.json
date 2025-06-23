@@ -1,0 +1,9 @@
+{
+  "name": "devices/pure/routes",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/devices/pure/routes/src",
+  "projectType": "library",
+  "tags": ["process:renderer"],
+  "// targets": "to see all targets run: nx show project devices/pure/routes --web",
+  "targets": {}
+}

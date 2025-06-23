@@ -15,6 +15,12 @@ const messages = defineMessages({
   harmony: {
     id: "general.devices.harmony.name",
   },
+  overview: {
+    id: "harmony.menu.overview",
+  },
+  files: {
+    id: "harmony.menu.files",
+  },
 })
 
 export const getHarmonyMenu = (): MenuGroup => {
@@ -25,12 +31,12 @@ export const getHarmonyMenu = (): MenuGroup => {
     }),
     items: [
       {
-        title: "Overview",
+        title: formatMessage(messages.overview),
         path: HarmonyPaths.Overview,
         icon: IconType.Overview,
       },
       {
-        title: "Manage sounds",
+        title: formatMessage(messages.files),
         path: HarmonyPaths.Sounds,
         icon: IconType.FileManager,
       },

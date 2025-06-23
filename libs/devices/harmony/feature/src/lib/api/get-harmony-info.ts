@@ -9,14 +9,14 @@ import {
   HarmonyInfoResponse,
   HarmonyMethodNamed,
 } from "devices/harmony/models"
-import { HarmonySerialPort, Response } from "devices/harmony/adapters"
+import { HarmonySerialPort, OKResponse } from "devices/harmony/adapters"
 
 export const getHarmonyInfo = async (device: Harmony) => {
   const response = await HarmonySerialPort.request(device, {
     endpoint: HarmonyEndpointNamed.DeviceInfo,
     method: HarmonyMethodNamed.Get,
     options: {
-      timeout: 2000,
+      timeout: 5000,
     },
     body: undefined,
   })
@@ -27,7 +27,7 @@ export const getHarmonyInfo = async (device: Harmony) => {
   }
 }
 
-export type GetHarmonyInfoResponse = Response<
+export type GetHarmonyInfoOkResponse = OKResponse<
   HarmonyEndpointNamed.DeviceInfo,
   HarmonyMethodNamed.Get
 >

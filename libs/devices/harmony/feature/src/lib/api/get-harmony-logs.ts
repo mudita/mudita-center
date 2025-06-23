@@ -16,7 +16,7 @@ export const getHarmonyLogs = async (device: Harmony) => {
     endpoint: HarmonyEndpointNamed.DeviceInfo,
     method: HarmonyMethodNamed.Get,
     options: {
-      timeout: 2000,
+      timeout: 5000,
     },
     body: {
       fileList: 0,

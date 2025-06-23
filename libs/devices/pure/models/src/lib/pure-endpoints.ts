@@ -3,8 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceInfoValidator } from "./endpoints/device-info/device-info"
+import {
+  PureInfoRequestValidator,
+  PureInfoResponseValidator,
+} from "./endpoints/device-info"
 import { z } from "zod"
+import {
+  PureLockStatusRequestValidator,
+  PureLockStatusResponseValidator,
+} from "./endpoints/lock-status"
 
 export enum PureEndpointNamed {
   Invalid = 0,
@@ -38,10 +45,16 @@ type EndpointsDefinition = Record<
 >
 
 export const PureEndpoints = {
+  [PureEndpointNamed.Security]: {
+    [PureMethodNamed.Get]: {
+      request: PureLockStatusRequestValidator,
+      response: PureLockStatusResponseValidator,
+    },
+  },
   [PureEndpointNamed.DeviceInfo]: {
     [PureMethodNamed.Get]: {
-      request: z.undefined().optional(),
-      response: DeviceInfoValidator,
+      request: PureInfoRequestValidator,
+      response: PureInfoResponseValidator,
     },
   },
 } satisfies EndpointsDefinition

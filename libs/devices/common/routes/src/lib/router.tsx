@@ -30,10 +30,13 @@ import { NewsPaths } from "news/models"
 import { useAppNavigate } from "app-routing/utils"
 import { useHarmonyRouter } from "devices/harmony/routes"
 import { DevicesSelectingPage } from "./devices-selecting-page"
+import { usePureRouter } from "devices/pure/routes"
+import { useQueryClient } from "@tanstack/react-query"
 
 const DEFAULT_UX_DELAY = 500
 
 export const useDevicesInitRouter = () => {
+  const queryClient = useQueryClient()
   const dispatch = useDispatch()
   const navigate = useAppNavigate()
   const { pathname } = useLocation()
@@ -48,6 +51,7 @@ export const useDevicesInitRouter = () => {
 
   const apiDeviceRouter = useApiDeviceRouter(activeDevice || undefined)
   const harmonyRouter = useHarmonyRouter(activeDevice || undefined)
+  const pureRouter = usePureRouter(activeDevice || undefined)
 
   const onWrapperClose = () => {
     if (devices.length > 1) {
@@ -64,6 +68,15 @@ export const useDevicesInitRouter = () => {
     navigate({ pathname: DevicesPaths.Troubleshooting })
   }
 
+  const onTryAgain = () => {
+    if (!activeDevice) {
+      return
+    }
+    void queryClient.invalidateQueries({
+      queryKey: ["devices", activeDevice?.path],
+    })
+  }
+
   const delayForBetterUX = useCallback(
     (ms = DEFAULT_UX_DELAY) =>
       new Promise((resolve) => setTimeout(resolve, ms)),
@@ -76,6 +89,17 @@ export const useDevicesInitRouter = () => {
     }
 
     void (async () => {
+      if (
+        [
+          DevicesPaths.Connecting,
+          DevicesPaths.Current,
+          DevicesPaths.Troubleshooting,
+        ].includes(pathname as DevicesPaths) &&
+        devices.length === 0
+      ) {
+        navigate({ pathname: DevicesPaths.Welcome })
+        return
+      }
       if (pathname === DevicesPaths.Welcome && devices.length > 1) {
         await delayForBetterUX()
         navigate({ pathname: DevicesPaths.Selecting })
@@ -105,7 +129,8 @@ export const useDevicesInitRouter = () => {
       if (
         pathname !== DevicesPaths.Current &&
         (activeDeviceStatus === DeviceStatus.Initialized ||
-          activeDeviceStatus === DeviceStatus.Locked)
+          activeDeviceStatus === DeviceStatus.Locked ||
+          activeDeviceStatus === DeviceStatus.Issue)
       ) {
         await delayForBetterUX()
         navigate({ pathname: DevicesPaths.Current })
@@ -162,15 +187,17 @@ export const useDevicesInitRouter = () => {
         />
         <Route
           path={DevicesPaths.Troubleshooting}
-          element={<DeviceTroubleshooting />}
+          element={<DeviceTroubleshooting onTryAgain={onTryAgain} />}
         />
         <Route path={DevicesPaths.Current}>
           {apiDeviceRouter?.initialization}
           {harmonyRouter?.initialization}
+          {pureRouter?.initialization}
         </Route>
       </Route>
       {apiDeviceRouter?.dashboard}
       {harmonyRouter?.dashboard}
+      {pureRouter?.dashboard}
     </>
   )
 }
