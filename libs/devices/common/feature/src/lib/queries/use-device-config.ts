@@ -54,6 +54,12 @@ const queryFn = async <D extends Device>(device?: D) => {
     if (config.ok && lockStatus.ok) {
       return config.body
     }
+    const lockReason = (lockStatus.body as { reason: string })?.reason
+    if (lockReason === "2") {
+      throw PureErrorType.EulaNotAccepted
+    } else if (lockReason === "3") {
+      throw PureErrorType.BatteryFlat
+    }
     throw lockStatus.status || config.status
   }
   return null
