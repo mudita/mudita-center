@@ -3,11 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import { AnalyticsEvent } from "app-utils/models"
+import {
+  AnalyticsEvent,
+  AppHttpRequestConfig,
+  AppHttpResponse,
+} from "app-utils/models"
 import { AppSettings } from "app-settings/renderer"
 import { analyticsConfig } from "./analytics-config"
 import { AnalyticsCacheService } from "./analytics-cache.service"
+import { AppHttp } from "../app-http"
 
 const analyticsCacheService = new AnalyticsCacheService()
 
@@ -26,9 +30,11 @@ const defaultMetadata: Partial<AnalyticsEvent> = {
 }
 
 const trackRequest = async (
-  params: AxiosRequestConfig["params"]
-): Promise<AxiosResponse> => {
-  return axios.post(analyticsConfig.apiUrl, undefined, {
+  params: AppHttpRequestConfig["params"]
+): Promise<AppHttpResponse | Error> => {
+  return AppHttp.request({
+    method: "post",
+    url: analyticsConfig.apiUrl,
     params,
     timeout: 3000,
   })
@@ -91,38 +97,39 @@ const mergeDefaultMetadataWithEvent = async (
 }
 
 export const track = async (event: AnalyticsEvent): Promise<void> => {
-  try {
-    const valid = await validate()
-    if (!valid) {
-      return
-    }
+  const valid = await validate()
+  if (!valid) {
+    return
+  }
 
-    const eventWithMetadata = await mergeDefaultMetadataWithEvent(event)
-    await trackRequest(eventWithMetadata)
-  } catch (error) {
-    console.warn("Error tracking event:", error)
+  const eventWithMetadata = await mergeDefaultMetadataWithEvent(event)
+  const response = await trackRequest(eventWithMetadata)
+
+  if (response instanceof Error) {
+    console.warn("Error tracking event:", response)
+  } else {
+    await analyticsCacheService.saveEvent(event)
   }
 }
 
 export const uniqueTrack = async (event: AnalyticsEvent): Promise<void> => {
-  try {
-    const valid = await validate()
-    if (!valid) {
-      return
-    }
+  const valid = await validate()
+  if (!valid) {
+    return
+  }
 
-    const isUnique = await analyticsCacheService.isEventUnique(event)
+  const isUnique = await analyticsCacheService.isEventUnique(event)
 
-    if (!isUnique) {
-      return
-    }
+  if (!isUnique) {
+    return
+  }
 
-    const eventWithMetadata = await mergeDefaultMetadataWithEvent(event)
-    const response = await trackRequest(eventWithMetadata)
-    if (response.status === 200) {
-      await analyticsCacheService.saveEvent(event)
-    }
-  } catch (error) {
-    console.warn("Error tracking unique event:", error)
+  const eventWithMetadata = await mergeDefaultMetadataWithEvent(event)
+  const response = await trackRequest(eventWithMetadata)
+
+  if (response instanceof Error) {
+    console.warn("Error tracking unique event:", response)
+  } else {
+    await analyticsCacheService.saveEvent(event)
   }
 }
