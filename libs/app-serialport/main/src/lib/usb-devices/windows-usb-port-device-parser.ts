@@ -31,7 +31,8 @@ export class WindowsUSBPortDeviceParser {
 
   private static async getBaseDevicesInfo(): Promise<BaseDeviceInfo[]> {
     const stdout = await execPromise(
-      `powershell -Command "Get-CimInstance Win32_PnPEntity | Where-Object { $_.DeviceID -like 'USB*' } | Select-Object Name, DeviceID, Manufacturer, Description, Service"`
+      "Get-CimInstance Win32_PnPEntity | Where-Object { $_.DeviceID -like 'USB*' } | Select-Object Name, DeviceID, Manufacturer, Description, Service",
+      "powershell.exe"
     )
     if (!stdout) {
       return []

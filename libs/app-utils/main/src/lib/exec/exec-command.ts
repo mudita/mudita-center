@@ -5,9 +5,12 @@
 
 import { exec } from "child_process"
 
-export const execPromise = (command: string): Promise<string | void> => {
+export const execPromise = (
+  command: string,
+  shell?: "powershell.exe"
+): Promise<string | void> => {
   return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
+    exec(command, { shell }, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error: ${error.message}`)
         reject(error)
