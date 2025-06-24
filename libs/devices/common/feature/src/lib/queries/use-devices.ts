@@ -12,7 +12,7 @@ import { Device } from "devices/common/models"
 const queryFn = async () => {
   const devices = await AppSerialPort.getCurrentDevices()
 
-  return uniqBy(
+  const list = uniqBy(
     devices.map(({ path, deviceType, serialNumber }) => ({
       path,
       deviceType,
@@ -20,6 +20,10 @@ const queryFn = async () => {
     })),
     "path"
   ) as Device[]
+
+  return list.reverse().sort((a, b) => {
+    return a.deviceType === "ApiDevice" && b.deviceType !== "ApiDevice" ? -1 : 1
+  })
 }
 
 export const useDevices = () => {
