@@ -3,9 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SerialPort, SerialPortOpenOptions } from "serialport"
+import { SerialPortMock, SerialPortOpenOptions } from "serialport"
 import { AutoDetectTypes } from "@serialport/bindings-cpp"
-import { Transform } from "stream"
 import {
   SerialPortDeviceType,
   SerialPortErrorType,
@@ -27,38 +26,28 @@ type BaseSerialPortDeviceOptions = SerialPortOpenOptions<AutoDetectTypes> & {
   queueConcurrency?: number
 }
 
-export type SerialPortDeviceOptions = Omit<
-  BaseSerialPortDeviceOptions,
-  "baudRate"
-> & {
-  baudRate?: number
-}
-
-export class SerialPortDevice extends SerialPort {
+export class SerialPortDeviceMock extends SerialPortMock {
   #responseEmitter = new EventEmitter()
   #queue: PQueue
   static readonly deviceType: SerialPortDeviceType
   static readonly matchingVendorIds: string[] = []
   static readonly matchingProductIds: string[] = []
-  static readonly nonSerialPortDevice: boolean = false
+  static readonly nonSerialPortDevice = true
   readonly requestIdKey: string = "id"
 
-  constructor(
-    {
-      queueInterval = DEFAULT_QUEUE_INTERVAL,
-      queueConcurrency = DEFAULT_QUEUE_CONCURRENCY,
-      ...options
-    }: BaseSerialPortDeviceOptions,
-    parser?: Transform
-  ) {
+  constructor({
+    queueInterval = DEFAULT_QUEUE_INTERVAL,
+    queueConcurrency = DEFAULT_QUEUE_CONCURRENCY,
+    ...options
+  }: BaseSerialPortDeviceOptions) {
+    SerialPortMock.binding.createPort(options.path)
     super({ ...options, autoOpen: true })
+
     this.#queue = new PQueue({
       concurrency: queueConcurrency,
       interval: queueInterval,
     })
-    if (parser) {
-      super.pipe(parser).on("data", (data) => this.parseResponse(data))
-    }
+    super.on("data", (data) => this.parseResponse(data))
   }
 
   private parseResponse(buffer: Buffer) {
@@ -96,26 +85,6 @@ export class SerialPortDevice extends SerialPort {
 
       this.#responseEmitter.once(`response-${id}`, listener)
     })
-  }
-
-  write(data: unknown) {
-    try {
-      const parsedData = this.parseRequest(data)
-      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
-        console.log(
-          styleText(["bold", "bgCyan"], "SerialPort write"),
-          styleText(["bgCyan"], this.path),
-          styleText(["cyan"], `${parsedData}`)
-        )
-      }
-      return super.write(parsedData)
-    } catch {
-      throw SerialPortErrorType.InvalidRequest
-    }
-  }
-
-  parseRequest(data: unknown) {
-    return data
   }
 
   private createRequest({ options, ...data }: SerialPortRequest) {
@@ -162,5 +131,9 @@ export class SerialPortDevice extends SerialPort {
 
   destroy(error?: Error): this {
     return super.destroy(error)
+  }
+
+  emitData(id: number, data: unknown) {
+    super.emit("data", JSON.stringify({ id, data }))
   }
 }

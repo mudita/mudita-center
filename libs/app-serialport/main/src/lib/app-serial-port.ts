@@ -13,6 +13,7 @@ import {
   SerialPortRequest,
 } from "app-serialport/models"
 import { devices, SerialPortDevice } from "app-serialport/devices"
+import { getUsbDevices } from "./usb-devices/get-usb-devices"
 
 type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
 enum SerialPortEvents {
@@ -49,19 +50,34 @@ export class AppSerialPort {
     })
   }
 
-  private isSupportedDevice({ vendorId, productId }: PortInfo) {
+  private isSupportedDevice(
+    { vendorId, productId }: PortInfo,
+    { nonSerialPortDevice }: { nonSerialPortDevice?: boolean } = {}
+  ) {
     if (!vendorId || !productId) {
       return false
     }
-    return (
-      this.getDeviceSerialPortInstance({ vendorId, productId }) !== undefined
-    )
+    const instance = this.getDeviceSerialPortInstance({ vendorId, productId })
+    if (!instance) {
+      return false
+    }
+    return nonSerialPortDevice ? instance.nonSerialPortDevice : true
   }
 
   private async listDevices() {
-    const devices = await SerialPort.list()
+    const serialportDevices = await SerialPort.list()
+    const usbDevices = await getUsbDevices()
+
+    const devices = [
+      ...serialportDevices.filter((portInfo) =>
+        this.isSupportedDevice(portInfo)
+      ),
+      ...usbDevices.filter((portInfo) =>
+        this.isSupportedDevice(portInfo, { nonSerialPortDevice: true })
+      ),
+    ]
+
     return devices
-      .filter((portInfo) => this.isSupportedDevice(portInfo))
       .map((portInfo) => {
         const serialPortDevice = this.getDeviceSerialPortInstance(portInfo)
         if (!serialPortDevice) {
@@ -135,7 +151,7 @@ export class AppSerialPort {
     const SerialPortInstance = this.getDeviceSerialPortInstance(deviceInfo)
     if (SerialPortInstance) {
       const serialPort = new SerialPortInstance({ path })
-      this.instances.set(path, serialPort)
+      this.instances.set(path, serialPort as SerialPortDevice)
     }
   }
 
