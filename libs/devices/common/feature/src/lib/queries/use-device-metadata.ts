@@ -16,6 +16,7 @@ import { useDeviceConfig } from "./use-device-config"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { PureSerialPort } from "devices/pure/adapters"
+import { HarmonyMscSerialPort } from "devices/harmony-msc/adapters"
 
 const messages = defineMessages({
   harmony1: {
@@ -95,18 +96,17 @@ const queryFn = (
       recoveryMode: config.recoveryMode,
     }
   }
-  // TODO: Add support for Harmony in MSC mode
-  // if (device.deviceType === SerialPortDeviceType.HarmonyMsc) {
-  //   return {
-  //     id: device.path,
-  //     name: formatMessage(messages.harmony1),
-  //     image: {
-  //       type: DeviceImageType.HarmonyMsc,
-  //     },
-  //     serialNumber: undefined,
-  //     recoveryMode: true,
-  //   }
-  // }
+  if (HarmonyMscSerialPort.isCompatible(device)) {
+    return {
+      id: device.path,
+      name: formatMessage(messages.harmony1),
+      image: {
+        type: DeviceImageType.HarmonyMsc,
+      },
+      serialNumber: undefined,
+      recoveryMode: true,
+    }
+  }
   return null
 }
 
@@ -145,6 +145,17 @@ const placeholderData = (device?: Device): DeviceMetadata | null => {
         color: DeviceImageColor.Gray,
       },
       serialNumber: device.serialNumber || "",
+    }
+  }
+  if (HarmonyMscSerialPort.isCompatible(device)) {
+    return {
+      id: device?.path || "",
+      name: formatMessage(messages.harmony1),
+      image: {
+        type: DeviceImageType.HarmonyMsc,
+      },
+      serialNumber: undefined,
+      recoveryMode: true,
     }
   }
   return null

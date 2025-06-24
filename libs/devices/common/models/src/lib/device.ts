@@ -6,9 +6,9 @@
 import { ApiDevice } from "devices/api-device/models"
 import { Harmony } from "devices/harmony/models"
 import { Pure } from "devices/pure/models"
+import { HarmonyMsc } from "devices/harmony-msc/models"
 
-// TODO: Extend this type by other device types
 export type Device = Pick<
-  ApiDevice | Harmony | Pure,
+  ApiDevice | Harmony | HarmonyMsc | Pure,
   "path" | "deviceType" | "serialNumber"
 >

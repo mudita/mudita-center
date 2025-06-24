@@ -70,7 +70,7 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
       </Info>
       {recoveryMode && (
         <RecoveryLabel>
-          <Icon type={IconType.RecoveryMode} size={IconSize.AutoMax} />
+          <Icon type={IconType.RecoveryModeFilled} size={IconSize.AutoMax} />
           <Typography.P5 color={"white"}>
             <strong>{formatMessage(messages.recoveryModeLabel)}</strong>
           </Typography.P5>
