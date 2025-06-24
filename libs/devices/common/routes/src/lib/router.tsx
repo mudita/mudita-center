@@ -107,7 +107,8 @@ export const useDevicesInitRouter = () => {
         navigate({ pathname: DevicesPaths.Selecting })
         return
       }
-      if (pathname === DevicesPaths.Selecting) {
+      if (pathname === DevicesPaths.Selecting && devices.length === 0) {
+        navigate({ pathname: DevicesPaths.Welcome })
         return
       }
       if (
