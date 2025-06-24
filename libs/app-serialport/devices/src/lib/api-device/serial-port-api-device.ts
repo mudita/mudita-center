@@ -15,6 +15,7 @@ export class SerialPortApiDevice extends SerialPortDevice {
   static readonly matchingVendorIds = ["3310", "13072"]
   static readonly matchingProductIds = [
     "200a",
+    "200A",
     "2006",
     "2012",
     "8198",
