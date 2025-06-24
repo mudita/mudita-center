@@ -7,6 +7,7 @@ import { SerialPort, SerialPortOpenOptions } from "serialport"
 import { AutoDetectTypes } from "@serialport/bindings-cpp"
 import { Transform } from "stream"
 import {
+  SerialPortDeviceSubtype,
   SerialPortDeviceType,
   SerialPortErrorType,
   SerialPortRequest,
@@ -162,5 +163,12 @@ export class SerialPortDevice extends SerialPort {
 
   destroy(error?: Error): this {
     return super.destroy(error)
+  }
+
+  public static getSubtype(
+    _vendorId?: string,
+    _productId?: string
+  ): SerialPortDeviceSubtype | undefined {
+    return undefined
   }
 }

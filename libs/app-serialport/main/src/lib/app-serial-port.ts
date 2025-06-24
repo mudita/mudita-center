@@ -104,6 +104,9 @@ export class AppSerialPort {
         return {
           ...portInfo,
           deviceType: serialPortDevice.deviceType,
+          deviceSubtype: (
+            serialPortDevice as typeof SerialPortDevice
+          ).getSubtype(portInfo.vendorId, portInfo.productId),
         }
       })
       .filter(Boolean) as SerialPortDeviceInfo[]
