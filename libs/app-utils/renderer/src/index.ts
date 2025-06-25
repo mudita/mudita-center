@@ -6,4 +6,5 @@
 export * from "./lib/analytics/use-analytics"
 export * from "./lib/app-actions"
 export * from "./lib/app-help"
+export * from "./lib/app-http"
 export * from "./lib/app-updater"
