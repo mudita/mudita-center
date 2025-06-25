@@ -259,7 +259,7 @@ const generateFileList: ComponentGenerator<
     [`${key}${id}deleteButton`]: {
       component: "button-text",
       config: {
-        text: "Delete",
+        text: entityType === "applicationFiles" ? "Delete APK" : "Delete",
         icon: IconType.Delete,
         actions: [
           {
