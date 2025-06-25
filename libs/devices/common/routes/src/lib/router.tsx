@@ -32,6 +32,7 @@ import { useHarmonyRouter } from "devices/harmony/routes"
 import { DevicesSelectingPage } from "./devices-selecting-page"
 import { usePureRouter } from "devices/pure/routes"
 import { useQueryClient } from "@tanstack/react-query"
+import { useHarmonyMscRouter } from "devices/harmony-msc/routes"
 
 const DEFAULT_UX_DELAY = 500
 
@@ -52,6 +53,7 @@ export const useDevicesInitRouter = () => {
   const apiDeviceRouter = useApiDeviceRouter(activeDevice || undefined)
   const harmonyRouter = useHarmonyRouter(activeDevice || undefined)
   const pureRouter = usePureRouter(activeDevice || undefined)
+  const harmonyMscRouter = useHarmonyMscRouter(activeDevice || undefined)
 
   const onWrapperClose = () => {
     if (devices.length > 1) {
@@ -84,6 +86,19 @@ export const useDevicesInitRouter = () => {
   )
 
   useEffect(() => {
+    if (!pathname.startsWith("/device/")) {
+      return
+    }
+    if (
+      activeDeviceStatus !== DeviceStatus.Initialized &&
+      activeDeviceStatus !== DeviceStatus.Initializing
+    ) {
+      navigate({ pathname: DevicesPaths.Connecting })
+      return
+    }
+  }, [activeDeviceStatus, navigate, pathname])
+
+  useEffect(() => {
     if (!pathname.startsWith(DevicesPaths.Index)) {
       return
     }
@@ -105,7 +120,8 @@ export const useDevicesInitRouter = () => {
         navigate({ pathname: DevicesPaths.Selecting })
         return
       }
-      if (pathname === DevicesPaths.Selecting) {
+      if (pathname === DevicesPaths.Selecting && devices.length === 0) {
+        navigate({ pathname: DevicesPaths.Welcome })
         return
       }
       if (
@@ -193,11 +209,13 @@ export const useDevicesInitRouter = () => {
           {apiDeviceRouter?.initialization}
           {harmonyRouter?.initialization}
           {pureRouter?.initialization}
+          {harmonyMscRouter?.initialization}
         </Route>
       </Route>
       {apiDeviceRouter?.dashboard}
       {harmonyRouter?.dashboard}
       {pureRouter?.dashboard}
+      {harmonyMscRouter?.dashboard}
     </>
   )
 }

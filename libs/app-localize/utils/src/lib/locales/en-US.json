@@ -3,6 +3,7 @@
   "apiDevice.passcodeModal.description": "Enter your passcode or scan your fingerprint",
   "harmony.menu.overview": "Overview",
   "harmony.menu.files": "Manage Files",
+  "harmonyMsc.menu.recoveryMode": "Recovery Mode",
   "pure.menu.overview": "Overview",
   "pure.menu.files": "Manage Files",
   "pure.menu.messages": "Messages",

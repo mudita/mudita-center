@@ -32,6 +32,7 @@ import PasswordShow from "./svg/password-show.svg?react"
 import Phone from "./svg/phone.svg?react"
 import Pure from "./svg/pure.svg?react"
 import RecoveryMode from "./svg/recovery-mode.svg?react"
+import RecoveryModeFilled from "./svg/recovery-mode-filled.svg?react"
 import Search from "./svg/search.svg?react"
 import Settings from "./svg/settings.svg?react"
 import Spinner from "./svg/spinner.svg?react"
@@ -64,6 +65,7 @@ export const icons = {
   [IconType.Phone]: Phone,
   [IconType.Pure]: Pure,
   [IconType.RecoveryMode]: RecoveryMode,
+  [IconType.RecoveryModeFilled]: RecoveryModeFilled,
   [IconType.Search]: Search,
   [IconType.Settings]: Settings,
   [IconType.Spinner]: Spinner,

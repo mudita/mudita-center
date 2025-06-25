@@ -7,6 +7,7 @@ import { SerialPort, SerialPortOpenOptions } from "serialport"
 import { AutoDetectTypes } from "@serialport/bindings-cpp"
 import { Transform } from "stream"
 import {
+  SerialPortDeviceSubtype,
   SerialPortDeviceType,
   SerialPortErrorType,
   SerialPortRequest,
@@ -40,6 +41,7 @@ export class SerialPortDevice extends SerialPort {
   static readonly deviceType: SerialPortDeviceType
   static readonly matchingVendorIds: string[] = []
   static readonly matchingProductIds: string[] = []
+  static readonly nonSerialPortDevice: boolean = false
   readonly requestIdKey: string = "id"
 
   constructor(
@@ -161,5 +163,12 @@ export class SerialPortDevice extends SerialPort {
 
   destroy(error?: Error): this {
     return super.destroy(error)
+  }
+
+  public static getSubtype(
+    _vendorId?: string,
+    _productId?: string
+  ): SerialPortDeviceSubtype | undefined {
+    return undefined
   }
 }
