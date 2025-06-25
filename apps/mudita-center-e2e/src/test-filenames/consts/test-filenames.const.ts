@@ -51,5 +51,6 @@ export enum TestFilesPaths {
   kompaktBackupFailedFullStorage = "src/specs/overview/kompakt-backup-error-storage-full.ts",
   kompaktManageFilesRemoveFiles = "src/specs/overview/kompakt-manage-files-remove-files.ts",
   kompaktManageFilesDeleteApkText = "src/specs/overview/kompakt-manage-files-delete-apk-text.ts",
+  kompaktManageFilesInstallApkModalUpdate = "src/specs/overview/kompakt-manage-files-install-apk-modal-update.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`
