@@ -36,8 +36,10 @@ export const DeviceLockedPage: FunctionComponent = () => {
     })
     if (devices.length > 1) {
       queryClient.removeQueries({ queryKey: useActiveDevice.queryKey })
+      navigate({ pathname: DevicesPaths.Selecting })
+    } else {
+      navigate({ pathname: previousPath })
     }
-    navigate({ pathname: previousPath })
   }, [devices.length, getPreviousPath, navigate, queryClient])
 
   return (

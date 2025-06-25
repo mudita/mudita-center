@@ -76,23 +76,19 @@ export class WindowsUSBPortDeviceParser {
   private static async getDetails({
     deviceId,
   }: BaseDeviceInfo): Promise<PortInfo | undefined> {
-    try {
-      const vendorId = /VID_(\w+)/.exec(deviceId)?.[1]
-      const productId = /PID_(\w+)/.exec(deviceId)?.[1]
-      const serialNumber = deviceId.split("\\").pop()
+    const vendorId = /VID_(\w+)/.exec(deviceId)?.[1]
+    const productId = /PID_(\w+)/.exec(deviceId)?.[1]
+    const serialNumber = deviceId.split("\\").pop()
 
-      if (!vendorId || !productId || !serialNumber) {
-        return undefined
-      }
-
-      return {
-        vendorId,
-        productId,
-        serialNumber,
-        path: `${vendorId}/${productId}/${serialNumber}`,
-      } as PortInfo
-    } catch {
+    if (!vendorId || !productId || !serialNumber) {
       return undefined
     }
+
+    return {
+      vendorId,
+      productId,
+      serialNumber,
+      path: `${vendorId}/${productId}/${serialNumber}`,
+    } as PortInfo
   }
 }

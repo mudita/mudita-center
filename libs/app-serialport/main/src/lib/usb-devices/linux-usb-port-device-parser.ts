@@ -48,34 +48,30 @@ export class LinuxUSBPortDeviceParser {
     busID,
     deviceId,
   }: LSUSBDeviceBasic): Promise<PortInfo | undefined> {
-    try {
-      const portInfo: Partial<PortInfo> = {}
+    const portInfo: Partial<PortInfo> = {}
 
-      const output = await execPromise(`lsusb -v -s ${busID}:${deviceId}`)
-      if (!output) {
-        return undefined
-      }
-      output
-        .split("\n")
-        .map((line) => line.trim())
-        .forEach((line) => {
-          if (line.startsWith("idVendor")) {
-            portInfo.vendorId = line.split(/\W+/)[1].replace("0x", "")
-          }
-          if (line.startsWith("idProduct")) {
-            portInfo.productId = line.split(/\W+/)[1].replace("0x", "")
-          }
-          if (line.startsWith("iManufacturer")) {
-            portInfo.manufacturer = line.split(/\W+/).slice(2).join(" ")
-          }
-          if (line.startsWith("iSerial")) {
-            portInfo.serialNumber = line.split(/\W+/)[2]
-          }
-        })
-      portInfo.path = `${portInfo.vendorId}/${portInfo.productId}/${portInfo.serialNumber}`
-      return portInfo as PortInfo
-    } catch {
+    const output = await execPromise(`lsusb -v -s ${busID}:${deviceId}`)
+    if (!output) {
       return undefined
     }
+    output
+      .split("\n")
+      .map((line) => line.trim())
+      .forEach((line) => {
+        if (line.startsWith("idVendor")) {
+          portInfo.vendorId = line.split(/\W+/)[1].replace("0x", "")
+        }
+        if (line.startsWith("idProduct")) {
+          portInfo.productId = line.split(/\W+/)[1].replace("0x", "")
+        }
+        if (line.startsWith("iManufacturer")) {
+          portInfo.manufacturer = line.split(/\W+/).slice(2).join(" ")
+        }
+        if (line.startsWith("iSerial")) {
+          portInfo.serialNumber = line.split(/\W+/)[2]
+        }
+      })
+    portInfo.path = `${portInfo.vendorId}/${portInfo.productId}/${portInfo.serialNumber}`
+    return portInfo as PortInfo
   }
 }
