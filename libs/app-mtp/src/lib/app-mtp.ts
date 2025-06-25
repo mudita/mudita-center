@@ -4,14 +4,14 @@
  */
 
 import {
-  CancelUploadResultData,
-  UploadTransactionData,
-  GetUploadFileProgressResultData,
+  CancelTransferResultData,
+  TransferTransactionData,
+  GetTransferFileProgressResultData,
   MtpDevice,
   MtpInterface,
   MtpStorage,
-  MtpUploadFileData,
-  UploadFileResultData,
+  MtpTransferFileData,
+  TransferFileResultData,
 } from "./app-mtp.interface"
 import { MtpFactory } from "./app-mtp.factory"
 import { ResultObject } from "../../../core/core/builder/result.builder"
@@ -42,8 +42,8 @@ export class AppMtp implements MtpInterface {
   }
 
   async uploadFile(
-    data: MtpUploadFileData
-  ): Promise<ResultObject<UploadFileResultData>> {
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>> {
     console.log(
       `[app-mtp] starting upload file process for data: ${JSON.stringify(data)}`
     )
@@ -54,9 +54,22 @@ export class AppMtp implements MtpInterface {
     return result
   }
 
+  async exportFile(
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>> {
+    console.log(
+      `[app-mtp] starting upload file process for data: ${JSON.stringify(data)}`
+    )
+    const result = await this.mtp.exportFile(data)
+    console.log(
+      `[app-mtp] starting upload file process result: ${JSON.stringify(result)}`
+    )
+    return result
+  }
+
   async getUploadFileProgress(
-    data: UploadTransactionData
-  ): Promise<ResultObject<GetUploadFileProgressResultData>> {
+    data: TransferTransactionData
+  ): Promise<ResultObject<GetTransferFileProgressResultData>> {
     console.log(
       `[app-mtp] getting upload file progress for transaction: ${data.transactionId}`
     )
@@ -70,8 +83,8 @@ export class AppMtp implements MtpInterface {
   }
 
   async cancelUpload(
-    data: UploadTransactionData
-  ): Promise<ResultObject<CancelUploadResultData>> {
+    data: TransferTransactionData
+  ): Promise<ResultObject<CancelTransferResultData>> {
     const result = await this.mtp.cancelUpload(data)
     console.log(`[app-mtp] canceling status: ${JSON.stringify(result)}`)
     return result

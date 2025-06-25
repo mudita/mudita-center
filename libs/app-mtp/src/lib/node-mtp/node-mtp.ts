@@ -7,16 +7,16 @@ import path from "node:path"
 import fs from "node:fs"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
-  CancelUploadResultData,
-  GetUploadFileProgressResultData,
+  CancelTransferResultData,
+  GetTransferFileProgressResultData,
   MtpDevice,
   MTPError,
   MtpInterface,
   MtpStorage,
-  MtpUploadFileData,
+  MtpTransferFileData,
   TransactionStatus,
-  UploadFileResultData,
-  UploadTransactionData,
+  TransferFileResultData,
+  TransferTransactionData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
 import {
@@ -77,8 +77,8 @@ export class NodeMtp implements MtpInterface {
   }
 
   async uploadFile(
-    data: MtpUploadFileData
-  ): Promise<ResultObject<UploadFileResultData>> {
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>> {
     const result = await this.processUploadFileInfo(data)
 
     if (!result.ok) {
@@ -90,10 +90,18 @@ export class NodeMtp implements MtpInterface {
     return Result.success({ transactionId })
   }
 
+  async exportFile(
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>> {
+    return Result.failed(
+      new AppError(MTPError.MTP_GENERAL_ERROR, "Not implemented yet!")
+    )
+  }
+
   async getUploadFileProgress({
     transactionId,
-  }: UploadTransactionData): Promise<
-    ResultObject<GetUploadFileProgressResultData>
+  }: TransferTransactionData): Promise<
+    ResultObject<GetTransferFileProgressResultData>
   > {
     if (this.uploadFileTransactionStatus[transactionId] === undefined) {
       return Result.failed(new AppError(MTPError.MTP_TRANSACTION_NOT_FOUND))
@@ -111,8 +119,8 @@ export class NodeMtp implements MtpInterface {
   }
 
   async cancelUpload(
-    data: UploadTransactionData
-  ): Promise<ResultObject<CancelUploadResultData>> {
+    data: TransferTransactionData
+  ): Promise<ResultObject<CancelTransferResultData>> {
     const transactionStatus =
       this.uploadFileTransactionStatus[data.transactionId]
 
@@ -183,7 +191,7 @@ export class NodeMtp implements MtpInterface {
     destinationPath,
     deviceId,
     storageId,
-  }: MtpUploadFileData): Promise<ResultObject<number>> {
+  }: MtpTransferFileData): Promise<ResultObject<number>> {
     try {
       if (!fs.existsSync(sourcePath)) {
         return Result.failed(
@@ -222,7 +230,7 @@ export class NodeMtp implements MtpInterface {
   }
 
   private async processUploadFile(
-    { sourcePath, deviceId }: MtpUploadFileData,
+    { sourcePath, deviceId }: MtpTransferFileData,
     transactionId: string
   ): Promise<void> {
     try {
@@ -379,7 +387,7 @@ export class NodeMtp implements MtpInterface {
     } catch (error) {
       const mtpError = mapToMtpError(error)
 
-      if(mtpError.type !== MTPError.MTP_GENERAL_ERROR) {
+      if (mtpError.type !== MTPError.MTP_GENERAL_ERROR) {
         return Result.failed(mtpError)
       }
 

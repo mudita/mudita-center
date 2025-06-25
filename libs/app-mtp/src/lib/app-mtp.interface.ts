@@ -38,28 +38,28 @@ export enum MTPError {
   MTP_CANCEL_FAILED_ALREADY_TRANSFERRED = "MTP_CANCEL_FAILED_ALREADY_TRANSFERRED",
 }
 
-export interface MtpUploadFileData {
+export interface MtpTransferFileData {
   deviceId: string // on Mac and Linux: Kompakt serial number; on Windows: PID
   storageId: string
   destinationPath: string
   sourcePath: string
 }
 
-export interface UploadFileResultData {
+export interface TransferFileResultData {
   transactionId: string
 }
 
-export interface UploadTransactionData {
+export interface TransferTransactionData {
   transactionId: string
 }
 
-export interface GetUploadFileProgressResultData {
+export interface GetTransferFileProgressResultData {
   progress: number
 }
 
-export interface CancelUploadFileResultData {}
+export interface TransferUploadFileResultData {}
 
-export interface CancelUploadResultData {}
+export interface CancelTransferResultData {}
 
 export interface MtpInterface {
   getDevices(): Promise<MtpDevice[]>
@@ -67,14 +67,18 @@ export interface MtpInterface {
   getDeviceStorages(deviceId: string): Promise<ResultObject<MtpStorage[]>>
 
   uploadFile(
-    data: MtpUploadFileData
-  ): Promise<ResultObject<UploadFileResultData>>
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>>
+
+  exportFile(
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>>
 
   getUploadFileProgress(
-    data: UploadTransactionData
-  ): Promise<ResultObject<GetUploadFileProgressResultData>>
+    data: TransferTransactionData
+  ): Promise<ResultObject<GetTransferFileProgressResultData>>
 
   cancelUpload(
-    data: UploadTransactionData
-  ): Promise<ResultObject<CancelUploadResultData>>
+    data: TransferTransactionData
+  ): Promise<ResultObject<CancelTransferResultData>>
 }

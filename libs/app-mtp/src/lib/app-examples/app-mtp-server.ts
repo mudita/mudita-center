@@ -36,6 +36,12 @@ router.post("/upload-file", (req: Request, res: Response) => {
   })
 })
 
+router.post("/export-file", (req: Request, res: Response) => {
+  appMtp.exportFile(req.body).then((result) => {
+    res.json(result)
+  })
+})
+
 router.get("/upload-file-progress", (req: Request, res: Response) => {
   appMtp.getUploadFileProgress(req.body).then((result) => {
     res.json(result)

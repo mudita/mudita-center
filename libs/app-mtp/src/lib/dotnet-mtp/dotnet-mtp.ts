@@ -4,16 +4,16 @@
  */
 
 import {
-  CancelUploadResultData,
-  UploadTransactionData,
-  GetUploadFileProgressResultData,
+  CancelTransferResultData,
+  TransferTransactionData,
+  GetTransferFileProgressResultData,
   MtpDevice,
   MTPError,
   MtpInterface,
   MtpStorage,
-  MtpUploadFileData,
+  MtpTransferFileData,
   TransactionStatus,
-  UploadFileResultData,
+  TransferFileResultData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
 import {
@@ -102,17 +102,33 @@ export class DotnetMtp implements MtpInterface {
   }
 
   async uploadFile(
-    data: MtpUploadFileData
-  ): Promise<ResultObject<UploadFileResultData>> {
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>> {
     const transactionId = generateId()
-    void this.processFileUpload(data, transactionId)
+    void this.processFileTransfer(
+      data,
+      transactionId,
+      DotnetCliCommandAction.UPLOAD_FILE
+    )
+    return Result.success({ transactionId })
+  }
+
+  async exportFile(
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>> {
+    const transactionId = generateId()
+    void this.processFileTransfer(
+      data,
+      transactionId,
+      DotnetCliCommandAction.EXPORT_FILE
+    )
     return Result.success({ transactionId })
   }
 
   async getUploadFileProgress({
     transactionId,
-  }: UploadTransactionData): Promise<
-    ResultObject<GetUploadFileProgressResultData>
+  }: TransferTransactionData): Promise<
+    ResultObject<GetTransferFileProgressResultData>
   > {
     const transactionStatus = this.uploadFileTransactionStatus[transactionId]
 
@@ -127,8 +143,8 @@ export class DotnetMtp implements MtpInterface {
   }
 
   async cancelUpload(
-    data: UploadTransactionData
-  ): Promise<ResultObject<CancelUploadResultData>> {
+    data: TransferTransactionData
+  ): Promise<ResultObject<CancelTransferResultData>> {
     const transactionStatus =
       this.uploadFileTransactionStatus[data.transactionId]
 
@@ -149,13 +165,14 @@ export class DotnetMtp implements MtpInterface {
     }
   }
 
-  private async processFileUpload(
-    data: MtpUploadFileData,
-    transactionId: string
+  private async processFileTransfer(
+    data: MtpTransferFileData,
+    transactionId: string,
+    action: DotnetCliCommandAction
   ): Promise<void> {
     this.abortController = new AbortController()
     this.uploadFileTransactionStatus[transactionId] = { progress: 0 }
-    const request = { action: DotnetCliCommandAction.UPLOAD_FILE, ...data }
+    const request = { action, ...data }
     await runCommand(
       request,
       (line: string) => {
