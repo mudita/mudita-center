@@ -5,9 +5,13 @@
 
 import { z } from "zod"
 import { SerialPortRequest } from "app-serialport/models"
-import { HarmonyMscEndpoint, HarmonyMscEndpoints } from "./harmony-msc-endpoints"
+import {
+  HarmonyMscEndpoint,
+  HarmonyMscEndpoints,
+} from "./harmony-msc-endpoints"
 
-export type HarmonyMscMethod<E extends HarmonyMscEndpoint> = keyof (typeof HarmonyMscEndpoints)[E]
+export type HarmonyMscMethod<E extends HarmonyMscEndpoint> =
+  keyof (typeof HarmonyMscEndpoints)[E]
 
 type RequestBody<
   E extends HarmonyMscEndpoint,

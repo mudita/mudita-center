@@ -5,7 +5,10 @@
 
 import { z } from "zod"
 import { SerialPortResponse } from "app-serialport/models"
-import { HarmonyMscEndpoint, HarmonyMscEndpoints } from "./harmony-msc-endpoints"
+import {
+  HarmonyMscEndpoint,
+  HarmonyMscEndpoints,
+} from "./harmony-msc-endpoints"
 
 export type HarmonyMscResponseBody<
   E extends HarmonyMscEndpoint,
