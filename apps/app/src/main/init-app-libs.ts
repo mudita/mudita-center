@@ -9,8 +9,12 @@ import { initSql } from "app-sql/main"
 import { initNews } from "news/main"
 import { initAppHelp } from "help/main"
 import { initAppSettings } from "app-settings/main"
-import { initAppActions } from "app-utils/main"
-import { initAppUpdater } from "app-utils/main"
+import {
+  initAppActions,
+  initAppHttp,
+  initAppUpdater,
+  initJsonStore,
+} from "app-utils/main"
 
 export const initAppLibs = (webContents: WebContents) => {
   initAppActions(ipcMain)
@@ -20,4 +24,6 @@ export const initAppLibs = (webContents: WebContents) => {
   initSql(ipcMain)
   initNews(ipcMain, webContents)
   initAppHelp(ipcMain)
+  initJsonStore(ipcMain)
+  initAppHttp(ipcMain)
 }

@@ -10,13 +10,16 @@ import {
   selectHelpArticles,
   selectRatedArticles,
 } from "../store/help.selectors"
-import { rateArticle } from "../store/help.actions"
 import { useAppDispatch } from "app-store/utils"
+import { useTrack } from "app-utils/renderer"
+import { setArticleRated } from "../store/help.actions"
+import { AnalyticsEventCategory } from "app-utils/models"
 
 export const ArticlePage: FunctionComponent = () => {
   const articles = useSelector(selectHelpArticles)
   const ratedArticles = useSelector(selectRatedArticles)
   const dispatch = useAppDispatch()
+  const track = useTrack()
 
   const rateCurrentArticle = ({
     articleId,
@@ -25,7 +28,12 @@ export const ArticlePage: FunctionComponent = () => {
     articleId: string
     positive: boolean
   }) => {
-    dispatch(rateArticle({ articleId, positive }))
+    const version = articles[articleId]?.version ?? "unknown"
+    void track({
+      e_c: AnalyticsEventCategory.HelpFeedbackVote,
+      e_a: `${articleId}/${version}/${positive ? "y" : "n"}`,
+    })
+    dispatch(setArticleRated(articleId))
   }
 
   return (

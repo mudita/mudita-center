@@ -37,5 +37,10 @@ export default defineConfig({
       tsconfigPaths({ root: resolve(__dirname, "..", "..") }),
       svgr(),
     ],
+    define: {
+      "import.meta.env.VITE_APP_VERSION": JSON.stringify(
+        process.env.npm_package_version
+      ),
+    },
   },
 })
