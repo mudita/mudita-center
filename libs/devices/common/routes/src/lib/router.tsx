@@ -86,6 +86,19 @@ export const useDevicesInitRouter = () => {
   )
 
   useEffect(() => {
+    if (!pathname.startsWith("/device/")) {
+      return
+    }
+    if (
+      activeDeviceStatus !== DeviceStatus.Initialized &&
+      activeDeviceStatus !== DeviceStatus.Initializing
+    ) {
+      navigate({ pathname: DevicesPaths.Connecting })
+      return
+    }
+  }, [activeDeviceStatus, navigate, pathname])
+
+  useEffect(() => {
     if (!pathname.startsWith(DevicesPaths.Index)) {
       return
     }
