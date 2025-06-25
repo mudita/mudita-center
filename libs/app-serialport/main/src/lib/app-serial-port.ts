@@ -20,19 +20,26 @@ enum SerialPortEvents {
   DevicesChanged = "devicesChanged",
 }
 
+const SERIALPORT_DETECT_INTERVAL = 1000
+const USB_DEVICES_DETECT_INTERVAL = 3000
+
 export class AppSerialPort {
   private readonly instances = new Map<SerialPortDevicePath, SerialPortDevice>()
   private readonly supportedDevices = devices
   private readonly eventEmitter = new EventEmitter()
+
   currentDevices: SerialPortDeviceInfo[] = []
   addedDevices: SerialPortDeviceInfo[] = []
   removedDevices: SerialPortDeviceInfo[] = []
+
+  usbDevicesCache: PortInfo[] = []
+  usbDevicesCacheLastUpdate = 0
 
   constructor() {
     void this.detectChanges()
     setInterval(() => {
       void this.detectChanges()
-    }, 250)
+    }, SERIALPORT_DETECT_INTERVAL)
   }
 
   private getDeviceSerialPortInstance({
@@ -66,7 +73,18 @@ export class AppSerialPort {
 
   private async listDevices() {
     const serialportDevices = await SerialPort.list()
-    const usbDevices = await getUsbDevices()
+    let usbDevices: PortInfo[]
+
+    if (
+      this.usbDevicesCacheLastUpdate === 0 ||
+      this.usbDevicesCacheLastUpdate + USB_DEVICES_DETECT_INTERVAL < Date.now()
+    ) {
+      usbDevices = await getUsbDevices()
+      this.usbDevicesCache = usbDevices
+      this.usbDevicesCacheLastUpdate = Date.now()
+    } else {
+      usbDevices = this.usbDevicesCache
+    }
 
     const devices = [
       ...serialportDevices.filter((portInfo) =>
@@ -86,6 +104,9 @@ export class AppSerialPort {
         return {
           ...portInfo,
           deviceType: serialPortDevice.deviceType,
+          deviceSubtype: (
+            serialPortDevice as typeof SerialPortDevice
+          ).getSubtype(portInfo.vendorId, portInfo.productId),
         }
       })
       .filter(Boolean) as SerialPortDeviceInfo[]

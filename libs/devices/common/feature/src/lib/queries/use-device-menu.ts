@@ -14,6 +14,8 @@ import { HarmonySerialPort } from "devices/harmony/adapters"
 import { getHarmonyMenu } from "devices/harmony/feature"
 import { PureSerialPort } from "devices/pure/adapters"
 import { getPureMenu } from "devices/pure/feature"
+import { HarmonyMscSerialPort } from "devices/harmony-msc/adapters"
+import { getHarmonyMscMenu } from "devices/harmony-msc/feature"
 
 const queryFn = async (device?: Device): Promise<MenuGroup | null> => {
   if (!device) {
@@ -34,6 +36,9 @@ const queryFn = async (device?: Device): Promise<MenuGroup | null> => {
   }
   if (PureSerialPort.isCompatible(device)) {
     return getPureMenu()
+  }
+  if (HarmonyMscSerialPort.isCompatible(device)) {
+    return getHarmonyMscMenu()
   }
   return null
 }

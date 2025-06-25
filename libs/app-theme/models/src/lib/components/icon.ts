@@ -29,6 +29,7 @@ export enum IconType {
   Phone = "phone",
   Pure = "pure",
   RecoveryMode = "recovery-mode",
+  RecoveryModeFilled = "recovery-mode-filled",
   Search = "search",
   Settings = "settings",
   Spinner = "spinner",
