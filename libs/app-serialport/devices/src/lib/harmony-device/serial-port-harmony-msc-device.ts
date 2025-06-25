@@ -3,28 +3,58 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { SerialPortDeviceType } from "app-serialport/models"
+import { SerialPortDeviceOptions } from "../serial-port-device"
+import { SerialPortDeviceMock } from "../serial-port-device-mock"
 import {
-  SerialPortDevice,
-  SerialPortDeviceOptions,
-} from "../serial-port-device"
-import { SerialPortDeviceType, SerialPortRequest } from "app-serialport/models"
-import { CommonDeviceResponseParser } from "../common/common-device-response-parser"
-import { commonDeviceRequestParser } from "../common/common-device-request-parser"
+  HarmonyMscEndpointNamed,
+  HarmonyMscMethodNamed,
+  HarmonyMscRequest,
+} from "devices/harmony-msc/models"
+import { styleText } from "util"
 
-export class SerialPortHarmonyMscDevice extends SerialPortDevice {
+export class SerialPortHarmonyMscDevice extends SerialPortDeviceMock {
   static readonly matchingVendorIds = ["3310"]
   static readonly matchingProductIds = ["0103"]
   static readonly deviceType = SerialPortDeviceType.HarmonyMsc
-  readonly requestIdKey = "uuid"
 
   constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
-    super(
-      { baudRate, ...options },
-      new CommonDeviceResponseParser({ matcher: /#\d{9}/g })
-    )
+    super({ baudRate, ...options })
   }
 
-  parseRequest(data: SerialPortRequest) {
-    return commonDeviceRequestParser(data)
+  write(data: HarmonyMscRequest & { id: number }): boolean {
+    if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+      console.log(
+        styleText(["bold", "bgCyan"], "SerialPort write"),
+        styleText(["bgCyan"], this.path),
+        styleText(["cyan"], `${JSON.stringify(data)}`)
+      )
+    }
+    if (
+      data.endpoint === HarmonyMscEndpointNamed.Flash &&
+      data.method === HarmonyMscMethodNamed.Post
+    ) {
+      void this.flashHarmony(data)
+    }
+    return true
+  }
+
+  private async flashHarmony(
+    data: HarmonyMscRequest<
+      HarmonyMscEndpointNamed.Flash,
+      HarmonyMscMethodNamed.Post
+    > & {
+      id: number
+    }
+  ) {
+    // TODO: Perform a real flash request
+    const calculateProgress = () => {
+      return new Promise<number>((resolve) => {
+        setTimeout(() => resolve(50), 1000)
+      })
+    }
+    const progress = await calculateProgress()
+
+    this.emitData(data.id, progress)
   }
 }

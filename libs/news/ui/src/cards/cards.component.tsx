@@ -22,12 +22,7 @@ const Cards: FunctionComponent<Props> = ({ newsItems }) => {
   return (
     <CardContainer>
       {newsItems.map((newsItem) => {
-        return (
-          <Card
-            key={newsItem.newsId}
-            {...newsItem}
-          />
-        )
+        return <Card key={newsItem.newsId} {...newsItem} />
       })}
     </CardContainer>
   )

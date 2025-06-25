@@ -5,56 +5,60 @@
 
 import { useDispatch } from "react-redux"
 import {
-  Device,
   useActiveDevice,
   useDeviceActivate,
   useDeviceMenu,
-  useDeviceMetadata,
   useDevices,
   useDeviceStatus,
-  useFakeActiveDevice,
 } from "devices/common/feature"
 import { useApiDeviceRouter } from "devices/api-device/routes"
-import { FunctionComponent, useCallback, useEffect } from "react"
-import { Navigate, Route, useLocation, useNavigate } from "react-router"
+import { useCallback, useEffect } from "react"
+import { Navigate, Route, useLocation } from "react-router"
 import {
   FullscreenLayout,
   registerMenuGroups,
   unregisterMenuGroups,
 } from "app-routing/feature"
 import {
-  DevicesSelector,
-  DevicesSelectorCard,
   DeviceSwitchingLoader,
   DeviceTroubleshooting,
   WelcomeScreen,
 } from "devices/common/ui"
-import {
-  DeviceMetadata,
-  DevicesPaths,
-  DeviceStatus,
-} from "devices/common/models"
+import { DevicesPaths, DeviceStatus } from "devices/common/models"
 import { MenuIndex } from "app-routing/models"
-import { useQueryClient } from "@tanstack/react-query"
 import { NewsPaths } from "news/models"
+import { useAppNavigate } from "app-routing/utils"
+import { useHarmonyRouter } from "devices/harmony/routes"
+import { DevicesSelectingPage } from "./devices-selecting-page"
+import { usePureRouter } from "devices/pure/routes"
+import { useQueryClient } from "@tanstack/react-query"
+import { useHarmonyMscRouter } from "devices/harmony-msc/routes"
+
+const DEFAULT_UX_DELAY = 500
 
 export const useDevicesInitRouter = () => {
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const navigate = useAppNavigate()
   const { pathname } = useLocation()
-  const activateDevice = useDeviceActivate()
 
   const { data: devices = [] } = useDevices()
   const { data: activeDevice } = useActiveDevice()
-  const fakeActiveDevice = useFakeActiveDevice()
-  const apiDeviceRouter = useApiDeviceRouter(fakeActiveDevice)
+  const activateDevice = useDeviceActivate()
+  const { data: activeDeviceStatus } = useDeviceStatus(
+    activeDevice || undefined
+  )
+  const { data: menu } = useDeviceMenu(activeDevice || undefined)
 
-  const { data: activeDeviceStatus } = useDeviceStatus()
-  const { data: menu } = useDeviceMenu(fakeActiveDevice)
-  const { data: activeDeviceMetadata } = useDeviceMetadata(fakeActiveDevice)
+  const apiDeviceRouter = useApiDeviceRouter(activeDevice || undefined)
+  const harmonyRouter = useHarmonyRouter(activeDevice || undefined)
+  const pureRouter = usePureRouter(activeDevice || undefined)
+  const harmonyMscRouter = useHarmonyMscRouter(activeDevice || undefined)
 
   const onWrapperClose = () => {
+    if (devices.length > 1) {
+      activateDevice(null)
+    }
     navigate({ pathname: NewsPaths.Index })
   }
 
@@ -66,69 +70,102 @@ export const useDevicesInitRouter = () => {
     navigate({ pathname: DevicesPaths.Troubleshooting })
   }
 
-  useEffect(() => {
-    if (!pathname.startsWith(DevicesPaths.Index) && fakeActiveDevice) {
-      if (!activeDeviceMetadata?.locked) {
-        activateDevice(fakeActiveDevice)
-      }
-    }
-  }, [activateDevice, fakeActiveDevice, activeDeviceMetadata?.locked, pathname])
-
-  useEffect(() => {
-    if (!pathname.startsWith(DevicesPaths.Index)) {
+  const onTryAgain = () => {
+    if (!activeDevice) {
       return
     }
-    if (!queryClient.getQueryData(useActiveDevice.queryKey)) {
-      if (devices.length > 1) {
-        navigate({ pathname: DevicesPaths.Selecting })
-      } else if (devices.length === 1) {
-        activateDevice(devices[0])
-      }
-    }
-  }, [activateDevice, devices, navigate, pathname, queryClient])
+    void queryClient.invalidateQueries({
+      queryKey: ["devices", activeDevice?.path],
+    })
+  }
+
+  const delayForBetterUX = useCallback(
+    (ms = DEFAULT_UX_DELAY) =>
+      new Promise((resolve) => setTimeout(resolve, ms)),
+    []
+  )
 
   useEffect(() => {
-    if (!pathname.startsWith(DevicesPaths.Index)) {
+    if (!pathname.startsWith("/device/")) {
       return
     }
-
-    if (pathname === DevicesPaths.Selecting) {
-      navigate({ pathname: DevicesPaths.Connecting })
-      return
-    }
-
     if (
-      pathname !== DevicesPaths.Connecting &&
-      activeDeviceStatus === DeviceStatus.Initializing
+      activeDeviceStatus !== DeviceStatus.Initialized &&
+      activeDeviceStatus !== DeviceStatus.Initializing
     ) {
       navigate({ pathname: DevicesPaths.Connecting })
-      return
-    }
-
-    if (
-      pathname !== DevicesPaths.Current &&
-      activeDeviceStatus === DeviceStatus.Initialized
-    ) {
-      navigate({ pathname: DevicesPaths.Current })
-      return
-    }
-
-    if (
-      pathname !== DevicesPaths.Troubleshooting &&
-      activeDeviceStatus === DeviceStatus.CriticalError
-    ) {
-      navigate({ pathname: DevicesPaths.Troubleshooting })
       return
     }
   }, [activeDeviceStatus, navigate, pathname])
 
   useEffect(() => {
-    if (menu) {
-      dispatch(registerMenuGroups([menu]))
-    } else {
-      dispatch(unregisterMenuGroups([MenuIndex.Device]))
+    if (!pathname.startsWith(DevicesPaths.Index)) {
+      return
     }
-  }, [dispatch, menu])
+
+    void (async () => {
+      if (
+        [
+          DevicesPaths.Connecting,
+          DevicesPaths.Current,
+          DevicesPaths.Troubleshooting,
+        ].includes(pathname as DevicesPaths) &&
+        devices.length === 0
+      ) {
+        navigate({ pathname: DevicesPaths.Welcome })
+        return
+      }
+      if (pathname === DevicesPaths.Welcome && devices.length > 1) {
+        await delayForBetterUX()
+        navigate({ pathname: DevicesPaths.Selecting })
+        return
+      }
+      if (pathname === DevicesPaths.Selecting && devices.length === 0) {
+        navigate({ pathname: DevicesPaths.Welcome })
+        return
+      }
+      if (
+        pathname !== DevicesPaths.Connecting &&
+        activeDeviceStatus === DeviceStatus.Initializing
+      ) {
+        await delayForBetterUX()
+        navigate({ pathname: DevicesPaths.Connecting })
+        return
+      }
+
+      if (
+        pathname !== DevicesPaths.Troubleshooting &&
+        activeDeviceStatus === DeviceStatus.CriticalError
+      ) {
+        await delayForBetterUX()
+        navigate({ pathname: DevicesPaths.Troubleshooting })
+        return
+      }
+
+      if (
+        pathname !== DevicesPaths.Current &&
+        (activeDeviceStatus === DeviceStatus.Initialized ||
+          activeDeviceStatus === DeviceStatus.Locked ||
+          activeDeviceStatus === DeviceStatus.Issue)
+      ) {
+        await delayForBetterUX()
+        navigate({ pathname: DevicesPaths.Current })
+        return
+      }
+    })()
+  }, [activeDeviceStatus, delayForBetterUX, devices.length, navigate, pathname])
+
+  useEffect(() => {
+    void (async () => {
+      if (menu && activeDeviceStatus === DeviceStatus.Initialized) {
+        await delayForBetterUX(DEFAULT_UX_DELAY / 2)
+        dispatch(unregisterMenuGroups([MenuIndex.Device]))
+        dispatch(registerMenuGroups([menu]))
+      } else {
+        dispatch(unregisterMenuGroups([MenuIndex.Device]))
+      }
+    })()
+  }, [activeDevice, activeDeviceStatus, delayForBetterUX, dispatch, menu])
 
   return (
     <>
@@ -166,62 +203,19 @@ export const useDevicesInitRouter = () => {
         />
         <Route
           path={DevicesPaths.Troubleshooting}
-          element={<DeviceTroubleshooting />}
+          element={<DeviceTroubleshooting onTryAgain={onTryAgain} />}
         />
-        {activeDevice ? (
-          <Route path={DevicesPaths.Current}>
-            {apiDeviceRouter?.initialization}
-          </Route>
-        ) : (
-          <Route index element={<Navigate to={NewsPaths.Index} replace />} />
-        )}
+        <Route path={DevicesPaths.Current}>
+          {apiDeviceRouter?.initialization}
+          {harmonyRouter?.initialization}
+          {pureRouter?.initialization}
+          {harmonyMscRouter?.initialization}
+        </Route>
       </Route>
       {apiDeviceRouter?.dashboard}
+      {harmonyRouter?.dashboard}
+      {pureRouter?.dashboard}
+      {harmonyMscRouter?.dashboard}
     </>
   )
-}
-
-export const DevicesSelectingPage: FunctionComponent = () => {
-  const navigate = useNavigate()
-  const { data: devices = [] } = useDevices()
-  const activateDevice = useDeviceActivate()
-
-  const selectDevice = useCallback(
-    (deviceId: DeviceMetadata["id"]) => {
-      const device = devices?.find((d) => d.path === deviceId)
-      if (!device) {
-        return
-      }
-      activateDevice(device)
-      navigate({ pathname: DevicesPaths.Current })
-    },
-    [activateDevice, devices, navigate]
-  )
-
-  if (devices.length === 0) {
-    return null
-  }
-
-  return (
-    <DevicesSelector>
-      {devices.map((device) => {
-        const select = () => {
-          selectDevice(device.path)
-        }
-        return <Card key={device.path} {...device} onClick={select} />
-      })}
-    </DevicesSelector>
-  )
-}
-
-const Card: FunctionComponent<Device & { onClick: VoidFunction }> = ({
-  onClick,
-  ...device
-}) => {
-  const { data: metadata } = useDeviceMetadata(device)
-
-  if (!metadata) {
-    return null
-  }
-  return <DevicesSelectorCard {...metadata} onClick={onClick} />
 }

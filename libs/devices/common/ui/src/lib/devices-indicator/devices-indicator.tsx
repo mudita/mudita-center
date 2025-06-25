@@ -24,6 +24,7 @@ type Props = Omit<
 > & {
   devicesCount: number
   visible?: boolean
+  loading?: boolean
 }
 
 export const DevicesIndicator: FunctionComponent<Props> = ({
@@ -31,6 +32,7 @@ export const DevicesIndicator: FunctionComponent<Props> = ({
   visible,
   message,
   values,
+  loading,
   ...rest
 }) => {
   return (
@@ -47,7 +49,8 @@ export const DevicesIndicator: FunctionComponent<Props> = ({
         <Icon type={IconType.Phone} size={IconSize.Big} />
         <Badge>{devicesCount}</Badge>
       </Counter>
-      {formatMessage(messages.text)}
+      {formatMessage(messages.text)}{" "}
+      {loading && <Icon type={IconType.Spinner} size={IconSize.Medium} />}
     </Wrapper>
   )
 }

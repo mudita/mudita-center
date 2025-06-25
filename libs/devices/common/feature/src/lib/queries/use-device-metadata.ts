@@ -4,17 +4,20 @@
  */
 
 import {
+  Device,
   DeviceImageColor,
   DeviceImageType,
   DeviceMetadata,
 } from "devices/common/models"
-import { SerialPortDeviceType } from "app-serialport/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { useQuery } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
-import { Device } from "./use-devices"
 import { useDeviceConfig } from "./use-device-config"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
+import { HarmonySerialPort } from "devices/harmony/adapters"
+import { PureSerialPort } from "devices/pure/adapters"
+import { HarmonyMscSerialPort } from "devices/harmony-msc/adapters"
+import { SerialPortDeviceSubtype } from "app-serialport/models"
 
 const messages = defineMessages({
   harmony1: {
@@ -39,7 +42,7 @@ const queryFn = (
     return null
   }
   if (ApiDeviceSerialPort.isCompatible(device)) {
-    if (config.serialNumber?.toLowerCase().startsWith("kom")) {
+    if (device.deviceSubtype === SerialPortDeviceSubtype.Kompakt) {
       let color: DeviceImageColor
       switch (config.variant) {
         case "black":
@@ -64,8 +67,37 @@ const queryFn = (
         serialNumber: config.serialNumber,
       }
     }
+    return null
   }
-  if (device.deviceType === SerialPortDeviceType.HarmonyMsc) {
+  if (HarmonySerialPort.isCompatible(device)) {
+    const isHarmony2 = config.caseColour === "black"
+    return {
+      id: device.path,
+      name: isHarmony2
+        ? formatMessage(messages.harmony2)
+        : formatMessage(messages.harmony1),
+      image: {
+        type: isHarmony2 ? DeviceImageType.Harmony2 : DeviceImageType.Harmony1,
+      },
+      serialNumber: config.serialNumber,
+    }
+  }
+  if (PureSerialPort.isCompatible(device)) {
+    return {
+      id: device.path,
+      name: formatMessage(messages.pure),
+      image: {
+        type: DeviceImageType.Pure,
+        color:
+          config.caseColour === "black"
+            ? DeviceImageColor.Black
+            : DeviceImageColor.Gray,
+      },
+      serialNumber: config.serialNumber,
+      recoveryMode: config.recoveryMode,
+    }
+  }
+  if (HarmonyMscSerialPort.isCompatible(device)) {
     return {
       id: device.path,
       name: formatMessage(messages.harmony1),
@@ -76,7 +108,57 @@ const queryFn = (
       recoveryMode: true,
     }
   }
-  // TODO: Add support for Pure and Harmony 1 and 2 (no MSC mode)
+  return null
+}
+
+const placeholderData = (device?: Device): DeviceMetadata | null => {
+  if (!device) {
+    return null
+  }
+  if (ApiDeviceSerialPort.isCompatible(device)) {
+    if (device.deviceSubtype === SerialPortDeviceSubtype.Kompakt) {
+      return {
+        id: device?.path || "",
+        name: formatMessage(messages.kompakt),
+        image: {
+          type: DeviceImageType.Kompakt,
+        },
+        serialNumber: device.serialNumber || "",
+      }
+    }
+  }
+  if (HarmonySerialPort.isCompatible(device)) {
+    return {
+      id: device?.path || "",
+      name: formatMessage(messages.harmony1),
+      image: {
+        type: DeviceImageType.HarmonyMsc,
+      },
+      serialNumber: device.serialNumber || "",
+    }
+  }
+  if (PureSerialPort.isCompatible(device)) {
+    return {
+      id: device?.path || "",
+      name: formatMessage(messages.pure),
+      image: {
+        type: DeviceImageType.Pure,
+        color: DeviceImageColor.Gray,
+      },
+      serialNumber: device.serialNumber || "",
+    }
+  }
+  if (HarmonyMscSerialPort.isCompatible(device)) {
+    return {
+      id: device?.path || "",
+      name: formatMessage(messages.harmony1),
+      image: {
+        type: DeviceImageType.HarmonyMsc,
+      },
+      serialNumber: undefined,
+      recoveryMode: true,
+    }
+  }
   return null
 }
 
@@ -86,6 +168,7 @@ export const useDeviceMetadata = (device?: Device) => {
   return useQuery({
     queryKey: devicesQueryKeys.deviceMetadata(device?.path),
     queryFn: () => queryFn(device, deviceConfig),
+    placeholderData: () => placeholderData(device),
     retry: 3,
     retryDelay: 250,
     enabled: Boolean(deviceConfig),

@@ -23,6 +23,7 @@
       "app-routing/feature": ["libs/app-routing/feature/src/index.ts"],
       "app-routing/models": ["libs/app-routing/models/src/index.ts"],
       "app-routing/routes": ["libs/app-routing/routes/src/index.ts"],
+      "app-routing/utils": ["libs/app-routing/utils/src/index.ts"],
       "app-serialport/devices": ["libs/app-serialport/devices/src/index.ts"],
       "app-serialport/main": ["libs/app-serialport/main/src/index.ts"],
       "app-serialport/models": ["libs/app-serialport/models/src/index.ts"],
@@ -61,9 +62,31 @@
       "devices/common/models": ["libs/devices/common/models/src/index.ts"],
       "devices/common/routes": ["libs/devices/common/routes/src/index.ts"],
       "devices/common/ui": ["libs/devices/common/ui/src/index.ts"],
+      "devices/harmony-msc/adapters": [
+        "libs/devices/harmony-msc/adapters/src/index.ts"
+      ],
+      "devices/harmony-msc/feature": [
+        "libs/devices/harmony-msc/feature/src/index.ts"
+      ],
+      "devices/harmony-msc/models": [
+        "libs/devices/harmony-msc/models/src/index.ts"
+      ],
+      "devices/harmony-msc/routes": [
+        "libs/devices/harmony-msc/routes/src/index.ts"
+      ],
+      "devices/harmony/adapters": [
+        "libs/devices/harmony/adapters/src/index.ts"
+      ],
+      "devices/harmony/feature": ["libs/devices/harmony/feature/src/index.ts"],
+      "devices/harmony/models": ["libs/devices/harmony/models/src/index.ts"],
+      "devices/harmony/routes": ["libs/devices/harmony/routes/src/index.ts"],
+      "devices/pure/adapters": ["libs/devices/pure/adapters/src/index.ts"],
+      "devices/pure/feature": ["libs/devices/pure/feature/src/index.ts"],
+      "devices/pure/models": ["libs/devices/pure/models/src/index.ts"],
+      "devices/pure/routes": ["libs/devices/pure/routes/src/index.ts"],
       "help/feature": ["libs/help/feature/src/index.ts"],
-      "help/models": ["libs/help/models/src/index.ts"],
       "help/main": ["libs/help/main/src/index.ts"],
+      "help/models": ["libs/help/models/src/index.ts"],
       "help/routes": ["libs/help/routes/src/index.ts"],
       "help/ui": ["libs/help/ui/src/index.ts"],
       "help/utils": ["libs/help/utils/src/index.ts"],

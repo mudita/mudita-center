@@ -4,7 +4,7 @@
  */
 
 import { AppRoutes } from "app-routing/routes"
-import { useDevicesListener } from "devices/common/feature"
+import { DevicesInitializer } from "devices/common/feature"
 import { FunctionComponent, useEffect } from "react"
 import { CheckInitRequirements } from "app-init/feature"
 import ReactModal from "react-modal"
@@ -13,7 +13,6 @@ import { AnalyticsEventCategory } from "app-utils/models"
 
 export const App: FunctionComponent = () => {
   ReactModal.setAppElement("#root")
-  useDevicesListener()
   const uniqueTrack = useUniqueTrack()
 
   useEffect(() => {
@@ -25,6 +24,7 @@ export const App: FunctionComponent = () => {
 
   return (
     <>
+      <DevicesInitializer />
       <CheckInitRequirements />
       <AppRoutes />
     </>

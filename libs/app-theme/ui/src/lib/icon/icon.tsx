@@ -37,7 +37,8 @@ const spinAnimation = keyframes({
   },
 })
 
-const Wrapper = styled.div<{ $spin?: boolean; $size: IconSize }>`
+const Wrapper = styled.span<{ $spin?: boolean; $size: IconSize }>`
+  display: inline-block;
   aspect-ratio: 1;
   transition: color 0.2s ease-in-out;
 
