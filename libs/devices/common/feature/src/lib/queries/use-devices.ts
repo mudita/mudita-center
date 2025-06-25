@@ -8,6 +8,7 @@ import { uniqBy } from "lodash"
 import { devicesQueryKeys } from "./devices-query-keys"
 import { AppSerialPort } from "app-serialport/renderer"
 import { Device } from "devices/common/models"
+import { SerialPortDeviceType } from "app-serialport/models"
 
 const queryFn = async () => {
   const devices = await AppSerialPort.getCurrentDevices()
@@ -26,7 +27,9 @@ const queryFn = async () => {
   ) as Device[]
 
   return list.reverse().sort((a, b) => {
-    return a.deviceType === "ApiDevice" && b.deviceType !== "ApiDevice" ? -1 : 1
+    if (a.deviceType === SerialPortDeviceType.ApiDevice) return -1
+    if (b.deviceType === SerialPortDeviceType.ApiDevice) return 1
+    return 0
   })
 }
 
