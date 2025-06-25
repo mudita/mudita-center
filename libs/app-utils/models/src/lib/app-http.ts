@@ -8,8 +8,8 @@ import { AxiosRequestConfig, AxiosResponse, Method } from "axios"
 export interface AppHttpRequestConfig extends AxiosRequestConfig {
   url: string
   method: Method
-  data?: Record<string, any>
-  params?: Record<string, any>
+  data?: Record<string, unknown>
+  params?: Record<string, unknown>
   headers?: Record<string, string>
 }
 
