@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import logger from "electron-log/renderer"
 import lodash from "lodash"
 import { AnalyticsEvent } from "app-utils/models"
 import { JsonStore } from "../json-store"
@@ -73,9 +74,7 @@ export class AnalyticsCacheService {
     }
 
     if (attempt >= maxAttempts) {
-      console.warn(
-        "Analytics cache initialization timed out after max attempts"
-      )
+      logger.warn("Analytics cache initialization timed out after max attempts")
       return
     }
     await delay(waitingTime)

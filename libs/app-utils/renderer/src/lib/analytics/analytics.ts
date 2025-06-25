@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import logger from "electron-log/renderer"
 import {
   AnalyticsEvent,
   AppHttpRequestConfig,
@@ -64,24 +65,24 @@ const getAnalyticsId = async (): Promise<string> => {
 
 const validate = async (): Promise<boolean> => {
   if (!analyticsConfig.enabled) {
-    console.warn("Analytics tracking is disabled")
+    logger.warn("Analytics tracking is disabled")
     return false
   }
 
   if (isNaN(analyticsConfig.siteId)) {
-    console.warn("Analytics site ID is not set")
+    logger.warn("Analytics site ID is not set")
     return false
   }
 
   if (!analyticsConfig.apiUrl) {
-    console.warn("Analytics API URL is not set")
+    logger.warn("Analytics API URL is not set")
     return false
   }
 
   const privacyPolicyAccepted = await getPrivacyPolicyAccepted()
 
   if (!privacyPolicyAccepted) {
-    console.warn("Privacy policy not accepted")
+    logger.warn("Privacy policy not accepted")
     return false
   }
 
@@ -106,7 +107,7 @@ export const track = async (event: AnalyticsEvent): Promise<void> => {
   const response = await trackRequest(eventWithMetadata)
 
   if (response instanceof Error) {
-    console.warn("Error tracking event:", response)
+    logger.warn("Error tracking event:", response)
   } else {
     await analyticsCacheService.saveEvent(event)
   }
@@ -128,7 +129,7 @@ export const uniqueTrack = async (event: AnalyticsEvent): Promise<void> => {
   const response = await trackRequest(eventWithMetadata)
 
   if (response instanceof Error) {
-    console.warn("Error tracking unique event:", response)
+    logger.warn("Error tracking unique event:", response)
   } else {
     await analyticsCacheService.saveEvent(event)
   }
