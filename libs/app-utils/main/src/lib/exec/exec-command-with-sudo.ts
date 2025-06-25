@@ -7,9 +7,9 @@ import sudoPrompt from "@vscode/sudo-prompt"
 
 // `name` is required for Linux and must not contain special characters, except spaces and alphanumeric characters.
 interface ExecCommandWithSudoOptions {
-  name: string;
-  icns?: string;
-  env?: { [key: string]: string };
+  name: string
+  icns?: string
+  env?: { [key: string]: string }
 }
 
 export const execCommandWithSudo = (

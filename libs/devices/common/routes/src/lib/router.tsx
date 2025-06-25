@@ -86,6 +86,19 @@ export const useDevicesInitRouter = () => {
   )
 
   useEffect(() => {
+    if (!pathname.startsWith("/device/")) {
+      return
+    }
+    if (
+      activeDeviceStatus !== DeviceStatus.Initialized &&
+      activeDeviceStatus !== DeviceStatus.Initializing
+    ) {
+      navigate({ pathname: DevicesPaths.Connecting })
+      return
+    }
+  }, [activeDeviceStatus, navigate, pathname])
+
+  useEffect(() => {
     if (!pathname.startsWith(DevicesPaths.Index)) {
       return
     }
@@ -107,7 +120,8 @@ export const useDevicesInitRouter = () => {
         navigate({ pathname: DevicesPaths.Selecting })
         return
       }
-      if (pathname === DevicesPaths.Selecting) {
+      if (pathname === DevicesPaths.Selecting && devices.length === 0) {
+        navigate({ pathname: DevicesPaths.Welcome })
         return
       }
       if (

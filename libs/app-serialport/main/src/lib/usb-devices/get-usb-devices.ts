@@ -5,17 +5,17 @@
 
 import { PortInfo } from "@serialport/bindings-interface"
 import { MacosUSBPortDeviceParser } from "./macos-usb-port-device-parser"
+import { LinuxUSBPortDeviceParser } from "./linux-usb-port-device-parser"
+import { WindowsUSBPortDeviceParser } from "./windows-usb-port-device-parser"
 
 export const getUsbDevices = async (): Promise<PortInfo[]> => {
   switch (process.platform) {
     case "darwin":
       return await MacosUSBPortDeviceParser.listUsbDevices()
     case "linux":
-      // TODO: Implement Linux USB device listing
-      return []
+      return await LinuxUSBPortDeviceParser.listUsbDevices()
     case "win32":
-      // TODO: Implement Windows USB device listing
-      return []
+      return await WindowsUSBPortDeviceParser.listUsbDevices()
     default:
       return []
   }
