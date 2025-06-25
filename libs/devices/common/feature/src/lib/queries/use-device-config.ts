@@ -17,7 +17,7 @@ import {
 } from "devices/harmony/feature"
 import { ApiDevice, ApiDeviceErrorType } from "devices/api-device/models"
 import { Harmony, HarmonyErrorType } from "devices/harmony/models"
-import { Pure, PureErrorType } from "devices/pure/models"
+import { Pure, PureErrorType, PureLockReasonType } from "devices/pure/models"
 import {
   getPureInfo,
   GetPureInfoOkResponse,
@@ -55,9 +55,9 @@ const queryFn = async <D extends Device>(device?: D) => {
       return config.body
     }
     const lockReason = (lockStatus.body as { reason: string })?.reason
-    if (lockReason === "2") {
+    if (lockReason === PureLockReasonType.EulaNotAccepted) {
       throw PureErrorType.EulaNotAccepted
-    } else if (lockReason === "3") {
+    } else if (lockReason === PureLockReasonType.BatteryFlat) {
       throw PureErrorType.BatteryFlat
     }
     throw lockStatus.status || config.status

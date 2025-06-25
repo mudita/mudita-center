@@ -8,3 +8,8 @@ export enum PureErrorType {
   EulaNotAccepted = 423,
   BatteryFlat = 500,
 }
+
+export enum PureLockReasonType {
+  EulaNotAccepted = "2",
+  BatteryFlat = "3",
+}
