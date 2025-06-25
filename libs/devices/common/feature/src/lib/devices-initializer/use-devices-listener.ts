@@ -46,7 +46,7 @@ export const useDevicesListener = () => {
     (device: SerialPortDeviceInfo) => {
       queryClient.setQueryData(useActiveDevice.queryKey, {
         path: device.path,
-        deviceType: device.deviceType as never, // TODO: Fix type assertion
+        deviceType: device.deviceType,
       })
     },
     [queryClient]

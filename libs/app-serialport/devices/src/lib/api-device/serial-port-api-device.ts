@@ -7,20 +7,28 @@ import {
   SerialPortDevice,
   SerialPortDeviceOptions,
 } from "../serial-port-device"
-import { SerialPortDeviceType, SerialPortRequest } from "app-serialport/models"
+import {
+  SerialPortDeviceSubtype,
+  SerialPortDeviceType,
+  SerialPortRequest,
+} from "app-serialport/models"
 import { CommonDeviceResponseParser } from "../common/common-device-response-parser"
 import { commonDeviceRequestParser } from "../common/common-device-request-parser"
 
+export const kompaktVendorIds = ["3310", "13072"]
+export const kompaktProductIds = [
+  "200a",
+  "200A",
+  "2006",
+  "2012",
+  "8198",
+  "8202",
+  "8210",
+]
+
 export class SerialPortApiDevice extends SerialPortDevice {
-  static readonly matchingVendorIds = ["3310", "13072"]
-  static readonly matchingProductIds = [
-    "200a",
-    "2006",
-    "2012",
-    "8198",
-    "8202",
-    "8210",
-  ]
+  static readonly matchingVendorIds = [...kompaktVendorIds]
+  static readonly matchingProductIds = [...kompaktProductIds]
   static readonly deviceType = SerialPortDeviceType.ApiDevice
   readonly requestIdKey = "rid"
 
@@ -33,5 +41,18 @@ export class SerialPortApiDevice extends SerialPortDevice {
 
   parseRequest(data: SerialPortRequest) {
     return commonDeviceRequestParser(data)
+  }
+
+  public static getSubtype(vendorId?: string, productId?: string) {
+    if (!vendorId || !productId) {
+      return undefined
+    }
+    if (
+      kompaktVendorIds.includes(vendorId) &&
+      kompaktProductIds.includes(productId)
+    ) {
+      return SerialPortDeviceSubtype.Kompakt
+    }
+    return undefined
   }
 }

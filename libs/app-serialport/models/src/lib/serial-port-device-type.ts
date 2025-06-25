@@ -9,3 +9,7 @@ export enum SerialPortDeviceType {
   HarmonyMsc = "MuditaHarmonyMsc",
   Pure = "MuditaPure",
 }
+
+export enum SerialPortDeviceSubtype {
+  Kompakt = "Kompakt",
+}

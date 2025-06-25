@@ -329,5 +329,5 @@ export const DeviceCardError: StoryObj<typeof DevicesDrawerCard> = {
       name="Harmony 2"
       serialNumber="000011112222"
     />
-  )
+  ),
 }

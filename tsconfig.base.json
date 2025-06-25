@@ -62,6 +62,18 @@
       "devices/common/models": ["libs/devices/common/models/src/index.ts"],
       "devices/common/routes": ["libs/devices/common/routes/src/index.ts"],
       "devices/common/ui": ["libs/devices/common/ui/src/index.ts"],
+      "devices/harmony-msc/adapters": [
+        "libs/devices/harmony-msc/adapters/src/index.ts"
+      ],
+      "devices/harmony-msc/feature": [
+        "libs/devices/harmony-msc/feature/src/index.ts"
+      ],
+      "devices/harmony-msc/models": [
+        "libs/devices/harmony-msc/models/src/index.ts"
+      ],
+      "devices/harmony-msc/routes": [
+        "libs/devices/harmony-msc/routes/src/index.ts"
+      ],
       "devices/harmony/adapters": [
         "libs/devices/harmony/adapters/src/index.ts"
       ],

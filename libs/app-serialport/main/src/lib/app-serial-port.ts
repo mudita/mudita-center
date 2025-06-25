@@ -13,25 +13,33 @@ import {
   SerialPortRequest,
 } from "app-serialport/models"
 import { devices, SerialPortDevice } from "app-serialport/devices"
+import { getUsbDevices } from "./usb-devices/get-usb-devices"
 
 type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
 enum SerialPortEvents {
   DevicesChanged = "devicesChanged",
 }
 
+const SERIALPORT_DETECT_INTERVAL = 1000
+const USB_DEVICES_DETECT_INTERVAL = 3000
+
 export class AppSerialPort {
   private readonly instances = new Map<SerialPortDevicePath, SerialPortDevice>()
   private readonly supportedDevices = devices
   private readonly eventEmitter = new EventEmitter()
+
   currentDevices: SerialPortDeviceInfo[] = []
   addedDevices: SerialPortDeviceInfo[] = []
   removedDevices: SerialPortDeviceInfo[] = []
+
+  usbDevicesCache: PortInfo[] = []
+  usbDevicesCacheLastUpdate = 0
 
   constructor() {
     void this.detectChanges()
     setInterval(() => {
       void this.detectChanges()
-    }, 250)
+    }, SERIALPORT_DETECT_INTERVAL)
   }
 
   private getDeviceSerialPortInstance({
@@ -49,19 +57,45 @@ export class AppSerialPort {
     })
   }
 
-  private isSupportedDevice({ vendorId, productId }: PortInfo) {
+  private isSupportedDevice(
+    { vendorId, productId }: PortInfo,
+    { nonSerialPortDevice }: { nonSerialPortDevice?: boolean } = {}
+  ) {
     if (!vendorId || !productId) {
       return false
     }
-    return (
-      this.getDeviceSerialPortInstance({ vendorId, productId }) !== undefined
-    )
+    const instance = this.getDeviceSerialPortInstance({ vendorId, productId })
+    if (!instance) {
+      return false
+    }
+    return nonSerialPortDevice ? instance.nonSerialPortDevice : true
   }
 
   private async listDevices() {
-    const devices = await SerialPort.list()
+    const serialportDevices = await SerialPort.list()
+    let usbDevices: PortInfo[]
+
+    if (
+      this.usbDevicesCacheLastUpdate === 0 ||
+      this.usbDevicesCacheLastUpdate + USB_DEVICES_DETECT_INTERVAL < Date.now()
+    ) {
+      usbDevices = await getUsbDevices()
+      this.usbDevicesCache = usbDevices
+      this.usbDevicesCacheLastUpdate = Date.now()
+    } else {
+      usbDevices = this.usbDevicesCache
+    }
+
+    const devices = [
+      ...serialportDevices.filter((portInfo) =>
+        this.isSupportedDevice(portInfo)
+      ),
+      ...usbDevices.filter((portInfo) =>
+        this.isSupportedDevice(portInfo, { nonSerialPortDevice: true })
+      ),
+    ]
+
     return devices
-      .filter((portInfo) => this.isSupportedDevice(portInfo))
       .map((portInfo) => {
         const serialPortDevice = this.getDeviceSerialPortInstance(portInfo)
         if (!serialPortDevice) {
@@ -70,6 +104,9 @@ export class AppSerialPort {
         return {
           ...portInfo,
           deviceType: serialPortDevice.deviceType,
+          deviceSubtype: (
+            serialPortDevice as typeof SerialPortDevice
+          ).getSubtype(portInfo.vendorId, portInfo.productId),
         }
       })
       .filter(Boolean) as SerialPortDeviceInfo[]
@@ -135,7 +172,7 @@ export class AppSerialPort {
     const SerialPortInstance = this.getDeviceSerialPortInstance(deviceInfo)
     if (SerialPortInstance) {
       const serialPort = new SerialPortInstance({ path })
-      this.instances.set(path, serialPort)
+      this.instances.set(path, serialPort as SerialPortDevice)
     }
   }
 

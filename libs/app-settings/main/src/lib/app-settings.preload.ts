@@ -4,10 +4,7 @@
  */
 
 import { electronAPI } from "@electron-toolkit/preload"
-import {
-  AppSettings,
-  AppSettingsIpcEvents,
-} from "app-settings/models"
+import { AppSettings, AppSettingsIpcEvents } from "app-settings/models"
 import { DotNotation, DotValue, NestedPartial } from "app-utils/models"
 
 interface AppSettingsMethods {
