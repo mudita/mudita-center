@@ -4,10 +4,10 @@ on: [push]
 
 jobs:
   validate:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        os: [Linux]
+        runner_label: [linux-qa]
         node-version: [22.15.0]
     timeout-minutes: 40
     environment: development
