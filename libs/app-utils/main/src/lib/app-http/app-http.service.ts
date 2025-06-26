@@ -3,30 +3,45 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import axios from "axios"
-import { AppHttpRequestConfig, AppHttpResponse } from "app-utils/models"
+import axios, { isAxiosError } from "axios"
+import {
+  AppError,
+  AppErrorName,
+  AppHttpFailedResult,
+  AppHttpRequestConfig,
+  AppHttpResult,
+  AppResultFactory,
+} from "app-utils/models"
 
-// TODO: Implement AppError (or ObjectResult pattern)
-const isError = (error: unknown): error is Error => {
-  return error !== null && typeof error === "object" && "type" in error
-}
-
-const mapToError = (error: unknown): Error => {
-  if (isError(error)) {
-    return error
-  }
-  return new Error("Unknown error occurred")
+// TODO: Candidate for a utility function
+const getErrorMessage = (error: unknown): string => {
+  if (typeof error === "string") return error
+  if (error instanceof Error) return error.message
+  return String(error)
 }
 
 export class AppHttpService {
-  async request<T = unknown>(
+  static async request<Data = unknown>(
     config: AppHttpRequestConfig
-  ): Promise<AppHttpResponse<T> | Error> {
+  ): Promise<AppHttpResult<Data>> {
     try {
-      const { data, status } = await axios.request<T>(config)
-      return { data, status }
+      const { data, status } = await axios.request<Data>(config)
+      return AppResultFactory.success(data, { status })
     } catch (error) {
-      return mapToError(error)
+      return AppHttpService.mapAppHttpFailedResult<Data>(error)
     }
+  }
+
+  private static mapAppHttpFailedResult<ErrorData = unknown>(
+    error: unknown
+  ): AppHttpFailedResult<AppErrorName, ErrorData> {
+    if (isAxiosError(error)) {
+      return AppResultFactory.failed(
+        new AppError(getErrorMessage(error)),
+        error.response?.data as ErrorData,
+        { status: error.response?.status }
+      )
+    }
+    return AppResultFactory.failed(new AppError(getErrorMessage(error)))
   }
 }

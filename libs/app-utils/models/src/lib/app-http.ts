@@ -3,7 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AxiosRequestConfig, AxiosResponse, Method } from "axios"
+import { AxiosRequestConfig, Method } from "axios"
+import { AppFailedResult, AppSuccessResult } from "./app-result"
+import { AppErrorName } from "./app-error"
 
 export interface AppHttpRequestConfig extends AxiosRequestConfig {
   url: string
@@ -13,7 +15,18 @@ export interface AppHttpRequestConfig extends AxiosRequestConfig {
   headers?: Record<string, string>
 }
 
-export type AppHttpResponse<T = unknown> = Pick<
-  AxiosResponse<T>,
-  "data" | "status"
->
+export type AppHttpSuccessResult<Data> = AppSuccessResult<Data> & {
+  status: number
+}
+export type AppHttpFailedResult<
+  ErrorName extends AppErrorName = AppErrorName,
+  ErrorData = unknown,
+> = AppFailedResult<ErrorName, ErrorData> & {
+  status?: number
+}
+
+export type AppHttpResult<
+  Data = unknown,
+  ErrorName extends AppErrorName = AppErrorName,
+  ErrorData = unknown,
+> = AppHttpSuccessResult<Data> | AppHttpFailedResult<ErrorName, ErrorData>
