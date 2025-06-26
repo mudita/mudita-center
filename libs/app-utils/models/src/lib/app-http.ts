@@ -5,7 +5,7 @@
 
 import { AxiosRequestConfig, Method } from "axios"
 import { AppFailedResult, AppSuccessResult } from "./app-result"
-import { AppErrorType } from "./app-error"
+import { AppErrorName } from "./app-error"
 
 export interface AppHttpRequestConfig extends AxiosRequestConfig {
   url: string
@@ -19,14 +19,14 @@ export type AppHttpSuccessResult<Data> = AppSuccessResult<Data> & {
   status: number
 }
 export type AppHttpFailedResult<
-  ErrorType extends AppErrorType = AppErrorType,
+  ErrorName extends AppErrorName = AppErrorName,
   ErrorData = unknown,
-> = AppFailedResult<ErrorType, ErrorData> & {
+> = AppFailedResult<ErrorName, ErrorData> & {
   status?: number
 }
 
 export type AppHttpResult<
   Data = unknown,
-  ErrorType extends AppErrorType = AppErrorType,
+  ErrorName extends AppErrorName = AppErrorName,
   ErrorData = unknown,
-> = AppHttpSuccessResult<Data> | AppHttpFailedResult<ErrorType, ErrorData>
+> = AppHttpSuccessResult<Data> | AppHttpFailedResult<ErrorName, ErrorData>

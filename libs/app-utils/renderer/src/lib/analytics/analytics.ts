@@ -4,11 +4,7 @@
  */
 
 import logger from "electron-log/renderer"
-import {
-  AnalyticsEvent,
-  AppHttpRequestConfig,
-  AppHttpResult,
-} from "app-utils/models"
+import { AnalyticsEvent, AppHttpRequestConfig } from "app-utils/models"
 import { AppSettings } from "app-settings/renderer"
 import { analyticsConfig } from "./analytics-config"
 import { AnalyticsCacheService } from "./analytics-cache.service"
@@ -30,9 +26,7 @@ const defaultMetadata: Partial<AnalyticsEvent> = {
   }`,
 }
 
-const trackRequest = async (
-  params: AppHttpRequestConfig["params"]
-): Promise<AppHttpResult> => {
+const trackRequest = async (params: AppHttpRequestConfig["params"]) => {
   return AppHttp.request({
     method: "post",
     url: analyticsConfig.apiUrl,

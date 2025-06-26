@@ -3,21 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export type AppErrorType = string
+export type AppErrorName = string
 
-export class AppError<
-  Type extends AppErrorType = AppErrorType,
-  Payload = unknown,
-> extends Error {
-  override message: string
-
+export class AppError<Name extends AppErrorName = AppErrorName> extends Error {
   constructor(
-    public readonly type: Type = "UnknownError" as Type,
     message = "",
-    public readonly payload?: Payload
+    public readonly name: Name = "UnknownError" as Name
   ) {
     super(message)
-    this.message = message
+    this.name = name
 
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, AppError)
