@@ -6,14 +6,14 @@
 import {
   AppHttpIpcEvents,
   AppHttpRequestConfig,
-  AppHttpResponse,
+  AppHttpResult,
 } from "app-utils/models"
 import { electronAPI } from "@electron-toolkit/preload"
 
 export const appHttp = {
-  request: <T>(
+  request: <Data>(
     config: AppHttpRequestConfig
-  ): Promise<AppHttpResponse<T> | Error> => {
+  ): Promise<AppHttpResult<Data>> => {
     console.log(config)
     return electronAPI.ipcRenderer.invoke(AppHttpIpcEvents.Request, config)
   },

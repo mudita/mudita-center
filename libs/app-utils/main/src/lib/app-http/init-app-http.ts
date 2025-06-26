@@ -7,17 +7,11 @@ import { IpcMain } from "electron"
 import { AppHttpService } from "./app-http.service"
 import { AppHttpIpcEvents, AppHttpRequestConfig } from "app-utils/models"
 
-let appHttpService: AppHttpService
-
 export const initAppHttp = (ipcMain: IpcMain) => {
-  if (!appHttpService) {
-    appHttpService = new AppHttpService()
-
-    ipcMain.handle(
-      AppHttpIpcEvents.Request,
-      (_, config: AppHttpRequestConfig) => {
-        return appHttpService.request(config)
-      }
-    )
-  }
+  ipcMain.handle(
+    AppHttpIpcEvents.Request,
+    (_, config: AppHttpRequestConfig) => {
+      return AppHttpService.request(config)
+    }
+  )
 }

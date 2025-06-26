@@ -7,7 +7,7 @@ import logger from "electron-log/renderer"
 import {
   AnalyticsEvent,
   AppHttpRequestConfig,
-  AppHttpResponse,
+  AppHttpResult,
 } from "app-utils/models"
 import { AppSettings } from "app-settings/renderer"
 import { analyticsConfig } from "./analytics-config"
@@ -32,7 +32,7 @@ const defaultMetadata: Partial<AnalyticsEvent> = {
 
 const trackRequest = async (
   params: AppHttpRequestConfig["params"]
-): Promise<AppHttpResponse | Error> => {
+): Promise<AppHttpResult> => {
   return AppHttp.request({
     method: "post",
     url: analyticsConfig.apiUrl,
@@ -104,12 +104,12 @@ export const track = async (event: AnalyticsEvent): Promise<void> => {
   }
 
   const eventWithMetadata = await mergeDefaultMetadataWithEvent(event)
-  const response = await trackRequest(eventWithMetadata)
+  const result = await trackRequest(eventWithMetadata)
 
-  if (response instanceof Error) {
-    logger.warn("Error tracking event:", response)
-  } else {
+  if (result.ok) {
     await analyticsCacheService.saveEvent(event)
+  } else {
+    logger.warn("Error tracking event:", result)
   }
 }
 
@@ -126,11 +126,11 @@ export const uniqueTrack = async (event: AnalyticsEvent): Promise<void> => {
   }
 
   const eventWithMetadata = await mergeDefaultMetadataWithEvent(event)
-  const response = await trackRequest(eventWithMetadata)
+  const result = await trackRequest(eventWithMetadata)
 
-  if (response instanceof Error) {
-    logger.warn("Error tracking unique event:", response)
-  } else {
+  if (result.ok) {
     await analyticsCacheService.saveEvent(event)
+  } else {
+    logger.warn("Error tracking unique event:", result)
   }
 }
