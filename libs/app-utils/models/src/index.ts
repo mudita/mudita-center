@@ -4,6 +4,8 @@
  */
 
 export * from "./lib/analytics"
+export * from "./lib/app-file-system"
+export * from "./lib/app-file-system-ipc-events"
 export * from "./lib/nested-partial"
 export * from "./lib/app-error"
 export * from "./lib/app-http"

@@ -8,20 +8,13 @@ import FormData from "form-data"
 import path from "path"
 import axios, { AxiosRequestConfig, isAxiosError } from "axios"
 import {
-  AppError,
   AppErrorName,
   AppHttpFailedResult,
   AppHttpRequestConfig,
   AppHttpResult,
   AppResultFactory,
+  mapToAppError,
 } from "app-utils/models"
-
-// TODO: Candidate for a utility function
-const getErrorMessage = (error: unknown): string => {
-  if (typeof error === "string") return error
-  if (error instanceof Error) return error.message
-  return String(error)
-}
 
 export class AppHttpService {
   static async request<Data = unknown>(
@@ -41,12 +34,12 @@ export class AppHttpService {
   ): AppHttpFailedResult<AppErrorName, ErrorData> {
     if (isAxiosError(error)) {
       return AppResultFactory.failed(
-        new AppError(getErrorMessage(error)),
+        mapToAppError(error),
         error.response?.data as ErrorData,
         { status: error.response?.status }
       )
     }
-    return AppResultFactory.failed(new AppError(getErrorMessage(error)))
+    return AppResultFactory.failed(mapToAppError(error))
   }
 
   private static async mapToAxiosConfig(

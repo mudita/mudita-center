@@ -11,6 +11,7 @@ import { initAppHelp } from "help/main"
 import { initAppSettings } from "app-settings/main"
 import {
   initAppActions,
+  initAppFileSystem,
   initAppHttp,
   initAppUpdater,
   initJsonStore,
@@ -26,4 +27,5 @@ export const initAppLibs = (webContents: WebContents) => {
   initAppHelp(ipcMain)
   initJsonStore(ipcMain)
   initAppHttp(ipcMain)
+  initAppFileSystem(ipcMain)
 }

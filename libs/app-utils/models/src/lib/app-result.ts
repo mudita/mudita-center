@@ -16,16 +16,19 @@ export type AppFailedResult<
 }
 
 export type AppResult<
-  Data,
+  Data = unknown,
   ErrorName extends AppErrorName = AppErrorName,
   ErrorData = unknown,
 > = AppSuccessResult<Data> | AppFailedResult<ErrorName, ErrorData>
 
 export const AppResultFactory = {
   success<
-    Data,
+    Data = unknown,
     Fields extends Record<string, unknown> = Record<string, unknown>,
-  >(data: Data, fields: Fields = {} as Fields): AppSuccessResult<Data> & Fields {
+  >(
+    data: Data = {} as Data,
+    fields: Fields = {} as Fields
+  ): AppSuccessResult<Data> & Fields {
     return { ok: true, data, ...fields }
   },
 
