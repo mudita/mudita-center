@@ -1,0 +1,9 @@
+{
+  "name": "contact-support/models",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/contact-support/models/src",
+  "projectType": "library",
+  "tags": ["type:models"],
+  "// targets": "to see all targets run: nx show project contact-support/models --web",
+  "targets": {}
+}
