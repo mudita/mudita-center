@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import axios, { isAxiosError } from "axios"
+import fs from "fs-extra"
+import FormData from "form-data"
+import path from "path"
+import axios, { AxiosRequestConfig, isAxiosError } from "axios"
 import {
   AppError,
   AppErrorName,
@@ -25,14 +28,15 @@ export class AppHttpService {
     config: AppHttpRequestConfig
   ): Promise<AppHttpResult<Data>> {
     try {
-      const { data, status } = await axios.request<Data>(config)
+      const axiosConfig = await this.mapToAxiosConfig(config)
+      const { data, status } = await axios.request<Data>(axiosConfig)
       return AppResultFactory.success(data, { status })
     } catch (error) {
-      return AppHttpService.mapAppHttpFailedResult<Data>(error)
+      return this.mapToAppHttpFailedResult<Data>(error)
     }
   }
 
-  private static mapAppHttpFailedResult<ErrorData = unknown>(
+  private static mapToAppHttpFailedResult<ErrorData = unknown>(
     error: unknown
   ): AppHttpFailedResult<AppErrorName, ErrorData> {
     if (isAxiosError(error)) {
@@ -43,5 +47,41 @@ export class AppHttpService {
       )
     }
     return AppResultFactory.failed(new AppError(getErrorMessage(error)))
+  }
+
+  private static async mapToAxiosConfig(
+    config: AppHttpRequestConfig
+  ): Promise<AxiosRequestConfig> {
+    const axiosConfig: AxiosRequestConfig = { ...config }
+
+    if (config.files && Object.keys(config.files).length > 0) {
+      axiosConfig.data = await this.buildFormData(config.files, config.data)
+
+      for (const key of Object.keys(axiosConfig.headers ?? {})) {
+        if (key.toLowerCase() === "content-type") {
+          delete axiosConfig.headers?.[key]
+        }
+      }
+    }
+
+    return axiosConfig
+  }
+
+  private static async buildFormData(
+    files: Record<string, string>,
+    data: Record<string, unknown> = {}
+  ): Promise<FormData> {
+    const formData = new FormData()
+
+    for (const [key, value] of Object.entries(data)) {
+      formData.append(key, value)
+    }
+
+    for (const [field, filePath] of Object.entries(files)) {
+      const stream = fs.createReadStream(filePath)
+      const fileName = path.basename(filePath)
+      formData.append(field, stream, fileName)
+    }
+    return formData
   }
 }
