@@ -13,6 +13,7 @@ export interface AppHttpRequestConfig extends AxiosRequestConfig {
   data?: Record<string, unknown>
   params?: Record<string, unknown>
   headers?: Record<string, string>
+  files?: Record<string, string>
 }
 
 export type AppHttpSuccessResult<Data> = AppSuccessResult<Data> & {
