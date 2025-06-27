@@ -28,7 +28,7 @@ import { runCommand } from "./utils/handle-command"
 const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 
 export class DotnetMtp implements MtpInterface {
-  private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
+  private fileTransferTransactionStatus: Record<string, TransactionStatus> = {}
   private abortController: AbortController | undefined
 
   async getDevices(): Promise<MtpDevice[]> {
@@ -130,7 +130,7 @@ export class DotnetMtp implements MtpInterface {
   }: TransferTransactionData): Promise<
     ResultObject<GetTransferFileProgressResultData>
   > {
-    const transactionStatus = this.uploadFileTransactionStatus[transactionId]
+    const transactionStatus = this.fileTransferTransactionStatus[transactionId]
 
     if (!transactionStatus) {
       return Result.failed({
@@ -146,7 +146,7 @@ export class DotnetMtp implements MtpInterface {
     data: TransferTransactionData
   ): Promise<ResultObject<CancelTransferResultData>> {
     const transactionStatus =
-      this.uploadFileTransactionStatus[data.transactionId]
+      this.fileTransferTransactionStatus[data.transactionId]
 
     if (transactionStatus === undefined) {
       return Result.failed({
@@ -171,7 +171,7 @@ export class DotnetMtp implements MtpInterface {
     action: DotnetCliCommandAction
   ): Promise<void> {
     this.abortController = new AbortController()
-    this.uploadFileTransactionStatus[transactionId] = { progress: 0 }
+    this.fileTransferTransactionStatus[transactionId] = { progress: 0 }
     const request = { action, ...data }
     await runCommand(
       request,
@@ -180,7 +180,7 @@ export class DotnetMtp implements MtpInterface {
           `${PREFIX_LOG} file transfer stdout: ${line} for file ${data.sourcePath}`
         )
         const parsed = JSON.parse(line)
-        this.uploadFileTransactionStatus[transactionId].progress =
+        this.fileTransferTransactionStatus[transactionId].progress =
           parsed.data.progress
       },
       (line: string) => {
@@ -191,7 +191,7 @@ export class DotnetMtp implements MtpInterface {
             appError
           )} for file ${data.sourcePath}`
         )
-        this.uploadFileTransactionStatus[transactionId].error = appError
+        this.fileTransferTransactionStatus[transactionId].error = appError
       },
       this.abortController.signal
     )
@@ -200,7 +200,7 @@ export class DotnetMtp implements MtpInterface {
       })
       .catch((error) => {
         const appError = { type: error } as AppError
-        this.uploadFileTransactionStatus[transactionId].error = appError
+        this.fileTransferTransactionStatus[transactionId].error = appError
         console.error(`${PREFIX_LOG} uploadFile command status: error`, error)
       })
   }

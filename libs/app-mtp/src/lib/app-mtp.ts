@@ -49,7 +49,7 @@ export class AppMtp implements MtpInterface {
     )
     const result = await this.mtp.uploadFile(data)
     console.log(
-      `[app-mtp] starting upload file process result: ${JSON.stringify(result)}`
+      `[app-mtp] starting g file process result: ${JSON.stringify(result)}`
     )
     return result
   }
@@ -71,12 +71,14 @@ export class AppMtp implements MtpInterface {
     data: TransferTransactionData
   ): Promise<ResultObject<GetTransferFileProgressResultData>> {
     console.log(
-      `[app-mtp] getting upload file progress for transaction: ${data.transactionId}`
+      `[app-mtp] getting file transfer progress for transaction: ${data.transactionId}`
     )
     const result = await this.mtp.getTransferredFileProgress(data)
 
     console.log(
-      `[app-mtp] getting upload file progress result: ${JSON.stringify(result)}`
+      `[app-mtp] getting file transfer progress result: ${JSON.stringify(
+        result
+      )}`
     )
 
     return result
