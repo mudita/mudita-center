@@ -5,4 +5,5 @@
 
 export const AppFileSystem = {
   rm: window.api.appFileSystem.rm,
+  archive: window.api.appFileSystem.archive,
 }

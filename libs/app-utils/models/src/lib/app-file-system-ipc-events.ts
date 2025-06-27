@@ -5,4 +5,5 @@
 
 export enum AppFileSystemIpcEvents {
   Rm = "appFileSystem:rm",
+  Archive = "appFileSystem:archive",
 }

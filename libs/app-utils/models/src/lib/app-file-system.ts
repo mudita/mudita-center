@@ -5,13 +5,20 @@
 
 export type AppFileSystemScope = "userData" | "temp"
 
-export interface AppFileSystemRmOptions {
+export interface AppFileSystemScopeOptions {
   scopeRelativePath: string
+  scope?: AppFileSystemScope
+}
+
+export interface AppFileSystemRmOptions extends AppFileSystemScopeOptions {
   options?: {
     force?: boolean | undefined
     maxRetries?: number | undefined
     recursive?: boolean | undefined
     retryDelay?: number | undefined
   }
-  scope?: AppFileSystemScope
+}
+
+export interface AppFileSystemArchiveOptions extends AppFileSystemScopeOptions {
+  scopeDestinationPath: string
 }
