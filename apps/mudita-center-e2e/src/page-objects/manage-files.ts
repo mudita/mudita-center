@@ -234,6 +234,28 @@ class ManageFiles extends OverviewPage {
     )
   }
 
+  public get firstFileInTheAppsCategoryInstallModal() {
+    return $(
+      '[data-testid="modal-content-mcFileManagerInternal3startAppInstallationModal"]'
+    )
+  }
+
+  public get firstFileInTheAppsCategoryInstallModalBackButton() {
+    return $(
+      '[data-testid="primary-button-mcFileManagerInternal3startAppInstallationModalCancelButton"]'
+    )
+  }
+
+  public get firstFileInTheAppsCategoryInstallModalTitle() {
+    return $('//h1[contains(text(), "Continue install of third party app?")]')
+  }
+
+  public get firstFileInTheAppsCategoryInstallModalBody() {
+    return $(
+      '[data-testid="ui-typography-p1-mcFileManagerInternal3startAppInstallationModalContentText"]'
+    )
+  }
+
   public get checkboxFirstFileApps() {
     return $(
       '[data-testid="ui-checkbox-mcFileManagerInternal3contactCheckbox"]'
@@ -472,6 +494,22 @@ class ManageFiles extends OverviewPage {
   public get firstFileInTheAppsCategorySD() {
     return $(
       '[data-testid="ui-typography-p1-mcFileManagerExternal3columnNameText"]'
+    )
+  }
+
+  public get firstFileInTheAppsCategoryInstallModalSD() {
+    return $(
+      '[data-testid="modal-content-mcFileManagerExternal3startAppInstallationModal"]'
+    )
+  }
+
+  public get firstFileInTheAppsCategoryInstallModalTitleSD() {
+    return $('//h1[contains(text(), "Continue install of third party app?")]')
+  }
+
+  public get firstFileInTheAppsCategoryInstallModalBodySD() {
+    return $(
+      '[data-testid="ui-typography-p1-mcFileManagerExternal3startAppInstallationModalContentText"]'
     )
   }
 
