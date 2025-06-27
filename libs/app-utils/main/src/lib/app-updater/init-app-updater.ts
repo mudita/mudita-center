@@ -13,18 +13,22 @@ export const initAppUpdater = (ipcMain: IpcMain) => {
   if (!appUpdaterService) {
     appUpdaterService = new AppUpdaterService()
 
+    ipcMain.removeHandler(AppUpdaterIpcEvents.Check)
     ipcMain.handle(AppUpdaterIpcEvents.Check, () => {
       return appUpdaterService.checkForUpdates()
     })
 
+    ipcMain.removeHandler(AppUpdaterIpcEvents.Download)
     ipcMain.handle(AppUpdaterIpcEvents.Download, () => {
       return appUpdaterService.downloadUpdate()
     })
 
+    ipcMain.removeHandler(AppUpdaterIpcEvents.Install)
     ipcMain.handle(AppUpdaterIpcEvents.Install, () => {
       return appUpdaterService.quitAndInstall()
     })
 
+    ipcMain.removeHandler(AppUpdaterIpcEvents.CancelDownload)
     ipcMain.handle(AppUpdaterIpcEvents.CancelDownload, () => {
       return appUpdaterService.quitAndInstall()
     })

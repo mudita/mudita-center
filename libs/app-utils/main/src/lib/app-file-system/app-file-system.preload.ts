@@ -5,7 +5,9 @@
 
 import { ipcRenderer } from "electron"
 import {
+  AppFileSystemArchiveOptions,
   AppFileSystemIpcEvents,
+  AppFileSystemMkdirOptions,
   AppFileSystemRmOptions,
   AppResult,
 } from "app-utils/models"
@@ -13,4 +15,8 @@ import {
 export const appFileSystem = {
   rm: (options: AppFileSystemRmOptions): Promise<AppResult> =>
     ipcRenderer.invoke(AppFileSystemIpcEvents.Rm, options),
+  mkdir: (options: AppFileSystemMkdirOptions): Promise<AppResult> =>
+    ipcRenderer.invoke(AppFileSystemIpcEvents.Mkdir, options),
+  archive: (options: AppFileSystemArchiveOptions): Promise<AppResult> =>
+    ipcRenderer.invoke(AppFileSystemIpcEvents.Archive, options),
 }
