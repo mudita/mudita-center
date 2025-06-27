@@ -18,3 +18,13 @@ export class AppError<Name extends AppErrorName = AppErrorName> extends Error {
     }
   }
 }
+
+export const mapToAppError = (error: unknown): AppError => {
+  if (error instanceof AppError) return error
+
+  if (error instanceof Error) {
+    return new AppError(error.message, error.name as AppErrorName)
+  }
+
+  return new AppError(String(error), "UnknownError")
+}
