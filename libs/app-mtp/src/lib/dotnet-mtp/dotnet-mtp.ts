@@ -125,7 +125,7 @@ export class DotnetMtp implements MtpInterface {
     return Result.success({ transactionId })
   }
 
-  async getUploadFileProgress({
+  async getTransferredFileProgress({
     transactionId,
   }: TransferTransactionData): Promise<
     ResultObject<GetTransferFileProgressResultData>
@@ -142,7 +142,7 @@ export class DotnetMtp implements MtpInterface {
       : Result.success({ progress: transactionStatus.progress })
   }
 
-  async cancelUpload(
+  async cancelFileTransfer(
     data: TransferTransactionData
   ): Promise<ResultObject<CancelTransferResultData>> {
     const transactionStatus =
@@ -159,7 +159,7 @@ export class DotnetMtp implements MtpInterface {
     } else {
       this.abortController?.abort()
       console.log(
-        `${PREFIX_LOG} Canceling upload for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
+        `${PREFIX_LOG} Canceling file transfer for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
       )
       return Result.success({})
     }
@@ -177,7 +177,7 @@ export class DotnetMtp implements MtpInterface {
       request,
       (line: string) => {
         console.log(
-          `${PREFIX_LOG} uploadFile stdout: ${line} for file ${data.sourcePath}`
+          `${PREFIX_LOG} file transfer stdout: ${line} for file ${data.sourcePath}`
         )
         const parsed = JSON.parse(line)
         this.uploadFileTransactionStatus[transactionId].progress =
@@ -187,7 +187,7 @@ export class DotnetMtp implements MtpInterface {
         const errorType = translateStatus(JSON.parse(line).status)
         const appError = { type: errorType } as AppError
         console.error(
-          `${PREFIX_LOG} uploadFile stderr: ${JSON.stringify(
+          `${PREFIX_LOG} file transfer stderr: ${JSON.stringify(
             appError
           )} for file ${data.sourcePath}`
         )
@@ -196,7 +196,7 @@ export class DotnetMtp implements MtpInterface {
       this.abortController.signal
     )
       .then(() => {
-        console.log(`${PREFIX_LOG} uploadFile command status: finished`)
+        console.log(`${PREFIX_LOG} file transfer command status: finished`)
       })
       .catch((error) => {
         const appError = { type: error } as AppError

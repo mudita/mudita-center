@@ -58,22 +58,22 @@ export class AppMtp implements MtpInterface {
     data: MtpTransferFileData
   ): Promise<ResultObject<TransferFileResultData>> {
     console.log(
-      `[app-mtp] starting upload file process for data: ${JSON.stringify(data)}`
+      `[app-mtp] starting export file process for data: ${JSON.stringify(data)}`
     )
     const result = await this.mtp.exportFile(data)
     console.log(
-      `[app-mtp] starting upload file process result: ${JSON.stringify(result)}`
+      `[app-mtp] starting export file process result: ${JSON.stringify(result)}`
     )
     return result
   }
 
-  async getUploadFileProgress(
+  async getTransferredFileProgress(
     data: TransferTransactionData
   ): Promise<ResultObject<GetTransferFileProgressResultData>> {
     console.log(
       `[app-mtp] getting upload file progress for transaction: ${data.transactionId}`
     )
-    const result = await this.mtp.getUploadFileProgress(data)
+    const result = await this.mtp.getTransferredFileProgress(data)
 
     console.log(
       `[app-mtp] getting upload file progress result: ${JSON.stringify(result)}`
@@ -82,10 +82,10 @@ export class AppMtp implements MtpInterface {
     return result
   }
 
-  async cancelUpload(
+  async cancelFileTransfer(
     data: TransferTransactionData
   ): Promise<ResultObject<CancelTransferResultData>> {
-    const result = await this.mtp.cancelUpload(data)
+    const result = await this.mtp.cancelFileTransfer(data)
     console.log(`[app-mtp] canceling status: ${JSON.stringify(result)}`)
     return result
   }

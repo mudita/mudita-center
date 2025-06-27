@@ -74,7 +74,7 @@ export class MtpFileTransferService {
   async getSendFileProgress(
     transactionId: string
   ): Promise<ResultObject<GetTransferFileProgressResultData>> {
-    const result = await this.mtp.getUploadFileProgress({
+    const result = await this.mtp.getTransferredFileProgress({
       transactionId,
     })
     return this.mapToApiFileTransferErrorResult(result)
@@ -84,7 +84,7 @@ export class MtpFileTransferService {
   async cancelSendFile(
     transactionId: string
   ): Promise<ResultObject<TransferUploadFileResultData>> {
-    const result = await this.mtp.cancelUpload({
+    const result = await this.mtp.cancelFileTransfer({
       transactionId,
     })
     return this.mapToApiFileTransferErrorResult(result)

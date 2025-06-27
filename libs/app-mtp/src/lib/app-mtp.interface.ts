@@ -74,11 +74,11 @@ export interface MtpInterface {
     data: MtpTransferFileData
   ): Promise<ResultObject<TransferFileResultData>>
 
-  getUploadFileProgress(
+  getTransferredFileProgress(
     data: TransferTransactionData
   ): Promise<ResultObject<GetTransferFileProgressResultData>>
 
-  cancelUpload(
+  cancelFileTransfer(
     data: TransferTransactionData
   ): Promise<ResultObject<CancelTransferResultData>>
 }

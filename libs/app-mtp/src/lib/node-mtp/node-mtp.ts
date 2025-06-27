@@ -98,7 +98,7 @@ export class NodeMtp implements MtpInterface {
     )
   }
 
-  async getUploadFileProgress({
+  async getTransferredFileProgress({
     transactionId,
   }: TransferTransactionData): Promise<
     ResultObject<GetTransferFileProgressResultData>
@@ -118,7 +118,7 @@ export class NodeMtp implements MtpInterface {
     })
   }
 
-  async cancelUpload(
+  async cancelFileTransfer(
     data: TransferTransactionData
   ): Promise<ResultObject<CancelTransferResultData>> {
     const transactionStatus =

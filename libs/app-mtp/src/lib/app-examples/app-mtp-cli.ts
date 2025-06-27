@@ -62,7 +62,7 @@ const handleAction = (action: DotnetCliCommandAction, parsedData: unknown) => {
 
     case DotnetCliCommandAction.GET_UPLOAD_FILE_PROGRESS:
       appMtp
-        .getUploadFileProgress(parsedData as TransferTransactionData)
+        .getTransferredFileProgress(parsedData as TransferTransactionData)
         .then((progress) => {
           console.log("[app-mtp-cli] output:", progress)
         })
