@@ -19,6 +19,12 @@ export interface AppFileSystemRmOptions extends AppFileSystemScopeOptions {
   }
 }
 
+export interface AppFileSystemMkdirOptions extends AppFileSystemScopeOptions {
+  options?: {
+    recursive?: boolean | undefined
+  }
+}
+
 export interface AppFileSystemArchiveOptions extends AppFileSystemScopeOptions {
   scopeDestinationPath: string
 }

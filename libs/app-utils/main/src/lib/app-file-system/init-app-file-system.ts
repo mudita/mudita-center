@@ -7,6 +7,7 @@ import { IpcMain } from "electron"
 import {
   AppFileSystemArchiveOptions,
   AppFileSystemIpcEvents,
+  AppFileSystemMkdirOptions,
   AppFileSystemRmOptions,
 } from "app-utils/models"
 import { AppFileSystemService } from "./app-file-system.service"
@@ -15,6 +16,11 @@ export const initAppFileSystem = (ipcMain: IpcMain) => {
   ipcMain.handle(
     AppFileSystemIpcEvents.Rm,
     (_, options: AppFileSystemRmOptions) => AppFileSystemService.rm(options)
+  )
+  ipcMain.handle(
+    AppFileSystemIpcEvents.Mkdir,
+    (_, options: AppFileSystemMkdirOptions) =>
+      AppFileSystemService.mkdir(options)
   )
   ipcMain.handle(
     AppFileSystemIpcEvents.Archive,

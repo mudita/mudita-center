@@ -9,6 +9,7 @@ import path from "path"
 import fs from "fs-extra"
 import {
   AppFileSystemArchiveOptions,
+  AppFileSystemMkdirOptions,
   AppFileSystemRmOptions,
   AppFileSystemScopeOptions,
   AppResult,
@@ -25,6 +26,20 @@ export class AppFileSystemService {
     try {
       const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
       await fs.rm(filePath, options)
+      return AppResultFactory.success()
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static async mkdir({
+    scopeRelativePath,
+    options,
+    scope,
+  }: AppFileSystemMkdirOptions): Promise<AppResult> {
+    try {
+      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      await fs.mkdir(filePath, options)
       return AppResultFactory.success()
     } catch (error) {
       return AppResultFactory.failed(mapToAppError(error))
