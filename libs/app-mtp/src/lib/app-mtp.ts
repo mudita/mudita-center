@@ -49,7 +49,7 @@ export class AppMtp implements MtpInterface {
     )
     const result = await this.mtp.uploadFile(data)
     console.log(
-      `[app-mtp] starting g file process result: ${JSON.stringify(result)}`
+      `[app-mtp] starting upload file process result: ${JSON.stringify(result)}`
     )
     return result
   }
