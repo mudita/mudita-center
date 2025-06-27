@@ -6,12 +6,12 @@
 import { PortInfo } from "serialport"
 import {
   AppMtp,
-  CancelUploadFileResultData,
-  GetUploadFileProgressResultData,
+  TransferUploadFileResultData,
+  GetTransferFileProgressResultData,
   MTPError,
   MtpStorage,
-  MtpUploadFileData,
-  UploadFileResultData,
+  MtpTransferFileData,
+  TransferFileResultData,
 } from "app-mtp"
 import {
   ApiFileTransferError,
@@ -60,7 +60,7 @@ export class MtpFileTransferService {
     storageId,
     sourcePath,
     destinationPath,
-  }: MtpUploadFileData): Promise<ResultObject<UploadFileResultData>> {
+  }: MtpTransferFileData): Promise<ResultObject<TransferFileResultData>> {
     const result = await this.mtp.uploadFile({
       deviceId,
       storageId,
@@ -73,8 +73,8 @@ export class MtpFileTransferService {
   @IpcEvent(MtpFileTransferServiceEvents.GetSendFileProgress)
   async getSendFileProgress(
     transactionId: string
-  ): Promise<ResultObject<GetUploadFileProgressResultData>> {
-    const result = await this.mtp.getUploadFileProgress({
+  ): Promise<ResultObject<GetTransferFileProgressResultData>> {
+    const result = await this.mtp.getTransferredFileProgress({
       transactionId,
     })
     return this.mapToApiFileTransferErrorResult(result)
@@ -83,8 +83,8 @@ export class MtpFileTransferService {
   @IpcEvent(MtpFileTransferServiceEvents.CancelSendFile)
   async cancelSendFile(
     transactionId: string
-  ): Promise<ResultObject<CancelUploadFileResultData>> {
-    const result = await this.mtp.cancelUpload({
+  ): Promise<ResultObject<TransferUploadFileResultData>> {
+    const result = await this.mtp.cancelFileTransfer({
       transactionId,
     })
     return this.mapToApiFileTransferErrorResult(result)

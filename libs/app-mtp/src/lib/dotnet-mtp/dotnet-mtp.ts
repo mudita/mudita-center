@@ -4,16 +4,16 @@
  */
 
 import {
-  CancelUploadResultData,
-  UploadTransactionData,
-  GetUploadFileProgressResultData,
+  CancelTransferResultData,
+  TransferTransactionData,
+  GetTransferFileProgressResultData,
   MtpDevice,
   MTPError,
   MtpInterface,
   MtpStorage,
-  MtpUploadFileData,
+  MtpTransferFileData,
   TransactionStatus,
-  UploadFileResultData,
+  TransferFileResultData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
 import {
@@ -28,7 +28,7 @@ import { runCommand } from "./utils/handle-command"
 const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 
 export class DotnetMtp implements MtpInterface {
-  private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
+  private fileTransferTransactionStatus: Record<string, TransactionStatus> = {}
   private abortController: AbortController | undefined
 
   async getDevices(): Promise<MtpDevice[]> {
@@ -102,19 +102,35 @@ export class DotnetMtp implements MtpInterface {
   }
 
   async uploadFile(
-    data: MtpUploadFileData
-  ): Promise<ResultObject<UploadFileResultData>> {
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>> {
     const transactionId = generateId()
-    void this.processFileUpload(data, transactionId)
+    void this.processFileTransfer(
+      data,
+      transactionId,
+      DotnetCliCommandAction.UPLOAD_FILE
+    )
     return Result.success({ transactionId })
   }
 
-  async getUploadFileProgress({
+  async exportFile(
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>> {
+    const transactionId = generateId()
+    void this.processFileTransfer(
+      data,
+      transactionId,
+      DotnetCliCommandAction.EXPORT_FILE
+    )
+    return Result.success({ transactionId })
+  }
+
+  async getTransferredFileProgress({
     transactionId,
-  }: UploadTransactionData): Promise<
-    ResultObject<GetUploadFileProgressResultData>
+  }: TransferTransactionData): Promise<
+    ResultObject<GetTransferFileProgressResultData>
   > {
-    const transactionStatus = this.uploadFileTransactionStatus[transactionId]
+    const transactionStatus = this.fileTransferTransactionStatus[transactionId]
 
     if (!transactionStatus) {
       return Result.failed({
@@ -126,11 +142,11 @@ export class DotnetMtp implements MtpInterface {
       : Result.success({ progress: transactionStatus.progress })
   }
 
-  async cancelUpload(
-    data: UploadTransactionData
-  ): Promise<ResultObject<CancelUploadResultData>> {
+  async cancelFileTransfer(
+    data: TransferTransactionData
+  ): Promise<ResultObject<CancelTransferResultData>> {
     const transactionStatus =
-      this.uploadFileTransactionStatus[data.transactionId]
+      this.fileTransferTransactionStatus[data.transactionId]
 
     if (transactionStatus === undefined) {
       return Result.failed({
@@ -143,47 +159,48 @@ export class DotnetMtp implements MtpInterface {
     } else {
       this.abortController?.abort()
       console.log(
-        `${PREFIX_LOG} Canceling upload for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
+        `${PREFIX_LOG} Canceling file transfer for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
       )
       return Result.success({})
     }
   }
 
-  private async processFileUpload(
-    data: MtpUploadFileData,
-    transactionId: string
+  private async processFileTransfer(
+    data: MtpTransferFileData,
+    transactionId: string,
+    action: DotnetCliCommandAction
   ): Promise<void> {
     this.abortController = new AbortController()
-    this.uploadFileTransactionStatus[transactionId] = { progress: 0 }
-    const request = { action: DotnetCliCommandAction.UPLOAD_FILE, ...data }
+    this.fileTransferTransactionStatus[transactionId] = { progress: 0 }
+    const request = { action, ...data }
     await runCommand(
       request,
       (line: string) => {
         console.log(
-          `${PREFIX_LOG} uploadFile stdout: ${line} for file ${data.sourcePath}`
+          `${PREFIX_LOG} file transfer stdout: ${line} for file ${data.sourcePath}`
         )
         const parsed = JSON.parse(line)
-        this.uploadFileTransactionStatus[transactionId].progress =
+        this.fileTransferTransactionStatus[transactionId].progress =
           parsed.data.progress
       },
       (line: string) => {
         const errorType = translateStatus(JSON.parse(line).status)
         const appError = { type: errorType } as AppError
         console.error(
-          `${PREFIX_LOG} uploadFile stderr: ${JSON.stringify(
+          `${PREFIX_LOG} file transfer stderr: ${JSON.stringify(
             appError
           )} for file ${data.sourcePath}`
         )
-        this.uploadFileTransactionStatus[transactionId].error = appError
+        this.fileTransferTransactionStatus[transactionId].error = appError
       },
       this.abortController.signal
     )
       .then(() => {
-        console.log(`${PREFIX_LOG} uploadFile command status: finished`)
+        console.log(`${PREFIX_LOG} file transfer command status: finished`)
       })
       .catch((error) => {
         const appError = { type: error } as AppError
-        this.uploadFileTransactionStatus[transactionId].error = appError
+        this.fileTransferTransactionStatus[transactionId].error = appError
         console.error(`${PREFIX_LOG} uploadFile command status: error`, error)
       })
   }

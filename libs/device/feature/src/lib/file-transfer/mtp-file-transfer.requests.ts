@@ -6,11 +6,11 @@
 import { PortInfo } from "serialport"
 import { ipcRenderer } from "electron-better-ipc"
 import {
-  CancelUploadFileResultData,
-  GetUploadFileProgressResultData,
+  TransferUploadFileResultData,
+  GetTransferFileProgressResultData,
   MtpStorage,
-  MtpUploadFileData,
-  UploadFileResultData,
+  MtpTransferFileData,
+  TransferFileResultData,
 } from "app-mtp"
 import {
   ApiFileTransferError,
@@ -19,8 +19,8 @@ import {
 import { ResultObject } from "Core/core/builder"
 
 export const startSendFileViaMtpRequest = (
-  payload: MtpUploadFileData
-): Promise<ResultObject<UploadFileResultData, ApiFileTransferError>> => {
+  payload: MtpTransferFileData
+): Promise<ResultObject<TransferFileResultData, ApiFileTransferError>> => {
   return ipcRenderer.callMain(
     MtpFileTransferServiceEvents.StartSendFile,
     payload
@@ -29,7 +29,7 @@ export const startSendFileViaMtpRequest = (
 export const getSendFileProgressViaMtpRequest = (
   transactionId: string
 ): Promise<
-  ResultObject<GetUploadFileProgressResultData, ApiFileTransferError>
+  ResultObject<GetTransferFileProgressResultData, ApiFileTransferError>
 > => {
   return ipcRenderer.callMain(
     MtpFileTransferServiceEvents.GetSendFileProgress,
@@ -39,7 +39,9 @@ export const getSendFileProgressViaMtpRequest = (
 
 export const cancelSendFileViaMtpRequest = (
   transactionId: string
-): Promise<ResultObject<CancelUploadFileResultData, ApiFileTransferError>> => {
+): Promise<
+  ResultObject<TransferUploadFileResultData, ApiFileTransferError>
+> => {
   return ipcRenderer.callMain(
     MtpFileTransferServiceEvents.CancelSendFile,
     transactionId

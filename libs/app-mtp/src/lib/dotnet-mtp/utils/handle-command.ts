@@ -53,9 +53,9 @@ export async function runCommand(
     })
 
     const handleAbort = () => {
-      const killed = child.kill()
-      if (killed) {
-        reject(MTPError.MTP_PROCESS_CANCELLED)
+      if (child.stdin.writable) {
+        child.stdin.write("cancel\n")
+        child.stdin.end()
       } else {
         reject(MTPError.MTP_GENERAL_ERROR)
       }
