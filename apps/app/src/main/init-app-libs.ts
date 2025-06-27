@@ -13,6 +13,7 @@ import {
   initAppActions,
   initAppFileSystem,
   initAppHttp,
+  initAppLogger,
   initAppUpdater,
   initJsonStore,
 } from "app-utils/main"
@@ -27,5 +28,6 @@ export const initAppLibs = (webContents: WebContents) => {
   initAppHelp(ipcMain)
   initJsonStore(ipcMain)
   initAppHttp(ipcMain)
+  initAppLogger(ipcMain)
   initAppFileSystem(ipcMain)
 }
