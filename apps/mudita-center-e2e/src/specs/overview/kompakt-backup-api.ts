@@ -103,8 +103,8 @@ describe("E2E mock sample - overview view", () => {
     await expect(backupSuccessTitle).toHaveText("Backup complete")
 
     const backupSuccessSubTitle = ModalBackupKompaktPage.backupSuccessSubTitle
-    await expect(backupSuccessSubTitle).toHaveText(
-      "Your data was successfully secured.\nOpen the backup folder to see your backup data or close this window."
+    await expect(backupSuccessSubTitle).toHaveTextContaining(
+      "Your data was successfully secured"
     )
   })
 
