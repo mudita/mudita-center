@@ -13,10 +13,12 @@ export const initAppActions = (ipcMain: IpcMain) => {
   if (!appActionsService) {
     appActionsService = new AppActionsService()
 
+    ipcMain.removeHandler(AppActionsIpcEvents.Close)
     ipcMain.handle(AppActionsIpcEvents.Close, () => {
       appActionsService.close()
     })
 
+    ipcMain.removeHandler(AppActionsIpcEvents.OpenDirectoryDialog)
     ipcMain.handle(
       AppActionsIpcEvents.OpenDirectoryDialog,
       (_, options: OpenDialogOptions) => {
@@ -24,6 +26,7 @@ export const initAppActions = (ipcMain: IpcMain) => {
       }
     )
 
+    ipcMain.removeHandler(AppActionsIpcEvents.OpenLegalWindow)
     ipcMain.handle(
       AppActionsIpcEvents.OpenLegalWindow,
       (_, { path, title }: { path: string; title: string }) => {
@@ -31,6 +34,7 @@ export const initAppActions = (ipcMain: IpcMain) => {
       }
     )
 
+    ipcMain.removeHandler(AppActionsIpcEvents.GetVersion)
     ipcMain.handle(AppActionsIpcEvents.GetVersion, () => {
       return appActionsService?.getAppVersion()
     })

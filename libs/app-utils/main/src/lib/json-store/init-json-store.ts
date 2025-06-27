@@ -10,10 +10,12 @@ import { JsonStoreIpcEvents } from "app-utils/models"
 export const initJsonStore = (ipcMain: IpcMain) => {
   const base = getBaseJsonStoreService()
 
+  ipcMain.removeHandler(JsonStoreIpcEvents.Get)
   ipcMain.handle(JsonStoreIpcEvents.Get, async (_, name: string) => {
     return base.get(name)
   })
 
+  ipcMain.removeHandler(JsonStoreIpcEvents.Init)
   ipcMain.handle(
     JsonStoreIpcEvents.Init,
     async (
@@ -30,6 +32,7 @@ export const initJsonStore = (ipcMain: IpcMain) => {
     }
   )
 
+  ipcMain.removeHandler(JsonStoreIpcEvents.Has)
   ipcMain.handle(JsonStoreIpcEvents.Has, async (_, name: string) => {
     return base.has(name)
   })
