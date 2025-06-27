@@ -110,7 +110,7 @@ export const config: Options.Testrunner = {
     standalone: [
       toRelativePath(TestFilesPaths.helpSectionCheckTest),
       toRelativePath(TestFilesPaths.helpSectionCheckTestOffline),
-      //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.newsMoreNews),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
@@ -170,7 +170,7 @@ export const config: Options.Testrunner = {
     cicdStandalone: [
       toRelativePath(TestFilesPaths.helpSectionCheckTest),
       toRelativePath(TestFilesPaths.helpSectionCheckTestOffline),
-      //toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
