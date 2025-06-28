@@ -34,15 +34,15 @@ class SettingsPage extends Page {
     return $("//p[contains(text(), 'Mudita Center - installed version:')]")
   }
 
-  get aboutUpToDateLabel() {
-    return $('//p[text()="You\'re up to date."]')
+  public get aboutUpToDateLabel() {
+    return $("//p[contains(text(), 'You’re up to date.')]")
   }
 
-  get aboutCheckForUpdateFailedLabel() {
+  public get aboutCheckForUpdateFailedLabel() {
     return $("//p[text()='Checking for updates failed']")
   }
 
-  get aboutCheckForUpdatesButton() {
+  public get aboutCheckForUpdatesButton() {
     return $("//*[@data-testid='about-update-button']")
   }
 
