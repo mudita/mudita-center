@@ -7,107 +7,107 @@ import Page from "./page"
 
 class SettingsPage extends Page {
   public get locationTextLabel() {
-    return $('[data-testid="location"]')
+    return $("//*[@data-testid='location']")
   }
 
   public get generalTab() {
-    return $('a[href="#/settings"] [data-testid="icon-Connection"]')
+    return $("//a[@href='#/settings']//*[@data-testid='icon-Connection']")
   }
 
   public get backupTab() {
-    return $('a[href="#/settings/backup"]')
+    return $("//a[@href='#/settings/backup']")
   }
 
   public get aboutTab() {
-    return $('a[href="#/settings/about"]')
+    return $("//a[@href='#/settings/about']")
   }
 
   public get generalSendLogsTextLabel() {
-    return $("p*=Send Mudita Center logs to Mudita")
+    return $("//p[contains(text(), 'Send Mudita Center logs to Mudita')]")
   }
 
   public get backupLocationPathTextLabel() {
-    return $('[data-testid="backup-location"]')
+    return $("//*[@data-testid='backup-location']")
   }
 
   public get aboutInstalledVersionTextLabel() {
-    return $("p*=Mudita Center - installed version:")
+    return $("//p[contains(text(), 'Mudita Center - installed version:')]")
   }
 
   get aboutUpToDateLabel() {
-    return $("p=You’re up to date.")
+    return $('//p[text()="You\'re up to date."]')
   }
 
   get aboutCheckForUpdateFailedLabel() {
-    return $("p=Checking for updates failed")
+    return $("//p[text()='Checking for updates failed']")
   }
 
   get aboutCheckForUpdatesButton() {
-    return $('[data-testid="about-update-button"]')
+    return $("//*[@data-testid='about-update-button']")
   }
 
   public get aboutTermsOfServiceTextLabel() {
-    return $("p*=Terms of service")
+    return $("//p[contains(text(), 'Terms of service')]")
   }
 
   public get aboutTermsOfServiceButton() {
-    return $('[data-testid="terms-of-service-button"]')
+    return $("//*[@data-testid='terms-of-service-button']")
   }
 
   public get aboutTermsOfServiceComponentWrapper() {
-    return $('[data-testid="terms-of-service-component-wrapper"]')
+    return $("//*[@data-testid='terms-of-service-component-wrapper']")
   }
 
   public get aboutPrivacyPolicyTextLabel() {
-    return $("p*=Privacy Policy")
+    return $("//p[contains(text(), 'Privacy Policy')]")
   }
 
   public get aboutPrivacyPolicyButton() {
-    return $('[data-testid="about-privacy-policy-button"]')
+    return $("//*[@data-testid='about-privacy-policy-button']")
   }
 
   public get aboutPrivacyPolicyComponentWrapper() {
-    return $('[data-testid="privacy-policy-component-wrapper"]')
+    return $("//*[@data-testid='privacy-policy-component-wrapper']")
   }
 
   public get aboutLicenseTextLabel() {
-    return $("p*=License")
+    return $("//p[contains(text(), 'License')]")
   }
 
   public get aboutLicenseButton() {
-    return $('[data-testid="about-license-button"]')
+    return $("//*[@data-testid='about-license-button']")
   }
 
   public get aboutLicenseComponentWrapper() {
-    return $('[data-testid="License-component-wrapper"]')
+    return $("//*[@data-testid='License-component-wrapper']")
   }
 
   public get closeButton() {
-    return $('[data-testid="icon-Close"]')
+    return $("//*[@data-testid='icon-Close']")
   }
 
   public get addToFavouritessCheckbox() {
-    return $('[name="favourite"]')
+    return $("//*[@name='favourite']")
   }
 
   public get cancelButton() {
-    return $("p*=Cancel")
+    return $("//p[contains(text(), 'Cancel')]")
   }
 
   public get saveButton() {
-    return $('[data-testid="save-button"]')
+    return $("//*[@data-testid='save-button']")
   }
 
   public get noContactsText() {
-    return $('[data-testid="contact-list-no-result"]')
+    return $("//*[@data-testid='contact-list-no-result']")
   }
 
   public get changeLocationButton() {
-    return $('[data-testid="settings-backup-change-location-button"]')
+    return $("//*[@data-testid='settings-backup-change-location-button']")
   }
 
   public get backupLocationValue() {
-    return $('[data-testid="backup-location"]')
+    return $("//*[@data-testid='backup-location']")
   }
 }
 

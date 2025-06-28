@@ -173,6 +173,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
+      toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.contactSupportUnhappyPath),
       toRelativePath(TestFilesPaths.newsMoreNews),
       toRelativePath(TestFilesPaths.helpVerifyFeedback),
