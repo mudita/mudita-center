@@ -7,27 +7,27 @@ import Page from "./page"
 
 export class Menu extends Page {
   public get newsLink() {
-    return $(`//a[@href="#/news"]`)
+    return $("//a[@href='#/news']")
   }
 
   public get kompaktLabel() {
-    return $('[data-testid="Kompakt"]')
+    return $("//*[@data-testid='Kompakt']")
   }
 
   public get overviewLink() {
-    return $(`//a[@href="#/generic/mc-overview"]`)
+    return $("//a[@href='#/generic/mc-overview']")
   }
 
   public get muditaCenterLabel() {
-    return $('[data-testid="component.menuHeaderDesktopApp"]')
+    return $("//*[@data-testid='component.menuHeaderDesktopApp']")
   }
 
   public get settingsLink() {
-    return $(`//a[@href="#/settings"]`)
+    return $("//a[@href='#/settings']")
   }
 
   public get helpLink() {
-    return $(`//a[@href="#/help"]`)
+    return $("//a[@href='#/help']")
   }
 }
 

@@ -7,19 +7,19 @@ import Page from "./page"
 
 class ModalAppUpdateError extends Page {
   public get infoIcon() {
-    return $('[data-testid="icon-Info"]')
+    return $("//*[@data-testid='icon-Info']")
   }
 
   public get errorLabel() {
-    return $("h4*=Error")
+    return $("//h4[contains(text(), 'Error')]")
   }
 
   public get pleaseRestartParagraph() {
-    return $("p*=Please restart the app")
+    return $("//p[contains(text(), 'Please restart the app')]")
   }
 
   public get closeButton() {
-    return $('[data-testid="close-bottom-button"]')
+    return $("//*[@data-testid='close-bottom-button']")
   }
 }
 

@@ -7,32 +7,33 @@ import Page from "./page"
 
 class ModalAppUpdateLater extends Page {
   get modalHeader() {
-    return $('[data-testid="modal-title"]')
+    return $("//*[@data-testid='modal-title']")
   }
 
   get modalCloseButton() {
-    return $('[data-testid="close-modal-button"]')
+    return $("//*[@data-testid='close-modal-button']")
   }
 
   get appUpdateFlowContainer() {
-    return $('[data-testid="app-update-flow-container"]')
+    return $("//*[@data-testid='app-update-flow-container']")
   }
 
   get paragraphAvailableVersion() {
-    return $("h4*=Update Mudita Center to")
+    return $("//h4[contains(text(), 'Update Mudita Center to')]")
   }
 
   get paragraphUpdateLaterPrivacyPolicy() {
     return $(
-      "p*=To be able to fully use the application, please agree to the Privacy Policy and update Mudita Center."
+      "//p[contains(text(), 'please agree to the Privacy Policy and update Mudita Center.')]"
     )
   }
 
   get buttonUpdateLater() {
-    return $('[data-testid="close-bottom-button"]')
+    return $("//*[@data-testid='close-bottom-button']")
   }
+
   get buttonUpdate() {
-    return $('[data-testid="modal-action-button"]')
+    return $("//*[@data-testid='modal-action-button']")
   }
 }
 

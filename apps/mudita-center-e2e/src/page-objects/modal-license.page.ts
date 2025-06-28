@@ -7,29 +7,29 @@ import Page from "./page"
 
 class ModalLicense extends Page {
   public get modalHeader() {
-    return $('h2[data-testid="license-component-title"]')
+    return $("//h2[@data-testid='license-component-title']")
   }
 
   public get firstParagraph() {
     return $(
-      "p*=Please note that we provide an open source software notice with this app. "
+      "//p[contains(text(), 'we provide an open source software notice with this app')]"
     )
   }
 
   public get sectionWarrantyDisclaimer() {
-    return $("p*=WARRANTY DISCLAIMER")
+    return $("//p[contains(text(), 'WARRANTY DISCLAIMER')]")
   }
 
   public get sectionNoticeForFile() {
-    return $("p*=Notice for file(s):")
+    return $("//p[contains(text(), 'Notice for file(s):')]")
   }
 
   public get zodLibrarySection() {
-    return $(`//p[contains(., concat('"', 'zod', '": "', '^3.22.4', '"'))]`)
+    return $("//p[contains(., 'zod') and contains(., '^3.22.4')]")
   }
 
   public get zodLibraryCopyrightSection() {
-    return $("p*=Copyright (c) 2020 Colin McDonnell")
+    return $("//p[contains(text(), 'Copyright (c) 2020 Colin McDonnell')]")
   }
 }
 

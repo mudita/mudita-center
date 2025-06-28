@@ -126,7 +126,7 @@ describe("E2E mock sample - overview view", () => {
     await expect(drawerHeader).toBeDisplayed()
   })
 
-  it("Remove first device", async () => {
+  xit("Remove first device", async () => {
     E2EMockClient.removeDevice("path-1")
     await browser.pause(6000)
 

@@ -98,14 +98,5 @@ describe("File manager DELETE APK text check", () => {
     await expect(firstFileInTheAppsCategoryDeleteButtonSD).toHaveText(
       "DELETE APK"
     )
-
-    // //check delete file modal
-    // await firstFileInTheAppsCategoryDeleteButtonSD.click()
-    // const firstFileInTheAppsCategoryDeleteModalSD =
-    //   ManageFiles.firstFileInTheAppsCategoryDeleteModalSD
-    // await expect(firstFileInTheAppsCategoryDeleteModalSD).toBeDisplayed()
-
-    // const iconExclamation = ManageFiles.iconExclamation
-    // await expect(iconExclamation).toBeDisplayed()
   })
 })

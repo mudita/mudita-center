@@ -7,11 +7,12 @@ import Page from "./page"
 
 class AboutKompaktPage extends Page {
   public get sarHeader() {
-    return $("h3*=SAR")
+    return $("//h3[contains(text(), 'SAR')]")
   }
 
   public get modalCloseButton() {
-    return $('[data-testid="icon-close"]')
+    return $("//*[@data-testid='icon-close']")
   }
 }
+
 export default new AboutKompaktPage()

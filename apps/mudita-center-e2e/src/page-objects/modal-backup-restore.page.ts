@@ -7,43 +7,46 @@ import Page from "./page"
 
 class ModalBackupRestorePage extends Page {
   public get failModalIcon() {
-    return $('[data-testid="icon-Fail"]')
+    return $("//*[@data-testid='icon-Fail']")
   }
 
   public get checkCircleIcon() {
-    return $('[data-testid="icon-CheckCircle"]')
+    return $("//*[@data-testid='icon-CheckCircle']")
   }
 
   public get listOfBackups() {
-    return $$('[data-testid="restore-available-backup-modal-body-row"]')
+    return $$("//*[@data-testid='restore-available-backup-modal-body-row']")
   }
 
   public get restoreButton() {
-    return $('[data-testid="modal-action-button"]*=Restore')
+    return $(
+      "//button[contains(@data-testid, 'modal-action-button') and contains(., 'Restore')]"
+    )
   }
 
   public get restorePasswordInput() {
-    return $('[name="secretKey"]')
+    return $("//*[@name='secretKey']")
   }
 
   public get restoreSubmitButton() {
-    return $('[type="submit"]*=Confirm')
+    return $("//button[@type='submit' and contains(., 'Confirm')]")
   }
+
   //BACKUP modal objects
   public get createBackupModalButton() {
-    return $('[data-testid="modal-action-button"]')
+    return $("//*[@data-testid='modal-action-button']")
   }
 
   public get backupPasswordFirstInput() {
-    return $('[data-testid="backup-first-input"]')
+    return $("//*[@data-testid='backup-first-input']")
   }
 
   public get backupPasswordSecondInput() {
-    return $('[data-testid="backup-second-input"]')
+    return $("//*[@data-testid='backup-second-input']")
   }
 
   public get backupSubmitButton() {
-    return $('[data-testid="backup-submit-button"]')
+    return $("//*[@data-testid='backup-submit-button']")
   }
 }
 
