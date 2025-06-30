@@ -5,4 +5,4 @@
 
 import { ContactSupportState } from "./contact-support.types"
 
-export interface ContactSupportReducer extends ContactSupportState {}
+export type ContactSupportReducer = ContactSupportState

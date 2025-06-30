@@ -3,25 +3,23 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { createAsyncThunk, createAction } from "@reduxjs/toolkit"
-// import { ContactSupportError } from './contact-support.types'; --> will be used later
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit"
 
 export enum ContactSupportEvent {
   SendTicket = "contactSupport/sendTicket",
   CloseContactSupportFlow = "contactSupport/closeContactSupportFlow",
 }
 
-export const sendTicket = createAsyncThunk<void, any, { rejectValue: string }>(
+export const sendTicket = createAsyncThunk(
   ContactSupportEvent.SendTicket,
-  async (ticketData, { rejectWithValue }) => {
+  async (_ticketData) => {
     // TODO: integrate actual request logic (e.g., sendTicketRequest(ticketData))
-    try {
-      // Placeholder: simulate a successful request
-      return
-    } catch (error) {
-      // Placeholder error handling: return a simplified error message
-      return rejectWithValue("Failed to send support ticket")
-    }
+    // For now, we simulate a successful response
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve()
+      }, 1000) // Simulating a delay of 1 second
+    })
   }
 )
 
