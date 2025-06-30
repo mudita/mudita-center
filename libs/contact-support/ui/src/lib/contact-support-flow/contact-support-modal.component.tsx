@@ -3,17 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, ComponentProps, useEffect } from "react"
+import { FunctionComponent, useEffect } from "react"
 import { defineMessages, FormattedMessage, useIntl } from "react-intl"
 import { FieldValues, useForm } from "react-hook-form"
 import styled from "styled-components"
-import {
-  Button,
-  Modal,
-  SpinnerLoader,
-  TextInput,
-  Typography,
-} from "app-theme/ui"
+import { Button, Modal, TextInput, Typography } from "app-theme/ui"
 import { ButtonType, IconType, TextInputVariant } from "app-theme/models"
 import {
   ContactSupportModalTestIds,
@@ -92,6 +86,7 @@ export const FormInputLabelComponent: FunctionComponent<
 
 export const ContactSupportModal: FunctionComponent<
   ContactSupportModalProps
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
 > = ({ files, onSubmit = () => {}, sending = false, onClose = () => {} }) => {
   const {
     register,
@@ -131,7 +126,7 @@ export const ContactSupportModal: FunctionComponent<
     <>
       {sending ? (
         <>
-          <Modal.TitleIcon type={IconType.SpinnerDark} />
+          <Modal.TitleIcon type={IconType.Spinner} />
           <Modal.Title>{intl.formatMessage(messages.sendingTitle)}</Modal.Title>
           {/* No close button or form fields while sending */}
         </>
@@ -216,10 +211,12 @@ const DescriptionInput = styled.textarea`
   padding: 1rem;
   font: inherit;
   resize: none;
+
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.app.color.black};
   }
+
   &::placeholder {
     color: ${({ theme }) => theme.app.color.grey3};
   }

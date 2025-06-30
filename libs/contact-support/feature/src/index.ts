@@ -5,4 +5,3 @@
 
 export * from "./lib/store/contact-support.reducer"
 export * from "./lib/store/contact-support.actions"
-export * from "../../models/src/lib/contact-support.types"
