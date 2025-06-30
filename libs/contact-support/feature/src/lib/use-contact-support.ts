@@ -7,15 +7,42 @@ import { format } from "date-fns"
 import logger from "electron-log/renderer"
 import { useMutation } from "@tanstack/react-query"
 import { AppFileSystem, AppHttp, AppLogger } from "app-utils/renderer"
-import { AppHttpRequestConfig } from "app-utils/models"
+import { AppError, AppHttpRequestConfig } from "app-utils/models"
+import { CustomerSupportCreateTicketPayload } from "contact-support/models"
 import { contactSupportMutationKeys } from "./contact-support-mutation-keys"
 import { contactSupportConfig } from "./contact-support-config"
-import { CustomerSupportCreateTicketPayload } from "contact-support/models"
 
 interface CreateTicketRequestPayload
   extends Pick<AppHttpRequestConfig, "data" | "files"> {
   data: Record<string, string>
   files: Record<string, string>
+}
+
+enum SupportMetaErrorName {
+  MkdirError = "mkdirError",
+  AggregateAppLogsError = "aggregateAppLogsError",
+  ArchiveError = "archiveError",
+}
+
+type MetaCreateTicketError = AppError<SupportMetaErrorName>
+
+export const withMetaErrorsInDescription = (
+  description: string,
+  metaErrors?: MetaCreateTicketError[]
+): string => {
+  if (!metaErrors || metaErrors.length === 0) {
+    return description
+  }
+
+  const metaMsg = [
+    `[INFO][AUTOMATED META]`,
+    ...metaErrors.map(
+      (err, i) => `#${i + 1} TYPE: ${err.name} DETAILS: ${err.message}`
+    ),
+    `---`
+  ].join('\n')
+
+  return `${metaMsg}\n${description}`
 }
 
 const createTicketRequest = async ({
@@ -33,20 +60,26 @@ const createTicketRequest = async ({
   })
 }
 
-const mapToCreateTicketRequestPayload = ({
-  type,
-  email = "no_email@mudita.com",
-  subject,
-  description = "no text",
-  serialNumber,
-  deviceId,
-  product,
-}: CustomerSupportCreateTicketPayload): CreateTicketRequestPayload => {
+const mapToCreateTicketRequestPayload = (
+  {
+    type,
+    email = "no_email@mudita.com",
+    subject,
+    description = "no text",
+    serialNumber,
+    deviceId,
+    product,
+  }: CustomerSupportCreateTicketPayload,
+  metaCreateTicketErrors: MetaCreateTicketError[]
+): CreateTicketRequestPayload => {
   const data: Record<string, string> = {
     type,
     email,
     subject,
-    description,
+    description: withMetaErrorsInDescription(
+      description,
+      metaCreateTicketErrors
+    ),
     status: "2",
     source: "100",
     priority: "1",
@@ -75,6 +108,7 @@ const saveAppDeviceLogs = async (deviceId: string, destinationPath: string) => {
 const createTicket = async (
   actionPayload: CustomerSupportCreateTicketPayload
 ) => {
+  const metaCreateTicketErrors: MetaCreateTicketError[] = []
   const todayFormatDate = format(new Date(), "yyyy-MM-dd")
   const tmpLogsScopeRelativePath = contactSupportConfig.tmpLogsScopeRelativePath
 
@@ -93,7 +127,9 @@ const createTicket = async (
   })
 
   if (!mkdirResult.ok) {
-    throw mkdirResult.error
+    metaCreateTicketErrors.push(
+      new AppError(mkdirResult.error.message, SupportMetaErrorName.MkdirError)
+    )
   }
 
   if (actionPayload.deviceId) {
@@ -108,7 +144,12 @@ const createTicket = async (
   })
 
   if (!aggregateLogsToFileResult.ok) {
-    throw aggregateLogsToFileResult.error
+    metaCreateTicketErrors.push(
+      new AppError(
+        aggregateLogsToFileResult.error.message,
+        SupportMetaErrorName.AggregateAppLogsError
+      )
+    )
   }
 
   const zippedLogsFileName = `mc-${todayFormatDate}.zip`
@@ -120,10 +161,18 @@ const createTicket = async (
   })
 
   if (!archiveResult.ok) {
-    throw archiveResult.error
+    metaCreateTicketErrors.push(
+      new AppError(
+        archiveResult.error.message,
+        SupportMetaErrorName.ArchiveError
+      )
+    )
   }
 
-  const requestPayload = mapToCreateTicketRequestPayload(actionPayload)
+  const requestPayload = mapToCreateTicketRequestPayload(
+    actionPayload,
+    metaCreateTicketErrors
+  )
   return await createTicketRequest(requestPayload)
 }
 
