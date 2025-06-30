@@ -12,6 +12,7 @@ import {
   appActions,
   appFileSystem,
   appHttp,
+  appLogger,
   appUpdater,
   jsonStore,
 } from "app-utils/main"
@@ -24,6 +25,7 @@ export const api = {
   appActions,
   appFileSystem,
   appHttp,
+  appLogger,
   appHelp,
   appUpdater,
   jsonStore,
