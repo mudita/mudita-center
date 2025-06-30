@@ -10,15 +10,15 @@
 
 export default class ModalPage {
   public static get modalHeader() {
-    return $('[data-testid="modal-header"]')
+    return $("//*[@data-testid='modal-header']")
   }
 
   public static get modalCloseButton() {
-    return this.modalHeader.$('[data-testid="icon-Close"]')
+    return this.modalHeader.$(".//*[@data-testid='icon-Close']")
   }
 
   public static get modalOverlay() {
-    return $("div.ReactModal__Overlay")
+    return $("//div[contains(@class, 'ReactModal__Overlay')]")
   }
 
   static async closeModalButtonClick() {

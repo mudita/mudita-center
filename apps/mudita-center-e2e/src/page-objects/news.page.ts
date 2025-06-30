@@ -7,31 +7,31 @@ import Page from "./page"
 
 class NewsPage extends Page {
   public get newsHeader() {
-    return $('[data-testid="location"]')
+    return $("//*[@data-testid='location']")
   }
 
   public get moreNewsButton() {
-    return $("p*=More news")
+    return $("//p[contains(text(), 'More news')]")
   }
 
   public get moreNewsButtonHref() {
-    return $('a[href="https://www.mudita.com/#news"]')
+    return $("//a[@href='https://www.mudita.com/#news']")
   }
 
   public get newsCardElements() {
-    return $$('[data-testid="news-card"]')
+    return $$("//*[@data-testid='news-card']")
   }
 
   public get newsCardElement() {
-    return $('[data-testid="news-card"]')
+    return $("//*[@data-testid='news-card']")
   }
 
   public get sidebarMenuActiveItem() {
-    return $("[aria-current=page]")
+    return $("//*[@aria-current='page']")
   }
 
   public get sidebarMenuActiveItemText() {
-    return $("[aria-current=page] p")
+    return $("//*[@aria-current='page']//p")
   }
 }
 
