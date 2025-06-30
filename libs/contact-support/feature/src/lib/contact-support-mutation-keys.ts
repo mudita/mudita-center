@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/store/contact-support.reducer"
-export * from "./lib/store/contact-support.actions"
-export * from "./lib/use-contact-support"
+export const contactSupportMutationKeys = {
+  createTicket: ["contact-support", "createTicket"],
+}
