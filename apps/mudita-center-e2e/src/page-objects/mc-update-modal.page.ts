@@ -7,27 +7,27 @@ import Page from "./page"
 
 class ModalPage extends Page {
   get modalHeader() {
-    return $('[data-testid="modal-title"]')
+    return $("//*[@data-testid='modal-title']")
   }
 
   get updateNotAvailable() {
-    return $('[data-testid="app-update-not-available"]')
+    return $("//*[@data-testid='app-update-not-available']")
   }
 
   get updateAvailable() {
-    return $('[data-testid="app-update-available"]')
+    return $("//*[@data-testid='app-update-available']")
   }
 
   get updateError() {
-    return $('[data-testid="app-update-error"]')
+    return $("//*[@data-testid='app-update-error']")
   }
 
   get checkingFailedUpdateSubtitle() {
-    return $("h4*=Checking failed")
+    return $("//h4[contains(text(), 'Checking failed')]")
   }
 
   get checkingFailedUpdateBody() {
-    return $("p*=Oops, something went wrong.")
+    return $("//p[contains(text(), 'Oops, something went wrong.')]")
   }
 }
 

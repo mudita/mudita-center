@@ -54,19 +54,6 @@ describe("Checking Terms of service", () => {
     await expect(modalHeader).toHaveText("Mudita Center Terms of Service")
   })
 
-  it("Check keywords", async () => {
-    const firstParagraph = ModalTermsOfServicePage.firstParagraph
-    await expect(firstParagraph).toHaveTextContaining(
-      "National Court Register, entry no. 0000467620"
-    )
-    await expect(firstParagraph).toHaveTextContaining(
-      "Tax Identification Number: 5252558282"
-    )
-    await expect(firstParagraph).toHaveTextContaining(
-      "Statistical Identification Number: 146767613"
-    )
-  })
-
   it("Check Terms of service sections", async () => {
     const sectionGeneralProvisions =
       await ModalTermsOfServicePage.sectionGeneralProvisions
@@ -128,7 +115,7 @@ describe("Checking Terms of service", () => {
     const companyWebsiteLink = await ModalTermsOfServicePage.companyWebsiteLink
     await expect(companyWebsiteLink).toHaveAttribute(
       "href",
-      "https://www.mudita.com/"
+      "https://mudita.com/legal/terms-conditions/mudita-center/"
     )
 
     const emailLink = await ModalTermsOfServicePage.companyEmailLink

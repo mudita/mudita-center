@@ -46,6 +46,9 @@ describe("Home Screen Page", () => {
     await tryAgainParagraph.click()
   })
   it("Click Contact Support & Verify Contents", async () => {
+    const myDevicesDoesntShowButton = await HomePage.myDevicesDoesntShowButton
+    await expect(myDevicesDoesntShowButton).toBeDisplayed()
+    await myDevicesDoesntShowButton.click()
     const contactSupportButton = await HomePage.contactSupportButton
     const muditaCenterSupportModalHeader =
       await HomePage.muditaCenterSupportModalHeader
