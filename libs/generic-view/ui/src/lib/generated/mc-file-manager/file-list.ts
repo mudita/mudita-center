@@ -11,7 +11,11 @@ import {
   generateFileUploadProcessButtonKey,
 } from "./file-upload-button"
 import { fileCounterDataProvider } from "./file-counter-data-provider"
-import { generateAppInstallaion } from "./app-installation"
+import { generateAppInstallaion as generateAppInstallation } from "./app-installation"
+import {
+  generateFileExportProcessButton,
+  generateExportProcessButtonKey as generateFileExportProcessButtonKey,
+} from "./file-export-button"
 
 const generateFileList: ComponentGenerator<
   McFileManagerConfig["categories"][number] & {
@@ -210,6 +214,7 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [
         `${key}${id}selectAllCheckbox`,
         `${key}${id}selectedItemsCounter`,
+        generateFileExportProcessButtonKey(`${key}${id}`),
         `${key}${id}deleteButton`,
       ],
       layout: {
@@ -217,7 +222,7 @@ const generateFileList: ComponentGenerator<
         padding: "8px 24px 8px 12px",
         gridLayout: {
           rows: ["auto"],
-          columns: ["auto", "1fr", "auto"],
+          columns: ["auto", "1fr", "auto", "auto"],
           alignItems: "center",
           columnGap: "14px",
         },
@@ -256,6 +261,13 @@ const generateFileList: ComponentGenerator<
         ],
       },
     },
+    ...generateFileExportProcessButton(`${key}${id}`, {
+      directoryPath,
+      entityType,
+      storagePath,
+      supportedFileTypes,
+      label,
+    }),
     [`${key}${id}deleteButton`]: {
       component: "button-text",
       config: {
@@ -541,7 +553,7 @@ const generateFileList: ComponentGenerator<
         ],
       },
     },
-    ...generateAppInstallaion(key, {
+    ...generateAppInstallation(key, {
       id,
       entityType,
     }),

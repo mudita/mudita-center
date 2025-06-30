@@ -6,4 +6,5 @@
 export * from "./lib/system-utils.module"
 export * from "./lib/directory/directory.requests"
 export * from "./lib/file-dialog/open-file.request"
+export * from "./lib/file-dialog/choose-directory.request"
 export * from "./lib/file-stats/get-file-stats.request"

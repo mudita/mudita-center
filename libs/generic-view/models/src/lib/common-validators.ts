@@ -138,9 +138,18 @@ export type NativeActionSelectFiles = z.infer<
 >
 
 const nativeActionSelectDirectoryValidator = z.object({
-  // TODO: Implement "select-directory" action
   type: z.literal("select-directory"),
+  title: z.string().optional(),
+  defaultPath: z.string().optional(),
+  formOptions: z.object({
+    formKey: z.string().optional(),
+    selectedDirectoryFieldName: z.string(),
+  }),
 })
+
+export type NativeActionSelectDirectory = z.infer<
+  typeof nativeActionSelectDirectoryValidator
+>
 
 export const nativeActionsValidator = z.union([
   nativeActionSelectFilesValidator,

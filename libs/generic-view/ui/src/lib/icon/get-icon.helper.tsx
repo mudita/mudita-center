@@ -62,6 +62,7 @@ import Exclamation from "./svg/exclamation.svg"
 import Namaste from "./svg/namaste.svg"
 import Delete from "./svg/delete.svg"
 import DropdownArrow from "./svg/dropdown-arrow.svg"
+import Export from "./svg/export.svg"
 
 import { IconType } from "generic-view/utils"
 
@@ -122,6 +123,7 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Namaste]: Namaste,
   [IconType.Delete]: Delete,
   [IconType.DropdownArrow]: DropdownArrow,
+  [IconType.Export]: Export,
 }
 
 export const getIcon = (

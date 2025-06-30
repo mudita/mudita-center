@@ -25,6 +25,7 @@ import { useViewFormContext } from "generic-view/utils"
 import { useSelectFilesButtonAction } from "./use-select-files-button-action"
 import { useUploadFilesButtonAction } from "./use-upload-files-button-action"
 import { modalTransitionDuration } from "generic-view/theme"
+import { useSelectDirectoryButtonAction } from "./use-select-directory-button-action"
 
 export const useButtonAction = (viewKey: string) => {
   const dispatch = useDispatch<Dispatch>()
@@ -33,6 +34,7 @@ export const useButtonAction = (viewKey: string) => {
   const getFormContext = useViewFormContext()
   const activeDeviceId = useSelector(selectActiveApiDeviceId)!
   const selectFiles = useSelectFilesButtonAction()
+  const selectDirectory = useSelectDirectoryButtonAction()
   const uploadFiles = useUploadFilesButtonAction()
 
   return (actions: ButtonActions) =>
@@ -46,6 +48,7 @@ export const useButtonAction = (viewKey: string) => {
       },
       {
         selectFiles,
+        selectDirectory,
         uploadFiles,
       }
     )
@@ -61,6 +64,7 @@ export interface RunActionsProviders {
 
 interface CustomActions {
   selectFiles: ReturnType<typeof useSelectFilesButtonAction>
+  selectDirectory: ReturnType<typeof useSelectDirectoryButtonAction>
   uploadFiles: ReturnType<typeof useUploadFilesButtonAction>
 }
 
@@ -142,6 +146,15 @@ const runActions = (actions?: ButtonActions) => {
         case "select-files":
           {
             const selected = await customActions.selectFiles(action)
+            if (!selected) {
+              return
+            }
+          }
+          break
+
+        case "select-directory":
+          {
+            const selected = await customActions.selectDirectory(action)
             if (!selected) {
               return
             }
