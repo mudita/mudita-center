@@ -3,13 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useEffect } from "react"
+import { FunctionComponent } from "react"
 import { defineMessages, FormattedMessage, useIntl } from "react-intl"
 import { FieldValues, useForm } from "react-hook-form"
 import styled from "styled-components"
 import { Button, Modal, TextInput, Typography } from "app-theme/ui"
-import { ButtonType, IconType, TextInputVariant } from "app-theme/models"
 import {
+  ButtonType,
+  IconType,
+  ModalLayer,
+  ModalSize,
+  TextInputVariant,
+} from "app-theme/models"
+import {
+  ContactSupportFlowTestIds,
   ContactSupportModalTestIds,
   SendTicketPayload,
 } from "contact-support/models"
@@ -56,7 +63,6 @@ export interface ContactSupportFieldValues
 interface ContactSupportModalProps {
   files: { name: string }[]
   onSubmit?: (data: ContactSupportFieldValues) => void
-  sending?: boolean
   onClose?: () => void
 }
 
@@ -84,15 +90,15 @@ export const FormInputLabelComponent: FunctionComponent<
   </div>
 )
 
-export const ContactSupportModal: FunctionComponent<
+export const ContactSupportFormModal: FunctionComponent<
   ContactSupportModalProps
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-> = ({ files, onSubmit = () => {}, sending = false, onClose = () => {} }) => {
+> = ({ onSubmit = () => {}, onClose = () => {} }) => {
   const {
     register,
     reset,
     handleSubmit,
-    formState: { errors, isValid, isDirty, isSubmitted },
+    formState: { errors, isValid },
     watch,
   } = useForm<ContactSupportFieldValues>({
     mode: "onChange",
@@ -116,90 +122,78 @@ export const ContactSupportModal: FunctionComponent<
 
   const intl = useIntl()
 
-  useEffect(() => {
-    // ipcRenderer.callMain(HelpActions.CustomerIsSendingToMain, sending)
-  }, [sending])
-
   const emailValidator = {}
 
   return (
-    <>
-      {sending ? (
-        <>
-          <Modal.TitleIcon type={IconType.Spinner} />
-          <Modal.Title>{intl.formatMessage(messages.sendingTitle)}</Modal.Title>
-          {/* No close button or form fields while sending */}
-        </>
-      ) : (
-        // Form state: show contact form fields
-        <>
-          <Modal.TitleIcon type={IconType.Support} />
-          <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
-          <Modal.CloseButton onClick={handleCloseModal} />
-          <Modal.ScrollableContent>
-            <Typography.P1>
-              {intl.formatMessage(messages.description)}
-            </Typography.P1>
-            <form onSubmit={submitForm}>
-              <FormInputLabel label={messages.emailLabel} />
-              <TextInput
-                id="contact-support-email"
-                variant={TextInputVariant.Outlined}
-                type="text"
-                placeholder={intl.formatMessage(messages.emailPlaceholder)}
-                data-testid={ContactSupportModalTestIds.EmailInput}
-                {...register(FieldKeys.Email, emailValidator)}
-              />
-              {errors.email?.message && (
-                <p style={{ color: "red", fontSize: "1.2rem" }}>
-                  {errors.email.message}
-                </p>
-              )}
+    <Modal
+      opened={true}
+      layer={ModalLayer.ContactSupport}
+      size={ModalSize.Large}
+      data-testid={ContactSupportFlowTestIds.ContactSupportModal}
+    >
+      <Modal.TitleIcon type={IconType.Support} />
+      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
+      <Modal.CloseButton onClick={handleCloseModal} />
+      <Modal.ScrollableContent>
+        <Typography.P1>
+          {intl.formatMessage(messages.description)}
+        </Typography.P1>
+        <form onSubmit={submitForm}>
+          <FormInputLabel label={messages.emailLabel} />
+          <TextInput
+            id="contact-support-email"
+            variant={TextInputVariant.Outlined}
+            type="text"
+            placeholder={intl.formatMessage(messages.emailPlaceholder)}
+            data-testid={ContactSupportModalTestIds.EmailInput}
+            {...register(FieldKeys.Email, emailValidator)}
+          />
+          {errors.email?.message && (
+            <p style={{ color: "red", fontSize: "1.2rem" }}>
+              {errors.email.message}
+            </p>
+          )}
 
-              <FormInputLabel label={messages.messageLabel} optional={true} />
-              <DescriptionInput
-                id="contact-support-message"
-                placeholder={intl.formatMessage(
-                  messages.descriptionPlaceholder
-                )}
-                data-testid={ContactSupportModalTestIds.DescriptionInput}
-                {...register(FieldKeys.Description)}
-              />
+          <FormInputLabel label={messages.messageLabel} optional={true} />
+          <DescriptionInput
+            id="contact-support-message"
+            placeholder={intl.formatMessage(messages.descriptionPlaceholder)}
+            data-testid={ContactSupportModalTestIds.DescriptionInput}
+            {...register(FieldKeys.Description)}
+          />
 
-              <p style={{ marginTop: "1.6rem", marginBottom: "0.4rem" }}>
-                <strong>{intl.formatMessage(messages.filesLabel)}</strong>
-              </p>
-              <p
-                style={{
-                  color: "#3b3f42",
-                  fontWeight: 300,
-                  fontSize: "1.4rem",
-                  marginTop: 0,
-                  marginBottom: "0.8rem",
-                }}
-              >
-                {intl.formatMessage(messages.filesLabelDescription)}
-              </p>
-              {/* <FileList
+          <p style={{ marginTop: "1.6rem", marginBottom: "0.4rem" }}>
+            <strong>{intl.formatMessage(messages.filesLabel)}</strong>
+          </p>
+          <p
+            style={{
+              color: "#3b3f42",
+              fontWeight: 300,
+              fontSize: "1.4rem",
+              marginTop: 0,
+              marginBottom: "0.8rem",
+            }}
+          >
+            {intl.formatMessage(messages.filesLabelDescription)}
+          </p>
+          {/* <FileList
                 files={files}
                 data-testid={ContactSupportModalTestIds.FileList}
               /> */}
 
-              <div style={{ textAlign: "center", marginTop: "2.4rem" }}>
-                <Button
-                  type={ButtonType.Primary}
-                  onClick={submitForm}
-                  disabled={!isValid || !emailValue || sending}
-                  data-testid={ContactSupportModalTestIds.SubmitButton}
-                >
-                  {intl.formatMessage(messages.actionButton)}
-                </Button>
-              </div>
-            </form>
-          </Modal.ScrollableContent>
-        </>
-      )}
-    </>
+          <div style={{ textAlign: "center", marginTop: "2.4rem" }}>
+            <Button
+              type={ButtonType.Primary}
+              onClick={submitForm}
+              disabled={!isValid || !emailValue}
+              data-testid={ContactSupportModalTestIds.SubmitButton}
+            >
+              {intl.formatMessage(messages.actionButton)}
+            </Button>
+          </div>
+        </form>
+      </Modal.ScrollableContent>
+    </Modal>
   )
 }
 

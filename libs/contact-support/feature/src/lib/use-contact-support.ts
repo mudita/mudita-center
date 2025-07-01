@@ -5,10 +5,16 @@
 
 import { format } from "date-fns"
 import logger from "electron-log/renderer"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AppFileSystem, AppHttp, AppLogger } from "app-utils/renderer"
 import { AppError, AppHttpRequestConfig } from "app-utils/models"
-import { CustomerSupportCreateTicketPayload } from "contact-support/models"
+import {
+  CustomerSupportCreateTicketPayload,
+  FreshdeskTicketDataType,
+  FreshdeskTicketProduct,
+} from "contact-support/models"
+import { ContactSupportFieldValues } from "contact-support/ui"
+import { getActiveDevice } from "devices/common/feature"
 import { contactSupportMutationKeys } from "./contact-support-mutation-keys"
 import { contactSupportConfig } from "./contact-support-config"
 
@@ -39,8 +45,8 @@ export const withMetaErrorsInDescription = (
     ...metaErrors.map(
       (err, i) => `#${i + 1} TYPE: ${err.name} DETAILS: ${err.message}`
     ),
-    `---`
-  ].join('\n')
+    `---`,
+  ].join("\n")
 
   return `${metaMsg}\n${description}`
 }
@@ -177,8 +183,29 @@ const createTicket = async (
 }
 
 export const useCreateTicket = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationKey: [contactSupportMutationKeys.createTicket],
-    mutationFn: createTicket,
+    mutationFn: (data: ContactSupportFieldValues) => {
+      const activeDevice = getActiveDevice(queryClient)
+      const email = data.email
+      const description = (data.description || "").replace(
+        /\r\n|\r|\n/g,
+        "<br/>"
+      )
+      const deviceId = activeDevice?.path || "unknown_device"
+      const serialNumber = activeDevice?.serialNumber || "unknown_serial"
+
+      return createTicket({
+        email,
+        description,
+        serialNumber,
+        deviceId,
+        subject: `Error`,
+        type: FreshdeskTicketDataType.Problem,
+        product: FreshdeskTicketProduct.None,
+      })
+    },
   })
 }

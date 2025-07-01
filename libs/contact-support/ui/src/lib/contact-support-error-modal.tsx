@@ -3,9 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ButtonType, IconType } from "app-theme/models"
+import { ButtonType, IconType, ModalLayer, ModalSize } from "app-theme/models"
 import { Button, Modal } from "app-theme/ui"
-import { ContactSupportModalTestIds } from "contact-support/models"
+import {
+  ContactSupportFlowTestIds,
+  ContactSupportModalTestIds,
+} from "contact-support/models"
 import { FunctionComponent } from "react"
 import { defineMessages, useIntl } from "react-intl"
 
@@ -19,13 +22,18 @@ interface Props {
   closeContactSupportFlow: VoidFunction
 }
 
-export const ContactSupportModalError: FunctionComponent<Props> = ({
+export const ContactSupportErrorModal: FunctionComponent<Props> = ({
   closeContactSupportFlow,
 }) => {
   const intl = useIntl()
 
   return (
-    <>
+    <Modal
+      opened={true}
+      layer={ModalLayer.ContactSupport}
+      size={ModalSize.Small}
+      data-testid={ContactSupportFlowTestIds.ContactSupportModalError}
+    >
       <Modal.TitleIcon type={IconType.Failed} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <p>{intl.formatMessage(messages.body)}</p>
@@ -38,6 +46,6 @@ export const ContactSupportModalError: FunctionComponent<Props> = ({
           {intl.formatMessage(messages.closeButtonLabel)}
         </Button>
       </Modal.Buttons>
-    </>
+    </Modal>
   )
 }

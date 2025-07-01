@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ContactSupportState } from "./contact-support.types"
-
-export type ContactSupportReducer = ContactSupportState
+export interface ContactSupportReducer {
+  createTicketModalVisible: boolean
+}

@@ -3,32 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export type ContactSupportError = string | null
-
-export enum SendTicketStatus {
-  Sending = "sending",
-  Success = "success",
-  Error = "error",
-  Idle = "idle",
-}
-
-export const files = [
-  {
-    name: "test.zip", // TODO: replace with real name
-  },
-]
-
-export interface SendTicketState {
-  status: SendTicketStatus
-  error: ContactSupportError
-}
-
-export interface ContactSupportState {
-  sendTicket: SendTicketState
-}
-
-// TODO: Move to create-freshdesk-ticket.types when createFreshdeskTicket will be ready
-
 export enum FreshdeskTicketDataType {
   Problem = "Problem",
 }
