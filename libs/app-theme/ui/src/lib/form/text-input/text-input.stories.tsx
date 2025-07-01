@@ -120,6 +120,7 @@ export const Default: Story = {
           "search",
           "time",
           "week",
+          "textarea",
         ],
         control: {
           type: "select",
@@ -136,6 +137,22 @@ export const Default: Story = {
         if: {
           arg: "type",
           eq: "search",
+        },
+      }),
+    rows: storybookHelper
+      .assignCategory("Functional")
+      .addDescription(
+        "Defines the number of rows for the textarea. " +
+          "If not specified, it defaults to 1."
+      )
+      .setType("number")
+      .apply({
+        control: {
+          type: "number",
+        },
+        if: {
+          arg: "type",
+          eq: "textarea",
         },
       }),
   },
