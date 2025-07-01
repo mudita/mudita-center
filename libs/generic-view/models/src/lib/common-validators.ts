@@ -184,14 +184,41 @@ export type FilesTransferUploadFilesAction = z.infer<
   typeof filesTransferUploadFilesActionValidator
 >
 
-const filesTransferDownloadFilesActionValidator = z.object({
-  // TODO: Implement "download-files" action
-  type: z.literal("download-files"),
+const filesTransferExportFilesActionValidator = z.object({
+  type: z.literal("export-files"),
+  destinationPath: z.string(),
+  entitiesType: z.string().optional(),
+  actionId: z.string(),
+
+  formOptions: z.object({
+    formKey: z.string(),
+    selectedDirectoryFieldName: z.string(),
+  }),
+
+  sourceFormKey: z.string(),
+  selectedItemsFieldName: z.string(),
+
+  preActions: z
+    .object({
+      validationFailure: entityPostActionsValidator,
+    })
+    .optional(),
+
+  postActions: z
+    .object({
+      success: entityPostActionsValidator,
+      failure: entityPostActionsValidator,
+    })
+    .optional(),
 })
+
+export type FilesTransferExportFilesAction = z.infer<
+  typeof filesTransferExportFilesActionValidator
+>
 
 export const filesTransferActionValidator = z.union([
   filesTransferUploadFilesActionValidator,
-  filesTransferDownloadFilesActionValidator,
+  filesTransferExportFilesActionValidator,
 ])
 
 const startAppInstallationActionValidator = z.object({

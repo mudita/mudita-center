@@ -11,7 +11,7 @@ import {
   generateFileUploadProcessButtonKey,
 } from "./file-upload-button"
 import { fileCounterDataProvider } from "./file-counter-data-provider"
-import { generateAppInstallaion as generateAppInstallation } from "./app-installation"
+import { generateAppInstallation as generateAppInstallation } from "./app-installation"
 import {
   generateFileExportProcessButton,
   generateExportProcessButtonKey as generateFileExportProcessButtonKey,

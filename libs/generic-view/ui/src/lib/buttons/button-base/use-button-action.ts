@@ -24,6 +24,7 @@ import { ButtonActions } from "generic-view/models"
 import { useViewFormContext } from "generic-view/utils"
 import { useSelectFilesButtonAction } from "./use-select-files-button-action"
 import { useUploadFilesButtonAction } from "./use-upload-files-button-action"
+import { useExportFilesButtonAction } from "./use-export-files-button-action"
 import { modalTransitionDuration } from "generic-view/theme"
 import { useSelectDirectoryButtonAction } from "./use-select-directory-button-action"
 
@@ -36,6 +37,7 @@ export const useButtonAction = (viewKey: string) => {
   const selectFiles = useSelectFilesButtonAction()
   const selectDirectory = useSelectDirectoryButtonAction()
   const uploadFiles = useUploadFilesButtonAction()
+  const exportFiles = useExportFilesButtonAction()
 
   return (actions: ButtonActions) =>
     runActions(actions)(
@@ -50,6 +52,7 @@ export const useButtonAction = (viewKey: string) => {
         selectFiles,
         selectDirectory,
         uploadFiles,
+        exportFiles,
       }
     )
 }
@@ -66,6 +69,7 @@ interface CustomActions {
   selectFiles: ReturnType<typeof useSelectFilesButtonAction>
   selectDirectory: ReturnType<typeof useSelectDirectoryButtonAction>
   uploadFiles: ReturnType<typeof useUploadFilesButtonAction>
+  exportFiles: ReturnType<typeof useExportFilesButtonAction>
 }
 
 const waitForModalTransition = () => {
@@ -162,6 +166,28 @@ const runActions = (actions?: ButtonActions) => {
           break
         case "upload-files":
           await customActions.uploadFiles(action, {
+            onValidationFailure: async () => {
+              await runActions(action.preActions?.validationFailure)(
+                providers,
+                customActions
+              )
+            },
+            onSuccess: async () => {
+              await runActions(action.postActions?.success)(
+                providers,
+                customActions
+              )
+            },
+            onFailure: async () => {
+              await runActions(action.postActions?.failure)(
+                providers,
+                customActions
+              )
+            },
+          })
+          break
+        case "export-files":
+          await customActions.exportFiles(action, {
             onValidationFailure: async () => {
               await runActions(action.preActions?.validationFailure)(
                 providers,
