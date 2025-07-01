@@ -36,14 +36,20 @@ router.post("/upload-file", (req: Request, res: Response) => {
   })
 })
 
-router.get("/upload-file-progress", (req: Request, res: Response) => {
-  appMtp.getUploadFileProgress(req.body).then((result) => {
+router.post("/export-file", (req: Request, res: Response) => {
+  appMtp.exportFile(req.body).then((result) => {
     res.json(result)
   })
 })
 
-router.get("/cancel-upload", (req: Request, res: Response) => {
-  appMtp.cancelUpload(req.body).then((result) => {
+router.get("/transferred-file-progress", (req: Request, res: Response) => {
+  appMtp.getTransferredFileProgress(req.body).then((result) => {
+    res.json(result)
+  })
+})
+
+router.get("/cancel-file-transfer", (req: Request, res: Response) => {
+  appMtp.cancelFileTransfer(req.body).then((result) => {
     res.json(result)
   })
 })
