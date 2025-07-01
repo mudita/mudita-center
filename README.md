@@ -19,15 +19,17 @@ If you would like to help us create Mudita Center as a full-time job - **[we're 
 - managing contacts and messages from your desktop
 - enabling using Mudita Pure as a mobile hotspot
 - Windows, macOS, Linux support
+- managing music, photos, ebooks, and APK files
+- migrating data from Pure to Kompakt
+- Windows, macOS, and Linux support
+- recovery mode
 
 ### Coming soon
 
-- recovery mode
-- synchronizing calendar and contacts with Google and Apple
-- managing notes and events from your desktop
-- uploading audio files
-- managing files
-- viewing meditation stats
+- synchronizing contacts with Google and Apple
+- managing duplicated contacts
+- exporting photos from Kompakt
+
 
 ## Table of contents
 
