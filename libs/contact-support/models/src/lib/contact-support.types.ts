@@ -4,6 +4,7 @@
  */
 
 export type ContactSupportError = string | null
+
 export enum SendTicketStatus {
   Sending = "sending",
   Success = "success",
@@ -40,18 +41,17 @@ export enum FreshdeskTicketProduct {
   None = "None",
 }
 
-export interface FreshdeskTicketData {
+export interface CustomerSupportCreateTicketPayload {
   type: FreshdeskTicketDataType.Problem
   email?: string
   subject: string
   description?: string
   serialNumber?: string
-  deviceID?: string
-  attachments: File[]
+  deviceId?: string
   product: FreshdeskTicketProduct
 }
 
 export type SendTicketPayload = Pick<
-  FreshdeskTicketData,
+  CustomerSupportCreateTicketPayload,
   "email" | "description"
 >
