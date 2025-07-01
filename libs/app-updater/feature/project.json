@@ -1,0 +1,9 @@
+{
+  "name": "app-updater/feature",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/app-updater/feature/src",
+  "projectType": "library",
+  "tags": ["process:renderer"],
+  "// targets": "to see all targets run: nx show project app-updater/feature --web",
+  "targets": {}
+}

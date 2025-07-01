@@ -1,0 +1,9 @@
+{
+  "name": "app-updater/ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/app-updater/ui/src",
+  "projectType": "library",
+  "tags": ["type:ui"],
+  "// targets": "to see all targets run: nx show project app-updater/ui --web",
+  "targets": {}
+}
