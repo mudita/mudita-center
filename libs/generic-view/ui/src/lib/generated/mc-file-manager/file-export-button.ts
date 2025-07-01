@@ -113,7 +113,8 @@ export const generateFileExportProcessButton: ComponentGenerator<
         storagePath,
         directoryPath,
         entitiesType: entityType,
-        uploadActionId: exportActionId,
+        transferActionId: exportActionId,
+        actionType: "export",
       },
     },
     [`${key}fileExportForm`]: {

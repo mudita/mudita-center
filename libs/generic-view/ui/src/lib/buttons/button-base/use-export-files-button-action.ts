@@ -3,24 +3,24 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import path from "path"
 import { useCallback } from "react"
 import { useDispatch, useSelector, useStore } from "react-redux"
 import { useViewFormContext } from "generic-view/utils"
 import { ReduxRootState, Dispatch } from "Core/__deprecated__/renderer/store"
 import { FilesTransferExportFilesAction } from "generic-view/models"
 import {
-  exportFiles,
-  ExportFilesPayload,
   sendFilesTransferAnalysis,
   clearFileTransferErrors,
   addFileTransferErrors,
   selectFilesSendingFailed,
   selectFilesSendingGroup,
   selectEntitiesByIds,
-  ExportFileItem,
+  FileWithPath,
+  sendFiles,
 } from "generic-view/store"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
+import { sliceSegments } from "shared/utils"
+import { isMtpPathInternal, sliceMtpPaths } from "./file-transfer-paths-helper"
 
 export const useExportFilesButtonAction = () => {
   const store = useStore<ReduxRootState>()
@@ -49,52 +49,39 @@ export const useExportFilesButtonAction = () => {
         action.formOptions.selectedDirectoryFieldName
       )
 
-      console.log(destinationPath)
-
       //TODO WALIDACJA dostepnej przestrzeni w docelowej lokalizacji
-      //   if (
-      //     !destinationPath ||
-      //     selectedItems.length === 0 ||
-      //     !action.entitiesType
-      //   ) {
-      //     dispatch(
-      //       addFileTransferErrors({
-      //         actionId: action.actionId,
-      //         errors: [
-      //           { message: "Brak wybranych plików lub ścieżki docelowej" },
-      //         ],
-      //       })
-      //     )
-      //     await callbacks.onValidationFailure()
-      //     return
-      //   }
-      console.log(selectedItems)
+
       const entities = selectEntitiesByIds(store.getState(), {
         deviceId,
         entitiesType: action.entitiesType,
         ids: selectedItems,
       })
-      console.log(entities)
-      const exportFilesData: ExportFileItem[] = entities.map((e) => ({
+      const exportFilesData: FileWithPath[] = entities.map((e) => ({
         id: String(e.id),
-        path: String(e.filePath),
-        fileName: String(e.fileName),
-        fileSize: Number(e.fileSize),
+        path: sliceMtpPaths(e.filePath as string, e.isInternal as boolean),
+        name: String(e.fileName),
+        size: Number(e.fileSize),
+        groupId: action.actionId,
       }))
+
+      const sourcePath = entities[0].filePath as string
+
       const response = (await dispatch(
-        exportFiles({
+        sendFiles({
           files: exportFilesData,
           destinationPath,
           actionId: action.actionId,
           entitiesType: action.entitiesType,
+          isMtpPathInternal: isMtpPathInternal(sourcePath),
+          actionType: "export",
         })
-      )) as Awaited<ReturnType<ReturnType<typeof exportFiles>>>
+      )) as Awaited<ReturnType<ReturnType<typeof sendFiles>>>
 
       const failedFiles = selectFilesSendingFailed(store.getState(), {
         groupId: action.actionId,
       })
 
-      //dispatch(sendFilesTransferAnalysis({ groupId: action.actionId }))
+      dispatch(sendFilesTransferAnalysis({ groupId: action.actionId }))
 
       if (
         response.meta.requestStatus === "rejected" ||

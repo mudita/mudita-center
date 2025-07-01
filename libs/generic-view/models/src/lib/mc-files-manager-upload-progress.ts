@@ -11,7 +11,8 @@ const configValidator = z.object({
   storagePath: z.string(),
   directoryPath: z.string(),
   entitiesType: z.string(),
-  uploadActionId: z.string(),
+  transferActionId: z.string(),
+  actionType: z.string(),
 })
 
 export type McFilesManagerUploadProgressConfig = z.infer<typeof configValidator>

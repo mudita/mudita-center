@@ -27,8 +27,11 @@ import { FilesManagerUploadProgressWarning } from "./files-manager-upload-progre
 import { FilesTransferMode } from "../../../../../store/src/lib/file-transfer/files-transfer-mode.type"
 
 const messages = defineMessages({
-  progressModalTitle: {
+  progressUploadModalTitle: {
     id: "module.genericViews.filesManager.upload.progress.modalTitle",
+  },
+  progressExportModalTitle: {
+    id: "module.genericViews.filesManager.export.progress.modalTitle",
   },
   cancelButton: {
     id: "module.genericViews.filesManager.upload.progress.cancelButton",
@@ -40,7 +43,7 @@ export const FilesManagerUploadProgress: APIFC<
   McFilesManagerUploadProgressConfig
 > = ({ config }) => {
   const dispatch = useDispatch<Dispatch>()
-  const selectorsConfig = { groupId: config.uploadActionId }
+  const selectorsConfig = { groupId: config.transferActionId }
 
   const filesCount = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCount(state, selectorsConfig)
@@ -56,7 +59,7 @@ export const FilesManagerUploadProgress: APIFC<
   const abortAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      dispatch(sendFilesAbort(config.uploadActionId))
+      dispatch(sendFilesAbort(config.transferActionId))
     },
   }
 
@@ -64,9 +67,14 @@ export const FilesManagerUploadProgress: APIFC<
     <>
       <Modal.TitleIcon config={{ type: IconType.SpinnerDark }} />
       <Modal.Title>
-        {intl.formatMessage(messages.progressModalTitle, {
-          filesCount,
-        })}
+        {intl.formatMessage(
+          config.actionType === "export"
+            ? messages.progressExportModalTitle
+            : messages.progressUploadModalTitle,
+          {
+            filesCount,
+          }
+        )}
       </Modal.Title>
       {filesTransferMode === FilesTransferMode.SerialPort && (
         <FilesManagerUploadProgressWarning />

@@ -161,7 +161,8 @@ export const generateFileUploadProcessButton: ComponentGenerator<
         storagePath,
         directoryPath,
         entitiesType: entityType,
-        uploadActionId,
+        transferActionId: uploadActionId,
+        actionType: "upload",
       },
     },
     [generateFileUploadButtonModalKey(key, "Finished")]: {

@@ -22,6 +22,7 @@ import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { useViewFormContext } from "generic-view/utils"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { validateSelectedFiles } from "../../shared/validate-selected-files"
+import { isMtpPathInternal, sliceMtpPaths } from "./file-transfer-paths-helper"
 
 export const useUploadFilesButtonAction = () => {
   const store = useStore<ReduxRootState>()
@@ -85,12 +86,18 @@ export const useUploadFilesButtonAction = () => {
         })
       }
 
+      const isDestinationInternal = isMtpPathInternal(action.destinationPath)
       const response = (await dispatch(
         sendFiles({
           files,
           actionId: action.actionId,
-          destinationPath: action.destinationPath,
+          destinationPath: sliceMtpPaths(
+            action.destinationPath,
+            isDestinationInternal
+          ),
           entitiesType: action.entitiesType,
+          isMtpPathInternal: isDestinationInternal,
+          actionType: "upload",
         })
       )) as Awaited<ReturnType<ReturnType<typeof sendFiles>>>
 
