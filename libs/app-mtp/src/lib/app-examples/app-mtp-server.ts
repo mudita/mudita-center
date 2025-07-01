@@ -48,7 +48,7 @@ router.get("/transferred-file-progress", (req: Request, res: Response) => {
   })
 })
 
-router.get("/cancel-upload", (req: Request, res: Response) => {
+router.get("/cancel-file-transfer", (req: Request, res: Response) => {
   appMtp.cancelFileTransfer(req.body).then((result) => {
     res.json(result)
   })

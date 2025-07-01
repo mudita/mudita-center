@@ -7,22 +7,23 @@ import Page from "./page"
 
 export class DrawerPage extends Page {
   public get deviceSelectDrawer() {
-    return $('[data-testid="device-select-drawer-content"]')
+    return $("//*[@data-testid='device-select-drawer-content']")
   }
 
   public getDeviceOnDrawer(serialNumber: string) {
-    return $(`//*[@data-testid="drawer-device-wrapper-${serialNumber}"]`)
+    return $(`//*[@data-testid='drawer-device-wrapper-${serialNumber}']`)
   }
 
   public get deviceImageOnDrawer() {
-    return $('[data-testid="drawer-device-image"]')
+    return $("//*[@data-testid='drawer-device-image']")
   }
+
   public get drawerDeviceSerialNumber() {
-    return $$('[data-testid="drawer-device-serial-number-value"]')
+    return $$("//*[@data-testid='drawer-device-serial-number-value']")
   }
 
   public get drawerDeviceName() {
-    return $$('[data-testid="drawer-device-type"]')
+    return $$("//*[@data-testid='drawer-device-type']")
   }
 }
 
