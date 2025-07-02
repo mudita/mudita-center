@@ -19,10 +19,14 @@ export async function delayUntilAtLeast<T>(
   ms: number
 ): Promise<T> {
   const start = Date.now()
-  const result = await fn()
-  const elapsed = Date.now() - start
-  if (elapsed < ms) {
-    await delay(ms - elapsed)
+  let result: T
+  try {
+    result = await fn()
+  } finally {
+    const elapsed = Date.now() - start
+    if (elapsed < ms) {
+      await delay(ms - elapsed)
+    }
   }
   return result
 }
