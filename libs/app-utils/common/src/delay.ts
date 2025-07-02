@@ -12,7 +12,7 @@
  */
 
 export const delay = (ms = 500, signal?: AbortSignal): Promise<void> => {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>((resolve) => {
     if (signal?.aborted) {
       resolve()
       return
