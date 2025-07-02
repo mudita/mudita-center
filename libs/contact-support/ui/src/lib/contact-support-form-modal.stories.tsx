@@ -5,6 +5,7 @@
 
 import styled from "styled-components"
 import type { Meta, StoryObj } from "@storybook/react"
+import { action } from "@storybook/addon-actions"
 import { storybookHelper } from "app-theme/utils"
 import { ContactSupportFormModal } from "./contact-support-form-modal"
 
@@ -45,6 +46,8 @@ type Story = StoryObj<typeof ContactSupportFormModal>
 export const Default: Story = {
   args: {
     files: [{ name: "22-10-05 MuditaCenter.zip" }],
+    onClose: action("onClose"),
+    onSubmit: action("onSubmit"),
   },
   argTypes: {
     files: storybookHelper

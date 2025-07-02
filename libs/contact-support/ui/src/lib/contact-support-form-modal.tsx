@@ -83,7 +83,6 @@ export const ContactSupportFormModal: FunctionComponent<
     reset,
     handleSubmit,
     formState: { errors, isValid },
-    watch,
   } = useForm<ContactSupportFieldValues>({
     mode: "onChange",
     defaultValues: {
@@ -91,7 +90,6 @@ export const ContactSupportFormModal: FunctionComponent<
       [FieldKeys.Description]: "",
     },
   })
-  const emailValue = watch(FieldKeys.Email)
 
   const submitForm = handleSubmit((data) => {
     onSubmit(data)
@@ -148,7 +146,7 @@ export const ContactSupportFormModal: FunctionComponent<
             <Button
               type={ButtonType.Primary}
               onClick={submitForm}
-              disabled={!isValid || !emailValue}
+              disabled={!isValid}
               data-testid={ContactSupportModalTestIds.SubmitButton}
               size={ButtonSize.Large}
             >

@@ -43,15 +43,5 @@ export default meta
 type Story = StoryObj<typeof ContactSupportSendingModal>
 
 export const Default: Story = {
-  argTypes: {
-    onClose: storybookHelper
-      .addDescription(
-        "Defines a function to be called when clicking the close button or backdrop."
-      )
-      .apply({
-        control: {
-          disable: true,
-        },
-      }),
-  },
+  argTypes: {},
 }
