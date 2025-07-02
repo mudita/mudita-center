@@ -8,6 +8,7 @@ import logger from "electron-log/renderer"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AppFileSystem, AppHttp, AppLogger } from "app-utils/renderer"
 import { AppError, AppHttpRequestConfig } from "app-utils/models"
+import { delayUntilAtLeast } from "app-utils/common"
 import {
   CustomerSupportCreateTicketPayload,
   FreshdeskTicketDataType,
@@ -196,8 +197,7 @@ export const useCreateTicket = () => {
       )
       const deviceId = activeDevice?.path || "unknown_device"
       const serialNumber = activeDevice?.serialNumber || "unknown_serial"
-
-      return createTicket({
+      const actionPayload = {
         email,
         description,
         serialNumber,
@@ -205,7 +205,9 @@ export const useCreateTicket = () => {
         subject: `Error`,
         type: FreshdeskTicketDataType.Problem,
         product: FreshdeskTicketProduct.None,
-      })
+      }
+
+      return delayUntilAtLeast(() => createTicket(actionPayload), 500)
     },
   })
 }

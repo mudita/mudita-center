@@ -4,10 +4,10 @@
  */
 
 import { FunctionComponent } from "react"
-import { defineMessages, useIntl } from "react-intl"
+import { defineMessages } from "react-intl"
 import { FieldValues, useForm } from "react-hook-form"
 import styled from "styled-components"
-import { noop } from "lodash"
+import { formatMessage } from "app-localize/utils"
 import { Button, Modal, TextInput, Typography } from "app-theme/ui"
 import {
   ButtonSize,
@@ -71,14 +71,13 @@ export interface ContactSupportFieldValues
 
 interface ContactSupportModalProps {
   files: { name: string }[]
-  onSubmit?: (data: ContactSupportFieldValues) => void
-  onClose?: () => void
+  onSubmit: (data: ContactSupportFieldValues) => void
+  onClose: VoidFunction
 }
 
 export const ContactSupportFormModal: FunctionComponent<
   ContactSupportModalProps
-> = ({ files = [], onSubmit = noop, onClose = noop }) => {
-  const intl = useIntl()
+> = ({ files = [], onSubmit, onClose }) => {
   const {
     register,
     reset,
@@ -112,19 +111,17 @@ export const ContactSupportFormModal: FunctionComponent<
       data-testid={ContactSupportFlowTestIds.ContactSupportModal}
     >
       <Modal.TitleIcon type={IconType.Support} />
-      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
+      <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Modal.CloseButton onClick={handleCloseModal} />
       <Modal.ScrollableContent>
-        <Typography.P1>
-          {intl.formatMessage(messages.description)}
-        </Typography.P1>
+        <Typography.P1>{formatMessage(messages.description)}</Typography.P1>
         <form onSubmit={submitForm}>
           <InputLabel label={messages.emailLabel} />
           <Input
             id="contact-support-email"
             variant={TextInputVariant.Outlined}
             type="text"
-            placeholder={intl.formatMessage(messages.emailPlaceholder)}
+            placeholder={formatMessage(messages.emailPlaceholder)}
             data-testid={ContactSupportModalTestIds.EmailInput}
             error={errors.email?.message}
             {...register(FieldKeys.Email, contactSupportEmailValidator)}
@@ -135,13 +132,13 @@ export const ContactSupportFormModal: FunctionComponent<
             variant={TextInputVariant.Outlined}
             type="textarea"
             rows={3}
-            placeholder={intl.formatMessage(messages.descriptionPlaceholder)}
+            placeholder={formatMessage(messages.descriptionPlaceholder)}
             data-testid={ContactSupportModalTestIds.DescriptionInput}
             {...register(FieldKeys.Description)}
           />
           <InputLabel label={messages.filesLabel} />
           <FilesLabelDescription textAlign={TypographyAlign.Left}>
-            {intl.formatMessage(messages.filesLabelDescription)}
+            {formatMessage(messages.filesLabelDescription)}
           </FilesLabelDescription>
           <ContactSupportFileList
             files={files}
@@ -155,7 +152,7 @@ export const ContactSupportFormModal: FunctionComponent<
               data-testid={ContactSupportModalTestIds.SubmitButton}
               size={ButtonSize.Large}
             >
-              {intl.formatMessage(messages.buttonText)}
+              {formatMessage(messages.buttonText)}
             </Button>
           </FormSendButtonWrapper>
         </form>
@@ -169,6 +166,7 @@ const Input = styled(TextInput)`
     text-align: left;
   }
 `
+
 const InputLabel = styled(ContactSupportInputLabel)`
   margin-bottom: 0.8rem;
 `

@@ -4,9 +4,10 @@
  */
 
 import { FunctionComponent } from "react"
-import { defineMessages, FormattedMessage } from "react-intl"
+import { defineMessages } from "react-intl"
 import { Typography } from "app-theme/ui"
 import { TypographyAlign } from "app-theme/models"
+import { formatMessage } from "app-localize/utils"
 
 const messages = defineMessages({
   optional: { id: "general.contactSupport.formModal.labelOptionalText" },
@@ -26,11 +27,11 @@ export const ContactSupportInputLabel: FunctionComponent<Props> = ({
   optional,
 }) => (
   <Typography.P3 className={className} textAlign={TypographyAlign.Left}>
-    <FormattedMessage {...label} />
+    {formatMessage(label)}
     {optional && (
       <Typography.P3 color="grey3" as={"span"}>
         {" "}
-        (<FormattedMessage {...messages.optional} />)
+        {formatMessage(messages.optional)}
       </Typography.P3>
     )}
   </Typography.P3>

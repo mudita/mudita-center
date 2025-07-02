@@ -4,18 +4,17 @@
  */
 
 import { FunctionComponent } from "react"
-import { defineMessages, useIntl } from "react-intl"
+import { defineMessages } from "react-intl"
+import { formatMessage } from "app-localize/utils"
 import { Modal } from "app-theme/ui"
 import { IconType, ModalLayer, ModalSize } from "app-theme/models"
 import { ContactSupportFlowTestIds } from "contact-support/models"
 
 const messages = defineMessages({
-  sendingTitle: { id: "component.contactSupport.modal.sendingTitle" },
+  sendingTitle: { id: "general.contactSupport.sendingModal.title" },
 })
 
 export const ContactSupportSendingModal: FunctionComponent = () => {
-  const intl = useIntl()
-
   return (
     <Modal
       opened={true}
@@ -24,7 +23,7 @@ export const ContactSupportSendingModal: FunctionComponent = () => {
       data-testid={ContactSupportFlowTestIds.ContactSupportModal}
     >
       <Modal.TitleIcon type={IconType.Spinner} />
-      <Modal.Title>{intl.formatMessage(messages.sendingTitle)}</Modal.Title>
+      <Modal.Title>{formatMessage(messages.sendingTitle)}</Modal.Title>
     </Modal>
   )
 }

@@ -3,30 +3,29 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { FunctionComponent } from "react"
+import { defineMessages } from "react-intl"
+import { formatMessage } from "app-localize/utils"
 import { ButtonType, IconType, ModalLayer, ModalSize } from "app-theme/models"
-import { Button, Modal } from "app-theme/ui"
 import {
   ContactSupportFlowTestIds,
   ContactSupportModalTestIds,
 } from "contact-support/models"
-import { FunctionComponent } from "react"
-import { defineMessages, useIntl } from "react-intl"
+import { Button, Modal, Typography } from "app-theme/ui"
 
 const messages = defineMessages({
-  title: { id: "component.supportModalErrorTitle" },
-  body: { id: "component.supportModalErrorBody" },
-  closeButtonLabel: { id: "component.supportModalSuccessButtonLabel" },
+  closeButtonText: { id: "general.app.closeButton.text" },
+  title: { id: "general.contactSupport.errorModal.title" },
+  body: { id: "general.contactSupport.errorModal.body" },
 })
 
 interface Props {
-  closeContactSupportFlow: VoidFunction
+  onClose: VoidFunction
 }
 
 export const ContactSupportErrorModal: FunctionComponent<Props> = ({
-  closeContactSupportFlow,
+  onClose,
 }) => {
-  const intl = useIntl()
-
   return (
     <Modal
       opened={true}
@@ -35,15 +34,15 @@ export const ContactSupportErrorModal: FunctionComponent<Props> = ({
       data-testid={ContactSupportFlowTestIds.ContactSupportModalError}
     >
       <Modal.TitleIcon type={IconType.Failed} />
-      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
-      <p>{intl.formatMessage(messages.body)}</p>
+      <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
+      <Typography.P1>{formatMessage(messages.body)}</Typography.P1>
       <Modal.Buttons>
         <Button
           type={ButtonType.Secondary}
-          onClick={closeContactSupportFlow}
+          onClick={onClose}
           data-testid={ContactSupportModalTestIds.CloseButton}
         >
-          {intl.formatMessage(messages.closeButtonLabel)}
+          {formatMessage(messages.closeButtonText)}
         </Button>
       </Modal.Buttons>
     </Modal>

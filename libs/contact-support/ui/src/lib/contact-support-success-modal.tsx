@@ -4,29 +4,28 @@
  */
 
 import { FunctionComponent } from "react"
-import { defineMessages, useIntl } from "react-intl"
+import { defineMessages } from "react-intl"
 import { ButtonType, IconType, ModalLayer, ModalSize } from "app-theme/models"
-import { Button, Modal } from "app-theme/ui"
+import { Button, Modal, Typography } from "app-theme/ui"
 import {
   ContactSupportFlowTestIds,
   ContactSupportModalTestIds,
 } from "contact-support/models"
+import { formatMessage } from "app-localize/utils"
 
 const messages = defineMessages({
-  title: { id: "component.supportModalSuccessTitle" },
-  body: { id: "component.supportModalSuccessBody" },
-  closeButtonLabel: { id: "component.supportModalSuccessButtonLabel" },
+  closeButtonText: { id: "general.app.closeButton.text" },
+  title: { id: "general.contactSupport.successModal.title" },
+  body: { id: "general.contactSupport.successModal.body" },
 })
 
 interface ContactSupportModalSuccessProps {
-  closeContactSupportFlow: VoidFunction
+  onClose: VoidFunction
 }
 
 export const ContactSupportSuccessModal: FunctionComponent<
   ContactSupportModalSuccessProps
-> = ({ closeContactSupportFlow }) => {
-  const intl = useIntl()
-
+> = ({ onClose }) => {
   return (
     <Modal
       opened={true}
@@ -36,18 +35,16 @@ export const ContactSupportSuccessModal: FunctionComponent<
     >
       <Modal.TitleIcon type={IconType.Confirm} />
       <Modal.Title data-testid={ContactSupportModalTestIds.Title}>
-        {intl.formatMessage(messages.title)}
+        {formatMessage(messages.title)}
       </Modal.Title>
-      <p data-testid={ContactSupportModalTestIds.Description}>
-        {intl.formatMessage(messages.body)}
-      </p>
+      <Typography.P1>{formatMessage(messages.body)}</Typography.P1>
       <Modal.Buttons>
         <Button
           type={ButtonType.Secondary}
-          onClick={closeContactSupportFlow}
+          onClick={onClose}
           data-testid={ContactSupportModalTestIds.CloseButton}
         >
-          {intl.formatMessage(messages.closeButtonLabel)}
+          {formatMessage(messages.closeButtonText)}
         </Button>
       </Modal.Buttons>
     </Modal>

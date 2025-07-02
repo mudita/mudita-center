@@ -5,6 +5,7 @@
 
 import { FunctionComponent, useCallback } from "react"
 import { useSelector } from "react-redux"
+import { format } from "date-fns"
 import {
   ContactSupportErrorModal,
   ContactSupportFieldValues,
@@ -16,7 +17,6 @@ import { useAppDispatch } from "app-store/utils"
 import { selectCreateTicketModalVisible } from "./store/contact-support.selectors"
 import { useCreateTicket } from "./use-contact-support"
 import { setCreateTicketModalVisible } from "./store/contact-support.actions"
-import { format } from "date-fns"
 
 const todayFormatDate = format(new Date(), "dd-MM-yy")
 const zippedLogsFileName = `${todayFormatDate} Mudita Center.zip`
@@ -32,14 +32,14 @@ export const ContactSupport: FunctionComponent = () => {
     isIdle,
   } = useCreateTicket()
 
-  const sendTicket = useCallback(
+  const handleFormModalSubmit = useCallback(
     (data: ContactSupportFieldValues) => {
       createTicket(data)
     },
     [createTicket]
   )
 
-  const closeContactSupportFlow = useCallback(() => {
+  const hideCreateTicketModal = useCallback(() => {
     dispatch(setCreateTicketModalVisible(false))
   }, [dispatch])
 
@@ -52,21 +52,15 @@ export const ContactSupport: FunctionComponent = () => {
       {isIdle && (
         <ContactSupportFormModal
           files={[{ name: zippedLogsFileName }]}
-          onSubmit={sendTicket}
-          onClose={closeContactSupportFlow}
+          onSubmit={handleFormModalSubmit}
+          onClose={hideCreateTicketModal}
         />
       )}
       {isPending && <ContactSupportSendingModal />}
       {isSuccess && (
-        <ContactSupportSuccessModal
-          closeContactSupportFlow={closeContactSupportFlow}
-        />
+        <ContactSupportSuccessModal onClose={hideCreateTicketModal} />
       )}
-      {isError && (
-        <ContactSupportErrorModal
-          closeContactSupportFlow={closeContactSupportFlow}
-        />
-      )}
+      {isError && <ContactSupportErrorModal onClose={hideCreateTicketModal} />}
     </>
   )
 }
