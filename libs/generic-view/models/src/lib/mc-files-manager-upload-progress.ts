@@ -8,7 +8,7 @@ import { z } from "zod"
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  storagePath: z.string(),
+  storagePath: z.string().optional(),
   directoryPath: z.string(),
   entitiesType: z.string(),
   transferActionId: z.string(),

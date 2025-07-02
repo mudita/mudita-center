@@ -88,16 +88,17 @@ export const FilesManagerUploadFinished: APIFC<
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
   const selectorsConfig = { groupId: config.uploadActionId }
-
   const filesCount = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCount(state, selectorsConfig)
   })
+  console.log(filesCount)
   const succeededFiles = useSelector((state: ReduxRootState) => {
     return selectFilesSendingSucceeded(state, selectorsConfig)
   })
   const failedFiles = useSelector((state: ReduxRootState) => {
     return selectFilesSendingFailed(state, selectorsConfig)
   })
+
   const allFilesFailed = failedFiles.length === filesCount
   const errorTypes = uniq(failedFiles.map((file) => file.error.message))
 
@@ -305,7 +306,14 @@ export const FilesManagerUploadFinished: APIFC<
   }, [errorTypes])
 
   useLayoutEffect(() => {
-    if (succeededFiles.length !== 0 && failedFiles.length === 0) {
+    console.log(filesCount)
+    const processedCount = succeededFiles.length + failedFiles.length
+    const allProcessed = processedCount === filesCount
+    if (
+      allProcessed &&
+      succeededFiles.length !== 0 &&
+      failedFiles.length === 0
+    ) {
       dispatch(closeModal({ key: config.modalKey }))
     }
   }, [
@@ -314,6 +322,7 @@ export const FilesManagerUploadFinished: APIFC<
     dispatch,
     failedFiles.length,
     succeededFiles.length,
+    filesCount,
   ])
 
   return (

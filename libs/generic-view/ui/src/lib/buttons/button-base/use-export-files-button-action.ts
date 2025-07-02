@@ -4,22 +4,20 @@
  */
 
 import { useCallback } from "react"
-import { useDispatch, useSelector, useStore } from "react-redux"
+import { useDispatch, useStore } from "react-redux"
 import { useViewFormContext } from "generic-view/utils"
 import { ReduxRootState, Dispatch } from "Core/__deprecated__/renderer/store"
 import { FilesTransferExportFilesAction } from "generic-view/models"
 import {
   sendFilesTransferAnalysis,
   clearFileTransferErrors,
-  addFileTransferErrors,
   selectFilesSendingFailed,
-  selectFilesSendingGroup,
   selectEntitiesByIds,
   FileWithPath,
   sendFiles,
+  sendFilesClear,
 } from "generic-view/store"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
-import { sliceSegments } from "shared/utils"
 import { isMtpPathInternal, sliceMtpPaths } from "./file-transfer-paths-helper"
 
 export const useExportFilesButtonAction = () => {
@@ -38,7 +36,7 @@ export const useExportFilesButtonAction = () => {
       }
     ) => {
       const form = getFormContext(action.formOptions.formKey)
-      console.log(action.entitiesType)
+
       if (action.entitiesType === undefined) return
       if (deviceId === undefined) return
       const selectedItems: string[] = getFormContext(
@@ -48,8 +46,6 @@ export const useExportFilesButtonAction = () => {
       const destinationPath: string = form.getValues(
         action.formOptions.selectedDirectoryFieldName
       )
-
-      //TODO WALIDACJA dostepnej przestrzeni w docelowej lokalizacji
 
       const entities = selectEntitiesByIds(store.getState(), {
         deviceId,
@@ -63,6 +59,8 @@ export const useExportFilesButtonAction = () => {
         size: Number(e.fileSize),
         groupId: action.actionId,
       }))
+
+      //TODO - available space validation
 
       const sourcePath = entities[0].filePath as string
 
@@ -90,9 +88,10 @@ export const useExportFilesButtonAction = () => {
         await callbacks.onFailure()
       } else {
         await callbacks.onSuccess()
+        dispatch(sendFilesClear({ groupId: action.actionId }))
         dispatch(clearFileTransferErrors({ actionId: action.actionId }))
       }
     },
-    [dispatch, getFormContext, store]
+    [dispatch, getFormContext, store, deviceId]
   )
 }

@@ -72,6 +72,7 @@
   "component.deviceSelection.selectDevice": "Show connected devices",
   "component.deviceSelection.changeDevice": "Show connected devices",
   "component.dialog.title": "Browse Files",
+  "component.dialog.openDirectory.title": "Browse directories",
   "component.drawer.headerTitle": "Select a device",
   "component.deviceLockedModalHeadline": "Unlock your phone",
   "component.deviceLockedModalParagraph": "Enter your passcode or scan your fingerprint",

@@ -24,8 +24,7 @@ const defaultOptions: OpenDialogOptions = {
 
 const defaultDirectoryOptions: OpenDialogOptions = {
   properties: ["openDirectory", "createDirectory"],
-  title: "Select folder to export files",
-  buttonLabel: "Select Folder",
+  title: intl.formatMessage({ id: "component.dialog.openDirectory.title" }),
 }
 
 export class FileDialog {

@@ -14,7 +14,7 @@ import { fileCounterDataProvider } from "./file-counter-data-provider"
 import { generateAppInstallation as generateAppInstallation } from "./app-installation"
 import {
   generateFileExportProcessButton,
-  generateExportProcessButtonKey as generateFileExportProcessButtonKey,
+  generateFilesExportProcessButtonKey as generateFileExportProcessButtonKey,
 } from "./file-export-button"
 
 const generateFileList: ComponentGenerator<

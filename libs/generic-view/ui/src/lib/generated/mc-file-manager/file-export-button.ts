@@ -6,11 +6,14 @@
 import { ComponentGenerator, IconType } from "generic-view/utils"
 import { McFileManagerConfig } from "generic-view/models"
 
-export const generateExportProcessButtonKey = (key: string) =>
+export const generateFilesExportProcessButtonKey = (key: string) =>
   `${key}filesExportButton`
 
-export const generateExportModalKey = (key: string, modalName: string) => {
-  return generateExportProcessButtonKey(key) + "Modal" + modalName
+export const generateFilesExportButtonModalKey = (
+  key: string,
+  modalName: string
+) => {
+  return generateFilesExportProcessButtonKey(key) + "Modal" + modalName
 }
 
 export const generateFileExportProcessButton: ComponentGenerator<
@@ -20,14 +23,11 @@ export const generateFileExportProcessButton: ComponentGenerator<
   > & {
     storagePath: string
   }
-> = (
-  key,
-  { directoryPath, storagePath, entityType, supportedFileTypes, label }
-) => {
+> = (key, { directoryPath, entityType }) => {
   const exportActionId = entityType + "Export"
-  console.log(entityType)
+
   return {
-    [generateExportProcessButtonKey(key)]: {
+    [generateFilesExportProcessButtonKey(key)]: {
       component: "button-text",
       config: {
         text: entityType === "applicationFiles" ? "Export APK" : "Export",
@@ -43,7 +43,7 @@ export const generateFileExportProcessButton: ComponentGenerator<
           },
           {
             type: "open-modal",
-            modalKey: generateExportModalKey(key, "Progress"),
+            modalKey: generateFilesExportButtonModalKey(key, "Progress"),
           },
           {
             type: "export-files",
@@ -60,7 +60,10 @@ export const generateFileExportProcessButton: ComponentGenerator<
               validationFailure: [
                 {
                   type: "replace-modal",
-                  modalKey: generateExportModalKey(key, "ValidationFailure"),
+                  modalKey: generateFilesExportButtonModalKey(
+                    key,
+                    "ValidationFailure"
+                  ),
                 },
               ],
             },
@@ -68,17 +71,29 @@ export const generateFileExportProcessButton: ComponentGenerator<
               success: [
                 {
                   type: "close-modal",
-                  modalKey: generateExportModalKey(key, "Progress"),
+                  modalKey: generateFilesExportButtonModalKey(key, "Progress"),
                 },
                 {
                   type: "open-toast",
                   toastKey: `${key}FilesExportedToast`,
                 },
+                {
+                  type: "form-set-field",
+                  formKey: `${key}fileListForm`,
+                  key: "selectedItems",
+                  value: [],
+                },
               ],
               failure: [
                 {
+                  type: "form-set-field",
+                  formKey: `${key}fileListForm`,
+                  key: "selectedItems",
+                  value: [],
+                },
+                {
                   type: "replace-modal",
-                  modalKey: generateExportModalKey(key, "Finished"),
+                  modalKey: generateFilesExportButtonModalKey(key, "Finished"),
                 },
               ],
             },
@@ -99,22 +114,71 @@ export const generateFileExportProcessButton: ComponentGenerator<
       },
       childrenKeys: [`${key}fileExportForm`],
     },
-    [generateExportModalKey(key, "Progress")]: {
+    [generateFilesExportButtonModalKey(key, "Progress")]: {
       component: "modal",
       config: {
         size: "small",
       },
-      childrenKeys: [generateExportModalKey(key, "ProgressContent")],
+      childrenKeys: [generateFilesExportButtonModalKey(key, "ProgressContent")],
     },
 
-    [generateExportModalKey(key, "ProgressContent")]: {
+    [generateFilesExportButtonModalKey(key, "ProgressContent")]: {
       component: "mc-files-manager-upload-progress",
       config: {
-        storagePath,
         directoryPath,
         entitiesType: entityType,
         transferActionId: exportActionId,
         actionType: "export",
+      },
+      childrenKeys: [generateFilesExportButtonModalKey(key, "Finished")],
+    },
+    [generateFilesExportButtonModalKey(key, "Finished")]: {
+      component: "modal",
+      config: {
+        size: "small",
+        maxHeight: "538px",
+      },
+      childrenKeys: [generateFilesExportButtonModalKey(key, "FinishedContent")],
+    },
+    [generateFilesExportButtonModalKey(key, "FinishedContent")]: {
+      component: "mc-files-manager-upload-finished",
+      config: {
+        modalKey: generateFilesExportButtonModalKey(key, "Finished"),
+        uploadActionId: exportActionId,
+      },
+    },
+
+    [`${key}FilesExportedToast`]: {
+      component: "toast",
+      childrenKeys: [
+        `${key}FilesExportedToastIcon`,
+        `${key}FilesExportedToastText`,
+      ],
+    },
+
+    [`${key}FilesExportedToastIcon`]: {
+      component: "icon",
+      config: {
+        type: IconType.Success,
+      },
+    },
+
+    [`${key}FilesExportedToastText`]: {
+      component: "typography.p1",
+      config: {
+        messageTemplate:
+          "{exportedFiles} {exportedFiles, plural, one {file} other {files}} exported",
+      },
+      dataProvider: {
+        source: "form-fields",
+        formKey: `${key}fileListForm`,
+        fields: [
+          {
+            providerField: "selectedItems",
+            componentField: "data.fields.exportedFiles",
+            modifier: "length",
+          },
+        ],
       },
     },
     [`${key}fileExportForm`]: {
