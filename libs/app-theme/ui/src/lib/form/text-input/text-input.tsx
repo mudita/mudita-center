@@ -14,6 +14,7 @@ import styled, { css } from "styled-components"
 import { TextInputVariant } from "app-theme/models"
 import { TextInputPassword } from "./text-input-password"
 import { Input, Placeholder, Slot, TextInputDefault } from "./text-input-shared"
+import { Textarea, TextInputTextarea } from "./text-input-textarea"
 import { TextInputDropdown, TextInputSearch } from "./text-input-search"
 import { typographyStyles } from "../../typography/typography-styles"
 import { Typography } from "../../typography/typography"
@@ -60,7 +61,18 @@ type SearchTypeProps = {
   rightSlot?: undefined
 }
 
-type InputProps = TextTypeProps | PasswordTypeProps | SearchTypeProps
+type TextareaTypeProps = {
+  type: "textarea"
+  rows?: number
+  leftSlot?: undefined
+  rightSlot?: undefined
+}
+
+type InputProps =
+  | TextTypeProps
+  | PasswordTypeProps
+  | SearchTypeProps
+  | TextareaTypeProps
 
 type Props = ComponentProps<typeof Input> & InputWrapperProps & InputProps
 
@@ -86,6 +98,8 @@ export const TextInput: FunctionComponent<Props> & {
         return TextInputPassword as typeof Input
       case "search":
         return TextInputSearch as typeof Input
+      case "textarea":
+        return TextInputTextarea as typeof Input
       default:
         return TextInputDefault as typeof Input
     }
@@ -202,6 +216,24 @@ const outlinedInputStyles = css`
   }
 
   &:has(${Input}:not(:placeholder-shown)) {
+    ${Placeholder} {
+      opacity: 0;
+    }
+  }
+
+  &:has(${Textarea}) {
+    height: auto;
+
+    ${Placeholder} {
+      align-items: flex-start;
+    }
+  }
+
+  &:has(${Textarea}:focus-visible) {
+    border: solid 0.1rem ${({ theme }) => theme.app.color.black};
+  }
+
+  &:has(${Textarea}:not(:placeholder-shown)) {
     ${Placeholder} {
       opacity: 0;
     }
