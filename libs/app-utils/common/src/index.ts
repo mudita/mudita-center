@@ -4,3 +4,4 @@
  */
 
 export * from "./delay"
+export * from "./delay-until-at-least"
