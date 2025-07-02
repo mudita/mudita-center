@@ -5,14 +5,11 @@
 
 import logger from "electron-log/renderer"
 import lodash from "lodash"
+import { delay } from "app-utils/common"
 import { AnalyticsEvent } from "app-utils/models"
 import { JsonStore } from "../json-store"
 
 type CacheMap = Record<string, AnalyticsEvent>
-
-const delay = (ms = 500): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
 
 const ANALYTICS_JSON_STORE_NAME = "analytics-cache"
 
