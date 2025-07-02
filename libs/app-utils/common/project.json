@@ -1,0 +1,11 @@
+{
+  "name": "app-utils/common",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/app-utils/common/src",
+  "projectType": "library",
+  "tags": [
+    "type:utils"
+  ],
+  "// targets": "to see all targets run: nx show project app-utils/common --web",
+  "targets": {}
+}
