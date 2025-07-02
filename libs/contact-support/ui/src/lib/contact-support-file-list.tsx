@@ -13,7 +13,7 @@ const File = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.4rem;
 `
 
 const Container = styled.div`
@@ -35,7 +35,7 @@ export const ContactSupportFileList: FunctionComponent<Props> = ({
       {files.map((file, index) => {
         return (
           <File key={index} data-testid={ContactSupportModalTestIds.File}>
-            <Icon type={IconType.FileCopy} size={IconSize.Tiny} />
+            <Icon type={IconType.FileCopy} size={IconSize.Small} />
             <Typography.P3>{file.name}</Typography.P3>
           </File>
         )
