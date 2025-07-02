@@ -20,6 +20,7 @@ import Download from "./svg/download.svg?react"
 import Error from "./svg/error.svg?react"
 import Failed from "./svg/failed.svg?react"
 import FileManager from "./svg/file-manager.svg?react"
+import FileCopy from "./svg/file-copy.svg?react"
 import Help from "./svg/help.svg?react"
 import Info from "./svg/info.svg?react"
 import Lock from "./svg/lock.svg?react"
@@ -55,6 +56,7 @@ export const icons = {
   [IconType.Error]: Error,
   [IconType.Failed]: Failed,
   [IconType.FileManager]: FileManager,
+  [IconType.FileCopy]: FileCopy,
   [IconType.Help]: Help,
   [IconType.Info]: Info,
   [IconType.Lock]: Lock,

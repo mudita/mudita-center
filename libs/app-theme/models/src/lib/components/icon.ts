@@ -17,6 +17,7 @@ export enum IconType {
   Error = "error",
   Failed = "failed",
   FileManager = "file-manager",
+  FileCopy = "file-copy",
   Help = "help",
   Info = "info",
   Lock = "lock",
