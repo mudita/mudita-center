@@ -16,6 +16,10 @@ import { useAppDispatch } from "app-store/utils"
 import { selectCreateTicketModalVisible } from "./store/contact-support.selectors"
 import { useCreateTicket } from "./use-contact-support"
 import { setCreateTicketModalVisible } from "./store/contact-support.actions"
+import { format } from "date-fns"
+
+const todayFormatDate = format(new Date(), "dd-MM-yy")
+const zippedLogsFileName = `${todayFormatDate} Mudita Center.zip`
 
 export const ContactSupport: FunctionComponent = () => {
   const dispatch = useAppDispatch()
@@ -47,7 +51,7 @@ export const ContactSupport: FunctionComponent = () => {
     <>
       {isIdle && (
         <ContactSupportFormModal
-          files={[]}
+          files={[{ name: zippedLogsFileName }]}
           onSubmit={sendTicket}
           onClose={closeContactSupportFlow}
         />

@@ -4,48 +4,57 @@
  */
 
 import { FunctionComponent } from "react"
-import { defineMessages, FormattedMessage, useIntl } from "react-intl"
+import { defineMessages, useIntl } from "react-intl"
 import { FieldValues, useForm } from "react-hook-form"
 import styled from "styled-components"
+import { noop } from "lodash"
 import { Button, Modal, TextInput, Typography } from "app-theme/ui"
 import {
+  ButtonSize,
   ButtonType,
   IconType,
   ModalLayer,
   ModalSize,
   TextInputVariant,
+  TypographyAlign,
 } from "app-theme/models"
 import {
   ContactSupportFlowTestIds,
   ContactSupportModalTestIds,
   SendTicketPayload,
 } from "contact-support/models"
+import { ContactSupportInputLabel } from "./contact-support-input-label"
+import { ContactSupportFileList } from "./contact-support-file-list"
+import { contactSupportEmailValidator } from "./contact-support-form-validators"
 
 const messages = defineMessages({
-  actionButton: {
-    id: "component.contactSupport.modal.actionButton",
-  },
-  actionButtonProgress: {
-    id: "ccomponent.contactSupport.modal.actionButtonProgress",
+  buttonText: {
+    id: "general.contactSupport.formModal.buttonText",
   },
   title: {
-    id: "component.contactSupport.modal.title",
+    id: "general.contactSupport.formModal.title",
   },
   description: {
-    id: "component.contactSupport.modal.description",
+    id: "general.contactSupport.formModal.description",
   },
-  emailLabel: { id: "component.contactSupport.modal.emailLabel" },
-  emailPlaceholder: { id: "component.contactSupport.modal.emailPlaceholder" },
-  messageLabel: { id: "component.contactSupport.modal.messageLabel" },
+  emailLabel: {
+    id: "general.contactSupport.formModal.emailLabel",
+  },
+  emailPlaceholder: {
+    id: "general.contactSupport.formModal.emailPlaceholder",
+  },
+  messageLabel: {
+    id: "general.contactSupport.formModal.messageLabel",
+  },
   descriptionPlaceholder: {
-    id: "component.contactSupport.modal.descriptionPlaceholder",
+    id: "general.contactSupport.formModal.descriptionPlaceholder",
   },
-  filesLabel: { id: "component.contactSupport.modal.filesLabel" },
+  filesLabel: {
+    id: "general.contactSupport.formModal.filesLabel",
+  },
   filesLabelDescription: {
-    id: "component.contactSupport.modal.filesLabelDescription",
+    id: "general.contactSupport.formModal.filesLabelDescription",
   },
-  optional: { id: "component.contactSupport.modal.optional" },
-  sendingTitle: { id: "component.contactSupport.modal.sendingTitle" },
 })
 
 enum FieldKeys {
@@ -66,34 +75,10 @@ interface ContactSupportModalProps {
   onClose?: () => void
 }
 
-interface FormInputLabelProps {
-  label: {
-    id: string
-  }
-  optional?: boolean
-  className?: string
-}
-
-export const FormInputLabelComponent: FunctionComponent<
-  FormInputLabelProps
-> = ({ className, label, optional }) => (
-  <div>
-    <Typography.P3 className={className}>
-      <FormattedMessage {...label} />
-      {optional && (
-        <Typography.P3 color="grey3" as={"span"}>
-          {" "}
-          (<FormattedMessage {...messages.optional} />)
-        </Typography.P3>
-      )}
-    </Typography.P3>
-  </div>
-)
-
 export const ContactSupportFormModal: FunctionComponent<
   ContactSupportModalProps
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-> = ({ onSubmit = () => {}, onClose = () => {} }) => {
+> = ({ files = [], onSubmit = noop, onClose = noop }) => {
+  const intl = useIntl()
   const {
     register,
     reset,
@@ -116,19 +101,14 @@ export const ContactSupportFormModal: FunctionComponent<
   const handleCloseModal = () => {
     reset()
     onClose()
-    console.log("close")
-    // ipcRenderer.callMain(HelpActions.CustomerIsSendingToMain, false)
   }
-
-  const intl = useIntl()
-
-  const emailValidator = {}
 
   return (
     <Modal
       opened={true}
       layer={ModalLayer.ContactSupport}
-      size={ModalSize.Large}
+      size={ModalSize.Medium}
+      customStyles={{ maxHeight: "66rem", width: "56.6rem" }}
       data-testid={ContactSupportFlowTestIds.ContactSupportModal}
     >
       <Modal.TitleIcon type={IconType.Support} />
@@ -139,88 +119,66 @@ export const ContactSupportFormModal: FunctionComponent<
           {intl.formatMessage(messages.description)}
         </Typography.P1>
         <form onSubmit={submitForm}>
-          <FormInputLabel label={messages.emailLabel} />
-          <TextInput
+          <InputLabel label={messages.emailLabel} />
+          <Input
             id="contact-support-email"
             variant={TextInputVariant.Outlined}
             type="text"
             placeholder={intl.formatMessage(messages.emailPlaceholder)}
             data-testid={ContactSupportModalTestIds.EmailInput}
-            {...register(FieldKeys.Email, emailValidator)}
+            error={errors.email?.message}
+            {...register(FieldKeys.Email, contactSupportEmailValidator)}
           />
-          {errors.email?.message && (
-            <p style={{ color: "red", fontSize: "1.2rem" }}>
-              {errors.email.message}
-            </p>
-          )}
-
-          <FormInputLabel label={messages.messageLabel} optional={true} />
-          <DescriptionInput
+          <InputLabel label={messages.messageLabel} optional={true} />
+          <Input
             id="contact-support-message"
+            variant={TextInputVariant.Outlined}
+            type="textarea"
+            rows={3}
             placeholder={intl.formatMessage(messages.descriptionPlaceholder)}
             data-testid={ContactSupportModalTestIds.DescriptionInput}
             {...register(FieldKeys.Description)}
           />
-
-          <p style={{ marginTop: "1.6rem", marginBottom: "0.4rem" }}>
-            <strong>{intl.formatMessage(messages.filesLabel)}</strong>
-          </p>
-          <p
-            style={{
-              color: "#3b3f42",
-              fontWeight: 300,
-              fontSize: "1.4rem",
-              marginTop: 0,
-              marginBottom: "0.8rem",
-            }}
-          >
+          <InputLabel label={messages.filesLabel} />
+          <FilesLabelDescription textAlign={TypographyAlign.Left}>
             {intl.formatMessage(messages.filesLabelDescription)}
-          </p>
-          {/* <FileList
-                files={files}
-                data-testid={ContactSupportModalTestIds.FileList}
-              /> */}
-
-          <div style={{ textAlign: "center", marginTop: "2.4rem" }}>
+          </FilesLabelDescription>
+          <ContactSupportFileList
+            files={files}
+            data-testid={ContactSupportModalTestIds.FileList}
+          />
+          <FormSendButtonWrapper>
             <Button
               type={ButtonType.Primary}
               onClick={submitForm}
               disabled={!isValid || !emailValue}
               data-testid={ContactSupportModalTestIds.SubmitButton}
+              size={ButtonSize.Large}
             >
-              {intl.formatMessage(messages.actionButton)}
+              {intl.formatMessage(messages.buttonText)}
             </Button>
-          </div>
+          </FormSendButtonWrapper>
         </form>
       </Modal.ScrollableContent>
     </Modal>
   )
 }
 
-const DescriptionInput = styled.textarea`
-  height: 8rem;
-  border: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
-  border-radius: ${({ theme }) => theme.app.radius.sm};
-  background: ${({ theme }) => theme.app.color.grey6};
-  padding: 1rem;
-  font: inherit;
-  resize: none;
-
-  &:focus {
-    outline: none;
-    border-color: ${({ theme }) => theme.app.color.black};
-  }
-
-  &::placeholder {
-    color: ${({ theme }) => theme.app.color.grey3};
+const Input = styled(TextInput)`
+  p {
+    text-align: left;
   }
 `
-
-const FormInputLabel = styled(FormInputLabelComponent)`
+const InputLabel = styled(ContactSupportInputLabel)`
   margin-bottom: 0.8rem;
-  text-align: left !important;
+`
 
-  &:not(:first-of-type) {
-    margin-top: 2.4rem;
-  }
+const FilesLabelDescription = styled(Typography.P4)`
+  margin-bottom: 1.4rem;
+`
+
+const FormSendButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2.4rem;
 `
