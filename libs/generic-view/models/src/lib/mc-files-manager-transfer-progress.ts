@@ -15,10 +15,12 @@ const configValidator = z.object({
   actionType: z.string(),
 })
 
-export type McFilesManagerUploadProgressConfig = z.infer<typeof configValidator>
+export type McFilesManagerTransferProgressConfig = z.infer<
+  typeof configValidator
+>
 
-export const mcFilesManagerUploadProgress = {
-  key: "mc-files-manager-upload-progress",
+export const mcFilesManagerTransferProgress = {
+  key: "mc-files-manager-transfer-progress",
   dataValidator,
   configValidator,
 } as const

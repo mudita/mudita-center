@@ -19,6 +19,7 @@ import {
 } from "generic-view/store"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { isMtpPathInternal, sliceMtpPaths } from "./file-transfer-paths-helper"
+import { SendFilesAction } from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 export const useExportFilesButtonAction = () => {
   const store = useStore<ReduxRootState>()
@@ -71,7 +72,7 @@ export const useExportFilesButtonAction = () => {
           actionId: action.actionId,
           entitiesType: action.entitiesType,
           isMtpPathInternal: isMtpPathInternal(sourcePath),
-          actionType: "export",
+          actionType: SendFilesAction.ActionExport,
         })
       )) as Awaited<ReturnType<ReturnType<typeof sendFiles>>>
 

@@ -10,7 +10,7 @@ import { ResultObject } from "Core/core/builder"
 
 export const chooseDirectoryRequest = (
   options: OpenDialogOptions
-): Promise<ResultObject<string[]>> => {
+): Promise<ResultObject<string>> => {
   return ipcRenderer.callMain(FileDialogToMainEvents.ChooseDirectory, {
     options,
   })

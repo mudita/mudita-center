@@ -21,7 +21,7 @@ import {
   trackInfo,
 } from "./actions"
 import { ActionName } from "../action-names"
-import { FilesTransferMode } from "./files-transfer-mode.type"
+import { FilesTransferMode } from "./files-transfer.type"
 
 export interface SendFileViaMTPPayload {
   file: FileWithPath

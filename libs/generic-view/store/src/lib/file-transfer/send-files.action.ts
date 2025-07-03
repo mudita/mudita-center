@@ -23,7 +23,7 @@ import {
 } from "./send-file-via-mtp.action"
 import { getMtpSendFileMetadata } from "./get-mtp-send-file-metadata.action"
 import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
-import { FilesTransferMode } from "./files-transfer-mode.type"
+import { FilesTransferMode, SendFilesAction } from "./files-transfer.type"
 import { isMtpInitializeAccessError } from "./is-mtp-initialize-access-error"
 import {
   selectFilesSendingGroup,
@@ -40,7 +40,7 @@ export interface SendFilesPayload {
   isMtpPathInternal: boolean
   entitiesType?: string
   customDeviceId?: DeviceId
-  actionType: "upload" | "export"
+  actionType: SendFilesAction
 }
 
 export const sendFiles = createAsyncThunk<

@@ -9,8 +9,8 @@ import { defineMessages } from "react-intl"
 import { APIFC, IconType } from "generic-view/utils"
 import {
   ButtonAction,
-  McFilesManagerUploadValidationErrorConfig,
-  McFilesManagerUploadValidationErrorData,
+  McFilesManagerTransferValidationErrorConfig,
+  McFilesManagerTransferValidationErrorData,
 } from "generic-view/models"
 import {
   clearFileTransferErrors,
@@ -41,8 +41,8 @@ const messages = defineMessages({
 })
 
 export const FilesManagerUploadValidationError: APIFC<
-  McFilesManagerUploadValidationErrorData,
-  McFilesManagerUploadValidationErrorConfig
+  McFilesManagerTransferValidationErrorData,
+  McFilesManagerTransferValidationErrorConfig
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
   const validationFailureType = useSelector((state: ReduxRootState) =>

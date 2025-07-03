@@ -5,6 +5,7 @@
 
 import { ComponentGenerator, IconType } from "generic-view/utils"
 import { McFileManagerConfig } from "generic-view/models"
+import { SendFilesAction } from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 export const generateFilesExportProcessButtonKey = (key: string) =>
   `${key}filesExportButton`
@@ -123,12 +124,12 @@ export const generateFileExportProcessButton: ComponentGenerator<
     },
 
     [generateFilesExportButtonModalKey(key, "ProgressContent")]: {
-      component: "mc-files-manager-upload-progress",
+      component: "mc-files-manager-transfer-progress",
       config: {
         directoryPath,
         entitiesType: entityType,
         transferActionId: exportActionId,
-        actionType: "export",
+        actionType: SendFilesAction.ActionExport,
       },
       childrenKeys: [generateFilesExportButtonModalKey(key, "Finished")],
     },
@@ -141,10 +142,10 @@ export const generateFileExportProcessButton: ComponentGenerator<
       childrenKeys: [generateFilesExportButtonModalKey(key, "FinishedContent")],
     },
     [generateFilesExportButtonModalKey(key, "FinishedContent")]: {
-      component: "mc-files-manager-upload-finished",
+      component: "mc-files-manager-transfer-finished",
       config: {
         modalKey: generateFilesExportButtonModalKey(key, "Finished"),
-        uploadActionId: exportActionId,
+        transferActionId: exportActionId,
       },
     },
 

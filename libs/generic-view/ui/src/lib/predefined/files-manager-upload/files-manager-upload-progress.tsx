@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { APIFC, IconType } from "generic-view/utils"
 import {
   ButtonAction,
-  McFilesManagerUploadProgressConfig,
+  McFilesManagerTransferProgressConfig,
 } from "generic-view/models"
 import {
   selectFilesSendingCount,
@@ -24,7 +24,10 @@ import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import { Modal } from "../../interactive/modal/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { FilesManagerUploadProgressWarning } from "./files-manager-upload-progress-warning"
-import { FilesTransferMode } from "../../../../../store/src/lib/file-transfer/files-transfer-mode.type"
+import {
+  FilesTransferMode,
+  SendFilesAction,
+} from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 const messages = defineMessages({
   progressUploadModalTitle: {
@@ -40,7 +43,7 @@ const messages = defineMessages({
 
 export const FilesManagerUploadProgress: APIFC<
   undefined,
-  McFilesManagerUploadProgressConfig
+  McFilesManagerTransferProgressConfig
 > = ({ config }) => {
   const dispatch = useDispatch<Dispatch>()
   const selectorsConfig = { groupId: config.transferActionId }
@@ -68,7 +71,7 @@ export const FilesManagerUploadProgress: APIFC<
       <Modal.TitleIcon config={{ type: IconType.SpinnerDark }} />
       <Modal.Title>
         {intl.formatMessage(
-          config.actionType === "export"
+          config.actionType === SendFilesAction.ActionExport
             ? messages.progressExportModalTitle
             : messages.progressUploadModalTitle,
           {

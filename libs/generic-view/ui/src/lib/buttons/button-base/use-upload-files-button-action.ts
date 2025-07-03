@@ -23,6 +23,7 @@ import { useViewFormContext } from "generic-view/utils"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { validateSelectedFiles } from "../../shared/validate-selected-files"
 import { isMtpPathInternal, sliceMtpPaths } from "./file-transfer-paths-helper"
+import { SendFilesAction } from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 export const useUploadFilesButtonAction = () => {
   const store = useStore<ReduxRootState>()
@@ -97,7 +98,7 @@ export const useUploadFilesButtonAction = () => {
           ),
           entitiesType: action.entitiesType,
           isMtpPathInternal: isDestinationInternal,
-          actionType: "upload",
+          actionType: SendFilesAction.ActionUpload,
         })
       )) as Awaited<ReturnType<ReturnType<typeof sendFiles>>>
 

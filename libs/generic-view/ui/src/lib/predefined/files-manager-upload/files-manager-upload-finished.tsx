@@ -7,8 +7,8 @@ import React, { useCallback, useLayoutEffect, useMemo } from "react"
 import { APIFC, compareValues, IconType } from "generic-view/utils"
 import {
   ButtonAction,
-  McFilesManagerUploadFinishedConfig,
-  McFilesManagerUploadFinishedData,
+  McFilesManagerTransferFinishedConfig,
+  McFilesManagerTransferFinishedData,
 } from "generic-view/models"
 import { Modal } from "../../interactive/modal/modal"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -83,15 +83,15 @@ const messages = defineMessages({
 })
 
 export const FilesManagerUploadFinished: APIFC<
-  McFilesManagerUploadFinishedData,
-  McFilesManagerUploadFinishedConfig
+  McFilesManagerTransferFinishedData,
+  McFilesManagerTransferFinishedConfig
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
-  const selectorsConfig = { groupId: config.uploadActionId }
+  const selectorsConfig = { groupId: config.transferActionId }
   const filesCount = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCount(state, selectorsConfig)
   })
-  console.log(filesCount)
+
   const succeededFiles = useSelector((state: ReduxRootState) => {
     return selectFilesSendingSucceeded(state, selectorsConfig)
   })
@@ -128,8 +128,10 @@ export const FilesManagerUploadFinished: APIFC<
       type: "custom",
       callback: () => {
         setTimeout(() => {
-          dispatch(sendFilesClear({ groupId: config.uploadActionId }))
-          dispatch(clearFileTransferErrors({ actionId: config.uploadActionId }))
+          dispatch(sendFilesClear({ groupId: config.transferActionId }))
+          dispatch(
+            clearFileTransferErrors({ actionId: config.transferActionId })
+          )
         }, modalTransitionDuration)
       },
     },
@@ -306,7 +308,6 @@ export const FilesManagerUploadFinished: APIFC<
   }, [errorTypes])
 
   useLayoutEffect(() => {
-    console.log(filesCount)
     const processedCount = succeededFiles.length + failedFiles.length
     const allProcessed = processedCount === filesCount
     if (
@@ -318,7 +319,7 @@ export const FilesManagerUploadFinished: APIFC<
     }
   }, [
     config.modalKey,
-    config.uploadActionId,
+    config.transferActionId,
     dispatch,
     failedFiles.length,
     succeededFiles.length,
