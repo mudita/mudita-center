@@ -20,15 +20,16 @@ const messages = defineMessages({
 })
 
 interface ContactSupportModalSuccessProps {
+  opened: boolean
   onClose: VoidFunction
 }
 
 export const ContactSupportSuccessModal: FunctionComponent<
   ContactSupportModalSuccessProps
-> = ({ onClose }) => {
+> = ({ onClose, opened }) => {
   return (
     <Modal
-      opened={true}
+      opened={opened}
       layer={ModalLayer.ContactSupport}
       size={ModalSize.Small}
       data-testid={ContactSupportFlowTestIds.ContactSupportModalSuccess}

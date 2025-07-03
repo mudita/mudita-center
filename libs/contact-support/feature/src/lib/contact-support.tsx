@@ -51,18 +51,22 @@ export const ContactSupport: FunctionComponent = () => {
 
   return (
     <>
-      {isIdle && (
-        <ContactSupportFormModal
-          files={[{ name: zippedLogsFileName }]}
-          onSubmit={handleFormModalSubmit}
-          onClose={hideCreateTicketModal}
-        />
-      )}
-      {isPending && <ContactSupportSendingModal />}
-      {isSuccess && (
-        <ContactSupportSuccessModal onClose={hideCreateTicketModal} />
-      )}
-      {isError && <ContactSupportErrorModal onClose={hideCreateTicketModal} />}
+      <ContactSupportFormModal
+        opened={isIdle}
+        files={[{ name: zippedLogsFileName }]}
+        onSubmit={handleFormModalSubmit}
+        onClose={hideCreateTicketModal}
+      />
+      <ContactSupportSendingModal opened={isPending} />
+
+      <ContactSupportSuccessModal
+        opened={isSuccess}
+        onClose={hideCreateTicketModal}
+      />
+      <ContactSupportErrorModal
+        opened={isError}
+        onClose={hideCreateTicketModal}
+      />
     </>
   )
 }

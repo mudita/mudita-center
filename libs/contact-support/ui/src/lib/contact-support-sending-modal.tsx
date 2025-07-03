@@ -14,10 +14,16 @@ const messages = defineMessages({
   sendingTitle: { id: "general.contactSupport.sendingModal.title" },
 })
 
-export const ContactSupportSendingModal: FunctionComponent = () => {
+interface Props {
+  opened: boolean
+}
+
+export const ContactSupportSendingModal: FunctionComponent<Props> = ({
+  opened,
+}) => {
   return (
     <Modal
-      opened={true}
+      opened={opened}
       layer={ModalLayer.ContactSupport}
       size={ModalSize.Small}
       data-testid={ContactSupportFlowTestIds.ContactSupportModal}

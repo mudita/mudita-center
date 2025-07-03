@@ -70,6 +70,7 @@ export interface ContactSupportFieldValues
 }
 
 interface ContactSupportModalProps {
+  opened: boolean
   files: { name: string }[]
   onSubmit: (data: ContactSupportFieldValues) => void
   onClose: VoidFunction
@@ -77,7 +78,7 @@ interface ContactSupportModalProps {
 
 export const ContactSupportFormModal: FunctionComponent<
   ContactSupportModalProps
-> = ({ files = [], onSubmit, onClose }) => {
+> = ({ files = [], onSubmit, onClose, opened }) => {
   const {
     register,
     reset,
@@ -102,7 +103,7 @@ export const ContactSupportFormModal: FunctionComponent<
 
   return (
     <Modal
-      opened={true}
+      opened={opened}
       layer={ModalLayer.ContactSupport}
       size={ModalSize.Medium}
       customStyles={{ maxHeight: "66rem", width: "56.6rem" }}

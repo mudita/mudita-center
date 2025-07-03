@@ -20,15 +20,17 @@ const messages = defineMessages({
 })
 
 interface Props {
+  opened: boolean
   onClose: VoidFunction
 }
 
 export const ContactSupportErrorModal: FunctionComponent<Props> = ({
   onClose,
+  opened,
 }) => {
   return (
     <Modal
-      opened={true}
+      opened={opened}
       layer={ModalLayer.ContactSupport}
       size={ModalSize.Small}
       data-testid={ContactSupportFlowTestIds.ContactSupportModalError}
