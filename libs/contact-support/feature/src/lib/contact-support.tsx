@@ -25,7 +25,8 @@ export const ContactSupport: FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const createTicketModalVisible = useSelector(selectCreateTicketModalVisible)
   const {
-    mutate: createTicket,
+    mutate: createTicketMutate,
+    reset: createTicketReset,
     isPending,
     isSuccess,
     isError,
@@ -34,14 +35,15 @@ export const ContactSupport: FunctionComponent = () => {
 
   const handleFormModalSubmit = useCallback(
     (data: ContactSupportFieldValues) => {
-      createTicket(data)
+      createTicketMutate(data)
     },
-    [createTicket]
+    [createTicketMutate]
   )
 
   const hideCreateTicketModal = useCallback(() => {
     dispatch(setCreateTicketModalVisible(false))
-  }, [dispatch])
+    createTicketReset()
+  }, [dispatch, createTicketReset])
 
   if (!createTicketModalVisible) {
     return null

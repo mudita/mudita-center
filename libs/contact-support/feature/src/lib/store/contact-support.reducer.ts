@@ -8,7 +8,7 @@ import { ContactSupportReducer } from "contact-support/models"
 import { setCreateTicketModalVisible } from "./contact-support.actions"
 
 const initialState: ContactSupportReducer = {
-  createTicketModalVisible: true,
+  createTicketModalVisible: false,
 }
 
 export const contactSupportReducer = createReducer(initialState, (builder) => {
