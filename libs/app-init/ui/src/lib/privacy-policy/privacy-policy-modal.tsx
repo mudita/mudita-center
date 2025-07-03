@@ -12,12 +12,12 @@ import {
   ModalLayer,
 } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
+import { AppLegalPaths } from "app-routing/models"
 
 interface Props {
   opened: boolean
   onAccept: () => void
   onClose: () => void
-  onLinkClick?: () => void
 }
 
 const messages = defineMessages({
@@ -42,7 +42,6 @@ export const PrivacyPolicyModal: FunctionComponent<Props> = ({
   opened,
   onAccept,
   onClose,
-  onLinkClick,
 }) => {
   return (
     <Modal opened={opened} layer={ModalLayer.PrivacyPolicy}>
@@ -52,7 +51,8 @@ export const PrivacyPolicyModal: FunctionComponent<Props> = ({
       <Modal.DenseContent>
         <Typography.P1>{formatMessage(messages.description)}</Typography.P1>
         <Button
-          onClick={onLinkClick}
+          to={AppLegalPaths.PrivacyPolicy}
+          target="_window"
           type={ButtonType.Text}
           modifiers={[ButtonTextModifier.Link]}
         >
