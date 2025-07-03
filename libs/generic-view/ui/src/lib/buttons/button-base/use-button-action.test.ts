@@ -5,7 +5,6 @@
 
 import { useButtonAction } from "./use-button-action"
 import { renderHook } from "@testing-library/react"
-import { useExportFilesButtonAction } from "./use-export-files-button-action"
 
 jest.mock("generic-view/store", () => ({
   openModal: jest.fn(),
