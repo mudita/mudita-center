@@ -191,6 +191,8 @@ const createTicket = async (
     logger.error("Failed to create ticket", createTicketResult.error)
     throw new AppError(createTicketResult.error.message, "CreateTicketError")
   }
+
+  return createTicketResult
 }
 
 export const useCreateTicket = () => {
