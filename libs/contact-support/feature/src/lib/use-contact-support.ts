@@ -7,7 +7,11 @@ import { format } from "date-fns"
 import logger from "electron-log/renderer"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AppFileSystem, AppHttp, AppLogger } from "app-utils/renderer"
-import { AppError, AppHttpRequestConfig } from "app-utils/models"
+import {
+  AppError,
+  AppFileSystemScopeOptions,
+  AppHttpRequestConfig,
+} from "app-utils/models"
 import { delayUntilAtLeast } from "app-utils/common"
 import {
   CustomerSupportCreateTicketPayload,
@@ -22,7 +26,7 @@ import { contactSupportConfig } from "./contact-support-config"
 interface CreateTicketRequestPayload
   extends Pick<AppHttpRequestConfig, "data" | "files"> {
   data: Record<string, string>
-  files: Record<string, string>
+  files: Record<string, AppFileSystemScopeOptions>
 }
 
 enum SupportMetaErrorName {
@@ -56,7 +60,7 @@ const createTicketRequest = async ({
   data,
   files,
 }: CreateTicketRequestPayload) => {
-  await AppHttp.request({
+  return await AppHttp.request({
     method: "POST",
     url: `${contactSupportConfig.apiUrl}/api/v2/tickets`,
     headers: {
@@ -77,6 +81,7 @@ const mapToCreateTicketRequestPayload = (
     deviceId,
     product,
   }: CustomerSupportCreateTicketPayload,
+  scopeRelativePath: string,
   metaCreateTicketErrors: MetaCreateTicketError[]
 ): CreateTicketRequestPayload => {
   const data: Record<string, string> = {
@@ -97,10 +102,10 @@ const mapToCreateTicketRequestPayload = (
     data["custom_fields[cf_serial_number_imei]"] = serialNumber
   }
   if (deviceId) {
-    data["custom_fields[cf_device_id]"] = deviceId
+    data["custom_fields[cf_deviceid]"] = deviceId
   }
-  const files = {
-    "attachments[]": contactSupportConfig.tmpLogsScopeRelativePath,
+  const files: Record<string, AppFileSystemScopeOptions> = {
+    "attachments[]": { scopeRelativePath },
   }
 
   return { data, files }
@@ -178,9 +183,14 @@ const createTicket = async (
 
   const requestPayload = mapToCreateTicketRequestPayload(
     actionPayload,
+    scopeDestinationPath,
     metaCreateTicketErrors
   )
-  return await createTicketRequest(requestPayload)
+  const createTicketResult = await createTicketRequest(requestPayload)
+  if (!createTicketResult.ok) {
+    logger.error("Failed to create ticket", createTicketResult.error)
+    throw new AppError(createTicketResult.error.message, "CreateTicketError")
+  }
 }
 
 export const useCreateTicket = () => {
@@ -191,7 +201,7 @@ export const useCreateTicket = () => {
     mutationFn: (data: ContactSupportFieldValues) => {
       const activeDevice = getActiveDevice(queryClient)
       const email = data.email
-      const description = (data.description || "").replace(
+      const description = (data.description || "no text").replace(
         /\r\n|\r|\n/g,
         "<br/>"
       )
