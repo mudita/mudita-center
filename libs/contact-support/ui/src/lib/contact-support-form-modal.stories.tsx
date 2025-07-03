@@ -46,8 +46,6 @@ type Story = StoryObj<typeof ContactSupportFormModal>
 export const Default: Story = {
   args: {
     files: [{ name: "22-10-05 MuditaCenter.zip" }],
-    onClose: action("onClose"),
-    onSubmit: action("onSubmit"),
   },
   argTypes: {
     files: storybookHelper

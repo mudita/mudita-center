@@ -34,10 +34,6 @@ export const Default: Story = {
       </Decorator>
     ),
   ],
-  args: {
-    onTryAgain: () => console.log("Try again clicked"),
-    onContactSupport: () => console.log("Contact support clicked"),
-  },
   argTypes: {
     onTryAgain: {
       description:

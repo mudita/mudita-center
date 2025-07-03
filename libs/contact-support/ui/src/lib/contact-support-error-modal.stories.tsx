@@ -44,9 +44,6 @@ export default meta
 type Story = StoryObj<typeof ContactSupportErrorModal>
 
 export const Default: Story = {
-  args: {
-    onClose: action("onClose"),
-  },
   argTypes: {
     onClose: storybookHelper
       .addDescription(
