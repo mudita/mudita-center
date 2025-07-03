@@ -4,7 +4,6 @@
  */
 
 import { app, BrowserWindow, shell } from "electron"
-import { autoUpdater } from "electron-updater"
 import * as path from "path"
 import { join } from "path"
 import { electronApp, optimizer } from "@electron-toolkit/utils"
@@ -53,7 +52,7 @@ const createWindow = () => {
   }
 
   mainWindow.on("ready-to-show", () => {
-    initAppLibs(mainWindow.webContents)
+    initAppLibs(mainWindow)
 
     if (process.env.NODE_ENV === "development") {
       mainWindow.showInactive()
