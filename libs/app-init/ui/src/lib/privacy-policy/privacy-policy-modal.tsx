@@ -52,7 +52,7 @@ export const PrivacyPolicyModal: FunctionComponent<Props> = ({
         <Typography.P1>{formatMessage(messages.description)}</Typography.P1>
         <Button
           to={AppLegalPaths.PrivacyPolicy}
-          target="_window"
+          target="appWindow"
           type={ButtonType.Text}
           modifiers={[ButtonTextModifier.Link]}
         >

@@ -34,7 +34,7 @@ import { formatMessage, Messages } from "app-localize/utils"
 
 export interface ButtonLinkProps {
   to: LinkProps["to"]
-  target?: LinkProps["target"] | "_window"
+  target?: LinkProps["target"] | "appWindow"
   onClick?: VoidFunction
 }
 
@@ -134,7 +134,7 @@ export const Button: FunctionComponent<Props> = ({
       }
       const eventTarget = event.currentTarget.closest("a")
       // Handle internal links to be opened in a new window
-      if (target === "_window" && eventTarget instanceof HTMLAnchorElement) {
+      if (target === "appWindow" && eventTarget instanceof HTMLAnchorElement) {
         event.preventDefault()
         try {
           // eslint-disable-next-line @nx/enforce-module-boundaries
