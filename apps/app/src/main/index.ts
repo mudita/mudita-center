@@ -15,7 +15,6 @@ import installExtension, {
 } from "electron-devtools-installer"
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
-import { setMainAppWindow } from "app-utils/main"
 
 if (process.env.NODE_ENV === "test") {
   import("wdio-electron-service/main")
@@ -48,12 +47,6 @@ const createWindow = () => {
       contextIsolation: true,
     },
   })
-
-  setMainAppWindow(mainWindow)
-
-  if (process.env.AUTOUPDATE_ENABLED === "true") {
-    void autoUpdater.checkForUpdatesAndNotify()
-  }
 
   if (devToolsEnabled) {
     mainWindow.webContents.openDevTools()
