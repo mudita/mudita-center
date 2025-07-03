@@ -27,8 +27,5 @@
     "serialport": "*",
     "sql.js": "*",
     "getmac": "*"
-  },
-  "devDependencies": {
-    "electron-publish": "*"
   }
 }
