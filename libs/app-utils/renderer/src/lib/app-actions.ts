@@ -8,6 +8,6 @@ import "types-preload"
 export const AppActions = {
   close: window.api.appActions.close,
   openFileDialog: window.api.appActions.openFileDialog,
-  openLegalWindow: window.api.appActions.openLegalWindow,
+  openWindow: window.api.appActions.openWindow,
   getAppVersion: window.api.appActions.getAppVersion,
 }
