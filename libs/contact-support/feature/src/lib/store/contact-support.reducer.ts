@@ -5,14 +5,14 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { ContactSupportReducer } from "contact-support/models"
-import { setCreateTicketModalVisible } from "./contact-support.actions"
+import { setContactSupportModalVisible } from "./contact-support.actions"
 
 const initialState: ContactSupportReducer = {
-  createTicketModalVisible: false,
+  modalVisible: false,
 }
 
 export const contactSupportReducer = createReducer(initialState, (builder) => {
-  builder.addCase(setCreateTicketModalVisible, (state, action) => {
-    state.createTicketModalVisible = action.payload
+  builder.addCase(setContactSupportModalVisible, (state, action) => {
+    state.modalVisible = action.payload
   })
 })

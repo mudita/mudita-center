@@ -33,7 +33,7 @@ import { DevicesSelectingPage } from "./devices-selecting-page"
 import { usePureRouter } from "devices/pure/routes"
 import { useQueryClient } from "@tanstack/react-query"
 import { useHarmonyMscRouter } from "devices/harmony-msc/routes"
-import { setCreateTicketModalVisible } from "contact-support/feature"
+import { setContactSupportModalVisible } from "contact-support/feature"
 
 const DEFAULT_UX_DELAY = 500
 
@@ -81,7 +81,7 @@ export const useDevicesInitRouter = () => {
   }
 
   const handleContactSupport = () => {
-    dispatch(setCreateTicketModalVisible(true))
+    dispatch(setContactSupportModalVisible(true))
   }
 
   const delayForBetterUX = useCallback(

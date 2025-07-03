@@ -6,9 +6,9 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { AppStore } from "app-store/models"
 
-export const selectCreateTicketModalVisible = createSelector(
+export const selectContactSupportModalVisible = createSelector(
   (state: AppStore) => state.contactSupport,
   (contactSupport) => {
-    return contactSupport.createTicketModalVisible
+    return contactSupport.modalVisible
   }
 )

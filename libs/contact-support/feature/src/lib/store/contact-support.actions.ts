@@ -6,9 +6,9 @@
 import { createAction } from "@reduxjs/toolkit"
 
 export enum ContactSupportEvent {
-  SetCreateTicketModalVisible = "contactSupport/setCreateTicketModalVisible",
+  SetContactSupportModalVisible = "contactSupport/setContactSupportModalVisible",
 }
 
-export const setCreateTicketModalVisible = createAction<boolean>(
-  ContactSupportEvent.SetCreateTicketModalVisible
+export const setContactSupportModalVisible = createAction<boolean>(
+  ContactSupportEvent.SetContactSupportModalVisible
 )

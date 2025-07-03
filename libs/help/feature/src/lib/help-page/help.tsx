@@ -7,7 +7,7 @@ import { FunctionComponent } from "react"
 import { Help } from "help/ui"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "app-store/utils"
-import { setCreateTicketModalVisible } from "contact-support/feature"
+import { setContactSupportModalVisible } from "contact-support/feature"
 import {
   selectHelp,
   selectHelpArticles,
@@ -34,7 +34,7 @@ export const HelpPage: FunctionComponent = () => {
   console.log("Redux HelpData:", helpData)
 
   const handleContactSupport = () => {
-    dispatch(setCreateTicketModalVisible(true))
+    dispatch(setContactSupportModalVisible(true))
   }
 
   return (

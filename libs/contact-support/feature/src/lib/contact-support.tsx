@@ -14,16 +14,16 @@ import {
   ContactSupportSuccessModal,
 } from "contact-support/ui"
 import { useAppDispatch } from "app-store/utils"
-import { selectCreateTicketModalVisible } from "./store/contact-support.selectors"
+import { selectContactSupportModalVisible } from "./store/contact-support.selectors"
 import { useCreateTicket } from "./use-contact-support"
-import { setCreateTicketModalVisible } from "./store/contact-support.actions"
+import { setContactSupportModalVisible } from "./store/contact-support.actions"
 
 const todayFormatDate = format(new Date(), "dd-MM-yy")
 const zippedLogsFileName = `${todayFormatDate} Mudita Center.zip`
 
 export const ContactSupport: FunctionComponent = () => {
   const dispatch = useAppDispatch()
-  const createTicketModalVisible = useSelector(selectCreateTicketModalVisible)
+  const modalVisible = useSelector(selectContactSupportModalVisible)
   const {
     mutate: createTicketMutate,
     reset: createTicketReset,
@@ -40,12 +40,12 @@ export const ContactSupport: FunctionComponent = () => {
     [createTicketMutate]
   )
 
-  const hideCreateTicketModal = useCallback(() => {
-    dispatch(setCreateTicketModalVisible(false))
+  const hideModalVisible = useCallback(() => {
+    dispatch(setContactSupportModalVisible(false))
     createTicketReset()
   }, [dispatch, createTicketReset])
 
-  if (!createTicketModalVisible) {
+  if (!modalVisible) {
     return null
   }
 
@@ -55,18 +55,15 @@ export const ContactSupport: FunctionComponent = () => {
         opened={isIdle}
         files={[{ name: zippedLogsFileName }]}
         onSubmit={handleFormModalSubmit}
-        onClose={hideCreateTicketModal}
+        onClose={hideModalVisible}
       />
       <ContactSupportSendingModal opened={isPending} />
 
       <ContactSupportSuccessModal
         opened={isSuccess}
-        onClose={hideCreateTicketModal}
+        onClose={hideModalVisible}
       />
-      <ContactSupportErrorModal
-        opened={isError}
-        onClose={hideCreateTicketModal}
-      />
+      <ContactSupportErrorModal opened={isError} onClose={hideModalVisible} />
     </>
   )
 }

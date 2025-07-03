@@ -4,5 +4,5 @@
  */
 
 export interface ContactSupportReducer {
-  createTicketModalVisible: boolean
+  modalVisible: boolean
 }
