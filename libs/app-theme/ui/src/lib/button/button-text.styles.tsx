@@ -35,16 +35,16 @@ const textDefaultStyles = css<ModifiersProp>`
     `};
 
   ${({ $modifiers }) =>
-    $modifiers?.includes(ButtonTextModifier.Link) &&
-    css`
-      color: ${({ theme }) => theme.app.color.blue2};
-    `};
-
-  ${({ $modifiers }) =>
     $modifiers?.includes(ButtonTextModifier.HoverBackground) &&
     css`
       color: ${({ theme }) => theme.app.color.grey2};
       padding: 0 1rem;
+    `};
+
+  ${({ $modifiers }) =>
+    $modifiers?.includes(ButtonTextModifier.Link) &&
+    css`
+      color: ${({ theme }) => theme.app.color.blue2};
     `};
 
   ${({ $modifiers }) =>
@@ -56,20 +56,15 @@ const textDefaultStyles = css<ModifiersProp>`
   ${({ $modifiers }) =>
     $modifiers?.includes(ButtonTextModifier.Inline) &&
     css`
-      display: inline-block;
+      display: inline;
       height: auto;
       padding: 0;
       font: inherit;
-      color: inherit;
       background: none;
       border: none;
-      text-decoration: underline;
-      text-transform: none;
+      text-transform: inherit;
+      letter-spacing: inherit;
       cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
     `}
 
   &:has(${ButtonIcon}) {
@@ -87,12 +82,6 @@ const textHoverStyles = css<ModifiersProp>`
   color: ${({ theme }) => theme.app.color.black};
 
   ${({ $modifiers }) =>
-    $modifiers?.includes(ButtonTextModifier.Link) &&
-    css`
-      color: ${({ theme }) => theme.app.color.blue1};
-    `};
-
-  ${({ $modifiers }) =>
     $modifiers?.includes(ButtonTextModifier.HoverUnderline) &&
     css`
       text-decoration: underline;
@@ -104,6 +93,12 @@ const textHoverStyles = css<ModifiersProp>`
     css`
       color: ${({ theme }) => theme.app.color.black};
       background-color: ${({ theme }) => theme.app.color.grey5};
+    `};
+
+  ${({ $modifiers }) =>
+    $modifiers?.includes(ButtonTextModifier.Link) &&
+    css`
+      color: ${({ theme }) => theme.app.color.blue1};
     `};
 
   ${({ $modifiers }) =>
