@@ -212,7 +212,7 @@ const outlinedInputStyles = css<{ $error?: boolean }>`
   }
 
   &:has(${Input}:focus-visible) {
-    ${({ theme, $error }) =>
+    border-color: ${({ theme, $error }) =>
       $error ? theme.app.color.red : theme.app.color.black};
   }
 
