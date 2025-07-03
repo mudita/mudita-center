@@ -31,7 +31,7 @@ const BackupWrapper = styled.section`
 
 const BackupTableRow = styled(SettingsTableRow)`
   grid-template-areas: "Checkbox Actions";
-  grid-template-columns: 1fr 20rem;
+  grid-template-columns: 1fr 20.8rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
   width: 100%;
 `
