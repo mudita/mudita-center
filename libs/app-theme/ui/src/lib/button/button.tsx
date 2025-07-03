@@ -132,13 +132,14 @@ export const Button: FunctionComponent<Props> = ({
         event.preventDefault()
         return
       }
+      const eventTarget = event.currentTarget.closest("a")
       // Handle internal links to be opened in a new window
-      if (target === "_window" && event.target instanceof HTMLAnchorElement) {
+      if (target === "_window" && eventTarget instanceof HTMLAnchorElement) {
         event.preventDefault()
         try {
           // eslint-disable-next-line @nx/enforce-module-boundaries
           const { AppActions } = await import("app-utils/renderer")
-          AppActions.openWindow(event.target.hash)
+          AppActions.openWindow(eventTarget.hash)
         } catch {
           return
         }

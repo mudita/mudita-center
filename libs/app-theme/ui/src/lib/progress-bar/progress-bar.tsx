@@ -34,6 +34,10 @@ export const ProgressBar: FunctionComponent<Props> = ({
         max={maxValue}
         value={value}
         data-testid={ProgressBarTestIds.Progress}
+        aria-valuenow={value}
+        aria-valuemin={0}
+        aria-valuemax={maxValue}
+        aria-valuetext={`${value} ${valueUnit}`}
       />
       <Label
         htmlFor={"progress-" + id}
