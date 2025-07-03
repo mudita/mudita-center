@@ -6,6 +6,8 @@
 import { FunctionComponent } from "react"
 import { Help } from "help/ui"
 import { useSelector } from "react-redux"
+import { useAppDispatch } from "app-store/utils"
+import { setContactSupportModalVisible } from "contact-support/feature"
 import {
   selectHelp,
   selectHelpArticles,
@@ -17,6 +19,7 @@ import {
 import { useHelp, useHelpSyncListener } from "../helpers/use-help"
 
 export const HelpPage: FunctionComponent = () => {
+  const dispatch = useAppDispatch()
   // only temporary for test
   useHelp()
   useHelpSyncListener()
@@ -30,6 +33,10 @@ export const HelpPage: FunctionComponent = () => {
 
   console.log("Redux HelpData:", helpData)
 
+  const handleContactSupport = () => {
+    dispatch(setContactSupportModalVisible(true))
+  }
+
   return (
     <Help
       categoriesList={helpCategoriesList}
@@ -37,6 +44,7 @@ export const HelpPage: FunctionComponent = () => {
       assets={assets}
       subcategories={helpSubcategoriesList}
       articles={articles}
+      onContactSupport={handleContactSupport}
     />
   )
 }

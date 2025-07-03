@@ -3,26 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { createAction, createAsyncThunk } from "@reduxjs/toolkit"
+import { createAction } from "@reduxjs/toolkit"
 
 export enum ContactSupportEvent {
-  SendTicket = "contactSupport/sendTicket",
-  CloseContactSupportFlow = "contactSupport/closeContactSupportFlow",
+  SetContactSupportModalVisible = "contactSupport/setContactSupportModalVisible",
 }
 
-export const sendTicket = createAsyncThunk(
-  ContactSupportEvent.SendTicket,
-  async (_ticketData) => {
-    // TODO: integrate actual request logic (e.g., sendTicketRequest(ticketData))
-    // For now, we simulate a successful response
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve()
-      }, 1000) // Simulating a delay of 1 second
-    })
-  }
-)
-
-export const closeContactSupportFlow = createAction<void>(
-  ContactSupportEvent.CloseContactSupportFlow
+export const setContactSupportModalVisible = createAction<boolean>(
+  ContactSupportEvent.SetContactSupportModalVisible
 )

@@ -26,7 +26,7 @@ type FilledProps = {
 
 type OutlinedProps = {
   variant?: TextInputVariant.Outlined
-  error?: undefined
+  error?: string
 }
 
 type InputWrapperProps = FilledProps | OutlinedProps
@@ -123,9 +123,7 @@ export const TextInput: FunctionComponent<Props> & {
           {...slots}
         />
       </InputWrapper>
-      {variant === TextInputVariant.Filled && (
-        <Error color={"red"}>{error || <>&nbsp;</>}</Error>
-      )}
+      <Error color={"red"}>{error || <>&nbsp;</>}</Error>
     </Wrapper>
   )
 }
@@ -193,9 +191,11 @@ const filledInputStyles = css<{ $error?: boolean }>`
   }
 `
 
-const outlinedInputStyles = css`
+const outlinedInputStyles = css<{ $error?: boolean }>`
   height: 4rem;
-  border: solid 0.1rem ${({ theme }) => theme.app.color.grey4};
+  border: solid 0.1rem
+    ${({ theme, $error }) =>
+      $error ? theme.app.color.red : theme.app.color.grey4};
   border-radius: ${({ theme }) => theme.app.radius.sm};
   background: ${({ theme }) => theme.app.color.grey6};
   padding: 1rem;
@@ -212,7 +212,8 @@ const outlinedInputStyles = css`
   }
 
   &:has(${Input}:focus-visible) {
-    border: solid 0.1rem ${({ theme }) => theme.app.color.black};
+    border-color: ${({ theme, $error }) =>
+      $error ? theme.app.color.red : theme.app.color.black};
   }
 
   &:has(${Input}:not(:placeholder-shown)) {

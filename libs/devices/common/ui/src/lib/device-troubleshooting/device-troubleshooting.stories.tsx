@@ -34,4 +34,16 @@ export const Default: Story = {
       </Decorator>
     ),
   ],
+  argTypes: {
+    onTryAgain: {
+      description:
+        "Function to be called when the 'Try Again' button is clicked.",
+      control: { disable: true },
+    },
+    onContactSupport: {
+      description:
+        "Function to be called when the 'Contact Support' button is clicked.",
+      control: { disable: true },
+    },
+  },
 }

@@ -33,6 +33,7 @@ import { DevicesSelectingPage } from "./devices-selecting-page"
 import { usePureRouter } from "devices/pure/routes"
 import { useQueryClient } from "@tanstack/react-query"
 import { useHarmonyMscRouter } from "devices/harmony-msc/routes"
+import { setContactSupportModalVisible } from "contact-support/feature"
 
 const DEFAULT_UX_DELAY = 500
 
@@ -55,28 +56,32 @@ export const useDevicesInitRouter = () => {
   const pureRouter = usePureRouter(activeDevice || undefined)
   const harmonyMscRouter = useHarmonyMscRouter(activeDevice || undefined)
 
-  const onWrapperClose = () => {
+  const handleWrapperClose = () => {
     if (devices.length > 1) {
       activateDevice(null)
     }
     navigate({ pathname: NewsPaths.Index })
   }
 
-  const onWelcomeClose = () => {
+  const handleWelcomeClose = () => {
     navigate({ pathname: NewsPaths.Index })
   }
 
-  const onTroubleshoot = () => {
+  const handleTroubleshoot = () => {
     navigate({ pathname: DevicesPaths.Troubleshooting })
   }
 
-  const onTryAgain = () => {
+  const handleTryAgain = () => {
     if (!activeDevice) {
       return
     }
     void queryClient.invalidateQueries({
       queryKey: ["devices", activeDevice?.path],
     })
+  }
+
+  const handleContactSupport = () => {
+    dispatch(setContactSupportModalVisible(true))
   }
 
   const delayForBetterUX = useCallback(
@@ -178,7 +183,7 @@ export const useDevicesInitRouter = () => {
                 pathname as DevicesPaths
               )
                 ? undefined
-                : onWrapperClose
+                : handleWrapperClose
             }
           />
         }
@@ -188,8 +193,8 @@ export const useDevicesInitRouter = () => {
           path={DevicesPaths.Welcome}
           element={
             <WelcomeScreen
-              onClose={onWelcomeClose}
-              onTroubleshoot={onTroubleshoot}
+              onClose={handleWelcomeClose}
+              onTroubleshoot={handleTroubleshoot}
             />
           }
         />
@@ -203,7 +208,12 @@ export const useDevicesInitRouter = () => {
         />
         <Route
           path={DevicesPaths.Troubleshooting}
-          element={<DeviceTroubleshooting onTryAgain={onTryAgain} />}
+          element={
+            <DeviceTroubleshooting
+              onTryAgain={handleTryAgain}
+              onContactSupport={handleContactSupport}
+            />
+          }
         />
         <Route path={DevicesPaths.Current}>
           {apiDeviceRouter?.initialization}

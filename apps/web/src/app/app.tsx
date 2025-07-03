@@ -10,6 +10,7 @@ import { CheckInitRequirements } from "app-init/feature"
 import ReactModal from "react-modal"
 import { useUniqueTrack } from "app-utils/renderer"
 import { AnalyticsEventCategory } from "app-utils/models"
+import { ContactSupport } from "contact-support/feature"
 
 export const App: FunctionComponent = () => {
   ReactModal.setAppElement("#root")
@@ -24,6 +25,7 @@ export const App: FunctionComponent = () => {
 
   return (
     <>
+      <ContactSupport />
       <DevicesInitializer />
       <CheckInitRequirements />
       <AppRoutes />
