@@ -3,15 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { ComponentProps, FunctionComponent } from "react"
 import styled from "styled-components"
 import {
   HelpArticle,
   HelpAsset,
   HelpCategory,
+  helpPaths,
   HelpSubcategory,
   HelpTestId,
-  helpPaths,
 } from "help/models"
 import { defineMessages, useIntl } from "react-intl"
 import { CategoryTabs } from "./category-tabs.components"
@@ -28,7 +28,7 @@ const messages = defineMessages({
   },
 })
 
-interface HelpProps {
+interface HelpProps extends ComponentProps<typeof HelpFooter> {
   categoriesList: HelpCategory[]
   categories: Record<string, HelpCategory>
   subcategories: Record<string, HelpSubcategory>
@@ -42,6 +42,7 @@ export const Help: FunctionComponent<HelpProps> = ({
   assets,
   subcategories,
   articles,
+  onContactSupport,
 }) => {
   const { categoryId } = useParams<{
     categoryId?: string
@@ -76,7 +77,7 @@ export const Help: FunctionComponent<HelpProps> = ({
             </>
           )}
         </ContentWrapper>
-        <HelpFooter />
+        <HelpFooter onContactSupport={onContactSupport} />
       </Wrapper>
     </form>
   )
