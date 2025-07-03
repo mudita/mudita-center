@@ -5,6 +5,7 @@
 
 import { useButtonAction } from "./use-button-action"
 import { renderHook } from "@testing-library/react"
+import { useExportFilesButtonAction } from "./use-export-files-button-action"
 
 jest.mock("generic-view/store", () => ({
   openModal: jest.fn(),
@@ -19,8 +20,16 @@ jest.mock("./use-select-files-button-action", () => ({
   useSelectFilesButtonAction: jest.fn().mockReturnValue(jest.fn()),
 }))
 
+jest.mock("./use-select-directory-button-action", () => ({
+  useSelectDirectoryButtonAction: jest.fn().mockReturnValue(jest.fn()),
+}))
+
 jest.mock("./use-upload-files-button-action", () => ({
   useUploadFilesButtonAction: jest.fn().mockReturnValue(jest.fn()),
+}))
+
+jest.mock("./use-export-files-button-action", () => ({
+  useExportFilesButtonAction: jest.fn().mockReturnValue(jest.fn()),
 }))
 
 jest.mock("react-redux", () => ({
