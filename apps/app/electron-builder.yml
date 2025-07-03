@@ -45,6 +45,9 @@ linux:
 appImage:
   license: ./resources/license_en.txt
 afterSign: ../../scripts/notarize.js
-publish:
-  provider: s3
-  bucket: mudita-desktop-app
+# TODO: Adjust to the final publishing provider
+#publish:
+#  - provider: generic
+#    url: http://localhost:8081/repository/mudita-center/latest/
+#    channel: latest
+#  - provider: custom

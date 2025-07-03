@@ -1,3 +1,11 @@
-provider: s3
-bucket: mudita-desktop-app
-path: /app/
+# Adjust if needed (only development mode)
+
+# Local provider (custom nexus setup)
+#provider: generic
+#url: http://localhost:8081/repository/mudita-center/latest/
+#channel: latest
+
+# Official provider
+#provider: github
+#owner: Mudita
+#repo: mudita-center
