@@ -13,9 +13,9 @@ import {
   appFileSystem,
   appHttp,
   appLogger,
-  appUpdater,
   jsonStore,
 } from "app-utils/main"
+import { appUpdater } from "app-updater/main"
 
 export const api = {
   serialPort,

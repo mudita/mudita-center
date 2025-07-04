@@ -30,15 +30,10 @@ export const ContactSupportSuccessModal: FunctionComponent<
       size={ModalSize.Small}
     >
       <Modal.TitleIcon type={IconType.Confirm} />
-      <Modal.Title>
-        {formatMessage(messages.title)}
-      </Modal.Title>
+      <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Typography.P1>{formatMessage(messages.body)}</Typography.P1>
       <Modal.Buttons>
-        <Button
-          type={ButtonType.Secondary}
-          onClick={onClose}
-        >
+        <Button type={ButtonType.Secondary} onClick={onClose}>
           {formatMessage(messages.closeButtonText)}
         </Button>
       </Modal.Buttons>

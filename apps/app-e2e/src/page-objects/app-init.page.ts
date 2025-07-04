@@ -15,7 +15,7 @@ class AppInitPage extends Page {
   }
 
   public get privacyPolicyButton() {
-    return this.privacyPolicyModal.$(`.//p/following-sibling::button[1]`)
+    return this.privacyPolicyModal.$(`.//p/following-sibling::a[1]`)
   }
 
   public get privacyPolicyCancelButton() {

@@ -10,6 +10,7 @@ import { IconType } from "app-theme/models"
 import ArrowBack from "./svg/arrow-back.svg?react"
 import Backup from "./svg/backup.svg?react"
 import BatteryFlat from "./svg/battery-flat.svg?react"
+import Check from "./svg/check.svg?react"
 import CheckCircleBlack from "./svg/check-circle-black.svg?react"
 import ChevronDown from "./svg/chevron-down.svg?react"
 import Confirm from "./svg/confirm.svg?react"
@@ -25,6 +26,7 @@ import Help from "./svg/help.svg?react"
 import Info from "./svg/info.svg?react"
 import Lock from "./svg/lock.svg?react"
 import Messages from "./svg/messages.svg?react"
+import Minus from "./svg/minus.svg?react"
 import MuditaLogo from "./svg/mudita-logo.svg?react"
 import MuditaLogoFull from "./svg/mudita-logo-full.svg?react"
 import Namaste from "./svg/namaste.svg?react"
@@ -46,6 +48,7 @@ export const icons = {
   [IconType.ArrowBack]: ArrowBack,
   [IconType.Backup]: Backup,
   [IconType.BatteryFlat]: BatteryFlat,
+  [IconType.Check]: Check,
   [IconType.CheckCircleBlack]: CheckCircleBlack,
   [IconType.ChevronDown]: ChevronDown,
   [IconType.Confirm]: Confirm,
@@ -61,6 +64,7 @@ export const icons = {
   [IconType.Info]: Info,
   [IconType.Lock]: Lock,
   [IconType.Messages]: Messages,
+  [IconType.Minus]: Minus,
   [IconType.MuditaLogo]: MuditaLogo,
   [IconType.MuditaLogoFull]: MuditaLogoFull,
   [IconType.Namaste]: Namaste,

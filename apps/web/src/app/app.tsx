@@ -4,13 +4,10 @@
  */
 
 import { AppRoutes } from "app-routing/routes"
-import { DevicesInitializer } from "devices/common/feature"
 import { FunctionComponent, useEffect } from "react"
-import { CheckInitRequirements } from "app-init/feature"
 import ReactModal from "react-modal"
 import { useUniqueTrack } from "app-utils/renderer"
 import { AnalyticsEventCategory } from "app-utils/models"
-import { ContactSupport } from "contact-support/feature"
 
 export const App: FunctionComponent = () => {
   ReactModal.setAppElement("#root")
@@ -23,12 +20,5 @@ export const App: FunctionComponent = () => {
     })
   }, [uniqueTrack])
 
-  return (
-    <>
-      <ContactSupport />
-      <DevicesInitializer />
-      <CheckInitRequirements />
-      <AppRoutes />
-    </>
-  )
+  return <AppRoutes />
 }

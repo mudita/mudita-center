@@ -8,15 +8,15 @@ import { AppStore } from "app-store/models"
 import { devicesReducer } from "devices/common/feature"
 import { appMenuReducer } from "app-routing/feature"
 import { helpReducer } from "help/feature"
-import { settingsReducer } from "settings/feature"
+import { appUpdaterReducer } from "app-updater/feature"
 import { contactSupportReducer } from "contact-support/feature"
 
 export const store = configureStore<AppStore>({
   reducer: {
+    appUpdater: appUpdaterReducer,
     devices: devicesReducer,
     appMenu: appMenuReducer,
     help: helpReducer,
-    settings: settingsReducer,
     contactSupport: contactSupportReducer,
   },
 })

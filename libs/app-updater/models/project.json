@@ -1,0 +1,9 @@
+{
+  "name": "app-updater/models",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/app-updater/models/src",
+  "projectType": "library",
+  "tags": ["type:models"],
+  "// targets": "to see all targets run: nx show project app-updater/models --web",
+  "targets": {}
+}
