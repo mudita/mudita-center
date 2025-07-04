@@ -5,10 +5,11 @@
 
 import { electronAPI } from "@electron-toolkit/preload"
 import { AppUpdaterIpcEvents } from "app-updater/models"
+import { AppResult } from "app-utils/models"
 
 export const appUpdater = {
   check: async (): Promise<
-    { version: string; forced: boolean } | { error: true } | null
+    AppResult<{ version: string; forced: boolean } | null>
   > => {
     return electronAPI.ipcRenderer.invoke(AppUpdaterIpcEvents.Check)
   },

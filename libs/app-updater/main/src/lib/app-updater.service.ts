@@ -6,8 +6,10 @@
 import { BrowserWindow } from "electron"
 import { autoUpdater, CancellationToken } from "electron-updater"
 import logger from "electron-log/main"
-import axios, { isAxiosError } from "axios"
+import { isAxiosError } from "axios"
 import semver from "semver/preload"
+import { AppHttpService } from "app-utils/main"
+import { AppResult, AppResultFactory } from "app-utils/models"
 
 enum AppProgressBarState {
   Indeterminate = 2,
@@ -33,10 +35,12 @@ export class AppUpdaterService {
 
   private async isForcedUpdate() {
     try {
-      const response = await axios.get<{ centerVersion: string }>(
-        `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`
-      )
-      if (!response.data) {
+      const response = await AppHttpService.request<{ centerVersion: string }>({
+        method: "GET",
+        url: `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`,
+        signal: this.checkAbortController.signal,
+      })
+      if (!response.ok) {
         return false
       }
       return semver.lt(autoUpdater.currentVersion, response.data.centerVersion)
@@ -56,48 +60,50 @@ export class AppUpdaterService {
   }
 
   async check() {
-    return new Promise<
-      { version: string; forced: boolean } | { error: true } | null
-    >((resolve) => {
-      const { signal } = this.checkAbortController
+    return new Promise<AppResult<{ version: string; forced: boolean } | null>>(
+      (resolve) => {
+        const { signal } = this.checkAbortController
 
-      const cleanup = (): void => {
-        signal.removeEventListener("abort", onAbort)
-      }
+        const cleanup = (): void => {
+          signal.removeEventListener("abort", onAbort)
+        }
 
-      const onAbort = (): void => {
-        cleanup()
-        resolve(null)
-      }
+        const onAbort = (): void => {
+          cleanup()
+          resolve(
+            AppResultFactory.failed(new Error("Update check aborted"), null)
+          )
+        }
 
-      signal.addEventListener("abort", onAbort, { once: true })
+        signal.addEventListener("abort", onAbort, { once: true })
 
-      if (signal.aborted) {
-        onAbort()
-        resolve(null)
-        return
-      }
+        if (signal.aborted) {
+          onAbort()
+          resolve(
+            AppResultFactory.failed(new Error("Update check aborted"), null)
+          )
+          return
+        }
 
-      void autoUpdater.checkForUpdatesAndNotify()
-      autoUpdater.once("update-available", async ({ version }) => {
-        cleanup()
-        const forced = await this.isForcedUpdate()
-        // FIXME: Implement ObjectResponse pattern
-        resolve({
-          version,
-          forced,
+        void autoUpdater.checkForUpdatesAndNotify()
+        autoUpdater.once("update-available", async ({ version }) => {
+          cleanup()
+          const forced = await this.isForcedUpdate()
+          resolve(AppResultFactory.success({ version, forced }))
         })
-      })
-      autoUpdater.once("update-not-available", () => {
-        cleanup()
-        resolve(null)
-      })
-      autoUpdater.once("error", (error) => {
-        cleanup()
-        logger.error("Update check error:", error)
-        resolve({ error: true })
-      })
-    })
+        autoUpdater.once("update-not-available", () => {
+          cleanup()
+          resolve(AppResultFactory.success(null))
+        })
+        autoUpdater.once("error", (error) => {
+          cleanup()
+          logger.error("Update check error:", error)
+          resolve(
+            AppResultFactory.failed(new Error("Update check failed"), null)
+          )
+        })
+      }
+    )
   }
 
   download() {
