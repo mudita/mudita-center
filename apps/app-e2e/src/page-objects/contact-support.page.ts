@@ -9,17 +9,17 @@ import Modal from "../helpers/modal"
 import Page from "./page"
 
 class ContactSupport extends Page {
-  private formModalPage = new Modal("general.contactSupport.formModal.title")
-  private errorModalPage = new Modal("general.contactSupport.errorModal.title")
-  private sendingModalPage = new Modal("general.contactSupport.sendingModal.title")
-  private successModalPage = new Modal("general.contactSupport.successModal.title")
+  private _formModal = new Modal("general.contactSupport.formModal.title")
+  private _errorModal = new Modal("general.contactSupport.errorModal.title")
+  private _sendingModal = new Modal("general.contactSupport.sendingModal.title")
+  private _successModal = new Modal("general.contactSupport.successModal.title")
 
   public get formModal() {
-    return this.formModalPage.modal
+    return this._formModal.modal
   }
 
   public get formModalTitle() {
-    return this.formModalPage.title
+    return this._formModal.title
   }
 
   public get formModalDescription() {
@@ -29,11 +29,11 @@ class ContactSupport extends Page {
   }
 
   public get formModalTitleIcon() {
-    return this.formModalPage.titleIcon
+    return this._formModal.titleIcon
   }
 
   public get formModalCloseButton() {
-    return this.formModalPage.closeButton
+    return this._formModal.closeButton
   }
 
   public get formModalEmailInputWrapper() {
@@ -103,15 +103,15 @@ class ContactSupport extends Page {
   }
 
   public get errorModal() {
-    return this.errorModalPage.modal
+    return this._errorModal.modal
   }
 
   public get sendingModal() {
-    return this.sendingModalPage.modal
+    return this._sendingModal.modal
   }
 
   public get successModal() {
-    return this.successModalPage.modal
+    return this._successModal.modal
   }
 }
 

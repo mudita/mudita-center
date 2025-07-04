@@ -8,10 +8,10 @@ import { ModalTestId } from "../all-test-ids"
 import Page from "./page"
 
 class AppInitPage extends Page {
-  private modal = new Modal("general.privacyPolicyModal.title")
+  private _privacyPolicyModal = new Modal("general.privacyPolicyModal.title")
 
   public get privacyPolicyModal() {
-    return this.modal.modal
+    return this._privacyPolicyModal.modal
   }
 
   public get privacyPolicyButton() {
@@ -19,7 +19,7 @@ class AppInitPage extends Page {
   }
 
   public get privacyPolicyCancelButton() {
-    return this.modal.closeButton
+    return this._privacyPolicyModal.closeButton
   }
 
   public get privacyPolicyAcceptButton() {

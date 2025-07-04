@@ -10,7 +10,7 @@ import ContactSupport from "../page-objects/contact-support.page"
 export async function goToSupportModal() {
   // should open Mudita Help Center
   const helpTab = await Menu.helpLink
-  await helpTab.waitForDisplayed({ timeout: 15000 })
+  await helpTab.waitForDisplayed()
   await helpTab.click()
 
   await openSupportModal()
@@ -19,11 +19,9 @@ export async function goToSupportModal() {
 export async function openSupportModal() {
   // should open Contact Support modal
   const csButton = await HelpPage.contactSupportButton
-  await csButton.waitForDisplayed({ timeout: 10000 })
+  await csButton.waitForDisplayed()
   await csButton.click()
 
   // should wait for Contact Support modal to be displayed
-  await (
-    await ContactSupport.formModalTitle
-  ).waitForDisplayed({ timeout: 5000 })
+  await (await ContactSupport.formModalTitle).waitForDisplayed()
 }
