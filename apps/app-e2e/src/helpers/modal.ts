@@ -5,7 +5,6 @@
 
 import { formatMessage, Messages } from "app-localize/utils"
 import { ModalTestId } from "../all-test-ids"
-import Page from "../page-objects/page"
 
 export default class Modal {
   private readonly modalTitleText: string
