@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { FunctionComponent, MouseEventHandler } from "react"
 import styled from "styled-components"
 import { defineMessages, useIntl } from "react-intl"
 import {
@@ -27,11 +27,17 @@ const messages = defineMessages({
   },
 })
 
-export const HelpFooter: FunctionComponent = () => {
-  const openContactSupportFlow = () => {
-    console.log("Will be added in next task")
-  }
+interface Props {
+  onContactSupport: VoidFunction
+}
+
+export const HelpFooter: FunctionComponent<Props> = ({ onContactSupport }) => {
   const intl = useIntl()
+
+  const handleContactSupport: MouseEventHandler = (e) => {
+    e.preventDefault() // TODO: handle workaround for the app reloading when clicking the button
+    onContactSupport()
+  }
 
   return (
     <Wrapper data-testid={HelpTestId.MainFooter}>
@@ -43,7 +49,8 @@ export const HelpFooter: FunctionComponent = () => {
       </Text>
       <ButtonContainer>
         <Button
-          onClick={openContactSupportFlow}
+          data-testid={HelpTestId.MainFooterContactSupportButton}
+          onClick={handleContactSupport}
           type={ButtonType.Text}
           modifiers={[ButtonTextModifier.Link]}
           size={ButtonSize.Large}

@@ -12,12 +12,15 @@ import Backup from "./svg/backup.svg?react"
 import BatteryFlat from "./svg/battery-flat.svg?react"
 import CheckCircleBlack from "./svg/check-circle-black.svg?react"
 import ChevronDown from "./svg/chevron-down.svg?react"
+import Confirm from "./svg/confirm.svg?react"
 import Close from "./svg/close.svg?react"
 import ContactsBook from "./svg/contacts-book.svg?react"
 import DataMigration from "./svg/data-migration.svg?react"
 import Download from "./svg/download.svg?react"
 import Error from "./svg/error.svg?react"
+import Failed from "./svg/failed.svg?react"
 import FileManager from "./svg/file-manager.svg?react"
+import FileCopy from "./svg/file-copy.svg?react"
 import Help from "./svg/help.svg?react"
 import Info from "./svg/info.svg?react"
 import Lock from "./svg/lock.svg?react"
@@ -45,12 +48,15 @@ export const icons = {
   [IconType.BatteryFlat]: BatteryFlat,
   [IconType.CheckCircleBlack]: CheckCircleBlack,
   [IconType.ChevronDown]: ChevronDown,
+  [IconType.Confirm]: Confirm,
   [IconType.Close]: Close,
   [IconType.ContactsBook]: ContactsBook,
   [IconType.DataMigration]: DataMigration,
   [IconType.Download]: Download,
   [IconType.Error]: Error,
+  [IconType.Failed]: Failed,
   [IconType.FileManager]: FileManager,
+  [IconType.FileCopy]: FileCopy,
   [IconType.Help]: Help,
   [IconType.Info]: Info,
   [IconType.Lock]: Lock,

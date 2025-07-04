@@ -4,4 +4,5 @@
  */
 
 export * from "./lib/app-intl"
+export type { Messages } from "./lib/app-intl"
 export { default as enUS } from "./lib/locales/en-US.json"

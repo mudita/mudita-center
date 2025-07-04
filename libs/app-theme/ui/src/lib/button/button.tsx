@@ -35,13 +35,13 @@ import { formatMessage, Messages } from "app-localize/utils"
 export interface ButtonLinkProps {
   to: LinkProps["to"]
   target?: LinkProps["target"]
-  onClick?: VoidFunction
+  onClick?: MouseEventHandler
 }
 
 export interface ButtonDefaultProps {
   to?: undefined
   target?: undefined
-  onClick?: VoidFunction
+  onClick?: MouseEventHandler
 }
 
 interface StandardButtonProps {
@@ -132,7 +132,7 @@ export const Button: FunctionComponent<Props> = ({
         event.preventDefault()
         return
       }
-      onClick?.()
+      onClick?.(event)
     },
     [disabled, onClick]
   )

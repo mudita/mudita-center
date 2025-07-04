@@ -9,12 +9,14 @@ import path from "path"
 import axios, { AxiosRequestConfig, isAxiosError } from "axios"
 import {
   AppErrorName,
+  AppFileSystemScopeOptions,
   AppHttpFailedResult,
   AppHttpRequestConfig,
   AppHttpResult,
   AppResultFactory,
   mapToAppError,
 } from "app-utils/models"
+import { AppFileSystemService } from "../app-file-system/app-file-system.service"
 
 export class AppHttpService {
   static async request<Data = unknown>(
@@ -61,7 +63,7 @@ export class AppHttpService {
   }
 
   private static async buildFormData(
-    files: Record<string, string>,
+    files: Record<string, AppFileSystemScopeOptions>,
     data: Record<string, unknown> = {}
   ): Promise<FormData> {
     const formData = new FormData()
@@ -70,7 +72,11 @@ export class AppHttpService {
       formData.append(key, value)
     }
 
-    for (const [field, filePath] of Object.entries(files)) {
+    for (const [field, { scopeRelativePath, scope }] of Object.entries(files)) {
+      const filePath = AppFileSystemService.resolveScopedPath({
+        scopeRelativePath,
+        scope,
+      })
       const stream = fs.createReadStream(filePath)
       const fileName = path.basename(filePath)
       formData.append(field, stream, fileName)

@@ -64,10 +64,12 @@ const additionalInstructions = defineMessages({
 
 interface Props {
   onTryAgain?: VoidFunction
+  onContactSupport?: VoidFunction
 }
 
 export const DeviceTroubleshooting: FunctionComponent<Props> = ({
   onTryAgain,
+  onContactSupport,
 }) => {
   const [additionalInstructionsVisible, setAdditionalInstructionsVisible] =
     useState(false)
@@ -130,8 +132,8 @@ export const DeviceTroubleshooting: FunctionComponent<Props> = ({
         </Button>
         <Support>
           <p>{formatMessage(messages.contactSupportLabel)}&nbsp;</p>
-          {/* TODO: Implement contact support button when available */}
           <Button
+            onClick={onContactSupport}
             type={ButtonType.Text}
             size={ButtonSize.AutoMin}
             modifiers={[ButtonTextModifier.Link]}

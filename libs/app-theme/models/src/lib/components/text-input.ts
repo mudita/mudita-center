@@ -7,3 +7,7 @@ export enum TextInputVariant {
   Filled = "filled",
   Outlined = "outlined",
 }
+
+export enum TextInputTestId {
+  Error = "text-input-error",
+}
