@@ -116,7 +116,6 @@ export const sendFiles = createAsyncThunk<
       dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
     }
 
-    dispatch(setFilesTransferMode(FilesTransferMode.Mtp))
     const checkMtpAvailability = async () => {
       const res = await dispatch(
         getMtpSendFileMetadata({
