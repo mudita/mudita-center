@@ -22,7 +22,7 @@ interface Props {
   onClose?: () => void
 }
 
-export const CheckingForUpdateModal: FunctionComponent<Props> = ({
+export const UpdateCheckingModal: FunctionComponent<Props> = ({
   opened,
   onClose,
 }) => {

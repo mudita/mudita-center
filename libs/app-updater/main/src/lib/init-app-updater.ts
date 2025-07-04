@@ -11,7 +11,7 @@ let appUpdaterService: AppUpdaterService
 
 export const initAppUpdater = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
   if (!appUpdaterService) {
-    appUpdaterService = new AppUpdaterService()
+    appUpdaterService = new AppUpdaterService(mainWindow)
 
     ipcMain.removeHandler(AppUpdaterIpcEvents.Check)
     ipcMain.handle(AppUpdaterIpcEvents.Check, () => {
@@ -20,14 +20,12 @@ export const initAppUpdater = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
 
     ipcMain.removeHandler(AppUpdaterIpcEvents.Download)
     ipcMain.handle(AppUpdaterIpcEvents.Download, () => {
-      mainWindow.setProgressBar(2) // Set progress bar to indeterminate state
       appUpdaterService.download()
     })
 
     ipcMain.removeHandler(AppUpdaterIpcEvents.Cancel)
     ipcMain.handle(AppUpdaterIpcEvents.Cancel, () => {
       appUpdaterService.cancel()
-      mainWindow.setProgressBar(-1) // Disable progress bar (< 0)
     })
 
     appUpdaterService.onDownloadProgress((percent: number) => {
@@ -35,7 +33,6 @@ export const initAppUpdater = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
         AppUpdaterIpcEvents.UpdateDownloadProgress,
         percent
       )
-      mainWindow.setProgressBar(percent < 100 ? percent / 100 : -1) // Disable progress bar if percent >= 100
     })
 
     ipcMain.removeHandler(AppUpdaterIpcEvents.Install)
