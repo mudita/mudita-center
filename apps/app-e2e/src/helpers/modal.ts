@@ -5,13 +5,12 @@
 
 import { formatMessage, Messages } from "app-localize/utils"
 import { ModalTestId } from "../all-test-ids"
-import Page from "./page"
+import Page from "../page-objects/page"
 
-export default class ModalPage extends Page {
+export default class Modal {
   private readonly modalTitleText: string
 
   constructor(formatMessageModalId: Messages["id"]) {
-    super()
     this.modalTitleText = formatMessage({ id: formatMessageModalId })
   }
 

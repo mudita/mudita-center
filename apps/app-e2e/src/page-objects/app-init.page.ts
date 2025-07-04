@@ -3,16 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import ModalPage from "./modal-page"
+import Modal from "../helpers/modal"
 import { ModalTestId } from "../all-test-ids"
+import Page from "./page"
 
-class AppInitPage extends ModalPage {
-  constructor() {
-    super("general.privacyPolicyModal.title")
-  }
+class AppInitPage extends Page {
+  private modal = new Modal("general.privacyPolicyModal.title")
 
   public get privacyPolicyModal() {
-    return this.modal
+    return this.modal.modal
   }
 
   public get privacyPolicyButton() {
@@ -20,7 +19,7 @@ class AppInitPage extends ModalPage {
   }
 
   public get privacyPolicyCancelButton() {
-    return this.closeButton
+    return this.modal.closeButton
   }
 
   public get privacyPolicyAcceptButton() {

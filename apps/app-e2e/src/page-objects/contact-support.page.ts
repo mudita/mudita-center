@@ -5,14 +5,14 @@
 
 import { ContactSupportTestIds } from "contact-support/models"
 import { TextInputTestId } from "app-theme/models"
-import ModalPage from "./modal-page"
+import Modal from "../helpers/modal"
 import Page from "./page"
 
 class ContactSupport extends Page {
-  private formModalPage = new ModalPage("general.contactSupport.formModal.title")
-  private errorModalPage = new ModalPage("general.contactSupport.errorModal.title")
-  private sendingModalPage = new ModalPage("general.contactSupport.sendingModal.title")
-  private successModalPage = new ModalPage("general.contactSupport.successModal.title")
+  private formModalPage = new Modal("general.contactSupport.formModal.title")
+  private errorModalPage = new Modal("general.contactSupport.errorModal.title")
+  private sendingModalPage = new Modal("general.contactSupport.sendingModal.title")
+  private successModalPage = new Modal("general.contactSupport.successModal.title")
 
   public get formModal() {
     return this.formModalPage.modal
