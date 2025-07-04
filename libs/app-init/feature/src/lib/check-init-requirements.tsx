@@ -37,9 +37,7 @@ export const CheckInitRequirements = () => {
         )
       })()
     }
-  }, [privacyPolicyStatus])
 
-  useEffect(() => {
     if (privacyPolicyStatus !== Status.ActionNotRequired) {
       return
     }
@@ -51,13 +49,8 @@ export const CheckInitRequirements = () => {
         )
       })()
     }
-  }, [dispatch, privacyPolicyStatus, updateStatus])
 
-  useEffect(() => {
-    if (
-      privacyPolicyStatus !== Status.ActionNotRequired ||
-      updateStatus !== Status.ActionNotRequired
-    ) {
+    if (updateStatus !== Status.ActionNotRequired) {
       return
     }
     if (usbAccessStatus === Status.Unknown) {
@@ -68,7 +61,7 @@ export const CheckInitRequirements = () => {
         )
       })()
     }
-  }, [privacyPolicyStatus, updateStatus, usbAccessStatus])
+  }, [dispatch, privacyPolicyStatus, updateStatus, usbAccessStatus])
 
   return (
     <>
