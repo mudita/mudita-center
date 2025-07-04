@@ -13,7 +13,7 @@ export const SettingsTableRow = styled.div`
   display: grid;
   box-sizing: border-box;
   grid-template-areas: "Checkbox Actions";
-  grid-template-columns: 1fr 16.4rem;
+  grid-template-columns: 1fr 17.6rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
   height: 7.2rem;
   max-height: 7.2rem;
@@ -30,8 +30,7 @@ export const SettingsActionsWrapper = styled.div`
   grid-area: Actions;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 9rem;
+  justify-content: flex-start;
 `
 
 export const SettingsLabel = styled(LegacyText)`

@@ -5,3 +5,4 @@
 
 export * from "./lib/app-menu-reducer.types"
 export * from "./lib/fullscreen-layout-test-ids"
+export * from "./lib/app-legal-paths"
