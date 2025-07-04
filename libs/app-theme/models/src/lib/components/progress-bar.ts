@@ -4,7 +4,7 @@
  */
 
 export enum ProgressBarTestIds {
-  Description = "progressbar-description",
+  Description = "progress-bar-description",
   Progress = "progressbar-progress",
   Details = "progressbar-details",
 }
