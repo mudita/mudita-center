@@ -11,10 +11,12 @@ export const initAppHelp = (ipcMain: IpcMain) => {
   const helpService = new AppHelpService()
   void helpService.initialize()
 
+  ipcMain.removeHandler(HelpIpcEvents.GetData)
   ipcMain.handle(HelpIpcEvents.GetData, () => {
     return helpService.getData()
   })
 
+  ipcMain.removeHandler(HelpIpcEvents.Sync)
   ipcMain.handle(HelpIpcEvents.Sync, () => {
     return helpService.syncWithServer()
   })

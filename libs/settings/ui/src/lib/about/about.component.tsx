@@ -15,13 +15,16 @@ import {
 import { SettingsTestId } from "settings/models"
 import { FormattedMessage } from "react-intl"
 import {
-  LegacyIconType,
+  ButtonSize,
+  ButtonTextModifier,
+  ButtonType,
   LegacyButtonDisplayStyle,
   TextDisplayStyle,
 } from "app-theme/models"
 import { defineMessages, formatMessage } from "app-localize/utils"
-import { LegacyButton, LegacyText } from "app-theme/ui"
+import { Button, LegacyButton, LegacyText } from "app-theme/ui"
 import { backgroundColor, borderColor, borderRadius } from "app-theme/utils"
+import { AppLegalPaths } from "app-routing/models"
 
 const AboutVersionTableRow = styled.div`
   border-bottom: solid 0.1rem ${borderColor("list")};
@@ -38,7 +41,7 @@ const AboutActionContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-right: 2.4rem;
+  margin-right: 3.2rem;
 `
 
 const AboutAvailableUpdate = styled(LegacyText)`
@@ -107,37 +110,25 @@ const messages = defineMessages({
 })
 
 interface AboutProps {
-  openLicense: () => void
-  openTermsOfService: () => void
-  openPrivacyPolicy: () => void
   appLatestVersion?: string
   appCurrentVersion?: string
   appUpdateAvailable?: boolean
-  checkingForUpdateFailed?: boolean
   onAppUpdateAvailableCheck: () => void
   onProcessDownload: () => void
-  checkingForUpdate: boolean
 }
 
 export const About: FunctionComponent<AboutProps> = ({
-  openLicense,
-  openTermsOfService,
-  openPrivacyPolicy,
   appLatestVersion = "",
   appCurrentVersion,
   appUpdateAvailable,
-  checkingForUpdateFailed,
   onAppUpdateAvailableCheck,
   onProcessDownload,
-  checkingForUpdate,
 }) => {
   const appUpdateFlowShow = false
 
   const badgeText = appUpdateAvailable
     ? messages.updateAvailableBadge
-    : checkingForUpdateFailed
-      ? messages.updateFailedBadge
-      : messages.upToDateBadge
+    : messages.upToDateBadge
 
   return (
     <>
@@ -156,7 +147,7 @@ export const About: FunctionComponent<AboutProps> = ({
               displayStyle={TextDisplayStyle.Label}
               color="secondary"
             >
-              {!checkingForUpdate && !appUpdateFlowShow && (
+              {!appUpdateFlowShow && (
                 <FormattedMessage
                   {...badgeText}
                   values={{ version: appLatestVersion }}
@@ -170,14 +161,11 @@ export const About: FunctionComponent<AboutProps> = ({
                   ? messages.updateAvailableButton
                   : messages.updateCheckButton
               )}
-              Icon={checkingForUpdate ? LegacyIconType.Refresh : undefined}
               onClick={
                 appUpdateAvailable
                   ? onProcessDownload
                   : onAppUpdateAvailableCheck
               }
-              disabled={checkingForUpdate}
-              $updating={checkingForUpdate}
               data-testid={SettingsTestId.AboutUpdateButton}
             />
           </AboutActionContainer>
@@ -189,13 +177,17 @@ export const About: FunctionComponent<AboutProps> = ({
             </SettingsLabel>
           </Data>
           <SettingsActionsWrapper>
-            <LegacyButton
+            <Button
+              to={AppLegalPaths.TermsOfService}
+              target="appWindow"
+              size={ButtonSize.AutoMin}
               data-testid={SettingsTestId.AboutTermsOfServiceButton}
-              displayStyle={LegacyButtonDisplayStyle.ActionLink}
-              labelMessage={{
-                id: messages.learnMoreButton.id,
-              }}
-              onClick={openTermsOfService}
+              type={ButtonType.Text}
+              modifiers={[
+                ButtonTextModifier.Link,
+                ButtonTextModifier.HoverBackground,
+              ]}
+              message={messages.learnMoreButton.id}
             />
           </SettingsActionsWrapper>
         </SettingsTableRow>
@@ -206,13 +198,17 @@ export const About: FunctionComponent<AboutProps> = ({
             </SettingsLabel>
           </Data>
           <SettingsActionsWrapper>
-            <LegacyButton
+            <Button
+              to={AppLegalPaths.PrivacyPolicy}
+              target="appWindow"
+              size={ButtonSize.AutoMin}
               data-testid={SettingsTestId.AboutPrivacyPolicyButton}
-              displayStyle={LegacyButtonDisplayStyle.ActionLink}
-              labelMessage={{
-                id: messages.learnMoreButton.id,
-              }}
-              onClick={openPrivacyPolicy}
+              type={ButtonType.Text}
+              modifiers={[
+                ButtonTextModifier.Link,
+                ButtonTextModifier.HoverBackground,
+              ]}
+              message={messages.learnMoreButton.id}
             />
           </SettingsActionsWrapper>
         </SettingsTableRow>
@@ -223,13 +219,17 @@ export const About: FunctionComponent<AboutProps> = ({
             </SettingsLabel>
           </Data>
           <SettingsActionsWrapper>
-            <LegacyButton
+            <Button
+              to={AppLegalPaths.License}
+              target="appWindow"
+              size={ButtonSize.AutoMin}
               data-testid={SettingsTestId.AboutLicenseButton}
-              displayStyle={LegacyButtonDisplayStyle.ActionLink}
-              labelMessage={{
-                id: messages.learnMoreButton.id,
-              }}
-              onClick={openLicense}
+              type={ButtonType.Text}
+              modifiers={[
+                ButtonTextModifier.Link,
+                ButtonTextModifier.HoverBackground,
+              ]}
+              message={messages.learnMoreButton.id}
             />
           </SettingsActionsWrapper>
         </SettingsTableRow>
