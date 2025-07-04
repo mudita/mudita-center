@@ -7,7 +7,7 @@ import styled from "styled-components"
 import type { Meta, StoryObj } from "@storybook/react"
 import { storybookHelper } from "app-theme/utils"
 import { Modal } from "app-theme/ui"
-import { CheckingForUpdateModal } from "./checking-for-update-modal"
+import { UpdateCheckingModal } from "./update-checking-modal"
 import { UpdateNotAvailableModal } from "./update-not-available-modal"
 import { UpdateAvailableModal } from "./update-available-modal"
 import { UpdateInProgressModal } from "./update-in-progress-modal"
@@ -45,8 +45,8 @@ const meta: Meta<typeof Modal> = {
 
 export default meta
 
-export const Default: StoryObj<typeof CheckingForUpdateModal> = {
-  name: "Checking for update modal",
+export const Default: StoryObj<typeof UpdateCheckingModal> = {
+  name: "Update checking modal",
   argTypes: {
     // @ts-expect-error unknown properties
     layer: storybookHelper.disableControl().apply(),
@@ -56,7 +56,7 @@ export const Default: StoryObj<typeof CheckingForUpdateModal> = {
   args: {
     opened: true,
   },
-  render: (args) => <CheckingForUpdateModal {...args} />,
+  render: (args) => <UpdateCheckingModal {...args} />,
 }
 
 export const UpdateNotAvailable: StoryObj<typeof UpdateNotAvailableModal> = {

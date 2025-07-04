@@ -5,7 +5,7 @@
 
 import { FunctionComponent, memo, useEffect } from "react"
 import {
-  CheckingForUpdateModal,
+  UpdateCheckingModal,
   UpdateAvailableModal,
   UpdateErrorModal,
   UpdateInProgressModal,
@@ -59,7 +59,7 @@ export const AppUpdateFlow: FunctionComponent = memo(() => {
 
   return (
     <>
-      <CheckingForUpdateModal
+      <UpdateCheckingModal
         opened={modalsState === ModalsState.CheckingForUpdate}
         onClose={handleCancel}
       />
