@@ -9,6 +9,12 @@ import logger from "electron-log/main"
 import axios, { isAxiosError } from "axios"
 import semver from "semver/preload"
 
+enum AppProgressBarState {
+  Indeterminate = 2,
+  Disabled = -1,
+  Complete = 1,
+}
+
 export class AppUpdaterService {
   private cancellationToken = new CancellationToken()
   private checkAbortController = new AbortController()
@@ -95,12 +101,12 @@ export class AppUpdaterService {
   }
 
   download() {
-    this.mainWindow.setProgressBar(2) // Set progress bar to indeterminate state
+    this.mainWindow.setProgressBar(AppProgressBarState.Indeterminate)
     void autoUpdater.downloadUpdate(this.cancellationToken)
   }
 
   cancel() {
-    this.mainWindow.setProgressBar(-1) // Disable progress bar (< 0)
+    this.mainWindow.setProgressBar(AppProgressBarState.Disabled)
 
     this.cancellationToken.cancel()
     this.cancellationToken = new CancellationToken()
@@ -116,7 +122,7 @@ export class AppUpdaterService {
     })
 
     autoUpdater.on("update-downloaded", () => {
-      this.mainWindow.setProgressBar(1)
+      this.mainWindow.setProgressBar(AppProgressBarState.Complete)
       callback(100)
     })
   }
