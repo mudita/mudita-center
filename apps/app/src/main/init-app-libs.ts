@@ -14,6 +14,7 @@ import {
   initAppFileSystem,
   initAppHttp,
   initJsonStore,
+  initAppLogger,
 } from "app-utils/main"
 import { initAppUpdater } from "app-updater/main"
 
@@ -27,5 +28,6 @@ export const initAppLibs = (mainWindow: BrowserWindow) => {
   initAppHelp(ipcMain)
   initJsonStore(ipcMain)
   initAppHttp(ipcMain)
+  initAppLogger(ipcMain)
   initAppFileSystem(ipcMain)
 }

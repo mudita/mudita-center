@@ -13,6 +13,7 @@ import { useDevicesInitRouter } from "devices/common/routes"
 import { DevicesInitializer } from "devices/common/feature"
 import { CheckInitRequirements } from "app-init/feature"
 import { useAppLegalRouter } from "./app-legal-router"
+import { ContactSupport } from "contact-support/feature"
 
 export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
   const legalRouter = useAppLegalRouter()
@@ -40,6 +41,7 @@ export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
 const AppMainLayout: FunctionComponent = () => {
   return (
     <>
+      <ContactSupport />
       <DevicesInitializer />
       <CheckInitRequirements />
       <Outlet />

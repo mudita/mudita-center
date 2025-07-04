@@ -7,10 +7,12 @@ import { DevicesReducer } from "devices/common/models"
 import { AppMenuReducer } from "app-routing/models"
 import { HelpReducer } from "help/models"
 import { AppUpdaterReducer } from "app-updater/models"
+import { ContactSupportReducer } from "contact-support/models"
 
 export type AppStore = {
   appUpdater: AppUpdaterReducer
   devices: DevicesReducer
   appMenu: AppMenuReducer
   help: HelpReducer
+  contactSupport: ContactSupportReducer
 }

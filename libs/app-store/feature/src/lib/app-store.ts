@@ -9,6 +9,7 @@ import { devicesReducer } from "devices/common/feature"
 import { appMenuReducer } from "app-routing/feature"
 import { helpReducer } from "help/feature"
 import { appUpdaterReducer } from "app-updater/feature"
+import { contactSupportReducer } from "contact-support/feature"
 
 export const store = configureStore<AppStore>({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore<AppStore>({
     devices: devicesReducer,
     appMenu: appMenuReducer,
     help: helpReducer,
+    contactSupport: contactSupportReducer,
   },
 })

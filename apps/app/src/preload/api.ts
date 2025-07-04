@@ -8,7 +8,13 @@ import { sql } from "app-sql/main"
 import { news } from "news/main"
 import { appSettings } from "app-settings/main"
 import { appHelp } from "help/main"
-import { appActions, appFileSystem, appHttp, jsonStore } from "app-utils/main"
+import {
+  appActions,
+  appFileSystem,
+  appHttp,
+  appLogger,
+  jsonStore,
+} from "app-utils/main"
 import { appUpdater } from "app-updater/main"
 
 export const api = {
@@ -19,6 +25,7 @@ export const api = {
   appActions,
   appFileSystem,
   appHttp,
+  appLogger,
   appHelp,
   appUpdater,
   jsonStore,

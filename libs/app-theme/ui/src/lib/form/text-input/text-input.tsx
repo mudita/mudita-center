@@ -11,9 +11,10 @@ import {
   useMemo,
 } from "react"
 import styled, { css } from "styled-components"
-import { TextInputVariant } from "app-theme/models"
+import { TextInputTestId, TextInputVariant } from "app-theme/models"
 import { TextInputPassword } from "./text-input-password"
 import { Input, Placeholder, Slot, TextInputDefault } from "./text-input-shared"
+import { Textarea, TextInputTextarea } from "./text-input-textarea"
 import { TextInputDropdown, TextInputSearch } from "./text-input-search"
 import { typographyStyles } from "../../typography/typography-styles"
 import { Typography } from "../../typography/typography"
@@ -25,7 +26,7 @@ type FilledProps = {
 
 type OutlinedProps = {
   variant?: TextInputVariant.Outlined
-  error?: undefined
+  error?: string
 }
 
 type InputWrapperProps = FilledProps | OutlinedProps
@@ -60,7 +61,18 @@ type SearchTypeProps = {
   rightSlot?: undefined
 }
 
-type InputProps = TextTypeProps | PasswordTypeProps | SearchTypeProps
+type TextareaTypeProps = {
+  type: "textarea"
+  rows?: number
+  leftSlot?: undefined
+  rightSlot?: undefined
+}
+
+type InputProps =
+  | TextTypeProps
+  | PasswordTypeProps
+  | SearchTypeProps
+  | TextareaTypeProps
 
 type Props = ComponentProps<typeof Input> & InputWrapperProps & InputProps
 
@@ -86,6 +98,8 @@ export const TextInput: FunctionComponent<Props> & {
         return TextInputPassword as typeof Input
       case "search":
         return TextInputSearch as typeof Input
+      case "textarea":
+        return TextInputTextarea as typeof Input
       default:
         return TextInputDefault as typeof Input
     }
@@ -109,9 +123,9 @@ export const TextInput: FunctionComponent<Props> & {
           {...slots}
         />
       </InputWrapper>
-      {variant === TextInputVariant.Filled && (
-        <Error color={"red"}>{error || <>&nbsp;</>}</Error>
-      )}
+      <Error data-testid={TextInputTestId.Error} color={"red"}>
+        {error || <>&nbsp;</>}
+      </Error>
     </Wrapper>
   )
 }
@@ -179,9 +193,11 @@ const filledInputStyles = css<{ $error?: boolean }>`
   }
 `
 
-const outlinedInputStyles = css`
+const outlinedInputStyles = css<{ $error?: boolean }>`
   height: 4rem;
-  border: solid 0.1rem ${({ theme }) => theme.app.color.grey4};
+  border: solid 0.1rem
+    ${({ theme, $error }) =>
+      $error ? theme.app.color.red : theme.app.color.grey4};
   border-radius: ${({ theme }) => theme.app.radius.sm};
   background: ${({ theme }) => theme.app.color.grey6};
   padding: 1rem;
@@ -198,10 +214,29 @@ const outlinedInputStyles = css`
   }
 
   &:has(${Input}:focus-visible) {
-    border: solid 0.1rem ${({ theme }) => theme.app.color.black};
+    border-color: ${({ theme, $error }) =>
+      $error ? theme.app.color.red : theme.app.color.black};
   }
 
   &:has(${Input}:not(:placeholder-shown)) {
+    ${Placeholder} {
+      opacity: 0;
+    }
+  }
+
+  &:has(${Textarea}) {
+    height: auto;
+
+    ${Placeholder} {
+      align-items: flex-start;
+    }
+  }
+
+  &:has(${Textarea}:focus-visible) {
+    border: solid 0.1rem ${({ theme }) => theme.app.color.black};
+  }
+
+  &:has(${Textarea}:not(:placeholder-shown)) {
     ${Placeholder} {
       opacity: 0;
     }
