@@ -60,7 +60,7 @@ const createTicketRequest = async ({
   data,
   files,
 }: CreateTicketRequestPayload) => {
-  return await AppHttp.request({
+  return AppHttp.request({
     method: "POST",
     url: `${contactSupportConfig.apiUrl}/api/v2/tickets`,
     headers: {
