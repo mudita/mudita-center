@@ -49,6 +49,7 @@ export const HelpFooter: FunctionComponent<Props> = ({ onContactSupport }) => {
       </Text>
       <ButtonContainer>
         <Button
+          data-testid={HelpTestId.MainFooterContactSupportButton}
           onClick={handleContactSupport}
           type={ButtonType.Text}
           modifiers={[ButtonTextModifier.Link]}

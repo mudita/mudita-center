@@ -7,7 +7,7 @@ import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { IconSize, IconType } from "app-theme/models"
 import { Icon, Typography } from "app-theme/ui"
-import { ContactSupportModalTestIds } from "contact-support/models"
+import { ContactSupportTestIds } from "contact-support/models"
 
 const File = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ export const ContactSupportFileList: FunctionComponent<Props> = ({
     <Container {...props}>
       {files.map((file, index) => {
         return (
-          <File key={index} data-testid={ContactSupportModalTestIds.File}>
+          <File key={index} data-testid={ContactSupportTestIds.FormModalFile}>
             <Icon type={IconType.FileCopy} size={IconSize.Small} />
             <Typography.P3>{file.name}</Typography.P3>
           </File>

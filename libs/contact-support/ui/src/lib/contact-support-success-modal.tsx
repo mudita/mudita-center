@@ -7,10 +7,6 @@ import { FunctionComponent } from "react"
 import { defineMessages } from "react-intl"
 import { ButtonType, IconType, ModalLayer, ModalSize } from "app-theme/models"
 import { Button, Modal, Typography } from "app-theme/ui"
-import {
-  ContactSupportFlowTestIds,
-  ContactSupportModalTestIds,
-} from "contact-support/models"
 import { formatMessage } from "app-localize/utils"
 
 const messages = defineMessages({
@@ -32,10 +28,9 @@ export const ContactSupportSuccessModal: FunctionComponent<
       opened={opened}
       layer={ModalLayer.ContactSupport}
       size={ModalSize.Small}
-      data-testid={ContactSupportFlowTestIds.ContactSupportModalSuccess}
     >
       <Modal.TitleIcon type={IconType.Confirm} />
-      <Modal.Title data-testid={ContactSupportModalTestIds.Title}>
+      <Modal.Title>
         {formatMessage(messages.title)}
       </Modal.Title>
       <Typography.P1>{formatMessage(messages.body)}</Typography.P1>
@@ -43,7 +38,6 @@ export const ContactSupportSuccessModal: FunctionComponent<
         <Button
           type={ButtonType.Secondary}
           onClick={onClose}
-          data-testid={ContactSupportModalTestIds.CloseButton}
         >
           {formatMessage(messages.closeButtonText)}
         </Button>

@@ -11,7 +11,7 @@ import {
   useMemo,
 } from "react"
 import styled, { css } from "styled-components"
-import { TextInputVariant } from "app-theme/models"
+import { TextInputTestId, TextInputVariant } from "app-theme/models"
 import { TextInputPassword } from "./text-input-password"
 import { Input, Placeholder, Slot, TextInputDefault } from "./text-input-shared"
 import { Textarea, TextInputTextarea } from "./text-input-textarea"
@@ -123,7 +123,9 @@ export const TextInput: FunctionComponent<Props> & {
           {...slots}
         />
       </InputWrapper>
-      <Error color={"red"}>{error || <>&nbsp;</>}</Error>
+      <Error data-testid={TextInputTestId.Error} color={"red"}>
+        {error || <>&nbsp;</>}
+      </Error>
     </Wrapper>
   )
 }

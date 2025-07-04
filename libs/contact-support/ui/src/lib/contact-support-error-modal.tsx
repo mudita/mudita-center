@@ -7,10 +7,6 @@ import { FunctionComponent } from "react"
 import { defineMessages } from "react-intl"
 import { formatMessage } from "app-localize/utils"
 import { ButtonType, IconType, ModalLayer, ModalSize } from "app-theme/models"
-import {
-  ContactSupportFlowTestIds,
-  ContactSupportModalTestIds,
-} from "contact-support/models"
 import { Button, Modal, Typography } from "app-theme/ui"
 
 const messages = defineMessages({
@@ -33,17 +29,12 @@ export const ContactSupportErrorModal: FunctionComponent<Props> = ({
       opened={opened}
       layer={ModalLayer.ContactSupport}
       size={ModalSize.Small}
-      data-testid={ContactSupportFlowTestIds.ContactSupportModalError}
     >
       <Modal.TitleIcon type={IconType.Failed} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Typography.P1>{formatMessage(messages.body)}</Typography.P1>
       <Modal.Buttons>
-        <Button
-          type={ButtonType.Secondary}
-          onClick={onClose}
-          data-testid={ContactSupportModalTestIds.CloseButton}
-        >
+        <Button type={ButtonType.Secondary} onClick={onClose}>
           {formatMessage(messages.closeButtonText)}
         </Button>
       </Modal.Buttons>

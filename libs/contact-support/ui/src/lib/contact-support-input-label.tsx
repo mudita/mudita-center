@@ -22,16 +22,17 @@ interface Props {
 }
 
 export const ContactSupportInputLabel: FunctionComponent<Props> = ({
-  className,
   label,
   optional,
+  ...rest
 }) => (
-  <Typography.P3 className={className} textAlign={TypographyAlign.Left}>
+  <Typography.P3 textAlign={TypographyAlign.Left} {...rest}>
     {formatMessage(label)}
     {optional && (
       <Typography.P3 color="grey3" as={"span"}>
-        {" "}
+        {" ("}
         {formatMessage(messages.optional)}
+        {")"}
       </Typography.P3>
     )}
   </Typography.P3>
