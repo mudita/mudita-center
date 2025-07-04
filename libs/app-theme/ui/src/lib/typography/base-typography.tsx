@@ -100,6 +100,8 @@ export const BaseTypography: FunctionComponent<BaseTypographyProps> = memo(
 )
 
 export const baseTypographyStyles = css<BaseTypographyProps>`
+  white-space: pre-wrap;
+
   ${({ lines }) =>
     lines &&
     lines > 0 &&

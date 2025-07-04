@@ -3,9 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { app, dialog, OpenDialogOptions, BrowserWindow, shell } from "electron"
+import { app, BrowserWindow, dialog, OpenDialogOptions } from "electron"
 import * as path from "path"
 import { formatMessage } from "app-localize/utils"
+import logger from "electron-log"
 
 const devToolsEnabled =
   process.env.ENABLE_DEVTOOLS === "true" ||
@@ -18,18 +19,17 @@ export class AppActionsService {
     properties: [],
   }
 
-  private createInfoWindow(urlHash: string, title: string) {
-    const production = process.env.NODE_ENV === "production"
+  async openWindow(url: string, title: string) {
+    logger.info(`Opening app window "${title}" (${url})`)
 
     const win = new BrowserWindow({
       title,
-      width: 1008,
+      width: 1000,
       height: 600,
       show: false,
       useContentSize: true,
       autoHideMenuBar: true,
       titleBarStyle: "default",
-      trafficLightPosition: { x: 32, y: 10 },
       titleBarOverlay: {
         color: "#FFFFFF",
         symbolColor: "#000000",
@@ -43,25 +43,19 @@ export class AppActionsService {
       },
     })
 
-    win.removeMenu()
+    if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
+      await win.loadURL(path.join(process.env["ELECTRON_RENDERER_URL"], url))
+    } else {
+      await win.loadFile(
+        path.join(__dirname, "..", "renderer", "index.html", url)
+      )
+    }
 
-    const fullUrl = production
-      ? `file://${path.join(__dirname, "..", "renderer", "index.html")}?mode=legal#${urlHash}`
-      : `http://localhost:5173?mode=legal#${urlHash}`
-
-    win
-      .loadURL(fullUrl)
-      .then(() => win.show())
-      .catch((err) => console.error("Failed to load URL in info window:", err))
+    win.show()
 
     if (devToolsEnabled) {
       win.webContents.openDevTools()
     }
-
-    win.webContents.setWindowOpenHandler(({ url }) => {
-      shell.openExternal(url)
-      return { action: "deny" }
-    })
   }
 
   close() {
@@ -87,10 +81,6 @@ export class AppActionsService {
     }
 
     return result.canceled ? undefined : result.filePaths[0]
-  }
-
-  openLegalWindow(path: string, title: string) {
-    this.createInfoWindow(path, title)
   }
 
   getAppVersion(): string {

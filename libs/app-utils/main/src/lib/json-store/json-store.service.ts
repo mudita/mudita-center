@@ -30,10 +30,7 @@ export class JsonStoreService<Data extends Record<string, unknown>> {
   getBatch<const Paths extends readonly DotNotation<Data>[]>(
     ...paths: Paths
   ): ExpandPaths<Paths, Data> {
-    return this.base.getBatch<Data, Paths>(
-      this.name,
-      ...paths
-    )
+    return this.base.getBatch<Data, Paths>(this.name, ...paths)
   }
 
   set<D extends NestedPartial<Data> | Partial<Data>>(data: D): Data {

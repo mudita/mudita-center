@@ -4,19 +4,18 @@
  */
 
 import { FunctionComponent, PropsWithChildren } from "react"
-import { Navigate, Route, Routes } from "react-router"
-import { DashboardLayout, LegalLayout } from "app-routing/feature"
+import { Navigate, Outlet, Route, Routes } from "react-router"
+import { DashboardLayout } from "app-routing/feature"
 import { useSettingsRouter } from "settings/routes"
 import { useNewsRouter } from "news/routes"
 import { useHelpRouter } from "help/routes"
 import { useDevicesInitRouter } from "devices/common/routes"
-import {
-  LicensePage,
-  PrivacyPolicyPage,
-  TermsOfServicePage,
-} from "settings/feature"
+import { DevicesInitializer } from "devices/common/feature"
+import { CheckInitRequirements } from "app-init/feature"
+import { useAppLegalRouter } from "./app-legal-router"
 
 export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
+  const legalRouter = useAppLegalRouter()
   const newsRouter = useNewsRouter()
   const settingsRouter = useSettingsRouter()
   const helpRouter = useHelpRouter()
@@ -24,18 +23,26 @@ export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
 
   return (
     <Routes>
-      <Route element={<DashboardLayout />}>
-        {newsRouter}
-        {settingsRouter}
-        {helpRouter}
-        {devicesRouter}
-      </Route>
-      <Route element={<LegalLayout />}>
-        <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/license" element={<LicensePage />} />
+      {legalRouter}
+      <Route element={<AppMainLayout />}>
+        <Route element={<DashboardLayout />}>
+          {newsRouter}
+          {settingsRouter}
+          {helpRouter}
+          {devicesRouter}
+        </Route>
       </Route>
       <Route path={"*"} element={<Navigate to={"/"} />} />
     </Routes>
+  )
+}
+
+const AppMainLayout: FunctionComponent = () => {
+  return (
+    <>
+      <DevicesInitializer />
+      <CheckInitRequirements />
+      <Outlet />
+    </>
   )
 }

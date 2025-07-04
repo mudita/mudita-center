@@ -7,14 +7,6 @@ export enum AppUpdaterIpcEvents {
   Check = "appUpdater:checkForUpdates",
   Download = "appUpdater:downloadUpdate",
   Install = "appUpdater:installUpdate",
+  Cancel = "appUpdater:cancelUpdate",
   UpdateDownloadProgress = "appUpdater:updateDownloadProgress",
-  UpdateInstallProgress = "appUpdater:updateInstallProgress",
-  CancelDownload = "appUpdater:cancelDownload",
-}
-
-export enum AppUpdateEvent {
-  Available = "application_updater-available",
-  NotAvailable = "application_updater-not-available",
-  Error = "application_updater-error",
-  Downloaded = "application_updater-downloaded",
 }

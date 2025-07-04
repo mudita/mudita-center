@@ -26,17 +26,17 @@ export const initAppActions = (ipcMain: IpcMain) => {
       }
     )
 
-    ipcMain.removeHandler(AppActionsIpcEvents.OpenLegalWindow)
+    ipcMain.removeHandler(AppActionsIpcEvents.OpenWindow)
     ipcMain.handle(
-      AppActionsIpcEvents.OpenLegalWindow,
-      (_, { path, title }: { path: string; title: string }) => {
-        return appActionsService?.openLegalWindow(path, title)
+      AppActionsIpcEvents.OpenWindow,
+      (_, { url, title }: { url: string; title: string }) => {
+        return appActionsService.openWindow(url, title)
       }
     )
 
     ipcMain.removeHandler(AppActionsIpcEvents.GetVersion)
     ipcMain.handle(AppActionsIpcEvents.GetVersion, () => {
-      return appActionsService?.getAppVersion()
+      return appActionsService.getAppVersion()
     })
   }
 }

@@ -34,7 +34,7 @@ import { formatMessage, Messages } from "app-localize/utils"
 
 export interface ButtonLinkProps {
   to: LinkProps["to"]
-  target?: LinkProps["target"]
+  target?: LinkProps["target"] | "appWindow"
   onClick?: VoidFunction
 }
 
@@ -127,14 +127,27 @@ export const Button: FunctionComponent<Props> = ({
   }, [children, icon, message, values])
 
   const linkClickHandler: MouseEventHandler = useCallback(
-    (event) => {
+    async (event) => {
       if (disabled) {
         event.preventDefault()
         return
       }
+      const eventTarget = event.currentTarget.closest("a")
+      // Handle internal links to be opened in a new window
+      if (target === "appWindow" && eventTarget instanceof HTMLAnchorElement) {
+        event.preventDefault()
+        try {
+          // eslint-disable-next-line @nx/enforce-module-boundaries
+          const { AppActions } = await import("app-utils/renderer")
+          AppActions.openWindow(eventTarget.hash)
+        } catch {
+          return
+        }
+        return
+      }
       onClick?.()
     },
-    [disabled, onClick]
+    [disabled, onClick, target]
   )
 
   if (to && NavigationComponent) {

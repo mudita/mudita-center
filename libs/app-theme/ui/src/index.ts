@@ -15,6 +15,7 @@ export * from "./lib/typography/typography"
 export * from "./lib/typography/typography-styles"
 export * from "./lib/typography/bytes-formatter/bytes-formatter"
 export * from "./lib/highlight-text/highlight-text"
+export * from "./lib/progress-bar/progress-bar"
 
 // Legacy components
 export * from "./lib/legacy-text/text.component"
