@@ -19,8 +19,7 @@ import {
   TypographyAlign,
 } from "app-theme/models"
 import {
-  ContactSupportFlowTestIds,
-  ContactSupportModalTestIds,
+  ContactSupportTestIds,
   SendTicketPayload,
 } from "contact-support/models"
 import { ContactSupportInputLabel } from "./contact-support-input-label"
@@ -107,48 +106,62 @@ export const ContactSupportFormModal: FunctionComponent<
       layer={ModalLayer.ContactSupport}
       size={ModalSize.Medium}
       customStyles={{ maxHeight: "66rem", width: "56.6rem" }}
-      data-testid={ContactSupportFlowTestIds.ContactSupportModal}
     >
       <Modal.TitleIcon type={IconType.Support} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Modal.CloseButton onClick={handleCloseModal} />
       <Modal.ScrollableContent>
-        <Typography.P1>{formatMessage(messages.description)}</Typography.P1>
+        <Typography.P1 data-testid={ContactSupportTestIds.FormModalDescription}>
+          {formatMessage(messages.description)}
+        </Typography.P1>
         <form onSubmit={submitForm}>
-          <InputLabel label={messages.emailLabel} />
+          <InputLabel
+            data-testid={ContactSupportTestIds.FormModalEmailLabel}
+            label={messages.emailLabel}
+          />
           <Input
             id="contact-support-email"
             variant={TextInputVariant.Outlined}
             type="text"
             placeholder={formatMessage(messages.emailPlaceholder)}
-            data-testid={ContactSupportModalTestIds.EmailInput}
+            data-testid={ContactSupportTestIds.FormModalEmailInput}
             error={errors.email?.message}
             {...register(FieldKeys.Email, contactSupportEmailValidator)}
           />
-          <InputLabel label={messages.messageLabel} optional={true} />
+          <InputLabel
+            data-testid={ContactSupportTestIds.FormModalDescriptionLabel}
+            label={messages.messageLabel}
+            optional={true}
+          />
           <Input
             id="contact-support-message"
             variant={TextInputVariant.Outlined}
             type="textarea"
             rows={3}
             placeholder={formatMessage(messages.descriptionPlaceholder)}
-            data-testid={ContactSupportModalTestIds.DescriptionInput}
+            data-testid={ContactSupportTestIds.FormModalDescriptionInput}
             {...register(FieldKeys.Description)}
           />
-          <InputLabel label={messages.filesLabel} />
-          <FilesLabelDescription textAlign={TypographyAlign.Left}>
+          <InputLabel
+            data-testid={ContactSupportTestIds.FormModalFileListLabel}
+            label={messages.filesLabel}
+          />
+          <FilesLabelDescription
+            data-testid={ContactSupportTestIds.FormModalFileListDescription}
+            textAlign={TypographyAlign.Left}
+          >
             {formatMessage(messages.filesLabelDescription)}
           </FilesLabelDescription>
           <ContactSupportFileList
             files={files}
-            data-testid={ContactSupportModalTestIds.FileList}
+            data-testid={ContactSupportTestIds.FormModalFileList}
           />
           <FormSendButtonWrapper>
             <Button
               type={ButtonType.Primary}
               onClick={submitForm}
               disabled={!isValid}
-              data-testid={ContactSupportModalTestIds.SubmitButton}
+              data-testid={ContactSupportTestIds.FormModalSubmitButton}
               size={ButtonSize.Large}
             >
               {formatMessage(messages.buttonText)}

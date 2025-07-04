@@ -3,15 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import Page from "./page"
-import { formatMessage } from "app-localize/utils"
+import ModalPage from "./modal-page"
 import { ModalTestId } from "../all-test-ids"
 
-class AppInitPage extends Page {
+class AppInitPage extends ModalPage {
+  constructor() {
+    super("general.privacyPolicyModal.title")
+  }
+
   public get privacyPolicyModal() {
-    return $(
-      `//div[@data-testid="${ModalTestId.Modal}"][.//h1[@data-testid="${ModalTestId.Title}" and text()="${formatMessage({ id: "general.privacyPolicyModal.title" })}"]]`
-    )
+    return this.modal
   }
 
   public get privacyPolicyButton() {
@@ -19,9 +20,7 @@ class AppInitPage extends Page {
   }
 
   public get privacyPolicyCancelButton() {
-    return this.privacyPolicyModal.$(
-      `.//button[@data-testid="${ModalTestId.CloseButton}"]`
-    )
+    return this.closeButton
   }
 
   public get privacyPolicyAcceptButton() {
