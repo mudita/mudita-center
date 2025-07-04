@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { BrowserWindow } from "electron"
 import { autoUpdater, CancellationToken } from "electron-updater"
 import logger from "electron-log/main"
 import axios, { isAxiosError } from "axios"
@@ -12,7 +13,7 @@ export class AppUpdaterService {
   private cancellationToken = new CancellationToken()
   private checkAbortController = new AbortController()
 
-  constructor() {
+  constructor(private mainWindow: BrowserWindow) {
     this.configure()
   }
 
@@ -94,10 +95,13 @@ export class AppUpdaterService {
   }
 
   download() {
+    this.mainWindow.setProgressBar(2) // Set progress bar to indeterminate state
     void autoUpdater.downloadUpdate(this.cancellationToken)
   }
 
   cancel() {
+    this.mainWindow.setProgressBar(-1) // Disable progress bar (< 0)
+
     this.cancellationToken.cancel()
     this.cancellationToken = new CancellationToken()
 
@@ -107,10 +111,12 @@ export class AppUpdaterService {
 
   onDownloadProgress(callback: (percent: number) => void) {
     autoUpdater.on("download-progress", ({ percent }) => {
+      this.mainWindow.setProgressBar(percent / 100)
       callback(percent)
     })
 
     autoUpdater.on("update-downloaded", () => {
+      this.mainWindow.setProgressBar(1)
       callback(100)
     })
   }
