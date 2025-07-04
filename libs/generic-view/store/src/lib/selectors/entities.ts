@@ -39,6 +39,19 @@ export const selectEntities = createSelector(
   }
 )
 
+export const selectEntitiesByIds = createSelector(
+  selectEntities,
+  (_: ReduxRootState, params: { ids: string[] }) => params.ids,
+  (entities, ids) => {
+    if (!entities || !entities.data) return []
+
+    const idSet = new Set(ids)
+    return entities.data.filter((entity) =>
+      idSet.has((entity as { id: string }).id)
+    )
+  }
+)
+
 export const selectEntitiesMetadata = createSelector(
   selectEntities,
   (entities) => entities?.metadata

@@ -43,6 +43,7 @@ export interface MtpTransferFileData {
   storageId: string
   destinationPath: string
   sourcePath: string
+  action?: string
 }
 
 export interface TransferFileResultData {

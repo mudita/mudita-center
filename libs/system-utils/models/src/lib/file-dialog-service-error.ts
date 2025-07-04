@@ -5,4 +5,5 @@
 
 export enum FileDialogError {
   OpenFile = "file-dialog/open-file-error",
+  ChooseDirectory = "file-dialog/choose-directory-error",
 }

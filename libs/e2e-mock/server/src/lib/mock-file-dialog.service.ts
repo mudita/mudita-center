@@ -14,6 +14,10 @@ export class MockFileDialog {
     return this.mockFilePaths
   }
 
+  getMockDirectoryPath(): string {
+    return this.mockFilePaths[0]
+  }
+
   clearMockFilePaths() {
     this.mockFilePaths = []
   }

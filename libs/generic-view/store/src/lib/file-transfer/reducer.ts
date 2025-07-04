@@ -29,7 +29,7 @@ import { legacySendFile } from "./legacy-send-file.action"
 import { getFile } from "./get-file.action"
 import { sendFiles } from "./send-files.action"
 import { ApiFileTransferError } from "device/models"
-import { FilesTransferMode } from "./files-transfer-mode.type"
+import { FilesTransferMode } from "./files-transfer.type"
 import { sendFilesTransferAnalysis } from "./send-files-transfer-analysis.action"
 
 interface FileTransferError {

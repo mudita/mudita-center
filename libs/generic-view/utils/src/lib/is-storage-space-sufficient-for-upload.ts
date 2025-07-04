@@ -62,11 +62,14 @@ export async function isStorageSpaceSufficientForUpload(
   }
 > {
   const totalFileSize = await getTotalFileSizeAsync(filePaths)
+  return CalculateAndFormatAvailableSpace(availableSpace, totalFileSize)
+}
 
-  const { isSufficient, difference } = compareValues(
-    availableSpace,
-    totalFileSize
-  )
+export const CalculateAndFormatAvailableSpace = (
+  availableSpace: number,
+  totalSpace: number
+) => {
+  const { isSufficient, difference } = compareValues(availableSpace, totalSpace)
 
   const formattedDifference = formatBytes(Math.abs(difference), {
     minUnit: "B",

@@ -67,9 +67,9 @@ import { buttonPlain } from "./lib/button-plain"
 import { highlightText } from "./lib/highlight-text"
 import { mcContactsSearchResults } from "./lib/mc-contacts-search-results"
 import { TypographyMap } from "./lib/typography"
-import { mcFilesManagerUploadProgress } from "./lib/mc-files-manager-upload-progress"
-import { mcFilesManagerUploadFinished } from "./lib/mc-files-manager-upload-finished"
-import { mcFilesManagerUploadValidationError } from "./lib/mc-files-manager-upload-validation-error"
+import { mcFilesManagerTransferProgress } from "./lib/mc-files-manager-transfer-progress"
+import { mcFilesManagerTransferFinished } from "./lib/mc-files-manager-transfer-finished"
+import { mcFilesManagerTransferValidationError } from "./lib/mc-files-manager-transfer-validation-error"
 import { entitiesDeleteError } from "./lib/entities-delete-error"
 import { mcAppInstallationProgress } from "./lib/mc-app-installation-progress"
 import { mcAppInstallationError } from "./lib/mc-app-installation-error"
@@ -144,9 +144,9 @@ export * from "./lib/app-portal"
 export * from "./lib/highlight-text"
 export * from "./lib/mc-contacts-search-results"
 export * from "./lib/typography"
-export * from "./lib/mc-files-manager-upload-progress"
-export * from "./lib/mc-files-manager-upload-finished"
-export * from "./lib/mc-files-manager-upload-validation-error"
+export * from "./lib/mc-files-manager-transfer-progress"
+export * from "./lib/mc-files-manager-transfer-finished"
+export * from "./lib/mc-files-manager-transfer-validation-error"
 export * from "./lib/entities-delete-error"
 export * from "./lib/mc-app-installation-progress"
 export * from "./lib/mc-app-installation-error"
@@ -217,10 +217,10 @@ export default {
   [appPortal.key]: appPortal,
   [highlightText.key]: highlightText,
   [mcContactsSearchResults.key]: mcContactsSearchResults,
-  [mcFilesManagerUploadProgress.key]: mcFilesManagerUploadProgress,
-  [mcFilesManagerUploadFinished.key]: mcFilesManagerUploadFinished,
-  [mcFilesManagerUploadValidationError.key]:
-    mcFilesManagerUploadValidationError,
+  [mcFilesManagerTransferProgress.key]: mcFilesManagerTransferProgress,
+  [mcFilesManagerTransferFinished.key]: mcFilesManagerTransferFinished,
+  [mcFilesManagerTransferValidationError.key]:
+    mcFilesManagerTransferValidationError,
   [entitiesDeleteError.key]: entitiesDeleteError,
   [mcAppInstallationProgress.key]: mcAppInstallationProgress,
   [mcAppInstallationError.key]: mcAppInstallationError,

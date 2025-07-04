@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { APIFC, IconType } from "generic-view/utils"
 import {
   ButtonAction,
-  McFilesManagerUploadProgressConfig,
+  McFilesManagerTransferProgressConfig,
 } from "generic-view/models"
 import {
   selectFilesSendingCount,
@@ -24,11 +24,17 @@ import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import { Modal } from "../../interactive/modal/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { FilesManagerUploadProgressWarning } from "./files-manager-upload-progress-warning"
-import { FilesTransferMode } from "../../../../../store/src/lib/file-transfer/files-transfer-mode.type"
+import {
+  FilesTransferMode,
+  SendFilesAction,
+} from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 const messages = defineMessages({
-  progressModalTitle: {
+  progressUploadModalTitle: {
     id: "module.genericViews.filesManager.upload.progress.modalTitle",
+  },
+  progressExportModalTitle: {
+    id: "module.genericViews.filesManager.export.progress.modalTitle",
   },
   cancelButton: {
     id: "module.genericViews.filesManager.upload.progress.cancelButton",
@@ -37,10 +43,10 @@ const messages = defineMessages({
 
 export const FilesManagerUploadProgress: APIFC<
   undefined,
-  McFilesManagerUploadProgressConfig
+  McFilesManagerTransferProgressConfig
 > = ({ config }) => {
   const dispatch = useDispatch<Dispatch>()
-  const selectorsConfig = { groupId: config.uploadActionId }
+  const selectorsConfig = { groupId: config.transferActionId }
 
   const filesCount = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCount(state, selectorsConfig)
@@ -56,7 +62,7 @@ export const FilesManagerUploadProgress: APIFC<
   const abortAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      dispatch(sendFilesAbort(config.uploadActionId))
+      dispatch(sendFilesAbort(config.transferActionId))
     },
   }
 
@@ -64,9 +70,14 @@ export const FilesManagerUploadProgress: APIFC<
     <>
       <Modal.TitleIcon config={{ type: IconType.SpinnerDark }} />
       <Modal.Title>
-        {intl.formatMessage(messages.progressModalTitle, {
-          filesCount,
-        })}
+        {intl.formatMessage(
+          config.actionType === SendFilesAction.ActionExport
+            ? messages.progressExportModalTitle
+            : messages.progressUploadModalTitle,
+          {
+            filesCount,
+          }
+        )}
       </Modal.Title>
       {filesTransferMode === FilesTransferMode.SerialPort && (
         <FilesManagerUploadProgressWarning />

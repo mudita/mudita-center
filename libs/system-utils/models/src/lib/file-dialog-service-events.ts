@@ -5,6 +5,7 @@
 
 export enum FileDialogToMainEvents {
   OpenFile = "file-dialog/open-file",
+  ChooseDirectory = "file-dialog/choose-directory",
 }
 
 export enum FileDialogToRendererEvents {

@@ -7,3 +7,8 @@ export enum FilesTransferMode {
   SerialPort = "serial-port",
   Mtp = "mtp",
 }
+
+export enum SendFilesAction {
+  ActionUpload = "upload",
+  ActionExport = "export",
+}

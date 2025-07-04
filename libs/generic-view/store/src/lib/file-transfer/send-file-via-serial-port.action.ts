@@ -23,7 +23,7 @@ import {
 import { ApiFileTransferError } from "device/models"
 import { AppError } from "Core/core/errors"
 import { createEntityDataAction } from "../entities/create-entity-data.action"
-import { FilesTransferMode } from "./files-transfer-mode.type"
+import { FilesTransferMode } from "./files-transfer.type"
 
 export interface SendFileViaSerialPortPayload {
   file: FileBase

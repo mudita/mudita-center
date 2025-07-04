@@ -553,3 +553,7 @@ ipcMain.answerRenderer(
 ipcMain.answerRenderer(OutlookAuthActions.CloseWindow, () => {
   outlookAuthWindow?.close()
 })
+
+ipcMain.answerRenderer("get-downloads-path", async () => {
+  return app.getPath("downloads")
+})

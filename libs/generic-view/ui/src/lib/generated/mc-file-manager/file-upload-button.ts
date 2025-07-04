@@ -5,6 +5,7 @@
 
 import { ComponentGenerator, IconType } from "generic-view/utils"
 import { McFileManagerConfig } from "generic-view/models"
+import { SendFilesAction } from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 export const generateFileUploadProcessButtonKey = (key: string) => {
   return `${key}filesUploadButton`
@@ -156,12 +157,13 @@ export const generateFileUploadProcessButton: ComponentGenerator<
       childrenKeys: [generateFileUploadButtonModalKey(key, "ProgressContent")],
     },
     [generateFileUploadButtonModalKey(key, "ProgressContent")]: {
-      component: "mc-files-manager-upload-progress",
+      component: "mc-files-manager-transfer-progress",
       config: {
         storagePath,
         directoryPath,
         entitiesType: entityType,
-        uploadActionId,
+        transferActionId: uploadActionId,
+        actionType: SendFilesAction.ActionUpload,
       },
     },
     [generateFileUploadButtonModalKey(key, "Finished")]: {
@@ -173,10 +175,10 @@ export const generateFileUploadProcessButton: ComponentGenerator<
       childrenKeys: [generateFileUploadButtonModalKey(key, "FinishedContent")],
     },
     [generateFileUploadButtonModalKey(key, "FinishedContent")]: {
-      component: "mc-files-manager-upload-finished",
+      component: "mc-files-manager-transfer-finished",
       config: {
         modalKey: generateFileUploadButtonModalKey(key, "Finished"),
-        uploadActionId,
+        transferActionId: uploadActionId,
       },
     },
     [generateFileUploadButtonModalKey(key, "ValidationFailure")]: {
@@ -189,7 +191,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
       ],
     },
     [generateFileUploadButtonModalKey(key, "ValidationFailureContent")]: {
-      component: "mc-files-manager-upload-validation-error",
+      component: "mc-files-manager-transfer-validation-error",
       config: {
         modalKey: generateFileUploadButtonModalKey(key, "ValidationFailure"),
         uploadActionId,
