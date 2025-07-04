@@ -8,6 +8,7 @@ import { AppUpdateAvailability } from "app-updater/models"
 import { AppUpdater } from "app-updater/renderer"
 import { AppActions } from "app-utils/renderer"
 import { AppStore } from "app-store/models"
+import { delayUntilAtLeast } from "app-utils/common"
 
 export const setAppUpdaterCurrentVersion = createAction<string>(
   "appUpdater/setCurrentVersion"
@@ -46,28 +47,27 @@ export const checkForAppUpdate = createAsyncThunk<
   boolean,
   { silent?: boolean } | undefined
 >("appUpdater/checkForAppUpdate", async ({ silent } = {}, { dispatch }) => {
+  let available = false
+
   dispatch(setAppUpdaterSilentMode(Boolean(silent)))
   dispatch(setAppUpdaterModalsOpened(true))
   dispatch(setAppUpdaterCheckingForUpdate(true))
 
-  if (!silent) {
-    // FIXME: Replace with delayUntilAtLeast
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-  }
-  const response = await AppUpdater.check()
+  const response = await delayUntilAtLeast(AppUpdater.check, silent ? 0 : 1000)
 
-  if (response && "error" in response) {
+  if (!response.ok) {
     dispatch(setAppUpdaterError(true))
-    dispatch(setAppUpdateAvailability(AppUpdateAvailability.NotAvailable))
-  } else if (response) {
-    dispatch(setAppUpdaterNewVersionInfo(response))
+  } else if (response.data) {
+    available = true
+    dispatch(setAppUpdaterNewVersionInfo(response.data))
     dispatch(setAppUpdateAvailability(AppUpdateAvailability.Available))
   } else {
     dispatch(setAppUpdateAvailability(AppUpdateAvailability.NotAvailable))
   }
+
   dispatch(setAppUpdaterCheckingForUpdate(false))
 
-  return response !== null
+  return available
 })
 
 export const downloadAppUpdate = createAsyncThunk(
