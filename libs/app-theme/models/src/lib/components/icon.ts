@@ -7,6 +7,7 @@ export enum IconType {
   ArrowBack = "arrow-back",
   Backup = "backup",
   BatteryFlat = "battery-flat",
+  Check = "check",
   CheckCircleBlack = "check-circle-back",
   ChevronDown = "chevron-down",
   Close = "close",
@@ -19,6 +20,7 @@ export enum IconType {
   Info = "info",
   Lock = "lock",
   Messages = "messages",
+  Minus = "minus",
   MuditaLogo = "mudita-logo",
   MuditaLogoFull = "mudita-logo-full",
   Namaste = "namaste",
@@ -38,10 +40,28 @@ export enum IconType {
 }
 
 export enum IconSize {
-  Tiny = "tiny", // 1.6rem
-  Small = "small", // 2rem
-  Medium = "medium", // 2.4rem
-  Big = "big", // 3.2rem
-  Large = "large", // 4rem
-  AutoMax = "auto-max", // 100%
+  /**
+   * Tiny size is equivalent to 16px (1.6rem).
+   */
+  Tiny = "tiny",
+  /**
+   * Small size is equivalent to 20px (2rem).
+   */
+  Small = "small",
+  /**
+   * Medium size is equivalent to 24px (2.4rem).
+   */
+  Medium = "medium",
+  /**
+   * Big size is equivalent to 32px (3.2rem).
+   */
+  Big = "big",
+  /**
+   * Large size is equivalent to 40px (4rem).
+   */
+  Large = "large",
+  /**
+   * Auto size is equivalent to 100% of the parent element.
+   */
+  AutoMax = "auto-max",
 }

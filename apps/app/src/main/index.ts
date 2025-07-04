@@ -4,7 +4,6 @@
  */
 
 import { app, BrowserWindow, shell } from "electron"
-import { autoUpdater } from "electron-updater"
 import * as path from "path"
 import { join } from "path"
 import { electronApp, optimizer } from "@electron-toolkit/utils"
@@ -15,7 +14,6 @@ import installExtension, {
 } from "electron-devtools-installer"
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
-import { setMainAppWindow } from "app-utils/main"
 
 if (process.env.NODE_ENV === "test") {
   import("wdio-electron-service/main")
@@ -49,18 +47,12 @@ const createWindow = () => {
     },
   })
 
-  setMainAppWindow(mainWindow)
-
-  if (process.env.AUTOUPDATE_ENABLED === "true") {
-    void autoUpdater.checkForUpdatesAndNotify()
-  }
-
   if (devToolsEnabled) {
     mainWindow.webContents.openDevTools()
   }
 
   mainWindow.on("ready-to-show", () => {
-    initAppLibs(mainWindow.webContents)
+    initAppLibs(mainWindow)
 
     if (process.env.NODE_ENV === "development") {
       mainWindow.showInactive()

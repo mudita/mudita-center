@@ -4,7 +4,7 @@
  */
 
 import { initSerialPort } from "app-serialport/main"
-import { ipcMain, WebContents } from "electron"
+import { BrowserWindow, ipcMain } from "electron"
 import { initSql } from "app-sql/main"
 import { initNews } from "news/main"
 import { initAppHelp } from "help/main"
@@ -13,17 +13,17 @@ import {
   initAppActions,
   initAppFileSystem,
   initAppHttp,
-  initAppUpdater,
   initJsonStore,
 } from "app-utils/main"
+import { initAppUpdater } from "app-updater/main"
 
-export const initAppLibs = (webContents: WebContents) => {
+export const initAppLibs = (mainWindow: BrowserWindow) => {
   initAppActions(ipcMain)
   initAppSettings(ipcMain)
-  initAppUpdater(ipcMain)
-  initSerialPort(ipcMain, webContents)
+  initAppUpdater(ipcMain, mainWindow)
+  initSerialPort(ipcMain, mainWindow)
   initSql(ipcMain)
-  initNews(ipcMain, webContents)
+  initNews(ipcMain, mainWindow)
   initAppHelp(ipcMain)
   initJsonStore(ipcMain)
   initAppHttp(ipcMain)

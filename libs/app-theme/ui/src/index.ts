@@ -10,10 +10,12 @@ export * from "./lib/icon-button/icon-button"
 export * from "./lib/modal/modal"
 export * from "./lib/modal/error-modal/error-modal"
 export * from "./lib/form/text-input/text-input"
+export * from "./lib/form/checkbox/checkbox"
 export * from "./lib/typography/typography"
 export * from "./lib/typography/typography-styles"
 export * from "./lib/typography/bytes-formatter/bytes-formatter"
 export * from "./lib/highlight-text/highlight-text"
+export * from "./lib/progress-bar/progress-bar"
 
 // Legacy components
 export * from "./lib/legacy-text/text.component"
