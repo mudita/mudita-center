@@ -22,6 +22,10 @@ const initialState: AppUpdaterReducer = {
   isCheckingForUpdate: false,
   updateAvailability: AppUpdateAvailability.Unknown,
   modalsOpened: false,
+  currentVersion: undefined,
+  newVersion: undefined,
+  downloadProgress: undefined,
+  updateError: undefined,
 }
 
 export const appUpdaterReducer = createReducer(initialState, (builder) => {
