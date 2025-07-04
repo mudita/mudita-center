@@ -59,3 +59,5 @@ storybook-static
 apps/app/electron-builder.env
 
 vitest.config.*.timestamp*
+
+.github/copilot-instructions.md

@@ -5,4 +5,3 @@
 
 export * from "./lib/settings-data"
 export * from "./lib/settings-testid"
-export * from "./lib/settings-reducer"
