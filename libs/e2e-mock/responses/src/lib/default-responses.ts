@@ -86,6 +86,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
             otaApiKey: "864055030180383",
             osVersionTimestamp: 1733752055000,
           },
+          deviceVersion: "GLOBAL",
         },
       },
     ],
@@ -187,6 +188,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           summary: {
             about: {
               serialNumber: { text: "0123456789ABCDEF" },
+              deviceVersion: { text: "GLOBAL" },
               imei1: { text: "864055030138811" },
               imei2: { text: "864055030138829" },
               sar: {

@@ -12,6 +12,7 @@ export const overviewDataWithoutBadge = {
       sar: {
         text: "### SAR\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed aliquet ligula, viverra feugiat massa. In hac habitasse platea dictumst.\n\n1. Interdum et malesuada fames ac ante ipsum primis in faucibus.\n2. Suspendisse consectetur, nibh non consequat hendrerit, nibh felis commodo lacus, id auctor ante purus vitae justo.\n3. Cras purus neque, pharetra vitae nulla ac, mollis facilisis felis. Sed sit amet ex diam.\n\n> Sed accumsan sem nec iaculis euismod.",
       },
+      deviceVersion: { text: "GLOBAL" },
     },
   },
   sections: {
@@ -52,6 +53,7 @@ export const overviewDataWithOneSimCard = {
       sar: {
         text: "### SAR\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed aliquet ligula, viverra feugiat massa. In hac habitasse platea dictumst.\n\n1. Interdum et malesuada fames ac ante ipsum primis in faucibus.\n2. Suspendisse consectetur, nibh non consequat hendrerit, nibh felis commodo lacus, id auctor ante purus vitae justo.\n3. Cras purus neque, pharetra vitae nulla ac, mollis facilisis felis. Sed sit amet ex diam.\n\n> Sed accumsan sem nec iaculis euismod.",
       },
+      deviceVersion: { text: "GLOBAL" },
     },
   },
   sections: {
@@ -91,6 +93,7 @@ export const overviewDataWithOneSimCard2nd = {
       sar: {
         text: "### SAR\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed aliquet ligula, viverra feugiat massa. In hac habitasse platea dictumst.\n\n1. Interdum et malesuada fames ac ante ipsum primis in faucibus.\n2. Suspendisse consectetur, nibh non consequat hendrerit, nibh felis commodo lacus, id auctor ante purus vitae justo.\n3. Cras purus neque, pharetra vitae nulla ac, mollis facilisis felis. Sed sit amet ex diam.\n\n> Sed accumsan sem nec iaculis euismod.",
       },
+      deviceVersion: { text: "US" },
     },
   },
   sections: {
@@ -130,6 +133,7 @@ export const overviewDataWithOneSimCard3rd = {
       sar: {
         text: "### SAR\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed aliquet ligula, viverra feugiat massa. In hac habitasse platea dictumst.\n\n1. Interdum et malesuada fames ac ante ipsum primis in faucibus.\n2. Suspendisse consectetur, nibh non consequat hendrerit, nibh felis commodo lacus, id auctor ante purus vitae justo.\n3. Cras purus neque, pharetra vitae nulla ac, mollis facilisis felis. Sed sit amet ex diam.\n\n> Sed accumsan sem nec iaculis euismod.",
       },
+      deviceVersion: { text: "GLOBAL" },
     },
   },
   sections: {
@@ -169,6 +173,7 @@ export const overviewDataWithOneSimCard4th = {
       sar: {
         text: "### SAR\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed aliquet ligula, viverra feugiat massa. In hac habitasse platea dictumst.\n\n1. Interdum et malesuada fames ac ante ipsum primis in faucibus.\n2. Suspendisse consectetur, nibh non consequat hendrerit, nibh felis commodo lacus, id auctor ante purus vitae justo.\n3. Cras purus neque, pharetra vitae nulla ac, mollis facilisis felis. Sed sit amet ex diam.\n\n> Sed accumsan sem nec iaculis euismod.",
       },
+      deviceVersion: { text: "GLOBAL" },
     },
   },
   sections: {
@@ -209,6 +214,7 @@ export const overviewDataWithOneSimCard5th = {
       sar: {
         text: "### SAR\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed aliquet ligula, viverra feugiat massa. In hac habitasse platea dictumst.\n\n1. Interdum et malesuada fames ac ante ipsum primis in faucibus.\n2. Suspendisse consectetur, nibh non consequat hendrerit, nibh felis commodo lacus, id auctor ante purus vitae justo.\n3. Cras purus neque, pharetra vitae nulla ac, mollis facilisis felis. Sed sit amet ex diam.\n\n> Sed accumsan sem nec iaculis euismod.",
       },
+      deviceVersion: { text: "GLOBAL" },
     },
   },
   sections: {
@@ -248,6 +254,7 @@ export const overviewDataWithOneSimCard6th = {
       sar: {
         text: "### SAR\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed aliquet ligula, viverra feugiat massa. In hac habitasse platea dictumst.\n\n1. Interdum et malesuada fames ac ante ipsum primis in faucibus.\n2. Suspendisse consectetur, nibh non consequat hendrerit, nibh felis commodo lacus, id auctor ante purus vitae justo.\n3. Cras purus neque, pharetra vitae nulla ac, mollis facilisis felis. Sed sit amet ex diam.\n\n> Sed accumsan sem nec iaculis euismod.",
       },
+      deviceVersion: { text: "GLOBAL" },
     },
   },
   sections: {
@@ -284,7 +291,9 @@ export const overviewConfigForBackup = {
     showImg: true,
     imgVariant: "black",
     showSerialNumber: true,
-    serialNumberLabel: "Serial number",
+    serialNumberLabel: "Serial number:",
+    showDeviceVersion: true,
+    deviceVersionLabel: "Device type:",
     showAbout: true,
     aboutTitle: "About your device",
     aboutIcon: "device",
