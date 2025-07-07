@@ -7,8 +7,8 @@ import React, { useCallback, useLayoutEffect, useMemo } from "react"
 import { APIFC, compareValues, IconType } from "generic-view/utils"
 import {
   ButtonAction,
-  McFilesManagerUploadFinishedConfig,
-  McFilesManagerUploadFinishedData,
+  McFilesManagerTransferFinishedConfig,
+  McFilesManagerTransferFinishedData,
 } from "generic-view/models"
 import { Modal } from "../../interactive/modal/modal"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -83,21 +83,22 @@ const messages = defineMessages({
 })
 
 export const FilesManagerUploadFinished: APIFC<
-  McFilesManagerUploadFinishedData,
-  McFilesManagerUploadFinishedConfig
+  McFilesManagerTransferFinishedData,
+  McFilesManagerTransferFinishedConfig
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
-  const selectorsConfig = { groupId: config.uploadActionId }
-
+  const selectorsConfig = { groupId: config.transferActionId }
   const filesCount = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCount(state, selectorsConfig)
   })
+
   const succeededFiles = useSelector((state: ReduxRootState) => {
     return selectFilesSendingSucceeded(state, selectorsConfig)
   })
   const failedFiles = useSelector((state: ReduxRootState) => {
     return selectFilesSendingFailed(state, selectorsConfig)
   })
+
   const allFilesFailed = failedFiles.length === filesCount
   const errorTypes = uniq(failedFiles.map((file) => file.error.message))
 
@@ -127,8 +128,10 @@ export const FilesManagerUploadFinished: APIFC<
       type: "custom",
       callback: () => {
         setTimeout(() => {
-          dispatch(sendFilesClear({ groupId: config.uploadActionId }))
-          dispatch(clearFileTransferErrors({ actionId: config.uploadActionId }))
+          dispatch(sendFilesClear({ groupId: config.transferActionId }))
+          dispatch(
+            clearFileTransferErrors({ actionId: config.transferActionId })
+          )
         }, modalTransitionDuration)
       },
     },
@@ -305,15 +308,22 @@ export const FilesManagerUploadFinished: APIFC<
   }, [errorTypes])
 
   useLayoutEffect(() => {
-    if (succeededFiles.length !== 0 && failedFiles.length === 0) {
+    const processedCount = succeededFiles.length + failedFiles.length
+    const allProcessed = processedCount === filesCount
+    if (
+      allProcessed &&
+      succeededFiles.length !== 0 &&
+      failedFiles.length === 0
+    ) {
       dispatch(closeModal({ key: config.modalKey }))
     }
   }, [
     config.modalKey,
-    config.uploadActionId,
+    config.transferActionId,
     dispatch,
     failedFiles.length,
     succeededFiles.length,
+    filesCount,
   ])
 
   return (
