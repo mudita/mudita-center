@@ -60,13 +60,24 @@ export class MtpFileTransferService {
     storageId,
     sourcePath,
     destinationPath,
+    action,
   }: MtpTransferFileData): Promise<ResultObject<TransferFileResultData>> {
-    const result = await this.mtp.uploadFile({
-      deviceId,
-      storageId,
-      sourcePath,
-      destinationPath,
-    })
+    let result: ResultObject<TransferFileResultData>
+    if (action === "export") {
+      result = await this.mtp.exportFile({
+        deviceId,
+        storageId,
+        sourcePath,
+        destinationPath,
+      })
+    } else {
+      result = await this.mtp.uploadFile({
+        deviceId,
+        storageId,
+        sourcePath,
+        destinationPath,
+      })
+    }
     return this.mapToApiFileTransferErrorResult(result)
   }
 

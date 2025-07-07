@@ -20,7 +20,7 @@ import { GetFileErrorPayload } from "./get-file.action"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { AppError } from "Core/core/errors"
 import { ApiFileTransferError } from "device/models"
-import { FilesTransferMode } from "./files-transfer-mode.type"
+import { FilesTransferMode } from "./files-transfer.type"
 
 export const fileTransferSendPrepared = createAction<
   Pick<FileProgress, "chunksCount" | "transferId" | "filePath">

@@ -6,20 +6,24 @@
 import { z } from "zod"
 
 const dataValidator = z.object({
-  freeSpace: z.number(),
+  fileList: z.array(z.string()),
 })
 
-export type McFilesManagerUploadFinishedData = z.infer<typeof dataValidator>
+export type McFilesManagerTransferValidationErrorData = z.infer<
+  typeof dataValidator
+>
 
 const configValidator = z.object({
   modalKey: z.string(),
   uploadActionId: z.string(),
 })
 
-export type McFilesManagerUploadFinishedConfig = z.infer<typeof configValidator>
+export type McFilesManagerTransferValidationErrorConfig = z.infer<
+  typeof configValidator
+>
 
-export const mcFilesManagerUploadFinished = {
-  key: "mc-files-manager-upload-finished",
+export const mcFilesManagerTransferValidationError = {
+  key: "mc-files-manager-transfer-validation-error",
   dataValidator,
   configValidator,
 } as const

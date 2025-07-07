@@ -8,16 +8,19 @@ import { z } from "zod"
 const dataValidator = z.undefined()
 
 const configValidator = z.object({
-  storagePath: z.string(),
+  storagePath: z.string().optional(),
   directoryPath: z.string(),
   entitiesType: z.string(),
-  uploadActionId: z.string(),
+  transferActionId: z.string(),
+  actionType: z.string(),
 })
 
-export type McFilesManagerUploadProgressConfig = z.infer<typeof configValidator>
+export type McFilesManagerTransferProgressConfig = z.infer<
+  typeof configValidator
+>
 
-export const mcFilesManagerUploadProgress = {
-  key: "mc-files-manager-upload-progress",
+export const mcFilesManagerTransferProgress = {
+  key: "mc-files-manager-transfer-progress",
   dataValidator,
   configValidator,
 } as const
