@@ -105,6 +105,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktManageFilesRemoveFiles),
     toRelativePath(TestFilesPaths.kompaktManageFilesDeleteApkText),
     toRelativePath(TestFilesPaths.kompaktManageFilesInstallApkModalUpdate),
+    toRelativePath(TestFilesPaths.kompaktCheckDeviceType),
   ],
   suites: {
     standalone: [
@@ -155,6 +156,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktManageFilesRemoveFiles),
       toRelativePath(TestFilesPaths.kompaktManageFilesDeleteApkText),
       toRelativePath(TestFilesPaths.kompaktManageFilesInstallApkModalUpdate),
+      toRelativePath(TestFilesPaths.kompaktCheckDeviceType),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -214,6 +216,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktManageFilesRemoveFiles),
       toRelativePath(TestFilesPaths.kompaktManageFilesDeleteApkText),
       toRelativePath(TestFilesPaths.kompaktManageFilesInstallApkModalUpdate),
+      toRelativePath(TestFilesPaths.kompaktCheckDeviceType),
     ],
   },
   // Patterns to exclude.
