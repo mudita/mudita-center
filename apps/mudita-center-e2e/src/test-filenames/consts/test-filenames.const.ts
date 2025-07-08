@@ -52,5 +52,6 @@ export enum TestFilesPaths {
   kompaktManageFilesRemoveFiles = "src/specs/overview/kompakt-manage-files-remove-files.ts",
   kompaktManageFilesDeleteApkText = "src/specs/overview/kompakt-manage-files-delete-apk-text.ts",
   kompaktManageFilesInstallApkModalUpdate = "src/specs/overview/kompakt-manage-files-install-apk-modal-update.ts",
+  kompaktCheckDeviceType = "src/specs/overview/kompakt-check-device-type.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`

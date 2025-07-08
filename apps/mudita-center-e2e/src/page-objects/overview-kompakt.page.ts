@@ -79,5 +79,17 @@ class OverviewKompaktPage extends OverviewPage {
   public get kompaktOsVersionLabel() {
     return $("//*[@data-testid='version-label']")
   }
+
+  public get kompaktDeviceTypeLabel() {
+    return $("//p[contains(text(), 'Device type:')]")
+  }
+
+  public get kompaktDeviceTypeLabelValue1st() {
+    return $("//p[contains(text(), 'GLOBAL')]")
+  }
+
+  public get kompaktDeviceTypeLabelValue2nd() {
+    return $("//p[contains(text(), 'US')]")
+  }
 }
 export default new OverviewKompaktPage()
