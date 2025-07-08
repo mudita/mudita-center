@@ -11,6 +11,7 @@ import { UsbAccessRequestModal } from "./usb-access-request-modal"
 import { ContactSupportErrorModal } from "contact-support/ui"
 import { UsbAccessGrantedModal } from "./usb-access-granted-modal"
 import { UsbAccessRestartRequiredModal } from "./usb-access-restart-required-modal"
+import { UsbAccessRequestCancelledModal } from "./usb-access-request-cancelled-modal"
 
 const Decorator = styled.div`
   width: 100%;
@@ -128,4 +129,35 @@ export const UsbAccessRestartRequired: StoryObj<
       }),
   },
   render: (args) => <UsbAccessRestartRequiredModal {...args} />,
+}
+
+
+export const UsbAccessRequestCancelled: StoryObj<
+  typeof UsbAccessRequestCancelledModal
+> = {
+  name: "Request Cancelled Modal",
+  args: {
+    opened: true,
+  },
+  argTypes: {
+    onClose: storybookHelper
+      .addDescription(
+        "Defines a function to be called when clicking the close button."
+      )
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
+    onAction: storybookHelper
+      .addDescription(
+        "Defines a function to be called when clicking the action button."
+      )
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
+  },
+  render: (args) => <UsbAccessRequestCancelledModal {...args} />,
 }
