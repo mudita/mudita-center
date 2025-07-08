@@ -89,12 +89,14 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
       </Article>
       <Modal.Buttons>
         <ButtonSecondary
+          componentKey="cancel-restore"
           config={{
             text: intl.formatMessage(messages.cancelButtonLabel),
             actions: [closeAction],
           }}
         />
         <ButtonPrimary
+          componentKey="confirm-restore"
           config={{
             text: intl.formatMessage(messages.restoreButtonLabel),
             actions: [nextAction],
