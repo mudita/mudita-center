@@ -10,6 +10,7 @@ import { Modal } from "app-theme/ui"
 import { UsbAccessRequestModal } from "./usb-access-request-modal"
 import { ContactSupportErrorModal } from "contact-support/ui"
 import { UsbAccessGrantedModal } from "./usb-access-granted-modal"
+import { UsbAccessRestartRequiredModal } from "./usb-access-restart-required-modal"
 
 const Decorator = styled.div`
   width: 100%;
@@ -97,4 +98,34 @@ export const UsbAccessGranted: StoryObj<typeof UsbAccessGrantedModal> = {
       }),
   },
   render: (args) => <UsbAccessGrantedModal {...args} />,
+}
+
+export const UsbAccessRestartRequired: StoryObj<
+  typeof UsbAccessRestartRequiredModal
+> = {
+  name: "Restart Required Modal",
+  args: {
+    opened: true,
+  },
+  argTypes: {
+    onClose: storybookHelper
+      .addDescription(
+        "Defines a function to be called when clicking the close button."
+      )
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
+    onAction: storybookHelper
+      .addDescription(
+        "Defines a function to be called when clicking the action button."
+      )
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
+  },
+  render: (args) => <UsbAccessRestartRequiredModal {...args} />,
 }
