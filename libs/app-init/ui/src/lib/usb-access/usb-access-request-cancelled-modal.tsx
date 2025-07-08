@@ -33,11 +33,7 @@ export const UsbAccessRequestCancelledModal: FunctionComponent<Props> = ({
   onAction,
 }) => {
   return (
-    <Modal
-      opened={opened}
-      layer={ModalLayer.LinuxSerialPortGroup}
-      size={ModalSize.Small}
-    >
+    <Modal opened={opened} layer={ModalLayer.UsbAccess} size={ModalSize.Small}>
       <Modal.TitleIcon type={IconType.Failed} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Modal.CloseButton onClick={onClose} />
