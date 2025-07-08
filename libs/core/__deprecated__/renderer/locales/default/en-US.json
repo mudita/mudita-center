@@ -1086,5 +1086,9 @@
   "module.recoveryMode.modal.terminalInfo.step3": "3. Enter your computer password when prompted",
   "module.recoveryMode.modal.terminalInfo.step4": "4. Repeat your computer password when prompted",
   "module.recoveryMode.modal.completed.subtitle": "Recovery process complete",
-  "module.recoveryMode.modal.completed.description": "Hold down the light button on Harmony to turn it on when prompted."
+  "module.recoveryMode.modal.completed.description": "Hold down the light button on Harmony to turn it on when prompted.",
+  "module.quotations.title": "Quotations",
+  "module.quotations.header.title": "Manage Quotations",
+  "module.quotations.header.settingsButton": "Settings",
+  "module.quotations.header.addButton": "Add quotation"
 }

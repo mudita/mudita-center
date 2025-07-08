@@ -17,6 +17,7 @@ export enum Endpoint {
   Security = 13,
   Outbox = 14,
   TimeSynchronization = 16,
+  Quotations = 17,
 
   // api version (mocked)
   ApiVersion = 1000,

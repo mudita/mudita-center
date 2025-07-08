@@ -51,6 +51,7 @@ export const getTitleStyle = (size: ModalSize) => {
       return TextDisplayStyle.Headline4
     case ModalSize.Small:
     case ModalSize.Medium:
+    case ModalSize.MediumNew:
       return TextDisplayStyle.Headline3
     case ModalSize.Large:
       return TextDisplayStyle.Headline2
@@ -120,6 +121,10 @@ export const getButtonsPosition = (size: ModalSize) => {
     case ModalSize.Medium:
       return css`
         justify-content: space-evenly;
+      `
+    case ModalSize.MediumNew:
+      return css`
+        justify-content: center;
       `
     case ModalSize.Large:
       return css`

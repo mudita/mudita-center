@@ -128,6 +128,8 @@ import MarkAsUnread from "Core/__deprecated__/renderer/svg/mark-as-unread.svg"
 import Conversation from "Core/__deprecated__/renderer/svg/conversation.svg"
 import Exclamation from "Core/__deprecated__/renderer/svg/exclamation.svg"
 import ButtonSuccess from "Core/__deprecated__/renderer/svg/button-success.svg"
+import Quotations from "Core/__deprecated__/renderer/svg/quotations.svg"
+import Settings from "Core/__deprecated__/renderer/svg/settings.svg"
 import DataMigration from "../../../../../../generic-view/ui/src/lib/icon/svg/data-migration.svg"
 import RecoveryModeWhite from "../../../../../../generic-view/ui/src/lib/icon/svg/recovery-mode-white.svg"
 import RecoveryModeBlack from "../../../../../../generic-view/ui/src/lib/icon/svg/recovery-mode-black.svg"
@@ -510,6 +512,8 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   [IconType.RecoveryModeBlack]: RecoveryModeBlack,
   [IconType.ButtonSuccess]: ButtonSuccess,
   [IconType.LightButton]: LightButton,
+  [IconType.Quotations]: Quotations,
+  [IconType.Settings]: Settings,
 }
 
 export const getIconType = (
