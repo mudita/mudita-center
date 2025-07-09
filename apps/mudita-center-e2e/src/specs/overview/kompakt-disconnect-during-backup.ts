@@ -74,7 +74,12 @@ describe("Disconnect during backup", () => {
     E2EMockClient.removeDevice("path-1")
   })
 
-  it("Check if Home page is present", async () => {
+  it("Close error and check if Home page is present", async () => {
+    await browser.pause(500)
+    const backupFailedModalCloseButton =
+      ModalBackupKompaktPage.backupFailedModalCloseButton
+    await backupFailedModalCloseButton.click()
+
     const homeHeader = await HomePage.homeHeader
     await homeHeader.waitForDisplayed()
     await expect(homeHeader).toHaveText("Welcome to Mudita Center")
