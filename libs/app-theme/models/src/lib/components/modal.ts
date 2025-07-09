@@ -16,7 +16,7 @@ export enum ModalLayer {
   ContactSupport,
   Passcode,
   EULA,
-  LinuxSerialPortGroup,
+  UsbAccess,
   UpdateApp,
   PrivacyPolicy,
   Drawer,
