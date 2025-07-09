@@ -37,9 +37,7 @@ export const UsbAccessRestartRequiredModal: FunctionComponent<Props> = ({
       <Modal.TitleIcon type={IconType.Failed} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Modal.CloseButton onClick={onClose} />
-      <Modal.DenseContent>
-        <Typography.P1>{formatMessage(messages.description)}</Typography.P1>
-      </Modal.DenseContent>
+      <Typography.P1>{formatMessage(messages.description)}</Typography.P1>
       <Modal.Buttons>
         <Button type={ButtonType.Primary} onClick={onAction}>
           {formatMessage(messages.buttonText)}
