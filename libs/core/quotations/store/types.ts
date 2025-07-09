@@ -3,5 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./quotations-page"
-export * from "./store/reducer"
+export interface Quotation {
+  id: string
+  text: string
+  author?: string
+}

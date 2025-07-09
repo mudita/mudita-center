@@ -8,15 +8,28 @@ import styled from "styled-components"
 import { TopBar } from "./components/top-bar"
 import { SettingsModal } from "./components/settings-modal"
 import { EmptyState } from "./components/empty-state"
-import { List, Quotation } from "Core/quotations/components/list"
+import { List } from "Core/quotations/components/list"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  selectQuotations,
+  selectSelectedQuotations,
+} from "Core/quotations/store/selectors"
+import {
+  addQuotation,
+  deleteQuotations,
+  toggleAllQuotationsSelection,
+  toggleQuotationSelection,
+} from "Core/quotations/store/actions"
+import { AppDispatch } from "Core/__deprecated__/renderer/store"
+import { Quotation } from "./store/types"
 
 export const QuotationsPage: FunctionComponent = () => {
-  const [selectedQuotations, setSelectedQuotations] = useState<
-    Quotation["id"][]
-  >([])
+  const dispatch = useDispatch<AppDispatch>()
   const [settingsOpened, setSettingsOpened] = useState(false)
-  const [quotations, setQuotations] = useState<Quotation[]>([])
+
+  const quotations = useSelector(selectQuotations)
+  const selectedQuotations = useSelector(selectSelectedQuotations)
 
   const handleSettingsClick = () => {
     setSettingsOpened(true)
@@ -27,44 +40,29 @@ export const QuotationsPage: FunctionComponent = () => {
   }
 
   const handleCheckboxToggle = (id: Quotation["id"]) => {
-    setSelectedQuotations((prevSelected) => {
-      return prevSelected.includes(id)
-        ? prevSelected.filter((quotationId) => quotationId !== id)
-        : [...prevSelected, id]
-    })
+    dispatch(toggleQuotationSelection(id))
   }
 
   const handleAllItemsToggle = () => {
-    if (selectedQuotations.length === quotations.length) {
-      setSelectedQuotations([])
-    } else {
-      setSelectedQuotations(quotations.map((quotation) => quotation.id))
-    }
+    dispatch(toggleAllQuotationsSelection())
   }
 
   const handleAddQuotation = () => {
-    // TODO: Demo code, replace with final implementation
-    setQuotations((prevQuotations) => [
-      ...prevQuotations,
-      {
-        id: `quotation-${prevQuotations.length + 1}`,
-        text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quotation ${
-          prevQuotations.length + 1
-        }`,
-        author:
-          Math.random() > 0.5 ? `Author ${prevQuotations.length + 1}` : "",
-      },
-    ])
+    // TODO: Implement modal for adding a quotation
+
+    // Demo code for testing purposes
+    dispatch(
+      addQuotation({
+        id: `quotation-${crypto.randomUUID()}`,
+        text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+        author: Math.random() > 0.5 ? `Author` : "",
+      })
+    )
   }
 
   const handleDeleteQuotation = () => {
-    // TODO: Demo code, replace with final implementation
-    setQuotations((prevQuotations) => {
-      return prevQuotations.filter(
-        (quotation) => !selectedQuotations.includes(quotation.id)
-      )
-    })
-    setSelectedQuotations([])
+    // TODO: Implement confirmation modal before deleting
+    dispatch(deleteQuotations())
   }
 
   return (

@@ -23,12 +23,7 @@ import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-
-export interface Quotation {
-  id: string
-  text: string
-  author?: string
-}
+import { Quotation } from "../store/types"
 
 interface Props {
   quotations?: Quotation[]
