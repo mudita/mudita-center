@@ -7,7 +7,7 @@ import { ipcRenderer } from "electron"
 import { AppResult } from "app-utils/models"
 import { UsbAccessIpcEvents } from "app-init/models"
 
-export const usbAccessPreload = {
+export const usbAccess = {
   hasSerialPortAccess: (): Promise<AppResult<boolean>> =>
     ipcRenderer.invoke(UsbAccessIpcEvents.HasSerialPortAccess),
   grantAccessToSerialPort: (): Promise<AppResult> =>

@@ -16,7 +16,7 @@ import {
   jsonStore,
 } from "app-utils/main"
 import { appUpdater } from "app-updater/main"
-import { usbAccessPreload } from "app-init/main"
+import { usbAccess } from "app-init/main"
 
 export const api = {
   serialPort,
@@ -30,5 +30,5 @@ export const api = {
   appHelp,
   appUpdater,
   jsonStore,
-  usbAccessPreload,
+  usbAccess,
 } as const
