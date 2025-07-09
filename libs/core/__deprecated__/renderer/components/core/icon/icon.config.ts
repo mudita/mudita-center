@@ -130,6 +130,8 @@ import Exclamation from "Core/__deprecated__/renderer/svg/exclamation.svg"
 import ButtonSuccess from "Core/__deprecated__/renderer/svg/button-success.svg"
 import Quotations from "Core/__deprecated__/renderer/svg/quotations.svg"
 import Settings from "Core/__deprecated__/renderer/svg/settings.svg"
+import Dropdown from "Core/__deprecated__/renderer/svg/dropdown.svg"
+import CheckNew from "Core/__deprecated__/renderer/svg/check-new.svg"
 import DataMigration from "../../../../../../generic-view/ui/src/lib/icon/svg/data-migration.svg"
 import RecoveryModeWhite from "../../../../../../generic-view/ui/src/lib/icon/svg/recovery-mode-white.svg"
 import RecoveryModeBlack from "../../../../../../generic-view/ui/src/lib/icon/svg/recovery-mode-black.svg"
@@ -514,6 +516,8 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   [IconType.LightButton]: LightButton,
   [IconType.Quotations]: Quotations,
   [IconType.Settings]: Settings,
+  [IconType.Dropdown]: Dropdown,
+  [IconType.CheckNew]: CheckNew,
 }
 
 export const getIconType = (

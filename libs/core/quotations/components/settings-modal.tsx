@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useState } from "react"
+import React, { FunctionComponent, useRef, useState } from "react"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import { ModalDialog } from "Core/ui"
 import { Size } from "Core/__deprecated__/renderer/components/core/button/button.config"
@@ -11,10 +11,27 @@ import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import InputSearchComponent from "Core/__deprecated__/renderer/components/core/input-search/input-search.component"
-import { SelectInput } from "../../../generic-view/ui/src/lib/interactive/form/input/select-input"
-import { Form } from "../../../generic-view/ui/src/lib/interactive/form/form"
-import { GenericThemeProvider } from "generic-view/theme"
+import { Interval, SettingsIntervalForm } from "./settings-interval-form"
+import { SettingsSourceForm, Source } from "./settings-source-form"
+import { borderColor } from "Core/core/styles/theming/theme-getters"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
+
+const messages = defineMessages({
+  title: {
+    id: "module.quotations.settingsModal.title",
+  },
+  actionButtonLabel: {
+    id: "module.quotations.settingsModal.saveButton",
+  },
+  sourceTitle: {
+    id: "module.quotations.settingsModal.source.title",
+  },
+  intervalTitle: {
+    id: "module.quotations.settingsModal.interval.title",
+  },
+})
 
 interface Props {
   open: boolean
@@ -25,112 +42,76 @@ export const SettingsModal: FunctionComponent<Props> = ({
   open,
   handleClose,
 }) => {
-  const [selectedSource, setSelectedSource] = useState<string>("")
-  const [selectedInterval, setSelectedInterval] = useState<string>("24 hours")
+  const currentSource = useRef(Source.Custom)
+  const currentInterval = useRef<Interval>(1440)
 
-  console.log(selectedSource, selectedInterval)
+  const [selectedSource, setSelectedSource] = useState(Source.Custom)
+  const [selectedInterval, setSelectedInterval] = useState<Interval>(1440)
+
+  const hasChanges =
+    currentSource.current !== selectedSource ||
+    currentInterval.current !== selectedInterval
+
   return (
     <ModalDialog
       open={open}
       closeable
       closeModal={handleClose}
-      title={"Quotation Settings"}
+      title={intl.formatMessage(messages.title)}
       size={ModalSize.MediumNew}
-      actionButtonLabel={"Save changes"}
-      actionButtonDisabled
-      onActionButtonClick={handleClose}
       closeButton={false}
-      actionButtonSize={Size.FixedSmall}
     >
-      <GenericThemeProvider>
-        <Form>
-          <Form.SelectInput
-            config={{
-              name: "quotation-source",
-              options: [
-                "15 min",
-                "30 min",
-                "1h",
-                "2h",
-                "3h",
-                "4h",
-                "5h",
-                "6h",
-                "7h",
-                "8h",
-                "9h",
-                "10h",
-                "11h",
-                "12h",
-                "13h",
-                "14h",
-                "15h",
-                "16h",
-                "17h",
-                "18h",
-                "19h",
-                "20h",
-                "21h",
-                "22h",
-                "23h",
-                "24h",
-                "midnight",
-              ],
-            }}
-          />
-        </Form>
-      </GenericThemeProvider>
-      <QuotationSource>
-        <SectionTitle>Display on Harmony:</SectionTitle>
-      </QuotationSource>
-      <QuotationSource>
-        <SectionTitle>Display a different quotation every:</SectionTitle>
-        {/*<InputSearchComponent*/}
-        {/*  onSearchValueChange={() => {}}*/}
-        {/*  searchValue={""}*/}
-        {/*  items={[*/}
-        {/*    {*/}
-        {/*      data: "24 hours",*/}
-        {/*      label: "24 hours",*/}
-        {/*    },*/}
-        {/*    {*/}
-        {/*      data: "12 hours",*/}
-        {/*      label: "12 hours",*/}
-        {/*    },*/}
-        {/*  ]}*/}
-        {/*  selectedItem={selectedInterval}*/}
-        {/*  // onChange={setSelectedInterval}*/}
-        {/*  searchable={false}*/}
-        {/*  onSelect={(item: string) => {*/}
-        {/*    console.log("Selected Interval:", item)*/}
-        {/*    setSelectedInterval(item)*/}
-        {/*  }}*/}
-        {/*  renderListItem={({ item }) => {*/}
-        {/*    return (*/}
-        {/*      <ListItem>*/}
-        {/*        <Text displayStyle={TextDisplayStyle.Label}>{item.label}</Text>*/}
-        {/*      </ListItem>*/}
-        {/*    )*/}
-        {/*  }}*/}
-        {/*/>*/}
-      </QuotationSource>
+      <Section>
+        <SectionTitle message={messages.sourceTitle} />
+        <SettingsSourceForm
+          selectedSource={selectedSource}
+          setSelectedSource={setSelectedSource}
+        />
+      </Section>
+      <Separator />
+      <Section>
+        <SectionTitle message={messages.intervalTitle} />
+        <SettingsIntervalForm
+          selectedInterval={selectedInterval}
+          setSelectedInterval={setSelectedInterval}
+        />
+      </Section>
+      <ActionButton
+        label={intl.formatMessage(messages.actionButtonLabel)}
+        size={Size.FixedSmall}
+        disabled={!hasChanges}
+        onClick={() => {
+          handleClose?.()
+        }}
+      />
     </ModalDialog>
   )
 }
 
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  align-items: flex-start;
+`
+
 const SectionTitle = styled(Text).attrs((attrs) => ({
   ...attrs,
   displayStyle: TextDisplayStyle.Headline4,
-}))``
-
-const QuotationSource = styled.div`
+}))`
+  height: 3.2rem;
   display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-  padding: 2.4rem;
+  align-items: center;
 `
 
-const ListItem = styled(Text).attrs((attrs) => ({
-  ...attrs,
-  displayStyle: TextDisplayStyle.Paragraph1,
-}))``
+const Separator = styled.hr`
+  width: calc(100% + 4.8rem);
+  height: 0.1rem;
+  background-color: ${borderColor("list")};
+  border: none;
+  margin: 2.4rem -2.4rem;
+`
+
+const ActionButton = styled(ButtonComponent)`
+  margin: 4rem auto 0;
+`

@@ -135,5 +135,7 @@ export enum IconType {
   ButtonSuccess,
   LightButton,
   Quotations,
-  Settings
+  Settings,
+  Dropdown,
+  CheckNew,
 }
