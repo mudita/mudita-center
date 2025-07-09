@@ -53,7 +53,6 @@ export const EmptyState: FunctionComponent<Props> = ({ onAddClick }) => {
         labelMessage={messages.addButton}
         Icon={IconType.PlusSign}
         iconSize={IconSize.Medium}
-        data-testid="quotations-empty-state-add-button"
       />
     </Wrapper>
   )
