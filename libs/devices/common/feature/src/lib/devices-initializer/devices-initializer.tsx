@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { FunctionComponent, memo } from "react"
 import { useDevices } from "../queries"
 import { useApiDeviceInitializer } from "./use-api-device-initializer"
 import { useDevicesListener } from "./use-devices-listener"
@@ -44,28 +44,30 @@ export const DevicesInitializer: FunctionComponent = () => {
   )
 }
 
-const ApiDeviceInitializer: FunctionComponent<{ device: ApiDevice }> = ({
-  device,
-}) => {
-  useApiDeviceInitializer(device)
-  return null
-}
+const ApiDeviceInitializer: FunctionComponent<{ device: ApiDevice }> = memo(
+  ({ device }) => {
+    useApiDeviceInitializer(device)
+    return null
+  }
+)
 
-const PureInitializer: FunctionComponent<{ device: Pure }> = ({ device }) => {
-  usePureInitializer(device)
-  return null
-}
+const PureInitializer: FunctionComponent<{ device: Pure }> = memo(
+  ({ device }) => {
+    usePureInitializer(device)
+    return null
+  }
+)
 
-const HarmonyInitializer: FunctionComponent<{ device: Harmony }> = ({
-  device,
-}) => {
-  useHarmonyInitializer(device)
-  return null
-}
+const HarmonyInitializer: FunctionComponent<{ device: Harmony }> = memo(
+  ({ device }) => {
+    useHarmonyInitializer(device)
+    return null
+  }
+)
 
-const HarmonyMscInitializer: FunctionComponent<{ device: HarmonyMsc }> = ({
-  device,
-}) => {
-  useHarmonyMscInitializer(device)
-  return null
-}
+const HarmonyMscInitializer: FunctionComponent<{ device: HarmonyMsc }> = memo(
+  ({ device }) => {
+    useHarmonyMscInitializer(device)
+    return null
+  }
+)

@@ -98,6 +98,7 @@ const Wrapper = styled(Button)<{ $visible?: boolean }>`
     css`
       opacity: 1;
       visibility: visible;
+      transition-delay: 0.5s;
     `}
 
   &:disabled {

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren } from "react"
+import { FunctionComponent, PropsWithChildren, useMemo } from "react"
 import { Navigate, Outlet, Route, Routes } from "react-router"
 import { DashboardLayout } from "app-routing/feature"
 import { useSettingsRouter } from "settings/routes"
@@ -22,10 +22,12 @@ export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
   const helpRouter = useHelpRouter()
   const devicesRouter = useDevicesInitRouter()
 
+  const appMainLayout = useMemo(() => <AppMainLayout />, [])
+
   return (
     <Routes>
       {legalRouter}
-      <Route element={<AppMainLayout />}>
+      <Route element={appMainLayout}>
         <Route element={<DashboardLayout />}>
           {newsRouter}
           {settingsRouter}
