@@ -347,13 +347,11 @@ export class NodeMtp implements MtpInterface {
       const speed = fileSize / 1024 / 1024 / duration
 
       console.log(
-        `${PREFIX_LOG} File export completed in ${duration.toFixed(
-          2
-        )} seconds.`
+        `${PREFIX_LOG} File export completed in ${duration.toFixed(2)} seconds.`
       )
       console.log(`${PREFIX_LOG} Export speed: ${speed.toFixed(2)} MB/s`)
-      )
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} export file error: ${error}`)
       const mtpError = mapToMtpError(error)
       this.transferFileTransactionStatus[transactionId].error =
@@ -361,11 +359,8 @@ export class NodeMtp implements MtpInterface {
           ? mtpError
           : new AppError(
               MTPError.MTP_GENERAL_ERROR,
-              `Error during exporting file at progress ${
-                this.transferFileTransactionStatus[
-                  transactionId
-                ]?.progress?.toFixed(2) ?? 0
-              }%: ${error}`
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              `Error exporting file at progress: ${this.transferFileTransactionStatus[transactionId].progress}% - ${error}`
             )
     }
   }
