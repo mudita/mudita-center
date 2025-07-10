@@ -87,7 +87,7 @@ export const SettingsModal: FunctionComponent<Props> = ({
       setSelectedSource(settingsFromDevice.source)
       setSelectedInterval(settingsFromDevice.interval)
     }
-  }, [settingsFromDevice])
+  }, [settingsFromDevice, open])
 
   return (
     <ModalDialog
