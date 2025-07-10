@@ -3,20 +3,28 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useRef, useState } from "react"
+import React, { FunctionComponent, useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch } from "Core/__deprecated__/renderer/store"
+import { defineMessages } from "react-intl"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import { ModalDialog } from "Core/ui"
-import { Size } from "Core/__deprecated__/renderer/components/core/button/button.config"
+import {
+  DisplayStyle,
+  Size,
+} from "Core/__deprecated__/renderer/components/core/button/button.config"
+import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
+import { borderColor } from "Core/core/styles/theming/theme-getters"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Interval, SettingsIntervalForm } from "./settings-interval-form"
 import { SettingsSourceForm, Source } from "./settings-source-form"
-import { borderColor } from "Core/core/styles/theming/theme-getters"
-import { defineMessages } from "react-intl"
-import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
+import { selectQuotations, selectQuotationsSettings } from "../store/selectors"
+import { setQuotationsSettings } from "../store/actions"
+import { updateQuotationsSettingsRequest } from "../service/requests"
 
 const messages = defineMessages({
   title: {
@@ -35,28 +43,57 @@ const messages = defineMessages({
 
 interface Props {
   open: boolean
-  handleClose?: VoidFunction
+  handleClose?: (saved?: boolean) => void
 }
 
 export const SettingsModal: FunctionComponent<Props> = ({
   open,
   handleClose,
 }) => {
-  const currentSource = useRef(Source.Custom)
-  const currentInterval = useRef<Interval>(1440)
+  const dispatch = useDispatch<AppDispatch>()
+  const settingsFromDevice = useSelector(selectQuotationsSettings)
+  const customQuotationsCount = useSelector(selectQuotations).length
 
-  const [selectedSource, setSelectedSource] = useState(Source.Custom)
-  const [selectedInterval, setSelectedInterval] = useState<Interval>(1440)
+  const [selectedSource, setSelectedSource] = useState<Source>(
+    settingsFromDevice.source || Source.Predefined
+  )
+  const [selectedInterval, setSelectedInterval] = useState<Interval>(
+    settingsFromDevice.interval || "AtMidnight"
+  )
 
   const hasChanges =
-    currentSource.current !== selectedSource ||
-    currentInterval.current !== selectedInterval
+    settingsFromDevice.source !== selectedSource ||
+    settingsFromDevice.interval !== selectedInterval
+
+  const handleSave = async () => {
+    const response = await updateQuotationsSettingsRequest({
+      interval: selectedInterval as string | number,
+      group: selectedSource as string,
+    })
+
+    if (response.ok) {
+      dispatch(
+        setQuotationsSettings({
+          source: selectedSource as Source,
+          interval: selectedInterval as Interval,
+        })
+      )
+    }
+    handleClose?.(response.ok)
+  }
+
+  useEffect(() => {
+    if (settingsFromDevice.source && settingsFromDevice.interval) {
+      setSelectedSource(settingsFromDevice.source)
+      setSelectedInterval(settingsFromDevice.interval)
+    }
+  }, [settingsFromDevice, open])
 
   return (
     <ModalDialog
       open={open}
       closeable
-      closeModal={handleClose}
+      closeModal={() => handleClose?.()}
       title={intl.formatMessage(messages.title)}
       size={ModalSize.MediumNew}
       closeButton={false}
@@ -66,6 +103,7 @@ export const SettingsModal: FunctionComponent<Props> = ({
         <SettingsSourceForm
           selectedSource={selectedSource}
           setSelectedSource={setSelectedSource}
+          customQuotationsCount={customQuotationsCount}
         />
       </Section>
       <Separator />
@@ -80,9 +118,8 @@ export const SettingsModal: FunctionComponent<Props> = ({
         label={intl.formatMessage(messages.actionButtonLabel)}
         size={Size.FixedSmall}
         disabled={!hasChanges}
-        onClick={() => {
-          handleClose?.()
-        }}
+        onClick={handleSave}
+        displayStyle={DisplayStyle.Primary}
       />
     </ModalDialog>
   )

@@ -1100,6 +1100,7 @@
   "module.quotations.settingsModal.interval.options.hours": "{value, plural, one {# hour} other {# hours}}",
   "module.quotations.settingsModal.interval.options.midnight": "midnight",
   "module.quotations.settingsModal.saveButton": "Save changes",
+  "module.quotations.settingsModal.saveSuccess": "Changes saved",
   "module.quotations.emptyState.title": "Add custom quotation to Harmony...",
   "module.quotations.emptyState.description": "As long as your Harmony has enough memory, you can add as many as you like and we’ll list them here...",
   "module.quotations.selectedState.count": "{num, plural, =-1 {All quotations} one {# quotation} other {# quotations}} selected",
