@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren, useMemo } from "react"
+import { FunctionComponent, PropsWithChildren } from "react"
 import { Navigate, Outlet, Route, Routes } from "react-router"
 import { DashboardLayout } from "app-routing/feature"
 import { useSettingsRouter } from "settings/routes"
