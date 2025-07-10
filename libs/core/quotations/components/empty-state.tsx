@@ -45,6 +45,7 @@ export const EmptyState: FunctionComponent<Props> = ({ onAddClick }) => {
         />
         <Text
           displayStyle={TextDisplayStyle.Paragraph3}
+          color={"secondary"}
           message={messages.description}
         />
       </Description>
@@ -68,7 +69,7 @@ const Wrapper = styled.div`
   max-width: 36.2rem;
   gap: 2.4rem;
   align-self: center;
-  margin-bottom: 9.5rem;
+  margin-bottom: 16.2rem;
 `
 
 const RoundIcon = styled.div`

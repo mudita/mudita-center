@@ -18,6 +18,8 @@ import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import SelectionManager from "Core/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { Size as CheckboxSize } from "Core/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import { borderColor } from "Core/core/styles/theming/theme-getters"
 
 const messages = defineMessages({
   title: {
@@ -63,6 +65,7 @@ export const TopBar: FunctionComponent<Props> = ({
         allItemsSelected={allItemsSelected}
         message={messages.selectionMessage}
         onToggle={onAllItemsToggle}
+        checkboxSize={CheckboxSize.Medium}
         buttons={[
           <ButtonComponent
             key={"delete"}
@@ -107,6 +110,9 @@ const StyledSelectionManager = styled(SelectionManager)`
   z-index: 1;
   position: absolute;
   width: calc(100% - 6.4rem);
+  padding-left: 1.2rem;
+  border-color: ${borderColor("secondary")};
+  gap: 1.4rem;
 
   opacity: 0;
   visibility: hidden;

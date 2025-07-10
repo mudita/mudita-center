@@ -158,6 +158,10 @@ const ListItem = styled.li`
       visibility: visible;
     }
   }
+
+  &:has(input:checked) {
+    background-color: ${backgroundColor("minor")};
+  }
 `
 
 const Selector = styled.div`

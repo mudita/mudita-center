@@ -23,6 +23,7 @@ import {
 } from "Core/quotations/store/actions"
 import { AppDispatch } from "Core/__deprecated__/renderer/store"
 import { Quotation } from "./store/types"
+import { AppPortal } from "Root/libs/generic-view/ui/src/lib/data-rows/app-portal"
 
 export const QuotationsPage: FunctionComponent = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -67,6 +68,12 @@ export const QuotationsPage: FunctionComponent = () => {
 
   return (
     <Wrapper>
+      {quotations.length > 0 && (
+        <AppPortal config={{ portal: "app-header" }}>
+          {" "}
+          ({quotations.length})
+        </AppPortal>
+      )}
       <TopBar
         onSettingsClick={handleSettingsClick}
         onAddClick={handleAddQuotation}
