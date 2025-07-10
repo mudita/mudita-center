@@ -60,6 +60,7 @@ const Backdrop = styled.div<{ $visible?: boolean }>`
     css`
       opacity: 0.3;
       visibility: visible;
+      transition-delay: 0.5s;
     `}
 `
 
@@ -82,6 +83,7 @@ const Wrapper = styled.div<{ $opened?: boolean }>`
     $opened &&
     css`
       transform: translateX(0);
+      transition-delay: 0.5s;
     `}
 `
 
