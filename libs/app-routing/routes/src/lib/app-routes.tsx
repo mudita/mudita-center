@@ -22,12 +22,10 @@ export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
   const helpRouter = useHelpRouter()
   const devicesRouter = useDevicesInitRouter()
 
-  const appMainLayout = useMemo(() => <AppMainLayout />, [])
-
   return (
     <Routes>
       {legalRouter}
-      <Route element={appMainLayout}>
+      <Route element={<AppMainLayout />}>
         <Route element={<DashboardLayout />}>
           {newsRouter}
           {settingsRouter}
