@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useState } from "react"
+import React, { FunctionComponent, useEffect, useState } from "react"
 import styled from "styled-components"
 import { TopBar } from "./components/top-bar"
 import { SettingsModal } from "./components/settings-modal"
@@ -11,19 +11,23 @@ import { EmptyState } from "./components/empty-state"
 import { List } from "Core/quotations/components/list"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { useDispatch, useSelector } from "react-redux"
+import InfoPopup from "Core/ui/components/info-popup/info-popup.component"
+import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { AppPortal } from "Root/libs/generic-view/ui/src/lib/data-rows/app-portal"
+import { AppDispatch } from "Core/__deprecated__/renderer/store"
+import { Quotation } from "./store/types"
 import {
   selectQuotations,
+  selectQuotationsSettings,
   selectSelectedQuotations,
-} from "Core/quotations/store/selectors"
+} from "./store/selectors"
 import {
   addQuotation,
   deleteQuotations,
+  fetchQuotationsSettings,
   toggleAllQuotationsSelection,
   toggleQuotationSelection,
-} from "Core/quotations/store/actions"
-import { AppDispatch } from "Core/__deprecated__/renderer/store"
-import { Quotation } from "./store/types"
-import { AppPortal } from "Root/libs/generic-view/ui/src/lib/data-rows/app-portal"
+} from "./store/actions"
 
 export const QuotationsPage: FunctionComponent = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -31,13 +35,19 @@ export const QuotationsPage: FunctionComponent = () => {
 
   const quotations = useSelector(selectQuotations)
   const selectedQuotations = useSelector(selectSelectedQuotations)
+  const quotationsSettings = useSelector(selectQuotationsSettings)
+  const [settingsSaved, setSettingsSaved] = useState(false)
 
   const handleSettingsClick = () => {
     setSettingsOpened(true)
   }
 
-  const handleSettingsClose = () => {
+  const handleSettingsClose = (saved?: boolean) => {
     setSettingsOpened(false)
+    console.log({ saved })
+    if (saved) {
+      setSettingsSaved(true)
+    }
   }
 
   const handleCheckboxToggle = (id: Quotation["id"]) => {
@@ -66,6 +76,28 @@ export const QuotationsPage: FunctionComponent = () => {
     dispatch(deleteQuotations())
   }
 
+  useEffect(() => {
+    if (!quotationsSettings.source || !quotationsSettings.interval) {
+      dispatch(fetchQuotationsSettings())
+    }
+  }, [dispatch, quotationsSettings.interval, quotationsSettings.source])
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null
+
+    if (settingsSaved) {
+      timeoutId = setTimeout(() => {
+        setSettingsSaved(false)
+      }, 3000)
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
+  }, [settingsSaved])
+
   return (
     <Wrapper>
       {quotations.length > 0 && (
@@ -91,6 +123,12 @@ export const QuotationsPage: FunctionComponent = () => {
           quotations={quotations}
           onCheckboxToggle={handleCheckboxToggle}
           selectedQuotations={selectedQuotations}
+        />
+      )}
+      {settingsSaved && (
+        <InfoPopup
+          message={{ id: "module.quotations.settingsModal.saveSuccess" }}
+          icon={IconType.CheckCircleBlack}
         />
       )}
     </Wrapper>

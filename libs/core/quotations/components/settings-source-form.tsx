@@ -26,13 +26,15 @@ export enum Source {
 }
 
 interface Props {
-  selectedSource: Source
-  setSelectedSource: (source: Source) => void
+  selectedSource: Source[keyof Source]
+  setSelectedSource: (source: Source[keyof Source]) => void
+  customQuotationsCount?: number
 }
 
 export const SettingsSourceForm: FunctionComponent<Props> = ({
   selectedSource,
   setSelectedSource,
+  customQuotationsCount = 0,
 }) => {
   const id = "settings-source-form"
   return (
@@ -55,10 +57,12 @@ export const SettingsSourceForm: FunctionComponent<Props> = ({
           value={Source.Custom}
           checked={selectedSource === Source.Custom}
           onChange={() => setSelectedSource(Source.Custom)}
+          disabled={customQuotationsCount === 0}
         />
         <Text
           displayStyle={TextDisplayStyle.Paragraph1}
           message={messages.custom}
+          color={customQuotationsCount === 0 ? "secondary" : "primary"}
         />
       </Label>
     </Wrapper>

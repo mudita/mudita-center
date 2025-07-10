@@ -9,19 +9,26 @@ import {
   addQuotation,
   removeQuotations,
   setQuotations,
+  setQuotationsSettings,
   setSelectedQuotations,
   toggleAllQuotationsSelection,
   toggleQuotationSelection,
 } from "./actions"
+import { Interval } from "../components/settings-interval-form"
+import { Source } from "../components/settings-source-form"
 
 export interface QuotationsState {
   items: Quotation[]
   selectedItems: Quotation["id"][]
+  interval?: Interval
+  source?: Source
 }
 
 export const initialState: QuotationsState = {
   items: [],
   selectedItems: [],
+  interval: undefined,
+  source: undefined,
 }
 
 export const quotationsReducer = createReducer(initialState, (builder) => {
@@ -35,6 +42,10 @@ export const quotationsReducer = createReducer(initialState, (builder) => {
     state.items = state.items.filter(
       (quotation) => !action.payload.includes(quotation.id)
     )
+  })
+  builder.addCase(setQuotationsSettings, (state, source) => {
+    state.source = source.payload.source
+    state.interval = source.payload.interval
   })
   builder.addCase(setSelectedQuotations, (state, action) => {
     state.selectedItems = action.payload
