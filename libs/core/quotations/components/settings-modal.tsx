@@ -54,7 +54,7 @@ export const SettingsModal: FunctionComponent<Props> = ({
   const settingsFromDevice = useSelector(selectQuotationsSettings)
   const customQuotationsCount = useSelector(selectQuotations).length
 
-  const [selectedSource, setSelectedSource] = useState<Source[keyof Source]>(
+  const [selectedSource, setSelectedSource] = useState<Source>(
     settingsFromDevice.source || Source.Predefined
   )
   const [selectedInterval, setSelectedInterval] = useState<Interval>(

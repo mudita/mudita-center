@@ -26,8 +26,8 @@ export enum Source {
 }
 
 interface Props {
-  selectedSource: Source[keyof Source]
-  setSelectedSource: (source: Source[keyof Source]) => void
+  selectedSource: Source
+  setSelectedSource: (source: Source) => void
   customQuotationsCount?: number
 }
 
