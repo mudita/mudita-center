@@ -71,13 +71,14 @@ export const SettingsModal: FunctionComponent<Props> = ({
       group: selectedSource as string,
     })
 
-    dispatch(
-      setQuotationsSettings({
-        source: selectedSource as Source,
-        interval: selectedInterval as Interval,
-      })
-    )
-
+    if (response.ok) {
+      dispatch(
+        setQuotationsSettings({
+          source: selectedSource as Source,
+          interval: selectedInterval as Interval,
+        })
+      )
+    }
     handleClose?.(response.ok)
   }
 

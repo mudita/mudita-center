@@ -44,7 +44,6 @@ export const QuotationsPage: FunctionComponent = () => {
 
   const handleSettingsClose = (saved?: boolean) => {
     setSettingsOpened(false)
-    console.log({ saved })
     if (saved) {
       setSettingsSaved(true)
     }
