@@ -233,7 +233,7 @@ describe("Kompakt switching devices", () => {
   it("Verify 6th Kompakt with new Serial Number and click Show connected devices", async () => {
     const serialNumberLabel = await OverviewKompaktPage.serialNumberLabel
     const serialNumberValue = await OverviewKompaktPage.serialNumberValue
-    await expect(serialNumberLabel).toHaveText("Serial number")
+    await expect(serialNumberLabel).toHaveText("Serial number:")
     await expect(serialNumberValue).toHaveText(
       overviewDataWithOneSimCard6th.summary.about.serialNumber.text.toString()
     )
