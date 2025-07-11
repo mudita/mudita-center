@@ -21,50 +21,65 @@ export const CheckInitRequirements = () => {
     RequirementStatus.Unknown
   )
 
-  const acceptPrivacyPolicy = useCallback(() => {
-    setPrivacyPolicyStatus(RequirementStatus.ActionNotRequired)
-  }, [])
-
   useEffect(() => {
-    if (privacyPolicyStatus === RequirementStatus.Unknown) {
-      void (async () => {
+    async function handlePrivacyPolicyStep() {
+      try {
         const accepted = await AppSettings.get("user.privacyPolicyAccepted")
         setPrivacyPolicyStatus(
           accepted
             ? RequirementStatus.ActionNotRequired
             : RequirementStatus.ActionRequired
         )
-      })()
+      } catch {
+        setPrivacyPolicyStatus(RequirementStatus.ActionRequired)
+      }
     }
+    void handlePrivacyPolicyStep()
+  }, [])
 
+  useEffect(() => {
     if (privacyPolicyStatus !== RequirementStatus.ActionNotRequired) {
       return
     }
-    if (updateStatus === RequirementStatus.Unknown) {
-      void (async () => {
+
+    async function handleUpdateStep() {
+      try {
         const resp = await dispatch(checkForAppUpdate({ silent: true }))
         setUpdateStatus(
           resp.payload
             ? RequirementStatus.ActionRequired
             : RequirementStatus.ActionNotRequired
         )
-      })()
+      } catch {
+        setUpdateStatus(RequirementStatus.ActionNotRequired)
+      }
     }
+    void handleUpdateStep()
+  }, [privacyPolicyStatus, dispatch])
 
+  useEffect(() => {
     if (updateStatus !== RequirementStatus.ActionNotRequired) {
       return
     }
-    if (usbAccessStatus === RequirementStatus.Unknown) {
-      void (async () => {
+
+    async function handleAccessUsbStep() {
+      try {
         const required = false // TODO: Implement USB access check
         setUsbAccessStatus(
           required
             ? RequirementStatus.ActionRequired
             : RequirementStatus.ActionNotRequired
         )
-      })()
+      } catch {
+        setUsbAccessStatus(RequirementStatus.ActionNotRequired)
+      }
     }
-  }, [dispatch, privacyPolicyStatus, updateStatus, usbAccessStatus])
+    void handleAccessUsbStep()
+  }, [updateStatus])
+
+  const acceptPrivacyPolicy = useCallback(() => {
+    setPrivacyPolicyStatus(RequirementStatus.ActionNotRequired)
+  }, [])
 
   return (
     <>
