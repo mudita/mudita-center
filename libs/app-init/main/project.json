@@ -1,0 +1,9 @@
+{
+  "name": "app-init/main",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/app-init/main/src",
+  "projectType": "library",
+  "tags": ["process:main"],
+  "// targets": "to see all targets run: nx show project app-init/main --web",
+  "targets": {}
+}

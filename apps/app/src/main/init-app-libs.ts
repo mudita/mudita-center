@@ -17,6 +17,7 @@ import {
   initAppLogger,
 } from "app-utils/main"
 import { initAppUpdater } from "app-updater/main"
+import { initUsbAccess } from "app-init/main"
 
 export const initAppLibs = (mainWindow: BrowserWindow) => {
   initAppActions(ipcMain)
@@ -30,4 +31,5 @@ export const initAppLibs = (mainWindow: BrowserWindow) => {
   initAppHttp(ipcMain)
   initAppLogger(ipcMain)
   initAppFileSystem(ipcMain)
+  initUsbAccess(ipcMain)
 }
