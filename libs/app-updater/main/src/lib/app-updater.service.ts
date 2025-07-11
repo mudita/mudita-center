@@ -9,7 +9,7 @@ import logger from "electron-log/main"
 import { isAxiosError } from "axios"
 import semver from "semver/preload"
 import { AppHttpService } from "app-utils/main"
-import { AppResult, AppResultFactory, mapToAppError } from "app-utils/models"
+import { AppResultFactory, mapToAppError } from "app-utils/models"
 
 enum AppProgressBarState {
   Indeterminate = 2,
