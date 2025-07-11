@@ -9,7 +9,7 @@ import logger from "electron-log/main"
 import { isAxiosError } from "axios"
 import semver from "semver/preload"
 import { AppHttpService } from "app-utils/main"
-import { AppResult, AppResultFactory } from "app-utils/models"
+import { AppResult, AppResultFactory, mapToAppError } from "app-utils/models"
 
 enum AppProgressBarState {
   Indeterminate = 2,
@@ -60,50 +60,43 @@ export class AppUpdaterService {
   }
 
   async check() {
-    return new Promise<AppResult<{ version: string; forced: boolean } | null>>(
-      (resolve) => {
-        const { signal } = this.checkAbortController
+    try {
+      const { signal } = this.checkAbortController
 
-        const cleanup = (): void => {
-          signal.removeEventListener("abort", onAbort)
-        }
+      const result = await Promise.race([
+        this.eventOnce<{ version: string }>(
+          autoUpdater,
+          "update-available",
+          signal
+        ),
+        this.eventOnce<void>(autoUpdater, "update-not-available", signal).then(
+          () => null
+        ),
+        this.eventOnce<Error>(autoUpdater, "error", signal).then((err) => {
+          throw err
+        }),
+      ])
 
-        const onAbort = (): void => {
-          cleanup()
-          resolve(
-            AppResultFactory.failed(new Error("Update check aborted"), null)
-          )
-        }
+      await autoUpdater.checkForUpdatesAndNotify()
 
-        signal.addEventListener("abort", onAbort, { once: true })
-
-        if (signal.aborted) {
-          onAbort()
-          resolve(
-            AppResultFactory.failed(new Error("Update check aborted"), null)
-          )
-          return
-        }
-
-        void autoUpdater.checkForUpdatesAndNotify()
-        autoUpdater.once("update-available", async ({ version }) => {
-          cleanup()
-          const forced = await this.isForcedUpdate()
-          resolve(AppResultFactory.success({ version, forced }))
-        })
-        autoUpdater.once("update-not-available", () => {
-          cleanup()
-          resolve(AppResultFactory.success(null))
-        })
-        autoUpdater.once("error", (error) => {
-          cleanup()
-          logger.error("Update check error:", error)
-          resolve(
-            AppResultFactory.failed(new Error("Update check failed"), null)
-          )
-        })
+      if (result === null) {
+        logger.info("No update available")
+        return AppResultFactory.success(null)
       }
-    )
+
+      const { version } = result
+      logger.info("Update available:", version)
+      const forced = await this.isForcedUpdate()
+      logger.info("Is forced update:", forced)
+      return AppResultFactory.success({ version, forced })
+    } catch (error) {
+      const msg =
+        error instanceof Error && error.message === "Aborted"
+          ? "Update check aborted"
+          : "Update check failed"
+      logger.error(msg, error)
+      return AppResultFactory.failed(mapToAppError(msg))
+    }
   }
 
   download() {
@@ -135,5 +128,35 @@ export class AppUpdaterService {
 
   quitAndInstall() {
     autoUpdater.quitAndInstall(true, true)
+  }
+
+  private eventOnce<T>(
+    emitter: NodeJS.EventEmitter,
+    event: string,
+    signal?: AbortSignal
+  ): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      const onEvent = (payload: T) => {
+        cleanup()
+        resolve(payload)
+      }
+      const onError = (err: Error) => {
+        cleanup()
+        reject(err)
+      }
+      const onAbort = () => {
+        cleanup()
+        reject(new Error("Aborted"))
+      }
+      const cleanup = () => {
+        emitter.removeListener(event, onEvent)
+        emitter.removeListener("error", onError)
+        signal?.removeEventListener("abort", onAbort)
+      }
+
+      emitter.once(event, onEvent)
+      emitter.once("error", onError)
+      signal?.addEventListener("abort", onAbort, { once: true })
+    })
   }
 }
