@@ -13,6 +13,11 @@ enum SerialPortGroup {
 
 export class UsbAccessService {
   static async hasSerialPortAccess(): Promise<AppResult<boolean>> {
+    if (process.env.E2ECI === "true") {
+      // TODO: AFTER E2E_MOCKS_IMPLEMENTED - Mock the UsbAccessService
+      return AppResultFactory.success(true)
+    }
+
     if (!this.isLinux()) {
       return AppResultFactory.success(true)
     }

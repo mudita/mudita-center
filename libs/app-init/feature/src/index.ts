@@ -4,3 +4,4 @@
  */
 
 export * from "./lib/check-init-requirements"
+export { PrivacyPolicyFlow } from "./lib/privacy-policy-flow"

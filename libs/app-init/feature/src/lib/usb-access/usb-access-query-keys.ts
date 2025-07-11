@@ -3,5 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/app-settings"
-export * from "./lib/use-settings"
+export const usbAccessQueryKeys = {
+  all: ["usbAccess"],
+  hasSerialPortAccess: () => [...usbAccessQueryKeys.all, "hasSerialPortAccess"],
+}
