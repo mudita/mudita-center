@@ -63,7 +63,7 @@ export class AppUpdaterService {
     try {
       const { signal } = this.checkAbortController
 
-      const result = await Promise.race([
+      const resultPromise = Promise.race([
         this.eventOnce<{ version: string }>(
           autoUpdater,
           "update-available",
@@ -77,7 +77,12 @@ export class AppUpdaterService {
         }),
       ])
 
-      await autoUpdater.checkForUpdatesAndNotify()
+      const checkForUpdatesResult = await autoUpdater.checkForUpdatesAndNotify()
+      if (checkForUpdatesResult === null) {
+        return AppResultFactory.failed(mapToAppError("Update check failed"))
+      }
+
+      const result = await resultPromise
 
       if (result === null) {
         logger.info("No update available")
