@@ -70,6 +70,13 @@ const YOUR_PURE_BUTTONS = [
     visibleOn: [DeviceType.MuditaHarmonyMsc],
     viewKey: View.RecoveryMode,
   },
+  {
+    button: views.quotations,
+    icon: IconType.Quotations,
+    testId: MenuGroupTestIds.Quotations,
+    visibleOn: [DeviceType.MuditaHarmony],
+    viewKey: View.Quotations,
+  },
 ]
 
 const DESKTOP_APP_BUTTONS: MenuElementItem[] = [
