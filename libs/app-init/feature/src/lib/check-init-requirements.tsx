@@ -9,10 +9,12 @@ import { AppUpdateFlow, checkForAppUpdate } from "app-updater/feature"
 import { useAppDispatch } from "app-store/utils"
 import { RequirementStatus } from "./requirement-status.type"
 import { PrivacyPolicyFlow } from "./privacy-policy-flow"
+import { useUsbAccessActionRequired } from "./usb-access/use-usb-access-action-required"
+import { UsbAccessFlow } from "./usb-access/usb-access-flow"
 
 export const CheckInitRequirements = () => {
   const dispatch = useAppDispatch()
-
+  const usbAccessActionRequired = useUsbAccessActionRequired()
   const [privacyPolicyStatus, setPrivacyPolicyStatus] = useState(
     RequirementStatus.Unknown
   )
@@ -21,6 +23,7 @@ export const CheckInitRequirements = () => {
     RequirementStatus.Unknown
   )
 
+  // #1 Privacy Policy Step
   useEffect(() => {
     async function handlePrivacyPolicyStep() {
       try {
@@ -37,6 +40,7 @@ export const CheckInitRequirements = () => {
     void handlePrivacyPolicyStep()
   }, [])
 
+  // #2 App Update Step
   useEffect(() => {
     if (privacyPolicyStatus !== RequirementStatus.ActionNotRequired) {
       return
@@ -57,28 +61,21 @@ export const CheckInitRequirements = () => {
     void handleUpdateStep()
   }, [privacyPolicyStatus, dispatch])
 
+  // #3 USB Access Step
   useEffect(() => {
     if (updateStatus !== RequirementStatus.ActionNotRequired) {
       return
     }
 
-    async function handleAccessUsbStep() {
-      try {
-        const required = false // TODO: Implement USB access check
-        setUsbAccessStatus(
-          required
-            ? RequirementStatus.ActionRequired
-            : RequirementStatus.ActionNotRequired
-        )
-      } catch {
-        setUsbAccessStatus(RequirementStatus.ActionNotRequired)
-      }
-    }
-    void handleAccessUsbStep()
-  }, [updateStatus])
+    setUsbAccessStatus(usbAccessActionRequired)
+  }, [updateStatus, usbAccessActionRequired])
 
   const acceptPrivacyPolicy = useCallback(() => {
     setPrivacyPolicyStatus(RequirementStatus.ActionNotRequired)
+  }, [])
+
+  const handleUsbAccessFlowClose = useCallback(() => {
+    setUsbAccessStatus(RequirementStatus.ActionNotRequired)
   }, [])
 
   return (
@@ -88,7 +85,10 @@ export const CheckInitRequirements = () => {
         onAccept={acceptPrivacyPolicy}
       />
       <AppUpdateFlow />
-      {/* TODO: Implement flow for USB access check  */}
+      <UsbAccessFlow
+        status={usbAccessStatus}
+        onClose={handleUsbAccessFlowClose}
+      />
     </>
   )
 }

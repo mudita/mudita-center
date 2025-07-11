@@ -3,8 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum RequirementStatus {
-  Unknown = "unknown",
-  ActionRequired = "action-required",
-  ActionNotRequired = "action-not-required",
+export const usbAccessQueryKeys = {
+  all: ["usbAccess"],
+  hasSerialPortAccess: () => [...usbAccessQueryKeys.all, "hasSerialPortAccess"],
 }
