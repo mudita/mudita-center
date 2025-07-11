@@ -48,6 +48,7 @@ export const BackupRestoreError: FunctionComponent<Props> = ({
       </p>
       <Modal.Buttons config={{ vertical: true }}>
         <ButtonSecondary
+          componentKey="close-restore-modal"
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
             actions: [closeAction],

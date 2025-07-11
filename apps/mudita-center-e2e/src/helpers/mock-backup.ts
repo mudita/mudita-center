@@ -7,6 +7,8 @@ import { E2EMockClient } from "../../../../libs/e2e-mock/client/src"
 import { generateUniqueNumber } from "./utils/generate-unique-number-id.helper"
 import { generateBase64Info } from "./utils/generate-base-64-info.helper"
 import { prepareMockForFileTransfer } from "./prepare-mock-for-file-transfer.helper"
+import * as fs from "fs"
+import * as path from "path"
 
 export function mockBackupResponses(path: string, shouldFail = false) {
   const data = "1234567890"
@@ -99,4 +101,69 @@ export function mockBackupResponses(path: string, shouldFail = false) {
   E2EMockClient.mockResponses(
     prepareMockForFileTransfer(path, data, "path/to/backup/APP_SETTINGS")
   )
+}
+
+const getBackupOutputPath = async (): Promise<string> => {
+  const { ServiceBridge } = await import("device/feature")
+  const { SettingsService } = await import("Core/settings/services")
+  const { settingsStore } = await import("Core/settings/store")
+
+  const serviceBridge = new ServiceBridge()
+  serviceBridge.settingsService = new SettingsService(settingsStore)
+  return serviceBridge.settingsService.getSettings().osBackupLocation
+}
+
+export const createMockBackup = async (serialNumber: string): Promise<void> => {
+  const osBackupLocation = await getBackupOutputPath()
+  const backupLocation = path.join(osBackupLocation, "3310-2006")
+
+  const timestamp = Date.now()
+  const fileName = `${timestamp}_${serialNumber}.mcbackup`
+  const filePath = path.join(backupLocation, fileName)
+
+  const content = {
+    header: {
+      vendorId: "3310",
+      productId: "2006",
+      serialNumber: serialNumber,
+      appVersion: "3.0.1",
+    },
+    data: {
+      CONTACT_LIST: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+      CALL_LOG: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+      MESSAGES: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+      NOTES: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+      CALENDAR_EVENTS: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+    },
+  }
+
+  fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf8")
+  console.log(`File stored at: ${filePath}`)
+}
+
+export const deleteMockBackups = async (
+  serialNumber: string
+): Promise<void> => {
+  const osBackupLocation = await getBackupOutputPath()
+  const backupLocation = path.join(osBackupLocation, "3310-2006")
+
+  if (!fs.existsSync(backupLocation)) {
+    return
+  }
+
+  const files = fs.readdirSync(backupLocation)
+
+  const filesToDelete = files.filter((file) =>
+    file.endsWith(`_${serialNumber}.mcbackup`)
+  )
+
+  for (const file of filesToDelete) {
+    const filePath = path.join(backupLocation, file)
+    fs.unlinkSync(filePath)
+    console.log(`Deleted backup: ${filePath}`)
+  }
+
+  if (filesToDelete.length === 0) {
+    console.log(`No backups found for serialNumber: ${serialNumber}`)
+  }
 }
