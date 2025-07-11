@@ -4,13 +4,11 @@
  */
 
 import { AppSettings } from "app-settings/renderer"
-import { FunctionComponent, useCallback, useEffect, useState } from "react"
-import { PrivacyPolicyModal } from "app-init/ui"
-import { AppActions, useUniqueTrack } from "app-utils/renderer"
-import { AnalyticsEventCategory } from "app-utils/models"
+import { useCallback, useEffect, useState } from "react"
 import { AppUpdateFlow, checkForAppUpdate } from "app-updater/feature"
 import { useAppDispatch } from "app-store/utils"
 import { RequirementStatus } from "./requirement-status.type"
+import { PrivacyPolicyFlow } from "./privacy-policy-flow"
 
 export const CheckInitRequirements = () => {
   const dispatch = useAppDispatch()
@@ -77,37 +75,5 @@ export const CheckInitRequirements = () => {
       <AppUpdateFlow />
       {/* TODO: Implement flow for USB access check  */}
     </>
-  )
-}
-
-const PrivacyPolicyFlow: FunctionComponent<{
-  status: RequirementStatus
-  onAccept: VoidFunction
-}> = ({ status, onAccept }) => {
-  const uniqueTrack = useUniqueTrack()
-
-  const acceptPrivacyPolicy = async () => {
-    await AppSettings.set({
-      user: {
-        privacyPolicyAccepted: true,
-      },
-    })
-    void uniqueTrack({
-      e_c: AnalyticsEventCategory.CenterVersion,
-      e_a: import.meta.env.VITE_APP_VERSION,
-    })
-    onAccept()
-  }
-
-  const closePrivacyPolicy = () => {
-    AppActions.close()
-  }
-
-  return (
-    <PrivacyPolicyModal
-      opened={status === RequirementStatus.ActionRequired}
-      onAccept={acceptPrivacyPolicy}
-      onClose={closePrivacyPolicy}
-    />
   )
 }
