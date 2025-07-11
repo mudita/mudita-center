@@ -11,6 +11,7 @@ import { RequirementStatus } from "./requirement-status.type"
 import { PrivacyPolicyFlow } from "./privacy-policy-flow"
 import { useUsbAccessActionRequired } from "./usb-access/use-usb-access-action-required"
 import { UsbAccessFlow } from "./usb-access/usb-access-flow"
+import logger from "electron-log/renderer"
 
 export const CheckInitRequirements = () => {
   const dispatch = useAppDispatch()
@@ -69,6 +70,13 @@ export const CheckInitRequirements = () => {
 
     setUsbAccessStatus(usbAccessActionRequired)
   }, [updateStatus, usbAccessActionRequired])
+
+  // #4 Initialize App Update Flow Finished
+  useEffect(() => {
+    if (usbAccessStatus !== RequirementStatus.Unknown) {
+      logger.info("App initialization requirements check completed")
+    }
+  }, [usbAccessStatus, dispatch])
 
   const acceptPrivacyPolicy = useCallback(() => {
     setPrivacyPolicyStatus(RequirementStatus.ActionNotRequired)
