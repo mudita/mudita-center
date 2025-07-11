@@ -10,54 +10,59 @@ import { AppActions, useUniqueTrack } from "app-utils/renderer"
 import { AnalyticsEventCategory } from "app-utils/models"
 import { AppUpdateFlow, checkForAppUpdate } from "app-updater/feature"
 import { useAppDispatch } from "app-store/utils"
-
-enum Status {
-  Unknown = "unknown",
-  ActionRequired = "action-required",
-  ActionNotRequired = "action-not-required",
-}
+import { RequirementStatus } from "./requirement-status.type"
 
 export const CheckInitRequirements = () => {
   const dispatch = useAppDispatch()
 
-  const [privacyPolicyStatus, setPrivacyPolicyStatus] = useState(Status.Unknown)
-  const [updateStatus, setUpdateStatus] = useState(Status.Unknown)
-  const [usbAccessStatus, setUsbAccessStatus] = useState(Status.Unknown)
+  const [privacyPolicyStatus, setPrivacyPolicyStatus] = useState(
+    RequirementStatus.Unknown
+  )
+  const [updateStatus, setUpdateStatus] = useState(RequirementStatus.Unknown)
+  const [usbAccessStatus, setUsbAccessStatus] = useState(
+    RequirementStatus.Unknown
+  )
 
   const acceptPrivacyPolicy = useCallback(() => {
-    setPrivacyPolicyStatus(Status.ActionNotRequired)
+    setPrivacyPolicyStatus(RequirementStatus.ActionNotRequired)
   }, [])
 
   useEffect(() => {
-    if (privacyPolicyStatus === Status.Unknown) {
+    if (privacyPolicyStatus === RequirementStatus.Unknown) {
       void (async () => {
         const accepted = await AppSettings.get("user.privacyPolicyAccepted")
         setPrivacyPolicyStatus(
-          accepted ? Status.ActionNotRequired : Status.ActionRequired
+          accepted
+            ? RequirementStatus.ActionNotRequired
+            : RequirementStatus.ActionRequired
         )
       })()
     }
 
-    if (privacyPolicyStatus !== Status.ActionNotRequired) {
+    if (privacyPolicyStatus !== RequirementStatus.ActionNotRequired) {
       return
     }
-    if (updateStatus === Status.Unknown) {
+    if (updateStatus === RequirementStatus.Unknown) {
       void (async () => {
         const resp = await dispatch(checkForAppUpdate({ silent: true }))
         setUpdateStatus(
-          resp.payload ? Status.ActionRequired : Status.ActionNotRequired
+          resp.payload
+            ? RequirementStatus.ActionRequired
+            : RequirementStatus.ActionNotRequired
         )
       })()
     }
 
-    if (updateStatus !== Status.ActionNotRequired) {
+    if (updateStatus !== RequirementStatus.ActionNotRequired) {
       return
     }
-    if (usbAccessStatus === Status.Unknown) {
+    if (usbAccessStatus === RequirementStatus.Unknown) {
       void (async () => {
         const required = false // TODO: Implement USB access check
         setUsbAccessStatus(
-          required ? Status.ActionRequired : Status.ActionNotRequired
+          required
+            ? RequirementStatus.ActionRequired
+            : RequirementStatus.ActionNotRequired
         )
       })()
     }
@@ -76,7 +81,7 @@ export const CheckInitRequirements = () => {
 }
 
 const PrivacyPolicyFlow: FunctionComponent<{
-  status: Status
+  status: RequirementStatus
   onAccept: VoidFunction
 }> = ({ status, onAccept }) => {
   const uniqueTrack = useUniqueTrack()
@@ -100,7 +105,7 @@ const PrivacyPolicyFlow: FunctionComponent<{
 
   return (
     <PrivacyPolicyModal
-      opened={status === Status.ActionRequired}
+      opened={status === RequirementStatus.ActionRequired}
       onAccept={acceptPrivacyPolicy}
       onClose={closePrivacyPolicy}
     />
