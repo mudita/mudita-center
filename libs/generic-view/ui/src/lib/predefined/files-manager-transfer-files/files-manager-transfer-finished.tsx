@@ -82,7 +82,7 @@ const messages = defineMessages({
   },
 })
 
-export const FilesManagerUploadFinished: APIFC<
+export const FilesManagerTransferFinished: APIFC<
   McFilesManagerTransferFinishedData,
   McFilesManagerTransferFinishedConfig
 > = ({ config, data }) => {
@@ -167,7 +167,9 @@ export const FilesManagerUploadFinished: APIFC<
     if (errorTypes.length > 1) {
       return
     }
+    console.log(allFilesFailed, succeededFiles.length)
     if (allFilesFailed || succeededFiles.length === 0) {
+      console.log(errorTypes)
       switch (errorTypes[0]) {
         case ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]:
           return intl.formatMessage(messages.allDuplicatesError, {
@@ -184,6 +186,7 @@ export const FilesManagerUploadFinished: APIFC<
           })
       }
     } else {
+      console.log(errorTypes)
       switch (errorTypes[0]) {
         case ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]:
           return intl.formatMessage(messages.someDuplicatesError)

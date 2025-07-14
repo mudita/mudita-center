@@ -40,13 +40,13 @@ const messages = defineMessages({
   },
 })
 
-export const FilesManagerUploadValidationError: APIFC<
+export const FilesManagerTransferValidationError: APIFC<
   McFilesManagerTransferValidationErrorData,
   McFilesManagerTransferValidationErrorConfig
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
   const validationFailureType = useSelector((state: ReduxRootState) =>
-    selectValidationFailureType(state, config.uploadActionId)
+    selectValidationFailureType(state, config.fileTransferActionId)
   )
 
   const filesCount = data?.fileList.length || 0
@@ -59,7 +59,9 @@ export const FilesManagerUploadValidationError: APIFC<
     {
       type: "custom",
       callback: () => {
-        dispatch(clearFileTransferErrors({ actionId: config.uploadActionId }))
+        dispatch(
+          clearFileTransferErrors({ actionId: config.fileTransferActionId })
+        )
       },
     },
   ]

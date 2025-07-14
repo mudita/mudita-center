@@ -23,7 +23,7 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import { Modal } from "../../interactive/modal/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
-import { FilesManagerUploadProgressWarning } from "./files-manager-upload-progress-warning"
+import { FilesManagerTransferProgressWarning } from "./files-manager-transfer-progress-warning"
 import {
   FilesTransferMode,
   SendFilesAction,
@@ -41,7 +41,7 @@ const messages = defineMessages({
   },
 })
 
-export const FilesManagerUploadProgress: APIFC<
+export const FilesManagerTransferProgress: APIFC<
   undefined,
   McFilesManagerTransferProgressConfig
 > = ({ config }) => {
@@ -80,7 +80,7 @@ export const FilesManagerUploadProgress: APIFC<
         )}
       </Modal.Title>
       {filesTransferMode === FilesTransferMode.SerialPort && (
-        <FilesManagerUploadProgressWarning />
+        <FilesManagerTransferProgressWarning />
       )}
       <ProgressBar
         config={{
