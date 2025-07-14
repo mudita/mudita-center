@@ -12,7 +12,6 @@ import {
   UsbAccessRequestModal,
   UsbAccessRestartRequiredModal,
 } from "app-init/ui"
-import { RequirementStatus } from "../requirement-status.type"
 import { useUsbAccessStatus } from "./use-usb-access-status"
 import { useGrantAccessToSerialPort } from "./use-usb-access"
 
@@ -26,26 +25,23 @@ enum UsbAccessFlowState {
 }
 
 interface Props {
-  status: RequirementStatus
+  opened: boolean
   onClose: VoidFunction
 }
 
 export const UsbAccessFlow: FunctionComponent<Props> = ({
-  status,
+  opened,
   onClose,
 }) => {
   const { isLoading, isError, hasAccess, restartRequired } =
     useUsbAccessStatus()
   const { mutateAsync: grantAccessToSerialPort } = useGrantAccessToSerialPort()
-  const [usbAccessFlowState, setUsbAccessFlowState] =
-    useState<UsbAccessFlowState>(UsbAccessFlowState.Unknown)
+  const [usbAccessFlowState, setUsbAccessFlowState] = useState(
+    UsbAccessFlowState.Unknown
+  )
 
   useEffect(() => {
-    if (status !== RequirementStatus.ActionRequired) {
-      setUsbAccessFlowState(UsbAccessFlowState.Unknown)
-    } else if (isLoading || isError) {
-      setUsbAccessFlowState(UsbAccessFlowState.Unknown)
-    } else if (hasAccess) {
+    if (!opened || isLoading || isError || hasAccess) {
       setUsbAccessFlowState(UsbAccessFlowState.Unknown)
     } else if (restartRequired) {
       setUsbAccessFlowState(UsbAccessFlowState.RestartRequired)
@@ -54,7 +50,7 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
     } else {
       setUsbAccessFlowState(UsbAccessFlowState.AccessGranted)
     }
-  }, [isLoading, isError, hasAccess, restartRequired, status])
+  }, [isLoading, isError, hasAccess, restartRequired, opened])
 
   const handleRequestModalAction = useCallback(async () => {
     setUsbAccessFlowState(UsbAccessFlowState.Processing)

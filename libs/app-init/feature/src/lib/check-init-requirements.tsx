@@ -94,7 +94,7 @@ export const CheckInitRequirements = () => {
       />
       <AppUpdateFlow />
       <UsbAccessFlow
-        status={usbAccessStatus}
+        opened={usbAccessStatus === RequirementStatus.ActionRequired}
         onClose={handleUsbAccessFlowClose}
       />
     </>
