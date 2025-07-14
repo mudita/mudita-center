@@ -89,7 +89,7 @@ export const CheckInitRequirements = () => {
   return (
     <>
       <PrivacyPolicyFlow
-        status={privacyPolicyStatus}
+        opened={privacyPolicyStatus === RequirementStatus.ActionRequired}
         onAccept={acceptPrivacyPolicy}
       />
       <AppUpdateFlow />

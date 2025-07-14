@@ -8,12 +8,11 @@ import { AnalyticsEventCategory } from "app-utils/models"
 import { AppActions, useUniqueTrack } from "app-utils/renderer"
 import { AppSettings } from "app-settings/renderer"
 import { PrivacyPolicyModal } from "app-init/ui"
-import { RequirementStatus } from "./requirement-status.type"
 
 export const PrivacyPolicyFlow: FunctionComponent<{
-  status: RequirementStatus
+  opened: boolean
   onAccept: VoidFunction
-}> = ({ status, onAccept }) => {
+}> = ({ opened, onAccept }) => {
   const uniqueTrack = useUniqueTrack()
 
   const acceptPrivacyPolicy = async () => {
@@ -35,7 +34,7 @@ export const PrivacyPolicyFlow: FunctionComponent<{
 
   return (
     <PrivacyPolicyModal
-      opened={status === RequirementStatus.ActionRequired}
+      opened={opened}
       onAccept={acceptPrivacyPolicy}
       onClose={closePrivacyPolicy}
     />
