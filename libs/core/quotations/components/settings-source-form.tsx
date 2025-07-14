@@ -62,7 +62,7 @@ export const SettingsSourceForm: FunctionComponent<Props> = ({
         <Text
           displayStyle={TextDisplayStyle.Paragraph1}
           message={messages.custom}
-          color={customQuotationsCount === 0 ? "secondary" : "primary"}
+          color={customQuotationsCount === 0 ? "disabled2" : "primary"}
         />
       </Label>
     </Wrapper>
@@ -81,7 +81,10 @@ const Label = styled.label`
   align-items: center;
   gap: 0.2rem;
   height: 3.2rem;
-  cursor: pointer;
+
+  &:not(:has(input:disabled)) {
+    cursor: pointer;
+  }
 
   p {
     margin-top: 0.1rem;
