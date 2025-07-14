@@ -7,13 +7,10 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { usbAccessQueryKeys } from "./usb-access-query-keys"
 import { delayUntilAtLeast } from "app-utils/common"
 
-export const useHasSerialPortAccessOnce = () =>
+export const useHasSerialPortAccess = () =>
   useQuery({
     queryKey: usbAccessQueryKeys.hasSerialPortAccess(),
     queryFn: () => window.api.usbAccess.hasSerialPortAccess(),
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
   })
 
 export const useGrantAccessToSerialPort = () => {

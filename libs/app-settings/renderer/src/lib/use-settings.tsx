@@ -12,12 +12,3 @@ export const useSettings = () =>
     queryKey: [settingsQueryKeys.all],
     queryFn: () => AppSettings.get(),
   })
-
-export const useSettingsOnce = () =>
-  useQuery({
-    queryKey: [settingsQueryKeys.all],
-    queryFn: () => AppSettings.get(),
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  })
