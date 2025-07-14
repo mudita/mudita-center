@@ -14,12 +14,7 @@ const ipcClient = new IpcClient(SERVER_ID, CLIENT_ID, RETRY)
 export const E2EMockClient = {
   connect: () => ipcClient.connect(),
   disconnect: () => ipcClient.disconnect(),
-
-  // TODO: Implement mechanism to handle bellow methods
   shutdownMockServer: (): void => {
-    ipcClient.emit("e2eMock.shutdown")
-  },
-  setMockingEnabled: (enabled: boolean): void => {
-    ipcClient.emit("e2eMock.setMockingEnabled", enabled)
+    ipcClient.emit("e2eMock.shutdownMockServer")
   },
 }

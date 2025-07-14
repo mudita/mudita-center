@@ -7,11 +7,12 @@ import { app, BrowserWindow, shell } from "electron"
 import * as path from "path"
 import { join } from "path"
 import { electronApp, optimizer } from "@electron-toolkit/utils"
-import icon from "../../resources/icons/icon.png"
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from "electron-devtools-installer"
+import { IpcMockServer } from "app-e2e-mock/server"
+import icon from "../../resources/icons/icon.png"
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
 
@@ -24,6 +25,8 @@ const appHeight = process.env.APP_HEIGHT
 const devToolsEnabled =
   process.env.ENABLE_DEVTOOLS === "true" ||
   process.env.NODE_ENV === "development"
+
+const mockServer = new IpcMockServer()
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -51,8 +54,10 @@ const createWindow = () => {
     mainWindow.webContents.openDevTools()
   }
 
+  mockServer.start()
+
   mainWindow.on("ready-to-show", () => {
-    initAppLibs(mainWindow)
+    initAppLibs(mainWindow, mockServer)
 
     if (process.env.NODE_ENV === "development") {
       mainWindow.showInactive()
@@ -115,6 +120,7 @@ app.whenReady().then(() => {
 // Quit the app on dev process kill
 app.on("before-quit", () => {
   app.quit()
+  mockServer.stop()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

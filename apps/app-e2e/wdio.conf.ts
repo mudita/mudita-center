@@ -6,7 +6,12 @@
 /// <reference types="wdio-electron-service" />
 import * as path from "path"
 import * as os from "os"
+import { E2EMockClient } from "app-e2e-mock/client"
 import AppInitPage from "./src/page-objects/app-init.page"
+import {
+  TestFilesPaths,
+  toRelativePath,
+} from "./src/consts/test-filenames.const"
 
 // Based on node_modules/@puppeteer/browsers/src/browser-data/chromedriver.ts
 // and
@@ -75,6 +80,18 @@ export const config: WebdriverIO.Config = {
   // of the config file unless it's absolute.
   //
   specs: ["./src/specs/**/*.ts"],
+  suites: {
+    standalone: [
+      toRelativePath(TestFilesPaths.about),
+      toRelativePath(TestFilesPaths.appInit),
+      toRelativePath(TestFilesPaths.backup),
+      toRelativePath(TestFilesPaths.contactSupportBase),
+      toRelativePath(TestFilesPaths.devicesWelcome),
+      toRelativePath(TestFilesPaths.news),
+      toRelativePath(TestFilesPaths.welcomeScreen),
+    ],
+    mock: [],
+  },
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -278,6 +295,11 @@ export const config: WebdriverIO.Config = {
    * @param {object} suite suite details
    */
   beforeSuite: async function (suite) {
+    // TODO: Move to standalone initialization application process
+    if (process.env.MOCK_SERVICE_ENABLED === "true") {
+      await E2EMockClient.connect()
+    }
+
     if (!["Privacy Policy modal"].includes(suite.title)) {
       await AppInitPage.acceptPrivacyPolicy()
     }
@@ -325,8 +347,11 @@ export const config: WebdriverIO.Config = {
    * Hook that gets executed after the suite has ended
    * @param {object} suite suite details
    */
-  // afterSuite: function (suite) {
-  // },
+  afterSuite: function (suite) {
+    if (process.env.MOCK_SERVICE_ENABLED === "true") {
+      E2EMockClient.shutdownMockServer()
+    }
+  },
   /**
    * Runs after a WebdriverIO command gets executed
    * @param {string} commandName hook command name
