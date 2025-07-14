@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "app-e2e-mock/client": ["libs/e2e-mock/client/src/index.ts"],
+      "app-e2e-mock/server": ["libs/e2e-mock/server/src/index.ts"],
       "app-init/feature": ["libs/app-init/feature/src/index.ts"],
       "app-init/main": ["libs/app-init/main/src/index.ts"],
       "app-init/models": ["libs/app-init/models/src/index.ts"],
