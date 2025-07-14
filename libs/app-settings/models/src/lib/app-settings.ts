@@ -11,6 +11,6 @@ export type AppSettings = {
   }
   system: {
     analyticsId: string | null
+    restartRequiredForSerialPortAccess: boolean
   }
-  restartRequiredForSerialPortAccess: boolean
 }

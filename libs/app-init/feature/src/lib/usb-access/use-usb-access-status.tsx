@@ -17,6 +17,8 @@ export const useUsbAccessStatus = () => {
     isLoading,
     isError,
     hasAccess: query.data?.ok === true ? Boolean(query.data.data) : undefined,
-    restartRequired: Boolean(settings.data?.restartRequiredForSerialPortAccess),
+    restartRequired: Boolean(
+      settings.data?.system.restartRequiredForSerialPortAccess
+    ),
   }
 }

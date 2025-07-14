@@ -57,7 +57,9 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
     const result = await grantAccessToSerialPort()
 
     if (result.ok) {
-      await AppSettings.set({ restartRequiredForSerialPortAccess: true })
+      await AppSettings.set({
+        system: { restartRequiredForSerialPortAccess: true },
+      })
       setUsbAccessFlowState(UsbAccessFlowState.AccessGranted)
     } else {
       setUsbAccessFlowState(UsbAccessFlowState.AccessCancelled)
@@ -69,7 +71,9 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
   }, [])
 
   const handleRestartRequiredModalClose = useCallback(async () => {
-    await AppSettings.set({ restartRequiredForSerialPortAccess: false })
+    await AppSettings.set({
+      system: { restartRequiredForSerialPortAccess: false },
+    })
     onClose()
   }, [onClose])
 

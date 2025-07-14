@@ -55,8 +55,8 @@ export class AppSettingsService {
       },
       system: {
         analyticsId: generateAnalyticsId(),
+        restartRequiredForSerialPortAccess: false,
       },
-      restartRequiredForSerialPortAccess: false,
     }
   }
 }
