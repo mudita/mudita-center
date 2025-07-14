@@ -1,0 +1,9 @@
+{
+  "name": "app-init/models",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/app-init/models/src",
+  "projectType": "library",
+  "tags": ["type:models"],
+  "// targets": "to see all targets run: nx show project app-init/models --web",
+  "targets": {}
+}

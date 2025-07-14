@@ -3,5 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/app-settings"
-export * from "./lib/use-settings"
+export enum RequirementStatus {
+  Unknown = "unknown",
+  ActionRequired = "action-required",
+  ActionNotRequired = "action-not-required",
+}
