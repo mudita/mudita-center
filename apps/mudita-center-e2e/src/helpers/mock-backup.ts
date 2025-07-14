@@ -11,10 +11,9 @@ import * as path from "path"
 export function mockBackupResponses(path: string, shouldFail = false) {
   const data = "1234567890"
 
-  //   mockBackupResponses("path-1", true) // use in test to force backup error
-  //
+  // mockBackupResponses("path-1", true) // use in test to force backup error
+  // mockBackupResponses("path-1")       // default -> success backup
 
-  // mockBackupResponses("path-1") // default -> success backup
   if (shouldFail) {
     // Simulate backup failure due to full storage
     E2EMockClient.mockResponsesOnce([
@@ -100,7 +99,13 @@ export function mockBackupResponses(path: string, shouldFail = false) {
 }
 
 const getBackupOutputPath = async (): Promise<string> => {
-  return "C:\\Users\\Robert\\MuditaCenterBackups"
+  const baseDir =
+    process.env.MUDITA_E2E_BACKUP_PATH ||
+    process.env.HOME ||
+    process.env.USERPROFILE ||
+    "/tmp"
+
+  return path.join(baseDir, "MuditaCenterBackups")
 }
 
 export const createMockBackup = async (serialNumber: string): Promise<void> => {
