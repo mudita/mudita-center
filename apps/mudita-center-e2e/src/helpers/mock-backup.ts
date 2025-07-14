@@ -4,8 +4,6 @@
  */
 
 import { E2EMockClient } from "../../../../libs/e2e-mock/client/src"
-import { generateUniqueNumber } from "./utils/generate-unique-number-id.helper"
-import { generateBase64Info } from "./utils/generate-base-64-info.helper"
 import { prepareMockForFileTransfer } from "./prepare-mock-for-file-transfer.helper"
 import * as fs from "fs"
 import * as path from "path"
@@ -17,7 +15,6 @@ export function mockBackupResponses(path: string, shouldFail = false) {
   //
 
   // mockBackupResponses("path-1") // default -> success backup
-
   if (shouldFail) {
     // Simulate backup failure due to full storage
     E2EMockClient.mockResponsesOnce([
@@ -34,7 +31,6 @@ export function mockBackupResponses(path: string, shouldFail = false) {
     return
   }
 
-  // Default successful backup mocks
   E2EMockClient.mockResponses([
     {
       path,
@@ -104,13 +100,7 @@ export function mockBackupResponses(path: string, shouldFail = false) {
 }
 
 const getBackupOutputPath = async (): Promise<string> => {
-  const { ServiceBridge } = await import("device/feature")
-  const { SettingsService } = await import("Core/settings/services")
-  const { settingsStore } = await import("Core/settings/store")
-
-  const serviceBridge = new ServiceBridge()
-  serviceBridge.settingsService = new SettingsService(settingsStore)
-  return serviceBridge.settingsService.getSettings().osBackupLocation
+  return "C:\\Users\\Robert\\MuditaCenterBackups"
 }
 
 export const createMockBackup = async (serialNumber: string): Promise<void> => {
@@ -134,9 +124,12 @@ export const createMockBackup = async (serialNumber: string): Promise<void> => {
       MESSAGES: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
       NOTES: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
       CALENDAR_EVENTS: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+      OS_VERSION_AND_SETTINGS: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+      APP_SETTINGS: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
     },
   }
 
+  fs.mkdirSync(backupLocation, { recursive: true })
   fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf8")
   console.log(`File stored at: ${filePath}`)
 }
