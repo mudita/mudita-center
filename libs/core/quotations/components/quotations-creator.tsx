@@ -111,6 +111,7 @@ export const QuotationsCreator: FunctionComponent<Props> = ({
             label={intl.formatMessage(messages.quotationLabel)}
             rows={2}
             glyphsType={"light"}
+            // TODO: Adjust the limit based on tests
             limits={[420, 420]}
             onChange={handleQuotationChange}
           />
@@ -118,6 +119,7 @@ export const QuotationsCreator: FunctionComponent<Props> = ({
             label={intl.formatMessage(messages.authorLabel)}
             rows={1}
             glyphsType={"bold"}
+            // TODO: Adjust the limit based on tests
             limits={[100]}
             onChange={handleAuthorChange}
           />
