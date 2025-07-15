@@ -64,6 +64,25 @@ describe("Check restore modal", () => {
 
   it("Click Restore button", async () => {
     const kompaktRestoreButton = OverviewKompaktPage.kompaktRestoreButton
+    const timeout = 100000 // max 100 seconds
+    const interval = 500 // check each 500ms
+    const startTime = Date.now()
+
+    let isDisplayed = false
+
+    while (Date.now() - startTime < timeout) {
+      try {
+        isDisplayed = await kompaktRestoreButton.isDisplayed()
+        if (isDisplayed && (await kompaktRestoreButton.isClickable())) {
+          break
+        }
+      } catch (e) {
+        // ignore temp missing element
+      }
+      await browser.pause(interval)
+    }
+
+    // final check and click of the Restore button
     await expect(kompaktRestoreButton).toBeDisplayed()
     await kompaktRestoreButton.click()
   })
