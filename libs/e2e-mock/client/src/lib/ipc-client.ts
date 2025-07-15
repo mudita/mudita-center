@@ -5,24 +5,18 @@
 
 import ipc from "node-ipc"
 
+type ClientEmitter = (event: string, data?: unknown) => void
+
+const SERVER_ID = "MC"
 const DEFAULT_TIMEOUT = 5000
 
-type ClientEmitter = (event: string, data?: unknown) => void
+ipc.config.id = "E2E"
+ipc.config.retry = 1000
 
 export class IpcClient {
   private clientEmitter?: ClientEmitter
   private isConnecting = false
   private isConnected = false
-
-  constructor(
-    private serverId: string,
-    private clientId: string,
-    private retry: number,
-    private timeoutMs: number = DEFAULT_TIMEOUT
-  ) {
-    ipc.config.id = clientId
-    ipc.config.retry = retry
-  }
 
   public async connect(): Promise<void> {
     if (this.isConnected) return
@@ -30,8 +24,8 @@ export class IpcClient {
 
     this.isConnecting = true
     await new Promise<void>((resolve, reject) => {
-      ipc.connectTo(this.serverId, () => {
-        const client = ipc.of[this.serverId]
+      ipc.connectTo(SERVER_ID, () => {
+        const client = ipc.of[SERVER_ID]
 
         const cleanup = () => {
           clearTimeout(timer)
@@ -43,7 +37,7 @@ export class IpcClient {
         const timer = setTimeout(() => {
           cleanup()
           reject(new Error("IPC connect timed out"))
-        }, this.timeoutMs)
+        }, DEFAULT_TIMEOUT)
 
         const onConnect = () => {
           cleanup()
@@ -73,7 +67,7 @@ export class IpcClient {
     if (!this.isConnected) return
 
     await new Promise<void>((resolve, reject) => {
-      const client = ipc.of[this.serverId]
+      const client = ipc.of[SERVER_ID]
       if (!client) {
         this.isConnected = false
         resolve()
@@ -85,7 +79,7 @@ export class IpcClient {
         this.clientEmitter = undefined
         this.isConnected = false
         reject(new Error("IPC disconnect timed out"))
-      }, this.timeoutMs)
+      }, DEFAULT_TIMEOUT)
 
       const onDisconnect = () => {
         clearTimeout(timer)
@@ -98,7 +92,7 @@ export class IpcClient {
       client.on("disconnect", onDisconnect)
 
       try {
-        ipc.disconnect(this.serverId)
+        ipc.disconnect(SERVER_ID)
       } catch (err) {
         clearTimeout(timer)
         client.off("disconnect", onDisconnect)

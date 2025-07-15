@@ -5,11 +5,7 @@
 
 import { IpcClient } from "./ipc-client"
 
-const SERVER_ID = "MC"
-const CLIENT_ID = "E2E"
-const RETRY = 1000
-
-const ipcClient = new IpcClient(SERVER_ID, CLIENT_ID, RETRY)
+const ipcClient = new IpcClient()
 
 export const E2EMockClient = {
   connect: () => ipcClient.connect(),

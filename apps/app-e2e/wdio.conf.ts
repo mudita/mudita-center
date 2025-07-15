@@ -305,6 +305,7 @@ export const config: WebdriverIO.Config = {
     if (!["Privacy Policy modal"].includes(suite.title)) {
       await AppInitPage.acceptPrivacyPolicy()
     }
+
     if (
       ![
         "Privacy Policy modal",

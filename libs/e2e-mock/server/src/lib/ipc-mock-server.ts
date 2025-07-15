@@ -22,7 +22,8 @@ export class IpcMockServer {
     ipc.server.start()
   }
 
-  on(eventKey: string, callback: (...args: unknown[]) => void): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  on(eventKey: string, callback: (...args: any[]) => void): void {
     if (!this.serverEnabled) {
       return
     }
