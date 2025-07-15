@@ -1104,5 +1104,17 @@
   "module.quotations.emptyState.title": "Add custom quotation to Harmony...",
   "module.quotations.emptyState.description": "As long as your Harmony has enough memory, you can add as many as you like and we’ll list them here...",
   "module.quotations.selectedState.count": "{num, plural, =-1 {All quotations} one {# quotation} other {# quotations}} selected",
-  "module.quotations.selectedState.deleteButton": "Delete"
+  "module.quotations.selectedState.deleteButton": "Delete",
+  "module.quotations.creatorModal.title": "Custom Quotation Creator",
+  "module.quotations.creatorModal.description": "Enter your custom quotation - To ensure it displays correctly, it’s best to keep it short",
+  "module.quotations.creatorModal.quotationLabel": "Enter quotations",
+  "module.quotations.creatorModal.authorLabel": "Author (Optional)",
+  "module.quotations.creatorModal.cancelButton": "Cancel",
+  "module.quotations.creatorModal.saveButton": "Save to Harmony",
+  "module.quotations.creatorModal.saveSuccess": "Save successful",
+  "module.quotations.creatorModal.error.tooLong": "It must be shorter to fit on Hamony's screen",
+  "module.quotations.creatorModal.error.invalidCharacter": "Please remove \"{character}\" as Harmony can’t display it",
+  "module.quotations.quotationSavingModal.title": "Quotations",
+  "module.quotations.quotationSavingModal.subtitle": "Saving to Harmony...",
+  "module.quotations.quotationSavingModal.description": "Please wait, this might take a while."
 }

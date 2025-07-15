@@ -8,7 +8,7 @@ import styled from "styled-components"
 import { TopBar } from "./components/top-bar"
 import { SettingsModal } from "./components/settings-modal"
 import { EmptyState } from "./components/empty-state"
-import { List } from "Core/quotations/components/list"
+import { List } from "./components/list"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { useDispatch, useSelector } from "react-redux"
 import InfoPopup from "Core/ui/components/info-popup/info-popup.component"
@@ -22,16 +22,20 @@ import {
   selectSelectedQuotations,
 } from "./store/selectors"
 import {
-  addQuotation,
   deleteQuotations,
   fetchQuotationsSettings,
   toggleAllQuotationsSelection,
   toggleQuotationSelection,
 } from "./store/actions"
+import { QuotationsCreator } from "./components/quotations-creator"
+import { QuotationSavingModal } from "./components/quotation-saving-modal"
 
 export const QuotationsPage: FunctionComponent = () => {
   const dispatch = useDispatch<AppDispatch>()
   const [settingsOpened, setSettingsOpened] = useState(false)
+  const [creatorOpened, setCreatorOpened] = useState(false)
+  const [quotationSaving, setQuotationSaving] = useState(false)
+  const [quotationSaved, setQuotationSaved] = useState(false)
 
   const quotations = useSelector(selectQuotations)
   const selectedQuotations = useSelector(selectSelectedQuotations)
@@ -57,22 +61,36 @@ export const QuotationsPage: FunctionComponent = () => {
     dispatch(toggleAllQuotationsSelection())
   }
 
-  const handleAddQuotation = () => {
-    // TODO: Implement modal for adding a quotation
-
-    // Demo code for testing purposes
-    dispatch(
-      addQuotation({
-        id: `quotation-${crypto.randomUUID()}`,
-        text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-        author: Math.random() > 0.5 ? `Author` : "",
-      })
-    )
-  }
-
   const handleDeleteQuotation = () => {
     // TODO: Implement confirmation modal before deleting
     dispatch(deleteQuotations())
+  }
+
+  const handleCreatorClose = () => {
+    setCreatorOpened(false)
+  }
+
+  const handleCreatorOpen = () => {
+    setCreatorOpened(true)
+  }
+
+  const handleCreatorSave = async () => {
+    handleSavingModalOpen()
+    handleCreatorClose()
+
+    // TODO: Implement saving to Harmony
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    handleSavingModalClose()
+    setQuotationSaved(true)
+  }
+
+  const handleSavingModalClose = () => {
+    setQuotationSaving(false)
+  }
+
+  const handleSavingModalOpen = () => {
+    setQuotationSaving(true)
   }
 
   useEffect(() => {
@@ -97,6 +115,22 @@ export const QuotationsPage: FunctionComponent = () => {
     }
   }, [settingsSaved])
 
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null
+
+    if (quotationSaved) {
+      timeoutId = setTimeout(() => {
+        setQuotationSaved(false)
+      }, 3000)
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
+  }, [quotationSaved])
+
   return (
     <Wrapper>
       {quotations.length > 0 && (
@@ -107,7 +141,7 @@ export const QuotationsPage: FunctionComponent = () => {
       )}
       <TopBar
         onSettingsClick={handleSettingsClick}
-        onAddClick={handleAddQuotation}
+        onAddClick={handleCreatorOpen}
         onDeleteClick={handleDeleteQuotation}
         onAllItemsToggle={handleAllItemsToggle}
         showAddButton={quotations.length > 0}
@@ -116,7 +150,7 @@ export const QuotationsPage: FunctionComponent = () => {
       />
       <SettingsModal open={settingsOpened} handleClose={handleSettingsClose} />
       {quotations.length === 0 ? (
-        <EmptyState onAddClick={handleAddQuotation} />
+        <EmptyState onAddClick={handleCreatorOpen} />
       ) : (
         <List
           quotations={quotations}
@@ -127,6 +161,18 @@ export const QuotationsPage: FunctionComponent = () => {
       {settingsSaved && (
         <InfoPopup
           message={{ id: "module.quotations.settingsModal.saveSuccess" }}
+          icon={IconType.CheckCircleBlack}
+        />
+      )}
+      <QuotationsCreator
+        opened={creatorOpened}
+        onClose={handleCreatorClose}
+        onSave={handleCreatorSave}
+      />
+      <QuotationSavingModal opened={quotationSaving} />
+      {quotationSaved && (
+        <InfoPopup
+          message={{ id: "module.quotations.creatorModal.saveSuccess" }}
           icon={IconType.CheckCircleBlack}
         />
       )}
