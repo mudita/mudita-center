@@ -14,7 +14,7 @@ const ipcClient = new IpcClient(SERVER_ID, CLIENT_ID, RETRY)
 export const E2EMockClient = {
   connect: () => ipcClient.connect(),
   disconnect: () => ipcClient.disconnect(),
-  shutdownMockServer: (): void => {
-    ipcClient.emit("e2eMock.shutdownMockServer")
+  shutdownServer: (): void => {
+    ipcClient.emit("e2eMock.shutdownServer")
   },
 }

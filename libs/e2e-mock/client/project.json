@@ -1,7 +1,7 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "// targets": "to see all targets run: nx show project app-e2e-mock/client --web",
-  "name": "app-e2e-mock/client",
+  "// targets": "to see all targets run: nx show project e2e-mock/client --web",
+  "name": "e2e-mock/client",
   "projectType": "library",
   "sourceRoot": "libs/e2e-mock/client/src",
   "tags": ["process:e2e"],

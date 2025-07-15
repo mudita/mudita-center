@@ -6,7 +6,7 @@
 /// <reference types="wdio-electron-service" />
 import * as path from "path"
 import * as os from "os"
-import { E2EMockClient } from "app-e2e-mock/client"
+import { E2EMockClient } from "e2e-mock/client"
 import AppInitPage from "./src/page-objects/app-init.page"
 import {
   TestFilesPaths,
@@ -87,7 +87,7 @@ export const config: WebdriverIO.Config = {
       toRelativePath(TestFilesPaths.backup),
       toRelativePath(TestFilesPaths.contactSupportBase),
       toRelativePath(TestFilesPaths.devicesWelcome),
-      toRelativePath(TestFilesPaths.news),
+      // toRelativePath(TestFilesPaths.news), // skip until fix backend
       toRelativePath(TestFilesPaths.welcomeScreen),
     ],
     mock: [],
@@ -349,7 +349,7 @@ export const config: WebdriverIO.Config = {
    */
   afterSuite: function (suite) {
     if (process.env.MOCK_SERVICE_ENABLED === "true") {
-      E2EMockClient.shutdownMockServer()
+      E2EMockClient.shutdownServer()
     }
   },
   /**

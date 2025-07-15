@@ -11,7 +11,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from "electron-devtools-installer"
-import { IpcMockServer } from "app-e2e-mock/server"
+import { mockServer } from "e2e-mock/server"
 import icon from "../../resources/icons/icon.png"
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
@@ -25,8 +25,6 @@ const appHeight = process.env.APP_HEIGHT
 const devToolsEnabled =
   process.env.ENABLE_DEVTOOLS === "true" ||
   process.env.NODE_ENV === "development"
-
-const mockServer = new IpcMockServer()
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({

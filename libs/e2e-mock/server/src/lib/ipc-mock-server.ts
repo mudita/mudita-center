@@ -4,60 +4,37 @@
  */
 
 import ipc from "node-ipc"
-import { Socket } from "net"
 
-interface SocketConfig {
-  address?: string | undefined
-  port?: number | undefined
-}
-
-const SERVER_ID = "MC"
-const DEFAULT_RETRY = 15
-
-type DomainHandler = (payload: unknown, socket: string | number) => void
+ipc.config.id = "MC"
+ipc.config.retry = 15
 
 export class IpcMockServer {
-  public readonly mockServiceEnabled: boolean
+  public serverEnabled = process.env.MOCK_SERVER_ENABLED === "1"
 
-  private handlers = new Map<string, DomainHandler>()
+  start(): void {
+    if (!this.serverEnabled) {
+      return
+    }
 
-  constructor(retry: number = DEFAULT_RETRY, serverId: string = SERVER_ID) {
-    ipc.config.id = serverId
-    ipc.config.retry = retry
-    this.mockServiceEnabled = process.env.MOCK_SERVICE_ENABLED === "true"
-    console.log(`[IpcMockServer] mockServiceEnabled=${this.mockServiceEnabled}`)
-  }
-
-  public start(): void {
     ipc.serve(() => {
-      ipc.server.on("message", (data, socket) => {
-        if (!this.mockServiceEnabled) return
-        const { event, payload } = data
-        const handler = this.handlers.get(event)
-        if (handler) handler(payload, socket)
-      })
-
-      ipc.server.on("shutdownMockServer", () => {
-        this.stop()
-      })
+      ipc.server.on("e2eMock.shutdownServer", () => this.stop())
     })
     ipc.server.start()
   }
 
-  public on(eventKey: string, handler: DomainHandler): void {
-    this.handlers.set(eventKey, handler)
+  on(eventKey: string, callback: (...args: unknown[]) => void): void {
+    if (!this.serverEnabled) {
+      return
+    }
+    ipc.server.on(eventKey, callback)
   }
 
-  public emitResponse(
-    socket: Socket | SocketConfig,
-    event: string,
-    payload?: unknown
-  ): void {
-    ipc.server.emit(socket, event, payload)
-  }
-
-  public stop(): void {
-    this.handlers.clear()
+  stop(): void {
+    if (!this.serverEnabled) {
+      return
+    }
     ipc.server.stop()
   }
 }
+
+export const mockServer = new IpcMockServer()

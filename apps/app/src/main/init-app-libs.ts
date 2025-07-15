@@ -18,7 +18,7 @@ import {
 } from "app-utils/main"
 import { initAppUpdater } from "app-updater/main"
 import { initUsbAccess } from "app-init/main"
-import { IpcMockServer } from "app-e2e-mock/server"
+import { IpcMockServer } from "e2e-mock/server"
 
 export const initAppLibs = (
   mainWindow: BrowserWindow,

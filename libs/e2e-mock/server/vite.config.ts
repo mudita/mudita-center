@@ -34,7 +34,7 @@ export default defineConfig(() => ({
     lib: {
       // Could also be a dictionary or array of multiple entry points.
       entry: "src/index.ts",
-      name: "app-e2e-mock/server",
+      name: "e2e-mock/server",
       fileName: "index",
       // Change this to the formats you want to support.
       // Don't forget to update your package.json as well.

@@ -1,5 +1,5 @@
 export default {
-  displayName: "app-e2e-mock/client",
+  displayName: "e2e-mock/client",
   preset: "../../../jest.preset.js",
   transform: {
     "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "@nx/react/plugins/jest",

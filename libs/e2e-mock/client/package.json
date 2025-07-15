@@ -1,5 +1,5 @@
 {
-  "name": "app-e2e-mock/client",
+  "name": "e2e-mock/client",
   "version": "0.0.1",
   "main": "./index.js",
   "types": "./index.d.ts",
