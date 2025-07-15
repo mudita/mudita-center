@@ -4,13 +4,17 @@
  */
 
 import { formatMessage, Messages } from "app-localize/utils"
+import { PrimitiveType } from "intl-messageformat"
 import { ModalTestId } from "../all-test-ids"
 
 export default class Modal {
   private readonly modalTitleText: string
 
-  constructor(formatMessageModalId: Messages["id"]) {
-    this.modalTitleText = formatMessage({ id: formatMessageModalId })
+  constructor(
+    formatMessageModalId: Messages["id"],
+    values?: Record<string, PrimitiveType>
+  ) {
+    this.modalTitleText = formatMessage({ id: formatMessageModalId }, values)
   }
 
   public get modal() {
