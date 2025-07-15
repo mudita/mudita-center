@@ -9,7 +9,8 @@ import logger from "electron-log/main"
 import { isAxiosError } from "axios"
 import semver from "semver/preload"
 import { AppHttpService } from "app-utils/main"
-import { AppResultFactory, mapToAppError } from "app-utils/models"
+import { AppResult, AppResultFactory, mapToAppError } from "app-utils/models"
+import { AppUpdaterState } from "app-updater/models"
 
 enum AppProgressBarState {
   Indeterminate = 2,
@@ -59,7 +60,7 @@ export class AppUpdaterService {
     }
   }
 
-  async check() {
+  async check(): Promise<AppResult<AppUpdaterState | null>> {
     try {
       const { signal } = this.checkAbortController
 

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum E2eMockIpcEvents {
-  shutdownServer = "e2eMock:shutdownServer",
-  setAppUpdaterCheckResult = "e2eMock:setAppUpdaterCheckResult",
+export interface AppUpdaterState {
+  forced: boolean
+  version: string
 }

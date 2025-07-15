@@ -298,9 +298,6 @@ export const config: WebdriverIO.Config = {
    */
   beforeSuite: async function (suite) {
     // TODO: Move to standalone initialization application process
-    if (process.env.MOCK_SERVICE_ENABLED === "1") {
-      await E2EMockClient.connect()
-    }
 
     if (!["Privacy Policy modal"].includes(suite.title)) {
       await AppInitPage.acceptPrivacyPolicy()
@@ -311,6 +308,7 @@ export const config: WebdriverIO.Config = {
         "Privacy Policy modal",
         "Welcome screen",
         "Devices - welcome screen",
+        "MC Soft Update Available - Base Path",
       ].includes(suite.title)
     ) {
       await AppInitPage.closeFullscreenLayout()

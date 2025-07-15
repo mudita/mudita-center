@@ -3,18 +3,23 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppResult, AppResultFactory } from "app-utils/models"
+import { AppError, AppResult, AppResultFactory } from "app-utils/models"
 import logger from "electron-log/main"
+import { IpcMockServer } from "e2e-mock/server"
+import { E2eMockIpcEvents } from "e2e-mock/models"
+import { AppUpdaterState, SetAppUpdaterCheckPayload } from "app-updater/models"
 
 export class MockAppUpdaterService {
-  async check(): Promise<
-    AppResult<{ version: string; forced: boolean } | null>
-  > {
+  private checkResult: AppResult<AppUpdaterState | null> =
+    AppResultFactory.success(null)
+
+  constructor(private mockServer: IpcMockServer) {
+    this.registerListeners()
+  }
+
+  async check(): Promise<AppResult<AppUpdaterState | null>> {
     logger.info("MockAppUpdaterService: check for updates called")
-    return AppResultFactory.success({
-      version: "5.0.0",
-      forced: true,
-    })
+    return this.checkResult
   }
 
   download(): void {
@@ -31,5 +36,23 @@ export class MockAppUpdaterService {
 
   quitAndInstall(): void {
     logger.info("MockAppUpdaterService: quit and install called")
+  }
+
+  private registerListeners(): void {
+    this.mockServer.on(
+      E2eMockIpcEvents.setAppUpdaterCheckResult,
+      this.handleSetAppUpdaterCheckResult
+    )
+  }
+
+  private handleSetAppUpdaterCheckResult = ({
+    error,
+    ...appUpdaterState
+  }: SetAppUpdaterCheckPayload) => {
+    if (error) {
+      this.checkResult = AppResultFactory.failed(new AppError())
+    } else {
+      this.checkResult = AppResultFactory.success(appUpdaterState)
+    }
   }
 }

@@ -21,7 +21,7 @@ export const initAppUpdater = (
   )
   if (!appUpdaterService) {
     appUpdaterService = mockServer.serverEnabled
-      ? new MockAppUpdaterService()
+      ? new MockAppUpdaterService(mockServer)
       : new AppUpdaterService(mainWindow)
 
     ipcMain.removeHandler(AppUpdaterIpcEvents.Check)
