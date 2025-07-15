@@ -90,7 +90,9 @@ export const config: WebdriverIO.Config = {
       // toRelativePath(TestFilesPaths.news), // skip until fix backend
       toRelativePath(TestFilesPaths.welcomeScreen),
     ],
-    mock: [],
+    mock: [
+      toRelativePath(TestFilesPaths.welcomeScreen), // suite for mock to run workflow, will be replaced
+    ],
   },
   // Patterns to exclude.
   exclude: [
@@ -296,7 +298,7 @@ export const config: WebdriverIO.Config = {
    */
   beforeSuite: async function (suite) {
     // TODO: Move to standalone initialization application process
-    if (process.env.MOCK_SERVICE_ENABLED === "true") {
+    if (process.env.MOCK_SERVICE_ENABLED === "1") {
       await E2EMockClient.connect()
     }
 
@@ -348,7 +350,7 @@ export const config: WebdriverIO.Config = {
    * @param {object} suite suite details
    */
   afterSuite: function (suite) {
-    if (process.env.MOCK_SERVICE_ENABLED === "true") {
+    if (process.env.MOCK_SERVICE_ENABLED === "1") {
       E2EMockClient.shutdownServer()
     }
   },
