@@ -12,6 +12,7 @@ import {
   TestFilesPaths,
   toRelativePath,
 } from "./src/consts/test-filenames.const"
+import { passAppInit } from "./src/helpers/app-init.helper"
 
 // Based on node_modules/@puppeteer/browsers/src/browser-data/chromedriver.ts
 // and
@@ -297,22 +298,7 @@ export const config: WebdriverIO.Config = {
    * @param {object} suite suite details
    */
   beforeSuite: async function (suite) {
-    // TODO: Move to standalone initialization application process
-
-    if (!["Privacy Policy modal"].includes(suite.title)) {
-      await AppInitPage.acceptPrivacyPolicy()
-    }
-
-    if (
-      ![
-        "Privacy Policy modal",
-        "Welcome screen",
-        "Devices - welcome screen",
-        "MC Soft Update Available - Base Path",
-      ].includes(suite.title)
-    ) {
-      await AppInitPage.closeFullscreenLayout()
-    }
+    await passAppInit(suite)
   },
   /**
    * Function to be executed before a test (in Mocha/Jasmine) starts.

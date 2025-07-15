@@ -26,6 +26,14 @@ export class McUpdatePage extends Page {
     return this._updateAvailableModal.title
   }
 
+  public get updateAvailableTitleIcon() {
+    return this._updateAvailableModal.titleIcon
+  }
+
+  public get updateAvailableCloseButton() {
+    return this._updateAvailableModal.closeButton
+  }
+
   public get updateAvailableModalDescription() {
     return this.updateAvailableModal.$(
       `[data-testid="${AppUpdaterTestIds.UpdateAvailableModalDescription}"]`
