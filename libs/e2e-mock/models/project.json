@@ -1,0 +1,9 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "// targets": "to see all targets run: nx show project e2e-mock/models --web",
+  "name": "e2e-mock/models",
+  "projectType": "library",
+  "sourceRoot": "libs/e2e-mock/models/src",
+  "tags": ["type:models"],
+  "targets": {}
+}
