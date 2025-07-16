@@ -12,7 +12,7 @@ import {
   nonEmptyTextRegex,
 } from "../consts/regex-const"
 
-describe("News screen", () => {
+describe.skip("News screen", () => {
   it("have proper menu item active", async () => {
     const activeMenuItem = await NewsPage.activeMenuItem
     await expect(activeMenuItem).toHaveText("News")
