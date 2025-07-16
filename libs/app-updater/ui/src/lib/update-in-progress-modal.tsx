@@ -21,7 +21,6 @@ const messages = defineMessages({
 interface Props {
   opened: boolean
   progress?: number
-  onClose?: VoidFunction
 }
 
 export const UpdateInProgressModal: FunctionComponent<Props> = ({
