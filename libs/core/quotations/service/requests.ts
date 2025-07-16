@@ -26,3 +26,22 @@ export const updateQuotationsSettingsRequest = async (options: {
 }): Promise<ResultObject<true, QuotationsError>> => {
   return ipcRenderer.callMain(IpcQuotationsEvent.UpdateSettings, options)
 }
+
+export const saveQuotationRequest = async (
+  quotation: string,
+  author?: string
+): Promise<ResultObject<{ quoteId: number }, QuotationsError>> => {
+  return ipcRenderer.callMain(IpcQuotationsEvent.SaveQuotation, {
+    quotation,
+    author,
+  })
+}
+
+export const deleteQuotationsRequest = async (
+  quotationsIds: number[]
+): Promise<ResultObject<true, QuotationsError>> => {
+  return ipcRenderer.callMain(
+    IpcQuotationsEvent.DeleteQuotations,
+    quotationsIds
+  )
+}

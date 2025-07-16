@@ -18,20 +18,28 @@ import { AppDispatch } from "Core/__deprecated__/renderer/store"
 import { Quotation } from "./store/types"
 import {
   selectQuotations,
+  selectQuotationsLoading,
   selectQuotationsSettings,
   selectSelectedQuotations,
 } from "./store/selectors"
 import {
+  addQuotation,
   deleteQuotations,
+  fetchQuotations,
   fetchQuotationsSettings,
   toggleAllQuotationsSelection,
   toggleQuotationSelection,
 } from "./store/actions"
 import { QuotationsCreator } from "./components/quotations-creator"
 import { QuotationSavingModal } from "./components/quotation-saving-modal"
+import { saveQuotationRequest } from "Core/quotations/service/requests"
+import { LoadingState } from "Core/__deprecated__/renderer/components/core/table/table.component"
+import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
 
 export const QuotationsPage: FunctionComponent = () => {
   const dispatch = useDispatch<AppDispatch>()
+  const deviceData = useSelector(deviceDataSelector)
+
   const [settingsOpened, setSettingsOpened] = useState(false)
   const [creatorOpened, setCreatorOpened] = useState(false)
   const [quotationSaving, setQuotationSaving] = useState(false)
@@ -40,6 +48,8 @@ export const QuotationsPage: FunctionComponent = () => {
   const quotations = useSelector(selectQuotations)
   const selectedQuotations = useSelector(selectSelectedQuotations)
   const quotationsSettings = useSelector(selectQuotationsSettings)
+  const quotationsLoading = useSelector(selectQuotationsLoading)
+
   const [settingsSaved, setSettingsSaved] = useState(false)
 
   const handleSettingsClick = () => {
@@ -63,7 +73,7 @@ export const QuotationsPage: FunctionComponent = () => {
 
   const handleDeleteQuotation = () => {
     // TODO: Implement confirmation modal before deleting
-    dispatch(deleteQuotations())
+    dispatch(deleteQuotations(selectedQuotations))
   }
 
   const handleCreatorClose = () => {
@@ -74,15 +84,25 @@ export const QuotationsPage: FunctionComponent = () => {
     setCreatorOpened(true)
   }
 
-  const handleCreatorSave = async () => {
+  const handleCreatorSave = async (quotation: string, author?: string) => {
     handleSavingModalOpen()
     handleCreatorClose()
 
-    // TODO: Implement saving to Harmony
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    const response = await saveQuotationRequest(quotation, author)
+    await new Promise((resolve) => setTimeout(resolve, 500))
+
+    if (response.ok) {
+      dispatch(
+        addQuotation({
+          id: response.data.quoteId,
+          text: quotation,
+          author,
+        })
+      )
+      setQuotationSaved(true)
+    }
 
     handleSavingModalClose()
-    setQuotationSaved(true)
   }
 
   const handleSavingModalClose = () => {
@@ -131,6 +151,11 @@ export const QuotationsPage: FunctionComponent = () => {
     }
   }, [quotationSaved])
 
+  useEffect(() => {
+    if (quotationsLoading !== undefined || !deviceData?.serialNumber) return
+    dispatch(fetchQuotations({ serialNumber: deviceData.serialNumber }))
+  }, [dispatch, quotationsLoading, deviceData?.serialNumber])
+
   return (
     <Wrapper>
       {quotations.length > 0 && (
@@ -149,7 +174,9 @@ export const QuotationsPage: FunctionComponent = () => {
         allItemsSelected={selectedQuotations.length === quotations.length}
       />
       <SettingsModal open={settingsOpened} handleClose={handleSettingsClose} />
-      {quotations.length === 0 ? (
+      {quotationsLoading ? (
+        <LoadingState />
+      ) : quotations.length === 0 ? (
         <EmptyState onAddClick={handleCreatorOpen} />
       ) : (
         <List

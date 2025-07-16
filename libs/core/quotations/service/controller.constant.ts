@@ -6,4 +6,6 @@
 export enum IpcQuotationsEvent {
   GetSettings = "quotations_get-settings",
   UpdateSettings = "quotations_update-settings",
+  SaveQuotation = "quotations_save-quotation",
+  DeleteQuotations = "quotations_delete-quotations",
 }

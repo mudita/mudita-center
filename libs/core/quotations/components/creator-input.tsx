@@ -161,6 +161,7 @@ const Label = styled(Text)`
 
 const Textarea = styled.textarea<{ $hasError: boolean }>`
   resize: none;
+  outline: none;
   padding: 2rem;
   font-size: 1.4rem;
   line-height: 2.2rem;
@@ -170,10 +171,15 @@ const Textarea = styled.textarea<{ $hasError: boolean }>`
   border-radius: 1.2rem;
 
   ${({ $hasError }) =>
-    $hasError &&
-    css`
-      border-color: ${borderColor("error")};
-    `}
+    $hasError
+      ? css`
+          border-color: ${borderColor("error")};
+        `
+      : css`
+          &:focus {
+            border-color: ${borderColor("primary")};
+          }
+        `}
 `
 
 const Error = styled(Text)`

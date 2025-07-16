@@ -7,6 +7,8 @@ import { createReducer } from "@reduxjs/toolkit"
 import { Quotation } from "./types"
 import {
   addQuotation,
+  clearQuotations,
+  fetchQuotations,
   removeQuotations,
   setQuotations,
   setQuotationsSettings,
@@ -22,6 +24,7 @@ export interface QuotationsState {
   selectedItems: Quotation["id"][]
   interval?: Interval
   source?: Source
+  itemsLoading: boolean | undefined
 }
 
 export const initialState: QuotationsState = {
@@ -29,6 +32,7 @@ export const initialState: QuotationsState = {
   selectedItems: [],
   interval: undefined,
   source: undefined,
+  itemsLoading: undefined,
 }
 
 export const quotationsReducer = createReducer(initialState, (builder) => {
@@ -68,5 +72,22 @@ export const quotationsReducer = createReducer(initialState, (builder) => {
     } else {
       state.selectedItems = state.items.map((quotation) => quotation.id)
     }
+  })
+  builder.addCase(fetchQuotations.pending, (state) => {
+    state.itemsLoading = true
+  })
+  builder.addCase(fetchQuotations.fulfilled, (state, action) => {
+    state.itemsLoading = false
+    state.items = action.payload
+  })
+  builder.addCase(fetchQuotations.rejected, (state) => {
+    state.itemsLoading = false
+  })
+  builder.addCase(clearQuotations, (state) => {
+    state.items = []
+    state.selectedItems = []
+    state.interval = undefined
+    state.source = undefined
+    state.itemsLoading = undefined
   })
 })
