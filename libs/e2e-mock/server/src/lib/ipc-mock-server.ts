@@ -4,6 +4,7 @@
  */
 
 import ipc from "node-ipc"
+import { E2eMockIpcEvents } from "e2e-mock/models"
 
 ipc.config.id = "MC"
 ipc.config.retry = 15
@@ -17,7 +18,7 @@ export class IpcMockServer {
     }
 
     ipc.serve(() => {
-      ipc.server.on("e2eMock.shutdownServer", () => this.stop())
+      ipc.server.on(E2eMockIpcEvents.shutdownServer, () => this.stop())
     })
     ipc.server.start()
   }

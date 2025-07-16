@@ -7,8 +7,9 @@ import { BrowserWindow, IpcMain } from "electron"
 import { AppUpdaterService } from "./app-updater.service"
 import { AppUpdaterIpcEvents } from "app-updater/models"
 import { IpcMockServer } from "e2e-mock/server"
+import { MockAppUpdaterService } from "./mock-app-updater.service"
 
-let appUpdaterService: AppUpdaterService
+let appUpdaterService: AppUpdaterService | MockAppUpdaterService
 
 export const initAppUpdater = (
   ipcMain: IpcMain,
@@ -18,9 +19,10 @@ export const initAppUpdater = (
   console.log(
     `Initializing App Updater Service in ${mockServer.serverEnabled ? "mock" : "real"} mode`
   )
-  // TODO: MockAppUpdaterService will be handled as part of the Implement E2E tests for Application Update Check step
   if (!appUpdaterService) {
-    appUpdaterService = new AppUpdaterService(mainWindow)
+    appUpdaterService = mockServer.serverEnabled
+      ? new MockAppUpdaterService(mockServer)
+      : new AppUpdaterService(mainWindow)
 
     ipcMain.removeHandler(AppUpdaterIpcEvents.Check)
     ipcMain.handle(AppUpdaterIpcEvents.Check, () => {
