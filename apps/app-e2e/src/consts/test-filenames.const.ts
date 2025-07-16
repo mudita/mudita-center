@@ -14,6 +14,8 @@ export enum TestFilesPaths {
   devicesWelcome = "src/specs/devices-welcome.e2e.ts",
   news = "src/specs/news.e2e.ts",
   welcomeScreen = "src/specs/welcome-screen.e2e.ts",
+  mcSoftUpdateAvailable = "src/specs/mc-soft-update-available.e2e.ts",
+  mcForceUpdateAvailable = "src/specs/mc-force-update-available.e2e.ts",
 }
 
 export const toRelativePath = (path: string) => `./${path}`

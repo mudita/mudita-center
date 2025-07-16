@@ -76,7 +76,6 @@ export const AppUpdateFlow: FunctionComponent = memo(() => {
       <UpdateInProgressModal
         opened={modalsState === ModalsState.DownloadInProgress}
         progress={downloadProgress}
-        onClose={isForcedUpdate ? undefined : handleCancel}
       />
       <UpdateErrorModal
         opened={modalsState === ModalsState.Error}

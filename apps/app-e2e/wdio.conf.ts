@@ -7,7 +7,6 @@
 import * as path from "path"
 import * as os from "os"
 import { E2EMockClient } from "e2e-mock/client"
-import AppInitPage from "./src/page-objects/app-init.page"
 import {
   TestFilesPaths,
   toRelativePath,
@@ -92,7 +91,8 @@ export const config: WebdriverIO.Config = {
       toRelativePath(TestFilesPaths.welcomeScreen),
     ],
     mock: [
-      toRelativePath(TestFilesPaths.welcomeScreen), // suite for mock to run workflow, will be replaced
+      toRelativePath(TestFilesPaths.mcSoftUpdateAvailable),
+      toRelativePath(TestFilesPaths.mcForceUpdateAvailable),
     ],
   },
   // Patterns to exclude.
@@ -334,8 +334,8 @@ export const config: WebdriverIO.Config = {
    * Hook that gets executed after the suite has ended
    * @param {object} suite suite details
    */
-  afterSuite: function (suite) {
-    if (process.env.MOCK_SERVICE_ENABLED === "1") {
+  afterSuite: function () {
+    if (process.env.MOCK_SERVER_ENABLED === "1") {
       E2EMockClient.shutdownServer()
     }
   },

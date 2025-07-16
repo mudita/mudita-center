@@ -18,4 +18,10 @@ export const E2EMockClient = {
   setAppUpdaterCheckResult: (payload: SetAppUpdaterCheckPayload): void => {
     ipcClient.emit(E2eMockIpcEvents.setAppUpdaterCheckResult, payload)
   },
+  emitAppUpdaterDownloadProgressEvent: (payload: number): void => {
+    ipcClient.emit(
+      E2eMockIpcEvents.emitAppUpdaterDownloadProgressEvent,
+      payload
+    )
+  },
 }

@@ -8,4 +8,5 @@ export enum AppUpdaterTestIds {
   UpdateAvailableModalCheckbox = "app-updater-update-available-modal-checkbox",
   UpdateAvailableModalButton = "app-updater-update-available-modal-button",
   UpdateAvailableModalPrivacyPolicyLink = "app-updater-update-available-modal-privacy-policy-link",
+  UpdateInProgressModalDescription = "app-updater-update-in-progress-modal-description",
 }

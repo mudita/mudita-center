@@ -12,6 +12,7 @@ import { AppUpdaterState, SetAppUpdaterCheckPayload } from "app-updater/models"
 export class MockAppUpdaterService {
   private checkResult: AppResult<AppUpdaterState | null> =
     AppResultFactory.success(null)
+  private downloadProgressCallbacks: Array<(percent: number) => void> = []
 
   constructor(private mockServer: IpcMockServer) {
     this.registerListeners()
@@ -32,6 +33,7 @@ export class MockAppUpdaterService {
 
   onDownloadProgress(callback: (percent: number) => void): void {
     logger.info("MockAppUpdaterService: onDownloadProgress called")
+    this.downloadProgressCallbacks.push(callback)
   }
 
   quitAndInstall(): void {
@@ -43,6 +45,10 @@ export class MockAppUpdaterService {
       E2eMockIpcEvents.setAppUpdaterCheckResult,
       this.handleSetAppUpdaterCheckResult
     )
+    this.mockServer.on(
+      E2eMockIpcEvents.emitAppUpdaterDownloadProgressEvent,
+      this.handleEmitAppUpdaterDownloadProgressEvent
+    )
   }
 
   private handleSetAppUpdaterCheckResult = ({
@@ -53,6 +59,17 @@ export class MockAppUpdaterService {
       this.checkResult = AppResultFactory.failed(new AppError())
     } else {
       this.checkResult = AppResultFactory.success(appUpdaterState)
+    }
+  }
+
+  private handleEmitAppUpdaterDownloadProgressEvent = (percent: number) => {
+    logger.info(`MockAppUpdaterService: emitting download progress ${percent}%`)
+    for (const cb of this.downloadProgressCallbacks) {
+      try {
+        cb(percent)
+      } catch (err) {
+        logger.error("Error in downloadProgress callback", err)
+      }
     }
   }
 }
