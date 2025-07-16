@@ -25,13 +25,6 @@ export const validateFilesToExport = async (
   const { isSufficient, formattedDifference } =
     CalculateAndFormatAvailableSpace(destinationSpaceInfo.free, transferredSize)
 
-  console.log(
-    destinationSpaceInfo,
-    transferredSize,
-    isSufficient,
-    formattedDifference
-  )
-
   if (!isSufficient) {
     return {
       type: "validation",

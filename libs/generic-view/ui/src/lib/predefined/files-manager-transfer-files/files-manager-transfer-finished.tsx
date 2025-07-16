@@ -175,7 +175,7 @@ export const FilesManagerTransferFinished: APIFC<
     if (errorTypes.length > 1) {
       return
     }
-    console.log(allFilesFailed, succeededFiles.length)
+
     if (allFilesFailed || succeededFiles.length === 0) {
       console.log(errorTypes)
       switch (errorTypes[0]) {

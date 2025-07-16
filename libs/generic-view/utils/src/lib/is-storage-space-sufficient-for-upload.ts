@@ -45,10 +45,11 @@ export const compareValues = (
   available: number,
   required: number
 ): CompareValuesResult => {
-  const difference = Math.ceil((available - required) / 1000 ** 2) * 1000 ** 2
+  const difference =
+    Math.ceil(Math.abs(available - required) / 1000 ** 2) * 1000 ** 2
 
   return {
-    isSufficient: difference >= 0,
+    isSufficient: required <= available,
     difference,
   }
 }
