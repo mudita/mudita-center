@@ -4,8 +4,6 @@
  */
 
 import { E2EMockClient } from "../../../../libs/e2e-mock/client/src"
-import { generateUniqueNumber } from "./utils/generate-unique-number-id.helper"
-import { generateBase64Info } from "./utils/generate-base-64-info.helper"
 import { prepareMockForFileTransfer } from "./prepare-mock-for-file-transfer.helper"
 import * as fs from "fs"
 import * as path from "path"
@@ -13,10 +11,8 @@ import * as path from "path"
 export function mockBackupResponses(path: string, shouldFail = false) {
   const data = "1234567890"
 
-  //   mockBackupResponses("path-1", true) // use in test to force backup error
-  //
-
-  // mockBackupResponses("path-1") // default -> success backup
+  // mockBackupResponses("path-1", true) // use in test to force backup error
+  // mockBackupResponses("path-1")       // default -> success backup
 
   if (shouldFail) {
     // Simulate backup failure due to full storage
@@ -34,7 +30,6 @@ export function mockBackupResponses(path: string, shouldFail = false) {
     return
   }
 
-  // Default successful backup mocks
   E2EMockClient.mockResponses([
     {
       path,
@@ -137,6 +132,7 @@ export const createMockBackup = async (serialNumber: string): Promise<void> => {
     },
   }
 
+  // fs.mkdirSync(backupLocation, { recursive: true })
   fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf8")
   console.log(`File stored at: ${filePath}`)
 }

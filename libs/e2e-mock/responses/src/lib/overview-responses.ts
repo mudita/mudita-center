@@ -81,6 +81,12 @@ export const overviewDataWithOneSimCard = {
       subText: "SIM 2 - no network",
       show: false,
     },
+    backup: {
+      text: "Last backup: today",
+      subText: "Available for restore",
+      icon: "backup",
+      show: true,
+    },
   },
 }
 
