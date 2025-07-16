@@ -1116,5 +1116,11 @@
   "module.quotations.creatorModal.error.invalidCharacter": "Please remove \"{character}\" as Harmony can’t display it",
   "module.quotations.quotationSavingModal.title": "Quotations",
   "module.quotations.quotationSavingModal.subtitle": "Saving to Harmony...",
-  "module.quotations.quotationSavingModal.description": "Please wait, this might take a while."
+  "module.quotations.quotationSavingModal.description": "Please wait, this might take a while.",
+  "module.quotations.quotationsDeletingModal.title": "Quotations",
+  "module.quotations.quotationsDeletingModal.subtitle": "{value, plural, =-1 {Delete all quotations?} one {Delete quotation?} other {Delete # quotations?}}",
+  "module.quotations.quotationsDeletingModal.description": "You can always add quotations again later.",
+  "module.quotations.quotationsDeletingModal.cancelButton": "Cancel",
+  "module.quotations.quotationsDeletingModal.deleteButton": "Delete",
+  "module.quotations.quotationsDeletingModal.deleteSuccess": "{value, plural, =-1 {All quotations deleted} one {Quotation deleted} other {# quotations deleted}}"
 }
