@@ -8,7 +8,12 @@ import { Quotation } from "./types"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { Source } from "../components/settings-source-form"
 import { Interval } from "../components/settings-interval-form"
-import { getQuotationsSettingsRequest } from "../service/requests"
+import {
+  deleteQuotationsRequest,
+  getQuotationsSettingsRequest,
+} from "../service/requests"
+import { getIndexRequest, indexAllRequest } from "Core/data-sync/requests"
+import { DataIndex } from "Core/data-sync/constants"
 
 export const setQuotations = createAction<Quotation[]>(
   "quotations/setQuotations"
@@ -32,6 +37,7 @@ export const toggleQuotationSelection = createAction<Quotation["id"]>(
 export const toggleAllQuotationsSelection = createAction(
   "quotations/toggleAllQuotationsSelect"
 )
+export const clearQuotations = createAction("quotations/clearQuotations")
 
 export const fetchQuotationsSettings = createAsyncThunk(
   "quotations/fetchQuotationsSettings",
@@ -51,15 +57,42 @@ export const fetchQuotationsSettings = createAsyncThunk(
   }
 )
 
+export const fetchQuotations = createAsyncThunk<
+  Quotation[],
+  { serialNumber: string },
+  { state: ReduxRootState }
+>("quotations/fetchQuotations", async ({ serialNumber }) => {
+  await indexAllRequest({
+    serialNumber,
+    requiredIndexes: [DataIndex.Quotations],
+  })
+  const response = await getIndexRequest(DataIndex.Quotations)
+
+  return Object.values(response?.documentStore.docs || {}).map((doc) => {
+    return {
+      id: Number(doc.id),
+      text: doc.quote,
+      author: doc.author,
+    } as Quotation
+  })
+})
+
 export const deleteQuotations = createAsyncThunk<
   void,
-  Quotation["id"][] | undefined,
+  Quotation["id"][],
   { state: ReduxRootState }
->("quotations/deleteQuotations", (quotationIds, { dispatch, getState }) => {
-  const { quotations } = getState()
+>(
+  "quotations/deleteQuotations",
+  async (quotationIds, { dispatch, getState }) => {
+    const { quotations } = getState()
 
-  // TODO: Implement deleting quotations from device
+    await deleteQuotationsRequest(quotationIds)
 
-  dispatch(removeQuotations(quotationIds || quotations.selectedItems))
-  dispatch(setSelectedQuotations([]))
-})
+    dispatch(removeQuotations(quotationIds || quotations.selectedItems))
+    dispatch(setSelectedQuotations([]))
+
+    if (getState().quotations.items.length === 0) {
+      dispatch(fetchQuotationsSettings())
+    }
+  }
+)

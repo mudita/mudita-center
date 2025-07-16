@@ -23,3 +23,8 @@ export const selectQuotationsSettings = createSelector(
     source,
   })
 )
+
+export const selectQuotationsLoading = createSelector(
+  (state: ReduxRootState) => state.quotations,
+  (quotations) => quotations.itemsLoading
+)

@@ -16,7 +16,20 @@ export class QuotationsController {
   }
 
   @IpcEvent(IpcQuotationsEvent.UpdateSettings)
-  async updateSettings(options: { group?: string; interval?: string | number }) {
+  async updateSettings(options: {
+    group?: string
+    interval?: string | number
+  }) {
     return this.quotationsService.updateSettings(options)
+  }
+
+  @IpcEvent(IpcQuotationsEvent.SaveQuotation)
+  async saveQuotation(data: { quotation: string; author?: string }) {
+    return this.quotationsService.saveQuotation(data.quotation, data.author)
+  }
+
+  @IpcEvent(IpcQuotationsEvent.DeleteQuotations)
+  async deleteQuotations(quotationIds: number[]) {
+    return this.quotationsService.deleteQuotations(quotationIds)
   }
 }

@@ -74,7 +74,11 @@ export const QuotationsCreator: FunctionComponent<Props> = ({
   }, [])
 
   const handleSave = useCallback(() => {
-    onSave(quotation, author)
+    const trimmedQuotation = quotation
+      .split("\n")
+      .map((line) => line.trim())
+      .join("\n")
+    onSave(trimmedQuotation, author)
   }, [author, onSave, quotation])
 
   useEffect(() => {
@@ -111,16 +115,14 @@ export const QuotationsCreator: FunctionComponent<Props> = ({
             label={intl.formatMessage(messages.quotationLabel)}
             rows={2}
             glyphsType={"light"}
-            // TODO: Adjust the limit based on tests
-            limits={[420, 420]}
+            limits={[440, 440]}
             onChange={handleQuotationChange}
           />
           <CreatorInput
             label={intl.formatMessage(messages.authorLabel)}
             rows={1}
             glyphsType={"bold"}
-            // TODO: Adjust the limit based on tests
-            limits={[100]}
+            limits={[365]}
             onChange={handleAuthorChange}
           />
           <Buttons>
