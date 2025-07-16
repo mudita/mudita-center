@@ -106,61 +106,36 @@ export function mockBackupResponses(path: string, shouldFail = false) {
 function getUserConfigDir() {
   const home = os.homedir()
 
+  let userConfigDir = ""
   switch (process.platform) {
     case "win32":
       // On Windows, %APPDATA% typically points to C:\Users\<user>\AppData\Roaming
-      return (
-        process.env.APPDATA ||
-        path.join(
-          home,
-          "AppData",
-          "Roaming",
-          "@mudita",
-          "mudita-center-app",
-          "pure",
-          "phone",
-          "backups"
-        )
-      )
+      userConfigDir =
+        process.env.APPDATA || path.join(home, "AppData", "Roaming")
+      break
 
     case "darwin":
       // On macOS, ~/Library/Application Support
-      return path.join(
-        home,
-        "Library",
-        "Application Support",
-        "@mudita",
-        "mudita-center-app",
-        "pure",
-        "phone",
-        "backups"
-      )
+      userConfigDir = path.join(home, "Library", "Application Support")
+      break
 
     default:
       // Linux & other UNIXes: respect XDG_CONFIG_HOME, fallback to ~/.config
-      return (
-        process.env.XDG_CONFIG_HOME ||
-        path.join(
-          home,
-          ".config",
-          "@mudita",
-          "mudita-center-app",
-          "pure",
-          "phone",
-          "backups"
-        )
-      )
+      userConfigDir = process.env.XDG_CONFIG_HOME || path.join(home, ".config")
+      break
   }
+  return path.join(
+    userConfigDir,
+    "@mudita",
+    "mudita-center-app",
+    "pure",
+    "phone",
+    "backups"
+  )
 }
 
 const getBackupOutputPath = async (): Promise<string> => {
-  // const { ServiceBridge } = await import("device/feature")
-  // const { SettingsService } = await import("Core/settings/services")
-  // const { settingsStore } = await import("Core/settings/store")
-  //
-  // const serviceBridge = new ServiceBridge()
-  // serviceBridge.settingsService = new SettingsService(settingsStore)
-  const backupLocation =  getUserConfigDir()
+  const backupLocation = getUserConfigDir()
   console.log("backupLocation", backupLocation)
   return backupLocation
 }
@@ -171,8 +146,6 @@ export const createMockBackup = async (serialNumber: string): Promise<void> => {
   if (!existsSync(backupLocation)) {
     mkdirSync(backupLocation, { recursive: true })
   }
-
-
 
   const timestamp = Date.now()
   const fileName = `${timestamp}_${serialNumber}.mcbackup`
