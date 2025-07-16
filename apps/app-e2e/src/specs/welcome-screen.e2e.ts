@@ -5,8 +5,9 @@
 
 import AppInitPage from "../page-objects/app-init.page"
 import { NewsPaths } from "../all-paths"
+import { SPEC_TITLE } from "../consts/spec-title"
 
-describe("Welcome screen", () => {
+describe(SPEC_TITLE.WELCOME_SCREEN, () => {
   it("is visible after app start", async () => {
     const layout = await AppInitPage.fullscreenLayout
     await layout.waitForExist()

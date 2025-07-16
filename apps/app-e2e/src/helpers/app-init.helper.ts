@@ -4,28 +4,29 @@
  */
 
 import AppInitPage from "../page-objects/app-init.page"
+import { SPEC_TITLE } from "../consts/spec-title"
 import { Suite } from "@wdio/types/build/Frameworks"
 
 export const passAppInit = async (suite: Suite) => {
   if (
     [
-      "Soft Update Available - App Init Step",
-      "Force Update Available - App Init Step",
-      "Update Available Checking Failed - App Init Step",
+      SPEC_TITLE.APP_INIT_SOFT_UPDATE_AVAILABLE,
+      SPEC_TITLE.APP_INIT_FORCE_UPDATE_AVAILABLE,
+      SPEC_TITLE.APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED,
     ].includes(suite.title)
   ) {
     return
   }
 
-  if (!["Privacy Policy modal"].includes(suite.title)) {
+  if (![SPEC_TITLE.PRIVACY_POLICY_MODAL].includes(suite.title)) {
     await AppInitPage.acceptPrivacyPolicy()
   }
 
   if (
     ![
-      "Privacy Policy modal",
-      "Welcome screen",
-      "Devices - welcome screen",
+      SPEC_TITLE.PRIVACY_POLICY_MODAL,
+      SPEC_TITLE.WELCOME_SCREEN,
+      SPEC_TITLE.DEVICES_WELCOME_SCREEN,
     ].includes(suite.title)
   ) {
     await AppInitPage.closeFullscreenLayout()

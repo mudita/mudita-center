@@ -5,8 +5,9 @@
 
 import DevicesInitPage from "../page-objects/devices-welcome.page"
 import { NewsPaths } from "../all-paths"
+import { SPEC_TITLE } from "../consts/spec-title"
 
-describe("Devices - welcome screen", () => {
+describe(SPEC_TITLE.DEVICES_WELCOME_SCREEN, () => {
   it("is visible after app start", async () => {
     const layout = await DevicesInitPage.welcomeScreen
     await layout.waitForExist()

@@ -8,8 +8,9 @@ import McUpdatePage from "../page-objects/mc-update.page"
 import SettingsPage from "../page-objects/settings.page"
 import AppInitPage from "../page-objects/app-init.page"
 import AboutPage from "../page-objects/about.page"
+import { SPEC_TITLE } from "../consts/spec-title"
 
-describe("Update Available Checking Failed - App Init Step", () => {
+describe(SPEC_TITLE.APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED, () => {
   before(async () => {
     await goToMcUpdate({ error: true })
   })

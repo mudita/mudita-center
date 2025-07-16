@@ -5,8 +5,9 @@
 
 import AppInitPage from "../page-objects/app-init.page"
 import { ModalTestId } from "../all-test-ids"
+import { SPEC_TITLE } from "../consts/spec-title"
 
-describe("Privacy Policy modal", () => {
+describe(SPEC_TITLE.PRIVACY_POLICY_MODAL, () => {
   it("is visible after app start", async () => {
     const modal = await AppInitPage.privacyPolicyModal
     await modal.waitForExist()
