@@ -6,4 +6,6 @@
 export enum QuotationsError {
   GettingSettingsFailed = "GETTING_SETTINGS_FAILED",
   UpdatingSettingsFailed = "UPDATING_SETTINGS_FAILED",
+  SavingQuotationsFailed = "SAVING_QUOTATIONS_FAILED",
+  DeletingQuotationsFailed = "DELETING_QUOTATION_FAILED",
 }

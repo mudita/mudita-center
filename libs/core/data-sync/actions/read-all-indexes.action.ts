@@ -23,6 +23,7 @@ export const readAllIndexes = createAsyncThunk<AllIndexes, void>(
     const callLog = await getIndexRequest(DataIndex.CallLog)
     const alarms = await getIndexRequest(DataIndex.Alarm)
     const notes = await getIndexRequest(DataIndex.Note)
+    const quotations = await getIndexRequest(DataIndex.Quotations)
 
     if (
       contacts === undefined ||
@@ -46,6 +47,7 @@ export const readAllIndexes = createAsyncThunk<AllIndexes, void>(
       callLog: callLog.documentStore.docs,
       alarms: alarms.documentStore.docs,
       notes: notes.documentStore.docs,
+      quotations: quotations?.documentStore.docs,
     }
   }
 )

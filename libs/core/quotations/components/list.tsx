@@ -39,7 +39,7 @@ export const List: FunctionComponent<Props> = ({
   const handleCheckboxChange: ChangeEventHandler<HTMLInputElement> =
     useCallback(
       (event) => {
-        const id = event.target.id.replace("checkbox-", "")
+        const id = Number(event.target.id.replace("checkbox-", ""))
         onCheckboxToggle?.(id)
       },
       [onCheckboxToggle]
@@ -135,7 +135,7 @@ const ListItem = styled.li`
     cursor: pointer;
     height: 8.2rem;
     display: grid;
-    grid-template-columns: 4rem 39rem 10rem 1fr;
+    grid-template-columns: 4rem 46.5rem 1.5rem 1fr;
     align-items: center;
     gap: 1.6rem;
     padding-left: 3.2rem;
