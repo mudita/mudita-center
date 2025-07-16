@@ -13,16 +13,20 @@ import {
   initAppActions,
   initAppFileSystem,
   initAppHttp,
-  initJsonStore,
   initAppLogger,
+  initJsonStore,
 } from "app-utils/main"
 import { initAppUpdater } from "app-updater/main"
 import { initUsbAccess } from "app-init/main"
+import { IpcMockServer } from "e2e-mock/server"
 
-export const initAppLibs = (mainWindow: BrowserWindow) => {
+export const initAppLibs = (
+  mainWindow: BrowserWindow,
+  mockServer: IpcMockServer
+) => {
   initAppActions(ipcMain)
   initAppSettings(ipcMain)
-  initAppUpdater(ipcMain, mainWindow)
+  initAppUpdater(ipcMain, mainWindow, mockServer)
   initSerialPort(ipcMain, mainWindow)
   initSql(ipcMain)
   initNews(ipcMain, mainWindow)
