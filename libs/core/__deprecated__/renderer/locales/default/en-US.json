@@ -1112,7 +1112,7 @@
   "module.quotations.creatorModal.cancelButton": "Cancel",
   "module.quotations.creatorModal.saveButton": "Save to Harmony",
   "module.quotations.creatorModal.saveSuccess": "Save successful",
-  "module.quotations.creatorModal.error.tooLong": "It must be shorter to fit on Hamony's screen",
+  "module.quotations.creatorModal.error.tooLong": "It must be shorter to fit on Harmony's screen",
   "module.quotations.creatorModal.error.invalidCharacter": "Please remove \"{character}\" as Harmony can’t display it",
   "module.quotations.quotationSavingModal.title": "Quotations",
   "module.quotations.quotationSavingModal.subtitle": "Saving to Harmony...",
