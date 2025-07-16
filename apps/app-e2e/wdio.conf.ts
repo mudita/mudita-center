@@ -7,10 +7,7 @@
 import * as path from "path"
 import * as os from "os"
 import { E2EMockClient } from "e2e-mock/client"
-import {
-  TestFilesPaths,
-  toRelativePath,
-} from "./src/consts/test-filenames.const"
+import { MockBasedSpecRelativePaths } from "./src/consts/mock-based-spec-relative-paths"
 import { passAppInit } from "./src/helpers/app-init.helper"
 
 // Based on node_modules/@puppeteer/browsers/src/browser-data/chromedriver.ts
@@ -80,22 +77,7 @@ export const config: WebdriverIO.Config = {
   // of the config file unless it's absolute.
   //
   specs: ["./src/specs/**/*.ts"],
-  suites: {
-    standalone: [
-      toRelativePath(TestFilesPaths.about),
-      toRelativePath(TestFilesPaths.appInit),
-      toRelativePath(TestFilesPaths.backup),
-      toRelativePath(TestFilesPaths.contactSupportBase),
-      toRelativePath(TestFilesPaths.devicesWelcome),
-      // toRelativePath(TestFilesPaths.news), // skip until fix backend
-      toRelativePath(TestFilesPaths.welcomeScreen),
-    ],
-    mock: [
-      toRelativePath(TestFilesPaths.AppInitSoftUpdateAvailable),
-      toRelativePath(TestFilesPaths.AppInitForceUpdateAvailable),
-      toRelativePath(TestFilesPaths.AppInitUpdateAvailableCheckingFailed),
-    ],
-  },
+  // suites: {},
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -276,8 +258,15 @@ export const config: WebdriverIO.Config = {
    * @param {Array.<String>} specs List of spec file paths that are to be run
    * @param {string} cid worker id (e.g. 0-0)
    */
-  // beforeSession: function (config, capabilities, specs, cid) {
-  // },
+  beforeSession: function (_config, _capabilities, specs, _cid) {
+    const mockSpecs: string[] = Object.values(MockBasedSpecRelativePaths)
+    const isMockSpec = (spec: string) =>
+      mockSpecs.some((mockSpec) => spec.endsWith(mockSpec))
+
+    if (specs.some(isMockSpec)) {
+      process.env.MOCK_SERVER_ENABLED = "1"
+    }
+  },
   /**
    * Gets executed before test execution begins. At this point you can access to all global
    * variables like `browser`. It is the perfect place to define custom commands.

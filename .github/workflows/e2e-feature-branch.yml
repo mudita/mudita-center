@@ -93,17 +93,10 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app dir --output-style stream --no-cloud
-      - name: Run e2e (standalone) tests for Linux
+      - name: Run e2e tests for Linux
         if: matrix.runner_label == 'linux-e2e'
-        run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' npx nx start app-e2e --suite standalone --no-cloud --output-style stream
+        run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' npx nx start app-e2e --no-cloud --output-style stream
         shell: bash
-      - name: Run e2e (standalone) tests for Mac/Windows
+      - name: Run e2e tests for Mac/Windows
         if: matrix.runner_label != 'linux-e2e'
-        run: npx nx start app-e2e --suite standalone --no-cloud --output-style stream
-      - name: Run e2e (mock) tests for Linux
-        if: matrix.runner_label == 'linux-e2e'
-        run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' npx nx start app-e2e --suite mock --no-cloud --output-style stream
-        shell: bash
-      - name: Run e2e (mock) tests for Mac/Windows
-        if: matrix.runner_label != 'linux-e2e'
-        run: npx nx start app-e2e --suite mock --no-cloud --output-style stream
+        run: npx nx start app-e2e --no-cloud --output-style stream
