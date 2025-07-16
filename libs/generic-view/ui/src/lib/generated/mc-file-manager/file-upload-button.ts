@@ -179,6 +179,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
       config: {
         modalKey: generateFileUploadButtonModalKey(key, "Finished"),
         transferActionId: uploadActionId,
+        actionType: SendFilesAction.ActionUpload,
       },
     },
     [generateFileUploadButtonModalKey(key, "ValidationFailure")]: {
@@ -195,6 +196,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
       config: {
         modalKey: generateFileUploadButtonModalKey(key, "ValidationFailure"),
         fileTransferActionId: uploadActionId,
+        actionType: SendFilesAction.ActionUpload,
       },
       dataProvider: {
         source: "form-fields",

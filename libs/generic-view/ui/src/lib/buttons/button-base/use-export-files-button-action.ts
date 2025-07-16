@@ -68,8 +68,6 @@ export const useExportFilesButtonAction = () => {
         destinationPath
       )
 
-      console.log(validationError)
-
       if (validationError !== undefined) {
         dispatch(
           addFileTransferErrors({

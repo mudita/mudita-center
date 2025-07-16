@@ -37,7 +37,7 @@ const messages = defineMessages({
     id: "module.genericViews.filesManager.export.progress.modalTitle",
   },
   cancelButton: {
-    id: "module.genericViews.filesManager.upload.progress.cancelButton",
+    id: "module.genericViews.filesManager.file.transfer.progress.cancelButton",
   },
 })
 

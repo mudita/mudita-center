@@ -30,55 +30,59 @@ import { uniq } from "lodash"
 import { ApiFileTransferError } from "device/models"
 import styled from "styled-components"
 import { formatBytes } from "../../typography/format-bytes"
+import { SendFilesAction } from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 const messages = defineMessages({
   allModalTitle: {
-    id: "module.genericViews.filesManager.upload.failure.all.modalTitle",
+    id: "module.genericViews.filesManager.file.transfer.failure.all.modalTitle",
   },
   allUnknownError: {
-    id: "module.genericViews.filesManager.upload.failure.all.unknownError",
+    id: "module.genericViews.filesManager.file.transfer.failure.all.unknownError",
   },
   allDuplicatesError: {
-    id: "module.genericViews.filesManager.upload.failure.all.duplicatesError",
+    id: "module.genericViews.filesManager.file.transfer.failure.all.duplicatesError",
   },
   allNotEnoughMemoryError: {
-    id: "module.genericViews.filesManager.upload.failure.all.notEnoughMemoryError",
+    id: "module.genericViews.filesManager.file.transfer.failure.all.notEnoughMemoryError",
   },
   someModalTitle: {
-    id: "module.genericViews.filesManager.upload.failure.some.modalTitle",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.modalTitle",
   },
   someGeneralInfo: {
-    id: "module.genericViews.filesManager.upload.failure.some.generalInfo",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.generalInfo",
   },
   someDuplicatesError: {
-    id: "module.genericViews.filesManager.upload.failure.some.duplicatesError",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.duplicatesError",
   },
   someNotEnoughMemoryError: {
-    id: "module.genericViews.filesManager.upload.failure.some.notEnoughMemoryError",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.notEnoughMemoryError",
   },
-  errorLabelUnknown: {
-    id: "module.genericViews.filesManager.upload.failure.errorLabels.unknown",
+  errorLabelUploadUnknown: {
+    id: "module.genericViews.filesManager.file.transfer.failure.errorLabels.upload.unknown",
+  },
+  errorLabelExportUnknown: {
+    id: "module.genericViews.filesManager.file.transfer.failure.errorLabels.export.unknown",
   },
   errorLabelDuplicate: {
-    id: "module.genericViews.filesManager.upload.failure.errorLabels.duplicate",
+    id: "module.genericViews.filesManager.file.transfer.failure.errorLabels.duplicate",
   },
   errorLabelTooBig: {
-    id: "module.genericViews.filesManager.upload.failure.errorLabels.tooBig",
+    id: "module.genericViews.filesManager.file.transfer.failure.errorLabels.tooBig",
   },
   errorLabelCancelled: {
-    id: "module.genericViews.filesManager.upload.failure.errorLabels.cancelled",
+    id: "module.genericViews.filesManager.file.transfer.failure.errorLabels.cancelled",
   },
   multipleErrorsStart: {
-    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.start",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.multipleErrors.start",
   },
   multipleErrorsDuplicates: {
-    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.duplicates",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.multipleErrors.duplicates",
   },
   multipleErrorsTooBig: {
-    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.tooBig",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.multipleErrors.tooBig",
   },
   multipleErrorsEnd: {
-    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.end",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.multipleErrors.end",
   },
 })
 
@@ -147,10 +151,14 @@ export const FilesManagerTransferFinished: APIFC<
         case ApiFileTransferError[ApiFileTransferError.Aborted]:
           return intl.formatMessage(messages.errorLabelCancelled)
         default:
-          return intl.formatMessage(messages.errorLabelUnknown)
+          return intl.formatMessage(
+            config.actionType === SendFilesAction.ActionExport
+              ? messages.errorLabelExportUnknown
+              : messages.errorLabelUploadUnknown
+          )
       }
     },
-    []
+    [config.actionType]
   )
 
   const title = useMemo(() => {
@@ -322,7 +330,6 @@ export const FilesManagerTransferFinished: APIFC<
     }
   }, [
     config.modalKey,
-    config.transferActionId,
     dispatch,
     failedFiles.length,
     succeededFiles.length,

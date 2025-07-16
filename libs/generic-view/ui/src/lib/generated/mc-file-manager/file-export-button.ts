@@ -146,6 +146,7 @@ export const generateFileExportProcessButton: ComponentGenerator<
       config: {
         modalKey: generateFilesExportButtonModalKey(key, "Finished"),
         transferActionId: exportActionId,
+        actionType: SendFilesAction.ActionExport,
       },
     },
     [generateFilesExportButtonModalKey(key, "ValidationFailure")]: {
@@ -162,6 +163,7 @@ export const generateFileExportProcessButton: ComponentGenerator<
       config: {
         modalKey: generateFilesExportButtonModalKey(key, "ValidationFailure"),
         fileTransferActionId: exportActionId,
+        actionType: SendFilesAction.ActionExport,
       },
       dataProvider: {
         source: "form-fields",
