@@ -15,6 +15,8 @@ import InfoPopup from "Core/ui/components/info-popup/info-popup.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { AppPortal } from "Root/libs/generic-view/ui/src/lib/data-rows/app-portal"
 import { AppDispatch } from "Core/__deprecated__/renderer/store"
+import { LoadingState } from "Core/__deprecated__/renderer/components/core/table/table.component"
+import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
 import { Quotation } from "./store/types"
 import {
   selectQuotations,
@@ -32,9 +34,8 @@ import {
 } from "./store/actions"
 import { QuotationsCreator } from "./components/quotations-creator"
 import { QuotationSavingModal } from "./components/quotation-saving-modal"
-import { saveQuotationRequest } from "Core/quotations/service/requests"
-import { LoadingState } from "Core/__deprecated__/renderer/components/core/table/table.component"
-import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
+import { saveQuotationRequest } from "./service/requests"
+import { QuotationDeletingModal } from "./components/quotation-deleting-modal"
 
 export const QuotationsPage: FunctionComponent = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -44,6 +45,10 @@ export const QuotationsPage: FunctionComponent = () => {
   const [creatorOpened, setCreatorOpened] = useState(false)
   const [quotationSaving, setQuotationSaving] = useState(false)
   const [quotationSaved, setQuotationSaved] = useState(false)
+  const [quotationsDeleting, setQuotationsDeleting] = useState(false)
+  const [quotationsDeleted, setQuotationsDeleted] = useState(false)
+  const [quotationsDeletingCount, setQuotationsDeletingCount] =
+    useState<number>()
 
   const quotations = useSelector(selectQuotations)
   const selectedQuotations = useSelector(selectSelectedQuotations)
@@ -72,8 +77,23 @@ export const QuotationsPage: FunctionComponent = () => {
   }
 
   const handleDeleteQuotation = () => {
-    // TODO: Implement confirmation modal before deleting
-    dispatch(deleteQuotations(selectedQuotations))
+    setQuotationsDeletingCount(
+      quotations.length > 0 && selectedQuotations.length === quotations.length
+        ? -1
+        : selectedQuotations.length
+    )
+    setQuotationsDeleted(false)
+    setQuotationsDeleting(true)
+  }
+
+  const handleQuotationsDeletingClose = () => {
+    setQuotationsDeleting(false)
+  }
+
+  const handleQuotationsDeletingConfirm = async () => {
+    await dispatch(deleteQuotations(selectedQuotations))
+    handleQuotationsDeletingClose()
+    setQuotationsDeleted(true)
   }
 
   const handleCreatorClose = () => {
@@ -152,6 +172,23 @@ export const QuotationsPage: FunctionComponent = () => {
   }, [quotationSaved])
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null
+
+    if (quotationsDeleted) {
+      timeoutId = setTimeout(() => {
+        setQuotationsDeleted(false)
+        setQuotationsDeletingCount(undefined)
+      }, 3000)
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
+  }, [quotationsDeleted])
+
+  useEffect(() => {
     if (quotationsLoading !== undefined || !deviceData?.serialNumber) return
     dispatch(fetchQuotations({ serialNumber: deviceData.serialNumber }))
   }, [dispatch, quotationsLoading, deviceData?.serialNumber])
@@ -200,6 +237,21 @@ export const QuotationsPage: FunctionComponent = () => {
       {quotationSaved && (
         <InfoPopup
           message={{ id: "module.quotations.creatorModal.saveSuccess" }}
+          icon={IconType.CheckCircleBlack}
+        />
+      )}
+      <QuotationDeletingModal
+        opened={quotationsDeleting}
+        count={quotationsDeletingCount}
+        onConfirm={handleQuotationsDeletingConfirm}
+        onCancel={handleQuotationsDeletingClose}
+      />
+      {quotationsDeleted && (
+        <InfoPopup
+          message={{
+            id: "module.quotations.quotationsDeletingModal.deleteSuccess",
+            values: { value: quotationsDeletingCount },
+          }}
           icon={IconType.CheckCircleBlack}
         />
       )}
