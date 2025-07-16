@@ -8,7 +8,7 @@ import { SetAppUpdaterCheckPayload } from "app-updater/models"
 import AppInitPage from "../page-objects/app-init.page"
 import McUpdatePage from "../page-objects/mc-update.page"
 
-export async function goToMcUpdate(payload: SetAppUpdaterCheckPayload) {
+export const simulateAppInitUpdateStep = async (payload: SetAppUpdaterCheckPayload) => {
   // should open MC Update Modal
   if (process.env.MOCK_SERVER_ENABLED === "1") {
     await E2EMockClient.connect()

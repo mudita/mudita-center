@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { goToMcUpdate } from "../helpers/mc-update.helper"
+import { simulateAppInitUpdateStep } from "../helpers/mc-update.helper"
 import McUpdatePage from "../page-objects/mc-update.page"
 import SettingsPage from "../page-objects/settings.page"
 import AppInitPage from "../page-objects/app-init.page"
@@ -12,7 +12,7 @@ import { SPEC_TITLE } from "../consts/spec-title"
 
 describe(SPEC_TITLE.APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED, () => {
   before(async () => {
-    await goToMcUpdate({ error: true })
+    await simulateAppInitUpdateStep({ error: true })
   })
 
   it("should not display the 'Update Not Available' modal on init", async () => {

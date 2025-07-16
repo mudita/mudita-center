@@ -5,7 +5,7 @@
 
 import McUpdatePage from "../page-objects/mc-update.page"
 import {
-  goToMcUpdate,
+  simulateAppInitUpdateStep,
   itBehavesLikeAvailableModal,
   itBehavesLikeUpdateInProgressModal,
 } from "../helpers/mc-update.helper"
@@ -15,7 +15,7 @@ describe(SPEC_TITLE.APP_INIT_SOFT_UPDATE_AVAILABLE, () => {
   before(async () => {
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
-    await goToMcUpdate({ version, forced: false })
+    await simulateAppInitUpdateStep({ version, forced: false })
   })
 
   itBehavesLikeAvailableModal({ closeVisible: true })
