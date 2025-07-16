@@ -50,6 +50,7 @@ describe("async `readAllIndexes` ", () => {
             callLog: {},
             alarms: {},
             notes: {},
+            quotations: {},
           },
           requestId,
           undefined

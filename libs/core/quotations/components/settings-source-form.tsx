@@ -28,11 +28,13 @@ export enum Source {
 interface Props {
   selectedSource: Source
   setSelectedSource: (source: Source) => void
+  customQuotationsCount?: number
 }
 
 export const SettingsSourceForm: FunctionComponent<Props> = ({
   selectedSource,
   setSelectedSource,
+  customQuotationsCount = 0,
 }) => {
   const id = "settings-source-form"
   return (
@@ -55,10 +57,12 @@ export const SettingsSourceForm: FunctionComponent<Props> = ({
           value={Source.Custom}
           checked={selectedSource === Source.Custom}
           onChange={() => setSelectedSource(Source.Custom)}
+          disabled={customQuotationsCount === 0}
         />
         <Text
           displayStyle={TextDisplayStyle.Paragraph1}
           message={messages.custom}
+          color={customQuotationsCount === 0 ? "disabled2" : "primary"}
         />
       </Label>
     </Wrapper>
@@ -77,7 +81,10 @@ const Label = styled.label`
   align-items: center;
   gap: 0.2rem;
   height: 3.2rem;
-  cursor: pointer;
+
+  &:not(:has(input:disabled)) {
+    cursor: pointer;
+  }
 
   p {
     margin-top: 0.1rem;

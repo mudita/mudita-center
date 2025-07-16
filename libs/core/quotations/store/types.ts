@@ -4,7 +4,7 @@
  */
 
 export interface Quotation {
-  id: string
+  id: number
   text: string
   author?: string
 }

@@ -15,3 +15,16 @@ export const selectSelectedQuotations = createSelector(
   (state: ReduxRootState) => state.quotations,
   (quotations) => quotations.selectedItems
 )
+
+export const selectQuotationsSettings = createSelector(
+  (state: ReduxRootState) => state.quotations,
+  ({ interval, source }) => ({
+    interval,
+    source,
+  })
+)
+
+export const selectQuotationsLoading = createSelector(
+  (state: ReduxRootState) => state.quotations,
+  (quotations) => quotations.itemsLoading
+)

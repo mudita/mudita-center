@@ -7,21 +7,32 @@ import { createReducer } from "@reduxjs/toolkit"
 import { Quotation } from "./types"
 import {
   addQuotation,
+  clearQuotations,
+  fetchQuotations,
   removeQuotations,
   setQuotations,
+  setQuotationsSettings,
   setSelectedQuotations,
   toggleAllQuotationsSelection,
   toggleQuotationSelection,
 } from "./actions"
+import { Interval } from "../components/settings-interval-form"
+import { Source } from "../components/settings-source-form"
 
 export interface QuotationsState {
   items: Quotation[]
   selectedItems: Quotation["id"][]
+  interval?: Interval
+  source?: Source
+  itemsLoading: boolean | undefined
 }
 
 export const initialState: QuotationsState = {
   items: [],
   selectedItems: [],
+  interval: undefined,
+  source: undefined,
+  itemsLoading: undefined,
 }
 
 export const quotationsReducer = createReducer(initialState, (builder) => {
@@ -35,6 +46,10 @@ export const quotationsReducer = createReducer(initialState, (builder) => {
     state.items = state.items.filter(
       (quotation) => !action.payload.includes(quotation.id)
     )
+  })
+  builder.addCase(setQuotationsSettings, (state, source) => {
+    state.source = source.payload.source
+    state.interval = source.payload.interval
   })
   builder.addCase(setSelectedQuotations, (state, action) => {
     state.selectedItems = action.payload
@@ -57,5 +72,22 @@ export const quotationsReducer = createReducer(initialState, (builder) => {
     } else {
       state.selectedItems = state.items.map((quotation) => quotation.id)
     }
+  })
+  builder.addCase(fetchQuotations.pending, (state) => {
+    state.itemsLoading = true
+  })
+  builder.addCase(fetchQuotations.fulfilled, (state, action) => {
+    state.itemsLoading = false
+    state.items = action.payload
+  })
+  builder.addCase(fetchQuotations.rejected, (state) => {
+    state.itemsLoading = false
+  })
+  builder.addCase(clearQuotations, (state) => {
+    state.items = []
+    state.selectedItems = []
+    state.interval = undefined
+    state.source = undefined
+    state.itemsLoading = undefined
   })
 })
