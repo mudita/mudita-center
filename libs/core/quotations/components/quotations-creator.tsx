@@ -24,11 +24,11 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { CreatorInput } from "./creator-input"
-import HarmonyPreview from "./harmony-preview.svg"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { CreatorPreview } from "./creator-preview"
 
 const messages = defineMessages({
   title: {
@@ -64,6 +64,8 @@ export const QuotationsCreator: FunctionComponent<Props> = ({
 }) => {
   const [quotation, setQuotation] = useState("")
   const [author, setAuthor] = useState("")
+  const [quotationError, setQuotationError] = useState<boolean>()
+  const [authorError, setAuthorError] = useState<boolean>()
 
   const handleQuotationChange = useCallback((value: string) => {
     setQuotation(value)
@@ -78,7 +80,7 @@ export const QuotationsCreator: FunctionComponent<Props> = ({
       .split("\n")
       .map((line) => line.trim())
       .join("\n")
-    onSave(trimmedQuotation, author)
+    onSave(trimmedQuotation, author.trim())
   }, [author, onSave, quotation])
 
   useEffect(() => {
@@ -117,6 +119,7 @@ export const QuotationsCreator: FunctionComponent<Props> = ({
             glyphsType={"light"}
             limits={[440, 440]}
             onChange={handleQuotationChange}
+            onError={setQuotationError}
           />
           <CreatorInput
             label={intl.formatMessage(messages.authorLabel)}
@@ -124,6 +127,7 @@ export const QuotationsCreator: FunctionComponent<Props> = ({
             glyphsType={"bold"}
             limits={[365]}
             onChange={handleAuthorChange}
+            onError={setAuthorError}
           />
           <Buttons>
             <ButtonComponent
@@ -134,13 +138,13 @@ export const QuotationsCreator: FunctionComponent<Props> = ({
             <ButtonComponent
               label={intl.formatMessage(messages.saveButtonLabel)}
               displayStyle={DisplayStyle.Primary}
-              disabled={!quotation.trim()}
+              disabled={!quotation.trim() || quotationError || authorError}
               onClick={handleSave}
             />
           </Buttons>
         </Form>
         <Preview>
-          <HarmonyPreview />
+          <CreatorPreview quotation={quotation} author={author} />
         </Preview>
       </Wrapper>
     </ModalDialog>
