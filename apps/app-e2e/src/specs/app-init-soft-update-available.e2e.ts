@@ -10,13 +10,13 @@ import {
   itBehavesLikeUpdateInProgressModal,
 } from "../helpers/mc-update.helper"
 
-describe("MC Force Update Available - App Init Step", () => {
+describe("Soft Update Available - App Init Step", () => {
   before(async () => {
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
-    await goToMcUpdate({ version, forced: true })
+    await goToMcUpdate({ version, forced: false })
   })
 
-  itBehavesLikeAvailableModal({ closeVisible: false })
+  itBehavesLikeAvailableModal({ closeVisible: true })
   itBehavesLikeUpdateInProgressModal()
 })

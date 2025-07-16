@@ -15,6 +15,10 @@ class McUpdatePage extends Page {
   private _updateInProgressModal = new Modal(
     "general.appUpdate.progressModal.title"
   )
+  private _updateNotAvailableModal = new Modal(
+    "general.appUpdate.notAvailableModal.title"
+  )
+  private _updateErrorModal = new Modal("general.appUpdate.errorModal.title")
 
   public setUpdateAvailableModal(options: { version: string }) {
     this._updateAvailableModal = new Modal(
@@ -89,6 +93,14 @@ class McUpdatePage extends Page {
     return this.updateInProgressModal.$(
       `[data-testid="${ProgressBarTestIds.Details}"]`
     )
+  }
+
+  public get updateNotAvailableModal() {
+    return this._updateNotAvailableModal.modal
+  }
+
+  public get updateErrorModal() {
+    return this._updateErrorModal.modal
   }
 }
 

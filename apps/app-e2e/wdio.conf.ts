@@ -91,8 +91,9 @@ export const config: WebdriverIO.Config = {
       toRelativePath(TestFilesPaths.welcomeScreen),
     ],
     mock: [
-      toRelativePath(TestFilesPaths.mcSoftUpdateAvailable),
-      toRelativePath(TestFilesPaths.mcForceUpdateAvailable),
+      toRelativePath(TestFilesPaths.AppInitSoftUpdateAvailable),
+      toRelativePath(TestFilesPaths.AppInitForceUpdateAvailable),
+      toRelativePath(TestFilesPaths.AppInitUpdateAvailableCheckingFailed),
     ],
   },
   // Patterns to exclude.

@@ -9,8 +9,9 @@ import { Suite } from "@wdio/types/build/Frameworks"
 export const passAppInit = async (suite: Suite) => {
   if (
     [
-      "MC Soft Update Available - App Init Step",
-      "MC Force Update Available - App Init Step",
+      "Soft Update Available - App Init Step",
+      "Force Update Available - App Init Step",
+      "Update Available Checking Failed - App Init Step",
     ].includes(suite.title)
   ) {
     return
