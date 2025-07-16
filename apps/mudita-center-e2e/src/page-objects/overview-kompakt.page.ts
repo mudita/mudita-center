@@ -91,5 +91,35 @@ class OverviewKompaktPage extends OverviewPage {
   public get kompaktDeviceTypeLabelValue2nd() {
     return $("//p[contains(text(), 'US')]")
   }
+
+  public get kompaktRestoreButton() {
+    return $("//*[@data-testid='primary-button-backuprestore-backup-button']")
+  }
+
+  public get kompaktRestoreModal() {
+    return $("//*[@data-testid='modal-content-backupbackup-restore']")
+  }
+
+  public get kompaktRestoreModalIcon() {
+    return $("//*[@data-testid='icon-backup']")
+  }
+
+  public get kompaktRestoreTitle() {
+    return $("//h1[contains(text(), 'Restore from backup')]")
+  }
+
+  public get kompaktRestoreSubtitle() {
+    return $(
+      "//p[contains(text(), 'Select one of the backups you want to restore.')]"
+    )
+  }
+
+  public get kompaktRestoreModalCancel() {
+    return $("//*[@data-testid='primary-button-cancel-restore']")
+  }
+
+  public get kompaktRestoreModalConfirm() {
+    return $("//*[@data-testid='primary-button-confirm-restore']")
+  }
 }
 export default new OverviewKompaktPage()

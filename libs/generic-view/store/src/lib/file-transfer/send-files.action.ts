@@ -293,6 +293,10 @@ export const sendFiles = createAsyncThunk<
       return
     }
 
+    if (actionType == SendFilesAction.ActionExport) {
+      return
+    }
+
     const entities = selectEntities(getState(), {
       deviceId,
       entitiesType,
