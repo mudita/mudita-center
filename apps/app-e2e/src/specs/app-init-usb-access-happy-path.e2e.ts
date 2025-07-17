@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { simulateAppInitUsbAccessStep } from "../helpers/usb-access.helper"
+import {
+  itBehavesLikeProcessingModal,
+  itBehavesLikeRequestModal,
+  simulateAppInitUsbAccessStep,
+} from "../helpers/usb-access.helper"
 import UsbAccessPage from "../page-objects/usb-access.page"
 import { SPEC_TITLE } from "../consts/spec-title"
 import AppInitPage from "../page-objects/app-init.page"
@@ -16,35 +20,8 @@ describe(SPEC_TITLE.APP_INIT_USB_ACCESS_HAPPY_PATH, () => {
     })
   })
 
-  describe("Usn Access Request Modal", () => {
-    it("should display all core modal elements", async () => {
-      await expect(UsbAccessPage.requestModal).toBeDisplayed()
-      await expect(UsbAccessPage.requestModalTitle).toBeDisplayed()
-      await expect(UsbAccessPage.requestModalTitleIcon).toBeDisplayed()
-      await expect(UsbAccessPage.requestModalDescription).toBeDisplayed()
-    })
-
-    it("should display action controls", async () => {
-      await expect(UsbAccessPage.requestModalCloseButton).toBeDisplayed()
-      await expect(UsbAccessPage.requestModalButton).toBeDisplayed()
-    })
-
-    it("should open the Processing modal on clicking allow button", async () => {
-      await UsbAccessPage.requestModalButton.click()
-      await expect(UsbAccessPage.processingModal).toBeDisplayed()
-    })
-  })
-
-  describe("Usb Access Processing Modal", () => {
-    it("should display modal header and icon", async () => {
-      await expect(UsbAccessPage.processingModalTitle).toBeDisplayed()
-      await expect(UsbAccessPage.processingModalTitleIcon).toBeDisplayed()
-    })
-
-    it("should not show close button while processing", async () => {
-      await expect(UsbAccessPage.processingModalCloseButton).not.toBeDisplayed()
-    })
-  })
+  itBehavesLikeRequestModal()
+  itBehavesLikeProcessingModal()
 
   describe("Usb Access Granted Modal Modal", () => {
     it("should display all core modal elements", async () => {

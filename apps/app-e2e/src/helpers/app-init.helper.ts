@@ -15,6 +15,7 @@ export const passAppInit = async (suite: Suite) => {
       SPEC_TITLE.APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED,
       SPEC_TITLE.APP_INIT_USB_ACCESS_HAPPY_PATH,
       SPEC_TITLE.APP_INIT_USB_ACCESS_CANCEL_PATH,
+      SPEC_TITLE.APP_INIT_USB_ACCESS_FAILURE_PATH,
     ].includes(suite.title)
   ) {
     return
