@@ -11,4 +11,5 @@ export enum MockBasedSpecRelativePaths {
   AppInitUsbAccessHappyPath = "src/specs/app-init-usb-access-happy-path.e2e.ts",
   AppInitUsbAccessCancelPath = "src/specs/app-init-usb-access-cancel-path.e2e.ts",
   AppInitUsbAccessFailurePath = "src/specs/app-init-usb-access-failure-path.e2e.ts",
+  AppInitPrivacyPolicyFirstRun = "src/specs/app-init-privacy-policy-first-run.e2e.ts",
 }
