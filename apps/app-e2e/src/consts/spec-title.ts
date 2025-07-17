@@ -12,7 +12,8 @@ export const SPEC_TITLE = {
   APP_INIT_USB_ACCESS_HAPPY_PATH: "Usb Access - App Init Step - Happy Path",
   APP_INIT_USB_ACCESS_CANCEL_PATH: "Usb Access - App Init Step - Cancel Path",
   APP_INIT_USB_ACCESS_FAILURE_PATH: "Usb Access - App Init Step - Failure Path",
-  PRIVACY_POLICY_MODAL: "Privacy Policy modal",
+  APP_INIT_PRIVACY_POLICY_FIRST_RUN:
+    "Privacy Policy - App Init Step - First Run",
   WELCOME_SCREEN: "Welcome screen",
   DEVICES_WELCOME_SCREEN: "Devices - welcome screen",
 }

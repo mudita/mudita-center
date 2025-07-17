@@ -17,21 +17,15 @@ export const passAppInit = async (suite: Suite) => {
       SPEC_TITLE.APP_INIT_USB_ACCESS_HAPPY_PATH,
       SPEC_TITLE.APP_INIT_USB_ACCESS_CANCEL_PATH,
       SPEC_TITLE.APP_INIT_USB_ACCESS_FAILURE_PATH,
+      SPEC_TITLE.APP_INIT_PRIVACY_POLICY_FIRST_RUN,
     ].includes(suite.title)
   ) {
     return
   }
-
-  if (![SPEC_TITLE.PRIVACY_POLICY_MODAL].includes(suite.title)) {
-    await AppInitPage.acceptPrivacyPolicy()
-  }
-
   if (
-    ![
-      SPEC_TITLE.PRIVACY_POLICY_MODAL,
-      SPEC_TITLE.WELCOME_SCREEN,
-      SPEC_TITLE.DEVICES_WELCOME_SCREEN,
-    ].includes(suite.title)
+    ![SPEC_TITLE.WELCOME_SCREEN, SPEC_TITLE.DEVICES_WELCOME_SCREEN].includes(
+      suite.title
+    )
   ) {
     await AppInitPage.closeFullscreenLayout()
   }
