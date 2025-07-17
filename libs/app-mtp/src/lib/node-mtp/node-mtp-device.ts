@@ -265,7 +265,16 @@ export class NodeMtpDevice {
       storageId,
       sourcePath
     )
+
+    if (objectHandle === undefined) {
+      throw new AppError(
+        MTPError.MTP_SOURCE_PATH_NOT_FOUND,
+        `There is no such element ${sourcePath}`
+      )
+    }
+
     const objectInfo = await this.getObjectInfo(objectHandle)
+
     return {
       objectHandle,
       fileName: objectInfo.filename,
@@ -337,18 +346,6 @@ export class NodeMtpDevice {
         `${PREFIX_LOG} Cancel transfer: unknown error: status code ${response.code}`
       )
     }
-  }
-
-  public async getFileSize(
-    sourcePath: string,
-    storageId: number
-  ): Promise<number> {
-    const objectHandle = await this.findObjectHandleFromPath(
-      storageId,
-      sourcePath
-    )
-    const objectInfo = await this.getObjectInfo(objectHandle)
-    return objectInfo.objectCompressedSize
   }
 
   private async transferOut(
@@ -522,7 +519,7 @@ export class NodeMtpDevice {
     }
   }
 
-  private async findObjectHandleFromPath(storageId: number, fullPath: string) {
+  async findObjectHandleFromPath(storageId: number, fullPath: string) {
     const parts = fullPath.split("/").filter(Boolean)
     let currentHandle = 0xffffffff
     for (const part of parts) {
@@ -543,11 +540,7 @@ export class NodeMtpDevice {
           break
         }
       }
-      if (!found)
-        throw new AppError(
-          MTPError.MTP_SOURCE_PATH_NOT_FOUND,
-          `There is no such element ${part} at ${fullPath} path`
-        )
+      if (!found) return
     }
     return currentHandle
   }

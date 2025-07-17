@@ -11,7 +11,7 @@ import { Typography } from "../../typography/typography"
 import { Icon } from "../../icon/icon"
 import Tooltip from "../../interactive/tooltip/tooltip"
 
-export const FilesManagerUploadProgressWarning: FunctionComponent = () => {
+export const FilesManagerTransferProgressWarning: FunctionComponent = () => {
   return (
     <Wrapper>
       <Typography.P3

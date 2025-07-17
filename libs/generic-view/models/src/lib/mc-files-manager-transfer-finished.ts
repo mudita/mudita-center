@@ -14,6 +14,7 @@ export type McFilesManagerTransferFinishedData = z.infer<typeof dataValidator>
 const configValidator = z.object({
   modalKey: z.string(),
   transferActionId: z.string(),
+  actionType: z.string(),
 })
 
 export type McFilesManagerTransferFinishedConfig = z.infer<

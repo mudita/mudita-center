@@ -146,9 +146,36 @@ export const generateFileExportProcessButton: ComponentGenerator<
       config: {
         modalKey: generateFilesExportButtonModalKey(key, "Finished"),
         transferActionId: exportActionId,
+        actionType: SendFilesAction.ActionExport,
       },
     },
-
+    [generateFilesExportButtonModalKey(key, "ValidationFailure")]: {
+      component: "modal",
+      config: {
+        size: "small",
+      },
+      childrenKeys: [
+        generateFilesExportButtonModalKey(key, "ValidationFailureContent"),
+      ],
+    },
+    [generateFilesExportButtonModalKey(key, "ValidationFailureContent")]: {
+      component: "mc-files-manager-transfer-validation-error",
+      config: {
+        modalKey: generateFilesExportButtonModalKey(key, "ValidationFailure"),
+        fileTransferActionId: exportActionId,
+        actionType: SendFilesAction.ActionExport,
+      },
+      dataProvider: {
+        source: "form-fields",
+        formKey: `${key}fileListForm`,
+        fields: [
+          {
+            providerField: "selectedItems",
+            componentField: "data.fileList",
+          },
+        ],
+      },
+    },
     [`${key}FilesExportedToast`]: {
       component: "toast",
       childrenKeys: [

@@ -26,7 +26,7 @@ import {
 import { AppError } from "../../../../core/core/errors/app-error"
 import { handleMtpError, mapToMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
-import { mtpUploadChunkSize, rootObjectHandle } from "./mtp-packet-definitions"
+import { mtpUploadChunkSize } from "./mtp-packet-definitions"
 import { ResponseObjectInfo } from "./utils/object-info.interface"
 import { getObjectFormat, isObjectCatalog } from "./utils/object-format.helpers"
 import { ObjectFormatCode } from "./utils/object-format.interface"
@@ -146,27 +146,37 @@ export class NodeMtp implements MtpInterface {
   private async createDirectories(
     deviceId: string,
     storageId: number,
-    filePath: string,
-    parentObjectHandle: number
+    filePath: string
   ): Promise<number> {
-    const pathSegments = filePath.split("/").filter((segment) => segment !== "")
-    if (pathSegments.length === 0) {
-      return parentObjectHandle
-    } else {
-      const truncatedPath = pathSegments.slice(1).join("/")
-      const objectHandle = await this.createFolder(
+    const rootObjectHandle = 0xffffffff
+    const pathSegments = filePath.split("/").filter(Boolean)
+
+    let currentParent = rootObjectHandle
+
+    for (const segment of pathSegments) {
+      const children = await this.getChildObjectInfoList(
+        currentParent,
         deviceId,
-        storageId,
-        pathSegments[0],
-        parentObjectHandle
+        storageId
       )
-      return this.createDirectories(
-        deviceId,
-        storageId,
-        truncatedPath,
-        objectHandle
+
+      const existingFolder = children.find(
+        (child) => child.filename === segment
       )
+
+      if (existingFolder && isObjectCatalog(existingFolder)) {
+        currentParent = existingFolder.objectHandle
+      } else {
+        const newFolderHandle = await this.createFolder(
+          deviceId,
+          storageId,
+          segment,
+          currentParent
+        )
+        currentParent = newFolderHandle
+      }
     }
+    return currentParent
   }
 
   private async createFolder(
@@ -178,7 +188,9 @@ export class NodeMtp implements MtpInterface {
     console.log(
       `${PREFIX_LOG} createFolder... deviceId: ${deviceId}, storageId: ${storageId}, name: ${name}, parentObjectHandle: ${parentObjectHandle}`
     )
+
     const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+
     return device.uploadFileInfo({
       size: 0,
       name,
@@ -204,15 +216,24 @@ export class NodeMtp implements MtpInterface {
         )
       }
 
+      const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const storageIdNumber = Number(storageId)
 
       const size = await this.getFileSize(sourcePath)
       const name = path.basename(sourcePath)
-      const parentObjectHandle = await this.getObjectHandleFromLastPathSegment(
-        deviceId,
+      let parentObjectHandle = await device.findObjectHandleFromPath(
         storageIdNumber,
         destinationPath
       )
+
+      console.log(parentObjectHandle)
+      if (parentObjectHandle === undefined) {
+        parentObjectHandle = await this.createDirectories(
+          deviceId,
+          storageIdNumber,
+          destinationPath
+        )
+      }
 
       const objectFormat = getObjectFormat(name)
 
@@ -359,8 +380,12 @@ export class NodeMtp implements MtpInterface {
           ? mtpError
           : new AppError(
               MTPError.MTP_GENERAL_ERROR,
-              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-              `Error exporting file at progress: ${this.transferFileTransactionStatus[transactionId].progress}% - ${error}`
+              `Error during exporting file at progress ${
+                this.transferFileTransactionStatus[
+                  transactionId
+                ]?.progress?.toFixed(2) ?? 0
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              }%: ${error}`
             )
     }
   }
@@ -368,52 +393,6 @@ export class NodeMtp implements MtpInterface {
   private async getFileSize(filePath: string): Promise<number> {
     const stats = await fs.promises.stat(filePath)
     return stats.size
-  }
-
-  private async getObjectHandleFromLastPathSegment(
-    deviceId: string,
-    storageId: number,
-    filePath: string,
-    objectHandle: number = rootObjectHandle
-  ): Promise<number> {
-    console.log(
-      `${PREFIX_LOG} getObjectHandleFromLastPathSegment... filePath: ${filePath}, objectHandle: ${objectHandle}`
-    )
-
-    const pathSegments = filePath.split("/").filter((segment) => segment !== "")
-
-    if (pathSegments.length === 0) {
-      return objectHandle
-    } else {
-      const truncatedPath = pathSegments.slice(1).join("/")
-
-      const childObjectInfoList = await this.getChildObjectInfoList(
-        objectHandle,
-        deviceId,
-        storageId
-      )
-
-      const childObjectInfo = childObjectInfoList.find(
-        (objectInfo) =>
-          objectInfo.filename === pathSegments[0] && isObjectCatalog(objectInfo)
-      )
-
-      if (childObjectInfo) {
-        return this.getObjectHandleFromLastPathSegment(
-          deviceId,
-          storageId,
-          truncatedPath,
-          childObjectInfo.objectHandle
-        )
-      } else {
-        return this.createDirectories(
-          deviceId,
-          storageId,
-          filePath,
-          objectHandle
-        )
-      }
-    }
   }
 
   private async getChildObjectInfoList(

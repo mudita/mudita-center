@@ -6,7 +6,7 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { answerMain, useDebouncedEventsHandler } from "shared/utils"
+import { answerMain, delay, useDebouncedEventsHandler } from "shared/utils"
 import { selectDialogOpenState } from "shared/app-state"
 import {
   DeviceBaseProperties,
@@ -139,6 +139,7 @@ const useHandleDevicesDetached = () => {
       }
 
       if (apiEvents.length !== 0) {
+        await delay(1000) //delay to avoid showing modal after reconnecting device
         dispatch(closeAllModals())
 
         if (
