@@ -4,19 +4,17 @@
  */
 
 import { E2EMockClient } from "../../../../libs/e2e-mock/client/src"
-import { generateUniqueNumber } from "./utils/generate-unique-number-id.helper"
-import { generateBase64Info } from "./utils/generate-base-64-info.helper"
 import { prepareMockForFileTransfer } from "./prepare-mock-for-file-transfer.helper"
 import * as fs from "fs"
 import * as path from "path"
+import * as os from "node:os"
+import { existsSync, mkdirSync } from "fs"
 
 export function mockBackupResponses(path: string, shouldFail = false) {
   const data = "1234567890"
 
-  //   mockBackupResponses("path-1", true) // use in test to force backup error
-  //
-
-  // mockBackupResponses("path-1") // default -> success backup
+  // mockBackupResponses("path-1", true) // use in test to force backup error
+  // mockBackupResponses("path-1")       // default -> success backup
 
   if (shouldFail) {
     // Simulate backup failure due to full storage
@@ -34,7 +32,6 @@ export function mockBackupResponses(path: string, shouldFail = false) {
     return
   }
 
-  // Default successful backup mocks
   E2EMockClient.mockResponses([
     {
       path,
@@ -103,19 +100,46 @@ export function mockBackupResponses(path: string, shouldFail = false) {
   )
 }
 
-const getBackupOutputPath = async (): Promise<string> => {
-  const { ServiceBridge } = await import("device/feature")
-  const { SettingsService } = await import("Core/settings/services")
-  const { settingsStore } = await import("Core/settings/store")
+function getUserConfigDir() {
+  const home = os.homedir()
 
-  const serviceBridge = new ServiceBridge()
-  serviceBridge.settingsService = new SettingsService(settingsStore)
-  return serviceBridge.settingsService.getSettings().osBackupLocation
+  let userConfigDir = ""
+  switch (process.platform) {
+    case "win32":
+      userConfigDir =
+        process.env.APPDATA || path.join(home, "AppData", "Roaming")
+      break
+
+    case "darwin":
+      userConfigDir = path.join(home, "Library", "Application Support")
+      break
+
+    default:
+      userConfigDir = process.env.XDG_CONFIG_HOME || path.join(home, ".config")
+      break
+  }
+  return path.join(
+    userConfigDir,
+    "@mudita",
+    "mudita-center-app",
+    "pure",
+    "phone",
+    "backups"
+  )
+}
+
+const getBackupOutputPath = async (): Promise<string> => {
+  const backupLocation = getUserConfigDir()
+  console.log("backupLocation", backupLocation)
+  return backupLocation
 }
 
 export const createMockBackup = async (serialNumber: string): Promise<void> => {
   const osBackupLocation = await getBackupOutputPath()
   const backupLocation = path.join(osBackupLocation, "3310-2006")
+  if (!existsSync(backupLocation)) {
+    mkdirSync(backupLocation, { recursive: true })
+  }
 
   const timestamp = Date.now()
   const fileName = `${timestamp}_${serialNumber}.mcbackup`
@@ -137,6 +161,7 @@ export const createMockBackup = async (serialNumber: string): Promise<void> => {
     },
   }
 
+  fs.mkdirSync(backupLocation, { recursive: true })
   fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf8")
   console.log(`File stored at: ${filePath}`)
 }
