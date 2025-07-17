@@ -43,6 +43,8 @@ import { saveQuotationRequest } from "./service/requests"
 import { QuotationDeletingModal } from "./components/quotation-deleting-modal"
 import { NotEnoughSpaceModal } from "Core/quotations/components/not-enough-space-modal"
 
+const MINIMUM_AVAILABLE_SPACE_BYTES = 500 // Minimum space in bytes required to save a quotation
+
 export const QuotationsPage: FunctionComponent = () => {
   const dispatch = useDispatch<AppDispatch>()
   const deviceData = useSelector(deviceDataSelector)
@@ -58,7 +60,6 @@ export const QuotationsPage: FunctionComponent = () => {
     useState<number>()
   const [noSpaceOpened, setNoSpaceOpened] = useState(false)
 
-  const deviceInfo = useSelector(deviceDataSelector)
   const quotations = useSelector(selectQuotations)
   const selectedQuotations = useSelector(selectSelectedQuotations)
   const quotationsSettings = useSelector(selectQuotationsSettings)
@@ -108,12 +109,14 @@ export const QuotationsPage: FunctionComponent = () => {
   }
 
   const isSpaceAvailable = useCallback(() => {
-    if (!deviceInfo?.memorySpace) {
+    if (!deviceData?.memorySpace) {
       return true
     }
-    const { reservedSpace, usedUserSpace, total } = deviceInfo.memorySpace
-    return total - (reservedSpace + usedUserSpace) >= 500 // at least 500 bytes available
-  }, [deviceInfo?.memorySpace])
+    const { reservedSpace, usedUserSpace, total } = deviceData.memorySpace
+    return (
+      total - (reservedSpace + usedUserSpace) >= MINIMUM_AVAILABLE_SPACE_BYTES
+    )
+  }, [deviceData?.memorySpace])
 
   const handleCreatorOpen = useCallback(() => {
     if (isSpaceAvailable()) {
