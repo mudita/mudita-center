@@ -11,9 +11,13 @@ import {
 import UsbAccessPage from "../page-objects/usb-access.page"
 import { SPEC_TITLE } from "../consts/spec-title"
 import AppInitPage from "../page-objects/app-init.page"
+import testsHelper from "../helpers/tests.helper"
 
 describe(SPEC_TITLE.APP_INIT_USB_ACCESS_HAPPY_PATH, () => {
-  before(async () => {
+  before(async function () {
+    if (!testsHelper.isLinux()) {
+      this.skip()
+    }
     await simulateAppInitUsbAccessStep({
       serialPortAccess: false,
       grantAccessToSerialPortResult: true,

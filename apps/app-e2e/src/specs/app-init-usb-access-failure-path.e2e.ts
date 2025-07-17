@@ -10,9 +10,13 @@ import {
   simulateAppInitUsbAccessStep,
 } from "../helpers/usb-access.helper"
 import { SPEC_TITLE } from "../consts/spec-title"
+import testsHelper from "../helpers/tests.helper"
 
 describe(SPEC_TITLE.APP_INIT_USB_ACCESS_FAILURE_PATH, () => {
-  before(async () => {
+  before(async function () {
+    if (!testsHelper.isLinux()) {
+      this.skip()
+    }
     await simulateAppInitUsbAccessStep({
       serialPortAccess: false,
       grantAccessToSerialPortResult: false,
