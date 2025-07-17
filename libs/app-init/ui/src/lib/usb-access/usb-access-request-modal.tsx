@@ -42,7 +42,11 @@ export const UsbAccessRequestModal: FunctionComponent<Props> = ({
         {formatMessage(messages.description)}
       </Typography.P1>
       <Modal.Buttons>
-        <Button type={ButtonType.Primary} onClick={onAction}>
+        <Button
+          data-testid={UsbAccessTestIds.RequestModalButton}
+          type={ButtonType.Primary}
+          onClick={onAction}
+        >
           {formatMessage(messages.buttonText)}
         </Button>
       </Modal.Buttons>
