@@ -29,7 +29,11 @@ import {
 } from "./store/app-updater.actions"
 import { AppUpdater } from "app-updater/renderer"
 
-export const AppUpdateFlow: FunctionComponent = memo(() => {
+interface Props {
+  onClose: VoidFunction
+}
+
+export const AppUpdateFlow: FunctionComponent<Props> = memo(({ onClose }) => {
   const dispatch = useAppDispatch()
   const newVersion = useSelector(selectAppUpdaterNewVersion)
   const isForcedUpdate = useSelector(selectAppUpdaterForceUpdate)
@@ -38,6 +42,7 @@ export const AppUpdateFlow: FunctionComponent = memo(() => {
 
   const handleCancel = () => {
     dispatch(cancelAppUpdate())
+    onClose()
   }
 
   const handleDownload = () => {

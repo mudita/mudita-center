@@ -4,6 +4,7 @@
  */
 
 export const SPEC_TITLE = {
+  APP_INIT_FULL_HAPPY_FLOW: "App Init - Full Happy Path",
   APP_INIT_SOFT_UPDATE_AVAILABLE: "Soft Update Available - App Init Step",
   APP_INIT_FORCE_UPDATE_AVAILABLE: "Force Update Available - App Init Step",
   APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED:

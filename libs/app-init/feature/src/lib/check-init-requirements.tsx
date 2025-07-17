@@ -86,13 +86,17 @@ export const CheckInitRequirements = () => {
     setUsbAccessStatus(RequirementStatus.ActionNotRequired)
   }, [])
 
+  const handleAppUpdateFlowClose = useCallback(() => {
+    setUpdateStatus(RequirementStatus.ActionNotRequired)
+  }, [])
+
   return (
     <>
       <PrivacyPolicyFlow
         opened={privacyPolicyStatus === RequirementStatus.ActionRequired}
         onAccept={acceptPrivacyPolicy}
       />
-      <AppUpdateFlow />
+      <AppUpdateFlow onClose={handleAppUpdateFlowClose} />
       <UsbAccessFlow
         opened={usbAccessStatus === RequirementStatus.ActionRequired}
         onClose={handleUsbAccessFlowClose}
