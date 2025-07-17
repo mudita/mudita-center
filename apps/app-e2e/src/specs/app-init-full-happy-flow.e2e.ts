@@ -8,6 +8,7 @@ import { SPEC_TITLE } from "../consts/spec-title"
 import McUpdatePage from "../page-objects/mc-update.page"
 import AppInitPage from "../page-objects/app-init.page"
 import UsbAccessPage from "../page-objects/usb-access.page"
+import testsHelper from "../helpers/tests.helper"
 
 describe(SPEC_TITLE.APP_INIT_FULL_HAPPY_FLOW, () => {
   before(async () => {
@@ -32,21 +33,33 @@ describe(SPEC_TITLE.APP_INIT_FULL_HAPPY_FLOW, () => {
     await expect(McUpdatePage.updateAvailableModalCloseButton).toBeDisplayed()
   })
 
-  it("should display USB Access Request Modal after click close button of Available Update Modal", async () => {
+  it("should display USB Access Request Modal after click close button of Available Update Modal", async function () {
+    if (!testsHelper.isLinux()) {
+      this.skip()
+    }
     await McUpdatePage.updateAvailableModalCloseButton.click()
     await expect(UsbAccessPage.requestModal).toBeDisplayed()
   })
 
-  it("should open the Request Cancelled modal on clicking close button", async () => {
+  it("should open the Request Cancelled modal on clicking close button", async function () {
+    if (!testsHelper.isLinux()) {
+      this.skip()
+    }
     await UsbAccessPage.requestModalCloseButton.click()
     await expect(UsbAccessPage.requestCancelledModal).toBeDisplayed()
   })
 
-  it("should allows to close full screen layout when clicking ok modal button", async () => {
-    await expect(AppInitPage.fullscreenLayoutCloseButton).not.toBeClickable()
-    await UsbAccessPage.requestCancelledModalButton.waitForDisplayed()
-    await UsbAccessPage.requestCancelledModalButton.click()
-    await expect(UsbAccessPage.requestCancelledModal).not.toBeDisplayed()
-    await expect(AppInitPage.fullscreenLayoutCloseButton).toBeClickable()
+  it("should allow to close full screen layout when clicking ok modal button", async () => {
+    if (!testsHelper.isLinux()) {
+      await expect(AppInitPage.fullscreenLayoutCloseButton).not.toBeClickable()
+      await McUpdatePage.updateAvailableModalCloseButton.click()
+      await expect(AppInitPage.fullscreenLayoutCloseButton).toBeClickable()
+    } else {
+      await expect(AppInitPage.fullscreenLayoutCloseButton).not.toBeClickable()
+      await UsbAccessPage.requestCancelledModalButton.waitForDisplayed()
+      await UsbAccessPage.requestCancelledModalButton.click()
+      await expect(UsbAccessPage.requestCancelledModal).not.toBeDisplayed()
+      await expect(AppInitPage.fullscreenLayoutCloseButton).toBeClickable()
+    }
   })
 })
