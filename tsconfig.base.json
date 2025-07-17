@@ -18,6 +18,7 @@
     "paths": {
       "e2e-mock/client": ["libs/e2e-mock/client/src/index.ts"],
       "e2e-mock/server": ["libs/e2e-mock/server/src/index.ts"],
+      "e2e-mock/models": ["libs/e2e-mock/models/src/index.ts"],
       "app-init/feature": ["libs/app-init/feature/src/index.ts"],
       "app-init/main": ["libs/app-init/main/src/index.ts"],
       "app-init/models": ["libs/app-init/models/src/index.ts"],
@@ -97,9 +98,6 @@
       "devices/pure/feature": ["libs/devices/pure/feature/src/index.ts"],
       "devices/pure/models": ["libs/devices/pure/models/src/index.ts"],
       "devices/pure/routes": ["libs/devices/pure/routes/src/index.ts"],
-      "e2e-mock/client": ["libs/e2e-mock/client/src/index.ts"],
-      "e2e-mock/models": ["libs/e2e-mock/models/src/index.ts"],
-      "e2e-mock/server": ["libs/e2e-mock/server/src/index.ts"],
       "help/feature": ["libs/help/feature/src/index.ts"],
       "help/main": ["libs/help/main/src/index.ts"],
       "help/models": ["libs/help/models/src/index.ts"],

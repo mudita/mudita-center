@@ -10,9 +10,13 @@ import { Suite } from "@wdio/types/build/Frameworks"
 export const passAppInit = async (suite: Suite) => {
   if (
     [
+      SPEC_TITLE.APP_INIT_FULL_HAPPY_FLOW,
       SPEC_TITLE.APP_INIT_SOFT_UPDATE_AVAILABLE,
       SPEC_TITLE.APP_INIT_FORCE_UPDATE_AVAILABLE,
       SPEC_TITLE.APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED,
+      SPEC_TITLE.APP_INIT_USB_ACCESS_HAPPY_PATH,
+      SPEC_TITLE.APP_INIT_USB_ACCESS_CANCEL_PATH,
+      SPEC_TITLE.APP_INIT_USB_ACCESS_FAILURE_PATH,
     ].includes(suite.title)
   ) {
     return

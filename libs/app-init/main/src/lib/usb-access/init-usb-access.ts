@@ -5,16 +5,34 @@
 
 import { IpcMain } from "electron"
 import { UsbAccessIpcEvents } from "app-init/models"
+import { IpcMockServer } from "e2e-mock/server"
 import { UsbAccessService } from "./usb-access.service"
+import { MockUsbAccessService } from "./mock-usb-access.service"
 
-export const initUsbAccess = (ipcMain: IpcMain) => {
-  ipcMain.removeHandler(UsbAccessIpcEvents.HasSerialPortAccess)
-  ipcMain.handle(UsbAccessIpcEvents.HasSerialPortAccess, () =>
-    UsbAccessService.hasSerialPortAccess()
-  )
+let usbAccessService: UsbAccessService | MockUsbAccessService
 
-  ipcMain.removeHandler(UsbAccessIpcEvents.GrantAccessToSerialPort)
-  ipcMain.handle(UsbAccessIpcEvents.GrantAccessToSerialPort, () =>
-    UsbAccessService.grantAccessToSerialPort()
-  )
+const shouldUseMockService = (serverEnabled: boolean) => {
+  return serverEnabled || process.env.E2ECI === "true"
+}
+
+export const initUsbAccess = (ipcMain: IpcMain, mockServer: IpcMockServer) => {
+  if (!usbAccessService) {
+    const useMockService = shouldUseMockService(mockServer.serverEnabled)
+    console.log(
+      `Initializing Usb Access Service in ${useMockService ? "mock" : "real"} mode`
+    )
+    usbAccessService = useMockService
+      ? new MockUsbAccessService(mockServer)
+      : new UsbAccessService()
+
+    ipcMain.removeHandler(UsbAccessIpcEvents.HasSerialPortAccess)
+    ipcMain.handle(UsbAccessIpcEvents.HasSerialPortAccess, () =>
+      usbAccessService.hasSerialPortAccess()
+    )
+
+    ipcMain.removeHandler(UsbAccessIpcEvents.GrantAccessToSerialPort)
+    ipcMain.handle(UsbAccessIpcEvents.GrantAccessToSerialPort, () =>
+      usbAccessService.grantAccessToSerialPort()
+    )
+  }
 }

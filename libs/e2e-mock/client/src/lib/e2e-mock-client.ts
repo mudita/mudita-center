@@ -4,8 +4,9 @@
  */
 
 import { E2eMockIpcEvents } from "e2e-mock/models"
-import { IpcClient } from "./ipc-client"
 import { SetAppUpdaterCheckPayload } from "app-updater/models"
+import { SetUsbAccessPayload } from "app-init/models"
+import { IpcClient } from "./ipc-client"
 
 const ipcClient = new IpcClient()
 
@@ -23,5 +24,8 @@ export const E2EMockClient = {
       E2eMockIpcEvents.emitAppUpdaterDownloadProgressEvent,
       payload
     )
+  },
+  setUsbAccess: (payload: SetUsbAccessPayload): void => {
+    ipcClient.emit(E2eMockIpcEvents.setUsbAccess, payload)
   },
 }

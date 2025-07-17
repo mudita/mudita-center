@@ -35,5 +35,5 @@ export const initAppLibs = (
   initAppHttp(ipcMain)
   initAppLogger(ipcMain)
   initAppFileSystem(ipcMain)
-  initUsbAccess(ipcMain)
+  initUsbAccess(ipcMain, mockServer)
 }
