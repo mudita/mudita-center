@@ -8,4 +8,5 @@ export enum MockBasedSpecRelativePaths {
   AppInitForceUpdateAvailable = "src/specs/app-init-force-update-available.e2e.ts",
   AppInitUpdateAvailableCheckingFailed = "src/specs/app-init-update-available-checking-failed.e2e.ts",
   AppInitUsbAccessHappyPath = "src/specs/app-init-usb-access-happy-path.e2e.ts",
+  AppInitUsbAccessCancelPath = "src/specs/app-init-usb-access-cancel-path.e2e.ts",
 }

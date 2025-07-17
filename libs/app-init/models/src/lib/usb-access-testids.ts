@@ -8,4 +8,6 @@ export enum UsbAccessTestIds {
   RequestModalButton = "usb-access-request-modal-button",
   GrantedModalDescription = "usb-access-granted-modal-description",
   GrantedModalButton = "usb-access-granted-modal-button",
+  RequestCancelledModalDescription = "usb-access-request-cancelled-modal-description",
+  RequestCancelledModalButton = "usb-access-request-cancelled-modal-button",
 }

@@ -9,6 +9,7 @@ export const SPEC_TITLE = {
   APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED:
     "Update Available Checking Failed - App Init Step",
   APP_INIT_USB_ACCESS_HAPPY_PATH: "Usb Access - App Init Step - Happy Path",
+  APP_INIT_USB_ACCESS_CANCEL_PATH: "Usb Access - App Init Step - Cancel Path",
   PRIVACY_POLICY_MODAL: "Privacy Policy modal",
   WELCOME_SCREEN: "Welcome screen",
   DEVICES_WELCOME_SCREEN: "Devices - welcome screen",

@@ -13,6 +13,9 @@ class UsbAccessPage extends Page {
     "general.usbAccess.processingModal.title"
   )
   private _grantedModal = new Modal("general.usbAccess.grantedModal.title")
+  private _requestCancelledModal = new Modal(
+    "general.usbAccess.requestCancelledModal.title"
+  )
 
   public get requestModal() {
     return this._requestModal.modal
@@ -83,6 +86,34 @@ class UsbAccessPage extends Page {
   public get grantedModalButton() {
     return this.grantedModal.$(
       `[data-testid="${UsbAccessTestIds.GrantedModalButton}"]`
+    )
+  }
+
+  public get requestCancelledModal() {
+    return this._requestCancelledModal.modal
+  }
+
+  public get requestCancelledModalTitle() {
+    return this._requestCancelledModal.title
+  }
+
+  public get requestCancelledModalTitleIcon() {
+    return this._requestCancelledModal.titleIcon
+  }
+
+  public get requestCancelledModalCloseButton() {
+    return this._requestCancelledModal.closeButton
+  }
+
+  public get requestCancelledModalDescription() {
+    return this.requestCancelledModal.$(
+      `[data-testid="${UsbAccessTestIds.RequestCancelledModalDescription}"]`
+    )
+  }
+
+  public get requestCancelledModalButton() {
+    return this.requestCancelledModal.$(
+      `[data-testid="${UsbAccessTestIds.RequestCancelledModalButton}"]`
     )
   }
 }
