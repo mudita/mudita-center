@@ -56,7 +56,7 @@ export const QuotationsPage: FunctionComponent = () => {
   const [quotationsDeleted, setQuotationsDeleted] = useState(false)
   const [quotationsDeletingCount, setQuotationsDeletingCount] =
     useState<number>()
-  const [noSpaceOpened, setNoSpaceOpened] = useState(true)
+  const [noSpaceOpened, setNoSpaceOpened] = useState(false)
 
   const deviceInfo = useSelector(deviceDataSelector)
   const quotations = useSelector(selectQuotations)
