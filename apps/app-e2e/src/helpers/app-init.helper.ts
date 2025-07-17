@@ -13,6 +13,7 @@ export const passAppInit = async (suite: Suite) => {
       SPEC_TITLE.APP_INIT_SOFT_UPDATE_AVAILABLE,
       SPEC_TITLE.APP_INIT_FORCE_UPDATE_AVAILABLE,
       SPEC_TITLE.APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED,
+      SPEC_TITLE.APP_INIT_USB_ACCESS,
     ].includes(suite.title)
   ) {
     return
