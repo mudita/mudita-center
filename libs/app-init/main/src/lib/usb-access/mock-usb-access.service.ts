@@ -18,9 +18,9 @@ export class MockUsbAccessService {
   }
 
   async hasSerialPortAccess(): Promise<AppResult<boolean>> {
-    // if (!this.isLinux()) {
-    //   return AppResultFactory.success(true)
-    // }
+    if (!this.isLinux()) {
+      return AppResultFactory.success(true)
+    }
     await delay(1000)
     return AppResultFactory.success(this.serialPortAccess)
   }
