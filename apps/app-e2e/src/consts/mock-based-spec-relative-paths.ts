@@ -4,6 +4,7 @@
  */
 
 export enum MockBasedSpecRelativePaths {
+  AppInitFullHappyFlow = "src/specs/app-init-full-happy-flow.e2e.ts",
   AppInitSoftUpdateAvailable = "src/specs/app-init-soft-update-available.e2e.ts",
   AppInitForceUpdateAvailable = "src/specs/app-init-force-update-available.e2e.ts",
   AppInitUpdateAvailableCheckingFailed = "src/specs/app-init-update-available-checking-failed.e2e.ts",
