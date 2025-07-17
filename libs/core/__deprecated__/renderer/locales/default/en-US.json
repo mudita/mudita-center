@@ -1122,5 +1122,9 @@
   "module.quotations.quotationsDeletingModal.description": "You can always add quotations again later.",
   "module.quotations.quotationsDeletingModal.cancelButton": "Cancel",
   "module.quotations.quotationsDeletingModal.deleteButton": "Delete",
-  "module.quotations.quotationsDeletingModal.deleteSuccess": "{value, plural, =-1 {All quotations deleted} one {Quotation deleted} other {# quotations deleted}}"
+  "module.quotations.quotationsDeletingModal.deleteSuccess": "{value, plural, =-1 {All quotations deleted} one {Quotation deleted} other {# quotations deleted}}",
+  "module.quotations.notEnoughSpaceModal.title": "Quotations",
+  "module.quotations.notEnoughSpaceModal.subtitle": "Can't add quotation",
+  "module.quotations.notEnoughSpaceModal.description": "Your Harmony storage is full.\nFree some space before trying again.",
+  "module.quotations.notEnoughSpaceModal.cancelButton": "Cancel"
 }

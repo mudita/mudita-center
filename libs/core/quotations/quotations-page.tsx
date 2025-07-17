@@ -3,7 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useEffect, useState } from "react"
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react"
 import styled from "styled-components"
 import { TopBar } from "./components/top-bar"
 import { SettingsModal } from "./components/settings-modal"
@@ -36,12 +41,14 @@ import { QuotationsCreator } from "./components/quotations-creator"
 import { QuotationSavingModal } from "./components/quotation-saving-modal"
 import { saveQuotationRequest } from "./service/requests"
 import { QuotationDeletingModal } from "./components/quotation-deleting-modal"
+import { NotEnoughSpaceModal } from "Core/quotations/components/not-enough-space-modal"
 
 export const QuotationsPage: FunctionComponent = () => {
   const dispatch = useDispatch<AppDispatch>()
   const deviceData = useSelector(deviceDataSelector)
 
   const [settingsOpened, setSettingsOpened] = useState(false)
+  const [settingsSaved, setSettingsSaved] = useState(false)
   const [creatorOpened, setCreatorOpened] = useState(false)
   const [quotationSaving, setQuotationSaving] = useState(false)
   const [quotationSaved, setQuotationSaved] = useState(false)
@@ -49,13 +56,13 @@ export const QuotationsPage: FunctionComponent = () => {
   const [quotationsDeleted, setQuotationsDeleted] = useState(false)
   const [quotationsDeletingCount, setQuotationsDeletingCount] =
     useState<number>()
+  const [noSpaceOpened, setNoSpaceOpened] = useState(true)
 
+  const deviceInfo = useSelector(deviceDataSelector)
   const quotations = useSelector(selectQuotations)
   const selectedQuotations = useSelector(selectSelectedQuotations)
   const quotationsSettings = useSelector(selectQuotationsSettings)
   const quotationsLoading = useSelector(selectQuotationsLoading)
-
-  const [settingsSaved, setSettingsSaved] = useState(false)
 
   const handleSettingsClick = () => {
     setSettingsOpened(true)
@@ -76,7 +83,7 @@ export const QuotationsPage: FunctionComponent = () => {
     dispatch(toggleAllQuotationsSelection())
   }
 
-  const handleDeleteQuotation = () => {
+  const handleDeleteQuotation = useCallback(() => {
     setQuotationsDeletingCount(
       quotations.length > 0 && selectedQuotations.length === quotations.length
         ? -1
@@ -84,24 +91,40 @@ export const QuotationsPage: FunctionComponent = () => {
     )
     setQuotationsDeleted(false)
     setQuotationsDeleting(true)
-  }
+  }, [quotations.length, selectedQuotations.length])
 
   const handleQuotationsDeletingClose = () => {
     setQuotationsDeleting(false)
   }
 
-  const handleQuotationsDeletingConfirm = async () => {
+  const handleQuotationsDeletingConfirm = useCallback(async () => {
     await dispatch(deleteQuotations(selectedQuotations))
     handleQuotationsDeletingClose()
     setQuotationsDeleted(true)
-  }
+  }, [dispatch, selectedQuotations])
 
   const handleCreatorClose = () => {
     setCreatorOpened(false)
   }
 
-  const handleCreatorOpen = () => {
-    setCreatorOpened(true)
+  const isSpaceAvailable = useCallback(() => {
+    if (!deviceInfo?.memorySpace) {
+      return true
+    }
+    const { reservedSpace, usedUserSpace, total } = deviceInfo.memorySpace
+    return total - (reservedSpace + usedUserSpace) >= 500 // at least 500 bytes available
+  }, [deviceInfo?.memorySpace])
+
+  const handleCreatorOpen = useCallback(() => {
+    if (isSpaceAvailable()) {
+      setCreatorOpened(true)
+    } else {
+      setNoSpaceOpened(true)
+    }
+  }, [isSpaceAvailable])
+
+  const handleNotEnoughSpaceModalClose = () => {
+    setNoSpaceOpened(false)
   }
 
   const handleCreatorSave = async (quotation: string, author?: string) => {
@@ -255,6 +278,10 @@ export const QuotationsPage: FunctionComponent = () => {
           icon={IconType.CheckCircleBlack}
         />
       )}
+      <NotEnoughSpaceModal
+        opened={noSpaceOpened}
+        onCancel={handleNotEnoughSpaceModalClose}
+      />
     </Wrapper>
   )
 }
