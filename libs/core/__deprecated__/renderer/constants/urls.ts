@@ -21,6 +21,7 @@ export const URL_MAIN = {
   dataMigration: "/data-migration",
   dataMigrationKompakt: "/generic/mc-data-migration",
   recoveryMode: "/harmony-recovery-mode",
+  quotations: "/harmony/quotations",
 } as const
 
 export const URL_TABS = {

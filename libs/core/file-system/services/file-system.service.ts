@@ -72,6 +72,30 @@ export class FileSystemService {
     )
   }
 
+  static extractAndStreamToFiles(
+    input: Transform,
+    cwd: string
+  ): Promise<string[]> {
+    const entryFilePaths: string[] = []
+    const extract = tar.extract({ allowUnknownFormat: true })
+
+    extract.on("entry", function (header, inputStream, next) {
+      const entryFilePath = path.join(cwd, header.name)
+      const output = fs.createWriteStream(entryFilePath)
+      inputStream.pipe(output)
+      inputStream.on("end", function () {
+        next()
+      })
+      inputStream.resume()
+      entryFilePaths.push(entryFilePath)
+    })
+
+    input.pipe(extract)
+    return FileSystemService.handleStreamFinish(input).then(
+      () => entryFilePaths
+    )
+  }
+
   private static async handleStreamFinish(input: Transform): Promise<void> {
     return new Promise((resolve, reject) => {
       input

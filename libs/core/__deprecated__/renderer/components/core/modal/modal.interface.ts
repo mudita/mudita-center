@@ -9,6 +9,7 @@ export enum ModalSize {
   Medium,
   MediumNew,
   Large,
+  LargeNew,
 }
 
 export enum TitleOrder {

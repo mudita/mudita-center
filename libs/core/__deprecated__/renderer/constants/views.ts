@@ -24,6 +24,7 @@ const messages = defineMessages({
   pureSystem: { id: "module.overview.pureSystem" },
   dataMigration: { id: "module.dataMigration.title" },
   harmonyRecoveryMode: { id: "module.recoveryMode.harmony.title" },
+  quotations: { id: "module.quotations.title" },
 })
 
 export enum View {
@@ -40,6 +41,7 @@ export enum View {
   PureSystem = "pure-system",
   DataMigration = "dataMigration",
   RecoveryMode = "recoveryMode",
+  Quotations = "quotations",
 }
 
 export type Views = {
@@ -108,4 +110,8 @@ export const views: Views = {
     label: messages.harmonyRecoveryMode,
     url: URL_MAIN.recoveryMode,
   },
+  [View.Quotations]: {
+    label: messages.quotations,
+    url: URL_MAIN.quotations,
+  }
 }

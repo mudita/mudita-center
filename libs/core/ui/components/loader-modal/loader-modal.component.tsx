@@ -19,7 +19,6 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 2rem 0;
 `
 
 export interface LoaderModalProps extends ComponentProps<typeof ModalDialog> {

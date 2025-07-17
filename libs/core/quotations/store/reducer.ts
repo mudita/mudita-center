@@ -1,0 +1,93 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { createReducer } from "@reduxjs/toolkit"
+import { Quotation } from "./types"
+import {
+  addQuotation,
+  clearQuotations,
+  fetchQuotations,
+  removeQuotations,
+  setQuotations,
+  setQuotationsSettings,
+  setSelectedQuotations,
+  toggleAllQuotationsSelection,
+  toggleQuotationSelection,
+} from "./actions"
+import { Interval } from "../components/settings-interval-form"
+import { Source } from "../components/settings-source-form"
+
+export interface QuotationsState {
+  items: Quotation[]
+  selectedItems: Quotation["id"][]
+  interval?: Interval
+  source?: Source
+  itemsLoading: boolean | undefined
+}
+
+export const initialState: QuotationsState = {
+  items: [],
+  selectedItems: [],
+  interval: undefined,
+  source: undefined,
+  itemsLoading: undefined,
+}
+
+export const quotationsReducer = createReducer(initialState, (builder) => {
+  builder.addCase(setQuotations, (state, action) => {
+    state.items = action.payload
+  })
+  builder.addCase(addQuotation, (state, action) => {
+    state.items.push(action.payload)
+  })
+  builder.addCase(removeQuotations, (state, action) => {
+    state.items = state.items.filter(
+      (quotation) => !action.payload.includes(quotation.id)
+    )
+  })
+  builder.addCase(setQuotationsSettings, (state, source) => {
+    state.source = source.payload.source
+    state.interval = source.payload.interval
+  })
+  builder.addCase(setSelectedQuotations, (state, action) => {
+    state.selectedItems = action.payload
+  })
+  builder.addCase(toggleQuotationSelection, (state, action) => {
+    const quotationId = action.payload
+    const isSelected = state.selectedItems.includes(quotationId)
+
+    if (isSelected) {
+      state.selectedItems = state.selectedItems.filter(
+        (id) => id !== quotationId
+      )
+    } else {
+      state.selectedItems.push(quotationId)
+    }
+  })
+  builder.addCase(toggleAllQuotationsSelection, (state) => {
+    if (state.selectedItems.length === state.items.length) {
+      state.selectedItems = []
+    } else {
+      state.selectedItems = state.items.map((quotation) => quotation.id)
+    }
+  })
+  builder.addCase(fetchQuotations.pending, (state) => {
+    state.itemsLoading = true
+  })
+  builder.addCase(fetchQuotations.fulfilled, (state, action) => {
+    state.itemsLoading = false
+    state.items = action.payload
+  })
+  builder.addCase(fetchQuotations.rejected, (state) => {
+    state.itemsLoading = false
+  })
+  builder.addCase(clearQuotations, (state) => {
+    state.items = []
+    state.selectedItems = []
+    state.interval = undefined
+    state.source = undefined
+    state.itemsLoading = undefined
+  })
+})

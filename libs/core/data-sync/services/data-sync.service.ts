@@ -16,18 +16,20 @@ import {
   ContactIndexer,
   MessageIndexer,
   NoteIndexer,
+  QuotationsIndexer,
   TemplateIndexer,
   ThreadIndexer,
 } from "Core/data-sync/indexes"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import {
+  AlarmPresenter,
+  CallLogPresenter,
   ContactPresenter,
   MessagePresenter,
+  NotePresenter,
+  QuotationsPresenter,
   TemplatePresenter,
   ThreadPresenter,
-  CallLogPresenter,
-  AlarmPresenter,
-  NotePresenter,
 } from "Core/data-sync/presenters"
 import { SyncBackupCreateService } from "Core/backup/services/sync-backup-create.service"
 import { InitializeOptions } from "Core/data-sync/types"
@@ -49,6 +51,7 @@ export class DataSyncService {
   private callLogIndexer: CallLogIndexer | null = null
   private alarmIndexer: AlarmIndexer | null = null
   private noteIndexer: NoteIndexer | null = null
+  private quotationsIndexer: QuotationsIndexer | null = null
   private syncBackupCreateService: SyncBackupCreateService
 
   constructor(
@@ -90,6 +93,10 @@ export class DataSyncService {
     this.noteIndexer = new NoteIndexer(
       this.fileSystemStorage,
       new NotePresenter()
+    )
+    this.quotationsIndexer = new QuotationsIndexer(
+      this.fileSystemStorage,
+      new QuotationsPresenter()
     )
   }
 
@@ -139,6 +146,7 @@ export class DataSyncService {
       [DataIndex.CallLog]: this.callLogIndexer,
       [DataIndex.Alarm]: this.alarmIndexer,
       [DataIndex.Note]: this.noteIndexer,
+      [DataIndex.Quotations]: this.quotationsIndexer,
     }
 
     const indexOrEmptyOnFailure = async (
