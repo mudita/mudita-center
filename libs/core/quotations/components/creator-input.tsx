@@ -39,6 +39,7 @@ type Props = {
   limits: number[]
   glyphsType: GlyphsType
   onChange: (value: string) => void
+  onError: (hasError: boolean) => void
 }
 
 export const CreatorInput: FunctionComponent<Props> = ({
@@ -47,6 +48,7 @@ export const CreatorInput: FunctionComponent<Props> = ({
   glyphsType,
   limits,
   onChange,
+  onError,
 }) => {
   const [error, setError] = useState("")
   const [linesCount, setLinesCount] = useState(1)
@@ -58,11 +60,11 @@ export const CreatorInput: FunctionComponent<Props> = ({
       let sum = 0
       let invalidCharacter = ""
 
-      for (let i = 0; i < value.length; i++) {
-        const charCode = String(value.charCodeAt(i))
+      for (const char of value.split("")) {
+        const charCode = String(char.charCodeAt(0))
 
         if (!glyphs[charCode]) {
-          invalidCharacter = value[i]
+          invalidCharacter = char
           break
         }
 
@@ -101,9 +103,11 @@ export const CreatorInput: FunctionComponent<Props> = ({
 
       if (tooManyLines || tooLongLines) {
         onChange("")
+        onError(true)
         setError(intl.formatMessage(messages.errorTooLong))
       } else if (hasInvalidCharacter) {
         onChange("")
+        onError(true)
         setError(
           intl.formatMessage(messages.errorInvalidCharacter, {
             character: invalidCharacters[0],
@@ -111,10 +115,11 @@ export const CreatorInput: FunctionComponent<Props> = ({
         )
       } else {
         onChange(value)
+        onError(false)
         setError("")
       }
     },
-    [limits, onChange, rows, validateText]
+    [limits, onChange, onError, rows, validateText]
   )
 
   const handleKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
