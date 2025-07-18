@@ -11,7 +11,7 @@ import { IconButton } from "../../icon-button/icon-button"
 import { Icon } from "../../icon/icon"
 import { storybookHelper } from "app-theme/utils"
 import { FunctionComponent, useMemo, useState } from "react"
-import { action } from "@storybook/addon-actions"
+import { action } from "storybook/actions"
 
 const Decorator = styled.div`
   align-self: center;

@@ -106,7 +106,7 @@ export class PureSerialPort {
         console.error(
           `Response parsing failed for ${device.path} at ${PureMethodNamed[request.method as keyof typeof PureMethodNamed]} ${PureEndpointNamed[request.endpoint]}`
         )
-        console.error(responseParseResult.error.errors)
+        console.error(responseParseResult.error)
         return {
           ok: false,
           endpoint: request.endpoint,

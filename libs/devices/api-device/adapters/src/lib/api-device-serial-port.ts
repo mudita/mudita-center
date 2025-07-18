@@ -111,7 +111,7 @@ export class ApiDeviceSerialPort {
         console.error(
           `Response parsing failed for ${device.path} at ${request.method.toString()} ${request.endpoint.toString()}`
         )
-        console.error(responseParseResult.error.errors)
+        console.error(responseParseResult.error)
         return {
           ok: false,
           endpoint: request.endpoint,

@@ -4,7 +4,7 @@ copyright: Copyright (c) 2017-2024, Mudita sp. z o.o. All rights reserved.
 directories:
   buildResources: resources
   output: release
-electronVersion: 35.0.0
+electronVersion: 37.2.3
 files:
   - "!**/.vscode/*"
   - "!src/*"

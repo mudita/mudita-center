@@ -9,7 +9,7 @@ import { IconType } from "app-theme/models"
 const MenuItemConfigValidator = z.object({
   feature: z.string(),
   displayName: z.string(),
-  icon: z.nativeEnum(IconType),
+  icon: z.enum(IconType),
   submenu: z
     .array(
       z.object({

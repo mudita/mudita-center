@@ -13,7 +13,7 @@ import {
   IconType,
 } from "app-theme/models"
 import styled from "styled-components"
-import { action } from "@storybook/addon-actions"
+import { action } from "storybook/actions"
 
 const Decorator = styled.div`
   align-self: center;
