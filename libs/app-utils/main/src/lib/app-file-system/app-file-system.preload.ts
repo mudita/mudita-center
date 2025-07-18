@@ -19,4 +19,6 @@ export const appFileSystem = {
     ipcRenderer.invoke(AppFileSystemIpcEvents.Mkdir, options),
   archive: (options: AppFileSystemArchiveOptions): Promise<AppResult> =>
     ipcRenderer.invoke(AppFileSystemIpcEvents.Archive, options),
+  write: (options: AppFileSystemArchiveOptions): Promise<AppResult> =>
+    ipcRenderer.invoke(AppFileSystemIpcEvents.Write, options),
 }

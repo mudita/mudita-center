@@ -31,6 +31,13 @@ export class IpcMockServer {
     ipc.server.on(eventKey, callback)
   }
 
+  emit(event: string, value: unknown): void {
+    if (!this.serverEnabled) {
+      return
+    }
+    ipc.server.broadcast(event, value)
+  }
+
   stop(): void {
     if (!this.serverEnabled) {
       return

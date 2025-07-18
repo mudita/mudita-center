@@ -14,6 +14,8 @@ export const SPEC_TITLE = {
   APP_INIT_USB_ACCESS_FAILURE_PATH: "Usb Access - App Init Step - Failure Path",
   APP_INIT_PRIVACY_POLICY_FIRST_RUN:
     "Privacy Policy - App Init Step - First Run",
+  APP_INIT_PRIVACY_POLICY_WHEN_ACCEPTED:
+    "Privacy Policy - App Init Step - When Accepted",
   WELCOME_SCREEN: "Welcome screen",
   DEVICES_WELCOME_SCREEN: "Devices - welcome screen",
 }

@@ -8,4 +8,6 @@ export enum E2eMockIpcEvents {
   setAppUpdaterCheckResult = "e2eMock:setAppUpdaterCheckResult",
   emitAppUpdaterDownloadProgressEvent = "e2eMock:emitAppUpdaterDownloadProgressEvent",
   setUsbAccess = "e2eMock:setUsbAccess",
+  write = "e2eMock:AppFileSystemWrite",
+  read = "e2eMock:AppFileSystemRead",
 }

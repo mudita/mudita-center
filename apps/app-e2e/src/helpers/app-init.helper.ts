@@ -18,6 +18,7 @@ export const passAppInit = async (suite: Suite) => {
       SPEC_TITLE.APP_INIT_USB_ACCESS_CANCEL_PATH,
       SPEC_TITLE.APP_INIT_USB_ACCESS_FAILURE_PATH,
       SPEC_TITLE.APP_INIT_PRIVACY_POLICY_FIRST_RUN,
+      SPEC_TITLE.APP_INIT_PRIVACY_POLICY_WHEN_ACCEPTED,
     ].includes(suite.title)
   ) {
     return

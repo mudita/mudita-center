@@ -12,6 +12,7 @@ import {
   AppFileSystemMkdirOptions,
   AppFileSystemRmOptions,
   AppFileSystemScopeOptions,
+  AppFileSystemWriteOptions,
   AppResult,
   AppResultFactory,
   mapToAppError,
@@ -41,6 +42,34 @@ export class AppFileSystemService {
       const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
       await fs.mkdir(filePath, options)
       return AppResultFactory.success()
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static async write({
+    scopeRelativePath,
+    data,
+    options,
+    scope,
+  }: AppFileSystemWriteOptions): Promise<AppResult> {
+    try {
+      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      await fs.writeFile(filePath, data, options)
+      return AppResultFactory.success()
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static async read({
+    scopeRelativePath,
+    scope,
+  }: AppFileSystemScopeOptions): Promise<AppResult<unknown>> {
+    try {
+      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      const data = await fs.readFile(filePath)
+      return AppResultFactory.success(data)
     } catch (error) {
       return AppResultFactory.failed(mapToAppError(error))
     }
