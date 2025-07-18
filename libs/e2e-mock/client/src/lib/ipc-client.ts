@@ -106,4 +106,39 @@ export class IpcClient {
   public emit(event: string, data?: unknown): void {
     this.clientEmitter?.(event, data)
   }
+
+  public emitWithResponse<T = unknown>(
+    event: string,
+    data?: unknown,
+    timeout = DEFAULT_TIMEOUT
+  ): Promise<T> {
+    if (!this.isConnected) {
+      return Promise.reject(new Error("IPC client is not connected"))
+    }
+
+    const client = ipc.of[SERVER_ID]
+    if (!client) {
+      return Promise.reject(new Error("No IPC connection found"))
+    }
+
+    return new Promise<T>((resolve, reject) => {
+      const responseEvent = `${event}_response`
+
+      const timer = setTimeout(() => {
+        client.off(responseEvent, onResponse)
+        reject(
+          new Error(`IPC response for "${event}" timed out after ${timeout}ms`)
+        )
+      }, timeout)
+
+      function onResponse(response: T) {
+        clearTimeout(timer)
+        client.off(responseEvent, onResponse)
+        resolve(response)
+      }
+
+      client.on(responseEvent, onResponse)
+      client.emit(event, data)
+    })
+  }
 }

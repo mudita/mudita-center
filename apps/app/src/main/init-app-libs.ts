@@ -34,6 +34,6 @@ export const initAppLibs = (
   initJsonStore(ipcMain)
   initAppHttp(ipcMain)
   initAppLogger(ipcMain)
-  initAppFileSystem(ipcMain)
+  initAppFileSystem(ipcMain, mockServer)
   initUsbAccess(ipcMain, mockServer)
 }

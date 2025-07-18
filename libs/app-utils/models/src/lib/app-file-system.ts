@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { WriteFileOptions } from "fs-extra"
+
 export type AppFileSystemScope = "userData" | "temp"
 
 export interface AppFileSystemScopeOptions {
@@ -27,4 +29,9 @@ export interface AppFileSystemMkdirOptions extends AppFileSystemScopeOptions {
 
 export interface AppFileSystemArchiveOptions extends AppFileSystemScopeOptions {
   scopeDestinationPath: string
+}
+
+export interface AppFileSystemWriteOptions extends AppFileSystemScopeOptions {
+  data: string
+  options?: WriteFileOptions | BufferEncoding | string
 }

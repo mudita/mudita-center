@@ -7,6 +7,11 @@ import { E2eMockIpcEvents } from "e2e-mock/models"
 import { SetAppUpdaterCheckPayload } from "app-updater/models"
 import { SetUsbAccessPayload } from "app-init/models"
 import { IpcClient } from "./ipc-client"
+import {
+  AppFileSystemScopeOptions,
+  AppFileSystemWriteOptions,
+  AppResult,
+} from "app-utils/models"
 
 const ipcClient = new IpcClient()
 
@@ -27,5 +32,12 @@ export const E2EMockClient = {
   },
   setUsbAccess: (payload: SetUsbAccessPayload): void => {
     ipcClient.emit(E2eMockIpcEvents.setUsbAccess, payload)
+  },
+  write: (options: AppFileSystemWriteOptions): void => {
+    ipcClient.emit(E2eMockIpcEvents.write, options)
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  read: (options: AppFileSystemScopeOptions): Promise<AppResult<any>> => {
+    return ipcClient.emitWithResponse(E2eMockIpcEvents.read, options)
   },
 }
