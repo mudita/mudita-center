@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-const nx = require("@nx/eslint-plugin")
-const licenseHeader = require("eslint-plugin-license-header")
+import nx from "@nx/eslint-plugin"
+import licenseHeader from "eslint-plugin-license-header"
 
-module.exports = [
+export default [
   ...nx.configs["flat/base"],
   ...nx.configs["flat/typescript"],
   ...nx.configs["flat/javascript"],
@@ -93,7 +93,7 @@ module.exports = [
     rules: {
       "license-header/header": [
         "error",
-        __dirname + "/resources/license-header.js",
+        new URL("./resources/license-header.js", import.meta.url).pathname,
       ],
     },
   },

@@ -21,7 +21,7 @@ import {
   Stories,
   Subtitle,
   Title,
-} from "@storybook/blocks"
+} from "@storybook/addon-docs/blocks"
 import { BytesFormatter } from "./bytes-formatter/bytes-formatter"
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { color } from "../../../../utils/src/lib/app-theme/color"

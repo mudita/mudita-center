@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-const nx = require("@nx/eslint-plugin")
-const baseConfig = require("../../../eslint.config.js")
+import nx from "@nx/eslint-plugin"
+import baseConfig from "../../../eslint.config.js"
 
-module.exports = [
+export default [
   ...baseConfig,
   ...nx.configs["flat/react"],
   {
