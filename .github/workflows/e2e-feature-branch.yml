@@ -1,4 +1,4 @@
-name: e2e (standalone) for feature branch
+name: e2e for feature branch
 
 on:
   push:

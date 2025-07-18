@@ -13,6 +13,7 @@ import {
 } from "react"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { AppLegalPaths } from "app-routing/models"
+import { AppUpdaterTestIds } from "app-updater/models"
 
 const messages = defineMessages({
   title: {
@@ -57,10 +58,18 @@ export const UpdateAvailableModal: FunctionComponent<Props> = ({
       {onClose && <Modal.CloseButton onClick={onClose} />}
       <Modal.TitleIcon type={IconType.MuditaLogo} />
       <Modal.Title>{formatMessage(messages.title, { version })}</Modal.Title>
-      <Typography.P1>{formatMessage(messages.policyDescription)}</Typography.P1>
-      <Checkbox onChange={handleCheckboxChange}>
+      <Typography.P1
+        data-testid={AppUpdaterTestIds.UpdateAvailableModalDescription}
+      >
+        {formatMessage(messages.policyDescription)}
+      </Typography.P1>
+      <Checkbox
+        data-testid={AppUpdaterTestIds.UpdateAvailableModalCheckbox}
+        onChange={handleCheckboxChange}
+      >
         {formatMessage(messages.policyLinkText)}{" "}
         <Button
+          data-testid={AppUpdaterTestIds.UpdateAvailableModalPrivacyPolicyLink}
           to={AppLegalPaths.PrivacyPolicy}
           target="appWindow"
           type={ButtonType.Text}
@@ -74,7 +83,11 @@ export const UpdateAvailableModal: FunctionComponent<Props> = ({
         </Button>
       </Checkbox>
       <Modal.Buttons>
-        <Button onClick={onUpdate} disabled={!checked}>
+        <Button
+          data-testid={AppUpdaterTestIds.UpdateAvailableModalButton}
+          onClick={onUpdate}
+          disabled={!checked}
+        >
           {formatMessage(messages.button)}
         </Button>
       </Modal.Buttons>

@@ -8,6 +8,7 @@ import { defineMessages } from "react-intl"
 import { formatMessage } from "app-localize/utils"
 import { ButtonType, IconType, ModalLayer, ModalSize } from "app-theme/models"
 import { Button, Modal, Typography } from "app-theme/ui"
+import { UsbAccessTestIds } from "app-init/models"
 
 const messages = defineMessages({
   title: {
@@ -37,9 +38,15 @@ export const UsbAccessRequestModal: FunctionComponent<Props> = ({
       <Modal.TitleIcon type={IconType.MuditaLogo} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Modal.CloseButton onClick={onClose} />
-      <Typography.P1>{formatMessage(messages.description)}</Typography.P1>
+      <Typography.P1 data-testid={UsbAccessTestIds.RequestModalDescription}>
+        {formatMessage(messages.description)}
+      </Typography.P1>
       <Modal.Buttons>
-        <Button type={ButtonType.Primary} onClick={onAction}>
+        <Button
+          data-testid={UsbAccessTestIds.RequestModalButton}
+          type={ButtonType.Primary}
+          onClick={onAction}
+        >
           {formatMessage(messages.buttonText)}
         </Button>
       </Modal.Buttons>

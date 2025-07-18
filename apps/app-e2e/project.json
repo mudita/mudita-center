@@ -1,9 +1,9 @@
 {
-  "name": "app-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "tags": ["process:main"],
   "implicitDependencies": ["app"],
+  "name": "app-e2e",
+  "projectType": "application",
+  "tags": ["process:e2e"],
   "targets": {
     "start": {
       "executor": "nx:run-commands",

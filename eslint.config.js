@@ -38,6 +38,14 @@ module.exports = [
           ],
           depConstraints: [
             {
+              sourceTag: "process:e2e",
+              onlyDependOnLibsWithTags: [
+                "process:e2e",
+                "type:models",
+                "type:utils",
+              ],
+            },
+            {
               sourceTag: "process:renderer",
               onlyDependOnLibsWithTags: [
                 "process:renderer",

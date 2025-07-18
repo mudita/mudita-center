@@ -6,7 +6,9 @@
 /// <reference types="wdio-electron-service" />
 import * as path from "path"
 import * as os from "os"
-import AppInitPage from "./src/page-objects/app-init.page"
+import { E2EMockClient } from "e2e-mock/client"
+import { MockBasedSpecRelativePaths } from "./src/consts/mock-based-spec-relative-paths"
+import { passAppInit } from "./src/helpers/app-init.helper"
 
 // Based on node_modules/@puppeteer/browsers/src/browser-data/chromedriver.ts
 // and
@@ -75,6 +77,7 @@ export const config: WebdriverIO.Config = {
   // of the config file unless it's absolute.
   //
   specs: ["./src/specs/**/*.ts"],
+  // suites: {},
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -255,8 +258,15 @@ export const config: WebdriverIO.Config = {
    * @param {Array.<String>} specs List of spec file paths that are to be run
    * @param {string} cid worker id (e.g. 0-0)
    */
-  // beforeSession: function (config, capabilities, specs, cid) {
-  // },
+  beforeSession: function (_config, _capabilities, specs, _cid) {
+    const mockSpecs: string[] = Object.values(MockBasedSpecRelativePaths)
+    const isMockSpec = (spec: string) =>
+      mockSpecs.some((mockSpec) => spec.endsWith(mockSpec))
+
+    if (specs.some(isMockSpec)) {
+      process.env.MOCK_SERVER_ENABLED = "1"
+    }
+  },
   /**
    * Gets executed before test execution begins. At this point you can access to all global
    * variables like `browser`. It is the perfect place to define custom commands.
@@ -278,18 +288,7 @@ export const config: WebdriverIO.Config = {
    * @param {object} suite suite details
    */
   beforeSuite: async function (suite) {
-    if (!["Privacy Policy modal"].includes(suite.title)) {
-      await AppInitPage.acceptPrivacyPolicy()
-    }
-    if (
-      ![
-        "Privacy Policy modal",
-        "Welcome screen",
-        "Devices - welcome screen",
-      ].includes(suite.title)
-    ) {
-      await AppInitPage.closeFullscreenLayout()
-    }
+    await passAppInit(suite)
   },
   /**
    * Function to be executed before a test (in Mocha/Jasmine) starts.
@@ -325,8 +324,11 @@ export const config: WebdriverIO.Config = {
    * Hook that gets executed after the suite has ended
    * @param {object} suite suite details
    */
-  // afterSuite: function (suite) {
-  // },
+  afterSuite: function () {
+    if (process.env.MOCK_SERVER_ENABLED === "1") {
+      E2EMockClient.shutdownServer()
+    }
+  },
   /**
    * Runs after a WebdriverIO command gets executed
    * @param {string} commandName hook command name

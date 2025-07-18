@@ -34,6 +34,7 @@ interface Props
   size?: CheckboxSize
   indeterminate?: boolean
   ref?: Ref<HTMLInputElement>
+  ["data-testid"]?: string
 }
 
 export const Checkbox: FunctionComponent<Props> = ({
@@ -69,7 +70,12 @@ export const Checkbox: FunctionComponent<Props> = ({
   }, [indeterminate])
 
   return (
-    <InputWrapper htmlFor={uid} style={style} className={className}>
+    <InputWrapper
+      htmlFor={uid}
+      style={style}
+      className={className}
+      data-testid={rest["data-testid"]}
+    >
       <CheckboxInput $size={size}>
         <input type="checkbox" id={uid} ref={handleRef} {...rest} />
         <CheckIcon type={IconType.Check} size={IconSize.Tiny} />

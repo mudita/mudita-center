@@ -12,12 +12,7 @@ enum SerialPortGroup {
 }
 
 export class UsbAccessService {
-  static async hasSerialPortAccess(): Promise<AppResult<boolean>> {
-    if (process.env.E2ECI === "true") {
-      // TODO: AFTER E2E_MOCKS_IMPLEMENTED - Mock the UsbAccessService
-      return AppResultFactory.success(true)
-    }
-
+  async hasSerialPortAccess(): Promise<AppResult<boolean>> {
     if (!this.isLinux()) {
       return AppResultFactory.success(true)
     }
@@ -30,7 +25,7 @@ export class UsbAccessService {
     }
   }
 
-  static async grantAccessToSerialPort(): Promise<AppResult> {
+  async grantAccessToSerialPort(): Promise<AppResult> {
     try {
       const command = `usermod -aG ${SerialPortGroup.dialout} $USER & usermod -aG ${SerialPortGroup.uucp} $USER`
       await execCommandWithSudo(command, {
@@ -43,16 +38,16 @@ export class UsbAccessService {
     }
   }
 
-  private static isLinux(): boolean {
+  private isLinux(): boolean {
     return process.platform === "linux"
   }
 
-  private static async isUserInGroup(group: string): Promise<boolean> {
+  private async isUserInGroup(group: string): Promise<boolean> {
     const userGroups = await this.getUserGroups()
     return userGroups.includes(group)
   }
 
-  private static async getUserGroups(): Promise<string[]> {
+  private async getUserGroups(): Promise<string[]> {
     const stdout = (await execPromise("groups")) ?? ""
     return stdout.trim().split(/\s+/)
   }
