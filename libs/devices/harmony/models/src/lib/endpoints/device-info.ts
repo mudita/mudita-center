@@ -29,12 +29,12 @@ export const HarmonyInfoResponseValidator = z.object({
   gitRevision: z.string(),
   version: z.string(),
   serialNumber: z.string(),
-  caseColour: z.nativeEnum(CaseColour),
+  caseColour: z.enum(CaseColour),
   backupFilePath: z.string(),
   updateFilePath: z.string().optional(),
   syncFilePath: z.string(),
   recoveryStatusFilePath: z.string(),
-  onboardingState: z.preprocess(Number, z.nativeEnum(OnboardingState)),
+  onboardingState: z.preprocess(Number, z.enum(OnboardingState)),
 })
 
 export type HarmonyInfoResponse = z.infer<typeof HarmonyInfoResponseValidator>

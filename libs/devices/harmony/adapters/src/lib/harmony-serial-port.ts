@@ -109,7 +109,7 @@ export class HarmonySerialPort {
         console.error(
           `Response parsing failed for ${device.path} at ${HarmonyMethodNamed[request.method as keyof typeof HarmonyMethodNamed]} ${HarmonyEndpointNamed[request.endpoint]}`
         )
-        console.error(responseParseResult.error.errors)
+        console.error(responseParseResult.error)
         return {
           ok: false,
           endpoint: request.endpoint,
