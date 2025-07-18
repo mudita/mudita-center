@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         runner_label: [linux-qa]
-        node-version: [22.15.0]
+        node-version: [22.16.0]
     timeout-minutes: 40
     environment: development
     steps:

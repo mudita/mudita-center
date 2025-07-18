@@ -16,10 +16,6 @@ import icon from "../../resources/icons/icon.png"
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
 
-if (process.env.NODE_ENV === "test") {
-  import("wdio-electron-service/main")
-}
-
 const appWidth = process.env.APP_WIDTH
 const appHeight = process.env.APP_HEIGHT
 const devToolsEnabled =
