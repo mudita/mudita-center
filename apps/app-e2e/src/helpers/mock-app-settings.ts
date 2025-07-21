@@ -8,8 +8,7 @@ import * as fs from "fs-extra"
 import * as path from "node:path"
 import { AppSettings } from "app-settings/models"
 import { NestedPartial } from "app-utils/models"
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { version } from "../../../../package.json"
+import { version } from "@app/package.json"
 
 const INITIAL_MOCK_APP_SETTINGS: AppSettings = {
   version,
