@@ -16,4 +16,6 @@ export enum ContactSupportTestIds {
   FormModalFile = "contact-support-form-modal-file-list-file",
   SuccessModalDescription = "contact-support-success-modal-description",
   SuccessModalButton = "contact-support-success-modal-button",
+  ErrorModalDescription = "contact-support-error-modal-description",
+  ErrorModalButton = "contact-support-error-modal-button",
 }

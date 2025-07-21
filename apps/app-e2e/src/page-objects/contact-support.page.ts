@@ -106,6 +106,30 @@ class ContactSupport extends Page {
     return this._errorModal.modal
   }
 
+  public get errorModalTitle() {
+    return this._errorModal.title
+  }
+
+  public get errorModalTitleIcon() {
+    return this._errorModal.titleIcon
+  }
+
+  public get errorModalCloseButton() {
+    return this._errorModal.closeButton
+  }
+
+  public get errorModalDescription() {
+    return this.errorModal.$(
+      `[data-testid="${ContactSupportTestIds.ErrorModalDescription}"]`
+    )
+  }
+
+  public get errorModalButton() {
+    return this.errorModal.$(
+      `[data-testid="${ContactSupportTestIds.ErrorModalButton}"]`
+    )
+  }
+
   public get sendingModal() {
     return this._sendingModal.modal
   }

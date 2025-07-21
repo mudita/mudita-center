@@ -4,9 +4,12 @@
  */
 
 import { AppResultFactory } from "app-utils/models"
-import { goToSupportModal } from "../helpers/contact-support.helper"
+import {
+  goToSupportModal,
+  itBehavesLikeFormModal,
+  itBehavesLikeSendingModal,
+} from "../helpers/contact-support.helper"
 import ContactSupport from "../page-objects/contact-support.page"
-import testsHelper from "../helpers/tests.helper"
 
 describe("Contact Support - Happy Path", () => {
   before(async () => {
@@ -17,36 +20,8 @@ describe("Contact Support - Happy Path", () => {
     })
   })
 
-  describe("Contact Support Form Modal", () => {
-    it("should send a message successfully", async () => {
-      await testsHelper.insertTextToElement(
-        await ContactSupport.formModalEmailInput,
-        "example@mudita.com"
-      )
-      await testsHelper.insertTextToElement(
-        await ContactSupport.formModalDescriptionInput,
-        "This is test message from automatic tests execution. Please discard it"
-      )
-
-      const sendButton = await ContactSupport.formModalSendButton
-      await expect(sendButton).toBeClickable()
-      await expect(sendButton).toBeEnabled()
-      await expect(sendButton).toHaveText("SEND")
-
-      await sendButton.click()
-    })
-  })
-
-  describe("Contact Support Sending Modal", () => {
-    it("should display modal header and icon", async () => {
-      await expect(ContactSupport.sendingModalTitle).toBeDisplayed()
-      await expect(ContactSupport.sendingModalTitleIcon).toBeDisplayed()
-    })
-
-    it("should not show close button while processing", async () => {
-      await expect(ContactSupport.sendingModalCloseButton).not.toBeDisplayed()
-    })
-  })
+  itBehavesLikeFormModal()
+  itBehavesLikeSendingModal()
 
   describe("Contact Support Success Modal", () => {
     it("should display all core modal elements", async () => {
