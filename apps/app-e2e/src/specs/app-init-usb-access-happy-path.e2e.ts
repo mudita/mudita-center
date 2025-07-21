@@ -27,7 +27,7 @@ describe(SPEC_TITLE.APP_INIT_USB_ACCESS_HAPPY_PATH, () => {
   itBehavesLikeRequestModal()
   itBehavesLikeProcessingModal()
 
-  describe("Usb Access Granted Modal Modal", () => {
+  describe("Usb Access Granted Modal", () => {
     it("should display all core modal elements", async () => {
       await expect(UsbAccessPage.grantedModal).toBeDisplayed()
       await expect(UsbAccessPage.grantedModalTitle).toBeDisplayed()

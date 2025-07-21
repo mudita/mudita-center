@@ -4,30 +4,42 @@
  */
 
 import { IpcMain } from "electron"
-import { AppSettingsService } from "./app-settings.service"
-import { AppSettings, AppSettingsIpcEvents } from "app-settings/models"
+import { IpcMockServer } from "e2e-mock/server"
 import { DotNotation, NestedPartial } from "app-utils/models"
+import { delay } from "app-utils/common"
+import { AppSettings, AppSettingsIpcEvents } from "app-settings/models"
+import { AppSettingsService } from "./app-settings.service"
 
+const DEFAULT_DELAY_MS = 2500
 let appSettingsService: AppSettingsService
 
-export const initAppSettings = (ipcMain: IpcMain) => {
+const getService = () => {
   if (!appSettingsService) {
     appSettingsService = new AppSettingsService()
-
-    ipcMain.removeHandler(AppSettingsIpcEvents.Get)
-    ipcMain.handle(
-      AppSettingsIpcEvents.Get,
-      async (_, path?: DotNotation<AppSettings>) => {
-        return appSettingsService.get(path)
-      }
-    )
-
-    ipcMain.removeHandler(AppSettingsIpcEvents.Set)
-    ipcMain.handle(
-      AppSettingsIpcEvents.Set,
-      async (_, settings: NestedPartial<AppSettings>) => {
-        return appSettingsService.set(settings)
-      }
-    )
   }
+  return appSettingsService
+}
+
+export const initAppSettings = (
+  ipcMain: IpcMain,
+  mockServer: IpcMockServer
+) => {
+  ipcMain.removeHandler(AppSettingsIpcEvents.Get)
+  ipcMain.handle(
+    AppSettingsIpcEvents.Get,
+    async (_, path?: DotNotation<AppSettings>) => {
+      if (mockServer.serverEnabled) {
+        await delay(DEFAULT_DELAY_MS)
+      }
+      return getService().get(path)
+    }
+  )
+
+  ipcMain.removeHandler(AppSettingsIpcEvents.Set)
+  ipcMain.handle(
+    AppSettingsIpcEvents.Set,
+    async (_, settings: NestedPartial<AppSettings>) => {
+      return getService().set(settings)
+    }
+  )
 }

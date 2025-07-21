@@ -8,6 +8,7 @@ import { defineMessages } from "react-intl"
 import { formatMessage } from "app-localize/utils"
 import { ButtonType, IconType, ModalLayer, ModalSize } from "app-theme/models"
 import { Button, Modal, Typography } from "app-theme/ui"
+import { ContactSupportTestIds } from "contact-support/models"
 
 const messages = defineMessages({
   closeButtonText: { id: "general.app.closeButton.text" },
@@ -32,9 +33,15 @@ export const ContactSupportErrorModal: FunctionComponent<Props> = ({
     >
       <Modal.TitleIcon type={IconType.Failed} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
-      <Typography.P1>{formatMessage(messages.body)}</Typography.P1>
+      <Typography.P1 data-testid={ContactSupportTestIds.ErrorModalDescription}>
+        {formatMessage(messages.body)}
+      </Typography.P1>
       <Modal.Buttons>
-        <Button type={ButtonType.Secondary} onClick={onClose}>
+        <Button
+          data-testid={ContactSupportTestIds.ErrorModalButton}
+          type={ButtonType.Secondary}
+          onClick={onClose}
+        >
           {formatMessage(messages.closeButtonText)}
         </Button>
       </Modal.Buttons>

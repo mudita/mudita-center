@@ -19,7 +19,7 @@ import {
 import { AppFileSystemService } from "../app-file-system/app-file-system.service"
 
 export class AppHttpService {
-  static async request<Data = unknown>(
+  async request<Data = unknown>(
     config: AppHttpRequestConfig
   ): Promise<AppHttpResult<Data>> {
     try {
@@ -31,7 +31,7 @@ export class AppHttpService {
     }
   }
 
-  private static mapToAppHttpFailedResult<ErrorData = unknown>(
+  private mapToAppHttpFailedResult<ErrorData = unknown>(
     error: unknown
   ): AppHttpFailedResult<AppErrorName, ErrorData> {
     if (isAxiosError(error)) {
@@ -44,7 +44,7 @@ export class AppHttpService {
     return AppResultFactory.failed(mapToAppError(error))
   }
 
-  private static async mapToAxiosConfig(
+  private async mapToAxiosConfig(
     config: AppHttpRequestConfig
   ): Promise<AxiosRequestConfig> {
     const axiosConfig: AxiosRequestConfig = { ...config }
@@ -62,7 +62,7 @@ export class AppHttpService {
     return axiosConfig
   }
 
-  private static async buildFormData(
+  private async buildFormData(
     files: Record<string, AppFileSystemScopeOptions>,
     data: Record<string, unknown> = {}
   ): Promise<FormData> {
