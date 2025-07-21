@@ -25,7 +25,7 @@ export const initAppLibs = (
   mockServer: IpcMockServer
 ) => {
   initAppActions(ipcMain)
-  initAppSettings(ipcMain)
+  initAppSettings(ipcMain, mockServer)
   initAppUpdater(ipcMain, mainWindow, mockServer)
   initSerialPort(ipcMain, mainWindow)
   initSql(ipcMain)
