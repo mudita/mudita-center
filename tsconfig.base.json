@@ -16,7 +16,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["./*"],
       "app-init/feature": ["libs/app-init/feature/src/index.ts"],
       "app-init/main": ["libs/app-init/main/src/index.ts"],
       "app-init/models": ["libs/app-init/models/src/index.ts"],
