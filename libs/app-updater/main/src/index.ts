@@ -5,4 +5,5 @@
 
 export * from "./lib/app-updater.preload"
 export * from "./lib/app-updater.service"
+export * from "./lib/mock-app-updater.service"
 export * from "./lib/init-app-updater"

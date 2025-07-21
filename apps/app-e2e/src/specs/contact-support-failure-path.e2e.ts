@@ -3,33 +3,43 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { goToSupportModal } from "../helpers/contact-support.helper"
+import {
+  goToSupportModal,
+  itBehavesLikeFormModal,
+  itBehavesLikeSendingModal,
+} from "../helpers/contact-support.helper"
 import ContactSupport from "../page-objects/contact-support.page"
-import testsHelper from "../helpers/tests.helper"
+import { AppError, AppResultFactory } from "app-utils/models"
 
 describe("Contact Support - Failure Path", () => {
   before(async () => {
-    await goToSupportModal()
+    await goToSupportModal({
+      method: "POST",
+      url: "/api/v2/tickets",
+      response: AppResultFactory.failed(new AppError()),
+    })
   })
 
-  // The test is skipped until a mocking system for HTTP requests in the main process has been implemented.
-  xit("should display an error message when sending fails", async () => {
-    await testsHelper.insertTextToElement(
-      await ContactSupport.formModalEmailInput,
-      "example@mudita.com"
-    )
-    await testsHelper.insertTextToElement(
-      await ContactSupport.formModalDescriptionInput,
-      "This is test message from automatic tests execution. Please discard it"
-    )
+  itBehavesLikeFormModal()
+  itBehavesLikeSendingModal()
 
-    const sendButton = await ContactSupport.formModalSendButton
-    await expect(sendButton).toBeClickable()
-    await expect(sendButton).toBeEnabled()
-    await expect(sendButton).toHaveText("SEND")
+  describe("Contact Support Failure Modal", () => {
+    it("should display all core modal elements", async () => {
+      await expect(ContactSupport.errorModal).toBeDisplayed()
+      await expect(ContactSupport.errorModalTitle).toBeDisplayed()
+      await expect(ContactSupport.errorModalTitleIcon).toBeDisplayed()
+      await expect(ContactSupport.errorModalDescription).toBeDisplayed()
+    })
 
-    // TODO: AFTER E2E_MOCKS_IMPLEMENTED - Mock the request to return an error response
+    it("should display action controls", async () => {
+      await expect(ContactSupport.errorModalCloseButton).not.toBeDisplayed()
+      await expect(ContactSupport.errorModalButton).toBeDisplayed()
+    })
 
-    await sendButton.click()
+    it("should allows to close full screen layout when clicking ok modal button", async () => {
+      await ContactSupport.errorModalButton.waitForDisplayed()
+      await ContactSupport.errorModalButton.click()
+      await expect(ContactSupport.errorModal).not.toBeDisplayed()
+    })
   })
 })
