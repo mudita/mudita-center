@@ -39,7 +39,7 @@ export const initAppLibs = (
 
   appUpdaterService = mockServer.serverEnabled
     ? new MockAppUpdaterService(mockServer)
-    : new AppUpdaterService(mainWindow, new AppHttpService())
+    : new AppUpdaterService(mainWindow, appHttpService)
 
   initAppActions(ipcMain)
   initAppSettings(ipcMain, mockServer)

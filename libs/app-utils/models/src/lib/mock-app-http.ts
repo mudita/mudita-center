@@ -5,7 +5,7 @@
 
 import { AppHttpRequestConfig, AppHttpResult } from "./app-http"
 
-export interface MockAppHttpResponsePayload extends AppHttpRequestConfig {
+export interface MockAppHttpResponsePayload {
   url: AppHttpRequestConfig["url"]
   method: AppHttpRequestConfig["method"]
   response: AppHttpResult<unknown>

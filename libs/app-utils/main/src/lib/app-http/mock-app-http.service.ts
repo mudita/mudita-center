@@ -12,6 +12,8 @@ import { IpcMockServer } from "e2e-mock/server"
 import { E2eMockIpcEvents } from "e2e-mock/models"
 import { AppHttpService } from "./app-http.service"
 
+const DUMMY_BASE_URL = "http://dummy"
+
 export class MockAppHttpService extends AppHttpService {
   private responsesMap: Map<string, AppHttpResult<unknown>> = new Map()
 
@@ -56,7 +58,7 @@ export class MockAppHttpService extends AppHttpService {
   }
 
   private normalizeKey(url: string, method: string): string {
-    const u = new URL(url, "http://dummy")
+    const u = new URL(url, DUMMY_BASE_URL)
     return `${u.pathname}/${method}`
   }
 }
