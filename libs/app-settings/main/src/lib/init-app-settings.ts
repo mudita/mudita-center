@@ -10,7 +10,7 @@ import { delay } from "app-utils/common"
 import { AppSettings, AppSettingsIpcEvents } from "app-settings/models"
 import { AppSettingsService } from "./app-settings.service"
 
-const DEFAULT_DELAY_MS = 1000
+const DEFAULT_DELAY_MS = 2500
 let appSettingsService: AppSettingsService
 
 const getService = () => {
