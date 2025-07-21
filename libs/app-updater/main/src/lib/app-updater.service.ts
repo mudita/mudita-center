@@ -22,7 +22,10 @@ export class AppUpdaterService {
   private cancellationToken = new CancellationToken()
   private checkAbortController = new AbortController()
 
-  constructor(private mainWindow: BrowserWindow) {
+  constructor(
+    private mainWindow: BrowserWindow,
+    private appHttpService: AppHttpService
+  ) {
     this.configure()
   }
 
@@ -36,7 +39,9 @@ export class AppUpdaterService {
 
   private async isForcedUpdate() {
     try {
-      const response = await AppHttpService.request<{ centerVersion: string }>({
+      const response = await this.appHttpService.request<{
+        centerVersion: string
+      }>({
         method: "GET",
         url: `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`,
         signal: this.checkAbortController.signal,

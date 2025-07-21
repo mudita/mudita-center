@@ -10,7 +10,7 @@ import {
 } from "app-utils/models"
 import { IpcMockServer } from "e2e-mock/server"
 import { E2eMockIpcEvents } from "e2e-mock/models"
-import { AppHttpService } from "app-utils/main"
+import { AppHttpService } from "./app-http.service"
 
 export class MockAppHttpService extends AppHttpService {
   private responsesMap: Map<string, AppHttpResult<unknown>> = new Map()
