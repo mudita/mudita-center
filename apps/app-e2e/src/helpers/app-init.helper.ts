@@ -23,6 +23,9 @@ export const passAppInit = async (suite: Suite) => {
   ) {
     return
   }
+
+  await AppInitPage.acceptPrivacyPolicy()
+
   if (
     ![SPEC_TITLE.WELCOME_SCREEN, SPEC_TITLE.DEVICES_WELCOME_SCREEN].includes(
       suite.title
