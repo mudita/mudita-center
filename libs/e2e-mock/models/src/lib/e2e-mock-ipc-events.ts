@@ -8,4 +8,5 @@ export enum E2eMockIpcEvents {
   setAppUpdaterCheckResult = "e2eMock:setAppUpdaterCheckResult",
   emitAppUpdaterDownloadProgressEvent = "e2eMock:emitAppUpdaterDownloadProgressEvent",
   setUsbAccess = "e2eMock:setUsbAccess",
+  mockAppHttpResponse = "e2eMock:mockAppHttpResponse",
 }

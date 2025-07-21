@@ -110,8 +110,44 @@ class ContactSupport extends Page {
     return this._sendingModal.modal
   }
 
+  public get sendingModalTitle() {
+    return this._sendingModal.title
+  }
+
+  public get sendingModalTitleIcon() {
+    return this._sendingModal.titleIcon
+  }
+
+  public get sendingModalCloseButton() {
+    return this._sendingModal.closeButton
+  }
+
   public get successModal() {
     return this._successModal.modal
+  }
+
+  public get successModalTitle() {
+    return this._successModal.title
+  }
+
+  public get successModalTitleIcon() {
+    return this._successModal.titleIcon
+  }
+
+  public get successModalCloseButton() {
+    return this._successModal.closeButton
+  }
+
+  public get successModalDescription() {
+    return this.successModal.$(
+      `[data-testid="${ContactSupportTestIds.SuccessModalDescription}"]`
+    )
+  }
+
+  public get successModalButton() {
+    return this.successModal.$(
+      `[data-testid="${ContactSupportTestIds.SuccessModalButton}"]`
+    )
   }
 }
 

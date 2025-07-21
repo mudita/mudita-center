@@ -7,6 +7,7 @@ import { E2eMockIpcEvents } from "e2e-mock/models"
 import { SetAppUpdaterCheckPayload } from "app-updater/models"
 import { SetUsbAccessPayload } from "app-init/models"
 import { IpcClient } from "./ipc-client"
+import { MockAppHttpResponsePayload } from "app-utils/models"
 
 const ipcClient = new IpcClient()
 
@@ -27,5 +28,8 @@ export const E2EMockClient = {
   },
   setUsbAccess: (payload: SetUsbAccessPayload): void => {
     ipcClient.emit(E2eMockIpcEvents.setUsbAccess, payload)
+  },
+  mockAppHttpResponse: (payload: MockAppHttpResponsePayload): void => {
+    ipcClient.emit(E2eMockIpcEvents.mockAppHttpResponse, payload)
   },
 }
