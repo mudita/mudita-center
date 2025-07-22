@@ -15,7 +15,7 @@ import {
 describe.skip("News screen", () => {
   it("should display the 'News' tab as active", async () => {
     const activeMenuItem = await NewsPage.activeMenuItem
-    await expect(activeMenuItem).toHaveText("News")
+    await expect(activeMenuItem).toHaveText("Mudita News")
     await expect(activeMenuItem).toHaveAttribute("href", "#/news")
   })
 
