@@ -174,11 +174,6 @@ export const sendFiles = createAsyncThunk<
               filesIds: [file.id],
             })
 
-            if (files[0]?.status === "finished") {
-              console.log(`File ${file.name} already sent! Skipping....`)
-              return
-            }
-
             if (meta.requestStatus === "rejected" && meta.aborted) {
               wasAborted = true
               return
@@ -193,6 +188,11 @@ export const sendFiles = createAsyncThunk<
                 })
               )
               wasAborted = true
+              return
+            }
+
+            if (files[0]?.status === "finished") {
+              console.log(`File ${file.name} already sent! Skipping....`)
               return
             }
 
@@ -235,13 +235,13 @@ export const sendFiles = createAsyncThunk<
               filesIds: [file.id],
             })
 
-            if (files[0]?.status === "finished") {
-              console.log(`File ${file.name} already sent! Skipping....`)
+            if (meta.requestStatus === "rejected" && meta.aborted) {
+              wasAborted = true
               return
             }
 
-            if (meta.requestStatus === "rejected" && meta.aborted) {
-              wasAborted = true
+            if (files[0]?.status === "finished") {
+              console.log(`File ${file.name} already sent! Skipping....`)
               return
             }
 

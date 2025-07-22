@@ -177,7 +177,6 @@ export const FilesManagerTransferFinished: APIFC<
     }
 
     if (allFilesFailed || succeededFiles.length === 0) {
-      console.log(errorTypes)
       switch (errorTypes[0]) {
         case ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]:
           return intl.formatMessage(messages.allDuplicatesError, {
@@ -194,7 +193,6 @@ export const FilesManagerTransferFinished: APIFC<
           })
       }
     } else {
-      console.log(errorTypes)
       switch (errorTypes[0]) {
         case ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]:
           return intl.formatMessage(messages.someDuplicatesError)

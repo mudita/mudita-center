@@ -125,6 +125,7 @@ export class NodeMtp implements MtpInterface {
   ): Promise<ResultObject<CancelTransferResultData>> {
     const transactionStatus =
       this.transferFileTransactionStatus[data.transactionId]
+    this.abortController?.abort()
 
     if (transactionStatus === undefined) {
       return Result.failed({
@@ -135,7 +136,6 @@ export class NodeMtp implements MtpInterface {
         type: MTPError.MTP_CANCEL_FAILED_ALREADY_TRANSFERRED,
       } as AppError)
     } else {
-      this.abortController?.abort()
       console.log(
         `${PREFIX_LOG} Canceling upload for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
       )
@@ -226,7 +226,6 @@ export class NodeMtp implements MtpInterface {
         destinationPath
       )
 
-      console.log(parentObjectHandle)
       if (parentObjectHandle === undefined) {
         parentObjectHandle = await this.createDirectories(
           deviceId,
