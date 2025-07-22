@@ -9,14 +9,12 @@ import {
   HelpArticle,
   HelpAsset,
   HelpCategory,
-  helpPaths,
   HelpSubcategory,
   HelpTestId,
 } from "help/models"
 import { defineMessages, useIntl } from "react-intl"
 import { CategoryTabs } from "./category-tabs.components"
 import { SubcategoriesList } from "./subcategories-list.component"
-import { Navigate, useParams } from "react-router"
 import { HelpFooter } from "./help-footer.component"
 import { Icon } from "app-theme/ui"
 import { Search } from "./search.component"
