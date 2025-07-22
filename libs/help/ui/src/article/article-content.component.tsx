@@ -172,7 +172,7 @@ const Article = styled.article`
   }
 
   li {
-    ::marker {
+    &::marker {
       color: ${({ theme }) => theme.app.color.black};
       font-size: ${({ theme }) => theme.app.fontSize.paragraph3};
     }
