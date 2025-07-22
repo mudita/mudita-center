@@ -92,10 +92,7 @@ export const useUploadFilesButtonAction = () => {
         sendFiles({
           files,
           actionId: action.actionId,
-          destinationPath: sliceMtpPaths(
-            action.destinationPath,
-            isDestinationInternal
-          ),
+          destinationPath: action.destinationPath,
           entitiesType: action.entitiesType,
           isMtpPathInternal: isDestinationInternal,
           actionType: SendFilesAction.ActionUpload,
