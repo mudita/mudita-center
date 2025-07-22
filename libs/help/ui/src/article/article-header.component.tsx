@@ -52,4 +52,8 @@ const Wrapper = styled.div`
   gap: 0.6rem;
   padding: 1.8rem 3.2rem 1.7rem;
   border-bottom: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
+
+  button {
+    height: initial;
+  }
 `
