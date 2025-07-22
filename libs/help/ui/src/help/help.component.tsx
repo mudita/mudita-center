@@ -44,15 +44,7 @@ export const Help: FunctionComponent<HelpProps> = ({
   articles,
   onContactSupport,
 }) => {
-  const { categoryId } = useParams<{
-    categoryId?: string
-  }>()
   const intl = useIntl()
-
-  if (!categoryId && categoriesList && categoriesList.length > 0) {
-    return <Navigate to={`${helpPaths.index}/${categoriesList[0].id}`} />
-  }
-
   return (
     <form>
       <Wrapper>

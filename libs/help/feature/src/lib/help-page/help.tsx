@@ -3,35 +3,42 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
-import { Help } from "help/ui"
+import { FunctionComponent, useEffect } from "react"
+import { useParams } from "react-router"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "app-store/utils"
 import { setContactSupportModalVisible } from "contact-support/feature"
+import { Help } from "help/ui"
+import { helpPaths } from "help/models"
+import { useAppNavigate } from "app-routing/utils"
 import {
-  selectHelp,
   selectHelpArticles,
   selectHelpAssets,
   selectHelpCategories,
   selectHelpCategoriesList,
   selectHelpSubcategories,
 } from "../store/help.selectors"
-import { useHelp, useHelpSyncListener } from "../helpers/use-help"
 
 export const HelpPage: FunctionComponent = () => {
   const dispatch = useAppDispatch()
-  // only temporary for test
-  useHelp()
-  useHelpSyncListener()
 
-  const helpData = useSelector(selectHelp)
   const helpCategoriesList = useSelector(selectHelpCategoriesList)
   const helpSubcategoriesList = useSelector(selectHelpSubcategories)
   const assets = useSelector(selectHelpAssets)
   const articles = useSelector(selectHelpArticles)
   const categories = useSelector(selectHelpCategories)
 
-  console.log("Redux HelpData:", helpData)
+  const { categoryId } = useParams<{
+    categoryId?: string
+  }>()
+  const navigate = useAppNavigate()
+  const categoriesList = useSelector(selectHelpCategoriesList)
+
+  useEffect(() => {
+    if (!categoryId && categoriesList && categoriesList.length > 0) {
+      navigate(`${helpPaths.index}/${categoriesList[0].id}`)
+    }
+  }, [categoriesList, categoryId, navigate])
 
   const handleContactSupport = () => {
     dispatch(setContactSupportModalVisible(true))

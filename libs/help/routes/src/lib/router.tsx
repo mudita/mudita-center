@@ -7,7 +7,12 @@ import { Route } from "react-router"
 import { useMenuItemsRegister } from "app-routing/feature"
 import { IconType } from "app-theme/models"
 import { formatMessage } from "app-localize/utils"
-import { ArticlePage, HelpPage } from "help/feature"
+import {
+  ArticlePage,
+  HelpPage,
+  useHelpSyncListener,
+  useHelp,
+} from "help/feature"
 import { HelpLayout, messages } from "./layout"
 import { helpPaths } from "help/models"
 import { MenuIndex } from "app-routing/models"
@@ -21,6 +26,8 @@ export const useHelpRouter = () => {
       path: helpPaths.index,
     },
   ])
+  useHelp()
+  useHelpSyncListener()
 
   return (
     <Route element={<HelpLayout />}>
