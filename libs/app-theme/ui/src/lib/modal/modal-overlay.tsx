@@ -17,7 +17,7 @@ export const ModalOverlay = styled.div<{
   --modal-opacity: 1;
   --modal-visibility: visible;
 
-  z-index: ${({ $layer }) => $layer};
+  z-index: ${({ $layer }) => $layer ?? ModalLayer.Default};
   position: fixed;
   top: 0;
   left: 0;
