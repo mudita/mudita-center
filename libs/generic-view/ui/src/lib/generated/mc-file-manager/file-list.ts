@@ -330,6 +330,12 @@ const generateFileList: ComponentGenerator<
           selectedIdsFieldName: "selectedItems",
           allIdsFieldName: "allItems",
         },
+        previewOptions: {
+          enabled: entityType === "imageFiles",
+          entitiesType: entityType,
+          entityIdFieldName: "id",
+          entityPathFieldName: "filePath",
+        },
       },
       dataProvider: {
         entitiesType: entityType,

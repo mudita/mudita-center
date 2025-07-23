@@ -13,7 +13,7 @@ import React, {
   useRef,
   useState,
 } from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { difference, intersection } from "lodash"
 import { TableTestIds } from "e2e-test-ids"
 import { APIFC, useViewFormContext } from "generic-view/utils"
@@ -28,22 +28,28 @@ import {
   listRawItemStyles,
 } from "../list/list-item"
 import { toastAnimationDuration } from "../interactive/toast/toast"
+import { FilePreview } from "./file-preview"
 
 const rowHeight = 64
 
 export const Table: APIFC<TableData, TableConfig> & {
   Cell: typeof TableCell
   HeaderCell: typeof TableCell
-} = ({ data = [], config, children, ...props }) => {
+} = ({
+  data = [],
+  config: { formOptions, previewOptions },
+  children,
+  ...props
+}) => {
   const getFormContext = useViewFormContext()
-  const formContext = getFormContext(config.formOptions.formKey)
+  const formContext = getFormContext(formOptions.formKey)
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
   const [visibleRowsBounds, setVisibleRowsBounds] = useState<[number, number]>([
     -1, -1,
   ])
 
-  const { formOptions } = config
-  const { activeIdFieldName } = formOptions
+  const [activePreviewId, setActivePreviewId] = useState<string>()
+  const { activeIdFieldName } = formOptions || {}
   const isClickable = Boolean(activeIdFieldName)
 
   const activeRowId = activeIdFieldName
@@ -52,8 +58,13 @@ export const Table: APIFC<TableData, TableConfig> & {
 
   const onRowClick = useCallback(
     (id: string) => {
-      if (!activeIdFieldName) return
-      formContext.setValue(activeIdFieldName!, id)
+      if (previewOptions?.enabled) {
+        setActivePreviewId(id)
+        return
+      }
+      if (activeIdFieldName) {
+        formContext.setValue(activeIdFieldName!, id)
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [activeIdFieldName]
@@ -81,6 +92,23 @@ export const Table: APIFC<TableData, TableConfig> & {
       })
     }
   }, [])
+
+  const scrollToPreviewActiveItem = useCallback(() => {
+    const activeElement = scrollWrapperRef.current?.querySelector(
+      `tr[data-item-id="${activePreviewId}"]`
+    )
+    if (activeElement) {
+      activeElement.scrollIntoView({
+        block: "nearest",
+      })
+    }
+  }, [activePreviewId])
+
+  useEffect(() => {
+    if (activePreviewId !== undefined) {
+      scrollToPreviewActiveItem()
+    }
+  }, [activePreviewId, scrollToPreviewActiveItem])
 
   useEffect(() => {
     if (activeRowId) {
@@ -200,6 +228,7 @@ export const Table: APIFC<TableData, TableConfig> & {
       return (
         <tr
           key={id}
+          data-item-id={id}
           data-testid={TableTestIds.TableRow}
           onClick={onClick}
           className={isActive ? "active" : ""}
@@ -217,22 +246,51 @@ export const Table: APIFC<TableData, TableConfig> & {
     ]
   )
 
+  const filePreview = useMemo(() => {
+    if (!previewOptions || !previewOptions.enabled) return null
+    return (
+      <FilePreview
+        items={data}
+        activeItem={activePreviewId}
+        onActiveItemChange={setActivePreviewId}
+        entitiesConfig={{
+          type: previewOptions.entitiesType,
+          idField: previewOptions.entityIdFieldName,
+          pathField: previewOptions.entityPathFieldName,
+        }}
+      />
+    )
+  }, [activePreviewId, data, previewOptions])
+
   return useMemo(
     () => (
-      <ScrollableWrapper ref={scrollWrapperRef} {...props}>
-        <TableWrapper data-testid={TableTestIds.Table}>
-          <TableHeader>
-            <tr data-testid={TableTestIds.TableHeaderRow}>
-              {renderHeaderChildren()}
-            </tr>
-          </TableHeader>
-          <TableBody $clickable={isClickable}>
-            {data?.map((id, index) => renderRow(id, index))}
-          </TableBody>
-        </TableWrapper>
-      </ScrollableWrapper>
+      <>
+        <ScrollableWrapper ref={scrollWrapperRef} {...props}>
+          <TableWrapper data-testid={TableTestIds.Table}>
+            <TableHeader
+              $hasClickableRows={isClickable || previewOptions?.enabled}
+            >
+              <tr data-testid={TableTestIds.TableHeaderRow}>
+                {renderHeaderChildren()}
+              </tr>
+            </TableHeader>
+            <TableBody $clickable={isClickable || previewOptions?.enabled}>
+              {data?.map((id, index) => renderRow(id, index))}
+            </TableBody>
+          </TableWrapper>
+        </ScrollableWrapper>
+        {filePreview}
+      </>
     ),
-    [data, isClickable, props, renderRow, renderHeaderChildren]
+    [
+      props,
+      isClickable,
+      previewOptions?.enabled,
+      renderHeaderChildren,
+      data,
+      filePreview,
+      renderRow,
+    ]
   )
 }
 
@@ -256,11 +314,21 @@ const TableWrapper = styled.table`
   border-spacing: 0;
 `
 
-const TableHeader = styled.thead`
+const TableHeader = styled.thead<{ $hasClickableRows?: boolean }>`
   position: sticky;
   z-index: 2;
   top: 0;
   background: #fff;
+
+  tr {
+    ${({ $hasClickableRows }) =>
+      $hasClickableRows &&
+      css`
+        &:before {
+          content: "";
+        }
+      `};
+  }
 
   th {
     text-align: left;

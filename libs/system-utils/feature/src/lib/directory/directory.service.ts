@@ -22,6 +22,7 @@ const appPathType = {
   pureBackups: ["pure", "phone", "backups"],
   pureBackupTemp: ["pure", "phone", "backup-temp"],
   helpV2: ["help-v2.json"],
+  filePreview: ["file-preview"],
 } as const
 
 export type AppPathType = keyof typeof appPathType
