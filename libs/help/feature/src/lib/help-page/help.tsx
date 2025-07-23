@@ -20,19 +20,18 @@ import {
 } from "../store/help.selectors"
 
 export const HelpPage: FunctionComponent = () => {
-  const dispatch = useAppDispatch()
-
-  const helpCategoriesList = useSelector(selectHelpCategoriesList)
-  const helpSubcategoriesList = useSelector(selectHelpSubcategories)
-  const assets = useSelector(selectHelpAssets)
-  const articles = useSelector(selectHelpArticles)
-  const categories = useSelector(selectHelpCategories)
-
   const { categoryId } = useParams<{
     categoryId?: string
   }>()
+
+  const dispatch = useAppDispatch()
   const navigate = useAppNavigate()
+
   const categoriesList = useSelector(selectHelpCategoriesList)
+  const subcategoriesList = useSelector(selectHelpSubcategories)
+  const assets = useSelector(selectHelpAssets)
+  const articles = useSelector(selectHelpArticles)
+  const categories = useSelector(selectHelpCategories)
 
   useEffect(() => {
     if (!categoryId && categoriesList && categoriesList.length > 0) {
@@ -46,10 +45,10 @@ export const HelpPage: FunctionComponent = () => {
 
   return (
     <Help
-      categoriesList={helpCategoriesList}
+      categoriesList={categoriesList}
       categories={categories}
       assets={assets}
-      subcategories={helpSubcategoriesList}
+      subcategories={subcategoriesList}
       articles={articles}
       onContactSupport={handleContactSupport}
     />
