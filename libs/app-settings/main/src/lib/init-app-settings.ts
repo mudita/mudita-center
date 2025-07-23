@@ -13,8 +13,11 @@ import { AppSettingsService } from "./app-settings.service"
 const DEFAULT_DELAY_MS = 2500
 let appSettingsService: AppSettingsService
 
-const getService = () => {
+const getService = async (serverEnabled: boolean) => {
   if (!appSettingsService) {
+    if (serverEnabled) {
+      await delay(DEFAULT_DELAY_MS)
+    }
     appSettingsService = new AppSettingsService()
   }
   return appSettingsService
@@ -28,10 +31,8 @@ export const initAppSettings = (
   ipcMain.handle(
     AppSettingsIpcEvents.Get,
     async (_, path?: DotNotation<AppSettings>) => {
-      if (mockServer.serverEnabled) {
-        await delay(DEFAULT_DELAY_MS)
-      }
-      return getService().get(path)
+      const service = await getService(mockServer.serverEnabled)
+      return service.get(path)
     }
   )
 
@@ -39,7 +40,8 @@ export const initAppSettings = (
   ipcMain.handle(
     AppSettingsIpcEvents.Set,
     async (_, settings: NestedPartial<AppSettings>) => {
-      return getService().set(settings)
+      const service = await getService(mockServer.serverEnabled)
+      return service.set(settings)
     }
   )
 }
