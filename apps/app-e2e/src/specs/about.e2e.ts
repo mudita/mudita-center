@@ -20,44 +20,44 @@ describe("About screen", () => {
     })
   })
 
-  it("should display 'About' tab item as active", async () => {
+  it("should display the 'About' tab as active", async () => {
     const activeMenuItem = await SettingsPage.activeMenuItem
     await expect(activeMenuItem).toHaveText("About")
     await expect(activeMenuItem).toHaveAttribute("href", "#/settings/about")
   })
 
-  it("should display the About wrapper", async () => {
+  it("should display the About container", async () => {
     const wrapper = await AboutPage.aboutWrapper
     await expect(wrapper).toBeDisplayed()
   })
 
-  it("should show current app version", async () => {
+  it("should display the current application version", async () => {
     const versionRow = await AboutPage.installedVersionRow
     await expect(versionRow).toBeDisplayed()
     await expect(await versionRow.getText()).toMatch(/[\d]+\.[\d]+\.[\d]+/)
   })
 
-  it("should show update button", async () => {
+  it("should display the Update button", async () => {
     const updateButton = await AboutPage.updateButton
     await expect(updateButton).toBeDisplayed()
     await expect(updateButton).toBeClickable()
   })
 
-  it("should show Terms of Service button", async () => {
+  it("should display the Terms of Service button", async () => {
     const button = await AboutPage.termsOfServiceButton
     await expect(button).toBeDisplayed()
     await expect(button).toBeClickable()
     await expect(button).toHaveText("LEARN MORE")
   })
 
-  it("should show Privacy Policy button", async () => {
+  it("should display the Privacy Policy button", async () => {
     const button = await AboutPage.privacyPolicyButton
     await expect(button).toBeDisplayed()
     await expect(button).toBeClickable()
     await expect(button).toHaveText("LEARN MORE")
   })
 
-  it("should show License button", async () => {
+  it("should display the License button", async () => {
     const button = await AboutPage.licenseButton
     await expect(button).toBeDisplayed()
     await expect(button).toBeClickable()

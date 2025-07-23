@@ -6,7 +6,7 @@
 export const SPEC_TITLE = {
   APP_INIT_FULL_HAPPY_FLOW: "App Init - Full Happy Path",
   APP_INIT_FULL_HAPPY_FLOW_WHEN_PP_ACCEPTED:
-    "App Init - Full Happy Path - When PP Accepted",
+    "App Init - Full Happy Path - When Privacy Policy Accepted",
   APP_INIT_SOFT_UPDATE_AVAILABLE: "Soft Update Available - App Init Step",
   APP_INIT_FORCE_UPDATE_AVAILABLE: "Force Update Available - App Init Step",
   APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED:
@@ -16,6 +16,6 @@ export const SPEC_TITLE = {
   APP_INIT_USB_ACCESS_FAILURE_PATH: "Usb Access - App Init Step - Failure Path",
   APP_INIT_PRIVACY_POLICY_FIRST_RUN:
     "Privacy Policy - App Init Step - First Run",
-  WELCOME_SCREEN: "Welcome screen",
-  DEVICES_WELCOME_SCREEN: "Devices - welcome screen",
+  WELCOME_SCREEN: "Welcome Screen",
+  DEVICES_WELCOME_SCREEN: "Devices - Welcome Screen",
 }

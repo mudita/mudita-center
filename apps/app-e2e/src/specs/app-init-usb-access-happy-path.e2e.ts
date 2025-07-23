@@ -35,12 +35,12 @@ describe(SPEC_TITLE.APP_INIT_USB_ACCESS_HAPPY_PATH, () => {
       await expect(UsbAccessPage.grantedModalDescription).toBeDisplayed()
     })
 
-    it("should display action controls", async () => {
+    it("should display the action controls", async () => {
       await expect(UsbAccessPage.grantedModalCloseButton).toBeDisplayed()
       await expect(UsbAccessPage.grantedModalButton).toBeDisplayed()
     })
 
-    it("should allows to close full screen layout when clicking ok modal button", async () => {
+    it("should allow closing the full‑screen layout via the OK button", async () => {
       await expect(AppInitPage.fullscreenLayoutCloseButton).not.toBeClickable()
       await UsbAccessPage.grantedModalButton.waitForDisplayed()
       await UsbAccessPage.grantedModalButton.click()

@@ -29,13 +29,13 @@ describe(SPEC_TITLE.APP_INIT_FULL_HAPPY_FLOW_WHEN_PP_ACCEPTED, () => {
     })
   })
 
-  it("should display Available Update Modal when privacy policy modal already accepted", async () => {
+  it("should display the Available Update Modal when the Privacy Policy is already accepted", async () => {
     await expect(PrivacyPolicyPage.privacyPolicyModal).not.toBeDisplayed()
     await expect(McUpdatePage.updateAvailableModal).toBeDisplayed()
     await expect(McUpdatePage.updateAvailableModalCloseButton).toBeDisplayed()
   })
 
-  it("should display USB Access Request Modal after click close button of Available Update Modal", async function () {
+  it("should display the USB Access Request Modal after closing the Available Update Modal", async function () {
     if (!testsHelper.isLinux()) {
       this.skip()
     }
@@ -43,7 +43,7 @@ describe(SPEC_TITLE.APP_INIT_FULL_HAPPY_FLOW_WHEN_PP_ACCEPTED, () => {
     await expect(UsbAccessPage.requestModal).toBeDisplayed()
   })
 
-  it("should open the Request Cancelled modal on clicking close button", async function () {
+  it("should open the Request Cancelled Modal when clicking the close button in the USB Access Request Modal", async function () {
     if (!testsHelper.isLinux()) {
       this.skip()
     }
@@ -51,7 +51,7 @@ describe(SPEC_TITLE.APP_INIT_FULL_HAPPY_FLOW_WHEN_PP_ACCEPTED, () => {
     await expect(UsbAccessPage.requestCancelledModal).toBeDisplayed()
   })
 
-  it("should allow to close full screen layout when clicking ok modal button", async () => {
+  it("should allow closing the full‑screen layout via the OK button in the modal", async () => {
     if (!testsHelper.isLinux()) {
       await expect(AppInitPage.fullscreenLayoutCloseButton).not.toBeClickable()
       await McUpdatePage.updateAvailableModalCloseButton.click()

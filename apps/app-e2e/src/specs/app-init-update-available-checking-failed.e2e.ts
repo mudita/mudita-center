@@ -15,15 +15,15 @@ describe(SPEC_TITLE.APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED, () => {
     await simulateAppInitUpdateStep({ error: true })
   })
 
-  it("should not display the 'Update Not Available' modal on init", async () => {
+  it("should keep the Update Not Available Modal hidden on init", async () => {
     await expect(McUpdatePage.updateNotAvailableModal).not.toBeDisplayed()
   })
 
-  it("should not display the 'Update Error' modal on init", async () => {
+  it("should keep the Update Error Modal hidden on init", async () => {
     await expect(McUpdatePage.updateErrorModal).not.toBeDisplayed()
   })
 
-  it("should show the 'Update Error' modal after manual check from About page", async () => {
+  it("should display the Update Error Modal after a manual check from About", async () => {
     await AppInitPage.closeFullscreenLayout()
 
     await SettingsPage.settingsMenuItem.click()
