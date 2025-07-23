@@ -4,6 +4,7 @@
  */
 
 import { AppError, AppResultFactory } from "app-utils/models"
+import { NewsPaths } from "news/models"
 import {
   goToSupportModal,
   itBehavesLikeFormModal,
@@ -12,7 +13,6 @@ import {
 import ContactSupport from "../page-objects/contact-support.page"
 import Menu from "../page-objects/menu.page"
 import AppInitPage from "../page-objects/app-init.page"
-import { NewsPaths } from "news/models"
 
 describe("Contact Support - Failure Path", () => {
   before(async () => {

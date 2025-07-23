@@ -51,7 +51,7 @@ describe(SPEC_TITLE.APP_INIT_FULL_HAPPY_FLOW_WHEN_PP_ACCEPTED, () => {
     await expect(UsbAccessPage.requestCancelledModal).toBeDisplayed()
   })
 
-  it("should allow closing the full‑screen layout via the OK button in the modal", async () => {
+  it("should allow closing the full-screen layout via the OK button in the modal", async () => {
     if (!testsHelper.isLinux()) {
       await expect(AppInitPage.fullscreenLayoutCloseButton).not.toBeClickable()
       await McUpdatePage.updateAvailableModalCloseButton.click()

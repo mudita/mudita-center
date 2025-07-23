@@ -26,7 +26,7 @@ describe("About screen", () => {
     await expect(activeMenuItem).toHaveAttribute("href", "#/settings/about")
   })
 
-  it("should display the About container", async () => {
+  it("should display the About wrapper", async () => {
     const wrapper = await AboutPage.aboutWrapper
     await expect(wrapper).toBeDisplayed()
   })

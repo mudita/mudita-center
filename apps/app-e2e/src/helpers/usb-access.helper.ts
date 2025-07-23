@@ -68,7 +68,7 @@ export const itBehavesLikeRequestCancelledModal = () => {
       await expect(UsbAccessPage.requestCancelledModalButton).toBeDisplayed()
     })
 
-    it("should allow closing the full‑screen layout via the OK button", async () => {
+    it("should allow closing the full-screen layout via the OK button", async () => {
       await expect(AppInitPage.fullscreenLayoutCloseButton).not.toBeClickable()
       await UsbAccessPage.requestCancelledModalButton.waitForDisplayed()
       await UsbAccessPage.requestCancelledModalButton.click()

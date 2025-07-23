@@ -119,7 +119,7 @@ describe("Contact Support - Base Path", () => {
     await expect(ContactSupport.formModal).not.toBeDisplayed()
   })
 
-  it("should re‑open the modal after closing", async () => {
+  it("should re-open the modal after closing", async () => {
     await openSupportModal()
     await expect(ContactSupport.formModal).toBeDisplayed()
     await expect(ContactSupport.formModalEmailInput).toHaveValue("")
