@@ -4,4 +4,5 @@
  */
 
 export * from "./lib/init-app-help"
+export * from "./lib/app-help.service"
 export * from "./lib/app-help.preload"

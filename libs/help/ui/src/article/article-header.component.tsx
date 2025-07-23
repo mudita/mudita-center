@@ -29,6 +29,7 @@ export const ArticleHeader: FunctionComponent<Props> = ({ title }) => {
   return (
     <Wrapper>
       <Button
+        data-testid={HelpTestId.ArticleBackButton}
         onClick={goBack}
         type={ButtonType.Text}
         icon={IconType.ArrowBack}
