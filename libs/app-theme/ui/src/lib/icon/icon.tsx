@@ -22,7 +22,7 @@ export const Icon: FunctionComponent<Props> = ({
   const IconComponent = icons[type]
   if (!IconComponent) return null
   return (
-    <Wrapper $spin={spin} $size={size} {...props}>
+    <Wrapper $spin={spin} $size={size} data-testid={`icon-${type}`} {...props}>
       <IconComponent width={"100%"} height={"100%"} />
     </Wrapper>
   )
