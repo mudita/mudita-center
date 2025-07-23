@@ -106,6 +106,10 @@ describe("Check restore modal", () => {
       OverviewKompaktPage.kompaktRestoreModalConfirm
     await expect(kompaktRestoreModalConfirm).toBeDisplayed()
 
+    //check if latest restore file exist (radio button + label)
+    const label = await OverviewKompaktPage.getLatestBackupLabel()
+    await expect(label).toBeDisplayed()
+
     const kompaktRestoreModalCancel =
       OverviewKompaktPage.kompaktRestoreModalCancel
     await expect(kompaktRestoreModalCancel).toBeDisplayed()
