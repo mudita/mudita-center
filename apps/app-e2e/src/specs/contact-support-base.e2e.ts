@@ -15,7 +15,7 @@ describe("Contact Support - Base Path", () => {
   })
 
   // --- Modal visibility ---
-  it("should display the contact support modal", async () => {
+  it("should display the Contact Support Form Modal", async () => {
     await expect(ContactSupport.formModal).toBeDisplayed()
   })
 
@@ -36,37 +36,37 @@ describe("Contact Support - Base Path", () => {
   })
 
   // --- Email input labels and placeholder ---
-  it("should show email input placeholder", async () => {
+  it("should display the email input placeholder", async () => {
     const wrapper = await ContactSupport.formModalEmailInputWrapper
     await expect(wrapper).toHaveText("Your email")
   })
 
-  it("should show email input label", async () => {
+  it("should display the email input label", async () => {
     await expect(ContactSupport.formModalEmailLabel).toHaveText("Email")
   })
 
   // --- Message input labels and placeholder ---
-  it("should show message input placeholder", async () => {
+  it("should display the message input placeholder", async () => {
     const wrapper = await ContactSupport.formModalDescriptionInputWrapper
     await expect(wrapper).toHaveText("How can we help?")
   })
 
-  it("should show message input label", async () => {
+  it("should display the message input label", async () => {
     await expect(ContactSupport.formModalDescriptionLabel).toHaveText(
       "Message (optional)"
     )
   })
 
   // --- Send button and file list info ---
-  it("should have send button disabled initially", async () => {
+  it("should keep the Send button disabled initially", async () => {
     await expect(ContactSupport.formModalSendButton).toBeDisabled()
   })
 
-  it("should display send button text", async () => {
+  it("should display the Send button text", async () => {
     await expect(ContactSupport.formModalSendButton).toHaveText("SEND")
   })
 
-  it("should show attached files label and description", async () => {
+  it("should display the attached files label and description", async () => {
     await expect(ContactSupport.formModalFileListLabel).toHaveText(
       "Attached files"
     )
@@ -97,7 +97,7 @@ describe("Contact Support - Base Path", () => {
   ]
 
   invalidEmails.forEach(({ value, error }) => {
-    it(`should display error for invalid email: ${value}`, async () => {
+    it(`should display an error for invalid email: ${value}`, async () => {
       await ContactSupport.formModalEmailInput.setValue(value)
       await expect(ContactSupport.formModalEmailInputInvalidText).toHaveText(
         error
@@ -105,7 +105,7 @@ describe("Contact Support - Base Path", () => {
     })
   })
 
-  it("should clear error when entering valid email", async () => {
+  it("should clear the error when entering a valid email", async () => {
     await ContactSupport.formModalEmailInput.setValue("email@test.com")
     await expect(ContactSupport.formModalEmailInputInvalidText).not.toHaveText(
       "Email is invalid"
@@ -113,7 +113,7 @@ describe("Contact Support - Base Path", () => {
   })
 
   // --- Close modal ---
-  it("should close the modal when clicking close button", async () => {
+  it("should close the modal when clicking the close button", async () => {
     await ContactSupport.formModalCloseButton.waitForDisplayed()
     await ContactSupport.formModalCloseButton.click()
     await expect(ContactSupport.formModal).not.toBeDisplayed()

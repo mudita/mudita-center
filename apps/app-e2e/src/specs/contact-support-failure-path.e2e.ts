@@ -3,13 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppError, AppResultFactory } from "app-utils/models"
+import { NewsPaths } from "news/models"
 import {
   goToSupportModal,
   itBehavesLikeFormModal,
   itBehavesLikeSendingModal,
 } from "../helpers/contact-support.helper"
 import ContactSupport from "../page-objects/contact-support.page"
-import { AppError, AppResultFactory } from "app-utils/models"
+import Menu from "../page-objects/menu.page"
+import AppInitPage from "../page-objects/app-init.page"
 
 describe("Contact Support - Failure Path", () => {
   before(async () => {
@@ -31,15 +34,18 @@ describe("Contact Support - Failure Path", () => {
       await expect(ContactSupport.errorModalDescription).toBeDisplayed()
     })
 
-    it("should display action controls", async () => {
+    it("should display the action controls", async () => {
       await expect(ContactSupport.errorModalCloseButton).not.toBeDisplayed()
       await expect(ContactSupport.errorModalButton).toBeDisplayed()
     })
 
-    it("should allows to close full screen layout when clicking ok modal button", async () => {
+    it("should navigate to the News page when clicking the OK button", async () => {
       await ContactSupport.errorModalButton.waitForDisplayed()
       await ContactSupport.errorModalButton.click()
       await expect(ContactSupport.errorModal).not.toBeDisplayed()
+      await Menu.newsLink.click()
+      const url = await AppInitPage.getPageUrl()
+      await expect(url).toBe(NewsPaths.Index)
     })
   })
 })

@@ -13,18 +13,18 @@ import {
 } from "../consts/regex-const"
 
 describe.skip("News screen", () => {
-  it("have proper menu item active", async () => {
+  it("should display the 'News' tab as active", async () => {
     const activeMenuItem = await NewsPage.activeMenuItem
     await expect(activeMenuItem).toHaveText("News")
     await expect(activeMenuItem).toHaveAttribute("href", "#/news")
   })
 
-  it("have proper title in app header", async () => {
+  it("should display the correct header title", async () => {
     const newsHeader = await NewsPage.appHeader
     await expect(newsHeader).toHaveText("Mudita News")
   })
 
-  it("contains 'more news' button with proper link", async () => {
+  it("should contain a More News button with the correct link", async () => {
     const moreNewsButton = await NewsPage.moreNewsButton
     await expect(moreNewsButton).toBeDisplayed()
     await expect(moreNewsButton).toBeClickable()
@@ -35,7 +35,7 @@ describe.skip("News screen", () => {
     )
   })
 
-  it("have fully visible second line after scrolling", async () => {
+  it("should display the second line fully visible after scrolling", async () => {
     const newsCardElements = await NewsPage.newsCardElements
     const lastNewsCardCommunityLinkText = await newsCardElements[
       newsCardElements.length - 1
@@ -45,7 +45,7 @@ describe.skip("News screen", () => {
     await expect(lastNewsCardCommunityLinkText).toBeDisplayedInViewport()
   })
 
-  it("contains properly formatted news card", async () => {
+  it("should display a properly formatted news card", async () => {
     const newsCardElements = await NewsPage.newsCardElements
 
     for (const card of newsCardElements) {

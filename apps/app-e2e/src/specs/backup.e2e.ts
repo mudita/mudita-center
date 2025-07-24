@@ -12,7 +12,7 @@ describe("Backup settings screen", () => {
     await settingsMenuItem.click()
   })
 
-  it("should display 'Backup' tab item as active", async () => {
+  it("should display the 'Backup' tab as active", async () => {
     const activeMenuItem = await SettingsPage.activeMenuItem
     await expect(activeMenuItem).toHaveText("Backup")
     await expect(activeMenuItem).toHaveAttribute("href", "#/settings/backup")
@@ -23,13 +23,13 @@ describe("Backup settings screen", () => {
     await expect(settingsHeader).toHaveText("Settings")
   })
 
-  it.skip("should show backup location in the settings", async () => {
+  it.skip("should display the selected backup location in the settings", async () => {
     const backupLocation = await SettingsPage.backupLocation
     await expect(backupLocation).toBeDisplayed()
     await expect(await backupLocation.getText()).toMatch(/\//)
   })
 
-  it("should show and enable 'Change' button", async () => {
+  it("should display and enable the Change button", async () => {
     const changeButton = await SettingsPage.changeBackupLocationButton
     await expect(changeButton).toBeDisplayed()
     await expect(changeButton).toBeClickable()

@@ -10,6 +10,9 @@ import {
   itBehavesLikeSendingModal,
 } from "../helpers/contact-support.helper"
 import ContactSupport from "../page-objects/contact-support.page"
+import Menu from "../page-objects/menu.page"
+import AppInitPage from "../page-objects/app-init.page"
+import { NewsPaths } from "news/models"
 
 describe("Contact Support - Happy Path", () => {
   before(async () => {
@@ -36,10 +39,13 @@ describe("Contact Support - Happy Path", () => {
       await expect(ContactSupport.successModalButton).toBeDisplayed()
     })
 
-    it("should allows to close full screen layout when clicking ok modal button", async () => {
+    it("should navigate to the News page when clicking the OK button", async () => {
       await ContactSupport.successModalButton.waitForDisplayed()
       await ContactSupport.successModalButton.click()
       await expect(ContactSupport.successModal).not.toBeDisplayed()
+      await Menu.newsLink.click()
+      const url = await AppInitPage.getPageUrl()
+      await expect(url).toBe(NewsPaths.Index)
     })
   })
 })

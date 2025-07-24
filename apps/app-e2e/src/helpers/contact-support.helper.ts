@@ -57,12 +57,12 @@ export const itBehavesLikeFormModal = () => {
 
 export const itBehavesLikeSendingModal = () => {
   describe("Contact Support Sending Modal", () => {
-    it("should display modal header and icon", async () => {
+    it("should display the modal header and icon", async () => {
       await expect(ContactSupport.sendingModalTitle).toBeDisplayed()
       await expect(ContactSupport.sendingModalTitleIcon).toBeDisplayed()
     })
 
-    it("should not show close button while processing", async () => {
+    it("should hide the close button while processing", async () => {
       await expect(ContactSupport.sendingModalCloseButton).not.toBeDisplayed()
     })
   })

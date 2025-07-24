@@ -22,7 +22,7 @@ describe(SPEC_TITLE.APP_INIT_USB_ACCESS_CANCEL_PATH, () => {
     })
   })
 
-  describe("Usn Access Request Modal", () => {
+  describe("Usb Access Request Modal", () => {
     it("should display all core modal elements", async () => {
       await expect(UsbAccessPage.requestModal).toBeDisplayed()
       await expect(UsbAccessPage.requestModalTitle).toBeDisplayed()
@@ -30,12 +30,12 @@ describe(SPEC_TITLE.APP_INIT_USB_ACCESS_CANCEL_PATH, () => {
       await expect(UsbAccessPage.requestModalDescription).toBeDisplayed()
     })
 
-    it("should display action controls", async () => {
+    it("should display the action controls", async () => {
       await expect(UsbAccessPage.requestModalCloseButton).toBeDisplayed()
       await expect(UsbAccessPage.requestModalButton).toBeDisplayed()
     })
 
-    it("should open the Request Cancelled modal on clicking close button", async () => {
+    it("should open the Request Cancelled Modal when closing", async () => {
       await UsbAccessPage.requestModalCloseButton.click()
       await expect(UsbAccessPage.requestCancelledModal).toBeDisplayed()
     })

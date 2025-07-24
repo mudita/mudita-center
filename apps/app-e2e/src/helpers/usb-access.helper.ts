@@ -29,12 +29,12 @@ export const itBehavesLikeRequestModal = () => {
       await expect(UsbAccessPage.requestModalDescription).toBeDisplayed()
     })
 
-    it("should display action controls", async () => {
+    it("should display the action controls", async () => {
       await expect(UsbAccessPage.requestModalCloseButton).toBeDisplayed()
       await expect(UsbAccessPage.requestModalButton).toBeDisplayed()
     })
 
-    it("should open the Processing modal on clicking allow button", async () => {
+    it("should open the Processing modal upon allowing", async () => {
       await UsbAccessPage.requestModalButton.click()
       await expect(UsbAccessPage.processingModal).toBeDisplayed()
     })
@@ -43,12 +43,12 @@ export const itBehavesLikeRequestModal = () => {
 
 export const itBehavesLikeProcessingModal = () => {
   describe("Usb Access Processing Modal", () => {
-    it("should display modal header and icon", async () => {
+    it("should display the modal header and icon", async () => {
       await expect(UsbAccessPage.processingModalTitle).toBeDisplayed()
       await expect(UsbAccessPage.processingModalTitleIcon).toBeDisplayed()
     })
 
-    it("should not show close button while processing", async () => {
+    it("should hide the close button during processing", async () => {
       await expect(UsbAccessPage.processingModalCloseButton).not.toBeDisplayed()
     })
   })
@@ -56,19 +56,19 @@ export const itBehavesLikeProcessingModal = () => {
 
 export const itBehavesLikeRequestCancelledModal = () => {
   describe("Usb Access Request Cancelled Modal", () => {
-    it("should display modal header and icon", async () => {
+    it("should display the modal header and icon", async () => {
       await expect(UsbAccessPage.requestCancelledModalTitle).toBeDisplayed()
       await expect(UsbAccessPage.requestCancelledModalTitleIcon).toBeDisplayed()
     })
 
-    it("should display action controls", async () => {
+    it("should display the action controls", async () => {
       await expect(
         UsbAccessPage.requestCancelledModalCloseButton
       ).toBeDisplayed()
       await expect(UsbAccessPage.requestCancelledModalButton).toBeDisplayed()
     })
 
-    it("should allows to close full screen layout when clicking ok modal button", async () => {
+    it("should allow closing the full-screen layout via the OK button", async () => {
       await expect(AppInitPage.fullscreenLayoutCloseButton).not.toBeClickable()
       await UsbAccessPage.requestCancelledModalButton.waitForDisplayed()
       await UsbAccessPage.requestCancelledModalButton.click()

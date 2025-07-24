@@ -8,19 +8,19 @@ import { NewsPaths } from "../all-paths"
 import { SPEC_TITLE } from "../consts/spec-title"
 
 describe(SPEC_TITLE.WELCOME_SCREEN, () => {
-  it("is visible after app start", async () => {
+  it("should appear after app start", async () => {
     const layout = await AppInitPage.fullscreenLayout
     await layout.waitForExist()
     await expect(layout).toBeDisplayed()
   })
 
-  it("has main close button", async () => {
+  it("should display the main Close button", async () => {
     const closeButton = await AppInitPage.fullscreenLayoutCloseButton
     await expect(closeButton).toBeDisplayed()
     await expect(closeButton).toBeClickable()
   })
 
-  it("closes the screen when layout close button is clicked and goes to the news page", async () => {
+  it("should close and navigate to the News page when the layout Close button is clicked", async () => {
     const closeButton = await AppInitPage.fullscreenLayoutCloseButton
     await closeButton.click()
 

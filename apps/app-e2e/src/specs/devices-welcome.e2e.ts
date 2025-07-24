@@ -8,34 +8,34 @@ import { NewsPaths } from "../all-paths"
 import { SPEC_TITLE } from "../consts/spec-title"
 
 describe(SPEC_TITLE.DEVICES_WELCOME_SCREEN, () => {
-  it("is visible after app start", async () => {
+  it("should appear after app start", async () => {
     const layout = await DevicesInitPage.welcomeScreen
     await layout.waitForExist()
     await expect(layout).toBeDisplayed()
   })
 
-  it("has correct title", async () => {
+  it("should display the correct title", async () => {
     const title = await DevicesInitPage.welcomeScreenTitle
     await expect(title).toHaveText("Welcome to Mudita Center")
   })
 
-  it("has correct subtitle", async () => {
+  it("should display the correct subtitle", async () => {
     const subtitle = await DevicesInitPage.welcomeScreenSubtitle
     await expect(subtitle).toHaveText("Connect your device to the computer.")
   })
 
-  it("has correct devices list", async () => {
+  it("should list available devices correctly", async () => {
     const list = await DevicesInitPage.welcomeScreenDevicesList
     await expect(list).toHaveText("Kompakt\nHarmony 1\nHarmony 2\nPure")
   })
 
-  it("has cancel button", async () => {
+  it("should have a Cancel button", async () => {
     const button = await DevicesInitPage.welcomeScreenCancelButton
     await expect(button).toHaveText("NOT NOW")
     await expect(button).toBeClickable()
   })
 
-  it("has troubleshooting button", async () => {
+  it("should have a Troubleshooting button", async () => {
     const button = await DevicesInitPage.welcomeScreenTroubleshootingButton
     await expect(button).toHaveText(
       "MY DEVICE DOESN’T SHOW UP AFTER CONNECTING"
@@ -43,7 +43,7 @@ describe(SPEC_TITLE.DEVICES_WELCOME_SCREEN, () => {
     await expect(button).toBeClickable()
   })
 
-  it("closes the screen when cancel button is clicked and goes to the news page", async () => {
+  it("should close and navigate to the News page when Cancel is clicked", async () => {
     const cancelButton = await DevicesInitPage.welcomeScreenCancelButton
     await cancelButton.waitForClickable()
     await cancelButton.click()

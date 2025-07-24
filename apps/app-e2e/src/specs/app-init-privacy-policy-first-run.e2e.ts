@@ -24,7 +24,7 @@ describe(SPEC_TITLE.APP_INIT_PRIVACY_POLICY_FIRST_RUN, () => {
     )
   })
 
-  it("should display action controls", async () => {
+  it("should display the action controls", async () => {
     const {
       privacyPolicyModalAcceptButton,
       privacyPolicyModalCloseButton,
