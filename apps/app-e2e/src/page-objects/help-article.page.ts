@@ -19,6 +19,10 @@ class HelpArticlePage extends Page {
     return $(`[data-testid="${HelpTestId.ArticleTitle}"]`)
   }
 
+  public get articleInternalLinks() {
+    return $$(`[data-testid="${HelpTestId.ArticleContentBlockInternalLink}"]`)
+  }
+
   public get articleFeedback() {
     return $(`[data-testid="${HelpTestId.ArticleFeedback}"]`)
   }
