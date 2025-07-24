@@ -199,7 +199,7 @@ const outlinedInputStyles = css<{ $error?: boolean }>`
     ${({ theme, $error }) =>
       $error ? theme.app.color.red : theme.app.color.grey4};
   border-radius: ${({ theme }) => theme.app.radius.sm};
-  background: ${({ theme }) => theme.app.color.grey6};
+  background: ${({ theme }) => theme.app.color.white};
   padding: 1rem;
   gap: 1rem;
   transition-property: border-color;

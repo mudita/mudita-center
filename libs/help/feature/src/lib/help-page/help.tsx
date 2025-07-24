@@ -3,35 +3,41 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
-import { Help } from "help/ui"
+import { FunctionComponent, useEffect } from "react"
+import { useParams } from "react-router"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "app-store/utils"
 import { setContactSupportModalVisible } from "contact-support/feature"
+import { Help } from "help/ui"
+import { HelpPaths } from "help/models"
+import { useAppNavigate } from "app-routing/utils"
 import {
-  selectHelp,
   selectHelpArticles,
   selectHelpAssets,
   selectHelpCategories,
   selectHelpCategoriesList,
   selectHelpSubcategories,
 } from "../store/help.selectors"
-import { useHelp, useHelpSyncListener } from "../helpers/use-help"
 
 export const HelpPage: FunctionComponent = () => {
-  const dispatch = useAppDispatch()
-  // only temporary for test
-  useHelp()
-  useHelpSyncListener()
+  const { categoryId } = useParams<{
+    categoryId?: string
+  }>()
 
-  const helpData = useSelector(selectHelp)
-  const helpCategoriesList = useSelector(selectHelpCategoriesList)
-  const helpSubcategoriesList = useSelector(selectHelpSubcategories)
+  const dispatch = useAppDispatch()
+  const navigate = useAppNavigate()
+
+  const categoriesList = useSelector(selectHelpCategoriesList)
+  const subcategoriesList = useSelector(selectHelpSubcategories)
   const assets = useSelector(selectHelpAssets)
   const articles = useSelector(selectHelpArticles)
   const categories = useSelector(selectHelpCategories)
 
-  console.log("Redux HelpData:", helpData)
+  useEffect(() => {
+    if (!categoryId && categoriesList && categoriesList.length > 0) {
+      navigate(`${HelpPaths.Index}/${categoriesList[0].id}`)
+    }
+  }, [categoriesList, categoryId, navigate])
 
   const handleContactSupport = () => {
     dispatch(setContactSupportModalVisible(true))
@@ -39,10 +45,10 @@ export const HelpPage: FunctionComponent = () => {
 
   return (
     <Help
-      categoriesList={helpCategoriesList}
+      categoriesList={categoriesList}
       categories={categories}
       assets={assets}
-      subcategories={helpSubcategoriesList}
+      subcategories={subcategoriesList}
       articles={articles}
       onContactSupport={handleContactSupport}
     />

@@ -79,6 +79,7 @@ const Links = styled.ul`
     line-height: ${({ theme }) => theme.app.lineHeight.paragraph3};
     letter-spacing: 0.05em;
     color: ${({ theme }) => theme.app.color.blue1};
+    text-decoration: none;
 
     &:hover {
       text-decoration: underline;

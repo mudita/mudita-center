@@ -11,7 +11,7 @@ import {
 } from "@contentful/rich-text-react-renderer"
 import { BLOCKS, Document, INLINES, MARKS } from "@contentful/rich-text-types"
 import { NavLink } from "react-router"
-import { HelpArticle, HelpTestId, helpPaths } from "help/models"
+import { HelpArticle, HelpTestId, HelpPaths } from "help/models"
 import { Button, Typography } from "app-theme/ui"
 import { ButtonSize, ButtonTextModifier, ButtonType } from "app-theme/models"
 
@@ -58,7 +58,7 @@ export const ArticleContent: FunctionComponent<ArticleContentProps> = ({
           const categoryId = article!.categoryId
           return (
             <NavLink
-              to={`${helpPaths.index}/${categoryId}/${articleId}`}
+              to={`${HelpPaths.Index}/${categoryId}/${articleId}`}
               data-testid={HelpTestId.ArticleContentBlockInternalLink}
             >
               {children}
@@ -172,7 +172,7 @@ const Article = styled.article`
   }
 
   li {
-    ::marker {
+    &::marker {
       color: ${({ theme }) => theme.app.color.black};
       font-size: ${({ theme }) => theme.app.fontSize.paragraph3};
     }

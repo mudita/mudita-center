@@ -5,21 +5,18 @@
 
 import { E2EMockClient } from "e2e-mock/client"
 import { MockAppHttpResponsePayload } from "app-utils/models"
-import Menu from "../page-objects/menu.page"
 import HelpPage from "../page-objects/help.page"
 import ContactSupport from "../page-objects/contact-support.page"
 import testsHelper from "./tests.helper"
+import { goToHelpCenter } from "./help-center.helper"
 
 export async function goToSupportModal(payload?: MockAppHttpResponsePayload) {
   if (process.env.MOCK_SERVER_ENABLED === "1" && payload) {
     await E2EMockClient.connect()
     E2EMockClient.mockAppHttpResponse(payload)
   }
-  // should open Mudita Help Center
-  const helpTab = await Menu.helpLink
-  await helpTab.waitForDisplayed()
-  await helpTab.click()
 
+  await goToHelpCenter()
   await openSupportModal()
 }
 

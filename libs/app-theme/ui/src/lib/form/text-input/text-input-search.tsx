@@ -4,7 +4,10 @@
  */
 
 import {
+  ChangeEvent,
   FunctionComponent,
+  InputHTMLAttributes,
+  MouseEventHandler,
   ReactNode,
   useCallback,
   useMemo,
@@ -28,7 +31,9 @@ import {
 export { TextInputDropdown } from "./text-input-search-dropdown"
 
 export const TextInputSearch: FunctionComponent<
-  TextInputInnerProps & { dropdown?: ReactNode }
+  TextInputInnerProps & {
+    dropdown?: ReactNode
+  } & InputHTMLAttributes<HTMLInputElement>
 > = ({
   id,
   leftSlot: unusedLeftSlot,
@@ -38,6 +43,7 @@ export const TextInputSearch: FunctionComponent<
   ref,
   ...rest
 }) => {
+  const onChange = rest.onChange
   const labelId = `${id}-label`
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -57,15 +63,23 @@ export const TextInputSearch: FunctionComponent<
 
   const clearInput = useCallback(() => {
     if (inputRef.current) {
+      const changeEvent = {
+        target: { value: "" },
+      } as ChangeEvent<HTMLInputElement>
+      onChange?.(changeEvent)
       inputRef.current.value = ""
       inputRef.current.dispatchEvent(new Event("input", { bubbles: true }))
     }
-  }, [])
+  }, [onChange])
 
-  const handleClearClick = useCallback(() => {
-    inputRef.current?.focus()
-    clearInput()
-  }, [clearInput])
+  const handleClearClick: MouseEventHandler = useCallback(
+    (event) => {
+      event.preventDefault()
+      inputRef.current?.focus()
+      clearInput()
+    },
+    [clearInput]
+  )
 
   const leftSlot = useMemo(() => {
     return (

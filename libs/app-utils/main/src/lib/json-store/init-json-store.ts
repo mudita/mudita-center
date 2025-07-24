@@ -37,6 +37,7 @@ export const initJsonStore = (ipcMain: IpcMain) => {
     return base.has(name)
   })
 
+  ipcMain.removeHandler(JsonStoreIpcEvents.Set)
   ipcMain.handle(
     JsonStoreIpcEvents.Set,
     async (

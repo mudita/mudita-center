@@ -105,6 +105,7 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
 
 const Wrapper = styled.div`
   flex: 1;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.app.space.xl};

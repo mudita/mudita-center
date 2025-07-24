@@ -118,6 +118,7 @@ export const Search: FunctionComponent<SearchProps> = ({ categories }) => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={intl.formatMessage(messages.placeholder)}
+          data-testid={HelpTestId.SearchInput}
         />
         {deferredSearchPhrase.length > 1 && (
           <SearchResults
