@@ -80,6 +80,7 @@ import {
 } from "shared/utils"
 import { mockServiceEnabled, startServer, stopServer } from "e2e-mock-server"
 import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
+import fs from "fs-extra"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -288,11 +289,14 @@ if (!gotTheLock) {
     openDevToolsOnceDomReady(window)
   })
 
-  app.on("before-quit", () => {
+  app.on("before-quit", async () => {
     stopServer()
   })
 
-  app.on("window-all-closed", () => {
+  app.on("window-all-closed", async () => {
+    // TODO: Test on built app
+    console.log("Cleaning up before quitting...")
+    await fs.remove(getAppPath("file-preview"))
     app.quit()
   })
 
