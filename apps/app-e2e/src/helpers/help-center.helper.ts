@@ -92,4 +92,12 @@ export const verifyHelpHomeScreenCoreElements = async () => {
     await expect(color.value).toBe("rgba(0,0,0,1)")
     await expect(bg.value).toBe("rgba(237,237,237,1)")
   })
+
+  it("should display subcategories correctly divided into two columns", async () => {
+    const leftColumnItems = await HelpPage.subCategoriesListItemsLeftColumn
+    const rightColumnItems = await HelpPage.subCategoriesListItemsRightColumn
+
+    await expect(leftColumnItems).toBeElementsArrayOfSize({ gte: 1 })
+    await expect(rightColumnItems).toBeElementsArrayOfSize({ gte: 1 })
+  })
 }
