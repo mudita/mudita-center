@@ -118,8 +118,45 @@ class OverviewKompaktPage extends OverviewPage {
     return $("//*[@data-testid='primary-button-cancel-restore']")
   }
 
+  public get kompaktRestoreModalCloseFailedButton() {
+    return $("//*[@data-testid='primary-button-close-restore-modal']")
+  }
+
+  public get restoringFailedHeader() {
+    return $("//h1[text()='Restore failed']")
+  }
+
+  public get restoringFailedDescription() {
+    return $("//p[contains(text(), 'The restore process was interrupted.')]")
+  }
+
   public get kompaktRestoreModalConfirm() {
     return $("//*[@data-testid='primary-button-confirm-restore']")
+  }
+
+  public async getLatestBackupLabel() {
+    const labels = await $$("//label[contains(@for, 'input-')]")
+    return labels[0]
+  }
+
+  public get restoringHeader() {
+    return $("//h1[text()='Restoring']")
+  }
+
+  public get restoringDescription() {
+    return $("//p[contains(text(), 'Please wait')]")
+  }
+
+  public get progressbarDescription() {
+    return $("//*[@data-testid='progressbar-description']")
+  }
+
+  public get progressbar() {
+    return $("//*[@data-testid='progressbar-progress']")
+  }
+
+  public get progressbarLabel() {
+    return $("//*[@data-testid='progressbar-details']")
   }
 }
 export default new OverviewKompaktPage()
