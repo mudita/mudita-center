@@ -107,6 +107,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.kompaktManageFilesInstallApkModalUpdate),
     toRelativePath(TestFilesPaths.kompaktCheckDeviceType),
     toRelativePath(TestFilesPaths.kompaktRestoreModalCheck),
+    toRelativePath(TestFilesPaths.kompaktRestoreFailedModalCheck),
   ],
   suites: {
     standalone: [
@@ -159,6 +160,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktManageFilesInstallApkModalUpdate),
       toRelativePath(TestFilesPaths.kompaktCheckDeviceType),
       toRelativePath(TestFilesPaths.kompaktRestoreModalCheck),
+      toRelativePath(TestFilesPaths.kompaktRestoreFailedModalCheck),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -220,6 +222,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.kompaktManageFilesInstallApkModalUpdate),
       toRelativePath(TestFilesPaths.kompaktCheckDeviceType),
       toRelativePath(TestFilesPaths.kompaktRestoreModalCheck),
+      toRelativePath(TestFilesPaths.kompaktRestoreFailedModalCheck),
     ],
   },
   // Patterns to exclude.
