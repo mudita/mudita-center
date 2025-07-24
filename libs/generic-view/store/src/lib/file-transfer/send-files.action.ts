@@ -210,6 +210,7 @@ export const sendFiles = createAsyncThunk<
                 customDeviceId,
                 entitiesType,
                 file,
+                actionType: actionType,
               })
             )
 
