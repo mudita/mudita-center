@@ -22,7 +22,7 @@ import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { useViewFormContext } from "generic-view/utils"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { validateSelectedFiles } from "../../shared/validate-selected-files"
-import { isMtpPathInternal, sliceMtpPaths } from "./file-transfer-paths-helper"
+import { isMtpPathInternal } from "./file-transfer-paths-helper"
 import { SendFilesAction } from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 export const useUploadFilesButtonAction = () => {

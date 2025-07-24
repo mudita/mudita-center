@@ -3,17 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { createAsyncThunk } from "@reduxjs/toolkit"
+import { AnyAction, createAsyncThunk, ThunkDispatch } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
-import { AppDispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { selectActiveApiDeviceId } from "../selectors"
 import { FileBase, FileWithPath } from "./reducer"
 import { DeviceId } from "Core/device/constants/device-id"
 import {
-  fileTransferChunkGet,
-  fileTransferChunkSent,
-  fileTransferGetPrepared,
-  fileTransferSendPrepared,
   sendFilesChunkSent,
   sendFilesError,
   sendFilesFinished,
@@ -24,7 +20,6 @@ import {
   abortTransferRequest,
   getFileRequest,
   saveFileRequest,
-  sendClearRequest,
   sendFileRequest,
   startPreGetFileRequest,
   startPreSendFileRequest,
@@ -33,7 +28,6 @@ import { ApiFileTransferError } from "device/models"
 import { AppError } from "Core/core/errors"
 import { createEntityDataAction } from "../entities/create-entity-data.action"
 import { FilesTransferMode, SendFilesAction } from "./files-transfer.type"
-import { getFile } from "./get-file.action"
 
 export interface SendFileViaSerialPortPayload {
   file: FileBase
@@ -43,7 +37,9 @@ export interface SendFileViaSerialPortPayload {
   actionType: SendFilesAction
 }
 
-export const uploadFileViaSerialPort = async ({
+type TypedDispatch = ThunkDispatch<ReduxRootState, unknown, AnyAction>
+
+const uploadFileViaSerialPort = async ({
   file,
   destinationPath,
   deviceId,
@@ -56,7 +52,7 @@ export const uploadFileViaSerialPort = async ({
   deviceId: DeviceId
   entitiesType?: string
   signal: AbortSignal
-  dispatch: any
+  dispatch: TypedDispatch
 }) => {
   const createEntityDataAbortController = new AbortController()
 
@@ -142,11 +138,10 @@ export const uploadFileViaSerialPort = async ({
   return
 }
 
-export const exportFileViaSerialPort = async ({
+const exportFileViaSerialPort = async ({
   file,
   destinationPath,
   deviceId,
-  entitiesType,
   signal,
   dispatch,
 }: {
@@ -155,7 +150,7 @@ export const exportFileViaSerialPort = async ({
   deviceId: DeviceId
   entitiesType?: string
   signal: AbortSignal
-  dispatch: any
+  dispatch: TypedDispatch
 }) => {
   const fileToExport = file as FileWithPath
   const fullPath = fileToExport.devicePath + fileToExport.path
@@ -251,7 +246,6 @@ export const sendFileViaSerialPort = createAsyncThunk<
           file,
           destinationPath,
           deviceId,
-          entitiesType,
           signal,
           dispatch,
         })
