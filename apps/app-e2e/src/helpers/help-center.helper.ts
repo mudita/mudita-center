@@ -3,12 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { E2EMockClient } from "e2e-mock/client"
+import { MockAppHttpResponsePayload } from "app-utils/models"
 import { HelpPaths } from "help/models"
 import AppInitPage from "../page-objects/app-init.page"
 import Menu from "../page-objects/menu.page"
 import HelpPage from "../page-objects/help.page"
-import { E2EMockClient } from "e2e-mock/client"
-import { MockAppHttpResponsePayload } from "app-utils/models"
+import HelpArticlePage from "../page-objects/help-article.page"
 
 export const goToHelpCenter = async (payload?: MockAppHttpResponsePayload) => {
   if (process.env.MOCK_SERVER_ENABLED === "1" && payload) {
@@ -19,6 +20,28 @@ export const goToHelpCenter = async (payload?: MockAppHttpResponsePayload) => {
   await Menu.helpLink.click()
   const url = await AppInitPage.getPageUrl()
   await expect(url).toContain(HelpPaths.Index)
+}
+
+export const goToHelpArticleWithTitle = async (title:string) => {
+  await goToHelpCenter()
+
+  await HelpPage.categoriesListItems[0].click()
+
+  const items = await HelpArticlePage.articleItems
+  let clicked = false
+
+  for (const el of items) {
+    const text = (await el.getText()).trim()
+    if (text === title) {
+      await el.click()
+      clicked = true
+      break
+    }
+  }
+
+  if (!clicked) {
+    throw new Error(`No article found with title: "${title}"`)
+  }
 }
 
 export const verifyHelpHomeScreenCoreElements = async () => {
