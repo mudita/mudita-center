@@ -15,16 +15,28 @@ class HelpPage extends Page {
     return $(`//p[@data-testid='${HelpTestId.MainSubheader}']`)
   }
 
-  public get iconSearch() {
-    return $("//span[@data-testid='icon-search']")
+  public get searchInputWrapper() {
+    return $(`[data-testid="${HelpTestId.SearchInput}"]`)
   }
 
   public get searchInput() {
     return $(`//input[@data-testid='${HelpTestId.SearchInput}']`)
   }
 
+  public get searchInputIconSearch() {
+    return this.searchInput.$("//span[@data-testid='icon-search']")
+  }
+
+  public get searchInputIconClose() {
+    return this.searchInput.$("//span[@data-testid='icon-close']")
+  }
+
   public get searchResults() {
     return $(`//div[@data-testid='${HelpTestId.SearchResults}']`)
+  }
+
+  public get searchResultsParagraph() {
+    return $(`//div[@data-testid='${HelpTestId.SearchResults}']//p`)
   }
 
   public get searchResultsItems() {
@@ -35,10 +47,6 @@ class HelpPage extends Page {
     return $(`//h2[@data-testid='${HelpTestId.CategoriesTitle}']`)
   }
 
-  public get categoriesList() {
-    return $(`//nav[@data-testid='${HelpTestId.CategoriesList}']`)
-  }
-
   public get categoriesListItems() {
     return $$(`//a[@data-testid='${HelpTestId.CategoriesListItem}']`)
   }
@@ -46,6 +54,7 @@ class HelpPage extends Page {
   public get subCategoriesListItems() {
     return $$(`//div[@data-testid='${HelpTestId.SubcategoriesListItem}']`)
   }
+
   public getSubCategoriesListItemsFromColumn(columnIndex: number) {
     return $$(
       `(//div[@data-testid='${HelpTestId.SubcategoriesList}']/div)[${
@@ -66,11 +75,6 @@ class HelpPage extends Page {
     return $(
       `//button[@data-testid='${HelpTestId.MainFooterContactSupportButton}']`
     )
-  }
-
-  public async searchForArticle(text: string) {
-    const searchInput = await this.searchInput
-    await searchInput.setValue(text)
   }
 }
 

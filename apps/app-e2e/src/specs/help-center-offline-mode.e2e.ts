@@ -32,7 +32,7 @@ describe("Help Center - Offline Mode", () => {
     await expect(right).toBeElementsArrayOfSize({ gte: 1 })
   })
 
-  it("should show search results for a valid query offline", async () => {
+  it("should display search results for a valid query offline", async () => {
     await HelpPage.searchInput.setValue("factory reset")
     const items = await HelpPage.searchResultsItems
     await expect(items).toBeElementsArrayOfSize({ gte: 1 })
