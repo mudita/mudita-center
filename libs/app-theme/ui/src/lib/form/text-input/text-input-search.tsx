@@ -5,6 +5,7 @@
 
 import {
   FunctionComponent,
+  MouseEventHandler,
   ReactNode,
   useCallback,
   useMemo,
@@ -62,10 +63,14 @@ export const TextInputSearch: FunctionComponent<
     }
   }, [])
 
-  const handleClearClick = useCallback(() => {
-    inputRef.current?.focus()
-    clearInput()
-  }, [clearInput])
+  const handleClearClick: MouseEventHandler = useCallback(
+    (event) => {
+      event.preventDefault()
+      inputRef.current?.focus()
+      clearInput()
+    },
+    [clearInput]
+  )
 
   const leftSlot = useMemo(() => {
     return (

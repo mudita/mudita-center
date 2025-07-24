@@ -18,7 +18,7 @@ describe("Help Center - Search Functionality", () => {
   })
 
   it("should hide the results container before any search is performed", async () => {
-    await expect(HelpPage.searchResults).not.toBeDisplayed()
+    HelpPage.searchResults.waitForDisplayed({ reverse: true, timeout: 500 })
   })
 
   it("should display the correct placeholder text", async () => {
@@ -59,17 +59,16 @@ describe("Help Center - Search Functionality", () => {
 
   it("should hide the search results when the query is manually cleared", async () => {
     await HelpPage.searchInput.clearValue()
-    await expect(HelpPage.searchResults).not.toBeDisplayed()
-    await expect(HelpPage.searchInputIconClose).not.toBeDisplayed()
+    await HelpPage.searchResults.waitForDisplayed({ reverse: true, timeout: 500 })
+    await HelpPage.searchInputIconClose.waitForDisplayed({ reverse: true, timeout: 500 })
   })
 
-  // TODO: Un skip this test when the clear icon functionality is fixed
-  it.skip("should clear the results container when the query is cleared via the clear‑icon", async () => {
+  it("should clear the results container when the query is cleared via the clear‑icon", async () => {
     await HelpPage.searchInput.setValue("How to do factory reset on Pure")
     await expect(HelpPage.searchResults).toBeDisplayed()
     await expect(HelpPage.searchInputIconClose).toBeDisplayed()
     await HelpPage.searchInputIconClose.click()
-    await expect(HelpPage.searchResults).not.toBeDisplayed()
-    await expect(HelpPage.searchInputIconClose).not.toBeDisplayed()
+    await HelpPage.searchResults.waitForDisplayed({ reverse: true, timeout: 500 })
+    await HelpPage.searchInputIconClose.waitForDisplayed({ reverse: true, timeout: 500 })
   })
 })

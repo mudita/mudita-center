@@ -22,7 +22,7 @@ export const goToHelpCenter = async (payload?: MockAppHttpResponsePayload) => {
   await expect(url).toContain(HelpPaths.Index)
 }
 
-export const goToHelpArticleWithTitle = async (title:string) => {
+export const goToHelpArticleWithTitle = async (title: string) => {
   await goToHelpCenter()
 
   await HelpPage.categoriesListItems[0].click()
