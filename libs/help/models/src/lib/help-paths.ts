@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const helpPaths = {
-  index: "/help",
-  category: "/help/:categoryId",
-  article: "/help/:categoryId/:articleId",
+export enum HelpPaths {
+  Index = "/help",
+  Category = "/help/:categoryId",
+  Article = "/help/:categoryId/:articleId",
 }

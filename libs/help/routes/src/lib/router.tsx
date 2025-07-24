@@ -14,7 +14,7 @@ import {
   useHelp,
 } from "help/feature"
 import { HelpLayout, messages } from "./layout"
-import { helpPaths } from "help/models"
+import { HelpPaths } from "help/models"
 import { MenuIndex } from "app-routing/models"
 
 export const useHelpRouter = () => {
@@ -23,7 +23,7 @@ export const useHelpRouter = () => {
       index: 1,
       title: formatMessage(messages.title),
       icon: IconType.Help,
-      path: helpPaths.index,
+      path: HelpPaths.Index,
     },
   ])
   useHelp()
@@ -31,9 +31,9 @@ export const useHelpRouter = () => {
 
   return (
     <Route element={<HelpLayout />}>
-      <Route path={helpPaths.index} element={<HelpPage />} />
-      <Route path={helpPaths.category} element={<HelpPage />} />
-      <Route path={helpPaths.article} element={<ArticlePage />} />
+      <Route path={HelpPaths.Index} element={<HelpPage />} />
+      <Route path={HelpPaths.Category} element={<HelpPage />} />
+      <Route path={HelpPaths.Article} element={<ArticlePage />} />
     </Route>
   )
 }

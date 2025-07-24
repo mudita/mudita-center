@@ -6,7 +6,7 @@
 import { FunctionComponent } from "react"
 import { NavLink } from "react-router"
 import styled from "styled-components"
-import { HelpCategory, HelpTestId, helpPaths } from "help/models"
+import { HelpCategory, HelpTestId, HelpPaths } from "help/models"
 
 interface CategoryTabsProps {
   categories: HelpCategory[]
@@ -21,7 +21,7 @@ export const CategoryTabs: FunctionComponent<CategoryTabsProps> = ({
         return (
           <Tab
             key={category.id}
-            to={`${helpPaths.index}/${category.id}`}
+            to={`${HelpPaths.Index}/${category.id}`}
             data-testid={HelpTestId.CategoriesListItem}
           >
             <span className={"normal"}>{category.name}</span>

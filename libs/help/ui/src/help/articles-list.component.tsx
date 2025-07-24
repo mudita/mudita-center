@@ -6,7 +6,7 @@
 import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { NavLink } from "react-router"
-import { HelpArticle, HelpTestId, helpPaths } from "help/models"
+import { HelpArticle, HelpTestId, HelpPaths } from "help/models"
 
 interface Props {
   articles: Record<string, HelpArticle>
@@ -27,7 +27,7 @@ export const ArticlesList: FunctionComponent<Props> = ({
         return (
           <li key={id}>
             <Link
-              to={`${helpPaths.index}/${article.categoryId}/${id}`}
+              to={`${HelpPaths.Index}/${article.categoryId}/${id}`}
               title={article.title}
               data-testid={HelpTestId.SubcategoryArticlesListItem}
             >

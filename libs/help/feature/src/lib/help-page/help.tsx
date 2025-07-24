@@ -9,7 +9,7 @@ import { useSelector } from "react-redux"
 import { useAppDispatch } from "app-store/utils"
 import { setContactSupportModalVisible } from "contact-support/feature"
 import { Help } from "help/ui"
-import { helpPaths } from "help/models"
+import { HelpPaths } from "help/models"
 import { useAppNavigate } from "app-routing/utils"
 import {
   selectHelpArticles,
@@ -35,7 +35,7 @@ export const HelpPage: FunctionComponent = () => {
 
   useEffect(() => {
     if (!categoryId && categoriesList && categoriesList.length > 0) {
-      navigate(`${helpPaths.index}/${categoriesList[0].id}`)
+      navigate(`${HelpPaths.Index}/${categoriesList[0].id}`)
     }
   }, [categoriesList, categoryId, navigate])
 

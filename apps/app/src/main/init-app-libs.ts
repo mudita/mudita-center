@@ -7,7 +7,7 @@ import { initSerialPort } from "app-serialport/main"
 import { BrowserWindow, ipcMain } from "electron"
 import { initSql } from "app-sql/main"
 import { initNews } from "news/main"
-import { initAppHelp } from "help/main"
+import { AppHelpService, initAppHelp } from "help/main"
 import { initAppSettings } from "app-settings/main"
 import {
   AppHttpService,
@@ -26,20 +26,19 @@ import {
 import { initUsbAccess } from "app-init/main"
 import { IpcMockServer } from "e2e-mock/server"
 
-let appHttpService: AppHttpService | MockAppHttpService
-let appUpdaterService: AppUpdaterService | MockAppUpdaterService
-
 export const initAppLibs = (
   mainWindow: BrowserWindow,
   mockServer: IpcMockServer
 ) => {
-  appHttpService = mockServer.serverEnabled
+  const appHttpService = mockServer.serverEnabled
     ? new MockAppHttpService(mockServer)
     : new AppHttpService()
 
-  appUpdaterService = mockServer.serverEnabled
+  const appUpdaterService = mockServer.serverEnabled
     ? new MockAppUpdaterService(mockServer)
     : new AppUpdaterService(mainWindow, appHttpService)
+
+  const helpService = new AppHelpService(appHttpService)
 
   initAppActions(ipcMain)
   initAppSettings(ipcMain, mockServer)
@@ -47,7 +46,7 @@ export const initAppLibs = (
   initSerialPort(ipcMain, mainWindow)
   initSql(ipcMain)
   initNews(ipcMain, mainWindow)
-  initAppHelp(ipcMain)
+  initAppHelp(ipcMain, helpService)
   initJsonStore(ipcMain)
   initAppHttp(ipcMain, appHttpService)
   initAppLogger(ipcMain)
