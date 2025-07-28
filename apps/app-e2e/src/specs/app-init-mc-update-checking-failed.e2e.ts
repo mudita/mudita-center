@@ -8,9 +8,8 @@ import McUpdatePage from "../page-objects/mc-update.page"
 import SettingsPage from "../page-objects/settings.page"
 import AppInitPage from "../page-objects/app-init.page"
 import AboutPage from "../page-objects/about.page"
-import { SPEC_TITLE } from "../consts/spec-title"
 
-describe(SPEC_TITLE.APP_INIT_MC_UPDATE_CHECKING_FAILED, () => {
+describe("App Init Step- MC Update Checking Failed", () => {
   before(async () => {
     await simulateAppInitUpdateStep({ error: true })
   })

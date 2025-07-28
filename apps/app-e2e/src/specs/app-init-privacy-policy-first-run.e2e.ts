@@ -3,10 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SPEC_TITLE } from "../consts/spec-title"
 import PrivacyPolicyPage from "../page-objects/privacy-policy.page"
 
-describe(SPEC_TITLE.APP_INIT_PRIVACY_POLICY_FIRST_RUN, () => {
+describe("App Init Step - Privacy Policy - First Run", () => {
   it("should display all core modal elements", async () => {
     const {
       privacyPolicyModal,

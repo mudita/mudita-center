@@ -9,9 +9,8 @@ import {
   itBehavesLikeAvailableModal,
   itBehavesLikeUpdateInProgressModal,
 } from "../helpers/mc-update.helper"
-import { SPEC_TITLE } from "../consts/spec-title"
 
-describe(SPEC_TITLE.APP_INIT_MC_FORCE_UPDATE_AVAILABLE, () => {
+describe("App Init Step - MC Force Update Available", () => {
   before(async () => {
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
