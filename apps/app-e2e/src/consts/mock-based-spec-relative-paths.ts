@@ -6,9 +6,9 @@
 export enum MockBasedSpecRelativePaths {
   AppInitFullHappyFlow = "src/specs/app-init-full-happy-flow.e2e.ts",
   AppInitFullHappyWhenPPAccepted = "src/specs/app-init-full-happy-when-pp-accepted.e2e.ts",
-  AppInitSoftUpdateAvailable = "src/specs/app-init-soft-update-available.e2e.ts",
-  AppInitForceUpdateAvailable = "src/specs/app-init-force-update-available.e2e.ts",
-  AppInitUpdateCheckingFailed = "src/specs/app-init-update-checking-failed.e2e.ts",
+  AppInitMcSoftUpdateAvailable = "src/specs/app-init-mc-soft-update-available.e2e.ts",
+  AppInitMcForceUpdateAvailable = "src/specs/app-init-mc-force-update-available.e2e.ts",
+  AppInitMcUpdateCheckingFailed = "src/specs/app-init-mc-update-checking-failed.e2e.ts",
   AppInitUsbAccessHappyPath = "src/specs/app-init-usb-access-happy-path.e2e.ts",
   AppInitUsbAccessCancelPath = "src/specs/app-init-usb-access-cancel-path.e2e.ts",
   AppInitUsbAccessFailurePath = "src/specs/app-init-usb-access-failure-path.e2e.ts",

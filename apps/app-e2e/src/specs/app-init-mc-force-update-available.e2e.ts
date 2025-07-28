@@ -11,7 +11,7 @@ import {
 } from "../helpers/mc-update.helper"
 import { SPEC_TITLE } from "../consts/spec-title"
 
-describe(SPEC_TITLE.APP_INIT_FORCE_UPDATE_AVAILABLE, () => {
+describe(SPEC_TITLE.APP_INIT_MC_FORCE_UPDATE_AVAILABLE, () => {
   before(async () => {
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
