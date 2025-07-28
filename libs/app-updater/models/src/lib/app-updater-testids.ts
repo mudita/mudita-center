@@ -11,4 +11,5 @@ export enum AppUpdaterTestIds {
   UpdateAvailableModalPrivacyPolicyLink = "app-updater-update-available-modal-privacy-policy-link",
   UpdateInProgressModalDescription = "app-updater-update-in-progress-modal-description",
   UpdateNotAvailableModalDescription = "app-updater-update-not-available-modal-description",
+  UpdateErrorModalDescription = "app-updater-update-error-modal-description",
 }

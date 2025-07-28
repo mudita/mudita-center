@@ -145,6 +145,24 @@ class McUpdatePage extends Page {
   public get updateErrorModal() {
     return this._updateErrorModal.modal
   }
+
+  public get updateErrorModalTitle() {
+    return this._updateErrorModal.title
+  }
+
+  public get updateErrorModalTitleIcon() {
+    return this._updateErrorModal.titleIcon
+  }
+
+  public get updateErrorModalCloseButton() {
+    return this._updateErrorModal.closeButton
+  }
+
+  public get updateErrorModalDescription() {
+    return this.updateErrorModal.$(
+      `[data-testid="${AppUpdaterTestIds.UpdateErrorModalDescription}"]`
+    )
+  }
 }
 
 export default new McUpdatePage()
