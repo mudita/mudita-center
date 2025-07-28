@@ -46,3 +46,24 @@ export const itBehavesLikeCheckingModal = () => {
     })
   })
 }
+
+export const itBehavesLikeUpdateErrorModal = () => {
+  describe("Update Error Modal", () => {
+    it("should display the 'Update Error' modal with all elements", async () => {
+      await expect(McUpdatePage.updateErrorModal).toBeDisplayed()
+      await expect(McUpdatePage.updateErrorModalTitle).toBeDisplayed()
+      await expect(McUpdatePage.updateErrorModalTitleIcon).toBeDisplayed()
+      await expect(McUpdatePage.updateErrorModalDescription).toBeDisplayed()
+      await expect(McUpdatePage.updateErrorModalCloseButton).toBeDisplayed()
+    })
+
+    // TODO: Unskip this test when the issue with the not updated label is resolved
+    it("should show 'Checking for update failed' label in About tab after closing modal", async () => {
+      await McUpdatePage.updateErrorModalCloseButton.click()
+      await expect(AboutPage.updateLabel).toBeDisplayed()
+      await expect(AboutPage.updateLabel).toHaveText(
+        "Checking for update failed"
+      )
+    })
+  })
+}
