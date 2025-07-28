@@ -289,7 +289,7 @@ if (!gotTheLock) {
     openDevToolsOnceDomReady(window)
   })
 
-  app.on("before-quit", async () => {
+  app.on("before-quit", () => {
     stopServer()
   })
 

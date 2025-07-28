@@ -11,11 +11,11 @@ import { IconType } from "generic-view/utils"
 import { Modal } from "../modal/modal"
 import { IconButton } from "../../shared/button"
 import { Icon } from "../../icon/icon"
-import { useFilesPreview, UseFilesPreviewParams } from "./use-file-preview"
 import { Typography } from "../../typography"
 import { SpinnerLoader } from "../../shared/spinner-loader"
 import { ImagePreview } from "./image-preview"
 import { AnimatePresence, motion } from "motion/react"
+import { useFilesPreview, UseFilesPreviewParams } from "./use-files-preview"
 
 interface Props {
   entitiesConfig: UseFilesPreviewParams["entitiesConfig"]
@@ -107,96 +107,94 @@ export const FilePreview: FunctionComponent<Props> = ({
   }, [activeItem, handleKeyDown])
 
   return (
-    <>
-      <Modal
-        componentKey={"file-preview-modal"}
-        config={{
-          defaultOpened: Boolean(activeItem),
-          width: 960,
-          maxHeight: 640,
-          padding: 0,
-        }}
-      >
-        <ModalContent>
-          <Header>
-            <Typography.P1 config={{ color: "white" }}>
-              {fileInfo?.name}
-            </Typography.P1>
-            <IconButton onClick={handleClose}>
+    <Modal
+      componentKey={"file-preview-modal"}
+      config={{
+        defaultOpened: Boolean(activeItem),
+        width: 960,
+        maxHeight: 640,
+        padding: 0,
+      }}
+    >
+      <ModalContent>
+        <Header>
+          <Typography.P1 config={{ color: "white" }}>
+            {fileInfo?.name}
+          </Typography.P1>
+          <IconButton onClick={handleClose}>
+            <Icon
+              config={{
+                type: IconType.Close,
+                size: "tiny",
+                color: "white",
+              }}
+            />
+          </IconButton>
+        </Header>
+        <Main>
+          <Loader>
+            <SpinnerLoader />
+          </Loader>
+          <AnimatePresence initial={true} mode={"wait"}>
+            {!isLoading && (
+              <PreviewWrapper
+                key={fileInfo?.path}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {fileInfo?.type === "image" && (
+                  <ImagePreview src={fileInfo?.path} onError={handleError} />
+                )}
+              </PreviewWrapper>
+            )}
+          </AnimatePresence>
+        </Main>
+        {items.length > 1 && (
+          <Navigation>
+            <NavigationButton onClick={handlePreviousFile}>
               <Icon
                 config={{
-                  type: IconType.Close,
-                  size: "tiny",
-                  color: "white",
-                }}
-              />
-            </IconButton>
-          </Header>
-          <Main>
-            <Loader>
-              <SpinnerLoader />
-            </Loader>
-            <AnimatePresence initial={true} mode={"wait"}>
-              {!isLoading && (
-                <PreviewWrapper
-                  key={fileInfo?.path}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {fileInfo?.type === "image" && (
-                    <ImagePreview src={fileInfo?.path} onError={handleError} />
-                  )}
-                </PreviewWrapper>
-              )}
-            </AnimatePresence>
-          </Main>
-          {items.length > 1 && (
-            <Navigation>
-              <NavigationButton onClick={handlePreviousFile}>
-                <Icon
-                  config={{
-                    type: IconType.ArrowLeft,
-                    size: "large",
-                    color: "white",
-                  }}
-                />
-              </NavigationButton>
-              <NavigationButton onClick={handleNextFile}>
-                <Icon
-                  config={{
-                    type: IconType.ArrowRight,
-                    size: "large",
-                    color: "white",
-                  }}
-                />
-              </NavigationButton>
-            </Navigation>
-          )}
-          <Footer>
-            <IconButton onClick={handleExport}>
-              <Icon
-                config={{
-                  type: IconType.Export,
+                  type: IconType.ArrowLeft,
                   size: "large",
                   color: "white",
                 }}
               />
-            </IconButton>
-            <IconButton onClick={handleDelete}>
+            </NavigationButton>
+            <NavigationButton onClick={handleNextFile}>
               <Icon
                 config={{
-                  type: IconType.Delete,
+                  type: IconType.ArrowRight,
                   size: "large",
                   color: "white",
                 }}
               />
-            </IconButton>
-          </Footer>
-        </ModalContent>
-      </Modal>
-    </>
+            </NavigationButton>
+          </Navigation>
+        )}
+        <Footer>
+          <IconButton onClick={handleExport}>
+            <Icon
+              config={{
+                type: IconType.Export,
+                size: "large",
+                color: "white",
+              }}
+            />
+          </IconButton>
+          <IconButton onClick={handleDelete}>
+            <Icon
+              config={{
+                type: IconType.Delete,
+                size: "large",
+                color: "white",
+              }}
+            />
+          </IconButton>
+        </Footer>
+      </ModalContent>
+    </Modal>
   )
 }
 
@@ -297,6 +295,7 @@ const NavigationButton = styled.button`
   justify-content: center;
   margin: 0;
   padding: 0;
+  outline: none;
 `
 
 const ModalContent = styled.section`

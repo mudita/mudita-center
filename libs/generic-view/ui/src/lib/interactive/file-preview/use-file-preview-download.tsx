@@ -9,40 +9,44 @@ import {
   selectEntityData,
   sendFiles,
   SendFilesAction,
-  sendFilesClear,
 } from "generic-view/store"
 import { AppDispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
-import { useCallback, useEffect, useRef, useState } from "react"
-import { checkPath, getAppPath, removeDirectory } from "system-utils/feature"
+import { useCallback, useRef } from "react"
+import { checkPath, removeDirectory } from "system-utils/feature"
 import {
   isMtpPathInternal,
   sliceMtpPaths,
 } from "../../buttons/button-base/file-transfer-paths-helper"
 import { validateFilesToExport } from "../../shared/validate-files-to-export"
 import path from "node:path"
-import { difference } from "lodash"
 
-interface FilePreviewResponse {
+export interface FilePreviewResponse {
   id: string
   path: string
   name: string
   type: string
 }
 
-interface Params {
+export interface UseFilePreviewDownloadParams {
   tempDirectoryPath?: string
   actionId: string
   entitiesType: string
-  fields: Omit<UseFilesPreviewParams["entitiesConfig"], "type">
+  fields: {
+    idField: string
+    pathField: string
+    titleField: string
+    mimeTypeField: string
+    sizeField: string
+  }
 }
 
-const useFilePreviewDownload = ({
+export const useFilePreviewDownload = ({
   tempDirectoryPath,
   actionId,
   entitiesType,
   fields,
-}: Params) => {
+}: UseFilePreviewDownloadParams) => {
   const dispatch = useDispatch<AppDispatch>()
   const store = useStore<ReduxRootState>()
   const abortReferences = useRef<Record<string, VoidFunction>>({})
@@ -212,128 +216,5 @@ const useFilePreviewDownload = ({
   return {
     downloadFile,
     cancelDownload,
-  }
-}
-
-export interface UseFilesPreviewParams {
-  items: string[]
-  activeItem?: string
-  entitiesConfig: {
-    type: string
-    idField: string
-    pathField: string
-    titleField: string
-    mimeTypeField: string
-    sizeField: string
-  }
-}
-
-export const useFilesPreview = ({
-  items,
-  activeItem,
-  entitiesConfig,
-}: UseFilesPreviewParams) => {
-  const actionId = entitiesConfig.type + "Preview"
-  const dispatch = useDispatch<AppDispatch>()
-
-  const previousFile = useRef<string>()
-  const nextFile = useRef<string>()
-  const currentFile = useRef<string>()
-
-  const [tempDirectoryPath, setTempDirectoryPath] = useState<string>()
-  const [currentFileInfo, setCurrentFileInfo] =
-    useState<Partial<FilePreviewResponse>>()
-  const [isLoading, setIsLoading] = useState(false)
-
-  const { downloadFile, cancelDownload } = useFilePreviewDownload({
-    actionId,
-    tempDirectoryPath,
-    entitiesType: entitiesConfig.type,
-    fields: entitiesConfig,
-  })
-
-  const refreshFiles = useCallback(
-    async (oldFiles: string[], newFiles: string[]) => {
-      setIsLoading(true)
-
-      const filesToRemove = difference(oldFiles, newFiles)
-      for (const fileId of filesToRemove) {
-        await cancelDownload(fileId)
-      }
-
-      for (const fileId of newFiles) {
-        if (fileId === currentFile.current) {
-          const fileInfo = await downloadFile(fileId, (name) => {
-            setCurrentFileInfo({
-              id: fileId,
-              name,
-            })
-          })
-          setCurrentFileInfo(fileInfo)
-          setIsLoading(false)
-        } else {
-          await downloadFile(fileId)
-        }
-      }
-    },
-    [cancelDownload, downloadFile]
-  )
-
-  useEffect(() => {
-    if (!activeItem) return
-    const currentIndex = items.indexOf(activeItem)
-    const previousIndex = (currentIndex - 1 + items.length) % items.length
-    const nextIndex = (currentIndex + 1) % items.length
-
-    const currentFileId = items[currentIndex]
-    const previousFileId = items[previousIndex]
-    const nextFileId = items[nextIndex]
-
-    const oldFiles = [
-      currentFile.current,
-      nextFile.current,
-      previousFile.current,
-    ].filter(Boolean) as string[]
-    const newFiles = [currentFileId, nextFileId, previousFileId].filter(
-      Boolean
-    ) as string[]
-
-    currentFile.current = currentFileId
-    nextFile.current = nextFileId
-    previousFile.current = previousFileId
-
-    void refreshFiles(oldFiles, newFiles)
-  }, [activeItem, cancelDownload, downloadFile, items, refreshFiles])
-
-  const ensureTempDirectory = useCallback(async () => {
-    const destinationPath = await getAppPath("filePreview")
-    if (destinationPath.ok) {
-      await checkPath(destinationPath.data, true)
-      setTempDirectoryPath(destinationPath.data)
-    }
-  }, [])
-
-  const clearTempDirectory = useCallback(async () => {
-    dispatch(sendFilesClear({ groupId: actionId }))
-    if (tempDirectoryPath) {
-      await removeDirectory(tempDirectoryPath)
-    }
-  }, [actionId, dispatch, tempDirectoryPath])
-
-  useEffect(() => {
-    void ensureTempDirectory()
-  }, [ensureTempDirectory])
-
-  useEffect(() => {
-    if (!activeItem) {
-      void clearTempDirectory()
-    }
-  }, [activeItem, clearTempDirectory])
-
-  return {
-    data: currentFileInfo,
-    nextId: nextFile.current,
-    previousId: previousFile.current,
-    isLoading,
   }
 }
