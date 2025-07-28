@@ -10,7 +10,7 @@ import AppInitPage from "../page-objects/app-init.page"
 import AboutPage from "../page-objects/about.page"
 import { SPEC_TITLE } from "../consts/spec-title"
 
-describe(SPEC_TITLE.APP_INIT_UPDATE_AVAILABLE_CHECKING_FAILED, () => {
+describe(SPEC_TITLE.APP_INIT_UPDATE_CHECKING_FAILED, () => {
   before(async () => {
     await simulateAppInitUpdateStep({ error: true })
   })
