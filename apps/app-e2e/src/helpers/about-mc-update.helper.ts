@@ -6,6 +6,7 @@
 import { E2EMockClient } from "e2e-mock/client"
 import { SetAppUpdaterCheckPayload } from "app-updater/models"
 import SettingsPage from "../page-objects/settings.page"
+import McUpdatePage from "../page-objects/mc-update.page"
 
 export const simulateMcUpdateCheckFromAbout = async (
   payload: SetAppUpdaterCheckPayload
@@ -17,4 +18,15 @@ export const simulateMcUpdateCheckFromAbout = async (
 
   await SettingsPage.settingsMenuItem.click()
   await SettingsPage.aboutTab.click()
+}
+
+export const itBehavesLikeCheckingModal = () => {
+  describe("Update Checking Modal", () => {
+    it("should display the checking modal with all elements", async () => {
+      await expect(McUpdatePage.updateCheckingModalTitle).toBeDisplayed()
+      await expect(McUpdatePage.updateCheckingModalTitleIcon).toBeDisplayed()
+      await expect(McUpdatePage.updateCheckingModalCloseButton).toBeDisplayed()
+      await expect(McUpdatePage.updateCheckingModalDescription).toBeDisplayed()
+    })
+  })
 }

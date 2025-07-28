@@ -7,6 +7,7 @@ import { E2EMockClient } from "e2e-mock/client"
 import { SetAppUpdaterCheckPayload } from "app-updater/models"
 import AppInitPage from "../page-objects/app-init.page"
 import McUpdatePage from "../page-objects/mc-update.page"
+import AboutPage from "../page-objects/about.page"
 
 export const simulateAppInitUpdateStep = async (
   payload: SetAppUpdaterCheckPayload
@@ -64,16 +65,27 @@ export const itBehavesLikeAvailableModal = ({
       await McUpdatePage.updateAvailableModalCheckbox.click()
       await expect(McUpdatePage.updateAvailableModalButton).toBeEnabled()
     })
-
-    it("should open the In Progress Modal upon clicking Update", async () => {
-      await McUpdatePage.updateAvailableModalButton.click()
-      await expect(McUpdatePage.updateInProgressModal).toBeDisplayed()
-    })
   })
 }
 
-export const itBehavesLikeUpdateInProgressModal = () => {
+export enum TriggerSource {
+  AppInit = "app-init",
+  AboutTab = "about-tab",
+}
+
+export const itBehavesLikeUpdateInProgressModal = (
+  triggerSource = TriggerSource.AppInit
+) => {
   describe("Update In Progress Modal", () => {
+    it("should open the In Progress Modal upon clicking Update", async () => {
+      if (triggerSource === TriggerSource.AboutTab) {
+        await AboutPage.updateButton.click()
+      } else {
+        await McUpdatePage.updateAvailableModalButton.click()
+      }
+      await expect(McUpdatePage.updateInProgressModal).toBeDisplayed()
+    })
+
     it("should display the modal header and icon", async () => {
       await expect(McUpdatePage.updateInProgressModalTitle).toBeDisplayed()
       await expect(McUpdatePage.updateInProgressModalTitleIcon).toBeDisplayed()
