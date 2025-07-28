@@ -18,12 +18,13 @@ import { checkPath, getAppPath, removeDirectory } from "system-utils/feature"
 import {
   isMtpPathInternal,
   sliceMtpPaths,
-} from "../buttons/button-base/file-transfer-paths-helper"
-import { validateFilesToExport } from "../shared/validate-files-to-export"
+} from "../../buttons/button-base/file-transfer-paths-helper"
+import { validateFilesToExport } from "../../shared/validate-files-to-export"
 import path from "node:path"
 import { difference } from "lodash"
 
 interface FilePreviewResponse {
+  id: string
   path: string
   name: string
   type: string
@@ -93,6 +94,7 @@ const useFilePreviewDownload = ({
 
       if ((await checkPath(filePath.nativePath)).data) {
         return {
+          id: entityId,
           path: filePath.safePath,
           name: fileName,
           type: fileType,
@@ -101,7 +103,7 @@ const useFilePreviewDownload = ({
       await checkPath(filePath.nativeDir, true)
 
       const fileData: FileWithPath = {
-        id: String(entityId),
+        id: entityId,
         path: sliceMtpPaths(
           entity.filePath as string,
           entity.isInternal as boolean
@@ -143,6 +145,7 @@ const useFilePreviewDownload = ({
       }
 
       return {
+        id: entityId,
         path: filePath.safePath,
         name: fileName,
         type: fileType,
@@ -245,6 +248,7 @@ export const useFilesPreview = ({
         if (fileId === currentFile.current) {
           const fileInfo = await downloadFile(fileId, (name) => {
             setCurrentFileInfo({
+              id: fileId,
               name,
             })
           })
@@ -310,7 +314,7 @@ export const useFilesPreview = ({
   }, [activeItem, clearTempDirectory])
 
   return {
-    data: isLoading ? undefined : currentFileInfo,
+    data: currentFileInfo,
     nextId: nextFile.current,
     previousId: previousFile.current,
     isLoading,

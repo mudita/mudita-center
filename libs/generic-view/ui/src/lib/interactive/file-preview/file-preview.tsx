@@ -3,23 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react"
-import styled, { css } from "styled-components"
-import { Modal } from "../interactive/modal/modal"
-import { IconButton } from "../shared/button"
-import { Icon } from "../icon/icon"
-import { IconType } from "generic-view/utils"
-import { useFilesPreview } from "./use-file-preview"
-import { Typography } from "../typography"
-import { SpinnerLoader } from "../shared/spinner-loader"
+import React, { FunctionComponent, useCallback, useEffect } from "react"
 import { useSelector } from "react-redux"
+import styled, { css } from "styled-components"
 import { selectFilesTransferMode } from "generic-view/store"
+import { IconType } from "generic-view/utils"
+import { Modal } from "../modal/modal"
+import { IconButton } from "../../shared/button"
+import { Icon } from "../../icon/icon"
+import { useFilesPreview } from "./use-file-preview"
+import { Typography } from "../../typography"
+import { SpinnerLoader } from "../../shared/spinner-loader"
+import { ImagePreview } from "./image-preview"
+import { AnimatePresence, motion } from "motion/react"
 
 interface Props {
   entitiesConfig: {
@@ -44,12 +40,10 @@ export const FilePreview: FunctionComponent<Props> = ({
 }) => {
   // TODO: Handle file transfer mode
   const fileTransferMode = useSelector(selectFilesTransferMode)
-  const srcTimeoutReference = useRef<NodeJS.Timeout>()
-  const [isSrcLoading, setIsSrcLoading] = useState(true)
 
   const {
     data: fileInfo,
-    isLoading: isFileLoading,
+    isLoading: fileLoading,
     nextId,
     previousId,
   } = useFilesPreview({
@@ -57,19 +51,16 @@ export const FilePreview: FunctionComponent<Props> = ({
     activeItem,
     entitiesConfig,
   })
-  console.log(fileInfo?.path, isFileLoading)
-  const isLoading = isFileLoading || isSrcLoading
 
-  const handleSrcLoad = useCallback(() => {
-    clearTimeout(srcTimeoutReference.current)
-    srcTimeoutReference.current = setTimeout(() => {
-      setIsSrcLoading(false)
-    }, 500)
-  }, [])
+  const isLoading = fileLoading || !fileInfo?.path
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     onActiveItemChange(undefined)
-  }
+  }, [onActiveItemChange])
+
+  const handleError = useCallback(() => {
+    // TODO: Handle errors
+  }, [])
 
   const handleExport = useCallback(() => {
     if (!activeItem) return
@@ -83,13 +74,22 @@ export const FilePreview: FunctionComponent<Props> = ({
 
   const handlePreviousFile = useCallback(() => {
     onActiveItemChange(previousId)
-    setIsSrcLoading(true)
   }, [onActiveItemChange, previousId])
 
   const handleNextFile = useCallback(() => {
     onActiveItemChange(nextId)
-    setIsSrcLoading(true)
   }, [nextId, onActiveItemChange])
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        handlePreviousFile()
+      } else if (event.key === "ArrowRight") {
+        handleNextFile()
+      }
+    },
+    [handleNextFile, handlePreviousFile]
+  )
 
   useEffect(() => {
     // If the active item is not in the list, go to the next item
@@ -97,6 +97,18 @@ export const FilePreview: FunctionComponent<Props> = ({
       handleNextFile()
     }
   }, [activeItem, handleNextFile, items])
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown)
+
+    if (!activeItem) {
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [activeItem, handleKeyDown])
 
   return (
     <>
@@ -124,40 +136,48 @@ export const FilePreview: FunctionComponent<Props> = ({
               />
             </IconButton>
           </Header>
-          <Main $loading={isLoading}>
-            <BackgroundImage $url={isLoading ? undefined : fileInfo?.path} />
+          <Main>
             <Loader>
               <SpinnerLoader />
             </Loader>
-            <Image
-              alt={""}
-              src={isFileLoading ? undefined : fileInfo?.path}
-              onLoad={handleSrcLoad}
-              onError={() => {
-                // setIsError(true)
-              }}
-            />
+            <AnimatePresence initial={true} mode={"wait"}>
+              {!isLoading && (
+                <PreviewWrapper
+                  key={fileInfo?.path}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {fileInfo?.type === "image" && (
+                    <ImagePreview src={fileInfo?.path} onError={handleError} />
+                  )}
+                </PreviewWrapper>
+              )}
+            </AnimatePresence>
           </Main>
-          <Navigation>
-            <NavigationButton onClick={handlePreviousFile}>
-              <Icon
-                config={{
-                  type: IconType.ArrowLeft,
-                  size: "large",
-                  color: "white",
-                }}
-              />
-            </NavigationButton>
-            <NavigationButton onClick={handleNextFile}>
-              <Icon
-                config={{
-                  type: IconType.ArrowRight,
-                  size: "large",
-                  color: "white",
-                }}
-              />
-            </NavigationButton>
-          </Navigation>
+          {items.length > 1 && (
+            <Navigation>
+              <NavigationButton onClick={handlePreviousFile}>
+                <Icon
+                  config={{
+                    type: IconType.ArrowLeft,
+                    size: "large",
+                    color: "white",
+                  }}
+                />
+              </NavigationButton>
+              <NavigationButton onClick={handleNextFile}>
+                <Icon
+                  config={{
+                    type: IconType.ArrowRight,
+                    size: "large",
+                    color: "white",
+                  }}
+                />
+              </NavigationButton>
+            </Navigation>
+          )}
           <Footer>
             <IconButton onClick={handleExport}>
               <Icon
@@ -223,7 +243,7 @@ const Header = styled.header`
       rgba(0, 0, 0, 0) 0%,
       rgba(0, 0, 0, 0.34) 100%
     );
-    filter: drop-shadow(0px 10px 50px rgba(0, 0, 0, 0.08));
+    filter: drop-shadow(0 1rem 5rem rgba(0, 0, 0, 0.08));
   }
 
   p {
@@ -243,7 +263,7 @@ const Footer = styled.footer`
       rgba(0, 0, 0, 0) -2.5%,
       rgba(0, 0, 0, 0.34) 100%
     );
-    filter: drop-shadow(0px 10px 50px rgba(0, 0, 0, 0.08));
+    filter: drop-shadow(0 1rem 5rem rgba(0, 0, 0, 0.08));
     transform: rotate(-180deg);
   }
 `
@@ -298,50 +318,22 @@ const ModalContent = styled.section`
   }
 `
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  margin: 0;
-  position: relative;
-  z-index: 1;
-
-  opacity: 0;
-  transition: opacity 0.15s ease-in-out;
-`
-// opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-
-const BackgroundImage = styled.div<{ $url?: string }>`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-
-  background-image: url("${({ $url }) => $url}");
-  background-position: center;
-  background-size: cover;
-  filter: blur(5rem) brightness(0.4);
-
-  opacity: 0;
-  transition: opacity 0.15s ease-in-out;
-`
-
 const Loader = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
-
-  opacity: 1;
-  transition: opacity 0.15s ease-in-out;
-
-  //transition: opacity 0.15s ease-in-out;
 `
-// opacity: ${({ $visible }) => ($visible ? 1 : 0)};
 
-const Main = styled.main<{ $loading: boolean }>`
+const PreviewWrapper = styled(motion.div)`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+`
+
+const Main = styled.main`
   position: relative;
   z-index: 1;
   width: 100%;
@@ -350,23 +342,4 @@ const Main = styled.main<{ $loading: boolean }>`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.color.grey0};
-
-  ${({ $loading }) =>
-    $loading
-      ? css`
-          ${Image}, ${BackgroundImage} {
-            opacity: 0;
-          }
-          ${Loader} {
-            opacity: 1;
-          }
-        `
-      : css`
-          ${Image}, ${BackgroundImage} {
-            opacity: 1;
-          }
-          ${Loader} {
-            opacity: 0;
-          }
-        `}
 `

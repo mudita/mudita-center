@@ -28,7 +28,7 @@ import {
   listRawItemStyles,
 } from "../list/list-item"
 import { toastAnimationDuration } from "../interactive/toast/toast"
-import { FilePreview } from "./file-preview"
+import { FilePreview } from "../interactive/file-preview/file-preview"
 
 const rowHeight = 64
 
@@ -172,6 +172,7 @@ export const Table: APIFC<TableData, TableConfig> & {
       return (
         <RowPlaceholder
           key={id}
+          data-item-id={id}
           data-testid={TableTestIds.TablePlaceholderRow}
           className={isActive ? "active" : ""}
         >
