@@ -14,7 +14,7 @@ describe("App Init Step - MC Force Update Available", () => {
   before(async () => {
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
-    await simulateAppInitUpdateStep({ version, forced: true })
+    await simulateAppInitUpdateStep({ check: { version, forced: true } })
   })
 
   itBehavesLikeAvailableModal({ closeVisible: false })

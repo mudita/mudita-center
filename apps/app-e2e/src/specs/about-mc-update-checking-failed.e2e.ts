@@ -13,7 +13,7 @@ import AboutPage from "../page-objects/about.page"
 
 describe("About MC Update Checking Failed", () => {
   before(async () => {
-    await simulateMcUpdateCheckFromAbout({ error: true })
+    await simulateMcUpdateCheckFromAbout({ check: { error: true } })
   })
 
   itBehavesLikeAboutTabBeforeManualCheck()

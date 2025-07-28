@@ -20,7 +20,7 @@ describe("About MC Soft Update Available After Manual Check", () => {
   before(async () => {
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
-    await simulateMcUpdateCheckFromAbout({ version, forced: false })
+    await simulateMcUpdateCheckFromAbout({ check: { version, forced: false } })
   })
 
   itBehavesLikeAboutTabBeforeManualCheck()

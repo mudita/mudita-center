@@ -14,7 +14,7 @@ describe("App Init - Full Happy Path", () => {
     await E2EMockClient.connect()
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
-    E2EMockClient.setAppUpdaterCheckResult({ version, forced: false })
+    E2EMockClient.setAppUpdaterState({ check: { version, forced: false } })
     E2EMockClient.setUsbAccess({
       serialPortAccess: false,
       grantAccessToSerialPortResult: true,

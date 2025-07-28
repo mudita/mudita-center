@@ -17,3 +17,10 @@ export type SetAppUpdaterCheckPayload =
   | SetAppUpdaterCheckErrorPayload
   | SetAppUpdaterCheckSuccessPayload
   | null
+
+export interface SetAppUpdaterPayload {
+  check: SetAppUpdaterCheckPayload
+  download?: {
+    error?: boolean
+  }
+}

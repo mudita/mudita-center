@@ -11,7 +11,7 @@ import AboutPage from "../page-objects/about.page"
 
 describe("App Init Step- MC Update Checking Failed", () => {
   before(async () => {
-    await simulateAppInitUpdateStep({ error: true })
+    await simulateAppInitUpdateStep({ check: { error: true } })
   })
 
   it("should keep the Update Not Available Modal hidden on init", async () => {

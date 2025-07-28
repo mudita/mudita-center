@@ -4,19 +4,19 @@
  */
 
 import { E2EMockClient } from "e2e-mock/client"
-import { SetAppUpdaterCheckPayload } from "app-updater/models"
+import { SetAppUpdaterPayload } from "app-updater/models"
 import AppInitPage from "../page-objects/app-init.page"
 import McUpdatePage from "../page-objects/mc-update.page"
 import AboutPage from "../page-objects/about.page"
 
 export const simulateAppInitUpdateStep = async (
-  payload: SetAppUpdaterCheckPayload
+  payload: SetAppUpdaterPayload
 ) => {
   // should open MC Update Modal
   if (process.env.MOCK_SERVER_ENABLED === "1") {
     await E2EMockClient.connect()
 
-    E2EMockClient.setAppUpdaterCheckResult(payload)
+    E2EMockClient.setAppUpdaterState(payload)
   }
   await AppInitPage.acceptPrivacyPolicy()
 }

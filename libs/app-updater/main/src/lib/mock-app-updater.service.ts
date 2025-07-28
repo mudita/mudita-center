@@ -8,11 +8,15 @@ import logger from "electron-log/main"
 import { IpcMockServer } from "e2e-mock/server"
 import { E2eMockIpcEvents } from "e2e-mock/models"
 import { AppError, AppResult, AppResultFactory } from "app-utils/models"
-import { AppUpdaterState, SetAppUpdaterCheckPayload } from "app-updater/models"
+import {
+  AppUpdaterState,
+  SetAppUpdaterPayload,
+} from "app-updater/models"
 
 export class MockAppUpdaterService {
   private checkResult: AppResult<AppUpdaterState | null> =
     AppResultFactory.success(null)
+  private downloadResult: AppResult = AppResultFactory.success(null)
   private downloadProgressCallbacks: Array<(percent: number) => void> = []
 
   constructor(private mockServer: IpcMockServer) {
@@ -24,8 +28,9 @@ export class MockAppUpdaterService {
     return this.checkResult
   }
 
-  download(): void {
+  async download(): Promise<AppResult> {
     logger.info("MockAppUpdaterService: download updates called")
+    return this.downloadResult
   }
 
   cancel(): void {
@@ -43,8 +48,8 @@ export class MockAppUpdaterService {
 
   private registerListeners(): void {
     this.mockServer.on(
-      E2eMockIpcEvents.setAppUpdaterCheckResult,
-      this.handleSetAppUpdaterCheckResult
+      E2eMockIpcEvents.setAppUpdaterState,
+      this.handleSetAppUpdaterState
     )
     this.mockServer.on(
       E2eMockIpcEvents.emitAppUpdaterDownloadProgressEvent,
@@ -52,16 +57,19 @@ export class MockAppUpdaterService {
     )
   }
 
-  private handleSetAppUpdaterCheckResult = (
-    payload: SetAppUpdaterCheckPayload
-  ) => {
-    if (payload?.error) {
+  private handleSetAppUpdaterState = ({
+    check,
+    download,
+  }: SetAppUpdaterPayload) => {
+    if (check?.error) {
       this.checkResult = AppResultFactory.failed(new AppError())
     } else {
-      this.checkResult = AppResultFactory.success(
-        isEmpty(payload) ? null : payload
-      )
+      this.checkResult = AppResultFactory.success(isEmpty(check) ? null : check)
     }
+
+    this.downloadResult = download?.error
+      ? AppResultFactory.failed(new AppError("Download failed"))
+      : AppResultFactory.success(undefined)
   }
 
   private handleEmitAppUpdaterDownloadProgressEvent = (percent: number) => {

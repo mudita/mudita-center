@@ -14,7 +14,7 @@ describe("App Init Step - MC Soft Update Available", () => {
   before(async () => {
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
-    await simulateAppInitUpdateStep({ version, forced: false })
+    await simulateAppInitUpdateStep({ check: { version, forced: false } })
   })
 
   itBehavesLikeAvailableModal({ closeVisible: true })
