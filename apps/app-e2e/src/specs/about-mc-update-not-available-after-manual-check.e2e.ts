@@ -19,7 +19,7 @@ describe("About MC Update Not Available After Manual Check", () => {
   itBehavesLikeAboutTabBeforeManualCheck()
   itBehavesLikeCheckingModal()
 
-  describe("After Manual Check – No Update Available", () => {
+  describe("After Manual Check - No Update Available", () => {
     it("should display the 'Update Not Available' modal with all key elements", async () => {
       await expect(McUpdatePage.updateNotAvailableModal).toBeDisplayed()
       await expect(McUpdatePage.updateNotAvailableModalTitle).toBeDisplayed()

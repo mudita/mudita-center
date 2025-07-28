@@ -9,6 +9,7 @@ export enum MockBasedSpecRelativePaths {
   AboutMcForceUpdateAvailableAfterManualCheck = "src/specs/about-mc-force-update-available-after-manual-check.e2e.ts",
   AboutMcUpdateCheckingFailed = "src/specs/about-mc-update-checking-failed.e2e.ts",
   AboutMcUpdateDownloadingFailed = "src/specs/about-mc-update-downloading-failed.e2e.ts",
+  AboutMcUpdateInstallationFailed = "src/specs/about-mc-update-installation-failed.e2e.ts",
   AppInitFullHappyFlow = "src/specs/app-init-full-happy-flow.e2e.ts",
   AppInitFullHappyWhenPPAccepted = "src/specs/app-init-full-happy-when-pp-accepted.e2e.ts",
   AppInitMcSoftUpdateAvailable = "src/specs/app-init-mc-soft-update-available.e2e.ts",

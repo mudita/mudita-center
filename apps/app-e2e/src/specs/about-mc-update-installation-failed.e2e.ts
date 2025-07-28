@@ -13,13 +13,13 @@ import {
 import { itBehavesLikeAvailableModal } from "../helpers/mc-update.helper"
 import AboutPage from "../page-objects/about.page"
 
-describe("About MC Update Downloading Failed", () => {
+describe("About MC Update Installation Failed", () => {
   before(async () => {
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
     await simulateMcUpdateCheckFromAbout({
       check: { version: "5.0.0", forced: false },
-      download: { error: true },
+      install: { error: true },
     })
   })
 
@@ -27,9 +27,9 @@ describe("About MC Update Downloading Failed", () => {
   itBehavesLikeCheckingModal()
   itBehavesLikeAvailableModal({ closeVisible: true })
 
-  // TODO: Unskip this test when the download failure path is properly handled
-  describe.skip("When clicking Update in Available Modal and download fails", () => {
-    it("should update About label and trigger Update Error modal after download fails", async () => {
+  // TODO: Unskip this test when the installation failure path is properly handled
+  describe.skip("When clicking Update in Available Modal and install fails", () => {
+    it("should update About label and trigger Update Error modal after install fails", async () => {
       await expect(AboutPage.updateLabel).toHaveText(
         "Version 5.0.0 is available"
       )

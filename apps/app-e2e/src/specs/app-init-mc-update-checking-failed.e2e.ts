@@ -9,7 +9,7 @@ import SettingsPage from "../page-objects/settings.page"
 import AppInitPage from "../page-objects/app-init.page"
 import AboutPage from "../page-objects/about.page"
 
-describe("App Init Step- MC Update Checking Failed", () => {
+describe("App Init Step - MC Update Checking Failed", () => {
   before(async () => {
     await simulateAppInitUpdateStep({ check: { error: true } })
   })
@@ -22,13 +22,20 @@ describe("App Init Step- MC Update Checking Failed", () => {
     await expect(McUpdatePage.updateErrorModal).not.toBeDisplayed()
   })
 
-  it("should display the Update Error Modal after a manual check from About", async () => {
+  it("should navigate to About tab", async () => {
     await AppInitPage.closeFullscreenLayout()
-
     await SettingsPage.settingsMenuItem.click()
     await SettingsPage.aboutTab.click()
-    await AboutPage.updateButton.click()
+  })
 
+  // TODO: Unskip this test when the issue with the not updated label is resolved
+  it.skip("should show 'Checking for update failed' label in About tab", async () => {
+    await expect(AboutPage.updateLabel).toBeDisplayed()
+    await expect(AboutPage.updateLabel).toHaveText("Checking for update failed")
+  })
+
+  it("should display the Update Error Modal after a manual check from About", async () => {
+    await AboutPage.updateButton.click()
     await expect(McUpdatePage.updateErrorModal).toBeDisplayed()
   })
 })

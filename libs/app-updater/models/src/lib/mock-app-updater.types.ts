@@ -23,4 +23,7 @@ export interface SetAppUpdaterPayload {
   download?: {
     error?: boolean
   }
+  install?: {
+    error?: boolean
+  }
 }

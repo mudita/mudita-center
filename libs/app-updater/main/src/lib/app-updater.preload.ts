@@ -17,7 +17,7 @@ export const appUpdater = {
     return electronAPI.ipcRenderer.invoke(AppUpdaterIpcEvents.Download)
   },
   install: async () => {
-    await electronAPI.ipcRenderer.invoke(AppUpdaterIpcEvents.Install)
+    return await electronAPI.ipcRenderer.invoke(AppUpdaterIpcEvents.Install)
   },
   cancel: async () => {
     await electronAPI.ipcRenderer.invoke(AppUpdaterIpcEvents.Cancel)
