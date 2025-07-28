@@ -9,27 +9,26 @@ import {
   itBehavesLikeCheckingModal,
   simulateMcUpdateCheckFromAbout,
 } from "../helpers/about-mc-update.helper"
+import AboutPage from "../page-objects/about.page"
 import {
   itBehavesLikeAvailableModal,
   itBehavesLikeUpdateInProgressModal,
   TriggerSource,
 } from "../helpers/mc-update.helper"
-import AboutPage from "../page-objects/about.page"
 
-describe("About MC Soft Update Available After Manual Check", () => {
+describe("About MC Force Update Available After Manual Check", () => {
   before(async () => {
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
-    await simulateMcUpdateCheckFromAbout({ version, forced: false })
+    await simulateMcUpdateCheckFromAbout({ version, forced: true })
   })
 
   itBehavesLikeAboutTabBeforeManualCheck()
   itBehavesLikeCheckingModal()
-  itBehavesLikeAvailableModal({ closeVisible: true })
+  itBehavesLikeAvailableModal({ closeVisible: false })
 
-  describe("After Closing Available Modal", () => {
-    it("should update About label and button to show available version", async () => {
-      await McUpdatePage.updateAvailableModalCloseButton.click()
+  describe("After Available Modal Displayed", () => {
+    it("should show 'UPDATE NOW' button in About tab (force update)", async () => {
       await expect(AboutPage.updateLabel).toHaveText(
         "Version 5.0.0 is available"
       )
@@ -37,5 +36,5 @@ describe("About MC Soft Update Available After Manual Check", () => {
     })
   })
 
-  itBehavesLikeUpdateInProgressModal(TriggerSource.AboutTab)
+  itBehavesLikeUpdateInProgressModal(TriggerSource.AppInit)
 })

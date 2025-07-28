@@ -4,6 +4,7 @@
  */
 
 import {
+  itBehavesLikeAboutTabBeforeManualCheck,
   itBehavesLikeCheckingModal,
   simulateMcUpdateCheckFromAbout,
 } from "../helpers/about-mc-update.helper"
@@ -15,19 +16,7 @@ describe("About MC Update Not Available After Manual Check", () => {
     await simulateMcUpdateCheckFromAbout(null)
   })
 
-  describe("Before Manual Check", () => {
-    it("should display 'You're up to date.' label and 'CHECK FOR UPDATES' button", async () => {
-      await expect(AboutPage.updateButton).toBeDisplayed()
-      await expect(AboutPage.updateButton).toHaveText("CHECK FOR UPDATES")
-      await expect(AboutPage.updateLabel).toBeDisplayed()
-      await expect(AboutPage.updateLabel).toHaveText("You’re up to date.")
-    })
-
-    it("should trigger update check on button click", async () => {
-      await AboutPage.updateButton.click()
-    })
-  })
-
+  itBehavesLikeAboutTabBeforeManualCheck()
   itBehavesLikeCheckingModal()
 
   describe("After Manual Check – No Update Available", () => {

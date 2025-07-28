@@ -7,6 +7,7 @@ import { E2EMockClient } from "e2e-mock/client"
 import { SetAppUpdaterCheckPayload } from "app-updater/models"
 import SettingsPage from "../page-objects/settings.page"
 import McUpdatePage from "../page-objects/mc-update.page"
+import AboutPage from "../page-objects/about.page"
 
 export const simulateMcUpdateCheckFromAbout = async (
   payload: SetAppUpdaterCheckPayload
@@ -18,6 +19,21 @@ export const simulateMcUpdateCheckFromAbout = async (
 
   await SettingsPage.settingsMenuItem.click()
   await SettingsPage.aboutTab.click()
+}
+
+export const itBehavesLikeAboutTabBeforeManualCheck = () => {
+  describe("Before Manual Check", () => {
+    it("should display 'You're up to date.' label and 'CHECK FOR UPDATES' button", async () => {
+      await expect(AboutPage.updateButton).toBeDisplayed()
+      await expect(AboutPage.updateButton).toHaveText("CHECK FOR UPDATES")
+      await expect(AboutPage.updateLabel).toBeDisplayed()
+      await expect(AboutPage.updateLabel).toHaveText("You’re up to date.")
+    })
+
+    it("should trigger update check on button click", async () => {
+      await AboutPage.updateButton.click()
+    })
+  })
 }
 
 export const itBehavesLikeCheckingModal = () => {
