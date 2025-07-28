@@ -19,6 +19,10 @@ class AboutPage extends Page {
     return $(`[data-testid="${SettingsTestId.AboutUpdateButton}"]`)
   }
 
+  public get updateLabel() {
+    return $(`[data-testid="${SettingsTestId.AboutUpdateLabel}"]`)
+  }
+
   public get termsOfServiceButton() {
     return $(`[data-testid="${SettingsTestId.AboutTermsOfServiceButton}"]`)
   }
