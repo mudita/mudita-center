@@ -3,10 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppError, AppResult, AppResultFactory } from "app-utils/models"
+import { isEmpty } from "lodash"
 import logger from "electron-log/main"
 import { IpcMockServer } from "e2e-mock/server"
 import { E2eMockIpcEvents } from "e2e-mock/models"
+import { AppError, AppResult, AppResultFactory } from "app-utils/models"
 import { AppUpdaterState, SetAppUpdaterCheckPayload } from "app-updater/models"
 
 export class MockAppUpdaterService {
@@ -51,14 +52,15 @@ export class MockAppUpdaterService {
     )
   }
 
-  private handleSetAppUpdaterCheckResult = ({
-    error,
-    ...appUpdaterState
-  }: SetAppUpdaterCheckPayload) => {
-    if (error) {
+  private handleSetAppUpdaterCheckResult = (
+    payload: SetAppUpdaterCheckPayload
+  ) => {
+    if (payload?.error) {
       this.checkResult = AppResultFactory.failed(new AppError())
     } else {
-      this.checkResult = AppResultFactory.success(appUpdaterState)
+      this.checkResult = AppResultFactory.success(
+        isEmpty(payload) ? null : payload
+      )
     }
   }
 

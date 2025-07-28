@@ -16,3 +16,4 @@ interface SetAppUpdaterCheckSuccessPayload extends AppUpdaterState {
 export type SetAppUpdaterCheckPayload =
   | SetAppUpdaterCheckErrorPayload
   | SetAppUpdaterCheckSuccessPayload
+  | null

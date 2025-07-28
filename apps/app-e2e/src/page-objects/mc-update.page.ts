@@ -9,6 +9,9 @@ import { AppUpdaterTestIds } from "app-updater/models"
 import { ProgressBarTestIds } from "app-theme/models"
 
 class McUpdatePage extends Page {
+  private _updateCheckingModal = new Modal(
+    "general.appUpdate.checkingModal.title"
+  )
   private _updateAvailableModal = new Modal(
     "general.appUpdate.availableModal.title"
   )
@@ -19,6 +22,28 @@ class McUpdatePage extends Page {
     "general.appUpdate.notAvailableModal.title"
   )
   private _updateErrorModal = new Modal("general.appUpdate.errorModal.title")
+
+  public get updateCheckingModal() {
+    return this._updateCheckingModal.modal
+  }
+
+  public get updateCheckingModalTitle() {
+    return this._updateCheckingModal.title
+  }
+
+  public get updateCheckingModalTitleIcon() {
+    return this._updateCheckingModal.titleIcon
+  }
+
+  public get updateCheckingModalCloseButton() {
+    return this._updateCheckingModal.closeButton
+  }
+
+  public get updateCheckingModalDescription() {
+    return this.updateCheckingModal.$(
+      `[data-testid="${AppUpdaterTestIds.UpdateCheckingModalDescription}"]`
+    )
+  }
 
   public setUpdateAvailableModal(options: { version: string }) {
     this._updateAvailableModal = new Modal(
@@ -97,6 +122,24 @@ class McUpdatePage extends Page {
 
   public get updateNotAvailableModal() {
     return this._updateNotAvailableModal.modal
+  }
+
+  public get updateNotAvailableModalTitle() {
+    return this._updateNotAvailableModal.title
+  }
+
+  public get updateNotAvailableModalTitleIcon() {
+    return this._updateNotAvailableModal.titleIcon
+  }
+
+  public get updateNotAvailableModalCloseButton() {
+    return this._updateNotAvailableModal.closeButton
+  }
+
+  public get updateNotAvailableModalDescription() {
+    return this.updateNotAvailableModal.$(
+      `[data-testid="${AppUpdaterTestIds.UpdateNotAvailableModalDescription}"]`
+    )
   }
 
   public get updateErrorModal() {
