@@ -258,6 +258,9 @@ export const Table: APIFC<TableData, TableConfig> & {
           type: previewOptions.entitiesType,
           idField: previewOptions.entityIdFieldName,
           pathField: previewOptions.entityPathFieldName,
+          titleField: previewOptions.entityTitleFieldName,
+          mimeTypeField: previewOptions.entityMimeTypeFieldName,
+          sizeField: previewOptions.entitySizeFieldName,
         }}
       />
     )

@@ -294,8 +294,6 @@ if (!gotTheLock) {
   })
 
   app.on("window-all-closed", async () => {
-    // TODO: Test on built app
-    console.log("Cleaning up before quitting...")
     await fs.remove(getAppPath("file-preview"))
     app.quit()
   })

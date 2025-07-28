@@ -11,18 +11,14 @@ import { IconType } from "generic-view/utils"
 import { Modal } from "../modal/modal"
 import { IconButton } from "../../shared/button"
 import { Icon } from "../../icon/icon"
-import { useFilesPreview } from "./use-file-preview"
+import { useFilesPreview, UseFilesPreviewParams } from "./use-file-preview"
 import { Typography } from "../../typography"
 import { SpinnerLoader } from "../../shared/spinner-loader"
 import { ImagePreview } from "./image-preview"
 import { AnimatePresence, motion } from "motion/react"
 
 interface Props {
-  entitiesConfig: {
-    type: string
-    idField: string
-    pathField: string
-  }
+  entitiesConfig: UseFilesPreviewParams["entitiesConfig"]
   items: string[]
   activeItem: string | undefined
   onActiveItemChange: (item: string | undefined) => void

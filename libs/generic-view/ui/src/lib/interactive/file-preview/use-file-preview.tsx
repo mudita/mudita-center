@@ -31,17 +31,17 @@ interface FilePreviewResponse {
 }
 
 interface Params {
-  pathField: string
   tempDirectoryPath?: string
   actionId: string
   entitiesType: string
+  fields: Omit<UseFilesPreviewParams["entitiesConfig"], "type">
 }
 
 const useFilePreviewDownload = ({
-  pathField,
   tempDirectoryPath,
   actionId,
   entitiesType,
+  fields,
 }: Params) => {
   const dispatch = useDispatch<AppDispatch>()
   const store = useStore<ReduxRootState>()
@@ -84,10 +84,12 @@ const useFilePreviewDownload = ({
         return
       }
 
-      const fileName = entity.fileName as string
+      const fileName = entity[fields.titleField] as string
       onFileNameFound?.(fileName)
-      const fileType = (entity.mimeType as string).split("/")[0].toLowerCase()
-      const filePath = getFilePath(entity[pathField] as string)
+      const fileType = (entity[fields.mimeTypeField] as string)
+        .split("/")[0]
+        .toLowerCase()
+      const filePath = getFilePath(entity[fields.pathField] as string)
       if (!filePath) {
         return
       }
@@ -105,11 +107,11 @@ const useFilePreviewDownload = ({
       const fileData: FileWithPath = {
         id: entityId,
         path: sliceMtpPaths(
-          entity.filePath as string,
+          entity[fields.pathField] as string,
           entity.isInternal as boolean
         ),
-        name: String(entity.fileName),
-        size: Number(entity.fileSize),
+        name: String(entity[fields.titleField]),
+        size: Number(entity[fields.sizeField]),
         groupId: actionId,
       }
 
@@ -127,7 +129,9 @@ const useFilePreviewDownload = ({
           destinationPath: filePath.nativeDir,
           actionId,
           entitiesType,
-          isMtpPathInternal: isMtpPathInternal(entity.filePath as string),
+          isMtpPathInternal: isMtpPathInternal(
+            entity[fields.pathField] as string
+          ),
           actionType: SendFilesAction.ActionExport,
         })
       ) as unknown as ReturnType<ReturnType<typeof sendFiles>>
@@ -156,8 +160,11 @@ const useFilePreviewDownload = ({
       deviceId,
       dispatch,
       entitiesType,
+      fields.mimeTypeField,
+      fields.pathField,
+      fields.sizeField,
+      fields.titleField,
       getFilePath,
-      pathField,
       store,
       tempDirectoryPath,
     ]
@@ -176,12 +183,19 @@ const useFilePreviewDownload = ({
       if (!entity) {
         return
       }
-      const path = getFilePath(entity[pathField] as string)?.nativePath
+      const path = getFilePath(entity[fields.pathField] as string)?.nativePath
       if (path) {
         await removeDirectory(path)
       }
     },
-    [deviceId, entitiesType, getFilePath, pathField, store, tempDirectoryPath]
+    [
+      deviceId,
+      entitiesType,
+      fields.pathField,
+      getFilePath,
+      store,
+      tempDirectoryPath,
+    ]
   )
 
   const cancelDownload = useCallback(
@@ -201,13 +215,16 @@ const useFilePreviewDownload = ({
   }
 }
 
-interface UseFilesPreviewParams {
+export interface UseFilesPreviewParams {
   items: string[]
   activeItem?: string
   entitiesConfig: {
     type: string
     idField: string
     pathField: string
+    titleField: string
+    mimeTypeField: string
+    sizeField: string
   }
 }
 
@@ -230,9 +247,9 @@ export const useFilesPreview = ({
 
   const { downloadFile, cancelDownload } = useFilePreviewDownload({
     actionId,
-    pathField: entitiesConfig.pathField,
     tempDirectoryPath,
     entitiesType: entitiesConfig.type,
+    fields: entitiesConfig,
   })
 
   const refreshFiles = useCallback(

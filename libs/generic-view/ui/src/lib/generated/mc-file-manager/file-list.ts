@@ -335,6 +335,9 @@ const generateFileList: ComponentGenerator<
           entitiesType: entityType,
           entityIdFieldName: "id",
           entityPathFieldName: "filePath",
+          entityTitleFieldName: "fileName",
+          entityMimeTypeFieldName: "mimeType",
+          entitySizeFieldName: "fileSize",
         },
       },
       dataProvider: {
