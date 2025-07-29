@@ -133,7 +133,6 @@
   "page.settingsAbout.license": "License",
   "page.settingsAbout.privacyPolicy": "Privacy Policy",
   "page.settingsAbout.systemCheckForUpdates": "Check for updates",
-  "page.settingsAbout.systemUpdateCheckFailed": "Checking for update failed",
   "page.settingsAbout.systemUpdateUpToDate": "You’re up to date.",
   "page.settingsAbout.termsOfService": "Terms of service",
   "page.settingsAbout.title": "About",

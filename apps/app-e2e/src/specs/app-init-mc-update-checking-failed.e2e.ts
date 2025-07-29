@@ -28,12 +28,6 @@ describe("App Init Step - MC Update Checking Failed", () => {
     await SettingsPage.aboutTab.click()
   })
 
-  // TODO: Unskip this test when the issue with the not updated label is resolved
-  it.skip("should show 'Checking for update failed' label in About tab", async () => {
-    await expect(AboutPage.updateLabel).toBeDisplayed()
-    await expect(AboutPage.updateLabel).toHaveText("Checking for update failed")
-  })
-
   it("should display the Update Error Modal after a manual check from About", async () => {
     await AboutPage.updateButton.click()
     await expect(McUpdatePage.updateErrorModal).toBeDisplayed()

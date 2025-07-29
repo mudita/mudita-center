@@ -101,9 +101,6 @@ const messages = defineMessages({
   updateAvailableBadge: {
     id: "page.settingsAbout.availableVersion",
   },
-  updateFailedBadge: {
-    id: "page.settingsAbout.systemUpdateCheckFailed",
-  },
   upToDateBadge: {
     id: "page.settingsAbout.systemUpdateUpToDate",
   },
