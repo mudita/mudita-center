@@ -59,9 +59,11 @@ export const checkForAppUpdate = createAsyncThunk<
     dispatch(setAppUpdaterError(true))
   } else if (response.data) {
     available = true
+    dispatch(setAppUpdaterError(false))
     dispatch(setAppUpdaterNewVersionInfo(response.data))
     dispatch(setAppUpdateAvailability(AppUpdateAvailability.Available))
   } else {
+    dispatch(setAppUpdaterError(false))
     dispatch(setAppUpdateAvailability(AppUpdateAvailability.NotAvailable))
   }
 
