@@ -54,11 +54,12 @@ export const itBehavesLikeUpdateErrorModal = () => {
       await expect(McUpdatePage.updateErrorModalTitle).toBeDisplayed()
       await expect(McUpdatePage.updateErrorModalTitleIcon).toBeDisplayed()
       await expect(McUpdatePage.updateErrorModalDescription).toBeDisplayed()
-      await expect(McUpdatePage.updateErrorModalCloseButton).toBeDisplayed()
+      await expect(McUpdatePage.updateErrorModalButton).toBeDisplayed()
+      await expect(McUpdatePage.updateErrorModalCloseButton).not.toBeDisplayed()
     })
 
     it("should trigger closing the modal on button click", async () => {
-      await McUpdatePage.updateErrorModalCloseButton.click()
+      await McUpdatePage.updateErrorModalButton.click()
     })
   })
 }

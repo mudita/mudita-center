@@ -22,6 +22,9 @@ const messages = defineMessages({
   descriptionLinkText: {
     id: "general.appUpdate.errorModal.description.link.text",
   },
+  closeButton: {
+    id: "general.app.closeButton.text",
+  },
 })
 
 interface Props {
@@ -35,8 +38,7 @@ export const UpdateErrorModal: FunctionComponent<Props> = ({
 }) => {
   return (
     <Modal opened={opened}>
-      <Modal.CloseButton onClick={onClose} />
-      <Modal.TitleIcon type={IconType.Error} />
+      <Modal.TitleIcon type={IconType.Failed} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Typography.P1
         data-testid={AppUpdaterTestIds.UpdateErrorModalDescription}
@@ -53,8 +55,16 @@ export const UpdateErrorModal: FunctionComponent<Props> = ({
         >
           {formatMessage(messages.descriptionLinkText)}
         </Button>
-        .
       </Typography.P1>
+      <Modal.Buttons>
+        <Button
+          data-testid={AppUpdaterTestIds.UpdateErrorModalButton}
+          onClick={onClose}
+          type={ButtonType.Secondary}
+        >
+          {formatMessage(messages.closeButton)}
+        </Button>
+      </Modal.Buttons>
     </Modal>
   )
 }

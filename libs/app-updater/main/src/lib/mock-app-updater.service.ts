@@ -8,7 +8,6 @@ import logger from "electron-log/main"
 import { IpcMockServer } from "e2e-mock/server"
 import { E2eMockIpcEvents } from "e2e-mock/models"
 import { AppError, AppResult, AppResultFactory } from "app-utils/models"
-import { delay } from "app-utils/common"
 import { AppUpdaterState, SetAppUpdaterPayload } from "app-updater/models"
 
 export class MockAppUpdaterService {

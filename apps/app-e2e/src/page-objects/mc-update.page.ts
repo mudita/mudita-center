@@ -163,6 +163,12 @@ class McUpdatePage extends Page {
       `[data-testid="${AppUpdaterTestIds.UpdateErrorModalDescription}"]`
     )
   }
+
+  public get updateErrorModalButton() {
+    return this.updateErrorModal.$(
+      `[data-testid="${AppUpdaterTestIds.UpdateErrorModalButton}"]`
+    )
+  }
 }
 
 export default new McUpdatePage()

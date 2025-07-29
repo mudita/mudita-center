@@ -12,4 +12,5 @@ export enum AppUpdaterTestIds {
   UpdateInProgressModalDescription = "app-updater-update-in-progress-modal-description",
   UpdateNotAvailableModalDescription = "app-updater-update-not-available-modal-description",
   UpdateErrorModalDescription = "app-updater-update-error-modal-description",
+  UpdateErrorModalButton = "app-updater-update-error-modal-button",
 }
