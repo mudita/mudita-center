@@ -23,8 +23,7 @@ import { useAppDispatch } from "app-store/utils"
 import {
   cancelAppUpdate,
   checkAppVersion,
-  downloadAppUpdate,
-  installAppUpdate,
+  downloadAndInstallAppUpdate,
   setAppUpdaterDownloadProgress,
 } from "./store/app-updater.actions"
 import { AppUpdater } from "app-updater/renderer"
@@ -46,15 +45,12 @@ export const AppUpdateFlow: FunctionComponent<Props> = memo(({ onClose }) => {
   }
 
   const handleDownload = () => {
-    dispatch(downloadAppUpdate())
+    dispatch(downloadAndInstallAppUpdate())
   }
 
   useEffect(() => {
     AppUpdater.onProgress((percent) => {
       dispatch(setAppUpdaterDownloadProgress(percent))
-      if (percent === 100) {
-        dispatch(installAppUpdate())
-      }
     })
   }, [dispatch])
 

@@ -27,15 +27,14 @@ describe("About MC Update Downloading Failed", () => {
   itBehavesLikeCheckingModal()
   itBehavesLikeAvailableModal({ closeVisible: true })
 
-  // TODO: Unskip this test when the download failure path is properly handled
-  describe.skip("When clicking Update in Available Modal and download fails", () => {
+  describe("When clicking Update in Available Modal and download fails", () => {
     it("should update About label and trigger Update Error modal after download fails", async () => {
       await expect(AboutPage.updateLabel).toHaveText(
         "Version 5.0.0 is available"
       )
       await McUpdatePage.updateAvailableModalButton.click()
-      await AboutPage.updateButton.click()
     })
   })
-  // itBehavesLikeUpdateErrorModal()
+
+  itBehavesLikeUpdateErrorModal()
 })

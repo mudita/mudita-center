@@ -70,19 +70,25 @@ export const checkForAppUpdate = createAsyncThunk<
   return available
 })
 
-export const downloadAppUpdate = createAsyncThunk(
-  "appUpdater/downloadAppUpdate",
+export const downloadAndInstallAppUpdate = createAsyncThunk(
+  "appUpdater/downloadAndInstallAppUpdate",
   async (_, { dispatch }) => {
+    dispatch(setAppUpdaterSilentMode(false))
     dispatch(setAppUpdaterDownloadProgress(0))
     dispatch(setAppUpdaterModalsOpened(true))
-    await AppUpdater.download()
-  }
-)
+    const downloadResult = await AppUpdater.download()
 
-export const installAppUpdate = createAsyncThunk(
-  "appUpdater/installAppUpdate",
-  async (_) => {
-    await AppUpdater.install()
+    if (!downloadResult.ok) {
+      dispatch(setAppUpdaterError(true))
+      return
+    }
+
+    const installResult = await AppUpdater.install()
+
+    if (!installResult.ok) {
+      dispatch(setAppUpdaterError(true))
+      return
+    }
   }
 )
 
