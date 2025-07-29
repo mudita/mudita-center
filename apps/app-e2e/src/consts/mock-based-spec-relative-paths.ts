@@ -11,6 +11,7 @@ export enum MockBasedSpecRelativePaths {
   AboutMcUpdateDownloadingFailed = "src/specs/about-mc-update-downloading-failed.e2e.ts",
   AboutMcUpdateInstallationFailed = "src/specs/about-mc-update-installation-failed.e2e.ts",
   AboutMcSoftUpdateAvailableAfterCheckingFailed = "src/specs/about-mc-soft-update-available-after-checking-failed.e2e.ts",
+  AboutMcSoftUpdateAvailableAfterAppInitCheckingFailed = "src/specs/about-mc-soft-update-available-after-app-init-checking-failed.e2e.ts",
   AppInitFullHappyFlow = "src/specs/app-init-full-happy-flow.e2e.ts",
   AppInitFullHappyWhenPPAccepted = "src/specs/app-init-full-happy-when-pp-accepted.e2e.ts",
   AppInitMcSoftUpdateAvailable = "src/specs/app-init-mc-soft-update-available.e2e.ts",

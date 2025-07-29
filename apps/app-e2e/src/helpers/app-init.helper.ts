@@ -12,6 +12,14 @@ export const passAppInit = async (suite: Suite) => {
     return
   }
 
+  if (
+    [
+      SPEC_TITLE.ABOUT_MC_SOFT_UPDATE_AVAILABLE_AFTER_APP_INIT_CHECKING_FAILED,
+    ].includes(suite.title)
+  ) {
+    return
+  }
+
   await AppInitPage.acceptPrivacyPolicy()
 
   if (
