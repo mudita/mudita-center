@@ -123,27 +123,33 @@ export class AppUpdaterService {
       autoUpdater,
       "update-downloaded"
     ).then((payload) => {
-      logger.info(`[AppUpdater] Update downloaded successfully: v${payload.version}`)
+      logger.info(
+        `[AppUpdater] Update downloaded successfully: v${payload.version}`
+      )
       return payload
     })
 
-    const updateError = this.eventOnce<Error>(autoUpdater, "error").then((err) => {
-      logger.error("[AppUpdater] Error emitted during update download", err)
-      throw err
-    })
+    const updateError = this.eventOnce<Error>(autoUpdater, "error").then(
+      (err) => {
+        logger.error("[AppUpdater] Error emitted during update download", err)
+        throw err
+      }
+    )
 
     try {
       logger.info("[AppUpdater] Starting autoUpdater.downloadUpdate()...")
       await autoUpdater.downloadUpdate(this.cancellationToken)
 
-      logger.info("[AppUpdater] Waiting for 'update-downloaded' or 'error' event...")
+      logger.info(
+        "[AppUpdater] Waiting for 'update-downloaded' or 'error' event..."
+      )
       await Promise.race([updateDownloaded, updateError])
 
       logger.info("[AppUpdater] Download phase completed")
       return AppResultFactory.success()
     } catch (e) {
       logger.error("[AppUpdater] Download failed", e)
-      this.mainWindow.setProgressBar(AppProgressBarState.Indeterminate)
+      this.mainWindow.setProgressBar(AppProgressBarState.Disabled)
       return AppResultFactory.failed(new AppError("Download failed"))
     }
   }
@@ -175,28 +181,36 @@ export class AppUpdaterService {
 
     const timeoutAfterNoExit = new Promise<void>((resolve) => {
       setTimeout(() => {
-        logger.warn("[AppUpdater] App did not quit within 10s after quitAndInstall – continuing")
+        logger.warn(
+          "[AppUpdater] App did not quit within 10s after quitAndInstall – continuing"
+        )
         resolve()
       }, 10000)
     })
 
-    const installError = this.eventOnce<Error>(autoUpdater, "error").then((err) => {
-      logger.error("[AppUpdater] Error emitted during quitAndInstall", err)
-      throw err
-    })
+    const installError = this.eventOnce<Error>(autoUpdater, "error").then(
+      (err) => {
+        logger.error("[AppUpdater] Error emitted during quitAndInstall", err)
+        throw err
+      }
+    )
 
     logger.info("[AppUpdater] Calling autoUpdater.quitAndInstall()...")
     autoUpdater.quitAndInstall(true, true)
 
     try {
       await Promise.race([timeoutAfterNoExit, installError])
+
+      logger.warn("[AppUpdater] App still running after quitAndInstall")
+      this.mainWindow.setProgressBar(AppProgressBarState.Disabled)
+      return AppResultFactory.failed(
+        new AppError("Application failed to restart for update installation")
+      )
     } catch (err) {
       logger.error("[AppUpdater] quitAndInstall failed with error", err)
+      this.mainWindow.setProgressBar(AppProgressBarState.Disabled)
       return AppResultFactory.failed(new AppError("Installation failed"))
     }
-
-    logger.warn("[AppUpdater] App still running after quitAndInstall")
-    return AppResultFactory.failed(new AppError("App did not quit after quitAndInstall"))
   }
 
   private eventOnce<T>(

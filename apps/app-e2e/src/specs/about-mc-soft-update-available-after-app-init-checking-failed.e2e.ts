@@ -35,7 +35,6 @@ describe(
         E2EMockClient.setAppUpdaterState({
           check: { version, forced: false },
         })
-        console.log("Waiting for the About tab to load...")
       })
 
       it("should trigger update check and display available update modal", async () => {

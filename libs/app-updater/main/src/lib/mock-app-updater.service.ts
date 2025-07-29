@@ -30,9 +30,6 @@ export class MockAppUpdaterService {
   async download(): Promise<AppResult> {
     logger.info("MockAppUpdaterService: download updates called")
     if (this.downloadResult.ok) {
-      // TODO: Remove this workaround after fixing the download application logic
-      await delay(2500)
-      this.handleEmitAppUpdaterDownloadProgressEvent(100)
       return this.downloadResult
     } else {
       return this.downloadResult
