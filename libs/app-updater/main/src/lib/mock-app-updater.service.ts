@@ -77,11 +77,11 @@ export class MockAppUpdaterService {
 
     this.downloadResult = download?.error
       ? AppResultFactory.failed(new AppError("Download failed"))
-      : AppResultFactory.success(undefined)
+      : AppResultFactory.success()
 
     this.installResult = install?.error
       ? AppResultFactory.failed(new AppError("Install failed"))
-      : AppResultFactory.success(undefined)
+      : AppResultFactory.success()
   }
 
   private handleEmitAppUpdaterDownloadProgressEvent = (percent: number) => {

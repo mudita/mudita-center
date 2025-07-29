@@ -9,7 +9,12 @@ import logger from "electron-log/main"
 import { isAxiosError } from "axios"
 import semver from "semver/preload"
 import { AppHttpService } from "app-utils/main"
-import { AppResult, AppResultFactory, mapToAppError } from "app-utils/models"
+import {
+  AppError,
+  AppResult,
+  AppResultFactory,
+  mapToAppError,
+} from "app-utils/models"
 import { AppUpdaterState } from "app-updater/models"
 
 enum AppProgressBarState {
@@ -110,9 +115,37 @@ export class AppUpdaterService {
     }
   }
 
-  download() {
+  async download() {
+    logger.info("[AppUpdater] download invoked")
     this.mainWindow.setProgressBar(AppProgressBarState.Indeterminate)
-    void autoUpdater.downloadUpdate(this.cancellationToken)
+
+    const updateDownloaded = this.eventOnce<{ version: string }>(
+      autoUpdater,
+      "update-downloaded"
+    ).then((payload) => {
+      logger.info(`[AppUpdater] Update downloaded successfully: v${payload.version}`)
+      return payload
+    })
+
+    const updateError = this.eventOnce<Error>(autoUpdater, "error").then((err) => {
+      logger.error("[AppUpdater] Error emitted during update download", err)
+      throw err
+    })
+
+    try {
+      logger.info("[AppUpdater] Starting autoUpdater.downloadUpdate()...")
+      await autoUpdater.downloadUpdate(this.cancellationToken)
+
+      logger.info("[AppUpdater] Waiting for 'update-downloaded' or 'error' event...")
+      await Promise.race([updateDownloaded, updateError])
+
+      logger.info("[AppUpdater] Download phase completed")
+      return AppResultFactory.success()
+    } catch (e) {
+      logger.error("[AppUpdater] Download failed", e)
+      this.mainWindow.setProgressBar(AppProgressBarState.Indeterminate)
+      return AppResultFactory.failed(new AppError("Download failed"))
+    }
   }
 
   cancel() {
@@ -137,8 +170,33 @@ export class AppUpdaterService {
     })
   }
 
-  quitAndInstall() {
+  async quitAndInstall() {
+    logger.info("[AppUpdater] quitAndInstall invoked")
+
+    const timeoutAfterNoExit = new Promise<void>((resolve) => {
+      setTimeout(() => {
+        logger.warn("[AppUpdater] App did not quit within 10s after quitAndInstall – continuing")
+        resolve()
+      }, 10000)
+    })
+
+    const installError = this.eventOnce<Error>(autoUpdater, "error").then((err) => {
+      logger.error("[AppUpdater] Error emitted during quitAndInstall", err)
+      throw err
+    })
+
+    logger.info("[AppUpdater] Calling autoUpdater.quitAndInstall()...")
     autoUpdater.quitAndInstall(true, true)
+
+    try {
+      await Promise.race([timeoutAfterNoExit, installError])
+    } catch (err) {
+      logger.error("[AppUpdater] quitAndInstall failed with error", err)
+      return AppResultFactory.failed(new AppError("Installation failed"))
+    }
+
+    logger.warn("[AppUpdater] App still running after quitAndInstall")
+    return AppResultFactory.failed(new AppError("App did not quit after quitAndInstall"))
   }
 
   private eventOnce<T>(
