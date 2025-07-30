@@ -108,10 +108,13 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app --output-style stream --no-cloud
-      - name: Verify apple sign
-        if: matrix.runner_label == 'macos-nexus'
-        run: |
-          codesign -v -v apps/app/release/mac/Mudita\ Center.app
+#
+#      (see TODO: BEFORE PROD RELEASE (NOTARIZATION/STABILITY) in electron-builder.yml)
+#      - name: Verify apple sign
+#        if: matrix.runner_label == 'macos-nexus'
+#        run: |
+#          codesign -v -v apps/app/release/mac/Mudita\ Center.app
+#
       - name: Push artifacts to nexus registry from Windows
         if: matrix.runner_label == 'windows-nexus'
         env:
