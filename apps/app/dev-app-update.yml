@@ -1,14 +1,33 @@
-path: /app/
-provider: s3
-bucket: mudita-desktop-app
-# Adjust if needed (only development mode)
+# =====================================================================
+# PROVIDERS CONFIGURATION
+# Select the appropriate provider depending on the environment
+# =====================================================================
 
-# Local provider (custom nexus setup)
+# ---------------------------------------------------------------------
+# 1. DEVELOPMENT-NEXT ENVIRONMENT
+# This environment is used in developer mode.
+# It works "out-of-the-box" (no extra setup required),
+# but it is not a production environment.
+# ---------------------------------------------------------------------
+provider: github
+owner: Mudita
+repo: mudita-center-development-next
+private: true
+
+
+# ---------------------------------------------------------------------
+# 2. LOCAL ENVIRONMENT (Custom Nexus)
+# Uncomment the lines below if you want to use your local repository.
+# ---------------------------------------------------------------------
 #provider: generic
 #url: http://localhost:8081/repository/mudita-center/latest/
 #channel: latest
 
-# Official provider
+
+# ---------------------------------------------------------------------
+# 3. PRODUCTION ENVIRONMENT (Official)
+# Used only for production builds.
+# ---------------------------------------------------------------------
 #provider: github
 #owner: Mudita
 #repo: mudita-center
