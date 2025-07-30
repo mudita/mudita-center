@@ -32,7 +32,7 @@ mac:
   icon: ./resources/icons/icon.icns
   hardenedRuntime: true
   entitlements: ./entitlements.mac.plist
-  notarize: false
+  notarize: true
   target:
     - dmg
     - zip
@@ -44,7 +44,6 @@ linux:
     - AppImage
 appImage:
   license: ./resources/license_en.txt
-afterSign: ../../scripts/notarize.js
 publish:
   - provider: github
     owner: Mudita

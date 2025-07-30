@@ -88,6 +88,10 @@ jobs:
         if: matrix.runner_label == 'macos-nexus'
         run: |
           cp ~/actions-runner/envs/electron-builder.env apps/app/electron-builder.env
+          APPLE_ASC_PROVIDER=$(grep '^APPLE_ASC_PROVIDER=' apps/app/electron-builder.env | cut -d '=' -f2-)
+          APPLE_ID_PASSWORD=$(grep '^APPLE_ID_PASSWORD=' apps/app/electron-builder.env | cut -d '=' -f2-)
+          echo "APPLE_TEAM_ID=$APPLE_ASC_PROVIDER" >> apps/app/electron-builder.env
+          echo "APPLE_APP_SPECIFIC_PASSWORD=$APPLE_ID_PASSWORD" >> apps/app/electron-builder.env
       - name: Build App for Windows
         if: matrix.runner_label == 'windows-nexus'
         run: |
