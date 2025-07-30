@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
 #        runner_label: [linux-nexus, windows-nexus, macos-nexus]
-        runner_label: [linux-nexus]
+        runner_label: [macos-nexus]
         node-version: [22.16.0]
     environment: development-next
     steps:
