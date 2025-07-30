@@ -5,7 +5,7 @@ on:
     branches:
       - develop-next
 jobs:
-  build:
+  release:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
@@ -51,22 +51,6 @@ jobs:
           CI: true
         run: |
           printenv > .env
-      - name: Update app version - Linux
-        if: matrix.runner_label == 'linux-nexus'
-        run: |
-          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=development-next
-          export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
-      - name: Update app version - Mac
-        if: matrix.runner_label == 'macos-nexus'
-        run: |
-          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=development-next
-          export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
       - name: Update app version - Windows
         if: matrix.runner_label == 'windows-nexus'
         run: |
@@ -77,6 +61,22 @@ jobs:
           (Get-Content -Path 'apps/app/package.json') | ForEach-Object {
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
           } | Set-Content -Path 'apps/app/package.json'
+      - name: Update app version - Mac
+        if: matrix.runner_label == 'macos-nexus'
+        run: |
+          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
+          export SOURCE_BRANCH=${{ github.ref_name }}
+          export ENVIRONMENT_CATALOG_NAME=development-next
+          export "BUILD_VERSION=-dev.${{ github.run_number }}"
+          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
+      - name: Update app version - Linux
+        if: matrix.runner_label == 'linux-nexus'
+        run: |
+          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
+          export SOURCE_BRANCH=${{ github.ref_name }}
+          export ENVIRONMENT_CATALOG_NAME=development-next
+          export "BUILD_VERSION=-dev.${{ github.run_number }}"
+          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
       - name: Install dependencies
         run: npm run setup
       - name: Prepare electron-builder config - Mac
@@ -134,28 +134,7 @@ jobs:
           cd mudita-center-development-next
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
-      - name: Upload artifacts to Nexus - Linux
-        if: matrix.runner_label == 'linux-nexus'
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-        run: |
-          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=development-next
-          echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
-          export GITTAG="$APP_VERSION"
-          git tag "$GITTAG"
-          git push origin "$GITTAG"
-          cp ./apps/app/release/builder-debug.yml ./apps/app/release/builder-debug-linux.yml
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-development-next.git
-          cd mudita-center-development-next
-          git tag "$GITTAG" 2>&1 || true
-          git push origin "$GITTAG"
-      - name: Upload artifacts to Nexus - macOS
+      - name: Upload artifacts to Nexus - Mac
         if: matrix.runner_label == 'macos-nexus'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
@@ -179,6 +158,27 @@ jobs:
           cd mudita-center-development-next
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
+      - name: Upload artifacts to Nexus - Linux
+        if: matrix.runner_label == 'linux-nexus'
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+        run: |
+          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
+          export SOURCE_BRANCH=${{ github.ref_name }}
+          export ENVIRONMENT_CATALOG_NAME=development-next
+          echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
+          export GITTAG="$APP_VERSION"
+          git tag "$GITTAG"
+          git push origin "$GITTAG"
+          cp ./apps/app/release/builder-debug.yml ./apps/app/release/builder-debug-linux.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
+          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-development-next.git
+          cd mudita-center-development-next
+          git tag "$GITTAG" 2>&1 || true
+          git push origin "$GITTAG"
       - name: Create GitHub draft release - Windows
         if: matrix.runner_label == 'windows-nexus'
         id: create_release_windows
@@ -193,19 +193,6 @@ jobs:
             ./apps/app/release/Mudita-Center.exe.blockmap
             ./apps/app/release/latest.yml
             ./apps/app/release/builder-debug-win.yml
-      - name: Create GitHub draft release - Linux
-        if: matrix.runner_label == 'linux-nexus'
-        id: create_release_linux
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ env.GITTAG }}
-          name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-development-next
-          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          files: |
-            ./apps/app/release/Mudita-Center.AppImage
-            ./apps/app/release/latest-linux.yml
-            ./apps/app/release/builder-debug-linux.yml
       - name: Create GitHub draft release - Mac
         if: matrix.runner_label == 'macos-nexus'
         id: create_release_macos
@@ -222,3 +209,16 @@ jobs:
             ./apps/app/release/Mudita-Center.dmg.blockmap
             ./apps/app/release/latest-mac.yml
             ./apps/app/release/builder-debug-mac.yml
+      - name: Create GitHub draft release - Linux
+        if: matrix.runner_label == 'linux-nexus'
+        id: create_release_linux
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.GITTAG }}
+          name: Mudita Center v${{ env.GITTAG }}
+          repository: mudita/mudita-center-development-next
+          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          files: |
+            ./apps/app/release/Mudita-Center.AppImage
+            ./apps/app/release/latest-linux.yml
+            ./apps/app/release/builder-debug-linux.yml
