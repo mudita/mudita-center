@@ -45,7 +45,8 @@ export const useOutbox = () => {
         getOutboxData({ deviceId: activeApiDeviceId })
       )
 
-      const entitiesLength = getOutboxDataResult?.payload?.data?.entities?.length
+      const entitiesLength =
+        getOutboxDataResult?.payload?.data?.entities?.length
 
       if (entitiesLength === MAX_OUTBOX_EVENTS && outboxTimeout !== 0) {
         setOutboxTimeout(0)
@@ -57,6 +58,7 @@ export const useOutbox = () => {
       }
 
       if (isTimeOutDeviceError(getOutboxDataResult?.payload)) {
+        console.log("TROUBLESHOOTING CALLED", entitiesLength, outboxTimeout)
         history.push(URL_ONBOARDING.troubleshooting)
         await dispatch(deactivateDevice())
         dispatch(

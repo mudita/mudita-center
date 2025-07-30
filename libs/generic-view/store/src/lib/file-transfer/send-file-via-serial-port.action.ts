@@ -28,6 +28,7 @@ import { ApiFileTransferError } from "device/models"
 import { AppError } from "Core/core/errors"
 import { createEntityDataAction } from "../entities/create-entity-data.action"
 import { FilesTransferMode, SendFilesAction } from "./files-transfer.type"
+import { delay } from "shared/utils"
 
 export interface SendFileViaSerialPortPayload {
   file: FileBase
@@ -155,17 +156,31 @@ const exportFileViaSerialPort = async ({
   const fileToExport = file as FileWithPath
   const fullPath = fileToExport.devicePath + fileToExport.path
 
-  const preTransferResponse = await startPreGetFileRequest(fullPath)
+  let preTransferResponse
+  while (true) {
+    preTransferResponse = await startPreGetFileRequest(fullPath)
 
-  if (signal.aborted) {
-    throw new AppError(ApiFileTransferError.Aborted, "Aborted")
-  }
+    if (!preTransferResponse.ok) {
+      console.log(preTransferResponse.error)
+      throw new AppError(
+        ApiFileTransferError.Unknown,
+        preTransferResponse.error.message
+      )
+    }
 
-  if (!preTransferResponse.ok) {
-    throw new AppError(
-      ApiFileTransferError.Unknown,
-      preTransferResponse.error.message
-    )
+    const transferId = preTransferResponse.data.transferId
+    const chunkSize = preTransferResponse.data?.chunkSize
+    const fileSize = preTransferResponse.data?.fileSize
+
+    if (signal.aborted) {
+      await abortTransferRequest(transferId, deviceId)
+      throw new AppError(ApiFileTransferError.Aborted, "Aborted")
+    }
+
+    if (chunkSize !== undefined && fileSize !== undefined) {
+      break
+    }
+    await delay()
   }
 
   if (preTransferResponse.ok) {
@@ -189,11 +204,13 @@ const exportFileViaSerialPort = async ({
       )
 
       if (signal.aborted) {
+        console.log(file.name, "aborted")
         await abortTransferRequest(transferId, deviceId)
         throw new AppError(ApiFileTransferError.Aborted, "Aborted")
       }
 
       if (!ok) {
+        console.log(file.name, chunkNumber, error)
         await abortTransferRequest(transferId, deviceId)
         throw new AppError(ApiFileTransferError.Unknown, error.message)
       }
@@ -205,12 +222,13 @@ const exportFileViaSerialPort = async ({
         })
       )
     }
-
+    console.log(file.name, "SAVING FIE: " + file.name)
     const result = await saveFileRequest(
       destinationPath + "/" + file.name,
       transferId
     )
 
+    console.log(file.name, "SAVING FILE RESULT ", result)
     if (result.error) {
       await abortTransferRequest(transferId, deviceId)
       throw new AppError(ApiFileTransferError.Unknown, result.error.message)

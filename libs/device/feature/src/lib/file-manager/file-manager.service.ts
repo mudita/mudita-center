@@ -12,6 +12,7 @@ import { DeviceProtocol } from "device-protocol/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import packageInfo from "../../../../../../apps/mudita-center/package.json"
 import {
+  createWriteStream,
   mkdirSync,
   readdirSync,
   readFileSync,
@@ -43,8 +44,12 @@ export class FileManager {
     try {
       const file =
         this.serviceBridge.fileTransfer.getFileByTransferId(transferId)
-      writeFileSync(filePath, file.chunks.join(""), "base64")
 
+      const writeStream = createWriteStream(filePath, { encoding: "base64" })
+      for (const chunk of file.chunks) {
+        writeStream.write(chunk, "base64")
+      }
+      writeStream.end()
       return Result.success(undefined)
     } catch (e) {
       console.log(e)
