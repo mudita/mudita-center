@@ -18,7 +18,7 @@ import {
 import { AppUpdaterState } from "app-updater/models"
 
 enum AppProgressBarState {
-  Indeterminate = 2,
+  Indeterminate = 0,
   Disabled = -1,
   Complete = 1,
 }
