@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
 #        runner_label: [linux-nexus, windows-nexus, macos-nexus]
-        runner_label: [macos-nexus]
+        runner_label: [windows-nexus]
         node-version: [22.16.0]
     environment: development-next
     steps:
@@ -80,10 +80,6 @@ jobs:
           } | Set-Content -Path 'apps/app/package.json'
       - name: Setup depedencies
         run: npm run setup
-#      - name: Copy electron-builder environment file for Windows
-#        if: matrix.runner_label == 'windows-nexus'
-#        run: |
-#          copy C:\actions-runner\envs\electron-builder.env apps/app/electron-builder.env
       - name: Copy electron-builder environment file for Mac
         if: matrix.runner_label == 'macos-nexus'
         run: |
@@ -97,7 +93,7 @@ jobs:
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
-          npm run app:dist
+          npx nx build:win app --output-style stream --no-cloud
       - name: Build App for Mac
         if: matrix.runner_label == 'macos-nexus'
         run: |
