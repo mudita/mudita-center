@@ -47,6 +47,6 @@ appImage:
 publish:
   - provider: github
     owner: Mudita
-    repo: ${env.RELEASES_REPOSITORY_NAME:mudita-center}
+    repo: ${env.RELEASES_REPOSITORY_NAME}
     private: true
     channel: latest

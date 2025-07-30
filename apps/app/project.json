@@ -32,7 +32,7 @@
       "executor": "nx:run-commands",
       "outputs": [],
       "options": {
-        "command": "electron-vite build && electron-builder --mac",
+        "command": "electron-vite build && electron-builder --mac --publish never",
         "cwd": "apps/app"
       }
     },
@@ -40,7 +40,7 @@
       "executor": "nx:run-commands",
       "outputs": [],
       "options": {
-        "command": "electron-vite build && electron-builder --linux",
+        "command": "electron-vite build && electron-builder --linux --publish never",
         "cwd": "apps/app"
       }
     },
@@ -48,7 +48,7 @@
       "executor": "nx:run-commands",
       "outputs": [],
       "options": {
-        "command": "electron-vite build && electron-builder --win",
+        "command": "electron-vite build && electron-builder --win --publish never",
         "cwd": "apps/app"
       }
     }
