@@ -16,7 +16,6 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
-  writeFileSync,
   writeJSONSync,
 } from "fs-extra"
 import AES from "crypto-js/aes"

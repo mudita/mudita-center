@@ -157,6 +157,7 @@ const exportFileViaSerialPort = async ({
   const fullPath = fileToExport.devicePath + fileToExport.path
 
   let preTransferResponse
+  // eslint-disable-next-line
   while (true) {
     preTransferResponse = await startPreGetFileRequest(fullPath)
 

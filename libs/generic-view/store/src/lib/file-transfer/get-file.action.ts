@@ -69,6 +69,7 @@ export const getFile = createAsyncThunk<
 
     let preTransferResponse: ResultObject<PreTransferGet200 | PreTransferGet202>
 
+    // eslint-disable-next-line
     while (true) {
       if (signal.aborted) {
         return rejectWithValue(undefined)
@@ -91,7 +92,7 @@ export const getFile = createAsyncThunk<
         })
       }
 
-      const { transferId, chunkSize, fileSize } = preTransferResponse.data
+      const { chunkSize, fileSize } = preTransferResponse.data
 
       if (chunkSize != null && fileSize != null) {
         break
