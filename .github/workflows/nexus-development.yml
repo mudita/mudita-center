@@ -92,24 +92,24 @@ jobs:
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
-          npx nx build:win app --output-style stream --no-cloud
+          npx nx build:win app --publish never --output-style stream --no-cloud
       - name: Build - Mac
         if: matrix.runner_label == 'macos-nexus'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          npx nx build:mac app --universal --output-style stream --no-cloud
+          npx nx build:mac app --publish never --universal --output-style stream --no-cloud
       - name: Build - Linux
         if: matrix.runner_label == 'linux-nexus'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          npx nx build:linux app --output-style stream --no-cloud
-#
-#      (see TODO: BEFORE PROD RELEASE (NOTARIZATION/STABILITY) in electron-builder.yml)
-#      - name: Verify apple sign
-#        if: matrix.runner_label == 'macos-nexus'
-#        run: |
-#          codesign -v -v apps/app/release/mac/Mudita\ Center.app
-#
+          npx nx build:linux app --publish never --output-style stream --no-cloud
+      #
+      #      (see TODO: BEFORE PROD RELEASE (NOTARIZATION/STABILITY) in electron-builder.yml)
+      #      - name: Verify apple sign
+      #        if: matrix.runner_label == 'macos-nexus'
+      #        run: |
+      #          codesign -v -v apps/app/release/mac/Mudita\ Center.app
+      #
       - name: Upload artifacts to Nexus - Windows
         if: matrix.runner_label == 'windows-nexus'
         env:
