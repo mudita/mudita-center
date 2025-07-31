@@ -134,4 +134,8 @@ export enum IconType {
   RecoveryModeBlack,
   ButtonSuccess,
   LightButton,
+  Quotations,
+  Settings,
+  Dropdown,
+  CheckNew,
 }
