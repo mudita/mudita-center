@@ -1,9 +1,9 @@
-name: Build & Run E2E - feature branch
+name: Build & Run E2E - development-next
 
 on:
   push:
     branches:
-      - CP-*
+      - develop-next
 jobs:
   e2e:
     runs-on: ${{ matrix.runner_label }}

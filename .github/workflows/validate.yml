@@ -4,13 +4,12 @@ on: [push]
 
 jobs:
   validate:
-    runs-on: ${{ matrix.runner_label }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        runner_label: [linux-qa]
         node-version: [22.16.0]
     timeout-minutes: 40
-    environment: development
+    environment: development-next
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,15 +17,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Setup Env
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          CI: true
-        run: |
-          printenv > .env
       - name: Install dependencies
-        run: npm run setup
+        run: npm ci
       - name: Lint, stylelint and typecheck
         run: npm run lint
       - name: Test

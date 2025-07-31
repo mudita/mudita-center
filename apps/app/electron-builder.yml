@@ -32,6 +32,15 @@ mac:
   icon: ./resources/icons/icon.icns
   hardenedRuntime: true
   entitlements: ./entitlements.mac.plist
+
+  # == NOTARIZATION AND CODE SIGNING ==
+  # TODO: BEFORE PROD RELEASE (NOTARIZATION/STABILITY)
+  # Re-enable notarization and code signing verification in CI.
+  # Currently works locally but fails in CI (environment differences), so:
+  # 1) notarize is disabled (see 'notarize: false' below)
+  # 2) code signing verification step in CI is commented out
+  #
+  # Both need to be restored once notarization is stable in CI.
   notarize: false
   target:
     - dmg
@@ -45,11 +54,8 @@ linux:
 appImage:
   license: ./resources/license_en.txt
 publish:
-  provider: s3
-  bucket: mudita-desktop-app
-# TODO: Adjust to the final publishing provider
-#publish:
-#  - provider: generic
-#    url: http://localhost:8081/repository/mudita-center/latest/
-#    channel: latest
-#  - provider: custom
+  - provider: github
+    owner: Mudita
+    repo: ${env.RELEASES_REPOSITORY_NAME}
+    private: true
+    channel: latest
