@@ -24,11 +24,13 @@ function isTimeOutDeviceError(payload: unknown): boolean {
   return false
 }
 
-const DEFAULT_OUTBOX_TIMEOUT = 2000
+const DEFAULT_OUTBOX_INTERVAL = 2000
 const MAX_OUTBOX_EVENTS = 100
 
 export const useOutbox = () => {
-  const [outboxTimeout, setOutboxTimeout] = useState(DEFAULT_OUTBOX_TIMEOUT)
+  const [outboxRequestInterval, setOutboxRequestInterval] = useState(
+    DEFAULT_OUTBOX_INTERVAL
+  )
   const dispatch = useDispatch<Dispatch>()
   const history = useHistory()
   const activeApiDeviceId = useSelector(selectActiveApiDeviceId)
@@ -48,13 +50,13 @@ export const useOutbox = () => {
       const entitiesLength =
         getOutboxDataResult?.payload?.data?.entities?.length
 
-      if (entitiesLength === MAX_OUTBOX_EVENTS && outboxTimeout !== 0) {
-        setOutboxTimeout(0)
+      if (entitiesLength === MAX_OUTBOX_EVENTS && outboxRequestInterval !== 0) {
+        setOutboxRequestInterval(0)
       } else if (
         entitiesLength !== MAX_OUTBOX_EVENTS &&
-        outboxTimeout !== DEFAULT_OUTBOX_TIMEOUT
+        outboxRequestInterval !== DEFAULT_OUTBOX_INTERVAL
       ) {
-        setOutboxTimeout(DEFAULT_OUTBOX_TIMEOUT)
+        setOutboxRequestInterval(DEFAULT_OUTBOX_INTERVAL)
       }
 
       if (isTimeOutDeviceError(getOutboxDataResult?.payload)) {
@@ -64,7 +66,7 @@ export const useOutbox = () => {
           setDeviceState({ id: activeApiDeviceId, state: DeviceState.Failed })
         )
       }
-    }, outboxTimeout)
+    }, outboxRequestInterval)
 
     return () => {
       clearTimeout(outboxTimeoutId)
@@ -74,7 +76,7 @@ export const useOutbox = () => {
     lastRefreshTimestamp,
     dispatch,
     history,
-    outboxTimeout,
+    outboxRequestInterval,
   ])
 }
 

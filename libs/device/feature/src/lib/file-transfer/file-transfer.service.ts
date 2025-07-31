@@ -28,9 +28,8 @@ import { APIDevice } from "../api-device"
 import { ServiceBridge } from "../service-bridge"
 import AES from "crypto-js/aes"
 import encUtf8 from "crypto-js/enc-utf8"
-import logger from "Core/__deprecated__/main/utils/logger"
 import { delay } from "shared/utils"
-import { CRC32Calculator } from "Core/utils/calculate-crc"
+import { CRC32Calculator } from "Core/utils/crc32-calculator"
 
 interface Transfer {
   crc32: string
