@@ -204,7 +204,6 @@ const exportFileViaSerialPort = async ({
       )
 
       if (signal.aborted) {
-        console.log(file.name, "aborted")
         await abortTransferRequest(transferId, deviceId)
         throw new AppError(ApiFileTransferError.Aborted, "Aborted")
       }
@@ -222,13 +221,11 @@ const exportFileViaSerialPort = async ({
         })
       )
     }
-    console.log(file.name, "SAVING FIE: " + file.name)
     const result = await saveFileRequest(
       destinationPath + "/" + file.name,
       transferId
     )
 
-    console.log(file.name, "SAVING FILE RESULT ", result)
     if (result.error) {
       await abortTransferRequest(transferId, deviceId)
       throw new AppError(ApiFileTransferError.Unknown, result.error.message)

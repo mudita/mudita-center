@@ -69,7 +69,7 @@ export const sendFiles = createAsyncThunk<
       )
     }
     let switchToMtpCounter = 0
-    const maxSwitchToMtpTries = 0
+    const maxSwitchToMtpTries = 1
 
     const mainAbortController = new AbortController()
     mainAbortController.abort = abort
@@ -115,8 +115,6 @@ export const sendFiles = createAsyncThunk<
     } else {
       dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
     }
-
-    dispatch(setFilesTransferMode(FilesTransferMode.SerialPort))
 
     const checkMtpAvailability = async () => {
       const res = await dispatch(

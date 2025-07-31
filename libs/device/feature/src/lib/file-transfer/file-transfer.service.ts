@@ -264,11 +264,7 @@ export class APIFileTransferService {
     if (crc32 === undefined) {
       return false
     }
-    console.log(
-      `Final CRC: ${crc32.toString(16)}, expeced CRC: ${this.transfers[
-        transferId
-      ].crc32.toLowerCase()}`
-    )
+
     return (
       crc32.toString(16).toLowerCase() ===
       this.transfers[transferId].crc32.toLowerCase()
@@ -329,7 +325,7 @@ export class APIFileTransferService {
         filePath,
       },
     })
-    console.log(response)
+
     if (response.ok) {
       let preTransferResponse
       const status = response.data.status
@@ -420,7 +416,6 @@ export class APIFileTransferService {
       ].includes(response.data.status as number)
 
     if (!success) {
-      console.log(transferId, response.data.status)
       return handleError(response.data.status)
     }
 

@@ -58,7 +58,6 @@ export const useOutbox = () => {
       }
 
       if (isTimeOutDeviceError(getOutboxDataResult?.payload)) {
-        console.log("TROUBLESHOOTING CALLED", entitiesLength, outboxTimeout)
         history.push(URL_ONBOARDING.troubleshooting)
         await dispatch(deactivateDevice())
         dispatch(
