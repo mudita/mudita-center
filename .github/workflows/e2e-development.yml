@@ -1,0 +1,79 @@
+name: Build & Run E2E - development-next
+
+on:
+  push:
+    branches:
+      - develop-next
+jobs:
+  e2e:
+    runs-on: ${{ matrix.runner_label }}
+    strategy:
+      matrix:
+        runner_label: [linux-e2e, windows-e2e, macos-e2e]
+        node-version: [22.16.0]
+    environment: development-next
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Configure environment - Windows
+        if: matrix.runner_label == 'windows-e2e'
+        env:
+          FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
+          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          VITE_GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          E2ECI: "true"
+        shell: cmd
+        run: |
+          SET > .env
+          jq -r -j .version apps/app/package.json > apps/app/version
+      - name: Configure environment - Mac
+        if: matrix.runner_label == 'macos-e2e'
+        env:
+          FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
+          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          VITE_GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          E2ECI: "true"
+        run: |
+          printenv > .env
+      - name: Configure environment - Linux
+        if: matrix.runner_label == 'linux-e2e'
+        env:
+          FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
+          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          VITE_GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          E2ECI: "true"
+        run: |
+          printenv > .env
+      - name: Install dependencies
+        run: npm run setup
+      - name: Build - Windows
+        if: matrix.runner_label == 'windows-e2e'
+        run: |
+          $env:NODE_OPTIONS="--max-old-space-size=4096"
+          $env:LOCALAPPDATA=""
+          npx nx build:win app dir --output-style stream --no-cloud
+      - name: Build - Mac
+        if: matrix.runner_label == 'macos-e2e'
+        run: |
+          export CSC_IDENTITY_AUTO_DISCOVERY=false
+          export NODE_OPTIONS="--max-old-space-size=4096"
+          npx nx build:mac app dir --output-style stream --no-cloud
+      - name: Build - Linux
+        if: matrix.runner_label == 'linux-e2e'
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=4096"
+          npx nx build:linux app dir --output-style stream --no-cloud
+      - name: Run E2E tests - Linux
+        if: matrix.runner_label == 'linux-e2e'
+        run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' npx nx start app-e2e --no-cloud --output-style stream
+        shell: bash
+      - name: Run E2E tests - Mac/Windows
+        if: matrix.runner_label != 'linux-e2e'
+        run: npx nx start app-e2e --no-cloud --output-style stream
