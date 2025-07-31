@@ -111,7 +111,7 @@ jobs:
           $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./apps/app/release/Mudita-Center.exe -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/dev.yml -InFile ./apps/app/release/dev.yml -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/app/release/latest.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/app/release/builder-debug.yml -Method Put -Credential $AUTH
       - name: Upload artifacts to Nexus - Linux
         if: matrix.runner_label == 'linux-nexus'
@@ -123,7 +123,7 @@ jobs:
           export SOURCE_BRANCH=${{ github.ref_name }}
           export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/dev-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/dev-linux.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
       - name: Upload artifacts to Nexus - Mac
         if: matrix.runner_label == 'macos-nexus'
@@ -138,5 +138,5 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip.blockmap
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/dev-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/dev-mac.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
