@@ -18,7 +18,7 @@ import {
 import { AppUpdaterState } from "app-updater/models"
 
 enum AppProgressBarState {
-  Indeterminate = 0,
+  Indeterminate = process.platform === "win32" ? 2 : 0,
   Disabled = -1,
   Complete = 1,
 }
