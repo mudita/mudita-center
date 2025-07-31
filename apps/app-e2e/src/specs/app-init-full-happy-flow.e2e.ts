@@ -4,18 +4,17 @@
  */
 
 import { E2EMockClient } from "e2e-mock/client"
-import { SPEC_TITLE } from "../consts/spec-title"
 import McUpdatePage from "../page-objects/mc-update.page"
 import AppInitPage from "../page-objects/app-init.page"
 import UsbAccessPage from "../page-objects/usb-access.page"
 import testsHelper from "../helpers/tests.helper"
 
-describe(SPEC_TITLE.APP_INIT_FULL_HAPPY_FLOW, () => {
+describe("App Init - Full Happy Path", () => {
   before(async () => {
     await E2EMockClient.connect()
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
-    E2EMockClient.setAppUpdaterCheckResult({ version, forced: false })
+    E2EMockClient.setAppUpdaterState({ check: { version, forced: false } })
     E2EMockClient.setUsbAccess({
       serialPortAccess: false,
       grantAccessToSerialPortResult: true,

@@ -43,6 +43,11 @@ describe("About screen", () => {
     await expect(updateButton).toBeClickable()
   })
 
+  it("should display the Update Label", async () => {
+    await expect(AboutPage.updateLabel).toBeDisplayed()
+    await expect(AboutPage.updateLabel).toHaveText("You’re up to date.")
+  })
+
   it("should display the Terms of Service button", async () => {
     const button = await AboutPage.termsOfServiceButton
     await expect(button).toBeDisplayed()

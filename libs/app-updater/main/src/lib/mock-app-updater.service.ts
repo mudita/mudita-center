@@ -3,15 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppError, AppResult, AppResultFactory } from "app-utils/models"
+import { isEmpty } from "lodash"
 import logger from "electron-log/main"
 import { IpcMockServer } from "e2e-mock/server"
 import { E2eMockIpcEvents } from "e2e-mock/models"
-import { AppUpdaterState, SetAppUpdaterCheckPayload } from "app-updater/models"
+import { AppError, AppResult, AppResultFactory } from "app-utils/models"
+import { AppUpdaterState, SetAppUpdaterPayload } from "app-updater/models"
 
 export class MockAppUpdaterService {
   private checkResult: AppResult<AppUpdaterState | null> =
     AppResultFactory.success(null)
+  private downloadResult: AppResult = AppResultFactory.success(null)
+  private installResult: AppResult = AppResultFactory.success(null)
   private downloadProgressCallbacks: Array<(percent: number) => void> = []
 
   constructor(private mockServer: IpcMockServer) {
@@ -23,8 +26,9 @@ export class MockAppUpdaterService {
     return this.checkResult
   }
 
-  download(): void {
+  async download(): Promise<AppResult> {
     logger.info("MockAppUpdaterService: download updates called")
+    return this.downloadResult
   }
 
   cancel(): void {
@@ -36,14 +40,15 @@ export class MockAppUpdaterService {
     this.downloadProgressCallbacks.push(callback)
   }
 
-  quitAndInstall(): void {
+  async quitAndInstall(): Promise<AppResult> {
     logger.info("MockAppUpdaterService: quit and install called")
+    return this.installResult
   }
 
   private registerListeners(): void {
     this.mockServer.on(
-      E2eMockIpcEvents.setAppUpdaterCheckResult,
-      this.handleSetAppUpdaterCheckResult
+      E2eMockIpcEvents.setAppUpdaterState,
+      this.handleSetAppUpdaterState
     )
     this.mockServer.on(
       E2eMockIpcEvents.emitAppUpdaterDownloadProgressEvent,
@@ -51,15 +56,24 @@ export class MockAppUpdaterService {
     )
   }
 
-  private handleSetAppUpdaterCheckResult = ({
-    error,
-    ...appUpdaterState
-  }: SetAppUpdaterCheckPayload) => {
-    if (error) {
+  private handleSetAppUpdaterState = ({
+    check,
+    download,
+    install,
+  }: SetAppUpdaterPayload) => {
+    if (check?.error) {
       this.checkResult = AppResultFactory.failed(new AppError())
     } else {
-      this.checkResult = AppResultFactory.success(appUpdaterState)
+      this.checkResult = AppResultFactory.success(isEmpty(check) ? null : check)
     }
+
+    this.downloadResult = download?.error
+      ? AppResultFactory.failed(new AppError("Download failed"))
+      : AppResultFactory.success()
+
+    this.installResult = install?.error
+      ? AppResultFactory.failed(new AppError("Install failed"))
+      : AppResultFactory.success()
   }
 
   private handleEmitAppUpdaterDownloadProgressEvent = (percent: number) => {

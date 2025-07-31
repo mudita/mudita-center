@@ -3,10 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { FunctionComponent } from "react"
 import { Button, Modal, Typography } from "app-theme/ui"
 import { ButtonTextModifier, ButtonType, IconType } from "app-theme/models"
-import { FunctionComponent } from "react"
 import { defineMessages, formatMessage } from "app-localize/utils"
+import { AppUpdaterTestIds } from "app-updater/models"
 
 const messages = defineMessages({
   title: {
@@ -21,6 +22,9 @@ const messages = defineMessages({
   descriptionLinkText: {
     id: "general.appUpdate.errorModal.description.link.text",
   },
+  closeButton: {
+    id: "general.app.closeButton.text",
+  },
 })
 
 interface Props {
@@ -34,10 +38,11 @@ export const UpdateErrorModal: FunctionComponent<Props> = ({
 }) => {
   return (
     <Modal opened={opened}>
-      <Modal.CloseButton onClick={onClose} />
-      <Modal.TitleIcon type={IconType.Error} />
+      <Modal.TitleIcon type={IconType.Failed} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
-      <Typography.P1>
+      <Typography.P1
+        data-testid={AppUpdaterTestIds.UpdateErrorModalDescription}
+      >
         {formatMessage(messages.description)}{" "}
         <Button
           type={ButtonType.Text}
@@ -50,8 +55,16 @@ export const UpdateErrorModal: FunctionComponent<Props> = ({
         >
           {formatMessage(messages.descriptionLinkText)}
         </Button>
-        .
       </Typography.P1>
+      <Modal.Buttons>
+        <Button
+          data-testid={AppUpdaterTestIds.UpdateErrorModalButton}
+          onClick={onClose}
+          type={ButtonType.Secondary}
+        >
+          {formatMessage(messages.closeButton)}
+        </Button>
+      </Modal.Buttons>
     </Modal>
   )
 }

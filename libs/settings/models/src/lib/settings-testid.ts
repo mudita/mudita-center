@@ -10,6 +10,7 @@ export enum SettingsTestId {
   AboutTermsOfServiceButton = "about-terms-of-service-button",
   AboutPrivacyPolicyButton = "about-privacy-policy-button",
   AboutLicenseButton = "about-license-button",
+  AboutUpdateLabel = "about-update-label",
   AboutUpdateButton = "about-update-button",
   AboutTab = "settings-tab-about",
   BackupTab = "settings-tab-backup",

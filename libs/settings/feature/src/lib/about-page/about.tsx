@@ -8,7 +8,7 @@ import { About } from "settings/ui"
 import { useSelector } from "react-redux"
 import {
   checkForAppUpdate,
-  downloadAppUpdate,
+  downloadAndInstallAppUpdate,
   selectAppUpdaterCurrentVersion,
   selectAppUpdaterNewVersion,
   selectAppUpdaterUpdateAvailable,
@@ -22,7 +22,7 @@ export const SettingsAboutPage: FunctionComponent = () => {
   const updateAvailable = useSelector(selectAppUpdaterUpdateAvailable)
 
   const handleAppUpdateDownload = () => {
-    dispatch(downloadAppUpdate())
+    dispatch(downloadAndInstallAppUpdate())
   }
 
   const handleAppUpdateAvailableCheck = () => {

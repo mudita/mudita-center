@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SPEC_TITLE } from "../consts/spec-title"
 import { mockAppSettings } from "../helpers/mock-app-settings"
 import PrivacyPolicyPage from "../page-objects/privacy-policy.page"
 import AppInitPage from "../page-objects/app-init.page"
@@ -12,7 +11,7 @@ import McUpdatePage from "../page-objects/mc-update.page"
 import testsHelper from "../helpers/tests.helper"
 import UsbAccessPage from "../page-objects/usb-access.page"
 
-describe(SPEC_TITLE.APP_INIT_FULL_HAPPY_FLOW_WHEN_PP_ACCEPTED, () => {
+describe("App Init - Full Happy Path - When Privacy Policy Accepted", () => {
   before(async () => {
     await E2EMockClient.connect()
     const version = "5.0.0"
@@ -22,7 +21,7 @@ describe(SPEC_TITLE.APP_INIT_FULL_HAPPY_FLOW_WHEN_PP_ACCEPTED, () => {
       },
     })
     McUpdatePage.setUpdateAvailableModal({ version })
-    E2EMockClient.setAppUpdaterCheckResult({ version, forced: false })
+    E2EMockClient.setAppUpdaterState({ check: { version, forced: false } })
     E2EMockClient.setUsbAccess({
       serialPortAccess: false,
       grantAccessToSerialPortResult: true,

@@ -101,9 +101,6 @@ const messages = defineMessages({
   updateAvailableBadge: {
     id: "page.settingsAbout.availableVersion",
   },
-  updateFailedBadge: {
-    id: "page.settingsAbout.systemUpdateCheckFailed",
-  },
   upToDateBadge: {
     id: "page.settingsAbout.systemUpdateUpToDate",
   },
@@ -131,109 +128,106 @@ export const About: FunctionComponent<AboutProps> = ({
     : messages.upToDateBadge
 
   return (
-    <>
-      <SettingsWrapper data-testid={SettingsTestId.AboutWrapper}>
-        <AboutVersionTableRow>
-          <Data>
-            <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
+    <SettingsWrapper data-testid={SettingsTestId.AboutWrapper}>
+      <AboutVersionTableRow>
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
+            <FormattedMessage
+              id={messages.installedVersion.id}
+              values={{ version: appCurrentVersion }}
+            />
+          </SettingsLabel>
+        </Data>
+        <AboutActionContainer>
+          <AboutAvailableUpdate
+            data-testid={SettingsTestId.AboutUpdateLabel}
+            displayStyle={TextDisplayStyle.Label}
+            color="secondary"
+          >
+            {!appUpdateFlowShow && (
               <FormattedMessage
-                id={messages.installedVersion.id}
-                values={{ version: appCurrentVersion }}
+                {...badgeText}
+                values={{ version: appLatestVersion }}
               />
-            </SettingsLabel>
-          </Data>
-          <AboutActionContainer>
-            <AboutAvailableUpdate
-              displayStyle={TextDisplayStyle.Label}
-              color="secondary"
-            >
-              {!appUpdateFlowShow && (
-                <FormattedMessage
-                  {...badgeText}
-                  values={{ version: appLatestVersion }}
-                />
-              )}
-            </AboutAvailableUpdate>
-            <AboutUpdateButtonStyled
-              displayStyle={LegacyButtonDisplayStyle.Primary}
-              label={formatMessage(
-                appUpdateAvailable
-                  ? messages.updateAvailableButton
-                  : messages.updateCheckButton
-              )}
-              onClick={
-                appUpdateAvailable
-                  ? onProcessDownload
-                  : onAppUpdateAvailableCheck
-              }
-              data-testid={SettingsTestId.AboutUpdateButton}
-            />
-          </AboutActionContainer>
-        </AboutVersionTableRow>
-        <SettingsTableRow>
-          <Data>
-            <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
-              <FormattedMessage id={messages.termsOfServiceLabel.id} />
-            </SettingsLabel>
-          </Data>
-          <SettingsActionsWrapper>
-            <Button
-              to={AppLegalPaths.TermsOfService}
-              target="appWindow"
-              size={ButtonSize.AutoMin}
-              data-testid={SettingsTestId.AboutTermsOfServiceButton}
-              type={ButtonType.Text}
-              modifiers={[
-                ButtonTextModifier.Link,
-                ButtonTextModifier.HoverBackground,
-              ]}
-              message={messages.learnMoreButton.id}
-            />
-          </SettingsActionsWrapper>
-        </SettingsTableRow>
-        <SettingsTableRow>
-          <Data>
-            <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
-              <FormattedMessage id={messages.privacyPolicyLabel.id} />
-            </SettingsLabel>
-          </Data>
-          <SettingsActionsWrapper>
-            <Button
-              to={AppLegalPaths.PrivacyPolicy}
-              target="appWindow"
-              size={ButtonSize.AutoMin}
-              data-testid={SettingsTestId.AboutPrivacyPolicyButton}
-              type={ButtonType.Text}
-              modifiers={[
-                ButtonTextModifier.Link,
-                ButtonTextModifier.HoverBackground,
-              ]}
-              message={messages.learnMoreButton.id}
-            />
-          </SettingsActionsWrapper>
-        </SettingsTableRow>
-        <SettingsTableRow data-testid={SettingsTestId.AboutTableRow}>
-          <Data>
-            <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
-              <FormattedMessage id={messages.licenseLabel.id} />
-            </SettingsLabel>
-          </Data>
-          <SettingsActionsWrapper>
-            <Button
-              to={AppLegalPaths.License}
-              target="appWindow"
-              size={ButtonSize.AutoMin}
-              data-testid={SettingsTestId.AboutLicenseButton}
-              type={ButtonType.Text}
-              modifiers={[
-                ButtonTextModifier.Link,
-                ButtonTextModifier.HoverBackground,
-              ]}
-              message={messages.learnMoreButton.id}
-            />
-          </SettingsActionsWrapper>
-        </SettingsTableRow>
-      </SettingsWrapper>
-    </>
+            )}
+          </AboutAvailableUpdate>
+          <AboutUpdateButtonStyled
+            displayStyle={LegacyButtonDisplayStyle.Primary}
+            label={formatMessage(
+              appUpdateAvailable
+                ? messages.updateAvailableButton
+                : messages.updateCheckButton
+            )}
+            onClick={
+              appUpdateAvailable ? onProcessDownload : onAppUpdateAvailableCheck
+            }
+            data-testid={SettingsTestId.AboutUpdateButton}
+          />
+        </AboutActionContainer>
+      </AboutVersionTableRow>
+      <SettingsTableRow>
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
+            <FormattedMessage id={messages.termsOfServiceLabel.id} />
+          </SettingsLabel>
+        </Data>
+        <SettingsActionsWrapper>
+          <Button
+            to={AppLegalPaths.TermsOfService}
+            target="appWindow"
+            size={ButtonSize.AutoMin}
+            data-testid={SettingsTestId.AboutTermsOfServiceButton}
+            type={ButtonType.Text}
+            modifiers={[
+              ButtonTextModifier.Link,
+              ButtonTextModifier.HoverBackground,
+            ]}
+            message={messages.learnMoreButton.id}
+          />
+        </SettingsActionsWrapper>
+      </SettingsTableRow>
+      <SettingsTableRow>
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
+            <FormattedMessage id={messages.privacyPolicyLabel.id} />
+          </SettingsLabel>
+        </Data>
+        <SettingsActionsWrapper>
+          <Button
+            to={AppLegalPaths.PrivacyPolicy}
+            target="appWindow"
+            size={ButtonSize.AutoMin}
+            data-testid={SettingsTestId.AboutPrivacyPolicyButton}
+            type={ButtonType.Text}
+            modifiers={[
+              ButtonTextModifier.Link,
+              ButtonTextModifier.HoverBackground,
+            ]}
+            message={messages.learnMoreButton.id}
+          />
+        </SettingsActionsWrapper>
+      </SettingsTableRow>
+      <SettingsTableRow data-testid={SettingsTestId.AboutTableRow}>
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
+            <FormattedMessage id={messages.licenseLabel.id} />
+          </SettingsLabel>
+        </Data>
+        <SettingsActionsWrapper>
+          <Button
+            to={AppLegalPaths.License}
+            target="appWindow"
+            size={ButtonSize.AutoMin}
+            data-testid={SettingsTestId.AboutLicenseButton}
+            type={ButtonType.Text}
+            modifiers={[
+              ButtonTextModifier.Link,
+              ButtonTextModifier.HoverBackground,
+            ]}
+            message={messages.learnMoreButton.id}
+          />
+        </SettingsActionsWrapper>
+      </SettingsTableRow>
+    </SettingsWrapper>
   )
 }

@@ -9,15 +9,14 @@ import {
   itBehavesLikeAvailableModal,
   itBehavesLikeUpdateInProgressModal,
 } from "../helpers/mc-update.helper"
-import { SPEC_TITLE } from "../consts/spec-title"
 
-describe(SPEC_TITLE.APP_INIT_FORCE_UPDATE_AVAILABLE, () => {
+describe("App Init Step - MC Soft Update Available", () => {
   before(async () => {
     const version = "5.0.0"
     McUpdatePage.setUpdateAvailableModal({ version })
-    await simulateAppInitUpdateStep({ version, forced: true })
+    await simulateAppInitUpdateStep({ check: { version, forced: false } })
   })
 
-  itBehavesLikeAvailableModal({ closeVisible: false })
+  itBehavesLikeAvailableModal({ closeVisible: true })
   itBehavesLikeUpdateInProgressModal()
 })

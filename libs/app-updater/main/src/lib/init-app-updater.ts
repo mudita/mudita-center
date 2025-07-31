@@ -20,7 +20,7 @@ export const initAppUpdater = (
 
   ipcMain.removeHandler(AppUpdaterIpcEvents.Download)
   ipcMain.handle(AppUpdaterIpcEvents.Download, () => {
-    appUpdaterService.download()
+    return appUpdaterService.download()
   })
 
   ipcMain.removeHandler(AppUpdaterIpcEvents.Cancel)
@@ -36,7 +36,7 @@ export const initAppUpdater = (
   })
 
   ipcMain.removeHandler(AppUpdaterIpcEvents.Install)
-  ipcMain.handle(AppUpdaterIpcEvents.Install, () => {
+  ipcMain.handle(AppUpdaterIpcEvents.Install, () =>
     appUpdaterService.quitAndInstall()
-  })
+  )
 }
