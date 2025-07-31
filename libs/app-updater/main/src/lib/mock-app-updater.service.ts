@@ -28,11 +28,7 @@ export class MockAppUpdaterService {
 
   async download(): Promise<AppResult> {
     logger.info("MockAppUpdaterService: download updates called")
-    if (this.downloadResult.ok) {
-      return this.downloadResult
-    } else {
-      return this.downloadResult
-    }
+    return this.downloadResult
   }
 
   cancel(): void {
