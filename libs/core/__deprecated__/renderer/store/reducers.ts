@@ -41,6 +41,7 @@ import { activeDeviceRegistryReducer } from "active-device-registry/feature"
 import { helpReducer } from "help/store"
 import { timeSynchronizationReducer } from "Core/time-synchronization/reducers/time-synchronization.reducer"
 import { flashingReducer } from "msc-flash-harmony"
+import { quotationsReducer } from "Core/quotations"
 
 export const reducers = {
   device: deviceReducer,
@@ -78,6 +79,7 @@ export const reducers = {
   genericEntities: genericEntitiesReducer,
   genericToasts: genericToastsReducer,
   genericAppInstallation: genericAppInstallationReducer,
+  quotations: quotationsReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

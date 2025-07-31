@@ -56,6 +56,7 @@ import {
 } from "../helpers"
 import { getDevicesSelector } from "../selectors"
 import { deactivateDevice } from "../actions"
+import { clearQuotations } from "Core/quotations/store/actions"
 
 export const useDeviceManagerDetached = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -104,6 +105,7 @@ const useHandleDevicesDetached = () => {
 
       for (const coreEvent of coreEvents) {
         dispatch(removeCoreDevice(coreEvent))
+        dispatch(clearQuotations())
       }
 
       for (const mscEvent of mscEvents) {

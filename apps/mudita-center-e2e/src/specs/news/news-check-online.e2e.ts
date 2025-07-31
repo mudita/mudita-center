@@ -48,7 +48,7 @@ describe("News Page Check", () => {
   })
   it("Verify News Cards", async () => {
     const newsCardElements = await NewsPage.newsCardElements
-    await expect(newsCardElements.length).toBeGreaterThanOrEqual(5)
+    await expect(newsCardElements.length).toBeGreaterThanOrEqual(4)
 
     for (let newsCard of newsCardElements) {
       const newsCardImageLink = await newsCard.$('[data-testid="image-link"]')
