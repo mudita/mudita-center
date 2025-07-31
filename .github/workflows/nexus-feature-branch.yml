@@ -1,11 +1,11 @@
-name: Build & deploy to feature branch
+name: Build & Release - feature branch
 
 on:
   push:
     branches:
       - CP-*
 jobs:
-  build:
+  release:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
@@ -13,13 +13,13 @@ jobs:
         node-version: [22.16.0]
     environment: development
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Setup Env for Windows
+      - name: Configure environment - Windows
         if: matrix.runner_label == 'windows-nexus'
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
@@ -30,7 +30,7 @@ jobs:
         run: |
           SET > .env
           jq -r -j .version apps/app/package.json > apps/app/version
-      - name: Setup Env for Mac
+      - name: Configure environment - Mac
         if: matrix.runner_label == 'macos-nexus'
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
@@ -39,7 +39,7 @@ jobs:
           CI: true
         run: |
           printenv > .env
-      - name: Setup Env for Linux
+      - name: Configure environment - Linux
         if: matrix.runner_label == 'linux-nexus'
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
@@ -48,23 +48,7 @@ jobs:
           CI: true
         run: |
           printenv > .env
-      - name: Changing app version in packages.json for Linux
-        if: matrix.runner_label == 'linux-nexus'
-        run: |
-          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-          export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
-      - name: Changing app version in packages.json for Mac
-        if: matrix.runner_label == 'macos-nexus'
-        run: |
-          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-          export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
-      - name: Changing app version in packages.json for Windows
+      - name: Update app version - Windows
         if: matrix.runner_label == 'windows-nexus'
         run: |
           $SOURCE_BRANCH = "${{ github.ref_name }}"
@@ -74,26 +58,42 @@ jobs:
           (Get-Content -Path 'apps/app/package.json') | ForEach-Object {
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
           } | Set-Content -Path 'apps/app/package.json'
-      - name: Setup dependencies
+      - name: Update app version - Mac
+        if: matrix.runner_label == 'macos-nexus'
+        run: |
+          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
+          export SOURCE_BRANCH=${{ github.ref_name }}
+          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
+          export "BUILD_VERSION=-dev.${{ github.run_number }}"
+          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
+      - name: Update app version - Linux
+        if: matrix.runner_label == 'linux-nexus'
+        run: |
+          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
+          export SOURCE_BRANCH=${{ github.ref_name }}
+          export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
+          export "BUILD_VERSION=-dev.${{ github.run_number }}"
+          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
+      - name: Install dependencies
         run: npm run setup
-      - name: Build App for Windows
+      - name: Build - Windows
         if: matrix.runner_label == 'windows-nexus'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
           npx nx build:win app --output-style stream --no-cloud
-      - name: Build App for Mac
+      - name: Build - Mac
         if: matrix.runner_label == 'macos-nexus'
         run: |
           export CSC_IDENTITY_AUTO_DISCOVERY=false
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:mac app --universal --output-style stream --no-cloud
-      - name: Build App for Linux
+      - name: Build - Linux
         if: matrix.runner_label == 'linux-nexus'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app --output-style stream --no-cloud
-      - name: Push artifacts to nexus registry from Windows
+      - name: Upload artifacts to Nexus - Windows
         if: matrix.runner_label == 'windows-nexus'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
@@ -110,7 +110,7 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/dev.yml -InFile ./apps/app/release/dev.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/app/release/builder-debug.yml -Method Put -Credential $AUTH
-      - name: Push artifacts to nexus registry from Linux
+      - name: Upload artifacts to Nexus - Linux
         if: matrix.runner_label == 'linux-nexus'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
@@ -122,7 +122,7 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/dev-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/dev-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-      - name: Push artifacts to nexus registry from macOS
+      - name: Upload artifacts to Nexus - Mac
         if: matrix.runner_label == 'macos-nexus'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
