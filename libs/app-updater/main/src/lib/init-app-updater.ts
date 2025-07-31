@@ -14,12 +14,14 @@ export const initAppUpdater = (
   appUpdaterService: AppUpdaterService | MockAppUpdaterService
 ) => {
   ipcMain.removeHandler(AppUpdaterIpcEvents.Check)
-  ipcMain.handle(AppUpdaterIpcEvents.Check, () => appUpdaterService.check())
+  ipcMain.handle(AppUpdaterIpcEvents.Check, () => {
+    return appUpdaterService.check()
+  })
 
   ipcMain.removeHandler(AppUpdaterIpcEvents.Download)
-  ipcMain.handle(AppUpdaterIpcEvents.Download, () =>
-    appUpdaterService.download()
-  )
+  ipcMain.handle(AppUpdaterIpcEvents.Download, () => {
+    return appUpdaterService.download()
+  })
 
   ipcMain.removeHandler(AppUpdaterIpcEvents.Cancel)
   ipcMain.handle(AppUpdaterIpcEvents.Cancel, () => {
