@@ -16,17 +16,18 @@ import {
   useCallback,
 } from "react"
 import { css } from "styled-components"
-import { AppColor } from "app-theme/utils"
 import { get } from "lodash"
+import { AppColor } from "app-theme/utils"
+import { formatMessage } from "app-localize/utils"
 import {
   TypographyAlign,
   TypographyModifier,
   TypographyTransform,
   TypographyWeight,
 } from "app-theme/models"
+import { Translation } from "../shared/translation.type"
 import { BytesFormatter } from "./bytes-formatter/bytes-formatter"
 import { useOverflowTitle } from "./use-overflow-title"
-import { formatMessage, Messages } from "app-localize/utils"
 
 type Modifier =
   | {
@@ -36,18 +37,6 @@ type Modifier =
   | {
       modifier?: undefined
       minUnit?: undefined
-    }
-
-type Translation =
-  | {
-      message: Messages["id"]
-      values?: Record<string, string | number | boolean>
-      children?: undefined
-    }
-  | {
-      message?: undefined
-      values?: undefined
-      children?: PropsWithChildren["children"]
     }
 
 export type BaseTypographyProps = {
