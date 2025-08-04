@@ -3,10 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useCallback, useEffect } from "react"
+import React, {
+  FunctionComponent,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react"
 import { useSelector } from "react-redux"
 import styled, { css } from "styled-components"
-import { selectFilesTransferMode } from "generic-view/store"
+import { selectEntityData, selectFilesTransferMode } from "generic-view/store"
 import { IconType } from "generic-view/utils"
 import { Modal } from "../modal/modal"
 import { IconButton } from "../../shared/button"
@@ -16,6 +22,8 @@ import { SpinnerLoader } from "../../shared/spinner-loader"
 import { ImagePreview } from "./image-preview"
 import { AnimatePresence, motion } from "motion/react"
 import { useFilesPreview, UseFilesPreviewParams } from "./use-files-preview"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 interface Props {
   entitiesConfig: UseFilesPreviewParams["entitiesConfig"]
@@ -26,177 +34,197 @@ interface Props {
   onFileDelete?: (item: string) => void
 }
 
-export const FilePreview: FunctionComponent<Props> = ({
-  items,
-  activeItem,
-  onActiveItemChange,
-  entitiesConfig,
-  onFileExport,
-  onFileDelete,
-}) => {
-  // TODO: Handle file transfer mode
-  const fileTransferMode = useSelector(selectFilesTransferMode)
-
-  const {
-    data: fileInfo,
-    isLoading: fileLoading,
-    nextId,
-    previousId,
-  } = useFilesPreview({
+export const FilePreview: FunctionComponent<Props> = memo(
+  ({
     items,
     activeItem,
+    onActiveItemChange,
     entitiesConfig,
-  })
+    onFileExport,
+    onFileDelete,
+  }) => {
+    const deviceId = useSelector(activeDeviceIdSelector)
+    const entity = useSelector((state: ReduxRootState) => {
+      if (!activeItem || !deviceId) return undefined
+      return selectEntityData(state, {
+        deviceId,
+        entitiesType: entitiesConfig.type,
+        entityId: activeItem,
+      })
+    })
+    // TODO: Handle file transfer mode
+    const fileTransferMode = useSelector(selectFilesTransferMode)
 
-  const isLoading = fileLoading || !fileInfo?.path
+    const {
+      data: fileInfo,
+      nextId,
+      previousId,
+    } = useFilesPreview({
+      items,
+      activeItem,
+      entitiesConfig,
+    })
 
-  const handleClose = useCallback(() => {
-    onActiveItemChange(undefined)
-  }, [onActiveItemChange])
+    const isLoading = !fileInfo
 
-  const handleError = useCallback(() => {
-    // TODO: Handle errors
-  }, [])
+    const entityType = useMemo(() => {
+      if (!entity) return ""
+      return entity[entitiesConfig.mimeTypeField] as string
+    }, [entitiesConfig.mimeTypeField, entity])
 
-  const handleExport = useCallback(() => {
-    if (!activeItem) return
-    onFileExport?.(activeItem)
-  }, [activeItem, onFileExport])
+    const entityName = useMemo(() => {
+      if (!entity) return ""
+      return entity[entitiesConfig.titleField] as string
+    }, [entitiesConfig.titleField, entity])
 
-  const handleDelete = useCallback(() => {
-    if (!activeItem) return
-    onFileDelete?.(activeItem)
-  }, [activeItem, onFileDelete])
+    const handleClose = useCallback(() => {
+      onActiveItemChange(undefined)
+    }, [onActiveItemChange])
 
-  const handlePreviousFile = useCallback(() => {
-    onActiveItemChange(previousId)
-  }, [onActiveItemChange, previousId])
+    const handleError = useCallback(() => {
+      // TODO: Handle errors
+    }, [])
 
-  const handleNextFile = useCallback(() => {
-    onActiveItemChange(nextId)
-  }, [nextId, onActiveItemChange])
+    const handleExport = useCallback(() => {
+      if (!activeItem) return
+      onFileExport?.(activeItem)
+    }, [activeItem, onFileExport])
 
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === "ArrowLeft") {
-        handlePreviousFile()
-      } else if (event.key === "ArrowRight") {
+    const handleDelete = useCallback(() => {
+      if (!activeItem) return
+      onFileDelete?.(activeItem)
+    }, [activeItem, onFileDelete])
+
+    const handlePreviousFile = useCallback(() => {
+      onActiveItemChange(previousId)
+    }, [onActiveItemChange, previousId])
+
+    const handleNextFile = useCallback(() => {
+      onActiveItemChange(nextId)
+    }, [nextId, onActiveItemChange])
+
+    const handleKeyDown = useCallback(
+      (event: KeyboardEvent) => {
+        if (event.key === "ArrowLeft") {
+          handlePreviousFile()
+        } else if (event.key === "ArrowRight") {
+          handleNextFile()
+        }
+      },
+      [handleNextFile, handlePreviousFile]
+    )
+
+    useEffect(() => {
+      // If the active item is not in the list, go to the next item
+      if (activeItem && !items.includes(activeItem)) {
         handleNextFile()
       }
-    },
-    [handleNextFile, handlePreviousFile]
-  )
+    }, [activeItem, handleNextFile, items])
 
-  useEffect(() => {
-    // If the active item is not in the list, go to the next item
-    if (activeItem && !items.includes(activeItem)) {
-      handleNextFile()
-    }
-  }, [activeItem, handleNextFile, items])
+    useEffect(() => {
+      document.addEventListener("keydown", handleKeyDown)
 
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown)
+      if (!activeItem) {
+        document.removeEventListener("keydown", handleKeyDown)
+      }
 
-    if (!activeItem) {
-      document.removeEventListener("keydown", handleKeyDown)
-    }
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown)
+      }
+    }, [activeItem, handleKeyDown])
 
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [activeItem, handleKeyDown])
-
-  return (
-    <Modal
-      componentKey={"file-preview-modal"}
-      config={{
-        defaultOpened: Boolean(activeItem),
-        width: 960,
-        maxHeight: 640,
-        padding: 0,
-      }}
-    >
-      <ModalContent>
-        <Header>
-          <Typography.P1 config={{ color: "white" }}>
-            {fileInfo?.name}
-          </Typography.P1>
-          <IconButton onClick={handleClose}>
-            <Icon
-              config={{
-                type: IconType.Close,
-                size: "tiny",
-                color: "white",
-              }}
-            />
-          </IconButton>
-        </Header>
-        <Main>
-          <Loader>
-            <SpinnerLoader />
-          </Loader>
-          <AnimatePresence initial={true} mode={"wait"}>
-            {!isLoading && (
-              <PreviewWrapper
-                key={fileInfo?.path}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                {fileInfo?.type === "image" && (
-                  <ImagePreview src={fileInfo?.path} onError={handleError} />
-                )}
-              </PreviewWrapper>
-            )}
-          </AnimatePresence>
-        </Main>
-        {items.length > 1 && (
-          <Navigation>
-            <NavigationButton onClick={handlePreviousFile}>
+    return (
+      <Modal
+        componentKey={"file-preview-modal"}
+        config={{
+          defaultOpened: Boolean(activeItem),
+          width: 960,
+          maxHeight: 640,
+          padding: 0,
+        }}
+      >
+        <ModalContent>
+          <Header>
+            <Typography.P1 config={{ color: "white" }}>
+              {entityName}
+            </Typography.P1>
+            <IconButton onClick={handleClose}>
               <Icon
                 config={{
-                  type: IconType.ArrowLeft,
+                  type: IconType.Close,
+                  size: "tiny",
+                  color: "white",
+                }}
+              />
+            </IconButton>
+          </Header>
+          <Main>
+            <Loader>
+              <SpinnerLoader />
+            </Loader>
+            <AnimatePresence initial={true} mode={"wait"}>
+              {!isLoading && (
+                <PreviewWrapper
+                  key={fileInfo?.path}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {entityType.startsWith("image") && (
+                    <ImagePreview src={fileInfo.path} onError={handleError} />
+                  )}
+                </PreviewWrapper>
+              )}
+            </AnimatePresence>
+          </Main>
+          {items.length > 1 && (
+            <Navigation>
+              <NavigationButton onClick={handlePreviousFile}>
+                <Icon
+                  config={{
+                    type: IconType.ArrowLeft,
+                    size: "large",
+                    color: "white",
+                  }}
+                />
+              </NavigationButton>
+              <NavigationButton onClick={handleNextFile}>
+                <Icon
+                  config={{
+                    type: IconType.ArrowRight,
+                    size: "large",
+                    color: "white",
+                  }}
+                />
+              </NavigationButton>
+            </Navigation>
+          )}
+          <Footer>
+            <IconButton onClick={handleExport}>
+              <Icon
+                config={{
+                  type: IconType.Export,
                   size: "large",
                   color: "white",
                 }}
               />
-            </NavigationButton>
-            <NavigationButton onClick={handleNextFile}>
+            </IconButton>
+            <IconButton onClick={handleDelete}>
               <Icon
                 config={{
-                  type: IconType.ArrowRight,
+                  type: IconType.Delete,
                   size: "large",
                   color: "white",
                 }}
               />
-            </NavigationButton>
-          </Navigation>
-        )}
-        <Footer>
-          <IconButton onClick={handleExport}>
-            <Icon
-              config={{
-                type: IconType.Export,
-                size: "large",
-                color: "white",
-              }}
-            />
-          </IconButton>
-          <IconButton onClick={handleDelete}>
-            <Icon
-              config={{
-                type: IconType.Delete,
-                size: "large",
-                color: "white",
-              }}
-            />
-          </IconButton>
-        </Footer>
-      </ModalContent>
-    </Modal>
-  )
-}
+            </IconButton>
+          </Footer>
+        </ModalContent>
+      </Modal>
+    )
+  }
+)
 
 const frameCommonStyles = css`
   position: absolute;

@@ -6,14 +6,21 @@
 import { useDispatch } from "react-redux"
 import { sendFilesClear } from "generic-view/store"
 import { AppDispatch } from "Core/__deprecated__/renderer/store"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { checkPath, getAppPath, removeDirectory } from "system-utils/feature"
-import { difference } from "lodash"
+import { uniqBy } from "lodash"
 import {
   FilePreviewResponse,
   useFilePreviewDownload,
   UseFilePreviewDownloadParams,
 } from "./use-file-preview-download"
+import { Queue } from "shared/utils"
+
+export enum QueuePriority {
+  Current = 2,
+  Next = 1,
+  Prev = 0,
+}
 
 export interface UseFilesPreviewParams {
   items: string[]
@@ -25,20 +32,19 @@ export interface UseFilesPreviewParams {
 
 export const useFilesPreview = ({
   items,
-  activeItem,
+  activeItem: activeItem,
   entitiesConfig,
 }: UseFilesPreviewParams) => {
   const actionId = entitiesConfig.type + "Preview"
   const dispatch = useDispatch<AppDispatch>()
 
-  const previousFile = useRef<string>()
-  const nextFile = useRef<string>()
-  const currentFile = useRef<string>()
-
   const [tempDirectoryPath, setTempDirectoryPath] = useState<string>()
-  const [currentFileInfo, setCurrentFileInfo] =
-    useState<Partial<FilePreviewResponse>>()
-  const [isLoading, setIsLoading] = useState(false)
+  const [downloadedItems, setDownloadedItems] = useState<FilePreviewResponse[]>(
+    []
+  )
+  const downloadedItemsDependency = JSON.stringify(
+    downloadedItems.map((item) => item.id)
+  )
 
   const { downloadFile, cancelDownload } = useFilePreviewDownload({
     actionId,
@@ -47,58 +53,103 @@ export const useFilesPreview = ({
     fields: entitiesConfig,
   })
 
-  const refreshFiles = useCallback(
-    async (oldFiles: string[], newFiles: string[]) => {
-      setIsLoading(true)
+  const queue = useMemo(() => {
+    return new Queue({ interval: 100, capacity: 3 })
+  }, [])
 
-      const filesToRemove = difference(oldFiles, newFiles)
-      for (const fileId of filesToRemove) {
-        await cancelDownload(fileId)
+  const getNearestFiles = useCallback(
+    (item?: string) => {
+      if (!item || !items.length) {
+        return { previous: undefined, next: undefined }
       }
-
-      for (const fileId of newFiles) {
-        if (fileId === currentFile.current) {
-          const fileInfo = await downloadFile(fileId, (name) => {
-            setCurrentFileInfo({
-              id: fileId,
-              name,
-            })
-          })
-          setCurrentFileInfo(fileInfo)
-          setIsLoading(false)
-        } else {
-          await downloadFile(fileId)
-        }
+      const currentIndex = items.indexOf(item)
+      return {
+        previous: items[(currentIndex - 1 + items.length) % items.length],
+        next: items[(currentIndex + 1) % items.length],
       }
     },
-    [cancelDownload, downloadFile]
+    [items]
+  )
+
+  const nearestFiles = useMemo(() => {
+    return getNearestFiles(activeItem)
+  }, [activeItem, getNearestFiles])
+
+  const currentFile = useMemo(() => {
+    if (!activeItem) return undefined
+    return downloadedItems.find((item) => item.id === activeItem)
+    // eslint-disable-next-line
+  }, [activeItem, downloadedItemsDependency])
+
+  const getFilePriority = useCallback(
+    (fileId: string) => {
+      if (fileId === activeItem) {
+        return QueuePriority.Current
+      }
+      const nearest = getNearestFiles(activeItem)
+      if (fileId === nearest.next) {
+        return QueuePriority.Next
+      }
+      return QueuePriority.Prev
+    },
+    [activeItem, getNearestFiles]
+  )
+
+  const downloadFiles = useCallback(
+    (filesIds: string[]) => {
+      for (const fileId of filesIds) {
+        void queue.add({
+          id: fileId,
+          task: async () => {
+            const fileInfo = await downloadFile(fileId)
+            if (fileInfo) {
+              setDownloadedItems((prev) => uniqBy([...prev, fileInfo], "id"))
+            }
+          },
+          priority: getFilePriority(fileId),
+        })
+      }
+    },
+    [downloadFile, getFilePriority, queue]
   )
 
   useEffect(() => {
+    if (!currentFile?.id) return
+
+    const filesToRemove = downloadedItems.filter((item) => {
+      return (
+        item.id !== currentFile.id &&
+        item.id !== nearestFiles.next &&
+        item.id !== nearestFiles.previous
+      )
+    })
+
+    if (filesToRemove.length > 0) {
+      for (const file of filesToRemove) {
+        void cancelDownload(file.id)
+        setDownloadedItems((prev) => prev.filter((item) => item.id !== file.id))
+      }
+    }
+    // eslint-disable-next-line
+  }, [
+    currentFile?.id,
+    cancelDownload,
+    downloadedItemsDependency,
+    nearestFiles.next,
+    nearestFiles.previous,
+  ])
+
+  useEffect(() => {
     if (!activeItem) return
-    const currentIndex = items.indexOf(activeItem)
-    const previousIndex = (currentIndex - 1 + items.length) % items.length
-    const nextIndex = (currentIndex + 1) % items.length
 
-    const currentFileId = items[currentIndex]
-    const previousFileId = items[previousIndex]
-    const nextFileId = items[nextIndex]
-
-    const oldFiles = [
-      currentFile.current,
-      nextFile.current,
-      previousFile.current,
+    const filesToDownload = [
+      activeItem,
+      nearestFiles.next,
+      nearestFiles.previous,
     ].filter(Boolean) as string[]
-    const newFiles = [currentFileId, nextFileId, previousFileId].filter(
-      Boolean
-    ) as string[]
 
-    currentFile.current = currentFileId
-    nextFile.current = nextFileId
-    previousFile.current = previousFileId
-
-    void refreshFiles(oldFiles, newFiles)
-  }, [activeItem, cancelDownload, downloadFile, items, refreshFiles])
+    downloadFiles(filesToDownload)
+  }, [activeItem, nearestFiles.next, nearestFiles.previous, downloadFiles])
 
   const ensureTempDirectory = useCallback(async () => {
     const destinationPath = await getAppPath("filePreview")
@@ -116,19 +167,23 @@ export const useFilesPreview = ({
   }, [actionId, dispatch, tempDirectoryPath])
 
   useEffect(() => {
-    void ensureTempDirectory()
-  }, [ensureTempDirectory])
-
-  useEffect(() => {
     if (!activeItem) {
       void clearTempDirectory()
+      setDownloadedItems([])
     }
   }, [activeItem, clearTempDirectory])
 
+  useEffect(() => {
+    void ensureTempDirectory()
+    return () => {
+      queue.clear()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return {
-    data: currentFileInfo,
-    nextId: nextFile.current,
-    previousId: previousFile.current,
-    isLoading,
+    data: currentFile,
+    nextId: nearestFiles.next,
+    previousId: nearestFiles.previous,
   }
 }

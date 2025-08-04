@@ -18,7 +18,6 @@ import {
   isMtpPathInternal,
   sliceMtpPaths,
 } from "../../buttons/button-base/file-transfer-paths-helper"
-import { validateFilesToExport } from "../../shared/validate-files-to-export"
 import path from "node:path"
 
 export interface FilePreviewResponse {
@@ -117,14 +116,6 @@ export const useFilePreviewDownload = ({
         name: String(entity[fields.titleField]),
         size: Number(entity[fields.sizeField]),
         groupId: actionId,
-      }
-
-      const validationError = await validateFilesToExport(
-        [fileData],
-        tempDirectoryPath
-      )
-      if (validationError) {
-        return
       }
 
       const promise = dispatch(
