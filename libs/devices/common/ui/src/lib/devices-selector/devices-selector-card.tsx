@@ -42,7 +42,12 @@ export const DevicesSelectorCard: FunctionComponent<SelectorItemProps> = ({
 }) => {
   return (
     <Wrapper onClick={onClick} {...rest}>
-      <Image type={image.type} size={DeviceImageSize.Big} color={image.color} />
+      <DeviceImage
+        spinner={status === DeviceStatus.Initializing}
+        type={image.type}
+        size={DeviceImageSize.Big}
+        color={image.color}
+      />
       <Info>
         <DevicesSelectorCardHeader
           name={name}
@@ -87,11 +92,6 @@ const Wrapper = styled(DevicesDrawerCardWrapper)`
     height: 100%;
     justify-content: space-between;
   }
-`
-
-const Image = styled(DeviceImage)`
-  align-self: end;
-  object-position: center bottom;
 `
 
 const DevicesSelectorCardHeader = styled(DeviceHeader)`

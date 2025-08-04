@@ -4,50 +4,47 @@
  */
 
 import { ComponentProps, FunctionComponent } from "react"
-import styled from "styled-components"
-import { devicesImages } from "./img"
-import {
-  DeviceImageColor,
-  DeviceImageSize,
-  DeviceImageType,
-} from "devices/common/models"
+import styled, { css } from "styled-components"
+import { Icon } from "app-theme/ui"
+import { IconSize, IconType } from "app-theme/models"
+import { DeviceImageSize } from "devices/common/models"
+import { DeviceImageBase } from "./device-image-base"
 
-type Props = {
-  type: DeviceImageType
-  color?: DeviceImageColor
-  size?: DeviceImageSize
-} & Omit<ComponentProps<typeof Image>, "$size">
+interface Props extends ComponentProps<typeof DeviceImageBase> {
+  spinner?: boolean
+}
 
 export const DeviceImage: FunctionComponent<Props> = ({
+  spinner = false,
+  className,
   type,
   color,
-  size,
-  ...rest
+  size = DeviceImageSize.Small,
 }) => {
-  if (!devicesImages[type]) {
-    return null
-  }
-  const colors = devicesImages[type]
-  const imageSize = size || DeviceImageSize.Big
-  const imageColor = (
-    color && color in colors ? color : Object.keys(colors)[0]
-  ) as keyof typeof colors
-
   return (
-    <Image
-      src={devicesImages[type][imageColor][imageSize]}
-      $size={imageSize}
-      {...rest}
-    />
+    <Wrapper className={className} $size={size}>
+      {spinner ? (
+        <Icon type={IconType.Spinner} size={IconSize.Large} />
+      ) : (
+        <Image size={size} color={color} type={type} />
+      )}
+    </Wrapper>
   )
 }
 
-const Image = styled.img<{ $size: string }>`
+const Wrapper = styled.div<{ $size: string }>`
   height: ${({ $size }) => ($size === "big" ? "100%" : "9.6rem")};
   width: ${({ $size }) => ($size === "big" ? "100%" : "9.1rem")};
-  max-height: 100%;
-  max-width: 100%;
-  display: block;
-  object-fit: contain;
-  object-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const Image = styled(DeviceImageBase)`
+  ${({ size }) =>
+    size === "big" &&
+    css`
+      align-self: end;
+      object-position: center bottom;
+    `}
 `

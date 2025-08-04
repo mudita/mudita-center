@@ -106,6 +106,26 @@ export const Default: Story = {
             serialNumber: "3333444455",
             status: DeviceStatus.Initialized,
           },
+          {
+            id: "6",
+            image: {
+              type: DeviceImageType.Kompakt,
+              color: DeviceImageColor.Black,
+            },
+            name: "Kompakt",
+            serialNumber: "0000111166",
+            status: DeviceStatus.Initializing,
+          },
+          {
+            id: "7",
+            image: {
+              type: DeviceImageType.Harmony1,
+              color: DeviceImageColor.White,
+            },
+            name: "Harmony",
+            serialNumber: "1111222277",
+            status: DeviceStatus.Initializing,
+          },
         ].map((device) => {
           return <DevicesSelectorCard {...device} />
         })}

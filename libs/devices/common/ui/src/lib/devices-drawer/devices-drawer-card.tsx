@@ -45,6 +45,7 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
       {...rest}
     >
       <DeviceImage
+        spinner={status === DeviceStatus.Initializing}
         type={image.type}
         size={DeviceImageSize.Small}
         color={image.color}
