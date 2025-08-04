@@ -5,21 +5,18 @@
 
 import { ComponentProps, FunctionComponent } from "react"
 import styled from "styled-components"
-import { defineMessages, formatMessage } from "app-localize/utils"
-import { Icon, Typography } from "app-theme/ui"
-import { IconSize, IconType } from "app-theme/models"
+import { defineMessages } from "app-localize/utils"
+import { Typography } from "app-theme/ui"
 import {
   DeviceImageSize,
   DeviceMetadata,
   DeviceStatus,
 } from "devices/common/models"
 import { DeviceImage } from "../device-image/device-image"
-import { DeviceStatusIcon } from "./device-status-icon"
+import { DeviceHeader } from "../devices-header/device-header"
 
 const messages = defineMessages({
   serialNumberLabel: { id: "general.components.deviceCard.serialNumberLabel" },
-  recoveryModeLabel: { id: "general.components.deviceCard.recoveryModeLabel" },
-  activeLabel: { id: "general.components.deviceCard.activeLabel" },
 })
 
 export interface DrawerItemProps
@@ -53,14 +50,12 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
         color={image.color}
       />
       <Info>
-        <DeviceName forwardedAs={"p"}>
-          {name}
-          {active && (
-            <ActiveIndicator>
-              &nbsp;{formatMessage(messages.activeLabel)}
-            </ActiveIndicator>
-          )}
-        </DeviceName>
+        <DeviceHeader
+          name={name}
+          status={status}
+          active={active}
+          recoveryMode={recoveryMode}
+        />
         {Boolean(serialNumber) && (
           <div>
             <Typography.P3 message={messages.serialNumberLabel.id} />
@@ -68,37 +63,12 @@ export const DevicesDrawerCard: FunctionComponent<DrawerItemProps> = ({
           </div>
         )}
       </Info>
-      {recoveryMode && (
-        <RecoveryLabel>
-          <Icon type={IconType.RecoveryModeFilled} size={IconSize.AutoMax} />
-          <Typography.P5 color={"white"}>
-            <strong>{formatMessage(messages.recoveryModeLabel)}</strong>
-          </Typography.P5>
-        </RecoveryLabel>
-      )}
-      <GeneralStatus>
-        <DeviceStatusIcon status={status} />
-      </GeneralStatus>
     </DevicesDrawerCardWrapper>
   )
 }
 
 const ActiveIndicator = styled.span`
   text-transform: uppercase;
-`
-
-const GeneralStatus = styled.span`
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding-right: 1rem;
-`
-
-const DeviceName = styled(Typography.H4)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 `
 
 export const DevicesDrawerCardWrapper = styled.li<{ onClick?: VoidFunction }>`
@@ -130,23 +100,4 @@ export const Info = styled.div`
   flex-direction: column;
   gap: 0.3rem;
   align-self: center;
-`
-
-export const RecoveryLabel = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0 0.8rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 2.2rem;
-  gap: 0.4rem;
-  border-radius: ${({ theme }) => theme.app.radius.sm};
-  background-color: ${({ theme }) => theme.app.color.black};
-  color: ${({ theme }) => theme.app.color.white};
-
-  p {
-    white-space: nowrap;
-  }
 `

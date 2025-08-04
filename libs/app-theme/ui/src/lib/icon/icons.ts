@@ -25,6 +25,7 @@ import FileCopy from "./svg/file-copy.svg?react"
 import Help from "./svg/help.svg?react"
 import Info from "./svg/info.svg?react"
 import Lock from "./svg/lock.svg?react"
+import LockSimple from "./svg/lock-simple.svg?react"
 import Messages from "./svg/messages.svg?react"
 import Minus from "./svg/minus.svg?react"
 import MuditaLogo from "./svg/mudita-logo.svg?react"
@@ -63,6 +64,7 @@ export const icons = {
   [IconType.Help]: Help,
   [IconType.Info]: Info,
   [IconType.Lock]: Lock,
+  [IconType.LockSimple]: LockSimple,
   [IconType.Messages]: Messages,
   [IconType.Minus]: Minus,
   [IconType.MuditaLogo]: MuditaLogo,
