@@ -24,7 +24,8 @@ jobs:
         env:
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
-          VITE_GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          GITHUB_BUILD_TOKEN: ${{ secrets.GITHUB_BUILD_TOKEN }}
+          VITE_GITHUB_RUNTIME_TOKEN: ${{ secrets.VITE_GITHUB_RUNTIME_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           CI: true
         shell: cmd
@@ -36,7 +37,8 @@ jobs:
         env:
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
-          VITE_GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          GITHUB_BUILD_TOKEN: ${{ secrets.GITHUB_BUILD_TOKEN }}
+          VITE_GITHUB_RUNTIME_TOKEN: ${{ secrets.VITE_GITHUB_RUNTIME_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           CI: true
         run: |
@@ -46,7 +48,8 @@ jobs:
         env:
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
-          VITE_GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          GITHUB_BUILD_TOKEN: ${{ secrets.GITHUB_BUILD_TOKEN }}
+          VITE_GITHUB_RUNTIME_TOKEN: ${{ secrets.VITE_GITHUB_RUNTIME_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           CI: true
         run: |
