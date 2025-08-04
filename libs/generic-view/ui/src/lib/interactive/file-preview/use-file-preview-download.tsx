@@ -63,7 +63,10 @@ export const useFilePreviewDownload = ({
       return {
         nativeDir,
         nativePath: nativePath,
-        safePath: `safe-file://${nativePath}`,
+        safePath:
+          process.platform === "win32"
+            ? nativePath
+            : `safe-file://${nativePath}`,
       }
     },
     [tempDirectoryPath]
