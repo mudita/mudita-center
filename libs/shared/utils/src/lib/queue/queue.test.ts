@@ -335,12 +335,9 @@ describe("Queue E2E Tests", () => {
     })
 
     const [r1, r2, r3, r4, r5] = await Promise.all([p1, p2, p3, p4, p5])
-    // Only top 3 priorities (5,4,3) should execute
     expect(results).toEqual(["task5", "task4", "task3"])
-    // Lower priorities should be aborted
     expect(r1.reason).toEqual("removed")
     expect(r2.reason).toEqual("removed")
-    // Processed tasks should have no reason and correct priorities
     expect(r3.reason).toBeUndefined()
     expect(r3.priority).toEqual(3)
     expect(r4.priority).toEqual(4)

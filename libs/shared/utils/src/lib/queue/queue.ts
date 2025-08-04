@@ -20,6 +20,11 @@ type ResponseItem = Omit<Item, "abortController"> & {
   reason?: "removed" | "aborted" | Error
 }
 
+/**
+ * Queue class that manages a list of tasks to be processed in order of priority.
+ * It allows adding, removing, and processing tasks with a specified interval.
+ * Each task can be aborted, and the queue can handle a maximum capacity.
+ */
 export class Queue {
   private queue: Item[] = []
   private eventEmitter = new EventEmitter()
@@ -51,9 +56,7 @@ export class Queue {
       const item = this.queue.shift()!
       this.currentItem = item
       const { signal } = item.abortController
-      // yield to allow aborts before task execution
       await new Promise<void>((resolve) => setTimeout(resolve, 0))
-      // skip items aborted before execution
       if (signal.aborted) continue
       try {
         await item.task({ id: item.id, priority: item.priority })
@@ -63,7 +66,6 @@ export class Queue {
           error instanceof Error ? error : new Error(String(error))
         )
       }
-      // wait interval before next
       await new Promise((resolve) => {
         return setTimeout(resolve, this.interval)
       })
@@ -72,6 +74,15 @@ export class Queue {
     this.processing = false
   }
 
+  /**
+   * Adds a new item to the queue or updates an existing one.
+   * If the item already exists, it updates its priority and reorders the queue.
+   * @param newItem - The item to add or update in the queue.
+   * @param newItem.id - Unique identifier for the item.
+   * @param newItem.task - The task function to be executed, which should return a promise.
+   * @param newItem.priority - The priority of the item, where higher values indicate higher priority. Defaults to 0 if not provided.
+   * @returns A promise that resolves to an object containing the item's id, task, priority, and any reason for abortion if applicable.
+   */
   async add(
     newItem: Pick<Item, "id" | "task"> & Partial<Pick<Item, "priority">>
   ) {
@@ -80,9 +91,7 @@ export class Queue {
       existingItem?.abortController || new AbortController()
 
     if (existingItem) {
-      // update existing item in-place to preserve reference
       existingItem.priority = newItem.priority ?? existingItem.priority
-      // re-sort queue by updated priorities
       this.queue.sort((a, b) => b.priority - a.priority)
       return {
         id: existingItem.id,
@@ -90,8 +99,6 @@ export class Queue {
         priority: existingItem.priority,
       }
     }
-    // new item
-    // create item and push to queue
     const item: Item = {
       id: newItem.id,
       task: async (props) => {
@@ -103,7 +110,6 @@ export class Queue {
     this.queue.push(item)
 
     this.queue.sort((a, b) => b.priority - a.priority)
-    // enforce capacity: abort and remove excess lowest-priority tasks
     if (this.capacity !== undefined) {
       const overflow = this.queue.length - this.capacity
       for (let i = 0; i < overflow; i++) {
@@ -111,7 +117,6 @@ export class Queue {
         removed.abortController.abort("removed")
       }
     }
-    // start processing in next tick if idle
     if (!this.processing && !this.scheduledStart) {
       this.scheduledStart = true
       setTimeout(() => {
@@ -140,6 +145,11 @@ export class Queue {
     })
   }
 
+  /**
+   * Removes an item from the queue by its ID.
+   * If the item is currently being processed, it will be aborted.
+   * @param itemId
+   */
   remove(itemId: Item["id"]) {
     if (this.currentItem?.id === itemId) {
       this.currentItem.abortController.abort("removed")
@@ -154,6 +164,10 @@ export class Queue {
     }
   }
 
+  /**
+   * Clears the queue and aborts all currently processing items.
+   * This will stop any ongoing tasks and remove all items from the queue.
+   */
   clear() {
     for (const item of [this.currentItem, ...this.queue]) {
       item?.abortController.abort("removed")
