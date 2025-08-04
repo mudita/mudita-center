@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./get-network-name.helpers"
-export * from "./get-network-level.helpers"
-export * from "./from-mebi-to-byte.helpers"
+export const fromMebiToByte = (mebi: number): number => {
+  const factor = 1048576
+  return mebi * factor
+}

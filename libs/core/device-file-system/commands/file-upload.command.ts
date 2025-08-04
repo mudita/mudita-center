@@ -13,6 +13,8 @@ import { Result, ResultObject } from "Core/core/builder"
 import { BaseCommand } from "Core/device-file-system/commands/base.command"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { DeviceFileSystemError } from "Core/device-file-system/constants"
+import { DeviceInfoService } from "Core/device-info/services"
+import { fromMebiToByte } from "Core/device/helpers"
 
 export class FileUploadCommand extends BaseCommand {
   constructor(
@@ -49,6 +51,25 @@ export class FileUploadCommand extends BaseCommand {
     }
 
     const fileSize = Buffer.byteLength(data)
+    const deviceInfoService = new DeviceInfoService(this.deviceProtocol)
+    const deviceFreeSpace = await deviceInfoService.getDeviceFreeSpace()
+    if (!deviceFreeSpace.ok) {
+      return Result.failed(
+        new AppError(
+          DeviceFileSystemError.FileUploadUnreadable,
+          "Unable to read device free space"
+        )
+      )
+    }
+    console.log(fileSize, fromMebiToByte(deviceFreeSpace.data))
+    if (fileSize > fromMebiToByte(deviceFreeSpace.data)) {
+      return Result.failed(
+        new AppError(
+          DeviceFileSystemError.NoSpaceLeft,
+          "Not enough space on device"
+        )
+      )
+    }
     const fileCrc32 = this.countCRC32(data)
     const fileName = path.basename(filePath)
 

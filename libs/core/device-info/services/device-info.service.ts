@@ -15,16 +15,29 @@ import {
 } from "Core/device/types/mudita-os"
 import { DeviceId } from "Core/device/constants/device-id"
 
+const HARMORY_ADDITIONAL_RESERVED_SPACE_MB = 10
+
 export class DeviceInfoService {
   constructor(private deviceProtocol: DeviceProtocol) {}
 
   private async getDeviceInfoRequest<TResult>(
     deviceId: DeviceId = this.deviceProtocol.device.id
   ): Promise<ResultObject<TResult, DeviceCommunicationError>> {
-    return this.deviceProtocol.request<TResult>(deviceId, {
+    let result = await this.deviceProtocol.request<TResult>(deviceId, {
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
+    if (
+      result.ok &&
+      this.deviceProtocol.device.deviceType === "MuditaHarmony"
+    ) {
+      const data = result.data as any
+      data.systemReservedSpace = (
+        Number(data.systemReservedSpace) + HARMORY_ADDITIONAL_RESERVED_SPACE_MB
+      ).toFixed(6)
+    }
+    console.log(result)
+    return result
   }
 
   public async getDeviceInfo(
@@ -43,6 +56,7 @@ export class DeviceInfoService {
       if (!device) {
         return Result.failed(new AppError("", ""))
       }
+      console.log(response.data)
       return Result.success(
         DeviceInfoPresenter.toDto(response.data, device.deviceType)
       )
@@ -71,7 +85,6 @@ export class DeviceInfoService {
 
       const { deviceSpaceTotal, usedUserSpace, systemReservedSpace } =
         response.data as DeviceInfoRaw
-
       const freeSpace =
         Number(deviceSpaceTotal) -
         Number(usedUserSpace) -
