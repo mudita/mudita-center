@@ -184,7 +184,6 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   return (
     <>
       {closeButtonVisible && (

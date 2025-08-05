@@ -144,7 +144,9 @@ export const ImportContactsProvider = () => {
                 type: "custom",
                 callback: () => {
                   dispatch(importContactsFromFile())
-                  dispatch(setImportProcessStatus(ImportStatus.FileSelect))
+                  dispatch(
+                    setImportProcessStatus(ImportStatus.ImportIntoMcInProgress)
+                  )
                 },
               },
             ],
