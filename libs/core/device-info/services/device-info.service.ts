@@ -23,7 +23,7 @@ export class DeviceInfoService {
   private async getDeviceInfoRequest<TResult>(
     deviceId: DeviceId = this.deviceProtocol.device.id
   ): Promise<ResultObject<TResult, DeviceCommunicationError>> {
-    let result = await this.deviceProtocol.request<TResult>(deviceId, {
+    const result = await this.deviceProtocol.request<TResult>(deviceId, {
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
@@ -31,12 +31,11 @@ export class DeviceInfoService {
       result.ok &&
       this.deviceProtocol.device.deviceType === "MuditaHarmony"
     ) {
-      const data = result.data as any
+      const data = result.data as DeviceInfoRaw
       data.systemReservedSpace = (
         Number(data.systemReservedSpace) + HARMORY_ADDITIONAL_RESERVED_SPACE_MB
       ).toFixed(6)
     }
-    console.log(result)
     return result
   }
 
@@ -56,7 +55,6 @@ export class DeviceInfoService {
       if (!device) {
         return Result.failed(new AppError("", ""))
       }
-      console.log(response.data)
       return Result.success(
         DeviceInfoPresenter.toDto(response.data, device.deviceType)
       )

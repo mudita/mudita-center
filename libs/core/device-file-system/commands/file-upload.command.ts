@@ -61,7 +61,7 @@ export class FileUploadCommand extends BaseCommand {
         )
       )
     }
-    console.log(fileSize, fromMebiToByte(deviceFreeSpace.data))
+
     if (fileSize > fromMebiToByte(deviceFreeSpace.data)) {
       return Result.failed(
         new AppError(
