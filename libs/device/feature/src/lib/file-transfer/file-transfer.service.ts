@@ -259,15 +259,14 @@ export class APIFileTransferService {
   }
 
   private calculateChecksum(transferId: number) {
-    const crc32 = this.transfers[transferId].crc32Calc?.digest()
-    if (crc32 === undefined) {
+    const calculatedCrc = this.transfers[transferId].crc32Calc?.digest()
+    const expectedCrcHex = this.transfers[transferId].crc32
+
+    if (calculatedCrc === undefined) {
       return false
     }
-
-    return (
-      crc32.toString(16).toLowerCase() ===
-      this.transfers[transferId].crc32.toLowerCase()
-    )
+    const expectedCrc = parseInt(expectedCrcHex, 16)
+    return calculatedCrc === expectedCrc
   }
 
   @IpcEvent(ApiFileTransferServiceEvents.SendDelete)
