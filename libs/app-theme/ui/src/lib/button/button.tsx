@@ -17,6 +17,7 @@ import {
   ButtonType,
   IconType,
 } from "app-theme/models"
+import { formatMessage } from "app-localize/utils"
 import { ButtonIcon } from "./button-base.styles"
 import {
   PrimaryButtonComponent,
@@ -30,7 +31,7 @@ import {
   TextButtonComponent,
   TextNavigationComponent,
 } from "./button-text.styles"
-import { formatMessage, Messages } from "app-localize/utils"
+import { Translation } from "../shared/translation.type"
 
 export interface ButtonLinkProps {
   to: LinkProps["to"]
@@ -53,18 +54,6 @@ interface TextButtonProps {
   type?: ButtonType.Text
   modifiers?: ButtonTextModifier[]
 }
-
-type Translation =
-  | {
-      message: Messages["id"]
-      values?: Record<string, string | number | boolean>
-      children?: undefined
-    }
-  | {
-      message?: undefined
-      values?: undefined
-      children?: PropsWithChildren["children"]
-    }
 
 type Props = PropsWithChildren & {
   size?: ButtonSize

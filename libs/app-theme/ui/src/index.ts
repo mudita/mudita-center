@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export * from "./lib/badge/badge"
 export * from "./lib/icon/icon"
 export * from "./lib/icon/icon-ui.styled"
 export * from "./lib/button/button"
