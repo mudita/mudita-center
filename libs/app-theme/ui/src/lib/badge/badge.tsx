@@ -8,7 +8,6 @@ import styled from "styled-components"
 import { get } from "lodash"
 import { IconType } from "app-theme/models"
 import { AppColor, borderRadius, theme } from "app-theme/utils"
-import { formatMessage } from "app-localize/utils"
 import { Icon } from "../icon/icon"
 import { Typography } from "../typography/typography"
 import { icons } from "../icon/icons"
@@ -36,11 +35,7 @@ export const Badge: FunctionComponent<Props> = ({
       hasIcon={icon ? !!icons[icon] : false}
     >
       {icon && <BadgeIcon type={icon} />}
-      {message ? (
-        <Typography.P5>{formatMessage({ id: message }, values)}</Typography.P5>
-      ) : (
-        children
-      )}
+      {message ? <Typography.P5 message={message} values={values} /> : children}
     </Wrapper>
   )
 }
