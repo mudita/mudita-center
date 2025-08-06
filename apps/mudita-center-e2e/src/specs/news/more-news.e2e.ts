@@ -26,6 +26,6 @@ describe("Check more news button", () => {
 
     const moreNewsButtonHref = NewsPage.moreNewsButtonHref
     const checkHref = await moreNewsButtonHref.getAttribute("href")
-    await expect(checkHref).toBe("https://www.mudita.com/#news")
+    await expect(checkHref).toBe("https://www.mudita.com/community/blog/")
   })
 })
