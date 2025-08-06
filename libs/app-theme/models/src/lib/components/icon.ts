@@ -22,7 +22,6 @@ export enum IconType {
   Help = "help",
   Info = "info",
   Lock = "lock",
-  LockSimple = "lock-simple",
   Messages = "messages",
   Minus = "minus",
   MuditaLogo = "mudita-logo",

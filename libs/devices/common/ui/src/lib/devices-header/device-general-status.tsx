@@ -52,7 +52,7 @@ export const DeviceGeneralStatus: FunctionComponent<Props> = ({
   if (status === DeviceStatus.Locked) {
     return (
       <Badge
-        icon={IconType.LockSimple}
+        icon={IconType.Lock}
         backgroundColor={"grey4"}
         color={"grey1"}
         message={messages.lockedLabel.id}
