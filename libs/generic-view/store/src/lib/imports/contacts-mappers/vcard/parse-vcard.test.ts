@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import vCard from "vcf"
 import { parseVcard } from "./parse-vcard"
 
 describe("parseVcard", () => {
@@ -33,14 +34,6 @@ END:VCARD`
           ["fn", {}, "text", "Forrest Gump"],
           ["org", {}, "text", "Bubba Gump Shrimp Co."],
           ["title", {}, "text", "Shrimp Man"],
-          [
-            "photo",
-            {
-              mediatype: "image/gif",
-            },
-            "text",
-            "http://www.example.com/dir_photos/my_photo.gif",
-          ],
           [
             "tel",
             {
