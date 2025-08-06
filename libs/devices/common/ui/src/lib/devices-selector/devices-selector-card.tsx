@@ -4,6 +4,10 @@
  */
 
 import { ComponentProps, FunctionComponent } from "react"
+import styled from "styled-components"
+import { Typography } from "app-theme/ui"
+import { defineMessages } from "app-localize/utils"
+import { TypographyAlign } from "app-theme/models"
 import {
   DeviceImageSize,
   DeviceMetadata,
@@ -12,18 +16,12 @@ import {
 import {
   DevicesDrawerCardWrapper,
   Info,
-  RecoveryLabel,
 } from "../devices-drawer/devices-drawer-card"
 import { DeviceImage } from "../device-image/device-image"
-import { defineMessages, formatMessage } from "app-localize/utils"
-import { Icon, Typography } from "app-theme/ui"
-import { IconSize, IconType, TypographyAlign } from "app-theme/models"
-import styled from "styled-components"
-import { DeviceStatusIcon } from "../devices-drawer/device-status-icon"
+import { DeviceHeader } from "../devices-header/device-header"
 
 const messages = defineMessages({
   serialNumberLabel: { id: "general.components.deviceCard.serialNumberLabel" },
-  recoveryModeLabel: { id: "general.components.deviceCard.recoveryModeLabel" },
 })
 
 export interface SelectorItemProps
@@ -44,14 +42,18 @@ export const DevicesSelectorCard: FunctionComponent<SelectorItemProps> = ({
 }) => {
   return (
     <Wrapper onClick={onClick} {...rest}>
-      <Status>
-        <DeviceStatusIcon status={status} />
-      </Status>
-      <Image type={image.type} size={DeviceImageSize.Big} color={image.color} />
+      <DeviceImage
+        spinner={status === DeviceStatus.Initializing}
+        type={image.type}
+        size={DeviceImageSize.Big}
+        color={image.color}
+      />
       <Info>
-        <DeviceName forwardedAs={"p"} textAlign={TypographyAlign.Center}>
-          {name}
-        </DeviceName>
+        <DevicesSelectorCardHeader
+          name={name}
+          status={status}
+          recoveryMode={recoveryMode}
+        />
         {Boolean(serialNumber) && (
           <div>
             <Typography.P4
@@ -64,14 +66,6 @@ export const DevicesSelectorCard: FunctionComponent<SelectorItemProps> = ({
           </div>
         )}
       </Info>
-      {recoveryMode && (
-        <RecoveryLabel>
-          <Icon type={IconType.RecoveryMode} size={IconSize.AutoMax} />
-          <Typography.P5 color={"white"}>
-            <strong>{formatMessage(messages.recoveryModeLabel)}</strong>
-          </Typography.P5>
-        </RecoveryLabel>
-      )}
     </Wrapper>
   )
 }
@@ -100,20 +94,6 @@ const Wrapper = styled(DevicesDrawerCardWrapper)`
   }
 `
 
-const Image = styled(DeviceImage)`
-  align-self: end;
-  object-position: center bottom;
-`
-
-const DeviceName = styled(Typography.H4)`
-  display: flex;
-  flex-direction: row;
+const DevicesSelectorCardHeader = styled(DeviceHeader)`
   justify-content: center;
-  align-items: center;
-`
-
-const Status = styled.div`
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
 `
