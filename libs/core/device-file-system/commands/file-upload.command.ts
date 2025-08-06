@@ -19,7 +19,8 @@ import { fromMebiToByte } from "Core/device/helpers"
 export class FileUploadCommand extends BaseCommand {
   constructor(
     public deviceProtocol: DeviceProtocol,
-    public fileSystemService: FileSystemService
+    public fileSystemService: FileSystemService,
+    private deviceInfoService: DeviceInfoService
   ) {
     super(deviceProtocol)
   }
@@ -51,8 +52,7 @@ export class FileUploadCommand extends BaseCommand {
     }
 
     const fileSize = Buffer.byteLength(data)
-    const deviceInfoService = new DeviceInfoService(this.deviceProtocol)
-    const deviceFreeSpace = await deviceInfoService.getDeviceFreeSpace()
+    const deviceFreeSpace = await this.deviceInfoService.getDeviceFreeSpace()
     if (!deviceFreeSpace.ok) {
       return Result.failed(
         new AppError(
