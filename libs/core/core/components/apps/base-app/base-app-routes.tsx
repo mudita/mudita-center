@@ -35,6 +35,7 @@ import { GenericView } from "generic-view/feature"
 import { APIConnectionDemo, DataMigrationPage } from "generic-view/ui"
 import { ArticlePage, HelpPage } from "help/ui"
 import { RecoveryModePage } from "msc-flash-harmony"
+import { QuotationsPage } from "Core/quotations"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -143,6 +144,7 @@ export default () => (
               component={AboutContainer}
             />
             <Route path={URL_MAIN.recoveryMode} component={RecoveryModePage} />
+            <Route path={URL_MAIN.quotations} component={QuotationsPage} />
           </Switch>
         </LayoutDesktopWrapper>
       </Route>

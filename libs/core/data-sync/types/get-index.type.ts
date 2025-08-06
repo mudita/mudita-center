@@ -10,6 +10,7 @@ import { DataIndex } from "../constants/index.constant"
 import { TemplateObject } from "./template-object.type"
 import { ThreadObject } from "./thread-object.type"
 import { CallLogObject } from "Core/data-sync/types/call-log-object.type"
+import { QuotationObject } from "Core/data-sync/types/quotation-object.type"
 
 export type GetIndex<Name extends DataIndex> =
   | SerialisedIndexData<
@@ -23,6 +24,8 @@ export type GetIndex<Name extends DataIndex> =
         ? ThreadObject
         : Name extends DataIndex.CallLog
         ? CallLogObject
+        : Name extends DataIndex.Quotations
+        ? QuotationObject
         : never
     >
   | undefined

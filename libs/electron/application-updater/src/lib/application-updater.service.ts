@@ -9,7 +9,7 @@ import { IpcEvent } from "Core/core/decorators"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
 import { IpcApplicationUpdaterEvent } from "./ipc-application-updater.event"
 
-const token = process.env.GITHUB_ACCESS_TOKEN
+const token = process.env.VITE_GH_RUNTIME_TOKEN
 const repo = process.env.RELEASES_REPOSITORY_NAME
 const prereleaseEnabled = process.env.PRERELEASES_ENABLED === "1"
 

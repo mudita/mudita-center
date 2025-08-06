@@ -44,6 +44,11 @@ const getModalSize = (size: ModalProps["size"]) => {
       return {
         width: "101rem",
       }
+    case ModalSize.LargeNew:
+      return {
+        width: "92.3rem",
+        padding: "0",
+      }
     default:
       return
   }

@@ -59,6 +59,7 @@ import { CoreDeviceModule } from "core-device/feature"
 import { createSettingsService } from "Core/settings/containers"
 import { HelpModule } from "help/feature"
 import { TimeSynchronizationModule } from "Core/time-synchronization/time-synchronization.module"
+import { QuotationsModule } from "Core/quotations/service/quotations.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -78,6 +79,7 @@ export class ApplicationModule {
     DeviceLogModule,
     DeviceModule,
     TimeSynchronizationModule,
+    QuotationsModule,
   ]
 
   public lateModules: Module[] = [
