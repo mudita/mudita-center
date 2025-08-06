@@ -42,6 +42,7 @@ export class AppUpdaterService {
     autoUpdater.logger = logger
     autoUpdater.autoDownload = false
     autoUpdater.autoInstallOnAppQuit = false
+    autoUpdater.allowPrerelease = false
     autoUpdater.forceDevUpdateConfig =
       process.env.DEV_APPUPDATE_ENABLED === "true"
   }
