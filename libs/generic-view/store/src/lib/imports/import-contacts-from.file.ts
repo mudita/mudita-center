@@ -76,7 +76,9 @@ export const importContactsFromFile = createAsyncThunk<
     const fileBuffer = Buffer.from(fileResponse.data)
 
     const sample = fileBuffer.subarray(0, 1024 * 1024)
-    let { encoding, confidence } = detect(sample) ?? {}
+    const initialDetect = detect(sample) ?? {}
+    let { encoding } = initialDetect
+    const { confidence } = initialDetect
 
     if (!encoding || confidence < 0.9) {
       const fullDetect = detect(fileBuffer)
