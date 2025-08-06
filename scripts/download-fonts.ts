@@ -15,7 +15,7 @@ dotenv.config({
 /**
  * Function that downloads "GT Pressura" font which is on a private repository.
  * It needs access to proper repo defined in FONTS_DIRECTORY_URL env
- * and GitHub Access Token provided in GITHUB_BUILD_TOKEN env.
+ * and GitHub Access Token provided in GH_BUILD_TOKEN env.
  */
 ;(async () => {
   const fontsDirectory = path.join(
@@ -55,7 +55,7 @@ dotenv.config({
       const { data } = await axios.get(url, {
         responseType: "arraybuffer",
         headers: {
-          Authorization: `token ${process.env.GITHUB_BUILD_TOKEN}`,
+          Authorization: `token ${process.env.GH_BUILD_TOKEN}`,
         },
       })
       fs.writeFileSync(path.join(mainFontsDirectory, fileName), data)

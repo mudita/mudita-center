@@ -25,7 +25,7 @@ enum AppProgressBarState {
 
 // Required by electron-updater: it expects GH_TOKEN to be set in process.env
 // See: https://www.electron.build/auto-update#private-github-update-repo
-process.env.GH_TOKEN = import.meta.env.VITE_GITHUB_RUNTIME_TOKEN
+process.env.GH_TOKEN = import.meta.env.VITE_GH_RUNTIME_TOKEN
 
 export class AppUpdaterService {
   private cancellationToken = new CancellationToken()
