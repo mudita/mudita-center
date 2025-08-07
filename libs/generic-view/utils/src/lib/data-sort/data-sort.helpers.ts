@@ -21,14 +21,18 @@ export const compareFields = (
   fieldA: string | number,
   fieldB: string | number,
   direction: SortDirection,
-  sensitivity: SortSensitivity
+  sensitivity: SortSensitivity,
+  sortNumeric?: boolean
 ) => {
   if (typeof fieldA === "number" && typeof fieldB === "number") {
     return direction === "asc" ? fieldA - fieldB : fieldB - fieldA
   }
 
   if (typeof fieldA === "string" && typeof fieldB === "string") {
-    const comparison = fieldA.localeCompare(fieldB, undefined, { sensitivity })
+    const comparison = fieldA.localeCompare(fieldB, undefined, {
+      sensitivity,
+      numeric: sortNumeric,
+    })
     return direction === "asc" ? comparison : -comparison
   }
 
