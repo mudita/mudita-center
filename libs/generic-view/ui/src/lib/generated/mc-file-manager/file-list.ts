@@ -351,6 +351,7 @@ const generateFileList: ComponentGenerator<
             direction: "asc",
             orderingPatterns: ["/^[a-zA-Z0-9]/u", "/^[^a-zA-Z0-9]/u"],
             sensitivity: "base",
+            sortNumeric: true,
           },
         ],
         filters: [
