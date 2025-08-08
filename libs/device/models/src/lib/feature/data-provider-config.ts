@@ -98,6 +98,7 @@ const sortSchema = z
         orderingPatterns: sortOrderingPatternsSchema.optional(),
         sensitivity: sortSensitivitySchema.optional(),
         emptyOrder: emptyOrderSchema.optional(),
+        sortNumeric: z.boolean().optional(),
       })
       .refine((data) => data.field || data.fieldGroup, {
         message: "Either field or fieldGroup must be provided",
