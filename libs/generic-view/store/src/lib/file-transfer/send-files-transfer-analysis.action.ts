@@ -33,7 +33,7 @@ export const sendFilesTransferAnalysis = createAsyncThunk<
     return (
       (file.status === "finished" &&
         "error" in file &&
-        file.error.type === ApiFileTransferError.Aborted) ||
+        file.error?.type === ApiFileTransferError.Aborted) ||
       file.status === "in-progress"
     )
   })
