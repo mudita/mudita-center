@@ -9,12 +9,13 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
 } from "react"
 import { useSelector } from "react-redux"
 import styled, { css } from "styled-components"
 import { selectEntityData, selectFilesTransferMode } from "generic-view/store"
 import { IconType } from "generic-view/utils"
-import { Modal } from "../modal/modal"
+import { Modal } from "../../interactive/modal/modal"
 import { IconButton } from "../../shared/button"
 import { Icon } from "../../icon/icon"
 import { Typography } from "../../typography"
@@ -24,25 +25,22 @@ import { AnimatePresence, motion } from "motion/react"
 import { useFilesPreview, UseFilesPreviewParams } from "./use-files-preview"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { ButtonIcon } from "../../buttons/button-icon"
+import { generateFilesExportButtonActions } from "../../generated/mc-file-manager/file-export-button"
+import { generateDeleteFilesButtonActions } from "../../generated/mc-file-manager/delete-files"
+import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
 interface Props {
+  componentKey: string
   entitiesConfig: UseFilesPreviewParams["entitiesConfig"]
   items: string[]
   activeItem: string | undefined
   onActiveItemChange: (item: string | undefined) => void
-  onFileExport?: (item: string) => void
-  onFileDelete?: (item: string) => void
+  actions?: React.ReactNode
 }
 
 export const FilePreview: FunctionComponent<Props> = memo(
-  ({
-    items,
-    activeItem,
-    onActiveItemChange,
-    entitiesConfig,
-    onFileExport,
-    onFileDelete,
-  }) => {
+  ({ items, activeItem, onActiveItemChange, entitiesConfig, componentKey }) => {
     const deviceId = useSelector(activeDeviceIdSelector)
     const entity = useSelector((state: ReduxRootState) => {
       if (!activeItem || !deviceId) return undefined
@@ -52,6 +50,8 @@ export const FilePreview: FunctionComponent<Props> = memo(
         entityId: activeItem,
       })
     })
+    const nextIdReference = useRef<string>()
+
     // TODO: Handle file transfer mode
     const fileTransferMode = useSelector(selectFilesTransferMode)
 
@@ -85,22 +85,12 @@ export const FilePreview: FunctionComponent<Props> = memo(
       // TODO: Handle errors
     }, [])
 
-    const handleExport = useCallback(() => {
-      if (!activeItem) return
-      onFileExport?.(activeItem)
-    }, [activeItem, onFileExport])
-
-    const handleDelete = useCallback(() => {
-      if (!activeItem) return
-      onFileDelete?.(activeItem)
-    }, [activeItem, onFileDelete])
-
     const handlePreviousFile = useCallback(() => {
       onActiveItemChange(previousId)
     }, [onActiveItemChange, previousId])
 
     const handleNextFile = useCallback(() => {
-      onActiveItemChange(nextId)
+      onActiveItemChange(nextIdReference.current || nextId)
     }, [nextId, onActiveItemChange])
 
     const handleKeyDown = useCallback(
@@ -115,19 +105,10 @@ export const FilePreview: FunctionComponent<Props> = memo(
     )
 
     useEffect(() => {
-      // If the active item is not in the list, go to the next item
-      if (activeItem && !items.includes(activeItem)) {
-        handleNextFile()
-      }
-    }, [activeItem, handleNextFile, items])
-
-    useEffect(() => {
       document.addEventListener("keydown", handleKeyDown)
-
       if (!activeItem) {
         document.removeEventListener("keydown", handleKeyDown)
       }
-
       return () => {
         document.removeEventListener("keydown", handleKeyDown)
       }
@@ -141,6 +122,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
           width: 960,
           maxHeight: 640,
           padding: 0,
+          modalLayer: ModalLayers.Default - 1,
         }}
       >
         <ModalContent>
@@ -201,24 +183,28 @@ export const FilePreview: FunctionComponent<Props> = memo(
             </Navigation>
           )}
           <Footer>
-            <IconButton onClick={handleExport}>
-              <Icon
-                config={{
-                  type: IconType.Export,
-                  size: "large",
-                  color: "white",
-                }}
-              />
-            </IconButton>
-            <IconButton onClick={handleDelete}>
-              <Icon
-                config={{
-                  type: IconType.Delete,
-                  size: "large",
-                  color: "white",
-                }}
-              />
-            </IconButton>
+            <ButtonIcon
+              config={{
+                icon: IconType.Export,
+                iconSize: "large",
+                actions: [
+                  ...generateFilesExportButtonActions(componentKey, {
+                    exportActionId: "previewExport",
+                    singleEntityId: activeItem,
+                    entityType: entitiesConfig.type,
+                  }),
+                ],
+              }}
+            />
+            <ButtonIcon
+              config={{
+                icon: IconType.Delete,
+                iconSize: "large",
+                actions: generateDeleteFilesButtonActions(componentKey, {
+                  singleEntityId: activeItem,
+                }),
+              }}
+            />
           </Footer>
         </ModalContent>
       </Modal>
@@ -287,6 +273,10 @@ const Footer = styled.footer`
     );
     filter: drop-shadow(0 1rem 5rem rgba(0, 0, 0, 0.08));
     transform: rotate(-180deg);
+  }
+
+  svg {
+    color: ${({ theme }) => theme.color.white} !important;
   }
 `
 

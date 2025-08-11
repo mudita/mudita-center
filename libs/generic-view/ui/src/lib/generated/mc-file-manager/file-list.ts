@@ -4,7 +4,10 @@
  */
 
 import { ComponentGenerator, IconType, Subview } from "generic-view/utils"
-import { generateDeleteFiles } from "./delete-files"
+import {
+  generateDeleteFiles,
+  generateDeleteFilesButtonActions,
+} from "./delete-files"
 import { McFileManagerConfig } from "generic-view/models"
 import {
   generateFileUploadProcessButton,
@@ -61,6 +64,8 @@ const generateFileList: ComponentGenerator<
             filesToUpload: [],
             activeFileName: null,
             activeFilePath: null,
+            exportPath: "",
+            previewMode: false,
           },
         },
       },
@@ -135,16 +140,25 @@ const generateFileList: ComponentGenerator<
     },
     [`${key}${id}fileListPanelDefaultMode`]: {
       component: "conditional-renderer",
+      config: {
+        multipleConditionsMethod: "or",
+      },
       childrenKeys: [`${key}${id}fileListPanel`],
       dataProvider: {
         source: "form-fields",
         fields: [
           {
             providerField: "selectedItems",
-            componentField: "data.render",
+            componentField: "data.render[0]",
             modifier: "length",
             condition: "eq",
             value: 0,
+          },
+          {
+            providerField: "previewMode",
+            componentField: "data.render[1]",
+            condition: "eq",
+            value: true,
           },
         ],
       },
@@ -195,16 +209,25 @@ const generateFileList: ComponentGenerator<
     }),
     [`${key}${id}fileListPanelSelectMode`]: {
       component: "conditional-renderer",
+      config: {
+        multipleConditionsMethod: "and",
+      },
       childrenKeys: [`${key}${id}fileListPanelSelector`],
       dataProvider: {
         source: "form-fields",
         fields: [
           {
             providerField: "selectedItems",
-            componentField: "data.render",
+            componentField: "data.render[0]",
             modifier: "length",
             condition: "gt",
             value: 0,
+          },
+          {
+            providerField: "previewMode",
+            componentField: "data.render[1]",
+            condition: "eq",
+            value: false,
           },
         ],
       },
@@ -264,27 +287,18 @@ const generateFileList: ComponentGenerator<
     ...generateFileExportProcessButton(`${key}${id}`, {
       directoryPath,
       entityType,
-      storagePath,
-      supportedFileTypes,
-      label,
+      exportActionId: entityType + "Export",
     }),
     [`${key}${id}deleteButton`]: {
       component: "button-text",
       config: {
         text: entityType === "applicationFiles" ? "Delete APK" : "Delete",
         icon: IconType.Delete,
-        actions: [
-          {
-            type: "open-modal",
-            modalKey: `${key}${id}deleteModal`,
-            domain: "files-delete",
-          },
-        ],
+        actions: generateDeleteFilesButtonActions(`${key}${id}`),
         modifiers: ["uppercase"],
       },
     },
-    ...generateDeleteFiles(key, {
-      id,
+    ...generateDeleteFiles(`${key}${id}`, {
       entityType,
     }),
     [`${key}${id}fileListEmptyState`]: {
@@ -338,6 +352,7 @@ const generateFileList: ComponentGenerator<
           entityTitleFieldName: "fileName",
           entityMimeTypeFieldName: "mimeType",
           entitySizeFieldName: "fileSize",
+          componentKey: `${key}${id}`,
         },
       },
       dataProvider: {
@@ -482,6 +497,18 @@ const generateFileList: ComponentGenerator<
           {
             providerField: "id",
             componentField: "config.value",
+          },
+        ],
+      },
+      dataProviderSecondary: {
+        source: "form-fields",
+        formKey: `${key}${id}fileListForm`,
+        fields: [
+          {
+            providerField: "previewMode",
+            componentField: "config.inactive",
+            condition: "eq",
+            value: true,
           },
         ],
       },

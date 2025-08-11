@@ -25,6 +25,7 @@ const configValidator = z.object({
       entityTitleFieldName: z.string(),
       entityMimeTypeFieldName: z.string(),
       entitySizeFieldName: z.string(),
+      componentKey: z.string(),
     })
     .optional(),
 })

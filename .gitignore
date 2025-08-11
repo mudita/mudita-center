@@ -70,3 +70,5 @@ scripts/manage-test-files/file-manager-test-files/*
 libs/app-mtp/**/*.js
 
 *.orig
+
+.github/copilot-instructions.md

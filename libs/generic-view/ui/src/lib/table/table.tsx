@@ -28,7 +28,7 @@ import {
   listRawItemStyles,
 } from "../list/list-item"
 import { toastAnimationDuration } from "../interactive/toast/toast"
-import { FilePreview } from "../interactive/file-preview/file-preview"
+import { FilePreview } from "../predefined/file-preview/file-preview"
 
 const rowHeight = 64
 
@@ -49,17 +49,21 @@ export const Table: APIFC<TableData, TableConfig> & {
   ])
 
   const [activePreviewId, setActivePreviewId] = useState<string>()
+  const nextActivePreviewId = useRef<string | undefined>(undefined)
   const { activeIdFieldName } = formOptions || {}
   const isClickable = Boolean(activeIdFieldName)
-
   const activeRowId = activeIdFieldName
     ? formContext.watch(activeIdFieldName)
+    : undefined
+
+  const previewMode = previewOptions?.enabled
+    ? formContext.watch("previewMode")
     : undefined
 
   const onRowClick = useCallback(
     (id: string) => {
       if (previewOptions?.enabled) {
-        setActivePreviewId(id)
+        handleActivePreviewIdChange(id)
         return
       }
       if (activeIdFieldName) {
@@ -104,11 +108,40 @@ export const Table: APIFC<TableData, TableConfig> & {
     }
   }, [activePreviewId])
 
+  const handleActivePreviewIdChange = useCallback(
+    (id?: string) => {
+      setActivePreviewId(id)
+      if (id) {
+        nextActivePreviewId.current = data[(data.indexOf(id) + 1) % data.length]
+      }
+    },
+    [data]
+  )
+
   useEffect(() => {
     if (activePreviewId !== undefined) {
       scrollToPreviewActiveItem()
+      formContext.setValue("previewMode", true)
+    } else if (previewMode) {
+      formContext.setValue("previewMode", false)
+      nextActivePreviewId.current = undefined
+      if (formOptions.selectedIdsFieldName) {
+        formContext.setValue(formOptions.selectedIdsFieldName, [])
+      }
     }
-  }, [activePreviewId, scrollToPreviewActiveItem])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    activePreviewId,
+    formOptions.selectedIdsFieldName,
+    previewMode,
+    scrollToPreviewActiveItem,
+  ])
+
+  useEffect(() => {
+    if (activePreviewId && !data.includes(activePreviewId)) {
+      handleActivePreviewIdChange(nextActivePreviewId.current)
+    }
+  }, [activePreviewId, data, handleActivePreviewIdChange])
 
   useEffect(() => {
     if (activeRowId) {
@@ -247,13 +280,15 @@ export const Table: APIFC<TableData, TableConfig> & {
     ]
   )
 
-  const filePreview = useMemo(() => {
+  const preview = useMemo(() => {
     if (!previewOptions || !previewOptions.enabled) return null
+
     return (
       <FilePreview
         items={data}
         activeItem={activePreviewId}
-        onActiveItemChange={setActivePreviewId}
+        onActiveItemChange={handleActivePreviewIdChange}
+        componentKey={previewOptions.componentKey}
         entitiesConfig={{
           type: previewOptions.entitiesType,
           idField: previewOptions.entityIdFieldName,
@@ -264,7 +299,7 @@ export const Table: APIFC<TableData, TableConfig> & {
         }}
       />
     )
-  }, [activePreviewId, data, previewOptions])
+  }, [activePreviewId, data, handleActivePreviewIdChange, previewOptions])
 
   return useMemo(
     () => (
@@ -283,7 +318,7 @@ export const Table: APIFC<TableData, TableConfig> & {
             </TableBody>
           </TableWrapper>
         </ScrollableWrapper>
-        {filePreview}
+        {preview}
       </>
     ),
     [
@@ -292,7 +327,7 @@ export const Table: APIFC<TableData, TableConfig> & {
       previewOptions?.enabled,
       renderHeaderChildren,
       data,
-      filePreview,
+      preview,
       renderRow,
     ]
   )
