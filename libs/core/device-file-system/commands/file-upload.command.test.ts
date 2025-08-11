@@ -14,6 +14,7 @@ import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { DeviceFileSystemError } from "Core/device-file-system/constants"
+import { DeviceInfoService } from "Core/device-info/services"
 
 const deviceProtocol = {
   device: {
@@ -26,7 +27,9 @@ const fileSystemService = {
   getFileSize: jest.fn(),
 } as unknown as FileSystemService
 
-const subject = new FileUploadCommand(deviceProtocol, fileSystemService)
+const subject = new FileUploadCommand(deviceProtocol, fileSystemService, {
+  getDeviceFreeSpace: () => Result.success(2000),
+} as unknown as DeviceInfoService)
 
 const successResponse: ResultObject<{
   txID: string
