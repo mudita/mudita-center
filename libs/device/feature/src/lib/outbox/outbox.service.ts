@@ -31,7 +31,7 @@ export class APIOutboxService {
       endpoint: "OUTBOX",
       method: "GET",
       options: {
-        connectionTimeOut: 5000,
+        connectionTimeOut: 10_000,
       },
     })
     if (response.ok) {

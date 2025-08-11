@@ -24,6 +24,7 @@ const generateFileList: ComponentGenerator<
   McFileManagerConfig["categories"][number] & {
     id: string
     storagePath: string
+    features?: string[]
   }
 > = (
   key,
@@ -35,8 +36,10 @@ const generateFileList: ComponentGenerator<
     storagePath,
     entityType,
     supportedFileTypes,
+    features,
   }
 ) => {
+  const isExportEnabled = features?.includes("export")
   return {
     [`${key}${id}fileListContainer`]: {
       component: "conditional-renderer",
@@ -237,7 +240,9 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [
         `${key}${id}selectAllCheckbox`,
         `${key}${id}selectedItemsCounter`,
-        generateFileExportProcessButtonKey(`${key}${id}`),
+        ...(isExportEnabled
+          ? [generateFileExportProcessButtonKey(`${key}${id}`)]
+          : []),
         `${key}${id}deleteButton`,
       ],
       layout: {
@@ -245,7 +250,12 @@ const generateFileList: ComponentGenerator<
         padding: "8px 24px 8px 12px",
         gridLayout: {
           rows: ["auto"],
-          columns: ["auto", "1fr", "auto", "auto"],
+          columns: [
+            "auto",
+            "1fr",
+            "auto",
+            ...(isExportEnabled ? ["auto"] : []),
+          ],
           alignItems: "center",
           columnGap: "14px",
         },
@@ -655,7 +665,8 @@ export const generateFileListWrapperKey = (key: string) => {
 export const generateFileListWrapper: ComponentGenerator<{
   storage: McFileManagerConfig["storages"][number]
   categories: McFileManagerConfig["categories"]
-}> = (key, { storage, categories }): Subview => {
+  features: McFileManagerConfig["features"]
+}> = (key, { storage, categories, features }): Subview => {
   const initialListConfig: Subview = {
     [generateFileListWrapperKey(key)]: {
       component: "block-plain",
@@ -680,6 +691,7 @@ export const generateFileListWrapper: ComponentGenerator<{
         id: index.toString(),
         ...category,
         storagePath: storage.path,
+        features,
       }),
     }
     return previousValue
