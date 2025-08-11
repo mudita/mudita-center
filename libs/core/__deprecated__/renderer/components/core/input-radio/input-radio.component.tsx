@@ -27,7 +27,7 @@ const Input = styled.input`
   border-radius: 50%;
   margin-right: 1.2rem;
 
-  &:hover {
+  &:hover:not(:disabled) {
     border-color: ${borderColor("hover")};
     cursor: pointer;
     transition: border-color 0.5s linear;

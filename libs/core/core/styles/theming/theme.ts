@@ -37,6 +37,7 @@ const theme = {
       action: blue2,
       active: white,
       disabled: grey3,
+      disabled2: grey4,
       error: red,
       primary: black,
       secondary: grey2,

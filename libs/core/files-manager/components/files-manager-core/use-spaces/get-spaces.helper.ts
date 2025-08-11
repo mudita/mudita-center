@@ -18,7 +18,7 @@ export const getSpaces = (
 ): Spaces => {
   const { reservedSpace, usedUserSpace, total } = memorySpace
   const usedMemorySpace = reservedSpace + usedUserSpace
-  const freeSpace = total - usedMemorySpace
+  const freeSpace = Math.max(0, total - usedMemorySpace)
   const musicSpace = files?.reduce((a, b) => a + b.size, 0) ?? 0
   const otherSpace = usedUserSpace - musicSpace
 
