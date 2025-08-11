@@ -21,6 +21,7 @@ export const generateStoragePage: ComponentGenerator<
     mainFormKey: string
     storage: McFileManagerConfig["storages"][number]
     categories: McFileManagerConfig["categories"]
+    features: McFileManagerConfig["features"]
   },
   NonNullable<Subview>
 > = (key, config) => {

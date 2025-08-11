@@ -44,6 +44,7 @@ export const mcFileManagerData = z.object({
 export type McFileManagerData = z.infer<typeof mcFileManagerData>
 
 const configValidator = z.object({
+  features: z.array(z.string()).optional(),
   storages: z
     .array(
       z.object({

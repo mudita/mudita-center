@@ -56,6 +56,7 @@ export type FileWithPath = {
   path: string
   name: string
   groupId?: FileGroupId
+  devicePath?: string
 }
 
 export type FileWithBase64 = {
