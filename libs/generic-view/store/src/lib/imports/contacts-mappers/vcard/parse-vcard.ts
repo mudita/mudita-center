@@ -17,6 +17,7 @@ export const parseVcard = (data: string) => {
 }
 
 const fixFormatting = (data: string) => {
+  const clearPhotos = data.replace(/^PHOTO[^:]*:.*(\r?\n[ \t].*)*/gim, "")
   // Replace new lines with CRLF
-  return data.replace(/\r?\n/g, "\r\n")
+  return clearPhotos.replace(/\r?\n/g, "\r\n")
 }
