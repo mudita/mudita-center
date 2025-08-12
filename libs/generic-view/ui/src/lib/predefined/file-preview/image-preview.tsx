@@ -11,10 +11,14 @@ import React, {
   useState,
 } from "react"
 import styled from "styled-components"
+import {
+  FilePreviewErrorHandler,
+  FilePreviewErrorType,
+} from "./file-preview-error.types"
 
 interface Props {
   src?: string
-  onError?: () => void
+  onError?: FilePreviewErrorHandler
 }
 
 export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
@@ -28,6 +32,17 @@ export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
     }, 100)
   }, [])
 
+  const handleError = useCallback(() => {
+    console.log({ src })
+    if (src?.endsWith(".heic")) {
+      onError?.({ type: FilePreviewErrorType.UnsupportedFileType, details: "HEIC" })
+    } else if (src?.endsWith(".heif")) {
+      onError?.({ type: FilePreviewErrorType.UnsupportedFileType, details: "HEIF" })
+    } else {
+      onError?.({ type: FilePreviewErrorType.Unknown })
+    }
+  }, [onError, src])
+
   useEffect(() => {
     clearTimeout(loadedTimeoutRef.current)
     setLoaded(false)
@@ -36,7 +51,7 @@ export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
   return (
     <Wrapper $loaded={loaded}>
       <BackgroundImage $url={src} />
-      <MainImage key={src} src={src} onLoad={onLoad} onError={onError} />
+      <MainImage key={src} src={src} onLoad={onLoad} onError={handleError} />
     </Wrapper>
   )
 }
