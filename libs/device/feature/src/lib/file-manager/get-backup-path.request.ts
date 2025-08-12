@@ -10,7 +10,7 @@ import { ipcRenderer } from "electron-better-ipc"
 
 export const getBackupPathRequest = (
   deviceId?: DeviceId
-): Promise<ResultObject<string>> => {
+): Promise<ResultObject<string[]>> => {
   return ipcRenderer.callMain(FileManagerServiceEvents.GetBackupPath, {
     deviceId,
   })
