@@ -32,12 +32,14 @@ export interface UseFilesPreviewParams {
 
 export const useFilesPreview = ({
   items,
-  activeItem: activeItem,
+  activeItem,
   entitiesConfig,
 }: UseFilesPreviewParams) => {
   const actionId = entitiesConfig.type + "Preview"
   const dispatch = useDispatch<AppDispatch>()
 
+  const [refetchTrigger, setRefetchTrigger] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
   const [tempDirectoryPath, setTempDirectoryPath] = useState<string>()
   const [downloadedItems, setDownloadedItems] = useState<FilePreviewResponse[]>(
     []
@@ -79,7 +81,7 @@ export const useFilesPreview = ({
     if (!activeItem) return undefined
     return downloadedItems.find((item) => item.id === activeItem)
     // eslint-disable-next-line
-  }, [activeItem, downloadedItemsDependency])
+  }, [activeItem, downloadedItemsDependency, refetchTrigger])
 
   const getFilePriority = useCallback(
     (fileId: string) => {
@@ -104,13 +106,16 @@ export const useFilesPreview = ({
             const fileInfo = await downloadFile(fileId)
             if (fileInfo) {
               setDownloadedItems((prev) => uniqBy([...prev, fileInfo], "id"))
+              if (fileInfo.id === activeItem) {
+                setIsLoading(false)
+              }
             }
           },
           priority: getFilePriority(fileId),
         })
       }
     },
-    [downloadFile, getFilePriority, queue]
+    [activeItem, downloadFile, getFilePriority, queue]
   )
 
   useEffect(() => {
@@ -149,7 +154,13 @@ export const useFilesPreview = ({
     ].filter(Boolean) as string[]
 
     downloadFiles(filesToDownload)
-  }, [activeItem, nearestFiles.next, nearestFiles.previous, downloadFiles])
+  }, [
+    activeItem,
+    nearestFiles.next,
+    nearestFiles.previous,
+    downloadFiles,
+    refetchTrigger,
+  ])
 
   const ensureTempDirectory = useCallback(async () => {
     const destinationPath = await getAppPath("filePreview")
@@ -165,6 +176,11 @@ export const useFilesPreview = ({
       await removeDirectory(tempDirectoryPath)
     }
   }, [actionId, dispatch, tempDirectoryPath])
+
+  const refetch = useCallback(() => {
+    setIsLoading(true)
+    setRefetchTrigger((prev) => prev + 1)
+  }, [])
 
   useEffect(() => {
     if (!activeItem) {
@@ -185,5 +201,7 @@ export const useFilesPreview = ({
     data: currentFile,
     nextId: nearestFiles.next,
     previousId: nearestFiles.previous,
+    refetch,
+    isLoading,
   }
 }
