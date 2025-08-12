@@ -44,7 +44,13 @@ export const SegmentBar: APIFC<SegmentBarData, SegmentBarConfig> = ({
   }, [segments, containerWidth])
 
   return (
-    <Wrapper data-tooltip-boundary ref={ref} width={"100%"} height={"14px"} {...props}>
+    <Wrapper
+      data-tooltip-boundary
+      ref={ref}
+      width={"100%"}
+      height={"14px"}
+      {...props}
+    >
       {computedSegments.map((segment, index) => (
         <SegmentBarItem key={index} {...segment} isFirst={index === 0} />
       ))}
@@ -57,6 +63,7 @@ const Wrapper = styled.div<{
   height: string
 }>`
   position: relative;
+  z-index: 2;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
 `
