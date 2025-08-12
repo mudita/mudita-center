@@ -16,10 +16,16 @@ import {
   FileWithPath,
   sendFiles,
   sendFilesClear,
+  addFileTransferErrors,
 } from "generic-view/store"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
-import { isMtpPathInternal, sliceMtpPaths } from "./file-transfer-paths-helper"
+import {
+  getDevicePath,
+  isMtpPathInternal,
+  sliceMtpPaths,
+} from "./file-transfer-paths-helper"
 import { SendFilesAction } from "../../../../../store/src/lib/file-transfer/files-transfer.type"
+import { validateFilesToExport } from "../../shared/validate-files-to-export"
 
 export const useExportFilesButtonAction = () => {
   const store = useStore<ReduxRootState>()
@@ -59,9 +65,24 @@ export const useExportFilesButtonAction = () => {
         name: String(e.fileName),
         size: Number(e.fileSize),
         groupId: action.actionId,
+        devicePath: getDevicePath(e.filePath as string),
       }))
 
-      //TODO - available space validation
+      const validationError = await validateFilesToExport(
+        exportFilesData,
+        destinationPath
+      )
+
+      if (validationError !== undefined) {
+        dispatch(
+          addFileTransferErrors({
+            actionId: action.actionId,
+            errors: [validationError],
+          })
+        )
+        await callbacks.onValidationFailure()
+        return
+      }
 
       const sourcePath = entities[0].filePath as string
 

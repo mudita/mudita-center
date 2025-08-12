@@ -15,8 +15,13 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { ActionName } from "../action-names"
 import { fileTransferChunkGet, fileTransferGetPrepared } from "./actions"
 import { AppError, AppErrorType } from "Core/core/errors"
-import { GeneralError, PreTransferGet } from "device/models"
-import { Result } from "Core/core/builder"
+import {
+  GeneralError,
+  PreTransferGet200,
+  PreTransferGet202,
+} from "device/models"
+import { Result, ResultObject } from "Core/core/builder"
+import { delay } from "shared/utils"
 
 export type GetFileErrorPayload = {
   transferId?: number
@@ -34,7 +39,7 @@ export const getFile = createAsyncThunk<
     deviceId: DeviceId
     filePath: string
     targetPath?: string
-    preTransfer?: PreTransferGet
+    preTransfer?: PreTransferGet200
     onProgress?: (progress: number) => void
   },
   { state: ReduxRootState; rejectValue: GetFileError | undefined }
@@ -62,9 +67,39 @@ export const getFile = createAsyncThunk<
       return rejectWithValue(undefined)
     }
 
-    const preTransferResponse = preTransfer
-      ? Result.success(preTransfer)
-      : await startPreGetFileRequest(filePath, deviceId)
+    let preTransferResponse: ResultObject<PreTransferGet200 | PreTransferGet202>
+
+    // eslint-disable-next-line
+    while (true) {
+      if (signal.aborted) {
+        return rejectWithValue(undefined)
+      }
+
+      preTransferResponse = preTransfer
+        ? Result.success(preTransfer)
+        : await startPreGetFileRequest(filePath, deviceId)
+
+      if (!preTransferResponse.ok) {
+        return rejectWithValue({
+          deviceId,
+          error: {
+            ...preTransferResponse.error,
+            payload: {
+              transferId: preTransferResponse.error.payload,
+              filePath,
+            },
+          },
+        })
+      }
+
+      const { chunkSize, fileSize } = preTransferResponse.data
+
+      if (chunkSize != null && fileSize != null) {
+        break
+      }
+
+      await delay()
+    }
 
     if (preTransferResponse.ok && !aborted) {
       const { transferId, chunkSize, fileSize } = preTransferResponse.data
@@ -122,7 +157,7 @@ export const getFile = createAsyncThunk<
           type: GeneralError.IncorrectResponse,
           message: "Incorrect response",
           payload: {
-            transferId: preTransferResponse.error?.payload,
+            transferId: preTransferResponse.data.transferId,
             filePath,
           },
         },

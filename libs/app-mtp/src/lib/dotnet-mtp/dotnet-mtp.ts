@@ -147,6 +147,7 @@ export class DotnetMtp implements MtpInterface {
   ): Promise<ResultObject<CancelTransferResultData>> {
     const transactionStatus =
       this.fileTransferTransactionStatus[data.transactionId]
+    this.abortController?.abort()
 
     if (transactionStatus === undefined) {
       return Result.failed({
@@ -157,7 +158,6 @@ export class DotnetMtp implements MtpInterface {
         type: MTPError.MTP_CANCEL_FAILED_ALREADY_TRANSFERRED,
       } as AppError)
     } else {
-      this.abortController?.abort()
       console.log(
         `${PREFIX_LOG} Canceling file transfer for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
       )
