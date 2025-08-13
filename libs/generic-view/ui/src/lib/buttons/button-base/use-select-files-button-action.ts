@@ -12,7 +12,13 @@ export const useSelectFilesButtonAction = () => {
   const getFormContext = useViewFormContext()
 
   return useCallback(
-    async (action: NativeActionSelectFiles) => {
+    async (
+      action: NativeActionSelectFiles,
+      callbacks: {
+        onSuccess?: () => Promise<void>
+        onFailure?: () => Promise<void>
+      }
+    ) => {
       const selectorResponse = await openFileRequest({
         ...(action.multiple
           ? { properties: ["openFile", "multiSelections"] }
@@ -27,6 +33,7 @@ export const useSelectFilesButtonAction = () => {
         }),
       })
       if (!selectorResponse.ok) {
+        await callbacks.onFailure?.()
         return false
       }
 
@@ -34,6 +41,7 @@ export const useSelectFilesButtonAction = () => {
         action.formOptions.selectedFilesFieldName,
         selectorResponse.data
       )
+      await callbacks.onSuccess?.()
       return true
     },
     [getFormContext]

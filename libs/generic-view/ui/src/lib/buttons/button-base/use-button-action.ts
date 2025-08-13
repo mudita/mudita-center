@@ -149,7 +149,20 @@ const runActions = (actions?: ButtonActions) => {
           break
         case "select-files":
           {
-            const selected = await customActions.selectFiles(action)
+            const selected = await customActions.selectFiles(action, {
+              onSuccess: async () => {
+                await runActions(action.postActions?.success)(
+                  providers,
+                  customActions
+                )
+              },
+              onFailure: async () => {
+                await runActions(action.postActions?.failure)(
+                  providers,
+                  customActions
+                )
+              },
+            })
             if (!selected) {
               return
             }
@@ -158,7 +171,20 @@ const runActions = (actions?: ButtonActions) => {
 
         case "select-directory":
           {
-            const selected = await customActions.selectDirectory(action)
+            const selected = await customActions.selectDirectory(action, {
+              onSuccess: async () => {
+                await runActions(action.postActions?.success)(
+                  providers,
+                  customActions
+                )
+              },
+              onFailure: async () => {
+                await runActions(action.postActions?.failure)(
+                  providers,
+                  customActions
+                )
+              },
+            })
             if (!selected) {
               return
             }
