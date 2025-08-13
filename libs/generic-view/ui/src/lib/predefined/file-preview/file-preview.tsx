@@ -135,7 +135,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
 
     const previewError = useMemo(() => {
       return (
-        <ErrorWrapper $visible={!!error && !isLoading}>
+        <>
           <ErrorIcon
             config={{
               type: IconType.Exclamation,
@@ -180,9 +180,9 @@ export const FilePreview: FunctionComponent<Props> = memo(
               />
             </>
           )}
-        </ErrorWrapper>
+        </>
       )
-    }, [error, handleClose, handleRetry, isLoading])
+    }, [error, handleClose, handleRetry])
 
     useEffect(() => {
       document.addEventListener("keydown", handleKeyDown)
@@ -240,12 +240,34 @@ export const FilePreview: FunctionComponent<Props> = memo(
             <Loader>
               <SpinnerLoader />
             </Loader>
-            <PreviewWrapper $visible={isLoaded && !error}>
-              {entityType.startsWith("image") && (
-                <ImagePreview src={fileInfo?.path} onError={setError} />
+            <AnimatePresence initial={true} mode={"wait"}>
+              {isLoaded && !error && (
+                <PreviewWrapper
+                  key={fileInfo?.path}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {entityType.startsWith("image") && (
+                    <ImagePreview src={fileInfo?.path} onError={setError} />
+                  )}
+                </PreviewWrapper>
               )}
-            </PreviewWrapper>
-            {previewError}
+            </AnimatePresence>
+            <AnimatePresence initial={true} mode={"wait"}>
+              {!!error && !isLoading && (
+                <ErrorWrapper
+                  key={fileInfo?.path}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {previewError}
+                </ErrorWrapper>
+              )}
+            </AnimatePresence>
             {/*{error && (*/}
             {/*  <>*/}
             {/*    <ErrorIcon*/}
@@ -502,13 +524,11 @@ const Loader = styled.div`
   z-index: 1;
 `
 
-const PreviewWrapper = styled.div<{ $visible?: boolean }>`
+const PreviewWrapper = styled(motion.div)`
   position: relative;
   width: 100%;
   height: 100%;
   z-index: 2;
-  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transition: opacity 0.5s ease-in-out;
 `
 
 const Main = styled.main`
@@ -522,7 +542,7 @@ const Main = styled.main`
   background-color: ${({ theme }) => theme.color.grey0};
 `
 
-const ErrorWrapper = styled.div<{ $visible?: boolean }>`
+const ErrorWrapper = styled(motion.div)`
   background-color: ${({ theme }) => theme.color.grey0};
   position: absolute;
   top: 50%;
@@ -535,8 +555,6 @@ const ErrorWrapper = styled.div<{ $visible?: boolean }>`
   justify-content: center;
   gap: 1.4rem;
   width: 34rem;
-  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transition: opacity 0.5s ease-in-out;
 
   p {
     color: ${({ theme }) => theme.color.white} !important;

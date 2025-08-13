@@ -71,7 +71,7 @@ const Wrapper = styled.div<{ $loaded?: boolean }>`
   width: 100%;
   height: 100%;
   opacity: ${({ $loaded }) => ($loaded ? 1 : 0)};
-  transition: opacity 0.1s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
 `
 
 const MainImage = styled.img`
