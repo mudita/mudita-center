@@ -88,8 +88,9 @@ export const FilePreview: FunctionComponent<Props> = memo(
       entitiesConfig,
     })
     const [error, setError] = useState<FilePreviewError>()
-    const isLoaded = !isLoading && !!fileInfo
+    const isLoaded = !isLoading
 
+    console.log({ fileTransferMode })
     const entityType = useMemo(() => {
       if (!entity) return ""
       return entity[entitiesConfig.mimeTypeField] as string
@@ -101,17 +102,18 @@ export const FilePreview: FunctionComponent<Props> = memo(
     }, [entitiesConfig.titleField, entity])
 
     const handleClose = useCallback(() => {
+      setError(undefined)
       onActiveItemChange(undefined)
     }, [onActiveItemChange])
 
     const handlePreviousFile = useCallback(() => {
-      onActiveItemChange(previousId)
       setError(undefined)
+      onActiveItemChange(previousId)
     }, [onActiveItemChange, previousId])
 
     const handleNextFile = useCallback(() => {
-      onActiveItemChange(nextIdReference.current || nextId)
       setError(undefined)
+      onActiveItemChange(nextIdReference.current || nextId)
     }, [nextId, onActiveItemChange])
 
     const handleKeyDown = useCallback(
@@ -127,9 +129,60 @@ export const FilePreview: FunctionComponent<Props> = memo(
 
     const handleRetry = useCallback(async () => {
       if (!activeItem) return
-      setError(undefined)
       refetch()
+      setError(undefined)
     }, [activeItem, refetch])
+
+    const previewError = useMemo(() => {
+      return (
+        <ErrorWrapper $visible={!!error && !isLoading}>
+          <ErrorIcon
+            config={{
+              type: IconType.Exclamation,
+              size: "large",
+              color: "white",
+            }}
+          />
+          {error?.type === FilePreviewErrorType.UnsupportedFileType ? (
+            <>
+              <Typography.P1>
+                {intl.formatMessage(messages.unsupportedFileType, {
+                  type: error.details,
+                })}
+              </Typography.P1>
+              <ButtonSecondary
+                config={{
+                  text: intl.formatMessage(messages.backButton),
+                  actions: [
+                    {
+                      type: "custom",
+                      callback: handleClose,
+                    },
+                  ],
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <Typography.P1>
+                {intl.formatMessage(messages.unknownError)}
+              </Typography.P1>
+              <ButtonSecondary
+                config={{
+                  text: intl.formatMessage(messages.retryButton),
+                  actions: [
+                    {
+                      type: "custom",
+                      callback: handleRetry,
+                    },
+                  ],
+                }}
+              />
+            </>
+          )}
+        </ErrorWrapper>
+      )
+    }, [error, handleClose, handleRetry, isLoading])
 
     useEffect(() => {
       document.addEventListener("keydown", handleKeyDown)
@@ -187,81 +240,88 @@ export const FilePreview: FunctionComponent<Props> = memo(
             <Loader>
               <SpinnerLoader />
             </Loader>
-            <AnimatePresence initial={true} mode={"wait"}>
-              {isLoaded && (
-                <PreviewWrapper
-                  key={fileInfo?.path}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {entityType.startsWith("image") && (
-                    <ImagePreview src={fileInfo.path} onError={setError} />
-                  )}
-                  <AnimatePresence initial={false} mode={"wait"}>
-                    {Boolean(error) && (
-                      <ErrorWrapper
-                        key={fileInfo?.path}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <ErrorIcon
-                          config={{
-                            type: IconType.Exclamation,
-                            size: "large",
-                            color: "white",
-                          }}
-                        />
-                        {error?.type ===
-                        FilePreviewErrorType.UnsupportedFileType ? (
-                          <>
-                            <Typography.P1>
-                              {intl.formatMessage(
-                                messages.unsupportedFileType,
-                                {
-                                  type: error.details,
-                                }
-                              )}
-                            </Typography.P1>
-                            <ButtonSecondary
-                              config={{
-                                text: intl.formatMessage(messages.backButton),
-                                actions: [
-                                  {
-                                    type: "custom",
-                                    callback: handleClose,
-                                  },
-                                ],
-                              }}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <Typography.P1>
-                              {intl.formatMessage(messages.unknownError)}
-                            </Typography.P1>
-                            <ButtonSecondary
-                              config={{
-                                text: intl.formatMessage(messages.retryButton),
-                                actions: [
-                                  {
-                                    type: "custom",
-                                    callback: handleRetry,
-                                  },
-                                ],
-                              }}
-                            />
-                          </>
-                        )}
-                      </ErrorWrapper>
-                    )}
-                  </AnimatePresence>
-                </PreviewWrapper>
+            <PreviewWrapper $visible={isLoaded && !error}>
+              {entityType.startsWith("image") && (
+                <ImagePreview src={fileInfo?.path} onError={setError} />
               )}
-            </AnimatePresence>
+            </PreviewWrapper>
+            {previewError}
+            {/*{error && (*/}
+            {/*  <>*/}
+            {/*    <ErrorIcon*/}
+            {/*      config={{*/}
+            {/*        type: IconType.Exclamation,*/}
+            {/*        size: "large",*/}
+            {/*        color: "white",*/}
+            {/*      }}*/}
+            {/*    />*/}
+            {/*    {error?.type === FilePreviewErrorType.UnsupportedFileType ? (*/}
+            {/*      <>*/}
+            {/*        <Typography.P1>*/}
+            {/*          {intl.formatMessage(messages.unsupportedFileType, {*/}
+            {/*            type: error.details,*/}
+            {/*          })}*/}
+            {/*        </Typography.P1>*/}
+            {/*        <ButtonSecondary*/}
+            {/*          config={{*/}
+            {/*            text: intl.formatMessage(messages.backButton),*/}
+            {/*            actions: [*/}
+            {/*              {*/}
+            {/*                type: "custom",*/}
+            {/*                callback: handleClose,*/}
+            {/*              },*/}
+            {/*            ],*/}
+            {/*          }}*/}
+            {/*        />*/}
+            {/*      </>*/}
+            {/*    ) : (*/}
+            {/*      <>*/}
+            {/*        <Typography.P1>*/}
+            {/*          {intl.formatMessage(messages.unknownError)}*/}
+            {/*        </Typography.P1>*/}
+            {/*        <ButtonSecondary*/}
+            {/*          config={{*/}
+            {/*            text: intl.formatMessage(messages.retryButton),*/}
+            {/*            actions: [*/}
+            {/*              {*/}
+            {/*                type: "custom",*/}
+            {/*                callback: handleRetry,*/}
+            {/*              },*/}
+            {/*            ],*/}
+            {/*          }}*/}
+            {/*        />*/}
+            {/*      </>*/}
+            {/*    )}*/}
+            {/*  </>*/}
+            {/*)}*/}
+            {/*<AnimatePresence initial={true} mode={"wait"}>*/}
+            {/*{!error && (*/}
+            {/*  <PreviewWrapper*/}
+            {/*    key={fileInfo?.path}*/}
+            {/*    initial={{ opacity: 0 }}*/}
+            {/*    animate={{ opacity: 1 }}*/}
+            {/*    exit={{ opacity: 0 }}*/}
+            {/*    transition={{ duration: 0.5 }}*/}
+            {/*  >*/}
+            {/*    {entityType.startsWith("image") && (*/}
+            {/*      <ImagePreview src={fileInfo?.path} onError={setError} />*/}
+            {/*    )}*/}
+            {/*  </PreviewWrapper>*/}
+            {/*)}*/}
+            {/*</AnimatePresence>*/}
+            {/*<AnimatePresence initial={true} mode={"wait"}>*/}
+            {/*  {!!error && (*/}
+            {/*    <ErrorWrapper*/}
+            {/*      key={fileInfo?.path}*/}
+            {/*      initial={{ opacity: 0 }}*/}
+            {/*      animate={{ opacity: 1 }}*/}
+            {/*      exit={{ opacity: 0 }}*/}
+            {/*      transition={{ duration: 0.5 }}*/}
+            {/*    >*/}
+            {/*     */}
+            {/*    </ErrorWrapper>*/}
+            {/*  )}*/}
+            {/*</AnimatePresence>*/}
           </Main>
           {items.length > 1 && (
             <Navigation>
@@ -442,11 +502,13 @@ const Loader = styled.div`
   z-index: 1;
 `
 
-const PreviewWrapper = styled(motion.div)`
+const PreviewWrapper = styled.div<{ $visible?: boolean }>`
   position: relative;
   width: 100%;
   height: 100%;
   z-index: 2;
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  transition: opacity 0.5s ease-in-out;
 `
 
 const Main = styled.main`
@@ -460,7 +522,7 @@ const Main = styled.main`
   background-color: ${({ theme }) => theme.color.grey0};
 `
 
-const ErrorWrapper = styled(motion.div)`
+const ErrorWrapper = styled.div<{ $visible?: boolean }>`
   background-color: ${({ theme }) => theme.color.grey0};
   position: absolute;
   top: 50%;
@@ -473,6 +535,8 @@ const ErrorWrapper = styled(motion.div)`
   justify-content: center;
   gap: 1.4rem;
   width: 34rem;
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  transition: opacity 0.5s ease-in-out;
 
   p {
     color: ${({ theme }) => theme.color.white} !important;
