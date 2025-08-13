@@ -33,7 +33,6 @@ export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
   }, [])
 
   const handleError = useCallback(() => {
-    console.log({ src })
     if (src?.endsWith(".heic")) {
       onError?.({ type: FilePreviewErrorType.UnsupportedFileType, details: "HEIC" })
     } else if (src?.endsWith(".heif")) {
