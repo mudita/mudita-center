@@ -26,17 +26,28 @@ export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
   const [loaded, setLoaded] = useState(false)
 
   const onLoad = useCallback(() => {
+    console.log("LOADED:", src)
     loadedTimeoutRef.current = setTimeout(() => {
       // Ensure bigger images are fully rendered
       setLoaded(true)
     }, 100)
-  }, [])
+  }, [src])
 
   const handleError = useCallback(() => {
-    if (src?.endsWith(".heic")) {
-      onError?.({ type: FilePreviewErrorType.UnsupportedFileType, details: "HEIC" })
-    } else if (src?.endsWith(".heif")) {
-      onError?.({ type: FilePreviewErrorType.UnsupportedFileType, details: "HEIF" })
+    if (!src) {
+      return
+    }
+    console.log("FAILED:", src)
+    if (src.endsWith(".heic")) {
+      onError?.({
+        type: FilePreviewErrorType.UnsupportedFileType,
+        details: "HEIC",
+      })
+    } else if (src.endsWith(".heif")) {
+      onError?.({
+        type: FilePreviewErrorType.UnsupportedFileType,
+        details: "HEIF",
+      })
     } else {
       onError?.({ type: FilePreviewErrorType.Unknown })
     }
@@ -60,7 +71,7 @@ const Wrapper = styled.div<{ $loaded?: boolean }>`
   width: 100%;
   height: 100%;
   opacity: ${({ $loaded }) => ($loaded ? 1 : 0)};
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.1s ease-in-out;
 `
 
 const MainImage = styled.img`

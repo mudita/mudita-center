@@ -6,7 +6,7 @@
 import { useDispatch } from "react-redux"
 import { sendFilesClear } from "generic-view/store"
 import { AppDispatch } from "Core/__deprecated__/renderer/store"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { checkPath, getAppPath, removeDirectory } from "system-utils/feature"
 import { uniqBy } from "lodash"
 import {
@@ -14,7 +14,8 @@ import {
   useFilePreviewDownload,
   UseFilePreviewDownloadParams,
 } from "./use-file-preview-download"
-import { Queue } from "shared/utils"
+import { delay, Queue } from "shared/utils"
+import delayResponse from "@appnroll/delay-response"
 
 export enum QueuePriority {
   Current = 2,
@@ -38,6 +39,7 @@ export const useFilesPreview = ({
   const actionId = entitiesConfig.type + "Preview"
   const dispatch = useDispatch<AppDispatch>()
 
+  const loadingTimeoutRef = useRef<NodeJS.Timeout>()
   const [refetchTrigger, setRefetchTrigger] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [tempDirectoryPath, setTempDirectoryPath] = useState<string>()
@@ -103,19 +105,19 @@ export const useFilesPreview = ({
         void queue.add({
           id: fileId,
           task: async () => {
-            const fileInfo = await downloadFile(fileId)
+            const fileInfo = await delayResponse(downloadFile(fileId), 500)
             if (fileInfo) {
               setDownloadedItems((prev) => uniqBy([...prev, fileInfo], "id"))
-              if (fileInfo.id === activeItem) {
-                setIsLoading(false)
-              }
+              // if (fileId === activeItem) {
+              //   setIsLoading(false)
+              // }
             }
           },
           priority: getFilePriority(fileId),
         })
       }
     },
-    [activeItem, downloadFile, getFilePriority, queue]
+    [downloadFile, getFilePriority, queue]
   )
 
   useEffect(() => {
@@ -178,9 +180,30 @@ export const useFilesPreview = ({
   }, [actionId, dispatch, tempDirectoryPath])
 
   const refetch = useCallback(() => {
+    setDownloadedItems((prev) => {
+      return prev.filter((item) => item.id === activeItem)
+    })
     setIsLoading(true)
     setRefetchTrigger((prev) => prev + 1)
-  }, [])
+  }, [activeItem])
+
+  useEffect(() => {
+    if (activeItem) {
+      console.log("setIsLoading true")
+      setIsLoading(true)
+    }
+  }, [activeItem])
+
+  useEffect(() => {
+    clearTimeout(loadingTimeoutRef.current)
+
+    loadingTimeoutRef.current = setTimeout(() => {
+      if (downloadedItems.some((item) => item.id === activeItem)) {
+        console.log("setIsLoading false")
+        setIsLoading(false)
+      }
+    }, 500)
+  }, [activeItem, downloadedItems])
 
   useEffect(() => {
     if (!activeItem) {
