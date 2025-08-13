@@ -12,6 +12,7 @@ import { isEmpty } from "lodash"
 import { RecursiveLayout } from "./recursive-layout"
 import styled from "styled-components"
 import { Icon, Toast, Typography } from "generic-view/ui"
+import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
 const selectToastsToRender = createSelector(selectViewConfig, (config) => {
   return Object.entries(config || {})
@@ -68,5 +69,5 @@ const ToastsWrapper = styled.div`
   position: fixed;
   right: 3.2rem;
   bottom: 3.2rem;
-  z-index: 3;
+  z-index: ${ModalLayers.Default};
 `

@@ -33,6 +33,8 @@ import Spinner from "Core/__deprecated__/renderer/svg/spinner.svg"
 import Contact from "Core/__deprecated__/renderer/svg/contact.svg"
 import ContactsBook from "Core/__deprecated__/renderer/svg/menu-contacts.svg"
 
+import ArrowLeft from "./svg/arrow-left.svg"
+import ArrowRight from "./svg/arrow-right.svg"
 import Backup from "./svg/backup.svg"
 import Book from "./svg/book.svg"
 import MusicNote from "./svg/music-note.svg"
@@ -67,6 +69,8 @@ import Export from "./svg/export.svg"
 import { IconType } from "generic-view/utils"
 
 const typeToIcon: Record<IconType, typeof BatteryHigh> = {
+  [IconType.ArrowLeft]: ArrowLeft,
+  [IconType.ArrowRight]: ArrowRight,
   [IconType.Battery0]: BatteryEmpty,
   [IconType.Battery1]: BatteryVeryLow,
   [IconType.Battery2]: BatteryLow,

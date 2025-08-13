@@ -48,6 +48,9 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (config.inactive) {
+        return
+      }
       const checked = e.target.checked
       config.onToggle?.(checked)
 
@@ -87,6 +90,9 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
   )
 
   useEffect(() => {
+    if (config.inactive) {
+      return
+    }
     if (multiSelect) {
       if (multiSelect.selectedValues.length === multiSelect.allValues.length) {
         setValue(inputName, true)
@@ -99,7 +105,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
           multiSelect.selectedValues.length < multiSelect.allValues.length
       }
     }
-  }, [fieldRegistrar.ref, inputName, multiSelect, setValue])
+  }, [config.inactive, fieldRegistrar.ref, inputName, multiSelect, setValue])
 
   return (
     <CheckboxInputWrapper
@@ -115,8 +121,8 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
         data-testid={CheckboxTestIds.Checkbox}
         type={"checkbox"}
         value={config.value}
-        checked={config.checked}
-        disabled={config.disabled}
+        checked={!config.inactive && config.checked}
+        disabled={config.disabled || config.inactive}
         {...fieldRegistrar}
         onChange={handleChange}
         ref={handleRef}

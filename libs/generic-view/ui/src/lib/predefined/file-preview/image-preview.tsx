@@ -1,0 +1,72 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
+import styled from "styled-components"
+
+interface Props {
+  src?: string
+  onError?: () => void
+}
+
+export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
+  const loadedTimeoutRef = useRef<NodeJS.Timeout>()
+  const [loaded, setLoaded] = useState(false)
+
+  const onLoad = useCallback(() => {
+    loadedTimeoutRef.current = setTimeout(() => {
+      // Ensure bigger images are fully rendered
+      setLoaded(true)
+    }, 100)
+  }, [])
+
+  useEffect(() => {
+    clearTimeout(loadedTimeoutRef.current)
+    setLoaded(false)
+  }, [src])
+
+  return (
+    <Wrapper $loaded={loaded}>
+      <BackgroundImage $url={src} />
+      <MainImage key={src} src={src} onLoad={onLoad} onError={onError} />
+    </Wrapper>
+  )
+}
+
+const Wrapper = styled.div<{ $loaded?: boolean }>`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  opacity: ${({ $loaded }) => ($loaded ? 1 : 0)};
+  transition: opacity 0.5s ease-in-out;
+`
+
+const MainImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+`
+
+const BackgroundImage = styled.div<{ $url?: string }>`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+
+  background-image: url("${({ $url }) => $url}");
+  background-position: center;
+  background-size: cover;
+  filter: blur(5rem) brightness(0.4);
+`

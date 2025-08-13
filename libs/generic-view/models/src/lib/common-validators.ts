@@ -131,6 +131,12 @@ const nativeActionSelectFilesValidator = z.object({
     formKey: z.string().optional(),
     selectedFilesFieldName: z.string(),
   }),
+  postActions: z
+    .object({
+      success: entityPostActionsValidator,
+      failure: entityPostActionsValidator,
+    })
+    .optional(),
 })
 
 export type NativeActionSelectFiles = z.infer<
@@ -145,6 +151,12 @@ const nativeActionSelectDirectoryValidator = z.object({
     formKey: z.string().optional(),
     selectedDirectoryFieldName: z.string(),
   }),
+  postActions: z
+    .object({
+      success: entityPostActionsValidator,
+      failure: entityPostActionsValidator,
+    })
+    .optional(),
 })
 
 export type NativeActionSelectDirectory = z.infer<
@@ -188,6 +200,7 @@ const filesTransferExportFilesActionValidator = z.object({
   type: z.literal("export-files"),
   destinationPath: z.string(),
   entitiesType: z.string().optional(),
+  singleEntityId: z.string().optional(),
   actionId: z.string(),
 
   formOptions: z.object({
