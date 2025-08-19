@@ -1,20 +1,20 @@
 {
   "migrations": [
     {
-      "cli": "nx",
-      "version": "21.2.0-beta.3",
-      "description": "Update workspace to use Storybook v9",
-      "implementation": "./src/migrations/update-21-1-0/update-sb-9",
-      "package": "@nx/storybook",
-      "name": "update-21-2-0-migrate-storybook-v9"
+      "version": "21.3.0-beta.3",
+      "requires": { "jest": ">=30.0.0" },
+      "description": "Rename the CLI option `testPathPattern` to `testPathPatterns`.",
+      "implementation": "./src/migrations/update-21-3-0/rename-test-path-pattern",
+      "package": "@nx/jest",
+      "name": "rename-test-path-pattern"
     },
     {
-      "cli": "nx",
-      "version": "21.2.0-beta.3",
-      "description": "Remove deprecated Storybook addon dependencies",
-      "implementation": "./src/migrations/update-21-2-0/remove-addon-dependencies",
-      "package": "@nx/storybook",
-      "name": "update-21-2-0-remove-addon-dependencies"
+      "version": "21.3.0-beta.3",
+      "requires": { "jest": ">=30.0.0" },
+      "description": "Replace removed matcher aliases in Jest v30 with their corresponding matcher",
+      "implementation": "./src/migrations/update-21-3-0/replace-removed-matcher-aliases",
+      "package": "@nx/jest",
+      "name": "replace-removed-matcher-aliases"
     }
   ]
 }
