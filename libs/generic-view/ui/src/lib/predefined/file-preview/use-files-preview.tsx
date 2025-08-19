@@ -6,7 +6,7 @@
 import { useDispatch } from "react-redux"
 import { sendFilesClear } from "generic-view/store"
 import { AppDispatch } from "Core/__deprecated__/renderer/store"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { checkPath, getAppPath, removeDirectory } from "system-utils/feature"
 import { uniqBy } from "lodash"
 import {
@@ -15,6 +15,7 @@ import {
   UseFilePreviewDownloadParams,
 } from "./use-file-preview-download"
 import { Queue } from "shared/utils"
+import EventEmitter from "events"
 
 export enum QueuePriority {
   Current = 2,
@@ -32,12 +33,15 @@ export interface UseFilesPreviewParams {
 
 export const useFilesPreview = ({
   items,
-  activeItem: activeItem,
+  activeItem,
   entitiesConfig,
 }: UseFilesPreviewParams) => {
   const actionId = entitiesConfig.type + "Preview"
   const dispatch = useDispatch<AppDispatch>()
+  const eventEmitterRef = useRef(new EventEmitter())
 
+  const [refetchTrigger, setRefetchTrigger] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
   const [tempDirectoryPath, setTempDirectoryPath] = useState<string>()
   const [downloadedItems, setDownloadedItems] = useState<FilePreviewResponse[]>(
     []
@@ -79,7 +83,7 @@ export const useFilesPreview = ({
     if (!activeItem) return undefined
     return downloadedItems.find((item) => item.id === activeItem)
     // eslint-disable-next-line
-  }, [activeItem, downloadedItemsDependency])
+  }, [activeItem, downloadedItemsDependency, refetchTrigger])
 
   const getFilePriority = useCallback(
     (fileId: string) => {
@@ -104,13 +108,17 @@ export const useFilesPreview = ({
             const fileInfo = await downloadFile(fileId)
             if (fileInfo) {
               setDownloadedItems((prev) => uniqBy([...prev, fileInfo], "id"))
+              if (fileInfo.id === activeItem) {
+                setIsLoading(false)
+                eventEmitterRef.current.emit("currentFileDownloaded", fileId)
+              }
             }
           },
           priority: getFilePriority(fileId),
         })
       }
     },
-    [downloadFile, getFilePriority, queue]
+    [activeItem, downloadFile, getFilePriority, queue]
   )
 
   useEffect(() => {
@@ -149,7 +157,13 @@ export const useFilesPreview = ({
     ].filter(Boolean) as string[]
 
     downloadFiles(filesToDownload)
-  }, [activeItem, nearestFiles.next, nearestFiles.previous, downloadFiles])
+  }, [
+    activeItem,
+    nearestFiles.next,
+    nearestFiles.previous,
+    downloadFiles,
+    refetchTrigger,
+  ])
 
   const ensureTempDirectory = useCallback(async () => {
     const destinationPath = await getAppPath("filePreview")
@@ -166,6 +180,18 @@ export const useFilesPreview = ({
     }
   }, [actionId, dispatch, tempDirectoryPath])
 
+  const refetch = useCallback(() => {
+    return new Promise<void>((resolve) => {
+      setIsLoading(true)
+      setRefetchTrigger((prev) => prev + 1)
+      eventEmitterRef.current.on("currentFileDownloaded", (fileId: string) => {
+        if (fileId === activeItem) {
+          resolve()
+        }
+      })
+    })
+  }, [activeItem])
+
   useEffect(() => {
     if (!activeItem) {
       void clearTempDirectory()
@@ -174,9 +200,11 @@ export const useFilesPreview = ({
   }, [activeItem, clearTempDirectory])
 
   useEffect(() => {
+    const emitter = eventEmitterRef.current
     void ensureTempDirectory()
     return () => {
       queue.clear()
+      emitter.removeAllListeners()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -185,6 +213,8 @@ export const useFilesPreview = ({
     data: currentFile,
     nextId: nearestFiles.next,
     previousId: nearestFiles.previous,
+    refetch,
+    isLoading,
   }
 }
 

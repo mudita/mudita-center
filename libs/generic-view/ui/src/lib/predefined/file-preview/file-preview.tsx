@@ -10,6 +10,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react"
 import { useSelector } from "react-redux"
 import styled, { css } from "styled-components"
@@ -29,6 +30,28 @@ import { ButtonIcon } from "../../buttons/button-icon"
 import { generateFilesExportButtonActions } from "../../generated/mc-file-manager/file-export-button"
 import { generateDeleteFilesButtonActions } from "../../generated/mc-file-manager/delete-files"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
+import {
+  FilePreviewError,
+  FilePreviewErrorType,
+} from "./file-preview-error.types"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { ButtonSecondary } from "../../buttons/button-secondary"
+
+const messages = defineMessages({
+  unsupportedFileType: {
+    id: "module.genericViews.filesManager.preview.unsupportedTypeError",
+  },
+  unknownError: {
+    id: "module.genericViews.filesManager.preview.unknownError",
+  },
+  retryButton: {
+    id: "module.genericViews.filesManager.preview.retryButton",
+  },
+  backButton: {
+    id: "module.genericViews.filesManager.preview.backButton",
+  },
+})
 
 interface Props {
   componentKey: string
@@ -50,22 +73,24 @@ export const FilePreview: FunctionComponent<Props> = memo(
         entityId: activeItem,
       })
     })
-    const nextIdReference = useRef<string>()
-
-    // TODO: Handle file transfer mode
     const fileTransferMode = useSelector(selectFilesTransferMode)
+    const nextIdReference = useRef<string>()
 
     const {
       data: fileInfo,
       nextId,
       previousId,
+      refetch,
+      isLoading,
     } = useFilesPreview({
       items,
       activeItem,
       entitiesConfig,
     })
 
-    const isLoading = !fileInfo
+    const [fileUid, setFileUid] = useState(Date.now())
+    const [error, setError] = useState<FilePreviewError>()
+    const isLoaded = !isLoading && !!fileInfo
 
     const entityType = useMemo(() => {
       if (!entity) return ""
@@ -81,16 +106,16 @@ export const FilePreview: FunctionComponent<Props> = memo(
       onActiveItemChange(undefined)
     }, [onActiveItemChange])
 
-    const handleError = useCallback(() => {
-      // TODO: Handle errors
-    }, [])
-
     const handlePreviousFile = useCallback(() => {
+      setError(undefined)
       onActiveItemChange(previousId)
+      setFileUid(Date.now())
     }, [onActiveItemChange, previousId])
 
     const handleNextFile = useCallback(() => {
+      setError(undefined)
       onActiveItemChange(nextIdReference.current || nextId)
+      setFileUid(Date.now())
     }, [nextId, onActiveItemChange])
 
     const handleKeyDown = useCallback(
@@ -104,6 +129,13 @@ export const FilePreview: FunctionComponent<Props> = memo(
       [handleNextFile, handlePreviousFile]
     )
 
+    const handleRetry = useCallback(async () => {
+      if (!activeItem) return
+      setError(undefined)
+      await refetch()
+      setFileUid(Date.now())
+    }, [activeItem, refetch])
+
     useEffect(() => {
       document.addEventListener("keydown", handleKeyDown)
       if (!activeItem) {
@@ -113,6 +145,28 @@ export const FilePreview: FunctionComponent<Props> = memo(
         document.removeEventListener("keydown", handleKeyDown)
       }
     }, [activeItem, handleKeyDown])
+
+    useEffect(() => {
+      if (fileTransferMode !== "mtp") {
+        setError({
+          type: FilePreviewErrorType.UnsupportedTransferType,
+        })
+      } else if (error?.type === FilePreviewErrorType.UnsupportedTransferType) {
+        setError(undefined)
+      }
+    }, [error?.type, fileTransferMode])
+
+    useEffect(() => {
+      if (fileTransferMode === "mtp") {
+        void handleRetry()
+      }
+    }, [fileTransferMode, handleRetry])
+
+    useEffect(() => {
+      if (!activeItem) {
+        setError(undefined)
+      }
+    }, [activeItem])
 
     return (
       <Modal
@@ -145,7 +199,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
               <SpinnerLoader />
             </Loader>
             <AnimatePresence initial={true} mode={"wait"}>
-              {!isLoading && (
+              {isLoaded && (
                 <PreviewWrapper
                   key={fileInfo?.path}
                   initial={{ opacity: 0 }}
@@ -154,8 +208,72 @@ export const FilePreview: FunctionComponent<Props> = memo(
                   transition={{ duration: 0.5 }}
                 >
                   {entityType.startsWith("image") && (
-                    <ImagePreview src={fileInfo.path} onError={handleError} />
+                    <ImagePreview
+                      src={fileInfo.path}
+                      fileUid={fileUid}
+                      onError={setError}
+                    />
                   )}
+                  <AnimatePresence initial={false} mode={"wait"}>
+                    {Boolean(error) && (
+                      <ErrorWrapper
+                        key={fileInfo?.path}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <ErrorIcon
+                          config={{
+                            type: IconType.Exclamation,
+                            size: "large",
+                            color: "white",
+                          }}
+                        />
+                        {error?.type ===
+                        FilePreviewErrorType.UnsupportedFileType ? (
+                          <>
+                            <Typography.P1>
+                              {intl.formatMessage(
+                                messages.unsupportedFileType,
+                                {
+                                  type: error.details,
+                                }
+                              )}
+                            </Typography.P1>
+                            <ButtonSecondary
+                              config={{
+                                text: intl.formatMessage(messages.backButton),
+                                actions: [
+                                  {
+                                    type: "custom",
+                                    callback: handleClose,
+                                  },
+                                ],
+                              }}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <Typography.P1>
+                              {intl.formatMessage(messages.unknownError)}
+                            </Typography.P1>
+                            <ButtonSecondary
+                              config={{
+                                text: intl.formatMessage(messages.retryButton),
+                                actions: [
+                                  {
+                                    type: "custom",
+                                    callback: handleRetry,
+                                  },
+                                ],
+                              }}
+                            />
+                          </>
+                        )}
+                      </ErrorWrapper>
+                    )}
+                  </AnimatePresence>
                 </PreviewWrapper>
               )}
             </AnimatePresence>
@@ -355,4 +473,47 @@ const Main = styled.main`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.color.grey0};
+`
+
+const ErrorWrapper = styled(motion.div)`
+  background-color: ${({ theme }) => theme.color.grey0};
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  width: 34rem;
+
+  p {
+    color: ${({ theme }) => theme.color.white} !important;
+  }
+
+  button {
+    margin-top: 1rem;
+    background-color: transparent;
+    color: ${({ theme }) => theme.color.white};
+    border-color: ${({ theme }) => theme.color.white};
+    width: 15.6rem;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.grey1};
+    }
+
+    &:active {
+      background-color: transparent;
+    }
+  }
+`
+
+const ErrorIcon = styled(Icon)`
+  width: 6.8rem;
+  height: 6.8rem;
+  padding: 1.2rem;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.color.white};
 `
