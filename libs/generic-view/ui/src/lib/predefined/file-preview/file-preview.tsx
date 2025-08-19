@@ -87,6 +87,8 @@ export const FilePreview: FunctionComponent<Props> = memo(
       activeItem,
       entitiesConfig,
     })
+
+    const [fileUid, setFileUid] = useState(Date.now())
     const [error, setError] = useState<FilePreviewError>()
     const isLoaded = !isLoading && !!fileInfo
 
@@ -105,13 +107,15 @@ export const FilePreview: FunctionComponent<Props> = memo(
     }, [onActiveItemChange])
 
     const handlePreviousFile = useCallback(() => {
-      onActiveItemChange(previousId)
       setError(undefined)
+      onActiveItemChange(previousId)
+      setFileUid(Date.now())
     }, [onActiveItemChange, previousId])
 
     const handleNextFile = useCallback(() => {
-      onActiveItemChange(nextIdReference.current || nextId)
       setError(undefined)
+      onActiveItemChange(nextIdReference.current || nextId)
+      setFileUid(Date.now())
     }, [nextId, onActiveItemChange])
 
     const handleKeyDown = useCallback(
@@ -128,7 +132,8 @@ export const FilePreview: FunctionComponent<Props> = memo(
     const handleRetry = useCallback(async () => {
       if (!activeItem) return
       setError(undefined)
-      refetch()
+      await refetch()
+      setFileUid(Date.now())
     }, [activeItem, refetch])
 
     useEffect(() => {
@@ -150,6 +155,12 @@ export const FilePreview: FunctionComponent<Props> = memo(
         setError(undefined)
       }
     }, [error?.type, fileTransferMode])
+
+    useEffect(() => {
+      if (fileTransferMode === "mtp") {
+        void handleRetry()
+      }
+    }, [fileTransferMode, handleRetry])
 
     useEffect(() => {
       if (!activeItem) {
@@ -197,7 +208,11 @@ export const FilePreview: FunctionComponent<Props> = memo(
                   transition={{ duration: 0.5 }}
                 >
                   {entityType.startsWith("image") && (
-                    <ImagePreview src={fileInfo.path} onError={setError} />
+                    <ImagePreview
+                      src={fileInfo.path}
+                      fileUid={fileUid}
+                      onError={setError}
+                    />
                   )}
                   <AnimatePresence initial={false} mode={"wait"}>
                     {Boolean(error) && (

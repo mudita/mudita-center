@@ -18,25 +18,34 @@ import {
 
 interface Props {
   src?: string
+  fileUid?: string | number
   onError?: FilePreviewErrorHandler
 }
 
-export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
+export const ImagePreview: FunctionComponent<Props> = ({
+  src,
+  fileUid,
+  onError,
+}) => {
   const loadedTimeoutRef = useRef<NodeJS.Timeout>()
   const [loaded, setLoaded] = useState(false)
+  const uniqueSrc = `${src}?u=${fileUid}`
 
-  const onLoad = useCallback(() => {
-    loadedTimeoutRef.current = setTimeout(() => {
-      // Ensure bigger images are fully rendered
-      setLoaded(true)
-    }, 100)
+  const handleLoad = useCallback(() => {
+    setLoaded(true)
   }, [])
 
   const handleError = useCallback(() => {
     if (src?.endsWith(".heic")) {
-      onError?.({ type: FilePreviewErrorType.UnsupportedFileType, details: "HEIC" })
+      onError?.({
+        type: FilePreviewErrorType.UnsupportedFileType,
+        details: "HEIC",
+      })
     } else if (src?.endsWith(".heif")) {
-      onError?.({ type: FilePreviewErrorType.UnsupportedFileType, details: "HEIF" })
+      onError?.({
+        type: FilePreviewErrorType.UnsupportedFileType,
+        details: "HEIF",
+      })
     } else {
       onError?.({ type: FilePreviewErrorType.Unknown })
     }
@@ -49,8 +58,14 @@ export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
 
   return (
     <Wrapper $loaded={loaded}>
-      <BackgroundImage $url={src} />
-      <MainImage key={src} src={src} onLoad={onLoad} onError={handleError} />
+      <BackgroundImage style={{ backgroundImage: `url("${uniqueSrc}")` }} />
+      <MainImage
+        key={src}
+        src={uniqueSrc}
+        alt={""}
+        onLoad={handleLoad}
+        onError={handleError}
+      />
     </Wrapper>
   )
 }
@@ -73,13 +88,12 @@ const MainImage = styled.img`
   z-index: 1;
 `
 
-const BackgroundImage = styled.div<{ $url?: string }>`
+const BackgroundImage = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: 0;
 
-  background-image: url("${({ $url }) => $url}");
   background-position: center;
   background-size: cover;
   filter: blur(5rem) brightness(0.4);

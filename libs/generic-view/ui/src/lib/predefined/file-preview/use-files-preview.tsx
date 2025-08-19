@@ -6,7 +6,7 @@
 import { useDispatch } from "react-redux"
 import { sendFilesClear } from "generic-view/store"
 import { AppDispatch } from "Core/__deprecated__/renderer/store"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { checkPath, getAppPath, removeDirectory } from "system-utils/feature"
 import { uniqBy } from "lodash"
 import {
@@ -15,6 +15,7 @@ import {
   UseFilePreviewDownloadParams,
 } from "./use-file-preview-download"
 import { Queue } from "shared/utils"
+import EventEmitter from "events"
 
 export enum QueuePriority {
   Current = 2,
@@ -37,6 +38,7 @@ export const useFilesPreview = ({
 }: UseFilesPreviewParams) => {
   const actionId = entitiesConfig.type + "Preview"
   const dispatch = useDispatch<AppDispatch>()
+  const eventEmitterRef = useRef(new EventEmitter())
 
   const [refetchTrigger, setRefetchTrigger] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -108,6 +110,7 @@ export const useFilesPreview = ({
               setDownloadedItems((prev) => uniqBy([...prev, fileInfo], "id"))
               if (fileInfo.id === activeItem) {
                 setIsLoading(false)
+                eventEmitterRef.current.emit("currentFileDownloaded", fileId)
               }
             }
           },
@@ -178,9 +181,16 @@ export const useFilesPreview = ({
   }, [actionId, dispatch, tempDirectoryPath])
 
   const refetch = useCallback(() => {
-    setIsLoading(true)
-    setRefetchTrigger((prev) => prev + 1)
-  }, [])
+    return new Promise<void>((resolve) => {
+      setIsLoading(true)
+      setRefetchTrigger((prev) => prev + 1)
+      eventEmitterRef.current.on("currentFileDownloaded", (fileId: string) => {
+        if (fileId === activeItem) {
+          resolve()
+        }
+      })
+    })
+  }, [activeItem])
 
   useEffect(() => {
     if (!activeItem) {
@@ -190,9 +200,11 @@ export const useFilesPreview = ({
   }, [activeItem, clearTempDirectory])
 
   useEffect(() => {
+    const emitter = eventEmitterRef.current
     void ensureTempDirectory()
     return () => {
       queue.clear()
+      emitter.removeAllListeners()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
