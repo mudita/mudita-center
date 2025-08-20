@@ -33,7 +33,8 @@ export const ImagePreview: FunctionComponent<Props> = ({
 
   const handleLoad = useCallback(() => {
     setLoaded(true)
-  }, [])
+    onError?.(undefined)
+  }, [onError])
 
   const handleError = useCallback(() => {
     if (src?.endsWith(".heic")) {

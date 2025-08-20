@@ -90,7 +90,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
 
     const [fileUid, setFileUid] = useState(Date.now())
     const [error, setError] = useState<FilePreviewError>()
-    const isLoaded = !isLoading && !!fileInfo
+    const isFinished = (!isLoading && !!fileInfo) || !!error
 
     const entityType = useMemo(() => {
       if (!entity) return ""
@@ -104,6 +104,8 @@ export const FilePreview: FunctionComponent<Props> = memo(
 
     const handleClose = useCallback(() => {
       onActiveItemChange(undefined)
+      setError(undefined)
+      nextIdReference.current = undefined
     }, [onActiveItemChange])
 
     const handlePreviousFile = useCallback(() => {
@@ -152,15 +154,9 @@ export const FilePreview: FunctionComponent<Props> = memo(
           type: FilePreviewErrorType.UnsupportedTransferType,
         })
       } else if (error?.type === FilePreviewErrorType.UnsupportedTransferType) {
-        setError(undefined)
-      }
-    }, [error?.type, fileTransferMode])
-
-    useEffect(() => {
-      if (fileTransferMode === "mtp") {
         void handleRetry()
       }
-    }, [fileTransferMode, handleRetry])
+    }, [error?.type, fileTransferMode, handleRetry])
 
     useEffect(() => {
       if (!activeItem) {
@@ -195,11 +191,20 @@ export const FilePreview: FunctionComponent<Props> = memo(
             </IconButton>
           </Header>
           <Main>
-            <Loader>
-              <SpinnerLoader />
-            </Loader>
             <AnimatePresence initial={true} mode={"wait"}>
-              {isLoaded && (
+              {!error && (
+                <Loader
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <SpinnerLoader />
+                </Loader>
+              )}
+            </AnimatePresence>
+            <AnimatePresence initial={true} mode={"wait"}>
+              {isFinished && (
                 <PreviewWrapper
                   key={fileInfo?.path}
                   initial={{ opacity: 0 }}
@@ -209,12 +214,12 @@ export const FilePreview: FunctionComponent<Props> = memo(
                 >
                   {entityType.startsWith("image") && (
                     <ImagePreview
-                      src={fileInfo.path}
+                      src={fileInfo?.path}
                       fileUid={fileUid}
                       onError={setError}
                     />
                   )}
-                  <AnimatePresence initial={false} mode={"wait"}>
+                  <AnimatePresence initial={true} mode={"wait"}>
                     {Boolean(error) && (
                       <ErrorWrapper
                         key={fileInfo?.path}
@@ -449,7 +454,7 @@ const ModalContent = styled.section`
   }
 `
 
-const Loader = styled.div`
+const Loader = styled(motion.div)`
   position: absolute;
   top: 50%;
   left: 50%;
