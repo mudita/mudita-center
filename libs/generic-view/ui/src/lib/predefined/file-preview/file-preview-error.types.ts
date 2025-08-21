@@ -14,4 +14,4 @@ export type FilePreviewError = {
   details?: string
 }
 
-export type FilePreviewErrorHandler = (error: FilePreviewError) => void
+export type FilePreviewErrorHandler = (error: FilePreviewError | undefined) => void
