@@ -4,7 +4,7 @@
  */
 
 import { FunctionComponent, memo } from "react"
-import { useDevices } from "../queries"
+import { useDevicesQuery } from "../hooks"
 import { useApiDeviceInitializer } from "./use-api-device-initializer"
 import { useDevicesListener } from "./use-devices-listener"
 import { useHarmonyInitializer } from "./use-harmony-initializer"
@@ -21,7 +21,7 @@ import { HarmonyMscSerialPort } from "devices/harmony-msc/adapters"
 
 export const DevicesInitializer: FunctionComponent = () => {
   useDevicesListener()
-  const { data: devices = [] } = useDevices()
+  const { data: devices = [] } = useDevicesQuery()
 
   return (
     <>

@@ -4,7 +4,10 @@
  */
 
 import { Navigate, Route } from "react-router"
-import { useDeviceConfig, useDeviceStatus } from "devices/common/feature"
+import {
+  useDeviceConfigQuery,
+  useDeviceStatusQuery,
+} from "devices/common/feature"
 import { Typography } from "app-theme/ui"
 import { Device, DeviceStatus } from "devices/common/models"
 import { PureSerialPort } from "devices/pure/adapters"
@@ -15,8 +18,8 @@ import { PureWarningPage } from "./pure-warning-page"
 export const usePureRouter = (device?: Device) => {
   const activePure = PureSerialPort.isCompatible(device) ? device : undefined
 
-  const { data: status } = useDeviceStatus(activePure)
-  const { isSuccess: isConfigSuccess } = useDeviceConfig(activePure)
+  const { data: status } = useDeviceStatusQuery(activePure)
+  const { isSuccess: isConfigSuccess } = useDeviceConfigQuery(activePure)
 
   return {
     initialization:

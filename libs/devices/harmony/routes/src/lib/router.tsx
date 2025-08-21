@@ -4,7 +4,7 @@
  */
 
 import { Navigate, Route } from "react-router"
-import { useDeviceMenu } from "devices/common/feature"
+import { useDeviceMenuQuery } from "devices/common/feature"
 import { Typography } from "app-theme/ui"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { HarmonyPaths } from "devices/harmony/models"
@@ -15,7 +15,7 @@ export const useHarmonyRouter = (device?: Device) => {
     ? device
     : undefined
 
-  const { isSuccess: isMenuSuccess } = useDeviceMenu(activeHarmony)
+  const { isSuccess: isMenuSuccess } = useDeviceMenuQuery(activeHarmony)
 
   return {
     initialization: activeHarmony && isMenuSuccess && (

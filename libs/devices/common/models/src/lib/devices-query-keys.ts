@@ -3,4 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/e2e-mock-ipc-events"
+export enum DevicesQueryKeys {
+  All = "devices",
+}

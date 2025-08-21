@@ -7,16 +7,16 @@ import { FunctionComponent, useCallback } from "react"
 import { useAppNavigate } from "app-routing/utils"
 import {
   useDeviceActivate,
-  useDeviceMetadata,
-  useDevices,
-  useDeviceStatus,
+  useDeviceMetadataQuery,
+  useDevicesQuery,
+  useDeviceStatusQuery,
 } from "devices/common/feature"
 import { Device, DeviceMetadata, DevicesPaths } from "devices/common/models"
 import { DevicesSelector, DevicesSelectorCard } from "devices/common/ui"
 
 export const DevicesSelectingPage: FunctionComponent = () => {
   const navigate = useAppNavigate()
-  const { data: devices = [] } = useDevices()
+  const { data: devices = [] } = useDevicesQuery()
   const activateDevice = useDeviceActivate()
 
   const selectDevice = useCallback(
@@ -51,18 +51,12 @@ const Card: FunctionComponent<Device & { onClick: VoidFunction }> = ({
   onClick,
   ...device
 }) => {
-  const { data: metadata } = useDeviceMetadata(device)
-  const { data: status } = useDeviceStatus(device)
+  const { data: metadata } = useDeviceMetadataQuery(device)
+  const { data: status } = useDeviceStatusQuery(device)
 
   if (!metadata) {
     return null
   }
 
-  return (
-    <DevicesSelectorCard
-      {...metadata}
-      onClick={onClick}
-      status={status || undefined}
-    />
-  )
+  return <DevicesSelectorCard {...metadata} onClick={onClick} status={status} />
 }

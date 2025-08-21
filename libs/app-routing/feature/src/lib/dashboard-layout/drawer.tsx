@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   selectDevicesDrawerVisibility,
   setDevicesDrawerVisibility,
-  useActiveDevice,
+  useActiveDeviceQuery,
   useDeviceActivate,
-  useDeviceMetadata,
-  useDevices,
-  useDeviceStatus,
+  useDeviceMetadataQuery,
+  useDevicesQuery,
+  useDeviceStatusQuery,
 } from "devices/common/feature"
 import { Device, DeviceMetadata, DevicesPaths } from "devices/common/models"
 import { useAppNavigate } from "app-routing/utils"
@@ -21,7 +21,7 @@ import { useAppNavigate } from "app-routing/utils"
 export const Drawer: FunctionComponent = () => {
   const dispatch = useDispatch()
   const navigate = useAppNavigate()
-  const { data: devices } = useDevices()
+  const { data: devices } = useDevicesQuery()
   const activateDevice = useDeviceActivate()
   const drawerVisible = useSelector(selectDevicesDrawerVisibility)
 
@@ -59,9 +59,9 @@ const Card: FunctionComponent<Device & { onClick: VoidFunction }> = ({
   onClick,
   ...device
 }) => {
-  const { data: metadata } = useDeviceMetadata(device)
-  const { data: activeDevice } = useActiveDevice()
-  const { data: status } = useDeviceStatus(device)
+  const { data: metadata } = useDeviceMetadataQuery(device)
+  const { data: activeDevice } = useActiveDeviceQuery()
+  const { data: status } = useDeviceStatusQuery(device)
 
   if (!metadata) {
     return null
@@ -73,7 +73,7 @@ const Card: FunctionComponent<Device & { onClick: VoidFunction }> = ({
       {...metadata}
       onClick={onClick}
       active={isActive}
-      status={status || undefined}
+      status={status}
     />
   )
 }

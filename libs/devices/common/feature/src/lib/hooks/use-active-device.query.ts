@@ -7,21 +7,28 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
 import { Device } from "devices/common/models"
 import { useCallback } from "react"
+import type { DefaultError } from "@tanstack/query-core"
 
-export const useActiveDevice = () => {
-  return useQuery<Device | null>({
-    queryKey: devicesQueryKeys.activeDevice(),
+export const useActiveDeviceQuery = <D extends Device = Device>() => {
+  return useQuery<D | null, DefaultError, D | undefined>({
+    queryKey: useActiveDeviceQuery.queryKey,
     queryFn: () => null,
+    select: (device) => {
+      if (!device) {
+        return undefined
+      }
+      return device
+    },
   })
 }
-useActiveDevice.queryKey = devicesQueryKeys.activeDevice()
+useActiveDeviceQuery.queryKey = devicesQueryKeys.activeDevice()
 
 export const useDeviceActivate = () => {
   const queryClient = useQueryClient()
 
   return useCallback(
     (device: Device | null) => {
-      queryClient.setQueryData(useActiveDevice.queryKey, device)
+      queryClient.setQueryData(useActiveDeviceQuery.queryKey, device)
     },
     [queryClient]
   )
@@ -31,6 +38,7 @@ export const getActiveDevice = (
   queryClient: ReturnType<typeof useQueryClient>
 ) => {
   return (
-    queryClient.getQueryData<Device | null>(useActiveDevice.queryKey) || null
+    queryClient.getQueryData<Device | null>(useActiveDeviceQuery.queryKey) ||
+    null
   )
 }

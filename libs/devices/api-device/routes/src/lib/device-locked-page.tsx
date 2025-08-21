@@ -7,7 +7,7 @@ import { FunctionComponent, useCallback } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { useAppNavigate } from "app-routing/utils"
 import { useRoutingHistory } from "app-routing/feature"
-import { useActiveDevice, useDevices } from "devices/common/feature"
+import { useActiveDeviceQuery, useDevicesQuery } from "devices/common/feature"
 import { DevicesPaths } from "devices/common/models"
 import { Modal, Typography } from "app-theme/ui"
 import { IconType } from "app-theme/models"
@@ -26,7 +26,7 @@ export const DeviceLockedPage: FunctionComponent = () => {
   const queryClient = useQueryClient()
   const navigate = useAppNavigate()
   const { getPreviousPath } = useRoutingHistory()
-  const { data: devices = [] } = useDevices()
+  const { data: devices = [] } = useDevicesQuery()
 
   const onPasscodeAbort = useCallback(() => {
     const previousPath = getPreviousPath((path) => {
@@ -35,7 +35,7 @@ export const DeviceLockedPage: FunctionComponent = () => {
       )
     })
     if (devices.length > 1) {
-      queryClient.removeQueries({ queryKey: useActiveDevice.queryKey })
+      queryClient.removeQueries({ queryKey: useActiveDeviceQuery.queryKey })
       navigate({ pathname: DevicesPaths.Selecting })
     } else {
       navigate({ pathname: previousPath })

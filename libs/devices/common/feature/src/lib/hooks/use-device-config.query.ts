@@ -81,12 +81,12 @@ type QueryErrorType<D> = D extends ApiDevice
       ? PureErrorType
       : Error
 
-export const useDeviceConfig = <D extends Device, E = QueryErrorType<D>>(
+export const useDeviceConfigQuery = <D extends Device, E = QueryErrorType<D>>(
   device?: D,
   options?: Omit<UseQueryOptions<QueryFnResponse<D>, E>, "queryFn" | "queryKey">
 ) => {
   return useQuery<QueryFnResponse<D>, E>({
-    queryKey: devicesQueryKeys.deviceConfig(device?.path),
+    queryKey: useDeviceConfigQuery.queryKey(device?.path),
     queryFn: () => queryFn(device) as Promise<QueryFnResponse<D>>,
     retry: (failureCount, error) => {
       if (PureSerialPort.isCompatible(device)) {
@@ -115,7 +115,7 @@ export const useDeviceConfig = <D extends Device, E = QueryErrorType<D>>(
     ...options,
   })
 }
-useDeviceConfig.queryKey = devicesQueryKeys.deviceConfig
-useDeviceConfig.queryFn = <D extends Device>(device?: D) => {
+useDeviceConfigQuery.queryKey = devicesQueryKeys.deviceConfig
+useDeviceConfigQuery.queryFn = <D extends Device>(device?: D) => {
   return queryFn<D>(device) as Promise<QueryFnResponse<D>>
 }

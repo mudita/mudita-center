@@ -12,7 +12,7 @@ import {
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { useQuery } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
-import { useDeviceConfig } from "./use-device-config"
+import { useDeviceConfigQuery } from "./use-device-config.query"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { PureSerialPort } from "devices/pure/adapters"
@@ -36,7 +36,7 @@ const messages = defineMessages({
 
 const queryFn = (
   device?: Device,
-  config?: Awaited<ReturnType<typeof useDeviceConfig.queryFn>>
+  config?: Awaited<ReturnType<typeof useDeviceConfigQuery.queryFn>>
 ): DeviceMetadata | null => {
   if (!config || !device) {
     return null
@@ -162,11 +162,11 @@ const placeholderData = (device?: Device): DeviceMetadata | null => {
   return null
 }
 
-export const useDeviceMetadata = (device?: Device) => {
-  const { data: deviceConfig } = useDeviceConfig(device)
+export const useDeviceMetadataQuery = (device?: Device) => {
+  const { data: deviceConfig } = useDeviceConfigQuery(device)
 
   return useQuery({
-    queryKey: devicesQueryKeys.deviceMetadata(device?.path),
+    queryKey: useDeviceMetadataQuery.queryKey(device?.path),
     queryFn: () => queryFn(device, deviceConfig),
     placeholderData: () => placeholderData(device),
     retry: 3,
@@ -174,4 +174,4 @@ export const useDeviceMetadata = (device?: Device) => {
     enabled: Boolean(deviceConfig),
   })
 }
-useDeviceMetadata.queryKey = devicesQueryKeys.deviceMetadata
+useDeviceMetadataQuery.queryKey = devicesQueryKeys.deviceMetadata

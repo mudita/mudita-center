@@ -43,9 +43,9 @@ const queryFn = async (device?: Device): Promise<MenuGroup | null> => {
   return null
 }
 
-export const useDeviceMenu = <ErrorType = Error>(device?: Device) => {
+export const useDeviceMenuQuery = <ErrorType = Error>(device?: Device) => {
   return useQuery<MenuGroup | null, ErrorType>({
-    queryKey: devicesQueryKeys.deviceMenu(device?.path),
+    queryKey: useDeviceMenuQuery.queryKey(device?.path),
     queryFn: () => queryFn(device),
     retry: ApiDeviceSerialPort.isCompatible(device)
       ? (failureCount, error) => {
@@ -56,5 +56,5 @@ export const useDeviceMenu = <ErrorType = Error>(device?: Device) => {
     enabled: Boolean(device),
   })
 }
-useDeviceMenu.queryKey = devicesQueryKeys.deviceMenu
-useDeviceMenu.queryFn = queryFn
+useDeviceMenuQuery.queryKey = devicesQueryKeys.deviceMenu
+useDeviceMenuQuery.queryFn = queryFn

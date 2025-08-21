@@ -7,10 +7,10 @@ import { FunctionComponent, useEffect } from "react"
 import { DevicesIndicator } from "devices/common/ui"
 import {
   setDevicesDrawerVisibility,
-  useActiveDevice,
-  useDevices,
+  useActiveDeviceQuery,
+  useDevicesQuery,
   useDevicesStatuses,
-  useDeviceStatus,
+  useDeviceStatusQuery,
 } from "devices/common/feature"
 import { useDispatch } from "react-redux"
 import { DeviceStatus } from "devices/common/models"
@@ -18,12 +18,10 @@ import { DeviceStatus } from "devices/common/models"
 export const MenuDevicesIndicator: FunctionComponent = () => {
   const dispatch = useDispatch()
 
-  const { data: devices = [] } = useDevices()
-  const { data: fakeActiveDevice } = useActiveDevice()
+  const { data: devices = [] } = useDevicesQuery()
+  const { data: fakeActiveDevice } = useActiveDeviceQuery()
 
-  const { data: activeDeviceStatus } = useDeviceStatus(
-    fakeActiveDevice || undefined
-  )
+  const { data: activeDeviceStatus } = useDeviceStatusQuery(fakeActiveDevice)
   const devicesStatuses = useDevicesStatuses(devices)
 
   const multipleDevicesConnected = devices.length > 1

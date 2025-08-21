@@ -7,10 +7,10 @@ import { Navigate, Route } from "react-router"
 import { Button, Typography } from "app-theme/ui"
 import { Device } from "devices/common/models"
 import { HarmonyMscSerialPort } from "devices/harmony-msc/adapters"
-import { HarmonyMscPaths } from "devices/harmony-msc/models"
+import { HarmonyMsc, HarmonyMscPaths } from "devices/harmony-msc/models"
 import { FunctionComponent } from "react"
 import { flashHarmonyMsc } from "devices/harmony-msc/feature"
-import { useActiveDevice } from "devices/common/feature"
+import { useActiveDeviceQuery } from "devices/common/feature"
 
 export const useHarmonyMscRouter = (device?: Device) => {
   const activeHarmony = HarmonyMscSerialPort.isCompatible(device)
@@ -34,9 +34,9 @@ export const useHarmonyMscRouter = (device?: Device) => {
 }
 
 const Demo: FunctionComponent = () => {
-  const { data: activeHarmony } = useActiveDevice()
+  const { data: activeHarmony } = useActiveDeviceQuery<HarmonyMsc>()
   const onClick = () => {
-    if (activeHarmony && HarmonyMscSerialPort.isCompatible(activeHarmony)) {
+    if (activeHarmony) {
       void flashHarmonyMsc(activeHarmony, {
         imagePath: "/path/to/image",
         scriptPath: "path/to/script",
