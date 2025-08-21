@@ -4,7 +4,7 @@
  */
 
 import { renderHook, waitFor } from "@testing-library/react"
-import { useDevices } from "./use-devices"
+import { useDevicesQuery } from "./use-devices.query"
 import { AppSerialPort } from "app-serialport/renderer"
 import { FunctionComponent, PropsWithChildren } from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
@@ -23,7 +23,7 @@ jest.mock("app-serialport/renderer", () => ({
   },
 }))
 
-describe("useDevices", () => {
+describe("useDevicesQuery", () => {
   it("should return list of devices in correct order", async () => {
     ;(AppSerialPort.getCurrentDevices as jest.Mock).mockResolvedValue([
       // first connected device
@@ -50,7 +50,9 @@ describe("useDevices", () => {
       },
     ])
 
-    const { result } = renderHook(() => useDevices(), { wrapper: HookWrapper })
+    const { result } = renderHook(() => useDevicesQuery(), {
+      wrapper: HookWrapper,
+    })
 
     await waitFor(() =>
       expect(result.current.data).toStrictEqual([
@@ -95,7 +97,9 @@ describe("useDevices", () => {
       },
     ])
 
-    const { result } = renderHook(() => useDevices(), { wrapper: HookWrapper })
+    const { result } = renderHook(() => useDevicesQuery(), {
+      wrapper: HookWrapper,
+    })
 
     await waitFor(() =>
       expect(result.current.data).toStrictEqual([
@@ -113,7 +117,9 @@ describe("useDevices", () => {
   it("should return empty list when no devices are found", async () => {
     ;(AppSerialPort.getCurrentDevices as jest.Mock).mockResolvedValue([])
 
-    const { result } = renderHook(() => useDevices(), { wrapper: HookWrapper })
+    const { result } = renderHook(() => useDevicesQuery(), {
+      wrapper: HookWrapper,
+    })
 
     await waitFor(() => expect(result.current.data).toStrictEqual([]))
   })

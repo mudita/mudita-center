@@ -5,7 +5,7 @@
 
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
-import { useDeviceConfig, useDeviceStatus } from "../queries"
+import { useDeviceConfigQuery, useDeviceStatusQuery } from "../queries"
 import { useCallback } from "react"
 import { Pure, PureErrorType } from "devices/pure/models"
 
@@ -13,11 +13,14 @@ export const usePureInitializer = (device: Pure) => {
   const queryClient = useQueryClient()
 
   const { isLoading: isConfigLoading, failureReason: configFailureReason } =
-    useDeviceConfig(device)
+    useDeviceConfigQuery(device)
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {
-      queryClient.setQueryData(useDeviceStatus.queryKey(device.path), status)
+      queryClient.setQueryData(
+        useDeviceStatusQuery.queryKey(device.path),
+        status
+      )
     },
     [device.path, queryClient]
   )

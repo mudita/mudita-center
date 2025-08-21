@@ -5,7 +5,11 @@
 
 import { AppSerialPort } from "app-serialport/renderer"
 import { useCallback, useEffect } from "react"
-import { getActiveDevice, useActiveDevice, useDevices } from "../queries"
+import {
+  getActiveDevice,
+  useActiveDeviceQuery,
+  useDevicesQuery,
+} from "../queries"
 import { useAppDispatch } from "app-store/utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { SerialPortDeviceInfo } from "app-serialport/models"
@@ -22,7 +26,7 @@ export const useDevicesListener = () => {
 
   const refetchDevicesQuery = useCallback(async () => {
     await queryClient.invalidateQueries({
-      queryKey: useDevices.queryKey,
+      queryKey: useDevicesQuery.queryKey,
       exact: true,
     })
   }, [queryClient])
@@ -44,7 +48,7 @@ export const useDevicesListener = () => {
 
   const activateDevice = useCallback(
     (device: SerialPortDeviceInfo) => {
-      queryClient.setQueryData(useActiveDevice.queryKey, {
+      queryClient.setQueryData(useActiveDeviceQuery.queryKey, {
         path: device.path,
         deviceType: device.deviceType,
       })

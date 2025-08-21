@@ -6,24 +6,31 @@
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
 import { ApiDevice, ApiDeviceErrorType } from "devices/api-device/models"
-import { useDeviceConfig, useDeviceMenu, useDeviceStatus } from "../queries"
+import {
+  useDeviceConfigQuery,
+  useDeviceMenuQuery,
+  useDeviceStatusQuery,
+} from "../queries"
 import { useCallback } from "react"
 
 export const useApiDeviceInitializer = (device: ApiDevice) => {
   const queryClient = useQueryClient()
 
   const { isLoading: isConfigLoading, isError: isConfigError } =
-    useDeviceConfig(device)
+    useDeviceConfigQuery(device)
   const {
     isLoading: isMenuLoading,
     isError: isMenuError,
     failureReason: menuFailureReason,
     failureCount: menuFailureCount,
-  } = useDeviceMenu<ApiDeviceErrorType>(device)
+  } = useDeviceMenuQuery<ApiDeviceErrorType>(device)
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {
-      queryClient.setQueryData(useDeviceStatus.queryKey(device.path), status)
+      queryClient.setQueryData(
+        useDeviceStatusQuery.queryKey(device.path),
+        status
+      )
     },
     [device.path, queryClient]
   )

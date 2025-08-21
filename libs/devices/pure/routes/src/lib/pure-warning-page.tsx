@@ -8,9 +8,9 @@ import { useQueryClient } from "@tanstack/react-query"
 import { useAppNavigate } from "app-routing/utils"
 import { useRoutingHistory } from "app-routing/feature"
 import {
-  useActiveDevice,
-  useDeviceConfig,
-  useDevices,
+  useActiveDeviceQuery,
+  useDeviceConfigQuery,
+  useDevicesQuery,
 } from "devices/common/feature"
 import { DevicesPaths } from "devices/common/models"
 import { Modal, Typography } from "app-theme/ui"
@@ -41,8 +41,8 @@ export const PureWarningPage: FunctionComponent<Props> = ({ device }) => {
   const queryClient = useQueryClient()
   const navigate = useAppNavigate()
   const { getPreviousPath } = useRoutingHistory()
-  const { data: devices = [] } = useDevices()
-  const { failureReason } = useDeviceConfig(device)
+  const { data: devices = [] } = useDevicesQuery()
+  const { failureReason } = useDeviceConfigQuery(device)
 
   const onModalClose = useCallback(() => {
     const previousPath = getPreviousPath((path) => {
@@ -51,7 +51,7 @@ export const PureWarningPage: FunctionComponent<Props> = ({ device }) => {
       )
     })
     if (devices.length > 1) {
-      queryClient.removeQueries({ queryKey: useActiveDevice.queryKey })
+      queryClient.removeQueries({ queryKey: useActiveDeviceQuery.queryKey })
       navigate({ pathname: DevicesPaths.Selecting })
     } else {
       navigate({ pathname: previousPath })

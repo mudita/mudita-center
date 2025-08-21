@@ -33,10 +33,10 @@ const queryFn = async () => {
   })
 }
 
-export const useDevices = () => {
+export const useDevicesQuery = () => {
   return useQuery<Device[]>({
     queryKey: devicesQueryKeys.all,
     queryFn,
   })
 }
-useDevices.queryKey = devicesQueryKeys.all
+useDevicesQuery.queryKey = devicesQueryKeys.all

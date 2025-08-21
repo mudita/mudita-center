@@ -13,10 +13,14 @@ import {
 } from "app-theme/models"
 import { storybookHelper } from "app-theme/utils"
 import styled from "styled-components"
-import { ModalContent } from "./modal-content"
 import { Modal } from "./modal"
 import { Button } from "../button/button"
-import { Description, Stories, Subtitle, Title } from "@storybook/addon-docs/blocks"
+import {
+  Description,
+  Stories,
+  Subtitle,
+  Title,
+} from "@storybook/addon-docs/blocks"
 import { Typography } from "../typography/typography"
 
 const Decorator = styled.div`

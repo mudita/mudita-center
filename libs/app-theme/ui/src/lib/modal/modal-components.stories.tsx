@@ -10,7 +10,12 @@ import { ModalContent } from "./modal-content"
 import { Modal } from "./modal"
 import styled from "styled-components"
 import { Button } from "../button/button"
-import { Description, Stories, Subtitle, Title } from "@storybook/addon-docs/blocks"
+import {
+  Description,
+  Stories,
+  Subtitle,
+  Title,
+} from "@storybook/addon-docs/blocks"
 import { FunctionComponent, PropsWithChildren, ReactElement } from "react"
 import { action } from "storybook/actions"
 import { Icon } from "../icon/icon"

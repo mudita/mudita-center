@@ -5,7 +5,11 @@
 
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
-import { useDeviceConfig, useDeviceMenu, useDeviceStatus } from "../queries"
+import {
+  useDeviceConfigQuery,
+  useDeviceMenuQuery,
+  useDeviceStatusQuery,
+} from "../queries"
 import { useCallback } from "react"
 import { Harmony, HarmonyErrorType } from "devices/harmony/models"
 
@@ -13,12 +17,16 @@ export const useHarmonyInitializer = (device: Harmony) => {
   const queryClient = useQueryClient()
 
   const { isLoading: isConfigLoading, isError: isConfigError } =
-    useDeviceConfig(device)
-  const { isLoading: isMenuLoading } = useDeviceMenu<HarmonyErrorType>(device)
+    useDeviceConfigQuery(device)
+  const { isLoading: isMenuLoading } =
+    useDeviceMenuQuery<HarmonyErrorType>(device)
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {
-      queryClient.setQueryData(useDeviceStatus.queryKey(device.path), status)
+      queryClient.setQueryData(
+        useDeviceStatusQuery.queryKey(device.path),
+        status
+      )
     },
     [device.path, queryClient]
   )

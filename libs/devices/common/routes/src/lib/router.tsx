@@ -5,11 +5,11 @@
 
 import { useDispatch } from "react-redux"
 import {
-  useActiveDevice,
+  useActiveDeviceQuery,
   useDeviceActivate,
-  useDeviceMenu,
-  useDevices,
-  useDeviceStatus,
+  useDeviceMenuQuery,
+  useDevicesQuery,
+  useDeviceStatusQuery,
 } from "devices/common/feature"
 import { useApiDeviceRouter } from "devices/api-device/routes"
 import { useCallback, useEffect } from "react"
@@ -43,13 +43,13 @@ export const useDevicesInitRouter = () => {
   const navigate = useAppNavigate()
   const { pathname } = useLocation()
 
-  const { data: devices = [] } = useDevices()
-  const { data: activeDevice } = useActiveDevice()
+  const { data: devices = [] } = useDevicesQuery()
+  const { data: activeDevice } = useActiveDeviceQuery()
   const activateDevice = useDeviceActivate()
-  const { data: activeDeviceStatus } = useDeviceStatus(
+  const { data: activeDeviceStatus } = useDeviceStatusQuery(
     activeDevice || undefined
   )
-  const { data: menu } = useDeviceMenu(activeDevice || undefined)
+  const { data: menu } = useDeviceMenuQuery(activeDevice || undefined)
 
   const apiDeviceRouter = useApiDeviceRouter(activeDevice || undefined)
   const harmonyRouter = useHarmonyRouter(activeDevice || undefined)

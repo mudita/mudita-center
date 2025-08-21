@@ -8,20 +8,20 @@ import { devicesQueryKeys } from "./devices-query-keys"
 import { Device } from "devices/common/models"
 import { useCallback } from "react"
 
-export const useActiveDevice = () => {
+export const useActiveDeviceQuery = () => {
   return useQuery<Device | null>({
     queryKey: devicesQueryKeys.activeDevice(),
     queryFn: () => null,
   })
 }
-useActiveDevice.queryKey = devicesQueryKeys.activeDevice()
+useActiveDeviceQuery.queryKey = devicesQueryKeys.activeDevice()
 
 export const useDeviceActivate = () => {
   const queryClient = useQueryClient()
 
   return useCallback(
     (device: Device | null) => {
-      queryClient.setQueryData(useActiveDevice.queryKey, device)
+      queryClient.setQueryData(useActiveDeviceQuery.queryKey, device)
     },
     [queryClient]
   )
@@ -31,6 +31,7 @@ export const getActiveDevice = (
   queryClient: ReturnType<typeof useQueryClient>
 ) => {
   return (
-    queryClient.getQueryData<Device | null>(useActiveDevice.queryKey) || null
+    queryClient.getQueryData<Device | null>(useActiveDeviceQuery.queryKey) ||
+    null
   )
 }

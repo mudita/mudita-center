@@ -5,7 +5,7 @@
 
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
-import { useDeviceStatus } from "../queries"
+import { useDeviceStatusQuery } from "../queries"
 import { useCallback } from "react"
 import { HarmonyMsc } from "devices/harmony-msc/models"
 
@@ -14,7 +14,10 @@ export const useHarmonyMscInitializer = (device: HarmonyMsc) => {
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {
-      queryClient.setQueryData(useDeviceStatus.queryKey(device.path), status)
+      queryClient.setQueryData(
+        useDeviceStatusQuery.queryKey(device.path),
+        status
+      )
     },
     [device.path, queryClient]
   )

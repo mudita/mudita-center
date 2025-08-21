@@ -7,7 +7,10 @@ import { Navigate, Route, useParams } from "react-router"
 import { FunctionComponent } from "react"
 import { Device, DeviceStatus } from "devices/common/models"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
-import { useDeviceMenu, useDeviceStatus } from "devices/common/feature"
+import {
+  useDeviceMenuQuery,
+  useDeviceStatusQuery,
+} from "devices/common/feature"
 import { ApiDevicePaths } from "devices/api-device/models"
 import { DeviceLockedPage } from "./device-locked-page"
 
@@ -16,8 +19,8 @@ export const useApiDeviceRouter = (device?: Device) => {
     ? device
     : undefined
 
-  const { data: menu, isSuccess } = useDeviceMenu(activeApiDevice)
-  const { data: status } = useDeviceStatus(activeApiDevice)
+  const { data: menu, isSuccess } = useDeviceMenuQuery(activeApiDevice)
+  const { data: status } = useDeviceStatusQuery(activeApiDevice)
 
   return {
     initialization:

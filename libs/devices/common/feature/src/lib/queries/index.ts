@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./use-devices"
-export * from "./use-device-config"
-export * from "./use-device-metadata"
-export * from "./use-device-menu"
-export * from "./use-device-status"
-export * from "./use-active-device"
+export * from "./use-devices.query"
+export * from "./use-device-config.query"
+export * from "./use-device-metadata.query"
+export * from "./use-device-menu.query"
+export * from "./use-device-status.query"
+export * from "./use-active-device.query"
