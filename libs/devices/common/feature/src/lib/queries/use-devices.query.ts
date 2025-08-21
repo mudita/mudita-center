@@ -35,7 +35,7 @@ const queryFn = async () => {
 
 export const useDevicesQuery = () => {
   return useQuery<Device[]>({
-    queryKey: devicesQueryKeys.all,
+    queryKey: useDevicesQuery.queryKey,
     queryFn,
   })
 }

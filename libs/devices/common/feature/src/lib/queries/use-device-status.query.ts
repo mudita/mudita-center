@@ -13,7 +13,7 @@ export const useDeviceStatusQuery = (device?: Device) => {
   const devicePath = device?.path || activeDevice?.path
 
   return useQuery<DeviceStatus | null>({
-    queryKey: devicesQueryKeys.deviceStatus(devicePath),
+    queryKey: useDeviceStatusQuery.queryKey(devicePath),
     queryFn: () => null,
     enabled: Boolean(devicePath),
   })

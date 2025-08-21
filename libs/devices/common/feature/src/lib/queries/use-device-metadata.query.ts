@@ -166,7 +166,7 @@ export const useDeviceMetadataQuery = (device?: Device) => {
   const { data: deviceConfig } = useDeviceConfigQuery(device)
 
   return useQuery({
-    queryKey: devicesQueryKeys.deviceMetadata(device?.path),
+    queryKey: useDeviceMetadataQuery.queryKey(device?.path),
     queryFn: () => queryFn(device, deviceConfig),
     placeholderData: () => placeholderData(device),
     retry: 3,

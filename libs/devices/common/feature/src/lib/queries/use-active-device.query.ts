@@ -10,7 +10,7 @@ import { useCallback } from "react"
 
 export const useActiveDeviceQuery = () => {
   return useQuery<Device | null>({
-    queryKey: devicesQueryKeys.activeDevice(),
+    queryKey: useActiveDeviceQuery.queryKey,
     queryFn: () => null,
   })
 }
