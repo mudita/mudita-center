@@ -105,7 +105,7 @@ export class ApiDeviceSerialPort {
       }
     }
 
-    if (responseValidator && "body" in response && response.status < 400) {
+    if (responseValidator && response.status < 400) {
       const responseParseResult = responseValidator.safeParse(response.body)
       if (!responseParseResult.success) {
         console.error(
