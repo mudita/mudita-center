@@ -10,6 +10,12 @@ import {
   HarmonyLogsValidator,
 } from "./endpoints/device-info"
 import { z } from "zod"
+import {
+  HarmonyGetTimeRequestValidator,
+  HarmonyGetTimeResponseValidator,
+  HarmonySynchronizeTimeRequestValidator,
+  HarmonySynchronizeTimeResponseValidator,
+} from "./endpoints/time-synchronization"
 
 export enum HarmonyEndpointNamed {
   Invalid = 0,
@@ -49,6 +55,16 @@ export const HarmonyEndpoints = {
         HarmonyLogsRequestValidator,
       ]),
       response: z.union([HarmonyInfoResponseValidator, HarmonyLogsValidator]),
+    },
+  },
+  [HarmonyEndpointNamed.TimeSynchronization]: {
+    [HarmonyMethodNamed.Get]: {
+      request: HarmonyGetTimeRequestValidator,
+      response: HarmonyGetTimeResponseValidator,
+    },
+    [HarmonyMethodNamed.Post]: {
+      request: HarmonySynchronizeTimeRequestValidator,
+      response: HarmonySynchronizeTimeResponseValidator,
     },
   },
 } satisfies EndpointsDefinition

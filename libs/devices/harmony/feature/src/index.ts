@@ -6,3 +6,5 @@
 export * from "./lib/api/get-harmony-logs"
 export * from "./lib/api/get-harmony-info"
 export * from "./lib/api/get-harmony-menu"
+export * from "./lib/hooks/use-harmony-time-synchronization.mutation"
+export * from "./lib/hooks/use-harmony-time.query"
