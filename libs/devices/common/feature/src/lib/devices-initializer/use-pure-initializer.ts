@@ -5,7 +5,7 @@
 
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
-import { useDeviceConfigQuery, useDeviceStatusQuery } from "../queries"
+import { useDeviceConfigQuery, useDeviceStatusQuery } from "../hooks"
 import { useCallback } from "react"
 import { Pure, PureErrorType } from "devices/pure/models"
 

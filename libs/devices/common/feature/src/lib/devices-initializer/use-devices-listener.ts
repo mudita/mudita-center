@@ -9,11 +9,11 @@ import {
   getActiveDevice,
   useActiveDeviceQuery,
   useDevicesQuery,
-} from "../queries"
+} from "../hooks"
 import { useAppDispatch } from "app-store/utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { SerialPortDeviceInfo } from "app-serialport/models"
-import { devicesQueryKeys } from "../queries/devices-query-keys"
+import { devicesQueryKeys } from "../hooks/devices-query-keys"
 import { NewsPaths } from "news/models"
 import { DevicesPaths } from "devices/common/models"
 import { getCurrentPath, useAppNavigate } from "app-routing/utils"

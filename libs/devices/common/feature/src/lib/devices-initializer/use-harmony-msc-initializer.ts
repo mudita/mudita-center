@@ -5,7 +5,7 @@
 
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
-import { useDeviceStatusQuery } from "../queries"
+import { useDeviceStatusQuery } from "../hooks"
 import { useCallback } from "react"
 import { HarmonyMsc } from "devices/harmony-msc/models"
 

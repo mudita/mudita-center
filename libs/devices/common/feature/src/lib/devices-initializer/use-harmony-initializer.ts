@@ -9,7 +9,7 @@ import {
   useDeviceConfigQuery,
   useDeviceMenuQuery,
   useDeviceStatusQuery,
-} from "../queries"
+} from "../hooks"
 import { useCallback } from "react"
 import { Harmony, HarmonyErrorType } from "devices/harmony/models"
 

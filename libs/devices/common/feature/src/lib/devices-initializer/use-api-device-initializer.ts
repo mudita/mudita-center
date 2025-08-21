@@ -10,7 +10,7 @@ import {
   useDeviceConfigQuery,
   useDeviceMenuQuery,
   useDeviceStatusQuery,
-} from "../queries"
+} from "../hooks"
 import { useCallback } from "react"
 
 export const useApiDeviceInitializer = (device: ApiDevice) => {
