@@ -46,15 +46,13 @@ export const useDevicesInitRouter = () => {
   const { data: devices = [] } = useDevicesQuery()
   const { data: activeDevice } = useActiveDeviceQuery()
   const activateDevice = useDeviceActivate()
-  const { data: activeDeviceStatus } = useDeviceStatusQuery(
-    activeDevice || undefined
-  )
-  const { data: menu } = useDeviceMenuQuery(activeDevice || undefined)
+  const { data: activeDeviceStatus } = useDeviceStatusQuery(activeDevice)
+  const { data: menu } = useDeviceMenuQuery(activeDevice)
 
-  const apiDeviceRouter = useApiDeviceRouter(activeDevice || undefined)
-  const harmonyRouter = useHarmonyRouter(activeDevice || undefined)
-  const pureRouter = usePureRouter(activeDevice || undefined)
-  const harmonyMscRouter = useHarmonyMscRouter(activeDevice || undefined)
+  const apiDeviceRouter = useApiDeviceRouter(activeDevice)
+  const harmonyRouter = useHarmonyRouter(activeDevice)
+  const pureRouter = usePureRouter(activeDevice)
+  const harmonyMscRouter = useHarmonyMscRouter(activeDevice)
 
   const handleWrapperClose = () => {
     if (devices.length > 1) {

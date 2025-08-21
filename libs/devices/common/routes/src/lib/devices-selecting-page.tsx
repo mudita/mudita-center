@@ -58,11 +58,5 @@ const Card: FunctionComponent<Device & { onClick: VoidFunction }> = ({
     return null
   }
 
-  return (
-    <DevicesSelectorCard
-      {...metadata}
-      onClick={onClick}
-      status={status || undefined}
-    />
-  )
+  return <DevicesSelectorCard {...metadata} onClick={onClick} status={status} />
 }

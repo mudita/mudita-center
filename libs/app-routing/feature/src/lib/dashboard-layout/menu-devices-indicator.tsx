@@ -21,9 +21,7 @@ export const MenuDevicesIndicator: FunctionComponent = () => {
   const { data: devices = [] } = useDevicesQuery()
   const { data: fakeActiveDevice } = useActiveDeviceQuery()
 
-  const { data: activeDeviceStatus } = useDeviceStatusQuery(
-    fakeActiveDevice || undefined
-  )
+  const { data: activeDeviceStatus } = useDeviceStatusQuery(fakeActiveDevice)
   const devicesStatuses = useDevicesStatuses(devices)
 
   const multipleDevicesConnected = devices.length > 1

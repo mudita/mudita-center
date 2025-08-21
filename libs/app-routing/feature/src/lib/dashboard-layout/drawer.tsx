@@ -73,7 +73,7 @@ const Card: FunctionComponent<Device & { onClick: VoidFunction }> = ({
       {...metadata}
       onClick={onClick}
       active={isActive}
-      status={status || undefined}
+      status={status}
     />
   )
 }
