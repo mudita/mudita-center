@@ -11,22 +11,46 @@ import React, {
   useState,
 } from "react"
 import styled from "styled-components"
+import {
+  FilePreviewErrorHandler,
+  FilePreviewErrorType,
+} from "./file-preview-error.types"
 
 interface Props {
   src?: string
-  onError?: () => void
+  fileUid?: string | number
+  onError?: FilePreviewErrorHandler
 }
 
-export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
+export const ImagePreview: FunctionComponent<Props> = ({
+  src,
+  fileUid,
+  onError,
+}) => {
   const loadedTimeoutRef = useRef<NodeJS.Timeout>()
   const [loaded, setLoaded] = useState(false)
+  const uniqueSrc = `${src}?u=${fileUid}`
 
-  const onLoad = useCallback(() => {
-    loadedTimeoutRef.current = setTimeout(() => {
-      // Ensure bigger images are fully rendered
-      setLoaded(true)
-    }, 100)
-  }, [])
+  const handleLoad = useCallback(() => {
+    setLoaded(true)
+    onError?.(undefined)
+  }, [onError])
+
+  const handleError = useCallback(() => {
+    if (src?.endsWith(".heic")) {
+      onError?.({
+        type: FilePreviewErrorType.UnsupportedFileType,
+        details: "HEIC",
+      })
+    } else if (src?.endsWith(".heif")) {
+      onError?.({
+        type: FilePreviewErrorType.UnsupportedFileType,
+        details: "HEIF",
+      })
+    } else {
+      onError?.({ type: FilePreviewErrorType.Unknown })
+    }
+  }, [onError, src])
 
   useEffect(() => {
     clearTimeout(loadedTimeoutRef.current)
@@ -35,8 +59,14 @@ export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
 
   return (
     <Wrapper $loaded={loaded}>
-      <BackgroundImage $url={src} />
-      <MainImage key={src} src={src} onLoad={onLoad} onError={onError} />
+      <BackgroundImage style={{ backgroundImage: `url("${uniqueSrc}")` }} />
+      <MainImage
+        key={src}
+        src={uniqueSrc}
+        alt={""}
+        onLoad={handleLoad}
+        onError={handleError}
+      />
     </Wrapper>
   )
 }
@@ -59,13 +89,12 @@ const MainImage = styled.img`
   z-index: 1;
 `
 
-const BackgroundImage = styled.div<{ $url?: string }>`
+const BackgroundImage = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: 0;
 
-  background-image: url("${({ $url }) => $url}");
   background-position: center;
   background-size: cover;
   filter: blur(5rem) brightness(0.4);
