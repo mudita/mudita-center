@@ -7,6 +7,7 @@ import { useDispatch, useSelector, useStore } from "react-redux"
 import {
   FileWithPath,
   selectEntityData,
+  selectFilesSendingFailed,
   sendFiles,
   SendFilesAction,
 } from "generic-view/store"
@@ -23,6 +24,7 @@ import path from "node:path"
 export interface FilePreviewResponse {
   id: string
   path: string
+  nativePath: string
   name: string
   type: string
 }
@@ -62,7 +64,7 @@ export const useFilePreviewDownload = ({
       const nativePath = path.join(nativeDir, fileName)
       return {
         nativeDir,
-        nativePath: nativePath,
+        nativePath,
         safePath:
           process.platform === "win32"
             ? nativePath
@@ -70,6 +72,36 @@ export const useFilePreviewDownload = ({
       }
     },
     [tempDirectoryPath]
+  )
+
+  const getEntityData = useCallback(
+    (id?: string) => {
+      const entity =
+        deviceId && id
+          ? selectEntityData(store.getState(), {
+              deviceId,
+              entitiesType,
+              entityId: id,
+            })
+          : undefined
+
+      return {
+        fileName: (entity?.[fields.titleField] as string) || "",
+        fileType: (entity?.[fields.mimeTypeField] as string) || "",
+        filePath: (entity?.[fields.pathField] as string) || "",
+        fileSize: entity?.[fields.sizeField] as number | undefined,
+        isInternal: entity?.["isInternal"] as boolean | undefined,
+      }
+    },
+    [
+      deviceId,
+      store,
+      entitiesType,
+      fields.titleField,
+      fields.mimeTypeField,
+      fields.pathField,
+      fields.sizeField,
+    ]
   )
 
   const downloadFile = useCallback(
@@ -80,22 +112,16 @@ export const useFilePreviewDownload = ({
       if (!deviceId || !tempDirectoryPath) {
         return
       }
-      const entity = selectEntityData(store.getState(), {
-        deviceId,
-        entitiesType,
-        entityId,
-      })
+      const entity = getEntityData(entityId)
 
-      if (!entity || !("filePath" in entity) || !("fileName" in entity)) {
+      if (!entity.fileName || !entity.filePath || !entity.fileType) {
         return
       }
 
-      const fileName = entity[fields.titleField] as string
+      const fileName = entity.fileName
       onFileNameFound?.(fileName)
-      const fileType = (entity[fields.mimeTypeField] as string)
-        .split("/")[0]
-        .toLowerCase()
-      const filePath = getFilePath(entity[fields.pathField] as string)
+      const fileType = entity.fileType.split("/")[0].toLowerCase()
+      const filePath = getFilePath(entity.filePath)
       if (!filePath) {
         return
       }
@@ -104,6 +130,7 @@ export const useFilePreviewDownload = ({
         return {
           id: entityId,
           path: filePath.safePath,
+          nativePath: filePath.nativePath,
           name: fileName,
           type: fileType,
         }
@@ -112,12 +139,9 @@ export const useFilePreviewDownload = ({
 
       const fileData: FileWithPath = {
         id: entityId,
-        path: sliceMtpPaths(
-          entity[fields.pathField] as string,
-          entity.isInternal as boolean
-        ),
-        name: String(entity[fields.titleField]),
-        size: Number(entity[fields.sizeField]),
+        path: sliceMtpPaths(entity.filePath, entity.isInternal as boolean),
+        name: String(entity.fileName),
+        size: Number(entity.fileSize),
         groupId: actionId,
       }
 
@@ -127,9 +151,7 @@ export const useFilePreviewDownload = ({
           destinationPath: filePath.nativeDir,
           actionId,
           entitiesType,
-          isMtpPathInternal: isMtpPathInternal(
-            entity[fields.pathField] as string
-          ),
+          isMtpPathInternal: isMtpPathInternal(entity.filePath as string),
           actionType: SendFilesAction.ActionExport,
         })
       ) as unknown as ReturnType<ReturnType<typeof sendFiles>>
@@ -142,13 +164,20 @@ export const useFilePreviewDownload = ({
 
       const response = await promise
 
-      if (response.meta.requestStatus === "rejected") {
-        return
+      const requestFailed =
+        selectFilesSendingFailed(store.getState(), {
+          filesIds: [entityId],
+        }).length > 0
+
+      if (response.meta.requestStatus === "rejected" || requestFailed) {
+        throw new Error("Preview download failed")
       }
 
+      delete abortReferences.current[entityId]
       return {
         id: entityId,
         path: filePath.safePath,
+        nativePath: filePath.nativePath,
         name: fileName,
         type: fileType,
       }
@@ -158,10 +187,7 @@ export const useFilePreviewDownload = ({
       deviceId,
       dispatch,
       entitiesType,
-      fields.mimeTypeField,
-      fields.pathField,
-      fields.sizeField,
-      fields.titleField,
+      getEntityData,
       getFilePath,
       store,
       tempDirectoryPath,
@@ -173,27 +199,16 @@ export const useFilePreviewDownload = ({
       if (!deviceId || !tempDirectoryPath) {
         return
       }
-      const entity = selectEntityData(store.getState(), {
-        deviceId,
-        entitiesType,
-        entityId,
-      })
-      if (!entity) {
+      const entity = getEntityData(entityId)
+      if (!entity.filePath) {
         return
       }
-      const path = getFilePath(entity[fields.pathField] as string)?.nativePath
+      const path = getFilePath(entity.filePath)?.nativePath
       if (path) {
         await removeDirectory(path)
       }
     },
-    [
-      deviceId,
-      entitiesType,
-      fields.pathField,
-      getFilePath,
-      store,
-      tempDirectoryPath,
-    ]
+    [deviceId, getEntityData, getFilePath, tempDirectoryPath]
   )
 
   const cancelDownload = useCallback(

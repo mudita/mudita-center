@@ -18,25 +18,38 @@ interface Props {
 }
 
 export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
-  const loadedTimeoutRef = useRef<NodeJS.Timeout>()
+  const imgRef = useRef<HTMLImageElement | null>(null)
   const [loaded, setLoaded] = useState(false)
 
-  const onLoad = useCallback(() => {
-    loadedTimeoutRef.current = setTimeout(() => {
-      // Ensure bigger images are fully rendered
+  const onLoad = useCallback(async () => {
+    const img = imgRef.current
+
+    try {
+      if (!img) {
+        throw new Error("Image not found")
+      }
+      await img.decode()
       setLoaded(true)
-    }, 100)
-  }, [])
+    } catch {
+      onError?.()
+    }
+  }, [onError])
 
   useEffect(() => {
-    clearTimeout(loadedTimeoutRef.current)
     setLoaded(false)
   }, [src])
 
   return (
     <Wrapper $loaded={loaded}>
       <BackgroundImage $url={src} />
-      <MainImage key={src} src={src} onLoad={onLoad} onError={onError} />
+      <MainImage
+        ref={imgRef}
+        key={src}
+        src={src}
+        onLoad={onLoad}
+        onError={onError}
+        decoding={"async"}
+      />
     </Wrapper>
   )
 }

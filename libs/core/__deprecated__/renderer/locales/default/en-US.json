@@ -1052,7 +1052,10 @@
   "module.genericViews.filesManager.export.validationFailure.duplicatesDescription": "{filesCount, plural, one {A file with this name already exists} other {Files with these names already exist}}. Please rename the duplicate {filesCount, plural, one {file} other {files}} and try again.",
   "module.genericViews.filesManager.export.validationFailure.insufficientMemoryDescription": "You do not have enough memory. To export the selected {filesCount, plural, one {file} other {files}}, free {value} and try again.",
   "module.genericViews.filesManager.export.validationFailure.fileTooLargeDescription": "Files must be less than 2GB.\nSelect a smaller file and try again.",
-
+  "module.genericViews.filesManager.preview.unsupportedTypeError": "{type} files are not supported. Please convert file to a compatible format and try again.",
+  "module.genericViews.filesManager.preview.unknownError": "Failed to load photo.\nPlease try again.",
+  "module.genericViews.filesManager.preview.backButton": "Back",
+  "module.genericViews.filesManager.preview.retryButton": "Try again",
   "module.genericViews.appInstallation.progress.modalTitle": "Installing the App...",
   "module.genericViews.appInstallation.error.modalTitle": "Installation failed",
   "module.genericViews.appInstallation.error.globalMessage": "The installation process was interrupted.",

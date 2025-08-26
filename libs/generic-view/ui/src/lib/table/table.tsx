@@ -48,6 +48,8 @@ export const Table: APIFC<TableData, TableConfig> & {
     -1, -1,
   ])
 
+  const [previewOpened, setPreviewOpened] = useState(false)
+  const [initialPreviewId, setInitialPreviewId] = useState<string>()
   const [activePreviewId, setActivePreviewId] = useState<string>()
   const nextActivePreviewId = useRef<string | undefined>(undefined)
   const { activeIdFieldName } = formOptions || {}
@@ -63,7 +65,9 @@ export const Table: APIFC<TableData, TableConfig> & {
   const onRowClick = useCallback(
     (id: string) => {
       if (previewOptions?.enabled) {
-        handleActivePreviewIdChange(id)
+        // handleActivePreviewIdChange(id)
+        setInitialPreviewId(id)
+        setPreviewOpened(true)
         return
       }
       if (activeIdFieldName) {
@@ -108,15 +112,14 @@ export const Table: APIFC<TableData, TableConfig> & {
     }
   }, [activePreviewId])
 
-  const handleActivePreviewIdChange = useCallback(
-    (id?: string) => {
-      setActivePreviewId(id)
-      if (id) {
-        nextActivePreviewId.current = data[(data.indexOf(id) + 1) % data.length]
-      }
-    },
-    [data]
-  )
+  const handleActivePreviewIdChange = useCallback((id?: string) => {
+    setActivePreviewId(id)
+  }, [])
+
+  const handlePreviewClose = useCallback(() => {
+    setPreviewOpened(false)
+    setInitialPreviewId(undefined)
+  }, [])
 
   useEffect(() => {
     if (activePreviewId !== undefined) {
@@ -136,12 +139,6 @@ export const Table: APIFC<TableData, TableConfig> & {
     previewMode,
     scrollToPreviewActiveItem,
   ])
-
-  useEffect(() => {
-    if (activePreviewId && !data.includes(activePreviewId)) {
-      handleActivePreviewIdChange(nextActivePreviewId.current)
-    }
-  }, [activePreviewId, data, handleActivePreviewIdChange])
 
   useEffect(() => {
     if (activeRowId) {
@@ -286,8 +283,10 @@ export const Table: APIFC<TableData, TableConfig> & {
     return (
       <FilePreview
         items={data}
-        activeItem={activePreviewId}
+        initialItem={initialPreviewId}
+        opened={previewOpened}
         onActiveItemChange={handleActivePreviewIdChange}
+        onClose={handlePreviewClose}
         componentKey={previewOptions.componentKey}
         entitiesConfig={{
           type: previewOptions.entitiesType,
@@ -299,7 +298,14 @@ export const Table: APIFC<TableData, TableConfig> & {
         }}
       />
     )
-  }, [activePreviewId, data, handleActivePreviewIdChange, previewOptions])
+  }, [
+    data,
+    handleActivePreviewIdChange,
+    handlePreviewClose,
+    initialPreviewId,
+    previewOpened,
+    previewOptions,
+  ])
 
   return useMemo(
     () => (

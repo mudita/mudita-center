@@ -8,117 +8,162 @@ import React, {
   memo,
   useCallback,
   useEffect,
-  useMemo,
-  useRef,
+  useState,
 } from "react"
-import { useSelector } from "react-redux"
 import styled, { css } from "styled-components"
-import { selectEntityData, selectFilesTransferMode } from "generic-view/store"
 import { IconType } from "generic-view/utils"
 import { Modal } from "../../interactive/modal/modal"
 import { IconButton } from "../../shared/button"
 import { Icon } from "../../icon/icon"
 import { Typography } from "../../typography"
 import { SpinnerLoader } from "../../shared/spinner-loader"
-import { ImagePreview } from "./image-preview"
 import { AnimatePresence, motion } from "motion/react"
-import { useFilesPreview, UseFilesPreviewParams } from "./use-files-preview"
-import { activeDeviceIdSelector } from "active-device-registry/feature"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { FilePreviewEntitiesConfig } from "./use-file-preview"
 import { ButtonIcon } from "../../buttons/button-icon"
 import { generateFilesExportButtonActions } from "../../generated/mc-file-manager/file-export-button"
 import { generateDeleteFilesButtonActions } from "../../generated/mc-file-manager/delete-files"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
+import { useFilePreview } from "./use-file-preview"
+import { defineMessages } from "react-intl"
+import { ButtonSecondary } from "../../buttons/button-secondary"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { ImagePreview } from "./image-preview"
+import { FilePreviewErrorType } from "./file-preview-error-types"
+
+const messages = defineMessages({
+  unsupportedFileType: {
+    id: "module.genericViews.filesManager.preview.unsupportedTypeError",
+  },
+  unknownError: {
+    id: "module.genericViews.filesManager.preview.unknownError",
+  },
+  retryButton: {
+    id: "module.genericViews.filesManager.preview.retryButton",
+  },
+  backButton: {
+    id: "module.genericViews.filesManager.preview.backButton",
+  },
+})
 
 interface Props {
-  componentKey: string
-  entitiesConfig: UseFilesPreviewParams["entitiesConfig"]
   items: string[]
-  activeItem: string | undefined
+  initialItem: string | undefined
+  opened: boolean
   onActiveItemChange: (item: string | undefined) => void
-  actions?: React.ReactNode
+  onClose: VoidFunction
+  componentKey: string
+  entitiesConfig: FilePreviewEntitiesConfig
 }
 
 export const FilePreview: FunctionComponent<Props> = memo(
-  ({ items, activeItem, onActiveItemChange, entitiesConfig, componentKey }) => {
-    const deviceId = useSelector(activeDeviceIdSelector)
-    const entity = useSelector((state: ReduxRootState) => {
-      if (!activeItem || !deviceId) return undefined
-      return selectEntityData(state, {
-        deviceId,
-        entitiesType: entitiesConfig.type,
-        entityId: activeItem,
-      })
-    })
-    const nextIdReference = useRef<string>()
-
-    // TODO: Handle file transfer mode
-    const fileTransferMode = useSelector(selectFilesTransferMode)
+  ({
+    opened,
+    items,
+    initialItem,
+    onClose,
+    onActiveItemChange,
+    entitiesConfig,
+    componentKey,
+  }) => {
+    const nextItemIdRef = React.useRef<string>()
+    const [currentItemId, setCurrentItemId] = useState(initialItem)
+    const [previewLoadingError, setPreviewLoadingError] = useState(false)
 
     const {
-      data: fileInfo,
-      nextId,
-      previousId,
-    } = useFilesPreview({
-      items,
-      activeItem,
+      data,
+      isLoading,
+      isPending,
+      isFetching,
+      isError,
+      error,
+      refetch,
+      cancel,
+      dataUpdatedAt,
+      fileName,
+      prevFileId,
+      nextFileId,
+    } = useFilePreview({
+      entitiesIds: items,
+      entitiesType: entitiesConfig.type,
+      entityId: currentItemId,
       entitiesConfig,
     })
 
-    const isLoading = !fileInfo
-
-    const entityType = useMemo(() => {
-      if (!entity) return ""
-      return entity[entitiesConfig.mimeTypeField] as string
-    }, [entitiesConfig.mimeTypeField, entity])
-
-    const entityName = useMemo(() => {
-      if (!entity) return ""
-      return entity[entitiesConfig.titleField] as string
-    }, [entitiesConfig.titleField, entity])
+    const inProgress = isLoading || isPending || isFetching
+    const hasError = isError || previewLoadingError
 
     const handleClose = useCallback(() => {
-      onActiveItemChange(undefined)
-    }, [onActiveItemChange])
+      onClose()
+    }, [onClose])
 
-    const handleError = useCallback(() => {
-      // TODO: Handle errors
-    }, [])
+    const handlePreviousFile = useCallback(async () => {
+      await cancel()
+      setPreviewLoadingError(false)
+      setCurrentItemId(prevFileId)
+    }, [cancel, prevFileId])
 
-    const handlePreviousFile = useCallback(() => {
-      onActiveItemChange(previousId)
-    }, [onActiveItemChange, previousId])
-
-    const handleNextFile = useCallback(() => {
-      onActiveItemChange(nextIdReference.current || nextId)
-    }, [nextId, onActiveItemChange])
+    const handleNextFile = useCallback(async () => {
+      await cancel()
+      setPreviewLoadingError(false)
+      setCurrentItemId(nextFileId)
+    }, [cancel, nextFileId])
 
     const handleKeyDown = useCallback(
       (event: KeyboardEvent) => {
         if (event.key === "ArrowLeft") {
-          handlePreviousFile()
+          void handlePreviousFile()
         } else if (event.key === "ArrowRight") {
-          handleNextFile()
+          void handleNextFile()
         }
       },
       [handleNextFile, handlePreviousFile]
     )
 
+    const handlePreviewError = useCallback(() => {
+      setPreviewLoadingError(true)
+    }, [])
+
+    const handleRetry = useCallback(() => {
+      setPreviewLoadingError(false)
+      void refetch()
+    }, [refetch])
+
     useEffect(() => {
-      document.addEventListener("keydown", handleKeyDown)
-      if (!activeItem) {
+      // Open next file if current was deleted
+      if (currentItemId && !items.includes(currentItemId)) {
+        setCurrentItemId(nextItemIdRef.current)
+      }
+    }, [currentItemId, items])
+
+    useEffect(() => {
+      // Set initial state when opening preview modal
+      setCurrentItemId(initialItem)
+    }, [initialItem])
+
+    useEffect(() => {
+      // Notify parent component about active file change
+      onActiveItemChange(currentItemId)
+
+      // Prepare next item id in advance for the case when current file is deleted
+      nextItemIdRef.current = nextFileId
+    }, [currentItemId, nextFileId, onActiveItemChange])
+
+    useEffect(() => {
+      if (initialItem) {
+        document.addEventListener("keydown", handleKeyDown)
+      } else {
         document.removeEventListener("keydown", handleKeyDown)
       }
       return () => {
         document.removeEventListener("keydown", handleKeyDown)
       }
-    }, [activeItem, handleKeyDown])
+    }, [handleKeyDown, initialItem])
 
     return (
       <Modal
         componentKey={"file-preview-modal"}
         config={{
-          defaultOpened: Boolean(activeItem),
+          defaultOpened: opened,
           width: 960,
           maxHeight: 640,
           padding: 0,
@@ -128,7 +173,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
         <ModalContent>
           <Header>
             <Typography.P1 config={{ color: "white" }}>
-              {entityName}
+              {fileName}
             </Typography.P1>
             <IconButton onClick={handleClose}>
               <Icon
@@ -141,20 +186,83 @@ export const FilePreview: FunctionComponent<Props> = memo(
             </IconButton>
           </Header>
           <Main>
-            <Loader>
-              <SpinnerLoader />
-            </Loader>
-            <AnimatePresence initial={true} mode={"wait"}>
-              {!isLoading && (
-                <PreviewWrapper
-                  key={fileInfo?.path}
+            <AnimatePresence initial={true} mode={"popLayout"}>
+              {hasError ? (
+                <ErrorWrapper
+                  key={"error"}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  {entityType.startsWith("image") && (
-                    <ImagePreview src={fileInfo.path} onError={handleError} />
+                  <ErrorIcon
+                    config={{
+                      type: IconType.Exclamation,
+                      size: "large",
+                      color: "white",
+                    }}
+                  />
+                  {error?.type === FilePreviewErrorType.UnsupportedFileType ? (
+                    <>
+                      <Typography.P1>
+                        {intl.formatMessage(messages.unsupportedFileType, {
+                          type: error.details,
+                        })}
+                      </Typography.P1>
+                      <ButtonSecondary
+                        config={{
+                          text: intl.formatMessage(messages.backButton),
+                          actions: [
+                            {
+                              type: "custom",
+                              callback: handleClose,
+                            },
+                          ],
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Typography.P1>
+                        {intl.formatMessage(messages.unknownError)}
+                      </Typography.P1>
+                      <ButtonSecondary
+                        config={{
+                          text: intl.formatMessage(messages.retryButton),
+                          actions: [
+                            {
+                              type: "custom",
+                              callback: handleRetry,
+                            },
+                          ],
+                        }}
+                      />
+                    </>
+                  )}
+                </ErrorWrapper>
+              ) : inProgress ? (
+                <Loader
+                  key="loader"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <SpinnerLoader />
+                </Loader>
+              ) : (
+                <PreviewWrapper
+                  key={data?.filePath}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {data?.fileType?.startsWith("image") && (
+                    <ImagePreview
+                      src={data ? `${data.filePath}?t=${dataUpdatedAt}` : ""}
+                      onError={handlePreviewError}
+                    />
                   )}
                 </PreviewWrapper>
               )}
@@ -190,7 +298,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
                 actions: [
                   ...generateFilesExportButtonActions(componentKey, {
                     exportActionId: "previewExport",
-                    singleEntityId: activeItem,
+                    singleEntityId: initialItem,
                     entityType: entitiesConfig.type,
                   }),
                 ],
@@ -201,7 +309,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
                 icon: IconType.Delete,
                 iconSize: "large",
                 actions: generateDeleteFilesButtonActions(componentKey, {
-                  singleEntityId: activeItem,
+                  singleEntityId: initialItem,
                 }),
               }}
             />
@@ -331,7 +439,7 @@ const ModalContent = styled.section`
   }
 `
 
-const Loader = styled.div`
+const Loader = styled(motion.div)`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -344,6 +452,48 @@ const PreviewWrapper = styled(motion.div)`
   width: 100%;
   height: 100%;
   z-index: 2;
+`
+
+const ErrorWrapper = styled(motion.div)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  width: 34rem;
+
+  p {
+    color: ${({ theme }) => theme.color.white} !important;
+  }
+
+  button {
+    margin-top: 1rem;
+    background-color: transparent;
+    color: ${({ theme }) => theme.color.white};
+    border-color: ${({ theme }) => theme.color.white};
+    width: 15.6rem;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.grey1};
+    }
+
+    &:active {
+      background-color: transparent;
+    }
+  }
+`
+
+const ErrorIcon = styled(Icon)`
+  width: 6.8rem;
+  height: 6.8rem;
+  padding: 1.2rem;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.color.white};
 `
 
 const Main = styled.main`
