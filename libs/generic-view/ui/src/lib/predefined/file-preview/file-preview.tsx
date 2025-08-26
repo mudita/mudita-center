@@ -16,7 +16,6 @@ import { Modal } from "../../interactive/modal/modal"
 import { IconButton } from "../../shared/button"
 import { Icon } from "../../icon/icon"
 import { Typography } from "../../typography"
-import { SpinnerLoader } from "../../shared/spinner-loader"
 import { AnimatePresence, motion } from "motion/react"
 import { FilePreviewEntitiesConfig, useFilePreview } from "./use-file-preview"
 import { ButtonIcon } from "../../buttons/button-icon"
@@ -28,6 +27,7 @@ import { ButtonSecondary } from "../../buttons/button-secondary"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ImagePreview } from "./image-preview"
 import { FilePreviewErrorType } from "./file-preview-error-types"
+import { FilePreviewLoader } from "./shared-components"
 
 const messages = defineMessages({
   unsupportedFileType: {
@@ -240,15 +240,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
                   )}
                 </ErrorWrapper>
               ) : inProgress ? (
-                <Loader
-                  key="loader"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <SpinnerLoader />
-                </Loader>
+                <FilePreviewLoader />
               ) : (
                 <PreviewWrapper
                   key={data?.filePath}
@@ -440,14 +432,6 @@ const ModalContent = styled.section`
       visibility: visible;
     }
   }
-`
-
-const Loader = styled(motion.div)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
 `
 
 const PreviewWrapper = styled(motion.div)`

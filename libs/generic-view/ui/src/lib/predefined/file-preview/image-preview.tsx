@@ -11,6 +11,8 @@ import React, {
   useState,
 } from "react"
 import styled from "styled-components"
+import { AnimatePresence } from "motion/react"
+import { FilePreviewLoader } from "./shared-components"
 
 interface Props {
   src?: string
@@ -40,19 +42,24 @@ export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
   }, [src])
 
   return (
-    <Wrapper $loaded={loaded}>
-      <BackgroundImage style={{ backgroundImage: `url("${src}")` }} />
-      <MainImage
-        ref={imgRef}
-        key={src}
-        src={src}
-        alt={""}
-        aria-labelledby={"file-preview-name"}
-        onLoad={onLoad}
-        onError={onError}
-        decoding={"async"}
-      />
-    </Wrapper>
+    <>
+      <Wrapper $loaded={loaded}>
+        <BackgroundImage style={{ backgroundImage: `url("${src}")` }} />
+        <MainImage
+          ref={imgRef}
+          key={src}
+          src={src}
+          alt={""}
+          aria-labelledby={"file-preview-name"}
+          onLoad={onLoad}
+          onError={onError}
+          decoding={"async"}
+        />
+      </Wrapper>
+      <AnimatePresence initial={true} mode={"popLayout"}>
+        {!loaded && <FilePreviewLoader />}
+      </AnimatePresence>
+    </>
   )
 }
 
