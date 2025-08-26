@@ -13,8 +13,10 @@ import {
   ApiFileTransferServiceEvents,
   FileTransferStatuses,
   GeneralError,
-  PreTransferGet,
-  PreTransferGetValidator,
+  PreTransferGet200,
+  PreTransferGet200Validator,
+  PreTransferGet202,
+  PreTransferGet202Validator,
   PreTransferSendValidator,
   TransferGetValidator,
   TransferSend,
@@ -26,14 +28,15 @@ import { APIDevice } from "../api-device"
 import { ServiceBridge } from "../service-bridge"
 import AES from "crypto-js/aes"
 import encUtf8 from "crypto-js/enc-utf8"
-import logger from "Core/__deprecated__/main/utils/logger"
 import { delay } from "shared/utils"
+import { CRC32Calculator } from "Core/utils/crc32-calculator"
 
 interface Transfer {
   crc32: string
   fileSize: number
   filePath: string
   chunks: string[]
+  crc32Calc?: CRC32Calculator
 }
 
 const DEFAULT_MAX_REPEATS = 2
@@ -255,17 +258,15 @@ export class APIFileTransferService {
     return Result.success(transferResponse.data)
   }
 
-  private validateChecksum(transferId: number) {
-    const transfer = this.transfers[transferId]
-    const data = transfer.chunks.join("")
-    const crc32 = crc.crc32(data)
-    const validChecksum = crc32.toLowerCase() === transfer.crc32.toLowerCase()
-    if (!validChecksum) {
-      logger.error(
-        `File checksum mismatch for ${transfer.filePath}. Expected: ${transfer.crc32} (${transfer.fileSize} bytes), calculated: ${crc32} (${data.length} bytes).`
-      )
+  private calculateChecksum(transferId: number) {
+    const calculatedCrc = this.transfers[transferId].crc32Calc?.digest()
+    const expectedCrcHex = this.transfers[transferId].crc32
+
+    if (calculatedCrc === undefined) {
+      return false
     }
-    return validChecksum
+    const expectedCrc = parseInt(expectedCrcHex, 16)
+    return calculatedCrc === expectedCrc
   }
 
   @IpcEvent(ApiFileTransferServiceEvents.SendDelete)
@@ -306,7 +307,7 @@ export class APIFileTransferService {
   }: {
     filePath: string
     deviceId?: DeviceId
-  }): Promise<ResultObject<PreTransferGet>> {
+  }): Promise<ResultObject<PreTransferGet200 | PreTransferGet202>> {
     const device = deviceId
       ? this.deviceProtocol.getAPIDeviceById(deviceId)
       : this.deviceProtocol.apiDevice
@@ -324,9 +325,17 @@ export class APIFileTransferService {
     })
 
     if (response.ok) {
-      const preTransferResponse = PreTransferGetValidator.safeParse(
-        response.data.body
-      )
+      let preTransferResponse
+      const status = response.data.status
+      if (status === 200) {
+        preTransferResponse = PreTransferGet200Validator.safeParse(
+          response.data.body
+        )
+      } else {
+        preTransferResponse = PreTransferGet202Validator.safeParse(
+          response.data.body
+        )
+      }
 
       const success = preTransferResponse.success
 
@@ -334,13 +343,15 @@ export class APIFileTransferService {
         return handleError(response.data.status)
       }
 
-      this.transfers[preTransferResponse.data.transferId] = {
-        crc32: preTransferResponse.data.crc32,
-        fileSize: preTransferResponse.data.fileSize,
-        filePath,
-        chunks: [],
+      if (status === 200) {
+        const data = preTransferResponse.data as PreTransferGet200
+        this.transfers[preTransferResponse.data.transferId] = {
+          crc32: data.crc32,
+          fileSize: data.fileSize,
+          filePath,
+          chunks: [],
+        }
       }
-
       return Result.success(preTransferResponse.data)
     }
 
@@ -406,14 +417,19 @@ export class APIFileTransferService {
       return handleError(response.data.status)
     }
 
+    if (!this.transfers[transferId].crc32Calc) {
+      this.transfers[transferId].crc32Calc = new CRC32Calculator()
+    }
+
     this.transfers[transferId].chunks[chunkNumber - 1] =
       transferResponse.data.data
+    this.transfers[transferId].crc32Calc!.update(transferResponse.data.data)
 
     if (
       (response.data.status as number) ===
       FileTransferStatuses.WholeFileTransferred
     ) {
-      if (this.validateChecksum(transferId)) {
+      if (this.calculateChecksum(transferId)) {
         return Result.success(undefined)
       } else {
         return Result.failed(

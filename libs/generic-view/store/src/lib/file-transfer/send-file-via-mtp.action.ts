@@ -21,7 +21,11 @@ import {
   trackInfo,
 } from "./actions"
 import { ActionName } from "../action-names"
-import { FilesTransferMode } from "./files-transfer.type"
+import { FilesTransferMode, SendFilesAction } from "./files-transfer.type"
+import {
+  isMtpPathInternal,
+  sliceMtpPaths,
+} from "../../../../ui/src/lib/buttons/button-base/file-transfer-paths-helper"
 
 export interface SendFileViaMTPPayload {
   file: FileWithPath
@@ -58,6 +62,13 @@ export const sendFileViaMTP = createAsyncThunk<
 
       return rejectWithValue(
         new AppError(ApiFileTransferError.Aborted, "Aborted")
+      )
+    }
+
+    if (action === SendFilesAction.ActionUpload) {
+      destinationPath = sliceMtpPaths(
+        destinationPath,
+        isMtpPathInternal(destinationPath)
       )
     }
 
@@ -129,7 +140,7 @@ export const sendFileViaMTP = createAsyncThunk<
         return error
       }
 
-      await delay(500, signal)
+      await delay(250, signal)
       return await checkSendFileProgress()
     }
 

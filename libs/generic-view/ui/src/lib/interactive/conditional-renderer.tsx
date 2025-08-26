@@ -4,14 +4,25 @@
  */
 
 import { APIFC } from "generic-view/utils"
-import { ConditionalRendererData } from "generic-view/models"
+import {
+  ConditionalRendererConfig,
+  ConditionalRendererData,
+} from "generic-view/models"
 
-export const ConditionalRenderer: APIFC<ConditionalRendererData> = ({
-  children,
-  data,
-}) => {
-  if (data?.render) {
-    return children
+export const ConditionalRenderer: APIFC<
+  ConditionalRendererData,
+  ConditionalRendererConfig
+> = ({ children, data, config }) => {
+  const render = data?.render || false
+
+  if (typeof render === "boolean") {
+    return render ? children : null
+  }
+  if (config?.multipleConditionsMethod === "and") {
+    return render.every(Boolean) ? children : null
+  }
+  if (config?.multipleConditionsMethod === "or") {
+    return render.some(Boolean) ? children : null
   }
   return null
 }

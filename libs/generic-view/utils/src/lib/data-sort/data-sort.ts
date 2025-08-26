@@ -25,6 +25,7 @@ export const dataSort = (
       field,
       fieldGroup,
       direction,
+      sortNumeric,
       orderingPatterns = [],
       sensitivity = "variant",
       emptyOrder = "last",
@@ -71,7 +72,8 @@ export const dataSort = (
           fieldA,
           fieldB,
           direction,
-          sensitivity
+          sensitivity,
+          sortNumeric
         )
         if (fieldComparison !== 0) {
           return fieldComparison

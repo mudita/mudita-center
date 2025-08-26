@@ -179,6 +179,7 @@ export const generateFileUploadProcessButton: ComponentGenerator<
       config: {
         modalKey: generateFileUploadButtonModalKey(key, "Finished"),
         transferActionId: uploadActionId,
+        actionType: SendFilesAction.ActionUpload,
       },
     },
     [generateFileUploadButtonModalKey(key, "ValidationFailure")]: {
@@ -194,7 +195,8 @@ export const generateFileUploadProcessButton: ComponentGenerator<
       component: "mc-files-manager-transfer-validation-error",
       config: {
         modalKey: generateFileUploadButtonModalKey(key, "ValidationFailure"),
-        uploadActionId,
+        fileTransferActionId: uploadActionId,
+        actionType: SendFilesAction.ActionUpload,
       },
       dataProvider: {
         source: "form-fields",

@@ -12,7 +12,13 @@ import { ipcRenderer } from "electron-better-ipc"
 export const useSelectDirectoryButtonAction = () => {
   const getFormContext = useViewFormContext()
   return useCallback(
-    async (action: NativeActionSelectDirectory) => {
+    async (
+      action: NativeActionSelectDirectory,
+      callbacks: {
+        onSuccess?: () => Promise<void>
+        onFailure?: () => Promise<void>
+      }
+    ) => {
       const downloadsPath = (await ipcRenderer.callMain(
         "get-downloads-path"
       )) as string
@@ -24,6 +30,7 @@ export const useSelectDirectoryButtonAction = () => {
       })
 
       if (!selectorResponse.ok || !selectorResponse.data.length) {
+        await callbacks.onFailure?.()
         return false
       }
 
@@ -32,6 +39,7 @@ export const useSelectDirectoryButtonAction = () => {
         selectorResponse.data
       )
 
+      await callbacks.onSuccess?.()
       return true
     },
     [getFormContext]

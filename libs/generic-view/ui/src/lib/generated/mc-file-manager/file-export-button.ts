@@ -4,7 +4,7 @@
  */
 
 import { ComponentGenerator, IconType } from "generic-view/utils"
-import { McFileManagerConfig } from "generic-view/models"
+import { ButtonTextConfig, McFileManagerConfig } from "generic-view/models"
 import { SendFilesAction } from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 export const generateFilesExportProcessButtonKey = (key: string) =>
@@ -17,74 +17,38 @@ export const generateFilesExportButtonModalKey = (
   return generateFilesExportProcessButtonKey(key) + "Modal" + modalName
 }
 
-export const generateFileExportProcessButton: ComponentGenerator<
-  Pick<
-    McFileManagerConfig["categories"][number],
-    "entityType" | "supportedFileTypes" | "directoryPath" | "label"
-  > & {
-    storagePath: string
+export const generateFilesExportButtonActions = (
+  key: string,
+  {
+    singleEntityId,
+    entityType,
+    exportActionId,
+  }: Pick<McFileManagerConfig["categories"][number], "entityType"> & {
+    singleEntityId?: string
+    exportActionId: string
   }
-> = (key, { directoryPath, entityType }) => {
-  const exportActionId = entityType + "Export"
-
-  return {
-    [generateFilesExportProcessButtonKey(key)]: {
-      component: "button-text",
-      config: {
-        text: entityType === "applicationFiles" ? "Export APK" : "Export",
-        icon: IconType.Export,
-        actions: [
+): ButtonTextConfig["actions"] => {
+  return [
+    ...(singleEntityId !== undefined
+      ? ([
           {
-            type: "select-directory",
-            title: "Choose a directory to export",
-            formOptions: {
-              formKey: `${key}fileExportForm`,
-              selectedDirectoryFieldName: "exportPath",
-            },
+            type: "form-set-field",
+            formKey: `${key}fileListForm`,
+            key: "selectedItems",
+            value: [singleEntityId],
           },
-          {
-            type: "open-modal",
-            modalKey: generateFilesExportButtonModalKey(key, "Progress"),
-          },
-          {
-            type: "export-files",
-            formOptions: {
-              formKey: `${key}fileExportForm`,
-              selectedDirectoryFieldName: "exportPath",
-            },
-            destinationPath: "exportPath",
-            sourceFormKey: `${key}fileListForm`,
-            selectedItemsFieldName: "selectedItems",
-            entitiesType: entityType,
-            actionId: exportActionId,
-            preActions: {
-              validationFailure: [
-                {
-                  type: "replace-modal",
-                  modalKey: generateFilesExportButtonModalKey(
-                    key,
-                    "ValidationFailure"
-                  ),
-                },
-              ],
-            },
+        ] as ButtonTextConfig["actions"])
+      : []),
+    {
+      type: "select-directory",
+      title: "Choose a directory to export",
+      formOptions: {
+        formKey: `${key}fileListForm`,
+        selectedDirectoryFieldName: "exportPath",
+      },
+      ...(singleEntityId !== undefined
+        ? {
             postActions: {
-              success: [
-                {
-                  type: "close-modal",
-                  modalKey: generateFilesExportButtonModalKey(key, "Progress"),
-                },
-                {
-                  type: "open-toast",
-                  toastKey: `${key}FilesExportedToast`,
-                },
-                {
-                  type: "form-set-field",
-                  formKey: `${key}fileListForm`,
-                  key: "selectedItems",
-                  value: [],
-                },
-              ],
               failure: [
                 {
                   type: "form-set-field",
@@ -92,14 +56,92 @@ export const generateFileExportProcessButton: ComponentGenerator<
                   key: "selectedItems",
                   value: [],
                 },
-                {
-                  type: "replace-modal",
-                  modalKey: generateFilesExportButtonModalKey(key, "Finished"),
-                },
               ],
             },
+          }
+        : {}),
+    },
+    {
+      type: "open-modal",
+      modalKey: generateFilesExportButtonModalKey(key, "Progress"),
+    },
+    {
+      type: "export-files",
+      formOptions: {
+        formKey: `${key}fileListForm`,
+        selectedDirectoryFieldName: "exportPath",
+      },
+      destinationPath: "exportPath",
+      sourceFormKey: `${key}fileListForm`,
+      selectedItemsFieldName: "selectedItems",
+      entitiesType: entityType,
+      singleEntityId,
+      actionId: exportActionId,
+      preActions: {
+        validationFailure: [
+          {
+            type: "replace-modal",
+            modalKey: generateFilesExportButtonModalKey(
+              key,
+              "ValidationFailure"
+            ),
           },
         ],
+      },
+      postActions: {
+        success: [
+          {
+            type: "close-modal",
+            modalKey: generateFilesExportButtonModalKey(key, "Progress"),
+          },
+          {
+            type: "open-toast",
+            toastKey: `${key}FilesExportedToast`,
+          },
+          {
+            type: "form-set-field",
+            formKey: `${key}fileListForm`,
+            key: "selectedItems",
+            value: [],
+          },
+        ],
+        failure: [
+          {
+            type: "form-set-field",
+            formKey: `${key}fileListForm`,
+            key: "selectedItems",
+            value: [],
+          },
+          {
+            type: "replace-modal",
+            modalKey: generateFilesExportButtonModalKey(key, "Finished"),
+          },
+        ],
+      },
+    },
+  ]
+}
+
+export const generateFileExportProcessButton: ComponentGenerator<
+  Pick<
+    McFileManagerConfig["categories"][number],
+    "entityType" | "directoryPath"
+  > & {
+    singleEntityId?: string
+    exportActionId: string
+  }
+> = (key, { directoryPath, entityType, singleEntityId, exportActionId }) => {
+  return {
+    [generateFilesExportProcessButtonKey(key)]: {
+      component: "button-text",
+      config: {
+        text: entityType === "applicationFiles" ? "Export APK" : "Export",
+        icon: IconType.Export,
+        actions: generateFilesExportButtonActions(key, {
+          singleEntityId,
+          entityType,
+          exportActionId,
+        }),
         modifiers: ["uppercase"],
       },
       dataProvider: {
@@ -113,7 +155,6 @@ export const generateFileExportProcessButton: ComponentGenerator<
           },
         ],
       },
-      childrenKeys: [`${key}fileExportForm`],
     },
     [generateFilesExportButtonModalKey(key, "Progress")]: {
       component: "modal",
@@ -146,9 +187,36 @@ export const generateFileExportProcessButton: ComponentGenerator<
       config: {
         modalKey: generateFilesExportButtonModalKey(key, "Finished"),
         transferActionId: exportActionId,
+        actionType: SendFilesAction.ActionExport,
       },
     },
-
+    [generateFilesExportButtonModalKey(key, "ValidationFailure")]: {
+      component: "modal",
+      config: {
+        size: "small",
+      },
+      childrenKeys: [
+        generateFilesExportButtonModalKey(key, "ValidationFailureContent"),
+      ],
+    },
+    [generateFilesExportButtonModalKey(key, "ValidationFailureContent")]: {
+      component: "mc-files-manager-transfer-validation-error",
+      config: {
+        modalKey: generateFilesExportButtonModalKey(key, "ValidationFailure"),
+        fileTransferActionId: exportActionId,
+        actionType: SendFilesAction.ActionExport,
+      },
+      dataProvider: {
+        source: "form-fields",
+        formKey: `${key}fileListForm`,
+        fields: [
+          {
+            providerField: "selectedItems",
+            componentField: "data.fileList",
+          },
+        ],
+      },
+    },
     [`${key}FilesExportedToast`]: {
       component: "toast",
       childrenKeys: [
@@ -180,16 +248,6 @@ export const generateFileExportProcessButton: ComponentGenerator<
             modifier: "length",
           },
         ],
-      },
-    },
-    [`${key}fileExportForm`]: {
-      component: "form",
-      config: {
-        formOptions: {
-          defaultValues: {
-            exportPath: "",
-          },
-        },
       },
     },
   }

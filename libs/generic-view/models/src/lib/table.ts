@@ -16,6 +16,18 @@ const configValidator = z.object({
     selectedIdsFieldName: z.string().optional(),
     allIdsFieldName: z.string().optional(),
   }),
+  previewOptions: z
+    .object({
+      enabled: z.boolean(),
+      entitiesType: z.string(),
+      entityIdFieldName: z.string(),
+      entityPathFieldName: z.string(),
+      entityTitleFieldName: z.string(),
+      entityMimeTypeFieldName: z.string(),
+      entitySizeFieldName: z.string(),
+      componentKey: z.string(),
+    })
+    .optional(),
 })
 
 export type TableConfig = z.infer<typeof configValidator>
