@@ -41,7 +41,7 @@ export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
 
   return (
     <Wrapper $loaded={loaded}>
-      <BackgroundImage $url={src} />
+      <BackgroundImage style={{ backgroundImage: `url("${src}")` }} />
       <MainImage
         ref={imgRef}
         key={src}
@@ -72,13 +72,12 @@ const MainImage = styled.img`
   z-index: 1;
 `
 
-const BackgroundImage = styled.div<{ $url?: string }>`
+const BackgroundImage = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: 0;
 
-  background-image: url("${({ $url }) => $url}");
   background-position: center;
   background-size: cover;
   filter: blur(5rem) brightness(0.4);

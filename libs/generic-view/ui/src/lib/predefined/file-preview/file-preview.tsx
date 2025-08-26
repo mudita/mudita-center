@@ -260,7 +260,11 @@ export const FilePreview: FunctionComponent<Props> = memo(
                 >
                   {data?.fileType?.startsWith("image") && (
                     <ImagePreview
-                      src={data ? `${data.filePath}?t=${dataUpdatedAt}` : ""}
+                      src={
+                        data.filePath
+                          ? `${data.filePath}?t=${dataUpdatedAt}`
+                          : ""
+                      }
                       onError={handlePreviewError}
                     />
                   )}
