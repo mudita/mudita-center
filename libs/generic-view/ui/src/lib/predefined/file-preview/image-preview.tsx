@@ -46,6 +46,8 @@ export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
         ref={imgRef}
         key={src}
         src={src}
+        alt={""}
+        aria-labelledby={"file-preview-name"}
         onLoad={onLoad}
         onError={onError}
         decoding={"async"}

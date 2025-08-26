@@ -194,18 +194,24 @@ export const useFilePreviewDownload = ({
     ]
   )
 
-  const removePreviewFile = useCallback(
-    async (entityId: string) => {
-      if (!deviceId || !tempDirectoryPath) {
-        return
+  const removeFile = useCallback(
+    async (params: { entityId: string } | { path: string }) => {
+      let filePath: string | undefined
+
+      if ("path" in params) {
+        filePath = params.path
+      } else if ("entityId" in params) {
+        if (!deviceId || !tempDirectoryPath) {
+          return
+        }
+        const entity = getEntityData(params.entityId)
+        if (!entity.filePath) {
+          return
+        }
+        filePath = getFilePath(entity.filePath)?.nativePath
       }
-      const entity = getEntityData(entityId)
-      if (!entity.filePath) {
-        return
-      }
-      const path = getFilePath(entity.filePath)?.nativePath
-      if (path) {
-        await removeDirectory(path)
+      if (filePath) {
+        await removeDirectory(filePath)
       }
     },
     [deviceId, getEntityData, getFilePath, tempDirectoryPath]
@@ -217,13 +223,14 @@ export const useFilePreviewDownload = ({
         abortReferences.current[entityId]()
         delete abortReferences.current[entityId]
       }
-      await removePreviewFile(entityId)
+      await removeFile({ entityId })
     },
-    [removePreviewFile]
+    [removeFile]
   )
 
   return {
     downloadFile,
     cancelDownload,
+    removeFile,
   }
 }

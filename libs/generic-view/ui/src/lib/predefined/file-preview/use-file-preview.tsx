@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { Query, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useDispatch, useSelector, useStore } from "react-redux"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { AppDispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -34,6 +34,13 @@ enum QueueEvent {
   Free = "queueFree",
 }
 
+type QueryData = {
+  fileName: string
+  fileType?: string
+  filePath?: string
+  nativeFilePath?: string
+} | null
+
 interface Params {
   entitiesIds: string[]
   entitiesType: string
@@ -60,7 +67,7 @@ export const useFilePreview = ({
   const actionId = entitiesConfig.type + "Preview"
   const queryEnabled = entityId !== undefined
 
-  const { downloadFile, cancelDownload } = useFilePreviewDownload({
+  const { downloadFile, cancelDownload, removeFile } = useFilePreviewDownload({
     actionId: actionId,
     tempDirectoryPath,
     entitiesType: entitiesConfig.type,
@@ -107,22 +114,40 @@ export const useFilePreview = ({
     ]
   )
 
-  const surroundingFilesIds = useMemo(() => {
+  const getNextFileId = useCallback(() => {
     const currentIndex = entitiesIds.findIndex((id) => id === entityId)
     const nextIndex = currentIndex + 1
-    const prevIndex = currentIndex - 1
-
-    return {
-      prevFileId:
-        prevIndex >= 0
-          ? entitiesIds[prevIndex]
-          : entitiesIds[entitiesIds.length - 1],
-      nextFileId:
-        nextIndex < entitiesIds.length
-          ? entitiesIds[nextIndex]
-          : entitiesIds[0],
+    if (nextIndex < entitiesIds.length) {
+      return entitiesIds[nextIndex]
     }
+    return entitiesIds[0]
   }, [entitiesIds, entityId])
+
+  const getPrevFileId = useCallback(() => {
+    const currentIndex = entitiesIds.findIndex((id) => id === entityId)
+    const prevIndex = currentIndex - 1
+    if (prevIndex >= 0) {
+      return entitiesIds[prevIndex]
+    }
+    return entitiesIds[entitiesIds.length - 1]
+  }, [entitiesIds, entityId])
+
+  // const surroundingFilesIds = useMemo(() => {
+  //   const currentIndex = entitiesIds.findIndex((id) => id === entityId)
+  //   const nextIndex = currentIndex + 1
+  //   const prevIndex = currentIndex - 1
+  //
+  //   return {
+  //     prevFileId:
+  //       prevIndex >= 0
+  //         ? entitiesIds[prevIndex]
+  //         : entitiesIds[entitiesIds.length - 1],
+  //     nextFileId:
+  //       nextIndex < entitiesIds.length
+  //         ? entitiesIds[nextIndex]
+  //         : entitiesIds[0],
+  //   }
+  // }, [entitiesIds, entityId])
 
   const fileBaseData = useMemo(() => {
     return getBaseFileData(entityId)
@@ -191,6 +216,7 @@ export const useFilePreview = ({
         return {
           ...entityData,
           filePath: file.path,
+          nativeFilePath: file.nativePath,
         }
       } catch (error) {
         await cancelDownload(id)
@@ -208,41 +234,38 @@ export const useFilePreview = ({
     [cancelDownload, downloadFile, getBaseFileData]
   )
 
-  const clearOutdatedFiles = useCallback(async () => {
-    const queries = queryClient.getQueryCache().findAll({
-      predicate: (query) => {
-        return (
-          query.queryKey[0] === "filePreview" &&
-          ![
-            entityId,
-            surroundingFilesIds.prevFileId,
-            surroundingFilesIds.nextFileId,
-          ].includes(query.queryKey[1] as string)
-        )
-      },
-    })
-    await Promise.all(
-      queries.map(async (query) => {
-        const id = query.queryKey[1] as string
-        await cancelDownload(id)
-        queryClient.removeQueries({
-          queryKey: ["filePreview", id],
+  const clearOutdatedFiles = useCallback(
+    async (ignoredFiles: string[] = []) => {
+      const queries = queryClient.getQueryCache().findAll({
+        predicate: (query) => {
+          return (
+            query.queryKey[0] === "filePreview" &&
+            ![entityId, ...ignoredFiles].includes(query.queryKey[1] as string)
+          )
+        },
+      }) as Query<QueryData>[]
+
+      await Promise.all(
+        queries.map(async (query) => {
+          const id = query.queryKey[1] as string
+          const path = query.state.data?.nativeFilePath
+          if (path) {
+            await removeFile({ path })
+          }
+          queryClient.removeQueries({
+            queryKey: ["filePreview", id],
+          })
         })
-      })
-    )
-  }, [
-    cancelDownload,
-    entityId,
-    queryClient,
-    surroundingFilesIds.nextFileId,
-    surroundingFilesIds.prevFileId,
-  ])
+      )
+    },
+    [entityId, queryClient, removeFile]
+  )
 
   const preloadSurroundingEntities = useCallback(async () => {
-    const nextId = surroundingFilesIds.nextFileId
-    const prevId = surroundingFilesIds.prevFileId
+    const nextId = getNextFileId()
+    const prevId = getPrevFileId()
 
-    await clearOutdatedFiles()
+    await clearOutdatedFiles([nextId, prevId])
 
     await queryClient.prefetchQuery({
       queryKey: ["filePreview", nextId],
@@ -260,13 +283,7 @@ export const useFilePreview = ({
       staleTime: STALE_TIME,
       gcTime: GC_TIME,
     })
-  }, [
-    clearOutdatedFiles,
-    queryClient,
-    queryFn,
-    surroundingFilesIds.nextFileId,
-    surroundingFilesIds.prevFileId,
-  ])
+  }, [clearOutdatedFiles, getNextFileId, getPrevFileId, queryClient, queryFn])
 
   const cancel = useCallback(async () => {
     await queryClient.cancelQueries({
@@ -274,14 +291,7 @@ export const useFilePreview = ({
     })
   }, [entityId, queryClient])
 
-  const query = useQuery<
-    {
-      fileName: string
-      fileType?: string
-      filePath?: string
-    } | null,
-    FilePreviewError
-  >({
+  const query = useQuery<QueryData, FilePreviewError>({
     queryKey,
     queryFn: ({ signal }) => queryFn(entityId, signal),
     enabled: queryEnabled,
@@ -304,7 +314,7 @@ export const useFilePreview = ({
     if (query.isSuccess) {
       void preloadSurroundingEntities()
     }
-  }, [preloadSurroundingEntities, query.isSuccess, queryClient])
+  }, [preloadSurroundingEntities, query.isSuccess])
 
   useEffect(() => {
     if (queryEnabled) {
@@ -320,7 +330,8 @@ export const useFilePreview = ({
   return {
     ...query,
     ...fileBaseData,
-    ...surroundingFilesIds,
+    getNextFileId,
+    getPrevFileId,
     cancel,
   }
 }

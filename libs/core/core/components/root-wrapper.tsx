@@ -16,13 +16,13 @@ import { ModalProvider } from "Core/__deprecated__/renderer/components/core/moda
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import AppsSwitch from "Core/core/components/apps-switch"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 const RootWrapper: FunctionComponent = () => {
   const queryClient = new QueryClient()
   return (
     <QueryClientProvider client={queryClient}>
-      {/*<ReactQueryDevtools initialIsOpen={false} />*/}
+      <ReactQueryDevtools initialIsOpen={false} />
       <ThemeProvider theme={theme}>
         <IntlProvider
           defaultLocale={translationConfig.defaultLanguage}

@@ -18,12 +18,11 @@ import { Icon } from "../../icon/icon"
 import { Typography } from "../../typography"
 import { SpinnerLoader } from "../../shared/spinner-loader"
 import { AnimatePresence, motion } from "motion/react"
-import { FilePreviewEntitiesConfig } from "./use-file-preview"
+import { FilePreviewEntitiesConfig, useFilePreview } from "./use-file-preview"
 import { ButtonIcon } from "../../buttons/button-icon"
 import { generateFilesExportButtonActions } from "../../generated/mc-file-manager/file-export-button"
 import { generateDeleteFilesButtonActions } from "../../generated/mc-file-manager/delete-files"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
-import { useFilePreview } from "./use-file-preview"
 import { defineMessages } from "react-intl"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -65,9 +64,9 @@ export const FilePreview: FunctionComponent<Props> = memo(
     entitiesConfig,
     componentKey,
   }) => {
-    const nextItemIdRef = React.useRef<string>()
     const [currentItemId, setCurrentItemId] = useState(initialItem)
     const [previewLoadingError, setPreviewLoadingError] = useState(false)
+    const [entitiesIds, setEntitiesIds] = useState(items)
 
     const {
       data,
@@ -80,10 +79,10 @@ export const FilePreview: FunctionComponent<Props> = memo(
       cancel,
       dataUpdatedAt,
       fileName,
-      prevFileId,
-      nextFileId,
+      getNextFileId,
+      getPrevFileId,
     } = useFilePreview({
-      entitiesIds: items,
+      entitiesIds,
       entitiesType: entitiesConfig.type,
       entityId: currentItemId,
       entitiesConfig,
@@ -99,14 +98,14 @@ export const FilePreview: FunctionComponent<Props> = memo(
     const handlePreviousFile = useCallback(async () => {
       await cancel()
       setPreviewLoadingError(false)
-      setCurrentItemId(prevFileId)
-    }, [cancel, prevFileId])
+      setCurrentItemId(getPrevFileId())
+    }, [cancel, getPrevFileId])
 
     const handleNextFile = useCallback(async () => {
       await cancel()
       setPreviewLoadingError(false)
-      setCurrentItemId(nextFileId)
-    }, [cancel, nextFileId])
+      setCurrentItemId(getNextFileId())
+    }, [cancel, getNextFileId])
 
     const handleKeyDown = useCallback(
       (event: KeyboardEvent) => {
@@ -129,11 +128,14 @@ export const FilePreview: FunctionComponent<Props> = memo(
     }, [refetch])
 
     useEffect(() => {
-      // Open next file if current was deleted
-      if (currentItemId && !items.includes(currentItemId)) {
-        setCurrentItemId(nextItemIdRef.current)
-      }
-    }, [currentItemId, items])
+      void (async () => {
+        // Open next file preview if current file was deleted
+        if (currentItemId && !items.includes(currentItemId)) {
+          await handleNextFile()
+          setEntitiesIds(items)
+        }
+      })()
+    }, [currentItemId, handleNextFile, items])
 
     useEffect(() => {
       // Set initial state when opening preview modal
@@ -143,10 +145,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
     useEffect(() => {
       // Notify parent component about active file change
       onActiveItemChange(currentItemId)
-
-      // Prepare next item id in advance for the case when current file is deleted
-      nextItemIdRef.current = nextFileId
-    }, [currentItemId, nextFileId, onActiveItemChange])
+    }, [currentItemId, getNextFileId, onActiveItemChange])
 
     useEffect(() => {
       if (initialItem) {
@@ -172,7 +171,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
       >
         <ModalContent>
           <Header>
-            <Typography.P1 config={{ color: "white" }}>
+            <Typography.P1 config={{ color: "white" }} id={"file-preview-name"}>
               {fileName}
             </Typography.P1>
             <IconButton onClick={handleClose}>
@@ -302,7 +301,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
                 actions: [
                   ...generateFilesExportButtonActions(componentKey, {
                     exportActionId: "previewExport",
-                    singleEntityId: initialItem,
+                    singleEntityId: currentItemId,
                     entityType: entitiesConfig.type,
                   }),
                 ],
@@ -313,7 +312,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
                 icon: IconType.Delete,
                 iconSize: "large",
                 actions: generateDeleteFilesButtonActions(componentKey, {
-                  singleEntityId: initialItem,
+                  singleEntityId: currentItemId,
                 }),
               }}
             />
