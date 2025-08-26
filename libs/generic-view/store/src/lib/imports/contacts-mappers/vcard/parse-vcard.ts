@@ -7,12 +7,9 @@ import vCard from "vcf"
 import { decode } from "quoted-printable"
 
 export const parseVcard = (data: string) => {
-  const fixedVcard = fixFormatting(data)
-  const decoded = decodeQuotedPrintable(fixedVcard)
-
-  console.log(decoded)
+  const fixedVcard = decodeQuotedPrintable(fixFormatting(data))
   try {
-    const card = vCard.parse(decoded)
+    const card = vCard.parse(fixedVcard)
     return card.map((vcard) => vcard.toJCard("4.0"))
   } catch (error) {
     console.error(error)
