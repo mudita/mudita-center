@@ -11,6 +11,7 @@ import styled from "styled-components"
 import { MuditaCenterServerRoutes } from "shared/utils"
 import { selectActiveDeviceConfiguration } from "generic-view/store"
 import { APIFC, IconType } from "generic-view/utils"
+import { useHelpShortcut } from "help/store"
 import {
   OverviewOsVersionConfig,
   OverviewOsVersionData,
@@ -38,6 +39,7 @@ export const OverviewOsVersion: APIFC<
   OverviewOsVersionData,
   OverviewOsVersionConfig
 > = ({ config, data, ...props }) => {
+  const openHelpShortcut = useHelpShortcut()
   const deviceConfiguration = useSelector(selectActiveDeviceConfiguration)
   const [availableUpdateName, setAvailableUpdateName] = useState<string>()
   const updateAvailable = availableUpdateName !== undefined
@@ -68,8 +70,8 @@ export const OverviewOsVersion: APIFC<
     })()
   }, [osVersionTimestamp, otaApiKey])
 
-  const goToArticle = () => {
-    // TODO: Add feature to go to the article
+  const goToHelp = (): void => {
+    openHelpShortcut("how-to-update-kompakt")
   }
 
   return (
@@ -96,7 +98,7 @@ export const OverviewOsVersion: APIFC<
             <ButtonText
               config={{
                 text: intl.formatMessage(messages.updateActionLabel),
-                actions: [{ type: "custom", callback: goToArticle }],
+                actions: [{ type: "custom", callback: goToHelp }],
                 modifiers: ["link", "hover-underline"],
                 icon: IconType.Information,
               }}
