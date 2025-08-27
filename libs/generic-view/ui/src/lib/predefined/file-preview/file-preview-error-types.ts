@@ -5,6 +5,7 @@
 
 export enum FilePreviewErrorType {
   UnsupportedFileType = "unsupported-file-type",
+  UnsupportedTransferMode = "unsupported-transfer-mode",
   FileNotFound = "file-not-found",
   Unknown = "unknown",
 }

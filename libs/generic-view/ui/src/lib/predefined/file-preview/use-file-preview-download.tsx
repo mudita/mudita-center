@@ -105,10 +105,7 @@ export const useFilePreviewDownload = ({
   )
 
   const downloadFile = useCallback(
-    async (
-      entityId: string,
-      onFileNameFound?: (name: string) => void
-    ): Promise<FilePreviewResponse | undefined> => {
+    async (entityId: string): Promise<FilePreviewResponse | undefined> => {
       if (!deviceId || !tempDirectoryPath) {
         return
       }
@@ -119,7 +116,6 @@ export const useFilePreviewDownload = ({
       }
 
       const fileName = entity.fileName
-      onFileNameFound?.(fileName)
       const fileType = entity.fileType.split("/")[0].toLowerCase()
       const filePath = getFilePath(entity.filePath)
       if (!filePath) {

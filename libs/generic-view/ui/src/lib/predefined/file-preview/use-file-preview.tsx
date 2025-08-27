@@ -7,7 +7,13 @@ import { Query, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useDispatch, useSelector, useStore } from "react-redux"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { AppDispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { selectEntityData, sendFilesClear } from "generic-view/store"
+import {
+  FilesTransferMode,
+  selectEntityData,
+  selectFilesTransferMode,
+  sendFilesClear,
+  setFilesTransferMode,
+} from "generic-view/store"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { EventEmitter } from "events"
 import {
@@ -63,12 +69,13 @@ export const useFilePreview = ({
 
   const [tempDirectoryPath, setTempDirectoryPath] = useState<string>()
   const deviceId = useSelector(activeDeviceIdSelector)
+  const fileTransferMode = useSelector(selectFilesTransferMode)
 
   const actionId = entitiesConfig.type + "Preview"
   const queryEnabled = entityId !== undefined
 
   const { downloadFile, cancelDownload, removeFile } = useFilePreviewDownload({
-    actionId: actionId,
+    actionId,
     tempDirectoryPath,
     entitiesType: entitiesConfig.type,
     fields: entitiesConfig,
@@ -132,23 +139,6 @@ export const useFilePreview = ({
     return entitiesIds[entitiesIds.length - 1]
   }, [entitiesIds, entityId])
 
-  // const surroundingFilesIds = useMemo(() => {
-  //   const currentIndex = entitiesIds.findIndex((id) => id === entityId)
-  //   const nextIndex = currentIndex + 1
-  //   const prevIndex = currentIndex - 1
-  //
-  //   return {
-  //     prevFileId:
-  //       prevIndex >= 0
-  //         ? entitiesIds[prevIndex]
-  //         : entitiesIds[entitiesIds.length - 1],
-  //     nextFileId:
-  //       nextIndex < entitiesIds.length
-  //         ? entitiesIds[nextIndex]
-  //         : entitiesIds[0],
-  //   }
-  // }, [entitiesIds, entityId])
-
   const fileBaseData = useMemo(() => {
     return getBaseFileData(entityId)
   }, [entityId, getBaseFileData])
@@ -161,6 +151,13 @@ export const useFilePreview = ({
     async (id?: string, signal?: AbortSignal) => {
       if (!id) {
         return null
+      }
+
+      if (fileTransferMode !== FilesTransferMode.Mtp) {
+        await cancelDownload(id)
+        throw {
+          type: FilePreviewErrorType.UnsupportedTransferMode,
+        }
       }
 
       // Delay request before blocking the queue, to properly handle quick switching between files
@@ -231,7 +228,7 @@ export const useFilePreview = ({
         queueBusyRef.current = false
       }
     },
-    [cancelDownload, downloadFile, getBaseFileData]
+    [cancelDownload, downloadFile, fileTransferMode, getBaseFileData]
   )
 
   const clearOutdatedFiles = useCallback(
@@ -310,6 +307,17 @@ export const useFilePreview = ({
     networkMode: "offlineFirst",
   })
 
+  const refetch = useCallback(async () => {
+    dispatch(setFilesTransferMode(FilesTransferMode.Mtp))
+    await query.refetch()
+  }, [dispatch, query])
+
+  useEffect(() => {
+    if (fileTransferMode !== FilesTransferMode.Mtp && entityId !== undefined) {
+      void cancelDownload(entityId)
+    }
+  }, [fileTransferMode, cancelDownload, entityId])
+
   useEffect(() => {
     if (query.isSuccess) {
       void preloadSurroundingEntities()
@@ -324,12 +332,16 @@ export const useFilePreview = ({
         queryKey: ["filePreview"],
       })
       void clearTempDirectory()
+
+      eventEmitterRef.current.emit(QueueEvent.Free)
+      queueBusyRef.current = false
     }
   }, [clearTempDirectory, ensureTempDirectory, queryClient, queryEnabled])
 
   return {
     ...query,
     ...fileBaseData,
+    refetch,
     getNextFileId,
     getPrevFileId,
     cancel,
