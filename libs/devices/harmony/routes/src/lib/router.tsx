@@ -9,6 +9,7 @@ import { Typography } from "app-theme/ui"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { HarmonyPaths } from "devices/harmony/models"
 import { Device } from "devices/common/models"
+import { HarmonyOverviewScreen } from "./screens/overview/harmony-overview.screen"
 
 export const useHarmonyRouter = (device?: Device) => {
   const activeHarmony = HarmonySerialPort.isCompatible(device)
@@ -27,10 +28,7 @@ export const useHarmonyRouter = (device?: Device) => {
           index
           element={<Navigate to={HarmonyPaths.Overview} replace />}
         />
-        <Route
-          path={HarmonyPaths.Overview}
-          element={<Typography.H1>Harmony Overview</Typography.H1>}
-        />
+        <Route path={HarmonyPaths.Overview} element={<HarmonyOverviewScreen />} />
         <Route
           path={HarmonyPaths.Sounds}
           element={<Typography.H1>Harmony Sounds</Typography.H1>}

@@ -30,4 +30,4 @@ export const getHarmonyInfo = async (device: Harmony) => {
 export type GetHarmonyInfoOkResponse = OKResponse<
   HarmonyEndpointNamed.DeviceInfo,
   HarmonyMethodNamed.Get
->
+> & { body: HarmonyInfoResponse }
