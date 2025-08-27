@@ -292,7 +292,6 @@ export const FilePreview: FunctionComponent<Props> = memo(
                 iconSize: "large",
                 actions: [
                   ...generateFilesExportButtonActions(componentKey, {
-                    exportActionId: "previewExport",
                     singleEntityId: currentItemId,
                     entityType: entitiesConfig.type,
                   }),

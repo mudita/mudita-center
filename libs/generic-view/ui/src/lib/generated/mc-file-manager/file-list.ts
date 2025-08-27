@@ -298,7 +298,6 @@ const generateFileList: ComponentGenerator<
     ...generateFileExportProcessButton(`${key}${id}`, {
       directoryPath,
       entityType,
-      exportActionId: entityType + "Export",
     }),
     [`${key}${id}deleteButton`]: {
       component: "button-text",
