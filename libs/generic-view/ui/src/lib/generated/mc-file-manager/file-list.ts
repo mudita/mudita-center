@@ -39,7 +39,8 @@ const generateFileList: ComponentGenerator<
     features,
   }
 ) => {
-  const isExportEnabled = features?.includes("export")
+  const isExportEnabled = Boolean(features?.includes("export"))
+  const isPreviewEnabled = Boolean(features?.includes("preview"))
   return {
     [`${key}${id}fileListContainer`]: {
       component: "conditional-renderer",
@@ -355,7 +356,7 @@ const generateFileList: ComponentGenerator<
           allIdsFieldName: "allItems",
         },
         previewOptions: {
-          enabled: entityType === "imageFiles",
+          enabled: isPreviewEnabled && entityType === "imageFiles",
           entitiesType: entityType,
           entityIdFieldName: "id",
           entityPathFieldName: "filePath",
