@@ -26,6 +26,7 @@ import {
 
 export interface Backup {
   fileName: string
+  directory: string
   date: Date
   serialNumber: string
 }
