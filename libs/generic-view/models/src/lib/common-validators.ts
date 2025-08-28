@@ -100,6 +100,7 @@ export const entityActionValidator = z.union([
     entitiesType: z.string(),
     ids: z.array(z.string()),
     successMessage: z.string().optional(),
+    errorMessage: z.string().optional(),
     postActions: z
       .object({
         success: entityPostActionsValidator,

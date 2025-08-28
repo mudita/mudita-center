@@ -262,6 +262,7 @@ const runActions = (actions?: ButtonActions) => {
               ids: action.ids,
               deviceId: activeDeviceId,
               successMessage: action.successMessage,
+              errorMessage: action.errorMessage,
               onSuccess: () => {
                 return runActions(action.postActions?.success)(
                   providers,
