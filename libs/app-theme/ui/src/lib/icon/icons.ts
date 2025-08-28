@@ -9,9 +9,15 @@ import Svg from "*.svg?react"
 import { IconType } from "app-theme/models"
 import ArrowBack from "./svg/arrow-back.svg?react"
 import Backup from "./svg/backup.svg?react"
+import Battery0 from "./svg/battery-0.svg?react"
+import Battery1 from "./svg/battery-1.svg?react"
+import Battery2 from "./svg/battery-2.svg?react"
+import Battery3 from "./svg/battery-3.svg?react"
+import Battery4 from "./svg/battery-4.svg?react"
+import Battery5 from "./svg/battery-5.svg?react"
 import BatteryFlat from "./svg/battery-flat.svg?react"
 import Check from "./svg/check.svg?react"
-import CheckCircleBlack from "./svg/check-circle-black.svg?react"
+import CheckCircle from "./svg/check-circle.svg?react"
 import ChevronDown from "./svg/chevron-down.svg?react"
 import Confirm from "./svg/confirm.svg?react"
 import Close from "./svg/close.svg?react"
@@ -38,6 +44,7 @@ import Phone from "./svg/phone.svg?react"
 import Pure from "./svg/pure.svg?react"
 import RecoveryMode from "./svg/recovery-mode.svg?react"
 import RecoveryModeFilled from "./svg/recovery-mode-filled.svg?react"
+import Refreshing from "./svg/refreshing.svg?react"
 import Search from "./svg/search.svg?react"
 import Settings from "./svg/settings.svg?react"
 import Spinner from "./svg/spinner.svg?react"
@@ -47,9 +54,15 @@ import ThinFail from "./svg/thin-fail.svg?react"
 export const icons = {
   [IconType.ArrowBack]: ArrowBack,
   [IconType.Backup]: Backup,
+  [IconType.Battery0]: Battery0,
+  [IconType.Battery1]: Battery1,
+  [IconType.Battery2]: Battery2,
+  [IconType.Battery3]: Battery3,
+  [IconType.Battery4]: Battery4,
+  [IconType.Battery5]: Battery5,
   [IconType.BatteryFlat]: BatteryFlat,
   [IconType.Check]: Check,
-  [IconType.CheckCircleBlack]: CheckCircleBlack,
+  [IconType.CheckCircle]: CheckCircle,
   [IconType.ChevronDown]: ChevronDown,
   [IconType.Confirm]: Confirm,
   [IconType.Close]: Close,
@@ -76,6 +89,7 @@ export const icons = {
   [IconType.Pure]: Pure,
   [IconType.RecoveryMode]: RecoveryMode,
   [IconType.RecoveryModeFilled]: RecoveryModeFilled,
+  [IconType.Refreshing]: Refreshing,
   [IconType.Search]: Search,
   [IconType.Settings]: Settings,
   [IconType.Spinner]: Spinner,
