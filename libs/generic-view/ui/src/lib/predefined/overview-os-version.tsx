@@ -151,7 +151,7 @@ const Version = styled.p`
   margin: 0;
 `
 
-const ActionLabel = styled.p`
+const ActionLabel = styled.div`
   flex: 1;
   justify-content: flex-end;
   display: flex;
