@@ -14,7 +14,7 @@ export const readBackupDirectoryRequest = ({
 }: {
   deviceId?: DeviceId
   disableErrorLog?: boolean
-}): Promise<ResultObject<string[]>> => {
+}): Promise<ResultObject<{ directory: string; name: string }[]>> => {
   return ipcRenderer.callMain(FileManagerServiceEvents.ReadBackupDirectory, {
     deviceId,
     disableErrorLog,
