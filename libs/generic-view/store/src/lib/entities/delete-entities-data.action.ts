@@ -76,7 +76,7 @@ export const deleteEntitiesDataAction = createAsyncThunk<
     }
     await dispatch(openToastAction(toastConfig))
     await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
-    return ids
+    return successIds
   }
 )
 
