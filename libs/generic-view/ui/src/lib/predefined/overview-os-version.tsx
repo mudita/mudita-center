@@ -94,7 +94,7 @@ export const OverviewOsVersion: APIFC<
         )}
         {config?.showBadge && !updateAvailable && <Tag>{data?.badgeText}</Tag>}
         {updateAvailable && (
-          <div>
+          <ActionLabel>
             <ButtonText
               config={{
                 text: intl.formatMessage(messages.updateActionLabel),
@@ -103,7 +103,7 @@ export const OverviewOsVersion: APIFC<
                 icon: IconType.Information,
               }}
             />
-          </div>
+          </ActionLabel>
         )}
       </VersionInfo>
     </Wrapper>
@@ -135,12 +135,6 @@ const VersionInfo = styled.div`
     font-size: ${({ theme }) => theme.fontSize.buttonText};
   }
 
-  & > :last-child {
-    flex: 1;
-    justify-content: flex-end;
-    display: flex;
-  }
-
   & .icon {
     width: 1.7rem;
     height: 1.7rem;
@@ -155,4 +149,10 @@ const Version = styled.p`
   font-size: ${({ theme }) => theme.fontSize.paragraph1};
   line-height: ${({ theme }) => theme.lineHeight.paragraph1};
   margin: 0;
+`
+
+const ActionLabel = styled.p`
+  flex: 1;
+  justify-content: flex-end;
+  display: flex;
 `
