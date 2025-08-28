@@ -30,6 +30,7 @@ export const ButtonText: APIFC<undefined, ButtonTextConfig> = ({
   )
 }
 
+// TODO: [SVG_WORKAROUND] Remove this line after fixing SVGs "svg *"
 const Button = styled(ButtonBase)<{
   $modifiers?: ButtonTextConfig["modifiers"]
 }>`
