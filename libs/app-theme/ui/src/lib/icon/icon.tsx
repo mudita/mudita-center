@@ -18,11 +18,18 @@ export const Icon: FunctionComponent<Props> = ({
   size = IconSize.Medium,
   ...props
 }) => {
-  const spin = [IconType.Spinner].includes(type)
+  const spin = [IconType.Spinner, IconType.Refreshing].includes(type)
+  const spinSteps = type === IconType.Spinner ? 12 : undefined
   const IconComponent = icons[type]
   if (!IconComponent) return null
   return (
-    <Wrapper $spin={spin} $size={size} data-testid={`icon-${type}`} {...props}>
+    <Wrapper
+      $spin={spin}
+      $spinSteps={spinSteps}
+      $size={size}
+      data-testid={`icon-${type}`}
+      {...props}
+    >
       <IconComponent width={"100%"} height={"100%"} />
     </Wrapper>
   )
@@ -37,15 +44,20 @@ const spinAnimation = keyframes({
   },
 })
 
-const Wrapper = styled.span<{ $spin?: boolean; $size: IconSize }>`
+const Wrapper = styled.span<{
+  $spin?: boolean
+  $spinSteps?: number
+  $size: IconSize
+}>`
   display: inline-block;
   aspect-ratio: 1;
   transition: color 0.2s ease-in-out;
 
-  ${({ $spin }) =>
+  ${({ $spin, $spinSteps }) =>
     $spin &&
     css`
-      animation: ${spinAnimation} 1s steps(12) infinite;
+      animation: ${spinAnimation} 1s ${$spinSteps ? `steps(${$spinSteps})` : ""}
+        infinite linear;
     `};
 
   ${({ $size }) => {

@@ -107,9 +107,9 @@ export const useDeviceConfigQuery = <D extends Device, E = QueryErrorType<D>>(
     enabled: Boolean(device),
     refetchInterval: (query) => {
       if (PureSerialPort.isCompatible(device)) {
-        return !query.state.error ? 5000 : undefined
+        return !query.state.error ? 5000 : false
       }
-      return undefined
+      return 60_000
     },
     refetchIntervalInBackground: true,
     ...options,

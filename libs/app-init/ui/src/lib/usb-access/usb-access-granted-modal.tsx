@@ -35,7 +35,7 @@ export const UsbAccessGrantedModal: FunctionComponent<Props> = ({
 }) => {
   return (
     <Modal opened={opened} layer={ModalLayer.UsbAccess} size={ModalSize.Small}>
-      <Modal.TitleIcon type={IconType.CheckCircleBlack} />
+      <Modal.TitleIcon type={IconType.CheckCircle} />
       <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
       <Modal.CloseButton onClick={onClose} />
       <Typography.P1 data-testid={UsbAccessTestIds.GrantedModalDescription}>
