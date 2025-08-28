@@ -16,6 +16,7 @@ import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Form } from "../../interactive/form/form"
 import { ButtonAction } from "generic-view/models"
+import path from "node:path"
 
 const messages = defineMessages({
   title: {
@@ -76,7 +77,7 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
                   config={{
                     label: formatDate(backup.date),
                     name: "file",
-                    value: backup.fileName,
+                    value: path.join(backup.directory, backup.fileName),
                     validation: {
                       required: true,
                     },
