@@ -17,12 +17,15 @@ import {
   readdirSync,
   readFileSync,
   writeJSONSync,
+  existsSync,
 } from "fs-extra"
 import AES from "crypto-js/aes"
 import SHA3 from "crypto-js/sha3"
 import encBase64 from "crypto-js/enc-base64"
 import { v4 as uuid } from "uuid"
 import path from "path"
+import { ProductID } from "Core/device/constants"
+import { last } from "lodash"
 
 export class FileManager {
   private files: Record<string, unknown> = {}
@@ -56,6 +59,11 @@ export class FileManager {
     }
   }
 
+  /**
+   * Returns backup paths for the device. The first path is the primary backup location,
+   * and the subsequent paths are for other product IDs of the same device.
+   * @param deviceId
+   */
   @IpcEvent(FileManagerServiceEvents.GetBackupPath)
   public getBackupPath({ deviceId }: { deviceId?: DeviceId } = {}) {
     const device = deviceId
@@ -66,16 +74,42 @@ export class FileManager {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
+    const groupedProductIds = [
+      [
+        ProductID.MuditaKompaktChargeHex,
+        ProductID.MuditaKompaktChargeDec,
+        ProductID.MuditaKompaktTransferHex,
+        ProductID.MuditaKompaktTransferDec,
+        ProductID.MuditaKompaktNoDebugHex,
+        ProductID.MuditaKompaktNoDebugDec,
+      ],
+      // [...another device productIDs can be added here if needed]
+    ]
+
     const vendorId = device.portInfo.vendorId ?? "unknown"
-    const productId = device.portInfo.productId ?? "unknown"
+    const currentProductId = device.portInfo.productId ?? "unknown"
+
+    const otherProductIds =
+      groupedProductIds
+        .find((group) => {
+          return group.includes(currentProductId as ProductID)
+        })
+        ?.filter((id) => id !== currentProductId) || []
 
     const { osBackupLocation } =
       this.serviceBridge.settingsService.getSettings()
-    const backupLocation = path.join(
-      osBackupLocation,
-      `${vendorId}-${productId}`
-    )
-    return Result.success(backupLocation)
+    const backupLocations = [
+      path.join(osBackupLocation, `${vendorId}-${currentProductId}`),
+    ]
+
+    for (const id of otherProductIds) {
+      const backupPath = path.join(osBackupLocation, `${vendorId}-${id}`)
+      if (existsSync(backupPath)) {
+        backupLocations.push(backupPath)
+      }
+    }
+
+    return Result.success(backupLocations)
   }
 
   @IpcEvent(FileManagerServiceEvents.OpenBackupDirectory)
@@ -85,7 +119,7 @@ export class FileManager {
       return Result.failed(new AppError(GeneralError.InternalError, ""))
     }
     return this.serviceBridge.systemUtilsModule.directory.open({
-      path: backupDirectory.data,
+      path: backupDirectory.data[0],
     })
   }
 
@@ -124,7 +158,7 @@ export class FileManager {
       }
 
       const backupFilePath = path.join(
-        backupDirectory.data,
+        backupDirectory.data[0],
         `${timestamp}_${serialNumber}.mcbackup`
       )
 
@@ -156,7 +190,7 @@ export class FileManager {
         data,
       }
 
-      mkdirSync(backupDirectory.data, { recursive: true })
+      mkdirSync(backupDirectory.data[0], { recursive: true })
 
       writeJSONSync(backupFilePath, fileToSave)
 
@@ -192,14 +226,39 @@ export class FileManager {
   }: {
     deviceId?: DeviceId
     disableErrorLog?: boolean
-  }): ResultObject<string[]> {
-    const pathResult = this.getBackupPath({ deviceId })
-
-    if (!pathResult.ok) {
+  }) {
+    const pathsResult = this.getBackupPath({ deviceId })
+    if (!pathsResult.ok) {
       return Result.failed(new AppError(GeneralError.InternalError))
     }
 
-    return this.readDirectory({ disableErrorLog, path: pathResult.data })
+    const files: {
+      directory: string
+      name: string
+    }[] = []
+
+    for (const directoryPath of pathsResult.data) {
+      const filesInDirectory = this.readDirectory({
+        path: directoryPath,
+        disableErrorLog,
+      })
+      if (!filesInDirectory.ok) {
+        if (!disableErrorLog) {
+          console.error(
+            `Failed to read directory at ${directoryPath}: ${filesInDirectory.error.message}`
+          )
+        }
+        continue
+      }
+      files.push(
+        ...filesInDirectory.data.map((file) => ({
+          directory: last(directoryPath.split(path.sep)) || "",
+          name: file,
+        }))
+      )
+    }
+
+    return Result.success(files)
   }
 
   public getFile(id: string) {

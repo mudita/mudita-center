@@ -87,7 +87,7 @@ npm run app:dist -- -wl
 
 ### Feature toggle environment separation
 
-Also you are able to distribute an application with in specific predefined environment. The environment is responsible for hendeling the sets of feature toggles predefined for each release/test case.
+Also you are able to distribute an application with in specific predefined environment. The environment is responsible for handling the sets of feature toggles predefined for each release/test case.
 
 To run distribution with feature toggle environment use the next formula:
 
