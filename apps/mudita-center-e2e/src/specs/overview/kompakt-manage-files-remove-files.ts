@@ -312,7 +312,7 @@ describe("File manager overall check", () => {
     const appsCategoryEmptySubtext = ManageFiles.appsCategoryEmptySubtext
     await expect(appsCategoryEmptySubtext).toBeDisplayed()
     await expect(appsCategoryEmptySubtext).toHaveText(
-      "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly."
+      "Add app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly. This may happen due to the google services."
     )
   })
 
@@ -597,7 +597,7 @@ describe("File manager overall check", () => {
     const appsCategoryEmptySubtextSD = ManageFiles.appsCategoryEmptySubtextSD
     await expect(appsCategoryEmptySubtextSD).toBeDisplayed()
     await expect(appsCategoryEmptySubtextSD).toHaveText(
-      "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly."
+      "Add app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly. This may happen due to the google services."
     )
   })
 })

@@ -74,7 +74,7 @@
     "linux": {
       "target": "AppImage",
       "category": "Utility",
-      "executableName": "Mudita Center",
+      "executableName": "mudita-center",
       "artifactName": "Mudita-Center.${ext}"
     },
     "appImage": {
