@@ -68,6 +68,10 @@ export const FilePreview: FunctionComponent<Props> = memo(
     const [previewLoadingError, setPreviewLoadingError] = useState(false)
     const [entitiesIds, setEntitiesIds] = useState(items)
 
+    useEffect(() => {
+      setEntitiesIds(items)
+    }, [items])
+
     const {
       data,
       isLoading,
