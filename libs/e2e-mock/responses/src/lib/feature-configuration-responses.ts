@@ -53,7 +53,7 @@ export const featureConfigurationFileManagerInternal = {
           supportedFileTypes: ["apk"],
           entityType: "applicationFiles",
           fileListEmptyStateDescription:
-            "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly.",
+            "Add app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly. This may happen due to the google services.",
         },
       ],
     },
@@ -110,7 +110,7 @@ export const featureConfigurationFileManagerExternal = {
           supportedFileTypes: ["apk"],
           entityType: "applicationFiles",
           fileListEmptyStateDescription:
-            "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly.",
+            "Add app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly. This may happen due to the google services.",
         },
       ],
     },
