@@ -11,7 +11,7 @@ import {
 } from "react"
 
 type DefaultProps = Partial<
-  Pick<ReactHTMLElement<HTMLElement>["props"], "className" | "style">
+  Pick<ReactHTMLElement<HTMLElement>["props"], "className" | "style" | "id">
 > & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   componentRef?: Ref<any>

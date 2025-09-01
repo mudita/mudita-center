@@ -11,63 +11,55 @@ import React, {
   useState,
 } from "react"
 import styled from "styled-components"
-import {
-  FilePreviewErrorHandler,
-  FilePreviewErrorType,
-} from "./file-preview-error.types"
+import { AnimatePresence } from "motion/react"
+import { FilePreviewLoader } from "./shared-components"
 
 interface Props {
   src?: string
-  fileUid?: string | number
-  onError?: FilePreviewErrorHandler
+  onError?: () => void
 }
 
-export const ImagePreview: FunctionComponent<Props> = ({
-  src,
-  fileUid,
-  onError,
-}) => {
-  const loadedTimeoutRef = useRef<NodeJS.Timeout>()
+export const ImagePreview: FunctionComponent<Props> = ({ src, onError }) => {
+  const imgRef = useRef<HTMLImageElement | null>(null)
   const [loaded, setLoaded] = useState(false)
-  const uniqueSrc = `${src}?u=${fileUid}`
 
-  const handleLoad = useCallback(() => {
-    setLoaded(true)
-    onError?.(undefined)
+  const onLoad = useCallback(async () => {
+    const img = imgRef.current
+
+    try {
+      if (!img) {
+        throw new Error("Image not found")
+      }
+      await img.decode()
+      setLoaded(true)
+    } catch {
+      onError?.()
+    }
   }, [onError])
 
-  const handleError = useCallback(() => {
-    if (src?.endsWith(".heic")) {
-      onError?.({
-        type: FilePreviewErrorType.UnsupportedFileType,
-        details: "HEIC",
-      })
-    } else if (src?.endsWith(".heif")) {
-      onError?.({
-        type: FilePreviewErrorType.UnsupportedFileType,
-        details: "HEIF",
-      })
-    } else {
-      onError?.({ type: FilePreviewErrorType.Unknown })
-    }
-  }, [onError, src])
-
   useEffect(() => {
-    clearTimeout(loadedTimeoutRef.current)
     setLoaded(false)
   }, [src])
 
   return (
-    <Wrapper $loaded={loaded}>
-      <BackgroundImage style={{ backgroundImage: `url("${uniqueSrc}")` }} />
-      <MainImage
-        key={src}
-        src={uniqueSrc}
-        alt={""}
-        onLoad={handleLoad}
-        onError={handleError}
-      />
-    </Wrapper>
+    <>
+      <Wrapper $loaded={loaded}>
+        <BackgroundImage style={{ backgroundImage: `url("${src}")` }} />
+        <MainImage
+          ref={imgRef}
+          key={src}
+          src={src}
+          alt={""}
+          aria-labelledby={"file-preview-name"}
+          onLoad={onLoad}
+          onError={onError}
+          decoding={"async"}
+        />
+      </Wrapper>
+      <AnimatePresence initial={true} mode={"popLayout"}>
+        {!loaded && <FilePreviewLoader />}
+      </AnimatePresence>
+    </>
   )
 }
 
