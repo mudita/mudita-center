@@ -10,28 +10,34 @@ import {
   useCallback,
   useMemo,
 } from "react"
-import { LinkProps } from "react-router"
+import { LinkProps, NavLink } from "react-router"
 import {
   ButtonSize,
   ButtonTextModifier,
   ButtonType,
+  IconSize,
   IconType,
 } from "app-theme/models"
 import { formatMessage } from "app-localize/utils"
-import { ButtonIcon } from "./button-base.styles"
 import {
-  PrimaryButtonComponent,
-  PrimaryNavigationComponent,
+  ButtonIcon,
+  ButtonIconWrapper,
+  ButtonTextWrapper,
+  StyledButtonProps,
+  StyledLinkProps,
+} from "./button-base.styles"
+import {
+  primaryButtonStyles,
+  primaryNavigationStyles,
 } from "./button-primary.styles"
 import {
-  SecondaryButtonComponent,
-  SecondaryNavigationComponent,
+  secondaryButtonStyles,
+  secondaryNavigationStyles,
 } from "./button-secondary.styles"
-import {
-  TextButtonComponent,
-  TextNavigationComponent,
-} from "./button-text.styles"
+import { textButtonStyles, textNavigationStyles } from "./button-text.styles"
 import { Translation } from "../shared/translation.type"
+import { AnimatePresence } from "motion/react"
+import styled from "styled-components"
 
 export interface ButtonLinkProps {
   to: LinkProps["to"]
@@ -58,6 +64,7 @@ interface TextButtonProps {
 type Props = PropsWithChildren & {
   size?: ButtonSize
   icon?: IconType
+  iconSize?: IconSize
   disabled?: boolean
   className?: string
 } & Translation &
@@ -71,6 +78,7 @@ export const Button: FunctionComponent<Props> = ({
   message,
   values,
   icon,
+  iconSize = type === ButtonType.Text ? 2.2 : IconSize.Small,
   to,
   target,
   onClick,
@@ -84,11 +92,10 @@ export const Button: FunctionComponent<Props> = ({
     }
     switch (type) {
       case ButtonType.Primary:
-        return PrimaryNavigationComponent
       case ButtonType.Secondary:
-        return SecondaryNavigationComponent
+        return NavigationButtonComponent
       case ButtonType.Text:
-        return TextNavigationComponent
+        return NavigationTextButtonComponent
     }
   }, [to, type])
 
@@ -98,22 +105,27 @@ export const Button: FunctionComponent<Props> = ({
     }
     switch (type) {
       case ButtonType.Primary:
-        return PrimaryButtonComponent
       case ButtonType.Secondary:
-        return SecondaryButtonComponent
+        return DefaultButtonComponent
       case ButtonType.Text:
-        return TextButtonComponent
+        return DefaultTextButtonComponent
     }
   }, [to, type])
 
   const content = useMemo(() => {
     return (
-      <>
-        {icon && <ButtonIcon type={icon} />}
-        {message ? formatMessage({ id: message }, values) : children}
-      </>
+      <AnimatePresence mode={"popLayout"} initial={false}>
+        {icon && (
+          <ButtonIconWrapper key={"icon"}>
+            <ButtonIcon type={icon} size={iconSize} />
+          </ButtonIconWrapper>
+        )}
+        <ButtonTextWrapper key={"text"}>
+          {message ? <p>{formatMessage({ id: message }, values)}</p> : children}
+        </ButtonTextWrapper>
+      </AnimatePresence>
     )
-  }, [children, icon, message, values])
+  }, [children, icon, iconSize, message, values])
 
   const linkClickHandler: MouseEventHandler = useCallback(
     async (event) => {
@@ -148,6 +160,7 @@ export const Button: FunctionComponent<Props> = ({
         $size={size}
         $modifiers={modifiers}
         $disabled={disabled}
+        $type={type}
         aria-disabled={disabled}
         onClick={linkClickHandler}
         {...rest}
@@ -166,6 +179,7 @@ export const Button: FunctionComponent<Props> = ({
       onClick={onClick}
       $size={size}
       $modifiers={modifiers}
+      $type={type}
       disabled={disabled}
       {...rest}
     >
@@ -186,3 +200,49 @@ const retrieveLinkTarget = (
   }
   return undefined
 }
+
+const DefaultButtonComponent = styled.button<
+  StyledButtonProps & {
+    $type: ButtonType
+    $iconSize?: IconSize | number
+  }
+>`
+  ${({ $type }) => $type === ButtonType.Primary && primaryButtonStyles};
+  ${({ $type }) => $type === ButtonType.Secondary && secondaryButtonStyles};
+
+  ${ButtonIconWrapper} {
+    margin-right: ${({ theme }) => theme.app.space.xs};
+  }
+`
+
+const NavigationButtonComponent = styled(NavLink)<
+  StyledLinkProps & {
+    $type: ButtonType
+    $iconSize?: IconSize | number
+  }
+>`
+  ${({ $type }) => $type === ButtonType.Primary && primaryNavigationStyles};
+  ${({ $type }) => $type === ButtonType.Secondary && secondaryNavigationStyles};
+
+  ${ButtonIconWrapper} {
+    margin-right: ${({ theme }) => theme.app.space.xs};
+  }
+`
+
+const DefaultTextButtonComponent = styled.button<
+  StyledButtonProps & { $iconSize?: IconSize | number }
+>`
+  ${textButtonStyles};
+  ${ButtonIconWrapper} {
+    margin-top: -0.2rem;
+  }
+`
+
+const NavigationTextButtonComponent = styled(NavLink)<
+  StyledLinkProps & { $iconSize?: IconSize | number }
+>`
+  ${textNavigationStyles};
+  ${ButtonIconWrapper} {
+    margin-top: -0.2rem;
+  }
+`

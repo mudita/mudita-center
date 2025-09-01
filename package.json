@@ -61,6 +61,7 @@
     "form-data": "^4.0.4",
     "fs-extra": "^11.3.1",
     "lodash": "^4.17.21",
+    "motion": "^12.23.12",
     "p-queue": "^8.1.0",
     "react": "^19.1.1",
     "react-dom": "19.1.1",
@@ -145,6 +146,7 @@
     "jest": "30.0.5",
     "jest-environment-jsdom": "30.0.5",
     "jest-environment-node": "^29.7.0",
+    "jest-util": "^30.0.5",
     "jiti": "2.5.1",
     "jsdom": "~26.1.0",
     "node-gyp": "^11.3.0",
@@ -172,8 +174,7 @@
     "vitest": "^3.2.0",
     "wdio-electron-service": "^8.2.1",
     "wdio-vite-service": "^2.1.0",
-    "wdio-wait-for": "^3.1.0",
-    "jest-util": "30.0.5"
+    "wdio-wait-for": "^3.1.0"
   },
   "nx": {
     "includedScripts": []

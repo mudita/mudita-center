@@ -10,6 +10,7 @@ import {
   ButtonSize,
   ButtonTextModifier,
   ButtonType,
+  IconSize,
   IconType,
 } from "app-theme/models"
 import styled from "styled-components"
@@ -84,12 +85,26 @@ export const Default: Story = {
         },
       }),
     icon: storybookHelper
-      .assignCategory("Functional")
+      .assignCategory("Styles")
       .addDescription(
         "Defines the icon displayed inside the button, on the left side of the text."
       )
       .generateEnumSelector(IconType, "IconType", { optional: true })
       .apply(),
+    iconSize: storybookHelper
+      .assignCategory("Styles")
+      .addDescription(
+        "Defines the size of the icon. It accepts the same values as the [`<Icon>` component](/?path=/docs/ui-icon--docs).\n\n" +
+          "The default value for `type` `ButtonType.Primary` and `ButtonType.Secondary` is `IconSize.Small`.\n\n" +
+          "For `ButtonType.Text` `type`, the default value is `2.2` (`2.2rem`)."
+      )
+      .generateEnumSelector(IconSize, "IconSize")
+      .setType("IconSize | number")
+      .apply({
+        table: {
+          defaultValue: { summary: "IconSize.Small | 2.2" },
+        },
+      }),
     to: storybookHelper
       .assignCategory("Functional")
       .addDescription(
@@ -155,6 +170,7 @@ export const Default: Story = {
       .generateEnumSelector(ButtonSize, "ButtonSize")
       .apply(),
     children: storybookHelper.disableControl().apply(),
+    className: storybookHelper.disableControl().apply(),
   },
   args: {
     type: ButtonType.Primary,

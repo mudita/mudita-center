@@ -68,9 +68,11 @@ export const Default: Story = {
       .assignCategory("Styles")
       .addDescription(
         "Defines the size of the icon.\n\n" +
-          "The `IconSize.AutoMax` size will set the button size to the maximum available space."
+          "The `IconSize.AutoMax` size will set the button size to the maximum available space.\n\n" +
+          "Numeric values are also accepted, representing the size in `rem` unit."
       )
       .generateEnumSelector(IconSize, "IconSize")
+      .setType("IconSize | number")
       .apply(),
   },
   args: {

@@ -6,6 +6,7 @@
 import styled, { css } from "styled-components"
 import { ButtonSize, ButtonTextModifier } from "app-theme/models"
 import { Icon } from "../icon/icon"
+import { motion } from "motion/react"
 
 export type ModifiersProp = { $modifiers?: ButtonTextModifier[] }
 
@@ -17,6 +18,10 @@ export type StyledLinkProps = {
   $size: ButtonSize
   $disabled?: boolean
 } & ModifiersProp
+
+export const ButtonIcon = styled(Icon)`
+  display: block;
+`
 
 export const baseStyles = css<StyledButtonProps>`
   border: none;
@@ -64,4 +69,20 @@ export const baseStyles = css<StyledButtonProps>`
   }}
 `
 
-export const ButtonIcon = styled(Icon)``
+export const ButtonIconWrapper = styled(motion.span).attrs((props) => ({
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+  transition: { duration: 0.3 },
+  layout: true,
+  ...props,
+}))`
+  display: inline-block;
+  width: min-content;
+  height: min-content;
+`
+
+export const ButtonTextWrapper = styled(motion.span).attrs((props) => ({
+  layout: "position",
+  ...props,
+}))``
