@@ -60,8 +60,9 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
                         to={item.path}
                         type={ButtonType.Text}
                         modifiers={[ButtonTextModifier.DefaultCase]}
+                        icon={item.icon}
+                        iconSize={IconSize.Big}
                       >
-                        <Icon type={item.icon} size={IconSize.Big} />
                         <Typography.P1 as={"span"} color={"currentColor"}>
                           {item.title}
                         </Typography.P1>
