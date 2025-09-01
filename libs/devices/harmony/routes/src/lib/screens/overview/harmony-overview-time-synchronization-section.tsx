@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { FunctionComponent, useMemo } from "react"
 import { Button, Typography } from "app-theme/ui"
 import { ButtonSize, ButtonType, IconType } from "app-theme/models"
 import styled from "styled-components"
@@ -42,6 +42,14 @@ export const HarmonyOverviewTimeSynchronizationSection: FunctionComponent<
     isSuccess,
   } = useHarmonyTimeSynchronizationMutation(activeDevice)
 
+  const text = useMemo(() => {
+    return isPending
+      ? messages.synchronizingButton
+      : isSuccess
+        ? messages.synchronizedButton
+        : messages.synchronizeButton
+  }, [isPending, isSuccess])
+
   return (
     <Wrapper>
       <Info>
@@ -61,15 +69,9 @@ export const HarmonyOverviewTimeSynchronizationSection: FunctionComponent<
               ? IconType.CheckCircle
               : undefined
         }
-        onClick={() => synchronizeHarmonyTime()}
         disabled={isPending}
-        message={
-          isPending
-            ? messages.synchronizingButton.id
-            : isSuccess
-              ? messages.synchronizedButton.id
-              : messages.synchronizeButton.id
-        }
+        message={text.id}
+        onClick={() => synchronizeHarmonyTime()}
       />
     </Wrapper>
   )
