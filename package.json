@@ -283,6 +283,8 @@
   "dependencies": {
     "@contentful/rich-text-plain-text-renderer": "^16.2.6",
     "@orama/orama": "^2.0.22",
+    "@tanstack/react-query": "^5.85.5",
+    "@tanstack/react-query-devtools": "^5.85.5",
     "@types/w3c-web-usb": "^1.0.10",
     "@vscode/sudo-prompt": "^9.3.1",
     "@wdio/json-reporter": "^8.40.3",

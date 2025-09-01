@@ -8,35 +8,26 @@ import React, {
   memo,
   useCallback,
   useEffect,
-  useMemo,
-  useRef,
   useState,
 } from "react"
-import { useSelector } from "react-redux"
 import styled, { css } from "styled-components"
-import { selectEntityData, selectFilesTransferMode } from "generic-view/store"
 import { IconType } from "generic-view/utils"
 import { Modal } from "../../interactive/modal/modal"
 import { IconButton } from "../../shared/button"
 import { Icon } from "../../icon/icon"
 import { Typography } from "../../typography"
-import { SpinnerLoader } from "../../shared/spinner-loader"
-import { ImagePreview } from "./image-preview"
 import { AnimatePresence, motion } from "motion/react"
-import { useFilesPreview, UseFilesPreviewParams } from "./use-files-preview"
-import { activeDeviceIdSelector } from "active-device-registry/feature"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { FilePreviewEntitiesConfig, useFilePreview } from "./use-file-preview"
 import { ButtonIcon } from "../../buttons/button-icon"
 import { generateFilesExportButtonActions } from "../../generated/mc-file-manager/file-export-button"
 import { generateDeleteFilesButtonActions } from "../../generated/mc-file-manager/delete-files"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
-import {
-  FilePreviewError,
-  FilePreviewErrorType,
-} from "./file-preview-error.types"
 import { defineMessages } from "react-intl"
-import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ButtonSecondary } from "../../buttons/button-secondary"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { ImagePreview } from "./image-preview"
+import { FilePreviewErrorType } from "./file-preview-error-types"
+import { FilePreviewLoader } from "./shared-components"
 
 const messages = defineMessages({
   unsupportedFileType: {
@@ -54,121 +45,128 @@ const messages = defineMessages({
 })
 
 interface Props {
-  componentKey: string
-  entitiesConfig: UseFilesPreviewParams["entitiesConfig"]
   items: string[]
-  activeItem: string | undefined
+  initialItem: string | undefined
+  opened: boolean
   onActiveItemChange: (item: string | undefined) => void
-  actions?: React.ReactNode
+  onClose: VoidFunction
+  componentKey: string
+  entitiesConfig: FilePreviewEntitiesConfig
 }
 
 export const FilePreview: FunctionComponent<Props> = memo(
-  ({ items, activeItem, onActiveItemChange, entitiesConfig, componentKey }) => {
-    const deviceId = useSelector(activeDeviceIdSelector)
-    const entity = useSelector((state: ReduxRootState) => {
-      if (!activeItem || !deviceId) return undefined
-      return selectEntityData(state, {
-        deviceId,
-        entitiesType: entitiesConfig.type,
-        entityId: activeItem,
-      })
-    })
-    const fileTransferMode = useSelector(selectFilesTransferMode)
-    const nextIdReference = useRef<string>()
+  ({
+    opened,
+    items,
+    initialItem,
+    onClose,
+    onActiveItemChange,
+    entitiesConfig,
+    componentKey,
+  }) => {
+    const [currentItemId, setCurrentItemId] = useState(initialItem)
+    const [previewLoadingError, setPreviewLoadingError] = useState(false)
+    const [entitiesIds, setEntitiesIds] = useState(items)
+
+    useEffect(() => {
+      setEntitiesIds(items)
+    }, [items])
 
     const {
-      data: fileInfo,
-      nextId,
-      previousId,
-      refetch,
+      data,
       isLoading,
-    } = useFilesPreview({
-      items,
-      activeItem,
+      isPending,
+      isFetching,
+      isError,
+      error,
+      refetch,
+      cancel,
+      dataUpdatedAt,
+      fileName,
+      getNextFileId,
+      getPrevFileId,
+    } = useFilePreview({
+      entitiesIds,
+      entitiesType: entitiesConfig.type,
+      entityId: currentItemId,
       entitiesConfig,
     })
 
-    const [fileUid, setFileUid] = useState(Date.now())
-    const [error, setError] = useState<FilePreviewError>()
-    const isFinished = (!isLoading && !!fileInfo) || !!error
-
-    const entityType = useMemo(() => {
-      if (!entity) return ""
-      return entity[entitiesConfig.mimeTypeField] as string
-    }, [entitiesConfig.mimeTypeField, entity])
-
-    const entityName = useMemo(() => {
-      if (!entity) return ""
-      return entity[entitiesConfig.titleField] as string
-    }, [entitiesConfig.titleField, entity])
+    const inProgress = isLoading || isPending || isFetching
+    const hasError = isError || previewLoadingError
 
     const handleClose = useCallback(() => {
-      onActiveItemChange(undefined)
-      setError(undefined)
-      nextIdReference.current = undefined
-    }, [onActiveItemChange])
+      onClose()
+    }, [onClose])
 
-    const handlePreviousFile = useCallback(() => {
-      setError(undefined)
-      onActiveItemChange(previousId)
-      setFileUid(Date.now())
-    }, [onActiveItemChange, previousId])
+    const handlePreviousFile = useCallback(async () => {
+      await cancel()
+      setPreviewLoadingError(false)
+      setCurrentItemId(getPrevFileId())
+    }, [cancel, getPrevFileId])
 
-    const handleNextFile = useCallback(() => {
-      setError(undefined)
-      onActiveItemChange(nextIdReference.current || nextId)
-      setFileUid(Date.now())
-    }, [nextId, onActiveItemChange])
+    const handleNextFile = useCallback(async () => {
+      await cancel()
+      setPreviewLoadingError(false)
+      setCurrentItemId(getNextFileId())
+    }, [cancel, getNextFileId])
 
     const handleKeyDown = useCallback(
       (event: KeyboardEvent) => {
         if (event.key === "ArrowLeft") {
-          handlePreviousFile()
+          void handlePreviousFile()
         } else if (event.key === "ArrowRight") {
-          handleNextFile()
+          void handleNextFile()
         }
       },
       [handleNextFile, handlePreviousFile]
     )
 
-    const handleRetry = useCallback(async () => {
-      if (!activeItem) return
-      setError(undefined)
-      await refetch()
-      setFileUid(Date.now())
-    }, [activeItem, refetch])
+    const handlePreviewError = useCallback(() => {
+      setPreviewLoadingError(true)
+    }, [])
+
+    const handleRetry = useCallback(() => {
+      setPreviewLoadingError(false)
+      void refetch()
+    }, [refetch])
 
     useEffect(() => {
-      document.addEventListener("keydown", handleKeyDown)
-      if (!activeItem) {
+      void (async () => {
+        // Open next file preview if current file was deleted
+        if (currentItemId && !items.includes(currentItemId)) {
+          await handleNextFile()
+          setEntitiesIds(items)
+        }
+      })()
+    }, [currentItemId, handleNextFile, items])
+
+    useEffect(() => {
+      // Set initial state when opening preview modal
+      setCurrentItemId(initialItem)
+    }, [initialItem])
+
+    useEffect(() => {
+      // Notify parent component about active file change
+      onActiveItemChange(currentItemId)
+    }, [currentItemId, getNextFileId, onActiveItemChange])
+
+    useEffect(() => {
+      if (initialItem) {
+        document.addEventListener("keydown", handleKeyDown)
+      } else {
         document.removeEventListener("keydown", handleKeyDown)
       }
       return () => {
         document.removeEventListener("keydown", handleKeyDown)
       }
-    }, [activeItem, handleKeyDown])
-
-    useEffect(() => {
-      if (fileTransferMode !== "mtp") {
-        setError({
-          type: FilePreviewErrorType.UnsupportedTransferType,
-        })
-      } else if (error?.type === FilePreviewErrorType.UnsupportedTransferType) {
-        void handleRetry()
-      }
-    }, [error?.type, fileTransferMode, handleRetry])
-
-    useEffect(() => {
-      if (!activeItem) {
-        setError(undefined)
-      }
-    }, [activeItem])
+    }, [handleKeyDown, initialItem])
 
     return (
       <Modal
         componentKey={"file-preview-modal"}
         config={{
-          defaultOpened: Boolean(activeItem),
+          defaultOpened: opened,
           width: 960,
           maxHeight: 640,
           padding: 0,
@@ -177,8 +175,8 @@ export const FilePreview: FunctionComponent<Props> = memo(
       >
         <ModalContent>
           <Header>
-            <Typography.P1 config={{ color: "white" }}>
-              {entityName}
+            <Typography.P1 config={{ color: "white" }} id={"file-preview-name"}>
+              {fileName}
             </Typography.P1>
             <IconButton onClick={handleClose}>
               <Icon
@@ -191,94 +189,80 @@ export const FilePreview: FunctionComponent<Props> = memo(
             </IconButton>
           </Header>
           <Main>
-            <AnimatePresence initial={true} mode={"wait"}>
-              {!error && (
-                <Loader
+            <AnimatePresence initial={true} mode={"popLayout"}>
+              {hasError ? (
+                <ErrorWrapper
+                  key={"error"}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <SpinnerLoader />
-                </Loader>
-              )}
-            </AnimatePresence>
-            <AnimatePresence initial={true} mode={"wait"}>
-              {isFinished && (
+                  <ErrorIcon
+                    config={{
+                      type: IconType.Exclamation,
+                      size: "large",
+                      color: "white",
+                    }}
+                  />
+                  {error?.type === FilePreviewErrorType.UnsupportedFileType ? (
+                    <>
+                      <Typography.P1>
+                        {intl.formatMessage(messages.unsupportedFileType, {
+                          type: error.details,
+                        })}
+                      </Typography.P1>
+                      <ButtonSecondary
+                        config={{
+                          text: intl.formatMessage(messages.backButton),
+                          actions: [
+                            {
+                              type: "custom",
+                              callback: handleClose,
+                            },
+                          ],
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Typography.P1>
+                        {intl.formatMessage(messages.unknownError)}
+                      </Typography.P1>
+                      <ButtonSecondary
+                        config={{
+                          text: intl.formatMessage(messages.retryButton),
+                          actions: [
+                            {
+                              type: "custom",
+                              callback: handleRetry,
+                            },
+                          ],
+                        }}
+                      />
+                    </>
+                  )}
+                </ErrorWrapper>
+              ) : inProgress ? (
+                <FilePreviewLoader />
+              ) : (
                 <PreviewWrapper
-                  key={fileInfo?.path}
+                  key={data?.filePath}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  {entityType.startsWith("image") && (
+                  {data?.fileType?.startsWith("image") && (
                     <ImagePreview
-                      src={fileInfo?.path}
-                      fileUid={fileUid}
-                      onError={setError}
+                      src={
+                        data.filePath
+                          ? `${data.filePath}?t=${dataUpdatedAt}`
+                          : ""
+                      }
+                      onError={handlePreviewError}
                     />
                   )}
-                  <AnimatePresence initial={true} mode={"wait"}>
-                    {Boolean(error) && (
-                      <ErrorWrapper
-                        key={fileInfo?.path}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <ErrorIcon
-                          config={{
-                            type: IconType.Exclamation,
-                            size: "large",
-                            color: "white",
-                          }}
-                        />
-                        {error?.type ===
-                        FilePreviewErrorType.UnsupportedFileType ? (
-                          <>
-                            <Typography.P1>
-                              {intl.formatMessage(
-                                messages.unsupportedFileType,
-                                {
-                                  type: error.details,
-                                }
-                              )}
-                            </Typography.P1>
-                            <ButtonSecondary
-                              config={{
-                                text: intl.formatMessage(messages.backButton),
-                                actions: [
-                                  {
-                                    type: "custom",
-                                    callback: handleClose,
-                                  },
-                                ],
-                              }}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <Typography.P1>
-                              {intl.formatMessage(messages.unknownError)}
-                            </Typography.P1>
-                            <ButtonSecondary
-                              config={{
-                                text: intl.formatMessage(messages.retryButton),
-                                actions: [
-                                  {
-                                    type: "custom",
-                                    callback: handleRetry,
-                                  },
-                                ],
-                              }}
-                            />
-                          </>
-                        )}
-                      </ErrorWrapper>
-                    )}
-                  </AnimatePresence>
                 </PreviewWrapper>
               )}
             </AnimatePresence>
@@ -312,8 +296,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
                 iconSize: "large",
                 actions: [
                   ...generateFilesExportButtonActions(componentKey, {
-                    exportActionId: "previewExport",
-                    singleEntityId: activeItem,
+                    singleEntityId: currentItemId,
                     entityType: entitiesConfig.type,
                   }),
                 ],
@@ -324,7 +307,7 @@ export const FilePreview: FunctionComponent<Props> = memo(
                 icon: IconType.Delete,
                 iconSize: "large",
                 actions: generateDeleteFilesButtonActions(componentKey, {
-                  singleEntityId: activeItem,
+                  singleEntityId: currentItemId,
                 }),
               }}
             />
@@ -454,14 +437,6 @@ const ModalContent = styled.section`
   }
 `
 
-const Loader = styled(motion.div)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-`
-
 const PreviewWrapper = styled(motion.div)`
   position: relative;
   width: 100%;
@@ -469,19 +444,7 @@ const PreviewWrapper = styled(motion.div)`
   z-index: 2;
 `
 
-const Main = styled.main`
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 64rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${({ theme }) => theme.color.grey0};
-`
-
 const ErrorWrapper = styled(motion.div)`
-  background-color: ${({ theme }) => theme.color.grey0};
   position: absolute;
   top: 50%;
   left: 50%;
@@ -521,4 +484,15 @@ const ErrorIcon = styled(Icon)`
   padding: 1.2rem;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.color.white};
+`
+
+const Main = styled.main`
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 64rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.color.grey0};
 `
