@@ -71,7 +71,7 @@ type Props = PropsWithChildren & {
   (ButtonLinkProps | ButtonDefaultProps) &
   (StandardButtonProps | TextButtonProps)
 
-export const Button: FunctionComponent<Props> = ({
+export const Button: FunctionComponent<Props> & { Icon: typeof ButtonIcon } = ({
   type = ButtonType.Primary,
   size = ButtonSize.AutoMax,
   modifiers,
@@ -187,6 +187,7 @@ export const Button: FunctionComponent<Props> = ({
     </ButtonComponent>
   )
 }
+Button.Icon = ButtonIcon
 
 const retrieveLinkTarget = (
   to: LinkProps["to"],

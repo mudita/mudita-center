@@ -85,4 +85,10 @@ export const ButtonIconWrapper = styled(motion.span).attrs((props) => ({
 export const ButtonTextWrapper = styled(motion.span).attrs((props) => ({
   layout: "position",
   ...props,
-}))``
+}))`
+  display: inherit;
+  flex-direction: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+  white-space: nowrap;
+`
