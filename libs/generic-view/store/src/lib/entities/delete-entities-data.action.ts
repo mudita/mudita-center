@@ -61,7 +61,7 @@ export const deleteEntitiesDataAction = createAsyncThunk<
       : (response.data as EntitiesDeleteResponse | undefined)?.failedIds ?? []
     const successIds = failedIds.length > 0 ? difference(ids, failedIds) : ids
 
-    if (entitiesType !== "contacts" && failedIds) {
+    if (entitiesType !== "contacts" && failedIds.length > 0) {
       await onError?.()
       if (response.data) {
         return rejectWithValue({ failedIds, successIds })
