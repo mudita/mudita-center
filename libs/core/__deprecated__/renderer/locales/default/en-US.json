@@ -1056,7 +1056,6 @@
   "module.genericViews.filesManager.preview.unknownError": "Failed to load photo.\nPlease try again.",
   "module.genericViews.filesManager.preview.backButton": "Back",
   "module.genericViews.filesManager.preview.retryButton": "Try again",
-
   "module.genericViews.appInstallation.progress.modalTitle": "Installing the App...",
   "module.genericViews.appInstallation.error.modalTitle": "Installation failed",
   "module.genericViews.appInstallation.error.globalMessage": "The installation process was interrupted.",

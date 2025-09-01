@@ -22,10 +22,10 @@ export const generateFilesExportButtonActions = (
   {
     singleEntityId,
     entityType,
-    exportActionId,
+    exportActionId = entityType + "Export",
   }: Pick<McFileManagerConfig["categories"][number], "entityType"> & {
     singleEntityId?: string
-    exportActionId: string
+    exportActionId?: string
   }
 ): ButtonTextConfig["actions"] => {
   return [
@@ -128,9 +128,17 @@ export const generateFileExportProcessButton: ComponentGenerator<
     "entityType" | "directoryPath"
   > & {
     singleEntityId?: string
-    exportActionId: string
+    exportActionId?: string
   }
-> = (key, { directoryPath, entityType, singleEntityId, exportActionId }) => {
+> = (
+  key,
+  {
+    directoryPath,
+    entityType,
+    singleEntityId,
+    exportActionId = entityType + "Export",
+  }
+) => {
   return {
     [generateFilesExportProcessButtonKey(key)]: {
       component: "button-text",
