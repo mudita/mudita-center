@@ -156,13 +156,12 @@ export const Table: APIFC<TableData, TableConfig> & {
         formOptions.selectedIdsFieldName
       )
       const unavailableIds = difference(selectedIds, data)
-
       if (unavailableIds.length > 0) {
         setTimeout(() => {
           if (formOptions.selectedIdsFieldName !== undefined) {
             formContext.setValue(
               formOptions.selectedIdsFieldName,
-              intersection(data, unavailableIds)
+              difference(selectedIds, unavailableIds)
             )
           }
         }, toastAnimationDuration)
