@@ -71,6 +71,7 @@ const generateFileList: ComponentGenerator<
             activeFilePath: null,
             exportPath: "",
             previewMode: false,
+            activeItemId: undefined,
           },
         },
       },
@@ -159,12 +160,6 @@ const generateFileList: ComponentGenerator<
             condition: "eq",
             value: 0,
           },
-          {
-            providerField: "previewMode",
-            componentField: "data.render[1]",
-            condition: "eq",
-            value: true,
-          },
         ],
       },
     },
@@ -227,12 +222,6 @@ const generateFileList: ComponentGenerator<
             modifier: "length",
             condition: "gt",
             value: 0,
-          },
-          {
-            providerField: "previewMode",
-            componentField: "data.render[1]",
-            condition: "eq",
-            value: false,
           },
         ],
       },
@@ -509,18 +498,6 @@ const generateFileList: ComponentGenerator<
           {
             providerField: "id",
             componentField: "config.value",
-          },
-        ],
-      },
-      dataProviderSecondary: {
-        source: "form-fields",
-        formKey: `${key}${id}fileListForm`,
-        fields: [
-          {
-            providerField: "previewMode",
-            componentField: "config.inactive",
-            condition: "eq",
-            value: true,
           },
         ],
       },

@@ -99,6 +99,7 @@ export const entityActionValidator = z.union([
     type: z.literal("entities-delete"),
     entitiesType: z.string(),
     ids: z.array(z.string()),
+    activeItemId: z.string().optional(),
     successMessage: z.string().optional(),
     postActions: z
       .object({
@@ -200,7 +201,7 @@ const filesTransferExportFilesActionValidator = z.object({
   type: z.literal("export-files"),
   destinationPath: z.string(),
   entitiesType: z.string().optional(),
-  singleEntityId: z.string().optional(),
+  activeItemId: z.string().optional(),
   actionId: z.string(),
 
   formOptions: z.object({

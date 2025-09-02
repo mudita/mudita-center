@@ -34,8 +34,8 @@ export const generateFilesExportButtonActions = (
           {
             type: "form-set-field",
             formKey: `${key}fileListForm`,
-            key: "selectedItems",
-            value: [singleEntityId],
+            key: "activeItemId",
+            value: singleEntityId,
           },
         ] as ButtonTextConfig["actions"])
       : []),
@@ -53,8 +53,8 @@ export const generateFilesExportButtonActions = (
                 {
                   type: "form-set-field",
                   formKey: `${key}fileListForm`,
-                  key: "selectedItems",
-                  value: [],
+                  key: "activeItemId",
+                  value: undefined,
                 },
               ],
             },
@@ -75,7 +75,7 @@ export const generateFilesExportButtonActions = (
       sourceFormKey: `${key}fileListForm`,
       selectedItemsFieldName: "selectedItems",
       entitiesType: entityType,
-      singleEntityId,
+      activeItemId: singleEntityId,
       actionId: exportActionId,
       preActions: {
         validationFailure: [
@@ -96,18 +96,24 @@ export const generateFilesExportButtonActions = (
           },
           {
             type: "open-toast",
-            toastKey: `${key}FilesExportedToast`,
+            toastKey: singleEntityId
+              ? `${key}FilesExportedFromPreviewToast`
+              : `${key}FilesExportedToast`,
           },
-          {
-            type: "form-set-field",
-            formKey: `${key}fileListForm`,
-            key: "selectedItems",
-            value: [],
-          },
+          ...(singleEntityId === undefined
+            ? [
+                {
+                  type: "form-set-field" as const,
+                  formKey: `${key}fileListForm`,
+                  key: "selectedItems",
+                  value: [],
+                },
+              ]
+            : []),
         ],
         failure: [
           {
-            type: "form-set-field",
+            type: "form-set-field" as const,
             formKey: `${key}fileListForm`,
             key: "selectedItems",
             value: [],
@@ -256,6 +262,20 @@ export const generateFileExportProcessButton: ComponentGenerator<
             modifier: "length",
           },
         ],
+      },
+    },
+    [`${key}FilesExportedFromPreviewToast`]: {
+      component: "toast",
+      childrenKeys: [
+        `${key}FilesExportedToastIcon`,
+        `${key}FilesExportedFromPreviewToastText`,
+      ],
+    },
+
+    [`${key}FilesExportedFromPreviewToastText`]: {
+      component: "typography.p1",
+      config: {
+        text: "1 file exported",
       },
     },
   }
