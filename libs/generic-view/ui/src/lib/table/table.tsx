@@ -128,9 +128,6 @@ export const Table: APIFC<TableData, TableConfig> & {
     } else if (previewMode) {
       formContext.setValue("previewMode", false)
       nextActivePreviewId.current = undefined
-      if (formOptions.selectedIdsFieldName) {
-        formContext.setValue(formOptions.selectedIdsFieldName, [])
-      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
