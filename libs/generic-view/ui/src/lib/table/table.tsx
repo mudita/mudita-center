@@ -14,7 +14,7 @@ import React, {
   useState,
 } from "react"
 import styled, { css } from "styled-components"
-import { difference, intersection } from "lodash"
+import { difference } from "lodash"
 import { TableTestIds } from "e2e-test-ids"
 import { APIFC, useViewFormContext } from "generic-view/utils"
 import { TableConfig, TableData, tableHeaderCell } from "generic-view/models"
