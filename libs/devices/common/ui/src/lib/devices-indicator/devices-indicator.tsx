@@ -4,15 +4,16 @@
  */
 
 import { ComponentProps, FunctionComponent } from "react"
-import styled, { css } from "styled-components"
-import { Button, Icon } from "app-theme/ui"
+import styled from "styled-components"
+import { Button, Icon, Typography } from "app-theme/ui"
 import {
   ButtonTextModifier,
   ButtonType,
   IconSize,
   IconType,
 } from "app-theme/models"
-import { defineMessages, formatMessage } from "app-localize/utils"
+import { defineMessages } from "app-localize/utils"
+import { AnimatePresence, motion } from "motion/react"
 
 const messages = defineMessages({
   text: { id: "general.components.devicesIndicator.text" },
@@ -36,74 +37,87 @@ export const DevicesIndicator: FunctionComponent<Props> = ({
   ...rest
 }) => {
   return (
-    <Wrapper
-      {...rest}
-      type={ButtonType.Text}
-      modifiers={[
-        ButtonTextModifier.HoverUnderline,
-        ButtonTextModifier.DefaultCase,
-      ]}
-      $visible={visible}
-    >
-      <Counter>
-        <Icon type={IconType.Phone} size={IconSize.Big} />
-        <Badge>{devicesCount}</Badge>
-      </Counter>
-      {formatMessage(messages.text)}{" "}
-      {loading && <Icon type={IconType.Spinner} size={IconSize.Medium} />}
+    <Wrapper>
+      <AnimatePresence mode={"wait"} initial={true}>
+        {visible && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <CustomButton
+              type={ButtonType.Text}
+              modifiers={[
+                ButtonTextModifier.HoverUnderline,
+                ButtonTextModifier.DefaultCase,
+              ]}
+              icon={IconType.Phone}
+              iconSize={IconSize.Big}
+              $devicesCount={devicesCount}
+              {...rest}
+            >
+              <Text message={messages.text.id} />
+              {loading && (
+                <Icon type={IconType.Spinner} size={IconSize.Medium} />
+              )}
+            </CustomButton>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Wrapper>
   )
 }
 
-const Counter = styled.div`
-  position: relative;
-  margin-right: 0.4rem;
+const Text = styled(Typography.P1)`
+  color: inherit;
+  display: inline-block;
+  margin: 0 0.4rem;
+  white-space: nowrap;
 `
 
-const Badge = styled.span`
-  position: absolute;
-  top: 0;
-  right: -0.6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  color: ${({ theme }) => theme.app.color.white};
-  background-color: ${({ theme }) => theme.app.color.black};
-  font-size: ${({ theme }) => theme.app.fontSize.headline5};
-  line-height: ${({ theme }) => theme.app.lineHeight.headline5};
-  font-weight: ${({ theme }) => theme.app.fontWeight.bold};
-  transition-property: background-color;
-  transition-duration: ${({ theme }) =>
-    theme.app.constants.buttonTransitionDuration}ms;
-  transition-timing-function: ${({ theme }) =>
-    theme.app.constants.buttonTransitionEasing};
-`
-
-const Wrapper = styled(Button)<{ $visible?: boolean }>`
-  font-size: ${({ theme }) => theme.app.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.app.lineHeight.paragraph1};
+const CustomButton = styled(Button)<{
+  $devicesCount?: number
+  disabled?: boolean
+}>`
   color: ${({ theme }) => theme.app.color.black};
-  letter-spacing: 0.02em;
-  opacity: 0;
-  visibility: hidden;
-  transition-property: opacity, visibility;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
 
-  ${({ $visible }) =>
-    $visible &&
-    css`
-      opacity: 1;
-      visibility: visible;
-      transition-delay: 0.5s;
-    `}
-
-  &:disabled {
-    ${Badge} {
-      background-color: ${({ theme }) => theme.app.color.grey2};
-    }
+  &[disabled] {
+    color: ${({ theme }) => theme.app.color.grey2};
   }
+
+  ${Button.Icon} {
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 1.8rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background-color: currentColor;
+    }
+    &:after {
+      content: "${({ $devicesCount }) => $devicesCount}";
+      position: absolute;
+      top: -0.05rem;
+      left: 1.85rem;
+      text-align: center;
+      width: 2rem;
+      color: ${({ theme }) => theme.app.color.white};
+      font-size: ${({ theme }) => theme.app.fontSize.headline5};
+      line-height: ${({ theme }) => theme.app.lineHeight.headline5};
+      font-weight: ${({ theme }) => theme.app.fontWeight.bold};
+      transition-property: background-color;
+      transition-duration: ${({ theme }) =>
+        theme.app.constants.buttonTransitionDuration}ms;
+      transition-timing-function: ${({ theme }) =>
+        theme.app.constants.buttonTransitionEasing};
+    }
+`
+
+const Wrapper = styled.div`
+  position: relative;
+  width: min-content;
+  height: min-content;
 `

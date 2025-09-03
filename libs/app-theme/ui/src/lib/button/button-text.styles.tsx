@@ -3,11 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled, { css } from "styled-components"
-import { NavLink } from "react-router"
+import { css } from "styled-components"
 import {
   baseStyles,
-  ButtonIcon,
+  ButtonIconWrapper,
   ModifiersProp,
   StyledButtonProps,
   StyledLinkProps,
@@ -67,13 +66,11 @@ const textDefaultStyles = css<ModifiersProp>`
       cursor: pointer;
     `}
 
-  &:has(${ButtonIcon}) {
+  &:has(${ButtonIconWrapper}) {
     padding-top: 0.2rem;
   }
 
-  ${ButtonIcon} {
-    width: 2.2rem;
-    height: 2.2rem;
+  ${ButtonIconWrapper} {
     margin-top: -0.2rem;
   }
 `
@@ -155,7 +152,7 @@ const textDisabledStyles = css<ModifiersProp>`
     `};
 `
 
-export const TextButtonComponent = styled.button<StyledButtonProps>`
+export const textButtonStyles = css<StyledButtonProps>`
   ${baseStyles};
   ${textDefaultStyles};
 
@@ -171,7 +168,7 @@ export const TextButtonComponent = styled.button<StyledButtonProps>`
   }
 `
 
-export const TextNavigationComponent = styled(NavLink)<StyledLinkProps>`
+export const textNavigationStyles = css<StyledLinkProps>`
   ${baseStyles};
   ${textDefaultStyles};
 
