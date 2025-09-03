@@ -120,7 +120,7 @@ export const Button: FunctionComponent<Props> & { Icon: typeof ButtonIcon } = ({
             <ButtonIcon type={icon} size={iconSize} />
           </ButtonIconWrapper>
         )}
-        <ButtonTextWrapper key={"text"}>
+        <ButtonTextWrapper key={message || "text"}>
           {message ? <p>{formatMessage({ id: message }, values)}</p> : children}
         </ButtonTextWrapper>
       </AnimatePresence>
