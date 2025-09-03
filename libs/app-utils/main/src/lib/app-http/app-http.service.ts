@@ -18,16 +18,38 @@ import {
 } from "app-utils/models"
 import { AppFileSystemService } from "../app-file-system/app-file-system.service"
 
+type RID = string
+
 export class AppHttpService {
-  async request<Data = unknown>(
-    config: AppHttpRequestConfig
-  ): Promise<AppHttpResult<Data>> {
+  private abortControllers = new Map<RID, AbortController>()
+
+  async request<Data = unknown>({
+    rid,
+    ...config
+  }: AppHttpRequestConfig): Promise<AppHttpResult<Data>> {
     try {
+      if (rid) {
+        const controller = new AbortController()
+        this.abortControllers.set(rid, controller)
+        config.signal = controller.signal
+      }
       const axiosConfig = await this.mapToAxiosConfig(config)
       const { data, status } = await axios.request<Data>(axiosConfig)
       return AppResultFactory.success(data, { status })
     } catch (error) {
       return this.mapToAppHttpFailedResult<Data>(error)
+    } finally {
+      if (rid) {
+        this.abortControllers.delete(rid)
+      }
+    }
+  }
+
+  async abort(rid: RID) {
+    const controller = this.abortControllers.get(rid)
+    if (controller) {
+      controller.abort()
+      this.abortControllers.delete(rid)
     }
   }
 
