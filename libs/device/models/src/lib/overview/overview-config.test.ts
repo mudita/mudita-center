@@ -254,6 +254,7 @@ const allFieldsOverviewConfig: OverviewConfig = {
     showSerialNumber: true,
     serialNumberLabel: "serialNumberLabel",
     showDeviceVersion: true,
+    deviceVersionLabel: "deviceVersionLabel",
     showAbout: true,
     aboutTitle: "aboutTitle",
     aboutSubtitle: "aboutSubtitle",

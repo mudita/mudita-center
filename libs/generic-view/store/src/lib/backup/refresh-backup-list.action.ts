@@ -39,19 +39,20 @@ export const refreshBackupList = createAsyncThunk<
 
     const backups =
       (backupsList.data
-        .map((item) => {
-          const isFormatValid = /^\d+[_][a-zA-Z0-9]+[.]mcbackup$/i.test(item)
+        .map(({ directory, name }) => {
+          const isFormatValid = /^\d+[_][a-zA-Z0-9]+[.]mcbackup$/i.test(name)
 
           if (!isFormatValid) {
             return null
           }
 
-          const [fileName] = item.split(".")
+          const [fileName] = name.split(".")
           const [timestamp, serialNumber] = fileName.split("_")
           const result: Backup = {
             date: new Date(Number(timestamp)),
-            fileName: item,
+            fileName: name,
             serialNumber,
+            directory,
           }
           return result
         })

@@ -4,17 +4,17 @@
  */
 
 import { E2EMockClient } from "../../../../libs/e2e-mock/client/src"
-import { generateUniqueNumber } from "./utils/generate-unique-number-id.helper"
-import { generateBase64Info } from "./utils/generate-base-64-info.helper"
 import { prepareMockForFileTransfer } from "./prepare-mock-for-file-transfer.helper"
+import * as fs from "fs"
+import * as path from "path"
+import * as os from "node:os"
+import { existsSync, mkdirSync } from "fs"
 
 export function mockBackupResponses(path: string, shouldFail = false) {
   const data = "1234567890"
 
-  //   mockBackupResponses("path-1", true) // use in test to force backup error
-  //
-
-  // mockBackupResponses("path-1") // default -> success backup
+  // mockBackupResponses("path-1", true) // use in test to force backup error
+  // mockBackupResponses("path-1")       // default -> success backup
 
   if (shouldFail) {
     // Simulate backup failure due to full storage
@@ -32,7 +32,6 @@ export function mockBackupResponses(path: string, shouldFail = false) {
     return
   }
 
-  // Default successful backup mocks
   E2EMockClient.mockResponses([
     {
       path,
@@ -99,4 +98,97 @@ export function mockBackupResponses(path: string, shouldFail = false) {
   E2EMockClient.mockResponses(
     prepareMockForFileTransfer(path, data, "path/to/backup/APP_SETTINGS")
   )
+}
+
+function getUserConfigDir() {
+  const home = os.homedir()
+
+  let userConfigDir = ""
+  switch (process.platform) {
+    case "win32":
+      userConfigDir =
+        process.env.APPDATA || path.join(home, "AppData", "Roaming")
+      break
+
+    case "darwin":
+      userConfigDir = path.join(home, "Library", "Application Support")
+      break
+
+    default:
+      userConfigDir = process.env.XDG_CONFIG_HOME || path.join(home, ".config")
+      break
+  }
+  return path.join(
+    userConfigDir,
+    "@mudita",
+    "mudita-center-app",
+    "pure",
+    "phone",
+    "backups"
+  )
+}
+
+const getBackupOutputPath = async (): Promise<string> => {
+  const backupLocation = getUserConfigDir()
+  console.log("backupLocation", backupLocation)
+  return backupLocation
+}
+
+export const createMockBackup = async (serialNumber: string): Promise<void> => {
+  const osBackupLocation = await getBackupOutputPath()
+  const backupLocation = path.join(osBackupLocation, "3310-2006")
+  if (!existsSync(backupLocation)) {
+    mkdirSync(backupLocation, { recursive: true })
+  }
+
+  const timestamp = Date.now()
+  const fileName = `${timestamp}_${serialNumber}.mcbackup`
+  const filePath = path.join(backupLocation, fileName)
+
+  const content = {
+    header: {
+      vendorId: "3310",
+      productId: "2006",
+      serialNumber: serialNumber,
+      appVersion: "3.0.1",
+    },
+    data: {
+      CONTACT_LIST: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+      CALL_LOG: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+      MESSAGES: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+      NOTES: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+      CALENDAR_EVENTS: "eyJkYXRhIjoiMTIzNDU2Nzg5MCJ9",
+    },
+  }
+
+  fs.mkdirSync(backupLocation, { recursive: true })
+  fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf8")
+  console.log(`File stored at: ${filePath}`)
+}
+
+export const deleteMockBackups = async (
+  serialNumber: string
+): Promise<void> => {
+  const osBackupLocation = await getBackupOutputPath()
+  const backupLocation = path.join(osBackupLocation, "3310-2006")
+
+  if (!fs.existsSync(backupLocation)) {
+    return
+  }
+
+  const files = fs.readdirSync(backupLocation)
+
+  const filesToDelete = files.filter((file) =>
+    file.endsWith(`_${serialNumber}.mcbackup`)
+  )
+
+  for (const file of filesToDelete) {
+    const filePath = path.join(backupLocation, file)
+    fs.unlinkSync(filePath)
+    console.log(`Deleted backup: ${filePath}`)
+  }
+
+  if (filesToDelete.length === 0) {
+    console.log(`No backups found for serialNumber: ${serialNumber}`)
+  }
 }

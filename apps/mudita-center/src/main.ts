@@ -10,6 +10,8 @@ import {
   BrowserWindow,
   BrowserWindowConstructorOptions,
   shell,
+  protocol,
+  net,
 } from "electron"
 import { ipcMain } from "electron-better-ipc"
 import * as path from "path"
@@ -77,6 +79,8 @@ import {
   registerShortcuts,
 } from "shared/utils"
 import { mockServiceEnabled, startServer, stopServer } from "e2e-mock-server"
+import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
+import fs from "fs-extra"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -248,6 +252,33 @@ const createWindow = async () => {
 if (!gotTheLock) {
   app.quit()
 } else {
+  protocol.registerSchemesAsPrivileged([
+    {
+      scheme: "safe-file",
+      privileges: {
+        standard: true,
+        secure: true,
+        supportFetchAPI: true,
+        bypassCSP: true,
+      },
+    },
+  ])
+
+  app.whenReady().then(() => {
+    protocol.handle("safe-file", async (request) => {
+      const fileUrl = request.url.replace("safe-file://", "file:///")
+      if (
+        !fileUrl
+          .toLowerCase()
+          .startsWith(`file://${encodeURI(getAppPath())}`.toLowerCase())
+      ) {
+        throw new Error(
+          "Access to files outside of the userData directory is not allowed."
+        )
+      }
+      return net.fetch(fileUrl)
+    })
+  })
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.on("ready", createWindow)
@@ -262,7 +293,8 @@ if (!gotTheLock) {
     stopServer()
   })
 
-  app.on("window-all-closed", () => {
+  app.on("window-all-closed", async () => {
+    await fs.remove(getAppPath("file-preview"))
     app.quit()
   })
 
@@ -552,4 +584,8 @@ ipcMain.answerRenderer(
 
 ipcMain.answerRenderer(OutlookAuthActions.CloseWindow, () => {
   outlookAuthWindow?.close()
+})
+
+ipcMain.answerRenderer("get-downloads-path", async () => {
+  return app.getPath("downloads")
 })

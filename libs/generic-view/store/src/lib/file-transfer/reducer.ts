@@ -29,7 +29,7 @@ import { legacySendFile } from "./legacy-send-file.action"
 import { getFile } from "./get-file.action"
 import { sendFiles } from "./send-files.action"
 import { ApiFileTransferError } from "device/models"
-import { FilesTransferMode } from "./files-transfer-mode.type"
+import { FilesTransferMode } from "./files-transfer.type"
 import { sendFilesTransferAnalysis } from "./send-files-transfer-analysis.action"
 
 interface FileTransferError {
@@ -56,6 +56,7 @@ export type FileWithPath = {
   path: string
   name: string
   groupId?: FileGroupId
+  devicePath?: string
 }
 
 export type FileWithBase64 = {
@@ -88,6 +89,7 @@ export type FileTransferFailed = FileBase & {
 
 export type FileTransferSucceeded = FileBase & {
   status: "finished"
+  error?: AppError<ApiFileTransferError>
 }
 
 export type FileTransferFinished = FileTransferSucceeded | FileTransferFailed
@@ -282,9 +284,12 @@ export const genericFileTransferReducer = createReducer(
       }
     })
     builder.addCase(sendFilesFinished, (state, action) => {
-      const file = state.filesTransferSend[action.payload.id]
+      const file = state.filesTransferSend[
+        action.payload.id
+      ] as FileTransferFinished
       if (file) {
         file.status = "finished"
+        file.error = undefined
       }
     })
     builder.addCase(sendFilesError, (state, action) => {

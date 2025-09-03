@@ -22,6 +22,11 @@ const defaultOptions: OpenDialogOptions = {
   properties: [],
 }
 
+const defaultDirectoryOptions: OpenDialogOptions = {
+  properties: ["openDirectory", "createDirectory"],
+  title: intl.formatMessage({ id: "component.dialog.openDirectory.title" }),
+}
+
 export class FileDialog {
   private lastSelectedPath: string | undefined
 
@@ -44,6 +49,26 @@ export class FileDialog {
       callRenderer(FileDialogToRendererEvents.FileDialogOpened)
 
       const result = await this.performOpenFile(options)
+
+      callRenderer(FileDialogToRendererEvents.FileDialogClosed)
+
+      return result
+    }
+  }
+
+  @IpcEvent(FileDialogToMainEvents.ChooseDirectory)
+  public async chooseDirectory({
+    options,
+  }: {
+    options?: OpenDialogOptions
+  }): Promise<ResultObject<string>> {
+    if (this.mockServiceEnabled) {
+      const mockDirectoryPaths = this.mockFileDialog.getMockDirectoryPath()
+      return Result.success(mockDirectoryPaths)
+    } else {
+      callRenderer(FileDialogToRendererEvents.FileDialogOpened)
+
+      const result = await this.performChooseDirectory(options)
 
       callRenderer(FileDialogToRendererEvents.FileDialogClosed)
 
@@ -77,6 +102,40 @@ export class FileDialog {
       return Result.failed(
         new AppError(
           FileDialogError.OpenFile,
+          error ? (error as Error).message : undefined
+        )
+      )
+    }
+  }
+
+  public async performChooseDirectory(
+    options: OpenDialogOptions = defaultDirectoryOptions
+  ): Promise<ResultObject<string>> {
+    try {
+      const openDialogOptions: OpenDialogOptions = {
+        ...defaultDirectoryOptions,
+        ...options,
+        defaultPath: options.defaultPath || this.lastSelectedPath,
+      }
+
+      const result = await dialog.showOpenDialog(
+        BrowserWindow.getFocusedWindow() as BrowserWindow,
+        openDialogOptions
+      )
+
+      if (result.canceled) {
+        return Result.failed(
+          new AppError(FileDialogError.ChooseDirectory, "cancelled")
+        )
+      }
+
+      this.lastSelectedPath = result.filePaths[0]
+
+      return Result.success(result.filePaths[0])
+    } catch (error) {
+      return Result.failed(
+        new AppError(
+          FileDialogError.ChooseDirectory,
           error ? (error as Error).message : undefined
         )
       )

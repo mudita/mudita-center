@@ -4,7 +4,6 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { sliceSegments } from "shared/utils"
 import { ApiFileTransferError } from "device/models"
 import { getDeviceStoragesRequest, getMtpDeviceIdRequest } from "device/feature"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -17,6 +16,7 @@ import { selectDeviceById } from "../selectors/select-devices"
 
 interface GetMtpSendFileMetadataPayload {
   destinationPath: string
+  isMtpPathInternal: boolean
   customDeviceId?: DeviceId
 }
 
@@ -27,7 +27,7 @@ export const getMtpSendFileMetadata = createAsyncThunk<
 >(
   ActionName.GetMtpSendFileMetadata,
   async (
-    { destinationPath, customDeviceId },
+    { destinationPath, customDeviceId, isMtpPathInternal },
     { signal, getState, rejectWithValue }
   ) => {
     const deviceId = customDeviceId || selectActiveApiDeviceId(getState())
@@ -54,8 +54,6 @@ export const getMtpSendFileMetadata = createAsyncThunk<
       return rejectWithValue(error)
     }
 
-    const isInternal = destinationPath.startsWith("/storage/emulated/0")
-
     const mtpDeviceStorages = await getDeviceStoragesRequest(mtpDeviceId)
     if (signal.aborted) {
       return rejectWithValue(
@@ -72,7 +70,7 @@ export const getMtpSendFileMetadata = createAsyncThunk<
     }
 
     const storageId = mtpDeviceStorages.data.find(
-      (s) => s.isInternal === isInternal
+      (s) => s.isInternal === isMtpPathInternal
     )?.id
 
     if (!storageId) {
@@ -86,11 +84,7 @@ export const getMtpSendFileMetadata = createAsyncThunk<
     return {
       storageId,
       deviceId: mtpDeviceId,
-      destinationPath: isInternal
-        ? destinationPath
-            .replace(/^\/storage\/emulated\/0\//, "")
-            .replace(/\/$/, "")
-        : sliceSegments(destinationPath, 2),
+      destinationPath: destinationPath,
     }
   }
 )

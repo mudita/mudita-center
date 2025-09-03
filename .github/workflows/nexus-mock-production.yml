@@ -32,7 +32,7 @@ jobs:
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
-          GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ secrets.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
           FRESHDESK_API_URL: ${{ secrets.FRESHDESK_API_URL }}
@@ -62,7 +62,7 @@ jobs:
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
-          GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ secrets.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
           FRESHDESK_API_URL: ${{ secrets.FRESHDESK_API_URL }}
@@ -143,7 +143,7 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/mudita-center/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/mudita-center/release/latest.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/mudita-center/release/builder-debug-win.yml -Method Put -Credential $AUTH
-          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center.git
+          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center.git
           cd mudita-center
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
@@ -161,7 +161,7 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center.git
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center.git
           cd mudita-center
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
@@ -182,7 +182,7 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center.git
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center.git
           cd mudita-center
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"

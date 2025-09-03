@@ -6,7 +6,7 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { answerMain, useDebouncedEventsHandler } from "shared/utils"
+import { answerMain, delay, useDebouncedEventsHandler } from "shared/utils"
 import { selectDialogOpenState } from "shared/app-state"
 import {
   DeviceBaseProperties,
@@ -56,6 +56,7 @@ import {
 } from "../helpers"
 import { getDevicesSelector } from "../selectors"
 import { deactivateDevice } from "../actions"
+import { clearQuotations } from "Core/quotations/store/actions"
 
 export const useDeviceManagerDetached = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -104,6 +105,7 @@ const useHandleDevicesDetached = () => {
 
       for (const coreEvent of coreEvents) {
         dispatch(removeCoreDevice(coreEvent))
+        dispatch(clearQuotations())
       }
 
       for (const mscEvent of mscEvents) {
@@ -139,6 +141,7 @@ const useHandleDevicesDetached = () => {
       }
 
       if (apiEvents.length !== 0) {
+        await delay(1000) //delay to avoid showing modal after reconnecting device
         dispatch(closeAllModals())
 
         if (

@@ -183,7 +183,7 @@ const SelfDataProvider: FunctionComponent<
 
   for (const fieldConfig of dataProvider.fields) {
     const { componentField, providerField, ...config } = fieldConfig
-    const fieldValue = get({ data: componentData }, providerField)
+    const fieldValue = get(childrenProps, providerField)
     const value = processField(config, fieldValue)
 
     set(childrenProps, componentField, value)

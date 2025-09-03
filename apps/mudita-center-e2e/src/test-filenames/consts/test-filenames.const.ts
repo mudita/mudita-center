@@ -34,7 +34,7 @@ export enum TestFilesPaths {
   helpSectionSearchNoResults = "src/specs/help/help-section-search-noresults.e2e.ts",
   helpLinkInsideContainer = "src/specs/help/help-link-inside-container.ts",
   contactSupportHappyPath = "src/specs/help/contact-support-happy-path.ts",
-  kompaktBackupApi = "src/specs/overview/kompakt-backup-api.ts",
+  kompaktPrebackupApi = "src/specs/overview/kompakt-backup-api.ts",
   kompaktContactsViewing = "src/specs/overview/kompakt-contacts-viewing.ts",
   kompaktContactsViewingEmpty = "src/specs/overview/kompakt-contacts-viewing-empty.ts",
   kompaktContactsDeleteDetails = "src/specs/overview/kompakt-contacts-delete-details.ts",
@@ -49,5 +49,11 @@ export enum TestFilesPaths {
   helpSectionKompakt = "src/specs/help/help-section-check-kompakt.ts",
   kompaktManageFilesOverall = "src/specs/overview/kompakt-manage-files-overall-check.ts",
   kompaktBackupFailedFullStorage = "src/specs/overview/kompakt-backup-error-storage-full.ts",
+  kompaktManageFilesRemoveFiles = "src/specs/overview/kompakt-manage-files-remove-files.ts",
+  kompaktManageFilesDeleteApkText = "src/specs/overview/kompakt-manage-files-delete-apk-text.ts",
+  kompaktManageFilesInstallApkModalUpdate = "src/specs/overview/kompakt-manage-files-install-apk-modal-update.ts",
+  kompaktCheckDeviceType = "src/specs/overview/kompakt-check-device-type.ts",
+  kompaktRestoreModalCheck = "src/specs/overview/kompakt-restore-modal-check.ts",
+  kompaktRestoreFailedModalCheck = "src/specs/overview/kompakt-restore-failed.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`

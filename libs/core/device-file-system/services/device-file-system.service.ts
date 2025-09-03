@@ -278,6 +278,13 @@ export class DeviceFileSystemService {
             cwd,
             token
           )
+        } else if (
+          this.deviceProtocol.getAPIDeviceById(deviceId)?.deviceType ===
+            "MuditaHarmony" &&
+          extract === true &&
+          token === undefined
+        ) {
+          await FileSystemService.extractAndStreamToFiles(input, cwd)
         } else if (token !== undefined) {
           const entryFilePaths =
             await FileSystemService.encryptViaTokenAndStreamToFile(

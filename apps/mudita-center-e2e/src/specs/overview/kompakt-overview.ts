@@ -58,7 +58,7 @@ describe("E2E mock sample - overview view", () => {
 
     const serialNumberLabel = await OverviewKompaktPage.serialNumberLabel
     const serialNumberValue = await OverviewKompaktPage.serialNumberValue
-    await expect(serialNumberLabel).toHaveText("Serial number")
+    await expect(serialNumberLabel).toHaveText("Serial number:")
     await expect(serialNumberValue).toHaveText(
       overviewDataWithOneSimCard.summary.about.serialNumber.text.toString()
     )

@@ -45,10 +45,11 @@ export const compareValues = (
   available: number,
   required: number
 ): CompareValuesResult => {
-  const difference = Math.ceil((available - required) / 1000 ** 2) * 1000 ** 2
+  const difference =
+    Math.ceil(Math.abs(available - required) / 1000 ** 2) * 1000 ** 2
 
   return {
-    isSufficient: difference >= 0,
+    isSufficient: required <= available,
     difference,
   }
 }
@@ -62,11 +63,14 @@ export async function isStorageSpaceSufficientForUpload(
   }
 > {
   const totalFileSize = await getTotalFileSizeAsync(filePaths)
+  return CalculateAndFormatAvailableSpace(availableSpace, totalFileSize)
+}
 
-  const { isSufficient, difference } = compareValues(
-    availableSpace,
-    totalFileSize
-  )
+export const CalculateAndFormatAvailableSpace = (
+  availableSpace: number,
+  totalSpace: number
+) => {
+  const { isSufficient, difference } = compareValues(availableSpace, totalSpace)
 
   const formattedDifference = formatBytes(Math.abs(difference), {
     minUnit: "B",

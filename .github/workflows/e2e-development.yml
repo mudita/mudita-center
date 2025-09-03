@@ -23,7 +23,7 @@ jobs:
         if: matrix.runner_label == 'linux-e2e'
         env:
           E2ECI: "true"
-          TEST_BINARY_PATH: "../mudita-center/release/linux-unpacked/Mudita Center"
+          TEST_BINARY_PATH: "../mudita-center/release/linux-unpacked/mudita-center"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
@@ -31,7 +31,7 @@ jobs:
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
-          GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ secrets.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
           FRESHDESK_API_URL: ${{ secrets.FRESHDESK_API_URL }}
@@ -59,7 +59,7 @@ jobs:
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
-          GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ secrets.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
           FRESHDESK_API_URL: ${{ secrets.FRESHDESK_API_URL }}

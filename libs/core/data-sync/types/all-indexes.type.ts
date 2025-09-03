@@ -10,6 +10,7 @@ import { ThreadObject } from "Core/data-sync/types/thread-object.type"
 import { CallLogObject } from "Core/data-sync/types/call-log-object.type"
 import { AlarmObject } from "Core/data-sync/types/alarm-object.type"
 import { NoteObject } from "Core/data-sync/types/note-object.type"
+import { QuotationObject } from "Core/data-sync/types/quotation-object.type"
 
 export interface AllIndexes {
   contacts: Record<string, ContactObject>
@@ -19,4 +20,5 @@ export interface AllIndexes {
   callLog: Record<string, CallLogObject>
   alarms: Record<string, AlarmObject>
   notes: Record<string, NoteObject>
+  quotations?: Record<string, QuotationObject>
 }

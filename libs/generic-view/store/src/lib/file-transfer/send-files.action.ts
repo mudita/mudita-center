@@ -23,7 +23,7 @@ import {
 } from "./send-file-via-mtp.action"
 import { getMtpSendFileMetadata } from "./get-mtp-send-file-metadata.action"
 import { sendFileViaSerialPort } from "./send-file-via-serial-port.action"
-import { FilesTransferMode } from "./files-transfer-mode.type"
+import { FilesTransferMode, SendFilesAction } from "./files-transfer.type"
 import { isMtpInitializeAccessError } from "./is-mtp-initialize-access-error"
 import {
   selectFilesSendingGroup,
@@ -37,8 +37,10 @@ export interface SendFilesPayload {
   actionId: string
   files: FileBase[]
   destinationPath: string
+  isMtpPathInternal: boolean
   entitiesType?: string
   customDeviceId?: DeviceId
+  actionType: SendFilesAction
 }
 
 export const sendFiles = createAsyncThunk<
@@ -48,7 +50,15 @@ export const sendFiles = createAsyncThunk<
 >(
   ActionName.SendFiles,
   async (
-    { actionId, files, destinationPath, entitiesType, customDeviceId },
+    {
+      actionId,
+      files,
+      destinationPath,
+      entitiesType,
+      customDeviceId,
+      isMtpPathInternal,
+      actionType,
+    },
     { dispatch, signal, abort, rejectWithValue, getState }
   ) => {
     const deviceId = customDeviceId || selectActiveApiDeviceId(getState())
@@ -66,7 +76,6 @@ export const sendFiles = createAsyncThunk<
     dispatch(
       sendFilesAbortRegister({ actionId, abortController: mainAbortController })
     )
-
     const sendFileAbortController = new AbortController()
     const getMtpSendFileMetadataAbortController = new AbortController()
 
@@ -80,9 +89,12 @@ export const sendFiles = createAsyncThunk<
     let filesTransferMode = selectFilesTransferMode(getState())
     let mtpSendFileMetadata: Omit<SendFileViaMTPPayload, "file"> | undefined =
       undefined
-
     const getMtpSendFileMetadataDispatch = dispatch(
-      getMtpSendFileMetadata({ destinationPath, customDeviceId })
+      getMtpSendFileMetadata({
+        destinationPath,
+        customDeviceId,
+        isMtpPathInternal: isMtpPathInternal,
+      })
     )
 
     getMtpSendFileMetadataAbortController.abort = (
@@ -92,7 +104,6 @@ export const sendFiles = createAsyncThunk<
     ).abort
 
     await preSendFilesCleanup()
-
     const { meta, payload } = await getMtpSendFileMetadataDispatch
 
     if (meta.requestStatus === "fulfilled" && payload !== undefined) {
@@ -107,10 +118,13 @@ export const sendFiles = createAsyncThunk<
 
     const checkMtpAvailability = async () => {
       const res = await dispatch(
-        getMtpSendFileMetadata({ destinationPath, customDeviceId })
+        getMtpSendFileMetadata({
+          destinationPath: destinationPath,
+          customDeviceId,
+          isMtpPathInternal,
+        })
       )
       const { meta, payload } = res
-
       if (meta.requestStatus === "fulfilled" && payload !== undefined) {
         mtpSendFileMetadata = payload as Omit<SendFileViaMTPPayload, "file">
         dispatch(setFilesTransferMode(FilesTransferMode.Mtp))
@@ -118,7 +132,6 @@ export const sendFiles = createAsyncThunk<
       }
       return false
     }
-
     const mtpMonitor = setInterval(async () => {
       const currentMode = selectFilesTransferMode(getState())
       if (
@@ -136,7 +149,6 @@ export const sendFiles = createAsyncThunk<
     let currentFileIndex = 0
 
     let wasAborted = false
-
     const processFiles = async () => {
       while (currentFileIndex < files.length) {
         const file = files[currentFileIndex]
@@ -148,6 +160,7 @@ export const sendFiles = createAsyncThunk<
               sendFileViaMTP({
                 ...mtpSendFileMetadata!,
                 file,
+                action: actionType,
               })
             )
 
@@ -160,11 +173,6 @@ export const sendFiles = createAsyncThunk<
             const files = selectFilesSendingGroup(getState(), {
               filesIds: [file.id],
             })
-
-            if (files[0]?.status === "finished") {
-              console.log(`File ${file.name} already sent! Skipping....`)
-              return
-            }
 
             if (meta.requestStatus === "rejected" && meta.aborted) {
               wasAborted = true
@@ -183,6 +191,11 @@ export const sendFiles = createAsyncThunk<
               return
             }
 
+            if (files[0]?.status === "finished") {
+              console.log(`File ${file.name} already sent! Skipping....`)
+              return
+            }
+
             if (meta.requestStatus === "rejected") {
               const error =
                 payload instanceof AppError
@@ -197,6 +210,7 @@ export const sendFiles = createAsyncThunk<
                 customDeviceId,
                 entitiesType,
                 file,
+                actionType: actionType,
               })
             )
 
@@ -222,13 +236,13 @@ export const sendFiles = createAsyncThunk<
               filesIds: [file.id],
             })
 
-            if (files[0]?.status === "finished") {
-              console.log(`File ${file.name} already sent! Skipping....`)
+            if (meta.requestStatus === "rejected" && meta.aborted) {
+              wasAborted = true
               return
             }
 
-            if (meta.requestStatus === "rejected" && meta.aborted) {
-              wasAborted = true
+            if (files[0]?.status === "finished") {
+              console.log(`File ${file.name} already sent! Skipping....`)
               return
             }
 
@@ -277,6 +291,10 @@ export const sendFiles = createAsyncThunk<
     }
 
     if (entitiesType === undefined) {
+      return
+    }
+
+    if (actionType == SendFilesAction.ActionExport) {
       return
     }
 

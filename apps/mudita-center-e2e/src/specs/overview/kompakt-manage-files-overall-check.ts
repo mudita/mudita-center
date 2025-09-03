@@ -1,6 +1,4 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
-import { mockEntityDownloadProcess } from "../../helpers"
-import { selectedContactsEntities } from "../../helpers/entity-fixtures"
 import { expect } from "@wdio/globals"
 import NavigationTabs from "../../page-objects/tabs.page"
 import ManageFiles from "../../page-objects/manage-files"
@@ -96,7 +94,7 @@ describe("File manager overall check", () => {
     await expect(photosCategoryEmptySubtext).not.toBeDisplayed()
   })
 
-  xit("Phone Storage - Check E-Books section", async () => {
+  it("Phone Storage - Check E-Books section", async () => {
     //click E-Books section
     const ebooksCategoryButton = ManageFiles.ebooksCategoryButton
     await ebooksCategoryButton.click()
@@ -104,32 +102,27 @@ describe("File manager overall check", () => {
     //check E-books category header
     const ebooksCategoryHeader = ManageFiles.ebooksCategoryHeader
     await expect(ebooksCategoryHeader).toBeDisplayed()
-    await expect(ebooksCategoryHeader).toHaveText("E-books")
+    await expect(ebooksCategoryHeader).toHaveText("E-books  (1)")
 
     //check Add files button
     const ebooksCategoryAddFilesButton =
       ManageFiles.ebooksCategoryAddFilesButton
     await expect(ebooksCategoryAddFilesButton).toBeDisplayed()
 
-    //check if E-books category is empty - check if there is no first file on the list
+    //check if E-books category is not empty - check if there is no first file on the list
     const firstFileInTheEbooksCategory =
       ManageFiles.firstFileInTheEbooksCategory
-    await expect(firstFileInTheEbooksCategory).not.toBeDisplayed()
+    await expect(firstFileInTheEbooksCategory).toBeDisplayed()
 
-    //check if text about no files is present
+    //check if text about no files is not present
     const ebooksCategoryEmptyTitle = ManageFiles.ebooksCategoryEmptyTitle
-    await expect(ebooksCategoryEmptyTitle).toBeDisplayed()
-    await expect(ebooksCategoryEmptyTitle).toHaveText(
-      "We couldn't find any files"
-    )
+    await expect(ebooksCategoryEmptyTitle).not.toBeDisplayed()
+
     const ebooksCategoryEmptySubtext = ManageFiles.ebooksCategoryEmptySubtext
-    await expect(ebooksCategoryEmptySubtext).toBeDisplayed()
-    await expect(ebooksCategoryEmptySubtext).toHaveText(
-      "Add E-book or PDF files from your computer and they'll transfer to your device automatically."
-    )
+    await expect(ebooksCategoryEmptySubtext).not.toBeDisplayed()
   })
 
-  xit("Phone Storage - Check Apps section", async () => {
+  it("Phone Storage - Check Apps section", async () => {
     //click Apps section
     const appsCategoryButton = ManageFiles.appsCategoryButton
     await appsCategoryButton.click()
@@ -137,27 +130,22 @@ describe("File manager overall check", () => {
     //check Apps category header
     const appsCategoryHeader = ManageFiles.appsCategoryHeader
     await expect(appsCategoryHeader).toBeDisplayed()
-    await expect(appsCategoryHeader).toHaveText("Apps")
+    await expect(appsCategoryHeader).toHaveText("Apps  (1)")
 
     //check Add files button
     const appsCategoryAddFilesButton = ManageFiles.appsCategoryAddFilesButton
     await expect(appsCategoryAddFilesButton).toBeDisplayed()
 
-    //check if Apps category is empty - check if there is no first file on the list
+    //check if Apps category is not empty - check if there is no first file on the list
     const firstFileInTheAppsCategory = ManageFiles.firstFileInTheAppsCategory
-    await expect(firstFileInTheAppsCategory).not.toBeDisplayed()
+    await expect(firstFileInTheAppsCategory).toBeDisplayed()
 
     //check if text about no files is present
     const appsCategoryEmptyTitle = ManageFiles.appsCategoryEmptyTitle
-    await expect(appsCategoryEmptyTitle).toBeDisplayed()
-    await expect(appsCategoryEmptyTitle).toHaveText(
-      "We couldn't find any files"
-    )
+    await expect(appsCategoryEmptyTitle).not.toBeDisplayed()
+
     const appsCategoryEmptySubtext = ManageFiles.appsCategoryEmptySubtext
-    await expect(appsCategoryEmptySubtext).toBeDisplayed()
-    await expect(appsCategoryEmptySubtext).toHaveText(
-      "Add android app (.apk) files and install them from here. As Kompakt is a minimalist E-ink device some apps may not work correctly."
-    )
+    await expect(appsCategoryEmptySubtext).not.toBeDisplayed()
   })
 
   it("Open SD Card storage section and verify it", async () => {
@@ -171,36 +159,31 @@ describe("File manager overall check", () => {
     await expect(sdCardHeader).toHaveText("SD card")
   })
 
-  xit("SD Card - Check Music section", async () => {
+  it("SD Card - Check Music section", async () => {
     //check Music category header
     const musicCategoryHeaderSD = ManageFiles.musicCategoryHeaderSD
     await expect(musicCategoryHeaderSD).toBeDisplayed()
-    await expect(musicCategoryHeaderSD).toHaveText("Music")
+    await expect(musicCategoryHeaderSD).toHaveText("Music  (1)")
 
     //check Add files button
     const musicCategoryAddFilesButtonSD =
       ManageFiles.musicCategoryAddFilesButtonSD
     await expect(musicCategoryAddFilesButtonSD).toBeDisplayed()
 
-    //check if Music category is empty - check if there is no first file on the list
+    //check if Music category is not empty - check if there is no first file on the list
     const firstFileInTheMusicCategorySD =
       ManageFiles.firstFileInTheMusicCategorySD
-    await expect(firstFileInTheMusicCategorySD).not.toBeDisplayed()
+    await expect(firstFileInTheMusicCategorySD).toBeDisplayed()
 
-    //check if text about no files is present
+    //check if text about no files is not present
     const musicCategoryEmptyTitleSD = ManageFiles.musicCategoryEmptyTitleSD
-    await expect(musicCategoryEmptyTitleSD).toBeDisplayed()
-    await expect(musicCategoryEmptyTitleSD).toHaveText(
-      "We couldn't find any files"
-    )
+    await expect(musicCategoryEmptyTitleSD).not.toBeDisplayed()
+
     const musicCategoryEmptySubtextSD = ManageFiles.musicCategoryEmptySubtextSD
-    await expect(musicCategoryEmptySubtextSD).toBeDisplayed()
-    await expect(musicCategoryEmptySubtextSD).toHaveText(
-      "Add music files from your computer and they'll transfer to your device automatically."
-    )
+    await expect(musicCategoryEmptySubtextSD).not.toBeDisplayed()
   })
 
-  xit("SD Card - Check Photos section", async () => {
+  it("SD Card - Check Photos section", async () => {
     //click Photos section
     const photosCategoryButtonSD = ManageFiles.photosCategoryButtonSD
     await photosCategoryButtonSD.click()
@@ -208,30 +191,25 @@ describe("File manager overall check", () => {
     //check Photos category header
     const photosCategoryHeaderSD = ManageFiles.photosCategoryHeaderSD
     await expect(photosCategoryHeaderSD).toBeDisplayed()
-    await expect(photosCategoryHeaderSD).toHaveText("Photos")
+    await expect(photosCategoryHeaderSD).toHaveText("Photos  (1)")
 
     //check Add files button
     const photosCategoryAddFilesButtonSD =
       ManageFiles.photosCategoryAddFilesButtonSD
     await expect(photosCategoryAddFilesButtonSD).toBeDisplayed()
 
-    //check if Photos category is empty - check if there is no first file on the list
+    //check if Photos category is not empty - check if there is no first file on the list
     const firstFileInThePhotosCategorySD =
       ManageFiles.firstFileInThePhotosCategorySD
-    await expect(firstFileInThePhotosCategorySD).not.toBeDisplayed()
+    await expect(firstFileInThePhotosCategorySD).toBeDisplayed()
 
-    //check if text about no files is present
+    //check if text about no files is not present
     const photosCategoryEmptyTitleSD = ManageFiles.photosCategoryEmptyTitleSD
-    await expect(photosCategoryEmptyTitleSD).toBeDisplayed()
-    await expect(photosCategoryEmptyTitleSD).toHaveText(
-      "We couldn't find any files"
-    )
+    await expect(photosCategoryEmptyTitleSD).not.toBeDisplayed()
+
     const photosCategoryEmptySubtextSD =
       ManageFiles.photosCategoryEmptySubtextSD
-    await expect(photosCategoryEmptySubtextSD).toBeDisplayed()
-    await expect(photosCategoryEmptySubtextSD).toHaveText(
-      "Add image files from your computer and they'll transfer to your device automatically."
-    )
+    await expect(photosCategoryEmptySubtextSD).not.toBeDisplayed()
   })
 
   it("SD Card - Check E-Books section", async () => {

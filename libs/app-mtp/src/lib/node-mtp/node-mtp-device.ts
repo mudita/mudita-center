@@ -253,6 +253,69 @@ export class NodeMtpDevice {
     await this.transferOut(new Uint8Array(chunk).buffer)
   }
 
+  public async initiateExportFile(
+    sourcePath: string,
+    storageId: number
+  ): Promise<{
+    objectHandle: number
+    fileName: string
+    fileSize: number
+  }> {
+    const objectHandle = await this.findObjectHandleFromPath(
+      storageId,
+      sourcePath
+    )
+
+    if (objectHandle === undefined) {
+      throw new AppError(
+        MTPError.MTP_SOURCE_PATH_NOT_FOUND,
+        `There is no such element ${sourcePath}`
+      )
+    }
+
+    const objectInfo = await this.getObjectInfo(objectHandle)
+
+    return {
+      objectHandle,
+      fileName: objectInfo.filename,
+      fileSize: objectInfo.objectCompressedSize,
+    }
+  }
+
+  public async exportFileData(
+    objectHandle: number,
+    offset: number,
+    length: number
+  ): Promise<Uint8Array> {
+    const transactionId = this.getTransactionId()
+
+    await this.write({
+      transactionId,
+      type: ContainerTypeCode.Command,
+      code: ContainerCode.GetPartialObject,
+      payload: [
+        { type: "UINT32", value: objectHandle },
+        { type: "UINT32", value: offset },
+        { type: "UINT32", value: length },
+      ],
+    })
+
+    const dataResponse = await this.read(transactionId, ContainerTypeCode.Data)
+    const statusResponse = await this.read(
+      transactionId,
+      ContainerTypeCode.Response
+    )
+
+    if (statusResponse.code !== ContainerCode.StatusOk) {
+      throw new AppError(
+        MTPError.MTP_GENERAL_ERROR,
+        `GetPartialObject failed at offset ${offset} with code: ${statusResponse.code}`
+      )
+    }
+
+    return new Uint8Array(dataResponse.payload)
+  }
+
   async cancelTransaction(): Promise<void> {
     if (!this.uploadTransactionId) {
       console.log(
@@ -454,6 +517,32 @@ export class NodeMtpDevice {
         "Failed to open session"
       )
     }
+  }
+
+  async findObjectHandleFromPath(storageId: number, fullPath: string) {
+    const parts = fullPath.split("/").filter(Boolean)
+    let currentHandle = 0xffffffff
+    for (const part of parts) {
+      const children = await this.getObjectHandles(
+        currentHandle,
+        storageId,
+        undefined
+      )
+      let found = false
+      for (const handle of children) {
+        const info = await this.getObjectInfo(handle)
+        if (info.filename === part) {
+          currentHandle = handle
+          found = true
+          console.log(
+            `${PREFIX_LOG} current handle: ${handle} for path ${part}`
+          )
+          break
+        }
+      }
+      if (!found) return
+    }
+    return currentHandle
   }
 
   private getTransactionId(): number {

@@ -9,8 +9,8 @@ import { defineMessages } from "react-intl"
 import { APIFC, IconType } from "generic-view/utils"
 import {
   ButtonAction,
-  McFilesManagerUploadValidationErrorConfig,
-  McFilesManagerUploadValidationErrorData,
+  McFilesManagerTransferValidationErrorConfig,
+  McFilesManagerTransferValidationErrorData,
 } from "generic-view/models"
 import {
   clearFileTransferErrors,
@@ -21,13 +21,11 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { Modal } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
+import { SendFilesAction } from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 const messages = defineMessages({
-  title: {
+  uploadTitle: {
     id: "module.genericViews.filesManager.upload.validationFailure.modalTitle",
-  },
-  closeButtonLabel: {
-    id: "module.genericViews.filesManager.upload.failure.modalCloseButton",
   },
   uploadDuplicateFileDescription: {
     id: "module.genericViews.filesManager.upload.validationFailure.duplicatesDescription",
@@ -38,15 +36,30 @@ const messages = defineMessages({
   uploadFileTooLargeDescription: {
     id: "module.genericViews.filesManager.upload.validationFailure.fileTooLargeDescription",
   },
+  exportTitle: {
+    id: "module.genericViews.filesManager.export.validationFailure.modalTitle",
+  },
+  exportDuplicateFileDescription: {
+    id: "module.genericViews.filesManager.export.validationFailure.duplicatesDescription",
+  },
+  exportInsufficientMemoryDescription: {
+    id: "module.genericViews.filesManager.export.validationFailure.insufficientMemoryDescription",
+  },
+  exportFileTooLargeDescription: {
+    id: "module.genericViews.filesManager.export.validationFailure.fileTooLargeDescription",
+  },
+  closeButtonLabel: {
+    id: "module.genericViews.filesManager.file.transfer.failure.modalCloseButton",
+  },
 })
 
-export const FilesManagerUploadValidationError: APIFC<
-  McFilesManagerUploadValidationErrorData,
-  McFilesManagerUploadValidationErrorConfig
+export const FilesManagerTransferValidationError: APIFC<
+  McFilesManagerTransferValidationErrorData,
+  McFilesManagerTransferValidationErrorConfig
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
   const validationFailureType = useSelector((state: ReduxRootState) =>
-    selectValidationFailureType(state, config.uploadActionId)
+    selectValidationFailureType(state, config.fileTransferActionId)
   )
 
   const filesCount = data?.fileList.length || 0
@@ -59,31 +72,48 @@ export const FilesManagerUploadValidationError: APIFC<
     {
       type: "custom",
       callback: () => {
-        dispatch(clearFileTransferErrors({ actionId: config.uploadActionId }))
+        dispatch(
+          clearFileTransferErrors({ actionId: config.fileTransferActionId })
+        )
       },
     },
   ]
 
   const errorMessage = useMemo(() => {
     if (validationFailureType?.status === "someFileLargerThan2GB") {
-      return intl.formatMessage(messages.uploadFileTooLargeDescription, {
-        filesCount,
-      })
+      return intl.formatMessage(
+        config.actionType === SendFilesAction.ActionExport
+          ? messages.exportFileTooLargeDescription
+          : messages.uploadFileTooLargeDescription,
+        {
+          filesCount,
+        }
+      )
     }
     if (validationFailureType?.status === "allFilesDuplicated") {
-      return intl.formatMessage(messages.uploadDuplicateFileDescription, {
-        filesCount,
-      })
+      return intl.formatMessage(
+        config.actionType === SendFilesAction.ActionExport
+          ? messages.exportDuplicateFileDescription
+          : messages.uploadDuplicateFileDescription,
+        {
+          filesCount,
+        }
+      )
     }
     if (validationFailureType?.status === "notHaveSpaceForUpload") {
-      return intl.formatMessage(messages.uploadInsufficientMemoryDescription, {
-        value: (validationFailureType as ValidationErrorNotHaveSpaceForUpload)
-          .formattedDifference,
-        filesCount,
-      })
+      return intl.formatMessage(
+        config.actionType === SendFilesAction.ActionExport
+          ? messages.exportInsufficientMemoryDescription
+          : messages.uploadInsufficientMemoryDescription,
+        {
+          value: (validationFailureType as ValidationErrorNotHaveSpaceForUpload)
+            .formattedDifference,
+          filesCount,
+        }
+      )
     }
     return ""
-  }, [filesCount, validationFailureType])
+  }, [filesCount, validationFailureType, config.actionType])
 
   return (
     <>
@@ -93,9 +123,14 @@ export const FilesManagerUploadValidationError: APIFC<
         }}
       />
       <Modal.Title>
-        {intl.formatMessage(messages.title, {
-          filesCount,
-        })}
+        {intl.formatMessage(
+          config.actionType === SendFilesAction.ActionExport
+            ? messages.exportTitle
+            : messages.uploadTitle,
+          {
+            filesCount,
+          }
+        )}
       </Modal.Title>
       <p>{errorMessage}</p>
       <Modal.Buttons config={{ vertical: true }}>

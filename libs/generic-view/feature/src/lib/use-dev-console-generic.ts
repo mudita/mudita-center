@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { EntityData, EntityId } from "device/models"
 import { contactsSeedData } from "./seed-data/contacts-seed-data"
+import { sendSerialPortTestDataRequest } from "device/feature"
 
 export const useDevConsoleGeneric = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -134,6 +135,12 @@ export const useDevConsoleGeneric = () => {
           return dispatch(
             getAppinstallationProgressAction({ installationId, deviceId })
           )
+        },
+        _sendSerialPortTestData: async (
+          data: string,
+          deviceId = activeDeviceId
+        ) => {
+          return await sendSerialPortTestDataRequest(deviceId, data)
         },
       })
     }

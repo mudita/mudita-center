@@ -60,6 +60,7 @@ export const importContactsFromFile = createAsyncThunk<
         },
       ],
     })
+
     if (!openFileResult.ok) {
       cleanImportProcess()
       return rejectWithValue("cancelled")
@@ -73,7 +74,16 @@ export const importContactsFromFile = createAsyncThunk<
     }
 
     const fileBuffer = Buffer.from(fileResponse.data)
-    const { encoding } = detect(fileBuffer)
+
+    const sample = fileBuffer.subarray(0, 1024 * 1024)
+    const initialDetect = detect(sample) ?? {}
+    let { encoding } = initialDetect
+    const { confidence } = initialDetect
+
+    if (!encoding || confidence < 0.9) {
+      const fullDetect = detect(fileBuffer)
+      encoding = fullDetect?.encoding ?? "utf8"
+    }
     const content = fileBuffer.toString(encoding as BufferEncoding)
 
     if (!content) {

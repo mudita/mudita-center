@@ -4,19 +4,27 @@
  */
 
 import { ComponentGenerator, IconType, Subview } from "generic-view/utils"
-import { generateDeleteFiles } from "./delete-files"
+import {
+  generateDeleteFiles,
+  generateDeleteFilesButtonActions,
+} from "./delete-files"
 import { McFileManagerConfig } from "generic-view/models"
 import {
   generateFileUploadProcessButton,
   generateFileUploadProcessButtonKey,
 } from "./file-upload-button"
 import { fileCounterDataProvider } from "./file-counter-data-provider"
-import { generateAppInstallaion } from "./app-installation"
+import { generateAppInstallation as generateAppInstallation } from "./app-installation"
+import {
+  generateFileExportProcessButton,
+  generateFilesExportProcessButtonKey as generateFileExportProcessButtonKey,
+} from "./file-export-button"
 
 const generateFileList: ComponentGenerator<
   McFileManagerConfig["categories"][number] & {
     id: string
     storagePath: string
+    features?: string[]
   }
 > = (
   key,
@@ -28,8 +36,12 @@ const generateFileList: ComponentGenerator<
     storagePath,
     entityType,
     supportedFileTypes,
+    features,
   }
 ) => {
+  const isExportEnabled = Boolean(features?.includes("export"))
+  const isPreviewEnabled =
+    Boolean(features?.includes("preview")) && entityType === "imageFiles"
   return {
     [`${key}${id}fileListContainer`]: {
       component: "conditional-renderer",
@@ -57,6 +69,9 @@ const generateFileList: ComponentGenerator<
             filesToUpload: [],
             activeFileName: null,
             activeFilePath: null,
+            exportPath: "",
+            previewMode: false,
+            activeItemId: undefined,
           },
         },
       },
@@ -131,13 +146,16 @@ const generateFileList: ComponentGenerator<
     },
     [`${key}${id}fileListPanelDefaultMode`]: {
       component: "conditional-renderer",
+      config: {
+        multipleConditionsMethod: "or",
+      },
       childrenKeys: [`${key}${id}fileListPanel`],
       dataProvider: {
         source: "form-fields",
         fields: [
           {
             providerField: "selectedItems",
-            componentField: "data.render",
+            componentField: "data.render[0]",
             modifier: "length",
             condition: "eq",
             value: 0,
@@ -191,13 +209,16 @@ const generateFileList: ComponentGenerator<
     }),
     [`${key}${id}fileListPanelSelectMode`]: {
       component: "conditional-renderer",
+      config: {
+        multipleConditionsMethod: "and",
+      },
       childrenKeys: [`${key}${id}fileListPanelSelector`],
       dataProvider: {
         source: "form-fields",
         fields: [
           {
             providerField: "selectedItems",
-            componentField: "data.render",
+            componentField: "data.render[0]",
             modifier: "length",
             condition: "gt",
             value: 0,
@@ -210,6 +231,9 @@ const generateFileList: ComponentGenerator<
       childrenKeys: [
         `${key}${id}selectAllCheckbox`,
         `${key}${id}selectedItemsCounter`,
+        ...(isExportEnabled
+          ? [generateFileExportProcessButtonKey(`${key}${id}`)]
+          : []),
         `${key}${id}deleteButton`,
       ],
       layout: {
@@ -217,7 +241,12 @@ const generateFileList: ComponentGenerator<
         padding: "8px 24px 8px 12px",
         gridLayout: {
           rows: ["auto"],
-          columns: ["auto", "1fr", "auto"],
+          columns: [
+            "auto",
+            "1fr",
+            "auto",
+            ...(isExportEnabled ? ["auto"] : []),
+          ],
           alignItems: "center",
           columnGap: "14px",
         },
@@ -256,23 +285,20 @@ const generateFileList: ComponentGenerator<
         ],
       },
     },
+    ...generateFileExportProcessButton(`${key}${id}`, {
+      directoryPath,
+      entityType,
+    }),
     [`${key}${id}deleteButton`]: {
       component: "button-text",
       config: {
         text: entityType === "applicationFiles" ? "Delete APK" : "Delete",
         icon: IconType.Delete,
-        actions: [
-          {
-            type: "open-modal",
-            modalKey: `${key}${id}deleteModal`,
-            domain: "files-delete",
-          },
-        ],
+        actions: generateDeleteFilesButtonActions(`${key}${id}`),
         modifiers: ["uppercase"],
       },
     },
-    ...generateDeleteFiles(key, {
-      id,
+    ...generateDeleteFiles(`${key}${id}`, {
       entityType,
     }),
     [`${key}${id}fileListEmptyState`]: {
@@ -318,6 +344,16 @@ const generateFileList: ComponentGenerator<
           selectedIdsFieldName: "selectedItems",
           allIdsFieldName: "allItems",
         },
+        previewOptions: {
+          enabled: isPreviewEnabled,
+          entitiesType: entityType,
+          entityIdFieldName: "id",
+          entityPathFieldName: "filePath",
+          entityTitleFieldName: "fileName",
+          entityMimeTypeFieldName: "mimeType",
+          entitySizeFieldName: "fileSize",
+          componentKey: `${key}${id}`,
+        },
       },
       dataProvider: {
         entitiesType: entityType,
@@ -329,6 +365,7 @@ const generateFileList: ComponentGenerator<
             direction: "asc",
             orderingPatterns: ["/^[a-zA-Z0-9]/u", "/^[^a-zA-Z0-9]/u"],
             sensitivity: "base",
+            sortNumeric: true,
           },
         ],
         filters: [
@@ -541,7 +578,7 @@ const generateFileList: ComponentGenerator<
         ],
       },
     },
-    ...generateAppInstallaion(key, {
+    ...generateAppInstallation(key, {
       id,
       entityType,
     }),
@@ -606,7 +643,8 @@ export const generateFileListWrapperKey = (key: string) => {
 export const generateFileListWrapper: ComponentGenerator<{
   storage: McFileManagerConfig["storages"][number]
   categories: McFileManagerConfig["categories"]
-}> = (key, { storage, categories }): Subview => {
+  features: McFileManagerConfig["features"]
+}> = (key, { storage, categories, features }): Subview => {
   const initialListConfig: Subview = {
     [generateFileListWrapperKey(key)]: {
       component: "block-plain",
@@ -631,6 +669,7 @@ export const generateFileListWrapper: ComponentGenerator<{
         id: index.toString(),
         ...category,
         storagePath: storage.path,
+        features,
       }),
     }
     return previousValue

@@ -107,20 +107,18 @@ const selectFilesSendingFinished = createSelector(
 
 export const selectFilesSendingSucceeded = createSelector(
   selectFilesSendingFinished,
-  (filesTransferFinished) => {
-    return filesTransferFinished.filter(
-      (file) => !("error" in file)
-    ) as FileTransferSucceeded[]
-  }
+  (filesTransferFinished) =>
+    filesTransferFinished.filter(
+      (file): file is FileTransferSucceeded => file.error === undefined
+    )
 )
 
 export const selectFilesSendingFailed = createSelector(
   selectFilesSendingFinished,
-  (filesTransferFinished) => {
-    return filesTransferFinished.filter(
-      (file) => "error" in file
-    ) as FileTransferFailed[]
-  }
+  (filesTransferFinished) =>
+    filesTransferFinished.filter(
+      (file): file is FileTransferFailed => file.error !== undefined
+    )
 )
 
 export const selectFilesSendingProgress = createSelector(

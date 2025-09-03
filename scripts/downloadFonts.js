@@ -9,7 +9,7 @@ require("dotenv").config({
 /**
  * Function that downloads "GT Pressura" font which is on a private repository.
  * It needs an access to proper repo defined in FONTS_DIRECTORY_URL env
- * and GitHub Access Token provided in GITHUB_ACCESS_TOKEN env.
+ * and GitHub Access Token provided in GH_BUILD_TOKEN env.
  */
 ;(async () => {
   console.log("downloadFonts.js __dirname", __dirname)
@@ -41,7 +41,7 @@ require("dotenv").config({
       console.log("removing fileName", fileName)
       await fs.remove(path.join(mainFontsDirectory, fileName))
     }
-    
+
     // Then, download all required files inside the fonts/main directory
     console.log("Downloading fonts...")
     for (const [index, fileName] of requiredFiles.entries()) {
@@ -50,7 +50,7 @@ require("dotenv").config({
       const { data } = await axios.get(url, {
         responseType: "arraybuffer",
         headers: {
-          Authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
+          Authorization: `token ${process.env.GH_BUILD_TOKEN}`,
         },
       })
       console.log("After axios.get")

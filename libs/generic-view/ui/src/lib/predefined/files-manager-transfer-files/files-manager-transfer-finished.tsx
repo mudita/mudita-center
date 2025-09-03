@@ -7,8 +7,8 @@ import React, { useCallback, useLayoutEffect, useMemo } from "react"
 import { APIFC, compareValues, IconType } from "generic-view/utils"
 import {
   ButtonAction,
-  McFilesManagerUploadFinishedConfig,
-  McFilesManagerUploadFinishedData,
+  McFilesManagerTransferFinishedConfig,
+  McFilesManagerTransferFinishedData,
 } from "generic-view/models"
 import { Modal } from "../../interactive/modal/modal"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -30,74 +30,79 @@ import { uniq } from "lodash"
 import { ApiFileTransferError } from "device/models"
 import styled from "styled-components"
 import { formatBytes } from "../../typography/format-bytes"
+import { SendFilesAction } from "../../../../../store/src/lib/file-transfer/files-transfer.type"
 
 const messages = defineMessages({
   allModalTitle: {
-    id: "module.genericViews.filesManager.upload.failure.all.modalTitle",
+    id: "module.genericViews.filesManager.file.transfer.failure.all.modalTitle",
   },
   allUnknownError: {
-    id: "module.genericViews.filesManager.upload.failure.all.unknownError",
+    id: "module.genericViews.filesManager.file.transfer.failure.all.unknownError",
   },
   allDuplicatesError: {
-    id: "module.genericViews.filesManager.upload.failure.all.duplicatesError",
+    id: "module.genericViews.filesManager.file.transfer.failure.all.duplicatesError",
   },
   allNotEnoughMemoryError: {
-    id: "module.genericViews.filesManager.upload.failure.all.notEnoughMemoryError",
+    id: "module.genericViews.filesManager.file.transfer.failure.all.notEnoughMemoryError",
   },
   someModalTitle: {
-    id: "module.genericViews.filesManager.upload.failure.some.modalTitle",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.modalTitle",
   },
   someGeneralInfo: {
-    id: "module.genericViews.filesManager.upload.failure.some.generalInfo",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.generalInfo",
   },
   someDuplicatesError: {
-    id: "module.genericViews.filesManager.upload.failure.some.duplicatesError",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.duplicatesError",
   },
   someNotEnoughMemoryError: {
-    id: "module.genericViews.filesManager.upload.failure.some.notEnoughMemoryError",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.notEnoughMemoryError",
   },
-  errorLabelUnknown: {
-    id: "module.genericViews.filesManager.upload.failure.errorLabels.unknown",
+  errorLabelUploadUnknown: {
+    id: "module.genericViews.filesManager.file.transfer.failure.errorLabels.upload.unknown",
+  },
+  errorLabelExportUnknown: {
+    id: "module.genericViews.filesManager.file.transfer.failure.errorLabels.export.unknown",
   },
   errorLabelDuplicate: {
-    id: "module.genericViews.filesManager.upload.failure.errorLabels.duplicate",
+    id: "module.genericViews.filesManager.file.transfer.failure.errorLabels.duplicate",
   },
   errorLabelTooBig: {
-    id: "module.genericViews.filesManager.upload.failure.errorLabels.tooBig",
+    id: "module.genericViews.filesManager.file.transfer.failure.errorLabels.tooBig",
   },
   errorLabelCancelled: {
-    id: "module.genericViews.filesManager.upload.failure.errorLabels.cancelled",
+    id: "module.genericViews.filesManager.file.transfer.failure.errorLabels.cancelled",
   },
   multipleErrorsStart: {
-    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.start",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.multipleErrors.start",
   },
   multipleErrorsDuplicates: {
-    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.duplicates",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.multipleErrors.duplicates",
   },
   multipleErrorsTooBig: {
-    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.tooBig",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.multipleErrors.tooBig",
   },
   multipleErrorsEnd: {
-    id: "module.genericViews.filesManager.upload.failure.some.multipleErrors.end",
+    id: "module.genericViews.filesManager.file.transfer.failure.some.multipleErrors.end",
   },
 })
 
-export const FilesManagerUploadFinished: APIFC<
-  McFilesManagerUploadFinishedData,
-  McFilesManagerUploadFinishedConfig
+export const FilesManagerTransferFinished: APIFC<
+  McFilesManagerTransferFinishedData,
+  McFilesManagerTransferFinishedConfig
 > = ({ config, data }) => {
   const dispatch = useDispatch<Dispatch>()
-  const selectorsConfig = { groupId: config.uploadActionId }
-
+  const selectorsConfig = { groupId: config.transferActionId }
   const filesCount = useSelector((state: ReduxRootState) => {
     return selectFilesSendingCount(state, selectorsConfig)
   })
+
   const succeededFiles = useSelector((state: ReduxRootState) => {
     return selectFilesSendingSucceeded(state, selectorsConfig)
   })
   const failedFiles = useSelector((state: ReduxRootState) => {
     return selectFilesSendingFailed(state, selectorsConfig)
   })
+
   const allFilesFailed = failedFiles.length === filesCount
   const errorTypes = uniq(failedFiles.map((file) => file.error.message))
 
@@ -127,8 +132,10 @@ export const FilesManagerUploadFinished: APIFC<
       type: "custom",
       callback: () => {
         setTimeout(() => {
-          dispatch(sendFilesClear({ groupId: config.uploadActionId }))
-          dispatch(clearFileTransferErrors({ actionId: config.uploadActionId }))
+          dispatch(sendFilesClear({ groupId: config.transferActionId }))
+          dispatch(
+            clearFileTransferErrors({ actionId: config.transferActionId })
+          )
         }, modalTransitionDuration)
       },
     },
@@ -144,10 +151,14 @@ export const FilesManagerUploadFinished: APIFC<
         case ApiFileTransferError[ApiFileTransferError.Aborted]:
           return intl.formatMessage(messages.errorLabelCancelled)
         default:
-          return intl.formatMessage(messages.errorLabelUnknown)
+          return intl.formatMessage(
+            config.actionType === SendFilesAction.ActionExport
+              ? messages.errorLabelExportUnknown
+              : messages.errorLabelUploadUnknown
+          )
       }
     },
-    []
+    [config.actionType]
   )
 
   const title = useMemo(() => {
@@ -164,6 +175,7 @@ export const FilesManagerUploadFinished: APIFC<
     if (errorTypes.length > 1) {
       return
     }
+
     if (allFilesFailed || succeededFiles.length === 0) {
       switch (errorTypes[0]) {
         case ApiFileTransferError[ApiFileTransferError.FileAlreadyExists]:
@@ -305,15 +317,21 @@ export const FilesManagerUploadFinished: APIFC<
   }, [errorTypes])
 
   useLayoutEffect(() => {
-    if (succeededFiles.length !== 0 && failedFiles.length === 0) {
+    const processedCount = succeededFiles.length + failedFiles.length
+    const allProcessed = processedCount === filesCount
+    if (
+      allProcessed &&
+      succeededFiles.length !== 0 &&
+      failedFiles.length === 0
+    ) {
       dispatch(closeModal({ key: config.modalKey }))
     }
   }, [
     config.modalKey,
-    config.uploadActionId,
     dispatch,
     failedFiles.length,
     succeededFiles.length,
+    filesCount,
   ])
 
   return (

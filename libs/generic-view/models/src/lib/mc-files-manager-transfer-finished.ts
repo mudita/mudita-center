@@ -9,17 +9,20 @@ const dataValidator = z.object({
   freeSpace: z.number(),
 })
 
-export type McFilesManagerUploadFinishedData = z.infer<typeof dataValidator>
+export type McFilesManagerTransferFinishedData = z.infer<typeof dataValidator>
 
 const configValidator = z.object({
   modalKey: z.string(),
-  uploadActionId: z.string(),
+  transferActionId: z.string(),
+  actionType: z.string(),
 })
 
-export type McFilesManagerUploadFinishedConfig = z.infer<typeof configValidator>
+export type McFilesManagerTransferFinishedConfig = z.infer<
+  typeof configValidator
+>
 
-export const mcFilesManagerUploadFinished = {
-  key: "mc-files-manager-upload-finished",
+export const mcFilesManagerTransferFinished = {
+  key: "mc-files-manager-transfer-finished",
   dataValidator,
   configValidator,
 } as const

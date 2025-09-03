@@ -7,16 +7,16 @@ import path from "node:path"
 import fs from "node:fs"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
-  CancelUploadResultData,
-  GetUploadFileProgressResultData,
+  CancelTransferResultData,
+  GetTransferFileProgressResultData,
   MtpDevice,
   MTPError,
   MtpInterface,
   MtpStorage,
-  MtpUploadFileData,
+  MtpTransferFileData,
   TransactionStatus,
-  UploadFileResultData,
-  UploadTransactionData,
+  TransferFileResultData,
+  TransferTransactionData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
 import {
@@ -26,7 +26,7 @@ import {
 import { AppError } from "../../../../core/core/errors/app-error"
 import { handleMtpError, mapToMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
-import { mtpUploadChunkSize, rootObjectHandle } from "./mtp-packet-definitions"
+import { mtpUploadChunkSize } from "./mtp-packet-definitions"
 import { ResponseObjectInfo } from "./utils/object-info.interface"
 import { getObjectFormat, isObjectCatalog } from "./utils/object-format.helpers"
 import { ObjectFormatCode } from "./utils/object-format.interface"
@@ -34,7 +34,7 @@ import { ObjectFormatCode } from "./utils/object-format.interface"
 const PREFIX_LOG = `[app-mtp/node-mtp]`
 
 export class NodeMtp implements MtpInterface {
-  private uploadFileTransactionStatus: Record<string, TransactionStatus> = {}
+  private transferFileTransactionStatus: Record<string, TransactionStatus> = {}
   private abortController: AbortController | undefined
 
   constructor(private deviceManager: NodeMtpDeviceManager) {}
@@ -77,8 +77,8 @@ export class NodeMtp implements MtpInterface {
   }
 
   async uploadFile(
-    data: MtpUploadFileData
-  ): Promise<ResultObject<UploadFileResultData>> {
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>> {
     const result = await this.processUploadFileInfo(data)
 
     if (!result.ok) {
@@ -90,31 +90,42 @@ export class NodeMtp implements MtpInterface {
     return Result.success({ transactionId })
   }
 
-  async getUploadFileProgress({
+  async exportFile(
+    data: MtpTransferFileData
+  ): Promise<ResultObject<TransferFileResultData>> {
+    const transactionId = generateId()
+
+    void this.processExportFile(data, transactionId)
+
+    return Result.success({ transactionId })
+  }
+
+  async getTransferredFileProgress({
     transactionId,
-  }: UploadTransactionData): Promise<
-    ResultObject<GetUploadFileProgressResultData>
+  }: TransferTransactionData): Promise<
+    ResultObject<GetTransferFileProgressResultData>
   > {
-    if (this.uploadFileTransactionStatus[transactionId] === undefined) {
+    if (this.transferFileTransactionStatus[transactionId] === undefined) {
       return Result.failed(new AppError(MTPError.MTP_TRANSACTION_NOT_FOUND))
     }
 
-    if (this.uploadFileTransactionStatus[transactionId].error) {
+    if (this.transferFileTransactionStatus[transactionId].error) {
       return Result.failed(
-        this.uploadFileTransactionStatus[transactionId].error as AppError
+        this.transferFileTransactionStatus[transactionId].error as AppError
       )
     }
 
     return Result.success({
-      progress: this.uploadFileTransactionStatus[transactionId].progress,
+      progress: this.transferFileTransactionStatus[transactionId].progress,
     })
   }
 
-  async cancelUpload(
-    data: UploadTransactionData
-  ): Promise<ResultObject<CancelUploadResultData>> {
+  async cancelFileTransfer(
+    data: TransferTransactionData
+  ): Promise<ResultObject<CancelTransferResultData>> {
     const transactionStatus =
-      this.uploadFileTransactionStatus[data.transactionId]
+      this.transferFileTransactionStatus[data.transactionId]
+    this.abortController?.abort()
 
     if (transactionStatus === undefined) {
       return Result.failed({
@@ -125,7 +136,6 @@ export class NodeMtp implements MtpInterface {
         type: MTPError.MTP_CANCEL_FAILED_ALREADY_TRANSFERRED,
       } as AppError)
     } else {
-      this.abortController?.abort()
       console.log(
         `${PREFIX_LOG} Canceling upload for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
       )
@@ -136,27 +146,37 @@ export class NodeMtp implements MtpInterface {
   private async createDirectories(
     deviceId: string,
     storageId: number,
-    filePath: string,
-    parentObjectHandle: number
+    filePath: string
   ): Promise<number> {
-    const pathSegments = filePath.split("/").filter((segment) => segment !== "")
-    if (pathSegments.length === 0) {
-      return parentObjectHandle
-    } else {
-      const truncatedPath = pathSegments.slice(1).join("/")
-      const objectHandle = await this.createFolder(
+    const rootObjectHandle = 0xffffffff
+    const pathSegments = filePath.split("/").filter(Boolean)
+
+    let currentParent = rootObjectHandle
+
+    for (const segment of pathSegments) {
+      const children = await this.getChildObjectInfoList(
+        currentParent,
         deviceId,
-        storageId,
-        pathSegments[0],
-        parentObjectHandle
+        storageId
       )
-      return this.createDirectories(
-        deviceId,
-        storageId,
-        truncatedPath,
-        objectHandle
+
+      const existingFolder = children.find(
+        (child) => child.filename === segment
       )
+
+      if (existingFolder && isObjectCatalog(existingFolder)) {
+        currentParent = existingFolder.objectHandle
+      } else {
+        const newFolderHandle = await this.createFolder(
+          deviceId,
+          storageId,
+          segment,
+          currentParent
+        )
+        currentParent = newFolderHandle
+      }
     }
+    return currentParent
   }
 
   private async createFolder(
@@ -168,7 +188,9 @@ export class NodeMtp implements MtpInterface {
     console.log(
       `${PREFIX_LOG} createFolder... deviceId: ${deviceId}, storageId: ${storageId}, name: ${name}, parentObjectHandle: ${parentObjectHandle}`
     )
+
     const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+
     return device.uploadFileInfo({
       size: 0,
       name,
@@ -183,7 +205,7 @@ export class NodeMtp implements MtpInterface {
     destinationPath,
     deviceId,
     storageId,
-  }: MtpUploadFileData): Promise<ResultObject<number>> {
+  }: MtpTransferFileData): Promise<ResultObject<number>> {
     try {
       if (!fs.existsSync(sourcePath)) {
         return Result.failed(
@@ -194,15 +216,23 @@ export class NodeMtp implements MtpInterface {
         )
       }
 
+      const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const storageIdNumber = Number(storageId)
 
       const size = await this.getFileSize(sourcePath)
       const name = path.basename(sourcePath)
-      const parentObjectHandle = await this.getObjectHandleFromLastPathSegment(
-        deviceId,
+      let parentObjectHandle = await device.findObjectHandleFromPath(
         storageIdNumber,
         destinationPath
       )
+
+      if (parentObjectHandle === undefined) {
+        parentObjectHandle = await this.createDirectories(
+          deviceId,
+          storageIdNumber,
+          destinationPath
+        )
+      }
 
       const objectFormat = getObjectFormat(name)
 
@@ -222,13 +252,13 @@ export class NodeMtp implements MtpInterface {
   }
 
   private async processUploadFile(
-    { sourcePath, deviceId }: MtpUploadFileData,
+    { sourcePath, deviceId }: MtpTransferFileData,
     transactionId: string
   ): Promise<void> {
     try {
       this.abortController = new AbortController()
       const startTime = Date.now()
-      this.uploadFileTransactionStatus[transactionId] = {
+      this.transferFileTransactionStatus[transactionId] = {
         progress: 0,
       }
       const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
@@ -242,17 +272,18 @@ export class NodeMtp implements MtpInterface {
       for await (const chunk of fileStream) {
         if (this.abortController.signal.aborted) {
           await device.cancelTransaction()
-          this.uploadFileTransactionStatus[transactionId].error = new AppError(
-            MTPError.MTP_PROCESS_CANCELLED,
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-            `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${MTPError.MTP_PROCESS_CANCELLED}`
-          )
+          this.transferFileTransactionStatus[transactionId].error =
+            new AppError(
+              MTPError.MTP_PROCESS_CANCELLED,
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              `Error uploading file in progress: ${this.transferFileTransactionStatus[transactionId].progress}% - ${MTPError.MTP_PROCESS_CANCELLED}`
+            )
           return
         }
         await device.uploadFileData(chunk)
         uploadedBytes += chunk.length
         const progress = (uploadedBytes / size) * 100
-        this.uploadFileTransactionStatus[transactionId].progress = progress
+        this.transferFileTransactionStatus[transactionId].progress = progress
         console.log(`${PREFIX_LOG} progress: ${progress}%`)
       }
 
@@ -271,13 +302,89 @@ export class NodeMtp implements MtpInterface {
       console.log(`${PREFIX_LOG} process upload file error: ${error}`)
 
       const mtpError = mapToMtpError(error)
-      this.uploadFileTransactionStatus[transactionId].error =
+      this.transferFileTransactionStatus[transactionId].error =
         mtpError.type === MTPError.MTP_INITIALIZE_ACCESS_ERROR
           ? mtpError
           : new AppError(
               MTPError.MTP_GENERAL_ERROR,
               // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-              `Error uploading file in progress: ${this.uploadFileTransactionStatus[transactionId].progress}% - ${error}`
+              `Error uploading file at progress: ${this.transferFileTransactionStatus[transactionId].progress}% - ${error}`
+            )
+    }
+  }
+
+  private async processExportFile(
+    { sourcePath, deviceId, storageId, destinationPath }: MtpTransferFileData,
+    transactionId: string
+  ): Promise<void> {
+    try {
+      this.abortController = new AbortController()
+      const startTime = Date.now()
+      this.transferFileTransactionStatus[transactionId] = { progress: 0 }
+
+      const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
+      const { objectHandle, fileName, fileSize } =
+        await device.initiateExportFile(sourcePath, parseInt(storageId))
+
+      const outputPath = path.join(destinationPath, fileName)
+      const writeStream = fs.createWriteStream(outputPath)
+
+      let offset = 0
+      let downloadedBytes = 0
+
+      while (offset < fileSize) {
+        if (this.abortController.signal.aborted) {
+          writeStream.close()
+          fs.rmSync(outputPath)
+          this.transferFileTransactionStatus[transactionId].error =
+            new AppError(
+              MTPError.MTP_PROCESS_CANCELLED,
+              `Export aborted at ${this.transferFileTransactionStatus[
+                transactionId
+              ].progress.toFixed(2)}%`
+            )
+          return
+        }
+
+        const chunkSize = Math.min(mtpUploadChunkSize, fileSize - offset)
+        const chunk = await device.exportFileData(
+          objectHandle,
+          offset,
+          chunkSize
+        )
+
+        writeStream.write(chunk)
+        downloadedBytes += chunk.length
+        offset += chunk.length
+
+        const progress = (downloadedBytes / fileSize) * 100
+        this.transferFileTransactionStatus[transactionId].progress = progress
+        console.log(`${PREFIX_LOG} export progress: ${progress.toFixed(2)}%`)
+      }
+
+      writeStream.close()
+      const duration = (Date.now() - startTime) / 1000
+      const speed = fileSize / 1024 / 1024 / duration
+
+      console.log(
+        `${PREFIX_LOG} File export completed in ${duration.toFixed(2)} seconds.`
+      )
+      console.log(`${PREFIX_LOG} Export speed: ${speed.toFixed(2)} MB/s`)
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      console.log(`${PREFIX_LOG} export file error: ${error}`)
+      const mtpError = mapToMtpError(error)
+      this.transferFileTransactionStatus[transactionId].error =
+        mtpError.type === MTPError.MTP_INITIALIZE_ACCESS_ERROR
+          ? mtpError
+          : new AppError(
+              MTPError.MTP_GENERAL_ERROR,
+              `Error during exporting file at progress ${
+                this.transferFileTransactionStatus[
+                  transactionId
+                ]?.progress?.toFixed(2) ?? 0
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              }%: ${error}`
             )
     }
   }
@@ -285,52 +392,6 @@ export class NodeMtp implements MtpInterface {
   private async getFileSize(filePath: string): Promise<number> {
     const stats = await fs.promises.stat(filePath)
     return stats.size
-  }
-
-  private async getObjectHandleFromLastPathSegment(
-    deviceId: string,
-    storageId: number,
-    filePath: string,
-    objectHandle: number = rootObjectHandle
-  ): Promise<number> {
-    console.log(
-      `${PREFIX_LOG} getObjectHandleFromLastPathSegment... filePath: ${filePath}, objectHandle: ${objectHandle}`
-    )
-
-    const pathSegments = filePath.split("/").filter((segment) => segment !== "")
-
-    if (pathSegments.length === 0) {
-      return objectHandle
-    } else {
-      const truncatedPath = pathSegments.slice(1).join("/")
-
-      const childObjectInfoList = await this.getChildObjectInfoList(
-        objectHandle,
-        deviceId,
-        storageId
-      )
-
-      const childObjectInfo = childObjectInfoList.find(
-        (objectInfo) =>
-          objectInfo.filename === pathSegments[0] && isObjectCatalog(objectInfo)
-      )
-
-      if (childObjectInfo) {
-        return this.getObjectHandleFromLastPathSegment(
-          deviceId,
-          storageId,
-          truncatedPath,
-          childObjectInfo.objectHandle
-        )
-      } else {
-        return this.createDirectories(
-          deviceId,
-          storageId,
-          filePath,
-          objectHandle
-        )
-      }
-    }
   }
 
   private async getChildObjectInfoList(
@@ -379,7 +440,7 @@ export class NodeMtp implements MtpInterface {
     } catch (error) {
       const mtpError = mapToMtpError(error)
 
-      if(mtpError.type !== MTPError.MTP_GENERAL_ERROR) {
+      if (mtpError.type !== MTPError.MTP_GENERAL_ERROR) {
         return Result.failed(mtpError)
       }
 

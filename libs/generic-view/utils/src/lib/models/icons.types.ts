@@ -4,6 +4,8 @@
  */
 
 export enum IconType {
+  ArrowLeft = "arrow-left",
+  ArrowRight = "arrow-right",
   Battery0 = "battery-0",
   Battery1 = "battery-1",
   Battery2 = "battery-2",
@@ -60,4 +62,5 @@ export enum IconType {
   Namaste = "namaste",
   Delete = "delete",
   DropdownArrow = "dropdown-arrow",
+  Export = "export",
 }

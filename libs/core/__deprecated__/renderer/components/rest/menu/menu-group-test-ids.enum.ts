@@ -19,4 +19,5 @@ export enum MenuGroupTestIds {
   DataMigration = "data-migration-link",
   DeviceSelectionButton = "menu-group_device-selection-button",
   RecoveryMode = "recovery-mode-link",
+  Quotations = "quotations-link",
 }
