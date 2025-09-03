@@ -6,6 +6,9 @@
 import { createRequire } from "node:module"
 import { dirname, join } from "node:path"
 import type { StorybookConfig } from "@storybook/react-vite"
+import { cloneDeepWith } from "lodash"
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { api } from "../../app/src/preload/api"
 
 const require = createRequire(import.meta.url)
 
@@ -35,6 +38,22 @@ const config: StorybookConfig = {
   ],
   docs: {
     defaultName: "Docs",
+  },
+  previewHead: (head) => {
+    const apiMocks = cloneDeepWith(api, (value) => {
+      if (typeof value === "function") {
+        return "noop"
+      }
+    })
+
+    return `${head}
+<script>
+  const noop = () => {
+    // do nothing
+  };
+
+  Object.assign(window, {api: ${JSON.stringify(apiMocks, null, 2).replaceAll('"', "")}});
+</script>`
   },
   async viteFinal(config) {
     // Merge custom configuration into the default config
