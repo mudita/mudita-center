@@ -6,6 +6,7 @@
 import { ProgressBarTestIds } from "app-theme/models"
 import { ComponentProps, FunctionComponent, useId } from "react"
 import styled from "styled-components"
+import { clamp } from "lodash"
 
 interface Props extends ComponentProps<typeof Wrapper> {
   value: number
@@ -22,6 +23,7 @@ export const ProgressBar: FunctionComponent<Props> = ({
   ...rest
 }) => {
   const id = useId()
+  const clampedValue = clamp(value, 0, maxValue)
   return (
     <Wrapper {...rest}>
       {message !== undefined && (
@@ -32,18 +34,18 @@ export const ProgressBar: FunctionComponent<Props> = ({
       <Progress
         id={"progress-" + id}
         max={maxValue}
-        value={value}
+        value={clampedValue}
         data-testid={ProgressBarTestIds.Progress}
-        aria-valuenow={value}
+        aria-valuenow={clampedValue}
         aria-valuemin={0}
         aria-valuemax={maxValue}
-        aria-valuetext={`${value} ${valueUnit}`}
+        aria-valuetext={`${clampedValue} ${valueUnit}`}
       />
       <Label
         htmlFor={"progress-" + id}
         data-testid={ProgressBarTestIds.Details}
       >
-        {value}
+        {clampedValue}
         {valueUnit || "%"}
       </Label>
     </Wrapper>
