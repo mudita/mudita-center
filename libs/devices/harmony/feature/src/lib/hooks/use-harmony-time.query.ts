@@ -5,8 +5,9 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { harmonyQueryKeys } from "./harmony-query-keys"
-import { Harmony } from "devices/harmony/models"
+import { Harmony, HarmonyErrorType } from "devices/harmony/models"
 import { getHarmonyTime } from "../api/get-harmony-time"
+import { DeviceErrorType } from "devices/common/models"
 
 const queryFn = async (device?: Harmony) => {
   if (!device) {
@@ -19,8 +20,22 @@ const queryFn = async (device?: Harmony) => {
   throw response.status
 }
 
+type QueryFnResult = Awaited<ReturnType<typeof queryFn>>
+
+type UseHarmonyTimeQueryResult =
+  | {
+      timestamp: number
+      formattedTime: string
+      formattedDate: string
+    }
+  | undefined
+
 export const useHarmonyTimeQuery = (device?: Harmony) => {
-  return useQuery({
+  return useQuery<
+    QueryFnResult,
+    DeviceErrorType | HarmonyErrorType,
+    UseHarmonyTimeQueryResult
+  >({
     queryKey: useHarmonyTimeQuery.queryKey(device?.path),
     enabled: !!device,
     queryFn: () => queryFn(device),
@@ -46,6 +61,9 @@ export const useHarmonyTimeQuery = (device?: Harmony) => {
       }
     },
     refetchInterval: (query) => {
+      if (query.state.error === HarmonyErrorType.NotFound) {
+        return false
+      }
       const deviceTime = query.state.data
       if (deviceTime) {
         const deviceSeconds = new Date(deviceTime).getSeconds()
