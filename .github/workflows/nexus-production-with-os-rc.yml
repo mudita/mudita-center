@@ -2,12 +2,11 @@ name: Build & deploy to production-with-os-rc
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - productionwithosrc
 
 jobs:
   build:
-    if: github.event.base_ref == 'refs/heads/main'
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
