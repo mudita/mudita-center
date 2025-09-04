@@ -23,10 +23,6 @@ enum AppProgressBarState {
   Complete = 1,
 }
 
-// Required by electron-updater: it expects GH_TOKEN to be set in process.env
-// See: https://www.electron.build/auto-update#private-github-update-repo
-process.env.GH_TOKEN = import.meta.env.VITE_GH_RUNTIME_TOKEN
-
 export class AppUpdaterService {
   private cancellationToken = new CancellationToken()
   private checkAbortController = new AbortController()
@@ -53,7 +49,7 @@ export class AppUpdaterService {
         centerVersion: string
       }>({
         method: "GET",
-        url: `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`,
+        url: `${process.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`,
         signal: this.checkAbortController.signal,
       })
       if (!response.ok) {
