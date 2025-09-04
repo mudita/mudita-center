@@ -19,4 +19,9 @@ export const initAppHttp = (
       return appHttpService.request(config)
     }
   )
+
+  ipcMain.removeHandler(AppHttpIpcEvents.Abort)
+  ipcMain.handle(AppHttpIpcEvents.Abort, (_, uid: string) => {
+    return appHttpService.abort(uid)
+  })
 }

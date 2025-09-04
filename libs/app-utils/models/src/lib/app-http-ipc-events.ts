@@ -5,4 +5,5 @@
 
 export enum AppHttpIpcEvents {
   Request = "appHttp:request",
+  Abort = "appHttp:abort",
 }

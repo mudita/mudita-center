@@ -14,7 +14,9 @@ export const appHttp = {
   request: <Data>(
     config: AppHttpRequestConfig
   ): Promise<AppHttpResult<Data>> => {
-    console.log(config)
     return electronAPI.ipcRenderer.invoke(AppHttpIpcEvents.Request, config)
+  },
+  abort: (rid: string) => {
+    return electronAPI.ipcRenderer.invoke(AppHttpIpcEvents.Abort, rid)
   },
 }
