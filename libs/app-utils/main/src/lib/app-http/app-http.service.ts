@@ -25,6 +25,7 @@ export class AppHttpService {
 
   async request<Data = unknown>({
     rid,
+    savePath,
     ...config
   }: AppHttpRequestConfig): Promise<AppHttpResult<Data>> {
     try {
@@ -35,6 +36,21 @@ export class AppHttpService {
       }
       const axiosConfig = await this.mapToAxiosConfig(config)
       const { data, status } = await axios.request<Data>(axiosConfig)
+
+      if (savePath) {
+        const writeResult = await AppFileSystemService.writeFile(
+          savePath,
+          data as Buffer | Record<string, unknown>
+        )
+        if (!writeResult.ok) {
+          return AppResultFactory.failed(writeResult.error)
+        }
+        const responseData = AppFileSystemService.resolveScopedPath({
+          scopeRelativePath: savePath,
+        }) as Data
+        return AppResultFactory.success(responseData, { status })
+      }
+
       return AppResultFactory.success(data, { status })
     } catch (error) {
       return this.mapToAppHttpFailedResult<Data>(error)

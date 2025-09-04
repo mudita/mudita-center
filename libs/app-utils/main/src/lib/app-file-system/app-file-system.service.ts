@@ -66,12 +66,39 @@ export class AppFileSystemService {
     }
   }
 
-  public static resolveScopedPath({
+  static async writeFile(
+    filePath: string | string[],
+    data: Buffer | Record<string, unknown>,
+    encoding: BufferEncoding | string = "utf-8"
+  ): Promise<AppResult> {
+    try {
+      const fullPath = this.resolveScopedPath({
+        scopeRelativePath: filePath,
+        scope: "userData",
+      })
+      await fs.ensureDir(path.dirname(fullPath))
+      if (Buffer.isBuffer(data)) {
+        await fs.writeFile(fullPath, data, { encoding })
+      } else {
+        await fs.writeJson(fullPath, data, { spaces: 2 })
+      }
+      return AppResultFactory.success()
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static resolveScopedPath({
     scopeRelativePath,
     scope = "userData",
   }: AppFileSystemScopeOptions): string {
     const scopeDir = app.getPath(scope)
-    const filePath = path.resolve(scopeDir, scopeRelativePath)
+    const filePath = path.resolve(
+      scopeDir,
+      typeof scopeRelativePath === "string"
+        ? scopeRelativePath
+        : path.join(...scopeRelativePath)
+    )
     if (!filePath.startsWith(scopeDir)) {
       throw new Error(`File Path escapes the scope: ${scopeRelativePath}`)
     }

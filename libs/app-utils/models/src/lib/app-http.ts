@@ -15,6 +15,7 @@ export interface AppHttpRequestConfig extends AxiosRequestConfig {
   params?: Record<string, unknown>
   headers?: Record<string, string>
   files?: Record<string, AppFileSystemScopeOptions>
+  savePath?: string | string[]
   rid?: string
 }
 

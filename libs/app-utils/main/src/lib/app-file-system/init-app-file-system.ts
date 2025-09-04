@@ -30,4 +30,14 @@ export const initAppFileSystem = (ipcMain: IpcMain) => {
     (_, options: AppFileSystemArchiveOptions) =>
       AppFileSystemService.archive(options)
   )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.WriteFile)
+  ipcMain.handle(
+    AppFileSystemIpcEvents.WriteFile,
+    (
+      _,
+      filePath: string,
+      data: Buffer | Record<string, unknown>,
+      encoding?: BufferEncoding | string
+    ) => AppFileSystemService.writeFile(filePath, data, encoding)
+  )
 }

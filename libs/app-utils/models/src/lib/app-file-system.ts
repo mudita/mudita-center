@@ -6,7 +6,7 @@
 export type AppFileSystemScope = "userData" | "temp"
 
 export interface AppFileSystemScopeOptions {
-  scopeRelativePath: string
+  scopeRelativePath: string | string[]
   scope?: AppFileSystemScope
 }
 

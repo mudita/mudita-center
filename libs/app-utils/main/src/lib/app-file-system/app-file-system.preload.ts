@@ -13,10 +13,25 @@ import {
 } from "app-utils/models"
 
 export const appFileSystem = {
-  rm: (options: AppFileSystemRmOptions): Promise<AppResult> =>
-    ipcRenderer.invoke(AppFileSystemIpcEvents.Rm, options),
-  mkdir: (options: AppFileSystemMkdirOptions): Promise<AppResult> =>
-    ipcRenderer.invoke(AppFileSystemIpcEvents.Mkdir, options),
-  archive: (options: AppFileSystemArchiveOptions): Promise<AppResult> =>
-    ipcRenderer.invoke(AppFileSystemIpcEvents.Archive, options),
+  rm: (options: AppFileSystemRmOptions): Promise<AppResult> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.Rm, options)
+  },
+  mkdir: (options: AppFileSystemMkdirOptions): Promise<AppResult> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.Mkdir, options)
+  },
+  archive: (options: AppFileSystemArchiveOptions): Promise<AppResult> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.Archive, options)
+  },
+  writeFile: (
+    filePath: string,
+    data: Buffer | Record<string, unknown>,
+    encoding?: BufferEncoding | string
+  ) => {
+    return ipcRenderer.invoke(
+      AppFileSystemIpcEvents.WriteFile,
+      filePath,
+      data,
+      encoding
+    )
+  },
 }
