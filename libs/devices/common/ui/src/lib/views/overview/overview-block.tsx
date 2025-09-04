@@ -38,7 +38,6 @@ const Wrapper = styled.div`
   align-items: flex-start;
   gap: 1.6rem;
   padding: 2.4rem;
-  min-height: 17.2rem;
   background-color: ${({ theme }) => theme.app.color.white};
   border-radius: ${({ theme }) => theme.app.radius.sm};
   box-shadow: 0.2rem 0 3rem rgba(0, 0, 0, 0.08);
