@@ -19,7 +19,7 @@ import { ModalCloseButton } from "./modal-close-button"
 import { ModalDenseContent } from "./modal-dense-content"
 
 interface Props extends PropsWithChildren, Omit<ReactModal.Props, "isOpen"> {
-  opened: boolean
+  opened?: boolean
   overlayHidden?: boolean
   layer?: ModalLayer
   size?: ModalSize
@@ -44,7 +44,7 @@ interface Subcomponents {
 
 export const Modal: FunctionComponent<Props> & Subcomponents = ({
   children,
-  opened,
+  opened = false,
   overlayHidden,
   layer = ModalLayer.Default,
   size = ModalSize.Small,
