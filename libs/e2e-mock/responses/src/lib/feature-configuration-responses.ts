@@ -124,7 +124,18 @@ export const featureConfigurationContacts = {
       entityTypes: ["contacts"],
     },
     // @ts-ignore
-    screenTitle: "Contacts",
+    screenTitle: "All Contacts",
+  },
+}
+
+export const featureConfigurationContactsDuplicates = {
+  main: {
+    component: "mc-contacts-view",
+    config: {
+      entityTypes: ["contacts"],
+    },
+    // @ts-ignore
+    screenTitle: "Manage Duplicates",
   },
 }
 

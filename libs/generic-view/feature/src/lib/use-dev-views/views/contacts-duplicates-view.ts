@@ -6,13 +6,13 @@
 import { View } from "generic-view/utils"
 
 // @ts-ignore
-export const contactsView: View = {
+export const contactsDuplicatesView: View = {
   main: {
-    component: "mc-contacts-view",
+    component: "mc-contacts-duplicates-view",
     config: {
       entityTypes: ["contacts"],
     },
     // @ts-ignore
-    screenTitle: "All Contacts",
+    screenTitle: "Manage duplicates",
   },
 }

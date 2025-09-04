@@ -9,12 +9,14 @@ import { z } from "zod"
 const SubmenuItemConfigValidator = z.object({
   feature: z.string(),
   displayName: z.string().optional(),
+  headerName: z.string().optional(),
 })
 
 const MenuItemConfigValidator = z.object({
   feature: z.string(),
   displayName: z.string().optional(),
   icon: z.nativeEnum(IconType).optional(),
+  headerName: z.string().optional(),
   submenu: z.array(SubmenuItemConfigValidator).optional(),
 })
 
