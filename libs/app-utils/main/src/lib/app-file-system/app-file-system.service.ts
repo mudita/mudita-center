@@ -131,7 +131,12 @@ export class AppFileSystemService {
     scope = "userData",
   }: AppFileSystemScopeOptions): string {
     const scopeDir = app.getPath(scope)
-    const filePath = path.resolve(scopeDir, scopeRelativePath)
+    const filePath = path.resolve(
+      scopeDir,
+      typeof scopeRelativePath === "string"
+        ? scopeRelativePath
+        : path.join(...scopeRelativePath)
+    )
     if (!filePath.startsWith(scopeDir)) {
       throw new Error(`File Path escapes the scope: ${scopeRelativePath}`)
     }
