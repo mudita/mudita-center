@@ -24,7 +24,7 @@ export const appHttp = {
     rid: string,
     callback: (progress: Omit<AxiosProgressEvent, "event">) => void
   ) => {
-    electronAPI.ipcRenderer.on(
+    return electronAPI.ipcRenderer.on(
       AppHttpIpcEvents.OnDownloadProgress,
       (_, args: Omit<AxiosProgressEvent, "event"> & { rid: string }) => {
         if (args.rid === rid) {

@@ -14,12 +14,20 @@ export const AppHttp = {
     abort: VoidFunction
   } => {
     const rid = crypto.randomUUID()
+    let unregister: VoidFunction | undefined
 
     if (onDownloadProgress) {
-      window.api.appHttp.onDownloadProgress(rid, onDownloadProgress)
+      unregister = window.api.appHttp.onDownloadProgress(
+        rid,
+        onDownloadProgress
+      )
     }
 
     const promise = window.api.appHttp.request<Data>({ ...config, rid })
+
+    promise.finally(() => {
+      unregister?.()
+    })
 
     const abort = () => {
       window.api.appHttp.abort(rid)
