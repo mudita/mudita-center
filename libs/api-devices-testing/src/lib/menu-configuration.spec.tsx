@@ -80,6 +80,20 @@ describe("API configuration", () => {
     expect(mcContactsMenuItem?.feature).toBe("mc-contacts")
     expect(mcContactsMenuItem?.icon).toBe("contacts-book")
 
+    const mcContactsDuplicatesMenuItem = mcContactsMenuItem?.submenu?.find(
+      (item) => item.feature === "mc-contacts-duplicates"
+    )
+    if (mcContactsDuplicatesMenuItem !== undefined) {
+      expect(mcContactsMenuItem?.inheritHeaderName).toBeTruthy()
+      expect(mcContactsDuplicatesMenuItem).toBeDefined()
+      expect(mcContactsDuplicatesMenuItem?.displayName).toBe(
+        "Manage Duplicates"
+      )
+      expect(mcContactsDuplicatesMenuItem?.feature).toBe(
+        "mc-contacts-duplicates"
+      )
+    }
+
     expect(mcDataMigrationMenuItem?.displayName).toBe("Data Migration")
     expect(mcDataMigrationMenuItem?.feature).toBe("mc-data-migration")
     expect(mcDataMigrationMenuItem?.icon).toBe("data-migration")
