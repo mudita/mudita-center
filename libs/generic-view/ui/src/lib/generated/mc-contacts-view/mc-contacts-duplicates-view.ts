@@ -5,7 +5,6 @@
 
 import { ComponentGenerator, IconType } from "generic-view/utils"
 import { McContactsDuplicatesView } from "generic-view/models"
-import { app } from "electron"
 
 export const generateMcContactsDuplicatesView: ComponentGenerator<
   McContactsDuplicatesView
@@ -34,7 +33,7 @@ export const generateMcContactsDuplicatesView: ComponentGenerator<
         fields: [
           {
             modifier: "length",
-            providerField: "totalEntities",
+            providerField: "totalDuplicates",
             componentField: "data.render",
             condition: "eq",
             value: 0,

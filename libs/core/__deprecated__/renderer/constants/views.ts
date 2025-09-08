@@ -52,7 +52,7 @@ export type Views = {
         }
       | string
     url: string
-    headerLabel?: string
+    inheritHeaderName?: boolean
     renderHeaderButton?: boolean
   }
 }

@@ -25,7 +25,10 @@ import Icon, {
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { selectActiveDeviceMenuElements } from "generic-view/store"
-import { MenuElementItem } from "Core/__deprecated__/renderer/constants/menu-elements"
+import {
+  MenuElement,
+  MenuElementItem,
+} from "Core/__deprecated__/renderer/constants/menu-elements"
 
 const messages = defineMessages({
   backButtonLabel: { id: "module.generic.viewBackButton" },
@@ -126,18 +129,31 @@ const Header: FunctionComponent<HeaderProps> = ({
   )
 }
 
-export default Header
+const searchMenuLabel = (
+  items: MenuElementItem[],
+  pathname: string
+): string | undefined => {
+  for (const item of items) {
+    if (item?.items && item.button.inheritHeaderName) {
+      const found = searchMenuLabel(item.items, pathname)
+      if (found) return found
+    }
+    if (item?.button?.url === pathname) {
+      const label = item.button.label
+      return typeof label === "string" ? label : label?.id
+    }
+  }
+  return undefined
+}
 
-function findMenuLabel(
+const findMenuLabel = (
   pathname: string,
-  genericMenu: any[]
-): string | undefined {
-  // Szukaj w views
+  genericMenu: MenuElement[]
+): string | undefined => {
   const viewKey = Object.keys(views).find(
     (key) => views[key as keyof typeof views].url === pathname
   )
 
-  console.log(pathname, viewKey, views[viewKey as keyof typeof views])
   if (viewKey) {
     const label = views[viewKey as keyof typeof views].label
     if (typeof label === "string") return label
@@ -145,24 +161,10 @@ function findMenuLabel(
     return undefined
   }
 
-  // Szukaj rekurencyjnie w genericMenu
-  function search(items: MenuElementItem[]): string | undefined {
-    for (const item of items) {
-      if (item?.items) {
-        const found = search(item.items)
-        if (found) return found
-      }
-      if (item?.button?.url === pathname) {
-        console.log(item.button)
-        const label = item.button.headerLabel
-          ? item.button.headerLabel
-          : item.button.label
-        return typeof label === "string" ? label : label?.id
-      }
-    }
-    return undefined
-  }
-  return genericMenu?.flatMap((element) => element.items)
-    ? search(genericMenu.flatMap((element) => element.items))
-    : undefined
+  const allItems = genericMenu.flatMap((element) =>
+    Array.isArray(element.items) ? element.items : []
+  )
+  return allItems.length ? searchMenuLabel(allItems, pathname) : undefined
 }
+
+export default Header

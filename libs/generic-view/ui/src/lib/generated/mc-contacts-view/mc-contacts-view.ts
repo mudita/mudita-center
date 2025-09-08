@@ -893,15 +893,13 @@ export const generateMcContactsView: ComponentGenerator<McContactsView> = (
       component: "app-portal",
       config: {
         portal: "app-header",
-        replace: true,
       },
       childrenKeys: ["appHeaderCounterText"],
     },
     appHeaderCounterText: {
       component: "format-message",
       config: {
-        messageTemplate:
-          "All Contacts {contactsCount, plural, =0 {} other { (#)}}",
+        messageTemplate: "{contactsCount, plural, =0 {} other { (#)}}",
       },
       dataProvider: {
         source: "entities-metadata",
