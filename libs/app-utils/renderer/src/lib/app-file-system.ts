@@ -7,4 +7,7 @@ export const AppFileSystem = {
   rm: window.api.appFileSystem.rm,
   mkdir: window.api.appFileSystem.mkdir,
   archive: window.api.appFileSystem.archive,
+  writeFile: window.api.appFileSystem.writeFile,
+  pathExists: window.api.appFileSystem.pathExists,
+  fileStats: window.api.appFileSystem.fileStats,
 }

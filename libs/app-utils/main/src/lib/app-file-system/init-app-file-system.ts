@@ -8,7 +8,9 @@ import {
   AppFileSystemArchiveOptions,
   AppFileSystemIpcEvents,
   AppFileSystemMkdirOptions,
+  AppFileSystemPathExistsOptions,
   AppFileSystemRmOptions,
+  AppFileSystemWriteFileOptions,
 } from "app-utils/models"
 import { AppFileSystemService } from "./app-file-system.service"
 
@@ -29,5 +31,21 @@ export const initAppFileSystem = (ipcMain: IpcMain) => {
     AppFileSystemIpcEvents.Archive,
     (_, options: AppFileSystemArchiveOptions) =>
       AppFileSystemService.archive(options)
+  )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.WriteFile)
+  ipcMain.handle(
+    AppFileSystemIpcEvents.WriteFile,
+    (_, options: AppFileSystemWriteFileOptions) =>
+      AppFileSystemService.writeFile(options)
+  )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.PathExists)
+  ipcMain.handle(
+    AppFileSystemIpcEvents.PathExists,
+    (_, options: AppFileSystemPathExistsOptions) =>
+      AppFileSystemService.pathExists(options)
+  )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.FileStats)
+  ipcMain.handle(AppFileSystemIpcEvents.FileStats, (_, options) =>
+    AppFileSystemService.fileStats(options)
   )
 }

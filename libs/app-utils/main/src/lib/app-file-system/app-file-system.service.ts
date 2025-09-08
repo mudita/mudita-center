@@ -9,9 +9,12 @@ import path from "path"
 import fs from "fs-extra"
 import {
   AppFileSystemArchiveOptions,
+  AppFileSystemFileStatsOptions,
   AppFileSystemMkdirOptions,
+  AppFileSystemPathExistsOptions,
   AppFileSystemRmOptions,
   AppFileSystemScopeOptions,
+  AppFileSystemWriteFileOptions,
   AppResult,
   AppResultFactory,
   mapToAppError,
@@ -66,7 +69,64 @@ export class AppFileSystemService {
     }
   }
 
-  public static resolveScopedPath({
+  static async pathExists({
+    scopeRelativePath,
+    scope,
+  }: AppFileSystemPathExistsOptions): Promise<AppResult<boolean>> {
+    try {
+      const filePath = this.resolveScopedPath({
+        scopeRelativePath,
+        scope,
+      })
+      const exists = await fs.pathExists(filePath)
+      return AppResultFactory.success(exists)
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static async fileStats({
+    scopeRelativePath,
+    scope,
+  }: AppFileSystemFileStatsOptions): Promise<AppResult<fs.Stats>> {
+    try {
+      const filePath = this.resolveScopedPath({
+        scopeRelativePath,
+        scope,
+      })
+      const stats = await fs.stat(filePath)
+      return AppResultFactory.success(stats)
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static async writeFile({
+    data,
+    scopeRelativePath,
+    scope = "userData",
+    options,
+  }: AppFileSystemWriteFileOptions): Promise<AppResult<string>> {
+    try {
+      const fullPath = this.resolveScopedPath({
+        scopeRelativePath,
+        scope,
+      })
+      await fs.ensureDir(path.dirname(fullPath))
+      if (options?.writeAsJson) {
+        await fs.writeJson(fullPath, data, { spaces: 2 })
+      } else {
+        await fs.writeFile(fullPath, data, {
+          encoding: options?.encoding || "utf-8",
+        })
+      }
+      return AppResultFactory.success(fullPath)
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static resolveScopedPath({
     scopeRelativePath,
     scope = "userData",
   }: AppFileSystemScopeOptions): string {
@@ -97,7 +157,7 @@ export class AppFileSystemService {
 
       archive.directory(sourceDir, false)
 
-      archive.finalize()
+      void archive.finalize()
     })
   }
 }
