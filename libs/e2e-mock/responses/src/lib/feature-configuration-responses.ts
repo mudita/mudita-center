@@ -130,7 +130,7 @@ export const featureConfigurationContacts = {
 
 export const featureConfigurationContactsDuplicates = {
   main: {
-    component: "mc-contacts-view",
+    component: "mc-contacts-duplicates-view",
     config: {
       entityTypes: ["contacts"],
     },

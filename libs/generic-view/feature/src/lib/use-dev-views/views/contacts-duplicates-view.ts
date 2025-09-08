@@ -13,6 +13,6 @@ export const contactsDuplicatesView: View = {
       entityTypes: ["contacts"],
     },
     // @ts-ignore
-    screenTitle: "Manage duplicates",
+    screenTitle: "Manage Duplicates",
   },
 }

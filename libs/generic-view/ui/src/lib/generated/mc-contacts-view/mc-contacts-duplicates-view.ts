@@ -9,6 +9,7 @@ import { McContactsDuplicatesView } from "generic-view/models"
 export const generateMcContactsDuplicatesView: ComponentGenerator<
   McContactsDuplicatesView
 > = (key, config) => {
+  console.log("XXXXXXXXXXXXx")
   return {
     [key]: {
       component: "block-plain",
