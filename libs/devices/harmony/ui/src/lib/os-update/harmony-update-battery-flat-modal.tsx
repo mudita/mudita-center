@@ -16,7 +16,7 @@ const messages = defineMessages({
     id: "harmony.overview.os.update.modal.batteryFlat.description",
   },
   cancelButton: {
-    id: "harmony.overview.os.update.modal.batteryFlat.cancelButton",
+    id: "general.app.cancelButton.text",
   },
 })
 

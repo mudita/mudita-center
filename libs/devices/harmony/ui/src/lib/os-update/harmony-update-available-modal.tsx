@@ -16,20 +16,27 @@ const messages = defineMessages({
     id: "harmony.overview.os.update.modal.available.description",
   },
   downloadButton: {
-    id: "harmony.overview.os.update.modal.available.downloadButton",
+    id: "harmony.overview.os.update.downloadButton",
+  },
+  updateButton: {
+    id: "harmony.overview.os.update.updateButton",
   },
 })
 
 interface Props {
   opened: boolean
-  currentVersion: string
+  newVersion: string
+  downloadRequired?: boolean
+  onUpdate: VoidFunction
   onDownload: VoidFunction
   onClose: VoidFunction
 }
 
 export const HarmonyUpdateAvailableModal: FunctionComponent<Props> = ({
   opened,
-  currentVersion,
+  newVersion,
+  downloadRequired,
+  onUpdate,
   onDownload,
   onClose,
 }) => {
@@ -41,16 +48,25 @@ export const HarmonyUpdateAvailableModal: FunctionComponent<Props> = ({
       <Typography.P1
         message={messages.description.id}
         values={{
-          version: currentVersion,
+          version: newVersion,
         }}
       />
       <Modal.Buttons>
-        <Button
-          type={ButtonType.Primary}
-          size={ButtonSize.Medium}
-          onClick={onDownload}
-          message={messages.downloadButton.id}
-        />
+        {downloadRequired ? (
+          <Button
+            type={ButtonType.Primary}
+            size={ButtonSize.Medium}
+            onClick={onDownload}
+            message={messages.downloadButton.id}
+          />
+        ) : (
+          <Button
+            type={ButtonType.Primary}
+            size={ButtonSize.Medium}
+            onClick={onUpdate}
+            message={messages.updateButton.id}
+          />
+        )}
       </Modal.Buttons>
     </Modal>
   )

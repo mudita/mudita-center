@@ -16,7 +16,7 @@ const messages = defineMessages({
     id: "harmony.overview.os.update.modal.notAvailable.description",
   },
   closeButton: {
-    id: "harmony.overview.os.update.modal.notAvailable.closeButton",
+    id: "general.app.closeButton.text",
   },
 })
 

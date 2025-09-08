@@ -71,7 +71,9 @@ export const Available: StoryObj<typeof HarmonyUpdateAvailableModal> = {
   name: "Update available modal",
   args: {
     opened: true,
-    currentVersion: "2.0.0",
+    newVersion: "2.0.0",
+    downloadRequired: true,
+    onUpdate: action("onUpdate"),
     onClose: action("onClose"),
     onDownload: action("onDownload"),
   },

@@ -16,7 +16,7 @@ const messages = defineMessages({
     id: "harmony.overview.os.update.modal.downloaded.description",
   },
   updateButton: {
-    id: "harmony.overview.os.update.modal.downloaded.updateButton",
+    id: "harmony.overview.os.update.updateButton",
   },
 })
 
