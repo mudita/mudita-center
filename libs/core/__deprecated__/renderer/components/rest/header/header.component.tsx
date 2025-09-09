@@ -98,7 +98,6 @@ const Header: FunctionComponent<HeaderProps> = ({
     setRenderHeaderButton(renderButton)
   }, [genericMenu, location, previousViewName])
 
-  console.log(currentLocation, location, previousViewName)
   return (
     <HeaderWrapper>
       {previousViewName ? (
