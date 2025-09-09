@@ -3,20 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, PropsWithChildren } from "react"
-import { TableCell } from "./table-cell"
+import { FunctionComponent } from "react"
+import { TableCell, TableCellProps } from "./table-cell"
 
-interface Props extends PropsWithChildren {
-  colSpan?: number
-  rowSpan?: number
-  width?: number | string
-}
+export const TABLE_HEADER_CELL_NAME = "TableHeaderCell"
 
-const Wrapper = (props: any) => {
-  console.log("Rendering TableHeaderCell", props)
-  return <TableCell {...props} as={"th"} />
-}
-
-export const TableHeaderCell: FunctionComponent<Props> = (props) => (
-  <Wrapper {...props} />
+export const TableHeaderCell: FunctionComponent<TableCellProps> = (props) => (
+  <TableCell {...props} as={"th"} />
 )

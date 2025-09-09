@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, {
+import {
   Children,
+  cloneElement,
   FunctionComponent,
   PropsWithChildren,
-  ReactElement,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -26,49 +26,15 @@ import {
   listItemSelectedStyles,
   listRawItemStyles,
 } from "../list/list-item"
+import { flattenChildren, isDataCell, isHeaderCell } from "./table.helpers"
 
-const rowHeight = 64
-type DATA_ID = string
+const ROW_HEIGHT = 64
+
 interface Props extends PropsWithChildren {
-  activeRowId: string | undefined
-  dataIds: DATA_ID[]
-  data?: Record<DATA_ID, unknown>
+  activeRowId?: string
+  dataIds: string[]
+  data?: Record<string, unknown>
   onRowClick?: (id: string) => void
-}
-
-const REACT_ELEMENT = Symbol.for("react.element")
-const REACT_TRANSITIONAL_ELEMENT = Symbol.for("react.transitional.element")
-
-function isElementLike(node: any): node is React.ReactElement {
-  return (
-    !!node &&
-    typeof node === "object" &&
-    (node.$$typeof === REACT_ELEMENT ||
-      node.$$typeof === REACT_TRANSITIONAL_ELEMENT)
-  )
-}
-
-const isHeaderCell = (el: React.ReactElement) => {
-  return (
-    (el.type as any).name?.includes("TableHeaderCell") || // storybook
-    (el.type as any).displayName?.includes("TableHeaderCell") // react app
-  )
-}
-
-const isDataCell = (el: React.ReactElement) => !isHeaderCell(el)
-
-function flattenChildren(children: React.ReactNode): React.ReactElement[] {
-  const out: React.ReactElement[] = []
-  React.Children.forEach(children, (child) => {
-    if (!isElementLike(child)) return
-    if (child.type === React.Fragment) {
-      // @ts-ignore
-      out.push(...flattenChildren(child.props.children))
-    } else {
-      out.push(child)
-    }
-  })
-  return out
 }
 
 export const Table: FunctionComponent<Props> & {
@@ -89,8 +55,8 @@ export const Table: FunctionComponent<Props> & {
       setTimeout(handleScroll, 10)
       return
     }
-    const rowsPerPage = Math.ceil(clientHeight / rowHeight) || 0
-    const currentRowIndex = Math.floor(scrollTop / rowHeight)
+    const rowsPerPage = Math.ceil(clientHeight / ROW_HEIGHT) || 0
+    const currentRowIndex = Math.floor(scrollTop / ROW_HEIGHT)
     const firstVisibleRowIndex = currentRowIndex - rowsPerPage
     const lastVisibleRowIndex = currentRowIndex + rowsPerPage * 2
     setVisibleRowsBounds([firstVisibleRowIndex, lastVisibleRowIndex])
@@ -147,24 +113,10 @@ export const Table: FunctionComponent<Props> & {
 
   const renderChildren = useCallback(
     (id: string) => {
-      console.log(
-        id,
-        flattenChildren(children)
-          .filter(isDataCell)
-          .map((child) => {
-            return React.cloneElement(child as ReactElement, {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error
-              dataItemId: id,
-            })
-          })
-      )
       return flattenChildren(children)
         .filter(isDataCell)
         .map((child) => {
-          return React.cloneElement(child as ReactElement, {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
+          return cloneElement(child, {
             dataItemId: id,
           })
         })
@@ -208,7 +160,7 @@ export const Table: FunctionComponent<Props> & {
             <tr>{headerChildren}</tr>
           </TableHeader>
           <TableBody $clickable={isClickable}>
-            {dataIds?.map((id, index) => renderRow(id, index))}
+            {dataIds?.map(renderRow)}
           </TableBody>
         </TableWrapper>
       </ScrollableWrapper>
@@ -239,8 +191,8 @@ const TableWrapper = styled.table`
 
 const TableHeader = styled.thead<{ $hasClickableRows?: boolean }>`
   position: sticky;
-  z-index: 2;
   top: 0;
+  z-index: 2;
   background: #fff;
 
   tr {
@@ -250,26 +202,26 @@ const TableHeader = styled.thead<{ $hasClickableRows?: boolean }>`
         &:before {
           content: "";
         }
-      `};
+      `}
   }
 
   th {
     text-align: left;
     white-space: nowrap;
-    border-bottom: solid 0.1rem ${({ theme }) => theme.app.color.grey4};
+    border-bottom: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
   }
 `
 
 const RowPlaceholder = styled.tr`
   ${listRawItemStyles};
-  height: ${rowHeight / 10}rem;
+  height: ${ROW_HEIGHT / 10}rem;
 `
 
 const TableBody = styled.tbody<{ $clickable?: boolean }>`
   tr:not(${RowPlaceholder}) {
     ${listItemBaseStyles};
     ${listItemSelectedStyles};
-    height: ${rowHeight / 10}rem;
+    height: ${ROW_HEIGHT / 10}rem;
 
     &.active {
       ${listItemActiveStyles};

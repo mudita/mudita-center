@@ -25,9 +25,6 @@ const Title = styled.h4`
   font-size: 1.4rem;
 `
 
-// ———————————————————————————————————————————
-// Meta
-// ———————————————————————————————————————————
 const meta: Meta<typeof SegmentBar> = {
   title: "UI/SegmentBar",
   component: SegmentBar,

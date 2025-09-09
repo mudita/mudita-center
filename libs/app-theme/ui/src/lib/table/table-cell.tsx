@@ -3,16 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, PropsWithChildren, useMemo } from "react"
+import { FunctionComponent, PropsWithChildren, useMemo } from "react"
 import styled from "styled-components"
 
-interface Props extends PropsWithChildren {
+export interface TableCellProps extends PropsWithChildren {
   colSpan?: number
   rowSpan?: number
   width?: number | string
+  dataItemId?: string
+  as?: string
 }
 
-export const TableCell: FunctionComponent<Props> = ({
+export const TableCell: FunctionComponent<TableCellProps> = ({
   children,
   colSpan,
   rowSpan,

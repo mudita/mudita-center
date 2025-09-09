@@ -11,6 +11,7 @@ import React, {
   useCallback,
   useContext,
   useMemo,
+  CSSProperties
 } from "react"
 import styled from "styled-components"
 
@@ -30,7 +31,7 @@ interface Props extends PropsWithChildren {
     y: number
   }
   className?: string
-  style?: React.CSSProperties
+  style?: CSSProperties
 }
 
 export const Tooltip: FunctionComponent<Props> & {
@@ -189,7 +190,6 @@ export const Tooltip: FunctionComponent<Props> & {
         (child.props.componentName === "tooltip.anchor" ||
           child.type === Tooltip.Anchor)
       ) {
-        console.log(child.props)
         return child
       }
       return null
@@ -203,7 +203,6 @@ export const Tooltip: FunctionComponent<Props> & {
         (child.props.componentName === "tooltip.content" ||
           child.type === Tooltip.Content)
       ) {
-        console.log(child.props)
         return child
       }
       return null
