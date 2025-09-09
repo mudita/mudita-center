@@ -85,7 +85,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   const [renderHeaderButton, setRenderHeaderButton] = useState(false)
   useEffect(() => {
     const pathname = location.pathname
-    const label = findMenuLabel(pathname, genericMenu ?? [])
+    const label = resolveHeaderLabel(pathname, genericMenu ?? [])
     if (label !== undefined) {
       setCurrentLocation(label)
     }
@@ -129,13 +129,13 @@ const Header: FunctionComponent<HeaderProps> = ({
   )
 }
 
-const searchMenuLabel = (
+const findLabelInMenuItems = (
   items: MenuElementItem[],
   pathname: string
 ): string | undefined => {
   for (const item of items) {
     if (item?.items && item.button.inheritHeaderName) {
-      const found = searchMenuLabel(item.items, pathname)
+      const found = findLabelInMenuItems(item.items, pathname)
       if (found) return found
     }
     if (item?.button?.url === pathname) {
@@ -146,7 +146,7 @@ const searchMenuLabel = (
   return undefined
 }
 
-const findMenuLabel = (
+const resolveHeaderLabel = (
   pathname: string,
   genericMenu: MenuElement[]
 ): string | undefined => {
@@ -164,7 +164,7 @@ const findMenuLabel = (
   const allItems = genericMenu.flatMap((element) =>
     Array.isArray(element.items) ? element.items : []
   )
-  return allItems.length ? searchMenuLabel(allItems, pathname) : undefined
+  return allItems.length ? findLabelInMenuItems(allItems, pathname) : undefined
 }
 
 export default Header
