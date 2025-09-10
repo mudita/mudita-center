@@ -142,7 +142,7 @@ const CheckboxInput = styled.div<{ $size?: CheckboxSize }>`
   }
 `
 
-const InputWrapper = styled.label`
+export const InputWrapper = styled.label`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
