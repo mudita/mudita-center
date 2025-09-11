@@ -10,7 +10,7 @@ import { FileManagerFileMap } from "./harmony-manage-files.types"
 
 const toFile = (item: HarmonyFile): FileManagerFile => {
   const name = item.path.split("/").reverse()[0]
-  const type = name.split(".").reverse()[0].toLocaleLowerCase()
+  const type = name.split(".").reverse()[0].toLowerCase()
 
   return {
     name,
