@@ -45,11 +45,11 @@ export const HARMONY_SEGMENTS_CONFIG_MAP: Record<SegmentId, ISegmentBarItem> = {
 
 export const HARMONY_CATEGORIES_CONFIG_MAP: Record<
   FileCategoryId,
-  FileManagerFileCategory
+  FileManagerFileCategory & { id: FileCategoryId }
 > = {
   [FileCategoryId.alarmFiles]: {
     id: FileCategoryId.alarmFiles,
-    icon: IconType.Info,
+    icon: IconType.Bell,
     markerColor: FileManagerMarkerColor.alarmFiles,
     label: "Alarms",
     directoryPath: HarmonyDirectory.Alarm,
@@ -60,7 +60,7 @@ export const HARMONY_CATEGORIES_CONFIG_MAP: Record<
   },
   [FileCategoryId.relaxationFiles]: {
     id: FileCategoryId.relaxationFiles,
-    icon: IconType.Info,
+    icon: IconType.MuditaLogo,
     markerColor: FileManagerMarkerColor.relaxationFiles,
     label: "Relaxations",
     directoryPath: HarmonyDirectory.Relaxation,
