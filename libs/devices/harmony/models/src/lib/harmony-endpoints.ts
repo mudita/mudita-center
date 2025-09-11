@@ -16,6 +16,10 @@ import {
   HarmonySynchronizeTimeRequestValidator,
   HarmonySynchronizeTimeResponseValidator,
 } from "./endpoints/time-synchronization"
+import {
+  HarmonyGetFileListRequestValidator,
+  HarmonyGetFileListResponseValidator,
+} from "./endpoints/file-system"
 
 export enum HarmonyEndpointNamed {
   Invalid = 0,
@@ -65,6 +69,12 @@ export const HarmonyEndpoints = {
     [HarmonyMethodNamed.Post]: {
       request: HarmonySynchronizeTimeRequestValidator,
       response: HarmonySynchronizeTimeResponseValidator,
+    },
+  },
+  [HarmonyEndpointNamed.FileSystem]: {
+    [HarmonyMethodNamed.Get]: {
+      request: HarmonyGetFileListRequestValidator,
+      response: HarmonyGetFileListResponseValidator,
     },
   },
 } satisfies EndpointsDefinition

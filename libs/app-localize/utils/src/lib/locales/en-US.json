@@ -127,6 +127,7 @@
   "page.help.search.placeholder": "Search topics",
   "page.help.search.title": "Welcome! How can we help you?",
   "page.help.title": "Mudita Help Center",
+  "page.manageFiles.title": "Manage Files",
   "page.news.cardCommunityComments": "{count, plural, =0 {Be the first to comment} one {# comment} other {# comments}}",
   "page.news.headerButton.link": "https://mudita.com/pl/community/blog/",
   "page.news.headerButton.text": "More news",
