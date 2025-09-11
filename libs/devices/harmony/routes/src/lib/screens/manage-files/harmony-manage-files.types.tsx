@@ -11,7 +11,9 @@ export enum FileCategoryId {
 }
 
 export type SegmentId = FileCategoryId | "otherFiles" | "free"
+
 export type FileManagerFileMap = Record<string, FileManagerFile>
+
 export type FileManagerCategoryFileMap = Record<
   FileCategoryId,
   FileManagerFileMap

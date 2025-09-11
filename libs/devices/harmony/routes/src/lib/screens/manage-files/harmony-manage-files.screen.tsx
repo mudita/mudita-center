@@ -29,7 +29,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
   console.log("isError, isLoading, data", isError, isLoading, {
     segments,
     categories,
-    categoryFileMap: categoryFileMap,
+    categoryFileMap,
     freeSpaceBytes,
     usedSpaceBytes,
     otherSpaceBytes,

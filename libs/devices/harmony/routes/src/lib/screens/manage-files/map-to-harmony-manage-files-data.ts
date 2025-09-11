@@ -12,11 +12,7 @@ import {
   MARKETING_TOTAL_BYTES,
 } from "./harmony-manage-files.config"
 import { mapToFileManagerFileMap } from "./map-to-harmony-file-map"
-import {
-  FileCategoryId,
-  FileManagerCategoryFileMap,
-  FileManagerFileMap,
-} from "./harmony-manage-files.types"
+import { FileManagerCategoryFileMap } from "./harmony-manage-files.types"
 import { mebiToBytes, sumFileSizes } from "./map-to-harmony.utils"
 
 export interface HarmonyManageFilesData {

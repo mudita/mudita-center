@@ -8,7 +8,7 @@ import { FileManagerFile } from "devices/common/ui"
 
 import { FileManagerFileMap } from "./harmony-manage-files.types"
 
-export const toFile = (item: HarmonyFile): FileManagerFile => {
+const toFile = (item: HarmonyFile): FileManagerFile => {
   const name = item.path.split("/").reverse()[0]
   const type = name.split(".").reverse()[0].toLocaleLowerCase()
 
