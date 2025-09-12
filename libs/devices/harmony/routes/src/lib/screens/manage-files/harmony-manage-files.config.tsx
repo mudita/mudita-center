@@ -10,8 +10,8 @@ import { ISegmentBarItem } from "app-theme/ui"
 import { FileCategoryId, SegmentId } from "./harmony-manage-files.types"
 
 export enum FileManagerMarkerColor {
-  alarmFiles = "#E38577",
-  relaxationFiles = "#0E7490",
+  alarmFiles = "#0E7490",
+  relaxationFiles = "#A8DADC",
   otherFiles = "#3B3F42",
   free = "#F4F5F6",
 }
