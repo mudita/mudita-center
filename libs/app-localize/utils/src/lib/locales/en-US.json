@@ -114,6 +114,7 @@
   "manageFiles.selection.selectedCount": "{count, plural, =0 {No files selected} one {# file selected} other {# files selected}}",
   "manageFiles.summary.harmonyHeader": "Harmony Sounds",
   "manageFiles.summary.usedLabel": "Used:",
+  "manageFiles.loadState.text": "Loading, please wait…",
   "menu.app.deviceTitle": "Your {deviceName}",
   "menu.app.title": "Mudita Center",
   "page.article.backButton.text": "Back",

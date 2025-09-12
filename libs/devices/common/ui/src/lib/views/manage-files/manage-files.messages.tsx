@@ -13,4 +13,5 @@ export const manageFilesMessages = defineMessages({
   otherFilesTitle: { id: "manageFiles.otherFiles.title" },
   selectionDelete: { id: "manageFiles.selection.delete" },
   selectionSelectedCount: { id: "manageFiles.selection.selectedCount" },
+  loadStateText: { id: "manageFiles.loadState.text" },
 })
