@@ -39,11 +39,12 @@ export const mapHarmonyToManageFiles = (
   const alarmFilesBytes = sumFileSizes(alarmFiles)
   const relaxationFilesBytes = sumFileSizes(relaxationFiles)
 
-  const marketingPaddingBytes =
-    MARKETING_TOTAL_BYTES - mebiToBytes(config?.deviceSpaceTotal)
-
-  const totalSpaceBytes =
-    marketingPaddingBytes + mebiToBytes(config?.deviceSpaceTotal)
+  const deviceSpaceTotal =
+    mebiToBytes(config?.deviceSpaceTotal) === 0
+      ? MARKETING_TOTAL_BYTES
+      : mebiToBytes(config?.deviceSpaceTotal)
+  const marketingPaddingBytes = MARKETING_TOTAL_BYTES - deviceSpaceTotal
+  const totalSpaceBytes = marketingPaddingBytes + deviceSpaceTotal
 
   const usedSpaceBytes =
     marketingPaddingBytes +
