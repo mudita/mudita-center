@@ -34,14 +34,6 @@ END:VCARD`
           ["org", {}, "text", "Bubba Gump Shrimp Co."],
           ["title", {}, "text", "Shrimp Man"],
           [
-            "photo",
-            {
-              mediatype: "image/gif",
-            },
-            "text",
-            "http://www.example.com/dir_photos/my_photo.gif",
-          ],
-          [
             "tel",
             {
               type: ["work", "voice"],

@@ -15,22 +15,28 @@ import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
 import { ModalProvider } from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import AppsSwitch from "Core/core/components/apps-switch"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 const RootWrapper: FunctionComponent = () => {
+  const queryClient = new QueryClient()
   return (
-    <ThemeProvider theme={theme}>
-      <IntlProvider
-        defaultLocale={translationConfig.defaultLanguage}
-        locale={translationConfig.defaultLanguage}
-        messages={localeEn}
-      >
-        <ModalProvider service={modalService}>
-          <Normalize />
-          <GlobalStyle />
-          <AppsSwitch />
-        </ModalProvider>
-      </IntlProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <ThemeProvider theme={theme}>
+        <IntlProvider
+          defaultLocale={translationConfig.defaultLanguage}
+          locale={translationConfig.defaultLanguage}
+          messages={localeEn}
+        >
+          <ModalProvider service={modalService}>
+            <Normalize />
+            <GlobalStyle />
+            <AppsSwitch />
+          </ModalProvider>
+        </IntlProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 

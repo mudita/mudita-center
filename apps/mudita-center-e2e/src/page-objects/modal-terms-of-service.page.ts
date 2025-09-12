@@ -7,79 +7,79 @@ import Page from "./page"
 
 class ModalTermsOfService extends Page {
   public get modalHeader() {
-    return $('[data-testid="terms-of-service-component-title"]')
-  }
-
-  public get firstParagraph() {
-    return $("p*=National Court Register")
+    return $("//*[@data-testid='terms-of-service-component-title']")
   }
 
   public get sectionGeneralProvisions() {
-    return $("p=2. GENERAL PROVISIONS")
+    return $("//p[text()='2. GENERAL PROVISIONS']")
   }
 
   public get sectionServices() {
-    return $("p=3. SERVICES / MUDITA CENTER FEATURES")
+    return $("//p[text()='3. SERVICES / MUDITA CENTER FEATURES']")
   }
 
   public get sectionIntellectualProperty() {
-    return $("p=4. INTELLECTUAL PROPERTY / LICENSE")
+    return $("//p[text()='4. INTELLECTUAL PROPERTY / LICENSE']")
   }
 
   public get sectionUpdates() {
-    return $("p=5. UPDATES")
+    return $("//p[text()='5. UPDATES']")
   }
 
   public get sectionHealthDisclaimer() {
-    return $("p=6. HEALTH DISCLAIMER")
+    return $("//p[text()='6. HEALTH DISCLAIMER']")
   }
 
   public get sectionUserObligations() {
-    return $("p=7. USER OBLIGATIONS")
+    return $("//p[text()='7. USER OBLIGATIONS']")
   }
 
   public get sectionLiability() {
-    return $("p=8. LIABILITY")
+    return $("//p[text()='8. LIABILITY']")
   }
 
   public get sectionTerminationOfTheTerms() {
-    return $("p=9. TERMINATION OF THE TERMS OF SERVICE")
+    return $("//p[text()='9. TERMINATION OF THE TERMS OF SERVICE']")
   }
 
   public get sectionComplaints() {
-    return $("p=10. COMPLAINTS")
+    return $("//p[text()='10. COMPLAINTS']")
   }
 
   public get sectionDisputeResolution() {
-    return $("p=11. DISPUTE RESOLUTION")
+    return $("//p[text()='11. DISPUTE RESOLUTION']")
   }
 
   public get sectionAmendments() {
-    return $("p=12. AMENDMENTS")
+    return $("//p[text()='12. AMENDMENTS']")
   }
 
   public get sectinonApplicableLaw() {
-    return $("p=13. APPLICABLE LAW / LANGUAGE VERSIONS")
+    return $("//p[text()='13. APPLICABLE LAW / LANGUAGE VERSIONS']")
   }
 
   public get sectionFinalProvisions() {
-    return $("p=14. FINAL PROVISIONS")
+    return $("//p[text()='14. FINAL PROVISIONS']")
   }
 
   public get companyWebsiteLink() {
-    return $("a=https://www.mudita.com/")
+    return $("//a[contains(text(), 'https://www.mudita.com/')]")
   }
 
   public get companyEmailLink() {
-    return $("a=hello@mudita.com")
+    return $("//a[contains(text(), 'hello@mudita.com')]")
   }
 
   public get privacyPolicyLink() {
-    return $("a=www.mudita.com/legal/privacy-policy/mudita-center/")
+    return $(
+      "//a[contains(text(), 'www.mudita.com/legal/privacy-policy/mudita-center/')]"
+    )
   }
 
   public get termsConditionsLink() {
-    return $("a=https://www.mudita.com/legal/terms-conditions/mudita-center/")
+    return $(
+      "//a[contains(text(), 'https://www.mudita.com/legal/terms-conditions/mudita-center/')]"
+    )
   }
 }
 

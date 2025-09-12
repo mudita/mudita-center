@@ -14,9 +14,9 @@ import { DataMigration } from "./data-migration/data-migration"
 import { IncomingFeatureInfo } from "./incoming-feature-info"
 import { SelectionManager } from "./selection-manager"
 import { McContactsSearchResult } from "./contacts/mc-contacts-search-result"
-import { FilesManagerUploadProgress } from "./files-manager-upload/files-manager-upload-progress"
-import { FilesManagerUploadFinished } from "./files-manager-upload/files-manager-upload-finished"
-import { FilesManagerUploadValidationError } from "./files-manager-upload/files-manager-upload-validation-error"
+import { FilesManagerTransferProgress as FilesManagerTransferProgress } from "./files-manager-transfer-files/files-manager-transfer-progress"
+import { FilesManagerTransferFinished as FilesManagerTransferFinished } from "./files-manager-transfer-files/files-manager-transfer-finished"
+import { FilesManagerTransferValidationError } from "./files-manager-transfer-files/files-manager-transfer-validation-error"
 import { EntitiesDeleteError } from "./entities/entities-delete-error"
 import { AppInstallationProgress } from "./app-installation/app-installation-progress"
 import { AppInstallationError } from "./app-installation/app-installation-error"
@@ -32,9 +32,9 @@ import {
   lastBackupDate,
   mcContactsSearchResults,
   mcDataMigration,
-  mcFilesManagerUploadFinished,
-  mcFilesManagerUploadProgress,
-  mcFilesManagerUploadValidationError,
+  mcFilesManagerTransferFinished,
+  mcFilesManagerTransferProgress,
+  mcFilesManagerTransferValidationError,
   overviewOsVersion,
   selectionManager,
   mcAppInstallationProgress,
@@ -55,9 +55,10 @@ export const predefinedComponents = {
   [incomingFeatureInfo.key]: IncomingFeatureInfo,
   [selectionManager.key]: SelectionManager,
   [mcContactsSearchResults.key]: McContactsSearchResult,
-  [mcFilesManagerUploadProgress.key]: FilesManagerUploadProgress,
-  [mcFilesManagerUploadFinished.key]: FilesManagerUploadFinished,
-  [mcFilesManagerUploadValidationError.key]: FilesManagerUploadValidationError,
+  [mcFilesManagerTransferProgress.key]: FilesManagerTransferProgress,
+  [mcFilesManagerTransferFinished.key]: FilesManagerTransferFinished,
+  [mcFilesManagerTransferValidationError.key]:
+    FilesManagerTransferValidationError,
   [mcAppInstallationProgress.key]: AppInstallationProgress,
   [mcAppInstallationError.key]: AppInstallationError,
   [mcAppInstallationSuccess.key]: AppInstallationSuccess,

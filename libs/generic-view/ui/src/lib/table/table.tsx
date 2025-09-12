@@ -13,8 +13,8 @@ import React, {
   useRef,
   useState,
 } from "react"
-import styled from "styled-components"
-import { difference, intersection } from "lodash"
+import styled, { css } from "styled-components"
+import { difference } from "lodash"
 import { TableTestIds } from "e2e-test-ids"
 import { APIFC, useViewFormContext } from "generic-view/utils"
 import { TableConfig, TableData, tableHeaderCell } from "generic-view/models"
@@ -28,32 +28,51 @@ import {
   listRawItemStyles,
 } from "../list/list-item"
 import { toastAnimationDuration } from "../interactive/toast/toast"
+import { FilePreview } from "../predefined/file-preview/file-preview"
 
 const rowHeight = 64
 
 export const Table: APIFC<TableData, TableConfig> & {
   Cell: typeof TableCell
   HeaderCell: typeof TableCell
-} = ({ data = [], config, children, ...props }) => {
+} = ({
+  data = [],
+  config: { formOptions, previewOptions },
+  children,
+  ...props
+}) => {
   const getFormContext = useViewFormContext()
-  const formContext = getFormContext(config.formOptions.formKey)
+  const formContext = getFormContext(formOptions.formKey)
   const scrollWrapperRef = useRef<HTMLDivElement>(null)
   const [visibleRowsBounds, setVisibleRowsBounds] = useState<[number, number]>([
     -1, -1,
   ])
 
-  const { formOptions } = config
-  const { activeIdFieldName } = formOptions
+  const [previewOpened, setPreviewOpened] = useState(false)
+  const [initialPreviewId, setInitialPreviewId] = useState<string>()
+  const [activePreviewId, setActivePreviewId] = useState<string>()
+  const nextActivePreviewId = useRef<string | undefined>(undefined)
+  const { activeIdFieldName } = formOptions || {}
   const isClickable = Boolean(activeIdFieldName)
-
   const activeRowId = activeIdFieldName
     ? formContext.watch(activeIdFieldName)
     : undefined
 
+  const previewMode = previewOptions?.enabled
+    ? formContext.watch("previewMode")
+    : undefined
+
   const onRowClick = useCallback(
     (id: string) => {
-      if (!activeIdFieldName) return
-      formContext.setValue(activeIdFieldName!, id)
+      if (previewOptions?.enabled) {
+        // handleActivePreviewIdChange(id)
+        setInitialPreviewId(id)
+        setPreviewOpened(true)
+        return
+      }
+      if (activeIdFieldName) {
+        formContext.setValue(activeIdFieldName!, id)
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [activeIdFieldName]
@@ -82,6 +101,42 @@ export const Table: APIFC<TableData, TableConfig> & {
     }
   }, [])
 
+  const scrollToPreviewActiveItem = useCallback(() => {
+    const activeElement = scrollWrapperRef.current?.querySelector(
+      `tr[data-item-id="${activePreviewId}"]`
+    )
+    if (activeElement) {
+      activeElement.scrollIntoView({
+        block: "nearest",
+      })
+    }
+  }, [activePreviewId])
+
+  const handleActivePreviewIdChange = useCallback((id?: string) => {
+    setActivePreviewId(id)
+  }, [])
+
+  const handlePreviewClose = useCallback(() => {
+    setPreviewOpened(false)
+    setInitialPreviewId(undefined)
+  }, [])
+
+  useEffect(() => {
+    if (activePreviewId !== undefined) {
+      scrollToPreviewActiveItem()
+      formContext.setValue("previewMode", true)
+    } else if (previewMode) {
+      formContext.setValue("previewMode", false)
+      nextActivePreviewId.current = undefined
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    activePreviewId,
+    formOptions.selectedIdsFieldName,
+    previewMode,
+    scrollToPreviewActiveItem,
+  ])
+
   useEffect(() => {
     if (activeRowId) {
       scrollToActiveItem()
@@ -101,13 +156,12 @@ export const Table: APIFC<TableData, TableConfig> & {
         formOptions.selectedIdsFieldName
       )
       const unavailableIds = difference(selectedIds, data)
-
       if (unavailableIds.length > 0) {
         setTimeout(() => {
           if (formOptions.selectedIdsFieldName !== undefined) {
             formContext.setValue(
               formOptions.selectedIdsFieldName,
-              intersection(data, unavailableIds)
+              difference(selectedIds, unavailableIds)
             )
           }
         }, toastAnimationDuration)
@@ -144,6 +198,7 @@ export const Table: APIFC<TableData, TableConfig> & {
       return (
         <RowPlaceholder
           key={id}
+          data-item-id={id}
           data-testid={TableTestIds.TablePlaceholderRow}
           className={isActive ? "active" : ""}
         >
@@ -200,6 +255,7 @@ export const Table: APIFC<TableData, TableConfig> & {
       return (
         <tr
           key={id}
+          data-item-id={id}
           data-testid={TableTestIds.TableRow}
           onClick={onClick}
           className={isActive ? "active" : ""}
@@ -217,22 +273,65 @@ export const Table: APIFC<TableData, TableConfig> & {
     ]
   )
 
+  const preview = useMemo(() => {
+    if (!previewOptions || !previewOptions.enabled) return null
+
+    return (
+      <FilePreview
+        items={data}
+        initialItem={initialPreviewId}
+        opened={previewOpened}
+        onActiveItemChange={handleActivePreviewIdChange}
+        onClose={handlePreviewClose}
+        componentKey={previewOptions.componentKey}
+        entitiesConfig={{
+          type: previewOptions.entitiesType,
+          idField: previewOptions.entityIdFieldName,
+          pathField: previewOptions.entityPathFieldName,
+          titleField: previewOptions.entityTitleFieldName,
+          mimeTypeField: previewOptions.entityMimeTypeFieldName,
+          sizeField: previewOptions.entitySizeFieldName,
+        }}
+      />
+    )
+  }, [
+    data,
+    handleActivePreviewIdChange,
+    handlePreviewClose,
+    initialPreviewId,
+    previewOpened,
+    previewOptions,
+  ])
+
   return useMemo(
     () => (
-      <ScrollableWrapper ref={scrollWrapperRef} {...props}>
-        <TableWrapper data-testid={TableTestIds.Table}>
-          <TableHeader>
-            <tr data-testid={TableTestIds.TableHeaderRow}>
-              {renderHeaderChildren()}
-            </tr>
-          </TableHeader>
-          <TableBody $clickable={isClickable}>
-            {data?.map((id, index) => renderRow(id, index))}
-          </TableBody>
-        </TableWrapper>
-      </ScrollableWrapper>
+      <>
+        <ScrollableWrapper ref={scrollWrapperRef} {...props}>
+          <TableWrapper data-testid={TableTestIds.Table}>
+            <TableHeader
+              $hasClickableRows={isClickable || previewOptions?.enabled}
+            >
+              <tr data-testid={TableTestIds.TableHeaderRow}>
+                {renderHeaderChildren()}
+              </tr>
+            </TableHeader>
+            <TableBody $clickable={isClickable || previewOptions?.enabled}>
+              {data?.map((id, index) => renderRow(id, index))}
+            </TableBody>
+          </TableWrapper>
+        </ScrollableWrapper>
+        {preview}
+      </>
     ),
-    [data, isClickable, props, renderRow, renderHeaderChildren]
+    [
+      props,
+      isClickable,
+      previewOptions?.enabled,
+      renderHeaderChildren,
+      data,
+      preview,
+      renderRow,
+    ]
   )
 }
 
@@ -256,11 +355,21 @@ const TableWrapper = styled.table`
   border-spacing: 0;
 `
 
-const TableHeader = styled.thead`
+const TableHeader = styled.thead<{ $hasClickableRows?: boolean }>`
   position: sticky;
   z-index: 2;
   top: 0;
   background: #fff;
+
+  tr {
+    ${({ $hasClickableRows }) =>
+      $hasClickableRows &&
+      css`
+        &:before {
+          content: "";
+        }
+      `};
+  }
 
   th {
     text-align: left;

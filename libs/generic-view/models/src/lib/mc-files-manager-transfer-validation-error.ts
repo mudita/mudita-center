@@ -9,21 +9,22 @@ const dataValidator = z.object({
   fileList: z.array(z.string()),
 })
 
-export type McFilesManagerUploadValidationErrorData = z.infer<
+export type McFilesManagerTransferValidationErrorData = z.infer<
   typeof dataValidator
 >
 
 const configValidator = z.object({
   modalKey: z.string(),
-  uploadActionId: z.string(),
+  fileTransferActionId: z.string(),
+  actionType: z.string(),
 })
 
-export type McFilesManagerUploadValidationErrorConfig = z.infer<
+export type McFilesManagerTransferValidationErrorConfig = z.infer<
   typeof configValidator
 >
 
-export const mcFilesManagerUploadValidationError = {
-  key: "mc-files-manager-upload-validation-error",
+export const mcFilesManagerTransferValidationError = {
+  key: "mc-files-manager-transfer-validation-error",
   dataValidator,
   configValidator,
 } as const

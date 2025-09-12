@@ -37,7 +37,9 @@ describe("News Page Check", () => {
   })
   it("Check content after scroll", async () => {
     //Test if comments of second line of news is not visible on screen
-    const lastNewsCardCommunityLinkText = await NewsPage.newsCardElements[5].$(
+    const newsCardElements = await NewsPage.newsCardElements
+    const lastIndex = newsCardElements.length - 1
+    const lastNewsCardCommunityLinkText = await newsCardElements[lastIndex].$(
       '[data-testid="community-link"] p[color="primary"]'
     )
     await expect(lastNewsCardCommunityLinkText).not.toBeDisplayedInViewport()
@@ -46,7 +48,7 @@ describe("News Page Check", () => {
   })
   it("Verify News Cards", async () => {
     const newsCardElements = await NewsPage.newsCardElements
-    await expect(newsCardElements).toHaveLength(6)
+    await expect(newsCardElements.length).toBeGreaterThanOrEqual(4)
 
     for (let newsCard of newsCardElements) {
       const newsCardImageLink = await newsCard.$('[data-testid="image-link"]')

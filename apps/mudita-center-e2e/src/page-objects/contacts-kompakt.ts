@@ -254,7 +254,7 @@ class ContactsKompaktPage extends Page {
     return $('//*[@data-testid="ui-form-search-results-empty"]//p')
   }
   public get searchResultFirst() {
-    return $('//*[@data-testid=ui-form-search-results-0"]')
+    return $('//*[@data-testid="ui-form-search-results-0"]')
   }
 }
 export default new ContactsKompaktPage()

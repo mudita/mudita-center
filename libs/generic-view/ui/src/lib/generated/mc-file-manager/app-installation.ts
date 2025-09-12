@@ -5,7 +5,7 @@
 
 import { ComponentGenerator, IconType } from "generic-view/utils"
 
-export const generateAppInstallaion: ComponentGenerator<{
+export const generateAppInstallation: ComponentGenerator<{
   id: string
   entityType: string
 }> = (key, { id, entityType }) => {

@@ -5,7 +5,7 @@
 
 import { EntityData } from "device/models"
 
-const contactFullData1 = {
+export const contactFullData1 = {
   firstName: "Anna",
   lastName: "Nowak",
   namePrefix: "Dr.",
@@ -29,7 +29,7 @@ const contactFullData1 = {
   entityType: "contacts",
 }
 
-const contactFullData2 = {
+export const contactFullData2 = {
   firstName: "John",
   lastName: "Doe",
   namePrefix: "Mr.",
@@ -57,7 +57,7 @@ const contactFullData2 = {
   entityType: "contacts",
 }
 
-const contactFullData3 = {
+export const contactFullData3 = {
   firstName: "Emily",
   lastName: "Clark",
   namePrefix: "Ms.",
@@ -206,6 +206,11 @@ const contactWithPrefixSuffix = {
   entityType: "contacts",
 }
 
+export const contactWithFirstNameOnly = {
+  firstName: "Marian (first name only)",
+  entityType: "contacts",
+}
+
 const contactWithMiddleNameOnly = {
   middleName: "Jan (only middle name)",
   entityType: "contacts",
@@ -216,7 +221,7 @@ const contactWithWithSpecialCharactersInMiddleName = {
   entityType: "contacts",
 }
 
-const contactWithGermanyPhoneNumberOnly = {
+export const contactWithGermanyPhoneNumberOnly = {
   phoneNumbers: [{ phoneNumber: "490123456789", phoneType: "MOBILE" }],
   entityType: "contacts",
 }
@@ -521,6 +526,7 @@ export const contactsSeedData: EntityData[] = [
   contactWithRepetitions,
   contactWithNumbersInName,
   contactWithPrefixSuffix,
+  contactWithFirstNameOnly,
   contactWithMiddleNameOnly,
   contactWithWithSpecialCharactersInMiddleName,
   contactWithGermanyPhoneNumberOnly,

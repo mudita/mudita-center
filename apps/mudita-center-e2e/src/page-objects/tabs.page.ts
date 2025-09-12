@@ -7,35 +7,35 @@ import Page from "./page"
 
 class NavigationTabs extends Page {
   public get muditaNewsTab() {
-    return $('[data-testid="icon-MenuNews"]')
+    return $(`//*[@data-testid="icon-MenuNews"]`)
   }
 
   public get overviewTab() {
-    return $('[data-testid="overview-link"]')
+    return $(`//*[@data-testid="overview-link"]`)
   }
 
   public get overviewKompaktTab() {
-    return $('[data-testid="icon-MenuOverview"]')
+    return $(`//*[@data-testid="icon-MenuOverview"]`)
   }
 
   public get messagesTab() {
-    return $('[data-testid="overview-menu-link"]')
+    return $(`//*[@data-testid="overview-menu-link"]`)
   }
 
   public get contactsKompaktTab() {
-    return $('[data-testid="icon-MenuContacts"]')
+    return $(`//*[@data-testid="icon-MenuContacts"]`)
   }
 
   public get settingsTab() {
-    return $('[data-testid="icon-MenuSettings"]')
+    return $(`//*[@data-testid="icon-MenuSettings"]`)
   }
 
   public get helpTab() {
-    return $('[data-testid="help-menu-button"]')
+    return $(`//*[@data-testid="help-menu-button"]`)
   }
 
   public get manageFilesButton() {
-    return $('[data-testid="icon-FilesManager"]')
+    return $(`//*[@data-testid="icon-FilesManager"]`)
   }
 
   public async openHelpPage() {

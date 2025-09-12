@@ -11,4 +11,5 @@ export enum DataIndex {
   CallLog = "calllog",
   Alarm = "alarm",
   Note = "note",
+  Quotations = "quotations",
 }

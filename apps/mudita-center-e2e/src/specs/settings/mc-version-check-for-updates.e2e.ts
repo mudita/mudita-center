@@ -29,9 +29,6 @@ describe("Checking for Mudita Center updates", () => {
     await aboutTab.click()
 
     const aboutUpToDateLabel = await SettingsPage.aboutUpToDateLabel
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
     await expect(aboutUpToDateLabel).toBeDisplayed()
     await expect(aboutUpToDateLabel).toHaveText("You’re up to date.")
   })

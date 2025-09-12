@@ -21,13 +21,18 @@ import {
   trackInfo,
 } from "./actions"
 import { ActionName } from "../action-names"
-import { FilesTransferMode } from "./files-transfer-mode.type"
+import { FilesTransferMode, SendFilesAction } from "./files-transfer.type"
+import {
+  isMtpPathInternal,
+  sliceMtpPaths,
+} from "../../../../ui/src/lib/buttons/button-base/file-transfer-paths-helper"
 
 export interface SendFileViaMTPPayload {
   file: FileWithPath
   deviceId: string
   storageId: string
   destinationPath: string
+  action?: string
 }
 
 export const sendFileViaMTP = createAsyncThunk<
@@ -39,7 +44,7 @@ export const sendFileViaMTP = createAsyncThunk<
 >(
   ActionName.SendFileViaMTP,
   async (
-    { file, deviceId, destinationPath, storageId },
+    { file, deviceId, destinationPath, storageId, action },
     { dispatch, signal, rejectWithValue }
   ) => {
     const handleAbort = async () => {
@@ -60,11 +65,19 @@ export const sendFileViaMTP = createAsyncThunk<
       )
     }
 
+    if (action === SendFilesAction.ActionUpload) {
+      destinationPath = sliceMtpPaths(
+        destinationPath,
+        isMtpPathInternal(destinationPath)
+      )
+    }
+
     const startSendFileViaMtpResult = await startSendFileViaMtpRequest({
       deviceId,
       storageId,
       destinationPath,
       sourcePath: file.path,
+      action,
     })
 
     if (!startSendFileViaMtpResult.ok) {
@@ -74,7 +87,7 @@ export const sendFileViaMTP = createAsyncThunk<
     const { transactionId } = startSendFileViaMtpResult.data
 
     if (signal.aborted) {
-       return await handleAbort()
+      return await handleAbort()
     }
 
     const abortListener = async () => {
@@ -127,7 +140,7 @@ export const sendFileViaMTP = createAsyncThunk<
         return error
       }
 
-      await delay(500, signal)
+      await delay(250, signal)
       return await checkSendFileProgress()
     }
 

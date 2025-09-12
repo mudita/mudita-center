@@ -23,6 +23,7 @@ export const APIEndpoints = [
   "ENTITIES_DATA",
   "ENTITIES_METADATA",
   "APP_INSTALL",
+  "API_TEST_DATA",
 ] as const
 
 export type APIEndpointType = (typeof APIEndpoints)[number]
@@ -51,6 +52,7 @@ const APIRequests = {
   ENTITIES_DATA: ["GET", "DELETE", "POST", "PATCH"],
   ENTITIES_METADATA: ["GET"],
   APP_INSTALL: ["GET", "POST"],
+  API_TEST_DATA: ["GET"],
 } as const
 
 interface APIRequestConfig<

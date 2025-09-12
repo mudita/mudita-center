@@ -6,12 +6,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
-  loadBackupMetadataRequest,
   getBackupPathRequest,
+  loadBackupMetadataRequest,
   readFileRequest,
 } from "device/feature"
 import { ActionName } from "../action-names"
 import { RestoreMetadata } from "device/models"
+import * as path from "node:path"
 
 export const loadBackupMetadata = createAsyncThunk<
   { restoreMetadata: RestoreMetadata; restoreFileId: string },
@@ -25,10 +26,12 @@ export const loadBackupMetadata = createAsyncThunk<
     return rejectWithValue(undefined)
   }
 
-  const readFileResponse = await readFileRequest([
-    backupPathResponse.data,
-    filePath,
-  ])
+  const backupPath = backupPathResponse.data[0]
+    .split(path.sep)
+    .slice(0, -1)
+    .join(path.sep)
+
+  const readFileResponse = await readFileRequest([backupPath, filePath])
   if (!readFileResponse.ok) {
     console.log(readFileResponse.error)
     return rejectWithValue(undefined)

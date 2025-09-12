@@ -9,6 +9,7 @@ import { DeviceType } from "device-protocol/models"
 import { DeviceInfo } from "Core/device-info/dto"
 import { SimCardPresenter } from "Core/device-info/presenters/sim-card.presenter"
 import { OnboardingState } from "Core/device/constants/onboarding-state.constant"
+import { fromMebiToByte } from "Core/device/helpers/from-mebi-to-byte.helpers"
 
 const pureMissingStorageBytes = 300000000
 
@@ -25,11 +26,6 @@ const getMissingStorageBytes = (
   }
 
   return 0
-}
-
-const fromMebiToByte = (mebi: number): number => {
-  const factor = 1048576
-  return mebi * factor
 }
 
 const mapDevDefaultToFixOsVersion = (osVersion: string): string => {

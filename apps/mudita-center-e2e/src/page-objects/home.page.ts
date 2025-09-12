@@ -25,7 +25,9 @@ class HomePage extends Page {
   }
 
   get weAreSorryPageFollowTheInstructionsParagraph() {
-    return $("//p[@data-testid='onboarding-troubleshooting-subtitle-paragraph']")
+    return $(
+      "//p[@data-testid='onboarding-troubleshooting-subtitle-paragraph']"
+    )
   }
 
   get weAreSorryPageInstructionsList() {
@@ -45,11 +47,13 @@ class HomePage extends Page {
   }
 
   get contactSupportButton() {
-    return $("//button[@data-testid='onboarding-troubleshooting-ui-contact-support']")
+    return $(
+      "//button[@data-testid='onboarding-troubleshooting-ui-contact-support']"
+    )
   }
 
   get muditaCenterSupportModalHeader() {
-    return $("//h2[@data-testid='modal-title']")
+    return $("//h1[@data-testid='contact-support-modal-title']")
   }
 
   get emailField() {
@@ -77,9 +81,9 @@ class HomePage extends Page {
   }
 
   public async clickNotNowButton() {
-    const button = await this.notNowButton;
-    await button.waitForDisplayed();
-    await button.click();
+    const button = await this.notNowButton
+    await button.waitForDisplayed()
+    await button.click()
   }
 }
 export default new HomePage()
