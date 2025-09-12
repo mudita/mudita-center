@@ -35,11 +35,16 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
     otherSpaceBytes,
   } = useHarmonyManageFiles()
 
-  const [activeCategoryId, setActiveCategoryId] = useState(categories[0]?.id)
+  const [activeCategoryId, setActiveCategoryId] = useState<
+    FileCategoryId | undefined
+  >(categories[0]?.id)
   const [selectedFiles, setSelectedFiles] = useState<FileManagerFile[]>([])
 
   const handleCheckboxClick = (fileId: string, checked: boolean) => {
-    const fileMap = categoryFileMap[activeCategoryId] || {}
+    const fileMap =
+      activeCategoryId && categoryFileMap[activeCategoryId]
+        ? categoryFileMap[activeCategoryId]
+        : {}
     const file = fileMap[fileId]
     if (!file) {
       return
@@ -56,7 +61,10 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
 
   const handleAllCheckboxClick = (checked: boolean) => {
     if (checked) {
-      const fileMap = categoryFileMap[activeCategoryId] || {}
+      const fileMap =
+        activeCategoryId && categoryFileMap[activeCategoryId]
+          ? categoryFileMap[activeCategoryId]
+          : {}
       const allFiles = Object.values(fileMap)
       setSelectedFiles(allFiles)
     } else {
@@ -72,7 +80,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
   return (
     <>
       <DashboardHeaderTitle title={formatMessage(messages.pageTitle)} />
-      {isLoading ? (
+      {isLoading || activeCategoryId === undefined ? (
         <ManageFilesLoadingState />
       ) : (
         <ManageFiles
