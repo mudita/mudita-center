@@ -19,7 +19,11 @@ import { FileManagerFile } from "./manage-files.types"
 interface Props
   extends ComponentProps<typeof MfStorageSummary>,
     ComponentProps<typeof MfCategoryList>,
-    ComponentProps<typeof MfOtherFiles> {
+    ComponentProps<typeof MfOtherFiles>,
+    Pick<
+      ComponentProps<typeof MfFileListPanelSelectMode>,
+      "onAllCheckboxClick"
+    > {
   selectedFiles: FileManagerFile[]
 }
 
@@ -33,6 +37,8 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
   otherSpaceBytes,
   otherFiles,
   selectedFiles,
+  onCategoryClick,
+  onAllCheckboxClick,
   children,
 }) => {
   const activeCategory = categories.find(({ id }) => id === activeCategoryId)
@@ -54,6 +60,7 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
         <MfCategoryList
           categories={categories}
           activeCategoryId={activeCategoryId}
+          onCategoryClick={onCategoryClick}
         />
         <MfOtherFiles
           otherFiles={otherFiles}
@@ -73,7 +80,10 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
               {selectedFiles.length === 0 ? (
                 <MfFileListPanelDefaultMode header={fileListPanelHeader} />
               ) : (
-                <MfFileListPanelSelectMode count={selectedFiles.length} />
+                <MfFileListPanelSelectMode
+                  count={selectedFiles.length}
+                  onAllCheckboxClick={onAllCheckboxClick}
+                />
               )}
             </FileListPanel>
             {children}

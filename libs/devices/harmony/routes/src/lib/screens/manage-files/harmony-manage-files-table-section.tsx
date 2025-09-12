@@ -19,12 +19,16 @@ import {
   Typography,
 } from "app-theme/ui"
 import { FileManagerFileMap } from "./harmony-manage-files.types"
+import { FileManagerFile } from "devices/common/ui"
 
 type CellProps = { dataItemId?: string; fileMap: FileManagerFileMap }
 
 const ColumnCheckboxCell: FunctionComponent<
-  CellProps & { onChange: (fileId: string, checked: boolean) => void }
-> = ({ dataItemId, fileMap, onChange }) => {
+  CellProps & {
+    onChange: (fileId: string, checked: boolean) => void
+    selectedFiles: FileManagerFile[]
+  }
+> = ({ dataItemId, fileMap, onChange, selectedFiles }) => {
   const file = dataItemId ? fileMap[dataItemId] : undefined
   return (
     <ColumnCheckbox>
@@ -37,6 +41,7 @@ const ColumnCheckboxCell: FunctionComponent<
         <Tooltip.Anchor componentName={"tooltip.anchor"}>
           <ColumnCheckboxTooltipAnchorElement
             size={CheckboxSize.Small}
+            checked={file ? selectedFiles.some((f) => f.id === file.id) : false}
             onChange={(e) => file?.id && onChange(file.id, e.target.checked)}
           />
         </Tooltip.Anchor>
@@ -80,7 +85,8 @@ export const HarmonyManageFilesTableSection: FunctionComponent<{
   fileMap: FileManagerFileMap
   activeRowId?: string
   onCheckboxClick: (fileId: string, checked: boolean) => void
-}> = ({ fileMap, activeRowId, onCheckboxClick }) => {
+  selectedFiles: FileManagerFile[]
+}> = ({ fileMap, selectedFiles, activeRowId, onCheckboxClick }) => {
   return (
     <FileListEmptyTable
       activeRowId={activeRowId}
@@ -102,7 +108,11 @@ export const HarmonyManageFilesTableSection: FunctionComponent<{
           Size
         </HeaderCellSizeText>
       </HeaderCellSize>
-      <ColumnCheckboxCell fileMap={fileMap} onChange={onCheckboxClick} />
+      <ColumnCheckboxCell
+        selectedFiles={selectedFiles}
+        fileMap={fileMap}
+        onChange={onCheckboxClick}
+      />
       <NameCell fileMap={fileMap} />
       <TypeCell fileMap={fileMap} />
       <SizeCell fileMap={fileMap} />

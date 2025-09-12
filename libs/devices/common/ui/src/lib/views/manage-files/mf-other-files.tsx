@@ -5,7 +5,7 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-import { IconType, TypographyModifier } from "app-theme/models"
+import { IconType } from "app-theme/models"
 import { formatBytes, Icon, Tooltip, Typography } from "app-theme/ui"
 import { manageFilesMessages } from "./manage-files.messages"
 

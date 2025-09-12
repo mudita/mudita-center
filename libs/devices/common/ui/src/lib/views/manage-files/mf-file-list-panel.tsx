@@ -36,10 +36,15 @@ export const MfFileListPanelDefaultMode: FunctionComponent<
 
 export const MfFileListPanelSelectMode: FunctionComponent<{
   count: number
-}> = ({ count }) => {
+  onAllCheckboxClick: (checked: boolean) => void
+}> = ({ count, onAllCheckboxClick }) => {
   return (
     <FileListPanelSelector>
-      <Checkbox size={CheckboxSize.Small} indeterminate />
+      <Checkbox
+        size={CheckboxSize.Small}
+        indeterminate
+        onChange={(event) => onAllCheckboxClick(event.target.checked)}
+      />
       <Typography.P4
         message={manageFilesMessages.selectionSelectedCount.id}
         values={{ count }}
@@ -81,5 +86,5 @@ const FileListPanelSelector = styled.div`
 `
 
 const DeleteButton = styled(Button)`
-  height: inherit;
+  height: 2.2rem;
 `

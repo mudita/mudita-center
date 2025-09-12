@@ -14,11 +14,13 @@ import { formatMessage } from "app-localize/utils"
 interface Props {
   categories: FileManagerFileCategory[]
   activeCategoryId: string
+  onCategoryClick: (categoryId: string) => void
 }
 
 export const MfCategoryList: FunctionComponent<Props> = ({
   categories,
   activeCategoryId,
+  onCategoryClick,
 }) => {
   return (
     <Wrapper>
@@ -26,6 +28,7 @@ export const MfCategoryList: FunctionComponent<Props> = ({
         <CategoryListItem
           key={category.id}
           active={category.id === activeCategoryId}
+          onClick={() => onCategoryClick(category.id)}
         >
           <CategoryListItemName>
             <CategoryListItemNameIcon
