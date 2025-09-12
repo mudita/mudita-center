@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useState } from "react"
+import { FunctionComponent, useCallback, useMemo, useState } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import {
@@ -14,6 +14,8 @@ import {
 import { HarmonyManageFilesTableSection } from "./harmony-manage-files-table-section"
 import { useHarmonyManageFiles } from "./use-harmony-manage-files"
 import { FileCategoryId } from "./harmony-manage-files.types"
+import { useActiveDeviceQuery } from "devices/common/feature"
+import { Harmony } from "devices/harmony/models"
 
 const messages = defineMessages({
   pageTitle: {
@@ -25,6 +27,7 @@ const messages = defineMessages({
 })
 
 export const HarmonyManageFilesScreen: FunctionComponent = () => {
+  const { data: activeDevice } = useActiveDeviceQuery<Harmony>()
   const {
     isLoading,
     segments,
@@ -33,49 +36,52 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
     freeSpaceBytes,
     usedSpaceBytes,
     otherSpaceBytes,
-  } = useHarmonyManageFiles()
+  } = useHarmonyManageFiles(activeDevice)
 
   const [activeCategoryId, setActiveCategoryId] = useState<
     FileCategoryId | undefined
   >(categories[0]?.id)
-  const [selectedFiles, setSelectedFiles] = useState<FileManagerFile[]>([])
 
-  const handleCheckboxClick = (fileId: string, checked: boolean) => {
-    const fileMap =
-      activeCategoryId && categoryFileMap[activeCategoryId]
-        ? categoryFileMap[activeCategoryId]
-        : {}
-    const file = fileMap[fileId]
-    if (!file) {
-      return
-    }
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
 
-    if (checked) {
-      setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, file])
-    } else {
-      setSelectedFiles((prevSelectedFiles) =>
-        prevSelectedFiles.filter((f) => f.id !== fileId)
+  const activeFileMap = useMemo(
+    () => (activeCategoryId ? (categoryFileMap[activeCategoryId] ?? {}) : {}),
+    [activeCategoryId, categoryFileMap]
+  )
+
+  const selectedFiles: FileManagerFile[] = useMemo(() => {
+    const out: FileManagerFile[] = []
+    selectedIds.forEach((id) => {
+      const f = activeFileMap[id]
+      if (f) out.push(f)
+    })
+    return out
+  }, [selectedIds, activeFileMap])
+
+  const handleCheckboxClick = useCallback(
+    (fileId: string, checked: boolean) => {
+      setSelectedIds((prev) => {
+        const next = new Set(prev)
+        checked ? next.add(fileId) : next.delete(fileId)
+        return next
+      })
+    },
+    []
+  )
+
+  const handleAllCheckboxClick = useCallback(
+    (checked: boolean) => {
+      setSelectedIds(() =>
+        checked ? new Set(Object.keys(activeFileMap)) : new Set()
       )
-    }
-  }
+    },
+    [activeFileMap]
+  )
 
-  const handleAllCheckboxClick = (checked: boolean) => {
-    if (checked) {
-      const fileMap =
-        activeCategoryId && categoryFileMap[activeCategoryId]
-          ? categoryFileMap[activeCategoryId]
-          : {}
-      const allFiles = Object.values(fileMap)
-      setSelectedFiles(allFiles)
-    } else {
-      setSelectedFiles([])
-    }
-  }
-
-  const handleCategoryClick = (categoryId: string) => {
-    setSelectedFiles([])
+  const handleCategoryClick = useCallback((categoryId: string) => {
+    setSelectedIds(new Set())
     setActiveCategoryId(categoryId as FileCategoryId)
-  }
+  }, [])
 
   return (
     <>
@@ -99,7 +105,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
           <HarmonyManageFilesTableSection
             fileMap={activeCategoryId ? categoryFileMap[activeCategoryId] : {}}
             onCheckboxClick={handleCheckboxClick}
-            selectedFiles={selectedFiles}
+            selectedIds={selectedIds}
           />
         </ManageFiles>
       )}

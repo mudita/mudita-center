@@ -5,10 +5,7 @@
 
 import { useMemo } from "react"
 import { HarmonyDirectory, Harmony } from "devices/harmony/models"
-import {
-  useActiveDeviceQuery,
-  useDeviceConfigQuery,
-} from "devices/common/feature"
+import { useDeviceConfigQuery } from "devices/common/feature"
 import { useHarmonyFileListQuery } from "devices/harmony/feature"
 import {
   HarmonyManageFilesData,
@@ -20,12 +17,9 @@ interface HarmonyManageFilesDataViewData extends HarmonyManageFilesData {
   isError: boolean
 }
 
-export const useHarmonyManageFiles = (): HarmonyManageFilesDataViewData => {
-  const {
-    data: activeDevice,
-    isLoading: isActiveDeviceLoading,
-    isError: isActiveDeviceError,
-  } = useActiveDeviceQuery<Harmony>()
+export const useHarmonyManageFiles = (
+  activeDevice?: Harmony
+): HarmonyManageFilesDataViewData => {
   const {
     data: config,
     isLoading: isConfigLoading,
@@ -46,16 +40,9 @@ export const useHarmonyManageFiles = (): HarmonyManageFilesDataViewData => {
   } = useHarmonyFileListQuery(HarmonyDirectory.Alarm, activeDevice)
 
   const isLoading =
-    isActiveDeviceLoading ||
-    isConfigLoading ||
-    isRelaxationListLoading ||
-    isAlarmListLoading
+    isConfigLoading || isRelaxationListLoading || isAlarmListLoading
 
-  const isError =
-    isActiveDeviceError ||
-    isConfigError ||
-    isRelaxationListError ||
-    isAlarmListError
+  const isError = isConfigError || isRelaxationListError || isAlarmListError
 
   const data = useMemo<HarmonyManageFilesData>(() => {
     if (
