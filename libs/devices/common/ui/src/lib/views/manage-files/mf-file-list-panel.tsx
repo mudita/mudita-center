@@ -37,7 +37,8 @@ export const MfFileListPanelDefaultMode: FunctionComponent<
 export const MfFileListPanelSelectMode: FunctionComponent<{
   count: number
   onAllCheckboxClick: (checked: boolean) => void
-}> = ({ count, onAllCheckboxClick }) => {
+  onDeleteClick: VoidFunction
+}> = ({ count, onAllCheckboxClick, onDeleteClick }) => {
   return (
     <FileListPanelSelector>
       <Checkbox
@@ -53,6 +54,7 @@ export const MfFileListPanelSelectMode: FunctionComponent<{
         icon={IconType.Trash}
         message={manageFilesMessages.selectionDelete.id}
         type={ButtonType.Text}
+        onClick={onDeleteClick}
       />
     </FileListPanelSelector>
   )

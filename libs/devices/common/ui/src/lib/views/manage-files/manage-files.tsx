@@ -22,12 +22,14 @@ interface Props
     ComponentProps<typeof MfOtherFiles>,
     Pick<
       ComponentProps<typeof MfFileListPanelSelectMode>,
-      "onAllCheckboxClick"
+      "onAllCheckboxClick" | "onDeleteClick"
     > {
   selectedFiles: FileManagerFile[]
+  opened: boolean
 }
 
 export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
+  opened,
   categories,
   segments,
   activeCategoryId,
@@ -39,6 +41,7 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
   selectedFiles,
   onCategoryClick,
   onAllCheckboxClick,
+  onDeleteClick,
   children,
 }) => {
   const activeCategory = categories.find(({ id }) => id === activeCategoryId)
@@ -47,6 +50,10 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
     activeCategory === undefined || activeCategory?.count === 0
 
   const fileListPanelHeader = `${activeCategory?.label} ${activeCategory?.count ? `(${activeCategory.count})` : ""}`
+
+  if (!opened) {
+    return null
+  }
 
   return (
     <Wrapper>
@@ -83,6 +90,7 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
                 <MfFileListPanelSelectMode
                   count={selectedFiles.length}
                   onAllCheckboxClick={onAllCheckboxClick}
+                  onDeleteClick={onDeleteClick}
                 />
               )}
             </FileListPanel>

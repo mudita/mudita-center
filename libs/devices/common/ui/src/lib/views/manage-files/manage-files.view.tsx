@@ -1,0 +1,148 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import {
+  ComponentProps,
+  FunctionComponent,
+  ReactNode,
+  useCallback,
+  useMemo,
+  useState,
+} from "react"
+import { MfStorageSummary } from "./mf-storage-summary"
+import { MfCategoryList } from "./mf-category-list"
+import { MfOtherFiles } from "./mf-other-files"
+import {
+  FileManagerFile,
+  ManageFilesTableSectionProps,
+} from "./manage-files.types"
+import { ManageFiles } from "./manage-files"
+import { ManageFilesLoadingState } from "./manage-files-loading-state"
+import { ManageFilesDeleteFlow } from "./manage-files-delete-flow"
+
+type ManageFilesViewChild = (
+  ctx: Pick<ManageFilesTableSectionProps, "onSelectedChange" | "selectedIds">
+) => ReactNode
+
+interface Props
+  extends ComponentProps<typeof MfStorageSummary>,
+    ComponentProps<typeof MfCategoryList>,
+    ComponentProps<typeof MfOtherFiles>,
+    Pick<
+      ComponentProps<typeof ManageFilesDeleteFlow>,
+      "onDeleteFile" | "onSuccessfulDelete" | "confirmDeleteModalMessages"
+    > {
+  activeFileMap: Record<string, FileManagerFile>
+  onActiveCategoryChange: (categoryId: string) => void
+  isLoading: boolean
+  children: ManageFilesViewChild
+}
+
+export const ManageFilesView: FunctionComponent<Props> = (props) => {
+  const {
+    confirmDeleteModalMessages,
+    activeCategoryId,
+    activeFileMap,
+    onActiveCategoryChange,
+    onDeleteFile,
+    onSuccessfulDelete,
+    isLoading,
+    categories,
+    segments,
+    summaryHeader,
+    freeSpaceBytes,
+    usedSpaceBytes,
+    otherSpaceBytes,
+    otherFiles,
+    children,
+  } = props
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
+
+  const [deleteFlowOpened, setDeleteFlowOpened] = useState(false)
+
+  const selectedFiles: FileManagerFile[] = useMemo(() => {
+    const out: FileManagerFile[] = []
+    selectedIds.forEach((id) => {
+      const f = activeFileMap[id]
+      if (f) out.push(f)
+    })
+    return out
+  }, [selectedIds, activeFileMap])
+
+  const handleSelectedChange = useCallback(
+    (fileId: string, checked: boolean) => {
+      setSelectedIds((prev) => {
+        const next = new Set(prev)
+        checked ? next.add(fileId) : next.delete(fileId)
+        return next
+      })
+    },
+    []
+  )
+
+  const handleAllCheckboxClick = useCallback(
+    (checked: boolean) => {
+      setSelectedIds(() =>
+        checked ? new Set(Object.keys(activeFileMap)) : new Set()
+      )
+    },
+    [activeFileMap]
+  )
+
+  const handleDeleteClick = useCallback(() => {
+    setDeleteFlowOpened(true)
+  }, [])
+
+  const handleCategoryClick = useCallback(
+    (categoryId: string) => {
+      if (categoryId === activeCategoryId) {
+        return
+      }
+      setSelectedIds(new Set())
+      onActiveCategoryChange(categoryId)
+    },
+    [activeCategoryId, onActiveCategoryChange]
+  )
+
+  const loadingState =
+    (isLoading && !deleteFlowOpened) || activeCategoryId === undefined
+
+  const handleSuccessfulDelete = useCallback(async () => {
+    onSuccessfulDelete && (await onSuccessfulDelete())
+    setSelectedIds(new Set())
+    setDeleteFlowOpened(false)
+  }, [onSuccessfulDelete])
+
+  return (
+    <>
+      <ManageFilesLoadingState opened={loadingState} />
+      <ManageFiles
+        opened={!loadingState}
+        segments={segments}
+        categories={categories}
+        activeCategoryId={activeCategoryId}
+        summaryHeader={summaryHeader}
+        freeSpaceBytes={freeSpaceBytes}
+        usedSpaceBytes={usedSpaceBytes}
+        otherSpaceBytes={otherSpaceBytes}
+        otherFiles={otherFiles}
+        selectedFiles={selectedFiles}
+        onCategoryClick={handleCategoryClick}
+        onAllCheckboxClick={handleAllCheckboxClick}
+        onDeleteClick={handleDeleteClick}
+      >
+        {children({ onSelectedChange: handleSelectedChange, selectedIds })}
+      </ManageFiles>
+      <ManageFilesDeleteFlow
+        opened={deleteFlowOpened}
+        onClose={() => setDeleteFlowOpened(false)}
+        selectedFiles={selectedFiles}
+        onSuccessfulDelete={handleSuccessfulDelete}
+        onDeleteFile={onDeleteFile}
+        confirmDeleteModalMessages={confirmDeleteModalMessages}
+      />
+    </>
+  )
+}

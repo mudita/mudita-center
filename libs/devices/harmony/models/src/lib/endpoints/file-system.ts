@@ -25,3 +25,9 @@ export const HarmonyGetFileListResponseValidator = z.record(
   z.string(),
   z.array(HarmonyFileSchema)
 )
+
+export const HarmonyDeleteFileRequestValidator = z.object({
+  removeFile: z.string(),
+})
+
+export const HarmonyDeleteFileResponseValidator = z.undefined()

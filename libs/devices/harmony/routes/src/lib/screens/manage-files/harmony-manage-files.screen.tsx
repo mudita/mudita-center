@@ -3,26 +3,35 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useMemo, useState } from "react"
+import { FunctionComponent, useMemo, useState } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { defineMessages, formatMessage } from "app-localize/utils"
-import {
-  FileManagerFile,
-  ManageFiles,
-  ManageFilesLoadingState,
-} from "devices/common/ui"
+import { useHarmonyDeleteFileMutation } from "devices/harmony/feature"
+import { useActiveDeviceQuery } from "devices/common/feature"
+import { Harmony } from "devices/harmony/models"
+import { ManageFilesView } from "devices/common/ui"
 import { HarmonyManageFilesTableSection } from "./harmony-manage-files-table-section"
 import { useHarmonyManageFiles } from "./use-harmony-manage-files"
 import { FileCategoryId } from "./harmony-manage-files.types"
-import { useActiveDeviceQuery } from "devices/common/feature"
-import { Harmony } from "devices/harmony/models"
 
 const messages = defineMessages({
   pageTitle: {
     id: "page.manageFiles.title",
   },
   summaryHeader: {
-    id: "manageFiles.summary.harmonyHeader",
+    id: "harmony.manageFiles.summary.header",
+  },
+  confirmDeleteModalTextsTitle: {
+    id: "harmony.manageFiles.confirmDelete.modal.title",
+  },
+  confirmDeleteModalTextsDescription: {
+    id: "harmony.manageFiles.confirmDelete.modal.description",
+  },
+  confirmDeleteModalTextsPrimaryButtonText: {
+    id: "harmony.manageFiles.confirmDelete.modal.primaryButtonText",
+  },
+  confirmDeleteModalTextsSecondaryButtonText: {
+    id: "harmony.manageFiles.confirmDelete.modal.secondaryButtonText",
   },
 })
 
@@ -36,79 +45,52 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
     freeSpaceBytes,
     usedSpaceBytes,
     otherSpaceBytes,
+    refresh,
   } = useHarmonyManageFiles(activeDevice)
 
-  const [activeCategoryId, setActiveCategoryId] = useState<
-    FileCategoryId | undefined
-  >(categories[0]?.id)
+  const { mutateAsync: deleteFile } = useHarmonyDeleteFileMutation(activeDevice)
 
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
+  const [activeCategoryId, setActiveCategoryId] = useState<string>(
+    categories[0]?.id
+  )
 
   const activeFileMap = useMemo(
-    () => (activeCategoryId ? (categoryFileMap[activeCategoryId] ?? {}) : {}),
+    () =>
+      activeCategoryId
+        ? (categoryFileMap[activeCategoryId as FileCategoryId] ?? {})
+        : {},
     [activeCategoryId, categoryFileMap]
   )
-
-  const selectedFiles: FileManagerFile[] = useMemo(() => {
-    const out: FileManagerFile[] = []
-    selectedIds.forEach((id) => {
-      const f = activeFileMap[id]
-      if (f) out.push(f)
-    })
-    return out
-  }, [selectedIds, activeFileMap])
-
-  const handleCheckboxClick = useCallback(
-    (fileId: string, checked: boolean) => {
-      setSelectedIds((prev) => {
-        const next = new Set(prev)
-        checked ? next.add(fileId) : next.delete(fileId)
-        return next
-      })
-    },
-    []
-  )
-
-  const handleAllCheckboxClick = useCallback(
-    (checked: boolean) => {
-      setSelectedIds(() =>
-        checked ? new Set(Object.keys(activeFileMap)) : new Set()
-      )
-    },
-    [activeFileMap]
-  )
-
-  const handleCategoryClick = useCallback((categoryId: string) => {
-    setSelectedIds(new Set())
-    setActiveCategoryId(categoryId as FileCategoryId)
-  }, [])
 
   return (
     <>
       <DashboardHeaderTitle title={formatMessage(messages.pageTitle)} />
-      {isLoading || activeCategoryId === undefined ? (
-        <ManageFilesLoadingState />
-      ) : (
-        <ManageFiles
-          segments={segments}
-          categories={categories}
-          activeCategoryId={activeCategoryId}
-          summaryHeader={formatMessage(messages.summaryHeader)}
-          freeSpaceBytes={freeSpaceBytes}
-          usedSpaceBytes={usedSpaceBytes}
-          otherSpaceBytes={otherSpaceBytes}
-          otherFiles={[{ name: "System" }, { name: "Other" }]}
-          selectedFiles={selectedFiles}
-          onCategoryClick={handleCategoryClick}
-          onAllCheckboxClick={handleAllCheckboxClick}
-        >
-          <HarmonyManageFilesTableSection
-            fileMap={activeCategoryId ? categoryFileMap[activeCategoryId] : {}}
-            onCheckboxClick={handleCheckboxClick}
-            selectedIds={selectedIds}
-          />
-        </ManageFiles>
-      )}
+      <ManageFilesView
+        activeCategoryId={activeCategoryId}
+        activeFileMap={activeFileMap}
+        onActiveCategoryChange={setActiveCategoryId}
+        segments={segments}
+        categories={categories}
+        freeSpaceBytes={freeSpaceBytes}
+        usedSpaceBytes={usedSpaceBytes}
+        otherSpaceBytes={otherSpaceBytes}
+        otherFiles={[{ name: "System" }, { name: "Other" }]}
+        summaryHeader={formatMessage(messages.summaryHeader)}
+        onDeleteFile={deleteFile}
+        onSuccessfulDelete={refresh}
+        isLoading={isLoading}
+        confirmDeleteModalMessages={{
+          title: messages.confirmDeleteModalTextsTitle,
+          description: messages.confirmDeleteModalTextsDescription,
+          primaryButtonText: messages.confirmDeleteModalTextsPrimaryButtonText,
+          secondaryButtonText:
+            messages.confirmDeleteModalTextsSecondaryButtonText,
+        }}
+      >
+        {(props) => (
+          <HarmonyManageFilesTableSection fileMap={activeFileMap} {...props} />
+        )}
+      </ManageFilesView>
     </>
   )
 }

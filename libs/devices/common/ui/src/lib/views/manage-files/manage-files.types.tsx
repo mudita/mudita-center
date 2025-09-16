@@ -23,3 +23,4 @@ export type FileManagerFile = {
   type: string
   size: number
 }
+export type { ManageFilesTableSectionProps } from "./manage-files-table-section"

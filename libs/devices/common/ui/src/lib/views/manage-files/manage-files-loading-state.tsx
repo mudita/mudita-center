@@ -9,7 +9,17 @@ import { IconType } from "app-theme/models"
 import { Icon, Typography } from "app-theme/ui"
 import { manageFilesMessages } from "./manage-files.messages"
 
-export const ManageFilesLoadingState: FunctionComponent = () => {
+interface Props {
+  opened?: boolean
+}
+
+export const ManageFilesLoadingState: FunctionComponent<Props> = ({
+  opened,
+}) => {
+  if (!opened) {
+    return null
+  }
+
   return (
     <Wrapper>
       <Typography.H3 message={manageFilesMessages.loadStateText.id} />
@@ -19,10 +29,10 @@ export const ManageFilesLoadingState: FunctionComponent = () => {
 }
 
 const Wrapper = styled.div`
+  display: flex;
   width: 100%;
   height: 100%;
   background: ${({ theme }) => theme.app.color.white};
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
