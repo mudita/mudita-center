@@ -5,6 +5,7 @@
 
 import {
   SerialPortChangedDevices,
+  SerialPortDevicePath,
   SerialPortIpcEvents,
   SerialPortRequest,
 } from "app-serialport/models"
@@ -35,5 +36,18 @@ export const serialPort = {
       path,
       baudRate
     )
+  },
+  freeze: (path: SerialPortDevicePath, timeout?: number) => {
+    return electronAPI.ipcRenderer.invoke(
+      SerialPortIpcEvents.Freeze,
+      path,
+      timeout
+    )
+  },
+  unfreeze: (path: SerialPortDevicePath) => {
+    return electronAPI.ipcRenderer.invoke(SerialPortIpcEvents.Unfreeze, path)
+  },
+  isFrozen: (path: SerialPortDevicePath): Promise<boolean> => {
+    return electronAPI.ipcRenderer.invoke(SerialPortIpcEvents.IsFrozen, path)
   },
 }

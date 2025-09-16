@@ -9,16 +9,16 @@ import {
   SerialPortIpcEvents,
   SerialPortRequest,
 } from "app-serialport/models"
-import { AppSerialPort } from "./app-serial-port"
+import { AppSerialPortService } from "./app-serial-port-service"
 
-let serialport: AppSerialPort
+let serialport: AppSerialPortService
 
 export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
   if (serialport) {
     const changedDevices: SerialPortChangedDevices = {
-      added: serialport.addedDevices,
-      removed: serialport.removedDevices,
-      all: serialport.currentDevices,
+      added: [],
+      removed: [],
+      all: serialport.getCurrentDevices(),
     }
     const emitDevicesChanged = () => {
       mainWindow.webContents.send(
@@ -28,8 +28,8 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
     }
     mainWindow.webContents.once("did-finish-load", emitDevicesChanged)
   } else {
-    serialport = new AppSerialPort()
-    serialport.onDevicesChange((data) => {
+    serialport = new AppSerialPortService()
+    serialport.onDevicesChanged((data) => {
       mainWindow.webContents.send(SerialPortIpcEvents.DevicesChanged, data)
     })
     ipcMain.removeHandler(SerialPortIpcEvents.GetCurrentDevices)
@@ -50,5 +50,20 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
         return serialport.changeBaudRate(path, baudRate)
       }
     )
+    ipcMain.removeHandler(SerialPortIpcEvents.Freeze)
+    ipcMain.handle(
+      SerialPortIpcEvents.Freeze,
+      (_, path: string, timeout?: number) => {
+        return serialport.freeze(path, timeout)
+      }
+    )
+    ipcMain.removeHandler(SerialPortIpcEvents.Unfreeze)
+    ipcMain.handle(SerialPortIpcEvents.Unfreeze, (_, path: string) => {
+      return serialport.unfreeze(path)
+    })
+    ipcMain.removeHandler(SerialPortIpcEvents.IsFrozen)
+    ipcMain.handle(SerialPortIpcEvents.IsFrozen, (_, path: string) => {
+      return serialport.isFrozen(path)
+    })
   }
 }

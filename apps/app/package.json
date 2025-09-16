@@ -26,6 +26,7 @@
   "dependencies": {
     "serialport": "*",
     "sql.js": "*",
-    "getmac": "*"
+    "getmac": "*",
+    "usb": "*"
   }
 }

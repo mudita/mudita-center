@@ -14,39 +14,42 @@ import {
 } from "app-serialport/models"
 import { SerialPortError } from "app-serialport/utils"
 
-export class AppSerialPort {
-  static onDevicesChanged(
-    callback: (changes: SerialPortChangedDevices) => void
-  ) {
+export const AppSerialPort = {
+  onDevicesChanged: (callback: (changes: SerialPortChangedDevices) => void) => {
     window.api.serialPort.onDevicesChanged(callback)
-  }
-
-  static getCurrentDevices(): Promise<SerialPortDeviceInfo[]> {
+  },
+  getCurrentDevices: (): Promise<SerialPortDeviceInfo[]> => {
     return window.api.serialPort.getCurrentDevices()
-  }
-
-  static async changeBaudRate(path: SerialPortDevicePath, baudRate: number) {
+  },
+  changeBaudRate: async (path: SerialPortDevicePath, baudRate: number) => {
     await window.api.serialPort.changeBaudRate(path, baudRate)
-  }
-
-  static isCompatible(
+  },
+  isCompatible: (
     device: Pick<SerialPortDeviceInfo, "deviceType">
-  ): device is SerialPortDeviceInfo {
+  ): device is SerialPortDeviceInfo => {
     if (!Object.values(SerialPortDeviceType).includes(device.deviceType)) {
       throw new Error("Device type is not supported")
     }
     return true
-  }
-
-  static async request(
+  },
+  request: async (
     device: Pick<SerialPortDeviceInfo, "deviceType" | "path">,
     data: SerialPortRequest
-  ): Promise<SerialPortResponse> {
+  ): Promise<SerialPortResponse> => {
     try {
-      this.isCompatible(device)
+      AppSerialPort.isCompatible(device)
       return await window.api.serialPort.request(device.path, data)
     } catch (error) {
       throw new SerialPortError(error)
     }
-  }
+  },
+  freeze: (path: SerialPortDevicePath, timeout?: number) => {
+    window.api.serialPort.freeze(path, timeout)
+  },
+  unfreeze: (path: SerialPortDevicePath) => {
+    window.api.serialPort.unfreeze(path)
+  },
+  isFrozen: (path: SerialPortDevicePath) => {
+    return window.api.serialPort.isFrozen(path)
+  },
 }
