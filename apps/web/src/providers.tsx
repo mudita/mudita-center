@@ -17,7 +17,12 @@ export const Providers: FunctionComponent<PropsWithChildren> = ({
   const queryClientRef = useRef(
     new QueryClient({
       defaultOptions: {
-        queries: { gcTime: 1000 * 60 * 60 * 6, staleTime: Infinity },
+        queries: {
+          gcTime: 1000 * 60 * 60 * 6,
+          staleTime: Infinity,
+          refetchOnReconnect: false,
+          refetchOnWindowFocus: false,
+        },
       },
     })
   )
