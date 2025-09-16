@@ -13,7 +13,7 @@ export type HarmonyResponseBody<
 > = (typeof HarmonyEndpoints)[E][M] extends {
   response: infer R extends z.ZodType
 }
-  ? z.infer<R>
+  ? z.output<R>
   : never
 
 export type HarmonyResponse<

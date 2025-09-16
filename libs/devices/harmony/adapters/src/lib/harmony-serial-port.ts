@@ -22,6 +22,7 @@ import {
   HarmonyResponseBody,
 } from "devices/harmony/models"
 import { DeviceErrorType } from "devices/common/models"
+import { z } from "zod"
 
 export type OKResponse<
   E extends HarmonyEndpoint,
@@ -62,37 +63,41 @@ export class HarmonySerialPort {
 
     const endpointConfig =
       HarmonyEndpoints[request.endpoint as keyof typeof HarmonyEndpoints]
-    const methodConfig =
-      endpointConfig[request.method as keyof typeof endpointConfig]
+    const methodConfig = endpointConfig[
+      request.method as keyof typeof endpointConfig
+    ] as {
+      request?: z.ZodType
+      response?: z.ZodType
+    }
     const requestValidator = methodConfig?.request
     const responseValidator = methodConfig?.response
+    let parsedRequestBody: z.ZodSafeParseResult<unknown> | undefined = undefined
 
     if (requestValidator && "body" in request) {
-      const requestParseResult = requestValidator.safeParse(request.body)
-      if (!requestParseResult.success) {
+      parsedRequestBody = requestValidator.safeParse(request.body)
+      if (!parsedRequestBody.success) {
         return {
           ok: false,
           endpoint: request.endpoint,
           status: DeviceErrorType.RequestParsingFailed,
-          error: requestParseResult.error,
+          error: parsedRequestBody.error,
         }
       }
     }
 
     let response: HarmonyResponse<E, M>
     try {
-      response = (await AppSerialPort.request(
-        device,
-        request
-      )) as HarmonyResponse<E, M>
+      response = (await AppSerialPort.request(device, {
+        ...request,
+        ...(parsedRequestBody ? { body: parsedRequestBody.data } : {}),
+      })) as HarmonyResponse<E, M>
     } catch (error) {
       if (error instanceof SerialPortError) {
-        const message = new SerialPortError(error).message
         return {
           ok: false,
           endpoint: request.endpoint,
           status: DeviceErrorType.Critical,
-          error: message,
+          error: error.type,
         }
       }
       return {
