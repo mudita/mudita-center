@@ -25,7 +25,7 @@
     "nx:migrate": "npx nx migrate --run-migrations",
     "nx:reset": "nx reset",
     "==== Project utils =================": "",
-    "postsetup": "nx fonts:download app && nx news:download app"
+    "postsetup": "nx setup app && nx fonts:download app && nx news:download app"
   },
   "repository": {
     "type": "git",
@@ -131,7 +131,7 @@
     "chromedriver": "^138.0.3",
     "cross-env": "^7.0.3",
     "electron": "37.3.1",
-    "electron-builder": "^26.0.12",
+    "electron-builder": "^26.0.20",
     "electron-devtools-installer": "^4.0.0",
     "electron-vite": "^4.0.0",
     "esbuild": "^0.19.12",
