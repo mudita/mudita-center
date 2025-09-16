@@ -12,7 +12,7 @@ import {
   useDeviceStatusQuery,
 } from "devices/common/feature"
 import { useApiDeviceRouter } from "devices/api-device/routes"
-import { useCallback, useEffect } from "react"
+import { useEffect } from "react"
 import { Navigate, Route, useLocation } from "react-router"
 import {
   FullscreenLayout,
@@ -34,8 +34,6 @@ import { usePureRouter } from "devices/pure/routes"
 import { useQueryClient } from "@tanstack/react-query"
 import { useHarmonyMscRouter } from "devices/harmony-msc/routes"
 import { setContactSupportModalVisible } from "contact-support/feature"
-
-const DEFAULT_UX_DELAY = 500
 
 export const useDevicesInitRouter = () => {
   const queryClient = useQueryClient()
@@ -82,12 +80,6 @@ export const useDevicesInitRouter = () => {
     dispatch(setContactSupportModalVisible(true))
   }
 
-  const delayForBetterUX = useCallback(
-    (ms = DEFAULT_UX_DELAY) =>
-      new Promise((resolve) => setTimeout(resolve, ms)),
-    []
-  )
-
   useEffect(() => {
     if (!pathname.startsWith("/device/")) {
       return
@@ -119,7 +111,6 @@ export const useDevicesInitRouter = () => {
         return
       }
       if (pathname === DevicesPaths.Welcome && devices.length > 1) {
-        await delayForBetterUX()
         navigate({ pathname: DevicesPaths.Selecting })
         return
       }
@@ -131,7 +122,6 @@ export const useDevicesInitRouter = () => {
         pathname !== DevicesPaths.Connecting &&
         activeDeviceStatus === DeviceStatus.Initializing
       ) {
-        await delayForBetterUX()
         navigate({ pathname: DevicesPaths.Connecting })
         return
       }
@@ -140,7 +130,6 @@ export const useDevicesInitRouter = () => {
         pathname !== DevicesPaths.Troubleshooting &&
         activeDeviceStatus === DeviceStatus.CriticalError
       ) {
-        await delayForBetterUX()
         navigate({ pathname: DevicesPaths.Troubleshooting })
         return
       }
@@ -151,24 +140,22 @@ export const useDevicesInitRouter = () => {
           activeDeviceStatus === DeviceStatus.Locked ||
           activeDeviceStatus === DeviceStatus.Issue)
       ) {
-        await delayForBetterUX()
         navigate({ pathname: DevicesPaths.Current })
         return
       }
     })()
-  }, [activeDeviceStatus, delayForBetterUX, devices.length, navigate, pathname])
+  }, [activeDeviceStatus, devices.length, navigate, pathname])
 
   useEffect(() => {
     void (async () => {
       if (menu && activeDeviceStatus === DeviceStatus.Initialized) {
-        await delayForBetterUX(DEFAULT_UX_DELAY / 2)
         dispatch(unregisterMenuGroups([MenuIndex.Device]))
         dispatch(registerMenuGroups([menu]))
       } else {
         dispatch(unregisterMenuGroups([MenuIndex.Device]))
       }
     })()
-  }, [activeDevice, activeDeviceStatus, delayForBetterUX, dispatch, menu])
+  }, [activeDevice, activeDeviceStatus, dispatch, menu])
 
   return (
     <>

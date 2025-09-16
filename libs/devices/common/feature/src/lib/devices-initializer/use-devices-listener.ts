@@ -51,6 +51,9 @@ export const useDevicesListener = () => {
       queryClient.setQueryData(useActiveDeviceQuery.queryKey, {
         path: device.path,
         deviceType: device.deviceType,
+        serialNumber: device.serialNumber,
+        productId: device.productId,
+        deviceSubtype: device.deviceSubtype,
       })
     },
     [queryClient]

@@ -10,8 +10,9 @@ import {
   useDeviceMenuQuery,
   useDeviceStatusQuery,
 } from "../hooks"
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import { Harmony, HarmonyErrorType } from "devices/harmony/models"
+import { delay } from "app-utils/common"
 
 export const useHarmonyInitializer = (device: Harmony) => {
   const queryClient = useQueryClient()
@@ -31,13 +32,21 @@ export const useHarmonyInitializer = (device: Harmony) => {
     [device.path, queryClient]
   )
 
-  if (isConfigLoading || isMenuLoading) {
-    setStatus(DeviceStatus.Initializing)
-    return
-  }
-  if (isConfigError) {
-    setStatus(DeviceStatus.CriticalError)
-    return
-  }
-  setStatus(DeviceStatus.Initialized)
+  const determineStatus = useCallback(async () => {
+    if (isConfigLoading || isMenuLoading) {
+      setStatus(DeviceStatus.Initializing)
+      return
+    }
+    await delay(500)
+
+    if (isConfigError) {
+      setStatus(DeviceStatus.CriticalError)
+      return
+    }
+    setStatus(DeviceStatus.Initialized)
+  }, [isConfigError, isConfigLoading, isMenuLoading, setStatus])
+
+  useEffect(() => {
+    void determineStatus()
+  }, [determineStatus])
 }

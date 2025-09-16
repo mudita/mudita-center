@@ -6,8 +6,9 @@
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
 import { useDeviceConfigQuery, useDeviceStatusQuery } from "../hooks"
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import { Pure, PureErrorType } from "devices/pure/models"
+import { delay } from "app-utils/common"
 
 export const usePureInitializer = (device: Pure) => {
   const queryClient = useQueryClient()
@@ -31,28 +32,34 @@ export const usePureInitializer = (device: Pure) => {
       configFailureReason === PureErrorType.EulaNotAccepted ||
       configFailureReason === PureErrorType.BatteryFlat)
 
-  if (isConfigLoading && !isExpectedError) {
-    setStatus(DeviceStatus.Initializing)
-    return
-  }
+  const determineStatus = useCallback(async () => {
+    if (isConfigLoading && !isExpectedError) {
+      setStatus(DeviceStatus.Initializing)
+      return
+    }
+    await delay(500)
+    if (configFailureReason && !isExpectedError) {
+      setStatus(DeviceStatus.CriticalError)
+      return
+    }
 
-  if (configFailureReason && !isExpectedError) {
-    setStatus(DeviceStatus.CriticalError)
-    return
-  }
+    if (
+      configFailureReason === PureErrorType.EulaNotAccepted ||
+      configFailureReason === PureErrorType.BatteryFlat
+    ) {
+      setStatus(DeviceStatus.Issue)
+      return
+    }
 
-  if (
-    configFailureReason === PureErrorType.EulaNotAccepted ||
-    configFailureReason === PureErrorType.BatteryFlat
-  ) {
-    setStatus(DeviceStatus.Issue)
-    return
-  }
+    if (configFailureReason === PureErrorType.DeviceLocked) {
+      setStatus(DeviceStatus.Locked)
+      return
+    }
 
-  if (configFailureReason === PureErrorType.DeviceLocked) {
-    setStatus(DeviceStatus.Locked)
-    return
-  }
+    setStatus(DeviceStatus.Initialized)
+  }, [configFailureReason, isConfigLoading, isExpectedError, setStatus])
 
-  setStatus(DeviceStatus.Initialized)
+  useEffect(() => {
+    void determineStatus()
+  }, [determineStatus])
 }
