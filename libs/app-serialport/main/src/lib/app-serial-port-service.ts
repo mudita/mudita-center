@@ -101,19 +101,16 @@ export class AppSerialPortService {
     // Detect removed devices
     for (const device of this.devices.values()) {
       if (!connectedDevices.find(({ path }) => path === device.info.path)) {
-        const removedDevice = this.devices.get(device.info.path)
+        device?.instance?.destroy()
 
-        removedDevice?.instance?.destroy()
-
-        if (removedDevice?.freezer.duration) {
-          removedDevice.freezer.timeout = setTimeout(() => {
+        if (device?.freezer.duration) {
+          device.freezer.timeout = setTimeout(() => {
             this.eventEmitter.emit(
               SerialPortEvents.FrozenDeviceExpired,
-              removedDevice.info.path
+              device.info.path
             )
-            this.devices.delete(device.info.path)
-          }, removedDevice.freezer.duration)
-          removedDevice.freezer.duration = undefined
+            this.unfreeze(device.info.path)
+          }, device.freezer.duration)
 
           continue
         }
