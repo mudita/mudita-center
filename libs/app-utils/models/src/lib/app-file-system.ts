@@ -39,5 +39,10 @@ export interface AppFileSystemWriteFileOptions
 }
 
 export type AppFileSystemPathExistsOptions = AppFileSystemScopeOptions
-
 export type AppFileSystemFileStatsOptions = AppFileSystemScopeOptions
+export type AppFileSystemCalculateCrc32Options = AppFileSystemScopeOptions
+
+export type AppFileSystemReadFileChunkOptions = AppFileSystemScopeOptions & {
+  chunkSize: number
+  chunkNo?: number
+}
