@@ -180,7 +180,8 @@ export const mapCsv = (data: ContactRow[]): UnifiedContact[] => {
       } as UnifiedContact
     })
     .filter(
-      ({ id, displayName, ...item }) => !Object.values(item).every(isEmpty)
+      ({ id, displayName, importSource, ...item }) =>
+        !Object.values(item).every(isEmpty)
     )
   if (isEmpty(results)) {
     throw new Error("No contacts found")

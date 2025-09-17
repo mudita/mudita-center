@@ -84,6 +84,7 @@ describe("mapCsv", () => {
       {
         firstName: "John",
         id: "0",
+        importSource: "MC CSV Import",
         lastName: "Doe",
         middleName: "Adam",
         honorificPrefix: "Dr.",
@@ -268,6 +269,7 @@ describe("mapCsv", () => {
       {
         firstName: "John",
         id: "0",
+        importSource: "MC CSV Import",
         lastName: "Doe",
         middleName: "Adam",
         honorificPrefix: "Dr.",
