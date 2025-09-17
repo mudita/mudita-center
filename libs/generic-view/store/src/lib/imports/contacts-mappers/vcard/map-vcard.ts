@@ -27,7 +27,7 @@ export const mapVcard = (data: jCard[]): UnifiedContact[] => {
         addresses: getAdr(jCard).filter(({ type, ...item }) => !isEmpty(item)),
         organizations: getOrg(jCard).filter((item) => !isEmpty(item)),
         urls: getUrl(jCard).filter(({ value }) => value),
-        accountName: ContactAddSource.MCImportVCard,
+        importSource: ContactAddSource.MCImportVCard,
         ...(note && { note }),
       }
     })

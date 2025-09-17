@@ -170,7 +170,7 @@ export const mapCsv = (data: ContactRow[]): UnifiedContact[] => {
         ].filter(Boolean) as UnifiedContact["urls"],
         note: createField(item, ["Notes"]),
         nickname: createField(item, ["Nickname"]),
-        accountName: ContactAddSource.MCImportCsv,
+        importSource: ContactAddSource.MCImportCsv,
       }
       return {
         ...Object.entries(contact).reduce((acc, [key, value]) => {

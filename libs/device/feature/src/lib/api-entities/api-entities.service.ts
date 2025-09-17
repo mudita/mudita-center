@@ -266,7 +266,7 @@ export class APIEntitiesService {
 
     const dataWithSourceId = {
       ...data,
-      accountName: ContactAddSource.MCManual,
+      importSource: ContactAddSource.MCManual,
     }
 
     const response = await device.request({

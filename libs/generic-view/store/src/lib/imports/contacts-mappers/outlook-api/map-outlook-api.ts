@@ -61,7 +61,7 @@ export const mapOutlookApi = (contacts: Contact[]): UnifiedContact[] => {
           note: contact.note,
           organizations: [],
           urls: [],
-          accountName: ContactAddSource.MCImportOutlook,
+          importSource: ContactAddSource.MCImportOutlook,
         }
       } catch {
         return null

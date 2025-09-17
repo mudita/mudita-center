@@ -61,7 +61,7 @@ export const pureToUnifiedContact = (contacts: Contact[]): UnifiedContact[] => {
           : []),
       ],
       note: contact.note,
-      accountName: ContactAddSource.MigratedFromPure,
+      importSource: ContactAddSource.MigratedFromPure,
     } as UnifiedContact
     return {
       ...unifiedContact,

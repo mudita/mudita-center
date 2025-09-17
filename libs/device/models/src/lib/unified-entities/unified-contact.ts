@@ -43,5 +43,5 @@ export type UnifiedContact = {
   }[]
   urls: { value: string; type?: string; preference?: number }[]
   note?: string
-  accountName?: ContactAddSource
+  importSource?: ContactAddSource
 }

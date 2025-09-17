@@ -69,7 +69,7 @@ export const mapGoogleApi = (
           note:
             contact.biographies?.find((item) => item.metadata.primary)?.value ||
             contact.biographies?.[0].value,
-          accountName: ContactAddSource.MCImportGoogle,
+          importSource: ContactAddSource.MCImportGoogle,
         }
 
         return {
