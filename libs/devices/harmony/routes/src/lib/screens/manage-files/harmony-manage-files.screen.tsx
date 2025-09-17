@@ -33,6 +33,12 @@ const messages = defineMessages({
   confirmDeleteModalTextsSecondaryButtonText: {
     id: "harmony.manageFiles.confirmDelete.modal.secondaryButtonText",
   },
+  otherFilesSystemLabelText: {
+    id: "harmony.manageFiles.otherFilesSystemLabelText",
+  },
+  otherFilesOtherLabelText: {
+    id: "harmony.manageFiles.otherFilesOtherLabelText",
+  },
 })
 
 export const HarmonyManageFilesScreen: FunctionComponent = () => {
@@ -45,7 +51,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
     freeSpaceBytes,
     usedSpaceBytes,
     otherSpaceBytes,
-    refresh,
+    refetch,
   } = useHarmonyManageFiles(activeDevice)
 
   const { mutateAsync: deleteFile } = useHarmonyDeleteFileMutation(activeDevice)
@@ -74,11 +80,14 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
         freeSpaceBytes={freeSpaceBytes}
         usedSpaceBytes={usedSpaceBytes}
         otherSpaceBytes={otherSpaceBytes}
-        otherFiles={[{ name: "System" }, { name: "Other" }]}
-        summaryHeader={formatMessage(messages.summaryHeader)}
         onDeleteFile={deleteFile}
-        onSuccessfulDelete={refresh}
+        onSuccessfulDelete={refetch}
         isLoading={isLoading}
+        otherFiles={[
+          { name: formatMessage(messages.otherFilesSystemLabelText) },
+          { name: formatMessage(messages.otherFilesOtherLabelText) },
+        ]}
+        summaryHeader={formatMessage(messages.summaryHeader)}
         confirmDeleteModalMessages={{
           title: messages.confirmDeleteModalTextsTitle,
           description: messages.confirmDeleteModalTextsDescription,

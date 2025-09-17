@@ -8,7 +8,7 @@ import { Button, Modal, Typography } from "app-theme/ui"
 import { ButtonSize, ButtonType, IconType } from "app-theme/models"
 import { formatMessage, Messages } from "app-localize/utils"
 
-interface Props {
+export interface ManageFilesConfirmDeleteModalProps {
   opened: boolean
   onSecondaryButtonClick: VoidFunction
   onPrimaryButtonClick: VoidFunction
@@ -22,7 +22,9 @@ interface Props {
   }
 }
 
-export const ManageFilesConfirmDeleteModal: FunctionComponent<Props> = ({
+export const ManageFilesConfirmDeleteModal: FunctionComponent<
+  ManageFilesConfirmDeleteModalProps
+> = ({
   opened,
   onSecondaryButtonClick,
   onPrimaryButtonClick,

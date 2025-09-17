@@ -34,11 +34,15 @@ export const MfFileListPanelDefaultMode: FunctionComponent<
   )
 }
 
-export const MfFileListPanelSelectMode: FunctionComponent<{
+export interface MfFileListPanelSelectModeProps {
   count: number
   onAllCheckboxClick: (checked: boolean) => void
   onDeleteClick: VoidFunction
-}> = ({ count, onAllCheckboxClick, onDeleteClick }) => {
+}
+
+export const MfFileListPanelSelectMode: FunctionComponent<
+  MfFileListPanelSelectModeProps
+> = ({ count, onAllCheckboxClick, onDeleteClick }) => {
   return (
     <FileListPanelSelector>
       <Checkbox

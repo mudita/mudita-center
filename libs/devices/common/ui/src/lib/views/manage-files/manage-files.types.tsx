@@ -23,4 +23,7 @@ export type FileManagerFile = {
   type: string
   size: number
 }
+
+export type FileManagerFileMap = Record<string, FileManagerFile>
+
 export type { ManageFilesTableSectionProps } from "./manage-files-table-section"

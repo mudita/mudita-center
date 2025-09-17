@@ -3,25 +3,26 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ComponentProps, FunctionComponent, PropsWithChildren } from "react"
+import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
-import { MfStorageSummary } from "./mf-storage-summary"
-import { MfCategoryList } from "./mf-category-list"
-import { MfOtherFiles } from "./mf-other-files"
+import { MfStorageSummary, MfStorageSummaryProps } from "./mf-storage-summary"
+import { MfCategoryList, MfCategoryListProps } from "./mf-category-list"
+import { MfOtherFiles, MfOtherFilesProps } from "./mf-other-files"
 import { MfFileListEmpty } from "./mf-file-list-empty"
 
 import {
   MfFileListPanelDefaultMode,
   MfFileListPanelSelectMode,
+  MfFileListPanelSelectModeProps,
 } from "./mf-file-list-panel"
 import { FileManagerFile } from "./manage-files.types"
 
 interface Props
-  extends ComponentProps<typeof MfStorageSummary>,
-    ComponentProps<typeof MfCategoryList>,
-    ComponentProps<typeof MfOtherFiles>,
+  extends MfStorageSummaryProps,
+    MfCategoryListProps,
+    MfOtherFilesProps,
     Pick<
-      ComponentProps<typeof MfFileListPanelSelectMode>,
+      MfFileListPanelSelectModeProps,
       "onAllCheckboxClick" | "onDeleteClick"
     > {
   selectedFiles: FileManagerFile[]

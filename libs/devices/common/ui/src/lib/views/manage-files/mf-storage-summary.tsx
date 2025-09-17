@@ -15,14 +15,14 @@ import {
 } from "app-theme/ui"
 import { manageFilesMessages } from "./manage-files.messages"
 
-interface Props {
+export interface MfStorageSummaryProps {
   summaryHeader: string
   usedSpaceBytes: number
   freeSpaceBytes: number
   segments: ISegmentBarItem[]
 }
 
-export const MfStorageSummary: FunctionComponent<Props> = ({
+export const MfStorageSummary: FunctionComponent<MfStorageSummaryProps> = ({
   summaryHeader,
   usedSpaceBytes,
   freeSpaceBytes,

@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FileManagerFile } from "./manage-files.types"
+import { FileManagerFileMap } from "./manage-files.types"
 
 export interface ManageFilesTableSectionProps {
-  fileMap: Record<string, FileManagerFile>
+  fileMap: FileManagerFileMap
   activeRowId?: string
   onSelectedChange: (fileId: string, checked: boolean) => void
   selectedIds: Set<string>

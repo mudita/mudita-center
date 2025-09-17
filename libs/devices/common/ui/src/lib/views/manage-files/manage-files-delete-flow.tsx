@@ -3,16 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  ComponentProps,
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react"
+import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { delayUntil } from "app-utils/common"
 import { ManageFilesDeletingModal } from "./manage-files-deleting-modal"
-import { ManageFilesConfirmDeleteModal } from "./manage-files-confirm-delete-modal"
+import {
+  ManageFilesConfirmDeleteModal,
+  ManageFilesConfirmDeleteModalProps,
+} from "./manage-files-confirm-delete-modal"
 import { FileManagerFile } from "./manage-files.types"
 
 enum FlowState {
@@ -20,18 +17,18 @@ enum FlowState {
   Deleting,
 }
 
-interface Props {
+export interface ManageFilesDeleteFlowProps {
   opened: boolean
   selectedFiles: FileManagerFile[]
   onClose: VoidFunction
   onDeleteFile: (fileId: string) => Promise<void>
   onSuccessfulDelete?: () => Promise<void>
-  confirmDeleteModalMessages: ComponentProps<
-    typeof ManageFilesConfirmDeleteModal
-  >["messages"]
+  confirmDeleteModalMessages: ManageFilesConfirmDeleteModalProps["messages"]
 }
 
-export const ManageFilesDeleteFlow: FunctionComponent<Props> = ({
+export const ManageFilesDeleteFlow: FunctionComponent<
+  ManageFilesDeleteFlowProps
+> = ({
   opened,
   onClose,
   selectedFiles,

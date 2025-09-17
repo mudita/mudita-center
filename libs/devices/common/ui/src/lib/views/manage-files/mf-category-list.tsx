@@ -12,13 +12,13 @@ import { IconSize } from "app-theme/models"
 import { FileManagerFileCategory } from "./manage-files.types"
 import { manageFilesMessages } from "./manage-files.messages"
 
-interface Props {
+export interface MfCategoryListProps {
   categories: FileManagerFileCategory[]
   activeCategoryId: string
   onCategoryClick?: (categoryId: string) => void
 }
 
-export const MfCategoryList: FunctionComponent<Props> = ({
+export const MfCategoryList: FunctionComponent<MfCategoryListProps> = ({
   categories,
   activeCategoryId,
   onCategoryClick = noop,

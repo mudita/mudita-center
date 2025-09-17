@@ -4,37 +4,40 @@
  */
 
 import {
-  ComponentProps,
   FunctionComponent,
   ReactNode,
   useCallback,
   useMemo,
   useState,
 } from "react"
-import { MfStorageSummary } from "./mf-storage-summary"
-import { MfCategoryList } from "./mf-category-list"
-import { MfOtherFiles } from "./mf-other-files"
+import { MfStorageSummaryProps } from "./mf-storage-summary"
+import { MfCategoryListProps } from "./mf-category-list"
 import {
   FileManagerFile,
+  FileManagerFileMap,
   ManageFilesTableSectionProps,
 } from "./manage-files.types"
 import { ManageFiles } from "./manage-files"
 import { ManageFilesLoadingState } from "./manage-files-loading-state"
-import { ManageFilesDeleteFlow } from "./manage-files-delete-flow"
+import {
+  ManageFilesDeleteFlow,
+  ManageFilesDeleteFlowProps,
+} from "./manage-files-delete-flow"
+import { MfOtherFilesProps } from "./mf-other-files"
 
 type ManageFilesViewChild = (
   ctx: Pick<ManageFilesTableSectionProps, "onSelectedChange" | "selectedIds">
 ) => ReactNode
 
 interface Props
-  extends ComponentProps<typeof MfStorageSummary>,
-    ComponentProps<typeof MfCategoryList>,
-    ComponentProps<typeof MfOtherFiles>,
+  extends MfStorageSummaryProps,
+    MfCategoryListProps,
+    MfOtherFilesProps,
     Pick<
-      ComponentProps<typeof ManageFilesDeleteFlow>,
+      ManageFilesDeleteFlowProps,
       "onDeleteFile" | "onSuccessfulDelete" | "confirmDeleteModalMessages"
     > {
-  activeFileMap: Record<string, FileManagerFile>
+  activeFileMap: FileManagerFileMap
   onActiveCategoryChange: (categoryId: string) => void
   isLoading: boolean
   children: ManageFilesViewChild

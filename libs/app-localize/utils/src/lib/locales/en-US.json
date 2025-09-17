@@ -96,6 +96,8 @@
   "harmony.manageFiles.confirmDelete.modal.secondaryButtonText": "Cancel",
   "harmony.manageFiles.confirmDelete.modal.title": "Delete {selectedItems, plural, one {file} other {# files}}?",
   "harmony.manageFiles.deleting.modal.title": "Deleting, please wait...",
+  "harmony.manageFiles.otherFilesOtherLabelText": "Other",
+  "harmony.manageFiles.otherFilesSystemLabelText": "System",
   "harmony.manageFiles.summary.header": "Harmony Sounds",
   "harmony.menu.files": "Manage Files",
   "harmony.menu.overview": "Overview",

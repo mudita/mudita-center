@@ -15,7 +15,7 @@ import {
 interface HarmonyManageFilesDataViewData extends HarmonyManageFilesData {
   isLoading: boolean
   isError: boolean
-  refresh: () => Promise<void>
+  refetch: () => Promise<void>
 }
 
 export const useHarmonyManageFiles = (
@@ -78,6 +78,6 @@ export const useHarmonyManageFiles = (
     ...data,
     isLoading,
     isError,
-    refresh,
+    refetch: refresh,
   }
 }
