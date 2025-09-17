@@ -4,7 +4,7 @@
  */
 
 import vCard from "vcf"
-import { UnifiedContact } from "device/models"
+import { ContactAddSource, UnifiedContact } from "device/models"
 import { getDisplayName } from "../helpers"
 import { first, isArray, isEmpty, last } from "lodash"
 
@@ -27,6 +27,7 @@ export const mapVcard = (data: jCard[]): UnifiedContact[] => {
         addresses: getAdr(jCard).filter(({ type, ...item }) => !isEmpty(item)),
         organizations: getOrg(jCard).filter((item) => !isEmpty(item)),
         urls: getUrl(jCard).filter(({ value }) => value),
+        accountName: ContactAddSource.MCImportVCard,
         ...(note && { note }),
       }
     })

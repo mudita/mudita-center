@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ContactAddSource } from "./contact-add-source"
+
 export type UnifiedContact = {
   id: string
   firstName?: string
@@ -41,4 +43,5 @@ export type UnifiedContact = {
   }[]
   urls: { value: string; type?: string; preference?: number }[]
   note?: string
+  accountName?: ContactAddSource
 }
