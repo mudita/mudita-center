@@ -48,7 +48,7 @@ export const Default: StoryObj<typeof ManageFilesConfirmDeleteModal> = {
     onSecondaryButtonClick: action("onSecondaryButtonClick"),
     onPrimaryButtonClick: action("onPrimaryButtonClick"),
     onClose: action("onClose"),
-    selectedItems: 1,
+    fileCount: 1,
   },
   render: (args) => <ManageFilesConfirmDeleteModal {...args} />,
 }

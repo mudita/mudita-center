@@ -77,7 +77,7 @@ export const ManageFilesDeleteFlow: FunctionComponent<
         onClose={onClose}
         onPrimaryButtonClick={handleConfirmDeleteClick}
         onSecondaryButtonClick={onClose}
-        selectedItems={selectedFiles.length}
+        fileCount={selectedFiles.length}
         messages={deleteFlowMessages}
       />
       <ManageFilesDeletingModal

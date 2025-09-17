@@ -13,7 +13,7 @@ export interface ManageFilesConfirmDeleteModalProps {
   onSecondaryButtonClick: VoidFunction
   onPrimaryButtonClick: VoidFunction
   onClose: VoidFunction
-  selectedItems: number
+  fileCount: number
   messages: {
     confirmDeleteModalTitle: Messages
     confirmDeleteModalDescription: Messages
@@ -29,7 +29,7 @@ export const ManageFilesConfirmDeleteModal: FunctionComponent<
   onSecondaryButtonClick,
   onPrimaryButtonClick,
   onClose,
-  selectedItems,
+  fileCount,
   messages,
 }) => {
   return (
@@ -38,12 +38,12 @@ export const ManageFilesConfirmDeleteModal: FunctionComponent<
       <Modal.TitleIcon type={IconType.Error} />
       <Modal.Title
         text={formatMessage(messages.confirmDeleteModalTitle, {
-          selectedItems,
+          fileCount,
         })}
       />
       <Typography.P1
         message={messages.confirmDeleteModalDescription.id}
-        values={{ selectedItems }}
+        values={{ fileCount }}
       />
       <Modal.Buttons>
         <Button
@@ -52,7 +52,7 @@ export const ManageFilesConfirmDeleteModal: FunctionComponent<
           onClick={onSecondaryButtonClick}
         >
           {formatMessage(messages.confirmDeleteModalSecondaryButtonText, {
-            selectedItems,
+            fileCount,
           })}
         </Button>
         <Button
@@ -61,7 +61,7 @@ export const ManageFilesConfirmDeleteModal: FunctionComponent<
           onClick={onPrimaryButtonClick}
         >
           {formatMessage(messages.confirmDeleteModalPrimaryButtonText, {
-            selectedItems,
+            fileCount,
           })}
         </Button>
       </Modal.Buttons>

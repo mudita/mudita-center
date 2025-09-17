@@ -66,7 +66,7 @@ const useTitle = (
   useMemo(() => {
     return isAllFailed
       ? formatMessage(messages.deleteFailedAllModalTitle, {
-          failedFiles: failedCount,
+          failedCount,
         })
       : formatMessage(messages.deleteFailedSomeModalTitle)
   }, [isAllFailed, messages, failedCount])
@@ -80,11 +80,11 @@ const useDescription = (
   useMemo(() => {
     return isAllFailed
       ? formatMessage(messages.deleteFailedAllModalDescription, {
-          failedFiles: failedCount,
+          failedCount,
         })
       : formatMessage(messages.deleteFailedDescriptionModalDescription, {
-          succeededFiles: succeededCount,
-          failedFiles: failedCount,
+          succeededCount,
+          failedCount,
         })
   }, [isAllFailed, messages, failedCount, succeededCount])
 
