@@ -21,16 +21,16 @@ const messages = defineMessages({
   summaryHeader: {
     id: "harmony.manageFiles.summary.header",
   },
-  confirmDeleteModalTextsTitle: {
+  confirmDeleteModalTitle: {
     id: "harmony.manageFiles.confirmDelete.modal.title",
   },
-  confirmDeleteModalTextsDescription: {
+  confirmDeleteModalDescription: {
     id: "harmony.manageFiles.confirmDelete.modal.description",
   },
-  confirmDeleteModalTextsPrimaryButtonText: {
+  confirmDeleteModalPrimaryButtonText: {
     id: "harmony.manageFiles.confirmDelete.modal.primaryButtonText",
   },
-  confirmDeleteModalTextsSecondaryButtonText: {
+  confirmDeleteModalSecondaryButtonText: {
     id: "harmony.manageFiles.confirmDelete.modal.secondaryButtonText",
   },
   otherFilesSystemLabelText: {
@@ -38,6 +38,21 @@ const messages = defineMessages({
   },
   otherFilesOtherLabelText: {
     id: "harmony.manageFiles.otherFilesOtherLabelText",
+  },
+  deleteFailedAllModalTitle: {
+    id: "harmony.manageFiles.deleteFailed.all.modal.title",
+  },
+  deleteFailedSomeModalTitle: {
+    id: "harmony.manageFiles.deleteFailed.some.modal.title",
+  },
+  deleteFailedAllModalDescription: {
+    id: "harmony.manageFiles.deleteFailed.all.modal.description",
+  },
+  deleteFailedDescriptionModalDescription: {
+    id: "harmony.manageFiles.deleteFailed.some.modal.description",
+  },
+  deleteFailedModalSecondaryButtonText: {
+    id: "harmony.manageFiles.deleteFailed.modal.secondaryButtonText",
   },
 })
 
@@ -80,21 +95,15 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
         freeSpaceBytes={freeSpaceBytes}
         usedSpaceBytes={usedSpaceBytes}
         otherSpaceBytes={otherSpaceBytes}
-        onDeleteFile={deleteFile}
-        onSuccessfulDelete={refetch}
+        handleDeleteFile={deleteFile}
+        onDeleteSuccess={refetch}
         isLoading={isLoading}
         otherFiles={[
           { name: formatMessage(messages.otherFilesSystemLabelText) },
           { name: formatMessage(messages.otherFilesOtherLabelText) },
         ]}
         summaryHeader={formatMessage(messages.summaryHeader)}
-        confirmDeleteModalMessages={{
-          title: messages.confirmDeleteModalTextsTitle,
-          description: messages.confirmDeleteModalTextsDescription,
-          primaryButtonText: messages.confirmDeleteModalTextsPrimaryButtonText,
-          secondaryButtonText:
-            messages.confirmDeleteModalTextsSecondaryButtonText,
-        }}
+        deleteFlowMessages={messages}
       >
         {(props) => (
           <HarmonyManageFilesTableSection fileMap={activeFileMap} {...props} />

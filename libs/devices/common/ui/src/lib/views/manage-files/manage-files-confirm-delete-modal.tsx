@@ -15,10 +15,10 @@ export interface ManageFilesConfirmDeleteModalProps {
   onClose: VoidFunction
   selectedItems: number
   messages: {
-    title: Messages
-    description: Messages
-    primaryButtonText: Messages
-    secondaryButtonText: Messages
+    confirmDeleteModalTitle: Messages
+    confirmDeleteModalDescription: Messages
+    confirmDeleteModalPrimaryButtonText: Messages
+    confirmDeleteModalSecondaryButtonText: Messages
   }
 }
 
@@ -36,9 +36,13 @@ export const ManageFilesConfirmDeleteModal: FunctionComponent<
     <Modal opened={opened}>
       <Modal.CloseButton onClick={onClose} />
       <Modal.TitleIcon type={IconType.Error} />
-      <Modal.Title text={formatMessage(messages.title, { selectedItems })} />
+      <Modal.Title
+        text={formatMessage(messages.confirmDeleteModalTitle, {
+          selectedItems,
+        })}
+      />
       <Typography.P1
-        message={messages.description.id}
+        message={messages.confirmDeleteModalDescription.id}
         values={{ selectedItems }}
       />
       <Modal.Buttons>
@@ -46,16 +50,20 @@ export const ManageFilesConfirmDeleteModal: FunctionComponent<
           type={ButtonType.Secondary}
           size={ButtonSize.Medium}
           onClick={onSecondaryButtonClick}
-          message={messages.secondaryButtonText.id}
-          values={{ selectedItems }}
-        />
+        >
+          {formatMessage(messages.confirmDeleteModalSecondaryButtonText, {
+            selectedItems,
+          })}
+        </Button>
         <Button
           type={ButtonType.Primary}
           size={ButtonSize.Medium}
           onClick={onPrimaryButtonClick}
-          message={messages.primaryButtonText.id}
-          values={{ selectedItems }}
-        />
+        >
+          {formatMessage(messages.confirmDeleteModalPrimaryButtonText, {
+            selectedItems,
+          })}
+        </Button>
       </Modal.Buttons>
     </Modal>
   )

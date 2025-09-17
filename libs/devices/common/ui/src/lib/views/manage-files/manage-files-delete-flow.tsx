@@ -5,25 +5,31 @@
 
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { delayUntil } from "app-utils/common"
+import { FileManagerFile } from "./manage-files.types"
 import { ManageFilesDeletingModal } from "./manage-files-deleting-modal"
 import {
   ManageFilesConfirmDeleteModal,
   ManageFilesConfirmDeleteModalProps,
 } from "./manage-files-confirm-delete-modal"
-import { FileManagerFile } from "./manage-files.types"
+import {
+  ManageFilesDeleteFailedModal,
+  ManageFilesDeleteFailedModalProps,
+} from "./manage-files-delete-failed-modal"
+import { useDeleteFilesHandler } from "./use-delete-files-handler"
+import { ManageFilesDeleteFlowState } from "./manage-files-delete-flow.types"
 
-enum FlowState {
-  ConfirmDelete,
-  Deleting,
-}
+type ManageFilesDeleteFlowMessages =
+  ManageFilesConfirmDeleteModalProps["messages"] &
+    ManageFilesDeleteFailedModalProps["messages"]
 
 export interface ManageFilesDeleteFlowProps {
   opened: boolean
   selectedFiles: FileManagerFile[]
   onClose: VoidFunction
-  onDeleteFile: (fileId: string) => Promise<void>
-  onSuccessfulDelete?: () => Promise<void>
-  confirmDeleteModalMessages: ManageFilesConfirmDeleteModalProps["messages"]
+  handleDeleteFile: (fileId: string) => Promise<void>
+  onDeleteSuccess?: () => Promise<void>
+  onPartialDeleteFailure?: (failedFiles: FileManagerFile[]) => Promise<void>
+  deleteFlowMessages: ManageFilesDeleteFlowMessages
 }
 
 export const ManageFilesDeleteFlow: FunctionComponent<
@@ -32,46 +38,58 @@ export const ManageFilesDeleteFlow: FunctionComponent<
   opened,
   onClose,
   selectedFiles,
-  onDeleteFile,
-  onSuccessfulDelete,
-  confirmDeleteModalMessages,
+  handleDeleteFile,
+  onDeleteSuccess,
+  onPartialDeleteFailure,
+  deleteFlowMessages,
 }) => {
-  const [flowState, setFlowState] = useState<FlowState | null>(
-    opened ? FlowState.ConfirmDelete : null
+  const [flowState, setFlowState] = useState<ManageFilesDeleteFlowState | null>(
+    opened ? ManageFilesDeleteFlowState.ConfirmDelete : null
   )
+  const [failedFiles, setFailedFiles] = useState<FileManagerFile[]>([])
 
   useEffect(() => {
-    setFlowState(opened ? FlowState.ConfirmDelete : null)
+    setFlowState(opened ? ManageFilesDeleteFlowState.ConfirmDelete : null)
   }, [opened])
 
-  const handleConfirmDeleteClick = useCallback(async () => {
-    setFlowState(FlowState.Deleting)
+  const handleDeleteFiles = useDeleteFilesHandler({
+    selectedFiles,
+    handleDeleteFile,
+    onDeleteSuccess,
+    onSetFlowState: setFlowState,
+    onSetFailedFiles: setFailedFiles,
+  })
 
-    const handle = async () => {
-      for (const file of selectedFiles) {
-        if (file) {
-          await onDeleteFile(file.id)
-        }
-      }
+  const handleConfirmDeleteClick = useCallback(() => {
+    setFlowState(ManageFilesDeleteFlowState.Deleting)
+    void delayUntil(handleDeleteFiles(), 500)
+  }, [handleDeleteFiles])
 
-      onSuccessfulDelete && (await onSuccessfulDelete())
-      setFlowState(null)
-    }
-
-    await delayUntil(handle(), 500)
-  }, [onSuccessfulDelete, selectedFiles, onDeleteFile])
+  const handleDeleteFailedClose = useCallback(async () => {
+    onPartialDeleteFailure && (await onPartialDeleteFailure(failedFiles))
+    setFlowState(null)
+  }, [failedFiles, onPartialDeleteFailure])
 
   return (
     <>
       <ManageFilesConfirmDeleteModal
-        opened={flowState === FlowState.ConfirmDelete}
+        opened={flowState === ManageFilesDeleteFlowState.ConfirmDelete}
         onClose={onClose}
         onPrimaryButtonClick={handleConfirmDeleteClick}
         onSecondaryButtonClick={onClose}
         selectedItems={selectedFiles.length}
-        messages={confirmDeleteModalMessages}
+        messages={deleteFlowMessages}
       />
-      <ManageFilesDeletingModal opened={flowState === FlowState.Deleting} />
+      <ManageFilesDeletingModal
+        opened={flowState === ManageFilesDeleteFlowState.Deleting}
+      />
+      <ManageFilesDeleteFailedModal
+        opened={flowState === ManageFilesDeleteFlowState.DeleteFailed}
+        onClose={handleDeleteFailedClose}
+        messages={deleteFlowMessages}
+        failedFiles={failedFiles}
+        allFiles={selectedFiles}
+      />
     </>
   )
 }

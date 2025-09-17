@@ -18,8 +18,10 @@ import {
   Tooltip,
   Typography,
 } from "app-theme/ui"
-import { ManageFilesTableSectionProps } from "devices/common/ui"
-import { FileManagerFileMap } from "./harmony-manage-files.types"
+import {
+  FileManagerFileMap,
+  ManageFilesTableSectionProps,
+} from "devices/common/ui"
 
 type CellProps = { dataItemId?: string; fileMap: FileManagerFileMap }
 

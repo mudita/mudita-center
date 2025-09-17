@@ -35,7 +35,7 @@ interface Props
     MfOtherFilesProps,
     Pick<
       ManageFilesDeleteFlowProps,
-      "onDeleteFile" | "onSuccessfulDelete" | "confirmDeleteModalMessages"
+      "handleDeleteFile" | "onDeleteSuccess" | "deleteFlowMessages"
     > {
   activeFileMap: FileManagerFileMap
   onActiveCategoryChange: (categoryId: string) => void
@@ -45,12 +45,12 @@ interface Props
 
 export const ManageFilesView: FunctionComponent<Props> = (props) => {
   const {
-    confirmDeleteModalMessages,
+    deleteFlowMessages,
     activeCategoryId,
     activeFileMap,
     onActiveCategoryChange,
-    onDeleteFile,
-    onSuccessfulDelete,
+    handleDeleteFile,
+    onDeleteSuccess,
     isLoading,
     categories,
     segments,
@@ -68,8 +68,8 @@ export const ManageFilesView: FunctionComponent<Props> = (props) => {
   const selectedFiles: FileManagerFile[] = useMemo(() => {
     const out: FileManagerFile[] = []
     selectedIds.forEach((id) => {
-      const f = activeFileMap[id]
-      if (f) out.push(f)
+      const file = activeFileMap[id]
+      if (file) out.push(file)
     })
     return out
   }, [selectedIds, activeFileMap])
@@ -113,10 +113,27 @@ export const ManageFilesView: FunctionComponent<Props> = (props) => {
     (isLoading && !deleteFlowOpened) || activeCategoryId === undefined
 
   const handleSuccessfulDelete = useCallback(async () => {
-    onSuccessfulDelete && (await onSuccessfulDelete())
+    onDeleteSuccess && (await onDeleteSuccess())
     setSelectedIds(new Set())
     setDeleteFlowOpened(false)
-  }, [onSuccessfulDelete])
+  }, [onDeleteSuccess])
+
+  const handlePartialDeleteFailure = useCallback(
+    async (failedFiles: FileManagerFile[]) => {
+      if (failedFiles.length === selectedFiles.length) {
+        setDeleteFlowOpened(false)
+      } else {
+        setDeleteFlowOpened(false)
+        onDeleteSuccess && (await onDeleteSuccess())
+        setSelectedIds(() => {
+          const next = new Set<string>()
+          failedFiles.forEach((file) => next.add(file.id))
+          return next
+        })
+      }
+    },
+    [onDeleteSuccess, selectedFiles.length]
+  )
 
   return (
     <>
@@ -142,9 +159,10 @@ export const ManageFilesView: FunctionComponent<Props> = (props) => {
         opened={deleteFlowOpened}
         onClose={() => setDeleteFlowOpened(false)}
         selectedFiles={selectedFiles}
-        onSuccessfulDelete={handleSuccessfulDelete}
-        onDeleteFile={onDeleteFile}
-        confirmDeleteModalMessages={confirmDeleteModalMessages}
+        onDeleteSuccess={handleSuccessfulDelete}
+        onPartialDeleteFailure={handlePartialDeleteFailure}
+        handleDeleteFile={handleDeleteFile}
+        deleteFlowMessages={deleteFlowMessages}
       />
     </>
   )
