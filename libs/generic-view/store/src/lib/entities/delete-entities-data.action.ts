@@ -23,6 +23,7 @@ interface DeleteEntitiesDataActionPayload {
   onSuccess?: () => Promise<void> | void
   onError?: () => Promise<void> | void
   successMessage?: string
+  errorMessage?: string
 }
 
 export const deleteEntitiesDataAction = createAsyncThunk<
@@ -35,7 +36,15 @@ export const deleteEntitiesDataAction = createAsyncThunk<
 >(
   ActionName.DeleteEntitiesData,
   async (
-    { entitiesType, ids, deviceId, onSuccess, onError, successMessage },
+    {
+      entitiesType,
+      ids,
+      deviceId,
+      onSuccess,
+      onError,
+      successMessage,
+      errorMessage,
+    },
     { rejectWithValue, dispatch }
   ) => {
     const response = await delayResponse(
@@ -47,39 +56,46 @@ export const deleteEntitiesDataAction = createAsyncThunk<
       1000
     )
 
-    if (!response.ok || response.data?.failedIds) {
+    const failedIds = !response.ok
+      ? ids
+      : (response.data as EntitiesDeleteResponse | undefined)?.failedIds ?? []
+    const successIds = failedIds.length > 0 ? difference(ids, failedIds) : ids
+
+    if (entitiesType !== "contacts" && failedIds.length > 0) {
       await onError?.()
       if (response.data) {
-        const failedIds = (response.data as EntitiesDeleteResponse)!.failedIds
-        const successIds = (response.data as EntitiesDeleteResponse)!.failedIds
-          ? difference(
-              ids,
-              (response.data as EntitiesDeleteResponse)!.failedIds
-            )
-          : ids
-
         return rejectWithValue({ failedIds, successIds })
       }
       return rejectWithValue(undefined)
     }
     await onSuccess?.()
-
-    await dispatch(
-      openToastAction({
-        key: `${entitiesType}DeleteSuccessToast`,
-        text: intl.formatMessage(
-          successMessage
-            ? { id: "none", defaultMessage: successMessage }
-            : {
-                id: "module.genericViews.entities.delete.success.toastMessage",
-              },
-          { count: ids.length }
-        ),
-        icon: IconType.Success,
-      })
-    )
-
+    const toastConfig = {
+      key: `${entitiesType}DeleteSuccessToast`,
+      text: getToastText(successIds, successMessage, errorMessage),
+      icon: successIds.length > 0 ? IconType.Success : IconType.Failure,
+    }
+    await dispatch(openToastAction(toastConfig))
     await dispatch(getEntitiesMetadataAction({ entitiesType, deviceId }))
-    return ids
+    return successIds
   }
 )
+
+function getToastText(
+  successIds: EntityId[],
+  successMessage?: string,
+  errorMessage?: string
+) {
+  if (successIds.length === 0) {
+    return intl.formatMessage(
+      errorMessage
+        ? { id: "none", defaultMessage: errorMessage }
+        : { id: "module.genericViews.entities.delete.error.toastMessage" }
+    )
+  }
+  return intl.formatMessage(
+    successMessage
+      ? { id: "none", defaultMessage: successMessage }
+      : { id: "module.genericViews.entities.delete.success.toastMessage" },
+    { count: successIds.length }
+  )
+}
