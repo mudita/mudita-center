@@ -79,8 +79,15 @@ const generateDeleteModal = ({
             ids: [],
             successMessage:
               "{count, plural, one {# contact} other {# contacts}} deleted",
+            errorMessage: "No contacts deleted",
             postActions: {
               success: [
+                {
+                  type: "close-domain-modals",
+                  domain: "contacts-delete",
+                },
+              ],
+              failure: [
                 {
                   type: "close-domain-modals",
                   domain: "contacts-delete",
