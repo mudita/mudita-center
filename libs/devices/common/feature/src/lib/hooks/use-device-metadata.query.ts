@@ -58,7 +58,7 @@ const queryFn = (
           color = DeviceImageColor.Black
       }
       return {
-        id: device.path,
+        id: device.id,
         name: formatMessage(messages.kompakt),
         image: {
           type: DeviceImageType.Kompakt,
@@ -72,7 +72,7 @@ const queryFn = (
   if (HarmonySerialPort.isCompatible(device)) {
     const isHarmony2 = config.caseColour === "black"
     return {
-      id: device.path,
+      id: device.id,
       name: isHarmony2
         ? formatMessage(messages.harmony2)
         : formatMessage(messages.harmony1),
@@ -84,7 +84,7 @@ const queryFn = (
   }
   if (PureSerialPort.isCompatible(device)) {
     return {
-      id: device.path,
+      id: device.id,
       name: formatMessage(messages.pure),
       image: {
         type: DeviceImageType.Pure,
@@ -99,7 +99,7 @@ const queryFn = (
   }
   if (HarmonyMscSerialPort.isCompatible(device)) {
     return {
-      id: device.path,
+      id: device.id,
       name: formatMessage(messages.harmony1),
       image: {
         type: DeviceImageType.HarmonyMsc,
@@ -118,7 +118,7 @@ const placeholderData = (device?: Device): DeviceMetadata | null => {
   if (ApiDeviceSerialPort.isCompatible(device)) {
     if (device.deviceSubtype === SerialPortDeviceSubtype.Kompakt) {
       return {
-        id: device?.path || "",
+        id: device?.id || "",
         name: formatMessage(messages.kompakt),
         image: {
           type: DeviceImageType.Kompakt,
@@ -129,7 +129,7 @@ const placeholderData = (device?: Device): DeviceMetadata | null => {
   }
   if (HarmonySerialPort.isCompatible(device)) {
     return {
-      id: device?.path || "",
+      id: device?.id || "",
       name: formatMessage(messages.harmony1),
       image: {
         type: DeviceImageType.HarmonyMsc,
@@ -139,7 +139,7 @@ const placeholderData = (device?: Device): DeviceMetadata | null => {
   }
   if (PureSerialPort.isCompatible(device)) {
     return {
-      id: device?.path || "",
+      id: device?.id || "",
       name: formatMessage(messages.pure),
       image: {
         type: DeviceImageType.Pure,
@@ -150,7 +150,7 @@ const placeholderData = (device?: Device): DeviceMetadata | null => {
   }
   if (HarmonyMscSerialPort.isCompatible(device)) {
     return {
-      id: device?.path || "",
+      id: device?.id || "",
       name: formatMessage(messages.harmony1),
       image: {
         type: DeviceImageType.HarmonyMsc,
@@ -166,7 +166,7 @@ export const useDeviceMetadataQuery = (device?: Device) => {
   const { data: deviceConfig } = useDeviceConfigQuery(device)
 
   return useQuery({
-    queryKey: useDeviceMetadataQuery.queryKey(device?.path),
+    queryKey: useDeviceMetadataQuery.queryKey(device?.id),
     queryFn: () => queryFn(device, deviceConfig),
     placeholderData: () => placeholderData(device),
     retry: 3,

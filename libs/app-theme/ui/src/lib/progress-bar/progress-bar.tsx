@@ -5,13 +5,16 @@
 
 import { ProgressBarTestIds } from "app-theme/models"
 import { ComponentProps, FunctionComponent, useId } from "react"
-import styled from "styled-components"
+import styled, { css, keyframes } from "styled-components"
+import { clamp } from "lodash"
+import { AnimatePresence, motion } from "motion/react"
 
 interface Props extends ComponentProps<typeof Wrapper> {
   value: number
   maxValue?: number
   valueUnit?: string
   message?: string
+  indeterminate?: boolean
 }
 
 export const ProgressBar: FunctionComponent<Props> = ({
@@ -19,31 +22,57 @@ export const ProgressBar: FunctionComponent<Props> = ({
   maxValue = 100,
   valueUnit = "%",
   message,
+  indeterminate,
   ...rest
 }) => {
   const id = useId()
+  const clampedValue = clamp(value, 0, maxValue)
+  const percentage = (clampedValue / maxValue) * 100
   return (
     <Wrapper {...rest}>
-      {message !== undefined && (
-        <Message data-testid={ProgressBarTestIds.Description}>
-          {message}
-        </Message>
-      )}
+      <AnimatePresence initial={true} mode="popLayout">
+        {message !== undefined && (
+          <Message
+            key={message}
+            data-testid={ProgressBarTestIds.Description}
+            initial={{
+              opacity: 0,
+            }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {message}
+          </Message>
+        )}
+      </AnimatePresence>
       <Progress
         id={"progress-" + id}
         max={maxValue}
-        value={value}
+        value={clampedValue}
+        $indeterminate={indeterminate}
+        $percentage={percentage}
         data-testid={ProgressBarTestIds.Progress}
-        aria-valuenow={value}
+        aria-valuenow={clampedValue}
         aria-valuemin={0}
         aria-valuemax={maxValue}
-        aria-valuetext={`${value} ${valueUnit}`}
+        aria-valuetext={`${clampedValue} ${valueUnit}`}
       />
       <Label
         htmlFor={"progress-" + id}
         data-testid={ProgressBarTestIds.Details}
       >
-        {value}
+        <AnimatePresence initial={true} mode="popLayout">
+          <motion.span
+            key={clampedValue}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {clampedValue}
+          </motion.span>
+        </AnimatePresence>
         {valueUnit || "%"}
       </Label>
     </Wrapper>
@@ -58,7 +87,7 @@ const Wrapper = styled.div`
   gap: ${({ theme }) => theme.app.space.sm};
 `
 
-const Message = styled.span`
+const Message = styled(motion.span)`
   font-size: ${({ theme }) => theme.app.fontSize.paragraph4};
   line-height: ${({ theme }) => theme.app.lineHeight.paragraph4};
   color: ${({ theme }) => theme.app.color.grey2};
@@ -73,12 +102,25 @@ const Message = styled.span`
   min-height: ${({ theme }) => theme.app.lineHeight.paragraph4};
 `
 
-const Progress = styled.progress`
+const indeterminateAnimation = keyframes`
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+`
+
+const Progress = styled.progress<{
+  $indeterminate?: boolean
+  $percentage?: number
+}>`
   width: 100%;
   max-width: 22.3rem;
   height: 0.4rem;
   border-radius: 0.2rem;
   overflow: hidden;
+  position: relative;
 
   &::-webkit-progress-bar {
     background-color: ${({ theme }) => theme.app.color.grey5};
@@ -89,6 +131,42 @@ const Progress = styled.progress`
     border-radius: 0.2rem;
     transition: width 0.15s linear;
   }
+
+  &:after {
+    content: "";
+    display: block;
+    width: ${({ $percentage }) => $percentage}%;
+    height: 100%;
+    border-radius: 0.2rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      ${({ theme }) => theme.app.color.grey5} 40%,
+      ${({ theme }) => theme.app.color.grey5} 60%,
+      transparent 100%
+    );
+    animation: ${indeterminateAnimation} 3s linear infinite;
+    background-size: 200% 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 1s ease,
+      visibility 1s ease,
+      width 0.15s linear;
+  }
+
+  ${({ $indeterminate }) =>
+    $indeterminate &&
+    css`
+      &:after {
+        opacity: 0.7;
+        visibility: visible;
+      }
+    `};
 `
 
 const Label = styled.label`
@@ -96,4 +174,13 @@ const Label = styled.label`
   line-height: ${({ theme }) => theme.app.lineHeight.paragraph3};
   color: ${({ theme }) => theme.app.color.black};
   letter-spacing: 0.05em;
+
+  span {
+    display: inline-block;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: 0;
+    margin-right: 0.05em;
+    font-variant-numeric: tabular-nums;
+  }
 `

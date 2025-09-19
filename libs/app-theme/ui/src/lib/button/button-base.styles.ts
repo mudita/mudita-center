@@ -42,6 +42,10 @@ export const baseStyles = css<StyledButtonProps>`
   text-decoration: none;
   user-select: none;
 
+  p, span {
+    color: inherit !important;
+  }
+
   ${({ $size }) => {
     switch ($size) {
       case ButtonSize.Small:

@@ -9,6 +9,7 @@ import {
   AppHttpResult,
 } from "app-utils/models"
 import { electronAPI } from "@electron-toolkit/preload"
+import { AxiosProgressEvent } from "axios"
 
 export const appHttp = {
   request: <Data>(
@@ -18,5 +19,18 @@ export const appHttp = {
   },
   abort: (rid: string) => {
     return electronAPI.ipcRenderer.invoke(AppHttpIpcEvents.Abort, rid)
+  },
+  onDownloadProgress: (
+    rid: string,
+    callback: (progress: Omit<AxiosProgressEvent, "event">) => void
+  ) => {
+    return electronAPI.ipcRenderer.on(
+      AppHttpIpcEvents.OnDownloadProgress,
+      (_, args: Omit<AxiosProgressEvent, "event"> & { rid: string }) => {
+        if (args.rid === rid) {
+          callback(args)
+        }
+      }
+    )
   },
 }

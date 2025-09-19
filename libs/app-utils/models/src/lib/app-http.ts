@@ -16,6 +16,7 @@ export interface AppHttpRequestConfig extends AxiosRequestConfig {
   headers?: Record<string, string>
   files?: Record<string, AppFileSystemScopeOptions>
   rid?: string
+  savePath?: AppFileSystemScopeOptions["scopeRelativePath"]
 }
 
 export type AppHttpSuccessResult<Data> = AppSuccessResult<Data> & {
