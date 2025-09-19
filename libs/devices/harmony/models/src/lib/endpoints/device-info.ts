@@ -22,9 +22,18 @@ export const HarmonyInfoResponseValidator = z.object({
   backupLocation: z.string().optional(),
   batteryLevel: z.preprocess(Number, z.number().min(0).max(100)),
   currentRTCTime: z.string(),
-  systemReservedSpace: z.string().optional(),
-  usedUserSpace: z.string().optional(),
-  deviceSpaceTotal: z.string().optional(),
+  systemReservedSpace: z
+    .string()
+    .optional()
+    .transform((v) => (v ? Number(v) * 1024 ** 2 : undefined)),
+  usedUserSpace: z
+    .string()
+    .optional()
+    .transform((v) => (v ? Number(v) * 1024 ** 2 : undefined)),
+  deviceSpaceTotal: z
+    .string()
+    .optional()
+    .transform((v) => (v ? Number(v) * 1024 ** 2 : undefined)),
   gitBranch: z.string(),
   gitRevision: z.string(),
   version: z.string(),
@@ -37,7 +46,7 @@ export const HarmonyInfoResponseValidator = z.object({
   onboardingState: z.preprocess(Number, z.enum(OnboardingState)).optional(),
 })
 
-export type HarmonyInfoResponse = z.infer<typeof HarmonyInfoResponseValidator>
+export type HarmonyInfoResponse = z.output<typeof HarmonyInfoResponseValidator>
 
 export const HarmonyLogsRequestValidator = z.object({
   fileList: z.number(),
@@ -47,4 +56,4 @@ export const HarmonyLogsValidator = z.object({
   files: z.array(z.string()).optional(),
 })
 
-export type HarmonyLogsResponse = z.infer<typeof HarmonyLogsValidator>
+export type HarmonyLogsResponse = z.output<typeof HarmonyLogsValidator>
