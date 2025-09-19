@@ -16,7 +16,7 @@ type RequestBody<
 > = (typeof HarmonyEndpoints)[E][M] extends {
   request: infer R extends z.ZodType
 }
-  ? z.infer<R>
+  ? z.input<R>
   : never
 
 export type HarmonyRequest<

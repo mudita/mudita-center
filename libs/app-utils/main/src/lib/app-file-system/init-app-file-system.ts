@@ -48,4 +48,12 @@ export const initAppFileSystem = (ipcMain: IpcMain) => {
   ipcMain.handle(AppFileSystemIpcEvents.FileStats, (_, options) =>
     AppFileSystemService.fileStats(options)
   )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.CalculateFileCrc32)
+  ipcMain.handle(AppFileSystemIpcEvents.CalculateFileCrc32, (_, options) =>
+    AppFileSystemService.calculateFileCrc32(options)
+  )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.ReadFileChunk)
+  ipcMain.handle(AppFileSystemIpcEvents.ReadFileChunk, (_, options) =>
+    AppFileSystemService.readFileChunk(options)
+  )
 }

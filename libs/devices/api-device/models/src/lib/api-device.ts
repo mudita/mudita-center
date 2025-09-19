@@ -10,6 +10,6 @@ import {
 
 export type ApiDevice = Pick<
   SerialPortDeviceInfo<SerialPortDeviceType.ApiDevice>,
-  "deviceType" | "path"
+  "deviceType" | "path" | "id"
 > &
-  Partial<Omit<SerialPortDeviceInfo, "deviceType" | "path">>
+  Partial<Omit<SerialPortDeviceInfo, "deviceType" | "path" | "id">>

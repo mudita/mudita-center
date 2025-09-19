@@ -10,4 +10,6 @@ export enum AppFileSystemIpcEvents {
   WriteFile = "appFileSystem:writeFile",
   PathExists = "appFileSystem:pathExists",
   FileStats = "appFileSystem:fileStats",
+  CalculateFileCrc32 = "appFileSystem:calculateFileCrc32",
+  ReadFileChunk = "appFileSystem:readFileChunk",
 }

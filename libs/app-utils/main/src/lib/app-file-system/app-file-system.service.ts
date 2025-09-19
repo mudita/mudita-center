@@ -9,9 +9,11 @@ import path from "path"
 import fs from "fs-extra"
 import {
   AppFileSystemArchiveOptions,
+  AppFileSystemCalculateCrc32Options,
   AppFileSystemFileStatsOptions,
   AppFileSystemMkdirOptions,
   AppFileSystemPathExistsOptions,
+  AppFileSystemReadFileChunkOptions,
   AppFileSystemRmOptions,
   AppFileSystemScopeOptions,
   AppFileSystemWriteFileOptions,
@@ -19,6 +21,7 @@ import {
   AppResultFactory,
   mapToAppError,
 } from "app-utils/models"
+import { crc32 } from "node:zlib"
 
 export class AppFileSystemService {
   static async rm({
@@ -124,6 +127,47 @@ export class AppFileSystemService {
     } catch (error) {
       return AppResultFactory.failed(mapToAppError(error))
     }
+  }
+
+  static async calculateFileCrc32({
+    scopeRelativePath,
+    scope,
+  }: AppFileSystemCalculateCrc32Options): Promise<AppResult<string>> {
+    try {
+      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      const buffer = await fs.readFile(filePath)
+      const crc32Value = (crc32(buffer) >>> 0)
+        .toString(16)
+        .toLowerCase()
+        .padStart(8, "0")
+      return AppResultFactory.success(crc32Value)
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static readFileChunk({
+    scopeRelativePath,
+    scope,
+    chunkSize,
+    chunkNo = 0,
+  }: AppFileSystemReadFileChunkOptions) {
+    return new Promise((resolve, reject) => {
+      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      const stream = fs.createReadStream(filePath, {
+        highWaterMark: chunkSize,
+        start: chunkNo * chunkSize,
+      })
+
+      stream.on("data", (chunk) => {
+        resolve(AppResultFactory.success(chunk.toString("base64")))
+        stream.close()
+      })
+
+      stream.on("error", (err) => {
+        reject(AppResultFactory.failed(mapToAppError(err)))
+      })
+    })
   }
 
   static resolveScopedPath({
