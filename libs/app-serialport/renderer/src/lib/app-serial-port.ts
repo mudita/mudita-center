@@ -7,7 +7,7 @@ import "types-preload"
 import {
   SerialPortChangedDevices,
   SerialPortDeviceInfo,
-  SerialPortDevicePath,
+  SerialPortDeviceId,
   SerialPortDeviceType,
   SerialPortRequest,
   SerialPortResponse,
@@ -21,8 +21,8 @@ export const AppSerialPort = {
   getCurrentDevices: (): Promise<SerialPortDeviceInfo[]> => {
     return window.api.serialPort.getCurrentDevices()
   },
-  changeBaudRate: async (path: SerialPortDevicePath, baudRate: number) => {
-    await window.api.serialPort.changeBaudRate(path, baudRate)
+  changeBaudRate: async (id: SerialPortDeviceId, baudRate: number) => {
+    await window.api.serialPort.changeBaudRate(id, baudRate)
   },
   isCompatible: (
     device: Pick<SerialPortDeviceInfo, "deviceType">
@@ -33,23 +33,23 @@ export const AppSerialPort = {
     return true
   },
   request: async (
-    device: Pick<SerialPortDeviceInfo, "deviceType" | "path">,
+    device: Pick<SerialPortDeviceInfo, "deviceType" | "id">,
     data: SerialPortRequest
   ): Promise<SerialPortResponse> => {
     try {
       AppSerialPort.isCompatible(device)
-      return await window.api.serialPort.request(device.path, data)
+      return await window.api.serialPort.request(device.id, data)
     } catch (error) {
       throw new SerialPortError(error)
     }
   },
-  freeze: (path: SerialPortDevicePath, timeout?: number) => {
-    window.api.serialPort.freeze(path, timeout)
+  freeze: (id: SerialPortDeviceId, duration?: number) => {
+    window.api.serialPort.freeze(id, duration)
   },
-  unfreeze: (path: SerialPortDevicePath) => {
-    window.api.serialPort.unfreeze(path)
+  unfreeze: (id: SerialPortDeviceId) => {
+    window.api.serialPort.unfreeze(id)
   },
-  isFrozen: (path: SerialPortDevicePath) => {
-    return window.api.serialPort.isFrozen(path)
+  isFrozen: (id: SerialPortDeviceId) => {
+    return window.api.serialPort.isFrozen(id)
   },
 }

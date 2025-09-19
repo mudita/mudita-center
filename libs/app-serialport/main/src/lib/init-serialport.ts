@@ -6,6 +6,7 @@
 import { IpcMain, BrowserWindow } from "electron"
 import {
   SerialPortChangedDevices,
+  SerialPortDeviceId,
   SerialPortIpcEvents,
   SerialPortRequest,
 } from "app-serialport/models"
@@ -39,31 +40,37 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
     ipcMain.removeHandler(SerialPortIpcEvents.Request)
     ipcMain.handle(
       SerialPortIpcEvents.Request,
-      (_, path: string, data: SerialPortRequest) => {
-        return serialport.request(path, data)
+      (_, id: SerialPortDeviceId, data: SerialPortRequest) => {
+        return serialport.request(id, data)
       }
     )
     ipcMain.removeHandler(SerialPortIpcEvents.ChangeBaudRate)
     ipcMain.handle(
       SerialPortIpcEvents.ChangeBaudRate,
-      (_, path: string, baudRate: number) => {
-        return serialport.changeBaudRate(path, baudRate)
+      (_, id: SerialPortDeviceId, baudRate: number) => {
+        return serialport.changeBaudRate(id, baudRate)
       }
     )
     ipcMain.removeHandler(SerialPortIpcEvents.Freeze)
     ipcMain.handle(
       SerialPortIpcEvents.Freeze,
-      (_, path: string, timeout?: number) => {
-        return serialport.freeze(path, timeout)
+      (_, id: SerialPortDeviceId, duration?: number) => {
+        return serialport.freeze(id, duration)
       }
     )
     ipcMain.removeHandler(SerialPortIpcEvents.Unfreeze)
-    ipcMain.handle(SerialPortIpcEvents.Unfreeze, (_, path: string) => {
-      return serialport.unfreeze(path)
-    })
+    ipcMain.handle(
+      SerialPortIpcEvents.Unfreeze,
+      (_, id: SerialPortDeviceId) => {
+        return serialport.unfreeze(id)
+      }
+    )
     ipcMain.removeHandler(SerialPortIpcEvents.IsFrozen)
-    ipcMain.handle(SerialPortIpcEvents.IsFrozen, (_, path: string) => {
-      return serialport.isFrozen(path)
-    })
+    ipcMain.handle(
+      SerialPortIpcEvents.IsFrozen,
+      (_, id: SerialPortDeviceId) => {
+        return serialport.isFrozen(id)
+      }
+    )
   }
 }

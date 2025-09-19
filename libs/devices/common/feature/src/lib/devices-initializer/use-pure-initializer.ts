@@ -18,12 +18,9 @@ export const usePureInitializer = (device: Pure) => {
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {
-      queryClient.setQueryData(
-        useDeviceStatusQuery.queryKey(device.path),
-        status
-      )
+      queryClient.setQueryData(useDeviceStatusQuery.queryKey(device.id), status)
     },
-    [device.path, queryClient]
+    [device.id, queryClient]
   )
 
   const isExpectedError =

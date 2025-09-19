@@ -10,6 +10,6 @@ import {
 
 export type Pure = Pick<
   SerialPortDeviceInfo<SerialPortDeviceType.Pure>,
-  "deviceType" | "path"
+  "deviceType" | "path" | "id"
 > &
-  Partial<Omit<SerialPortDeviceInfo, "deviceType" | "path">>
+  Partial<Omit<SerialPortDeviceInfo, "deviceType" | "path" | "id">>

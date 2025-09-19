@@ -104,7 +104,7 @@ export class PureSerialPort {
       const responseParseResult = responseValidator.safeParse(response.body)
       if (!responseParseResult.success) {
         console.error(
-          `Response parsing failed for ${device.path} at ${PureMethodNamed[request.method as keyof typeof PureMethodNamed]} ${PureEndpointNamed[request.endpoint]}`
+          `Response parsing failed for ${device.id} at ${PureMethodNamed[request.method as keyof typeof PureMethodNamed]} ${PureEndpointNamed[request.endpoint]}`
         )
         console.error(responseParseResult.error)
         return {

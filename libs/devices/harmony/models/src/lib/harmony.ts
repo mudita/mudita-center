@@ -10,6 +10,6 @@ import {
 
 export type Harmony = Pick<
   SerialPortDeviceInfo<SerialPortDeviceType.Harmony>,
-  "deviceType" | "path"
+  "deviceType" | "path" | "id"
 > &
-  Partial<Omit<SerialPortDeviceInfo, "deviceType" | "path">>
+  Partial<Omit<SerialPortDeviceInfo, "deviceType" | "path" | "id">>

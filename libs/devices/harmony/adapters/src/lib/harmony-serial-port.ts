@@ -112,7 +112,7 @@ export class HarmonySerialPort {
       const responseParseResult = responseValidator.safeParse(response.body)
       if (!responseParseResult.success) {
         console.error(
-          `Response parsing failed for ${device.path} at ${HarmonyMethodNamed[request.method as keyof typeof HarmonyMethodNamed]} ${HarmonyEndpointNamed[request.endpoint]}`
+          `Response parsing failed for ${device.id} at ${HarmonyMethodNamed[request.method as keyof typeof HarmonyMethodNamed]} ${HarmonyEndpointNamed[request.endpoint]}`
         )
         console.error(responseParseResult.error)
         return {

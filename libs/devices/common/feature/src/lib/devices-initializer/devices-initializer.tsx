@@ -27,16 +27,16 @@ export const DevicesInitializer: FunctionComponent = () => {
     <>
       {devices.map((device) => {
         if (ApiDeviceSerialPort.isCompatible(device)) {
-          return <ApiDeviceInitializer key={device.path} device={device} />
+          return <ApiDeviceInitializer key={device.id} device={device} />
         }
         if (HarmonySerialPort.isCompatible(device)) {
-          return <HarmonyInitializer key={device.path} device={device} />
+          return <HarmonyInitializer key={device.id} device={device} />
         }
         if (PureSerialPort.isCompatible(device)) {
-          return <PureInitializer key={device.path} device={device} />
+          return <PureInitializer key={device.id} device={device} />
         }
         if (HarmonyMscSerialPort.isCompatible(device)) {
-          return <HarmonyMscInitializer key={device.path} device={device} />
+          return <HarmonyMscInitializer key={device.id} device={device} />
         }
         return null
       })}
