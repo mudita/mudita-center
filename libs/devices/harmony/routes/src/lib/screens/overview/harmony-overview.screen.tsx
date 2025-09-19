@@ -38,7 +38,7 @@ const messages = defineMessages({
 
 export const HarmonyOverviewScreen: FunctionComponent = () => {
   const { data: activeDevice } = useActiveDeviceQuery<Harmony>()
-  const { data: config } = useDeviceConfigQuery(activeDevice)
+  const { data: config } = useDeviceConfigQuery<Harmony>(activeDevice)
   const { data: harmonyTime } = useHarmonyTimeQuery(activeDevice)
 
   const deviceImageType =
@@ -59,14 +59,26 @@ export const HarmonyOverviewScreen: FunctionComponent = () => {
   }, [config?.batteryLevel])
 
   const osSection: OverviewDetailsSection = useMemo(() => {
-    if (!config?.version) {
+    if (!config?.version || !activeDevice) {
       return
     }
     return {
       title: formatMessage(messages.osTitle),
-      children: <HarmonyOverviewOsSection version={config.version} />,
+      children: (
+        <HarmonyOverviewOsSection
+          device={activeDevice}
+          currentVersion={config.version}
+          serialNumber={config.serialNumber}
+          batteryLevel={config.batteryLevel}
+        />
+      ),
     }
-  }, [config?.version])
+  }, [
+    activeDevice,
+    config?.batteryLevel,
+    config?.serialNumber,
+    config?.version,
+  ])
 
   const timeAndDateSection: OverviewDetailsSection = useMemo(() => {
     if (!harmonyTime) {
