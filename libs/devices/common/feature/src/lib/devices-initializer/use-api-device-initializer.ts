@@ -11,10 +11,14 @@ import {
   useDeviceMenuQuery,
   useDeviceStatusQuery,
 } from "../hooks"
-import { useCallback } from "react"
+import { useCallback, useEffect, useRef } from "react"
+import { delay } from "app-utils/common"
+import { useDeviceFreezer } from "app-serialport/renderer"
 
 export const useApiDeviceInitializer = (device: ApiDevice) => {
   const queryClient = useQueryClient()
+  const freezeTimeoutRef = useRef<NodeJS.Timeout>(undefined)
+  const { freeze, unfreeze } = useDeviceFreezer()
 
   const { isLoading: isConfigLoading, isError: isConfigError } =
     useDeviceConfigQuery(device)
@@ -24,31 +28,56 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
     failureReason: menuFailureReason,
     failureCount: menuFailureCount,
   } = useDeviceMenuQuery<ApiDeviceErrorType>(device)
+  const { data: status } = useDeviceStatusQuery(device)
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {
-      queryClient.setQueryData(
-        useDeviceStatusQuery.queryKey(device.path),
-        status
-      )
+      queryClient.setQueryData(useDeviceStatusQuery.queryKey(device.id), status)
     },
-    [device.path, queryClient]
+    [device.id, queryClient]
   )
 
-  if (isConfigLoading || (isMenuLoading && menuFailureCount < 3)) {
-    setStatus(DeviceStatus.Initializing)
-    return
-  }
-  if (
-    isConfigError ||
-    (isMenuError && menuFailureReason !== ApiDeviceErrorType.DeviceLocked)
-  ) {
-    setStatus(DeviceStatus.CriticalError)
-    return
-  }
-  if (menuFailureReason === ApiDeviceErrorType.DeviceLocked) {
-    setStatus(DeviceStatus.Locked)
-    return
-  }
-  setStatus(DeviceStatus.Initialized)
+  const determineStatus = useCallback(async () => {
+    if (isConfigLoading || (isMenuLoading && menuFailureCount < 3)) {
+      setStatus(DeviceStatus.Initializing)
+      return
+    }
+    await delay(500)
+    if (
+      isConfigError ||
+      (isMenuError && menuFailureReason !== ApiDeviceErrorType.DeviceLocked)
+    ) {
+      setStatus(DeviceStatus.CriticalError)
+      return
+    }
+    if (menuFailureReason === ApiDeviceErrorType.DeviceLocked) {
+      setStatus(DeviceStatus.Locked)
+      return
+    }
+    setStatus(DeviceStatus.Initialized)
+  }, [
+    isConfigError,
+    isConfigLoading,
+    isMenuError,
+    isMenuLoading,
+    menuFailureCount,
+    menuFailureReason,
+    setStatus,
+  ])
+
+  useEffect(() => {
+    void determineStatus()
+  }, [determineStatus])
+
+  useEffect(() => {
+    if (status === DeviceStatus.Locked) {
+      freeze(device, 3_000)
+    }
+    if (status === DeviceStatus.Initialized) {
+      clearTimeout(freezeTimeoutRef.current)
+      freezeTimeoutRef.current = setTimeout(() => {
+        unfreeze(device)
+      }, 3_000)
+    }
+  }, [device, freeze, menuFailureReason, status, unfreeze])
 }

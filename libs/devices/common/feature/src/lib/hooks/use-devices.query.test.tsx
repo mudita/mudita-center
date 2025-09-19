@@ -28,6 +28,7 @@ describe("useDevicesQuery", () => {
     ;(AppSerialPort.getCurrentDevices as jest.Mock).mockResolvedValue([
       // first connected device
       {
+        id: "1",
         path: "/device1",
         deviceType: SerialPortDeviceType.Harmony,
         serialNumber: "654321",
@@ -35,6 +36,7 @@ describe("useDevicesQuery", () => {
       },
       // second connected device
       {
+        id: "2",
         path: "/device2",
         deviceType: SerialPortDeviceType.ApiDevice,
         serialNumber: "123456",
@@ -43,6 +45,7 @@ describe("useDevicesQuery", () => {
       },
       // third connected device
       {
+        id: "3",
         path: "/device3",
         deviceType: SerialPortDeviceType.Pure,
         serialNumber: "789012",
@@ -57,6 +60,7 @@ describe("useDevicesQuery", () => {
     await waitFor(() =>
       expect(result.current.data).toStrictEqual([
         {
+          id: "2",
           deviceSubtype: "subtype2",
           deviceType: "ApiDevice",
           path: "/device2",
@@ -64,6 +68,7 @@ describe("useDevicesQuery", () => {
           serialNumber: "123456",
         },
         {
+          id: "3",
           deviceType: "MuditaPure",
           path: "/device3",
           productId: "product3",
@@ -71,6 +76,7 @@ describe("useDevicesQuery", () => {
           deviceSubtype: undefined,
         },
         {
+          id: "1",
           deviceType: "MuditaHarmony",
           path: "/device1",
           productId: "product1",
@@ -84,12 +90,14 @@ describe("useDevicesQuery", () => {
   it("should filter out duplicates", async () => {
     ;(AppSerialPort.getCurrentDevices as jest.Mock).mockResolvedValue([
       {
+        id: "1",
         path: "/device1",
         deviceType: SerialPortDeviceType.Harmony,
         serialNumber: "654321",
         productId: "product1",
       },
       {
+        id: "1",
         path: "/device1",
         deviceType: SerialPortDeviceType.Pure,
         serialNumber: "123456",
@@ -104,6 +112,7 @@ describe("useDevicesQuery", () => {
     await waitFor(() =>
       expect(result.current.data).toStrictEqual([
         {
+          id: "1",
           path: "/device1",
           deviceType: SerialPortDeviceType.Harmony,
           serialNumber: "654321",

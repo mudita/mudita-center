@@ -72,6 +72,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .tsqd-parent-container {
+    z-index: 9999999;
+    position: absolute;
     --tsqd-font-size: 14px !important;
   }
 `
