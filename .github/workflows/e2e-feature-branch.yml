@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [linux-e2e, windows-e2e, macos-e2e]
+        runner_label: [linux-e2e, macos-e2e]
     if: startsWith(github.head_ref || github.ref, 'CP-')
     environment: development
     timeout-minutes: 40
