@@ -10,20 +10,17 @@ import {
 } from "devices/harmony/models"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 
-/**
- * Triggers a firmware update and reboots the Harmony device.
- * @param {Harmony} device - The Harmony device instance.
- */
-export const updateHarmony = (device: Harmony) => {
+interface Params {
+  device: Harmony
+  targetPath: string
+}
+
+export const removeFileFromHarmony = async ({ device, targetPath }: Params) => {
   return HarmonySerialPort.request(device, {
-    endpoint: HarmonyEndpointNamed.Update,
-    method: HarmonyMethodNamed.Post,
+    endpoint: HarmonyEndpointNamed.FileSystem,
+    method: HarmonyMethodNamed.Delete,
     body: {
-      update: true,
-      reboot: true,
-    },
-    options: {
-      timeout: 120_000, // 2 minutes
+      removeFile: targetPath,
     },
   })
 }
