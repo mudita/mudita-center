@@ -100,4 +100,9 @@ export class AppFileSystemService {
       archive.finalize()
     })
   }
+
+  static async stats(path: string): Promise<AppResult<fs.Stats>> {
+    const s = await fs.stat(path)
+    return AppResultFactory.success(s)
+  }
 }

@@ -11,6 +11,7 @@ import {
   AppFileSystemRmOptions,
   AppResult,
 } from "app-utils/models"
+import fs from "fs-extra"
 
 export const appFileSystem = {
   rm: (options: AppFileSystemRmOptions): Promise<AppResult> =>
@@ -19,4 +20,6 @@ export const appFileSystem = {
     ipcRenderer.invoke(AppFileSystemIpcEvents.Mkdir, options),
   archive: (options: AppFileSystemArchiveOptions): Promise<AppResult> =>
     ipcRenderer.invoke(AppFileSystemIpcEvents.Archive, options),
+  stats: (options: string): Promise<AppResult<fs.Stats>> =>
+    ipcRenderer.invoke(AppFileSystemIpcEvents.Stats, options),
 }

@@ -6,7 +6,7 @@
 import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { TypographyModifier } from "app-theme/models"
-import { formatMessage } from "app-localize/utils"
+import { formatMessage, Messages } from "app-localize/utils"
 import {
   formatBytes,
   ISegmentBarItem,
@@ -16,14 +16,16 @@ import {
 import { manageFilesMessages } from "./manage-files.messages"
 
 export interface MfStorageSummaryProps {
-  summaryHeader: string
   usedSpaceBytes: number
   freeSpaceBytes: number
   segments: ISegmentBarItem[]
+  messages: {
+    summaryHeader: Messages
+  }
 }
 
 export const MfStorageSummary: FunctionComponent<MfStorageSummaryProps> = ({
-  summaryHeader,
+  messages,
   usedSpaceBytes,
   freeSpaceBytes,
   segments,
@@ -32,7 +34,7 @@ export const MfStorageSummary: FunctionComponent<MfStorageSummaryProps> = ({
 
   return (
     <Wrapper>
-      <Header>{summaryHeader}</Header>
+      <Header>{formatMessage(messages.summaryHeader)}</Header>
       <Content>
         <UsedText>{usedText}</UsedText>
         <FreeText modifier={TypographyModifier.FormatBytes} minUnit={"KB"}>
