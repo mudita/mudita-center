@@ -21,7 +21,7 @@ export const DevicesSelectingPage: FunctionComponent = () => {
 
   const selectDevice = useCallback(
     (deviceId: DeviceMetadata["id"]) => {
-      const device = devices?.find((d) => d.path === deviceId)
+      const device = devices?.find((d) => d.id === deviceId)
       if (!device) {
         return
       }
@@ -39,9 +39,9 @@ export const DevicesSelectingPage: FunctionComponent = () => {
     <DevicesSelector>
       {devices.map((device) => {
         const select = () => {
-          selectDevice(device.path)
+          selectDevice(device.id)
         }
-        return <Card key={device.path} {...device} onClick={select} />
+        return <Card key={device.id} {...device} onClick={select} />
       })}
     </DevicesSelector>
   )

@@ -22,6 +22,7 @@ import { styleText } from "util"
 const DEFAULT_QUEUE_INTERVAL = 1
 const DEFAULT_QUEUE_CONCURRENCY = 1
 const DEFAULT_RESPONSE_TIMEOUT = 30000
+const LOG_CHARS_LIMIT = Number(process.env.SERIALPORT_LOG_LIMIT || 0)
 
 type BaseSerialPortDeviceOptions = SerialPortOpenOptions<AutoDetectTypes> & {
   queueInterval?: number
@@ -68,7 +69,7 @@ export class SerialPortDevice extends SerialPort {
       console.log(
         styleText(["bold", "bgMagenta"], "SerialPort response"),
         styleText(["bgMagenta"], this.path),
-        styleText(["magenta"], `${rawResponse}`),
+        styleText(["magenta"], `${sliceLogs(rawResponse)}`),
         "\n"
       )
     }
@@ -106,7 +107,7 @@ export class SerialPortDevice extends SerialPort {
         console.log(
           styleText(["bold", "bgCyan"], "SerialPort write"),
           styleText(["bgCyan"], this.path),
-          styleText(["cyan"], `${parsedData}`)
+          styleText(["cyan"], `${sliceLogs(parsedData?.toString())}`)
         )
       }
       return super.write(parsedData)
@@ -171,4 +172,14 @@ export class SerialPortDevice extends SerialPort {
   ): SerialPortDeviceSubtype | undefined {
     return undefined
   }
+}
+
+const sliceLogs = (text = "") => {
+  if (LOG_CHARS_LIMIT > 0) {
+    return [
+      text.slice(0, LOG_CHARS_LIMIT),
+      text.length > LOG_CHARS_LIMIT ? "..." : "",
+    ].join("")
+  }
+  return text
 }
