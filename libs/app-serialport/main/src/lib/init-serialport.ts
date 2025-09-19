@@ -6,19 +6,20 @@
 import { IpcMain, BrowserWindow } from "electron"
 import {
   SerialPortChangedDevices,
+  SerialPortDeviceId,
   SerialPortIpcEvents,
   SerialPortRequest,
 } from "app-serialport/models"
-import { AppSerialPort } from "./app-serial-port"
+import { AppSerialPortService } from "./app-serial-port-service"
 
-let serialport: AppSerialPort
+let serialport: AppSerialPortService
 
 export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
   if (serialport) {
     const changedDevices: SerialPortChangedDevices = {
-      added: serialport.addedDevices,
-      removed: serialport.removedDevices,
-      all: serialport.currentDevices,
+      added: [],
+      removed: [],
+      all: serialport.getCurrentDevices(),
     }
     const emitDevicesChanged = () => {
       mainWindow.webContents.send(
@@ -28,8 +29,8 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
     }
     mainWindow.webContents.once("did-finish-load", emitDevicesChanged)
   } else {
-    serialport = new AppSerialPort()
-    serialport.onDevicesChange((data) => {
+    serialport = new AppSerialPortService()
+    serialport.onDevicesChanged((data) => {
       mainWindow.webContents.send(SerialPortIpcEvents.DevicesChanged, data)
     })
     ipcMain.removeHandler(SerialPortIpcEvents.GetCurrentDevices)
@@ -39,15 +40,36 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
     ipcMain.removeHandler(SerialPortIpcEvents.Request)
     ipcMain.handle(
       SerialPortIpcEvents.Request,
-      (_, path: string, data: SerialPortRequest) => {
-        return serialport.request(path, data)
+      (_, id: SerialPortDeviceId, data: SerialPortRequest) => {
+        return serialport.request(id, data)
       }
     )
     ipcMain.removeHandler(SerialPortIpcEvents.ChangeBaudRate)
     ipcMain.handle(
       SerialPortIpcEvents.ChangeBaudRate,
-      (_, path: string, baudRate: number) => {
-        return serialport.changeBaudRate(path, baudRate)
+      (_, id: SerialPortDeviceId, baudRate: number) => {
+        return serialport.changeBaudRate(id, baudRate)
+      }
+    )
+    ipcMain.removeHandler(SerialPortIpcEvents.Freeze)
+    ipcMain.handle(
+      SerialPortIpcEvents.Freeze,
+      (_, id: SerialPortDeviceId, duration?: number) => {
+        return serialport.freeze(id, duration)
+      }
+    )
+    ipcMain.removeHandler(SerialPortIpcEvents.Unfreeze)
+    ipcMain.handle(
+      SerialPortIpcEvents.Unfreeze,
+      (_, id: SerialPortDeviceId) => {
+        return serialport.unfreeze(id)
+      }
+    )
+    ipcMain.removeHandler(SerialPortIpcEvents.IsFrozen)
+    ipcMain.handle(
+      SerialPortIpcEvents.IsFrozen,
+      (_, id: SerialPortDeviceId) => {
+        return serialport.isFrozen(id)
       }
     )
   }

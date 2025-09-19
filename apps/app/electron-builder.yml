@@ -5,6 +5,9 @@ directories:
   buildResources: resources
   output: release
 electronVersion: 37.2.3
+buildDependenciesFromSource: true
+nodeGypRebuild: false
+npmRebuild: false
 files:
   - "!**/.vscode/*"
   - "!src/*"

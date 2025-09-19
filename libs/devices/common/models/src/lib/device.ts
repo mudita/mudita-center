@@ -10,5 +10,5 @@ import { HarmonyMsc } from "devices/harmony-msc/models"
 
 export type Device = Pick<
   ApiDevice | Harmony | HarmonyMsc | Pure,
-  "path" | "deviceType" | "serialNumber" | "deviceSubtype"
+  "path" | "deviceType" | "serialNumber" | "deviceSubtype" | "id"
 >

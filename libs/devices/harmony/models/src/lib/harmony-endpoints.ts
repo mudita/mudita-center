@@ -16,21 +16,35 @@ import {
   HarmonySynchronizeTimeRequestValidator,
   HarmonySynchronizeTimeResponseValidator,
 } from "./endpoints/time-synchronization"
+import {
+  HarmonyPreSendFileRequestValidator,
+  HarmonyPreSendFileResponseValidator,
+  HarmonySendFileChunkRequestValidator,
+  HarmonySendFileChunkResponseValidator,
+} from "./endpoints/file-transfer"
+import {
+  HarmonyUpdateRequestValidator,
+  HarmonyUpdateResponseValidator,
+} from "./endpoints/update"
+import {
+  HarmonyDeleteFileRequestValidator,
+  HarmonyDeleteFileResponseValidator,
+} from "./endpoints/file-delete"
 
 export enum HarmonyEndpointNamed {
-  Invalid = 0,
+  // Invalid = 0,
   DeviceInfo = 1,
   Update = 2,
   FileSystem = 3,
-  Backup = 4,
-  Restore = 5,
-  Factory = 6,
-  Security = 13,
-  Outbox = 14,
+  // Backup = 4,
+  // Restore = 5,
+  // Factory = 6,
+  // Security = 13,
+  // Outbox = 14,
   TimeSynchronization = 16,
 
   // api version (mocked)
-  ApiVersion = 1000,
+  // ApiVersion = 1000,
 }
 
 export enum HarmonyMethodNamed {
@@ -41,9 +55,9 @@ export enum HarmonyMethodNamed {
 }
 
 type EndpointsDefinition = Record<
-  string,
+  HarmonyEndpointNamed,
   Partial<
-    Record<HarmonyMethodNamed, { request?: z.ZodType; response: z.ZodType }>
+    Record<HarmonyMethodNamed, { request?: z.ZodType; response?: z.ZodType }>
   >
 >
 
@@ -67,6 +81,28 @@ export const HarmonyEndpoints = {
       response: HarmonySynchronizeTimeResponseValidator,
     },
   },
-} satisfies EndpointsDefinition
+  [HarmonyEndpointNamed.FileSystem]: {
+    [HarmonyMethodNamed.Put]: {
+      request: z.union([
+        HarmonyPreSendFileRequestValidator,
+        HarmonySendFileChunkRequestValidator,
+      ]),
+      response: z.union([
+        HarmonyPreSendFileResponseValidator,
+        HarmonySendFileChunkResponseValidator,
+      ]),
+    },
+    [HarmonyMethodNamed.Delete]: {
+      request: HarmonyDeleteFileRequestValidator,
+      response: HarmonyDeleteFileResponseValidator,
+    },
+  },
+  [HarmonyEndpointNamed.Update]: {
+    [HarmonyMethodNamed.Post]: {
+      request: HarmonyUpdateRequestValidator,
+      response: HarmonyUpdateResponseValidator,
+    },
+  },
+} as const satisfies EndpointsDefinition
 
 export type HarmonyEndpoint = keyof typeof HarmonyEndpoints
