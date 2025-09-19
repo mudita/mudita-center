@@ -86,7 +86,7 @@ export const useDeviceConfigQuery = <D extends Device, E = QueryErrorType<D>>(
   options?: Omit<UseQueryOptions<QueryFnResponse<D>, E>, "queryFn" | "queryKey">
 ) => {
   return useQuery<QueryFnResponse<D>, E>({
-    queryKey: useDeviceConfigQuery.queryKey(device?.path),
+    queryKey: useDeviceConfigQuery.queryKey(device?.id),
     queryFn: () => queryFn(device) as Promise<QueryFnResponse<D>>,
     retry: (failureCount, error) => {
       if (PureSerialPort.isCompatible(device)) {

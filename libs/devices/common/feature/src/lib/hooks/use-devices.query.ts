@@ -15,7 +15,8 @@ const queryFn = async () => {
 
   const list = uniqBy(
     devices.map(
-      ({ path, deviceType, serialNumber, productId, deviceSubtype }) => ({
+      ({ id, path, deviceType, serialNumber, productId, deviceSubtype }) => ({
+        id,
         path,
         deviceType,
         serialNumber,
@@ -23,7 +24,7 @@ const queryFn = async () => {
         deviceSubtype,
       })
     ),
-    "path"
+    "id"
   ) as Device[]
 
   return list.reverse().sort((a, b) => {

@@ -33,7 +33,6 @@ export const HarmonyUpdateDownloadingModal: FunctionComponent<Props> = ({
 }) => {
   return (
     <Modal opened={opened}>
-      <Modal.CloseButton onClick={onCancel} />
       <Modal.TitleIcon type={IconType.Download} />
       <Modal.Title text={formatMessage(messages.title)} />
       <Typography.P1 message={messages.description.id} />

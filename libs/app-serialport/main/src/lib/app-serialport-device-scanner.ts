@@ -53,11 +53,19 @@ export class AppSerialportDeviceScanner {
         if (!instance || !portInfo.vendorId || !portInfo.productId) {
           return null
         }
+        const serialNumber =
+          portInfo.serialNumber && !/^0+$/m.test(portInfo.serialNumber)
+            ? portInfo.serialNumber
+            : undefined
         const internalDeviceInfo: SerialPortDeviceInfo = {
           ...portInfo,
+          id:
+            process.platform === "darwin" && portInfo.locationId
+              ? portInfo.locationId
+              : portInfo.path,
           productId: portInfo.productId,
           vendorId: portInfo.vendorId,
-          serialNumber: portInfo.serialNumber || undefined,
+          serialNumber,
           deviceType: instance.deviceType,
           deviceSubtype: (instance as typeof SerialPortDevice).getSubtype(
             portInfo.vendorId,

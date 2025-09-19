@@ -26,6 +26,10 @@ import {
   HarmonyUpdateRequestValidator,
   HarmonyUpdateResponseValidator,
 } from "./endpoints/update"
+import {
+  HarmonyDeleteFileRequestValidator,
+  HarmonyDeleteFileResponseValidator,
+} from "./endpoints/file-delete"
 
 export enum HarmonyEndpointNamed {
   // Invalid = 0,
@@ -87,6 +91,10 @@ export const HarmonyEndpoints = {
         HarmonyPreSendFileResponseValidator,
         HarmonySendFileChunkResponseValidator,
       ]),
+    },
+    [HarmonyMethodNamed.Delete]: {
+      request: HarmonyDeleteFileRequestValidator,
+      response: HarmonyDeleteFileResponseValidator,
     },
   },
   [HarmonyEndpointNamed.Update]: {

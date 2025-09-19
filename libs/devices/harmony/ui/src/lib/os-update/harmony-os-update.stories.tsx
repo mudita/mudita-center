@@ -14,8 +14,12 @@ import { HarmonyUpdateDownloadedModal } from "./harmony-update-downloaded-modal"
 import { HarmonyUpdateDownloadingModal } from "./harmony-update-downloading-modal"
 import { HarmonyUpdateInstallingModal } from "./harmony-update-installing-modal"
 import { HarmonyUpdateCompleteModal } from "./harmony-update-complete-modal"
-import { HarmonyUpdateFailedModal } from "./harmony-update-failed-modal"
-import { HarmonyUpdateBatteryFlatModal } from "./harmony-update-battery-flat-modal"
+import { HarmonyUpdateErrorModal } from "./harmony-update-error-modal"
+import { storybookHelper } from "app-theme/utils"
+import {
+  HarmonyOSUpdateError,
+  HarmonyOSUpdateStatus,
+} from "devices/harmony/models"
 
 const Decorator = styled.div`
   width: 100%;
@@ -101,20 +105,20 @@ export const Downloaded: StoryObj<typeof HarmonyUpdateDownloadedModal> = {
   render: (args) => <HarmonyUpdateDownloadedModal {...args} />,
 }
 
-export const BatteryFlat: StoryObj<typeof HarmonyUpdateBatteryFlatModal> = {
-  name: "Update battery flat modal",
-  args: {
-    opened: true,
-    onClose: action("onClose"),
-  },
-  render: (args) => <HarmonyUpdateBatteryFlatModal {...args} />,
-}
-
 export const Installing: StoryObj<typeof HarmonyUpdateInstallingModal> = {
   name: "Update installing modal",
+  argTypes: {
+    status: storybookHelper
+      .generateEnumSelector(HarmonyOSUpdateStatus, "HarmonyOSUpdateStatus")
+      .addDescription("Current status of the OS update process.")
+      .apply(),
+  },
   args: {
     opened: true,
     progress: 75,
+    totalSteps: 1,
+    currentStep: 1,
+    status: HarmonyOSUpdateStatus.Idle,
     onCancel: action("onCancel"),
   },
   render: (args) => <HarmonyUpdateInstallingModal {...args} />,
@@ -129,13 +133,21 @@ export const Complete: StoryObj<typeof HarmonyUpdateCompleteModal> = {
   render: (args) => <HarmonyUpdateCompleteModal {...args} />,
 }
 
-export const Failed: StoryObj<typeof HarmonyUpdateFailedModal> = {
-  name: "Update failed modal",
+export const Error: StoryObj<typeof HarmonyUpdateErrorModal> = {
+  name: "Update error modal",
+  argTypes: {
+    error: storybookHelper
+      .generateEnumSelector(HarmonyOSUpdateError, "HarmonyOSUpdateError")
+      .addDescription("The error that occurred during the OS update process.")
+      .apply(),
+  },
   args: {
     opened: true,
     onGoToHelp: action("onGoToHelp"),
     onContactSupport: action("onContactSupport"),
+    currentVersion: "1.0.0",
+    requiredSpace: 150 * 1024 ** 2,
     onClose: action("onClose"),
   },
-  render: (args) => <HarmonyUpdateFailedModal {...args} />,
+  render: (args) => <HarmonyUpdateErrorModal {...args} />,
 }

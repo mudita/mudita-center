@@ -21,10 +21,13 @@ export const getHarmonyInfo = async (device: Harmony) => {
     body: undefined,
   })
 
-  return {
-    ...response,
-    ...(response.ok ? { body: response.body as HarmonyInfoResponse } : {}),
+  if (response.ok) {
+    return {
+      ...response,
+      body: response.body as HarmonyInfoResponse,
+    }
   }
+  return response
 }
 
 export type GetHarmonyInfoOkResponse = OKResponse<
