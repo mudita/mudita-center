@@ -12,7 +12,7 @@ import {
 } from "../hooks"
 import { useAppDispatch } from "app-store/utils"
 import { useQueryClient } from "@tanstack/react-query"
-import { SerialPortDeviceInfo } from "app-serialport/models"
+import { SerialPortDeviceId, SerialPortDeviceInfo } from "app-serialport/models"
 import { devicesQueryKeys } from "../hooks/devices-query-keys"
 import { NewsPaths } from "news/models"
 import { DevicesPaths } from "devices/common/models"
@@ -32,9 +32,9 @@ export const useDevicesListener = () => {
   }, [queryClient])
 
   const removeDeviceQueries = useCallback(
-    (path: SerialPortDeviceInfo["path"]) => {
+    (id: SerialPortDeviceId) => {
       queryClient.removeQueries({
-        queryKey: devicesQueryKeys._device(path),
+        queryKey: devicesQueryKeys._device(id),
       })
     },
     [queryClient]
@@ -49,6 +49,7 @@ export const useDevicesListener = () => {
   const activateDevice = useCallback(
     (device: SerialPortDeviceInfo) => {
       queryClient.setQueryData(useActiveDeviceQuery.queryKey, {
+        id: device.id,
         path: device.path,
         deviceType: device.deviceType,
         serialNumber: device.serialNumber,
@@ -64,10 +65,10 @@ export const useDevicesListener = () => {
       const pathname = getCurrentPath()
       const activeDevice = getActiveDevice(queryClient)
 
-      for (const { path } of removed) {
-        removeDeviceQueries(path)
+      for (const { id } of removed) {
+        removeDeviceQueries(id)
 
-        if (activeDevice?.path === path) {
+        if (activeDevice?.id === id) {
           invalidateActiveDeviceQuery()
         }
       }
@@ -78,7 +79,7 @@ export const useDevicesListener = () => {
       // navigate the user to a proper page
       if (
         pathname.startsWith("/device/") &&
-        removed.some(({ path }) => path === activeDevice?.path)
+        removed.some(({ id }) => id === activeDevice?.id)
       ) {
         // If there are no devices left, navigate to the news page
         if (all.length === 0) {

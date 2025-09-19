@@ -8,12 +8,12 @@ import { useQueryClient } from "@tanstack/react-query"
 import { ApiDevice, ApiDeviceErrorType } from "devices/api-device/models"
 import {
   useDeviceConfigQuery,
-  useDeviceFreezer,
   useDeviceMenuQuery,
   useDeviceStatusQuery,
 } from "../hooks"
 import { useCallback, useEffect, useRef } from "react"
 import { delay } from "app-utils/common"
+import { useDeviceFreezer } from "app-serialport/renderer"
 
 export const useApiDeviceInitializer = (device: ApiDevice) => {
   const queryClient = useQueryClient()
@@ -32,12 +32,9 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {
-      queryClient.setQueryData(
-        useDeviceStatusQuery.queryKey(device.path),
-        status
-      )
+      queryClient.setQueryData(useDeviceStatusQuery.queryKey(device.id), status)
     },
-    [device.path, queryClient]
+    [device.id, queryClient]
   )
 
   const determineStatus = useCallback(async () => {

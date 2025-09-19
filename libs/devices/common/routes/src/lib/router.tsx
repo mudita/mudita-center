@@ -72,7 +72,7 @@ export const useDevicesInitRouter = () => {
       return
     }
     void queryClient.invalidateQueries({
-      queryKey: ["devices", activeDevice?.path],
+      queryKey: ["devices", activeDevice?.id],
     })
   }
 

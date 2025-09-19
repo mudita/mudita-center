@@ -36,7 +36,7 @@ export const useHarmonyTimeQuery = (device?: Harmony) => {
     DeviceErrorType | HarmonyErrorType,
     UseHarmonyTimeQueryResult
   >({
-    queryKey: useHarmonyTimeQuery.queryKey(device?.path),
+    queryKey: useHarmonyTimeQuery.queryKey(device?.id),
     enabled: !!device,
     queryFn: () => queryFn(device),
     select: (timestamp) => {
