@@ -7,46 +7,49 @@ import "types-preload"
 import {
   SerialPortChangedDevices,
   SerialPortDeviceInfo,
-  SerialPortDevicePath,
+  SerialPortDeviceId,
   SerialPortDeviceType,
   SerialPortRequest,
   SerialPortResponse,
 } from "app-serialport/models"
 import { SerialPortError } from "app-serialport/utils"
 
-export class AppSerialPort {
-  static onDevicesChanged(
-    callback: (changes: SerialPortChangedDevices) => void
-  ) {
+export const AppSerialPort = {
+  onDevicesChanged: (callback: (changes: SerialPortChangedDevices) => void) => {
     window.api.serialPort.onDevicesChanged(callback)
-  }
-
-  static getCurrentDevices(): Promise<SerialPortDeviceInfo[]> {
+  },
+  getCurrentDevices: (): Promise<SerialPortDeviceInfo[]> => {
     return window.api.serialPort.getCurrentDevices()
-  }
-
-  static async changeBaudRate(path: SerialPortDevicePath, baudRate: number) {
-    await window.api.serialPort.changeBaudRate(path, baudRate)
-  }
-
-  static isCompatible(
+  },
+  changeBaudRate: async (id: SerialPortDeviceId, baudRate: number) => {
+    await window.api.serialPort.changeBaudRate(id, baudRate)
+  },
+  isCompatible: (
     device: Pick<SerialPortDeviceInfo, "deviceType">
-  ): device is SerialPortDeviceInfo {
+  ): device is SerialPortDeviceInfo => {
     if (!Object.values(SerialPortDeviceType).includes(device.deviceType)) {
       throw new Error("Device type is not supported")
     }
     return true
-  }
-
-  static async request(
-    device: Pick<SerialPortDeviceInfo, "deviceType" | "path">,
+  },
+  request: async (
+    device: Pick<SerialPortDeviceInfo, "deviceType" | "id">,
     data: SerialPortRequest
-  ): Promise<SerialPortResponse> {
+  ): Promise<SerialPortResponse> => {
     try {
-      this.isCompatible(device)
-      return await window.api.serialPort.request(device.path, data)
+      AppSerialPort.isCompatible(device)
+      return await window.api.serialPort.request(device.id, data)
     } catch (error) {
       throw new SerialPortError(error)
     }
-  }
+  },
+  freeze: (id: SerialPortDeviceId, duration?: number) => {
+    window.api.serialPort.freeze(id, duration)
+  },
+  unfreeze: (id: SerialPortDeviceId) => {
+    window.api.serialPort.unfreeze(id)
+  },
+  isFrozen: (id: SerialPortDeviceId) => {
+    return window.api.serialPort.isFrozen(id)
+  },
 }

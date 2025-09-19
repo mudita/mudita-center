@@ -6,6 +6,8 @@
 import { ipcRenderer } from "electron"
 import {
   AppFileSystemArchiveOptions,
+  AppFileSystemCalculateCrc32Options,
+  AppFileSystemReadFileChunkOptions,
   AppFileSystemFileStatsOptions,
   AppFileSystemIpcEvents,
   AppFileSystemMkdirOptions,
@@ -40,5 +42,18 @@ export const appFileSystem = {
     options: AppFileSystemFileStatsOptions
   ): Promise<AppResult<fs.Stats>> => {
     return ipcRenderer.invoke(AppFileSystemIpcEvents.FileStats, options)
+  },
+  calculateFileCrc32: (
+    options: AppFileSystemCalculateCrc32Options
+  ): Promise<AppResult<string>> => {
+    return ipcRenderer.invoke(
+      AppFileSystemIpcEvents.CalculateFileCrc32,
+      options
+    )
+  },
+  readFileChunk: (
+    options: AppFileSystemReadFileChunkOptions
+  ): Promise<AppResult<string>> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.ReadFileChunk, options)
   },
 }

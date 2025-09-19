@@ -31,7 +31,7 @@ export const useHarmonyTimeSynchronizationMutation = (device?: Harmony) => {
     mutationFn: () => mutationFn(device),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: useHarmonyTimeQuery.queryKey(device?.path),
+        queryKey: useHarmonyTimeQuery.queryKey(device?.id),
       })
     },
     retry: 3,
