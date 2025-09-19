@@ -9,13 +9,19 @@ import path from "path"
 import fs from "fs-extra"
 import {
   AppFileSystemArchiveOptions,
+  AppFileSystemCalculateCrc32Options,
+  AppFileSystemFileStatsOptions,
   AppFileSystemMkdirOptions,
+  AppFileSystemPathExistsOptions,
+  AppFileSystemReadFileChunkOptions,
   AppFileSystemRmOptions,
   AppFileSystemScopeOptions,
+  AppFileSystemWriteFileOptions,
   AppResult,
   AppResultFactory,
   mapToAppError,
 } from "app-utils/models"
+import { crc32 } from "node:zlib"
 
 export class AppFileSystemService {
   static async rm({
@@ -66,12 +72,115 @@ export class AppFileSystemService {
     }
   }
 
-  public static resolveScopedPath({
+  static async pathExists({
+    scopeRelativePath,
+    scope,
+  }: AppFileSystemPathExistsOptions): Promise<AppResult<boolean>> {
+    try {
+      const filePath = this.resolveScopedPath({
+        scopeRelativePath,
+        scope,
+      })
+      const exists = await fs.pathExists(filePath)
+      return AppResultFactory.success(exists)
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static async fileStats({
+    scopeRelativePath,
+    scope,
+  }: AppFileSystemFileStatsOptions): Promise<AppResult<fs.Stats>> {
+    try {
+      const filePath = this.resolveScopedPath({
+        scopeRelativePath,
+        scope,
+      })
+      const stats = await fs.stat(filePath)
+      return AppResultFactory.success(stats)
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static async writeFile({
+    data,
+    scopeRelativePath,
+    scope = "userData",
+    options,
+  }: AppFileSystemWriteFileOptions): Promise<AppResult<string>> {
+    try {
+      const fullPath = this.resolveScopedPath({
+        scopeRelativePath,
+        scope,
+      })
+      await fs.ensureDir(path.dirname(fullPath))
+      if (options?.writeAsJson) {
+        await fs.writeJson(fullPath, data, { spaces: 2 })
+      } else {
+        await fs.writeFile(fullPath, data, {
+          encoding: options?.encoding || "utf-8",
+        })
+      }
+      return AppResultFactory.success(fullPath)
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static async calculateFileCrc32({
+    scopeRelativePath,
+    scope,
+  }: AppFileSystemCalculateCrc32Options): Promise<AppResult<string>> {
+    try {
+      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      const buffer = await fs.readFile(filePath)
+      const crc32Value = (crc32(buffer) >>> 0)
+        .toString(16)
+        .toLowerCase()
+        .padStart(8, "0")
+      return AppResultFactory.success(crc32Value)
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  static readFileChunk({
+    scopeRelativePath,
+    scope,
+    chunkSize,
+    chunkNo = 0,
+  }: AppFileSystemReadFileChunkOptions) {
+    return new Promise((resolve, reject) => {
+      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      const stream = fs.createReadStream(filePath, {
+        highWaterMark: chunkSize,
+        start: chunkNo * chunkSize,
+      })
+
+      stream.on("data", (chunk) => {
+        resolve(AppResultFactory.success(chunk.toString("base64")))
+        stream.close()
+      })
+
+      stream.on("error", (err) => {
+        reject(AppResultFactory.failed(mapToAppError(err)))
+      })
+    })
+  }
+
+  static resolveScopedPath({
     scopeRelativePath,
     scope = "userData",
   }: AppFileSystemScopeOptions): string {
     const scopeDir = app.getPath(scope)
-    const filePath = path.resolve(scopeDir, scopeRelativePath)
+    const filePath = path.resolve(
+      scopeDir,
+      typeof scopeRelativePath === "string"
+        ? scopeRelativePath
+        : path.join(...scopeRelativePath)
+    )
     if (!filePath.startsWith(scopeDir)) {
       throw new Error(`File Path escapes the scope: ${scopeRelativePath}`)
     }
@@ -97,7 +206,7 @@ export class AppFileSystemService {
 
       archive.directory(sourceDir, false)
 
-      archive.finalize()
+      void archive.finalize()
     })
   }
 }

@@ -109,7 +109,7 @@ export class ApiDeviceSerialPort {
       const responseParseResult = responseValidator.safeParse(response.body)
       if (!responseParseResult.success) {
         console.error(
-          `Response parsing failed for ${device.path} at ${request.method.toString()} ${request.endpoint.toString()}`
+          `Response parsing failed for ${device.id} at ${request.method.toString()} ${request.endpoint.toString()}`
         )
         console.error(responseParseResult.error)
         return {

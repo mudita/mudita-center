@@ -48,7 +48,7 @@ export const initAppLibs = (
   initNews(ipcMain, mainWindow)
   initAppHelp(ipcMain, helpService)
   initJsonStore(ipcMain)
-  initAppHttp(ipcMain, appHttpService)
+  initAppHttp(ipcMain, mainWindow, appHttpService)
   initAppLogger(ipcMain)
   initAppFileSystem(ipcMain)
   initUsbAccess(ipcMain, mockServer)

@@ -11,7 +11,7 @@ import { DefaultError } from "@tanstack/query-core"
 
 export const useDeviceStatusQuery = <D extends Device = Device>(device?: D) => {
   const { data: activeDevice } = useActiveDeviceQuery<D>()
-  const devicePath = device?.path || activeDevice?.path
+  const devicePath = device?.id || activeDevice?.id
 
   return useQuery<DeviceStatus | null, DefaultError, DeviceStatus | undefined>({
     queryKey: useDeviceStatusQuery.queryKey(devicePath),
@@ -30,7 +30,7 @@ useDeviceStatusQuery.queryKey = devicesQueryKeys.deviceStatus
 export const useDevicesStatuses = (devices: Device[]) => {
   const queries = useQueries({
     queries: devices.map((device) => ({
-      queryKey: devicesQueryKeys.deviceStatus(device.path),
+      queryKey: devicesQueryKeys.deviceStatus(device.id),
       queryFn: () => null,
     })),
   })

@@ -5,6 +5,7 @@
 
 import {
   SerialPortChangedDevices,
+  SerialPortDeviceId,
   SerialPortIpcEvents,
   SerialPortRequest,
 } from "app-serialport/models"
@@ -22,18 +23,27 @@ export const serialPort = {
   getCurrentDevices: () => {
     return electronAPI.ipcRenderer.invoke(SerialPortIpcEvents.GetCurrentDevices)
   },
-  request: (path: string, data: SerialPortRequest) => {
-    return electronAPI.ipcRenderer.invoke(
-      SerialPortIpcEvents.Request,
-      path,
-      data
-    )
+  request: (id: string, data: SerialPortRequest) => {
+    return electronAPI.ipcRenderer.invoke(SerialPortIpcEvents.Request, id, data)
   },
-  changeBaudRate: (path: string, baudRate: number) => {
+  changeBaudRate: (id: string, baudRate: number) => {
     return electronAPI.ipcRenderer.invoke(
       SerialPortIpcEvents.ChangeBaudRate,
-      path,
+      id,
       baudRate
     )
+  },
+  freeze: (id: SerialPortDeviceId, duration?: number) => {
+    return electronAPI.ipcRenderer.invoke(
+      SerialPortIpcEvents.Freeze,
+      id,
+      duration
+    )
+  },
+  unfreeze: (id: SerialPortDeviceId) => {
+    return electronAPI.ipcRenderer.invoke(SerialPortIpcEvents.Unfreeze, id)
+  },
+  isFrozen: (id: SerialPortDeviceId): Promise<boolean> => {
+    return electronAPI.ipcRenderer.invoke(SerialPortIpcEvents.IsFrozen, id)
   },
 }

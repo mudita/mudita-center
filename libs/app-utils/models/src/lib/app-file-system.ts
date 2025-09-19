@@ -6,7 +6,7 @@
 export type AppFileSystemScope = "userData" | "temp"
 
 export interface AppFileSystemScopeOptions {
-  scopeRelativePath: string
+  scopeRelativePath: string | string[]
   scope?: AppFileSystemScope
 }
 
@@ -27,4 +27,22 @@ export interface AppFileSystemMkdirOptions extends AppFileSystemScopeOptions {
 
 export interface AppFileSystemArchiveOptions extends AppFileSystemScopeOptions {
   scopeDestinationPath: string
+}
+
+export interface AppFileSystemWriteFileOptions
+  extends AppFileSystemScopeOptions {
+  options?: {
+    encoding?: BufferEncoding | string
+    writeAsJson?: boolean
+  }
+  data: Buffer | Record<string, unknown>
+}
+
+export type AppFileSystemPathExistsOptions = AppFileSystemScopeOptions
+export type AppFileSystemFileStatsOptions = AppFileSystemScopeOptions
+export type AppFileSystemCalculateCrc32Options = AppFileSystemScopeOptions
+
+export type AppFileSystemReadFileChunkOptions = AppFileSystemScopeOptions & {
+  chunkSize: number
+  chunkNo?: number
 }
