@@ -12,11 +12,13 @@ import { manageFilesMessages } from "./manage-files.messages"
 interface Props {
   description?: string
   header?: string
+  onAddFileClick?: () => void
 }
 
 export const MfFileListEmpty: FunctionComponent<Props> = ({
   description = "",
   header = "",
+  onAddFileClick,
 }) => {
   return (
     <>
@@ -26,6 +28,7 @@ export const MfFileListEmpty: FunctionComponent<Props> = ({
         <Description>{description}</Description>
         <FileListEmptyButton
           message={manageFilesMessages.addFileButtonText.id}
+          onClick={onAddFileClick}
         />
       </Container>
     </>

@@ -30,4 +30,8 @@ export const initAppFileSystem = (ipcMain: IpcMain) => {
     (_, options: AppFileSystemArchiveOptions) =>
       AppFileSystemService.archive(options)
   )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.Stats)
+  ipcMain.handle(AppFileSystemIpcEvents.Stats, (_, options: string) =>
+    AppFileSystemService.stats(options)
+  )
 }

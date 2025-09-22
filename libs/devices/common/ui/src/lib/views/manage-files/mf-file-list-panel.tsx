@@ -11,6 +11,7 @@ import { manageFilesMessages } from "./manage-files.messages"
 
 interface FileListPanelHeaderProps {
   header: string
+  onAddFileClick?: () => void
 }
 
 export const MfFileListPanelHeader: FunctionComponent<
@@ -26,10 +27,13 @@ export const MfFileListPanelHeader: FunctionComponent<
 
 export const MfFileListPanelDefaultMode: FunctionComponent<
   FileListPanelHeaderProps
-> = (props) => {
+> = ({ onAddFileClick, ...props }) => {
   return (
     <MfFileListPanelHeader {...props}>
-      <AddFileButton message={manageFilesMessages.addFileButtonText.id} />
+      <AddFileButton
+        message={manageFilesMessages.addFileButtonText.id}
+        onClick={onAddFileClick}
+      />
     </MfFileListPanelHeader>
   )
 }

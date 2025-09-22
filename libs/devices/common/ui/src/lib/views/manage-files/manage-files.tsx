@@ -26,6 +26,7 @@ interface Props
       "onAllCheckboxClick" | "onDeleteClick"
     > {
   selectedFiles: FileManagerFile[]
+  onAddFileClick?: () => void
   opened: boolean
 }
 
@@ -34,7 +35,6 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
   categories,
   segments,
   activeCategoryId,
-  summaryHeader,
   freeSpaceBytes,
   usedSpaceBytes,
   otherSpaceBytes,
@@ -43,7 +43,9 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
   onCategoryClick,
   onAllCheckboxClick,
   onDeleteClick,
+  onAddFileClick,
   children,
+  messages,
 }) => {
   const activeCategory = categories.find(({ id }) => id === activeCategoryId)
   const emptyStateDescription = activeCategory?.fileListEmptyStateDescription
@@ -60,7 +62,7 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
     <Wrapper>
       <CategoriesSidebar>
         <MfStorageSummary
-          summaryHeader={summaryHeader}
+          messages={messages}
           usedSpaceBytes={usedSpaceBytes}
           freeSpaceBytes={freeSpaceBytes}
           segments={segments}
@@ -80,13 +82,17 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
           <MfFileListEmpty
             description={emptyStateDescription}
             header={fileListPanelHeader}
+            onAddFileClick={onAddFileClick}
           />
         )}
         {!emptyStateVisible && (
           <>
             <FileListPanel>
               {selectedFiles.length === 0 ? (
-                <MfFileListPanelDefaultMode header={fileListPanelHeader} />
+                <MfFileListPanelDefaultMode
+                  header={fileListPanelHeader}
+                  onAddFileClick={onAddFileClick}
+                />
               ) : (
                 <MfFileListPanelSelectMode
                   count={selectedFiles.length}

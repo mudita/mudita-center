@@ -4,6 +4,7 @@
  */
 
 import { IconType } from "app-theme/models"
+import { AppResult } from "app-utils/models"
 
 export interface FileManagerFileCategory {
   id: string
@@ -27,3 +28,39 @@ export type FileManagerFile = {
 export type FileManagerFileMap = Record<string, FileManagerFile>
 
 export type { ManageFilesTableSectionProps } from "./manage-files-table-section"
+
+export enum TransferErrorName {
+  Duplicate = "duplicate",
+  NotEnoughMemory = "notEnoughMemory",
+  FileTooLarge = "fileTooLarge",
+  Cancelled = "cancelled",
+  UploadUnknown = "uploadUnknown",
+  ExportUnknown = "exportUnknown",
+}
+
+export type FileTransferResult = AppResult<
+  unknown,
+  TransferErrorName,
+  Record<string, string | number> | undefined
+>
+
+export enum ValidationErrorName {
+  SomeFileLargerThan2GB = "someFileLargerThan2GB",
+  AllFilesDuplicated = "allFilesDuplicated",
+  NotHaveSpaceForUpload = "notHaveSpaceForUpload",
+}
+
+export type FileTransferValidationResult = AppResult<
+  unknown,
+  ValidationErrorName
+>
+
+export interface AvailableSpaceInfo {
+  isSufficient: boolean
+  difference: number
+  formattedDifference: string
+}
+
+export interface FileFailed extends FileManagerFile {
+  label?: string
+}
