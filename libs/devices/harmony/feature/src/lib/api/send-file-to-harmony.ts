@@ -3,20 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { sum } from "lodash"
 import {
   Harmony,
   HarmonyEndpointNamed,
   HarmonyMethodNamed,
   HarmonyPreSendFileResponse,
 } from "devices/harmony/models"
+import { AppFileSystemGuardOptions } from "app-utils/models"
 import { HarmonySerialPort } from "devices/harmony/adapters"
-import { AppFileSystemScopeOptions } from "app-utils/models"
 import { AppFileSystem } from "app-utils/renderer"
-import { sum } from "lodash"
 
 interface Params {
   device: Harmony
-  fileLocation: AppFileSystemScopeOptions
+  fileLocation: AppFileSystemGuardOptions
   targetPath: string
   onProgress?: (progress: {
     // Percentage of file sent [%]

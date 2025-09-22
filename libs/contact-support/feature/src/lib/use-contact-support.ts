@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AppFileSystem, AppHttp, AppLogger } from "app-utils/renderer"
 import {
   AppError,
-  AppFileSystemScopeOptions,
+  AppFileSystemGuardOptions,
   AppHttpRequestConfig,
 } from "app-utils/models"
 import { delayUntilAtLeast } from "app-utils/common"
@@ -26,7 +26,7 @@ import { contactSupportConfig } from "./contact-support-config"
 interface CreateTicketRequestPayload
   extends Pick<AppHttpRequestConfig, "data" | "files"> {
   data: Record<string, string>
-  files: Record<string, AppFileSystemScopeOptions>
+  files: Record<string, AppFileSystemGuardOptions>
 }
 
 enum SupportMetaErrorName {
@@ -104,7 +104,7 @@ const mapToCreateTicketRequestPayload = (
   if (deviceId) {
     data["custom_fields[cf_deviceid]"] = deviceId
   }
-  const files: Record<string, AppFileSystemScopeOptions> = {
+  const files: Record<string, AppFileSystemGuardOptions> = {
     "attachments[]": { scopeRelativePath },
   }
 

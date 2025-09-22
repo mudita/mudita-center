@@ -7,7 +7,7 @@ import path from "path"
 import { FunctionComponent, useMemo, useState } from "react"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { DashboardHeaderTitle } from "app-routing/feature"
-import { AppActions, AppFileSystem } from "app-utils/renderer"
+import { AppActions } from "app-utils/renderer"
 import { OpenDialogOptionsLite } from "app-utils/models"
 import { useHarmonyDeleteFileMutation } from "devices/harmony/feature"
 import { useActiveDeviceQuery } from "devices/common/feature"
@@ -123,8 +123,9 @@ const messages = defineMessages({
 const mapToFileManagerFile = async (
   filePath: string
 ): Promise<FileManagerFile> => {
-  const stats = await AppFileSystem.stats(filePath)
-  const size = stats.ok ? stats.data.size : 0
+  // const stats = await AppFileSystem.stats(filePath)
+  // const size = stats.ok ? stats.data.size : 0
+  const size = 0
   return {
     id: filePath,
     name: path.basename(filePath),

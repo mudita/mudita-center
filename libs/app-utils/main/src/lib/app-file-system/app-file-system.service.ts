@@ -4,33 +4,41 @@
  */
 
 import archiver from "archiver"
-import { app } from "electron"
 import path from "path"
 import fs from "fs-extra"
 import {
   AppFileSystemArchiveOptions,
   AppFileSystemCalculateCrc32Options,
   AppFileSystemFileStatsOptions,
+  AppFileSystemGuardOptions,
   AppFileSystemMkdirOptions,
   AppFileSystemPathExistsOptions,
   AppFileSystemReadFileChunkOptions,
   AppFileSystemRmOptions,
-  AppFileSystemScopeOptions,
   AppFileSystemWriteFileOptions,
   AppResult,
   AppResultFactory,
   mapToAppError,
 } from "app-utils/models"
 import { crc32 } from "node:zlib"
+import { AppFileSystemGuard } from "./app-file-system.guard"
 
 export class AppFileSystemService {
-  static async rm({
+  constructor(private appFileSystemGuard: AppFileSystemGuard) {}
+
+  resolveSafePath = (opts: AppFileSystemGuardOptions) =>
+    this.appFileSystemGuard.resolveSafePath(opts)
+
+  async rm({
     scopeRelativePath,
     options,
     scope,
   }: AppFileSystemRmOptions): Promise<AppResult> {
     try {
-      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      const filePath = this.resolveSafePath({
+        scopeRelativePath,
+        scope,
+      })
       await fs.rm(filePath, options)
       return AppResultFactory.success()
     } catch (error) {
@@ -38,13 +46,16 @@ export class AppFileSystemService {
     }
   }
 
-  static async mkdir({
+  async mkdir({
     scopeRelativePath,
     options,
     scope,
   }: AppFileSystemMkdirOptions): Promise<AppResult> {
     try {
-      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      const filePath = this.resolveSafePath({
+        scopeRelativePath,
+        scope,
+      })
       await fs.mkdir(filePath, options)
       return AppResultFactory.success()
     } catch (error) {
@@ -52,14 +63,17 @@ export class AppFileSystemService {
     }
   }
 
-  static async archive({
+  async archive({
     scopeRelativePath,
     scopeDestinationPath,
     scope,
   }: AppFileSystemArchiveOptions): Promise<AppResult> {
     try {
-      const sourceDir = this.resolveScopedPath({ scopeRelativePath, scope })
-      const destinationPath = this.resolveScopedPath({
+      const sourceDir = this.resolveSafePath({
+        scopeRelativePath,
+        scope,
+      })
+      const destinationPath = this.resolveSafePath({
         scopeRelativePath: scopeDestinationPath,
         scope,
       })
@@ -72,12 +86,12 @@ export class AppFileSystemService {
     }
   }
 
-  static async pathExists({
+  async pathExists({
     scopeRelativePath,
     scope,
   }: AppFileSystemPathExistsOptions): Promise<AppResult<boolean>> {
     try {
-      const filePath = this.resolveScopedPath({
+      const filePath = this.resolveSafePath({
         scopeRelativePath,
         scope,
       })
@@ -88,12 +102,12 @@ export class AppFileSystemService {
     }
   }
 
-  static async fileStats({
+  async fileStats({
     scopeRelativePath,
     scope,
   }: AppFileSystemFileStatsOptions): Promise<AppResult<fs.Stats>> {
     try {
-      const filePath = this.resolveScopedPath({
+      const filePath = this.resolveSafePath({
         scopeRelativePath,
         scope,
       })
@@ -104,14 +118,14 @@ export class AppFileSystemService {
     }
   }
 
-  static async writeFile({
+  async writeFile({
     data,
     scopeRelativePath,
     scope = "userData",
     options,
   }: AppFileSystemWriteFileOptions): Promise<AppResult<string>> {
     try {
-      const fullPath = this.resolveScopedPath({
+      const fullPath = this.resolveSafePath({
         scopeRelativePath,
         scope,
       })
@@ -129,12 +143,15 @@ export class AppFileSystemService {
     }
   }
 
-  static async calculateFileCrc32({
+  async calculateFileCrc32({
     scopeRelativePath,
     scope,
   }: AppFileSystemCalculateCrc32Options): Promise<AppResult<string>> {
     try {
-      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      const filePath = this.resolveSafePath({
+        scopeRelativePath,
+        scope,
+      })
       const buffer = await fs.readFile(filePath)
       const crc32Value = (crc32(buffer) >>> 0)
         .toString(16)
@@ -146,14 +163,17 @@ export class AppFileSystemService {
     }
   }
 
-  static readFileChunk({
+  readFileChunk({
     scopeRelativePath,
     scope,
     chunkSize,
     chunkNo = 0,
   }: AppFileSystemReadFileChunkOptions) {
     return new Promise((resolve, reject) => {
-      const filePath = this.resolveScopedPath({ scopeRelativePath, scope })
+      const filePath = this.resolveSafePath({
+        scopeRelativePath,
+        scope,
+      })
       const stream = fs.createReadStream(filePath, {
         highWaterMark: chunkSize,
         start: chunkNo * chunkSize,
@@ -170,27 +190,7 @@ export class AppFileSystemService {
     })
   }
 
-  static resolveScopedPath({
-    scopeRelativePath,
-    scope = "userData",
-  }: AppFileSystemScopeOptions): string {
-    const scopeDir = app.getPath(scope)
-    const filePath = path.resolve(
-      scopeDir,
-      typeof scopeRelativePath === "string"
-        ? scopeRelativePath
-        : path.join(...scopeRelativePath)
-    )
-    if (!filePath.startsWith(scopeDir)) {
-      throw new Error(`File Path escapes the scope: ${scopeRelativePath}`)
-    }
-    return filePath
-  }
-
-  private static writeZip(
-    sourceDir: string,
-    destinationPath: string
-  ): Promise<void> {
+  writeZip(sourceDir: string, destinationPath: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const output = fs.createWriteStream(destinationPath)
       const archive = archiver("zip", {
@@ -210,7 +210,7 @@ export class AppFileSystemService {
     })
   }
 
-  static async stats(path: string): Promise<AppResult<fs.Stats>> {
+  async stats(path: string): Promise<AppResult<fs.Stats>> {
     const s = await fs.stat(path)
     return AppResultFactory.success(s)
   }

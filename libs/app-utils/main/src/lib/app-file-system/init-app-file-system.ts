@@ -14,46 +14,47 @@ import {
 } from "app-utils/models"
 import { AppFileSystemService } from "./app-file-system.service"
 
-export const initAppFileSystem = (ipcMain: IpcMain) => {
+export const initAppFileSystem = (
+  ipcMain: IpcMain,
+  appFileSystem: AppFileSystemService
+) => {
   ipcMain.removeHandler(AppFileSystemIpcEvents.Rm)
   ipcMain.handle(
     AppFileSystemIpcEvents.Rm,
-    (_, options: AppFileSystemRmOptions) => AppFileSystemService.rm(options)
+    (_, options: AppFileSystemRmOptions) => appFileSystem.rm(options)
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.Mkdir)
   ipcMain.handle(
     AppFileSystemIpcEvents.Mkdir,
-    (_, options: AppFileSystemMkdirOptions) =>
-      AppFileSystemService.mkdir(options)
+    (_, options: AppFileSystemMkdirOptions) => appFileSystem.mkdir(options)
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.Archive)
   ipcMain.handle(
     AppFileSystemIpcEvents.Archive,
-    (_, options: AppFileSystemArchiveOptions) =>
-      AppFileSystemService.archive(options)
+    (_, options: AppFileSystemArchiveOptions) => appFileSystem.archive(options)
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.WriteFile)
   ipcMain.handle(
     AppFileSystemIpcEvents.WriteFile,
     (_, options: AppFileSystemWriteFileOptions) =>
-      AppFileSystemService.writeFile(options)
+      appFileSystem.writeFile(options)
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.PathExists)
   ipcMain.handle(
     AppFileSystemIpcEvents.PathExists,
     (_, options: AppFileSystemPathExistsOptions) =>
-      AppFileSystemService.pathExists(options)
+      appFileSystem.pathExists(options)
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.FileStats)
   ipcMain.handle(AppFileSystemIpcEvents.FileStats, (_, options) =>
-    AppFileSystemService.fileStats(options)
+    appFileSystem.fileStats(options)
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.CalculateFileCrc32)
   ipcMain.handle(AppFileSystemIpcEvents.CalculateFileCrc32, (_, options) =>
-    AppFileSystemService.calculateFileCrc32(options)
+    appFileSystem.calculateFileCrc32(options)
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.ReadFileChunk)
   ipcMain.handle(AppFileSystemIpcEvents.ReadFileChunk, (_, options) =>
-    AppFileSystemService.readFileChunk(options)
+    appFileSystem.readFileChunk(options)
   )
 }

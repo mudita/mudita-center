@@ -9,12 +9,12 @@ import { AppHttp } from "app-utils/renderer"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { sum } from "lodash"
 import { theme } from "app-theme/utils"
-import { AppFileSystemScopeOptions } from "app-utils/models"
+import { AppFileSystemGuardOptions } from "app-utils/models"
 import { HarmonyOSUpdateError } from "devices/harmony/models"
 
 export const getHarmonyOsDownloadLocation = (
   fileName: string
-): AppFileSystemScopeOptions => {
+): AppFileSystemGuardOptions => {
   return {
     scopeRelativePath: ["os-updates", "harmony", fileName],
     scope: "userData",
