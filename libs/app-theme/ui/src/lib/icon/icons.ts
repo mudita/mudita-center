@@ -16,6 +16,7 @@ import Battery3 from "./svg/battery-3.svg?react"
 import Battery4 from "./svg/battery-4.svg?react"
 import Battery5 from "./svg/battery-5.svg?react"
 import BatteryFlat from "./svg/battery-flat.svg?react"
+import Bell from "./svg/bell.svg?react"
 import Check from "./svg/check.svg?react"
 import CheckCircle from "./svg/check-circle.svg?react"
 import ChevronDown from "./svg/chevron-down.svg?react"
@@ -50,6 +51,7 @@ import Settings from "./svg/settings.svg?react"
 import Spinner from "./svg/spinner.svg?react"
 import Support from "./svg/support.svg?react"
 import ThinFail from "./svg/thin-fail.svg?react"
+import Trash from "./svg/trash.svg?react"
 
 export const icons = {
   [IconType.ArrowBack]: ArrowBack,
@@ -61,6 +63,7 @@ export const icons = {
   [IconType.Battery4]: Battery4,
   [IconType.Battery5]: Battery5,
   [IconType.BatteryFlat]: BatteryFlat,
+  [IconType.Bell]: Bell,
   [IconType.Check]: Check,
   [IconType.CheckCircle]: CheckCircle,
   [IconType.ChevronDown]: ChevronDown,
@@ -95,4 +98,5 @@ export const icons = {
   [IconType.Spinner]: Spinner,
   [IconType.Support]: Support,
   [IconType.ThinFail]: ThinFail,
+  [IconType.Trash]: Trash,
 } as const satisfies Record<IconType, typeof Svg>

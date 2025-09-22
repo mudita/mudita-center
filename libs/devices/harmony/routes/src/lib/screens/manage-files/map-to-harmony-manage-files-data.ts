@@ -12,11 +12,14 @@ import {
   MARKETING_TOTAL_BYTES,
 } from "./harmony-manage-files.config"
 import { mapToFileManagerFileMap } from "./map-to-harmony-file-map"
-import { FileManagerCategoryFileMap } from "./harmony-manage-files.types"
+import {
+  FileCategoryId,
+  FileManagerCategoryFileMap,
+} from "./harmony-manage-files.types"
 import { mebiToBytes, sumFileSizes } from "./map-to-harmony.utils"
 
 export interface HarmonyManageFilesData {
-  categories: FileManagerFileCategory[]
+  categories: (FileManagerFileCategory & { id: FileCategoryId })[]
   segments: ISegmentBarItem[]
   categoryFileMap: FileManagerCategoryFileMap
   freeSpaceBytes: number
@@ -36,11 +39,12 @@ export const mapHarmonyToManageFiles = (
   const alarmFilesBytes = sumFileSizes(alarmFiles)
   const relaxationFilesBytes = sumFileSizes(relaxationFiles)
 
-  const marketingPaddingBytes =
-    MARKETING_TOTAL_BYTES - mebiToBytes(config?.deviceSpaceTotal)
-
-  const totalSpaceBytes =
-    marketingPaddingBytes + mebiToBytes(config?.deviceSpaceTotal)
+  const deviceSpaceTotal =
+    mebiToBytes(config?.deviceSpaceTotal) === 0
+      ? MARKETING_TOTAL_BYTES
+      : mebiToBytes(config?.deviceSpaceTotal)
+  const marketingPaddingBytes = MARKETING_TOTAL_BYTES - deviceSpaceTotal
+  const totalSpaceBytes = marketingPaddingBytes + deviceSpaceTotal
 
   const usedSpaceBytes =
     marketingPaddingBytes +

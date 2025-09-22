@@ -13,6 +13,7 @@ export const ModalScrollableContent: FunctionComponent<PropsWithChildren> = (
 }
 
 export const ScrollableContent = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--modal-gap);

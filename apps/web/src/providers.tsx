@@ -8,6 +8,7 @@ import { AppStoreProvider } from "app-store/feature"
 import { AppIntlProvider } from "app-localize/feature"
 import { AppThemeProvider } from "app-theme/feature"
 import { AppRoutingProvider } from "app-routing/feature"
+import { Toast } from "app-theme/ui"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
@@ -27,7 +28,9 @@ export const Providers: FunctionComponent<PropsWithChildren> = ({
       <AppRoutingProvider>
         <AppStoreProvider>
           <AppThemeProvider>
-            <AppIntlProvider>{children}</AppIntlProvider>
+            <AppIntlProvider>
+              <Toast.Provider>{children}</Toast.Provider>
+            </AppIntlProvider>
           </AppThemeProvider>
         </AppStoreProvider>
       </AppRoutingProvider>

@@ -4,9 +4,14 @@
  */
 
 import { DevicesQueryKeys } from "devices/common/models"
+import { HarmonyDirectory } from "devices/harmony/models"
 
 export const harmonyQueryKeys = {
   _device: (path?: string) => [DevicesQueryKeys.All, path],
   time: (path?: string) => [...harmonyQueryKeys._device(path), "time"],
-  fileList: (path?: string) => [...harmonyQueryKeys._device(path), "fileList"],
+  fileList: (directory: HarmonyDirectory, path?: string) => [
+    ...harmonyQueryKeys._device(path),
+    "fileList",
+    directory,
+  ],
 }

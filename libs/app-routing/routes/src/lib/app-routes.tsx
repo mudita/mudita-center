@@ -14,6 +14,7 @@ import { DevicesInitializer } from "devices/common/feature"
 import { CheckInitRequirements } from "app-init/feature"
 import { useAppLegalRouter } from "./app-legal-router"
 import { ContactSupport } from "contact-support/feature"
+import { ToastContainer } from "app-theme/ui"
 
 export const AppRoutes: FunctionComponent<PropsWithChildren> = () => {
   const legalRouter = useAppLegalRouter()
@@ -44,6 +45,7 @@ const AppMainLayout: FunctionComponent = () => {
       <ContactSupport />
       <DevicesInitializer />
       <CheckInitRequirements />
+      <ToastContainer />
       <Outlet />
     </>
   )

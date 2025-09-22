@@ -46,5 +46,5 @@ const Menu = styled(DashboardMenu)`
 
 const Content = styled.main`
   grid-area: content;
-  overflow-y: scroll;
+  overflow-y: auto;
 `

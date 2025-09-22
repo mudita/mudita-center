@@ -22,10 +22,20 @@ export const HarmonyGetFileListRequestValidator = z.object({
 })
 
 export const HarmonyGetFileListResponseValidator = z.record(
-  z.string(),
+  z
+    .string()
+    .refine(
+      (val) =>
+        Object.values(HarmonyDirectory).includes(val as HarmonyDirectory),
+      {
+        message: "Invalid directory",
+      }
+    ),
   z.array(HarmonyFileSchema)
 )
 
-export type HarmonyGetFileList = z.infer<
-  typeof HarmonyGetFileListResponseValidator
->
+export const HarmonyDeleteFileRequestValidator = z.object({
+  removeFile: z.string(),
+})
+
+export const HarmonyDeleteFileResponseValidator = z.undefined()

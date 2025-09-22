@@ -32,6 +32,7 @@ export enum IconType {
   Minus = "minus",
   MuditaLogo = "mudita-logo",
   MuditaLogoFull = "mudita-logo-full",
+  Bell = "bell",
   Namaste = "namaste",
   News = "news",
   Overview = "overview",
@@ -47,6 +48,7 @@ export enum IconType {
   Spinner = "spinner",
   Support = "support",
   ThinFail = "thin-fail",
+  Trash = "trash",
 }
 
 export enum IconSize {

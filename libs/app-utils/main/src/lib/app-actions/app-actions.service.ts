@@ -62,9 +62,7 @@ export class AppActionsService {
     app.quit()
   }
 
-  async openFileDialog(
-    options: OpenDialogOptions
-  ): Promise<string | undefined> {
+  async openFileDialog(options: OpenDialogOptions): Promise<string[]> {
     const mergedOptions = {
       ...this.defaultOptions,
       ...options,
@@ -76,11 +74,11 @@ export class AppActionsService {
       mergedOptions
     )
 
-    if (result.canceled || result.filePaths.length === 0) {
-      return undefined
+    if (result.canceled) {
+      return []
     }
 
-    return result.canceled ? undefined : result.filePaths[0]
+    return result.filePaths
   }
 
   getAppVersion(): string {

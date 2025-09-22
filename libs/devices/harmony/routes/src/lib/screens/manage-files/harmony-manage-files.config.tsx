@@ -10,8 +10,8 @@ import { ISegmentBarItem } from "app-theme/ui"
 import { FileCategoryId, SegmentId } from "./harmony-manage-files.types"
 
 export enum FileManagerMarkerColor {
-  alarmFiles = "#E38577",
-  relaxationFiles = "#0E7490",
+  alarmFiles = "#0E7490",
+  relaxationFiles = "#A8DADC",
   otherFiles = "#3B3F42",
   free = "#F4F5F6",
 }
@@ -45,26 +45,26 @@ export const HARMONY_SEGMENTS_CONFIG_MAP: Record<SegmentId, ISegmentBarItem> = {
 
 export const HARMONY_CATEGORIES_CONFIG_MAP: Record<
   FileCategoryId,
-  FileManagerFileCategory
+  FileManagerFileCategory & { id: FileCategoryId }
 > = {
   [FileCategoryId.alarmFiles]: {
     id: FileCategoryId.alarmFiles,
-    icon: IconType.Info,
+    icon: IconType.Bell,
     markerColor: FileManagerMarkerColor.alarmFiles,
     label: "Alarms",
     directoryPath: HarmonyDirectory.Alarm,
-    fileListEmptyStateDescription: "",
+    fileListEmptyStateDescription: "Add alarm files from your computer and they’ll transfer to your device automatically.",
     supportedFileTypes: ["mp3", "wav", "flac"],
     size: "0 KB",
     count: 0,
   },
   [FileCategoryId.relaxationFiles]: {
     id: FileCategoryId.relaxationFiles,
-    icon: IconType.Info,
+    icon: IconType.MuditaLogo,
     markerColor: FileManagerMarkerColor.relaxationFiles,
     label: "Relaxations",
     directoryPath: HarmonyDirectory.Relaxation,
-    fileListEmptyStateDescription: "",
+    fileListEmptyStateDescription: "Add relaxation files from your computer and they’ll transfer to your device automatically.",
     supportedFileTypes: ["mp3", "wav", "flac"],
     size: "0 KB",
     count: 0,
