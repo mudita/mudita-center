@@ -16,6 +16,7 @@ export interface FileTransferFailed extends FileManagerFile {
   values?: Record<string, string | number>
 }
 export interface ManageFilesTransferFailedModalMessages {
+  exportFailedErrorLabelExportUnknown: Messages
   uploadFailedAllModalTitle: Messages
   uploadFailedSomeModalTitle: Messages
   uploadFailedAllModalDescription: Messages
@@ -25,7 +26,6 @@ export interface ManageFilesTransferFailedModalMessages {
   uploadFailedAllNotEnoughMemoryError: Messages
   uploadFailedAllFileTooLargeError: Messages
   uploadFailedErrorLabelUploadUnknown: Messages
-  uploadFailedErrorLabelExportUnknown: Messages
   uploadFailedErrorLabelDuplicate: Messages
   uploadFailedErrorLabelCancelled: Messages
   uploadFailedErrorLabelTooBig: Messages
@@ -40,7 +40,7 @@ const reasonToLabel = (m: ManageFilesTransferFailedModalMessages) =>
     [TransferErrorName.FileTooLarge]: m.uploadFailedErrorLabelFileTooLarge,
     [TransferErrorName.Cancelled]: m.uploadFailedErrorLabelCancelled,
     [TransferErrorName.UploadUnknown]: m.uploadFailedErrorLabelUploadUnknown,
-    [TransferErrorName.ExportUnknown]: m.uploadFailedErrorLabelExportUnknown,
+    [TransferErrorName.ExportUnknown]: m.exportFailedErrorLabelExportUnknown,
   }) as const
 
 const allFailedSpecificMessage = (m: ManageFilesTransferFailedModalMessages) =>
@@ -153,7 +153,7 @@ export const mapFailedFilesWithLabels = (
   failedFiles: FileTransferFailed[],
   messages: ManageFilesTransferFailedModalMessages
 ): FileFailed[] =>
-  failedFiles.map((f) => ({
-    ...f,
-    label: formatMessage(getErrorLabelForReason(f.errorName, messages)),
+  failedFiles.map((file) => ({
+    ...file,
+    label: formatMessage(getErrorLabelForReason(file.errorName, messages)),
   }))

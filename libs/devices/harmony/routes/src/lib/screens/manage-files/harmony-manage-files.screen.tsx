@@ -103,8 +103,8 @@ const messages = defineMessages({
   uploadFailedErrorLabelUploadUnknown: {
     id: "harmony.manageFiles.uploadFailed.errorLabels.upload.unknown",
   },
-  uploadFailedErrorLabelExportUnknown: {
-    id: "harmony.manageFiles.uploadFailed.errorLabels.export.unknown",
+  exportFailedErrorLabelExportUnknown: {
+    id: "harmony.manageFiles.exportFailed.errorLabels.export.unknown",
   },
   uploadFailedErrorLabelDuplicate: {
     id: "harmony.manageFiles.uploadFailed.errorLabels.duplicate",
