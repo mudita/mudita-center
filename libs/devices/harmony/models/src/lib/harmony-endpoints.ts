@@ -33,7 +33,7 @@ import {
 import {
   HarmonyGetFileListRequestValidator,
   HarmonyGetFileListResponseValidator,
-} from "./endpoints/file-system"
+} from "./endpoints/file-get"
 
 export enum HarmonyEndpointNamed {
   // Invalid = 0,
@@ -103,10 +103,6 @@ export const HarmonyEndpoints = {
         HarmonyPreSendFileResponseValidator,
         HarmonySendFileChunkResponseValidator,
       ]),
-    },
-    [HarmonyMethodNamed.Delete]: {
-      request: HarmonyDeleteFileRequestValidator,
-      response: HarmonyDeleteFileResponseValidator,
     },
   },
   [HarmonyEndpointNamed.Update]: {

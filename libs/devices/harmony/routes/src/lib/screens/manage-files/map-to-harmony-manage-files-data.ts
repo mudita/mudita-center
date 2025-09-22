@@ -16,7 +16,7 @@ import {
   FileCategoryId,
   FileManagerCategoryFileMap,
 } from "./harmony-manage-files.types"
-import { mebiToBytes, sumFileSizes } from "./map-to-harmony.utils"
+import { sumFileSizes } from "./map-to-harmony.utils"
 
 export interface HarmonyManageFilesData {
   categories: (FileManagerFileCategory & { id: FileCategoryId })[]
@@ -39,17 +39,18 @@ export const mapHarmonyToManageFiles = (
   const alarmFilesBytes = sumFileSizes(alarmFiles)
   const relaxationFilesBytes = sumFileSizes(relaxationFiles)
 
+  const systemReservedSpace = config?.systemReservedSpace ?? 0
+  const usedUserSpace = config?.usedUserSpace ?? 0
+
   const deviceSpaceTotal =
-    mebiToBytes(config?.deviceSpaceTotal) === 0
+    config?.deviceSpaceTotal === undefined
       ? MARKETING_TOTAL_BYTES
-      : mebiToBytes(config?.deviceSpaceTotal)
+      : config?.deviceSpaceTotal
   const marketingPaddingBytes = MARKETING_TOTAL_BYTES - deviceSpaceTotal
   const totalSpaceBytes = marketingPaddingBytes + deviceSpaceTotal
 
   const usedSpaceBytes =
-    marketingPaddingBytes +
-    mebiToBytes(config?.systemReservedSpace) +
-    mebiToBytes(config?.usedUserSpace)
+    marketingPaddingBytes + systemReservedSpace + usedUserSpace
 
   const otherSpaceBytes =
     usedSpaceBytes - (alarmFilesBytes + relaxationFilesBytes)
