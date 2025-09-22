@@ -47,8 +47,9 @@ const FailedFilesList = ({ files }: { files: FileFailed[] }) => (
         <li key={file.id}>
           <FileListItem>
             <Typography.P1>
-              {file.name} [{file.label}]
+              {file.name}
             </Typography.P1>
+            {file.label && <FileListItemLabel>({file.label})</FileListItemLabel>}
           </FileListItem>
         </li>
       ))}
@@ -65,6 +66,7 @@ const FilesList = styled.ul`
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
       &:nth-child(2) {
         white-space: nowrap;
         color: ${({ theme }) => theme.app.color.grey2};
@@ -80,4 +82,8 @@ const FileListItem = styled.div`
   gap: 0.4rem;
   justify-content: space-between;
   overflow: hidden;
+`
+
+const FileListItemLabel = styled(Typography.P1)`
+  color: ${({ theme }) => theme.app.color.grey2};
 `
