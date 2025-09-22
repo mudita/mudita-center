@@ -30,6 +30,10 @@ import {
   HarmonyDeleteFileRequestValidator,
   HarmonyDeleteFileResponseValidator,
 } from "./endpoints/file-delete"
+import {
+  HarmonyGetFileListRequestValidator,
+  HarmonyGetFileListResponseValidator,
+} from "./endpoints/file-system"
 
 export enum HarmonyEndpointNamed {
   // Invalid = 0,
@@ -82,6 +86,14 @@ export const HarmonyEndpoints = {
     },
   },
   [HarmonyEndpointNamed.FileSystem]: {
+    [HarmonyMethodNamed.Get]: {
+      request: HarmonyGetFileListRequestValidator,
+      response: HarmonyGetFileListResponseValidator,
+    },
+    [HarmonyMethodNamed.Delete]: {
+      request: HarmonyDeleteFileRequestValidator,
+      response: HarmonyDeleteFileResponseValidator,
+    },
     [HarmonyMethodNamed.Put]: {
       request: z.union([
         HarmonyPreSendFileRequestValidator,

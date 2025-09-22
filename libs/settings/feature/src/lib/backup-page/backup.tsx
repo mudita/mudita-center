@@ -21,7 +21,7 @@ export const SettingsBackupPage: FunctionComponent = () => {
   }, [])
 
   const openDialog = async () => {
-    const location = await AppActions.openFileDialog({
+    const [location] = await AppActions.openFileDialog({
       properties: ["openDirectory"],
       title: "Choose backup folder",
     })

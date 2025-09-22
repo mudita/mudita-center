@@ -5,11 +5,11 @@
 
 import { Navigate, Route } from "react-router"
 import { useDeviceMenuQuery } from "devices/common/feature"
-import { Typography } from "app-theme/ui"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { HarmonyPaths } from "devices/harmony/models"
 import { Device } from "devices/common/models"
 import { HarmonyOverviewScreen } from "./screens/overview/harmony-overview.screen"
+import { HarmonyManageFilesScreen } from "./screens/manage-files/harmony-manage-files.screen"
 
 export const useHarmonyRouter = (device?: Device) => {
   const activeHarmony = HarmonySerialPort.isCompatible(device)
@@ -28,10 +28,13 @@ export const useHarmonyRouter = (device?: Device) => {
           index
           element={<Navigate to={HarmonyPaths.Overview} replace />}
         />
-        <Route path={HarmonyPaths.Overview} element={<HarmonyOverviewScreen />} />
+        <Route
+          path={HarmonyPaths.Overview}
+          element={<HarmonyOverviewScreen />}
+        />
         <Route
           path={HarmonyPaths.Sounds}
-          element={<Typography.H1>Harmony Sounds</Typography.H1>}
+          element={<HarmonyManageFilesScreen />}
         />
       </Route>
     ),

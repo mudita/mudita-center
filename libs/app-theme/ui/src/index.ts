@@ -22,10 +22,12 @@ export * from "./lib/segment-bar/segment-bar.types"
 export * from "./lib/table/table"
 export * from "./lib/table/table-cell"
 export * from "./lib/table/table-header-cell"
+export * from "./lib/toast/toast"
 export * from "./lib/tooltip/tooltip"
 export * from "./lib/typography/typography"
 export * from "./lib/typography/typography-styles"
 export * from "./lib/typography/bytes-formatter/bytes-formatter"
+export * from "./lib/typography/bytes-formatter/format-bytes"
 
 // Legacy components
 export * from "./lib/legacy-button/button.component"
