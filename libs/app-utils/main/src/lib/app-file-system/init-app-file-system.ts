@@ -46,8 +46,8 @@ export const initAppFileSystem = (
       appFileSystem.pathExists(options)
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.FileStats)
-  ipcMain.handle(AppFileSystemIpcEvents.FileStats, (_, options) =>
-    appFileSystem.fileStats(options)
+  ipcMain.handle(AppFileSystemIpcEvents.FileStats, (event, options) =>
+    appFileSystem.fileStats({ ...options, webContentsId: event.sender.id })
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.CalculateFileCrc32)
   ipcMain.handle(AppFileSystemIpcEvents.CalculateFileCrc32, (_, options) =>

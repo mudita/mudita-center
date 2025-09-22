@@ -4,6 +4,7 @@
  */
 
 import { app } from "electron"
+import fs from "fs-extra"
 import path from "path"
 import {
   AbsolutePathWithGrantOptions,
@@ -25,6 +26,28 @@ const isAbsoluteOptions = (
     "undefined"
 
 export class AppFileSystemGuard {
+  private grantedPathsMap = new Map<number, Set<string>>()
+
+  grant(webContentsId: number, selectedPaths: string[]): void {
+    if (!Number.isInteger(webContentsId) || webContentsId <= 0) return
+
+    const grantedPaths =
+      this.grantedPathsMap.get(webContentsId) ?? new Set<string>()
+
+    for (const selectedPath of selectedPaths) {
+      try {
+        grantedPaths.add(this.resolveRealPath(selectedPath))
+      } catch {
+        // Ignore non-existent/inaccessible at grant time
+      }
+    }
+    this.grantedPathsMap.set(webContentsId, grantedPaths)
+  }
+
+  revokeAll(webContentsId: number): void {
+    this.grantedPathsMap.delete(webContentsId)
+  }
+
   resolveSafePath(options: AppFileSystemGuardOptions): string {
     if (isScopedOptions(options)) {
       return this.resolveScopedSafePath(options)
@@ -58,8 +81,85 @@ export class AppFileSystemGuard {
     return filePath
   }
 
-  resolveAbsoluteSafePath(_options: AbsolutePathWithGrantOptions): string {
-    // TODO(step 2): implement grant check + realpath normalization
-    throw new Error("Absolute path mode is not implemented yet")
+  private resolveAbsoluteSafePath(
+    options: AbsolutePathWithGrantOptions
+  ): string {
+    const absoluteInput = Array.isArray(options.fileAbsolutePath)
+      ? path.join(...options.fileAbsolutePath)
+      : options.fileAbsolutePath
+
+    if (!path.isAbsolute(absoluteInput)) {
+      throw new Error("fileAbsolutePath must be an absolute path")
+    }
+
+    if (
+      !Number.isInteger(options.webContentsId) ||
+      options.webContentsId <= 0
+    ) {
+      throw new Error("webContentsId must be a positive integer")
+    }
+
+    const canonicalAbsolutePath = this.resolveRealPath(absoluteInput)
+
+    if (
+      !this.hasGrantedAccess({
+        fileAbsolutePath: canonicalAbsolutePath,
+        webContentsId: options.webContentsId,
+      })
+    ) {
+      throw new Error(
+        `Path not granted for this window: ${canonicalAbsolutePath}`
+      )
+    }
+    return canonicalAbsolutePath
+  }
+
+  private hasGrantedAccess(options: AbsolutePathWithGrantOptions): boolean {
+    const grantedPathsSet = this.grantedPathsMap.get(options.webContentsId)
+    if (!grantedPathsSet || grantedPathsSet.size === 0) return false
+
+    let targetRealPath: string
+    try {
+      targetRealPath = this.resolveRealPath(
+        Array.isArray(options.fileAbsolutePath)
+          ? path.join(...options.fileAbsolutePath)
+          : options.fileAbsolutePath
+      )
+    } catch {
+      return false
+    }
+
+    for (const grantedRealPath of grantedPathsSet) {
+      try {
+        const grantedStats = fs.lstatSync(grantedRealPath)
+
+        if (grantedStats.isFile()) {
+          if (targetRealPath === grantedRealPath) return true
+          continue
+        }
+
+        const grantedDirectoryWithSeparator =
+          this.ensureTrailingSeparator(grantedRealPath)
+        if (
+          targetRealPath === grantedRealPath ||
+          targetRealPath.startsWith(grantedDirectoryWithSeparator)
+        ) {
+          return true
+        }
+      } catch {
+        // Ignore non-existent/inaccessible at check time
+      }
+    }
+    return false
+  }
+
+  private resolveRealPath(inputPath: string): string {
+    return fs.realpathSync.native(inputPath)
+  }
+
+  private ensureTrailingSeparator(directoryPath: string): string {
+    return directoryPath.endsWith(path.sep)
+      ? directoryPath
+      : directoryPath + path.sep
   }
 }

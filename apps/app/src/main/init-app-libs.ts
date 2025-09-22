@@ -10,6 +10,7 @@ import { initNews } from "news/main"
 import { AppHelpService, initAppHelp } from "help/main"
 import { initAppSettings } from "app-settings/main"
 import {
+  AppActionsService,
   AppFileSystemGuard,
   AppFileSystemService,
   AppHttpService,
@@ -33,7 +34,9 @@ export const initAppLibs = (
   mainWindow: BrowserWindow,
   mockServer: IpcMockServer
 ) => {
-  const appFileSystem = new AppFileSystemService(new AppFileSystemGuard())
+  const appFileSystemGuard = new AppFileSystemGuard()
+  const appFileSystem = new AppFileSystemService(appFileSystemGuard)
+  const appActionsService = new AppActionsService(appFileSystemGuard)
 
   const appHttpService = mockServer.serverEnabled
     ? new MockAppHttpService(mockServer, appFileSystem)
@@ -47,7 +50,7 @@ export const initAppLibs = (
 
   const appLoggerService = new AppLoggerService(appFileSystem)
 
-  initAppActions(ipcMain)
+  initAppActions(ipcMain, appActionsService)
   initAppSettings(ipcMain, mockServer)
   initAppUpdater(ipcMain, mainWindow, appUpdaterService)
   initSerialPort(ipcMain, mainWindow)
