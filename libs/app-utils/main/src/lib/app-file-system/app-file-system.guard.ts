@@ -29,7 +29,12 @@ export class AppFileSystemGuard {
   private grantedPathsMap = new Map<number, Set<string>>()
 
   grant(webContentsId: number, selectedPaths: string[]): void {
-    if (!Number.isInteger(webContentsId) || webContentsId <= 0) return
+    if (!Number.isInteger(webContentsId) || webContentsId <= 0) {
+      console.warn(
+        `[AppFileSystemGuard] grant called with invalid webContentsId: ${webContentsId}`
+      );
+      return;
+    }
 
     const grantedPaths =
       this.grantedPathsMap.get(webContentsId) ?? new Set<string>()
@@ -42,10 +47,6 @@ export class AppFileSystemGuard {
       }
     }
     this.grantedPathsMap.set(webContentsId, grantedPaths)
-  }
-
-  revokeAll(webContentsId: number): void {
-    this.grantedPathsMap.delete(webContentsId)
   }
 
   resolveSafePath(options: AppFileSystemGuardOptions): string {
@@ -116,7 +117,9 @@ export class AppFileSystemGuard {
 
   private hasGrantedAccess(options: AbsolutePathWithGrantOptions): boolean {
     const grantedPathsSet = this.grantedPathsMap.get(options.webContentsId)
-    if (!grantedPathsSet || grantedPathsSet.size === 0) return false
+    if (!grantedPathsSet || grantedPathsSet.size === 0) {
+      return false
+    }
 
     let targetRealPath: string
     try {

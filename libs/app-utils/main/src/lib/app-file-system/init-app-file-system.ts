@@ -50,11 +50,14 @@ export const initAppFileSystem = (
     appFileSystem.fileStats({ ...options, webContentsId: event.sender.id })
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.CalculateFileCrc32)
-  ipcMain.handle(AppFileSystemIpcEvents.CalculateFileCrc32, (_, options) =>
-    appFileSystem.calculateFileCrc32(options)
+  ipcMain.handle(AppFileSystemIpcEvents.CalculateFileCrc32, (event, options) =>
+    appFileSystem.calculateFileCrc32({
+      ...options,
+      webContentsId: event.sender.id,
+    })
   )
   ipcMain.removeHandler(AppFileSystemIpcEvents.ReadFileChunk)
-  ipcMain.handle(AppFileSystemIpcEvents.ReadFileChunk, (_, options) =>
-    appFileSystem.readFileChunk(options)
+  ipcMain.handle(AppFileSystemIpcEvents.ReadFileChunk, (event, options) =>
+    appFileSystem.readFileChunk({ ...options, webContentsId: event.sender.id })
   )
 }
