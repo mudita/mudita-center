@@ -17,6 +17,8 @@ import {
   HarmonySynchronizeTimeResponseValidator,
 } from "./endpoints/time-synchronization"
 import {
+  HarmonyDeleteFileRequestValidator,
+  HarmonyDeleteFileResponseValidator,
   HarmonyGetFileListRequestValidator,
   HarmonyGetFileListResponseValidator,
 } from "./endpoints/file-system"
@@ -75,6 +77,10 @@ export const HarmonyEndpoints = {
     [HarmonyMethodNamed.Get]: {
       request: HarmonyGetFileListRequestValidator,
       response: HarmonyGetFileListResponseValidator,
+    },
+    [HarmonyMethodNamed.Delete]: {
+      request: HarmonyDeleteFileRequestValidator,
+      response: HarmonyDeleteFileResponseValidator,
     },
   },
 } satisfies EndpointsDefinition

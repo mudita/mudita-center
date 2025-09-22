@@ -8,6 +8,7 @@ import { defineMessages } from "app-localize/utils"
 export const manageFilesMessages = defineMessages({
   summaryUsedLabel: { id: "manageFiles.summary.usedLabel" },
   categoryCount: { id: "manageFiles.category.count" },
+  deleteSuccessToastText: { id: "manageFiles.deleteSuccess.toast.text" },
   addFileButtonText: { id: "manageFiles.addFile.buttonText" },
   emptyStateTitle: { id: "manageFiles.emptyState.title" },
   otherFilesTitle: { id: "manageFiles.otherFiles.title" },

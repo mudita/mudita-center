@@ -5,22 +5,23 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
+import { noop } from "lodash"
+import { formatMessage } from "app-localize/utils"
 import { Icon, ListItem, Marker, Typography } from "app-theme/ui"
 import { IconSize } from "app-theme/models"
 import { FileManagerFileCategory } from "./manage-files.types"
 import { manageFilesMessages } from "./manage-files.messages"
-import { formatMessage } from "app-localize/utils"
 
-interface Props {
+export interface MfCategoryListProps {
   categories: FileManagerFileCategory[]
   activeCategoryId: string
-  onCategoryClick: (categoryId: string) => void
+  onCategoryClick?: (categoryId: string) => void
 }
 
-export const MfCategoryList: FunctionComponent<Props> = ({
+export const MfCategoryList: FunctionComponent<MfCategoryListProps> = ({
   categories,
   activeCategoryId,
-  onCategoryClick,
+  onCategoryClick = noop,
 }) => {
   return (
     <Wrapper>

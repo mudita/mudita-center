@@ -18,7 +18,10 @@ import {
   Tooltip,
   Typography,
 } from "app-theme/ui"
-import { FileManagerFileMap } from "./harmony-manage-files.types"
+import {
+  FileManagerFileMap,
+  ManageFilesTableSectionProps,
+} from "devices/common/ui"
 
 type CellProps = { dataItemId?: string; fileMap: FileManagerFileMap }
 
@@ -80,12 +83,9 @@ const SizeCell: FunctionComponent<CellProps> = ({ dataItemId, fileMap }) => {
   )
 }
 
-export const HarmonyManageFilesTableSection: FunctionComponent<{
-  fileMap: FileManagerFileMap
-  activeRowId?: string
-  onCheckboxClick: (fileId: string, checked: boolean) => void
-  selectedIds: Set<string>
-}> = ({ fileMap, selectedIds, activeRowId, onCheckboxClick }) => {
+export const HarmonyManageFilesTableSection: FunctionComponent<
+  ManageFilesTableSectionProps
+> = ({ fileMap, selectedIds, activeRowId, onSelectedChange }) => {
   return (
     <FileListEmptyTable
       activeRowId={activeRowId}
@@ -110,7 +110,7 @@ export const HarmonyManageFilesTableSection: FunctionComponent<{
       <ColumnCheckboxCell
         selectedIds={selectedIds}
         fileMap={fileMap}
-        onChange={onCheckboxClick}
+        onChange={onSelectedChange}
       />
       <NameCell fileMap={fileMap} />
       <TypeCell fileMap={fileMap} />

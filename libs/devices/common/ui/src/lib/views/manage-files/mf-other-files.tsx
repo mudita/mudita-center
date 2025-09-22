@@ -9,12 +9,12 @@ import { IconType } from "app-theme/models"
 import { formatBytes, Icon, Tooltip, Typography } from "app-theme/ui"
 import { manageFilesMessages } from "./manage-files.messages"
 
-interface Props {
+export interface MfOtherFilesProps {
   otherFiles: { name: string }[]
   otherSpaceBytes: number
 }
 
-export const MfOtherFiles: FunctionComponent<Props> = ({
+export const MfOtherFiles: FunctionComponent<MfOtherFilesProps> = ({
   otherFiles,
   otherSpaceBytes,
 }) => {

@@ -11,6 +11,7 @@ import { manageFilesMessages } from "./manage-files.messages"
 
 interface FileListPanelHeaderProps {
   header: string
+  onAddFileClick?: () => void
 }
 
 export const MfFileListPanelHeader: FunctionComponent<
@@ -26,18 +27,26 @@ export const MfFileListPanelHeader: FunctionComponent<
 
 export const MfFileListPanelDefaultMode: FunctionComponent<
   FileListPanelHeaderProps
-> = (props) => {
+> = ({ onAddFileClick, ...props }) => {
   return (
     <MfFileListPanelHeader {...props}>
-      <AddFileButton message={manageFilesMessages.addFileButtonText.id} />
+      <AddFileButton
+        message={manageFilesMessages.addFileButtonText.id}
+        onClick={onAddFileClick}
+      />
     </MfFileListPanelHeader>
   )
 }
 
-export const MfFileListPanelSelectMode: FunctionComponent<{
+export interface MfFileListPanelSelectModeProps {
   count: number
   onAllCheckboxClick: (checked: boolean) => void
-}> = ({ count, onAllCheckboxClick }) => {
+  onDeleteClick: VoidFunction
+}
+
+export const MfFileListPanelSelectMode: FunctionComponent<
+  MfFileListPanelSelectModeProps
+> = ({ count, onAllCheckboxClick, onDeleteClick }) => {
   return (
     <FileListPanelSelector>
       <Checkbox
@@ -53,6 +62,7 @@ export const MfFileListPanelSelectMode: FunctionComponent<{
         icon={IconType.Trash}
         message={manageFilesMessages.selectionDelete.id}
         type={ButtonType.Text}
+        onClick={onDeleteClick}
       />
     </FileListPanelSelector>
   )

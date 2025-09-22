@@ -28,7 +28,7 @@ export const useHarmonyFileListQuery = (
   device?: Harmony
 ) => {
   return useQuery({
-    queryKey: useHarmonyFileListQuery.queryKey(`${device?.path}+${directory}`),
+    queryKey: useHarmonyFileListQuery.queryKey(directory, device?.path),
     enabled: !!device,
     queryFn: () => {
       return delayUntilAtLeast(() => queryFn(directory, device), 500)

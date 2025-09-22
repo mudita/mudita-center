@@ -4,9 +4,7 @@
  */
 
 import { HarmonyFile } from "devices/harmony/models"
-import { FileManagerFile } from "devices/common/ui"
-
-import { FileManagerFileMap } from "./harmony-manage-files.types"
+import { FileManagerFile, FileManagerFileMap } from "devices/common/ui"
 
 const toFile = (item: HarmonyFile): FileManagerFile => {
   const name = item.path.split("/").reverse()[0]
