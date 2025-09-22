@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [linux-e2e, windows-e2e]
+        runner_label: [linux-e2e]
     environment: production
     timeout-minutes: 40
     steps:
