@@ -15,6 +15,7 @@ import {
   featureConfigurationFileManagerInternal,
   featureConfigurationFileManagerExternal,
   featureConfigurationOverview,
+  featureConfigurationContactsDuplicates,
 } from "./feature-configuration-responses"
 
 //import from "Core/device" breaks usage in e2e
@@ -69,6 +70,7 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
           features: [
             "mc-overview",
             "mc-contacts",
+            "mc-contacts-duplicates",
             "mc-file-manager-internal",
             "mc-file-manager-external",
           ],
@@ -107,6 +109,17 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
               feature: "mc-contacts",
               displayName: "Contacts",
               icon: "contacts-book",
+              inheritHeaderName: true,
+              submenu: [
+                {
+                  feature: "mc-contacts",
+                  displayName: "All Contacts",
+                },
+                {
+                  feature: "mc-contacts-duplicates",
+                  displayName: "Manage Duplicates",
+                },
+              ],
             },
             {
               feature: "mc-file-manager-internal",
@@ -144,6 +157,16 @@ export const DEFAULT_RESPONSES: MocksArrayResponsesMap = {
         match: {
           expected: {
             feature: "mc-contacts",
+            lang: "en-US",
+          },
+        },
+      },
+      {
+        status: ResponseStatus.Ok,
+        body: featureConfigurationContactsDuplicates,
+        match: {
+          expected: {
+            feature: "mc-contacts-duplicates",
             lang: "en-US",
           },
         },

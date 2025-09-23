@@ -44,7 +44,7 @@ describe("E2E mock sample - overview view", () => {
 
     const contactsCounter = ContactsKompaktPage.contactsCounter
     await expect(contactsCounter).toBeDisplayed()
-    await expect(contactsCounter).toHaveText("Contacts (17)")
+    await expect(contactsCounter).toHaveText("All Contacts (17)")
     await browser.pause(500)
   })
 

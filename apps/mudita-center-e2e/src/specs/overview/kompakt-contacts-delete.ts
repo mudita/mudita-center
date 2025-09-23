@@ -45,7 +45,7 @@ describe("E2E mock sample - overview view", () => {
 
     const contactsCounter = ContactsKompaktPage.contactsCounter
     await expect(contactsCounter).toBeDisplayed()
-    await expect(contactsCounter).toHaveText("Contacts (17)")
+    await expect(contactsCounter).toHaveText("All Contacts (17)")
   })
 
   it("Select first contact's checkbox", async () => {
@@ -114,6 +114,6 @@ describe("E2E mock sample - overview view", () => {
     //verify if counter is updated after deleting (number should be deducted by 1)
     const contactsCounter = ContactsKompaktPage.contactsCounter
     await expect(contactsCounter).toBeDisplayed()
-    await expect(contactsCounter).toHaveText("Contacts (16)")
+    await expect(contactsCounter).toHaveText("All Contacts (16)")
   })
 })
