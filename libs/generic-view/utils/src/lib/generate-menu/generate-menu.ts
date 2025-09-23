@@ -53,6 +53,7 @@ const processMenuItem = (item: MenuItemConfig): MenuElementItem => ({
   icon: getIcon(item.feature, item.icon),
   button: {
     label: item.displayName as string,
+    inheritHeaderName: item.inheritHeaderName as boolean,
     url: `/generic/${item.feature}`,
   },
   items: item.submenu?.map((subitem) => processMenuItem(subitem)),
