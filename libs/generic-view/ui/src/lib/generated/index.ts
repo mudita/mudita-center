@@ -6,6 +6,7 @@
 import {
   Feature,
   mcContactsView,
+  mcContactsDuplicatesView,
   mcFileManagerView,
   mcImportContactsButton,
 } from "generic-view/models"
@@ -14,12 +15,16 @@ import { generateMcFileManagerView } from "./mc-file-manager/mc-file-manager-vie
 import { generateFileManagerData } from "./mc-file-manager/mc-file-manager-data"
 import { generateMcImportContactsButton } from "./mc-import-contacts-button"
 import { View } from "generic-view/utils"
+import { generateMcContactsDuplicatesView } from "./mc-contacts-view/mc-contacts-duplicates-view"
 
 export * from "./mc-import-contacts-button"
 export * from "./mc-contacts-view/mc-contacts-view"
+export * from "./mc-contacts-view/mc-contacts-duplicates-view"
+export * from "./mc-file-manager/mc-file-manager-view"
 
 export const generatedViews = {
   [mcContactsView.key]: generateMcContactsView,
+  [mcContactsDuplicatesView.key]: generateMcContactsDuplicatesView,
   [mcFileManagerView.key]: generateMcFileManagerView,
   [mcImportContactsButton.key]: generateMcImportContactsButton,
 }
