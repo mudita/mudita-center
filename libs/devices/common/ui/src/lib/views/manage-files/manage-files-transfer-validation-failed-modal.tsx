@@ -8,8 +8,8 @@ import { formatMessage, Messages } from "app-localize/utils"
 import {
   AvailableSpaceInfo,
   FileManagerFile,
-  FileTransferValidationResult,
-  ValidationErrorName,
+  ValidationSummary,
+  ValidationSummaryType,
 } from "./manage-files.types"
 import { ManageFilesFailedModal } from "./manage-files-failed-modal"
 
@@ -17,7 +17,7 @@ export interface ManageFilesTransferValidationFailedModalProps {
   opened: boolean
   onClose: VoidFunction
   selectedFiles: FileManagerFile[]
-  result?: FileTransferValidationResult
+  validationSummary?: ValidationSummary
   messages: {
     uploadValidationFailureModalTitle: Messages
     uploadValidationFailureDuplicatesDescription: Messages
@@ -29,7 +29,7 @@ export interface ManageFilesTransferValidationFailedModalProps {
 
 export const ManageFilesTransferValidationFailedModal: FunctionComponent<
   ManageFilesTransferValidationFailedModalProps
-> = ({ opened, selectedFiles, result, onClose, messages }) => {
+> = ({ opened, selectedFiles, validationSummary, onClose, messages }) => {
   const filesCount = selectedFiles.length
 
   const title = formatMessage(messages.uploadValidationFailureModalTitle, {
@@ -37,25 +37,26 @@ export const ManageFilesTransferValidationFailedModal: FunctionComponent<
   })
 
   const description = useMemo(() => {
-    if (result === undefined || result.ok) {
+    if (validationSummary === undefined) {
       return ""
     }
 
-    switch (result.error.name) {
-      case ValidationErrorName.AllFilesDuplicated:
+    switch (validationSummary.type) {
+      case ValidationSummaryType.AllFilesDuplicated:
         return formatMessage(
           messages.uploadValidationFailureDuplicatesDescription,
           { filesCount }
         )
-      case ValidationErrorName.NotHaveSpaceForUpload:
+      case ValidationSummaryType.NotHaveSpaceForUpload:
         return formatMessage(
           messages.uploadValidationFailureInsufficientMemoryDescription,
           {
-            value: (result.data as AvailableSpaceInfo).formattedDifference,
+            value: (validationSummary.values as AvailableSpaceInfo)
+              .formattedDifference,
             filesCount,
           }
         )
-      case ValidationErrorName.SomeFileLargerThan2GB:
+      case ValidationSummaryType.AllFilesTooLarge:
         return formatMessage(
           messages.uploadValidationFailureFileTooLargeDescription
         )
@@ -63,7 +64,7 @@ export const ManageFilesTransferValidationFailedModal: FunctionComponent<
         return ""
     }
   }, [
-    result,
+    validationSummary,
     filesCount,
     messages.uploadValidationFailureDuplicatesDescription,
     messages.uploadValidationFailureFileTooLargeDescription,

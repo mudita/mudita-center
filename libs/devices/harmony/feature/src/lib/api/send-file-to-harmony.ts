@@ -14,7 +14,7 @@ import { AppFileSystemGuardOptions } from "app-utils/models"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { AppFileSystem } from "app-utils/renderer"
 
-interface Params {
+export interface Params {
   device: Harmony
   fileLocation: AppFileSystemGuardOptions
   targetPath: string

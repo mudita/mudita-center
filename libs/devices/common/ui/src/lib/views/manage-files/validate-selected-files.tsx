@@ -4,20 +4,14 @@
  */
 
 import { formatBytes } from "app-theme/ui"
-import { AppError, AppResult, AppResultFactory } from "app-utils/models"
 import {
   AvailableSpaceInfo,
   FileManagerFile,
-  ValidationErrorName,
+  FileTransferWithValidation,
+  TransferErrorName,
+  ValidationSummary,
+  ValidationSummaryType,
 } from "./manage-files.types"
-
-export const isStorageSpaceSufficientForUpload = (
-  freeSpaceBytes: number,
-  selectedFiles: FileManagerFile[]
-): AvailableSpaceInfo => {
-  const totalFileSize = selectedFiles.reduce((acc, file) => acc + file.size, 0)
-  return calculateAndFormatAvailableSpace(freeSpaceBytes, totalFileSize)
-}
 
 export const calculateAndFormatAvailableSpace = (
   freeSpaceBytes: number,
@@ -37,37 +31,65 @@ export const validateSelectedFiles = (
   selectedFiles: FileManagerFile[],
   referenceFiles: FileManagerFile[],
   freeSpaceBytes: number
-): AppResult<unknown, ValidationErrorName> => {
+): ValidationSummary => {
+  const MAX_SIZE = 2_000_000_000 // 2GB
+
+  const validatedFiles: FileTransferWithValidation[] = []
+
+  let totalValidSize = 0
+
+  let duplicatedCount = 0
+  let tooLargeCount = 0
+
   for (const file of selectedFiles) {
-    const fileLargerThan = file.size > 2000000000 // 2GB
-    if (fileLargerThan) {
-      return AppResultFactory.failed(
-        new AppError("", ValidationErrorName.SomeFileLargerThan2GB)
-      )
+    let validationErrorName: TransferErrorName | undefined
+
+    if (file.size > MAX_SIZE) {
+      validationErrorName = TransferErrorName.FileTooLarge
+      tooLargeCount++
+    } else if (referenceFiles.some((ref) => ref.name === file.name)) {
+      validationErrorName = TransferErrorName.Duplicate
+      duplicatedCount++
+    } else {
+      totalValidSize += file.size
     }
+
+    validatedFiles.push({ ...file, validationErrorName })
   }
 
-  const allFilesDuplicated = selectedFiles.every((selectedFile) =>
-    referenceFiles.some((refFile) => refFile.name === selectedFile.name)
-  )
-
-  if (allFilesDuplicated) {
-    return AppResultFactory.failed(
-      new AppError("", ValidationErrorName.AllFilesDuplicated)
-    )
-  }
-
-  const availableSpaceInfo = isStorageSpaceSufficientForUpload(
+  const availableSpaceInfo = calculateAndFormatAvailableSpace(
     freeSpaceBytes,
-    selectedFiles
+    totalValidSize
   )
 
   if (!availableSpaceInfo.isSufficient) {
-    return AppResultFactory.failed(
-      new AppError("", ValidationErrorName.NotHaveSpaceForUpload),
-      availableSpaceInfo
-    )
+    return {
+      type: ValidationSummaryType.NotHaveSpaceForUpload,
+      files: validatedFiles,
+      values: availableSpaceInfo,
+    }
   }
 
-  return AppResultFactory.success()
+  if (tooLargeCount === selectedFiles.length) {
+    return {
+      type: ValidationSummaryType.AllFilesTooLarge,
+      files: validatedFiles,
+    }
+  }
+
+  if (duplicatedCount === selectedFiles.length) {
+    return {
+      type: ValidationSummaryType.AllFilesDuplicated,
+      files: validatedFiles,
+    }
+  }
+
+  if (validatedFiles.some((f) => f.validationErrorName)) {
+    return {
+      type: ValidationSummaryType.SomeFilesFailed,
+      files: validatedFiles,
+    }
+  }
+
+  return { type: ValidationSummaryType.AllFilesValid, files: validatedFiles }
 }

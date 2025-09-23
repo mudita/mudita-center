@@ -41,18 +41,7 @@ export enum TransferErrorName {
 export type FileTransferResult = AppResult<
   unknown,
   TransferErrorName,
-  Record<string, string | number> | undefined
->
-
-export enum ValidationErrorName {
-  SomeFileLargerThan2GB = "someFileLargerThan2GB",
-  AllFilesDuplicated = "allFilesDuplicated",
-  NotHaveSpaceForUpload = "notHaveSpaceForUpload",
-}
-
-export type FileTransferValidationResult = AppResult<
-  unknown,
-  ValidationErrorName
+  Record<string, string | number> | unknown
 >
 
 export interface AvailableSpaceInfo {
@@ -64,3 +53,38 @@ export interface AvailableSpaceInfo {
 export interface FileFailed extends FileManagerFile {
   label?: string
 }
+
+export interface FileTransferWithValidation extends FileManagerFile {
+  validationErrorName?: TransferErrorName
+}
+
+export enum ValidationSummaryType {
+  AllFilesDuplicated = "AllFilesDuplicated",
+  NotHaveSpaceForUpload = "NotHaveSpaceForUpload",
+  AllFilesTooLarge = "AllFilesTooLarge",
+  SomeFilesFailed = "SomeFilesFailed",
+  AllFilesValid = "AllFilesValid",
+}
+
+export type ValidationSummary =
+  | {
+      type: ValidationSummaryType.AllFilesDuplicated
+      files: FileTransferWithValidation[]
+    }
+  | {
+      type: ValidationSummaryType.AllFilesTooLarge
+      files: FileTransferWithValidation[]
+    }
+  | {
+      type: ValidationSummaryType.NotHaveSpaceForUpload
+      files: FileTransferWithValidation[]
+      values: AvailableSpaceInfo
+    }
+  | {
+      type: ValidationSummaryType.SomeFilesFailed
+      files: FileTransferWithValidation[]
+    }
+  | {
+      type: ValidationSummaryType.AllFilesValid
+      files: FileTransferWithValidation[]
+    }

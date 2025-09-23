@@ -4,29 +4,48 @@
  */
 
 import { FunctionComponent } from "react"
-import { IconType } from "app-theme/models"
+import { ButtonSize, ButtonType, IconType } from "app-theme/models"
 import { formatMessage, Messages } from "app-localize/utils"
-import { Modal } from "app-theme/ui"
+import { Button, Modal, ProgressBar } from "app-theme/ui"
 
-interface Props {
+export interface ManageFilesTransferringModalProps {
   opened: boolean
-  fileCount: number
+  filesCount: number
   messages: {
     transferringModalTitle: Messages
+    transferringModalCloseButtonText: Messages
   }
+  progress?: number
+  onCancel: VoidFunction
+  progressBarMessage: string
 }
 
-export const ManageFilesTransferringModal: FunctionComponent<Props> = ({
+export const ManageFilesTransferringModal: FunctionComponent<
+  ManageFilesTransferringModalProps
+> = ({
   opened,
-  fileCount,
+  filesCount,
   messages,
+  onCancel,
+  progress = 0,
+  progressBarMessage,
 }) => {
   return (
     <Modal opened={opened}>
       <Modal.TitleIcon type={IconType.Spinner} />
       <Modal.Title
-        text={formatMessage(messages.transferringModalTitle, { fileCount })}
+        text={formatMessage(messages.transferringModalTitle, { filesCount })}
       />
+      <ProgressBar value={progress} message={progressBarMessage} />
+      <Modal.Buttons>
+        <Button
+          type={ButtonType.Secondary}
+          size={ButtonSize.Medium}
+          onClick={onCancel}
+        >
+          {formatMessage(messages.transferringModalCloseButtonText)}
+        </Button>
+      </Modal.Buttons>
     </Modal>
   )
 }
