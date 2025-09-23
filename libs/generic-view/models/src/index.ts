@@ -52,6 +52,7 @@ import { backupRestore } from "./lib/backup-restore"
 import { backupRestoreAvailable } from "./lib/backup-restore-available"
 import { mcImportContactsButton } from "./lib/mc-import-contacts-button"
 import { mcContactsView } from "./lib/mc-contacts-view"
+import { mcContactsDuplicatesView } from "./lib/mc-contacts-duplicates-view"
 import { mcDataMigration } from "./lib/mc-data-migration"
 import { mcFileManagerView } from "./lib/mc-file-manager"
 import { incomingFeatureInfo } from "./lib/incoming-feature-info"
@@ -128,6 +129,7 @@ export * from "./lib/backup-restore"
 export * from "./lib/import-contacts"
 export * from "./lib/mc-import-contacts-button"
 export * from "./lib/mc-contacts-view"
+export * from "./lib/mc-contacts-duplicates-view"
 export * from "./lib/modal-visibility-controller"
 export * from "./lib/mc-data-migration"
 export * from "./lib/mc-file-manager"
@@ -203,6 +205,7 @@ export default {
   [importContacts.key]: importContacts,
   [mcImportContactsButton.key]: mcImportContactsButton,
   [mcContactsView.key]: mcContactsView,
+  [mcContactsDuplicatesView.key]: mcContactsDuplicatesView,
   [mcDataMigration.key]: mcDataMigration,
   [mcFileManagerView.key]: mcFileManagerView,
   [incomingFeatureInfo.key]: incomingFeatureInfo,

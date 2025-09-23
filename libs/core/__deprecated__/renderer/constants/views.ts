@@ -52,6 +52,7 @@ export type Views = {
         }
       | string
     url: string
+    inheritHeaderName?: boolean
     renderHeaderButton?: boolean
   }
 }
@@ -113,5 +114,5 @@ export const views: Views = {
   [View.Quotations]: {
     label: messages.quotations,
     url: URL_MAIN.quotations,
-  }
+  },
 }
