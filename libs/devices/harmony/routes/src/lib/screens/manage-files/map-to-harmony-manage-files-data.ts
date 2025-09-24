@@ -6,6 +6,7 @@
 import { HarmonyFile, HarmonyInfoResponse } from "devices/harmony/models"
 import { FileManagerFileCategory } from "devices/common/ui"
 import { formatBytes, ISegmentBarItem } from "app-theme/ui"
+import { sumBy } from "lodash"
 import {
   HARMONY_CATEGORIES_CONFIG_MAP,
   HARMONY_SEGMENTS_CONFIG_MAP,
@@ -16,7 +17,6 @@ import {
   FileCategoryId,
   FileManagerCategoryFileMap,
 } from "./harmony-manage-files.types"
-import { sumFileSizes } from "./map-to-harmony.utils"
 
 export interface HarmonyManageFilesData {
   categories: (FileManagerFileCategory & { id: FileCategoryId })[]
@@ -36,8 +36,8 @@ export const mapHarmonyToManageFiles = (
 ): HarmonyManageFilesData => {
   const { config, alarmFiles = [], relaxationFiles = [] } = payload
 
-  const alarmFilesBytes = sumFileSizes(alarmFiles)
-  const relaxationFilesBytes = sumFileSizes(relaxationFiles)
+  const alarmFilesBytes = sumBy(alarmFiles, "fileSize")
+  const relaxationFilesBytes = sumBy(relaxationFiles, "fileSize")
 
   const systemReservedSpace = config?.systemReservedSpace ?? 0
   const usedUserSpace = config?.usedUserSpace ?? 0
