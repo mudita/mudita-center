@@ -11,8 +11,8 @@ import {
   useState,
 } from "react"
 import { Messages } from "app-localize/utils"
-import { MfStorageSummaryProps } from "./mf-storage-summary"
-import { MfCategoryListProps } from "./mf-category-list"
+import { MfStorageSummaryProps } from "./manage-files-storage-summary"
+import { MfCategoryListProps } from "./manage-files-category-list"
 import {
   FileManagerFile,
   FileManagerFileMap,
@@ -24,7 +24,7 @@ import {
   ManageFilesDeleteFlow,
   ManageFilesDeleteFlowProps,
 } from "./manage-files-delete-flow"
-import { MfOtherFilesProps } from "./mf-other-files"
+import { MfOtherFilesProps } from "./manage-files-other-files"
 import {
   ManageFilesTransferFlow,
   ManageFilesTransferFlowProps,

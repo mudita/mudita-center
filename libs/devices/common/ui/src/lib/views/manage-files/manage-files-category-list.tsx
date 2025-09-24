@@ -18,7 +18,7 @@ export interface MfCategoryListProps {
   onCategoryClick?: (categoryId: string) => void
 }
 
-export const MfCategoryList: FunctionComponent<MfCategoryListProps> = ({
+export const ManageFilesCategoryList: FunctionComponent<MfCategoryListProps> = ({
   categories,
   activeCategoryId,
   onCategoryClick = noop,

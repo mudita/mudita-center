@@ -14,7 +14,7 @@ export interface MfOtherFilesProps {
   otherSpaceBytes: number
 }
 
-export const MfOtherFiles: FunctionComponent<MfOtherFilesProps> = ({
+export const ManageFilesOtherFiles: FunctionComponent<MfOtherFilesProps> = ({
   otherFiles,
   otherSpaceBytes,
 }) => {

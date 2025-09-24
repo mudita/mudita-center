@@ -24,7 +24,7 @@ export interface MfStorageSummaryProps {
   }
 }
 
-export const MfStorageSummary: FunctionComponent<MfStorageSummaryProps> = ({
+export const ManageFilesStorageSummary: FunctionComponent<MfStorageSummaryProps> = ({
   messages,
   usedSpaceBytes,
   freeSpaceBytes,

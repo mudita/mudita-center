@@ -5,16 +5,16 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
-import { MfStorageSummary, MfStorageSummaryProps } from "./mf-storage-summary"
-import { MfCategoryList, MfCategoryListProps } from "./mf-category-list"
-import { MfOtherFiles, MfOtherFilesProps } from "./mf-other-files"
-import { MfFileListEmpty } from "./mf-file-list-empty"
+import { ManageFilesStorageSummary, MfStorageSummaryProps } from "./manage-files-storage-summary"
+import { ManageFilesCategoryList, MfCategoryListProps } from "./manage-files-category-list"
+import { ManageFilesOtherFiles, MfOtherFilesProps } from "./manage-files-other-files"
+import { ManageFilesFileListEmpty } from "./manage-files-file-list-empty"
 
 import {
   MfFileListPanelDefaultMode,
   MfFileListPanelSelectMode,
   MfFileListPanelSelectModeProps,
-} from "./mf-file-list-panel"
+} from "./manage-files-file-list-panel"
 import { FileManagerFile } from "./manage-files.types"
 
 interface Props
@@ -61,25 +61,25 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
   return (
     <Wrapper>
       <CategoriesSidebar>
-        <MfStorageSummary
+        <ManageFilesStorageSummary
           messages={messages}
           usedSpaceBytes={usedSpaceBytes}
           freeSpaceBytes={freeSpaceBytes}
           segments={segments}
         />
-        <MfCategoryList
+        <ManageFilesCategoryList
           categories={categories}
           activeCategoryId={activeCategoryId}
           onCategoryClick={onCategoryClick}
         />
-        <MfOtherFiles
+        <ManageFilesOtherFiles
           otherFiles={otherFiles}
           otherSpaceBytes={otherSpaceBytes}
         />
       </CategoriesSidebar>
       <FileList>
         {emptyStateVisible && (
-          <MfFileListEmpty
+          <ManageFilesFileListEmpty
             description={emptyStateDescription}
             header={fileListPanelHeader}
             onAddFileClick={onAddFileClick}
