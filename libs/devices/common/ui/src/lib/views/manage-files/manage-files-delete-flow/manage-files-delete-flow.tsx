@@ -62,7 +62,7 @@ export const ManageFilesDeleteFlow: FunctionComponent<
 
   const confirmDelete = useCallback(() => {
     setFlowState(ManageFilesDeleteFlowState.Deleting)
-    void delayUntil(deleteFiles(), 500)
+    void delayUntil(deleteFiles(), 250)
   }, [deleteFiles])
 
   const closeDeleteFailedModal = useCallback(async () => {

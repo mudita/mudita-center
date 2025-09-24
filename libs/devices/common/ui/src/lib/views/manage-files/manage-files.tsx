@@ -78,8 +78,8 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
   } = props
   const activeSupportedFileTypes = useMemo(() => {
     return (
-      categories.find((c) => c.id === activeCategoryId)?.supportedFileTypes ||
-      []
+      categories.find(({ id }) => id === activeCategoryId)
+        ?.supportedFileTypes || []
     )
   }, [activeCategoryId, categories])
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
