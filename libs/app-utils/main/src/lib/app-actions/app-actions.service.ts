@@ -7,12 +7,15 @@ import { app, BrowserWindow, dialog, OpenDialogOptions } from "electron"
 import * as path from "path"
 import { formatMessage } from "app-localize/utils"
 import logger from "electron-log"
+import { AppFileSystemGuard } from "../app-file-system/app-file-system.guard"
 
 const devToolsEnabled =
   process.env.ENABLE_DEVTOOLS === "true" ||
   process.env.NODE_ENV === "development"
 
 export class AppActionsService {
+  constructor(private appFileSystemGuard: AppFileSystemGuard) {}
+
   private readonly defaultOptions: OpenDialogOptions = {
     title: formatMessage({ id: "general.app.title" }),
     filters: [],
@@ -62,7 +65,10 @@ export class AppActionsService {
     app.quit()
   }
 
-  async openFileDialog(options: OpenDialogOptions): Promise<string[]> {
+  async openFileDialog(
+    options: OpenDialogOptions,
+    webContentsId: number
+  ): Promise<string[]> {
     const mergedOptions = {
       ...this.defaultOptions,
       ...options,
@@ -77,6 +83,8 @@ export class AppActionsService {
     if (result.canceled) {
       return []
     }
+
+    this.appFileSystemGuard.grant(webContentsId, result.filePaths)
 
     return result.filePaths
   }

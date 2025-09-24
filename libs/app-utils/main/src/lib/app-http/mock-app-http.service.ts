@@ -11,14 +11,18 @@ import {
 import { IpcMockServer } from "e2e-mock/server"
 import { E2eMockIpcEvents } from "e2e-mock/models"
 import { AppHttpService } from "./app-http.service"
+import { AppFileSystemService } from "../app-file-system/app-file-system.service"
 
 const DUMMY_BASE_URL = "http://dummy"
 
 export class MockAppHttpService extends AppHttpService {
   private responsesMap: Map<string, AppHttpResult<unknown>> = new Map()
 
-  constructor(private mockServer: IpcMockServer) {
-    super()
+  constructor(
+    private mockServer: IpcMockServer,
+    appFileSystemService: AppFileSystemService
+  ) {
+    super(appFileSystemService)
     this.registerListeners()
   }
 

@@ -40,7 +40,7 @@ type ManageFilesViewMessages =
       summaryHeader: Messages
     }
 
-interface Props
+export interface ManageFilesViewProps
   extends MfStorageSummaryProps,
     MfCategoryListProps,
     MfOtherFilesProps,
@@ -56,7 +56,9 @@ interface Props
   messages: ManageFilesViewMessages
 }
 
-export const ManageFilesView: FunctionComponent<Props> = (props) => {
+export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
+  props
+) => {
   const {
     messages,
     activeCategoryId,
