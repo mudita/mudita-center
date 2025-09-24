@@ -4,12 +4,12 @@
  */
 
 import { useCallback } from "react"
-import { IconType } from "app-theme/models"
 import { formatMessage } from "app-localize/utils"
-import { Icon, Typography, useToastContext } from "app-theme/ui"
+import { useToastContext } from "app-theme/ui"
 import { FileManagerFile } from "./manage-files.types"
 import { ManageFilesDeleteFlowState } from "./manage-files-delete-flow.types"
 import { manageFilesMessages } from "./manage-files.messages"
+import { createManageFilesToastContent } from "./create-manage-files-toast-content"
 
 interface UseDeleteFilesHandlerProps {
   selectedFiles: FileManagerFile[]
@@ -51,17 +51,13 @@ export const useDeleteFilesHandler = ({
       await onDeleteSuccess()
     }
 
-    addToast({
-      key: "success",
-      content: (
-        <>
-          <Icon type={IconType.Check} />
-          <Typography.P1>{formatMessage(manageFilesMessages.deleteSuccessToastText, {
-            fileCount: selectedFiles.length,
-          })}</Typography.P1>
-        </>
-      ),
-    })
+    addToast(
+      createManageFilesToastContent({
+        text: formatMessage(manageFilesMessages.deleteSuccessToastText, {
+          fileCount: selectedFiles.length,
+        }),
+      })
+    )
 
     onSetFlowState(null)
   }, [

@@ -13,7 +13,7 @@ import {
 
 export interface FileTransferFailed extends FileManagerFile {
   errorName: TransferErrorName
-  values?: Record<string, string | number>
+  values?: Record<string, string | number> | unknown
 }
 export interface ManageFilesTransferFailedModalMessages {
   exportFailedErrorLabelExportUnknown: Messages
@@ -101,9 +101,10 @@ export const getTransferFailedModalContent = ({
   const failedCount = failedFiles.length
   const isAllFailed = total > 0 && failedCount === total
   const succeededCount = Math.max(total - failedCount, 0)
-  const memory = failedFiles.find(
-    (f) => f.errorName === TransferErrorName.NotEnoughMemory
-  )?.values?.memory
+  const memory = (
+    failedFiles.find((f) => f.errorName === TransferErrorName.NotEnoughMemory)
+      ?.values as { memory: number } | undefined
+  )?.memory
 
   const title = isAllFailed
     ? formatMessage(messages.uploadFailedAllModalTitle, { failedCount })

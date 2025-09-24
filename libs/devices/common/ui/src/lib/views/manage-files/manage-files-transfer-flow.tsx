@@ -3,17 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { OpenDialogOptionsLite } from "app-utils/models"
-import { ManageFilesTransferringModal } from "./manage-files-transferring-modal"
+import { useToastContext } from "app-theme/ui"
+import { formatMessage, Messages } from "app-localize/utils"
+import {
+  ManageFilesTransferringModal,
+  ManageFilesTransferringModalProps,
+} from "./manage-files-transferring-modal"
 import { ManageFilesDeleteFailedModalProps } from "./manage-files-delete-failed-modal"
 import {
   FileManagerFile,
   FileManagerFileMap,
-  FileTransferResult,
-  FileTransferValidationResult,
+  ValidationSummary,
+  ValidationSummaryType,
 } from "./manage-files.types"
-import { validateSelectedFiles } from "./validate-selected-files"
 import {
   ManageFilesTransferValidationFailedModal,
   ManageFilesTransferValidationFailedModalProps,
@@ -22,9 +26,15 @@ import {
   ManageFilesTransferFailedModal,
   ManageFilesTransferFailedModalProps,
 } from "./manage-files-transfer-failed-modal"
-import { FileTransferFailed } from "./manage-files-transfer-failed.copy"
-import { manageFilesMessages } from "./manage-files.messages"
 import { useBrowseForFiles } from "./use-browse-for-files"
+import {
+  useManageFilesTransferFlow,
+  UseManageFilesTransferFlowArgs,
+} from "./use-manage-files-transfer-flow"
+import { useManageFilesValidate } from "./use-manage-files-validate"
+import { FileTransferFailed } from "./manage-files-transfer-failed.copy"
+import { createManageFilesToastContent } from "./create-manage-files-toast-content"
+import { manageFilesMessages } from "./manage-files.messages"
 
 enum ManageFilesTransferFlowState {
   Idle = "Idle",
@@ -38,14 +48,17 @@ enum ManageFilesTransferFlowState {
 type ManageFilesDeleteFlowMessages =
   ManageFilesDeleteFailedModalProps["messages"] &
     ManageFilesTransferValidationFailedModalProps["messages"] &
-    ManageFilesTransferFailedModalProps["messages"]
+    ManageFilesTransferFailedModalProps["messages"] & {
+      uploadingModalTitle: ManageFilesTransferringModalProps["messages"]["transferringModalTitle"]
+      uploadingModalCloseButtonText: ManageFilesTransferringModalProps["messages"]["transferringModalCloseButtonText"]
+    }
 
 export interface ManageFilesTransferFlowProps {
   opened: boolean
   onClose: VoidFunction
   fileMap: FileManagerFileMap
   openFileDialog: (options: OpenDialogOptionsLite) => Promise<FileManagerFile[]>
-  handleTransfer: (filePath: FileManagerFile) => Promise<FileTransferResult>
+  handleTransfer: UseManageFilesTransferFlowArgs["handleTransfer"]
   onTransferSuccess?: () => Promise<void>
   onPartialTransferFailure?: (failedFiles: FileManagerFile[]) => Promise<void>
   transferFlowMessages: ManageFilesDeleteFlowMessages
@@ -65,12 +78,12 @@ export const ManageFilesTransferFlow = ({
   transferFlowMessages,
   supportedFileTypes,
 }: ManageFilesTransferFlowProps) => {
+  const { addToast } = useToastContext()
   const [flowState, setFlowState] = useState<ManageFilesTransferFlowState>(
     ManageFilesTransferFlowState.Idle
   )
   const [selectedFiles, setSelectedFiles] = useState<FileManagerFile[]>([])
-  const [validationResult, setValidationResult] =
-    useState<FileTransferValidationResult>()
+  const [validationResult, setValidationResult] = useState<ValidationSummary>()
   const [failedTransfers, setFailedTransfers] = useState<FileTransferFailed[]>(
     []
   )
@@ -82,9 +95,19 @@ export const ManageFilesTransferFlow = ({
         : ManageFilesTransferFlowState.Idle
     )
   }, [opened])
-  const existingFiles = useMemo(() => Object.values(fileMap), [fileMap])
 
-  const startTransferFlowForFiles = useCallback(
+  const validate = useManageFilesValidate({ fileMap, freeSpaceBytes })
+
+  const {
+    action: transfer,
+    progress,
+    abort,
+    transferringFile,
+  } = useManageFilesTransferFlow({
+    handleTransfer: handleTransfer,
+  })
+
+  const handleSetSelectedFiles = useCallback(
     async (files: FileManagerFile[]) => {
       setSelectedFiles(files)
 
@@ -94,31 +117,21 @@ export const ManageFilesTransferFlow = ({
         return
       }
 
-      const validation = validateSelectedFiles(
-        files,
-        existingFiles,
-        freeSpaceBytes
-      )
+      const validationSummary = validate(files)
 
-      if (!validation.ok) {
-        setValidationResult(validation)
+      const isTransferAllowed =
+        validationSummary.type === ValidationSummaryType.AllFilesValid ||
+        validationSummary.type === ValidationSummaryType.SomeFilesInvalid
+
+      if (!isTransferAllowed) {
+        setValidationResult(validationSummary)
         setFlowState(ManageFilesTransferFlowState.ValidationFailed)
         return
       }
 
-      const failed: FileTransferFailed[] = []
       setFlowState(ManageFilesTransferFlowState.TransferringFiles)
 
-      for (const file of files) {
-        const transferResult = await handleTransfer(file)
-        if (!transferResult.ok) {
-          failed.push({
-            ...file,
-            errorName: transferResult.error.name,
-            values: transferResult.data,
-          })
-        }
-      }
+      const { failed } = await transfer(validationSummary.files)
 
       if (failed.length > 0) {
         setFailedTransfers(failed)
@@ -130,16 +143,24 @@ export const ManageFilesTransferFlow = ({
         await onTransferSuccess()
       }
 
+      addToast(
+        createManageFilesToastContent({
+          text: formatMessage(manageFilesMessages.uploadSuccessToastText, {
+            fileCount: files.length,
+          }),
+        })
+      )
+
       setFlowState(ManageFilesTransferFlowState.Idle)
     },
-    [existingFiles, freeSpaceBytes, handleTransfer, onClose, onTransferSuccess]
+    [addToast, onClose, onTransferSuccess, transfer, validate]
   )
 
   useBrowseForFiles({
     opened: flowState === ManageFilesTransferFlowState.BrowseFiles,
     supportedFileTypes,
     openFileDialog,
-    onSelect: startTransferFlowForFiles,
+    onSelect: handleSetSelectedFiles,
     onCancel: onClose,
   })
 
@@ -154,6 +175,10 @@ export const ManageFilesTransferFlow = ({
     setFlowState(ManageFilesTransferFlowState.Idle)
   }, [failedTransfers, onPartialTransferFailure])
 
+  const handleFilesTransferringClose = useCallback(async () => {
+    abort()
+  }, [abort])
+
   if (!opened) {
     return null
   }
@@ -162,15 +187,22 @@ export const ManageFilesTransferFlow = ({
     <>
       <ManageFilesTransferValidationFailedModal
         opened={flowState === ManageFilesTransferFlowState.ValidationFailed}
-        result={validationResult}
+        validationSummary={validationResult}
         onClose={handleValidationFailedClose}
         messages={transferFlowMessages}
         selectedFiles={selectedFiles}
       />
       <ManageFilesTransferringModal
         opened={flowState === ManageFilesTransferFlowState.TransferringFiles}
-        fileCount={selectedFiles.length}
-        messages={{ transferringModalTitle: manageFilesMessages.loadStateText }}
+        filesCount={selectedFiles.length}
+        messages={{
+          transferringModalTitle: transferFlowMessages.uploadingModalTitle,
+          transferringModalCloseButtonText:
+            transferFlowMessages.uploadingModalCloseButtonText,
+        }}
+        progressBarMessage={transferringFile?.name ?? ""}
+        progress={progress}
+        onCancel={handleFilesTransferringClose}
       />
       <ManageFilesTransferFailedModal
         opened={flowState === ManageFilesTransferFlowState.TransferFailed}
