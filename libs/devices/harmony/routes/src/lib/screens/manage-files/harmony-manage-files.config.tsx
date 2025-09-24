@@ -17,13 +17,13 @@ export enum FileManagerMarkerColor {
 }
 
 export const HARMONY_SEGMENTS_CONFIG_MAP: Record<SegmentId, ISegmentBarItem> = {
-  alarmFiles: {
+  AlarmFiles: {
     color: FileManagerMarkerColor.alarmFiles,
     label: "Alarms",
     value: 0,
     minWidth: 24,
   },
-  relaxationFiles: {
+  RelaxationFiles: {
     color: FileManagerMarkerColor.relaxationFiles,
     label: "Relaxations",
     value: 0,
@@ -47,8 +47,8 @@ export const HARMONY_CATEGORIES_CONFIG_MAP: Record<
   FileCategoryId,
   FileManagerFileCategory & { id: FileCategoryId }
 > = {
-  [FileCategoryId.alarmFiles]: {
-    id: FileCategoryId.alarmFiles,
+  [FileCategoryId.AlarmFiles]: {
+    id: FileCategoryId.AlarmFiles,
     icon: IconType.Bell,
     markerColor: FileManagerMarkerColor.alarmFiles,
     label: "Alarms",
@@ -58,8 +58,8 @@ export const HARMONY_CATEGORIES_CONFIG_MAP: Record<
     size: "0 KB",
     count: 0,
   },
-  [FileCategoryId.relaxationFiles]: {
-    id: FileCategoryId.relaxationFiles,
+  [FileCategoryId.RelaxationFiles]: {
+    id: FileCategoryId.RelaxationFiles,
     icon: IconType.MuditaLogo,
     markerColor: FileManagerMarkerColor.relaxationFiles,
     label: "Relaxations",

@@ -17,6 +17,7 @@ const toFile = (item: HarmonyFile): FileManagerFile => {
     size: item.fileSize,
   }
 }
+
 export const mapToFileManagerFileMap = (
   files: HarmonyFile[]
 ): FileManagerFileMap => {

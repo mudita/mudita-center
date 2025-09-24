@@ -6,8 +6,8 @@
 import { FileManagerFileMap } from "devices/common/ui"
 
 export enum FileCategoryId {
-  alarmFiles = "alarmFiles",
-  relaxationFiles = "relaxationFiles",
+  AlarmFiles = "AlarmFiles",
+  RelaxationFiles = "RelaxationFiles",
 }
 
 export type SegmentId = FileCategoryId | "otherFiles" | "free"

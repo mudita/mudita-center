@@ -58,9 +58,9 @@ export const mapHarmonyToManageFiles = (
   const freeSpaceBytes = totalSpaceBytes - usedSpaceBytes
 
   const segments: ISegmentBarItem[] = [
-    { ...HARMONY_SEGMENTS_CONFIG_MAP.alarmFiles, value: alarmFilesBytes },
+    { ...HARMONY_SEGMENTS_CONFIG_MAP.AlarmFiles, value: alarmFilesBytes },
     {
-      ...HARMONY_SEGMENTS_CONFIG_MAP.relaxationFiles,
+      ...HARMONY_SEGMENTS_CONFIG_MAP.RelaxationFiles,
       value: relaxationFilesBytes,
     },
     { ...HARMONY_SEGMENTS_CONFIG_MAP.otherFiles, value: otherSpaceBytes },
@@ -68,18 +68,18 @@ export const mapHarmonyToManageFiles = (
   ]
 
   const categoryFileMap: FileManagerCategoryFileMap = {
-    alarmFiles: mapToFileManagerFileMap(alarmFiles),
-    relaxationFiles: mapToFileManagerFileMap(relaxationFiles),
+    AlarmFiles: mapToFileManagerFileMap(alarmFiles),
+    RelaxationFiles: mapToFileManagerFileMap(relaxationFiles),
   }
 
   const categories = [
     {
-      ...HARMONY_CATEGORIES_CONFIG_MAP.alarmFiles,
+      ...HARMONY_CATEGORIES_CONFIG_MAP.AlarmFiles,
       size: formatBytes(alarmFilesBytes, { minUnit: "KB" }),
       count: alarmFiles.length,
     },
     {
-      ...HARMONY_CATEGORIES_CONFIG_MAP.relaxationFiles,
+      ...HARMONY_CATEGORIES_CONFIG_MAP.RelaxationFiles,
       size: formatBytes(relaxationFilesBytes, { minUnit: "KB" }),
       count: relaxationFiles.length,
     },
