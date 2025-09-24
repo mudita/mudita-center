@@ -5,7 +5,7 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
-import { ButtonType, CheckboxSize, IconType } from "app-theme/models"
+import { ButtonSize, ButtonType, CheckboxSize, IconType } from "app-theme/models"
 import { Button, Checkbox, Typography } from "app-theme/ui"
 import { manageFilesMessages } from "./manage-files.messages"
 
@@ -30,7 +30,8 @@ export const MfFileListPanelDefaultMode: FunctionComponent<
 > = ({ onAddFileClick, ...props }) => {
   return (
     <MfFileListPanelHeader {...props}>
-      <AddFileButton
+      <Button
+        size={ButtonSize.Medium}
         message={manageFilesMessages.addFileButtonText.id}
         onClick={onAddFileClick}
       />
@@ -75,10 +76,6 @@ const FileListPanel = styled.div`
   grid-template-columns: auto auto;
   justify-content: space-between;
   align-items: center;
-`
-
-const AddFileButton = styled(Button)`
-  width: 15.6rem;
 `
 
 const FileListPanelSelector = styled.div`
