@@ -3,13 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { sumBy } from "lodash"
 import { HarmonyFile, HarmonyInfoResponse } from "devices/harmony/models"
 import { FileManagerFileCategory } from "devices/common/ui"
 import { formatBytes, ISegmentBarItem } from "app-theme/ui"
-import { sumBy } from "lodash"
 import {
   HARMONY_CATEGORIES_CONFIG_MAP,
-  HARMONY_SEGMENTS_CONFIG_MAP,
   MARKETING_TOTAL_BYTES,
 } from "./harmony-manage-files.config"
 import { mapToFileManagerFileMap } from "./map-to-harmony-file-map"
@@ -17,6 +16,7 @@ import {
   FileCategoryId,
   FileManagerCategoryFileMap,
 } from "./harmony-manage-files.types"
+import { mapToSegment } from "./map-to-segment"
 
 export interface HarmonyManageFilesData {
   categories: (FileManagerFileCategory & { id: FileCategoryId })[]
@@ -58,13 +58,10 @@ export const mapHarmonyToManageFiles = (
   const freeSpaceBytes = totalSpaceBytes - usedSpaceBytes
 
   const segments: ISegmentBarItem[] = [
-    { ...HARMONY_SEGMENTS_CONFIG_MAP.AlarmFiles, value: alarmFilesBytes },
-    {
-      ...HARMONY_SEGMENTS_CONFIG_MAP.RelaxationFiles,
-      value: relaxationFilesBytes,
-    },
-    { ...HARMONY_SEGMENTS_CONFIG_MAP.otherFiles, value: otherSpaceBytes },
-    { ...HARMONY_SEGMENTS_CONFIG_MAP.free, value: freeSpaceBytes },
+    mapToSegment(FileCategoryId.AlarmFiles, alarmFilesBytes),
+    mapToSegment(FileCategoryId.RelaxationFiles, relaxationFilesBytes),
+    mapToSegment("otherFiles", otherSpaceBytes),
+    mapToSegment("free", freeSpaceBytes),
   ]
 
   const categoryFileMap: FileManagerCategoryFileMap = {
