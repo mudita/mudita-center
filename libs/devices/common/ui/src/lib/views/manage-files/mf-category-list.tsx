@@ -78,8 +78,7 @@ const CategoryListItemName = styled.div`
 `
 
 const CategoryListItemNameIcon = styled(Icon)`
-  width: 2.4rem;
-  margin: 0 0.8rem 0 0;
+  margin: 0 0.8rem 0 -0.8rem;
 `
 
 const CategoryListItemNameText = styled(Typography.H4)``
