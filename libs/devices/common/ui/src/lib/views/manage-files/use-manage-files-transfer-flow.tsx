@@ -14,7 +14,7 @@ import {
 import { FileTransferFailed } from "./manage-files-transfer-failed.copy"
 
 export interface UseManageFilesTransferFlowArgs {
-  handleTransfer: (params: {
+  transferFile: (params: {
     file: FileManagerFile
     onProgress?: (progress: { loaded: number }) => void
     abortController: AbortController
@@ -22,22 +22,21 @@ export interface UseManageFilesTransferFlowArgs {
 }
 
 export const useManageFilesTransferFlow = ({
-  handleTransfer,
+  transferFile,
 }: UseManageFilesTransferFlowArgs) => {
   const [progress, setProgress] = useState(0)
-  const [transferringFile, setTransferringFile] =
-    useState<FileManagerFile | null>(null)
+  const [currentFile, setCurrentFile] = useState<FileManagerFile | null>(null)
 
   const abortControllerRef = useRef(new AbortController())
 
-  const abort = useCallback(() => {
+  const abortTransfer = useCallback(() => {
     abortControllerRef.current.abort()
   }, [])
 
-  const action = useCallback(
+  const transfer = useCallback(
     async (files: FileTransferWithValidation[]) => {
       setProgress(0)
-      setTransferringFile(null)
+      setCurrentFile(null)
       abortControllerRef.current = new AbortController()
       const failed: FileTransferFailed[] = []
       const totalFilesSizes = files
@@ -62,8 +61,8 @@ export const useManageFilesTransferFlow = ({
           })
           continue
         }
-        setTransferringFile(file)
-        const transferResult = await handleTransfer({
+        setCurrentFile(file)
+        const transferResult = await transferFile({
           file,
           abortController: abortControllerRef.current,
           onProgress: (progress) => {
@@ -102,8 +101,8 @@ export const useManageFilesTransferFlow = ({
 
       return { failed }
     },
-    [handleTransfer]
+    [transferFile]
   )
 
-  return { action, abort, progress, transferringFile }
+  return { transfer, abortTransfer, progress, currentFile }
 }

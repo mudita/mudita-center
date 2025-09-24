@@ -44,10 +44,10 @@ export interface ManageFilesViewProps
   extends MfStorageSummaryProps,
     MfCategoryListProps,
     MfOtherFilesProps,
-    Pick<ManageFilesDeleteFlowProps, "handleDeleteFile" | "onDeleteSuccess">,
+    Pick<ManageFilesDeleteFlowProps, "deleteFile" | "onDeleteSuccess">,
     Pick<
       ManageFilesTransferFlowProps,
-      "openFileDialog" | "handleTransfer" | "onTransferSuccess"
+      "openFileDialog" | "transferFile" | "onTransferSuccess"
     > {
   activeFileMap: FileManagerFileMap
   onActiveCategoryChange: (categoryId: string) => void
@@ -64,9 +64,9 @@ export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
     activeCategoryId,
     activeFileMap,
     onActiveCategoryChange,
-    handleDeleteFile,
+    deleteFile,
     onDeleteSuccess,
-    handleTransfer,
+    transferFile,
     onTransferSuccess,
     openFileDialog,
     isLoading,
@@ -99,18 +99,15 @@ export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
     return out
   }, [selectedIds, activeFileMap])
 
-  const handleSelectedChange = useCallback(
-    (fileId: string, checked: boolean) => {
-      setSelectedIds((prev) => {
-        const next = new Set(prev)
-        checked ? next.add(fileId) : next.delete(fileId)
-        return next
-      })
-    },
-    []
-  )
+  const updateSelection = useCallback((fileId: string, checked: boolean) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      checked ? next.add(fileId) : next.delete(fileId)
+      return next
+    })
+  }, [])
 
-  const handleAllCheckboxClick = useCallback(
+  const applySelectAll = useCallback(
     (checked: boolean) => {
       setSelectedIds(() =>
         checked ? new Set(Object.keys(activeFileMap)) : new Set()
@@ -119,11 +116,11 @@ export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
     [activeFileMap]
   )
 
-  const handleDeleteClick = useCallback(() => {
+  const startDeleteFlow = useCallback(() => {
     setDeleteFlowOpened(true)
   }, [])
 
-  const handleCategoryClick = useCallback(
+  const changeCategory = useCallback(
     (categoryId: string) => {
       if (categoryId === activeCategoryId) {
         return
@@ -137,7 +134,7 @@ export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
   const loadingState =
     (isLoading && !deleteFlowOpened) || activeCategoryId === undefined
 
-  const handleSuccessfulDelete = useCallback(async () => {
+  const finalizeDeleteSuccess = useCallback(async () => {
     onDeleteSuccess && (await onDeleteSuccess())
     setSelectedIds(new Set())
     setDeleteFlowOpened(false)
@@ -160,7 +157,7 @@ export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
     [onDeleteSuccess, selectedFiles.length]
   )
 
-  const handleTransferSuccess = useCallback(async () => {
+  const finalizeTransferSuccess = useCallback(async () => {
     onTransferSuccess && (await onTransferSuccess())
     setUploadFlowOpened(false)
   }, [onTransferSuccess])
@@ -170,7 +167,7 @@ export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
     onTransferSuccess && (await onTransferSuccess())
   }, [onTransferSuccess])
 
-  const handleAddFileClick = useCallback(() => {
+  const startUploadFlow = useCallback(() => {
     setUploadFlowOpened(true)
   }, [])
 
@@ -188,29 +185,29 @@ export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
         otherSpaceBytes={otherSpaceBytes}
         otherFiles={otherFiles}
         selectedFiles={selectedFiles}
-        onCategoryClick={handleCategoryClick}
-        onAllCheckboxClick={handleAllCheckboxClick}
-        onDeleteClick={handleDeleteClick}
-        onAddFileClick={handleAddFileClick}
+        onCategoryClick={changeCategory}
+        onAllCheckboxClick={applySelectAll}
+        onDeleteClick={startDeleteFlow}
+        onAddFileClick={startUploadFlow}
       >
-        {children({ onSelectedChange: handleSelectedChange, selectedIds })}
+        {children({ onSelectedChange: updateSelection, selectedIds })}
       </ManageFiles>
       <ManageFilesDeleteFlow
         opened={deleteFlowOpened}
         onClose={() => setDeleteFlowOpened(false)}
         selectedFiles={selectedFiles}
-        onDeleteSuccess={handleSuccessfulDelete}
+        onDeleteSuccess={finalizeDeleteSuccess}
         onPartialDeleteFailure={handlePartialDeleteFailure}
-        handleDeleteFile={handleDeleteFile}
+        deleteFile={deleteFile}
         deleteFlowMessages={messages}
       />
       <ManageFilesTransferFlow
         opened={uploadFlowOpened}
         onClose={() => setUploadFlowOpened(false)}
         openFileDialog={openFileDialog}
-        onTransferSuccess={handleTransferSuccess}
+        onTransferSuccess={finalizeTransferSuccess}
         onPartialTransferFailure={handlePartialTransferFailure}
-        handleTransfer={handleTransfer}
+        transferFile={transferFile}
         transferFlowMessages={messages}
         fileMap={activeFileMap}
         freeSpaceBytes={freeSpaceBytes}

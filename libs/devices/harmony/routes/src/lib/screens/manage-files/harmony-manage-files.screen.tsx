@@ -78,7 +78,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
     [activeCategoryId, categoryFileMap]
   )
 
-  const handleOpenFileDialog = async (options: OpenDialogOptionsLite) => {
+  const openFileDialog = async (options: OpenDialogOptionsLite) => {
     const filePaths = await AppActions.openFileDialog(options)
     return filePaths.reduce(
       async (accP, filePath) => {
@@ -91,7 +91,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
     )
   }
 
-  const handleTransfer: ManageFilesViewProps["handleTransfer"] = async (
+  const transferFile: ManageFilesViewProps["transferFile"] = async (
     params
   ): Promise<FileTransferResult> => {
     const targetDirectoryPath = categories.find(
@@ -156,12 +156,12 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
         freeSpaceBytes={freeSpaceBytes}
         usedSpaceBytes={usedSpaceBytes}
         otherSpaceBytes={otherSpaceBytes}
-        handleDeleteFile={deleteFile}
+        deleteFile={deleteFile}
         onDeleteSuccess={refetch}
         isLoading={isLoading}
         otherFiles={OTHER_FILES_LABEL_TEXTS}
-        openFileDialog={handleOpenFileDialog}
-        handleTransfer={handleTransfer}
+        openFileDialog={openFileDialog}
+        transferFile={transferFile}
         messages={HarmonyManageFilesMessages}
         onTransferSuccess={refetch}
       >

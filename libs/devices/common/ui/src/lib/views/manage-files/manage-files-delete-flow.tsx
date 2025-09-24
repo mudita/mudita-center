@@ -26,7 +26,7 @@ export interface ManageFilesDeleteFlowProps {
   opened: boolean
   selectedFiles: FileManagerFile[]
   onClose: VoidFunction
-  handleDeleteFile: (fileId: string) => Promise<void>
+  deleteFile: (fileId: string) => Promise<void>
   onDeleteSuccess?: () => Promise<void>
   onPartialDeleteFailure?: (failedFiles: FileManagerFile[]) => Promise<void>
   deleteFlowMessages: ManageFilesDeleteFlowMessages
@@ -38,7 +38,7 @@ export const ManageFilesDeleteFlow: FunctionComponent<
   opened,
   onClose,
   selectedFiles,
-  handleDeleteFile,
+  deleteFile,
   onDeleteSuccess,
   onPartialDeleteFailure,
   deleteFlowMessages,
@@ -52,20 +52,20 @@ export const ManageFilesDeleteFlow: FunctionComponent<
     setFlowState(opened ? ManageFilesDeleteFlowState.ConfirmDelete : null)
   }, [opened])
 
-  const handleDeleteFiles = useDeleteFilesHandler({
+  const deleteFiles = useDeleteFilesHandler({
     selectedFiles,
-    handleDeleteFile,
+    deleteFile,
     onDeleteSuccess,
     onSetFlowState: setFlowState,
     onSetFailedFiles: setFailedFiles,
   })
 
-  const handleConfirmDeleteClick = useCallback(() => {
+  const confirmDelete = useCallback(() => {
     setFlowState(ManageFilesDeleteFlowState.Deleting)
-    void delayUntil(handleDeleteFiles(), 500)
-  }, [handleDeleteFiles])
+    void delayUntil(deleteFiles(), 500)
+  }, [deleteFiles])
 
-  const handleDeleteFailedClose = useCallback(async () => {
+  const closeDeleteFailedModal = useCallback(async () => {
     onPartialDeleteFailure && (await onPartialDeleteFailure(failedFiles))
     setFlowState(null)
   }, [failedFiles, onPartialDeleteFailure])
@@ -75,8 +75,8 @@ export const ManageFilesDeleteFlow: FunctionComponent<
       <ManageFilesConfirmDeleteModal
         opened={flowState === ManageFilesDeleteFlowState.ConfirmDelete}
         onClose={onClose}
-        onPrimaryButtonClick={handleConfirmDeleteClick}
-        onSecondaryButtonClick={onClose}
+        onConfirm={confirmDelete}
+        onCancel={onClose}
         fileCount={selectedFiles.length}
         messages={deleteFlowMessages}
       />
@@ -85,7 +85,7 @@ export const ManageFilesDeleteFlow: FunctionComponent<
       />
       <ManageFilesDeleteFailedModal
         opened={flowState === ManageFilesDeleteFlowState.DeleteFailed}
-        onClose={handleDeleteFailedClose}
+        onClose={closeDeleteFailedModal}
         messages={deleteFlowMessages}
         failedFiles={failedFiles}
         allFiles={selectedFiles}

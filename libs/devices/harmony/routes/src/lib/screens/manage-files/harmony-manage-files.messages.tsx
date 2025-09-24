@@ -18,11 +18,11 @@ export const HarmonyManageFilesMessages = defineMessages({
   confirmDeleteModalDescription: {
     id: "harmony.manageFiles.confirmDelete.modal.description",
   },
-  confirmDeleteModalPrimaryButtonText: {
-    id: "harmony.manageFiles.confirmDelete.modal.primaryButtonText",
+  confirmDeleteModalConfirmButtonText: {
+    id: "harmony.manageFiles.confirmDelete.modal.confirmButtonText",
   },
-  confirmDeleteModalSecondaryButtonText: {
-    id: "harmony.manageFiles.confirmDelete.modal.secondaryButtonText",
+  confirmDeleteModalCancelButtonText: {
+    id: "harmony.manageFiles.confirmDelete.modal.cancelButtonText",
   },
   otherFilesSystemLabelText: {
     id: "harmony.manageFiles.otherFilesSystemLabelText",
@@ -42,8 +42,8 @@ export const HarmonyManageFilesMessages = defineMessages({
   deleteFailedDescriptionModalDescription: {
     id: "harmony.manageFiles.deleteFailed.some.modal.description",
   },
-  deleteFailedModalSecondaryButtonText: {
-    id: "harmony.manageFiles.deleteFailed.modal.secondaryButtonText",
+  deleteFailedModalCloseButtonText: {
+    id: "harmony.manageFiles.deleteFailed.modal.closeButtonText",
   },
   uploadValidationFailureModalTitle: {
     id: "harmony.manageFiles.upload.validationFailure.modalTitle",
@@ -58,7 +58,7 @@ export const HarmonyManageFilesMessages = defineMessages({
     id: "harmony.manageFiles.upload.validationFailure.fileTooLargeDescription",
   },
   uploadValidationFailureModalCloseButtonText: {
-    id: "harmony.manageFiles.deleteFailed.modal.secondaryButtonText",
+    id: "harmony.manageFiles.deleteFailed.modal.closeButtonText",
   },
   uploadFailedAllModalTitle: {
     id: "harmony.manageFiles.uploadFailed.all.modal.title",

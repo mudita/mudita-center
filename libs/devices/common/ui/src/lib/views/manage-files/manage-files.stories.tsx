@@ -45,8 +45,8 @@ export const Default: StoryObj<typeof ManageFilesConfirmDeleteModal> = {
   name: "Confirm delete modal",
   args: {
     opened: true,
-    onSecondaryButtonClick: action("onSecondaryButtonClick"),
-    onPrimaryButtonClick: action("onPrimaryButtonClick"),
+    onCancel: action("onCancel"),
+    onConfirm: action("onConfirm"),
     onClose: action("onClose"),
     fileCount: 1,
   },

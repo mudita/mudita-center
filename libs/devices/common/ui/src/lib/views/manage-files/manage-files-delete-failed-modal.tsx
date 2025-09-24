@@ -18,7 +18,7 @@ export interface ManageFilesDeleteFailedModalProps {
     deleteFailedSomeModalTitle: Messages
     deleteFailedAllModalDescription: Messages
     deleteFailedDescriptionModalDescription: Messages
-    deleteFailedModalSecondaryButtonText: Messages
+    deleteFailedModalCloseButtonText: Messages
   }
 }
 
@@ -59,7 +59,7 @@ export const ManageFilesDeleteFailedModal: FunctionComponent<
       onClose={onClose}
       title={title}
       description={description}
-      buttonText={formatMessage(messages.deleteFailedModalSecondaryButtonText)}
+      buttonText={formatMessage(messages.deleteFailedModalCloseButtonText)}
       failedFiles={failedFilesList}
     />
   )

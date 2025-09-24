@@ -10,28 +10,21 @@ import { formatMessage, Messages } from "app-localize/utils"
 
 export interface ManageFilesConfirmDeleteModalProps {
   opened: boolean
-  onSecondaryButtonClick: VoidFunction
-  onPrimaryButtonClick: VoidFunction
+  onCancel: VoidFunction
+  onConfirm: VoidFunction
   onClose: VoidFunction
   fileCount: number
   messages: {
     confirmDeleteModalTitle: Messages
     confirmDeleteModalDescription: Messages
-    confirmDeleteModalPrimaryButtonText: Messages
-    confirmDeleteModalSecondaryButtonText: Messages
+    confirmDeleteModalConfirmButtonText: Messages
+    confirmDeleteModalCancelButtonText: Messages
   }
 }
 
 export const ManageFilesConfirmDeleteModal: FunctionComponent<
   ManageFilesConfirmDeleteModalProps
-> = ({
-  opened,
-  onSecondaryButtonClick,
-  onPrimaryButtonClick,
-  onClose,
-  fileCount,
-  messages,
-}) => {
+> = ({ opened, onCancel, onConfirm, onClose, fileCount, messages }) => {
   return (
     <Modal opened={opened}>
       <Modal.CloseButton onClick={onClose} />
@@ -49,18 +42,18 @@ export const ManageFilesConfirmDeleteModal: FunctionComponent<
         <Button
           type={ButtonType.Secondary}
           size={ButtonSize.Medium}
-          onClick={onSecondaryButtonClick}
+          onClick={onCancel}
         >
-          {formatMessage(messages.confirmDeleteModalSecondaryButtonText, {
+          {formatMessage(messages.confirmDeleteModalCancelButtonText, {
             fileCount,
           })}
         </Button>
         <Button
           type={ButtonType.Primary}
           size={ButtonSize.Medium}
-          onClick={onPrimaryButtonClick}
+          onClick={onConfirm}
         >
-          {formatMessage(messages.confirmDeleteModalPrimaryButtonText, {
+          {formatMessage(messages.confirmDeleteModalConfirmButtonText, {
             fileCount,
           })}
         </Button>

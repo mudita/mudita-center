@@ -13,7 +13,7 @@ import { createManageFilesToastContent } from "./create-manage-files-toast-conte
 
 interface UseDeleteFilesHandlerProps {
   selectedFiles: FileManagerFile[]
-  handleDeleteFile: (fileId: string) => Promise<void>
+  deleteFile: (fileId: string) => Promise<void>
   onDeleteSuccess?: () => Promise<void>
   onSetFlowState: (state: ManageFilesDeleteFlowState | null) => void
   onSetFailedFiles: (files: FileManagerFile[]) => void
@@ -21,7 +21,7 @@ interface UseDeleteFilesHandlerProps {
 
 export const useDeleteFilesHandler = ({
   selectedFiles,
-  handleDeleteFile,
+  deleteFile,
   onDeleteSuccess,
   onSetFlowState,
   onSetFailedFiles,
@@ -35,7 +35,7 @@ export const useDeleteFilesHandler = ({
       if (!file) continue
 
       try {
-        await handleDeleteFile(file.id)
+        await deleteFile(file.id)
       } catch {
         failed.push(file)
       }
@@ -63,7 +63,7 @@ export const useDeleteFilesHandler = ({
   }, [
     addToast,
     selectedFiles,
-    handleDeleteFile,
+    deleteFile,
     onDeleteSuccess,
     onSetFailedFiles,
     onSetFlowState,

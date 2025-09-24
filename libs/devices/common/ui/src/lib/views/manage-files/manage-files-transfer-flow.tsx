@@ -6,7 +6,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { OpenDialogOptionsLite } from "app-utils/models"
 import { useToastContext } from "app-theme/ui"
-import { formatMessage, Messages } from "app-localize/utils"
+import { formatMessage } from "app-localize/utils"
 import {
   ManageFilesTransferringModal,
   ManageFilesTransferringModalProps,
@@ -58,7 +58,7 @@ export interface ManageFilesTransferFlowProps {
   onClose: VoidFunction
   fileMap: FileManagerFileMap
   openFileDialog: (options: OpenDialogOptionsLite) => Promise<FileManagerFile[]>
-  handleTransfer: UseManageFilesTransferFlowArgs["handleTransfer"]
+  transferFile: UseManageFilesTransferFlowArgs["transferFile"]
   onTransferSuccess?: () => Promise<void>
   onPartialTransferFailure?: (failedFiles: FileManagerFile[]) => Promise<void>
   transferFlowMessages: ManageFilesDeleteFlowMessages
@@ -72,7 +72,7 @@ export const ManageFilesTransferFlow = ({
   fileMap,
   freeSpaceBytes,
   openFileDialog,
-  handleTransfer,
+  transferFile,
   onTransferSuccess,
   onPartialTransferFailure,
   transferFlowMessages,
@@ -98,16 +98,12 @@ export const ManageFilesTransferFlow = ({
 
   const validate = useManageFilesValidate({ fileMap, freeSpaceBytes })
 
-  const {
-    action: transfer,
-    progress,
-    abort,
-    transferringFile,
-  } = useManageFilesTransferFlow({
-    handleTransfer: handleTransfer,
-  })
+  const { transfer, progress, abortTransfer, currentFile } =
+    useManageFilesTransferFlow({
+      transferFile,
+    })
 
-  const handleSetSelectedFiles = useCallback(
+  const processSelectedFiles = useCallback(
     async (files: FileManagerFile[]) => {
       setSelectedFiles(files)
 
@@ -160,24 +156,24 @@ export const ManageFilesTransferFlow = ({
     opened: flowState === ManageFilesTransferFlowState.BrowseFiles,
     supportedFileTypes,
     openFileDialog,
-    onSelect: handleSetSelectedFiles,
+    onSelect: processSelectedFiles,
     onCancel: onClose,
   })
 
-  const handleValidationFailedClose = useCallback(async () => {
+  const closeValidationFailedModal = useCallback(async () => {
     setFlowState(ManageFilesTransferFlowState.Idle)
     onClose()
   }, [onClose])
 
-  const handleTransferFaileClose = useCallback(async () => {
+  const closeTransferFailedModal = useCallback(async () => {
     onPartialTransferFailure &&
       (await onPartialTransferFailure(failedTransfers))
     setFlowState(ManageFilesTransferFlowState.Idle)
   }, [failedTransfers, onPartialTransferFailure])
 
-  const handleFilesTransferringClose = useCallback(async () => {
-    abort()
-  }, [abort])
+  const cancelTransfer = useCallback(async () => {
+    abortTransfer()
+  }, [abortTransfer])
 
   if (!opened) {
     return null
@@ -188,7 +184,7 @@ export const ManageFilesTransferFlow = ({
       <ManageFilesTransferValidationFailedModal
         opened={flowState === ManageFilesTransferFlowState.ValidationFailed}
         validationSummary={validationResult}
-        onClose={handleValidationFailedClose}
+        onClose={closeValidationFailedModal}
         messages={transferFlowMessages}
         selectedFiles={selectedFiles}
       />
@@ -200,15 +196,15 @@ export const ManageFilesTransferFlow = ({
           transferringModalCloseButtonText:
             transferFlowMessages.uploadingModalCloseButtonText,
         }}
-        progressBarMessage={transferringFile?.name ?? ""}
+        progressBarMessage={currentFile?.name ?? ""}
         progress={progress}
-        onCancel={handleFilesTransferringClose}
+        onCancel={cancelTransfer}
       />
       <ManageFilesTransferFailedModal
         opened={flowState === ManageFilesTransferFlowState.TransferFailed}
         failedFiles={failedTransfers}
         allFiles={selectedFiles}
-        onClose={handleTransferFaileClose}
+        onClose={closeTransferFailedModal}
         messages={transferFlowMessages}
       />
     </>
