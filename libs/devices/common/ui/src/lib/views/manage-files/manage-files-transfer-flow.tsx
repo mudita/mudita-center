@@ -5,6 +5,8 @@
 
 import { useCallback, useEffect, useState } from "react"
 import { OpenDialogOptionsLite } from "app-utils/models"
+import { useToastContext } from "app-theme/ui"
+import { formatMessage, Messages } from "app-localize/utils"
 import {
   ManageFilesTransferringModal,
   ManageFilesTransferringModalProps,
@@ -31,6 +33,8 @@ import {
 } from "./use-manage-files-transfer-flow"
 import { useManageFilesValidate } from "./use-manage-files-validate"
 import { FileTransferFailed } from "./manage-files-transfer-failed.copy"
+import { createManageFilesToastContent } from "./create-manage-files-toast-content"
+import { manageFilesMessages } from "./manage-files.messages"
 
 enum ManageFilesTransferFlowState {
   Idle = "Idle",
@@ -74,6 +78,7 @@ export const ManageFilesTransferFlow = ({
   transferFlowMessages,
   supportedFileTypes,
 }: ManageFilesTransferFlowProps) => {
+  const { addToast } = useToastContext()
   const [flowState, setFlowState] = useState<ManageFilesTransferFlowState>(
     ManageFilesTransferFlowState.Idle
   )
@@ -116,7 +121,7 @@ export const ManageFilesTransferFlow = ({
 
       const isTransferAllowed =
         validationSummary.type === ValidationSummaryType.AllFilesValid ||
-        validationSummary.type === ValidationSummaryType.SomeFilesFailed
+        validationSummary.type === ValidationSummaryType.SomeFilesInvalid
 
       if (!isTransferAllowed) {
         setValidationResult(validationSummary)
@@ -138,9 +143,17 @@ export const ManageFilesTransferFlow = ({
         await onTransferSuccess()
       }
 
+      addToast(
+        createManageFilesToastContent({
+          text: formatMessage(manageFilesMessages.uploadSuccessToastText, {
+            fileCount: files.length,
+          }),
+        })
+      )
+
       setFlowState(ManageFilesTransferFlowState.Idle)
     },
-    [onClose, onTransferSuccess, transfer, validate]
+    [addToast, onClose, onTransferSuccess, transfer, validate]
   )
 
   useBrowseForFiles({

@@ -168,7 +168,7 @@ describe("AppLoggerService.aggregateLogsToFile", () => {
     ;(fs.stat as jest.Mock).mockResolvedValue({ birthtimeMs: 0, size: 1 })
     jest
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .spyOn(AppLoggerService as any, "buildTrimmedLogsBuffer")
+      .spyOn(AppLoggerService.prototype as any, "buildTrimmedLogsBuffer")
       .mockResolvedValue(Buffer.from("X"))
     ;(fs.writeFile as jest.Mock).mockResolvedValue(undefined)
   })

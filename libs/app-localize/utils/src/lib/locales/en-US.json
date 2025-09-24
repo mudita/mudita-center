@@ -191,6 +191,7 @@
   "manageFiles.selection.delete": "Delete",
   "manageFiles.selection.selectedCount": "{count, plural, =0 {No files selected} one {# file selected} other {# files selected}}",
   "manageFiles.summary.usedLabel": "Used:",
+  "manageFiles.uploadSuccess.toast.text": "{fileCount, plural, one {# file transferred} other {# files transferred}}",
   "menu.app.deviceTitle": "Your {deviceName}",
   "menu.app.title": "Mudita Center",
   "page.article.backButton.text": "Back",

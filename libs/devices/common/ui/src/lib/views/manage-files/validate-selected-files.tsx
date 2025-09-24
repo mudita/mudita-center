@@ -86,7 +86,7 @@ export const validateSelectedFiles = (
 
   if (validatedFiles.some((f) => f.validationErrorName)) {
     return {
-      type: ValidationSummaryType.SomeFilesFailed,
+      type: ValidationSummaryType.SomeFilesInvalid,
       files: validatedFiles,
     }
   }

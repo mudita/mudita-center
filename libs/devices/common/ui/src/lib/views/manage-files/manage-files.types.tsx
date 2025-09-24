@@ -62,7 +62,7 @@ export enum ValidationSummaryType {
   AllFilesDuplicated = "AllFilesDuplicated",
   NotHaveSpaceForUpload = "NotHaveSpaceForUpload",
   AllFilesTooLarge = "AllFilesTooLarge",
-  SomeFilesFailed = "SomeFilesFailed",
+  SomeFilesInvalid = "SomeFilesInvalid",
   AllFilesValid = "AllFilesValid",
 }
 
@@ -81,7 +81,7 @@ export type ValidationSummary =
       values: AvailableSpaceInfo
     }
   | {
-      type: ValidationSummaryType.SomeFilesFailed
+      type: ValidationSummaryType.SomeFilesInvalid
       files: FileTransferWithValidation[]
     }
   | {

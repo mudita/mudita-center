@@ -5,13 +5,13 @@
 
 import {
   createContext,
-  useContext,
-  useState,
-  useCallback,
-  useEffect,
   FunctionComponent,
   PropsWithChildren,
   ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
 } from "react"
 import styled, { css, keyframes } from "styled-components"
 
@@ -24,7 +24,7 @@ interface ToastConfig {
 
 interface ToastContextValue {
   queue: ToastConfig[]
-  addToast: (toast: ToastConfig) => void
+  addToast: (toast: Partial<ToastConfig>) => void
   removeToast: (key?: string) => void
 }
 
@@ -39,9 +39,13 @@ export const useToastContext = () => {
 const ToastProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const [queue, setQueue] = useState<ToastConfig[]>([])
 
-  const addToast = useCallback((toast: ToastConfig) => {
-    setQueue((prev) => [...prev, toast])
-  }, [])
+  const addToast = useCallback(
+    ({ key, content = "" }: Partial<ToastConfig>) => {
+      const ensuredKey = key ?? crypto.randomUUID()
+      setQueue((prev) => [...prev, { key: ensuredKey, content }])
+    },
+    []
+  )
 
   const removeToast = useCallback((key?: string) => {
     setQueue((prev) => {
