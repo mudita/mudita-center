@@ -23,7 +23,7 @@ import { Harmony } from "devices/harmony/models"
 import {
   FileManagerFile,
   FileTransferResult,
-  ManageFilesView,
+  ManageFiles,
   ManageFilesViewProps,
   TransferErrorName,
 } from "devices/common/ui"
@@ -147,7 +147,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
       <DashboardHeaderTitle
         title={formatMessage(HarmonyManageFilesMessages.pageTitle)}
       />
-      <ManageFilesView
+      <ManageFiles
         activeCategoryId={activeCategoryId}
         activeFileMap={activeFileMap}
         onActiveCategoryChange={setActiveCategoryId}
@@ -168,7 +168,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
         {(props) => (
           <HarmonyManageFilesTableSection fileMap={activeFileMap} {...props} />
         )}
-      </ManageFilesView>
+      </ManageFiles>
     </>
   )
 }

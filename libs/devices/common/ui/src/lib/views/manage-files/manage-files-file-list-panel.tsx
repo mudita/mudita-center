@@ -5,7 +5,12 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
-import { ButtonSize, ButtonType, CheckboxSize, IconType } from "app-theme/models"
+import {
+  ButtonSize,
+  ButtonType,
+  CheckboxSize,
+  IconType,
+} from "app-theme/models"
 import { Button, Checkbox, Typography } from "app-theme/ui"
 import { manageFilesMessages } from "./manage-files.messages"
 
@@ -14,7 +19,7 @@ interface FileListPanelHeaderProps {
   onAddFileClick?: () => void
 }
 
-export const MfFileListPanelHeader: FunctionComponent<
+export const ManageFilesFileListPanelHeader: FunctionComponent<
   FileListPanelHeaderProps & PropsWithChildren
 > = ({ header, children }) => {
   return (
@@ -25,28 +30,28 @@ export const MfFileListPanelHeader: FunctionComponent<
   )
 }
 
-export const MfFileListPanelDefaultMode: FunctionComponent<
+export const ManageFilesFileListPanelDefaultMode: FunctionComponent<
   FileListPanelHeaderProps
 > = ({ onAddFileClick, ...props }) => {
   return (
-    <MfFileListPanelHeader {...props}>
+    <ManageFilesFileListPanelHeader {...props}>
       <Button
         size={ButtonSize.Medium}
         message={manageFilesMessages.addFileButtonText.id}
         onClick={onAddFileClick}
       />
-    </MfFileListPanelHeader>
+    </ManageFilesFileListPanelHeader>
   )
 }
 
-export interface MfFileListPanelSelectModeProps {
+export interface ManageFilesFileListPanelSelectModeProps {
   count: number
   onAllCheckboxClick: (checked: boolean) => void
   onDeleteClick: VoidFunction
 }
 
-export const MfFileListPanelSelectMode: FunctionComponent<
-  MfFileListPanelSelectModeProps
+export const ManageFilesFileListPanelSelectMode: FunctionComponent<
+  ManageFilesFileListPanelSelectModeProps
 > = ({ count, onAllCheckboxClick, onDeleteClick }) => {
   return (
     <FileListPanelSelector>

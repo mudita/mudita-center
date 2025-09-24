@@ -11,20 +11,20 @@ import {
   useState,
 } from "react"
 import { Messages } from "app-localize/utils"
-import { MfStorageSummaryProps } from "./manage-files-storage-summary"
-import { MfCategoryListProps } from "./manage-files-category-list"
+import { ManageFilesStorageSummaryProps } from "./manage-files-storage-summary"
+import { ManageFilesCategoryListProps } from "./manage-files-category-list"
 import {
   FileManagerFile,
   FileManagerFileMap,
   ManageFilesTableSectionProps,
 } from "./manage-files.types"
-import { ManageFiles } from "./manage-files"
+import { ManageFilesContent } from "./manage-files-content"
 import { ManageFilesLoadingState } from "./manage-files-loading-state"
 import {
   ManageFilesDeleteFlow,
   ManageFilesDeleteFlowProps,
 } from "./manage-files-delete-flow"
-import { MfOtherFilesProps } from "./manage-files-other-files"
+import { ManageFilesOtherFilesProps } from "./manage-files-other-files"
 import {
   ManageFilesTransferFlow,
   ManageFilesTransferFlowProps,
@@ -41,9 +41,9 @@ type ManageFilesViewMessages =
     }
 
 export interface ManageFilesViewProps
-  extends MfStorageSummaryProps,
-    MfCategoryListProps,
-    MfOtherFilesProps,
+  extends ManageFilesStorageSummaryProps,
+    ManageFilesCategoryListProps,
+    ManageFilesOtherFilesProps,
     Pick<ManageFilesDeleteFlowProps, "deleteFile" | "onDeleteSuccess">,
     Pick<
       ManageFilesTransferFlowProps,
@@ -56,9 +56,7 @@ export interface ManageFilesViewProps
   messages: ManageFilesViewMessages
 }
 
-export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
-  props
-) => {
+export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
   const {
     messages,
     activeCategoryId,
@@ -174,7 +172,7 @@ export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
   return (
     <>
       <ManageFilesLoadingState opened={loadingState} />
-      <ManageFiles
+      <ManageFilesContent
         opened={!loadingState}
         segments={segments}
         categories={categories}
@@ -191,7 +189,7 @@ export const ManageFilesView: FunctionComponent<ManageFilesViewProps> = (
         onAddFileClick={startUploadFlow}
       >
         {children({ onSelectedChange: updateSelection, selectedIds })}
-      </ManageFiles>
+      </ManageFilesContent>
       <ManageFilesDeleteFlow
         opened={deleteFlowOpened}
         onClose={() => setDeleteFlowOpened(false)}

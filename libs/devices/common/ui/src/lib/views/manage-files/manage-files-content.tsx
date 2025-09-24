@@ -5,24 +5,33 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
-import { ManageFilesStorageSummary, MfStorageSummaryProps } from "./manage-files-storage-summary"
-import { ManageFilesCategoryList, MfCategoryListProps } from "./manage-files-category-list"
-import { ManageFilesOtherFiles, MfOtherFilesProps } from "./manage-files-other-files"
+import {
+  ManageFilesStorageSummary,
+  ManageFilesStorageSummaryProps,
+} from "./manage-files-storage-summary"
+import {
+  ManageFilesCategoryList,
+  ManageFilesCategoryListProps,
+} from "./manage-files-category-list"
+import {
+  ManageFilesOtherFiles,
+  ManageFilesOtherFilesProps,
+} from "./manage-files-other-files"
 import { ManageFilesFileListEmpty } from "./manage-files-file-list-empty"
 
 import {
-  MfFileListPanelDefaultMode,
-  MfFileListPanelSelectMode,
-  MfFileListPanelSelectModeProps,
+  ManageFilesFileListPanelDefaultMode,
+  ManageFilesFileListPanelSelectMode,
+  ManageFilesFileListPanelSelectModeProps,
 } from "./manage-files-file-list-panel"
 import { FileManagerFile } from "./manage-files.types"
 
 interface Props
-  extends MfStorageSummaryProps,
-    MfCategoryListProps,
-    MfOtherFilesProps,
+  extends ManageFilesStorageSummaryProps,
+    ManageFilesCategoryListProps,
+    ManageFilesOtherFilesProps,
     Pick<
-      MfFileListPanelSelectModeProps,
+      ManageFilesFileListPanelSelectModeProps,
       "onAllCheckboxClick" | "onDeleteClick"
     > {
   selectedFiles: FileManagerFile[]
@@ -30,7 +39,9 @@ interface Props
   opened: boolean
 }
 
-export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
+export const ManageFilesContent: FunctionComponent<
+  Props & PropsWithChildren
+> = ({
   opened,
   categories,
   segments,
@@ -89,12 +100,12 @@ export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
           <>
             <FileListPanel>
               {selectedFiles.length === 0 ? (
-                <MfFileListPanelDefaultMode
+                <ManageFilesFileListPanelDefaultMode
                   header={fileListPanelHeader}
                   onAddFileClick={onAddFileClick}
                 />
               ) : (
-                <MfFileListPanelSelectMode
+                <ManageFilesFileListPanelSelectMode
                   count={selectedFiles.length}
                   onAllCheckboxClick={onAllCheckboxClick}
                   onDeleteClick={onDeleteClick}
