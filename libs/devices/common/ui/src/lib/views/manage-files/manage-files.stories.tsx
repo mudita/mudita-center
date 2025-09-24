@@ -7,8 +7,8 @@ import { Meta } from "@storybook/react"
 import { styled } from "storybook/theming"
 import { StoryObj } from "@storybook/react-vite"
 import { action } from "storybook/actions"
-import { ManageFilesConfirmDeleteModal } from "./manage-files-confirm-delete-modal"
-import { ManageFilesDeletingModal } from "./manage-files-deleting-modal"
+import { ManageFilesDeleteConfirmModal } from "./manage-files-delete-flow/manage-files-delete-confirm-modal"
+import { ManageFilesDeleteProgressModal } from "./manage-files-delete-flow/manage-files-delete-progress-modal"
 
 const Decorator = styled.div`
   width: 100%;
@@ -41,22 +41,22 @@ const meta: Meta = {
 
 export default meta
 
-export const Default: StoryObj<typeof ManageFilesConfirmDeleteModal> = {
+export const Default: StoryObj<typeof ManageFilesDeleteConfirmModal> = {
   name: "Confirm delete modal",
   args: {
     opened: true,
-    onSecondaryButtonClick: action("onSecondaryButtonClick"),
-    onPrimaryButtonClick: action("onPrimaryButtonClick"),
+    onCancel: action("onCancel"),
+    onConfirm: action("onConfirm"),
     onClose: action("onClose"),
     fileCount: 1,
   },
-  render: (args) => <ManageFilesConfirmDeleteModal {...args} />,
+  render: (args) => <ManageFilesDeleteConfirmModal {...args} />,
 }
 
-export const Failed: StoryObj<typeof ManageFilesDeletingModal> = {
+export const Failed: StoryObj<typeof ManageFilesDeleteProgressModal> = {
   name: "Deleting modal",
   args: {
     opened: true,
   },
-  render: (args) => <ManageFilesDeletingModal {...args} />,
+  render: (args) => <ManageFilesDeleteProgressModal {...args} />,
 }

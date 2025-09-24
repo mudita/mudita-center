@@ -13,9 +13,9 @@ import {
   SegmentBar,
   Typography,
 } from "app-theme/ui"
-import { manageFilesMessages } from "./manage-files.messages"
+import { manageFilesMessages } from "../manage-files.messages"
 
-export interface MfStorageSummaryProps {
+export interface ManageFilesStorageSummaryProps {
   usedSpaceBytes: number
   freeSpaceBytes: number
   segments: ISegmentBarItem[]
@@ -24,12 +24,9 @@ export interface MfStorageSummaryProps {
   }
 }
 
-export const MfStorageSummary: FunctionComponent<MfStorageSummaryProps> = ({
-  messages,
-  usedSpaceBytes,
-  freeSpaceBytes,
-  segments,
-}) => {
+export const ManageFilesStorageSummary: FunctionComponent<
+  ManageFilesStorageSummaryProps
+> = ({ messages, usedSpaceBytes, freeSpaceBytes, segments }) => {
   const usedText = `${formatMessage(manageFilesMessages.summaryUsedLabel)} ${formatBytes(usedSpaceBytes, { minUnit: "KB" })}`
 
   return (

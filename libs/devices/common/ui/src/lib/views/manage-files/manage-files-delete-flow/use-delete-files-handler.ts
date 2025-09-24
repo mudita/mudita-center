@@ -6,14 +6,14 @@
 import { useCallback } from "react"
 import { formatMessage } from "app-localize/utils"
 import { useToastContext } from "app-theme/ui"
-import { FileManagerFile } from "./manage-files.types"
+import { FileManagerFile } from "../manage-files.types"
+import { manageFilesMessages } from "../manage-files.messages"
+import { createManageFilesToastContent } from "../create-manage-files-toast-content"
 import { ManageFilesDeleteFlowState } from "./manage-files-delete-flow.types"
-import { manageFilesMessages } from "./manage-files.messages"
-import { createManageFilesToastContent } from "./create-manage-files-toast-content"
 
 interface UseDeleteFilesHandlerProps {
   selectedFiles: FileManagerFile[]
-  handleDeleteFile: (fileId: string) => Promise<void>
+  deleteFile: (fileId: string) => Promise<void>
   onDeleteSuccess?: () => Promise<void>
   onSetFlowState: (state: ManageFilesDeleteFlowState | null) => void
   onSetFailedFiles: (files: FileManagerFile[]) => void
@@ -21,7 +21,7 @@ interface UseDeleteFilesHandlerProps {
 
 export const useDeleteFilesHandler = ({
   selectedFiles,
-  handleDeleteFile,
+  deleteFile,
   onDeleteSuccess,
   onSetFlowState,
   onSetFailedFiles,
@@ -35,7 +35,7 @@ export const useDeleteFilesHandler = ({
       if (!file) continue
 
       try {
-        await handleDeleteFile(file.id)
+        await deleteFile(file.id)
       } catch {
         failed.push(file)
       }
@@ -63,7 +63,7 @@ export const useDeleteFilesHandler = ({
   }, [
     addToast,
     selectedFiles,
-    handleDeleteFile,
+    deleteFile,
     onDeleteSuccess,
     onSetFailedFiles,
     onSetFlowState,

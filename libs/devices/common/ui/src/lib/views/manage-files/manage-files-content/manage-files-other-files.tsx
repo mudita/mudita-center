@@ -7,17 +7,16 @@ import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { IconType } from "app-theme/models"
 import { formatBytes, Icon, Tooltip, Typography } from "app-theme/ui"
-import { manageFilesMessages } from "./manage-files.messages"
+import { manageFilesMessages } from "../manage-files.messages"
 
-export interface MfOtherFilesProps {
+export interface ManageFilesOtherFilesProps {
   otherFiles: { name: string }[]
   otherSpaceBytes: number
 }
 
-export const MfOtherFiles: FunctionComponent<MfOtherFilesProps> = ({
-  otherFiles,
-  otherSpaceBytes,
-}) => {
+export const ManageFilesOtherFiles: FunctionComponent<
+  ManageFilesOtherFilesProps
+> = ({ otherFiles, otherSpaceBytes }) => {
   const sizeText = `(${formatBytes(otherSpaceBytes, { minUnit: "KB" })})`
 
   return (

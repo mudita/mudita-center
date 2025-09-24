@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { TransferErrorName } from "../manage-files.types"
 import {
-  getTransferFailedModalContent,
   FileTransferFailed,
+  getTransferFailedModalContent,
   ManageFilesTransferFailedModalMessages,
 } from "./manage-files-transfer-failed.copy"
-import { TransferErrorName } from "./manage-files.types"
 
 jest.mock("app-localize/utils", () => ({
   formatMessage: (msg: { id: string }, vars?: Record<string, unknown>) =>

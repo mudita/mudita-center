@@ -5,16 +5,21 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
-import { ButtonType, CheckboxSize, IconType } from "app-theme/models"
+import {
+  ButtonSize,
+  ButtonType,
+  CheckboxSize,
+  IconType,
+} from "app-theme/models"
 import { Button, Checkbox, Typography } from "app-theme/ui"
-import { manageFilesMessages } from "./manage-files.messages"
+import { manageFilesMessages } from "../manage-files.messages"
 
 interface FileListPanelHeaderProps {
   header: string
   onAddFileClick?: () => void
 }
 
-export const MfFileListPanelHeader: FunctionComponent<
+export const ManageFilesFileListPanelHeader: FunctionComponent<
   FileListPanelHeaderProps & PropsWithChildren
 > = ({ header, children }) => {
   return (
@@ -25,27 +30,28 @@ export const MfFileListPanelHeader: FunctionComponent<
   )
 }
 
-export const MfFileListPanelDefaultMode: FunctionComponent<
+export const ManageFilesFileListPanelDefaultMode: FunctionComponent<
   FileListPanelHeaderProps
 > = ({ onAddFileClick, ...props }) => {
   return (
-    <MfFileListPanelHeader {...props}>
-      <AddFileButton
+    <ManageFilesFileListPanelHeader {...props}>
+      <Button
+        size={ButtonSize.Medium}
         message={manageFilesMessages.addFileButtonText.id}
         onClick={onAddFileClick}
       />
-    </MfFileListPanelHeader>
+    </ManageFilesFileListPanelHeader>
   )
 }
 
-export interface MfFileListPanelSelectModeProps {
+export interface ManageFilesFileListPanelSelectModeProps {
   count: number
   onAllCheckboxClick: (checked: boolean) => void
   onDeleteClick: VoidFunction
 }
 
-export const MfFileListPanelSelectMode: FunctionComponent<
-  MfFileListPanelSelectModeProps
+export const ManageFilesFileListPanelSelectMode: FunctionComponent<
+  ManageFilesFileListPanelSelectModeProps
 > = ({ count, onAllCheckboxClick, onDeleteClick }) => {
   return (
     <FileListPanelSelector>
@@ -75,10 +81,6 @@ const FileListPanel = styled.div`
   grid-template-columns: auto auto;
   justify-content: space-between;
   align-items: center;
-`
-
-const AddFileButton = styled(Button)`
-  width: 15.6rem;
 `
 
 const FileListPanelSelector = styled.div`

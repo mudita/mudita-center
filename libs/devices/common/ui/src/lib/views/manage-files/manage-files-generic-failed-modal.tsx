@@ -18,7 +18,7 @@ export interface ManageFilesFailedModalProps {
   failedFiles?: FileFailed[]
 }
 
-export const ManageFilesFailedModal: FunctionComponent<
+export const ManageFilesGenericFailedModal: FunctionComponent<
   ManageFilesFailedModalProps
 > = ({ opened, failedFiles, title, description, buttonText, onClose }) => {
   const showList = !!failedFiles?.length
@@ -46,10 +46,10 @@ const FailedFilesList = ({ files }: { files: FileFailed[] }) => (
       {files.map((file) => (
         <li key={file.id}>
           <FileListItem>
-            <Typography.P1>
-              {file.name}
-            </Typography.P1>
-            {file.label && <FileListItemLabel>({file.label})</FileListItemLabel>}
+            <Typography.P1>{file.name}</Typography.P1>
+            {file.label && (
+              <FileListItemLabel>({file.label})</FileListItemLabel>
+            )}
           </FileListItem>
         </li>
       ))}

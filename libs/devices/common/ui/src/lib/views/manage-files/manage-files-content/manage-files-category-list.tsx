@@ -9,20 +9,18 @@ import { noop } from "lodash"
 import { formatMessage } from "app-localize/utils"
 import { Icon, ListItem, Marker, Typography } from "app-theme/ui"
 import { IconSize } from "app-theme/models"
-import { FileManagerFileCategory } from "./manage-files.types"
-import { manageFilesMessages } from "./manage-files.messages"
+import { FileManagerFileCategory } from "../manage-files.types"
+import { manageFilesMessages } from "../manage-files.messages"
 
-export interface MfCategoryListProps {
+export interface ManageFilesCategoryListProps {
   categories: FileManagerFileCategory[]
   activeCategoryId: string
   onCategoryClick?: (categoryId: string) => void
 }
 
-export const MfCategoryList: FunctionComponent<MfCategoryListProps> = ({
-  categories,
-  activeCategoryId,
-  onCategoryClick = noop,
-}) => {
+export const ManageFilesCategoryList: FunctionComponent<
+  ManageFilesCategoryListProps
+> = ({ categories, activeCategoryId, onCategoryClick = noop }) => {
   return (
     <Wrapper>
       {categories.map((category) => (
@@ -78,8 +76,7 @@ const CategoryListItemName = styled.div`
 `
 
 const CategoryListItemNameIcon = styled(Icon)`
-  width: 2.4rem;
-  margin: 0 0.8rem 0 0;
+  margin: 0 0.8rem 0 -0.8rem;
 `
 
 const CategoryListItemNameText = styled(Typography.H4)``

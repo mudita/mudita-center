@@ -18,7 +18,7 @@ interface Props {
   opened: boolean
 }
 
-export const ManageFilesDeletingModal: FunctionComponent<Props> = ({
+export const ManageFilesDeleteProgressModal: FunctionComponent<Props> = ({
   opened,
 }) => {
   return (

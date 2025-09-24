@@ -6,8 +6,8 @@
 import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { Button, Typography } from "app-theme/ui"
-import { MfFileListPanelHeader } from "./mf-file-list-panel"
-import { manageFilesMessages } from "./manage-files.messages"
+import { manageFilesMessages } from "../manage-files.messages"
+import { ManageFilesFileListPanelHeader } from "./manage-files-file-list-panel"
 
 interface Props {
   description?: string
@@ -15,14 +15,14 @@ interface Props {
   onAddFileClick?: () => void
 }
 
-export const MfFileListEmpty: FunctionComponent<Props> = ({
+export const ManageFilesFileListEmpty: FunctionComponent<Props> = ({
   description = "",
   header = "",
   onAddFileClick,
 }) => {
   return (
     <>
-      <MfFileListPanelHeader header={header} />
+      <ManageFilesFileListPanelHeader header={header} />
       <Container>
         <Header message={manageFilesMessages.emptyStateTitle.id} />
         <Description>{description}</Description>

@@ -6,6 +6,7 @@
 import { HarmonyFile, HarmonyInfoResponse } from "devices/harmony/models"
 import { FileManagerFileCategory } from "devices/common/ui"
 import { formatBytes, ISegmentBarItem } from "app-theme/ui"
+import { sumBy } from "lodash"
 import {
   HARMONY_CATEGORIES_CONFIG_MAP,
   HARMONY_SEGMENTS_CONFIG_MAP,
@@ -16,7 +17,6 @@ import {
   FileCategoryId,
   FileManagerCategoryFileMap,
 } from "./harmony-manage-files.types"
-import { sumFileSizes } from "./map-to-harmony.utils"
 
 export interface HarmonyManageFilesData {
   categories: (FileManagerFileCategory & { id: FileCategoryId })[]
@@ -36,8 +36,8 @@ export const mapHarmonyToManageFiles = (
 ): HarmonyManageFilesData => {
   const { config, alarmFiles = [], relaxationFiles = [] } = payload
 
-  const alarmFilesBytes = sumFileSizes(alarmFiles)
-  const relaxationFilesBytes = sumFileSizes(relaxationFiles)
+  const alarmFilesBytes = sumBy(alarmFiles, "fileSize")
+  const relaxationFilesBytes = sumBy(relaxationFiles, "fileSize")
 
   const systemReservedSpace = config?.systemReservedSpace ?? 0
   const usedUserSpace = config?.usedUserSpace ?? 0
@@ -58,9 +58,9 @@ export const mapHarmonyToManageFiles = (
   const freeSpaceBytes = totalSpaceBytes - usedSpaceBytes
 
   const segments: ISegmentBarItem[] = [
-    { ...HARMONY_SEGMENTS_CONFIG_MAP.alarmFiles, value: alarmFilesBytes },
+    { ...HARMONY_SEGMENTS_CONFIG_MAP.AlarmFiles, value: alarmFilesBytes },
     {
-      ...HARMONY_SEGMENTS_CONFIG_MAP.relaxationFiles,
+      ...HARMONY_SEGMENTS_CONFIG_MAP.RelaxationFiles,
       value: relaxationFilesBytes,
     },
     { ...HARMONY_SEGMENTS_CONFIG_MAP.otherFiles, value: otherSpaceBytes },
@@ -68,18 +68,18 @@ export const mapHarmonyToManageFiles = (
   ]
 
   const categoryFileMap: FileManagerCategoryFileMap = {
-    alarmFiles: mapToFileManagerFileMap(alarmFiles),
-    relaxationFiles: mapToFileManagerFileMap(relaxationFiles),
+    AlarmFiles: mapToFileManagerFileMap(alarmFiles),
+    RelaxationFiles: mapToFileManagerFileMap(relaxationFiles),
   }
 
   const categories = [
     {
-      ...HARMONY_CATEGORIES_CONFIG_MAP.alarmFiles,
+      ...HARMONY_CATEGORIES_CONFIG_MAP.AlarmFiles,
       size: formatBytes(alarmFilesBytes, { minUnit: "KB" }),
       count: alarmFiles.length,
     },
     {
-      ...HARMONY_CATEGORIES_CONFIG_MAP.relaxationFiles,
+      ...HARMONY_CATEGORIES_CONFIG_MAP.RelaxationFiles,
       size: formatBytes(relaxationFilesBytes, { minUnit: "KB" }),
       count: relaxationFiles.length,
     },

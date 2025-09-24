@@ -27,7 +27,7 @@ export type FileManagerFile = {
 
 export type FileManagerFileMap = Record<string, FileManagerFile>
 
-export type { ManageFilesTableSectionProps } from "./manage-files-table-section"
+export type { ManageFilesTableSectionProps } from "./manage-files-content/manage-files-table-section"
 
 export enum TransferErrorName {
   Duplicate = "duplicate",

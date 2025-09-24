@@ -11,7 +11,7 @@ import {
   TransferErrorName,
   ValidationSummary,
   ValidationSummaryType,
-} from "./manage-files.types"
+} from "../manage-files.types"
 
 export const calculateAndFormatAvailableSpace = (
   freeSpaceBytes: number,

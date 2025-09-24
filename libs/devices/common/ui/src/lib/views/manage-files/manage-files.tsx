@@ -3,133 +3,214 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren } from "react"
-import styled from "styled-components"
-import { MfStorageSummary, MfStorageSummaryProps } from "./mf-storage-summary"
-import { MfCategoryList, MfCategoryListProps } from "./mf-category-list"
-import { MfOtherFiles, MfOtherFilesProps } from "./mf-other-files"
-import { MfFileListEmpty } from "./mf-file-list-empty"
-
 import {
-  MfFileListPanelDefaultMode,
-  MfFileListPanelSelectMode,
-  MfFileListPanelSelectModeProps,
-} from "./mf-file-list-panel"
-import { FileManagerFile } from "./manage-files.types"
+  FunctionComponent,
+  ReactNode,
+  useCallback,
+  useMemo,
+  useState,
+} from "react"
+import { Messages } from "app-localize/utils"
+import { ManageFilesStorageSummaryProps } from "./manage-files-content/manage-files-storage-summary"
+import { ManageFilesCategoryListProps } from "./manage-files-content/manage-files-category-list"
+import { ManageFilesContent } from "./manage-files-content/manage-files-content"
+import { ManageFilesLoadingState } from "./manage-files-loading-state"
+import {
+  ManageFilesDeleteFlow,
+  ManageFilesDeleteFlowProps,
+} from "./manage-files-delete-flow/manage-files-delete-flow"
+import { ManageFilesOtherFilesProps } from "./manage-files-content/manage-files-other-files"
+import {
+  ManageFilesTransferFlow,
+  ManageFilesTransferFlowProps,
+} from "./manage-files-transfer-flow/manage-files-transfer-flow"
+import {
+  FileManagerFile,
+  FileManagerFileMap,
+  ManageFilesTableSectionProps,
+} from "./manage-files.types"
 
-interface Props
-  extends MfStorageSummaryProps,
-    MfCategoryListProps,
-    MfOtherFilesProps,
+type ManageFilesViewChild = (
+  ctx: Pick<ManageFilesTableSectionProps, "onSelectedChange" | "selectedIds">
+) => ReactNode
+
+type ManageFilesViewMessages =
+  ManageFilesTransferFlowProps["transferFlowMessages"] &
+    ManageFilesDeleteFlowProps["deleteFlowMessages"] & {
+      summaryHeader: Messages
+    }
+
+export interface ManageFilesViewProps
+  extends ManageFilesStorageSummaryProps,
+    ManageFilesCategoryListProps,
+    ManageFilesOtherFilesProps,
+    Pick<ManageFilesDeleteFlowProps, "deleteFile" | "onDeleteSuccess">,
     Pick<
-      MfFileListPanelSelectModeProps,
-      "onAllCheckboxClick" | "onDeleteClick"
+      ManageFilesTransferFlowProps,
+      "openFileDialog" | "transferFile" | "onTransferSuccess"
     > {
-  selectedFiles: FileManagerFile[]
-  onAddFileClick?: () => void
-  opened: boolean
+  activeFileMap: FileManagerFileMap
+  onActiveCategoryChange: (categoryId: string) => void
+  isLoading: boolean
+  children: ManageFilesViewChild
+  messages: ManageFilesViewMessages
 }
 
-export const ManageFiles: FunctionComponent<Props & PropsWithChildren> = ({
-  opened,
-  categories,
-  segments,
-  activeCategoryId,
-  freeSpaceBytes,
-  usedSpaceBytes,
-  otherSpaceBytes,
-  otherFiles,
-  selectedFiles,
-  onCategoryClick,
-  onAllCheckboxClick,
-  onDeleteClick,
-  onAddFileClick,
-  children,
-  messages,
-}) => {
-  const activeCategory = categories.find(({ id }) => id === activeCategoryId)
-  const emptyStateDescription = activeCategory?.fileListEmptyStateDescription
-  const emptyStateVisible =
-    activeCategory === undefined || activeCategory?.count === 0
+export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
+  const {
+    messages,
+    activeCategoryId,
+    activeFileMap,
+    onActiveCategoryChange,
+    deleteFile,
+    onDeleteSuccess,
+    transferFile,
+    onTransferSuccess,
+    openFileDialog,
+    isLoading,
+    categories,
+    segments,
+    freeSpaceBytes,
+    usedSpaceBytes,
+    otherSpaceBytes,
+    otherFiles,
+    children,
+  } = props
+  const activeSupportedFileTypes = useMemo(() => {
+    return (
+      categories.find(({ id }) => id === activeCategoryId)
+        ?.supportedFileTypes || []
+    )
+  }, [activeCategoryId, categories])
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
 
-  const fileListPanelHeader = `${activeCategory?.label} ${activeCategory?.count ? `(${activeCategory.count})` : ""}`
+  const [deleteFlowOpened, setDeleteFlowOpened] = useState(false)
 
-  if (!opened) {
-    return null
-  }
+  const [uploadFlowOpened, setUploadFlowOpened] = useState(false)
+
+  const selectedFiles: FileManagerFile[] = useMemo(() => {
+    const out: FileManagerFile[] = []
+    selectedIds.forEach((id) => {
+      const file = activeFileMap[id]
+      if (file) out.push(file)
+    })
+    return out
+  }, [selectedIds, activeFileMap])
+
+  const updateSelection = useCallback((fileId: string, checked: boolean) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      checked ? next.add(fileId) : next.delete(fileId)
+      return next
+    })
+  }, [])
+
+  const applySelectAll = useCallback(
+    (checked: boolean) => {
+      setSelectedIds(() =>
+        checked ? new Set(Object.keys(activeFileMap)) : new Set()
+      )
+    },
+    [activeFileMap]
+  )
+
+  const startDeleteFlow = useCallback(() => {
+    setDeleteFlowOpened(true)
+  }, [])
+
+  const changeCategory = useCallback(
+    (categoryId: string) => {
+      if (categoryId === activeCategoryId) {
+        return
+      }
+      setSelectedIds(new Set())
+      onActiveCategoryChange(categoryId)
+    },
+    [activeCategoryId, onActiveCategoryChange]
+  )
+
+  const loadingState =
+    (isLoading && !deleteFlowOpened) || activeCategoryId === undefined
+
+  const finalizeDeleteSuccess = useCallback(async () => {
+    onDeleteSuccess && (await onDeleteSuccess())
+    setSelectedIds(new Set())
+    setDeleteFlowOpened(false)
+  }, [onDeleteSuccess])
+
+  const handlePartialDeleteFailure = useCallback(
+    async (failedFiles: FileManagerFile[]) => {
+      if (failedFiles.length === selectedFiles.length) {
+        setDeleteFlowOpened(false)
+      } else {
+        setDeleteFlowOpened(false)
+        onDeleteSuccess && (await onDeleteSuccess())
+        setSelectedIds(() => {
+          const next = new Set<string>()
+          failedFiles.forEach((file) => next.add(file.id))
+          return next
+        })
+      }
+    },
+    [onDeleteSuccess, selectedFiles.length]
+  )
+
+  const finalizeTransferSuccess = useCallback(async () => {
+    onTransferSuccess && (await onTransferSuccess())
+    setUploadFlowOpened(false)
+  }, [onTransferSuccess])
+
+  const handlePartialTransferFailure = useCallback(async () => {
+    setUploadFlowOpened(false)
+    onTransferSuccess && (await onTransferSuccess())
+  }, [onTransferSuccess])
+
+  const startUploadFlow = useCallback(() => {
+    setUploadFlowOpened(true)
+  }, [])
 
   return (
-    <Wrapper>
-      <CategoriesSidebar>
-        <MfStorageSummary
-          messages={messages}
-          usedSpaceBytes={usedSpaceBytes}
-          freeSpaceBytes={freeSpaceBytes}
-          segments={segments}
-        />
-        <MfCategoryList
-          categories={categories}
-          activeCategoryId={activeCategoryId}
-          onCategoryClick={onCategoryClick}
-        />
-        <MfOtherFiles
-          otherFiles={otherFiles}
-          otherSpaceBytes={otherSpaceBytes}
-        />
-      </CategoriesSidebar>
-      <FileList>
-        {emptyStateVisible && (
-          <MfFileListEmpty
-            description={emptyStateDescription}
-            header={fileListPanelHeader}
-            onAddFileClick={onAddFileClick}
-          />
-        )}
-        {!emptyStateVisible && (
-          <>
-            <FileListPanel>
-              {selectedFiles.length === 0 ? (
-                <MfFileListPanelDefaultMode
-                  header={fileListPanelHeader}
-                  onAddFileClick={onAddFileClick}
-                />
-              ) : (
-                <MfFileListPanelSelectMode
-                  count={selectedFiles.length}
-                  onAllCheckboxClick={onAllCheckboxClick}
-                  onDeleteClick={onDeleteClick}
-                />
-              )}
-            </FileListPanel>
-            {children}
-          </>
-        )}
-      </FileList>
-    </Wrapper>
+    <>
+      <ManageFilesLoadingState opened={loadingState} />
+      <ManageFilesContent
+        opened={!loadingState}
+        segments={segments}
+        categories={categories}
+        activeCategoryId={activeCategoryId}
+        messages={messages}
+        freeSpaceBytes={freeSpaceBytes}
+        usedSpaceBytes={usedSpaceBytes}
+        otherSpaceBytes={otherSpaceBytes}
+        otherFiles={otherFiles}
+        selectedFiles={selectedFiles}
+        onCategoryClick={changeCategory}
+        onAllCheckboxClick={applySelectAll}
+        onDeleteClick={startDeleteFlow}
+        onAddFileClick={startUploadFlow}
+      >
+        {children({ onSelectedChange: updateSelection, selectedIds })}
+      </ManageFilesContent>
+      <ManageFilesDeleteFlow
+        opened={deleteFlowOpened}
+        onClose={() => setDeleteFlowOpened(false)}
+        selectedFiles={selectedFiles}
+        onDeleteSuccess={finalizeDeleteSuccess}
+        onPartialDeleteFailure={handlePartialDeleteFailure}
+        deleteFile={deleteFile}
+        deleteFlowMessages={messages}
+      />
+      <ManageFilesTransferFlow
+        opened={uploadFlowOpened}
+        onClose={() => setUploadFlowOpened(false)}
+        openFileDialog={openFileDialog}
+        onTransferSuccess={finalizeTransferSuccess}
+        onPartialTransferFailure={handlePartialTransferFailure}
+        transferFile={transferFile}
+        transferFlowMessages={messages}
+        fileMap={activeFileMap}
+        freeSpaceBytes={freeSpaceBytes}
+        supportedFileTypes={activeSupportedFileTypes}
+      />
+    </>
   )
 }
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  background: ${({ theme }) => theme.app.color.white};
-  display: grid;
-  grid-template-columns: 31.2rem auto;
-  overflow: auto;
-`
-
-const CategoriesSidebar = styled.div`
-  flex-grow: 1;
-`
-
-const FileList = styled.div`
-  width: 100%;
-  min-width: 65.6rem;
-  display: grid;
-  border-left: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
-  grid-template-rows: auto 1fr;
-`
-
-const FileListPanel = styled.div`
-  grid-area: 1 / 1 / 2 / 2;
-`

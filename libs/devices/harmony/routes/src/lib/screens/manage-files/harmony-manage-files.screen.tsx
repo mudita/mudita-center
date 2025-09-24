@@ -5,7 +5,7 @@
 
 import path from "path"
 import { FunctionComponent, useMemo, useState } from "react"
-import { defineMessages, formatMessage } from "app-localize/utils"
+import { formatMessage } from "app-localize/utils"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { AppActions, AppFileSystem } from "app-utils/renderer"
 import {
@@ -23,121 +23,15 @@ import { Harmony } from "devices/harmony/models"
 import {
   FileManagerFile,
   FileTransferResult,
-  ManageFilesView,
+  ManageFiles,
   ManageFilesViewProps,
   TransferErrorName,
 } from "devices/common/ui"
 import { HarmonyManageFilesTableSection } from "./harmony-manage-files-table-section"
 import { useHarmonyManageFiles } from "./use-harmony-manage-files"
 import { FileCategoryId } from "./harmony-manage-files.types"
-
-const messages = defineMessages({
-  pageTitle: {
-    id: "page.manageFiles.title",
-  },
-  summaryHeader: {
-    id: "harmony.manageFiles.summary.header",
-  },
-  confirmDeleteModalTitle: {
-    id: "harmony.manageFiles.confirmDelete.modal.title",
-  },
-  confirmDeleteModalDescription: {
-    id: "harmony.manageFiles.confirmDelete.modal.description",
-  },
-  confirmDeleteModalPrimaryButtonText: {
-    id: "harmony.manageFiles.confirmDelete.modal.primaryButtonText",
-  },
-  confirmDeleteModalSecondaryButtonText: {
-    id: "harmony.manageFiles.confirmDelete.modal.secondaryButtonText",
-  },
-  otherFilesSystemLabelText: {
-    id: "harmony.manageFiles.otherFilesSystemLabelText",
-  },
-  otherFilesOtherLabelText: {
-    id: "harmony.manageFiles.otherFilesOtherLabelText",
-  },
-  deleteFailedAllModalTitle: {
-    id: "harmony.manageFiles.deleteFailed.all.modal.title",
-  },
-  deleteFailedSomeModalTitle: {
-    id: "harmony.manageFiles.deleteFailed.some.modal.title",
-  },
-  deleteFailedAllModalDescription: {
-    id: "harmony.manageFiles.deleteFailed.all.modal.description",
-  },
-  deleteFailedDescriptionModalDescription: {
-    id: "harmony.manageFiles.deleteFailed.some.modal.description",
-  },
-  deleteFailedModalSecondaryButtonText: {
-    id: "harmony.manageFiles.deleteFailed.modal.secondaryButtonText",
-  },
-  uploadValidationFailureModalTitle: {
-    id: "harmony.manageFiles.upload.validationFailure.modalTitle",
-  },
-  uploadValidationFailureDuplicatesDescription: {
-    id: "harmony.manageFiles.upload.validationFailure.duplicatesDescription",
-  },
-  uploadValidationFailureInsufficientMemoryDescription: {
-    id: "harmony.manageFiles.upload.validationFailure.insufficientMemoryDescription",
-  },
-  uploadValidationFailureFileTooLargeDescription: {
-    id: "harmony.manageFiles.upload.validationFailure.fileTooLargeDescription",
-  },
-  uploadValidationFailureModalCloseButtonText: {
-    id: "harmony.manageFiles.deleteFailed.modal.secondaryButtonText",
-  },
-  uploadFailedAllModalTitle: {
-    id: "harmony.manageFiles.uploadFailed.all.modal.title",
-  },
-  uploadFailedSomeModalTitle: {
-    id: "harmony.manageFiles.uploadFailed.some.modal.title",
-  },
-  uploadFailedAllModalDescription: {
-    id: "harmony.manageFiles.uploadFailed.all.modal.description",
-  },
-  uploadFailedSomeModalDescription: {
-    id: "harmony.manageFiles.uploadFailed.some.modal.description",
-  },
-  uploadFailedModalCloseButtonText: {
-    id: "harmony.manageFiles.uploadFailed.modal.closeButtonText",
-  },
-  uploadFailedAllUnknownError: {
-    id: "harmony.manageFiles.uploadFailed.all.unknownError",
-  },
-  uploadFailedAllDuplicatesError: {
-    id: "harmony.manageFiles.uploadFailed.all.duplicatesError",
-  },
-  uploadFailedAllNotEnoughMemoryError: {
-    id: "harmony.manageFiles.uploadFailed.all.notEnoughMemoryError",
-  },
-  uploadFailedAllFileTooLargeError: {
-    id: "harmony.manageFiles.uploadFailed.all.fileTooLargeError",
-  },
-  uploadFailedErrorLabelUploadUnknown: {
-    id: "harmony.manageFiles.uploadFailed.errorLabels.upload.unknown",
-  },
-  exportFailedErrorLabelExportUnknown: {
-    id: "harmony.manageFiles.exportFailed.errorLabels.export.unknown",
-  },
-  uploadFailedErrorLabelDuplicate: {
-    id: "harmony.manageFiles.uploadFailed.errorLabels.duplicate",
-  },
-  uploadFailedErrorLabelCancelled: {
-    id: "harmony.manageFiles.uploadFailed.errorLabels.cancelled",
-  },
-  uploadFailedErrorLabelTooBig: {
-    id: "harmony.manageFiles.uploadFailed.errorLabels.tooBig",
-  },
-  uploadFailedErrorLabelFileTooLarge: {
-    id: "harmony.manageFiles.uploadFailed.errorLabels.fileTooLarge",
-  },
-  uploadingModalTitle: {
-    id: "harmony.manageFiles.uploading.modal.title",
-  },
-  uploadingModalCloseButtonText: {
-    id: "harmony.manageFiles.uploading.modal.closeButtonText",
-  },
-})
+import { HarmonyManageFilesMessages } from "./harmony-manage-files.messages"
+import { OTHER_FILES_LABEL_TEXTS } from "./harmony-manage-files.config"
 
 const mapToFileManagerFile = async (
   filePath: string
@@ -184,7 +78,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
     [activeCategoryId, categoryFileMap]
   )
 
-  const handleOpenFileDialog = async (options: OpenDialogOptionsLite) => {
+  const openFileDialog = async (options: OpenDialogOptionsLite) => {
     const filePaths = await AppActions.openFileDialog(options)
     return filePaths.reduce(
       async (accP, filePath) => {
@@ -197,11 +91,11 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
     )
   }
 
-  const handleTransfer: ManageFilesViewProps["handleTransfer"] = async (
+  const transferFile: ManageFilesViewProps["transferFile"] = async (
     params
   ): Promise<FileTransferResult> => {
     const targetDirectoryPath = categories.find(
-      (c) => c.id === activeCategoryId
+      ({ id }) => id === activeCategoryId
     )?.directoryPath
     if (!activeDevice || !targetDirectoryPath) {
       return AppResultFactory.failed(
@@ -221,7 +115,9 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
       })
 
       if (!sendFileToHarmonyResponse) {
-        return AppResultFactory.failed(new AppError("", TransferErrorName.UploadUnknown))
+        return AppResultFactory.failed(
+          new AppError("", TransferErrorName.UploadUnknown)
+        )
       }
       return AppResultFactory.success()
     } catch (error) {
@@ -240,8 +136,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
         )
       } else {
         return AppResultFactory.failed(
-          new AppError("", TransferErrorName.UploadUnknown),
-          {}
+          new AppError("", TransferErrorName.UploadUnknown)
         )
       }
     }
@@ -249,8 +144,10 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
 
   return (
     <>
-      <DashboardHeaderTitle title={formatMessage(messages.pageTitle)} />
-      <ManageFilesView
+      <DashboardHeaderTitle
+        title={formatMessage(HarmonyManageFilesMessages.pageTitle)}
+      />
+      <ManageFiles
         activeCategoryId={activeCategoryId}
         activeFileMap={activeFileMap}
         onActiveCategoryChange={setActiveCategoryId}
@@ -259,22 +156,19 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
         freeSpaceBytes={freeSpaceBytes}
         usedSpaceBytes={usedSpaceBytes}
         otherSpaceBytes={otherSpaceBytes}
-        handleDeleteFile={deleteFile}
+        deleteFile={deleteFile}
         onDeleteSuccess={refetch}
         isLoading={isLoading}
-        otherFiles={[
-          { name: formatMessage(messages.otherFilesSystemLabelText) },
-          { name: formatMessage(messages.otherFilesOtherLabelText) },
-        ]}
-        openFileDialog={handleOpenFileDialog}
-        handleTransfer={handleTransfer}
-        messages={messages}
+        otherFiles={OTHER_FILES_LABEL_TEXTS}
+        openFileDialog={openFileDialog}
+        transferFile={transferFile}
+        messages={HarmonyManageFilesMessages}
         onTransferSuccess={refetch}
       >
         {(props) => (
           <HarmonyManageFilesTableSection fileMap={activeFileMap} {...props} />
         )}
-      </ManageFilesView>
+      </ManageFiles>
     </>
   )
 }
