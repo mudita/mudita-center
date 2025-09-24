@@ -259,9 +259,10 @@ const runActions = (actions?: ButtonActions) => {
           await dispatch(
             deleteEntitiesDataAction({
               entitiesType: action.entitiesType,
-              ids: action.ids,
+              ids: action.activeItemId ? [action.activeItemId] : action.ids,
               deviceId: activeDeviceId,
               successMessage: action.successMessage,
+              errorMessage: action.errorMessage,
               onSuccess: () => {
                 return runActions(action.postActions?.success)(
                   providers,

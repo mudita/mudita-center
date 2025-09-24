@@ -16,6 +16,7 @@ export async function getApiFeaturesAndEntityTypes(
   const genericFeatures = [
     "mc-overview",
     "mc-contacts",
+    "mc-contacts-duplicates",
     "mc-data-migration",
     "mc-file-manager-internal",
   ].sort()

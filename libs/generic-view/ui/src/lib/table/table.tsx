@@ -14,7 +14,7 @@ import React, {
   useState,
 } from "react"
 import styled, { css } from "styled-components"
-import { difference, intersection } from "lodash"
+import { difference } from "lodash"
 import { TableTestIds } from "e2e-test-ids"
 import { APIFC, useViewFormContext } from "generic-view/utils"
 import { TableConfig, TableData, tableHeaderCell } from "generic-view/models"
@@ -128,9 +128,6 @@ export const Table: APIFC<TableData, TableConfig> & {
     } else if (previewMode) {
       formContext.setValue("previewMode", false)
       nextActivePreviewId.current = undefined
-      if (formOptions.selectedIdsFieldName) {
-        formContext.setValue(formOptions.selectedIdsFieldName, [])
-      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -159,13 +156,12 @@ export const Table: APIFC<TableData, TableConfig> & {
         formOptions.selectedIdsFieldName
       )
       const unavailableIds = difference(selectedIds, data)
-
       if (unavailableIds.length > 0) {
         setTimeout(() => {
           if (formOptions.selectedIdsFieldName !== undefined) {
             formContext.setValue(
               formOptions.selectedIdsFieldName,
-              intersection(data, unavailableIds)
+              difference(selectedIds, unavailableIds)
             )
           }
         }, toastAnimationDuration)

@@ -223,8 +223,8 @@ const InputBox = styled.div`
 `
 
 const HitArea = styled.label`
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 5rem;
+  height: 5rem;
   position: absolute;
   opacity: 0.1;
   left: 50%;

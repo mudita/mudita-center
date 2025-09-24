@@ -43,11 +43,10 @@ export const useExportFilesButtonAction = () => {
       }
     ) => {
       const form = getFormContext(action.formOptions.formKey)
-
       if (action.entitiesType === undefined) return
       if (deviceId === undefined) return
-      const selectedItems: string[] = action.singleEntityId
-        ? [action.singleEntityId]
+      const selectedItems: string[] = action.activeItemId
+        ? [action.activeItemId]
         : getFormContext(action.sourceFormKey).getValues(
             action.selectedItemsFieldName
           )
