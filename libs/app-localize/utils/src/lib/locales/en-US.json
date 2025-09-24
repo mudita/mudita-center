@@ -188,6 +188,8 @@
   "manageFiles.emptyState.title": "We couldn't find any files",
   "manageFiles.loadState.text": "Loading, please wait…",
   "manageFiles.otherFiles.title": "Other files",
+  "harmony.manageFiles.alarmFiles.emptyStateDescription": "Add alarm files from your computer and they’ll transfer to your device automatically.",
+  "harmony.manageFiles.relaxationFiles.emptyStateDescription": "Add relaxation files from your computer and they’ll transfer to your device automatically.",
   "manageFiles.selection.delete": "Delete",
   "manageFiles.selection.selectedCount": "{count, plural, =0 {No files selected} one {# file selected} other {# files selected}}",
   "manageFiles.summary.usedLabel": "Used:",

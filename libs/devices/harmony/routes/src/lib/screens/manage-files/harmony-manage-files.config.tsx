@@ -5,9 +5,14 @@
 
 import { IconType } from "app-theme/models"
 import { HarmonyDirectory } from "devices/harmony/models"
-import { FileManagerFileCategory } from "devices/common/ui"
+import {
+  FileManagerFileCategory,
+  ManageFilesViewProps,
+} from "devices/common/ui"
 import { ISegmentBarItem } from "app-theme/ui"
+import { formatMessage } from "app-localize/utils"
 import { FileCategoryId, SegmentId } from "./harmony-manage-files.types"
+import { HarmonyManageFilesMessages } from "./harmony-manage-files.messages"
 
 export enum FileManagerMarkerColor {
   alarmFiles = "#0E7490",
@@ -53,7 +58,9 @@ export const HARMONY_CATEGORIES_CONFIG_MAP: Record<
     markerColor: FileManagerMarkerColor.alarmFiles,
     label: "Alarms",
     directoryPath: HarmonyDirectory.Alarm,
-    fileListEmptyStateDescription: "Add alarm files from your computer and they’ll transfer to your device automatically.",
+    fileListEmptyStateDescription: formatMessage(
+      HarmonyManageFilesMessages.alarmFilesEmptyStateDescription
+    ),
     supportedFileTypes: ["mp3", "wav", "flac"],
     size: "0 KB",
     count: 0,
@@ -64,7 +71,9 @@ export const HARMONY_CATEGORIES_CONFIG_MAP: Record<
     markerColor: FileManagerMarkerColor.relaxationFiles,
     label: "Relaxations",
     directoryPath: HarmonyDirectory.Relaxation,
-    fileListEmptyStateDescription: "Add relaxation files from your computer and they’ll transfer to your device automatically.",
+    fileListEmptyStateDescription: formatMessage(
+      HarmonyManageFilesMessages.relaxationFilesEmptyStateDescription
+    ),
     supportedFileTypes: ["mp3", "wav", "flac"],
     size: "0 KB",
     count: 0,
@@ -72,3 +81,8 @@ export const HARMONY_CATEGORIES_CONFIG_MAP: Record<
 }
 
 export const MARKETING_TOTAL_BYTES = 4_000_000_000
+
+export const OTHER_FILES_LABEL_TEXTS: ManageFilesViewProps["otherFiles"] = [
+  { name: formatMessage(HarmonyManageFilesMessages.otherFilesSystemLabelText) },
+  { name: formatMessage(HarmonyManageFilesMessages.otherFilesOtherLabelText) },
+]
