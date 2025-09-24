@@ -187,6 +187,7 @@ const TableWrapper = styled.table`
   max-height: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  table-layout: fixed;
 `
 
 const TableHeader = styled.thead<{ $hasClickableRows?: boolean }>`
