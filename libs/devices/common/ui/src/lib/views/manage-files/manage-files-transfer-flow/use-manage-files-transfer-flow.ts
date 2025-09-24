@@ -10,7 +10,7 @@ import {
   FileTransferResult,
   FileTransferWithValidation,
   TransferErrorName,
-} from "./manage-files.types"
+} from "../manage-files.types"
 import { FileTransferFailed } from "./manage-files-transfer-failed.copy"
 
 export interface UseManageFilesTransferFlowArgs {

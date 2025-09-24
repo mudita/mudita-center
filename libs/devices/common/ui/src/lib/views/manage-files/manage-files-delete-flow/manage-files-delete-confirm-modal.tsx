@@ -22,7 +22,7 @@ export interface ManageFilesConfirmDeleteModalProps {
   }
 }
 
-export const ManageFilesConfirmDeleteModal: FunctionComponent<
+export const ManageFilesDeleteConfirmModal: FunctionComponent<
   ManageFilesConfirmDeleteModalProps
 > = ({ opened, onCancel, onConfirm, onClose, fileCount, messages }) => {
   return (

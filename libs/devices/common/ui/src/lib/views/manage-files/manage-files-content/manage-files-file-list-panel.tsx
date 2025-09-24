@@ -12,7 +12,7 @@ import {
   IconType,
 } from "app-theme/models"
 import { Button, Checkbox, Typography } from "app-theme/ui"
-import { manageFilesMessages } from "./manage-files.messages"
+import { manageFilesMessages } from "../manage-files.messages"
 
 interface FileListPanelHeaderProps {
   header: string

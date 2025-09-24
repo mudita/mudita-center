@@ -5,7 +5,7 @@
 
 import { useEffect, useRef } from "react"
 import { OpenDialogOptionsLite } from "app-utils/models"
-import { FileManagerFile } from "./manage-files.types"
+import { FileManagerFile } from "../manage-files.types"
 
 type UseBrowseForFilesArgs = {
   opened: boolean

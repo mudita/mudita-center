@@ -10,8 +10,8 @@ import {
   FileManagerFile,
   ValidationSummary,
   ValidationSummaryType,
-} from "./manage-files.types"
-import { ManageFilesFailedModal } from "./manage-files-failed-modal"
+} from "../manage-files.types"
+import { ManageFilesGenericFailedModal } from "../manage-files-generic-failed-modal"
 
 export interface ManageFilesTransferValidationFailedModalProps {
   opened: boolean
@@ -72,7 +72,7 @@ export const ManageFilesTransferValidationFailedModal: FunctionComponent<
   ])
 
   return (
-    <ManageFilesFailedModal
+    <ManageFilesGenericFailedModal
       opened={opened}
       onClose={onClose}
       title={title}

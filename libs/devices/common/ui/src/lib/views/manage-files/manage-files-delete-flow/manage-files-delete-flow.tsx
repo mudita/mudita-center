@@ -5,12 +5,12 @@
 
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { delayUntil } from "app-utils/common"
-import { FileManagerFile } from "./manage-files.types"
-import { ManageFilesDeletingModal } from "./manage-files-deleting-modal"
+import { FileManagerFile } from "../manage-files.types"
+import { ManageFilesDeleteProgressModal } from "./manage-files-delete-progress-modal"
 import {
-  ManageFilesConfirmDeleteModal,
   ManageFilesConfirmDeleteModalProps,
-} from "./manage-files-confirm-delete-modal"
+  ManageFilesDeleteConfirmModal,
+} from "./manage-files-delete-confirm-modal"
 import {
   ManageFilesDeleteFailedModal,
   ManageFilesDeleteFailedModalProps,
@@ -72,7 +72,7 @@ export const ManageFilesDeleteFlow: FunctionComponent<
 
   return (
     <>
-      <ManageFilesConfirmDeleteModal
+      <ManageFilesDeleteConfirmModal
         opened={flowState === ManageFilesDeleteFlowState.ConfirmDelete}
         onClose={onClose}
         onConfirm={confirmDelete}
@@ -80,7 +80,7 @@ export const ManageFilesDeleteFlow: FunctionComponent<
         fileCount={selectedFiles.length}
         messages={deleteFlowMessages}
       />
-      <ManageFilesDeletingModal
+      <ManageFilesDeleteProgressModal
         opened={flowState === ManageFilesDeleteFlowState.Deleting}
       />
       <ManageFilesDeleteFailedModal

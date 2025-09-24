@@ -5,11 +5,11 @@
 
 import { FunctionComponent } from "react"
 import { formatMessage } from "app-localize/utils"
-import { FileManagerFile } from "./manage-files.types"
-import { ManageFilesFailedModal } from "./manage-files-failed-modal"
+import { FileManagerFile } from "../manage-files.types"
+import { ManageFilesGenericFailedModal } from "../manage-files-generic-failed-modal"
 import {
-  getTransferFailedModalContent,
   FileTransferFailed,
+  getTransferFailedModalContent,
   ManageFilesTransferFailedModalMessages,
   mapFailedFilesWithLabels,
 } from "./manage-files-transfer-failed.copy"
@@ -38,7 +38,7 @@ export const ManageFilesTransferFailedModal: FunctionComponent<
       : undefined
 
   return (
-    <ManageFilesFailedModal
+    <ManageFilesGenericFailedModal
       opened={opened}
       onClose={onClose}
       title={title}

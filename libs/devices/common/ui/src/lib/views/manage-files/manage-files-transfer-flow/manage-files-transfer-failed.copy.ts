@@ -9,12 +9,13 @@ import {
   FileFailed,
   FileManagerFile,
   TransferErrorName,
-} from "./manage-files.types"
+} from "../manage-files.types"
 
 export interface FileTransferFailed extends FileManagerFile {
   errorName: TransferErrorName
   values?: Record<string, string | number> | unknown
 }
+
 export interface ManageFilesTransferFailedModalMessages {
   exportFailedErrorLabelExportUnknown: Messages
   uploadFailedAllModalTitle: Messages

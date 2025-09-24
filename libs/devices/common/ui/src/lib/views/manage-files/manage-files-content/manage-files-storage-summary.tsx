@@ -13,7 +13,7 @@ import {
   SegmentBar,
   Typography,
 } from "app-theme/ui"
-import { manageFilesMessages } from "./manage-files.messages"
+import { manageFilesMessages } from "../manage-files.messages"
 
 export interface ManageFilesStorageSummaryProps {
   usedSpaceBytes: number

@@ -6,10 +6,10 @@
 import { useCallback } from "react"
 import { formatMessage } from "app-localize/utils"
 import { useToastContext } from "app-theme/ui"
-import { FileManagerFile } from "./manage-files.types"
+import { FileManagerFile } from "../manage-files.types"
+import { manageFilesMessages } from "../manage-files.messages"
+import { createManageFilesToastContent } from "../create-manage-files-toast-content"
 import { ManageFilesDeleteFlowState } from "./manage-files-delete-flow.types"
-import { manageFilesMessages } from "./manage-files.messages"
-import { createManageFilesToastContent } from "./create-manage-files-toast-content"
 
 interface UseDeleteFilesHandlerProps {
   selectedFiles: FileManagerFile[]

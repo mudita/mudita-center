@@ -20,7 +20,7 @@ export interface ManageFilesTransferringModalProps {
   progressBarMessage: string
 }
 
-export const ManageFilesTransferringModal: FunctionComponent<
+export const ManageFilesTransferProgressModal: FunctionComponent<
   ManageFilesTransferringModalProps
 > = ({
   opened,

@@ -11,24 +11,24 @@ import {
   useState,
 } from "react"
 import { Messages } from "app-localize/utils"
-import { ManageFilesStorageSummaryProps } from "./manage-files-storage-summary"
-import { ManageFilesCategoryListProps } from "./manage-files-category-list"
+import { ManageFilesStorageSummaryProps } from "./manage-files-content/manage-files-storage-summary"
+import { ManageFilesCategoryListProps } from "./manage-files-content/manage-files-category-list"
+import { ManageFilesContent } from "./manage-files-content/manage-files-content"
+import { ManageFilesLoadingState } from "./manage-files-loading-state"
+import {
+  ManageFilesDeleteFlow,
+  ManageFilesDeleteFlowProps,
+} from "./manage-files-delete-flow/manage-files-delete-flow"
+import { ManageFilesOtherFilesProps } from "./manage-files-content/manage-files-other-files"
+import {
+  ManageFilesTransferFlow,
+  ManageFilesTransferFlowProps,
+} from "./manage-files-transfer-flow/manage-files-transfer-flow"
 import {
   FileManagerFile,
   FileManagerFileMap,
   ManageFilesTableSectionProps,
 } from "./manage-files.types"
-import { ManageFilesContent } from "./manage-files-content"
-import { ManageFilesLoadingState } from "./manage-files-loading-state"
-import {
-  ManageFilesDeleteFlow,
-  ManageFilesDeleteFlowProps,
-} from "./manage-files-delete-flow"
-import { ManageFilesOtherFilesProps } from "./manage-files-other-files"
-import {
-  ManageFilesTransferFlow,
-  ManageFilesTransferFlowProps,
-} from "./manage-files-transfer-flow"
 
 type ManageFilesViewChild = (
   ctx: Pick<ManageFilesTableSectionProps, "onSelectedChange" | "selectedIds">

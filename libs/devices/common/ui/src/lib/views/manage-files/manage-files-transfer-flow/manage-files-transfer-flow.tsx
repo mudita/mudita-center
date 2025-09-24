@@ -7,17 +7,19 @@ import { useCallback, useEffect, useState } from "react"
 import { OpenDialogOptionsLite } from "app-utils/models"
 import { useToastContext } from "app-theme/ui"
 import { formatMessage } from "app-localize/utils"
-import {
-  ManageFilesTransferringModal,
-  ManageFilesTransferringModalProps,
-} from "./manage-files-transferring-modal"
-import { ManageFilesDeleteFailedModalProps } from "./manage-files-delete-failed-modal"
+import { ManageFilesDeleteFailedModalProps } from "../manage-files-delete-flow/manage-files-delete-failed-modal"
 import {
   FileManagerFile,
   FileManagerFileMap,
   ValidationSummary,
   ValidationSummaryType,
-} from "./manage-files.types"
+} from "../manage-files.types"
+import { createManageFilesToastContent } from "../create-manage-files-toast-content"
+import { manageFilesMessages } from "../manage-files.messages"
+import {
+  ManageFilesTransferProgressModal,
+  ManageFilesTransferringModalProps,
+} from "./manage-files-transfer-progress-modal"
 import {
   ManageFilesTransferValidationFailedModal,
   ManageFilesTransferValidationFailedModalProps,
@@ -33,8 +35,6 @@ import {
 } from "./use-manage-files-transfer-flow"
 import { useManageFilesValidate } from "./use-manage-files-validate"
 import { FileTransferFailed } from "./manage-files-transfer-failed.copy"
-import { createManageFilesToastContent } from "./create-manage-files-toast-content"
-import { manageFilesMessages } from "./manage-files.messages"
 
 enum ManageFilesTransferFlowState {
   Idle = "Idle",
@@ -188,7 +188,7 @@ export const ManageFilesTransferFlow = ({
         messages={transferFlowMessages}
         selectedFiles={selectedFiles}
       />
-      <ManageFilesTransferringModal
+      <ManageFilesTransferProgressModal
         opened={flowState === ManageFilesTransferFlowState.TransferringFiles}
         filesCount={selectedFiles.length}
         messages={{

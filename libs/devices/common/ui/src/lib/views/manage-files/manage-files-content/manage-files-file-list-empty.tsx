@@ -6,8 +6,8 @@
 import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { Button, Typography } from "app-theme/ui"
+import { manageFilesMessages } from "../manage-files.messages"
 import { ManageFilesFileListPanelHeader } from "./manage-files-file-list-panel"
-import { manageFilesMessages } from "./manage-files.messages"
 
 interface Props {
   description?: string

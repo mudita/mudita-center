@@ -5,6 +5,7 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
+import { FileManagerFile } from "../manage-files.types"
 import {
   ManageFilesStorageSummary,
   ManageFilesStorageSummaryProps,
@@ -24,7 +25,6 @@ import {
   ManageFilesFileListPanelSelectMode,
   ManageFilesFileListPanelSelectModeProps,
 } from "./manage-files-file-list-panel"
-import { FileManagerFile } from "./manage-files.types"
 
 interface Props
   extends ManageFilesStorageSummaryProps,

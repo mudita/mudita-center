@@ -4,8 +4,8 @@
  */
 
 import { useCallback, useMemo } from "react"
+import { FileManagerFile } from "../manage-files.types"
 import { validateSelectedFiles } from "./validate-selected-files"
-import { FileManagerFile } from "./manage-files.types"
 
 interface UseManageFilesValidateArgs {
   fileMap: Record<string, FileManagerFile>

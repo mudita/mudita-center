@@ -9,8 +9,8 @@ import { noop } from "lodash"
 import { formatMessage } from "app-localize/utils"
 import { Icon, ListItem, Marker, Typography } from "app-theme/ui"
 import { IconSize } from "app-theme/models"
-import { FileManagerFileCategory } from "./manage-files.types"
-import { manageFilesMessages } from "./manage-files.messages"
+import { FileManagerFileCategory } from "../manage-files.types"
+import { manageFilesMessages } from "../manage-files.messages"
 
 export interface ManageFilesCategoryListProps {
   categories: FileManagerFileCategory[]
