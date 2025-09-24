@@ -5,12 +5,11 @@
 
 import fs from "fs-extra"
 import path from "path"
-import { AppLoggerService } from "./app-logger.service"
-import { AppFileSystemService } from "../app-file-system/app-file-system.service"
 import { AppFailedResult } from "app-utils/models"
+import { AppFileSystemService } from "../app-file-system/app-file-system.service"
+import { AppLoggerService } from "./app-logger.service"
 
 jest.mock("fs-extra")
-jest.mock("../app-file-system/app-file-system.service")
 
 type FileMap = Record<string, Buffer>
 
