@@ -36,6 +36,8 @@ export const useManageFilesTransferFlow = ({
 
   const action = useCallback(
     async (files: FileTransferWithValidation[]) => {
+      setProgress(0)
+      setTransferringFile(null)
       abortControllerRef.current = new AbortController()
       const failed: FileTransferFailed[] = []
       const totalFilesSizes = files
