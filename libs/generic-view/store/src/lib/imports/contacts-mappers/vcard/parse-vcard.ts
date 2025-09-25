@@ -4,9 +4,10 @@
  */
 
 import vCard from "vcf"
+import { decode } from "quoted-printable"
 
 export const parseVcard = (data: string) => {
-  const fixedVcard = fixFormatting(data)
+  const fixedVcard = decodeQuotedPrintable(fixFormatting(data))
   try {
     const card = vCard.parse(fixedVcard)
     return card.map((vcard) => vcard.toJCard("4.0"))
@@ -18,6 +19,24 @@ export const parseVcard = (data: string) => {
 
 const fixFormatting = (data: string) => {
   const clearPhotos = data.replace(/^PHOTO[^:]*:.*(\r?\n[ \t].*)*/gim, "")
-  // Replace new lines with CRLF
   return clearPhotos.replace(/\r?\n/g, "\r\n")
+}
+
+const decodeQuotedPrintable = (data: string) => {
+  return data.replace(
+    /(FN|N|ORG|TITLE|ADR|EMAIL|NOTE)([^:]*):([^\r\n]*)/gi,
+    (match, prop, attrs, value) => {
+      if (/ENCODING=QUOTED-PRINTABLE/i.test(attrs)) {
+        try {
+          const byteString = decode(value)
+          const buf = Buffer.from(byteString, "binary")
+          const str = buf.toString("utf8")
+          return `${prop}:${str}`
+        } catch {
+          return `${prop}:${value}`
+        }
+      }
+      return match
+    }
+  )
 }
