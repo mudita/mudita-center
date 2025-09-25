@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import path from "path"
 import { FunctionComponent, useMemo, useState } from "react"
 import { formatMessage } from "app-localize/utils"
 import { DashboardHeaderTitle } from "app-routing/feature"
@@ -45,7 +44,7 @@ const mapToFileManagerFile = async (
 
   return {
     id: filePath,
-    name: path.basename(filePath),
+    name: filePath.split(/\\|\//g).reverse()[0],
     size: size,
     type: "file",
   }
@@ -103,7 +102,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
       )
     }
 
-    const targetPath = path.join(targetDirectoryPath, params.file.name)
+    const targetPath = `${targetDirectoryPath}/${params.file.name}`
 
     try {
       const sendFileToHarmonyResponse = await sendFileToHarmony({
