@@ -84,79 +84,6 @@ interface ContactCardProps {
   contact: ContactData
 }
 
-const Loader = (loaderConfig: EntitiesLoaderConfig) => (
-  <div className="mc-contacts-loader-center">
-    <EntitiesLoader config={loaderConfig} />
-  </div>
-)
-
-const EmptyView = (title: string, description: string) => (
-  <div
-    style={{
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "0.8rem",
-    }}
-  >
-    <Modal.TitleIcon
-      style={{ marginBottom: "1.6rem" }}
-      config={{ type: IconType.ContactsBook }}
-    />
-    <Typography.H3>{title}</Typography.H3>
-    <Typography.P1>{description}</Typography.P1>
-  </div>
-)
-
-const ContactCard: FunctionComponent<ContactCardProps> = ({
-  type,
-  contact,
-}) => {
-  const displayNames = [
-    contact.displayName1,
-    contact.displayName2,
-    contact.displayName3,
-    contact.displayName4,
-  ].filter((v) => !!v)
-
-  return (
-    <div className="contact-card">
-      <Typography.P1
-        config={{ color: "black" }}
-        style={{ gap: "1.6rem" }}
-        className="contact-card-ellipsis"
-      >
-        {contact.displayName1 && <>{contact.displayName1} </>}
-        {contact.displayName2 && <>{contact.displayName2} </>}
-        {contact.displayName3 && (
-          <strong>
-            {contact.displayName3}
-            {contact.displayName4 ? " " : ""}
-          </strong>
-        )}
-        {contact.displayName4 && <>{contact.displayName4}</>}
-      </Typography.P1>
-      <ul>
-        {(contact.phoneNumbers || []).map((phone) => (
-          <li key={phone.id}>
-            <Typography.P4
-              config={{ color: "black" }}
-              className="contact-card-ellipsis"
-            >
-              {phone.unifiedPhoneNumber} •{" "}
-              {phone.phoneType
-                .toLowerCase()
-                .replace(/\b\p{L}/gu, (c) => c.toUpperCase())}
-            </Typography.P4>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
 export const McContactsDuplicates: FunctionComponent<
   McContactsDuplicatesProps
 > = (props) => {
@@ -193,7 +120,7 @@ export const McContactsDuplicates: FunctionComponent<
             </Typography.H3>
             <Typography.P3
               config={{ color: "grey1" }}
-              style={{ height: "44px" }}
+              style={{ height: "4.4rem" }}
             >
               {intl.formatMessage(messages.mergeAllDescription)}
             </Typography.P3>
@@ -232,29 +159,14 @@ export const McContactsDuplicates: FunctionComponent<
           >
             <div className="duplicate-cols">
               {/* Main contact (Keep) */}
-              <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                }}
-              >
+              <div>
                 <StyledBadgeKeep className="duplicates-badge">
                   {intl.formatMessage(messages.keepBadge)}
                 </StyledBadgeKeep>
                 <ContactCard type="Keep" contact={group.mainContact} />
               </div>
               {/* Duplicates (Merge) */}
-              <div
-                className="duplicates-col"
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                }}
-              >
+              <div className="duplicates-col">
                 <StyledBadgeMerge>
                   {intl.formatMessage(messages.mergeBadge)}
                 </StyledBadgeMerge>
@@ -280,6 +192,79 @@ export const McContactsDuplicates: FunctionComponent<
         ))}
       </div>
     </MergeContainer>
+  )
+}
+
+const Loader = (loaderConfig: EntitiesLoaderConfig) => (
+  <StyledLoader>
+    <StyledEntitiesLoader config={loaderConfig} />
+  </StyledLoader>
+)
+
+const EmptyView = (title: string, description: string) => (
+  <div
+    style={{
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "0.8rem",
+    }}
+  >
+    <Modal.TitleIcon
+      style={{ marginBottom: "1.6rem" }}
+      config={{ type: IconType.ContactsBook }}
+    />
+    <Typography.H3>{title}</Typography.H3>
+    <Typography.P1>{description}</Typography.P1>
+  </div>
+)
+
+const ContactCard: FunctionComponent<ContactCardProps> = ({
+  type,
+  contact,
+}) => {
+  const displayNames = [
+    contact.displayName1,
+    contact.displayName2,
+    contact.displayName3,
+    contact.displayName4,
+  ].filter((v) => !!v)
+
+  return (
+    <div className="contact-card">
+      <Typography.P1
+        config={{ color: "black" }}
+        style={{ marginBottom: "0.6rem" }}
+        className="contact-card-ellipsis"
+      >
+        {contact.displayName1 && <>{contact.displayName1} </>}
+        {contact.displayName2 && <>{contact.displayName2} </>}
+        {contact.displayName3 && (
+          <strong>
+            {contact.displayName3}
+            {contact.displayName4 ? " " : ""}
+          </strong>
+        )}
+        {contact.displayName4 && <>{contact.displayName4}</>}
+      </Typography.P1>
+      <ul>
+        {(contact.phoneNumbers || []).map((phone) => (
+          <li key={phone.id}>
+            <Typography.P4
+              config={{ color: "black" }}
+              className="contact-card-ellipsis"
+            >
+              {phone.unifiedPhoneNumber} •{" "}
+              {phone.phoneType
+                .toLowerCase()
+                .replace(/\b\p{L}/gu, (c) => c.toUpperCase())}
+            </Typography.P4>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
@@ -337,6 +322,7 @@ const MergeContainer = styled.div`
     min-width: 0;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
   }
   .contact-card {
     flex: 1;
@@ -358,7 +344,7 @@ const MergeContainer = styled.div`
     align-self: flex-end;
   }
   .merge-all-btn {
-    width: 11.8rem;
+    min-width: 11.8rem;
     height: 4rem;
   }
   .merge-multi {
@@ -366,14 +352,6 @@ const MergeContainer = styled.div`
     flex-direction: column;
     gap: 1.6rem;
     flex: 1;
-  }
-  .mc-contacts-loader-center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2.4rem 0;
-    height: 100%;
   }
   .contact-card ul {
     list-style: none;
@@ -385,12 +363,31 @@ const MergeContainer = styled.div`
   }
 `
 
+const StyledLoader = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.4rem;
+  height: 100%;
+  width: 100%;
+`
+
+const StyledEntitiesLoader = styled(EntitiesLoader)`
+  grid-area: 1 / 1 / 3 / 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px 0px;
+`
+
 const StyledBadgeKeep = styled(Badge)`
-  background-color: #${({ theme }) => theme.color.green};
-  color: #${({ theme }) => theme.color.black};
+  background-color: ${({ theme }) => theme.color.green};
+  color: ${({ theme }) => theme.color.black};
   gap: 1rem;
   padding: 0 0.4rem 0 0.4rem;
-  margin-bottom: 0.12rem;
+  margin-bottom: 1.2rem;
 `
 
 const StyledBadgeMerge = styled(Badge)`
@@ -398,5 +395,5 @@ const StyledBadgeMerge = styled(Badge)`
   color: ${({ theme }) => theme.color.black};
   gap: 1rem;
   padding: 0 0.4rem 0 0.4rem;
-  margin-bottom: 0.12rem;
+  margin-bottom: 1.2rem;
 `
