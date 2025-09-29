@@ -100,7 +100,8 @@ export const McContactsDuplicates: FunctionComponent<
   }
 
   const sortedDuplicatesData = [...duplicatesData].sort((a, b) =>
-    String(a.mainContact?.sortField ?? "").localeCompare(
+    customSort(
+      String(a.mainContact?.sortField ?? ""),
       String(b.mainContact?.sortField ?? "")
     )
   )
@@ -200,6 +201,21 @@ export const McContactsDuplicates: FunctionComponent<
       </div>
     </MergeContainer>
   )
+}
+
+const customSort = (a: string, b: string) => {
+  const getCategory = (v: string) => {
+    if (/^[a-zA-Z]/.test(v)) return 0
+    if (/^[0-9]/.test(v)) return 1
+    if (/^[^a-zA-Z0-9]/.test(v)) return 2
+    return 3
+  }
+  const aVal = a ?? ""
+  const bVal = b ?? ""
+  const aCat = getCategory(aVal)
+  const bCat = getCategory(bVal)
+  if (aCat !== bCat) return aCat - bCat
+  return aVal.localeCompare(bVal)
 }
 
 const Loader = (loaderConfig: EntitiesLoaderConfig) => (
@@ -386,7 +402,7 @@ const StyledEntitiesLoader = styled(EntitiesLoader)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 24px 0px;
+  gap: 2.4rem;
 `
 
 const StyledBadgeKeep = styled(Badge)`
