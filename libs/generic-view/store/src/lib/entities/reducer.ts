@@ -72,10 +72,6 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     if (!state[deviceId]?.[entitiesType]) {
       return
     }
-    if (entitiesType === "contacts") {
-      console.log(findPhoneDuplicates(action.payload))
-    }
-    console.log(action.payload)
     state[deviceId]![entitiesType]!.data = action.payload
     state[deviceId]![entitiesType]!.loading = false
     state[deviceId]![entitiesType]!.progress = 0
