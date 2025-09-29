@@ -5,12 +5,23 @@
 
 export type AppFileSystemScope = "userData" | "temp"
 
-export interface AppFileSystemScopeOptions {
-  scopeRelativePath: string
+export interface RelativeScopeOptions {
+  scopeRelativePath: string | string[]
   scope?: AppFileSystemScope
 }
 
-export interface AppFileSystemRmOptions extends AppFileSystemScopeOptions {
+export interface AbsolutePathWithGrantOptions {
+  fileAbsolutePath: string | string[]
+  webContentsId: number
+}
+
+export interface AppFileSystemGuardOptions
+  extends Partial<RelativeScopeOptions>,
+    Partial<AbsolutePathWithGrantOptions> {
+  absolute?: boolean
+}
+
+export interface AppFileSystemRmOptions extends AppFileSystemGuardOptions {
   options?: {
     force?: boolean | undefined
     maxRetries?: number | undefined
@@ -19,12 +30,30 @@ export interface AppFileSystemRmOptions extends AppFileSystemScopeOptions {
   }
 }
 
-export interface AppFileSystemMkdirOptions extends AppFileSystemScopeOptions {
+export interface AppFileSystemMkdirOptions extends AppFileSystemGuardOptions {
   options?: {
     recursive?: boolean | undefined
   }
 }
 
-export interface AppFileSystemArchiveOptions extends AppFileSystemScopeOptions {
+export interface AppFileSystemArchiveOptions extends AppFileSystemGuardOptions {
   scopeDestinationPath: string
+}
+
+export interface AppFileSystemWriteFileOptions
+  extends AppFileSystemGuardOptions {
+  options?: {
+    encoding?: BufferEncoding | string
+    writeAsJson?: boolean
+  }
+  data: Buffer | Record<string, unknown>
+}
+
+export type AppFileSystemPathExistsOptions = AppFileSystemGuardOptions
+export type AppFileSystemFileStatsOptions = AppFileSystemGuardOptions
+export type AppFileSystemCalculateCrc32Options = AppFileSystemGuardOptions
+
+export type AppFileSystemReadFileChunkOptions = AppFileSystemGuardOptions & {
+  chunkSize: number
+  chunkNo?: number
 }

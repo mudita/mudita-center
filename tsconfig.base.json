@@ -91,6 +91,7 @@
       "devices/harmony/feature": ["libs/devices/harmony/feature/src/index.ts"],
       "devices/harmony/models": ["libs/devices/harmony/models/src/index.ts"],
       "devices/harmony/routes": ["libs/devices/harmony/routes/src/index.ts"],
+      "devices/harmony/ui": ["libs/devices/harmony/ui/src/index.ts"],
       "devices/pure/adapters": ["libs/devices/pure/adapters/src/index.ts"],
       "devices/pure/feature": ["libs/devices/pure/feature/src/index.ts"],
       "devices/pure/models": ["libs/devices/pure/models/src/index.ts"],

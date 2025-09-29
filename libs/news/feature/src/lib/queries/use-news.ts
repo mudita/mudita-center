@@ -18,6 +18,7 @@ export const useNews = () => {
     select: (data) => {
       return data.items
     },
+    refetchOnReconnect: true,
   })
 
   useEffect(() => {

@@ -9,7 +9,7 @@ import path from "path"
 import axios, { AxiosRequestConfig, isAxiosError } from "axios"
 import {
   AppErrorName,
-  AppFileSystemScopeOptions,
+  AppFileSystemGuardOptions,
   AppHttpFailedResult,
   AppHttpRequestConfig,
   AppHttpResult,
@@ -23,8 +23,11 @@ type RID = string
 export class AppHttpService {
   private abortControllers = new Map<RID, AbortController>()
 
+  constructor(private appFileSystemService: AppFileSystemService) {}
+
   async request<Data = unknown>({
     rid,
+    savePath,
     ...config
   }: AppHttpRequestConfig): Promise<AppHttpResult<Data>> {
     try {
@@ -35,6 +38,20 @@ export class AppHttpService {
       }
       const axiosConfig = await this.mapToAxiosConfig(config)
       const { data, status } = await axios.request<Data>(axiosConfig)
+
+      if (savePath) {
+        const writeResult = await this.appFileSystemService.writeFile({
+          scopeRelativePath: savePath,
+          scope: "userData",
+          data: data as Buffer,
+          options: { writeAsJson: config.responseType === "json" },
+        })
+        if (!writeResult.ok) {
+          return AppResultFactory.failed(writeResult.error)
+        }
+        return AppResultFactory.success(writeResult.data as Data, { status })
+      }
+
       return AppResultFactory.success(data, { status })
     } catch (error) {
       return this.mapToAppHttpFailedResult<Data>(error)
@@ -85,7 +102,7 @@ export class AppHttpService {
   }
 
   private async buildFormData(
-    files: Record<string, AppFileSystemScopeOptions>,
+    files: Record<string, AppFileSystemGuardOptions>,
     data: Record<string, unknown> = {}
   ): Promise<FormData> {
     const formData = new FormData()
@@ -95,7 +112,7 @@ export class AppHttpService {
     }
 
     for (const [field, { scopeRelativePath, scope }] of Object.entries(files)) {
-      const filePath = AppFileSystemService.resolveScopedPath({
+      const filePath = this.appFileSystemService.resolveSafePath({
         scopeRelativePath,
         scope,
       })

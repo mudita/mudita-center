@@ -60,34 +60,33 @@ export const Overview: FunctionComponent<Props> = ({
           </BaseInfoBlock>
         )}
       </BaseInfo>
-      <Details>
-        {(
-          detailsSections?.filter(
-            Boolean
-          ) as NonNullable<OverviewDetailsSection>[]
-        ).map((section, index) => {
-          return (
-            <OverviewBlock
-              key={index}
-              title={section.title}
-              description={section.description}
-            >
-              {section.children}
-            </OverviewBlock>
-          )
-        })}
-      </Details>
+      {(
+        detailsSections?.filter(
+          Boolean
+        ) as NonNullable<OverviewDetailsSection>[]
+      ).map((section, index) => {
+        return (
+          <DetailsBlock
+            key={index}
+            title={section.title}
+            description={section.description}
+          >
+            {section.children}
+          </DetailsBlock>
+        )
+      })}
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 3.2rem;
+  display: grid;
+  grid-template-columns: 28rem 1fr;
+  grid-auto-rows: minmax(17.2rem, auto);
+  column-gap: 3.2rem;
+  row-gap: 3.2rem;
   padding: 3.2rem;
-  box-sizing: border-box;
 `
 
 const BaseInfoBlock = styled.div`
@@ -98,8 +97,10 @@ const BaseInfoBlock = styled.div`
 `
 
 const BaseInfo = styled(OverviewBlock)`
-  flex: 1;
-  max-width: 28rem;
+  grid-row-start: 1;
+  grid-row-end: 4;
+  grid-column-start: 1;
+  grid-column-end: 2;
   gap: 1.2rem;
   align-items: center;
   padding-top: 4.2rem;
@@ -118,9 +119,7 @@ const BaseInfoImage = styled.div`
   padding: 3.8rem 1.4rem 2.6rem;
 `
 
-const Details = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 3.2rem;
+const DetailsBlock = styled(OverviewBlock)`
+  grid-column-start: 2;
+  grid-column-end: 3;
 `

@@ -5,14 +5,19 @@
 
 import fs from "fs-extra"
 import path from "path"
-import { AppLoggerService } from "./app-logger.service"
-import { AppFileSystemService } from "../app-file-system/app-file-system.service"
 import { AppFailedResult } from "app-utils/models"
+import { AppFileSystemService } from "../app-file-system/app-file-system.service"
+import { AppLoggerService } from "./app-logger.service"
 
 jest.mock("fs-extra")
-jest.mock("../app-file-system/app-file-system.service")
 
 type FileMap = Record<string, Buffer>
+
+let appLoggerService = new AppLoggerService(
+  new AppFileSystemService({
+    resolveSafePath: jest.fn().mockImplementation(() => "/fake/dest.log"),
+  } as any)
+)
 
 const createFakeFileMap = (): FileMap => ({
   "a.log": Buffer.from("123456789"),
@@ -21,8 +26,14 @@ const createFakeFileMap = (): FileMap => ({
 })
 
 const setupFsMocks = (fileMap: FileMap, logsDir: string) => {
-  ;(AppFileSystemService.resolveScopedPath as jest.Mock).mockImplementation(
-    ({ scope }) => (scope ? logsDir : "/fake/dest.log")
+  appLoggerService = new AppLoggerService(
+    new AppFileSystemService({
+      resolveSafePath: jest
+        .fn()
+        .mockImplementation(({ scope }) =>
+          scope ? logsDir : "/fake/dest.log"
+        ),
+    } as any)
   )
   ;(fs.readdir as jest.Mock).mockResolvedValue(Object.keys(fileMap))
   ;(fs.stat as jest.Mock).mockImplementation(async (filePath: string) => {
@@ -66,7 +77,7 @@ describe("AppLoggerService.buildTrimmedLogsBuffer", () => {
   it("should return an empty buffer when no log files are found", async () => {
     ;(fs.readdir as jest.Mock).mockResolvedValue([])
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const buffer = await (AppLoggerService as any).buildTrimmedLogsBuffer(
+    const buffer = await (appLoggerService as any).buildTrimmedLogsBuffer(
       logsDirectory,
       [],
       100
@@ -81,7 +92,7 @@ describe("AppLoggerService.buildTrimmedLogsBuffer", () => {
     ]
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const buffer = await (AppLoggerService as any).buildTrimmedLogsBuffer(
+    const buffer = await (appLoggerService as any).buildTrimmedLogsBuffer(
       logsDirectory,
       logs,
       100
@@ -113,7 +124,7 @@ describe("AppLoggerService.buildTrimmedLogsBuffer", () => {
     const maxSize = expected.length
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const buffer = await (AppLoggerService as any).buildTrimmedLogsBuffer(
+    const buffer = await (appLoggerService as any).buildTrimmedLogsBuffer(
       logsDirectory,
       logs,
       maxSize
@@ -128,7 +139,7 @@ describe("AppLoggerService.buildTrimmedLogsBuffer", () => {
     ]
     const dividerLen = Buffer.byteLength(`\n========== a.log ==========\n`)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const buffer = await (AppLoggerService as any).buildTrimmedLogsBuffer(
+    const buffer = await (appLoggerService as any).buildTrimmedLogsBuffer(
       logsDirectory,
       logs,
       dividerLen - 1
@@ -143,20 +154,26 @@ describe("AppLoggerService.aggregateLogsToFile", () => {
 
   beforeEach(() => {
     jest.resetAllMocks()
-    ;(AppFileSystemService.resolveScopedPath as jest.Mock).mockImplementation(
-      ({ scope }) => (scope ? logsDirectory : destinationPath)
+    appLoggerService = new AppLoggerService(
+      new AppFileSystemService({
+        resolveSafePath: jest
+          .fn()
+          .mockImplementation(({ scope }) =>
+            scope ? logsDirectory : destinationPath
+          ),
+      } as any)
     )
     ;(fs.readdir as jest.Mock).mockResolvedValue(["a.log"])
     ;(fs.stat as jest.Mock).mockResolvedValue({ birthtimeMs: 0, size: 1 })
     jest
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .spyOn(AppLoggerService as any, "buildTrimmedLogsBuffer")
+      .spyOn(AppLoggerService.prototype as any, "buildTrimmedLogsBuffer")
       .mockResolvedValue(Buffer.from("X"))
     ;(fs.writeFile as jest.Mock).mockResolvedValue(undefined)
   })
 
   it("should write the aggregated logs to file on success", async () => {
-    const result = await AppLoggerService.aggregateLogsToFile({
+    const result = await appLoggerService.aggregateLogsToFile({
       maxSizeInBytes: 10,
       scopeRelativePath: "scope.log",
     })
@@ -171,7 +188,7 @@ describe("AppLoggerService.aggregateLogsToFile", () => {
   it("should return a failed result if an error occurs during aggregation", async () => {
     const err = new Error("fail")
     ;(fs.readdir as jest.Mock).mockRejectedValue(err)
-    const result = await AppLoggerService.aggregateLogsToFile({
+    const result = await appLoggerService.aggregateLogsToFile({
       maxSizeInBytes: 10,
       scopeRelativePath: "scope.log",
     })

@@ -22,29 +22,38 @@ export const HarmonyInfoResponseValidator = z.object({
   backupLocation: z.string().optional(),
   batteryLevel: z.preprocess(Number, z.number().min(0).max(100)),
   currentRTCTime: z.string(),
-  systemReservedSpace: z.string(),
-  usedUserSpace: z.string(),
-  deviceSpaceTotal: z.string(),
+  systemReservedSpace: z
+    .string()
+    .optional()
+    .transform((v) => (v ? Number(v) * 1024 ** 2 : undefined)),
+  usedUserSpace: z
+    .string()
+    .optional()
+    .transform((v) => (v ? Number(v) * 1024 ** 2 : undefined)),
+  deviceSpaceTotal: z
+    .string()
+    .optional()
+    .transform((v) => (v ? Number(v) * 1024 ** 2 : undefined)),
   gitBranch: z.string(),
   gitRevision: z.string(),
   version: z.string(),
   serialNumber: z.string(),
-  caseColour: z.enum(CaseColour),
-  backupFilePath: z.string(),
-  updateFilePath: z.string().optional(),
-  syncFilePath: z.string(),
-  recoveryStatusFilePath: z.string(),
-  onboardingState: z.preprocess(Number, z.enum(OnboardingState)),
+  caseColour: z.enum(CaseColour).default(CaseColour.Gray),
+  backupFilePath: z.string().optional(),
+  updateFilePath: z.string().default("/sys/user/update.tar"),
+  syncFilePath: z.string().optional(),
+  recoveryStatusFilePath: z.string().optional(),
+  onboardingState: z.preprocess(Number, z.enum(OnboardingState)).optional(),
 })
 
-export type HarmonyInfoResponse = z.infer<typeof HarmonyInfoResponseValidator>
+export type HarmonyInfoResponse = z.output<typeof HarmonyInfoResponseValidator>
 
 export const HarmonyLogsRequestValidator = z.object({
   fileList: z.number(),
 })
 
 export const HarmonyLogsValidator = z.object({
-  files: z.array(z.string()),
+  files: z.array(z.string()).optional(),
 })
 
-export type HarmonyLogsResponse = z.infer<typeof HarmonyLogsValidator>
+export type HarmonyLogsResponse = z.output<typeof HarmonyLogsValidator>
