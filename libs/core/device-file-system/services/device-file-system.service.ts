@@ -279,7 +279,7 @@ export class DeviceFileSystemService {
             token
           )
         } else if (
-          this.deviceProtocol.getAPIDeviceById(deviceId)?.deviceType ===
+          this.deviceProtocol.getCoreDeviceById(deviceId)?.deviceType ===
             "MuditaHarmony" &&
           extract === true &&
           token === undefined

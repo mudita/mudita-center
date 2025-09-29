@@ -77,6 +77,7 @@ interface ContactData {
     phoneType: string
     unifiedPhoneNumber: string
   }>
+  sortField?: string
 }
 
 interface ContactCardProps {
@@ -98,7 +99,13 @@ export const McContactsDuplicates: FunctionComponent<
     return Loader(loaderConfig)
   }
 
-  const hasAnyDuplicates = duplicatesData.length > 0
+  const sortedDuplicatesData = [...duplicatesData].sort((a, b) =>
+    String(a.mainContact?.sortField ?? "").localeCompare(
+      String(b.mainContact?.sortField ?? "")
+    )
+  )
+
+  const hasAnyDuplicates = sortedDuplicatesData.length > 0
 
   if (!hasAnyDuplicates) {
     return EmptyView(
@@ -110,7 +117,7 @@ export const McContactsDuplicates: FunctionComponent<
     <MergeContainer style={{ background: "white" }}>
       <AppPortal config={{ portal: "app-header" }}>
         {" "}
-        ({duplicatesData.length})
+        ({sortedDuplicatesData.length})
       </AppPortal>
       <header className="merge-header merge-header-sticky">
         <div className="merge-header-grid">
@@ -152,7 +159,7 @@ export const McContactsDuplicates: FunctionComponent<
       </header>
 
       <div className="duplicates-list duplicates-list-scroll">
-        {duplicatesData.map((group) => (
+        {sortedDuplicatesData.map((group) => (
           <div
             key={String(group.mainContact.contactId)}
             className="duplicate-row"

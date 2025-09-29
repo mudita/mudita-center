@@ -50,7 +50,9 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (backups.length === 1) {
-      register("file", { value: backups[0].fileName })
+      register("file", {
+        value: path.join(backups[0].directory, backups[0].fileName),
+      })
       clearErrors("file")
     }
   }, [backups, clearErrors, register])
