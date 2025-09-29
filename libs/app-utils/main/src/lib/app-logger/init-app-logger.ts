@@ -10,12 +10,15 @@ import {
 } from "app-utils/models"
 import { AppLoggerService } from "./app-logger.service"
 
-export const initAppLogger = (ipcMain: IpcMain) => {
+export const initAppLogger = (
+  ipcMain: IpcMain,
+  appLoggerService: AppLoggerService
+) => {
   ipcMain.removeHandler(AppLoggerIpcEvents.AggregateLogsToFile)
   ipcMain.handle(
     AppLoggerIpcEvents.AggregateLogsToFile,
     (_, options: AggregateLogsToFileOptions) => {
-      return AppLoggerService.aggregateLogsToFile(options)
+      return appLoggerService.aggregateLogsToFile(options)
     }
   )
 }

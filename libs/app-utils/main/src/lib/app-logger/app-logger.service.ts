@@ -16,18 +16,20 @@ import {
 import { AppFileSystemService } from "../app-file-system/app-file-system.service"
 
 export class AppLoggerService {
-  private static readonly LOG_FILENAME_REGEX = /^[\w-]+\.log$/
+  private readonly LOG_FILENAME_REGEX = /^[\w-]+\.log$/
 
-  static async aggregateLogsToFile(
+  constructor(private appFileSystemService: AppFileSystemService) {}
+
+  async aggregateLogsToFile(
     options: AggregateLogsToFileOptions
   ): Promise<AppResult> {
     const { maxSizeInBytes, scopeRelativePath } = options
     try {
-      const logsDir = AppFileSystemService.resolveScopedPath({
+      const logsDir = this.appFileSystemService.resolveSafePath({
         scope: APP_LOGGER_SCOPE,
         scopeRelativePath: APP_LOGGER_SCOPE_RELATIVE_PATH,
       })
-      const destinationPath = AppFileSystemService.resolveScopedPath({
+      const destinationPath = this.appFileSystemService.resolveSafePath({
         scopeRelativePath,
       })
 
@@ -47,7 +49,7 @@ export class AppLoggerService {
     }
   }
 
-  private static async filterAndSortLogFiles(
+  private async filterAndSortLogFiles(
     logsDir: string,
     entries: string[]
   ): Promise<Array<{ name: string; birthtimeMs: number; size: number }>> {
@@ -63,7 +65,7 @@ export class AppLoggerService {
     return stats.sort((a, b) => a.birthtimeMs - b.birthtimeMs)
   }
 
-  private static async buildTrimmedLogsBuffer(
+  private async buildTrimmedLogsBuffer(
     logsDir: string,
     logFiles: Array<{ name: string; birthtimeMs: number; size: number }>,
     maxSizeInBytes: number
