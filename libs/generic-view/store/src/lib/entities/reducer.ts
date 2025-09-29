@@ -20,6 +20,7 @@ import { createEntityDataAction } from "./create-entity-data.action"
 import { updateEntityDataAction } from "./update-entity-data.action"
 import { getEntitiesConfigAction } from "./get-entities-config.action"
 import { getEntitiesMetadataAction } from "./get-entities-metadata.action"
+import { findPhoneDuplicates } from "./helpers/find-phone-duplicates"
 
 type EntitiesType = string
 
@@ -71,7 +72,10 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     if (!state[deviceId]?.[entitiesType]) {
       return
     }
-
+    if (entitiesType === "contacts") {
+      console.log(findPhoneDuplicates(action.payload))
+    }
+    console.log(action.payload)
     state[deviceId]![entitiesType]!.data = action.payload
     state[deviceId]![entitiesType]!.loading = false
     state[deviceId]![entitiesType]!.progress = 0

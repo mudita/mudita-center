@@ -1,0 +1,115 @@
+.merge-container {
+  max-width: 900px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+  color: #222;
+}
+
+.merge-header {
+  border: 2px solid #c4b5fd; /* fioletowa ramka */
+  padding: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.merge-header h2 {
+  margin: 0 0 8px 0;
+}
+
+.merge-header p {
+  margin: 0 0 8px 0;
+  color: #444;
+}
+
+.merge-header strong {
+  display: block;
+  margin-top: 8px;
+  color: #222;
+}
+
+.merge-all-btn {
+  background: #333;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.duplicates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.duplicate-row {
+  display: flex;
+  gap: 24px;
+  justify-content: flex-start;
+}
+
+.contact-card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  flex: 1;
+  border-radius: 8px;
+  background: white;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.badge.keep {
+  background: #e6f4ea;
+  color: #2e7d32;
+}
+
+.badge.merge {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.contact-card h3 {
+  margin: 16px 0 12px;
+  font-weight: bold;
+}
+
+.contact-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+
+.contact-card li {
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.merge-btn {
+  background: white;
+  border: 1px solid #333;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.merge-multi {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* odstęp między wieloma kartami merge */
+  flex: 1;
+}
