@@ -51,6 +51,28 @@ const getHarmonyOsUpdateInfo = (
   return promise
 }
 
+enum Product {
+  MuditaHarmony = "MuditaHarmony",
+  MuditaPure = "MuditaPure",
+}
+
+const getConfiguration = (signal?: AbortSignal) => {
+  const promise = AppHttp.request<{
+    centerVersion: string
+    productVersions: Record<Product, string>
+  }>({
+    method: "GET",
+    url: `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`,
+    signal: signal,
+  })
+
+  signal?.addEventListener("abort", () => {
+    promise?.abort()
+  })
+
+  return promise
+}
+
 const queryFn = async (
   {
     serialNumber,
@@ -71,6 +93,20 @@ const queryFn = async (
   if (!latestRelease.ok) {
     throw HarmonyOSUpdateError.AvailabilityCheckFailed
   }
+
+  const config = await getConfiguration(signal)
+
+  if (!config.ok) {
+    throw HarmonyOSUpdateError.AvailabilityCheckFailed
+  }
+
+  if (!config.data.productVersions?.MuditaHarmony) {
+    throw HarmonyOSUpdateError.AvailabilityCheckFailed
+  }
+
+  const minSupportedVersion = config.data.productVersions.MuditaHarmony
+
+  const forced = semver.lt(currentVersion, minSupportedVersion)
 
   for (const mandatoryVersion of latestRelease.data.mandatoryVersions.sort(
     semver.compare
@@ -121,6 +157,7 @@ const queryFn = async (
 
   return {
     latestVersion: latestRelease.data.version,
+    forced,
     allFiles,
     filesToDownload,
   }

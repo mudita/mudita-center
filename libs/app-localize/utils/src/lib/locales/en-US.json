@@ -133,6 +133,8 @@
   "harmony.menu.overview": "Overview",
   "harmony.overview.os.badge.available": "Update is available.",
   "harmony.overview.os.badge.notAvailable": "You’re up to date.",
+  "harmony.overview.os.forceUpdate.modal.available.title": "New update is required!",
+  "harmony.overview.os.forceUpdate.modal.downloaded.title": "New update is required!",
   "harmony.overview.os.title": "Mudita OS",
   "harmony.overview.os.update.checkButton": "Check for updates",
   "harmony.overview.os.update.downloadButton": "Download now",

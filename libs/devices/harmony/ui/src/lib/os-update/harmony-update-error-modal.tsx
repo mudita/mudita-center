@@ -87,7 +87,8 @@ type Props = {
   onContactSupport: VoidFunction
   onGoToHelp: VoidFunction
   onTryAgain: VoidFunction
-  onClose: VoidFunction
+  onClose?: VoidFunction
+  onButtonClose: VoidFunction
 } & Errors
 
 export const HarmonyUpdateErrorModal: FunctionComponent<Props> = ({
@@ -96,11 +97,12 @@ export const HarmonyUpdateErrorModal: FunctionComponent<Props> = ({
   onGoToHelp,
   onTryAgain,
   onClose,
+  onButtonClose,
   ...errorInfo
 }) => {
   return (
     <Modal opened={opened}>
-      <Modal.CloseButton onClick={onClose} />
+      {onClose && <Modal.CloseButton onClick={onClose} />}
       {errorInfo.error === HarmonyOSUpdateError.BatteryFlat ? (
         <Modal.TitleIcon type={IconType.BatteryFlat} />
       ) : (
@@ -163,7 +165,7 @@ export const HarmonyUpdateErrorModal: FunctionComponent<Props> = ({
           <Button
             type={ButtonType.Secondary}
             size={ButtonSize.Medium}
-            onClick={onClose}
+            onClick={onButtonClose}
             message={messages.closeButton.id}
           />
         </Modal.Buttons>
