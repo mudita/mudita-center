@@ -31,6 +31,7 @@ import {
   EntityJsonData,
   entityJsonDataValidator,
   GeneralError,
+  ContactAddSource,
 } from "device/models"
 import { SafeParseReturnType, SafeParseSuccess } from "zod"
 import { IpcEvent } from "Core/core/decorators"
@@ -263,14 +264,20 @@ export class APIEntitiesService {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
+    const dataWithSourceId = {
+      ...data,
+      importSource: ContactAddSource.MCManual,
+    }
+
     const response = await device.request({
       endpoint: "ENTITIES_DATA",
       method: "POST",
       body: {
         entityType: entitiesType,
-        data,
+        data: dataWithSourceId,
       },
     })
+
     if (!response.ok) {
       return this.handleError(response.error.type)
     }

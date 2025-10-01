@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { UnifiedContact } from "device/models"
+import { UnifiedContact, ContactAddSource } from "device/models"
 import { Contact } from "Core/contacts/reducers"
 import { getDisplayName } from "../../imports/contacts-mappers/helpers"
 
@@ -61,6 +61,7 @@ export const pureToUnifiedContact = (contacts: Contact[]): UnifiedContact[] => {
           : []),
       ],
       note: contact.note,
+      importSource: ContactAddSource.MigratedFromPure,
     } as UnifiedContact
     return {
       ...unifiedContact,

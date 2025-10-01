@@ -4,6 +4,7 @@
  */
 
 import { jCard, mapVcard } from "./map-vcard"
+import { ContactAddSource } from "device/models"
 
 describe("mapVcard", () => {
   it("should map vCard in jCard format properly", () => {
@@ -109,6 +110,7 @@ describe("mapVcard", () => {
         honorificPrefix: "Mr.",
         honorificSuffix: "Jr.",
         id: "0",
+        importSource: ContactAddSource.MCImportVCard,
         lastName: "Gump",
         middleName: "Alexander",
         nickname: "Forrest",
