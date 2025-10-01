@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { UnifiedContact } from "device/models"
+import { ContactAddSource, UnifiedContact } from "device/models"
 import { getDisplayName } from "../helpers"
 import { isEmpty } from "lodash"
 import { ContactRow, Field } from "./parse.types"
@@ -170,6 +170,7 @@ export const mapCsv = (data: ContactRow[]): UnifiedContact[] => {
         ].filter(Boolean) as UnifiedContact["urls"],
         note: createField(item, ["Notes"]),
         nickname: createField(item, ["Nickname"]),
+        importSource: ContactAddSource.MCImportCsv,
       }
       return {
         ...Object.entries(contact).reduce((acc, [key, value]) => {
@@ -179,7 +180,8 @@ export const mapCsv = (data: ContactRow[]): UnifiedContact[] => {
       } as UnifiedContact
     })
     .filter(
-      ({ id, displayName, ...item }) => !Object.values(item).every(isEmpty)
+      ({ id, displayName, importSource, ...item }) =>
+        !Object.values(item).every(isEmpty)
     )
   if (isEmpty(results)) {
     throw new Error("No contacts found")

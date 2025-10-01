@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { UnifiedContact } from "device/models"
+import { UnifiedContact, ContactAddSource } from "device/models"
 import { Contact } from "Core/contacts/reducers/contacts.interface"
 import { getDisplayName } from "../helpers"
 
@@ -61,6 +61,7 @@ export const mapOutlookApi = (contacts: Contact[]): UnifiedContact[] => {
           note: contact.note,
           organizations: [],
           urls: [],
+          importSource: ContactAddSource.MCImportOutlook,
         }
       } catch {
         return null
