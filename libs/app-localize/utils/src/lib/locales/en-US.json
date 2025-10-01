@@ -194,7 +194,7 @@
   "manageFiles.loadState.text": "Loading, please wait…",
   "manageFiles.otherFiles.title": "Other files",
   "manageFiles.selection.delete": "Delete",
-  "manageFiles.selection.selectedCount": "{num, plural, =-1 {All files} =0 {No files} one {# file} other {# files}} selected",
+  "manageFiles.selection.selectedCount": "{count, plural, =-1 {All files} =0 {No files} one {# file} other {# files}} selected",
   "manageFiles.summary.usedLabel": "Used:",
   "manageFiles.uploadSuccess.toast.text": "{fileCount, plural, one {# file transferred} other {# files transferred}}",
   "menu.app.deviceTitle": "Your {deviceName}",
@@ -271,5 +271,10 @@
   "pure.onboardingNotFinishedModal.description": "To continue please accept the MuditaOS license\nagreement on your device and complete the onboarding process.",
   "pure.onboardingNotFinishedModal.title": "Agreement is not accepted",
   "pure.passcodeModal.description": "Enter the passcode on your phone to continue",
-  "pure.passcodeModal.title": "Unlock your Pure"
+  "pure.passcodeModal.title": "Unlock your Pure",
+  "quotations.header.addButton": "Add quotation",
+  "quotations.header.settingsButton": "Settings",
+  "quotations.header.title": "Manage Quotations",
+  "quotations.selectedState.count": "{count, plural, =-1 {All quotations} one {# quotation} other {# quotations}} selected",
+  "quotations.selectedState.deleteButton": "Delete"
 }

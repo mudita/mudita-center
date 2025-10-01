@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent } from "react"
+import { FunctionComponent } from "react"
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 import { noop } from "lodash"
@@ -76,7 +76,7 @@ export const SelectionManager: FunctionComponent<
       <Info data-testid="info" color={"grey1"}>
         <FormattedMessage
           {...message}
-          values={{ num: allItemsSelected ? -1 : selectedItemsNumber }}
+          values={{ count: allItemsSelected ? -1 : selectedItemsNumber }}
         />
       </Info>
       {Boolean(buttons?.length) && (

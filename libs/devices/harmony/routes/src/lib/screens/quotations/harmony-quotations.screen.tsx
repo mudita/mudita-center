@@ -6,6 +6,7 @@
 import { FunctionComponent } from "react"
 import { defineMessages, formatMessage } from "app-localize/utils"
 import { DashboardHeaderTitle } from "app-routing/feature"
+import { Quotations } from "devices/common/ui"
 
 const messages = defineMessages({
   pageTitle: {
@@ -17,7 +18,7 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
   return (
     <>
       <DashboardHeaderTitle title={formatMessage(messages.pageTitle)} />
-      <p>Quotations</p>
+      <Quotations />
     </>
   )
 }
