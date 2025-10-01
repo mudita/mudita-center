@@ -5,13 +5,8 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
-import {
-  ButtonSize,
-  ButtonType,
-  CheckboxSize,
-  IconType,
-} from "app-theme/models"
-import { Button, Checkbox, Typography } from "app-theme/ui"
+import { ButtonSize, ButtonType, IconType } from "app-theme/models"
+import { Button, SelectionManager, Typography } from "app-theme/ui"
 import { manageFilesMessages } from "../manage-files.messages"
 
 interface FileListPanelHeaderProps {
@@ -48,27 +43,27 @@ export interface ManageFilesFileListPanelSelectModeProps {
   count: number
   onAllCheckboxClick: (checked: boolean) => void
   onDeleteClick: VoidFunction
+  allFilesSelected: boolean
 }
 
 export const ManageFilesFileListPanelSelectMode: FunctionComponent<
   ManageFilesFileListPanelSelectModeProps
-> = ({ count, onAllCheckboxClick, onDeleteClick }) => {
+> = ({ count, allFilesSelected, onAllCheckboxClick, onDeleteClick }) => {
   return (
     <FileListPanelSelector>
-      <Checkbox
-        size={CheckboxSize.Small}
-        indeterminate
-        onChange={(event) => onAllCheckboxClick(event.target.checked)}
-      />
-      <Typography.P4
-        message={manageFilesMessages.selectionSelectedCount.id}
-        values={{ count }}
-      />
-      <DeleteButton
-        icon={IconType.Trash}
-        message={manageFilesMessages.selectionDelete.id}
-        type={ButtonType.Text}
-        onClick={onDeleteClick}
+      <SelectionManager
+        selectedItemsNumber={count}
+        allItemsSelected={allFilesSelected}
+        message={manageFilesMessages.selectionSelectedCount}
+        onToggle={(event) => onAllCheckboxClick(event.target.checked)}
+        buttons={[
+          <DeleteButton
+            icon={IconType.Trash}
+            message={manageFilesMessages.selectionDelete.id}
+            type={ButtonType.Text}
+            onClick={onDeleteClick}
+          />,
+        ]}
       />
     </FileListPanelSelector>
   )
@@ -85,16 +80,6 @@ const FileListPanel = styled.div`
 
 const FileListPanelSelector = styled.div`
   margin: 2.8rem 3.2rem;
-  padding: 0.8rem 2.4rem 0.8rem 1.2rem;
-  display: grid;
-  grid-template-rows: auto;
-  grid-template-columns: auto 1fr auto auto;
-  gap: 0 1.4rem;
-  align-items: center;
-
-  background: ${({ theme }) => theme.app.color.grey5};
-  border: solid 0.1rem ${({ theme }) => theme.app.color.grey4};
-  border-radius: 0.4rem;
 `
 
 const DeleteButton = styled(Button)`

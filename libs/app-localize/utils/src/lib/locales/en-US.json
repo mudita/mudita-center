@@ -194,7 +194,7 @@
   "manageFiles.loadState.text": "Loading, please wait…",
   "manageFiles.otherFiles.title": "Other files",
   "manageFiles.selection.delete": "Delete",
-  "manageFiles.selection.selectedCount": "{count, plural, =0 {No files selected} one {# file selected} other {# files selected}}",
+  "manageFiles.selection.selectedCount": "{num, plural, =-1 {All files} =0 {No files} one {# file} other {# files}} selected",
   "manageFiles.summary.usedLabel": "Used:",
   "manageFiles.uploadSuccess.toast.text": "{fileCount, plural, one {# file transferred} other {# files transferred}}",
   "menu.app.deviceTitle": "Your {deviceName}",

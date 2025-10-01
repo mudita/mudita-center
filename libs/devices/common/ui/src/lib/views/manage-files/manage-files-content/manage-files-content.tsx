@@ -37,6 +37,7 @@ interface Props
   selectedFiles: FileManagerFile[]
   onAddFileClick?: () => void
   opened: boolean
+  allFilesSelected: boolean
 }
 
 export const ManageFilesContent: FunctionComponent<
@@ -50,6 +51,7 @@ export const ManageFilesContent: FunctionComponent<
   usedSpaceBytes,
   otherSpaceBytes,
   otherFiles,
+  allFilesSelected,
   selectedFiles,
   onCategoryClick,
   onAllCheckboxClick,
@@ -109,6 +111,7 @@ export const ManageFilesContent: FunctionComponent<
                   count={selectedFiles.length}
                   onAllCheckboxClick={onAllCheckboxClick}
                   onDeleteClick={onDeleteClick}
+                  allFilesSelected={allFilesSelected}
                 />
               )}
             </FileListPanel>

@@ -187,6 +187,10 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
         onAllCheckboxClick={applySelectAll}
         onDeleteClick={startDeleteFlow}
         onAddFileClick={startUploadFlow}
+        allFilesSelected={
+          selectedIds.size === Object.keys(activeFileMap).length &&
+          selectedIds.size > 0
+        }
       >
         {children({ onSelectedChange: updateSelection, selectedIds })}
       </ManageFilesContent>

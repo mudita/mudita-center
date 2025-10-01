@@ -42,6 +42,7 @@ export enum IconType {
   PasswordHide = "password-hide",
   PasswordShow = "password-show",
   Phone = "phone",
+  Plus = "plus",
   Pure = "pure",
   Quote = "quote",
   RecoveryMode = "recovery-mode",

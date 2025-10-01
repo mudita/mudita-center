@@ -45,6 +45,7 @@ import Overview from "./svg/overview.svg?react"
 import PasswordHide from "./svg/password-hide.svg?react"
 import PasswordShow from "./svg/password-show.svg?react"
 import Phone from "./svg/phone.svg?react"
+import Plus from "./svg/plus.svg?react"
 import Pure from "./svg/pure.svg?react"
 import Quote from "./svg/quote.svg?react"
 import RecoveryMode from "./svg/recovery-mode.svg?react"
@@ -96,6 +97,7 @@ export const icons = {
   [IconType.PasswordHide]: PasswordHide,
   [IconType.PasswordShow]: PasswordShow,
   [IconType.Phone]: Phone,
+  [IconType.Plus]: Plus,
   [IconType.Pure]: Pure,
   [IconType.Quote]: Quote,
   [IconType.RecoveryMode]: RecoveryMode,
