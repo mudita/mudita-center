@@ -14,7 +14,7 @@ interface ToastContentProps {
 
 export const createManageFilesToastContent = ({
   key,
-  icon = IconType.Check,
+  icon = IconType.CheckBold,
   text,
 }: ToastContentProps) => ({
   key,

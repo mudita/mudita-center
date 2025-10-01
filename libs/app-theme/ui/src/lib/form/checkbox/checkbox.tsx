@@ -78,7 +78,7 @@ export const Checkbox: FunctionComponent<Props> = ({
     >
       <CheckboxInput $size={size}>
         <input type="checkbox" id={uid} ref={handleRef} {...rest} />
-        <CheckIcon type={IconType.Check} size={IconSize.Tiny} />
+        <CheckIcon type={IconType.CheckBold} size={IconSize.Tiny} />
         <IndeterminateIcon type={IconType.Minus} size={IconSize.Tiny} />
       </CheckboxInput>
       {children && (
