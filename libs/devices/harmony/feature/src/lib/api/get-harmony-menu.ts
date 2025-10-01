@@ -21,6 +21,9 @@ const messages = defineMessages({
   files: {
     id: "harmony.menu.files",
   },
+  quotations: {
+    id: "harmony.menu.quotations",
+  },
 })
 
 export const getHarmonyMenu = (): MenuGroup => {
@@ -39,6 +42,11 @@ export const getHarmonyMenu = (): MenuGroup => {
         title: formatMessage(messages.files),
         path: HarmonyPaths.Sounds,
         icon: IconType.FileManager,
+      },
+      {
+        title: formatMessage(messages.quotations),
+        path: HarmonyPaths.Quotations,
+        icon: IconType.Quote,
       },
     ],
   }
