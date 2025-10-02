@@ -5,22 +5,32 @@
 
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
+import { useCallback, useEffect } from "react"
+import { delay } from "app-utils/common"
+import { Harmony, HarmonyErrorType } from "devices/harmony/models"
+import { useHarmonyOsUpdateInfoQuery } from "devices/harmony/feature"
 import {
   useDeviceConfigQuery,
   useDeviceMenuQuery,
   useDeviceStatusQuery,
 } from "../hooks"
-import { useCallback, useEffect } from "react"
-import { Harmony, HarmonyErrorType } from "devices/harmony/models"
-import { delay } from "app-utils/common"
 
 export const useHarmonyInitializer = (device: Harmony) => {
   const queryClient = useQueryClient()
 
-  const { isLoading: isConfigLoading, isError: isConfigError } =
-    useDeviceConfigQuery(device)
+  const {
+    data: config,
+    isLoading: isConfigLoading,
+    isError: isConfigError,
+  } = useDeviceConfigQuery(device)
   const { isLoading: isMenuLoading } =
     useDeviceMenuQuery<HarmonyErrorType>(device)
+
+  const { isLoading: isUpdateCheckLoading } = useHarmonyOsUpdateInfoQuery({
+    device: device,
+    currentVersion: config?.version,
+    serialNumber: config?.serialNumber,
+  })
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {
@@ -30,7 +40,7 @@ export const useHarmonyInitializer = (device: Harmony) => {
   )
 
   const determineStatus = useCallback(async () => {
-    if (isConfigLoading || isMenuLoading) {
+    if (isConfigLoading || isMenuLoading || isUpdateCheckLoading) {
       setStatus(DeviceStatus.Initializing)
       return
     }
@@ -41,7 +51,13 @@ export const useHarmonyInitializer = (device: Harmony) => {
       return
     }
     setStatus(DeviceStatus.Initialized)
-  }, [isConfigError, isConfigLoading, isMenuLoading, setStatus])
+  }, [
+    isConfigError,
+    isConfigLoading,
+    isMenuLoading,
+    isUpdateCheckLoading,
+    setStatus,
+  ])
 
   useEffect(() => {
     void determineStatus()

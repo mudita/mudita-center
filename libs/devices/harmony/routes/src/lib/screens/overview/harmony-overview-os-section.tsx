@@ -3,20 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useState } from "react"
-import { Badge, Button, Typography } from "app-theme/ui"
+import { FunctionComponent, useCallback, useEffect, useState } from "react"
+import styled from "styled-components"
+import { useQueryClient } from "@tanstack/react-query"
+import { AnimatePresence, motion } from "motion/react"
+import { useAppDispatch } from "app-store/utils"
 import { ButtonSize, ButtonType } from "app-theme/models"
 import { theme } from "app-theme/utils"
-import styled from "styled-components"
-import { defineMessages } from "app-localize/utils"
+import { Badge, Button, Typography } from "app-theme/ui"
 import { Harmony, HarmonyOSUpdateError } from "devices/harmony/models"
 import {
   useHarmonyOsDownloadMutation,
   useHarmonyOsUpdateInfoQuery,
   useHarmonyOsUpdateMutation,
 } from "devices/harmony/feature"
-import { useQueryClient } from "@tanstack/react-query"
-import { AnimatePresence, motion } from "motion/react"
 import {
   HarmonyCheckingForUpdateModal,
   HarmonyUpdateAvailableModal,
@@ -27,32 +27,14 @@ import {
   HarmonyUpdateInstallingModal,
   HarmonyUpdateNotAvailableModal,
 } from "devices/harmony/ui"
-import { useAppDispatch } from "app-store/utils"
 import { setContactSupportModalVisible } from "contact-support/feature"
-
-const messages = defineMessages({
-  versionLabel: {
-    id: "harmony.overview.os.versionLabel",
-  },
-  versionText: {
-    id: "harmony.overview.os.versionText",
-  },
-  updateCheckButton: {
-    id: "harmony.overview.os.update.checkButton",
-  },
-  downloadNowButton: {
-    id: "harmony.overview.os.update.downloadButton",
-  },
-  updateNowButton: {
-    id: "harmony.overview.os.update.updateButton",
-  },
-  badgeUpdateAvailable: {
-    id: "harmony.overview.os.badge.available",
-  },
-  badgeUpToDate: {
-    id: "harmony.overview.os.badge.notAvailable",
-  },
-})
+import {
+  harmonyForceUpdateAvailableModalMessages,
+  harmonyForceUpdateDownloadedModalMessages,
+  harmonyOverviewOsSectionMessages,
+  harmonyUpdateAvailableModalUpdateMessages,
+  harmonyUpdateDownloadedModalMessages,
+} from "./harmony-overview-os-section.messages"
 
 enum UpdateStatus {
   Idle,
@@ -173,6 +155,16 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
     }
   }, [device.id, downloadUpdates, queryClient, updateAvailability])
 
+  useEffect(() => {
+    if (
+      updateAvailability?.forced &&
+      updateStatus === UpdateStatus.Idle &&
+      !isUpdateCheckLoading
+    ) {
+      setUpdateStatus(UpdateStatus.Available)
+    }
+  }, [updateAvailability?.forced, updateStatus, isUpdateCheckLoading])
+
   const cancelUpdatesDownload = useCallback(() => {
     abortUpdatesDownload()
     void handleModalClose()
@@ -252,11 +244,13 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       <Info>
-        <Typography.P3 message={messages.versionLabel.id} />
+        <Typography.P3
+          message={harmonyOverviewOsSectionMessages.versionLabel.id}
+        />
         <TextWrapper>
           <Typography.P1
             color={"black"}
-            message={messages.versionText.id}
+            message={harmonyOverviewOsSectionMessages.versionText.id}
             values={{ version: currentVersion }}
           />
           <AnimatePresence initial={true}>
@@ -268,10 +262,16 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
                 transition={{ duration: 0.3 }}
               >
                 {isUpdateAvailable === true && (
-                  <Badge message={messages.badgeUpdateAvailable.id} />
+                  <Badge
+                    message={
+                      harmonyOverviewOsSectionMessages.badgeUpdateAvailable.id
+                    }
+                  />
                 )}
                 {isUpdateAvailable === false && (
-                  <Badge message={messages.badgeUpToDate.id} />
+                  <Badge
+                    message={harmonyOverviewOsSectionMessages.badgeUpToDate.id}
+                  />
                 )}
               </motion.div>
             )}
@@ -284,9 +284,9 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
         message={
           isUpdateAvailable
             ? isDownloadRequired
-              ? messages.downloadNowButton.id
-              : messages.updateNowButton.id
-            : messages.updateCheckButton.id
+              ? harmonyOverviewOsSectionMessages.downloadNowButton.id
+              : harmonyOverviewOsSectionMessages.updateNowButton.id
+            : harmonyOverviewOsSectionMessages.updateCheckButton.id
         }
         onClick={
           isUpdateAvailable
@@ -311,7 +311,12 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
         downloadRequired={isDownloadRequired}
         onUpdate={handleUpdate}
         onDownload={handleUpdatesDownload}
-        onClose={handleModalClose}
+        onClose={updateAvailability?.forced ? undefined : handleModalClose}
+        messages={
+          updateAvailability?.forced
+            ? harmonyForceUpdateAvailableModalMessages
+            : harmonyUpdateAvailableModalUpdateMessages
+        }
       />
       <HarmonyUpdateDownloadingModal
         opened={!error && updateStatus === UpdateStatus.Downloading}
@@ -322,7 +327,12 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
         opened={!error && updateStatus === UpdateStatus.Downloaded}
         newVersion={updateAvailability?.latestVersion || ""}
         onUpdate={handleUpdate}
-        onClose={handleModalClose}
+        onClose={updateAvailability?.forced ? undefined : handleModalClose}
+        messages={
+          updateAvailability?.forced
+            ? harmonyForceUpdateDownloadedModalMessages
+            : harmonyUpdateDownloadedModalMessages
+        }
       />
       <HarmonyUpdateInstallingModal
         opened={!error && updateStatus === UpdateStatus.Installing}
@@ -344,7 +354,8 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
         onTryAgain={handleTryAgain}
         onContactSupport={handleContactSupport}
         onGoToHelp={handleGoToHelp}
-        onClose={handleFinalModalClose}
+        onClose={updateAvailability?.forced ? undefined : handleFinalModalClose}
+        onButtonClose={handleFinalModalClose}
       />
     </Wrapper>
   )
