@@ -4,7 +4,7 @@
  */
 
 import { GoogleContactResourceItem } from "generic-view/store"
-import { UnifiedContact } from "device/models"
+import { UnifiedContact, ContactAddSource } from "device/models"
 import { getDisplayName } from "../helpers"
 import { omit } from "lodash"
 
@@ -69,6 +69,7 @@ export const mapGoogleApi = (
           note:
             contact.biographies?.find((item) => item.metadata.primary)?.value ||
             contact.biographies?.[0].value,
+          importSource: ContactAddSource.MCImportGoogle,
         }
 
         return {
