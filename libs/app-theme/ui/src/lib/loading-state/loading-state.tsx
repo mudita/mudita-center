@@ -6,23 +6,25 @@
 import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { IconType } from "app-theme/models"
-import { Icon, Typography } from "app-theme/ui"
-import { manageFilesMessages } from "./manage-files.messages"
+import { Messages } from "app-localize/utils"
+import { Icon } from "../icon/icon"
+import { Typography } from "../typography/typography"
 
 interface Props {
   opened?: boolean
+  message: Messages["id"]
 }
 
-export const ManageFilesLoadingState: FunctionComponent<Props> = ({
-  opened,
-}) => {
+export const LoadingState: FunctionComponent<
+  Props & { className?: string }
+> = ({ opened, message, ...props }) => {
   if (!opened) {
     return null
   }
 
   return (
-    <Wrapper>
-      <Typography.H3 message={manageFilesMessages.loadStateText.id} />
+    <Wrapper {...props}>
+      <Typography.H3 message={message} />
       <Icon type={IconType.Spinner} size={4.8} />
     </Wrapper>
   )

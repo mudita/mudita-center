@@ -21,4 +21,12 @@ export const quotationsMessages = defineMessages({
   selectionDeleteButton: {
     id: "quotations.selectedState.deleteButton",
   },
+  loadStateText: { id: "quotations.loadState.text" },
+  emptyStateTitle: {
+    id: "quotations.emptyState.title",
+  },
+  description: {
+    id: "quotations.emptyState.description",
+  },
+  emptyStateTddButton: { id: "quotations.header.addButton" },
 })

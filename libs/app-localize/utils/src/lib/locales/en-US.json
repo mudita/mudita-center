@@ -129,7 +129,7 @@
   "harmony.manageFiles.uploadFailed.some.modal.title": "Couldn't transfer some files",
   "harmony.manageFiles.uploading.modal.closeButtonText": "Cancel",
   "harmony.manageFiles.uploading.modal.title": "{filesCount, plural, one {Transferring file to Harmony...} other {Transferring # files to Harmony...}}",
-  "harmony.menu.files": "Manage Files",
+  "harmony.menu.files": "Manage Sounds",
   "harmony.menu.overview": "Overview",
   "harmony.menu.quotations": "Quotations",
   "harmony.overview.os.badge.available": "Update is available.",
@@ -272,9 +272,12 @@
   "pure.onboardingNotFinishedModal.title": "Agreement is not accepted",
   "pure.passcodeModal.description": "Enter the passcode on your phone to continue",
   "pure.passcodeModal.title": "Unlock your Pure",
+  "quotations.emptyState.description": "As long as your Harmony has enough memory, you can add as many as you like and we’ll list them here...",
+  "quotations.emptyState.title": "Add custom quotation to Harmony...",
   "quotations.header.addButton": "Add quotation",
   "quotations.header.settingsButton": "Settings",
   "quotations.header.title": "Manage Quotations",
+  "quotations.loadState.text": "Loading, please wait...",
   "quotations.selectedState.count": "{count, plural, =-1 {All quotations} one {# quotation} other {# quotations}} selected",
   "quotations.selectedState.deleteButton": "Delete"
 }

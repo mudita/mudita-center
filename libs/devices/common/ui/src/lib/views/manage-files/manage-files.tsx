@@ -11,10 +11,10 @@ import {
   useState,
 } from "react"
 import { Messages } from "app-localize/utils"
+import { LoadingState } from "app-theme/ui"
 import { ManageFilesStorageSummaryProps } from "./manage-files-content/manage-files-storage-summary"
 import { ManageFilesCategoryListProps } from "./manage-files-content/manage-files-category-list"
 import { ManageFilesContent } from "./manage-files-content/manage-files-content"
-import { ManageFilesLoadingState } from "./manage-files-loading-state"
 import {
   ManageFilesDeleteFlow,
   ManageFilesDeleteFlowProps,
@@ -29,6 +29,7 @@ import {
   FileManagerFileMap,
   ManageFilesTableSectionProps,
 } from "./manage-files.types"
+import { manageFilesMessages } from "./manage-files.messages"
 
 type ManageFilesViewChild = (
   ctx: Pick<ManageFilesTableSectionProps, "onSelectedChange" | "selectedIds">
@@ -171,7 +172,10 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
 
   return (
     <>
-      <ManageFilesLoadingState opened={loadingState} />
+      <LoadingState
+        opened={loadingState}
+        message={manageFilesMessages.loadStateText.id}
+      />
       <ManageFilesContent
         opened={!loadingState}
         segments={segments}
