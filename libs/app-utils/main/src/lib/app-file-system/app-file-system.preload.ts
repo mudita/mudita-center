@@ -15,6 +15,9 @@ import {
   AppFileSystemRmOptions,
   AppFileSystemWriteFileOptions,
   AppResult,
+  AppFileSystemWriteFileChunkOptions,
+  AppFileSystemReadFileOptions,
+  AppFileSystemExtractOptions,
 } from "app-utils/models"
 import fs from "fs-extra"
 
@@ -32,6 +35,11 @@ export const appFileSystem = {
     options: AppFileSystemWriteFileOptions
   ): Promise<AppResult<string>> => {
     return ipcRenderer.invoke(AppFileSystemIpcEvents.WriteFile, options)
+  },
+  readFile: (
+    options: AppFileSystemReadFileOptions
+  ): Promise<AppResult<string>> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.ReadFile, options)
   },
   pathExists: (
     options: AppFileSystemPathExistsOptions
@@ -55,5 +63,15 @@ export const appFileSystem = {
     options: AppFileSystemReadFileChunkOptions
   ): Promise<AppResult<string>> => {
     return ipcRenderer.invoke(AppFileSystemIpcEvents.ReadFileChunk, options)
+  },
+  writeFileChunk: (
+    options: AppFileSystemWriteFileChunkOptions
+  ): Promise<AppResult> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.WriteFileChunk, options)
+  },
+  extract: (
+    options: AppFileSystemExtractOptions
+  ): Promise<AppResult<string[]>> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.Extract, options)
   },
 }

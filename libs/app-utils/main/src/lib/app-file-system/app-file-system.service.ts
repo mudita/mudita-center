@@ -6,15 +6,19 @@
 import archiver from "archiver"
 import path from "path"
 import fs from "fs-extra"
+import tar from "tar-stream"
 import {
   AppFileSystemArchiveOptions,
   AppFileSystemCalculateCrc32Options,
+  AppFileSystemExtractOptions,
   AppFileSystemFileStatsOptions,
   AppFileSystemGuardOptions,
   AppFileSystemMkdirOptions,
   AppFileSystemPathExistsOptions,
   AppFileSystemReadFileChunkOptions,
+  AppFileSystemReadFileOptions,
   AppFileSystemRmOptions,
+  AppFileSystemWriteFileChunkOptions,
   AppFileSystemWriteFileOptions,
   AppResult,
   AppResultFactory,
@@ -65,7 +69,9 @@ export class AppFileSystemService {
     }
   }
 
-  async pathExists(options: AppFileSystemPathExistsOptions): Promise<AppResult<boolean>> {
+  async pathExists(
+    options: AppFileSystemPathExistsOptions
+  ): Promise<AppResult<boolean>> {
     try {
       const filePath = this.resolveSafePath(options)
       const exists = await fs.pathExists(filePath)
@@ -75,7 +81,9 @@ export class AppFileSystemService {
     }
   }
 
-  async fileStats(options: AppFileSystemFileStatsOptions): Promise<AppResult<fs.Stats>> {
+  async fileStats(
+    options: AppFileSystemFileStatsOptions
+  ): Promise<AppResult<fs.Stats>> {
     try {
       const filePath = this.resolveSafePath(options)
       const stats = await fs.stat(filePath)
@@ -85,7 +93,9 @@ export class AppFileSystemService {
     }
   }
 
-  async writeFile(options: AppFileSystemWriteFileOptions): Promise<AppResult<string>> {
+  async writeFile(
+    options: AppFileSystemWriteFileOptions
+  ): Promise<AppResult<string>> {
     try {
       const fullPath = this.resolveSafePath(options)
       await fs.ensureDir(path.dirname(fullPath))
@@ -102,7 +112,22 @@ export class AppFileSystemService {
     }
   }
 
-  async calculateFileCrc32(options: AppFileSystemCalculateCrc32Options): Promise<AppResult<string>> {
+  async readFile(
+    options: AppFileSystemReadFileOptions
+  ): Promise<AppResult<string>> {
+    try {
+      const fullPath = this.resolveSafePath(options)
+      const buffer = await fs.readFile(fullPath)
+
+      return AppResultFactory.success(buffer.toString("utf-8"))
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
+  async calculateFileCrc32(
+    options: AppFileSystemCalculateCrc32Options
+  ): Promise<AppResult<string>> {
     try {
       const filePath = this.resolveSafePath(options)
       const buffer = await fs.readFile(filePath)
@@ -136,6 +161,35 @@ export class AppFileSystemService {
     })
   }
 
+  async writeFileChunk(options: AppFileSystemWriteFileChunkOptions) {
+    const filePath = this.resolveSafePath(options)
+    await fs.ensureDir(path.dirname(filePath))
+    const chunkNo = options.chunkNo ?? 0
+    const stream = fs.createWriteStream(filePath, {
+      highWaterMark: options.chunkSize,
+      start: chunkNo * options.chunkSize,
+    })
+
+    return new Promise((resolve, reject) => {
+      stream.write(options.data, (err) => {
+        if (err) {
+          reject(AppResultFactory.failed(mapToAppError(err)))
+          return
+        }
+        stream.end()
+      })
+
+      stream.on("finish", () => {
+        resolve(AppResultFactory.success())
+        stream.close()
+      })
+
+      stream.on("error", (err) => {
+        reject(AppResultFactory.failed(mapToAppError(err)))
+      })
+    })
+  }
+
   writeZip(sourceDir: string, destinationPath: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const output = fs.createWriteStream(destinationPath)
@@ -153,6 +207,50 @@ export class AppFileSystemService {
       archive.directory(sourceDir, false)
 
       void archive.finalize()
+    })
+  }
+
+  extract(options: AppFileSystemExtractOptions): Promise<AppResult<string[]>> {
+    const sourceFilePath = this.resolveSafePath(options)
+    const destinationFilePath = this.resolveSafePath({
+      ...options,
+      scopeRelativePath:
+        options.scopeDestinationPath ?? options.scopeRelativePath,
+    })
+
+    const entryPaths: string[] = []
+    const extract = tar.extract({ allowUnknownFormat: true })
+
+    return new Promise((resolve, reject) => {
+      extract.on("entry", function (header, entryStream, next) {
+        const entryFilePath = path.join(destinationFilePath, header.name)
+        if (header.type === "file") {
+          const ws = fs.createWriteStream(entryFilePath, { mode: header.mode })
+
+          ws.on("finish", () => {
+            entryPaths.push(entryFilePath)
+            next()
+          })
+          ws.on("error", reject)
+          entryStream.on("error", reject)
+
+          entryStream.pipe(ws)
+          return
+        }
+        entryStream.resume()
+        next()
+      })
+
+      extract.on("finish", () => resolve(AppResultFactory.success(entryPaths)))
+      extract.on("error", (err) =>
+        reject(AppResultFactory.failed(mapToAppError(err)))
+      )
+
+      const rs = fs.createReadStream(sourceFilePath)
+      rs.on("error", (err) =>
+        reject(AppResultFactory.failed(mapToAppError(err)))
+      )
+      rs.pipe(extract)
     })
   }
 }

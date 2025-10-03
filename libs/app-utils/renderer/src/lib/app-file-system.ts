@@ -10,8 +10,11 @@ export const AppFileSystem = {
   mkdir: window.api.appFileSystem.mkdir,
   archive: window.api.appFileSystem.archive,
   writeFile: window.api.appFileSystem.writeFile,
+  readFile: window.api.appFileSystem.readFile,
   pathExists: window.api.appFileSystem.pathExists,
   fileStats: window.api.appFileSystem.fileStats,
   calculateFileCrc32: window.api.appFileSystem.calculateFileCrc32,
   readFileChunk: window.api.appFileSystem.readFileChunk,
+  writeFileChunk: window.api.appFileSystem.writeFileChunk,
+  extract: window.api.appFileSystem.extract,
 }

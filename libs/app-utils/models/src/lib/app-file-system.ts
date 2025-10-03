@@ -48,7 +48,7 @@ export interface AppFileSystemWriteFileOptions
   }
   data: Buffer | Record<string, unknown>
 }
-
+export type AppFileSystemReadFileOptions = AppFileSystemGuardOptions
 export type AppFileSystemPathExistsOptions = AppFileSystemGuardOptions
 export type AppFileSystemFileStatsOptions = AppFileSystemGuardOptions
 export type AppFileSystemCalculateCrc32Options = AppFileSystemGuardOptions
@@ -56,4 +56,14 @@ export type AppFileSystemCalculateCrc32Options = AppFileSystemGuardOptions
 export type AppFileSystemReadFileChunkOptions = AppFileSystemGuardOptions & {
   chunkSize: number
   chunkNo?: number
+}
+
+export type AppFileSystemWriteFileChunkOptions = AppFileSystemGuardOptions & {
+  chunkSize: number
+  chunkNo?: number
+  data: Buffer
+}
+
+export type AppFileSystemExtractOptions = AppFileSystemGuardOptions & {
+  scopeDestinationPath?: string | string[]
 }
