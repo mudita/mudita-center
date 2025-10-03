@@ -9,6 +9,7 @@ import {
   AppFileSystemIpcEvents,
   AppFileSystemMkdirOptions,
   AppFileSystemPathExistsOptions,
+  AppFileSystemReadFileOptions,
   AppFileSystemRmOptions,
   AppFileSystemWriteFileOptions,
 } from "app-utils/models"
@@ -39,6 +40,12 @@ export const initAppFileSystem = (
     (_, options: AppFileSystemWriteFileOptions) =>
       appFileSystem.writeFile(options)
   )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.ReadFile)
+  ipcMain.handle(
+    AppFileSystemIpcEvents.ReadFile,
+    (_, options: AppFileSystemReadFileOptions) =>
+      appFileSystem.readFile(options)
+  )
   ipcMain.removeHandler(AppFileSystemIpcEvents.PathExists)
   ipcMain.handle(
     AppFileSystemIpcEvents.PathExists,
@@ -59,5 +66,13 @@ export const initAppFileSystem = (
   ipcMain.removeHandler(AppFileSystemIpcEvents.ReadFileChunk)
   ipcMain.handle(AppFileSystemIpcEvents.ReadFileChunk, (event, options) =>
     appFileSystem.readFileChunk({ ...options, webContentsId: event.sender.id })
+  )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.WriteFileChunk)
+  ipcMain.handle(AppFileSystemIpcEvents.WriteFileChunk, (event, options) =>
+    appFileSystem.writeFileChunk({ ...options, webContentsId: event.sender.id })
+  )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.Extract)
+  ipcMain.handle(AppFileSystemIpcEvents.Extract, (event, options) =>
+    appFileSystem.extract({ ...options, webContentsId: event.sender.id })
   )
 }
