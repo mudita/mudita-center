@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent } from "react"
+import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { Button, Icon, Typography } from "app-theme/ui"
 import { IconSize, IconType } from "app-theme/models"
@@ -20,7 +20,7 @@ export const QuotationsEmptyState: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       <RoundIcon>
-        <Icon type={IconType.Quote} size={4.8}/>
+        <Icon type={IconType.Quote} size={4.8} />
       </RoundIcon>
       <Description>
         <Typography.H4 message={quotationsMessages.emptyStateTitle.id} />

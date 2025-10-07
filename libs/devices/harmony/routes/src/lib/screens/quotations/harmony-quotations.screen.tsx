@@ -18,7 +18,7 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
   return (
     <>
       <DashboardHeaderTitle title={formatMessage(messages.pageTitle)} />
-      <Quotations />
+      <Quotations quotations={[]} isLoading={false} />
     </>
   )
 }

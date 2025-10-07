@@ -3,11 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, {
-  ChangeEventHandler,
-  FunctionComponent,
-  useCallback,
-} from "react"
+import { ChangeEventHandler, FunctionComponent, useCallback } from "react"
 import styled, { css } from "styled-components"
 import { Checkbox as BaseCheckbox, Icon, Typography } from "app-theme/ui"
 import { CheckboxSize, IconSize, IconType } from "app-theme/models"
@@ -28,7 +24,7 @@ export const QuotationsList: FunctionComponent<Props> = ({
   const handleCheckboxChange: ChangeEventHandler<HTMLInputElement> =
     useCallback(
       (event) => {
-        const id = Number(event.target.id.replace("checkbox-", ""))
+        const id = event.target.id.replace("checkbox-", "")
         onCheckboxToggle?.(id)
       },
       [onCheckboxToggle]
