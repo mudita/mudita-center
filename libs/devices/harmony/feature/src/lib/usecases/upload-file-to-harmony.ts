@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { sum } from "lodash"
 import {
   Harmony,
   HarmonyEndpointNamed,
@@ -13,23 +12,13 @@ import {
 import { AppFileSystemGuardOptions } from "app-utils/models"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { AppFileSystem } from "app-utils/renderer"
+import { createProgressTracker, TransferProgressHandler } from "./progress-tracker"
 
 export interface Params {
   device: Harmony
   fileLocation: AppFileSystemGuardOptions
   targetPath: string
-  onProgress?: (progress: {
-    // Percentage of file sent [%]
-    progress: number
-    // Sent data size [B]
-    loaded: number
-    // Total file size [B]
-    total: number
-    // Average speed [B/s]
-    rate?: number
-    // Estimated time left [s]
-    estimated?: number
-  }) => void
+  onProgress?: TransferProgressHandler
   abortController?: AbortController
 }
 
@@ -93,7 +82,10 @@ export const uploadFileToHarmony = async ({
 
   const totalFileSize = fileStats.data.size
   const chunksCount = Math.ceil(totalFileSize / chunkSize)
-  const avgSpeeds: number[] = []
+  const progressTracker = createProgressTracker({
+    chunksCount,
+    totalFileSize,
+  })
   let chunkStartTime = Date.now()
 
   // Read and send file in chunks
@@ -126,26 +118,16 @@ export const uploadFileToHarmony = async ({
       throw UploadFileToHarmonyError.ChunkSendError
     }
     // Calculate progress, speed, and estimated time left
-    const progressPercentage = Math.floor(((i + 1) / chunksCount) * 100)
-    const totalBytesSent = Math.min((i + 1) * chunkSize, totalFileSize)
-    const bytesLeft = totalFileSize - totalBytesSent
-    const currentChunkTime = (Date.now() - chunkStartTime) / 1000
+    const currentChunkTime = Date.now() - chunkStartTime
     chunkStartTime = Date.now()
-    const currentSpeed = Math.round(chunkSize / currentChunkTime)
-    avgSpeeds.push(currentSpeed)
-    if (avgSpeeds.length > 20) {
-      avgSpeeds.shift()
-    }
-    const averageSpeed = Math.round(sum(avgSpeeds) / avgSpeeds.length)
-    const estimatedTimeLeft = Math.ceil(bytesLeft / averageSpeed)
 
-    onProgress?.({
-      progress: progressPercentage,
-      loaded: totalBytesSent,
-      total: totalFileSize,
-      rate: averageSpeed,
-      estimated: estimatedTimeLeft,
-    })
+    onProgress?.(
+      progressTracker.update({
+        i,
+        chunkSize,
+        currentChunkTime,
+      })
+    )
   }
 
   return true
