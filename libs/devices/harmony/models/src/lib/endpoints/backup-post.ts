@@ -4,11 +4,7 @@
  */
 
 import { z } from "zod"
-
-export enum BackupCategory {
-  Sync = "sync",
-  Backup = "backup",
-}
+import { BackupCategory } from "./backup"
 
 export const HarmonyPostBackupRequestValidator = z.object({
   category: z.enum([BackupCategory.Sync, BackupCategory.Backup]),

@@ -101,7 +101,6 @@ export const downloadFileFromHarmony = async ({
       ),
     })
 
-
     if (!chunkData.ok) {
       throw DownloadFileFromHarmonyError.ChunkWriteError
     }
@@ -131,5 +130,4 @@ export const downloadFileFromHarmony = async ({
   if (localCrc32.data !== fileCrc32) {
     throw DownloadFileFromHarmonyError.Crc32Error
   }
-
 }

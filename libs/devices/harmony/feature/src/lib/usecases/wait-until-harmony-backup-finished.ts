@@ -13,6 +13,8 @@ import {
 import { OKResponse } from "devices/harmony/adapters"
 import { getHarmonyBackupStatus } from "../api/get-harmony-backup-status"
 
+const MAX_BACKUP_ITERATIONS = 20
+
 export const waitUntilHarmonyBackupFinished = async (
   device: Harmony,
   id: string,
@@ -25,7 +27,7 @@ export const waitUntilHarmonyBackupFinished = async (
     throw new Error(`Error getting backup status: ${response.status}`)
   } else if (response.body?.state === BackupState.Finished) {
     return response
-  } else if (iteration === 10) {
+  } else if (iteration === MAX_BACKUP_ITERATIONS) {
     throw new Error("Timeout waiting for backup to finish")
   } else {
     await delay(delayMs)
