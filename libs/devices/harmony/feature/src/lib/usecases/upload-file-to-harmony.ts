@@ -33,7 +33,7 @@ export interface Params {
   abortController?: AbortController
 }
 
-export enum SendFileToHarmonyError {
+export enum UploadFileToHarmonyError {
   FileReadError = "FileReadError",
   Crc32Error = "Crc32Error",
   PreSendError = "PreSendError",
@@ -42,7 +42,7 @@ export enum SendFileToHarmonyError {
   Aborted = "Aborted",
 }
 
-export const sendFileToHarmony = async ({
+export const uploadFileToHarmony = async ({
   device,
   fileLocation,
   targetPath,
@@ -52,14 +52,14 @@ export const sendFileToHarmony = async ({
   // Get file stats and calculate CRC32
   const fileStats = await AppFileSystem.fileStats(fileLocation)
   if (!fileStats.ok) {
-    throw SendFileToHarmonyError.FileReadError
+    throw UploadFileToHarmonyError.FileReadError
   }
   const crc32 = await AppFileSystem.calculateFileCrc32(fileLocation)
   if (!crc32.ok) {
-    throw SendFileToHarmonyError.Crc32Error
+    throw UploadFileToHarmonyError.Crc32Error
   }
   if (abortController?.signal.aborted) {
-    throw SendFileToHarmonyError.Aborted
+    throw UploadFileToHarmonyError.Aborted
   }
 
   onProgress?.({
@@ -83,11 +83,11 @@ export const sendFileToHarmony = async ({
   })
 
   if (abortController?.signal.aborted) {
-    throw SendFileToHarmonyError.Aborted
+    throw UploadFileToHarmonyError.Aborted
   }
 
   if (!preSendResponse.ok || !preSendResponse.body) {
-    throw SendFileToHarmonyError.PreSendError
+    throw UploadFileToHarmonyError.PreSendError
   }
   const { txID, chunkSize } = preSendResponse.body as HarmonyPreSendFileResponse
 
@@ -99,7 +99,7 @@ export const sendFileToHarmony = async ({
   // Read and send file in chunks
   for (let i = 0; i < chunksCount; i++) {
     if (abortController?.signal.aborted) {
-      throw SendFileToHarmonyError.Aborted
+      throw UploadFileToHarmonyError.Aborted
     }
     const chunkData = await AppFileSystem.readFileChunk({
       ...fileLocation,
@@ -107,7 +107,7 @@ export const sendFileToHarmony = async ({
       chunkNo: i,
     })
     if (!chunkData.ok) {
-      throw SendFileToHarmonyError.ChunkReadError
+      throw UploadFileToHarmonyError.ChunkReadError
     }
     const chunkResponse = await HarmonySerialPort.request(device, {
       endpoint: HarmonyEndpointNamed.FileSystem,
@@ -123,7 +123,7 @@ export const sendFileToHarmony = async ({
     })
 
     if (!chunkResponse.ok) {
-      throw SendFileToHarmonyError.ChunkSendError
+      throw UploadFileToHarmonyError.ChunkSendError
     }
     // Calculate progress, speed, and estimated time left
     const progressPercentage = Math.floor(((i + 1) / chunksCount) * 100)
