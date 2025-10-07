@@ -101,4 +101,9 @@ export const initializeDatabaseFromBackup = async ({
   if (!appSqlInitialize.ok) {
     throw new Error(`Failed to initialize database: ${appSqlInitialize.error}`)
   }
+
+  await AppFileSystem.rm({
+    scopeRelativePath: backupLocationDir,
+    options: { recursive: true },
+  })
 }
