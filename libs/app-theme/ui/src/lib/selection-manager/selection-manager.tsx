@@ -67,8 +67,8 @@ export const SelectionManager: FunctionComponent<
     <SelectionManagerWrapper className={className} {...rest}>
       <CheckboxWrapper>
         <Checkbox
-          checked
-          indeterminate={!allItemsSelected}
+          checked={allItemsSelected}
+          indeterminate={selectedItemsNumber > 0 && !allItemsSelected}
           onChange={onToggle}
           size={checkboxSize}
         />
