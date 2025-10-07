@@ -17,6 +17,10 @@ import {
   HarmonySynchronizeTimeResponseValidator,
 } from "./endpoints/time-synchronization"
 import {
+  HarmonyDownloadFileChunkRequestValidator,
+  HarmonyDownloadFileChunkResponseValidator,
+  HarmonyPreDownloadFileRequestValidator,
+  HarmonyPreDownloadFileResponseValidator,
   HarmonyPreSendFileRequestValidator,
   HarmonyPreSendFileResponseValidator,
   HarmonySendFileChunkRequestValidator,
@@ -33,7 +37,7 @@ import {
 import {
   HarmonyGetFileListRequestValidator,
   HarmonyGetFileListResponseValidator,
-} from "./endpoints/file-get"
+} from "./endpoints/file-get-list"
 import {
   HarmonyPostBackupRequestValidator,
   HarmonyPostBackupResponseValidator,
@@ -95,8 +99,16 @@ export const HarmonyEndpoints = {
   },
   [HarmonyEndpointNamed.FileSystem]: {
     [HarmonyMethodNamed.Get]: {
-      request: HarmonyGetFileListRequestValidator,
-      response: HarmonyGetFileListResponseValidator,
+      request: z.union([
+        HarmonyGetFileListRequestValidator,
+        HarmonyPreDownloadFileRequestValidator,
+        HarmonyDownloadFileChunkRequestValidator,
+      ]),
+      response: z.union([
+        HarmonyGetFileListResponseValidator,
+        HarmonyPreDownloadFileResponseValidator,
+        HarmonyDownloadFileChunkResponseValidator,
+      ]),
     },
     [HarmonyMethodNamed.Delete]: {
       request: HarmonyDeleteFileRequestValidator,

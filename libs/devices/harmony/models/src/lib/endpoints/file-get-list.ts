@@ -33,3 +33,7 @@ export const HarmonyGetFileListResponseValidator = z.record(
     ),
   z.array(HarmonyFileSchema)
 )
+
+export type HarmonyGetFileListResponse = z.infer<
+  typeof HarmonyGetFileListResponseValidator
+>
