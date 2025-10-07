@@ -34,13 +34,21 @@ import {
   HarmonyGetFileListRequestValidator,
   HarmonyGetFileListResponseValidator,
 } from "./endpoints/file-get"
+import {
+  HarmonyPostBackupRequestValidator,
+  HarmonyPostBackupResponseValidator,
+} from "./endpoints/backup-post"
+import {
+  HarmonyGetBackupRequestValidator,
+  HarmonyGetBackupResponseValidator,
+} from "./endpoints/backup-get"
 
 export enum HarmonyEndpointNamed {
   // Invalid = 0,
   DeviceInfo = 1,
   Update = 2,
   FileSystem = 3,
-  // Backup = 4,
+  Backup = 4,
   // Restore = 5,
   // Factory = 6,
   // Security = 13,
@@ -109,6 +117,16 @@ export const HarmonyEndpoints = {
     [HarmonyMethodNamed.Post]: {
       request: HarmonyUpdateRequestValidator,
       response: HarmonyUpdateResponseValidator,
+    },
+  },
+  [HarmonyEndpointNamed.Backup]: {
+    [HarmonyMethodNamed.Get]: {
+      request: HarmonyGetBackupRequestValidator,
+      response: HarmonyGetBackupResponseValidator,
+    },
+    [HarmonyMethodNamed.Post]: {
+      request: HarmonyPostBackupRequestValidator,
+      response: HarmonyPostBackupResponseValidator,
     },
   },
 } as const satisfies EndpointsDefinition
