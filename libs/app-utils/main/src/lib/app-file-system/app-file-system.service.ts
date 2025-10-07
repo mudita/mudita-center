@@ -114,12 +114,18 @@ export class AppFileSystemService {
 
   async readFile(
     options: AppFileSystemReadFileOptions
-  ): Promise<AppResult<string>> {
+  ): Promise<AppResult<string | Buffer>> {
     try {
       const fullPath = this.resolveSafePath(options)
       const buffer = await fs.readFile(fullPath)
 
-      return AppResultFactory.success(buffer.toString("utf-8"))
+      const encoding = options.encoding || "utf-8"
+
+      if (encoding !== "buffer") {
+        return AppResultFactory.success(buffer.toString(encoding))
+      }
+
+      return AppResultFactory.success(buffer)
     } catch (error) {
       return AppResultFactory.failed(mapToAppError(error))
     }

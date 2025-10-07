@@ -4,9 +4,12 @@
  */
 
 import { electronAPI } from "@electron-toolkit/preload"
-import { SqlIpcEvents } from "app-sql/models"
+import { AppSqlInitializationOptions, SqlIpcEvents } from "app-sql/models"
 
 export const sql = {
+  initialize: (options: AppSqlInitializationOptions) => {
+    return electronAPI.ipcRenderer.invoke(SqlIpcEvents.Initialize, options)
+  },
   run: (name: string, query: string) => {
     return electronAPI.ipcRenderer.invoke(SqlIpcEvents.RunQuery, name, query)
   },
