@@ -5,7 +5,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { Harmony } from "devices/harmony/models"
-import { fetchQuotations } from "../usecases/fetch-quotations"
+import { fetchQuotations } from "../actions/fetch-quotations"
 import { harmonyQueryKeys } from "./harmony-query-keys"
 
 const queryFn = async (device?: Harmony) => {

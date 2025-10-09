@@ -17,7 +17,7 @@ import {
 import {
   uploadFileToHarmony,
   UploadFileToHarmonyError,
-} from "../usecases/upload-file-to-harmony"
+} from "../actions/upload-file-to-harmony"
 import { getHarmonyOsDownloadLocation } from "./use-harmony-os-download.mutation"
 import { updateHarmony } from "../api/update-harmony"
 import { sum } from "lodash"
