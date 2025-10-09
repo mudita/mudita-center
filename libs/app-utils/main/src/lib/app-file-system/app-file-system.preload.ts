@@ -7,17 +7,17 @@ import { ipcRenderer } from "electron"
 import {
   AppFileSystemArchiveOptions,
   AppFileSystemCalculateCrc32Options,
-  AppFileSystemReadFileChunkOptions,
+  AppFileSystemExtractOptions,
   AppFileSystemFileStatsOptions,
   AppFileSystemIpcEvents,
   AppFileSystemMkdirOptions,
   AppFileSystemPathExistsOptions,
+  AppFileSystemReadFileChunkOptions,
+  AppFileSystemReadFileOptions,
   AppFileSystemRmOptions,
+  AppFileSystemWriteFileChunkOptions,
   AppFileSystemWriteFileOptions,
   AppResult,
-  AppFileSystemWriteFileChunkOptions,
-  AppFileSystemReadFileOptions,
-  AppFileSystemExtractOptions,
 } from "app-utils/models"
 import fs from "fs-extra"
 
