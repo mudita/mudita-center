@@ -7,12 +7,12 @@ import { FunctionComponent, useEffect, useState } from "react"
 import { AppResult } from "app-utils/models"
 import { formatMessage } from "app-localize/utils"
 import {
+  createToastContent,
   GenericFailedModal,
   GenericProgressModal,
   useToastContext,
 } from "app-theme/ui"
 import { NewQuotation } from "../quotations.types"
-import { createManageFilesToastContent } from "../../manage-files/create-manage-files-toast-content"
 import { quotationsMessages } from "../quotations.messages"
 import {
   QuotationsCreateForm,
@@ -58,7 +58,7 @@ export const QuotationsCreateFlow: FunctionComponent<
     onClose()
     setFlowState(QuotationsCreateFlowState.Idle)
     addToast(
-      createManageFilesToastContent({
+      createToastContent({
         text: formatMessage(quotationsMessages.createSuccessToastText),
       })
     )
