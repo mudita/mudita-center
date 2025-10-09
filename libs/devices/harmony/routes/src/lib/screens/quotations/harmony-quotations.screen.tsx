@@ -8,7 +8,10 @@ import { defineMessages, formatMessage } from "app-localize/utils"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { Quotations } from "devices/common/ui"
 import { useActiveDeviceQuery } from "devices/common/feature"
-import { useHarmonyQuotationListQuery } from "devices/harmony/feature"
+import {
+  useHarmonyCreateQuotationMutation,
+  useHarmonyQuotationListQuery,
+} from "devices/harmony/feature"
 import { Harmony } from "devices/harmony/models"
 
 const messages = defineMessages({
@@ -23,10 +26,17 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
   const { data: quotations = [], isLoading } =
     useHarmonyQuotationListQuery(activeDevice)
 
+  const { mutateAsync: createQuotation } =
+    useHarmonyCreateQuotationMutation(activeDevice)
+
   return (
     <>
       <DashboardHeaderTitle title={formatMessage(messages.pageTitle)} />
-      <Quotations isLoading={isLoading} quotations={quotations} />
+      <Quotations
+        isLoading={isLoading}
+        quotations={quotations}
+        createQuotation={createQuotation}
+      />
     </>
   )
 }

@@ -5,8 +5,8 @@
 
 import { FunctionComponent } from "react"
 import { formatMessage } from "app-localize/utils"
+import { GenericFailedModal } from "app-theme/ui"
 import { FileManagerFile } from "../manage-files.types"
-import { ManageFilesGenericFailedModal } from "../manage-files-generic-failed-modal"
 import {
   FileTransferFailed,
   getTransferFailedModalContent,
@@ -38,13 +38,13 @@ export const ManageFilesTransferFailedModal: FunctionComponent<
       : undefined
 
   return (
-    <ManageFilesGenericFailedModal
+    <GenericFailedModal
       opened={opened}
       onClose={onClose}
       title={title}
       description={description}
       buttonText={formatMessage(messages.uploadFailedModalCloseButtonText)}
-      failedFiles={failedFilesList}
+      failedItems={failedFilesList}
     />
   )
 }

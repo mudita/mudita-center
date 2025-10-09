@@ -117,4 +117,7 @@ export const HarmonyManageFilesMessages = defineMessages({
   alarmFilesEmptyStateDescription: {
     id: "harmony.manageFiles.alarmFiles.emptyStateDescription",
   },
+  deletingModalTitle: {
+    id: "harmony.manageFiles.deleting.modal.title",
+  },
 })

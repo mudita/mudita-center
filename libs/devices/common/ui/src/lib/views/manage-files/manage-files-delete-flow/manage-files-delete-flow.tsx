@@ -5,8 +5,9 @@
 
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { delayUntil } from "app-utils/common"
+import { GenericProgressModal } from "app-theme/ui"
+import { formatMessage, Messages } from "app-localize/utils"
 import { FileManagerFile } from "../manage-files.types"
-import { ManageFilesDeleteProgressModal } from "./manage-files-delete-progress-modal"
 import {
   ManageFilesConfirmDeleteModalProps,
   ManageFilesDeleteConfirmModal,
@@ -20,7 +21,9 @@ import { ManageFilesDeleteFlowState } from "./manage-files-delete-flow.types"
 
 type ManageFilesDeleteFlowMessages =
   ManageFilesConfirmDeleteModalProps["messages"] &
-    ManageFilesDeleteFailedModalProps["messages"]
+    ManageFilesDeleteFailedModalProps["messages"] & {
+      deletingModalTitle: Messages
+    }
 
 export interface ManageFilesDeleteFlowProps {
   opened: boolean
@@ -80,8 +83,9 @@ export const ManageFilesDeleteFlow: FunctionComponent<
         fileCount={selectedFiles.length}
         messages={deleteFlowMessages}
       />
-      <ManageFilesDeleteProgressModal
+      <GenericProgressModal
         opened={flowState === ManageFilesDeleteFlowState.Deleting}
+        title={formatMessage(deleteFlowMessages.deletingModalTitle)}
       />
       <ManageFilesDeleteFailedModal
         opened={flowState === ManageFilesDeleteFlowState.DeleteFailed}

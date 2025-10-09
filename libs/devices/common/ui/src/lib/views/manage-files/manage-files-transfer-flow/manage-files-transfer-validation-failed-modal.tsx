@@ -5,13 +5,13 @@
 
 import { FunctionComponent, useMemo } from "react"
 import { formatMessage, Messages } from "app-localize/utils"
+import { GenericFailedModal } from "app-theme/ui"
 import {
   AvailableSpaceInfo,
   FileManagerFile,
   ValidationSummary,
   ValidationSummaryType,
 } from "../manage-files.types"
-import { ManageFilesGenericFailedModal } from "../manage-files-generic-failed-modal"
 
 export interface ManageFilesTransferValidationFailedModalProps {
   opened: boolean
@@ -72,7 +72,7 @@ export const ManageFilesTransferValidationFailedModal: FunctionComponent<
   ])
 
   return (
-    <ManageFilesGenericFailedModal
+    <GenericFailedModal
       opened={opened}
       onClose={onClose}
       title={title}

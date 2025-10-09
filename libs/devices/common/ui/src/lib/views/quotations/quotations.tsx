@@ -12,8 +12,13 @@ import { quotationsMessages } from "./quotations.messages"
 import { QuotationsEmptyState } from "./quotations-empty-state"
 import { QuotationsList } from "./quotations-list"
 import { Quotation } from "./quotations.types"
+import {
+  QuotationsCreateFlow,
+  QuotationsCreateFlowProps,
+} from "./quotations-create-flow/quotations-create-flow"
 
-interface QuotationsProps {
+interface QuotationsProps
+  extends Pick<QuotationsCreateFlowProps, "createQuotation"> {
   quotations: Quotation[]
   isLoading?: boolean
 }
@@ -21,9 +26,10 @@ interface QuotationsProps {
 export const Quotations: FunctionComponent<QuotationsProps> = ({
   quotations,
   isLoading = false,
+  createQuotation,
 }) => {
   const [, setSettingsOpened] = useState(false)
-  const [, setCreatorOpened] = useState(false)
+  const [createFlowOpened, setCreateFlowOpened] = useState(false)
   const [, setNoSpaceOpened] = useState(false)
 
   const [selectedQuotations, setSelectedQuotations] = useState<
@@ -40,7 +46,7 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
 
   const handleCreatorOpen = useCallback(() => {
     if (isSpaceAvailable()) {
-      setCreatorOpened(true)
+      setCreateFlowOpened(true)
     } else {
       setNoSpaceOpened(true)
     }
@@ -99,6 +105,11 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
           selectedQuotations={selectedQuotations}
         />
       )}
+      <QuotationsCreateFlow
+        opened={createFlowOpened}
+        onClose={() => setCreateFlowOpened(false)}
+        createQuotation={createQuotation}
+      />
     </Wrapper>
   )
 }
@@ -110,6 +121,7 @@ const Wrapper = styled.div`
   overflow: hidden;
   background-color: ${backgroundColor("row")};
   height: 100%;
+  width: 100%;
 `
 
 const QuotationsLoadingState = styled(LoadingState)`

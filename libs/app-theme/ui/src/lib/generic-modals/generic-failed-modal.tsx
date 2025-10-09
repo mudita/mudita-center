@@ -6,22 +6,34 @@
 import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { ButtonType, IconType } from "app-theme/models"
-import { Button, Modal, Typography } from "app-theme/ui"
-import { FileFailed } from "./manage-files.types"
+import { Button } from "../button/button"
+import { Modal } from "../modal/modal"
+import { Typography } from "../typography/typography"
 
-export interface ManageFilesFailedModalProps {
+export interface FailedItem {
+  id: string
+  name: string
+  label?: string
+}
+
+interface Props {
   opened: boolean
   onClose: VoidFunction
   title: string
   description: string
   buttonText: string
-  failedFiles?: FileFailed[]
+  failedItems?: FailedItem[]
 }
 
-export const ManageFilesGenericFailedModal: FunctionComponent<
-  ManageFilesFailedModalProps
-> = ({ opened, failedFiles, title, description, buttonText, onClose }) => {
-  const showList = !!failedFiles?.length
+export const GenericFailedModal: FunctionComponent<Props> = ({
+  opened,
+  failedItems,
+  title,
+  description,
+  buttonText,
+  onClose,
+}) => {
+  const showList = !!failedItems?.length
 
   return (
     <Modal opened={opened}>
@@ -29,7 +41,7 @@ export const ManageFilesGenericFailedModal: FunctionComponent<
       <Modal.Title>{title}</Modal.Title>
       <Typography.P1>{description}</Typography.P1>
 
-      {showList && <FailedFilesList files={failedFiles} />}
+      {showList && <FailedItemsList items={failedItems} />}
 
       <Modal.Buttons>
         <Button onClick={onClose} type={ButtonType.Secondary}>
@@ -40,24 +52,24 @@ export const ManageFilesGenericFailedModal: FunctionComponent<
   )
 }
 
-const FailedFilesList = ({ files }: { files: FileFailed[] }) => (
+const FailedItemsList = ({ items }: { items: FailedItem[] }) => (
   <Modal.ScrollableContent>
-    <FilesList>
-      {files.map((file) => (
+    <ItemsList>
+      {items.map((file) => (
         <li key={file.id}>
-          <FileListItem>
+          <ItemsListItem>
             <Typography.P1>{file.name}</Typography.P1>
             {file.label && (
-              <FileListItemLabel>({file.label})</FileListItemLabel>
+              <ItemsListItemLabel>({file.label})</ItemsListItemLabel>
             )}
-          </FileListItem>
+          </ItemsListItem>
         </li>
       ))}
-    </FilesList>
+    </ItemsList>
   </Modal.ScrollableContent>
 )
 
-const FilesList = styled.ul`
+const ItemsList = styled.ul`
   li {
     p {
       &:first-child {
@@ -75,7 +87,7 @@ const FilesList = styled.ul`
   }
 `
 
-const FileListItem = styled.div`
+const ItemsListItem = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -84,6 +96,6 @@ const FileListItem = styled.div`
   overflow: hidden;
 `
 
-const FileListItemLabel = styled(Typography.P1)`
+const ItemsListItemLabel = styled(Typography.P1)`
   color: ${({ theme }) => theme.app.color.grey2};
 `

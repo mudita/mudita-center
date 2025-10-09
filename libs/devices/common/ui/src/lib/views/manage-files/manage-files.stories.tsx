@@ -8,7 +8,6 @@ import { styled } from "storybook/theming"
 import { StoryObj } from "@storybook/react-vite"
 import { action } from "storybook/actions"
 import { ManageFilesDeleteConfirmModal } from "./manage-files-delete-flow/manage-files-delete-confirm-modal"
-import { ManageFilesDeleteProgressModal } from "./manage-files-delete-flow/manage-files-delete-progress-modal"
 
 const Decorator = styled.div`
   width: 100%;
@@ -51,12 +50,4 @@ export const Default: StoryObj<typeof ManageFilesDeleteConfirmModal> = {
     fileCount: 1,
   },
   render: (args) => <ManageFilesDeleteConfirmModal {...args} />,
-}
-
-export const Failed: StoryObj<typeof ManageFilesDeleteProgressModal> = {
-  name: "Deleting modal",
-  args: {
-    opened: true,
-  },
-  render: (args) => <ManageFilesDeleteProgressModal {...args} />,
 }

@@ -47,7 +47,7 @@ export const QuotationsList: FunctionComponent<Props> = ({
                   checked={selectedQuotations.includes(quotation.id)}
                 />
               </Selector>
-              <QuotationText>{quotation.text}</QuotationText>
+              <QuotationText>{quotation.quote}</QuotationText>
               <div />
               <QuotationAuthor>{quotation.author || "-"}</QuotationAuthor>
             </label>

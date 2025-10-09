@@ -64,7 +64,7 @@ export const mapToQuotationObject = (data: QuotationInput): Quotation[] => {
 
       return {
         id: quotation.quote_id,
-        text: quotation.quote,
+        quote: quotation.quote,
         author: quotation.author,
       }
     })

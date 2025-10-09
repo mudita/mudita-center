@@ -4,9 +4,9 @@
  */
 
 import { FunctionComponent, useMemo } from "react"
+import { GenericFailedModal } from "app-theme/ui"
 import { formatMessage, Messages } from "app-localize/utils"
 import { FileManagerFile } from "../manage-files.types"
-import { ManageFilesGenericFailedModal } from "../manage-files-generic-failed-modal"
 
 export interface ManageFilesDeleteFailedModalProps {
   opened: boolean
@@ -54,13 +54,13 @@ export const ManageFilesDeleteFailedModal: FunctionComponent<
   const failedFilesList = total > 1 && !isAllFailed ? failedFiles : undefined
 
   return (
-    <ManageFilesGenericFailedModal
+    <GenericFailedModal
       opened={opened}
       onClose={onClose}
       title={title}
       description={description}
       buttonText={formatMessage(messages.deleteFailedModalCloseButtonText)}
-      failedFiles={failedFilesList}
+      failedItems={failedFilesList}
     />
   )
 }
