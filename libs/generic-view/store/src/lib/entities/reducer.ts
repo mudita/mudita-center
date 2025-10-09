@@ -71,7 +71,6 @@ export const genericEntitiesReducer = createReducer(initialState, (builder) => {
     if (!state[deviceId]?.[entitiesType]) {
       return
     }
-
     state[deviceId]![entitiesType]!.data = action.payload
     state[deviceId]![entitiesType]!.loading = false
     state[deviceId]![entitiesType]!.progress = 0

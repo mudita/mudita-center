@@ -5,6 +5,7 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { findPhoneDuplicates } from "../entities/helpers/find-phone-duplicates"
 
 export const selectDeviceEntities = createSelector(
   (state: ReduxRootState) => state.genericEntities,
@@ -174,5 +175,35 @@ export const selectIsSomeLoadEntitiesCanceled = createSelector(
         (entities[entityType]?.loading === false &&
           entities[entityType]?.data === undefined)
     )
+  }
+)
+
+export const selectContactsPhoneDuplicates = createSelector(
+  (state: ReduxRootState, params: { deviceId: string }) => state,
+  (_: ReduxRootState, params: { deviceId: string }) => params,
+  (state, params) => {
+    const entities = selectEntities(state, {
+      entitiesType: "contacts",
+      ...params,
+    })
+
+    if (!entities || !entities.data) return undefined
+
+    const duplicatesMap = findPhoneDuplicates(entities.data)
+    if (!duplicatesMap) return undefined
+
+    const entityById: Record<string, (typeof entities.data)[number]> = {}
+    for (const entity of entities.data) {
+      if (entity.contactId) {
+        entityById[String(entity.contactId)] = entity
+      }
+    }
+
+    return Object.entries(duplicatesMap).map(([mainId, duplicateIds]) => ({
+      mainContact: entityById[String(mainId)],
+      duplicates: (duplicateIds as string[])
+        .map((id) => entityById[String(id)])
+        .filter(Boolean),
+    }))
   }
 )
