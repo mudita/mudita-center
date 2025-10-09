@@ -30,3 +30,36 @@ export const HarmonySendFileChunkResponseValidator = z.object({
   txID: z.int(),
   chunkNo: z.int(),
 })
+
+/**
+ * `fileName` is a file identifier, often a path rather than just the file name.
+ */
+export const HarmonyPreDownloadFileRequestValidator = z.object({
+  fileName: z.string(),
+})
+
+export const HarmonyPreDownloadFileResponseValidator = z.object({
+  rxID: z.int(),
+  fileSize: z.int(),
+  chunkSize: z.int(),
+})
+
+export type HarmonyPreDownloadFileResponse = z.infer<
+  typeof HarmonyPreDownloadFileResponseValidator
+>
+
+export const HarmonyDownloadFileChunkRequestValidator = z.object({
+  rxID: z.int(),
+  chunkNo: z.int(),
+})
+
+export const HarmonyDownloadFileChunkResponseValidator = z.object({
+  rxID: z.int(),
+  chunkNo: z.int(),
+  data: z.string(), // base64
+  fileCrc32: z.string().optional(),
+})
+
+export type HarmonyDownloadFileChunkResponse = z.infer<
+  typeof HarmonyDownloadFileChunkResponseValidator
+>

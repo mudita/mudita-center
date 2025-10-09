@@ -4,6 +4,7 @@
  */
 
 export enum SqlIpcEvents {
+  Initialize = "sql:initialize",
   RunQuery = "sql:run-query",
   ExecuteQuery = "sql:execute-query",
 }

@@ -10,6 +10,7 @@ import { HarmonyPaths } from "devices/harmony/models"
 import { Device } from "devices/common/models"
 import { HarmonyOverviewScreen } from "./screens/overview/harmony-overview.screen"
 import { HarmonyManageFilesScreen } from "./screens/manage-files/harmony-manage-files.screen"
+import { HarmonyQuotationsScreen } from "./screens/quotations/harmony-quotations.screen"
 
 export const useHarmonyRouter = (device?: Device) => {
   const activeHarmony = HarmonySerialPort.isCompatible(device)
@@ -35,6 +36,10 @@ export const useHarmonyRouter = (device?: Device) => {
         <Route
           path={HarmonyPaths.Sounds}
           element={<HarmonyManageFilesScreen />}
+        />
+        <Route
+          path={HarmonyPaths.Quotations}
+          element={<HarmonyQuotationsScreen />}
         />
       </Route>
     ),
