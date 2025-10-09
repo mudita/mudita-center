@@ -52,6 +52,7 @@ import { backupRestore } from "./lib/backup-restore"
 import { backupRestoreAvailable } from "./lib/backup-restore-available"
 import { mcImportContactsButton } from "./lib/mc-import-contacts-button"
 import { mcContactsView } from "./lib/mc-contacts-view"
+export { mcContactsDuplicates } from "./lib/mc-contacts-duplicates"
 import { mcContactsDuplicatesView } from "./lib/mc-contacts-duplicates-view"
 import { mcDataMigration } from "./lib/mc-data-migration"
 import { mcFileManagerView } from "./lib/mc-file-manager"
@@ -75,6 +76,7 @@ import { entitiesDeleteError } from "./lib/entities-delete-error"
 import { mcAppInstallationProgress } from "./lib/mc-app-installation-progress"
 import { mcAppInstallationError } from "./lib/mc-app-installation-error"
 import { mcAppInstallationSuccess } from "./lib/mc-app-installation-success"
+import { mcContactsDuplicates } from "./lib/mc-contacts-duplicates"
 
 export * from "./lib/accordion"
 export * from "./lib/block-box"
@@ -228,5 +230,6 @@ export default {
   [mcAppInstallationProgress.key]: mcAppInstallationProgress,
   [mcAppInstallationError.key]: mcAppInstallationError,
   [mcAppInstallationSuccess.key]: mcAppInstallationSuccess,
+  [mcContactsDuplicates.key]: mcContactsDuplicates,
   ...TypographyMap,
 } as const
