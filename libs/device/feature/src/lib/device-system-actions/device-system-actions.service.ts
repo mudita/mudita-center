@@ -53,4 +53,9 @@ export class DeviceSystemActionsService {
   public powerOff({ deviceId }: { deviceId?: string } = {}) {
     return this.sendSystemRequest("powerOff", { deviceId })
   }
+
+  @IpcEvent(DeviceSystemActionsServiceEvents.ClearData)
+  public clearDeviceData({ deviceId }: { deviceId?: string } = {}) {
+    return this.sendSystemRequest("clearData", { deviceId })
+  }
 }

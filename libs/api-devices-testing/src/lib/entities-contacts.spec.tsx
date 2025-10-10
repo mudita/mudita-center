@@ -18,6 +18,7 @@ import {
 import { clearContact } from "./helpers/clear-contact-data"
 import { exec } from "child_process"
 import util from "util"
+import { clearDeviceData } from "./helpers/clear-device-data"
 export const execPromise = util.promisify(exec)
 
 jest.mock("shared/utils", () => {
@@ -48,8 +49,8 @@ describe("Contact entities", () => {
   }, 10000)
 
   beforeEach(async () => {
-    await clearContactsDatabase()
     deviceProtocol = setActiveDevice(await setKompaktConnection())
+    await clearDatabase(deviceProtocol)
   })
 
   afterEach(async () => {
@@ -242,12 +243,9 @@ describe("Contact entities", () => {
     return undefined
   }
 
-  const clearContactsDatabase = async (): Promise<void> => {
-    try {
-      const command = `adb shell pm clear com.android.providers.contacts`
-      await execPromise(command)
-    } catch (err) {
-      console.log(err)
-    }
+  const clearDatabase = async (
+    deviceProtocol: DeviceProtocol
+  ): Promise<void> => {
+    await clearDeviceData(deviceProtocol)
   }
 })
