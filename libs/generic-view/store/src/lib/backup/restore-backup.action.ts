@@ -137,8 +137,8 @@ export const restoreBackup = createAsyncThunk<
     )
 
     const singleFilePreSendProgressFactor =
-      preSendFileProgressFactor / features.length
-    for (let i = 0; i < features.length; ++i) {
+      preSendFileProgressFactor / featuresPaths.length
+    for (let i = 0; i < featuresPaths.length; ++i) {
       if (aborted) {
         return rejectWithValue(undefined)
       }
@@ -175,8 +175,8 @@ export const restoreBackup = createAsyncThunk<
     }
 
     const singleFileSendProgressFactor =
-      fileSendProgressFactor / features.length
-    for (let i = 0; i < features.length; ++i) {
+      fileSendProgressFactor / featuresPaths.length
+    for (let i = 0; i < featuresPaths.length; ++i) {
       if (aborted) {
         return rejectWithValue(undefined)
       }
