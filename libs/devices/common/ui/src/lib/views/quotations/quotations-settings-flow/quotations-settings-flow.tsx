@@ -4,14 +4,14 @@
  */
 
 import { FunctionComponent, useEffect, useState } from "react"
+import { QuotationSettings } from "devices/common/models"
+import { formatMessage, Messages } from "app-localize/utils"
 import {
   createToastContent,
   GenericFailedModal,
   GenericProgressModal,
   useToastContext,
 } from "app-theme/ui"
-import { formatMessage, Messages } from "app-localize/utils"
-import { QuotationSettings } from "../quotations.types"
 import {
   QuotationsSettingsForm,
   QuotationsSettingsFormProps,

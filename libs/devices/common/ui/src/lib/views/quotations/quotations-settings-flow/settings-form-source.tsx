@@ -5,13 +5,13 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
+import { QuotationSettingsGroup } from "devices/common/models"
 import { Messages } from "app-localize/utils"
 import { Radio, Typography } from "app-theme/ui"
-import { Source } from "../quotations.types"
 
 export interface SettingsFormSourceProps {
-  selectedSource: Source
-  setSelectedSource: (source: Source) => void
+  selectedSource: QuotationSettingsGroup
+  setSelectedSource: (source: QuotationSettingsGroup) => void
   customQuotationsCount?: number
   messages: {
     updateSettingsFormPredefined: Messages
@@ -31,9 +31,9 @@ export const SettingsFormSource: FunctionComponent<SettingsFormSourceProps> = ({
       <Label htmlFor={id + "-predefined"}>
         <Radio
           id={id + "-predefined"}
-          value={Source.Predefined}
-          checked={selectedSource === Source.Predefined}
-          onChange={() => setSelectedSource(Source.Predefined)}
+          value={QuotationSettingsGroup.Predefined}
+          checked={selectedSource === QuotationSettingsGroup.Predefined}
+          onChange={() => setSelectedSource(QuotationSettingsGroup.Predefined)}
         />
         <Typography.P1
           message={messages.updateSettingsFormPredefined.id}
@@ -43,9 +43,9 @@ export const SettingsFormSource: FunctionComponent<SettingsFormSourceProps> = ({
       <Label htmlFor={id + "-custom"}>
         <Radio
           id={id + "-custom"}
-          value={Source.Custom}
-          checked={selectedSource === Source.Custom}
-          onChange={() => setSelectedSource(Source.Custom)}
+          value={QuotationSettingsGroup.Custom}
+          checked={selectedSource === QuotationSettingsGroup.Custom}
+          onChange={() => setSelectedSource(QuotationSettingsGroup.Custom)}
           disabled={customQuotationsCount === 0}
         />
         <Typography.P1

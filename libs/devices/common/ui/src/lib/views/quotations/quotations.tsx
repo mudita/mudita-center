@@ -5,6 +5,7 @@
 
 import { FunctionComponent, useCallback, useState } from "react"
 import styled from "styled-components"
+import { Quotation } from "devices/common/models"
 import { backgroundColor } from "app-theme/utils"
 import {
   GenericDeleteFlow,
@@ -19,7 +20,6 @@ import {
   QuotationsEmptyStateProps,
 } from "./quotations-empty-state"
 import { QuotationsList } from "./quotations-list"
-import { Quotation } from "./quotations.types"
 import {
   QuotationsCreateFlow,
   QuotationsCreateFlowProps,

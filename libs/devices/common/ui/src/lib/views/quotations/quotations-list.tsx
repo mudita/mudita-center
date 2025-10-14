@@ -5,10 +5,10 @@
 
 import { ChangeEventHandler, FunctionComponent, useCallback } from "react"
 import styled, { css } from "styled-components"
+import { Quotation } from "devices/common/models"
 import { Checkbox as BaseCheckbox, Icon, Typography } from "app-theme/ui"
 import { CheckboxSize, IconSize, IconType } from "app-theme/models"
 import { backgroundColor, borderColor } from "app-theme/utils"
-import { Quotation } from "./quotations.types"
 
 interface Props {
   quotations?: Quotation[]

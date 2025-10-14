@@ -11,7 +11,7 @@ import {
   HarmonyPostQuotationRequest,
   HarmonyPostQuotationResponse,
 } from "devices/harmony/models"
-import { Quotation } from "devices/common/ui"
+import { Quotation } from "devices/common/models"
 import { createQuotation } from "../api/create-quotation"
 import { useHarmonyQuotationListQuery } from "./use-harmony-quotation-list.query"
 

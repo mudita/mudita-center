@@ -5,11 +5,11 @@
 
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
-import { Button, Icon, Modal, Typography } from "app-theme/ui"
+import { NewQuotation } from "devices/common/models"
 import { ButtonType, IconType } from "app-theme/models"
 import { formatMessage, Messages } from "app-localize/utils"
 import { backgroundColor, borderColor } from "app-theme/utils"
-import { NewQuotation } from "../quotations.types"
+import { Button, Icon, Modal, Typography } from "app-theme/ui"
 import { CreateFormInput, CreateFormInputProps } from "./create-form-input"
 import { CreateFormPreview } from "./create-form-preview"
 

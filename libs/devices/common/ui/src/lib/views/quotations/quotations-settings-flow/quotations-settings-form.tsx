@@ -6,11 +6,15 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import styled from "styled-components"
 import { ButtonSize, ButtonType, ModalSize } from "app-theme/models"
+import {
+  QuotationSettings,
+  QuotationSettingsGroup,
+  QuotationSettingsInterval,
+} from "devices/common/models"
+import { AppResult } from "app-utils/models"
 import { borderColor } from "app-theme/utils"
 import { formatMessage, Messages } from "app-localize/utils"
 import { Button, Modal, Typography } from "app-theme/ui"
-import { AppResult } from "app-utils/models"
-import { Interval, QuotationSettings, Source } from "../quotations.types"
 import { quotationsMessages } from "../quotations.messages"
 import {
   SettingsFormSource,
@@ -39,12 +43,11 @@ export const QuotationsSettingsForm: FunctionComponent<
   messages,
   onClose,
 }) => {
-  const [selectedSource, setSelectedSource] = useState<Source>(
-    settings.group || Source.Predefined
+  const [selectedSource, setSelectedSource] = useState<QuotationSettingsGroup>(
+    settings.group
   )
-  const [selectedInterval, setSelectedInterval] = useState<Interval>(
-    settings.interval || "AtMidnight"
-  )
+  const [selectedInterval, setSelectedInterval] =
+    useState<QuotationSettingsInterval>(settings.interval)
 
   const hasChanges =
     settings.group !== selectedSource || settings.interval !== selectedInterval

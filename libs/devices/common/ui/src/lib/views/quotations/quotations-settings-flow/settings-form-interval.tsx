@@ -11,15 +11,18 @@ import {
 } from "react"
 import styled from "styled-components"
 import { IconSize, IconType } from "app-theme/models"
+import {
+  QuotationSettingsInterval,
+  quotationSettingsIntervals,
+} from "devices/common/models"
 import { formatMessage } from "app-localize/utils"
 import { backgroundColor, borderColor } from "app-theme/utils"
 import { Icon, Typography } from "app-theme/ui"
-import { Interval, intervals } from "../quotations.types"
 import { quotationsMessages } from "../quotations.messages"
 
 interface Props {
-  selectedInterval: Interval
-  setSelectedInterval: (interval: Interval) => void
+  selectedInterval: QuotationSettingsInterval
+  setSelectedInterval: (interval: QuotationSettingsInterval) => void
 }
 
 export const SettingsFormInterval: FunctionComponent<Props> = ({
@@ -28,7 +31,7 @@ export const SettingsFormInterval: FunctionComponent<Props> = ({
 }) => {
   const selectDropdownRef = useRef<HTMLUListElement>(null)
 
-  const formatInterval = useCallback((interval: Interval) => {
+  const formatInterval = useCallback((interval: QuotationSettingsInterval) => {
     if (typeof interval === "number") {
       const hours = interval / 60
       if (hours < 1) {
@@ -69,7 +72,7 @@ export const SettingsFormInterval: FunctionComponent<Props> = ({
       </Typography.P1>
       <Icon type={IconType.Dropdown} size={IconSize.Medium} />
       <SelectDropdown tabIndex={-1} ref={selectDropdownRef}>
-        {intervals.map((item) => (
+        {quotationSettingsIntervals.map((item) => (
           <SelectItem
             key={item}
             onClick={() => {

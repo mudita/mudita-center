@@ -12,7 +12,7 @@ import {
   GenericProgressModal,
   useToastContext,
 } from "app-theme/ui"
-import { NewQuotation } from "../quotations.types"
+import { NewQuotation } from "devices/common/models"
 import {
   QuotationsCreateForm,
   QuotationsCreateFormProps,

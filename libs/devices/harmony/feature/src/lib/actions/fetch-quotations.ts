@@ -5,7 +5,7 @@
 
 import { AppSql } from "app-sql/renderer"
 import { Harmony } from "devices/harmony/models"
-import { Quotation } from "devices/common/ui"
+import { Quotation } from "devices/common/models"
 import { initializeDatabaseFromBackup } from "./initialize-database-from-backup"
 
 const DB_FILE_NAME = "quotes.db"
