@@ -15,12 +15,25 @@ const queryFn = async () => {
 
   const list = uniqBy(
     devices.map(
-      ({ id, path, deviceType, serialNumber, productId, deviceSubtype }) => ({
+      ({
         id,
         path,
         deviceType,
         serialNumber,
         productId,
+        vendorId,
+        otherProductIds,
+        otherVendorIds,
+        deviceSubtype,
+      }) => ({
+        id,
+        path,
+        deviceType,
+        serialNumber,
+        productId,
+        vendorId,
+        otherProductIds,
+        otherVendorIds,
         deviceSubtype,
       })
     ),

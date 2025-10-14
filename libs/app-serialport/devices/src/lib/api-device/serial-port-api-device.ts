@@ -55,4 +55,13 @@ export class SerialPortApiDevice extends SerialPortDevice {
     }
     return undefined
   }
+
+  public static getProductsGroups() {
+    return [
+      {
+        vendorIds: kompaktVendorIds,
+        productIds: kompaktProductIds,
+      },
+    ]
+  }
 }

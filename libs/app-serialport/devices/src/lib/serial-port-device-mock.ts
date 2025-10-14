@@ -136,4 +136,13 @@ export class SerialPortDeviceMock extends SerialPortMock {
   emitData(id: number, data: unknown) {
     super.emit("data", JSON.stringify({ id, data }))
   }
+
+  public static getProductsGroups() {
+    return [
+      {
+        vendorIds: this.matchingVendorIds,
+        productIds: this.matchingProductIds,
+      },
+    ]
+  }
 }
