@@ -103,19 +103,15 @@ export class AppFileSystemGuard {
       throw new Error("webContentsId must be a positive integer")
     }
 
-    const canonicalAbsolutePath = this.resolveRealPath(absoluteInput)
-
     if (
       !this.hasGrantedAccess({
-        fileAbsolutePath: canonicalAbsolutePath,
+        fileAbsolutePath: absoluteInput,
         webContentsId: options.webContentsId,
       })
     ) {
-      throw new Error(
-        `Path not granted for this window: ${canonicalAbsolutePath}`
-      )
+      throw new Error(`Path not granted for this window: ${absoluteInput}`)
     }
-    return canonicalAbsolutePath
+    return absoluteInput
   }
 
   private hasGrantedAccess(options: AbsolutePathWithGrantOptions): boolean {
