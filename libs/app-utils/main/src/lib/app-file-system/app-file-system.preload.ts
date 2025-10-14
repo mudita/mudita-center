@@ -7,17 +7,19 @@ import { ipcRenderer } from "electron"
 import {
   AppFileSystemArchiveOptions,
   AppFileSystemCalculateCrc32Options,
-  AppFileSystemReadFileChunkOptions,
+  AppFileSystemExtractOptions,
   AppFileSystemFileStatsOptions,
   AppFileSystemIpcEvents,
   AppFileSystemMkdirOptions,
+  AppFileSystemOpenDirectoryOptions,
   AppFileSystemPathExistsOptions,
+  AppFileSystemReadDirOptions,
+  AppFileSystemReadFileChunkOptions,
+  AppFileSystemReadFileOptions,
   AppFileSystemRmOptions,
+  AppFileSystemWriteFileChunkOptions,
   AppFileSystemWriteFileOptions,
   AppResult,
-  AppFileSystemWriteFileChunkOptions,
-  AppFileSystemReadFileOptions,
-  AppFileSystemExtractOptions,
 } from "app-utils/models"
 import fs from "fs-extra"
 
@@ -40,6 +42,11 @@ export const appFileSystem = {
     options: AppFileSystemReadFileOptions
   ): Promise<AppResult<string>> => {
     return ipcRenderer.invoke(AppFileSystemIpcEvents.ReadFile, options)
+  },
+  readDir: (
+    options: AppFileSystemReadDirOptions
+  ): Promise<AppResult<string[]>> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.ReadDir, options)
   },
   pathExists: (
     options: AppFileSystemPathExistsOptions
@@ -73,5 +80,10 @@ export const appFileSystem = {
     options: AppFileSystemExtractOptions
   ): Promise<AppResult<string[]>> => {
     return ipcRenderer.invoke(AppFileSystemIpcEvents.Extract, options)
+  },
+  openDirectory: (
+    options: AppFileSystemOpenDirectoryOptions
+  ): Promise<void> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.OpenDirectory, options)
   },
 }

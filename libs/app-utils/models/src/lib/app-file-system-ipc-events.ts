@@ -9,10 +9,12 @@ export enum AppFileSystemIpcEvents {
   Archive = "appFileSystem:archive",
   WriteFile = "appFileSystem:writeFile",
   ReadFile = "appFileSystem:readFile",
+  ReadDir = "appFileSystem:readDir",
   PathExists = "appFileSystem:pathExists",
   FileStats = "appFileSystem:fileStats",
   CalculateFileCrc32 = "appFileSystem:calculateFileCrc32",
   ReadFileChunk = "appFileSystem:readFileChunk",
   WriteFileChunk = "appFileSystem:writeFileChunk",
   Extract = "appFileSystem:extract",
+  OpenDirectory = "appFileSystem:openDirectory",
 }

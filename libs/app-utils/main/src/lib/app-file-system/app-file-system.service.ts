@@ -14,7 +14,9 @@ import {
   AppFileSystemFileStatsOptions,
   AppFileSystemGuardOptions,
   AppFileSystemMkdirOptions,
+  AppFileSystemOpenDirectoryOptions,
   AppFileSystemPathExistsOptions,
+  AppFileSystemReadDirOptions,
   AppFileSystemReadFileChunkOptions,
   AppFileSystemReadFileOptions,
   AppFileSystemRmOptions,
@@ -26,12 +28,15 @@ import {
 } from "app-utils/models"
 import { crc32 } from "node:zlib"
 import { AppFileSystemGuard } from "./app-file-system.guard"
+import { shell } from "electron"
+import { isArray } from "lodash"
 
 export class AppFileSystemService {
   constructor(private appFileSystemGuard: AppFileSystemGuard) {}
 
-  resolveSafePath = (opts: AppFileSystemGuardOptions) =>
-    this.appFileSystemGuard.resolveSafePath(opts)
+  resolveSafePath = (opts: AppFileSystemGuardOptions) => {
+    return this.appFileSystemGuard.resolveSafePath(opts)
+  }
 
   async rm(options: AppFileSystemRmOptions): Promise<AppResult> {
     try {
@@ -112,6 +117,18 @@ export class AppFileSystemService {
     }
   }
 
+  async readDir(
+    options: AppFileSystemReadDirOptions
+  ): Promise<AppResult<string[]>> {
+    try {
+      const dirPath = this.resolveSafePath(options)
+      const files = await fs.readdir(dirPath)
+      return AppResultFactory.success(files)
+    } catch (error) {
+      return AppResultFactory.failed(mapToAppError(error))
+    }
+  }
+
   async readFile(
     options: AppFileSystemReadFileOptions
   ): Promise<AppResult<string>> {
@@ -129,8 +146,15 @@ export class AppFileSystemService {
     options: AppFileSystemCalculateCrc32Options
   ): Promise<AppResult<string>> {
     try {
-      const filePath = this.resolveSafePath(options)
-      const buffer = await fs.readFile(filePath)
+      let buffer: Buffer
+      if (options.data) {
+        buffer = Buffer.isBuffer(options.data)
+          ? options.data
+          : Buffer.from(options.data)
+      } else {
+        const filePath = this.resolveSafePath(options)
+        buffer = await fs.readFile(filePath)
+      }
       const crc32Value = (crc32(buffer) >>> 0)
         .toString(16)
         .toLowerCase()
@@ -170,10 +194,10 @@ export class AppFileSystemService {
       start: chunkNo * options.chunkSize,
     })
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       stream.write(options.data, (err) => {
         if (err) {
-          reject(AppResultFactory.failed(mapToAppError(err)))
+          resolve(AppResultFactory.failed(mapToAppError(err)))
           return
         }
         stream.end()
@@ -185,22 +209,24 @@ export class AppFileSystemService {
       })
 
       stream.on("error", (err) => {
-        reject(AppResultFactory.failed(mapToAppError(err)))
+        resolve(AppResultFactory.failed(mapToAppError(err)))
       })
     })
   }
 
-  writeZip(sourceDir: string, destinationPath: string): Promise<void> {
-    return new Promise((resolve, reject) => {
+  writeZip(sourceDir: string, destinationPath: string): Promise<AppResult> {
+    return new Promise((resolve) => {
       const output = fs.createWriteStream(destinationPath)
       const archive = archiver("zip", {
         zlib: { level: 9 },
       })
 
       output.on("close", () => {
-        resolve()
+        resolve(AppResultFactory.success())
       })
-      archive.on("error", (err) => reject(err))
+      archive.on("error", (err) => {
+        resolve(AppResultFactory.failed(mapToAppError(err)))
+      })
 
       archive.pipe(output)
 
@@ -221,7 +247,7 @@ export class AppFileSystemService {
     const entryPaths: string[] = []
     const extract = tar.extract({ allowUnknownFormat: true })
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       extract.on("entry", function (header, entryStream, next) {
         const entryFilePath = path.join(destinationFilePath, header.name)
         if (header.type === "file") {
@@ -231,8 +257,12 @@ export class AppFileSystemService {
             entryPaths.push(entryFilePath)
             next()
           })
-          ws.on("error", reject)
-          entryStream.on("error", reject)
+          ws.on("error", (err) => {
+            resolve(AppResultFactory.failed(mapToAppError(err)))
+          })
+          entryStream.on("error", (err) => {
+            resolve(AppResultFactory.failed(mapToAppError(err)))
+          })
 
           entryStream.pipe(ws)
           return
@@ -243,14 +273,20 @@ export class AppFileSystemService {
 
       extract.on("finish", () => resolve(AppResultFactory.success(entryPaths)))
       extract.on("error", (err) =>
-        reject(AppResultFactory.failed(mapToAppError(err)))
+        resolve(AppResultFactory.failed(mapToAppError(err)))
       )
 
       const rs = fs.createReadStream(sourceFilePath)
       rs.on("error", (err) =>
-        reject(AppResultFactory.failed(mapToAppError(err)))
+        resolve(AppResultFactory.failed(mapToAppError(err)))
       )
       rs.pipe(extract)
     })
+  }
+
+  async openDirectory(options: AppFileSystemOpenDirectoryOptions) {
+    await shell.openPath(
+      isArray(options.path) ? path.join(...options.path) : options.path
+    )
   }
 }
