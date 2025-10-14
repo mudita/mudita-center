@@ -8,7 +8,10 @@ import { BrowserWindow, ipcMain } from "electron"
 import { initSql } from "app-sql/main"
 import { initNews } from "news/main"
 import { AppHelpService, initAppHelp } from "help/main"
-import { initAppSettings } from "app-settings/main"
+import {
+  getService as getAppSettingsService,
+  initAppSettings,
+} from "app-settings/main"
 import {
   AppActionsService,
   AppFileSystemGuard,
@@ -30,11 +33,14 @@ import {
 import { initUsbAccess } from "app-init/main"
 import { IpcMockServer } from "e2e-mock/server"
 
-export const initAppLibs = (
+export const initAppLibs = async (
   mainWindow: BrowserWindow,
   mockServer: IpcMockServer
 ) => {
-  const appFileSystemGuard = new AppFileSystemGuard()
+  const appSettingsService = await getAppSettingsService(
+    mockServer.serverEnabled
+  )
+  const appFileSystemGuard = new AppFileSystemGuard(appSettingsService)
   const appFileSystem = new AppFileSystemService(appFileSystemGuard)
   const appActionsService = new AppActionsService(appFileSystemGuard)
 

@@ -5,13 +5,13 @@
 
 import path from "path"
 import { app } from "electron"
-import { AppSettings } from "app-settings/models"
+import { AppSettings, AppSettingsServiceModel } from "app-settings/models"
 import { JsonStoreService, MigrationService } from "app-utils/main"
 import { migrations } from "./migrations"
 import { DotNotation, NestedPartial } from "app-utils/models"
 import { generateAnalyticsId } from "./generate-application-id"
 
-export class AppSettingsService {
+export class AppSettingsService implements AppSettingsServiceModel {
   private readonly jsonStore: JsonStoreService<AppSettings>
   private readonly migrationService: MigrationService<AppSettings>
 

@@ -50,8 +50,8 @@ const createWindow = () => {
 
   mockServer.start()
 
-  mainWindow.on("ready-to-show", () => {
-    initAppLibs(mainWindow, mockServer)
+  mainWindow.on("ready-to-show", async () => {
+    await initAppLibs(mainWindow, mockServer)
 
     if (process.env.NODE_ENV === "development") {
       mainWindow.showInactive()
