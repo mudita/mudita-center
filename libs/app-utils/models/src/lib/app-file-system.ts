@@ -49,9 +49,12 @@ export interface AppFileSystemWriteFileOptions
   data: Buffer | Record<string, unknown>
 }
 export type AppFileSystemReadFileOptions = AppFileSystemGuardOptions
+export type AppFileSystemReadDirOptions = AppFileSystemGuardOptions
 export type AppFileSystemPathExistsOptions = AppFileSystemGuardOptions
 export type AppFileSystemFileStatsOptions = AppFileSystemGuardOptions
-export type AppFileSystemCalculateCrc32Options = AppFileSystemGuardOptions
+export type AppFileSystemCalculateCrc32Options = AppFileSystemGuardOptions & {
+  data?: Buffer | string
+}
 
 export type AppFileSystemReadFileChunkOptions = AppFileSystemGuardOptions & {
   chunkSize: number
@@ -66,4 +69,8 @@ export type AppFileSystemWriteFileChunkOptions = AppFileSystemGuardOptions & {
 
 export type AppFileSystemExtractOptions = AppFileSystemGuardOptions & {
   scopeDestinationPath?: string | string[]
+}
+
+export interface AppFileSystemOpenDirectoryOptions {
+  path: AbsolutePathWithGrantOptions["fileAbsolutePath"]
 }
