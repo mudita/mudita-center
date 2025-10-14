@@ -14,6 +14,8 @@ export interface SerialPortDeviceInfo<DeviceType = SerialPortDeviceType>
   id: string
   productId: string
   vendorId: string
+  otherProductIds?: string[]
+  otherVendorIds?: string[]
   deviceType: DeviceType
   deviceSubtype?: SerialPortDeviceSubtype
 }

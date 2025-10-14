@@ -172,6 +172,15 @@ export class SerialPortDevice extends SerialPort {
   ): SerialPortDeviceSubtype | undefined {
     return undefined
   }
+
+  public static getProductsGroups() {
+    return [
+      {
+        vendorIds: this.matchingVendorIds,
+        productIds: this.matchingProductIds,
+      },
+    ]
+  }
 }
 
 const sliceLogs = (text = "") => {
