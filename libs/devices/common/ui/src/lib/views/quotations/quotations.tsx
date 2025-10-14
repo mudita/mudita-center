@@ -14,32 +14,46 @@ import {
 } from "app-theme/ui"
 import { QuotationsTopBar } from "./quotations-top-bar"
 import { quotationsMessages } from "./quotations.messages"
-import { QuotationsEmptyState } from "./quotations-empty-state"
+import {
+  QuotationsEmptyState,
+  QuotationsEmptyStateProps,
+} from "./quotations-empty-state"
 import { QuotationsList } from "./quotations-list"
 import { Quotation } from "./quotations.types"
 import {
   QuotationsCreateFlow,
   QuotationsCreateFlowProps,
 } from "./quotations-create-flow/quotations-create-flow"
+import {
+  QuotationsSettingsFlow,
+  QuotationsSettingsFlowProps,
+} from "./quotations-settings-flow/quotations-settings-flow"
 
-interface QuotationsProps
-  extends Pick<QuotationsCreateFlowProps, "createQuotation"> {
+interface QuotationsProps {
   quotations: Quotation[]
   isLoading?: boolean
-  onDeleteSuccess?: GenericDeleteFlowProps["onDeleteSuccess"]
+  settings: QuotationsSettingsFlowProps["settings"]
+  updateSettings: QuotationsSettingsFlowProps["updateSettings"]
+  createQuotation: QuotationsCreateFlowProps["createQuotation"]
   deleteQuotation: GenericDeleteFlowProps["deleteItem"]
-  messages: GenericDeleteFlowProps["deleteFlowMessages"]
+  onDeleteSuccess?: GenericDeleteFlowProps["onDeleteSuccess"]
+  messages: QuotationsEmptyStateProps["messages"] &
+    QuotationsCreateFlowProps["messages"] &
+    QuotationsSettingsFlowProps["messages"] &
+    GenericDeleteFlowProps["deleteFlowMessages"]
 }
 
 export const Quotations: FunctionComponent<QuotationsProps> = ({
   quotations,
   isLoading = false,
-  createQuotation,
+  settings,
+  updateSettings,
   deleteQuotation,
+  createQuotation,
   onDeleteSuccess,
   messages,
 }) => {
-  const [, setSettingsOpened] = useState(false)
+  const [settingsOpened, setSettingsOpened] = useState(false)
   const [createFlowOpened, setCreateFlowOpened] = useState(false)
   const [, setNoSpaceOpened] = useState(false)
 
@@ -134,7 +148,10 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
           message={quotationsMessages.loadStateText.id}
         />
       ) : quotations.length === 0 ? (
-        <QuotationsEmptyState onAddClick={handleCreatorOpen} />
+        <QuotationsEmptyState
+          onAddClick={handleCreatorOpen}
+          messages={messages}
+        />
       ) : (
         <QuotationsList
           quotations={quotations}
@@ -146,6 +163,7 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
         opened={createFlowOpened}
         onClose={() => setCreateFlowOpened(false)}
         createQuotation={createQuotation}
+        messages={messages}
       />
       <GenericDeleteFlow
         opened={deleteFlowOpened}
@@ -158,6 +176,14 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
         onPartialDeleteFailure={handlePartialDeleteFailure}
         deleteItem={deleteQuotation}
         deleteFlowMessages={messages}
+      />
+      <QuotationsSettingsFlow
+        opened={settingsOpened}
+        settings={settings}
+        customQuotationsCount={quotations.length}
+        updateSettings={updateSettings}
+        onClose={() => setSettingsOpened(false)}
+        messages={messages}
       />
     </Wrapper>
   )

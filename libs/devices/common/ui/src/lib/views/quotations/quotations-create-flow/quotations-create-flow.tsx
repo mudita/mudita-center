@@ -5,7 +5,7 @@
 
 import { FunctionComponent, useEffect, useState } from "react"
 import { AppResult } from "app-utils/models"
-import { formatMessage } from "app-localize/utils"
+import { formatMessage, Messages } from "app-localize/utils"
 import {
   createToastContent,
   GenericFailedModal,
@@ -13,7 +13,6 @@ import {
   useToastContext,
 } from "app-theme/ui"
 import { NewQuotation } from "../quotations.types"
-import { quotationsMessages } from "../quotations.messages"
 import {
   QuotationsCreateForm,
   QuotationsCreateFormProps,
@@ -23,6 +22,14 @@ export interface QuotationsCreateFlowProps {
   opened?: boolean
   onClose: VoidFunction
   createQuotation: (quotation: NewQuotation) => Promise<AppResult>
+  messages: QuotationsCreateFormProps["messages"] & {
+    createSuccessToastText: Messages
+    createProgressModalTitle: Messages
+    createProgressModalDescription: Messages
+    createFailedModalTitle: Messages
+    createFailedModalDescription: Messages
+    createFailedModalCloseButtonText: Messages
+  }
 }
 
 enum QuotationsCreateFlowState {
@@ -34,7 +41,7 @@ enum QuotationsCreateFlowState {
 
 export const QuotationsCreateFlow: FunctionComponent<
   QuotationsCreateFlowProps
-> = ({ opened = false, onClose, createQuotation }) => {
+> = ({ opened = false, onClose, createQuotation, messages }) => {
   const { addToast } = useToastContext()
   const [flowState, setFlowState] = useState<QuotationsCreateFlowState>(
     QuotationsCreateFlowState.Idle
@@ -59,7 +66,7 @@ export const QuotationsCreateFlow: FunctionComponent<
     setFlowState(QuotationsCreateFlowState.Idle)
     addToast(
       createToastContent({
-        text: formatMessage(quotationsMessages.createSuccessToastText),
+        text: formatMessage(messages.createSuccessToastText),
       })
     )
   }
@@ -74,24 +81,19 @@ export const QuotationsCreateFlow: FunctionComponent<
         opened={flowState === QuotationsCreateFlowState.CreateForm}
         onClose={closeQuotationsCreateForm}
         onSave={onSave}
+        messages={messages}
       />
       <GenericProgressModal
         opened={flowState === QuotationsCreateFlowState.Progress}
-        title={formatMessage(quotationsMessages.createProgressModalTitle)}
-        description={formatMessage(
-          quotationsMessages.createProgressModalDescription
-        )}
+        title={formatMessage(messages.createProgressModalTitle)}
+        description={formatMessage(messages.createProgressModalDescription)}
       />
       <GenericFailedModal
         opened={flowState === QuotationsCreateFlowState.Error}
         onClose={closeQuotationsCreateForm}
-        title={formatMessage(quotationsMessages.createFailedModalTitle)}
-        description={formatMessage(
-          quotationsMessages.createFailedModalDescription
-        )}
-        buttonText={formatMessage(
-          quotationsMessages.createFailedModalCloseButtonText
-        )}
+        title={formatMessage(messages.createFailedModalTitle)}
+        description={formatMessage(messages.createFailedModalDescription)}
+        buttonText={formatMessage(messages.createFailedModalCloseButtonText)}
       />
     </>
   )

@@ -13,27 +13,31 @@ import {
 } from "react"
 import styled, { css } from "styled-components"
 import { Typography } from "app-theme/ui"
-import { formatMessage } from "app-localize/utils"
+import { formatMessage, Messages } from "app-localize/utils"
 import { backgroundColor, borderColor, textColor } from "app-theme/utils"
-import { quotationsMessages } from "../quotations.messages"
 import { glyphs, GlyphsType } from "./glyphs"
 
-type Props = {
+export interface CreateFormInputProps {
   label?: string
   rows?: number
   limits: number[]
   glyphsType: GlyphsType
   onChange: (value: string) => void
   onError: (hasError: boolean) => void
+  messages: {
+    errorTooLong: Messages
+    errorInvalidCharacter: Messages
+  }
 }
 
-export const CreateFormInput: FunctionComponent<Props> = ({
+export const CreateFormInput: FunctionComponent<CreateFormInputProps> = ({
   label,
   rows = 1,
   glyphsType,
   limits,
   onChange,
   onError,
+  messages,
 }) => {
   const [error, setError] = useState("")
   const [linesCount, setLinesCount] = useState(1)
@@ -89,12 +93,12 @@ export const CreateFormInput: FunctionComponent<Props> = ({
       if (tooManyLines || tooLongLines) {
         onChange("")
         onError(true)
-        setError(formatMessage(quotationsMessages.errorTooLong))
+        setError(formatMessage(messages.errorTooLong))
       } else if (hasInvalidCharacter) {
         onChange("")
         onError(true)
         setError(
-          formatMessage(quotationsMessages.errorInvalidCharacter, {
+          formatMessage(messages.errorInvalidCharacter, {
             character: invalidCharacters[0],
           })
         )

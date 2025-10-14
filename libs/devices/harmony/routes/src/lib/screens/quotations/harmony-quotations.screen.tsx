@@ -4,24 +4,20 @@
  */
 
 import { FunctionComponent } from "react"
-import { defineMessages, formatMessage } from "app-localize/utils"
+import { formatMessage } from "app-localize/utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { DashboardHeaderTitle } from "app-routing/feature"
-import { Quotation, Quotations } from "devices/common/ui"
+import { Harmony } from "devices/harmony/models"
+import { AppResultFactory } from "app-utils/models"
+import { delay } from "app-utils/common"
+import { Quotation, Quotations, Source } from "devices/common/ui"
 import { useActiveDeviceQuery } from "devices/common/feature"
 import {
   useHarmonyCreateQuotationMutation,
   useHarmonyDeleteQuotationMutation,
   useHarmonyQuotationListQuery,
 } from "devices/harmony/feature"
-import { Harmony } from "devices/harmony/models"
 import { harmonyQuotationsMessages } from "./harmony-quotations.messages"
-
-const messages = defineMessages({
-  pageTitle: {
-    id: "page.quotations.title",
-  },
-})
 
 export const HarmonyQuotationsScreen: FunctionComponent = () => {
   const queryClient = useQueryClient()
@@ -48,7 +44,9 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
 
   return (
     <>
-      <DashboardHeaderTitle title={formatMessage(messages.pageTitle)} />
+      <DashboardHeaderTitle
+        title={formatMessage(harmonyQuotationsMessages.pageTitle)}
+      />
       <Quotations
         isLoading={isLoading}
         quotations={quotations}
@@ -56,6 +54,15 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
         deleteQuotation={deleteQuotation}
         messages={harmonyQuotationsMessages}
         onDeleteSuccess={handleOnDeleteSuccess}
+        settings={{
+          interval: "AtMidnight",
+          group: Source.Predefined,
+        }}
+        updateSettings={async () => {
+          await delay(1000)
+          return Promise.resolve(AppResultFactory.success(undefined))
+          // return Promise.resolve(AppResultFactory.failed(new AppError("Not implemented")))
+        }}
       />
     </>
   )
