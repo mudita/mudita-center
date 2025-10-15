@@ -7,6 +7,7 @@
 
 import Svg from "*.svg?react"
 import { IconType } from "app-theme/models"
+import AirplaneMode from "./svg/airplane-mode.svg?react"
 import ArrowBack from "./svg/arrow-back.svg?react"
 import Backup from "./svg/backup.svg?react"
 import Battery0 from "./svg/battery-0.svg?react"
@@ -15,6 +16,12 @@ import Battery2 from "./svg/battery-2.svg?react"
 import Battery3 from "./svg/battery-3.svg?react"
 import Battery4 from "./svg/battery-4.svg?react"
 import Battery5 from "./svg/battery-5.svg?react"
+import BatteryCharging0 from "./svg/battery-charging-0.svg?react"
+import BatteryCharging1 from "./svg/battery-charging-1.svg?react"
+import BatteryCharging2 from "./svg/battery-charging-2.svg?react"
+import BatteryCharging3 from "./svg/battery-charging-3.svg?react"
+import BatteryCharging4 from "./svg/battery-charging-4.svg?react"
+import BatteryCharging5 from "./svg/battery-charging-5.svg?react"
 import BatteryFlat from "./svg/battery-flat.svg?react"
 import Bell from "./svg/bell.svg?react"
 import Check from "./svg/check.svg?react"
@@ -48,12 +55,25 @@ import RecoveryModeFilled from "./svg/recovery-mode-filled.svg?react"
 import Refreshing from "./svg/refreshing.svg?react"
 import Search from "./svg/search.svg?react"
 import Settings from "./svg/settings.svg?react"
+import Signal0 from "./svg/signal-0.svg?react"
+import Signal1 from "./svg/signal-1.svg?react"
+import Signal2 from "./svg/signal-2.svg?react"
+import Signal3 from "./svg/signal-3.svg?react"
+import Signal4 from "./svg/signal-4.svg?react"
+import SignalLte from "./svg/signal-lte.svg?react"
+import SignalNoService from "./svg/signal-no-service.svg?react"
+import SignalRoaming0 from "./svg/signal-roaming-0.svg?react"
+import SignalRoaming1 from "./svg/signal-roaming-1.svg?react"
+import SignalRoaming2 from "./svg/signal-roaming-2.svg?react"
+import SignalRoaming3 from "./svg/signal-roaming-3.svg?react"
+import SignalRoaming4 from "./svg/signal-roaming-4.svg?react"
 import Spinner from "./svg/spinner.svg?react"
 import Support from "./svg/support.svg?react"
 import ThinFail from "./svg/thin-fail.svg?react"
 import Trash from "./svg/trash.svg?react"
 
 export const icons = {
+  [IconType.AirplaneMode]: AirplaneMode,
   [IconType.ArrowBack]: ArrowBack,
   [IconType.Backup]: Backup,
   [IconType.Battery0]: Battery0,
@@ -62,6 +82,12 @@ export const icons = {
   [IconType.Battery3]: Battery3,
   [IconType.Battery4]: Battery4,
   [IconType.Battery5]: Battery5,
+  [IconType.BatteryCharging0]: BatteryCharging0,
+  [IconType.BatteryCharging1]: BatteryCharging1,
+  [IconType.BatteryCharging2]: BatteryCharging2,
+  [IconType.BatteryCharging3]: BatteryCharging3,
+  [IconType.BatteryCharging4]: BatteryCharging4,
+  [IconType.BatteryCharging5]: BatteryCharging5,
   [IconType.BatteryFlat]: BatteryFlat,
   [IconType.Bell]: Bell,
   [IconType.Check]: Check,
@@ -88,13 +114,26 @@ export const icons = {
   [IconType.Overview]: Overview,
   [IconType.PasswordHide]: PasswordHide,
   [IconType.PasswordShow]: PasswordShow,
-  [IconType.Phone]: Phone,
+  [IconType.Device]: Phone,
   [IconType.Pure]: Pure,
   [IconType.RecoveryMode]: RecoveryMode,
   [IconType.RecoveryModeFilled]: RecoveryModeFilled,
   [IconType.Refreshing]: Refreshing,
   [IconType.Search]: Search,
   [IconType.Settings]: Settings,
+  [IconType.Signal0]: Signal0,
+  [IconType.Signal1]: Signal1,
+  [IconType.Signal2]: Signal2,
+  [IconType.Signal3]: Signal3,
+  [IconType.Signal4]: Signal4,
+  [IconType.SignalLte]: SignalLte,
+  [IconType.SignalNoService]: SignalNoService,
+  [IconType.SignalRoaming0]: SignalRoaming0,
+  [IconType.SignalRoaming1]: SignalRoaming1,
+  [IconType.SignalRoaming2]: SignalRoaming2,
+  [IconType.SignalRoaming3]: SignalRoaming3,
+  [IconType.SignalRoaming4]: SignalRoaming4,
+  [IconType.Phone]: Phone,
   [IconType.Spinner]: Spinner,
   [IconType.Support]: Support,
   [IconType.ThinFail]: ThinFail,
