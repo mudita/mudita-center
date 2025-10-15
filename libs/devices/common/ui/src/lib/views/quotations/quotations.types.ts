@@ -5,6 +5,11 @@
 
 export interface Quotation {
   id: string
-  text: string
+  quote: string
+  author?: string
+}
+
+export interface NewQuotation {
+  quote: string
   author?: string
 }

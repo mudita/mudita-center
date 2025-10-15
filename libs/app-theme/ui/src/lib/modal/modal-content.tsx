@@ -27,15 +27,25 @@ const getModalSize = (size: ModalSize) => {
   }
 }
 
-const getModalWidth = (size: ModalSize, width?: string | number) => {
+const getModalWidth = (size: ModalSize | number, width?: string | number) => {
+  if (typeof size === "number") {
+    return `${size}rem`
+  }
   if (width === undefined) {
     return getModalSize(size)
   }
   return typeof width === "number" ? `${width}px` : width
 }
 
-const getModalPadding = (size: ModalSize, padding?: number | string) => {
+const getModalPadding = (
+  size: ModalSize | number,
+  padding?: number | string
+) => {
   if (padding === undefined) {
+    if (typeof size === "number") {
+      return 0
+    }
+
     switch (size) {
       case "large":
         return "4.8rem"
@@ -67,7 +77,7 @@ const listBulletStyle = css`
 
 const Content = styled.div<{
   $layer: ModalLayer
-  $size: ModalSize
+  $size: ModalSize | number
   $width?: string | number
   $maxHeight?: string | number
   $gap?: string | number
@@ -176,7 +186,7 @@ const Content = styled.div<{
 
 interface Props extends PropsWithChildren {
   layer?: ModalLayer
-  size?: ModalSize
+  size?: ModalSize | number
   width?: string | number
   maxHeight?: string | number
   gap?: string | number

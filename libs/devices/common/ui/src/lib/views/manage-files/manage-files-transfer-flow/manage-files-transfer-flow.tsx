@@ -5,16 +5,15 @@
 
 import { useCallback, useEffect, useState } from "react"
 import { OpenDialogOptionsLite } from "app-utils/models"
-import { useToastContext } from "app-theme/ui"
+import { createToastContent, useToastContext } from "app-theme/ui"
 import { formatMessage } from "app-localize/utils"
-import { ManageFilesDeleteFailedModalProps } from "../manage-files-delete-flow/manage-files-delete-failed-modal"
+
 import {
   FileManagerFile,
   FileManagerFileMap,
   ValidationSummary,
   ValidationSummaryType,
 } from "../manage-files.types"
-import { createManageFilesToastContent } from "../create-manage-files-toast-content"
 import { manageFilesMessages } from "../manage-files.messages"
 import {
   ManageFilesTransferProgressModal,
@@ -46,8 +45,7 @@ enum ManageFilesTransferFlowState {
 }
 
 type ManageFilesDeleteFlowMessages =
-  ManageFilesDeleteFailedModalProps["messages"] &
-    ManageFilesTransferValidationFailedModalProps["messages"] &
+  ManageFilesTransferValidationFailedModalProps["messages"] &
     ManageFilesTransferFailedModalProps["messages"] & {
       uploadingModalTitle: ManageFilesTransferringModalProps["messages"]["transferringModalTitle"]
       uploadingModalCloseButtonText: ManageFilesTransferringModalProps["messages"]["transferringModalCloseButtonText"]
@@ -140,7 +138,7 @@ export const ManageFilesTransferFlow = ({
       }
 
       addToast(
-        createManageFilesToastContent({
+        createToastContent({
           text: formatMessage(manageFilesMessages.uploadSuccessToastText, {
             fileCount: files.length,
           }),

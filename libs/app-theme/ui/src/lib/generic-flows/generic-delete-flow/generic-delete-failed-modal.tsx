@@ -5,28 +5,31 @@
 
 import { FunctionComponent, useMemo } from "react"
 import { formatMessage, Messages } from "app-localize/utils"
-import { FileManagerFile } from "../manage-files.types"
-import { ManageFilesGenericFailedModal } from "../manage-files-generic-failed-modal"
+import {
+  FailedItem,
+  GenericFailedModal,
+} from "../../generic-modals/generic-failed-modal"
 
-export interface ManageFilesDeleteFailedModalProps {
+export interface GenericDeleteFailedModalProps {
   opened: boolean
   onClose: VoidFunction
-  failedFiles: FileManagerFile[]
-  allFiles: FileManagerFile[]
+  failedItems: FailedItem[]
+  allItems: unknown[]
   messages: {
     deleteFailedAllModalTitle: Messages
     deleteFailedSomeModalTitle: Messages
     deleteFailedAllModalDescription: Messages
     deleteFailedDescriptionModalDescription: Messages
     deleteFailedModalCloseButtonText: Messages
+    deleteSuccessToastText: Messages
   }
 }
 
-export const ManageFilesDeleteFailedModal: FunctionComponent<
-  ManageFilesDeleteFailedModalProps
-> = ({ opened, onClose, failedFiles, allFiles, messages }) => {
-  const total = allFiles.length
-  const failedCount = failedFiles.length
+export const GenericDeleteFailedModal: FunctionComponent<
+  GenericDeleteFailedModalProps
+> = ({ opened, onClose, failedItems, allItems, messages }) => {
+  const total = allItems.length
+  const failedCount = failedItems.length
   const isAllFailed = total === failedCount
   const succeededCount = total - failedCount
 
@@ -51,16 +54,16 @@ export const ManageFilesDeleteFailedModal: FunctionComponent<
     [isAllFailed, messages, failedCount, succeededCount]
   )
 
-  const failedFilesList = total > 1 && !isAllFailed ? failedFiles : undefined
+  const failedItemsList = total > 1 && !isAllFailed ? failedItems : undefined
 
   return (
-    <ManageFilesGenericFailedModal
+    <GenericFailedModal
       opened={opened}
       onClose={onClose}
       title={title}
       description={description}
       buttonText={formatMessage(messages.deleteFailedModalCloseButtonText)}
-      failedFiles={failedFilesList}
+      failedItems={failedItemsList}
     />
   )
 }

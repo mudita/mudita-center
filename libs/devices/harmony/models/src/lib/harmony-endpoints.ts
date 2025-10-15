@@ -46,6 +46,14 @@ import {
   HarmonyGetBackupRequestValidator,
   HarmonyGetBackupResponseValidator,
 } from "./endpoints/backup-get"
+import {
+  HarmonyPostQuotationRequestValidator,
+  HarmonyPostQuotationResponseValidator,
+} from "./endpoints/quotation-post"
+import {
+  HarmonyDeleteQuotationRequestValidator,
+  HarmonyDeleteQuotationResponseValidator,
+} from "./endpoints/quotation-delete"
 
 export enum HarmonyEndpointNamed {
   // Invalid = 0,
@@ -58,7 +66,7 @@ export enum HarmonyEndpointNamed {
   // Security = 13,
   // Outbox = 14,
   TimeSynchronization = 16,
-
+  Quotations = 17,
   // api version (mocked)
   // ApiVersion = 1000,
 }
@@ -139,6 +147,16 @@ export const HarmonyEndpoints = {
     [HarmonyMethodNamed.Post]: {
       request: HarmonyPostBackupRequestValidator,
       response: HarmonyPostBackupResponseValidator,
+    },
+  },
+  [HarmonyEndpointNamed.Quotations]: {
+    [HarmonyMethodNamed.Post]: {
+      request: HarmonyPostQuotationRequestValidator,
+      response: HarmonyPostQuotationResponseValidator,
+    },
+    [HarmonyMethodNamed.Delete]: {
+      request: HarmonyDeleteQuotationRequestValidator,
+      response: HarmonyDeleteQuotationResponseValidator,
     },
   },
 } as const satisfies EndpointsDefinition

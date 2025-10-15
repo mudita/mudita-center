@@ -4,27 +4,26 @@
  */
 
 import { FunctionComponent } from "react"
-import { Modal } from "app-theme/ui"
 import { IconType } from "app-theme/models"
-import { defineMessages, formatMessage } from "app-localize/utils"
-
-const messages = defineMessages({
-  title: {
-    id: "harmony.manageFiles.deleting.modal.title",
-  },
-})
+import { Modal } from "../modal/modal"
+import { Typography } from "../typography/typography"
 
 interface Props {
   opened: boolean
+  title: string
+  description?: string
 }
 
-export const ManageFilesDeleteProgressModal: FunctionComponent<Props> = ({
+export const GenericProgressModal: FunctionComponent<Props> = ({
   opened,
+  title,
+  description,
 }) => {
   return (
     <Modal opened={opened}>
       <Modal.TitleIcon type={IconType.Spinner} />
-      <Modal.Title text={formatMessage(messages.title)} />
+      <Modal.Title>{title}</Modal.Title>
+      {description && <Typography.P1>{description}</Typography.P1>}
     </Modal>
   )
 }

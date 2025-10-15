@@ -4,16 +4,18 @@
  */
 
 import { FunctionComponent } from "react"
-import { Button, Modal, Typography } from "app-theme/ui"
 import { ButtonSize, ButtonType, IconType } from "app-theme/models"
 import { formatMessage, Messages } from "app-localize/utils"
+import { Modal } from "../modal/modal"
+import { Typography } from "../typography/typography"
+import { Button } from "../button/button"
 
-export interface ManageFilesConfirmDeleteModalProps {
+export interface GenericConfirmModalProps {
   opened: boolean
   onCancel: VoidFunction
   onConfirm: VoidFunction
   onClose: VoidFunction
-  fileCount: number
+  itemCount: number
   messages: {
     confirmDeleteModalTitle: Messages
     confirmDeleteModalDescription: Messages
@@ -22,21 +24,21 @@ export interface ManageFilesConfirmDeleteModalProps {
   }
 }
 
-export const ManageFilesDeleteConfirmModal: FunctionComponent<
-  ManageFilesConfirmDeleteModalProps
-> = ({ opened, onCancel, onConfirm, onClose, fileCount, messages }) => {
+export const GenericConfirmModal: FunctionComponent<
+  GenericConfirmModalProps
+> = ({ opened, onCancel, onConfirm, onClose, itemCount, messages }) => {
   return (
     <Modal opened={opened}>
       <Modal.CloseButton onClick={onClose} />
       <Modal.TitleIcon type={IconType.Error} />
       <Modal.Title
         text={formatMessage(messages.confirmDeleteModalTitle, {
-          fileCount,
+          itemCount,
         })}
       />
       <Typography.P1
         message={messages.confirmDeleteModalDescription.id}
-        values={{ fileCount }}
+        values={{ itemCount }}
       />
       <Modal.Buttons>
         <Button
@@ -45,7 +47,7 @@ export const ManageFilesDeleteConfirmModal: FunctionComponent<
           onClick={onCancel}
         >
           {formatMessage(messages.confirmDeleteModalCancelButtonText, {
-            fileCount,
+            itemCount,
           })}
         </Button>
         <Button
@@ -54,7 +56,7 @@ export const ManageFilesDeleteConfirmModal: FunctionComponent<
           onClick={onConfirm}
         >
           {formatMessage(messages.confirmDeleteModalConfirmButtonText, {
-            fileCount,
+            itemCount,
           })}
         </Button>
       </Modal.Buttons>

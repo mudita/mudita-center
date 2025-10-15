@@ -4,7 +4,8 @@
  */
 
 import { IconType } from "app-theme/models"
-import { Icon, Typography } from "app-theme/ui"
+import { Icon } from "../icon/icon"
+import { Typography } from "../typography/typography"
 
 interface ToastContentProps {
   key?: string
@@ -12,7 +13,7 @@ interface ToastContentProps {
   icon?: IconType
 }
 
-export const createManageFilesToastContent = ({
+export const createToastContent = ({
   key,
   icon = IconType.CheckBold,
   text,
