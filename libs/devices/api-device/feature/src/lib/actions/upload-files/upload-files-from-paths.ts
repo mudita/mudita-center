@@ -5,7 +5,6 @@
 
 import { ApiDevice, PreFileTransferGetRequest } from "devices/api-device/models"
 import { AppFileSystem } from "app-utils/renderer"
-import { crc32 } from "node:zlib"
 import { sumBy } from "lodash"
 import { prePostFileTransfer } from "../../api/pre-post-file-transfer"
 import { postFileTransfer } from "../../api/post-file-transfer"
@@ -42,10 +41,13 @@ export const uploadFilesFromPaths = async ({
     if (!file.ok) {
       throw new Error("Failed to get file")
     }
-    const crc32Value = (crc32(file.data) >>> 0)
-      .toString(16)
-      .toUpperCase()
-      .padStart(8, "0")
+    const crc32Response = await AppFileSystem.calculateFileCrc32({
+      data: file.data,
+    })
+    if (!crc32Response.ok) {
+      throw new Error("Failed to calculate CRC32")
+    }
+    const crc32Value = crc32Response.data
 
     filesInfo.push({
       filePath,
