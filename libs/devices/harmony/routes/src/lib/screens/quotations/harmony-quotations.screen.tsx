@@ -8,11 +8,7 @@ import { formatMessage } from "app-localize/utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { Harmony } from "devices/harmony/models"
-import {
-  Quotation,
-  QuotationSettings,
-  QuotationSettingsGroup,
-} from "devices/common/models"
+import { Quotation } from "devices/common/models"
 import { Quotations } from "devices/common/ui"
 import { useActiveDeviceQuery } from "devices/common/feature"
 import {
