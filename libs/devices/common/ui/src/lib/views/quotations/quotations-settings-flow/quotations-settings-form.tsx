@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useState } from "react"
+import {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
 import styled from "styled-components"
 import { ButtonSize, ButtonType, ModalSize } from "app-theme/models"
 import {
@@ -20,10 +26,11 @@ import {
   SettingsFormSourceProps,
 } from "./settings-form-source"
 import { SettingsFormInterval } from "./settings-form-interval"
+import { DEFAULT_QUOTATION_SETTINGS } from "./quotations-settings.const"
 
 export interface QuotationsSettingsFormProps {
   opened: boolean
-  settings: QuotationSettings
+  settings?: QuotationSettings
   customQuotationsCount: number
   updateSettings: (settings: QuotationSettings) => Promise<void>
   onClose: (saved?: boolean) => void
@@ -43,13 +50,32 @@ export const QuotationsSettingsForm: FunctionComponent<
   onClose,
 }) => {
   const [selectedSource, setSelectedSource] = useState<QuotationSettingsGroup>(
-    settings.group
+    settings?.group || DEFAULT_QUOTATION_SETTINGS.group
   )
   const [selectedInterval, setSelectedInterval] =
-    useState<QuotationSettingsInterval>(settings.interval)
+    useState<QuotationSettingsInterval>(
+      settings?.interval || DEFAULT_QUOTATION_SETTINGS.interval
+    )
 
-  const hasChanges =
-    settings.group !== selectedSource || settings.interval !== selectedInterval
+  useEffect(() => {
+    if (!settings?.group || !settings?.interval) {
+      return
+    }
+
+    setSelectedSource(settings.group)
+    setSelectedInterval(settings.interval)
+  }, [settings?.group, settings?.interval])
+
+  const hasChanges = useMemo(() => {
+    if (!settings?.group || !settings?.interval) {
+      return false
+    }
+
+    return (
+      settings.group !== selectedSource ||
+      settings.interval !== selectedInterval
+    )
+  }, [selectedInterval, selectedSource, settings?.group, settings?.interval])
 
   const handleSave = useCallback(async () => {
     void updateSettings({
