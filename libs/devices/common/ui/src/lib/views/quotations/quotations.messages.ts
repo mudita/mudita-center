@@ -66,5 +66,5 @@ export const quotationsMessages = defineMessages({
   createFailedModalCloseButtonText: {
     id: "quotations.createFailedModal.closeButtonText",
   },
-  createSuccessToastText: { id: "quotations.createSuccessToast.text"}
+  createSuccessToastText: { id: "quotations.createSuccessToast.text" },
 })

@@ -50,6 +50,10 @@ import {
   HarmonyPostQuotationRequestValidator,
   HarmonyPostQuotationResponseValidator,
 } from "./endpoints/quotation-post"
+import {
+  HarmonyDeleteQuotationRequestValidator,
+  HarmonyDeleteQuotationResponseValidator,
+} from "./endpoints/quotation-delete"
 
 export enum HarmonyEndpointNamed {
   // Invalid = 0,
@@ -149,6 +153,10 @@ export const HarmonyEndpoints = {
     [HarmonyMethodNamed.Post]: {
       request: HarmonyPostQuotationRequestValidator,
       response: HarmonyPostQuotationResponseValidator,
+    },
+    [HarmonyMethodNamed.Delete]: {
+      request: HarmonyDeleteQuotationRequestValidator,
+      response: HarmonyDeleteQuotationResponseValidator,
     },
   },
 } as const satisfies EndpointsDefinition

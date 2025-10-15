@@ -11,14 +11,15 @@ import {
   useState,
 } from "react"
 import { Messages } from "app-localize/utils"
-import { LoadingState } from "app-theme/ui"
+import {
+  GenericDeleteFlow,
+  GenericDeleteFlowProps,
+  GenericDeleteItem,
+  LoadingState,
+} from "app-theme/ui"
 import { ManageFilesStorageSummaryProps } from "./manage-files-content/manage-files-storage-summary"
 import { ManageFilesCategoryListProps } from "./manage-files-content/manage-files-category-list"
 import { ManageFilesContent } from "./manage-files-content/manage-files-content"
-import {
-  ManageFilesDeleteFlow,
-  ManageFilesDeleteFlowProps,
-} from "./manage-files-delete-flow/manage-files-delete-flow"
 import { ManageFilesOtherFilesProps } from "./manage-files-content/manage-files-other-files"
 import {
   ManageFilesTransferFlow,
@@ -37,7 +38,7 @@ type ManageFilesViewChild = (
 
 type ManageFilesViewMessages =
   ManageFilesTransferFlowProps["transferFlowMessages"] &
-    ManageFilesDeleteFlowProps["deleteFlowMessages"] & {
+    GenericDeleteFlowProps["deleteFlowMessages"] & {
       summaryHeader: Messages
     }
 
@@ -45,7 +46,6 @@ export interface ManageFilesViewProps
   extends ManageFilesStorageSummaryProps,
     ManageFilesCategoryListProps,
     ManageFilesOtherFilesProps,
-    Pick<ManageFilesDeleteFlowProps, "deleteFile" | "onDeleteSuccess">,
     Pick<
       ManageFilesTransferFlowProps,
       "openFileDialog" | "transferFile" | "onTransferSuccess"
@@ -55,6 +55,8 @@ export interface ManageFilesViewProps
   isLoading: boolean
   children: ManageFilesViewChild
   messages: ManageFilesViewMessages
+  deleteFile: GenericDeleteFlowProps["deleteItem"]
+  onDeleteSuccess?: GenericDeleteFlowProps["onDeleteSuccess"]
 }
 
 export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
@@ -133,19 +135,26 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
   const loadingState =
     (isLoading && !deleteFlowOpened) || activeCategoryId === undefined
 
-  const finalizeDeleteSuccess = useCallback(async () => {
-    onDeleteSuccess && (await onDeleteSuccess())
-    setSelectedIds(new Set())
-    setDeleteFlowOpened(false)
-  }, [onDeleteSuccess])
+  const finalizeDeleteSuccess = useCallback(
+    async (items: { id: GenericDeleteItem["id"] }[]) => {
+      onDeleteSuccess && (await onDeleteSuccess(items))
+      setSelectedIds(new Set())
+      setDeleteFlowOpened(false)
+    },
+    [onDeleteSuccess]
+  )
 
   const handlePartialDeleteFailure = useCallback(
-    async (failedFiles: FileManagerFile[]) => {
+    async (failedFiles: GenericDeleteItem[]) => {
       if (failedFiles.length === selectedFiles.length) {
         setDeleteFlowOpened(false)
       } else {
         setDeleteFlowOpened(false)
-        onDeleteSuccess && (await onDeleteSuccess())
+        const notFailedFiles: { id: GenericDeleteItem["id"] }[] =
+          selectedFiles.filter(
+            (file) => !failedFiles.find((failed) => failed.id === file.id)
+          )
+        onDeleteSuccess && (await onDeleteSuccess(notFailedFiles))
         setSelectedIds(() => {
           const next = new Set<string>()
           failedFiles.forEach((file) => next.add(file.id))
@@ -198,14 +207,14 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
       >
         {children({ onSelectedChange: updateSelection, selectedIds })}
       </ManageFilesContent>
-      <ManageFilesDeleteFlow
+      <GenericDeleteFlow
         opened={deleteFlowOpened}
         onClose={() => setDeleteFlowOpened(false)}
-        selectedFiles={selectedFiles}
+        selectedItems={selectedFiles}
         onDeleteSuccess={finalizeDeleteSuccess}
         onPartialDeleteFailure={handlePartialDeleteFailure}
-        deleteFile={deleteFile}
-        deleteFlowMessages={messages}
+        deleteItem={deleteFile}
+        deleteFlowMessages={{ ...messages }}
       />
       <ManageFilesTransferFlow
         opened={uploadFlowOpened}
