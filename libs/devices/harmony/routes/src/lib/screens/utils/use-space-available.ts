@@ -7,9 +7,13 @@ import { useDeviceConfigQuery } from "devices/common/feature"
 import { Harmony } from "devices/harmony/models"
 import { useMemo } from "react"
 
-const MINIMUM_AVAILABLE_SPACE_BYTES = 500 // Minimum space in bytes required to save a quotation
+// Minimum space in bytes required to save a quotation
+const DEFAULT_MINIMUM_AVAILABLE_SPACE_BYTES = 500
 
-export const useSpaceAvailable = (activeDevice?: Harmony, minimumAvailableSpace = MINIMUM_AVAILABLE_SPACE_BYTES) => {
+export const useSpaceAvailable = (
+  activeDevice?: Harmony,
+  minimumAvailableSpace = DEFAULT_MINIMUM_AVAILABLE_SPACE_BYTES
+) => {
   const {
     data: config,
     isLoading,
@@ -31,7 +35,6 @@ export const useSpaceAvailable = (activeDevice?: Harmony, minimumAvailableSpace 
     const freeSpaceBytes = deviceSpaceTotal - usedSpaceBytes
 
     return freeSpaceBytes >= minimumAvailableSpace
-
   }, [config, isLoading, isError, minimumAvailableSpace])
 
   return { isLoading, data }
