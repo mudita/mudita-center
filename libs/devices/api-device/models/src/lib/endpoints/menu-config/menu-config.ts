@@ -5,6 +5,11 @@
 
 import { z } from "zod"
 import { IconType } from "app-theme/models"
+import { MCLangValidator } from "../api-config/api-config"
+
+export const MenuConfigRequestValidator = z.object({
+  lang: MCLangValidator,
+})
 
 const MenuItemConfigValidator = z.object({
   feature: z.string(),
@@ -20,11 +25,9 @@ const MenuItemConfigValidator = z.object({
     .optional(),
 })
 
-export type MenuItemConfig = z.infer<typeof MenuItemConfigValidator>
-
-export const MenuConfigValidator = z.object({
+export const MenuConfigResponseValidator = z.object({
   title: z.string().optional(),
   menuItems: z.array(MenuItemConfigValidator).min(1),
 })
 
-export type MenuConfig = z.infer<typeof MenuConfigValidator>
+export type MenuConfig = z.infer<typeof MenuConfigResponseValidator>

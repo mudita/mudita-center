@@ -7,7 +7,9 @@ import { z } from "zod"
 
 export const MCLangValidator = z.enum(["en-US"])
 
-export const ApiConfigValidator = z.object({
+export const ApiConfigRequestValidator = z.undefined().optional()
+
+export const ApiConfigResponseValidator = z.object({
   apiVersion: z.string(),
   osVersion: z.string(),
   lang: MCLangValidator.optional(),
@@ -25,4 +27,4 @@ export const ApiConfigValidator = z.object({
     .optional(),
 })
 
-export type ApiConfig = z.infer<typeof ApiConfigValidator>
+export type ApiConfig = z.infer<typeof ApiConfigResponseValidator>

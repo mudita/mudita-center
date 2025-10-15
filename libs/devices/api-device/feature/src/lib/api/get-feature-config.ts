@@ -1,0 +1,24 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { ApiDeviceSerialPort } from "devices/api-device/adapters"
+import { ApiDevice } from "devices/api-device/models"
+
+export const getFeatureConfig = (
+  device: ApiDevice,
+  feature: string
+) => {
+  return ApiDeviceSerialPort.request(device, {
+    endpoint: "FEATURE_CONFIGURATION",
+    method: "GET",
+    body: {
+      lang: "en-US",
+      feature,
+    },
+    options: {
+      timeout: 3000,
+    },
+  })
+}
