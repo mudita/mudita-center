@@ -11,6 +11,7 @@ import {
   GenericDeleteFlow,
   GenericDeleteFlowProps,
   GenericDeleteItem,
+  GenericFailedModal,
   LoadingState,
 } from "app-theme/ui"
 import { QuotationsTopBar } from "./quotations-top-bar"
@@ -28,10 +29,12 @@ import {
   QuotationsSettingsFlow,
   QuotationsSettingsFlowProps,
 } from "./quotations-settings-flow/quotations-settings-flow"
+import { formatMessage, Messages } from "app-localize/utils"
 
 interface QuotationsProps {
   quotations: Quotation[]
-  isLoading?: boolean
+  isLoading: boolean
+  isSpaceAvailable: boolean
   settings: QuotationsSettingsFlowProps["settings"]
   updateSettings: QuotationsSettingsFlowProps["updateSettings"]
   createQuotation: QuotationsCreateFlowProps["createQuotation"]
@@ -40,12 +43,17 @@ interface QuotationsProps {
   messages: QuotationsEmptyStateProps["messages"] &
     QuotationsCreateFlowProps["messages"] &
     QuotationsSettingsFlowProps["messages"] &
-    GenericDeleteFlowProps["deleteFlowMessages"]
+    GenericDeleteFlowProps["deleteFlowMessages"] & {
+      noSpaceModalTitle: Messages
+      noSpaceModalDescription: Messages
+      noSpaceModalButtonText: Messages
+    }
 }
 
 export const Quotations: FunctionComponent<QuotationsProps> = ({
   quotations,
-  isLoading = false,
+  isLoading,
+  isSpaceAvailable,
   settings,
   updateSettings,
   deleteQuotation,
@@ -55,10 +63,9 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
 }) => {
   const [settingsOpened, setSettingsOpened] = useState(false)
   const [createFlowOpened, setCreateFlowOpened] = useState(false)
-  const [, setNoSpaceOpened] = useState(false)
+  const [noSpaceModalOpened, setNoSpaceModalOpened] = useState(false)
 
   const [selectedQuotations, setSelectedQuotations] = useState<Quotation[]>([])
-  const isSpaceAvailable = () => true
   const [deleteFlowOpened, setDeleteFlowOpened] = useState(false)
 
   const handleSettingsClick = () => {
@@ -66,10 +73,10 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
   }
 
   const handleCreatorOpen = useCallback(() => {
-    if (isSpaceAvailable()) {
+    if (isSpaceAvailable) {
       setCreateFlowOpened(true)
     } else {
-      setNoSpaceOpened(true)
+      setNoSpaceModalOpened(true)
     }
   }, [isSpaceAvailable])
 
@@ -176,6 +183,13 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
         onPartialDeleteFailure={handlePartialDeleteFailure}
         deleteItem={deleteQuotation}
         deleteFlowMessages={messages}
+      />
+      <GenericFailedModal
+        opened={noSpaceModalOpened}
+        onClose={() => setNoSpaceModalOpened(false)}
+        title={formatMessage(messages.noSpaceModalTitle)}
+        description={formatMessage(messages.noSpaceModalDescription)}
+        buttonText={formatMessage(messages.noSpaceModalButtonText)}
       />
       <QuotationsSettingsFlow
         opened={settingsOpened}

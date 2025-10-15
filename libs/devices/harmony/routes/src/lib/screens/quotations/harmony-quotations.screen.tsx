@@ -22,6 +22,7 @@ import {
   useHarmonyQuotationSettingsMutation,
   useHarmonyQuotationSettingsQuery,
 } from "devices/harmony/feature"
+import { useSpaceAvailable } from "../utils/use-space-available"
 import { harmonyQuotationsMessages } from "./harmony-quotations.messages"
 
 export const HarmonyQuotationsScreen: FunctionComponent = () => {
@@ -39,6 +40,9 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
     } as QuotationSettings,
     isLoading: isSettingsLoading,
   } = useHarmonyQuotationSettingsQuery(activeDevice)
+
+  const { data: isSpaceAvailable = true, isLoading: isSpaceLoading } =
+    useSpaceAvailable(activeDevice)
 
   const { mutateAsync: createQuotation } =
     useHarmonyCreateQuotationMutation(activeDevice)
@@ -64,7 +68,7 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
         title={formatMessage(harmonyQuotationsMessages.pageTitle)}
       />
       <Quotations
-        isLoading={isQuotationsLoading || isSettingsLoading}
+        isLoading={isQuotationsLoading || isSettingsLoading || isSpaceLoading}
         quotations={quotations}
         createQuotation={createQuotation}
         deleteQuotation={deleteQuotation}
@@ -72,6 +76,7 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
         onDeleteSuccess={handleOnDeleteSuccess}
         settings={settings}
         updateSettings={updateSettings}
+        isSpaceAvailable={isSpaceAvailable}
       />
     </>
   )

@@ -113,4 +113,13 @@ export const harmonyQuotationsMessages = defineMessages({
   updateSettingsSuccessToastText: {
     id: "harmony.quotations.updateSettingsSuccessToast.text",
   },
+  noSpaceModalTitle: {
+    id: "harmony.quotations.noSpaceModal.title",
+  },
+  noSpaceModalDescription: {
+    id: "harmony.quotations.noSpaceModal.description",
+  },
+  noSpaceModalButtonText: {
+    id: "harmony.quotations.noSpaceModal.buttonText",
+  },
 })
