@@ -7,6 +7,7 @@ import { ApiDevice, PreFileTransferGetRequest } from "devices/api-device/models"
 import { clamp, sum } from "lodash"
 import { preTransferStep } from "./pre-transfer-step"
 import { transferStep } from "./transfer-step"
+import { AppFileSystem } from "app-utils/renderer"
 
 interface DownloadFilesParams {
   device: ApiDevice
@@ -64,6 +65,19 @@ export const downloadFiles = async ({
       },
       abortController,
     })
+
+    const fileCrc32 = transferData.crc32
+    const calculatedCrc32 = await AppFileSystem.calculateFileCrc32({
+      data: filesData[i],
+    })
+    if (!calculatedCrc32.ok) {
+      throw new Error(`Failed to calculate crc32 for file ${sourceFilePath}`)
+    }
+    if (fileCrc32.toLowerCase() !== calculatedCrc32.data.toLowerCase()) {
+      throw new Error(
+        `File transfer failed due to crc32 mismatch for file ${sourceFilePath}`
+      )
+    }
   }
 
   onProgress(100)
