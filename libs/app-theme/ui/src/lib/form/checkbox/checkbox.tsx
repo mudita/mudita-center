@@ -146,6 +146,7 @@ export const InputWrapper = styled.label`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  align-self: stretch;
   gap: 1.2rem;
   position: relative;
   user-select: none;
