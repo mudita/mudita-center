@@ -5,16 +5,18 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
-import { Typography } from "app-theme/ui"
+import { Badge, Typography, typographyStyles } from "app-theme/ui"
 
 interface Props extends PropsWithChildren {
   title?: string
   description?: string
+  badgeText?: string
 }
 
 export const OverviewBlock: FunctionComponent<Props> = ({
   title,
   description,
+  badgeText,
   children,
   ...rest
 }) => {
@@ -22,7 +24,10 @@ export const OverviewBlock: FunctionComponent<Props> = ({
     <Wrapper {...rest}>
       {title && (
         <TitleWrapper>
-          <Typography.H3>{title}</Typography.H3>
+          <Title>
+            <Typography.H3>{title}</Typography.H3>
+            {badgeText && <OverviewBlockBadge>{badgeText}</OverviewBlockBadge>}
+          </Title>
           {description && <Typography.P5>{description}</Typography.P5>}
         </TitleWrapper>
       )}
@@ -46,4 +51,20 @@ const Wrapper = styled.div`
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+const Title = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.6rem;
+`
+
+const OverviewBlockBadge = styled(Badge)`
+  ${typographyStyles.paragraph.p5};
+  height: 2.2rem;
+  color: ${({ theme }) => theme.app.color.black};
+  padding: 0.1rem 0.4rem;
+  background-color: ${({ theme }) => theme.app.color.grey4};
+  letter-spacing: 0.04rem;
 `
