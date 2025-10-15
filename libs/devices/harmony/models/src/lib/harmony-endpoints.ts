@@ -54,6 +54,18 @@ import {
   HarmonyDeleteQuotationRequestValidator,
   HarmonyDeleteQuotationResponseValidator,
 } from "./endpoints/quotation-delete"
+import {
+  HarmonyGetGroupQuotationRequestValidator,
+  HarmonyGetGroupQuotationResponseValidator,
+  HarmonyGetIntervalQuotationRequestValidator,
+  HarmonyGetIntervalQuotationResponseValidator,
+} from "./endpoints/quotation-get"
+import {
+  HarmonyPutGroupQuotationRequestValidator,
+  HarmonyPutGroupQuotationResponseValidator,
+  HarmonyPutIntervalQuotationRequestValidator,
+  HarmonyPutIntervalQuotationResponseValidator,
+} from "./endpoints/quotation-put"
 
 export enum HarmonyEndpointNamed {
   // Invalid = 0,
@@ -150,6 +162,16 @@ export const HarmonyEndpoints = {
     },
   },
   [HarmonyEndpointNamed.Quotations]: {
+    [HarmonyMethodNamed.Get]: {
+      request: z.union([
+        HarmonyGetGroupQuotationRequestValidator,
+        HarmonyGetIntervalQuotationRequestValidator,
+      ]),
+      response: z.union([
+        HarmonyGetGroupQuotationResponseValidator,
+        HarmonyGetIntervalQuotationResponseValidator,
+      ]),
+    },
     [HarmonyMethodNamed.Post]: {
       request: HarmonyPostQuotationRequestValidator,
       response: HarmonyPostQuotationResponseValidator,
@@ -157,6 +179,16 @@ export const HarmonyEndpoints = {
     [HarmonyMethodNamed.Delete]: {
       request: HarmonyDeleteQuotationRequestValidator,
       response: HarmonyDeleteQuotationResponseValidator,
+    },
+    [HarmonyMethodNamed.Put]: {
+      request: z.union([
+        HarmonyPutGroupQuotationRequestValidator,
+        HarmonyPutIntervalQuotationRequestValidator,
+      ]),
+      response: z.union([
+        HarmonyPutGroupQuotationResponseValidator,
+        HarmonyPutIntervalQuotationResponseValidator,
+      ]),
     },
   },
 } as const satisfies EndpointsDefinition

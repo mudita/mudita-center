@@ -8,25 +8,30 @@ import styled from "styled-components"
 import { Button, Icon, Typography } from "app-theme/ui"
 import { IconSize, IconType } from "app-theme/models"
 import { backgroundColor } from "app-theme/utils"
+import { Messages } from "app-localize/utils"
 import { quotationsMessages } from "./quotations.messages"
 
-interface Props {
+export interface QuotationsEmptyStateProps {
   onAddClick: VoidFunction
+  messages: {
+    emptyStateTitle: Messages
+    emptyStateDescription: Messages
+  }
 }
 
-export const QuotationsEmptyState: FunctionComponent<Props> = ({
-  onAddClick,
-}) => {
+export const QuotationsEmptyState: FunctionComponent<
+  QuotationsEmptyStateProps
+> = ({ onAddClick, messages }) => {
   return (
     <Wrapper>
       <RoundIcon>
         <Icon type={IconType.Quote} size={4.8} />
       </RoundIcon>
       <Description>
-        <Typography.H4 message={quotationsMessages.emptyStateTitle.id} />
+        <Typography.H4 message={messages.emptyStateTitle.id} />
         <Typography.P3
           color={"grey2"}
-          message={quotationsMessages.description.id}
+          message={messages.emptyStateDescription.id}
         />
       </Description>
       <AddButton

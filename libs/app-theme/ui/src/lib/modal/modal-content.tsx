@@ -82,6 +82,7 @@ const Content = styled.div<{
   $maxHeight?: string | number
   $gap?: string | number
   $padding?: string | number
+  $alignItems?: string
 }>`
   ${({ theme, $layer, $size, $padding, $width, $maxHeight, $gap }) => css`
     z-index: ${$layer};
@@ -95,7 +96,7 @@ const Content = styled.div<{
   outline: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: ${({ $alignItems }) => $alignItems};
   padding: var(--modal-padding);
   width: var(--modal-width);
   max-height: var(--modal-max-height);
@@ -191,11 +192,13 @@ interface Props extends PropsWithChildren {
   maxHeight?: string | number
   gap?: string | number
   padding?: string | number
+  alignItems?: string
 }
 
 export const ModalContent: FunctionComponent<Props> = ({
   layer = ModalLayer.Default,
   size = ModalSize.Small,
+  alignItems = "center",
   width,
   maxHeight,
   gap,
@@ -210,6 +213,7 @@ export const ModalContent: FunctionComponent<Props> = ({
       $maxHeight={maxHeight}
       $gap={gap}
       $padding={padding}
+      $alignItems={alignItems}
       data-testid={ModalTestId.Modal}
     >
       {children}

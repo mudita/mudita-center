@@ -22,49 +22,24 @@ export const quotationsMessages = defineMessages({
     id: "quotations.selectedState.deleteButton",
   },
   loadStateText: { id: "quotations.loadState.text" },
-  emptyStateTitle: {
-    id: "quotations.emptyState.title",
-  },
-  description: {
-    id: "quotations.emptyState.description",
-  },
   emptyStateTddButton: { id: "quotations.header.addButton" },
-  quotationsCreateFormTitle: {
-    id: "quotations.createFormModal.title",
+  updateSettingsFormMinutes: {
+    id: "quotations.updateSettingsForm.interval.options.minutes",
   },
-  quotationsCreateFormDescription: {
-    id: "quotations.createFormModal.description",
+  updateSettingsFormHours: {
+    id: "quotations.updateSettingsForm.interval.options.hours",
   },
-  quotationsCreateFormQuotationLabel: {
-    id: "quotations.createFormModal.quotationLabel",
+  updateSettingsFormAtMidnight: {
+    id: "quotations.updateSettingsForm.interval.options.midnight",
   },
-  quotationsCreateFormAuthorLabel: {
-    id: "quotations.createFormModal.authorLabel",
+
+  updateSettingsFormTitle: {
+    id: "quotations.updateSettingsForm.title",
   },
-  quotationsCreateFormCancelButtonLabel: {
-    id: "quotations.createFormModal.cancelButton",
+  updateSettingsFormActionButtonLabel: {
+    id: "quotations.updateSettingsForm.saveButton",
   },
-  quotationsCreateFormSaveButtonLabel: {
-    id: "quotations.createFormModal.saveButton",
+  updateSettingsFormIntervalTitle: {
+    id: "quotations.updateSettingsForm.interval.title",
   },
-  errorTooLong: {
-    id: "quotations.createFormModal.error.tooLong",
-  },
-  errorInvalidCharacter: {
-    id: "quotations.createFormModal.error.invalidCharacter",
-  },
-  createProgressModalTitle: {
-    id: "quotations.createProgressModal.title",
-  },
-  createProgressModalDescription: {
-    id: "quotations.createProgressModal.description",
-  },
-  createFailedModalTitle: { id: "quotations.createFailedModal.title" },
-  createFailedModalDescription: {
-    id: "quotations.createFailedModal.description",
-  },
-  createFailedModalCloseButtonText: {
-    id: "quotations.createFailedModal.closeButtonText",
-  },
-  createSuccessToastText: { id: "quotations.createSuccessToast.text" },
 })

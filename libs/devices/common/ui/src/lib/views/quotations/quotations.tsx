@@ -5,46 +5,67 @@
 
 import { FunctionComponent, useCallback, useState } from "react"
 import styled from "styled-components"
+import { Quotation } from "devices/common/models"
 import { backgroundColor } from "app-theme/utils"
 import {
   GenericDeleteFlow,
   GenericDeleteFlowProps,
   GenericDeleteItem,
+  GenericFailedModal,
   LoadingState,
 } from "app-theme/ui"
 import { QuotationsTopBar } from "./quotations-top-bar"
 import { quotationsMessages } from "./quotations.messages"
-import { QuotationsEmptyState } from "./quotations-empty-state"
+import {
+  QuotationsEmptyState,
+  QuotationsEmptyStateProps,
+} from "./quotations-empty-state"
 import { QuotationsList } from "./quotations-list"
-import { Quotation } from "./quotations.types"
 import {
   QuotationsCreateFlow,
   QuotationsCreateFlowProps,
 } from "./quotations-create-flow/quotations-create-flow"
+import {
+  QuotationsSettingsFlow,
+  QuotationsSettingsFlowProps,
+} from "./quotations-settings-flow/quotations-settings-flow"
+import { formatMessage, Messages } from "app-localize/utils"
 
-interface QuotationsProps
-  extends Pick<QuotationsCreateFlowProps, "createQuotation"> {
+interface QuotationsProps {
   quotations: Quotation[]
-  isLoading?: boolean
-  onDeleteSuccess?: GenericDeleteFlowProps["onDeleteSuccess"]
+  isLoading: boolean
+  isSpaceAvailable: boolean
+  settings: QuotationsSettingsFlowProps["settings"]
+  updateSettings: QuotationsSettingsFlowProps["updateSettings"]
+  createQuotation: QuotationsCreateFlowProps["createQuotation"]
   deleteQuotation: GenericDeleteFlowProps["deleteItem"]
-  messages: GenericDeleteFlowProps["deleteFlowMessages"]
+  onDeleteSuccess?: GenericDeleteFlowProps["onDeleteSuccess"]
+  messages: QuotationsEmptyStateProps["messages"] &
+    QuotationsCreateFlowProps["messages"] &
+    QuotationsSettingsFlowProps["messages"] &
+    GenericDeleteFlowProps["deleteFlowMessages"] & {
+      noSpaceModalTitle: Messages
+      noSpaceModalDescription: Messages
+      noSpaceModalButtonText: Messages
+    }
 }
 
 export const Quotations: FunctionComponent<QuotationsProps> = ({
   quotations,
-  isLoading = false,
-  createQuotation,
+  isLoading,
+  isSpaceAvailable,
+  settings,
+  updateSettings,
   deleteQuotation,
+  createQuotation,
   onDeleteSuccess,
   messages,
 }) => {
-  const [, setSettingsOpened] = useState(false)
+  const [settingsOpened, setSettingsOpened] = useState(false)
   const [createFlowOpened, setCreateFlowOpened] = useState(false)
-  const [, setNoSpaceOpened] = useState(false)
+  const [noSpaceModalOpened, setNoSpaceModalOpened] = useState(false)
 
   const [selectedQuotations, setSelectedQuotations] = useState<Quotation[]>([])
-  const isSpaceAvailable = () => true
   const [deleteFlowOpened, setDeleteFlowOpened] = useState(false)
 
   const handleSettingsClick = () => {
@@ -52,10 +73,10 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
   }
 
   const handleCreatorOpen = useCallback(() => {
-    if (isSpaceAvailable()) {
+    if (isSpaceAvailable) {
       setCreateFlowOpened(true)
     } else {
-      setNoSpaceOpened(true)
+      setNoSpaceModalOpened(true)
     }
   }, [isSpaceAvailable])
 
@@ -134,7 +155,10 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
           message={quotationsMessages.loadStateText.id}
         />
       ) : quotations.length === 0 ? (
-        <QuotationsEmptyState onAddClick={handleCreatorOpen} />
+        <QuotationsEmptyState
+          onAddClick={handleCreatorOpen}
+          messages={messages}
+        />
       ) : (
         <QuotationsList
           quotations={quotations}
@@ -146,6 +170,7 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
         opened={createFlowOpened}
         onClose={() => setCreateFlowOpened(false)}
         createQuotation={createQuotation}
+        messages={messages}
       />
       <GenericDeleteFlow
         opened={deleteFlowOpened}
@@ -158,6 +183,21 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
         onPartialDeleteFailure={handlePartialDeleteFailure}
         deleteItem={deleteQuotation}
         deleteFlowMessages={messages}
+      />
+      <GenericFailedModal
+        opened={noSpaceModalOpened}
+        onClose={() => setNoSpaceModalOpened(false)}
+        title={formatMessage(messages.noSpaceModalTitle)}
+        description={formatMessage(messages.noSpaceModalDescription)}
+        buttonText={formatMessage(messages.noSpaceModalButtonText)}
+      />
+      <QuotationsSettingsFlow
+        opened={settingsOpened}
+        settings={settings}
+        customQuotationsCount={quotations.length}
+        updateSettings={updateSettings}
+        onClose={() => setSettingsOpened(false)}
+        messages={messages}
       />
     </Wrapper>
   )

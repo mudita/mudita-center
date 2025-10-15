@@ -28,6 +28,7 @@ interface Props extends PropsWithChildren, Omit<ReactModal.Props, "isOpen"> {
     width?: string | number
     padding?: string | number
     gap?: string | number
+    alignItems?: string
   }
 }
 

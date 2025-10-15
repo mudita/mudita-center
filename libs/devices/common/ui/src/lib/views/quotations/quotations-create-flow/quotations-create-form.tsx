@@ -5,24 +5,31 @@
 
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
-import { Button, Icon, Modal, Typography } from "app-theme/ui"
+import { NewQuotation } from "devices/common/models"
 import { ButtonType, IconType } from "app-theme/models"
-import { formatMessage } from "app-localize/utils"
+import { formatMessage, Messages } from "app-localize/utils"
 import { backgroundColor, borderColor } from "app-theme/utils"
-import { quotationsMessages } from "../quotations.messages"
-import { NewQuotation } from "../quotations.types"
-import { CreateFormInput } from "./create-form-input"
+import { Button, Icon, Modal, Typography } from "app-theme/ui"
+import { CreateFormInput, CreateFormInputProps } from "./create-form-input"
 import { CreateFormPreview } from "./create-form-preview"
 
 export interface QuotationsCreateFormProps {
   opened?: boolean
   onClose: VoidFunction
   onSave: (quotation: NewQuotation) => void
+  messages: CreateFormInputProps["messages"] & {
+    quotationsCreateFormTitle: Messages
+    quotationsCreateFormDescription: Messages
+    quotationsCreateFormQuotationLabel: Messages
+    quotationsCreateFormAuthorLabel: Messages
+    quotationsCreateFormCancelButtonLabel: Messages
+    quotationsCreateFormSaveButtonLabel: Messages
+  }
 }
 
 export const QuotationsCreateForm: FunctionComponent<
   QuotationsCreateFormProps
-> = ({ opened = false, onClose, onSave }) => {
+> = ({ opened = false, onClose, onSave, messages }) => {
   const [quotation, setQuotation] = useState("")
   const [author, setAuthor] = useState("")
   const [quotationError, setQuotationError] = useState<boolean>()
@@ -63,45 +70,39 @@ export const QuotationsCreateForm: FunctionComponent<
             </RoundIcon>
             <Typography.H3
               color={"black"}
-              message={quotationsMessages.quotationsCreateFormTitle.id}
+              message={messages.quotationsCreateFormTitle.id}
             />
             <Typography.P3
               color={"grey2"}
-              message={quotationsMessages.quotationsCreateFormDescription.id}
+              message={messages.quotationsCreateFormDescription.id}
             />
           </Header>
           <CreateFormInput
-            label={formatMessage(
-              quotationsMessages.quotationsCreateFormQuotationLabel
-            )}
+            label={formatMessage(messages.quotationsCreateFormQuotationLabel)}
             rows={2}
             glyphsType={"light"}
             limits={[440, 440]}
             onChange={handleQuotationChange}
             onError={setQuotationError}
+            messages={messages}
           />
           <CreateFormInput
-            label={formatMessage(
-              quotationsMessages.quotationsCreateFormAuthorLabel
-            )}
+            label={formatMessage(messages.quotationsCreateFormAuthorLabel)}
             rows={1}
             glyphsType={"bold"}
             limits={[365]}
             onChange={handleAuthorChange}
             onError={setAuthorError}
+            messages={messages}
           />
           <Buttons>
             <Button
-              message={
-                quotationsMessages.quotationsCreateFormCancelButtonLabel.id
-              }
+              message={messages.quotationsCreateFormCancelButtonLabel.id}
               type={ButtonType.Secondary}
               onClick={onClose}
             />
             <Button
-              message={
-                quotationsMessages.quotationsCreateFormSaveButtonLabel.id
-              }
+              message={messages.quotationsCreateFormSaveButtonLabel.id}
               type={ButtonType.Primary}
               disabled={!quotation.trim() || quotationError || authorError}
               onClick={handleSave}

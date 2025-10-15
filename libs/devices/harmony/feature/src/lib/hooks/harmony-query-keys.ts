@@ -22,4 +22,5 @@ export const harmonyQueryKeys = {
     ...harmonyQueryKeys._device(path),
     "quotationList",
   ],
+  settings: (path?: string) => [...harmonyQueryKeys._device(path), "settings"],
 }
