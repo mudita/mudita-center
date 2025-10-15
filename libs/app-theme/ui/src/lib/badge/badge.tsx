@@ -27,12 +27,14 @@ export const Badge: FunctionComponent<Props> = ({
   color,
   message,
   values,
+  ...rest
 }) => {
   return (
     <Wrapper
       backgroundColor={backgroundColor}
       color={color}
       hasIcon={icon ? !!icons[icon] : false}
+      {...rest}
     >
       {icon && <BadgeIcon type={icon} />}
       {message ? <Typography.P5 message={message} values={values} /> : children}

@@ -69,6 +69,7 @@
     "react-hook-form": "^7.62.0",
     "react-intl": "^7.1.11",
     "react-is": "19.1.1",
+    "react-markdown": "^10.1.0",
     "react-modal": "^3.16.3",
     "react-redux": "^9.2.0",
     "react-router": "^7.8.1",
