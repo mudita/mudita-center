@@ -67,7 +67,7 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
     if (selectedQuotations.length === quotations.length) {
       setSelectedQuotations([])
     } else {
-      setSelectedQuotations(quotations.map((item) => item))
+      setSelectedQuotations(quotations)
     }
   }
 
