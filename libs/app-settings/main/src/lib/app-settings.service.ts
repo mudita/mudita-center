@@ -5,13 +5,13 @@
 
 import path from "path"
 import { app } from "electron"
-import { AppSettings, AppSettingsServiceModel } from "app-settings/models"
+import { AppSettings } from "app-settings/models"
 import { JsonStoreService, MigrationService } from "app-utils/main"
 import { migrations } from "./migrations"
-import { DotNotation, NestedPartial } from "app-utils/models"
+import { DotNotation, DotValue, NestedPartial } from "app-utils/models"
 import { generateAnalyticsId } from "./generate-application-id"
 
-export class AppSettingsService implements AppSettingsServiceModel {
+export class AppSettingsService {
   private readonly jsonStore: JsonStoreService<AppSettings>
   private readonly migrationService: MigrationService<AppSettings>
 
@@ -35,7 +35,11 @@ export class AppSettingsService implements AppSettingsServiceModel {
     return this.jsonStore.path
   }
 
-  get<P extends DotNotation<AppSettings>>(path?: P) {
+  get(): AppSettings
+  get<P extends DotNotation<AppSettings>>(path: P): DotValue<AppSettings, P>
+  get<P extends DotNotation<AppSettings>>(
+    path?: P
+  ): DotValue<AppSettings, P> | AppSettings {
     if (path) {
       return this.jsonStore.get(path)
     }

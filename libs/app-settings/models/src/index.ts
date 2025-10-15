@@ -5,4 +5,3 @@
 
 export * from "./lib/app-settings"
 export * from "./lib/app-settings-ipc-events"
-export * from "./lib/app-settings-service.model"

@@ -40,7 +40,9 @@ export const initAppLibs = async (
   const appSettingsService = await getAppSettingsService(
     mockServer.serverEnabled
   )
-  const appFileSystemGuard = new AppFileSystemGuard(appSettingsService)
+  const appFileSystemGuard = new AppFileSystemGuard(() => {
+    return [appSettingsService.get("user.backupLocation")]
+  })
   const appFileSystem = new AppFileSystemService(appFileSystemGuard)
   const appActionsService = new AppActionsService(appFileSystemGuard)
 

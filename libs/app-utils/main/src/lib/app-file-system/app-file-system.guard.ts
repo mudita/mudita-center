@@ -11,7 +11,6 @@ import {
   AppFileSystemGuardOptions,
   RelativeScopeOptions,
 } from "app-utils/models"
-import { AppSettingsServiceModel } from "app-settings/models"
 
 const isScopedOptions = (
   options: AppFileSystemGuardOptions
@@ -27,7 +26,7 @@ const isAbsoluteOptions = (
     "undefined"
 
 export class AppFileSystemGuard {
-  constructor(private appSettingsService: AppSettingsServiceModel) {}
+  constructor(private getAlwaysGrantedPaths: () => string[]) {}
 
   private grantedPathsMap = new Map<number, Set<string>>()
 
@@ -117,7 +116,7 @@ export class AppFileSystemGuard {
   private hasGrantedAccess(options: AbsolutePathWithGrantOptions): boolean {
     // Always allow access to certain locations, e.g. backup location
     if (
-      [this.appSettingsService.get("user.backupLocation")].some((p) => {
+      this.getAlwaysGrantedPaths().some((p) => {
         const checkedPath = Array.isArray(options.fileAbsolutePath)
           ? path.join(...options.fileAbsolutePath)
           : options.fileAbsolutePath
