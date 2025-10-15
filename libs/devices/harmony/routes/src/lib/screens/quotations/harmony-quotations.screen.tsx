@@ -13,14 +13,13 @@ import {
   QuotationSettings,
   QuotationSettingsGroup,
 } from "devices/common/models"
-import { AppResultFactory } from "app-utils/models"
-import { delay } from "app-utils/common"
 import { Quotations } from "devices/common/ui"
 import { useActiveDeviceQuery } from "devices/common/feature"
 import {
   useHarmonyCreateQuotationMutation,
   useHarmonyDeleteQuotationMutation,
   useHarmonyQuotationListQuery,
+  useHarmonyQuotationSettingsMutation,
   useHarmonyQuotationSettingsQuery,
 } from "devices/harmony/feature"
 import { harmonyQuotationsMessages } from "./harmony-quotations.messages"
@@ -46,6 +45,9 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
   const { mutateAsync: deleteQuotation } =
     useHarmonyDeleteQuotationMutation(activeDevice)
 
+  const { mutateAsync: updateSettings } =
+    useHarmonyQuotationSettingsMutation(activeDevice)
+
   const handleOnDeleteSuccess = async (items: { id: string }[]) => {
     queryClient.setQueryData<Quotation[]>(
       useHarmonyQuotationListQuery.queryKey(activeDevice?.path),
@@ -69,11 +71,7 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
         messages={harmonyQuotationsMessages}
         onDeleteSuccess={handleOnDeleteSuccess}
         settings={settings}
-        updateSettings={async () => {
-          await delay(1000)
-          return Promise.resolve(AppResultFactory.success(undefined))
-          // return Promise.resolve(AppResultFactory.failed(new AppError("Not implemented")))
-        }}
+        updateSettings={updateSettings}
       />
     </>
   )

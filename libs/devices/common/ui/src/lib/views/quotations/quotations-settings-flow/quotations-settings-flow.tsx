@@ -6,6 +6,7 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { QuotationSettings } from "devices/common/models"
 import { formatMessage, Messages } from "app-localize/utils"
+import { delayUntil } from "app-utils/common"
 import {
   createToastContent,
   GenericFailedModal,
@@ -62,20 +63,19 @@ export const QuotationsSettingsFlow: FunctionComponent<
   }, [opened])
 
   const handleUpdateSettings = async (settings: QuotationSettings) => {
-    setFlowState(QuotationsSettingsFlowState.Progress)
-    const result = await updateSettings(settings)
-    if (!result.ok) {
+    try {
+      setFlowState(QuotationsSettingsFlowState.Progress)
+      await delayUntil(updateSettings(settings), 250)
+      setFlowState(QuotationsSettingsFlowState.Idle)
+      addToast(
+        createToastContent({
+          text: formatMessage(messages.updateSettingsSuccessToastText),
+        })
+      )
+      onClose()
+    } catch {
       setFlowState(QuotationsSettingsFlowState.Error)
-      return result
     }
-    setFlowState(QuotationsSettingsFlowState.Idle)
-    addToast(
-      createToastContent({
-        text: formatMessage(messages.updateSettingsSuccessToastText),
-      })
-    )
-    onClose()
-    return result
   }
 
   return (

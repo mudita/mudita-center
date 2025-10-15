@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useEffect, useState } from "react"
+import { FunctionComponent, useCallback, useState } from "react"
 import styled from "styled-components"
 import { ButtonSize, ButtonType, ModalSize } from "app-theme/models"
 import {
@@ -11,7 +11,6 @@ import {
   QuotationSettingsGroup,
   QuotationSettingsInterval,
 } from "devices/common/models"
-import { AppResult } from "app-utils/models"
 import { borderColor } from "app-theme/utils"
 import { formatMessage, Messages } from "app-localize/utils"
 import { Button, Modal, Typography } from "app-theme/ui"
@@ -26,7 +25,7 @@ export interface QuotationsSettingsFormProps {
   opened: boolean
   settings: QuotationSettings
   customQuotationsCount: number
-  updateSettings: (settings: QuotationSettings) => Promise<AppResult>
+  updateSettings: (settings: QuotationSettings) => Promise<void>
   onClose: (saved?: boolean) => void
   messages: {
     updateSettingsFormSourceTitle: Messages
@@ -52,19 +51,12 @@ export const QuotationsSettingsForm: FunctionComponent<
   const hasChanges =
     settings.group !== selectedSource || settings.interval !== selectedInterval
 
-  const handleSave = () => {
+  const handleSave = useCallback(async () => {
     void updateSettings({
       interval: selectedInterval,
       group: selectedSource,
     })
-  }
-
-  useEffect(() => {
-    if (settings.group && settings.interval) {
-      setSelectedSource(settings.group)
-      setSelectedInterval(settings.interval)
-    }
-  }, [settings, opened])
+  }, [selectedInterval, selectedSource, updateSettings])
 
   return (
     <Modal

@@ -60,6 +60,12 @@ import {
   HarmonyGetIntervalQuotationRequestValidator,
   HarmonyGetIntervalQuotationResponseValidator,
 } from "./endpoints/quotation-get"
+import {
+  HarmonyPutGroupQuotationRequestValidator,
+  HarmonyPutGroupQuotationResponseValidator,
+  HarmonyPutIntervalQuotationRequestValidator,
+  HarmonyPutIntervalQuotationResponseValidator,
+} from "./endpoints/quotation-put"
 
 export enum HarmonyEndpointNamed {
   // Invalid = 0,
@@ -173,6 +179,16 @@ export const HarmonyEndpoints = {
     [HarmonyMethodNamed.Delete]: {
       request: HarmonyDeleteQuotationRequestValidator,
       response: HarmonyDeleteQuotationResponseValidator,
+    },
+    [HarmonyMethodNamed.Put]: {
+      request: z.union([
+        HarmonyPutGroupQuotationRequestValidator,
+        HarmonyPutIntervalQuotationRequestValidator,
+      ]),
+      response: z.union([
+        HarmonyPutGroupQuotationResponseValidator,
+        HarmonyPutIntervalQuotationResponseValidator,
+      ]),
     },
   },
 } as const satisfies EndpointsDefinition
