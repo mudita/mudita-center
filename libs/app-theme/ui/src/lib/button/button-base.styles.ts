@@ -42,7 +42,8 @@ export const baseStyles = css<StyledButtonProps>`
   text-decoration: none;
   user-select: none;
 
-  p, span {
+  p,
+  span {
     color: inherit !important;
   }
 
@@ -55,6 +56,10 @@ export const baseStyles = css<StyledButtonProps>`
       case ButtonSize.Medium:
         return css`
           width: 15.6rem;
+        `
+      case ButtonSize.Big:
+        return css`
+          width: 16.4rem;
         `
       case ButtonSize.Large:
         return css`

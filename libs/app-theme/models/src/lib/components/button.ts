@@ -14,6 +14,7 @@ export enum ButtonSize {
   AutoMax = "auto-max",
   Small = "small",
   Medium = "medium",
+  Big = "big",
   Large = "large",
 }
 
