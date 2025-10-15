@@ -113,7 +113,11 @@ export const TextInput: FunctionComponent<Props> & {
   }, [leftSlot, rightSlot])
 
   return (
-    <Wrapper {...rest} className={className}>
+    <Wrapper
+      {...rest}
+      className={`text-input ${className}`}
+      data-variant={variant}
+    >
       <InputWrapper $variant={variant} $error={Boolean(error)} htmlFor={id}>
         <InputComponent
           id={id}
@@ -138,6 +142,7 @@ const Wrapper = styled.div`
   position: relative;
   z-index: 1;
   transition: z-index 0.2s ease-in-out;
+  align-self: stretch;
 
   &:focus-within {
     z-index: 2;
@@ -260,4 +265,5 @@ const InputWrapper = styled.label<{
 
 const Error = styled(Typography.P5)`
   user-select: none;
+  text-align: left !important;
 `
