@@ -8,14 +8,18 @@ import styled from "styled-components"
 import { isEmpty } from "lodash"
 import { ModalTestId, TypographyAlign } from "app-theme/models"
 import { Typography } from "../typography/typography"
+import { Translation } from "../shared/translation.type"
+import { formatMessage } from "app-localize/utils"
 
-interface Props extends PropsWithChildren {
+type Props = PropsWithChildren & {
   text?: string
-}
+} & Translation
 
 export const ModalTitle: FunctionComponent<Props> = ({
   children,
   text,
+  message,
+  values,
   ...rest
 }) => {
   return (
@@ -25,7 +29,11 @@ export const ModalTitle: FunctionComponent<Props> = ({
       textAlign={TypographyAlign.Center}
       forwardedAs="h1"
     >
-      {isEmpty(children) ? text : children}
+      {message
+        ? formatMessage({ id: message }, values)
+        : isEmpty(children)
+          ? text
+          : children}
     </Title>
   )
 }

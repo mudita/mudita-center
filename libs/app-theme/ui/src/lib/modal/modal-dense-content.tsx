@@ -6,9 +6,10 @@
 import styled from "styled-components"
 
 export const ModalDenseContent = styled.div`
+  --modal-gap: 1.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.4rem;
+  gap: var(--modal-gap);
   width: 100%;
 `
