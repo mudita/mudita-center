@@ -66,6 +66,15 @@ export const QuotationsSettingsForm: FunctionComponent<
     setSelectedInterval(settings.interval)
   }, [settings?.group, settings?.interval])
 
+  useEffect(() => {
+    if (opened) {
+      setSelectedSource(settings?.group || DEFAULT_QUOTATION_SETTINGS.group)
+      setSelectedInterval(
+        settings?.interval || DEFAULT_QUOTATION_SETTINGS.interval
+      )
+    }
+  }, [opened, settings?.group, settings?.interval])
+
   const hasChanges = useMemo(() => {
     if (!settings?.group || !settings?.interval) {
       return false

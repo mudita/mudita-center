@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import path from "path"
 import { AppFileSystem } from "app-utils/renderer"
 import { AppSql } from "app-sql/renderer"
 import { Harmony } from "devices/harmony/models"
