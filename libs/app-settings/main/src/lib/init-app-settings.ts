@@ -13,13 +13,17 @@ import { AppSettingsService } from "./app-settings.service"
 const DEFAULT_DELAY_MS = 2500
 let appSettingsService: AppSettingsService
 
-export const getService = async (serverEnabled: boolean) => {
+const getService = async (serverEnabled: boolean) => {
   if (!appSettingsService) {
     if (serverEnabled) {
       await delay(DEFAULT_DELAY_MS)
     }
     appSettingsService = new AppSettingsService()
   }
+  return appSettingsService
+}
+
+export const getAppSettingsService = () => {
   return appSettingsService
 }
 

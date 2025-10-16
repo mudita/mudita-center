@@ -8,10 +8,7 @@ import { BrowserWindow, ipcMain } from "electron"
 import { initSql } from "app-sql/main"
 import { initNews } from "news/main"
 import { AppHelpService, initAppHelp } from "help/main"
-import {
-  getService as getAppSettingsService,
-  initAppSettings,
-} from "app-settings/main"
+import { getAppSettingsService, initAppSettings } from "app-settings/main"
 import {
   AppActionsService,
   AppFileSystemGuard,
@@ -33,14 +30,12 @@ import {
 import { initUsbAccess } from "app-init/main"
 import { IpcMockServer } from "e2e-mock/server"
 
-export const initAppLibs = async (
+export const initAppLibs = (
   mainWindow: BrowserWindow,
   mockServer: IpcMockServer
 ) => {
-  const appSettingsService = await getAppSettingsService(
-    mockServer.serverEnabled
-  )
   const appFileSystemGuard = new AppFileSystemGuard(() => {
+    const appSettingsService = getAppSettingsService()
     return [appSettingsService.get("user.backupLocation")]
   })
   const appFileSystem = new AppFileSystemService(appFileSystemGuard)
