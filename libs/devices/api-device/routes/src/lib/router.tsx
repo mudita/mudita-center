@@ -12,7 +12,9 @@ import {
   useDeviceStatusQuery,
 } from "devices/common/feature"
 import { ApiDevicePaths } from "devices/api-device/models"
-import { DeviceLockedPage } from "./device-locked-page"
+import { DeviceLockedScreen } from "./screens/device-locked-screen"
+import { McOverviewScreen } from "./screens/mc-overview-screen"
+import { McAboutScreen } from "./screens/mc-about-screen"
 
 export const useApiDeviceRouter = (device?: Device) => {
   const activeApiDevice = ApiDeviceSerialPort.isCompatible(device)
@@ -26,7 +28,7 @@ export const useApiDeviceRouter = (device?: Device) => {
     initialization:
       activeApiDevice &&
       (status === DeviceStatus.Locked ? (
-        <Route index element={<DeviceLockedPage />} />
+        <Route index element={<DeviceLockedScreen />} />
       ) : (
         isSuccess && (
           <Route
@@ -53,6 +55,10 @@ export const useApiDeviceRouter = (device?: Device) => {
           }
           return null
         })}
+        <Route path={`${ApiDevicePaths.Index}/mc-overview`}>
+          <Route index element={<McOverviewScreen />} />
+          <Route path={"mc-about"} element={<McAboutScreen />} />
+        </Route>
         <Route path={ApiDevicePaths.View} element={<GenericView />} />
       </Route>
     ),

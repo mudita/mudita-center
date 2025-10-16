@@ -22,7 +22,7 @@ const messages = defineMessages({
   },
 })
 
-export const DeviceLockedPage: FunctionComponent = () => {
+export const DeviceLockedScreen: FunctionComponent = () => {
   const queryClient = useQueryClient()
   const navigate = useAppNavigate()
   const { getPreviousPath } = useRoutingHistory()
