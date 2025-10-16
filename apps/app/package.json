@@ -22,7 +22,8 @@
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "fonts:download": "ts-node ../../scripts/download-fonts.ts",
-    "news:download": "ts-node ../../scripts/download-news.ts"
+    "news:download": "ts-node ../../scripts/download-news.ts",
+    "help:download": "ts-node ../../scripts/download-help.ts"
   },
   "dependencies": {
     "serialport": "*",
