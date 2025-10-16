@@ -20,7 +20,6 @@ import {
 } from "devices/harmony/feature"
 import { useSpaceAvailable } from "../utils/use-space-available"
 import { harmonyQuotationsMessages } from "./harmony-quotations.messages"
-import { DEFAULT_QUOTATION_SETTINGS } from "./harmony-quotations.const"
 
 export const HarmonyQuotationsScreen: FunctionComponent = () => {
   const queryClient = useQueryClient()
@@ -31,7 +30,7 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
     useHarmonyQuotationListQuery(activeDevice)
 
   const {
-    data: settings = DEFAULT_QUOTATION_SETTINGS,
+    data: settings,
     isLoading: isSettingsLoading,
   } = useHarmonyQuotationSettingsQuery(activeDevice)
 
