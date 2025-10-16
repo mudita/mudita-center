@@ -25,7 +25,7 @@
     "nx:migrate": "npx nx migrate --run-migrations",
     "nx:reset": "nx reset",
     "==== Project utils =================": "",
-    "postsetup": "nx setup app && nx fonts:download app && nx news:download app"
+    "postsetup": "nx setup app && nx fonts:download app && nx news:download app && nx help:download app"
   },
   "repository": {
     "type": "git",
