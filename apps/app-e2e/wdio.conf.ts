@@ -8,7 +8,10 @@ import * as path from "path"
 import * as os from "os"
 import { E2EMockClient } from "e2e-mock/client"
 import { MockBasedSpecRelativePaths } from "./src/consts/mock-based-spec-relative-paths"
-import { passAppInit } from "./src/helpers/app-init.helper"
+import {
+  passAppInit,
+  waitForRendererReady,
+} from "./src/helpers/app-init.helper"
 
 // Based on node_modules/@puppeteer/browsers/src/browser-data/chromedriver.ts
 // and
@@ -288,6 +291,7 @@ export const config: WebdriverIO.Config = {
    * @param {object} suite suite details
    */
   beforeSuite: async function (suite) {
+    await waitForRendererReady()
     await passAppInit(suite)
   },
   /**

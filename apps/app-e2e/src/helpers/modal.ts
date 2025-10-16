@@ -34,4 +34,8 @@ export default class Modal {
   public get closeButton() {
     return this.modal.$(`[data-testid="${ModalTestId.CloseButton}"]`)
   }
+
+  public get buttonsWrapper() {
+    return this.modal.$(`[data-testid="${ModalTestId.Buttons}"]`)
+  }
 }

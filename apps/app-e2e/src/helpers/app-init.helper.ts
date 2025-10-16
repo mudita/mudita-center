@@ -30,3 +30,21 @@ export const passAppInit = async (suite: Suite) => {
     await AppInitPage.closeFullscreenLayout()
   }
 }
+
+export const waitForRendererReady = async () => {
+  await browser.waitUntil(
+    async () => {
+      const [readyState, visibility, hasFocus] = await Promise.all([
+        browser.execute(() => document.readyState),
+        browser.execute(() => (document as Document).visibilityState),
+        browser.execute(() => document.hasFocus()),
+      ])
+      return readyState === "complete" && visibility === "visible" && !!hasFocus
+    },
+    {
+      timeout: 15000,
+      interval: 500,
+      timeoutMsg: "Renderer not visible/ready in time",
+    }
+  )
+}

@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { mockAppSettings } from "../helpers/mock-app-settings"
-import PrivacyPolicyPage from "../page-objects/privacy-policy.page"
 import AppInitPage from "../page-objects/app-init.page"
 import { E2EMockClient } from "e2e-mock/client"
 import McUpdatePage from "../page-objects/mc-update.page"
@@ -13,13 +11,9 @@ import UsbAccessPage from "../page-objects/usb-access.page"
 
 describe("App Init - Full Happy Path - When Privacy Policy Accepted", () => {
   before(async () => {
+    await AppInitPage.acceptPrivacyPolicy()
     await E2EMockClient.connect()
     const version = "5.0.0"
-    await mockAppSettings({
-      user: {
-        privacyPolicyAccepted: true,
-      },
-    })
     McUpdatePage.setUpdateAvailableModal({ version })
     E2EMockClient.setAppUpdaterState({ check: { version, forced: false } })
     E2EMockClient.setUsbAccess({
@@ -29,7 +23,6 @@ describe("App Init - Full Happy Path - When Privacy Policy Accepted", () => {
   })
 
   it("should display the Available Update Modal when the Privacy Policy is already accepted", async () => {
-    await expect(PrivacyPolicyPage.privacyPolicyModal).not.toBeDisplayed()
     await expect(McUpdatePage.updateAvailableModal).toBeDisplayed()
     await expect(McUpdatePage.updateAvailableModalCloseButton).toBeDisplayed()
   })

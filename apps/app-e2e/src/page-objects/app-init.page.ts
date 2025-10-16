@@ -4,7 +4,6 @@
  */
 
 import Modal from "../helpers/modal"
-import { ModalTestId } from "../all-test-ids"
 import Page from "./page"
 
 class AppInitPage extends Page {
@@ -14,18 +13,8 @@ class AppInitPage extends Page {
     return this._privacyPolicyModal.modal
   }
 
-  public get privacyPolicyButton() {
-    return this.privacyPolicyModal.$(`.//p/following-sibling::a[1]`)
-  }
-
-  public get privacyPolicyCancelButton() {
-    return this._privacyPolicyModal.closeButton
-  }
-
   public get privacyPolicyAcceptButton() {
-    return this.privacyPolicyModal.$(
-      `.//div[@data-testid="${ModalTestId.Buttons}"]/button[1]`
-    )
+    return this._privacyPolicyModal.buttonsWrapper.$(`.//button[1]`)
   }
 
   public async acceptPrivacyPolicy() {
@@ -35,6 +24,7 @@ class AppInitPage extends Page {
       },
       {
         timeout: 5000,
+        interval: 500,
         timeoutMsg: "Privacy Policy modal did not appear in time",
       }
     )
@@ -46,6 +36,7 @@ class AppInitPage extends Page {
         },
         {
           timeout: 5000,
+          interval: 500,
           timeoutMsg: "Privacy Policy modal did not close in time",
         }
       )
