@@ -4,10 +4,14 @@
  */
 
 import { useQuery } from "@tanstack/react-query"
-import { HarmonyDirectory, Harmony } from "devices/harmony/models"
-import { harmonyQueryKeys } from "./harmony-query-keys"
-import { getHarmonyFileList } from "../api/get-harmony-file-list"
+import {
+  Harmony,
+  HarmonyDirectory,
+  HarmonyGetFileListResponse,
+} from "devices/harmony/models"
 import { delayUntilAtLeast } from "app-utils/common"
+import { getHarmonyFileList } from "../api/get-harmony-file-list"
+import { harmonyQueryKeys } from "./harmony-query-keys"
 
 const queryFn = async (directory: HarmonyDirectory, device?: Harmony) => {
   if (!device) {
@@ -20,7 +24,7 @@ const queryFn = async (directory: HarmonyDirectory, device?: Harmony) => {
     throw response.status
   }
 
-  return response.body
+  return response.body as HarmonyGetFileListResponse
 }
 
 export const useHarmonyFileListQuery = (

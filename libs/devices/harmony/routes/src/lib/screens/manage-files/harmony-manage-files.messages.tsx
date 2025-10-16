@@ -4,8 +4,10 @@
  */
 
 import { defineMessages } from "app-localize/utils"
+import { manageFilesMessages } from "devices/common/ui"
 
 export const HarmonyManageFilesMessages = defineMessages({
+  ...manageFilesMessages,
   pageTitle: {
     id: "page.manageFiles.title",
   },
@@ -116,5 +118,8 @@ export const HarmonyManageFilesMessages = defineMessages({
   },
   alarmFilesEmptyStateDescription: {
     id: "harmony.manageFiles.alarmFiles.emptyStateDescription",
+  },
+  deletingModalTitle: {
+    id: "harmony.manageFiles.deleting.modal.title",
   },
 })

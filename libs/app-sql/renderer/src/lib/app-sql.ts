@@ -5,11 +5,8 @@
 
 import "types-preload"
 
-export class AppSql {
-  static run(name: string, query: string) {
-    return window.api.sql.run(name, query)
-  }
-  static exec(name: string, query: string) {
-    return window.api.sql.exec(name, query)
-  }
+export const AppSql = {
+  run: window.api.sql.run,
+  exec: window.api.sql.exec,
+  initialize: window.api.sql.initialize,
 }

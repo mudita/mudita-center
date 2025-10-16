@@ -13,8 +13,8 @@ import {
   OpenDialogOptionsLite,
 } from "app-utils/models"
 import {
-  sendFileToHarmony,
-  SendFileToHarmonyError,
+  uploadFileToHarmony,
+  UploadFileToHarmonyError,
   useHarmonyDeleteFileMutation,
 } from "devices/harmony/feature"
 import { useActiveDeviceQuery } from "devices/common/feature"
@@ -105,7 +105,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
     const targetPath = `${targetDirectoryPath}/${params.file.name}`
 
     try {
-      const sendFileToHarmonyResponse = await sendFileToHarmony({
+      const uploadFileToHarmonyResponse = await uploadFileToHarmony({
         device: activeDevice,
         targetPath,
         onProgress: params.onProgress,
@@ -113,14 +113,14 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
         fileLocation: { fileAbsolutePath: params.file.id, absolute: true },
       })
 
-      if (!sendFileToHarmonyResponse) {
+      if (!uploadFileToHarmonyResponse) {
         return AppResultFactory.failed(
           new AppError("", TransferErrorName.UploadUnknown)
         )
       }
       return AppResultFactory.success()
     } catch (error) {
-      if (error === SendFileToHarmonyError.Aborted) {
+      if (error === UploadFileToHarmonyError.Aborted) {
         try {
           // In case of abort during upload, the file may be partially uploaded. Attempt to delete it.
           // Ignore any errors from deleteFile to avoid masking the original abort error.

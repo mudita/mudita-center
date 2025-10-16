@@ -17,6 +17,10 @@ import {
   HarmonySynchronizeTimeResponseValidator,
 } from "./endpoints/time-synchronization"
 import {
+  HarmonyDownloadFileChunkRequestValidator,
+  HarmonyDownloadFileChunkResponseValidator,
+  HarmonyPreDownloadFileRequestValidator,
+  HarmonyPreDownloadFileResponseValidator,
   HarmonyPreSendFileRequestValidator,
   HarmonyPreSendFileResponseValidator,
   HarmonySendFileChunkRequestValidator,
@@ -33,20 +37,48 @@ import {
 import {
   HarmonyGetFileListRequestValidator,
   HarmonyGetFileListResponseValidator,
-} from "./endpoints/file-get"
+} from "./endpoints/file-get-list"
+import {
+  HarmonyPostBackupRequestValidator,
+  HarmonyPostBackupResponseValidator,
+} from "./endpoints/backup-post"
+import {
+  HarmonyGetBackupRequestValidator,
+  HarmonyGetBackupResponseValidator,
+} from "./endpoints/backup-get"
+import {
+  HarmonyPostQuotationRequestValidator,
+  HarmonyPostQuotationResponseValidator,
+} from "./endpoints/quotation-post"
+import {
+  HarmonyDeleteQuotationRequestValidator,
+  HarmonyDeleteQuotationResponseValidator,
+} from "./endpoints/quotation-delete"
+import {
+  HarmonyGetGroupQuotationRequestValidator,
+  HarmonyGetGroupQuotationResponseValidator,
+  HarmonyGetIntervalQuotationRequestValidator,
+  HarmonyGetIntervalQuotationResponseValidator,
+} from "./endpoints/quotation-get"
+import {
+  HarmonyPutGroupQuotationRequestValidator,
+  HarmonyPutGroupQuotationResponseValidator,
+  HarmonyPutIntervalQuotationRequestValidator,
+  HarmonyPutIntervalQuotationResponseValidator,
+} from "./endpoints/quotation-put"
 
 export enum HarmonyEndpointNamed {
   // Invalid = 0,
   DeviceInfo = 1,
   Update = 2,
   FileSystem = 3,
-  // Backup = 4,
+  Backup = 4,
   // Restore = 5,
   // Factory = 6,
   // Security = 13,
   // Outbox = 14,
   TimeSynchronization = 16,
-
+  Quotations = 17,
   // api version (mocked)
   // ApiVersion = 1000,
 }
@@ -87,8 +119,16 @@ export const HarmonyEndpoints = {
   },
   [HarmonyEndpointNamed.FileSystem]: {
     [HarmonyMethodNamed.Get]: {
-      request: HarmonyGetFileListRequestValidator,
-      response: HarmonyGetFileListResponseValidator,
+      request: z.union([
+        HarmonyGetFileListRequestValidator,
+        HarmonyPreDownloadFileRequestValidator,
+        HarmonyDownloadFileChunkRequestValidator,
+      ]),
+      response: z.union([
+        HarmonyGetFileListResponseValidator,
+        HarmonyPreDownloadFileResponseValidator,
+        HarmonyDownloadFileChunkResponseValidator,
+      ]),
     },
     [HarmonyMethodNamed.Delete]: {
       request: HarmonyDeleteFileRequestValidator,
@@ -109,6 +149,46 @@ export const HarmonyEndpoints = {
     [HarmonyMethodNamed.Post]: {
       request: HarmonyUpdateRequestValidator,
       response: HarmonyUpdateResponseValidator,
+    },
+  },
+  [HarmonyEndpointNamed.Backup]: {
+    [HarmonyMethodNamed.Get]: {
+      request: HarmonyGetBackupRequestValidator,
+      response: HarmonyGetBackupResponseValidator,
+    },
+    [HarmonyMethodNamed.Post]: {
+      request: HarmonyPostBackupRequestValidator,
+      response: HarmonyPostBackupResponseValidator,
+    },
+  },
+  [HarmonyEndpointNamed.Quotations]: {
+    [HarmonyMethodNamed.Get]: {
+      request: z.union([
+        HarmonyGetGroupQuotationRequestValidator,
+        HarmonyGetIntervalQuotationRequestValidator,
+      ]),
+      response: z.union([
+        HarmonyGetGroupQuotationResponseValidator,
+        HarmonyGetIntervalQuotationResponseValidator,
+      ]),
+    },
+    [HarmonyMethodNamed.Post]: {
+      request: HarmonyPostQuotationRequestValidator,
+      response: HarmonyPostQuotationResponseValidator,
+    },
+    [HarmonyMethodNamed.Delete]: {
+      request: HarmonyDeleteQuotationRequestValidator,
+      response: HarmonyDeleteQuotationResponseValidator,
+    },
+    [HarmonyMethodNamed.Put]: {
+      request: z.union([
+        HarmonyPutGroupQuotationRequestValidator,
+        HarmonyPutIntervalQuotationRequestValidator,
+      ]),
+      response: z.union([
+        HarmonyPutGroupQuotationResponseValidator,
+        HarmonyPutIntervalQuotationResponseValidator,
+      ]),
     },
   },
 } as const satisfies EndpointsDefinition
