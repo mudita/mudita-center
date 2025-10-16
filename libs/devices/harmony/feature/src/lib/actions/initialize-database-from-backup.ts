@@ -86,7 +86,7 @@ export const initializeDatabaseFromBackup = async ({
   }
 
   const dbFileLocation = extractResponse.data.find(
-    (extractedDbName) => path.basename(extractedDbName) === dbName
+    (extractedDbName) => extractedDbName.split(/[/\\]/).filter(Boolean).pop() === dbName
   )
 
   if (!dbFileLocation) {
