@@ -65,13 +65,8 @@ export const selectArticleRateStatus = createSelector(
   (ratedArticles, articleId) => ratedArticles.includes(articleId)
 )
 
-const selectHelpShortcuts = createSelector(
-  (state: AppStore) => state.help.data.shortcuts,
-  (shortcuts) => shortcuts
-)
-
 export const selectHelpShortcut = createSelector(
-  selectHelpShortcuts,
+  (state: AppStore) => state.help.data.shortcuts,
   (_: AppStore, shortcut: string) => shortcut,
   (shortcuts, shortcut) => shortcuts[shortcut]
 )
