@@ -34,7 +34,7 @@ export const RadioInput: FunctionComponent<Props> = ({ children, ...rest }) => {
       <Label htmlFor={"input-" + id}>
         <InputIndicator />
         {children && (
-          <Typography.P1 textAlign={TypographyAlign.Left}>
+          <Typography.P1 textAlign={TypographyAlign.Left} color={"currentColor"}>
             {children}
           </Typography.P1>
         )}
@@ -94,5 +94,10 @@ const Input = styled.input`
         opacity: 1;
       }
     }
+  }
+
+  &:disabled + ${Label} {
+    cursor: not-allowed;
+    color: ${({ theme }) => theme.app.color.grey4};
   }
 `
