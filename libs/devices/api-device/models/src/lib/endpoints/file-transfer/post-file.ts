@@ -21,7 +21,9 @@ export const PreFileTransferPostResponseValidator = z.object({
   chunkSize: sizeScheme,
 })
 
-export type PreFileTransferPostRequest = z.infer<typeof PreFileTransferPostRequestValidator>
+export type PreFileTransferPostRequest = z.infer<
+  typeof PreFileTransferPostRequestValidator
+>
 
 // POST FILE_TRANSFER
 export const FileTransferPostRequestValidator = z.object({
@@ -35,4 +37,6 @@ export const FileTransferPostResponseValidator = z.object({
   chunkNumber: chunkNumberScheme,
 })
 
-export type FileTransferPostRequest = z.infer<typeof FileTransferPostRequestValidator>
+export type FileTransferPostRequest = z.infer<
+  typeof FileTransferPostRequestValidator
+>

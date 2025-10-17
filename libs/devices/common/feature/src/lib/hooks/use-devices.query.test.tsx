@@ -33,7 +33,7 @@ describe("useDevicesQuery", () => {
         deviceType: SerialPortDeviceType.Harmony,
         serialNumber: "654321",
         productId: "product1",
-        vendorId: "vendor1"
+        vendorId: "vendor1",
       },
       // second connected device
       {

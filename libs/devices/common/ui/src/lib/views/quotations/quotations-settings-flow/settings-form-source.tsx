@@ -53,19 +53,3 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 0.4rem;
 `
-
-const Label = styled.label`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.2rem;
-  height: 3.2rem;
-
-  &:not(:has(input:disabled)) {
-    cursor: pointer;
-  }
-
-  p {
-    margin-top: 0.1rem;
-  }
-`
