@@ -63,7 +63,7 @@ export const DeviceGeneralStatus: FunctionComponent<Props> = ({
   if (active) {
     return (
       <Badge
-        icon={IconType.Check}
+        icon={IconType.CheckBold}
         backgroundColor={"green"}
         color={"grey1"}
         message={messages.activeLabel.id}

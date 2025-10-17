@@ -44,9 +44,11 @@ export const Checkbox: FunctionComponent<Props> = ({
   ref,
   style,
   className,
+  id,
   ...rest
 }) => {
-  const uid = useId()
+  const generatedId = useId()
+  const checkboxId = id ?? generatedId
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleRef = useCallback(
@@ -71,14 +73,15 @@ export const Checkbox: FunctionComponent<Props> = ({
 
   return (
     <InputWrapper
-      htmlFor={uid}
+      htmlFor={checkboxId}
+      as={id ? "div" : "label"}
       style={style}
       className={className}
       data-testid={rest["data-testid"]}
     >
       <CheckboxInput $size={size}>
-        <input type="checkbox" id={uid} ref={handleRef} {...rest} />
-        <CheckIcon type={IconType.Check} size={IconSize.Tiny} />
+        <input type="checkbox" id={checkboxId} ref={handleRef} {...rest} />
+        <CheckIcon type={IconType.CheckBold} size={IconSize.Tiny} />
         <IndeterminateIcon type={IconType.Minus} size={IconSize.Tiny} />
       </CheckboxInput>
       {children && (
@@ -113,6 +116,7 @@ const CheckboxInput = styled.div<{ $size?: CheckboxSize }>`
     border-color: ${({ theme }) => theme.app.color.grey1};
     background-color: ${({ theme }) => theme.app.color.grey1};
   }
+
   &:has(+ p) {
     margin-top: 0.1rem;
   }

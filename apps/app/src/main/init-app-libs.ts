@@ -5,7 +5,7 @@
 
 import { initSerialPort } from "app-serialport/main"
 import { BrowserWindow, ipcMain } from "electron"
-import { initSql } from "app-sql/main"
+import { AppSql, initSql } from "app-sql/main"
 import { initNews } from "news/main"
 import { AppHelpService, initAppHelp } from "help/main"
 import { getAppSettingsService, initAppSettings } from "app-settings/main"
@@ -38,12 +38,12 @@ export const initAppLibs = (
     const appSettingsService = getAppSettingsService()
     return [appSettingsService.get("user.backupLocation")]
   })
-  const appFileSystem = new AppFileSystemService(appFileSystemGuard)
+  const appFileSystemService = new AppFileSystemService(appFileSystemGuard)
   const appActionsService = new AppActionsService(appFileSystemGuard)
 
   const appHttpService = mockServer.serverEnabled
-    ? new MockAppHttpService(mockServer, appFileSystem)
-    : new AppHttpService(appFileSystem)
+    ? new MockAppHttpService(mockServer, appFileSystemService)
+    : new AppHttpService(appFileSystemService)
 
   const appUpdaterService = mockServer.serverEnabled
     ? new MockAppUpdaterService(mockServer)
@@ -51,18 +51,20 @@ export const initAppLibs = (
 
   const helpService = new AppHelpService(appHttpService)
 
-  const appLoggerService = new AppLoggerService(appFileSystem)
+  const appLoggerService = new AppLoggerService(appFileSystemService)
+
+  const appSql = new AppSql(appFileSystemService)
 
   initAppActions(ipcMain, appActionsService)
   initAppSettings(ipcMain, mockServer)
   initAppUpdater(ipcMain, mainWindow, appUpdaterService)
   initSerialPort(ipcMain, mainWindow)
-  initSql(ipcMain)
+  initSql(ipcMain, appSql)
   initNews(ipcMain, mainWindow)
   initAppHelp(ipcMain, helpService)
   initJsonStore(ipcMain)
   initAppHttp(ipcMain, mainWindow, appHttpService)
   initAppLogger(ipcMain, appLoggerService)
-  initAppFileSystem(ipcMain, appFileSystem)
+  initAppFileSystem(ipcMain, appFileSystemService)
   initUsbAccess(ipcMain, mockServer)
 }

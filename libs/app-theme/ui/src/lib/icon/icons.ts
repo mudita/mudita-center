@@ -25,6 +25,7 @@ import BatteryCharging5 from "./svg/battery-charging-5.svg?react"
 import BatteryFlat from "./svg/battery-flat.svg?react"
 import Bell from "./svg/bell.svg?react"
 import Check from "./svg/check.svg?react"
+import CheckBold from "./svg/check-bold.svg?react"
 import CheckCircle from "./svg/check-circle.svg?react"
 import ChevronDown from "./svg/chevron-down.svg?react"
 import Confirm from "./svg/confirm.svg?react"
@@ -32,6 +33,7 @@ import Close from "./svg/close.svg?react"
 import ContactsBook from "./svg/contacts-book.svg?react"
 import DataMigration from "./svg/data-migration.svg?react"
 import Download from "./svg/download.svg?react"
+import Dropdown from "./svg/dropdown.svg?react"
 import Error from "./svg/error.svg?react"
 import Failed from "./svg/failed.svg?react"
 import FileManager from "./svg/file-manager.svg?react"
@@ -45,11 +47,14 @@ import MuditaLogo from "./svg/mudita-logo.svg?react"
 import MuditaLogoFull from "./svg/mudita-logo-full.svg?react"
 import Namaste from "./svg/namaste.svg?react"
 import News from "./svg/news.svg?react"
+import Options from "./svg/options.svg?react"
 import Overview from "./svg/overview.svg?react"
 import PasswordHide from "./svg/password-hide.svg?react"
 import PasswordShow from "./svg/password-show.svg?react"
 import Phone from "./svg/phone.svg?react"
+import Plus from "./svg/plus.svg?react"
 import Pure from "./svg/pure.svg?react"
+import Quote from "./svg/quote.svg?react"
 import RecoveryMode from "./svg/recovery-mode.svg?react"
 import RecoveryModeFilled from "./svg/recovery-mode-filled.svg?react"
 import Refreshing from "./svg/refreshing.svg?react"
@@ -91,6 +96,7 @@ export const icons = {
   [IconType.BatteryFlat]: BatteryFlat,
   [IconType.Bell]: Bell,
   [IconType.Check]: Check,
+  [IconType.CheckBold]: CheckBold,
   [IconType.CheckCircle]: CheckCircle,
   [IconType.ChevronDown]: ChevronDown,
   [IconType.Confirm]: Confirm,
@@ -98,6 +104,7 @@ export const icons = {
   [IconType.ContactsBook]: ContactsBook,
   [IconType.DataMigration]: DataMigration,
   [IconType.Download]: Download,
+  [IconType.Dropdown]: Dropdown,
   [IconType.Error]: Error,
   [IconType.Failed]: Failed,
   [IconType.FileManager]: FileManager,
@@ -111,11 +118,14 @@ export const icons = {
   [IconType.MuditaLogoFull]: MuditaLogoFull,
   [IconType.Namaste]: Namaste,
   [IconType.News]: News,
+  [IconType.Options]: Options,
   [IconType.Overview]: Overview,
   [IconType.PasswordHide]: PasswordHide,
   [IconType.PasswordShow]: PasswordShow,
   [IconType.Device]: Phone,
+  [IconType.Plus]: Plus,
   [IconType.Pure]: Pure,
+  [IconType.Quote]: Quote,
   [IconType.RecoveryMode]: RecoveryMode,
   [IconType.RecoveryModeFilled]: RecoveryModeFilled,
   [IconType.Refreshing]: Refreshing,

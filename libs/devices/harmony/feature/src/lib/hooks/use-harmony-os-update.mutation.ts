@@ -15,9 +15,9 @@ import {
   HarmonyOSUpdateStatus,
 } from "devices/harmony/models"
 import {
-  sendFileToHarmony,
-  SendFileToHarmonyError,
-} from "../api/send-file-to-harmony"
+  uploadFileToHarmony,
+  UploadFileToHarmonyError,
+} from "../actions/upload-file-to-harmony"
 import { getHarmonyOsDownloadLocation } from "./use-harmony-os-download.mutation"
 import { updateHarmony } from "../api/update-harmony"
 import { sum } from "lodash"
@@ -89,7 +89,7 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
         // Send downloaded update file to device
         setStatus(HarmonyOSUpdateStatus.Installing)
         try {
-          await sendFileToHarmony({
+          await uploadFileToHarmony({
             device,
             fileLocation: getHarmonyOsDownloadLocation(item.name),
             targetPath: deviceUpdateTargetPath,
@@ -107,7 +107,7 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
             },
           })
         } catch (error) {
-          if (error === SendFileToHarmonyError.Aborted) {
+          if (error === UploadFileToHarmonyError.Aborted) {
             throw HarmonyOSUpdateError.UpdateAborted
           }
           throw HarmonyOSUpdateError.UpdateFailed

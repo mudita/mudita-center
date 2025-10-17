@@ -48,7 +48,12 @@ export interface AppFileSystemWriteFileOptions
   }
   data: Buffer | Record<string, unknown>
 }
-export type AppFileSystemReadFileOptions = AppFileSystemGuardOptions
+
+export interface AppFileSystemReadFileOptions
+  extends AppFileSystemGuardOptions {
+  encoding?: "buffer" | BufferEncoding
+}
+
 export type AppFileSystemReadDirOptions = AppFileSystemGuardOptions
 export type AppFileSystemPathExistsOptions = AppFileSystemGuardOptions
 export type AppFileSystemFileStatsOptions = AppFileSystemGuardOptions
