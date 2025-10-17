@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useMemo } from "react"
+import { FunctionComponent, useCallback, useMemo } from "react"
 import { ApiDevice } from "devices/api-device/models"
 import { Overview } from "devices/common/ui"
 import { DeviceImageColor, DeviceImageType } from "devices/common/models"
@@ -18,10 +18,11 @@ import { McOverviewStatus, McOverviewUpdate } from "devices/api-device/ui"
 import { SerialPortDeviceSubtype } from "app-serialport/models"
 import { useParams } from "react-router"
 import { BackupSection } from "../components/backup-section/backup-section"
+import { useHelpShortcut } from "help/feature"
 
 export const McOverviewScreen: FunctionComponent = () => {
   const { subviewKey } = useParams()
-
+  const helpShortcut = useHelpShortcut()
   const { data: device } = useActiveDeviceQuery<ApiDevice>()
   const { data: feature } = useApiFeatureQuery("mc-overview", device)
 
@@ -32,6 +33,10 @@ export const McOverviewScreen: FunctionComponent = () => {
     return DeviceImageType.Kompakt
   }, [device?.deviceSubtype])
 
+  const onHelpButtonClick = useCallback(() => {
+    helpShortcut("how-to-update-kompakt")
+  }, [helpShortcut])
+
   const sections = useMemo(() => {
     const status = feature?.status && {
       title: feature.status.title,
@@ -40,7 +45,12 @@ export const McOverviewScreen: FunctionComponent = () => {
     }
     const update = feature?.update && {
       title: feature.update.title,
-      children: <McOverviewUpdate version={feature.update.version} />,
+      children: (
+        <McOverviewUpdate
+          version={feature.update.version}
+          onHelpButtonClick={onHelpButtonClick}
+        />
+      ),
     }
     const backup = feature?.backup && {
       title: feature.backup.title,
@@ -52,7 +62,7 @@ export const McOverviewScreen: FunctionComponent = () => {
       ),
     }
     return [status, update, backup].filter(Boolean)
-  }, [feature])
+  }, [feature?.backup, feature?.status, feature?.update, onHelpButtonClick])
 
   if (!feature) {
     return (

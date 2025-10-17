@@ -16,9 +16,14 @@ const messages = defineMessages({
   },
 })
 
-type Props = Pick<NonNullable<McOverview["update"]>, "version">
+type Props = Pick<NonNullable<McOverview["update"]>, "version"> & {
+  onHelpButtonClick?: VoidFunction
+}
 
-export const McOverviewUpdate: FunctionComponent<Props> = ({ version }) => {
+export const McOverviewUpdate: FunctionComponent<Props> = ({
+  version,
+  onHelpButtonClick,
+}) => {
   return (
     <Wrapper>
       <Info>
@@ -32,6 +37,7 @@ export const McOverviewUpdate: FunctionComponent<Props> = ({ version }) => {
           ButtonTextModifier.DefaultCase,
           ButtonTextModifier.HoverUnderline,
         ]}
+        onClick={onHelpButtonClick}
       >
         <HelpIcon type={IconType.Info} />
         {formatMessage(messages.howToUpdateButtonLabel)}
