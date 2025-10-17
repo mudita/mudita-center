@@ -21,11 +21,13 @@ export const useHelpShortcut = () => {
     const shortcut = selectHelpShortcut(store.getState(), shortcutKey)
     if (!shortcut) {
       console.error(`Help shortcut "${shortcutKey}" does not exist`)
+      return
     }
     const { categoryId, articleId } = shortcut
 
     if (!categoryId || !articleId) {
       console.error(`Help shortcut "${shortcutKey}" is not properly configured`)
+      return
     }
 
     navigate(`${HelpPaths.Index}/${categoryId}/${articleId}`)
