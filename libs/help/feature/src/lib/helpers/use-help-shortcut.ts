@@ -20,7 +20,7 @@ export const useHelpShortcut = () => {
   return (shortcutKey: HelpShortcutKey) => {
     const shortcut = selectHelpShortcut(store.getState(), shortcutKey)
     if (!shortcut) {
-      console.error(`Help shortcut "${shortcut}" does not exist`)
+      console.error(`Help shortcut "${shortcutKey}" does not exist`)
     }
     const { categoryId, articleId } = shortcut
 
