@@ -30,13 +30,22 @@ describe("App Init - Full Happy Path", () => {
     await AppInitPage.privacyPolicyAcceptButton.click()
     await expect(McUpdatePage.updateAvailableModal).toBeDisplayed()
     await expect(McUpdatePage.updateAvailableModalCloseButton).toBeDisplayed()
+    await McUpdatePage.updateAvailableModal.waitForDisplayed({
+      reverse: true,
+      timeout: 10000,
+    })
   })
 
   it("should display the USB Access Request Modal after closing the Available Update Modal", async function () {
     if (!testsHelper.isLinux()) {
       this.skip()
     }
+    await McUpdatePage.updateAvailableModalCloseButton.waitForClickable({
+      timeout: 10000,
+    })
     await McUpdatePage.updateAvailableModalCloseButton.click()
+
+    await UsbAccessPage.requestModal.waitForDisplayed({ timeout: 10000 })
     await expect(UsbAccessPage.requestModal).toBeDisplayed()
   })
 
@@ -44,20 +53,43 @@ describe("App Init - Full Happy Path", () => {
     if (!testsHelper.isLinux()) {
       this.skip()
     }
+    await UsbAccessPage.requestModalCloseButton.waitForClickable({
+      timeout: 10000,
+    })
     await UsbAccessPage.requestModalCloseButton.click()
+    await UsbAccessPage.requestCancelledModal.waitForDisplayed({
+      timeout: 10000,
+    })
     await expect(UsbAccessPage.requestCancelledModal).toBeDisplayed()
   })
 
   it("should allow closing the full-screen layout via the OK button in the modal", async () => {
     if (!testsHelper.isLinux()) {
       await expect(AppInitPage.fullscreenLayoutCloseButton).not.toBeClickable()
+      await McUpdatePage.updateAvailableModalCloseButton.waitForClickable({
+        timeout: 10000,
+      })
       await McUpdatePage.updateAvailableModalCloseButton.click()
+      await AppInitPage.fullscreenLayoutCloseButton.waitForClickable({
+        timeout: 10000,
+      })
       await expect(AppInitPage.fullscreenLayoutCloseButton).toBeClickable()
     } else {
-      await expect(AppInitPage.fullscreenLayoutCloseButton).not.toBeClickable()
+      await AppInitPage.fullscreenLayoutCloseButton.waitForClickable({
+        reverse: true,
+        timeout: 10000,
+      })
       await UsbAccessPage.requestCancelledModalButton.waitForDisplayed()
+      await UsbAccessPage.requestCancelledModalButton.waitForClickable({
+        timeout: 10000,
+      })
       await UsbAccessPage.requestCancelledModalButton.click()
-      await expect(UsbAccessPage.requestCancelledModal).not.toBeDisplayed()
+      await UsbAccessPage.requestCancelledModal.waitForDisplayed({
+        reverse: true,
+      })
+      await AppInitPage.fullscreenLayoutCloseButton.waitForClickable({
+        timeout: 10000,
+      })
       await expect(AppInitPage.fullscreenLayoutCloseButton).toBeClickable()
     }
   })
