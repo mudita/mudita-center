@@ -25,7 +25,7 @@ export const useHelpShortcut = () => {
     const { categoryId, articleId } = shortcut
 
     if (!categoryId || !articleId) {
-      console.error(`Help shortcut "${shortcut}" is not properly configured`)
+      console.error(`Help shortcut "${shortcutKey}" is not properly configured`)
     }
 
     navigate(`${HelpPaths.Index}/${categoryId}/${articleId}`)
