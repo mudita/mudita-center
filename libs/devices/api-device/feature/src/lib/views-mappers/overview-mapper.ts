@@ -56,7 +56,7 @@ export const mapOverviewFeature = (
                 return {
                   icon: item?.icon,
                   text: item?.text,
-                  subtext: item?.subText,
+                  subText: item?.subText,
                 }
               }
               return null
