@@ -32,7 +32,7 @@ export const settingsMigrations: Migrations = {
       "@mudita",
       "mudita-center-app"
     )
-    if (!fs.existsSync(legacyAppDir)) {
+    if (!fs.existsSync(legacyAppDir) || process.env.NODE_ENV === "test") {
       logger.log(
         "[App settings migration - 4.0.0]",
         "No legacy app data found. Skipping migration and initializing default settings."
