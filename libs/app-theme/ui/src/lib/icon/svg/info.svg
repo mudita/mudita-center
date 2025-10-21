@@ -1,10 +1,12 @@
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd"
+<svg fill="none" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
+    <path clip-rule="evenodd"
           d="M8 24C8 15.156 15.1573 8 24 8C32.8441 8 40 15.1572 40 24C40 32.8441 32.8429 40 24 40C15.156 40 8 32.8428 8 24ZM13.6291 34.3708C19.3616 40.1033 28.6393 40.1025 34.371 34.3708C40.0895 28.6524 40.0895 19.3476 34.371 13.629C28.6385 7.89651 19.3607 7.89738 13.6291 13.629C7.91055 19.3476 7.91055 28.6524 13.6291 34.3708Z"
-          fill="currentColor"/>
-    <path d="M21 30H27" stroke="currentColor" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+          fill="currentColor"
+          fill-rule="evenodd" />
+    <path d="M21 30H27" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.71429" />
     <path
         d="M23.5714 18.7143C24.0448 18.7143 24.4285 18.3305 24.4285 17.8571C24.4285 17.3838 24.0448 17 23.5714 17C23.098 17 22.7142 17.3838 22.7142 17.8571C22.7142 18.3305 23.098 18.7143 23.5714 18.7143Z"
-        stroke="currentColor" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M24 30V22H22" stroke="currentColor" stroke-width="1.71429" stroke-linecap="round" stroke-linejoin="round"/>
+        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.71429" />
+    <path d="M24 30V22H22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="1.71429" />
 </svg>
