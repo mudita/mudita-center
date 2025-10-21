@@ -20,6 +20,7 @@ export const useApiDeviceBackupsQuery = (device?: ApiDevice) => {
   return useQuery({
     queryKey: useApiDeviceBackupsQuery.queryKey(device?.id),
     queryFn: () => queryFn(device),
+    enabled: !!device,
     refetchInterval: 30_000,
     refetchIntervalInBackground: true,
   })
