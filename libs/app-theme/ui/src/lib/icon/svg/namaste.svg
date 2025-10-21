@@ -1,10 +1,23 @@
-<svg width="31" height="29" viewBox="0 0 31 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M21.8523 26.8678L18.8168 23.8323M28.7152 20.7968L24.1665 18.4826M18.8168 23.8323L17.8315 22.847C16.5187 21.5343 15.7812 19.7538 15.7812 17.8973V2.51775C15.7812 1.67952 16.4608 1 17.299 1V1C18.1372 1 18.8168 1.67952 18.8168 2.51775V3.78213C18.8168 3.9507 18.8321 4.11892 18.8625 4.28472L20.5896 13.6874C20.9695 15.7559 22.2921 17.5289 24.1665 18.4826V18.4826M18.8168 23.8323L24.1665 18.4826" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
-<path d="M9.71023 26.9996L12.7457 23.9641M2.84735 20.9286L7.396 18.6144M12.7457 23.9641L13.731 22.9789C15.0438 21.6661 15.7812 19.8857 15.7812 18.0291V2.64959C15.7812 1.81136 15.1017 1.13184 14.2635 1.13184V1.13184C13.4253 1.13184 12.7457 1.81136 12.7457 2.64959V3.91396C12.7457 4.08253 12.7304 4.25076 12.7 4.41656L10.9729 13.8192C10.593 15.8877 9.27042 17.6607 7.396 18.6144V18.6144M12.7457 23.9641L7.396 18.6144" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
-<line x1="1" y1="-1" x2="5.52994" y2="-1" transform="matrix(-0.970142 -0.242536 -0.242536 0.970142 7.49438 8.78516)" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-<line x1="1" y1="-1" x2="5.52994" y2="-1" transform="matrix(-0.994595 0.103834 0.103834 0.994595 7.49438 11.9521)" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-<line x1="1" y1="-1" x2="5.52994" y2="-1" transform="matrix(-0.828647 -0.559772 -0.559772 0.828647 8.55005 6.10547)" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-<line x1="24.6907" y1="7.57248" x2="29.0854" y2="6.47381" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-<line x1="25.0616" y1="11.0614" x2="29.567" y2="11.5318" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-<line x1="23.1761" y1="4.71705" x2="26.9298" y2="2.18132" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+<svg fill="none" height="29" viewBox="0 0 31 29" width="31" xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M21.8523 26.8678L18.8168 23.8323M28.7152 20.7968L24.1665 18.4826M18.8168 23.8323L17.8315 22.847C16.5187 21.5343 15.7812 19.7538 15.7812 17.8973V2.51775C15.7812 1.67952 16.4608 1 17.299 1V1C18.1372 1 18.8168 1.67952 18.8168 2.51775V3.78213C18.8168 3.9507 18.8321 4.11892 18.8625 4.28472L20.5896 13.6874C20.9695 15.7559 22.2921 17.5289 24.1665 18.4826V18.4826M18.8168 23.8323L24.1665 18.4826"
+        stroke="currentColor" stroke-linecap="square" stroke-width="2" />
+    <path
+        d="M9.71023 26.9996L12.7457 23.9641M2.84735 20.9286L7.396 18.6144M12.7457 23.9641L13.731 22.9789C15.0438 21.6661 15.7812 19.8857 15.7812 18.0291V2.64959C15.7812 1.81136 15.1017 1.13184 14.2635 1.13184V1.13184C13.4253 1.13184 12.7457 1.81136 12.7457 2.64959V3.91396C12.7457 4.08253 12.7304 4.25076 12.7 4.41656L10.9729 13.8192C10.593 15.8877 9.27042 17.6607 7.396 18.6144V18.6144M12.7457 23.9641L7.396 18.6144"
+        stroke="currentColor" stroke-linecap="square" stroke-width="2" />
+    <line stroke="currentColor" stroke-linecap="round" stroke-width="2"
+          transform="matrix(-0.970142 -0.242536 -0.242536 0.970142 7.49438 8.78516)" x1="1"
+          x2="5.52994" y1="-1" y2="-1" />
+    <line stroke="currentColor" stroke-linecap="round" stroke-width="2"
+          transform="matrix(-0.994595 0.103834 0.103834 0.994595 7.49438 11.9521)" x1="1"
+          x2="5.52994" y1="-1" y2="-1" />
+    <line stroke="currentColor" stroke-linecap="round" stroke-width="2"
+          transform="matrix(-0.828647 -0.559772 -0.559772 0.828647 8.55005 6.10547)" x1="1"
+          x2="5.52994" y1="-1" y2="-1" />
+    <line stroke="currentColor" stroke-linecap="round" stroke-width="2" x1="24.6907" x2="29.0854" y1="7.57248"
+          y2="6.47381" />
+    <line stroke="currentColor" stroke-linecap="round" stroke-width="2" x1="25.0616" x2="29.567" y1="11.0614"
+          y2="11.5318" />
+    <line stroke="currentColor" stroke-linecap="round" stroke-width="2" x1="23.1761" x2="26.9298" y1="4.71705"
+          y2="2.18132" />
 </svg>
