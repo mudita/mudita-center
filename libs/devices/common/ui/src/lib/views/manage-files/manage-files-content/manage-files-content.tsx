@@ -18,9 +18,13 @@ import {
   ManageFilesOtherFiles,
   ManageFilesOtherFilesProps,
 } from "./manage-files-other-files"
-import { ManageFilesFileListEmpty } from "./manage-files-file-list-empty"
+import {
+  ManageFilesFileListEmpty,
+  ManageFilesFileListEmptyProps,
+} from "./manage-files-file-list-empty"
 
 import {
+  FileListPanelHeaderProps,
   ManageFilesFileListPanelDefaultMode,
   ManageFilesFileListPanelSelectMode,
   ManageFilesFileListPanelSelectModeProps,
@@ -38,6 +42,9 @@ interface Props
   onAddFileClick?: () => void
   opened: boolean
   allFilesSelected: boolean
+  messages: ManageFilesStorageSummaryProps["messages"] &
+    ManageFilesFileListEmptyProps["messages"] &
+    FileListPanelHeaderProps["messages"]
 }
 
 export const ManageFilesContent: FunctionComponent<
@@ -96,6 +103,7 @@ export const ManageFilesContent: FunctionComponent<
             description={emptyStateDescription}
             header={fileListPanelHeader}
             onAddFileClick={onAddFileClick}
+            messages={messages}
           />
         )}
         {!emptyStateVisible && (
@@ -105,6 +113,7 @@ export const ManageFilesContent: FunctionComponent<
                 <ManageFilesFileListPanelDefaultMode
                   header={fileListPanelHeader}
                   onAddFileClick={onAddFileClick}
+                  messages={messages}
                 />
               ) : (
                 <ManageFilesFileListPanelSelectMode

@@ -6,28 +6,30 @@
 import { FunctionComponent } from "react"
 import styled from "styled-components"
 import { Button, Typography } from "app-theme/ui"
-import { manageFilesMessages } from "../manage-files.messages"
 import { ManageFilesFileListPanelHeader } from "./manage-files-file-list-panel"
+import { Messages } from "app-localize/utils"
 
-interface Props {
+export interface ManageFilesFileListEmptyProps {
   description?: string
   header?: string
   onAddFileClick?: () => void
+  messages: {
+    emptyStateTitle: Messages
+    addFileButtonText: Messages
+  }
 }
 
-export const ManageFilesFileListEmpty: FunctionComponent<Props> = ({
-  description = "",
-  header = "",
-  onAddFileClick,
-}) => {
+export const ManageFilesFileListEmpty: FunctionComponent<
+  ManageFilesFileListEmptyProps
+> = ({ description = "", header = "", onAddFileClick, messages }) => {
   return (
     <>
       <ManageFilesFileListPanelHeader header={header} />
       <Container>
-        <Header message={manageFilesMessages.emptyStateTitle.id} />
+        <Header message={messages.emptyStateTitle.id} />
         <Description>{description}</Description>
         <FileListEmptyButton
-          message={manageFilesMessages.addFileButtonText.id}
+          message={messages.addFileButtonText.id}
           onClick={onAddFileClick}
         />
       </Container>

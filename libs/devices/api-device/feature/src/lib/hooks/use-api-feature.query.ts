@@ -7,23 +7,53 @@ import {
   ApiDevice,
   ApiFeatureConfigResponse,
   ApiFeatureDataResponse,
-  McOverview,
+  McFileManagerConfigResponse,
+  McFileManagerDataResponse,
   McOverviewConfigResponse,
   McOverviewDataResponse,
 } from "devices/api-device/models"
-import { useQuery } from "@tanstack/react-query"
+import {
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query"
 import { apiDeviceQueryKeys } from "./api-device-query-keys"
 import { getFeatureData } from "../api/get-feature-data"
 import { SerialPortDeviceId } from "app-serialport/models"
 import { getFeatureConfig } from "../api/get-feature-config"
 import { mapOverviewFeature } from "../views-mappers/overview-mapper"
 
-type QueryFnResult<F extends string> = F extends "mc-overview"
-  ? McOverview
-  : {
-      data: Exclude<ApiFeatureDataResponse, McOverviewDataResponse>
-      config: Exclude<ApiFeatureConfigResponse, McOverviewConfigResponse>
-    }
+type FeatureMap = {
+  "mc-overview": {
+    data: McOverviewDataResponse
+    config: McOverviewConfigResponse
+  }
+  "mc-file-manager-internal": {
+    data: McFileManagerDataResponse
+    config: McFileManagerConfigResponse
+  }
+  "mc-file-manager-external": {
+    data: McFileManagerDataResponse
+    config: McFileManagerConfigResponse
+  }
+}
+
+export type FeatureId = keyof FeatureMap
+
+type DefaultFeatureResult = {
+  data: Exclude<
+    ApiFeatureDataResponse,
+    McOverviewDataResponse | McFileManagerDataResponse
+  >
+  config: Exclude<
+    ApiFeatureConfigResponse,
+    McOverviewConfigResponse | McFileManagerConfigResponse
+  >
+}
+
+type QueryFnResult<F extends string> = F extends FeatureId
+  ? FeatureMap[F]
+  : DefaultFeatureResult
 
 const queryFn = async <F extends string>(feature: F, device?: ApiDevice) => {
   if (!device) {
@@ -38,19 +68,35 @@ const queryFn = async <F extends string>(feature: F, device?: ApiDevice) => {
         data as McOverviewDataResponse,
         config as McOverviewConfigResponse
       )
+    case "mc-file-manager-internal":
+    case "mc-file-manager-external":
+      return {
+        data: data as McFileManagerDataResponse,
+        config: config as McFileManagerConfigResponse,
+      } as QueryFnResult<F>
     default:
-      return { data, config } as QueryFnResult<F>
+      return {
+        data: data as DefaultFeatureResult["data"],
+        config: config as DefaultFeatureResult["config"],
+      } as QueryFnResult<F>
   }
 }
 
-export const useApiFeatureQuery = <F extends string>(
+export function useApiFeatureQuery(
+  feature: "mc-file-manager-internal" | "mc-file-manager-external",
+  device?: ApiDevice,
+  options?: Omit<UseQueryOptions, "queryFn" | "queryKey">
+): UseQueryResult<FeatureMap["mc-file-manager-internal"]>
+export function useApiFeatureQuery<F extends string>(
   feature: F,
-  device?: ApiDevice
-) => {
+  device?: ApiDevice,
+  options?: Omit<UseQueryOptions, "queryFn" | "queryKey">
+) {
   return useQuery({
     queryKey: useApiFeatureQuery.queryKey(feature, device?.id),
     queryFn: () => queryFn<F>(feature, device),
     enabled: !!device,
+    ...options,
   })
 }
 useApiFeatureQuery.queryKey = (feature: string, id?: SerialPortDeviceId) => {
