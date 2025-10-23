@@ -24,7 +24,7 @@ export const ManageFilesFileListEmpty: FunctionComponent<
 > = ({ description = "", header = "", onAddFileClick, messages }) => {
   return (
     <>
-      <ManageFilesFileListPanelHeader header={header} />
+      <ManageFilesFileListPanelHeader header={header} messages={messages} />
       <Container>
         <Header message={messages.emptyStateTitle.id} />
         <Description>{description}</Description>

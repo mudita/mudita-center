@@ -88,6 +88,11 @@ export function useApiFeatureQuery(
   device?: ApiDevice,
   options?: Omit<UseQueryOptions, "queryFn" | "queryKey">
 ): UseQueryResult<FeatureMap["mc-file-manager-internal"]>
+export function useApiFeatureQuery(
+  feature: "mc-overview",
+  device?: ApiDevice,
+  options?: Omit<UseQueryOptions, "queryFn" | "queryKey">
+): UseQueryResult<ReturnType<typeof mapOverviewFeature>>
 export function useApiFeatureQuery<FEATURE extends string>(
   feature: FEATURE,
   device?: ApiDevice,

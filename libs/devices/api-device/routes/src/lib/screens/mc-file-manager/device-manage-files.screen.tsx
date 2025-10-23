@@ -62,7 +62,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
   }
 
   const transferFile: ManageFilesViewProps["transferFile"] = async (
-    params
+    _params
   ): Promise<FileTransferResult> => {
     // TODO: Implement file transfer logic here
     return AppResultFactory.success<FileTransferResult>()
