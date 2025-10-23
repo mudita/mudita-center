@@ -21,10 +21,13 @@ const queryFn = async (entityType: string, device?: ApiDevice) => {
   return (data.body as EntitiesJsonData).data ?? []
 }
 
-export function useApiEntitiesDataQuery(type: string, device?: ApiDevice) {
+export function useApiEntitiesDataQuery(
+  entityTypes: string,
+  device?: ApiDevice
+) {
   return useQuery({
-    queryKey: useApiEntitiesDataQuery.queryKey(type, device?.id),
-    queryFn: () => queryFn(type, device),
+    queryKey: useApiEntitiesDataQuery.queryKey(entityTypes, device?.id),
+    queryFn: () => queryFn(entityTypes, device),
     enabled: !!device,
   })
 }

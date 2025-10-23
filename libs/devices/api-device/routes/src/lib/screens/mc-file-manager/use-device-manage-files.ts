@@ -7,13 +7,16 @@ import { useCallback, useMemo } from "react"
 import { ApiDevice } from "devices/api-device/models"
 import {
   useApiEntitiesDataMapQuery,
-  useApiFeatureQuery,
+  useApiFeaturesQuery,
 } from "devices/api-device/feature"
 import {
   DeviceManageFilesData,
   mapDeviceToManageFiles,
 } from "./map-to-device-manage-files-data"
-import { DeviceManageFileFeatureId } from "./device-manage-files.types"
+import {
+  DeviceManageFileFeature,
+  DeviceManageFileFeatureId,
+} from "./device-manage-files.types"
 
 interface DeviceManageFilesDataViewData extends DeviceManageFilesData {
   isLoading: boolean
@@ -26,11 +29,19 @@ export const useDeviceManageFiles = (
   device?: ApiDevice
 ): DeviceManageFilesDataViewData => {
   const {
-    data: featureData,
+    data: featuresData,
     isLoading: isFeatureLoading,
     isError: isFeatureError,
     refetch: refetchFeatureData,
-  } = useApiFeatureQuery(feature, device)
+  } = useApiFeaturesQuery(
+    // Preload both internal and external file manager features to avoid loading states when switching between them
+    [DeviceManageFileFeature.Internal, DeviceManageFileFeature.External],
+    device
+  )
+
+  const featureData = useMemo(() => {
+    return featuresData[feature]
+  }, [featuresData, feature])
 
   const categories = featureData?.config?.main.config.categories || []
   const types = categories
