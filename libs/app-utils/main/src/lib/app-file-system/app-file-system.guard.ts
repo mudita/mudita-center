@@ -26,14 +26,16 @@ const isAbsoluteOptions = (
     "undefined"
 
 export class AppFileSystemGuard {
+  constructor(private getAlwaysGrantedPaths: () => string[]) {}
+
   private grantedPathsMap = new Map<number, Set<string>>()
 
   grant(webContentsId: number, selectedPaths: string[]): void {
     if (!Number.isInteger(webContentsId) || webContentsId <= 0) {
       console.warn(
         `[AppFileSystemGuard] grant called with invalid webContentsId: ${webContentsId}`
-      );
-      return;
+      )
+      return
     }
 
     const grantedPaths =
@@ -100,22 +102,30 @@ export class AppFileSystemGuard {
       throw new Error("webContentsId must be a positive integer")
     }
 
-    const canonicalAbsolutePath = this.resolveRealPath(absoluteInput)
-
     if (
       !this.hasGrantedAccess({
-        fileAbsolutePath: canonicalAbsolutePath,
+        fileAbsolutePath: absoluteInput,
         webContentsId: options.webContentsId,
       })
     ) {
-      throw new Error(
-        `Path not granted for this window: ${canonicalAbsolutePath}`
-      )
+      throw new Error(`Path not granted for this window: ${absoluteInput}`)
     }
-    return canonicalAbsolutePath
+    return absoluteInput
   }
 
   private hasGrantedAccess(options: AbsolutePathWithGrantOptions): boolean {
+    // Always allow access to certain locations, e.g. backup location
+    if (
+      this.getAlwaysGrantedPaths().some((p) => {
+        const checkedPath = Array.isArray(options.fileAbsolutePath)
+          ? path.join(...options.fileAbsolutePath)
+          : options.fileAbsolutePath
+        return checkedPath.startsWith(p)
+      })
+    ) {
+      return true
+    }
+
     const grantedPathsSet = this.grantedPathsMap.get(options.webContentsId)
     if (!grantedPathsSet || grantedPathsSet.size === 0) {
       return false

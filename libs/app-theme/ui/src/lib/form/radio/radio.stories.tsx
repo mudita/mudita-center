@@ -6,7 +6,7 @@
 import styled from "styled-components"
 import type { Meta, StoryObj } from "@storybook/react"
 import { storybookHelper } from "app-theme/utils"
-import { Radio } from "./radio"
+import { RadioInput } from "./radio-input"
 
 const Decorator = styled.div`
   display: flex;
@@ -27,17 +27,18 @@ const Row = styled.div`
   flex-wrap: wrap;
 `
 
-const meta: Meta<typeof Radio> = {
-  title: "UI/Radio",
-  component: Radio,
+const meta: Meta<typeof RadioInput> = {
+  title: "UI/RadioInput",
+  component: RadioInput,
   tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
         component:
-          "The `<Radio>` component is a basic form element that allows users to select exactly one option from a group.\n\n" +
+          "The `<RadioInput>` component is a basic form element that allows users to select exactly one option from a group.\n" +
           "It supports all standard HTML input attributes available for inputs of `radio` type.\n\n" +
-          "Additionally, it provides `label` and `subLabel` properties for text display.",
+          "Additionally, it accepts a `children` property for label display. " +
+          "It can be either a simple string or any ReactNode element for more complex labels.",
       },
     },
   },
@@ -52,73 +53,63 @@ const meta: Meta<typeof Radio> = {
 
 export default meta
 
-type Story = StoryObj<typeof Radio>
+type Story = StoryObj<typeof RadioInput>
 
 export const Default: Story = {
   name: "Default",
   argTypes: {
-    label: storybookHelper
-      .assignCategory("Functional")
-      .addDescription("Main label displayed next to the radio input.")
-      .apply(),
-    subLabel: storybookHelper
-      .assignCategory("Functional")
-      .addDescription("Optional secondary description below the label.")
-      .apply(),
     name: storybookHelper
-      .assignCategory("HTML")
+      .assignCategory("Functional")
       .addDescription("Defines the name of the radio group.")
       .apply(),
     value: storybookHelper
-      .assignCategory("HTML")
-      .addDescription("Specifies the value of the radio option.")
+      .assignCategory("Functional")
+      .addDescription("Specifies the value associated with the radio option.")
+      .apply(),
+    children: storybookHelper
+      .assignCategory("Functional")
+      .addDescription(
+        "Specifies the content displayed next to the radio button. " +
+          "Can be a `string` or any `ReactNode` element.\n\n" +
+          "**When using a non-string value, disabled styles may need to be applied manually.**"
+      )
       .apply(),
     disabled: storybookHelper
-      .assignCategory("HTML")
+      .assignCategory("Functional")
       .addDescription("Disables interaction with the radio button.")
-      .apply(),
+      .apply({
+        control: "boolean",
+      }),
     checked: storybookHelper
-      .assignCategory("Controlled")
+      .assignCategory("Functional")
       .addDescription("Marks the radio as selected in controlled mode.")
-      .apply(),
+      .apply({
+        control: "boolean",
+      }),
     defaultChecked: storybookHelper
-      .assignCategory("Uncontrolled")
+      .assignCategory("Functional")
       .addDescription("Sets the initial selected state.")
-      .apply(),
+      .apply({
+        control: "boolean",
+      }),
     ref: storybookHelper.disableControl().apply(),
-    indeterminate: storybookHelper.disableControl().apply(),
   },
   args: {
     name: "example",
     value: "optionA",
-    label: "Option A",
+    children: "Option A",
+    disabled: false,
   },
   parameters: {
     docs: {
       source: {
-        code: '<Radio name="example" value="optionA" label="Option A" />',
+        code: '<RadioInput name="example" value="optionA">Option A</RadioInput>',
       },
     },
   },
-  render: (args) => <Radio {...args} />,
-}
-
-export const WithSubLabel: Story = {
-  name: "With sublabel",
-  argTypes: Default.argTypes,
-  args: {
-    name: "example",
-    value: "optionB",
-    label: "Option B",
-    subLabel: "Additional description for this option.",
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: '<Radio name="example" value="optionB" label="Option B" subLabel="Additional description for this option." />',
-      },
-    },
-  },
+  render: ({ children, ...args }) => (
+    <RadioInput {...args}>{children}</RadioInput>
+  ),
 }
 
 export const Disabled: Story = {
@@ -126,22 +117,20 @@ export const Disabled: Story = {
   argTypes: Default.argTypes,
   render: () => (
     <Row>
-      <Radio name="disabled" value="x" label="Disabled (unchecked)" disabled />
-      <Radio
-        name="disabled2"
-        value="y"
-        label="Disabled (checked)"
-        disabled
-        defaultChecked
-      />
+      <RadioInput name="disabled" value="x" disabled>
+        Disabled (unchecked)
+      </RadioInput>
+      <RadioInput name="disabled2" value="y" disabled defaultChecked>
+        Disabled (checked)
+      </RadioInput>
     </Row>
   ),
   parameters: {
     docs: {
       source: {
         code:
-          '<Radio name="disabled" value="x" label="Disabled (unchecked)" disabled />\n' +
-          '<Radio name="disabled2" value="y" label="Disabled (checked)" disabled defaultChecked />',
+          '<RadioInput name="disabled" value="x" disabled>Disabled (unchecked)</RadioInput>\n' +
+          '<RadioInput name="disabled2" value="y" disabled defaultChecked>Disabled (checked)</RadioInput>',
       },
     },
   },
@@ -157,11 +146,11 @@ export const WithoutLabel: Story = {
   parameters: {
     docs: {
       source: {
-        code: '<Radio name="nolabel" value="plain" />',
+        code: '<RadioInput name="nolabel" value="plain" />',
       },
     },
   },
-  render: (args) => <Radio {...args} />,
+  render: (args) => <RadioInput {...args} />,
 }
 
 export const LongLabelWrapping: Story = {
@@ -170,14 +159,13 @@ export const LongLabelWrapping: Story = {
   args: {
     name: "long",
     value: "wrap",
-    label:
+    children:
       "Very long label that should wrap to the next line in narrow layouts to verify text wrapping behavior in the component.",
-    subLabel: "Optional helper text that also may wrap.",
   },
   parameters: {
     docs: {
       source: {
-        code: '<Radio name="long" value="wrap" label="Very long label that should wrap..." subLabel="Optional helper text..." />',
+        code: '<RadioInput name="long" value="wrap">Very long label that should wrap...</RadioInput>',
       },
     },
   },

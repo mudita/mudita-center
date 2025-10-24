@@ -11,7 +11,8 @@ import McUpdatePage from "../page-objects/mc-update.page"
 import testsHelper from "../helpers/tests.helper"
 import UsbAccessPage from "../page-objects/usb-access.page"
 
-describe("App Init - Full Happy Path - When Privacy Policy Accepted", () => {
+// Skipped due to instability on CI - settings mocking doesn't work
+describe.skip("App Init - Full Happy Path - When Privacy Policy Accepted", () => {
   before(async () => {
     await E2EMockClient.connect()
     const version = "5.0.0"

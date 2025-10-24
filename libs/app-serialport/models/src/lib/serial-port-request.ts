@@ -10,6 +10,6 @@ export type SerialPortRequest<R = Record<string, unknown>> = R & {
   }
 }
 export type SerialPortResponse<R = Record<string, unknown>> = {
-  status: string | number
+  status: number
   endpoint: string | number
 } & R

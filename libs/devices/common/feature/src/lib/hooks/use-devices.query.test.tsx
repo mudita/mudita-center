@@ -33,6 +33,7 @@ describe("useDevicesQuery", () => {
         deviceType: SerialPortDeviceType.Harmony,
         serialNumber: "654321",
         productId: "product1",
+        vendorId: "vendor1",
       },
       // second connected device
       {
@@ -41,6 +42,7 @@ describe("useDevicesQuery", () => {
         deviceType: SerialPortDeviceType.ApiDevice,
         serialNumber: "123456",
         productId: "product2",
+        vendorId: "vendor1",
         deviceSubtype: "subtype2",
       },
       // third connected device
@@ -50,6 +52,7 @@ describe("useDevicesQuery", () => {
         deviceType: SerialPortDeviceType.Pure,
         serialNumber: "789012",
         productId: "product3",
+        vendorId: "vendor1",
       },
     ])
 
@@ -65,23 +68,32 @@ describe("useDevicesQuery", () => {
           deviceType: "ApiDevice",
           path: "/device2",
           productId: "product2",
+          vendorId: "vendor1",
           serialNumber: "123456",
+          otherProductIds: undefined,
+          otherVendorIds: undefined,
         },
         {
           id: "3",
           deviceType: "MuditaPure",
           path: "/device3",
           productId: "product3",
+          vendorId: "vendor1",
           serialNumber: "789012",
           deviceSubtype: undefined,
+          otherProductIds: undefined,
+          otherVendorIds: undefined,
         },
         {
           id: "1",
           deviceType: "MuditaHarmony",
           path: "/device1",
           productId: "product1",
+          vendorId: "vendor1",
           serialNumber: "654321",
           deviceSubtype: undefined,
+          otherProductIds: undefined,
+          otherVendorIds: undefined,
         },
       ])
     )
@@ -95,6 +107,7 @@ describe("useDevicesQuery", () => {
         deviceType: SerialPortDeviceType.Harmony,
         serialNumber: "654321",
         productId: "product1",
+        vendorId: "vendor1",
       },
       {
         id: "1",
@@ -102,6 +115,7 @@ describe("useDevicesQuery", () => {
         deviceType: SerialPortDeviceType.Pure,
         serialNumber: "123456",
         productId: "product2",
+        vendorId: "vendor1",
       },
     ])
 
@@ -117,7 +131,10 @@ describe("useDevicesQuery", () => {
           deviceType: SerialPortDeviceType.Harmony,
           serialNumber: "654321",
           productId: "product1",
+          vendorId: "vendor1",
           deviceSubtype: undefined,
+          otherProductIds: undefined,
+          otherVendorIds: undefined,
         },
       ])
     )

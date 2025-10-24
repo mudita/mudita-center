@@ -66,7 +66,7 @@ const PasswordSlot = styled(Slot)`
   padding: 0;
   margin: 0;
 
-  > div {
+  > span {
     transition-property: opacity;
     transition-duration: 0.2s;
     transition-timing-function: ease-in-out;
@@ -85,7 +85,7 @@ const PasswordInput = styled(Input)`
     font-weight: bold;
     font-size: 1.8rem;
 
-    & + ${PasswordSlot} > div {
+    & + ${PasswordSlot} > span {
       &:first-child {
         opacity: 0;
       }
@@ -96,7 +96,7 @@ const PasswordInput = styled(Input)`
   }
 
   &[type="text"] {
-    & + ${PasswordSlot} > div {
+    & + ${PasswordSlot} > span {
       &:first-child {
         opacity: 1;
       }

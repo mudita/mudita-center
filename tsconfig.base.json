@@ -69,6 +69,7 @@
       "devices/api-device/routes": [
         "libs/devices/api-device/routes/src/index.ts"
       ],
+      "devices/api-device/ui": ["libs/devices/api-device/ui/src/index.ts"],
       "devices/common/feature": ["libs/devices/common/feature/src/index.ts"],
       "devices/common/models": ["libs/devices/common/models/src/index.ts"],
       "devices/common/routes": ["libs/devices/common/routes/src/index.ts"],

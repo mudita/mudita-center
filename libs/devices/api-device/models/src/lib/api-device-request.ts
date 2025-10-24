@@ -16,7 +16,7 @@ type RequestBody<
 > = (typeof ApiDeviceEndpoints)[E][M] extends {
   request: infer R extends z.ZodType
 }
-  ? z.infer<R>
+  ? z.output<R>
   : never
 
 export type ApiDeviceRequest<

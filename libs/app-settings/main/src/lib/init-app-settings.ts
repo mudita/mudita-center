@@ -23,6 +23,10 @@ const getService = async (serverEnabled: boolean) => {
   return appSettingsService
 }
 
+export const getAppSettingsService = () => {
+  return appSettingsService
+}
+
 export const initAppSettings = (
   ipcMain: IpcMain,
   mockServer: IpcMockServer
@@ -32,7 +36,7 @@ export const initAppSettings = (
     AppSettingsIpcEvents.Get,
     async (_, path?: DotNotation<AppSettings>) => {
       const service = await getService(mockServer.serverEnabled)
-      return service.get(path)
+      return path ? service.get(path) : service.get()
     }
   )
 

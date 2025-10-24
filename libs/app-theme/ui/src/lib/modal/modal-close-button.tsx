@@ -23,7 +23,7 @@ export const ModalCloseButton: FunctionComponent<Props> = ({ onClick }) => {
   )
 }
 
-const ModalClose = styled(IconButton)`
+export const ModalClose = styled(IconButton)`
   position: absolute;
   right: ${({ theme }) => theme.app.space.xl};
   top: ${({ theme }) => theme.app.space.xl};

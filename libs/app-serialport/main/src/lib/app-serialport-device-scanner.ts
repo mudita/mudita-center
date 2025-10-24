@@ -50,26 +50,42 @@ export class AppSerialportDeviceScanner {
     ]
       .map((portInfo) => {
         const instance = this.getMatchingInstance(portInfo)
-        if (!instance || !portInfo.vendorId || !portInfo.productId) {
+        const { vendorId, productId } = portInfo
+        if (!instance || !vendorId || !productId) {
           return null
         }
         const serialNumber =
           portInfo.serialNumber && !/^0+$/m.test(portInfo.serialNumber)
             ? portInfo.serialNumber
             : undefined
+        const productsGroups = instance.getProductsGroups()
+        const productGroup = productsGroups.find((group) => {
+          return (
+            group.vendorIds.includes(vendorId) &&
+            group.productIds.includes(productId)
+          )
+        })
+        const otherProductIds = productGroup
+          ? productGroup.productIds.filter((id) => id !== portInfo.productId)
+          : []
+        const otherVendorIds = productGroup
+          ? productGroup.vendorIds.filter((id) => id !== portInfo.vendorId)
+          : []
         const internalDeviceInfo: SerialPortDeviceInfo = {
           ...portInfo,
           id:
             process.platform === "darwin" && portInfo.locationId
               ? portInfo.locationId
               : portInfo.path,
-          productId: portInfo.productId,
-          vendorId: portInfo.vendorId,
+          productId,
+          vendorId,
+          otherProductIds,
+          otherVendorIds,
           serialNumber,
           deviceType: instance.deviceType,
           deviceSubtype: (instance as typeof SerialPortDevice).getSubtype(
-            portInfo.vendorId,
-            portInfo.productId
+            vendorId,
+            productId
           ),
         }
         return internalDeviceInfo

@@ -54,6 +54,9 @@ export const useDevicesListener = () => {
         deviceType: device.deviceType,
         serialNumber: device.serialNumber,
         productId: device.productId,
+        vendorId: device.vendorId,
+        otherProductIds: device.otherProductIds,
+        otherVendorIds: device.otherVendorIds,
         deviceSubtype: device.deviceSubtype,
       })
     },

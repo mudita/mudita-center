@@ -3,11 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  FunctionComponent,
-  MouseEventHandler,
-  PropsWithChildren,
-} from "react"
+import { FunctionComponent, MouseEventHandler, PropsWithChildren } from "react"
 import styled, { css } from "styled-components"
 import { InputWrapper } from "../form/checkbox/checkbox"
 

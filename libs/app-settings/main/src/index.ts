@@ -5,3 +5,4 @@
 
 export * from "./lib/init-app-settings"
 export * from "./lib/app-settings.preload"
+export * from "./lib/app-settings.service"

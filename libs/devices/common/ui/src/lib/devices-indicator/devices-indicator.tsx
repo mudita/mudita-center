@@ -52,7 +52,7 @@ export const DevicesIndicator: FunctionComponent<Props> = ({
                 ButtonTextModifier.HoverUnderline,
                 ButtonTextModifier.DefaultCase,
               ]}
-              icon={IconType.Phone}
+              icon={IconType.Device}
               iconSize={IconSize.Big}
               $devicesCount={devicesCount}
               {...rest}

@@ -8,4 +8,5 @@ export enum ApiDeviceErrorType {
   DeviceLocked = 423,
   EulaNotAccepted = 451,
   DeviceInternalError = 500,
+  NotEnoughSpace = 507,
 }

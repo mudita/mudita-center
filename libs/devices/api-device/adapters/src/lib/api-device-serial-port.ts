@@ -20,6 +20,7 @@ import {
   ApiDeviceResponseBody,
 } from "devices/api-device/models"
 import { DeviceErrorType } from "devices/common/models"
+import { ZodNumber, ZodObject, ZodType } from "zod"
 
 export type OKResponse<
   E extends ApiDeviceEndpoint,
@@ -64,14 +65,24 @@ export class ApiDeviceSerialPort {
 
     const endpointConfig =
       ApiDeviceEndpoints[request.endpoint as keyof typeof ApiDeviceEndpoints]
-    const methodConfig =
-      endpointConfig[request.method as keyof typeof endpointConfig]
+    const methodConfig = endpointConfig[
+      request.method as keyof typeof endpointConfig
+    ] as {
+      request?: ZodType
+      response?: ZodObject<{
+        _status: ZodNumber
+      }>
+    }
     const requestValidator = methodConfig?.request
     const responseValidator = methodConfig?.response
 
     if (requestValidator && "body" in request) {
       const requestParseResult = requestValidator.safeParse(request.body)
       if (!requestParseResult.success) {
+        console.error(
+          `Request parsing failed for ${device.id} at ${request.method.toString()} ${request.endpoint.toString()}`,
+          requestParseResult.error
+        )
         return {
           ok: false,
           endpoint: request.endpoint,
@@ -106,12 +117,15 @@ export class ApiDeviceSerialPort {
     }
 
     if (responseValidator && response.status < 400) {
-      const responseParseResult = responseValidator.safeParse(response.body)
+      const responseParseResult = await responseValidator.safeParseAsync({
+        ...(response.body || {}),
+        _status: response.status,
+      })
       if (!responseParseResult.success) {
         console.error(
-          `Response parsing failed for ${device.id} at ${request.method.toString()} ${request.endpoint.toString()}`
+          `Response parsing failed for ${device.id} at ${request.method.toString()} ${request.endpoint.toString()}`,
+          responseParseResult.error
         )
-        console.error(responseParseResult.error)
         return {
           ok: false,
           endpoint: request.endpoint,
@@ -119,12 +133,13 @@ export class ApiDeviceSerialPort {
           error: responseParseResult.error,
         }
       }
+      const { _status, ...body } = responseParseResult.data
       return {
         ok: true,
         endpoint: request.endpoint,
         status: response.status,
-        body: responseParseResult.data as ApiDeviceResponseBody<E, M>,
-      }
+        body,
+      } as OKResponse<E, M>
     }
 
     return {

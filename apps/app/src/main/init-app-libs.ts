@@ -8,7 +8,7 @@ import { BrowserWindow, ipcMain } from "electron"
 import { AppSql, initSql } from "app-sql/main"
 import { initNews } from "news/main"
 import { AppHelpService, initAppHelp } from "help/main"
-import { initAppSettings } from "app-settings/main"
+import { getAppSettingsService, initAppSettings } from "app-settings/main"
 import {
   AppActionsService,
   AppFileSystemGuard,
@@ -34,7 +34,10 @@ export const initAppLibs = (
   mainWindow: BrowserWindow,
   mockServer: IpcMockServer
 ) => {
-  const appFileSystemGuard = new AppFileSystemGuard()
+  const appFileSystemGuard = new AppFileSystemGuard(() => {
+    const appSettingsService = getAppSettingsService()
+    return [appSettingsService.get("user.backupLocation")]
+  })
   const appFileSystemService = new AppFileSystemService(appFileSystemGuard)
   const appActionsService = new AppActionsService(appFileSystemGuard)
 
