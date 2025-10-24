@@ -5,13 +5,17 @@
 
 import { FunctionComponent, PropsWithChildren } from "react"
 import styled from "styled-components"
+import { Messages } from "app-localize/utils"
 import { ButtonSize, ButtonType, IconType } from "app-theme/models"
 import { Button, SelectionManager, Typography } from "app-theme/ui"
 import { manageFilesMessages } from "../manage-files.messages"
 
-interface FileListPanelHeaderProps {
+export interface FileListPanelHeaderProps {
   header: string
   onAddFileClick?: () => void
+  messages: {
+    addFileButtonText: Messages
+  }
 }
 
 export const ManageFilesFileListPanelHeader: FunctionComponent<
@@ -32,7 +36,7 @@ export const ManageFilesFileListPanelDefaultMode: FunctionComponent<
     <ManageFilesFileListPanelHeader {...props}>
       <Button
         size={ButtonSize.Medium}
-        message={manageFilesMessages.addFileButtonText.id}
+        message={props.messages.addFileButtonText.id}
         onClick={onAddFileClick}
       />
     </ManageFilesFileListPanelHeader>

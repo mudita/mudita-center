@@ -12,5 +12,10 @@ export const apiDeviceQueryKeys = {
     "feature",
     feature,
   ],
+  entitiesData: (entityType: string, id?: string) => [
+    ...apiDeviceQueryKeys._device(id),
+    "entitiesData",
+    entityType,
+  ],
   backups: (id?: string) => [...apiDeviceQueryKeys._device(id), "backups"],
 }

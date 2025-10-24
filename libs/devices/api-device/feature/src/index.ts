@@ -5,6 +5,8 @@
 
 export * from "./lib/api/get-api-device-config"
 export * from "./lib/api/get-api-menu-config"
+export * from "./lib/api/get-entities-data"
+export * from "./lib/hooks/use-api-entities-data.query"
 export * from "./lib/hooks/use-api-feature.query"
 export * from "./lib/hooks/use-api-device-backups.query"
 export * from "./lib/hooks/use-api-device-backup-create.mutation"

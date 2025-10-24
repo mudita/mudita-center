@@ -25,7 +25,9 @@
     "nx:migrate": "npx nx migrate --run-migrations",
     "nx:reset": "nx reset",
     "==== Project utils =================": "",
-    "postsetup": "nx setup app && nx fonts:download app && nx news:download app && nx help:download app"
+    "postsetup": "nx setup app && nx fonts:download app && nx news:download app && nx help:download app",
+    "==== Project tools =================": "",
+    "audit:icons": "tsx scripts/audit-icons.ts ./libs/app-theme/ui/src/lib/icon/svg"
   },
   "repository": {
     "type": "git",
