@@ -12,7 +12,7 @@ export class JsonStoreService<Data extends Record<string, unknown>> {
 
   constructor(
     private name: string,
-    defaultData: Data
+    defaultData: Data = {} as Data
   ) {
     this.base.init(name, defaultData)
   }

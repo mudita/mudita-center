@@ -22,10 +22,14 @@ export const readBackupsList = async ({ device }: ReadBackupsListParams) => {
   }
 
   const deviceDirectories = directories.data.filter((dir) => {
-    const [vid, pid] = dir.split("-")
+    const [vid, pid] = dir.toLowerCase().split("-")
     return (
-      [device.vendorId, ...(device.otherVendorIds || [])].includes(vid) &&
-      [device.productId, ...(device.otherProductIds || [])].includes(pid)
+      [device.vendorId, ...(device.otherVendorIds || [])]
+        .map((v) => v?.toLowerCase())
+        .includes(vid) &&
+      [device.productId, ...(device.otherProductIds || [])]
+        .map((p) => p?.toLowerCase())
+        .includes(pid)
     )
   })
 

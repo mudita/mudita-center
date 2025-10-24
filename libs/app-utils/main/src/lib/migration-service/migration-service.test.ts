@@ -3,103 +3,158 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MigrationService, Migrations } from "./migration-service"
+import { MigrationService } from "./migration-service"
 
 describe("MigrationService", () => {
-  it("properly sorts migrations", () => {
+  it("properly performs all migrations when no _metadata is available", () => {
     const migrations = {
-      "4.0.2": jest.fn(),
-      "4.0.3": jest.fn(),
-      "4.0.1": jest.fn(),
+      "4.0.0": jest.fn().mockImplementation((data) => {
+        return {
+          ...data,
+          version: "4.0.0",
+          foo: "bar",
+        }
+      }),
+      "4.0.1": jest.fn().mockImplementation((data) => {
+        return {
+          ...data,
+          version: "4.0.1",
+          bar: "baz",
+        }
+      }),
+      "4.0.2": jest.fn().mockImplementation((data) => {
+        return {
+          ...data,
+          version: "4.0.2",
+          foo: "baz",
+        }
+      }),
     }
+    const service = new MigrationService(migrations, {
+      key: "value",
+    })
 
-    const service = new MigrationService(
-      migrations,
-      {
-        key: "value",
-      },
-      "4.0.0",
-      "4.0.3"
-    )
+    const migratedData = service.migrate()
 
-    // @ts-expect-error Accessing private property for testing
-    expect(service.migrations).toEqual([
-      migrations["4.0.1"],
-      migrations["4.0.2"],
-      migrations["4.0.3"],
-    ])
+    expect(migrations["4.0.0"]).toHaveBeenCalledTimes(1)
+    expect(migrations["4.0.1"]).toHaveBeenCalledTimes(1)
+    expect(migrations["4.0.2"]).toHaveBeenCalledTimes(1)
+
+    expect(migratedData).toEqual({
+      key: "value",
+      version: "4.0.2",
+      foo: "baz",
+      bar: "baz",
+      _metadata: { lastMigratedVersion: "4.0.2" },
+    })
   })
 
-  it("properly filters migrations", () => {
+  it("properly performs all migrations when _metadata.lastMigratedVersion is null", () => {
+    const migrations = {
+      "4.0.0": jest.fn().mockImplementation((data) => {
+        return {
+          ...data,
+          version: "4.0.0",
+          foo: "bar",
+        }
+      }),
+      "4.0.1": jest.fn().mockImplementation((data) => {
+        return {
+          ...data,
+          version: "4.0.1",
+          bar: "baz",
+        }
+      }),
+      "4.0.2": jest.fn().mockImplementation((data) => {
+        return {
+          ...data,
+          version: "4.0.2",
+          foo: "baz",
+        }
+      }),
+    }
+    const service = new MigrationService(migrations, {
+      key: "value",
+      _metadata: { lastMigratedVersion: null },
+    })
+
+    const migratedData = service.migrate()
+
+    expect(migrations["4.0.0"]).toHaveBeenCalledTimes(1)
+    expect(migrations["4.0.1"]).toHaveBeenCalledTimes(1)
+    expect(migrations["4.0.2"]).toHaveBeenCalledTimes(1)
+
+    expect(migratedData).toEqual({
+      key: "value",
+      version: "4.0.2",
+      foo: "baz",
+      bar: "baz",
+      _metadata: { lastMigratedVersion: "4.0.2" },
+    })
+  })
+
+  it("properly performs no migrations when _metadata.lastMigratedVersion is up to date", () => {
     const migrations = {
       "4.0.0": jest.fn(),
       "4.0.1": jest.fn(),
       "4.0.2": jest.fn(),
-      "4.0.3": jest.fn(),
-      "4.0.4": jest.fn(),
     }
+    const service = new MigrationService(migrations, {
+      key: "value",
+      _metadata: { lastMigratedVersion: "4.0.2" },
+    })
+    const migratedData = service.migrate()
 
-    const service = new MigrationService(
-      migrations,
-      {
-        key: "value",
-      },
-      "4.0.0",
-      "4.0.3"
-    )
+    expect(migrations["4.0.0"]).not.toHaveBeenCalled()
+    expect(migrations["4.0.1"]).not.toHaveBeenCalled()
+    expect(migrations["4.0.2"]).not.toHaveBeenCalled()
 
-    // @ts-expect-error Accessing private property for testing
-    expect(service.migrations).toEqual([
-      migrations["4.0.1"],
-      migrations["4.0.2"],
-      migrations["4.0.3"],
-    ])
+    expect(migratedData).toEqual({
+      key: "value",
+      _metadata: { lastMigratedVersion: "4.0.2" },
+    })
   })
 
-  it("properly executes migrations", () => {
-    const migrations: Migrations = {
-      "4.0.1": (data) => {
+  it("properly performs some migrations when _metadata.lastMigratedVersion is not up to date", () => {
+    const migrations = {
+      "4.0.0": jest.fn().mockImplementation((data) => {
+        return {
+          ...data,
+          version: "4.0.0",
+          foo: "bar",
+        }
+      }),
+      "4.0.1": jest.fn().mockImplementation((data) => {
         return {
           ...data,
           version: "4.0.1",
+          bar: "baz",
         }
-      },
-      "4.0.2": (data) => {
+      }),
+      "4.0.2": jest.fn().mockImplementation((data) => {
         return {
           ...data,
           version: "4.0.2",
-          newField: "newValue",
-          anotherField: "anotherValue",
+          baz: "foo",
         }
-      },
-      "4.0.3": (data) => {
-        const newData = { ...data }
-        delete newData.newField
-        return {
-          ...newData,
-          version: "4.0.3",
-          someField: "someValue",
-        }
-      },
+      }),
     }
-
-    const service = new MigrationService(
-      migrations,
-      {
-        version: "4.0.0",
-        key: "value",
-      },
-      "4.0.0",
-      "4.0.3"
-    )
-
-    const result = service.migrate()
-
-    expect(result).toEqual({
-      version: "4.0.3",
+    const service = new MigrationService(migrations, {
       key: "value",
-      anotherField: "anotherValue",
-      someField: "someValue",
+      _metadata: { lastMigratedVersion: "4.0.0" },
+    })
+    const migratedData = service.migrate()
+
+    expect(migrations["4.0.0"]).not.toHaveBeenCalled()
+    expect(migrations["4.0.1"]).toHaveBeenCalledTimes(1)
+    expect(migrations["4.0.2"]).toHaveBeenCalledTimes(1)
+
+    expect(migratedData).toEqual({
+      key: "value",
+      version: "4.0.2",
+      bar: "baz",
+      baz: "foo",
+      _metadata: { lastMigratedVersion: "4.0.2" },
     })
   })
 })
