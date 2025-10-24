@@ -4,8 +4,9 @@
  */
 
 import { z } from "zod"
-import { McOverviewConfigResponseValidator } from "./mc-overview-config"
 import { MCLangValidator } from "../api-config/api-config"
+import { McOverviewConfigResponseValidator } from "./mc-overview-config"
+import { McFileManagerConfigResponseValidator } from "./mc-file-manager-config"
 
 export const FeatureConfigRequestValidator = z.object({
   lang: MCLangValidator,
@@ -13,6 +14,7 @@ export const FeatureConfigRequestValidator = z.object({
 })
 
 export const FeatureConfigResponseValidator = z.union([
+  McFileManagerConfigResponseValidator,
   McOverviewConfigResponseValidator,
   // Add validators for other features
 ])

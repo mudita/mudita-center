@@ -31,6 +31,8 @@ import {
   ManageFilesTableSectionProps,
 } from "./manage-files.types"
 import { manageFilesMessages } from "./manage-files.messages"
+import { ManageFilesFileListEmptyProps } from "./manage-files-content/manage-files-file-list-empty"
+import { FileListPanelHeaderProps } from "./manage-files-content/manage-files-file-list-panel"
 
 type ManageFilesViewChild = (
   ctx: Pick<ManageFilesTableSectionProps, "onSelectedChange" | "selectedIds">
@@ -38,6 +40,9 @@ type ManageFilesViewChild = (
 
 type ManageFilesViewMessages =
   ManageFilesTransferFlowProps["transferFlowMessages"] &
+    ManageFilesStorageSummaryProps["messages"] &
+    ManageFilesFileListEmptyProps["messages"] &
+    FileListPanelHeaderProps["messages"] &
     GenericDeleteFlowProps["deleteFlowMessages"] & {
       summaryHeader: Messages
     }

@@ -3,24 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useMemo, useState } from "react"
+import { FunctionComponent } from "react"
 import { formatMessage } from "app-localize/utils"
 import { DashboardHeaderTitle } from "app-routing/feature"
-import { AppActions, AppFileSystem } from "app-utils/renderer"
-import {
-  AppError,
-  AppResultFactory,
-  OpenDialogOptionsLite,
-} from "app-utils/models"
+import { AppError, AppResultFactory } from "app-utils/models"
 import {
   uploadFileToHarmony,
   UploadFileToHarmonyError,
   useHarmonyDeleteFileMutation,
 } from "devices/harmony/feature"
-import { useActiveDeviceQuery } from "devices/common/feature"
+import {
+  openFileDialog,
+  useActiveDeviceQuery,
+  useManageFilesSelection,
+} from "devices/common/feature"
 import { Harmony } from "devices/harmony/models"
 import {
-  FileManagerFile,
   FileTransferResult,
   ManageFiles,
   ManageFilesViewProps,
@@ -28,27 +26,8 @@ import {
 } from "devices/common/ui"
 import { HarmonyManageFilesTableSection } from "./harmony-manage-files-table-section"
 import { useHarmonyManageFiles } from "./use-harmony-manage-files"
-import { FileCategoryId } from "./harmony-manage-files.types"
 import { HarmonyManageFilesMessages } from "./harmony-manage-files.messages"
 import { OTHER_FILES_LABEL_TEXTS } from "./harmony-manage-files.config"
-
-const mapToFileManagerFile = async (
-  filePath: string
-): Promise<FileManagerFile> => {
-  const stats = await AppFileSystem.fileStats({
-    fileAbsolutePath: filePath,
-    absolute: true,
-  })
-
-  const size = stats.ok ? stats.data.size : 0
-
-  return {
-    id: filePath,
-    name: filePath.split(/\\|\//g).reverse()[0],
-    size: size,
-    type: "file",
-  }
-}
 
 export const HarmonyManageFilesScreen: FunctionComponent = () => {
   const { data: activeDevice } = useActiveDeviceQuery<Harmony>()
@@ -65,30 +44,8 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
 
   const { mutateAsync: deleteFile } = useHarmonyDeleteFileMutation(activeDevice)
 
-  const [activeCategoryId, setActiveCategoryId] = useState<string>(
-    categories[0]?.id
-  )
-
-  const activeFileMap = useMemo(
-    () =>
-      activeCategoryId
-        ? (categoryFileMap[activeCategoryId as FileCategoryId] ?? {})
-        : {},
-    [activeCategoryId, categoryFileMap]
-  )
-
-  const openFileDialog = async (options: OpenDialogOptionsLite) => {
-    const filePaths = await AppActions.openFileDialog(options)
-    return filePaths.reduce(
-      async (accP, filePath) => {
-        const acc = await accP
-        const file = await mapToFileManagerFile(filePath)
-        acc.push(file)
-        return acc
-      },
-      Promise.resolve([] as FileManagerFile[])
-    )
-  }
+  const { activeCategoryId, setActiveCategoryId, activeFileMap } =
+    useManageFilesSelection({ categories, categoryFileMap })
 
   const transferFile: ManageFilesViewProps["transferFile"] = async (
     params

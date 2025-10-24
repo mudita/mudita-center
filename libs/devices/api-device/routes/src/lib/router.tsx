@@ -15,6 +15,8 @@ import { ApiDevicePaths } from "devices/api-device/models"
 import { DeviceLockedScreen } from "./screens/device-locked-screen"
 import { McOverviewScreen } from "./screens/mc-overview-screen"
 import { McAboutScreen } from "./screens/mc-about-screen"
+import { DeviceManageFilesScreen } from "./screens/mc-file-manager/device-manage-files.screen"
+import { DeviceManageFileFeature } from "./screens/mc-file-manager/device-manage-files.types"
 
 export const useApiDeviceRouter = (device?: Device) => {
   const activeApiDevice = ApiDeviceSerialPort.isCompatible(device)
@@ -58,6 +60,26 @@ export const useApiDeviceRouter = (device?: Device) => {
         <Route path={`${ApiDevicePaths.Index}/mc-overview`}>
           <Route index element={<McOverviewScreen />} />
           <Route path={"mc-about"} element={<McAboutScreen />} />
+        </Route>
+        <Route
+          path={`${ApiDevicePaths.Index}/${DeviceManageFileFeature.Internal}`}
+        >
+          <Route
+            path={DeviceManageFileFeature.Internal}
+            element={
+              <DeviceManageFilesScreen
+                feature={DeviceManageFileFeature.Internal}
+              />
+            }
+          />
+          <Route
+            path={DeviceManageFileFeature.External}
+            element={
+              <DeviceManageFilesScreen
+                feature={DeviceManageFileFeature.External}
+              />
+            }
+          />
         </Route>
         <Route path={ApiDevicePaths.View} element={<GenericView />} />
       </Route>

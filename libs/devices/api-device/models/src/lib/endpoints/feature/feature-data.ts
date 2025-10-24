@@ -6,6 +6,7 @@
 import { z } from "zod"
 import { MCLangValidator } from "../api-config/api-config"
 import { McOverviewDataResponseValidator } from "./mc-overview-data"
+import { McFileManagerDataResponseValidator } from "./mc-file-manager-data"
 
 export const FeatureDataRequestValidator = z.object({
   lang: MCLangValidator,
@@ -13,6 +14,7 @@ export const FeatureDataRequestValidator = z.object({
 })
 
 export const FeatureDataResponseValidator = z.union([
+  McFileManagerDataResponseValidator,
   McOverviewDataResponseValidator,
   // Add validators for other features
 ])
