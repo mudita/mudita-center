@@ -60,7 +60,7 @@ export interface ManageFilesViewProps
   isLoading: boolean
   children: ManageFilesViewChild
   messages: ManageFilesViewMessages
-  deleteFile: GenericDeleteFlowProps["deleteItem"]
+  deleteFiles: GenericDeleteFlowProps["deleteItems"]
   onDeleteSuccess?: GenericDeleteFlowProps["onDeleteSuccess"]
 }
 
@@ -70,7 +70,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     activeCategoryId,
     activeFileMap,
     onActiveCategoryChange,
-    deleteFile,
+    deleteFiles,
     onDeleteSuccess,
     transferFile,
     onTransferSuccess,
@@ -218,7 +218,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
         selectedItems={selectedFiles}
         onDeleteSuccess={finalizeDeleteSuccess}
         onPartialDeleteFailure={handlePartialDeleteFailure}
-        deleteItem={deleteFile}
+        deleteItems={deleteFiles}
         deleteFlowMessages={{ ...messages }}
       />
       <ManageFilesTransferFlow

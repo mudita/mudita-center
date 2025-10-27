@@ -38,7 +38,7 @@ interface QuotationsProps {
   settings: QuotationsSettingsFlowProps["settings"]
   updateSettings: QuotationsSettingsFlowProps["updateSettings"]
   createQuotation: QuotationsCreateFlowProps["createQuotation"]
-  deleteQuotation: GenericDeleteFlowProps["deleteItem"]
+  deleteQuotations: GenericDeleteFlowProps["deleteItems"]
   onDeleteSuccess?: GenericDeleteFlowProps["onDeleteSuccess"]
   messages: QuotationsEmptyStateProps["messages"] &
     QuotationsCreateFlowProps["messages"] &
@@ -56,7 +56,7 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
   isSpaceAvailable,
   settings,
   updateSettings,
-  deleteQuotation,
+  deleteQuotations,
   createQuotation,
   onDeleteSuccess,
   messages,
@@ -181,7 +181,7 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
         }))}
         onDeleteSuccess={finalizeDeleteSuccess}
         onPartialDeleteFailure={handlePartialDeleteFailure}
-        deleteItem={deleteQuotation}
+        deleteItems={deleteQuotations}
         deleteFlowMessages={messages}
       />
       <GenericFailedModal

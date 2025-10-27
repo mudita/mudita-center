@@ -98,6 +98,22 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
     }
   }
 
+  const deleteFiles: ManageFilesViewProps["deleteFiles"] = async (
+    itemIds
+  ): Promise<{ failedIds: string[] }> => {
+    const failedIds: string[] = []
+
+    for (const itemId of itemIds) {
+      try {
+        await deleteFile(itemId)
+      } catch {
+        failedIds.push(itemId)
+      }
+    }
+
+    return { failedIds }
+  }
+
   return (
     <>
       <DashboardHeaderTitle
@@ -112,7 +128,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
         freeSpaceBytes={freeSpaceBytes}
         usedSpaceBytes={usedSpaceBytes}
         otherSpaceBytes={otherSpaceBytes}
-        deleteFile={deleteFile}
+        deleteFiles={deleteFiles}
         onDeleteSuccess={refetch}
         isLoading={isLoading}
         otherFiles={OTHER_FILES_LABEL_TEXTS}

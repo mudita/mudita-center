@@ -9,7 +9,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { Harmony } from "devices/harmony/models"
 import { Quotation } from "devices/common/models"
-import { Quotations } from "devices/common/ui"
+import { ManageFilesViewProps, Quotations } from "devices/common/ui"
 import { useActiveDeviceQuery } from "devices/common/feature"
 import {
   useHarmonyCreateQuotationMutation,
@@ -29,10 +29,8 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
   const { data: quotations = [], isLoading: isQuotationsLoading } =
     useHarmonyQuotationListQuery(activeDevice)
 
-  const {
-    data: settings,
-    isLoading: isSettingsLoading,
-  } = useHarmonyQuotationSettingsQuery(activeDevice)
+  const { data: settings, isLoading: isSettingsLoading } =
+    useHarmonyQuotationSettingsQuery(activeDevice)
 
   const { data: isSpaceAvailable = true, isLoading: isSpaceLoading } =
     useSpaceAvailable(activeDevice)
@@ -55,6 +53,22 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
     )
   }
 
+  const deleteQuotations: ManageFilesViewProps["deleteFiles"] = async (
+    itemIds
+  ): Promise<{ failedIds: string[] }> => {
+    const failedIds: string[] = []
+
+    for (const itemId of itemIds) {
+      try {
+        await deleteQuotation(itemId)
+      } catch {
+        failedIds.push(itemId)
+      }
+    }
+
+    return { failedIds }
+  }
+
   return (
     <>
       <DashboardHeaderTitle
@@ -64,7 +78,7 @@ export const HarmonyQuotationsScreen: FunctionComponent = () => {
         isLoading={isQuotationsLoading || isSettingsLoading || isSpaceLoading}
         quotations={quotations}
         createQuotation={createQuotation}
-        deleteQuotation={deleteQuotation}
+        deleteQuotations={deleteQuotations}
         messages={harmonyQuotationsMessages}
         onDeleteSuccess={handleOnDeleteSuccess}
         settings={settings}

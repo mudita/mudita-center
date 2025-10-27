@@ -19,14 +19,11 @@ import {
   GenericDeleteFlowState,
   GenericDeleteItem,
 } from "./generic-delete-flow.types"
-import {
-  useDeleteItemsHandler,
-  UseDeleteItemsHandlerProps,
-} from "./use-delete-items-handler"
+import { useDeleteItems, UseDeleteItemsProps } from "./use-delete-items"
 
 type GenericDeleteFlowMessages = GenericConfirmModalProps["messages"] &
   GenericDeleteFailedModalProps["messages"] &
-  UseDeleteItemsHandlerProps["messages"] & {
+  UseDeleteItemsProps["messages"] & {
     deletingModalTitle: Messages
   }
 
@@ -34,7 +31,7 @@ export interface GenericDeleteFlowProps {
   opened: boolean
   onClose: VoidFunction
   selectedItems: GenericDeleteItem[]
-  deleteItem: (itemId: string) => Promise<void>
+  deleteItems: UseDeleteItemsProps["deleteItems"]
   deleteFlowMessages: GenericDeleteFlowMessages
   onDeleteSuccess?: (items: { id: GenericDeleteItem["id"] }[]) => Promise<void>
   onPartialDeleteFailure?: (failedItems: GenericDeleteItem[]) => Promise<void>
@@ -44,7 +41,7 @@ export const GenericDeleteFlow: FunctionComponent<GenericDeleteFlowProps> = ({
   opened,
   onClose,
   selectedItems,
-  deleteItem,
+  deleteItems,
   deleteFlowMessages,
   onDeleteSuccess,
   onPartialDeleteFailure,
@@ -58,9 +55,9 @@ export const GenericDeleteFlow: FunctionComponent<GenericDeleteFlowProps> = ({
     setFlowState(opened ? GenericDeleteFlowState.ConfirmDelete : null)
   }, [opened])
 
-  const deleteItems = useDeleteItemsHandler({
+  const deleteSelectedItems = useDeleteItems({
     selectedItems,
-    deleteItem,
+    deleteItems,
     onDeleteSuccess,
     onSetFlowState: setFlowState,
     onSetFailedItems: setFailedItems,
@@ -69,8 +66,8 @@ export const GenericDeleteFlow: FunctionComponent<GenericDeleteFlowProps> = ({
 
   const confirmDelete = useCallback(() => {
     setFlowState(GenericDeleteFlowState.Deleting)
-    void delayUntil(deleteItems(), 250)
-  }, [deleteItems])
+    void delayUntil(deleteSelectedItems(), 250)
+  }, [deleteSelectedItems])
 
   const closeDeleteFailedModal = useCallback(async () => {
     onPartialDeleteFailure && (await onPartialDeleteFailure(failedItems))
