@@ -19,7 +19,6 @@ const Buttons = styled.div`
   display: grid;
   grid-auto-flow: column;
   grid-column-gap: 1.6rem;
-  padding-right: 2.4rem;
 
   button {
     &:hover {
@@ -41,7 +40,7 @@ const SelectionManagerWrapper = styled.section`
   display: grid;
   grid-template-areas: "Checkbox Info Buttons";
   grid-template-columns: auto 1fr auto;
-  grid-column-gap: 0.8rem;
+  grid-column-gap: 1.4rem;
   align-items: center;
   height: 4rem;
   padding: 0 2.4rem 0 1.2rem;
