@@ -13,12 +13,18 @@ export const FeatureDataRequestValidator = z.object({
   feature: z.string().min(1),
 })
 
+export const CommonFeatureDataResponseValidator = z.object({}).optional()
+
 export const FeatureDataResponseValidator = z.union([
   McFileManagerDataResponseValidator,
   McOverviewDataResponseValidator,
-  // Add validators for other features
+  CommonFeatureDataResponseValidator,
 ])
 
 export type ApiFeatureDataResponse = z.output<
   typeof FeatureDataResponseValidator
+>
+
+export type CommonFeatureDataResponse = z.output<
+  typeof CommonFeatureDataResponseValidator
 >
