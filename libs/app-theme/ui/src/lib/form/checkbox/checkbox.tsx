@@ -4,6 +4,7 @@
  */
 
 import {
+  MouseEvent,
   ComponentProps,
   FunctionComponent,
   InputHTMLAttributes,
@@ -64,6 +65,10 @@ export const Checkbox: FunctionComponent<Props> = ({
     [ref]
   )
 
+  const handleClick = useCallback((event: MouseEvent) => {
+    event.stopPropagation()
+  }, [])
+
   useEffect(() => {
     if (!inputRef.current) {
       return
@@ -78,6 +83,7 @@ export const Checkbox: FunctionComponent<Props> = ({
       style={style}
       className={className}
       data-testid={rest["data-testid"]}
+      onClick={handleClick}
     >
       <CheckboxInput $size={size}>
         <input type="checkbox" id={checkboxId} ref={handleRef} {...rest} />
