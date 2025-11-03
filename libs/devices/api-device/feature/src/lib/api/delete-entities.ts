@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { isArray, isObject, chunk, isString } from "lodash"
 import {
   ApiDevice,
   DeleteEntitiesRequest,
@@ -12,23 +13,16 @@ import { ApiDeviceSerialPort, Response } from "devices/api-device/adapters"
 
 const CHUNK_SIZE = 500
 
-const createChunks = <T>(items: T[], size: number) => {
-  const chunkCount = Math.ceil(items.length / size)
-  return Array.from({ length: chunkCount }, (_unused, index) =>
-    items.slice(index * size, (index + 1) * size)
-  )
-}
-
 type DeleteEndpoint = "ENTITIES_DATA"
 type DeleteMethod = "DELETE"
 type DeleteEntitiesResponse = Response<DeleteEndpoint, DeleteMethod>
 
 function hasFailedIds(value: unknown): value is { failedIds: string[] } {
-  if (value === null || typeof value !== "object") return false
-  const candidate = value as { failedIds?: unknown }
   return (
-    Array.isArray(candidate.failedIds) &&
-    candidate.failedIds.every((id) => typeof id === "string")
+    isObject(value) &&
+    "failedIds" in value &&
+    isArray(value.failedIds) &&
+    value.failedIds.every(isString)
   )
 }
 
@@ -59,7 +53,7 @@ export const deleteEntities = async (
 ) => {
   const failedIds: string[] = []
 
-  for (const idsChunk of createChunks(ids, CHUNK_SIZE)) {
+  for (const idsChunk of chunk(ids, CHUNK_SIZE)) {
     try {
       const response = await deleteEntitiesRequest(device, {
         entityType,
