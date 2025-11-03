@@ -17,6 +17,8 @@ import { McOverviewScreen } from "./screens/mc-overview-screen"
 import { McAboutScreen } from "./screens/mc-about-screen"
 import { DeviceManageFilesScreen } from "./screens/mc-file-manager/device-manage-files.screen"
 import { DeviceManageFileFeature } from "./screens/mc-file-manager/device-manage-files.types"
+import { McContactsScreen } from "./screens/mc-contacts-screen"
+import { McContactsDuplicatesScreen } from "./screens/mc-contacts-duplicates-screen"
 
 export const useApiDeviceRouter = (device?: Device) => {
   const activeApiDevice = ApiDeviceSerialPort.isCompatible(device)
@@ -79,6 +81,13 @@ export const useApiDeviceRouter = (device?: Device) => {
                 feature={DeviceManageFileFeature.External}
               />
             }
+          />
+        </Route>
+        <Route path={`${ApiDevicePaths.Index}/mc-contacts`}>
+          <Route path={"mc-contacts"} element={<McContactsScreen />} />
+          <Route
+            path={"mc-contacts-duplicates"}
+            element={<McContactsDuplicatesScreen />}
           />
         </Route>
         <Route path={ApiDevicePaths.View} element={<GenericView />} />
