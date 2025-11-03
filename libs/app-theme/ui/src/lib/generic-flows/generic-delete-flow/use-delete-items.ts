@@ -5,17 +5,17 @@
 
 import { useCallback } from "react"
 import { formatMessage, Messages } from "app-localize/utils"
+import { delayUntil } from "app-utils/common"
 import { useToastContext } from "../../toast/toast"
 import { createToastContent } from "../../shared/create-toast-content"
 import {
   GenericDeleteFlowState,
   GenericDeleteItem,
 } from "./generic-delete-flow.types"
-import { delayUntil } from "app-utils/common"
 
-export interface UseDeleteItemsHandlerProps {
+export interface UseDeleteItemsProps {
   selectedItems: GenericDeleteItem[]
-  deleteItem: (itemId: string) => Promise<void>
+  deleteItems: (itemIds: string[]) => Promise<{ failedIds: string[] }>
   onDeleteSuccess?: (items: GenericDeleteItem[]) => Promise<void>
   onSetFlowState: (state: GenericDeleteFlowState | null) => void
   onSetFailedItems: (items: GenericDeleteItem[]) => void
@@ -24,32 +24,30 @@ export interface UseDeleteItemsHandlerProps {
   }
 }
 
-export const useDeleteItemsHandler = ({
+export const useDeleteItems = ({
   selectedItems,
-  deleteItem,
+  deleteItems,
   onDeleteSuccess,
   onSetFlowState,
   onSetFailedItems,
   messages,
-}: UseDeleteItemsHandlerProps) => {
+}: UseDeleteItemsProps) => {
   const { addToast } = useToastContext()
 
   return useCallback(async () => {
-    const failedItems: GenericDeleteItem[] = []
-
     const deleteProcess = async () => {
-      for (const item of selectedItems) {
-        if (!item) continue
-
-        try {
-          await deleteItem(item.id)
-        } catch {
-          failedItems.push(item)
-        }
-      }
+      const itemIds = selectedItems.map((item) => item.id)
+      const { failedIds } = await deleteItems(itemIds)
+      return selectedItems.filter(({ id }) => failedIds.includes(id))
     }
 
-    await delayUntil(deleteProcess(), 500)
+    let failedItems: GenericDeleteItem[]
+
+    try {
+      failedItems = await delayUntil(deleteProcess(), 500)
+    } catch {
+      failedItems = selectedItems
+    }
 
     if (failedItems.length > 0) {
       onSetFailedItems(failedItems)
@@ -76,7 +74,7 @@ export const useDeleteItemsHandler = ({
     messages.deleteSuccessToastText,
     selectedItems,
     onSetFlowState,
-    deleteItem,
+    deleteItems,
     onSetFailedItems,
   ])
 }

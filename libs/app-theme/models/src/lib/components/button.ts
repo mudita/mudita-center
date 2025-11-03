@@ -10,11 +10,34 @@ export enum ButtonType {
 }
 
 export enum ButtonSize {
+  /**
+   * width: fit-content
+   */
   AutoMin = "auto-min",
+
+  /**
+   * width: 100%
+   */
   AutoMax = "auto-max",
+
+  /**
+   * width: 11.8rem
+   */
   Small = "small",
+
+  /**
+   * width: 15.6rem
+   */
   Medium = "medium",
+
+  /**
+   * width: 16.4rem
+   */
   Big = "big",
+
+  /**
+   * width: 17.6rem
+   */
   Large = "large",
 }
 

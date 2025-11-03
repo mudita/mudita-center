@@ -3,10 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+/* eslint-disable no-redeclare */
+
 import {
   ApiDevice,
   ApiFeatureConfigResponse,
   ApiFeatureDataResponse,
+  CommonFeatureConfigResponse,
+  CommonFeatureDataResponse,
   McFileManagerConfigResponse,
   McFileManagerDataResponse,
   McOverviewConfigResponse,
@@ -23,11 +27,16 @@ import { getFeatureData } from "../api/get-feature-data"
 import { SerialPortDeviceId } from "app-serialport/models"
 import { getFeatureConfig } from "../api/get-feature-config"
 import { mapOverviewFeature } from "../views-mappers/overview-mapper"
+import { mapCommonFeature } from "../views-mappers/common-mapper"
 
 type FeatureMap = {
   "mc-overview": {
     data: McOverviewDataResponse
     config: McOverviewConfigResponse
+  }
+  "mc-contacts": {
+    data: ApiFeatureDataResponse
+    config: ApiFeatureConfigResponse
   }
   "mc-file-manager-internal": {
     data: McFileManagerDataResponse
@@ -41,16 +50,7 @@ type FeatureMap = {
 
 export type FeatureId = keyof FeatureMap
 
-type DefaultFeatureResult = {
-  data: Exclude<
-    ApiFeatureDataResponse,
-    McOverviewDataResponse | McFileManagerDataResponse
-  >
-  config: Exclude<
-    ApiFeatureConfigResponse,
-    McOverviewConfigResponse | McFileManagerConfigResponse
-  >
-}
+type DefaultFeatureResult = ReturnType<typeof mapCommonFeature>
 
 type QueryFnResult<F extends string> = F extends FeatureId
   ? FeatureMap[F]
@@ -76,10 +76,10 @@ const queryFn = async <F extends string>(feature: F, device?: ApiDevice) => {
         config: config as McFileManagerConfigResponse,
       } as QueryFnResult<F>
     default:
-      return {
-        data: data as DefaultFeatureResult["data"],
-        config: config as DefaultFeatureResult["config"],
-      } as QueryFnResult<F>
+      return mapCommonFeature(
+        data as CommonFeatureDataResponse,
+        config as CommonFeatureConfigResponse
+      ) as QueryFnResult<F>
   }
 }
 
@@ -93,7 +93,12 @@ export function useApiFeatureQuery(
   device?: ApiDevice,
   options?: Omit<UseQueryOptions, "queryFn" | "queryKey">
 ): UseQueryResult<ReturnType<typeof mapOverviewFeature>>
-export function useApiFeatureQuery<FEATURE extends string>(
+export function useApiFeatureQuery(
+  feature: string,
+  device?: ApiDevice,
+  options?: Omit<UseQueryOptions, "queryFn" | "queryKey">
+): UseQueryResult<ReturnType<typeof mapCommonFeature>>
+export function useApiFeatureQuery<FEATURE extends string = string>(
   feature: FEATURE,
   device?: ApiDevice,
   options?: Omit<UseQueryOptions, "queryFn" | "queryKey">
@@ -131,7 +136,11 @@ export function useApiFeaturesQuery<FEATURE extends string>(
         features.map((feature, i) => [feature, results[i]?.data ?? []])
       ) as Record<string, QueryFnResult<FEATURE>>
 
-      const refetch = () => results.forEach((r) => r.refetch?.())
+      const refetch = async () => {
+        for (const result of results) {
+          await result?.refetch()
+        }
+      }
 
       return {
         data,

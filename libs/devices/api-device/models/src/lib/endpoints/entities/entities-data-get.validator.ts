@@ -4,29 +4,38 @@
  */
 
 import { z } from "zod"
-import { entityDataSchema } from "./entity-data.validator"
+import { response200Schema, response202Schema } from "../common"
 
-export const GetEntitiesJsonDataRequestValidator = z.object({
+export const entityDataSchema = z.record(z.string(), z.unknown())
+export type EntityData = z.infer<typeof entityDataSchema>
+
+export const GetEntitiesDataRequestValidator = z.object({
   entityType: z.string().min(1),
-  responseType: z.enum(["json"]),
+  responseType: z.literal("file"),
 })
 
-export type EntitiesJsonDataRequest = z.infer<
-  typeof GetEntitiesJsonDataRequestValidator
+export type EntitiesFileDataRequest = z.infer<
+  typeof GetEntitiesDataRequestValidator
 >
 
-export const GetEntitiesJsonDataResponseValidator = z.object({
-  data: z.array(entityDataSchema),
+const entitiesInProgressResponseSchema = response202Schema.extend({
+  progress: z.int().min(0).max(100),
 })
 
-export type EntitiesJsonData = z.infer<
-  typeof GetEntitiesJsonDataResponseValidator
->
-
-export const GetEntitiesDataRequestValidator = z.union([
-  GetEntitiesJsonDataRequestValidator,
-])
+const entitiesReadyResponseSchema = response200Schema.extend({
+  progress: z.literal(100).optional(),
+  filePath: z.string(),
+})
 
 export const GetEntitiesDataResponseValidator = z.union([
-  GetEntitiesJsonDataResponseValidator,
+  entitiesInProgressResponseSchema,
+  entitiesReadyResponseSchema,
 ])
+
+export type GetEntitiesDataResponse202 = z.output<
+  typeof entitiesInProgressResponseSchema
+>
+
+export type GetEntitiesDataResponse200 = z.output<
+  typeof entitiesReadyResponseSchema
+>

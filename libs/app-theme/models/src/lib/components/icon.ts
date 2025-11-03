@@ -75,6 +75,8 @@ export enum IconType {
   PhotoCatalog = "photo-catalog",
   Plus = "plus",
   Spinner = "spinner",
+  Star = "star",
+  StarFilled = "star-filled",
   Support = "support",
   ThinFail = "thin-fail",
   Trash = "trash",

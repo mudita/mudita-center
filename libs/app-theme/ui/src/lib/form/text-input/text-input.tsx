@@ -19,14 +19,17 @@ import { TextInputDropdown, TextInputSearch } from "./text-input-search"
 import { typographyStyles } from "../../typography/typography-styles"
 import { Typography } from "../../typography/typography"
 
+type CommonProps = {
+  disableErrors?: boolean
+  error?: string
+}
+
 type FilledProps = {
   variant: TextInputVariant.Filled
-  error?: string
 }
 
 type OutlinedProps = {
   variant?: TextInputVariant.Outlined
-  error?: string
 }
 
 type InputWrapperProps = FilledProps | OutlinedProps
@@ -74,7 +77,10 @@ type InputProps =
   | SearchTypeProps
   | TextareaTypeProps
 
-type Props = ComponentProps<typeof Input> & InputWrapperProps & InputProps
+type Props = ComponentProps<typeof Input> &
+  InputWrapperProps &
+  InputProps &
+  CommonProps
 
 export const TextInput: FunctionComponent<Props> & {
   Dropdown: typeof TextInputDropdown
@@ -87,6 +93,7 @@ export const TextInput: FunctionComponent<Props> & {
   leftSlot,
   rightSlot,
   children,
+  disableErrors,
   ...rest
 }) => {
   const uid = useId()
@@ -127,9 +134,11 @@ export const TextInput: FunctionComponent<Props> & {
           {...slots}
         />
       </InputWrapper>
-      <Error data-testid={TextInputTestId.Error} color={"red"}>
-        {error || <>&nbsp;</>}
-      </Error>
+      {!disableErrors && (
+        <Error data-testid={TextInputTestId.Error} color={"red"}>
+          {error || <>&nbsp;</>}
+        </Error>
+      )}
     </Wrapper>
   )
 }
@@ -205,7 +214,7 @@ const outlinedInputStyles = css<{ $error?: boolean }>`
       $error ? theme.app.color.red : theme.app.color.grey4};
   border-radius: ${({ theme }) => theme.app.radius.sm};
   background: ${({ theme }) => theme.app.color.white};
-  padding: 1rem;
+  padding: 0 1rem;
   gap: 1rem;
   transition-property: border-color;
   transition-duration: 0.2s;

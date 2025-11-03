@@ -27,10 +27,10 @@ export const SegmentBarItem: FunctionComponent<Props> = React.memo(
       }}
       {...props}
     >
-      <Tooltip.Content componentName={"tooltip.content"}>
+      <Tooltip.Content>
         <Typography.P5 color={"grey1"}>{label}</Typography.P5>
       </Tooltip.Content>
-      <Tooltip.Anchor componentName={"tooltip.anchor"} />
+      <Tooltip.Anchor />
     </TooltipStyled>
   )
 )

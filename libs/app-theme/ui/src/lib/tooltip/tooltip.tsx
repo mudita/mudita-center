@@ -5,20 +5,26 @@
 
 import React, {
   createContext,
+  CSSProperties,
   FunctionComponent,
   MouseEvent,
   PropsWithChildren,
   useCallback,
   useContext,
+  useId,
   useMemo,
-  CSSProperties
 } from "react"
 import styled from "styled-components"
+import { createPortal } from "react-dom"
 
 const TooltipContext = createContext<{
   onAnchorHover: (event: MouseEvent) => void
+  onAnchorLeave: () => void
 }>({
   onAnchorHover: () => {
+    return
+  },
+  onAnchorLeave: () => {
     return
   },
 })
@@ -38,6 +44,9 @@ export const Tooltip: FunctionComponent<Props> & {
   Anchor: typeof TooltipAnchor
   Content: typeof TooltipContent
 } = ({ children, ...props }) => {
+  const uid = useId()
+  const tooltipPortal = document.getElementById("tooltip-portal")
+
   const {
     placement = "bottom-right",
     strategy = "element-oriented",
@@ -53,9 +62,14 @@ export const Tooltip: FunctionComponent<Props> & {
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
       const anchorRect = event.currentTarget.getBoundingClientRect()
-      const content = event.currentTarget.nextElementSibling as HTMLDivElement
+      const content = tooltipPortal?.querySelector(
+        `[data-tooltip-id=${uid}]`
+      ) as HTMLDivElement
 
       if (!content) return
+
+      content.style.visibility = "visible"
+      content.style.opacity = "1"
 
       const contentRect = content.getBoundingClientRect()
 
@@ -180,16 +194,23 @@ export const Tooltip: FunctionComponent<Props> & {
         applyElementPositioning()
       }
     },
-    [offset, placement, strategy]
+    [offset.x, offset.y, placement, strategy, tooltipPortal, uid]
   )
+
+  const handleAnchorLeave = useCallback(() => {
+    const content = tooltipPortal?.querySelector(
+      `[data-tooltip-id=${uid}]`
+    ) as HTMLDivElement
+
+    if (!content) return
+
+    content.style.visibility = "hidden"
+    content.style.opacity = "0"
+  }, [tooltipPortal, uid])
 
   const anchor = useMemo(() => {
     return React.Children.map(children, (child) => {
-      if (
-        React.isValidElement<{ componentName: string }>(child) &&
-        (child.props.componentName === "tooltip.anchor" ||
-          child.type === Tooltip.Anchor)
-      ) {
+      if (React.isValidElement(child) && child.type === Tooltip.Anchor) {
         return child
       }
       return null
@@ -199,21 +220,27 @@ export const Tooltip: FunctionComponent<Props> & {
   const content = useMemo(() => {
     return React.Children.map(children, (child) => {
       if (
-        React.isValidElement<{ componentName: string }>(child) &&
-        (child.props.componentName === "tooltip.content" ||
-          child.type === Tooltip.Content)
+        React.isValidElement<{ ["data-tooltip-id"]: string }>(child) &&
+        child.type === Tooltip.Content
       ) {
-        return child
+        return React.cloneElement(child, {
+          "data-tooltip-id": uid,
+        })
       }
       return null
     })
-  }, [children])
+  }, [children, uid])
 
   return (
-    <TooltipContext.Provider value={{ onAnchorHover: handleAnchorHover }}>
+    <TooltipContext.Provider
+      value={{
+        onAnchorHover: handleAnchorHover,
+        onAnchorLeave: handleAnchorLeave,
+      }}
+    >
       <Container {...props}>
         {anchor}
-        {content}
+        {tooltipPortal && createPortal(content, tooltipPortal)}
       </Container>
     </TooltipContext.Provider>
   )
@@ -221,21 +248,23 @@ export const Tooltip: FunctionComponent<Props> & {
 
 export default Tooltip
 
-const TooltipAnchor: FunctionComponent<
-  PropsWithChildren & { componentName: string }
-> = ({ children, ...rest }) => {
-  const { onAnchorHover } = useContext(TooltipContext)
+const TooltipAnchor: FunctionComponent<PropsWithChildren> = ({
+  children,
+  ...rest
+}) => {
+  const { onAnchorHover, onAnchorLeave } = useContext(TooltipContext)
   return (
-    <Anchor {...rest} onMouseEnter={onAnchorHover}>
+    <Anchor {...rest} onMouseEnter={onAnchorHover} onMouseLeave={onAnchorLeave}>
       {children}
     </Anchor>
   )
 }
 Tooltip.Anchor = TooltipAnchor
 
-const TooltipContent: FunctionComponent<
-  PropsWithChildren & { componentName: string }
-> = ({ children, ...rest }) => {
+const TooltipContent: FunctionComponent<PropsWithChildren> = ({
+  children,
+  ...rest
+}) => {
   return <Content {...rest}>{children}</Content>
 }
 Tooltip.Content = TooltipContent
@@ -264,11 +293,4 @@ const Anchor = styled.div`
   width: 100%;
   height: 100%;
   cursor: pointer;
-
-  &:hover {
-    + ${Content} {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
 `

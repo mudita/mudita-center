@@ -27,6 +27,7 @@ export const Input = styled.input`
 
 export const Slot = styled.div`
   z-index: 5;
+  display: flex;
 `
 
 export const Placeholder = styled.div`
