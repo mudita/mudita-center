@@ -90,25 +90,29 @@ export const useApiEntitiesDataMapQuery = (
   device?: ApiDevice,
   options?: Omit<UseQueryOptions, "queryFn" | "queryKey">
 ) => {
-  const progressRef = useRef<Record<string, number>>({})
+  const progressRef = useRef(
+    Object.fromEntries(entityTypes.map((type) => [type, 0]))
+  )
   const [progress, setProgress] = useState(0)
 
   const reportProgress = useCallback(() => {
     const totalProgress = Math.round(
-      sum(Object.values(progressRef.current)) / entityTypes.length
+      sum(Object.values(progressRef.current)) / progressRef.current.length
     )
     setProgress(totalProgress)
-  }, [entityTypes.length])
+  }, [])
 
   return useQueries({
     queries: entityTypes.map((entityType) => {
       return {
         queryKey: useApiEntitiesDataQuery.queryKey(entityType, device?.id),
-        queryFn: () =>
-          queryFn(entityType, device, (progress) => {
+        queryFn: () => {
+          const onProgress = (progress: number) => {
             progressRef.current[entityType] = progress
             reportProgress()
-          }),
+          }
+          return queryFn(entityType, device, onProgress)
+        },
         enabled: !!device,
         ...options,
       }
