@@ -26,7 +26,7 @@ export const ManageFilesOtherFiles: FunctionComponent<
         <Size>{sizeText}</Size>
       </NameWrapper>
       <Tooltip placement="bottom-left" offset={{ x: 10, y: 0 }}>
-        <Tooltip.Content componentName={"tooltip.content"}>
+        <Tooltip.Content>
           <OtherFilesList>
             {otherFiles.map((file, index) => (
               <OtherFilesListItem key={index}>
@@ -36,7 +36,7 @@ export const ManageFilesOtherFiles: FunctionComponent<
             ))}
           </OtherFilesList>
         </Tooltip.Content>
-        <Tooltip.Anchor componentName={"tooltip.anchor"}>
+        <Tooltip.Anchor>
           <Icon type={IconType.Info} />
         </Tooltip.Anchor>
       </Tooltip>
