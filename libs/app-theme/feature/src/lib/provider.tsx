@@ -4,7 +4,7 @@
  */
 
 import { FunctionComponent, PropsWithChildren } from "react"
-import { StyleSheetManager, ThemeProvider } from "styled-components"
+import styled, { StyleSheetManager, ThemeProvider } from "styled-components"
 import { IStyleSheetManager } from "styled-components/dist/models/StyleSheetManager"
 import isPropValid from "@emotion/is-prop-valid"
 import { Normalize } from "styled-normalize"
@@ -20,6 +20,7 @@ export const AppThemeProvider: FunctionComponent<PropsWithChildren> = ({
         <GlobalStyle />
         <Normalize />
         {children}
+        <TooltipPortalContainer id={"tooltip-portal"} />
       </ThemeProvider>
     </StyleSheetManager>
   )
@@ -33,3 +34,13 @@ const shouldForwardProp: ShouldForwardProp = (prop, target) => {
   }
   return true
 }
+
+const TooltipPortalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+  pointer-events: none;
+`

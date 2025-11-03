@@ -41,6 +41,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     usedSpaceBytes,
     otherSpaceBytes,
     refetch,
+    progress,
   } = useDeviceManageFiles(feature, device)
 
   const { mutateAsync: deleteFilesMutate } =
@@ -102,6 +103,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         transferFile={transferFile}
         messages={messages}
         onTransferSuccess={refetch}
+        progress={progress}
       >
         {(props) => (
           <DeviceManageFilesTableSection fileMap={activeFileMap} {...props} />

@@ -30,14 +30,12 @@ export const ProgressBar: FunctionComponent<Props> = ({
   const percentage = (clampedValue / maxValue) * 100
   return (
     <Wrapper {...rest}>
-      <AnimatePresence initial={true} mode="popLayout">
+      <AnimatePresence initial={true} mode="wait">
         {message !== undefined && (
           <Message
             key={message}
             data-testid={ProgressBarTestIds.Description}
-            initial={{
-              opacity: 0,
-            }}
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
@@ -62,17 +60,7 @@ export const ProgressBar: FunctionComponent<Props> = ({
         htmlFor={"progress-" + id}
         data-testid={ProgressBarTestIds.Details}
       >
-        <AnimatePresence initial={true} mode="popLayout">
-          <motion.span
-            key={clampedValue}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            {clampedValue}
-          </motion.span>
-        </AnimatePresence>
+        <span>{clampedValue}</span>
         {valueUnit || "%"}
       </Label>
     </Wrapper>
@@ -103,12 +91,12 @@ const Message = styled(motion.span)`
 `
 
 const indeterminateAnimation = keyframes`
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
+  0% {
+    --bar-offset: -90%;
+  }
+  100% {
+    --bar-offset: 390%;
+  }
 `
 
 const Progress = styled.progress<{
@@ -129,44 +117,28 @@ const Progress = styled.progress<{
   &::-webkit-progress-value {
     background-color: ${({ theme }) => theme.app.color.grey1};
     border-radius: 0.2rem;
-    transition: width 0.15s linear;
-  }
-
-  &:after {
-    content: "";
-    display: block;
-    width: ${({ $percentage }) => $percentage}%;
-    height: 100%;
-    border-radius: 0.2rem;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      ${({ theme }) => theme.app.color.grey5} 40%,
-      ${({ theme }) => theme.app.color.grey5} 60%,
-      transparent 100%
-    );
-    animation: ${indeterminateAnimation} 3s linear infinite;
-    background-size: 200% 100%;
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      opacity 1s ease,
-      visibility 1s ease,
-      width 0.15s linear;
   }
 
   ${({ $indeterminate }) =>
-    $indeterminate &&
-    css`
-      &:after {
-        opacity: 0.7;
-        visibility: visible;
-      }
-    `};
+    $indeterminate
+      ? css`
+          animation: ${indeterminateAnimation} 1.5s ease-in-out infinite
+            alternate;
+          &::-webkit-progress-value {
+            width: 25% !important;
+            transform: translateX(var(--bar-offset)) !important;
+            transition:
+              width 0.15s linear,
+              transform 1.5s linear;
+          }
+        `
+      : css`
+          &::-webkit-progress-value {
+            transition:
+              width 0.3s ease-out,
+              transform 0.3s ease-out;
+          }
+        `};
 `
 
 const Label = styled.label`

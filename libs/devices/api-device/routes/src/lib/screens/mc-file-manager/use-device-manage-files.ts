@@ -22,6 +22,7 @@ interface DeviceManageFilesDataViewData extends DeviceManageFilesData {
   isLoading: boolean
   isError: boolean
   refetch: () => Promise<void>
+  progress: number
 }
 
 export const useDeviceManageFiles = (
@@ -53,6 +54,7 @@ export const useDeviceManageFiles = (
     isLoading: isEntitiesLoading,
     isError: isEntitiesError,
     refetch: refetchEntities,
+    progress,
   } = useApiEntitiesDataMapQuery(types, device)
 
   const isError = isFeatureError || isEntitiesError
@@ -78,5 +80,6 @@ export const useDeviceManageFiles = (
     isError,
     isLoading,
     refetch,
+    progress,
   }
 }
