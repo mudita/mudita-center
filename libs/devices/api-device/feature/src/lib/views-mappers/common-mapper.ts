@@ -9,7 +9,7 @@ import {
 } from "devices/api-device/models"
 
 export const mapCommonFeature = (
-  data: CommonFeatureDataResponse,
+  _data: CommonFeatureDataResponse,
   config: CommonFeatureConfigResponse
 ) => {
   return {

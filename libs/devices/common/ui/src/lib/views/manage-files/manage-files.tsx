@@ -62,6 +62,7 @@ export interface ManageFilesViewProps
   messages: ManageFilesViewMessages
   deleteFile: GenericDeleteFlowProps["deleteItem"]
   onDeleteSuccess?: GenericDeleteFlowProps["onDeleteSuccess"]
+  progress?: number
 }
 
 export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
@@ -83,6 +84,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     otherSpaceBytes,
     otherFiles,
     children,
+    progress,
   } = props
   const activeSupportedFileTypes = useMemo(() => {
     return (
@@ -189,6 +191,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
       <LoadingState
         opened={loadingState}
         message={manageFilesMessages.loadStateText.id}
+        progress={progress}
       />
       <ManageFilesContent
         opened={!loadingState}
