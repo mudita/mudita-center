@@ -1,0 +1,90 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { isArray, isObject, chunk, isString } from "lodash"
+import {
+  ApiDevice,
+  DeleteEntitiesRequest,
+  DeleteEntitiesResponse207,
+} from "devices/api-device/models"
+import { ApiDeviceSerialPort, Response } from "devices/api-device/adapters"
+
+const CHUNK_SIZE = 500
+
+type DeleteEndpoint = "ENTITIES_DATA"
+type DeleteMethod = "DELETE"
+type DeleteEntitiesResponse = Response<DeleteEndpoint, DeleteMethod>
+
+function hasFailedIds(value: unknown): value is { failedIds: string[] } {
+  return (
+    isObject(value) &&
+    "failedIds" in value &&
+    isArray(value.failedIds) &&
+    value.failedIds.every(isString)
+  )
+}
+
+function is207(
+  response: DeleteEntitiesResponse
+): response is DeleteEntitiesResponse & {
+  ok: true
+  status: 207
+  body: Omit<DeleteEntitiesResponse207, "_status">
+} {
+  return response.ok && response.status === 207 && hasFailedIds(response.body)
+}
+
+const deleteEntitiesRequest = (
+  device: ApiDevice,
+  { entityType, ids }: DeleteEntitiesRequest
+): Promise<DeleteEntitiesResponse> => {
+  return ApiDeviceSerialPort.request(device, {
+    endpoint: "ENTITIES_DATA",
+    method: "DELETE",
+    body: { entityType, ids },
+  })
+}
+
+export const deleteEntities = async (
+  device: ApiDevice,
+  { entityType, ids }: DeleteEntitiesRequest
+) => {
+  const failedIds: string[] = []
+
+  for (const idsChunk of chunk(ids, CHUNK_SIZE)) {
+    try {
+      const response = await deleteEntitiesRequest(device, {
+        entityType,
+        ids: idsChunk,
+      })
+
+      if (!response.ok) {
+        failedIds.push(...idsChunk)
+        continue
+      }
+
+      if (response.status === 200) {
+        continue
+      }
+
+      if (is207(response) && response.body.failedIds.length > 0) {
+        failedIds.push(...response.body.failedIds)
+        continue
+      }
+
+      failedIds.push(...idsChunk)
+    } catch {
+      failedIds.push(...idsChunk)
+    }
+  }
+
+  if (failedIds.length === 0) {
+    return { ok: true, status: 200, body: {} }
+  }
+  if (failedIds.length === ids.length) {
+    return { ok: false, status: 404, body: {} }
+  }
+  return { ok: true, status: 207, body: { failedIds } }
+}

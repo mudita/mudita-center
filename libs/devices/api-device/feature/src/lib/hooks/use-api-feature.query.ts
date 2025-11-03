@@ -136,7 +136,11 @@ export function useApiFeaturesQuery<FEATURE extends string>(
         features.map((feature, i) => [feature, results[i]?.data ?? []])
       ) as Record<string, QueryFnResult<FEATURE>>
 
-      const refetch = () => results.forEach((r) => r.refetch?.())
+      const refetch = async () => {
+        for (const result of results) {
+          await result?.refetch()
+        }
+      }
 
       return {
         data,

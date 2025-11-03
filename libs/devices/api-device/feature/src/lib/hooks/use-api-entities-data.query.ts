@@ -121,7 +121,11 @@ export const useApiEntitiesDataMapQuery = (
         entityTypes.map((entityType, i) => [entityType, results[i]?.data ?? []])
       ) as Record<string, EntityData[]>
 
-      const refetch = () => results.forEach((r) => r.refetch?.())
+      const refetch = async () => {
+        for (const result of results) {
+          await result?.refetch()
+        }
+      }
 
       return {
         data,

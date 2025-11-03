@@ -18,6 +18,7 @@ import {
   manageFilesMessages,
   ManageFilesViewProps,
 } from "devices/common/ui"
+import { useApiDeviceDeleteEntitiesMutation } from "devices/api-device/feature"
 import { DeviceManageFilesTableSection } from "./device-manage-files-table-section"
 import { deviceManageFilesMessages } from "./device-manage-files.messages"
 import { useDeviceManageFiles } from "./use-device-manage-files"
@@ -42,6 +43,9 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     refetch,
     progress,
   } = useDeviceManageFiles(feature, device)
+
+  const { mutateAsync: deleteFilesMutate } =
+    useApiDeviceDeleteEntitiesMutation(device)
 
   const { activeCategoryId, setActiveCategoryId, activeFileMap } =
     useManageFilesSelection({ categories, categoryFileMap })
@@ -69,11 +73,14 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     return AppResultFactory.success<FileTransferResult>()
   }
 
-  const deleteFile: ManageFilesViewProps["deleteFile"] = async (
-    _fileId: string
-  ): Promise<void> => {
-    // TODO: Implement file deletion logic here
-    return Promise.resolve()
+  const deleteFiles: ManageFilesViewProps["deleteFiles"] = async (
+    ids: string[]
+  ): Promise<{ failedIds: string[] }> => {
+    const { failedIds = [] } = await deleteFilesMutate({
+      entityType: activeCategoryId,
+      ids,
+    })
+    return { failedIds }
   }
 
   return (
@@ -88,7 +95,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         freeSpaceBytes={freeSpaceBytes}
         usedSpaceBytes={usedSpaceBytes}
         otherSpaceBytes={otherSpaceBytes}
-        deleteFile={deleteFile}
+        deleteFiles={deleteFiles}
         onDeleteSuccess={refetch}
         isLoading={isLoading}
         otherFiles={OTHER_FILES_LABEL_TEXTS}

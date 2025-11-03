@@ -13,6 +13,10 @@ export const response202Schema = z.object({
   _status: z.literal(202),
 })
 
+export const response207Schema = z.object({
+  _status: z.literal(207),
+})
+
 export const emptyBodySchema = z
   .object({
     _status: z.any(),
