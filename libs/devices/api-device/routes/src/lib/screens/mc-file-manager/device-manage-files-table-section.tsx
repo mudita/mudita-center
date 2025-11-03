@@ -35,12 +35,12 @@ const ColumnCheckboxCell: FunctionComponent<
   return (
     <ColumnCheckbox>
       <Tooltip placement="bottom-right" offset={{ x: 16, y: 14 }}>
-        <Tooltip.Content componentName={"tooltip.content"}>
+        <Tooltip.Content>
           <ColumnCheckboxTooltipContentText>
             Select
           </ColumnCheckboxTooltipContentText>
         </Tooltip.Content>
-        <Tooltip.Anchor componentName={"tooltip.anchor"}>
+        <Tooltip.Anchor>
           <ColumnCheckboxTooltipAnchorElement
             size={CheckboxSize.Small}
             checked={file ? selectedIds.has(file.id) : false}

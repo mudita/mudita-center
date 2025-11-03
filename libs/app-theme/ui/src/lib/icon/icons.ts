@@ -77,6 +77,8 @@ import SignalRoaming2 from "./svg/signal-roaming-2.svg?react"
 import SignalRoaming3 from "./svg/signal-roaming-3.svg?react"
 import SignalRoaming4 from "./svg/signal-roaming-4.svg?react"
 import Spinner from "./svg/spinner.svg?react"
+import Star from "./svg/star.svg?react"
+import StarFilled from "./svg/star-filled.svg?react"
 import Support from "./svg/support.svg?react"
 import ThinFail from "./svg/thin-fail.svg?react"
 import Trash from "./svg/trash.svg?react"
@@ -153,6 +155,8 @@ export const icons = {
   [IconType.PhotoCatalog]: PhotoCatalog,
   [IconType.Plus]: Plus,
   [IconType.Spinner]: Spinner,
+  [IconType.Star]: Star,
+  [IconType.StarFilled]: StarFilled,
   [IconType.Support]: Support,
   [IconType.ThinFail]: ThinFail,
   [IconType.Trash]: Trash,
