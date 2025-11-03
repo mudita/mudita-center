@@ -5,19 +5,19 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-import { IconType } from "app-theme/models"
 import { Messages } from "app-localize/utils"
-import { Icon } from "../icon/icon"
 import { Typography } from "../typography/typography"
+import { ProgressBar } from "../progress-bar/progress-bar"
 
 interface Props {
   opened?: boolean
   message: Messages["id"]
+  progress?: number
 }
 
 export const LoadingState: FunctionComponent<
   Props & { className?: string }
-> = ({ opened, message, ...props }) => {
+> = ({ opened, message, progress = 0, ...props }) => {
   if (!opened) {
     return null
   }
@@ -25,7 +25,7 @@ export const LoadingState: FunctionComponent<
   return (
     <Wrapper {...props}>
       <Typography.H3 message={message} />
-      <Icon type={IconType.Spinner} size={4.8} />
+      <ProgressBar value={progress} indeterminate={progress === 0} />
     </Wrapper>
   )
 }

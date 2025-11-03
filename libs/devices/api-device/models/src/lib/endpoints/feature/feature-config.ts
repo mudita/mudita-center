@@ -13,12 +13,32 @@ export const FeatureConfigRequestValidator = z.object({
   feature: z.string().min(1),
 })
 
+const CommonFeatureConfigResponseValidator = z.union([
+  z.object({
+    main: z.object({
+      screenTitle: z.string(),
+      component: z.union([
+        z.literal("mc-contacts-view"),
+        z.literal("mc-contacts-duplicates-view"),
+      ]),
+      config: z.object({
+        entityTypes: z.array(z.string()),
+      }),
+    }),
+  }),
+])
+
 export const FeatureConfigResponseValidator = z.union([
   McFileManagerConfigResponseValidator,
   McOverviewConfigResponseValidator,
-  // Add validators for other features
+  CommonFeatureConfigResponseValidator,
 ])
 
 export type ApiFeatureConfigResponse = z.output<
   typeof FeatureConfigResponseValidator
+>
+
+
+export type CommonFeatureConfigResponse = z.output<
+  typeof CommonFeatureConfigResponseValidator
 >
