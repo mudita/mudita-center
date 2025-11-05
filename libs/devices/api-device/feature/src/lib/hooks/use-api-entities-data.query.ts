@@ -15,6 +15,7 @@ import { apiDeviceQueryKeys } from "./api-device-query-keys"
 import { getEntities } from "../actions/get-entities/get-entities"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { sum } from "lodash"
+import { useApiEntitiesConfigQuery } from "./use-api-entities-config.query"
 
 const queryFn = async (
   entityType?: string,
@@ -49,6 +50,8 @@ export function useApiEntitiesDataQuery<R = EntityData[]>(
 ) {
   const queryClient = useQueryClient()
   const [progress, setProgress] = useState(0)
+  const { isLoading, isError, isSuccess, isFetching, isPending } =
+    useApiEntitiesConfigQuery(entityType, device)
 
   const query = useQuery({
     queryKey: useApiEntitiesDataQuery.queryKey(entityType, device?.id),
@@ -73,6 +76,10 @@ export function useApiEntitiesDataQuery<R = EntityData[]>(
 
   return {
     ...query,
+    isLoading: query.isLoading || isLoading,
+    isError: query.isError || isError,
+    isSuccess: query.isSuccess && isSuccess,
+    isFetching: query.isFetching || isFetching || isPending,
     progress,
     abort,
   }

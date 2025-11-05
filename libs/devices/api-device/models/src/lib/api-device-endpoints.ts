@@ -56,6 +56,14 @@ import {
   DeleteEntitiesRequestValidator,
   DeleteEntitiesResponseValidator,
 } from "./endpoints/entities/entities-delete.validator"
+import {
+  OutboxRequestValidator,
+  OutboxResponseValidator,
+} from "./endpoints/outbox/outbox-get.validator"
+import {
+  GetEntitiesConfigRequestValidator,
+  GetEntitiesConfigResponseValidator,
+} from "./endpoints/entities/entities-config-get.validator"
 
 type Method = "GET" | "POST" | "PUT" | "DELETE"
 
@@ -77,6 +85,12 @@ export const ApiDeviceEndpoints = {
     GET: {
       request: MenuConfigRequestValidator,
       response: MenuConfigResponseValidator,
+    },
+  },
+  OUTBOX: {
+    GET: {
+      request: OutboxRequestValidator,
+      response: OutboxResponseValidator,
     },
   },
   FEATURE_CONFIGURATION: {
@@ -151,6 +165,12 @@ export const ApiDeviceEndpoints = {
     DELETE: {
       request: DeleteRestoreRequestValidator,
       response: DeleteRestoreResponseValidator,
+    },
+  },
+  ENTITIES_CONFIGURATION: {
+    GET: {
+      request: GetEntitiesConfigRequestValidator,
+      response: GetEntitiesConfigResponseValidator,
     },
   },
   ENTITIES_DATA: {

@@ -9,10 +9,17 @@ import { response200Schema, response202Schema } from "../common"
 export const entityDataSchema = z.record(z.string(), z.unknown())
 export type EntityData = z.infer<typeof entityDataSchema>
 
-export const GetEntitiesDataRequestValidator = z.object({
-  entityType: z.string().min(1),
-  responseType: z.literal("file"),
-})
+export const GetEntitiesDataRequestValidator = z
+  .object({
+    entityType: z.string().min(1),
+    responseType: z.enum(["file", "json"]).default("file"),
+  })
+  .or(
+    z.object({
+      entityType: z.string().min(1),
+      entityId: z.string().min(1),
+    })
+  )
 
 export type EntitiesFileDataRequest = z.infer<
   typeof GetEntitiesDataRequestValidator
@@ -27,9 +34,14 @@ const entitiesReadyResponseSchema = response200Schema.extend({
   filePath: z.string(),
 })
 
+const singleEntityDataResponseSchema = response200Schema.extend({
+  data: entityDataSchema,
+})
+
 export const GetEntitiesDataResponseValidator = z.union([
   entitiesInProgressResponseSchema,
   entitiesReadyResponseSchema,
+  singleEntityDataResponseSchema,
 ])
 
 export type GetEntitiesDataResponse202 = z.output<
@@ -38,4 +50,8 @@ export type GetEntitiesDataResponse202 = z.output<
 
 export type GetEntitiesDataResponse200 = z.output<
   typeof entitiesReadyResponseSchema
+>
+
+export type GetSingleEntityDataResponse = z.output<
+  typeof singleEntityDataResponseSchema
 >
