@@ -18,4 +18,6 @@ export const GetEntitiesConfigResponseValidator = z.object({
   ),
 })
 
-export type GetEntitiesConfigResponse = z.infer<typeof GetEntitiesConfigResponseValidator>
+export type GetEntitiesConfigResponse = z.infer<
+  typeof GetEntitiesConfigResponseValidator
+>
