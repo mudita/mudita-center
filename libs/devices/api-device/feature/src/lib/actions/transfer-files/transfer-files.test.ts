@@ -810,6 +810,55 @@ describe("transferFiles - autoSwitch enabled", () => {
     expect(onModeChange).toHaveBeenNthCalledWith(1, TransferMode.Mtp)
     expect(onModeChange).toHaveBeenNthCalledWith(2, TransferMode.Serial)
   })
+
+  test("autoSwitch enabled: initialize error without switchable failures → returns Unknown and skips retry", async () => {
+    ;(mtpUploadFiles as jest.Mock).mockResolvedValueOnce(
+      AppResultFactory.failed(
+        new AppError(
+          "",
+          ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
+        ),
+        {
+          failed: [
+            {
+              id: "/a.txt",
+              errorName: FailedTransferErrorName.Unknown,
+            },
+          ],
+        }
+      )
+    )
+
+    const onModeChange = jest.fn()
+
+    const params = makeParams({
+      transferMode: TransferMode.Mtp,
+      action: TransferFilesActionType.Upload,
+      autoSwitchMTPTransferModeEnabled: true,
+      autoSwitchMTPMax: 1,
+      onModeChange,
+    })
+
+    const result = (await transferFiles(params)) as AppFailedResult<
+      ApiDeviceMTPTransferErrorName,
+      { failed: FailedTransferItem[] }
+    >
+
+    expect(result.ok).toBe(false)
+    expect(result.error?.name).toBe(FailedTransferErrorName.Unknown)
+    expect(result.data?.failed).toEqual([
+      {
+        id: "/a.txt",
+        errorName: FailedTransferErrorName.Unknown,
+      },
+    ])
+
+    expect(serialUploadFiles).not.toHaveBeenCalled()
+
+    expect(onModeChange).not.toHaveBeenCalled()
+
+    expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe("transferFiles - progress reporting", () => {

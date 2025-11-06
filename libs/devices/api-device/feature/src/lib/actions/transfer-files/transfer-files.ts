@@ -58,14 +58,14 @@ export const transferFiles = async (
 
       if (result.ok) {
         finalizeProgress()
-        return result as ExecuteTransferResult
+        return result
       }
 
       if (
         result.error.name === FailedTransferErrorName.Aborted &&
         !mtpWatcherTriggeredAbort
       ) {
-        return result as ExecuteTransferResult
+        return result
       }
 
       if (
@@ -81,7 +81,10 @@ export const transferFiles = async (
 
         if (!narrowed) {
           finalizeProgress()
-          return AppResultFactory.success({})
+          return AppResultFactory.failed(
+            new AppError("", FailedTransferErrorName.Unknown),
+            result.data
+          )
         }
 
         const { nextMode, mtpEntries: nextMtpEntries } = chooseNextMode(
@@ -107,7 +110,7 @@ export const transferFiles = async (
         continue
       }
 
-      return result as ExecuteTransferResult
+      return result
     }
   } catch (error: unknown) {
     console.warn("File transfer failed", error)
