@@ -3,8 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useMemo, useRef } from "react"
-import { TableNew } from "app-theme/ui"
+import {
+  FunctionComponent,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
+import {
+  GenericDeleteFlow,
+  GenericDeleteFlowProps,
+  TableNew,
+} from "app-theme/ui"
 import styled from "styled-components"
 import { useFormContext } from "react-hook-form"
 import {
@@ -19,22 +29,68 @@ import { Panel } from "./panel"
 import { Search } from "./search"
 import { Form, FormValues } from "./form"
 import { Empty } from "./empty"
+import { makeName } from "./name-field"
+import { defineMessages } from "app-localize/utils"
+
+const messages = defineMessages({
+  confirmDeleteModalTitle: {
+    id: "apiDevice.contacts.delete.confirmModal.title",
+  },
+  confirmDeleteModalDescription: {
+    id: "apiDevice.contacts.delete.confirmModal.description",
+  },
+  confirmDeleteModalCancelButtonText: {
+    id: "general.app.backButton.text",
+  },
+  confirmDeleteModalConfirmButtonText: {
+    id: "apiDevice.contacts.delete.confirmModal.confirmButton",
+  },
+  deleteFailedAllModalTitle: {
+    id: "apiDevice.contacts.delete.allFailedModal.title",
+  },
+  deleteFailedAllModalDescription: {
+    id: "apiDevice.contacts.delete.allFailedModal.description",
+  },
+  deleteFailedSomeModalTitle: {
+    id: "apiDevice.contacts.delete.someFailedModal.title",
+  },
+  deleteFailedDescriptionModalDescription: {
+    id: "apiDevice.contacts.delete.someFailedModal.description",
+  },
+  deleteFailedModalCloseButtonText: {
+    id: "general.app.closeButton.text",
+  },
+  deletingModalTitle: {
+    id: "apiDevice.contacts.delete.deletingModal.title",
+  },
+  deleteSuccessToastText: {
+    id: "apiDevice.contacts.delete.successToast",
+  },
+})
+
+enum DeleteType {
+  ActiveContact,
+  CheckedContacts,
+}
 
 interface Props {
   contacts: Contact[]
+  onDelete: GenericDeleteFlowProps["deleteItemsAction"]
 }
 
-export const Contacts: FunctionComponent<Props> = ({ contacts }) => {
+export const Contacts: FunctionComponent<Props> = (props) => {
   return (
     <Form>
-      <ContactsInner contacts={contacts} />
+      <ContactsInner {...props} />
     </Form>
   )
 }
 
-const ContactsInner: FunctionComponent<Props> = ({ contacts }) => {
-  const { setValue, watch } = useFormContext<FormValues>()
+const ContactsInner: FunctionComponent<Props> = ({ contacts, onDelete }) => {
+  const { setValue, watch, getValues } = useFormContext<FormValues>()
   const tableRef = useRef<TableNew<Contact, "contactId">>(null)
+  const genericDeleteRef = useRef<GenericDeleteFlow>(null)
+  const [deleteType, setDeleteType] = useState<DeleteType>()
 
   const activeContactId = watch("activeContactId")
   const activeContact = contacts?.find(
@@ -50,6 +106,87 @@ const ContactsInner: FunctionComponent<Props> = ({ contacts }) => {
       contacts.map((contact) => [contact.contactId, contact])
     ) as ContactsNormalized
   }, [contacts])
+
+  const handleActiveContactDelete = useCallback(async () => {
+    if (!activeContactId) {
+      return
+    }
+    setDeleteType(DeleteType.ActiveContact)
+    genericDeleteRef.current?.deleteItems([
+      {
+        id: activeContactId,
+        name: makeName(normalizedContacts[activeContactId], true),
+      },
+    ])
+  }, [activeContactId, normalizedContacts])
+
+  const handleCheckedContactsDelete = useCallback(() => {
+    const checkedContacts = Object.entries(getValues().selectedContacts)
+      .filter(([, isChecked]) => isChecked)
+      .map(([id]) => id)
+
+    if (checkedContacts.length === 0) {
+      return
+    }
+
+    setDeleteType(DeleteType.CheckedContacts)
+    genericDeleteRef.current?.deleteItems(
+      checkedContacts.map((id) => ({
+        id: id,
+        name: makeName(normalizedContacts[id], true),
+      }))
+    )
+  }, [getValues, normalizedContacts])
+
+  const handleDeleteSuccess: NonNullable<
+    GenericDeleteFlowProps["onDeleteSuccess"]
+  > = useCallback(
+    async ({ allItems, failedItems }) => {
+      const activeContactId = getValues().activeContactId
+
+      if (deleteType === DeleteType.CheckedContacts) {
+        // Update checked contacts, removing successfully deleted ones
+        setValue(
+          "selectedContacts",
+          Object.fromEntries(
+            contactsIds.map((id) => [
+              id,
+              !!failedItems?.find((item) => item.id === id),
+            ])
+          )
+        )
+
+        // If the active contact was deleted successfully, clear it
+        if (
+          activeContactId &&
+          allItems.find((item) => item.id === activeContactId) &&
+          !failedItems?.find((item) => item.id === activeContactId)
+        ) {
+          setValue("activeContactId", undefined)
+        }
+      }
+
+      if (deleteType === DeleteType.ActiveContact) {
+        // If the active contact was checked, remove it from checked contacts
+        if (
+          activeContactId !== undefined &&
+          getValues().selectedContacts[activeContactId] &&
+          !failedItems?.find((item) => item.id === activeContactId)
+        ) {
+          setValue("selectedContacts", {
+            ...getValues().selectedContacts,
+            [activeContactId]: false,
+          })
+        }
+
+        // If the active contact was deleted successfully, clear it
+        if (!failedItems?.find((item) => item.id === activeContactId)) {
+          setValue("activeContactId", undefined)
+        }
+      }
+    },
+    [contactsIds, deleteType, getValues, setValue]
+  )
 
   const handleRowClick = useCallback(
     (contactId: Contact["contactId"]) => {
@@ -71,19 +208,19 @@ const ContactsInner: FunctionComponent<Props> = ({ contacts }) => {
   )
 
   const rowRenderer = useCallback(
-    (contact: Contact, index: number) => {
+    (contact: Contact) => {
       const onClick = () => {
         handleRowClick(contact.contactId)
       }
       return (
         <TableNew.Row
+          key={contact.contactId}
           onClick={onClick}
           rowSelectorCheckboxDataAttr={"data-row-checkbox"}
           active={activeContactId === contact.contactId}
         >
           <ColumnCheckbox
             id={contact.contactId}
-            index={index}
             checkboxDataAttr={"data-row-checkbox"}
           />
           <ColumnName contact={contact} />
@@ -117,12 +254,36 @@ const ContactsInner: FunctionComponent<Props> = ({ contacts }) => {
   }, [contactsIds, handleSearchResultClick, normalizedContacts])
 
   const panel = useMemo(() => {
-    return <Panel contactsIds={contactsIds}>{search}</Panel>
-  }, [contactsIds, search])
+    return (
+      <Panel
+        contactsIds={contactsIds}
+        onDeleteClick={handleCheckedContactsDelete}
+      >
+        {search}
+      </Panel>
+    )
+  }, [contactsIds, handleCheckedContactsDelete, search])
 
   const details = useMemo(() => {
-    return <Details contact={activeContact} onClose={handleDetailsClose} />
-  }, [activeContact, handleDetailsClose])
+    return (
+      <Details
+        contact={activeContact}
+        onClose={handleDetailsClose}
+        onDelete={handleActiveContactDelete}
+      />
+    )
+  }, [activeContact, handleDetailsClose, handleActiveContactDelete])
+
+  const deleteFlow = useMemo(() => {
+    return (
+      <GenericDeleteFlow
+        ref={genericDeleteRef}
+        deleteItemsAction={onDelete}
+        deleteFlowMessages={messages}
+        onDeleteSuccess={handleDeleteSuccess}
+      />
+    )
+  }, [handleDeleteSuccess, onDelete])
 
   if (contacts.length === 0) {
     return (
@@ -135,13 +296,16 @@ const ContactsInner: FunctionComponent<Props> = ({ contacts }) => {
   }
 
   return (
-    <Wrapper>
-      {panel}
-      <TableWrapper>
-        {table}
-        {details}
-      </TableWrapper>
-    </Wrapper>
+    <>
+      <Wrapper>
+        {panel}
+        <TableWrapper>
+          {table}
+          {details}
+        </TableWrapper>
+      </Wrapper>
+      {deleteFlow}
+    </>
   )
 }
 

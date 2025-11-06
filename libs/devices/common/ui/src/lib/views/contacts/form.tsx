@@ -7,7 +7,7 @@ import { FunctionComponent, PropsWithChildren } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 
 export interface FormValues {
-  checkedContactsIds: (string | undefined)[]
+  selectedContacts: Record<string, boolean>
   activeContactId?: string
   searchQuery: string
 }
@@ -15,7 +15,7 @@ export interface FormValues {
 export const Form: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const form = useForm<FormValues>({
     defaultValues: {
-      checkedContactsIds: [],
+      selectedContacts: {},
       activeContactId: undefined,
       searchQuery: "",
     },
