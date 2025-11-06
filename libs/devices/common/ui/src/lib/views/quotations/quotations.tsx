@@ -3,14 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useState } from "react"
+import { FunctionComponent, useCallback, useRef, useState } from "react"
 import styled from "styled-components"
 import { Quotation } from "devices/common/models"
 import { backgroundColor } from "app-theme/utils"
 import {
   GenericDeleteFlow,
   GenericDeleteFlowProps,
-  GenericDeleteItem,
   GenericFailedModal,
   LoadingState,
 } from "app-theme/ui"
@@ -38,8 +37,8 @@ interface QuotationsProps {
   settings: QuotationsSettingsFlowProps["settings"]
   updateSettings: QuotationsSettingsFlowProps["updateSettings"]
   createQuotation: QuotationsCreateFlowProps["createQuotation"]
-  deleteQuotations: GenericDeleteFlowProps["deleteItems"]
-  onDeleteSuccess?: GenericDeleteFlowProps["onDeleteSuccess"]
+  deleteQuotations: GenericDeleteFlowProps["deleteItemsAction"]
+  onDeleteSuccess?: (items: { id: string }[]) => Promise<void>
   messages: QuotationsEmptyStateProps["messages"] &
     QuotationsCreateFlowProps["messages"] &
     QuotationsSettingsFlowProps["messages"] &
@@ -61,12 +60,13 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
   onDeleteSuccess,
   messages,
 }) => {
+  const genericDeleteRef = useRef<GenericDeleteFlow>(null)
+
   const [settingsOpened, setSettingsOpened] = useState(false)
   const [createFlowOpened, setCreateFlowOpened] = useState(false)
   const [noSpaceModalOpened, setNoSpaceModalOpened] = useState(false)
 
   const [selectedQuotations, setSelectedQuotations] = useState<Quotation[]>([])
-  const [deleteFlowOpened, setDeleteFlowOpened] = useState(false)
 
   const handleSettingsClick = () => {
     setSettingsOpened(true)
@@ -81,8 +81,13 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
   }, [isSpaceAvailable])
 
   const startDeleteFlow = useCallback(() => {
-    setDeleteFlowOpened(true)
-  }, [])
+    genericDeleteRef.current?.deleteItems(
+      selectedQuotations.map((item) => ({
+        id: item.id,
+        name: item.quote,
+      }))
+    )
+  }, [selectedQuotations])
 
   const handleAllItemsToggle = () => {
     if (selectedQuotations.length === quotations.length) {
@@ -103,37 +108,20 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
     })
   }
 
-  const handlePartialDeleteFailure = useCallback(
-    async (failedFiles: GenericDeleteItem[]) => {
-      if (failedFiles.length === selectedQuotations.length) {
-        setDeleteFlowOpened(false)
-      } else {
-        setDeleteFlowOpened(false)
-        const notFailedQuotations: { id: GenericDeleteItem["id"] }[] =
-          selectedQuotations.filter(
-            (quotation) => !failedFiles.find((file) => file.id === quotation.id)
+  const finalizeDeleteSuccess: NonNullable<
+    GenericDeleteFlowProps["onDeleteSuccess"]
+  > = useCallback(
+    async ({ allItems, failedItems }) => {
+      await onDeleteSuccess?.(allItems.map((item) => ({ id: item.id })))
+      if (failedItems) {
+        setSelectedQuotations((selected) =>
+          selected.filter((quotation) =>
+            failedItems.some((item) => item.id === quotation.id)
           )
-        onDeleteSuccess && (await onDeleteSuccess(notFailedQuotations))
-        setSelectedQuotations(() => {
-          const next: Quotation[] = []
-          failedFiles.forEach((file) => {
-            const quotation = quotations.find((item) => item.id === file.id)
-            if (quotation) {
-              next.push(quotation)
-            }
-          })
-          return next
-        })
+        )
+      } else {
+        setSelectedQuotations([])
       }
-    },
-    [onDeleteSuccess, quotations, selectedQuotations]
-  )
-
-  const finalizeDeleteSuccess = useCallback(
-    async (items: { id: GenericDeleteItem["id"] }[]) => {
-      onDeleteSuccess && (await onDeleteSuccess(items))
-      setSelectedQuotations([])
-      setDeleteFlowOpened(false)
     },
     [onDeleteSuccess]
   )
@@ -173,15 +161,9 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
         messages={messages}
       />
       <GenericDeleteFlow
-        opened={deleteFlowOpened}
-        onClose={() => setDeleteFlowOpened(false)}
-        selectedItems={selectedQuotations.map((item) => ({
-          id: item.id,
-          name: item.quote,
-        }))}
+        ref={genericDeleteRef}
         onDeleteSuccess={finalizeDeleteSuccess}
-        onPartialDeleteFailure={handlePartialDeleteFailure}
-        deleteItems={deleteQuotations}
+        deleteItemsAction={deleteQuotations}
         deleteFlowMessages={messages}
       />
       <GenericFailedModal

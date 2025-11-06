@@ -3,8 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useEffect, useState } from "react"
-import { delayUntil } from "app-utils/common"
+import {
+  FunctionComponent,
+  RefObject,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react"
 import { formatMessage, Messages } from "app-localize/utils"
 import { GenericProgressModal } from "../../generic-modals/generic-progress-modal"
 import {
@@ -20,6 +27,7 @@ import {
   GenericDeleteItem,
 } from "./generic-delete-flow.types"
 import { useDeleteItems, UseDeleteItemsProps } from "./use-delete-items"
+import { theme } from "app-theme/utils"
 
 type GenericDeleteFlowMessages = GenericConfirmModalProps["messages"] &
   GenericDeleteFailedModalProps["messages"] &
@@ -28,58 +36,83 @@ type GenericDeleteFlowMessages = GenericConfirmModalProps["messages"] &
   }
 
 export interface GenericDeleteFlowProps {
-  opened: boolean
-  onClose: VoidFunction
-  selectedItems: GenericDeleteItem[]
-  deleteItems: UseDeleteItemsProps["deleteItems"]
+  deleteItemsAction: UseDeleteItemsProps["deleteItemsAction"]
   deleteFlowMessages: GenericDeleteFlowMessages
-  onDeleteSuccess?: (items: { id: GenericDeleteItem["id"] }[]) => Promise<void>
-  onPartialDeleteFailure?: (failedItems: GenericDeleteItem[]) => Promise<void>
+  onDeleteSuccess?: (items: {
+    allItems: GenericDeleteItem[]
+    failedItems?: GenericDeleteItem[]
+  }) => Promise<void>
+  ref?: RefObject<{
+    deleteItems: (items: GenericDeleteItem[]) => void
+  } | null>
 }
 
 export const GenericDeleteFlow: FunctionComponent<GenericDeleteFlowProps> = ({
-  opened,
-  onClose,
-  selectedItems,
-  deleteItems,
+  deleteItemsAction,
   deleteFlowMessages,
   onDeleteSuccess,
-  onPartialDeleteFailure,
+  ref,
 }) => {
-  const [flowState, setFlowState] = useState<GenericDeleteFlowState | null>(
-    opened ? GenericDeleteFlowState.ConfirmDelete : null
+  const [flowState, setFlowState] = useState<GenericDeleteFlowState>()
+  const [selectedItems, setSelectedItems] = useState<GenericDeleteItem[]>([])
+  const timeoutRef = useRef<NodeJS.Timeout>(null)
+
+  const onClose = useCallback(() => {
+    setFlowState(undefined)
+
+    timeoutRef.current = setTimeout(() => {
+      setSelectedItems([])
+    }, theme.app.constants.modalTransitionDuration)
+  }, [])
+
+  const onStart = useCallback(() => {
+    setFlowState(GenericDeleteFlowState.Deleting)
+  }, [])
+
+  const onSuccess: UseDeleteItemsProps["onSuccess"] = useCallback(
+    ({ allItems, failedItems }) => {
+      if (failedItems) {
+        setFlowState(GenericDeleteFlowState.DeleteFailed)
+        onDeleteSuccess?.({ allItems, failedItems })
+      } else {
+        onDeleteSuccess?.({ allItems })
+        onClose()
+      }
+    },
+    [onClose, onDeleteSuccess]
   )
-  const [failedItems, setFailedItems] = useState<GenericDeleteItem[]>([])
 
-  useEffect(() => {
-    setFlowState(opened ? GenericDeleteFlowState.ConfirmDelete : null)
-  }, [opened])
-
-  const deleteSelectedItems = useDeleteItems({
-    selectedItems,
-    deleteItems,
-    onDeleteSuccess,
-    onSetFlowState: setFlowState,
-    onSetFailedItems: setFailedItems,
+  const { deleteItems, failedItems, allItems } = useDeleteItems({
+    deleteItemsAction: deleteItemsAction,
+    onStart,
+    onSuccess,
     messages: deleteFlowMessages,
   })
 
-  const confirmDelete = useCallback(() => {
-    setFlowState(GenericDeleteFlowState.Deleting)
-    void delayUntil(deleteSelectedItems(), 250)
-  }, [deleteSelectedItems])
+  const onConfirm = useCallback(async () => {
+    deleteItems(selectedItems)
+  }, [deleteItems, selectedItems])
 
-  const closeDeleteFailedModal = useCallback(async () => {
-    onPartialDeleteFailure && (await onPartialDeleteFailure(failedItems))
-    setFlowState(null)
-  }, [failedItems, onPartialDeleteFailure])
+  useImperativeHandle(ref, () => ({
+    deleteItems: (items: GenericDeleteItem[]) => {
+      setSelectedItems(items)
+      setFlowState(GenericDeleteFlowState.ConfirmDelete)
+    },
+  }))
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
     <>
       <GenericConfirmModal
         opened={flowState === GenericDeleteFlowState.ConfirmDelete}
-        onClose={onClose}
-        onConfirm={confirmDelete}
+        onConfirm={onConfirm}
         onCancel={onClose}
         itemCount={selectedItems.length}
         messages={deleteFlowMessages}
@@ -90,11 +123,15 @@ export const GenericDeleteFlow: FunctionComponent<GenericDeleteFlowProps> = ({
       />
       <GenericDeleteFailedModal
         opened={flowState === GenericDeleteFlowState.DeleteFailed}
-        onClose={closeDeleteFailedModal}
+        onClose={onClose}
         messages={deleteFlowMessages}
         failedItems={failedItems}
-        allItems={selectedItems}
+        allItems={allItems}
       />
     </>
   )
 }
+// eslint-disable-next-line no-redeclare
+export type GenericDeleteFlow = NonNullable<
+  GenericDeleteFlowProps["ref"]
+>["current"]
