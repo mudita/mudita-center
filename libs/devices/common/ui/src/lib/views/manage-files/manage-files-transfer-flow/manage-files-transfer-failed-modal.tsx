@@ -6,9 +6,12 @@
 import { FunctionComponent } from "react"
 import { formatMessage } from "app-localize/utils"
 import { GenericFailedModal } from "app-theme/ui"
+import {
+  FailedTransferItem,
+  TransferFilesActionType,
+} from "devices/common/models"
 import { FileManagerFile } from "../manage-files.types"
 import {
-  FileTransferFailed,
   getTransferFailedModalContent,
   ManageFilesTransferFailedModalMessages,
   mapFailedFilesWithLabels,
@@ -17,24 +20,26 @@ import {
 export interface ManageFilesTransferFailedModalProps {
   opened: boolean
   onClose: VoidFunction
-  failedFiles: FileTransferFailed[]
+  failedFiles: FailedTransferItem[]
   allFiles: FileManagerFile[]
   messages: ManageFilesTransferFailedModalMessages
+  actionType: TransferFilesActionType
 }
 
 export const ManageFilesTransferFailedModal: FunctionComponent<
   ManageFilesTransferFailedModalProps
-> = ({ opened, messages, failedFiles, allFiles, onClose }) => {
+> = ({ opened, messages, failedFiles, allFiles, onClose, actionType }) => {
   const { title, description, onlySingleReason } =
     getTransferFailedModalContent({
       failedFiles,
       total: allFiles.length,
       messages,
+      actionType,
     })
 
   const failedFilesList =
     allFiles.length > 1 && !onlySingleReason
-      ? mapFailedFilesWithLabels(failedFiles, messages)
+      ? mapFailedFilesWithLabels(allFiles, failedFiles, messages, actionType)
       : undefined
 
   return (

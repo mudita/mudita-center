@@ -4,21 +4,7 @@
  */
 
 import { sum } from "lodash"
-
-export type TransferProgress = {
-  // Percentage of file transferred [%]
-  progress: number
-  // Transferred data size [B]
-  loaded: number
-  // Total file size [B]
-  total: number
-  // Average speed [B/s]
-  rate?: number
-  // Estimated time left [s]
-  estimated?: number
-}
-
-export type TransferProgressHandler = (progress: TransferProgress) => void
+import { TransferProgress } from "app-utils/models"
 
 export const createProgressTracker = ({
   chunksCount,

@@ -22,7 +22,6 @@ import {
   ManageFilesFileListEmpty,
   ManageFilesFileListEmptyProps,
 } from "./manage-files-file-list-empty"
-
 import {
   FileListPanelHeaderProps,
   ManageFilesFileListPanelDefaultMode,

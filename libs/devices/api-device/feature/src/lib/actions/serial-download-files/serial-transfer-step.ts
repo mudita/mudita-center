@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { getFileTransfer } from "../../api/get-file-transfer"
 import {
   ApiDevice,
   PreFileTransferReadyGetResponse,
 } from "devices/api-device/models"
+import { getFileTransfer } from "../../api/get-file-transfer"
 
 interface TransferStepParams {
   device: ApiDevice
@@ -16,7 +16,7 @@ interface TransferStepParams {
   abortController: AbortController
 }
 
-export const transferStep = async ({
+export const serialTransferStep = async ({
   device,
   transferData,
   onProgress,

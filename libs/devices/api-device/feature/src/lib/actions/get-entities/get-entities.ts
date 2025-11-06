@@ -3,10 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { clamp } from "lodash"
+import { FailedTransferItem } from "devices/common/models"
 import { ApiDevice, EntityData } from "devices/api-device/models"
 import { getEntitiesData } from "../../api/get-entities-data"
-import { downloadFiles } from "../download-files/download-files"
-import { clamp } from "lodash"
+import { serialDownloadFiles } from "../serial-download-files/serial-download-files"
 
 interface GetEntitiesParams {
   device: ApiDevice
@@ -72,18 +73,37 @@ export const getEntities = async ({
     throw new Error("No file path received for entities data")
   }
 
-  const [response] = await downloadFiles({
+  const serialDownloadFilesResult = await serialDownloadFiles({
     device,
-    sourceFilePaths: [filePath],
-    onProgress: (progress) => {
+    files: [
+      {
+        id: filePath,
+        source: { type: "path", path: filePath },
+        target: { type: "memory" },
+      },
+    ],
+    onProgress: ({ progress }) => {
       fileDownloadProgress = progress
       updateProgress()
     },
     abortController,
   })
 
+  if (!serialDownloadFilesResult.ok) {
+    throw new Error("Failed to download entities data file from device")
+  }
+
+  const filesData = (
+    serialDownloadFilesResult.data as {
+      files: (string | Uint8Array)[]
+      failed?: FailedTransferItem[]
+    }
+  ).files
+
   try {
-    const decodedData = Buffer.from(response, "base64").toString("utf-8")
+    const decodedData = Buffer.from(filesData[0] as any, "base64").toString(
+      "utf-8"
+    )
     const entities = JSON.parse(decodedData) as { data: EntityData[] }
 
     if (!entities || !entities.data) {

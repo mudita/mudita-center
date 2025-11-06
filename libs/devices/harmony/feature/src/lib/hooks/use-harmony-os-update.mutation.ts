@@ -9,20 +9,18 @@ import {
   useHarmonyOsUpdateInfoQuery,
 } from "./use-harmony-os-update-info.query"
 import { useCallback, useEffect, useRef, useState } from "react"
+import { sum } from "lodash"
+import { delay } from "app-utils/common"
 import {
   Harmony,
   HarmonyOSUpdateError,
   HarmonyOSUpdateStatus,
 } from "devices/harmony/models"
-import {
-  uploadFileToHarmony,
-  UploadFileToHarmonyError,
-} from "../actions/upload-file-to-harmony"
+import { useDeviceFreezer } from "app-serialport/renderer"
+import { FailedTransferErrorName } from "devices/common/models"
+import { uploadFiles } from "../actions/upload-files"
 import { getHarmonyOsDownloadLocation } from "./use-harmony-os-download.mutation"
 import { updateHarmony } from "../api/update-harmony"
-import { sum } from "lodash"
-import { useDeviceFreezer } from "app-serialport/renderer"
-import { delay } from "app-utils/common"
 import { removeFileFromHarmony } from "../api/remove-file-from-harmony"
 import { getHarmonyInfo } from "../api/get-harmony-info"
 import { useHarmonyTimeQuery } from "./use-harmony-time.query"
@@ -89,10 +87,21 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
         // Send downloaded update file to device
         setStatus(HarmonyOSUpdateStatus.Installing)
         try {
-          await uploadFileToHarmony({
+          await uploadFiles({
             device,
-            fileLocation: getHarmonyOsDownloadLocation(item.name),
-            targetPath: deviceUpdateTargetPath,
+            files: [
+              {
+                id: item.name,
+                source: {
+                  type: "fileLocation",
+                  fileLocation: getHarmonyOsDownloadLocation(item.name),
+                },
+                target: {
+                  type: "path",
+                  path: deviceUpdateTargetPath,
+                },
+              },
+            ],
             abortController: abortControllerRef.current,
             onProgress: (progress) => {
               // Calculate overall progress
@@ -107,7 +116,7 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
             },
           })
         } catch (error) {
-          if (error === UploadFileToHarmonyError.Aborted) {
+          if (error === FailedTransferErrorName.Aborted) {
             throw HarmonyOSUpdateError.UpdateAborted
           }
           throw HarmonyOSUpdateError.UpdateFailed

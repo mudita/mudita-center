@@ -56,6 +56,10 @@ import {
   DeleteEntitiesRequestValidator,
   DeleteEntitiesResponseValidator,
 } from "./endpoints/entities/entities-delete.validator"
+import {
+  PostEntityDataRequestValidator,
+  PostEntityDataResponseValidator,
+} from "./endpoints/entities/entity-data-post.validator"
 
 type Method = "GET" | "POST" | "PUT" | "DELETE"
 
@@ -161,6 +165,10 @@ export const ApiDeviceEndpoints = {
     DELETE: {
       request: DeleteEntitiesRequestValidator,
       response: DeleteEntitiesResponseValidator,
+    },
+    POST: {
+      request: PostEntityDataRequestValidator,
+      response: PostEntityDataResponseValidator,
     },
   },
 } as const satisfies EndpointsDefinition

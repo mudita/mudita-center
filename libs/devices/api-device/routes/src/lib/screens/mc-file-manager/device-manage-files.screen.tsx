@@ -6,19 +6,26 @@
 import { FunctionComponent } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { ApiDevice } from "devices/api-device/models"
-import { AppResultFactory } from "app-utils/models"
+import { AppError, AppResultFactory } from "app-utils/models"
+import {
+  ExecuteTransferResult,
+  FailedTransferErrorName,
+  TransferMode,
+} from "devices/common/models"
 import {
   openFileDialog,
   useActiveDeviceQuery,
   useManageFilesSelection,
 } from "devices/common/feature"
 import {
-  FileTransferResult,
   ManageFiles,
   manageFilesMessages,
   ManageFilesViewProps,
 } from "devices/common/ui"
-import { useApiDeviceDeleteEntitiesMutation } from "devices/api-device/feature"
+import {
+  transferFiles,
+  useApiDeviceDeleteEntitiesMutation,
+} from "devices/api-device/feature"
 import { DeviceManageFilesTableSection } from "./device-manage-files-table-section"
 import { deviceManageFilesMessages } from "./device-manage-files.messages"
 import { useDeviceManageFiles } from "./use-device-manage-files"
@@ -66,11 +73,47 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     addFileButtonText,
   }
 
-  const transferFile: ManageFilesViewProps["transferFile"] = async (
-    _params
-  ): Promise<FileTransferResult> => {
-    // TODO: Implement file transfer logic here
-    return AppResultFactory.success<FileTransferResult>()
+  const handleTransferFiles: ManageFilesViewProps["transferFiles"] = async (
+    params
+  ): Promise<ExecuteTransferResult> => {
+    const targetDirectoryPath = categories.find(
+      ({ id }) => id === activeCategoryId
+    )?.directoryPath
+
+    if (!device || !targetDirectoryPath) {
+      return AppResultFactory.failed(
+        new AppError("", FailedTransferErrorName.Unknown),
+        {
+          failed: params.files.map((f) => ({
+            ...f,
+            errorName: "Unknown",
+          })),
+        }
+      )
+    }
+
+    const result = await transferFiles({
+      device,
+      files: params.files.map((file) => ({
+        id: file.id,
+        source: {
+          type: "fileLocation",
+          fileLocation: { absolute: true, fileAbsolutePath: file.id },
+        },
+        target: { type: "path", path: `${targetDirectoryPath}${file.name}` },
+      })),
+      action: params.actionType,
+      transferMode: TransferMode.Serial,
+      autoSwitchMTPTransferModeEnabled: false,
+      onProgress: params.onProgress,
+      abortController: params.abortController,
+      entityType: activeCategoryId,
+    })
+
+    // TODO: extend onprogress by refetching file list after files transfer
+    await refetch()
+
+    return result
   }
 
   const deleteFiles: ManageFilesViewProps["deleteFiles"] = async (
@@ -100,7 +143,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         isLoading={isLoading}
         otherFiles={OTHER_FILES_LABEL_TEXTS}
         openFileDialog={openFileDialog}
-        transferFile={transferFile}
+        transferFiles={handleTransferFiles}
         messages={messages}
         onTransferSuccess={refetch}
         progress={progress}

@@ -16,7 +16,7 @@ interface PreTransferParams {
   abortController: AbortController
 }
 
-export const preTransferStep = async ({
+export const serialPreTransferStep = async ({
   device,
   sourceFilePath,
   abortController,

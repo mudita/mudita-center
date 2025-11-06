@@ -3,9 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { TransferErrorName } from "../manage-files.types"
 import {
-  FileTransferFailed,
+  FailedTransferErrorName,
+  FailedTransferItem,
+  TransferFilesActionType,
+} from "devices/common/models"
+import {
   getTransferFailedModalContent,
   ManageFilesTransferFailedModalMessages,
 } from "./manage-files-transfer-failed.copy"
@@ -21,14 +24,11 @@ jest.mock("app-theme/ui", () => ({
 
 const createFailedFile = (
   id: string,
-  errorName: TransferErrorName,
+  errorName: FailedTransferErrorName,
   values?: Record<string, string | number>
-): FileTransferFailed => ({
+): FailedTransferItem => ({
   id,
-  name: id,
   errorName,
-  type: "",
-  size: 0,
   values,
 })
 
@@ -58,9 +58,10 @@ describe("getTransferFailedModalContent", () => {
   test("SOME: Duplicate → base description", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
-      failedFiles: [createFailedFile("a", TransferErrorName.Duplicate)],
+      failedFiles: [createFailedFile("a", FailedTransferErrorName.Duplicate)],
       total: 3,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(false)
@@ -74,9 +75,12 @@ describe("getTransferFailedModalContent", () => {
   test("SOME: NotEnoughMemory → base description", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
-      failedFiles: [createFailedFile("a", TransferErrorName.NotEnoughMemory)],
+      failedFiles: [
+        createFailedFile("a", FailedTransferErrorName.NotEnoughMemory),
+      ],
       total: 2,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(false)
@@ -89,9 +93,12 @@ describe("getTransferFailedModalContent", () => {
   test("SOME: FileTooLarge → base description", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
-      failedFiles: [createFailedFile("x", TransferErrorName.FileTooLarge)],
+      failedFiles: [
+        createFailedFile("x", FailedTransferErrorName.FileTooLarge),
+      ],
       total: 2,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(false)
@@ -104,9 +111,10 @@ describe("getTransferFailedModalContent", () => {
   test("SOME: UploadUnknown → base description", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
-      failedFiles: [createFailedFile("u", TransferErrorName.UploadUnknown)],
+      failedFiles: [createFailedFile("u", FailedTransferErrorName.Unknown)],
       total: 2,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(false)
@@ -119,9 +127,10 @@ describe("getTransferFailedModalContent", () => {
   test("SOME: Cancelled → base description", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
-      failedFiles: [createFailedFile("c", TransferErrorName.Cancelled)],
+      failedFiles: [createFailedFile("c", FailedTransferErrorName.Aborted)],
       total: 2,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(false)
@@ -135,11 +144,12 @@ describe("getTransferFailedModalContent", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
       failedFiles: [
-        createFailedFile("a", TransferErrorName.Duplicate),
-        createFailedFile("b", TransferErrorName.FileTooLarge),
+        createFailedFile("a", FailedTransferErrorName.Duplicate),
+        createFailedFile("b", FailedTransferErrorName.FileTooLarge),
       ],
       total: 4,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(false)
@@ -153,11 +163,12 @@ describe("getTransferFailedModalContent", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
       failedFiles: [
-        createFailedFile("a", TransferErrorName.Duplicate),
-        createFailedFile("b", TransferErrorName.Duplicate),
+        createFailedFile("a", FailedTransferErrorName.Duplicate),
+        createFailedFile("b", FailedTransferErrorName.Duplicate),
       ],
       total: 2,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(true)
@@ -171,15 +182,16 @@ describe("getTransferFailedModalContent", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
       failedFiles: [
-        createFailedFile("a", TransferErrorName.NotEnoughMemory, {
+        createFailedFile("a", FailedTransferErrorName.NotEnoughMemory, {
           memory: 256,
         }),
-        createFailedFile("b", TransferErrorName.NotEnoughMemory, {
+        createFailedFile("b", FailedTransferErrorName.NotEnoughMemory, {
           memory: 256,
         }),
       ],
       total: 2,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(true)
@@ -192,9 +204,12 @@ describe("getTransferFailedModalContent", () => {
   test("ALL: FileTooLarge only → specific message", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
-      failedFiles: [createFailedFile("x", TransferErrorName.FileTooLarge)],
+      failedFiles: [
+        createFailedFile("x", FailedTransferErrorName.FileTooLarge),
+      ],
       total: 1,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(true)
@@ -207,9 +222,10 @@ describe("getTransferFailedModalContent", () => {
   test("ALL: UploadUnknown only → fallback unknown", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
-      failedFiles: [createFailedFile("u", TransferErrorName.UploadUnknown)],
+      failedFiles: [createFailedFile("u", FailedTransferErrorName.Unknown)],
       total: 1,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(true)
@@ -220,9 +236,10 @@ describe("getTransferFailedModalContent", () => {
   test("ALL: Cancelled only → fallback unknown", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
-      failedFiles: [createFailedFile("c", TransferErrorName.Cancelled)],
+      failedFiles: [createFailedFile("c", FailedTransferErrorName.Aborted)],
       total: 1,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(true)
@@ -234,12 +251,13 @@ describe("getTransferFailedModalContent", () => {
     const messages = createMessages()
     const result = getTransferFailedModalContent({
       failedFiles: [
-        createFailedFile("a", TransferErrorName.Duplicate),
-        createFailedFile("b", TransferErrorName.NotEnoughMemory),
-        createFailedFile("c", TransferErrorName.FileTooLarge),
+        createFailedFile("a", FailedTransferErrorName.Duplicate),
+        createFailedFile("b", FailedTransferErrorName.NotEnoughMemory),
+        createFailedFile("c", FailedTransferErrorName.FileTooLarge),
       ],
       total: 3,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(true)
@@ -253,6 +271,7 @@ describe("getTransferFailedModalContent", () => {
       failedFiles: [],
       total: 3,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(false)
@@ -267,6 +286,7 @@ describe("getTransferFailedModalContent", () => {
       failedFiles: [],
       total: 0,
       messages,
+      actionType: TransferFilesActionType.Upload,
     })
 
     expect(result.isAllFailed).toBe(false)

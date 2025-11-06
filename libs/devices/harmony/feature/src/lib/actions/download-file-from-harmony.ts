@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { createProgressTracker } from "app-utils/common"
 import {
   Harmony,
   HarmonyDownloadFileChunkResponse,
@@ -10,10 +11,12 @@ import {
   HarmonyMethodNamed,
   HarmonyPreDownloadFileResponse,
 } from "devices/harmony/models"
-import { AppFileSystemGuardOptions } from "app-utils/models"
+import {
+  AppFileSystemGuardOptions,
+  TransferProgressHandler,
+} from "app-utils/models"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { AppFileSystem } from "app-utils/renderer"
-import { createProgressTracker, TransferProgressHandler } from "../utils/progress-tracker"
 
 export interface Params {
   device: Harmony
@@ -90,7 +93,8 @@ export const downloadFileFromHarmony = async ({
       throw DownloadFileFromHarmonyError.ChunkDownloadError
     }
 
-    fileCrc32 = (chunkResponse.body as HarmonyDownloadFileChunkResponse).fileCrc32
+    fileCrc32 = (chunkResponse.body as HarmonyDownloadFileChunkResponse)
+      .fileCrc32
     const chunkData = await AppFileSystem.writeFileChunk({
       ...fileLocation,
       chunkSize,

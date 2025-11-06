@@ -17,6 +17,7 @@ import {
   GenericDeleteItem,
   LoadingState,
 } from "app-theme/ui"
+import { TransferFilesActionType } from "devices/common/models"
 import { ManageFilesStorageSummaryProps } from "./manage-files-content/manage-files-storage-summary"
 import { ManageFilesCategoryListProps } from "./manage-files-content/manage-files-category-list"
 import { ManageFilesContent } from "./manage-files-content/manage-files-content"
@@ -53,7 +54,7 @@ export interface ManageFilesViewProps
     ManageFilesOtherFilesProps,
     Pick<
       ManageFilesTransferFlowProps,
-      "openFileDialog" | "transferFile" | "onTransferSuccess"
+      "openFileDialog" | "transferFiles" | "onTransferSuccess"
     > {
   activeFileMap: FileManagerFileMap
   onActiveCategoryChange: (categoryId: string) => void
@@ -73,7 +74,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     onActiveCategoryChange,
     deleteFiles,
     onDeleteSuccess,
-    transferFile,
+    transferFiles,
     onTransferSuccess,
     openFileDialog,
     isLoading,
@@ -97,6 +98,9 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
   const [deleteFlowOpened, setDeleteFlowOpened] = useState(false)
 
   const [uploadFlowOpened, setUploadFlowOpened] = useState(false)
+  const [actionType, setActionType] = useState<TransferFilesActionType>(
+    TransferFilesActionType.Upload
+  )
 
   const selectedFiles: FileManagerFile[] = useMemo(() => {
     const out: FileManagerFile[] = []
@@ -184,6 +188,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
 
   const startUploadFlow = useCallback(() => {
     setUploadFlowOpened(true)
+    setActionType(TransferFilesActionType.Upload)
   }, [])
 
   return (
@@ -230,11 +235,12 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
         openFileDialog={openFileDialog}
         onTransferSuccess={finalizeTransferSuccess}
         onPartialTransferFailure={handlePartialTransferFailure}
-        transferFile={transferFile}
+        transferFiles={transferFiles}
         transferFlowMessages={messages}
         fileMap={activeFileMap}
         freeSpaceBytes={freeSpaceBytes}
         supportedFileTypes={activeSupportedFileTypes}
+        actionType={actionType}
       />
     </>
   )

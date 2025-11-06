@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./delay"
-export * from "./delay-until-at-least"
-export * from "./delay-until"
-export * from "./progress-tracker"
+import { z } from "zod"
+
+export const entityDataSchema = z.record(z.string(), z.unknown())
+export type EntityData = z.infer<typeof entityDataSchema>
