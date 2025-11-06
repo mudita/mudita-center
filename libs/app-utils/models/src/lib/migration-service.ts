@@ -7,9 +7,9 @@ export type Version = string
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type MigrationData<T extends Record<string, any> = Record<string, any>> =
   T & {
-  _metadata?: {
-    lastMigratedVersion: Version | null
+    _metadata?: {
+      lastMigratedVersion: Version | null
+    }
   }
-}
 type Migration = (data: MigrationData) => MigrationData
 export type Migrations = Record<Version, Migration>

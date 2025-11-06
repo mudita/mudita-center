@@ -12,7 +12,10 @@ import {
 import { AppFileSystemGuardOptions } from "app-utils/models"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { AppFileSystem } from "app-utils/renderer"
-import { createProgressTracker, TransferProgressHandler } from "../utils/progress-tracker"
+import {
+  createProgressTracker,
+  TransferProgressHandler,
+} from "../utils/progress-tracker"
 
 export interface Params {
   device: Harmony
