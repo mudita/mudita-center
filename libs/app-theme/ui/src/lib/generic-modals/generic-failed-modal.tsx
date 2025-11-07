@@ -9,6 +9,7 @@ import { ButtonType, IconType } from "app-theme/models"
 import { Button } from "../button/button"
 import { Modal } from "../modal/modal"
 import { Typography } from "../typography/typography"
+import { formatCustomMessage } from "app-localize/utils"
 
 export interface FailedItem {
   id: string
@@ -40,9 +41,7 @@ export const GenericFailedModal: FunctionComponent<Props> = ({
       <Modal.TitleIcon type={IconType.Failed} />
       <Modal.Title>{title}</Modal.Title>
       <Typography.P1>{description}</Typography.P1>
-
       {showList && <FailedItemsList items={failedItems} />}
-
       <Modal.Buttons>
         <Button onClick={onClose} type={ButtonType.Secondary}>
           {buttonText}
@@ -52,22 +51,29 @@ export const GenericFailedModal: FunctionComponent<Props> = ({
   )
 }
 
-const FailedItemsList = ({ items }: { items: FailedItem[] }) => (
-  <Modal.ScrollableContent>
-    <ItemsList>
-      {items.map((file) => (
-        <li key={file.id}>
-          <ItemsListItem>
-            <Typography.P1>{file.name}</Typography.P1>
-            {file.label && (
-              <ItemsListItemLabel>({file.label})</ItemsListItemLabel>
-            )}
-          </ItemsListItem>
-        </li>
-      ))}
-    </ItemsList>
-  </Modal.ScrollableContent>
-)
+const FailedItemsList = ({ items }: { items: FailedItem[] }) => {
+  return (
+    <Modal.ScrollableContent>
+      <ItemsList>
+        {items.map((item) => (
+          <li key={item.id}>
+            <ItemsListItem>
+              <Typography.P1>
+                {formatCustomMessage(
+                  item.name,
+                  formatCustomMessage.textFormatters
+                )}
+              </Typography.P1>
+              {item.label && (
+                <ItemsListItemLabel>({item.label})</ItemsListItemLabel>
+              )}
+            </ItemsListItem>
+          </li>
+        ))}
+      </ItemsList>
+    </Modal.ScrollableContent>
+  )
+}
 
 const ItemsList = styled.ul`
   li {

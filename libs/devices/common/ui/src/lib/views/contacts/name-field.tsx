@@ -22,11 +22,13 @@ export const NameField: FunctionComponent<Props> = ({ contact }) => {
   )
 }
 
-export const makeName = (contact: Props["contact"]) => {
+export const makeName = (contact: Props["contact"], withBold?: boolean) => {
   return [
     contact.displayName1,
     contact.displayName2,
-    contact.displayName3,
+    ...(contact.displayName3
+      ? [withBold ? `<b>${contact.displayName3}</b>` : contact.displayName3]
+      : []),
     contact.displayName4,
   ]
     .filter(Boolean)

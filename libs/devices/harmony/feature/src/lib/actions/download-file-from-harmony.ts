@@ -13,7 +13,10 @@ import {
 import { AppFileSystemGuardOptions } from "app-utils/models"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { AppFileSystem } from "app-utils/renderer"
-import { createProgressTracker, TransferProgressHandler } from "../utils/progress-tracker"
+import {
+  createProgressTracker,
+  TransferProgressHandler,
+} from "../utils/progress-tracker"
 
 export interface Params {
   device: Harmony
@@ -90,7 +93,8 @@ export const downloadFileFromHarmony = async ({
       throw DownloadFileFromHarmonyError.ChunkDownloadError
     }
 
-    fileCrc32 = (chunkResponse.body as HarmonyDownloadFileChunkResponse).fileCrc32
+    fileCrc32 = (chunkResponse.body as HarmonyDownloadFileChunkResponse)
+      .fileCrc32
     const chunkData = await AppFileSystem.writeFileChunk({
       ...fileLocation,
       chunkSize,

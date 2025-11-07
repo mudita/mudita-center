@@ -21,7 +21,7 @@ export const getEntityData = async (
     body: {
       entityType,
       entityId,
-      responseType: "json"
+      responseType: "json",
     },
     options: {
       timeout: 10_000,

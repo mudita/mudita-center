@@ -26,23 +26,33 @@ const messages = defineMessages({
 
 interface Props extends PropsWithChildren {
   contactsIds: string[]
+  onDeleteClick: VoidFunction
 }
 
-export const Panel: FunctionComponent<Props> = ({ contactsIds, children }) => {
+export const Panel: FunctionComponent<Props> = ({
+  contactsIds,
+  children,
+  onDeleteClick,
+}) => {
   const form = useFormContext<FormValues>()
 
-  const checkedContactsIds = form.watch("checkedContactsIds")
-  const selectedCount = checkedContactsIds.filter(Boolean).length
+  const checkedContacts = form.watch("selectedContacts")
+  const selectedCount = Object.entries(checkedContacts).filter(
+    ([, checked]) => checked
+  ).length
   const totalCount = contactsIds.length
 
   const onAllToggle = useCallback(() => {
     if (selectedCount === totalCount) {
       form.setValue(
-        "checkedContactsIds",
-        Array.from({ length: totalCount }, () => undefined)
+        "selectedContacts",
+        Object.fromEntries(contactsIds.map((id) => [id, false]))
       )
     } else {
-      form.setValue("checkedContactsIds", contactsIds)
+      form.setValue(
+        "selectedContacts",
+        Object.fromEntries(contactsIds.map((id) => [id, true]))
+      )
     }
   }, [selectedCount, totalCount, form, contactsIds])
 
@@ -61,6 +71,7 @@ export const Panel: FunctionComponent<Props> = ({ contactsIds, children }) => {
               selectedContactsCount={selectedCount}
               allContactsSelected={selectedCount === totalCount}
               onAllToggle={onAllToggle}
+              onDeleteClick={onDeleteClick}
             />
           </SelectMode>
         ) : (
@@ -96,7 +107,13 @@ const PanelSelectMode: FunctionComponent<{
   selectedContactsCount: number
   allContactsSelected: boolean
   onAllToggle: VoidFunction
-}> = ({ selectedContactsCount, allContactsSelected, onAllToggle }) => {
+  onDeleteClick: VoidFunction
+}> = ({
+  selectedContactsCount,
+  allContactsSelected,
+  onAllToggle,
+  onDeleteClick,
+}) => {
   return (
     <HeadingSelectionManager
       selectedItemsNumber={selectedContactsCount}
@@ -109,6 +126,7 @@ const PanelSelectMode: FunctionComponent<{
           type={ButtonType.Text}
           message={messages.deleteButton.id}
           icon={IconType.Trash}
+          onClick={onDeleteClick}
         />,
       ]}
     />

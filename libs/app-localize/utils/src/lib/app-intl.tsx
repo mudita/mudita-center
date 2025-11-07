@@ -14,6 +14,27 @@ const appIntl = createIntl({
 
 export const formatMessage = appIntl.formatMessage
 
+const customIntl = createIntl({
+  locale: "en-US",
+  messages: {},
+  defaultLocale: "en-US",
+})
+
+export const formatCustomMessage = (
+  message: string,
+  values: Parameters<typeof formatMessage>[1]
+) => {
+  return customIntl.formatMessage(
+    { id: "undefined", defaultMessage: message },
+    values
+  )
+}
+formatCustomMessage.textFormatters = {
+  b: (chunks: string[]) => <strong>{chunks}</strong>,
+  i: (chunks: string[]) => <em>{chunks}</em>,
+  u: (chunks: string[]) => <u>{chunks}</u>,
+}
+
 export interface Messages {
   id: keyof typeof enUS
 }
