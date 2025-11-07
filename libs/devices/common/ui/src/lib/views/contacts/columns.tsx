@@ -21,9 +21,8 @@ import { FormValues } from "./form"
 
 export const ColumnCheckbox: FunctionComponent<{
   id: string
-  index: number
   checkboxDataAttr: string
-}> = memo(({ id, index, checkboxDataAttr }) => {
+}> = memo(({ id, checkboxDataAttr }) => {
   const { register } = useFormContext<FormValues>()
 
   return (
@@ -35,9 +34,8 @@ export const ColumnCheckbox: FunctionComponent<{
               [checkboxDataAttr]: true,
             }}
             key={id}
-            value={id}
             size={CheckboxSize.Small}
-            {...register(`checkedContactsIds.${index}`)}
+            {...register(`selectedContacts.${id}`)}
           />
         </Tooltip.Anchor>
         <Tooltip.Content>Select</Tooltip.Content>
