@@ -29,7 +29,11 @@ import {
 import { DeviceManageFilesTableSection } from "./device-manage-files-table-section"
 import { deviceManageFilesMessages } from "./device-manage-files.messages"
 import { useDeviceManageFiles } from "./use-device-manage-files"
-import { OTHER_FILES_LABEL_TEXTS } from "./device-manage-files.config"
+import {
+  OTHER_FILES_LABEL_TEXTS,
+  PROGRESS_REFETCH_PHASE_RATIO,
+  PROGRESS_TRANSFER_PHASE_RATIO,
+} from "./device-manage-files.config"
 import {
   DeviceManageFileFeature,
   DeviceManageFileFeatureId,
@@ -86,11 +90,13 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         {
           failed: params.files.map((f) => ({
             ...f,
-            errorName: "Unknown",
+            errorName: FailedTransferErrorName.Unknown,
           })),
         }
       )
     }
+
+    let lastTransferProgress = 0
 
     const result = await transferFiles({
       device,
@@ -105,13 +111,28 @@ export const DeviceManageFilesScreen: FunctionComponent<{
       action: params.actionType,
       transferMode: TransferMode.Serial,
       autoSwitchMTPTransferModeEnabled: false,
-      onProgress: params.onProgress,
+      onProgress: ({ progress, ...transferFilesProgress }) => {
+        lastTransferProgress = progress
+        return params.onProgress?.({
+          ...transferFilesProgress,
+          progress: progress * PROGRESS_TRANSFER_PHASE_RATIO,
+        })
+      },
       abortController: params.abortController,
       entityType: activeCategoryId,
     })
 
-    // TODO: extend onprogress by refetching file list after files transfer
-    await refetch()
+    await refetch({
+      onProgress: (refetchProgress) => {
+        const combined =
+          lastTransferProgress * PROGRESS_TRANSFER_PHASE_RATIO +
+          refetchProgress * PROGRESS_REFETCH_PHASE_RATIO
+
+        params.onProgress?.({
+          progress: combined,
+        })
+      },
+    })
 
     return result
   }
@@ -139,13 +160,12 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         usedSpaceBytes={usedSpaceBytes}
         otherSpaceBytes={otherSpaceBytes}
         deleteFiles={deleteFiles}
-        onDeleteSuccess={refetch}
+        onDeleteSuccess={() => refetch()}
         isLoading={isLoading}
         otherFiles={OTHER_FILES_LABEL_TEXTS}
         openFileDialog={openFileDialog}
         transferFiles={handleTransferFiles}
         messages={messages}
-        onTransferSuccess={refetch}
         progress={progress}
       >
         {(props) => (
