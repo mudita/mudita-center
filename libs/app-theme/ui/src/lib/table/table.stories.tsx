@@ -7,7 +7,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import styled from "styled-components"
 import { action } from "storybook/actions"
 import { Table } from "./table"
-import { Checkbox } from '../form/checkbox/checkbox';
+import { Checkbox } from "../form/checkbox/checkbox"
 
 const Decorator = styled.div`
   width: 100%;
@@ -65,8 +65,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "Basic table with 1 row",
+        story: "Basic table with 1 row",
       },
     },
   },

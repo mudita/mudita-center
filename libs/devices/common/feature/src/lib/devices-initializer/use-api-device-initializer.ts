@@ -14,6 +14,7 @@ import {
 import { useCallback, useEffect, useRef } from "react"
 import { delay } from "app-utils/common"
 import { useDeviceFreezer } from "app-serialport/renderer"
+import { useOutboxQuery } from "devices/api-device/feature"
 
 export const useApiDeviceInitializer = (device: ApiDevice) => {
   const queryClient = useQueryClient()
@@ -29,6 +30,7 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
     failureCount: menuFailureCount,
   } = useDeviceMenuQuery<ApiDeviceErrorType>(device)
   const { data: status } = useDeviceStatusQuery(device)
+  useOutboxQuery(device, status === DeviceStatus.Initialized)
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {

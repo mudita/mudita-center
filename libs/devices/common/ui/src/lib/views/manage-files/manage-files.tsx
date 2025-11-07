@@ -8,13 +8,13 @@ import {
   ReactNode,
   useCallback,
   useMemo,
+  useRef,
   useState,
 } from "react"
 import { Messages } from "app-localize/utils"
 import {
   GenericDeleteFlow,
   GenericDeleteFlowProps,
-  GenericDeleteItem,
   LoadingState,
 } from "app-theme/ui"
 import { TransferFilesActionType } from "devices/common/models"
@@ -61,8 +61,8 @@ export interface ManageFilesViewProps
   isLoading: boolean
   children: ManageFilesViewChild
   messages: ManageFilesViewMessages
-  deleteFiles: GenericDeleteFlowProps["deleteItems"]
-  onDeleteSuccess?: GenericDeleteFlowProps["onDeleteSuccess"]
+  deleteFiles: GenericDeleteFlowProps["deleteItemsAction"]
+  onDeleteSuccess?: VoidFunction
   progress?: number
 }
 
@@ -87,6 +87,8 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     children,
     progress,
   } = props
+  const genericDeleteRef = useRef<GenericDeleteFlow>(null)
+
   const activeSupportedFileTypes = useMemo(() => {
     return (
       categories.find(({ id }) => id === activeCategoryId)
@@ -94,8 +96,6 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     )
   }, [activeCategoryId, categories])
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
-
-  const [deleteFlowOpened, setDeleteFlowOpened] = useState(false)
 
   const [uploadFlowOpened, setUploadFlowOpened] = useState(false)
   const [actionType, setActionType] = useState<TransferFilesActionType>(
@@ -129,8 +129,8 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
   )
 
   const startDeleteFlow = useCallback(() => {
-    setDeleteFlowOpened(true)
-  }, [])
+    genericDeleteRef.current?.deleteItems(selectedFiles)
+  }, [selectedFiles])
 
   const changeCategory = useCallback(
     (categoryId: string) => {
@@ -143,37 +143,21 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     [activeCategoryId, onActiveCategoryChange]
   )
 
-  const loadingState =
-    (isLoading && !deleteFlowOpened) || activeCategoryId === undefined
+  const loadingState = isLoading || activeCategoryId === undefined
 
-  const finalizeDeleteSuccess = useCallback(
-    async (items: { id: GenericDeleteItem["id"] }[]) => {
-      onDeleteSuccess && (await onDeleteSuccess(items))
-      setSelectedIds(new Set())
-      setDeleteFlowOpened(false)
-    },
-    [onDeleteSuccess]
-  )
+  const finalizeDeleteSuccess: NonNullable<
+    GenericDeleteFlowProps["onDeleteSuccess"]
+  > = useCallback(
+    async ({ failedItems }) => {
+      void onDeleteSuccess?.()
 
-  const handlePartialDeleteFailure = useCallback(
-    async (failedFiles: GenericDeleteItem[]) => {
-      if (failedFiles.length === selectedFiles.length) {
-        setDeleteFlowOpened(false)
+      if (failedItems) {
+        setSelectedIds(new Set(failedItems.map((item) => item.id)))
       } else {
-        setDeleteFlowOpened(false)
-        const notFailedFiles: { id: GenericDeleteItem["id"] }[] =
-          selectedFiles.filter(
-            (file) => !failedFiles.find((failed) => failed.id === file.id)
-          )
-        onDeleteSuccess && (await onDeleteSuccess(notFailedFiles))
-        setSelectedIds(() => {
-          const next = new Set<string>()
-          failedFiles.forEach((file) => next.add(file.id))
-          return next
-        })
+        setSelectedIds(new Set([]))
       }
     },
-    [onDeleteSuccess, selectedFiles.length]
+    [onDeleteSuccess]
   )
 
   const finalizeTransferSuccess = useCallback(async () => {
@@ -221,13 +205,10 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
         {children({ onSelectedChange: updateSelection, selectedIds })}
       </ManageFilesContent>
       <GenericDeleteFlow
-        opened={deleteFlowOpened}
-        onClose={() => setDeleteFlowOpened(false)}
-        selectedItems={selectedFiles}
+        ref={genericDeleteRef}
         onDeleteSuccess={finalizeDeleteSuccess}
-        onPartialDeleteFailure={handlePartialDeleteFailure}
-        deleteItems={deleteFiles}
-        deleteFlowMessages={{ ...messages }}
+        deleteItemsAction={deleteFiles}
+        deleteFlowMessages={messages}
       />
       <ManageFilesTransferFlow
         opened={uploadFlowOpened}

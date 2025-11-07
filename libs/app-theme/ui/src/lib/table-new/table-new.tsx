@@ -89,7 +89,7 @@ const RowComponent = <Item = unknown,>({
   return <div style={style}>{rowRenderer(item, index)}</div>
 }
 
-const Table = styled(List)<{ $clickable?: boolean }>`
+const Table = styled(List)`
   width: 100%;
   height: 100%;
   overflow-x: hidden;

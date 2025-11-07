@@ -14,7 +14,6 @@ export interface GenericConfirmModalProps {
   opened: boolean
   onCancel: VoidFunction
   onConfirm: VoidFunction
-  onClose: VoidFunction
   itemCount: number
   messages: {
     confirmDeleteModalTitle: Messages
@@ -26,10 +25,10 @@ export interface GenericConfirmModalProps {
 
 export const GenericConfirmModal: FunctionComponent<
   GenericConfirmModalProps
-> = ({ opened, onCancel, onConfirm, onClose, itemCount, messages }) => {
+> = ({ opened, onCancel, onConfirm, itemCount, messages }) => {
   return (
     <Modal opened={opened}>
-      <Modal.CloseButton onClick={onClose} />
+      <Modal.CloseButton onClick={onCancel} />
       <Modal.TitleIcon type={IconType.Error} />
       <Modal.Title
         text={formatMessage(messages.confirmDeleteModalTitle, {
@@ -46,9 +45,7 @@ export const GenericConfirmModal: FunctionComponent<
           size={ButtonSize.Medium}
           onClick={onCancel}
         >
-          {formatMessage(messages.confirmDeleteModalCancelButtonText, {
-            itemCount,
-          })}
+          {formatMessage(messages.confirmDeleteModalCancelButtonText)}
         </Button>
         <Button
           type={ButtonType.Primary}
