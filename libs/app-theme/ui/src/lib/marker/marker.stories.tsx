@@ -26,6 +26,6 @@ type Story = StoryObj<typeof Marker>
 export const Default: Story = {
   args: {
     $color: "#E38577",
-    style: { width: "1rem" }
+    style: { width: "1rem" },
   },
 }

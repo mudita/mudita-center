@@ -38,7 +38,6 @@ export type ApiFeatureConfigResponse = z.output<
   typeof FeatureConfigResponseValidator
 >
 
-
 export type CommonFeatureConfigResponse = z.output<
   typeof CommonFeatureConfigResponseValidator
 >

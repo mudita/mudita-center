@@ -73,7 +73,8 @@ const Dropdown: FunctionComponent<Props> = ({
         })
         if (nameMatch || phone) {
           const line1 = makeName(contact)
-          const line2 = phone?.phoneNumber || contact.phoneNumbers?.[0]?.phoneNumber
+          const line2 =
+            phone?.phoneNumber || contact.phoneNumbers?.[0]?.phoneNumber
           return {
             id: contact.contactId,
             line1,

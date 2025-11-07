@@ -102,9 +102,10 @@ export const McContactsScreen: FunctionComponent = () => {
     )
   }
 
-  const headerTitle = contacts.length > 0
-    ? `${feature.title} (${contacts.length})`
-    : feature.title
+  const headerTitle =
+    contacts.length > 0
+      ? `${feature.title} (${contacts.length})`
+      : feature.title
 
   return (
     <>
