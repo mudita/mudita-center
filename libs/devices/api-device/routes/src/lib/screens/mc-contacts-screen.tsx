@@ -87,37 +87,35 @@ export const McContactsScreen: FunctionComponent = () => {
     )
   }, [contacts])
 
-  if (!feature || !contacts) {
-    return (
-      <LoaderWrapper
-        key="loader"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
-      >
-        <Typography.H3 message={messages.loaderTitle.id} />
-        <ProgressBar value={progress} indeterminate={progress === 0} />
-      </LoaderWrapper>
-    )
-  }
-
   const headerTitle =
-    contacts.length > 0
+    feature && contacts && contacts.length > 0
       ? `${feature.title} (${contacts.length})`
-      : feature.title
+      : feature?.title || "All contacts"
 
   return (
     <>
       <DashboardHeaderTitle title={headerTitle} />
-      <Content
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
-      >
-        <Contacts contacts={sortedContacts} onDelete={handleDelete} />
-      </Content>
+      {!feature || !contacts ? (
+        <LoaderWrapper
+          key="loader"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          <Typography.H3 message={messages.loaderTitle.id} />
+          <ProgressBar value={progress} indeterminate={progress === 0} />
+        </LoaderWrapper>
+      ) : (
+        <Content
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          <Contacts contacts={sortedContacts} onDelete={handleDelete} />
+        </Content>
+      )}
     </>
   )
 }

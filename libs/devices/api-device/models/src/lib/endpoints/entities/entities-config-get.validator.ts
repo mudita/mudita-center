@@ -13,7 +13,7 @@ export const GetEntitiesConfigResponseValidator = z.object({
   fields: z.record(
     z.string(),
     z.object({
-      type: z.enum(["id", "object", "string", "array", "boolean"]),
+      type: z.enum(["id", "object", "string", "number", "array", "boolean"]),
     })
   ),
 })

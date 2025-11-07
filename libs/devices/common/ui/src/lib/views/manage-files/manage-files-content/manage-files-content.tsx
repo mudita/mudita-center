@@ -40,7 +40,6 @@ interface Props
     > {
   selectedFiles: FileManagerFile[]
   onAddFileClick?: () => void
-  opened: boolean
   allFilesSelected: boolean
   messages: ManageFilesStorageSummaryProps["messages"] &
     ManageFilesFileListEmptyProps["messages"] &
@@ -50,7 +49,6 @@ interface Props
 export const ManageFilesContent: FunctionComponent<
   Props & PropsWithChildren
 > = ({
-  opened,
   categories,
   segments,
   activeCategoryId,
@@ -73,10 +71,6 @@ export const ManageFilesContent: FunctionComponent<
     activeCategory === undefined || activeCategory?.count === 0
 
   const fileListPanelHeader = `${activeCategory?.label} ${activeCategory?.count ? `(${activeCategory.count})` : ""}`
-
-  if (!opened) {
-    return null
-  }
 
   return (
     <Wrapper>

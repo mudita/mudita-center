@@ -5,53 +5,49 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-import { noop } from "lodash"
 import { formatMessage } from "app-localize/utils"
 import { Icon, ListItem, Marker, Typography } from "app-theme/ui"
 import { IconSize } from "app-theme/models"
 import { FileManagerFileCategory } from "../manage-files.types"
 import { manageFilesMessages } from "../manage-files.messages"
+import { NavLink } from "react-router"
 
 export interface ManageFilesCategoryListProps {
   categories: FileManagerFileCategory[]
-  activeCategoryId: string
-  onCategoryClick?: (categoryId: string) => void
 }
 
 export const ManageFilesCategoryList: FunctionComponent<
   ManageFilesCategoryListProps
-> = ({ categories, activeCategoryId, onCategoryClick = noop }) => {
+> = ({ categories }) => {
   return (
     <Wrapper>
       {categories.map((category) => (
-        <CategoryListItem
-          key={category.id}
-          active={category.id === activeCategoryId}
-          onClick={() => onCategoryClick(category.id)}
-        >
-          <CategoryListItemName>
-            <CategoryListItemNameIcon
-              size={IconSize.Big}
-              type={category.icon}
-            ></CategoryListItemNameIcon>
-            <CategoryListItemNameText>
-              {category.label}
-            </CategoryListItemNameText>
-          </CategoryListItemName>
-          <CategoryListItemStorage>
-            <CategoryListItemStorageText>
-              {category.size}
-            </CategoryListItemStorageText>
-            <CategoryListItemStorageMarker
-              $color={category.markerColor}
-            ></CategoryListItemStorageMarker>
-          </CategoryListItemStorage>
-          <CategoryListItemCountTextWrapper>
-            {formatMessage(manageFilesMessages.categoryCount, {
-              count: Number(category.count),
-            })}
-          </CategoryListItemCountTextWrapper>
-        </CategoryListItem>
+        <Link to={`../${category.id}`} relative={"path"}>
+          {({ isActive }) => (
+            <CategoryListItem key={category.id} active={isActive}>
+              <CategoryListItemName>
+                <CategoryListItemNameIcon
+                  size={IconSize.Big}
+                  type={category.icon}
+                />
+                <CategoryListItemNameText>
+                  {category.label}
+                </CategoryListItemNameText>
+              </CategoryListItemName>
+              <CategoryListItemStorage>
+                <CategoryListItemStorageText>
+                  {category.size}
+                </CategoryListItemStorageText>
+                <CategoryListItemStorageMarker $color={category.markerColor} />
+              </CategoryListItemStorage>
+              <CategoryListItemCountTextWrapper>
+                {formatMessage(manageFilesMessages.categoryCount, {
+                  count: Number(category.count),
+                })}
+              </CategoryListItemCountTextWrapper>
+            </CategoryListItem>
+          )}
+        </Link>
       ))}
     </Wrapper>
   )
@@ -60,6 +56,11 @@ export const ManageFilesCategoryList: FunctionComponent<
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+const Link = styled(NavLink)`
+  text-decoration: none;
+  color: inherit;
 `
 
 const CategoryListItem = styled(ListItem)`

@@ -57,13 +57,13 @@ export interface ManageFilesViewProps
     > {
   activeFileMap: FileManagerFileMap
   onActiveCategoryChange: (categoryId: string) => void
-  isLoading: boolean
   children: ManageFilesViewChild
   messages: ManageFilesViewMessages
   deleteFiles: GenericDeleteFlowProps["deleteItemsAction"]
   onDeleteSuccess?: VoidFunction
-  progress?: number
 }
+
+
 
 export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
   const {
@@ -76,7 +76,6 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     transferFile,
     onTransferSuccess,
     openFileDialog,
-    isLoading,
     categories,
     segments,
     freeSpaceBytes,
@@ -84,7 +83,6 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     otherSpaceBytes,
     otherFiles,
     children,
-    progress,
   } = props
   const genericDeleteRef = useRef<GenericDeleteFlow>(null)
 
@@ -139,8 +137,6 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     [activeCategoryId, onActiveCategoryChange]
   )
 
-  const loadingState = isLoading || activeCategoryId === undefined
-
   const finalizeDeleteSuccess: NonNullable<
     GenericDeleteFlowProps["onDeleteSuccess"]
   > = useCallback(
@@ -172,13 +168,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
 
   return (
     <>
-      <LoadingState
-        opened={loadingState}
-        message={manageFilesMessages.loadStateText.id}
-        progress={progress}
-      />
       <ManageFilesContent
-        opened={!loadingState}
         segments={segments}
         categories={categories}
         activeCategoryId={activeCategoryId}
