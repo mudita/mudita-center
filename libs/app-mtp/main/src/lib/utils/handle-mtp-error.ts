@@ -3,25 +3,23 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  FailedResult,
-  Result,
-} from "../../../../core/core/builder/result.builder"
-import { AppError } from "../../../../core/core/errors/app-error"
+import { AppError, AppFailedResult, AppResultFactory } from "app-utils/models"
 import { MTPError } from "../app-mtp.interface"
 import { isAppError, isMessageInError } from "./is-app-error"
 
-export const handleMtpError = (error: unknown): FailedResult<void> => {
-  return Result.failed(mapToMtpError(error))
+export const handleMtpError = (error: unknown): AppFailedResult => {
+  return AppResultFactory.failed(mapToMtpError(error))
 }
 
 export const mapToMtpError = (error: unknown): AppError => {
   if (isAppError(error)) {
     return error
-  } else if (isMessageInError(error) && hasLibusbAccessError(error.message)) {
-    return new AppError(MTPError.MTP_INITIALIZE_ACCESS_ERROR)
   } else {
-    return new AppError(MTPError.MTP_GENERAL_ERROR)
+    if (isMessageInError(error) && hasLibusbAccessError(error.message)) {
+      return new AppError("", MTPError.MTP_INITIALIZE_ACCESS_ERROR)
+    } else {
+      return new AppError("", MTPError.MTP_GENERAL_ERROR)
+    }
   }
 }
 

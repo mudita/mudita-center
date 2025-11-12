@@ -5,6 +5,7 @@
 
 import path from "node:path"
 import fs from "node:fs"
+import { AppError, AppResult, AppResultFactory } from "app-utils/models"
 import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
   CancelTransferResultData,
@@ -19,11 +20,6 @@ import {
   TransferTransactionData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
-import {
-  Result,
-  ResultObject,
-} from "../../../../core/core/builder/result.builder"
-import { AppError } from "../../../../core/core/errors/app-error"
 import { handleMtpError, mapToMtpError } from "../utils/handle-mtp-error"
 import { StorageType } from "./utils/parse-storage-info"
 import { mtpUploadChunkSize } from "./mtp-packet-definitions"
@@ -43,9 +39,7 @@ export class NodeMtp implements MtpInterface {
     return this.deviceManager.getDevices()
   }
 
-  async getDeviceStorages(
-    deviceId: string
-  ): Promise<ResultObject<MtpStorage[]>> {
+  async getDeviceStorages(deviceId: string): Promise<AppResult<MtpStorage[]>> {
     try {
       const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
       const storageIds = await device.getStorageIds()
@@ -68,9 +62,8 @@ export class NodeMtp implements MtpInterface {
         storages.push(storage)
       }
 
-      return Result.success(storages)
+      return AppResultFactory.success(storages)
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} getting device storages error: ${error}`)
       return handleMtpError(error)
     }
@@ -78,7 +71,7 @@ export class NodeMtp implements MtpInterface {
 
   async uploadFile(
     data: MtpTransferFileData
-  ): Promise<ResultObject<TransferFileResultData>> {
+  ): Promise<AppResult<TransferFileResultData>> {
     const result = await this.processUploadFileInfo(data)
 
     if (!result.ok) {
@@ -87,59 +80,61 @@ export class NodeMtp implements MtpInterface {
 
     const transactionId = generateId()
     void this.processUploadFile(data, transactionId)
-    return Result.success({ transactionId })
+    return AppResultFactory.success({ transactionId })
   }
 
   async exportFile(
     data: MtpTransferFileData
-  ): Promise<ResultObject<TransferFileResultData>> {
+  ): Promise<AppResult<TransferFileResultData>> {
     const transactionId = generateId()
 
     void this.processExportFile(data, transactionId)
 
-    return Result.success({ transactionId })
+    return AppResultFactory.success({ transactionId })
   }
 
   async getTransferredFileProgress({
     transactionId,
   }: TransferTransactionData): Promise<
-    ResultObject<GetTransferFileProgressResultData>
+    AppResult<GetTransferFileProgressResultData>
   > {
     if (this.transferFileTransactionStatus[transactionId] === undefined) {
-      return Result.failed(new AppError(MTPError.MTP_TRANSACTION_NOT_FOUND))
+      return AppResultFactory.failed(
+        new AppError("", MTPError.MTP_TRANSACTION_NOT_FOUND)
+      )
     }
 
     if (this.transferFileTransactionStatus[transactionId].error) {
-      return Result.failed(
+      return AppResultFactory.failed(
         this.transferFileTransactionStatus[transactionId].error as AppError
       )
     }
 
-    return Result.success({
+    return AppResultFactory.success({
       progress: this.transferFileTransactionStatus[transactionId].progress,
     })
   }
 
   async cancelFileTransfer(
     data: TransferTransactionData
-  ): Promise<ResultObject<CancelTransferResultData>> {
+  ): Promise<AppResult<CancelTransferResultData>> {
     const transactionStatus =
       this.transferFileTransactionStatus[data.transactionId]
     this.abortController?.abort()
 
     if (transactionStatus === undefined) {
-      return Result.failed({
-        type: MTPError.MTP_TRANSACTION_NOT_FOUND,
-      } as AppError)
+      return AppResultFactory.failed(
+        new AppError("", MTPError.MTP_TRANSACTION_NOT_FOUND)
+      )
     } else if (transactionStatus.progress === 100) {
-      return Result.failed({
-        type: MTPError.MTP_CANCEL_FAILED_ALREADY_TRANSFERRED,
-      } as AppError)
+      return AppResultFactory.failed(
+        new AppError("", MTPError.MTP_CANCEL_FAILED_ALREADY_TRANSFERRED)
+      )
     } else {
       console.log(
         `${PREFIX_LOG} Canceling upload for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
       )
-      return Result.success({})
+      return AppResultFactory.success({})
     }
   }
 
@@ -205,13 +200,13 @@ export class NodeMtp implements MtpInterface {
     destinationPath,
     deviceId,
     storageId,
-  }: MtpTransferFileData): Promise<ResultObject<number>> {
+  }: MtpTransferFileData): Promise<AppResult<number>> {
     try {
       if (!fs.existsSync(sourcePath)) {
-        return Result.failed(
+        return AppResultFactory.failed(
           new AppError(
-            MTPError.MTP_SOURCE_PATH_NOT_FOUND,
-            "`sourcePath` not found. Please check the provided path in the request."
+            "`sourcePath` not found. Please check the provided path in the request.",
+            MTPError.MTP_SOURCE_PATH_NOT_FOUND
           )
         )
       }
@@ -245,7 +240,6 @@ export class NodeMtp implements MtpInterface {
         parentObjectHandle
       )
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} process upload file info error: ${error}`)
       return handleMtpError(error)
     }
@@ -274,9 +268,8 @@ export class NodeMtp implements MtpInterface {
           await device.cancelTransaction()
           this.transferFileTransactionStatus[transactionId].error =
             new AppError(
-              MTPError.MTP_PROCESS_CANCELLED,
-              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-              `Error uploading file in progress: ${this.transferFileTransactionStatus[transactionId].progress}% - ${MTPError.MTP_PROCESS_CANCELLED}`
+              `Error uploading file in progress: ${this.transferFileTransactionStatus[transactionId].progress}% - ${MTPError.MTP_PROCESS_CANCELLED}`,
+              MTPError.MTP_PROCESS_CANCELLED
             )
           return
         }
@@ -298,17 +291,15 @@ export class NodeMtp implements MtpInterface {
       )
       console.log(`${PREFIX_LOG} Upload speed: ${speedInMBps.toFixed(2)} MB/s`)
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} process upload file error: ${error}`)
 
       const mtpError = mapToMtpError(error)
       this.transferFileTransactionStatus[transactionId].error =
-        mtpError.type === MTPError.MTP_INITIALIZE_ACCESS_ERROR
+        mtpError.name === MTPError.MTP_INITIALIZE_ACCESS_ERROR
           ? mtpError
           : new AppError(
-              MTPError.MTP_GENERAL_ERROR,
-              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-              `Error uploading file at progress: ${this.transferFileTransactionStatus[transactionId].progress}% - ${error}`
+              `Error uploading file at progress: ${this.transferFileTransactionStatus[transactionId].progress}% - ${error}`,
+              MTPError.MTP_GENERAL_ERROR
             )
     }
   }
@@ -338,10 +329,10 @@ export class NodeMtp implements MtpInterface {
           fs.rmSync(outputPath)
           this.transferFileTransactionStatus[transactionId].error =
             new AppError(
-              MTPError.MTP_PROCESS_CANCELLED,
               `Export aborted at ${this.transferFileTransactionStatus[
                 transactionId
-              ].progress.toFixed(2)}%`
+              ].progress.toFixed(2)}%`,
+              MTPError.MTP_PROCESS_CANCELLED
             )
           return
         }
@@ -371,20 +362,18 @@ export class NodeMtp implements MtpInterface {
       )
       console.log(`${PREFIX_LOG} Export speed: ${speed.toFixed(2)} MB/s`)
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`${PREFIX_LOG} export file error: ${error}`)
       const mtpError = mapToMtpError(error)
       this.transferFileTransactionStatus[transactionId].error =
-        mtpError.type === MTPError.MTP_INITIALIZE_ACCESS_ERROR
+        mtpError.name === MTPError.MTP_INITIALIZE_ACCESS_ERROR
           ? mtpError
           : new AppError(
-              MTPError.MTP_GENERAL_ERROR,
               `Error during exporting file at progress ${
                 this.transferFileTransactionStatus[
                   transactionId
                 ]?.progress?.toFixed(2) ?? 0
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-              }%: ${error}`
+              }%: ${error}`,
+              MTPError.MTP_GENERAL_ERROR
             )
     }
   }
@@ -418,7 +407,7 @@ export class NodeMtp implements MtpInterface {
     name: string,
     objectFormat: ObjectFormatCode,
     parentObjectHandle: number
-  ): Promise<ResultObject<number>> {
+  ): Promise<AppResult<number>> {
     const device = await this.deviceManager.getNodeMtpDevice({ id: deviceId })
 
     try {
@@ -436,12 +425,12 @@ export class NodeMtp implements MtpInterface {
         )
       }
 
-      return Result.success(newObjectID)
+      return AppResultFactory.success(newObjectID)
     } catch (error) {
       const mtpError = mapToMtpError(error)
 
-      if (mtpError.type !== MTPError.MTP_GENERAL_ERROR) {
-        return Result.failed(mtpError)
+      if (mtpError.name !== MTPError.MTP_GENERAL_ERROR) {
+        return AppResultFactory.failed(mtpError)
       }
 
       const childObjectInfoList = await this.getChildObjectInfoList(
@@ -456,15 +445,15 @@ export class NodeMtp implements MtpInterface {
         console.log(
           `${PREFIX_LOG} File ${name} already exists in the destination path.`
         )
-        return Result.failed(
+        return AppResultFactory.failed(
           new AppError(
-            MTPError.MTP_FILE_EXISTS_ERROR,
-            `File ${name} already exists in the destination path.`
+            `File ${name} already exists in the destination path.`,
+            MTPError.MTP_FILE_EXISTS_ERROR
           )
         )
       }
 
-      return Result.failed(mtpError)
+      return AppResultFactory.failed(mtpError)
     }
   }
 }

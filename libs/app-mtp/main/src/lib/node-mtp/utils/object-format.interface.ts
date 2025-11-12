@@ -60,7 +60,6 @@ export enum ObjectFormatCode {
   BMP = 0x3804,
   PNG = 0x380b,
   GIF = 0x3807,
-  JPEG = 0x3801,
   JFIF = 0x3808,
   CD = 0x3809,
   PICT = 0x380a,

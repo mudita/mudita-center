@@ -17,7 +17,7 @@ const router: Router = Router()
 
 app.use(bodyParser.json())
 
-router.get("/get-devices", (req: Request, res: Response) => {
+router.get("/get-devices", (_req: Request, res: Response) => {
   appMtp.getDevices().then((devices) => {
     res.json(devices)
   })

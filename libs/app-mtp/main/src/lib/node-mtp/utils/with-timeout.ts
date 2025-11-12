@@ -13,7 +13,7 @@
 
 export const withTimeout = <T>(
   asyncFunction: Promise<T>,
-  timeoutMs: number = 5000,
+  timeoutMs = 5000,
   error: Error = new Error("Timeout exceeded")
 ): Promise<T> => {
   const timeout = new Promise<never>((_, reject) =>

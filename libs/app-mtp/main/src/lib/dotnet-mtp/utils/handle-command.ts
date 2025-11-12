@@ -9,7 +9,7 @@ import path from "path"
 import { MTPError } from "../../app-mtp.interface"
 
 const getExecPath = () => {
-  if (process.env["NODE_ENV"] === "production") {
+  if (process.env["NODE_ENV"] === "production" && process.resourcesPath) {
     return path.join(process.resourcesPath, "MtpFileTransfer.exe")
   } else {
     return path.join(

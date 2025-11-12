@@ -4,7 +4,7 @@
  */
 
 import { WebUSBDevice } from "usb"
-import { AppError } from "../../../../core/core/errors/app-error"
+import { AppError } from "app-utils/models"
 import { MTPError } from "../app-mtp.interface"
 import {
   buildContainerPacket,
@@ -40,7 +40,7 @@ export interface UploadFileInfoOptions {
 const PREFIX_LOG = `[app-mtp/node-mtp-device]`
 
 export class NodeMtpDevice {
-  public id: string = ""
+  public id = ""
   private packetSize = mtpUploadChunkSize
   private uploadTransactionId: number | null = null
   private transactionIdCounter = 0
@@ -215,11 +215,11 @@ export class NodeMtpDevice {
     const sendObjectInfoDataResponse = await this.read(transactionId)
 
     if (sendObjectInfoDataResponse.code === ContainerCode.StoreFull) {
-      throw new AppError(MTPError.MTP_NOT_ENOUGH_SPACE)
+      throw new AppError("", MTPError.MTP_NOT_ENOUGH_SPACE)
     } else if (sendObjectInfoDataResponse.code !== ContainerCode.StatusOk) {
       throw new AppError(
-        MTPError.MTP_GENERAL_ERROR,
-        `uploadFileInfo failed with code: ${sendObjectInfoDataResponse.code}`
+        `uploadFileInfo failed with code: ${sendObjectInfoDataResponse.code}`,
+        MTPError.MTP_GENERAL_ERROR
       )
     }
 
@@ -268,8 +268,8 @@ export class NodeMtpDevice {
 
     if (objectHandle === undefined) {
       throw new AppError(
-        MTPError.MTP_SOURCE_PATH_NOT_FOUND,
-        `There is no such element ${sourcePath}`
+        `There is no such element ${sourcePath}`,
+        MTPError.MTP_SOURCE_PATH_NOT_FOUND
       )
     }
 
@@ -308,8 +308,8 @@ export class NodeMtpDevice {
 
     if (statusResponse.code !== ContainerCode.StatusOk) {
       throw new AppError(
-        MTPError.MTP_GENERAL_ERROR,
-        `GetPartialObject failed at offset ${offset} with code: ${statusResponse.code}`
+        `GetPartialObject failed at offset ${offset} with code: ${statusResponse.code}`,
+        MTPError.MTP_GENERAL_ERROR
       )
     }
 
@@ -348,17 +348,43 @@ export class NodeMtpDevice {
     }
   }
 
+  async findObjectHandleFromPath(storageId: number, fullPath: string) {
+    const parts = fullPath.split("/").filter(Boolean)
+    let currentHandle = 0xffffffff
+    for (const part of parts) {
+      const children = await this.getObjectHandles(
+        currentHandle,
+        storageId,
+        undefined
+      )
+      let found = false
+      for (const handle of children) {
+        const info = await this.getObjectInfo(handle)
+        if (info.filename === part) {
+          currentHandle = handle
+          found = true
+          console.log(
+            `${PREFIX_LOG} current handle: ${handle} for path ${part}`
+          )
+          break
+        }
+      }
+      if (!found) return
+    }
+    return currentHandle
+  }
+
   private async transferOut(
     buffer: ArrayBuffer,
-    timeoutMs: number = 5000,
-    error = new AppError(MTPError.MTP_WRITE_TIMEOUT)
+    timeoutMs = 5000,
+    error = new AppError("", MTPError.MTP_WRITE_TIMEOUT)
   ): ReturnType<WebUSBDevice["transferOut"]> {
     return withTimeout(this.device.transferOut(0x01, buffer), timeoutMs, error)
   }
 
   private async transferIn(
-    timeoutMs: number = 5000,
-    error = new AppError(MTPError.MTP_READ_TIMEOUT)
+    timeoutMs = 5000,
+    error = new AppError("", MTPError.MTP_READ_TIMEOUT)
   ): ReturnType<WebUSBDevice["transferIn"]> {
     return withTimeout(
       this.device.transferIn(0x01, this.packetSize),
@@ -426,7 +452,7 @@ export class NodeMtpDevice {
   private async read(
     transactionId: number,
     type: ContainerTypeCode = ContainerTypeCode.Response,
-    maxAttempts: number = 10
+    maxAttempts = 10
   ): Promise<ResponseContainerPacket> {
     let attempts = 0
 
@@ -452,7 +478,7 @@ export class NodeMtpDevice {
       )
     }
 
-    throw new AppError(MTPError.MTP_READ_FAILURE)
+    throw new AppError("", MTPError.MTP_READ_FAILURE)
   }
 
   private async openDevice(): Promise<void> {
@@ -470,16 +496,16 @@ export class NodeMtpDevice {
     const mtpInterface = this.device.configurations[
       configurationIndex
     ].interfaces.find(
-      // @ts-ignore
-      ({ alternate }) => alternate.interfaceClass === interfaceClass
+      (mtpInterface: { alternate?: { interfaceClass?: number } }) =>
+        mtpInterface?.alternate?.interfaceClass === interfaceClass
     )
 
     if (mtpInterface) {
       await this.device.claimInterface(mtpInterface.interfaceNumber)
     } else {
       throw new AppError(
-        MTPError.MTP_INITIALIZE_ACCESS_ERROR,
-        "MTP interface not found"
+        "MTP interface not found",
+        MTPError.MTP_INITIALIZE_ACCESS_ERROR
       )
     }
 
@@ -513,36 +539,10 @@ export class NodeMtpDevice {
     } else {
       console.log(`${PREFIX_LOG} openSession failed`)
       throw new AppError(
-        MTPError.MTP_INITIALIZE_ACCESS_ERROR,
-        "Failed to open session"
+        "Failed to open session",
+        MTPError.MTP_INITIALIZE_ACCESS_ERROR
       )
     }
-  }
-
-  async findObjectHandleFromPath(storageId: number, fullPath: string) {
-    const parts = fullPath.split("/").filter(Boolean)
-    let currentHandle = 0xffffffff
-    for (const part of parts) {
-      const children = await this.getObjectHandles(
-        currentHandle,
-        storageId,
-        undefined
-      )
-      let found = false
-      for (const handle of children) {
-        const info = await this.getObjectInfo(handle)
-        if (info.filename === part) {
-          currentHandle = handle
-          found = true
-          console.log(
-            `${PREFIX_LOG} current handle: ${handle} for path ${part}`
-          )
-          break
-        }
-      }
-      if (!found) return
-    }
-    return currentHandle
   }
 
   private getTransactionId(): number {
