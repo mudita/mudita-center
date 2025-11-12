@@ -22,6 +22,7 @@
       "app-init/ui": ["libs/app-init/ui/src/index.ts"],
       "app-localize/feature": ["libs/app-localize/feature/src/index.ts"],
       "app-localize/utils": ["libs/app-localize/utils/src/index.ts"],
+      "app-mtp/main": ["libs/app-mtp/main/src/index.ts"],
       "app-routing/feature": ["libs/app-routing/feature/src/index.ts"],
       "app-routing/models": ["libs/app-routing/models/src/index.ts"],
       "app-routing/routes": ["libs/app-routing/routes/src/index.ts"],
