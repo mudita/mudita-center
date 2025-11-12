@@ -54,7 +54,6 @@ const makeParams = (
     },
   ],
   transferMode: TransferMode.Mtp,
-  autoSwitchMTPTransferModeEnabled: false,
   autoSwitchMTPMax: 0,
   abortController: new AbortController(),
   onProgress: undefined,
@@ -163,7 +162,7 @@ describe("transferFiles - core contract", () => {
   })
 })
 
-describe("transferFiles - mode handling with autoSwitch disabled", () => {
+describe("transferFiles - mode handling (auto-switch always enabled)", () => {
   beforeEach(() => {
     jest.resetAllMocks()
   })
@@ -202,7 +201,7 @@ describe("transferFiles - mode handling with autoSwitch disabled", () => {
     expect(mtpUploadFiles).not.toHaveBeenCalled()
   })
 
-  test("MTP mode: on TransferSwitch → falls back to Serial and succeeds (no error, calls onModeChange once)", async () => {
+  test("MTP start: on MtpInitializeAccessError → switches to Serial and succeeds (calls onModeChange once)", async () => {
     ;(mtpUploadFiles as jest.Mock).mockResolvedValue(
       AppResultFactory.failed(
         new AppError(
@@ -237,7 +236,6 @@ describe("transferFiles - mode handling with autoSwitch disabled", () => {
     const params = makeParams({
       transferMode: TransferMode.Mtp,
       action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: false,
       onModeChange,
     })
 
@@ -252,7 +250,7 @@ describe("transferFiles - mode handling with autoSwitch disabled", () => {
     expect(onModeChange).toHaveBeenCalledWith(TransferMode.Serial)
   })
 
-  test("after TransferSwitch retries only with items that failed with Switch (narrowed subset)", async () => {
+  test("MTP start: after MtpInitializeAccessError retries only items that failed with that error (narrowed subset)", async () => {
     ;(mtpUploadFiles as jest.Mock)
       .mockResolvedValueOnce(
         AppResultFactory.failed(
@@ -287,7 +285,6 @@ describe("transferFiles - mode handling with autoSwitch disabled", () => {
     const params = makeParams({
       transferMode: TransferMode.Mtp,
       action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: false,
       onModeChange,
     })
 
@@ -309,14 +306,8 @@ describe("transferFiles - mode handling with autoSwitch disabled", () => {
     expect(onModeChange).toHaveBeenCalledTimes(1)
     expect(onModeChange).toHaveBeenCalledWith(TransferMode.Serial)
   })
-})
 
-describe("transferFiles - autoSwitch enabled", () => {
-  beforeEach(() => {
-    jest.resetAllMocks()
-  })
-
-  test("when autoSwitchMTPTransferModeEnabled=true and start in Serial → on TransferSwitch flips to MTP and succeeds", async () => {
+  test("Serial start: on Aborted → switches to MTP and succeeds", async () => {
     ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
       AppResultFactory.failed(
         new AppError("", FailedTransferErrorName.Aborted),
@@ -342,7 +333,6 @@ describe("transferFiles - autoSwitch enabled", () => {
     const params = makeParams({
       transferMode: TransferMode.Serial,
       action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: true,
       autoSwitchMTPMax: 1,
       onModeChange,
     })
@@ -353,12 +343,11 @@ describe("transferFiles - autoSwitch enabled", () => {
     expect(result.data).toEqual({})
     expect(serialUploadFiles).toHaveBeenCalledTimes(1)
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
-
     expect(onModeChange).toHaveBeenCalledTimes(1)
     expect(onModeChange).toHaveBeenCalledWith(TransferMode.Mtp)
   })
 
-  test("decrements autoSwitchMTPMax after each Serial → MTP flip", async () => {
+  test("auto-switch limit: flips are counted and capped by autoSwitchMTPMax (Serial→MTP→Serial→MTP)", async () => {
     ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
       AppResultFactory.failed(
         new AppError("", FailedTransferErrorName.Aborted),
@@ -405,7 +394,6 @@ describe("transferFiles - autoSwitch enabled", () => {
     const params = makeParams({
       transferMode: TransferMode.Serial,
       action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: true,
       autoSwitchMTPMax: 2,
       onModeChange,
     })
@@ -429,7 +417,7 @@ describe("transferFiles - autoSwitch enabled", () => {
     expect(onModeChange).toHaveBeenNthCalledWith(3, TransferMode.Mtp)
   })
 
-  test("when autoSwitchMTPMax is reached → stays in Serial on next TransferSwitch (no further flips)", async () => {
+  test("auto-switch limit reached: stays in current mode after cap and succeeds", async () => {
     ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
       AppResultFactory.failed(
         new AppError("", FailedTransferErrorName.Aborted),
@@ -476,7 +464,6 @@ describe("transferFiles - autoSwitch enabled", () => {
     const params = makeParams({
       transferMode: TransferMode.Serial,
       action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: true,
       autoSwitchMTPMax: 1,
       onModeChange,
     })
@@ -490,16 +477,14 @@ describe("transferFiles - autoSwitch enabled", () => {
 
     expect(result.ok).toBe(true)
     expect(result.data).toEqual({})
-
     expect(serialUploadFiles).toHaveBeenCalledTimes(3)
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
-
     expect(onModeChange).toHaveBeenCalledTimes(2)
     expect(onModeChange).toHaveBeenNthCalledWith(1, TransferMode.Mtp)
     expect(onModeChange).toHaveBeenNthCalledWith(2, TransferMode.Serial)
   })
 
-  test("MTP mode: on TransferSwitch → falls back to Serial (does not decrement autoSwitchMTPMax)", async () => {
+  test("initial MTP start is not counted as a flip (limit unaffected on first run)", async () => {
     ;(mtpUploadFiles as jest.Mock).mockResolvedValueOnce(
       AppResultFactory.failed(
         new AppError(
@@ -535,7 +520,6 @@ describe("transferFiles - autoSwitch enabled", () => {
     const params = makeParams({
       transferMode: TransferMode.Mtp,
       action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: true,
       autoSwitchMTPMax: 1,
       onModeChange,
     })
@@ -558,163 +542,7 @@ describe("transferFiles - autoSwitch enabled", () => {
     expect(onModeChange).toHaveBeenNthCalledWith(2, TransferMode.Mtp)
   })
 
-  test("supports multiple alternating flips Serial→MTP→Serial→MTP until autoSwitchMTPMax limit is reached", async () => {
-    ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.failed(
-        new AppError("", FailedTransferErrorName.Aborted),
-        {
-          failed: [
-            { id: "/a.txt", errorName: FailedTransferErrorName.Aborted },
-            { id: "/b.txt", errorName: FailedTransferErrorName.Aborted },
-          ],
-        }
-      )
-    )
-    ;(mtpUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.failed(
-        new AppError(
-          "",
-          ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
-        ),
-        {
-          failed: [
-            {
-              id: "/a.txt",
-              errorName: ApiDeviceMTPTransferErrorName.MtpInitializeAccessError,
-            },
-          ],
-        }
-      )
-    )
-    ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.failed(
-        new AppError("", FailedTransferErrorName.Aborted),
-        {
-          failed: [
-            { id: "/a.txt", errorName: FailedTransferErrorName.Aborted },
-          ],
-        }
-      )
-    )
-    ;(mtpUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.failed(
-        new AppError(
-          "",
-          ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
-        ),
-        {
-          failed: [
-            {
-              id: "/a.txt",
-              errorName: ApiDeviceMTPTransferErrorName.MtpInitializeAccessError,
-            },
-          ],
-        }
-      )
-    )
-    ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.success({})
-    )
-
-    const onModeChange = jest.fn()
-
-    const params = makeParams({
-      transferMode: TransferMode.Serial,
-      action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: true,
-      autoSwitchMTPMax: 2,
-      onModeChange,
-    })
-
-    const watcherFactory = ({ onReconnect }: { onReconnect: () => void }) => ({
-      start: () => onReconnect(),
-      stop: jest.fn(),
-    })
-
-    const result = await transferFiles(params, watcherFactory)
-
-    expect(result.ok).toBe(true)
-    expect(result.data).toEqual({})
-
-    expect(serialUploadFiles).toHaveBeenCalledTimes(3)
-    expect(mtpUploadFiles).toHaveBeenCalledTimes(2)
-
-    expect(onModeChange).toHaveBeenCalledTimes(4)
-    expect(onModeChange).toHaveBeenNthCalledWith(1, TransferMode.Mtp)
-    expect(onModeChange).toHaveBeenNthCalledWith(2, TransferMode.Serial)
-    expect(onModeChange).toHaveBeenNthCalledWith(3, TransferMode.Mtp)
-    expect(onModeChange).toHaveBeenNthCalledWith(4, TransferMode.Serial)
-
-    const lastSerialArgs = (serialUploadFiles as jest.Mock).mock.calls.at(
-      -1
-    )?.[0]
-    expect(lastSerialArgs.files).toEqual([
-      {
-        id: "/a.txt",
-        source: { path: "/a.txt", type: "path" },
-        target: { path: "/dev/a.txt", type: "path" },
-      },
-    ])
-  })
-
-  test("does not treat initial MTP start as a counted flip (limit unaffected on first run)", async () => {
-    ;(mtpUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.failed(
-        new AppError(
-          "",
-          ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
-        ),
-        {
-          failed: [
-            {
-              id: "/a.txt",
-              errorName: ApiDeviceMTPTransferErrorName.MtpInitializeAccessError,
-            },
-          ],
-        }
-      )
-    )
-    ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.failed(
-        new AppError("", FailedTransferErrorName.Aborted),
-        {
-          failed: [
-            { id: "/a.txt", errorName: FailedTransferErrorName.Aborted },
-          ],
-        }
-      )
-    )
-    ;(mtpUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.success({})
-    )
-
-    const onModeChange = jest.fn()
-
-    const params = makeParams({
-      transferMode: TransferMode.Mtp,
-      action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: true,
-      autoSwitchMTPMax: 1,
-      onModeChange,
-    })
-
-    const watcherFactory = ({ onReconnect }: { onReconnect: () => void }) => ({
-      start: () => onReconnect(),
-      stop: jest.fn(),
-    })
-
-    const result = await transferFiles(params, watcherFactory)
-
-    expect(result.ok).toBe(true)
-    expect(mtpUploadFiles).toHaveBeenCalledTimes(2)
-    expect(serialUploadFiles).toHaveBeenCalledTimes(1)
-
-    expect(onModeChange).toHaveBeenCalledTimes(2)
-    expect(onModeChange).toHaveBeenNthCalledWith(1, TransferMode.Serial)
-    expect(onModeChange).toHaveBeenNthCalledWith(2, TransferMode.Mtp)
-  })
-
-  test("after TransferSwitch retries only with items that failed with Switch (narrowed subset)", async () => {
+  test("Serial start: retries only items that failed with Aborted when switching to MTP (narrowed subset)", async () => {
     ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
       AppResultFactory.failed(
         new AppError("", FailedTransferErrorName.Aborted),
@@ -733,7 +561,6 @@ describe("transferFiles - autoSwitch enabled", () => {
     const params = makeParams({
       transferMode: TransferMode.Serial,
       action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: true,
       autoSwitchMTPMax: 1,
     })
 
@@ -755,18 +582,7 @@ describe("transferFiles - autoSwitch enabled", () => {
     ])
   })
 
-  test("onModeChange is called exactly once per mode change with the correct next mode", async () => {
-    ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.failed(
-        new AppError("", FailedTransferErrorName.Aborted),
-        {
-          failed: [
-            { id: "/a.txt", errorName: FailedTransferErrorName.Aborted },
-            { id: "/b.txt", errorName: FailedTransferErrorName.Aborted },
-          ],
-        }
-      )
-    )
+  test("initialize error without switchable failures → returns Unknown and skips retry", async () => {
     ;(mtpUploadFiles as jest.Mock).mockResolvedValueOnce(
       AppResultFactory.failed(
         new AppError(
@@ -775,66 +591,16 @@ describe("transferFiles - autoSwitch enabled", () => {
         ),
         {
           failed: [
-            {
-              id: "/a.txt",
-              errorName: ApiDeviceMTPTransferErrorName.MtpInitializeAccessError,
-            },
-          ],
-        }
-      )
-    )
-    ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.success({})
-    )
-
-    const onModeChange = jest.fn()
-
-    const params = makeParams({
-      transferMode: TransferMode.Serial,
-      action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: true,
-      autoSwitchMTPMax: 1,
-      onModeChange,
-    })
-
-    const watcherFactory = ({ onReconnect }: { onReconnect: () => void }) => ({
-      start: () => onReconnect(),
-      stop: jest.fn(),
-    })
-
-    const result = await transferFiles(params, watcherFactory)
-
-    expect(result.ok).toBe(true)
-
-    expect(onModeChange).toHaveBeenCalledTimes(2)
-    expect(onModeChange).toHaveBeenNthCalledWith(1, TransferMode.Mtp)
-    expect(onModeChange).toHaveBeenNthCalledWith(2, TransferMode.Serial)
-  })
-
-  test("autoSwitch enabled: initialize error without switchable failures → returns Unknown and skips retry", async () => {
-    ;(mtpUploadFiles as jest.Mock).mockResolvedValueOnce(
-      AppResultFactory.failed(
-        new AppError(
-          "",
-          ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
-        ),
-        {
-          failed: [
-            {
-              id: "/a.txt",
-              errorName: FailedTransferErrorName.Unknown,
-            },
+            { id: "/a.txt", errorName: FailedTransferErrorName.Unknown },
           ],
         }
       )
     )
 
     const onModeChange = jest.fn()
-
     const params = makeParams({
       transferMode: TransferMode.Mtp,
       action: TransferFilesActionType.Upload,
-      autoSwitchMTPTransferModeEnabled: true,
       autoSwitchMTPMax: 1,
       onModeChange,
     })
@@ -1044,7 +810,6 @@ describe("transferFiles - progress reporting", () => {
       makeParams({
         onProgress: userOnProgress,
         transferMode: TransferMode.Mtp,
-        autoSwitchMTPTransferModeEnabled: false,
       }),
       watcherFactory
     )

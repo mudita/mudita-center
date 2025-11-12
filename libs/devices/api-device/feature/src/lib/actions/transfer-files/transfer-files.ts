@@ -23,8 +23,6 @@ export const transferFiles = async (
   mtpWatcherFactory: MtpWatcherFactory = createMtpWatcher
 ): Promise<ExecuteTransferResult> => {
   const transferMode = params.transferMode ?? TransferMode.Mtp
-  const autoSwitchMTPTransferModeEnabled =
-    params.autoSwitchMTPTransferModeEnabled ?? true
   const autoSwitchMTPMax = Math.max(0, params.autoSwitchMTPMax ?? 1)
 
   const { reportProgress, finalizeProgress } = createTransferProgressTracker({
@@ -43,7 +41,7 @@ export const transferFiles = async (
     },
   })
 
-  if (mode === TransferMode.Serial && autoSwitchMTPTransferModeEnabled) {
+  if (mode === TransferMode.Serial) {
     mtpWatcher.start()
   }
 
@@ -90,7 +88,6 @@ export const transferFiles = async (
         const { nextMode, mtpEntries: nextMtpEntries } = chooseNextMode(
           mode,
           mtpEntries,
-          autoSwitchMTPTransferModeEnabled,
           autoSwitchMTPMax
         )
 
@@ -159,13 +156,8 @@ function narrowToAbortedFailures(
 function chooseNextMode(
   currentMode: TransferMode,
   mtpEntries: number,
-  autoSwitchEnabled: boolean,
   autoSwitchMTPMax: number
 ): { nextMode: TransferMode; mtpEntries: number } {
-  if (!autoSwitchEnabled) {
-    return { nextMode: TransferMode.Serial, mtpEntries }
-  }
-
   if (currentMode === TransferMode.Mtp) {
     return { nextMode: TransferMode.Serial, mtpEntries }
   }

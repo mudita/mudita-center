@@ -82,7 +82,6 @@ export interface TransferFilesParams<DeviceType = ApiDevice | Harmony> {
   files: TransferFileEntry[]
 
   transferMode?: TransferMode
-  autoSwitchMTPTransferModeEnabled?: boolean
   autoSwitchMTPMax?: number
 
   onModeChange?: (mode: TransferMode) => void

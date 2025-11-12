@@ -110,7 +110,6 @@ export const DeviceManageFilesScreen: FunctionComponent<{
       })),
       action: params.actionType,
       transferMode: TransferMode.Serial,
-      autoSwitchMTPTransferModeEnabled: false,
       onProgress: ({ progress, ...transferFilesProgress }) => {
         lastTransferProgress = progress
         return params.onProgress?.({
