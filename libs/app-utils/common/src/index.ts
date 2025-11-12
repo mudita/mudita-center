@@ -6,4 +6,5 @@
 export * from "./delay"
 export * from "./delay-until-at-least"
 export * from "./delay-until"
+export * from "./map-to-core-usb-id"
 export * from "./progress-tracker"

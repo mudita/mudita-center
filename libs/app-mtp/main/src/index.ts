@@ -4,4 +4,5 @@
  */
 
 export * from "./lib/app-mtp"
-export * from "./lib/app-mtp.interface"
+export * from "./lib/app-mtp.preload"
+export * from "./lib/init-app-mtp"
