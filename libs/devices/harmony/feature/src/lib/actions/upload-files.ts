@@ -92,7 +92,6 @@ export const uploadFiles = async ({
     const fileChunksCount = Math.ceil(file.fileSize / chunkSize)
     let uploadedWithinFile = 0
 
-    // for (let i = 0; i < chunksCount; i++) {
     for (let chunkNumber = 0; chunkNumber < fileChunksCount; chunkNumber++) {
       if (abortController.signal.aborted) {
         failed.push({
