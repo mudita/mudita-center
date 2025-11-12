@@ -18,14 +18,14 @@ import { serialDownloadFiles } from "../serial-download-files/serial-download-fi
 import { mtpUploadFiles } from "../mtp-upload-files/mtp-upload-files"
 import { mtpDownloadFiles } from "../mtp-download-files/mtp-download-files"
 
-export async function executeTransferFilesOnce(
+export async function executeTransfer(
   params: TransferFilesParams<ApiDevice>,
   transferMode: TransferMode,
   files: TransferFileEntry[],
   onProgress: (p: TransferProgress) => void
 ) {
-  const exec = getExecuteTransfer(transferMode, params.action)
-  return exec({
+  const executeTransferFn = getExecuteTransfer(transferMode, params.action)
+  return executeTransferFn({
     ...params,
     files,
     transferMode,

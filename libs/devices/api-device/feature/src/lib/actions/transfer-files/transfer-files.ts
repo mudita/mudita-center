@@ -14,7 +14,7 @@ import {
   TransferMode,
 } from "devices/common/models"
 import { createTransferProgressTracker } from "./create-transfer-files-progress"
-import { executeTransferFilesOnce } from "./execute-transfer-files-once"
+import { executeTransfer } from "./execute-transfer"
 import { createMtpWatcher, MtpWatcherFactory } from "./mtp-watcher"
 import { ApiDeviceMTPTransferErrorName } from "./transfer-files.types"
 
@@ -49,7 +49,7 @@ export const transferFiles = async (
 
   try {
     while (true) {
-      const result = await executeTransferFilesOnce(
+      const result = await executeTransfer(
         params,
         mode,
         currentFiles,
