@@ -11,53 +11,143 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["ES2021", "dom"],
+    "lib": [
+      "ES2021",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "app-init/feature": ["libs/app-init/feature/src/index.ts"],
-      "app-init/main": ["libs/app-init/main/src/index.ts"],
-      "app-init/models": ["libs/app-init/models/src/index.ts"],
-      "app-init/ui": ["libs/app-init/ui/src/index.ts"],
-      "app-localize/feature": ["libs/app-localize/feature/src/index.ts"],
-      "app-localize/utils": ["libs/app-localize/utils/src/index.ts"],
-      "app-mtp/main": ["libs/app-mtp/main/src/index.ts"],
-      "app-routing/feature": ["libs/app-routing/feature/src/index.ts"],
-      "app-routing/models": ["libs/app-routing/models/src/index.ts"],
-      "app-routing/routes": ["libs/app-routing/routes/src/index.ts"],
-      "app-routing/utils": ["libs/app-routing/utils/src/index.ts"],
-      "app-serialport/devices": ["libs/app-serialport/devices/src/index.ts"],
-      "app-serialport/main": ["libs/app-serialport/main/src/index.ts"],
-      "app-serialport/models": ["libs/app-serialport/models/src/index.ts"],
-      "app-serialport/renderer": ["libs/app-serialport/renderer/src/index.ts"],
-      "app-serialport/utils": ["libs/app-serialport/utils/src/index.ts"],
-      "app-settings/main": ["libs/app-settings/main/src/index.ts"],
-      "app-settings/models": ["libs/app-settings/models/src/index.ts"],
-      "app-settings/renderer": ["libs/app-settings/renderer/src/index.ts"],
-      "app-sql/main": ["libs/app-sql/main/src/index.ts"],
-      "app-sql/models": ["libs/app-sql/models/src/index.ts"],
-      "app-sql/renderer": ["libs/app-sql/renderer/src/index.ts"],
-      "app-store-types": ["libs/app-store/feature/src/lib/app-store.types.ts"],
-      "app-store/feature": ["libs/app-store/feature/src/index.ts"],
-      "app-store/models": ["libs/app-store/models/src/index.ts"],
-      "app-store/utils": ["libs/app-store/utils/src/index.ts"],
-      "app-theme/feature": ["libs/app-theme/feature/src/index.ts"],
-      "app-theme/models": ["libs/app-theme/models/src/index.ts"],
-      "app-theme/ui": ["libs/app-theme/ui/src/index.ts"],
-      "app-theme/utils": ["libs/app-theme/utils/src/index.ts"],
-      "app-updater/feature": ["libs/app-updater/feature/src/index.ts"],
-      "app-updater/main": ["libs/app-updater/main/src/index.ts"],
-      "app-updater/models": ["libs/app-updater/models/src/index.ts"],
-      "app-updater/renderer": ["libs/app-updater/renderer/src/index.ts"],
-      "app-updater/ui": ["libs/app-updater/ui/src/index.ts"],
-      "app-utils/common": ["libs/app-utils/common/src/index.ts"],
-      "app-utils/main": ["libs/app-utils/main/src/index.ts"],
-      "app-utils/models": ["libs/app-utils/models/src/index.ts"],
-      "app-utils/renderer": ["libs/app-utils/renderer/src/index.ts"],
-      "contact-support/feature": ["libs/contact-support/feature/src/index.ts"],
-      "contact-support/models": ["libs/contact-support/models/src/index.ts"],
-      "contact-support/ui": ["libs/contact-support/ui/src/index.ts"],
+      "app-init/feature": [
+        "libs/app-init/feature/src/index.ts"
+      ],
+      "app-init/main": [
+        "libs/app-init/main/src/index.ts"
+      ],
+      "app-init/models": [
+        "libs/app-init/models/src/index.ts"
+      ],
+      "app-init/ui": [
+        "libs/app-init/ui/src/index.ts"
+      ],
+      "app-localize/feature": [
+        "libs/app-localize/feature/src/index.ts"
+      ],
+      "app-localize/utils": [
+        "libs/app-localize/utils/src/index.ts"
+      ],
+      "app-mtp/main": [
+        "libs/app-mtp/main/src/index.ts"
+      ],
+      "app-mtp/models": [
+        "libs/app-mtp/models/src/index.ts"
+      ],
+      "app-routing/feature": [
+        "libs/app-routing/feature/src/index.ts"
+      ],
+      "app-routing/models": [
+        "libs/app-routing/models/src/index.ts"
+      ],
+      "app-routing/routes": [
+        "libs/app-routing/routes/src/index.ts"
+      ],
+      "app-routing/utils": [
+        "libs/app-routing/utils/src/index.ts"
+      ],
+      "app-serialport/devices": [
+        "libs/app-serialport/devices/src/index.ts"
+      ],
+      "app-serialport/main": [
+        "libs/app-serialport/main/src/index.ts"
+      ],
+      "app-serialport/models": [
+        "libs/app-serialport/models/src/index.ts"
+      ],
+      "app-serialport/renderer": [
+        "libs/app-serialport/renderer/src/index.ts"
+      ],
+      "app-serialport/utils": [
+        "libs/app-serialport/utils/src/index.ts"
+      ],
+      "app-settings/main": [
+        "libs/app-settings/main/src/index.ts"
+      ],
+      "app-settings/models": [
+        "libs/app-settings/models/src/index.ts"
+      ],
+      "app-settings/renderer": [
+        "libs/app-settings/renderer/src/index.ts"
+      ],
+      "app-sql/main": [
+        "libs/app-sql/main/src/index.ts"
+      ],
+      "app-sql/models": [
+        "libs/app-sql/models/src/index.ts"
+      ],
+      "app-sql/renderer": [
+        "libs/app-sql/renderer/src/index.ts"
+      ],
+      "app-store-types": [
+        "libs/app-store/feature/src/lib/app-store.types.ts"
+      ],
+      "app-store/feature": [
+        "libs/app-store/feature/src/index.ts"
+      ],
+      "app-store/models": [
+        "libs/app-store/models/src/index.ts"
+      ],
+      "app-store/utils": [
+        "libs/app-store/utils/src/index.ts"
+      ],
+      "app-theme/feature": [
+        "libs/app-theme/feature/src/index.ts"
+      ],
+      "app-theme/models": [
+        "libs/app-theme/models/src/index.ts"
+      ],
+      "app-theme/ui": [
+        "libs/app-theme/ui/src/index.ts"
+      ],
+      "app-theme/utils": [
+        "libs/app-theme/utils/src/index.ts"
+      ],
+      "app-updater/feature": [
+        "libs/app-updater/feature/src/index.ts"
+      ],
+      "app-updater/main": [
+        "libs/app-updater/main/src/index.ts"
+      ],
+      "app-updater/models": [
+        "libs/app-updater/models/src/index.ts"
+      ],
+      "app-updater/renderer": [
+        "libs/app-updater/renderer/src/index.ts"
+      ],
+      "app-updater/ui": [
+        "libs/app-updater/ui/src/index.ts"
+      ],
+      "app-utils/common": [
+        "libs/app-utils/common/src/index.ts"
+      ],
+      "app-utils/main": [
+        "libs/app-utils/main/src/index.ts"
+      ],
+      "app-utils/models": [
+        "libs/app-utils/models/src/index.ts"
+      ],
+      "app-utils/renderer": [
+        "libs/app-utils/renderer/src/index.ts"
+      ],
+      "contact-support/feature": [
+        "libs/contact-support/feature/src/index.ts"
+      ],
+      "contact-support/models": [
+        "libs/contact-support/models/src/index.ts"
+      ],
+      "contact-support/ui": [
+        "libs/contact-support/ui/src/index.ts"
+      ],
       "devices/api-device/adapters": [
         "libs/devices/api-device/adapters/src/index.ts"
       ],
@@ -70,11 +160,21 @@
       "devices/api-device/routes": [
         "libs/devices/api-device/routes/src/index.ts"
       ],
-      "devices/api-device/ui": ["libs/devices/api-device/ui/src/index.ts"],
-      "devices/common/feature": ["libs/devices/common/feature/src/index.ts"],
-      "devices/common/models": ["libs/devices/common/models/src/index.ts"],
-      "devices/common/routes": ["libs/devices/common/routes/src/index.ts"],
-      "devices/common/ui": ["libs/devices/common/ui/src/index.ts"],
+      "devices/api-device/ui": [
+        "libs/devices/api-device/ui/src/index.ts"
+      ],
+      "devices/common/feature": [
+        "libs/devices/common/feature/src/index.ts"
+      ],
+      "devices/common/models": [
+        "libs/devices/common/models/src/index.ts"
+      ],
+      "devices/common/routes": [
+        "libs/devices/common/routes/src/index.ts"
+      ],
+      "devices/common/ui": [
+        "libs/devices/common/ui/src/index.ts"
+      ],
       "devices/harmony-msc/adapters": [
         "libs/devices/harmony-msc/adapters/src/index.ts"
       ],
@@ -90,35 +190,96 @@
       "devices/harmony/adapters": [
         "libs/devices/harmony/adapters/src/index.ts"
       ],
-      "devices/harmony/feature": ["libs/devices/harmony/feature/src/index.ts"],
-      "devices/harmony/models": ["libs/devices/harmony/models/src/index.ts"],
-      "devices/harmony/routes": ["libs/devices/harmony/routes/src/index.ts"],
-      "devices/harmony/ui": ["libs/devices/harmony/ui/src/index.ts"],
-      "devices/pure/adapters": ["libs/devices/pure/adapters/src/index.ts"],
-      "devices/pure/feature": ["libs/devices/pure/feature/src/index.ts"],
-      "devices/pure/models": ["libs/devices/pure/models/src/index.ts"],
-      "devices/pure/routes": ["libs/devices/pure/routes/src/index.ts"],
-      "e2e-mock/client": ["libs/e2e-mock/client/src/index.ts"],
-      "e2e-mock/models": ["libs/e2e-mock/models/src/index.ts"],
-      "e2e-mock/server": ["libs/e2e-mock/server/src/index.ts"],
-      "help/feature": ["libs/help/feature/src/index.ts"],
-      "help/main": ["libs/help/main/src/index.ts"],
-      "help/models": ["libs/help/models/src/index.ts"],
-      "help/routes": ["libs/help/routes/src/index.ts"],
-      "help/ui": ["libs/help/ui/src/index.ts"],
-      "help/utils": ["libs/help/utils/src/index.ts"],
-      "news/feature": ["libs/news/feature/src/index.ts"],
-      "news/main": ["libs/news/main/src/index.ts"],
-      "news/models": ["libs/news/models/src/index.ts"],
-      "news/routes": ["libs/news/routes/src/index.ts"],
-      "news/ui": ["libs/news/ui/src/index.ts"],
-      "news/utils": ["libs/news/utils/src/index.ts"],
-      "settings/feature": ["libs/settings/feature/src/index.ts"],
-      "settings/models": ["libs/settings/models/src/index.ts"],
-      "settings/routes": ["libs/settings/routes/src/index.ts"],
-      "settings/ui": ["libs/settings/ui/src/index.ts"],
-      "types-preload": ["apps/app/src/preload/api.d.ts"]
+      "devices/harmony/feature": [
+        "libs/devices/harmony/feature/src/index.ts"
+      ],
+      "devices/harmony/models": [
+        "libs/devices/harmony/models/src/index.ts"
+      ],
+      "devices/harmony/routes": [
+        "libs/devices/harmony/routes/src/index.ts"
+      ],
+      "devices/harmony/ui": [
+        "libs/devices/harmony/ui/src/index.ts"
+      ],
+      "devices/pure/adapters": [
+        "libs/devices/pure/adapters/src/index.ts"
+      ],
+      "devices/pure/feature": [
+        "libs/devices/pure/feature/src/index.ts"
+      ],
+      "devices/pure/models": [
+        "libs/devices/pure/models/src/index.ts"
+      ],
+      "devices/pure/routes": [
+        "libs/devices/pure/routes/src/index.ts"
+      ],
+      "e2e-mock/client": [
+        "libs/e2e-mock/client/src/index.ts"
+      ],
+      "e2e-mock/models": [
+        "libs/e2e-mock/models/src/index.ts"
+      ],
+      "e2e-mock/server": [
+        "libs/e2e-mock/server/src/index.ts"
+      ],
+      "help/feature": [
+        "libs/help/feature/src/index.ts"
+      ],
+      "help/main": [
+        "libs/help/main/src/index.ts"
+      ],
+      "help/models": [
+        "libs/help/models/src/index.ts"
+      ],
+      "help/routes": [
+        "libs/help/routes/src/index.ts"
+      ],
+      "help/ui": [
+        "libs/help/ui/src/index.ts"
+      ],
+      "help/utils": [
+        "libs/help/utils/src/index.ts"
+      ],
+      "news/feature": [
+        "libs/news/feature/src/index.ts"
+      ],
+      "news/main": [
+        "libs/news/main/src/index.ts"
+      ],
+      "news/models": [
+        "libs/news/models/src/index.ts"
+      ],
+      "news/routes": [
+        "libs/news/routes/src/index.ts"
+      ],
+      "news/ui": [
+        "libs/news/ui/src/index.ts"
+      ],
+      "news/utils": [
+        "libs/news/utils/src/index.ts"
+      ],
+      "settings/feature": [
+        "libs/settings/feature/src/index.ts"
+      ],
+      "settings/models": [
+        "libs/settings/models/src/index.ts"
+      ],
+      "settings/routes": [
+        "libs/settings/routes/src/index.ts"
+      ],
+      "settings/ui": [
+        "libs/settings/ui/src/index.ts"
+      ],
+      "types-preload": [
+        "apps/app/src/preload/api.d.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp", "apps/app/out", "scripts"]
+  "exclude": [
+    "node_modules",
+    "tmp",
+    "apps/app/out",
+    "scripts"
+  ]
 }
