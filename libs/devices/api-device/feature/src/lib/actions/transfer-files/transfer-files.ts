@@ -22,7 +22,6 @@ export const transferFiles = async (
   params: TransferFilesParams<ApiDevice>,
   mtpWatcherFactory: MtpWatcherFactory = createMtpWatcher
 ): Promise<ExecuteTransferResult> => {
-  const transferMode = params.transferMode ?? TransferMode.Mtp
   const autoSwitchMTPMax = Math.max(0, params.autoSwitchMTPMax ?? 1)
 
   const { reportProgress, finalizeProgress } = createTransferProgressTracker({
@@ -30,18 +29,18 @@ export const transferFiles = async (
   })
 
   let mtpEntries = 0
-  let mode = transferMode
-  let currentFiles: TransferFileEntry[] = params.files
-  let mtpWatcherTriggeredAbort = false
+  let activeTransferMode = params.transferMode ?? TransferMode.Mtp
+  let pendingFiles: TransferFileEntry[] = params.files
+  let mtpWatcherAbortTriggered = false
 
   const mtpWatcher = mtpWatcherFactory({
     onReconnect: () => {
-      mtpWatcherTriggeredAbort = true
+      mtpWatcherAbortTriggered = true
       params.abortController?.abort()
     },
   })
 
-  if (mode === TransferMode.Serial) {
+  if (activeTransferMode === TransferMode.Serial) {
     mtpWatcher.start()
   }
 
@@ -49,8 +48,8 @@ export const transferFiles = async (
     while (true) {
       const result = await executeTransfer(
         params,
-        mode,
-        currentFiles,
+        activeTransferMode,
+        pendingFiles,
         reportProgress
       )
 
@@ -61,23 +60,23 @@ export const transferFiles = async (
 
       if (
         result.error.name === FailedTransferErrorName.Aborted &&
-        !mtpWatcherTriggeredAbort
+        !mtpWatcherAbortTriggered
       ) {
         return result
       }
 
       if (
         (result.error.name === FailedTransferErrorName.Aborted &&
-          mtpWatcherTriggeredAbort) ||
+          mtpWatcherAbortTriggered) ||
         result.error.name ===
           ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
       ) {
-        const narrowed = narrowToAbortedFailures(
-          currentFiles,
+        const switchableFiles = filterSwitchableFiles(
+          pendingFiles,
           result.data?.failed
         )
 
-        if (!narrowed) {
+        if (!switchableFiles) {
           finalizeProgress()
           return AppResultFactory.failed(
             new AppError("", FailedTransferErrorName.Unknown),
@@ -86,7 +85,7 @@ export const transferFiles = async (
         }
 
         const { nextMode, mtpEntries: nextMtpEntries } = chooseNextMode(
-          mode,
+          activeTransferMode,
           mtpEntries,
           autoSwitchMTPMax
         )
@@ -97,13 +96,13 @@ export const transferFiles = async (
           mtpWatcher.stop()
         }
 
-        if (nextMode !== mode) {
+        if (nextMode !== activeTransferMode) {
           params.onModeChange?.(nextMode)
         }
 
-        mode = nextMode
+        activeTransferMode = nextMode
         mtpEntries = nextMtpEntries
-        currentFiles = narrowed
+        pendingFiles = switchableFiles
         continue
       }
 
@@ -112,7 +111,7 @@ export const transferFiles = async (
   } catch (error: unknown) {
     console.warn("File transfer failed", error)
 
-    const failed = currentFiles.map((file) => ({
+    const failed = pendingFiles.map((file) => ({
       id: file.id,
       errorName: FailedTransferErrorName.Unknown,
     }))
@@ -134,22 +133,22 @@ export const transferFiles = async (
   }
 }
 
-function narrowToAbortedFailures(
-  currentFiles: TransferFileEntry[],
-  failedItems: FailedTransferItem[] = []
+function filterSwitchableFiles(
+  files: TransferFileEntry[],
+  failed: FailedTransferItem[] = []
 ): TransferFileEntry[] | null {
-  const switchFailures = failedItems.filter((x) => {
+  const switchableFiles = failed.filter((x) => {
     return (
       x.errorName === FailedTransferErrorName.Aborted ||
       x.errorName === ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
     )
   })
-  if (switchFailures.length === 0) {
+  if (switchableFiles.length === 0) {
     return null
   }
 
-  return currentFiles.filter((file) =>
-    switchFailures.some((fail) => fail.id === file.id)
+  return files.filter((file) =>
+    switchableFiles.some((fail) => fail.id === file.id)
   )
 }
 
