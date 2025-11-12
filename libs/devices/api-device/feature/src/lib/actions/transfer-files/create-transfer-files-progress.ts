@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { sum } from "lodash"
 import { TransferProgress } from "app-utils/models"
 
 type TransferProgressTrackerParams = {
@@ -31,10 +32,7 @@ export const createTransferProgressTracker = ({
       uploadedBytesByFileId.set(progress.file.id, next)
     }
 
-    const loadedGlobal = Array.from(uploadedBytesByFileId.values()).reduce(
-      (a, b) => a + b,
-      0
-    )
+    const loadedGlobal = sum(Array.from(uploadedBytesByFileId.values()))
     if (loadedGlobal < lastGlobalLoaded) return
     lastGlobalLoaded = loadedGlobal
 
