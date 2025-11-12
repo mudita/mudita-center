@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppError } from "../../../../core/core/errors/app-error"
+import { AppError } from "app-utils/models"
 
 export const isAppError = (error: unknown): error is AppError => {
   return error !== null && typeof error === "object" && "type" in error

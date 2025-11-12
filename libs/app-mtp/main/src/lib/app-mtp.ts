@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppResult } from "app-utils/models"
 import {
   CancelTransferResultData,
   TransferTransactionData,
@@ -14,7 +15,6 @@ import {
   TransferFileResultData,
 } from "./app-mtp.interface"
 import { MtpFactory } from "./app-mtp.factory"
-import { ResultObject } from "../../../core/core/builder/result.builder"
 
 export class AppMtp implements MtpInterface {
   private mtp: MtpInterface
@@ -30,9 +30,7 @@ export class AppMtp implements MtpInterface {
     return result
   }
 
-  async getDeviceStorages(
-    deviceId: string
-  ): Promise<ResultObject<MtpStorage[]>> {
+  async getDeviceStorages(deviceId: string): Promise<AppResult<MtpStorage[]>> {
     console.log(`[app-mtp] getting device storages for device: ${deviceId}`)
     const result = await this.mtp.getDeviceStorages(deviceId)
     console.log(
@@ -43,7 +41,7 @@ export class AppMtp implements MtpInterface {
 
   async uploadFile(
     data: MtpTransferFileData
-  ): Promise<ResultObject<TransferFileResultData>> {
+  ): Promise<AppResult<TransferFileResultData>> {
     console.log(
       `[app-mtp] starting upload file process for data: ${JSON.stringify(data)}`
     )
@@ -56,7 +54,7 @@ export class AppMtp implements MtpInterface {
 
   async exportFile(
     data: MtpTransferFileData
-  ): Promise<ResultObject<TransferFileResultData>> {
+  ): Promise<AppResult<TransferFileResultData>> {
     console.log(
       `[app-mtp] starting export file process for data: ${JSON.stringify(data)}`
     )
@@ -69,7 +67,7 @@ export class AppMtp implements MtpInterface {
 
   async getTransferredFileProgress(
     data: TransferTransactionData
-  ): Promise<ResultObject<GetTransferFileProgressResultData>> {
+  ): Promise<AppResult<GetTransferFileProgressResultData>> {
     console.log(
       `[app-mtp] getting file transfer progress for transaction: ${data.transactionId}`
     )
@@ -86,7 +84,7 @@ export class AppMtp implements MtpInterface {
 
   async cancelFileTransfer(
     data: TransferTransactionData
-  ): Promise<ResultObject<CancelTransferResultData>> {
+  ): Promise<AppResult<CancelTransferResultData>> {
     const result = await this.mtp.cancelFileTransfer(data)
     console.log(`[app-mtp] canceling status: ${JSON.stringify(result)}`)
     return result

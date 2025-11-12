@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppError } from "app-utils/models"
 import { usb, UsbDetect } from "./usb"
 import { NodeMtpDevice } from "./node-mtp-device"
 import { MtpDevice, MTPError } from "../app-mtp.interface"
-import { AppError } from "../../../../core/core/errors/app-error"
 
 export class NodeMtpDeviceManager {
   private nodeMtpDevices: Map<string, NodeMtpDevice> = new Map()
@@ -19,8 +19,8 @@ export class NodeMtpDeviceManager {
     const devices = await usb.getDevices()
 
     return devices.map((device) => ({
-      id: device.serialNumber,
-      name: device.productName,
+      id: device.serialNumber ?? "",
+      name: device.productName ?? "",
     }))
   }
 
@@ -37,7 +37,7 @@ export class NodeMtpDeviceManager {
     const device = devices.find(({ serialNumber }) => serialNumber === id)
 
     if (!device) {
-      throw new AppError(MTPError.MTP_DEVICE_NOT_FOUND)
+      throw new AppError("", MTPError.MTP_DEVICE_NOT_FOUND)
     }
 
     const nodeMtpDevice = new NodeMtpDevice(device)

@@ -3,8 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ResultObject } from "../../../core/core/builder/result.builder"
-import { AppError } from "../../../core/core/errors/app-error"
+import { AppError, AppResult } from "app-utils/models"
 
 export interface MtpDevice {
   id: string
@@ -58,28 +57,28 @@ export interface GetTransferFileProgressResultData {
   progress: number
 }
 
-export interface TransferUploadFileResultData {}
+export type TransferUploadFileResultData = object
 
-export interface CancelTransferResultData {}
+export type CancelTransferResultData = object
 
 export interface MtpInterface {
   getDevices(): Promise<MtpDevice[]>
 
-  getDeviceStorages(deviceId: string): Promise<ResultObject<MtpStorage[]>>
+  getDeviceStorages(deviceId: string): Promise<AppResult<MtpStorage[]>>
 
   uploadFile(
     data: MtpTransferFileData
-  ): Promise<ResultObject<TransferFileResultData>>
+  ): Promise<AppResult<TransferFileResultData>>
 
   exportFile(
     data: MtpTransferFileData
-  ): Promise<ResultObject<TransferFileResultData>>
+  ): Promise<AppResult<TransferFileResultData>>
 
   getTransferredFileProgress(
     data: TransferTransactionData
-  ): Promise<ResultObject<GetTransferFileProgressResultData>>
+  ): Promise<AppResult<GetTransferFileProgressResultData>>
 
   cancelFileTransfer(
     data: TransferTransactionData
-  ): Promise<ResultObject<CancelTransferResultData>>
+  ): Promise<AppResult<CancelTransferResultData>>
 }

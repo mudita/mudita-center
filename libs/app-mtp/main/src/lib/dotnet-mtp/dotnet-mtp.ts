@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppError, AppResult, AppResultFactory } from "app-utils/models"
 import {
   CancelTransferResultData,
   TransferTransactionData,
@@ -16,12 +17,7 @@ import {
   TransferFileResultData,
 } from "../app-mtp.interface"
 import { generateId } from "../utils/generate-id"
-import {
-  Result,
-  ResultObject,
-} from "../../../../core/core/builder/result.builder"
 import { translateStatus } from "./utils/map-to-mtp-error"
-import { AppError } from "../../../../core/core/errors/app-error"
 import { DotnetCliCommandAction } from "./dotnet-mtp.interface"
 import { runCommand } from "./utils/handle-command"
 
@@ -49,7 +45,7 @@ export class DotnetMtp implements MtpInterface {
       },
       (line: string) => {
         const errorType = translateStatus(JSON.parse(line).status)
-        const appError = { type: errorType } as AppError
+        const appError = new AppError("", errorType)
         console.error(
           `${PREFIX_LOG} getDevices stderr: ${JSON.stringify(appError)}`
         )
@@ -58,9 +54,7 @@ export class DotnetMtp implements MtpInterface {
     return mtpDevices
   }
 
-  async getDeviceStorages(
-    deviceId: string
-  ): Promise<ResultObject<MtpStorage[]>> {
+  async getDeviceStorages(deviceId: string): Promise<AppResult<MtpStorage[]>> {
     const mtpDeviceStorages: MtpStorage[] = []
     let appError: AppError | undefined
     const request = {
@@ -87,7 +81,7 @@ export class DotnetMtp implements MtpInterface {
       },
       (line: string) => {
         const errorType = translateStatus(JSON.parse(line).status)
-        appError = { type: errorType } as AppError
+        appError = new AppError("", errorType)
         console.error(
           `${PREFIX_LOG} getDeviceStorages stderr: line: ${JSON.stringify(
             line
@@ -97,71 +91,71 @@ export class DotnetMtp implements MtpInterface {
     )
 
     return appError
-      ? Result.failed(appError)
-      : Result.success(mtpDeviceStorages)
+      ? AppResultFactory.failed(appError)
+      : AppResultFactory.success(mtpDeviceStorages)
   }
 
   async uploadFile(
     data: MtpTransferFileData
-  ): Promise<ResultObject<TransferFileResultData>> {
+  ): Promise<AppResult<TransferFileResultData>> {
     const transactionId = generateId()
     void this.processFileTransfer(
       data,
       transactionId,
       DotnetCliCommandAction.UPLOAD_FILE
     )
-    return Result.success({ transactionId })
+    return AppResultFactory.success({ transactionId })
   }
 
   async exportFile(
     data: MtpTransferFileData
-  ): Promise<ResultObject<TransferFileResultData>> {
+  ): Promise<AppResult<TransferFileResultData>> {
     const transactionId = generateId()
     void this.processFileTransfer(
       data,
       transactionId,
       DotnetCliCommandAction.EXPORT_FILE
     )
-    return Result.success({ transactionId })
+    return AppResultFactory.success({ transactionId })
   }
 
   async getTransferredFileProgress({
     transactionId,
   }: TransferTransactionData): Promise<
-    ResultObject<GetTransferFileProgressResultData>
+    AppResult<GetTransferFileProgressResultData>
   > {
     const transactionStatus = this.fileTransferTransactionStatus[transactionId]
 
     if (!transactionStatus) {
-      return Result.failed({
-        type: MTPError.MTP_TRANSACTION_NOT_FOUND,
-      } as AppError)
+      return AppResultFactory.failed(
+        new AppError("", MTPError.MTP_TRANSACTION_NOT_FOUND)
+      )
     }
     return transactionStatus.error !== undefined
-      ? Result.failed(transactionStatus.error)
-      : Result.success({ progress: transactionStatus.progress })
+      ? AppResultFactory.failed(transactionStatus.error)
+      : AppResultFactory.success({ progress: transactionStatus.progress })
   }
 
   async cancelFileTransfer(
     data: TransferTransactionData
-  ): Promise<ResultObject<CancelTransferResultData>> {
+  ): Promise<AppResult<CancelTransferResultData>> {
     const transactionStatus =
       this.fileTransferTransactionStatus[data.transactionId]
     this.abortController?.abort()
 
     if (transactionStatus === undefined) {
-      return Result.failed({
-        type: MTPError.MTP_TRANSACTION_NOT_FOUND,
-      } as AppError)
+      return AppResultFactory.failed(
+        new AppError("", MTPError.MTP_TRANSACTION_NOT_FOUND)
+      )
     } else if (transactionStatus.progress === 100) {
-      return Result.failed({
-        type: MTPError.MTP_CANCEL_FAILED_ALREADY_TRANSFERRED,
-      } as AppError)
+      return AppResultFactory.failed(
+        new AppError("", MTPError.MTP_CANCEL_FAILED_ALREADY_TRANSFERRED)
+      )
     } else {
       console.log(
         `${PREFIX_LOG} Canceling file transfer for transactionId ${data.transactionId}, signal abort status: ${this.abortController?.signal.aborted}`
       )
-      return Result.success({})
+      return AppResultFactory.success({})
     }
   }
 
@@ -185,7 +179,7 @@ export class DotnetMtp implements MtpInterface {
       },
       (line: string) => {
         const errorType = translateStatus(JSON.parse(line).status)
-        const appError = { type: errorType } as AppError
+        const appError = new AppError("", errorType)
         console.error(
           `${PREFIX_LOG} file transfer stderr: ${JSON.stringify(
             appError
@@ -199,7 +193,10 @@ export class DotnetMtp implements MtpInterface {
         console.log(`${PREFIX_LOG} file transfer command status: finished`)
       })
       .catch((error) => {
-        const appError = { type: error } as AppError
+        const appError = new AppError(
+          "",
+          error?.type || MTPError.MTP_GENERAL_ERROR
+        )
         this.fileTransferTransactionStatus[transactionId].error = appError
         console.error(`${PREFIX_LOG} uploadFile command status: error`, error)
       })

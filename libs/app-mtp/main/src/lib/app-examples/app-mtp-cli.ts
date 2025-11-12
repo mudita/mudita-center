@@ -79,6 +79,7 @@ const handleAction = (action: DotnetCliCommandAction, parsedData: unknown) => {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 yargs(hideBin(process.argv))
   .middleware((argv) => {
     const jsonString = argv._[0] as string

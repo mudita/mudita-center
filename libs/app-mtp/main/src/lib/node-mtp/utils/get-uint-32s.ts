@@ -5,7 +5,7 @@
 
 export const getUint32s = (buffer: ArrayBuffer): number[] => {
   const view = new DataView(buffer)
-  const values = []
+  const values: number[] = []
   const count = buffer.byteLength / 4
 
   for (let i = 0; i < count; i++) {
