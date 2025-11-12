@@ -115,7 +115,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         lastTransferProgress = progress
         return params.onProgress?.({
           ...transferFilesProgress,
-          progress: progress * PROGRESS_TRANSFER_PHASE_RATIO,
+          progress: Math.floor(progress * PROGRESS_TRANSFER_PHASE_RATIO),
         })
       },
       abortController: params.abortController,
@@ -129,7 +129,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
           refetchProgress * PROGRESS_REFETCH_PHASE_RATIO
 
         params.onProgress?.({
-          progress: combined,
+          progress: Math.floor(combined),
         })
       },
     })

@@ -75,7 +75,7 @@ export const serialDownloadFiles = async ({
         const totalSize = sum(totalSizes)
         onProgress?.({
           progress: clamp(
-            Math.round((completedSize / totalSize) * 100),
+            Math.floor((completedSize / totalSize) * 100),
             0,
             100
           ),

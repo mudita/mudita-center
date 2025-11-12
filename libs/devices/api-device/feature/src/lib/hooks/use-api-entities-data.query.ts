@@ -107,7 +107,7 @@ export const useApiEntitiesDataMapQuery = (
       return
     }
     const currentValues = Object.values(progressRef.current)
-    const totalProgress = Math.round(sum(currentValues) / entityTypes.length)
+    const totalProgress = Math.floor(sum(currentValues) / entityTypes.length)
     setProgress(totalProgress)
   }, [entityTypes.length])
 
@@ -157,8 +157,7 @@ export const useApiEntitiesDataMapQuery = (
           extraReporterRef.current[entityType] = (entityProgress) => {
             const normalized = (index + entityProgress / 100) / total // 0..1
             const capped = Math.min(normalized * 99, 99) // max 99%
-
-            options.onProgress?.(Math.round(capped))
+            options.onProgress?.(Math.floor(capped))
           }
         })
 
