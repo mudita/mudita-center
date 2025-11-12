@@ -7,4 +7,5 @@ export default {
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   coverageDirectory: "../../../coverage/libs/app-mtp/main",
+  testEnvironment: "node",
 }
