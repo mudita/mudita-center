@@ -5,12 +5,9 @@
 
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
-import { AppMtp } from "../app-mtp"
-import {
-  TransferTransactionData,
-  MtpTransferFileData,
-} from "../app-mtp.interface"
 import * as dotenv from "dotenv"
+import { MtpTransferFileData, TransferTransactionData } from "app-mtp/models"
+import { AppMtp } from "../app-mtp"
 import { DotnetCliCommandAction } from "../dotnet-mtp/dotnet-mtp.interface"
 
 dotenv.config()

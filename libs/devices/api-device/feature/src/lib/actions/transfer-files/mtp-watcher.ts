@@ -26,7 +26,7 @@ export const createMtpWatcher: MtpWatcherFactory = ({ onReconnect }) => {
 
     intervalId = setInterval(() => {
       const isConnected = checkMtpConnection()
-      if (!isConnected) {
+      if (isConnected) {
         onReconnect()
       }
     }, 2500)

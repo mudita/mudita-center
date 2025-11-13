@@ -3,34 +3,28 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppError, AppResultFactory } from "app-utils/models"
-import { AppMtp } from "app-mtp/renderer"
+import { ApiDevice } from "devices/api-device/models"
 import {
-  ExecuteTransferFn,
   ExecuteTransferParams,
   ExecuteTransferResult,
 } from "devices/common/models"
-import { ApiDevice } from "devices/api-device/models"
-import { delay } from "app-utils/common"
-import { ApiDeviceMTPTransferErrorName } from "../transfer-files/transfer-files.types"
+import {
+  mtpUploadFilesFromPath,
+  MtpUploadFilesFromPathParams,
+} from "./mtp-upload-files-from-path"
 
-export const mtpUploadFiles: ExecuteTransferFn<ApiDevice> = async (
+const isUploadFilesFromPathsParams = (
+  params: ExecuteTransferParams<ApiDevice>
+): params is MtpUploadFilesFromPathParams => {
+  return params.files[0].source.type === "fileLocation"
+}
+
+export const mtpUploadFiles = (
   params: ExecuteTransferParams<ApiDevice>
 ): Promise<ExecuteTransferResult> => {
-  // mock implementation to handle transfer progress warnings
-
-  await delay(5000) // Simulate some delay for the MTP upload process
-
-  const deviceId = await AppMtp.getMtpDeviceId(params.device)
-  console.log("MTP Upload Files called for deviceId:", deviceId)
-
-  return AppResultFactory.failed(
-    new AppError("", ApiDeviceMTPTransferErrorName.MtpInitializeAccessError),
-    {
-      failed: params.files.map((file) => ({
-        id: file.id,
-        errorName: ApiDeviceMTPTransferErrorName.MtpInitializeAccessError,
-      })),
-    }
-  )
+  if (isUploadFilesFromPathsParams(params)) {
+    return mtpUploadFilesFromPath(params)
+  } else {
+    throw new Error("Invalid parameters for mtpUploadFiles")
+  }
 }

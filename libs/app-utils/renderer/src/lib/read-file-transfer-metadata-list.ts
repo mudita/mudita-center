@@ -11,6 +11,7 @@ import { AppFileSystemGuardOptions } from "app-utils/models"
 import { AppFileSystem } from "./app-file-system"
 
 export enum ReadFileTransferMetadataErrorName {
+  Aborted = "Aborted",
   FileReadError = "FileReadError",
   Crc32Error = "Crc32Error",
 }
@@ -24,7 +25,8 @@ export type TransferFileEntryWithMetadata = TransferFileFromPathEntry &
   FileTransferMetadata
 
 export async function readFileTransferMetadataList(
-  files: TransferFileFromPathEntry[]
+  files: TransferFileFromPathEntry[],
+  abortController: AbortController
 ): Promise<{
   files: TransferFileEntryWithMetadata[]
   failed: FailedTransferItem[]
@@ -34,6 +36,13 @@ export async function readFileTransferMetadataList(
 
   for (const file of files) {
     try {
+      if (abortController.signal.aborted) {
+        failed.push({
+          id: file.id,
+          errorName: ReadFileTransferMetadataErrorName.Aborted,
+        })
+        continue
+      }
       const meta = await readFileTransferMetadata(file.source.fileLocation)
       fileEntryWithMetadata.push({
         ...file,
