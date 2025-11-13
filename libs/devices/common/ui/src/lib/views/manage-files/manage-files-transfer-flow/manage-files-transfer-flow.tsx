@@ -10,6 +10,7 @@ import { formatMessage } from "app-localize/utils"
 import {
   FailedTransferItem,
   TransferFilesActionType,
+  TransferMode,
 } from "devices/common/models"
 import {
   FileManagerFile,
@@ -99,7 +100,7 @@ export const ManageFilesTransferFlow = ({
 
   const validate = useManageFilesValidate({ fileMap, freeSpaceBytes })
 
-  const { transfer, progress, abortTransfer, currentFile } =
+  const { transfer, progress, transferMode, abortTransfer, currentFile } =
     useManageFilesTransferFlow({
       transferFiles,
       actionType,
@@ -198,6 +199,7 @@ export const ManageFilesTransferFlow = ({
           transferringModalCloseButtonText:
             transferFlowMessages.uploadingModalCloseButtonText,
         }}
+        progressWarningVisible={transferMode === TransferMode.Serial}
         progressBarMessage={currentFile?.name ?? ""}
         progress={progress}
         onCancel={cancelTransfer}
