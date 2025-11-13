@@ -16,4 +16,10 @@ export const manageFilesMessages = defineMessages({
   selectionDelete: { id: "manageFiles.selection.delete" },
   selectionSelectedCount: { id: "manageFiles.selection.selectedCount" },
   loadStateText: { id: "manageFiles.loadState.text" },
+  progressWarningFirstLineText: {
+    id: "manageFiles.progressWarning.firstLineText",
+  },
+  progressWarningSecondLineText: {
+    id: "manageFiles.progressWarning.secondLineText",
+  },
 })

@@ -10,7 +10,6 @@ import { AppError, AppResultFactory } from "app-utils/models"
 import {
   ExecuteTransferResult,
   FailedTransferErrorName,
-  TransferMode,
 } from "devices/common/models"
 import {
   openFileDialog,
@@ -99,6 +98,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     let lastTransferProgress = 0
 
     const result = await transferFiles({
+      ...params,
       device,
       files: params.files.map((file) => ({
         id: file.id,
@@ -109,7 +109,6 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         target: { type: "path", path: `${targetDirectoryPath}${file.name}` },
       })),
       action: params.actionType,
-      transferMode: TransferMode.Serial,
       onProgress: ({ progress, ...transferFilesProgress }) => {
         lastTransferProgress = progress
         return params.onProgress?.({

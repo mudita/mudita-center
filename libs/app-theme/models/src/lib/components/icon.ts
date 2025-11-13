@@ -39,6 +39,7 @@ export enum IconType {
   Grid = "grid",
   Help = "help",
   Info = "info",
+  InfoBold = "info-bold",
   Lock = "lock",
   Messages = "messages",
   Minus = "minus",
