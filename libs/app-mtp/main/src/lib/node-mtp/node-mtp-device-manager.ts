@@ -19,8 +19,8 @@ export class NodeMtpDeviceManager {
     const devices = await usb.getDevices()
 
     return devices.map((device) => ({
-      id: device.serialNumber,
-      name: device.productName,
+      id: device.serialNumber ?? "",
+      name: device.productName ?? "",
     }))
   }
 

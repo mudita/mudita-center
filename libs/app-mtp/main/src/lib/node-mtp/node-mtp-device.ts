@@ -403,7 +403,7 @@ export class NodeMtpDevice {
     console.log(`${PREFIX_LOG} write... `, buffer)
     const result = await this.transferOut(buffer)
     console.log(`${PREFIX_LOG} write... result: ${JSON.stringify(result)}`)
-    return result as ReturnType<WebUSBDevice["transferOut"]>
+    return result as unknown as ReturnType<WebUSBDevice["transferOut"]>
   }
 
   private async readDataInChunks(): Promise<ResponseContainerPacket> {
@@ -427,6 +427,11 @@ export class NodeMtpDevice {
 
         while (raw.byteLength !== containerLength) {
           result = await this.transferIn()
+
+          if (!result.data) {
+            throw new Error("transferIn() returned no data")
+          }
+
           console.log(
             `${PREFIX_LOG} read... buffer length: ${result.data.byteLength}`
           )
@@ -434,10 +439,13 @@ export class NodeMtpDevice {
           const uint8array = raw.slice()
           raw = new Uint8Array(uint8array.byteLength + result.data.byteLength)
           raw.set(uint8array)
-          raw.set(new Uint8Array(result.data.buffer), uint8array.byteLength)
+          raw.set(
+            new Uint8Array(result.data.buffer as ArrayBuffer),
+            uint8array.byteLength
+          )
         }
 
-        return parseContainerPacket(raw.buffer)
+        return parseContainerPacket(raw.buffer as ArrayBuffer)
       }
 
       console.log(`${PREFIX_LOG} read... empty buffer`)
