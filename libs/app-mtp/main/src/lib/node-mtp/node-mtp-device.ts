@@ -5,7 +5,7 @@
 
 import { WebUSBDevice } from "usb"
 import { AppError } from "app-utils/models"
-import { MTPError } from "../app-mtp.interface"
+import { MTPError } from "app-mtp/models"
 import {
   buildContainerPacket,
   RequestContainerPacket,

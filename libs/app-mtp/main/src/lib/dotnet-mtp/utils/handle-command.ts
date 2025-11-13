@@ -6,7 +6,7 @@
 import { spawn } from "child_process"
 import * as readline from "readline"
 import path from "path"
-import { MTPError } from "../../app-mtp.interface"
+import { MTPError } from "app-mtp/models"
 
 const getExecPath = () => {
   if (process.env["NODE_ENV"] === "production" && process.resourcesPath) {

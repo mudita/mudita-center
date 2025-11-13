@@ -6,14 +6,14 @@
 import { AppResult } from "app-utils/models"
 import {
   CancelTransferResultData,
-  TransferTransactionData,
   GetTransferFileProgressResultData,
   MtpDevice,
   MtpInterface,
   MtpStorage,
   MtpTransferFileData,
   TransferFileResultData,
-} from "./app-mtp.interface"
+  TransferTransactionData,
+} from "app-mtp/models"
 import { MtpFactory } from "./app-mtp.factory"
 
 export class AppMtp implements MtpInterface {

@@ -6,7 +6,6 @@
 import { AppError, AppResult, AppResultFactory } from "app-utils/models"
 import {
   CancelTransferResultData,
-  TransferTransactionData,
   GetTransferFileProgressResultData,
   MtpDevice,
   MTPError,
@@ -15,7 +14,8 @@ import {
   MtpTransferFileData,
   TransactionStatus,
   TransferFileResultData,
-} from "../app-mtp.interface"
+  TransferTransactionData,
+} from "app-mtp/models"
 import { generateId } from "../utils/generate-id"
 import { translateStatus } from "./utils/map-to-mtp-error"
 import { DotnetCliCommandAction } from "./dotnet-mtp.interface"

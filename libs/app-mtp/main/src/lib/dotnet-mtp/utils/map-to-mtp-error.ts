@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MTPError } from "../../app-mtp.interface"
+import { MTPError } from "app-mtp/models"
 import { DotnetCliStatusCode } from "../dotnet-mtp.interface"
 
 export function translateStatus(statusCode: DotnetCliStatusCode): MTPError {
