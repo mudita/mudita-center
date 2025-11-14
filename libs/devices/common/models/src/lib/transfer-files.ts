@@ -4,6 +4,7 @@
  */
 
 import {
+  AppFailedResult,
   AppFileSystemGuardOptions,
   AppResult,
   TransferProgressHandler,
@@ -34,7 +35,8 @@ export type ExecuteTransferParams<DeviceType> = Omit<
   TransferFilesParams<DeviceType>,
   "action"
 >
-export type ExecuteTransferSuccessResult =
+
+export type ExecuteTransferSuccessData =
   | {
       failed?: FailedTransferItem[]
     }
@@ -43,8 +45,13 @@ export type ExecuteTransferSuccessResult =
       failed?: FailedTransferItem[]
     }
 
+export type ExecuteTransferAppFailedResult = AppFailedResult<
+  FailedTransferErrorName | string,
+  { failed: FailedTransferItem[] }
+>
+
 export type ExecuteTransferResult = AppResult<
-  ExecuteTransferSuccessResult,
+  ExecuteTransferSuccessData,
   FailedTransferErrorName | string,
   { failed: FailedTransferItem[] }
 >
@@ -60,7 +67,7 @@ export enum TransferFilesActionType {
 
 export type DataSource =
   | { type: "memory"; data: (string | Uint8Array)[] }
-  | { type: "path"; path: string }
+  | { type: "path"; path: string; fileSize?: number }
   | { type: "fileLocation"; fileLocation: AppFileSystemGuardOptions }
 
 export type DataTarget = { type: "memory" } | { type: "path"; path: string }

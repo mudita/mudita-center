@@ -6,6 +6,7 @@
 import { PortInfo } from "@serialport/bindings-interface"
 import { IpcMain } from "electron"
 import { AppMtpIpcEvents, MtpTransferFileData } from "app-mtp/models"
+import { TransferFilesActionType } from "devices/common/models"
 import { mapToCoreUsbId } from "app-utils/common"
 import { AppMtp } from "./app-mtp"
 
@@ -42,25 +43,35 @@ export const initAppMtp = (ipcMain: IpcMain, appMtp: AppMtp) => {
       return appMtp.getDeviceStorages(deviceId)
     }
   )
-  ipcMain.removeHandler(AppMtpIpcEvents.StartSendFile)
+  ipcMain.removeHandler(AppMtpIpcEvents.StartTransferFile)
   ipcMain.handle(
-    AppMtpIpcEvents.StartSendFile,
-    async (_, data: MtpTransferFileData) => {
-      return appMtp.uploadFile(data)
+    AppMtpIpcEvents.StartTransferFile,
+    async (
+      _,
+      {
+        action,
+        ...data
+      }: MtpTransferFileData & { action: TransferFilesActionType }
+    ) => {
+      if (action === TransferFilesActionType.Upload) {
+        return appMtp.uploadFile(data)
+      } else {
+        return appMtp.exportFile(data)
+      }
     }
   )
-  ipcMain.removeHandler(AppMtpIpcEvents.GetSendFileProgress)
+  ipcMain.removeHandler(AppMtpIpcEvents.GetTransferredFileProgress)
   ipcMain.handle(
-    AppMtpIpcEvents.GetSendFileProgress,
+    AppMtpIpcEvents.GetTransferredFileProgress,
     async (_, transactionId: string) => {
       return appMtp.getTransferredFileProgress({
         transactionId,
       })
     }
   )
-  ipcMain.removeHandler(AppMtpIpcEvents.CancelSendFile)
+  ipcMain.removeHandler(AppMtpIpcEvents.CancelFileTransfer)
   ipcMain.handle(
-    AppMtpIpcEvents.CancelSendFile,
+    AppMtpIpcEvents.CancelFileTransfer,
     async (_, transactionId: string) => {
       return appMtp.cancelFileTransfer({
         transactionId,

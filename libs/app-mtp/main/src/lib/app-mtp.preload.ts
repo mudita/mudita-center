@@ -30,24 +30,27 @@ export const appMtp = {
       deviceId
     )
   },
-  startSendFile: (
+  startTransferFile: (
     data: MtpTransferFileData
   ): Promise<AppResult<TransferFileResultData>> => {
-    return electronAPI.ipcRenderer.invoke(AppMtpIpcEvents.StartSendFile, data)
+    return electronAPI.ipcRenderer.invoke(
+      AppMtpIpcEvents.StartTransferFile,
+      data
+    )
   },
-  getSendFileProgress: (
+  getTransferredFileProgress: (
     transactionId: string
   ): Promise<AppResult<GetTransferFileProgressResultData>> => {
     return electronAPI.ipcRenderer.invoke(
-      AppMtpIpcEvents.GetSendFileProgress,
+      AppMtpIpcEvents.GetTransferredFileProgress,
       transactionId
     )
   },
-  cancelSendFile: (
+  cancelFileTransfer: (
     transactionId: string
   ): Promise<AppResult<CancelTransferResultData>> => {
     return electronAPI.ipcRenderer.invoke(
-      AppMtpIpcEvents.CancelSendFile,
+      AppMtpIpcEvents.CancelFileTransfer,
       transactionId
     )
   },

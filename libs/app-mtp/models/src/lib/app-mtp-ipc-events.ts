@@ -6,7 +6,7 @@
 export enum AppMtpIpcEvents {
   GetMtpDeviceId = "app-mtp:get-mtp-device-id",
   GetDeviceStorages = "app-mtp:get-device-storages",
-  StartSendFile = "app-mtp:start-send-file",
-  GetSendFileProgress = "app-mtp:get-send-file-progress",
-  CancelSendFile = "app-mtp:cancel-send-file",
+  StartTransferFile = "app-mtp:start-transfer-file",
+  GetTransferredFileProgress = "app-mtp:get-transferred-file-progress",
+  CancelFileTransfer = "app-mtp:cancel-file-transfer",
 }
