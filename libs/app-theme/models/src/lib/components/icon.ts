@@ -81,6 +81,7 @@ export enum IconType {
   Support = "support",
   ThinFail = "thin-fail",
   Trash = "trash",
+  Upload = "upload",
 }
 
 export enum IconSize {

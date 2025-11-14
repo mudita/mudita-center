@@ -19,7 +19,7 @@ export interface FileManagerFileCategory {
 }
 
 export type FileManagerFile = {
-  id: string
+  id: string // refactor to path property?
   name: string
   type: string
   size: number
