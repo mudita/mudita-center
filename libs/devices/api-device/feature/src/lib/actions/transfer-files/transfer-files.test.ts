@@ -21,6 +21,7 @@ import { mtpDownloadFiles } from "../mtp-download-files/mtp-download-files"
 import { mtpUploadFiles } from "../mtp-upload-files/mtp-upload-files"
 import { serialDownloadFiles } from "../serial-download-files/serial-download-files"
 import { serialUploadFiles } from "../serial-upload-files/serial-upload-files"
+import * as executeTransferModule from "./execute-transfer"
 import { transferFiles } from "./transfer-files"
 import { ApiDeviceMTPTransferErrorName } from "./transfer-files.types"
 
@@ -87,7 +88,6 @@ describe("transferFiles - core contract", () => {
   test("returns partial success when executor resolves with ok: true and includes failed items (TransferUnknown case)", async () => {
     const failed: FailedTransferItem[] = [
       { id: "/a.txt", errorName: FailedTransferErrorName.Unknown },
-      { id: "/b.txt", errorName: FailedTransferErrorName.Unknown },
     ]
 
     ;(mtpUploadFiles as jest.Mock).mockImplementation(async () =>
@@ -106,7 +106,33 @@ describe("transferFiles - core contract", () => {
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
   })
 
-  test("immediately returns error when executor resolves with TransferCancelled", async () => {
+  test("returns failed AppResult when all files failed (TransferUnknown for all files)", async () => {
+    const failed: FailedTransferItem[] = [
+      { id: "/a.txt", errorName: FailedTransferErrorName.Unknown },
+      { id: "/b.txt", errorName: FailedTransferErrorName.Unknown },
+    ]
+
+    ;(mtpUploadFiles as jest.Mock).mockImplementation(async () =>
+      AppResultFactory.success({ failed })
+    )
+
+    const params = makeParams({
+      transferMode: TransferMode.Mtp,
+      action: TransferFilesActionType.Upload,
+    })
+
+    const result = (await transferFiles(params)) as AppFailedResult<
+      FailedTransferErrorName,
+      { failed: typeof failed }
+    >
+
+    expect(result.ok).toBe(false)
+    expect(result.error?.name).toBe(FailedTransferErrorName.Unknown)
+    expect(result.data).toEqual({ failed })
+    expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
+  })
+
+  test("returns partial success when executor resolves with TransferCancelled for a subset of files", async () => {
     const failed: FailedTransferItem[] = [
       { id: "/a.txt", errorName: FailedTransferErrorName.Aborted },
     ]
@@ -128,6 +154,36 @@ describe("transferFiles - core contract", () => {
       FailedTransferErrorName,
       { failed: typeof failed }
     >
+
+    expect(result.ok).toBe(true)
+    expect(result.data).toEqual({ failed })
+    expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
+  })
+
+  test("returns failed AppResult when all files failed (TransferCancelled for all files)", async () => {
+    const failed: FailedTransferItem[] = [
+      { id: "/a.txt", errorName: FailedTransferErrorName.Aborted },
+      { id: "/b.txt", errorName: FailedTransferErrorName.Aborted },
+    ]
+
+    ;(mtpUploadFiles as jest.Mock).mockImplementation(async () =>
+      AppResultFactory.failed(
+        new AppError("", FailedTransferErrorName.Aborted),
+        {
+          failed,
+        }
+      )
+    )
+
+    const params = makeParams({
+      transferMode: TransferMode.Mtp,
+      action: TransferFilesActionType.Upload,
+    })
+    const result = (await transferFiles(params)) as AppFailedResult<
+      FailedTransferErrorName,
+      { failed: typeof failed }
+    >
+
     expect(result.ok).toBe(false)
     expect(result.error?.name).toBe(FailedTransferErrorName.Aborted)
     expect(result.data).toEqual({ failed })
@@ -305,6 +361,77 @@ describe("transferFiles - mode handling (auto-switch always enabled)", () => {
 
     expect(onModeChange).toHaveBeenCalledTimes(1)
     expect(onModeChange).toHaveBeenCalledWith(TransferMode.Serial)
+  })
+
+  test("MTP start: aggregates failures from initial MtpInitializeAccessError attempt and subsequent retry failure", async () => {
+    ;(mtpUploadFiles as jest.Mock).mockResolvedValueOnce(
+      AppResultFactory.failed(
+        new AppError(
+          "",
+          ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
+        ),
+        {
+          failed: [
+            {
+              id: "/a.txt",
+              errorName:
+              ApiDeviceMTPTransferErrorName.MtpInitializeAccessError,
+            },
+            {
+              id: "/b.txt",
+              errorName: FailedTransferErrorName.Unknown,
+            },
+          ],
+        }
+      )
+    )
+
+    ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
+      AppResultFactory.failed(
+        new AppError("", FailedTransferErrorName.Unknown),
+        {
+          failed: [
+            {
+              id: "/a.txt",
+              errorName: FailedTransferErrorName.Unknown,
+            },
+          ],
+        }
+      )
+    )
+
+    const onModeChange = jest.fn()
+
+    const watcherFactory = () => ({
+      start: jest.fn(),
+      stop: jest.fn(),
+    })
+
+    const result = (await transferFiles(
+      makeParams({
+        transferMode: TransferMode.Mtp,
+        action: TransferFilesActionType.Upload,
+        onModeChange,
+      }),
+      watcherFactory
+    )) as AppFailedResult<
+      FailedTransferErrorName,
+      { failed: FailedTransferItem[] }
+    >
+
+    expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
+    expect(serialUploadFiles).toHaveBeenCalledTimes(1)
+
+    expect(onModeChange).toHaveBeenCalledTimes(1)
+    expect(onModeChange).toHaveBeenCalledWith(TransferMode.Serial)
+
+    expect(result.ok).toBe(false)
+    expect(result.error?.name).toBe(FailedTransferErrorName.Unknown)
+
+    expect(result.data?.failed).toEqual([
+      { id: "/b.txt", errorName: FailedTransferErrorName.Unknown },
+      { id: "/a.txt", errorName: FailedTransferErrorName.Unknown },
+    ])
   })
 
   test("Serial start: on Aborted → switches to MTP and succeeds", async () => {
@@ -610,8 +737,7 @@ describe("transferFiles - mode handling (auto-switch always enabled)", () => {
       { failed: FailedTransferItem[] }
     >
 
-    expect(result.ok).toBe(false)
-    expect(result.error?.name).toBe(FailedTransferErrorName.Unknown)
+    expect(result.ok).toBe(true)
     expect(result.data?.failed).toEqual([
       {
         id: "/a.txt",
@@ -861,18 +987,15 @@ describe("transferFiles - progress reporting", () => {
       })
       args.onProgress({ file: { id: "/b.txt", size: 200, loaded: 150 } })
       return AppResultFactory.success({
-        failed: {
-          type: "path",
-          paths: [
-            { path: "/b.txt", errorName: FailedTransferErrorName.Unknown },
-          ],
-        },
+        failed: [{ id: "/b.txt", errorName: FailedTransferErrorName.Unknown }],
       })
     })
 
     const result = await transferFiles(
       makeParams({ onProgress: userOnProgress, transferMode: TransferMode.Mtp })
     )
+
+    console.log(result)
 
     expect(result.ok).toBe(true)
 
@@ -887,7 +1010,6 @@ describe("transferFiles - progress reporting", () => {
   })
 })
 
-//
 describe("transferFiles - abort behavior", () => {
   beforeEach(() => {
     jest.resetAllMocks()
@@ -963,12 +1085,141 @@ describe("transferFiles - abort behavior", () => {
       })
     )) as AppFailedResult<FailedTransferErrorName, { failed: typeof failed }>
 
-    expect(result.ok).toBe(false)
-    expect(result.error?.name).toBe(FailedTransferErrorName.Aborted)
+    console.log(result)
+
+    expect(result.ok).toBe(true)
 
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
     expect(serialUploadFiles).not.toHaveBeenCalled()
 
     expect(onModeChange).not.toHaveBeenCalled()
+  })
+
+  test("propagates external abort to new internal AbortController after auto-switch", async () => {
+    const controller = new AbortController()
+
+      // 1. First attempt: Serial mode switched to MTP
+    ;(serialUploadFiles as jest.Mock).mockImplementationOnce(async () => {
+      const failed: FailedTransferItem[] = [
+        { id: "/a.txt", errorName: FailedTransferErrorName.Aborted },
+        { id: "/b.txt", errorName: FailedTransferErrorName.Aborted },
+      ]
+
+      return AppResultFactory.failed(
+        new AppError("", FailedTransferErrorName.Aborted),
+        { failed }
+      )
+    })
+
+    // 2. second attempt: MTP mode receives aborted signal
+    ;(mtpUploadFiles as jest.Mock).mockImplementationOnce(async (args: any) => {
+      expect(args.abortController?.signal.aborted).toBe(true)
+
+      const failed: FailedTransferItem[] = [
+        { id: "/a.txt", errorName: FailedTransferErrorName.Aborted },
+        { id: "/b.txt", errorName: FailedTransferErrorName.Aborted },
+      ]
+
+      return AppResultFactory.failed(
+        new AppError("", FailedTransferErrorName.Aborted),
+        { failed }
+      )
+    })
+
+    // User aborts the operation during the transfer
+    controller.abort()
+
+    const onModeChange = jest.fn()
+
+    const watcherFactory = ({ onReconnect }: { onReconnect: () => void }) => ({
+      start: () => onReconnect(),
+      stop: jest.fn(),
+    })
+
+    const result = (await transferFiles(
+      makeParams({
+        transferMode: TransferMode.Serial,
+        action: TransferFilesActionType.Upload,
+        autoSwitchMTPMax: 1,
+        abortController: controller,
+        onModeChange,
+      }),
+      watcherFactory
+    )) as AppFailedResult<
+      FailedTransferErrorName,
+      { failed: FailedTransferItem[] }
+    >
+
+    expect(serialUploadFiles).toHaveBeenCalledTimes(1)
+    expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
+
+    expect(onModeChange).toHaveBeenCalledTimes(1)
+    expect(onModeChange).toHaveBeenCalledWith(TransferMode.Mtp)
+
+    expect(result.ok).toBe(false)
+    expect(result.error?.name).toBe(FailedTransferErrorName.Aborted)
+    expect(result.data?.failed).toEqual([
+      { id: "/a.txt", errorName: FailedTransferErrorName.Aborted },
+      { id: "/b.txt", errorName: FailedTransferErrorName.Aborted },
+    ])
+  })
+})
+
+describe("transferFiles - error propagation", () => {
+  test("marks all pending files as Unknown and preserves previously failed items when executeTransfer throws", async () => {
+    const executeTransferSpy = jest
+      .spyOn(executeTransferModule, "executeTransfer")
+      .mockResolvedValueOnce(
+        AppResultFactory.failed(
+          new AppError(
+            "",
+            ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
+          ),
+          {
+            failed: [
+              {
+                id: "/a.txt",
+                errorName:
+                  ApiDeviceMTPTransferErrorName.MtpInitializeAccessError,
+              },
+              {
+                id: "/b.txt",
+                errorName: FailedTransferErrorName.Unknown,
+              },
+            ],
+          }
+        )
+      )
+      .mockImplementationOnce(async () => {
+        throw new Error("executeTransfer boom")
+      })
+
+    const watcherFactory = () => ({
+      start: jest.fn(),
+      stop: jest.fn(),
+    })
+
+    const result = (await transferFiles(
+      makeParams({
+        transferMode: TransferMode.Mtp,
+        action: TransferFilesActionType.Upload,
+      }),
+      watcherFactory
+    )) as AppFailedResult<
+      FailedTransferErrorName,
+      { failed: FailedTransferItem[] }
+    >
+
+    expect(executeTransferSpy).toHaveBeenCalledTimes(2)
+
+    expect(result.ok).toBe(false)
+    expect(result.error?.name).toBe(FailedTransferErrorName.Unknown)
+
+    expect(result.data?.failed).toEqual([
+      { id: "/b.txt", errorName: FailedTransferErrorName.Unknown },
+      { id: "/a.txt", errorName: FailedTransferErrorName.Unknown },
+    ])
+
+    executeTransferSpy.mockRestore()
   })
 })
