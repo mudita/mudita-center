@@ -16,8 +16,7 @@ import {
 } from "devices/common/models"
 import { delay } from "app-utils/common"
 import { AppMtp } from "app-mtp/renderer"
-import { ApiDeviceMTPTransferErrorName } from "../transfer-files/transfer-files.types"
-import { buildFailedResult } from "./mtp-helpers"
+import { prepareMtpTransfer } from "./prepare-mtp-transfer"
 
 export interface MtpTransferEntry {
   id: string
@@ -37,42 +36,22 @@ export interface MtpTransferFilesParams {
   onProgress?: ExecuteTransferParams<ApiDevice>["onProgress"]
 }
 
-export const mtpTransferFiles = async ({
-  device,
-  files,
-  abortController,
-  onProgress,
-  failed: initialFailed = [],
-}: MtpTransferFilesParams): Promise<ExecuteTransferResult> => {
-  const deviceId = await AppMtp.getMtpDeviceId(device)
+export const mtpTransferFiles = async (
+  params: MtpTransferFilesParams
+): Promise<ExecuteTransferResult> => {
+  const prepareMtpTransferResult = await prepareMtpTransfer(params)
 
-  if (abortController.signal.aborted) {
-    return buildFailedResult(files, FailedTransferErrorName.Aborted)
+  if (!prepareMtpTransferResult.ok) {
+    return prepareMtpTransferResult
   }
 
-  if (!deviceId) {
-    return buildFailedResult(
-      files,
-      ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
-    )
-  }
-
-  const getDeviceStoragesResult = await AppMtp.getDeviceStorages(deviceId)
-
-  if (abortController.signal.aborted) {
-    return buildFailedResult(files, FailedTransferErrorName.Aborted)
-  }
-
-  const storages = getDeviceStoragesResult.ok
-    ? getDeviceStoragesResult.data
-    : []
-
-  if (!getDeviceStoragesResult.ok || storages.length === 0) {
-    return buildFailedResult(
-      files,
-      ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
-    )
-  }
+  const { deviceId, storages } = prepareMtpTransferResult.data
+  const {
+    files,
+    abortController,
+    onProgress,
+    failed: initialFailed = [],
+  } = params
 
   const failed: FailedTransferItem[] = [...initialFailed]
 
