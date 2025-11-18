@@ -29,7 +29,7 @@ export const createMtpWatcher: MtpWatcherFactory = ({ onReconnect }) => {
       if (!isConnected) {
         onReconnect()
       }
-    }, 5000)
+    }, 2500)
   }
 
   const stop = () => {

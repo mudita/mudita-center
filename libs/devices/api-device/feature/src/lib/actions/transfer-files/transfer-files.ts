@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppError, AppResultFactory } from "app-utils/models"
+import { AppError, AppResult, AppResultFactory } from "app-utils/models"
 import { ApiDevice } from "devices/api-device/models"
 import {
   ExecuteTransferResult,
@@ -22,6 +22,7 @@ export const transferFiles = async (
   params: TransferFilesParams<ApiDevice>,
   mtpWatcherFactory: MtpWatcherFactory = createMtpWatcher
 ): Promise<ExecuteTransferResult> => {
+  const externalAbortController = params.abortController
   const autoSwitchMTPMax = Math.max(0, params.autoSwitchMTPMax ?? 1)
 
   const { reportProgress, finalizeProgress } = createTransferProgressTracker({
@@ -31,12 +32,20 @@ export const transferFiles = async (
   let mtpEntries = 0
   let activeTransferMode = params.transferMode ?? TransferMode.Mtp
   let pendingFiles: TransferFileEntry[] = params.files
+  let internalAbortController = new AbortController()
   let mtpWatcherAbortTriggered = false
+  let processedFailedFiles: FailedTransferItem[] = []
+
+  if (externalAbortController) {
+    externalAbortController.signal.addEventListener("abort", () => {
+      internalAbortController.abort()
+    })
+  }
 
   const mtpWatcher = mtpWatcherFactory({
     onReconnect: () => {
       mtpWatcherAbortTriggered = true
-      params.abortController?.abort()
+      internalAbortController.abort()
     },
   })
 
@@ -47,87 +56,90 @@ export const transferFiles = async (
   try {
     while (true) {
       const result = await executeTransfer(
-        params,
+        { ...params, abortController: internalAbortController },
         activeTransferMode,
         pendingFiles,
         reportProgress
       )
 
-      if (result.ok) {
-        finalizeProgress()
-        return result
-      }
-
-      if (
-        result.error.name === FailedTransferErrorName.Aborted &&
-        !mtpWatcherAbortTriggered
-      ) {
-        return result
-      }
-
-      if (
-        (result.error.name === FailedTransferErrorName.Aborted &&
-          mtpWatcherAbortTriggered) ||
+      const executedFailedFiles: FailedTransferItem[] =
+        result.data?.failed ?? []
+      const failed = [...processedFailedFiles, ...executedFailedFiles]
+      const isMtpInitError =
+        !result.ok &&
         result.error.name ===
           ApiDeviceMTPTransferErrorName.MtpInitializeAccessError
-      ) {
-        const switchableFiles = filterSwitchableFiles(
-          pendingFiles,
-          result.data?.failed
-        )
 
-        if (!switchableFiles) {
-          finalizeProgress()
-          return AppResultFactory.failed(
-            new AppError("", FailedTransferErrorName.Unknown),
-            result.data
-          )
-        }
-
-        const { nextMode, mtpEntries: nextMtpEntries } = chooseNextMode(
-          activeTransferMode,
-          mtpEntries,
-          autoSwitchMTPMax
-        )
-
-        if (nextMode === TransferMode.Serial) {
-          mtpWatcher.start()
-        } else {
-          mtpWatcher.stop()
-        }
-
-        if (nextMode !== activeTransferMode) {
-          params.onModeChange?.(nextMode)
-        }
-
-        activeTransferMode = nextMode
-        mtpEntries = nextMtpEntries
-        pendingFiles = switchableFiles
-        continue
+      // 1. All executed files in this iteration transferred successfully
+      if (executedFailedFiles.length === 0) {
+        finalizeProgress()
+        return buildResultFromFailed(params.files, processedFailedFiles, result)
       }
 
-      return result
+      // 2. File transfer failed or transfer aborted by user
+      if (!mtpWatcherAbortTriggered && !isMtpInitError) {
+        finalizeProgress()
+        return buildResultFromFailed(params.files, failed, result)
+      }
+
+      const switchableFiles = filterSwitchableFiles(
+        pendingFiles,
+        executedFailedFiles
+      )
+
+      // 3. File transfer completed but some files failed and none are switchable
+      if (!switchableFiles) {
+        finalizeProgress()
+        return buildResultFromFailed(params.files, failed, result)
+      }
+
+      // 4. Some files failed and are switchable - switch transfer mode and retry
+      mtpWatcherAbortTriggered = false
+      internalAbortController = new AbortController()
+
+      if (externalAbortController?.signal.aborted) {
+        internalAbortController.abort()
+      }
+
+      const { nextMode, mtpEntries: nextMtpEntries } = chooseNextMode(
+        activeTransferMode,
+        mtpEntries,
+        autoSwitchMTPMax
+      )
+
+      if (nextMode === TransferMode.Serial) {
+        mtpWatcher.start()
+      } else {
+        mtpWatcher.stop()
+      }
+
+      if (nextMode !== activeTransferMode) {
+        params.onModeChange?.(nextMode)
+      }
+
+      activeTransferMode = nextMode
+      mtpEntries = nextMtpEntries
+      pendingFiles = switchableFiles
+      processedFailedFiles = [
+        ...processedFailedFiles,
+        ...executedFailedFiles.filter((fail) => {
+          return !switchableFiles.some((file) => file.id === fail.id)
+        }),
+      ]
     }
   } catch (error: unknown) {
     console.warn("File transfer failed", error)
 
-    const failed = pendingFiles.map((file) => ({
-      id: file.id,
-      errorName: FailedTransferErrorName.Unknown,
-    }))
+    const failed = [
+      ...processedFailedFiles,
+      ...pendingFiles.map((file) => ({
+        id: file.id,
+        errorName: FailedTransferErrorName.Unknown,
+      })),
+    ]
 
-    const isOK = params.files.length !== failed.length
-
-    return isOK
-      ? AppResultFactory.success({
-          failed,
-        })
-      : AppResultFactory.failed(
-          new AppError("", FailedTransferErrorName.Unknown),
-          {
-            failed,
-          }
-        )
+    finalizeProgress()
+    return buildResultFromFailed(params.files, failed)
   } finally {
     mtpWatcher.stop()
   }
@@ -169,4 +181,27 @@ function chooseNextMode(
   }
 
   return { nextMode: TransferMode.Serial, mtpEntries }
+}
+
+const buildResultFromFailed = (
+  allFiles: TransferFileEntry[],
+  failed: FailedTransferItem[],
+  result?: AppResult
+): ExecuteTransferResult => {
+  const allFailed = failed.length === allFiles.length
+
+  if (failed.length === 0) {
+    return AppResultFactory.success({})
+  }
+
+  if (!allFailed) {
+    return AppResultFactory.success({ failed })
+  }
+
+  return AppResultFactory.failed(
+    !result?.ok && result?.error
+      ? result.error
+      : new AppError("", FailedTransferErrorName.Unknown),
+    { failed }
+  )
 }

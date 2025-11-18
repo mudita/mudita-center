@@ -17,6 +17,7 @@ import { AppResultFactory } from "app-utils/models"
 import { prePostFileTransfer } from "../../api/pre-post-file-transfer"
 import { postFileTransfer } from "../../api/post-file-transfer"
 import { postEntityData } from "../../api/post-entity-data"
+import { deleteFileTransfer } from "../../api/delete-file-transfer"
 
 export interface UploadFilesFromPathsParams
   extends ExecuteTransferParams<ApiDevice> {
@@ -71,16 +72,6 @@ export const serialUploadFilesFromPath = async ({
       crc32,
     })
 
-    // TODO: verify that this handle is needed
-    // if (abortController.signal.aborted) {
-    //   failed.push({
-    //     id: file.id,
-    //     errorName: TransferErrorName.Aborted,
-    //   })
-    //
-    //   continue
-    // }
-
     if (!preTransferResponse.ok) {
       failed.push({
         id: file.id,
@@ -93,13 +84,20 @@ export const serialUploadFilesFromPath = async ({
     const { transferId, chunkSize } = preTransferResponse.body
     const fileChunksCount = Math.ceil(fileSize / chunkSize)
     let uploadedWithinFile = 0
+    let isErrorOccurred = false
+
+    const handleAbort = async (errorName: FailedTransferErrorName | string) => {
+      await deleteFileTransfer(device, { fileTransferId: transferId })
+      isErrorOccurred = true
+      failed.push({
+        id: file.id,
+        errorName,
+      })
+    }
 
     for (let chunkNumber = 0; chunkNumber < fileChunksCount; chunkNumber++) {
       if (abortController.signal.aborted) {
-        failed.push({
-          id: file.id,
-          errorName: FailedTransferErrorName.Aborted,
-        })
+        await handleAbort(FailedTransferErrorName.Aborted)
 
         break
       }
@@ -109,10 +107,7 @@ export const serialUploadFilesFromPath = async ({
         chunkSize,
       })
       if (!fileChunkResponse.ok) {
-        failed.push({
-          id: file.id,
-          errorName: UploadFilesFromPathsErrorName.ChunkReadError,
-        })
+        await handleAbort(UploadFilesFromPathsErrorName.ChunkReadError)
 
         break
       }
@@ -124,10 +119,7 @@ export const serialUploadFilesFromPath = async ({
       })
 
       if (!uploadChunkResponse.ok) {
-        failed.push({
-          id: file.id,
-          errorName: UploadFilesFromPathsErrorName.ChunkSendError,
-        })
+        await handleAbort(UploadFilesFromPathsErrorName.ChunkSendError)
 
         break
       }
@@ -161,7 +153,7 @@ export const serialUploadFilesFromPath = async ({
 
     uploadedTotalSize += fileSize
 
-    if (entityType) {
+    if (entityType && !isErrorOccurred) {
       const postEntityDataResponse = await postEntityData(device, {
         entityType,
         data: {

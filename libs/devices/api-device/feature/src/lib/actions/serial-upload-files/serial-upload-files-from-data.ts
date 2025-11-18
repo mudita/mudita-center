@@ -13,6 +13,7 @@ import { AppFileSystem } from "app-utils/renderer"
 import { AppResultFactory } from "app-utils/models"
 import { prePostFileTransfer } from "../../api/pre-post-file-transfer"
 import { postFileTransfer } from "../../api/post-file-transfer"
+import { deleteFileTransfer } from "../../api/delete-file-transfer"
 
 interface ApiDeviceTransferFileEntry {
   id: string
@@ -86,6 +87,7 @@ export const uploadFilesFromData = async ({
     let uploadedWithinFile = 0
     for (let chunkNumber = 0; chunkNumber < fileChunksCount; chunkNumber++) {
       if (abortController.signal.aborted) {
+        await deleteFileTransfer(device, { fileTransferId: transferId })
         throw new Error("File transfer aborted")
       }
       const chunkData = filesInfo[i].source.data.slice(
@@ -98,6 +100,7 @@ export const uploadFilesFromData = async ({
         transferId,
       })
       if (!uploadChunkResponse.ok) {
+        await deleteFileTransfer(device, { fileTransferId: transferId })
         throw new Error("Failed to upload file chunk")
       }
 

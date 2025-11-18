@@ -68,6 +68,10 @@ import {
   PostEntityDataRequestValidator,
   PostEntityDataResponseValidator,
 } from "./endpoints/entities/entity-data-post.validator"
+import {
+  FileTransferDeleteRequestValidator,
+  FileTransferDeleteResponseValidator,
+} from "./endpoints/file-transfer/delete-file"
 
 type Method = "GET" | "POST" | "PUT" | "DELETE"
 
@@ -127,6 +131,10 @@ export const ApiDeviceEndpoints = {
     POST: {
       request: FileTransferPostRequestValidator,
       response: FileTransferPostResponseValidator,
+    },
+    DELETE: {
+      request: FileTransferDeleteRequestValidator,
+      response: FileTransferDeleteResponseValidator,
     },
   },
   PRE_BACKUP: {
