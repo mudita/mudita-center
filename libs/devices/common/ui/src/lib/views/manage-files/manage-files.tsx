@@ -204,7 +204,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
         onCategoryClick={changeCategory}
         onAllCheckboxClick={applySelectAll}
         onDeleteClick={startDeleteFlow}
-        onDownloadClick={startDownloadFlow}
+        onDownloadClick={openDirectoryDialog && startDownloadFlow}
         onAddFileClick={startUploadFlow}
         allFilesSelected={
           selectedIds.size === Object.keys(activeFileMap).length &&
