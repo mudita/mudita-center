@@ -120,9 +120,6 @@ export const mtpTransferFiles = async (
     const checkTransferredFileProgress = async (): Promise<
       undefined | AppError
     > => {
-      console.log(
-        `Checking MTP transfer progress for transactionId: ${transactionId}, file: ${file.sourcePath}`
-      )
       const getTransferredFileProgressResult =
         await AppMtp.getTransferredFileProgress(transactionId)
 
