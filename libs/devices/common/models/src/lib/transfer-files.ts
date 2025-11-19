@@ -45,6 +45,12 @@ export type ExecuteTransferSuccessData =
       failed?: FailedTransferItem[]
     }
 
+export const isExecuteTransferSuccessDataWithFiles = (
+  data: ExecuteTransferSuccessData
+): data is { files: (string | Buffer)[]; failed?: FailedTransferItem[] } => {
+  return (data as { files: (string | Buffer)[] }).files !== undefined
+}
+
 export type ExecuteTransferAppFailedResult = AppFailedResult<
   FailedTransferErrorName | string,
   { failed: FailedTransferItem[] }
