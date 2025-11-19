@@ -29,13 +29,13 @@ export interface SerialDownloadFilesToLocationParams
 export const isSerialDownloadFilesToMemoryParams = (
   params: ExecuteTransferParams<ApiDevice>
 ): params is SerialDownloadFilesToMemoryParams => {
-  const entry = params.files[0]
-  return entry.source.type === "path" && entry.target.type === "memory"
+  const first = params.files?.[0]
+  return first?.source?.type === "path" && first?.target?.type === "memory"
 }
 
 export const isSerialDownloadFilesToLocationParams = (
   params: ExecuteTransferParams<ApiDevice>
 ): params is SerialDownloadFilesToLocationParams => {
-  const entry = params.files[0]
-  return entry.source.type === "path" && entry.target.type === "path"
+  const first = params.files?.[0]
+  return first?.source.type === "path" && first?.target.type === "path"
 }

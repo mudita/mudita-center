@@ -27,7 +27,8 @@ export interface MtpDownloadFilesParams
 const isMtpDownloadFilesParams = (
   params: ExecuteTransferParams<ApiDevice>
 ): params is MtpDownloadFilesParams => {
-  return params.files[0].target.type === "path"
+  const first = params.files?.[0]
+  return first?.target.type === "path"
 }
 
 export const mtpDownloadFiles = async (
