@@ -13,8 +13,8 @@ const getExecPath = () => {
     return path.join(process.resourcesPath, "MtpFileTransfer.exe")
   } else {
     return path.join(
-      process.cwd().replace("apps\\mudita-center", ""),
-      "apps/mudita-center/resources/MtpFileTransfer.exe"
+      process.cwd().replace("apps\\app", ""),
+      "apps/app/resources/MtpFileTransfer.exe"
     )
   }
 }

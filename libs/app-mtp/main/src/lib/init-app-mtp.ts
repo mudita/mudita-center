@@ -15,20 +15,16 @@ export const initAppMtp = (ipcMain: IpcMain, appMtp: AppMtp) => {
   ipcMain.handle(
     AppMtpIpcEvents.GetMtpDeviceId,
     async (_, portInfo: Partial<PortInfo>) => {
-      if (!portInfo.serialNumber && !portInfo.pnpId) {
-        return undefined
-      }
       const devices = await appMtp.getDevices()
       const device = devices.find((device) => {
         switch (process.platform) {
           case "darwin":
           case "linux":
             return portInfo.serialNumber === device.id
-          case "win32":
-            return (
-              mapToCoreUsbId(portInfo.pnpId ?? "", "\\") ===
-              mapToCoreUsbId(device.id)
-            )
+          case "win32": {
+            const pnpId = `USB\\VID_${portInfo.vendorId}&PID_${portInfo.productId}\\${portInfo.serialNumber}`
+            return mapToCoreUsbId(pnpId, "\\") === mapToCoreUsbId(device.id)
+          }
           default:
             throw new Error(`Unsupported platform: ${process.platform}`)
         }
