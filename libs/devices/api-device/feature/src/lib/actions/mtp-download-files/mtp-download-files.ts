@@ -10,7 +10,7 @@ import {
   TransferFilesActionType,
 } from "devices/common/models"
 import { ApiDevice } from "devices/api-device/models"
-import { sliceSegments } from "app-utils/common"
+import { platform, sliceSegments } from "app-utils/common"
 import { isMtpPathInternal, sliceMtpPaths } from "../mtp-shared/mtp-helpers"
 import { mtpTransferFiles } from "../mtp-shared/mtp-transfer-files"
 
@@ -42,6 +42,8 @@ export const mtpDownloadFiles = async (
     ...params,
     files: params.files.map(({ id, source, target }) => {
       const isInternal = isMtpPathInternal(source.path)
+      const destinationPathPrefix = platform === "macos" ? "/" : ""
+      const destinationPath = sliceSegments(target.path, 0, -1)
 
       return {
         id,
@@ -49,7 +51,7 @@ export const mtpDownloadFiles = async (
         fileSize: source.fileSize,
         fileName: source.path.split("/").pop() || "",
         sourcePath: sliceMtpPaths(source.path, isInternal),
-        destinationPath: `/${sliceSegments(target.path, 0, -1)}`,
+        destinationPath: `${destinationPathPrefix}${destinationPath}`,
         action: TransferFilesActionType.Download,
       }
     }),
