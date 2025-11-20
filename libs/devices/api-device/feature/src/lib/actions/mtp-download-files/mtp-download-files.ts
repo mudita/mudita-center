@@ -42,7 +42,7 @@ export const mtpDownloadFiles = async (
     ...params,
     files: params.files.map(({ id, source, target }) => {
       const isInternal = isMtpPathInternal(source.path)
-      const destinationPathPrefix = platform === "macos" ? "/" : ""
+      const destinationPathPrefix = platform === "windows" ? "" : "/"
       const destinationPath = sliceSegments(target.path, 0, -1)
 
       return {
