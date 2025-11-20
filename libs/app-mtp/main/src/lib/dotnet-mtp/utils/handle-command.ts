@@ -6,22 +6,26 @@
 import { spawn } from "child_process"
 import * as readline from "readline"
 import path from "path"
+import fs from "node:fs"
 import { MTPError } from "app-mtp/models"
 
+const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
+
 const getExecPath = () => {
-  if (process.env["NODE_ENV"] === "production" && process.resourcesPath) {
-    return path.join(process.resourcesPath, "MtpFileTransfer.exe")
+  const buildExecPath = path.join(process.resourcesPath, "MtpFileTransfer.exe")
+  const localExecPath = path.join(
+    process.cwd().replace("apps\\app", ""),
+    "apps/app/resources/MtpFileTransfer.exe"
+  )
+
+  if (fs.existsSync(buildExecPath)) {
+    return buildExecPath
   } else {
-    return path.join(
-      process.cwd().replace("apps\\app", ""),
-      "apps/app/resources/MtpFileTransfer.exe"
-    )
+    return localExecPath
   }
 }
 
 const exePath = getExecPath()
-
-const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 
 export async function runCommand(
   request: object,
