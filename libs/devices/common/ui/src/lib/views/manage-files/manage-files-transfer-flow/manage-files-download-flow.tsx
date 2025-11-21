@@ -12,36 +12,24 @@ import {
   TransferFilesActionType,
   TransferMode,
 } from "devices/common/models"
-import {
-  FileManagerFile,
-  FileManagerFileMap,
-  ValidationSummary,
-  ValidationSummaryType,
-} from "../manage-files.types"
+import { FileManagerFile, FileManagerFileMap } from "../manage-files.types"
 import { manageFilesMessages } from "../manage-files.messages"
-import {
-  useManageFilesTransferFlow,
-  UseManageFilesTransferFlowArgs,
-} from "./use-manage-files-transfer-flow/use-manage-files-transfer-flow"
 import {
   ManageFilesTransferProgressModal,
   ManageFilesTransferringModalProps,
 } from "./manage-files-transfer-progress-modal"
-import {
-  ManageFilesTransferValidationFailedModal,
-  ManageFilesTransferValidationFailedModalProps,
-} from "./manage-files-transfer-validation-failed-modal"
+import { ManageFilesTransferValidationFailedModalProps } from "./manage-files-transfer-validation-failed-modal"
 import {
   ManageFilesTransferFailedModal,
   ManageFilesTransferFailedModalProps,
 } from "./manage-files-transfer-failed-modal"
-import { useBrowseForFiles } from "./use-browse/use-browse-for-files"
-import { useManageFilesValidate } from "./use-manage-files-validate"
+import { useBrowseForDirectory } from "./use-browse/use-browse-for-directory"
+import { UseManageFilesTransferFlowArgs } from "./use-manage-files-transfer-flow/use-manage-files-transfer-flow"
+import { useManageFilesDownloadFlow } from "./use-manage-files-transfer-flow/use-manage-files-download-flow"
 
-enum ManageFilesTransferFlowState {
+enum ManageFilesDownloadFlowState {
   Idle = "Idle",
-  BrowseFiles = "BrowseFiles",
-  ValidationFailed = "ValidationFailed",
+  BrowseDirectory = "BrowseDirectory",
   TransferringFiles = "TransferringFiles",
   TransferFailed = "TransferFailed",
 }
@@ -53,37 +41,36 @@ type ManageFilesDeleteFlowMessages =
       uploadingModalCloseButtonText: ManageFilesTransferringModalProps["messages"]["transferringModalCloseButtonText"]
     }
 
-export interface ManageFilesTransferFlowProps {
+export interface ManageFilesDownloadFlowProps {
   opened: boolean
   onClose: VoidFunction
   fileMap: FileManagerFileMap
-  openFileDialog: (options: OpenDialogOptionsLite) => Promise<FileManagerFile[]>
+  openDirectoryDialog: (
+    options: OpenDialogOptionsLite
+  ) => Promise<string | null>
   transferFiles: UseManageFilesTransferFlowArgs["transferFiles"]
   onTransferSuccess?: () => Promise<void>
   onPartialTransferFailure?: (failedFiles: FileManagerFile[]) => Promise<void>
   transferFlowMessages: ManageFilesDeleteFlowMessages
   freeSpaceBytes: number
-  supportedFileTypes: string[]
+  selectedFiles: FileManagerFile[]
 }
 
-export const ManageFilesTransferFlow = ({
+export const ManageFilesDownloadFlow = ({
   opened,
   onClose,
   fileMap,
-  freeSpaceBytes,
-  openFileDialog,
+  openDirectoryDialog,
   transferFiles,
   onTransferSuccess,
   onPartialTransferFailure,
   transferFlowMessages,
-  supportedFileTypes,
-}: ManageFilesTransferFlowProps) => {
+  selectedFiles,
+}: ManageFilesDownloadFlowProps) => {
   const { addToast } = useToastContext()
-  const [flowState, setFlowState] = useState<ManageFilesTransferFlowState>(
-    ManageFilesTransferFlowState.Idle
+  const [flowState, setFlowState] = useState<ManageFilesDownloadFlowState>(
+    ManageFilesDownloadFlowState.Idle
   )
-  const [selectedFiles, setSelectedFiles] = useState<FileManagerFile[]>([])
-  const [validationResult, setValidationResult] = useState<ValidationSummary>()
   const [failedTransfers, setFailedTransfers] = useState<FailedTransferItem[]>(
     []
   )
@@ -91,48 +78,29 @@ export const ManageFilesTransferFlow = ({
   useEffect(() => {
     setFlowState(
       opened
-        ? ManageFilesTransferFlowState.BrowseFiles
-        : ManageFilesTransferFlowState.Idle
+        ? ManageFilesDownloadFlowState.BrowseDirectory
+        : ManageFilesDownloadFlowState.Idle
     )
   }, [opened])
 
-  const validate = useManageFilesValidate({ fileMap, freeSpaceBytes })
-
   const { transfer, progress, transferMode, abortTransfer, currentFile } =
-    useManageFilesTransferFlow({
+    useManageFilesDownloadFlow({
       transferFiles,
-      actionType: TransferFilesActionType.Upload,
     })
 
-  const processSelectedFiles = useCallback(
-    async (files: FileManagerFile[]) => {
-      setSelectedFiles(files)
+  const processSelectedDirectory = useCallback(
+    async (directory: string) => {
+      setFlowState(ManageFilesDownloadFlowState.TransferringFiles)
 
-      if (files.length === 0) {
-        setFlowState(ManageFilesTransferFlowState.Idle)
-        onClose()
-        return
-      }
-
-      const validationSummary = validate(files)
-
-      const isTransferAllowed =
-        validationSummary.type === ValidationSummaryType.AllFilesValid ||
-        validationSummary.type === ValidationSummaryType.SomeFilesInvalid
-
-      if (!isTransferAllowed) {
-        setValidationResult(validationSummary)
-        setFlowState(ManageFilesTransferFlowState.ValidationFailed)
-        return
-      }
-
-      setFlowState(ManageFilesTransferFlowState.TransferringFiles)
-
-      const { failed } = await transfer(validationSummary.files)
+      const files = selectedFiles.map((file) => ({
+        ...file,
+        id: `${directory}/${file.name}`,
+      }))
+      const { failed } = await transfer(files)
 
       if (failed.length > 0) {
         setFailedTransfers(failed)
-        setFlowState(ManageFilesTransferFlowState.TransferFailed)
+        setFlowState(ManageFilesDownloadFlowState.TransferFailed)
         return
       }
 
@@ -148,28 +116,22 @@ export const ManageFilesTransferFlow = ({
         })
       )
 
-      setFlowState(ManageFilesTransferFlowState.Idle)
+      setFlowState(ManageFilesDownloadFlowState.Idle)
     },
-    [addToast, onClose, onTransferSuccess, transfer, validate]
+    [addToast, onTransferSuccess, selectedFiles, transfer]
   )
 
-  useBrowseForFiles({
-    opened: flowState === ManageFilesTransferFlowState.BrowseFiles,
-    supportedFileTypes,
-    openFileDialog,
-    onSelect: processSelectedFiles,
+  useBrowseForDirectory({
+    opened: flowState === ManageFilesDownloadFlowState.BrowseDirectory,
+    openDirectoryDialog,
+    onSelect: processSelectedDirectory,
     onCancel: onClose,
   })
-
-  const closeValidationFailedModal = useCallback(async () => {
-    setFlowState(ManageFilesTransferFlowState.Idle)
-    onClose()
-  }, [onClose])
 
   const closeTransferFailedModal = useCallback(async () => {
     const failedFiles = failedTransfers.map((f) => fileMap[f.id])
     onPartialTransferFailure && (await onPartialTransferFailure(failedFiles))
-    setFlowState(ManageFilesTransferFlowState.Idle)
+    setFlowState(ManageFilesDownloadFlowState.Idle)
   }, [failedTransfers, fileMap, onPartialTransferFailure])
 
   const cancelTransfer = useCallback(async () => {
@@ -182,15 +144,8 @@ export const ManageFilesTransferFlow = ({
 
   return (
     <>
-      <ManageFilesTransferValidationFailedModal
-        opened={flowState === ManageFilesTransferFlowState.ValidationFailed}
-        validationSummary={validationResult}
-        onClose={closeValidationFailedModal}
-        messages={transferFlowMessages}
-        selectedFiles={selectedFiles}
-      />
       <ManageFilesTransferProgressModal
-        opened={flowState === ManageFilesTransferFlowState.TransferringFiles}
+        opened={flowState === ManageFilesDownloadFlowState.TransferringFiles}
         filesCount={selectedFiles.length}
         messages={{
           transferringModalTitle: transferFlowMessages.uploadingModalTitle,
@@ -203,12 +158,12 @@ export const ManageFilesTransferFlow = ({
         onCancel={cancelTransfer}
       />
       <ManageFilesTransferFailedModal
-        opened={flowState === ManageFilesTransferFlowState.TransferFailed}
+        opened={flowState === ManageFilesDownloadFlowState.TransferFailed}
         failedFiles={failedTransfers}
         allFiles={selectedFiles}
         onClose={closeTransferFailedModal}
         messages={transferFlowMessages}
-        actionType={TransferFilesActionType.Upload}
+        actionType={TransferFilesActionType.Download}
       />
     </>
   )

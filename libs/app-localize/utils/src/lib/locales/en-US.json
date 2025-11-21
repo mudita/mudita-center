@@ -364,6 +364,7 @@
   "manageFiles.progressWarning.secondLineText": "to close them if you have them open.",
   "manageFiles.refreshButton.text": "Refresh",
   "manageFiles.selection.delete": "Delete",
+  "manageFiles.selection.download": "Export",
   "manageFiles.selection.selectedCount": "{count, plural, =-1 {All files} =0 {No files} one {# file} other {# files}} selected",
   "manageFiles.summary.usedLabel": "Used:",
   "manageFiles.uploadSuccess.toast.text": "{fileCount, plural, one {# file transferred} other {# files transferred}}",

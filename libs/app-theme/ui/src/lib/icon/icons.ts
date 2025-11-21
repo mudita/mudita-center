@@ -83,6 +83,7 @@ import StarFilled from "./svg/star-filled.svg?react"
 import Support from "./svg/support.svg?react"
 import ThinFail from "./svg/thin-fail.svg?react"
 import Trash from "./svg/trash.svg?react"
+import Upload from "./svg/upload.svg?react"
 
 export const icons = {
   [IconType.AirplaneMode]: AirplaneMode,
@@ -162,4 +163,5 @@ export const icons = {
   [IconType.Support]: Support,
   [IconType.ThinFail]: ThinFail,
   [IconType.Trash]: Trash,
+  [IconType.Upload]: Upload,
 } as const satisfies Record<IconType, typeof Svg>
