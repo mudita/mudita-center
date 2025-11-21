@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MtpInterface } from "./app-mtp.interface"
+import { MtpInterface } from "app-mtp/models"
 import { DotnetMtp } from "./dotnet-mtp/dotnet-mtp"
 import { NodeMtp } from "./node-mtp/node-mtp"
 import { NodeMtpDeviceManager } from "./node-mtp/node-mtp-device-manager"

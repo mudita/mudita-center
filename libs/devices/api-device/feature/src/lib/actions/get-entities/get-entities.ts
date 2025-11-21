@@ -4,7 +4,10 @@
  */
 
 import { clamp } from "lodash"
-import { FailedTransferItem } from "devices/common/models"
+import {
+  ExecuteTransferResult,
+  isExecuteTransferSuccessDataWithFiles,
+} from "devices/common/models"
 import { ApiDevice, EntityData } from "devices/api-device/models"
 import { getEntitiesData } from "../../api/get-entities-data"
 import { serialDownloadFiles } from "../serial-download-files/serial-download-files"
@@ -73,7 +76,7 @@ export const getEntities = async ({
     throw new Error("No file path received for entities data")
   }
 
-  const serialDownloadFilesResult = await serialDownloadFiles({
+  const transferResult = await serialDownloadFiles({
     device,
     files: [
       {
@@ -89,32 +92,54 @@ export const getEntities = async ({
     abortController,
   })
 
-  if (!serialDownloadFilesResult.ok) {
+  const file = extractSingleFileFromTransferResult(transferResult)
+  const buffer = normalizeToBuffer(file)
+  const entities = decodeAndParseJson<{ data: EntityData[] }>(buffer)
+
+  onProgress?.(100)
+
+  return entities.data
+}
+
+export const extractSingleFileFromTransferResult = (
+  result: ExecuteTransferResult
+): string | Buffer => {
+  if (!result.ok) {
     throw new Error("Failed to download entities data file from device")
   }
 
-  const filesData = (
-    serialDownloadFilesResult.data as {
-      files: (string | Uint8Array)[]
-      failed?: FailedTransferItem[]
-    }
-  ).files
+  const data = result.data
+
+  if (!isExecuteTransferSuccessDataWithFiles(data)) {
+    throw new Error("Downloaded data is in unexpected format")
+  }
+
+  if (!data.files?.length) {
+    throw new Error("No files returned from device")
+  }
+
+  return data.files[0]
+}
+
+const normalizeToBuffer = (file: string | Buffer | Uint8Array): Buffer => {
+  if (typeof file === "string") {
+    return Buffer.from(file, "base64")
+  }
+  return Buffer.from(file)
+}
+
+const decodeAndParseJson = <T>(buffer: Buffer): T => {
+  let text: string
 
   try {
-    const decodedData = Buffer.from(filesData[0] as any, "base64").toString(
-      "utf-8"
-    )
-    const entities = JSON.parse(decodedData) as { data: EntityData[] }
+    text = buffer.toString("utf-8")
+  } catch {
+    throw new Error(`Entities: failed to decode UTF-8`)
+  }
 
-    if (!entities || !entities.data) {
-      throw new Error("Failed to parse entities data")
-    }
-
-    onProgress?.(100)
-
-    return entities.data
-  } catch (error) {
-    console.error("Error parsing entities data:", error)
-    throw new Error("Failed to parse entities data")
+  try {
+    return JSON.parse(text) as T
+  } catch {
+    throw new Error(`Entities: failed to parse JSON`)
   }
 }

@@ -46,7 +46,7 @@ export interface AppFileSystemWriteFileOptions
     encoding?: BufferEncoding | string
     writeAsJson?: boolean
   }
-  data: Buffer | Record<string, unknown>
+  data: Buffer | string | Record<string, unknown>
 }
 
 export interface AppFileSystemReadFileOptions

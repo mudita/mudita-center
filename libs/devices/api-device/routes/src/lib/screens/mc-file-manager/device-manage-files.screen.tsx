@@ -6,12 +6,18 @@
 import { FunctionComponent } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { ApiDevice } from "devices/api-device/models"
-import { AppError, AppResultFactory } from "app-utils/models"
+import {
+  AppError,
+  AppResultFactory,
+  OpenDialogOptionsLite,
+} from "app-utils/models"
 import {
   ExecuteTransferResult,
   FailedTransferErrorName,
-  TransferMode,
+  TransferFileEntry,
+  TransferFilesActionType,
 } from "devices/common/models"
+import { AppActions } from "app-utils/renderer"
 import {
   openFileDialog,
   useActiveDeviceQuery,
@@ -98,18 +104,37 @@ export const DeviceManageFilesScreen: FunctionComponent<{
 
     let lastTransferProgress = 0
 
+    const files: TransferFileEntry[] =
+      params.actionType === TransferFilesActionType.Upload
+        ? params.files.map((file) => ({
+            id: file.id,
+            source: {
+              type: "fileLocation",
+              fileLocation: { absolute: true, fileAbsolutePath: file.id },
+            },
+            target: {
+              type: "path",
+              path: `${targetDirectoryPath}${file.name}`,
+            },
+          }))
+        : params.files.map((file) => ({
+            id: file.id,
+            source: {
+              type: "path",
+              path: `${targetDirectoryPath}${file.name}`,
+              fileSize: file.size,
+            },
+            target: {
+              type: "path",
+              path: file.id,
+            },
+          }))
+
     const result = await transferFiles({
+      ...params,
       device,
-      files: params.files.map((file) => ({
-        id: file.id,
-        source: {
-          type: "fileLocation",
-          fileLocation: { absolute: true, fileAbsolutePath: file.id },
-        },
-        target: { type: "path", path: `${targetDirectoryPath}${file.name}` },
-      })),
+      files,
       action: params.actionType,
-      transferMode: TransferMode.Serial,
       onProgress: ({ progress, ...transferFilesProgress }) => {
         lastTransferProgress = progress
         return params.onProgress?.({
@@ -146,6 +171,13 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     return { failedIds }
   }
 
+  const openDirectoryDialog = async (
+    options: OpenDialogOptionsLite
+  ): Promise<string | null> => {
+    const directories = await AppActions.openFileDialog(options)
+    return directories[0] ?? null
+  }
+
   return (
     <>
       <DashboardHeaderTitle title={"Manage Files"} />
@@ -163,6 +195,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         isLoading={isLoading}
         otherFiles={OTHER_FILES_LABEL_TEXTS}
         openFileDialog={openFileDialog}
+        openDirectoryDialog={openDirectoryDialog}
         transferFiles={handleTransferFiles}
         messages={messages}
         progress={progress}

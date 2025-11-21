@@ -4,7 +4,7 @@
  */
 
 import { AppError, AppFailedResult, AppResultFactory } from "app-utils/models"
-import { MTPError } from "../app-mtp.interface"
+import { MTPError } from "app-mtp/models"
 import { isAppError, isMessageInError } from "./is-app-error"
 
 export const handleMtpError = (error: unknown): AppFailedResult => {

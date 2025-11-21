@@ -29,6 +29,7 @@ import {
 } from "app-updater/main"
 import { initUsbAccess } from "app-init/main"
 import { IpcMockServer } from "e2e-mock/server"
+import { AppMtp, initAppMtp } from "app-mtp/main"
 
 export const initAppLibs = (
   mainWindow: BrowserWindow,
@@ -54,6 +55,7 @@ export const initAppLibs = (
   const appLoggerService = new AppLoggerService(appFileSystemService)
 
   const appSql = new AppSql(appFileSystemService)
+  const appMtp = new AppMtp()
 
   initAppActions(ipcMain, appActionsService)
   initAppSettings(ipcMain, mockServer)
@@ -67,4 +69,5 @@ export const initAppLibs = (
   initAppLogger(ipcMain, appLoggerService)
   initAppFileSystem(ipcMain, appFileSystemService)
   initUsbAccess(ipcMain, mockServer)
+  initAppMtp(ipcMain, appMtp)
 }

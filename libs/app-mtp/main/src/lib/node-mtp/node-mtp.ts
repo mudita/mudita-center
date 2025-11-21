@@ -6,7 +6,6 @@
 import path from "node:path"
 import fs from "node:fs"
 import { AppError, AppResult, AppResultFactory } from "app-utils/models"
-import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import {
   CancelTransferResultData,
   GetTransferFileProgressResultData,
@@ -18,9 +17,10 @@ import {
   TransactionStatus,
   TransferFileResultData,
   TransferTransactionData,
-} from "../app-mtp.interface"
+} from "app-mtp/models"
 import { generateId } from "../utils/generate-id"
 import { handleMtpError, mapToMtpError } from "../utils/handle-mtp-error"
+import { NodeMtpDeviceManager } from "./node-mtp-device-manager"
 import { StorageType } from "./utils/parse-storage-info"
 import { mtpUploadChunkSize } from "./mtp-packet-definitions"
 import { ResponseObjectInfo } from "./utils/object-info.interface"

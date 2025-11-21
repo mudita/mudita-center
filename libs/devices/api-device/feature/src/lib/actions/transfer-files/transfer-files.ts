@@ -43,6 +43,7 @@ export const transferFiles = async (
   }
 
   const mtpWatcher = mtpWatcherFactory({
+    device: params.device,
     onReconnect: () => {
       mtpWatcherAbortTriggered = true
       internalAbortController.abort()

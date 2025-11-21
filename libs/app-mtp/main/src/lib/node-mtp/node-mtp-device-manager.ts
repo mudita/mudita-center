@@ -4,9 +4,9 @@
  */
 
 import { AppError } from "app-utils/models"
+import { MtpDevice, MTPError } from "app-mtp/models"
 import { usb, UsbDetect } from "./usb"
 import { NodeMtpDevice } from "./node-mtp-device"
-import { MtpDevice, MTPError } from "../app-mtp.interface"
 
 export class NodeMtpDeviceManager {
   private nodeMtpDevices: Map<string, NodeMtpDevice> = new Map()

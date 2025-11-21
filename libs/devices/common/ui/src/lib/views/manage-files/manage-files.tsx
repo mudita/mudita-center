@@ -17,7 +17,6 @@ import {
   GenericDeleteFlowProps,
   LoadingState,
 } from "app-theme/ui"
-import { TransferFilesActionType } from "devices/common/models"
 import { ManageFilesStorageSummaryProps } from "./manage-files-content/manage-files-storage-summary"
 import { ManageFilesCategoryListProps } from "./manage-files-content/manage-files-category-list"
 import { ManageFilesContent } from "./manage-files-content/manage-files-content"
@@ -34,6 +33,10 @@ import {
 import { manageFilesMessages } from "./manage-files.messages"
 import { ManageFilesFileListEmptyProps } from "./manage-files-content/manage-files-file-list-empty"
 import { FileListPanelHeaderProps } from "./manage-files-content/manage-files-file-list-panel"
+import {
+  ManageFilesDownloadFlow,
+  ManageFilesDownloadFlowProps,
+} from "./manage-files-transfer-flow/manage-files-download-flow"
 
 type ManageFilesViewChild = (
   ctx: Pick<ManageFilesTableSectionProps, "onSelectedChange" | "selectedIds">
@@ -55,7 +58,8 @@ export interface ManageFilesViewProps
     Pick<
       ManageFilesTransferFlowProps,
       "openFileDialog" | "transferFiles" | "onTransferSuccess"
-    > {
+    >,
+    Partial<Pick<ManageFilesDownloadFlowProps, "openDirectoryDialog">> {
   activeFileMap: FileManagerFileMap
   onActiveCategoryChange: (categoryId: string) => void
   isLoading: boolean
@@ -77,6 +81,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     transferFiles,
     onTransferSuccess,
     openFileDialog,
+    openDirectoryDialog,
     isLoading,
     categories,
     segments,
@@ -98,9 +103,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
 
   const [uploadFlowOpened, setUploadFlowOpened] = useState(false)
-  const [actionType, setActionType] = useState<TransferFilesActionType>(
-    TransferFilesActionType.Upload
-  )
+  const [downloadFlowOpened, setDownloadFlowOpened] = useState(false)
 
   const selectedFiles: FileManagerFile[] = useMemo(() => {
     const out: FileManagerFile[] = []
@@ -163,6 +166,8 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
   const finalizeTransferSuccess = useCallback(async () => {
     onTransferSuccess && (await onTransferSuccess())
     setUploadFlowOpened(false)
+    setDownloadFlowOpened(false)
+    setSelectedIds(new Set([]))
   }, [onTransferSuccess])
 
   const handlePartialTransferFailure = useCallback(async () => {
@@ -172,7 +177,10 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
 
   const startUploadFlow = useCallback(() => {
     setUploadFlowOpened(true)
-    setActionType(TransferFilesActionType.Upload)
+  }, [])
+
+  const startDownloadFlow = useCallback(() => {
+    setDownloadFlowOpened(true)
   }, [])
 
   return (
@@ -196,6 +204,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
         onCategoryClick={changeCategory}
         onAllCheckboxClick={applySelectAll}
         onDeleteClick={startDeleteFlow}
+        onDownloadClick={openDirectoryDialog && startDownloadFlow}
         onAddFileClick={startUploadFlow}
         allFilesSelected={
           selectedIds.size === Object.keys(activeFileMap).length &&
@@ -221,8 +230,21 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
         fileMap={activeFileMap}
         freeSpaceBytes={freeSpaceBytes}
         supportedFileTypes={activeSupportedFileTypes}
-        actionType={actionType}
       />
+      {openDirectoryDialog && (
+        <ManageFilesDownloadFlow
+          opened={downloadFlowOpened}
+          onClose={() => setDownloadFlowOpened(false)}
+          openDirectoryDialog={openDirectoryDialog}
+          onTransferSuccess={finalizeTransferSuccess}
+          onPartialTransferFailure={handlePartialTransferFailure}
+          transferFiles={transferFiles}
+          transferFlowMessages={messages}
+          fileMap={activeFileMap}
+          freeSpaceBytes={freeSpaceBytes}
+          selectedFiles={selectedFiles}
+        />
+      )}
     </>
   )
 }
