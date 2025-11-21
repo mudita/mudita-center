@@ -10,6 +10,7 @@ import { formatMessage } from "app-localize/utils"
 import {
   FailedTransferItem,
   TransferFilesActionType,
+  TransferMode,
 } from "devices/common/models"
 import {
   FileManagerFile,
@@ -34,7 +35,7 @@ import {
   ManageFilesTransferFailedModal,
   ManageFilesTransferFailedModalProps,
 } from "./manage-files-transfer-failed-modal"
-import { useBrowseForFiles } from "./use-browse-for-files"
+import { useBrowseForFiles } from "./use-browse/use-browse-for-files"
 import { useManageFilesValidate } from "./use-manage-files-validate"
 
 enum ManageFilesTransferFlowState {
@@ -63,7 +64,6 @@ export interface ManageFilesTransferFlowProps {
   transferFlowMessages: ManageFilesDeleteFlowMessages
   freeSpaceBytes: number
   supportedFileTypes: string[]
-  actionType: TransferFilesActionType
 }
 
 export const ManageFilesTransferFlow = ({
@@ -77,7 +77,6 @@ export const ManageFilesTransferFlow = ({
   onPartialTransferFailure,
   transferFlowMessages,
   supportedFileTypes,
-  actionType,
 }: ManageFilesTransferFlowProps) => {
   const { addToast } = useToastContext()
   const [flowState, setFlowState] = useState<ManageFilesTransferFlowState>(
@@ -99,10 +98,10 @@ export const ManageFilesTransferFlow = ({
 
   const validate = useManageFilesValidate({ fileMap, freeSpaceBytes })
 
-  const { transfer, progress, abortTransfer, currentFile } =
+  const { transfer, progress, transferMode, abortTransfer, currentFile } =
     useManageFilesTransferFlow({
       transferFiles,
-      actionType,
+      actionType: TransferFilesActionType.Upload,
     })
 
   const processSelectedFiles = useCallback(
@@ -198,6 +197,7 @@ export const ManageFilesTransferFlow = ({
           transferringModalCloseButtonText:
             transferFlowMessages.uploadingModalCloseButtonText,
         }}
+        progressWarningVisible={transferMode === TransferMode.Serial}
         progressBarMessage={currentFile?.name ?? ""}
         progress={progress}
         onCancel={cancelTransfer}
@@ -208,7 +208,7 @@ export const ManageFilesTransferFlow = ({
         allFiles={selectedFiles}
         onClose={closeTransferFailedModal}
         messages={transferFlowMessages}
-        actionType={actionType}
+        actionType={TransferFilesActionType.Upload}
       />
     </>
   )

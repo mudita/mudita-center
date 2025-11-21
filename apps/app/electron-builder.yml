@@ -19,6 +19,9 @@ win:
   icon: ./resources/icons/icon.ico
   target:
     - nsis
+  extraFiles:
+    - from: ./resources/MtpFileTransfer.exe
+      to: resources/MtpFileTransfer.exe
 nsis:
   artifactName: Mudita-Center.${ext}
   uninstallDisplayName: ${productName}

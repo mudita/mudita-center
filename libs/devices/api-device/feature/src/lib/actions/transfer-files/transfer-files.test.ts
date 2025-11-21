@@ -32,6 +32,12 @@ jest.mock("app-utils/renderer", () => ({
   },
 }))
 
+jest.mock("app-mtp/renderer", () => ({
+  AppMtp: {
+    getMtpDeviceId: jest.fn().mockResolvedValue(undefined),
+  },
+}))
+
 jest.mock("../mtp-download-files/mtp-download-files")
 jest.mock("../mtp-upload-files/mtp-upload-files")
 jest.mock("../serial-download-files/serial-download-files")

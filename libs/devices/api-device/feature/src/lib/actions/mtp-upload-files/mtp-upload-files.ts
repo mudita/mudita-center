@@ -3,10 +3,28 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppResultFactory } from "app-utils/models"
-import { ExecuteTransferFn } from "devices/common/models"
 import { ApiDevice } from "devices/api-device/models"
+import {
+  ExecuteTransferParams,
+  ExecuteTransferResult,
+} from "devices/common/models"
+import {
+  mtpUploadFilesFromPath,
+  MtpUploadFilesFromPathParams,
+} from "./mtp-upload-files-from-path"
 
-export const mtpUploadFiles: ExecuteTransferFn<ApiDevice> = async (_params) => {
-  return AppResultFactory.success({})
+const isUploadFilesFromPathsParams = (
+  params: ExecuteTransferParams<ApiDevice>
+): params is MtpUploadFilesFromPathParams => {
+  return params.files[0].source.type === "fileLocation"
+}
+
+export const mtpUploadFiles = (
+  params: ExecuteTransferParams<ApiDevice>
+): Promise<ExecuteTransferResult> => {
+  if (isUploadFilesFromPathsParams(params)) {
+    return mtpUploadFilesFromPath(params)
+  } else {
+    throw new Error("Invalid parameters for mtpUploadFiles")
+  }
 }

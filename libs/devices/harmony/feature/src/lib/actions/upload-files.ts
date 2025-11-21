@@ -37,7 +37,7 @@ export const uploadFiles = async ({
   const {
     files: fileEntryWithMetadata,
     failed: readFileTransferMetadataListFailed,
-  } = await readFileTransferMetadataList(files)
+  } = await readFileTransferMetadataList(files, abortController)
   failed.push(...readFileTransferMetadataListFailed)
 
   const totalSize = sumBy(fileEntryWithMetadata, "fileSize")
