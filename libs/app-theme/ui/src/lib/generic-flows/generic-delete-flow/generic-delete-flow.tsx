@@ -12,12 +12,11 @@ import {
   useRef,
   useState,
 } from "react"
+import { theme } from "app-theme/utils"
 import { formatMessage, Messages } from "app-localize/utils"
 import { GenericProgressModal } from "../../generic-modals/generic-progress-modal"
-import {
-  GenericConfirmModal,
-  GenericConfirmModalProps,
-} from "../../generic-modals/generic-confirm-modal"
+import { GenericConfirmModal } from "../../generic-modals/generic-confirm-modal/generic-confirm-modal"
+import { GenericConfirmModalProps } from "../../generic-modals/generic-confirm-modal/generic-confirm-modal.types"
 import {
   GenericDeleteFailedModal,
   GenericDeleteFailedModalProps,
@@ -27,9 +26,15 @@ import {
   GenericDeleteItem,
 } from "./generic-delete-flow.types"
 import { useDeleteItems, UseDeleteItemsProps } from "./use-delete-items"
-import { theme } from "app-theme/utils"
 
-type GenericDeleteFlowMessages = GenericConfirmModalProps["messages"] &
+type GenericDeleteConfirmModal = {
+  confirmDeleteModalTitle: Messages
+  confirmDeleteModalDescription: Messages
+  confirmDeleteModalConfirmButtonText: Messages
+  confirmDeleteModalCancelButtonText: Messages
+}
+
+type GenericDeleteFlowMessages = GenericDeleteConfirmModal &
   GenericDeleteFailedModalProps["messages"] &
   UseDeleteItemsProps["messages"] & {
     deletingModalTitle: Messages
@@ -115,7 +120,7 @@ export const GenericDeleteFlow: FunctionComponent<GenericDeleteFlowProps> = ({
         onConfirm={onConfirm}
         onCancel={onClose}
         itemCount={selectedItems.length}
-        messages={deleteFlowMessages}
+        messages={mapDeleteToGenericModalMessages(deleteFlowMessages)}
       />
       <GenericProgressModal
         opened={flowState === GenericDeleteFlowState.Deleting}
@@ -135,3 +140,12 @@ export const GenericDeleteFlow: FunctionComponent<GenericDeleteFlowProps> = ({
 export type GenericDeleteFlow = NonNullable<
   GenericDeleteFlowProps["ref"]
 >["current"]
+
+const mapDeleteToGenericModalMessages = (
+  messages: GenericDeleteConfirmModal
+): GenericConfirmModalProps["messages"] => ({
+  confirmModalTitle: messages.confirmDeleteModalTitle,
+  confirmModalDescription: messages.confirmDeleteModalDescription,
+  confirmModalConfirmButtonText: messages.confirmDeleteModalConfirmButtonText,
+  confirmModalCancelButtonText: messages.confirmDeleteModalCancelButtonText,
+})

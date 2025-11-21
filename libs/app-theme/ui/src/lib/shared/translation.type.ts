@@ -9,7 +9,7 @@ import { Messages } from "app-localize/utils"
 export type Translation =
   | {
       message: Messages["id"]
-      values?: Record<string, string | number | boolean>
+      values?: Record<string, string | number | boolean | undefined>
       children?: undefined
     }
   | {

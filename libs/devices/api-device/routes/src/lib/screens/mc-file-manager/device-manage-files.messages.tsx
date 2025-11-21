@@ -122,4 +122,19 @@ export const deviceManageFilesMessages = defineMessages({
   addAppFileButtonText: {
     id: "apiDevice.manageFiles.addAppFile.buttonText",
   },
+  confirmInstallModalTitle: {
+    id: "apiDevice.manageFiles.install.confirmInstallModal.title",
+  },
+  confirmInstallModalDescription: {
+    id: "apiDevice.manageFiles.install.confirmInstallModal.description",
+  },
+  confirmInstallModalConfirmButtonText: {
+    id: "apiDevice.manageFiles.install.confirmInstallModal.confirmButtonText",
+  },
+  confirmInstallModalCancelButtonText: {
+    id: "apiDevice.manageFiles.install.confirmInstallModal.cancelButtonText",
+  },
+  confirmInstallModalCheckboxText: {
+    id: "apiDevice.manageFiles.install.confirmInstallModal.checkboxText",
+  },
 })
