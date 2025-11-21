@@ -3,10 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { clamp } from "lodash"
+import {
+  ExecuteTransferResult,
+  isExecuteTransferSuccessDataWithFiles,
+} from "devices/common/models"
 import { ApiDevice, EntityData } from "devices/api-device/models"
 import { getEntitiesData } from "../../api/get-entities-data"
-import { downloadFiles } from "../download-files/download-files"
-import { clamp } from "lodash"
+import { serialDownloadFiles } from "../serial-download-files/serial-download-files"
 
 interface GetEntitiesParams {
   device: ApiDevice
@@ -72,29 +76,70 @@ export const getEntities = async ({
     throw new Error("No file path received for entities data")
   }
 
-  const [response] = await downloadFiles({
+  const transferResult = await serialDownloadFiles({
     device,
-    sourceFilePaths: [filePath],
-    onProgress: (progress) => {
+    files: [
+      {
+        id: filePath,
+        source: { type: "path", path: filePath },
+        target: { type: "memory" },
+      },
+    ],
+    onProgress: ({ progress }) => {
       fileDownloadProgress = progress
       updateProgress()
     },
     abortController,
   })
 
+  const file = extractSingleFileFromTransferResult(transferResult)
+  const buffer = normalizeToBuffer(file)
+  const entities = decodeAndParseJson<{ data: EntityData[] }>(buffer)
+
+  onProgress?.(100)
+
+  return entities.data
+}
+
+export const extractSingleFileFromTransferResult = (
+  result: ExecuteTransferResult
+): string | Buffer => {
+  if (!result.ok) {
+    throw new Error("Failed to download entities data file from device")
+  }
+
+  const data = result.data
+
+  if (!isExecuteTransferSuccessDataWithFiles(data)) {
+    throw new Error("Downloaded data is in unexpected format")
+  }
+
+  if (!data.files?.length) {
+    throw new Error("No files returned from device")
+  }
+
+  return data.files[0]
+}
+
+const normalizeToBuffer = (file: string | Buffer | Uint8Array): Buffer => {
+  if (typeof file === "string") {
+    return Buffer.from(file, "base64")
+  }
+  return Buffer.from(file)
+}
+
+const decodeAndParseJson = <T>(buffer: Buffer): T => {
+  let text: string
+
   try {
-    const decodedData = Buffer.from(response, "base64").toString("utf-8")
-    const entities = JSON.parse(decodedData) as { data: EntityData[] }
+    text = buffer.toString("utf-8")
+  } catch {
+    throw new Error(`Entities: failed to decode UTF-8`)
+  }
 
-    if (!entities || !entities.data) {
-      throw new Error("Failed to parse entities data")
-    }
-
-    onProgress?.(100)
-
-    return entities.data
-  } catch (error) {
-    console.error("Error parsing entities data:", error)
-    throw new Error("Failed to parse entities data")
+  try {
+    return JSON.parse(text) as T
+  } catch {
+    throw new Error(`Entities: failed to parse JSON`)
   }
 }

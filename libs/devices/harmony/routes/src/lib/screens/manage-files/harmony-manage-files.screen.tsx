@@ -8,8 +8,12 @@ import { formatMessage } from "app-localize/utils"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { AppError, AppResultFactory } from "app-utils/models"
 import {
-  uploadFileToHarmony,
-  UploadFileToHarmonyError,
+  ExecuteTransferResult,
+  FailedTransferErrorName,
+  TransferFileFromPathEntry,
+} from "devices/common/models"
+import {
+  uploadFiles,
   useHarmonyDeleteFileMutation,
 } from "devices/harmony/feature"
 import {
@@ -18,12 +22,7 @@ import {
   useManageFilesSelection,
 } from "devices/common/feature"
 import { Harmony } from "devices/harmony/models"
-import {
-  FileTransferResult,
-  ManageFiles,
-  ManageFilesViewProps,
-  TransferErrorName,
-} from "devices/common/ui"
+import { ManageFiles, ManageFilesViewProps } from "devices/common/ui"
 import { HarmonyManageFilesTableSection } from "./harmony-manage-files-table-section"
 import { useHarmonyManageFiles } from "./use-harmony-manage-files"
 import { HarmonyManageFilesMessages } from "./harmony-manage-files.messages"
@@ -47,55 +46,54 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
   const { activeCategoryId, setActiveCategoryId, activeFileMap } =
     useManageFilesSelection({ categories, categoryFileMap })
 
-  const transferFile: ManageFilesViewProps["transferFile"] = async (
+  const transferFile: ManageFilesViewProps["transferFiles"] = async (
     params
-  ): Promise<FileTransferResult> => {
+  ): Promise<ExecuteTransferResult> => {
     const targetDirectoryPath = categories.find(
       ({ id }) => id === activeCategoryId
     )?.directoryPath
+
     if (!activeDevice || !targetDirectoryPath) {
       return AppResultFactory.failed(
-        new AppError("", TransferErrorName.UploadUnknown)
+        new AppError("", FailedTransferErrorName.Unknown),
+        {
+          failed: params.files.map((f) => ({
+            ...f,
+            errorName: "Unknown",
+          })),
+        }
       )
     }
 
-    const targetPath = `${targetDirectoryPath}/${params.file.name}`
+    const files: TransferFileFromPathEntry[] = params.files.map((file) => ({
+      id: file.id,
+      source: {
+        type: "fileLocation",
+        fileLocation: { fileAbsolutePath: file.id, absolute: true },
+      },
+      target: {
+        type: "path",
+        path: `${targetDirectoryPath}/${file.name}`,
+      },
+    }))
 
-    try {
-      const uploadFileToHarmonyResponse = await uploadFileToHarmony({
-        device: activeDevice,
-        targetPath,
-        onProgress: params.onProgress,
-        abortController: params.abortController,
-        fileLocation: { fileAbsolutePath: params.file.id, absolute: true },
-      })
+    const result = await uploadFiles({
+      files,
+      device: activeDevice,
+      onProgress: params.onProgress,
+      abortController: params.abortController,
+    })
 
-      if (!uploadFileToHarmonyResponse) {
-        return AppResultFactory.failed(
-          new AppError("", TransferErrorName.UploadUnknown)
-        )
-      }
-      return AppResultFactory.success()
-    } catch (error) {
-      if (error === UploadFileToHarmonyError.Aborted) {
-        try {
-          // In case of abort during upload, the file may be partially uploaded. Attempt to delete it.
-          // Ignore any errors from deleteFile to avoid masking the original abort error.
-          await deleteFile(targetPath)
-        } catch (e) {
-          console.warn("Failed to delete file after abort", e)
+    if (result.data?.failed) {
+      for (const file of result.data.failed) {
+        if (file.errorName === FailedTransferErrorName.Aborted) {
+          const fileToDelete = files.find((f) => f.id === file.id)
+          fileToDelete && (await deleteFile(fileToDelete.target.path))
         }
-
-        return AppResultFactory.failed(
-          new AppError("", TransferErrorName.Cancelled),
-          {}
-        )
-      } else {
-        return AppResultFactory.failed(
-          new AppError("", TransferErrorName.UploadUnknown)
-        )
       }
     }
+
+    return result
   }
 
   const deleteFiles: ManageFilesViewProps["deleteFiles"] = async (
@@ -133,7 +131,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
         isLoading={isLoading}
         otherFiles={OTHER_FILES_LABEL_TEXTS}
         openFileDialog={openFileDialog}
-        transferFile={transferFile}
+        transferFiles={transferFile}
         messages={HarmonyManageFilesMessages}
         onTransferSuccess={refetch}
       >

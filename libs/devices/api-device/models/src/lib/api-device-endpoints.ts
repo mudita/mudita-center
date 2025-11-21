@@ -64,6 +64,14 @@ import {
   GetEntitiesConfigRequestValidator,
   GetEntitiesConfigResponseValidator,
 } from "./endpoints/entities/entities-config-get.validator"
+import {
+  PostEntityDataRequestValidator,
+  PostEntityDataResponseValidator,
+} from "./endpoints/entities/entity-data-post.validator"
+import {
+  FileTransferDeleteRequestValidator,
+  FileTransferDeleteResponseValidator,
+} from "./endpoints/file-transfer/delete-file"
 
 type Method = "GET" | "POST" | "PUT" | "DELETE"
 
@@ -124,6 +132,10 @@ export const ApiDeviceEndpoints = {
       request: FileTransferPostRequestValidator,
       response: FileTransferPostResponseValidator,
     },
+    DELETE: {
+      request: FileTransferDeleteRequestValidator,
+      response: FileTransferDeleteResponseValidator,
+    },
   },
   PRE_BACKUP: {
     GET: {
@@ -181,6 +193,10 @@ export const ApiDeviceEndpoints = {
     DELETE: {
       request: DeleteEntitiesRequestValidator,
       response: DeleteEntitiesResponseValidator,
+    },
+    POST: {
+      request: PostEntityDataRequestValidator,
+      response: PostEntityDataResponseValidator,
     },
   },
 } as const satisfies EndpointsDefinition

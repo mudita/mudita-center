@@ -98,24 +98,37 @@ export const useApiEntitiesDataMapQuery = (
   options?: Omit<UseQueryOptions, "queryFn" | "queryKey">
 ) => {
   const progressRef = useRef<Record<string, number>>({})
+  const extraReporterRef = useRef<Record<string, (p: number) => void>>({})
   const [progress, setProgress] = useState(0)
 
   const reportProgress = useCallback(() => {
-    const totalProgress = Math.round(
-      sum(Object.values(progressRef.current)) / entityTypes.length
-    )
+    if (entityTypes.length === 0) {
+      setProgress(100)
+      return
+    }
+    const currentValues = Object.values(progressRef.current)
+    const totalProgress = Math.floor(sum(currentValues) / entityTypes.length)
     setProgress(totalProgress)
   }, [entityTypes.length])
+
+  const makeProgressHandler = useCallback(
+    (entityType: string) => (entityProgress: number) => {
+      progressRef.current[entityType] = entityProgress
+
+      reportProgress()
+
+      const extraReporter = extraReporterRef.current[entityType]
+      extraReporter?.(entityProgress)
+    },
+    [reportProgress]
+  )
 
   return useQueries({
     queries: entityTypes.map((entityType) => {
       return {
         queryKey: useApiEntitiesDataQuery.queryKey(entityType, device?.id),
         queryFn: () =>
-          queryFn(entityType, device, (progress) => {
-            progressRef.current[entityType] = progress
-            reportProgress()
-          }),
+          queryFn(entityType, device, makeProgressHandler(entityType)),
         enabled: !!device,
         ...options,
       }
@@ -128,10 +141,35 @@ export const useApiEntitiesDataMapQuery = (
         entityTypes.map((entityType, i) => [entityType, results[i]?.data ?? []])
       ) as Record<string, EntityData[]>
 
-      const refetch = async () => {
+      const refetch = async (options?: {
+        onProgress?: (p: number) => void
+      }) => {
+        if (!options?.onProgress) {
+          for (const result of results) {
+            await result?.refetch()
+          }
+          return
+        }
+
+        const total = entityTypes.length || 1
+
+        entityTypes.forEach((entityType, index) => {
+          extraReporterRef.current[entityType] = (entityProgress) => {
+            const normalized = (index + entityProgress / 100) / total // 0..1
+            const capped = Math.min(normalized * 99, 99) // max 99%
+            options.onProgress?.(Math.floor(capped))
+          }
+        })
+
         for (const result of results) {
           await result?.refetch()
         }
+
+        entityTypes.forEach((entityType) => {
+          delete extraReporterRef.current[entityType]
+        })
+
+        options.onProgress?.(100)
       }
 
       return {

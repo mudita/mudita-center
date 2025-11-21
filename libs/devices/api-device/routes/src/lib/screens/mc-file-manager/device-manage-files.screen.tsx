@@ -6,23 +6,40 @@
 import { FunctionComponent } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { ApiDevice } from "devices/api-device/models"
-import { AppResultFactory } from "app-utils/models"
+import {
+  AppError,
+  AppResultFactory,
+  OpenDialogOptionsLite,
+} from "app-utils/models"
+import {
+  ExecuteTransferResult,
+  FailedTransferErrorName,
+  TransferFileEntry,
+  TransferFilesActionType,
+} from "devices/common/models"
+import { AppActions } from "app-utils/renderer"
 import {
   openFileDialog,
   useActiveDeviceQuery,
   useManageFilesSelection,
 } from "devices/common/feature"
 import {
-  FileTransferResult,
   ManageFiles,
   manageFilesMessages,
   ManageFilesViewProps,
 } from "devices/common/ui"
-import { useApiDeviceDeleteEntitiesMutation } from "devices/api-device/feature"
+import {
+  transferFiles,
+  useApiDeviceDeleteEntitiesMutation,
+} from "devices/api-device/feature"
 import { DeviceManageFilesTableSection } from "./device-manage-files-table-section"
 import { deviceManageFilesMessages } from "./device-manage-files.messages"
 import { useDeviceManageFiles } from "./use-device-manage-files"
-import { OTHER_FILES_LABEL_TEXTS } from "./device-manage-files.config"
+import {
+  OTHER_FILES_LABEL_TEXTS,
+  PROGRESS_REFETCH_PHASE_RATIO,
+  PROGRESS_TRANSFER_PHASE_RATIO,
+} from "./device-manage-files.config"
 import {
   DeviceManageFileFeature,
   DeviceManageFileFeatureId,
@@ -66,11 +83,82 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     addFileButtonText,
   }
 
-  const transferFile: ManageFilesViewProps["transferFile"] = async (
-    _params
-  ): Promise<FileTransferResult> => {
-    // TODO: Implement file transfer logic here
-    return AppResultFactory.success<FileTransferResult>()
+  const handleTransferFiles: ManageFilesViewProps["transferFiles"] = async (
+    params
+  ): Promise<ExecuteTransferResult> => {
+    const targetDirectoryPath = categories.find(
+      ({ id }) => id === activeCategoryId
+    )?.directoryPath
+
+    if (!device || !targetDirectoryPath) {
+      return AppResultFactory.failed(
+        new AppError("", FailedTransferErrorName.Unknown),
+        {
+          failed: params.files.map((f) => ({
+            ...f,
+            errorName: FailedTransferErrorName.Unknown,
+          })),
+        }
+      )
+    }
+
+    let lastTransferProgress = 0
+
+    const files: TransferFileEntry[] =
+      params.actionType === TransferFilesActionType.Upload
+        ? params.files.map((file) => ({
+            id: file.id,
+            source: {
+              type: "fileLocation",
+              fileLocation: { absolute: true, fileAbsolutePath: file.id },
+            },
+            target: {
+              type: "path",
+              path: `${targetDirectoryPath}${file.name}`,
+            },
+          }))
+        : params.files.map((file) => ({
+            id: file.id,
+            source: {
+              type: "path",
+              path: `${targetDirectoryPath}${file.name}`,
+              fileSize: file.size,
+            },
+            target: {
+              type: "path",
+              path: file.id,
+            },
+          }))
+
+    const result = await transferFiles({
+      ...params,
+      device,
+      files,
+      action: params.actionType,
+      onProgress: ({ progress, ...transferFilesProgress }) => {
+        lastTransferProgress = progress
+        return params.onProgress?.({
+          ...transferFilesProgress,
+          progress: Math.floor(progress * PROGRESS_TRANSFER_PHASE_RATIO),
+        })
+      },
+      abortController: params.abortController,
+      entityType: activeCategoryId,
+    })
+
+    await refetch({
+      onProgress: (refetchProgress) => {
+        const combined =
+          lastTransferProgress * PROGRESS_TRANSFER_PHASE_RATIO +
+          refetchProgress * PROGRESS_REFETCH_PHASE_RATIO
+
+        params.onProgress?.({
+          progress: Math.floor(combined),
+        })
+      },
+    })
+
+    return result
   }
 
   const deleteFiles: ManageFilesViewProps["deleteFiles"] = async (
@@ -81,6 +169,13 @@ export const DeviceManageFilesScreen: FunctionComponent<{
       ids,
     })
     return { failedIds }
+  }
+
+  const openDirectoryDialog = async (
+    options: OpenDialogOptionsLite
+  ): Promise<string | null> => {
+    const directories = await AppActions.openFileDialog(options)
+    return directories[0] ?? null
   }
 
   return (
@@ -96,13 +191,13 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         usedSpaceBytes={usedSpaceBytes}
         otherSpaceBytes={otherSpaceBytes}
         deleteFiles={deleteFiles}
-        onDeleteSuccess={refetch}
+        onDeleteSuccess={() => refetch()}
         isLoading={isLoading}
         otherFiles={OTHER_FILES_LABEL_TEXTS}
         openFileDialog={openFileDialog}
-        transferFile={transferFile}
+        openDirectoryDialog={openDirectoryDialog}
+        transferFiles={handleTransferFiles}
         messages={messages}
-        onTransferSuccess={refetch}
         progress={progress}
       >
         {(props) => (

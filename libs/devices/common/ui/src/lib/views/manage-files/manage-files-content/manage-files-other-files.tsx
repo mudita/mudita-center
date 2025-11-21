@@ -37,7 +37,7 @@ export const ManageFilesOtherFiles: FunctionComponent<
           </OtherFilesList>
         </Tooltip.Content>
         <Tooltip.Anchor>
-          <Icon type={IconType.Info} />
+          <Icon type={IconType.InfoBold} />
         </Tooltip.Anchor>
       </Tooltip>
     </Wrapper>

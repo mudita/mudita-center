@@ -22,7 +22,6 @@ import {
   ManageFilesFileListEmpty,
   ManageFilesFileListEmptyProps,
 } from "./manage-files-file-list-empty"
-
 import {
   FileListPanelHeaderProps,
   ManageFilesFileListPanelDefaultMode,
@@ -36,7 +35,7 @@ interface Props
     ManageFilesOtherFilesProps,
     Pick<
       ManageFilesFileListPanelSelectModeProps,
-      "onAllCheckboxClick" | "onDeleteClick"
+      "onAllCheckboxClick" | "onDeleteClick" | "onDownloadClick"
     > {
   selectedFiles: FileManagerFile[]
   onAddFileClick?: () => void
@@ -63,6 +62,7 @@ export const ManageFilesContent: FunctionComponent<
   onCategoryClick,
   onAllCheckboxClick,
   onDeleteClick,
+  onDownloadClick,
   onAddFileClick,
   children,
   messages,
@@ -120,6 +120,7 @@ export const ManageFilesContent: FunctionComponent<
                   count={selectedFiles.length}
                   onAllCheckboxClick={onAllCheckboxClick}
                   onDeleteClick={onDeleteClick}
+                  onDownloadClick={onDownloadClick}
                   allFilesSelected={allFilesSelected}
                 />
               )}

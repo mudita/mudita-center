@@ -35,7 +35,7 @@ export const mapToCategories = (
       icon: category.icon as FileManagerFileCategory["icon"],
       markerColor: category.markerColor,
       label: category.label,
-      directoryPath: category.directoryPath,
+      directoryPath: `${storageInfo.path}/${category.directoryPath}`,
       fileListEmptyStateDescription: category.fileListEmptyStateDescription,
       supportedFileTypes: category.supportedFileTypes,
       size: formatBytes(usedBytes, { minUnit: "KB" }),

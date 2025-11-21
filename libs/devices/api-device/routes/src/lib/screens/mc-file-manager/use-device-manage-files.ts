@@ -21,7 +21,7 @@ import {
 interface DeviceManageFilesDataViewData extends DeviceManageFilesData {
   isLoading: boolean
   isError: boolean
-  refetch: () => Promise<void>
+  refetch: (opts?: { onProgress?: (p: number) => void }) => Promise<void>
   progress: number
 }
 
@@ -71,9 +71,12 @@ export const useDeviceManageFiles = (
     })
   }, [device, featureData, isLoading, isError, entitiesData])
 
-  const refetch = useCallback(async () => {
-    await Promise.all([refetchFeatureData(), refetchEntities()])
-  }, [refetchEntities, refetchFeatureData])
+  const refetch = useCallback(
+    async (options?: { onProgress?: (p: number) => void }) => {
+      await Promise.all([refetchFeatureData(), refetchEntities(options)])
+    },
+    [refetchEntities, refetchFeatureData]
+  )
 
   return {
     ...data,

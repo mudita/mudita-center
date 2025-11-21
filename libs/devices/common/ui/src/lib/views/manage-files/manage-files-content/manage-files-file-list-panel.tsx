@@ -47,12 +47,38 @@ export interface ManageFilesFileListPanelSelectModeProps {
   count: number
   onAllCheckboxClick: (checked: boolean) => void
   onDeleteClick: VoidFunction
+  onDownloadClick?: VoidFunction
   allFilesSelected: boolean
 }
 
 export const ManageFilesFileListPanelSelectMode: FunctionComponent<
   ManageFilesFileListPanelSelectModeProps
-> = ({ count, allFilesSelected, onAllCheckboxClick, onDeleteClick }) => {
+> = ({
+  count,
+  allFilesSelected,
+  onAllCheckboxClick,
+  onDeleteClick,
+  onDownloadClick,
+}) => {
+  const buttons = [
+    ...(onDownloadClick
+      ? [
+          <DownloadButton
+            icon={IconType.Upload}
+            message={manageFilesMessages.selectionDownload.id}
+            type={ButtonType.Text}
+            onClick={onDownloadClick}
+          />,
+        ]
+      : []),
+    <DeleteButton
+      icon={IconType.Trash}
+      message={manageFilesMessages.selectionDelete.id}
+      type={ButtonType.Text}
+      onClick={onDeleteClick}
+    />,
+  ]
+
   return (
     <FileListPanelSelector>
       <SelectionManager
@@ -60,14 +86,7 @@ export const ManageFilesFileListPanelSelectMode: FunctionComponent<
         allItemsSelected={allFilesSelected}
         message={manageFilesMessages.selectionSelectedCount}
         onToggle={(event) => onAllCheckboxClick(event.target.checked)}
-        buttons={[
-          <DeleteButton
-            icon={IconType.Trash}
-            message={manageFilesMessages.selectionDelete.id}
-            type={ButtonType.Text}
-            onClick={onDeleteClick}
-          />,
-        ]}
+        buttons={buttons}
       />
     </FileListPanelSelector>
   )
@@ -84,6 +103,10 @@ const FileListPanel = styled.div`
 
 const FileListPanelSelector = styled.div`
   margin: 2.8rem 3.2rem;
+`
+
+const DownloadButton = styled(Button)`
+  height: 2.2rem;
 `
 
 const DeleteButton = styled(Button)`

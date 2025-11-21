@@ -41,8 +41,10 @@ export const mapDeviceToManageFiles = ({
   featureData,
   entitiesData = {},
 }: MapDeviceToManageFilesParams = {}): DeviceManageFilesData => {
+  const storageInformationList: StorageInformation[] =
+    featureData?.data?.storageInformation ?? []
   const storageInformation: StorageInformation =
-    featureData?.data?.storageInformation[0] || EMPTY_STORAGE_INFO
+    storageInformationList[0] || EMPTY_STORAGE_INFO
 
   const categoryFileMap = mapToCategoryFileMap(
     entitiesData,

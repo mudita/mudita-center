@@ -5,9 +5,7 @@
 
 import { z } from "zod"
 import { response200Schema, response202Schema } from "../common"
-
-export const entityDataSchema = z.record(z.string(), z.unknown())
-export type EntityData = z.infer<typeof entityDataSchema>
+import { entityDataSchema } from "./entity-data.validator"
 
 export const GetEntitiesDataRequestValidator = z
   .object({

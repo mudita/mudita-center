@@ -4,17 +4,13 @@
  */
 
 import { formatMessage, Messages } from "app-localize/utils"
-import { formatBytes } from "app-theme/ui"
+import { FailedItem, formatBytes } from "app-theme/ui"
 import {
-  FileFailed,
-  FileManagerFile,
-  TransferErrorName,
-} from "../manage-files.types"
-
-export interface FileTransferFailed extends FileManagerFile {
-  errorName: TransferErrorName
-  values?: Record<string, string | number> | unknown
-}
+  FailedTransferErrorName,
+  FailedTransferItem,
+  TransferFilesActionType,
+} from "devices/common/models"
+import { FileManagerFile } from "../manage-files.types"
 
 export interface ManageFilesTransferFailedModalMessages {
   exportFailedErrorLabelExportUnknown: Messages
@@ -36,55 +32,94 @@ export interface ManageFilesTransferFailedModalMessages {
 
 const reasonToLabel = (m: ManageFilesTransferFailedModalMessages) =>
   ({
-    [TransferErrorName.Duplicate]: m.uploadFailedErrorLabelDuplicate,
-    [TransferErrorName.NotEnoughMemory]: m.uploadFailedErrorLabelTooBig,
-    [TransferErrorName.FileTooLarge]: m.uploadFailedErrorLabelFileTooLarge,
-    [TransferErrorName.Cancelled]: m.uploadFailedErrorLabelCancelled,
-    [TransferErrorName.UploadUnknown]: m.uploadFailedErrorLabelUploadUnknown,
-    [TransferErrorName.ExportUnknown]: m.exportFailedErrorLabelExportUnknown,
+    [FailedTransferErrorName.Duplicate]: m.uploadFailedErrorLabelDuplicate,
+    [FailedTransferErrorName.NotEnoughMemory]: m.uploadFailedErrorLabelTooBig,
+    [FailedTransferErrorName.FileTooLarge]:
+      m.uploadFailedErrorLabelFileTooLarge,
+    [FailedTransferErrorName.Aborted]: m.uploadFailedErrorLabelCancelled,
+    [`${FailedTransferErrorName.Unknown}:${TransferFilesActionType.Upload}`]:
+      m.uploadFailedErrorLabelUploadUnknown,
+    [`${FailedTransferErrorName.Unknown}:${TransferFilesActionType.Download}`]:
+      m.exportFailedErrorLabelExportUnknown,
   }) as const
 
 const allFailedSpecificMessage = (m: ManageFilesTransferFailedModalMessages) =>
   ({
-    [TransferErrorName.Duplicate]: m.uploadFailedAllDuplicatesError,
-    [TransferErrorName.NotEnoughMemory]: m.uploadFailedAllNotEnoughMemoryError,
-    [TransferErrorName.FileTooLarge]: m.uploadFailedAllFileTooLargeError,
-    [TransferErrorName.Cancelled]: null,
-    [TransferErrorName.UploadUnknown]: null,
-    [TransferErrorName.ExportUnknown]: null,
+    [FailedTransferErrorName.Duplicate]: m.uploadFailedAllDuplicatesError,
+    [FailedTransferErrorName.NotEnoughMemory]:
+      m.uploadFailedAllNotEnoughMemoryError,
+    [FailedTransferErrorName.FileTooLarge]: m.uploadFailedAllFileTooLargeError,
+    [FailedTransferErrorName.Aborted]: null,
+    [`${FailedTransferErrorName.Unknown}:${TransferFilesActionType.Upload}`]:
+      null,
+    [`${FailedTransferErrorName.Unknown}:${TransferFilesActionType.Download}`]:
+      null,
   }) as const
 
-export type ReasonStats = Record<TransferErrorName, number>
+type ReasonStatsErrorName =
+  | FailedTransferErrorName.Aborted
+  | FailedTransferErrorName.Duplicate
+  | FailedTransferErrorName.NotEnoughMemory
+  | FailedTransferErrorName.FileTooLarge
+  | `${FailedTransferErrorName.Unknown}:${TransferFilesActionType.Upload}`
+  | `${FailedTransferErrorName.Unknown}:${TransferFilesActionType.Download}`
+
+export type ReasonStats = Record<ReasonStatsErrorName, number>
 
 const emptyStats = (): ReasonStats => ({
-  [TransferErrorName.Duplicate]: 0,
-  [TransferErrorName.NotEnoughMemory]: 0,
-  [TransferErrorName.FileTooLarge]: 0,
-  [TransferErrorName.Cancelled]: 0,
-  [TransferErrorName.UploadUnknown]: 0,
-  [TransferErrorName.ExportUnknown]: 0,
+  [FailedTransferErrorName.Duplicate]: 0,
+  [FailedTransferErrorName.NotEnoughMemory]: 0,
+  [FailedTransferErrorName.FileTooLarge]: 0,
+  [FailedTransferErrorName.Aborted]: 0,
+  [`${FailedTransferErrorName.Unknown}:${TransferFilesActionType.Upload}`]: 0,
+  [`${FailedTransferErrorName.Unknown}:${TransferFilesActionType.Download}`]: 0,
 })
 
-export const groupReasons = (failed: FileTransferFailed[]): ReasonStats =>
+const getReasonStatsErrorName = (
+  errorName: string,
+  actionType: TransferFilesActionType
+): ReasonStatsErrorName => {
+  switch (errorName) {
+    case FailedTransferErrorName.Duplicate:
+      return FailedTransferErrorName.Duplicate
+    case FailedTransferErrorName.NotEnoughMemory:
+      return FailedTransferErrorName.NotEnoughMemory
+    case FailedTransferErrorName.FileTooLarge:
+      return FailedTransferErrorName.FileTooLarge
+    case FailedTransferErrorName.Aborted:
+      return FailedTransferErrorName.Aborted
+    default:
+      return `${FailedTransferErrorName.Unknown}:${actionType}`
+  }
+}
+
+export const groupReasons = (
+  failed: FailedTransferItem[],
+  actionType: TransferFilesActionType
+): ReasonStats =>
   failed.reduce<ReasonStats>((acc, { errorName }) => {
-    acc[errorName] = (acc[errorName] ?? 0) + 1
+    const reasonStatsErrorName = getReasonStatsErrorName(errorName, actionType)
+    acc[reasonStatsErrorName] = (acc[reasonStatsErrorName] ?? 0) + 1
     return acc
   }, emptyStats())
 
-export const distinctReasons = (stats: ReasonStats): TransferErrorName[] =>
-  (Object.keys(stats) as TransferErrorName[]).filter((k) => stats[k] > 0)
+export const distinctReasons = (stats: ReasonStats): ReasonStatsErrorName[] =>
+  (Object.keys(stats) as ReasonStatsErrorName[]).filter((k) => stats[k] > 0)
 
 export const getErrorLabelForReason = (
-  reason: TransferErrorName,
+  errorName: string,
+  actionType: TransferFilesActionType,
   messages: ManageFilesTransferFailedModalMessages
-): Messages =>
-  reasonToLabel(messages)[reason] ??
-  messages.uploadFailedErrorLabelUploadUnknown
+): Messages => {
+  const reasonStatsErrorName = getReasonStatsErrorName(errorName, actionType)
+  return reasonToLabel(messages)[reasonStatsErrorName]
+}
 
 export interface BuildCopyArgs {
-  failedFiles: FileTransferFailed[]
+  failedFiles: FailedTransferItem[]
   total: number
   messages: ManageFilesTransferFailedModalMessages
+  actionType: TransferFilesActionType
 }
 
 export interface FailureCopy {
@@ -98,13 +133,15 @@ export const getTransferFailedModalContent = ({
   failedFiles,
   total,
   messages,
+  actionType,
 }: BuildCopyArgs): FailureCopy => {
   const failedCount = failedFiles.length
   const isAllFailed = total > 0 && failedCount === total
   const succeededCount = Math.max(total - failedCount, 0)
   const memory = (
-    failedFiles.find((f) => f.errorName === TransferErrorName.NotEnoughMemory)
-      ?.values as { memory: number } | undefined
+    failedFiles.find(
+      (f) => f.errorName === FailedTransferErrorName.NotEnoughMemory
+    )?.values as { memory: number } | undefined
   )?.memory
 
   const title = isAllFailed
@@ -122,7 +159,7 @@ export const getTransferFailedModalContent = ({
     return { title, description, isAllFailed, onlySingleReason: false }
   }
 
-  const stats = groupReasons(failedFiles)
+  const stats = groupReasons(failedFiles, actionType)
   const reasons = distinctReasons(stats)
   const onlySingleReason = reasons.length === 1
 
@@ -152,10 +189,19 @@ export const getTransferFailedModalContent = ({
 }
 
 export const mapFailedFilesWithLabels = (
-  failedFiles: FileTransferFailed[],
-  messages: ManageFilesTransferFailedModalMessages
-): FileFailed[] =>
-  failedFiles.map((file) => ({
-    ...file,
-    label: formatMessage(getErrorLabelForReason(file.errorName, messages)),
-  }))
+  allFiles: FileManagerFile[],
+  failedFiles: FailedTransferItem[],
+  messages: ManageFilesTransferFailedModalMessages,
+  actionType: TransferFilesActionType
+): FailedItem[] =>
+  failedFiles.map((file) => {
+    const originalFile = allFiles.find(
+      (f) => f.id === file.id
+    ) as FileManagerFile
+    return {
+      ...originalFile,
+      label: formatMessage(
+        getErrorLabelForReason(file.errorName, actionType, messages)
+      ),
+    }
+  })

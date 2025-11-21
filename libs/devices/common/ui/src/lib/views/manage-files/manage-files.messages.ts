@@ -14,6 +14,13 @@ export const manageFilesMessages = defineMessages({
   emptyStateTitle: { id: "manageFiles.emptyState.title" },
   otherFilesTitle: { id: "manageFiles.otherFiles.title" },
   selectionDelete: { id: "manageFiles.selection.delete" },
+  selectionDownload: { id: "manageFiles.selection.download" },
   selectionSelectedCount: { id: "manageFiles.selection.selectedCount" },
   loadStateText: { id: "manageFiles.loadState.text" },
+  progressWarningFirstLineText: {
+    id: "manageFiles.progressWarning.firstLineText",
+  },
+  progressWarningSecondLineText: {
+    id: "manageFiles.progressWarning.secondLineText",
+  },
 })

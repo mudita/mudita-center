@@ -7,6 +7,7 @@ import { FunctionComponent } from "react"
 import { ButtonSize, ButtonType, IconType } from "app-theme/models"
 import { formatMessage, Messages } from "app-localize/utils"
 import { Button, Modal, ProgressBar } from "app-theme/ui"
+import { ManageFilesTransferProgressWarning } from "./manage-files-transfer-progress-warning"
 
 export interface ManageFilesTransferringModalProps {
   opened: boolean
@@ -18,6 +19,7 @@ export interface ManageFilesTransferringModalProps {
   progress?: number
   onCancel: VoidFunction
   progressBarMessage: string
+  progressWarningVisible: boolean
 }
 
 export const ManageFilesTransferProgressModal: FunctionComponent<
@@ -29,6 +31,7 @@ export const ManageFilesTransferProgressModal: FunctionComponent<
   onCancel,
   progress = 0,
   progressBarMessage,
+  progressWarningVisible,
 }) => {
   return (
     <Modal opened={opened}>
@@ -36,6 +39,7 @@ export const ManageFilesTransferProgressModal: FunctionComponent<
       <Modal.Title
         text={formatMessage(messages.transferringModalTitle, { filesCount })}
       />
+      {progressWarningVisible && <ManageFilesTransferProgressWarning />}
       <ProgressBar value={progress} message={progressBarMessage} />
       <Modal.Buttons>
         <Button

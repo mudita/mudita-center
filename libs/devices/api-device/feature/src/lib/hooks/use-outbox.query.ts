@@ -17,6 +17,17 @@ import { useApiEntitiesConfigQuery } from "./use-api-entities-config.query"
 import { getEntityData } from "../api/get-entity-data"
 import { cloneDeep } from "lodash"
 
+const OUTBOX_SKIPPED_ENTITY_TYPES: string[] = [
+  "audioFiles",
+  "imageFiles",
+  "ebookFiles",
+  "applicationFiles",
+]
+
+const isOutboxEntitySkipped = (entityType: string): boolean => {
+  return OUTBOX_SKIPPED_ENTITY_TYPES.includes(entityType)
+}
+
 export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   const queryClient = useQueryClient()
 
@@ -147,6 +158,9 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
 
   useEffect(() => {
     for (const entity of entities) {
+      if (isOutboxEntitySkipped(entity.entityType)) {
+        continue
+      }
       void updateEntities(entity)
     }
   }, [entities, updateEntities])

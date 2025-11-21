@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ApiDevice, PreRestoreRequest } from "devices/api-device/models"
 import { random } from "lodash"
-import { uploadFiles } from "../upload-files/upload-files"
+import { ApiDevice, PreRestoreRequest } from "devices/api-device/models"
+import { serialUploadFiles } from "../serial-upload-files/serial-upload-files"
 import { deleteRestore } from "../../api/delete-restore"
 import { preRestoreStep } from "./pre-restore-step"
 import { restoreStep } from "./restore-step"
@@ -16,6 +16,7 @@ export interface RestoreBackupParams {
   onProgress: (progress: number) => void
   abortController: AbortController
 }
+
 export const restoreBackup = async ({
   device,
   features,
@@ -50,12 +51,14 @@ export const restoreBackup = async ({
       }
       return btoa(JSON.stringify(featureData.data))
     })
-
-    await uploadFiles({
+    await serialUploadFiles({
       device,
-      targetFilePaths: featuresTargets.map(({ filePath }) => filePath),
-      sourceData,
-      onProgress: (progress) => {
+      files: featuresTargets.map(({ filePath }, index) => ({
+        id: `feature-${index}`,
+        source: { type: "memory", data: sourceData },
+        target: { type: "path", path: filePath },
+      })),
+      onProgress: ({ progress }) => {
         uploadProgress = progress
         handleProgress()
       },

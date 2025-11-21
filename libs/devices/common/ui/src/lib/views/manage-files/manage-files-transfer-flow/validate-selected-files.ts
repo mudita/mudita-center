@@ -4,11 +4,11 @@
  */
 
 import { formatBytes } from "app-theme/ui"
+import { FailedTransferErrorName } from "devices/common/models"
 import {
   AvailableSpaceInfo,
   FileManagerFile,
   FileTransferWithValidation,
-  TransferErrorName,
   ValidationSummary,
   ValidationSummaryType,
 } from "../manage-files.types"
@@ -42,13 +42,13 @@ export const validateSelectedFiles = (
   let tooLargeCount = 0
 
   for (const file of selectedFiles) {
-    let validationErrorName: TransferErrorName | undefined
+    let validationErrorName: FailedTransferErrorName | undefined
 
     if (file.size > MAX_SIZE) {
-      validationErrorName = TransferErrorName.FileTooLarge
+      validationErrorName = FailedTransferErrorName.FileTooLarge
       tooLargeCount++
     } else if (referenceFiles.some((ref) => ref.name === file.name)) {
-      validationErrorName = TransferErrorName.Duplicate
+      validationErrorName = FailedTransferErrorName.Duplicate
       duplicatedCount++
     } else {
       totalValidSize += file.size

@@ -39,6 +39,7 @@ export enum IconType {
   Grid = "grid",
   Help = "help",
   Info = "info",
+  InfoBold = "info-bold",
   Lock = "lock",
   Messages = "messages",
   Minus = "minus",
@@ -80,6 +81,7 @@ export enum IconType {
   Support = "support",
   ThinFail = "thin-fail",
   Trash = "trash",
+  Upload = "upload",
 }
 
 export enum IconSize {
