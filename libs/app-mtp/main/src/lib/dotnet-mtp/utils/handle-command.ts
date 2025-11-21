@@ -12,16 +12,21 @@ import { MTPError } from "app-mtp/models"
 const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 
 const getExecPath = () => {
-  const buildExecPath = path.join(process.resourcesPath, "MtpFileTransfer.exe")
-  const localExecPath = path.join(
-    process.cwd().replace("apps\\app", ""),
-    "apps/app/resources/MtpFileTransfer.exe"
-  )
+  try {
+    const buildExecPath = path.join(process.resourcesPath, "MtpFileTransfer.exe")
+    const localExecPath = path.join(
+      process.cwd().replace("apps\\app", ""),
+      "apps/app/resources/MtpFileTransfer.exe"
+    )
 
-  if (fs.existsSync(buildExecPath)) {
-    return buildExecPath
-  } else {
-    return localExecPath
+    if (fs.existsSync(buildExecPath)) {
+      return buildExecPath
+    } else {
+      return localExecPath
+    }
+  } catch (error) {
+    console.error(`${PREFIX_LOG} Error determining exec path: ${error}`)
+    return ""
   }
 }
 
