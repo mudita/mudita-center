@@ -39,9 +39,13 @@ export const useManageFilesTransferFlow = ({
   }>
   abortTransfer: () => void
   progress: number
+  transferMode: TransferMode
   currentFile: FileManagerFile | null
 } => {
   const [progress, setProgress] = useState(0)
+  const [transferMode, setTransferMode] = useState<TransferMode>(
+    TransferMode.Mtp
+  )
   const [currentFile, setCurrentFile] = useState<FileManagerFile | null>(null)
 
   const abortControllerRef = useRef(new AbortController())
@@ -75,6 +79,9 @@ export const useManageFilesTransferFlow = ({
           setProgress(progress)
           file && setCurrentFile(file)
         },
+        onModeChange: (mode: TransferMode) => {
+          setTransferMode(mode)
+        },
       })
 
       if (result.data?.failed) {
@@ -96,8 +103,8 @@ export const useManageFilesTransferFlow = ({
 
       return { failed: noValidFileTransfers }
     },
-    [transferFiles]
+    [actionType, transferFiles]
   )
 
-  return { transfer, abortTransfer, progress, currentFile }
+  return { transfer, abortTransfer, progress, currentFile, transferMode }
 }

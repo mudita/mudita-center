@@ -131,13 +131,13 @@ export class AppFileSystemGuard {
       return false
     }
 
+    const targetPath = Array.isArray(options.fileAbsolutePath)
+      ? path.join(...options.fileAbsolutePath)
+      : options.fileAbsolutePath
+
     let targetRealPath: string
     try {
-      targetRealPath = this.resolveRealPath(
-        Array.isArray(options.fileAbsolutePath)
-          ? path.join(...options.fileAbsolutePath)
-          : options.fileAbsolutePath
-      )
+      targetRealPath = this.resolveRealPathAllowNonExisting(targetPath)
     } catch {
       return false
     }
@@ -147,7 +147,9 @@ export class AppFileSystemGuard {
         const grantedStats = fs.lstatSync(grantedRealPath)
 
         if (grantedStats.isFile()) {
-          if (targetRealPath === grantedRealPath) return true
+          if (targetRealPath === grantedRealPath) {
+            return true
+          }
           continue
         }
 
@@ -164,6 +166,17 @@ export class AppFileSystemGuard {
       }
     }
     return false
+  }
+
+  private resolveRealPathAllowNonExisting(targetPath: string): string {
+    if (fs.existsSync(targetPath)) {
+      return this.resolveRealPath(targetPath)
+    }
+
+    const parentDir = path.dirname(targetPath)
+    const parentRealPath = this.resolveRealPath(parentDir)
+
+    return path.join(parentRealPath, path.basename(targetPath))
   }
 
   private resolveRealPath(inputPath: string): string {

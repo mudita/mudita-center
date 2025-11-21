@@ -4,43 +4,41 @@
  */
 
 import { clamp, sum } from "lodash"
-import { AppFileSystem } from "app-utils/renderer"
-import { AppResultFactory } from "app-utils/models"
 import {
-  DataSource,
   ExecuteTransferParams,
   ExecuteTransferResult,
 } from "devices/common/models"
+import { AppResultFactory } from "app-utils/models"
 import { ApiDevice } from "devices/api-device/models"
+import { AppFileSystem } from "app-utils/renderer"
+import {
+  isSerialDownloadFilesToLocationParams,
+  isSerialDownloadFilesToMemoryParams,
+} from "./serial-download-files.types"
 import { serialPreTransferStep } from "./serial-pre-transfer-step"
 import { serialTransferStep } from "./serial-transfer-step"
 
-function assertPathSource(
-  s: DataSource
-): asserts s is { type: "path"; path: string } {
-  if (s.type !== "path")
-    throw new Error("Download requires a path-based source")
-}
+export const serialDownloadFiles = async (
+  params: ExecuteTransferParams<ApiDevice>
+): Promise<ExecuteTransferResult> => {
+  if (
+    !isSerialDownloadFilesToLocationParams(params) &&
+    !isSerialDownloadFilesToMemoryParams(params)
+  ) {
+    throw new Error("Invalid parameters for serialDownloadFiles")
+  }
 
-export const serialDownloadFiles = async ({
-  device,
-  files,
-  onProgress,
-  abortController,
-}: ExecuteTransferParams<ApiDevice>): Promise<ExecuteTransferResult> => {
-  const paths = files.map((file) => {
-    assertPathSource(file.source)
-    return file.source.path
-  })
-  const completedSizes = paths.map(() => 0)
+  const { device, files, onProgress, abortController } = params
+
+  const completedSizes = files.map(() => 0)
   const filesData: string[] = []
   const totalSizes: number[] = []
 
-  for (let i = 0; i < paths.length; i++) {
+  for (let i = 0; i < files.length; i++) {
     if (abortController.signal.aborted) {
       throw new Error("File transfer aborted")
     }
-    const sourceFilePath = paths[i]
+    const sourceFilePath = files[i].source.path
     const { fileSize } = await serialPreTransferStep({
       device,
       sourceFilePath,
@@ -55,11 +53,11 @@ export const serialDownloadFiles = async ({
     total: sum(totalSizes),
   })
 
-  for (let i = 0; i < paths.length; i++) {
+  for (let i = 0; i < files.length; i++) {
     if (abortController.signal.aborted) {
       throw new Error("File transfer aborted")
     }
-    const sourceFilePath = paths[i]
+    const sourceFilePath = files[i].source.path
     const transferData = await serialPreTransferStep({
       device,
       sourceFilePath,
@@ -98,6 +96,23 @@ export const serialDownloadFiles = async ({
         `File transfer failed due to crc32 mismatch for file ${sourceFilePath}`
       )
     }
+
+    if (files[i].target.type === "path") {
+      const writeResult = await AppFileSystem.writeFile({
+        fileAbsolutePath: files[i].target.path,
+        absolute: true,
+        data: filesData[i],
+        options: {
+          encoding: "base64",
+        },
+      })
+
+      if (!writeResult.ok) {
+        throw new Error(
+          `Failed to write file to location ${files[i].target.path}: ${writeResult.error.message}`
+        )
+      }
+    }
   }
 
   onProgress?.({
@@ -106,5 +121,9 @@ export const serialDownloadFiles = async ({
     total: sum(totalSizes),
   })
 
-  return AppResultFactory.success({ files: filesData })
+  if (isSerialDownloadFilesToLocationParams(params)) {
+    return AppResultFactory.success({})
+  } else {
+    return AppResultFactory.success({ files: filesData })
+  }
 }

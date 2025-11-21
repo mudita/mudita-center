@@ -17,6 +17,7 @@ import {
 } from "app-utils/main"
 import { appUpdater } from "app-updater/main"
 import { usbAccess } from "app-init/main"
+import { appMtp } from "app-mtp/main"
 
 export const api = {
   serialPort,
@@ -31,4 +32,5 @@ export const api = {
   appUpdater,
   jsonStore,
   usbAccess,
+  appMtp,
 } as const
