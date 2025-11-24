@@ -137,4 +137,7 @@ export const deviceManageFilesMessages = defineMessages({
   confirmInstallModalCheckboxText: {
     id: "apiDevice.manageFiles.install.confirmInstallModal.checkboxText",
   },
+  installingModalTitle: {
+    id: "apiDevice.manageFiles.install.installingModal.title",
+  },
 })

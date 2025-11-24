@@ -4,11 +4,17 @@
  */
 
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
-import { Messages } from "app-localize/utils"
+import { formatMessage, Messages } from "app-localize/utils"
+import { IconType } from "app-theme/models"
 import {
   GenericConfirmModalProps,
   GenericConfirmModalWithCheckbox,
+  GenericProgressModal,
 } from "app-theme/ui"
+import {
+  useAppInstallationFlow,
+  UseAppInstallationFlowArgs,
+} from "./use-app-installation-flow"
 
 type GenericInstallConfirmModal = {
   confirmInstallModalTitle: Messages
@@ -16,14 +22,16 @@ type GenericInstallConfirmModal = {
   confirmInstallModalConfirmButtonText: Messages
   confirmInstallModalCancelButtonText: Messages
   confirmInstallModalCheckboxText: Messages
+  installingModalTitle: Messages
 }
 
 type AppInstallationFlowMessages = GenericInstallConfirmModal
 
-interface AppInstallationFlowProps {
+export interface AppInstallationFlowProps {
   opened: boolean
   onClose: VoidFunction
   messages: AppInstallationFlowMessages
+  install: UseAppInstallationFlowArgs["install"]
 }
 
 enum AppInstallationFlowState {
@@ -35,24 +43,44 @@ enum AppInstallationFlowState {
 
 export const AppInstallationFlow: FunctionComponent<
   AppInstallationFlowProps
-> = ({ opened, onClose, messages }) => {
+> = ({ opened, onClose, messages, install }) => {
   const [flowState, setFlowState] = useState<AppInstallationFlowState>()
-
-  const onConfirm = useCallback(() => {
-    setFlowState(undefined)
-  }, [])
 
   useEffect(() => {
     setFlowState(opened ? AppInstallationFlowState.ConfirmInstall : undefined)
   }, [opened])
 
+  const { runInstall, progress, currentItem } = useAppInstallationFlow({
+    install,
+  })
+
+  const onConfirm = useCallback(async () => {
+    setFlowState(AppInstallationFlowState.Installing)
+    const result = await runInstall()
+
+    if (result.ok) {
+      setFlowState(AppInstallationFlowState.InstallSuccess)
+    } else {
+      setFlowState(AppInstallationFlowState.InstallFailed)
+    }
+  }, [runInstall])
+
   return (
-    <GenericConfirmModalWithCheckbox
-      opened={flowState === AppInstallationFlowState.ConfirmInstall}
-      onCancel={onClose}
-      onConfirm={onConfirm}
-      messages={mapInstallToGenericModalMessages(messages)}
-    />
+    <>
+      <GenericConfirmModalWithCheckbox
+        opened={flowState === AppInstallationFlowState.ConfirmInstall}
+        onCancel={onClose}
+        onConfirm={onConfirm}
+        messages={mapInstallToGenericModalMessages(messages)}
+      />
+      <GenericProgressModal
+        opened={flowState === AppInstallationFlowState.Installing}
+        iconType={IconType.Grid}
+        title={formatMessage(messages.installingModalTitle)}
+        progressBarMessage={currentItem?.name}
+        progress={progress}
+      />
+    </>
   )
 }
 

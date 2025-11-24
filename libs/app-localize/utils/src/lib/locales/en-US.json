@@ -76,6 +76,7 @@
   "apiDevice.manageFiles.install.confirmInstallModal.confirmButtonText": "Continue install",
   "apiDevice.manageFiles.install.confirmInstallModal.description": "We can’t guarantee that Kompakt or the third party app will work correctly if you continue the install. ",
   "apiDevice.manageFiles.install.confirmInstallModal.title": "Continue install of third party app?",
+  "apiDevice.manageFiles.install.installingModal.title": "Installing the App...",
   "apiDevice.manageFiles.internalSummary.header": "Phone storage",
   "apiDevice.manageFiles.otherFilesOtherLabelText": "Other",
   "apiDevice.manageFiles.otherFilesSystemLabelText": "System",
