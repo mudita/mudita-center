@@ -5,11 +5,11 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-import { ButtonType, IconType } from "app-theme/models"
-import { Button } from "../button/button"
+import { IconType } from "app-theme/models"
 import { Modal } from "../modal/modal"
 import { Typography } from "../typography/typography"
 import { formatCustomMessage } from "app-localize/utils"
+import { GenericInfoModal } from "./generic-info-modal"
 
 export interface FailedItem {
   id: string
@@ -22,7 +22,7 @@ interface Props {
   onClose: VoidFunction
   title: string
   description: string
-  buttonText: string
+  closeButtonText?: string
   failedItems?: FailedItem[]
 }
 
@@ -31,23 +31,22 @@ export const GenericFailedModal: FunctionComponent<Props> = ({
   failedItems,
   title,
   description,
-  buttonText,
+  closeButtonText,
   onClose,
 }) => {
   const showList = !!failedItems?.length
 
   return (
-    <Modal opened={opened}>
-      <Modal.TitleIcon type={IconType.Failed} />
-      <Modal.Title>{title}</Modal.Title>
-      <Typography.P1>{description}</Typography.P1>
+    <GenericInfoModal
+      opened={opened}
+      onClose={onClose}
+      title={title}
+      iconType={IconType.Failed}
+      description={description}
+      closeButtonText={closeButtonText}
+    >
       {showList && <FailedItemsList items={failedItems} />}
-      <Modal.Buttons>
-        <Button onClick={onClose} type={ButtonType.Secondary}>
-          {buttonText}
-        </Button>
-      </Modal.Buttons>
-    </Modal>
+    </GenericInfoModal>
   )
 }
 

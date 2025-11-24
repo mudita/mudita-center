@@ -171,7 +171,7 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
         onClose={() => setNoSpaceModalOpened(false)}
         title={formatMessage(messages.noSpaceModalTitle)}
         description={formatMessage(messages.noSpaceModalDescription)}
-        buttonText={formatMessage(messages.noSpaceModalButtonText)}
+        closeButtonText={formatMessage(messages.noSpaceModalButtonText)}
       />
       <QuotationsSettingsFlow
         opened={settingsOpened}

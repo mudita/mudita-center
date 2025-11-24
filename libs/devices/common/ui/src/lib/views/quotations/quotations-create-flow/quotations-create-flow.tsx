@@ -93,7 +93,9 @@ export const QuotationsCreateFlow: FunctionComponent<
         onClose={closeQuotationsCreateForm}
         title={formatMessage(messages.createFailedModalTitle)}
         description={formatMessage(messages.createFailedModalDescription)}
-        buttonText={formatMessage(messages.createFailedModalCloseButtonText)}
+        closeButtonText={formatMessage(
+          messages.createFailedModalCloseButtonText
+        )}
       />
     </>
   )

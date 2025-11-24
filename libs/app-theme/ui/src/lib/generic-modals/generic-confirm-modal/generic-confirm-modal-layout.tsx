@@ -42,7 +42,11 @@ export const GenericConfirmModalLayout: FunctionComponent<
           size={ButtonSize.Medium}
           onClick={onCancel}
         >
-          {formatMessage(messages.confirmModalCancelButtonText)}
+          {formatMessage(
+            messages.confirmModalCancelButtonText ?? {
+              id: "general.app.cancelButton.text",
+            }
+          )}
         </Button>
         <Button
           type={ButtonType.Primary}

@@ -6,7 +6,7 @@
 import { ReactNode } from "react"
 import { Messages } from "app-localize/utils"
 
-export interface GenericConfirmModalProps  {
+export interface GenericConfirmModalProps {
   opened: boolean
   onCancel: VoidFunction
   onConfirm: VoidFunction
@@ -17,7 +17,7 @@ export interface GenericConfirmModalProps  {
     confirmModalTitle: Messages
     confirmModalDescription: Messages
     confirmModalConfirmButtonText: Messages
-    confirmModalCancelButtonText: Messages
+    confirmModalCancelButtonText?: Messages
     confirmModalCheckboxText?: Messages
   }
 }

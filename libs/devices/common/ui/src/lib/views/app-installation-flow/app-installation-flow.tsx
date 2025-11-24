@@ -9,7 +9,9 @@ import { IconType } from "app-theme/models"
 import {
   GenericConfirmModalProps,
   GenericConfirmModalWithCheckbox,
+  GenericFailedModal,
   GenericProgressModal,
+  GenericSuccessModal,
 } from "app-theme/ui"
 import {
   useAppInstallationFlow,
@@ -20,9 +22,12 @@ type GenericInstallConfirmModal = {
   confirmInstallModalTitle: Messages
   confirmInstallModalDescription: Messages
   confirmInstallModalConfirmButtonText: Messages
-  confirmInstallModalCancelButtonText: Messages
   confirmInstallModalCheckboxText: Messages
   installingModalTitle: Messages
+  installSuccessModalTitle: Messages
+  installSuccessModalDescription: Messages
+  installFailedModalTitle: Messages
+  installFailedModalDescription: Messages
 }
 
 type AppInstallationFlowMessages = GenericInstallConfirmModal
@@ -65,11 +70,16 @@ export const AppInstallationFlow: FunctionComponent<
     }
   }, [runInstall])
 
+  const handleClose = useCallback(() => {
+    setFlowState(undefined)
+    onClose()
+  }, [onClose])
+
   return (
     <>
       <GenericConfirmModalWithCheckbox
         opened={flowState === AppInstallationFlowState.ConfirmInstall}
-        onCancel={onClose}
+        onCancel={handleClose}
         onConfirm={onConfirm}
         messages={mapInstallToGenericModalMessages(messages)}
       />
@@ -79,6 +89,18 @@ export const AppInstallationFlow: FunctionComponent<
         title={formatMessage(messages.installingModalTitle)}
         progressBarMessage={currentItem?.name}
         progress={progress}
+      />
+      <GenericSuccessModal
+        opened={flowState === AppInstallationFlowState.InstallSuccess}
+        title={formatMessage(messages.installSuccessModalTitle)}
+        description={formatMessage(messages.installSuccessModalDescription)}
+        onClose={handleClose}
+      />
+      <GenericFailedModal
+        opened={flowState === AppInstallationFlowState.InstallFailed}
+        title={formatMessage(messages.installFailedModalTitle)}
+        description={formatMessage(messages.installFailedModalDescription)}
+        onClose={handleClose}
       />
     </>
   )
@@ -90,6 +112,5 @@ export const mapInstallToGenericModalMessages = (
   confirmModalTitle: messages.confirmInstallModalTitle,
   confirmModalDescription: messages.confirmInstallModalDescription,
   confirmModalConfirmButtonText: messages.confirmInstallModalConfirmButtonText,
-  confirmModalCancelButtonText: messages.confirmInstallModalCancelButtonText,
   confirmModalCheckboxText: messages.confirmInstallModalCheckboxText,
 })
