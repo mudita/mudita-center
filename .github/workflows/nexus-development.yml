@@ -3,13 +3,13 @@ name: Build & deploy to development
 on:
   push:
     branches:
-      - develop
+      - notary
 jobs:
   build:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [ linux-nexus, windows-nexus, macos-nexus ]
+        runner_label: [ macos-nexus ]
     environment: development
     timeout-minutes: 40
     steps:
@@ -139,7 +139,7 @@ jobs:
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.runner_label != 'windows-nexus'
         run: |
-          cp ~/actions-runner/envs/electron-builder.env apps/mudita-center/electron-builder.env
+          cp ~/actions-runner/envs/electron-builder-new.env apps/mudita-center/electron-builder.env
       - name: Build App for Windows
         if: matrix.runner_label == 'windows-nexus'
         run: |
@@ -200,30 +200,6 @@ jobs:
           cd mudita-center-development
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
-      - name: Push artifacts to nexus registry from macOS
-        if: matrix.runner_label == 'macos-nexus'
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-        run: |
-          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=development
-          echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
-          export GITTAG="$APP_VERSION"
-          git tag "$GITTAG"
-          git push origin "$GITTAG"
-          cp ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-mac.yml
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip.blockmap
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
-          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
-          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-development.git
-          cd mudita-center-development
-          git tag "$GITTAG" 2>&1 || true
-          git push origin "$GITTAG"
       - name: Create draft release with Windows files
         if: matrix.runner_label == 'windows-nexus'
         id: create_release_windows
@@ -251,19 +227,3 @@ jobs:
             ./apps/mudita-center/release/Mudita-Center.AppImage
             ./apps/mudita-center/release/latest-linux.yml
             ./apps/mudita-center/release/builder-debug-linux.yml
-      - name: Create draft release with Mac files
-        if: matrix.runner_label == 'macos-nexus'
-        id: create_release_macos
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ env.GITTAG }}
-          name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-development
-          token: ${{ secrets.GH_BUILD_TOKEN }}
-          files: |
-            ./apps/mudita-center/release/Mudita-Center.dmg
-            ./apps/mudita-center/release/Mudita-Center.zip
-            ./apps/mudita-center/release/Mudita-Center.zip.blockmap
-            ./apps/mudita-center/release/Mudita-Center.dmg.blockmap
-            ./apps/mudita-center/release/latest-mac.yml
-            ./apps/mudita-center/release/builder-debug-mac.yml
