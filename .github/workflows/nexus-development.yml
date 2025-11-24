@@ -227,3 +227,21 @@ jobs:
             ./apps/mudita-center/release/Mudita-Center.AppImage
             ./apps/mudita-center/release/latest-linux.yml
             ./apps/mudita-center/release/builder-debug-linux.yml
+      - name: Push artifacts to nexus registry from macOS
+        if: matrix.runner_label == 'macos-nexus'
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+        run: |
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
+          export SOURCE_BRANCH=${{ github.ref_name }}
+          export ENVIRONMENT_CATALOG_NAME=development
+          echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
+          export GITTAG="$APP_VERSION"
+          cp ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-mac.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION-notary/Mudita-Center.dmg
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION-notary/Mudita-Center.zip
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION-notary/Mudita-Center.zip.blockmap
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION-notary/Mudita-Center.dmg.blockmap
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION-notary/latest-mac.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION-notary/builder-debug-mac.yml
