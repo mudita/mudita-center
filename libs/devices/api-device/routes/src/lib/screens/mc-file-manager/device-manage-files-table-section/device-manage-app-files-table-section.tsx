@@ -3,10 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { FunctionComponent, useCallback } from "react"
 import styled from "styled-components"
-import { ManageFilesTableSectionProps } from "devices/common/ui"
-import { TypographyTransform } from "app-theme/models"
+import {
+  FileManagerFile,
+  ManageFilesTableSectionProps,
+} from "devices/common/ui"
+import {
+  ButtonSize,
+  ButtonType,
+  IconType,
+  TypographyTransform,
+} from "app-theme/models"
 import {
   CellProps,
   ColumnCheckboxCell,
@@ -22,15 +30,32 @@ import {
   SizeCell as BaseSizeCell,
   TypeCell as BaseTypeCell,
 } from "./files-table-section-shared"
-import { TableCell, TableHeaderCell, Typography } from "app-theme/ui"
+import {
+  Badge,
+  Button,
+  TableCell,
+  TableHeaderCell,
+  Typography,
+} from "app-theme/ui"
 import {
   FileManagerFileMap,
   isAppFileManagerFile,
 } from "../device-manage-files.types"
 
+interface DeviceManageAppFilesTableSectionProps
+  extends ManageFilesTableSectionProps<FileManagerFileMap> {
+  onAppInstallButtonClick?: StatusCellProps["onAppInstallButtonClick"]
+}
+
 export const DeviceManageAppFilesTableSection: FunctionComponent<
-  ManageFilesTableSectionProps<FileManagerFileMap>
-> = ({ fileMap, selectedIds, activeRowId, onSelectedChange }) => {
+  DeviceManageAppFilesTableSectionProps
+> = ({
+  fileMap,
+  selectedIds,
+  activeRowId,
+  onSelectedChange,
+  onAppInstallButtonClick,
+}) => {
   return (
     <FileListEmptyTable
       activeRowId={activeRowId}
@@ -65,7 +90,10 @@ export const DeviceManageAppFilesTableSection: FunctionComponent<
       <NameCell fileMap={fileMap} />
       <TypeCell fileMap={fileMap} />
       <SizeCell fileMap={fileMap} />
-      <StatusCell fileMap={fileMap} />
+      <StatusCell
+        fileMap={fileMap}
+        onAppInstallButtonClick={onAppInstallButtonClick}
+      />
     </FileListEmptyTable>
   )
 }
@@ -101,18 +129,70 @@ const SizeCell = styled(BaseSizeCell)`
   width: 8.8rem;
 `
 
-const StatusCell: FunctionComponent<CellProps> = ({ dataItemId, fileMap }) => {
-  const file = dataItemId ? fileMap[dataItemId] : undefined
-  const status = isAppFileManagerFile(file)
-    ? file.additionalInfo.installationStatus
-    : ""
+interface StatusCellProps extends CellProps {
+  onAppInstallButtonClick?: (file: FileManagerFile) => void
+}
 
-  console.log("Rendering StatusCell for file:", file, "with status:", status)
+const StatusCell: FunctionComponent<StatusCellProps> = ({
+  dataItemId,
+  fileMap,
+  onAppInstallButtonClick,
+}) => {
+  const file = dataItemId ? fileMap[dataItemId] : undefined
+  const additionalInfo = isAppFileManagerFile(file)
+    ? file.additionalInfo
+    : {
+        installationStatus: "INSTALLED",
+        apkVersion: "",
+        installedVersion: undefined,
+      }
+
+  const { installationStatus, apkVersion, installedVersion } = additionalInfo
+
+  const handleAppInstallButtonClick = useCallback(() => {
+    file && onAppInstallButtonClick?.(file)
+  }, [file, onAppInstallButtonClick])
+
+  if (installationStatus === "INSTALLED" && installedVersion === apkVersion) {
+    return (
+      <ColumnStatus>
+        <StatusBadge status="Installed"></StatusBadge>
+      </ColumnStatus>
+    )
+  }
 
   return (
     <ColumnStatus>
-      <ColumnStatusText>{status}</ColumnStatusText>
+      <ColumnStatusButton
+        type={ButtonType.Primary}
+        size={ButtonSize.AutoMin}
+        onClick={handleAppInstallButtonClick}
+      >
+        Install
+      </ColumnStatusButton>
     </ColumnStatus>
+  )
+}
+
+const ColumnStatusButton = styled(Button)`
+  height: 2.4rem;
+  width: 6.8rem;
+  text-transform: capitalize;
+`
+
+const StatusBadge: FunctionComponent<{
+  status: string
+}> = ({ status }) => {
+  return (
+    <ColumnStatusBadgeWrapper>
+      <ColumnStatusBadge icon={IconType.CheckBold} backgroundColor={"green"}>
+        <ColumnStatusText
+          textTransform={TypographyTransform.CapitalizeFirstLetter}
+        >
+          {status}
+        </ColumnStatusText>
+      </ColumnStatusBadge>
+    </ColumnStatusBadgeWrapper>
   )
 }
 
@@ -120,6 +200,15 @@ const ColumnStatus = styled(TableCell)`
   width: 10rem;
 `
 
-export const ColumnStatusText = styled(Typography.P1)`
-  color: ${({ theme }) => theme.app.color.black};
+const ColumnStatusBadge = styled(Badge)`
+  padding: 0 0.4rem 0 0.2rem;
 `
+
+const ColumnStatusBadgeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: ${({ theme }) => theme.app.color.grey1};
+`
+
+export const ColumnStatusText = styled(Typography.P5)``

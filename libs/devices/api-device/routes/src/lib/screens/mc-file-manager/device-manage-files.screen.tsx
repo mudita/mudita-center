@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { FunctionComponent, useState } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { ApiDevice } from "devices/api-device/models"
 import {
@@ -27,6 +27,7 @@ import {
 import {
   AppInstallationFlow,
   AppInstallationFlowProps,
+  FileManagerFile,
   ManageFiles,
   manageFilesMessages,
   ManageFilesViewProps,
@@ -52,6 +53,9 @@ import {
 export const DeviceManageFilesScreen: FunctionComponent<{
   feature: DeviceManageFileFeatureId
 }> = ({ feature }) => {
+  const [appToInstall, setAppToInstall] = useState<
+    FileManagerFile | undefined
+  >()
   const { data: device } = useActiveDeviceQuery<ApiDevice>()
   const {
     isLoading,
@@ -188,6 +192,8 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     return AppResultFactory.success()
   }
 
+  console.log("Rendering DeviceManageFilesScreen with activeFileMap:", activeFileMap);
+
   return (
     <>
       <DashboardHeaderTitle title={"Manage Files"} />
@@ -215,6 +221,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
             return (
               <DeviceManageAppFilesTableSection
                 fileMap={activeFileMap}
+                onAppInstallButtonClick={(file) => setAppToInstall(file)}
                 {...props}
               />
             )
@@ -225,8 +232,8 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         }}
       </ManageFiles>
       <AppInstallationFlow
-        opened={false}
-        onClose={() => console.log("App installation flow closed")}
+        opened={appToInstall !== undefined}
+        onClose={() => setAppToInstall(undefined)}
         messages={messages}
         install={install}
       />
