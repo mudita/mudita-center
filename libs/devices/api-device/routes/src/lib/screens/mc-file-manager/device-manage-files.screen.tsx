@@ -11,6 +11,7 @@ import {
   AppResultFactory,
   OpenDialogOptionsLite,
 } from "app-utils/models"
+import { delay } from "app-utils/common"
 import {
   ExecuteTransferResult,
   FailedTransferErrorName,
@@ -24,6 +25,8 @@ import {
   useManageFilesSelection,
 } from "devices/common/feature"
 import {
+  AppInstallationFlow,
+  AppInstallationFlowProps,
   ManageFiles,
   manageFilesMessages,
   ManageFilesViewProps,
@@ -32,7 +35,8 @@ import {
   transferFiles,
   useApiDeviceDeleteEntitiesMutation,
 } from "devices/api-device/feature"
-import { DeviceManageFilesTableSection } from "./device-manage-files-table-section"
+import { DeviceManageAppFilesTableSection } from "./device-manage-files-table-section/device-manage-app-files-table-section"
+import { DeviceManageFilesTableSection } from "./device-manage-files-table-section/device-manage-files-table-section"
 import { deviceManageFilesMessages } from "./device-manage-files.messages"
 import { useDeviceManageFiles } from "./use-device-manage-files"
 import {
@@ -178,6 +182,12 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     return directories[0] ?? null
   }
 
+  const install: AppInstallationFlowProps["install"] = async (_params) => {
+    // fake delay to show the installation flow
+    await delay(2000)
+    return AppResultFactory.success()
+  }
+
   return (
     <>
       <DashboardHeaderTitle title={"Manage Files"} />
@@ -200,10 +210,26 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         messages={messages}
         progress={progress}
       >
-        {(props) => (
-          <DeviceManageFilesTableSection fileMap={activeFileMap} {...props} />
-        )}
+        {(props) => {
+          if (activeCategoryId === "applicationFiles") {
+            return (
+              <DeviceManageAppFilesTableSection
+                fileMap={activeFileMap}
+                {...props}
+              />
+            )
+          }
+          return (
+            <DeviceManageFilesTableSection fileMap={activeFileMap} {...props} />
+          )
+        }}
       </ManageFiles>
+      <AppInstallationFlow
+        opened={false}
+        onClose={() => console.log("App installation flow closed")}
+        messages={messages}
+        install={install}
+      />
     </>
   )
 }
