@@ -62,7 +62,7 @@ interface GenericProgressModalDescriptionProps {
   progressBarMessage?: string
 }
 
-export const GenericProgressModalDescription: FunctionComponent<
+const GenericProgressModalDescription: FunctionComponent<
   GenericProgressModalDescriptionProps
 > = ({ description, progress, progressBarMessage }) => {
   if (progress !== undefined && progressBarMessage !== undefined) {

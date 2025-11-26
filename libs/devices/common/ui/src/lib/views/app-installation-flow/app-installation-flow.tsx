@@ -17,6 +17,7 @@ import {
   useAppInstallationFlow,
   UseAppInstallationFlowArgs,
 } from "./use-app-installation-flow"
+import { AppInstallationErrorName } from "devices/common/models"
 
 type GenericInstallConfirmModal = {
   confirmInstallModalTitle: Messages
@@ -27,7 +28,8 @@ type GenericInstallConfirmModal = {
   installSuccessModalTitle: Messages
   installSuccessModalDescription: Messages
   installFailedModalTitle: Messages
-  installFailedModalDescription: Messages
+  installFailedModalErrorVersionMessage: Messages
+  installFailedModalErrorGlobalMessage: Messages
 }
 
 type AppInstallationFlowMessages = GenericInstallConfirmModal
@@ -50,6 +52,8 @@ export const AppInstallationFlow: FunctionComponent<
   AppInstallationFlowProps
 > = ({ opened, onClose, messages, install }) => {
   const [flowState, setFlowState] = useState<AppInstallationFlowState>()
+  const [installFailedModalMessages, setInstallFailedModalMessages] =
+    useState<Messages>(messages.installFailedModalErrorGlobalMessage)
 
   useEffect(() => {
     setFlowState(opened ? AppInstallationFlowState.ConfirmInstall : undefined)
@@ -66,9 +70,20 @@ export const AppInstallationFlow: FunctionComponent<
     if (result.ok) {
       setFlowState(AppInstallationFlowState.InstallSuccess)
     } else {
+      result.error.name === AppInstallationErrorName.ErrorVersion
+        ? setInstallFailedModalMessages(
+            messages.installFailedModalErrorVersionMessage
+          )
+        : setInstallFailedModalMessages(
+            messages.installFailedModalErrorGlobalMessage
+          )
       setFlowState(AppInstallationFlowState.InstallFailed)
     }
-  }, [runInstall])
+  }, [
+    messages.installFailedModalErrorGlobalMessage,
+    messages.installFailedModalErrorVersionMessage,
+    runInstall,
+  ])
 
   const handleClose = useCallback(() => {
     setFlowState(undefined)
@@ -99,7 +114,7 @@ export const AppInstallationFlow: FunctionComponent<
       <GenericFailedModal
         opened={flowState === AppInstallationFlowState.InstallFailed}
         title={formatMessage(messages.installFailedModalTitle)}
-        description={formatMessage(messages.installFailedModalDescription)}
+        description={formatMessage(installFailedModalMessages)}
         onClose={handleClose}
       />
     </>

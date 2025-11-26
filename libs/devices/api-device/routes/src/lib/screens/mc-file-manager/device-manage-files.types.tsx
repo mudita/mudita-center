@@ -10,7 +10,7 @@ export type FileCategoryId = string
 export type SegmentId = FileCategoryId | "otherFiles" | "free"
 
 interface AppFileManagerFileAdditionalInfo {
-  installationStatus: "NOT_INSTALLED" | "INSTALLED" | "UPDATE_AVAILABLE"
+  installationStatus: "NOT_INSTALLED" | "INSTALLED"
   apkVersion: string
   installedVersion?: string
 }

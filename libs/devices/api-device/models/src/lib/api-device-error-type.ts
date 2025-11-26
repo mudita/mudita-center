@@ -4,6 +4,7 @@
  */
 
 export enum ApiDeviceErrorType {
+  Unauthorized = 401, //  INCOMPATIBLE APP
   DataNotFound = 404,
   DeviceLocked = 423,
   EulaNotAccepted = 451,

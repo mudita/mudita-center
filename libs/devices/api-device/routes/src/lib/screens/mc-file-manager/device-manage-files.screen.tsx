@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useState } from "react"
+import { FunctionComponent, useMemo, useState } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { ApiDevice } from "devices/api-device/models"
 import {
@@ -11,7 +11,6 @@ import {
   AppResultFactory,
   OpenDialogOptionsLite,
 } from "app-utils/models"
-import { delay } from "app-utils/common"
 import {
   ExecuteTransferResult,
   FailedTransferErrorName,
@@ -33,6 +32,7 @@ import {
   ManageFilesViewProps,
 } from "devices/common/ui"
 import {
+  installApp,
   transferFiles,
   useApiDeviceDeleteEntitiesMutation,
 } from "devices/api-device/feature"
@@ -43,7 +43,7 @@ import { useDeviceManageFiles } from "./use-device-manage-files"
 import {
   OTHER_FILES_LABEL_TEXTS,
   PROGRESS_REFETCH_PHASE_RATIO,
-  PROGRESS_TRANSFER_PHASE_RATIO,
+  PROGRESS_MAIN_PROCESS_PHASE_RATIO,
 } from "./device-manage-files.config"
 import {
   DeviceManageFileFeature,
@@ -91,13 +91,13 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     addFileButtonText,
   }
 
+  const targetDirectoryPath = useMemo(() => {
+    return categories.find(({ id }) => id === activeCategoryId)?.directoryPath
+  }, [activeCategoryId, categories])
+
   const handleTransferFiles: ManageFilesViewProps["transferFiles"] = async (
     params
   ): Promise<ExecuteTransferResult> => {
-    const targetDirectoryPath = categories.find(
-      ({ id }) => id === activeCategoryId
-    )?.directoryPath
-
     if (!device || !targetDirectoryPath) {
       return AppResultFactory.failed(
         new AppError("", FailedTransferErrorName.Unknown),
@@ -147,7 +147,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         lastTransferProgress = progress
         return params.onProgress?.({
           ...transferFilesProgress,
-          progress: Math.floor(progress * PROGRESS_TRANSFER_PHASE_RATIO),
+          progress: Math.floor(progress * PROGRESS_MAIN_PROCESS_PHASE_RATIO),
         })
       },
       abortController: params.abortController,
@@ -157,7 +157,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     await refetch({
       onProgress: (refetchProgress) => {
         const combined =
-          lastTransferProgress * PROGRESS_TRANSFER_PHASE_RATIO +
+          lastTransferProgress * PROGRESS_MAIN_PROCESS_PHASE_RATIO +
           refetchProgress * PROGRESS_REFETCH_PHASE_RATIO
 
         params.onProgress?.({
@@ -186,13 +186,54 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     return directories[0] ?? null
   }
 
-  const install: AppInstallationFlowProps["install"] = async (_params) => {
-    // fake delay to show the installation flow
-    await delay(2000)
-    return AppResultFactory.success()
-  }
+  const install: AppInstallationFlowProps["install"] = async ({
+    onProgress,
+  }) => {
+    if (!device || !appToInstall) {
+      return AppResultFactory.failed(
+        new AppError("Device or app to install is undefined")
+      )
+    }
 
-  console.log("Rendering DeviceManageFilesScreen with activeFileMap:", activeFileMap);
+    let lastTransferProgress = 0
+    const filePath = `${targetDirectoryPath}${appToInstall.name}`
+
+    // TODO: filePath from appToInstall [FileManagerFile]
+    const result = await installApp({
+      device,
+      filePaths: [filePath],
+      onProgress: ({ progress }) => {
+        lastTransferProgress = progress
+        onProgress({
+          progress: Math.floor(progress * PROGRESS_MAIN_PROCESS_PHASE_RATIO),
+          item: {
+            name: appToInstall.name,
+          },
+        })
+      },
+    })
+
+    if (!result.ok) {
+      return result
+    }
+
+    await refetch({
+      onProgress: (refetchProgress) => {
+        const combined =
+          lastTransferProgress * PROGRESS_MAIN_PROCESS_PHASE_RATIO +
+          refetchProgress * PROGRESS_REFETCH_PHASE_RATIO
+
+        onProgress?.({
+          progress: Math.floor(combined),
+          item: {
+            name: appToInstall.name,
+          },
+        })
+      },
+    })
+
+    return AppResultFactory.success(undefined)
+  }
 
   return (
     <>

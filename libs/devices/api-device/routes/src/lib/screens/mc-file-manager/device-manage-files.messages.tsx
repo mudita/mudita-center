@@ -146,7 +146,10 @@ export const deviceManageFilesMessages = defineMessages({
   installFailedModalTitle: {
     id: "apiDevice.manageFiles.install.installFailedModal.title",
   },
-  installFailedModalDescription: {
-    id: "apiDevice.manageFiles.install.installFailedModal.description",
+  installFailedModalErrorVersionMessage: {
+    id: "apiDevice.manageFiles.install.installFailedModal.errorVersionMessage",
+  },
+  installFailedModalErrorGlobalMessage: {
+    id: "apiDevice.manageFiles.install.installFailedModal.errorGlobalMessage",
   },
 })
