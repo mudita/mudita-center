@@ -23,6 +23,7 @@ import {
   TypographyAlign,
 } from "app-theme/models"
 import { Typography } from "../../typography/typography"
+import { TypographyContent } from "../../typography/typography-content/typography-content"
 import { Icon } from "../../icon/icon"
 
 interface Props
@@ -90,11 +91,9 @@ export const Checkbox: FunctionComponent<Props> = ({
         <CheckIcon type={IconType.CheckBold} size={IconSize.Tiny} />
         <IndeterminateIcon type={IconType.Minus} size={IconSize.Tiny} />
       </CheckboxInput>
-      {children && (
-        <Typography.P1 textAlign={TypographyAlign.Left}>
-          {children}
-        </Typography.P1>
-      )}
+      <TypographyContent as={Typography.P1} textAlign={TypographyAlign.Left}>
+        {children}
+      </TypographyContent>
     </InputWrapper>
   )
 }
