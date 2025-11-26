@@ -196,12 +196,14 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     }
 
     let lastTransferProgress = 0
-    const filePath = `${targetDirectoryPath}${appToInstall.name}`
 
     // TODO: filePath from appToInstall [FileManagerFile]
+    const filePath = `${targetDirectoryPath}${appToInstall.name}`
+    const files = [{ ...appToInstall, filePath }]
+
     const result = await installApp({
       device,
-      filePaths: [filePath],
+      files,
       onProgress: ({ progress }) => {
         lastTransferProgress = progress
         onProgress({

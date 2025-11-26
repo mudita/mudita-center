@@ -4,10 +4,7 @@
  */
 
 import { AppError, AppResult, AppResultFactory } from "app-utils/models"
-import {
-  ApiDevice,
-  ApiDeviceErrorType,
-} from "devices/api-device/models"
+import { ApiDevice, ApiDeviceErrorType } from "devices/api-device/models"
 import { AppInstallationErrorName } from "devices/common/models"
 import { ErrorResponse } from "devices/api-device/adapters"
 import { delay } from "app-utils/common"
@@ -15,7 +12,7 @@ import { postAppInstall } from "../../api/post-app-install"
 import { getAppInstall } from "../../api/get-app-install"
 
 interface ProcessItem {
-  id: string // filePath -> encje
+  filePath: string
 }
 
 export interface ProcessProgressItem extends ProcessItem {
@@ -30,7 +27,7 @@ interface ProcessProgress {
 
 interface InstallAppParams {
   device: ApiDevice
-  filePaths: string[]
+  files: ProcessItem[]
   onProgress?: (progress: ProcessProgress) => void
 }
 
@@ -48,7 +45,7 @@ const getAppInstallationErrorName = (
 
 export const installApp = async ({
   device,
-  filePaths,
+  files,
   onProgress,
 }: InstallAppParams): Promise<
   AppResult<
@@ -59,19 +56,21 @@ export const installApp = async ({
 > => {
   const failed: FailedProcessItem[] = []
 
-  const total = 100 * filePaths.length
+  const total = 100 * files.length
 
   onProgress?.({
     progress: 0,
     total,
   })
 
-  for (const filePath of filePaths) {
-    const postAppInstallResult = await postAppInstall(device, { filePath })
+  for (const file of files) {
+    const postAppInstallResult = await postAppInstall(device, {
+      filePath: file.filePath,
+    })
     if (!postAppInstallResult.ok) {
       const errorName = getAppInstallationErrorName(postAppInstallResult)
       failed.push({
-        id: filePath,
+        ...file,
         errorName,
       })
       continue
@@ -95,13 +94,13 @@ export const installApp = async ({
         Math.max(getAppInstallProgressResult.body.progress, 0),
         100
       )
-      const progress = filePaths.indexOf(filePath) * 100 + fileProgress
+      const progress = files.indexOf(file) * 100 + fileProgress
 
       onProgress?.({
         progress,
         total,
         item: {
-          id: filePath,
+          ...file,
           progress: fileProgress,
         },
       })
@@ -119,7 +118,7 @@ export const installApp = async ({
 
     if (checkAppInstallProgressResult instanceof AppError) {
       failed.push({
-        id: filePath,
+        ...file,
         errorName: checkAppInstallProgressResult.name,
       })
     }
@@ -130,7 +129,7 @@ export const installApp = async ({
     total,
   })
 
-  return failed.length === filePaths.length
+  return failed.length === files.length
     ? AppResultFactory.failed(new AppError("", failed[0].errorName), { failed })
     : AppResultFactory.success({ failed })
 }
