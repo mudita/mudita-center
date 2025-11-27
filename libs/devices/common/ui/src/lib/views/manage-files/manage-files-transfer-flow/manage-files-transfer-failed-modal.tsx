@@ -48,7 +48,7 @@ export const ManageFilesTransferFailedModal: FunctionComponent<
       onClose={onClose}
       title={title}
       description={description}
-      buttonText={formatMessage(messages.uploadFailedModalCloseButtonText)}
+      closeButtonText={formatMessage(messages.uploadFailedModalCloseButtonText)}
       failedItems={failedFilesList}
     />
   )

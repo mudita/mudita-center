@@ -72,6 +72,14 @@ import {
   FileTransferDeleteRequestValidator,
   FileTransferDeleteResponseValidator,
 } from "./endpoints/file-transfer/delete-file"
+import {
+  AppInstallPostRequestValidator,
+  AppInstallPostResponseValidator,
+} from "./endpoints/app-install/post-app-install"
+import {
+  AppInstallGetRequestValidator,
+  AppInstallGetResponseValidator,
+} from "./endpoints/app-install/get-app-install"
 
 type Method = "GET" | "POST" | "PUT" | "DELETE"
 
@@ -197,6 +205,16 @@ export const ApiDeviceEndpoints = {
     POST: {
       request: PostEntityDataRequestValidator,
       response: PostEntityDataResponseValidator,
+    },
+  },
+  APP_INSTALL: {
+    POST: {
+      request: AppInstallPostRequestValidator,
+      response: AppInstallPostResponseValidator,
+    },
+    GET: {
+      request: AppInstallGetRequestValidator,
+      response: AppInstallGetResponseValidator,
     },
   },
 } as const satisfies EndpointsDefinition

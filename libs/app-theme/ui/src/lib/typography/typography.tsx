@@ -27,13 +27,21 @@ export const Typography: FunctionComponent & {
 const wrapWithBaseTypography = (
   Component: FunctionComponent<PropsWithChildren>
 ) => {
-  return ({ children, ...props }: PropsWithChildren) => {
+  const Wrapped: FunctionComponent<PropsWithChildren> = ({
+    children,
+    ...props
+  }) => {
     return (
       <BaseTypography {...props}>
         <Component>{children}</Component>
       </BaseTypography>
     )
   }
+
+  const name = Component.displayName || Component.name || "Anonymous"
+  Wrapped.displayName = `Typography.${name}`
+
+  return Wrapped
 }
 
 Typography.H1 = wrapWithBaseTypography(H1)

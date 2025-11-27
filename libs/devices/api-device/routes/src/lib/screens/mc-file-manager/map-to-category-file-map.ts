@@ -5,7 +5,11 @@
 
 import { EntityData } from "devices/api-device/models"
 import { FileManagerFile } from "devices/common/ui"
-import { FileManagerCategoryFileMap } from "./device-manage-files.types"
+import {
+  AppFileManagerFile,
+  FileManagerCategoryFileMap,
+  isAppFileManagerFileAdditionalInfo,
+} from "./device-manage-files.types"
 
 type FileEntity = {
   id: string
@@ -13,7 +17,9 @@ type FileEntity = {
   filePath: string
   fileSize: number
   extension: string
+  additionalInfo?: unknown
 }
+
 const isFileEntity = (value: unknown): value is FileEntity => {
   if (typeof value !== "object" || value === null) return false
 
@@ -36,15 +42,24 @@ export const mapToCategoryFileMap = (
       acc[entityType] = (entities ?? [])
         .filter(isFileEntity)
         .filter((entity) => entity.filePath.startsWith(storagePath))
-        .reduce<Record<string, FileManagerFile>>((fileAcc, entity) => {
-          fileAcc[entity.id] = {
-            id: entity.id,
-            name: entity.fileName,
-            size: entity.fileSize,
-            type: entity.extension,
-          }
-          return fileAcc
-        }, {})
+        .reduce<Record<string, FileManagerFile | AppFileManagerFile>>(
+          (fileAcc, entity) => {
+            fileAcc[entity.id] = {
+              id: entity.id,
+              name: entity.fileName,
+              size: entity.fileSize,
+              type: entity.extension,
+            }
+
+            if (isAppFileManagerFileAdditionalInfo(entity.additionalInfo)) {
+              ;(fileAcc[entity.id] as AppFileManagerFile).additionalInfo =
+                entity.additionalInfo
+            }
+
+            return fileAcc
+          },
+          {}
+        )
       return acc
     },
     {}

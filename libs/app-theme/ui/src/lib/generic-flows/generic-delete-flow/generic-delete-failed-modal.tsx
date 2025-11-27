@@ -62,7 +62,7 @@ export const GenericDeleteFailedModal: FunctionComponent<
       onClose={onClose}
       title={title}
       description={description}
-      buttonText={formatMessage(messages.deleteFailedModalCloseButtonText)}
+      closeButtonText={formatMessage(messages.deleteFailedModalCloseButtonText)}
       failedItems={failedItemsList}
     />
   )

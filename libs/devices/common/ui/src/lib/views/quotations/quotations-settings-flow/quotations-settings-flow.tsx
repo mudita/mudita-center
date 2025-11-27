@@ -102,7 +102,7 @@ export const QuotationsSettingsFlow: FunctionComponent<
         description={formatMessage(
           messages.updateSettingsFailedModalDescription
         )}
-        buttonText={formatMessage(
+        closeButtonText={formatMessage(
           messages.updateSettingsFailedModalCloseButtonText
         )}
       />

@@ -5,54 +5,56 @@
 
 import { FunctionComponent } from "react"
 import { ButtonSize, ButtonType, IconType } from "app-theme/models"
-import { formatMessage, Messages } from "app-localize/utils"
-import { Modal } from "../modal/modal"
-import { Typography } from "../typography/typography"
-import { Button } from "../button/button"
+import { formatMessage } from "app-localize/utils"
+import { Modal } from "../../modal/modal"
+import { Typography } from "../../typography/typography"
+import { Button } from "../../button/button"
+import { GenericConfirmModalProps } from "./generic-confirm-modal.types"
 
-export interface GenericConfirmModalProps {
-  opened: boolean
-  onCancel: VoidFunction
-  onConfirm: VoidFunction
-  itemCount: number
-  messages: {
-    confirmDeleteModalTitle: Messages
-    confirmDeleteModalDescription: Messages
-    confirmDeleteModalConfirmButtonText: Messages
-    confirmDeleteModalCancelButtonText: Messages
-  }
-}
-
-export const GenericConfirmModal: FunctionComponent<
+export const GenericConfirmModalLayout: FunctionComponent<
   GenericConfirmModalProps
-> = ({ opened, onCancel, onConfirm, itemCount, messages }) => {
+> = ({
+  opened,
+  onCancel,
+  onConfirm,
+  itemCount,
+  messages,
+  confirmDisabled,
+  children,
+}) => {
   return (
     <Modal opened={opened}>
       <Modal.CloseButton onClick={onCancel} />
       <Modal.TitleIcon type={IconType.Error} />
       <Modal.Title
-        text={formatMessage(messages.confirmDeleteModalTitle, {
+        text={formatMessage(messages.confirmModalTitle, {
           itemCount,
         })}
       />
       <Typography.P1
-        message={messages.confirmDeleteModalDescription.id}
+        message={messages.confirmModalDescription.id}
         values={{ itemCount }}
       />
+      {children}
       <Modal.Buttons>
         <Button
           type={ButtonType.Secondary}
           size={ButtonSize.Medium}
           onClick={onCancel}
         >
-          {formatMessage(messages.confirmDeleteModalCancelButtonText)}
+          {formatMessage(
+            messages.confirmModalCancelButtonText ?? {
+              id: "general.app.cancelButton.text",
+            }
+          )}
         </Button>
         <Button
           type={ButtonType.Primary}
           size={ButtonSize.Medium}
           onClick={onConfirm}
+          disabled={confirmDisabled}
         >
-          {formatMessage(messages.confirmDeleteModalConfirmButtonText, {
+          {formatMessage(messages.confirmModalConfirmButtonText, {
             itemCount,
           })}
         </Button>

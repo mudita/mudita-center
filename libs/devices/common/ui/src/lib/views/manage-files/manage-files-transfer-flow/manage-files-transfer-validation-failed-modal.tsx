@@ -77,7 +77,7 @@ export const ManageFilesTransferValidationFailedModal: FunctionComponent<
       onClose={onClose}
       title={title}
       description={description}
-      buttonText={formatMessage(
+      closeButtonText={formatMessage(
         messages.uploadValidationFailureModalCloseButtonText
       )}
     />

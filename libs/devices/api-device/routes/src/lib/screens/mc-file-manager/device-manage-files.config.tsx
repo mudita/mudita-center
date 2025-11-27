@@ -46,5 +46,5 @@ export const EMPTY_STORAGE_INFO: StorageInformation = {
   totalSpaceString: "0",
 }
 
-export const PROGRESS_TRANSFER_PHASE_RATIO = 0.9
+export const PROGRESS_MAIN_PROCESS_PHASE_RATIO = 0.9
 export const PROGRESS_REFETCH_PHASE_RATIO = 0.1
