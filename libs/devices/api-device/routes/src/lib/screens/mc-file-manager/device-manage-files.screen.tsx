@@ -32,7 +32,7 @@ import {
   ManageFilesViewProps,
 } from "devices/common/ui"
 import {
-  installApp,
+  installApps,
   transferFiles,
   useApiDeviceDeleteEntitiesMutation,
 } from "devices/api-device/feature"
@@ -201,7 +201,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     const filePath = `${targetDirectoryPath}${appToInstall.name}`
     const files = [{ ...appToInstall, filePath }]
 
-    const result = await installApp({
+    const result = await installApps({
       device,
       files,
       onProgress: ({ progress }) => {

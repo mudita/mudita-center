@@ -25,7 +25,7 @@ interface ProcessProgress {
   item?: ProcessProgressItem
 }
 
-interface InstallAppParams {
+interface InstallAppsParams {
   device: ApiDevice
   files: ProcessItem[]
   onProgress?: (progress: ProcessProgress) => void
@@ -43,11 +43,11 @@ const getAppInstallationErrorName = (
     : "unknown"
 }
 
-export const installApp = async ({
+export const installApps = async ({
   device,
   files,
   onProgress,
-}: InstallAppParams): Promise<
+}: InstallAppsParams): Promise<
   AppResult<
     { failed?: FailedProcessItem[] },
     AppInstallationErrorName | string,
