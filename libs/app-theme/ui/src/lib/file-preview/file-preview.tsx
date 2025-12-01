@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useCallback, useEffect } from "react"
+import { FunctionComponent, useCallback, useEffect } from "react"
 import { Modal } from "../modal/modal"
 import styled, { css } from "styled-components"
 import { Typography } from "../typography/typography"

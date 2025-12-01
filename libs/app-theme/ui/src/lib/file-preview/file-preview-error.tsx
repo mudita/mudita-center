@@ -6,8 +6,7 @@
 import { ButtonType, IconSize, IconType } from "app-theme/models"
 import { Button } from "../button/button"
 import { Typography } from "../typography/typography"
-
-import React, { ComponentProps, FunctionComponent } from "react"
+import { ComponentProps, FunctionComponent } from "react"
 import styled from "styled-components"
 import { Icon } from "../icon/icon"
 import { motion } from "motion/react"
