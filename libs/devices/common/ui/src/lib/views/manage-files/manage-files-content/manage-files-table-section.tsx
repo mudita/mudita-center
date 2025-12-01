@@ -10,4 +10,5 @@ export interface ManageFilesTableSectionProps<FILE_MAP = FileManagerFileMap> {
   activeRowId?: string
   onSelectedChange: (fileId: string, checked: boolean) => void
   selectedIds: Set<string>
+  onRowClick?: (fileId?: string) => void
 }

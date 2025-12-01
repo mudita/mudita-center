@@ -8,6 +8,8 @@ export interface TransferFile {
   name: string
   type: string
   size: number
+  mimeType: string
+  path: string
 }
 
 export interface TransferProgressFile extends TransferFile {
