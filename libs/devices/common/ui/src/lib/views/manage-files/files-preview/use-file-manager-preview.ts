@@ -42,6 +42,13 @@ const queryFn = async ({ abortSignal, file, callback }: QueryParams) => {
     throw FilePreviewErrorCode.NotFound
   }
 
+  if (
+    file.extension.toLowerCase() === "heic" ||
+    file.extension.toLowerCase() === "heif"
+  ) {
+    throw FilePreviewErrorCode.UnsupportedFileType
+  }
+
   try {
     const abortController = new AbortController()
     abortSignal.addEventListener("abort", () => {

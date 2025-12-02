@@ -173,20 +173,24 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     async (itemsIds: string[]) => {
       const response = await deleteFiles(itemsIds)
 
-      // If the currently previewed file was deleted, move to the next one
+      // If the currently previewed file was deleted, move to the next one or close the preview
       const currentPreviewFileId = filePreviewRef.current?.getCurrentId()
       if (currentPreviewFileId !== undefined) {
         if (
           itemsIds.includes(currentPreviewFileId) &&
           !response.failedIds.includes(currentPreviewFileId)
         ) {
-          filePreviewRef.current?.next()
+          if (previewFiles.length > 1) {
+            filePreviewRef.current?.next()
+          } else {
+            filePreviewRef.current?.close()
+          }
         }
       }
 
       return response
     },
-    [deleteFiles]
+    [deleteFiles, previewFiles.length]
   )
 
   const changeCategory = useCallback(
@@ -208,8 +212,10 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     async ({ failedItems }) => {
       void onDeleteSuccess?.()
 
-      if (failedItems) {
-        setSelectedIds(new Set(failedItems.map((item) => item.id)))
+      if (failedItems && failedItems.length > 0) {
+        setSelectedIds(
+          new Set(failedItems.filter(Boolean).map((item) => item.id))
+        )
       } else {
         setSelectedIds(new Set([]))
       }

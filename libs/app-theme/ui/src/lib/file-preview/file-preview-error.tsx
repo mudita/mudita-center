@@ -3,13 +3,29 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ButtonType, IconSize, IconType } from "app-theme/models"
+import { ButtonSize, ButtonType, IconSize, IconType } from "app-theme/models"
 import { Button } from "../button/button"
 import { Typography } from "../typography/typography"
 import { ComponentProps, FunctionComponent } from "react"
 import styled from "styled-components"
 import { Icon } from "../icon/icon"
 import { motion } from "motion/react"
+import { defineMessages } from "app-localize/utils"
+
+const messages = defineMessages({
+  notSupportedError: {
+    id: "apiDevice.manageFiles.preview.notSupportedError",
+  },
+  unknownError: {
+    id: "apiDevice.manageFiles.preview.unknownError",
+  },
+  backButton: {
+    id: "general.app.backButton.text",
+  },
+  tryAgainButton: {
+    id: "general.app.tryAgainButton.text",
+  },
+})
 
 export enum FilePreviewErrorCode {
   NotFound = 404,
@@ -36,22 +52,26 @@ export const FilePreviewError: FunctionComponent<Props> = ({
       <ErrorIcon type={IconType.Error} size={IconSize.Large} />
       {error === FilePreviewErrorCode.UnsupportedFileType ? (
         <>
-          <Typography.P1>
-            {fileType?.split("/")[1].toUpperCase()} files are not supported.
-            Please convert file to a compatible format and try again.
-          </Typography.P1>
-          <Button type={ButtonType.Secondary} onClick={onClose}>
-            Back
-          </Button>
+          <Typography.P1
+            message={messages.notSupportedError.id}
+            values={{ type: fileType?.toUpperCase() }}
+          />
+          <Button
+            type={ButtonType.Secondary}
+            onClick={onClose}
+            message={messages.backButton.id}
+            size={ButtonSize.Medium}
+          />
         </>
       ) : (
         <>
-          <Typography.P1>
-            Failed to load photo.{"\n"}Please try again.
-          </Typography.P1>
-          <Button type={ButtonType.Secondary} onClick={onRetry}>
-            Try Again
-          </Button>
+          <Typography.P1 message={messages.unknownError.id} />
+          <Button
+            type={ButtonType.Secondary}
+            onClick={onRetry}
+            message={messages.tryAgainButton.id}
+            size={ButtonSize.Medium}
+          />
         </>
       )}
     </ErrorWrapper>
@@ -80,7 +100,6 @@ const ErrorWrapper = styled(motion.div)`
     background-color: transparent;
     color: ${({ theme }) => theme.app.color.white};
     border-color: ${({ theme }) => theme.app.color.white};
-    width: 15.6rem;
 
     &:hover {
       background-color: ${({ theme }) => theme.app.color.grey1};

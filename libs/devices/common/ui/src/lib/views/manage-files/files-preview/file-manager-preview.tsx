@@ -84,24 +84,24 @@ export const FileManagerPreview: FunctionComponent<FileManagerPreviewProps> = ({
 
   const handlePrevious = useCallback(() => {
     if (!currentFileId) {
-      setCurrentFileId(files[0].id)
+      setCurrentFileId(files[0]?.id)
       return
     }
     const currentIndex = files.findIndex((file) => file.id === currentFileId)
     const previousIndex = (currentIndex - 1 + files.length) % files.length
 
-    setCurrentFileId(files[previousIndex].id)
+    setCurrentFileId(files[previousIndex]?.id)
   }, [currentFileId, files])
 
   const handleNext = useCallback(() => {
     if (!currentFileId) {
-      setCurrentFileId(files[0].id)
+      setCurrentFileId(files[0]?.id)
       return
     }
     const currentIndex = files.findIndex((file) => file.id === currentFileId)
     const nextIndex = (currentIndex + 1) % files.length
 
-    setCurrentFileId(files[nextIndex].id)
+    setCurrentFileId(files[nextIndex]?.id)
   }, [currentFileId, files])
 
   const handleDownload = useCallback(() => {
@@ -169,9 +169,9 @@ export const FileManagerPreview: FunctionComponent<FileManagerPreviewProps> = ({
       const nextIndex = (index + 1) % files.length
       const afterNextIndex = (index + 2) % files.length
 
-      const previousItemId = files[previousIndex].id
-      const nextItemId = files[nextIndex].id
-      const afterNextItemId = files[afterNextIndex].id
+      const previousItemId = files[previousIndex]?.id
+      const nextItemId = files[nextIndex]?.id
+      const afterNextItemId = files[afterNextIndex]?.id
 
       const idsToPrefetch = uniq([
         currentFileId,

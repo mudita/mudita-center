@@ -104,7 +104,7 @@ export const FilePreview: FunctionComponent<Props> = ({
       <ModalContent>
         <Header>
           <Typography.P1 id={"file-preview-name"} color={"white"}>
-            [{file?.id}] {file?.name}
+            {file?.name}
           </Typography.P1>
           <ActionButton onClick={onClose} aria-label="Close file preview">
             <Icon type={IconType.Close} size={IconSize.Big} />

@@ -67,7 +67,7 @@ export const ManageFilesFileListPanelSelectMode: FunctionComponent<
             icon={IconType.Upload}
             message={manageFilesMessages.selectionDownload.id}
             type={ButtonType.Text}
-            onClick={onDownloadClick}
+            onClick={() => onDownloadClick()}
           />,
         ]
       : []),
@@ -75,7 +75,7 @@ export const ManageFilesFileListPanelSelectMode: FunctionComponent<
       icon={IconType.Trash}
       message={manageFilesMessages.selectionDelete.id}
       type={ButtonType.Text}
-      onClick={onDeleteClick}
+      onClick={() => onDeleteClick()}
     />,
   ]
 
