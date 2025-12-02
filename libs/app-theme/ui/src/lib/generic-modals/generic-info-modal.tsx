@@ -15,11 +15,12 @@ export enum CloseVariant {
   Button = "Button",
   Icon = "Icon",
   Both = "Both",
+  None = "None",
 }
 
 interface Props {
   opened: boolean
-  onClose: VoidFunction
+  onClose?: VoidFunction
   title: string
   iconType?: IconType
   description?: string | ReactNode
