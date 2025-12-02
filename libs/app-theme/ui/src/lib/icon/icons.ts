@@ -9,6 +9,7 @@ import Svg from "*.svg?react"
 import { IconType } from "app-theme/models"
 import AirplaneMode from "./svg/airplane-mode.svg?react"
 import ArrowBack from "./svg/arrow-back.svg?react"
+import BackArrowIcon from "./svg/back-arrow-icon.svg?react"
 import Backup from "./svg/backup.svg?react"
 import Battery0 from "./svg/battery-0.svg?react"
 import Battery1 from "./svg/battery-1.svg?react"
@@ -89,6 +90,7 @@ import Upload from "./svg/upload.svg?react"
 export const icons = {
   [IconType.AirplaneMode]: AirplaneMode,
   [IconType.ArrowBack]: ArrowBack,
+  [IconType.BackArrowIcon]: BackArrowIcon,
   [IconType.Backup]: Backup,
   [IconType.Battery0]: Battery0,
   [IconType.Battery1]: Battery1,

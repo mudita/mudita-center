@@ -367,6 +367,8 @@
   "harmonyMsc.menu.recoveryMode": "Recovery Mode",
   "harmonyMsc.recoveryMode.completeModal.description": "Hold down the light button on Harmony to turn it on when prompted.",
   "harmonyMsc.recoveryMode.completeModal.title": "Recovery process complete",
+  "harmonyMsc.recoveryMode.finalStepModal.description": " Press the back button on your device to complete the recovery process.",
+  "harmonyMsc.recoveryMode.finalStepModal.title": "Almost finished...",
   "harmonyMsc.recoveryMode.headerDescription": "Please read the instructions carefully. Not following the instructions may void the\nwarranty!",
   "harmonyMsc.recoveryMode.headerTitle": "Harmony is Ready for Recovery",
   "harmonyMsc.recoveryMode.progressModal.title": "Recovery mode in progress...",
