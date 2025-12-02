@@ -84,4 +84,10 @@ export const McHarmonyMscRecoveryModeMessages = defineMessages({
   recoveryModeFinalStepModalDescription: {
     id: "harmonyMsc.recoveryMode.finalStepModal.description",
   },
+  recoveryModeFailedModalTitle: {
+    id: "harmonyMsc.recoveryMode.failedModal.title",
+  },
+  recoveryModeFailedModalDescription: {
+    id: "harmonyMsc.recoveryMode.failedModal.description",
+  },
 })
