@@ -370,6 +370,8 @@
   "harmonyMsc.recoveryMode.progressModal.title": "Recovery mode in progress...",
   "harmonyMsc.recoveryMode.progressModal.warningDescription": "Do not disconnect Harmony or interrupt the process!",
   "harmonyMsc.recoveryMode.progressModal.warningTitle": "Warning!",
+  "harmonyMsc.recoveryMode.restartModal.description": "Please do not disconnect your Harmony.",
+  "harmonyMsc.recoveryMode.restartModal.title": "Restarting Harmony...",
   "harmonyMsc.recoveryMode.terminalSetupModal.step1": "Switch to the open terminal",
   "harmonyMsc.recoveryMode.terminalSetupModal.step2": "Press enter to start the process",
   "harmonyMsc.recoveryMode.terminalSetupModal.step3": "Enter your computer password when prompted",
