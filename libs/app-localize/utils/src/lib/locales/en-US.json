@@ -365,6 +365,8 @@
   "harmony.quotations.updateSettingsProgressModal.title": "Saving to Harmony...",
   "harmony.quotations.updateSettingsSuccessToast.text": "Changes saved",
   "harmonyMsc.menu.recoveryMode": "Recovery Mode",
+  "harmonyMsc.recoveryMode.completeModal.description": "Hold down the light button on Harmony to turn it on when prompted.",
+  "harmonyMsc.recoveryMode.completeModal.title": "Recovery process complete",
   "harmonyMsc.recoveryMode.headerDescription": "Please read the instructions carefully. Not following the instructions may void the\nwarranty!",
   "harmonyMsc.recoveryMode.headerTitle": "Harmony is Ready for Recovery",
   "harmonyMsc.recoveryMode.progressModal.title": "Recovery mode in progress...",

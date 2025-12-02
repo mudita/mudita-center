@@ -40,6 +40,7 @@ export enum IconType {
   Help = "help",
   Info = "info",
   InfoBold = "info-bold",
+  LightButtonIcon = "light-button-icon",
   Lock = "lock",
   Messages = "messages",
   Minus = "minus",

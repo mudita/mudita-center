@@ -72,4 +72,10 @@ export const McHarmonyMscRecoveryModeMessages = defineMessages({
   recoveryModeRestartModalDescription: {
     id: "harmonyMsc.recoveryMode.restartModal.description",
   },
+  recoveryModeCompleteModalTitle: {
+    id: "harmonyMsc.recoveryMode.completeModal.title",
+  },
+  recoveryModeCompleteModalDescription: {
+    id: "harmonyMsc.recoveryMode.completeModal.description",
+  },
 })
