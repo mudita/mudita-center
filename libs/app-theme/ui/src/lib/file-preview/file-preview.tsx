@@ -12,8 +12,27 @@ import { Icon } from "../icon/icon"
 import { ImagePreview } from "./image-preview"
 import { AnimatePresence, motion } from "motion/react"
 import { FilePreviewError, FilePreviewErrorCode } from "./file-preview-error"
+import { defineMessages, formatMessage } from "app-localize/utils"
 
 export { FilePreviewErrorCode } from "./file-preview-error"
+
+const messages = defineMessages({
+  closeButtonAriaLabel: {
+    id: "apiDevice.manageFiles.preview.ariaClose",
+  },
+  downloadButtonAriaLabel: {
+    id: "apiDevice.manageFiles.preview.ariaDownload",
+  },
+  deleteButtonAriaLabel: {
+    id: "apiDevice.manageFiles.preview.ariaDelete",
+  },
+  previousFileButtonAriaLabel: {
+    id: "apiDevice.manageFiles.preview.ariaPrevious",
+  },
+  nextFileButtonAriaLabel: {
+    id: "apiDevice.manageFiles.preview.ariaNext",
+  },
+})
 
 export interface FilePreviewFile {
   id: string
@@ -106,7 +125,10 @@ export const FilePreview: FunctionComponent<Props> = ({
           <Typography.P1 id={"file-preview-name"} color={"white"}>
             {file?.name}
           </Typography.P1>
-          <ActionButton onClick={onClose} aria-label="Close file preview">
+          <ActionButton
+            onClick={onClose}
+            aria-label={formatMessage(messages.closeButtonAriaLabel)}
+          >
             <Icon type={IconType.Close} size={IconSize.Big} />
           </ActionButton>
         </Header>
@@ -151,23 +173,32 @@ export const FilePreview: FunctionComponent<Props> = ({
           <Navigation>
             <NavigationButton
               onClick={onPreviousFile}
-              aria-label="Previous file"
+              aria-label={formatMessage(messages.previousFileButtonAriaLabel)}
             >
               <Icon type={IconType.ArrowLeft} size={IconSize.Big} />
             </NavigationButton>
-            <NavigationButton onClick={onNextFile} aria-label="Next file">
+            <NavigationButton
+              onClick={onNextFile}
+              aria-label={formatMessage(messages.nextFileButtonAriaLabel)}
+            >
               <Icon type={IconType.ArrowRight} size={IconSize.Big} />
             </NavigationButton>
           </Navigation>
         )}
         <Footer>
           {onDownload && (
-            <ActionButton onClick={onDownload} aria-label="Download file">
+            <ActionButton
+              onClick={onDownload}
+              aria-label={formatMessage(messages.downloadButtonAriaLabel)}
+            >
               <Icon type={IconType.Download} size={IconSize.Big} />
             </ActionButton>
           )}
           {onDelete && (
-            <ActionButton onClick={onDelete} aria-label="Delete file">
+            <ActionButton
+              onClick={onDelete}
+              aria-label={formatMessage(messages.deleteButtonAriaLabel)}
+            >
               <Icon type={IconType.Trash} size={IconSize.Big} />
             </ActionButton>
           )}
