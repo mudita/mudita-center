@@ -18,6 +18,7 @@ import {
 import { appUpdater } from "app-updater/main"
 import { usbAccess } from "app-init/main"
 import { appMtp } from "app-mtp/main"
+import { nativeImage } from "electron"
 
 export const api = {
   serialPort,
@@ -33,4 +34,5 @@ export const api = {
   jsonStore,
   usbAccess,
   appMtp,
+  nativeImage,
 } as const

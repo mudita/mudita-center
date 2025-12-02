@@ -13,6 +13,7 @@ import {
 } from "react"
 import { Messages } from "app-localize/utils"
 import {
+  FilePreviewFile,
   GenericDeleteFlow,
   GenericDeleteFlowProps,
   LoadingState,
@@ -37,9 +38,16 @@ import {
   ManageFilesDownloadFlow,
   ManageFilesDownloadFlowProps,
 } from "./manage-files-transfer-flow/manage-files-download-flow"
+import {
+  FileManagerPreview,
+  FileManagerPreviewProps,
+} from "./files-preview/file-manager-preview"
 
 type ManageFilesViewChild = (
-  ctx: Pick<ManageFilesTableSectionProps, "onSelectedChange" | "selectedIds">
+  ctx: Pick<
+    ManageFilesTableSectionProps,
+    "onSelectedChange" | "selectedIds" | "onRowClick"
+  >
 ) => ReactNode
 
 type ManageFilesViewMessages =
@@ -59,7 +67,8 @@ export interface ManageFilesViewProps
       ManageFilesTransferFlowProps,
       "openFileDialog" | "transferFiles" | "onTransferSuccess"
     >,
-    Partial<Pick<ManageFilesDownloadFlowProps, "openDirectoryDialog">> {
+    Partial<Pick<ManageFilesDownloadFlowProps, "openDirectoryDialog">>,
+    Partial<Pick<FileManagerPreviewProps, "downloadFilePreview" | "deviceId">> {
   activeFileMap: FileManagerFileMap
   onActiveCategoryChange: (categoryId: string) => void
   isLoading: boolean
@@ -82,6 +91,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     onTransferSuccess,
     openFileDialog,
     openDirectoryDialog,
+    downloadFilePreview,
     isLoading,
     categories,
     segments,
@@ -91,8 +101,10 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     otherFiles,
     children,
     progress,
+    deviceId,
   } = props
   const genericDeleteRef = useRef<GenericDeleteFlow>(null)
+  const filePreviewRef = useRef<FileManagerPreview>(null)
 
   const activeSupportedFileTypes = useMemo(() => {
     return (
@@ -114,6 +126,23 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     return out
   }, [selectedIds, activeFileMap])
 
+  const [fileToDownload, setFileToDownload] = useState<
+    FileManagerFile | undefined
+  >(undefined)
+
+  const previewFiles: FilePreviewFile[] = useMemo(() => {
+    return Object.values(activeFileMap).map((file) => {
+      return {
+        id: file.id,
+        name: file.name,
+        type: file.mimeType,
+        extension: file.type,
+        size: file.size,
+        path: file.path,
+      }
+    })
+  }, [activeFileMap])
+
   const updateSelection = useCallback((fileId: string, checked: boolean) => {
     setSelectedIds((prev) => {
       const next = new Set(prev)
@@ -131,9 +160,38 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     [activeFileMap]
   )
 
-  const startDeleteFlow = useCallback(() => {
-    genericDeleteRef.current?.deleteItems(selectedFiles)
-  }, [selectedFiles])
+  const startDeleteFlow = useCallback(
+    (fileId?: string) => {
+      genericDeleteRef.current?.deleteItems(
+        fileId ? [activeFileMap[fileId]] : selectedFiles
+      )
+    },
+    [activeFileMap, selectedFiles]
+  )
+
+  const deleteItemsAction = useCallback(
+    async (itemsIds: string[]) => {
+      const response = await deleteFiles(itemsIds)
+
+      // If the currently previewed file was deleted, move to the next one or close the preview
+      const currentPreviewFileId = filePreviewRef.current?.getCurrentId()
+      if (currentPreviewFileId !== undefined) {
+        if (
+          itemsIds.includes(currentPreviewFileId) &&
+          !response.failedIds.includes(currentPreviewFileId)
+        ) {
+          if (previewFiles.length > 1) {
+            filePreviewRef.current?.next()
+          } else {
+            filePreviewRef.current?.close()
+          }
+        }
+      }
+
+      return response
+    },
+    [deleteFiles, previewFiles.length]
+  )
 
   const changeCategory = useCallback(
     (categoryId: string) => {
@@ -154,8 +212,10 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     async ({ failedItems }) => {
       void onDeleteSuccess?.()
 
-      if (failedItems) {
-        setSelectedIds(new Set(failedItems.map((item) => item.id)))
+      if (failedItems && failedItems.length > 0) {
+        setSelectedIds(
+          new Set(failedItems.filter(Boolean).map((item) => item.id))
+        )
       } else {
         setSelectedIds(new Set([]))
       }
@@ -179,8 +239,21 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
     setUploadFlowOpened(true)
   }, [])
 
-  const startDownloadFlow = useCallback(() => {
-    setDownloadFlowOpened(true)
+  const startDownloadFlow = useCallback(
+    (fileId?: string) => {
+      if (fileId !== undefined) {
+        setFileToDownload(activeFileMap[fileId])
+      }
+      setDownloadFlowOpened(true)
+    },
+    [activeFileMap]
+  )
+
+  const onRowClick = useCallback((fileId?: string) => {
+    if (!fileId) {
+      return
+    }
+    filePreviewRef.current?.open(fileId)
   }, [])
 
   return (
@@ -211,12 +284,26 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
           selectedIds.size > 0
         }
       >
-        {children({ onSelectedChange: updateSelection, selectedIds })}
+        {children({
+          onSelectedChange: updateSelection,
+          selectedIds,
+          onRowClick: downloadFilePreview ? onRowClick : undefined,
+        })}
       </ManageFilesContent>
+      {deviceId && downloadFilePreview && (
+        <FileManagerPreview
+          ref={filePreviewRef}
+          files={previewFiles}
+          deviceId={deviceId}
+          downloadFilePreview={downloadFilePreview}
+          onDelete={startDeleteFlow}
+          onDownload={startDownloadFlow}
+        />
+      )}
       <GenericDeleteFlow
         ref={genericDeleteRef}
         onDeleteSuccess={finalizeDeleteSuccess}
-        deleteItemsAction={deleteFiles}
+        deleteItemsAction={deleteItemsAction}
         deleteFlowMessages={messages}
       />
       <ManageFilesTransferFlow
@@ -242,7 +329,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
           transferFlowMessages={messages}
           fileMap={activeFileMap}
           freeSpaceBytes={freeSpaceBytes}
-          selectedFiles={selectedFiles}
+          selectedFiles={fileToDownload ? [fileToDownload] : selectedFiles}
         />
       )}
     </>

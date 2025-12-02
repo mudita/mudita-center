@@ -18,6 +18,7 @@ type FileEntity = {
   fileSize: number
   extension: string
   additionalInfo?: unknown
+  mimeType: string
 }
 
 const isFileEntity = (value: unknown): value is FileEntity => {
@@ -49,6 +50,8 @@ export const mapToCategoryFileMap = (
               name: entity.fileName,
               size: entity.fileSize,
               type: entity.extension,
+              mimeType: entity.mimeType,
+              path: entity.filePath,
             }
 
             if (isAppFileManagerFileAdditionalInfo(entity.additionalInfo)) {

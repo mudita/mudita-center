@@ -88,7 +88,7 @@ export const GenericDeleteFlow: FunctionComponent<GenericDeleteFlowProps> = ({
   )
 
   const { deleteItems, failedItems, allItems } = useDeleteItems({
-    deleteItemsAction: deleteItemsAction,
+    deleteItemsAction,
     onStart,
     onSuccess,
     messages: deleteFlowMessages,

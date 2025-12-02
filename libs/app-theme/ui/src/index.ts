@@ -44,6 +44,7 @@ export * from "./lib/typography/typography-content/typography-content"
 export * from "./lib/typography/typography-styles"
 export * from "./lib/typography/bytes-formatter/bytes-formatter"
 export * from "./lib/typography/bytes-formatter/format-bytes"
+export * from "./lib/file-preview/file-preview"
 
 // Legacy components
 export * from "./lib/legacy-button/button.component"

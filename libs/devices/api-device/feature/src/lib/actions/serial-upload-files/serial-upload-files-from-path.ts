@@ -147,6 +147,8 @@ export const serialUploadFilesFromPath = async ({
           size: fileSize,
           loaded: uploadedWithinFile,
           progress: fileProgress,
+          path: targetFilePath,
+          mimeType: "",
         },
       })
     }
@@ -187,6 +189,8 @@ export const serialUploadFilesFromPath = async ({
           size: fileSize,
           loaded: fileSize,
           progress: 100,
+          path: targetFilePath,
+          mimeType: "",
         },
       })
     }
