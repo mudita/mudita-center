@@ -38,5 +38,23 @@ export const McHarmonyMscRecoveryModeMessages = defineMessages({
   },
   recoveryModeWarningButtonText: {
     id: "harmonyMsc.recoveryMode.warningButtonText",
-  }
+  },
+  recoveryModeTerminalSetupModalTitle: {
+    id: "harmonyMsc.recoveryMode.terminalSetupModal.title",
+  },
+  recoveryModeTerminalSetupModalSubtitle: {
+    id: "harmonyMsc.recoveryMode.terminalSetupModal.subtitle",
+  },
+  recoveryModeTerminalSetupModalStep1: {
+    id: "harmonyMsc.recoveryMode.terminalSetupModal.step1",
+  },
+  recoveryModeTerminalSetupModalStep2: {
+    id: "harmonyMsc.recoveryMode.terminalSetupModal.step2",
+  },
+  recoveryModeTerminalSetupModalStep3: {
+    id: "harmonyMsc.recoveryMode.terminalSetupModal.step3",
+  },
+  recoveryModeTerminalSetupModalStep4: {
+    id: "harmonyMsc.recoveryMode.terminalSetupModal.step4",
+  },
 })

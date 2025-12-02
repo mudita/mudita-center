@@ -9,14 +9,22 @@ import { formatMessage } from "app-localize/utils"
 import { Button } from "../button/button"
 import { Typography } from "../typography/typography"
 import { Modal } from "../modal/modal"
+import { TypographyContent } from "../typography/typography-content/typography-content"
+
+export enum CloseVariant {
+  Button = "Button",
+  Icon = "Icon",
+  Both = "Both",
+}
 
 interface Props {
   opened: boolean
   onClose: VoidFunction
   title: string
   iconType?: IconType
-  description: string
+  description?: string | ReactNode
   closeButtonText?: string
+  closeVariant?: CloseVariant
   children?: ReactNode
 }
 
@@ -26,20 +34,29 @@ export const GenericInfoModal: FunctionComponent<Props> = ({
   iconType = IconType.Info,
   description,
   closeButtonText = formatMessage({ id: "general.app.closeButton.text" }),
+  closeVariant = CloseVariant.Button,
   onClose,
   children,
 }) => {
+  const showIcon =
+    closeVariant === CloseVariant.Icon || closeVariant === CloseVariant.Both
+  const showButton =
+    closeVariant === CloseVariant.Button || closeVariant === CloseVariant.Both
+
   return (
     <Modal opened={opened}>
       <Modal.TitleIcon type={iconType} />
+      {showIcon && <Modal.CloseButton onClick={onClose} />}
       <Modal.Title>{title}</Modal.Title>
-      <Typography.P1>{description}</Typography.P1>
+      <TypographyContent as={Typography.P1}>{description}</TypographyContent>
       {children}
-      <Modal.Buttons>
-        <Button onClick={onClose} type={ButtonType.Secondary}>
-          {closeButtonText}
-        </Button>
-      </Modal.Buttons>
+      {showButton && (
+        <Modal.Buttons>
+          <Button onClick={onClose} type={ButtonType.Secondary}>
+            {closeButtonText}
+          </Button>
+        </Modal.Buttons>
+      )}
     </Modal>
   )
 }
