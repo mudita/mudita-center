@@ -6,6 +6,7 @@
 import { IpcMain, OpenDialogOptions } from "electron"
 import { AppActionsIpcEvents } from "app-utils/models"
 import { AppActionsService } from "./app-actions.service"
+import { ExternalAuthProvidersService } from "../external-auth-providers/external-auth-providers.service"
 
 export const initAppActions = (
   ipcMain: IpcMain,
@@ -37,4 +38,6 @@ export const initAppActions = (
   ipcMain.handle(AppActionsIpcEvents.GetVersion, () => {
     return appActionsService.getAppVersion()
   })
+
+  new ExternalAuthProvidersService()
 }
