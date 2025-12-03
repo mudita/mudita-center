@@ -27,6 +27,8 @@ jobs:
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           VITE_GH_RUNTIME_TOKEN: ${{ secrets.VITE_GH_RUNTIME_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          VITE_GOOGLE_AUTH_CLIENT_ID: ${{ secrets.VITE_GOOGLE_AUTH_CLIENT_ID }}
+          VITE_MICROSOFT_AUTH_CLIENT_ID: ${{ secrets.VITE_MICROSOFT_AUTH_CLIENT_ID }}
           CI: true
         shell: cmd
         run: |
@@ -40,6 +42,8 @@ jobs:
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           VITE_GH_RUNTIME_TOKEN: ${{ secrets.VITE_GH_RUNTIME_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          VITE_GOOGLE_AUTH_CLIENT_ID: ${{ secrets.VITE_GOOGLE_AUTH_CLIENT_ID }}
+          VITE_MICROSOFT_AUTH_CLIENT_ID: ${{ secrets.VITE_MICROSOFT_AUTH_CLIENT_ID }}
           CI: true
         run: |
           printenv > .env
@@ -51,6 +55,8 @@ jobs:
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           VITE_GH_RUNTIME_TOKEN: ${{ secrets.VITE_GH_RUNTIME_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          VITE_GOOGLE_AUTH_CLIENT_ID: ${{ secrets.VITE_GOOGLE_AUTH_CLIENT_ID }}
+          VITE_MICROSOFT_AUTH_CLIENT_ID: ${{ secrets.VITE_MICROSOFT_AUTH_CLIENT_ID }}
           CI: true
         run: |
           printenv > .env
