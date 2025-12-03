@@ -46,6 +46,7 @@ export type BaseTypographyProps = {
   weight?: TypographyWeight | "inherit"
   color?: AppColor | "currentColor"
   title?: string
+  id?: string
   as?: ElementType
   className?: string
 } & Modifier &

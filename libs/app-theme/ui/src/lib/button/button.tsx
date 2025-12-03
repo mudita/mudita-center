@@ -36,7 +36,6 @@ import {
 } from "./button-secondary.styles"
 import { textButtonStyles, textNavigationStyles } from "./button-text.styles"
 import { Translation } from "../shared/translation.type"
-import { AnimatePresence } from "motion/react"
 import styled from "styled-components"
 
 export interface ButtonLinkProps {
@@ -114,7 +113,7 @@ export const Button: FunctionComponent<Props> & { Icon: typeof ButtonIcon } = ({
 
   const content = useMemo(() => {
     return (
-      <AnimatePresence mode={"popLayout"} initial={false}>
+      <>
         {icon && (
           <ButtonIconWrapper key={"icon"}>
             <ButtonIcon type={icon} size={iconSize} />
@@ -123,7 +122,7 @@ export const Button: FunctionComponent<Props> & { Icon: typeof ButtonIcon } = ({
         <ButtonTextWrapper key={message || "text"}>
           {message ? <p>{formatMessage({ id: message }, values)}</p> : children}
         </ButtonTextWrapper>
-      </AnimatePresence>
+      </>
     )
   }, [children, icon, iconSize, message, values])
 

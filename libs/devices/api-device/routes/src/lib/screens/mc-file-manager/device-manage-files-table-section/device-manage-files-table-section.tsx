@@ -23,11 +23,12 @@ import {
 
 export const DeviceManageFilesTableSection: FunctionComponent<
   ManageFilesTableSectionProps
-> = ({ fileMap, selectedIds, activeRowId, onSelectedChange }) => {
+> = ({ fileMap, selectedIds, activeRowId, onSelectedChange, onRowClick }) => {
   return (
     <FileListEmptyTable
       activeRowId={activeRowId}
       dataIds={fileMap ? Object.keys(fileMap) : []}
+      onRowClick={onRowClick}
     >
       <HeaderCellCheckbox></HeaderCellCheckbox>
       <HeaderCellName>
@@ -46,13 +47,14 @@ export const DeviceManageFilesTableSection: FunctionComponent<
         </HeaderCellSizeText>
       </HeaderCellSize>
       <ColumnCheckboxCell
+        key={"checkbox-cell"}
         selectedIds={selectedIds}
         fileMap={fileMap}
         onChange={onSelectedChange}
       />
-      <NameCell fileMap={fileMap} />
-      <TypeCell fileMap={fileMap} />
-      <SizeCell fileMap={fileMap} />
+      <NameCell key={"name-cell"} fileMap={fileMap} />
+      <TypeCell key={"type-cell"} fileMap={fileMap} />
+      <SizeCell key={"size-cell"} fileMap={fileMap} />
     </FileListEmptyTable>
   )
 }

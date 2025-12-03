@@ -15,6 +15,8 @@ const toFile = (item: HarmonyFile): FileManagerFile => {
     type,
     id: item.path,
     size: item.fileSize,
+    path: item.path,
+    mimeType: type,
   }
 }
 

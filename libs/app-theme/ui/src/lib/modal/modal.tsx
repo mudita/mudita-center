@@ -71,13 +71,14 @@ export const Modal: FunctionComponent<Props> & Subcomponents = ({
           <ModalOverlay
             {...props}
             $hidden={overlayHidden}
+            $layer={layer}
             data-testid={ModalTestId.Overlay}
           >
             {children}
           </ModalOverlay>
         )
       },
-      [overlayHidden]
+      [layer, overlayHidden]
     )
   return (
     <ReactModal

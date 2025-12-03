@@ -6,6 +6,8 @@
 import { IconType } from "app-theme/models"
 import { FailedTransferErrorName } from "devices/common/models"
 
+export type { FilesManagerFilePreviewDownload } from "./files-preview/use-file-manager-preview"
+
 export interface FileManagerFileCategory {
   id: string
   icon: IconType
@@ -23,6 +25,8 @@ export type FileManagerFile = {
   name: string
   type: string
   size: number
+  path: string
+  mimeType: string
 }
 
 export type FileManagerFileMap = Record<string, FileManagerFile>
