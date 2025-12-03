@@ -3,15 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Contact } from "@microsoft/microsoft-graph-types"
 import { BaseProvider, Events } from "./base"
 import {
   ExternalAuthProvidersAuthorizationData,
   ExternalAuthProvidersScope,
+  OutlookCalendarEvent,
+  OutlookContact,
 } from "app-utils/models"
-
-export type OutlookContact = Contact
-export type OutlookCalendarEvent = unknown
 
 export class OutlookProvider extends BaseProvider<
   OutlookContact,

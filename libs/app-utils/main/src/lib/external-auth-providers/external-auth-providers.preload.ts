@@ -5,28 +5,35 @@
 
 import { electronAPI } from "@electron-toolkit/preload"
 import {
+  ExternalAuthProvider,
   ExternalAuthProvidersIpcEvents,
   ExternalAuthProvidersScope,
 } from "app-utils/models"
-import { ExternalAuthProvider } from "./external-auth-providers.service"
+import {
+  ExternalAuthProvidersService,
+  ScopesData,
+} from "./external-auth-providers.service"
 
 export const externalAuthProviders = {
   getAuthorizationData: (
     provider: ExternalAuthProvider,
     scopes: ExternalAuthProvidersScope[]
-  ) => {
+  ): ReturnType<typeof ExternalAuthProvidersService.getAuthorizationData> => {
     return electronAPI.ipcRenderer.invoke(
       ExternalAuthProvidersIpcEvents.GetAuthorizationData,
       { provider, scopes }
     )
   },
-  getScopesData: (
-    provider: ExternalAuthProvider,
-    scopes: ExternalAuthProvidersScope[]
+  getScopesData: <
+    P extends ExternalAuthProvider,
+    S extends ExternalAuthProvidersScope[],
+  >(
+    provider: P,
+    scopes: S
   ) => {
     return electronAPI.ipcRenderer.invoke(
       ExternalAuthProvidersIpcEvents.GetScopesData,
       { provider, scopes }
-    )
+    ) as Promise<ScopesData<P, S> | null>
   },
 }

@@ -5,23 +5,12 @@
 
 import http from "http"
 import { check as checkPort } from "tcp-port-used"
-import { people_v1 } from "googleapis"
 import { BaseProvider, Events } from "./base"
-import { ExternalAuthProvidersScope } from "app-utils/models"
-
-export type GoogleContact = Pick<
-  people_v1.Schema$Person,
-  | "names"
-  | "nicknames"
-  | "phoneNumbers"
-  | "emailAddresses"
-  | "addresses"
-  | "biographies"
-  | "organizations"
-  | "urls"
->
-
-export type GoogleCalendarEvent = unknown
+import {
+  ExternalAuthProvidersScope,
+  GoogleCalendarEvent,
+  GoogleContact,
+} from "app-utils/models"
 
 export class GoogleProvider extends BaseProvider<
   GoogleContact,

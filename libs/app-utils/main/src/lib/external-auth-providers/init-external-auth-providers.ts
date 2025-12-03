@@ -5,13 +5,11 @@
 
 import { IpcMain } from "electron"
 import {
+  ExternalAuthProvider,
   ExternalAuthProvidersIpcEvents,
   ExternalAuthProvidersScope,
 } from "app-utils/models"
-import {
-  ExternalAuthProvider,
-  ExternalAuthProvidersService,
-} from "./external-auth-providers.service"
+import { ExternalAuthProvidersService } from "./external-auth-providers.service"
 
 export const initExternalAuthProviders = (ipcMain: IpcMain) => {
   ipcMain.removeHandler(ExternalAuthProvidersIpcEvents.GetAuthorizationData)
