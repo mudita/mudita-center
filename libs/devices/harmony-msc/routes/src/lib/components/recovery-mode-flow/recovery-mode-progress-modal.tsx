@@ -14,7 +14,7 @@ import {
 } from "app-theme/ui"
 import { formatMessage } from "app-localize/utils"
 import { borderColor, borderRadius } from "app-theme/utils"
-import { McHarmonyMscRecoveryModeMessages } from "../harmony-msc-recovery-mode.messages"
+import { McHarmonyMscRecoveryModeMessages } from "../../harmony-msc-recovery-mode.messages"
 
 interface Props {
   opened: boolean

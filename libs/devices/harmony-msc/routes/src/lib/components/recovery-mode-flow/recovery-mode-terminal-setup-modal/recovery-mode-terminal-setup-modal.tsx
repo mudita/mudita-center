@@ -8,7 +8,7 @@ import styled from "styled-components"
 import { IconType, TypographyAlign } from "app-theme/models"
 import { CloseVariant, GenericInfoModal, Typography } from "app-theme/ui"
 import { formatMessage } from "app-localize/utils"
-import { McHarmonyMscRecoveryModeMessages } from "../../harmony-msc-recovery-mode.messages"
+import { McHarmonyMscRecoveryModeMessages } from "../../../harmony-msc-recovery-mode.messages"
 import { recoveryModeTerminalSetupStepList } from "./recovery-mode-terminal-setup-step-list"
 
 interface Props {

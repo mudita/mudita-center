@@ -7,7 +7,7 @@ import { FunctionComponent } from "react"
 import { IconType } from "app-theme/models"
 import { CloseVariant, GenericInfoModal, Icon } from "app-theme/ui"
 import { formatMessage } from "app-localize/utils"
-import { McHarmonyMscRecoveryModeMessages } from "../harmony-msc-recovery-mode.messages"
+import { McHarmonyMscRecoveryModeMessages } from "../../harmony-msc-recovery-mode.messages"
 
 interface Props {
   opened: boolean

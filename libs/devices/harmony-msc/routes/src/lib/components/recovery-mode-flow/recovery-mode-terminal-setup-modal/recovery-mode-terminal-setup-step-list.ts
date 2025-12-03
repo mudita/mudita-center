@@ -4,7 +4,7 @@
  */
 
 import { Messages } from "app-localize/utils"
-import { McHarmonyMscRecoveryModeMessages } from "../../harmony-msc-recovery-mode.messages"
+import { McHarmonyMscRecoveryModeMessages } from "../../../harmony-msc-recovery-mode.messages"
 
 export const recoveryModeTerminalSetupStepList: Messages[] = [
   McHarmonyMscRecoveryModeMessages.recoveryModeTerminalSetupModalStep1,

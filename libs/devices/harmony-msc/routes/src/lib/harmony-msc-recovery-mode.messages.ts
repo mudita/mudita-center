@@ -60,6 +60,21 @@ export const McHarmonyMscRecoveryModeMessages = defineMessages({
   recoveryModeProgressModalTitle: {
     id: "harmonyMsc.recoveryMode.progressModal.title",
   },
+  recoveryModeProgressModalStep0: {
+    id: "harmonyMsc.recoveryMode.progressModal.step0",
+  },
+  recoveryModeProgressModalStep1: {
+    id: "harmonyMsc.recoveryMode.progressModal.step1",
+  },
+  recoveryModeProgressModalStep2: {
+    id: "harmonyMsc.recoveryMode.progressModal.step2",
+  },
+  recoveryModeProgressModalStep3: {
+    id: "harmonyMsc.recoveryMode.progressModal.step3",
+  },
+  recoveryModeProgressModalStep4: {
+    id: "harmonyMsc.recoveryMode.progressModal.step4",
+  },
   recoveryModeProgressModalWarningTitle: {
     id: "harmonyMsc.recoveryMode.progressModal.warningTitle",
   },
