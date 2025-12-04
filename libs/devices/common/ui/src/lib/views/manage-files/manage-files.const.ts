@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { platform } from "app-utils/common"
+import { Platform, platform } from "app-utils/models"
 
 const WindowsInterferingApps: string[] = [
   "Slack",
@@ -31,4 +31,4 @@ const MacInterferingApps: string[] = [
 ]
 
 export const interferingApps =
-  platform === "macos" ? MacInterferingApps : WindowsInterferingApps
+  platform === Platform.macos ? MacInterferingApps : WindowsInterferingApps

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { platform } from "app-utils/common"
+import { Platform, platform } from "app-utils/models"
 import { Messages } from "app-localize/utils"
 import { McHarmonyMscRecoveryModeMessages } from "../../harmony-msc-recovery-mode.messages"
 
@@ -23,6 +23,6 @@ const recoveryModeWarningDescriptionLinux: Messages[] = [
 ]
 
 export const recoveryModeWarningDescriptionList =
-  platform === "linux"
+  platform === Platform.linux
     ? recoveryModeWarningDescriptionLinux
     : recoveryModeWarningDescriptionAllPlatforms
