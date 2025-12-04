@@ -48,7 +48,8 @@ export const RecoveryModeFlow: FunctionComponent<Props> = ({
   const recover = useCallback(async (device: HarmonyMsc) => {
     abortControllerRef.current = new AbortController()
     const result = await flashHarmonyMsc({
-      abortController: abortControllerRef.current,
+      device,
+      signal: abortControllerRef.current.signal,
       onProgress: ({ state, progress }) => {
         progress && setRecoverProgress(progress)
         setFlowState(state)
@@ -79,13 +80,13 @@ export const RecoveryModeFlow: FunctionComponent<Props> = ({
   }, [clearState, onClose])
 
   useEffect(() => {
-    if (opened && activeHarmony) {
+    if (!(opened && activeHarmony)) {
+      clearState()
+    } else if (flowState === HarmonyMscProcessState.Idle) {
       setFlowState(HarmonyMscProcessState.GettingFilesDetails)
       void recover(activeHarmony)
-    } else {
-      clearState()
     }
-  }, [activeHarmony, recover, clearState, opened])
+  }, [activeHarmony, recover, clearState, opened, flowState])
 
   return (
     <>
