@@ -4,11 +4,12 @@
  */
 
 import { useQuery } from "@tanstack/react-query"
-import { harmonyQueryKeys } from "./harmony-query-keys"
-import { Harmony, HarmonyOSUpdateError } from "devices/harmony/models"
 import semver from "semver"
+import { LegacyProduct, Product } from "app-utils/models"
+import { Harmony, HarmonyOSUpdateError } from "devices/harmony/models"
 import { AppFileSystem, AppHttp } from "app-utils/renderer"
 import { getHarmonyOsDownloadLocation } from "./use-harmony-os-download.mutation"
+import { harmonyQueryKeys } from "./harmony-query-keys"
 
 export interface HarmonyOsUpdateInfoFile {
   url: string
@@ -37,7 +38,7 @@ const getHarmonyOsUpdateInfo = (
     method: "GET",
     url: `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-get-release/`,
     params: {
-      product: "BellHybrid",
+      product: LegacyProduct.BellHybrid,
       version,
       environment: "production",
       deviceSerialNumber: serialNumber,
@@ -51,15 +52,10 @@ const getHarmonyOsUpdateInfo = (
   return promise
 }
 
-enum Product {
-  MuditaHarmony = "MuditaHarmony",
-  MuditaPure = "MuditaPure",
-}
-
 const getConfiguration = (signal?: AbortSignal) => {
   const promise = AppHttp.request<{
     centerVersion: string
-    productVersions: Record<Product, string>
+    productVersions: Record<Product.Harmony | Product.Pure, string>
   }>({
     method: "GET",
     url: `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`,
