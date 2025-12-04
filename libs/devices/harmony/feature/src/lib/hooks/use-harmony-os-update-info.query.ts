@@ -5,7 +5,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import semver from "semver"
-import { LegacyProduct, Product } from "app-utils/models"
+import { LegacyProduct, OsEnvironment, Product } from "app-utils/models"
 import { Harmony, HarmonyOSUpdateError } from "devices/harmony/models"
 import { AppFileSystem, AppHttp } from "app-utils/renderer"
 import { getHarmonyOsDownloadLocation } from "./use-harmony-os-download.mutation"
@@ -40,7 +40,7 @@ const getHarmonyOsUpdateInfo = (
     params: {
       product: LegacyProduct.BellHybrid,
       version,
-      environment: "production",
+      environment: OsEnvironment.Production,
       deviceSerialNumber: serialNumber,
     },
   })
