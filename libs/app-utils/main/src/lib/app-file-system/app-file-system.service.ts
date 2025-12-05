@@ -284,15 +284,17 @@ export class AppFileSystemService {
     destinationFilePath: string
   ): Promise<AppResult<string[]>> {
     const baseName = path.basename(sourceFilePath, ".tar.gz")
-    const sourceFilePathTar = path.join(destinationFilePath, `${baseName}.tar`)
+
+    const innerTarDir = path.join(destinationFilePath, `${baseName}.tar`)
+    const innerTarPath = path.join(innerTarDir, `${baseName}.tar`)
 
     const windowsCommand =
       `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" ` +
-      `&& if exist "${sourceFilePathTar}" tar -xvf "${sourceFilePathTar}" -C "${destinationFilePath}"`
+      `&& if exist "${innerTarPath}" tar -xvf "${innerTarPath}" -C "${destinationFilePath}"`
 
     const posixCommand =
       `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" ` +
-      `&& if [ -f "${sourceFilePathTar}" ]; then tar -xvf "${sourceFilePathTar}" -C "${destinationFilePath}"; fi`
+      `&& if [ -f "${innerTarPath}" ]; then tar -xvf "${innerTarPath}" -C "${destinationFilePath}"; fi`
 
     const command =
       platform === Platform.windows ? windowsCommand : posixCommand
