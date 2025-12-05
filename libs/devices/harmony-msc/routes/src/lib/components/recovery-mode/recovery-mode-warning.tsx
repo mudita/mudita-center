@@ -3,7 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChangeEventHandler, FunctionComponent, useCallback, useState } from "react"
+import {
+  ChangeEventHandler,
+  FunctionComponent,
+  useCallback,
+  useState,
+} from "react"
 import styled from "styled-components"
 import { ButtonSize, ButtonType } from "app-theme/models"
 import { formatCustomMessage, formatMessage } from "app-localize/utils"
@@ -16,7 +21,9 @@ interface RecoveryModeWarningProps {
   onConfirm: VoidFunction
 }
 
-export const RecoveryModeWarning: FunctionComponent<RecoveryModeWarningProps> = ({onConfirm}) => {
+export const RecoveryModeWarning: FunctionComponent<
+  RecoveryModeWarningProps
+> = ({ onConfirm }) => {
   const [checked, setChecked] = useState(false)
 
   const handleCheckboxChange: ChangeEventHandler<HTMLInputElement> =

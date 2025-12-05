@@ -28,7 +28,9 @@ export interface HarmonyMscProcessProgress {
   progress?: number
 }
 
-export type HarmonyMscProcessProgressHandler = (progress: HarmonyMscProcessProgress) => void
+export type HarmonyMscProcessProgressHandler = (
+  progress: HarmonyMscProcessProgress
+) => void
 
 export enum HarmonyMscProcessErrorName {
   Aborted = "aborted",

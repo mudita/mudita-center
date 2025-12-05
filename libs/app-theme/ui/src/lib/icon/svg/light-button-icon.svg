@@ -1,6 +1,6 @@
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0.5" y="0.5" width="47" height="47" rx="23.5" fill="transparent" />
-    <rect x="0.5" y="0.5" width="47" height="47" rx="23.5" stroke="currentColor" />
+<svg fill="none" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
+    <rect fill="transparent" height="47" rx="23.5" width="47" x="0.5" y="0.5" />
+    <rect height="47" rx="23.5" stroke="currentColor" width="47" x="0.5" y="0.5" />
     <path
         d="M33.6455 19.3221L30.1078 20.7875C29.6971 20.9576 29.501 21.4257 29.6697 21.833C29.8385 22.2403 30.3081 22.4326 30.7188 22.2625L34.2565 20.7972C34.6671 20.6271 34.8632 20.159 34.6945 19.7517C34.5258 19.3443 34.0561 19.152 33.6455 19.3221Z"
         fill="currentColor" />

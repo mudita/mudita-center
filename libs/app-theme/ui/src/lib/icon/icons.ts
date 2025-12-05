@@ -44,7 +44,7 @@ import Grid from "./svg/grid.svg?react"
 import Help from "./svg/help.svg?react"
 import Info from "./svg/info.svg?react"
 import InfoBold from "./svg/info-bold.svg?react"
-import lightButtonIcon from "./svg/light-button-icon.svg?react"
+import LightButtonIcon from "./svg/light-button-icon.svg?react"
 import Lock from "./svg/lock.svg?react"
 import Messages from "./svg/messages.svg?react"
 import Minus from "./svg/minus.svg?react"
@@ -125,7 +125,7 @@ export const icons = {
   [IconType.Help]: Help,
   [IconType.Info]: Info,
   [IconType.InfoBold]: InfoBold,
-  [IconType.LightButtonIcon]: lightButtonIcon,
+  [IconType.LightButtonIcon]: LightButtonIcon,
   [IconType.Lock]: Lock,
   [IconType.Messages]: Messages,
   [IconType.Minus]: Minus,
