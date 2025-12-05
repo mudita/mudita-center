@@ -27,6 +27,8 @@ import {
   AppResult,
   AppResultFactory,
   mapToAppError,
+  Platform,
+  platform,
 } from "app-utils/models"
 import { crc32 } from "node:zlib"
 import { execPromise } from "../exec/exec-command"
@@ -283,9 +285,17 @@ export class AppFileSystemService {
   ): Promise<AppResult<string[]>> {
     const baseName = path.basename(sourceFilePath, ".tar.gz")
     const sourceFilePathTar = path.join(destinationFilePath, `${baseName}.tar`)
-    const command =
+
+    const windowsCommand =
       `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" ` +
       `&& if exist "${sourceFilePathTar}" tar -xvf "${sourceFilePathTar}" -C "${destinationFilePath}"`
+
+    const posixCommand =
+      `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" ` +
+      `&& if [ -f "${sourceFilePathTar}" ]; then tar -xvf "${sourceFilePathTar}" -C "${destinationFilePath}"; fi`
+
+    const command =
+      platform === Platform.windows ? windowsCommand : posixCommand
 
     await execPromise(command)
     return AppResultFactory.success()
