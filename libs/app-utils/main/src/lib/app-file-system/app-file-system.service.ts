@@ -299,17 +299,16 @@ export class AppFileSystemService {
     const command =
       platform === Platform.windows ? windowsCommand : posixCommand
 
-    await execPromise(command)
-    return AppResultFactory.success()
+    return this.executeExtractionWithDiff(command, destinationFilePath, [innerTarDir])
   }
 
-  private async extractTarXz(
+  private extractTarXz(
     sourceFilePath: string,
     destinationFilePath: string
   ): Promise<AppResult<string[]>> {
     const command = `tar -xf "${sourceFilePath}" -C "${destinationFilePath}"`
-    await execPromise(command)
-    return AppResultFactory.success()
+
+    return this.executeExtractionWithDiff(command, destinationFilePath)
   }
 
   private async extractTarWithStream(
@@ -354,5 +353,30 @@ export class AppFileSystemService {
       )
       rs.pipe(extract)
     })
+  }
+
+  private async executeExtractionWithDiff(
+    command: string,
+    destinationFilePath: string,
+    ignoredPaths: string[] = []
+  ): Promise<AppResult<string[]>> {
+    const extractionStartedAt = Date.now()
+    await execPromise(command)
+
+    const entriesAfterExtraction = await fs.readdir(destinationFilePath)
+
+    const extractedEntries = entriesAfterExtraction
+      .filter((entry) => {
+        const fullEntryPath = path.join(destinationFilePath, entry)
+        if (ignoredPaths.includes(fullEntryPath)) {
+          return false
+        }
+        const stats = fs.statSync(fullEntryPath)
+        const createdAt = stats.ctimeMs || 0
+        return createdAt > extractionStartedAt
+      })
+      .map((entry) => path.join(destinationFilePath, entry))
+
+    return AppResultFactory.success(extractedEntries)
   }
 }
