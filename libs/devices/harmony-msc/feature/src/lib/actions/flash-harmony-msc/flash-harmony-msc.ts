@@ -8,34 +8,28 @@ import {
   AppResult,
   AppResultFactory,
   OsEnvironment,
-  platform,
 } from "app-utils/models"
 import {
   HarmonyMscFlashingProgress,
   HarmonyMscProcessState,
 } from "devices/harmony-msc/models"
+import { AppFileSystem } from "app-utils/renderer"
 import {
   getMscFlashDetails,
   GetMscFlashDetailsParams,
 } from "../../api/get-msc-flash-details"
 import { downloadFlashingFiles } from "../download-flashing-files"
-import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
-import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
-import { AppFileSystem } from "app-utils/renderer"
 import {
   getMscHarmonyLocation,
   mscHarmonyLocationDir,
 } from "../get-msc-harmony-location"
+import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
+import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
 
 export const flashHarmonyMsc = async (
   params: flashHarmonyMscParams
 ): Promise<AppResult> => {
-  if (platform === "unknown") {
-    return AppResultFactory.failed(new AppError("Unsupported platform"))
-  }
-
   const getMscFlashDetailsParams: GetMscFlashDetailsParams = {
-    platform,
     product: "MscHarmony",
     environment: OsEnvironment.Production,
   }
