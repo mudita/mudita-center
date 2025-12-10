@@ -3,6 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum HarmonyMscErrorType {
-  DeviceInternalError = 500,
-}
+export const flashExecCommandName = "MSC Mudita Device Flash"

@@ -4,19 +4,26 @@
  */
 
 import { SerialPortDeviceType } from "app-serialport/models"
-import { SerialPortDeviceOptions } from "../serial-port-device"
-import { SerialPortDeviceMock } from "../serial-port-device-mock"
+import { styleText } from "util"
 import {
   HarmonyMscEndpointNamed,
+  HarmonyMscErrorType,
   HarmonyMscMethodNamed,
   HarmonyMscRequest,
 } from "devices/harmony-msc/models"
-import { styleText } from "util"
+import { SerialPortDeviceOptions } from "../serial-port-device"
+import { SerialPortDeviceMock } from "../serial-port-device-mock"
+import DeviceFlashFactory from "./device-flash/device-flash.factory"
+
+const getDeviceName = () => {
+  return process.platform === "win32" ? "MUDITA HARMONY MSC" : "HARMONY"
+}
 
 export class SerialPortHarmonyMscDevice extends SerialPortDeviceMock {
   static readonly matchingVendorIds = ["3310"]
   static readonly matchingProductIds = ["0103"]
   static readonly deviceType = SerialPortDeviceType.HarmonyMsc
+  private deviceFlash = DeviceFlashFactory.createDeviceFlashService()
 
   constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
     super({ baudRate, ...options })
@@ -47,14 +54,20 @@ export class SerialPortHarmonyMscDevice extends SerialPortDeviceMock {
       id: number
     }
   ) {
-    // TODO: Perform a real flash request
-    const calculateProgress = () => {
-      return new Promise<number>((resolve) => {
-        setTimeout(() => resolve(50), 1000)
+    try {
+      const { imagePath, scriptPath } = data.body
+
+      const deviceName = getDeviceName()
+      const device = await this.deviceFlash.findDeviceByDeviceName(deviceName)
+
+      await this.deviceFlash.execute(device, imagePath, scriptPath)
+
+      super.emitData(data.id, { status: 200, endpoint: data.endpoint })
+    } catch {
+      super.emitData(data.id, {
+        status: HarmonyMscErrorType.DeviceInternalError,
+        endpoint: data.endpoint,
       })
     }
-    const progress = await calculateProgress()
-
-    this.emitData(data.id, progress)
   }
 }

@@ -10,4 +10,6 @@ export const FlashRequestValidator = z.object({
   scriptPath: z.string(),
 })
 
+export type FlashRequest = z.infer<typeof FlashRequestValidator>
+
 export const FlashResponseValidator = z.undefined().optional()

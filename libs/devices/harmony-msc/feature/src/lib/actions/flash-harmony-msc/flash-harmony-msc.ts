@@ -19,6 +19,7 @@ import {
 } from "../../api/get-msc-flash-details"
 import { downloadFlashingFiles } from "../download-flashing-files"
 import { unpackFlashingImage } from "../unpack-flashing-image"
+import { postFlash } from "../../api/post-flash"
 import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
 
@@ -66,6 +67,15 @@ export const flashHarmonyMsc = async (
   if (!unpackFlashingImageResult.ok) {
     return unpackFlashingImageResult
   }
+
+  const flashDeviceResult = await flashHarmonyMscRunStep({
+    state: HarmonyMscProcessState.FlashingProcess,
+    progress: HarmonyMscFlashingProgress.FlashingProcess,
+    task: () => postFlash(params.device, unpackFlashingImageResult.data),
+    ...params,
+  })
+
+  console.log("Flash device result: ", flashDeviceResult)
 
   return AppResultFactory.failed(new AppError("Not implemented"))
 }

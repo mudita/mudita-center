@@ -94,8 +94,8 @@ export class SerialPortDeviceMock extends SerialPortMock {
     return super.destroy(error)
   }
 
-  emitData(id: number, data: unknown) {
-    super.emit("data", JSON.stringify({ id, data }))
+  emitData(id: number, data: object) {
+    super.emit("data", JSON.stringify({ id, ...data }))
   }
 
   private parseResponse(buffer: Buffer) {
