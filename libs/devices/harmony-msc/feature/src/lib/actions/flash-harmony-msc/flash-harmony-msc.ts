@@ -13,16 +13,12 @@ import {
   HarmonyMscFlashingProgress,
   HarmonyMscProcessState,
 } from "devices/harmony-msc/models"
-import { AppFileSystem } from "app-utils/renderer"
 import {
   getMscFlashDetails,
   GetMscFlashDetailsParams,
 } from "../../api/get-msc-flash-details"
 import { downloadFlashingFiles } from "../download-flashing-files"
-import {
-  getMscHarmonyLocation,
-  mscHarmonyLocationDir,
-} from "../get-msc-harmony-location"
+import { unpackFlashingImage } from "../unpack-flashing-image"
 import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
 
@@ -63,23 +59,13 @@ export const flashHarmonyMsc = async (
   const unpackFlashingImageResult = await flashHarmonyMscRunStep({
     state: HarmonyMscProcessState.UnpackingFiles,
     progress: HarmonyMscFlashingProgress.UnpackingFiles,
-    task: () =>
-      AppFileSystem.extract({
-        ...getMscHarmonyLocation(mscFlashDetails.image.name),
-        scopeDestinationPath: mscHarmonyLocationDir,
-      }),
+    task: () => unpackFlashingImage(mscFlashDetails, params.signal),
     ...params,
   })
 
   if (!unpackFlashingImageResult.ok) {
     return unpackFlashingImageResult
   }
-
-  // TODO: remove log after implementing the flashing process
-  console.log(
-    "Unpacked flashing image successfully, result: ",
-    unpackFlashingImageResult
-  )
 
   return AppResultFactory.failed(new AppError("Not implemented"))
 }
