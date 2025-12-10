@@ -3,20 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface waitForFlashCompletionOption {
-  intervalAttemptsLeft?: number
-  intervalTime?: number
-  signal?: AbortSignal
-}
+export type FlashStatusType =
+  | "FLASH_STATUS_COMPLETED"
+  | "FLASH_STATUS_FAILED"
+  | "FLASH_STATUS_IDLE"
 
 interface IDeviceFlash {
   findDeviceByDeviceName(deviceName?: string): Promise<string>
 
-  execute(device: string, imagePath: string, scriptPath: string): Promise<void>
+  execute(
+    device: string,
+    imagePath: string,
+    scriptPath: string,
+    mscHarmonyAbsoluteDir?: string
+  ): Promise<void>
 
-  waitForFlashCompletion?(
-    option?: waitForFlashCompletionOption
-  ): Promise<boolean>
+  getFlashStatus?(mscHarmonyAbsoluteDir: string): Promise<FlashStatusType>
 }
 
 export default IDeviceFlash

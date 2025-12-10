@@ -5,9 +5,13 @@
 
 import { z } from "zod"
 import {
-  FlashRequestValidator,
-  FlashResponseValidator,
-} from "./endpoints/flash"
+  FlashPostRequestValidator,
+  FlashPostResponseValidator,
+} from "./endpoints/flash-post.validator"
+import {
+  FlashGetRequestValidator,
+  FlashGetResponseValidator,
+} from "./endpoints/flash-get.validator"
 
 export enum HarmonyMscEndpointNamed {
   Flash = 1,
@@ -30,8 +34,12 @@ type EndpointsDefinition = Record<
 export const HarmonyMscEndpoints = {
   [HarmonyMscEndpointNamed.Flash]: {
     [HarmonyMscMethodNamed.Post]: {
-      request: FlashRequestValidator,
-      response: FlashResponseValidator,
+      request: FlashPostRequestValidator,
+      response: FlashPostResponseValidator,
+    },
+    [HarmonyMscMethodNamed.Get]: {
+      request: FlashGetRequestValidator,
+      response: FlashGetResponseValidator,
     },
   },
 } satisfies EndpointsDefinition

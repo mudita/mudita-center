@@ -6,8 +6,8 @@
 import "types-preload"
 import {
   SerialPortChangedDevices,
-  SerialPortDeviceInfo,
   SerialPortDeviceId,
+  SerialPortDeviceInfo,
   SerialPortDeviceType,
   SerialPortRequest,
   SerialPortResponse,
@@ -16,7 +16,7 @@ import { SerialPortError } from "app-serialport/utils"
 
 export const AppSerialPort = {
   onDevicesChanged: (callback: (changes: SerialPortChangedDevices) => void) => {
-    window.api.serialPort.onDevicesChanged(callback)
+    return window.api.serialPort.onDevicesChanged(callback)
   },
   getCurrentDevices: (): Promise<SerialPortDeviceInfo[]> => {
     return window.api.serialPort.getCurrentDevices()

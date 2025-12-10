@@ -6,17 +6,9 @@
 import path from "path"
 import fs from "fs"
 import { execPromise } from "app-utils/main"
-import { delay } from "app-utils/common"
-import IDeviceFlash, {
-  waitForFlashCompletionOption,
-} from "../device-flash.interface"
+import IDeviceFlash, { FlashStatusType } from "../device-flash.interface"
 import { MacosUSBPortDeviceParser } from "./macos-usb-port-device-parser/macos-usb-port-device-parser"
 import { USBPortDevice } from "./macos-usb-port-device-parser/macos-usb-port-device-parser.interface"
-
-type FlashStatusType =
-  | "FLASH_STATUS_COMPLETED"
-  | "FLASH_STATUS_FAILED"
-  | "FLASH_STATUS_IDLE"
 
 class MacDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(): Promise<string> {
@@ -47,21 +39,27 @@ class MacDeviceFlashService implements IDeviceFlash {
   async execute(
     device: string,
     imagePath: string,
-    scriptPath: string
+    scriptPath: string,
+    mscHarmonyAbsoluteDir: string
   ): Promise<void> {
     console.log("flashing process starting")
-    await this.flashImageToDevice(device, imagePath, scriptPath)
+    await this.flashImageToDevice(
+      device,
+      imagePath,
+      scriptPath,
+      mscHarmonyAbsoluteDir
+    )
     console.log("Flash process completed successfully")
   }
 
   async flashImageToDevice(
     device: string,
     imagePath: string,
-    scriptPath: string
+    scriptPath: string,
+    mscHarmonyAbsoluteDir: string
   ): Promise<void> {
-    const temporaryDirectoryPath = ""
     const flashStatusTempFilePath = path.join(
-      temporaryDirectoryPath,
+      mscHarmonyAbsoluteDir,
       "flash-status.txt"
     )
     await execPromise(`
@@ -72,42 +70,21 @@ class MacDeviceFlashService implements IDeviceFlash {
     )
   }
 
-  async waitForFlashCompletion(
-    option: waitForFlashCompletionOption = {}
-  ): Promise<boolean> {
-    const temporaryDirectoryPath = ""
+  async getFlashStatus(
+    mscHarmonyAbsoluteDir: string
+  ): Promise<FlashStatusType> {
     const flashStatusTempFilePath = path.join(
-      temporaryDirectoryPath,
+      mscHarmonyAbsoluteDir,
       "flash-status.txt"
     )
 
-    let flashStatus: FlashStatusType = "FLASH_STATUS_IDLE"
-    const { intervalAttemptsLeft = 60, intervalTime = 5000, signal } = option
-
-    if (intervalAttemptsLeft <= 0 || signal?.aborted) {
-      throw new Error()
-    }
-
     try {
       const buffer = fs.readFileSync(flashStatusTempFilePath)
-      flashStatus = buffer.toString().trim() as FlashStatusType
+      return buffer.toString().trim() as FlashStatusType
     } catch (error) {
       console.error(`Error reading file: ${JSON.stringify(error)}. Retrying...`)
+      return "FLASH_STATUS_IDLE"
     }
-
-    if (flashStatus === "FLASH_STATUS_COMPLETED") {
-      return true
-    } else if (flashStatus === "FLASH_STATUS_FAILED") {
-      throw new Error()
-    }
-
-    await delay(intervalTime)
-
-    return this.waitForFlashCompletion({
-      intervalAttemptsLeft: intervalAttemptsLeft - 1,
-      intervalTime,
-      signal,
-    })
   }
 
   private async getDiskIdentifier(device: USBPortDevice): Promise<string> {

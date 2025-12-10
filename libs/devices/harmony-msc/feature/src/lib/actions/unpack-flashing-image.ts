@@ -8,23 +8,21 @@ import {
   AppError,
   AppResult,
   AppResultFactory,
+  getMscHarmonyLocation,
+  MSC_HARMONY_SCOPE_CATALOG_DIR,
   Platform,
   platform,
 } from "app-utils/models"
-import { FlashRequest, MscFlashDetails } from "devices/harmony-msc/models"
+import { FlashPostRequest, MscFlashDetails } from "devices/harmony-msc/models"
 import { sliceSegments } from "app-utils/common"
-import {
-  getMscHarmonyLocation,
-  mscHarmonyLocationDir,
-} from "./get-msc-harmony-location"
 
 export const unpackFlashingImage = async (
   mscFlashDetails: MscFlashDetails,
   signal: AbortSignal
-): Promise<AppResult<FlashRequest>> => {
+): Promise<AppResult<FlashPostRequest>> => {
   const result = await AppFileSystem.extract({
     ...getMscHarmonyLocation(mscFlashDetails.image.name),
-    scopeDestinationPath: mscHarmonyLocationDir,
+    scopeDestinationPath: MSC_HARMONY_SCOPE_CATALOG_DIR,
   })
 
   if (signal.aborted) {

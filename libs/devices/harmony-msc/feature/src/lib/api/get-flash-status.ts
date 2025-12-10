@@ -4,7 +4,6 @@
  */
 
 import {
-  FlashPostRequest,
   HarmonyMsc,
   HarmonyMscEndpointNamed,
   HarmonyMscMethodNamed,
@@ -12,23 +11,16 @@ import {
 import { AppError, AppResultFactory } from "app-utils/models"
 import { HarmonyMscSerialPort } from "devices/harmony-msc/adapters"
 
-export const postFlash = async (
-  device: HarmonyMsc,
-  { imagePath, scriptPath }: FlashPostRequest
-) => {
+export const getFlashStatus = async (device: HarmonyMsc) => {
   const response = await HarmonyMscSerialPort.request(device, {
     endpoint: HarmonyMscEndpointNamed.Flash,
-    method: HarmonyMscMethodNamed.Post,
+    method: HarmonyMscMethodNamed.Get,
     options: {
       timeout: 200_000,
-    },
-    body: {
-      imagePath,
-      scriptPath,
     },
   })
 
   return response.ok
     ? AppResultFactory.success(response)
-    : AppResultFactory.failed(new AppError("Flashing failed"))
+    : AppResultFactory.failed(new AppError("Getting flash status failed"))
 }

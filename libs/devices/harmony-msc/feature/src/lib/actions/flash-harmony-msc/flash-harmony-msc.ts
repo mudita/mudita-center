@@ -8,6 +8,8 @@ import {
   AppResult,
   AppResultFactory,
   OsEnvironment,
+  Platform,
+  platform,
 } from "app-utils/models"
 import {
   HarmonyMscFlashingProgress,
@@ -22,6 +24,7 @@ import { unpackFlashingImage } from "../unpack-flashing-image"
 import { postFlash } from "../../api/post-flash"
 import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
+import { flashHarmonyMacOsPostFlashFlow } from "./flash-harmony-macos-post-flash-flow"
 
 export const flashHarmonyMsc = async (
   params: flashHarmonyMscParams
@@ -75,7 +78,13 @@ export const flashHarmonyMsc = async (
     ...params,
   })
 
-  console.log("Flash device result: ", flashDeviceResult)
+  if (!flashDeviceResult.ok) {
+    return flashDeviceResult
+  }
+
+  if (platform === Platform.macos) {
+    return flashHarmonyMacOsPostFlashFlow(params)
+  }
 
   return AppResultFactory.failed(new AppError("Not implemented"))
 }
