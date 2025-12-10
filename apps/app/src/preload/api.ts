@@ -13,6 +13,7 @@ import {
   appFileSystem,
   appHttp,
   appLogger,
+  appPath,
   jsonStore,
 } from "app-utils/main"
 import { appUpdater } from "app-updater/main"
@@ -28,6 +29,7 @@ export const api = {
   appFileSystem,
   appHttp,
   appLogger,
+  appPath,
   appHelp,
   appUpdater,
   jsonStore,

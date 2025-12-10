@@ -19,6 +19,7 @@ import {
   initAppFileSystem,
   initAppHttp,
   initAppLogger,
+  initAppPath,
   initJsonStore,
   MockAppHttpService,
 } from "app-utils/main"
@@ -70,4 +71,5 @@ export const initAppLibs = (
   initAppFileSystem(ipcMain, appFileSystemService)
   initUsbAccess(ipcMain, mockServer)
   initAppMtp(ipcMain, appMtp)
+  initAppPath(ipcMain)
 }
