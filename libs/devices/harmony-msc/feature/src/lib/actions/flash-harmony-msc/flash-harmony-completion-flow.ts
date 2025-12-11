@@ -30,18 +30,18 @@ const freezeUntilReconnect = async ({
   onFrozenState,
 }: FreezeAndReconnectParams): Promise<void> => {
   AppSerialPort.freeze(device.id, FREEZE_TIMEOUT_MS)
-  console.log("[post-flash-flow] Waiting for device to disconnect and freeze")
+  console.log("[flash-completion] Waiting for device to disconnect and freeze")
   while (!(await AppSerialPort.isFrozen(device.id))) {
-    console.log("[post-flash-flow] Device not frozen yet, waiting...")
+    console.log("[flash-completion] Device not frozen yet, waiting...")
     if (aborted) {
-      console.log("[post-flash-flow] Aborted before device freeze")
+      console.log("[flash-completion] Aborted before device freeze")
       return
     }
     await delay(POLL_INTERVAL_MS)
   }
 
   console.log(
-    "[post-flash-flow] Device is disconnected and frozen, waiting for reconnect"
+    "[flash-completion] Device is disconnected and frozen, waiting for reconnect"
   )
 
   if (onFrozenState) {
@@ -54,7 +54,7 @@ const freezeUntilReconnect = async ({
     if (!listenerActive) return
 
     if (changes.added.length > 0) {
-      console.log("[post-flash-flow] Device reconnected, unfreezing...")
+      console.log("[flash-completion] Device reconnected, unfreezing...")
       listenerActive = false
       unlistenDevicesChanged()
       AppSerialPort.unfreeze(device.id)
@@ -63,9 +63,9 @@ const freezeUntilReconnect = async ({
 
   try {
     while (await AppSerialPort.isFrozen(device.id)) {
-      console.log("[post-flash-flow] Device still frozen, waiting...")
+      console.log("[flash-completion] Device still frozen, waiting...")
       if (aborted) {
-        console.log("[post-flash-flow] Aborted while waiting for reconnect")
+        console.log("[flash-completion] Aborted while waiting for reconnect")
         listenerActive = false
         unlistenDevicesChanged()
         AppSerialPort.unfreeze(device.id)
@@ -77,10 +77,10 @@ const freezeUntilReconnect = async ({
     AppSerialPort.unfreeze(device.id)
   }
 
-  console.log("[post-flash-flow] Device restarted and unfrozen")
+  console.log("[flash-completion] Device restarted and unfrozen")
 }
 
-const flashHarmonyMacOsPostFlashFlow = async (
+const flashHarmonyMacOsCompletionFlow = async (
   params: flashHarmonyMscParams
 ): Promise<AppResult> => {
   const { device, onProgress } = params
@@ -101,7 +101,7 @@ const flashHarmonyMacOsPostFlashFlow = async (
 
   onProgress?.({ state: HarmonyMscProcessState.Restarting })
   console.log(
-    "[post-flash-flow] Freezing device before terminal setup and reconnect"
+    "[flash-completion] Freezing device before terminal setup and reconnect"
   )
 
   await freezeUntilReconnect({
@@ -112,7 +112,7 @@ const flashHarmonyMacOsPostFlashFlow = async (
   return AppResultFactory.success()
 }
 
-const flashHarmonyWindowsPostFlashFlow = async (
+const flashHarmonyWindowsCompletionFlow = async (
   params: flashHarmonyMscParams
 ): Promise<AppResult> => {
   const { onProgress } = params
@@ -131,7 +131,7 @@ const flashHarmonyWindowsPostFlashFlow = async (
   return AppResultFactory.success()
 }
 
-const flashHarmonyLinuxPostFlashFlow = async (
+const flashHarmonyLinuxCompletionFlow = async (
   params: flashHarmonyMscParams
 ): Promise<AppResult> => {
   const { onProgress } = params
@@ -150,17 +150,17 @@ const flashHarmonyLinuxPostFlashFlow = async (
   return AppResultFactory.success()
 }
 
-export const flashHarmonyPostFlashFlow = async (
+export const flashHarmonyCompletionFlow = async (
   params: flashHarmonyMscParams
 ): Promise<AppResult> => {
   if (platform === Platform.macos) {
-    return flashHarmonyMacOsPostFlashFlow(params)
+    return flashHarmonyMacOsCompletionFlow(params)
   }
   if (platform === Platform.windows) {
-    return flashHarmonyWindowsPostFlashFlow(params)
+    return flashHarmonyWindowsCompletionFlow(params)
   }
   if (platform === Platform.linux) {
-    return flashHarmonyLinuxPostFlashFlow(params)
+    return flashHarmonyLinuxCompletionFlow(params)
   }
 
   return AppResultFactory.failed(new Error("Unsupported platform"))

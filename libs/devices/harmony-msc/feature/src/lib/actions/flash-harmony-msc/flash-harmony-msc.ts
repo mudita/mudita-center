@@ -20,7 +20,7 @@ import { unpackFlashingImage } from "../unpack-flashing-image"
 import { postFlash } from "../../api/post-flash"
 import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
-import { flashHarmonyPostFlashFlow } from "./flash-harmony-post-flash-flow"
+import { flashHarmonyCompletionFlow } from "./flash-harmony-completion-flow"
 
 export const flashHarmonyMsc = async (
   params: flashHarmonyMscParams
@@ -78,5 +78,5 @@ export const flashHarmonyMsc = async (
     return flashDeviceResult
   }
 
-  return flashHarmonyPostFlashFlow(params)
+  return flashHarmonyCompletionFlow(params)
 }
