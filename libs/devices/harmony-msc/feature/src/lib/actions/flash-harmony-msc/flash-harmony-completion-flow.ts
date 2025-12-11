@@ -26,14 +26,14 @@ type FreezeAndReconnectParams = flashHarmonyMscParams & {
 const freezeUntilReconnect = async ({
   device,
   onProgress,
-  signal: { aborted },
+  signal,
   onFrozenState,
 }: FreezeAndReconnectParams): Promise<void> => {
   AppSerialPort.freeze(device.id, FREEZE_TIMEOUT_MS)
   console.log("[flash-completion] Waiting for device to disconnect and freeze")
   while (!(await AppSerialPort.isFrozen(device.id))) {
     console.log("[flash-completion] Device not frozen yet, waiting...")
-    if (aborted) {
+    if (signal.aborted) {
       console.log("[flash-completion] Aborted before device freeze")
       return
     }
@@ -64,7 +64,7 @@ const freezeUntilReconnect = async ({
   try {
     while (await AppSerialPort.isFrozen(device.id)) {
       console.log("[flash-completion] Device still frozen, waiting...")
-      if (aborted) {
+      if (signal.aborted) {
         console.log("[flash-completion] Aborted while waiting for reconnect")
         listenerActive = false
         unlistenDevicesChanged()

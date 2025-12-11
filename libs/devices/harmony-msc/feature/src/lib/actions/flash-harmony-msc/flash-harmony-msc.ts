@@ -4,7 +4,7 @@
  */
 
 import {
-  AppResult,
+  AppResult, getMscHarmonyLocation,
   OsEnvironment,
 } from "app-utils/models"
 import {
@@ -21,10 +21,16 @@ import { postFlash } from "../../api/post-flash"
 import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
 import { flashHarmonyCompletionFlow } from "./flash-harmony-completion-flow"
+import { AppFileSystem } from "app-utils/renderer"
 
 export const flashHarmonyMsc = async (
   params: flashHarmonyMscParams
 ): Promise<AppResult> => {
+  await AppFileSystem.rm({
+    ...getMscHarmonyLocation(),
+    options: { recursive: true, force: true },
+  })
+
   const getMscFlashDetailsParams: GetMscFlashDetailsParams = {
     product: "MscHarmony",
     environment: OsEnvironment.Production,

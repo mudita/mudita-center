@@ -47,9 +47,10 @@ class LinuxDeviceFlashService implements IDeviceFlash {
 
   private async getUnmountDeviceCommand(device: string): Promise<string> {
     const partitions = await this.getPartitions(device)
-    const partitionsString = partitions
-      .map((partition) => `/dev/${partition}`)
-      .join(" ")
+    const safePartitions = partitions.map(
+      (partition) => `"/dev/${partition.replace(/"/g, '\\"')}"`
+    )
+    const partitionsString = safePartitions.join(" ")
 
     return `umount ${partitionsString} 2>/dev/null || true`
   }
@@ -61,11 +62,18 @@ class LinuxDeviceFlashService implements IDeviceFlash {
   ): Promise<string> {
     const [path, scriptBasename] = splitPathToDirNameAndBaseName(scriptPath)
     const [, imageBasename] = splitPathToDirNameAndBaseName(imagePath)
-    return `chmod +x ${scriptPath} && cd ${path} && ./${scriptBasename} ${imageBasename} /dev/${device}`
+
+    return (
+      `chmod +x "${scriptPath}" && ` +
+      `cd "${path}" && ` +
+      `./"${scriptBasename}" "${imageBasename}" "/dev/${device}"`
+    )
   }
 
   private async getEjectDeviceCommand(device: string): Promise<string> {
-    return `eject /dev/${device} 2>/dev/null || true`
+    const safeDevice = device.replace(/"/g, '\\"')
+
+    return `eject "/dev/${safeDevice}" 2>/dev/null || true`
   }
 
   private async getDevices(): Promise<string[]> {
@@ -75,9 +83,11 @@ class LinuxDeviceFlashService implements IDeviceFlash {
   }
 
   private async getPartitions(device: string): Promise<string[]> {
+    const safeDevice = device.replace(/"/g, '\\"')
     const partitions = await execPromise(
-      `lsblk /dev/${device} -o NAME,MOUNTPOINT`
+      `lsblk "/dev/${safeDevice}" -o NAME,MOUNTPOINT`
     )
+
     return LinuxPartitionParser.parsePartitions(partitions ?? "")
   }
 }

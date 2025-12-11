@@ -65,9 +65,17 @@ class MacDeviceFlashService implements IDeviceFlash {
     await execPromise(`
       chmod +x "${scriptPath}"
     `)
-    await execPromise(
-      `osascript -e 'tell application "Terminal" to do script "\\"${scriptPath}\\" -i \\"${imagePath}\\" -d \\"${device}\\" -s \\"${flashStatusTempFilePath}\\""'`
-    )
+    const escapedScriptPath = scriptPath.replace(/"/g, '\\"')
+    const escapedImagePath = imagePath.replace(/"/g, '\\"')
+    const escapedDevice = device.replace(/"/g, '\\"')
+    const escapedStatus = flashStatusTempFilePath.replace(/"/g, '\\"')
+
+    const command =
+      `osascript -e 'tell application "Terminal" to do script "` +
+      `\\"${escapedScriptPath}\\" -i \\"${escapedImagePath}\\" -d \\"${escapedDevice}\\" -s \\"${escapedStatus}\\""` +
+      `'`
+
+    await execPromise(command)
   }
 
   async getFlashStatus(

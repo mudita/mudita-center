@@ -20,16 +20,16 @@ interface DiskInformation {
 
 class WindowsDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(deviceName: string): Promise<string> {
+    const safeDeviceName = deviceName.replace(/'/g, "''")
     console.log(
-      `Searching for the device with the friendly name: ${deviceName}`
+      `Searching for the device with the friendly name: ${safeDeviceName}`
     )
 
-    const getDiskResult = await execPromise(
-      `powershell.exe -Command "Get-Disk | Where-Object { $_.FriendlyName -eq '${deviceName}' }| ConvertTo-Json"`
-    )
+    const command = `powershell.exe -Command "Get-Disk | Where-Object { $_.FriendlyName -eq '${safeDeviceName}' } | ConvertTo-Json"`
+    const getDiskResult = await execPromise(command)
 
     if (!getDiskResult) {
-      throw new Error(`Disk not found for friendly name: ${deviceName}`)
+      throw new Error(`Disk not found for friendly name: ${safeDeviceName}`)
     }
 
     const diskInformation: DiskInformation = JSON.parse(getDiskResult)
@@ -57,7 +57,10 @@ class WindowsDeviceFlashService implements IDeviceFlash {
   ): Promise<void> {
     const [path, scriptBasename] = splitPathToDirNameAndBaseName(scriptPath)
     const [, imageBasename] = splitPathToDirNameAndBaseName(imagePath)
-    const command = `cd ${path} && powershell.exe -ExecutionPolicy Bypass -File ${scriptBasename} -file ${imageBasename} -diskid ${device} -force`
+    const command =
+      `cd "${path}" && ` +
+      `powershell.exe -ExecutionPolicy Bypass -File "${scriptBasename}" ` +
+      `-file "${imageBasename}" -diskid "${device}" -force`
 
     try {
       await execCommandWithSudo(command, { name: flashExecCommandName })

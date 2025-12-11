@@ -289,12 +289,13 @@ export class AppFileSystemService {
     const innerTarPath = path.join(innerTarDir, `${baseName}.tar`)
 
     const windowsCommand =
-      `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" ` +
-      `&& if exist "${innerTarPath}" tar -xvf "${innerTarPath}" -C "${destinationFilePath}"`
+      `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" && ` +
+      `if exist "${innerTarPath}" tar -xvf "${innerTarPath}" -C "${destinationFilePath}"`
 
     const posixCommand =
-      `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" ` +
-      `&& if [ -f "${innerTarPath}" ]; then tar -xvf "${innerTarPath}" -C "${destinationFilePath}"; fi`
+      `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" && ` +
+      `if [ -f "${innerTarPath}" ]; then tar -xvf "${innerTarPath}" -C "${destinationFilePath}"; fi`
+
 
     const command =
       platform === Platform.windows ? windowsCommand : posixCommand
