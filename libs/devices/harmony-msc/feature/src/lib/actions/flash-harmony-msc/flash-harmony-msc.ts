@@ -25,6 +25,7 @@ import { postFlash } from "../../api/post-flash"
 import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
 import { flashHarmonyMacOsPostFlashFlow } from "./flash-harmony-macos-post-flash-flow"
+import { flashHarmonyWindowsPostFlashFlow } from "./flash-harmony-windows-post-flash-flow"
 
 export const flashHarmonyMsc = async (
   params: flashHarmonyMscParams
@@ -84,6 +85,8 @@ export const flashHarmonyMsc = async (
 
   if (platform === Platform.macos) {
     return flashHarmonyMacOsPostFlashFlow(params)
+  } else if(platform === Platform.windows) {
+    return flashHarmonyWindowsPostFlashFlow(params)
   }
 
   return AppResultFactory.failed(new AppError("Not implemented"))
