@@ -6,7 +6,7 @@
 import { execPromise } from "app-utils/main"
 import { MacosUSBPortDeviceParser } from "./macos-usb-port-device-parser"
 
-jest.mock("../exec-command", () => ({
+jest.mock("app-utils/main", () => ({
   execPromise: jest.fn(),
 }))
 
