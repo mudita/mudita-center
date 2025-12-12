@@ -7,14 +7,12 @@ import { clamp, sum } from "lodash"
 import {
   ExecuteTransferParams,
   ExecuteTransferResult,
+  isTransferDownloadFilesToLocationParams,
+  isTransferDownloadFilesToMemoryParams,
 } from "devices/common/models"
 import { AppResultFactory } from "app-utils/models"
 import { ApiDevice } from "devices/api-device/models"
 import { AppFileSystem } from "app-utils/renderer"
-import {
-  isSerialDownloadFilesToLocationParams,
-  isSerialDownloadFilesToMemoryParams,
-} from "./serial-download-files.types"
 import { serialPreTransferStep } from "./serial-pre-transfer-step"
 import { serialTransferStep } from "./serial-transfer-step"
 
@@ -22,8 +20,8 @@ export const serialDownloadFiles = async (
   params: ExecuteTransferParams<ApiDevice>
 ): Promise<ExecuteTransferResult> => {
   if (
-    !isSerialDownloadFilesToLocationParams(params) &&
-    !isSerialDownloadFilesToMemoryParams(params)
+    !isTransferDownloadFilesToLocationParams(params) &&
+    !isTransferDownloadFilesToMemoryParams(params)
   ) {
     throw new Error("Invalid parameters for serialDownloadFiles")
   }
@@ -121,7 +119,7 @@ export const serialDownloadFiles = async (
     total: sum(totalSizes),
   })
 
-  if (isSerialDownloadFilesToLocationParams(params)) {
+  if (isTransferDownloadFilesToLocationParams(params)) {
     return AppResultFactory.success({})
   } else {
     return AppResultFactory.success({ files: filesData })

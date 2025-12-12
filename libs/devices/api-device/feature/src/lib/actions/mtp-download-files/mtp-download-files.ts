@@ -6,7 +6,7 @@
 import {
   ExecuteTransferParams,
   ExecuteTransferResult,
-  TransferFileEntry,
+  isTransferDownloadFilesToLocationParams,
   TransferFilesActionType,
 } from "devices/common/models"
 import { ApiDevice } from "devices/api-device/models"
@@ -15,27 +15,10 @@ import { platform, sliceSegments } from "app-utils/common"
 import { isMtpPathInternal, sliceMtpPaths } from "../mtp-shared/mtp-helpers"
 import { mtpTransferFiles } from "../mtp-shared/mtp-transfer-files"
 
-export interface MtpDownloadEntry extends TransferFileEntry {
-  source: { type: "path"; path: string; fileSize: number }
-  target: { type: "path"; path: string }
-}
-
-export interface MtpDownloadFilesParams
-  extends ExecuteTransferParams<ApiDevice> {
-  files: MtpDownloadEntry[]
-}
-
-const isMtpDownloadFilesParams = (
-  params: ExecuteTransferParams<ApiDevice>
-): params is MtpDownloadFilesParams => {
-  const first = params.files?.[0]
-  return first?.target.type === "path"
-}
-
 export const mtpDownloadFiles = async (
   params: ExecuteTransferParams<ApiDevice>
 ): Promise<ExecuteTransferResult> => {
-  if (!isMtpDownloadFilesParams(params)) {
+  if (!isTransferDownloadFilesToLocationParams(params)) {
     throw new Error("Invalid parameters for mtpDownloadFiles")
   }
 
