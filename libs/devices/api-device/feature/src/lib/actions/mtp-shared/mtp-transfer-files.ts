@@ -150,6 +150,8 @@ export const mtpTransferFiles = async (
             type: "file",
             loaded: transferredWithinFile,
             progress: fileProgress,
+            mimeType: "",
+            path: "",
           },
         })
 

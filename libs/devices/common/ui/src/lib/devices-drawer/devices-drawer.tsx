@@ -77,13 +77,17 @@ const Wrapper = styled.div<{ $opened?: boolean }>`
   background: ${({ theme }) => theme.app.color.white};
   box-shadow: 0.2rem 0 3rem ${({ theme }) => theme.app.color.blackAlpha.light};
   transform: translateX(calc(100% + 3.2rem));
-  transition: transform 0.3s ease-in-out;
+  visibility: hidden;
+  transition-property: transform, visibility;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
 
   ${({ $opened }) =>
     $opened &&
     css`
       transform: translateX(0);
       transition-delay: 0.5s;
+      visibility: visible;
     `}
 `
 

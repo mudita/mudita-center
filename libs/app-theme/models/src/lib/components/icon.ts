@@ -6,6 +6,8 @@
 export enum IconType {
   AirplaneMode = "airplane-mode",
   ArrowBack = "arrow-back",
+  ArrowLeft = "arrow-left",
+  ArrowRight = "arrow-right",
   BackArrowIcon = "back-arrow-icon",
   Backup = "backup",
   Battery0 = "battery-0",

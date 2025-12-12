@@ -23,6 +23,8 @@ const mapToFileManagerFile = async (
     name: filePath.split(/\\|\//g).reverse()[0],
     size: size,
     type: "file",
+    path: filePath,
+    mimeType: "",
   }
 }
 

@@ -160,6 +160,8 @@ export const uploadFiles = async ({
           size: file.fileSize,
           loaded: uploadedWithinFile,
           progress: fileProgress,
+          mimeType: "",
+          path: "",
         },
       })
     }

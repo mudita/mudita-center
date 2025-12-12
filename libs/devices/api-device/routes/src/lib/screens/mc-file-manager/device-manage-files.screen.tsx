@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useMemo, useState } from "react"
+import { FunctionComponent, useCallback, useMemo, useState } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { ApiDevice } from "devices/api-device/models"
 import {
@@ -27,12 +27,14 @@ import {
   AppInstallationFlow,
   AppInstallationFlowProps,
   FileManagerFile,
+  FilesManagerFilePreviewDownload,
   ManageFiles,
   manageFilesMessages,
   ManageFilesViewProps,
 } from "devices/common/ui"
 import {
   installApps,
+  serialDownloadFiles,
   transferFiles,
   useApiDeviceDeleteEntitiesMutation,
 } from "devices/api-device/feature"
@@ -42,8 +44,8 @@ import { deviceManageFilesMessages } from "./device-manage-files.messages"
 import { useDeviceManageFiles } from "./use-device-manage-files"
 import {
   OTHER_FILES_LABEL_TEXTS,
-  PROGRESS_REFETCH_PHASE_RATIO,
   PROGRESS_MAIN_PROCESS_PHASE_RATIO,
+  PROGRESS_REFETCH_PHASE_RATIO,
 } from "./device-manage-files.config"
 import {
   DeviceManageFileFeature,
@@ -129,7 +131,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
             id: file.id,
             source: {
               type: "path",
-              path: `${targetDirectoryPath}${file.name}`,
+              path: file.path,
               fileSize: file.size,
             },
             target: {
@@ -237,10 +239,42 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     return AppResultFactory.success(undefined)
   }
 
+  const downloadFilePreview: FilesManagerFilePreviewDownload = useCallback(
+    async (file, abortController) => {
+      if (!device) {
+        return AppResultFactory.failed(new AppError("Device not found"))
+      }
+      // TODO: Replace with general download function when MTP supports memory target
+      const fileResponse = await serialDownloadFiles({
+        device,
+        files: [
+          {
+            id: file.id,
+            source: {
+              type: "path",
+              path: file.path,
+            },
+            target: { type: "memory" },
+          },
+        ],
+        abortController,
+      })
+      if (!fileResponse.ok) {
+        return AppResultFactory.failed(fileResponse.error)
+      }
+      if (!("files" in fileResponse.data)) {
+        return AppResultFactory.failed(new AppError("Invalid file response"))
+      }
+      return AppResultFactory.success(fileResponse.data.files[0] as string)
+    },
+    [device]
+  )
+
   return (
     <>
       <DashboardHeaderTitle title={"Manage Files"} />
       <ManageFiles
+        deviceId={device?.id}
         activeCategoryId={activeCategoryId}
         activeFileMap={activeFileMap}
         onActiveCategoryChange={setActiveCategoryId}
@@ -258,6 +292,9 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         transferFiles={handleTransferFiles}
         messages={messages}
         progress={progress}
+        downloadFilePreview={
+          activeCategoryId === "imageFiles" ? downloadFilePreview : undefined
+        }
       >
         {(props) => {
           if (activeCategoryId === "applicationFiles") {
