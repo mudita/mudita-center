@@ -19,4 +19,5 @@ export const AppFileSystem = {
   writeFileChunk: window.api.appFileSystem.writeFileChunk,
   extract: window.api.appFileSystem.extract,
   openDirectory: window.api.appFileSystem.openDirectory,
+  getPath: window.api.appFileSystem.getPath,
 }

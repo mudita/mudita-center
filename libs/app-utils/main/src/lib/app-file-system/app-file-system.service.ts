@@ -381,4 +381,8 @@ export class AppFileSystemService {
 
     return AppResultFactory.success(extractedEntries)
   }
+
+  async getPath(options: AppFileSystemGuardOptions) {
+    return AppResultFactory.success(this.resolveSafePath(options))
+  }
 }

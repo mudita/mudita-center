@@ -89,4 +89,8 @@ export const initAppFileSystem = (
   ipcMain.handle(AppFileSystemIpcEvents.OpenDirectory, (_, options) =>
     appFileSystem.openDirectory(options)
   )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.GetPath)
+  ipcMain.handle(AppFileSystemIpcEvents.GetPath, (_, options) =>
+    appFileSystem.getPath(options)
+  )
 }

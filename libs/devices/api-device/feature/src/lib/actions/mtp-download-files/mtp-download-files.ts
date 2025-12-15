@@ -7,37 +7,20 @@ import {
   ExecuteTransferParams,
   ExecuteTransferResult,
   isTransferDownloadFilesToLocationParams,
-  TransferFilesActionType,
+  isTransferDownloadFilesToMemoryParams,
 } from "devices/common/models"
 import { ApiDevice } from "devices/api-device/models"
-import { Platform } from "app-utils/models"
-import { platform, sliceSegments } from "app-utils/common"
-import { isMtpPathInternal, sliceMtpPaths } from "../mtp-shared/mtp-helpers"
-import { mtpTransferFiles } from "../mtp-shared/mtp-transfer-files"
+import { mtpDownloadFilesToLocation } from "./mtp-download-files-to-location"
+import { mtpDownloadFilesToMemory } from "./mtp-download-files-to-memory"
 
 export const mtpDownloadFiles = async (
   params: ExecuteTransferParams<ApiDevice>
 ): Promise<ExecuteTransferResult> => {
-  if (!isTransferDownloadFilesToLocationParams(params)) {
-    throw new Error("Invalid parameters for mtpDownloadFiles")
+  if (isTransferDownloadFilesToLocationParams(params)) {
+    return mtpDownloadFilesToLocation(params)
+  } else if (isTransferDownloadFilesToMemoryParams(params)) {
+    return mtpDownloadFilesToMemory(params)
+  } else {
+    throw new Error(`Unsupported download files params action`)
   }
-
-  return mtpTransferFiles({
-    ...params,
-    files: params.files.map(({ id, source, target }) => {
-      const isInternal = isMtpPathInternal(source.path)
-      const destinationPathPrefix = platform === Platform.windows ? "" : "/"
-      const destinationPath = sliceSegments(target.path, 0, -1)
-
-      return {
-        id,
-        isInternal,
-        fileSize: source.fileSize,
-        fileName: source.path.split("/").pop() || "",
-        sourcePath: sliceMtpPaths(source.path, isInternal),
-        destinationPath: `${destinationPathPrefix}${destinationPath}`,
-        action: TransferFilesActionType.Download,
-      }
-    }),
-  })
 }

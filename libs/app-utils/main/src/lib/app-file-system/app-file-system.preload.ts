@@ -9,6 +9,7 @@ import {
   AppFileSystemCalculateCrc32Options,
   AppFileSystemExtractOptions,
   AppFileSystemFileStatsOptions,
+  AppFileSystemGuardOptions,
   AppFileSystemIpcEvents,
   AppFileSystemMkdirOptions,
   AppFileSystemOpenDirectoryOptions,
@@ -85,5 +86,8 @@ export const appFileSystem = {
     options: AppFileSystemOpenDirectoryOptions
   ): Promise<void> => {
     return ipcRenderer.invoke(AppFileSystemIpcEvents.OpenDirectory, options)
+  },
+  getPath: (options: AppFileSystemGuardOptions): Promise<AppResult<string>> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.GetPath, options)
   },
 }

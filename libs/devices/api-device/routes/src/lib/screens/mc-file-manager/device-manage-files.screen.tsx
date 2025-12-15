@@ -34,7 +34,6 @@ import {
 } from "devices/common/ui"
 import {
   installApps,
-  serialDownloadFiles,
   transferFiles,
   useApiDeviceDeleteEntitiesMutation,
 } from "devices/api-device/feature"
@@ -244,9 +243,10 @@ export const DeviceManageFilesScreen: FunctionComponent<{
       if (!device) {
         return AppResultFactory.failed(new AppError("Device not found"))
       }
-      // TODO: Replace with general download function when MTP supports memory target
-      const fileResponse = await serialDownloadFiles({
+
+      const fileResponse = await transferFiles({
         device,
+        action: TransferFilesActionType.Download,
         files: [
           {
             id: file.id,
