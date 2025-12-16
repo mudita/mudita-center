@@ -24,6 +24,7 @@ interface Props extends PropsWithChildren, Omit<ReactModal.Props, "isOpen"> {
   layer?: ModalLayer
   size?: ModalSize | number
   customStyles?: {
+    height?: string | number
     maxHeight?: string | number
     width?: string | number
     padding?: string | number

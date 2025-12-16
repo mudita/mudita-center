@@ -44,18 +44,26 @@ export const restoreBackup = async ({
       throw new Error("Restore aborted")
     }
 
-    const sourceData = featuresTargets.map(({ feature }) => {
-      const featureData = features.find((f) => f.feature === feature)
-      if (!featureData) {
-        throw new Error(`No data for feature ${feature}`)
-      }
-      return btoa(JSON.stringify(featureData.data))
-    })
+    const files = featuresTargets
+      .map(({ feature, filePath }) => {
+        const featureData = features.find((f) => f.feature === feature)
+        if (!featureData) {
+          return null
+        }
+        return {
+          filePath,
+          data: Buffer.from(JSON.stringify(featureData.data), "utf-8").toString(
+            "base64"
+          ),
+        }
+      })
+      .filter(Boolean) as { filePath: string; data: string }[]
+
     await serialUploadFiles({
       device,
-      files: featuresTargets.map(({ filePath }, index) => ({
+      files: files.map(({ filePath, data }, index) => ({
         id: `feature-${index}`,
-        source: { type: "memory", data: sourceData },
+        source: { type: "memory", data: data },
         target: { type: "path", path: filePath },
       })),
       onProgress: ({ progress }) => {
