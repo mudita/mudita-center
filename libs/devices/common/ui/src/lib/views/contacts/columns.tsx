@@ -15,7 +15,7 @@ import {
   IconSize,
   IconType,
 } from "app-theme/models"
-import { Contact, PhoneNumber } from "devices/common/models"
+import { Contact } from "devices/common/models"
 import { NameField } from "./name-field"
 import { FormValues } from "./form"
 
@@ -48,7 +48,7 @@ export const ColumnName: FunctionComponent<{ contact: Contact }> = memo(
   ({ contact }) => {
     return (
       <NameCell>
-        <Typography.P1 color={"black"}>
+        <Typography.P1 color={"black"} lines={1}>
           <NameField contact={contact} />
           {contact.starred && (
             <StarIcon>
@@ -62,25 +62,31 @@ export const ColumnName: FunctionComponent<{ contact: Contact }> = memo(
 )
 
 export const ColumnPhone: FunctionComponent<{
-  contact: Contact
+  phoneNumbers?: Pick<
+    NonNullable<Contact["phoneNumbers"]>[number],
+    "phoneNumber"
+  >[]
   hidden?: boolean
-}> = memo(({ contact, hidden }) => {
+}> = memo(({ phoneNumbers, hidden }) => {
   return (
     <PhoneCell $hidden={hidden}>
-      <Typography.P1 color={"black"}>
-        {contact.phoneNumbers?.[0].phoneNumber}
+      <Typography.P1 color={"black"} lines={1}>
+        {phoneNumbers?.[0]?.phoneNumber}
       </Typography.P1>
     </PhoneCell>
   )
 })
 
 export const ColumnMorePhones: FunctionComponent<{
-  contact: Contact
+  phoneNumbers?: Pick<
+    NonNullable<Contact["phoneNumbers"]>[number],
+    "phoneNumber"
+  >[]
   hidden?: boolean
-}> = memo(({ contact, hidden }) => {
-  const phones = contact.phoneNumbers
+}> = memo(({ phoneNumbers, hidden }) => {
+  const phones = phoneNumbers
     ?.slice(1)
-    .map((phoneNumber: PhoneNumber) => phoneNumber.phoneNumber)
+    .map((phoneNumber) => phoneNumber.phoneNumber)
   return (
     <MorePhonesCell $hidden={hidden}>
       {Boolean(phones?.length) && (

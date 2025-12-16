@@ -27,12 +27,14 @@ const messages = defineMessages({
 interface Props extends PropsWithChildren {
   contactsIds: string[]
   onDeleteClick: VoidFunction
+  onImportClick: VoidFunction
 }
 
 export const Panel: FunctionComponent<Props> = ({
   contactsIds,
   children,
   onDeleteClick,
+  onImportClick,
 }) => {
   const form = useFormContext<FormValues>()
 
@@ -82,7 +84,9 @@ export const Panel: FunctionComponent<Props> = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >
-            <PanelDefaultMode>{children}</PanelDefaultMode>
+            <PanelDefaultMode onImportClick={onImportClick}>
+              {children}
+            </PanelDefaultMode>
           </DefaultMode>
         )}
       </AnimatePresence>
@@ -90,18 +94,22 @@ export const Panel: FunctionComponent<Props> = ({
   )
 }
 
-const PanelDefaultMode: FunctionComponent<PropsWithChildren> = memo(
-  ({ children }) => {
-    return (
-      <>
-        <HeadingSearch>{children}</HeadingSearch>
-        <HeadingActions>
-          <Button size={ButtonSize.Medium} message={messages.importButton.id} />
-        </HeadingActions>
-      </>
-    )
-  }
-)
+const PanelDefaultMode: FunctionComponent<
+  PropsWithChildren & Pick<Props, "onImportClick">
+> = memo(({ children, onImportClick }) => {
+  return (
+    <>
+      <HeadingSearch>{children}</HeadingSearch>
+      <HeadingActions>
+        <Button
+          size={ButtonSize.Medium}
+          message={messages.importButton.id}
+          onClick={onImportClick}
+        />
+      </HeadingActions>
+    </>
+  )
+})
 
 const PanelSelectMode: FunctionComponent<{
   selectedContactsCount: number
@@ -146,6 +154,7 @@ const DefaultMode = styled(motion.div)`
   grid-template-rows: auto;
   grid-template-columns: 28rem 1fr auto;
   grid-template-areas: "Search . Actions";
+  column-gap: 1rem;
 `
 
 const SelectMode = styled(motion.div)`
