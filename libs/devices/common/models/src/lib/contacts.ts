@@ -3,17 +3,42 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export enum PhoneNumberType {
+  Mobile = "MOBILE",
+  Home = "HOME",
+  Work = "WORK",
+  Other = "OTHER",
+}
+
 export interface PhoneNumber {
   id: string
   phoneNumber: string
   unifiedPhoneNumber?: string
-  phoneType: "mobile" | "home" | "work" | "other" | "unknown"
+  phoneType: PhoneNumberType
+}
+
+export enum EmailAddressType {
+  Home = "HOME",
+  Work = "WORK",
+  Other = "OTHER",
 }
 
 interface EmailAddress {
   id: string
   emailAddress: string
-  emailType: string
+  emailType: EmailAddressType
+}
+
+export enum AddressType {
+  Home = "HOME",
+  Work = "WORK",
+  Other = "OTHER",
+}
+
+export enum UrlType {
+  Home = "home",
+  Work = "work",
+  Other = "other",
 }
 
 interface Address {
@@ -24,16 +49,16 @@ interface Address {
   state?: string
   country?: string
   zipCode?: string
-  type: string
+  type: AddressType
 }
 
-enum Source {
-  MCManual = "MC Manual", // created manually through MC
+export enum ContactSource {
+  // MCManual = "MC Manual", // created manually through MC
   MCImportGoogle = "MC Google Import", // imported manually through MC from Google
   MCImportOutlook = "MC Outlook Import", // imported manually through MC from Outlook
   MCImportCsv = "MC CSV Import", // imported manually through MC from CSV
   MCImportVCard = "MC vCard Import", // imported manually through MC from Vcard
-  MigratedFromPure = "MC Pure Migration", // migrated from Pure
+  // MigratedFromPure = "MC Pure Migration", // migrated from Pure
 }
 
 export interface Contact {
@@ -44,10 +69,6 @@ export interface Contact {
   middleName?: string
   nameSuffix?: string
   nickName?: string
-  displayName1?: string
-  displayName2?: string
-  displayName3?: string
-  displayName4?: string
   phoneNumbers?: PhoneNumber[]
   emailAddresses?: EmailAddress[]
   company?: string
@@ -58,10 +79,75 @@ export interface Contact {
   website?: string
   notes?: string
   starred?: boolean
+  accountName: ContactSource
   entityType: string
+  displayName1?: string
+  displayName2?: string
+  displayName3?: string
+  displayName4?: string
   searchName: string
   sortField: string
-  accountName: Source
 }
 
 export type ContactsNormalized = Record<Contact["contactId"], Contact>
+
+export type ContactToImportAsEntity = Omit<
+  Contact,
+  | "contactId"
+  | "displayName1"
+  | "displayName2"
+  | "displayName3"
+  | "displayName4"
+  | "searchName"
+  | "sortField"
+  | "phoneNumbers"
+  | "emailAddresses"
+> & {
+  phoneNumbers: Omit<PhoneNumber, "id" | "unifiedPhoneNumber">[]
+  emailAddresses: Omit<EmailAddress, "id">[]
+}
+
+export type ContactToImportAsFile = {
+  id?: string | number
+  firstName?: string
+  lastName?: string
+  middleName?: string
+  honorificPrefix?: string
+  honorificSuffix?: string
+  nickName?: string
+  starred?: boolean
+  phoneNumbers: {
+    value: string
+    type?: PhoneNumberType
+    preference?: number
+  }[]
+  emailAddresses: {
+    value: string
+    type?: EmailAddressType
+    preference?: number
+  }[]
+  addresses: {
+    streetAddress?: string
+    extendedAddress?: string
+    poBox?: string
+    city?: string
+    region?: string
+    postalCode?: string
+    country?: string
+    countryCode?: string
+    type?: AddressType
+  }[]
+  organizations: {
+    name?: string
+    title?: string
+    department?: string
+  }[]
+  urls: {
+    value: string
+    type?: UrlType
+    preference?: number
+  }[]
+  note?: string
+  sip?: string
+  importSource?: ContactSource
+}

@@ -8,12 +8,12 @@ import styled from "styled-components"
 import { SettingsData, SettingsTestId } from "settings/models"
 import {
   Data,
-  SettingsTableRow,
-  SettingsLabel,
   SettingsActionsWrapper,
+  SettingsLabel,
+  SettingsTableRow,
 } from "../settings/settings-ui.styled"
 import { TextDisplayStyle } from "app-theme/models"
-import { borderColor, backgroundColor, borderRadius } from "app-theme/utils"
+import { backgroundColor, borderColor, borderRadius } from "app-theme/utils"
 import { FormattedMessage } from "react-intl"
 import {
   ElementWithTooltipPlace,

@@ -41,6 +41,7 @@ import Dropdown from "./svg/dropdown.svg?react"
 import Error from "./svg/error.svg?react"
 import Failed from "./svg/failed.svg?react"
 import FileManager from "./svg/file-manager.svg?react"
+import Google from "./svg/google.svg?react"
 import FileCopy from "./svg/file-copy.svg?react"
 import Grid from "./svg/grid.svg?react"
 import Help from "./svg/help.svg?react"
@@ -56,6 +57,7 @@ import MusicNote from "./svg/music-note.svg?react"
 import Namaste from "./svg/namaste.svg?react"
 import News from "./svg/news.svg?react"
 import Options from "./svg/options.svg?react"
+import Outlook from "./svg/outlook.svg?react"
 import Overview from "./svg/overview.svg?react"
 import PasswordHide from "./svg/password-hide.svg?react"
 import PasswordShow from "./svg/password-show.svg?react"
@@ -124,6 +126,7 @@ export const icons = {
   [IconType.Error]: Error,
   [IconType.Failed]: Failed,
   [IconType.FileManager]: FileManager,
+  [IconType.Google]: Google,
   [IconType.FileCopy]: FileCopy,
   [IconType.Grid]: Grid,
   [IconType.Help]: Help,
@@ -139,6 +142,7 @@ export const icons = {
   [IconType.Namaste]: Namaste,
   [IconType.News]: News,
   [IconType.Options]: Options,
+  [IconType.Outlook]: Outlook,
   [IconType.Overview]: Overview,
   [IconType.PasswordHide]: PasswordHide,
   [IconType.PasswordShow]: PasswordShow,

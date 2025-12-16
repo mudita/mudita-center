@@ -18,8 +18,6 @@ import {
   listItemSelectedStyles,
 } from "../list/list-item"
 
-const ROW_HEIGHT = 64
-
 type Ref<ItemId> = {
   scrollToItem: (id: ItemId, instant?: boolean) => void
 }
@@ -29,6 +27,7 @@ interface Props<Item, ItemId extends keyof Item = keyof Item> {
   items: Item[]
   rowRenderer: (item: Item, index: number) => ReactNode
   ref?: RefObject<Ref<Item[ItemId]> | null>
+  rowHeight?: ComponentProps<typeof Table>["rowHeight"]
 }
 
 export const TableNew = <
@@ -39,6 +38,7 @@ export const TableNew = <
   rowRenderer,
   ref,
   itemIdField,
+  rowHeight = 64,
 }: Props<Item, ItemId>) => {
   const listRef = useListRef(null)
 
@@ -60,10 +60,11 @@ export const TableNew = <
 
   return (
     <Table
+      className="table-new"
       listRef={listRef}
       rowComponent={RowComponent as ComponentProps<typeof List>["rowComponent"]}
       rowCount={items.length}
-      rowHeight={ROW_HEIGHT}
+      rowHeight={rowHeight}
       rowProps={{
         items,
         rowRenderer,
