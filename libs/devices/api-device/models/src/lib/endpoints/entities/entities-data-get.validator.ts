@@ -24,7 +24,10 @@ export type EntitiesFileDataRequest = z.infer<
 >
 
 const entitiesInProgressResponseSchema = response202Schema.extend({
-  progress: z.int().min(0).max(100),
+  progress: z
+    .int()
+    .min(0)
+    .transform((val) => Math.min(val, 100)),
 })
 
 const entitiesReadyResponseSchema = response200Schema.extend({

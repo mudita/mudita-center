@@ -80,6 +80,19 @@ import {
   AppInstallGetRequestValidator,
   AppInstallGetResponseValidator,
 } from "./endpoints/app-install/get-app-install"
+import {
+  DataTransferDeleteRequestValidator,
+  DataTransferDeleteResponseValidator200,
+  DataTransferDeleteResponseValidator202,
+  DataTransferGetRequestValidator,
+  DataTransferGetResponseValidator200,
+  DataTransferGetResponseValidator202,
+  DataTransferPostRequestValidator,
+  DataTransferPostResponseValidator200,
+  DataTransferPostResponseValidator202,
+  PreDataTransferPostRequestValidator,
+  PreDataTransferPostResponseValidator,
+} from "./endpoints/data-transfer/data-transfer"
 
 type Method = "GET" | "POST" | "PUT" | "DELETE"
 
@@ -143,6 +156,35 @@ export const ApiDeviceEndpoints = {
     DELETE: {
       request: FileTransferDeleteRequestValidator,
       response: FileTransferDeleteResponseValidator,
+    },
+  },
+  PRE_DATA_TRANSFER: {
+    POST: {
+      request: PreDataTransferPostRequestValidator,
+      response: PreDataTransferPostResponseValidator,
+    },
+  },
+  DATA_TRANSFER: {
+    GET: {
+      request: DataTransferGetRequestValidator,
+      response: z.union([
+        DataTransferGetResponseValidator200,
+        DataTransferGetResponseValidator202,
+      ]),
+    },
+    POST: {
+      request: DataTransferPostRequestValidator,
+      response: z.union([
+        DataTransferPostResponseValidator200,
+        DataTransferPostResponseValidator202,
+      ]),
+    },
+    DELETE: {
+      request: DataTransferDeleteRequestValidator,
+      response: z.union([
+        DataTransferDeleteResponseValidator200,
+        DataTransferDeleteResponseValidator202,
+      ]),
     },
   },
   PRE_BACKUP: {
