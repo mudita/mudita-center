@@ -77,17 +77,31 @@ const Content = styled.div<{
   $layer: ModalLayer
   $size: ModalSize | number
   $width?: string | number
+  $height?: string | number
   $maxHeight?: string | number
   $gap?: string | number
   $padding?: string | number
   $alignItems?: string
 }>`
-  ${({ theme, $layer, $size, $padding, $width, $maxHeight, $gap }) => css`
+  ${({
+    theme,
+    $layer,
+    $size,
+    $padding,
+    $width,
+    $height,
+    $maxHeight,
+    $gap,
+  }) => css`
     z-index: ${$layer};
     --modal-padding: ${getModalPadding($size, $padding)};
     --modal-width: ${getModalWidth($size, $width)};
     --modal-max-height: ${getModalMaxHeight($maxHeight)};
     --modal-gap: ${getModalGap($gap || theme.app.space.xl)};
+    ${$height &&
+    css`
+      height: ${getModalMaxHeight($height)};
+    `};
   `}
 
   position: relative;
@@ -176,6 +190,7 @@ interface Props extends PropsWithChildren {
   layer?: ModalLayer
   size?: ModalSize | number
   width?: string | number
+  height?: string | number
   maxHeight?: string | number
   gap?: string | number
   padding?: string | number
@@ -187,6 +202,7 @@ export const ModalContent: FunctionComponent<Props> = ({
   size = ModalSize.Small,
   alignItems = "center",
   width,
+  height,
   maxHeight,
   gap,
   padding,
@@ -197,6 +213,7 @@ export const ModalContent: FunctionComponent<Props> = ({
       $layer={layer}
       $size={size}
       $width={width}
+      $height={height}
       $maxHeight={maxHeight}
       $gap={gap}
       $padding={padding}
