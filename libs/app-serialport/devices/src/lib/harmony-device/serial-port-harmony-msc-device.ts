@@ -12,11 +12,9 @@ import {
   HarmonyMscErrorType,
   HarmonyMscMethodNamed,
   HarmonyMscRequest,
-} from "devices/harmony-msc/models"
-import {
   MSC_HARMONY_SCOPE,
   MSC_HARMONY_SCOPE_CATALOG_DIR,
-} from "app-utils/models"
+} from "devices/harmony-msc/models"
 import { SerialPortDeviceOptions } from "../serial-port-device"
 import { SerialPortDeviceMock } from "../serial-port-device-mock"
 import DeviceFlashFactory from "./device-flash/device-flash.factory"

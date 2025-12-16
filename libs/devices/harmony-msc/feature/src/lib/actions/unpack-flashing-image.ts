@@ -3,17 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppFileSystem, AppPath } from "app-utils/renderer"
 import {
   AppError,
   AppResult,
   AppResultFactory,
-  getMscHarmonyLocation,
-  MSC_HARMONY_SCOPE_CATALOG_DIR,
   Platform,
 } from "app-utils/models"
+import { MSC_HARMONY_SCOPE_CATALOG_DIR } from "devices/harmony-msc/models"
+import { AppFileSystem, AppPath } from "app-utils/renderer"
 import { platform, sliceSegments } from "app-utils/common"
 import { FlashPostRequest, MscFlashDetails } from "devices/harmony-msc/models"
+import { getMscHarmonyLocation } from "../msc-harmony"
 
 export const unpackFlashingImage = async (
   mscFlashDetails: MscFlashDetails,

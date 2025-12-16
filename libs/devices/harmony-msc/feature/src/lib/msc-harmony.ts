@@ -3,13 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  AppFileSystemGuardOptions,
-  AppFileSystemScope,
-} from "./app-file-system"
-
-export const MSC_HARMONY_SCOPE: AppFileSystemScope = "userData" as const
-export const MSC_HARMONY_SCOPE_CATALOG_DIR = "msc-harmony" as const
+import { AppFileSystemGuardOptions } from "app-utils/models"
+import { MSC_HARMONY_SCOPE, MSC_HARMONY_SCOPE_CATALOG_DIR } from "devices/harmony-msc/models"
 
 export const getMscHarmonyLocation = (
   fileName?: string

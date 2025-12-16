@@ -3,14 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  AppResult, getMscHarmonyLocation,
-  OsEnvironment,
-} from "app-utils/models"
+import { AppResult, OsEnvironment } from "app-utils/models"
 import {
   HarmonyMscFlashingProgress,
   HarmonyMscProcessState,
 } from "devices/harmony-msc/models"
+import { AppFileSystem } from "app-utils/renderer"
+import { getMscHarmonyLocation } from "../../msc-harmony"
 import {
   getMscFlashDetails,
   GetMscFlashDetailsParams,
@@ -21,7 +20,6 @@ import { postFlash } from "../../api/post-flash"
 import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
 import { flashHarmonyCompletionFlow } from "./flash-harmony-completion-flow"
-import { AppFileSystem } from "app-utils/renderer"
 
 export const flashHarmonyMsc = async (
   params: flashHarmonyMscParams

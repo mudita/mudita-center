@@ -5,11 +5,8 @@
 
 import { AppHttp } from "app-utils/renderer"
 import { MscFlashFile } from "devices/harmony-msc/models"
-import {
-  AppResult,
-  AppResultFactory,
-  getMscHarmonyLocation,
-} from "app-utils/models"
+import { AppResult, AppResultFactory } from "app-utils/models"
+import { getMscHarmonyLocation } from "../msc-harmony"
 
 export const downloadFlashingFiles = async (
   files: MscFlashFile[],
