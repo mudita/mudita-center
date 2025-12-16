@@ -49,7 +49,7 @@ export class AnalyticsCacheService {
       const data = (await JsonStore.get(ANALYTICS_JSON_STORE_NAME)) as CacheMap
       lodash.merge(this.cache, data)
       this.initialized = true
-    }, 0) // Delay to ensure JsonStore is ready
+    }, 1) // Delay to ensure JsonStore is ready
   }
 
   private getEventId(event: AnalyticsEvent): string | undefined {

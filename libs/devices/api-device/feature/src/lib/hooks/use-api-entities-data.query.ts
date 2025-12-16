@@ -5,6 +5,7 @@
 
 import { ApiDevice, EntityData } from "devices/api-device/models"
 import {
+  RefetchOptions,
   useQueries,
   useQuery,
   useQueryClient,
@@ -16,6 +17,7 @@ import { getEntities } from "../actions/get-entities/get-entities"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { sum } from "lodash"
 import { useApiEntitiesConfigQuery } from "./use-api-entities-config.query"
+import { EventEmitter } from "events"
 
 const queryFn = async (
   entityType?: string,
@@ -49,6 +51,8 @@ export function useApiEntitiesDataQuery<R = EntityData[]>(
   select?: (data: EntityData[]) => R
 ) {
   const queryClient = useQueryClient()
+  const eventEmitterRef = useRef(new EventEmitter())
+
   const [progress, setProgress] = useState(0)
   const { isLoading, isError, isSuccess, isFetching, isPending } =
     useApiEntitiesConfigQuery(entityType, device)
@@ -60,6 +64,7 @@ export function useApiEntitiesDataQuery<R = EntityData[]>(
     },
     enabled: !!device && !!entityType,
     select,
+    retry: false,
   })
 
   const abort = useCallback(async () => {
@@ -67,6 +72,24 @@ export function useApiEntitiesDataQuery<R = EntityData[]>(
       queryKey: useApiEntitiesDataQuery.queryKey(entityType, device?.id),
     })
   }, [device?.id, entityType, queryClient])
+
+  const refetch = useCallback(
+    async ({
+      onProgress,
+      ...options
+    }: { onProgress?: (p: number) => void } & RefetchOptions = {}) => {
+      eventEmitterRef.current.on("progress", (p: number) => {
+        onProgress?.(p)
+      })
+      await query.refetch(options)
+      eventEmitterRef.current.removeAllListeners("progress")
+    },
+    [query]
+  )
+
+  useEffect(() => {
+    eventEmitterRef.current.emit("progress", progress)
+  }, [progress])
 
   useEffect(() => {
     return () => {
@@ -82,6 +105,7 @@ export function useApiEntitiesDataQuery<R = EntityData[]>(
     isFetching: query.isFetching || isFetching || isPending,
     progress,
     abort,
+    refetch,
   }
 }
 

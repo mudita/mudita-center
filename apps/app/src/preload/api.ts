@@ -13,6 +13,7 @@ import {
   appFileSystem,
   appHttp,
   appLogger,
+  externalAuthProviders,
   jsonStore,
 } from "app-utils/main"
 import { appUpdater } from "app-updater/main"
@@ -34,5 +35,6 @@ export const api = {
   jsonStore,
   usbAccess,
   appMtp,
+  externalAuthProviders,
   nativeImage,
 } as const
