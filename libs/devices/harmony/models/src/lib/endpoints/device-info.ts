@@ -15,6 +15,11 @@ export enum OnboardingState {
   Finished,
 }
 
+export enum HarmonyLogsFileList {
+  SystemLogs = 0,
+  CrashDumps = 1,
+}
+
 export const HarmonyInfoRequestValidator = z.undefined().optional()
 
 export const HarmonyInfoResponseValidator = z.object({
@@ -49,11 +54,15 @@ export const HarmonyInfoResponseValidator = z.object({
 export type HarmonyInfoResponse = z.output<typeof HarmonyInfoResponseValidator>
 
 export const HarmonyLogsRequestValidator = z.object({
-  fileList: z.number(),
+  fileList: z.enum(HarmonyLogsFileList),
 })
 
-export const HarmonyLogsValidator = z.object({
-  files: z.array(z.string()).optional(),
-})
+export type HarmonyLogsRequest = z.input<typeof HarmonyLogsRequestValidator>
+
+export const HarmonyLogsValidator = z
+  .object({
+    files: z.array(z.string()).optional(),
+  })
+  .optional()
 
 export type HarmonyLogsResponse = z.output<typeof HarmonyLogsValidator>

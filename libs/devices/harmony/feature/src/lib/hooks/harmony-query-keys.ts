@@ -18,6 +18,10 @@ export const harmonyQueryKeys = {
     "fileList",
     directory,
   ],
+  detectNewCrashDumps: (path?: string) => [
+    ...harmonyQueryKeys._device(path),
+    "detect-new-crash-dumps",
+  ],
   quotationList: (path?: string) => [
     ...harmonyQueryKeys._device(path),
     "quotationList",

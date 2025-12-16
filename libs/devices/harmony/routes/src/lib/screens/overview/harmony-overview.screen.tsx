@@ -4,7 +4,10 @@
  */
 
 import { FunctionComponent, useMemo } from "react"
-import { useHarmonyTimeQuery } from "devices/harmony/feature"
+import {
+  useDetectNewCrashDumpsQuery,
+  useHarmonyTimeQuery,
+} from "devices/harmony/feature"
 import {
   useActiveDeviceQuery,
   useDeviceConfigQuery,
@@ -17,6 +20,8 @@ import { HarmonyOverviewStatusSection } from "./harmony-overview-status-section"
 import { HarmonyOverviewTimeSynchronizationSection } from "./harmony-overview-time-synchronization-section"
 import { HarmonyOverviewOsSection } from "./harmony-overview-os-section"
 import { defineMessages, formatMessage } from "app-localize/utils"
+import { HarmonyCrashDumpsModal } from "./harmony-crash-dumps-modal"
+import { useQueryClient } from "@tanstack/react-query"
 
 const messages = defineMessages({
   pageTitle: {
@@ -37,9 +42,14 @@ const messages = defineMessages({
 })
 
 export const HarmonyOverviewScreen: FunctionComponent = () => {
+  const queryClient = useQueryClient()
+
   const { data: activeDevice } = useActiveDeviceQuery<Harmony>()
   const { data: config } = useDeviceConfigQuery<Harmony>(activeDevice)
   const { data: harmonyTime } = useHarmonyTimeQuery(activeDevice)
+  const crashDumpExists: boolean | undefined = queryClient.getQueryData(
+    useDetectNewCrashDumpsQuery.queryKey(activeDevice?.path)
+  )
 
   const deviceImageType =
     config?.caseColour === "black"
@@ -108,6 +118,7 @@ export const HarmonyOverviewScreen: FunctionComponent = () => {
         serialNumber={config?.serialNumber}
         detailsSections={sections}
       />
+      <HarmonyCrashDumpsModal opened={!!crashDumpExists} />
     </>
   )
 }
