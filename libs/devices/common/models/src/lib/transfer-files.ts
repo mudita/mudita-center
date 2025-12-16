@@ -72,7 +72,7 @@ export enum TransferFilesActionType {
 }
 
 export type DataSource =
-  | { type: "memory"; data: (string | Uint8Array)[] }
+  | { type: "memory"; data: (string | Uint8Array) }
   | { type: "path"; path: string; fileSize?: number }
   | { type: "fileLocation"; fileLocation: AppFileSystemGuardOptions }
 

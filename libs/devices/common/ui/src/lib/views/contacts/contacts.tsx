@@ -31,6 +31,11 @@ import { Form, FormValues } from "./form"
 import { Empty } from "./empty"
 import { makeName } from "./name-field"
 import { defineMessages } from "app-localize/utils"
+import {
+  ContactsImportFlow,
+  ImportCallback,
+  ProviderSelectCallback,
+} from "../contacts-import-flow/contacts-import-flow"
 
 const messages = defineMessages({
   confirmDeleteModalTitle: {
@@ -76,6 +81,11 @@ enum DeleteType {
 interface Props {
   contacts: Contact[]
   onDelete: GenericDeleteFlowProps["deleteItemsAction"]
+  onProviderSelect: ProviderSelectCallback
+  onImport: ImportCallback
+  onImportCancel: VoidFunction
+  onManageDuplicates: VoidFunction
+  onHelpClick?: VoidFunction
 }
 
 export const Contacts: FunctionComponent<Props> = (props) => {
@@ -86,10 +96,19 @@ export const Contacts: FunctionComponent<Props> = (props) => {
   )
 }
 
-const ContactsInner: FunctionComponent<Props> = ({ contacts, onDelete }) => {
+const ContactsInner: FunctionComponent<Props> = ({
+  contacts,
+  onDelete,
+  onProviderSelect,
+  onImport,
+  onImportCancel,
+  onManageDuplicates,
+  onHelpClick,
+}) => {
   const { setValue, watch, getValues } = useFormContext<FormValues>()
   const tableRef = useRef<TableNew<Contact, "contactId">>(null)
   const genericDeleteRef = useRef<GenericDeleteFlow>(null)
+  const importFlowRef = useRef<ContactsImportFlow>(null)
   const [deleteType, setDeleteType] = useState<DeleteType>()
 
   const activeContactId = watch("activeContactId")
@@ -188,6 +207,10 @@ const ContactsInner: FunctionComponent<Props> = ({ contacts, onDelete }) => {
     [contactsIds, deleteType, getValues, setValue]
   )
 
+  const handleImportStart = useCallback(() => {
+    importFlowRef.current?.start()
+  }, [])
+
   const handleRowClick = useCallback(
     (contactId: Contact["contactId"]) => {
       setValue("activeContactId", contactId)
@@ -224,8 +247,14 @@ const ContactsInner: FunctionComponent<Props> = ({ contacts, onDelete }) => {
             checkboxDataAttr={"data-row-checkbox"}
           />
           <ColumnName contact={contact} />
-          <ColumnPhone contact={contact} hidden={!!activeContactId} />
-          <ColumnMorePhones contact={contact} hidden={!!activeContactId} />
+          <ColumnPhone
+            phoneNumbers={contact.phoneNumbers}
+            hidden={!!activeContactId}
+          />
+          <ColumnMorePhones
+            phoneNumbers={contact.phoneNumbers}
+            hidden={!!activeContactId}
+          />
         </TableNew.Row>
       )
     },
@@ -258,11 +287,12 @@ const ContactsInner: FunctionComponent<Props> = ({ contacts, onDelete }) => {
       <Panel
         contactsIds={contactsIds}
         onDeleteClick={handleCheckedContactsDelete}
+        onImportClick={handleImportStart}
       >
         {search}
       </Panel>
     )
-  }, [contactsIds, handleCheckedContactsDelete, search])
+  }, [contactsIds, handleCheckedContactsDelete, handleImportStart, search])
 
   const details = useMemo(() => {
     return (
@@ -285,26 +315,42 @@ const ContactsInner: FunctionComponent<Props> = ({ contacts, onDelete }) => {
     )
   }, [handleDeleteSuccess, onDelete])
 
-  if (contacts.length === 0) {
+  const importFlow = useMemo(() => {
     return (
-      <Empty
-        onImport={() => {
-          // TODO: implement import contacts action
-        }}
+      <ContactsImportFlow
+        ref={importFlowRef}
+        onProviderSelect={onProviderSelect}
+        onImport={onImport}
+        onImportCancel={onImportCancel}
+        onManageDuplicates={onManageDuplicates}
+        onHelpClick={onHelpClick}
       />
     )
-  }
+  }, [
+    onHelpClick,
+    onImport,
+    onImportCancel,
+    onManageDuplicates,
+    onProviderSelect,
+  ])
 
   return (
     <>
-      <Wrapper>
-        {panel}
-        <TableWrapper>
-          {table}
-          {details}
-        </TableWrapper>
-      </Wrapper>
-      {deleteFlow}
+      {contacts.length === 0 ? (
+        <Empty onImportClick={handleImportStart} />
+      ) : (
+        <>
+          <Wrapper>
+            {panel}
+            <TableWrapper>
+              {table}
+              {details}
+            </TableWrapper>
+          </Wrapper>
+          {deleteFlow}
+        </>
+      )}
+      {importFlow}
     </>
   )
 }
@@ -323,9 +369,4 @@ const TableWrapper = styled.div`
   display: flex;
   flex-direction: row;
   overflow-x: hidden;
-
-  div:has(table) {
-    flex: 1;
-    min-width: 36rem;
-  }
 `
