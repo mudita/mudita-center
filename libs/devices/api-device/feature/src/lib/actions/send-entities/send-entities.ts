@@ -31,4 +31,5 @@ export const sendEntities = async (params: Params) => {
     const { mode, ...fileModeParams } = params
     return await sendEntitiesAsFile(fileModeParams)
   }
+  return
 }
