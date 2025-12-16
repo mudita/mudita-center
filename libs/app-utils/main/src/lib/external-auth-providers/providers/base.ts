@@ -63,18 +63,27 @@ export class BaseProvider<Contact = unknown, CalendarEvent = unknown> {
     this.authData = undefined
   }
 
-  getData(scope: ExternalAuthProvidersScope.Contacts): Promise<Contact[]>
-  getData(scope: ExternalAuthProvidersScope.Calendar): Promise<CalendarEvent[]>
   getData(
-    scope: ExternalAuthProvidersScope
+    scope: ExternalAuthProvidersScope.Contacts,
+    onStartImporting?: VoidFunction
+  ): Promise<Contact[]>
+  getData(
+    scope: ExternalAuthProvidersScope.Calendar,
+    onStartImporting?: VoidFunction
+  ): Promise<CalendarEvent[]>
+  getData(
+    scope: ExternalAuthProvidersScope,
+    onStartImporting?: VoidFunction
   ): Promise<Contact[] | CalendarEvent[]>
   async getData(
-    scope: ExternalAuthProvidersScope
+    scope: ExternalAuthProvidersScope,
+    onStartImporting?: VoidFunction
   ): Promise<Contact[] | CalendarEvent[]> {
     await new Promise<void>((resolve, reject) => {
       this.eventEmitter.once(Events.AuthSuccess, () => resolve())
       this.eventEmitter.once(Events.AuthError, () => reject())
     })
+    onStartImporting?.()
     switch (scope) {
       case ExternalAuthProvidersScope.Contacts:
         return this.getContactsData()
@@ -93,12 +102,39 @@ export class BaseProvider<Contact = unknown, CalendarEvent = unknown> {
 
   async openAuthWindow(url: string) {
     this.window = new BrowserWindow(this.windowConfig)
-    await this.window.loadURL(url)
-    this.window.show()
 
     this.window.on("closed", () => {
       this.eventEmitter.emit(Events.AuthError)
       this.window = undefined
     })
+
+    await this.window.loadURL(url)
+
+    const mainWindowBounds = BrowserWindow.getAllWindows()
+      .find((w) => w.id === 1)
+      ?.getBounds()
+
+    if (mainWindowBounds) {
+      const {
+        width: mainWidth,
+        height: mainHeight,
+        x: mainX,
+        y: mainY,
+      } = mainWindowBounds
+      const { width: windowWidth = 520, height: windowHeight = 680 } =
+        this.windowConfig
+
+      const x = Math.round(mainX + (mainWidth - windowWidth) / 2)
+      const y = Math.round(mainY + (mainHeight - windowHeight) / 2)
+
+      this.window.setBounds({
+        width: windowWidth,
+        height: windowHeight,
+        x,
+        y,
+      })
+    }
+
+    this.window.show()
   }
 }

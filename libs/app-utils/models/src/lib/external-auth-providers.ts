@@ -32,6 +32,7 @@ export type GoogleContact = Pick<
   | "biographies"
   | "organizations"
   | "urls"
+  | "sipAddresses"
 >
 export type GoogleCalendarEvent = unknown
 

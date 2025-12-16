@@ -138,7 +138,7 @@ export class OutlookProvider extends BaseProvider<
     url.searchParams.set("response_type", "code")
     url.searchParams.set("redirect_uri", this.redirectUrl)
     url.searchParams.set("scope", this.obtainScopesParam(scopes))
-    url.searchParams.set("prompt", "login")
+    url.searchParams.set("prompt", "select_account")
 
     return url.toString()
   }

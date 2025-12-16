@@ -71,5 +71,5 @@ export const initAppLibs = (
   initAppFileSystem(ipcMain, appFileSystemService)
   initUsbAccess(ipcMain, mockServer)
   initAppMtp(ipcMain, appMtp)
-  initExternalAuthProviders(ipcMain)
+  initExternalAuthProviders(ipcMain, mainWindow)
 }

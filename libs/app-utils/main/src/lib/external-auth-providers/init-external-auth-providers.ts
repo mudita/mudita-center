@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IpcMain } from "electron"
+import { BrowserWindow, IpcMain } from "electron"
 import {
   ExternalAuthProvider,
   ExternalAuthProvidersIpcEvents,
@@ -11,7 +11,10 @@ import {
 } from "app-utils/models"
 import { ExternalAuthProvidersService } from "./external-auth-providers.service"
 
-export const initExternalAuthProviders = (ipcMain: IpcMain) => {
+export const initExternalAuthProviders = (
+  ipcMain: IpcMain,
+  mainWindow: BrowserWindow
+) => {
   ipcMain.removeHandler(ExternalAuthProvidersIpcEvents.GetAuthorizationData)
   ipcMain.handle(
     ExternalAuthProvidersIpcEvents.GetAuthorizationData,
@@ -42,7 +45,17 @@ export const initExternalAuthProviders = (ipcMain: IpcMain) => {
         scopes: ExternalAuthProvidersScope[]
       }
     ) => {
-      return ExternalAuthProvidersService.getScopesData(provider, scopes)
+      const onStartImporting = () => {
+        mainWindow.webContents.send(
+          ExternalAuthProvidersIpcEvents.ScopesDataTransferStart
+        )
+      }
+
+      return ExternalAuthProvidersService.getScopesData(
+        provider,
+        scopes,
+        onStartImporting
+      )
     }
   )
 }

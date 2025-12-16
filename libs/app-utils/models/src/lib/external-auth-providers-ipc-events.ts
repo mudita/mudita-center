@@ -6,4 +6,5 @@
 export enum ExternalAuthProvidersIpcEvents {
   GetAuthorizationData = "externalAuthProviders:getAuthorizationData",
   GetScopesData = "externalAuthProviders:getScopesData",
+  ScopesDataTransferStart = "externalAuthProviders:scopesDataTransferStart",
 }

@@ -8,4 +8,6 @@ import "types-preload"
 export const ExternalAuthProviders = {
   getAuthorizationData: window.api.externalAuthProviders.getAuthorizationData,
   getScopesData: window.api.externalAuthProviders.getScopesData,
+  listenToScopesDataTransferStart:
+    window.api.externalAuthProviders.listenToScopesDataTransferStart,
 }

@@ -49,7 +49,7 @@ export class ExternalAuthProvidersService {
   static async getScopesData<
     P extends ExternalAuthProvider,
     S extends ExternalAuthProvidersScope[],
-  >(provider: P, scopes: S) {
+  >(provider: P, scopes: S, onStartImporting?: VoidFunction) {
     const authProviderInstance = new providers[provider]()
 
     try {
@@ -57,7 +57,7 @@ export class ExternalAuthProvidersService {
 
       const data = await Promise.all(
         scopes.map((scope) => {
-          return authProviderInstance.getData(scope)
+          return authProviderInstance.getData(scope, onStartImporting)
         })
       )
 
