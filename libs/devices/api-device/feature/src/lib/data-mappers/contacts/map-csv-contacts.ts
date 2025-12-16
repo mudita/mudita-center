@@ -30,6 +30,7 @@ export const mapCsvContacts = (csv: string): ContactToImportAsFile[] => {
           }
         }
       }
+      return undefined
     }
 
     const firstName = getValue(["First Name", "Given Name", "Forename"])
