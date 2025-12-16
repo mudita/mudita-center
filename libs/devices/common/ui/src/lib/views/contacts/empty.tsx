@@ -22,10 +22,10 @@ const messages = defineMessages({
 })
 
 interface Props {
-  onImport: VoidFunction
+  onImportClick: VoidFunction
 }
 
-export const Empty: FunctionComponent<Props> = ({ onImport }) => {
+export const Empty: FunctionComponent<Props> = ({ onImportClick }) => {
   return (
     <Wrapper>
       <RoundIcon>
@@ -38,7 +38,7 @@ export const Empty: FunctionComponent<Props> = ({ onImport }) => {
       <Button
         type={ButtonType.Primary}
         message={messages.importButton.id}
-        onClick={onImport}
+        onClick={onImportClick}
         size={ButtonSize.Medium}
       />
     </Wrapper>
