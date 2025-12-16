@@ -19,6 +19,7 @@ import {
   initAppFileSystem,
   initAppHttp,
   initAppLogger,
+  initAppPath,
   initExternalAuthProviders,
   initJsonStore,
   MockAppHttpService,
@@ -71,5 +72,6 @@ export const initAppLibs = (
   initAppFileSystem(ipcMain, appFileSystemService)
   initUsbAccess(ipcMain, mockServer)
   initAppMtp(ipcMain, appMtp)
+  initAppPath(ipcMain)
   initExternalAuthProviders(ipcMain, mainWindow)
 }

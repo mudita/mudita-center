@@ -13,7 +13,7 @@ import { electronAPI } from "@electron-toolkit/preload"
 
 export const serialPort = {
   onDevicesChanged: (callback: (devices: SerialPortChangedDevices) => void) => {
-    electronAPI.ipcRenderer.on(
+    return electronAPI.ipcRenderer.on(
       SerialPortIpcEvents.DevicesChanged,
       (_, data) => {
         callback(data)

@@ -3,10 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { shell } from "electron"
 import archiver from "archiver"
 import path from "path"
 import fs from "fs-extra"
 import tar from "tar-stream"
+import { isArray } from "lodash"
 import {
   AppFileSystemArchiveOptions,
   AppFileSystemCalculateCrc32Options,
@@ -25,11 +27,12 @@ import {
   AppResult,
   AppResultFactory,
   mapToAppError,
+  Platform,
 } from "app-utils/models"
+import { platform } from "app-utils/common"
 import { crc32 } from "node:zlib"
+import { execPromise } from "../exec/exec-command"
 import { AppFileSystemGuard } from "./app-file-system.guard"
-import { shell } from "electron"
-import { isArray } from "lodash"
 
 export class AppFileSystemService {
   constructor(private appFileSystemGuard: AppFileSystemGuard) {}
@@ -242,7 +245,9 @@ export class AppFileSystemService {
     })
   }
 
-  extract(options: AppFileSystemExtractOptions): Promise<AppResult<string[]>> {
+  async extract(
+    options: AppFileSystemExtractOptions
+  ): Promise<AppResult<string[]>> {
     const sourceFilePath = this.resolveSafePath(options)
     const destinationFilePath = this.resolveSafePath({
       ...options,
@@ -250,6 +255,68 @@ export class AppFileSystemService {
         options.scopeDestinationPath ?? options.scopeRelativePath,
     })
 
+    try {
+      if (sourceFilePath.endsWith(".tar.gz")) {
+        return await this.extractTarGz(sourceFilePath, destinationFilePath)
+      }
+
+      if (sourceFilePath.endsWith(".tar.xz")) {
+        return await this.extractTarXz(sourceFilePath, destinationFilePath)
+      }
+
+      return await this.extractTarWithStream(
+        sourceFilePath,
+        destinationFilePath
+      )
+    } catch (e) {
+      return AppResultFactory.failed(mapToAppError(e))
+    }
+  }
+
+  async openDirectory(options: AppFileSystemOpenDirectoryOptions) {
+    await shell.openPath(
+      isArray(options.path) ? path.join(...options.path) : options.path
+    )
+  }
+
+  private async extractTarGz(
+    sourceFilePath: string,
+    destinationFilePath: string
+  ): Promise<AppResult<string[]>> {
+    const baseName = path.basename(sourceFilePath, ".tar.gz")
+
+    const innerTarDir = path.join(destinationFilePath, `${baseName}.tar`)
+    const innerTarPath = path.join(innerTarDir, `${baseName}.tar`)
+
+    const windowsCommand =
+      `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" && ` +
+      `if exist "${innerTarPath}" tar -xvf "${innerTarPath}" -C "${destinationFilePath}"`
+
+    const posixCommand =
+      `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" && ` +
+      `if [ -f "${innerTarPath}" ]; then tar -xvf "${innerTarPath}" -C "${destinationFilePath}"; fi`
+
+    const command =
+      platform === Platform.windows ? windowsCommand : posixCommand
+
+    return this.executeExtractionWithDiff(command, destinationFilePath, [
+      innerTarDir,
+    ])
+  }
+
+  private extractTarXz(
+    sourceFilePath: string,
+    destinationFilePath: string
+  ): Promise<AppResult<string[]>> {
+    const command = `tar -xf "${sourceFilePath}" -C "${destinationFilePath}"`
+
+    return this.executeExtractionWithDiff(command, destinationFilePath)
+  }
+
+  private async extractTarWithStream(
+    sourceFilePath: string,
+    destinationFilePath: string
+  ): Promise<AppResult<string[]>> {
     const entryPaths: string[] = []
     const extract = tar.extract({ allowUnknownFormat: true })
 
@@ -290,9 +357,28 @@ export class AppFileSystemService {
     })
   }
 
-  async openDirectory(options: AppFileSystemOpenDirectoryOptions) {
-    await shell.openPath(
-      isArray(options.path) ? path.join(...options.path) : options.path
-    )
+  private async executeExtractionWithDiff(
+    command: string,
+    destinationFilePath: string,
+    ignoredPaths: string[] = []
+  ): Promise<AppResult<string[]>> {
+    const extractionStartedAt = Date.now()
+    await execPromise(command)
+
+    const entriesAfterExtraction = await fs.readdir(destinationFilePath)
+
+    const extractedEntries = entriesAfterExtraction
+      .filter((entry) => {
+        const fullEntryPath = path.join(destinationFilePath, entry)
+        if (ignoredPaths.includes(fullEntryPath)) {
+          return false
+        }
+        const stats = fs.statSync(fullEntryPath)
+        const createdAt = stats.ctimeMs || 0
+        return createdAt > extractionStartedAt
+      })
+      .map((entry) => path.join(destinationFilePath, entry))
+
+    return AppResultFactory.success(extractedEntries)
   }
 }

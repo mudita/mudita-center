@@ -4,13 +4,10 @@
  */
 
 import { Navigate, Route } from "react-router"
-import { Button, Typography } from "app-theme/ui"
 import { Device } from "devices/common/models"
 import { HarmonyMscSerialPort } from "devices/harmony-msc/adapters"
-import { HarmonyMsc, HarmonyMscPaths } from "devices/harmony-msc/models"
-import { FunctionComponent } from "react"
-import { flashHarmonyMsc } from "devices/harmony-msc/feature"
-import { useActiveDeviceQuery } from "devices/common/feature"
+import { HarmonyMscPaths } from "devices/harmony-msc/models"
+import { McHarmonyMscRecoveryModeScreen } from "./harmony-msc-recovery-mode.screen"
 
 export const useHarmonyMscRouter = (device?: Device) => {
   const activeHarmony = HarmonyMscSerialPort.isCompatible(device)
@@ -27,26 +24,11 @@ export const useHarmonyMscRouter = (device?: Device) => {
           index
           element={<Navigate to={HarmonyMscPaths.RecoveryMode} replace />}
         />
-        <Route path={HarmonyMscPaths.RecoveryMode} element={<Demo />} />
+        <Route
+          path={HarmonyMscPaths.RecoveryMode}
+          element={<McHarmonyMscRecoveryModeScreen />}
+        />
       </Route>
     ),
   }
-}
-
-const Demo: FunctionComponent = () => {
-  const { data: activeHarmony } = useActiveDeviceQuery<HarmonyMsc>()
-  const onClick = () => {
-    if (activeHarmony) {
-      void flashHarmonyMsc(activeHarmony, {
-        imagePath: "/path/to/image",
-        scriptPath: "path/to/script",
-      })
-    }
-  }
-  return (
-    <>
-      <Typography.H1>Recovery mode</Typography.H1>
-      <Button onClick={onClick}>Test</Button>
-    </>
-  )
 }

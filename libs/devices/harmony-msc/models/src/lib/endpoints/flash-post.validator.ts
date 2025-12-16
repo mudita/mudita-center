@@ -5,9 +5,11 @@
 
 import { z } from "zod"
 
-export const FlashRequestValidator = z.object({
+export const FlashPostRequestValidator = z.object({
   imagePath: z.string(),
   scriptPath: z.string(),
 })
 
-export const FlashResponseValidator = z.undefined().optional()
+export type FlashPostRequest = z.infer<typeof FlashPostRequestValidator>
+
+export const FlashPostResponseValidator = z.undefined().optional()

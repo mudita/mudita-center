@@ -6,6 +6,7 @@
 import { SerialPortMock, SerialPortOpenOptions } from "serialport"
 import { AutoDetectTypes } from "@serialport/bindings-cpp"
 import {
+  SerialPortDeviceSubtype,
   SerialPortDeviceType,
   SerialPortErrorType,
   SerialPortRequest,
@@ -27,13 +28,13 @@ type BaseSerialPortDeviceOptions = SerialPortOpenOptions<AutoDetectTypes> & {
 }
 
 export class SerialPortDeviceMock extends SerialPortMock {
-  #responseEmitter = new EventEmitter()
-  #queue: PQueue
   static readonly deviceType: SerialPortDeviceType
   static readonly matchingVendorIds: string[] = []
   static readonly matchingProductIds: string[] = []
   static readonly nonSerialPortDevice = true
   readonly requestIdKey: string = "id"
+  #responseEmitter = new EventEmitter()
+  #queue: PQueue
 
   constructor({
     queueInterval = DEFAULT_QUEUE_INTERVAL,
@@ -48,6 +49,53 @@ export class SerialPortDeviceMock extends SerialPortMock {
       interval: queueInterval,
     })
     super.on("data", (data) => this.parseResponse(data))
+  }
+
+  public static getSubtype(
+    _vendorId?: string,
+    _productId?: string
+  ): SerialPortDeviceSubtype | undefined {
+    return undefined
+  }
+
+  public static getProductsGroups() {
+    return [
+      {
+        vendorIds: this.matchingVendorIds,
+        productIds: this.matchingProductIds,
+      },
+    ]
+  }
+
+  async request({
+    options,
+    ...data
+  }: SerialPortRequest): ReturnType<typeof this.createRequest> {
+    const maxRetries = options?.retries || 0
+
+    try {
+      return await this.createRequest({ options, ...data })
+    } catch (error) {
+      if (maxRetries > 0) {
+        return await this.request({
+          options: {
+            ...options,
+            retries: maxRetries - 1,
+          },
+          ...data,
+        })
+      } else {
+        throw error
+      }
+    }
+  }
+
+  destroy(error?: Error): this {
+    return super.destroy(error)
+  }
+
+  emitData(id: number, data: object) {
+    super.emit("data", JSON.stringify({ id, ...data }))
   }
 
   private parseResponse(buffer: Buffer) {
@@ -104,45 +152,5 @@ export class SerialPortDeviceMock extends SerialPortMock {
         }
       })
     })
-  }
-
-  async request({
-    options,
-    ...data
-  }: SerialPortRequest): ReturnType<typeof this.createRequest> {
-    const maxRetries = options?.retries || 0
-
-    try {
-      return await this.createRequest({ options, ...data })
-    } catch (error) {
-      if (maxRetries > 0) {
-        return await this.request({
-          options: {
-            ...options,
-            retries: maxRetries - 1,
-          },
-          ...data,
-        })
-      } else {
-        throw error
-      }
-    }
-  }
-
-  destroy(error?: Error): this {
-    return super.destroy(error)
-  }
-
-  emitData(id: number, data: unknown) {
-    super.emit("data", JSON.stringify({ id, data }))
-  }
-
-  public static getProductsGroups() {
-    return [
-      {
-        vendorIds: this.matchingVendorIds,
-        productIds: this.matchingProductIds,
-      },
-    ]
   }
 }

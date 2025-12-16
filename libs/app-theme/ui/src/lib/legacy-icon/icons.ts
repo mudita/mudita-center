@@ -8,7 +8,7 @@ import Arrow from "./svg/arrow.svg?react"
 import ArrowLongLeft from "./svg/arrow-long-left.svg?react"
 import ArrowLongRight from "./svg/arrow-long-right.svg?react"
 import AttachContact from "./svg/attach-contact.svg?react"
-import BackArrowIcon from "./svg/back-arrow-icon.svg?react"
+import ArrowBackCircle from "./svg/arrow-back-circle.svg?react"
 import BackupFolder from "./svg/backup-folder.svg?react"
 import Battery from "./svg/battery.svg?react"
 import BorderCheck from "./svg/border-check-icon.svg?react"
@@ -128,7 +128,7 @@ import MarkAsUnread from "./svg/mark-as-unread.svg?react"
 import Conversation from "./svg/conversation.svg?react"
 import Exclamation from "./svg/exclamation.svg?react"
 import ButtonSuccess from "./svg/button-success.svg?react"
-import LightButton from "./svg/light-button-icon.svg?react"
+import LightButtonCircle from "./svg/light-button-circle.svg?react"
 import Svg from "*.svg?react"
 
 export const legacyIcons: Record<LegacyIconType, typeof Svg> = {
@@ -136,7 +136,7 @@ export const legacyIcons: Record<LegacyIconType, typeof Svg> = {
   [LegacyIconType.ArrowLongLeft]: ArrowLongLeft,
   [LegacyIconType.ArrowLongRight]: ArrowLongRight,
   [LegacyIconType.AttachContact]: AttachContact,
-  [LegacyIconType.BackArrowIcon]: BackArrowIcon,
+  [LegacyIconType.ArrowBackCircle]: ArrowBackCircle,
   [LegacyIconType.BackupFolder]: BackupFolder,
   [LegacyIconType.Battery]: Battery,
   [LegacyIconType.BorderCheckIcon]: BorderCheck,
@@ -259,5 +259,5 @@ export const legacyIcons: Record<LegacyIconType, typeof Svg> = {
   // [LegacyIconType.RecoveryModeWhite]: RecoveryModeWhite,
   // [LegacyIconType.RecoveryModeBlack]: RecoveryModeBlack,
   [LegacyIconType.ButtonSuccess]: ButtonSuccess,
-  [LegacyIconType.LightButton]: LightButton,
+  [LegacyIconType.LightButtonCircle]: LightButtonCircle,
 }

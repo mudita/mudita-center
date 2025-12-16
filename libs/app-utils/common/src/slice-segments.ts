@@ -8,7 +8,27 @@ export const sliceSegments = (
   start?: number,
   end?: number
 ): string => {
-  const segments = path.split("/").filter((segment) => segment.length > 0)
+  const isWindowsPath = path.includes("\\")
+  const isAbsolutePosix = !isWindowsPath && path.startsWith("/") && start === 0
+
+  const normalizedPath = path.replace(/\\/g, "/")
+  const segments = normalizedPath
+    .split("/")
+    .filter((segment) => segment.length > 0)
   const resultSegments = segments.slice(start, end)
-  return resultSegments.join("/")
+  const separator = isWindowsPath ? "\\" : "/"
+
+  if (isWindowsPath && /^[A-Za-z]:$/.test(segments[0])) {
+    return (
+      resultSegments[0] + separator + resultSegments.slice(1).join(separator)
+    )
+  }
+
+  let result = resultSegments.join(separator)
+
+  if (isAbsolutePosix) {
+    result = separator + result
+  }
+
+  return result
 }

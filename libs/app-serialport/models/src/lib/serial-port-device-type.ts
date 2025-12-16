@@ -3,13 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Product } from "app-utils/models"
+
 export enum SerialPortDeviceType {
   ApiDevice = "ApiDevice",
-  Harmony = "MuditaHarmony",
-  HarmonyMsc = "MuditaHarmonyMsc",
-  Pure = "MuditaPure",
+  Harmony = Product.Harmony,
+  HarmonyMsc = Product.HarmonyMsc,
+  Pure = Product.Pure,
 }
 
 export enum SerialPortDeviceSubtype {
-  Kompakt = "Kompakt",
+  Kompakt = Product.Kompakt,
 }
