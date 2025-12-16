@@ -9,9 +9,9 @@ import Svg from "*.svg?react"
 import { IconType } from "app-theme/models"
 import AirplaneMode from "./svg/airplane-mode.svg?react"
 import ArrowBack from "./svg/arrow-back.svg?react"
+import ArrowBackCircle from "./svg/arrow-back-circle.svg?react"
 import ArrowLeft from "./svg/arrow-left.svg?react"
 import ArrowRight from "./svg/arrow-right.svg?react"
-import BackArrowIcon from "./svg/back-arrow-icon.svg?react"
 import Backup from "./svg/backup.svg?react"
 import Battery0 from "./svg/battery-0.svg?react"
 import Battery1 from "./svg/battery-1.svg?react"
@@ -46,7 +46,7 @@ import Grid from "./svg/grid.svg?react"
 import Help from "./svg/help.svg?react"
 import Info from "./svg/info.svg?react"
 import InfoBold from "./svg/info-bold.svg?react"
-import LightButtonIcon from "./svg/light-button-icon.svg?react"
+import LightButtonCircle from "./svg/light-button-circle.svg?react"
 import Lock from "./svg/lock.svg?react"
 import Messages from "./svg/messages.svg?react"
 import Minus from "./svg/minus.svg?react"
@@ -92,9 +92,9 @@ import Upload from "./svg/upload.svg?react"
 export const icons = {
   [IconType.AirplaneMode]: AirplaneMode,
   [IconType.ArrowBack]: ArrowBack,
+  [IconType.ArrowBackCircle]: ArrowBackCircle,
   [IconType.ArrowLeft]: ArrowLeft,
   [IconType.ArrowRight]: ArrowRight,
-  [IconType.BackArrowIcon]: BackArrowIcon,
   [IconType.Backup]: Backup,
   [IconType.Battery0]: Battery0,
   [IconType.Battery1]: Battery1,
@@ -129,7 +129,7 @@ export const icons = {
   [IconType.Help]: Help,
   [IconType.Info]: Info,
   [IconType.InfoBold]: InfoBold,
-  [IconType.LightButtonIcon]: LightButtonIcon,
+  [IconType.LightButtonCircle]: LightButtonCircle,
   [IconType.Lock]: Lock,
   [IconType.Messages]: Messages,
   [IconType.Minus]: Minus,

@@ -31,7 +31,7 @@ export const RecoveryModeCompleteModal: FunctionComponent<Props> = ({
       )}
       onClose={onClose}
     >
-      <Icon type={IconType.LightButtonIcon} size={4.8} />
+      <Icon type={IconType.LightButtonCircle} size={4.8} />
     </GenericInfoModal>
   )
 }

@@ -8,7 +8,7 @@ export enum LegacyIconType {
   ArrowLongLeft,
   ArrowLongRight,
   AttachContact,
-  BackArrowIcon,
+  ArrowBackCircle,
   BackupFolder,
   Battery,
   BorderCheckIcon,
@@ -133,7 +133,7 @@ export enum LegacyIconType {
   // RecoveryModeWhite,
   // RecoveryModeBlack,
   ButtonSuccess,
-  LightButton,
+  LightButtonCircle,
 }
 
 export enum LegacyIconBadgeType {

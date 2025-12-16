@@ -31,7 +31,7 @@ export const RecoveryModeFinalStepModal: FunctionComponent<Props> = ({
       )}
       onClose={onClose}
     >
-      <Icon type={IconType.BackArrowIcon} size={4.8} />
+      <Icon type={IconType.ArrowBackCircle} size={4.8} />
     </GenericInfoModal>
   )
 }
