@@ -28,8 +28,8 @@ import {
   AppResultFactory,
   mapToAppError,
   Platform,
-  platform,
 } from "app-utils/models"
+import { platform } from "app-utils/common"
 import { crc32 } from "node:zlib"
 import { execPromise } from "../exec/exec-command"
 import { AppFileSystemGuard } from "./app-file-system.guard"
@@ -296,11 +296,12 @@ export class AppFileSystemService {
       `tar -xzvf "${sourceFilePath}" -C "${destinationFilePath}" && ` +
       `if [ -f "${innerTarPath}" ]; then tar -xvf "${innerTarPath}" -C "${destinationFilePath}"; fi`
 
-
     const command =
       platform === Platform.windows ? windowsCommand : posixCommand
 
-    return this.executeExtractionWithDiff(command, destinationFilePath, [innerTarDir])
+    return this.executeExtractionWithDiff(command, destinationFilePath, [
+      innerTarDir,
+    ])
   }
 
   private extractTarXz(

@@ -4,7 +4,8 @@
  */
 
 import { MscFlashDetails } from "devices/harmony-msc/models"
-import { AppResult, OsEnvironment, platform } from "app-utils/models"
+import { AppResult, OsEnvironment } from "app-utils/models"
+import { platform } from "app-utils/common"
 import { AppHttp } from "app-utils/renderer"
 
 export interface GetMscFlashDetailsParams extends Record<string, unknown> {

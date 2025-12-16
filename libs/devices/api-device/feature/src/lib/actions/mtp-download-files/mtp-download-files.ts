@@ -10,8 +10,8 @@ import {
   TransferFilesActionType,
 } from "devices/common/models"
 import { ApiDevice } from "devices/api-device/models"
-import { platform, Platform } from "app-utils/models"
-import { sliceSegments } from "app-utils/common"
+import { Platform } from "app-utils/models"
+import { platform, sliceSegments } from "app-utils/common"
 import { isMtpPathInternal, sliceMtpPaths } from "../mtp-shared/mtp-helpers"
 import { mtpTransferFiles } from "../mtp-shared/mtp-transfer-files"
 

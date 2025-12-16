@@ -11,10 +11,9 @@ import {
   getMscHarmonyLocation,
   MSC_HARMONY_SCOPE_CATALOG_DIR,
   Platform,
-  platform,
 } from "app-utils/models"
+import { platform, sliceSegments } from "app-utils/common"
 import { FlashPostRequest, MscFlashDetails } from "devices/harmony-msc/models"
-import { sliceSegments } from "app-utils/common"
 
 export const unpackFlashingImage = async (
   mscFlashDetails: MscFlashDetails,

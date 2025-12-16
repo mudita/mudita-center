@@ -8,10 +8,9 @@ import {
   AppResult,
   AppResultFactory,
   Platform,
-  platform,
 } from "app-utils/models"
+import { delay, platform } from "app-utils/common"
 import { HarmonyMscProcessState } from "devices/harmony-msc/models"
-import { delay } from "app-utils/common"
 import { AppSerialPort } from "app-serialport/renderer"
 import { waitForFlashCompletion } from "../wait-for-flash-completion"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
