@@ -9,8 +9,8 @@ import { useCallback, useEffect } from "react"
 import { delay } from "app-utils/common"
 import { Harmony, HarmonyErrorType } from "devices/harmony/models"
 import {
-  useDetectNewCrashDumpsQuery,
   useHarmonyOsUpdateInfoQuery,
+  useNewCrashDumpsQuery,
 } from "devices/harmony/feature"
 import {
   useDeviceConfigQuery,
@@ -35,7 +35,7 @@ export const useHarmonyInitializer = (device: Harmony) => {
     serialNumber: config?.serialNumber,
   })
 
-  const { isLoading: isLogsLoading } = useDetectNewCrashDumpsQuery(device)
+  const { isLoading: isLogsLoading } = useNewCrashDumpsQuery(device)
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {

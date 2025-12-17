@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface DetectNewCrashDumpsData {
+export interface CrashDumpsData {
   newCrashDumpExists: boolean
   crashDumps: string[]
 }

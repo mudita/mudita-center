@@ -4,7 +4,7 @@
  */
 
 import {
-  DetectNewCrashDumpsData,
+  CrashDumpsData,
   Harmony,
   HarmonyLogsFileList,
   HarmonyLogsResponse,
@@ -16,7 +16,7 @@ import { getIgnoredCrashDumpsLocation } from "./crash-dumps.helpers"
 
 export const detectNewCrashDumps = async (
   device?: Harmony
-): Promise<AppResult<DetectNewCrashDumpsData>> => {
+): Promise<AppResult<CrashDumpsData>> => {
   if (!device) {
     throw new Error("No device provided for detectNewCrashDumps")
   }

@@ -6,7 +6,7 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { AppResultFactory } from "app-utils/models"
-import { DetectNewCrashDumpsData, Harmony } from "devices/harmony/models"
+import { CrashDumpsData, Harmony } from "devices/harmony/models"
 import { IconType } from "app-theme/models"
 import { defineMessages } from "app-localize/utils"
 import {
@@ -15,7 +15,7 @@ import {
 } from "contact-support/ui"
 import {
   updateIgnoredCrashDumps,
-  useDetectNewCrashDumpsQuery,
+  useNewCrashDumpsQuery,
 } from "devices/harmony/feature"
 import { useActiveDeviceQuery } from "devices/common/feature"
 import { useCreateTicket } from "contact-support/feature"
@@ -33,8 +33,8 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
   const queryClient = useQueryClient()
   const { data: activeDevice } = useActiveDeviceQuery<Harmony>()
 
-  const crashDumpsData = queryClient.getQueryData<DetectNewCrashDumpsData>(
-    useDetectNewCrashDumpsQuery.queryKey(activeDevice?.path)
+  const crashDumpsData = queryClient.getQueryData<CrashDumpsData>(
+    useNewCrashDumpsQuery.queryKey(activeDevice?.path)
   )
   const { mutateAsync: createTicketMutateAsync, reset: createTicketReset } =
     useCreateTicket()
