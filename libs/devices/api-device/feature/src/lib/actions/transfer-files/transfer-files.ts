@@ -190,13 +190,14 @@ const buildResultFromFailed = (
   result?: AppResult
 ): ExecuteTransferResult => {
   const allFailed = failed.length === allFiles.length
+  const data = result?.data ?? {}
 
   if (failed.length === 0) {
-    return AppResultFactory.success({})
+    return AppResultFactory.success(data)
   }
 
   if (!allFailed) {
-    return AppResultFactory.success({ failed })
+    return AppResultFactory.success({ ...data, failed })
   }
 
   return AppResultFactory.failed(

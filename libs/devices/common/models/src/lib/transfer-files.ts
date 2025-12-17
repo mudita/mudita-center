@@ -106,3 +106,38 @@ export interface TransferFilesParams<DeviceType = ApiDevice | Harmony> {
 }
 
 export type TransferFilesTypes = `${TransferMode}:${TransferFilesActionType}`
+
+export interface TransferDownloadFilesToMemoryEntry extends TransferFileEntry {
+  source: { type: "path"; path: string; fileSize: number }
+  target: { type: "memory"; path: string }
+}
+
+export interface TransferDownloadFilesToMemoryParams
+  extends ExecuteTransferParams<ApiDevice> {
+  files: TransferDownloadFilesToMemoryEntry[]
+}
+
+export interface TransferDownloadFilesToLocationEntry
+  extends TransferFileEntry {
+  source: { type: "path"; path: string; fileSize: number }
+  target: { type: "path"; path: string }
+}
+
+export interface TransferDownloadFilesToLocationParams
+  extends ExecuteTransferParams<ApiDevice> {
+  files: TransferDownloadFilesToLocationEntry[]
+}
+
+export const isTransferDownloadFilesToMemoryParams = (
+  params: ExecuteTransferParams<ApiDevice>
+): params is TransferDownloadFilesToMemoryParams => {
+  const first = params.files?.[0]
+  return first?.source?.type === "path" && first?.target?.type === "memory"
+}
+
+export const isTransferDownloadFilesToLocationParams = (
+  params: ExecuteTransferParams<ApiDevice>
+): params is TransferDownloadFilesToLocationParams => {
+  const first = params.files?.[0]
+  return first?.source.type === "path" && first?.target.type === "path"
+}

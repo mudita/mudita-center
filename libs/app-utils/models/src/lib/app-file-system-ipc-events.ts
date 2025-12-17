@@ -17,4 +17,5 @@ export enum AppFileSystemIpcEvents {
   WriteFileChunk = "appFileSystem:writeFileChunk",
   Extract = "appFileSystem:extract",
   OpenDirectory = "appFileSystem:openDirectory",
+  GetPath = "appFileSystem:getPath",
 }
