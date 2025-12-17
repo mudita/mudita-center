@@ -4,10 +4,9 @@
  */
 
 import { FunctionComponent } from "react"
-import { defineMessages } from "react-intl"
 import { FieldValues, useForm } from "react-hook-form"
 import styled from "styled-components"
-import { formatMessage } from "app-localize/utils"
+import { formatMessage, Messages } from "app-localize/utils"
 import { Button, Modal, TextInput, Typography } from "app-theme/ui"
 import {
   ButtonSize,
@@ -25,36 +24,12 @@ import {
 import { ContactSupportInputLabel } from "./contact-support-input-label"
 import { ContactSupportFileList } from "./contact-support-file-list"
 import { contactSupportEmailValidator } from "./contact-support-form-validators"
+import { contactSupportMessages } from "./contact-support.messages"
 
-const messages = defineMessages({
-  buttonText: {
-    id: "general.contactSupport.formModal.buttonText",
-  },
-  title: {
-    id: "general.contactSupport.formModal.title",
-  },
-  description: {
-    id: "general.contactSupport.formModal.description",
-  },
-  emailLabel: {
-    id: "general.contactSupport.formModal.emailLabel",
-  },
-  emailPlaceholder: {
-    id: "general.contactSupport.formModal.emailPlaceholder",
-  },
-  messageLabel: {
-    id: "general.contactSupport.formModal.messageLabel",
-  },
-  descriptionPlaceholder: {
-    id: "general.contactSupport.formModal.descriptionPlaceholder",
-  },
-  filesLabel: {
-    id: "general.contactSupport.formModal.filesLabel",
-  },
-  filesLabelDescription: {
-    id: "general.contactSupport.formModal.filesLabelDescription",
-  },
-})
+export interface ContactSupportFormModalMessages {
+  formModalTitle: Messages
+  formModalDescription: Messages
+}
 
 enum FieldKeys {
   Email = "email",
@@ -68,16 +43,25 @@ export interface ContactSupportFieldValues
   [FieldKeys.Description]: string
 }
 
-interface ContactSupportModalProps {
+export interface ContactSupportModalProps {
   opened: boolean
   files: { name: string }[]
   onSubmit: (data: ContactSupportFieldValues) => void
   onClose: VoidFunction
+  formIcon?: IconType
+  messages?: ContactSupportFormModalMessages
 }
 
 export const ContactSupportFormModal: FunctionComponent<
   ContactSupportModalProps
-> = ({ files = [], onSubmit, onClose, opened }) => {
+> = ({
+  files = [],
+  onSubmit,
+  onClose,
+  opened,
+  formIcon = IconType.Support,
+  messages = contactSupportMessages,
+}) => {
   const {
     register,
     reset,
@@ -107,30 +91,32 @@ export const ContactSupportFormModal: FunctionComponent<
       size={ModalSize.Medium}
       customStyles={{ maxHeight: "66rem", width: "56.6rem" }}
     >
-      <Modal.TitleIcon type={IconType.Support} />
-      <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
+      <Modal.TitleIcon type={formIcon} />
+      <Modal.Title>{formatMessage(messages.formModalTitle)}</Modal.Title>
       <Modal.CloseButton onClick={handleCloseModal} />
       <Modal.ScrollableContent>
         <Typography.P1 data-testid={ContactSupportTestIds.FormModalDescription}>
-          {formatMessage(messages.description)}
+          {formatMessage(messages.formModalDescription)}
         </Typography.P1>
         <form onSubmit={submitForm}>
           <InputLabel
             data-testid={ContactSupportTestIds.FormModalEmailLabel}
-            label={messages.emailLabel}
+            label={contactSupportMessages.formModalEmailLabel}
           />
           <Input
             id="contact-support-email"
             variant={TextInputVariant.Outlined}
             type="text"
-            placeholder={formatMessage(messages.emailPlaceholder)}
+            placeholder={formatMessage(
+              contactSupportMessages.formModalEmailPlaceholder
+            )}
             data-testid={ContactSupportTestIds.FormModalEmailInput}
             error={errors.email?.message}
             {...register(FieldKeys.Email, contactSupportEmailValidator)}
           />
           <InputLabel
             data-testid={ContactSupportTestIds.FormModalDescriptionLabel}
-            label={messages.messageLabel}
+            label={contactSupportMessages.formModalMessageLabel}
             optional={true}
           />
           <Input
@@ -138,19 +124,23 @@ export const ContactSupportFormModal: FunctionComponent<
             variant={TextInputVariant.Outlined}
             type="textarea"
             rows={3}
-            placeholder={formatMessage(messages.descriptionPlaceholder)}
+            placeholder={formatMessage(
+              contactSupportMessages.formModalDescriptionPlaceholder
+            )}
             data-testid={ContactSupportTestIds.FormModalDescriptionInput}
             {...register(FieldKeys.Description)}
           />
           <InputLabel
             data-testid={ContactSupportTestIds.FormModalFileListLabel}
-            label={messages.filesLabel}
+            label={contactSupportMessages.formModalFilesLabel}
           />
           <FilesLabelDescription
             data-testid={ContactSupportTestIds.FormModalFileListDescription}
             textAlign={TypographyAlign.Left}
           >
-            {formatMessage(messages.filesLabelDescription)}
+            {formatMessage(
+              contactSupportMessages.formModalFilesLabelDescription
+            )}
           </FilesLabelDescription>
           <ContactSupportFileList
             files={files}
@@ -164,7 +154,7 @@ export const ContactSupportFormModal: FunctionComponent<
               data-testid={ContactSupportTestIds.FormModalSubmitButton}
               size={ButtonSize.Large}
             >
-              {formatMessage(messages.buttonText)}
+              {formatMessage(contactSupportMessages.formModalButtonText)}
             </Button>
           </FormSendButtonWrapper>
         </form>

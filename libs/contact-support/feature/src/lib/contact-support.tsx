@@ -5,39 +5,32 @@
 
 import { FunctionComponent, useCallback } from "react"
 import { useSelector } from "react-redux"
-import { format } from "date-fns"
 import {
-  ContactSupportErrorModal,
   ContactSupportFieldValues,
-  ContactSupportFormModal,
-  ContactSupportSendingModal,
-  ContactSupportSuccessModal,
+  ContactSupportFlow,
 } from "contact-support/ui"
+import { AppResultFactory } from "app-utils/models"
 import { useAppDispatch } from "app-store/utils"
 import { selectContactSupportModalVisible } from "./store/contact-support.selectors"
 import { useCreateTicket } from "./use-contact-support"
 import { setContactSupportModalVisible } from "./store/contact-support.actions"
 
-const todayFormatDate = format(new Date(), "dd-MM-yy")
-const zippedLogsFileName = `${todayFormatDate} Mudita Center.zip`
-
 export const ContactSupport: FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const modalVisible = useSelector(selectContactSupportModalVisible)
-  const {
-    mutate: createTicketMutate,
-    reset: createTicketReset,
-    isPending,
-    isSuccess,
-    isError,
-    isIdle,
-  } = useCreateTicket()
+  const { mutateAsync: createTicketMutateAsync, reset: createTicketReset } =
+    useCreateTicket()
 
-  const handleFormModalSubmit = useCallback(
-    (data: ContactSupportFieldValues) => {
-      createTicketMutate(data)
+  const createTicket = useCallback(
+    async (data: ContactSupportFieldValues) => {
+      try {
+        await createTicketMutateAsync(data)
+        return AppResultFactory.success()
+      } catch {
+        return AppResultFactory.failed()
+      }
     },
-    [createTicketMutate]
+    [createTicketMutateAsync]
   )
 
   const hideModalVisible = useCallback(() => {
@@ -50,20 +43,10 @@ export const ContactSupport: FunctionComponent = () => {
   }
 
   return (
-    <>
-      <ContactSupportFormModal
-        opened={isIdle}
-        files={[{ name: zippedLogsFileName }]}
-        onSubmit={handleFormModalSubmit}
-        onClose={hideModalVisible}
-      />
-      <ContactSupportSendingModal opened={isPending} />
-
-      <ContactSupportSuccessModal
-        opened={isSuccess}
-        onClose={hideModalVisible}
-      />
-      <ContactSupportErrorModal opened={isError} onClose={hideModalVisible} />
-    </>
+    <ContactSupportFlow
+      onClose={hideModalVisible}
+      opened={modalVisible}
+      createTicket={createTicket}
+    />
   )
 }
