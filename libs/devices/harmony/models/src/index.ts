@@ -4,6 +4,7 @@
  */
 
 export * from "./lib/harmony"
+export * from "./lib/harmony-crash-dumps"
 export * from "./lib/harmony-endpoints"
 export * from "./lib/harmony-error-type"
 export * from "./lib/harmony-paths"

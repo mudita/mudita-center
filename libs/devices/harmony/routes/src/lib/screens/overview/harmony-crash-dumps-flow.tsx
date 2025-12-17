@@ -6,14 +6,17 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { AppResultFactory } from "app-utils/models"
-import { Harmony } from "devices/harmony/models"
+import { DetectNewCrashDumpsData, Harmony } from "devices/harmony/models"
 import { IconType } from "app-theme/models"
 import { defineMessages } from "app-localize/utils"
 import {
   ContactSupportFieldValues,
   ContactSupportFlow,
 } from "contact-support/ui"
-import { useDetectNewCrashDumpsQuery } from "devices/harmony/feature"
+import {
+  updateIgnoredCrashDumps,
+  useDetectNewCrashDumpsQuery,
+} from "devices/harmony/feature"
 import { useActiveDeviceQuery } from "devices/common/feature"
 import { useCreateTicket } from "contact-support/feature"
 
@@ -30,7 +33,7 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
   const queryClient = useQueryClient()
   const { data: activeDevice } = useActiveDeviceQuery<Harmony>()
 
-  const crashDumpExists: boolean | undefined = queryClient.getQueryData(
+  const crashDumpsData = queryClient.getQueryData<DetectNewCrashDumpsData>(
     useDetectNewCrashDumpsQuery.queryKey(activeDevice?.path)
   )
   const { mutateAsync: createTicketMutateAsync, reset: createTicketReset } =
@@ -39,10 +42,13 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
   const [crashDumpsFlowOpened, setCrashDumpsFlowOpened] = useState<boolean>()
 
   useEffect(() => {
-    if (crashDumpsFlowOpened === undefined && !!crashDumpExists) {
+    if (
+      crashDumpsFlowOpened === undefined &&
+      !!crashDumpsData?.newCrashDumpExists
+    ) {
       setCrashDumpsFlowOpened(true)
     }
-  }, [crashDumpExists, crashDumpsFlowOpened])
+  }, [crashDumpsData, crashDumpsFlowOpened])
 
   const createTicket = useCallback(
     async (data: ContactSupportFieldValues) => {
@@ -59,7 +65,9 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
   const onClose = useCallback(() => {
     setCrashDumpsFlowOpened(false)
     createTicketReset()
-  }, [createTicketReset])
+    crashDumpsData &&
+      updateIgnoredCrashDumps(crashDumpsData.crashDumps, activeDevice)
+  }, [createTicketReset, crashDumpsData, activeDevice])
 
   return (
     <ContactSupportFlow

@@ -4,43 +4,25 @@
  */
 
 import {
+  DetectNewCrashDumpsData,
   Harmony,
   HarmonyLogsFileList,
   HarmonyLogsResponse,
 } from "devices/harmony/models"
-import { AppFileSystemGuardOptions, AppResultFactory } from "app-utils/models"
+import { AppResult, AppResultFactory } from "app-utils/models"
 import { AppFileSystem } from "app-utils/renderer"
 import { getHarmonyLogs } from "../api/get-harmony-logs"
+import { getIgnoredCrashDumpsLocation } from "./crash-dumps.helpers"
 
-const getIgnoredCrashDumpsLocationDir = (
-  deviceId: string
-): AppFileSystemGuardOptions => {
-  return {
-    scopeRelativePath: ["crash-dumps", "harmony", deviceId],
-    scope: "userData",
-  }
-}
-
-const getIgnoredCrashDumpsLocation = (
-  deviceId: string
-): AppFileSystemGuardOptions => {
-  const dir = getIgnoredCrashDumpsLocationDir(deviceId)
-  return {
-    ...dir,
-    scopeRelativePath: [
-      ...(dir.scopeRelativePath as string[]),
-      "ignored-crash-dumps.json",
-    ],
-  }
-}
-
-export const detectNewCrashDumps = async (device?: Harmony) => {
+export const detectNewCrashDumps = async (
+  device?: Harmony
+): Promise<AppResult<DetectNewCrashDumpsData>> => {
   if (!device) {
     throw new Error("No device provided for detectNewCrashDumps")
   }
 
   const deviceId = device.serialNumber || "unknown-device"
-  const ignoredCrashDumpsDir = getIgnoredCrashDumpsLocationDir(deviceId)
+
   const ignoredCrashDumpsLocation = getIgnoredCrashDumpsLocation(deviceId)
 
   const readFileResult = await AppFileSystem.readFile(ignoredCrashDumpsLocation)
@@ -58,7 +40,6 @@ export const detectNewCrashDumps = async (device?: Harmony) => {
 
   const response = await getHarmonyLogs(device, {
     fileList: HarmonyLogsFileList.CrashDumps,
-    // fileList: HarmonyLogsFileList.SystemLogs,
   })
 
   if (!response.ok) {
@@ -67,20 +48,9 @@ export const detectNewCrashDumps = async (device?: Harmony) => {
 
   const crashDumps = (response.body as HarmonyLogsResponse)?.files || []
 
-  await AppFileSystem.mkdir({
-    ...ignoredCrashDumpsDir,
-    options: { recursive: true },
-  })
-
-  await AppFileSystem.writeFile({
-    ...ignoredCrashDumpsLocation,
-    data: { crashDumps },
-    options: { writeAsJson: true },
-  })
-
   const newCrashDumpExists = crashDumps.some((crashDump) => {
     return !currentIgnoredCrashDumps.includes(crashDump)
   })
 
-  return AppResultFactory.success(newCrashDumpExists)
+  return AppResultFactory.success({ newCrashDumpExists, crashDumps })
 }

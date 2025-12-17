@@ -4,11 +4,11 @@
  */
 
 import { useQuery } from "@tanstack/react-query"
-import { Harmony } from "devices/harmony/models"
+import { DetectNewCrashDumpsData, Harmony } from "devices/harmony/models"
 import { detectNewCrashDumps } from "../actions/detect-new-crash-dumps"
 import { harmonyQueryKeys } from "./harmony-query-keys"
 
-const queryFn = async (device?: Harmony) => {
+const queryFn = async (device?: Harmony): Promise<DetectNewCrashDumpsData> => {
   if (!device) {
     throw new Error("No device provided for useDetectNewCrashDumpsQuery")
   }
@@ -27,6 +27,7 @@ export const useDetectNewCrashDumpsQuery = (device?: Harmony) => {
     queryKey: useDetectNewCrashDumpsQuery.queryKey(device?.path),
     enabled: !!device,
     queryFn: () => queryFn(device),
+    staleTime: 0,
   })
 }
 
