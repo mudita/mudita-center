@@ -32,7 +32,7 @@ export const mapVCard40Contact = (
         ?.map((t) => {
           const type = [
             ...intersection(
-              t.parameters.TYPE?.map((t) => t.toUpperCase()),
+              t.parameters.TYPE?.map((t) => t.toLowerCase()),
               Object.values(PhoneNumberType)
             ),
             PhoneNumberType.Other,
@@ -50,7 +50,7 @@ export const mapVCard40Contact = (
         ?.map((e) => {
           const type = [
             ...intersection(
-              e.parameters.TYPE?.map((t) => t.toUpperCase()),
+              e.parameters.TYPE?.map((t) => t.toLowerCase()),
               Object.values(EmailAddressType)
             ),
             EmailAddressType.Other,
@@ -68,7 +68,7 @@ export const mapVCard40Contact = (
         ?.map((a) => {
           const type = [
             ...intersection(
-              a.parameters.TYPE?.map((t) => t.toUpperCase()),
+              a.parameters.TYPE?.map((t) => t.toLowerCase()),
               Object.values(AddressType)
             ),
             AddressType.Other,
@@ -112,7 +112,7 @@ export const mapVCard40Contact = (
         .map((u) => {
           const type = [
             ...intersection(
-              u.parameters.TYPE?.map((t) => t.toUpperCase()),
+              u.parameters.TYPE?.map((t) => t.toLowerCase()),
               Object.values(UrlType)
             ),
             UrlType.Other,

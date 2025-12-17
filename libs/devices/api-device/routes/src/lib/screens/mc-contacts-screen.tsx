@@ -226,7 +226,7 @@ export const McContactsScreen: FunctionComponent = () => {
       const duplicates = detectContactsDuplicates(newContacts)
 
       return {
-        duplicatesCount: duplicates.size,
+        duplicatesCount: duplicates.length,
       }
     },
     [device, queryClient, refetch]

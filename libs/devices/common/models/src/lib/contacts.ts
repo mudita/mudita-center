@@ -4,10 +4,10 @@
  */
 
 export enum PhoneNumberType {
-  Mobile = "MOBILE",
-  Home = "HOME",
-  Work = "WORK",
-  Other = "OTHER",
+  Mobile = "mobile",
+  Home = "home",
+  Work = "work",
+  Other = "other",
 }
 
 export interface PhoneNumber {
@@ -18,9 +18,9 @@ export interface PhoneNumber {
 }
 
 export enum EmailAddressType {
-  Home = "HOME",
-  Work = "WORK",
-  Other = "OTHER",
+  Home = "home",
+  Work = "work",
+  Other = "other",
 }
 
 interface EmailAddress {
@@ -30,9 +30,9 @@ interface EmailAddress {
 }
 
 export enum AddressType {
-  Home = "HOME",
-  Work = "WORK",
-  Other = "OTHER",
+  Home = "home",
+  Work = "work",
+  Other = "other",
 }
 
 export enum UrlType {
@@ -61,8 +61,10 @@ export enum ContactSource {
   // MigratedFromPure = "MC Pure Migration", // migrated from Pure
 }
 
+export type ContactId = string
+
 export interface Contact {
-  contactId: string
+  contactId: ContactId
   firstName?: string
   lastName?: string
   namePrefix?: string
@@ -103,6 +105,7 @@ export type ContactToImportAsEntity = Omit<
   | "phoneNumbers"
   | "emailAddresses"
 > & {
+  contactId?: ContactId
   phoneNumbers: Omit<PhoneNumber, "id" | "unifiedPhoneNumber">[]
   emailAddresses: Omit<EmailAddress, "id">[]
 }
@@ -150,4 +153,9 @@ export type ContactToImportAsFile = {
   note?: string
   sip?: string
   importSource?: ContactSource
+}
+
+export interface DuplicateContactsGroup {
+  toKeep: Contact
+  toMerge: Contact[]
 }
