@@ -29,7 +29,7 @@ export type HarmonyMscResponse<
       body: HarmonyMscResponseBody<E, M>
     }
   | {
-      status: number // TODO
+      status: number
       endpoint: E
       body?: unknown
     }

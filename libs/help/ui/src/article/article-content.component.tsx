@@ -11,24 +11,20 @@ import {
 } from "@contentful/rich-text-react-renderer"
 import { BLOCKS, Document, INLINES, MARKS } from "@contentful/rich-text-types"
 import { NavLink } from "react-router"
-import { HelpArticle, HelpTestId, HelpPaths } from "help/models"
+import { HelpArticle, HelpPaths, HelpTestId } from "help/models"
 import { Button, Typography } from "app-theme/ui"
 import { ButtonSize, ButtonTextModifier, ButtonType } from "app-theme/models"
 
 interface ArticleContentProps {
   article: HelpArticle | undefined
+  onContactSupport: VoidFunction
 }
 
 export const ArticleContent: FunctionComponent<ArticleContentProps> = ({
   article,
+  onContactSupport,
 }) => {
   const blocks = splitContentToBlocks(article!.content as Document)
-
-  // TODO: will be added later
-  const openContactSupportFlow = () => {
-    console.log("Open Contact Support")
-    // return dispatch(showModal(ModalStateKey.ContactSupportFlow))
-  }
 
   const options: Options = {
     renderNode: {
@@ -67,7 +63,7 @@ export const ArticleContent: FunctionComponent<ArticleContentProps> = ({
         }
         return (
           <Button
-            onClick={openContactSupportFlow}
+            onClick={onContactSupport}
             type={ButtonType.Text}
             size={ButtonSize.AutoMin}
             modifiers={[ButtonTextModifier.Link, ButtonTextModifier.Inline]}
@@ -165,6 +161,7 @@ const Article = styled.article`
   ul {
     margin: 0 0 1em;
     padding-left: 1.8rem;
+
     ol,
     ul {
       padding-left: 2.5rem;

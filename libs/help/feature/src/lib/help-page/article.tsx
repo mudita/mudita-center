@@ -3,17 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Article } from "help/ui"
-import { FunctionComponent } from "react"
+import { FunctionComponent, useCallback } from "react"
 import { useSelector } from "react-redux"
+import { AnalyticsEventCategory } from "app-utils/models"
+import { useTrack } from "app-utils/renderer"
+import { useAppDispatch } from "app-store/utils"
+import { setContactSupportModalVisible } from "contact-support/feature"
+import { Article } from "help/ui"
 import {
   selectHelpArticles,
   selectRatedArticles,
 } from "../store/help.selectors"
-import { useAppDispatch } from "app-store/utils"
-import { useTrack } from "app-utils/renderer"
 import { setArticleRated } from "../store/help.actions"
-import { AnalyticsEventCategory } from "app-utils/models"
 
 export const ArticlePage: FunctionComponent = () => {
   const articles = useSelector(selectHelpArticles)
@@ -36,11 +37,16 @@ export const ArticlePage: FunctionComponent = () => {
     dispatch(setArticleRated(articleId))
   }
 
+  const openContactSupportFlow = useCallback(() => {
+    dispatch(setContactSupportModalVisible(true))
+  }, [dispatch])
+
   return (
     <Article
       articles={articles}
       ratedArticles={ratedArticles}
       rateArticle={rateCurrentArticle}
+      onContactSupport={openContactSupportFlow}
     />
   )
 }
