@@ -19,8 +19,8 @@ export class GoogleProvider extends BaseProvider<
   private authServer: http.Server | undefined
   private serverPort = 3456
   private baseUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount`
-  private clientId = process.env.VITE_GOOGLE_AUTH_CLIENT_ID
-  private centerServerUrl = process.env.VITE_MUDITA_CENTER_SERVER_URL
+  private clientId = import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID
+  private centerServerUrl = import.meta.env.VITE_MUDITA_CENTER_SERVER_URL
   private dataEndpoints = {
     [ExternalAuthProvidersScope.Contacts]:
       "https://people.googleapis.com/v1/people/me/connections",

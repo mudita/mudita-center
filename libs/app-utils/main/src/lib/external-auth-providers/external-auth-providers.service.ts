@@ -13,6 +13,7 @@ import {
   OutlookCalendarEvent,
   OutlookContact,
 } from "app-utils/models"
+import logger from "electron-log"
 
 const providers = {
   [ExternalAuthProvider.Google]: GoogleProvider,
@@ -64,7 +65,8 @@ export class ExternalAuthProvidersService {
       return Object.fromEntries(
         scopes.map((scope, index) => [scope, data[index]])
       ) as ScopesData<P, S>
-    } catch {
+    } catch (error) {
+      logger.error(error)
       return null
     } finally {
       authProviderInstance.reset()

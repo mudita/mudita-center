@@ -18,7 +18,7 @@ export class OutlookProvider extends BaseProvider<
   private baseUrl = "https://login.microsoftonline.com/common/oauth2/v2.0"
   private redirectUrl =
     "https://login.microsoftonline.com/common/oauth2/nativeclient"
-  private clientId = process.env.VITE_MICROSOFT_AUTH_CLIENT_ID
+  private clientId = import.meta.env.VITE_MICROSOFT_AUTH_CLIENT_ID
   private dataEndpoints = {
     [ExternalAuthProvidersScope.Contacts]:
       "https://graph.microsoft.com/v1.0/me/contacts",
