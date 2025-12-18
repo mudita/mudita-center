@@ -37,10 +37,10 @@ export const AppResultFactory = {
     ErrorData = unknown,
     Fields extends Record<string, unknown> = Record<string, unknown>,
   >(
-    error: AppError<ErrorName>,
+    error?: AppError<ErrorName>,
     data?: ErrorData,
     fields: Fields = {} as Fields
   ): AppFailedResult<ErrorName, ErrorData> {
-    return { ok: false, error, data, ...fields }
+    return { ok: false, error: error ? error : new AppError(), data, ...fields }
   },
 }

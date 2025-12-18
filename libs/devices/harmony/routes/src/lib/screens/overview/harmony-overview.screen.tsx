@@ -17,6 +17,7 @@ import { HarmonyOverviewStatusSection } from "./harmony-overview-status-section"
 import { HarmonyOverviewTimeSynchronizationSection } from "./harmony-overview-time-synchronization-section"
 import { HarmonyOverviewOsSection } from "./harmony-overview-os-section"
 import { defineMessages, formatMessage } from "app-localize/utils"
+import { HarmonyCrashDumpsFlow } from "./harmony-crash-dumps-flow"
 
 const messages = defineMessages({
   pageTitle: {
@@ -108,6 +109,7 @@ export const HarmonyOverviewScreen: FunctionComponent = () => {
         serialNumber={config?.serialNumber}
         detailsSections={sections}
       />
+      <HarmonyCrashDumpsFlow />
     </>
   )
 }

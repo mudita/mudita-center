@@ -542,5 +542,7 @@
   "quotations.updateSettingsForm.interval.title": "Display a different quotation every:",
   "quotations.updateSettingsForm.saveButton": "Save changes",
   "quotations.updateSettingsForm.saveSuccess": "Changes saved ",
-  "quotations.updateSettingsForm.title": "Quotations Settings"
+  "quotations.updateSettingsForm.title": "Quotations Settings",
+  "general.crashDumps.formModal.title": "Mudita Harmony crashed",
+  "general.crashDumps.formModal.description": "Please send us logs for further inspection. Files will be uploaded automatically."
 }

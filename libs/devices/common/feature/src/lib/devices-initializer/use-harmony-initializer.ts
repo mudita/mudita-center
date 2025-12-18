@@ -8,7 +8,10 @@ import { useQueryClient } from "@tanstack/react-query"
 import { useCallback, useEffect } from "react"
 import { delay } from "app-utils/common"
 import { Harmony, HarmonyErrorType } from "devices/harmony/models"
-import { useHarmonyOsUpdateInfoQuery } from "devices/harmony/feature"
+import {
+  useHarmonyOsUpdateInfoQuery,
+  useNewCrashDumpsQuery,
+} from "devices/harmony/feature"
 import {
   useDeviceConfigQuery,
   useDeviceMenuQuery,
@@ -32,6 +35,8 @@ export const useHarmonyInitializer = (device: Harmony) => {
     serialNumber: config?.serialNumber,
   })
 
+  const { isLoading: isLogsLoading } = useNewCrashDumpsQuery(device)
+
   const setStatus = useCallback(
     (status: DeviceStatus) => {
       queryClient.setQueryData(useDeviceStatusQuery.queryKey(device.id), status)
@@ -40,10 +45,16 @@ export const useHarmonyInitializer = (device: Harmony) => {
   )
 
   const determineStatus = useCallback(async () => {
-    if (isConfigLoading || isMenuLoading || isUpdateCheckLoading) {
+    if (
+      isConfigLoading ||
+      isMenuLoading ||
+      isUpdateCheckLoading ||
+      isLogsLoading
+    ) {
       setStatus(DeviceStatus.Initializing)
       return
     }
+
     await delay(500)
 
     if (isConfigError) {
@@ -56,6 +67,7 @@ export const useHarmonyInitializer = (device: Harmony) => {
     isConfigLoading,
     isMenuLoading,
     isUpdateCheckLoading,
+    isLogsLoading,
     setStatus,
   ])
 
