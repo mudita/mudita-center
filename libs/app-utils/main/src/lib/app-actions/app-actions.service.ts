@@ -47,11 +47,12 @@ export class AppActionsService {
     })
 
     if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
-      await win.loadURL(path.join(process.env["ELECTRON_RENDERER_URL"], url))
+      await win.loadURL(`${process.env["ELECTRON_RENDERER_URL"]}/${url}`)
     } else {
-      await win.loadFile(
-        path.join(__dirname, "..", "renderer", "index.html", url)
-      )
+      const filePath = path.join(__dirname, "..", "renderer", "index.html")
+      const hash = url.startsWith("#") ? url.slice(1) : undefined
+
+      await win.loadFile(filePath, hash ? { hash } : undefined)
     }
 
     win.show()
