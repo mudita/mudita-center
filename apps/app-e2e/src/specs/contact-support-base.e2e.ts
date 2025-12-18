@@ -63,7 +63,7 @@ describe("Contact Support - Base Path", () => {
   })
 
   it("should display the Send button text", async () => {
-    await expect(ContactSupport.formModalSendButton).toHaveText("SEND")
+    await expect(ContactSupport.formModalSendButton).toHaveText("SEND MESSAGE")
   })
 
   it("should display the attached files label and description", async () => {

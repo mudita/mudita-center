@@ -45,7 +45,7 @@ export const itBehavesLikeFormModal = () => {
       const sendButton = await ContactSupport.formModalSendButton
       await expect(sendButton).toBeClickable()
       await expect(sendButton).toBeEnabled()
-      await expect(sendButton).toHaveText("SEND")
+      await expect(sendButton).toHaveText("SEND MESSAGE")
 
       await sendButton.click()
     })
