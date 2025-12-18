@@ -94,8 +94,17 @@ export const McContactsDuplicatesScreen: FunctionComponent = () => {
         device,
         entities: toUpdate.map(
           (contact): ContactToImportAsEntity & { entityId: ContactId } => {
+            const {
+              displayName1,
+              displayName2,
+              displayName3,
+              displayName4,
+              searchName,
+              sortField,
+              ...rest
+            } = contact
             return {
-              ...contact,
+              ...rest,
               entityId: contact.contactId,
               entityType: "contacts",
               phoneNumbers:

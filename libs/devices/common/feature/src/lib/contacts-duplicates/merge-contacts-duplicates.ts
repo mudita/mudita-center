@@ -11,8 +11,8 @@ import {
 import { uniqBy } from "lodash"
 
 /**
- * Merges duplicate contacts by combining phone numbers and email addresses
- * from duplicate contacts into the main contact.
+ * Merges duplicate contacts by combining data from duplicate contacts
+ * into the main contact.
  *
  * @param duplicateGroups - Array of duplicate contact groups, where each group
  * contains a contact to keep and contacts to merge into it
@@ -49,13 +49,31 @@ export const mergeContactsDuplicates = (
 const mergeTwoContacts = (main: Contact, other: Contact): Contact => {
   return {
     ...main,
+    firstName: main.firstName || other.firstName,
+    lastName: main.lastName || other.lastName,
+    middleName: main.middleName || other.middleName,
+    namePrefix: main.namePrefix || other.namePrefix,
+    nameSuffix: main.nameSuffix || other.nameSuffix,
+    nickName: main.nickName || other.nickName,
     phoneNumbers: mergePhoneNumbers(main.phoneNumbers, other.phoneNumbers),
     emailAddresses: mergeEmailAddresses(
       main.emailAddresses,
       other.emailAddresses
     ),
+    company: main.company || other.company,
+    department: main.department || other.department,
+    workTitle: main.workTitle || other.workTitle,
+    sip: main.sip || other.sip,
+    address: main.address || other.address,
+    website: main.website || other.website,
+    notes: mergeNotes(main.notes, other.notes),
+    starred: main.starred || other.starred,
+    accountName: main.accountName,
+    entityType: main.entityType,
   }
 }
+
+const MAX_ARRAY_LENGTH = 500
 
 const mergePhoneNumbers = (
   mainNumbers: Contact["phoneNumbers"] = [],
@@ -66,7 +84,7 @@ const mergePhoneNumbers = (
       (p) => p.phoneNumber && p.unifiedPhoneNumber
     ),
     "unifiedPhoneNumber"
-  )
+  ).slice(0, MAX_ARRAY_LENGTH)
 }
 
 const mergeEmailAddresses = (
@@ -76,5 +94,18 @@ const mergeEmailAddresses = (
   return uniqBy(
     [...mainEmails, ...otherEmails].filter((e) => e.emailAddress),
     "emailAddress"
-  )
+  ).slice(0, MAX_ARRAY_LENGTH)
+}
+
+const mergeNotes = (
+  mainNotes: string | undefined,
+  otherNotes: string | undefined
+): string | undefined => {
+  const MAX_NOTES_LENGTH = 5000
+
+  if (mainNotes && otherNotes && mainNotes !== otherNotes) {
+    const merged = `${mainNotes}\n\n${otherNotes}`
+    return merged.slice(0, MAX_NOTES_LENGTH)
+  }
+  return (mainNotes || otherNotes)?.slice(0, MAX_NOTES_LENGTH)
 }
