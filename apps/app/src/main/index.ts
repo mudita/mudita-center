@@ -35,7 +35,7 @@ const createWindow = () => {
         : 800,
     show: false,
     useContentSize: true,
-    autoHideMenuBar: true,
+    autoHideMenuBar: process.env.NODE_ENV !== "development",
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, "..", "preload", "index.js"),

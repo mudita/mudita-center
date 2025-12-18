@@ -14,13 +14,13 @@ const devToolsEnabled =
   process.env.NODE_ENV === "development"
 
 export class AppActionsService {
-  constructor(private appFileSystemGuard: AppFileSystemGuard) {}
-
   private readonly defaultOptions: OpenDialogOptions = {
     title: formatMessage({ id: "general.app.title" }),
     filters: [],
     properties: [],
   }
+
+  constructor(private appFileSystemGuard: AppFileSystemGuard) {}
 
   async openWindow(url: string, title: string) {
     logger.info(`Opening app window "${title}" (${url})`)
@@ -31,7 +31,7 @@ export class AppActionsService {
       height: 600,
       show: false,
       useContentSize: true,
-      autoHideMenuBar: true,
+      autoHideMenuBar: process.env.NODE_ENV !== "development",
       titleBarStyle: "default",
       titleBarOverlay: {
         color: "#FFFFFF",
