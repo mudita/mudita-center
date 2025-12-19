@@ -4,12 +4,12 @@
  */
 
 import { BrowserWindow } from "electron"
-import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions
 import { EventEmitter } from "events"
 import {
   ExternalAuthProvidersAuthorizationData,
   ExternalAuthProvidersScope,
 } from "app-utils/models"
+import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions
 
 export enum Events {
   AuthSuccess = "authSuccess",
@@ -30,7 +30,7 @@ export class BaseProvider<Contact = unknown, CalendarEvent = unknown> {
     maximizable: false,
     resizable: false,
     useContentSize: true,
-    autoHideMenuBar: true,
+    autoHideMenuBar: process.env.NODE_ENV !== "development",
     titleBarStyle: "default",
     titleBarOverlay: {
       color: "#FFFFFF",
