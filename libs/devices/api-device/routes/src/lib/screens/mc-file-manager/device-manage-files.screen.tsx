@@ -198,7 +198,6 @@ export const DeviceManageFilesScreen: FunctionComponent<{
 
     let lastTransferProgress = 0
 
-    // TODO: filePath from appToInstall [FileManagerFile]
     const filePath = `${targetDirectoryPath}${appToInstall.name}`
     const files = [{ ...appToInstall, filePath }]
 

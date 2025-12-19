@@ -25,12 +25,14 @@ interface ArticleProps {
     articleId: string
     positive: boolean
   }) => void
+  onContactSupport: VoidFunction
 }
 
 export const Article: FunctionComponent<ArticleProps> = ({
   articles,
   ratedArticles,
   rateArticle,
+  onContactSupport,
 }) => {
   const navigate = useNavigate()
   const { articleId } = useParams<{ articleId: string }>()
@@ -49,7 +51,10 @@ export const Article: FunctionComponent<ArticleProps> = ({
       <ScrollArea>
         <ArticleWrapper>
           <ArticleWarning article={article} />
-          <ArticleContent article={article} />
+          <ArticleContent
+            article={article}
+            onContactSupport={onContactSupport}
+          />
           <ArticleFeedback
             ratedArticles={ratedArticles}
             rateArticle={rateArticle}

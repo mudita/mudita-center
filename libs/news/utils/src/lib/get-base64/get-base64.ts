@@ -17,7 +17,7 @@ export const getBase64 = async (url: string): Promise<string> => {
           Buffer.from(response.data, "binary").toString("base64")
       )
   } catch {
-    // TODO: Return value to trigger placeholder gradient on image
+    // TODO: https://appnroll.atlassian.net/browse/CP-3937 - Add image placeholder fallback to News view
     return ""
   }
 }

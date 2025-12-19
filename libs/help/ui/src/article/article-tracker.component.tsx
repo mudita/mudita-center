@@ -16,7 +16,7 @@ export const ArticleTracker: FunctionComponent<ArticleTrackerProps> = ({
 }) => {
   useEffect(() => {
     if (!article) return
-    // TODO: for analitycs, will be implemented later
+    // TODO: https://appnroll.atlassian.net/browse/CP-3939 - migrate ALL events from the old project
     // const startTime = Date.now()
 
     return () => {

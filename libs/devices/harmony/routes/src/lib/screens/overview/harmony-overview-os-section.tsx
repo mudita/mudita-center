@@ -27,6 +27,7 @@ import {
   HarmonyUpdateInstallingModal,
   HarmonyUpdateNotAvailableModal,
 } from "devices/harmony/ui"
+import { useHelpShortcut } from "help/feature"
 import { setContactSupportModalVisible } from "contact-support/feature"
 import {
   harmonyForceUpdateAvailableModalMessages,
@@ -61,6 +62,7 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
   batteryLevel,
 }) => {
   const dispatch = useAppDispatch()
+  const helpShortcut = useHelpShortcut()
   const queryClient = useQueryClient()
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(
     UpdateStatus.Idle
@@ -238,8 +240,8 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
   }, [dispatch])
 
   const handleGoToHelp = useCallback(() => {
-    // TODO: Implement navigation to help page if needed
-  }, [])
+    helpShortcut("harmony-os-update-fail")
+  }, [helpShortcut])
 
   return (
     <Wrapper>

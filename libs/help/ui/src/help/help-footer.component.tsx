@@ -35,7 +35,7 @@ export const HelpFooter: FunctionComponent<Props> = ({ onContactSupport }) => {
   const intl = useIntl()
 
   const handleContactSupport: MouseEventHandler = (e) => {
-    e.preventDefault() // TODO: handle workaround for the app reloading when clicking the button
+    e.preventDefault() // Prevent default navigation to avoid app reload on click
     onContactSupport()
   }
 

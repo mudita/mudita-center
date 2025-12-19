@@ -21,7 +21,7 @@ export interface FileManagerFileCategory {
 }
 
 export type FileManagerFile = {
-  id: string // refactor to path property?
+  id: string // TODO: https://appnroll.atlassian.net/browse/CP-3940 - Separate file identifier from path
   name: string
   type: string
   size: number
