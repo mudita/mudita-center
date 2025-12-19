@@ -149,7 +149,7 @@ export const mapCsvContacts = (csv: string): ContactToImportAsFile[] => {
         ...p,
         type: [
           ...intersection(Object.values(PhoneNumberType), [
-            p.type?.toUpperCase() || "",
+            p.type?.toLowerCase() || "",
           ]),
           PhoneNumberType.Other,
         ][0],
@@ -217,7 +217,7 @@ export const mapCsvContacts = (csv: string): ContactToImportAsFile[] => {
         ...e,
         type: [
           ...intersection(Object.values(EmailAddressType), [
-            e.type?.toUpperCase() || "",
+            e.type?.toLowerCase() || "",
           ]),
           EmailAddressType.Other,
         ][0],
@@ -378,7 +378,7 @@ export const mapCsvContacts = (csv: string): ContactToImportAsFile[] => {
         ...address,
         type: [
           ...intersection(Object.values(AddressType), [
-            address.type?.toUpperCase() || "",
+            address.type?.toLowerCase() || "",
           ]),
           AddressType.Other,
         ][0],

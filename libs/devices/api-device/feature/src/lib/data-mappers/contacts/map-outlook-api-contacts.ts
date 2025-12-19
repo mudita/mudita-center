@@ -36,9 +36,9 @@ export const mapOutlookApiContacts = (
         .map((p) => {
           const type = p.type
             ? Object.values(PhoneNumberType).includes(
-                p.type.toUpperCase() as PhoneNumberType
+                p.type.toLowerCase() as PhoneNumberType
               )
-              ? (p.type.toUpperCase() as PhoneNumberType)
+              ? (p.type.toLowerCase() as PhoneNumberType)
               : PhoneNumberType.Other
             : PhoneNumberType.Other
           return {
@@ -53,9 +53,9 @@ export const mapOutlookApiContacts = (
         .map((e) => {
           const type = e.name
             ? Object.values(EmailAddressType).includes(
-                e.name.toUpperCase() as EmailAddressType
+                e.name.toLowerCase() as EmailAddressType
               )
-              ? (e.name.toUpperCase() as EmailAddressType)
+              ? (e.name.toLowerCase() as EmailAddressType)
               : EmailAddressType.Other
             : EmailAddressType.Other
           return {

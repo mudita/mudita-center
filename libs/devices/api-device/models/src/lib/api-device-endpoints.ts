@@ -93,8 +93,12 @@ import {
   PreDataTransferPostRequestValidator,
   PreDataTransferPostResponseValidator,
 } from "./endpoints/data-transfer/data-transfer"
+import {
+  PatchEntityDataRequestValidator,
+  PatchEntityDataResponseValidator,
+} from "./endpoints/entities/entity-data-patch.validator"
 
-type Method = "GET" | "POST" | "PUT" | "DELETE"
+type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH"
 
 type EndpointsDefinition = Record<
   string,
@@ -247,6 +251,10 @@ export const ApiDeviceEndpoints = {
     POST: {
       request: PostEntityDataRequestValidator,
       response: PostEntityDataResponseValidator,
+    },
+    PATCH: {
+      request: PatchEntityDataRequestValidator,
+      response: PatchEntityDataResponseValidator,
     },
   },
   APP_INSTALL: {
