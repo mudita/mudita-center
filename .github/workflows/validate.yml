@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   validate:
-    runs-on: macOS-intel
+    runs-on: macos-m-validate
     strategy:
       matrix:
         node-version: [22.16.0]
