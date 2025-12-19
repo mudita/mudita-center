@@ -71,7 +71,7 @@ export const RestoreBackupFeaturesSelectModal: FunctionComponent<Props> = ({
                 key={feature.feature}
                 {...register("features")}
                 value={feature.feature}
-                defaultChecked={false}
+                defaultChecked={true}
               >
                 {feature.label}{" "}
                 <Typography.P1 color={"grey2"} as={"span"}>
