@@ -16,11 +16,17 @@ import { defineMessages, useIntl } from "react-intl"
 import { CategoryTabs } from "./category-tabs.components"
 import { SubcategoriesList } from "./subcategories-list.component"
 import { HelpFooter } from "./help-footer.component"
-import { Icon } from "app-theme/ui"
+import { Icon, Typography } from "app-theme/ui"
 import { Search } from "./search.component"
 import { IconSize, IconType } from "app-theme/models"
 
 const messages = defineMessages({
+  title: {
+    id: "page.help.search.title",
+  },
+  description: {
+    id: "page.help.search.description",
+  },
   selectorTitle: {
     id: "page.help.deviceSelectorTitle",
   },
@@ -44,9 +50,18 @@ export const Help: FunctionComponent<HelpProps> = ({
 }) => {
   const intl = useIntl()
   return (
-    <form>
+    <Form>
       <Wrapper>
-        <SearchWrapper>{<Search categories={categories} />}</SearchWrapper>
+        <Header>
+          <Typography.H3 data-testid={HelpTestId.MainHeader}>
+            {intl.formatMessage(messages.title)}
+          </Typography.H3>
+          <Typography.P3 data-testid={HelpTestId.MainSubheader}>
+            {intl.formatMessage(messages.description)}
+          </Typography.P3>
+        </Header>
+        <Search categories={categories} />
+        <Background />
         <ContentWrapper>
           {!categoriesList ? (
             <LoaderWrapper>
@@ -69,24 +84,44 @@ export const Help: FunctionComponent<HelpProps> = ({
         </ContentWrapper>
         <HelpFooter onContactSupport={onContactSupport} />
       </Wrapper>
-    </form>
+    </Form>
   )
-  {
-    /* </Form> */
-  }
 }
 
+const Form = styled.form`
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
 const Wrapper = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
+  z-index: 0;
 `
 
-const SearchWrapper = styled.div`
-  padding: 6.4rem 0;
+const Header = styled.header`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-top: 6.4rem;
+  gap: 2.4rem;
+  margin-bottom: -0.8rem;
+  z-index: 3;
+  background-color: ${({ theme }) => theme.app.color.white};
+`
+
+const Background = styled.div`
+  position: sticky;
+  width: 100%;
+  top: -3.1rem;
+  height: 13.6rem;
+  margin-top: -10.4rem;
+  z-index: 1;
   background-color: ${({ theme }) => theme.app.color.white};
   border-bottom: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
 `
