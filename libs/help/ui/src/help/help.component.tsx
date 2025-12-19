@@ -50,7 +50,7 @@ export const Help: FunctionComponent<HelpProps> = ({
 }) => {
   const intl = useIntl()
   return (
-    <form>
+    <Form>
       <Wrapper>
         <Header>
           <Typography.H3 data-testid={HelpTestId.MainHeader}>
@@ -84,11 +84,18 @@ export const Help: FunctionComponent<HelpProps> = ({
         </ContentWrapper>
         <HelpFooter onContactSupport={onContactSupport} />
       </Wrapper>
-    </form>
+    </Form>
   )
 }
 
+const Form = styled.form`
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
 const Wrapper = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
