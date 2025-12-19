@@ -112,6 +112,7 @@ const mapToCreateTicketRequestPayload = (
 }
 
 const saveAppDeviceLogs = async (deviceId: string, destinationPath: string) => {
+  // TODO: https://appnroll.atlassian.net/browse/CP-3941 - implement saving device logs
   logger.warn(
     `save app device logs for deviceId: ${deviceId} to path: ${destinationPath} is not implemented yet`
   )
