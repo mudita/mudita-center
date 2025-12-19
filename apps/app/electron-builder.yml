@@ -49,14 +49,24 @@ mac:
   # Both need to be restored once notarization is stable in CI.
   notarize: false
   target:
-    - dmg
-    - zip
+    - target: dmg
+      arch: universal
+    - target: zip
+      arch: universal
 linux:
   executableName: Mudita Center
   artifactName: Mudita-Center.${ext}
   category: Utility
   target:
     - AppImage
+    - tar.gz
+  extraFiles:
+    - from: ./resources/launcher.sh
+      to: launcher.sh
+    - from: ./resources/install.sh
+      to: install.sh
+    - from: ./resources/README-Linux.md
+      to: README.md
 appImage:
   license: ./resources/license_en.txt
 publish:
