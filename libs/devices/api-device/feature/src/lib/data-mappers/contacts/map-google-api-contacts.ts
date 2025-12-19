@@ -32,9 +32,9 @@ export const mapGoogleApiContacts = (
         .map((p) => {
           const type = p.type
             ? Object.values(PhoneNumberType).includes(
-                p.type.toUpperCase() as PhoneNumberType
+                p.type.toLowerCase() as PhoneNumberType
               )
-              ? (p.type.toUpperCase() as PhoneNumberType)
+              ? (p.type.toLowerCase() as PhoneNumberType)
               : PhoneNumberType.Other
             : PhoneNumberType.Other
           return {
@@ -51,9 +51,9 @@ export const mapGoogleApiContacts = (
         .map((e) => {
           const type = e.type
             ? Object.values(EmailAddressType).includes(
-                e.type.toUpperCase() as EmailAddressType
+                e.type.toLowerCase() as EmailAddressType
               )
-              ? (e.type.toUpperCase() as EmailAddressType)
+              ? (e.type.toLowerCase() as EmailAddressType)
               : EmailAddressType.Other
             : EmailAddressType.Other
           return {
@@ -79,9 +79,9 @@ export const mapGoogleApiContacts = (
         .map((a) => {
           const type = a.type
             ? Object.values(AddressType).includes(
-                a.type.toUpperCase() as AddressType
+                a.type.toLowerCase() as AddressType
               )
-              ? (a.type.toUpperCase() as AddressType)
+              ? (a.type.toLowerCase() as AddressType)
               : AddressType.Other
             : AddressType.Other
           return {
@@ -112,8 +112,8 @@ export const mapGoogleApiContacts = (
         .sort(sortByMetadataPrimary)
         .map((u) => {
           const type = u.type
-            ? Object.values(UrlType).includes(u.type.toUpperCase() as UrlType)
-              ? (u.type.toUpperCase() as UrlType)
+            ? Object.values(UrlType).includes(u.type.toLowerCase() as UrlType)
+              ? (u.type.toLowerCase() as UrlType)
               : UrlType.Other
             : UrlType.Other
           return {
