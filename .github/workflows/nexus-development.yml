@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [linux-nexus, windows-nexus, macos-nexus]
+        runner_label: [linux-nexus, windows-nexus, macos-m-nexus]
         node-version: [22.16.0]
     environment: development-next
     steps:

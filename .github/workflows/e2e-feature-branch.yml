@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [linux-e2e, windows-e2e, macos-e2e]
+        runner_label: [linux-e2e, windows-e2e, macos-m-e2e]
         node-version: [22.16.0]
     environment: development-next
     steps:
