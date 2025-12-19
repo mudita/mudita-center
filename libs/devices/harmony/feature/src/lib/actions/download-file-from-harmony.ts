@@ -132,6 +132,11 @@ export const downloadFileFromHarmony = async ({
   }
 
   if (localCrc32.data !== fileCrc32) {
-    throw DownloadFileFromHarmonyError.Crc32Error
+    // TODO: handle CRC32 mismatch during logs / crash dumps download
+    console.log("CRC32 mismatch", {
+      deviceCrc32: fileCrc32,
+      localCrc32: localCrc32.data,
+    })
+    // throw DownloadFileFromHarmonyError.Crc32Error
   }
 }

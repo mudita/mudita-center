@@ -6,20 +6,31 @@
 import { format } from "date-fns"
 import logger from "electron-log/renderer"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { AppFileSystem, AppHttp, AppLogger } from "app-utils/renderer"
+import { Device } from "devices/common/models"
 import {
-  AppError,
-  AppFileSystemGuardOptions,
-  AppHttpRequestConfig,
-} from "app-utils/models"
-import { delayUntilAtLeast } from "app-utils/common"
+  Harmony,
+  HarmonyLogsFileList,
+  HarmonyLogsResponse,
+} from "devices/harmony/models"
 import {
   CustomerSupportCreateTicketPayload,
   FreshdeskTicketDataType,
   FreshdeskTicketProduct,
 } from "contact-support/models"
+import { SerialPortDeviceType } from "app-serialport/models"
+import { AppFileSystem, AppHttp, AppLogger, AppPath } from "app-utils/renderer"
+import {
+  AppError,
+  AppFileSystemGuardOptions,
+  AppHttpRequestConfig,
+} from "app-utils/models"
+import { delayUntilAtLeast, sliceSegments } from "app-utils/common"
 import { ContactSupportFieldValues } from "contact-support/ui"
 import { getActiveDevice } from "devices/common/feature"
+import {
+  downloadFileFromHarmony,
+  getHarmonyLogs,
+} from "devices/harmony/feature"
 import { contactSupportMutationKeys } from "./contact-support-mutation-keys"
 import { contactSupportConfig } from "./contact-support-config"
 
@@ -111,15 +122,49 @@ const mapToCreateTicketRequestPayload = (
   return { data, files }
 }
 
-const saveAppDeviceLogs = async (deviceId: string, destinationPath: string) => {
-  // TODO: https://appnroll.atlassian.net/browse/CP-3941 - implement saving device logs
-  logger.warn(
-    `save app device logs for deviceId: ${deviceId} to path: ${destinationPath} is not implemented yet`
-  )
+const isHarmonyDevice = (device: Device | null): device is Harmony => {
+  return device?.deviceType === SerialPortDeviceType.Harmony
+}
+
+const saveAppDeviceLogs = async (
+  destinationPath: string,
+  device: Device | null
+) => {
+  console.log(device)
+  if (isHarmonyDevice(device)) {
+    const crashDumpsResult = await getHarmonyLogs(device, {
+      fileList: HarmonyLogsFileList.CrashDumps,
+    })
+
+    const systemLogsResult = await getHarmonyLogs(device, {
+      fileList: HarmonyLogsFileList.SystemLogs,
+    })
+
+    const crashDumpFiles: string[] =
+      (crashDumpsResult.body as HarmonyLogsResponse)?.files || []
+    const filesToDownload: string[] =
+      (systemLogsResult.body as HarmonyLogsResponse)?.files || []
+
+    for (const filePath of [...crashDumpFiles, ...filesToDownload]) {
+      const fileName = sliceSegments(filePath, -1)
+      try {
+        await downloadFileFromHarmony({
+          device,
+          fileLocation: {
+            scopeRelativePath: await AppPath.join(destinationPath, fileName),
+          },
+          targetPath: filePath,
+        })
+      } catch (error) {
+        console.log("download error", error)
+      }
+    }
+  }
 }
 
 const createTicket = async (
-  actionPayload: CustomerSupportCreateTicketPayload
+  actionPayload: CustomerSupportCreateTicketPayload,
+  device: Device | null
 ) => {
   const metaCreateTicketErrors: MetaCreateTicketError[] = []
   const todayFormatDate = format(new Date(), "yyyy-MM-dd")
@@ -145,9 +190,7 @@ const createTicket = async (
     )
   }
 
-  if (actionPayload.deviceId) {
-    await saveAppDeviceLogs(actionPayload.deviceId, tmpLogsScopeRelativePath)
-  }
+  await saveAppDeviceLogs(tmpLogsScopeRelativePath, device)
 
   const appLoggerFileName = `mc-${todayFormatDate}.txt`
   const appLoggerScopeRelativePath = `${tmpLogsScopeRelativePath}/${appLoggerFileName}`
@@ -220,7 +263,10 @@ export const useCreateTicket = () => {
         product: FreshdeskTicketProduct.None,
       }
 
-      return delayUntilAtLeast(() => createTicket(actionPayload), 500)
+      return delayUntilAtLeast(
+        () => createTicket(actionPayload, activeDevice),
+        500
+      )
     },
   })
 }
