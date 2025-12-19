@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Ref, FunctionComponent } from "react"
+import { FunctionComponent, Ref } from "react"
 import { defineMessages, useIntl } from "react-intl"
 import styled from "styled-components"
 import { HelpCategory, HelpSearchResult, HelpTestId } from "help/models"
@@ -43,11 +43,11 @@ export const SearchResults: FunctionComponent<SearchResultsProps> = ({
 
   return (
     <SearchResultsWrapper ref={ref} data-testid={HelpTestId.SearchResults}>
-      {(results?.hits.length || 0) > 0 ? (
+      {results && results.hits.length > 0 ? (
         <>
           <ListTitle>{intl.formatMessage(messages.description)}</ListTitle>
           <ResultsList>
-            {results!.hits.map((result, index) => {
+            {results.hits.map((result, index) => {
               const category = categories[result.document.categoryId]
               return (
                 <li key={result.id}>

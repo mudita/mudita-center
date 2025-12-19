@@ -4,28 +4,23 @@
  */
 
 import {
+  FunctionComponent,
+  KeyboardEvent,
   useDeferredValue,
   useEffect,
+  useMemo,
   useRef,
   useState,
-  KeyboardEvent,
-  FunctionComponent,
 } from "react"
 import { useAppNavigate } from "app-routing/utils"
 import styled, { css } from "styled-components"
-import { useIntl, defineMessages } from "react-intl"
+import { defineMessages, useIntl } from "react-intl"
 import { useHelpSearch } from "help/utils"
 import { HelpCategory, HelpTestId } from "help/models"
-import { Typography, TextInput } from "app-theme/ui"
+import { TextInput } from "app-theme/ui"
 import { SearchResults, SearchResultsWrapper } from "./search-results.component"
 
 const messages = defineMessages({
-  title: {
-    id: "page.help.search.title",
-  },
-  description: {
-    id: "page.help.search.description",
-  },
   placeholder: {
     id: "page.help.search.placeholder",
   },
@@ -44,9 +39,13 @@ export const Search: FunctionComponent<SearchProps> = ({ categories }) => {
   const navigate = useAppNavigate()
   const intl = useIntl()
 
+  const hitsIds = useMemo(() => {
+    return JSON.stringify(results?.hits.map((hit) => hit.id))
+  }, [results?.hits])
+
   useEffect(() => {
     setActiveResultIndex(0)
-  }, [JSON.stringify(results?.hits.map((hit) => hit.id))])
+  }, [hitsIds])
 
   const onArrowNavigation = (
     event: KeyboardEvent<HTMLInputElement>,
@@ -102,12 +101,6 @@ export const Search: FunctionComponent<SearchProps> = ({ categories }) => {
 
   return (
     <Wrapper>
-      <Typography.H3 data-testid={HelpTestId.MainHeader}>
-        {intl.formatMessage(messages.title)}
-      </Typography.H3>
-      <Typography.P3 data-testid={HelpTestId.MainSubheader}>
-        {intl.formatMessage(messages.description)}
-      </Typography.P3>
       <InputWrapper
         onKeyDown={handleKeyDown}
         dropdownActive={deferredSearchPhrase.length > 1}
@@ -119,9 +112,11 @@ export const Search: FunctionComponent<SearchProps> = ({ categories }) => {
           onChange={(e) => setSearch(e.target.value)}
           placeholder={intl.formatMessage(messages.placeholder)}
           data-testid={HelpTestId.SearchInput}
+          disableErrors
         />
         {deferredSearchPhrase.length > 1 && (
           <SearchResults
+            ref={searchResultsRef}
             results={results}
             phrase={deferredSearchPhrase}
             categories={categories}
@@ -135,20 +130,24 @@ export const Search: FunctionComponent<SearchProps> = ({ categories }) => {
 }
 
 const Wrapper = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${({ theme }) => theme.app.space.xl};
   width: 100%;
-  max-width: 52.2rem;
-  z-index: 2;
+  padding: 3.2rem 0;
+  background-color: ${({ theme }) => theme.app.color.white};
 `
 
 const InputWrapper = styled.div<{ dropdownActive: boolean }>`
   width: calc(100% - 8.2rem);
-  position: relative;
+  max-width: 44rem;
 
   ${SearchResultsWrapper} {
+    width: inherit;
+    max-width: inherit;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-1rem);
