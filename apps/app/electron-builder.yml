@@ -40,7 +40,7 @@ mac:
   entitlements: ./entitlements.mac.plist
 
   # == NOTARIZATION AND CODE SIGNING ==
-  # TODO: BEFORE PROD RELEASE (NOTARIZATION/STABILITY)
+  # TODO: https://appnroll.atlassian.net/browse/CP-3938 - NOTARIZATION/STABILITY
   # Re-enable notarization and code signing verification in CI.
   # Currently works locally but fails in CI (environment differences), so:
   # 1) notarize is disabled (see 'notarize: false' below)

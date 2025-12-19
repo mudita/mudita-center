@@ -113,7 +113,7 @@ jobs:
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app --publish never --output-style stream --no-cloud
       #
-      #      (see TODO: BEFORE PROD RELEASE (NOTARIZATION/STABILITY) in electron-builder.yml)
+      #      (see TODO: https://appnroll.atlassian.net/browse/CP-3938 in electron-builder.yml)
       #      - name: Verify apple sign
       #        if: matrix.runner_label == 'macos-nexus'
       #        run: |
