@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
 import { getApiMenuConfig } from "devices/api-device/feature"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
-import { ApiDeviceErrorType } from "devices/api-device/models"
+import { ApiConfig, ApiDeviceErrorType } from "devices/api-device/models"
 import { MenuGroup } from "app-routing/models"
 import { HarmonySerialPort } from "devices/harmony/adapters"
 import { getHarmonyMenu } from "devices/harmony/feature"
@@ -16,13 +16,17 @@ import { PureSerialPort } from "devices/pure/adapters"
 import { getPureMenu } from "devices/pure/feature"
 import { HarmonyMscSerialPort } from "devices/harmony-msc/adapters"
 import { getHarmonyMscMenu } from "devices/harmony-msc/feature"
+import { useDeviceConfigQuery } from "./use-device-config.query"
 
-const queryFn = async (device?: Device): Promise<MenuGroup | null> => {
+const queryFn = async (
+  device?: Device,
+  config?: unknown
+): Promise<MenuGroup | null> => {
   if (!device) {
     return null
   }
   if (ApiDeviceSerialPort.isCompatible(device)) {
-    const menu = await getApiMenuConfig(device)
+    const menu = await getApiMenuConfig(device, config as ApiConfig)
     if (menu.ok) {
       return menu.body
     } else if (menu.status === ApiDeviceErrorType.DeviceLocked) {
@@ -44,9 +48,10 @@ const queryFn = async (device?: Device): Promise<MenuGroup | null> => {
 }
 
 export const useDeviceMenuQuery = <ErrorType = Error>(device?: Device) => {
+  const { data: config } = useDeviceConfigQuery(device)
   return useQuery<MenuGroup | null, ErrorType>({
     queryKey: useDeviceMenuQuery.queryKey(device?.id),
-    queryFn: () => queryFn(device),
+    queryFn: () => queryFn(device, config),
     retry: ApiDeviceSerialPort.isCompatible(device)
       ? (failureCount, error) => {
           return error === ApiDeviceErrorType.DeviceLocked || failureCount < 3
