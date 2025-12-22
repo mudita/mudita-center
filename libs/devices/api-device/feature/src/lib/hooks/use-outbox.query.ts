@@ -16,6 +16,7 @@ import { useApiEntitiesConfigQuery } from "./use-api-entities-config.query"
 import { getEntityData } from "../api/get-entity-data"
 import { cloneDeep, uniq } from "lodash"
 import { apiDeviceQueryKeys } from "./api-device-query-keys"
+import { DevicesQueryKeys } from "devices/common/models"
 
 const OUTBOX_SKIPPED_ENTITY_TYPES: string[] = [
   "audioFiles",
@@ -149,4 +150,8 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   }, [entities, updateEntities])
 }
 
-useOutboxQuery.queryKey = (deviceId?: string) => [deviceId, "outbox"]
+useOutboxQuery.queryKey = (deviceId?: string) => [
+  DevicesQueryKeys.All,
+  deviceId,
+  "outbox",
+]
