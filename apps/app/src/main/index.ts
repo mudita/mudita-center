@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import * as electron from "electron"
 import { app, BrowserWindow, shell } from "electron"
 import * as path from "path"
 import { join } from "path"
@@ -22,7 +23,43 @@ const devToolsEnabled =
   process.env.ENABLE_DEVTOOLS === "true" ||
   process.env.NODE_ENV === "development"
 
+const centerWindow = (window: BrowserWindow) => {
+  const bounds = electron.screen.getPrimaryDisplay().bounds
+  const { width, height } = window.getBounds()
+  const x = bounds.x + (bounds.width - width) / 2
+  const y = bounds.y + (bounds.height - height) / 2
+
+  window.setPosition(Math.round(x), Math.round(y))
+}
+
 const createWindow = () => {
+  let splashStartTime: number
+
+  const splashWindow = new BrowserWindow({
+    width: 960,
+    height: 550,
+    frame: false,
+    center: true,
+    resizable: false,
+    transparent: true,
+    alwaysOnTop: true,
+  })
+  centerWindow(splashWindow)
+
+  if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
+    void splashWindow.loadURL(
+      `${process.env["ELECTRON_RENDERER_URL"]}/splash.html`
+    )
+  } else {
+    void splashWindow.loadFile(
+      path.join(__dirname, "..", "renderer", "splash.html")
+    )
+  }
+
+  splashWindow.on("ready-to-show", () => {
+    splashStartTime = Date.now()
+  })
+
   const mainWindow = new BrowserWindow({
     title: "Mudita Center",
     width:
@@ -44,6 +81,7 @@ const createWindow = () => {
       contextIsolation: true,
     },
   })
+  centerWindow(mainWindow)
 
   if (devToolsEnabled) {
     mainWindow.webContents.openDevTools()
@@ -51,8 +89,13 @@ const createWindow = () => {
 
   mockServer.start()
 
-  mainWindow.on("ready-to-show", () => {
+  mainWindow.on("ready-to-show", async () => {
     initAppLibs(mainWindow, mockServer)
+
+    // Ensure splash is visible for at least 1s
+    const splashTimeLeft = Math.max(0, 1000 - (Date.now() - splashStartTime))
+    await new Promise((resolve) => setTimeout(resolve, splashTimeLeft))
+    splashWindow.destroy()
 
     if (process.env.NODE_ENV === "development") {
       mainWindow.showInactive()
