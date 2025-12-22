@@ -34,31 +34,34 @@ const centerWindow = (window: BrowserWindow) => {
 
 const createWindow = () => {
   let splashStartTime: number
+  let splashWindow: BrowserWindow
 
-  const splashWindow = new BrowserWindow({
-    width: 960,
-    height: 550,
-    frame: false,
-    center: true,
-    resizable: false,
-    transparent: true,
-    alwaysOnTop: true,
-  })
-  centerWindow(splashWindow)
+  if (process.env.NODE_ENV !== "test") {
+    splashWindow = new BrowserWindow({
+      width: 960,
+      height: 550,
+      frame: false,
+      center: true,
+      resizable: false,
+      transparent: true,
+      alwaysOnTop: true,
+    })
+    centerWindow(splashWindow)
 
-  if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
-    void splashWindow.loadURL(
-      `${process.env["ELECTRON_RENDERER_URL"]}/splash.html`
-    )
-  } else {
-    void splashWindow.loadFile(
-      path.join(__dirname, "..", "renderer", "splash.html")
-    )
+    if (!app.isPackaged && process.env["ELECTRON_RENDERER_URL"]) {
+      void splashWindow.loadURL(
+        `${process.env["ELECTRON_RENDERER_URL"]}/splash.html`
+      )
+    } else {
+      void splashWindow.loadFile(
+        path.join(__dirname, "..", "renderer", "splash.html")
+      )
+    }
+
+    splashWindow.on("ready-to-show", () => {
+      splashStartTime = Date.now()
+    })
   }
-
-  splashWindow.on("ready-to-show", () => {
-    splashStartTime = Date.now()
-  })
 
   const mainWindow = new BrowserWindow({
     title: "Mudita Center",
@@ -92,10 +95,12 @@ const createWindow = () => {
   mainWindow.on("ready-to-show", async () => {
     initAppLibs(mainWindow, mockServer)
 
-    // Ensure splash is visible for at least 1s
-    const splashTimeLeft = Math.max(0, 1000 - (Date.now() - splashStartTime))
-    await new Promise((resolve) => setTimeout(resolve, splashTimeLeft))
-    splashWindow.destroy()
+    if (process.env.NODE_ENV !== "test") {
+      // Ensure splash is visible for at least 1s
+      const splashTimeLeft = Math.max(0, 1000 - (Date.now() - splashStartTime))
+      await new Promise((resolve) => setTimeout(resolve, splashTimeLeft))
+      splashWindow.destroy()
+    }
 
     if (process.env.NODE_ENV === "development") {
       mainWindow.showInactive()
