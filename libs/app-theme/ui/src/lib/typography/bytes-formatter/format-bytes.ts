@@ -5,8 +5,10 @@
 
 export type Bytes = number
 
+type ByteUnits = "B" | "KB" | "MB" | "GB" | "TB"
+
 export interface Options {
-  minUnit?: string
+  minUnit?: ByteUnits
 }
 
 export const formatBytes = (bytes: Bytes, options: Options = {}): string => {
