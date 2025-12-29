@@ -40,37 +40,41 @@ const mapMenuConfig = (
   return {
     index: MenuIndex.Device,
     title: menu.title,
-    items: menu.menuItems.map((item) => {
-      const submenu = item.submenu
-        ?.filter((submenu) => {
-          if (
-            item.feature === "mc-contacts" &&
-            submenu.feature === "mc-contacts-duplicates"
-          ) {
-            return showsContactsDuplicatesManager(apiVersion)
-          }
-          return true
-        })
-        .map((submenu) => ({
-          title: submenu.displayName,
-          path: `${ApiDevicePaths.Index}/${item.feature}/${submenu.feature}`,
-        }))
+    items: menu.menuItems
+      .filter((item) => {
+        return item.feature !== "mc-data-migration"
+      })
+      .map((item) => {
+        const submenu = item.submenu
+          ?.filter((submenu) => {
+            if (
+              item.feature === "mc-contacts" &&
+              submenu.feature === "mc-contacts-duplicates"
+            ) {
+              return showsContactsDuplicatesManager(apiVersion)
+            }
+            return true
+          })
+          .map((submenu) => ({
+            title: submenu.displayName,
+            path: `${ApiDevicePaths.Index}/${item.feature}/${submenu.feature}`,
+          }))
 
-      if (submenu && submenu.length === 1) {
+        if (submenu && submenu.length === 1) {
+          return {
+            title: item.displayName,
+            icon: item.icon,
+            path: submenu[0].path,
+          }
+        }
+
         return {
           title: item.displayName,
           icon: item.icon,
-          path: submenu[0].path,
+          path: `${ApiDevicePaths.Index}/${item.feature}`,
+          items: submenu,
         }
-      }
-
-      return {
-        title: item.displayName,
-        icon: item.icon,
-        path: `${ApiDevicePaths.Index}/${item.feature}`,
-        items: submenu,
-      }
-    }),
+      }),
   }
 }
 
