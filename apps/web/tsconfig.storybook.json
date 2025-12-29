@@ -3,7 +3,9 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "outDir": "",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true
   },
   "exclude": [
     "src/**/*.spec.ts",

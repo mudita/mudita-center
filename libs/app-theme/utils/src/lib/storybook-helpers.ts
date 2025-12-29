@@ -3,11 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { InputType } from "storybook/internal/csf"
 import { merge } from "lodash"
 
 export const storybookHelper = {
-  config: {} as InputType,
+  config: {},
   // Assigns control to given category in Storybook's side panel
   assignCategory(category: "Functional" | "Styles" | string) {
     merge(this.config, {
@@ -78,7 +77,7 @@ export const storybookHelper = {
   },
 
   // Merges additional configuration with previous ones and clears the config
-  apply(customConfig: InputType = {}) {
+  apply(customConfig = {}) {
     const finalConfig = merge({}, this.config, customConfig)
     this.config = {}
     return finalConfig
