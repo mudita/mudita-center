@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import * as iconv from "iconv-lite"
+import iconv from "iconv-lite"
 
 /**
  * Decodes a single-line text value based on the specified character set and encoding type.
