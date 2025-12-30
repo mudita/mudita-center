@@ -5,9 +5,9 @@
 
 import AppInitPage from "../page-objects/app-init.page"
 import { SPEC_TITLE } from "../consts/spec-title"
-import { Suite } from "@wdio/types/build/Frameworks"
+import { Frameworks } from "@wdio/types"
 
-export const passAppInit = async (suite: Suite) => {
+export const passAppInit = async (suite: Frameworks.Suite) => {
   if (suite.title.startsWith("App Init")) {
     return
   }
