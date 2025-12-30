@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useEffect, useState } from "react"
+import { FunctionComponent, useCallback, useState } from "react"
 import { formatMessage, Messages } from "app-localize/utils"
 import { IconType } from "app-theme/models"
 import {
@@ -51,13 +51,10 @@ enum AppInstallationFlowState {
 export const AppInstallationFlow: FunctionComponent<
   AppInstallationFlowProps
 > = ({ opened, onClose, messages, install }) => {
+  const [previousOpened, setPreviousOpened] = useState(opened)
   const [flowState, setFlowState] = useState<AppInstallationFlowState>()
   const [installFailedModalMessages, setInstallFailedModalMessages] =
     useState<Messages>(messages.installFailedModalErrorGlobalMessage)
-
-  useEffect(() => {
-    setFlowState(opened ? AppInstallationFlowState.ConfirmInstall : undefined)
-  }, [opened])
 
   const { runInstall, progress, currentItem } = useAppInstallationFlow({
     install,
@@ -89,6 +86,11 @@ export const AppInstallationFlow: FunctionComponent<
     setFlowState(undefined)
     onClose()
   }, [onClose])
+
+  if (previousOpened !== opened) {
+    setPreviousOpened(opened)
+    setFlowState(opened ? AppInstallationFlowState.ConfirmInstall : undefined)
+  }
 
   return (
     <>

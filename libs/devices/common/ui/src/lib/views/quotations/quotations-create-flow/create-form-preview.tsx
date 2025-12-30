@@ -44,7 +44,7 @@ export const CreateFormPreview: FunctionComponent<Props> = ({
 
   const authorLetters = useMemo(() => {
     if (!author.trim()) {
-      return <></>
+      return null
     }
     return `-${author}`
       .trim()

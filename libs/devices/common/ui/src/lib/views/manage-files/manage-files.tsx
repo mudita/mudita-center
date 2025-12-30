@@ -284,6 +284,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
           selectedIds.size > 0
         }
       >
+        {/* eslint-disable-next-line react-hooks/refs */}
         {children({
           onSelectedChange: updateSelection,
           selectedIds,

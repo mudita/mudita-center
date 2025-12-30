@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { AppActions, AppFileSystem } from "app-utils/renderer"
 import { OpenDialogOptionsLite } from "app-utils/models"
 import { FileManagerFile, FileManagerFileMap } from "devices/common/ui"
@@ -48,12 +48,9 @@ export function useManageFilesSelection(params: {
     categories[0]?.id
   )
 
-  useEffect(() => {
-    if (activeCategoryId !== undefined) {
-      return
-    }
+  if (activeCategoryId === undefined && categories.length > 0) {
     setActiveCategoryId(categories[0]?.id)
-  }, [activeCategoryId, categories])
+  }
 
   const activeFileMap = useMemo(
     () =>

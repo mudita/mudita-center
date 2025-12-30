@@ -3,13 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react"
+import { FunctionComponent, useCallback, useMemo, useState } from "react"
 import styled from "styled-components"
 import { ButtonSize, ButtonType, ModalSize } from "app-theme/models"
 import {
@@ -49,31 +43,38 @@ export const QuotationsSettingsForm: FunctionComponent<
   messages,
   onClose,
 }) => {
+  const [previousOpened, setPreviousOpened] = useState(opened)
+  const [previousSource, setPreviousSource] = useState(settings?.group)
   const [selectedSource, setSelectedSource] = useState<QuotationSettingsGroup>(
     settings?.group || DEFAULT_QUOTATION_SETTINGS.group
   )
+  const [previousInterval, setPreviousInterval] = useState(settings?.interval)
   const [selectedInterval, setSelectedInterval] =
     useState<QuotationSettingsInterval>(
       settings?.interval || DEFAULT_QUOTATION_SETTINGS.interval
     )
 
-  useEffect(() => {
-    if (!settings?.group || !settings?.interval) {
-      return
-    }
+  // Reset state when modal opens or settings change (Derived State pattern)
+  if (
+    previousOpened !== opened ||
+    previousSource !== settings?.group ||
+    previousInterval !== settings?.interval
+  ) {
+    setPreviousOpened(opened)
+    setPreviousSource(settings?.group)
+    setPreviousInterval(settings?.interval)
 
-    setSelectedSource(settings.group)
-    setSelectedInterval(settings.interval)
-  }, [settings?.group, settings?.interval])
-
-  useEffect(() => {
-    if (opened) {
+    if (
+      opened ||
+      settings?.group !== previousSource ||
+      settings?.interval !== previousInterval
+    ) {
       setSelectedSource(settings?.group || DEFAULT_QUOTATION_SETTINGS.group)
       setSelectedInterval(
         settings?.interval || DEFAULT_QUOTATION_SETTINGS.interval
       )
     }
-  }, [opened, settings?.group, settings?.interval])
+  }
 
   const hasChanges = useMemo(() => {
     if (!settings?.group || !settings?.interval) {

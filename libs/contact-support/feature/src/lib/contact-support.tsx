@@ -38,10 +38,6 @@ export const ContactSupport: FunctionComponent = () => {
     createTicketReset()
   }, [dispatch, createTicketReset])
 
-  if (!modalVisible) {
-    return null
-  }
-
   return (
     <ContactSupportFlow
       onClose={hideModalVisible}

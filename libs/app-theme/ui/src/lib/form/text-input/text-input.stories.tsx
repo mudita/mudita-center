@@ -375,52 +375,53 @@ export const WithSearchType: Story = {
       },
       source: {
         code:
-          "const items = Array.from({ length: 1000 }, (_, i) => `Item ${i + 1}`)\n" +
-          'const [value, setValue] = useState("")\n' +
-          "\n" +
-          "const filteredItems = useMemo(() => {\n" +
-          '  if (value === "") return []\n' +
-          "  return items.filter((item) =>\n" +
-          "    item.toLowerCase().includes(value.toLowerCase())\n" +
-          "  )\n" +
-          "}, [items, value])\n" +
-          "\n" +
-          "const dropdown = useMemo(() => {\n" +
-          "  return (\n" +
-          '    <TextInput.Dropdown style={{ maxHeight: "20rem" }}>\n' +
-          "      {value.length > 0 && filteredItems.length === 0 ? (\n" +
-          "        <TextInput.Dropdown.EmptyState />\n" +
-          "      ) : (\n" +
-          "        <>\n" +
-          "          {filteredItems.length > 0 && (\n" +
-          '            <em style={{ padding: "1rem 2rem" }}>\n' +
-          '              Found {filteredItems.length} results for "{value}"\n' +
-          "            </em>\n" +
-          "          )}\n" +
-          '          <div style={{ overflow: "auto", flex: 1 }}>\n' +
-          "            {filteredItems.map((item) => (\n" +
-          "              <TextInput.Dropdown.Item\n" +
-          "                key={item}\n" +
-          "                onClick={action(`${item} clicked`)}\n" +
-          '                style={{ padding: "1rem 2rem" }}\n' +
-          "              >\n" +
-          "                {item}\n" +
-          "              </TextInput.Dropdown.Item>\n" +
-          "            ))}\n" +
-          "          </div>\n" +
-          "        </>\n" +
-          "      )}\n" +
-          "    </TextInput.Dropdown>\n" +
-          "  )\n" +
-          "}, [value, filteredItems])\n\n" +
-          "return (\n" +
-          "  <TextInput\n" +
-          '    type={"search"}\n' +
-          "    dropdown={dropdown}\n" +
-          "    onChange={(e) => setValue(e.target.value)}\n" +
-          '    placeholder={"Type number 1 - 1000"}\n' +
-          "  />\n" +
-          ")",
+          `const items = Array.from({ length: 1000 }, (_, i) => \`Item $\{i + 1}\`)
+const [value, setValue] = useState("")
+
+const filteredItems = useMemo(() => {
+  if (value === "") return []
+  return items.filter((item) =>
+    item.toLowerCase().includes(value.toLowerCase())
+  )
+}, [items, value])
+
+const dropdown = useMemo(() => {
+  return (
+    <TextInput.Dropdown style={{ maxHeight: "20rem" }}>
+      {value.length > 0 && filteredItems.length === 0 ? (
+        <TextInput.Dropdown.EmptyState />
+      ) : (
+        <>
+          {filteredItems.length > 0 && (
+            <em style={{ padding: "1rem 2rem" }}>
+              Found {filteredItems.length} results for "{value}"
+            </em>
+          )}
+          <div style={{ overflow: "auto", flex: 1 }}>
+            {filteredItems.map((item) => (
+              <TextInput.Dropdown.Item
+                key={item}
+                onClick={action(\`$\{item} clicked\`)}
+                style={{ padding: "1rem 2rem" }}
+              >
+                {item}
+              </TextInput.Dropdown.Item>
+            ))}
+          </div>
+        </>
+      )}
+    </TextInput.Dropdown>
+  )
+}, [value, filteredItems])
+
+return (
+  <TextInput
+    type={"search"}
+    dropdown={dropdown}
+    onChange={(e) => setValue(e.target.value)}
+    placeholder={"Type number 1 - 1000"}
+  />
+)`,
       },
     },
   },

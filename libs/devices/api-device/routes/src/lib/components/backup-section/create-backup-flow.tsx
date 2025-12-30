@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useEffect, useState } from "react"
+import { FunctionComponent, useCallback, useState } from "react"
 import {
   CreateBackupCancelledModal,
   CreateBackupCancellingModal,
@@ -48,6 +48,7 @@ export const CreateBackupFlow: FunctionComponent<Props> = ({
   onFinished,
 }) => {
   const [step, setStep] = useState(active ? Step.Intro : Step.Idle)
+  const [previousActive, setPreviousActive] = useState(active)
   const { data: activeDevice } = useActiveDeviceQuery<ApiDevice>()
 
   const onSuccess = useCallback(() => {
@@ -100,13 +101,10 @@ export const CreateBackupFlow: FunctionComponent<Props> = ({
     await AppFileSystem.openDirectory({ path: backupDirectoryPath })
   }, [backupDirectoryPath])
 
-  useEffect(() => {
-    if (active) {
-      setStep(Step.Intro)
-    } else {
-      setStep(Step.Idle)
-    }
-  }, [active])
+  if (previousActive !== active) {
+    setPreviousActive(active)
+    setStep(active ? Step.Intro : Step.Idle)
+  }
 
   return (
     <>

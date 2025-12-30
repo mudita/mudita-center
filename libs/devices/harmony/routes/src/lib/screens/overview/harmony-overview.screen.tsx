@@ -47,9 +47,9 @@ export const HarmonyOverviewScreen: FunctionComponent = () => {
       ? DeviceImageType.Harmony2
       : DeviceImageType.Harmony1
 
-  const statusSection: OverviewDetailsSection = useMemo(() => {
+  const statusSection: OverviewDetailsSection | null = useMemo(() => {
     if (config?.batteryLevel === undefined) {
-      return
+      return null
     }
     return {
       title: formatMessage(messages.statusTitle),
@@ -57,11 +57,11 @@ export const HarmonyOverviewScreen: FunctionComponent = () => {
         <HarmonyOverviewStatusSection batteryLevel={config.batteryLevel} />
       ),
     }
-  }, [config?.batteryLevel])
+  }, [config])
 
-  const osSection: OverviewDetailsSection = useMemo(() => {
+  const osSection: OverviewDetailsSection | null = useMemo(() => {
     if (!config?.version || !activeDevice) {
-      return
+      return null
     }
     return {
       title: formatMessage(messages.osTitle),
@@ -74,16 +74,11 @@ export const HarmonyOverviewScreen: FunctionComponent = () => {
         />
       ),
     }
-  }, [
-    activeDevice,
-    config?.batteryLevel,
-    config?.serialNumber,
-    config?.version,
-  ])
+  }, [activeDevice, config])
 
-  const timeAndDateSection: OverviewDetailsSection = useMemo(() => {
+  const timeAndDateSection: OverviewDetailsSection | null = useMemo(() => {
     if (!harmonyTime) {
-      return
+      return null
     }
     return {
       title: formatMessage(messages.timeAndDateTitle),
@@ -98,7 +93,9 @@ export const HarmonyOverviewScreen: FunctionComponent = () => {
   }, [harmonyTime])
 
   const sections = useMemo(() => {
-    return [statusSection, osSection, timeAndDateSection]
+    return [statusSection, osSection, timeAndDateSection].filter(
+      Boolean
+    ) as OverviewDetailsSection[]
   }, [osSection, statusSection, timeAndDateSection])
 
   return (

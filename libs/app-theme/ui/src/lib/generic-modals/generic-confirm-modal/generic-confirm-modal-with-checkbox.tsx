@@ -7,7 +7,6 @@ import {
   ChangeEventHandler,
   FunctionComponent,
   useCallback,
-  useEffect,
   useState,
 } from "react"
 import { formatMessage } from "app-localize/utils"
@@ -18,14 +17,13 @@ import { GenericConfirmModalLayout } from "./generic-confirm-modal-layout"
 
 export const GenericConfirmModalWithCheckbox: FunctionComponent<
   GenericConfirmModalProps
-> = (props) => {
+> = ({ onCancel, ...props }) => {
   const [checked, setChecked] = useState(false)
 
-  useEffect(() => {
-    if (!props.opened) {
-      setChecked(false)
-    }
-  }, [props.opened])
+  const handleCancel = useCallback(() => {
+    setChecked(false)
+    onCancel()
+  }, [onCancel])
 
   const handleCheckboxChange: ChangeEventHandler<HTMLInputElement> =
     useCallback((event) => {
@@ -33,8 +31,12 @@ export const GenericConfirmModalWithCheckbox: FunctionComponent<
     }, [])
 
   return (
-    <GenericConfirmModalLayout {...props} confirmDisabled={!checked}>
-      <Checkbox onChange={handleCheckboxChange} checked={checked}>
+    <GenericConfirmModalLayout
+      {...props}
+      onCancel={handleCancel}
+      confirmDisabled={!checked}
+    >
+      <Checkbox onChange={handleCheckboxChange}>
         <Typography.H5>
           {props.messages.confirmModalCheckboxText &&
             formatMessage(props.messages.confirmModalCheckboxText)}
