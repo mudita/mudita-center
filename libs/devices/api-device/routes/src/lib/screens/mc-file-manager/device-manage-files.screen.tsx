@@ -305,6 +305,15 @@ export const DeviceManageFilesScreen: FunctionComponent<{
               />
             )
           }
+          if (activeCategoryId === "imageFiles") {
+            return (
+              <DeviceManageFilesTableSection
+                fileMap={activeFileMap}
+                nameTooltipText={"Preview photo"}
+                {...props}
+              />
+            )
+          }
           return (
             <DeviceManageFilesTableSection fileMap={activeFileMap} {...props} />
           )

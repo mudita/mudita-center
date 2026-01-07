@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useEffect, useState } from "react"
+import { FunctionComponent, useCallback, useState } from "react"
 import { format } from "date-fns"
 import { AppResult } from "app-utils/models"
 import { ContactSupportErrorModal } from "./contact-support-error-modal"
@@ -43,11 +43,13 @@ export const ContactSupportFlow: FunctionComponent<ContactSupportFlowProps> = ({
   createTicket,
   formIcon,
 }) => {
+  const [previousOpened, setPreviousOpened] = useState(opened)
   const [flowState, setFlowState] = useState<ContactSupportFlowState>()
 
-  useEffect(() => {
+  if (previousOpened !== opened) {
+    setPreviousOpened(opened)
     setFlowState(opened ? ContactSupportFlowState.Form : undefined)
-  }, [opened])
+  }
 
   const onSubmit = useCallback(
     async (data: ContactSupportFieldValues) => {

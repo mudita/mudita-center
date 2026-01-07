@@ -52,6 +52,8 @@ export const Table: FunctionComponent<Props> & {
     if (!scrollWrapperRef.current) return
     const { scrollTop, clientHeight } = scrollWrapperRef.current
     if (clientHeight === 0) {
+      // TODO: replace Table component usage with a TableNew component
+      // eslint-disable-next-line react-hooks/immutability
       setTimeout(handleScroll, 10)
       return
     }

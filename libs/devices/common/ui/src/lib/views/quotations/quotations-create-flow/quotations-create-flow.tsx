@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useEffect, useState } from "react"
+import { FunctionComponent, useState } from "react"
 import { AppResult } from "app-utils/models"
 import { formatMessage, Messages } from "app-localize/utils"
 import {
@@ -43,17 +43,19 @@ export const QuotationsCreateFlow: FunctionComponent<
   QuotationsCreateFlowProps
 > = ({ opened = false, onClose, createQuotation, messages }) => {
   const { addToast } = useToastContext()
+  const [previouslyOpened, setPreviouslyOpened] = useState(opened)
   const [flowState, setFlowState] = useState<QuotationsCreateFlowState>(
     QuotationsCreateFlowState.Idle
   )
 
-  useEffect(() => {
+  if (previouslyOpened !== opened) {
+    setPreviouslyOpened(opened)
     setFlowState(
       opened
         ? QuotationsCreateFlowState.CreateForm
         : QuotationsCreateFlowState.Idle
     )
-  }, [opened])
+  }
 
   const onSave: QuotationsCreateFormProps["onSave"] = async (quotation) => {
     setFlowState(QuotationsCreateFlowState.Progress)

@@ -24,7 +24,7 @@ export const ArticleContent: FunctionComponent<ArticleContentProps> = ({
   article,
   onContactSupport,
 }) => {
-  const blocks = splitContentToBlocks(article!.content as Document)
+  const blocks = splitContentToBlocks(article?.content as Document)
 
   const options: Options = {
     renderNode: {
@@ -51,7 +51,7 @@ export const ArticleContent: FunctionComponent<ArticleContentProps> = ({
       [INLINES.ENTRY_HYPERLINK]: (node, children) => {
         if (node.data.target.sys.contentType.sys.id === "helpArticle") {
           const articleId = node.data.target.sys.id
-          const categoryId = article!.categoryId
+          const categoryId = article?.categoryId
           return (
             <NavLink
               to={`${HelpPaths.Index}/${categoryId}/${articleId}`}

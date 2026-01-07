@@ -3,7 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import http from "http"
+/// <reference types="vite/types/importMeta.d.ts" />
+
+import * as http from "http"
 import { check as checkPort } from "tcp-port-used"
 import { BaseProvider, Events } from "./base"
 import {

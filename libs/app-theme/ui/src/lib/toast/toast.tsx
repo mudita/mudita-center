@@ -13,7 +13,8 @@ import {
   useEffect,
   useState,
 } from "react"
-import styled, { css, keyframes } from "styled-components"
+import styled from "styled-components"
+import { AnimatePresence, motion } from "motion/react"
 
 export const toastAnimationDuration = 300
 
@@ -75,45 +76,33 @@ export const Toast: FunctionComponent<ToastProps & PropsWithChildren> & {
   const toastVisibilityDuration = visibilityDuration ?? 2000
   const { queue, removeToast } = useToastContext()
 
-  const [visible, setVisible] = useState(false)
-  const [exiting, setExiting] = useState(false)
+  const isToastOpened = queue.length > 0 && queue[0].key === componentKey
 
   useEffect(() => {
-    const isToastOpened = queue.length > 0 && queue[0].key === componentKey
-
+    let timeout: NodeJS.Timeout
     if (isToastOpened) {
-      setExiting(false)
-      setVisible(true)
-
-      const visibilityTimeout = setTimeout(() => {
-        setExiting(true)
-      }, toastVisibilityDuration)
-
-      return () => clearTimeout(visibilityTimeout)
-    }
-    return undefined
-  }, [componentKey, queue, toastVisibilityDuration])
-
-  useEffect(() => {
-    if (exiting) {
-      const removeTimeout = setTimeout(() => {
-        setVisible(false)
+      timeout = setTimeout(() => {
         removeToast(componentKey)
-      }, toastAnimationDuration)
-
-      return () => clearTimeout(removeTimeout)
+      }, toastVisibilityDuration)
     }
-    return undefined
-  }, [exiting, removeToast, componentKey])
-
-  if (!visible) {
-    return null
-  }
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [componentKey, isToastOpened, removeToast, toastVisibilityDuration])
 
   return (
     <ToastWrapper
-      $exiting={exiting}
-      $animationDuration={toastAnimationDuration}
+      initial={{ opacity: 0, transform: "translateX(calc(100% + 7rem))" }}
+      animate={{
+        opacity: 1,
+        transform: "translateX(0)",
+        transition: { duration: toastAnimationDuration / 1000 },
+      }}
+      exit={{
+        opacity: 0,
+        transform: "translateX(calc(100% + 7rem))",
+        transition: { duration: toastAnimationDuration / 1000 },
+      }}
     >
       {children}
     </ToastWrapper>
@@ -123,34 +112,20 @@ export const Toast: FunctionComponent<ToastProps & PropsWithChildren> & {
 Toast.Context = ToastContext
 Toast.Provider = ToastProvider
 
-const slideIn = keyframes`
-  from {
-    transform: translateX(calc(100% + 7rem));
-  }
-  to {
-    transform: translateX(0);
-  }
-`
-
-const slideOut = keyframes`
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(calc(100% + 7rem));
-  }
-`
-
 export const ToastContainer = () => {
   const { queue } = useToastContext()
 
+  const toast = queue[0]
+
   return (
     <ToastContainerWrapper>
-      {queue.map((toast) => (
-        <Toast key={toast.key} componentKey={toast.key}>
-          {toast.content}
-        </Toast>
-      ))}
+      <AnimatePresence mode={"wait"}>
+        {toast && (
+          <Toast key={toast.key} componentKey={toast.key}>
+            {toast.content}
+          </Toast>
+        )}
+      </AnimatePresence>
     </ToastContainerWrapper>
   )
 }
@@ -162,10 +137,7 @@ const ToastContainerWrapper = styled.div`
   z-index: 5;
 `
 
-const ToastWrapper = styled.div<{
-  $exiting: boolean
-  $animationDuration: number
-}>`
+const ToastWrapper = styled(motion.div)`
   position: absolute;
   bottom: 0;
   right: 0;
@@ -178,15 +150,6 @@ const ToastWrapper = styled.div<{
   flex-direction: row;
   align-items: center;
   gap: 0.4rem;
-
-  animation: ${({ $exiting, $animationDuration }) =>
-    $exiting
-      ? css`
-          ${slideOut} ${$animationDuration}ms ease-in forwards
-        `
-      : css`
-          ${slideIn} ${$animationDuration}ms ease-out
-        `};
 
   p {
     color: ${({ theme }) => theme.app.color.black};

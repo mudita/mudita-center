@@ -42,6 +42,7 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!opened || isLoading || isError || hasAccess) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUsbAccessFlowState(UsbAccessFlowState.Unknown)
     } else if (restartRequired) {
       setUsbAccessFlowState(UsbAccessFlowState.RestartRequired)

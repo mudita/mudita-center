@@ -81,6 +81,7 @@ export const RecoveryModeFlow: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!(opened && activeHarmony)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       clearState()
     } else if (flowState === HarmonyMscProcessState.Idle) {
       setFlowState(HarmonyMscProcessState.GettingFilesDetails)

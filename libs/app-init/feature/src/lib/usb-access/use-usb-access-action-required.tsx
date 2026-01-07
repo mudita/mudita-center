@@ -17,6 +17,7 @@ export const useUsbAccessActionRequired = () => {
 
   useEffect(() => {
     if (isLoading) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUsbAccessActionRequired(RequirementStatus.Unknown)
       return
     }

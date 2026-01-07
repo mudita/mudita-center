@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { FunctionComponent, useMemo } from "react"
 import styled from "styled-components"
 import {
   CheckboxSize,
@@ -24,6 +24,7 @@ export type CellProps = {
   dataItemId?: string
   fileMap: FileManagerFileMap
   className?: string
+  tooltipContent?: string
 }
 
 export const ColumnCheckboxCell: FunctionComponent<
@@ -56,14 +57,30 @@ export const ColumnCheckboxCell: FunctionComponent<
 export const NameCell: FunctionComponent<CellProps> = ({
   dataItemId,
   fileMap,
+  tooltipContent,
   ...props
 }) => {
   const file = dataItemId ? fileMap[dataItemId] : undefined
-  return (
-    <ColumnName {...props}>
-      <ColumnNameText>{file?.name}</ColumnNameText>
-    </ColumnName>
-  )
+
+  const content = useMemo(() => {
+    if (tooltipContent) {
+      return (
+        <Tooltip
+          placement={"bottom-right"}
+          offset={{ x: 9, y: 2 }}
+          strategy={"cursor-horizontal"}
+        >
+          <Tooltip.Content>{tooltipContent}</Tooltip.Content>
+          <Tooltip.Anchor>
+            <ColumnNameText>{file?.name}</ColumnNameText>
+          </Tooltip.Anchor>
+        </Tooltip>
+      )
+    }
+    return <ColumnNameText>{file?.name}</ColumnNameText>
+  }, [file?.name, tooltipContent])
+
+  return <ColumnName {...props}>{content}</ColumnName>
 }
 
 export const TypeCell: FunctionComponent<CellProps> = ({
