@@ -28,7 +28,7 @@ export const HighlightText: FunctionComponent<HighlightTextProps> = ({
   scope = "all",
   phraseWordsSeparated = false,
 }) => {
-  if (!phrase) return <>{text}</>
+  if (!phrase) return text
 
   const matches = findMatches(
     { text, phrase },
@@ -41,7 +41,7 @@ export const HighlightText: FunctionComponent<HighlightTextProps> = ({
   )
   const matchCount = matches.length
 
-  if (!matches?.length || matchCount === 0) return <>{text}</>
+  if (!matches?.length || matchCount === 0) return text
 
   return (
     <>

@@ -163,9 +163,10 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
       updateStatus === UpdateStatus.Idle &&
       !isUpdateCheckLoading
     ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUpdateStatus(UpdateStatus.Available)
     }
-  }, [updateAvailability?.forced, updateStatus, isUpdateCheckLoading])
+  }, [updateAvailability, updateStatus, isUpdateCheckLoading])
 
   const cancelUpdatesDownload = useCallback(() => {
     abortUpdatesDownload()

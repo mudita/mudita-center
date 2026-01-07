@@ -62,7 +62,7 @@ export const McOverviewScreen: FunctionComponent = () => {
       ),
     }
     return [status, update, backup].filter(Boolean)
-  }, [feature?.backup, feature?.status, feature?.update, onHelpButtonClick])
+  }, [feature, onHelpButtonClick])
 
   if (!feature) {
     return (

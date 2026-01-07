@@ -5,9 +5,7 @@
 
 import type { Meta, StoryObj } from "@storybook/react"
 import styled from "styled-components"
-import { action } from "storybook/actions"
 import { Table } from "./table"
-import { Checkbox } from "../form/checkbox/checkbox"
 
 const Decorator = styled.div`
   width: 100%;

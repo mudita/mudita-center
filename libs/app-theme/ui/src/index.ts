@@ -48,7 +48,6 @@ export * from "./lib/file-preview/file-preview"
 
 // Legacy components
 export * from "./lib/legacy-button/button.component"
-export * from "./lib/legacy-element-with-tooltip/element-with-tooltip.component"
 export * from "./lib/legacy-icon/icon.component"
 export * from "./lib/legacy-icon/icons"
 export * from "./lib/legacy-icon/range-icon.component"

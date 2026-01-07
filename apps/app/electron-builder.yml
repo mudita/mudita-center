@@ -4,7 +4,7 @@ copyright: Copyright (c) 2017-2026, Mudita sp. z o.o. All rights reserved.
 directories:
   buildResources: resources
   output: release
-electronVersion: 37.2.3
+electronVersion: 39.2.7
 buildDependenciesFromSource: true
 nodeGypRebuild: false
 npmRebuild: false

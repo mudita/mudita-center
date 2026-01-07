@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useEffect, useState } from "react"
+import { FunctionComponent, useState } from "react"
 import { QuotationSettings } from "devices/common/models"
 import { formatMessage, Messages } from "app-localize/utils"
 import { delayUntil } from "app-utils/common"
@@ -18,8 +18,7 @@ import {
   QuotationsSettingsFormProps,
 } from "./quotations-settings-form"
 
-export interface QuotationsSettingsFlowProps
-  extends QuotationsSettingsFormProps {
+export interface QuotationsSettingsFlowProps extends QuotationsSettingsFormProps {
   opened: boolean
   onClose: VoidFunction
   messages: QuotationsSettingsFormProps["messages"] & {
@@ -50,17 +49,19 @@ export const QuotationsSettingsFlow: FunctionComponent<
   messages,
 }) => {
   const { addToast } = useToastContext()
+  const [previouslyOpened, setPreviouslyOpened] = useState(opened)
   const [flowState, setFlowState] = useState<QuotationsSettingsFlowState>(
     QuotationsSettingsFlowState.Idle
   )
 
-  useEffect(() => {
+  if (previouslyOpened !== opened) {
+    setPreviouslyOpened(opened)
     setFlowState(
       opened
         ? QuotationsSettingsFlowState.SettingsForm
         : QuotationsSettingsFlowState.Idle
     )
-  }, [opened])
+  }
 
   const handleUpdateSettings = async (settings: QuotationSettings) => {
     try {

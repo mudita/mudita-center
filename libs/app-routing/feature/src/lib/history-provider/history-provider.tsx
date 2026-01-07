@@ -34,6 +34,7 @@ export const HistoryProvider: FunctionComponent<PropsWithChildren> = ({
   }, [pathname])
 
   return (
+    // eslint-disable-next-line react-hooks/refs
     <historyContext.Provider value={{ paths: paths.current, getPreviousPath }}>
       {children}
     </historyContext.Provider>

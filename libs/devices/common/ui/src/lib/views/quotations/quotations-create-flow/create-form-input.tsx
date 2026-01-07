@@ -108,7 +108,15 @@ export const CreateFormInput: FunctionComponent<CreateFormInputProps> = ({
         setError("")
       }
     },
-    [limits, onChange, onError, rows, validateText]
+    [
+      limits,
+      messages.errorInvalidCharacter,
+      messages.errorTooLong,
+      onChange,
+      onError,
+      rows,
+      validateText,
+    ]
   )
 
   const handleKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
