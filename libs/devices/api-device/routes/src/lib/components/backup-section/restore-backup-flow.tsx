@@ -70,6 +70,7 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
   onFinished,
 }) => {
   const [step, setStep] = useState(active ? Step.FileSelect : Step.Idle)
+  const [previousActive, setPreviousActive] = useState(active)
   const { data: activeDevice } = useActiveDeviceQuery<ApiDevice>()
   const [backupFile, setBackupFile] = useState<BackupFile>()
   const [decryptedBackupFile, setDecryptedBackupFile] =
@@ -230,13 +231,10 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
     setStep(Step.InProgress)
   }, [])
 
-  useEffect(() => {
-    if (active) {
-      setStep(Step.FileSelect)
-    } else {
-      setStep(Step.Idle)
-    }
-  }, [active])
+  if (previousActive !== active) {
+    setPreviousActive(active)
+    setStep(active ? Step.FileSelect : Step.Idle)
+  }
 
   useEffect(() => {
     if (backupFile) {
@@ -244,6 +242,7 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
         ("password" in backupFile.header && password) ||
         !("password" in backupFile.header)
       ) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         decryptBackupData()
       }
     }

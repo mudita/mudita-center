@@ -6,6 +6,7 @@
 import {
   FunctionComponent,
   KeyboardEvent,
+  startTransition,
   useDeferredValue,
   useEffect,
   useMemo,
@@ -44,7 +45,9 @@ export const Search: FunctionComponent<SearchProps> = ({ categories }) => {
   }, [results?.hits])
 
   useEffect(() => {
-    setActiveResultIndex(0)
+    startTransition(() => {
+      setActiveResultIndex(0)
+    })
   }, [hitsIds])
 
   const onArrowNavigation = (

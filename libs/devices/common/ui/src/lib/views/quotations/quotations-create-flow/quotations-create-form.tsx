@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useEffect, useState } from "react"
+import { FunctionComponent, useCallback, useState } from "react"
 import styled from "styled-components"
 import { NewQuotation } from "devices/common/models"
 import { ButtonType, IconType } from "app-theme/models"
@@ -30,6 +30,7 @@ export interface QuotationsCreateFormProps {
 export const QuotationsCreateForm: FunctionComponent<
   QuotationsCreateFormProps
 > = ({ opened = false, onClose, onSave, messages }) => {
+  const [previouslyOpened, setPreviouslyOpened] = useState(opened)
   const [quotation, setQuotation] = useState("")
   const [author, setAuthor] = useState("")
   const [quotationError, setQuotationError] = useState<boolean>()
@@ -53,12 +54,13 @@ export const QuotationsCreateForm: FunctionComponent<
     })
   }, [author, onSave, quotation])
 
-  useEffect(() => {
+  if (opened !== previouslyOpened) {
+    setPreviouslyOpened(opened)
     if (!opened) {
       setQuotation("")
       setAuthor("")
     }
-  }, [opened])
+  }
 
   return (
     <Modal opened={opened} size={92.3}>

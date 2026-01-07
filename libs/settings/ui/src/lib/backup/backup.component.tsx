@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { FunctionComponent, useSyncExternalStore } from "react"
 import styled from "styled-components"
 import { SettingsData, SettingsTestId } from "settings/models"
 import {
@@ -12,16 +12,11 @@ import {
   SettingsLabel,
   SettingsTableRow,
 } from "../settings/settings-ui.styled"
-import { TextDisplayStyle } from "app-theme/models"
-import { backgroundColor, borderColor, borderRadius } from "app-theme/utils"
+import { ButtonSize, TextDisplayStyle } from "app-theme/models"
+import { borderColor } from "app-theme/utils"
 import { FormattedMessage } from "react-intl"
-import {
-  ElementWithTooltipPlace,
-  LegacyButton,
-  LegacyElementWithTooltip,
-  LegacyText,
-} from "app-theme/ui"
-import { defineMessages, formatMessage } from "app-localize/utils"
+import { Button, LegacyText, Tooltip, Typography } from "app-theme/ui"
+import { defineMessages } from "app-localize/utils"
 
 const BackupWrapper = styled.section`
   overflow: hidden;
@@ -50,22 +45,11 @@ const BackupLocationLabel = styled(LegacyText)`
   white-space: nowrap;
   margin: 0 3.2rem;
   grid-area: Message;
+  cursor: text;
 `
 
 const BackupActionsWrapper = styled(SettingsActionsWrapper)`
   width: fit-content;
-`
-
-const BackupButtonComponent = styled(LegacyButton)`
-  padding: 0;
-`
-
-const TooltipText = styled.div`
-  width: 80%;
-  background-color: ${backgroundColor("disabled")};
-  padding: 0.4rem 0.8rem;
-  border-radius: ${borderRadius("medium")};
-  word-break: break-word;
 `
 
 interface BackupProps {
@@ -82,10 +66,30 @@ const messages = defineMessages({
   },
 })
 
+const backupLocationTooltipSubscriber = (callback: () => void) => {
+  window.addEventListener("resize", callback)
+  return () => window.removeEventListener("resize", callback)
+}
+
+const backupLocationTooltipSnapshotGetter = () => {
+  const element = document.querySelector(
+    '[data-testid="backup-location"]'
+  ) as HTMLElement
+  if (!element) {
+    return false
+  }
+  return element.offsetWidth < element.scrollWidth
+}
+
 export const Backup: FunctionComponent<BackupProps> = ({
   backupLocation,
   openDialog,
 }) => {
+  const showBackupLocationTooltip = useSyncExternalStore(
+    backupLocationTooltipSubscriber,
+    backupLocationTooltipSnapshotGetter
+  )
+
   return (
     <BackupWrapper>
       <BackupTableRow>
@@ -93,9 +97,13 @@ export const Backup: FunctionComponent<BackupProps> = ({
           <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id={messages.label.id} />
           </SettingsLabel>
-          <LegacyElementWithTooltip
-            showIfTextEllipsis
-            Element={
+          <Tooltip
+            offset={{
+              x: 32,
+              y: 8,
+            }}
+          >
+            <Tooltip.Anchor>
               <BackupLocationLabel
                 displayStyle={TextDisplayStyle.Paragraph3}
                 data-testid="backup-location"
@@ -103,25 +111,19 @@ export const Backup: FunctionComponent<BackupProps> = ({
               >
                 {backupLocation}
               </BackupLocationLabel>
-            }
-            place={ElementWithTooltipPlace.BottomStart}
-          >
-            <TooltipText>
-              <LegacyText
-                displayStyle={TextDisplayStyle.Label}
-                color="primary"
-                element={"p"}
-                message={backupLocation}
-              >
-                {backupLocation}
-              </LegacyText>
-            </TooltipText>
-          </LegacyElementWithTooltip>
+            </Tooltip.Anchor>
+            {showBackupLocationTooltip && (
+              <Tooltip.Content>
+                <Typography.P5 color={"black"}>{backupLocation}</Typography.P5>
+              </Tooltip.Content>
+            )}
+          </Tooltip>
         </BackupData>
         <BackupActionsWrapper>
-          <BackupButtonComponent
+          <Button
             onClick={openDialog}
-            label={formatMessage(messages.buttonLabel)}
+            size={ButtonSize.Large}
+            message={messages.buttonLabel.id}
             data-testid={SettingsTestId.ChangeBackupLocationButton}
           />
         </BackupActionsWrapper>
