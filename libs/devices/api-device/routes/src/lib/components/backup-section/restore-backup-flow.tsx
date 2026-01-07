@@ -85,11 +85,8 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
     setStep(aborted ? Step.Cancelled : Step.Error)
   }, [])
 
-  const { mutate, progress, abort } = useApiDeviceBackupRestoreMutation(
-    activeDevice,
-    onSuccess,
-    onError
-  )
+  const { mutate, progress, neededSpace, abort } =
+    useApiDeviceBackupRestoreMutation(activeDevice, onSuccess, onError)
 
   const featuresToSelect = useMemo(() => {
     if (!decryptedBackupFile) {
@@ -292,6 +289,8 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
       <RestoreBackupFailedModal
         opened={step === Step.Error}
         onClose={handleClose}
+        errorType={neededSpace ? "space" : "unknown"}
+        spaceToFree={neededSpace}
       />
     </>
   )

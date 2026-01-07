@@ -4,6 +4,7 @@
  */
 
 import { z } from "zod"
+import { emptyBodySchema } from "../common"
 
 const transferIdScheme = z.int().positive()
 
@@ -15,7 +16,7 @@ export type FileTransferDeleteRequest = z.input<
   typeof FileTransferDeleteRequestValidator
 >
 
-export const FileTransferDeleteResponseValidator = z.undefined()
+export const FileTransferDeleteResponseValidator = emptyBodySchema
 
 export type FileTransferDeleteResponse = z.infer<
   typeof FileTransferDeleteResponseValidator

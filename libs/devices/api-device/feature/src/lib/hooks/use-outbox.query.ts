@@ -11,11 +11,12 @@ import {
   GetEntitiesConfigResponse,
 } from "devices/api-device/models"
 import { useCallback, useEffect, useMemo } from "react"
-import { useApiFeatureQuery } from "./use-api-feature.query"
 import { useApiEntitiesDataQuery } from "./use-api-entities-data.query"
 import { useApiEntitiesConfigQuery } from "./use-api-entities-config.query"
 import { getEntityData } from "../api/get-entity-data"
-import { cloneDeep } from "lodash"
+import { cloneDeep, uniq } from "lodash"
+import { apiDeviceQueryKeys } from "./api-device-query-keys"
+import { DevicesQueryKeys } from "devices/common/models"
 
 const OUTBOX_SKIPPED_ENTITY_TYPES: string[] = [
   "audioFiles",
@@ -65,25 +66,14 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
     return []
   }, [query.data])
 
-  const updateFeatureConfig = useCallback(
-    (feature: string) => {
-      const queryKey = useApiFeatureQuery.queryKey(feature, device?.id)
-      void queryClient.invalidateQueries({
+  const updateFeature = useCallback(
+    async (feature: string) => {
+      const queryKey = apiDeviceQueryKeys.feature(feature, device?.id)
+      await queryClient.invalidateQueries({
         queryKey,
       })
     },
     [device?.id, queryClient]
-  )
-
-  const updateFeatureData = useCallback(
-    async (dataType: string) => {
-      if (!device) {
-        return
-      }
-      const queryKey = useApiEntitiesDataQuery.queryKey(dataType, device.id)
-      await queryClient.invalidateQueries({ queryKey })
-    },
-    [device, queryClient]
   )
 
   const updateEntities = useCallback(
@@ -145,16 +135,10 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   )
 
   useEffect(() => {
-    for (const feature of features) {
-      updateFeatureConfig(feature)
+    for (const feature of uniq([...features, ...featuresData])) {
+      void updateFeature(feature)
     }
-  }, [features, updateFeatureConfig])
-
-  useEffect(() => {
-    for (const dataType of featuresData) {
-      void updateFeatureData(dataType)
-    }
-  }, [featuresData, updateFeatureData])
+  }, [features, featuresData, updateFeature])
 
   useEffect(() => {
     for (const entity of entities) {
@@ -166,4 +150,8 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   }, [entities, updateEntities])
 }
 
-useOutboxQuery.queryKey = (deviceId?: string) => [deviceId, "outbox"]
+useOutboxQuery.queryKey = (deviceId?: string) => [
+  DevicesQueryKeys.All,
+  deviceId,
+  "outbox",
+]
