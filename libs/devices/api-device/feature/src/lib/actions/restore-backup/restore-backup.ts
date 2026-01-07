@@ -15,6 +15,7 @@ export interface RestoreBackupParams {
   features: (PreRestoreRequest["features"][number] & { data: unknown })[]
   onProgress: (progress: number) => void
   abortController: AbortController
+  confirmSpaceAvailability: (requiredSpace: number) => Promise<boolean>
 }
 
 export const restoreBackup = async ({
@@ -22,6 +23,7 @@ export const restoreBackup = async ({
   features,
   onProgress,
   abortController,
+  confirmSpaceAvailability,
 }: RestoreBackupParams) => {
   onProgress(0)
 
@@ -58,6 +60,19 @@ export const restoreBackup = async ({
         }
       })
       .filter(Boolean) as { filePath: string; data: string }[]
+
+    const totalFilesSize = files.reduce(
+      (acc, file) => acc + file.data.length,
+      0
+    )
+
+    if (abortController.signal.aborted) {
+      throw new Error("Restore aborted")
+    }
+    const enoughSpace = await confirmSpaceAvailability(totalFilesSize * 3)
+    if (!enoughSpace) {
+      throw new Error("Not enough space for restore")
+    }
 
     await serialUploadFiles({
       device,

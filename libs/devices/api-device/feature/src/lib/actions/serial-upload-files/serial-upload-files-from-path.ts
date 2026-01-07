@@ -68,7 +68,7 @@ export const serialUploadFilesFromPath = async ({
 
     const preTransferResponse = await prePostFileTransfer(device, {
       filePath: targetFilePath,
-      fileSize: fileSize,
+      fileSize,
       crc32,
     })
 
