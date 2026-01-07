@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux"
 import {
   useActiveDeviceQuery,
   useDeviceActivate,
+  useDeviceConfigQuery,
   useDeviceMenuQuery,
   useDevicesQuery,
   useDeviceStatusQuery,
@@ -34,6 +35,9 @@ import { usePureRouter } from "devices/pure/routes"
 import { useQueryClient } from "@tanstack/react-query"
 import { useHarmonyMscRouter } from "devices/harmony-msc/routes"
 import { setContactSupportModalVisible } from "contact-support/feature"
+import { ApiDeviceSerialPort } from "devices/api-device/adapters"
+import { ApiConfig } from "devices/api-device/models"
+import semver from "semver/preload"
 
 export const useDevicesInitRouter = () => {
   const queryClient = useQueryClient()
@@ -46,6 +50,7 @@ export const useDevicesInitRouter = () => {
   const activateDevice = useDeviceActivate()
   const { data: activeDeviceStatus } = useDeviceStatusQuery(activeDevice)
   const { data: menu } = useDeviceMenuQuery(activeDevice)
+  const { data: config } = useDeviceConfigQuery(activeDevice)
 
   const apiDeviceRouter = useApiDeviceRouter(activeDevice)
   const harmonyRouter = useHarmonyRouter(activeDevice)
@@ -150,12 +155,54 @@ export const useDevicesInitRouter = () => {
     void (async () => {
       if (menu && activeDeviceStatus === DeviceStatus.Initialized) {
         dispatch(unregisterMenuGroups([MenuIndex.Device]))
-        dispatch(registerMenuGroups([menu]))
+
+        // Modify menu for API devices
+        if (ApiDeviceSerialPort.isCompatible(activeDevice)) {
+          const apiVersion =
+            (config as ApiConfig | undefined)?.apiVersion || "1.0.0"
+
+          const modifiedMenu = {
+            ...menu,
+            items: menu.items
+              // Remove data migration tab
+              ?.filter((item) => !item.path.endsWith("/mc-data-migration"))
+              .map((item) => {
+                if (item.path.endsWith("/mc-contacts")) {
+                  // Remove duplicates tab for API version 1.0.0 and below
+                  const subitems =
+                    item.items?.filter((subitem) => {
+                      return !(
+                        subitem.path.endsWith("/mc-contacts-duplicates") &&
+                        semver.lte(apiVersion, "1.0.0")
+                      )
+                    }) || []
+
+                  if (subitems.length > 1) {
+                    return {
+                      ...item,
+                      items: subitems,
+                    }
+                  }
+
+                  return {
+                    ...item,
+                    items: undefined,
+                    path: subitems[0]?.path || item.path,
+                  }
+                }
+                return item
+              }),
+          }
+
+          dispatch(registerMenuGroups([modifiedMenu]))
+        } else {
+          dispatch(registerMenuGroups([menu]))
+        }
       } else {
         dispatch(unregisterMenuGroups([MenuIndex.Device]))
       }
     })()
-  }, [activeDevice, activeDeviceStatus, dispatch, menu])
+  }, [activeDevice, activeDeviceStatus, config, dispatch, menu])
 
   return (
     <>
