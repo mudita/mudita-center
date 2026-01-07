@@ -31,5 +31,5 @@ export const decryptBackupFeature = ({
       }
     }
   }
-  return JSON.parse(atob(decrypted))
+  return JSON.parse(Buffer.from(decrypted, "base64").toString("utf-8"))
 }

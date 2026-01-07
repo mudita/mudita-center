@@ -24,10 +24,12 @@ export const saveBackupStep = async ({
   if (!device.productId || !device.vendorId) {
     throw new Error("Device is missing productId or vendorId")
   }
+  const appVersion = await AppSettings.get("version")
   const header = {
     vendorId: device.vendorId,
     productId: device.productId,
     serialNumber: device.serialNumber,
+    appVersion,
     ...(password
       ? { password: SHA3(password).toString(encBase64), crypto: "AES" }
       : {}),

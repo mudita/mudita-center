@@ -9,6 +9,7 @@ const headerBaseSchema = z.object({
   vendorId: z.string().min(1),
   productId: z.string().min(1),
   serialNumber: z.string().optional(),
+  appVersion: z.string().min(1),
 })
 
 const headerPasswordSchema = headerBaseSchema.extend({
