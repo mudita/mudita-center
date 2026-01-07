@@ -4,7 +4,9 @@
  */
 
 import { Preview } from "@storybook/react"
+// @ts-expect-error module cannot be found
 import { AppThemeProvider } from "app-theme/feature"
+// @ts-expect-error module cannot be found
 import { AppRoutingProvider } from "app-routing/feature"
 
 const preview: Preview = {
@@ -13,18 +15,20 @@ const preview: Preview = {
       expanded: true,
     },
     viewport: {
-      viewports: [],
+      options: [],
     },
     actions: { argTypesRegex: "^on.*" },
   },
   decorators: [
-    (Story) => (
-      <AppRoutingProvider>
-        <AppThemeProvider>
-          <Story />
-        </AppThemeProvider>
-      </AppRoutingProvider>
-    ),
+    (Story) => {
+      return (
+        <AppRoutingProvider>
+          <AppThemeProvider>
+            <Story />
+          </AppThemeProvider>
+        </AppRoutingProvider>
+      )
+    },
   ],
 }
 

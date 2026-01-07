@@ -22,8 +22,15 @@ import {
 } from "./files-table-section-shared"
 
 export const DeviceManageFilesTableSection: FunctionComponent<
-  ManageFilesTableSectionProps
-> = ({ fileMap, selectedIds, activeRowId, onSelectedChange, onRowClick }) => {
+  ManageFilesTableSectionProps & { nameTooltipText?: string }
+> = ({
+  fileMap,
+  selectedIds,
+  activeRowId,
+  onSelectedChange,
+  onRowClick,
+  nameTooltipText,
+}) => {
   return (
     <FileListEmptyTable
       activeRowId={activeRowId}
@@ -52,7 +59,11 @@ export const DeviceManageFilesTableSection: FunctionComponent<
         fileMap={fileMap}
         onChange={onSelectedChange}
       />
-      <NameCell key={"name-cell"} fileMap={fileMap} />
+      <NameCell
+        key={"name-cell"}
+        fileMap={fileMap}
+        tooltipContent={nameTooltipText}
+      />
       <TypeCell key={"type-cell"} fileMap={fileMap} />
       <SizeCell key={"size-cell"} fileMap={fileMap} />
     </FileListEmptyTable>

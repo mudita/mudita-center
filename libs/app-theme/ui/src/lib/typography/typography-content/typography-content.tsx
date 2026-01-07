@@ -29,7 +29,7 @@ export const TypographyContent: FunctionComponent<
   if (!children) return null
 
   if (isTypographyElement(children)) {
-    return <>{children}</>
+    return children
   }
 
   return <Component {...props}>{children}</Component>

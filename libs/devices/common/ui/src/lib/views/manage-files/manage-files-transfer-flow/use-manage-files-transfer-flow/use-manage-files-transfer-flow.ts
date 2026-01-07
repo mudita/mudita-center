@@ -61,8 +61,11 @@ export const useManageFilesTransferFlow = ({
       abortControllerRef.current = new AbortController()
 
       const noValidFileTransfers: FailedTransferItem[] = files
-        .filter((file) => !!file.validationErrorName)
-        .map((file) => ({ ...file, errorName: file.validationErrorName! }))
+        .filter(
+          (file): file is Required<FileTransferWithValidation> =>
+            !!file.validationErrorName
+        )
+        .map((file) => ({ ...file, errorName: file.validationErrorName }))
 
       const validFiles = files.filter((file) => !file.validationErrorName)
       const totalBytesToUpload = sum(validFiles.map((f) => f.size))

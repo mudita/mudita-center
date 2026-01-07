@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { OpenDialogOptionsLite } from "app-utils/models"
 import { createToastContent, useToastContext } from "app-theme/ui"
 import { formatMessage } from "app-localize/utils"
@@ -82,19 +82,21 @@ export const ManageFilesTransferFlow = ({
   const [flowState, setFlowState] = useState<ManageFilesTransferFlowState>(
     ManageFilesTransferFlowState.Idle
   )
+  const [previousOpened, setPreviousOpened] = useState(opened)
   const [selectedFiles, setSelectedFiles] = useState<FileManagerFile[]>([])
   const [validationResult, setValidationResult] = useState<ValidationSummary>()
   const [failedTransfers, setFailedTransfers] = useState<FailedTransferItem[]>(
     []
   )
 
-  useEffect(() => {
+  if (previousOpened !== opened) {
+    setPreviousOpened(opened)
     setFlowState(
       opened
         ? ManageFilesTransferFlowState.BrowseFiles
         : ManageFilesTransferFlowState.Idle
     )
-  }, [opened])
+  }
 
   const validate = useManageFilesValidate({ fileMap, freeSpaceBytes })
 

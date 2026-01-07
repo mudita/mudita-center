@@ -108,13 +108,13 @@ export const FileManagerPreview: FunctionComponent<FileManagerPreviewProps> = ({
     if (currentFile?.id) {
       onDownload?.(currentFile.id)
     }
-  }, [currentFile?.id, onDownload])
+  }, [currentFile, onDownload])
 
   const handleDelete = useCallback(() => {
     if (currentFile?.id) {
       onDelete?.(currentFile.id)
     }
-  }, [currentFile?.id, onDelete])
+  }, [currentFile, onDelete])
 
   const handleOpen = useCallback((fileId: FilePreviewFile["id"]) => {
     setCurrentFileId(fileId)

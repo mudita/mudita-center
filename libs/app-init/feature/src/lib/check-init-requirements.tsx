@@ -68,6 +68,7 @@ export const CheckInitRequirements = () => {
       return
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUsbAccessStatus(usbAccessActionRequired)
   }, [updateStatus, usbAccessActionRequired])
 

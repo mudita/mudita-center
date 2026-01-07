@@ -107,6 +107,7 @@ const Checkbox = styled(BaseCheckbox)`
   transition-property: opacity, visibility;
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
+  align-self: center;
 `
 
 const ListItem = styled.li`

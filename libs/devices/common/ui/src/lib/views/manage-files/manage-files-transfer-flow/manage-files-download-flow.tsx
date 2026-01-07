@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { OpenDialogOptionsLite } from "app-utils/models"
 import { createToastContent, useToastContext } from "app-theme/ui"
 import { formatMessage } from "app-localize/utils"
@@ -67,6 +67,7 @@ export const ManageFilesDownloadFlow = ({
   transferFlowMessages,
   selectedFiles,
 }: ManageFilesDownloadFlowProps) => {
+  const [previousOpened, setPreviousOpened] = useState(opened)
   const { addToast } = useToastContext()
   const [flowState, setFlowState] = useState<ManageFilesDownloadFlowState>(
     ManageFilesDownloadFlowState.Idle
@@ -75,13 +76,14 @@ export const ManageFilesDownloadFlow = ({
     []
   )
 
-  useEffect(() => {
+  if (previousOpened !== opened) {
+    setPreviousOpened(opened)
     setFlowState(
       opened
         ? ManageFilesDownloadFlowState.BrowseDirectory
         : ManageFilesDownloadFlowState.Idle
     )
-  }, [opened])
+  }
 
   const { transfer, progress, transferMode, abortTransfer, currentFile } =
     useManageFilesDownloadFlow({

@@ -101,6 +101,39 @@ export const Downloaded: StoryObj<typeof HarmonyUpdateDownloadedModal> = {
     newVersion: "2.0.0",
     onClose: action("onClose"),
     onUpdate: action("onCancel"),
+    messages: {
+      harmonyUpdateDownloadedModalTitle: {
+        id: "harmony.overview.os.update.modal.downloaded.title",
+      },
+      harmonyUpdateDownloadedModalDescription: {
+        id: "harmony.overview.os.update.modal.downloaded.description",
+      },
+      harmonyUpdateDownloadedModalUpdateButton: {
+        id: "harmony.overview.os.update.updateButton",
+      },
+    },
+  },
+  render: (args) => <HarmonyUpdateDownloadedModal {...args} />,
+}
+
+
+export const DownloadedForce: StoryObj<typeof HarmonyUpdateDownloadedModal> = {
+  name: "Update downloaded modal (force)",
+  args: {
+    opened: true,
+    newVersion: "2.0.0",
+    onUpdate: action("onCancel"),
+    messages: {
+      harmonyUpdateDownloadedModalTitle: {
+        id: "harmony.overview.os.forceUpdate.modal.downloaded.title",
+      },
+      harmonyUpdateDownloadedModalDescription: {
+        id: "harmony.overview.os.update.modal.downloaded.description",
+      },
+      harmonyUpdateDownloadedModalUpdateButton: {
+        id: "harmony.overview.os.update.updateButton",
+      },
+    },
   },
   render: (args) => <HarmonyUpdateDownloadedModal {...args} />,
 }

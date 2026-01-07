@@ -70,6 +70,7 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
   onFinished,
 }) => {
   const [step, setStep] = useState(active ? Step.FileSelect : Step.Idle)
+  const [previousActive, setPreviousActive] = useState(active)
   const { data: activeDevice } = useActiveDeviceQuery<ApiDevice>()
   const [backupFile, setBackupFile] = useState<BackupFile>()
   const [decryptedBackupFile, setDecryptedBackupFile] =
@@ -84,11 +85,8 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
     setStep(aborted ? Step.Cancelled : Step.Error)
   }, [])
 
-  const { mutate, progress, abort } = useApiDeviceBackupRestoreMutation(
-    activeDevice,
-    onSuccess,
-    onError
-  )
+  const { mutate, progress, neededSpace, abort } =
+    useApiDeviceBackupRestoreMutation(activeDevice, onSuccess, onError)
 
   const featuresToSelect = useMemo(() => {
     if (!decryptedBackupFile) {
@@ -230,13 +228,10 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
     setStep(Step.InProgress)
   }, [])
 
-  useEffect(() => {
-    if (active) {
-      setStep(Step.FileSelect)
-    } else {
-      setStep(Step.Idle)
-    }
-  }, [active])
+  if (previousActive !== active) {
+    setPreviousActive(active)
+    setStep(active ? Step.FileSelect : Step.Idle)
+  }
 
   useEffect(() => {
     if (backupFile) {
@@ -244,6 +239,7 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
         ("password" in backupFile.header && password) ||
         !("password" in backupFile.header)
       ) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         decryptBackupData()
       }
     }
@@ -293,6 +289,8 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
       <RestoreBackupFailedModal
         opened={step === Step.Error}
         onClose={handleClose}
+        errorType={neededSpace ? "space" : "unknown"}
+        spaceToFree={neededSpace}
       />
     </>
   )

@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [linux-e2e, windows-e2e, macos-e2e]
+        runner_label: [linux-e2e, windows-e2e, macos-m-e2e]
         node-version: [22.16.0]
     environment: development-next
     steps:
@@ -32,7 +32,7 @@ jobs:
           SET > .env
           jq -r -j .version apps/app/package.json > apps/app/version
       - name: Configure environment - Mac
-        if: matrix.runner_label == 'macos-e2e'
+        if: matrix.runner_label == 'macos-m-e2e'
         env:
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
@@ -60,7 +60,7 @@ jobs:
           $env:LOCALAPPDATA=""
           npx nx build:win app dir --output-style stream --no-cloud
       - name: Build - Mac
-        if: matrix.runner_label == 'macos-e2e'
+        if: matrix.runner_label == 'macos-m-e2e'
         run: |
           export CSC_IDENTITY_AUTO_DISCOVERY=false
           export NODE_OPTIONS="--max-old-space-size=4096"

@@ -11,5 +11,6 @@ import { useNavigate } from "react-router"
 export const useAppNavigate = () => {
   const navigate = useRef(useNavigate())
 
+  // eslint-disable-next-line react-hooks/refs
   return navigate.current
 }

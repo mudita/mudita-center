@@ -148,7 +148,9 @@ export const AllSizesAndVariants: Story = {
   parameters: {
     docs: {
       source: {
-        code: "<Checkbox size={CheckboxSize.Small} />\n" + "<Checkbox />\n",
+        code: `<Checkbox size={CheckboxSize.Small} />
+<Checkbox />
+`,
       },
     },
   },
