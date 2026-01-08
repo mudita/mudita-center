@@ -28,6 +28,7 @@ export const ProgressBar: FunctionComponent<Props> = ({
   const id = useId()
   const clampedValue = clamp(value, 0, maxValue)
   const percentage = (clampedValue / maxValue) * 100
+
   return (
     <Wrapper {...rest}>
       <AnimatePresence initial={true} mode="wait">
@@ -128,15 +129,15 @@ const Progress = styled.progress<{
             width: 25% !important;
             transform: translateX(var(--bar-offset)) !important;
             transition:
-              width 0.15s linear,
+              width 0.3s linear,
               transform 1.5s linear;
           }
         `
       : css`
           &::-webkit-progress-value {
             transition:
-              width 0.3s ease-out,
-              transform 0.3s ease-out;
+              width 0.2s 0.1s ease-out,
+              transform 0.15s ease-out;
           }
         `};
 `
