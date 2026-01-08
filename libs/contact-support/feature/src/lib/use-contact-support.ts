@@ -132,7 +132,6 @@ const saveAppDeviceLogs = async (
   destinationPath: string,
   device: Device | null
 ) => {
-  console.log(device)
   if (isHarmonyDevice(device)) {
     const crashDumpsResult = await getHarmonyLogs(device, {
       fileList: HarmonyLogsFileList.CrashDumps,
@@ -158,7 +157,7 @@ const saveAppDeviceLogs = async (
           targetPath: filePath,
         })
       } catch (error) {
-        console.log("download error", error)
+        console.warn("Failed to download log file from Harmony:", error)
       }
     }
   }
