@@ -14,7 +14,13 @@ import {
 import { SerialPortDeviceId } from "app-serialport/models"
 import { apiDeviceQueryKeys } from "./api-device-query-keys"
 import { getEntities } from "../actions/get-entities/get-entities"
-import { useCallback, useEffect, useRef, useState } from "react"
+import {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import { sum } from "lodash"
 import { useApiEntitiesConfigQuery } from "./use-api-entities-config.query"
 import { EventEmitter } from "events"
@@ -123,7 +129,10 @@ export const useApiEntitiesDataMapQuery = (
 ) => {
   const progressRef = useRef<Record<string, number>>({})
   const extraReporterRef = useRef<Record<string, (p: number) => void>>({})
+  const eventEmitterRef = useRef(new EventEmitter())
+
   const [progress, setProgress] = useState(0)
+  const deferredProgress = useDeferredValue(progress)
 
   const reportProgress = useCallback(() => {
     if (entityTypes.length === 0) {
@@ -148,11 +157,36 @@ export const useApiEntitiesDataMapQuery = (
   )
 
   return useQueries({
-    queries: entityTypes.map((entityType) => {
+    queries: entityTypes.map((entityType, index) => {
       return {
         queryKey: useApiEntitiesDataQuery.queryKey(entityType, device?.id),
-        queryFn: () =>
-          queryFn(entityType, device, makeProgressHandler(entityType)),
+        queryFn: async () => {
+          if (index > 0) {
+            await new Promise((resolve) => {
+              eventEmitterRef.current.on(
+                "queryFinished",
+                (previousIndex: number) => {
+                  if (previousIndex === index - 1) {
+                    resolve(true)
+                  }
+                }
+              )
+            })
+          }
+          const result = await queryFn(
+            entityType,
+            device,
+            makeProgressHandler(entityType)
+          )
+          eventEmitterRef.current.emit("queryFinished", index)
+          if (index === entityTypes.length - 1) {
+            // small delay to allow progress to reach 100%
+            await new Promise((r) => setTimeout(r, 450))
+            // clear event emitter listeners
+            eventEmitterRef.current.removeAllListeners("queryFinished")
+          }
+          return result
+        },
         enabled: !!device,
         ...options,
       }
@@ -201,7 +235,7 @@ export const useApiEntitiesDataMapQuery = (
         isLoading,
         isError,
         refetch,
-        progress,
+        progress: deferredProgress,
       }
     },
   })

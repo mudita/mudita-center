@@ -7,8 +7,10 @@ import {
   ComponentProps,
   FunctionComponent,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react"
 import { ApiDevice, ApiDevicePaths } from "devices/api-device/models"
 import { ProgressBar, Typography } from "app-theme/ui"
@@ -68,7 +70,9 @@ export const McContactsScreen: FunctionComponent = () => {
     data: contacts,
     progress,
     refetch,
+    isSuccess,
   } = useApiEntitiesDataQuery<Contact[]>(feature?.entityType, device)
+  const [dataLoaded, setDataLoaded] = useState(isSuccess)
 
   const { mutateAsync: deleteEntities } =
     useApiDeviceDeleteEntitiesMutation(device)
@@ -265,7 +269,20 @@ export const McContactsScreen: FunctionComponent = () => {
     )
   }, [contacts])
 
-  if (!feature || !contacts) {
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
+    if (isSuccess) {
+      timeout = setTimeout(() => {
+        setDataLoaded(true)
+      }, 450)
+    }
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [isSuccess])
+
+  if (!feature || !contacts || !dataLoaded) {
     return (
       <LoaderWrapper
         key="loader"
