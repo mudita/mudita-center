@@ -34,8 +34,10 @@ import {
 import { contactSupportMutationKeys } from "./contact-support-mutation-keys"
 import { contactSupportConfig } from "./contact-support-config"
 
-interface CreateTicketRequestPayload
-  extends Pick<AppHttpRequestConfig, "data" | "files"> {
+interface CreateTicketRequestPayload extends Pick<
+  AppHttpRequestConfig,
+  "data" | "files"
+> {
   data: Record<string, string>
   files: Record<string, AppFileSystemGuardOptions>
 }
@@ -168,10 +170,11 @@ const createTicket = async (
 ) => {
   const metaCreateTicketErrors: MetaCreateTicketError[] = []
   const todayFormatDate = format(new Date(), "yyyy-MM-dd")
-  const tmpLogsScopeRelativePath = contactSupportConfig.tmpLogsScopeRelativePath
+  const tmpLogsScopePath = contactSupportConfig.tmpLogsScopeRelativePath
+  const tmpLogsDirScopePath = `${tmpLogsScopePath}/logs`
 
   const rmResult = await AppFileSystem.rm({
-    scopeRelativePath: tmpLogsScopeRelativePath,
+    scopeRelativePath: tmpLogsScopePath,
     options: { recursive: true, force: true },
   })
 
@@ -180,7 +183,7 @@ const createTicket = async (
   }
 
   const mkdirResult = await AppFileSystem.mkdir({
-    scopeRelativePath: tmpLogsScopeRelativePath,
+    scopeRelativePath: tmpLogsDirScopePath,
     options: { recursive: true },
   })
 
@@ -190,12 +193,12 @@ const createTicket = async (
     )
   }
 
-  await saveAppDeviceLogs(tmpLogsScopeRelativePath, device)
+  await saveAppDeviceLogs(tmpLogsDirScopePath, device)
 
-  const appLoggerFileName = `mc-${todayFormatDate}.txt`
-  const appLoggerScopeRelativePath = `${tmpLogsScopeRelativePath}/${appLoggerFileName}`
+  const appLogsFileName = `mc-${todayFormatDate}.txt`
+  const appLogsFileScopePath = `${tmpLogsDirScopePath}/${appLogsFileName}`
   const aggregateLogsToFileResult = await AppLogger.aggregateLogsToFile({
-    scopeRelativePath: appLoggerScopeRelativePath,
+    scopeRelativePath: appLogsFileScopePath,
     maxSizeInBytes: 15000000,
   })
 
@@ -209,11 +212,11 @@ const createTicket = async (
   }
 
   const zippedLogsFileName = `mc-${todayFormatDate}.zip`
-  const scopeDestinationPath = `${tmpLogsScopeRelativePath}/${zippedLogsFileName}`
+  const zipFileScopePath = `${tmpLogsScopePath}/${zippedLogsFileName}`
 
   const archiveResult = await AppFileSystem.archive({
-    scopeRelativePath: tmpLogsScopeRelativePath,
-    scopeDestinationPath,
+    scopeRelativePath: tmpLogsDirScopePath,
+    scopeDestinationPath: zipFileScopePath,
   })
 
   if (!archiveResult.ok) {
@@ -227,7 +230,7 @@ const createTicket = async (
 
   const requestPayload = mapToCreateTicketRequestPayload(
     actionPayload,
-    scopeDestinationPath,
+    zipFileScopePath,
     metaCreateTicketErrors
   )
   const createTicketResult = await createTicketRequest(requestPayload)
