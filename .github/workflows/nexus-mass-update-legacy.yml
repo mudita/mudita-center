@@ -202,12 +202,12 @@ jobs:
           $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force
           $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)
           copy ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-win.yml
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./apps/mudita-center/release/Mudita-Center.exe -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/mudita-center/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/mudita-center/release/latest.yml -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/mudita-center/release/builder-debug-win.yml -Method Put -Credential $AUTH
-          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-mass-update-legacy.git
-          cd mudita-center-mass-update-legacy
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./apps/mudita-center/release/Mudita-Center.exe -Method Put -Credential $AUTH -UseBasicParsing
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/mudita-center/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH -UseBasicParsing
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/mudita-center/release/latest.yml -Method Put -Credential $AUTH -UseBasicParsing
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/mudita-center/release/builder-debug-win.yml -Method Put -Credential $AUTH -UseBasicParsing
+          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-mass-update.git
+          cd mudita-center-mass-update
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
       - name: Push artifacts to nexus registry from Linux

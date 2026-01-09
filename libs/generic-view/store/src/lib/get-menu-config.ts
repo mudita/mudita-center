@@ -17,7 +17,33 @@ export const getMenuConfig = createAsyncThunk<
 >(ActionName.GetMenuConfig, async ({ deviceId }, { rejectWithValue }) => {
   const response = await getMenuConfigRequest(deviceId)
   if (response.ok) {
-    return { deviceId, menuConfig: response.data }
+    const menuConfig = response.data
+
+    menuConfig.menuItems = menuConfig.menuItems.map((item) => {
+      if (
+        item.feature === "mc-contacts" &&
+        item.submenu?.some(
+          (subitem) => subitem.feature === "mc-contacts-duplicates"
+        )
+      ) {
+        const submenuWithoutDuplicates = item.submenu.filter(
+          (subitem) => subitem.feature !== "mc-contacts-duplicates"
+        )
+        return {
+          ...item,
+          ...(submenuWithoutDuplicates.length > 1
+            ? {
+                submenu: submenuWithoutDuplicates,
+              }
+            : {
+                submenu: undefined,
+              }),
+        }
+      }
+      return item
+    })
+
+    return { deviceId, menuConfig }
   }
   return rejectWithValue(response.error)
 })
