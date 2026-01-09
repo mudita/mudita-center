@@ -18,4 +18,5 @@ export enum AppFileSystemIpcEvents {
   Extract = "appFileSystem:extract",
   OpenDirectory = "appFileSystem:openDirectory",
   GetPath = "appFileSystem:getPath",
+  Cp = "appFileSystem:cp",
 }

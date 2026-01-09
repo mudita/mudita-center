@@ -12,6 +12,7 @@ import { isArray } from "lodash"
 import {
   AppFileSystemArchiveOptions,
   AppFileSystemCalculateCrc32Options,
+  AppFileSystemCpOptions,
   AppFileSystemExtractOptions,
   AppFileSystemFileStatsOptions,
   AppFileSystemGuardOptions,
@@ -279,6 +280,23 @@ export class AppFileSystemService {
     await shell.openPath(
       isArray(options.path) ? path.join(...options.path) : options.path
     )
+  }
+
+  async cp(options: AppFileSystemCpOptions) {
+    try {
+      const sourcePath = this.resolveSafePath(options.scopeSourcePath)
+      const destinationBase = this.resolveSafePath(options.scopeDestinationPath)
+      const destinationPath = path.join(
+        destinationBase,
+        path.basename(sourcePath)
+      )
+
+      await fs.ensureDir(path.dirname(destinationPath))
+      await fs.copy(sourcePath, destinationPath)
+      return AppResultFactory.success()
+    } catch (e) {
+      return AppResultFactory.failed(mapToAppError(e))
+    }
   }
 
   async getPath(options: AppFileSystemGuardOptions) {

@@ -20,4 +20,5 @@ export const AppFileSystem = {
   extract: window.api.appFileSystem.extract,
   openDirectory: window.api.appFileSystem.openDirectory,
   getPath: window.api.appFileSystem.getPath,
+  cp: window.api.appFileSystem.cp,
 }
