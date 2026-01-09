@@ -198,7 +198,9 @@ export class AppFileSystemService {
     const filePath = this.resolveSafePath(options)
     await fs.ensureDir(path.dirname(filePath))
     const chunkNo = options.chunkNo ?? 0
+    const flags = chunkNo === 0 ? "w" : "r+"
     const stream = fs.createWriteStream(filePath, {
+      flags,
       highWaterMark: options.chunkSize,
       start: chunkNo * options.chunkSize,
     })
@@ -277,6 +279,10 @@ export class AppFileSystemService {
     await shell.openPath(
       isArray(options.path) ? path.join(...options.path) : options.path
     )
+  }
+
+  async getPath(options: AppFileSystemGuardOptions) {
+    return AppResultFactory.success(this.resolveSafePath(options))
   }
 
   private async extractTarGz(
@@ -380,9 +386,5 @@ export class AppFileSystemService {
       .map((entry) => path.join(destinationFilePath, entry))
 
     return AppResultFactory.success(extractedEntries)
-  }
-
-  async getPath(options: AppFileSystemGuardOptions) {
-    return AppResultFactory.success(this.resolveSafePath(options))
   }
 }
