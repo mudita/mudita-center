@@ -22,7 +22,7 @@ export const DetailsSingleRow: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       <Typography.H5>{label}</Typography.H5>
-      <Typography.P4 color={"black"} lines={1}>
+      <Typography.P4 color={"black"} lines={1} title={`${value}`}>
         {value}
       </Typography.P4>
     </Wrapper>

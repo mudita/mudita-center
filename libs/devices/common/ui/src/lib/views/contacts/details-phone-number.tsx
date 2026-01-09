@@ -46,7 +46,7 @@ export const DetailsPhoneNumber: FunctionComponent<Props> = ({
         )}
         {phoneNumbers.map(({ phoneNumber, phoneType }, index) => (
           <Fragment key={index}>
-            <TextWrapper>{phoneNumber}</TextWrapper>
+            <TextWrapper title={phoneNumber}>{phoneNumber}</TextWrapper>
             <TextWrapper $noSelect>•</TextWrapper>
             <TextWrapper>
               {phoneType.substring(0, 1).toUpperCase() +

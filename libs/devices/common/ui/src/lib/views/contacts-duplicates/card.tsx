@@ -6,7 +6,7 @@
 import { Fragment, FunctionComponent } from "react"
 import styled from "styled-components"
 import { Badge, Button, Typography } from "app-theme/ui"
-import { NameField } from "../contacts/name-field"
+import { makeName, NameField } from "../contacts/name-field"
 import { ButtonSize, ButtonType } from "app-theme/models"
 import { defineMessages } from "app-localize/utils"
 import { DuplicateContactsGroup } from "devices/common/models"
@@ -40,12 +40,14 @@ export const Card: FunctionComponent<Props> = ({
             <Badge backgroundColor={"grey5"} message={messages.mergeLabel.id} />
           )}
           <ContactData>
-            <Typography.P1 lines={1}>
+            <Typography.P1 lines={1} title={makeName(contact)}>
               <NameField contact={contact} />
             </Typography.P1>
             {contact.phoneNumbers?.map((phone) => (
               <Fragment key={phone.id}>
-                <Typography.P4 lines={1}>{phone.phoneNumber}</Typography.P4>
+                <Typography.P4 lines={1} title={phone.phoneNumber}>
+                  {phone.phoneNumber}
+                </Typography.P4>
                 <Typography.P4>•</Typography.P4>
                 <Typography.P4>
                   {phone.phoneType.substring(0, 1).toUpperCase()}
