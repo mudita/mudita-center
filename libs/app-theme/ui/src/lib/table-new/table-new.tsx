@@ -77,17 +77,24 @@ export type TableNew<Item, ItemId extends keyof Item = keyof Item> = Ref<
   Item[ItemId]
 >
 
-type RowProps<Item> = Pick<Props<Item>, "rowRenderer" | "items">
+type RowProps<Item> = Pick<Props<Item>, "rowRenderer" | "items"> & {
+  className?: string
+}
 
 const RowComponent = <Item = unknown,>({
   index,
   style,
   items,
   rowRenderer,
+  className,
 }: RowComponentProps<RowProps<Item>>) => {
   const item = items[index]
 
-  return <div style={style}>{rowRenderer(item, index)}</div>
+  return (
+    <div style={style} className={className}>
+      {rowRenderer(item, index)}
+    </div>
+  )
 }
 
 const Table = styled(List)`

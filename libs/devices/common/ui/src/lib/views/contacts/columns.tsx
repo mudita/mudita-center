@@ -153,6 +153,10 @@ const CustomCheckbox = styled(Checkbox)`
 const NameCell = styled(Column)`
   flex: 1;
   padding: 0 0.4rem;
+
+  p {
+    white-space: pre;
+  }
 `
 
 const StarIcon = styled.span`
@@ -161,9 +165,13 @@ const StarIcon = styled.span`
 `
 
 const PhoneCell = styled(Column)`
-  width: 14rem;
+  width: 16rem;
   text-align: right !important;
   padding-right: 1.2rem;
+
+  p {
+    padding-left: 1.2rem;
+  }
 `
 
 const MorePhonesCell = styled(Column)`

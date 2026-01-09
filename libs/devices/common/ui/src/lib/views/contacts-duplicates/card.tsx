@@ -40,12 +40,12 @@ export const Card: FunctionComponent<Props> = ({
             <Badge backgroundColor={"grey5"} message={messages.mergeLabel.id} />
           )}
           <ContactData>
-            <Typography.P1>
+            <Typography.P1 lines={1}>
               <NameField contact={contact} />
             </Typography.P1>
             {contact.phoneNumbers?.map((phone) => (
               <Fragment key={phone.id}>
-                <Typography.P4>{phone.phoneNumber}</Typography.P4>
+                <Typography.P4 lines={1}>{phone.phoneNumber}</Typography.P4>
                 <Typography.P4>•</Typography.P4>
                 <Typography.P4>
                   {phone.phoneType.substring(0, 1).toUpperCase()}
@@ -117,7 +117,7 @@ const ContactData = styled.div`
   grid-column-gap: 0.6rem;
 
   > p {
-    white-space: normal;
+    white-space: pre;
     color: ${({ theme }) => theme.app.color.black};
 
     &:first-of-type {

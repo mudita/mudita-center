@@ -181,7 +181,7 @@ export const Details: FunctionComponent<Props> = ({
         >
           <Header>
             <HeaderName>
-              <Typography.H3 weight={TypographyWeight.Regular}>
+              <Typography.H3 weight={TypographyWeight.Regular} lines={1}>
                 <NameField contact={contact} />
               </Typography.H3>
             </HeaderName>
@@ -240,6 +240,11 @@ const HeaderName = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  overflow: hidden;
+
+  h3 {
+    white-space: pre;
+  }
 `
 
 const HeaderActions = styled.div`
