@@ -163,6 +163,7 @@ const saveAppDeviceLogs = async (
   }
 }
 
+// TODO: Split create ticket function into download action and create ticket action
 const createTicket = async (
   actionPayload: CustomerSupportCreateTicketPayload,
   device: Device | null

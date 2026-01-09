@@ -64,6 +64,11 @@ export const ContactSupportFlow: FunctionComponent<ContactSupportFlowProps> = ({
     [createTicket]
   )
 
+  const onFileButtonClick = useCallback((fileName: string) => {
+    // TODO: Implement the logic to handle file button click
+    console.log(`File button clicked for file: ${fileName}`)
+  }, [])
+
   return (
     <>
       <ContactSupportFormModal
@@ -71,6 +76,7 @@ export const ContactSupportFlow: FunctionComponent<ContactSupportFlowProps> = ({
         files={[{ name: zippedLogsFileName }]}
         onSubmit={onSubmit}
         onClose={onClose}
+        onFileButtonClick={onFileButtonClick}
         messages={messages}
         formIcon={formIcon}
       />
