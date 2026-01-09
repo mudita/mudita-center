@@ -3,18 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Device } from "devices/common/models"
 import { format } from "date-fns"
-import { sliceSegments } from "app-utils/common"
+import logger from "electron-log/renderer"
+import { Device } from "devices/common/models"
 import { AppError, AppResult, AppResultFactory } from "app-utils/models"
+import { SerialPortDeviceType } from "app-serialport/models"
 import {
   Harmony,
   HarmonyLogsFileList,
   HarmonyLogsResponse,
 } from "devices/harmony/models"
-import { SerialPortDeviceType } from "app-serialport/models"
+import { sliceSegments } from "app-utils/common"
 import { AppFileSystem, AppLogger, AppPath } from "app-utils/renderer"
-import logger from "electron-log/renderer"
 import {
   downloadFileFromHarmony,
   getHarmonyLogs,

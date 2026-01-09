@@ -9,20 +9,23 @@ import {
   ContactSupportFieldValues,
   ContactSupportFlow,
 } from "contact-support/ui"
-import { AppResultFactory } from "app-utils/models"
+import { AppResultFactory, OpenDialogOptionsLite } from "app-utils/models"
+import { AppActions } from "app-utils/renderer"
 import { useAppDispatch } from "app-store/utils"
 import { selectContactSupportModalVisible } from "./store/contact-support.selectors"
 import { useCreateTicket } from "./use-contact-support"
 import { setContactSupportModalVisible } from "./store/contact-support.actions"
+import { useDownloadLogsHook } from "./hook/use-download-logs.hook"
 
 export const ContactSupport: FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const modalVisible = useSelector(selectContactSupportModalVisible)
   const { mutateAsync: createTicketMutateAsync, reset: createTicketReset } =
     useCreateTicket()
+  const downloadLogs = useDownloadLogsHook()
 
   const createTicket = useCallback(
-    async (data: ContactSupportFieldValues) => {
+    async (data: ContactSupportFieldValues & { logsZipScopePath?: string }) => {
       try {
         await createTicketMutateAsync(data)
         return AppResultFactory.success()
@@ -38,11 +41,20 @@ export const ContactSupport: FunctionComponent = () => {
     createTicketReset()
   }, [dispatch, createTicketReset])
 
+  const openDirectoryDialog = async (
+    options: OpenDialogOptionsLite
+  ): Promise<string | null> => {
+    const directories = await AppActions.openFileDialog(options)
+    return directories[0] ?? null
+  }
+
   return (
     <ContactSupportFlow
       onClose={hideModalVisible}
       opened={modalVisible}
       createTicket={createTicket}
+      downloadLogs={downloadLogs}
+      openDirectoryDialog={openDirectoryDialog}
     />
   )
 }

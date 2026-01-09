@@ -5,10 +5,11 @@
 
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
-import { AppResultFactory } from "app-utils/models"
+import { AppResultFactory, OpenDialogOptionsLite } from "app-utils/models"
 import { CrashDumpsData, Harmony } from "devices/harmony/models"
 import { IconType } from "app-theme/models"
 import { defineMessages } from "app-localize/utils"
+import { AppActions } from "app-utils/renderer"
 import {
   ContactSupportFieldValues,
   ContactSupportFlow,
@@ -18,7 +19,7 @@ import {
   useNewCrashDumpsQuery,
 } from "devices/harmony/feature"
 import { useActiveDeviceQuery } from "devices/common/feature"
-import { useCreateTicket } from "contact-support/feature"
+import { useCreateTicket, useDownloadLogsHook } from "contact-support/feature"
 
 const harmonyCrashDumpsMessages = defineMessages({
   formModalTitle: {
@@ -39,6 +40,8 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
   const { mutateAsync: createTicketMutateAsync, reset: createTicketReset } =
     useCreateTicket()
 
+  const downloadLogs = useDownloadLogsHook()
+
   const [crashDumpsFlowOpened, setCrashDumpsFlowOpened] = useState<boolean>()
 
   useEffect(() => {
@@ -51,7 +54,7 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
   }, [crashDumpsData, crashDumpsFlowOpened])
 
   const createTicket = useCallback(
-    async (data: ContactSupportFieldValues) => {
+    async (data: ContactSupportFieldValues & { logsZipScopePath?: string }) => {
       try {
         await createTicketMutateAsync(data)
         return AppResultFactory.success()
@@ -69,6 +72,13 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
       updateIgnoredCrashDumps(crashDumpsData.crashDumps, activeDevice)
   }, [createTicketReset, crashDumpsData, activeDevice])
 
+  const openDirectoryDialog = async (
+    options: OpenDialogOptionsLite
+  ): Promise<string | null> => {
+    const directories = await AppActions.openFileDialog(options)
+    return directories[0] ?? null
+  }
+
   return (
     <ContactSupportFlow
       onClose={onClose}
@@ -76,6 +86,8 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
       createTicket={createTicket}
       formIcon={IconType.Failed}
       messages={harmonyCrashDumpsMessages}
+      downloadLogs={downloadLogs}
+      openDirectoryDialog={openDirectoryDialog}
     />
   )
 }
