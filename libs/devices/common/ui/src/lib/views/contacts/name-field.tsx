@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { Fragment, FunctionComponent } from "react"
 import { Contact } from "devices/common/models"
 
 interface Props {
@@ -14,10 +14,21 @@ interface Props {
 }
 
 export const NameField: FunctionComponent<Props> = ({ contact }) => {
+  const names = [
+    contact.displayName1,
+    contact.displayName2,
+    <strong>{contact.displayName3}</strong>,
+    contact.displayName4,
+  ].filter(Boolean)
+
   return (
     <>
-      {contact.displayName1} {contact.displayName2}{" "}
-      <strong>{contact.displayName3}</strong> {contact.displayName4}
+      {names.map((name, index) => (
+        <Fragment key={index}>
+          {name}
+          {index === names.length - 1 ? "" : " "}
+        </Fragment>
+      ))}
     </>
   )
 }
@@ -33,4 +44,5 @@ export const makeName = (contact: Props["contact"], withBold?: boolean) => {
   ]
     .filter(Boolean)
     .join(" ")
+    .trim()
 }
