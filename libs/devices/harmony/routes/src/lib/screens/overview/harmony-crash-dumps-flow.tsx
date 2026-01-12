@@ -19,7 +19,10 @@ import {
   useNewCrashDumpsQuery,
 } from "devices/harmony/feature"
 import { useActiveDeviceQuery } from "devices/common/feature"
-import { useCreateTicket, useDownloadLogsHook } from "contact-support/feature"
+import {
+  useCreateTicket,
+  usePrepareLogsArchiveHook,
+} from "contact-support/feature"
 
 const harmonyCrashDumpsMessages = defineMessages({
   formModalTitle: {
@@ -40,7 +43,7 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
   const { mutateAsync: createTicketMutateAsync, reset: createTicketReset } =
     useCreateTicket()
 
-  const downloadLogs = useDownloadLogsHook()
+  const prepareLogs = usePrepareLogsArchiveHook()
 
   const [crashDumpsFlowOpened, setCrashDumpsFlowOpened] = useState<boolean>()
 
@@ -86,7 +89,7 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
       createTicket={createTicket}
       formIcon={IconType.Failed}
       messages={harmonyCrashDumpsMessages}
-      downloadLogs={downloadLogs}
+      prepareLogs={prepareLogs}
       openDirectoryDialog={openDirectoryDialog}
     />
   )

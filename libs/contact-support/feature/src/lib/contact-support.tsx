@@ -15,14 +15,14 @@ import { useAppDispatch } from "app-store/utils"
 import { selectContactSupportModalVisible } from "./store/contact-support.selectors"
 import { useCreateTicket } from "./use-contact-support"
 import { setContactSupportModalVisible } from "./store/contact-support.actions"
-import { useDownloadLogsHook } from "./hook/use-download-logs.hook"
+import { usePrepareLogsArchiveHook } from "./hook/use-prepare-logs-archive.hook"
 
 export const ContactSupport: FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const modalVisible = useSelector(selectContactSupportModalVisible)
   const { mutateAsync: createTicketMutateAsync, reset: createTicketReset } =
     useCreateTicket()
-  const downloadLogs = useDownloadLogsHook()
+  const prepareLogs = usePrepareLogsArchiveHook()
 
   const createTicket = useCallback(
     async (data: ContactSupportFieldValues & { logsZipScopePath?: string }) => {
@@ -53,7 +53,7 @@ export const ContactSupport: FunctionComponent = () => {
       onClose={hideModalVisible}
       opened={modalVisible}
       createTicket={createTicket}
-      downloadLogs={downloadLogs}
+      prepareLogs={prepareLogs}
       openDirectoryDialog={openDirectoryDialog}
     />
   )

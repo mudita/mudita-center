@@ -70,14 +70,14 @@ const saveAppDeviceLogs = async (
   }
 }
 
-interface DownloadAndArchiveLogsData {
+interface PrepareLogsArchiveData {
   path: string
   failed?: MetaCreateTicketError[]
 }
 
-export const downloadAndArchiveLogs = async (
+export const prepareLogsArchive = async (
   device?: Device
-): Promise<AppResult<DownloadAndArchiveLogsData, SupportMetaErrorName>> => {
+): Promise<AppResult<PrepareLogsArchiveData, SupportMetaErrorName>> => {
   const metaCreateTicketErrors: MetaCreateTicketError[] = []
   const todayFormatDate = format(new Date(), "yyyy-MM-dd")
   const { tmpLogsScopePath, tmpLogsDirScopePath } = contactSupportConfig

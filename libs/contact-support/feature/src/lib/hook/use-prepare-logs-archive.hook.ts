@@ -7,36 +7,36 @@ import { useCallback } from "react"
 import { Device } from "devices/common/models"
 import { AppFileSystem } from "app-utils/renderer"
 import { useActiveDeviceQuery } from "devices/common/feature"
-import { downloadAndArchiveLogs } from "../actions/download-and-archive-logs"
+import { prepareLogsArchive } from "../actions/prepare-logs-archive"
 import { AppFileSystemGuardOptions } from "app-utils/models"
 
-export const useDownloadLogsHook = (): ((
-  scopeDestinationPath: AppFileSystemGuardOptions
+export const usePrepareLogsArchiveHook = (): ((
+  archiveCopyTargetPath: AppFileSystemGuardOptions
 ) => Promise<string | null>) => {
   const { data: activeDevice } = useActiveDeviceQuery<Device>()
 
   return useCallback(
-    async (scopeDestinationPath) => {
+    async (archiveCopyTargetPath) => {
       try {
-        const downloadResult = await downloadAndArchiveLogs(activeDevice)
-        if (!downloadResult.ok) {
-          throw new Error("DownloadLogsFailed")
+        const prepareLogsArchiveResult = await prepareLogsArchive(activeDevice)
+        if (!prepareLogsArchiveResult.ok) {
+          throw new Error("PrepareLogsArchiveFailed")
         }
 
         const appFileSystemResult = await AppFileSystem.cp({
           scopeSourcePath: {
-            scopeRelativePath: downloadResult.data.path,
+            scopeRelativePath: prepareLogsArchiveResult.data.path,
           },
-          scopeDestinationPath,
+          scopeDestinationPath: archiveCopyTargetPath,
         })
 
         if (!appFileSystemResult.ok) {
           throw new Error("CopyLogsFailed")
         }
 
-        return downloadResult.data.path ?? null
+        return prepareLogsArchiveResult?.data.path || null
       } catch (error) {
-        console.error("Error downloading or copying logs:", error)
+        console.error("Error preparing or copying logs:", error)
         return null
       }
     },

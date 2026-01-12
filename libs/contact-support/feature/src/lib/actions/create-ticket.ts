@@ -12,7 +12,7 @@ import {
   createTicketRequest,
   CreateTicketRequestPayload,
 } from "../api/create-ticket.request"
-import { downloadAndArchiveLogs } from "./download-and-archive-logs"
+import { prepareLogsArchive } from "./prepare-logs-archive"
 
 export const withMetaErrorsInDescription = (
   description: string,
@@ -88,7 +88,7 @@ export const createTicket = async (
   if (logsZipScopePath) {
     resolvedLogsZipScopePath = logsZipScopePath
   } else {
-    const downloadAndArchiveLogsResult = await downloadAndArchiveLogs(device)
+    const downloadAndArchiveLogsResult = await prepareLogsArchive(device)
 
     resolvedLogsZipScopePath = downloadAndArchiveLogsResult.ok
       ? downloadAndArchiveLogsResult.data.path

@@ -30,7 +30,7 @@ export interface ContactSupportFlowProps {
   createTicket: (
     data: ContactSupportFieldValues & { logsZipScopePath?: string }
   ) => Promise<AppResult>
-  downloadLogs: (
+  prepareLogs: (
     scopeDestinationPath: AppFileSystemGuardOptions
   ) => Promise<string | null>
   openDirectoryDialog: (
@@ -55,7 +55,7 @@ export const ContactSupportFlow: FunctionComponent<ContactSupportFlowProps> = ({
   onClose,
   messages,
   createTicket,
-  downloadLogs,
+  prepareLogs,
   openDirectoryDialog,
   formIcon,
 }) => {
@@ -76,7 +76,7 @@ export const ContactSupportFlow: FunctionComponent<ContactSupportFlowProps> = ({
       setFlowState(ContactSupportFlowState.Sending)
       const result = await createTicket({
         ...data,
-        logsZipScopePath: logsZipScopePath,
+        logsZipScopePath,
       })
       if (result.ok) {
         setFlowState(ContactSupportFlowState.Success)
@@ -99,7 +99,7 @@ export const ContactSupportFlow: FunctionComponent<ContactSupportFlowProps> = ({
     setDownloadingLogs(true)
 
     const logsZipScopePath = await delayUntil(
-      downloadLogs({
+      prepareLogs({
         fileAbsolutePath,
         absolute: true,
       }),
@@ -109,7 +109,7 @@ export const ContactSupportFlow: FunctionComponent<ContactSupportFlowProps> = ({
       setLogsZipScopePath(logsZipScopePath)
     }
     setDownloadingLogs(false)
-  }, [downloadLogs, openDirectoryDialog])
+  }, [prepareLogs, openDirectoryDialog])
 
   return (
     <>
