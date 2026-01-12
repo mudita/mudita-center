@@ -112,13 +112,10 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app --publish never --output-style stream --no-cloud
-      #
-      #      (see TODO: https://appnroll.atlassian.net/browse/CP-3938 in electron-builder.yml)
-      #      - name: Verify apple sign
-      #        if: matrix.runner_label == 'macos-m-nexus'
-      #        run: |
-      #          codesign -v -v apps/app/release/mac/Mudita\ Center.app
-      #
+      - name: Verify apple sign
+        if: matrix.runner_label == 'macos-m-nexus'
+        run: |
+          codesign -v -v apps/app/release/mac/Mudita\ Center.app
       - name: Upload artifacts to Nexus - Windows
         if: matrix.runner_label == 'windows-nexus'
         env:
