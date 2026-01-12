@@ -16,7 +16,7 @@ import {
   IconType,
 } from "app-theme/models"
 import { Contact } from "devices/common/models"
-import { NameField } from "./name-field"
+import { makeName, NameField } from "./name-field"
 import { FormValues } from "./form"
 
 export const ColumnCheckbox: FunctionComponent<{
@@ -47,7 +47,7 @@ export const ColumnCheckbox: FunctionComponent<{
 export const ColumnName: FunctionComponent<{ contact: Contact }> = memo(
   ({ contact }) => {
     return (
-      <NameCell>
+      <NameCell title={makeName(contact)}>
         <Typography.P1 color={"black"} lines={1}>
           <NameField contact={contact} />
           {contact.starred && (
@@ -153,6 +153,10 @@ const CustomCheckbox = styled(Checkbox)`
 const NameCell = styled(Column)`
   flex: 1;
   padding: 0 0.4rem;
+
+  p {
+    white-space: pre;
+  }
 `
 
 const StarIcon = styled.span`
@@ -161,9 +165,13 @@ const StarIcon = styled.span`
 `
 
 const PhoneCell = styled(Column)`
-  width: 14rem;
+  width: 16rem;
   text-align: right !important;
   padding-right: 1.2rem;
+
+  p {
+    padding-left: 1.2rem;
+  }
 `
 
 const MorePhonesCell = styled(Column)`

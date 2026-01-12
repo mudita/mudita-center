@@ -46,7 +46,7 @@ export const DetailsPhoneNumber: FunctionComponent<Props> = ({
         )}
         {phoneNumbers.map(({ phoneNumber, phoneType }, index) => (
           <Fragment key={index}>
-            <TextWrapper>{phoneNumber}</TextWrapper>
+            <TextWrapper title={phoneNumber}>{phoneNumber}</TextWrapper>
             <TextWrapper $noSelect>•</TextWrapper>
             <TextWrapper>
               {phoneType.substring(0, 1).toUpperCase() +
@@ -112,6 +112,9 @@ const TextWrapper = styled.div<{ $noSelect?: boolean }>`
   ${typographyStyles.paragraph.p4};
   color: ${({ theme }) => theme.app.color.black};
   user-select: ${({ $noSelect }) => ($noSelect ? "none" : "auto")};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const Grid = styled.div`
