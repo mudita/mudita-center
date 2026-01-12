@@ -88,6 +88,14 @@ jobs:
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
       - name: Install dependencies
         run: npm run setup
+      - name: Prepare electron-builder config - Mac
+        if: matrix.runner_label == 'macos-m-nexus'
+        run: |
+          cp ~/actions-runner/envs/electron-builder.env apps/app/electron-builder.env
+          APPLE_ASC_PROVIDER=$(grep '^APPLE_ASC_PROVIDER=' apps/app/electron-builder.env | cut -d '=' -f2-)
+          APPLE_ID_PASSWORD=$(grep '^APPLE_ID_PASSWORD=' apps/app/electron-builder.env | cut -d '=' -f2-)
+          echo "APPLE_TEAM_ID=$APPLE_ASC_PROVIDER" >> apps/app/electron-builder.env
+          echo "APPLE_APP_SPECIFIC_PASSWORD=$APPLE_ID_PASSWORD" >> apps/app/electron-builder.env
       - name: Build - Windows
         if: matrix.runner_label == 'windows-nexus'
         run: |
@@ -97,7 +105,6 @@ jobs:
       - name: Build - Mac
         if: matrix.runner_label == 'macos-m-nexus'
         run: |
-          export CSC_IDENTITY_AUTO_DISCOVERY=false
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:mac app --publish never --universal --output-style stream --no-cloud
       - name: Build - Linux
@@ -105,6 +112,10 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app --publish never --output-style stream --no-cloud
+#      - name: Verify apple sign
+#        if: matrix.runner_label == 'macos-m-nexus'
+#        run: |
+#          codesign -v -v apps/app/release/mac/Mudita\ Center.app
       - name: Upload artifacts to Nexus - Windows
         if: matrix.runner_label == 'windows-nexus'
         env:
