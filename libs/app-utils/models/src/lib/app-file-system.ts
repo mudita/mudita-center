@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export type AppFileSystemScope = "userData" | "temp"
+export type AppFileSystemScope = "userData" | "temp" | "downloads"
 
 export interface RelativeScopeOptions {
   scopeRelativePath: string | string[]

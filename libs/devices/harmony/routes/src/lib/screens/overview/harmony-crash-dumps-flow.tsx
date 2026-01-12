@@ -5,11 +5,11 @@
 
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
-import { AppResultFactory, OpenDialogOptionsLite } from "app-utils/models"
+import { AppResultFactory } from "app-utils/models"
 import { CrashDumpsData, Harmony } from "devices/harmony/models"
 import { IconType } from "app-theme/models"
 import { defineMessages } from "app-localize/utils"
-import { AppActions } from "app-utils/renderer"
+import { useOpenDirectoryDialogHook } from "app-utils/renderer"
 import {
   ContactSupportFieldValues,
   ContactSupportFlow,
@@ -44,6 +44,7 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
     useCreateTicket()
 
   const prepareLogs = usePrepareLogsArchiveHook()
+  const openDirectoryDialog = useOpenDirectoryDialogHook()
 
   const [crashDumpsFlowOpened, setCrashDumpsFlowOpened] = useState<boolean>()
 
@@ -74,13 +75,6 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
     crashDumpsData &&
       updateIgnoredCrashDumps(crashDumpsData.crashDumps, activeDevice)
   }, [createTicketReset, crashDumpsData, activeDevice])
-
-  const openDirectoryDialog = async (
-    options: OpenDialogOptionsLite
-  ): Promise<string | null> => {
-    const directories = await AppActions.openFileDialog(options)
-    return directories[0] ?? null
-  }
 
   return (
     <ContactSupportFlow
