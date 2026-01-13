@@ -49,8 +49,6 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
   const sortedFiles = useMemo(() => {
     const list = activeFileMap ? Object.values(activeFileMap) : []
 
-    console.log(list)
-
     return (
       list?.sort((a, b) => {
         const patterns = [

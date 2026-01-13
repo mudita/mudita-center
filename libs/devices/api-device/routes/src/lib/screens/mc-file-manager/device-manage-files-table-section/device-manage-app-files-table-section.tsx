@@ -22,7 +22,7 @@ import {
   SizeCell,
   TypeCell,
 } from "./files-table-section-shared"
-import { Badge, Button, TableNew, Typography } from "app-theme/ui"
+import { Badge, Button, Table, Typography } from "app-theme/ui"
 import { isAppFileManagerFile } from "../device-manage-files.types"
 
 interface DeviceManageAppFilesTableSectionProps {
@@ -36,7 +36,7 @@ export const DeviceManageAppFilesTableSection: FunctionComponent<
   const rowRenderer = useCallback(
     (file: FileManagerFile) => {
       return (
-        <TableNew.Row
+        <Table.Row
           key={file.id}
           rowSelectorCheckboxDataAttr={"data-row-checkbox"}
         >
@@ -51,14 +51,14 @@ export const DeviceManageAppFilesTableSection: FunctionComponent<
             file={file}
             onAppInstallButtonClick={onAppInstallButtonClick}
           />
-        </TableNew.Row>
+        </Table.Row>
       )
     },
     [onAppInstallButtonClick]
   )
 
   return (
-    <TableNew
+    <Table
       itemIdField={"id"}
       items={files}
       rowRenderer={rowRenderer}
@@ -76,7 +76,7 @@ export const DeviceManageAppFilesTableSection: FunctionComponent<
 }
 
 // Status column
-const HeaderCellStatus = styled(TableNew.HeaderCell)`
+const HeaderCellStatus = styled(Table.HeaderCell)`
   width: 10rem;
   padding: 1.4rem 0 1.2rem 0;
 `

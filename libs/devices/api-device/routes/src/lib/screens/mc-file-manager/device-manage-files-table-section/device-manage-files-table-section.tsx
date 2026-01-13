@@ -18,7 +18,7 @@ import {
   SizeCell,
   TypeCell,
 } from "./files-table-section-shared"
-import { TableNew } from "app-theme/ui"
+import { Table } from "app-theme/ui"
 
 export const DeviceManageFilesTableSection: FunctionComponent<
   Pick<ManageFilesTableSectionProps, "onRowClick"> & {
@@ -32,7 +32,7 @@ export const DeviceManageFilesTableSection: FunctionComponent<
         onRowClick?.(file.id)
       }
       return (
-        <TableNew.Row
+        <Table.Row
           key={file.id}
           onClick={onClick}
           rowSelectorCheckboxDataAttr={"data-row-checkbox"}
@@ -44,14 +44,14 @@ export const DeviceManageFilesTableSection: FunctionComponent<
           <NameCell file={file} tooltipContent={nameTooltipText} />
           <TypeCell file={file} />
           <SizeCell file={file} />
-        </TableNew.Row>
+        </Table.Row>
       )
     },
     [nameTooltipText, onRowClick]
   )
 
   return (
-    <TableNew
+    <Table
       itemIdField={"id"}
       items={files}
       rowRenderer={rowRenderer}

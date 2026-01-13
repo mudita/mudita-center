@@ -10,7 +10,7 @@ import {
   TypographyModifier,
   TypographyTransform,
 } from "app-theme/models"
-import { Checkbox, TableNew, Tooltip, Typography } from "app-theme/ui"
+import { Checkbox, Table, Tooltip, Typography } from "app-theme/ui"
 import {
   FileManagerFile,
   ManageFilesFormValues,
@@ -29,7 +29,7 @@ export const HarmonyManageFilesTableSection: FunctionComponent<
         onRowClick?.(file.id)
       }
       return (
-        <TableNew.Row
+        <Table.Row
           key={file.id}
           rowSelectorCheckboxDataAttr={"data-row-checkbox"}
           onClick={onClick}
@@ -41,14 +41,14 @@ export const HarmonyManageFilesTableSection: FunctionComponent<
           <NameCell file={file} />
           <TypeCell file={file} />
           <SizeCell file={file} />
-        </TableNew.Row>
+        </Table.Row>
       )
     },
     [onRowClick]
   )
 
   return (
-    <TableNew
+    <Table
       itemIdField={"id"}
       items={files}
       rowRenderer={rowRenderer}
@@ -105,7 +105,7 @@ const ColumnCheckbox = styled.div`
   padding: 0 0 0 2.2rem;
 `
 
-const HeaderCellCheckbox = styled(TableNew.HeaderCell)`
+const HeaderCellCheckbox = styled(Table.HeaderCell)`
   width: 7.4rem;
 `
 
@@ -123,7 +123,7 @@ const ColumnName = styled.div`
   padding: 0 3.2rem 0 0;
 `
 
-const HeaderCellName = styled(TableNew.HeaderCell)`
+const HeaderCellName = styled(Table.HeaderCell)`
   flex: 1;
   //padding: 1.4rem 0 1.2rem 0;
 `
@@ -143,7 +143,7 @@ const ColumnType = styled.div`
   width: 9.4rem;
 `
 
-const HeaderCellType = styled(TableNew.HeaderCell)`
+const HeaderCellType = styled(Table.HeaderCell)`
   width: 9.4rem;
   //padding: 1.4rem 0 1.2rem 0;
 `
@@ -163,7 +163,7 @@ const ColumnSize = styled.div`
   width: 8.8rem;
 `
 
-const HeaderCellSize = styled(TableNew.HeaderCell)`
+const HeaderCellSize = styled(Table.HeaderCell)`
   width: 8.8rem;
   //padding: 1.4rem 0 1.2rem 0;
 `

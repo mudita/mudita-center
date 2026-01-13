@@ -10,7 +10,7 @@ import {
   TypographyModifier,
   TypographyTransform,
 } from "app-theme/models"
-import { Checkbox, TableNew, Tooltip, Typography } from "app-theme/ui"
+import { Checkbox, Table, Tooltip, Typography } from "app-theme/ui"
 import { useFormContext } from "react-hook-form"
 import { FileManagerFile, ManageFilesFormValues } from "devices/common/ui"
 
@@ -98,7 +98,7 @@ export const ColumnCheckbox = styled.div`
   padding: 0 0 0 2.2rem;
 `
 
-export const HeaderCellCheckbox = styled(TableNew.HeaderCell)`
+export const HeaderCellCheckbox = styled(Table.HeaderCell)`
   width: 7.4rem;
 `
 
@@ -121,7 +121,7 @@ export const ColumnName = styled.div`
   align-items: center;
 `
 
-export const HeaderCellName = styled(TableNew.HeaderCell)`
+export const HeaderCellName = styled(Table.HeaderCell)`
   flex: 1;
 `
 
@@ -144,7 +144,7 @@ export const ColumnType = styled.div`
   align-items: center;
 `
 
-export const HeaderCellType = styled(TableNew.HeaderCell)`
+export const HeaderCellType = styled(Table.HeaderCell)`
   width: 9.4rem;
 `
 
@@ -160,7 +160,7 @@ export const ColumnSize = styled.div`
   align-items: center;
 `
 
-export const HeaderCellSize = styled(TableNew.HeaderCell)`
+export const HeaderCellSize = styled(Table.HeaderCell)`
   width: 8.8rem;
 `
 
