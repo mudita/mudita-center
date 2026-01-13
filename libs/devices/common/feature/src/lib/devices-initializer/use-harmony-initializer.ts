@@ -17,6 +17,7 @@ import {
   useDeviceMenuQuery,
   useDeviceStatusQuery,
 } from "../hooks"
+import { TrackEventCategory, useUniqueTrack } from "app-utils/renderer"
 
 export const useHarmonyInitializer = (device: Harmony) => {
   const queryClient = useQueryClient()
@@ -36,6 +37,8 @@ export const useHarmonyInitializer = (device: Harmony) => {
   })
 
   const { isLoading: isLogsLoading } = useNewCrashDumpsQuery(device)
+
+  const uniqueTrack = useUniqueTrack()
 
   const setStatus = useCallback(
     (status: DeviceStatus) => {
@@ -62,6 +65,12 @@ export const useHarmonyInitializer = (device: Harmony) => {
       return
     }
     setStatus(DeviceStatus.Initialized)
+
+    uniqueTrack({
+      e_a: config?.version || "unknown",
+      e_c: TrackEventCategory.HarmonyVersion,
+      _id: config?.serialNumber || "unknown",
+    })
   }, [
     isConfigError,
     isConfigLoading,
@@ -69,6 +78,8 @@ export const useHarmonyInitializer = (device: Harmony) => {
     isUpdateCheckLoading,
     isLogsLoading,
     setStatus,
+    config,
+    uniqueTrack,
   ])
 
   useEffect(() => {
