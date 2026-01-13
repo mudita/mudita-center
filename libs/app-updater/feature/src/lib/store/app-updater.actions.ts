@@ -5,10 +5,11 @@
 
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit"
 import { AppUpdateAvailability } from "app-updater/models"
-import { AppUpdater } from "app-updater/renderer"
-import { AppActions } from "app-utils/renderer"
 import { AppStore } from "app-store/models"
 import { delayUntilAtLeast } from "app-utils/common"
+import { AppUpdater } from "app-updater/renderer"
+import { AppActions, track, TrackEventCategory } from "app-utils/renderer"
+import { selectAppUpdaterCurrentVersion, selectAppUpdaterNewVersion } from "./app-updater.selectors"
 
 export const setAppUpdaterCurrentVersion = createAction<string>(
   "appUpdater/setCurrentVersion"
@@ -72,22 +73,53 @@ export const checkForAppUpdate = createAsyncThunk<
   return available
 })
 
-export const downloadAndInstallAppUpdate = createAsyncThunk(
+export const downloadAndInstallAppUpdate = createAsyncThunk<
+  void,
+  void,
+  { state: AppStore }
+>(
   "appUpdater/downloadAndInstallAppUpdate",
-  async (_, { dispatch }) => {
+  async (_, { dispatch, getState }) => {
+    const currentVersion = selectAppUpdaterCurrentVersion(getState())
+    const newVersion = selectAppUpdaterNewVersion(getState())
+
     dispatch(setAppUpdaterSilentMode(false))
     dispatch(setAppUpdaterDownloadProgress(0))
     dispatch(setAppUpdaterModalsOpened(true))
     const downloadResult = await AppUpdater.download()
 
+    void track({
+      e_a: newVersion || "unknown",
+      e_n: currentVersion || "unknown",
+      e_c: TrackEventCategory.CenterUpdateDownload,
+    })
+
     if (!downloadResult.ok) {
+      void track({
+        e_a: newVersion || "unknown",
+        e_n: currentVersion || "unknown",
+        e_c: TrackEventCategory.CenterUpdateFail,
+      })
+
       dispatch(setAppUpdaterError(true))
       return
     }
 
     const installResult = await AppUpdater.install()
 
+    void track({
+      e_a: newVersion || "unknown",
+      e_n: currentVersion || "unknown",
+      e_c: TrackEventCategory.CenterUpdateStart,
+    })
+
     if (!installResult.ok) {
+      void track({
+        e_a: newVersion || "unknown",
+        e_n: currentVersion || "unknown",
+        e_c: TrackEventCategory.CenterUpdateFail,
+      })
+
       dispatch(setAppUpdaterError(true))
       return
     }
