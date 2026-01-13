@@ -7,6 +7,8 @@ import { List, RowComponentProps, useListRef } from "react-window"
 import styled, { css } from "styled-components"
 import {
   ComponentProps,
+  FunctionComponent,
+  PropsWithChildren,
   ReactNode,
   RefObject,
   useImperativeHandle,
@@ -17,6 +19,8 @@ import {
   listItemClickableStyles,
   listItemSelectedStyles,
 } from "../list/list-item"
+import { Typography } from "../typography/typography"
+import { TypographyTransform } from "app-theme/models"
 
 type Ref<ItemId> = {
   scrollToItem: (id: ItemId, instant?: boolean) => void
@@ -25,6 +29,7 @@ type Ref<ItemId> = {
 interface Props<Item, ItemId extends keyof Item = keyof Item> {
   itemIdField: ItemId
   items: Item[]
+  header?: ReactNode
   rowRenderer: (item: Item, index: number) => ReactNode
   ref?: RefObject<Ref<Item[ItemId]> | null>
   rowHeight?: ComponentProps<typeof Table>["rowHeight"]
@@ -36,6 +41,7 @@ export const TableNew = <
 >({
   items,
   rowRenderer,
+  header,
   ref,
   itemIdField,
   rowHeight = 64,
@@ -59,17 +65,26 @@ export const TableNew = <
   }, [itemIdField, items, listRef])
 
   return (
-    <Table
-      className="table-new"
-      listRef={listRef}
-      rowComponent={RowComponent as ComponentProps<typeof List>["rowComponent"]}
-      rowCount={items.length}
-      rowHeight={rowHeight}
-      rowProps={{
-        items,
-        rowRenderer,
-      }}
-    />
+    <TableWrapper>
+      {Boolean(header) && <HeaderRow>{header}</HeaderRow>}
+      <Table
+        className="table-new"
+        listRef={listRef}
+        rowComponent={
+          RowComponent as ComponentProps<typeof List>["rowComponent"]
+        }
+        rowCount={items.length}
+        rowHeight={rowHeight}
+        rowProps={{
+          items,
+          rowRenderer,
+        }}
+        overscanCount={10}
+        style={{
+          overflowY: "scroll",
+        }}
+      />
+    </TableWrapper>
   )
 }
 // eslint-disable-next-line no-redeclare
@@ -100,6 +115,14 @@ const RowComponent = <Item = unknown,>({
 const Table = styled(List)`
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
+`
+
+const TableWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow-x: hidden;
 `
 
@@ -134,4 +157,38 @@ const Row = styled.div<{
   ${({ active }) => active && listItemActiveStyles};
 `
 
+const HeaderCellWrapper = styled.div`
+  display: flex;
+  height: 4.5rem;
+  align-items: center;
+`
+
+const HeaderCell: FunctionComponent<PropsWithChildren> = ({
+  children,
+  ...rest
+}) => {
+  return (
+    <HeaderCellWrapper {...rest}>
+      {typeof children === "string" ? (
+        <Typography.P5 textTransform={TypographyTransform.Uppercase}>
+          {children}
+        </Typography.P5>
+      ) : (
+        children
+      )}
+    </HeaderCellWrapper>
+  )
+}
+
+const HeaderRow = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
+  z-index: 1;
+  padding-right: 0.5rem; /* scrollbar width */
+`
+
 TableNew.Row = Row
+TableNew.HeaderCell = HeaderCell
