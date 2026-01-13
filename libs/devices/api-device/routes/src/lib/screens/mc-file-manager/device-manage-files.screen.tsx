@@ -17,7 +17,7 @@ import {
   TransferFileEntry,
   TransferFilesActionType,
 } from "devices/common/models"
-import { AppActions } from "app-utils/renderer"
+import { AppActions, TrackEventCategory, useTrack } from "app-utils/renderer"
 import {
   openFileDialog,
   useActiveDeviceQuery,
@@ -75,6 +75,8 @@ export const DeviceManageFilesScreen: FunctionComponent<{
 
   const { activeCategoryId, setActiveCategoryId, activeFileMap } =
     useManageFilesSelection({ categories, categoryFileMap })
+
+  const track = useTrack()
 
   const summaryHeader =
     feature === DeviceManageFileFeature.Internal
@@ -153,6 +155,25 @@ export const DeviceManageFilesScreen: FunctionComponent<{
       },
       abortController: params.abortController,
       entityType: activeCategoryId,
+    })
+
+    const failedFiles = result.data?.failed ?? []
+
+    const succeededLength = result.ok ? files.length - failedFiles.length : 0
+    const failedLength = failedFiles.length
+    const isAborted = failedFiles.some(
+      (file) => file.errorName === FailedTransferErrorName.Aborted
+    )
+
+    const status =
+      failedLength === 0 ? "succeeded" : isAborted ? "aborted" : "failed"
+    const modes = result.data?.trackedModes
+      .map((mode) => (mode === "mtp" ? "m" : "s"))
+      .join(",")
+
+    void track({
+      e_c: TrackEventCategory.FileTransferSend,
+      e_a: `${status}/${succeededLength},${failedLength}/${modes}`,
     })
 
     await refetch({
@@ -258,6 +279,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         ],
         abortController,
       })
+
       if (!fileResponse.ok) {
         return AppResultFactory.failed(fileResponse.error)
       }

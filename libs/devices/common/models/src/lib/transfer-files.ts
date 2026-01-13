@@ -56,10 +56,10 @@ export type ExecuteTransferAppFailedResult = AppFailedResult<
   { failed: FailedTransferItem[] }
 >
 
-export type ExecuteTransferResult = AppResult<
-  ExecuteTransferSuccessData,
+export type ExecuteTransferResult<Context extends object = object> = AppResult<
+  ExecuteTransferSuccessData & Context,
   FailedTransferErrorName | string,
-  { failed: FailedTransferItem[] }
+  { failed: FailedTransferItem[] } & Context
 >
 
 export type ExecuteTransferFn<DeviceType> = (
@@ -72,7 +72,7 @@ export enum TransferFilesActionType {
 }
 
 export type DataSource =
-  | { type: "memory"; data: (string | Uint8Array) }
+  | { type: "memory"; data: string | Uint8Array }
   | { type: "path"; path: string; fileSize?: number }
   | { type: "fileLocation"; fileLocation: AppFileSystemGuardOptions }
 
@@ -112,19 +112,16 @@ export interface TransferDownloadFilesToMemoryEntry extends TransferFileEntry {
   target: { type: "memory"; path: string }
 }
 
-export interface TransferDownloadFilesToMemoryParams
-  extends ExecuteTransferParams<ApiDevice> {
+export interface TransferDownloadFilesToMemoryParams extends ExecuteTransferParams<ApiDevice> {
   files: TransferDownloadFilesToMemoryEntry[]
 }
 
-export interface TransferDownloadFilesToLocationEntry
-  extends TransferFileEntry {
+export interface TransferDownloadFilesToLocationEntry extends TransferFileEntry {
   source: { type: "path"; path: string; fileSize: number }
   target: { type: "path"; path: string }
 }
 
-export interface TransferDownloadFilesToLocationParams
-  extends ExecuteTransferParams<ApiDevice> {
+export interface TransferDownloadFilesToLocationParams extends ExecuteTransferParams<ApiDevice> {
   files: TransferDownloadFilesToLocationEntry[]
 }
 
