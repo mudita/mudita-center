@@ -11,7 +11,7 @@ import {
   GenericDeleteFlow,
   GenericDeleteFlowProps,
   GenericFailedModal,
-  LoadingState,
+  ScreenLoader,
 } from "app-theme/ui"
 import { QuotationsTopBar } from "./quotations-top-bar"
 import { quotationsMessages } from "./quotations.messages"
@@ -127,61 +127,61 @@ export const Quotations: FunctionComponent<QuotationsProps> = ({
   )
 
   return (
-    <Wrapper>
-      <QuotationsTopBar
-        onSettingsClick={handleSettingsClick}
-        onAddClick={handleCreatorOpen}
-        onDeleteClick={startDeleteFlow}
-        onAllItemsToggle={handleAllItemsToggle}
-        showAddButton={quotations.length > 0}
-        selectedItemsNumber={selectedQuotations.length}
-        allItemsSelected={selectedQuotations.length === quotations.length}
-      />
-      {isLoading ? (
-        <QuotationsLoadingState
-          opened={true}
-          message={quotationsMessages.loadStateText.id}
-        />
-      ) : quotations.length === 0 ? (
-        <QuotationsEmptyState
+    <ScreenLoader
+      loading={isLoading}
+      message={quotationsMessages.loadStateText.id}
+    >
+      <Wrapper>
+        <QuotationsTopBar
+          onSettingsClick={handleSettingsClick}
           onAddClick={handleCreatorOpen}
+          onDeleteClick={startDeleteFlow}
+          onAllItemsToggle={handleAllItemsToggle}
+          showAddButton={quotations.length > 0}
+          selectedItemsNumber={selectedQuotations.length}
+          allItemsSelected={selectedQuotations.length === quotations.length}
+        />
+        {quotations.length === 0 ? (
+          <QuotationsEmptyState
+            onAddClick={handleCreatorOpen}
+            messages={messages}
+          />
+        ) : (
+          <QuotationsList
+            quotations={quotations}
+            onCheckboxToggle={handleCheckboxToggle}
+            selectedQuotations={selectedQuotations.map((item) => item.id)}
+          />
+        )}
+        <QuotationsCreateFlow
+          opened={createFlowOpened}
+          onClose={() => setCreateFlowOpened(false)}
+          createQuotation={createQuotation}
           messages={messages}
         />
-      ) : (
-        <QuotationsList
-          quotations={quotations}
-          onCheckboxToggle={handleCheckboxToggle}
-          selectedQuotations={selectedQuotations.map((item) => item.id)}
+        <GenericDeleteFlow
+          ref={genericDeleteRef}
+          onDeleteSuccess={finalizeDeleteSuccess}
+          deleteItemsAction={deleteQuotations}
+          deleteFlowMessages={messages}
         />
-      )}
-      <QuotationsCreateFlow
-        opened={createFlowOpened}
-        onClose={() => setCreateFlowOpened(false)}
-        createQuotation={createQuotation}
-        messages={messages}
-      />
-      <GenericDeleteFlow
-        ref={genericDeleteRef}
-        onDeleteSuccess={finalizeDeleteSuccess}
-        deleteItemsAction={deleteQuotations}
-        deleteFlowMessages={messages}
-      />
-      <GenericFailedModal
-        opened={noSpaceModalOpened}
-        onClose={() => setNoSpaceModalOpened(false)}
-        title={formatMessage(messages.noSpaceModalTitle)}
-        description={formatMessage(messages.noSpaceModalDescription)}
-        closeButtonText={formatMessage(messages.noSpaceModalButtonText)}
-      />
-      <QuotationsSettingsFlow
-        opened={settingsOpened}
-        settings={settings}
-        customQuotationsCount={quotations.length}
-        updateSettings={updateSettings}
-        onClose={() => setSettingsOpened(false)}
-        messages={messages}
-      />
-    </Wrapper>
+        <GenericFailedModal
+          opened={noSpaceModalOpened}
+          onClose={() => setNoSpaceModalOpened(false)}
+          title={formatMessage(messages.noSpaceModalTitle)}
+          description={formatMessage(messages.noSpaceModalDescription)}
+          closeButtonText={formatMessage(messages.noSpaceModalButtonText)}
+        />
+        <QuotationsSettingsFlow
+          opened={settingsOpened}
+          settings={settings}
+          customQuotationsCount={quotations.length}
+          updateSettings={updateSettings}
+          onClose={() => setSettingsOpened(false)}
+          messages={messages}
+        />
+      </Wrapper>
+    </ScreenLoader>
   )
 }
 
@@ -193,8 +193,4 @@ const Wrapper = styled.div`
   background-color: ${backgroundColor("row")};
   height: 100%;
   width: 100%;
-`
-
-const QuotationsLoadingState = styled(LoadingState)`
-  margin-top: -12rem;
 `
