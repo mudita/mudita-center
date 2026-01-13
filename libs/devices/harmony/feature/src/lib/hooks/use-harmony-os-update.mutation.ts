@@ -3,12 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import {
-  HarmonyOsUpdateInfoFile,
-  useHarmonyOsUpdateInfoQuery,
-} from "./use-harmony-os-update-info.query"
 import { useCallback, useEffect, useRef, useState } from "react"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { sum } from "lodash"
 import { delay } from "app-utils/common"
 import {
@@ -18,11 +14,16 @@ import {
 } from "devices/harmony/models"
 import { useDeviceFreezer } from "app-serialport/renderer"
 import { FailedTransferErrorName } from "devices/common/models"
-import { uploadFiles } from "../actions/upload-files"
-import { getHarmonyOsDownloadLocation } from "./use-harmony-os-download.mutation"
+import { track, TrackEventCategory } from "app-utils/renderer"
 import { updateHarmony } from "../api/update-harmony"
 import { removeFileFromHarmony } from "../api/remove-file-from-harmony"
+import { uploadFiles } from "../actions/upload-files"
 import { getHarmonyInfo } from "../api/get-harmony-info"
+import {
+  HarmonyOsUpdateInfoFile,
+  useHarmonyOsUpdateInfoQuery,
+} from "./use-harmony-os-update-info.query"
+import { getHarmonyOsDownloadLocation } from "./use-harmony-os-download.mutation"
 import { useHarmonyTimeQuery } from "./use-harmony-time.query"
 
 export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
@@ -61,11 +62,29 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
         // Retrieve the device path where the update file will be sent
         const deviceInfo = await getHarmonyInfo(device)
         if (!deviceInfo.ok) {
+          void track({
+            e_a: item.version,
+            e_n: "unknown",
+            e_c: TrackEventCategory.HarmonyUpdateFail,
+          })
+
           throw HarmonyOSUpdateError.UpdateFailed
         }
 
+        void track({
+          e_a: item.version,
+          e_n: deviceInfo.body.version,
+          e_c: TrackEventCategory.HarmonyUpdateStart,
+        })
+
         // Check if the previous update was applied successfully (for sequential updates)
         if (i > 0 && deviceInfo.body.version !== updateInfo[i - 1].version) {
+          void track({
+            e_a: item.version,
+            e_n: deviceInfo.body.version,
+            e_c: TrackEventCategory.HarmonyUpdateFail,
+          })
+
           throw HarmonyOSUpdateError.UpdateFailed
         }
 
@@ -78,6 +97,13 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
           const requiredSpace = item.size * 3 // 300% buffer
           if (freeSpace < requiredSpace) {
             setRequiredSpace(requiredSpace)
+
+            void track({
+              e_a: item.version,
+              e_n: deviceInfo.body.version,
+              e_c: TrackEventCategory.HarmonyUpdateFail,
+            })
+
             throw HarmonyOSUpdateError.NotEnoughSpace
           }
         }
@@ -119,6 +145,11 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
           if (error === FailedTransferErrorName.Aborted) {
             throw HarmonyOSUpdateError.UpdateAborted
           }
+          void track({
+            e_a: item.version,
+            e_n: deviceInfo.body.version,
+            e_c: TrackEventCategory.HarmonyUpdateFail,
+          })
           throw HarmonyOSUpdateError.UpdateFailed
         }
 
@@ -158,6 +189,12 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
 
         // Small delay to ensure device is ready for next file
         await delay(500)
+
+        void track({
+          e_a: item.version,
+          e_n: deviceInfo.body.version,
+          e_c: TrackEventCategory.HarmonyUpdateSuccess,
+        })
       }
       return
     },
