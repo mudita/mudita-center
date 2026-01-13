@@ -148,6 +148,7 @@ const CustomCheckbox = styled(Checkbox)`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `
 
 const NameCell = styled(Column)`
