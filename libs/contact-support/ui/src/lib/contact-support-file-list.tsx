@@ -5,15 +5,19 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-import { IconSize, IconType } from "app-theme/models"
-import { Icon, Typography } from "app-theme/ui"
 import { ContactSupportTestIds } from "contact-support/models"
+import {
+  ButtonTextModifier,
+  ButtonType,
+  IconSize,
+  IconType,
+  TypographyTransform,
+} from "app-theme/models"
+import { Button, Typography } from "app-theme/ui"
 
-const File = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.4rem;
+const FileButton = styled(Button)`
+  justify-content: flex-start;
+  width: fit-content;
 `
 
 const Container = styled.div`
@@ -24,20 +28,31 @@ const Container = styled.div`
 
 interface Props {
   files: { name: string }[]
+  onFileButtonClick: (fileName: string) => void
 }
 
 export const ContactSupportFileList: FunctionComponent<Props> = ({
   files,
+  onFileButtonClick,
   ...props
 }) => {
   return (
     <Container {...props}>
       {files.map((file, index) => {
         return (
-          <File key={index} data-testid={ContactSupportTestIds.FormModalFile}>
-            <Icon type={IconType.FileCopy} size={IconSize.Small} />
-            <Typography.P3>{file.name}</Typography.P3>
-          </File>
+          <FileButton
+            key={index}
+            data-testid={ContactSupportTestIds.FormModalFile}
+            type={ButtonType.Text}
+            modifiers={[ButtonTextModifier.HoverUnderline]}
+            icon={IconType.FileCopy}
+            iconSize={IconSize.Small}
+            onClick={() => onFileButtonClick(file.name)}
+          >
+            <Typography.P3 textTransform={TypographyTransform.None}>
+              {file.name}
+            </Typography.P3>
+          </FileButton>
         )
       })}
     </Container>

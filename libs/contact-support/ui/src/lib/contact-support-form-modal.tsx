@@ -37,8 +37,7 @@ enum FieldKeys {
 }
 
 export interface ContactSupportFieldValues
-  extends FieldValues,
-    SendTicketPayload {
+  extends FieldValues, SendTicketPayload {
   [FieldKeys.Email]: string
   [FieldKeys.Description]: string
 }
@@ -48,6 +47,7 @@ export interface ContactSupportModalProps {
   files: { name: string }[]
   onSubmit: (data: ContactSupportFieldValues) => void
   onClose: VoidFunction
+  onFileButtonClick: (fileName: string) => void
   formIcon?: IconType
   messages?: ContactSupportFormModalMessages
 }
@@ -58,6 +58,7 @@ export const ContactSupportFormModal: FunctionComponent<
   files = [],
   onSubmit,
   onClose,
+  onFileButtonClick,
   opened,
   formIcon = IconType.Support,
   messages = contactSupportMessages,
@@ -144,6 +145,7 @@ export const ContactSupportFormModal: FunctionComponent<
           </FilesLabelDescription>
           <ContactSupportFileList
             files={files}
+            onFileButtonClick={onFileButtonClick}
             data-testid={ContactSupportTestIds.FormModalFileList}
           />
           <FormSendButtonWrapper>

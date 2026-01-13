@@ -6,6 +6,7 @@
 import { IpcMain } from "electron"
 import {
   AppFileSystemArchiveOptions,
+  AppFileSystemCpOptions,
   AppFileSystemIpcEvents,
   AppFileSystemMkdirOptions,
   AppFileSystemPathExistsOptions,
@@ -92,5 +93,21 @@ export const initAppFileSystem = (
   ipcMain.removeHandler(AppFileSystemIpcEvents.GetPath)
   ipcMain.handle(AppFileSystemIpcEvents.GetPath, (_, options) =>
     appFileSystem.getPath(options)
+  )
+  ipcMain.removeHandler(AppFileSystemIpcEvents.Cp)
+  ipcMain.handle(
+    AppFileSystemIpcEvents.Cp,
+    (event, options: AppFileSystemCpOptions) =>
+      appFileSystem.cp({
+        ...options,
+        scopeSourcePath: {
+          ...options.scopeSourcePath,
+          webContentsId: event.sender.id,
+        },
+        scopeDestinationPath: {
+          ...options.scopeDestinationPath,
+          webContentsId: event.sender.id,
+        },
+      })
   )
 }

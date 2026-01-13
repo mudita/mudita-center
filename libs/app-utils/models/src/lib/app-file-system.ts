@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export type AppFileSystemScope = "userData" | "temp"
+export type AppFileSystemScope = "userData" | "temp" | "downloads"
 
 export interface RelativeScopeOptions {
   scopeRelativePath: string | string[]
@@ -16,8 +16,7 @@ export interface AbsolutePathWithGrantOptions {
 }
 
 export interface AppFileSystemGuardOptions
-  extends Partial<RelativeScopeOptions>,
-    Partial<AbsolutePathWithGrantOptions> {
+  extends Partial<RelativeScopeOptions>, Partial<AbsolutePathWithGrantOptions> {
   absolute?: boolean
 }
 
@@ -40,8 +39,12 @@ export interface AppFileSystemArchiveOptions extends AppFileSystemGuardOptions {
   scopeDestinationPath: string
 }
 
-export interface AppFileSystemWriteFileOptions
-  extends AppFileSystemGuardOptions {
+export interface AppFileSystemCpOptions {
+  scopeSourcePath: AppFileSystemGuardOptions
+  scopeDestinationPath: AppFileSystemGuardOptions
+}
+
+export interface AppFileSystemWriteFileOptions extends AppFileSystemGuardOptions {
   options?: {
     encoding?: BufferEncoding | string
     writeAsJson?: boolean
@@ -49,8 +52,7 @@ export interface AppFileSystemWriteFileOptions
   data: Buffer | string | Record<string, unknown>
 }
 
-export interface AppFileSystemReadFileOptions
-  extends AppFileSystemGuardOptions {
+export interface AppFileSystemReadFileOptions extends AppFileSystemGuardOptions {
   encoding?: "buffer" | BufferEncoding
 }
 
