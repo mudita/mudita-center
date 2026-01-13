@@ -5,10 +5,7 @@
 
 import { FunctionComponent, useCallback } from "react"
 import styled from "styled-components"
-import {
-  FileManagerFile,
-  ManageFilesTableSectionProps,
-} from "devices/common/ui"
+import { FileManagerFile } from "devices/common/ui"
 import {
   ButtonSize,
   ButtonType,
@@ -16,129 +13,83 @@ import {
   TypographyTransform,
 } from "app-theme/models"
 import {
-  CellProps,
   ColumnCheckboxCell,
-  FileListEmptyTable,
   HeaderCellCheckbox,
-  HeaderCellName as BaseHeaderCellName,
-  HeaderCellNameText as BaseHeaderCellNameText,
-  HeaderCellSize as BaseHeaderCellSize,
-  HeaderCellSizeText as BaseHeaderCellSizeText,
-  HeaderCellType as BaseHeaderCellType,
-  HeaderCellTypeText as BaseHeaderCellTypeText,
-  NameCell as BaseNameCell,
-  SizeCell as BaseSizeCell,
-  TypeCell as BaseTypeCell,
+  HeaderCellName,
+  HeaderCellSize,
+  HeaderCellType,
+  NameCell,
+  SizeCell,
+  TypeCell,
 } from "./files-table-section-shared"
-import {
-  Badge,
-  Button,
-  TableCell,
-  TableHeaderCell,
-  Typography,
-} from "app-theme/ui"
-import {
-  FileManagerFileMap,
-  isAppFileManagerFile,
-} from "../device-manage-files.types"
+import { Badge, Button, TableNew, Typography } from "app-theme/ui"
+import { isAppFileManagerFile } from "../device-manage-files.types"
 
-interface DeviceManageAppFilesTableSectionProps
-  extends ManageFilesTableSectionProps<FileManagerFileMap> {
+interface DeviceManageAppFilesTableSectionProps {
+  files: FileManagerFile[]
   onAppInstallButtonClick?: StatusCellProps["onAppInstallButtonClick"]
 }
 
 export const DeviceManageAppFilesTableSection: FunctionComponent<
   DeviceManageAppFilesTableSectionProps
-> = ({
-  fileMap,
-  selectedIds,
-  activeRowId,
-  onSelectedChange,
-  onAppInstallButtonClick,
-}) => {
+> = ({ files, onAppInstallButtonClick }) => {
+  const rowRenderer = useCallback(
+    (file: FileManagerFile) => {
+      return (
+        <TableNew.Row
+          key={file.id}
+          rowSelectorCheckboxDataAttr={"data-row-checkbox"}
+        >
+          <ColumnCheckboxCell
+            id={file.id}
+            checkboxDataAttr={"data-row-checkbox"}
+          />
+          <NameCell file={file} />
+          <TypeCell file={file} />
+          <SizeCell file={file} />
+          <StatusCell
+            file={file}
+            onAppInstallButtonClick={onAppInstallButtonClick}
+          />
+        </TableNew.Row>
+      )
+    },
+    [onAppInstallButtonClick]
+  )
+
   return (
-    <FileListEmptyTable
-      activeRowId={activeRowId}
-      dataIds={fileMap ? Object.keys(fileMap) : []}
-    >
-      <HeaderCellCheckbox></HeaderCellCheckbox>
-      <HeaderCellName>
-        <BaseHeaderCellNameText textTransform={TypographyTransform.Uppercase}>
-          Name
-        </BaseHeaderCellNameText>
-      </HeaderCellName>
-      <HeaderCellType>
-        <BaseHeaderCellTypeText textTransform={TypographyTransform.Uppercase}>
-          Type
-        </BaseHeaderCellTypeText>
-      </HeaderCellType>
-      <HeaderCellSize>
-        <BaseHeaderCellSizeText textTransform={TypographyTransform.Uppercase}>
-          Size
-        </BaseHeaderCellSizeText>
-      </HeaderCellSize>
-      <HeaderCellStatus>
-        <HeaderCellStatusText textTransform={TypographyTransform.Uppercase}>
-          Status
-        </HeaderCellStatusText>
-      </HeaderCellStatus>
-      <ColumnCheckboxCell
-        selectedIds={selectedIds}
-        fileMap={fileMap}
-        onChange={onSelectedChange}
-      />
-      <NameCell fileMap={fileMap} />
-      <TypeCell fileMap={fileMap} />
-      <SizeCell fileMap={fileMap} />
-      <StatusCell
-        fileMap={fileMap}
-        onAppInstallButtonClick={onAppInstallButtonClick}
-      />
-    </FileListEmptyTable>
+    <TableNew
+      itemIdField={"id"}
+      items={files}
+      rowRenderer={rowRenderer}
+      header={
+        <>
+          <HeaderCellCheckbox />
+          <HeaderCellName>Name</HeaderCellName>
+          <HeaderCellType>Type</HeaderCellType>
+          <HeaderCellSize>Size</HeaderCellSize>
+          <HeaderCellStatus>Status</HeaderCellStatus>
+        </>
+      }
+    />
   )
 }
 
-const HeaderCellName = styled(BaseHeaderCellName)`
-  width: 28.9rem;
-`
-
-const HeaderCellType = styled(BaseHeaderCellType)`
-  width: 10.4rem;
-`
-
-const HeaderCellSize = styled(BaseHeaderCellSize)`
-  width: 8.8rem;
-`
-
-const HeaderCellStatus = styled(TableHeaderCell)`
+// Status column
+const HeaderCellStatus = styled(TableNew.HeaderCell)`
   width: 10rem;
   padding: 1.4rem 0 1.2rem 0;
 `
 
-export const HeaderCellStatusText = styled(Typography.P5)``
-
-const NameCell = styled(BaseNameCell)`
-  width: 28.9rem;
-`
-
-const TypeCell = styled(BaseTypeCell)`
-  width: 10.4rem;
-`
-
-const SizeCell = styled(BaseSizeCell)`
-  width: 8.8rem;
-`
-
-interface StatusCellProps extends CellProps {
+interface StatusCellProps {
+  file: FileManagerFile
   onAppInstallButtonClick?: (file: FileManagerFile) => void
 }
 
 const StatusCell: FunctionComponent<StatusCellProps> = ({
-  dataItemId,
-  fileMap,
+  file,
   onAppInstallButtonClick,
 }) => {
-  const file = dataItemId ? fileMap[dataItemId] : undefined
   const additionalInfo = isAppFileManagerFile(file)
     ? file.additionalInfo
     : {
@@ -186,18 +137,21 @@ const StatusBadge: FunctionComponent<{
   return (
     <ColumnStatusBadgeWrapper>
       <ColumnStatusBadge icon={IconType.CheckBold} backgroundColor={"green"}>
-        <ColumnStatusText
+        <Typography.P5
           textTransform={TypographyTransform.CapitalizeFirstLetter}
         >
           {status}
-        </ColumnStatusText>
+        </Typography.P5>
       </ColumnStatusBadge>
     </ColumnStatusBadgeWrapper>
   )
 }
 
-const ColumnStatus = styled(TableCell)`
+const ColumnStatus = styled.div`
   width: 10rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `
 
 const ColumnStatusBadge = styled(Badge)`
@@ -210,5 +164,3 @@ const ColumnStatusBadgeWrapper = styled.div`
   height: 100%;
   color: ${({ theme }) => theme.app.color.grey1};
 `
-
-export const ColumnStatusText = styled(Typography.P5)``

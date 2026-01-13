@@ -10,58 +10,41 @@ import {
   TypographyModifier,
   TypographyTransform,
 } from "app-theme/models"
-import {
-  Checkbox,
-  Table,
-  TableCell,
-  TableHeaderCell,
-  Tooltip,
-  Typography,
-} from "app-theme/ui"
-import { FileManagerFileMap } from "../device-manage-files.types"
+import { Checkbox, TableNew, Tooltip, Typography } from "app-theme/ui"
+import { useFormContext } from "react-hook-form"
+import { FileManagerFile, ManageFilesFormValues } from "devices/common/ui"
 
-export type CellProps = {
-  dataItemId?: string
-  fileMap: FileManagerFileMap
+export const ColumnCheckboxCell: FunctionComponent<{
+  id: string
+  checkboxDataAttr: string
   className?: string
-  tooltipContent?: string
-}
+}> = ({ id, checkboxDataAttr, ...rest }) => {
+  const { register } = useFormContext<ManageFilesFormValues>()
 
-export const ColumnCheckboxCell: FunctionComponent<
-  CellProps & {
-    onChange: (fileId: string, checked: boolean) => void
-    selectedIds: Set<string>
-  }
-> = ({ dataItemId, fileMap, onChange, selectedIds }) => {
-  const file = dataItemId ? fileMap[dataItemId] : undefined
   return (
-    <ColumnCheckbox>
-      <Tooltip placement="bottom-right" offset={{ x: 16, y: 14 }}>
-        <Tooltip.Content>
-          <ColumnCheckboxTooltipContentText>
-            Select
-          </ColumnCheckboxTooltipContentText>
-        </Tooltip.Content>
+    <ColumnCheckbox {...rest}>
+      <Tooltip placement={"bottom-right"} offset={{ x: 24, y: 5 }}>
         <Tooltip.Anchor>
-          <ColumnCheckboxTooltipAnchorElement
+          <CustomCheckbox
+            {...{
+              [checkboxDataAttr]: true,
+            }}
+            key={id}
             size={CheckboxSize.Small}
-            checked={file ? selectedIds.has(file.id) : false}
-            onChange={(e) => file?.id && onChange(file.id, e.target.checked)}
+            {...register(`selectedFiles.${id}`)}
           />
         </Tooltip.Anchor>
+        <Tooltip.Content>Select</Tooltip.Content>
       </Tooltip>
     </ColumnCheckbox>
   )
 }
 
-export const NameCell: FunctionComponent<CellProps> = ({
-  dataItemId,
-  fileMap,
-  tooltipContent,
-  ...props
-}) => {
-  const file = dataItemId ? fileMap[dataItemId] : undefined
-
+export const NameCell: FunctionComponent<{
+  file: FileManagerFile
+  tooltipContent?: string
+  className?: string
+}> = ({ file, tooltipContent, ...props }) => {
   const content = useMemo(() => {
     if (tooltipContent) {
       return (
@@ -72,107 +55,115 @@ export const NameCell: FunctionComponent<CellProps> = ({
         >
           <Tooltip.Content>{tooltipContent}</Tooltip.Content>
           <Tooltip.Anchor>
-            <ColumnNameText>{file?.name}</ColumnNameText>
+            <ColumnNameText>{file.name}</ColumnNameText>
           </Tooltip.Anchor>
         </Tooltip>
       )
     }
-    return <ColumnNameText>{file?.name}</ColumnNameText>
-  }, [file?.name, tooltipContent])
+    return <ColumnNameText>{file.name}</ColumnNameText>
+  }, [file.name, tooltipContent])
 
   return <ColumnName {...props}>{content}</ColumnName>
 }
 
-export const TypeCell: FunctionComponent<CellProps> = ({
-  dataItemId,
-  fileMap,
-  ...props
-}) => {
-  const file = dataItemId ? fileMap[dataItemId] : undefined
+export const TypeCell: FunctionComponent<{
+  file: FileManagerFile
+  className?: string
+}> = ({ file, ...props }) => {
   return (
     <ColumnType {...props}>
       <ColumnTypeText textTransform={TypographyTransform.Uppercase}>
-        {file?.type}
+        {file.type}
       </ColumnTypeText>
     </ColumnType>
   )
 }
 
-export const SizeCell: FunctionComponent<CellProps> = ({
-  dataItemId,
-  fileMap,
-  ...props
-}) => {
-  const file = dataItemId ? fileMap[dataItemId] : undefined
+export const SizeCell: FunctionComponent<{
+  file: FileManagerFile
+  className?: string
+}> = ({ file, ...props }) => {
   return (
     <ColumnSize {...props}>
       <ColumnSizeText modifier={TypographyModifier.FormatBytes} minUnit={"KB"}>
-        {file?.size}
+        {file.size}
       </ColumnSizeText>
     </ColumnSize>
   )
 }
 
-export const FileListEmptyTable = styled(Table)``
-
-export const HeaderCellCheckbox = styled(TableHeaderCell)`
+// Checkbox column
+export const ColumnCheckbox = styled.div`
   width: 7.4rem;
-  padding: 1.4rem 0 1.2rem 3.2rem;
+  padding: 0 0 0 2.2rem;
 `
 
-export const HeaderCellName = styled(TableHeaderCell)`
-  width: 39.4rem;
-  padding: 1.4rem 0 1.2rem 0;
-`
-
-export const HeaderCellNameText = styled(Typography.P5)``
-
-export const HeaderCellType = styled(TableHeaderCell)`
-  width: 9.4rem;
-  padding: 1.4rem 0 1.2rem 0;
-`
-
-export const HeaderCellTypeText = styled(Typography.P5)``
-
-export const HeaderCellSize = styled(TableHeaderCell)`
-  width: 8.8rem;
-  padding: 1.4rem 0 1.2rem 0;
-`
-
-export const HeaderCellSizeText = styled(Typography.P5)``
-
-export const ColumnCheckbox = styled(TableCell)`
+export const HeaderCellCheckbox = styled(TableNew.HeaderCell)`
   width: 7.4rem;
-  padding: 0 0 0 3.2rem;
 `
 
-export const ColumnCheckboxTooltipContentText = styled(Typography.P5)`
-  color: ${({ theme }) => theme.app.color.grey1};
+const CustomCheckbox = styled(Checkbox)`
+  width: 3.6rem;
+  height: 3.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 `
 
-export const ColumnCheckboxTooltipAnchorElement = styled(Checkbox)``
-
-export const ColumnName = styled(TableCell)`
-  width: 39.4rem;
+// Name column
+export const ColumnName = styled.div`
+  flex: 1;
   padding: 0 3.2rem 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `
 
-export const ColumnNameText = styled(Typography.P1)`
+export const HeaderCellName = styled(TableNew.HeaderCell)`
+  flex: 1;
+`
+
+const ColumnNameText = styled(Typography.P1).attrs((attrs) => {
+  return {
+    ...attrs,
+    lines: 1,
+    title: attrs.children as string,
+  }
+})`
   color: ${({ theme }) => theme.app.color.black};
+  white-space: pre;
 `
 
-export const ColumnType = styled(TableCell)`
+// Type column
+export const ColumnType = styled.div`
+  width: 9.4rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const HeaderCellType = styled(TableNew.HeaderCell)`
   width: 9.4rem;
 `
 
-export const ColumnTypeText = styled(Typography.P3)`
+const ColumnTypeText = styled(Typography.P3)`
   color: ${({ theme }) => theme.app.color.black};
 `
 
-export const ColumnSize = styled(TableCell)`
+// Size column
+export const ColumnSize = styled.div`
+  width: 8.8rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const HeaderCellSize = styled(TableNew.HeaderCell)`
   width: 8.8rem;
 `
 
-export const ColumnSizeText = styled(Typography.P3)`
+const ColumnSizeText = styled(Typography.P3)`
   color: ${({ theme }) => theme.app.color.black};
 `

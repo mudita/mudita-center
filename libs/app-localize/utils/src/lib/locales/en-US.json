@@ -139,6 +139,7 @@
   "apiDevice.manageFiles.preview.ariaDownload": "Download file",
   "apiDevice.manageFiles.preview.ariaNext": "Next file",
   "apiDevice.manageFiles.preview.ariaPrevious": "Previous file",
+  "apiDevice.manageFiles.preview.nameTooltip": "Preview photo",
   "apiDevice.manageFiles.preview.notSupportedError": "{type} files are not supported. Please convert file to a compatible format and try again.",
   "apiDevice.manageFiles.preview.unknownError": "Failed to load photo.\nPlease try again.",
   "apiDevice.manageFiles.upload.validationFailure.duplicatesDescription": "{filesCount, plural, one {A file with this name already exists} other {Files with these names already exist}}. Please rename the duplicate {filesCount, plural, one {file} other {files}} and try again.",

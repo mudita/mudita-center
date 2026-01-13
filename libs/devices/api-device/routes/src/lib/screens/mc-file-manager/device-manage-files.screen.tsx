@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useMemo, useState } from "react"
+import { FunctionComponent, useCallback, useMemo, useRef } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { ApiDevice } from "devices/api-device/models"
 import {
@@ -36,6 +36,7 @@ import {
   installApps,
   transferFiles,
   useApiDeviceDeleteEntitiesMutation,
+  useApiEntitiesDataQuery,
 } from "devices/api-device/feature"
 import { DeviceManageAppFilesTableSection } from "./device-manage-files-table-section/device-manage-app-files-table-section"
 import { DeviceManageFilesTableSection } from "./device-manage-files-table-section/device-manage-files-table-section"
@@ -50,13 +51,16 @@ import {
   DeviceManageFileFeature,
   DeviceManageFileFeatureId,
 } from "./device-manage-files.types"
+import { formatMessage } from "app-localize/utils"
+import { useQueryClient } from "@tanstack/react-query"
+import { cloneDeep } from "lodash"
 
 export const DeviceManageFilesScreen: FunctionComponent<{
   feature: DeviceManageFileFeatureId
 }> = ({ feature }) => {
-  const [appToInstall, setAppToInstall] = useState<
-    FileManagerFile | undefined
-  >()
+  const queryClient = useQueryClient()
+  const installationFlowRef = useRef<AppInstallationFlow>(null)
+
   const { data: device } = useActiveDeviceQuery<ApiDevice>()
   const {
     isLoading,
@@ -75,6 +79,29 @@ export const DeviceManageFilesScreen: FunctionComponent<{
 
   const { activeCategoryId, setActiveCategoryId, activeFileMap } =
     useManageFilesSelection({ categories, categoryFileMap })
+
+  const sortedFiles = useMemo(() => {
+    const list = activeFileMap ? Object.values(activeFileMap) : []
+
+    return (
+      list?.sort((a, b) => {
+        const patterns = [
+          /^\p{L}.*/u, // Compare letter values
+          /^\d+$/, // Compare numeric values
+          /^[^a-zA-Z\d\s@]+$/, // Compare special character values
+        ]
+
+        for (const pattern of patterns) {
+          const aMatches = pattern.test(a.name)
+          const bMatches = pattern.test(b.name)
+
+          if (aMatches && !bMatches) return -1
+          if (!aMatches && bMatches) return 1
+        }
+        return a.name.localeCompare(b.name)
+      }) || []
+    )
+  }, [activeFileMap])
 
   const summaryHeader =
     feature === DeviceManageFileFeature.Internal
@@ -187,55 +214,60 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     return directories[0] ?? null
   }
 
-  const install: AppInstallationFlowProps["install"] = async ({
-    onProgress,
-  }) => {
-    if (!device || !appToInstall) {
-      return AppResultFactory.failed(
-        new AppError("Device or app to install is undefined")
-      )
-    }
+  const install: AppInstallationFlowProps["install"] = useCallback(
+    async ({ appFile, onProgress }) => {
+      if (!device) {
+        return AppResultFactory.failed(
+          new AppError("Device or app to install is undefined")
+        )
+      }
 
-    let lastTransferProgress = 0
+      let lastTransferProgress = 0
 
-    const filePath = `${targetDirectoryPath}${appToInstall.name}`
-    const files = [{ ...appToInstall, filePath }]
+      const filePath = `${targetDirectoryPath}${appFile.name}`
+      const files = [{ ...appFile, filePath }]
 
-    const result = await installApps({
-      device,
-      files,
-      onProgress: ({ progress }) => {
-        lastTransferProgress = progress
-        onProgress({
-          progress: Math.floor(progress * PROGRESS_MAIN_PROCESS_PHASE_RATIO),
-          item: {
-            name: appToInstall.name,
-          },
-        })
-      },
-    })
+      const result = await installApps({
+        device,
+        files,
+        onProgress: ({ progress }) => {
+          lastTransferProgress = progress
+          onProgress({
+            progress: Math.floor(progress * PROGRESS_MAIN_PROCESS_PHASE_RATIO),
+            item: {
+              name: appFile.name,
+            },
+          })
+        },
+      })
 
-    if (!result.ok) {
-      return result
-    }
+      if (!result.ok) {
+        return result
+      }
 
-    await refetch({
-      onProgress: (refetchProgress) => {
-        const combined =
-          lastTransferProgress * PROGRESS_MAIN_PROCESS_PHASE_RATIO +
-          refetchProgress * PROGRESS_REFETCH_PHASE_RATIO
+      await refetch({
+        onProgress: (refetchProgress) => {
+          const combined =
+            lastTransferProgress * PROGRESS_MAIN_PROCESS_PHASE_RATIO +
+            refetchProgress * PROGRESS_REFETCH_PHASE_RATIO
 
-        onProgress?.({
-          progress: Math.floor(combined),
-          item: {
-            name: appToInstall.name,
-          },
-        })
-      },
-    })
+          onProgress?.({
+            progress: Math.floor(combined),
+            item: {
+              name: appFile.name,
+            },
+          })
+        },
+      })
 
-    return AppResultFactory.success(undefined)
-  }
+      return AppResultFactory.success(undefined)
+    },
+    [device, refetch, targetDirectoryPath]
+  )
+
+  const handleAppInstall = useCallback((file: FileManagerFile) => {
+    installationFlowRef.current?.install(file)
+  }, [])
 
   const downloadFilePreview: FilesManagerFilePreviewDownload = useCallback(
     async (file, abortController) => {
@@ -269,6 +301,22 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     [device]
   )
 
+  const handleDeleteSuccess: NonNullable<
+    ManageFilesViewProps["onDeleteSuccess"]
+  > = useCallback(
+    async ({ deletedIds }) => {
+      await queryClient.setQueryData(
+        useApiEntitiesDataQuery.queryKey(activeCategoryId, device?.id),
+        (oldData: FileManagerFile[] = []) => {
+          return cloneDeep(oldData).filter((file) => {
+            return !deletedIds?.includes(file.id)
+          })
+        }
+      )
+    },
+    [activeCategoryId, device?.id, queryClient]
+  )
+
   return (
     <>
       <DashboardHeaderTitle title={"Manage Files"} />
@@ -283,7 +331,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         usedSpaceBytes={usedSpaceBytes}
         otherSpaceBytes={otherSpaceBytes}
         deleteFiles={deleteFiles}
-        onDeleteSuccess={() => refetch()}
+        onDeleteSuccess={handleDeleteSuccess}
         isLoading={isLoading}
         otherFiles={OTHER_FILES_LABEL_TEXTS}
         openFileDialog={openFileDialog}
@@ -299,8 +347,8 @@ export const DeviceManageFilesScreen: FunctionComponent<{
           if (activeCategoryId === "applicationFiles") {
             return (
               <DeviceManageAppFilesTableSection
-                fileMap={activeFileMap}
-                onAppInstallButtonClick={(file) => setAppToInstall(file)}
+                files={sortedFiles}
+                onAppInstallButtonClick={handleAppInstall}
                 {...props}
               />
             )
@@ -308,20 +356,19 @@ export const DeviceManageFilesScreen: FunctionComponent<{
           if (activeCategoryId === "imageFiles") {
             return (
               <DeviceManageFilesTableSection
-                fileMap={activeFileMap}
-                nameTooltipText={"Preview photo"}
+                files={sortedFiles}
+                nameTooltipText={formatMessage(messages.photosNameTooltip)}
                 {...props}
               />
             )
           }
           return (
-            <DeviceManageFilesTableSection fileMap={activeFileMap} {...props} />
+            <DeviceManageFilesTableSection files={sortedFiles} {...props} />
           )
         }}
       </ManageFiles>
       <AppInstallationFlow
-        opened={appToInstall !== undefined}
-        onClose={() => setAppToInstall(undefined)}
+        ref={installationFlowRef}
         messages={messages}
         install={install}
       />
