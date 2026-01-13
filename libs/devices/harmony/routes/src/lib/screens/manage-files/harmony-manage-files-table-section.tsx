@@ -3,180 +3,177 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { FunctionComponent, useCallback } from "react"
 import styled from "styled-components"
 import {
   CheckboxSize,
   TypographyModifier,
   TypographyTransform,
 } from "app-theme/models"
+import { Checkbox, TableNew, Tooltip, Typography } from "app-theme/ui"
 import {
-  Checkbox,
-  Table,
-  TableCell,
-  TableHeaderCell,
-  Tooltip,
-  Typography,
-} from "app-theme/ui"
-import {
-  FileManagerFileMap,
+  FileManagerFile,
+  ManageFilesFormValues,
   ManageFilesTableSectionProps,
 } from "devices/common/ui"
+import { useFormContext } from "react-hook-form"
 
-type CellProps = { dataItemId?: string; fileMap: FileManagerFileMap }
-
-const ColumnCheckboxCell: FunctionComponent<
-  CellProps & {
-    onChange: (fileId: string, checked: boolean) => void
-    selectedIds: Set<string>
+export const HarmonyManageFilesTableSection: FunctionComponent<
+  Pick<ManageFilesTableSectionProps, "onRowClick"> & {
+    files: FileManagerFile[]
   }
-> = ({ dataItemId, fileMap, onChange, selectedIds }) => {
-  const file = dataItemId ? fileMap[dataItemId] : undefined
+> = ({ files, onRowClick }) => {
+  const rowRenderer = useCallback(
+    (file: FileManagerFile) => {
+      const onClick = () => {
+        onRowClick?.(file.id)
+      }
+      return (
+        <TableNew.Row
+          key={file.id}
+          rowSelectorCheckboxDataAttr={"data-row-checkbox"}
+          onClick={onClick}
+        >
+          <ColumnCheckboxCell
+            id={file.id}
+            checkboxDataAttr={"data-row-checkbox"}
+          />
+          <NameCell file={file} />
+          <TypeCell file={file} />
+          <SizeCell file={file} />
+        </TableNew.Row>
+      )
+    },
+    [onRowClick]
+  )
+
   return (
-    <ColumnCheckbox>
-      <Tooltip placement="bottom-right" offset={{ x: 16, y: 14 }}>
-        <Tooltip.Content>
-          <ColumnCheckboxTooltipContentText>
-            Select
-          </ColumnCheckboxTooltipContentText>
-        </Tooltip.Content>
+    <TableNew
+      itemIdField={"id"}
+      items={files}
+      rowRenderer={rowRenderer}
+      header={
+        <>
+          <HeaderCellCheckbox />
+          <HeaderCellName>Name</HeaderCellName>
+          <HeaderCellType>Type</HeaderCellType>
+          <HeaderCellSize>Size</HeaderCellSize>
+        </>
+      }
+    />
+  )
+}
+
+// Checkbox column
+export const ColumnCheckboxCell: FunctionComponent<{
+  id: string
+  checkboxDataAttr: string
+  className?: string
+}> = ({ id, checkboxDataAttr, ...rest }) => {
+  const { register } = useFormContext<ManageFilesFormValues>()
+
+  return (
+    <ColumnCheckbox {...rest}>
+      <Tooltip placement={"bottom-right"} offset={{ x: 24, y: 5 }}>
         <Tooltip.Anchor>
-          <ColumnCheckboxTooltipAnchorElement
+          <CustomCheckbox
+            {...{
+              [checkboxDataAttr]: true,
+            }}
+            key={id}
             size={CheckboxSize.Small}
-            checked={file ? selectedIds.has(file.id) : false}
-            onChange={(e) => file?.id && onChange(file.id, e.target.checked)}
+            {...register(`selectedFiles.${id}`)}
           />
         </Tooltip.Anchor>
+        <Tooltip.Content>Select</Tooltip.Content>
       </Tooltip>
     </ColumnCheckbox>
   )
 }
 
-const NameCell: FunctionComponent<CellProps> = ({ dataItemId, fileMap }) => {
-  const file = dataItemId ? fileMap[dataItemId] : undefined
+const CustomCheckbox = styled(Checkbox)`
+  width: 3.6rem;
+  height: 3.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`
+
+const ColumnCheckbox = styled.div`
+  width: 7.4rem;
+  padding: 0 0 0 2.2rem;
+`
+
+const HeaderCellCheckbox = styled(TableNew.HeaderCell)`
+  width: 7.4rem;
+`
+
+// Name column
+const NameCell: FunctionComponent<{ file: FileManagerFile }> = ({ file }) => {
   return (
     <ColumnName>
-      <ColumnNameText>{file?.name}</ColumnNameText>
+      <ColumnNameText>{file.name}</ColumnNameText>
     </ColumnName>
   )
 }
 
-const TypeCell: FunctionComponent<CellProps> = ({ dataItemId, fileMap }) => {
-  const file = dataItemId ? fileMap[dataItemId] : undefined
+const ColumnName = styled.div`
+  flex: 1;
+  padding: 0 3.2rem 0 0;
+`
+
+const HeaderCellName = styled(TableNew.HeaderCell)`
+  flex: 1;
+  //padding: 1.4rem 0 1.2rem 0;
+`
+
+// Type column
+const TypeCell: FunctionComponent<{ file: FileManagerFile }> = ({ file }) => {
   return (
     <ColumnType>
       <ColumnTypeText textTransform={TypographyTransform.Uppercase}>
-        {file?.type}
+        {file.type}
       </ColumnTypeText>
     </ColumnType>
   )
 }
 
-const SizeCell: FunctionComponent<CellProps> = ({ dataItemId, fileMap }) => {
-  const file = dataItemId ? fileMap[dataItemId] : undefined
+const ColumnType = styled.div`
+  width: 9.4rem;
+`
+
+const HeaderCellType = styled(TableNew.HeaderCell)`
+  width: 9.4rem;
+  //padding: 1.4rem 0 1.2rem 0;
+`
+
+// Size column
+const SizeCell: FunctionComponent<{ file: FileManagerFile }> = ({ file }) => {
   return (
     <ColumnSize>
       <ColumnSizeText modifier={TypographyModifier.FormatBytes} minUnit={"KB"}>
-        {file?.size}
+        {file.size}
       </ColumnSizeText>
     </ColumnSize>
   )
 }
 
-export const HarmonyManageFilesTableSection: FunctionComponent<
-  ManageFilesTableSectionProps
-> = ({ fileMap, selectedIds, activeRowId, onSelectedChange }) => {
-  return (
-    <FileListEmptyTable
-      activeRowId={activeRowId}
-      dataIds={fileMap ? Object.keys(fileMap) : []}
-    >
-      <HeaderCellCheckbox></HeaderCellCheckbox>
-      <HeaderCellName>
-        <HeaderCellNameText textTransform={TypographyTransform.Uppercase}>
-          Name
-        </HeaderCellNameText>
-      </HeaderCellName>
-      <HeaderCellType>
-        <HeaderCellTypeText textTransform={TypographyTransform.Uppercase}>
-          Type
-        </HeaderCellTypeText>
-      </HeaderCellType>
-      <HeaderCellSize>
-        <HeaderCellSizeText textTransform={TypographyTransform.Uppercase}>
-          Size
-        </HeaderCellSizeText>
-      </HeaderCellSize>
-      <ColumnCheckboxCell
-        selectedIds={selectedIds}
-        fileMap={fileMap}
-        onChange={onSelectedChange}
-      />
-      <NameCell fileMap={fileMap} />
-      <TypeCell fileMap={fileMap} />
-      <SizeCell fileMap={fileMap} />
-    </FileListEmptyTable>
-  )
-}
-
-const FileListEmptyTable = styled(Table)``
-
-const HeaderCellCheckbox = styled(TableHeaderCell)`
-  width: 7.4rem;
-  padding: 1.4rem 0 1.2rem 3.2rem;
-`
-
-const HeaderCellName = styled(TableHeaderCell)`
-  width: 39.4rem;
-  padding: 1.4rem 0 1.2rem 0;
-`
-
-const HeaderCellNameText = styled(Typography.P5)``
-
-const HeaderCellType = styled(TableHeaderCell)`
-  width: 9.4rem;
-  padding: 1.4rem 0 1.2rem 0;
-`
-
-const HeaderCellTypeText = styled(Typography.P5)``
-
-const HeaderCellSize = styled(TableHeaderCell)`
+const ColumnSize = styled.div`
   width: 8.8rem;
-  padding: 1.4rem 0 1.2rem 0;
 `
 
-const HeaderCellSizeText = styled(Typography.P5)``
-
-const ColumnCheckbox = styled(TableCell)`
-  width: 7.4rem;
-  padding: 0 0 0 3.2rem;
-`
-
-const ColumnCheckboxTooltipContentText = styled(Typography.P5)`
-  color: ${({ theme }) => theme.app.color.grey1};
-`
-
-const ColumnCheckboxTooltipAnchorElement = styled(Checkbox)``
-
-const ColumnName = styled(TableCell)`
-  width: 39.4rem;
-  padding: 0 3.2rem 0 0;
+const HeaderCellSize = styled(TableNew.HeaderCell)`
+  width: 8.8rem;
+  //padding: 1.4rem 0 1.2rem 0;
 `
 
 const ColumnNameText = styled(Typography.P1)`
   color: ${({ theme }) => theme.app.color.black};
 `
 
-const ColumnType = styled(TableCell)`
-  width: 9.4rem;
-`
-
 const ColumnTypeText = styled(Typography.P3)`
   color: ${({ theme }) => theme.app.color.black};
-`
-
-const ColumnSize = styled(TableCell)`
-  width: 8.8rem;
 `
 
 const ColumnSizeText = styled(Typography.P3)`

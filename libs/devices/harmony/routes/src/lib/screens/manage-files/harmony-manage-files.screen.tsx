@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "react"
+import { FunctionComponent, useMemo } from "react"
 import { formatMessage } from "app-localize/utils"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { AppError, AppResultFactory } from "app-utils/models"
@@ -45,6 +45,31 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
 
   const { activeCategoryId, setActiveCategoryId, activeFileMap } =
     useManageFilesSelection({ categories, categoryFileMap })
+
+  const sortedFiles = useMemo(() => {
+    const list = activeFileMap ? Object.values(activeFileMap) : []
+
+    console.log(list)
+
+    return (
+      list?.sort((a, b) => {
+        const patterns = [
+          /^\p{L}.*/u, // Compare letter values
+          /^\d+$/, // Compare numeric values
+          /^[^a-zA-Z\d\s@]+$/, // Compare special character values
+        ]
+
+        for (const pattern of patterns) {
+          const aMatches = pattern.test(a.name)
+          const bMatches = pattern.test(b.name)
+
+          if (aMatches && !bMatches) return -1
+          if (!aMatches && bMatches) return 1
+        }
+        return a.name.localeCompare(b.name)
+      }) || []
+    )
+  }, [activeFileMap])
 
   const transferFile: ManageFilesViewProps["transferFiles"] = async (
     params
@@ -136,7 +161,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
         onTransferSuccess={refetch}
       >
         {(props) => (
-          <HarmonyManageFilesTableSection fileMap={activeFileMap} {...props} />
+          <HarmonyManageFilesTableSection files={sortedFiles} {...props} />
         )}
       </ManageFiles>
     </>
