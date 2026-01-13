@@ -96,10 +96,6 @@ jobs:
           APPLE_ID_PASSWORD=$(grep '^APPLE_ID_PASSWORD=' apps/app/electron-builder.env | cut -d '=' -f2-)
           echo "APPLE_TEAM_ID=$APPLE_ASC_PROVIDER" >> apps/app/electron-builder.env
           echo "APPLE_APP_SPECIFIC_PASSWORD=$APPLE_ID_PASSWORD" >> apps/app/electron-builder.env
-      - name: Prepare electron-builder config - Windows
-        if: matrix.runner_label == 'windows-nexus'
-        run: |
-          copy C:\actions-runner\envs\electron-builder.env apps/app/electron-builder.env
       - name: Build - Windows
         if: matrix.runner_label == 'windows-nexus'
         run: |
