@@ -9,6 +9,7 @@ import { AppResultFactory } from "app-utils/models"
 import { CrashDumpsData, Harmony } from "devices/harmony/models"
 import { IconType } from "app-theme/models"
 import { defineMessages } from "app-localize/utils"
+import { useOpenDirectoryDialogHook } from "app-utils/renderer"
 import {
   ContactSupportFieldValues,
   ContactSupportFlow,
@@ -18,7 +19,10 @@ import {
   useNewCrashDumpsQuery,
 } from "devices/harmony/feature"
 import { useActiveDeviceQuery } from "devices/common/feature"
-import { useCreateTicket } from "contact-support/feature"
+import {
+  useCreateTicket,
+  usePrepareLogsArchiveHook,
+} from "contact-support/feature"
 
 const harmonyCrashDumpsMessages = defineMessages({
   formModalTitle: {
@@ -39,6 +43,9 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
   const { mutateAsync: createTicketMutateAsync, reset: createTicketReset } =
     useCreateTicket()
 
+  const prepareLogs = usePrepareLogsArchiveHook()
+  const openDirectoryDialog = useOpenDirectoryDialogHook()
+
   const [crashDumpsFlowOpened, setCrashDumpsFlowOpened] = useState<boolean>()
 
   useEffect(() => {
@@ -51,7 +58,7 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
   }, [crashDumpsData, crashDumpsFlowOpened])
 
   const createTicket = useCallback(
-    async (data: ContactSupportFieldValues) => {
+    async (data: ContactSupportFieldValues & { logsZipScopePath?: string }) => {
       try {
         await createTicketMutateAsync(data)
         return AppResultFactory.success()
@@ -76,6 +83,8 @@ export const HarmonyCrashDumpsFlow: FunctionComponent = () => {
       createTicket={createTicket}
       formIcon={IconType.Failed}
       messages={harmonyCrashDumpsMessages}
+      prepareLogs={prepareLogs}
+      openDirectoryDialog={openDirectoryDialog}
     />
   )
 }
