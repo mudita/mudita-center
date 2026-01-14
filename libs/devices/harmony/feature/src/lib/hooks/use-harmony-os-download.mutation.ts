@@ -3,14 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useMutation } from "@tanstack/react-query"
-import { HarmonyOsUpdateInfoFile } from "./use-harmony-os-update-info.query"
-import { AppHttp } from "app-utils/renderer"
 import { useCallback, useEffect, useRef, useState } from "react"
+import { useMutation } from "@tanstack/react-query"
 import { sum } from "lodash"
-import { theme } from "app-theme/utils"
-import { AppFileSystemGuardOptions } from "app-utils/models"
+import {
+  AnalyticsEventCategory,
+  AppFileSystemGuardOptions,
+} from "app-utils/models"
 import { HarmonyOSUpdateError } from "devices/harmony/models"
+import { AppHttp, track } from "app-utils/renderer"
+import { theme } from "app-theme/utils"
+import { HarmonyOsUpdateInfoFile } from "./use-harmony-os-update-info.query"
 
 export const getHarmonyOsDownloadLocation = (
   fileName: string
@@ -48,7 +51,14 @@ const mutationFn = async (
       abortController.signal?.addEventListener("abort", () => {
         promise?.abort()
       })
-      return (await promise).data
+      const data = (await promise).data
+
+      void track({
+        e_a: file.version,
+        e_c: AnalyticsEventCategory.HarmonyUpdateDownload,
+      })
+
+      return data
     })
   )
   if (abortController.signal.aborted) {

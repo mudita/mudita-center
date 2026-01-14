@@ -9,8 +9,6 @@ import { AnalyticsEvent } from "app-utils/models"
 import { analyticsMutationKeys } from "./analytics-mutation-keys"
 import { track, uniqueTrack } from "./analytics"
 
-// TODO: https://appnroll.atlassian.net/browse/CP-3939 - migrate ALL events from the old project
-
 export const useTrack = () => {
   const { mutate } = useMutation({
     mutationKey: analyticsMutationKeys.track,

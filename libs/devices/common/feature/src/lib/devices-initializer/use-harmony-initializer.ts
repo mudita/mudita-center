@@ -6,8 +6,10 @@
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
 import { useCallback, useEffect } from "react"
-import { delay } from "app-utils/common"
 import { Harmony, HarmonyErrorType } from "devices/harmony/models"
+import { AnalyticsEventCategory } from "app-utils/models"
+import { delay } from "app-utils/common"
+import { useUniqueTrack } from "app-utils/renderer"
 import {
   useHarmonyOsUpdateInfoQuery,
   useNewCrashDumpsQuery,
@@ -37,6 +39,8 @@ export const useHarmonyInitializer = (device: Harmony) => {
 
   const { isLoading: isLogsLoading } = useNewCrashDumpsQuery(device)
 
+  const uniqueTrack = useUniqueTrack()
+
   const setStatus = useCallback(
     (status: DeviceStatus) => {
       queryClient.setQueryData(useDeviceStatusQuery.queryKey(device.id), status)
@@ -62,6 +66,12 @@ export const useHarmonyInitializer = (device: Harmony) => {
       return
     }
     setStatus(DeviceStatus.Initialized)
+
+    uniqueTrack({
+      e_a: config?.version || "unknown",
+      e_c: AnalyticsEventCategory.HarmonyVersion,
+      _id: config?.serialNumber || "unknown",
+    })
   }, [
     isConfigError,
     isConfigLoading,
@@ -69,6 +79,8 @@ export const useHarmonyInitializer = (device: Harmony) => {
     isUpdateCheckLoading,
     isLogsLoading,
     setStatus,
+    config,
+    uniqueTrack,
   ])
 
   useEffect(() => {

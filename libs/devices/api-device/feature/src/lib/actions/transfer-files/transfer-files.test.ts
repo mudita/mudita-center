@@ -87,7 +87,7 @@ describe("transferFiles - core contract", () => {
     const result = await transferFiles(params)
 
     expect(result.ok).toBe(true)
-    expect(result.data).toEqual({})
+    expect(result.data).toEqual({ trackedModes: ["mtp"] })
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
   })
 
@@ -108,7 +108,7 @@ describe("transferFiles - core contract", () => {
     const result = await transferFiles(params)
 
     expect(result.ok).toBe(true)
-    expect(result.data).toEqual({ failed })
+    expect(result.data).toEqual({ failed, trackedModes: ["mtp"] })
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
   })
 
@@ -134,7 +134,7 @@ describe("transferFiles - core contract", () => {
 
     expect(result.ok).toBe(false)
     expect(result.error?.name).toBe(FailedTransferErrorName.Unknown)
-    expect(result.data).toEqual({ failed })
+    expect(result.data).toEqual({ failed, trackedModes: ["mtp"] })
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
   })
 
@@ -162,7 +162,7 @@ describe("transferFiles - core contract", () => {
     >
 
     expect(result.ok).toBe(true)
-    expect(result.data).toEqual({ failed })
+    expect(result.data).toEqual({ failed, trackedModes: ["mtp"] })
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
   })
 
@@ -192,7 +192,7 @@ describe("transferFiles - core contract", () => {
 
     expect(result.ok).toBe(false)
     expect(result.error?.name).toBe(FailedTransferErrorName.Aborted)
-    expect(result.data).toEqual({ failed })
+    expect(result.data).toEqual({ failed, trackedModes: ["mtp"] })
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
   })
 
@@ -304,7 +304,7 @@ describe("transferFiles - mode handling (auto-switch always enabled)", () => {
     const result = await transferFiles(params, watcherFactory)
 
     expect(result.ok).toBe(true)
-    expect(result.data).toEqual({})
+    expect(result.data).toEqual({ trackedModes: ["mtp", "serial"] })
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
     expect(serialUploadFiles).toHaveBeenCalledTimes(1)
 
@@ -380,8 +380,7 @@ describe("transferFiles - mode handling (auto-switch always enabled)", () => {
           failed: [
             {
               id: "/a.txt",
-              errorName:
-              ApiDeviceMTPTransferErrorName.MtpInitializeAccessError,
+              errorName: ApiDeviceMTPTransferErrorName.MtpInitializeAccessError,
             },
             {
               id: "/b.txt",
@@ -391,7 +390,6 @@ describe("transferFiles - mode handling (auto-switch always enabled)", () => {
         }
       )
     )
-
     ;(serialUploadFiles as jest.Mock).mockResolvedValueOnce(
       AppResultFactory.failed(
         new AppError("", FailedTransferErrorName.Unknown),
@@ -473,7 +471,7 @@ describe("transferFiles - mode handling (auto-switch always enabled)", () => {
     const result = await transferFiles(params, watcherFactory)
 
     expect(result.ok).toBe(true)
-    expect(result.data).toEqual({})
+    expect(result.data).toEqual({ trackedModes: ["serial", "mtp"] })
     expect(serialUploadFiles).toHaveBeenCalledTimes(1)
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
     expect(onModeChange).toHaveBeenCalledTimes(1)
@@ -539,7 +537,9 @@ describe("transferFiles - mode handling (auto-switch always enabled)", () => {
     const result = await transferFiles(params, watcherFactory)
 
     expect(result.ok).toBe(true)
-    expect(result.data).toEqual({})
+    expect(result.data).toEqual({
+      trackedModes: ["serial", "mtp", "serial", "mtp"],
+    })
 
     expect(serialUploadFiles).toHaveBeenCalledTimes(2)
     expect(mtpUploadFiles).toHaveBeenCalledTimes(2)
@@ -609,7 +609,7 @@ describe("transferFiles - mode handling (auto-switch always enabled)", () => {
     const result = await transferFiles(params, watcherFactory)
 
     expect(result.ok).toBe(true)
-    expect(result.data).toEqual({})
+    expect(result.data).toEqual({ trackedModes: ["serial", "mtp", "serial"] })
     expect(serialUploadFiles).toHaveBeenCalledTimes(3)
     expect(mtpUploadFiles).toHaveBeenCalledTimes(1)
     expect(onModeChange).toHaveBeenCalledTimes(2)
@@ -665,7 +665,7 @@ describe("transferFiles - mode handling (auto-switch always enabled)", () => {
     const result = await transferFiles(params, watcherFactory)
 
     expect(result.ok).toBe(true)
-    expect(result.data).toEqual({})
+    expect(result.data).toEqual({ trackedModes: ["mtp", "serial", "mtp"] })
 
     expect(mtpUploadFiles).toHaveBeenCalledTimes(2)
     expect(serialUploadFiles).toHaveBeenCalledTimes(1)
@@ -1104,7 +1104,7 @@ describe("transferFiles - abort behavior", () => {
   test("propagates external abort to new internal AbortController after auto-switch", async () => {
     const controller = new AbortController()
 
-      // 1. First attempt: Serial mode switched to MTP
+    // 1. First attempt: Serial mode switched to MTP
     ;(serialUploadFiles as jest.Mock).mockImplementationOnce(async () => {
       const failed: FailedTransferItem[] = [
         { id: "/a.txt", errorName: FailedTransferErrorName.Aborted },

@@ -47,6 +47,7 @@ export const ArticlePage: FunctionComponent = () => {
       ratedArticles={ratedArticles}
       rateArticle={rateCurrentArticle}
       onContactSupport={openContactSupportFlow}
+      track={track}
     />
   )
 }

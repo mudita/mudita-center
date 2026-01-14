@@ -21,7 +21,7 @@ import { ApiDeviceMTPTransferErrorName } from "./transfer-files.types"
 export const transferFiles = async (
   params: TransferFilesParams<ApiDevice>,
   mtpWatcherFactory: MtpWatcherFactory = createMtpWatcher
-): Promise<ExecuteTransferResult> => {
+): Promise<ExecuteTransferResult<{ trackedModes: TransferMode[] }>> => {
   const externalAbortController = params.abortController
   const autoSwitchMTPMax = Math.max(0, params.autoSwitchMTPMax ?? 1)
 
@@ -35,6 +35,8 @@ export const transferFiles = async (
   let internalAbortController = new AbortController()
   let mtpWatcherAbortTriggered = false
   let processedFailedFiles: FailedTransferItem[] = []
+
+  const trackedModes: TransferMode[] = [activeTransferMode]
 
   if (externalAbortController) {
     externalAbortController.signal.addEventListener("abort", () => {
@@ -74,13 +76,18 @@ export const transferFiles = async (
       // 1. All executed files in this iteration transferred successfully
       if (executedFailedFiles.length === 0) {
         finalizeProgress()
-        return buildResultFromFailed(params.files, processedFailedFiles, result)
+        return buildResultFromFailed(
+          params.files,
+          processedFailedFiles,
+          trackedModes,
+          result
+        )
       }
 
       // 2. File transfer failed or transfer aborted by user
       if (!mtpWatcherAbortTriggered && !isMtpInitError) {
         finalizeProgress()
-        return buildResultFromFailed(params.files, failed, result)
+        return buildResultFromFailed(params.files, failed, trackedModes, result)
       }
 
       const switchableFiles = filterSwitchableFiles(
@@ -91,7 +98,7 @@ export const transferFiles = async (
       // 3. File transfer completed but some files failed and none are switchable
       if (!switchableFiles) {
         finalizeProgress()
-        return buildResultFromFailed(params.files, failed, result)
+        return buildResultFromFailed(params.files, failed, trackedModes, result)
       }
 
       // 4. Some files failed and are switchable - switch transfer mode and retry
@@ -115,6 +122,7 @@ export const transferFiles = async (
       }
 
       if (nextMode !== activeTransferMode) {
+        trackedModes.push(nextMode)
         params.onModeChange?.(nextMode)
       }
 
@@ -140,7 +148,7 @@ export const transferFiles = async (
     ]
 
     finalizeProgress()
-    return buildResultFromFailed(params.files, failed)
+    return buildResultFromFailed(params.files, failed, trackedModes)
   } finally {
     mtpWatcher.stop()
   }
@@ -187,10 +195,16 @@ function chooseNextMode(
 const buildResultFromFailed = (
   allFiles: TransferFileEntry[],
   failed: FailedTransferItem[],
+  trackedModes: TransferMode[],
   result?: AppResult
-): ExecuteTransferResult => {
+): ExecuteTransferResult<{ trackedModes: TransferMode[] }> => {
   const allFailed = failed.length === allFiles.length
-  const data = result?.data ?? {}
+  const data = result?.data
+    ? {
+        ...result.data,
+        trackedModes,
+      }
+    : { trackedModes }
 
   if (failed.length === 0) {
     return AppResultFactory.success(data)
@@ -204,6 +218,6 @@ const buildResultFromFailed = (
     !result?.ok && result?.error
       ? result.error
       : new AppError("", FailedTransferErrorName.Unknown),
-    { failed }
+    { failed, trackedModes }
   )
 }

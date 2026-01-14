@@ -6,8 +6,9 @@
 import { FunctionComponent } from "react"
 import { useNavigate, useParams } from "react-router"
 import styled from "styled-components"
-import { ArticleTracker } from "./article-tracker.component"
 import { HelpArticle } from "help/models"
+import { AnalyticsEvent } from "app-utils/models"
+import { ArticleTracker } from "./article-tracker.component"
 import { ArticleHeader } from "./article-header.component"
 import { ArticleFooter } from "./article-footer.component"
 import { ArticleWarning } from "./article-warning.component"
@@ -26,6 +27,7 @@ interface ArticleProps {
     positive: boolean
   }) => void
   onContactSupport: VoidFunction
+  track: (event: AnalyticsEvent) => Promise<void>
 }
 
 export const Article: FunctionComponent<ArticleProps> = ({
@@ -33,6 +35,7 @@ export const Article: FunctionComponent<ArticleProps> = ({
   ratedArticles,
   rateArticle,
   onContactSupport,
+  track,
 }) => {
   const navigate = useNavigate()
   const { articleId } = useParams<{ articleId: string }>()
@@ -46,7 +49,7 @@ export const Article: FunctionComponent<ArticleProps> = ({
 
   return (
     <Wrapper>
-      <ArticleTracker article={article} />
+      <ArticleTracker article={article} track={track} />
       <ArticleHeader title={article.title} />
       <ScrollArea>
         <ArticleWrapper>
