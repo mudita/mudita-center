@@ -1,4 +1,4 @@
-name: Build & deploy to mass-update
+name: Build & deploy to mass-update-legacy
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         runner_label: [linux-nexus, windows-nexus, macos-nexus]
-    environment: mass-update
+    environment: mass-update-legacy
     timeout-minutes: 40
     steps:
       - name: Checkout code
@@ -108,23 +108,23 @@ jobs:
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=mass-update
-          export "BUILD_VERSION=-mass-update.${{ github.run_number }}"
+          export ENVIRONMENT_CATALOG_NAME=mass-update-legacy
+          export "BUILD_VERSION=-mass-update-legacy.${{ github.run_number }}"
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Mac
         if: matrix.runner_label == 'macos-nexus'
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=mass-update
-          export "BUILD_VERSION=-mass-update.${{ github.run_number }}"
+          export ENVIRONMENT_CATALOG_NAME=mass-update-legacy
+          export "BUILD_VERSION=-mass-update-legacy.${{ github.run_number }}"
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Windows
         if: matrix.runner_label == 'windows-nexus'
         run: |
           $SOURCE_BRANCH = "${{ github.ref_name }}"
-          $ENVIRONMENT_CATALOG_NAME = "mass-update"
-          $BUILD_VERSION = "-mass-update.${{ github.run_number }}"
+          $ENVIRONMENT_CATALOG_NAME = "mass-update-legacy"
+          $BUILD_VERSION = "-mass-update-legacy.${{ github.run_number }}"
           $APP_VERSION = (Get-Content -Path "apps/mudita-center/version") + $BUILD_VERSION
           (Get-Content -Path 'apps/mudita-center/package.json') | ForEach-Object {
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
@@ -195,7 +195,7 @@ jobs:
           jq -r -j .version apps/mudita-center/package.json > apps/mudita-center/version
           $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
           $SOURCE_BRANCH = "${{ github.ref_name }}"
-          $ENVIRONMENT_CATALOG_NAME="mass-update"
+          $ENVIRONMENT_CATALOG_NAME="mass-update-legacy"
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
@@ -206,8 +206,8 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/mudita-center/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/mudita-center/release/latest.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/mudita-center/release/builder-debug-win.yml -Method Put -Credential $AUTH
-          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-mass-update.git
-          cd mudita-center-mass-update
+          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-mass-update-legacy.git
+          cd mudita-center-mass-update-legacy
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
       - name: Push artifacts to nexus registry from Linux
@@ -218,7 +218,7 @@ jobs:
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=mass-update
+          export ENVIRONMENT_CATALOG_NAME=mass-update-legacy
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
           git tag "$GITTAG"
@@ -227,8 +227,8 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-mass-update.git
-          cd mudita-center-mass-update
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-mass-update-legacy.git
+          cd mudita-center-mass-update-legacy
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Push artifacts to nexus registry from macOS
@@ -239,7 +239,7 @@ jobs:
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          ENVIRONMENT_CATALOG_NAME=mass-update
+          ENVIRONMENT_CATALOG_NAME=mass-update-legacy
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
           git tag "$GITTAG"
@@ -251,8 +251,8 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
-          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-mass-update.git
-          cd mudita-center-mass-update
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-mass-update-legacy.git
+          cd mudita-center-mass-update-legacy
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Create draft release with Windows files
@@ -262,7 +262,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-mass-update
+          repository: mudita/mudita-center-mass-update-legacy
           token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/mudita-center/release/Mudita-Center.exe
@@ -276,7 +276,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-mass-update
+          repository: mudita/mudita-center-mass-update-legacy
           token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/mudita-center/release/Mudita-Center.AppImage
@@ -289,7 +289,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-mass-update
+          repository: mudita/mudita-center-mass-update-legacy
           token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/mudita-center/release/Mudita-Center.dmg

@@ -1,16 +1,16 @@
-name: e2e (standalone) for development
+name: e2e (standalone) for development-legacy
 
 on:
   push:
     branches:
-      - develop
+      - develop-legacy
 jobs:
   e2e:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
         runner_label: [linux-e2e, windows-e2e]
-    environment: development
+    environment: development-legacy
     timeout-minutes: 40
     steps:
       - name: Checkout code

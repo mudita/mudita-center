@@ -1,4 +1,4 @@
-name: Build & deploy to pre-production (latest)
+name: Build & deploy to pre-production-legacy (latest)
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
       matrix:
         runner_label: [linux-nexus, windows-nexus, macos-nexus]
         type: [standard, force]
-    environment: pre-production
+    environment: pre-production-legacy
     timeout-minutes: 40
     steps:
       - name: Checkout code
@@ -217,7 +217,7 @@ jobs:
         run: |
           jq -r -j .version apps/mudita-center/package.json > apps/mudita-center/version
           $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
-          $ENVIRONMENT_CATALOG_NAME="pre-production"
+          $ENVIRONMENT_CATALOG_NAME="pre-production-legacy"
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
@@ -228,8 +228,8 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/mudita-center/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/mudita-center/release/latest.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/mudita-center/release/builder-debug-win.yml -Method Put -Credential $AUTH
-          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production.git
-          cd mudita-center-pre-production
+          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production-legacy.git
+          cd mudita-center-pre-production-legacy
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
       - name: Push artifacts to nexus registry from Linux
@@ -238,7 +238,7 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          export ENVIRONMENT_CATALOG_NAME=pre-production
+          export ENVIRONMENT_CATALOG_NAME=pre-production-legacy
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
@@ -246,8 +246,8 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production.git
-          cd mudita-center-pre-production
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production-legacy.git
+          cd mudita-center-pre-production-legacy
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Push artifacts to nexus registry from macOS
@@ -256,7 +256,7 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          export ENVIRONMENT_CATALOG_NAME=pre-production
+          export ENVIRONMENT_CATALOG_NAME=pre-production-legacy
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
@@ -267,8 +267,8 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
-          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production.git
-          cd mudita-center-pre-production
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production-legacy.git
+          cd mudita-center-pre-production-legacy
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Create draft release with Windows files
@@ -278,7 +278,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-pre-production
+          repository: mudita/mudita-center-pre-production-legacy
           token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/mudita-center/release/Mudita-Center.exe
@@ -292,7 +292,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-pre-production
+          repository: mudita/mudita-center-pre-production-legacy
           token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/mudita-center/release/Mudita-Center.AppImage
@@ -305,7 +305,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-pre-production
+          repository: mudita/mudita-center-pre-production-legacy
           token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/mudita-center/release/Mudita-Center.dmg

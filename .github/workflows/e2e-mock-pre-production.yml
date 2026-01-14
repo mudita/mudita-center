@@ -1,4 +1,4 @@
-name: e2e (mock) for pre-production
+name: e2e (mock) for pre-production-legacy
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         runner_label: [linux-e2e, windows-e2e]
-    environment: pre-production
+    environment: pre-production-legacy
     timeout-minutes: 40
     steps:
       - name: Checkout code
