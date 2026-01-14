@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useCallback, useState } from "react"
+import {
+  FunctionComponent,
+  RefObject,
+  useCallback,
+  useImperativeHandle,
+  useState,
+} from "react"
 import { formatMessage, Messages } from "app-localize/utils"
 import { IconType } from "app-theme/models"
 import {
@@ -18,6 +24,7 @@ import {
   UseAppInstallationFlowArgs,
 } from "./use-app-installation-flow"
 import { AppInstallationErrorName } from "devices/common/models"
+import { FileManagerFile } from "../manage-files/manage-files.types"
 
 type GenericInstallConfirmModal = {
   confirmInstallModalTitle: Messages
@@ -35,13 +42,16 @@ type GenericInstallConfirmModal = {
 type AppInstallationFlowMessages = GenericInstallConfirmModal
 
 export interface AppInstallationFlowProps {
-  opened: boolean
-  onClose: VoidFunction
   messages: AppInstallationFlowMessages
   install: UseAppInstallationFlowArgs["install"]
+  ref?: RefObject<{
+    install: (item: FileManagerFile) => void
+    close: VoidFunction
+  } | null>
 }
 
 enum AppInstallationFlowState {
+  Idle = "Idle",
   ConfirmInstall = "ConfirmInstall",
   Installing = "Installing",
   InstallSuccess = "InstallSuccess",
@@ -50,8 +60,10 @@ enum AppInstallationFlowState {
 
 export const AppInstallationFlow: FunctionComponent<
   AppInstallationFlowProps
-> = ({ opened, onClose, messages, install }) => {
-  const [previousOpened, setPreviousOpened] = useState(opened)
+> = ({ messages, install, ref }) => {
+  const [itemToInstall, setItemToInstall] = useState<
+    FileManagerFile | undefined
+  >()
   const [flowState, setFlowState] = useState<AppInstallationFlowState>()
   const [installFailedModalMessages, setInstallFailedModalMessages] =
     useState<Messages>(messages.installFailedModalErrorGlobalMessage)
@@ -61,8 +73,12 @@ export const AppInstallationFlow: FunctionComponent<
   })
 
   const onConfirm = useCallback(async () => {
+    if (!itemToInstall) {
+      setFlowState(AppInstallationFlowState.Idle)
+      return
+    }
     setFlowState(AppInstallationFlowState.Installing)
-    const result = await runInstall()
+    const result = await runInstall(itemToInstall)
 
     if (result.ok) {
       setFlowState(AppInstallationFlowState.InstallSuccess)
@@ -77,20 +93,24 @@ export const AppInstallationFlow: FunctionComponent<
       setFlowState(AppInstallationFlowState.InstallFailed)
     }
   }, [
+    itemToInstall,
     messages.installFailedModalErrorGlobalMessage,
     messages.installFailedModalErrorVersionMessage,
     runInstall,
   ])
 
   const handleClose = useCallback(() => {
-    setFlowState(undefined)
-    onClose()
-  }, [onClose])
+    setItemToInstall(undefined)
+    setFlowState(AppInstallationFlowState.Idle)
+  }, [])
 
-  if (previousOpened !== opened) {
-    setPreviousOpened(opened)
-    setFlowState(opened ? AppInstallationFlowState.ConfirmInstall : undefined)
-  }
+  useImperativeHandle(ref, () => ({
+    install: (item: FileManagerFile) => {
+      setItemToInstall(item)
+      setFlowState(AppInstallationFlowState.ConfirmInstall)
+    },
+    close: handleClose,
+  }))
 
   return (
     <>
@@ -122,6 +142,11 @@ export const AppInstallationFlow: FunctionComponent<
     </>
   )
 }
+
+// eslint-disable-next-line no-redeclare
+export type AppInstallationFlow = NonNullable<
+  AppInstallationFlowProps["ref"]
+>["current"]
 
 export const mapInstallToGenericModalMessages = (
   messages: GenericInstallConfirmModal

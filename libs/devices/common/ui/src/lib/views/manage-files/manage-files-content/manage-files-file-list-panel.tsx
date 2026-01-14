@@ -64,6 +64,7 @@ export const ManageFilesFileListPanelSelectMode: FunctionComponent<
     ...(onDownloadClick
       ? [
           <DownloadButton
+            key="download-button"
             icon={IconType.Upload}
             message={manageFilesMessages.selectionDownload.id}
             type={ButtonType.Text}
@@ -72,6 +73,7 @@ export const ManageFilesFileListPanelSelectMode: FunctionComponent<
         ]
       : []),
     <DeleteButton
+      key="delete-button"
       icon={IconType.Trash}
       message={manageFilesMessages.selectionDelete.id}
       type={ButtonType.Text}

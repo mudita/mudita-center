@@ -13,7 +13,7 @@ const toFile = (item: HarmonyFile): FileManagerFile => {
   return {
     name,
     type,
-    id: item.path,
+    id: Buffer.from(item.path).toString("base64"),
     size: item.fileSize,
     path: item.path,
     mimeType: type,
