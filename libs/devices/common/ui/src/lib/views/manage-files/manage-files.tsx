@@ -17,7 +17,6 @@ import {
   GenericDeleteFlow,
   GenericDeleteFlowProps,
   GenericDeleteItem,
-  ScreenLoader,
 } from "app-theme/ui"
 import { ManageFilesStorageSummaryProps } from "./manage-files-content/manage-files-storage-summary"
 import { ManageFilesCategoryListProps } from "./manage-files-content/manage-files-category-list"
@@ -31,7 +30,6 @@ import {
   FileManagerFileMap,
   ManageFilesTableSectionProps,
 } from "./manage-files.types"
-import { manageFilesMessages } from "./manage-files.messages"
 import { ManageFilesFileListEmptyProps } from "./manage-files-content/manage-files-file-list-empty"
 import { FileListPanelHeaderProps } from "./manage-files-content/manage-files-file-list-panel"
 import {
@@ -43,7 +41,6 @@ import {
   FileManagerPreviewProps,
 } from "./files-preview/file-manager-preview"
 import { ManageFilesForm, ManageFilesFormValues } from "./manage-files-form"
-import styled from "styled-components"
 import { useFormContext } from "react-hook-form"
 
 type ManageFilesViewChild = (
@@ -72,7 +69,6 @@ export interface ManageFilesViewProps
     Partial<Pick<FileManagerPreviewProps, "downloadFilePreview" | "deviceId">> {
   activeFileMap: FileManagerFileMap
   onActiveCategoryChange: (categoryId: string) => void
-  isLoading: boolean
   children: ManageFilesViewChild
   messages: ManageFilesViewMessages
   deleteFiles: GenericDeleteFlowProps["deleteItemsAction"]
@@ -80,7 +76,6 @@ export interface ManageFilesViewProps
     deletedIds?: string[]
     failedIds?: string[]
   }) => void
-  progress?: number
 }
 
 export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
@@ -106,7 +101,6 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
     openFileDialog,
     openDirectoryDialog,
     downloadFilePreview,
-    isLoading,
     categories,
     segments,
     freeSpaceBytes,
@@ -114,7 +108,6 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
     otherSpaceBytes,
     otherFiles,
     children,
-    progress,
     deviceId,
   } = props
   const { getValues, setValue } = useFormContext<ManageFilesFormValues>()
@@ -215,8 +208,6 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
     [activeCategoryId, onActiveCategoryChange]
   )
 
-  const loadingState = isLoading || activeCategoryId === undefined
-
   const finalizeDeleteSuccess: NonNullable<
     GenericDeleteFlowProps["onDeleteSuccess"]
   > = useCallback(
@@ -294,76 +285,62 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
   }, [unselectAllFiles])
 
   return (
-    <ScreenLoader
-      loading={loadingState}
-      message={manageFilesMessages.loadStateText.id}
-      progress={progress}
-    >
-      <Content>
-        <ManageFilesContent
-          segments={segments}
-          categories={categories}
-          activeCategoryId={activeCategoryId}
-          messages={messages}
-          freeSpaceBytes={freeSpaceBytes}
-          usedSpaceBytes={usedSpaceBytes}
-          otherSpaceBytes={otherSpaceBytes}
-          otherFiles={otherFiles}
-          onCategoryClick={changeCategory}
-          onDeleteClick={startDeleteFlow}
-          onDownloadClick={openDirectoryDialog && startDownloadFlow}
-          onAddFileClick={startUploadFlow}
-          filesIds={Object.keys(activeFileMap)}
-        >
-          {content}
-        </ManageFilesContent>
-        {deviceId && downloadFilePreview && (
-          <FileManagerPreview
-            ref={filePreviewRef}
-            files={previewFiles}
-            deviceId={deviceId}
-            downloadFilePreview={downloadFilePreview}
-            onDelete={startDeleteFlow}
-            onDownload={startDownloadFlow}
-          />
-        )}
-        <GenericDeleteFlow
-          ref={genericDeleteRef}
-          onDeleteSuccess={finalizeDeleteSuccess}
-          deleteItemsAction={deleteItemsAction}
-          deleteFlowMessages={messages}
+    <>
+      <ManageFilesContent
+        segments={segments}
+        categories={categories}
+        activeCategoryId={activeCategoryId}
+        messages={messages}
+        freeSpaceBytes={freeSpaceBytes}
+        usedSpaceBytes={usedSpaceBytes}
+        otherSpaceBytes={otherSpaceBytes}
+        otherFiles={otherFiles}
+        onCategoryClick={changeCategory}
+        onDeleteClick={startDeleteFlow}
+        onDownloadClick={openDirectoryDialog && startDownloadFlow}
+        onAddFileClick={startUploadFlow}
+        filesIds={Object.keys(activeFileMap)}
+      >
+        {content}
+      </ManageFilesContent>
+      {deviceId && downloadFilePreview && (
+        <FileManagerPreview
+          ref={filePreviewRef}
+          files={previewFiles}
+          deviceId={deviceId}
+          downloadFilePreview={downloadFilePreview}
+          onDelete={startDeleteFlow}
+          onDownload={startDownloadFlow}
         />
-        <ManageFilesTransferFlow
-          ref={filesTransferRef}
-          openFileDialog={openFileDialog}
+      )}
+      <GenericDeleteFlow
+        ref={genericDeleteRef}
+        onDeleteSuccess={finalizeDeleteSuccess}
+        deleteItemsAction={deleteItemsAction}
+        deleteFlowMessages={messages}
+      />
+      <ManageFilesTransferFlow
+        ref={filesTransferRef}
+        openFileDialog={openFileDialog}
+        onTransferSuccess={finalizeTransferSuccess}
+        onPartialTransferFailure={handlePartialTransferFailure}
+        transferFiles={transferFiles}
+        transferFlowMessages={messages}
+        fileMap={activeFileMap}
+        freeSpaceBytes={freeSpaceBytes}
+        supportedFileTypes={activeSupportedFileTypes}
+      />
+      {openDirectoryDialog && (
+        <ManageFilesDownloadFlow
+          ref={filesDownloadRef}
+          openDirectoryDialog={openDirectoryDialog}
           onTransferSuccess={finalizeTransferSuccess}
           onPartialTransferFailure={handlePartialTransferFailure}
           transferFiles={transferFiles}
           transferFlowMessages={messages}
-          fileMap={activeFileMap}
           freeSpaceBytes={freeSpaceBytes}
-          supportedFileTypes={activeSupportedFileTypes}
         />
-        {openDirectoryDialog && (
-          <ManageFilesDownloadFlow
-            ref={filesDownloadRef}
-            openDirectoryDialog={openDirectoryDialog}
-            onTransferSuccess={finalizeTransferSuccess}
-            onPartialTransferFailure={handlePartialTransferFailure}
-            transferFiles={transferFiles}
-            transferFlowMessages={messages}
-            freeSpaceBytes={freeSpaceBytes}
-          />
-        )}
-      </Content>
-    </ScreenLoader>
+      )}
+    </>
   )
 }
-
-const Content = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-`

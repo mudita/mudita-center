@@ -55,6 +55,7 @@ import {
 import { formatMessage } from "app-localize/utils"
 import { useQueryClient } from "@tanstack/react-query"
 import { cloneDeep } from "lodash"
+import { ScreenLoader } from "app-theme/ui"
 
 export const DeviceManageFilesScreen: FunctionComponent<{
   feature: DeviceManageFileFeatureId
@@ -340,61 +341,67 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     [activeCategoryId, device?.id, queryClient]
   )
 
+  const loadingState = isLoading || activeCategoryId === undefined
+
   return (
     <>
       <DashboardHeaderTitle title={"Manage Files"} />
-      <ManageFiles
-        deviceId={device?.id}
-        activeCategoryId={activeCategoryId}
-        activeFileMap={activeFileMap}
-        onActiveCategoryChange={setActiveCategoryId}
-        segments={segments}
-        categories={categories}
-        freeSpaceBytes={freeSpaceBytes}
-        usedSpaceBytes={usedSpaceBytes}
-        otherSpaceBytes={otherSpaceBytes}
-        deleteFiles={deleteFiles}
-        onDeleteSuccess={handleDeleteSuccess}
-        isLoading={isLoading}
-        otherFiles={OTHER_FILES_LABEL_TEXTS}
-        openFileDialog={openFileDialog}
-        openDirectoryDialog={openDirectoryDialog}
-        transferFiles={handleTransferFiles}
-        messages={messages}
+      <ScreenLoader
+        loading={loadingState}
+        message={manageFilesMessages.loadStateText.id}
         progress={progress}
-        downloadFilePreview={
-          activeCategoryId === "imageFiles" ? downloadFilePreview : undefined
-        }
       >
-        {(props) => {
-          if (activeCategoryId === "applicationFiles") {
-            return (
-              <DeviceManageAppFilesTableSection
-                files={sortedFiles}
-                onAppInstallButtonClick={handleAppInstall}
-                {...props}
-              />
-            )
+        <ManageFiles
+          deviceId={device?.id}
+          activeCategoryId={activeCategoryId}
+          activeFileMap={activeFileMap}
+          onActiveCategoryChange={setActiveCategoryId}
+          segments={segments}
+          categories={categories}
+          freeSpaceBytes={freeSpaceBytes}
+          usedSpaceBytes={usedSpaceBytes}
+          otherSpaceBytes={otherSpaceBytes}
+          deleteFiles={deleteFiles}
+          onDeleteSuccess={handleDeleteSuccess}
+          otherFiles={OTHER_FILES_LABEL_TEXTS}
+          openFileDialog={openFileDialog}
+          openDirectoryDialog={openDirectoryDialog}
+          transferFiles={handleTransferFiles}
+          messages={messages}
+          downloadFilePreview={
+            activeCategoryId === "imageFiles" ? downloadFilePreview : undefined
           }
-          if (activeCategoryId === "imageFiles") {
+        >
+          {(props) => {
+            if (activeCategoryId === "applicationFiles") {
+              return (
+                <DeviceManageAppFilesTableSection
+                  files={sortedFiles}
+                  onAppInstallButtonClick={handleAppInstall}
+                  {...props}
+                />
+              )
+            }
+            if (activeCategoryId === "imageFiles") {
+              return (
+                <DeviceManageFilesTableSection
+                  files={sortedFiles}
+                  nameTooltipText={formatMessage(messages.photosNameTooltip)}
+                  {...props}
+                />
+              )
+            }
             return (
-              <DeviceManageFilesTableSection
-                files={sortedFiles}
-                nameTooltipText={formatMessage(messages.photosNameTooltip)}
-                {...props}
-              />
+              <DeviceManageFilesTableSection files={sortedFiles} {...props} />
             )
-          }
-          return (
-            <DeviceManageFilesTableSection files={sortedFiles} {...props} />
-          )
-        }}
-      </ManageFiles>
-      <AppInstallationFlow
-        ref={installationFlowRef}
-        messages={messages}
-        install={install}
-      />
+          }}
+        </ManageFiles>
+        <AppInstallationFlow
+          ref={installationFlowRef}
+          messages={messages}
+          install={install}
+        />
+      </ScreenLoader>
     </>
   )
 }
