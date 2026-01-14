@@ -93,9 +93,7 @@ export const ColumnMorePhones: FunctionComponent<{
         <Tooltip placement={"bottom-right"} offset={{ x: 0, y: 16 }}>
           <Tooltip.Content>
             {phones?.map((phone, index) => (
-              <Typography.P5 color={"grey1"} key={index}>
-                {phone}
-              </Typography.P5>
+              <MorePhonesListItem key={index}>{phone}</MorePhonesListItem>
             ))}
           </Tooltip.Content>
           <Tooltip.Anchor>
@@ -185,4 +183,8 @@ const MorePhonesButton = styled(Button)`
   width: 2.6rem;
   height: 2.4rem;
   border-radius: ${({ theme }) => theme.app.radius.xs};
+`
+
+const MorePhonesListItem = styled.span`
+  display: block;
 `

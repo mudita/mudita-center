@@ -17,6 +17,7 @@ import React, {
 import styled from "styled-components"
 import { createPortal } from "react-dom"
 import { Typography } from "../typography/typography"
+import { TypographyContent } from "../typography/typography-content/typography-content"
 
 const TooltipContext = createContext<{
   onAnchorHover: (event: MouseEvent) => void
@@ -268,11 +269,9 @@ const TooltipContent: FunctionComponent<PropsWithChildren> = ({
 }) => {
   return (
     <Content {...rest}>
-      {typeof children === "string" ? (
-        <Typography.P5 color={"grey1"}>{children}</Typography.P5>
-      ) : (
-        children
-      )}
+      <TypographyContent as={Typography.P5} color={"grey1"}>
+        {children}
+      </TypographyContent>
     </Content>
   )
 }
