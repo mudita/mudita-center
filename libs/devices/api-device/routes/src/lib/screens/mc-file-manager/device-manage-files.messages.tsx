@@ -152,4 +152,7 @@ export const deviceManageFilesMessages = defineMessages({
   installFailedModalErrorGlobalMessage: {
     id: "apiDevice.manageFiles.install.installFailedModal.errorGlobalMessage",
   },
+  photosNameTooltip: {
+    id: "apiDevice.manageFiles.preview.nameTooltip",
+  },
 })

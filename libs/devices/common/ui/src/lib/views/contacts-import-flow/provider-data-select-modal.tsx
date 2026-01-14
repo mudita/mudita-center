@@ -14,7 +14,7 @@ import {
   Button,
   Checkbox,
   Modal,
-  TableNew,
+  Table,
   TextInput,
   Typography,
 } from "app-theme/ui"
@@ -164,7 +164,7 @@ const List: FunctionComponent<{
 
   const table = useMemo(() => {
     return (
-      <TableNew
+      <Table
         itemIdField={"id"}
         items={filteredItems}
         rowRenderer={rowRenderer}

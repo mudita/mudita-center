@@ -7,8 +7,5 @@ import { FileManagerFileMap } from "../manage-files.types"
 
 export interface ManageFilesTableSectionProps<FILE_MAP = FileManagerFileMap> {
   fileMap: FILE_MAP
-  activeRowId?: string
-  onSelectedChange: (fileId: string, checked: boolean) => void
-  selectedIds: Set<string>
   onRowClick?: (fileId?: string) => void
 }

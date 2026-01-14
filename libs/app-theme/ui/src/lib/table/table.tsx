@@ -3,235 +3,189 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { List, RowComponentProps, useListRef } from "react-window"
+import styled, { css } from "styled-components"
 import {
-  Children,
-  cloneElement,
+  ComponentProps,
   FunctionComponent,
   PropsWithChildren,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
+  ReactNode,
+  RefObject,
+  useImperativeHandle,
 } from "react"
-import styled, { css } from "styled-components"
-import { noop } from "lodash"
-import { TableCell } from "./table-cell"
-import { TableHeaderCell } from "./table-header-cell"
 import {
   listItemActiveStyles,
   listItemBaseStyles,
   listItemClickableStyles,
   listItemSelectedStyles,
-  listRawItemStyles,
 } from "../list/list-item"
-import { flattenChildren, isDataCell, isHeaderCell } from "./table.helpers"
+import { Typography } from "../typography/typography"
+import { TypographyTransform } from "app-theme/models"
 
-const ROW_HEIGHT = 64
-
-interface Props extends PropsWithChildren {
-  activeRowId?: string
-  dataIds: string[]
-  data?: Record<string, unknown>
-  onRowClick?: (id: string) => void
+type Ref<ItemId> = {
+  scrollToItem: (id: ItemId, instant?: boolean) => void
 }
 
-export const Table: FunctionComponent<Props> & {
-  Cell: typeof TableCell
-  HeaderCell: typeof TableCell
-} = ({ children, activeRowId, onRowClick = noop, dataIds, ...props }) => {
-  const scrollWrapperRef = useRef<HTMLDivElement>(null)
-  const [visibleRowsBounds, setVisibleRowsBounds] = useState<[number, number]>([
-    -1, -1,
-  ])
-
-  const isClickable = Boolean(activeRowId)
-
-  const handleScroll = useCallback(() => {
-    if (!scrollWrapperRef.current) return
-    const { scrollTop, clientHeight } = scrollWrapperRef.current
-    if (clientHeight === 0) {
-      // TODO: replace Table component usage with a TableNew component
-      // eslint-disable-next-line react-hooks/immutability
-      setTimeout(handleScroll, 10)
-      return
-    }
-    const rowsPerPage = Math.ceil(clientHeight / ROW_HEIGHT) || 0
-    const currentRowIndex = Math.floor(scrollTop / ROW_HEIGHT)
-    const firstVisibleRowIndex = currentRowIndex - rowsPerPage
-    const lastVisibleRowIndex = currentRowIndex + rowsPerPage * 2
-    setVisibleRowsBounds([firstVisibleRowIndex, lastVisibleRowIndex])
-  }, [])
-
-  const scrollToActiveItem = useCallback(() => {
-    const activeElement = scrollWrapperRef.current?.querySelector("tr.active")
-    if (activeElement) {
-      activeElement.scrollIntoView({
-        block: "nearest",
-      })
-    }
-  }, [])
-
-  useEffect(() => {
-    if (activeRowId) {
-      scrollToActiveItem()
-    }
-  }, [activeRowId, scrollToActiveItem])
-
-  useLayoutEffect(() => {
-    const scrollWrapper = scrollWrapperRef.current
-    if (!scrollWrapper) return
-
-    handleScroll()
-    scrollWrapper.addEventListener("scroll", handleScroll)
-    return () => {
-      scrollWrapper.removeEventListener("scroll", handleScroll)
-    }
-  }, [dataIds.length, handleScroll])
-
-  const renderPlaceholder = useCallback(
-    (id: string) => {
-      const isActive = activeRowId === id
-      return (
-        <RowPlaceholder
-          key={id}
-          data-item-id={id}
-          className={isActive ? "active" : ""}
-        >
-          <td colSpan={Children.count(children)}>
-            <div />
-          </td>
-        </RowPlaceholder>
-      )
-    },
-    [activeRowId, children]
-  )
-
-  const headerChildren = useMemo(
-    () => flattenChildren(children).filter(isHeaderCell),
-    [children]
-  )
-
-  const renderChildren = useCallback(
-    (id: string) => {
-      return flattenChildren(children)
-        .filter(isDataCell)
-        .map((child) => {
-          return cloneElement(child, {
-            dataItemId: id,
-          })
-        })
-    },
-    [children]
-  )
-
-  const renderRow = useCallback(
-    (id: string, index: number) => {
-      if (index < visibleRowsBounds[0] || index > visibleRowsBounds[1]) {
-        return renderPlaceholder(id)
-      }
-      const onClick = () => onRowClick(id)
-      const isActive = activeRowId === id
-
-      return (
-        <tr
-          key={id}
-          data-item-id={id}
-          onClick={onClick}
-          className={isActive ? "active" : ""}
-        >
-          {renderChildren(id)}
-        </tr>
-      )
-    },
-    [
-      activeRowId,
-      onRowClick,
-      renderChildren,
-      renderPlaceholder,
-      visibleRowsBounds,
-    ]
-  )
-
-  return useMemo(
-    () => (
-      <ScrollableWrapper ref={scrollWrapperRef} {...props}>
-        <TableWrapper>
-          <TableHeader $hasClickableRows={isClickable}>
-            <tr>{headerChildren}</tr>
-          </TableHeader>
-          <TableBody $clickable={isClickable}>
-            {dataIds?.map(renderRow)}
-          </TableBody>
-        </TableWrapper>
-      </ScrollableWrapper>
-    ),
-    [props, isClickable, headerChildren, dataIds, renderRow]
-  )
+interface Props<Item, ItemId extends keyof Item = keyof Item> {
+  itemIdField: ItemId
+  items: Item[]
+  header?: ReactNode
+  rowRenderer: (item: Item, index: number) => ReactNode
+  ref?: RefObject<Ref<Item[ItemId]> | null>
+  rowHeight?: ComponentProps<typeof ListWrapper>["rowHeight"]
 }
 
-Table.Cell = TableCell
-Table.HeaderCell = TableHeaderCell
+export const Table = <Item = unknown, ItemId extends keyof Item = keyof Item>({
+  items,
+  rowRenderer,
+  header,
+  ref,
+  itemIdField,
+  rowHeight = 64,
+}: Props<Item, ItemId>) => {
+  const listRef = useListRef(null)
 
-const ScrollableWrapper = styled.div`
-  height: 100%;
-  overflow: auto;
-  position: relative;
-  scroll-behavior: smooth;
-`
-
-const TableWrapper = styled.table`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  max-height: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  table-layout: fixed;
-`
-
-const TableHeader = styled.thead<{ $hasClickableRows?: boolean }>`
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background: #fff;
-
-  tr {
-    ${({ $hasClickableRows }) =>
-      $hasClickableRows &&
-      css`
-        &:before {
-          content: "";
+  useImperativeHandle(ref, () => {
+    return {
+      scrollToItem: (id: Item[ItemId], instant?: boolean) => {
+        const index = items.findIndex((item) => item[itemIdField] === id)
+        if (index === -1) {
+          return
         }
-      `}
-  }
-
-  th {
-    text-align: left;
-    white-space: nowrap;
-    border-bottom: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
-  }
-`
-
-const RowPlaceholder = styled.tr`
-  ${listRawItemStyles};
-  height: ${ROW_HEIGHT / 10}rem;
-`
-
-const TableBody = styled.tbody<{ $clickable?: boolean }>`
-  tr:not(${RowPlaceholder}) {
-    ${listItemBaseStyles};
-    ${listItemSelectedStyles};
-    height: ${ROW_HEIGHT / 10}rem;
-
-    &.active {
-      ${listItemActiveStyles};
+        listRef.current?.scrollToRow({
+          align: "smart",
+          behavior: instant ? "instant" : "smooth",
+          index,
+        })
+      },
     }
-    ${({ $clickable }) => $clickable && listItemClickableStyles}
-  }
-  td {
-    text-align: left;
-  }
+  }, [itemIdField, items, listRef])
+
+  return (
+    <TableWrapper>
+      {Boolean(header) && <HeaderRow>{header}</HeaderRow>}
+      <ListWrapper
+        className="table-new"
+        listRef={listRef}
+        rowComponent={
+          RowComponent as ComponentProps<typeof List>["rowComponent"]
+        }
+        rowCount={items.length}
+        rowHeight={rowHeight}
+        rowProps={{
+          items,
+          rowRenderer,
+        }}
+        overscanCount={10}
+        style={{
+          overflowY: "scroll",
+        }}
+      />
+    </TableWrapper>
+  )
+}
+// eslint-disable-next-line no-redeclare
+export type Table<Item, ItemId extends keyof Item = keyof Item> = Ref<
+  Item[ItemId]
+>
+
+type RowProps<Item> = Pick<Props<Item>, "rowRenderer" | "items"> & {
+  className?: string
+}
+
+const RowComponent = <Item = unknown,>({
+  index,
+  style,
+  items,
+  rowRenderer,
+  className,
+}: RowComponentProps<RowProps<Item>>) => {
+  const item = items[index]
+
+  return (
+    <div style={style} className={className}>
+      {rowRenderer(item, index)}
+    </div>
+  )
+}
+
+const ListWrapper = styled(List)`
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
 `
+
+const TableWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+`
+
+const Row = styled.div<{
+  /**
+   * Data attribute selector for the row selection input (e.g. checkbox)
+   */
+  rowSelectorCheckboxDataAttr?: string
+  /**
+   * Indicates if active row styles should be applied
+   */
+  active?: boolean
+}>`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+
+  ${listItemBaseStyles};
+
+  ${({ onClick }) => Boolean(onClick) && listItemClickableStyles};
+  ${({ rowSelectorCheckboxDataAttr }) =>
+    rowSelectorCheckboxDataAttr &&
+    css`
+      &:has([${rowSelectorCheckboxDataAttr}]:checked) {
+        ${listItemSelectedStyles};
+      }
+    `};
+  ${({ active }) => active && listItemActiveStyles};
+`
+
+const HeaderCellWrapper = styled.div`
+  display: flex;
+  height: 4.5rem;
+  align-items: center;
+`
+
+const HeaderCell: FunctionComponent<PropsWithChildren> = ({
+  children,
+  ...rest
+}) => {
+  return (
+    <HeaderCellWrapper {...rest}>
+      {typeof children === "string" ? (
+        <Typography.P5 textTransform={TypographyTransform.Uppercase}>
+          {children}
+        </Typography.P5>
+      ) : (
+        children
+      )}
+    </HeaderCellWrapper>
+  )
+}
+
+const HeaderRow = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 0.1rem solid ${({ theme }) => theme.app.color.grey4};
+  z-index: 1;
+  padding-right: 0.5rem; /* scrollbar width */
+`
+
+Table.Row = Row
+Table.HeaderCell = HeaderCell

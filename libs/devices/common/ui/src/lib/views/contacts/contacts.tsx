@@ -13,7 +13,7 @@ import {
 import {
   GenericDeleteFlow,
   GenericDeleteFlowProps,
-  TableNew,
+  Table,
 } from "app-theme/ui"
 import styled from "styled-components"
 import { useFormContext } from "react-hook-form"
@@ -106,7 +106,7 @@ const ContactsInner: FunctionComponent<Props> = ({
   onHelpClick,
 }) => {
   const { setValue, watch, getValues } = useFormContext<FormValues>()
-  const tableRef = useRef<TableNew<Contact, "contactId">>(null)
+  const tableRef = useRef<Table<Contact, "contactId">>(null)
   const genericDeleteRef = useRef<GenericDeleteFlow>(null)
   const importFlowRef = useRef<ContactsImportFlow>(null)
   const [deleteType, setDeleteType] = useState<DeleteType>()
@@ -236,7 +236,7 @@ const ContactsInner: FunctionComponent<Props> = ({
         handleRowClick(contact.contactId)
       }
       return (
-        <TableNew.Row
+        <Table.Row
           key={contact.contactId}
           onClick={onClick}
           rowSelectorCheckboxDataAttr={"data-row-checkbox"}
@@ -255,7 +255,7 @@ const ContactsInner: FunctionComponent<Props> = ({
             phoneNumbers={contact.phoneNumbers}
             hidden={!!activeContactId}
           />
-        </TableNew.Row>
+        </Table.Row>
       )
     },
     [activeContactId, handleRowClick]
@@ -263,7 +263,7 @@ const ContactsInner: FunctionComponent<Props> = ({
 
   const table = useMemo(() => {
     return (
-      <TableNew
+      <Table
         ref={tableRef}
         itemIdField={"contactId"}
         items={contacts || []}

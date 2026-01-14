@@ -30,8 +30,8 @@ export const ManageFilesOtherFiles: FunctionComponent<
           <OtherFilesList>
             {otherFiles.map((file, index) => (
               <OtherFilesListItem key={index}>
-                <OtherFilesListItemMarker>▪</OtherFilesListItemMarker>
-                <OtherFilesListItemName>{file.name}</OtherFilesListItemName>
+                <span>▪</span>
+                {file.name}
               </OtherFilesListItem>
             ))}
           </OtherFilesList>
@@ -64,22 +64,18 @@ const Size = styled(Typography.P3)`
   margin: 0 0 0 0.3rem;
 `
 
-const OtherFilesList = styled.div`
+const OtherFilesList = styled.span`
   padding: 0.6rem 0;
   display: flex;
   flex-direction: column;
 `
 
-const OtherFilesListItem = styled.div`
+const OtherFilesListItem = styled.span`
   display: flex;
   flex-direction: row;
-`
-
-const OtherFilesListItemMarker = styled(Typography.P5)`
-  margin: 0 0.6rem;
   color: ${({ theme }) => theme.app.color.grey1};
-`
 
-const OtherFilesListItemName = styled(Typography.P5)`
-  color: ${({ theme }) => theme.app.color.grey1};
+  span {
+    margin: 0 0.6rem;
+  }
 `

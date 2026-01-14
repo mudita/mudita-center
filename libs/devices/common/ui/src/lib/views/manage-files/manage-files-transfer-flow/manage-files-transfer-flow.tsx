@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useCallback, useState } from "react"
+import { RefObject, useCallback, useImperativeHandle, useState } from "react"
 import { OpenDialogOptionsLite } from "app-utils/models"
 import { createToastContent, useToastContext } from "app-theme/ui"
 import { formatMessage } from "app-localize/utils"
@@ -54,8 +54,6 @@ type ManageFilesDeleteFlowMessages =
     }
 
 export interface ManageFilesTransferFlowProps {
-  opened: boolean
-  onClose: VoidFunction
   fileMap: FileManagerFileMap
   openFileDialog: (options: OpenDialogOptionsLite) => Promise<FileManagerFile[]>
   transferFiles: UseManageFilesTransferFlowArgs["transferFiles"]
@@ -64,11 +62,13 @@ export interface ManageFilesTransferFlowProps {
   transferFlowMessages: ManageFilesDeleteFlowMessages
   freeSpaceBytes: number
   supportedFileTypes: string[]
+  ref?: RefObject<{
+    transferItems: VoidFunction
+    close: VoidFunction
+  } | null>
 }
 
 export const ManageFilesTransferFlow = ({
-  opened,
-  onClose,
   fileMap,
   freeSpaceBytes,
   openFileDialog,
@@ -77,26 +77,22 @@ export const ManageFilesTransferFlow = ({
   onPartialTransferFailure,
   transferFlowMessages,
   supportedFileTypes,
+  ref,
 }: ManageFilesTransferFlowProps) => {
   const { addToast } = useToastContext()
+  const [selectedItems, setSelectedItems] = useState<FileManagerFile[]>([])
   const [flowState, setFlowState] = useState<ManageFilesTransferFlowState>(
     ManageFilesTransferFlowState.Idle
   )
-  const [previousOpened, setPreviousOpened] = useState(opened)
-  const [selectedFiles, setSelectedFiles] = useState<FileManagerFile[]>([])
   const [validationResult, setValidationResult] = useState<ValidationSummary>()
   const [failedTransfers, setFailedTransfers] = useState<FailedTransferItem[]>(
     []
   )
 
-  if (previousOpened !== opened) {
-    setPreviousOpened(opened)
-    setFlowState(
-      opened
-        ? ManageFilesTransferFlowState.BrowseFiles
-        : ManageFilesTransferFlowState.Idle
-    )
-  }
+  const handleClose = useCallback(() => {
+    setSelectedItems([])
+    setFlowState(ManageFilesTransferFlowState.Idle)
+  }, [])
 
   const validate = useManageFilesValidate({ fileMap, freeSpaceBytes })
 
@@ -108,11 +104,11 @@ export const ManageFilesTransferFlow = ({
 
   const processSelectedFiles = useCallback(
     async (files: FileManagerFile[]) => {
-      setSelectedFiles(files)
+      setSelectedItems(files)
 
       if (files.length === 0) {
         setFlowState(ManageFilesTransferFlowState.Idle)
-        onClose()
+        handleClose()
         return
       }
 
@@ -152,7 +148,7 @@ export const ManageFilesTransferFlow = ({
 
       setFlowState(ManageFilesTransferFlowState.Idle)
     },
-    [addToast, onClose, onTransferSuccess, transfer, validate]
+    [addToast, handleClose, onTransferSuccess, transfer, validate]
   )
 
   useBrowseForFiles({
@@ -160,27 +156,35 @@ export const ManageFilesTransferFlow = ({
     supportedFileTypes,
     openFileDialog,
     onSelect: processSelectedFiles,
-    onCancel: onClose,
+    onCancel: handleClose,
   })
 
   const closeValidationFailedModal = useCallback(async () => {
     setFlowState(ManageFilesTransferFlowState.Idle)
-    onClose()
-  }, [onClose])
+    handleClose()
+  }, [handleClose])
 
   const closeTransferFailedModal = useCallback(async () => {
-    const failedFiles = failedTransfers.map((f) => fileMap[f.id])
+    const failedFiles = failedTransfers
+      .map((f) => {
+        return selectedItems.find((file) => file.id === f.id)
+      })
+      .filter(Boolean) as FileManagerFile[]
+
     onPartialTransferFailure && (await onPartialTransferFailure(failedFiles))
     setFlowState(ManageFilesTransferFlowState.Idle)
-  }, [failedTransfers, fileMap, onPartialTransferFailure])
+  }, [failedTransfers, onPartialTransferFailure, selectedItems])
 
   const cancelTransfer = useCallback(async () => {
     abortTransfer()
   }, [abortTransfer])
 
-  if (!opened) {
-    return null
-  }
+  useImperativeHandle(ref, () => ({
+    transferItems: () => {
+      setFlowState(ManageFilesTransferFlowState.BrowseFiles)
+    },
+    close: handleClose,
+  }))
 
   return (
     <>
@@ -189,11 +193,11 @@ export const ManageFilesTransferFlow = ({
         validationSummary={validationResult}
         onClose={closeValidationFailedModal}
         messages={transferFlowMessages}
-        selectedFiles={selectedFiles}
+        selectedFiles={selectedItems}
       />
       <ManageFilesTransferProgressModal
         opened={flowState === ManageFilesTransferFlowState.TransferringFiles}
-        filesCount={selectedFiles.length}
+        filesCount={selectedItems.length}
         messages={{
           transferringModalTitle: transferFlowMessages.uploadingModalTitle,
           transferringModalCloseButtonText:
@@ -207,7 +211,7 @@ export const ManageFilesTransferFlow = ({
       <ManageFilesTransferFailedModal
         opened={flowState === ManageFilesTransferFlowState.TransferFailed}
         failedFiles={failedTransfers}
-        allFiles={selectedFiles}
+        allFiles={selectedItems}
         onClose={closeTransferFailedModal}
         messages={transferFlowMessages}
         actionType={TransferFilesActionType.Upload}
@@ -215,3 +219,8 @@ export const ManageFilesTransferFlow = ({
     </>
   )
 }
+
+// eslint-disable-next-line no-redeclare
+export type ManageFilesTransferFlow = NonNullable<
+  ManageFilesTransferFlowProps["ref"]
+>["current"]

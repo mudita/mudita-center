@@ -5,9 +5,11 @@
 
 import { useCallback, useState } from "react"
 import { AppResult } from "app-utils/models"
+import { FileManagerFile } from "../manage-files/manage-files.types"
 
 export interface UseAppInstallationFlowArgs {
   install: (params: {
+    appFile: FileManagerFile
     onProgress: (progress: {
       progress: number
       item: {
@@ -20,23 +22,27 @@ export interface UseAppInstallationFlowArgs {
 export const useAppInstallationFlow = ({
   install,
 }: UseAppInstallationFlowArgs): {
-  runInstall: () => Promise<AppResult<void>>
+  runInstall: (appFile: FileManagerFile) => Promise<AppResult<void>>
   progress: number
   currentItem: { name: string } | null
 } => {
   const [progress, setProgress] = useState(0)
   const [currentItem, setCurrentItem] = useState<{ name: string } | null>(null)
 
-  const runInstall = useCallback(async () => {
-    setProgress(0)
-    setCurrentItem(null)
-    return await install({
-      onProgress: ({ progress, item }) => {
-        setProgress(progress)
-        setCurrentItem(item)
-      },
-    })
-  }, [install])
+  const runInstall = useCallback(
+    async (appFile: FileManagerFile) => {
+      setProgress(0)
+      setCurrentItem(null)
+      return await install({
+        appFile,
+        onProgress: ({ progress, item }) => {
+          setProgress(progress)
+          setCurrentItem(item)
+        },
+      })
+    },
+    [install]
+  )
 
   return {
     runInstall,

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useCallback, useState } from "react"
+import { RefObject, useCallback, useImperativeHandle, useState } from "react"
 import { OpenDialogOptionsLite } from "app-utils/models"
 import { createToastContent, useToastContext } from "app-theme/ui"
 import { formatMessage } from "app-localize/utils"
@@ -12,7 +12,7 @@ import {
   TransferFilesActionType,
   TransferMode,
 } from "devices/common/models"
-import { FileManagerFile, FileManagerFileMap } from "../manage-files.types"
+import { FileManagerFile } from "../manage-files.types"
 import { manageFilesMessages } from "../manage-files.messages"
 import {
   ManageFilesTransferProgressModal,
@@ -42,9 +42,6 @@ type ManageFilesDeleteFlowMessages =
     }
 
 export interface ManageFilesDownloadFlowProps {
-  opened: boolean
-  onClose: VoidFunction
-  fileMap: FileManagerFileMap
   openDirectoryDialog: (
     options: OpenDialogOptionsLite
   ) => Promise<string | null>
@@ -53,22 +50,23 @@ export interface ManageFilesDownloadFlowProps {
   onPartialTransferFailure?: (failedFiles: FileManagerFile[]) => Promise<void>
   transferFlowMessages: ManageFilesDeleteFlowMessages
   freeSpaceBytes: number
-  selectedFiles: FileManagerFile[]
+  ref?: RefObject<{
+    downloadItems: (items: FileManagerFile[]) => void
+    close: VoidFunction
+  } | null>
 }
 
 export const ManageFilesDownloadFlow = ({
-  opened,
-  onClose,
-  fileMap,
   openDirectoryDialog,
   transferFiles,
   onTransferSuccess,
   onPartialTransferFailure,
   transferFlowMessages,
-  selectedFiles,
+  ref,
 }: ManageFilesDownloadFlowProps) => {
-  const [previousOpened, setPreviousOpened] = useState(opened)
   const { addToast } = useToastContext()
+
+  const [selectedItems, setSelectedItems] = useState<FileManagerFile[]>([])
   const [flowState, setFlowState] = useState<ManageFilesDownloadFlowState>(
     ManageFilesDownloadFlowState.Idle
   )
@@ -76,25 +74,21 @@ export const ManageFilesDownloadFlow = ({
     []
   )
 
-  if (previousOpened !== opened) {
-    setPreviousOpened(opened)
-    setFlowState(
-      opened
-        ? ManageFilesDownloadFlowState.BrowseDirectory
-        : ManageFilesDownloadFlowState.Idle
-    )
-  }
-
   const { transfer, progress, transferMode, abortTransfer, currentFile } =
     useManageFilesDownloadFlow({
       transferFiles,
     })
 
+  const handleClose = useCallback(() => {
+    setSelectedItems([])
+    setFlowState(ManageFilesDownloadFlowState.Idle)
+  }, [])
+
   const processSelectedDirectory = useCallback(
     async (directory: string) => {
       setFlowState(ManageFilesDownloadFlowState.TransferringFiles)
 
-      const files = selectedFiles.map((file) => ({
+      const files = selectedItems.map((file) => ({
         ...file,
         id: `${directory}/${file.name}`,
       }))
@@ -120,35 +114,44 @@ export const ManageFilesDownloadFlow = ({
 
       setFlowState(ManageFilesDownloadFlowState.Idle)
     },
-    [addToast, onTransferSuccess, selectedFiles, transfer]
+    [addToast, onTransferSuccess, selectedItems, transfer]
   )
 
   useBrowseForDirectory({
     opened: flowState === ManageFilesDownloadFlowState.BrowseDirectory,
     openDirectoryDialog,
     onSelect: processSelectedDirectory,
-    onCancel: onClose,
+    onCancel: handleClose,
   })
 
   const closeTransferFailedModal = useCallback(async () => {
-    const failedFiles = failedTransfers.map((f) => fileMap[f.id])
+    const failedFiles = failedTransfers
+      .map((f) => {
+        return selectedItems.find((file) => file.id === f.id)
+      })
+      .filter(Boolean) as FileManagerFile[]
+
     onPartialTransferFailure && (await onPartialTransferFailure(failedFiles))
     setFlowState(ManageFilesDownloadFlowState.Idle)
-  }, [failedTransfers, fileMap, onPartialTransferFailure])
+  }, [failedTransfers, onPartialTransferFailure, selectedItems])
 
   const cancelTransfer = useCallback(async () => {
     abortTransfer()
   }, [abortTransfer])
 
-  if (!opened) {
-    return null
-  }
+  useImperativeHandle(ref, () => ({
+    downloadItems: (items: FileManagerFile[]) => {
+      setSelectedItems(items)
+      setFlowState(ManageFilesDownloadFlowState.BrowseDirectory)
+    },
+    close: handleClose,
+  }))
 
   return (
     <>
       <ManageFilesTransferProgressModal
         opened={flowState === ManageFilesDownloadFlowState.TransferringFiles}
-        filesCount={selectedFiles.length}
+        filesCount={selectedItems.length}
         messages={{
           transferringModalTitle: transferFlowMessages.uploadingModalTitle,
           transferringModalCloseButtonText:
@@ -162,7 +165,7 @@ export const ManageFilesDownloadFlow = ({
       <ManageFilesTransferFailedModal
         opened={flowState === ManageFilesDownloadFlowState.TransferFailed}
         failedFiles={failedTransfers}
-        allFiles={selectedFiles}
+        allFiles={selectedItems}
         onClose={closeTransferFailedModal}
         messages={transferFlowMessages}
         actionType={TransferFilesActionType.Download}
@@ -170,3 +173,8 @@ export const ManageFilesDownloadFlow = ({
     </>
   )
 }
+
+// eslint-disable-next-line no-redeclare
+export type ManageFilesDownloadFlow = NonNullable<
+  ManageFilesDownloadFlowProps["ref"]
+>["current"]

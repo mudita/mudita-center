@@ -13,7 +13,7 @@ import {
   useState,
 } from "react"
 import { ApiDevice, ApiDevicePaths } from "devices/api-device/models"
-import { ProgressBar, Typography } from "app-theme/ui"
+import { ScreenLoader } from "app-theme/ui"
 import {
   contactsMapper,
   sendEntities,
@@ -21,7 +21,6 @@ import {
   useApiEntitiesDataQuery,
   useApiFeatureQuery,
 } from "devices/api-device/feature"
-import { motion } from "motion/react"
 import {
   detectContactsDuplicates,
   useActiveDeviceQuery,
@@ -73,6 +72,8 @@ export const McContactsScreen: FunctionComponent = () => {
     isSuccess,
   } = useApiEntitiesDataQuery<Contact[]>(feature?.entityType, device)
   const [dataLoaded, setDataLoaded] = useState(isSuccess)
+
+  const isLoading = !feature || !contacts || !dataLoaded
 
   const { mutateAsync: deleteEntities } =
     useApiDeviceDeleteEntitiesMutation(device)
@@ -282,63 +283,38 @@ export const McContactsScreen: FunctionComponent = () => {
     }
   }, [isSuccess])
 
-  if (!feature || !contacts || !dataLoaded) {
-    return (
-      <LoaderWrapper
-        key="loader"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
-      >
-        <Typography.H3 message={messages.loaderTitle.id} />
-        <ProgressBar value={progress} indeterminate={progress === 0} />
-      </LoaderWrapper>
-    )
-  }
-
   const headerTitle =
-    contacts.length > 0
-      ? `${feature.title} (${contacts.length})`
-      : feature.title
+    (contacts || []).length > 0
+      ? `${feature?.title} (${(contacts || []).length})`
+      : feature?.title || "Contacts"
 
   return (
     <>
       <DashboardHeaderTitle title={headerTitle} />
-      <Content
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
+      <ScreenLoader
+        loading={isLoading}
+        message={messages.loaderTitle.id}
+        progress={progress}
       >
-        <Contacts
-          contacts={sortedContacts}
-          onDelete={handleDelete}
-          onProviderSelect={handleImportProviderSelect}
-          onImport={handleImport}
-          onImportCancel={handleImportCancel}
-          onManageDuplicates={handleManageDuplicates}
-          onHelpClick={handleImportHelpClick}
-        />
-      </Content>
+        <Content>
+          <Contacts
+            contacts={sortedContacts}
+            onDelete={handleDelete}
+            onProviderSelect={handleImportProviderSelect}
+            onImport={handleImport}
+            onImportCancel={handleImportCancel}
+            onManageDuplicates={handleManageDuplicates}
+            onHelpClick={handleImportHelpClick}
+          />
+        </Content>
+      </ScreenLoader>
     </>
   )
 }
 
-const LoaderWrapper = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-  gap: 2.4rem;
+const Content = styled.div`
   width: 100%;
   height: 100%;
-  justify-content: center;
-  align-items: center;
-`
-
-const Content = styled(motion.div)`
-  width: 100%;
-  height: 100%;
-  background-color: ${({ theme }) => theme.app.color.white};
   display: flex;
   flex-direction: row;
   overflow-x: hidden;
