@@ -1,9 +1,9 @@
-name: Build & Run E2E - development-next
+name: Build & Run E2E - development
 
 on:
   push:
     branches:
-      - develop-next
+      - develop
 jobs:
   e2e:
     runs-on: ${{ matrix.runner_label }}
@@ -11,7 +11,7 @@ jobs:
       matrix:
         runner_label: [linux-e2e, windows-e2e, macos-m-e2e]
         node-version: [22.16.0]
-    environment: development-next
+    environment: development
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
