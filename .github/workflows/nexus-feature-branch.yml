@@ -132,6 +132,7 @@ jobs:
           export SOURCE_BRANCH=${{ github.ref_name }}
           export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.tar.gz  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.tar.gz
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
       - name: Upload artifacts to Nexus - Mac
