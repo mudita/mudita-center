@@ -11,7 +11,7 @@ jobs:
       matrix:
         runner_label: [linux-nexus, windows-nexus, macos-m-nexus]
         node-version: [22.16.0]
-    environment: development-next
+    environment: development
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
