@@ -1,17 +1,17 @@
-name: Build & Release - development-next
+name: Build & Release - development
 
 on:
   push:
     branches:
-      - develop-next
+      - develop
 jobs:
   release:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [linux-nexus, windows-nexus, macos-m-nexus]
+        runner_label: [linux-nexus]
         node-version: [22.16.0]
-    environment: development-next
+    environment: development
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -64,7 +64,7 @@ jobs:
         if: matrix.runner_label == 'windows-nexus'
         run: |
           $SOURCE_BRANCH = "${{ github.ref_name }}"
-          $ENVIRONMENT_CATALOG_NAME = "development-next"
+          $ENVIRONMENT_CATALOG_NAME = "development"
           $BUILD_VERSION = "-dev.${{ github.run_number }}"
           $APP_VERSION = (Get-Content -Path "apps/app/version") + $BUILD_VERSION
           (Get-Content -Path 'apps/app/package.json') | ForEach-Object {
@@ -75,7 +75,7 @@ jobs:
         run: |
           export APP_VERSION=`cat apps/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=development-next
+          export ENVIRONMENT_CATALOG_NAME=development
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
       - name: Update app version - Linux
@@ -83,7 +83,7 @@ jobs:
         run: |
           export APP_VERSION=`cat apps/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=development-next
+          export ENVIRONMENT_CATALOG_NAME=development
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/app/package.json
       - name: Install dependencies
@@ -128,7 +128,7 @@ jobs:
           jq -r -j .version apps/app/package.json > apps/app/version
           $APP_VERSION = Get-Content -Path "apps/app/version"
           $SOURCE_BRANCH = "${{ github.ref_name }}"
-          $ENVIRONMENT_CATALOG_NAME = "development-next"
+          $ENVIRONMENT_CATALOG_NAME = "development"
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
@@ -139,8 +139,8 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH -UseBasicParsing
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/app/release/latest.yml -Method Put -Credential $AUTH -UseBasicParsing
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/app/release/builder-debug-win.yml -Method Put -Credential $AUTH -UseBasicParsing
-          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-development-next.git
-          cd mudita-center-development-next
+          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-development.git
+          cd mudita-center-development
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
       - name: Upload artifacts to Nexus - Mac
@@ -151,7 +151,7 @@ jobs:
         run: |
           export APP_VERSION=`cat apps/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=development-next
+          export ENVIRONMENT_CATALOG_NAME=development
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
           git tag "$GITTAG"
@@ -163,8 +163,8 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-development-next.git
-          cd mudita-center-development-next
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-development.git
+          cd mudita-center-development
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Upload artifacts to Nexus - Linux
@@ -175,7 +175,7 @@ jobs:
         run: |
           export APP_VERSION=`cat apps/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=development-next
+          export ENVIRONMENT_CATALOG_NAME=development
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
           git tag "$GITTAG"
@@ -184,8 +184,8 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-development-next.git
-          cd mudita-center-development-next
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-development.git
+          cd mudita-center-development
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Create GitHub draft release - Windows
@@ -195,8 +195,8 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-development-next
-          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          repository: mudita/mudita-center-development
+          token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/app/release/Mudita-Center.exe
             ./apps/app/release/Mudita-Center.exe.blockmap
@@ -209,8 +209,8 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-development-next
-          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          repository: mudita/mudita-center-development
+          token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/app/release/Mudita-Center.dmg
             ./apps/app/release/Mudita-Center.zip
@@ -225,8 +225,8 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-development-next
-          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          repository: mudita/mudita-center-development
+          token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/app/release/Mudita-Center.AppImage
             ./apps/app/release/latest-linux.yml
