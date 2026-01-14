@@ -22,6 +22,7 @@ export enum TypographyTransform {
   Lowercase = "lowercase",
   Uppercase = "uppercase",
   CapitalizeFirstLetter = "capitalize-first-letter",
+  None = "none",
 }
 
 export enum TypographyAlign {

@@ -230,6 +230,7 @@
   "general.components.devicesDrawer.title": "Select a device",
   "general.components.devicesIndicator.text": "Show connected devices",
   "general.components.searchInput.emptyState": "We couldn't find anything...",
+  "general.contactSupport.downloadingTitle.title": "Downloading logs, please wait...",
   "general.contactSupport.errorModal.body": "Please try again later or contact us directly at support@mudita.com",
   "general.contactSupport.errorModal.title": "An error occurred",
   "general.contactSupport.formModal.buttonText": "Send message",

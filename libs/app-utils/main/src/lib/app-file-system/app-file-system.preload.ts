@@ -7,6 +7,7 @@ import { ipcRenderer } from "electron"
 import {
   AppFileSystemArchiveOptions,
   AppFileSystemCalculateCrc32Options,
+  AppFileSystemCpOptions,
   AppFileSystemExtractOptions,
   AppFileSystemFileStatsOptions,
   AppFileSystemGuardOptions,
@@ -89,5 +90,8 @@ export const appFileSystem = {
   },
   getPath: (options: AppFileSystemGuardOptions): Promise<AppResult<string>> => {
     return ipcRenderer.invoke(AppFileSystemIpcEvents.GetPath, options)
+  },
+  cp: (options: AppFileSystemCpOptions): Promise<AppResult> => {
+    return ipcRenderer.invoke(AppFileSystemIpcEvents.Cp, options)
   },
 }
