@@ -7,7 +7,7 @@ on:
 
 jobs:
   e2e:
-    if: github.event.base_ref == 'refs/heads/main'
+    if: github.event.base_ref == 'refs/heads/main-legacy'
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
