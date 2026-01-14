@@ -1,16 +1,18 @@
-name: e2e (standalone) for development
+name: e2e (mock) for pre-production-legacy
 
 on:
   push:
-    branches:
-      - develop
+    tags:
+      - "*"
+
 jobs:
   e2e:
+    if: startsWith(github.event.base_ref, 'refs/heads/v') && !(endsWith(github.ref, '-latest'))
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
         runner_label: [linux-e2e, windows-e2e]
-    environment: development
+    environment: pre-production-legacy
     timeout-minutes: 40
     steps:
       - name: Checkout code
@@ -44,7 +46,7 @@ jobs:
           DEV_REDUX_LOGGER_ENABLED: ${{ secrets.DEV_REDUX_LOGGER_ENABLED }}
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
-          MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
+          MOCK_SERVICE_ENABLED: "1"
         run: |
           printenv > .env
       - name: Setup environment variables for Windows
@@ -72,7 +74,7 @@ jobs:
           DEV_REDUX_LOGGER_ENABLED: ${{ secrets.DEV_REDUX_LOGGER_ENABLED }}
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
-          MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
+          MOCK_SERVICE_ENABLED: "1"
         shell: cmd
         run: |
           SET > .env
@@ -92,11 +94,11 @@ jobs:
       - name: Run E2E tests headless with Xvfb on Linux
         if: matrix.runner_label == 'linux-e2e'
         run: |
-          npm run e2e:test:cicd:standalone
+          npm run e2e:test:cicd:mock
       - name: Run E2E tests headless on Windows
         env:
           TEST_BINARY_PATH: '..\mudita-center\release\win-unpacked\Mudita Center.exe'
         if: matrix.runner_label == 'windows-e2e'
         run: |
           cd apps/mudita-center-e2e
-          npm run e2e:test:cicd:standalone
+          npm run e2e:test:cicd:mock

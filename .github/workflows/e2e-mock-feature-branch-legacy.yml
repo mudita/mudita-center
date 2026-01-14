@@ -1,16 +1,20 @@
-name: e2e (mock) for development
+name: e2e (mock) for feature branch
 
 on:
-  push:
-    branches:
-      - develop
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+  workflow_dispatch:
 jobs:
   e2e:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
         runner_label: [linux-e2e, windows-e2e]
-    environment: development
+    if: startsWith(github.head_ref || github.ref, 'CP-')
+    environment: development-legacy
     timeout-minutes: 40
     steps:
       - name: Checkout code

@@ -1,20 +1,16 @@
-name: e2e (standalone) for feature branch
+name: e2e (standalone) for development-legacy
 
 on:
-  pull_request:
-    types:
-      - opened
-      - ready_for_review
-      - reopened
-  workflow_dispatch:
+  push:
+    branches:
+      - develop-legacy
 jobs:
   e2e:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [linux-e2e, windows-e2e, macos-e2e]
-    if: startsWith(github.head_ref || github.ref, 'CP-')
-    environment: development
+        runner_label: [linux-e2e, windows-e2e]
+    environment: development-legacy
     timeout-minutes: 40
     steps:
       - name: Checkout code
@@ -28,34 +24,6 @@ jobs:
         env:
           E2ECI: "true"
           TEST_BINARY_PATH: "../mudita-center/release/linux-unpacked/mudita-center"
-          PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
-          PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
-          PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
-          MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
-          ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
-          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
-          PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
-          GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
-          LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ secrets.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
-          FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          FRESHDESK_API_URL: ${{ secrets.FRESHDESK_API_URL }}
-          FRESHDESK_API_TOKEN: ${{ secrets.FRESHDESK_API_TOKEN }}
-          ANALYTICS_ENABLED: ${{ secrets.ANALYTICS_ENABLED }}
-          ANALYTICS_API_URL: ${{ secrets.ANALYTICS_API_URL }}
-          ANALYTICS_API_SITE_ID: ${{ secrets.ANALYTICS_API_SITE_ID }}
-          FEATURE_TOGGLE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_ENVIRONMENT }}
-          STATIC_CONFIGURATION_FILE_PATH: ${{ secrets.STATIC_CONFIGURATION_FILE_PATH }}
-          DEV_REDUX_LOGGER_ENABLED: ${{ secrets.DEV_REDUX_LOGGER_ENABLED }}
-          DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
-          FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
-          MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
-        run: |
-          printenv > .env
-      - name: Setup Env for Mac
-        if: matrix.runner_label == 'macos-e2e'
-        env:
-          E2ECI: "true"
-          TEST_BINARY_PATH: "../mudita-center/release/mac/Mudita Center.app/Contents/MacOS/Mudita Center"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
@@ -110,8 +78,8 @@ jobs:
           SET > .env
       - name: Setup dependencies
         run: npm run setup
-      - name: Build App for Linux/Mac
-        if: matrix.runner_label != 'windows-e2e'
+      - name: Build App for Linux
+        if: matrix.runner_label == 'linux-e2e'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist
@@ -132,7 +100,3 @@ jobs:
         run: |
           cd apps/mudita-center-e2e
           npm run e2e:test:cicd:standalone
-      - name: Run E2E tests headless on Mac
-        if: matrix.runner_label == 'macos-e2e'
-        run: |
-          npm run e2e:test:standalone

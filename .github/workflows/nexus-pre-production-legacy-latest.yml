@@ -1,4 +1,4 @@
-name: Build & deploy to pre-production
+name: Build & deploy to pre-production-legacy (latest)
 
 on:
   push:
@@ -7,12 +7,13 @@ on:
 
 jobs:
   build:
-    if: startsWith(github.event.base_ref, 'refs/heads/v') && !(endsWith(github.ref, '-latest'))
+    if: startsWith(github.event.base_ref, 'refs/heads/v') && endsWith(github.ref, '-latest')
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
         runner_label: [linux-nexus, windows-nexus, macos-nexus]
-    environment: pre-production
+        type: [standard, force]
+    environment: pre-production-legacy
     timeout-minutes: 40
     steps:
       - name: Checkout code
@@ -51,8 +52,8 @@ jobs:
         run: |
           SET > .env
           jq -r -j .version apps/mudita-center/package.json > apps/mudita-center/version
-      - name: Setup Env for Windows
-        if: matrix.runner_label != 'windows-nexus'
+      - name: Setup Env for Mac
+        if: matrix.runner_label == 'macos-nexus'
         env:
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
@@ -77,6 +78,80 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
         run: |
           printenv > .env
+      - name: Setup Env for Linux
+        if: matrix.runner_label == 'linux-nexus'
+        env:
+          PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
+          PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
+          PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
+          MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
+          ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
+          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
+          GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
+          VITE_GH_RUNTIME_TOKEN: ${{ secrets.VITE_GH_RUNTIME_TOKEN }}
+          LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ secrets.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
+          FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
+          FRESHDESK_API_URL: ${{ secrets.FRESHDESK_API_URL }}
+          FRESHDESK_API_TOKEN: ${{ secrets.FRESHDESK_API_TOKEN }}
+          ANALYTICS_ENABLED: ${{ secrets.ANALYTICS_ENABLED }}
+          ANALYTICS_API_URL: ${{ secrets.ANALYTICS_API_URL }}
+          ANALYTICS_API_SITE_ID: ${{ secrets.ANALYTICS_API_SITE_ID }}
+          FEATURE_TOGGLE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_ENVIRONMENT }}
+          STATIC_CONFIGURATION_FILE_PATH: ${{ secrets.STATIC_CONFIGURATION_FILE_PATH }}
+          DEV_REDUX_LOGGER_ENABLED: ${{ secrets.DEV_REDUX_LOGGER_ENABLED }}
+          DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
+          FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
+        run: |
+          printenv > .env
+      - name: Changing app version in packages.json for Linux & Standard Update
+        if: matrix.runner_label == 'linux-nexus' && matrix.type == 'standard'
+        run: |
+          export APP_VERSION=$(cat apps/mudita-center/package.json | jq -r .version)
+          export TAG=$(echo $GITHUB_REF | sed 's/^refs\/tags\///')
+          export VERSION=$(echo $TAG | awk -F'-' '{print $1}')
+          export NEW_APP_VERSION="$VERSION-qa.$APP_VERSION"
+          sed -i "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/mudita-center/package.json
+      - name: Changing app version in packages.json for Mac & Standard Update
+        if: matrix.runner_label == 'macos-nexus' && matrix.type == 'standard'
+        run: |
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
+          export TAG=$(echo $GITHUB_REF | sed 's/^refs\/tags\///')
+          export VERSION=$(echo $TAG | awk -F'-' '{print $1}')
+          export NEW_APP_VERSION="$VERSION-qa.$APP_VERSION"
+          TMP_FILE=$(mktemp)
+          sed "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/mudita-center/package.json > "$TMP_FILE"
+          mv "$TMP_FILE" apps/mudita-center/package.json
+      - name: Changing app version in packages.json for Windows & Standard Update
+        if: matrix.runner_label == 'windows-nexus' && matrix.type == 'standard'
+        run: |
+          $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
+          $TAG = $env:GITHUB_REF -replace 'refs/tags/', ''
+          $VERSION = ($TAG -split '-')[0]
+          $NEW_APP_VERSION = "$VERSION-qa.$APP_VERSION"
+          (Get-Content -Path 'apps/mudita-center/package.json') | ForEach-Object {
+              $_ -replace '"version": ".*",' , "`"version`"`: `"$NEW_APP_VERSION`","
+          } | Set-Content -Path 'apps/mudita-center/package.json'
+      - name: Changing app version in packages.json for Linux & Force Update
+        if: matrix.runner_label == 'linux-nexus' && matrix.type == 'force'
+        run: |
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
+          export NEW_APP_VERSION="0.0.1-qa.$APP_VERSION"
+          sed -i "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/mudita-center/package.json
+      - name: Changing app version in packages.json for Mac & Force Update
+        if: matrix.runner_label == 'macos-nexus' && matrix.type == 'force'
+        run: |
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
+          export NEW_APP_VERSION="0.0.1-qa.$APP_VERSION"
+          sed -i '' "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/mudita-center/package.json
+      - name: Changing app version in packages.json for Windows & Force Update
+        if: matrix.runner_label == 'windows-nexus' && matrix.type == 'force'
+        run: |
+          $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
+          $NEW_APP_VERSION = "0.0.1-qa.$APP_VERSION"
+          (Get-Content -Path 'apps/mudita-center/package.json') | ForEach-Object {
+              $_ -replace '"version": ".*",' , "`"version`"`: `"$NEW_APP_VERSION`","
+          } | Set-Content -Path 'apps/mudita-center/package.json'
       - name: Setup depedencies
         run: npm run setup
       #      - name: Copy electron-builder environment file for Windows
@@ -140,8 +215,9 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
+          jq -r -j .version apps/mudita-center/package.json > apps/mudita-center/version
           $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
-          $ENVIRONMENT_CATALOG_NAME="pre-production"
+          $ENVIRONMENT_CATALOG_NAME="pre-production-legacy"
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
@@ -152,8 +228,8 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/mudita-center/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/mudita-center/release/latest.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/mudita-center/release/builder-debug-win.yml -Method Put -Credential $AUTH
-          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production.git
-          cd mudita-center-pre-production
+          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production-legacy.git
+          cd mudita-center-pre-production-legacy
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
       - name: Push artifacts to nexus registry from Linux
@@ -162,7 +238,7 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          export ENVIRONMENT_CATALOG_NAME=pre-production
+          export ENVIRONMENT_CATALOG_NAME=pre-production-legacy
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
@@ -170,8 +246,8 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production.git
-          cd mudita-center-pre-production
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production-legacy.git
+          cd mudita-center-pre-production-legacy
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Push artifacts to nexus registry from macOS
@@ -180,7 +256,7 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          export ENVIRONMENT_CATALOG_NAME=pre-production
+          export ENVIRONMENT_CATALOG_NAME=pre-production-legacy
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
@@ -191,8 +267,8 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
-          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production.git
-          cd mudita-center-pre-production
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-pre-production-legacy.git
+          cd mudita-center-pre-production-legacy
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Create draft release with Windows files
@@ -202,7 +278,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-pre-production
+          repository: mudita/mudita-center-pre-production-legacy
           token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/mudita-center/release/Mudita-Center.exe
@@ -216,7 +292,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-pre-production
+          repository: mudita/mudita-center-pre-production-legacy
           token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/mudita-center/release/Mudita-Center.AppImage
@@ -229,7 +305,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-pre-production
+          repository: mudita/mudita-center-pre-production-legacy
           token: ${{ secrets.GH_BUILD_TOKEN }}
           files: |
             ./apps/mudita-center/release/Mudita-Center.dmg
