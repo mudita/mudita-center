@@ -6,8 +6,10 @@
 import { DeviceStatus } from "devices/common/models"
 import { useQueryClient } from "@tanstack/react-query"
 import { useCallback, useEffect } from "react"
-import { delay } from "app-utils/common"
 import { Harmony, HarmonyErrorType } from "devices/harmony/models"
+import { AnalyticsEventCategory } from "app-utils/models"
+import { delay } from "app-utils/common"
+import { useUniqueTrack } from "app-utils/renderer"
 import {
   useHarmonyOsUpdateInfoQuery,
   useNewCrashDumpsQuery,
@@ -17,7 +19,6 @@ import {
   useDeviceMenuQuery,
   useDeviceStatusQuery,
 } from "../hooks"
-import { TrackEventCategory, useUniqueTrack } from "app-utils/renderer"
 
 export const useHarmonyInitializer = (device: Harmony) => {
   const queryClient = useQueryClient()
@@ -68,7 +69,7 @@ export const useHarmonyInitializer = (device: Harmony) => {
 
     uniqueTrack({
       e_a: config?.version || "unknown",
-      e_c: TrackEventCategory.HarmonyVersion,
+      e_c: AnalyticsEventCategory.HarmonyVersion,
       _id: config?.serialNumber || "unknown",
     })
   }, [

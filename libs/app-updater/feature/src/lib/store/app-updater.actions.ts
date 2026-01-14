@@ -6,10 +6,14 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit"
 import { AppUpdateAvailability } from "app-updater/models"
 import { AppStore } from "app-store/models"
+import { AnalyticsEventCategory } from "app-utils/models"
 import { delayUntilAtLeast } from "app-utils/common"
 import { AppUpdater } from "app-updater/renderer"
-import { AppActions, track, TrackEventCategory } from "app-utils/renderer"
-import { selectAppUpdaterCurrentVersion, selectAppUpdaterNewVersion } from "./app-updater.selectors"
+import { AppActions, track } from "app-utils/renderer"
+import {
+  selectAppUpdaterCurrentVersion,
+  selectAppUpdaterNewVersion,
+} from "./app-updater.selectors"
 
 export const setAppUpdaterCurrentVersion = createAction<string>(
   "appUpdater/setCurrentVersion"
@@ -91,14 +95,14 @@ export const downloadAndInstallAppUpdate = createAsyncThunk<
     void track({
       e_a: newVersion || "unknown",
       e_n: currentVersion || "unknown",
-      e_c: TrackEventCategory.CenterUpdateDownload,
+      e_c: AnalyticsEventCategory.CenterUpdateDownload,
     })
 
     if (!downloadResult.ok) {
       void track({
         e_a: newVersion || "unknown",
         e_n: currentVersion || "unknown",
-        e_c: TrackEventCategory.CenterUpdateFail,
+        e_c: AnalyticsEventCategory.CenterUpdateFail,
       })
 
       dispatch(setAppUpdaterError(true))
@@ -110,14 +114,14 @@ export const downloadAndInstallAppUpdate = createAsyncThunk<
     void track({
       e_a: newVersion || "unknown",
       e_n: currentVersion || "unknown",
-      e_c: TrackEventCategory.CenterUpdateStart,
+      e_c: AnalyticsEventCategory.CenterUpdateStart,
     })
 
     if (!installResult.ok) {
       void track({
         e_a: newVersion || "unknown",
         e_n: currentVersion || "unknown",
-        e_c: TrackEventCategory.CenterUpdateFail,
+        e_c: AnalyticsEventCategory.CenterUpdateFail,
       })
 
       dispatch(setAppUpdaterError(true))

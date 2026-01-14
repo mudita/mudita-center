@@ -6,9 +6,12 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { sum } from "lodash"
-import { AppFileSystemGuardOptions } from "app-utils/models"
+import {
+  AnalyticsEventCategory,
+  AppFileSystemGuardOptions,
+} from "app-utils/models"
 import { HarmonyOSUpdateError } from "devices/harmony/models"
-import { AppHttp, track, TrackEventCategory } from "app-utils/renderer"
+import { AppHttp, track } from "app-utils/renderer"
 import { theme } from "app-theme/utils"
 import { HarmonyOsUpdateInfoFile } from "./use-harmony-os-update-info.query"
 
@@ -52,7 +55,7 @@ const mutationFn = async (
 
       void track({
         e_a: file.version,
-        e_c: TrackEventCategory.HarmonyUpdateDownload,
+        e_c: AnalyticsEventCategory.HarmonyUpdateDownload,
       })
 
       return data

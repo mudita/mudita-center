@@ -7,6 +7,7 @@ import { FunctionComponent, useCallback, useMemo, useState } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { ApiDevice } from "devices/api-device/models"
 import {
+  AnalyticsEventCategory,
   AppError,
   AppResultFactory,
   OpenDialogOptionsLite,
@@ -17,7 +18,7 @@ import {
   TransferFileEntry,
   TransferFilesActionType,
 } from "devices/common/models"
-import { AppActions, TrackEventCategory, useTrack } from "app-utils/renderer"
+import { AppActions, useTrack } from "app-utils/renderer"
 import {
   openFileDialog,
   useActiveDeviceQuery,
@@ -172,7 +173,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
       .join(",")
 
     void track({
-      e_c: TrackEventCategory.FileTransferSend,
+      e_c: AnalyticsEventCategory.FileTransferSend,
       e_a: `${status}/${succeededLength},${failedLength}/${modes}`,
     })
 

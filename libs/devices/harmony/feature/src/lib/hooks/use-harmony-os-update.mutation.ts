@@ -12,9 +12,10 @@ import {
   HarmonyOSUpdateError,
   HarmonyOSUpdateStatus,
 } from "devices/harmony/models"
-import { useDeviceFreezer } from "app-serialport/renderer"
 import { FailedTransferErrorName } from "devices/common/models"
-import { track, TrackEventCategory } from "app-utils/renderer"
+import { AnalyticsEventCategory } from "app-utils/models"
+import { useDeviceFreezer } from "app-serialport/renderer"
+import { track } from "app-utils/renderer"
 import { updateHarmony } from "../api/update-harmony"
 import { removeFileFromHarmony } from "../api/remove-file-from-harmony"
 import { uploadFiles } from "../actions/upload-files"
@@ -65,7 +66,7 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
           void track({
             e_a: item.version,
             e_n: "unknown",
-            e_c: TrackEventCategory.HarmonyUpdateFail,
+            e_c: AnalyticsEventCategory.HarmonyUpdateFail,
           })
 
           throw HarmonyOSUpdateError.UpdateFailed
@@ -74,7 +75,7 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
         void track({
           e_a: item.version,
           e_n: deviceInfo.body.version,
-          e_c: TrackEventCategory.HarmonyUpdateStart,
+          e_c: AnalyticsEventCategory.HarmonyUpdateStart,
         })
 
         // Check if the previous update was applied successfully (for sequential updates)
@@ -82,7 +83,7 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
           void track({
             e_a: item.version,
             e_n: deviceInfo.body.version,
-            e_c: TrackEventCategory.HarmonyUpdateFail,
+            e_c: AnalyticsEventCategory.HarmonyUpdateFail,
           })
 
           throw HarmonyOSUpdateError.UpdateFailed
@@ -101,7 +102,7 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
             void track({
               e_a: item.version,
               e_n: deviceInfo.body.version,
-              e_c: TrackEventCategory.HarmonyUpdateFail,
+              e_c: AnalyticsEventCategory.HarmonyUpdateFail,
             })
 
             throw HarmonyOSUpdateError.NotEnoughSpace
@@ -148,7 +149,7 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
           void track({
             e_a: item.version,
             e_n: deviceInfo.body.version,
-            e_c: TrackEventCategory.HarmonyUpdateFail,
+            e_c: AnalyticsEventCategory.HarmonyUpdateFail,
           })
           throw HarmonyOSUpdateError.UpdateFailed
         }
@@ -193,7 +194,7 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
         void track({
           e_a: item.version,
           e_n: deviceInfo.body.version,
-          e_c: TrackEventCategory.HarmonyUpdateSuccess,
+          e_c: AnalyticsEventCategory.HarmonyUpdateSuccess,
         })
       }
       return

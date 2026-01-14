@@ -5,7 +5,6 @@
 
 export * from "./lib/analytics/analytics"
 export * from "./lib/analytics/use-analytics"
-export * from "./lib/analytics/track-event.constant"
 export * from "./lib/app-actions"
 export * from "./lib/app-file-system"
 export * from "./lib/app-help"
