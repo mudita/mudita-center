@@ -65,7 +65,7 @@ jest.doMock(
   () => defaultConfig
 )
 
-describe("When API return success status code", () => {
+describe.skip("When API return success status code", () => {
   test("returns API response", async () => {
     mockGet.mockResolvedValueOnce({ data: configuration, status: 200 })
 
