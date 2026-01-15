@@ -30,14 +30,15 @@ let defaultData = require("../libs/core/settings/static/default-app-configuratio
   try {
     await fs.ensureDir(path.resolve(jsonPath))
 
-    const url = `${process.env.MUDITA_CENTER_SERVER_URL}/${MuditaCenterServerRoutes.AppConfigurationV2}?version=v2-app-configuration`
-    const { status, data } = await axios.get<Configuration>(url)
+    // Downloading configuration from Mudita Center Server is disabled because of CP-3943
+    // const url = `${process.env.MUDITA_CENTER_SERVER_URL}/${MuditaCenterServerRoutes.AppConfigurationV2}?version=v2-app-configuration`
+    // const { status, data } = await axios.get<Configuration>(url)
 
-    if (status === 200 && data !== undefined) {
-      await fs.writeJson(path.resolve(jsonPath), data)
-    } else {
+    // if (status === 200 && data !== undefined) {
+    //   await fs.writeJson(path.resolve(jsonPath), data)
+    // } else {
       await fs.writeJson(path.resolve(jsonPath), defaultData)
-    }
+    // }
   } catch (error: any) {
     await fs.writeJson(path.resolve(jsonPath), defaultData)
   }

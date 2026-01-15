@@ -36,19 +36,21 @@ export class ConfigurationService {
   }
 
   public async getConfiguration(): Promise<Configuration> {
-    try {
-      const { data, status } = await this.getNewConfiguration({
-        version: AppConfigurationVersion.v2,
-      })
-      if (status === 200) {
-        return data
-      } else {
-        this.rewriteDefaultConfiguration()
-      }
-    } catch {
-      this.rewriteDefaultConfiguration()
-    }
 
+    // Downloading configuration from Mudita Center Server is disabled because of CP-3943
+    // try {
+    //   const { data, status } = await this.getNewConfiguration({
+    //     version: AppConfigurationVersion.v2,
+    //   })
+    //   if (status === 200) {
+    //     return data
+    //   } else {
+    //     this.rewriteDefaultConfiguration()
+    //   }
+    // } catch {
+    //   this.rewriteDefaultConfiguration()
+    // }
+    this.rewriteDefaultConfiguration()
     return this.defaultConfiguration
   }
 
