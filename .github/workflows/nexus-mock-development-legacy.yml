@@ -199,8 +199,8 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-development-legacy.git
-          cd mudita-center-development-legacy
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-development.git
+          cd mudita-center-development
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Push artifacts to nexus registry from macOS
@@ -223,7 +223,7 @@ jobs:
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
-          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-development-legacy.git
-          cd mudita-center-development-legacy
+          git clone https://${{ secrets.GH_BUILD_TOKEN }}@github.com/mudita/mudita-center-development.git
+          cd mudita-center-development
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
