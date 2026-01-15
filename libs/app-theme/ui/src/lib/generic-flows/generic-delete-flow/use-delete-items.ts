@@ -11,7 +11,7 @@ import { GenericDeleteItem } from "./generic-delete-flow.types"
 import { useMutation } from "@tanstack/react-query"
 
 export interface UseDeleteItemsProps {
-  deleteItemsAction: (itemIds: string[]) => Promise<{ failedIds: string[] }>
+  deleteItemsAction: (itemIds: string[]) => Promise<{ failedIds?: string[] }>
   onStart: VoidFunction
   onSuccess: (params: {
     allItems: GenericDeleteItem[]
@@ -35,7 +35,7 @@ export const useDeleteItems = ({
       const deleteProcess = async () => {
         const itemIds = items.map((item) => item.id)
         const { failedIds } = await deleteItemsAction(itemIds)
-        return items.filter(({ id }) => failedIds.includes(id))
+        return items.filter(({ id }) => failedIds?.includes(id))
       }
 
       try {

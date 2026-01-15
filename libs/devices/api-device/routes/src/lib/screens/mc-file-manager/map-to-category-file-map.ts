@@ -11,14 +11,17 @@ import {
   isAppFileManagerFileAdditionalInfo,
 } from "./device-manage-files.types"
 
-type FileEntity = {
+export type FileEntity = {
   id: string
   fileName: string
   filePath: string
   fileSize: number
   extension: string
-  additionalInfo?: unknown
   mimeType: string
+  isInternal: boolean
+  entityType: string
+  fileType: string
+  additionalInfo?: unknown
 }
 
 const isFileEntity = (value: unknown): value is FileEntity => {

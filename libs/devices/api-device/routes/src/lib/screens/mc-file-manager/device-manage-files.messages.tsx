@@ -113,6 +113,9 @@ export const deviceManageFilesMessages = defineMessages({
   uploadingModalTitle: {
     id: "apiDevice.manageFiles.uploading.modal.title",
   },
+  exportingModalTitle: {
+    id: "apiDevice.manageFiles.exporting.modal.title",
+  },
   uploadingModalCloseButtonText: {
     id: "apiDevice.manageFiles.uploading.modal.closeButtonText",
   },

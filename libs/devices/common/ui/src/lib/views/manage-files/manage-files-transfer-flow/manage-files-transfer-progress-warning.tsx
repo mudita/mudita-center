@@ -39,10 +39,12 @@ const InterferingAppsTooltipIcon: FunctionComponent = () => {
         <TooltipContentWrapper>
           {interferingApps.map((app) => (
             <TooltipContentItem key={app}>
-              <TooltipContentItemTextMarker color={"grey1"}>
+              <TooltipContentItemTextMarker color={"grey1"} as={"span"}>
                 ▪
               </TooltipContentItemTextMarker>
-              <Typography.P5 color={"grey1"}>{app}</Typography.P5>
+              <Typography.P5 color={"grey1"} as={"span"}>
+                {app}
+              </Typography.P5>
             </TooltipContentItem>
           ))}
         </TooltipContentWrapper>
@@ -75,7 +77,7 @@ const TextAlignPlaceholder = styled(ParagraphIcon)`
   user-select: none;
 `
 
-const TooltipContentWrapper = styled.div`
+const TooltipContentWrapper = styled.span`
   padding: 0.6rem 0;
 `
 

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren } from "react"
+import { FunctionComponent, PropsWithChildren, useState } from "react"
 import styled from "styled-components"
 import { Messages } from "app-localize/utils"
 import { Typography } from "../typography/typography"
@@ -19,7 +19,15 @@ interface Props extends PropsWithChildren {
 export const ScreenLoader: FunctionComponent<
   Props & { className?: string }
 > = ({ loading, message, progress = 0, children, ...props }) => {
-  if (loading) {
+  const [debouncedLoading, setDebouncedLoading] = useState(loading)
+
+  if (loading && !debouncedLoading) {
+    setDebouncedLoading(true)
+  } else if (!loading && debouncedLoading) {
+    setTimeout(() => setDebouncedLoading(false), 350)
+  }
+
+  if (debouncedLoading) {
     return (
       <LoaderWrapper
         {...props}

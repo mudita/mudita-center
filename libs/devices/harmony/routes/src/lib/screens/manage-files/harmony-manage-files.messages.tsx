@@ -110,6 +110,10 @@ export const HarmonyManageFilesMessages = defineMessages({
   uploadingModalTitle: {
     id: "harmony.manageFiles.uploading.modal.title",
   },
+  exportingModalTitle: {
+    // @ts-expect-error no id provided
+    id: "",
+  },
   uploadingModalCloseButtonText: {
     id: "harmony.manageFiles.uploading.modal.closeButtonText",
   },

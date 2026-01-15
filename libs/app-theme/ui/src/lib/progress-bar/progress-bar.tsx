@@ -93,10 +93,10 @@ const Message = styled(motion.span)`
 
 const indeterminateAnimation = keyframes`
   0% {
-    --bar-offset: -90%;
+    --bar-offset: -99%;
   }
   100% {
-    --bar-offset: 390%;
+    --bar-offset: 666%;
   }
 `
 
@@ -126,7 +126,7 @@ const Progress = styled.progress<{
           animation: ${indeterminateAnimation} 1.5s ease-in-out infinite
             alternate;
           &::-webkit-progress-value {
-            width: 25% !important;
+            width: 15% !important;
             transform: translateX(var(--bar-offset)) !important;
             transition:
               width 0.3s linear,

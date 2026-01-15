@@ -97,7 +97,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
       id: file.id,
       source: {
         type: "fileLocation",
-        fileLocation: { fileAbsolutePath: file.id, absolute: true },
+        fileLocation: { fileAbsolutePath: file.path, absolute: true },
       },
       target: {
         type: "path",
@@ -121,6 +121,8 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
       }
     }
 
+    void refetch()
+
     return result
   }
 
@@ -131,11 +133,17 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
 
     for (const itemId of itemIds) {
       try {
-        await deleteFile(itemId)
+        const filePath = activeFileMap?.[itemId]?.path
+        if (!filePath) {
+          continue
+        }
+        await deleteFile(filePath)
       } catch {
         failedIds.push(itemId)
       }
     }
+
+    void refetch()
 
     return { failedIds }
   }
@@ -151,24 +159,22 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
       >
         <ManageFiles
           activeCategoryId={activeCategoryId}
-          activeFileMap={activeFileMap}
+          files={sortedFiles}
           onActiveCategoryChange={setActiveCategoryId}
-          segments={segments}
-          categories={categories}
-          freeSpaceBytes={freeSpaceBytes}
-          usedSpaceBytes={usedSpaceBytes}
-          otherSpaceBytes={otherSpaceBytes}
+          storageInfo={{
+            segments,
+            categories,
+            freeSpaceBytes,
+            usedSpaceBytes,
+            otherSpaceBytes,
+            otherFiles: OTHER_FILES_LABEL_TEXTS,
+          }}
           deleteFiles={deleteFiles}
-          onDeleteSuccess={refetch}
-          otherFiles={OTHER_FILES_LABEL_TEXTS}
           openFileDialog={openFileDialog}
           transferFiles={transferFile}
           messages={HarmonyManageFilesMessages}
-          onTransferSuccess={refetch}
         >
-          {(props) => (
-            <HarmonyManageFilesTableSection files={sortedFiles} {...props} />
-          )}
+          {(props) => <HarmonyManageFilesTableSection {...props} />}
         </ManageFiles>
       </ScreenLoader>
     </>

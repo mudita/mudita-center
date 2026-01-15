@@ -30,7 +30,9 @@ export const DEVICE_SEGMENTS_CONFIG_MAP: Record<SegmentId, ISegmentBarItem> = {
   },
 }
 
-export const OTHER_FILES_LABEL_TEXTS: ManageFilesViewProps["otherFiles"] = [
+export const OTHER_FILES_LABEL_TEXTS: NonNullable<
+  ManageFilesViewProps["storageInfo"]
+>["otherFiles"] = [
   { name: formatMessage(deviceManageFilesMessages.otherFilesSystemLabelText) },
   { name: formatMessage(deviceManageFilesMessages.otherFilesOtherLabelText) },
 ]

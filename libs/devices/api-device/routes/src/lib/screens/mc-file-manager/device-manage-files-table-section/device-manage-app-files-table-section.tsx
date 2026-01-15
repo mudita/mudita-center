@@ -25,8 +25,14 @@ import {
 import { Badge, Button, Table, Typography } from "app-theme/ui"
 import { isAppFileManagerFile } from "../device-manage-files.types"
 
+export type DeviceManageAppFile = FileManagerFile<{
+  installationStatus: string
+  apkVersion: string
+  installedVersion?: string
+}>
+
 interface DeviceManageAppFilesTableSectionProps {
-  files: FileManagerFile[]
+  files: DeviceManageAppFile[]
   onAppInstallButtonClick?: StatusCellProps["onAppInstallButtonClick"]
 }
 

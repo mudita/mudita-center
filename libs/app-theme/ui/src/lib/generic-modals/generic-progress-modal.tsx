@@ -66,7 +66,13 @@ const GenericProgressModalDescription: FunctionComponent<
   GenericProgressModalDescriptionProps
 > = ({ description, progress, progressBarMessage }) => {
   if (progress !== undefined && progressBarMessage !== undefined) {
-    return <ProgressBar value={progress} message={progressBarMessage} />
+    return (
+      <ProgressBar
+        value={progress}
+        message={progressBarMessage}
+        indeterminate={!progress}
+      />
+    )
   }
 
   if (description) {

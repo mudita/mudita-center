@@ -28,9 +28,12 @@ export const DeviceManageFilesTableSection: FunctionComponent<
 > = ({ files, onRowClick, nameTooltipText }) => {
   const rowRenderer = useCallback(
     (file: FileManagerFile) => {
-      const onClick = () => {
-        onRowClick?.(file.id)
-      }
+      const onClick = onRowClick
+        ? () => {
+            onRowClick?.(file.id)
+          }
+        : undefined
+
       return (
         <Table.Row
           key={file.id}

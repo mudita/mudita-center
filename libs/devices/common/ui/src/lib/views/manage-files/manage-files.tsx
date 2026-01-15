@@ -27,7 +27,7 @@ import {
   ManageFilesTransferFlowProps,
 } from "./manage-files-transfer-flow/manage-files-transfer-flow"
 import {
-  FileManagerFileMap,
+  FileManagerFile,
   ManageFilesTableSectionProps,
 } from "./manage-files.types"
 import { ManageFilesFileListEmptyProps } from "./manage-files-content/manage-files-file-list-empty"
@@ -44,7 +44,10 @@ import { ManageFilesForm, ManageFilesFormValues } from "./manage-files-form"
 import { useFormContext } from "react-hook-form"
 
 type ManageFilesViewChild = (
-  ctx: Pick<ManageFilesTableSectionProps, "onRowClick">
+  ctx: Pick<ManageFilesTableSectionProps, "onRowClick"> & {
+    categoryId: string
+    files?: FileManagerFile[]
+  }
 ) => ReactNode
 
 type ManageFilesViewMessages =
@@ -52,30 +55,28 @@ type ManageFilesViewMessages =
     ManageFilesStorageSummaryProps["messages"] &
     ManageFilesFileListEmptyProps["messages"] &
     FileListPanelHeaderProps["messages"] &
+    ManageFilesDownloadFlowProps["transferFlowMessages"] &
     GenericDeleteFlowProps["deleteFlowMessages"] & {
       summaryHeader: Messages
     }
 
 export interface ManageFilesViewProps
   extends
-    ManageFilesStorageSummaryProps,
-    ManageFilesCategoryListProps,
-    ManageFilesOtherFilesProps,
+    Omit<ManageFilesCategoryListProps, "categories">,
     Pick<
       ManageFilesTransferFlowProps,
       "openFileDialog" | "transferFiles" | "onTransferSuccess"
     >,
     Partial<Pick<ManageFilesDownloadFlowProps, "openDirectoryDialog">>,
     Partial<Pick<FileManagerPreviewProps, "downloadFilePreview" | "deviceId">> {
-  activeFileMap: FileManagerFileMap
+  files?: FileManagerFile[]
   onActiveCategoryChange: (categoryId: string) => void
   children: ManageFilesViewChild
   messages: ManageFilesViewMessages
   deleteFiles: GenericDeleteFlowProps["deleteItemsAction"]
-  onDeleteSuccess?: (params: {
-    deletedIds?: string[]
-    failedIds?: string[]
-  }) => void
+  storageInfo?: Omit<ManageFilesStorageSummaryProps, "messages"> &
+    Pick<ManageFilesCategoryListProps, "categories"> &
+    ManageFilesOtherFilesProps
 }
 
 export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
@@ -86,53 +87,49 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
   )
 }
 
-export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
-  props
-) => {
-  const {
-    messages,
-    activeCategoryId,
-    activeFileMap,
-    onActiveCategoryChange,
-    deleteFiles,
-    onDeleteSuccess,
-    transferFiles,
-    onTransferSuccess,
-    openFileDialog,
-    openDirectoryDialog,
-    downloadFilePreview,
-    categories,
-    segments,
-    freeSpaceBytes,
-    usedSpaceBytes,
-    otherSpaceBytes,
-    otherFiles,
-    children,
-    deviceId,
-  } = props
+export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = ({
+  files = [],
+  messages,
+  activeCategoryId,
+  onActiveCategoryChange,
+  deleteFiles,
+  transferFiles,
+  onTransferSuccess,
+  openFileDialog,
+  openDirectoryDialog,
+  downloadFilePreview,
+  storageInfo,
+  children,
+  deviceId,
+}) => {
   const { getValues, setValue } = useFormContext<ManageFilesFormValues>()
   const genericDeleteRef = useRef<GenericDeleteFlow>(null)
   const filePreviewRef = useRef<FileManagerPreview>(null)
   const filesDownloadRef = useRef<ManageFilesDownloadFlow>(null)
   const filesTransferRef = useRef<ManageFilesTransferFlow>(null)
 
+  const filesIds = useMemo(() => files.map((file) => file.id), [files])
+
   const activeSupportedFileTypes = useMemo(() => {
     return (
-      categories.find(({ id }) => id === activeCategoryId)
+      storageInfo?.categories.find(({ id }) => id === activeCategoryId)
         ?.supportedFileTypes || []
     )
-  }, [activeCategoryId, categories])
+  }, [activeCategoryId, storageInfo?.categories])
 
   const unselectAllFiles = useCallback(() => {
     setValue("selectedFiles", {})
     setValue(
       "selectedFiles",
-      Object.fromEntries(Object.keys(activeFileMap).map((id) => [id, false]))
+      Object.fromEntries(files.map((id) => [id, false]))
     )
-  }, [activeFileMap, setValue])
+  }, [files, setValue])
 
   const previewFiles: FilePreviewFile[] = useMemo(() => {
-    return Object.values(activeFileMap).map((file) => {
+    if (!downloadFilePreview) {
+      return []
+    }
+    return files.map((file) => {
       return {
         id: file.id,
         name: file.name,
@@ -142,14 +139,14 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
         path: file.path,
       }
     })
-  }, [activeFileMap])
+  }, [downloadFilePreview, files])
 
   const startDeleteFlow = useCallback(
     (fileId?: string) => {
       const deleteItems: GenericDeleteItem[] = []
 
       if (fileId) {
-        const file = activeFileMap[fileId]
+        const file = files.find((f) => f.id === fileId)
         if (file) {
           deleteItems.push({ id: file.id, name: file.name })
         }
@@ -158,7 +155,7 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
         Object.entries(selectedFiles)
           .filter(([, checked]) => checked)
           .forEach(([id]) => {
-            const file = activeFileMap[id]
+            const file = files.find((f) => f.id === id)
             if (file) {
               deleteItems.push({ id: file.id, name: file.name })
             }
@@ -171,7 +168,7 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
 
       genericDeleteRef.current?.deleteItems(deleteItems)
     },
-    [activeFileMap, getValues]
+    [files, getValues]
   )
 
   const deleteItemsAction = useCallback(
@@ -183,7 +180,7 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
       if (currentPreviewFileId !== undefined) {
         if (
           itemsIds.includes(currentPreviewFileId) &&
-          !response.failedIds.includes(currentPreviewFileId)
+          !response.failedIds?.includes(currentPreviewFileId)
         ) {
           if (previewFiles.length > 1) {
             filePreviewRef.current?.next()
@@ -212,25 +209,21 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
     GenericDeleteFlowProps["onDeleteSuccess"]
   > = useCallback(
     async ({ failedItems, allItems }) => {
-      void onDeleteSuccess?.({
-        failedIds: failedItems?.map((item) => item.id),
-        deletedIds: allItems
-          .map((item) => item.id)
-          .filter(
-            (id) => !failedItems?.some((failedItem) => failedItem.id === id)
-          ),
-      })
-
       if (failedItems && failedItems.length > 0) {
         setValue(
           "selectedFiles",
-          Object.fromEntries(failedItems.map((item) => [item.id, true]))
+          Object.fromEntries(
+            allItems.map((item) => [
+              item.id,
+              !!failedItems.find((failed) => failed.id === item.id),
+            ])
+          )
         )
       } else {
         unselectAllFiles()
       }
     },
-    [onDeleteSuccess, setValue, unselectAllFiles]
+    [setValue, unselectAllFiles]
   )
 
   const finalizeTransferSuccess = useCallback(async () => {
@@ -251,19 +244,22 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
   const startDownloadFlow = useCallback(
     (fileId?: string) => {
       if (fileId !== undefined) {
-        filesDownloadRef.current?.downloadItems([activeFileMap[fileId]])
+        filesDownloadRef.current?.downloadItems(
+          files.filter((f) => f.id === fileId)
+        )
       } else {
         const selectedFiles = getValues("selectedFiles")
         const filesToDownload = Object.entries(selectedFiles)
           .filter(([, checked]) => checked)
-          .map(([id]) => activeFileMap[id])
+          .map(([id]) => files.find((f) => f.id === id))
+          .filter((f): f is FileManagerFile => f !== undefined)
         if (filesToDownload.length === 0) {
           return
         }
         filesDownloadRef.current?.downloadItems(filesToDownload)
       }
     },
-    [activeFileMap, getValues]
+    [files, getValues]
   )
 
   const onRowClick = useCallback((fileId?: string) => {
@@ -274,32 +270,38 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
   }, [])
 
   const content = useMemo(() => {
-    /* eslint-disable-next-line react-hooks/refs */
     return children({
       onRowClick: downloadFilePreview ? onRowClick : undefined,
+      categoryId: activeCategoryId,
+      files,
     })
-  }, [children, downloadFilePreview, onRowClick])
+  }, [activeCategoryId, children, downloadFilePreview, files, onRowClick])
 
   useEffect(() => {
     unselectAllFiles()
-  }, [unselectAllFiles])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeCategoryId, storageInfo])
+
+  if (!storageInfo) {
+    return null
+  }
 
   return (
     <>
       <ManageFilesContent
-        segments={segments}
-        categories={categories}
+        segments={storageInfo.segments}
+        categories={storageInfo.categories}
         activeCategoryId={activeCategoryId}
         messages={messages}
-        freeSpaceBytes={freeSpaceBytes}
-        usedSpaceBytes={usedSpaceBytes}
-        otherSpaceBytes={otherSpaceBytes}
-        otherFiles={otherFiles}
+        freeSpaceBytes={storageInfo.freeSpaceBytes}
+        usedSpaceBytes={storageInfo.usedSpaceBytes}
+        otherSpaceBytes={storageInfo.otherSpaceBytes}
+        otherFiles={storageInfo.otherFiles}
         onCategoryClick={changeCategory}
         onDeleteClick={startDeleteFlow}
         onDownloadClick={openDirectoryDialog && startDownloadFlow}
         onAddFileClick={startUploadFlow}
-        filesIds={Object.keys(activeFileMap)}
+        filesIds={filesIds}
       >
         {content}
       </ManageFilesContent>
@@ -326,8 +328,8 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
         onPartialTransferFailure={handlePartialTransferFailure}
         transferFiles={transferFiles}
         transferFlowMessages={messages}
-        fileMap={activeFileMap}
-        freeSpaceBytes={freeSpaceBytes}
+        files={files}
+        freeSpaceBytes={storageInfo.freeSpaceBytes}
         supportedFileTypes={activeSupportedFileTypes}
       />
       {openDirectoryDialog && (
@@ -338,7 +340,7 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = (
           onPartialTransferFailure={handlePartialTransferFailure}
           transferFiles={transferFiles}
           transferFlowMessages={messages}
-          freeSpaceBytes={freeSpaceBytes}
+          freeSpaceBytes={storageInfo.freeSpaceBytes}
         />
       )}
     </>
