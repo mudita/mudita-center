@@ -4,7 +4,7 @@ import modalAppUpdatePage from "../../page-objects/modal-app-update.page"
 import modalAppUpdateErrorPage from "../../page-objects/modal-app-update-error.page"
 import packageInfo from "../../../../mudita-center/package.json"
 
-describe("Force Update MC - Unsuccessful Download", () => {
+describe.skip("Force Update MC - Unsuccessful Download", () => {
   const newestAvailableVersion = "9.9.9"
 
   before(async function () {

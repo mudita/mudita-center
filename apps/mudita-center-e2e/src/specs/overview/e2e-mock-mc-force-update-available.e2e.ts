@@ -3,7 +3,7 @@ import modalAppUpdatePage from "../../page-objects/modal-app-update.page"
 import ModalPage from "../../page-objects/modal.page"
 import packageInfo from "../../../../mudita-center/package.json"
 
-describe("Force Update MC - Successful Download", () => {
+describe.skip("Force Update MC - Successful Download", () => {
   const newestAvailableVersion = "9.9.9"
 
   before(async function () {

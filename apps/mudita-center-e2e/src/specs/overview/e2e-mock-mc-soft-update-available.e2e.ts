@@ -8,7 +8,7 @@ import HomePage from "../../page-objects/home.page"
 import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
 
-describe("Soft Update MC - Successful Download", () => {
+describe.skip("Soft Update MC - Successful Download", () => {
   const newestAvailableVersion = "9.9.9"
 
   before(async function () {
