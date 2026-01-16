@@ -37,7 +37,7 @@ enum ManageFilesDownloadFlowState {
 type ManageFilesDeleteFlowMessages =
   ManageFilesTransferValidationFailedModalProps["messages"] &
     ManageFilesTransferFailedModalProps["messages"] & {
-      uploadingModalTitle: ManageFilesTransferringModalProps["messages"]["transferringModalTitle"]
+      exportingModalTitle: ManageFilesTransferringModalProps["messages"]["transferringModalTitle"]
       uploadingModalCloseButtonText: ManageFilesTransferringModalProps["messages"]["transferringModalCloseButtonText"]
     }
 
@@ -153,7 +153,7 @@ export const ManageFilesDownloadFlow = ({
         opened={flowState === ManageFilesDownloadFlowState.TransferringFiles}
         filesCount={selectedItems.length}
         messages={{
-          transferringModalTitle: transferFlowMessages.uploadingModalTitle,
+          transferringModalTitle: transferFlowMessages.exportingModalTitle,
           transferringModalCloseButtonText:
             transferFlowMessages.uploadingModalCloseButtonText,
         }}

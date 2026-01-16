@@ -82,7 +82,9 @@ export const HARMONY_CATEGORIES_CONFIG_MAP: Record<
 
 export const MARKETING_TOTAL_BYTES = 4_000_000_000
 
-export const OTHER_FILES_LABEL_TEXTS: ManageFilesViewProps["otherFiles"] = [
+export const OTHER_FILES_LABEL_TEXTS: NonNullable<
+  ManageFilesViewProps["storageInfo"]
+>["otherFiles"] = [
   { name: formatMessage(HarmonyManageFilesMessages.otherFilesSystemLabelText) },
   { name: formatMessage(HarmonyManageFilesMessages.otherFilesOtherLabelText) },
 ]

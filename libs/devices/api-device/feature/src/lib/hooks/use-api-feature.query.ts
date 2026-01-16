@@ -17,7 +17,6 @@ import {
   McOverviewDataResponse,
 } from "devices/api-device/models"
 import {
-  useQueries,
   useQuery,
   UseQueryOptions,
   UseQueryResult,
@@ -112,42 +111,4 @@ export function useApiFeatureQuery<FEATURE extends string = string>(
 }
 useApiFeatureQuery.queryKey = (feature: string, id?: SerialPortDeviceId) => {
   return apiDeviceQueryKeys.feature(feature, id)
-}
-
-export function useApiFeaturesQuery<FEATURE extends string>(
-  features: FEATURE[],
-  device?: ApiDevice,
-  options?: Omit<UseQueryOptions, "queryFn" | "queryKey">
-) {
-  return useQueries({
-    queries: features.map((feature) => {
-      return {
-        queryKey: useApiFeatureQuery.queryKey(feature, device?.id),
-        queryFn: () => queryFn(feature, device),
-        enabled: !!device,
-        ...options,
-      }
-    }),
-    combine: (results) => {
-      const isLoading = results.some((r) => r.isLoading)
-      const isError = results.some((r) => r.isError)
-
-      const data = Object.fromEntries(
-        features.map((feature, i) => [feature, results[i]?.data ?? []])
-      ) as Record<string, QueryFnResult<FEATURE>>
-
-      const refetch = async () => {
-        for (const result of results) {
-          await result?.refetch()
-        }
-      }
-
-      return {
-        data,
-        isLoading,
-        isError,
-        refetch,
-      }
-    },
-  })
 }

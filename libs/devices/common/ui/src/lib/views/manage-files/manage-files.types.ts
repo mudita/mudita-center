@@ -20,13 +20,14 @@ export interface FileManagerFileCategory {
   count: number
 }
 
-export type FileManagerFile = {
-  id: string // TODO: https://appnroll.atlassian.net/browse/CP-3940 - Separate file identifier from path
+export type FileManagerFile<T = unknown> = {
+  id: string
   name: string
   type: string
   size: number
   path: string
   mimeType: string
+  additionalInfo?: T
 }
 
 export type FileManagerFileMap = Record<string, FileManagerFile>

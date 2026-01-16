@@ -9,14 +9,11 @@ import {
   StorageInformation,
 } from "devices/api-device/models"
 import { FileManagerFileCategory } from "devices/common/ui"
-import {
-  FileCategoryId,
-  FileManagerCategoryFileMap,
-} from "./device-manage-files.types"
+import { FileCategoryId } from "./device-manage-files.types"
 
 export const mapToCategories = (
   storageInfo: StorageInformation,
-  categoryFileMap: FileManagerCategoryFileMap,
+  categoriesCountMap: Record<string, number>,
   featureConfig?: McFileManagerConfigResponse
 ): (FileManagerFileCategory & { id: FileCategoryId })[] => {
   const categories = featureConfig?.main?.config?.categories ?? []
@@ -26,9 +23,7 @@ export const mapToCategories = (
   return categories.map((category) => {
     const usedBytes =
       categoriesSpaceInformation[category.entityType]?.spaceUsedBytes ?? 0
-    const count = categoryFileMap[category.entityType]
-      ? Object.keys(categoryFileMap[category.entityType]).length
-      : 0
+    const count = categoriesCountMap[category.entityType] ?? 0
 
     return {
       id: category.entityType as FileCategoryId,

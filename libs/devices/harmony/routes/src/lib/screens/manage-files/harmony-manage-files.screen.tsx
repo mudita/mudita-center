@@ -22,11 +22,16 @@ import {
   useManageFilesSelection,
 } from "devices/common/feature"
 import { Harmony } from "devices/harmony/models"
-import { ManageFiles, ManageFilesViewProps } from "devices/common/ui"
+import {
+  ManageFiles,
+  manageFilesMessages,
+  ManageFilesViewProps,
+} from "devices/common/ui"
 import { HarmonyManageFilesTableSection } from "./harmony-manage-files-table-section"
 import { useHarmonyManageFiles } from "./use-harmony-manage-files"
 import { HarmonyManageFilesMessages } from "./harmony-manage-files.messages"
 import { OTHER_FILES_LABEL_TEXTS } from "./harmony-manage-files.config"
+import { ScreenLoader } from "app-theme/ui"
 
 export const HarmonyManageFilesScreen: FunctionComponent = () => {
   const { data: activeDevice } = useActiveDeviceQuery<Harmony>()
@@ -92,7 +97,7 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
       id: file.id,
       source: {
         type: "fileLocation",
-        fileLocation: { fileAbsolutePath: file.id, absolute: true },
+        fileLocation: { fileAbsolutePath: file.path, absolute: true },
       },
       target: {
         type: "path",
@@ -116,6 +121,8 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
       }
     }
 
+    void refetch()
+
     return result
   }
 
@@ -126,11 +133,17 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
 
     for (const itemId of itemIds) {
       try {
-        await deleteFile(itemId)
+        const filePath = activeFileMap?.[itemId]?.path
+        if (!filePath) {
+          continue
+        }
+        await deleteFile(filePath)
       } catch {
         failedIds.push(itemId)
       }
     }
+
+    void refetch()
 
     return { failedIds }
   }
@@ -140,28 +153,30 @@ export const HarmonyManageFilesScreen: FunctionComponent = () => {
       <DashboardHeaderTitle
         title={formatMessage(HarmonyManageFilesMessages.pageTitle)}
       />
-      <ManageFiles
-        activeCategoryId={activeCategoryId}
-        activeFileMap={activeFileMap}
-        onActiveCategoryChange={setActiveCategoryId}
-        segments={segments}
-        categories={categories}
-        freeSpaceBytes={freeSpaceBytes}
-        usedSpaceBytes={usedSpaceBytes}
-        otherSpaceBytes={otherSpaceBytes}
-        deleteFiles={deleteFiles}
-        onDeleteSuccess={refetch}
-        isLoading={isLoading}
-        otherFiles={OTHER_FILES_LABEL_TEXTS}
-        openFileDialog={openFileDialog}
-        transferFiles={transferFile}
-        messages={HarmonyManageFilesMessages}
-        onTransferSuccess={refetch}
+      <ScreenLoader
+        loading={isLoading}
+        message={manageFilesMessages.loadStateText.id}
       >
-        {(props) => (
-          <HarmonyManageFilesTableSection files={sortedFiles} {...props} />
-        )}
-      </ManageFiles>
+        <ManageFiles
+          activeCategoryId={activeCategoryId}
+          files={sortedFiles}
+          onActiveCategoryChange={setActiveCategoryId}
+          storageInfo={{
+            segments,
+            categories,
+            freeSpaceBytes,
+            usedSpaceBytes,
+            otherSpaceBytes,
+            otherFiles: OTHER_FILES_LABEL_TEXTS,
+          }}
+          deleteFiles={deleteFiles}
+          openFileDialog={openFileDialog}
+          transferFiles={transferFile}
+          messages={HarmonyManageFilesMessages}
+        >
+          {(props) => <HarmonyManageFilesTableSection {...props} />}
+        </ManageFiles>
+      </ScreenLoader>
     </>
   )
 }

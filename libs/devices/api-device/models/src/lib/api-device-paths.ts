@@ -5,5 +5,4 @@
 
 export enum ApiDevicePaths {
   Index = "/device/generic",
-  View = "/device/generic/:viewKey/:subviewKey?",
 }

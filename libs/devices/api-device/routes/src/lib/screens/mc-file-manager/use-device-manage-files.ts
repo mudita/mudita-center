@@ -6,83 +6,108 @@
 import { useCallback, useMemo } from "react"
 import { ApiDevice } from "devices/api-device/models"
 import {
-  useApiEntitiesDataMapQuery,
-  useApiFeaturesQuery,
+  useApiEntitiesDataQueries,
+  useApiFeatureQuery,
 } from "devices/api-device/feature"
-import {
-  DeviceManageFilesData,
-  mapDeviceToManageFiles,
-} from "./map-to-device-manage-files-data"
+import { mapDeviceToManageFiles } from "./map-to-device-manage-files-data"
 import {
   DeviceManageFileFeature,
   DeviceManageFileFeatureId,
 } from "./device-manage-files.types"
+import { useActiveDeviceQuery } from "devices/common/feature"
+import { uniq } from "lodash"
 
-interface DeviceManageFilesDataViewData extends DeviceManageFilesData {
-  isLoading: boolean
-  isError: boolean
-  refetch: (opts?: { onProgress?: (p: number) => void }) => Promise<void>
-  progress: number
-}
-
-export const useDeviceManageFiles = (
-  feature: DeviceManageFileFeatureId,
-  device?: ApiDevice
-): DeviceManageFilesDataViewData => {
+export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
+  feature: F
+) => {
+  const { data: device } = useActiveDeviceQuery<ApiDevice>()
   const {
-    data: featuresData,
-    isLoading: isFeatureLoading,
-    isError: isFeatureError,
-    refetch: refetchFeatureData,
-  } = useApiFeaturesQuery(
-    // Preload both internal and external file manager features to avoid loading states when switching between them
-    [DeviceManageFileFeature.Internal, DeviceManageFileFeature.External],
-    device
-  )
+    data: internalMemory,
+    isLoading: isInternalMemoryLoading,
+    isError: isInternalMemoryError,
+    isSuccess: isInternalMemorySuccess,
+    refetch: refetchInternalMemory,
+  } = useApiFeatureQuery(DeviceManageFileFeature.Internal, device)
+  const {
+    data: externalMemory,
+    isLoading: isExternalMemoryLoading,
+    isError: isExternalMemoryError,
+    isSuccess: isExternalMemorySuccess,
+    refetch: refetchExternalMemory,
+  } = useApiFeatureQuery(DeviceManageFileFeature.External, device)
 
-  const featureData = useMemo(() => {
-    return featuresData[feature]
-  }, [featuresData, feature])
-
-  const categories = featureData?.config?.main.config.categories || []
-  const types = categories
-    .map(({ entityType }) => entityType)
-    .filter((entityType) => entityType !== "otherFiles")
+  const entitiesTypes = useMemo(() => {
+    return uniq([
+      ...(internalMemory?.config.main.config.categories.map(
+        (c) => c.entityType
+      ) || []),
+      ...(externalMemory?.config.main.config.categories.map(
+        (c) => c.entityType
+      ) || []),
+    ])
+  }, [externalMemory, internalMemory])
 
   const {
     data: entitiesData,
     isLoading: isEntitiesLoading,
     isError: isEntitiesError,
+    isSuccess: isEntitiesSuccess,
     refetch: refetchEntities,
     progress,
-  } = useApiEntitiesDataMapQuery(types, device)
-
-  const isError = isFeatureError || isEntitiesError
-  const isLoading = isFeatureLoading || isEntitiesLoading
-
-  const data = useMemo<DeviceManageFilesData>(() => {
-    if (!device || !featureData || isLoading || isError) {
-      return mapDeviceToManageFiles()
+  } = useApiEntitiesDataQueries<{ isInternal: boolean }[], number>(
+    entitiesTypes,
+    device,
+    (data) => {
+      return data.filter((file) => {
+        return (
+          file.isInternal === (feature === DeviceManageFileFeature.Internal)
+        )
+      }).length
     }
-
-    return mapDeviceToManageFiles({
-      featureData,
-      entitiesData,
-    })
-  }, [device, featureData, isLoading, isError, entitiesData])
-
-  const refetch = useCallback(
-    async (options?: { onProgress?: (p: number) => void }) => {
-      await Promise.all([refetchFeatureData(), refetchEntities(options)])
-    },
-    [refetchEntities, refetchFeatureData]
   )
 
+  const isSuccess =
+    isInternalMemorySuccess && isExternalMemorySuccess && isEntitiesSuccess
+  const isLoading =
+    isInternalMemoryLoading || isExternalMemoryLoading || isEntitiesLoading
+  const isError =
+    isInternalMemoryError || isExternalMemoryError || isEntitiesError
+
+  const refetch = useCallback(async () => {
+    await refetchInternalMemory()
+    await refetchExternalMemory()
+    await refetchEntities()
+  }, [refetchEntities, refetchExternalMemory, refetchInternalMemory])
+
+  const data = useMemo(() => {
+    if (!isSuccess) {
+      return {
+        categories: [],
+        segments: [],
+        freeSpaceBytes: 0,
+        usedSpaceBytes: 0,
+        otherSpaceBytes: 0,
+      }
+    }
+    if (feature === DeviceManageFileFeature.Internal) {
+      return mapDeviceToManageFiles({
+        featureData: internalMemory,
+        entitiesCountData: entitiesData,
+      })
+    } else {
+      return mapDeviceToManageFiles({
+        featureData: externalMemory,
+        entitiesCountData: entitiesData,
+      })
+    }
+  }, [entitiesData, externalMemory, feature, internalMemory, isSuccess])
+
   return {
-    ...data,
-    isError,
+    data,
     isLoading,
-    refetch,
+    isError,
+    isSuccess,
     progress,
+    refetch,
   }
 }

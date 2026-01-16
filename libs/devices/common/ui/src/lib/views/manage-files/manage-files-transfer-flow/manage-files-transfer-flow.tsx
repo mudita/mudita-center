@@ -14,7 +14,6 @@ import {
 } from "devices/common/models"
 import {
   FileManagerFile,
-  FileManagerFileMap,
   ValidationSummary,
   ValidationSummaryType,
 } from "../manage-files.types"
@@ -54,7 +53,7 @@ type ManageFilesDeleteFlowMessages =
     }
 
 export interface ManageFilesTransferFlowProps {
-  fileMap: FileManagerFileMap
+  files: FileManagerFile[]
   openFileDialog: (options: OpenDialogOptionsLite) => Promise<FileManagerFile[]>
   transferFiles: UseManageFilesTransferFlowArgs["transferFiles"]
   onTransferSuccess?: () => Promise<void>
@@ -69,7 +68,7 @@ export interface ManageFilesTransferFlowProps {
 }
 
 export const ManageFilesTransferFlow = ({
-  fileMap,
+  files,
   freeSpaceBytes,
   openFileDialog,
   transferFiles,
@@ -94,7 +93,10 @@ export const ManageFilesTransferFlow = ({
     setFlowState(ManageFilesTransferFlowState.Idle)
   }, [])
 
-  const validate = useManageFilesValidate({ fileMap, freeSpaceBytes })
+  const validate = useManageFilesValidate({
+    existingFiles: files,
+    freeSpaceBytes,
+  })
 
   const { transfer, progress, transferMode, abortTransfer, currentFile } =
     useManageFilesTransferFlow({

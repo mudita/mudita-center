@@ -7,10 +7,8 @@ import {
   ComponentProps,
   FunctionComponent,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
-  useState,
 } from "react"
 import { ApiDevice, ApiDevicePaths } from "devices/api-device/models"
 import { ScreenLoader } from "app-theme/ui"
@@ -71,9 +69,8 @@ export const McContactsScreen: FunctionComponent = () => {
     refetch,
     isSuccess,
   } = useApiEntitiesDataQuery<Contact[]>(feature?.entityType, device)
-  const [dataLoaded, setDataLoaded] = useState(isSuccess)
 
-  const isLoading = !feature || !contacts || !dataLoaded
+  const isLoading = !feature || !contacts || !isSuccess
 
   const { mutateAsync: deleteEntities } =
     useApiDeviceDeleteEntitiesMutation(device)
@@ -200,8 +197,8 @@ export const McContactsScreen: FunctionComponent = () => {
         entityType: "contacts",
         mode: "file",
         data: contacts,
-        onProgress: (progress) => {
-          sendingProgress = progress
+        onProgress: (progressSending) => {
+          sendingProgress = progressSending
           handleTotalProgress()
         },
         abortController: importAbortController.current,
@@ -215,12 +212,19 @@ export const McContactsScreen: FunctionComponent = () => {
         return { cancelled: true }
       }
 
-      await refetch({
-        onProgress: (progress) => {
+      const data = await useApiEntitiesDataQuery.queryFn(
+        "contacts",
+        device,
+        (progress) => {
           refetchingProgress = progress
           handleTotalProgress()
         },
-      })
+        importAbortController.current.signal
+      )
+      queryClient.setQueryData(
+        useApiEntitiesDataQuery.queryKey("contacts", device.id),
+        data
+      )
       onProgress(100, ImportState.Refreshing)
 
       const newContacts =
@@ -269,19 +273,6 @@ export const McContactsScreen: FunctionComponent = () => {
       }) || []
     )
   }, [contacts])
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout
-    if (isSuccess) {
-      timeout = setTimeout(() => {
-        setDataLoaded(true)
-      }, 450)
-    }
-
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [isSuccess])
 
   const headerTitle =
     (contacts || []).length > 0

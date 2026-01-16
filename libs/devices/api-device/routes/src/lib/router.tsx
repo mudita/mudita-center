@@ -3,8 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Navigate, Route, useParams } from "react-router"
-import { FunctionComponent } from "react"
+import { Navigate, Route } from "react-router"
 import { Device, DeviceStatus } from "devices/common/models"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import {
@@ -90,20 +89,7 @@ export const useApiDeviceRouter = (device?: Device) => {
             element={<McContactsDuplicatesScreen />}
           />
         </Route>
-        <Route path={ApiDevicePaths.View} element={<GenericView />} />
       </Route>
     ),
   }
-}
-
-// Demo generic view component
-const GenericView: FunctionComponent = () => {
-  const { viewKey, subviewKey } = useParams()
-
-  return (
-    <div>
-      <h1>View: {viewKey}</h1>
-      {subviewKey ? <h2>Subview: {subviewKey}</h2> : <h2>No subview</h2>}
-    </div>
-  )
 }

@@ -22,10 +22,10 @@ const verifyImage = async (dataUrl: string) => {
   })
 }
 
-export type FilesManagerFilePreviewDownload = (
-  file: FilePreviewFile,
+export type FilesManagerFilePreviewDownload = (payload: {
+  file: FilePreviewFile
   abortController: AbortController
-) => Promise<AppResult<string>>
+}) => Promise<AppResult<string>>
 
 interface QueryParams {
   abortSignal: AbortSignal
@@ -55,7 +55,7 @@ const queryFn = async ({ abortSignal, file, callback }: QueryParams) => {
       abortController.abort()
     })
 
-    const base64Response = await callback(file, abortController)
+    const base64Response = await callback({ file, abortController })
 
     if (!base64Response.ok) {
       throw FilePreviewErrorCode.Unknown

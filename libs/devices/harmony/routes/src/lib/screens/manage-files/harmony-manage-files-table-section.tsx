@@ -20,7 +20,7 @@ import { useFormContext } from "react-hook-form"
 
 export const HarmonyManageFilesTableSection: FunctionComponent<
   Pick<ManageFilesTableSectionProps, "onRowClick"> & {
-    files: FileManagerFile[]
+    files?: FileManagerFile[]
   }
 > = ({ files, onRowClick }) => {
   const rowRenderer = useCallback(
@@ -46,6 +46,10 @@ export const HarmonyManageFilesTableSection: FunctionComponent<
     },
     [onRowClick]
   )
+
+  if (!files) {
+    return null
+  }
 
   return (
     <Table
