@@ -151,6 +151,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
       >
         <ManageFiles
           files={files}
+          feature={feature}
           storageInfo={{ ...storageInfo, otherFiles: OTHER_FILES_LABEL_TEXTS }}
           deviceId={device?.id}
           activeCategoryId={activeCategoryId}

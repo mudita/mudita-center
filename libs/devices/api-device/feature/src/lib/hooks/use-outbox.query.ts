@@ -7,30 +7,24 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { getOutbox } from "../api/get-outbox"
 import {
   ApiDevice,
+  DetailedOutboxEntity,
   EntityData,
   GetEntitiesConfigResponse,
+  OutboxResponse,
+  SimpleOutboxEntity,
 } from "devices/api-device/models"
-import { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { useApiEntitiesDataQuery } from "./use-api-entities-data.query"
 import { useApiEntitiesConfigQuery } from "./use-api-entities-config.query"
 import { getEntityData } from "../api/get-entity-data"
-import { cloneDeep, uniq } from "lodash"
+import { cloneDeep, groupBy, uniq } from "lodash"
 import { apiDeviceQueryKeys } from "./api-device-query-keys"
 import { DevicesQueryKeys } from "devices/common/models"
 
-const OUTBOX_SKIPPED_ENTITY_TYPES: string[] = [
-  "audioFiles",
-  "imageFiles",
-  "ebookFiles",
-  "applicationFiles",
-]
-
-const isOutboxEntitySkipped = (entityType: string): boolean => {
-  return OUTBOX_SKIPPED_ENTITY_TYPES.includes(entityType)
-}
-
 export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   const queryClient = useQueryClient()
+  const modifiedEntitiesQueueRef = useRef<DetailedOutboxEntity[]>([])
+  const modifiedEntitiesLastProcessTimeRef = useRef(0)
 
   const query = useQuery({
     queryKey: useOutboxQuery.queryKey(device?.id),
@@ -40,114 +34,222 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       }
       return getOutbox(device)
     },
-    refetchInterval: 2_000,
+    refetchInterval: (response) => {
+      const data = response.state.data
+      const hasEntities = data?.ok && data.body.entities.length > 0
+
+      const currentTransfer = queryClient.getMutationCache().find({
+        mutationKey: ["fileTransfer", device?.id],
+        status: "pending",
+        exact: false,
+      })
+      const isCurrentlyUploading =
+        currentTransfer?.state.variables.actionType === "Upload"
+
+      if (hasEntities && !isCurrentlyUploading) {
+        return 50
+      }
+
+      return 2_000
+    },
     refetchIntervalInBackground: true,
+    staleTime: 0,
+    gcTime: 0,
     enabled: !!device && enabled,
   })
-
-  const features = useMemo(() => {
-    if (query.data?.ok) {
-      return query.data?.body.features
-    }
-    return []
-  }, [query.data])
-
-  const featuresData = useMemo(() => {
-    if (query.data?.ok) {
-      return query.data?.body.data
-    }
-    return []
-  }, [query.data])
-
-  const entities = useMemo(() => {
-    if (query.data?.ok) {
-      return query.data?.body.entities
-    }
-    return []
-  }, [query.data])
 
   const updateFeature = useCallback(
     async (feature: string) => {
       const queryKey = apiDeviceQueryKeys.feature(feature, device?.id)
-      await queryClient.invalidateQueries({
-        queryKey,
-      })
+      await queryClient.invalidateQueries({ queryKey })
     },
     [device?.id, queryClient]
   )
 
-  const updateEntities = useCallback(
-    async (entity: (typeof entities)[number]) => {
+  const processEntitiesDelete = useCallback(
+    async (deletedEntities: DetailedOutboxEntity[]) => {
       if (!device) {
         return
       }
-      const queryKey = useApiEntitiesDataQuery.queryKey(
-        entity.entityType,
-        device.id
-      )
-      const config = queryClient.getQueryData<GetEntitiesConfigResponse>(
-        useApiEntitiesConfigQuery.queryKey(entity.entityType, device.id)
-      )
-      const [idFieldName] =
-        Object.entries(config?.fields || {}).find(([, { type }]) => {
-          return type === "id"
-        }) || []
+      const entitiesByType = groupBy(deletedEntities, "entityType")
 
-      if (!idFieldName || !("entityId" in entity)) {
-        await queryClient.invalidateQueries({ queryKey })
-        return
-      }
-
-      if (entity.action === "deleted") {
-        queryClient.setQueryData(queryKey, (oldData: EntityData[] = []) => {
-          return cloneDeep(oldData).filter(
-            (item) => item[idFieldName] !== entity.entityId
-          )
-        })
-      }
-
-      if (entity.action === "modified") {
-        const entityDataResponse = await getEntityData(
-          device,
-          entity.entityType,
-          entity.entityId
+      for (const [entityType, entities] of Object.entries(entitiesByType)) {
+        const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
+        const config = queryClient.getQueryData<GetEntitiesConfigResponse>(
+          useApiEntitiesConfigQuery.queryKey(entityType, device.id)
         )
-        if (!entityDataResponse.ok) {
-          void queryClient.invalidateQueries({ queryKey })
-          return
+        const [idFieldName] =
+          Object.entries(config?.fields || {}).find(([, { type }]) => {
+            return type === "id"
+          }) || []
+
+        if (!idFieldName) {
+          continue
         }
-        const entityData = entityDataResponse.body.data
-        queryClient.setQueryData(queryKey, (oldData: EntityData[] = []) => {
-          const nextData = cloneDeep(oldData)
-          const existingIndex = nextData.findIndex(
-            (item) => item[idFieldName] === entity.entityId
-          )
-          if (existingIndex >= 0) {
-            nextData[existingIndex] = entityData
-          } else {
-            nextData.push(entityData)
+
+        const existingData =
+          queryClient.getQueryData<EntityData[]>(queryKey) || []
+
+        const entitiesToDelete: DetailedOutboxEntity[] = []
+
+        for (const entity of entities) {
+          const entityExistsInGivenType = existingData.some((item) => {
+            return item[idFieldName] === entity.entityId
+          })
+          if (entityExistsInGivenType) {
+            entitiesToDelete.push(entity)
           }
-          return nextData
+        }
+
+        queryClient.setQueryData(queryKey, (oldData: EntityData[] = []) => {
+          return cloneDeep(oldData).filter((item) => {
+            return !entitiesToDelete.some(
+              (entity) => item[idFieldName] === entity.entityId
+            )
+          })
         })
       }
     },
     [device, queryClient]
   )
 
-  useEffect(() => {
-    for (const feature of uniq([...features, ...featuresData])) {
-      void updateFeature(feature)
+  const processEntitiesModification = useCallback(async () => {
+    if (!device) {
+      return
     }
-  }, [features, featuresData, updateFeature])
 
-  useEffect(() => {
-    for (const entity of entities) {
-      if (isOutboxEntitySkipped(entity.entityType)) {
+    const modifiedEntities = modifiedEntitiesQueueRef.current
+    const timeSinceLastProcess =
+      Date.now() - modifiedEntitiesLastProcessTimeRef.current
+
+    // Collect modifications for at least 1.5s before processing
+    if (
+      timeSinceLastProcess < 1500 ||
+      modifiedEntitiesLastProcessTimeRef.current === 0
+    ) {
+      modifiedEntitiesLastProcessTimeRef.current = Date.now()
+      return
+    }
+
+    const entitiesByType = groupBy(modifiedEntities, "entityType")
+
+    for (const [entityType, entities] of Object.entries(entitiesByType)) {
+      const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
+      const config = queryClient.getQueryData<GetEntitiesConfigResponse>(
+        useApiEntitiesConfigQuery.queryKey(entityType, device.id)
+      )
+      const [idFieldName] =
+        Object.entries(config?.fields || {}).find(([, { type }]) => {
+          return type === "id"
+        }) || []
+
+      if (!idFieldName) {
         continue
       }
-      void updateEntities(entity)
+
+      const existingData = queryClient.getQueryData<EntityData[]>(queryKey)
+
+      if (!existingData) {
+        continue
+      }
+
+      if (entities.length <= 10) {
+        for (const entity of entities) {
+          const entityDataResponse = await getEntityData(
+            device,
+            entity.entityType,
+            entity.entityId
+          )
+          if (!entityDataResponse.ok) {
+            continue
+          }
+          const entityData = entityDataResponse.body.data
+          queryClient.setQueryData(queryKey, (oldData: EntityData[] = []) => {
+            const nextData = cloneDeep(oldData)
+            const existingIndex = nextData.findIndex(
+              (item) => item[idFieldName] === entity.entityId
+            )
+            if (existingIndex >= 0) {
+              nextData[existingIndex] = entityData
+            } else {
+              nextData.push(entityData)
+            }
+            return nextData
+          })
+        }
+      } else {
+        await queryClient.invalidateQueries({ queryKey })
+      }
     }
-  }, [entities, updateEntities])
+    modifiedEntitiesQueueRef.current = []
+    modifiedEntitiesLastProcessTimeRef.current = 0
+  }, [device, queryClient])
+
+  const processEntitiesUnknownAction = useCallback(
+    async (unknownEntities: SimpleOutboxEntity[]) => {
+      if (!device) {
+        return
+      }
+      const entitiesByType = groupBy(unknownEntities, "entityType")
+      for (const entityType of Object.keys(entitiesByType)) {
+        const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
+        await queryClient.invalidateQueries({ queryKey })
+      }
+    },
+    [device, queryClient]
+  )
+
+  const processEntitiesChanges = useCallback(
+    async (changedEntities: OutboxResponse["entities"]) => {
+      if (!device) {
+        return
+      }
+      const modified = changedEntities.filter(
+        (entity): entity is DetailedOutboxEntity => {
+          return "action" in entity && entity.action === "modified"
+        }
+      )
+      const deleted = changedEntities.filter(
+        (entity): entity is DetailedOutboxEntity =>
+          "action" in entity && entity.action === "deleted"
+      )
+      const unknown = changedEntities.filter(
+        (entity): entity is SimpleOutboxEntity => !("action" in entity)
+      )
+
+      if (deleted.length > 0) {
+        void processEntitiesDelete(deleted)
+      }
+
+      if (modified.length > 0 || modifiedEntitiesQueueRef.current.length > 0) {
+        modifiedEntitiesQueueRef.current.push(...modified)
+        await processEntitiesModification()
+      }
+
+      if (unknown.length > 0) {
+        await processEntitiesUnknownAction(unknown)
+      }
+    },
+    [
+      device,
+      processEntitiesDelete,
+      processEntitiesModification,
+      processEntitiesUnknownAction,
+    ]
+  )
+
+  useEffect(() => {
+    if (!query.data?.ok) {
+      return
+    }
+    const { data, entities, features } = query.data.body
+
+    void processEntitiesChanges(entities)
+
+    for (const feature of uniq([...features, ...data])) {
+      void updateFeature(feature)
+    }
+  }, [query.data, query.isRefetching, processEntitiesChanges, updateFeature])
 }
 
 useOutboxQuery.queryKey = (deviceId?: string) => [

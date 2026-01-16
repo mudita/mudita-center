@@ -7,7 +7,6 @@ import { ProgressBarTestIds } from "app-theme/models"
 import { ComponentProps, FunctionComponent, useId } from "react"
 import styled, { css, keyframes } from "styled-components"
 import { clamp } from "lodash"
-import { AnimatePresence, motion } from "motion/react"
 
 interface Props extends ComponentProps<typeof Wrapper> {
   value: number
@@ -31,20 +30,11 @@ export const ProgressBar: FunctionComponent<Props> = ({
 
   return (
     <Wrapper {...rest}>
-      <AnimatePresence initial={true} mode="wait">
-        {message !== undefined && (
-          <Message
-            key={message}
-            data-testid={ProgressBarTestIds.Description}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            {message}
-          </Message>
-        )}
-      </AnimatePresence>
+      {message !== undefined && (
+        <Message key={message} data-testid={ProgressBarTestIds.Description}>
+          {message}
+        </Message>
+      )}
       <Progress
         id={"progress-" + id}
         max={maxValue}
@@ -76,7 +66,7 @@ const Wrapper = styled.div`
   gap: ${({ theme }) => theme.app.space.sm};
 `
 
-const Message = styled(motion.span)`
+const Message = styled.span`
   font-size: ${({ theme }) => theme.app.fontSize.paragraph4};
   line-height: ${({ theme }) => theme.app.lineHeight.paragraph4};
   color: ${({ theme }) => theme.app.color.grey2};
