@@ -5,7 +5,7 @@
 
 import { FunctionComponent } from "react"
 import styled from "styled-components"
-import { IconSize, IconType } from "app-theme/models"
+import { IconSize, IconType, TypographyAlign } from "app-theme/models"
 import { formatMessage } from "app-localize/utils"
 import { Icon, Tooltip, Typography } from "app-theme/ui"
 import { manageFilesMessages } from "../manage-files.messages"
@@ -14,7 +14,11 @@ import { interferingApps } from "../manage-files.const"
 export const ManageFilesTransferProgressWarning: FunctionComponent = () => {
   return (
     <Wrapper>
-      <Typography.P3 color={"black"}>
+      <Typography.P3
+        as={"div"}
+        color={"black"}
+        textAlign={TypographyAlign.Center}
+      >
         {formatMessage(manageFilesMessages.progressWarningFirstLineText)}{" "}
         <TextAlignPlaceholder type={IconType.InfoBold} size={IconSize.Medium} />{" "}
         <br />{" "}
@@ -81,7 +85,7 @@ const TooltipContentWrapper = styled.span`
   padding: 0.6rem 0;
 `
 
-const TooltipContentItem = styled.div`
+const TooltipContentItem = styled.span`
   display: flex;
   flex-direction: row;
 `
