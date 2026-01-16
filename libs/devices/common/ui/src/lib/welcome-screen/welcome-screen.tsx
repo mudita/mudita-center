@@ -36,9 +36,9 @@ const devicesMessages = defineMessages({
   harmony2: {
     id: "general.welcomeScreen.devices.harmony2",
   },
-  pure: {
-    id: "general.welcomeScreen.devices.pure",
-  },
+  // pure: {
+  //   id: "general.welcomeScreen.devices.pure",
+  // },
 })
 
 interface Props {
