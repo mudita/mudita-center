@@ -3,12 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ApiDevice, EntityData } from "devices/api-device/models"
-import {
-  transferFiles,
-  useApiEntitiesDataQuery,
-} from "devices/api-device/feature"
+import { useMutation } from "@tanstack/react-query"
+import { ApiDevice } from "devices/api-device/models"
+import { transferFiles } from "devices/api-device/feature"
 import {
   FailedTransferErrorName,
   TransferFileEntry,
@@ -21,17 +18,12 @@ import {
   AppResultFactory,
 } from "app-utils/models"
 import { UseManageFilesTransferFlowArgs } from "devices/common/ui"
-import {
-  PROGRESS_MAIN_PROCESS_PHASE_RATIO,
-  PROGRESS_REFETCH_PHASE_RATIO,
-} from "./device-manage-files.config"
 import { useTrack } from "app-utils/renderer"
 
 type Payload = Parameters<UseManageFilesTransferFlowArgs["transferFiles"]>[0]
 
 const mutationFn = async ({
   targetDirectoryPath,
-  onDataReload,
   device,
   entityType,
   files,
@@ -44,7 +36,6 @@ const mutationFn = async ({
   device?: ApiDevice
   entityType: string
   targetDirectoryPath?: string
-  onDataReload?: (data: EntityData[]) => void
   track?: (event: AnalyticsEvent) => void
 }) => {
   if (
@@ -61,8 +52,6 @@ const mutationFn = async ({
       }
     )
   }
-
-  let lastTransferProgress = 0
 
   const transferEntries: TransferFileEntry[] =
     actionType === TransferFilesActionType.Upload
@@ -95,10 +84,9 @@ const mutationFn = async ({
     files: transferEntries,
     action: actionType,
     onProgress: ({ progress, ...transferFilesProgress }) => {
-      lastTransferProgress = progress
       return onProgress?.({
         ...transferFilesProgress,
-        progress: Math.floor(progress * PROGRESS_MAIN_PROCESS_PHASE_RATIO),
+        progress: Math.floor(progress),
       })
     },
     entityType,
@@ -125,21 +113,6 @@ const mutationFn = async ({
     e_a: `${status}/${succeededLength},${failedLength}/${modes}`,
   })
 
-  const data = await useApiEntitiesDataQuery.queryFn(
-    entityType,
-    device,
-    (refetchProgress) => {
-      const combined =
-        lastTransferProgress * PROGRESS_MAIN_PROCESS_PHASE_RATIO +
-        refetchProgress * PROGRESS_REFETCH_PHASE_RATIO
-      onProgress?.({
-        progress: Math.floor(combined),
-      })
-    },
-    abortController.signal
-  )
-
-  onDataReload?.(data)
   return result
 }
 
@@ -148,28 +121,27 @@ export const useDeviceFileTransferMutation = (
   device?: ApiDevice,
   targetDirectoryPath?: string
 ) => {
-  const queryClient = useQueryClient()
   const track = useTrack()
 
   return useMutation({
+    mutationKey: useDeviceFileTransferMutation.mutationKey(
+      entityType,
+      device?.id
+    ),
     mutationFn: (payload: Payload) => {
-      const onDataReload = (data: EntityData[]) => {
-        queryClient.setQueryData(
-          useApiEntitiesDataQuery.queryKey(entityType, device?.id),
-          data
-        )
-      }
-
       return mutationFn({
         ...payload,
         device,
         entityType,
         targetDirectoryPath,
-        onDataReload,
         track,
       })
     },
   })
 }
 
+useDeviceFileTransferMutation.mutationKey = (
+  entityType: string,
+  deviceId?: string
+) => ["fileTransfer", deviceId, entityType]
 useDeviceFileTransferMutation.mutationFn = mutationFn
