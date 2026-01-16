@@ -34,7 +34,9 @@ export class ApplicationUpdaterService extends BaseApplicationUpdaterService {
   public async checkForUpdatesAndNotify(): Promise<void> {
     await autoUpdater.checkForUpdatesAndNotify()
   }
-
+  // https://api.github.com/repos/Mudita/mudita-center-pre-production/releases/latest
+  // https://api.github.com/repos/Mudita/mudita-center-pre-production/releases
+  // https://api.github.com/repos/Mudita/mudita-center-pre-production/releases/latest
   private configure(): void {
     autoUpdater.setFeedURL({
       token,
