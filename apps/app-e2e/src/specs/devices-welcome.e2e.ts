@@ -26,7 +26,7 @@ describe(SPEC_TITLE.DEVICES_WELCOME_SCREEN, () => {
 
   it("should list available devices correctly", async () => {
     const list = await DevicesInitPage.welcomeScreenDevicesList
-    await expect(list).toHaveText("Kompakt\nHarmony 1\nHarmony 2\nPure")
+    await expect(list).toHaveText("Kompakt\nHarmony 1\nHarmony 2")
   })
 
   it("should have a Cancel button", async () => {
