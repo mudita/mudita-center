@@ -1,0 +1,9 @@
+{
+  "name": "api-devices-testing",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/api-devices-testing/src",
+  "projectType": "library",
+  "tags": ["process:main"],
+  "// targets": "to see all targets run: nx show project api-devices-testing --web",
+  "targets": {}
+}
