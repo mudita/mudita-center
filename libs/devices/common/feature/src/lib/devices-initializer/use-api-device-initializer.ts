@@ -14,7 +14,7 @@ import {
 import { useCallback, useEffect, useRef } from "react"
 import { delay } from "app-utils/common"
 import { useDeviceFreezer } from "app-serialport/renderer"
-import { useOutboxQuery } from "devices/api-device/feature"
+import { performSystemAction, useOutboxQuery } from "devices/api-device/feature"
 
 export const useApiDeviceInitializer = (device: ApiDevice) => {
   const queryClient = useQueryClient()
@@ -66,6 +66,14 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
     menuFailureReason,
     setStatus,
   ])
+
+  useEffect(() => {
+    void performSystemAction(device, {
+      action: "serial-port-setup",
+      chunkSizeInBytes: 14_336 * 20,
+      outboxEventsCounter: 100 * 5,
+    })
+  }, [device])
 
   useEffect(() => {
     void determineStatus()
