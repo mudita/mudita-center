@@ -20,7 +20,7 @@ export class GoogleProvider extends BaseProvider<
 > {
   private authServer: http.Server | undefined
   private serverPort = 3456
-  private baseUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount`
+  private baseUrl = `https://accounts.google.com/o/oauth2/v2/auth`
   private clientId = import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID
   private centerServerUrl = import.meta.env.VITE_MUDITA_CENTER_SERVER_URL
   private dataEndpoints = {
@@ -67,6 +67,10 @@ export class GoogleProvider extends BaseProvider<
           !("refresh_token" in parsedBody) ||
           !("token_type" in parsedBody)
         ) {
+          if ("error" in parsedBody && parsedBody.error === "access_denied") {
+            this.eventEmitter.emit(Events.AuthAbort)
+            return
+          }
           throw new Error("Invalid response from auth server")
         }
         this.authData = {
@@ -85,7 +89,7 @@ export class GoogleProvider extends BaseProvider<
 
     await this.createAuthServer(bodyParser)
     const authUrl = this.getAuthUrl(scopes)
-    await this.openAuthWindow(authUrl)
+    await this.openAuthWindow(authUrl, true)
   }
 
   async getContactsData() {

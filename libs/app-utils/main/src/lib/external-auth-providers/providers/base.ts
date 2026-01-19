@@ -13,6 +13,7 @@ import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOption
 
 export enum Events {
   AuthSuccess = "authSuccess",
+  AuthAbort = "authAbort",
   AuthError = "authError",
 }
 
@@ -48,12 +49,19 @@ export class BaseProvider<Contact = unknown, CalendarEvent = unknown> {
   }
 
   getAuthorizationData() {
-    return new Promise<ExternalAuthProvidersAuthorizationData | undefined>(
-      (resolve) => {
-        this.eventEmitter.once(Events.AuthSuccess, () => resolve(this.authData))
-        this.eventEmitter.once(Events.AuthError, () => resolve(undefined))
-      }
-    )
+    return new Promise<
+      ExternalAuthProvidersAuthorizationData | "error" | undefined
+    >((resolve) => {
+      this.eventEmitter.once(Events.AuthSuccess, () => resolve(this.authData))
+      this.eventEmitter.once(Events.AuthAbort, () => {
+        console.log("Auth aborted")
+        resolve(undefined)
+      })
+      this.eventEmitter.once(Events.AuthError, () => {
+        console.log("Auth error")
+        resolve("error")
+      })
+    })
   }
 
   reset(): void {
@@ -81,6 +89,7 @@ export class BaseProvider<Contact = unknown, CalendarEvent = unknown> {
   ): Promise<Contact[] | CalendarEvent[]> {
     await new Promise<void>((resolve, reject) => {
       this.eventEmitter.once(Events.AuthSuccess, () => resolve())
+      this.eventEmitter.once(Events.AuthAbort, () => reject("aborted"))
       this.eventEmitter.once(Events.AuthError, () => reject())
     })
     onStartImporting?.()
@@ -100,15 +109,22 @@ export class BaseProvider<Contact = unknown, CalendarEvent = unknown> {
     throw new Error("Method `getCalendarData` not implemented.")
   }
 
-  async openAuthWindow(url: string) {
+  async openAuthWindow(url: string, overrideUserAgent?: boolean) {
     this.window = new BrowserWindow(this.windowConfig)
 
     this.window.on("closed", () => {
-      this.eventEmitter.emit(Events.AuthError)
+      this.eventEmitter.emit(Events.AuthAbort)
       this.window = undefined
     })
 
-    await this.window.loadURL(url)
+    await this.window.loadURL(url, {
+      ...(overrideUserAgent && {
+        userAgent: this.window.webContents.userAgent.replace(
+          /\sElectron\/\S+/,
+          ""
+        ),
+      }),
+    })
 
     const mainWindowBounds = BrowserWindow.getAllWindows()
       .find((w) => w.id === 1)
