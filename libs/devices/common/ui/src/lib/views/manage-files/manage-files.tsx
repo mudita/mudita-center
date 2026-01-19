@@ -69,6 +69,7 @@ export interface ManageFilesViewProps
     >,
     Partial<Pick<ManageFilesDownloadFlowProps, "openDirectoryDialog">>,
     Partial<Pick<FileManagerPreviewProps, "downloadFilePreview" | "deviceId">> {
+  feature?: string
   files?: FileManagerFile[]
   onActiveCategoryChange: (categoryId: string) => void
   children: ManageFilesViewChild
@@ -89,6 +90,7 @@ export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
 
 export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = ({
   files = [],
+  feature,
   messages,
   activeCategoryId,
   onActiveCategoryChange,
@@ -278,9 +280,10 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = ({
   }, [activeCategoryId, children, downloadFilePreview, files, onRowClick])
 
   useEffect(() => {
+    // Unselect all files when changing category or storage type (feature)
     unselectAllFiles()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeCategoryId, storageInfo])
+  }, [activeCategoryId, feature])
 
   if (!storageInfo) {
     return null

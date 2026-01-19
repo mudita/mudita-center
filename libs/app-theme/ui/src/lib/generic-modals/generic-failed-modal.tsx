@@ -75,7 +75,27 @@ const FailedItemsList = ({ items }: { items: FailedItem[] }) => {
 }
 
 const ItemsList = styled.ul`
+  padding-right: 1.4rem;
+  padding-left: 0;
+
+  list-style: none;
+
   li {
+    padding-left: 5rem;
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 2.1rem;
+      vertical-align: middle;
+      width: 0.7rem;
+      height: 0.7rem;
+      background-color: currentColor;
+      border-radius: 50%;
+      align-self: anchor-center;
+    }
+
     p {
       &:first-child {
         text-align: left;
