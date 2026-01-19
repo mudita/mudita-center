@@ -4,26 +4,28 @@
  */
 
 import {
-  SerialPortDevice,
-  SerialPortDeviceOptions,
-} from "../serial-port-device"
-import {
+  KompaktProductID,
+  KompaktVendorID,
   SerialPortDeviceSubtype,
   SerialPortDeviceType,
   SerialPortRequest,
 } from "app-serialport/models"
+import {
+  SerialPortDevice,
+  SerialPortDeviceOptions,
+} from "../serial-port-device"
 import { CommonDeviceResponseParser } from "../common/common-device-response-parser"
 import { commonDeviceRequestParser } from "../common/common-device-request-parser"
 
-export const kompaktVendorIds = ["3310", "13072"]
-export const kompaktProductIds = [
-  "200a",
-  "200A",
-  "2006",
-  "2012",
-  "8198",
-  "8202",
-  "8210",
+export const kompaktVendorIds: string[] = [KompaktVendorID.Hex, KompaktVendorID.Dec]
+export const kompaktProductIds: string[] = [
+  KompaktProductID.TransferHex, // "200a"
+  KompaktProductID.TransferHex.toUpperCase(), // "200A"
+  KompaktProductID.ChargeHex,
+  KompaktProductID.NoDebugHex,
+  KompaktProductID.ChargeDec,
+  KompaktProductID.TransferDec,
+  KompaktProductID.NoDebugDec,
 ]
 
 export class SerialPortApiDevice extends SerialPortDevice {
@@ -37,10 +39,6 @@ export class SerialPortApiDevice extends SerialPortDevice {
       { baudRate, ...options },
       new CommonDeviceResponseParser({ matcher: /#\d{9}/g })
     )
-  }
-
-  parseRequest(data: SerialPortRequest) {
-    return commonDeviceRequestParser(data)
   }
 
   public static getSubtype(vendorId?: string, productId?: string) {
@@ -63,5 +61,9 @@ export class SerialPortApiDevice extends SerialPortDevice {
         productIds: kompaktProductIds,
       },
     ]
+  }
+
+  parseRequest(data: SerialPortRequest) {
+    return commonDeviceRequestParser(data)
   }
 }
