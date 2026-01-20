@@ -19,6 +19,7 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ImportProviderState } from "./reducer"
 import { cleanImportProcess } from "./actions"
 import { addMissingFields } from "./contacts-mappers/helpers"
+import iconv from "iconv-lite"
 
 const messages = defineMessages({
   dialogTitle: {
@@ -84,7 +85,13 @@ export const importContactsFromFile = createAsyncThunk<
       const fullDetect = detect(fileBuffer)
       encoding = fullDetect?.encoding ?? "utf8"
     }
-    const content = fileBuffer.toString(encoding as BufferEncoding)
+    let content: string
+
+    if (!isEncodingSupported(encoding)) {
+      content = iconv.decode(fileBuffer, encoding)
+    } else {
+      content = fileBuffer.toString(encoding as BufferEncoding)
+    }
 
     if (!content) {
       return handleError()
@@ -103,3 +110,12 @@ export const importContactsFromFile = createAsyncThunk<
     return handleError()
   }
 })
+
+const isEncodingSupported = (encoding: string) => {
+  try {
+    Buffer.from("test", encoding as BufferEncoding)
+    return true
+  } catch {
+    return false
+  }
+}

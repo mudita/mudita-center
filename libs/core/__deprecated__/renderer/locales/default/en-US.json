@@ -969,7 +969,7 @@
   "module.genericViews.importContacts.success.closeButtonLabel": "Close",
   "module.genericViews.importContacts.failure.title": "Import failed",
   "module.genericViews.importContacts.failure.defaultErrorMessage": "The process was interrupted.",
-  "module.genericViews.importContacts.failure.fileErrorMessage": "We didn’t recognise some of the data in the file. Check that it only contains contact data and try again.",
+  "module.genericViews.importContacts.failure.fileErrorMessage": "We didn't recognise some of the data in the file. Check that it only contains contact data and try again.",
   "module.genericViews.importContacts.failure.closeButtonLabel": "Close",
   "module.genericViews.importContacts.failure.notEnoughSpace": "Your phone’s storage is full.",
   "module.genericViews.importContacts.cancellation.title": "Import cancelled",
