@@ -6,11 +6,15 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
 import { Device } from "devices/common/models"
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import type { DefaultError } from "@tanstack/query-core"
+import { useDeviceConfigQuery } from "./use-device-config.query"
+import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 
 export const useActiveDeviceQuery = <D extends Device = Device>() => {
-  return useQuery<D | null, DefaultError, D | undefined>({
+  const queryClient = useQueryClient()
+
+  const query = useQuery<D | null, DefaultError, D | undefined>({
     queryKey: useActiveDeviceQuery.queryKey,
     queryFn: () => null,
     select: (device) => {
@@ -20,6 +24,27 @@ export const useActiveDeviceQuery = <D extends Device = Device>() => {
       return device
     },
   })
+
+  const { data: config } = useDeviceConfigQuery<D>(query.data)
+
+  useEffect(() => {
+    if (ApiDeviceSerialPort.isCompatible(query.data)) {
+      queryClient.setQueryData(
+        useActiveDeviceQuery.queryKey,
+        (device: D | null) => {
+          if (!device) {
+            return null
+          }
+          if (!config?.serialNumber) {
+            return device
+          }
+          return { ...device, serialNumber: config.serialNumber } as D
+        }
+      )
+    }
+  }, [config, query.data, queryClient])
+
+  return query
 }
 useActiveDeviceQuery.queryKey = devicesQueryKeys.activeDevice()
 

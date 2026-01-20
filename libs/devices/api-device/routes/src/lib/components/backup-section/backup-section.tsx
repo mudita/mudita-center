@@ -7,10 +7,7 @@ import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { McOverviewBackup } from "devices/api-device/ui"
 import { ApiDevice, McOverview } from "devices/api-device/models"
 import { useApiDeviceBackupsQuery } from "devices/api-device/feature"
-import {
-  useActiveDeviceQuery,
-  useDeviceConfigQuery,
-} from "devices/common/feature"
+import { useActiveDeviceQuery } from "devices/common/feature"
 import { CreateBackupFlow } from "./create-backup-flow"
 import { RestoreBackupFlow } from "./restore-backup-flow"
 
@@ -30,11 +27,7 @@ export const BackupSection: FunctionComponent<Props> = ({
   restoreFeatures = [],
 }) => {
   const { data: device } = useActiveDeviceQuery<ApiDevice>()
-  const { data: config } = useDeviceConfigQuery<ApiDevice>(device)
-  const { data: backupData, refetch } = useApiDeviceBackupsQuery({
-    ...(device as ApiDevice),
-    serialNumber: config?.serialNumber,
-  })
+  const { data: backupData, refetch } = useApiDeviceBackupsQuery(device)
 
   const [flow, setFlow] = useState(Flow.None)
 
