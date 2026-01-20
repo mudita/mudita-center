@@ -97,6 +97,10 @@ import {
   PatchEntityDataRequestValidator,
   PatchEntityDataResponseValidator,
 } from "./endpoints/entities/entity-data-patch.validator"
+import {
+  SystemPostRequestValidator,
+  SystemPostResponseValidator,
+} from "./endpoints/system/system"
 
 type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH"
 
@@ -265,6 +269,12 @@ export const ApiDeviceEndpoints = {
     GET: {
       request: AppInstallGetRequestValidator,
       response: AppInstallGetResponseValidator,
+    },
+  },
+  SYSTEM: {
+    POST: {
+      request: SystemPostRequestValidator,
+      response: SystemPostResponseValidator,
     },
   },
 } as const satisfies EndpointsDefinition
