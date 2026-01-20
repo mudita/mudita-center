@@ -34,6 +34,8 @@ import { platform } from "app-utils/common"
 import { crc32 } from "node:zlib"
 import { execPromise } from "../exec/exec-command"
 import { AppFileSystemGuard } from "./app-file-system.guard"
+import { detect } from "jschardet"
+import iconv from "iconv-lite"
 
 export class AppFileSystemService {
   constructor(private appFileSystemGuard: AppFileSystemGuard) {}
@@ -140,13 +142,25 @@ export class AppFileSystemService {
       const fullPath = this.resolveSafePath(options)
       const buffer = await fs.readFile(fullPath)
 
-      const encoding = options.encoding || "utf-8"
+      let encoding: BufferEncoding | string | undefined = options.encoding
 
-      if (encoding !== "buffer") {
-        return AppResultFactory.success(buffer.toString(encoding))
+      if (encoding === "buffer") {
+        return AppResultFactory.success(buffer)
       }
 
-      return AppResultFactory.success(buffer)
+      // Detect encoding if not provided
+      if (!encoding) {
+        const bufferSample = buffer.subarray(0, 1024 ** 2 * 5) // 5 MB sample
+        const detectResult = detect(bufferSample)
+        encoding = detectResult.encoding
+
+        // Perform full buffer detection if confidence is too low
+        if (detectResult.confidence < 0.9) {
+          ;({ encoding } = detect(buffer))
+        }
+      }
+
+      return AppResultFactory.success(iconv.decode(buffer, encoding || "utf-8"))
     } catch (error) {
       return AppResultFactory.failed(mapToAppError(error))
     }

@@ -53,7 +53,7 @@ export interface AppFileSystemWriteFileOptions extends AppFileSystemGuardOptions
 }
 
 export interface AppFileSystemReadFileOptions extends AppFileSystemGuardOptions {
-  encoding?: "buffer" | BufferEncoding
+  encoding?: "buffer" | BufferEncoding | string
 }
 
 export type AppFileSystemReadDirOptions = AppFileSystemGuardOptions

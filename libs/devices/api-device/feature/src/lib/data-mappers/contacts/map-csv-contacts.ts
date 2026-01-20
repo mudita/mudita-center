@@ -15,6 +15,9 @@ import { intersection } from "lodash"
 
 export const mapCsvContacts = (csv: string): ContactToImportAsFile[] => {
   const data = parseCsv(csv)
+  if (data.length === 0) {
+    return []
+  }
   const normalizedColumnsNames = Object.keys(data[0]).map(normalize)
 
   return data.map((row): ContactToImportAsFile => {

@@ -31,11 +31,10 @@ export const parseCsv = (csv: string): ContactRow[] => {
       }
     })
   ) {
-    console.error(result.errors)
     throw new Error("File could not be parsed")
   }
   if (isEmpty(result.data)) {
-    throw new Error("No contacts found")
+    return []
   }
   return result.data as ContactRow[]
 }
