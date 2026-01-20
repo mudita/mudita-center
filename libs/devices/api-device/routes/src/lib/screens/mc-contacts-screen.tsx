@@ -122,7 +122,6 @@ export const McContactsScreen: FunctionComponent = () => {
       const file = await AppFileSystem.readFile({
         absolute: true,
         fileAbsolutePath: filePath,
-        encoding: "utf-8",
       })
       if (!file.ok) {
         return
