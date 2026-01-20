@@ -56,7 +56,7 @@ export type ImportCallback = (
 export type ProviderSelectCallback = (
   provider: ExternalAuthProvider | "file",
   onStartImporting?: VoidFunction
-) => Promise<ContactToImportAsFile[] | undefined>
+) => Promise<ContactToImportAsFile[] | { error: string }>
 
 export type ContactToImportWithId = ContactToImportAsFile & {
   id: string
@@ -105,6 +105,16 @@ export const ContactsImportFlow: FunctionComponent<Props> = ({
         const contacts = await onProviderSelect(provider, () => {
           setCurrentStep(Step.DataLoading)
         })
+
+        if ("error" in contacts) {
+          if (contacts.error === "aborted") {
+            setCurrentStep(Step.ProviderSelect)
+            return
+          } else {
+            setCurrentStep(Step.DataLoadingError)
+            return
+          }
+        }
 
         if (contacts && contacts.length > 0) {
           setImportProgress(0)

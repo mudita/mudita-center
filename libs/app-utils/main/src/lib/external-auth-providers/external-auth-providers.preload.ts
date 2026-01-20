@@ -34,7 +34,7 @@ export const externalAuthProviders = {
     return electronAPI.ipcRenderer.invoke(
       ExternalAuthProvidersIpcEvents.GetScopesData,
       { provider, scopes }
-    ) as Promise<ScopesData<P, S> | null>
+    ) as Promise<ScopesData<P, S> | { error: string }>
   },
   listenToScopesDataTransferStart: (callback?: VoidFunction) => {
     const unsubscribe = electronAPI.ipcRenderer.on(

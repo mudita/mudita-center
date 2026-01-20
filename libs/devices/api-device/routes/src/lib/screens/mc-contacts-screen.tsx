@@ -142,7 +142,7 @@ export const McContactsScreen: FunctionComponent = () => {
       if (provider === "file") {
         const fileData = await handleImportFromFile(onStartImporting)
         if (!fileData) {
-          return
+          return { error: "aborted" }
         }
         switch (fileData.extension) {
           case ".vcf":
@@ -151,25 +151,35 @@ export const McContactsScreen: FunctionComponent = () => {
             return contactsMapper.fromCsv(fileData.data)
         }
       }
+
       if (provider === ExternalAuthProvider.Google) {
         ExternalAuthProviders.listenToScopesDataTransferStart(onStartImporting)
         const response = await ExternalAuthProviders.getScopesData(
           ExternalAuthProvider.Google,
           [ExternalAuthProvidersScope.Contacts]
         )
-        if (!response) return
+
+        if ("error" in response) {
+          return response
+        }
+
         return contactsMapper.fromGoogleApi(response.contacts)
       }
+
       if (provider === ExternalAuthProvider.Outlook) {
         ExternalAuthProviders.listenToScopesDataTransferStart(onStartImporting)
         const response = await ExternalAuthProviders.getScopesData(
           ExternalAuthProvider.Outlook,
           [ExternalAuthProvidersScope.Contacts]
         )
-        if (!response) return
+
+        if ("error" in response) {
+          return response
+        }
         return contactsMapper.fromOutlookApi(response.contacts)
       }
-      return
+
+      return { error: "unsupported provider" }
     },
     [handleImportFromFile]
   )

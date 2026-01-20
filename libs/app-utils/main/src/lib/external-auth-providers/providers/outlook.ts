@@ -78,6 +78,14 @@ export class OutlookProvider extends BaseProvider<
       },
       async ({ url }) => {
         const code = new URL(url).searchParams.get("code")
+        const error = new URL(url).searchParams.get("error")
+        const errorSubcode = new URL(url).searchParams.get("error_subcode")
+
+        if (error === "access_denied" && errorSubcode === "cancel") {
+          this.eventEmitter.emit(Events.AuthAbort)
+          return
+        }
+
         if (!code) {
           this.eventEmitter.emit(Events.AuthError)
           return
