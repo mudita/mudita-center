@@ -4,10 +4,10 @@
  */
 
 import {
-  MouseEvent,
   ComponentProps,
   FunctionComponent,
   InputHTMLAttributes,
+  MouseEvent,
   PropsWithChildren,
   Ref,
   useCallback,
@@ -27,7 +27,8 @@ import { TypographyContent } from "../../typography/typography-content/typograph
 import { Icon } from "../../icon/icon"
 
 interface Props
-  extends PropsWithChildren,
+  extends
+    PropsWithChildren,
     Pick<ComponentProps<typeof InputWrapper>, "style" | "className">,
     Omit<
       InputHTMLAttributes<HTMLInputElement>,
