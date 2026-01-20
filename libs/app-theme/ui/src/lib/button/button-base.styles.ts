@@ -77,23 +77,13 @@ export const baseStyles = css<StyledButtonProps>`
   }}
 `
 
-export const ButtonIconWrapper = styled.span.attrs((props) => ({
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 },
-  transition: { duration: 0.3 },
-  layout: true,
-  ...props,
-}))`
+export const ButtonIconWrapper = styled.span`
   display: inline-block;
   width: min-content;
   height: min-content;
 `
 
-export const ButtonTextWrapper = styled.span.attrs((props) => ({
-  layout: "position",
-  ...props,
-}))`
+export const ButtonTextWrapper = styled.span`
   display: inherit;
   flex-direction: inherit;
   align-items: inherit;
