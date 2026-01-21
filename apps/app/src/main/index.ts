@@ -16,7 +16,6 @@ import { mockServer } from "e2e-mock/server"
 import icon from "../../resources/icons/icon.png"
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
-import logger from "electron-log/main"
 
 const appWidth = process.env.APP_WIDTH
 const appHeight = process.env.APP_HEIGHT
@@ -97,8 +96,6 @@ const createWindow = () => {
   })
 
   mainWindow.on("ready-to-show", async () => {
-    logger.log(`[${new Date().toISOString()}] [mainWindow] ready-to-show event`)
-
     if (process.env.NODE_ENV !== "test") {
       // Ensure splash is visible for at least 1s
       const splashTimeLeft = Math.max(0, 1000 - (Date.now() - splashStartTime))
@@ -106,7 +103,6 @@ const createWindow = () => {
       splashWindow.destroy()
     }
 
-    logger.log(`[${new Date().toISOString()}] [mainWindow] showing main window`)
     if (process.env.NODE_ENV === "development") {
       mainWindow.showInactive()
     } else {

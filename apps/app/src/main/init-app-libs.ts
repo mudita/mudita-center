@@ -32,15 +32,11 @@ import {
 import { initUsbAccess } from "app-init/main"
 import { IpcMockServer } from "e2e-mock/server"
 import { AppMtp, initAppMtp } from "app-mtp/main"
-import logger from "electron-log/main"
 
 export const initAppLibs = (
   mainWindow: BrowserWindow,
   mockServer: IpcMockServer
 ) => {
-  logger.log(
-    `[${new Date().toISOString()}] [initAppLibs] Initializing app libs...`
-  )
   const appFileSystemGuard = new AppFileSystemGuard(() => {
     const appSettingsService = getAppSettingsService()
     return [appSettingsService.get("user.backupLocation")]
@@ -78,5 +74,4 @@ export const initAppLibs = (
   initAppHelp(ipcMain, helpService)
   initNews(ipcMain, mainWindow)
   initExternalAuthProviders(ipcMain, mainWindow)
-  logger.log(`[${new Date().toISOString()}] [initAppLibs] App libs initialized.`)
 }
