@@ -39,7 +39,7 @@ export const initAppLibs = (
   mockServer: IpcMockServer
 ) => {
   logger.log(
-    `[${new Date().toISOString()}][initAppLibs] Initializing app libs...`
+    `[${new Date().toISOString()}] [initAppLibs] Initializing app libs...`
   )
   const appFileSystemGuard = new AppFileSystemGuard(() => {
     const appSettingsService = getAppSettingsService()
@@ -78,5 +78,5 @@ export const initAppLibs = (
   initAppHelp(ipcMain, helpService)
   initNews(ipcMain, mainWindow)
   initExternalAuthProviders(ipcMain, mainWindow)
-  logger.log(`[${new Date().toISOString()}][initAppLibs] App libs initialized.`)
+  logger.log(`[${new Date().toISOString()}] [initAppLibs] App libs initialized.`)
 }
