@@ -49,7 +49,7 @@ export class AppUpdaterService {
         centerVersion: string
       }>({
         method: "GET",
-        url: `${process.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`,
+        url: `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`,
         signal: this.checkAbortController.signal,
       })
       if (!response.ok) {
