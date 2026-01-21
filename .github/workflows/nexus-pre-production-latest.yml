@@ -1,4 +1,4 @@
-name: Build & Release - pre-production
+name: Build & Release - pre-production (latest)
 
 on:
   push:
@@ -7,12 +7,13 @@ on:
 
 jobs:
   release:
-    if: startsWith(github.event.base_ref, 'refs/heads/v') && !(endsWith(github.ref, '-latest'))
+    if: startsWith(github.event.base_ref, 'refs/heads/v') && endsWith(github.ref, '-latest')
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [linux-nexus, windows-nexus, macos-m-nexus]
-        node-version: [24.13.0]
+        runner_label: [ linux-nexus, windows-nexus, macos-m-nexus ]
+        type: [ standard, force ]
+        node-version: [ 24.13.0 ]
     environment: pre-production
     steps:
       - name: Checkout repository
@@ -77,6 +78,54 @@ jobs:
           CI: true
         run: |
           printenv > .env
+      - name: Update app version - Windows & Standard Update
+        if: matrix.runner_label == 'windows-nexus' && matrix.type == 'standard'
+        run: |
+          $APP_VERSION = Get-Content -Path "apps/app/version"
+          $TAG = $env:GITHUB_REF -replace 'refs/tags/', ''
+          $VERSION = ($TAG -split '-')[0]
+          $NEW_APP_VERSION = "$VERSION-qa.$APP_VERSION"
+          (Get-Content -Path 'apps/app/package.json') | ForEach-Object {
+              $_ -replace '"version": ".*",' , "`"version`"`: `"$NEW_APP_VERSION`","
+          } | Set-Content -Path 'apps/app/package.json'
+      - name: Update app version - Mac & Standard Update
+        if: matrix.runner_label == 'macos-m-nexus' && matrix.type == 'standard'
+        run: |
+          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
+          export TAG=$(echo $GITHUB_REF | sed 's/^refs\/tags\///')
+          export VERSION=$(echo $TAG | awk -F'-' '{print $1}')
+          export NEW_APP_VERSION="$VERSION-qa.$APP_VERSION"
+          TMP_FILE=$(mktemp)
+          sed "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/app/package.json > "$TMP_FILE"
+          mv "$TMP_FILE" apps/app/package.json
+      - name: Update app version - Linux & Standard Update
+        if: matrix.runner_label == 'linux-nexus' && matrix.type == 'standard'
+        run: |
+          export APP_VERSION=$(cat apps/app/package.json | jq -r .version)
+          export TAG=$(echo $GITHUB_REF | sed 's/^refs\/tags\///')
+          export VERSION=$(echo $TAG | awk -F'-' '{print $1}')
+          export NEW_APP_VERSION="$VERSION-qa.$APP_VERSION"
+          sed -i "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/app/package.json
+      - name: Update app version - Windows & Force Update
+        if: matrix.runner_label == 'windows-nexus' && matrix.type == 'force'
+        run: |
+          $APP_VERSION = Get-Content -Path "apps/app/version"
+          $NEW_APP_VERSION = "0.0.1-qa.$APP_VERSION"
+          (Get-Content -Path 'apps/app/package.json') | ForEach-Object {
+              $_ -replace '"version": ".*",' , "`"version`"`: `"$NEW_APP_VERSION`","
+          } | Set-Content -Path 'apps/app/package.json'
+      - name: Update app version - Mac & Force Update
+        if: matrix.runner_label == 'macos-m-nexus' && matrix.type == 'force'
+        run: |
+          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
+          export NEW_APP_VERSION="0.0.1-qa.$APP_VERSION"
+          sed -i '' "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/app/package.json
+      - name: Update app version - Linux & Force Update
+        if: matrix.runner_label == 'linux-nexus' && matrix.type == 'force'
+        run: |
+          export APP_VERSION=`cat apps/app/package.json | jq -r .version`
+          export NEW_APP_VERSION="0.0.1-qa.$APP_VERSION"
+          sed -i "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/app/package.json
       - name: Install dependencies
         run: npm run setup
       - name: Prepare electron-builder config - Mac
@@ -143,7 +192,6 @@ jobs:
         run: |
           jq -r -j .version apps/app/package.json > apps/app/version
           $APP_VERSION = Get-Content -Path "apps/app/version"
-          $SOURCE_BRANCH = "${{ github.ref_name }}"
           $ENVIRONMENT_CATALOG_NAME = "pre-production"
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"
@@ -166,12 +214,9 @@ jobs:
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           export APP_VERSION=`cat apps/app/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
           export ENVIRONMENT_CATALOG_NAME=pre-production
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
-          git tag "$GITTAG"
-          git push origin "$GITTAG"
           cp ./apps/app/release/builder-debug.yml ./apps/app/release/builder-debug-mac.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip
@@ -190,12 +235,9 @@ jobs:
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           export APP_VERSION=`cat apps/app/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
           export ENVIRONMENT_CATALOG_NAME=pre-production
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
-          git tag "$GITTAG"
-          git push origin "$GITTAG"
           cp ./apps/app/release/builder-debug.yml ./apps/app/release/builder-debug-linux.yml
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
