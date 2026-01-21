@@ -9,7 +9,7 @@ jobs:
       matrix:
         node-version: [24.13.0]
     timeout-minutes: 40
-    environment: development
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
