@@ -25,7 +25,7 @@ jobs:
         if: matrix.runner_label == 'windows-nexus'
         env:
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          VITE_RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           VITE_GH_RUNTIME_TOKEN: ${{ secrets.VITE_GH_RUNTIME_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.VITE_MUDITA_CENTER_SERVER_URL }}
@@ -45,7 +45,7 @@ jobs:
         if: matrix.runner_label == 'macos-m-nexus'
         env:
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          VITE_RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           VITE_GH_RUNTIME_TOKEN: ${{ secrets.VITE_GH_RUNTIME_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.VITE_MUDITA_CENTER_SERVER_URL }}
@@ -63,7 +63,7 @@ jobs:
         if: matrix.runner_label == 'linux-nexus'
         env:
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          VITE_RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           VITE_GH_RUNTIME_TOKEN: ${{ secrets.VITE_GH_RUNTIME_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.VITE_MUDITA_CENTER_SERVER_URL }}
