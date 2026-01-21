@@ -23,7 +23,7 @@ jobs:
         if: matrix.runner_label == 'windows-e2e'
         env:
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          VITE_RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           E2ECI: "true"
@@ -35,7 +35,7 @@ jobs:
         if: matrix.runner_label == 'macos-m-e2e'
         env:
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          VITE_RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           E2ECI: "true"
@@ -45,7 +45,7 @@ jobs:
         if: matrix.runner_label == 'linux-e2e'
         env:
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          VITE_RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           VITE_MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           E2ECI: "true"

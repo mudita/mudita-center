@@ -35,6 +35,13 @@ export class AppUpdaterService {
   }
 
   private configure(): void {
+    autoUpdater.setFeedURL({
+      provider: "github",
+      owner: "Mudita",
+      repo: import.meta.env.VITE_RELEASES_REPOSITORY_NAME,
+      private: true,
+      token: import.meta.env.VITE_GH_RUNTIME_TOKEN,
+    })
     autoUpdater.logger = logger
     autoUpdater.autoDownload = false
     autoUpdater.autoInstallOnAppQuit = false
