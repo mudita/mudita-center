@@ -8,6 +8,7 @@ import { ApiConfig, ApiDevice } from "devices/api-device/models"
 import { getApiDevice } from "./helpers/get-api-device"
 import { getApiFeaturesAndEntityTypes } from "./helpers/get-api-features-and-entity-types"
 import { getApiDeviceConfig } from "./helpers/get-api-device-config"
+import { closeApiDevice } from "./helpers/close-api-device"
 
 let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 
@@ -15,14 +16,19 @@ beforeEach(() => {
   jest.resetModules()
 })
 
+let device: ApiDevice
+
 describe("API configuration", () => {
   beforeAll(async () => {
-    const device = await getApiDevice()
+    device = await getApiDevice()
     featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(device)
   }, 30000)
 
+  afterAll(async () => {
+    await closeApiDevice(device)
+  })
+
   it("should receive API configuration", async () => {
-    const device = await getApiDevice()
     const result = await getApiDeviceConfig(device)
 
     expect(result.status).toBe(200)
@@ -35,7 +41,6 @@ describe("API configuration", () => {
   })
 
   it("should receive valid API configuration response", async () => {
-    const device = await getApiDevice()
     const result = await getApiDeviceConfig(device)
 
     const apiConfig = result.body as ApiConfig

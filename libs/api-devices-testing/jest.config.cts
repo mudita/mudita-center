@@ -8,4 +8,5 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   coverageDirectory: "../../coverage/libs/api-devices-testing",
   setupFilesAfterEnv: ["./jest.setup.ts"],
+  maxWorkers: 1,
 }
