@@ -29,7 +29,7 @@ export const getApiMenuConfig = async (device: ApiDevice) => {
   }
 }
 
-export const mapMenuConfig = (
+const mapMenuConfig = (
   menu: ApiDeviceResponseBody<"MENU_CONFIGURATION", "GET">
 ): MenuGroup => {
   return {
