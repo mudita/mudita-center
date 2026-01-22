@@ -29,7 +29,8 @@
     "lib:create": "ts-node ./scripts/create-library.ts",
     "==== Project tools =================": "",
     "audit:icons": "tsx scripts/audit-icons.ts ./libs/app-theme/ui/src/lib/icon/svg",
-    "generate:licenses": "ts-node ./scripts/license-generator.ts"
+    "generate:licenses": "ts-node ./scripts/license-generator.ts",
+    "api-device-testing": "npx nx run api-devices-testing:test --skip-nx-cache"
   },
   "repository": {
     "type": "git",

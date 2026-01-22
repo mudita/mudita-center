@@ -38,6 +38,16 @@ export default [
           ],
           depConstraints: [
             {
+              sourceTag: "process:api-test",
+              onlyDependOnLibsWithTags: [
+                "process:api-test",
+                "process:renderer",
+                "process:main",
+                "type:models",
+                "type:utils",
+              ],
+            },
+            {
               sourceTag: "process:e2e",
               onlyDependOnLibsWithTags: [
                 "process:e2e",

@@ -16,6 +16,7 @@ import { AppSerialportDeviceScanner } from "./app-serialport-device-scanner"
 import logger from "electron-log/main"
 
 type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
+
 enum SerialPortEvents {
   DevicesUpdated = "devicesUpdated",
   FrozenDeviceReconnected = "frozenDeviceReconnected",
@@ -37,21 +38,24 @@ export class AppSerialPortService {
       }
     }
   >()
+  private initPromise?: Promise<void>
 
   constructor() {
-    this.init()
+    void this.init()
   }
 
-  private init() {
-    void this.detectChanges({ initial: true })
+  public async init() {
+    if (this.initPromise) {
+      return this.initPromise
+    }
 
-    usb.on("attach", () => {
-      void this.detectChanges()
-    })
+    this.initPromise = (async () => {
+      usb.on("attach", () => void this.detectChanges())
+      usb.on("detach", () => void this.detectChanges())
+      await this.detectChanges({ initial: true })
+    })()
 
-    usb.on("detach", () => {
-      void this.detectChanges()
-    })
+    return this.initPromise
   }
 
   private async detectChanges({ initial }: { initial?: boolean } = {}) {
