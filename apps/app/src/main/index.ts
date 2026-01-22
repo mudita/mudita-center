@@ -90,11 +90,12 @@ const createWindow = () => {
     mainWindow.webContents.openDevTools()
   }
 
-  mockServer.start()
+  app.whenReady().then(() => {
+    mockServer.start()
+    initAppLibs(mainWindow, mockServer)
+  })
 
   mainWindow.on("ready-to-show", async () => {
-    initAppLibs(mainWindow, mockServer)
-
     if (process.env.NODE_ENV !== "test") {
       // Ensure splash is visible for at least 1s
       const splashTimeLeft = Math.max(0, 1000 - (Date.now() - splashStartTime))
