@@ -22,6 +22,7 @@ Mudita Center allows you to expand and update the features of Mudita Kompakt and
     - [Discussions](#discussions)
     - [Reporting bugs and feature requests](#reporting-bugs-and-feature-requests)
     - [Development workflow](#development-workflow)
+    - [Feature Development workflow](#feature-development-workflow)
   - [Changelog](#changelog)
   - [License](#license)
 
