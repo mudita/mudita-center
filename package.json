@@ -27,7 +27,8 @@
     "nx:migrate": "npx nx migrate --run-migrations",
     "nx:reset": "nx reset",
     "==== Project tools =================": "",
-    "audit:icons": "tsx scripts/audit-icons.ts ./libs/app-theme/ui/src/lib/icon/svg"
+    "audit:icons": "tsx scripts/audit-icons.ts ./libs/app-theme/ui/src/lib/icon/svg",
+    "lib:create": "ts-node ./scripts/create-library.ts"
   },
   "repository": {
     "type": "git",
@@ -166,6 +167,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-storybook": "^10.1.11",
+    "execa": "^9.6.1",
     "express": "^5.2.1",
     "getmac": "^6.6.0",
     "jest": "30.2.0",

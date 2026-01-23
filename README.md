@@ -55,6 +55,10 @@ You can report bugs and feature requests on [GitHub](https://github.com/Mudita/m
 
 When contributing code or documentation changes please follow the guidelines inside the ["Development workflow"](./development_workflow.md) article.
 
+### Feature Development workflow
+
+When developing new features for Mudita Center please follow the guidelines inside the ["Feature Development workflow"](./feature-development_workflow.md) article.
+
 ## Changelog
 
 The [Mudita Center changelog](https://github.com/Mudita/mudita-center/releases) is regularly updated by the core development team.
