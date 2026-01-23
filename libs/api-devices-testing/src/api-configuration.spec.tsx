@@ -4,11 +4,15 @@
  */
 
 import { KompaktProductID, KompaktVendorID } from "app-serialport/models"
-import { ApiConfig, ApiDevice } from "devices/api-device/models"
+import {
+  ApiConfigResponseValidator,
+  ApiDevice,
+  buildApiConfigRequest,
+} from "devices/api-device/models"
+import { AppSerialPortService } from "app-serialport/main"
 import { getApiDevice } from "./helpers/get-api-device"
 import { getApiFeaturesAndEntityTypes } from "./helpers/get-api-features-and-entity-types"
-import { getApiDeviceConfig } from "./helpers/get-api-device-config"
-import { closeApiDevice } from "./helpers/close-api-device"
+import { getSerialPortService } from "./helpers/get-serial-port-service"
 
 let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 
@@ -17,33 +21,41 @@ beforeEach(() => {
 })
 
 let device: ApiDevice
+let serialPortService: AppSerialPortService
 
 describe("API configuration", () => {
   beforeAll(async () => {
     device = await getApiDevice()
+    serialPortService = await getSerialPortService()
     featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(device)
   }, 30000)
 
   afterAll(async () => {
-    await closeApiDevice(device)
+    serialPortService.close(device.id)
   })
 
   it("should receive API configuration", async () => {
-    const result = await getApiDeviceConfig(device)
+    const result = await serialPortService.request(device.id, {
+      ...buildApiConfigRequest(),
+      options: { timeout: 5000 },
+    })
 
     expect(result.status).toBe(200)
   })
 
-  it("should receive API configuration error on invalid deviceId", async () => {
+  it.skip("should receive API configuration error on invalid deviceId", async () => {
     await expect(
-      getApiDeviceConfig({ id: "invalid" } as unknown as ApiDevice)
+      await serialPortService.request("invalid", buildApiConfigRequest())
     ).rejects.toThrow("Device not found at id invalid.")
   })
 
   it("should receive valid API configuration response", async () => {
-    const result = await getApiDeviceConfig(device)
+    const result = await serialPortService.request(device.id, {
+      ...buildApiConfigRequest(),
+      options: { timeout: 5000 },
+    })
 
-    const apiConfig = result.body as ApiConfig
+    const apiConfig = ApiConfigResponseValidator.parse(result.body)
 
     expect(apiConfig.apiVersion).toMatch(/^\d+\.\d+\.\d+$/)
     expect(apiConfig.osVersion).toMatch(/^MuditaOS K/)

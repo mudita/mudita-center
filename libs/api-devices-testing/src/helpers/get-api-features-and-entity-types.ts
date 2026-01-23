@@ -3,8 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ApiConfig, ApiDevice } from "devices/api-device/models"
-import { getApiDeviceConfig } from "./get-api-device-config"
+import {
+  ApiConfigResponseValidator,
+  ApiDevice,
+  buildApiConfigRequest,
+} from "devices/api-device/models"
+import { getSerialPortService } from "./get-serial-port-service"
 
 export async function getApiFeaturesAndEntityTypes(device: ApiDevice): Promise<{
   features: string[]
@@ -29,9 +33,13 @@ export async function getApiFeaturesAndEntityTypes(device: ApiDevice): Promise<{
     "applicationFiles",
   ].sort()
 
-  const result = await getApiDeviceConfig(device)
+  const serialPortService = await getSerialPortService()
+  const result = await serialPortService.request(device.id, {
+    ...buildApiConfigRequest(),
+    options: { timeout: 5000 },
+  })
 
-  const apiConfig = result.body as ApiConfig
+  const apiConfig = ApiConfigResponseValidator.parse(result.body)
 
   optionalFeatures.forEach((feature) => {
     if (

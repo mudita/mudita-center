@@ -4,15 +4,12 @@
  */
 
 import { ApiDeviceSerialPort, OKResponse } from "devices/api-device/adapters"
-import { ApiDevice } from "devices/api-device/models"
+import { ApiDevice, buildApiConfigRequest } from "devices/api-device/models"
 
 export const getApiDeviceConfig = async (device: ApiDevice) => {
-  return await ApiDeviceSerialPort.request(device, {
-    endpoint: "API_CONFIGURATION",
-    method: "GET",
-    options: {
-      timeout: 3000,
-    },
+  return ApiDeviceSerialPort.request(device, {
+    ...buildApiConfigRequest(),
+    options: { timeout: 3000 },
   })
 }
 

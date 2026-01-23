@@ -20,3 +20,10 @@ export const AppInstallPostResponseValidator = z.object({
 export type AppInstallPostResponse = z.infer<
   typeof AppInstallPostResponseValidator
 >
+
+export const buildPostAppInstallRequest = (req: AppInstallPostRequest) =>
+  ({
+    endpoint: "APP_INSTALL",
+    method: "POST",
+    body: req,
+  }) as const
