@@ -8,6 +8,9 @@ import fs from "fs-extra"
 
 const runScript = async () => {
   const { name, type, directory = "" } = mapArgs()
+  console.log(
+    `Creating a new library ${name} of type ${type} in directory ${directory}...`
+  )
 
   const fullDirectory = directory ? `libs/${directory}` : "libs"
 
@@ -41,16 +44,19 @@ const runScript = async () => {
       await fs.mkdir(`${fullDirectory}/${name}/utils/src/lib`)
       break
   }
+  console.log(`Library ${name} created successfully!`)
 }
-void runScript()
 
 const mapArgs = () => {
   return process.argv
     .slice(2)
     .map((arg) => {
-      const [type, value] = arg
-        .split("=")
-        .map((str) => str.trim().replace(/-/g, ""))
+      const [type, value] = arg.split("=").map((str, i) => {
+        if (i === 0) {
+          return str.trim().replace(/-/g, "")
+        }
+        return str
+      })
       switch (type) {
         case "n":
         case "name":
@@ -67,3 +73,5 @@ const mapArgs = () => {
     })
     .reduce((acc, curr) => ({ ...acc, ...curr }), {})
 }
+
+void runScript()
