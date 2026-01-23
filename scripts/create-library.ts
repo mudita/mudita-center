@@ -6,45 +6,24 @@
 import { $ } from "execa"
 import fs from "fs-extra"
 
-const runScript = async () => {
-  const { name, type, directory = "" } = mapArgs()
-  console.log(
-    `Creating a new library ${name} of type ${type} in directory ${directory}...`
-  )
+const run = async () => {
+  try {
+    const { name, type, directory = "" } = mapArgs()
+    if (!name || !type) {
+      throw new Error(
+        `\nPlease provide both "name" and "type" arguments.\nExample: npm run create-library name=my-lib type=ui`
+      )
+    }
+    const fullName = directory
+      ? `${directory}/${name}/${type}`
+      : `${name}/${type}`
 
-  const fullDirectory = directory ? `libs/${directory}` : "libs"
-
-  switch (type) {
-    case "main":
-      await $`nx g @nx/react:library --directory=${fullDirectory}/${name}/main --name=${name}/main --unitTestRunner=jest --component=false --tags=process:main --no-interactive`
-      await fs.mkdir(`${fullDirectory}/${name}/main/src/lib`)
-      break
-    case "renderer":
-      await $`nx g @nx/react:library --directory=${fullDirectory}/${name}/renderer --name=${name}/renderer --unitTestRunner=jest --component=false --tags=process:renderer --no-interactive`
-      await fs.mkdir(`${fullDirectory}/${name}/renderer/src/lib`)
-      break
-    case "feature":
-      await $`nx g @nx/react:library --directory=${fullDirectory}/${name}/feature --name=${name}/feature --unitTestRunner=jest --component=false --tags=process:renderer --no-interactive`
-      await fs.mkdir(`${fullDirectory}/${name}/feature/src/lib`)
-      break
-    case "routes":
-      await $`nx g @nx/react:library --directory=${fullDirectory}/${name}/routes --name=${name}/routes --unitTestRunner=jest --component=false --tags=process:renderer --no-interactive`
-      await fs.mkdir(`${fullDirectory}/${name}/routes/src/lib`)
-      break
-    case "ui":
-      await $`nx g @nx/react:library --directory=${fullDirectory}/${name}/ui --name=${name}/ui --unitTestRunner=jest --component=false --tags=type:ui --no-interactive`
-      await fs.mkdir(`${fullDirectory}/${name}/ui/src/lib`)
-      break
-    case "models":
-      await $`nx g @nx/js:library --directory=${fullDirectory}/${name}/models --name=${name}/models --unitTestRunner=jest --tags=type:models --no-interactive`
-      await fs.mkdir(`${fullDirectory}/${name}/models/src/lib`)
-      break
-    case "utils":
-      await $`nx g @nx/js:library --directory=${fullDirectory}/${name}/utils --name=${name}/utils --unitTestRunner=jest --tags=type:utils --no-interactive`
-      await fs.mkdir(`${fullDirectory}/${name}/utils/src/lib`)
-      break
+    console.log(`Creating a new "${fullName}" library...`)
+    await runScript(type, fullName)
+    console.log(`Library created successfully!`)
+  } catch (error) {
+    console.error("Error creating library!\n", error.stdout || error.message)
   }
-  console.log(`Library ${name} created successfully!`)
 }
 
 const mapArgs = () => {
@@ -74,4 +53,35 @@ const mapArgs = () => {
     .reduce((acc, curr) => ({ ...acc, ...curr }), {})
 }
 
-void runScript()
+const runScript = async (type: string, fullName: string) => {
+  let tags = ""
+  switch (type) {
+    case "main":
+      tags = "process:main"
+      break
+    case "renderer":
+      tags = "process:renderer"
+      break
+    case "feature":
+      tags = "process:renderer"
+      break
+    case "routes":
+      tags = "process:renderer"
+      break
+    case "ui":
+      tags = "type:ui"
+      break
+    case "models":
+      tags = "type:models"
+      break
+    case "utils":
+      tags = "type:utils"
+      break
+    default:
+      throw new Error(`Unknown library type: ${type}`)
+  }
+  await $`nx g @nx/react:library --directory=libs/${fullName} --name=${fullName} --unitTestRunner=jest --component=false --tags=${tags} --no-interactive`
+  await fs.mkdir(`libs/${fullName}/src/lib`)
+}
+
+void run()

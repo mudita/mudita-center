@@ -26,9 +26,9 @@
     "nx:update": "npx nx migrate latest",
     "nx:migrate": "npx nx migrate --run-migrations",
     "nx:reset": "nx reset",
+    "lib:create": "ts-node ./scripts/create-library.ts",
     "==== Project tools =================": "",
-    "audit:icons": "tsx scripts/audit-icons.ts ./libs/app-theme/ui/src/lib/icon/svg",
-    "lib:create": "ts-node ./scripts/create-library.ts"
+    "audit:icons": "tsx scripts/audit-icons.ts ./libs/app-theme/ui/src/lib/icon/svg"
   },
   "repository": {
     "type": "git",
