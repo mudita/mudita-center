@@ -11,4 +11,5 @@ export enum SerialPortIpcEvents {
   Freeze = "serialport:freeze",
   Unfreeze = "serialport:unfreeze",
   IsFrozen = "serialport:is-frozen",
+  Reset = "serialport:reset",
 }

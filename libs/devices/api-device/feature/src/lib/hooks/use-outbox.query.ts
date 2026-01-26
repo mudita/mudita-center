@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { getOutbox } from "../api/get-outbox"
 import {
   ApiDevice,
+  ApiDeviceErrorType,
   DetailedOutboxEntity,
   EntityData,
   GetEntitiesConfigResponse,
@@ -19,21 +20,36 @@ import { useApiEntitiesConfigQuery } from "./use-api-entities-config.query"
 import { getEntityData } from "../api/get-entity-data"
 import { cloneDeep, groupBy, uniq } from "lodash"
 import { apiDeviceQueryKeys } from "./api-device-query-keys"
-import { DevicesQueryKeys } from "devices/common/models"
+import {
+  DeviceErrorType,
+  DevicesQueryKeys,
+  DeviceStatus,
+} from "devices/common/models"
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { useDeviceStatusQuery } from "devices/common/feature"
 
 export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   const queryClient = useQueryClient()
   const modifiedEntitiesQueueRef = useRef<DetailedOutboxEntity[]>([])
   const modifiedEntitiesLastProcessTimeRef = useRef(0)
 
-  const query = useQuery({
+  const query = useQuery<
+    Awaited<ReturnType<typeof getOutbox>> | null,
+    DeviceErrorType | ApiDeviceErrorType
+  >({
     queryKey: useOutboxQuery.queryKey(device?.id),
-    queryFn: () => {
+    queryFn: async () => {
       if (!device) {
         return null
       }
-      return getOutbox(device)
+      const outbox = await getOutbox(device)
+      if (!outbox.ok) {
+        throw outbox.status
+      }
+      return outbox
     },
+    retry: 5,
+    retryDelay: 2000,
     refetchInterval: (response) => {
       const data = response.state.data
       const hasEntities = data?.ok && data.body.entities.length > 0
@@ -237,6 +253,30 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       processEntitiesUnknownAction,
     ]
   )
+
+  useEffect(() => {
+    if (query.isError) {
+      let status: DeviceStatus | undefined = undefined
+
+      switch (query.error) {
+        case ApiDeviceErrorType.DeviceLocked:
+          status = DeviceStatus.Locked
+          break
+        case ApiDeviceErrorType.DeviceInternalError:
+        case DeviceErrorType.Critical:
+        case DeviceErrorType.RequestParsingFailed:
+        case DeviceErrorType.ResponseParsingFailed:
+          status = DeviceStatus.CriticalError
+          break
+      }
+      if (status) {
+        queryClient.setQueryData(
+          useDeviceStatusQuery.queryKey(device?.id),
+          status
+        )
+      }
+    }
+  }, [device?.id, query.error, query.isError, queryClient])
 
   useEffect(() => {
     if (!query.data?.ok) {

@@ -75,5 +75,9 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
         return serialport.isFrozen(id)
       }
     )
+    ipcMain.removeHandler(SerialPortIpcEvents.Reset)
+    ipcMain.handle(SerialPortIpcEvents.Reset, (_, id?: SerialPortDeviceId) => {
+      return serialport.reset(id)
+    })
   }
 }
