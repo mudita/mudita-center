@@ -36,6 +36,7 @@ import {
 } from "./manage-files-transfer-failed-modal"
 import { useBrowseForFiles } from "./use-browse/use-browse-for-files"
 import { useManageFilesValidate } from "./use-manage-files-validate"
+import { theme } from "app-theme/utils"
 
 enum ManageFilesTransferFlowState {
   Idle = "Idle",
@@ -89,8 +90,12 @@ export const ManageFilesTransferFlow = ({
   )
 
   const handleClose = useCallback(() => {
-    setSelectedItems([])
     setFlowState(ManageFilesTransferFlowState.Idle)
+
+    setTimeout(() => {
+      setSelectedItems([])
+      setFailedTransfers([])
+    }, theme.app.constants.modalTransitionDuration)
   }, [])
 
   const validate = useManageFilesValidate({
