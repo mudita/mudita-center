@@ -28,7 +28,7 @@ export const saveBackupStep = async ({
   const header = {
     vendorId: device.vendorId,
     productId: device.productId,
-    serialNumber: device.serialNumber,
+    serialNumber: device.realSerialNumber,
     appVersion,
     ...(password
       ? { password: SHA3(password).toString(encBase64), crypto: "AES" }
