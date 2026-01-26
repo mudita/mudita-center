@@ -35,10 +35,10 @@ export const useActiveDeviceQuery = <D extends Device = Device>() => {
           if (!device) {
             return null
           }
-          if (!config?.serialNumber) {
-            return device
-          }
-          return { ...device, serialNumber: config.serialNumber } as D
+          return {
+            ...device,
+            realSerialNumber: config?.serialNumber || device.serialNumber,
+          } as D
         }
       )
     }
