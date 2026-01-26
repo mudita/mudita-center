@@ -163,11 +163,17 @@ export class SerialPortDevice extends SerialPort {
   }
 
   destroy(error?: Error): this {
-    this.drain()
     if (this.isOpen) {
-      this.close()
+      this.drain(() => {
+        this.close(() => {
+          super.destroy(error)
+        })
+      })
+    } else {
+      super.destroy(error)
     }
-    return super.destroy(error)
+
+    return this
   }
 
   public static getSubtype(
