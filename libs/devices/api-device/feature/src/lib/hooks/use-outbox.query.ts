@@ -25,8 +25,6 @@ import {
   DevicesQueryKeys,
   DeviceStatus,
 } from "devices/common/models"
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { useDeviceStatusQuery } from "devices/common/feature"
 
 export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   const queryClient = useQueryClient()
@@ -271,7 +269,7 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       }
       if (status) {
         queryClient.setQueryData(
-          useDeviceStatusQuery.queryKey(device?.id),
+          [DevicesQueryKeys.All, device?.id, "status"],
           status
         )
       }
