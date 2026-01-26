@@ -48,7 +48,7 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       }
       return outbox
     },
-    retry: 5,
+    retry: 4,
     retryDelay: 2000,
     refetchInterval: (response) => {
       const data = response.state.data
