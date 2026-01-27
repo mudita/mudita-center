@@ -34,3 +34,11 @@ export const SystemPostRequestValidator = z.union([
 export type SystemPostRequest = z.infer<typeof SystemPostRequestValidator>
 
 export const SystemPostResponseValidator = emptyBodySchema
+
+export const buildSystemPostRequest = (req: SystemPostRequest) => {
+  return {
+    endpoint: "SYSTEM",
+    method: "POST",
+    body: req,
+  } as const
+}
