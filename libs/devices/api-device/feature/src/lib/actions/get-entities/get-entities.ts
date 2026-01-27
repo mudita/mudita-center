@@ -61,7 +61,6 @@ export const getEntities = async ({
     entityResponse = await getEntitiesData(device, entitiesType)
 
     if (!entityResponse.ok) {
-      console.error(entityResponse.error)
       throw new Error("Failed to get entities data")
     }
   }

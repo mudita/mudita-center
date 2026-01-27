@@ -25,7 +25,11 @@ import {
   DeviceTroubleshooting,
   WelcomeScreen,
 } from "devices/common/ui"
-import { DevicesPaths, DeviceStatus } from "devices/common/models"
+import {
+  DevicesPaths,
+  DevicesQueryKeys,
+  DeviceStatus,
+} from "devices/common/models"
 import { MenuIndex } from "app-routing/models"
 import { NewsPaths } from "news/models"
 import { useAppNavigate } from "app-routing/utils"
@@ -38,6 +42,7 @@ import { setContactSupportModalVisible } from "contact-support/feature"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { ApiConfig } from "devices/api-device/models"
 import semver from "semver/preload"
+import { AppSerialPort } from "app-serialport/renderer"
 
 export const useDevicesInitRouter = () => {
   const queryClient = useQueryClient()
@@ -72,13 +77,28 @@ export const useDevicesInitRouter = () => {
     navigate({ pathname: DevicesPaths.Troubleshooting })
   }
 
-  const handleTryAgain = () => {
-    if (!activeDevice) {
-      return
+  const handleTryAgain = async () => {
+    if (activeDevice) {
+      // Reset only the active device
+      AppSerialPort.reset(activeDevice.id)
+      void queryClient.resetQueries({
+        queryKey: [DevicesQueryKeys.All, activeDevice.id],
+        exact: false,
+      })
+      void queryClient.resetQueries({
+        queryKey: [DevicesQueryKeys.All, "active"],
+        exact: true,
+      })
+    } else {
+      // Reset all devices
+      AppSerialPort.reset()
+      void queryClient.resetQueries({
+        queryKey: [DevicesQueryKeys.All],
+        exact: false,
+      })
     }
-    void queryClient.invalidateQueries({
-      queryKey: ["devices", activeDevice?.id],
-    })
+
+    navigate({ pathname: DevicesPaths.Connecting })
   }
 
   const handleContactSupport = () => {
