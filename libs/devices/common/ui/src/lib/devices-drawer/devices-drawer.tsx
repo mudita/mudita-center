@@ -47,6 +47,7 @@ export const DevicesDrawer: FunctionComponent<Props> = ({
                 icon={IconType.Close}
                 size={IconSize.Big}
                 onClick={onClose}
+                aria-label="Close drawer"
               />
             </Header>
             <List>{children}</List>
