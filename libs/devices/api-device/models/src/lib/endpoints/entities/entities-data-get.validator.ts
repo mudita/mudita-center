@@ -23,14 +23,14 @@ export type EntitiesFileDataRequest = z.infer<
   typeof GetEntitiesDataRequestValidator
 >
 
-const entitiesInProgressResponseSchema = response202Schema.extend({
+export const entitiesInProgressResponseSchema = response202Schema.extend({
   progress: z
     .int()
     .min(0)
     .transform((val) => Math.min(val, 100)),
 })
 
-const entitiesReadyResponseSchema = response200Schema.extend({
+export const entitiesReadyResponseSchema = response200Schema.extend({
   progress: z.literal(100).optional(),
   filePath: z.string(),
 })
@@ -56,3 +56,11 @@ export type GetEntitiesDataResponse200 = z.output<
 export type GetSingleEntityDataResponse = z.output<
   typeof singleEntityDataResponseSchema
 >
+
+export const buildEntitiesFileDataRequest = (req:EntitiesFileDataRequest) => {
+  return {
+    endpoint: "ENTITIES_DATA",
+    method: "GET",
+    body: req,
+  } as const
+}
