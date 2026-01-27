@@ -4,16 +4,14 @@
  */
 
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
-import { ApiDevice } from "devices/api-device/models"
+import { ApiDevice, buildFeatureConfigRequest } from "devices/api-device/models"
 
 export const getFeatureConfig = (device: ApiDevice, feature: string) => {
   return ApiDeviceSerialPort.request(device, {
-    endpoint: "FEATURE_CONFIGURATION",
-    method: "GET",
-    body: {
+    ...buildFeatureConfigRequest({
       lang: "en-US",
       feature,
-    },
+    }),
     options: {
       timeout: 3000,
     },
