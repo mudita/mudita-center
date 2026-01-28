@@ -38,8 +38,6 @@ jobs:
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ secrets.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          FRESHDESK_API_URL: ${{ secrets.FRESHDESK_API_URL }}
-          FRESHDESK_API_TOKEN: ${{ secrets.FRESHDESK_API_TOKEN }}
           ANALYTICS_ENABLED: ${{ secrets.ANALYTICS_ENABLED }}
           ANALYTICS_API_URL: ${{ secrets.ANALYTICS_API_URL }}
           ANALYTICS_API_SITE_ID: ${{ secrets.ANALYTICS_API_SITE_ID }}
@@ -66,8 +64,6 @@ jobs:
           GH_BUILD_TOKEN: ${{ secrets.GH_BUILD_TOKEN }}
           LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ secrets.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
-          FRESHDESK_API_URL: ${{ secrets.FRESHDESK_API_URL }}
-          FRESHDESK_API_TOKEN: ${{ secrets.FRESHDESK_API_TOKEN }}
           ANALYTICS_ENABLED: ${{ secrets.ANALYTICS_ENABLED }}
           ANALYTICS_API_URL: ${{ secrets.ANALYTICS_API_URL }}
           ANALYTICS_API_SITE_ID: ${{ secrets.ANALYTICS_API_SITE_ID }}
