@@ -3,11 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import axios, { AxiosResponse } from "axios"
 import { FreshdeskTicketData } from "Core/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 
-const url = process.env.FRESHDESK_API_URL
-const token = process.env.FRESHDESK_API_TOKEN
+const url = process.env.MUDITA_CENTER_SERVER_URL
 
 const createFreshdeskTicket = async ({
   type,
@@ -19,15 +18,6 @@ const createFreshdeskTicket = async ({
   attachments,
   product,
 }: FreshdeskTicketData): Promise<AxiosResponse<unknown>> => {
-  const config: AxiosRequestConfig = {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      Authorization: `Basic ${token}`,
-    },
-  }
-
   let description = tmpDescription
 
   // Freshdesk not allow create ticket with empty description
@@ -57,7 +47,7 @@ const createFreshdeskTicket = async ({
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  return axios.post(`${url}/api/v2/tickets`, formData, config)
+  return axios.post(`${url}/freshdesk`, formData)
 }
 
 export default (() => {
