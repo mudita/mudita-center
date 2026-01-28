@@ -149,7 +149,7 @@ export class SerialPortDevice extends SerialPort {
       return await this.createRequest({ options, ...data })
     } catch (error) {
       if (maxRetries > 0) {
-        return await this.request({
+        return this.request({
           options: {
             ...options,
             retries: maxRetries - 1,
@@ -163,7 +163,17 @@ export class SerialPortDevice extends SerialPort {
   }
 
   destroy(error?: Error): this {
-    return super.destroy(error)
+    if (this.isOpen) {
+      this.drain(() => {
+        this.close(() => {
+          super.destroy(error)
+        })
+      })
+    } else {
+      super.destroy(error)
+    }
+
+    return this
   }
 
   public static getSubtype(

@@ -38,10 +38,10 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
 
   const entitiesTypes = useMemo(() => {
     return uniq([
-      ...(internalMemory?.config.main.config.categories.map(
+      ...(internalMemory?.config?.main.config.categories.map(
         (c) => c.entityType
       ) || []),
-      ...(externalMemory?.config.main.config.categories.map(
+      ...(externalMemory?.config?.main.config.categories.map(
         (c) => c.entityType
       ) || []),
     ])

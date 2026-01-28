@@ -76,6 +76,7 @@ export const DashboardMenu: FunctionComponent<Props> = ({ className }) => {
                                   to={submenu.path}
                                   type={ButtonType.Text}
                                   modifiers={[ButtonTextModifier.DefaultCase]}
+                                  end
                                 >
                                   <Typography.P1
                                     as={"span"}
@@ -219,7 +220,7 @@ const MenuButton = styled(Button)`
     background: ${({ theme }) => theme.app.color.grey5};
   }
 
-  &[aria-current] {
+  &.active {
     color: ${({ theme }) => theme.app.color.black};
 
     &:not(:has(+ ${MenuGroupItems})) {
@@ -227,7 +228,7 @@ const MenuButton = styled(Button)`
     }
   }
 
-  &:not([aria-current]) + ${MenuGroupItems} {
+  &:not(.active) + ${MenuGroupItems} {
     height: calc-size(auto, size * 0);
     opacity: 0;
     visibility: hidden;

@@ -257,4 +257,20 @@ export class AppSerialPortService {
     const device = this.devices.get(id)
     return !!device?.freezer.timeout
   }
+
+  reset(id?: SerialPortDeviceId) {
+    if (id) {
+      const device = this.devices.get(id)
+      if (device) {
+        device?.instance?.destroy()
+        this.devices.delete(id)
+      }
+    } else {
+      for (const device of this.devices.values()) {
+        device?.instance?.destroy()
+      }
+      this.devices.clear()
+    }
+    void this.detectChanges()
+  }
 }

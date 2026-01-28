@@ -11,7 +11,7 @@ export const getApiDeviceConfig = async (device: ApiDevice) => {
     endpoint: "API_CONFIGURATION",
     method: "GET",
     options: {
-      timeout: 5000,
+      timeout: 3000,
     },
   })
 }

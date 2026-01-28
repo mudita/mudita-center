@@ -48,7 +48,10 @@ export const readBackupsList = async ({ device }: ReadBackupsListParams) => {
             const [name, ext] = file.split(".")
             const [date, serialNumber] = name.split("_")
 
-            if (ext !== "mcbackup" || serialNumber !== device.serialNumber) {
+            if (
+              ext !== "mcbackup" ||
+              serialNumber !== device.realSerialNumber
+            ) {
               return null
             }
             return {

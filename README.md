@@ -6,45 +6,31 @@
 
 Mudita Center is written in JavaScript and distributed as an Electron app.
 
-Mudita Center allows you to expand and update the features of Mudita Pure and Mudita Harmony, while using your computer. One application for every platform, open-sourced for transparency.
+Mudita Center allows you to expand and update the features of Mudita Kompakt and Mudita Harmony, while using your computer. One application for every platform, open-sourced for transparency.
 
-If you would like to help us create Mudita Center as a full-time job - **[we're hiring!](https://mudita.com/career/)**
+**Note:** The support for Mudita Pure is suspended as of Mudita Center 4.0.0. The last version supporting Mudita Pure is Mudita Center 3.2.1.
 
 ![Mudita Center interface screenshot](./mudita-center-screenshot.png)
-
-## Key features
-
-- updating MuditaOS
-- creating backups
-- managing contacts and messages from your desktop
-- enabling using Mudita Pure as a mobile hotspot
-- Windows, macOS, Linux support
-
-### Coming soon
-
-- recovery mode
-- synchronizing calendar and contacts with Google and Apple
-- managing notes and events from your desktop
-- uploading audio files
-- managing files
-- viewing meditation stats
 
 ## Table of contents
 
 - [Mudita Center](#mudita-center)
   - [Key features](#key-features)
-    - [Coming soon](#coming-soon)
-  - [Table of contents](#table-of-contents)
   - [Quickstart](#quickstart)
   - [Scripts](#scripts)
   - [Contributing](#contributing)
     - [Discussions](#discussions)
     - [Reporting bugs and feature requests](#reporting-bugs-and-feature-requests)
     - [Development workflow](#development-workflow)
+    - [Feature Development workflow](#feature-development-workflow)
   - [Changelog](#changelog)
   - [License](#license)
-  - [Hiding sensitive data](#hiding-sensitive-data)
-  - [Services](#services)
+
+## Key features
+
+- managing contacts and files from your desktop
+- creating and restoring backups
+- Windows, macOS, Linux support
 
 ## Quickstart
 
@@ -70,6 +56,10 @@ You can report bugs and feature requests on [GitHub](https://github.com/Mudita/m
 
 When contributing code or documentation changes please follow the guidelines inside the ["Development workflow"](./development_workflow.md) article.
 
+### Feature Development workflow
+
+When developing new features for Mudita Center please follow the guidelines inside the ["Feature Development workflow"](./feature-development_workflow.md) article.
+
 ## Changelog
 
 The [Mudita Center changelog](https://github.com/Mudita/mudita-center/releases) is regularly updated by the core development team.
@@ -77,15 +67,3 @@ The [Mudita Center changelog](https://github.com/Mudita/mudita-center/releases) 
 ## License
 
 Mudita Center is licensed under [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/).
-
-## Hiding sensitive data
-
-As a Mudita we take care of the security of your data. All data we are collecting are hidden. If you will add a new query in request path, that contains sensitive data, you need to add it to scrubFields array in logger.ts
-
-## Services
-
-You'll need access to the following services in order to develop the app.
-
-| Service | Description                                       | URL                 |
-| ------- | ------------------------------------------------- | ------------------- |
-| Codecov | Code coverage reporter and static code validator. | https://codecov.io/ |
