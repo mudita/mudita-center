@@ -18,7 +18,7 @@ describe("Contact Support - Happy Path", () => {
   before(async () => {
     await goToSupportModal({
       method: "POST",
-      url: "/api/v2/tickets",
+      url: `${process.env.VITE_MUDITA_CENTER_SERVER_URL}/freshdesk`,
       response: AppResultFactory.success(),
     })
   })
