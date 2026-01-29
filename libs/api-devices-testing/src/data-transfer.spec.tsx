@@ -6,7 +6,6 @@
 import { crc32 } from "node:zlib"
 import random from "lodash/random"
 import {
-  ApiDevice,
   buildDataTransferGetRequest,
   buildDataTransferPostRequest,
   buildFileTransferDeleteRequest,
@@ -18,34 +17,33 @@ import {
   PreDataTransferPostResponseValidator,
   PreFileTransferPostResponseValidator,
 } from "devices/api-device/models"
-import { AppSerialPortService } from "app-serialport/main"
 import { delay } from "app-utils/common"
-import { getApiDevice } from "./helpers/get-api-device"
-import { getSerialPortService } from "./helpers/get-serial-port-service"
 import {
   getEmptyTransferData,
   getFullTransferData,
   getInvalidTransferData,
 } from "./helpers/file-transfer-data"
 import { withBodyStatus } from "./helpers/with-body-status"
+import {
+  ApiDeviceContext,
+  initApiDeviceContext,
+} from "./helpers/api-device-context"
 
-let device: ApiDevice
-let serialPortService: AppSerialPortService
+let apiDeviceContext: ApiDeviceContext
 let importFeatures: {
   feature: string
   key: string
 }[]
 
 describe("Data transfer", () => {
-  beforeAll(async () => {
-    device = await getApiDevice()
-    serialPortService = await getSerialPortService()
+  beforeEach(async () => {
+    apiDeviceContext = await initApiDeviceContext()
     await fetchSupportedFeatures()
-  }, 10000)
+  }, 10_000)
 
-  afterAll(async () => {
-    serialPortService.close(device.id)
-  })
+  afterEach(async () => {
+    await apiDeviceContext.reset()
+  }, 10_000)
 
   it("should perform import process for empty restore data", async () => {
     const base64Sources = getEmptyTransferData()
@@ -84,6 +82,7 @@ describe("Data transfer", () => {
     base64Sources: { [key: string]: string } = {},
     errorExpected: boolean
   ) {
+    const { service, deviceId } = apiDeviceContext
     const filteredRestoreFeatures = importFeatures.filter(
       ({ feature }) => feature in base64Sources
     )
@@ -91,21 +90,20 @@ describe("Data transfer", () => {
     let dataTransferId = random(1, 100000)
     let domainsResponse: { [key: string]: string } = {}
 
-    await serialPortService.request(
-      device.id,
+    await service.request(
+      deviceId,
       buildFileTransferDeleteRequest({
         fileTransferId: -1,
       })
     )
 
-    const startPreDataTransferResponse = await serialPortService.request(
-      device.id,
+    const startPreDataTransferResponse = await service.request(
+      deviceId,
       buildPreDataTransferPostRequest({
         dataTransferId: dataTransferId,
         domains: filteredRestoreFeatures.map((item) => item.key),
       })
     )
-    console.log(startPreDataTransferResponse)
 
     const startPreDataTransferResponseData =
       PreDataTransferPostResponseValidator.parse(
@@ -138,8 +136,8 @@ describe("Data transfer", () => {
         .toLowerCase()
         .padStart(8, "0")
 
-      const preTransferResponse = await serialPortService.request(
-        device.id,
+      const preTransferResponse = await service.request(
+        deviceId,
         buildPreFileTransferPostRequest({
           filePath: featurePath,
           fileSize: base64Source.length,
@@ -157,8 +155,8 @@ describe("Data transfer", () => {
           (chunkNumber + 1) * chunkSize
         )
 
-        const fileTransferResponse = await serialPortService.request(
-          device.id,
+        const fileTransferResponse = await service.request(
+          deviceId,
           buildFileTransferPostRequest({
             transferId: preFileTransferPostResponseData.transferId,
             chunkNumber: chunkNumber + 1,
@@ -169,19 +167,17 @@ describe("Data transfer", () => {
       }
     }
 
-    const buildDataTransferPostResponse = await serialPortService.request(
-      device.id,
+    const buildDataTransferPostResponse = await service.request(
+      deviceId,
       buildDataTransferPostRequest({
         dataTransferId: dataTransferId,
       })
     )
 
-    console.log(buildDataTransferPostResponse)
-
     let importResult = true
     while (importProgress < 100) {
-      const checkDataTransferResponse = await serialPortService.request(
-        device.id,
+      const checkDataTransferResponse = await service.request(
+        deviceId,
         buildDataTransferGetRequest({
           dataTransferId: dataTransferId,
         })

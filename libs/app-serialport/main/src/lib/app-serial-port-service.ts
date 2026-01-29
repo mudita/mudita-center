@@ -58,7 +58,7 @@ export class AppSerialPortService {
     return this.initPromise
   }
 
-  private async detectChanges({ initial }: { initial?: boolean } = {}) {
+  public async detectChanges({ initial }: { initial?: boolean } = {}) {
     const connectedDevices = await AppSerialportDeviceScanner.scan()
 
     const changedDevices: SerialPortChangedDevices = {
@@ -262,7 +262,7 @@ export class AppSerialPortService {
     return !!device?.freezer.timeout
   }
 
-  reset(id?: SerialPortDeviceId) {
+  reset(id?: SerialPortDeviceId, { rescan = true } = {}) {
     if (id) {
       const device = this.devices.get(id)
       if (device) {
@@ -275,6 +275,9 @@ export class AppSerialPortService {
       }
       this.devices.clear()
     }
-    void this.detectChanges()
+
+    if (rescan) {
+      void this.detectChanges()
+    }
   }
 }

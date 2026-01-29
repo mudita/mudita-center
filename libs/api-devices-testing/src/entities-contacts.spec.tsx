@@ -4,7 +4,6 @@
  */
 
 import {
-  ApiDevice,
   buildDeleteEntitiesRequest,
   buildEntitiesFileDataRequest,
   buildPatchEntityDataRequest,
@@ -15,9 +14,6 @@ import {
   PatchEntityDataResponseValidator,
   PostEntityDataResponseValidator,
 } from "devices/api-device/models"
-import { AppSerialPortService } from "app-serialport/main"
-import { getApiDevice } from "./helpers/get-api-device"
-import { getSerialPortService } from "./helpers/get-serial-port-service"
 import {
   contactFullData1,
   contactFullData2,
@@ -27,25 +23,25 @@ import {
 import { withBodyStatus } from "./helpers/with-body-status"
 import { clearContact } from "./helpers/clear-contact-data"
 import { clearDeviceData } from "./helpers/clear-device-data"
+import {
+  ApiDeviceContext,
+  initApiDeviceContext,
+} from "./helpers/api-device-context"
 
-let device: ApiDevice
-let serialPortService: AppSerialPortService
+let apiDeviceContext: ApiDeviceContext
 
 describe("Contact entities", () => {
-  beforeAll(async () => {
-    device = await getApiDevice()
-    serialPortService = await getSerialPortService()
-  }, 10000)
-
-  afterAll(async () => {
-    serialPortService.close(device.id)
-  })
-
   beforeEach(async () => {
-    await clearDeviceData()
-  })
+    apiDeviceContext = await initApiDeviceContext()
+    await clearDeviceData(apiDeviceContext)
+  }, 10_000)
+
+  afterEach(async () => {
+    await apiDeviceContext.reset()
+  }, 10_000)
 
   it("should remove contact entity with valid entityId", async () => {
+    const { service, deviceId } = apiDeviceContext
     const id = await createContact(contactFullData1)
 
     expect(id).toBeDefined()
@@ -54,8 +50,8 @@ describe("Contact entities", () => {
       return
     }
 
-    const removeEntitiesResult = await serialPortService.request(
-      device.id,
+    const removeEntitiesResult = await service.request(
+      deviceId,
       buildDeleteEntitiesRequest({
         entityType: "contacts",
         ids: [id],
@@ -66,6 +62,7 @@ describe("Contact entities", () => {
   })
 
   it("should return success with failedIds while removing valid and invalid contacts entityIds in one request", async () => {
+    const { service, deviceId } = apiDeviceContext
     const id = await createContact(contactFullData1)
 
     expect(id).toBeDefined()
@@ -74,8 +71,8 @@ describe("Contact entities", () => {
       return
     }
 
-    const removeEntitiesResult = await serialPortService.request(
-      device.id,
+    const removeEntitiesResult = await service.request(
+      deviceId,
       buildDeleteEntitiesRequest({
         entityType: "contacts",
         ids: [id, "0", "-1"],
@@ -90,8 +87,9 @@ describe("Contact entities", () => {
   })
 
   it("should return error with incorrect-response type for invalid contacts entityIds", async () => {
-    const removeEntitiesResult = await serialPortService.request(
-      device.id,
+    const { service, deviceId } = apiDeviceContext
+    const removeEntitiesResult = await service.request(
+      deviceId,
       buildDeleteEntitiesRequest({
         entityType: "contacts",
         ids: ["0", "-1"],
@@ -101,6 +99,7 @@ describe("Contact entities", () => {
   })
 
   it("should correctly add contacts with complete and varied fields", async () => {
+    const { service, deviceId } = apiDeviceContext
     for (const contact of contactsSeedData) {
       const id = await createContact(contact)
 
@@ -109,8 +108,8 @@ describe("Contact entities", () => {
       if (id === undefined) {
         return
       }
-      const contactResponse = await serialPortService.request(
-        device.id,
+      const contactResponse = await service.request(
+        deviceId,
         buildEntitiesFileDataRequest({
           entityType: "contacts",
           responseType: "json",
@@ -126,6 +125,7 @@ describe("Contact entities", () => {
   }, 120000)
 
   it("should correctly update contacts with complete and varied fields", async () => {
+    const { service, deviceId } = apiDeviceContext
     const id = await createContact(contactFullData2)
     expect(id).toBeDefined()
 
@@ -141,8 +141,8 @@ describe("Contact entities", () => {
         return
       }
 
-      const updatedContactResponse = await serialPortService.request(
-        device.id,
+      const updatedContactResponse = await service.request(
+        deviceId,
         buildEntitiesFileDataRequest({
           entityType: "contacts",
           responseType: "json",
@@ -163,6 +163,7 @@ describe("Contact entities", () => {
   }, 120000)
 
   it("should clear all contact fields except first name when only first name is provided", async () => {
+    const { service, deviceId } = apiDeviceContext
     const id = await createContact(contactFullData2)
 
     expect(id).toBeDefined()
@@ -178,8 +179,8 @@ describe("Contact entities", () => {
       return
     }
 
-    const updatedContactResponse = await serialPortService.request(
-      device.id,
+    const updatedContactResponse = await service.request(
+      deviceId,
       buildEntitiesFileDataRequest({
         entityType: "contacts",
         responseType: "json",
@@ -198,8 +199,9 @@ describe("Contact entities", () => {
   })
 
   async function createContact(data: EntityData): Promise<string | undefined> {
-    const createEntityResult = await serialPortService.request(
-      device.id,
+    const { service, deviceId } = apiDeviceContext
+    const createEntityResult = await service.request(
+      deviceId,
       buildPostEntityDataRequest({
         entityType: "contacts",
         data: data,
@@ -218,8 +220,9 @@ describe("Contact entities", () => {
     entityId: string,
     data: EntityData
   ): Promise<string | undefined> {
-    const updateEntityResult = await serialPortService.request(
-      device.id,
+    const { service, deviceId } = apiDeviceContext
+    const updateEntityResult = await service.request(
+      deviceId,
       buildPatchEntityDataRequest({
         entityType: "contacts",
         entityId,

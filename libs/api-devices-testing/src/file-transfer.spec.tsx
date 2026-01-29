@@ -7,36 +7,31 @@ import path from "path"
 import { crc32 } from "node:zlib"
 import { readFileSync } from "fs-extra"
 import {
-  ApiDevice,
   buildFileTransferDeleteRequest,
   buildFileTransferPostRequest,
   buildPreFileTransferPostRequest,
   PreFileTransferPostResponseValidator,
 } from "devices/api-device/models"
 import { execPromise } from "app-utils/main"
-import { AppSerialPortService } from "app-serialport/main"
-import { getApiDevice } from "./helpers/get-api-device"
-import { getSerialPortService } from "./helpers/get-serial-port-service"
+import {
+  ApiDeviceContext,
+  initApiDeviceContext,
+} from "./helpers/api-device-context"
 
-let device: ApiDevice
-let serialPortService: AppSerialPortService
+let apiDeviceContext: ApiDeviceContext
 const validTargetPath = "/storage/emulated/0/testfile"
 const invalidTargetPath = "/storage/emulated/1/testfile"
 const sourcePath = path.resolve(__dirname, "./test-files/sample.png")
 
 describe("File transfer", () => {
-  beforeAll(async () => {
-    device = await getApiDevice()
-    serialPortService = await getSerialPortService()
-  }, 10000)
+  beforeEach(async () => {
+    apiDeviceContext = await initApiDeviceContext()
+  }, 10_000)
 
   afterEach(async () => {
     await removeFile(validTargetPath)
-  }, 10000)
-
-  afterAll(async () => {
-    serialPortService.close(device.id)
-  })
+    await apiDeviceContext.reset()
+  }, 10_000)
 
   it("should send file into device and return valid responses", async () => {
     await sendFile(sourcePath, validTargetPath, true)
@@ -47,10 +42,11 @@ describe("File transfer", () => {
   }, 30000)
 
   it("file transfer delete should return success with 200 status for valid targetPath", async () => {
+    const { service, deviceId } = apiDeviceContext
     const transferId = await sendFile(sourcePath, validTargetPath, true)
     expect(transferId).toBeGreaterThan(-1)
-    const deleteResult = await serialPortService.request(
-      device.id,
+    const deleteResult = await service.request(
+      deviceId,
       buildFileTransferDeleteRequest({
         fileTransferId: transferId,
       })
@@ -60,8 +56,9 @@ describe("File transfer", () => {
   }, 30000)
 
   it("file transfer delete should return success with 207 status for invalid targetPath", async () => {
-    const deleteResult = await serialPortService.request(
-      device.id,
+    const { service, deviceId } = apiDeviceContext
+    const deleteResult = await service.request(
+      deviceId,
       buildFileTransferDeleteRequest({
         fileTransferId: -10,
       })
@@ -74,6 +71,7 @@ describe("File transfer", () => {
     targetPath: string,
     expectedResult: boolean
   ): Promise<number> => {
+    const { service, deviceId } = apiDeviceContext
     let transferId = -1
 
     const file = readFileSync(sourceFile, {
@@ -83,8 +81,8 @@ describe("File transfer", () => {
     const crc = (crc32(file) >>> 0).toString(16).toLowerCase().padStart(8, "0")
     const fileSize = file.length
 
-    const preTransferResponse = await serialPortService.request(
-      device.id,
+    const preTransferResponse = await service.request(
+      deviceId,
       buildPreFileTransferPostRequest({
         filePath: targetPath,
         fileSize: fileSize,
@@ -106,18 +104,13 @@ describe("File transfer", () => {
           chunkNumber * chunkSize,
           (chunkNumber + 1) * chunkSize
         )
-        const fileTransferResponse = await serialPortService.request(
-          device.id,
+        const fileTransferResponse = await service.request(
+          deviceId,
           buildFileTransferPostRequest({
             transferId: transferId,
             chunkNumber: chunkNumber + 1,
             data,
           })
-        )
-
-        console.log(
-          `FileTransferResponse (chunk ${chunkNumber + 1}):`,
-          fileTransferResponse.status
         )
 
         // expect(fileTransferResponse.status).toBe(200)

@@ -4,37 +4,37 @@
  */
 
 import {
-  ApiDevice,
   buildFeatureConfigRequest,
   buildFeatureDataRequest,
 } from "devices/api-device/models"
-import { AppSerialPortService } from "app-serialport/main"
-import { getApiDevice } from "./helpers/get-api-device"
-import { getSerialPortService } from "./helpers/get-serial-port-service"
 import { getApiFeaturesAndEntityTypes } from "./helpers/get-api-features-and-entity-types"
+import {
+  ApiDeviceContext,
+  initApiDeviceContext,
+} from "./helpers/api-device-context"
 
-let device: ApiDevice
-let serialPortService: AppSerialPortService
+let apiDeviceContext: ApiDeviceContext
 let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 const notSupportedDataFeatures: string[] = ["dummy-feature"]
 
 describe("Feature Configuration and Data", () => {
-  beforeAll(async () => {
-    device = await getApiDevice()
-    serialPortService = await getSerialPortService()
-    featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(device)
+  beforeEach(async () => {
+    apiDeviceContext = await initApiDeviceContext()
+    featuresAndEntityTypes =
+      await getApiFeaturesAndEntityTypes(apiDeviceContext)
     featuresAndEntityTypes.features = featuresAndEntityTypes.features.filter(
       (feature) => feature !== "mc-overview"
     )
-  }, 10000)
+  }, 10_000)
 
-  afterAll(async () => {
-    serialPortService.close(device.id)
-  })
+  afterEach(async () => {
+    await apiDeviceContext.reset()
+  }, 10_000)
 
   it("should receive valid configuration for mc-overview feature", async () => {
-    const result = await serialPortService.request(
-      device.id,
+    const { service, deviceId } = apiDeviceContext
+    const result = await service.request(
+      deviceId,
       buildFeatureConfigRequest({
         feature: "mc-overview",
         lang: "en-US",
@@ -49,9 +49,10 @@ describe("Feature Configuration and Data", () => {
   })
 
   it("should receive valid configuration for every generic feature", async () => {
+    const { service, deviceId } = apiDeviceContext
     for (const feature of featuresAndEntityTypes.features) {
-      const result = await serialPortService.request(
-        device.id,
+      const result = await service.request(
+        deviceId,
         buildFeatureConfigRequest({
           feature: feature,
           lang: "en-US",
@@ -62,8 +63,9 @@ describe("Feature Configuration and Data", () => {
   })
 
   it("should return error for invalid feature", async () => {
-    const result = await serialPortService.request(
-      device.id,
+    const { service, deviceId } = apiDeviceContext
+    const result = await service.request(
+      deviceId,
       buildFeatureConfigRequest({
         feature: "dummyFeature",
         lang: "en-US",
@@ -74,21 +76,22 @@ describe("Feature Configuration and Data", () => {
   })
 
   it("should receive valid data for ms-overview feature", async () => {
-    const result = await serialPortService.request(
-      device.id,
+    const { service, deviceId } = apiDeviceContext
+    const result = await service.request(
+      deviceId,
       buildFeatureDataRequest({
         feature: "mc-overview",
         lang: "en-US",
       })
     )
-    console.log(result)
     expect(result.status).toBe(200)
   })
 
   it("should receive valid data for every generic feature", async () => {
+    const { service, deviceId } = apiDeviceContext
     for (const feature of featuresAndEntityTypes.features) {
-      const result = await serialPortService.request(
-        device.id,
+      const result = await service.request(
+        deviceId,
         buildFeatureDataRequest({
           feature: feature,
           lang: "en-US",
@@ -101,8 +104,9 @@ describe("Feature Configuration and Data", () => {
   it.each(notSupportedDataFeatures)(
     "should return error for %s feature",
     async (feature) => {
-      const result = await serialPortService.request(
-        device.id,
+      const { service, deviceId } = apiDeviceContext
+      const result = await service.request(
+        deviceId,
         buildFeatureDataRequest({
           feature: feature,
           lang: "en-US",

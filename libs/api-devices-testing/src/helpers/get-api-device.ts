@@ -5,15 +5,30 @@
 
 import { ApiDevice } from "devices/api-device/models"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
-import { getSerialPortService } from "./get-serial-port-service"
+import { AppSerialPortService } from "app-serialport/main"
+import { delay } from "app-utils/common"
 
-export const getApiDevice = async (): Promise<ApiDevice> => {
-  const serialPortService = await getSerialPortService()
-  const device = serialPortService.getCurrentDevices()[0]
+export const waitForApiDevice = async (
+  service: AppSerialPortService,
+  {
+    timeoutMs = 10_000,
+    tickMs = 100,
+  }: { timeoutMs?: number; tickMs?: number } = {}
+): Promise<ApiDevice> => {
+  const start = Date.now()
 
-  if (ApiDeviceSerialPort.isCompatible(device)) {
-    return device
-  } else {
-    throw new Error("No compatible API device found")
+  while (Date.now() - start < timeoutMs) {
+    await service.detectChanges()
+    const device = service
+      .getCurrentDevices()
+      .find(ApiDeviceSerialPort.isCompatible)
+
+    if (device) {
+      return device as ApiDevice
+    }
+
+    await delay(tickMs)
   }
+
+  throw new Error("No compatible API device found (timeout)")
 }

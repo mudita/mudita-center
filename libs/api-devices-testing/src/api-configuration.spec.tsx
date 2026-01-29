@@ -6,13 +6,13 @@
 import { KompaktProductID, KompaktVendorID } from "app-serialport/models"
 import {
   ApiConfigResponseValidator,
-  ApiDevice,
   buildApiConfigRequest,
 } from "devices/api-device/models"
-import { AppSerialPortService } from "app-serialport/main"
-import { getApiDevice } from "./helpers/get-api-device"
+import {
+  ApiDeviceContext,
+  initApiDeviceContext,
+} from "./helpers/api-device-context"
 import { getApiFeaturesAndEntityTypes } from "./helpers/get-api-features-and-entity-types"
-import { getSerialPortService } from "./helpers/get-serial-port-service"
 
 let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 
@@ -20,22 +20,23 @@ beforeEach(() => {
   jest.resetModules()
 })
 
-let device: ApiDevice
-let serialPortService: AppSerialPortService
+let apiDeviceContext: ApiDeviceContext
 
 describe("API configuration", () => {
-  beforeAll(async () => {
-    device = await getApiDevice()
-    serialPortService = await getSerialPortService()
-    featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(device)
-  }, 30000)
+  beforeEach(async () => {
+    apiDeviceContext = await initApiDeviceContext()
+    featuresAndEntityTypes =
+      await getApiFeaturesAndEntityTypes(apiDeviceContext)
+  }, 10_000)
 
-  afterAll(async () => {
-    serialPortService.close(device.id)
-  })
+  afterEach(async () => {
+    await apiDeviceContext.reset()
+  }, 10_000)
 
   it("should receive API configuration", async () => {
-    const result = await serialPortService.request(device.id, {
+    const { service, deviceId } = apiDeviceContext
+
+    const result = await service.request(deviceId, {
       ...buildApiConfigRequest(),
       options: { timeout: 5000 },
     })
@@ -44,13 +45,16 @@ describe("API configuration", () => {
   })
 
   it.skip("should receive API configuration error on invalid deviceId", async () => {
+    const { service } = apiDeviceContext
     await expect(
-      await serialPortService.request("invalid", buildApiConfigRequest())
+      await service.request("invalid", buildApiConfigRequest())
     ).rejects.toThrow("Device not found at id invalid.")
   })
 
   it("should receive valid API configuration response", async () => {
-    const result = await serialPortService.request(device.id, {
+    const { service, deviceId } = apiDeviceContext
+
+    const result = await service.request(deviceId, {
       ...buildApiConfigRequest(),
       options: { timeout: 5000 },
     })

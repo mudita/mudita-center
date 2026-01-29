@@ -5,7 +5,6 @@
 
 import path from "path"
 import {
-  ApiDevice,
   AppInstallGetResponseValidator,
   AppInstallPostResponseValidator,
   buildGetAppInstallRequest,
@@ -13,22 +12,21 @@ import {
 } from "devices/api-device/models"
 import { delay } from "app-utils/common"
 import { execPromise } from "app-utils/main"
-import { AppSerialPortService } from "app-serialport/main"
-import { getApiDevice } from "./helpers/get-api-device"
-import { getSerialPortService } from "./helpers/get-serial-port-service"
+import {
+  ApiDeviceContext,
+  initApiDeviceContext,
+} from "./helpers/api-device-context"
 
 const testFilesDir = "test-files"
 const appPath = "/storage/emulated/0/Applications"
 const validApkName = "valid.apk"
 const incompatibleApkName = "invalid.apk"
 
-let device: ApiDevice
-let serialPortService: AppSerialPortService
+let apiDeviceContext: ApiDeviceContext
 
 describe("App install", () => {
-  beforeAll(async () => {
-    device = await getApiDevice()
-    serialPortService = await getSerialPortService()
+  beforeEach(async () => {
+    apiDeviceContext = await initApiDeviceContext()
 
     const localPath = path.join(__dirname, testFilesDir)
     try {
@@ -37,7 +35,11 @@ describe("App install", () => {
     } catch (err) {
       console.log(err)
     }
-  }, 20000)
+  }, 10_000)
+
+  afterEach(async () => {
+    await apiDeviceContext.reset()
+  }, 10_000)
 
   afterAll(async () => {
     try {
@@ -46,13 +48,12 @@ describe("App install", () => {
     } catch (err) {
       console.log(err)
     }
-
-    serialPortService.close(device.id)
-  })
+  }, 10_000)
 
   it("should return error 404 if the APK doesn't exist", async () => {
-    const result = await serialPortService.request(
-      device.id,
+    const { service, deviceId } = apiDeviceContext
+    const result = await service.request(
+      deviceId,
       buildPostAppInstallRequest({
         filePath: "dummyPath",
       })
@@ -61,9 +62,10 @@ describe("App install", () => {
   })
 
   it("should return success response if the APK is valid", async () => {
+    const { service, deviceId } = apiDeviceContext
     const apkPath = `${appPath}/${testFilesDir}/${validApkName}`
-    const result = await serialPortService.request(
-      device.id,
+    const result = await service.request(
+      deviceId,
       buildPostAppInstallRequest({
         filePath: apkPath,
       })
@@ -73,8 +75,8 @@ describe("App install", () => {
     let progress = 0
     await delay(500)
     while (progress < 100) {
-      const checkResult = await serialPortService.request(
-        device.id,
+      const checkResult = await service.request(
+        deviceId,
         buildGetAppInstallRequest({
           installationId: data.installationId,
         })
@@ -89,9 +91,10 @@ describe("App install", () => {
   }, 60000)
 
   it("should return error 401 if the APK is incompatible", async () => {
+    const { service, deviceId } = apiDeviceContext
     const apkPath = `${appPath}/${testFilesDir}/${incompatibleApkName}`
-    const result = await serialPortService.request(
-      device.id,
+    const result = await service.request(
+      deviceId,
       buildPostAppInstallRequest({
         filePath: apkPath,
       })
@@ -100,8 +103,8 @@ describe("App install", () => {
     const data = AppInstallPostResponseValidator.parse(result.body)
     expect(result.status).toBe(200)
 
-    const checkResult = await serialPortService.request(
-      device.id,
+    const checkResult = await service.request(
+      deviceId,
       buildGetAppInstallRequest({
         installationId: data.installationId,
       })

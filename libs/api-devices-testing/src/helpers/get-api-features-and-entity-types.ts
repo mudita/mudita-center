@@ -5,15 +5,17 @@
 
 import {
   ApiConfigResponseValidator,
-  ApiDevice,
   buildApiConfigRequest,
 } from "devices/api-device/models"
-import { getSerialPortService } from "./get-serial-port-service"
+import { ApiDeviceContext } from "./api-device-context"
 
-export async function getApiFeaturesAndEntityTypes(device: ApiDevice): Promise<{
+export async function getApiFeaturesAndEntityTypes(
+  apiDeviceContext: ApiDeviceContext
+): Promise<{
   features: string[]
   entityTypes: string[]
 }> {
+  const { service, deviceId } = apiDeviceContext
   const genericFeatures = [
     "mc-overview",
     "mc-contacts",
@@ -33,8 +35,7 @@ export async function getApiFeaturesAndEntityTypes(device: ApiDevice): Promise<{
     "applicationFiles",
   ].sort()
 
-  const serialPortService = await getSerialPortService()
-  const result = await serialPortService.request(device.id, {
+  const result = await service.request(deviceId, {
     ...buildApiConfigRequest(),
     options: { timeout: 5000 },
   })

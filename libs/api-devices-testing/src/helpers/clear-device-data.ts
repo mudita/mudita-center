@@ -4,14 +4,12 @@
  */
 
 import { buildSystemPostRequest } from "devices/api-device/models"
-import { getApiDevice } from "./get-api-device"
-import { getSerialPortService } from "./get-serial-port-service"
+import { ApiDeviceContext } from "./api-device-context"
 
-export const clearDeviceData = async () => {
-  const device = await getApiDevice()
-  const serialPortService = await getSerialPortService()
-  return await serialPortService.request(
-    device.id,
+export const clearDeviceData = async (apiDeviceContext: ApiDeviceContext) => {
+  const { service, deviceId } = apiDeviceContext
+  return await service.request(
+    deviceId,
     buildSystemPostRequest({
       action: "clearData",
     })

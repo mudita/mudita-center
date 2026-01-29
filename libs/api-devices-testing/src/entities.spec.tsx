@@ -5,25 +5,25 @@
 
 import {
   ApiConfigResponseValidator,
-  ApiDevice,
   buildApiConfigRequest,
   buildEntitiesFileDataRequest,
   entitiesReadyResponseSchema,
   GetEntitiesDataResponseValidator,
 } from "devices/api-device/models"
-import { AppSerialPortService } from "app-serialport/main"
-import { getApiDevice } from "./helpers/get-api-device"
-import { getSerialPortService } from "./helpers/get-serial-port-service"
 import { withBodyStatus } from "./helpers/with-body-status"
+import {
+  ApiDeviceContext,
+  initApiDeviceContext,
+} from "./helpers/api-device-context"
 
-let device: ApiDevice
-let serialPortService: AppSerialPortService
+let apiDeviceContext: ApiDeviceContext
 
 describe("Entities configuration, metadata and data", () => {
   let entityTypes: string[]
 
   async function fetchSupportedEntities() {
-    const result = await serialPortService.request(device.id, {
+    const { service, deviceId } = apiDeviceContext
+    const result = await service.request(deviceId, {
       ...buildApiConfigRequest(),
       options: { timeout: 5000 },
     })
@@ -32,29 +32,28 @@ describe("Entities configuration, metadata and data", () => {
     expect(entityTypes.length).toBeGreaterThan(0)
   }
 
-  beforeAll(async () => {
-    device = await getApiDevice()
-    serialPortService = await getSerialPortService()
+  beforeEach(async () => {
+    apiDeviceContext = await initApiDeviceContext()
     await fetchSupportedEntities()
-  }, 10000)
+  }, 10_000)
 
-  afterAll(async () => {
-    serialPortService.close(device.id)
-  })
+  afterEach(async () => {
+    await apiDeviceContext.reset()
+  }, 10_000)
 
   it("should return successful response for entity configuration", async () => {
+    const { service, deviceId } = apiDeviceContext
     expect(entityTypes).toBeDefined()
     expect(entityTypes.length).toBeGreaterThan(0)
 
     for (const entityType of entityTypes) {
-      const result = await serialPortService.request(device.id, {
+      const result = await service.request(deviceId, {
         ...buildEntitiesFileDataRequest({
           entityType,
           responseType: "file",
         }),
         options: { timeout: 5000 },
       })
-
 
       const enriched = withBodyStatus(result)
       const entitiesFileData = GetEntitiesDataResponseValidator.parse(
@@ -67,11 +66,12 @@ describe("Entities configuration, metadata and data", () => {
   })
 
   it("should return successful response for entity metadata", async () => {
+    const { service, deviceId } = apiDeviceContext
     expect(entityTypes).toBeDefined()
     expect(entityTypes.length).toBeGreaterThan(0)
 
     for (const entityType of entityTypes) {
-      const result = await serialPortService.request(device.id, {
+      const result = await service.request(deviceId, {
         endpoint: "ENTITIES_METADATA",
         method: "GET",
         body: {
@@ -83,6 +83,7 @@ describe("Entities configuration, metadata and data", () => {
   }, 10_000)
 
   it("should return successful response for entity data", async () => {
+    const { service, deviceId } = apiDeviceContext
     expect(entityTypes).toBeDefined()
     expect(entityTypes.length).toBeGreaterThan(0)
 
@@ -90,7 +91,7 @@ describe("Entities configuration, metadata and data", () => {
       let progress = 0
       let status = 0
 
-      const createEntitiesResult = await serialPortService.request(device.id, {
+      const createEntitiesResult = await service.request(deviceId, {
         endpoint: "ENTITIES_DATA",
         method: "GET",
         body: {
@@ -100,11 +101,10 @@ describe("Entities configuration, metadata and data", () => {
         },
       })
 
-
       expect(createEntitiesResult.status).toBe(200)
 
       while (status !== 200) {
-        const getEntitiesResult = await serialPortService.request(device.id, {
+        const getEntitiesResult = await service.request(deviceId, {
           endpoint: "ENTITIES_DATA",
           method: "GET",
           body: {
@@ -113,7 +113,6 @@ describe("Entities configuration, metadata and data", () => {
             action: "get",
           },
         })
-
 
         expect(getEntitiesResult.status).toBeDefined()
 

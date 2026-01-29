@@ -18,6 +18,10 @@ const lockSchema = z.object({
   action: z.literal("lock"),
 })
 
+const clearDataSchema = z.object({
+  action: z.literal("clearData"),
+})
+
 const serialPortSetupSchema = z.object({
   action: z.literal("serial-port-setup"),
   chunkSizeInBytes: z.int().positive().optional().default(14336),
@@ -29,6 +33,7 @@ export const SystemPostRequestValidator = z.union([
   rebootSchema,
   lockSchema,
   serialPortSetupSchema,
+  clearDataSchema,
 ])
 
 export type SystemPostRequest = z.infer<typeof SystemPostRequestValidator>
