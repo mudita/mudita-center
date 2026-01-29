@@ -10,4 +10,5 @@ export const AppActions = {
   openFileDialog: window.api.appActions.openFileDialog,
   openWindow: window.api.appActions.openWindow,
   getAppVersion: window.api.appActions.getAppVersion,
+  openExternalLink: window.api.appActions.openExternalLink,
 }

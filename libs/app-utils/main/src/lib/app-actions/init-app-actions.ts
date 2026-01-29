@@ -37,4 +37,12 @@ export const initAppActions = (
   ipcMain.handle(AppActionsIpcEvents.GetVersion, () => {
     return appActionsService.getAppVersion()
   })
+
+  ipcMain.removeHandler(AppActionsIpcEvents.OpenExternalLink)
+  ipcMain.handle(
+    AppActionsIpcEvents.OpenExternalLink,
+    (_, url: string) => {
+      return appActionsService.openExternalLink(url)
+    }
+  )
 }

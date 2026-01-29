@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { app, BrowserWindow, dialog, OpenDialogOptions } from "electron"
+import { app, BrowserWindow, dialog, OpenDialogOptions, shell } from "electron"
 import * as path from "path"
 import { formatMessage } from "app-localize/utils"
 import logger from "electron-log"
@@ -92,5 +92,9 @@ export class AppActionsService {
 
   getAppVersion(): string {
     return app.getVersion()
+  }
+
+  openExternalLink(url: string): void {
+    void shell.openExternal(url)
   }
 }

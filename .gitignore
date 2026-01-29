@@ -61,3 +61,5 @@ apps/app/electron-builder.env
 vitest.config.*.timestamp*
 
 .github/copilot-instructions.md
+
+libs/settings/feature/src/lib/license/licenses.json
