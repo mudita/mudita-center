@@ -44,10 +44,10 @@ describe("API configuration", () => {
     expect(result.status).toBe(200)
   })
 
-  it.skip("should receive API configuration error on invalid deviceId", async () => {
+  it("should receive API configuration error on invalid deviceId", async () => {
     const { service } = apiDeviceContext
     await expect(
-      await service.request("invalid", buildApiConfigRequest())
+      service.request("invalid", buildApiConfigRequest())
     ).rejects.toThrow("Device not found at id invalid.")
   })
 
