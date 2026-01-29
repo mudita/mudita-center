@@ -145,10 +145,11 @@ const collectProductionDependencies = (projectRoot: string): Set<string> => {
   const visited = new Set<string>()
 
   try {
-    const output = execSync("npm ls --prod --all --json 2>/dev/null", {
+    const output = execSync("npm ls --omit=dev --all --json", {
       cwd: projectRoot,
       encoding: "utf-8",
       maxBuffer: 50 * 1024 * 1024,
+      stdio: ["pipe", "pipe", "ignore"],
     })
 
     const parsed: NpmLsOutput = JSON.parse(output)
