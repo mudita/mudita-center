@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled, { css } from "styled-components"
+import styled, { css, CSSProperties } from "styled-components"
 import { TypographyTestId } from "app-theme/models"
 import { BaseTypographyProps, baseTypographyStyles } from "./base-typography"
 
@@ -91,9 +91,10 @@ const paragraph1Styles = css`
   letter-spacing: 0.02em;
 `
 
-export const P1 = styled.p.attrs((attrs) => ({
+export const P1 = styled.p.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.P1,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${paragraph1Styles};
 `
@@ -110,9 +111,10 @@ const paragraph2Styles = css`
   }
 `
 
-export const P2 = styled.p.attrs((attrs) => ({
+export const P2 = styled.p.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.P2,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${paragraph2Styles};
 `
@@ -124,9 +126,10 @@ const paragraph3Styles = css`
   letter-spacing: 0.05em;
 `
 
-export const P3 = styled.p.attrs((attrs) => ({
+export const P3 = styled.p.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.P3,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${paragraph3Styles};
 `
@@ -139,9 +142,10 @@ const paragraph4Styles = css`
   letter-spacing: 0.05em;
 `
 
-export const P4 = styled.p.attrs((attrs) => ({
+export const P4 = styled.p.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.P4,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${paragraph4Styles};
 `
@@ -153,9 +157,10 @@ const paragraph5Styles = css`
   letter-spacing: 0.04em;
 `
 
-export const P5 = styled.p.attrs((attrs) => ({
+export const P5 = styled.p.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.P5,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${paragraph5Styles};
 `
@@ -164,9 +169,10 @@ const listItemStyles = css`
   ${baseTypographyStyles};
 `
 
-export const ListItem = styled.li.attrs((attrs) => ({
+export const ListItem = styled.li.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.ListItem,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${listItemStyles};
 `
