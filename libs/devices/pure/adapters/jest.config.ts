@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "devices/pure/adapters",
   preset: "../../../../jest.preset.js",
   transform: {

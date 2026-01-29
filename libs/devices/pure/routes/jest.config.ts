@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "devices/pure/routes",
   preset: "../../../../jest.preset.js",
   transform: {

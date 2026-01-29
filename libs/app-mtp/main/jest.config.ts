@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "app-mtp/main",
   preset: "../../../jest.preset.js",
   transform: {

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "app-store/utils",
   preset: "../../../jest.preset.js",
   transform: {

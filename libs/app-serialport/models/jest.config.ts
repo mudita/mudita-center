@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "app-serialport-models",
   preset: "../../../jest.preset.js",
   transform: {

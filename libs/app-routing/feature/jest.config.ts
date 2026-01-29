@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "app-routing/feature",
   preset: "../../../jest.preset.js",
   transform: {
