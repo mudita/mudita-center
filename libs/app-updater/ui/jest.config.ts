@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "app-updater/ui",
   preset: "../../../jest.preset.js",
   transform: {

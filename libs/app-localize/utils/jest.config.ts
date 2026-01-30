@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "app-localize/utils",
   preset: "../../../jest.preset.js",
   transform: {
