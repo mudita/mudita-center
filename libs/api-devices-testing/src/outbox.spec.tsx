@@ -17,11 +17,11 @@ let apiDeviceContext: ApiDeviceContext
 describe("Outbox", () => {
   beforeEach(async () => {
     apiDeviceContext = await initApiDeviceContext()
-  }, 10_000)
+  }, 30_000)
 
   afterEach(async () => {
     await apiDeviceContext.reset()
-  }, 10_000)
+  }, 30_000)
 
   it("should return valid outbox response for valid deviceId", async () => {
     const { deviceId, service } = apiDeviceContext

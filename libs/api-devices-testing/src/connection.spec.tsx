@@ -26,7 +26,7 @@ describe("Connection", () => {
         return
       }
 
-      service.reset(device.id, { rescan: false })
+      await service.reset(device.id, { rescan: false })
     }
   )
 })

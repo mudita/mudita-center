@@ -34,11 +34,11 @@ describe("Contact entities", () => {
   beforeEach(async () => {
     apiDeviceContext = await initApiDeviceContext()
     await clearDeviceData(apiDeviceContext)
-  }, 10_000)
+  }, 30_000)
 
   afterEach(async () => {
     await apiDeviceContext.reset()
-  }, 10_000)
+  }, 30_000)
 
   it("should remove contact entity with valid entityId", async () => {
     const { service, deviceId } = apiDeviceContext

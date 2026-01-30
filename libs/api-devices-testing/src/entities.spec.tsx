@@ -35,11 +35,11 @@ describe("Entities configuration, metadata and data", () => {
   beforeEach(async () => {
     apiDeviceContext = await initApiDeviceContext()
     await fetchSupportedEntities()
-  }, 10_000)
+  }, 30_000)
 
   afterEach(async () => {
     await apiDeviceContext.reset()
-  }, 10_000)
+  }, 30_000)
 
   it("should return successful response for entity configuration", async () => {
     const { service, deviceId } = apiDeviceContext
@@ -73,7 +73,7 @@ describe("Entities configuration, metadata and data", () => {
       })
       expect(result.status).toBeDefined()
     }
-  }, 10_000)
+  }, 30_000)
 
   it("should return successful response for entity data", async () => {
     const { service, deviceId } = apiDeviceContext
