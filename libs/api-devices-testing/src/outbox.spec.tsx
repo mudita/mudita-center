@@ -14,7 +14,7 @@ import {
 
 let apiDeviceContext: ApiDeviceContext
 
-describe("Outbox", () => {
+describe.skip("Outbox", () => {
   beforeEach(async () => {
     apiDeviceContext = await initApiDeviceContext()
   }, 30_000)

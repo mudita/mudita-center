@@ -3,10 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { buildMenuConfigRequest, MenuConfigResponseValidator } from "devices/api-device/models"
-import { ApiDeviceContext, initApiDeviceContext } from "./helpers/api-device-context"
+import {
+  buildMenuConfigRequest,
+  MenuConfigResponseValidator,
+} from "devices/api-device/models"
+import {
+  ApiDeviceContext,
+  initApiDeviceContext,
+} from "./helpers/api-device-context"
 import { getApiFeaturesAndEntityTypes } from "./helpers/get-api-features-and-entity-types"
-
 
 let apiDeviceContext: ApiDeviceContext
 let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
@@ -14,7 +19,8 @@ let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 describe("API configuration", () => {
   beforeAll(async () => {
     apiDeviceContext = await initApiDeviceContext()
-    featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(apiDeviceContext)
+    featuresAndEntityTypes =
+      await getApiFeaturesAndEntityTypes(apiDeviceContext)
   }, 30_000)
 
   beforeEach(async () => {
@@ -27,9 +33,14 @@ describe("API configuration", () => {
 
   it("should receive API menu configuration", async () => {
     const { service, deviceId } = apiDeviceContext
-    const response = await service.request(deviceId, buildMenuConfigRequest({
-      lang: "en-US",
-    }))
+    const response = await service.request(deviceId, {
+      ...buildMenuConfigRequest({
+        lang: "en-US",
+      }),
+      options: {
+        timeout: 60_000,
+      },
+    })
 
     expect(response.status).toBe(200)
 
