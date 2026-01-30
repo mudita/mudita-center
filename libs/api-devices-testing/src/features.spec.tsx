@@ -25,11 +25,11 @@ describe("Feature Configuration and Data", () => {
     featuresAndEntityTypes.features = featuresAndEntityTypes.features.filter(
       (feature) => feature !== "mc-overview"
     )
-  }, 30_000)
+  }, 10_000)
 
   afterEach(async () => {
     await apiDeviceContext.reset()
-  }, 30_000)
+  }, 10_000)
 
   it("should receive valid configuration for mc-overview feature", async () => {
     const { service, deviceId } = apiDeviceContext

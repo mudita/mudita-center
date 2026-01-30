@@ -162,24 +162,18 @@ export class SerialPortDevice extends SerialPort {
     }
   }
 
-  reset(error?: Error): Promise<this> {
-    return new Promise((resolve) => {
-      console.log("Resetting SerialPortDevice...")
-      if (!this.isOpen) {
-        console.log("SerialPort is not open, destroying directly.")
-        super.destroy(error)
-        return resolve(this)
-      }
-
+  destroy(error?: Error): this {
+    if (this.isOpen) {
       this.drain(() => {
-        console.log("Drained SerialPort, closing before destroy.")
         this.close(() => {
-          console.log("Closed SerialPort, destroying now.")
           super.destroy(error)
-          resolve(this)
         })
       })
-    })
+    } else {
+      super.destroy(error)
+    }
+
+    return this
   }
 
   public static getSubtype(

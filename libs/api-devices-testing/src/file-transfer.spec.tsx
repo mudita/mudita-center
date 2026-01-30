@@ -26,12 +26,12 @@ const sourcePath = path.resolve(__dirname, "./test-files/sample.png")
 describe("File transfer", () => {
   beforeEach(async () => {
     apiDeviceContext = await initApiDeviceContext()
-  }, 30_000)
+  }, 10_000)
 
   afterEach(async () => {
     await removeFile(validTargetPath)
     await apiDeviceContext.reset()
-  }, 30_000)
+  }, 10_000)
 
   it("should send file into device and return valid responses", async () => {
     await sendFile(sourcePath, validTargetPath, true)

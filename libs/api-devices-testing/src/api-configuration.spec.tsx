@@ -27,11 +27,11 @@ describe("API configuration", () => {
     apiDeviceContext = await initApiDeviceContext()
     featuresAndEntityTypes =
       await getApiFeaturesAndEntityTypes(apiDeviceContext)
-  }, 30_000)
+  }, 10_000)
 
   afterEach(async () => {
     await apiDeviceContext.reset()
-  }, 30_000)
+  }, 10_000)
 
   it("should receive API configuration", async () => {
     const { service, deviceId } = apiDeviceContext

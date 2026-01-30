@@ -20,11 +20,11 @@ let apiDeviceContext: ApiDeviceContext
 describe("Serial port test", () => {
   beforeEach(async () => {
     apiDeviceContext = await initApiDeviceContext()
-  }, 30_000)
+  }, 10_000)
 
   afterEach(async () => {
     await apiDeviceContext.reset()
-  }, 30_000)
+  }, 10_000)
 
   it(`should send data via serial port and return the same data ${SERIAL_PORT_REQUEST_COUNTER} times`, async () => {
     const { service, deviceId } = apiDeviceContext

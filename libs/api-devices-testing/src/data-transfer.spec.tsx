@@ -39,11 +39,11 @@ describe("Data transfer", () => {
   beforeEach(async () => {
     apiDeviceContext = await initApiDeviceContext()
     await fetchSupportedFeatures()
-  }, 30_000)
+  }, 10_000)
 
   afterEach(async () => {
     await apiDeviceContext.reset()
-  }, 30_000)
+  }, 10_000)
 
   it("should perform import process for empty restore data", async () => {
     const base64Sources = getEmptyTransferData()

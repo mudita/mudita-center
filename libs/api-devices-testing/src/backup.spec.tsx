@@ -27,11 +27,11 @@ describe("Backup feature", () => {
   beforeEach(async () => {
     apiDeviceContext = await initApiDeviceContext()
     await fetchSupportedFeatures()
-  }, 30_000)
+  }, 10_000)
 
   afterEach(async () => {
     await apiDeviceContext.reset()
-  }, 30_000)
+  }, 10_000)
 
   it("should prepare valid backup files for all features", async () => {
     await performFullBackup(backupFeatures)
@@ -52,8 +52,6 @@ describe("Backup feature", () => {
         backupId: random(1, 100000),
       })
     )
-
-    console.log("result:", result)
 
     // TODO: fix error handling on device side
     // expect(result.error).toBeTruthy()

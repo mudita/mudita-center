@@ -15,15 +15,15 @@ describe("API configuration", () => {
   beforeAll(async () => {
     apiDeviceContext = await initApiDeviceContext()
     featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(apiDeviceContext)
-  }, 30_000)
+  }, 10_000)
 
   beforeEach(async () => {
     apiDeviceContext = await initApiDeviceContext()
-  }, 30_000)
+  }, 10_000)
 
   afterEach(async () => {
     await apiDeviceContext.reset()
-  }, 30_000)
+  }, 10_000)
 
   it("should receive API menu configuration", async () => {
     const { service, deviceId } = apiDeviceContext

@@ -262,16 +262,16 @@ export class AppSerialPortService {
     return !!device?.freezer.timeout
   }
 
-  async reset(id?: SerialPortDeviceId, { rescan = true } = {}): Promise<void> {
+  reset(id?: SerialPortDeviceId, { rescan = true } = {}) {
     if (id) {
       const device = this.devices.get(id)
       if (device) {
-        await device?.instance?.reset()
+        device?.instance?.destroy()
         this.devices.delete(id)
       }
     } else {
       for (const device of this.devices.values()) {
-        await device?.instance?.reset()
+        device?.instance?.destroy()
       }
       this.devices.clear()
     }
