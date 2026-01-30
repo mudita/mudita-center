@@ -28,3 +28,9 @@ export const ApiConfigResponseValidator = z.object({
 })
 
 export type ApiConfig = z.infer<typeof ApiConfigResponseValidator>
+
+export const buildApiConfigRequest = () =>
+  ({
+    endpoint: "API_CONFIGURATION",
+    method: "GET",
+  }) as const

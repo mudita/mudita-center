@@ -22,3 +22,11 @@ export const PostEntityDataResponseValidator = z.object({
 export type PostEntityDataResponse = z.infer<
   typeof PostEntityDataResponseValidator
 >
+
+export const buildPostEntityDataRequest = (req: PostEntityDataRequest) => {
+  return {
+    endpoint: "ENTITIES_DATA",
+    method: "POST",
+    body: req,
+  } as const
+}

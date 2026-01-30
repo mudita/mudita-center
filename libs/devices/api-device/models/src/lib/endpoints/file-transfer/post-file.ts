@@ -40,3 +40,21 @@ export const FileTransferPostResponseValidator = z.object({
 export type FileTransferPostRequest = z.infer<
   typeof FileTransferPostRequestValidator
 >
+
+export const buildPreFileTransferPostRequest = (
+  req: PreFileTransferPostRequest
+) => {
+  return {
+    endpoint: "PRE_FILE_TRANSFER",
+    method: "POST",
+    body: req,
+  } as const
+}
+
+export const buildFileTransferPostRequest = (req: FileTransferPostRequest) => {
+  return {
+    endpoint: "FILE_TRANSFER",
+    method: "POST",
+    body: req,
+  } as const
+}

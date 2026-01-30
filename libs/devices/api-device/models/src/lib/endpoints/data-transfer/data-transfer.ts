@@ -73,3 +73,29 @@ export type DataTransferDeleteRequest = z.infer<
 export const DataTransferDeleteResponseValidator200 = response200Schema
 
 export const DataTransferDeleteResponseValidator202 = response202Schema
+
+export const buildPreDataTransferPostRequest = (
+  req: PreDataTransferPostRequest
+) => {
+  return {
+    endpoint: "PRE_DATA_TRANSFER",
+    method: "POST",
+    body: req,
+  } as const
+}
+
+export const buildDataTransferPostRequest = (req: DataTransferPostRequest) => {
+  return {
+    endpoint: "DATA_TRANSFER",
+    method: "POST",
+    body: req,
+  } as const
+}
+
+export const buildDataTransferGetRequest = (req: DataTransferGetRequest) => {
+  return {
+    endpoint: "DATA_TRANSFER",
+    method: "GET",
+    body: req,
+  } as const
+}

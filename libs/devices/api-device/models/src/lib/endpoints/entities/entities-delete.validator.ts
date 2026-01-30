@@ -33,3 +33,11 @@ export const DeleteEntitiesResponseValidator = z.union([
   DeleteEntitiesResponseValidator200,
   DeleteEntitiesResponseValidator207,
 ])
+
+export const buildDeleteEntitiesRequest = (req: DeleteEntitiesRequest) => {
+  return {
+    endpoint: "ENTITIES_DATA",
+    method: "DELETE",
+    body: req,
+  } as const
+}

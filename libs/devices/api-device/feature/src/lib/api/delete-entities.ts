@@ -3,9 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { isArray, isObject, chunk, isString } from "lodash"
+import { chunk, isArray, isObject, isString } from "lodash"
 import {
   ApiDevice,
+  buildDeleteEntitiesRequest,
   DeleteEntitiesRequest,
   DeleteEntitiesResponse207,
 } from "devices/api-device/models"
@@ -38,13 +39,9 @@ function is207(
 
 const deleteEntitiesRequest = (
   device: ApiDevice,
-  { entityType, ids }: DeleteEntitiesRequest
+  req: DeleteEntitiesRequest
 ): Promise<DeleteEntitiesResponse> => {
-  return ApiDeviceSerialPort.request(device, {
-    endpoint: "ENTITIES_DATA",
-    method: "DELETE",
-    body: { entityType, ids },
-  })
+  return ApiDeviceSerialPort.request(device, buildDeleteEntitiesRequest(req))
 }
 
 export const deleteEntities = async (
