@@ -35,11 +35,11 @@ describe("App install", () => {
     } catch (err) {
       console.log(err)
     }
-  }, 10_000)
+  }, 30_000)
 
   afterEach(async () => {
     await apiDeviceContext.reset()
-  }, 10_000)
+  }, 30_000)
 
   afterAll(async () => {
     try {
@@ -48,7 +48,7 @@ describe("App install", () => {
     } catch (err) {
       console.log(err)
     }
-  }, 10_000)
+  }, 30_000)
 
   it("should return error 404 if the APK doesn't exist", async () => {
     const { service, deviceId } = apiDeviceContext
