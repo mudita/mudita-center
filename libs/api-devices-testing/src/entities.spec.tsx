@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { delay } from "app-utils/common"
 import {
   ApiConfigResponseValidator,
   buildApiConfigRequest,
-  buildEntitiesFileDataRequest,
+  buildEntitiesConfigGetRequest,
   entitiesReadyResponseSchema,
-  GetEntitiesDataResponseValidator,
 } from "devices/api-device/models"
 import { withBodyStatus } from "./helpers/with-body-status"
 import {
@@ -47,21 +47,14 @@ describe("Entities configuration, metadata and data", () => {
     expect(entityTypes.length).toBeGreaterThan(0)
 
     for (const entityType of entityTypes) {
-      const result = await service.request(deviceId, {
-        ...buildEntitiesFileDataRequest({
+      const result = await service.request(
+        deviceId,
+        buildEntitiesConfigGetRequest({
           entityType,
-          responseType: "file",
-        }),
-        options: { timeout: 5000 },
-      })
-
-      const enriched = withBodyStatus(result)
-      const entitiesFileData = GetEntitiesDataResponseValidator.parse(
-        enriched.body
+        })
       )
 
-      expect(entitiesFileData).toBeDefined()
-      expect(result.status).toBeDefined()
+      expect(result.status).toBe(200)
     }
   })
 
@@ -104,6 +97,7 @@ describe("Entities configuration, metadata and data", () => {
       expect(createEntitiesResult.status).toBe(200)
 
       while (status !== 200) {
+        await delay(500)
         const getEntitiesResult = await service.request(deviceId, {
           endpoint: "ENTITIES_DATA",
           method: "GET",
@@ -118,6 +112,7 @@ describe("Entities configuration, metadata and data", () => {
 
         if (getEntitiesResult.status === 200) {
           const enriched = withBodyStatus(getEntitiesResult)
+          // sometimes filePath is missing in the response // TODO: fix it in the device API?
           const data = entitiesReadyResponseSchema.parse(enriched.body)
           progress = data.progress!
           status = getEntitiesResult.status

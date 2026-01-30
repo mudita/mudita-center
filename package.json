@@ -145,6 +145,7 @@
     "@types/tar-stream": "^3.1.4",
     "@types/tcp-port-used": "^1.0.4",
     "@types/yargs": "^17.0.35",
+    "@vitejs/plugin-react": "^5.1.2",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "@vitest/ui": "4.0.18",
     "@wdio/cli": "^9.23.2",
