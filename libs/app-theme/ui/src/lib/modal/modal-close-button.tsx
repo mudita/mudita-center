@@ -19,6 +19,7 @@ export const ModalCloseButton: FunctionComponent<Props> = ({ onClick }) => {
       icon={IconType.Close}
       size={IconSize.Big}
       data-testid={ModalTestId.CloseButton}
+      aria-label="Close modal"
     />
   )
 }

@@ -3,52 +3,112 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled from "styled-components"
-import { LegacyText } from "app-theme/ui"
+import styled, { css } from "styled-components"
+import { typographyStyles } from "app-theme/ui"
 
-export const WindowContainer = styled.div`
-  margin: 2.4rem auto 3.4rem;
-  min-width: 5.9rem;
-  max-width: 59rem;
-`
-export const WindowHeader = styled(LegacyText)`
-  font-weight: normal;
-  margin-bottom: 4rem;
-`
-export const WindowTitle = styled(LegacyText)`
-  margin: 2.4rem 0 4rem;
-`
-export const NoteText = styled(LegacyText)`
-  text-transform: uppercase;
-`
-
-export const LightText = styled(LegacyText)`
+const paragraphStyles = css`
+  letter-spacing: 0.03em;
+  font-weight: 300;
+  color: ${({ theme }) => theme.app.color.black};
   margin-bottom: 1.6rem;
 `
 
-export const BoldText = styled(LegacyText)`
-  font-weight: normal;
-  margin-bottom: 1.6rem;
-`
+export const LegalArticle = styled.article`
+  margin: 3.2rem auto;
+  width: 100%;
+  max-width: 60rem;
 
-export const LightTextNested = styled(LegacyText)`
-  margin-bottom: 1.6rem;
-  margin-left: 3rem;
-`
-export const GridWrapper = styled("div")`
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  grid-auto-rows: minmax(10rem, auto);
-  margin-bottom: 1.6rem;
-`
+  h3 {
+    margin-bottom: 4rem;
+  }
 
-export const GridItem = styled(LegacyText)`
-  display: flex;
-  align-items: center;
-  padding: 1rem 0.5rem 1rem 0.5rem;
-  border: 0.125rem solid black;
-  margin: 0 -0.125rem -0.125rem 0;
-`
-export const GridBoldItem = styled(GridItem)`
-  font-weight: normal;
+  p {
+    ${paragraphStyles};
+  }
+
+  strong {
+    font-weight: 400 !important;
+  }
+
+  section {
+    margin-top: 4rem;
+
+    p {
+      &:first-child {
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+
+      span {
+        display: block;
+      }
+    }
+  }
+
+  ol,
+  ul {
+    padding-left: 2.4rem;
+    margin: 1rem 0 0;
+    list-style-position: inside;
+
+    &:nth-child(n + 3) {
+      padding-left: 4.4rem;
+    }
+
+    li {
+      ${typographyStyles.paragraph.p3};
+      ${paragraphStyles};
+
+      > p {
+        margin-top: 1em;
+        margin-left: 2.4rem;
+      }
+
+      li {
+        > p {
+          margin-left: 4.4rem;
+        }
+      }
+    }
+  }
+
+  ol {
+    counter-reset: item;
+
+    & > li {
+      display: block;
+      margin-left: 0;
+      counter-increment: item;
+
+      p {
+        &:first-of-type {
+          display: contents;
+        }
+      }
+
+      &:before {
+        content: counters(item, ".") ". ";
+      }
+    }
+
+    ol > li {
+      display: block;
+
+      &:before {
+        content: counters(item, ".") ". ";
+      }
+    }
+
+    &.lettered {
+      counter-reset: letter;
+
+      & > li {
+        counter-increment: letter;
+
+        &:before {
+          content: counter(letter, lower-alpha) ". ";
+        }
+      }
+    }
+  }
 `

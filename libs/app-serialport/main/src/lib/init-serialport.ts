@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IpcMain, BrowserWindow } from "electron"
+import { BrowserWindow, IpcMain } from "electron"
 import {
   SerialPortChangedDevices,
   SerialPortDeviceId,
@@ -16,21 +16,24 @@ let serialport: AppSerialPortService
 
 export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
   if (serialport) {
-    const changedDevices: SerialPortChangedDevices = {
-      added: [],
-      removed: [],
-      all: serialport.getCurrentDevices(),
-    }
     const emitDevicesChanged = () => {
+      const changedDevices: SerialPortChangedDevices = {
+        added: [],
+        removed: [],
+        all: serialport.getCurrentDevices(),
+      }
       mainWindow.webContents.send(
         SerialPortIpcEvents.DevicesChanged,
         changedDevices
       )
     }
-    mainWindow.webContents.once("did-finish-load", emitDevicesChanged)
+    mainWindow.webContents.on("did-finish-load", emitDevicesChanged)
   } else {
     serialport = new AppSerialPortService()
     serialport.onDevicesChanged((data) => {
+      mainWindow.webContents.on("did-finish-load", () => {
+        mainWindow.webContents.send(SerialPortIpcEvents.DevicesChanged, data)
+      })
       mainWindow.webContents.send(SerialPortIpcEvents.DevicesChanged, data)
     })
     ipcMain.removeHandler(SerialPortIpcEvents.GetCurrentDevices)
@@ -72,5 +75,9 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
         return serialport.isFrozen(id)
       }
     )
+    ipcMain.removeHandler(SerialPortIpcEvents.Reset)
+    ipcMain.handle(SerialPortIpcEvents.Reset, (_, id?: SerialPortDeviceId) => {
+      return serialport.reset(id)
+    })
   }
 }

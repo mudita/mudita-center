@@ -5,7 +5,8 @@
 
 import { FunctionComponent } from "react"
 import { License } from "settings/ui"
+import { licenses } from "./licenses.json"
 
 export const LicensePage: FunctionComponent = () => {
-  return <License />
+  return <License licenses={licenses} />
 }

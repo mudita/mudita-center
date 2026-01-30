@@ -31,4 +31,10 @@ export const appActions = {
   getAppVersion: (): Promise<string> => {
     return electronAPI.ipcRenderer.invoke(AppActionsIpcEvents.GetVersion)
   },
+  openExternalLink: (url: string): void => {
+    void electronAPI.ipcRenderer.invoke(
+      AppActionsIpcEvents.OpenExternalLink,
+      url
+    )
+  }
 }

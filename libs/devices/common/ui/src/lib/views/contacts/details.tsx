@@ -190,11 +190,13 @@ export const Details: FunctionComponent<Props> = ({
                 icon={IconType.Trash}
                 size={IconSize.Big}
                 onClick={onDelete}
+                aria-label="Delete contact"
               />
               <IconButton
                 icon={IconType.Close}
                 size={IconSize.Big}
                 onClick={onClose}
+                aria-label="Close details"
               />
             </HeaderActions>
           </Header>

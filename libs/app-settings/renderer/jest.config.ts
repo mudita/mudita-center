@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "app-settings/renderer",
   preset: "../../../jest.preset.js",
   transform: {

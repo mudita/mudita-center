@@ -16,6 +16,7 @@ import { mockServer } from "e2e-mock/server"
 import icon from "../../resources/icons/icon.png"
 import { initAppLibs } from "./init-app-libs"
 import "./setup-logger"
+import logger from "electron-log/main"
 
 const appWidth = process.env.APP_WIDTH
 const appHeight = process.env.APP_HEIGHT
@@ -90,11 +91,12 @@ const createWindow = () => {
     mainWindow.webContents.openDevTools()
   }
 
-  mockServer.start()
+  app.whenReady().then(() => {
+    mockServer.start()
+    initAppLibs(mainWindow, mockServer)
+  })
 
   mainWindow.on("ready-to-show", async () => {
-    initAppLibs(mainWindow, mockServer)
-
     if (process.env.NODE_ENV !== "test") {
       // Ensure splash is visible for at least 1s
       const splashTimeLeft = Math.max(0, 1000 - (Date.now() - splashStartTime))
@@ -179,4 +181,12 @@ app.on("before-quit", () => {
   if (process.env.NODE_ENV === "development") {
     app.quit()
   }
+})
+
+process.on("uncaughtException", (err) => {
+  logger.error("UNCAUGHT EXCEPTION:", err)
+})
+
+process.on("unhandledRejection", (reason, promise) => {
+  logger.error("UNHANDLED REJECTION at:", promise, "reason:", reason)
 })
