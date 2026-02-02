@@ -53,8 +53,6 @@ describe("Backup feature", () => {
       })
     )
 
-    console.log("result:", result)
-
     // TODO: fix error handling on device side
     // expect(result.error).toBeTruthy()
     // At the moment device returns 200 with empty features object
