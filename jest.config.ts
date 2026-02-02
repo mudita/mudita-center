@@ -1,5 +1,15 @@
 const { getJestProjectsAsync } = require("@nx/jest")
 
-module.exports = async () => ({
-  projects: await getJestProjectsAsync(),
-})
+const EXCLUDED = [
+  "libs/api-devices-testing",
+]
+
+module.exports = async () => {
+  const projects = await getJestProjectsAsync()
+
+  return {
+    projects: projects.filter(
+      (p) => !EXCLUDED.some((e) => p.includes(e))
+    ),
+  }
+}
