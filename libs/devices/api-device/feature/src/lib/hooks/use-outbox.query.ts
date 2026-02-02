@@ -30,6 +30,7 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   const queryClient = useQueryClient()
   const modifiedEntitiesQueueRef = useRef<DetailedOutboxEntity[]>([])
   const modifiedEntitiesLastProcessTimeRef = useRef(0)
+  const modifiedEntitiesQueueProcessingTimeRef = useRef(0)
 
   const query = useQuery<
     Awaited<ReturnType<typeof getOutbox>> | null,
@@ -135,16 +136,22 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
     const modifiedEntities = modifiedEntitiesQueueRef.current
     const timeSinceLastProcess =
       Date.now() - modifiedEntitiesLastProcessTimeRef.current
+    const totalProcessingTime =
+      Date.now() - modifiedEntitiesQueueProcessingTimeRef.current
 
     // Collect modifications for at least 1.5s before processing
     if (
-      timeSinceLastProcess < 1500 ||
-      modifiedEntitiesLastProcessTimeRef.current === 0
+      (timeSinceLastProcess < 1500 ||
+        modifiedEntitiesLastProcessTimeRef.current === 0) &&
+      (totalProcessingTime < 10_000 ||
+        modifiedEntitiesQueueProcessingTimeRef.current === 0)
     ) {
       modifiedEntitiesLastProcessTimeRef.current = Date.now()
+      if (modifiedEntitiesQueueProcessingTimeRef.current === 0) {
+        modifiedEntitiesQueueProcessingTimeRef.current = Date.now()
+      }
       return
     }
-
     const entitiesByType = groupBy(modifiedEntities, "entityType")
 
     for (const [entityType, entities] of Object.entries(entitiesByType)) {
@@ -197,6 +204,7 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
     }
     modifiedEntitiesQueueRef.current = []
     modifiedEntitiesLastProcessTimeRef.current = 0
+    modifiedEntitiesQueueProcessingTimeRef.current = 0
   }, [device, queryClient])
 
   const processEntitiesUnknownAction = useCallback(
