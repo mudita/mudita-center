@@ -37,7 +37,7 @@ const normalizeRestoreResponse = (response: SerialPortResponse) => {
   } as const
 }
 
-const restorePost = async (device: ApiDevice, req: RestoreRequest) => {
+export const restorePost = async (device: ApiDevice, req: RestoreRequest) => {
   const response = await ApiDeviceSerialPort.request(device, {
     ...buildRestorePostRequest(req),
     options: restoreRequestOptions,
@@ -46,21 +46,13 @@ const restorePost = async (device: ApiDevice, req: RestoreRequest) => {
   return normalizeRestoreResponse(response)
 }
 
-const restoreGet = async (device: ApiDevice, req: RestoreRequest) => {
+export const restoreGet = async (device: ApiDevice, req: RestoreRequest) => {
   const response = await ApiDeviceSerialPort.request(device, {
     ...buildRestoreGetRequest(req),
     options: restoreRequestOptions,
   })
 
   return normalizeRestoreResponse(response)
-}
-
-export const restore = async (device: ApiDevice, req: RestoreRequest) => {
-  if ("features" in req) {
-    return restorePost(device, req)
-  }
-
-  return restoreGet(device, req)
 }
 
 const restoreRequestOptions = {
