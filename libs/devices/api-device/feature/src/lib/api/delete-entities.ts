@@ -11,7 +11,7 @@ import {
 } from "devices/api-device/models"
 import { ApiDeviceSerialPort, Response } from "devices/api-device/adapters"
 
-const CHUNK_SIZE = 500
+const CHUNK_SIZE = 100
 
 type DeleteEndpoint = "ENTITIES_DATA"
 type DeleteMethod = "DELETE"
