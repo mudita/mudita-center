@@ -14,6 +14,7 @@ import EventEmitter from "events"
 import { usb } from "usb"
 import { AppSerialportDeviceScanner } from "./app-serialport-device-scanner"
 import logger from "electron-log/main"
+import { SerialPortError } from "app-serialport/utils"
 
 type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
 enum SerialPortEvents {
@@ -35,6 +36,7 @@ export class AppSerialPortService {
         duration?: number
         timeout?: NodeJS.Timeout
       }
+      reconnecting?: Promise<void>
     }
   >()
 
@@ -159,14 +161,17 @@ export class AppSerialPortService {
 
   async request(
     id: SerialPortDeviceId,
-    data: SerialPortRequest,
-    retries = 1
+    data: SerialPortRequest
   ): ReturnType<SerialPortDevice["request"]> {
     try {
       const device = this.devices.get(id)
       if (!device) {
         logger.warn(`Cannot send request. Device not found at id ${id}.`)
         throw new Error(`Device not found at id ${id}.`)
+      }
+
+      if (device.reconnecting) {
+        await device.reconnecting
       }
 
       if (device.freezer.timeout) {
@@ -222,10 +227,57 @@ export class AppSerialPortService {
       }
       return await device.instance.request(data)
     } catch (error) {
-      if (retries > 0) {
-        return this.request(id, data, retries - 1)
+      if (error instanceof SerialPortError) {
+        const device = this.devices.get(id)
+
+        if (!device) {
+          logger.warn(`Cannot reconnect. Device not found at id ${id}.`)
+          throw error
+        }
+
+        if (!device.reconnecting) {
+          device.reconnecting = this.reconnect(id).then(() => {
+            device.reconnecting = undefined
+          })
+        }
+        await device.reconnecting
+
+        if (device?.instance) {
+          return device.instance.request(data)
+        }
       }
       throw error
+    }
+  }
+
+  private async reconnect(id: SerialPortDeviceId) {
+    logger.info(`Reconnecting device ${id}...`)
+
+    const device = this.devices.get(id)
+    if (!device) {
+      logger.warn(`Cannot reconnect. Device not found at id ${id}.`)
+      return
+    }
+
+    if (device.instance) {
+      device.instance.destroy()
+      device.instance = undefined
+    }
+
+    const connectedDevices = await AppSerialportDeviceScanner.scan()
+    const scannedDevice = connectedDevices.find((d) => d.id === id)
+
+    if (scannedDevice) {
+      const instance =
+        AppSerialportDeviceScanner.getMatchingInstance(scannedDevice)
+
+      if (instance) {
+        device.instance = new instance({
+          path: scannedDevice.path,
+        }) as SerialPortDevice
+
+        logger.info(`Device ${id} reconnected successfully`)
+      }
     }
   }
 

@@ -163,6 +163,9 @@ export class SerialPortDevice extends SerialPort {
   }
 
   destroy(error?: Error): this {
+    this.#responseEmitter.removeAllListeners()
+    this.#queue.clear()
+
     if (this.isOpen) {
       this.drain(() => {
         this.close(() => {
