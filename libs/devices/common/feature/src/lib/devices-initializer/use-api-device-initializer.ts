@@ -71,7 +71,7 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
     void performSystemAction(device, {
       action: "serial-port-setup",
       chunkSizeInBytes: 14_336 * 20,
-      outboxEventsCounter: 100 * 5,
+      outboxEventsCounter: 100,
     })
   }, [device])
 
