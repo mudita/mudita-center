@@ -103,7 +103,7 @@ export class AppSerialPortService {
     // Detect removed devices
     for (const device of this.devices.values()) {
       if (!connectedDevices.find(({ id }) => id === device.info.id)) {
-        device?.instance?.destroy()
+        await device?.instance?.destroyAsync()
 
         if (device?.freezer.duration) {
           device.freezer.timeout = setTimeout(() => {
@@ -268,7 +268,7 @@ export class AppSerialPortService {
     }
 
     if (device.instance) {
-      device.instance.destroy()
+      await device.instance.destroyAsync()
       device.instance = undefined
     }
 
@@ -318,16 +318,16 @@ export class AppSerialPortService {
     return !!device?.freezer.timeout
   }
 
-  reset(id?: SerialPortDeviceId) {
+  async reset(id?: SerialPortDeviceId) {
     if (id) {
       const device = this.devices.get(id)
       if (device) {
-        device?.instance?.destroy()
+        await device?.instance?.destroyAsync()
         this.devices.delete(id)
       }
     } else {
       for (const device of this.devices.values()) {
-        device?.instance?.destroy()
+        await device?.instance?.destroyAsync()
       }
       this.devices.clear()
     }

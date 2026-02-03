@@ -21,6 +21,7 @@ import { styleText } from "util"
 
 const DEFAULT_QUEUE_INTERVAL = 1
 const DEFAULT_QUEUE_CONCURRENCY = 1
+const DEFAULT_QUEUE_INTERVAL_CAPACITY = 1
 const DEFAULT_RESPONSE_TIMEOUT = 30000
 const LOG_CHARS_LIMIT = Number(process.env.SERIALPORT_LOG_LIMIT || 0)
 
@@ -54,9 +55,11 @@ export class SerialPortDevice extends SerialPort {
     parser?: Transform
   ) {
     super({ ...options, autoOpen: true })
+    this.#responseEmitter.setMaxListeners(100)
     this.#queue = new PQueue({
       concurrency: queueConcurrency,
       interval: queueInterval,
+      intervalCap: DEFAULT_QUEUE_INTERVAL_CAPACITY,
     })
     if (parser) {
       super.pipe(parser).on("data", (data) => this.parseResponse(data))
@@ -77,11 +80,29 @@ export class SerialPortDevice extends SerialPort {
       const response = JSON.parse(rawResponse)
       const id = get(response, this.requestIdKey)
       if (!id) {
-        throw new SerialPortError(SerialPortErrorType.ResponseWithoutId)
+        throw SerialPortErrorType.ResponseWithoutId
       }
       this.#responseEmitter.emit(`response-${id}`, response)
-    } catch {
-      throw new SerialPortError(SerialPortErrorType.InvalidResponse)
+    } catch (error) {
+      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+        console.log(
+          styleText(["bold", "bgRed"], "SerialPort response parse error"),
+          styleText(["bgRed"], this.path),
+          styleText(
+            ["red"],
+            error instanceof SerialPortError
+              ? error.type
+              : error instanceof Error
+                ? error.message
+                : String(error)
+          ),
+          "\n"
+        )
+      }
+      super.emit(
+        "error",
+        new SerialPortError(SerialPortErrorType.InvalidResponse)
+      )
     }
   }
 
@@ -95,9 +116,11 @@ export class SerialPortDevice extends SerialPort {
       }
 
       timeout = setTimeout(() => {
-        super.drain()
         this.#responseEmitter.removeListener(`response-${id}`, listener)
-        reject(new SerialPortError(SerialPortErrorType.ResponseTimeout, id))
+
+        super.flush(() => {
+          reject(new SerialPortError(SerialPortErrorType.ResponseTimeout, id))
+        })
       }, timeoutMs)
 
       this.#responseEmitter.once(`response-${id}`, listener)
@@ -115,8 +138,23 @@ export class SerialPortDevice extends SerialPort {
         )
       }
       return super.write(parsedData)
-    } catch {
-      throw SerialPortErrorType.InvalidRequest
+    } catch (error) {
+      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+        console.log(
+          styleText(["bold", "bgRed"], "SerialPort write parse error"),
+          styleText(["bgRed"], this.path),
+          styleText(
+            ["red"],
+            error instanceof SerialPortError
+              ? error.type
+              : error instanceof Error
+                ? error.message
+                : String(error)
+          ),
+          "\n"
+        )
+      }
+      throw new SerialPortError(SerialPortErrorType.InvalidRequest)
     }
   }
 
@@ -137,6 +175,10 @@ export class SerialPortDevice extends SerialPort {
           )
           resolve(response)
         } catch (error) {
+          if (error instanceof SerialPortError) {
+            reject(error)
+            return
+          }
           reject(new SerialPortError(error))
         }
       })
@@ -166,21 +208,61 @@ export class SerialPortDevice extends SerialPort {
     }
   }
 
-  destroy(error?: Error): this {
-    this.#responseEmitter.removeAllListeners()
-    this.#queue.clear()
-
-    if (this.isOpen) {
-      this.drain(() => {
-        this.close(() => {
-          super.destroy(error)
-        })
+  async drainAsync(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      super.drain((error) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve()
+        }
       })
-    } else {
-      super.destroy(error)
-    }
+    })
+  }
 
-    return this
+  async closeAsync(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      super.close((error) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve()
+        }
+      })
+    })
+  }
+
+  async destroyAsync(error?: Error): Promise<this> {
+    try {
+      this.#responseEmitter.removeAllListeners()
+      this.#queue.clear()
+
+      if (this.isOpen) {
+        await this.drainAsync()
+        await this.closeAsync()
+        super.destroy(error)
+      } else {
+        super.destroy(error)
+      }
+      return this
+    } catch (err) {
+      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+        console.log(
+          styleText(["bold", "bgRed"], "SerialPort destroy error"),
+          styleText(["bgRed"], this.path),
+          styleText(
+            ["red"],
+            err instanceof SerialPortError
+              ? err.type
+              : err instanceof Error
+                ? err.message
+                : String(err)
+          ),
+          "\n"
+        )
+      }
+      return this
+    }
   }
 
   public static getSubtype(
