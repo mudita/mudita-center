@@ -236,9 +236,17 @@ export class AppSerialPortService {
         }
 
         if (!device.reconnecting) {
-          device.reconnecting = this.reconnect(id).then(() => {
-            device.reconnecting = undefined
-          })
+          device.reconnecting = this.reconnect(id)
+            .then(() => {
+              device.reconnecting = undefined
+            })
+            .catch((reconnectError) => {
+              device.reconnecting = undefined
+              logger.error(
+                `Failed to reconnect device at id ${id}:`,
+                reconnectError
+              )
+            })
         }
         await device.reconnecting
 

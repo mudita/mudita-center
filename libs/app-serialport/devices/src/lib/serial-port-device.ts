@@ -64,21 +64,25 @@ export class SerialPortDevice extends SerialPort {
   }
 
   private parseResponse(buffer: Buffer) {
-    const rawResponse = buffer.toString()
-    if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
-      console.log(
-        styleText(["bold", "bgMagenta"], "SerialPort response"),
-        styleText(["bgMagenta"], this.path),
-        styleText(["magenta"], `${sliceLogs(rawResponse)}`),
-        "\n"
-      )
+    try {
+      const rawResponse = buffer.toString()
+      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+        console.log(
+          styleText(["bold", "bgMagenta"], "SerialPort response"),
+          styleText(["bgMagenta"], this.path),
+          styleText(["magenta"], `${sliceLogs(rawResponse)}`),
+          "\n"
+        )
+      }
+      const response = JSON.parse(rawResponse)
+      const id = get(response, this.requestIdKey)
+      if (!id) {
+        throw new SerialPortError(SerialPortErrorType.ResponseWithoutId)
+      }
+      this.#responseEmitter.emit(`response-${id}`, response)
+    } catch {
+      throw new SerialPortError(SerialPortErrorType.InvalidResponse)
     }
-    const response = JSON.parse(rawResponse)
-    const id = get(response, this.requestIdKey)
-    if (!id) {
-      throw new SerialPortError(SerialPortErrorType.ResponseWithoutId)
-    }
-    this.#responseEmitter.emit(`response-${id}`, response)
   }
 
   private listenForResponse(id: number | string, timeoutMs: number) {
