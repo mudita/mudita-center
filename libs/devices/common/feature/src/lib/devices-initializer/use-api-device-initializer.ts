@@ -16,6 +16,9 @@ import { delay } from "app-utils/common"
 import { useDeviceFreezer } from "app-serialport/renderer"
 import { performSystemAction, useOutboxQuery } from "devices/api-device/feature"
 
+const DEFAULT_CHUNK_SIZE_IN_BYTES = 14_336
+const DEFAULT_OUTBOX_EVENTS_COUNTER = 100
+
 export const useApiDeviceInitializer = (device: ApiDevice) => {
   const queryClient = useQueryClient()
   const freezeTimeoutRef = useRef<NodeJS.Timeout>(undefined)
@@ -70,8 +73,8 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
   useEffect(() => {
     void performSystemAction(device, {
       action: "serial-port-setup",
-      chunkSizeInBytes: 14_336 * 20,
-      outboxEventsCounter: 100 * 5,
+      chunkSizeInBytes: DEFAULT_CHUNK_SIZE_IN_BYTES * 20,
+      outboxEventsCounter: DEFAULT_OUTBOX_EVENTS_COUNTER * 5,
     })
   }, [device])
 

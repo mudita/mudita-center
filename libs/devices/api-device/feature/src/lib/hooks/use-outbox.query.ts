@@ -14,10 +14,9 @@ import {
   OutboxResponse,
   SimpleOutboxEntity,
 } from "devices/api-device/models"
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect } from "react"
 import { useApiEntitiesDataQuery } from "./use-api-entities-data.query"
 import { useApiEntitiesConfigQuery } from "./use-api-entities-config.query"
-import { getEntityData } from "../api/get-entity-data"
 import { cloneDeep, groupBy, uniq } from "lodash"
 import { apiDeviceQueryKeys } from "./api-device-query-keys"
 import {
@@ -28,8 +27,6 @@ import {
 
 export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   const queryClient = useQueryClient()
-  const modifiedEntitiesQueueRef = useRef<DetailedOutboxEntity[]>([])
-  const modifiedEntitiesLastProcessTimeRef = useRef(0)
 
   const query = useQuery<
     Awaited<ReturnType<typeof getOutbox>> | null,
@@ -50,8 +47,12 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
     retryDelay: 2000,
     refetchInterval: (response) => {
       const data = response.state.data
-      const hasEntities = data?.ok && data.body.entities.length > 0
-
+      const hasEntitiesWithDeleteAction =
+        data?.ok &&
+        data.body.entities.length > 0 &&
+        data.body.entities.some(
+          (entity) => "action" in entity && entity.action === "deleted"
+        )
       const currentTransfer = queryClient.getMutationCache().find({
         mutationKey: ["fileTransfer", device?.id],
         status: "pending",
@@ -60,7 +61,11 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       const isCurrentlyUploading =
         currentTransfer?.state.variables.actionType === "Upload"
 
-      if (hasEntities && !isCurrentlyUploading) {
+      if (isCurrentlyUploading) {
+        return 5_000
+      }
+
+      if (hasEntitiesWithDeleteAction) {
         return 50
       }
 
@@ -75,7 +80,10 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   const updateFeature = useCallback(
     async (feature: string) => {
       const queryKey = apiDeviceQueryKeys.feature(feature, device?.id)
-      await queryClient.invalidateQueries({ queryKey })
+      await queryClient.invalidateQueries(
+        { queryKey },
+        { cancelRefetch: false }
+      )
     },
     [device?.id, queryClient]
   )
@@ -127,77 +135,24 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
     [device, queryClient]
   )
 
-  const processEntitiesModification = useCallback(async () => {
-    if (!device) {
-      return
-    }
-
-    const modifiedEntities = modifiedEntitiesQueueRef.current
-    const timeSinceLastProcess =
-      Date.now() - modifiedEntitiesLastProcessTimeRef.current
-
-    // Collect modifications for at least 1.5s before processing
-    if (
-      timeSinceLastProcess < 1500 ||
-      modifiedEntitiesLastProcessTimeRef.current === 0
-    ) {
-      modifiedEntitiesLastProcessTimeRef.current = Date.now()
-      return
-    }
-
-    const entitiesByType = groupBy(modifiedEntities, "entityType")
-
-    for (const [entityType, entities] of Object.entries(entitiesByType)) {
-      const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
-      const config = queryClient.getQueryData<GetEntitiesConfigResponse>(
-        useApiEntitiesConfigQuery.queryKey(entityType, device.id)
-      )
-      const [idFieldName] =
-        Object.entries(config?.fields || {}).find(([, { type }]) => {
-          return type === "id"
-        }) || []
-
-      if (!idFieldName) {
-        continue
+  const processEntitiesModification = useCallback(
+    async (modifiedEntities: DetailedOutboxEntity[]) => {
+      if (!device) {
+        return
       }
 
-      const existingData = queryClient.getQueryData<EntityData[]>(queryKey)
+      const entitiesByType = groupBy(modifiedEntities, "entityType")
 
-      if (!existingData) {
-        continue
+      for (const entityType of Object.keys(entitiesByType)) {
+        const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
+        await queryClient.invalidateQueries(
+          { queryKey },
+          { cancelRefetch: false }
+        )
       }
-
-      if (entities.length <= 10) {
-        for (const entity of entities) {
-          const entityDataResponse = await getEntityData(
-            device,
-            entity.entityType,
-            entity.entityId
-          )
-          if (!entityDataResponse.ok) {
-            continue
-          }
-          const entityData = entityDataResponse.body.data
-          queryClient.setQueryData(queryKey, (oldData: EntityData[] = []) => {
-            const nextData = cloneDeep(oldData)
-            const existingIndex = nextData.findIndex(
-              (item) => item[idFieldName] === entity.entityId
-            )
-            if (existingIndex >= 0) {
-              nextData[existingIndex] = entityData
-            } else {
-              nextData.push(entityData)
-            }
-            return nextData
-          })
-        }
-      } else {
-        await queryClient.invalidateQueries({ queryKey })
-      }
-    }
-    modifiedEntitiesQueueRef.current = []
-    modifiedEntitiesLastProcessTimeRef.current = 0
-  }, [device, queryClient])
+    },
+    [device, queryClient]
+  )
 
   const processEntitiesUnknownAction = useCallback(
     async (unknownEntities: SimpleOutboxEntity[]) => {
@@ -207,7 +162,10 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       const entitiesByType = groupBy(unknownEntities, "entityType")
       for (const entityType of Object.keys(entitiesByType)) {
         const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
-        await queryClient.invalidateQueries({ queryKey })
+        await queryClient.invalidateQueries(
+          { queryKey },
+          { cancelRefetch: false }
+        )
       }
     },
     [device, queryClient]
@@ -235,9 +193,8 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
         void processEntitiesDelete(deleted)
       }
 
-      if (modified.length > 0 || modifiedEntitiesQueueRef.current.length > 0) {
-        modifiedEntitiesQueueRef.current.push(...modified)
-        await processEntitiesModification()
+      if (modified.length > 0) {
+        await processEntitiesModification(modified)
       }
 
       if (unknown.length > 0) {

@@ -31,8 +31,8 @@ export const useApiDeviceBackupRestoreMutation = (
   const [neededSpace, setNeededSpace] = useState<number>()
 
   const freeSpace = useMemo(() => {
-    return fileManagerData?.data.storageInformation?.[0]?.freeSpaceBytes
-  }, [fileManagerData?.data.storageInformation])
+    return fileManagerData?.data?.storageInformation?.[0]?.freeSpaceBytes
+  }, [fileManagerData?.data?.storageInformation])
 
   const confirmSpaceAvailability = useCallback(
     async (requiredSpace: number): Promise<boolean> => {

@@ -117,7 +117,7 @@ const mutationFn = async ({
 }
 
 export const useDeviceFileTransferMutation = (
-  entityType: string,
+  entityType?: string,
   device?: ApiDevice,
   targetDirectoryPath?: string
 ) => {
@@ -129,6 +129,14 @@ export const useDeviceFileTransferMutation = (
       device?.id
     ),
     mutationFn: (payload: Payload) => {
+      if (!entityType) {
+        return Promise.reject(
+          new AppError(
+            "Entity type is required",
+            FailedTransferErrorName.Unknown
+          )
+        )
+      }
       return mutationFn({
         ...payload,
         device,
@@ -141,7 +149,7 @@ export const useDeviceFileTransferMutation = (
 }
 
 useDeviceFileTransferMutation.mutationKey = (
-  entityType: string,
+  entityType?: string,
   deviceId?: string
 ) => ["fileTransfer", deviceId, entityType]
 useDeviceFileTransferMutation.mutationFn = mutationFn

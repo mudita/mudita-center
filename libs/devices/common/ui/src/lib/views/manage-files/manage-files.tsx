@@ -78,6 +78,7 @@ export interface ManageFilesViewProps
   storageInfo?: Omit<ManageFilesStorageSummaryProps, "messages"> &
     Pick<ManageFilesCategoryListProps, "categories"> &
     ManageFilesOtherFilesProps
+  isError?: boolean
 }
 
 export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
@@ -103,6 +104,7 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = ({
   storageInfo,
   children,
   deviceId,
+  isError,
 }) => {
   const { getValues, setValue } = useFormContext<ManageFilesFormValues>()
   const genericDeleteRef = useRef<GenericDeleteFlow>(null)
@@ -305,6 +307,7 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = ({
         onDownloadClick={openDirectoryDialog && startDownloadFlow}
         onAddFileClick={startUploadFlow}
         filesIds={filesIds}
+        isError={isError}
       >
         {content}
       </ManageFilesContent>

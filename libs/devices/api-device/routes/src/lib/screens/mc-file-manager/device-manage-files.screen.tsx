@@ -41,6 +41,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     data: storageInfo,
     progress,
     isLoading,
+    isConfigError,
   } = useDeviceManageFiles(feature)
 
   const [activeCategoryId, setActiveCategoryId] = useState<string>(
@@ -164,6 +165,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
           downloadFilePreview={
             activeCategoryId === "imageFiles" ? downloadPreview : undefined
           }
+          isError={isConfigError}
         >
           {(props) => {
             return <DeviceManageFilesList {...props} />
