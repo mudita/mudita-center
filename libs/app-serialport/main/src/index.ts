@@ -4,4 +4,5 @@
  */
 
 export * from "./lib/init-serialport"
+export * from "./lib/app-serial-port-service"
 export * from "./lib/app-serial-port.preload"

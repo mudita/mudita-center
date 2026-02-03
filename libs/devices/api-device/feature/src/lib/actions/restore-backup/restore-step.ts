@@ -4,7 +4,7 @@
  */
 
 import { ApiDevice, RestoreResponse200 } from "devices/api-device/models"
-import { restore } from "../../api/restore"
+import { restoreGet, restorePost } from "../../api/restore"
 import { delayUntil } from "app-utils/common"
 
 interface RestoreStepParams {
@@ -21,7 +21,7 @@ export const restoreStep = async ({
   onProgress(0)
   let restoreResponse200: Omit<RestoreResponse200, "_status"> = {}
 
-  const restoreResponse = await restore(device, { restoreId, init: true })
+  const restoreResponse = await restorePost(device, { restoreId })
   if (!restoreResponse.ok) {
     throw new Error("Failed to start restore process")
   }
@@ -33,7 +33,7 @@ export const restoreStep = async ({
 
     while (restoreResponseStatus === 202) {
       const loopedRestoreResponse = await delayUntil(
-        restore(device, { restoreId }),
+        restoreGet(device, { restoreId }),
         250
       )
       if (!loopedRestoreResponse.ok) {

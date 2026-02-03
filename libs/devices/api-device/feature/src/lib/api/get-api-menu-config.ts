@@ -8,17 +8,16 @@ import {
   ApiDevice,
   ApiDevicePaths,
   ApiDeviceResponseBody,
+  buildMenuConfigRequest,
 } from "devices/api-device/models"
 import { MenuGroup, MenuIndex } from "app-routing/models"
 import { uniq } from "lodash"
 
 export const getApiMenuConfig = async (device: ApiDevice) => {
   const response = await ApiDeviceSerialPort.request(device, {
-    endpoint: "MENU_CONFIGURATION",
-    method: "GET",
-    body: {
+    ...buildMenuConfigRequest({
       lang: "en-US",
-    },
+    }),
     options: {
       timeout: 1000,
     },

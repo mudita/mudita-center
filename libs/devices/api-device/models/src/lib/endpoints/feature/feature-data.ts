@@ -13,6 +13,8 @@ export const FeatureDataRequestValidator = z.object({
   feature: z.string().min(1),
 })
 
+export type FeatureDataRequest = z.infer<typeof FeatureDataRequestValidator>
+
 export const CommonFeatureDataResponseValidator = z.object({}).optional()
 
 export const FeatureDataResponseValidator = z.union([
@@ -28,3 +30,11 @@ export type ApiFeatureDataResponse = z.output<
 export type CommonFeatureDataResponse = z.output<
   typeof CommonFeatureDataResponseValidator
 >
+
+export const buildFeatureDataRequest = (req: FeatureDataRequest) => {
+  return {
+    endpoint: "FEATURE_DATA",
+    method: "GET",
+    body: req,
+  } as const
+}
