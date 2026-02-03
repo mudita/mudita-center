@@ -17,6 +17,7 @@ import logger from "electron-log/main"
 import { SerialPortError } from "app-serialport/utils"
 
 type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
+
 enum SerialPortEvents {
   DevicesUpdated = "devicesUpdated",
   FrozenDeviceReconnected = "frozenDeviceReconnected",
@@ -39,24 +40,27 @@ export class AppSerialPortService {
       reconnecting?: Promise<void>
     }
   >()
+  private initPromise?: Promise<void>
 
   constructor() {
-    this.init()
+    void this.init()
   }
 
-  private init() {
-    void this.detectChanges({ initial: true })
+  public async init() {
+    if (this.initPromise) {
+      return this.initPromise
+    }
 
-    usb.on("attach", () => {
-      void this.detectChanges()
-    })
+    this.initPromise = (async () => {
+      usb.on("attach", () => void this.detectChanges())
+      usb.on("detach", () => void this.detectChanges())
+      await this.detectChanges({ initial: true })
+    })()
 
-    usb.on("detach", () => {
-      void this.detectChanges()
-    })
+    return this.initPromise
   }
 
-  private async detectChanges({ initial }: { initial?: boolean } = {}) {
+  public async detectChanges({ initial }: { initial?: boolean } = {}) {
     const connectedDevices = await AppSerialportDeviceScanner.scan()
 
     const changedDevices: SerialPortChangedDevices = {
@@ -103,7 +107,7 @@ export class AppSerialPortService {
     // Detect removed devices
     for (const device of this.devices.values()) {
       if (!connectedDevices.find(({ id }) => id === device.info.id)) {
-        device?.instance?.destroy()
+        await device?.instance?.destroyAsync()
 
         if (device?.freezer.duration) {
           device.freezer.timeout = setTimeout(() => {
@@ -236,9 +240,17 @@ export class AppSerialPortService {
         }
 
         if (!device.reconnecting) {
-          device.reconnecting = this.reconnect(id).then(() => {
-            device.reconnecting = undefined
-          })
+          device.reconnecting = this.reconnect(id)
+            .then(() => {
+              device.reconnecting = undefined
+            })
+            .catch((reconnectError) => {
+              device.reconnecting = undefined
+              logger.error(
+                `Failed to reconnect device at id ${id}:`,
+                reconnectError
+              )
+            })
         }
         await device.reconnecting
 
@@ -260,7 +272,7 @@ export class AppSerialPortService {
     }
 
     if (device.instance) {
-      device.instance.destroy()
+      await device.instance.destroyAsync()
       device.instance = undefined
     }
 
@@ -310,19 +322,22 @@ export class AppSerialPortService {
     return !!device?.freezer.timeout
   }
 
-  reset(id?: SerialPortDeviceId) {
+  async reset(id?: SerialPortDeviceId, { rescan = true } = {}) {
     if (id) {
       const device = this.devices.get(id)
       if (device) {
-        device?.instance?.destroy()
+        await device?.instance?.destroyAsync()
         this.devices.delete(id)
       }
     } else {
       for (const device of this.devices.values()) {
-        device?.instance?.destroy()
+        await device?.instance?.destroyAsync()
       }
       this.devices.clear()
     }
-    void this.detectChanges()
+
+    if (rescan) {
+      void this.detectChanges()
+    }
   }
 }

@@ -13,6 +13,8 @@ export const FeatureConfigRequestValidator = z.object({
   feature: z.string().min(1),
 })
 
+export type FeatureConfigRequest = z.infer<typeof FeatureConfigRequestValidator>
+
 const CommonFeatureConfigResponseValidator = z.union([
   z.object({
     main: z.object({
@@ -41,3 +43,11 @@ export type ApiFeatureConfigResponse = z.output<
 export type CommonFeatureConfigResponse = z.output<
   typeof CommonFeatureConfigResponseValidator
 >
+
+export const buildFeatureConfigRequest = (req: FeatureConfigRequest) => {
+  return {
+    endpoint: "FEATURE_CONFIGURATION",
+    method: "GET",
+    body: req,
+  } as const
+}

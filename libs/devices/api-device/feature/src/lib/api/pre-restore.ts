@@ -4,19 +4,18 @@
  */
 
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
-import { ApiDevice, PreRestoreRequest } from "devices/api-device/models"
+import {
+  ApiDevice,
+  buildPreRestoreRequest,
+  PreRestoreRequest,
+} from "devices/api-device/models"
 
 export const preRestore = (
   device: ApiDevice,
   { restoreId, features }: PreRestoreRequest
 ) => {
   return ApiDeviceSerialPort.request(device, {
-    endpoint: "PRE_RESTORE",
-    method: "POST",
-    body: {
-      restoreId,
-      features,
-    },
+    ...buildPreRestoreRequest({ restoreId, features }),
     options: {
       timeout: 10_000,
       retries: 2,

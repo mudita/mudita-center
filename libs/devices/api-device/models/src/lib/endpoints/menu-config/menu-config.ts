@@ -11,6 +11,8 @@ export const MenuConfigRequestValidator = z.object({
   lang: MCLangValidator,
 })
 
+export type MenuConfigRequest = z.infer<typeof MenuConfigRequestValidator>
+
 const MenuItemConfigValidator = z.object({
   feature: z.string(),
   displayName: z.string(),
@@ -31,3 +33,11 @@ export const MenuConfigResponseValidator = z.object({
 })
 
 export type MenuConfig = z.infer<typeof MenuConfigResponseValidator>
+
+export const buildMenuConfigRequest = (req: MenuConfigRequest) => {
+  return {
+    endpoint: "MENU_CONFIGURATION",
+    method: "GET",
+    body: req
+  } as const
+}
