@@ -23,3 +23,11 @@ export const PatchEntityDataResponseValidator = z.object({
 export type PatchEntityDataResponse = z.infer<
   typeof PatchEntityDataResponseValidator
 >
+
+export const buildPatchEntityDataRequest = (req: PatchEntityDataRequest) => {
+  return {
+    endpoint: "ENTITIES_DATA",
+    method: "PATCH",
+    body: req,
+  } as const
+}

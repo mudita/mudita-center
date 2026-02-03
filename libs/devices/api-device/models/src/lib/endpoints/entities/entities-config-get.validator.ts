@@ -9,6 +9,10 @@ export const GetEntitiesConfigRequestValidator = z.object({
   entityType: z.string().min(1),
 })
 
+export type GetEntitiesConfigRequest = z.infer<
+  typeof GetEntitiesConfigRequestValidator
+>
+
 export const GetEntitiesConfigResponseValidator = z.object({
   fields: z.record(
     z.string(),
@@ -21,3 +25,11 @@ export const GetEntitiesConfigResponseValidator = z.object({
 export type GetEntitiesConfigResponse = z.infer<
   typeof GetEntitiesConfigResponseValidator
 >
+
+export const buildEntitiesConfigGetRequest = (req: GetEntitiesConfigRequest) => {
+  return {
+    endpoint: "ENTITIES_CONFIGURATION",
+    method: "GET",
+    body: req,
+  } as const
+}

@@ -6,32 +6,19 @@
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import {
   ApiDevice,
-  PreBackupRequest,
+  buildPreBackupGetRequest,
+  buildPreBackupPostRequest,
+  PreBackupGetRequest,
+  PreBackupPostRequest,
   PreBackupResponse200,
   PreBackupResponse202,
 } from "devices/api-device/models"
 
-export const preBackup = async (
-  device: ApiDevice,
-  {
-    backupId,
-    features,
-  }: Omit<PreBackupRequest, "features"> &
-    Partial<Pick<PreBackupRequest, "features">>
-) => {
-  const response = await ApiDeviceSerialPort.request(device, {
-    endpoint: "PRE_BACKUP",
-    method: features ? "POST" : "GET",
-    body: {
-      backupId,
-      ...(features ? { features } : {}),
-    },
-    options: {
-      timeout: 10_000,
-      retries: 2,
-    },
-  })
+type SerialPortResponse = Awaited<
+  ReturnType<typeof ApiDeviceSerialPort.request>
+>
 
+const normalizePreBackupResponse = (response: SerialPortResponse) => {
   if (!response.ok) {
     return response
   }
@@ -50,3 +37,40 @@ export const preBackup = async (
     body: response.body as PreBackupResponse200,
   } as const
 }
+
+const preBackupPost = async (
+  device: ApiDevice,
+  params: PreBackupPostRequest
+) => {
+  const response = await ApiDeviceSerialPort.request(device, {
+    ...buildPreBackupPostRequest(params),
+    options: preBackupRequestOptions,
+  })
+
+  return normalizePreBackupResponse(response)
+}
+
+const preBackupGet = async (device: ApiDevice, params: PreBackupGetRequest) => {
+  const response = await ApiDeviceSerialPort.request(device, {
+    ...buildPreBackupGetRequest(params),
+    options: preBackupRequestOptions,
+  })
+
+  return normalizePreBackupResponse(response)
+}
+
+export const preBackup = async (
+  device: ApiDevice,
+  params: PreBackupGetRequest | PreBackupPostRequest
+) => {
+  if ("features" in params) {
+    return preBackupPost(device, params)
+  }
+
+  return preBackupGet(device, params)
+}
+
+const preBackupRequestOptions = {
+  timeout: 10_000,
+  retries: 2,
+} as const
