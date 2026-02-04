@@ -61,7 +61,7 @@ const mutationFn = async ({
             type: "",
             mimeType: "",
             size: 0,
-            name: "Refreshing files list...",
+            name: "Loading files",
           }
         : undefined
 

@@ -4,7 +4,7 @@
  */
 
 import { ApiDevice } from "devices/api-device/models"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { theme } from "app-theme/utils"
 import {
@@ -12,6 +12,7 @@ import {
   RestoreBackupParams,
 } from "../actions/restore-backup/restore-backup"
 import { useApiFeatureQuery } from "./use-api-feature.query"
+import { useApiEntitiesDataQuery } from "./use-api-entities-data.query"
 
 interface Variables {
   features: RestoreBackupParams["features"]
@@ -22,6 +23,8 @@ export const useApiDeviceBackupRestoreMutation = (
   onSuccess?: VoidFunction,
   onError?: (aborted?: boolean) => void
 ) => {
+  const queryClient = useQueryClient()
+
   const { data: fileManagerData } = useApiFeatureQuery(
     "mc-file-manager-internal",
     device
@@ -45,6 +48,20 @@ export const useApiDeviceBackupRestoreMutation = (
     [freeSpace]
   )
 
+  const refreshEntities = useCallback(
+    (variables: Variables) => {
+      const features = variables.features.map((feature) =>
+        feature.key.toLowerCase()
+      )
+      if (features.some((feature) => feature.includes("contact"))) {
+        void queryClient.resetQueries({
+          queryKey: useApiEntitiesDataQuery.queryKey("contacts", device?.id),
+        })
+      }
+    },
+    [device?.id, queryClient]
+  )
+
   const mutation = useMutation({
     mutationFn: async ({ features }: Variables) => {
       if (!device) {
@@ -63,7 +80,10 @@ export const useApiDeviceBackupRestoreMutation = (
       setProgress(0)
       setNeededSpace(undefined)
     },
-    onSuccess,
+    onSuccess: async (_, variables) => {
+      refreshEntities(variables)
+      onSuccess?.()
+    },
     onError: (error) => {
       onError?.(error instanceof AbortSignal)
     },
