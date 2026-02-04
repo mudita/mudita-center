@@ -45,23 +45,29 @@ const mutationFn = async ({
   entityType: string
   targetDirectoryPath?: string
   track?: (event: AnalyticsEvent) => void
-  refetch: () => Promise<void>
+  refetch: (onProgress: (process: number) => void) => Promise<void>
 }) => {
   let transferProgress = 0
   let refetchProgress = 0
 
   const handleProgress = (file?: FileManagerFile) => {
     const progress = Math.floor(transferProgress * 0.9 + refetchProgress * 0.1)
+
+    const refreshingMessageFile =
+      transferProgress === 100
+        ? {
+            id: "",
+            path: "",
+            type: "",
+            mimeType: "",
+            size: 0,
+            name: "Refreshing files list...",
+          }
+        : undefined
+
     onProgress?.({
       progress,
-      file: file || {
-        id: "",
-        path: "",
-        type: "",
-        mimeType: "",
-        size: 0,
-        name: "Refreshing files list...",
-      },
+      file: file || refreshingMessageFile,
     })
   }
 
@@ -139,7 +145,12 @@ const mutationFn = async ({
   })
 
   handleProgress()
-  await refetch()
+  if (succeededLength > 0) {
+    await refetch((progress) => {
+      refetchProgress = progress
+      handleProgress()
+    })
+  }
   refetchProgress = 100
   handleProgress()
   await new Promise((resolve) => setTimeout(resolve, 500))
@@ -155,11 +166,20 @@ export const useDeviceFileTransferMutation = (
   const track = useTrack()
   const queryClient = useQueryClient()
 
-  const refetch = useCallback(async () => {
-    await queryClient.refetchQueries({
-      queryKey: useApiEntitiesDataQuery.queryKey(entityType, device?.id),
-    })
-  }, [queryClient, entityType, device?.id])
+  const refetch = useCallback(
+    async (onProgress: (progress: number) => void) => {
+      const response = await useApiEntitiesDataQuery.queryFn(
+        entityType,
+        device,
+        onProgress
+      )
+      queryClient.setQueryData(
+        useApiEntitiesDataQuery.queryKey(entityType, device?.id),
+        response
+      )
+    },
+    [queryClient, entityType, device]
+  )
 
   return useMutation({
     mutationKey: useDeviceFileTransferMutation.mutationKey(
