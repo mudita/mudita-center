@@ -167,15 +167,11 @@ export class AppSerialPortService {
     id: SerialPortDeviceId,
     data: SerialPortRequest
   ): ReturnType<SerialPortDevice["request"]> {
+    const device = this.devices.get(id)
     try {
-      const device = this.devices.get(id)
       if (!device) {
         logger.warn(`Cannot send request. Device not found at id ${id}.`)
         throw new Error(`Device not found at id ${id}.`)
-      }
-
-      if (device.reconnecting) {
-        await device.reconnecting
       }
 
       if (device.freezer.timeout) {
@@ -223,6 +219,10 @@ export class AppSerialPortService {
         })
       }
 
+      if (device.reconnecting) {
+        await device.reconnecting
+      }
+
       if (!device.instance) {
         logger.warn(
           `Cannot send request. Device instance not found at id ${id}.`
@@ -231,6 +231,9 @@ export class AppSerialPortService {
       }
       return await device.instance.request(data)
     } catch (error) {
+      if (device?.freezer.timeout) {
+        return this.request(id, data)
+      }
       if (error instanceof SerialPortError) {
         const device = this.devices.get(id)
 

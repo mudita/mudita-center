@@ -92,5 +92,5 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
         unfreeze(device)
       }, 3_000)
     }
-  }, [device, freeze, menuFailureReason, status, unfreeze])
+  }, [device, freeze, menuFailureReason, status, unfreeze, menuFailureCount])
 }
