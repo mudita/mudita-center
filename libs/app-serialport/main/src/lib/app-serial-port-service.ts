@@ -231,9 +231,6 @@ export class AppSerialPortService {
       }
       return await device.instance.request(data)
     } catch (error) {
-      if (device?.freezer.timeout) {
-        return this.request(id, data)
-      }
       if (error instanceof SerialPortError) {
         const device = this.devices.get(id)
 
@@ -243,6 +240,11 @@ export class AppSerialPortService {
         }
 
         if (!device.reconnecting) {
+          if (device.freezer.duration && !device.freezer.timeout) {
+            this.freeze(device.info.id, device.freezer.duration)
+            return this.request(id, data)
+          }
+
           device.reconnecting = this.reconnect(id)
             .then(() => {
               device.reconnecting = undefined
