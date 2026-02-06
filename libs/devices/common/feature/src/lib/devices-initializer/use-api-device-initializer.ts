@@ -11,7 +11,7 @@ import {
   useDeviceMenuQuery,
   useDeviceStatusQuery,
 } from "../hooks"
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect } from "react"
 import { delay } from "app-utils/common"
 import { useDeviceFreezer } from "app-serialport/renderer"
 import { performSystemAction, useOutboxQuery } from "devices/api-device/feature"
@@ -21,7 +21,6 @@ const DEFAULT_OUTBOX_EVENTS_COUNTER = 100
 
 export const useApiDeviceInitializer = (device: ApiDevice) => {
   const queryClient = useQueryClient()
-  const freezeTimeoutRef = useRef<NodeJS.Timeout>(undefined)
   const { freeze, unfreeze } = useDeviceFreezer()
 
   const { isLoading: isConfigLoading, isError: isConfigError } =
@@ -71,12 +70,14 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
   ])
 
   useEffect(() => {
-    void performSystemAction(device, {
-      action: "serial-port-setup",
-      chunkSizeInBytes: DEFAULT_CHUNK_SIZE_IN_BYTES * 20,
-      outboxEventsCounter: DEFAULT_OUTBOX_EVENTS_COUNTER * 5,
-    })
-  }, [device])
+    if (status === DeviceStatus.Initialized) {
+      void performSystemAction(device, {
+        action: "serial-port-setup",
+        chunkSizeInBytes: DEFAULT_CHUNK_SIZE_IN_BYTES * 20,
+        outboxEventsCounter: DEFAULT_OUTBOX_EVENTS_COUNTER * 5,
+      })
+    }
+  }, [device, status])
 
   useEffect(() => {
     void determineStatus()
@@ -84,13 +85,11 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
 
   useEffect(() => {
     if (status === DeviceStatus.Locked) {
-      freeze(device, 3_000)
+      freeze(device, 5_000)
+      console.log("Device is locked. Freezing device for 5 seconds.")
     }
     if (status === DeviceStatus.Initialized) {
-      clearTimeout(freezeTimeoutRef.current)
-      freezeTimeoutRef.current = setTimeout(() => {
-        unfreeze(device)
-      }, 3_000)
+      unfreeze(device)
     }
-  }, [device, freeze, menuFailureReason, status, unfreeze, menuFailureCount])
+  }, [device, freeze, status, unfreeze])
 }
