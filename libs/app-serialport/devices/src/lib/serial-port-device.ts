@@ -265,6 +265,28 @@ export class SerialPortDevice extends SerialPort {
     }
   }
 
+  async waitForOpen(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (super.isOpen) {
+        resolve()
+        return
+      }
+
+      const onOpen = () => {
+        super.removeListener("error", onError)
+        resolve()
+      }
+
+      const onError = (error: Error) => {
+        super.removeListener("open", onOpen)
+        reject(error)
+      }
+
+      super.once("open", onOpen)
+      super.once("error", onError)
+    })
+  }
+
   public static getSubtype(
     _vendorId?: string,
     _productId?: string
