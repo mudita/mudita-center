@@ -29,7 +29,6 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
     isLoading: isMenuLoading,
     isError: isMenuError,
     failureReason: menuFailureReason,
-    failureCount: menuFailureCount,
   } = useDeviceMenuQuery<ApiDeviceErrorType>(device)
   const { data: status } = useDeviceStatusQuery(device)
   useOutboxQuery(device, status === DeviceStatus.Initialized)
@@ -42,32 +41,36 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
   )
 
   const determineStatus = useCallback(async () => {
-    if (isConfigLoading || (isMenuLoading && menuFailureCount < 3)) {
+    if (
+      !isConfigError &&
+      menuFailureReason === ApiDeviceErrorType.DeviceLocked
+    ) {
+      setStatus(DeviceStatus.Locked)
+      return
+    }
+    if (isConfigError || isMenuError) {
+      setStatus(DeviceStatus.CriticalError)
+      return
+    }
+    if (isConfigLoading || isMenuLoading) {
       setStatus(DeviceStatus.Initializing)
       return
     }
     await delay(500)
-    if (
-      isConfigError ||
-      (isMenuError && menuFailureReason !== ApiDeviceErrorType.DeviceLocked)
-    ) {
-      setStatus(DeviceStatus.CriticalError)
-      return
-    }
-    if (menuFailureReason === ApiDeviceErrorType.DeviceLocked) {
-      setStatus(DeviceStatus.Locked)
-      return
-    }
+
     setStatus(DeviceStatus.Initialized)
   }, [
     isConfigError,
     isConfigLoading,
     isMenuError,
     isMenuLoading,
-    menuFailureCount,
     menuFailureReason,
     setStatus,
   ])
+
+  useEffect(() => {
+    void determineStatus()
+  }, [determineStatus])
 
   useEffect(() => {
     if (status === DeviceStatus.Initialized) {
@@ -80,13 +83,8 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
   }, [device, status])
 
   useEffect(() => {
-    void determineStatus()
-  }, [determineStatus])
-
-  useEffect(() => {
     if (status === DeviceStatus.Locked) {
-      freeze(device, 5_000)
-      console.log("Device is locked. Freezing device for 5 seconds.")
+      freeze(device, 10_000)
     }
     if (status === DeviceStatus.Initialized) {
       unfreeze(device)
