@@ -4,7 +4,6 @@
  */
 
 import EventEmitter from "events"
-import logger from "electron-log/main"
 
 enum Events {
   Frozen = "frozen",
@@ -27,13 +26,12 @@ export class DeviceFreezeHandler {
     return event === "freeze" ? Events.Frozen : Events.Unfrozen
   }
 
-  get shouldFreeze() {
-    return this.freezeDuration !== undefined && !this.isFrozen
+  get isFreezable() {
+    return this.freezeDuration !== undefined
   }
 
   prepareToFreeze(duration = DEFAULT_FREEZE_DURATION) {
     if (this.isFrozen) {
-      logger.log("Device is already frozen.")
       return
     }
     if (duration <= 0 || !Number.isFinite(duration)) {
@@ -44,7 +42,6 @@ export class DeviceFreezeHandler {
 
   freeze() {
     if (this.isFrozen) {
-      logger.log("Device is already frozen.")
       return
     }
     if (this.freezeDuration === undefined) {
@@ -53,14 +50,11 @@ export class DeviceFreezeHandler {
       )
     }
 
-    logger.log(`Freezing device for ${this.freezeDuration} ms.`)
-
     this.isFrozen = true
 
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.cleanup()
-      logger.log("Device unfrozen due to timeout.")
       this.eventEmitter.emit(Events.Unfrozen, "timeout")
     }, this.freezeDuration)
 
@@ -69,11 +63,8 @@ export class DeviceFreezeHandler {
 
   unfreeze() {
     if (!this.isFrozen) {
-      logger.log("Device is not frozen.")
       return
     }
-
-    logger.log("Manually unfreezing device.")
 
     this.cleanup()
     this.eventEmitter.emit(Events.Unfrozen, "manual")

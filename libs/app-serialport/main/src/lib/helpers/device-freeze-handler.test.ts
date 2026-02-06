@@ -19,32 +19,32 @@ describe("DeviceFreezeHandler", () => {
 
   describe("shouldFreeze", () => {
     it("should return false when prepareToFreeze was not called", () => {
-      expect(handler.shouldFreeze).toBe(false)
+      expect(handler.isFreezable).toBe(false)
     })
 
     it("should return true after prepareToFreeze is called", () => {
       handler.prepareToFreeze(5000)
-      expect(handler.shouldFreeze).toBe(true)
+      expect(handler.isFreezable).toBe(true)
     })
 
-    it("should return false when device is already frozen", () => {
+    it("should return true when device is already frozen", () => {
       handler.prepareToFreeze(5000)
       handler.freeze()
-      expect(handler.shouldFreeze).toBe(false)
+      expect(handler.isFreezable).toBe(true)
     })
 
     it("should return false after unfreeze", () => {
       handler.prepareToFreeze(5000)
       handler.freeze()
       handler.unfreeze()
-      expect(handler.shouldFreeze).toBe(false)
+      expect(handler.isFreezable).toBe(false)
     })
 
     it("should return false after timeout unfreeze", () => {
       handler.prepareToFreeze(5000)
       handler.freeze()
       jest.advanceTimersByTime(5000)
-      expect(handler.shouldFreeze).toBe(false)
+      expect(handler.isFreezable).toBe(false)
     })
   })
 

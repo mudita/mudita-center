@@ -27,7 +27,7 @@ enum SerialPortEvents {
 enum RequestRetryState {
   Retry,
   WaitForUnpause,
-  CheckIfFreezable,
+  FreezeIfPossible,
   ReinitializeInstance,
   RetryLastTime,
 }
@@ -164,7 +164,7 @@ export class AppSerialPortService {
         continue
       }
 
-      if (deviceInfo.freezeHandler.shouldFreeze) {
+      if (deviceInfo.freezeHandler.isFreezable) {
         // Freeze device instead of removing
         deviceInfo.freezeHandler.freeze()
         continue
@@ -244,11 +244,8 @@ export class AppSerialPortService {
         case RequestRetryState.WaitForUnpause:
           await this.waitForUnpause(id)
           break
-        case RequestRetryState.CheckIfFreezable:
-          if (device.freezeHandler.shouldFreeze) {
-            device.freezeHandler.freeze()
-            await this.waitForUnpause(id)
-          }
+        case RequestRetryState.FreezeIfPossible:
+          await this.freezeIfPossible(id)
           break
         case RequestRetryState.ReinitializeInstance:
           await this.reinitializeInstance(id)
@@ -261,38 +258,57 @@ export class AppSerialPortService {
 
       return await device.instance.request(data)
     } catch (error) {
-      switch (retryState) {
-        case undefined:
-          logger.warn(`Request failed for device at id ${id}. Retrying...`)
-          return this.request(id, data, RequestRetryState.Retry)
-        case RequestRetryState.Retry:
-          logger.warn(
-            `Request failed for device at id ${id}. Retrying after unpause...`
-          )
-          return this.request(id, data, RequestRetryState.WaitForUnpause)
-        case RequestRetryState.WaitForUnpause:
-          logger.warn(
-            `Request failed for device at id ${id} after unpause. Checking if freezable and retrying...`
-          )
-          return this.request(id, data, RequestRetryState.CheckIfFreezable)
-        case RequestRetryState.CheckIfFreezable:
-          logger.warn(
-            `Request failed for device at id ${id} after freeze check. Retrying after reinitialization...`
-          )
-          return this.request(id, data, RequestRetryState.ReinitializeInstance)
-        case RequestRetryState.ReinitializeInstance:
-          logger.warn(
-            `Request failed for device at id ${id} after reinitialization. One last retry.`
-          )
-          return this.request(id, data, RequestRetryState.RetryLastTime)
-        case RequestRetryState.RetryLastTime:
-          logger.warn(
-            `Request failed for device at id ${id} after all retries. Giving up.`
-          )
-          break
-      }
+      return this.handleRequestError(id, data, error, retryState)
+    }
+  }
 
-      throw error
+  private async handleRequestError(
+    id: SerialPortDeviceId,
+    data: SerialPortRequest,
+    error: unknown,
+    retryState?: RequestRetryState
+  ) {
+    await delay(250)
+
+    switch (retryState) {
+      case undefined:
+        logger.warn(`Request failed for device at id ${id}. Retrying...`)
+        return this.request(id, data, RequestRetryState.Retry)
+      case RequestRetryState.Retry:
+        logger.warn(
+          `Request failed for device at id ${id}. Retrying after unpause...`
+        )
+        return this.request(id, data, RequestRetryState.WaitForUnpause)
+      case RequestRetryState.WaitForUnpause:
+        logger.warn(
+          `Request failed for device at id ${id} after unpause. Checking if freezable and retrying...`
+        )
+        return this.request(id, data, RequestRetryState.FreezeIfPossible)
+      case RequestRetryState.FreezeIfPossible:
+        logger.warn(
+          `Request failed for device at id ${id} after freeze check. Retrying after reinitialization...`
+        )
+        return this.request(id, data, RequestRetryState.ReinitializeInstance)
+      case RequestRetryState.ReinitializeInstance:
+        logger.warn(
+          `Request failed for device at id ${id} after reinitialization. One last retry.`
+        )
+        return this.request(id, data, RequestRetryState.RetryLastTime)
+      case RequestRetryState.RetryLastTime:
+        logger.warn(
+          `Request failed for device at id ${id} after all retries. Giving up.`
+        )
+        throw error
+    }
+  }
+
+  private async freezeIfPossible(id: SerialPortDeviceId) {
+    const device = this.devices.get(id)
+
+    if (device && device.freezeHandler.isFreezable) {
+      device.freezeHandler.freeze()
+      await delay(250)
+      await this.waitForUnpause(id)
     }
   }
 
