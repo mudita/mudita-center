@@ -194,7 +194,6 @@ export class AppSerialPortService {
       changedDevices.removed.length > 0 ||
       initial
     ) {
-      console.log({ changedDevices })
       this.eventEmitter.emit(SerialPortEvents.DevicesUpdated, changedDevices)
     }
     this.changedDevices = { added: [], removed: [], all }
@@ -316,7 +315,6 @@ export class AppSerialPortService {
     let device = this.devices.get(id)
 
     while (device && device.requestsPaused) {
-      console.log("Device requests are paused, waiting...")
       await delay(500)
       device = this.devices.get(id)
     }
