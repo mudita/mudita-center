@@ -108,9 +108,7 @@ export class AppSerialPortService {
     }
   }
 
-  private async detectAddedDevices() {
-    const connectedDevices = await AppSerialportDeviceScanner.scan()
-
+  private async detectAddedDevices(connectedDevices: SerialPortDeviceInfo[]) {
     for (const connectedDevice of connectedDevices) {
       const isNewDevice = !this.devices.has(connectedDevice.id)
 
@@ -142,9 +140,8 @@ export class AppSerialPortService {
     }
   }
 
-  private async detectRemovedDevices() {
+  private async detectRemovedDevices(connectedDevices: SerialPortDeviceInfo[]) {
     const existingDevices = Array.from(this.devices.values())
-    const connectedDevices = await AppSerialportDeviceScanner.scan()
 
     for (const deviceInfo of existingDevices) {
       const isConnected = connectedDevices.some(
@@ -172,8 +169,10 @@ export class AppSerialPortService {
   }
 
   async detectChanges({ initial }: { initial?: boolean } = {}) {
-    await this.detectAddedDevices()
-    await this.detectRemovedDevices()
+    const connectedDevices = await AppSerialportDeviceScanner.scan()
+
+    await this.detectAddedDevices(connectedDevices)
+    await this.detectRemovedDevices(connectedDevices)
     const all = this.getCurrentDevices()
 
     const changedDevices: SerialPortChangedDevices = {
