@@ -13,10 +13,17 @@ import {
 import { AppSerialPortService } from "./app-serial-port-service"
 
 let serialport: AppSerialPortService
+let currentDevicesChangedListener: (() => void) | null = null
 
 export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
   if (serialport) {
-    const emitDevicesChanged = () => {
+    if (currentDevicesChangedListener) {
+      mainWindow.webContents.removeListener(
+        "did-finish-load",
+        currentDevicesChangedListener
+      )
+    }
+    currentDevicesChangedListener = () => {
       const changedDevices: SerialPortChangedDevices = {
         added: [],
         removed: [],
@@ -27,13 +34,26 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
         changedDevices
       )
     }
-    mainWindow.webContents.on("did-finish-load", emitDevicesChanged)
+    mainWindow.webContents.addListener(
+      "did-finish-load",
+      currentDevicesChangedListener
+    )
   } else {
     serialport = new AppSerialPortService()
     serialport.onDevicesChanged((data) => {
-      mainWindow.webContents.on("did-finish-load", () => {
+      if (currentDevicesChangedListener) {
+        mainWindow.webContents.removeListener(
+          "did-finish-load",
+          currentDevicesChangedListener
+        )
+      }
+      currentDevicesChangedListener = () => {
         mainWindow.webContents.send(SerialPortIpcEvents.DevicesChanged, data)
-      })
+      }
+      mainWindow.webContents.addListener(
+        "did-finish-load",
+        currentDevicesChangedListener
+      )
       mainWindow.webContents.send(SerialPortIpcEvents.DevicesChanged, data)
     })
     ipcMain.removeHandler(SerialPortIpcEvents.GetCurrentDevices)
