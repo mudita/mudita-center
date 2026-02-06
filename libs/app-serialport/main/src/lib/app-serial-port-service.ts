@@ -24,6 +24,14 @@ enum SerialPortEvents {
   DevicesUpdated = "devicesUpdated",
 }
 
+enum RequestRetryState {
+  Retry,
+  WaitForUnpause,
+  CheckIfFreezable,
+  ReinitializeInstance,
+  RetryLastTime,
+}
+
 interface DeviceEntry {
   info: SerialPortDeviceInfo
   instance?: SerialPortDevice
@@ -221,45 +229,74 @@ export class AppSerialPortService {
   async request(
     id: SerialPortDeviceId,
     data: SerialPortRequest,
-    retryState:
-      | "firstAttempt"
-      | "waitingForUnpause"
-      | "reinitializingInstance" = "firstAttempt"
+    retryState?: RequestRetryState
   ): ReturnType<SerialPortDevice["request"]> {
-    try {
-      const device = this.devices.get(id)
-      if (!device) {
-        throw new Error(`Device not found at id ${id}.`)
-      }
-      if (!device.instance) {
-        throw new Error(`Device instance not found at id ${id}.`)
-      }
+    const device = this.devices.get(id)
+    if (!device) {
+      throw new Error(`Device not found at id ${id}.`)
+    }
+    if (!device.instance) {
+      throw new Error(`Device instance not found at id ${id}.`)
+    }
 
-      if (retryState === "waitingForUnpause") {
-        await this.waitForUnpause(id)
-      } else if (retryState === "reinitializingInstance") {
-        await this.reinitializeInstance(id)
+    try {
+      switch (retryState) {
+        case RequestRetryState.WaitForUnpause:
+          await this.waitForUnpause(id)
+          break
+        case RequestRetryState.CheckIfFreezable:
+          if (device.freezeHandler.shouldFreeze) {
+            device.freezeHandler.freeze()
+            await this.waitForUnpause(id)
+          }
+          break
+        case RequestRetryState.ReinitializeInstance:
+          await this.reinitializeInstance(id)
+          break
+        case RequestRetryState.Retry:
+        case RequestRetryState.RetryLastTime:
+        default:
+          break
       }
 
       return await device.instance.request(data)
     } catch (error) {
-      if (retryState === "firstAttempt") {
-        logger.warn(
-          `Request failed for device at id ${id}. Retrying after unpause...`
-        )
-        return this.request(id, data, "waitingForUnpause")
-      } else if (retryState === "waitingForUnpause") {
-        logger.warn(
-          `Request failed for device at id ${id} after unpause. Retrying after reinitialization...`
-        )
-        return this.request(id, data, "reinitializingInstance")
+      switch (retryState) {
+        case undefined:
+          logger.warn(`Request failed for device at id ${id}. Retrying...`)
+          return this.request(id, data, RequestRetryState.Retry)
+        case RequestRetryState.Retry:
+          logger.warn(
+            `Request failed for device at id ${id}. Retrying after unpause...`
+          )
+          return this.request(id, data, RequestRetryState.WaitForUnpause)
+        case RequestRetryState.WaitForUnpause:
+          logger.warn(
+            `Request failed for device at id ${id} after unpause. Checking if freezable and retrying...`
+          )
+          return this.request(id, data, RequestRetryState.CheckIfFreezable)
+        case RequestRetryState.CheckIfFreezable:
+          logger.warn(
+            `Request failed for device at id ${id} after freeze check. Retrying after reinitialization...`
+          )
+          return this.request(id, data, RequestRetryState.ReinitializeInstance)
+        case RequestRetryState.ReinitializeInstance:
+          logger.warn(
+            `Request failed for device at id ${id} after reinitialization. One last retry.`
+          )
+          return this.request(id, data, RequestRetryState.RetryLastTime)
+        case RequestRetryState.RetryLastTime:
+          logger.warn(
+            `Request failed for device at id ${id} after all retries. Giving up.`
+          )
+          break
       }
 
       throw error
     }
   }
 
-  async waitForUnpause(id: SerialPortDeviceId): Promise<void> {
+  private async waitForUnpause(id: SerialPortDeviceId): Promise<void> {
     let device = this.devices.get(id)
 
     while (device && device.requestsPaused) {
