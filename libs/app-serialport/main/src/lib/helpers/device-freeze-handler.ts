@@ -87,10 +87,14 @@ export class DeviceFreezeHandler {
     this.freezeDuration = undefined
   }
 
+  on(event: Extract<PublicEvent, "freeze">, listener: VoidFunction): void
+  on(event: Extract<PublicEvent, "unfreeze">, listener: EventListener): void
   on(event: PublicEvent, listener: EventListener) {
     this.eventEmitter.on(this.mapEvent(event), listener)
   }
 
+  once(event: Extract<PublicEvent, "freeze">, listener: VoidFunction): void
+  once(event: Extract<PublicEvent, "unfreeze">, listener: EventListener): void
   once(event: PublicEvent, listener: EventListener) {
     this.eventEmitter.once(this.mapEvent(event), listener)
   }
