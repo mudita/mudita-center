@@ -36,6 +36,9 @@ export const useDevicesListener = () => {
       queryClient.removeQueries({
         queryKey: devicesQueryKeys._device(id),
       })
+      queryClient.removeQueries({
+        queryKey: [...devicesQueryKeys.all, null],
+      })
     },
     [queryClient]
   )
