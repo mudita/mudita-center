@@ -4,40 +4,101 @@
  */
 
 import { Transform, TransformCallback, TransformOptions } from "stream"
+import logger from "electron-log"
 
 interface CommonDeviceParserOptions extends TransformOptions {
   matcher: RegExp
 }
 
 /**
- * ApiDeviceParser is a Transform stream that processes incoming data chunks
- * and emits complete responses based on a specified matcher pattern pointing
- * to the beginning of a response along with its expected length.
+ * CommonDeviceResponseParser is a Transform stream that processes incoming data
+ * chunks and emits complete responses based on a specified matcher pattern
+ * pointing to the beginning of a response along with its expected length.
  */
 export class CommonDeviceResponseParser extends Transform {
   private readonly encoding: BufferEncoding = "utf8"
   private readonly matcher: RegExp
   private buffer = Buffer.alloc(0)
-  private bufferExpectedLength = 0
 
   constructor({ matcher, ...options }: CommonDeviceParserOptions) {
     super(options)
     this.matcher = matcher
     this.encoding = options.encoding || this.encoding
+
+    if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
+      logger.transports.console.useStyles = true
+    }
   }
 
-  private isFullResponse(buffer = this.buffer) {
-    return (
-      this.bufferExpectedLength > 0 &&
-      buffer.length === this.bufferExpectedLength
-    )
-  }
-
-  private sendResponse(buffer: Buffer, encoding = this.encoding) {
-    const data = buffer.toString().replace(this.matcher, "")
+  private sendResponse(data: Buffer, encoding = this.encoding) {
     this.push(Buffer.from(data), encoding)
-    this.buffer = Buffer.alloc(0)
-    this.bufferExpectedLength = 0
+  }
+
+  private processBuffer(encoding = this.encoding) {
+    const bufferData = this.buffer.toString()
+    const headerMatch = bufferData.match(this.matcher)
+
+    if (headerMatch) {
+      const header = headerMatch[0]
+      const expectedLength = parseInt(header.replace(/\D/g, ""), 10)
+      const headerIndex = headerMatch.index || 0
+      const headerLength = header.length
+
+      if (bufferData.length < headerIndex + headerLength + expectedLength) {
+        // Not enough data received yet, waiting for more data
+        return false
+      }
+
+      // Extract the response data based on the header position and expected length
+      const startIndex = headerIndex + headerLength
+      const endIndex = startIndex + expectedLength
+      const responseData = bufferData.slice(startIndex, endIndex)
+
+      // Optionally, log any data before the header as buffer trash
+      if (
+        headerIndex > 0 &&
+        process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1"
+      ) {
+        const trashData = bufferData.slice(0, headerIndex)
+        logger.warn(
+          `%cBuffer cleanup  (${trashData.length} bytes): '${trashData}'`,
+          "color: red"
+        )
+      }
+
+      // Emit the response data if it's not empty
+      if (responseData.length > 0) {
+        this.sendResponse(Buffer.from(responseData), encoding)
+
+        if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
+          logger.log(
+            `%cResponse parsed (${responseData.length} bytes): '${responseData}'`,
+            "color: green"
+          )
+        }
+      } else if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
+        logger.log(`%cEmpty response`, "color: gray")
+      }
+
+      // Clear the buffer of the processed response and any data before it
+      this.buffer = Buffer.from(bufferData.slice(endIndex))
+
+      if (endIndex > 0 && process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
+        logger.log(
+          `%cBuffer updated  (${this.buffer.toString().length} bytes): '${this.buffer.toString()}'`,
+          "color: blue"
+        )
+      }
+
+      if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
+        logger.log("\n")
+      }
+      // Indicate that a whole response was processed and there might be more data to process in the buffer
+      return true
+    }
+
+    // No valid header found, waiting for more data
+    return false
   }
 
   _transform(
@@ -45,62 +106,26 @@ export class CommonDeviceResponseParser extends Transform {
     encoding = this.encoding,
     callback: TransformCallback
   ) {
-    const chunkData = chunk.toString()
-    const allMatches = Array.from(chunkData.matchAll(this.matcher))
-
-    // If chunk contains new response header
-    if (allMatches.length > 0) {
-      // Loop through all matches of the header
-      for (const [index, match] of Object.entries(allMatches)) {
-        // If the first found header is not at the beginning of the chunk
-        if (index === "0" && match.index > 0 && this.buffer.length > 0) {
-          // Get the payload before the first header and add it to the buffer of previous response
-          const payload = Buffer.concat([
-            new Uint8Array(this.buffer),
-            new Uint8Array(Buffer.from(chunkData.slice(0, match.index))),
-          ])
-          // Emit the previous response if it's full and clear the buffer
-          if (this.isFullResponse(payload)) {
-            this.sendResponse(payload, encoding)
-          }
-        }
-
-        // Get the n-th header and attached payload of the response
-        const header = match[0]
-        // Calculate the expected length of the response
-        this.bufferExpectedLength =
-          parseInt(header.replaceAll(/\D/g, "")) + header.length
-        // Extract the payload from the chunk
-        const payload = Buffer.from(
-          chunkData.slice(match.index, match.index + this.bufferExpectedLength)
-        )
-
-        // If full response is sent, emit it and clear the buffer
-        if (this.isFullResponse(payload)) {
-          this.sendResponse(payload, encoding)
-        }
-        // Otherwise, save the payload to the buffer
-        else {
-          this.buffer = payload
-        }
-      }
+    if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
+      logger.log(
+        `%cChunk received  (${chunk.toString().length} bytes): '${chunk.toString()}'`,
+        "color: magenta"
+      )
     }
-    // If chunk doesn't contain new response header
-    else {
-      // Concatenate the chunk with the saved buffer
-      const payload = Buffer.concat([
-        new Uint8Array(this.buffer),
-        new Uint8Array(chunk),
-      ])
-      // If full response is sent, emit it and clear the buffer
-      if (this.isFullResponse(payload)) {
-        this.sendResponse(payload, encoding)
-      }
-      // Otherwise, save the payload to the buffer and wait for the next chunk
-      else {
-        this.buffer = payload
-      }
+
+    this.buffer = Buffer.concat([this.buffer, chunk])
+
+    if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
+      logger.log(
+        `%cBuffer updated  (${this.buffer.toString().length} bytes): '${this.buffer.toString()}'`,
+        "color: blue"
+      )
     }
+
+    while (this.processBuffer(encoding)) {
+      this.processBuffer(encoding)
+    }
+
     callback()
   }
 }

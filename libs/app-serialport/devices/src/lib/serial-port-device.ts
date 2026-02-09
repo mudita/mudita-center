@@ -71,7 +71,7 @@ export class SerialPortDevice extends SerialPort {
       const rawResponse = buffer.toString()
       if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
         console.log(
-          styleText(["bold", "bgMagenta"], "SerialPort response"),
+          styleText(["bold", "bgMagenta"], " SerialPort response "),
           styleText(["bgMagenta"], this.path),
           styleText(["magenta"], `${sliceLogs(rawResponse)}`),
           "\n"
@@ -86,7 +86,7 @@ export class SerialPortDevice extends SerialPort {
     } catch (error) {
       if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
         console.log(
-          styleText(["bold", "bgRed"], "SerialPort response parse error"),
+          styleText(["bold", "bgRed"], " SerialPort response parse error "),
           styleText(["bgRed"], this.path),
           styleText(
             ["red"],
@@ -132,7 +132,7 @@ export class SerialPortDevice extends SerialPort {
       const parsedData = this.parseRequest(data)
       if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
         console.log(
-          styleText(["bold", "bgCyan"], "SerialPort write"),
+          styleText(["bold", "bgCyan"], " SerialPort write "),
           styleText(["bgCyan"], this.path),
           styleText(["cyan"], `${sliceLogs(parsedData?.toString())}`)
         )
@@ -141,7 +141,7 @@ export class SerialPortDevice extends SerialPort {
     } catch (error) {
       if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
         console.log(
-          styleText(["bold", "bgRed"], "SerialPort write parse error"),
+          styleText(["bold", "bgRed"], " SerialPort write parse error "),
           styleText(["bgRed"], this.path),
           styleText(
             ["red"],
@@ -248,7 +248,7 @@ export class SerialPortDevice extends SerialPort {
     } catch (err) {
       if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
         console.log(
-          styleText(["bold", "bgRed"], "SerialPort destroy error"),
+          styleText(["bold", "bgRed"], " SerialPort destroy error "),
           styleText(["bgRed"], this.path),
           styleText(
             ["red"],
