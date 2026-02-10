@@ -27,3 +27,8 @@ logger.transports.file.resolvePathFn = () => {
     `${getLogFileName()}.log`
   )
 }
+logger.transports.file.level =
+  process.env.NODE_ENV === "development" ? "silly" : "debug"
+
+logger.transports.console.level =
+  process.env.NODE_ENV === "development" ? "silly" : "error"

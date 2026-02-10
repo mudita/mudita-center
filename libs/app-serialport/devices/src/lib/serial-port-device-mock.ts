@@ -71,23 +71,7 @@ export class SerialPortDeviceMock extends SerialPortMock {
     options,
     ...data
   }: SerialPortRequest): ReturnType<typeof this.createRequest> {
-    const maxRetries = options?.retries || 0
-
-    try {
-      return await this.createRequest({ options, ...data })
-    } catch (error) {
-      if (maxRetries > 0) {
-        return await this.request({
-          options: {
-            ...options,
-            retries: maxRetries - 1,
-          },
-          ...data,
-        })
-      } else {
-        throw error
-      }
-    }
+    return await this.createRequest({ options, ...data })
   }
 
   destroy(error?: Error): this {

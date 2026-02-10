@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/serial-port-device"
+export * from "../../main/src/lib/serial-port-device"
 export * from "./lib/devices"

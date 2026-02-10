@@ -27,6 +27,14 @@ const DEFAULT_OPEN_RETRIES = 5
 const DEFAULT_OPEN_TIMEOUT = 5_000
 const LOG_CHARS_LIMIT = Number(process.env.SERIALPORT_LOG_LIMIT || 0)
 
+enum PortState {
+  Closed = "closed",
+  Opening = "opening",
+  Open = "open",
+  Closing = "closing",
+  Destroyed = "destroyed",
+}
+
 type BaseSerialPortDeviceOptions = SerialPortOpenOptions<AutoDetectTypes> & {
   queueInterval?: number
   queueConcurrency?: number
@@ -42,12 +50,30 @@ export type SerialPortDeviceOptions = Omit<
 export class SerialPortDevice extends SerialPort {
   #responseEmitter = new EventEmitter()
   #queue: PQueue
-  isOpening = false
+  #portState: PortState = PortState.Closed
+  #statePromise: Promise<void> | null = null
+
   static readonly deviceType: SerialPortDeviceType
   static readonly matchingVendorIds: string[] = []
   static readonly matchingProductIds: string[] = []
   static readonly nonSerialPortDevice: boolean = false
   readonly requestIdKey: string = "id"
+
+  get isOpening(): boolean {
+    return this.#portState === PortState.Opening
+  }
+
+  get isClosing(): boolean {
+    return this.#portState === PortState.Closing
+  }
+
+  get isDestroyed(): boolean {
+    return this.#portState === PortState.Destroyed
+  }
+
+  get portState(): PortState {
+    return this.#portState
+  }
 
   constructor(
     {
@@ -170,6 +196,24 @@ export class SerialPortDevice extends SerialPort {
     return new Promise<SerialPortResponse>((resolve, reject) => {
       void this.#queue.add(async () => {
         try {
+          // Wait for any pending state operation (opening/closing)
+          if (this.#statePromise) {
+            await this.#statePromise
+          }
+
+          // Check if port is ready for communication
+          if (this.#portState === PortState.Destroyed) {
+            throw new SerialPortError(SerialPortErrorType.PortNotOpen)
+          }
+
+          if (this.#portState === PortState.Closing) {
+            throw new SerialPortError(SerialPortErrorType.PortNotOpen)
+          }
+
+          if (!this.isOpen) {
+            throw new SerialPortError(SerialPortErrorType.PortNotOpen)
+          }
+
           const enrichedData = set(clone(data), this.requestIdKey, id)
           this.write(enrichedData)
           const response = await this.listenForResponse(
@@ -236,49 +280,93 @@ export class SerialPortDevice extends SerialPort {
   }
 
   async destroyAsync(error?: Error): Promise<this> {
-    try {
-      this.#responseEmitter.removeAllListeners()
-      this.#queue.clear()
-
-      if (this.isOpen) {
-        await this.drainAsync()
-        await this.closeAsync()
-        super.destroy(error)
-      } else {
-        super.destroy(error)
-      }
-      return this
-    } catch (err) {
-      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
-        console.log(
-          styleText(["bold", "bgRed"], " SerialPort destroy error "),
-          styleText(["bgRed"], this.path),
-          styleText(
-            ["red"],
-            err instanceof SerialPortError
-              ? err.type
-              : err instanceof Error
-                ? err.message
-                : String(err)
-          ),
-          "\n"
-        )
-      }
+    // Already destroyed
+    if (this.#portState === PortState.Destroyed) {
       return this
     }
+
+    // Wait for any pending state operation
+    if (this.#statePromise) {
+      try {
+        await this.#statePromise
+      } catch {
+        // Ignore errors from pending operations
+      }
+    }
+
+    this.#portState = PortState.Closing
+
+    this.#statePromise = (async () => {
+      try {
+        // Stop accepting new requests and clear pending ones
+        this.#queue.pause()
+        this.#queue.clear()
+        this.#responseEmitter.removeAllListeners()
+
+        if (this.isOpen) {
+          await this.drainAsync()
+          await this.closeAsync()
+        }
+
+        super.destroy(error)
+        this.#portState = PortState.Destroyed
+      } catch (err) {
+        if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+          console.log(
+            styleText(["bold", "bgRed"], " SerialPort destroy error "),
+            styleText(["bgRed"], this.path),
+            styleText(
+              ["red"],
+              err instanceof SerialPortError
+                ? err.type
+                : err instanceof Error
+                  ? err.message
+                  : String(err)
+            ),
+            "\n"
+          )
+        }
+        // Even on error, mark as destroyed to prevent further usage
+        this.#portState = PortState.Destroyed
+      } finally {
+        this.#statePromise = null
+      }
+    })()
+
+    await this.#statePromise
+    return this
   }
 
   async openAsync(retries = DEFAULT_OPEN_RETRIES): Promise<void> {
-    try {
-      this.isOpening = true
+    // Already open - nothing to do
+    if (this.isOpen && this.#portState === PortState.Open) {
+      return
+    }
 
-      await new Promise<void>((resolve, reject) => {
+    // If opening/closing is in progress, wait for it to complete
+    if (this.#statePromise) {
+      await this.#statePromise
+      // After waiting, check if we're now open
+      if (this.isOpen) {
+        return
+      }
+    }
+
+    // Don't open if destroyed or closing
+    if (this.#portState === PortState.Destroyed) {
+      throw new SerialPortError(SerialPortErrorType.PortOpenError)
+    }
+
+    this.#portState = PortState.Opening
+
+    const tryOpen = (retriesLeft: number): Promise<void> => {
+      return new Promise<void>((resolve, reject) => {
         super.open((error) => {
-          if (error && retries > 0) {
+          if (error && retriesLeft > 0) {
             this.waitForOpen()
               .then(resolve)
               .catch(() => {
-                this.openAsync(retries - 1)
+                tryOpen(retriesLeft - 1)
                   .then(resolve)
                   .catch(reject)
               })
@@ -289,28 +377,39 @@ export class SerialPortDevice extends SerialPort {
           }
         })
       })
-    } catch (error) {
-      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
-        console.log(
-          styleText(["bold", "bgRed"], " SerialPort open error "),
-          styleText(["bgRed"], this.path),
-          styleText(
-            ["red"],
-            error instanceof SerialPortError
-              ? error.type
-              : error instanceof Error
-                ? error.message
-                : String(error)
-          ),
-          "\n"
-        )
-      }
-    } finally {
-      this.isOpening = false
     }
+
+    this.#statePromise = (async () => {
+      try {
+        await tryOpen(retries)
+        this.#portState = PortState.Open
+      } catch (error) {
+        this.#portState = PortState.Closed
+        if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+          console.log(
+            styleText(["bold", "bgRed"], " SerialPort open error "),
+            styleText(["bgRed"], this.path),
+            styleText(
+              ["red"],
+              error instanceof SerialPortError
+                ? error.type
+                : error instanceof Error
+                  ? error.message
+                  : String(error)
+            ),
+            "\n"
+          )
+        }
+        throw error
+      } finally {
+        this.#statePromise = null
+      }
+    })()
+
+    return this.#statePromise
   }
 
-  private async waitForOpen(timeout = DEFAULT_OPEN_TIMEOUT): Promise<void> {
+   async waitForOpen(timeout = DEFAULT_OPEN_TIMEOUT): Promise<void> {
     return new Promise((resolve, reject) => {
       if (super.isOpen) {
         resolve()

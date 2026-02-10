@@ -9,9 +9,12 @@ import {
   SerialPortDeviceInfo,
   SerialPortDeviceSubtype,
 } from "app-serialport/models"
-import { devices, SerialPortDevice } from "app-serialport/devices"
 import { PortInfo } from "@serialport/bindings-interface"
 import { execPromise } from "app-utils/main"
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { SerialPortHandler } from "../../../devices/src/lib/serial-port-handler"
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { devices } from "../../../devices/src/lib/devices"
 
 export class AppSerialportDeviceScanner {
   private static readonly supportedDevices = devices
@@ -108,7 +111,7 @@ export class AppSerialportDeviceScanner {
           otherVendorIds,
           serialNumber,
           deviceType: instance.deviceType,
-          deviceSubtype: (instance as typeof SerialPortDevice).getSubtype(
+          deviceSubtype: (instance as typeof SerialPortHandler).getSubtype(
             vendorId,
             productId
           ),

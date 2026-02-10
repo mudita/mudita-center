@@ -6,9 +6,8 @@
 import {
   SerialPortDevice,
   SerialPortDeviceOptions,
-} from "../serial-port-device"
+} from "../../../../main/src/lib/serial-port-device"
 import { SerialPortDeviceType, SerialPortRequest } from "app-serialport/models"
-import { CommonDeviceResponseParser } from "../common/common-device-response-parser"
 import { commonDeviceRequestParser } from "../common/common-device-request-parser"
 
 export class SerialPortPureDevice extends SerialPortDevice {
@@ -18,10 +17,7 @@ export class SerialPortPureDevice extends SerialPortDevice {
   readonly requestIdKey = "uuid"
 
   constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
-    super(
-      { baudRate, ...options },
-      new CommonDeviceResponseParser({ matcher: /#\d{9}/g })
-    )
+    super({ baudRate, ...options })
   }
 
   parseRequest(data: SerialPortRequest) {

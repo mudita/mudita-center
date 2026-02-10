@@ -15,9 +15,9 @@ import {
   MSC_HARMONY_SCOPE,
   MSC_HARMONY_SCOPE_CATALOG_DIR,
 } from "devices/harmony-msc/models"
-import { SerialPortDeviceOptions } from "../serial-port-device"
 import { SerialPortDeviceMock } from "../serial-port-device-mock"
 import DeviceFlashFactory from "./device-flash/device-flash.factory"
+import { SerialPortHandlerOptions } from "../serial-port-handler"
 
 const getDeviceName = () => {
   return process.platform === "win32" ? "MUDITA HARMONY MSC" : "HARMONY"
@@ -33,7 +33,7 @@ export class SerialPortHarmonyMscDevice extends SerialPortDeviceMock {
     MSC_HARMONY_SCOPE_CATALOG_DIR
   )
 
-  constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
+  constructor({ baudRate = 9600, ...options }: SerialPortHandlerOptions) {
     super({ baudRate, ...options })
   }
 
