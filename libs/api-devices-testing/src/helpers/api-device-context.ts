@@ -27,7 +27,7 @@ export const initApiDeviceContext = async (): Promise<ApiDeviceContext> => {
     deviceId,
 
     reset: async () => {
-      service.reset(deviceId, { rescan: false })
+      await service.reset(deviceId, { rescan: false })
     },
   }
 }
