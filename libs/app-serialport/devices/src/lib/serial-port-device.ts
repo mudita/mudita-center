@@ -22,7 +22,9 @@ import { styleText } from "util"
 const DEFAULT_QUEUE_INTERVAL = 1
 const DEFAULT_QUEUE_CONCURRENCY = 1
 const DEFAULT_QUEUE_INTERVAL_CAPACITY = 1
-const DEFAULT_RESPONSE_TIMEOUT = 30000
+const DEFAULT_RESPONSE_TIMEOUT = 30_000
+const DEFAULT_OPEN_RETRIES = 5
+const DEFAULT_OPEN_TIMEOUT = 5_000
 const LOG_CHARS_LIMIT = Number(process.env.SERIALPORT_LOG_LIMIT || 0)
 
 type BaseSerialPortDeviceOptions = SerialPortOpenOptions<AutoDetectTypes> & {
@@ -40,6 +42,7 @@ export type SerialPortDeviceOptions = Omit<
 export class SerialPortDevice extends SerialPort {
   #responseEmitter = new EventEmitter()
   #queue: PQueue
+  isOpening = false
   static readonly deviceType: SerialPortDeviceType
   static readonly matchingVendorIds: string[] = []
   static readonly matchingProductIds: string[] = []
@@ -54,7 +57,7 @@ export class SerialPortDevice extends SerialPort {
     }: BaseSerialPortDeviceOptions,
     parser?: Transform
   ) {
-    super({ ...options, autoOpen: true })
+    super({ ...options, autoOpen: false })
     this.#responseEmitter.setMaxListeners(100)
     this.#queue = new PQueue({
       concurrency: queueConcurrency,
@@ -265,20 +268,70 @@ export class SerialPortDevice extends SerialPort {
     }
   }
 
-  async waitForOpen(): Promise<void> {
+  async openAsync(retries = DEFAULT_OPEN_RETRIES): Promise<void> {
+    try {
+      this.isOpening = true
+
+      await new Promise<void>((resolve, reject) => {
+        super.open((error) => {
+          if (error && retries > 0) {
+            this.waitForOpen()
+              .then(resolve)
+              .catch(() => {
+                this.openAsync(retries - 1)
+                  .then(resolve)
+                  .catch(reject)
+              })
+          } else if (error) {
+            reject(error)
+          } else {
+            resolve()
+          }
+        })
+      })
+    } catch (error) {
+      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
+        console.log(
+          styleText(["bold", "bgRed"], " SerialPort open error "),
+          styleText(["bgRed"], this.path),
+          styleText(
+            ["red"],
+            error instanceof SerialPortError
+              ? error.type
+              : error instanceof Error
+                ? error.message
+                : String(error)
+          ),
+          "\n"
+        )
+      }
+    } finally {
+      this.isOpening = false
+    }
+  }
+
+  private async waitForOpen(timeout = DEFAULT_OPEN_TIMEOUT): Promise<void> {
     return new Promise((resolve, reject) => {
       if (super.isOpen) {
         resolve()
         return
       }
 
+      const timeoutId = setTimeout(() => {
+        super.removeListener("open", onOpen)
+        super.removeListener("error", onError)
+        reject(new SerialPortError(SerialPortErrorType.PortOpenError))
+      }, timeout)
+
       const onOpen = () => {
         super.removeListener("error", onError)
+        clearTimeout(timeoutId)
         resolve()
       }
 
       const onError = (error: Error) => {
         super.removeListener("open", onOpen)
+        clearTimeout(timeoutId)
         reject(error)
       }
 

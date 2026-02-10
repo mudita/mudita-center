@@ -69,7 +69,7 @@ export class AppSerialPortService {
     return this.initPromise
   }
 
-  private initializeDevice(deviceInfo: SerialPortDeviceInfo) {
+  private async initializeDevice(deviceInfo: SerialPortDeviceInfo) {
     const instance = AppSerialportDeviceScanner.getMatchingInstance(deviceInfo)
     if (!instance) {
       return
@@ -94,9 +94,15 @@ export class AppSerialPortService {
       await this.detectChanges()
     })
 
+    const deviceInstance = new instance({
+      path: deviceInfo.path,
+    }) as SerialPortDevice
+
+    await deviceInstance.openAsync()
+
     this.devices.set(deviceInfo.id, {
       info: deviceInfo,
-      instance: new instance({ path: deviceInfo.path }) as SerialPortDevice,
+      instance: deviceInstance,
       freezeHandler,
       requestsPaused: false,
     })
@@ -122,7 +128,7 @@ export class AppSerialPortService {
 
       // New device detected
       if (isNewDevice) {
-        this.initializeDevice(connectedDevice)
+        await this.initializeDevice(connectedDevice)
         this.changedDevices.added.push(connectedDevice)
         continue
       }
@@ -137,14 +143,26 @@ export class AppSerialPortService {
       }
 
       // Update device info in case it changed
+      const pathChanged = existingDevice.info.path !== connectedDevice.path
       existingDevice.info = connectedDevice
 
       if (existingDevice.freezeHandler.isFrozen) {
         existingDevice.freezeHandler.unfreeze()
       }
 
-      // Reinitialize serialport instance
-      await this.reinitializeInstance(connectedDevice.id)
+      // Reinitialize serialport instance only if path changed or instance doesn't exist
+      const needsReinit = pathChanged || !existingDevice.instance
+
+      if (needsReinit) {
+        await this.reinitializeInstance(connectedDevice.id)
+      } else if (
+        existingDevice.instance &&
+        !existingDevice.instance.isOpen &&
+        !existingDevice.instance.isOpening
+      ) {
+        // Reopen existing instance if it's closed and not currently opening
+        await existingDevice.instance.openAsync()
+      }
     }
   }
 
@@ -236,6 +254,13 @@ export class AppSerialPortService {
     }
     if (!device.instance) {
       throw new Error(`Device instance not found at id ${id}.`)
+    }
+
+    if (!device.instance.isOpen) {
+      console.log(
+        `Device instance at id ${id} is not open. Attempting to reinitialize before request.`
+      )
+      await device.instance.openAsync()
     }
 
     try {
@@ -348,7 +373,7 @@ export class AppSerialPortService {
         path: device.info.path,
       }) as SerialPortDevice
 
-      await device.instance.waitForOpen()
+      await device.instance.openAsync()
     } catch (error) {
       logger.error(`Error reinitializing device instance at id ${id}:`, error)
     } finally {
