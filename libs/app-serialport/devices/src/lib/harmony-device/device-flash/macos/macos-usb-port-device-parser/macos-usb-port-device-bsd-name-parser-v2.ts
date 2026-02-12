@@ -60,17 +60,22 @@ export class MacosUsbPortDeviceBsdNameParserV2 {
 
     const locationIdDec = parseInt(hex, 16)
 
-    const awkProgram =
-      '/^$/ { if (loc_match && name!="") { print name; exit } loc=""; name=""; loc_match=0; next } ' +
-      '/"USB Product Name" =/ { ' +
-      '  name=$0; sub(/.*= "/,"",name); sub(/".*/,"",name); ' +
-      "} " +
-      '/"locationID" =/ { ' +
-      '  loc=$0; sub(/.*= /,"",loc); loc_match=(loc+0==target); ' +
-      "} " +
-      '(loc_match && name!="") { print name; exit }'
+    const awkProgram = [
+      '/^$/ { if (loc_match && name!="") { print name; exit } loc=""; name=""; loc_match=0; next }',
+      '/"USB Product Name" =/ {',
+      '  name=$0; sub(/.*= "/,"",name); sub(/".*/,"",name);',
+      "}",
+      '/"locationID" =/ {',
+      '  loc=$0; sub(/.*= /,"",loc); loc_match=(loc+0==target);',
+      "}",
+      '(loc_match && name!="") { print name; exit }',
+    ].join(" ")
 
-    const command = `ioreg -p IOUSB -r -c IOUSBHostDevice -l -w0 | awk -v target=${locationIdDec} '${awkProgram}'`
+    const command = [
+      "ioreg -p IOUSB -r -c IOUSBHostDevice -l -w0 |",
+      `awk -v target=${locationIdDec} '${awkProgram}'`,
+    ].join(" ")
+
     const output = String((await execPromise(command)) ?? "").trim()
 
     return output || undefined

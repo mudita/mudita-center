@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { USBPortDevice, USBPortDeviceFilters } from "./macos-usb-port-device-bsd-name-parser.interface"
+import {
+  USBPortDevice,
+  USBPortDeviceFilters,
+} from "./macos-usb-port-device-bsd-name-parser.interface"
 import { MacosUsbPortDeviceBsdNameParserV1 } from "./macos-usb-port-device-bsd-name-parser-v1"
 import { MacosUsbPortDeviceBsdNameParserV2 } from "./macos-usb-port-device-bsd-name-parser-v2"
 

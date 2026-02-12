@@ -33,15 +33,14 @@ describe("`MacosUsbPortDeviceBsdNameParserV2.getUSBPortDevices`", () => {
       },
     ]
 
-    ;(MacosUSBPortDeviceParser
-      .listUsbDevices as jest.Mock).mockResolvedValue(usbDevices)
-
+    ;(MacosUSBPortDeviceParser.listUsbDevices as jest.Mock).mockResolvedValue(
+      usbDevices
+    )
     ;(execPromise as jest.Mock)
       .mockResolvedValueOnce("Mudita Harmony (MSC mode)")
       .mockResolvedValueOnce("disk4")
 
-    const devices =
-      await MacosUsbPortDeviceBsdNameParserV2.getUSBPortDevices()
+    const devices = await MacosUsbPortDeviceBsdNameParserV2.getUSBPortDevices()
 
     expect(
       MacosUSBPortDeviceParser.listUsbDevices as jest.Mock
@@ -54,6 +53,4 @@ describe("`MacosUsbPortDeviceBsdNameParserV2.getUSBPortDevices`", () => {
       },
     ])
   })
-}
-)
-
+})
