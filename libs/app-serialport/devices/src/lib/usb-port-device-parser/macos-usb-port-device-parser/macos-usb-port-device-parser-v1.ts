@@ -21,7 +21,7 @@ interface SPUSBDataType {
   }[]
 }
 
-export class MacosUSBPortDeviceParser {
+export class MacosUsbPortDeviceParserV1 {
   static async listUsbDevices(): Promise<PortInfo[]> {
     const output = await execPromise("system_profiler SPUSBDataType -json")
     const { SPUSBDataType } = JSON.parse(output as string) as SPUSBDataType
