@@ -15,7 +15,7 @@ import {
 import { execPromise } from "app-utils/main"
 import {
   ApiDeviceContext,
-  initApiDeviceContext,
+  initApiDevice,
 } from "./helpers/api-device-context"
 
 let apiDeviceContext: ApiDeviceContext
@@ -25,7 +25,7 @@ const sourcePath = path.resolve(__dirname, "./test-files/sample.png")
 
 describe("File transfer", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
   }, 30_000)
 
   afterEach(async () => {

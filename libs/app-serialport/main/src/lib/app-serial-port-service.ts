@@ -11,9 +11,10 @@ import {
 } from "app-serialport/models"
 import { SerialPortDevice, SerialPortDeviceStatus } from "./serial-port-device"
 import { usb } from "usb"
-import logger from "electron-log/main"
 import { AppSerialportDeviceScanner } from "./app-serialport-device-scanner"
 import EventEmitter from "events"
+import { AppLogger } from "app-serialport/utils"
+import { delay } from "app-utils/common"
 
 type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
 
@@ -33,7 +34,10 @@ export class AppSerialPortService {
 
   constructor() {
     void this.init().catch((error) => {
-      logger.error("Failed to initialize AppSerialPortService:", error)
+      AppLogger.log(
+        "error",
+        `Failed to initialize AppSerialPortService: ${error instanceof Error ? error.message : String(error)}`
+      )
     })
   }
 
@@ -48,6 +52,9 @@ export class AppSerialPortService {
       usb.on("attach", () => {
         this.initialScan = false
         this.handleAttach()
+      })
+      usb.on("detach", () => {
+        this.handleDetach()
       })
     })()
 
@@ -66,26 +73,29 @@ export class AppSerialPortService {
   private initializeDevice(deviceInfo: SerialPortDeviceInfo): void {
     const device = new SerialPortDevice(deviceInfo, {
       onConnect: () => {
-        logger.debug(
+        AppLogger.log(
+          "debug",
           `Device connected at path ${deviceInfo.path} (id: ${deviceInfo.id}).`
         )
         this.debounceDevicesChanged()
       },
       onDisconnect: () => {
-        logger.debug(
+        AppLogger.log(
+          "debug",
           `Device disconnected at path ${deviceInfo.path} (id: ${deviceInfo.id}).`
         )
         this.debounceDevicesChanged()
       },
     })
 
-    device.initialize()
+    device.attachPort(deviceInfo)
 
     this.devices.set(deviceInfo.id, device)
   }
 
   private async handleAttach(): Promise<void> {
-    logger.silly(
+    AppLogger.log(
+      "silly",
       "Handling USB attach event. Scanning for serial port devices..."
     )
     const connectedDevices = await AppSerialportDeviceScanner.scan()
@@ -94,23 +104,51 @@ export class AppSerialPortService {
       const existingDevice = this.devices.get(deviceInfo.id)
 
       if (!existingDevice) {
-        logger.silly(
+        AppLogger.log(
+          "silly",
           `New device detected at path ${deviceInfo.path} (id: ${deviceInfo.id}). Initializing...`
         )
         this.initializeDevice(deviceInfo)
       } else {
-        logger.silly(
+        AppLogger.log(
+          "debug",
           `Device already exists at path ${deviceInfo.path} (id: ${deviceInfo.id}). Reinitializing...`
         )
-        if (existingDevice.info.path !== deviceInfo.path) {
-          logger.warn(
-            `Device path changed after reconnecting for device id ${deviceInfo.id}. Before: ${existingDevice.info.path}, after: ${deviceInfo.path}. Reinitializing device with new path.`
-          )
-          this.initializeDevice(deviceInfo)
-        } else {
+        if (existingDevice.isFrozen()) {
           existingDevice.unfreeze()
         }
+        existingDevice.attachPort(deviceInfo)
       }
+    }
+  }
+
+  // Method only for detecting detach of non-serialport devices
+  private async handleDetach(): Promise<void> {
+    AppLogger.log("silly", "Handling USB detach event.")
+
+    await delay(500)
+
+    const connectedDevices = await AppSerialportDeviceScanner.scan()
+    let devicesRemoved = false
+
+    for (const device of this.devices.values()) {
+      const notConnectedAnymore = !connectedDevices.some(
+        (connectedDevice) => connectedDevice.id === device.info.id
+      )
+      const isNonSerialPortDevice = device.isNonSerialPort()
+
+      if (notConnectedAnymore && isNonSerialPortDevice) {
+        AppLogger.log(
+          "debug",
+          `Device at path ${device.info.path} (id: ${device.info.id}) is no longer connected. Destroying device instance...`
+        )
+        device.destroy()
+        devicesRemoved = true
+      }
+    }
+
+    if (devicesRemoved) {
+      this.debounceDevicesChanged()
     }
   }
 
@@ -130,15 +168,13 @@ export class AppSerialPortService {
     return devices
   }
 
-  private async cleanupRemovedDevices() {
+  private cleanupRemovedDevices() {
     const removedDevices = this.getCurrentDevices().filter((device) => {
       return device.status === SerialPortDeviceStatus.DeviceDisconnected
     })
 
-    console.log({ removedDevices })
-
     for (const removedDevice of removedDevices) {
-      await removedDevice.destroy()
+      removedDevice.destroy()
       this.devices.delete(removedDevice.info.id)
     }
 
@@ -146,9 +182,9 @@ export class AppSerialPortService {
   }
 
   onDevicesChanged(callback: DevicesChangeCallback): void {
-    this.eventEmitter.on(Events.DevicesChanged, async () => {
+    this.eventEmitter.on(Events.DevicesChanged, () => {
       const added = this.activateNewDevices()
-      const removed = await this.cleanupRemovedDevices()
+      const removed = this.cleanupRemovedDevices()
 
       const all = this.getCurrentDevices().filter((device) => {
         return [
@@ -163,23 +199,15 @@ export class AppSerialPortService {
         removed: removed.map((device) => device.info),
       }
 
-      logger.silly(
-        "Devices changed. Emitting updated device list to listeners:",
-        data
+      AppLogger.log(
+        "debug",
+        `Devices changed. Emitting updated device list to listeners: ${JSON.stringify(data, null, 2)}`,
+        {
+          doNotTrim: true,
+        }
       )
       callback(data)
     })
-  }
-
-  changeBaudRate(deviceId: SerialPortDeviceId, baudRate: number): void {
-    const device = this.devices.get(deviceId)
-    if (!device) {
-      logger.error(
-        `Device not found at id ${deviceId}. Cannot change baud rate.`
-      )
-      return
-    }
-    device.changeBaudRate(baudRate)
   }
 
   request(deviceId: SerialPortDeviceId, request: SerialPortRequest) {
@@ -190,14 +218,42 @@ export class AppSerialPortService {
     return device.request(request)
   }
 
-  reset(deviceId?: SerialPortDeviceId, options?: { rescan?: boolean }): void {
-    //
+  async reset(
+    deviceId?: SerialPortDeviceId,
+    options?: { rescan?: boolean }
+  ): Promise<void> {
+    if (deviceId) {
+      const device = this.devices.get(deviceId)
+      if (!device) {
+        AppLogger.log(
+          "warn",
+          `Device not found at id ${deviceId}. Cannot reset device.`
+        )
+        return
+      }
+      device.destroy()
+      this.devices.delete(deviceId)
+    } else {
+      for (const device of this.devices.values()) {
+        device.destroy()
+      }
+      this.devices.clear()
+    }
+
+    this.initialScan = true
+    await this.handleAttach()
+    if (options?.rescan) {
+      this.debounceDevicesChanged()
+    }
   }
 
   freeze(deviceId: SerialPortDeviceId, duration?: number): void {
     const device = this.devices.get(deviceId)
     if (!device) {
-      logger.error(`Device not found at id ${deviceId}. Cannot freeze device.`)
+      AppLogger.log(
+        "warn",
+        `Device not found at id ${deviceId}. Cannot freeze device.`
+      )
       return
     }
     device.prepareToFreeze(duration)
@@ -206,7 +262,8 @@ export class AppSerialPortService {
   unfreeze(deviceId: SerialPortDeviceId): void {
     const device = this.devices.get(deviceId)
     if (!device) {
-      logger.error(
+      AppLogger.log(
+        "warn",
         `Device not found at id ${deviceId}. Cannot unfreeze device.`
       )
       return

@@ -25,14 +25,14 @@ import { clearContact } from "./helpers/clear-contact-data"
 import { clearDeviceData } from "./helpers/clear-device-data"
 import {
   ApiDeviceContext,
-  initApiDeviceContext,
+  initApiDevice,
 } from "./helpers/api-device-context"
 
 let apiDeviceContext: ApiDeviceContext
 
 describe("Contact entities", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
     await clearDeviceData(apiDeviceContext)
   }, 30_000)
 

@@ -11,10 +11,7 @@ import {
 } from "app-serialport/models"
 import { PortInfo } from "@serialport/bindings-interface"
 import { execPromise } from "app-utils/main"
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { SerialPortHandler } from "../../../devices/src/lib/serial-port-handler"
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { devices } from "../../../devices/src/lib/devices"
+import { devices, SerialPortHandler } from "app-serialport/devices"
 
 export class AppSerialportDeviceScanner {
   private static readonly supportedDevices = devices

@@ -10,7 +10,7 @@ import {
 import { getApiFeaturesAndEntityTypes } from "./helpers/get-api-features-and-entity-types"
 import {
   ApiDeviceContext,
-  initApiDeviceContext,
+  initApiDevice,
 } from "./helpers/api-device-context"
 
 let apiDeviceContext: ApiDeviceContext
@@ -19,7 +19,7 @@ const notSupportedDataFeatures: string[] = ["dummy-feature"]
 
 describe("Feature Configuration and Data", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
     featuresAndEntityTypes =
       await getApiFeaturesAndEntityTypes(apiDeviceContext)
     featuresAndEntityTypes.features = featuresAndEntityTypes.features.filter(

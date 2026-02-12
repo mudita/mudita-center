@@ -18,10 +18,11 @@ export class SerialPortHarmonyDevice extends SerialPortHandler {
   readonly requestIdKey = "uuid"
 
   constructor({ baudRate = 9600, ...options }: SerialPortHandlerOptions) {
-    super(
-      { baudRate, ...options },
-      new CommonDeviceResponseParser({ matcher: /#\d{9}/g })
-    )
+    super({
+      ...options,
+      baudRate,
+      parser: new CommonDeviceResponseParser({ matcher: /#\d{9}/ }),
+    })
   }
 
   parseRequest(data: SerialPortRequest) {

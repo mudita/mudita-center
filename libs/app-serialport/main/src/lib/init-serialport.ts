@@ -67,13 +67,6 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
         return serialport.request(id, data)
       }
     )
-    ipcMain.removeHandler(SerialPortIpcEvents.ChangeBaudRate)
-    ipcMain.handle(
-      SerialPortIpcEvents.ChangeBaudRate,
-      (_, id: SerialPortDeviceId, baudRate: number) => {
-        return serialport.changeBaudRate(id, baudRate)
-      }
-    )
     ipcMain.removeHandler(SerialPortIpcEvents.Freeze)
     ipcMain.handle(
       SerialPortIpcEvents.Freeze,

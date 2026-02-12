@@ -8,11 +8,10 @@ import {
   ApiConfigResponseValidator,
   buildApiConfigRequest,
 } from "devices/api-device/models"
-import {
-  ApiDeviceContext,
-  initApiDeviceContext,
-} from "./helpers/api-device-context"
+import { initApiDevice } from "./helpers/api-device-context"
 import { getApiFeaturesAndEntityTypes } from "./helpers/get-api-features-and-entity-types"
+import { SerialPortDevice } from "app-serialport/main"
+import semver from "semver/preload"
 
 let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 
@@ -20,23 +19,16 @@ beforeEach(() => {
   jest.resetModules()
 })
 
-let apiDeviceContext: ApiDeviceContext
+let apiDevice: SerialPortDevice
 
 describe("API configuration", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
-    featuresAndEntityTypes =
-      await getApiFeaturesAndEntityTypes(apiDeviceContext)
-  }, 30_000)
-
-  afterEach(async () => {
-    await apiDeviceContext.reset()
+    apiDevice = await initApiDevice()
+    featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(apiDevice)
   }, 30_000)
 
   it("should receive API configuration", async () => {
-    const { service, deviceId } = apiDeviceContext
-
-    const result = await service.request(deviceId, {
+    const result = await apiDevice.request({
       ...buildApiConfigRequest(),
       options: { timeout: 5000 },
     })
@@ -44,17 +36,8 @@ describe("API configuration", () => {
     expect(result.status).toBe(200)
   })
 
-  it("should receive API configuration error on invalid deviceId", async () => {
-    const { service } = apiDeviceContext
-    await expect(
-      service.request("invalid", buildApiConfigRequest())
-    ).rejects.toThrow("Device not found at id invalid.")
-  })
-
   it("should receive valid API configuration response", async () => {
-    const { service, deviceId } = apiDeviceContext
-
-    const result = await service.request(deviceId, {
+    const result = await apiDevice.request({
       ...buildApiConfigRequest(),
       options: { timeout: 5000 },
     })
@@ -65,7 +48,17 @@ describe("API configuration", () => {
     expect(apiConfig.osVersion).toMatch(/^MuditaOS K/)
     expect(apiConfig.lang).toMatch(/^[a-z]{2}-[A-Z]{2}$/)
     expect(apiConfig.variant?.length).toBeGreaterThan(0)
-    expect(apiConfig.features.sort()).toEqual(featuresAndEntityTypes.features)
+
+    if (semver.gte(apiConfig.apiVersion, "1.0.1")) {
+      expect(apiConfig.features.sort()).toEqual(featuresAndEntityTypes.features)
+    } else {
+      expect(apiConfig.features.sort()).toEqual(
+        featuresAndEntityTypes.features.filter(
+          (type) => type !== "mc-contacts-duplicates"
+        )
+      )
+    }
+
     expect(apiConfig.entityTypes?.sort()).toEqual(
       featuresAndEntityTypes.entityTypes
     )

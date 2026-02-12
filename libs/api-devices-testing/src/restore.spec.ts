@@ -23,7 +23,7 @@ import {
 } from "./helpers/file-transfer-data"
 import {
   ApiDeviceContext,
-  initApiDeviceContext,
+  initApiDevice,
 } from "./helpers/api-device-context"
 import { withBodyStatus } from "./helpers/with-body-status"
 
@@ -35,7 +35,7 @@ let restoreFeatures: {
 
 describe("Restore feature", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
     await fetchSupportedFeatures()
   }, 30_000)
 

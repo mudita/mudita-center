@@ -9,14 +9,14 @@ import {
 } from "devices/api-device/models"
 import {
   ApiDeviceContext,
-  initApiDeviceContext,
+  initApiDevice,
 } from "./helpers/api-device-context"
 
 let apiDeviceContext: ApiDeviceContext
 
 describe("Outbox", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
   }, 30_000)
 
   afterEach(async () => {

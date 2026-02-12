@@ -26,13 +26,6 @@ export const serialPort = {
   request: (id: string, data: SerialPortRequest) => {
     return electronAPI.ipcRenderer.invoke(SerialPortIpcEvents.Request, id, data)
   },
-  changeBaudRate: (id: string, baudRate: number) => {
-    return electronAPI.ipcRenderer.invoke(
-      SerialPortIpcEvents.ChangeBaudRate,
-      id,
-      baudRate
-    )
-  },
   freeze: (id: SerialPortDeviceId, duration?: number) => {
     return electronAPI.ipcRenderer.invoke(
       SerialPortIpcEvents.Freeze,

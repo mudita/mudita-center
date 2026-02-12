@@ -7,8 +7,7 @@ import { SerialPort, SerialPortOpenOptions } from "serialport"
 import { AutoDetectTypes } from "@serialport/bindings-cpp"
 import { Transform } from "stream"
 import { cloneDeep, get, set, uniqueId } from "lodash"
-import logger from "electron-log"
-import { SerialPortError } from "app-serialport/utils"
+import { AppLogger, SerialPortError } from "app-serialport/utils"
 import {
   SerialPortDeviceSubtype,
   SerialPortDeviceType,
@@ -17,18 +16,16 @@ import {
 } from "app-serialport/models"
 import EventEmitter from "events"
 
-const LOG_CHARS_LIMIT = Number(process.env.SERIALPORT_LOG_LIMIT || 0)
-const DEFAULT_REQUEST_TIMEOUT = 30_000
-
 export type SerialPortHandlerOptions =
   SerialPortOpenOptions<AutoDetectTypes> & {
     parser?: Transform
     onOpen?: VoidFunction
     onClose?: VoidFunction
     onError?: (error: Error) => void
+    autoOpen?: boolean
   }
 
-enum SerialPortHandlerEvent {
+export enum SerialPortHandlerEvent {
   Response = "response",
   Error = "error",
   Open = "open",
@@ -41,22 +38,23 @@ interface Response {
 }
 
 export class SerialPortHandler extends SerialPort {
-  private eventEmitter = new EventEmitter()
+  private readonly eventEmitter = new EventEmitter()
 
   static readonly deviceType: SerialPortDeviceType
   static readonly matchingVendorIds: string[] = []
   static readonly matchingProductIds: string[] = []
   static readonly nonSerialPortDevice: boolean = false
+  static readonly defaultRequestTimeout = 30_000
   readonly requestIdKey: string = "id"
 
   constructor(options: SerialPortHandlerOptions) {
-    const { onOpen, onClose, onError, ...serialPortOptions } = options
-    super({ ...serialPortOptions, autoOpen: false })
+    const { onOpen, onClose, onError, parser, autoOpen, ...serialPortOptions } =
+      options
+    super({ ...serialPortOptions, autoOpen: autoOpen ?? false })
 
-    this.on("open", () => {
-      this.flush()
-      onOpen?.()
-    })
+    if (onOpen) {
+      this.on("open", onOpen)
+    }
     if (onClose) {
       this.on("close", onClose)
     }
@@ -64,8 +62,8 @@ export class SerialPortHandler extends SerialPort {
       this.on("error", onError)
     }
 
-    if (options.parser) {
-      this.pipe(options.parser)
+    if (parser) {
+      this.pipe(parser)
         .on("data", (data) => {
           this.processResponse(data)
         })
@@ -75,17 +73,9 @@ export class SerialPortHandler extends SerialPort {
     }
   }
 
-  async writeAsync(data: unknown): Promise<void> {
+  async writeAsync(data: unknown, retries = 1): Promise<void> {
     try {
       const parsedData = this.parseRequest(data)
-
-      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
-        logger.info(
-          `%cSending request: '${sliceLogs(parsedData?.toString())}'`,
-          "color: blue"
-        )
-      }
-
       const canContinue = super.write(parsedData)
 
       if (!canContinue) {
@@ -115,11 +105,25 @@ export class SerialPortHandler extends SerialPort {
         })
       }
     } catch (error) {
-      logger.error(
-        `Error parsing response for device at path ${this.path}.`,
-        error instanceof Error ? error.message : error
-      )
-      throw new SerialPortError(SerialPortErrorType.InvalidRequest)
+      if (retries > 0 && this.isOpen) {
+        AppLogger.log(
+          "debug",
+          `Error writing request for device at path ${this.path}. Retrying... (retries left: ${
+            retries - 1
+          })`,
+          { color: "yellow" }
+        )
+        this.flush()
+        return this.writeAsync(data, retries - 1)
+      } else {
+        AppLogger.log(
+          "error",
+          `Error parsing request for device at path ${this.path}. ${
+            error instanceof Error ? error.message : String(error)
+          }`
+        )
+        throw new SerialPortError(SerialPortErrorType.InvalidRequest)
+      }
     }
   }
 
@@ -131,7 +135,6 @@ export class SerialPortHandler extends SerialPort {
     const id = parseInt(uniqueId()) % 99999999 || 1
 
     const dataWithId = set(cloneDeep(data), this.requestIdKey, id)
-    await this.writeAsync(dataWithId)
 
     return new Promise((resolve, reject) => {
       const cleanupListeners = () => {
@@ -167,23 +170,59 @@ export class SerialPortHandler extends SerialPort {
 
       const timeoutId = setTimeout(
         onTimeout,
-        data.options?.timeout || DEFAULT_REQUEST_TIMEOUT
+        data.options?.timeout || SerialPortHandler.defaultRequestTimeout
       )
 
       this.eventEmitter.on(SerialPortHandlerEvent.Response, onResponse)
       this.eventEmitter.on(SerialPortHandlerEvent.Error, onError)
       this.once("close", onClose)
+
+      try {
+        if (process.env.NODE_ENV === "development") {
+          AppLogger.log(
+            "debug",
+            `Request sent for device at path ${this.path}:`,
+            {
+              color: "magenta",
+            }
+          )
+          AppLogger.log("debug", JSON.stringify(dataWithId), {
+            color: "gray",
+            addNewLine: true,
+          })
+        } else {
+          const { body, data: _, ...rest } = dataWithId
+          AppLogger.log(
+            "debug",
+            `Request sent for device at path ${this.path}:`,
+            {
+              color: "magenta",
+            }
+          )
+          AppLogger.log("debug", JSON.stringify(rest), {
+            color: "gray",
+            addNewLine: true,
+          })
+        }
+
+        this.writeAsync(dataWithId)
+      } catch (error) {
+        cleanupListeners()
+        reject(error)
+      }
     })
   }
 
-  private parseResponse(data: Buffer) {
+  private parseResponse(data: Buffer): Response {
     try {
       const rawResponse = data.toString()
-      if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
-        logger.info(
-          `%cReceived response: '${sliceLogs(rawResponse)}'`,
-          "color: green"
+      if (process.env.NODE_ENV === "development") {
+        AppLogger.log(
+          "debug",
+          `Received response for device at path ${this.path}:`,
+          { color: "green" }
         )
+        AppLogger.log("debug", rawResponse, { color: "gray", addNewLine: true })
       }
       const response = JSON.parse(rawResponse)
       const id = get(response, this.requestIdKey) as string | number | undefined
@@ -192,23 +231,41 @@ export class SerialPortHandler extends SerialPort {
         throw new SerialPortError(SerialPortErrorType.ResponseWithoutId)
       }
 
+      const { body, data: _, ...rest } = response
+      if (process.env.NODE_ENV !== "development") {
+        AppLogger.log(
+          "debug",
+          `Received response for device at path ${this.path}:`,
+          { color: "green" }
+        )
+        AppLogger.log("debug", JSON.stringify(rest), {
+          color: "gray",
+          addNewLine: true,
+        })
+      }
+
       return {
         id: typeof id === "number" ? id : parseInt(id, 10),
         body: response,
       } as Response
     } catch (error) {
-      logger.error(`Error parsing response for device at path ${this.path}.`)
+      AppLogger.log(
+        "error",
+        `Error parsing response for device at path ${this.path}. ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      )
 
       if (error instanceof SerialPortError) {
-        logger.error(
-          `Type: ${error.type}`,
-          `Request ID: ${error.requestId}`,
-          `Message: ${error.message}`
+        AppLogger.log(
+          "error",
+          `SerialPortError details: Type: ${error.type}, Request ID: ${error.requestId}, Message: ${error.message}`
         )
         throw error
       } else {
-        logger.error(
-          `Unknown error: ${error instanceof Error ? error.message : error}`
+        AppLogger.log(
+          "error",
+          `Unknown error: ${error instanceof Error ? error.message : String(error)}`
         )
         throw new SerialPortError(SerialPortErrorType.InvalidResponse)
       }
@@ -254,18 +311,4 @@ export class SerialPortHandler extends SerialPort {
       },
     ]
   }
-
-  changeBaudRate(baudRate: number) {
-    this.update({ baudRate })
-  }
-}
-
-const sliceLogs = (text = "") => {
-  if (LOG_CHARS_LIMIT > 0) {
-    return [
-      text.slice(0, LOG_CHARS_LIMIT),
-      text.length > LOG_CHARS_LIMIT ? "..." : "",
-    ].join("")
-  }
-  return text
 }

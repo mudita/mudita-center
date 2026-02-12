@@ -3,20 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  SerialPortDevice,
-  SerialPortDeviceOptions,
-} from "../../../../main/src/lib/serial-port-device"
 import { SerialPortDeviceType, SerialPortRequest } from "app-serialport/models"
 import { commonDeviceRequestParser } from "../common/common-device-request-parser"
+import {
+  SerialPortHandler,
+  SerialPortHandlerOptions,
+} from "../serial-port-handler"
 
-export class SerialPortPureDevice extends SerialPortDevice {
+export class SerialPortPureDevice extends SerialPortHandler {
   static readonly matchingVendorIds = ["3310"]
   static readonly matchingProductIds = ["0102", "0100"]
   static readonly deviceType = SerialPortDeviceType.Pure
   readonly requestIdKey = "uuid"
 
-  constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
+  constructor({ baudRate = 9600, ...options }: SerialPortHandlerOptions) {
     super({ baudRate, ...options })
   }
 

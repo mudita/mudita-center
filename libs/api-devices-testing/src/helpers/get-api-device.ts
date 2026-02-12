@@ -18,13 +18,13 @@ export const waitForApiDevice = async (
   const start = Date.now()
 
   while (Date.now() - start < timeoutMs) {
-    await service.detectChanges()
+    service["debounceDevicesChanged"]()
     const device = service
       .getCurrentDevices()
-      .find(ApiDeviceSerialPort.isCompatible)
+      .find((device) => ApiDeviceSerialPort.isCompatible(device.info))
 
     if (device) {
-      return device as ApiDevice
+      return device.info as ApiDevice
     }
 
     await delay(tickMs)

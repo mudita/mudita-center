@@ -4,7 +4,7 @@
  */
 
 import { Transform, TransformCallback, TransformOptions } from "stream"
-import logger from "electron-log"
+import { AppLogger } from "app-serialport/utils"
 
 interface CommonDeviceParserOptions extends TransformOptions {
   matcher: RegExp
@@ -24,10 +24,6 @@ export class CommonDeviceResponseParser extends Transform {
     super(options)
     this.matcher = matcher
     this.encoding = options.encoding || this.encoding
-
-    if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
-      logger.transports.console.useStyles = true
-    }
   }
 
   private sendResponse(data: Buffer, encoding = this.encoding) {
@@ -60,9 +56,10 @@ export class CommonDeviceResponseParser extends Transform {
         process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1"
       ) {
         const trashData = bufferData.slice(0, headerIndex)
-        logger.warn(
-          `%cBuffer cleanup  (${trashData.length} bytes): '${trashData}'`,
-          "color: red"
+        AppLogger.log(
+          "warn",
+          `Buffer cleanup  (${trashData.length} bytes): '${trashData}'`,
+          { color: "yellow" }
         )
       }
 
@@ -71,27 +68,33 @@ export class CommonDeviceResponseParser extends Transform {
         this.sendResponse(Buffer.from(responseData), encoding)
 
         if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
-          logger.log(
-            `%cResponse parsed (${responseData.length} bytes): '${responseData}'`,
-            "color: green"
+          AppLogger.log(
+            "silly",
+            `Response parsed (${responseData.length} bytes): '${responseData}'`,
+            {
+              color: "green",
+            }
           )
         }
-      } else if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
-        logger.log(`%cEmpty response`, "color: gray")
+      } else {
+        if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
+          AppLogger.log("warn", `Empty response`, { color: "gray" })
+        }
       }
 
       // Clear the buffer of the processed response and any data before it
       this.buffer = Buffer.from(bufferData.slice(endIndex))
 
       if (endIndex > 0 && process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
-        logger.log(
-          `%cBuffer updated  (${this.buffer.toString().length} bytes): '${this.buffer.toString()}'`,
-          "color: blue"
+        AppLogger.log(
+          "silly",
+          `Buffer updated  (${this.buffer.toString().length} bytes): '${this.buffer.toString()}'`,
+          { color: "blue" }
         )
       }
 
       if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
-        logger.log("\n")
+        AppLogger.log("silly", "Waiting for more data...")
       }
       // Indicate that a whole response was processed and there might be more data to process in the buffer
       return true
@@ -107,23 +110,25 @@ export class CommonDeviceResponseParser extends Transform {
     callback: TransformCallback
   ) {
     if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
-      logger.log(
-        `%cChunk received  (${chunk.toString().length} bytes): '${chunk.toString()}'`,
-        "color: magenta"
+      AppLogger.log(
+        "silly",
+        `Chunk received  (${chunk.toString().length} bytes): '${chunk.toString()}'`,
+        { color: "magenta" }
       )
     }
 
     this.buffer = Buffer.concat([this.buffer, chunk])
 
     if (process.env.SERIALPORT_PARSER_LOGS_ENABLED === "1") {
-      logger.log(
-        `%cBuffer updated  (${this.buffer.toString().length} bytes): '${this.buffer.toString()}'`,
-        "color: blue"
+      AppLogger.log(
+        "silly",
+        `Buffer updated  (${this.buffer.toString().length} bytes): '${this.buffer.toString()}'`,
+        { color: "blue" }
       )
     }
 
     while (this.processBuffer(encoding)) {
-      this.processBuffer(encoding)
+      // Keep processing the buffer until no more complete responses can be parsed
     }
 
     callback()

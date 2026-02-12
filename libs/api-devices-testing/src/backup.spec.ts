@@ -17,7 +17,7 @@ import { AppSerialPortService } from "app-serialport/main"
 import { withBodyStatus } from "./helpers/with-body-status"
 import {
   ApiDeviceContext,
-  initApiDeviceContext,
+  initApiDevice,
 } from "./helpers/api-device-context"
 
 let apiDeviceContext: ApiDeviceContext
@@ -25,7 +25,7 @@ let backupFeatures: string[]
 
 describe("Backup feature", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
     await fetchSupportedFeatures()
   }, 30_000)
 

@@ -13,7 +13,7 @@ import {
 import { withBodyStatus } from "./helpers/with-body-status"
 import {
   ApiDeviceContext,
-  initApiDeviceContext,
+  initApiDevice,
 } from "./helpers/api-device-context"
 
 let apiDeviceContext: ApiDeviceContext
@@ -33,7 +33,7 @@ describe("Entities configuration, metadata and data", () => {
   }
 
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
     await fetchSupportedEntities()
   }, 30_000)
 

@@ -7,20 +7,18 @@ import {
   ApiConfigResponseValidator,
   buildApiConfigRequest,
 } from "devices/api-device/models"
-import { ApiDeviceContext } from "./api-device-context"
+import { SerialPortDevice } from "app-serialport/main"
 
 export async function getApiFeaturesAndEntityTypes(
-  apiDeviceContext: ApiDeviceContext
+  apiDevice: SerialPortDevice
 ): Promise<{
   features: string[]
   entityTypes: string[]
 }> {
-  const { service, deviceId } = apiDeviceContext
   const genericFeatures = [
     "mc-overview",
     "mc-contacts",
-    // TODO: reenable when duplicates management is available
-    // "mc-contacts-duplicates",
+    "mc-contacts-duplicates",
     "mc-data-migration",
     "mc-file-manager-internal",
   ].sort()
@@ -35,7 +33,7 @@ export async function getApiFeaturesAndEntityTypes(
     "applicationFiles",
   ].sort()
 
-  const result = await service.request(deviceId, {
+  const result = await apiDevice.request({
     ...buildApiConfigRequest(),
     options: { timeout: 5000 },
   })

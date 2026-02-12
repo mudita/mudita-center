@@ -7,6 +7,7 @@ jest.mock("app-localize/utils", () => ({
   __esModule: true,
 }))
 
+
 jest.mock("electron-log", () => ({
   error: jest.fn(),
   warn: jest.fn(),

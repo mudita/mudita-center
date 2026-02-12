@@ -9,7 +9,7 @@ import {
 } from "devices/api-device/models"
 import {
   ApiDeviceContext,
-  initApiDeviceContext,
+  initApiDevice,
 } from "./helpers/api-device-context"
 import { getApiFeaturesAndEntityTypes } from "./helpers/get-api-features-and-entity-types"
 
@@ -18,13 +18,13 @@ let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 
 describe("API configuration", () => {
   beforeAll(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
     featuresAndEntityTypes =
       await getApiFeaturesAndEntityTypes(apiDeviceContext)
   }, 30_000)
 
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
   }, 30_000)
 
   afterEach(async () => {

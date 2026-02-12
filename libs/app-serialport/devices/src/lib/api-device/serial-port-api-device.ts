@@ -40,8 +40,8 @@ export class SerialPortApiDevice extends SerialPortHandler {
   constructor({ ...options }: Omit<SerialPortHandlerOptions, "baudRate">) {
     super({
       ...options,
-      baudRate: 9600,
-      parser: new CommonDeviceResponseParser({ matcher: /#\d{9}/g }),
+      baudRate: 921_600,
+      parser: new CommonDeviceResponseParser({ matcher: /#\d{9}/ }),
     })
   }
 

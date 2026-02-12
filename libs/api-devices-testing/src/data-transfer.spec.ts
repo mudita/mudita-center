@@ -26,7 +26,7 @@ import {
 import { withBodyStatus } from "./helpers/with-body-status"
 import {
   ApiDeviceContext,
-  initApiDeviceContext,
+  initApiDevice,
 } from "./helpers/api-device-context"
 
 let apiDeviceContext: ApiDeviceContext
@@ -37,7 +37,7 @@ let importFeatures: {
 
 describe("Data transfer", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
     await fetchSupportedFeatures()
   }, 30_000)
 

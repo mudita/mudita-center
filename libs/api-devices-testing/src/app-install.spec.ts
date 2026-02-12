@@ -14,7 +14,7 @@ import { delay } from "app-utils/common"
 import { execPromise } from "app-utils/main"
 import {
   ApiDeviceContext,
-  initApiDeviceContext,
+  initApiDevice,
 } from "./helpers/api-device-context"
 
 const testFilesDir = "test-files"
@@ -26,7 +26,7 @@ let apiDeviceContext: ApiDeviceContext
 
 describe("App install", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    apiDeviceContext = await initApiDevice()
 
     const localPath = path.join(__dirname, testFilesDir)
     try {

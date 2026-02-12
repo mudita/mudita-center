@@ -3,31 +3,67 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import {
+  SerialPortDeviceInfo,
+  SerialPortDeviceType,
+} from "app-serialport/models"
 import { AppSerialPortService } from "app-serialport/main"
 import { ApiDevice } from "devices/api-device/models"
-import { SerialPortDeviceId } from "app-serialport/models"
-import { getSerialPortService } from "./get-serial-port-service"
-import { waitForApiDevice } from "./get-api-device"
 
-export type ApiDeviceContext = {
-  service: AppSerialPortService
-  device: ApiDevice
-  deviceId: SerialPortDeviceId
-  reset: () => Promise<void>
+export const DEFAULT_CHUNK_SIZE = 14_336
+export const DEFAULT_OUTBOX_EVENTS_COUNT = 100
+
+interface Options {
+  chunkSize?: number
+  outboxEventsCount?: number
 }
 
-export const initApiDeviceContext = async (): Promise<ApiDeviceContext> => {
-  const service = await getSerialPortService()
-  const device = await waitForApiDevice(service)
-  const deviceId = device.id
+let service: AppSerialPortService
 
-  return {
-    service,
-    device,
-    deviceId,
-
-    reset: async () => {
-      await service.reset(deviceId, { rescan: false })
-    },
+const getApiDevice = async () => {
+  if (!service) {
+    service = new AppSerialPortService()
+    await service.init()
   }
+
+  return await new Promise<ApiDevice>((resolve, reject) => {
+    service.onDevicesChanged(({ all }) => {
+      const deviceInfo = all.find(
+        (
+          deviceInfo
+        ): deviceInfo is SerialPortDeviceInfo<SerialPortDeviceType.ApiDevice> => {
+          return deviceInfo.deviceType === SerialPortDeviceType.ApiDevice
+        }
+      )
+      if (deviceInfo) {
+        resolve(deviceInfo)
+      } else {
+        reject()
+      }
+    })
+  })
 }
+
+const changePortOptions = async (apiDevice: ApiDevice, options: Options) => {
+  if (!apiDevice) {
+    throw new Error("API device not initialized")
+  }
+
+  if (options?.chunkSize || options?.outboxEventsCount) {
+    const serialPortSetup = await service.request(apiDevice.id, {
+      endpoint: "SYSTEM",
+      method: "POST",
+      body: {
+        action: "serial-port-setup",
+        chunkSizeInBytes: options.chunkSize || DEFAULT_CHUNK_SIZE,
+        outboxEventsCounter:
+          options.outboxEventsCount || DEFAULT_OUTBOX_EVENTS_COUNT,
+      },
+    })
+    return serialPortSetup.status === 200
+  }
+
+  return false
+}
+
+export { service, getApiDevice, changePortOptions }

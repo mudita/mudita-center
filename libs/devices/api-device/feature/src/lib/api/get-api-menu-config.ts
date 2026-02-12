@@ -19,7 +19,8 @@ export const getApiMenuConfig = async (device: ApiDevice) => {
       lang: "en-US",
     }),
     options: {
-      timeout: 1000,
+      timeout: 2_000,
+      retries: 1,
     },
   })
   return {
