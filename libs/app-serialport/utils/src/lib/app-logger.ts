@@ -85,7 +85,7 @@ export class AppLogger {
   private static getLimit(): number {
     if (process.env.SERIALPORT_LOG_LIMIT) {
       const limit = parseInt(process.env.SERIALPORT_LOG_LIMIT, 10)
-      if (!isNaN(limit) && limit >= 0) {
+      if (!isNaN(limit) && limit > 0) {
         return limit
       }
     }
