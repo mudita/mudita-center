@@ -235,7 +235,10 @@ describe("File transfer", () => {
   const removeFile = async (targetPath: string): Promise<void> => {
     try {
       const command = `adb shell rm ${targetPath}`
-      await execPromise(command)
+      await execPromise(
+        command,
+        process.platform === "win32" ? "powershell.exe" : undefined
+      )
     } catch {
       return
     }
@@ -244,7 +247,11 @@ describe("File transfer", () => {
   const isFileExists = async (targetPath: string): Promise<boolean> => {
     try {
       const command = `adb shell "[ -f ${targetPath} ] && echo 1 || echo 0"`
-      const stdout = (await execPromise(command)) ?? ""
+      const stdout =
+        (await execPromise(
+          command,
+          process.platform === "win32" ? "powershell.exe" : undefined
+        )) ?? ""
       return stdout.trim() === "1"
     } catch {
       return false
