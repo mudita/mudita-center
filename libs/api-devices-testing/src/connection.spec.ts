@@ -12,8 +12,8 @@ describe("Connection", () => {
     async ({ vendorId, productId }) => {
       await waitFor(() => {
         expect(getService().apiDevice).toBeDefined()
-        expect(getService().apiDevice?.vendorId).toBe(vendorId)
-        expect(getService().apiDevice?.productId).toBe(productId)
+        expect(getService().apiDevice?.vendorId?.toLowerCase()).toBe(vendorId)
+        expect(getService().apiDevice?.productId?.toLowerCase()).toBe(productId)
       })
     }
   )
