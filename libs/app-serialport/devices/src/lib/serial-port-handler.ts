@@ -63,6 +63,11 @@ export class SerialPortHandler extends SerialPort {
     }
 
     if (parser) {
+      this.on("data", (rawData) => {
+        console.log(
+          `[DEBUG] RAW data received BEFORE parser at ${Date.now()}, length: ${rawData?.length || 0}, content: ${rawData?.toString()}`
+        )
+      })
       this.pipe(parser)
         .on("data", (data) => {
           this.processResponse(data)
@@ -136,7 +141,7 @@ export class SerialPortHandler extends SerialPort {
 
     const dataWithId = set(cloneDeep(data), this.requestIdKey, id)
 
-    return new Promise((resolve, reject) => {
+    return await new Promise<Response["body"]>((resolve, reject) => {
       const cleanupListeners = () => {
         this.eventEmitter.off(SerialPortHandlerEvent.Response, onResponse)
         this.eventEmitter.off(SerialPortHandlerEvent.Error, onError)
@@ -164,6 +169,11 @@ export class SerialPortHandler extends SerialPort {
       }
 
       const onTimeout = () => {
+        AppLogger.log(
+          "warn",
+          `Request timeout for device at path ${this.path}, request id: ${id}. No response received within ${data.options?.timeout || SerialPortHandler.defaultRequestTimeout}ms.`,
+          { color: "yellow" }
+        )
         cleanupListeners()
         reject(new SerialPortError(SerialPortErrorType.ResponseTimeout, id))
       }
@@ -177,39 +187,37 @@ export class SerialPortHandler extends SerialPort {
       this.eventEmitter.on(SerialPortHandlerEvent.Error, onError)
       this.once("close", onClose)
 
-      try {
-        if (process.env.NODE_ENV === "development") {
-          AppLogger.log(
-            "debug",
-            `Request sent for device at path ${this.path}:`,
-            {
-              color: "magenta",
-            }
-          )
-          AppLogger.log("debug", JSON.stringify(dataWithId), {
-            color: "gray",
-            addNewLine: true,
-          })
-        } else {
-          const { body, data: _, ...rest } = dataWithId
-          AppLogger.log(
-            "debug",
-            `Request sent for device at path ${this.path}:`,
-            {
-              color: "magenta",
-            }
-          )
-          AppLogger.log("debug", JSON.stringify(rest), {
-            color: "gray",
-            addNewLine: true,
-          })
-        }
+      if (process.env.NODE_ENV === "development") {
+        AppLogger.log(
+          "debug",
+          `Request sent for device at path ${this.path}:`,
+          {
+            color: "magenta",
+          }
+        )
+        AppLogger.log("debug", JSON.stringify(dataWithId), {
+          color: "gray",
+          addNewLine: true,
+        })
+      } else {
+        const { body, data: _, ...rest } = dataWithId
+        AppLogger.log(
+          "debug",
+          `Request sent for device at path ${this.path}:`,
+          {
+            color: "magenta",
+          }
+        )
+        AppLogger.log("debug", JSON.stringify(rest), {
+          color: "gray",
+          addNewLine: true,
+        })
+      }
 
-        this.writeAsync(dataWithId)
-      } catch (error) {
+      this.writeAsync(dataWithId).catch((error) => {
         cleanupListeners()
         reject(error)
-      }
+      })
     })
   }
 
@@ -275,6 +283,14 @@ export class SerialPortHandler extends SerialPort {
   private processResponse(data: Buffer) {
     try {
       const response = this.parseResponse(data)
+      const listenerCount = this.eventEmitter.listenerCount(
+        SerialPortHandlerEvent.Response
+      )
+      AppLogger.log(
+        "debug",
+        `Processing response id: ${response.id}, active listeners: ${listenerCount}`,
+        { color: "cyan" }
+      )
       this.emitResponse(response)
     } catch (error) {
       this.emitError(error)

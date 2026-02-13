@@ -20,7 +20,7 @@ beforeEach(() => {
     baudRate: 9600,
   })
   parser = serialport.pipe(
-    new CommonDeviceResponseParser({ matcher: /#\d{3}/ })
+    new CommonDeviceResponseParser({ matcher: /#\d{9}/ })
   )
 })
 
@@ -36,6 +36,12 @@ describe("CommonDeviceResponseParser", () => {
 
       parser.on("data", dataListener)
       serialport.push("#")
+      serialport.push("0")
+      serialport.push("0")
+      serialport.push("0")
+      serialport.push("0")
+      serialport.push("0")
+      serialport.push("0")
       serialport.push("0")
       serialport.push("0")
       serialport.push("3")
@@ -54,7 +60,7 @@ describe("CommonDeviceResponseParser", () => {
       const dataListener = jest.fn()
 
       parser.on("data", dataListener)
-      serialport.push("#003Foo")
+      serialport.push("#000000003Foo")
 
       await waitFor(() => {
         expect(dataListener).toHaveBeenCalledTimes(1)
@@ -68,7 +74,7 @@ describe("CommonDeviceResponseParser", () => {
 
       parser.on("data", dataListener)
       serialport.push("x")
-      serialport.push("#003Foo")
+      serialport.push("#000000003Foo")
 
       await waitFor(() => {
         expect(dataListener).toHaveBeenCalledWith(Buffer.from("Foo"))
@@ -81,7 +87,7 @@ describe("CommonDeviceResponseParser", () => {
       const dataListener = jest.fn()
 
       parser.on("data", dataListener)
-      serialport.push("#000")
+      serialport.push("#000000000")
 
       await waitFor(() => {
         expect(dataListener).not.toHaveBeenCalled()
@@ -93,22 +99,39 @@ describe("CommonDeviceResponseParser", () => {
       const dataListener = jest.fn()
 
       parser.on("data", dataListener)
-      serialport.push("x#003Fo#003Bar#003Baz")
+      serialport.push("x#000000003Fo")
+      serialport.push("#000000003Bar")
+      serialport.push("#000000003Baz")
 
       await waitFor(() => {
-        expect(dataListener).toHaveBeenNthCalledWith(1, Buffer.from("Fo#"))
-        expect(dataListener).toHaveBeenNthCalledWith(2, Buffer.from("Baz"))
+        expect(dataListener).toHaveBeenCalledTimes(2)
       })
-      expect(dataListener).toHaveBeenCalledTimes(2)
+      expect(dataListener).toHaveBeenNthCalledWith(1, Buffer.from("Fo#"))
+      expect(dataListener).toHaveBeenNthCalledWith(2, Buffer.from("Baz"))
+    })
+
+    it("handles combined chunk with payload shorter than expected", async () => {
+      const dataListener = jest.fn()
+
+      parser.on("data", dataListener)
+      serialport.push("x#000000003Fo#000000003Bar#000000003Baz")
+
+      console.log(Buffer.from([70, 111, 35]).toString())
+
+      await waitFor(() => {
+        expect(dataListener).toHaveBeenCalledTimes(2)
+      })
+      expect(dataListener).toHaveBeenNthCalledWith(1, Buffer.from("Fo#"))
+      expect(dataListener).toHaveBeenNthCalledWith(2, Buffer.from("Baz"))
     })
 
     it("handles chunk with payload longer than expected", async () => {
       const dataListener = jest.fn()
 
       parser.on("data", dataListener)
-      serialport.push("#003FooBar")
+      serialport.push("#000000003FooBar")
       serialport.push("Baz")
-      serialport.push("#004Fooo")
+      serialport.push("#000000004Fooo")
 
       await waitFor(() => {
         expect(dataListener).toHaveBeenNthCalledWith(1, Buffer.from("Foo"))
@@ -125,7 +148,7 @@ describe("CommonDeviceResponseParser", () => {
 
       parser.on("data", dataListener)
       const jsonResponse = JSON.stringify({ status: "ok", value: 42 })
-      const responseHeader = `#${jsonResponse.length.toString().padStart(3, "0")}`
+      const responseHeader = `#${jsonResponse.length.toString().padStart(9, "0")}`
       const fullResponse = responseHeader + jsonResponse
 
       serialport.push(fullResponse.slice(0, 5))
@@ -144,7 +167,7 @@ describe("CommonDeviceResponseParser", () => {
 
       parser.on("data", dataListener)
       const jsonResponse = JSON.stringify({ status: "ok", value: "#123" })
-      const responseHeader = `#${jsonResponse.length.toString().padStart(3, "0")}`
+      const responseHeader = `#${jsonResponse.length.toString().padStart(9, "0")}`
       const fullResponse = responseHeader + jsonResponse
 
       serialport.push(fullResponse)
@@ -160,7 +183,7 @@ describe("CommonDeviceResponseParser", () => {
 
       parser.on("data", dataListener)
       const jsonResponse = JSON.stringify({ status: "ok", value: 42 })
-      const responseHeader = `#${jsonResponse.length.toString().padStart(3, "0")}`
+      const responseHeader = `#${jsonResponse.length.toString().padStart(9, "0")}`
       const fullResponse = responseHeader + jsonResponse
 
       serialport.push("corrupted_data" + fullResponse)
@@ -170,5 +193,30 @@ describe("CommonDeviceResponseParser", () => {
       })
       expect(dataListener).toHaveBeenCalledTimes(1)
     })
+  })
+
+  it("handles response with multibyte characters", async () => {
+    const dataListener = jest.fn()
+
+    parser.on("data", dataListener)
+    const jsonResponse = JSON.stringify({ status: "ok", value: "こんにちは" }) // "Hello" in Japanese
+    const jsonResponseBuffer = Buffer.from(jsonResponse, "utf8")
+    const responseHeader = `#${jsonResponseBuffer.length
+      .toString()
+      .padStart(9, "0")}`
+    const fullResponse = Buffer.concat([
+      Buffer.from(responseHeader, "utf8"),
+      jsonResponseBuffer,
+    ])
+
+    await new Promise<void>((resolve) => {
+      parser.write(fullResponse, () => resolve())
+    })
+
+    await waitFor(() => {
+      expect(dataListener).toHaveBeenCalledWith(jsonResponseBuffer)
+    })
+
+    expect(dataListener).toHaveBeenCalledTimes(1)
   })
 })

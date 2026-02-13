@@ -103,7 +103,6 @@ export class SerialPortDevice {
         options?.queueIntervalCapacity ?? DEFAULT_QUEUE_INTERVAL_CAPACITY,
       autoStart: false,
       timeout: this.instance.defaultRequestTimeout,
-      strict: true,
     })
 
     this.freezeHandler.on("freeze", () => {
@@ -393,7 +392,6 @@ export class SerialPortDevice {
         }
       )
     } catch (error) {
-      console.log("Request error:", error)
       const isFrozen = this.freezeHandler.isFrozen
       const isSerialPortTimeout =
         error instanceof SerialPortError &&

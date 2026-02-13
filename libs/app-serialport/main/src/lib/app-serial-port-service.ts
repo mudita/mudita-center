@@ -28,37 +28,19 @@ export class AppSerialPortService {
   private eventEmitter = new EventEmitter()
   private devices = new Map<SerialPortDeviceId, SerialPortDevice>()
 
-  private initPromise?: Promise<void>
   private devicesChangedTimeout?: NodeJS.Timeout
   private initialScan = true
 
   constructor() {
-    void this.init().catch((error) => {
-      AppLogger.log(
-        "error",
-        `Failed to initialize AppSerialPortService: ${error instanceof Error ? error.message : String(error)}`
-      )
+    void this.handleAttach()
+
+    usb.on("attach", () => {
+      this.initialScan = false
+      void this.handleAttach()
     })
-  }
-
-  public async init(): Promise<void> {
-    if (this.initPromise) {
-      return this.initPromise
-    }
-
-    this.initPromise = (async () => {
-      await this.handleAttach()
-
-      usb.on("attach", () => {
-        this.initialScan = false
-        this.handleAttach()
-      })
-      usb.on("detach", () => {
-        this.handleDetach()
-      })
-    })()
-
-    return this.initPromise
+    usb.on("detach", () => {
+      void this.handleDetach()
+    })
   }
 
   private debounceDevicesChanged() {
@@ -218,10 +200,7 @@ export class AppSerialPortService {
     return device.request(request)
   }
 
-  async reset(
-    deviceId?: SerialPortDeviceId,
-    options?: { rescan?: boolean }
-  ): Promise<void> {
+  async reset(deviceId?: SerialPortDeviceId): Promise<void> {
     if (deviceId) {
       const device = this.devices.get(deviceId)
       if (!device) {
@@ -242,9 +221,6 @@ export class AppSerialPortService {
 
     this.initialScan = true
     await this.handleAttach()
-    if (options?.rescan) {
-      this.debounceDevicesChanged()
-    }
   }
 
   freeze(deviceId: SerialPortDeviceId, duration?: number): void {
