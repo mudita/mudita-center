@@ -21,26 +21,27 @@ import {
   getEmptyTransferData,
   getFullTransferData,
 } from "./helpers/file-transfer-data"
-import {
-  ApiDeviceContext,
-  initApiDeviceContext,
-} from "./helpers/api-device-context"
+import { ApiDeviceTestService } from "./helpers/api-device-test-service"
 import { withBodyStatus } from "./helpers/with-body-status"
 
-let apiDeviceContext: ApiDeviceContext
+let service: ApiDeviceTestService
 let restoreFeatures: {
   feature: string
   key: string
 }[]
 
 describe("Restore feature", () => {
+  beforeAll(async () => {
+    service = new ApiDeviceTestService()
+  }, 30_000)
+
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    await service.init()
     await fetchSupportedFeatures()
   }, 30_000)
 
   afterEach(async () => {
-    await apiDeviceContext.reset()
+    await service.reset()
   }, 30_000)
 
   it("should perform restore process for empty restore data", async () => {
@@ -74,8 +75,6 @@ describe("Restore feature", () => {
   async function performFullRestore(
     base64Sources: { [key: string]: string } = {}
   ) {
-    const { deviceId, service } = apiDeviceContext
-
     const filteredRestoreFeatures = restoreFeatures.filter(
       ({ feature }) => feature in base64Sources
     )
@@ -84,14 +83,12 @@ describe("Restore feature", () => {
     let featuresResponse: { [key: string]: string } = {}
 
     await service.request(
-      deviceId,
       buildFileTransferDeleteRequest({
         fileTransferId: -1,
       })
     )
     restoreId = random(1, 100000)
     const result = await service.request(
-      deviceId,
       buildPreRestoreRequest({
         restoreId,
         features: filteredRestoreFeatures,
@@ -127,7 +124,6 @@ describe("Restore feature", () => {
         .padStart(8, "0")
 
       const preTransferResponse = await service.request(
-        deviceId,
         buildPreFileTransferPostRequest({
           filePath: featurePath,
           fileSize: base64Source.length,
@@ -146,7 +142,6 @@ describe("Restore feature", () => {
           (chunkNumber + 1) * chunkSize
         )
         const fileTransferResponse = await service.request(
-          deviceId,
           buildFileTransferPostRequest({
             transferId: preFileTransferPostResponseData.transferId,
             chunkNumber: chunkNumber + 1,
@@ -158,7 +153,6 @@ describe("Restore feature", () => {
     }
 
     const startRestoreResponse = await service.request(
-      deviceId,
       buildRestorePostRequest({
         restoreId: restoreId,
       })
@@ -167,7 +161,6 @@ describe("Restore feature", () => {
 
     while (restoreProgress < 100) {
       const checkRestoreResponse = await service.request(
-        deviceId,
         buildRestoreGetRequest({
           restoreId: restoreId,
         })
@@ -176,7 +169,10 @@ describe("Restore feature", () => {
       expect([200, 202]).toContain(checkRestoreResponse.status)
       const enriched = withBodyStatus(checkRestoreResponse)
       const checkRestoreData = RestoreResponseValidator.parse(enriched.body)
-      if (checkRestoreResponse.status === 200 || checkRestoreResponse.status === 202) {
+      if (
+        checkRestoreResponse.status === 200 ||
+        checkRestoreResponse.status === 202
+      ) {
         restoreProgress = checkRestoreData.progress ?? 0
       }
       await delay(500)

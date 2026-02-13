@@ -10,8 +10,8 @@ export const getOutbox = (device: ApiDevice) => {
   return ApiDeviceSerialPort.request(device, {
     ...buildOutboxGetRequest(),
     options: {
-      timeout: 1_000,
-      retries: 0,
+      timeout: 2_000,
+      retries: 5,
     },
   })
 }

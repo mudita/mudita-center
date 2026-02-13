@@ -21,14 +21,25 @@ interface SPUSBDataType {
   }[]
 }
 
+interface SPUSBHostItem {
+  USBDeviceKeyProductID: string
+  USBDeviceKeyVendorID: string
+  USBDeviceKeySerialNumber: string
+  USBKeyLocationID?: string
+  USBDeviceKeyVendorName?: string
+  _items?: SPUSBHostItem[]
+}
+
+interface SPUSBHostDataType {
+  SPUSBHostDataType: {
+    _items?: SPUSBHostItem[]
+  }[]
+}
+
 export class MacosUSBPortDeviceParser {
   static async listUsbDevices(): Promise<PortInfo[]> {
-    const output = await execPromise("system_profiler SPUSBDataType -json")
-    const { SPUSBDataType } = JSON.parse(output as string) as SPUSBDataType
-
-    const devices = this.parseSPUSBItems(
-      SPUSBDataType.flatMap(({ _items }) => _items)
-    )
+    const SPUSBItems = await this.getSPUSBItems()
+    const devices = this.parseSPUSBItems(SPUSBItems)
 
     return devices
       .map((device) => {
@@ -50,6 +61,54 @@ export class MacosUSBPortDeviceParser {
       .filter(
         (device) => device.vendorId && device.productId && device.serialNumber
       )
+  }
+
+  private static async getSPUSBItems(
+    commandType: "SPUSBDataType" | "SPUSBHostDataType" = "SPUSBDataType"
+  ): Promise<SPUSBItem[]> {
+    try {
+      if (commandType === "SPUSBDataType") {
+        const output = await execPromise("system_profiler SPUSBDataType -json")
+        const { SPUSBDataType } = JSON.parse(output as string) as SPUSBDataType
+        if (SPUSBDataType.length > 0) {
+          return SPUSBDataType.flatMap(({ _items }) => {
+            return _items || []
+          })
+        }
+        return this.getSPUSBItems("SPUSBHostDataType")
+      }
+
+      if (commandType === "SPUSBHostDataType") {
+        const output = await execPromise(
+          "system_profiler SPUSBHostDataType -json"
+        )
+        const { SPUSBHostDataType } = JSON.parse(
+          output as string
+        ) as SPUSBHostDataType
+        return SPUSBHostDataType.flatMap(({ _items }) => {
+          return (
+            _items?.map((item) => {
+              return {
+                product_id: item.USBDeviceKeyProductID,
+                vendor_id: item.USBDeviceKeyVendorID,
+                serial_num: item.USBDeviceKeySerialNumber,
+                location_id: item.USBKeyLocationID,
+                manufacturer: item.USBDeviceKeyVendorName,
+              } as SPUSBItem
+            }) || []
+          )
+        })
+      }
+
+      return []
+    } catch {
+      if (commandType === "SPUSBDataType") {
+        return this.getSPUSBItems("SPUSBHostDataType")
+      }
+      throw new Error(
+        "Failed to retrieve USB data after multiple attempts. Please ensure you have the necessary permissions and try again."
+      )
+    }
   }
 
   private static parseSPUSBItems(

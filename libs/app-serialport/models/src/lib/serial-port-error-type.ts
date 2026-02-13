@@ -8,5 +8,7 @@ export enum SerialPortErrorType {
   InvalidRequest = "InvalidRequest",
   InvalidResponse = "InvalidResponse",
   ResponseWithoutId = "ResponseWithoutId",
+  PortClosed = "PortClosed",
   Unknown = "Unknown",
+  RequestAborted = "RequestAborted",
 }

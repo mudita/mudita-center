@@ -9,9 +9,9 @@ import {
   SerialPortDeviceInfo,
   SerialPortDeviceSubtype,
 } from "app-serialport/models"
-import { devices, SerialPortDevice } from "app-serialport/devices"
 import { PortInfo } from "@serialport/bindings-interface"
 import { execPromise } from "app-utils/main"
+import { devices, SerialPortHandler } from "app-serialport/devices"
 
 export class AppSerialportDeviceScanner {
   private static readonly supportedDevices = devices
@@ -108,7 +108,7 @@ export class AppSerialportDeviceScanner {
           otherVendorIds,
           serialNumber,
           deviceType: instance.deviceType,
-          deviceSubtype: (instance as typeof SerialPortDevice).getSubtype(
+          deviceSubtype: (instance as typeof SerialPortHandler).getSubtype(
             vendorId,
             productId
           ),
