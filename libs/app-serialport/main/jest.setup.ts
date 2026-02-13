@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { jest } from "@jest/globals"
+
 jest.mock("app-utils/main", () => ({}))
 
 jest.mock("p-queue", () => {
