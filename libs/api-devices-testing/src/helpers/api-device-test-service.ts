@@ -20,6 +20,10 @@ export class ApiDeviceTestService {
   service = new AppSerialPortService()
   apiDevice?: ApiDevice
 
+  constructor() {
+    console.log("ApiDeviceTestService initialized")
+  }
+
   private waitForApiDevice(): Promise<ApiDevice> {
     return new Promise((resolve, reject) => {
       this.service.onDevicesChanged(({ all }) => {
@@ -123,4 +127,13 @@ export class ApiDeviceTestService {
 
     return { features: genericFeatures.sort(), entityTypes: testEntityTypes }
   }
+}
+
+let service: ApiDeviceTestService
+
+export const getService = (): ApiDeviceTestService => {
+  if (!service) {
+    service = new ApiDeviceTestService()
+  }
+  return service
 }

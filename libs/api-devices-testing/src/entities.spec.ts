@@ -11,15 +11,13 @@ import {
   entitiesReadyResponseSchema,
 } from "devices/api-device/models"
 import { withBodyStatus } from "./helpers/with-body-status"
-import { ApiDeviceTestService } from "./helpers/api-device-test-service"
-
-let service: ApiDeviceTestService
+import { getService } from "./helpers/api-device-test-service"
 
 describe("Entities configuration, metadata and data", () => {
   let entityTypes: string[]
 
   const fetchSupportedEntities = async () => {
-    const result = await service.request({
+    const result = await getService().request({
       ...buildApiConfigRequest(),
       options: { timeout: 5000 },
     })
@@ -28,17 +26,8 @@ describe("Entities configuration, metadata and data", () => {
     expect(entityTypes.length).toBeGreaterThan(0)
   }
 
-  beforeAll(async () => {
-    service = new ApiDeviceTestService()
-  }, 30_000)
-
   beforeEach(async () => {
-    await service.init()
     await fetchSupportedEntities()
-  }, 30_000)
-
-  afterEach(async () => {
-    await service.reset()
   }, 30_000)
 
   it("should return successful response for entity configuration", async () => {
@@ -46,7 +35,7 @@ describe("Entities configuration, metadata and data", () => {
     expect(entityTypes.length).toBeGreaterThan(0)
 
     for (const entityType of entityTypes) {
-      const result = await service.request(
+      const result = await getService().request(
         buildEntitiesConfigGetRequest({
           entityType,
         })
@@ -61,7 +50,7 @@ describe("Entities configuration, metadata and data", () => {
     expect(entityTypes.length).toBeGreaterThan(0)
 
     for (const entityType of entityTypes) {
-      const result = await service.request({
+      const result = await getService().request({
         endpoint: "ENTITIES_METADATA",
         method: "GET",
         body: {
@@ -80,7 +69,7 @@ describe("Entities configuration, metadata and data", () => {
       let progress = 0
       let status = 0
 
-      const createEntitiesResult = await service.request({
+      const createEntitiesResult = await getService().request({
         endpoint: "ENTITIES_DATA",
         method: "GET",
         body: {
@@ -94,7 +83,7 @@ describe("Entities configuration, metadata and data", () => {
 
       while (status !== 200) {
         await delay(500)
-        const getEntitiesResult = await service.request({
+        const getEntitiesResult = await getService().request({
           endpoint: "ENTITIES_DATA",
           method: "GET",
           body: {

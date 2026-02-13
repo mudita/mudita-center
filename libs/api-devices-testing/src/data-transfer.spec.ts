@@ -24,9 +24,7 @@ import {
   getInvalidTransferData,
 } from "./helpers/file-transfer-data"
 import { withBodyStatus } from "./helpers/with-body-status"
-import { ApiDeviceTestService } from "./helpers/api-device-test-service"
-
-let service: ApiDeviceTestService
+import { getService } from "./helpers/api-device-test-service"
 
 let importFeatures: {
   feature: string
@@ -34,40 +32,31 @@ let importFeatures: {
 }[]
 
 describe("Data transfer", () => {
-  beforeAll(async () => {
-    service = new ApiDeviceTestService()
-  }, 30_000)
-
   beforeEach(async () => {
-    await service.init()
     fetchSupportedFeatures()
-  }, 30_000)
-
-  afterEach(async () => {
-    await service.reset()
   }, 30_000)
 
   it("should perform import process for empty restore data", async () => {
     const base64Sources = getEmptyTransferData()
     await performDataTransfer(base64Sources, false)
-  }, 30000)
+  }, 30_000)
 
   it("should perform import process for restore data with one item per feature", async () => {
     const base64Sources = getFullTransferData()
     await performDataTransfer(base64Sources, false)
-  }, 30000)
+  }, 30_000)
 
   it("should perform import process for every single feature", async () => {
     const base64Sources = getFullTransferData()
     for (const [feature, base64] of Object.entries(base64Sources)) {
       await performDataTransfer({ [feature]: base64 }, false)
     }
-  }, 30000)
+  }, 30_000)
 
   it("should return error on invalid data for features", async () => {
     const base64Sources = getInvalidTransferData()
     await performDataTransfer(base64Sources, true)
-  }, 30000)
+  }, 30_000)
 
   //TODO - To consider getting this data from the config
   const fetchSupportedFeatures = () => {
@@ -91,13 +80,13 @@ describe("Data transfer", () => {
     let dataTransferId = random(1, 100000)
     let domainsResponse: { [key: string]: string } = {}
 
-    await service.request(
+    await getService().request(
       buildFileTransferDeleteRequest({
         fileTransferId: -1,
       })
     )
 
-    const startPreDataTransferResponse = await service.request(
+    const startPreDataTransferResponse = await getService().request(
       buildPreDataTransferPostRequest({
         dataTransferId: dataTransferId,
         domains: filteredRestoreFeatures.map((item) => item.key),
@@ -135,7 +124,7 @@ describe("Data transfer", () => {
         .toLowerCase()
         .padStart(8, "0")
 
-      const preTransferResponse = await service.request(
+      const preTransferResponse = await getService().request(
         buildPreFileTransferPostRequest({
           filePath: featurePath,
           fileSize: base64Source.length,
@@ -153,7 +142,7 @@ describe("Data transfer", () => {
           (chunkNumber + 1) * chunkSize
         )
 
-        const fileTransferResponse = await service.request(
+        const fileTransferResponse = await getService().request(
           buildFileTransferPostRequest({
             transferId: preFileTransferPostResponseData.transferId,
             chunkNumber: chunkNumber + 1,
@@ -164,7 +153,7 @@ describe("Data transfer", () => {
       }
     }
 
-    const buildDataTransferPostResponse = await service.request(
+    const buildDataTransferPostResponse = await getService().request(
       buildDataTransferPostRequest({
         dataTransferId: dataTransferId,
       })
@@ -172,7 +161,7 @@ describe("Data transfer", () => {
 
     let importResult = true
     while (importProgress < 100) {
-      const checkDataTransferResponse = await service.request(
+      const checkDataTransferResponse = await getService().request(
         buildDataTransferGetRequest({
           dataTransferId: dataTransferId,
         })

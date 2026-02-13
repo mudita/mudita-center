@@ -4,27 +4,17 @@
  */
 
 import { buildMenuConfigRequest } from "devices/api-device/models"
-import { ApiDeviceTestService } from "./helpers/api-device-test-service"
+import { getService } from "./helpers/api-device-test-service"
 
-let service: ApiDeviceTestService
 // let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 
 describe("API configuration", () => {
   beforeAll(async () => {
-    service = new ApiDeviceTestService()
-    // featuresAndEntityTypes = await service.getApiFeaturesAndEntityTypes()
-  }, 30_000)
-
-  beforeEach(async () => {
-    await service.init()
-  }, 30_000)
-
-  afterEach(async () => {
-    await service.reset()
+    // featuresAndEntityTypes = await getService().getApiFeaturesAndEntityTypes()
   }, 30_000)
 
   it("should receive API menu configuration", async () => {
-    const response = await service.request({
+    const response = await getService().request({
       ...buildMenuConfigRequest({
         lang: "en-US",
       }),

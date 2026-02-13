@@ -22,22 +22,11 @@ import {
 } from "./test-files/contacts-seed-data"
 import { withBodyStatus } from "./helpers/with-body-status"
 import { clearContact } from "./helpers/clear-contact-data"
-import { ApiDeviceTestService } from "./helpers/api-device-test-service"
-
-let service: ApiDeviceTestService
+import { getService } from "./helpers/api-device-test-service"
 
 describe("Contact entities", () => {
-  beforeAll(async () => {
-    service = new ApiDeviceTestService()
-  }, 30_000)
-
   beforeEach(async () => {
-    await service.init()
-    await service.clearDeviceData()
-  }, 30_000)
-
-  afterEach(async () => {
-    await service.reset()
+    await getService().clearDeviceData()
   }, 30_000)
 
   it("should remove contact entity with valid entityId", async () => {
@@ -49,7 +38,7 @@ describe("Contact entities", () => {
       return
     }
 
-    const removeEntitiesResult = await service.request(
+    const removeEntitiesResult = await getService().request(
       buildDeleteEntitiesRequest({
         entityType: "contacts",
         ids: [id],
@@ -68,7 +57,7 @@ describe("Contact entities", () => {
       return
     }
 
-    const removeEntitiesResult = await service.request(
+    const removeEntitiesResult = await getService().request(
       buildDeleteEntitiesRequest({
         entityType: "contacts",
         ids: [id, "0", "-1"],
@@ -83,7 +72,7 @@ describe("Contact entities", () => {
   })
 
   it("should return error with incorrect-response type for invalid contacts entityIds", async () => {
-    const removeEntitiesResult = await service.request(
+    const removeEntitiesResult = await getService().request(
       buildDeleteEntitiesRequest({
         entityType: "contacts",
         ids: ["0", "-1"],
@@ -101,7 +90,7 @@ describe("Contact entities", () => {
       if (id === undefined) {
         return
       }
-      const contactResponse = await service.request({
+      const contactResponse = await getService().request({
         ...buildEntitiesFileDataRequest({
           entityType: "contacts",
           responseType: "json",
@@ -133,7 +122,7 @@ describe("Contact entities", () => {
         return
       }
 
-      const updatedContactResponse = await service.request({
+      const updatedContactResponse = await getService().request({
         ...buildEntitiesFileDataRequest({
           entityType: "contacts",
           responseType: "json",
@@ -170,7 +159,7 @@ describe("Contact entities", () => {
       return
     }
 
-    const updatedContactResponse = await service.request(
+    const updatedContactResponse = await getService().request(
       buildEntitiesFileDataRequest({
         entityType: "contacts",
         responseType: "json",
@@ -190,7 +179,7 @@ describe("Contact entities", () => {
   })
 
   async function createContact(data: EntityData): Promise<string | undefined> {
-    const createEntityResult = await service.request(
+    const createEntityResult = await getService().request(
       buildPostEntityDataRequest({
         entityType: "contacts",
         data: data,
@@ -209,7 +198,7 @@ describe("Contact entities", () => {
     entityId: string,
     data: EntityData
   ): Promise<string | undefined> {
-    const updateEntityResult = await service.request(
+    const updateEntityResult = await getService().request(
       buildPatchEntityDataRequest({
         entityType: "contacts",
         entityId,

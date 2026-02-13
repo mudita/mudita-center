@@ -8,34 +8,24 @@ import {
   ApiConfigResponseValidator,
   buildApiConfigRequest,
 } from "devices/api-device/models"
-import { ApiDeviceTestService } from "./helpers/api-device-test-service"
+import { getService } from "./helpers/api-device-test-service"
 import semver from "semver/preload"
 
-let service: ApiDeviceTestService
 let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 
 describe("API configuration", () => {
-  beforeAll(async () => {
-    service = new ApiDeviceTestService()
-  }, 30_000)
-
   beforeEach(async () => {
-    await service.init()
-    featuresAndEntityTypes = await service.getApiFeaturesAndEntityTypes()
-  }, 30_000)
-
-  afterEach(async () => {
-    await service.reset()
+    featuresAndEntityTypes = await getService().getApiFeaturesAndEntityTypes()
   }, 30_000)
 
   it("should receive API configuration", async () => {
-    const result = await service.request(buildApiConfigRequest())
+    const result = await getService().request(buildApiConfigRequest())
 
     expect(result.status).toBe(200)
   })
 
   it("should receive valid API configuration response", async () => {
-    const result = await service.request(buildApiConfigRequest())
+    const result = await getService().request(buildApiConfigRequest())
 
     const apiConfig = ApiConfigResponseValidator.parse(result.body)
 
