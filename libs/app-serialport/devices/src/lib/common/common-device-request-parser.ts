@@ -10,7 +10,5 @@ export const commonDeviceRequestParser = (data: SerialPortRequest): string => {
   const encoder = new TextEncoder()
   const payload = JSON.stringify(data)
   const header = String(encoder.encode(payload).length).padStart(9, "0")
-  console.log("SENDING REQUEST", `#${header}${payload}`)
   return `#${header}${payload}`
 }
-

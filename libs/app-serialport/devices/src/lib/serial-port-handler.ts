@@ -63,11 +63,6 @@ export class SerialPortHandler extends SerialPort {
     }
 
     if (parser) {
-      this.on("data", (rawData) => {
-        console.log(
-          `[DEBUG] RAW data received BEFORE parser at ${Date.now()}, length: ${rawData?.length || 0}, content: ${rawData?.toString()}`
-        )
-      })
       this.pipe(parser)
         .on("data", (data) => {
           this.processResponse(data)
@@ -214,7 +209,9 @@ export class SerialPortHandler extends SerialPort {
         })
       }
 
-      this.writeAsync(dataWithId).catch((error) => {
+      const { options, ...rest } = dataWithId
+
+      this.writeAsync(rest).catch((error) => {
         cleanupListeners()
         reject(error)
       })

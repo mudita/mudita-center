@@ -16,16 +16,9 @@ import {
   buildSystemPostRequest,
 } from "devices/api-device/models"
 
-export const DEFAULT_CHUNK_SIZE = 14_336
-export const DEFAULT_OUTBOX_EVENTS_COUNT = 100
-
 export class ApiDeviceTestService {
   service = new AppSerialPortService()
   apiDevice?: ApiDevice
-
-  // apiVersion = "1.0.0"
-  chunkSizeInBytes = DEFAULT_CHUNK_SIZE
-  outboxEventsCounter = DEFAULT_OUTBOX_EVENTS_COUNT
 
   private waitForApiDevice(): Promise<ApiDevice> {
     return new Promise((resolve, reject) => {
@@ -56,16 +49,6 @@ export class ApiDeviceTestService {
     if (!this.apiDevice) {
       throw new Error("API device not found")
     }
-
-    if (
-      this.chunkSizeInBytes !== DEFAULT_CHUNK_SIZE ||
-      this.outboxEventsCounter !== DEFAULT_OUTBOX_EVENTS_COUNT
-    ) {
-      await this.changePortSetup({
-        chunkSizeInBytes: this.chunkSizeInBytes,
-        outboxEventsCounter: this.outboxEventsCounter,
-      })
-    }
   }
 
   request(data: SerialPortRequest) {
@@ -94,40 +77,6 @@ export class ApiDeviceTestService {
         action: "clearData",
       })
     )
-  }
-
-  async changePortSetup(options: {
-    chunkSizeInBytes?: number
-    outboxEventsCounter?: number
-  }): Promise<boolean> {
-    if (!this.apiDevice) {
-      throw new Error("API device not initialized")
-    }
-
-    if (!options.chunkSizeInBytes && !options.outboxEventsCounter) {
-      return false
-    }
-
-    const chunkSizeInBytes = options.chunkSizeInBytes || this.chunkSizeInBytes
-    const outboxEventsCounter =
-      options.outboxEventsCounter || this.outboxEventsCounter
-
-    const serialPortSetup = await this.service.request(this.apiDevice.id, {
-      endpoint: "SYSTEM",
-      method: "POST",
-      body: {
-        action: "serial-port-setup",
-        chunkSizeInBytes,
-        outboxEventsCounter,
-      },
-    })
-
-    if (serialPortSetup.status === 200) {
-      this.chunkSizeInBytes = chunkSizeInBytes
-      this.outboxEventsCounter = outboxEventsCounter
-      return true
-    }
-    return false
   }
 
   async getApiFeaturesAndEntityTypes(): Promise<{
@@ -175,61 +124,3 @@ export class ApiDeviceTestService {
     return { features: genericFeatures.sort(), entityTypes: testEntityTypes }
   }
 }
-
-// const getApiDevice = async () => {
-//   console.log(
-//     `[${new Date().toLocaleString()}] Waiting for API device...`,
-//     service
-//       ? "Service already initialized"
-//       : "Service not initialized, initializing now..."
-//   )
-//   if (!service) {
-//     service = new AppSerialPortService()
-//     await service.init()
-//   }
-//
-//   return await new Promise<ApiDevice>((resolve, reject) => {
-//     service.onDevicesChanged(({ all }) => {
-//       const deviceInfo = all.find(
-//         (
-//           deviceInfo
-//         ): deviceInfo is SerialPortDeviceInfo<SerialPortDeviceType.ApiDevice> => {
-//           return deviceInfo.deviceType === SerialPortDeviceType.ApiDevice
-//         }
-//       )
-//       if (deviceInfo) {
-//         console.log(
-//           `[${new Date().toLocaleString()}] API device found:`,
-//           deviceInfo
-//         )
-//         resolve(deviceInfo)
-//       } else {
-//         reject()
-//       }
-//     })
-//   })
-// }
-
-// const changePortOptions = async (apiDevice: ApiDevice, options: Options) => {
-//   if (!apiDevice) {
-//     throw new Error("API device not initialized")
-//   }
-//
-//   if (options?.chunkSize || options?.outboxEventsCount) {
-//     const serialPortSetup = await service.request(apiDevice.id, {
-//       endpoint: "SYSTEM",
-//       method: "POST",
-//       body: {
-//         action: "serial-port-setup",
-//         chunkSizeInBytes: options.chunkSize || DEFAULT_CHUNK_SIZE,
-//         outboxEventsCounter:
-//           options.outboxEventsCount || DEFAULT_OUTBOX_EVENTS_COUNT,
-//       },
-//     })
-//     return serialPortSetup.status === 200
-//   }
-//
-//   return false
-// }
-
-// export { service, getApiDevice, changePortOptions }

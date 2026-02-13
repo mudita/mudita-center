@@ -33,8 +33,9 @@ logger.transports.file.resolvePathFn = () => {
 const devLogLevel = (process.env.SERIALPORT_LOGS_LEVEL ||
   "silly") as LevelOption
 
-logger.transports.file.level =
-  process.env.NODE_ENV === "development" ? devLogLevel : "debug"
-logger.transports.console.level =
-  process.env.NODE_ENV === "development" ? devLogLevel : false
+const isDev =
+  process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"
+
+logger.transports.file.level = isDev ? devLogLevel : "debug"
+logger.transports.console.level = isDev ? devLogLevel : false
 logger.transports.console.useStyles = true

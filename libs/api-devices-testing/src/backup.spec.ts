@@ -22,26 +22,26 @@ let backupFeatures: string[]
 describe("Backup feature", () => {
   beforeAll(async () => {
     service = new ApiDeviceTestService()
-  }, 30_000)
+  }, 60_000)
 
   beforeEach(async () => {
     await service.init()
     await fetchSupportedFeatures()
-  }, 30_000)
+  }, 60_000)
 
   afterEach(async () => {
     await service.reset()
-  }, 30_000)
+  }, 60_000)
 
   it("should prepare valid backup files for all features", async () => {
     await performFullBackup(backupFeatures)
-  }, 30000)
+  }, 60_000)
 
   it("should prepare valid backup file for every single feature", async () => {
     for (const feature of backupFeatures) {
       await performFullBackup([feature])
     }
-  }, 30000)
+  }, 60_000)
 
   it.skip("should return an error for startPreBackup for unknown features.", async () => {
     const result = await service.request(
@@ -70,7 +70,7 @@ describe("Backup feature", () => {
       })
     )
     expect(result.status).toBe(202)
-  })
+  }, 60_000)
 
   it.skip("should return an error for checkPreBackup with an invalid backupId.", async () => {
     const result = await service.request(
