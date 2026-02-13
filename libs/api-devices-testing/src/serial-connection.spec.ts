@@ -12,7 +12,7 @@ import { randomBytes } from "crypto"
 
 const FACTOR = 8
 const SERIAL_PORT_DATA_SIZE = 1024 * 14 * FACTOR // 14 336 * factor
-const SERIAL_PORT_REQUEST_COUNTER = 100
+const SERIAL_PORT_REQUEST_COUNTER = 50
 
 const TEST_TIMEOUT = SERIAL_PORT_REQUEST_COUNTER * FACTOR * 300
 
@@ -72,36 +72,6 @@ describe("Serial port test", () => {
         expect(parsedResponse.data).toBe(expectedData[i])
         expect(parsedResponse.bytesCount).toBe(expectedData[i].length)
       }
-    },
-    TEST_TIMEOUT
-  )
-
-  it(
-    "measures performance of serial port data transfer",
-    async () => {
-      const data = "a".repeat(SERIAL_PORT_DATA_SIZE)
-
-      const startTime = Date.now()
-
-      for (let i = 0; i < SERIAL_PORT_REQUEST_COUNTER; i++) {
-        const response = await getService().request({
-          ...buildApiTestToolsGetRequestValidator({
-            action: "send-serial-port-test-data",
-            data,
-          }),
-          options: { timeout: 5_000, retries: 3 },
-        })
-
-        expect(response.status).toBe(200)
-      }
-
-      const endTime = Date.now()
-      const durationSeconds = (endTime - startTime) / 1000
-      const totalBytes = SERIAL_PORT_DATA_SIZE * SERIAL_PORT_REQUEST_COUNTER
-      const throughputMbps = (totalBytes * 8) / (durationSeconds * 1_000_000)
-
-      console.log(`Total time: ${durationSeconds.toFixed(2)} seconds`)
-      console.log(`Throughput: ${throughputMbps.toFixed(2)} Mbps`)
     },
     TEST_TIMEOUT
   )

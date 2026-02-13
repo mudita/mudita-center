@@ -28,7 +28,7 @@ describe("Entities configuration, metadata and data", () => {
 
   beforeEach(async () => {
     await fetchSupportedEntities()
-  }, 30_000)
+  })
 
   it("should return successful response for entity configuration", async () => {
     expect(entityTypes).toBeDefined()
@@ -59,7 +59,7 @@ describe("Entities configuration, metadata and data", () => {
       })
       expect(result.status).toBeDefined()
     }
-  }, 30_000)
+  })
 
   it("should return successful response for entity data", async () => {
     expect(entityTypes).toBeDefined()
@@ -107,5 +107,5 @@ describe("Entities configuration, metadata and data", () => {
       expect(progress).toBe(100)
       expect(status).toBe(200)
     }
-  }, 30_000)
+  })
 })

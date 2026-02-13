@@ -34,29 +34,29 @@ let importFeatures: {
 describe("Data transfer", () => {
   beforeEach(async () => {
     fetchSupportedFeatures()
-  }, 30_000)
+  })
 
   it("should perform import process for empty restore data", async () => {
     const base64Sources = getEmptyTransferData()
     await performDataTransfer(base64Sources, false)
-  }, 30_000)
+  })
 
   it("should perform import process for restore data with one item per feature", async () => {
     const base64Sources = getFullTransferData()
     await performDataTransfer(base64Sources, false)
-  }, 30_000)
+  })
 
   it("should perform import process for every single feature", async () => {
     const base64Sources = getFullTransferData()
     for (const [feature, base64] of Object.entries(base64Sources)) {
       await performDataTransfer({ [feature]: base64 }, false)
     }
-  }, 30_000)
+  })
 
   it("should return error on invalid data for features", async () => {
     const base64Sources = getInvalidTransferData()
     await performDataTransfer(base64Sources, true)
-  }, 30_000)
+  })
 
   //TODO - To consider getting this data from the config
   const fetchSupportedFeatures = () => {

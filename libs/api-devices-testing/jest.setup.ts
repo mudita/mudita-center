@@ -18,6 +18,8 @@ jest.mock("electron-log", () => ({
   silly: jest.fn(),
 }))
 
+jest.setTimeout(30_000)
+
 beforeAll(async () => {
   await getService().init()
 }, 60_000)

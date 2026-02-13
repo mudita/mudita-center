@@ -27,7 +27,7 @@ import { getService } from "./helpers/api-device-test-service"
 describe("Contact entities", () => {
   beforeEach(async () => {
     await getService().clearDeviceData()
-  }, 30_000)
+  })
 
   it("should remove contact entity with valid entityId", async () => {
     const id = await createContact(contactFullData1)

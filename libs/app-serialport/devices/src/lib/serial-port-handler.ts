@@ -56,10 +56,16 @@ export class SerialPortHandler extends SerialPort {
       this.on("open", onOpen)
     }
     if (onClose) {
-      this.on("close", onClose)
+      this.on("close", () => {
+        onClose?.()
+        this.cleanup()
+      })
     }
     if (onError) {
-      this.on("error", onError)
+      this.on("error", (error) => {
+        onError?.(error)
+        this.cleanup()
+      })
     }
 
     if (parser) {
@@ -69,8 +75,14 @@ export class SerialPortHandler extends SerialPort {
         })
         .on("error", (error) => {
           onError?.(error)
+          this.cleanup()
         })
     }
+  }
+
+  cleanup() {
+    this.removeAllListeners()
+    this.eventEmitter.removeAllListeners()
   }
 
   async writeAsync(data: unknown, retries = 1): Promise<void> {

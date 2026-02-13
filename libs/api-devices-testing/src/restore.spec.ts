@@ -29,27 +29,27 @@ let restoreFeatures: {
   key: string
 }[]
 
-describe.skip("Restore feature", () => {
+describe("Restore feature", () => {
   beforeEach(async () => {
     await fetchSupportedFeatures()
-  }, 30_000)
+  })
 
   it("should perform restore process for empty restore data", async () => {
     const base64Sources = getEmptyTransferData()
     await performFullRestore(base64Sources)
-  }, 30_000)
+  })
 
   it("should perform restore process for restore data with one item per feature", async () => {
     const base64Sources = getFullTransferData()
     await performFullRestore(base64Sources)
-  }, 30_000)
+  })
 
   it("should perform restore process for every single feature", async () => {
     const base64Sources = getFullTransferData()
     for (const [feature, base64] of Object.entries(base64Sources)) {
       await performFullRestore({ [feature]: base64 })
     }
-  }, 30_000)
+  })
 
   //TODO - To consider getting this data from the config
   async function fetchSupportedFeatures() {

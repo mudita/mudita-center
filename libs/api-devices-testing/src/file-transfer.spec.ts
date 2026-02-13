@@ -23,7 +23,7 @@ const sourcePath = path.resolve(__dirname, "./test-files/sample.png")
 describe("File transfer", () => {
   afterEach(async () => {
     await removeFile(validTargetPath)
-  }, 30_000)
+  })
 
   it("should send file into device and return valid responses", async () => {
     let transferId = -1
@@ -87,7 +87,7 @@ describe("File transfer", () => {
       const isFilePresent = await isFileExists(validTargetPath)
       expect(isFilePresent).toBe(true)
     }
-  }, 30_000)
+  })
 
   it("should return error response for invalid targetPath", async () => {
     let transferId = -1
@@ -147,7 +147,7 @@ describe("File transfer", () => {
       const isFilePresent = await isFileExists(invalidTargetPath)
       expect(isFilePresent).toBe(false)
     }
-  }, 30_000)
+  })
 
   it("file transfer delete should return success with 200 status for valid targetPath", async () => {
     let transferId = -1
@@ -221,7 +221,7 @@ describe("File transfer", () => {
     )
 
     expect(deleteResult.status).toBe(200)
-  }, 30_000)
+  })
 
   it("file transfer delete should return success with 207 status for invalid targetPath", async () => {
     const deleteResult = await getService().request(
@@ -230,7 +230,7 @@ describe("File transfer", () => {
       })
     )
     expect(deleteResult.status).toBe(207)
-  }, 30_000)
+  })
 
   const removeFile = async (targetPath: string): Promise<void> => {
     try {

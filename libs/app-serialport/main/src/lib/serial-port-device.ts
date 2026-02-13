@@ -221,7 +221,7 @@ export class SerialPortDevice {
       return
     }
 
-    this.serialPort.removeAllListeners()
+    this.serialPort.cleanup()
 
     if (this.serialPort.isOpen || this.serialPort.opening) {
       try {

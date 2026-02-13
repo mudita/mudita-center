@@ -19,10 +19,7 @@ import {
 export class ApiDeviceTestService {
   service = new AppSerialPortService()
   apiDevice?: ApiDevice
-
-  constructor() {
-    console.log("ApiDeviceTestService initialized")
-  }
+  private initialized = false
 
   private waitForApiDevice(): Promise<ApiDevice> {
     return new Promise((resolve, reject) => {
@@ -44,6 +41,11 @@ export class ApiDeviceTestService {
   }
 
   async init() {
+    if (this.initialized) {
+      return
+    }
+    this.initialized = true
+
     if (!this.service) {
       this.service = new AppSerialPortService()
     }
@@ -68,7 +70,7 @@ export class ApiDeviceTestService {
       return
     }
 
-    await this.service.reset(this.apiDevice?.id)
+    await this.service.reset(this.apiDevice?.id, false)
   }
 
   async clearDeviceData() {

@@ -12,13 +12,13 @@ import { getService } from "./helpers/api-device-test-service"
 let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 const notSupportedDataFeatures: string[] = ["dummy-feature"]
 
-describe.skip("Feature Configuration and Data", () => {
+describe("Feature Configuration and Data", () => {
   beforeEach(async () => {
     featuresAndEntityTypes = await getService().getApiFeaturesAndEntityTypes()
     featuresAndEntityTypes.features = featuresAndEntityTypes.features.filter(
       (feature) => feature !== "mc-overview"
     )
-  }, 30_000)
+  })
 
   it("should receive valid configuration for mc-overview feature", async () => {
     const result = await getService().request(

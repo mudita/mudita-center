@@ -11,7 +11,7 @@ import { getService } from "./helpers/api-device-test-service"
 describe("API configuration", () => {
   beforeAll(async () => {
     // featuresAndEntityTypes = await getService().getApiFeaturesAndEntityTypes()
-  }, 30_000)
+  })
 
   it("should receive API menu configuration", async () => {
     const response = await getService().request({

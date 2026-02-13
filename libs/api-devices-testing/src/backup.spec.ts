@@ -24,17 +24,17 @@ let backupFeatures: string[]
 describe("Backup feature", () => {
   beforeEach(async () => {
     await fetchSupportedFeatures()
-  }, 60_000)
+  })
 
   it("should prepare valid backup files for all features", async () => {
     await performFullBackup(backupFeatures)
-  }, 60_000)
+  })
 
   it("should prepare valid backup file for every single feature", async () => {
     for (const feature of backupFeatures) {
       await performFullBackup([feature])
     }
-  }, 60_000)
+  })
 
   it.skip("should return an error for startPreBackup for unknown features.", async () => {
     const result = await getService().request(

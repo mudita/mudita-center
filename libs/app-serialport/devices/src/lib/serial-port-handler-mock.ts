@@ -45,15 +45,20 @@ export class SerialPortHandlerMock extends SerialPortMock {
       options
     super({ ...serialPortOptions, baudRate: 9600, autoOpen: autoOpen ?? true })
 
-    this.on("open", () => {
-      this.flush()
-      onOpen?.()
-    })
+    if (onOpen) {
+      this.on("open", onOpen)
+    }
     if (onClose) {
-      this.on("close", onClose)
+      this.on("close", () => {
+        onClose?.()
+        this.cleanup()
+      })
     }
     if (onError) {
-      this.on("error", onError)
+      this.on("error", (error) => {
+        onError?.(error)
+        this.cleanup()
+      })
     }
 
     if (parser) {
@@ -63,8 +68,14 @@ export class SerialPortHandlerMock extends SerialPortMock {
         })
         .on("error", (error) => {
           onError?.(error)
+          this.cleanup()
         })
     }
+  }
+
+  cleanup() {
+    this.removeAllListeners()
+    this.eventEmitter.removeAllListeners()
   }
 
   async writeAsync(data: unknown): Promise<void> {

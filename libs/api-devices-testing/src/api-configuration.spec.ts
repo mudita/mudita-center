@@ -16,7 +16,7 @@ let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 describe("API configuration", () => {
   beforeEach(async () => {
     featuresAndEntityTypes = await getService().getApiFeaturesAndEntityTypes()
-  }, 30_000)
+  })
 
   it("should receive API configuration", async () => {
     const result = await getService().request(buildApiConfigRequest())

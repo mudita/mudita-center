@@ -200,7 +200,7 @@ export class AppSerialPortService {
     return device.request(request)
   }
 
-  async reset(deviceId?: SerialPortDeviceId): Promise<void> {
+  async reset(deviceId?: SerialPortDeviceId, rescan = true): Promise<void> {
     if (deviceId) {
       const device = this.devices.get(deviceId)
       if (!device) {
@@ -220,7 +220,9 @@ export class AppSerialPortService {
     }
 
     this.initialScan = true
-    await this.handleAttach()
+    if (rescan) {
+      await this.handleAttach()
+    }
   }
 
   freeze(deviceId: SerialPortDeviceId, duration?: number): void {

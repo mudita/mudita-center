@@ -19,7 +19,7 @@ const appPath = "/storage/emulated/0/Applications"
 const validApkName = "valid.apk"
 const incompatibleApkName = "invalid.apk"
 
-describe.skip("App install", () => {
+describe("App install", () => {
   beforeEach(async () => {
     const localPath = path.join(__dirname, testFilesDir)
     try {
@@ -28,7 +28,7 @@ describe.skip("App install", () => {
     } catch (err) {
       console.log(err)
     }
-  }, 30_000)
+  })
 
   afterAll(async () => {
     try {
@@ -37,7 +37,7 @@ describe.skip("App install", () => {
     } catch (err) {
       console.log(err)
     }
-  }, 30_000)
+  })
 
   it("should return error 404 if the APK doesn't exist", async () => {
     const result = await getService().request(

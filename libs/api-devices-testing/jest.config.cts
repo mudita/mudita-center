@@ -23,7 +23,7 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   coverageDirectory: "../../coverage/libs/api-devices-testing",
-  setupFilesAfterEnv: ["./jest.setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   maxWorkers: 1,
   transformIgnorePatterns: [
     "/node_modules/(?!p-queue|p-timeout|eventemitter3)",
