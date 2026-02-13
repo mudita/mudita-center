@@ -318,11 +318,15 @@ export class SerialPortDevice {
       { color: "red" }
     )
 
-    this.eventEmitter.removeAllListeners()
-    this.requestsQueue.clear()
-    this.freezeHandler.off()
-    this.status = SerialPortDeviceStatus.DeviceDisconnected
-    this.requestsQueueAbortController.abort()
+    try {
+      this.eventEmitter.removeAllListeners()
+      this.requestsQueue.clear()
+      this.freezeHandler.off()
+      this.status = SerialPortDeviceStatus.DeviceDisconnected
+      this.requestsQueueAbortController.abort()
+    } catch {
+      // do nothing
+    }
 
     if (this.serialPort) {
       this.detachPort()
