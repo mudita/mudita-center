@@ -13,24 +13,24 @@ import {
   PreBackupResponseValidator202,
 } from "devices/api-device/models"
 import { delay } from "app-utils/common"
-import { AppSerialPortService } from "app-serialport/main"
 import { withBodyStatus } from "./helpers/with-body-status"
-import {
-  ApiDeviceContext,
-  initApiDevice,
-} from "./helpers/api-device-context"
+import { ApiDeviceTestService } from "./helpers/api-device-test-service"
 
-let apiDeviceContext: ApiDeviceContext
+let service: ApiDeviceTestService
 let backupFeatures: string[]
 
 describe("Backup feature", () => {
+  beforeAll(async () => {
+    service = new ApiDeviceTestService()
+  }, 30_000)
+
   beforeEach(async () => {
-    apiDeviceContext = await initApiDevice()
+    await service.init()
     await fetchSupportedFeatures()
   }, 30_000)
 
   afterEach(async () => {
-    await apiDeviceContext.reset()
+    await service.reset()
   }, 30_000)
 
   it("should prepare valid backup files for all features", async () => {
@@ -44,9 +44,7 @@ describe("Backup feature", () => {
   }, 30000)
 
   it.skip("should return an error for startPreBackup for unknown features.", async () => {
-    const { service, deviceId } = apiDeviceContext
     const result = await service.request(
-      deviceId,
       buildPreBackupPostRequest({
         features: ["dummyFeature", "dummyFeature2"],
         backupId: random(1, 100000),
@@ -65,9 +63,7 @@ describe("Backup feature", () => {
   })
 
   it("should prepare valid backup if features contains known feature.", async () => {
-    const { service, deviceId } = apiDeviceContext
     const result = await service.request(
-      deviceId,
       buildPreBackupPostRequest({
         features: ["CONTACTS_V1", "dummyFeature", "dummyFeature2"],
         backupId: random(1, 100000),
@@ -77,9 +73,7 @@ describe("Backup feature", () => {
   })
 
   it.skip("should return an error for checkPreBackup with an invalid backupId.", async () => {
-    const { service, deviceId } = apiDeviceContext
     const result = await service.request(
-      deviceId,
       buildPreBackupGetRequest({
         backupId: -1,
       })
@@ -106,11 +100,9 @@ describe("Backup feature", () => {
     ]
   }
 
-  async function performFullBackup(featuresArray: string[]): Promise<void> {
-    const { service, deviceId } = apiDeviceContext
+  const performFullBackup = async (featuresArray: string[]): Promise<void> => {
     const backupId = random(1, 100000)
     const preBackupStartResult = await service.request(
-      deviceId,
       buildPreBackupPostRequest({
         features: featuresArray,
         backupId,
@@ -128,7 +120,6 @@ describe("Backup feature", () => {
 
     const features = await awaitPreBackupReady({
       service,
-      deviceId: deviceId,
       backupId: preBackupStartData.backupId,
     })
 
@@ -141,7 +132,6 @@ describe("Backup feature", () => {
     ).toBeTruthy()
 
     const postBackupResult = await service.request(
-      deviceId,
       buildPostBackupRequest({ backupId: preBackupStartData.backupId })
     )
 
@@ -150,8 +140,7 @@ describe("Backup feature", () => {
 })
 
 type AwaitPreBackupReadyParams = {
-  service: AppSerialPortService
-  deviceId: string
+  service: ApiDeviceTestService
   backupId: number
 
   delayMs?: number
@@ -161,16 +150,12 @@ type AwaitPreBackupReadyParams = {
 
 async function awaitPreBackupReady({
   service,
-  deviceId,
   backupId,
   delayMs = 1000,
   maxAttempts = 60,
   attempt = 1,
 }: AwaitPreBackupReadyParams): Promise<PreBackupResponse200["features"]> {
-  const res = await service.request(
-    deviceId,
-    buildPreBackupGetRequest({ backupId })
-  )
+  const res = await service.request(buildPreBackupGetRequest({ backupId }))
 
   if (res.status !== 200 && res.status !== 202) {
     throw new Error(`PRE_BACKUP polling failed (status: ${res.status})`)
@@ -188,7 +173,6 @@ async function awaitPreBackupReady({
     await delay(delayMs)
     return awaitPreBackupReady({
       service,
-      deviceId,
       backupId,
       delayMs,
       maxAttempts,

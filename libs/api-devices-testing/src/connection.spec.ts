@@ -3,30 +3,32 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppSerialPortService } from "app-serialport/main"
+import { ApiDeviceTestService } from "./helpers/api-device-test-service"
+import { waitFor } from "@testing-library/dom"
+
+let service: ApiDeviceTestService
 
 describe("Connection", () => {
+  beforeAll(async () => {
+    service = new ApiDeviceTestService()
+  }, 30_000)
+
+  beforeEach(async () => {
+    await service.init()
+  }, 30_000)
+
+  afterEach(async () => {
+    await service.reset()
+  }, 30_000)
+
   it.each([{ vendorId: "3310", productId: "200a" }])(
     "should connect successfully",
     async ({ vendorId, productId }) => {
-      const service = new AppSerialPortService()
-      expect(service.getCurrentDevices()).toHaveLength(0)
-
-      await service.init()
-
-      const device = service.getCurrentDevices().find((port) => {
-        return (
-          port.vendorId?.toLowerCase() === vendorId.toLowerCase() &&
-          port.productId?.toLowerCase() === productId.toLowerCase()
-        )
+      await waitFor(() => {
+        expect(service.apiDevice).toBeDefined()
+        expect(service.apiDevice?.vendorId).toBe(vendorId)
+        expect(service.apiDevice?.productId).toBe(productId)
       })
-
-      expect(device).toBeTruthy()
-      if (device === undefined) {
-        return
-      }
-
-      service.reset(device.id, { rescan: false })
     }
   )
 })

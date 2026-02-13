@@ -8,39 +8,34 @@ import {
   ApiConfigResponseValidator,
   buildApiConfigRequest,
 } from "devices/api-device/models"
-import { initApiDevice } from "./helpers/api-device-context"
-import { getApiFeaturesAndEntityTypes } from "./helpers/get-api-features-and-entity-types"
-import { SerialPortDevice } from "app-serialport/main"
+import { ApiDeviceTestService } from "./helpers/api-device-test-service"
 import semver from "semver/preload"
 
+let service: ApiDeviceTestService
 let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 
-beforeEach(() => {
-  jest.resetModules()
-})
-
-let apiDevice: SerialPortDevice
-
 describe("API configuration", () => {
+  beforeAll(async () => {
+    service = new ApiDeviceTestService()
+  }, 30_000)
+
   beforeEach(async () => {
-    apiDevice = await initApiDevice()
-    featuresAndEntityTypes = await getApiFeaturesAndEntityTypes(apiDevice)
+    await service.init()
+    featuresAndEntityTypes = await service.getApiFeaturesAndEntityTypes()
+  }, 30_000)
+
+  afterEach(async () => {
+    await service.reset()
   }, 30_000)
 
   it("should receive API configuration", async () => {
-    const result = await apiDevice.request({
-      ...buildApiConfigRequest(),
-      options: { timeout: 5000 },
-    })
+    const result = await service.request(buildApiConfigRequest())
 
     expect(result.status).toBe(200)
   })
 
   it("should receive valid API configuration response", async () => {
-    const result = await apiDevice.request({
-      ...buildApiConfigRequest(),
-      options: { timeout: 5000 },
-    })
+    const result = await service.request(buildApiConfigRequest())
 
     const apiConfig = ApiConfigResponseValidator.parse(result.body)
 

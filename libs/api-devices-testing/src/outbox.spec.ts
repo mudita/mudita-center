@@ -7,32 +7,25 @@ import {
   buildOutboxGetRequest,
   OutboxResponseValidator,
 } from "devices/api-device/models"
-import {
-  ApiDeviceContext,
-  initApiDevice,
-} from "./helpers/api-device-context"
+import { ApiDeviceTestService } from "./helpers/api-device-test-service"
 
-let apiDeviceContext: ApiDeviceContext
+let service: ApiDeviceTestService
 
 describe("Outbox", () => {
+  beforeAll(async () => {
+    service = new ApiDeviceTestService()
+  }, 30_000)
+
   beforeEach(async () => {
-    apiDeviceContext = await initApiDevice()
+    await service.init()
   }, 30_000)
 
   afterEach(async () => {
-    await apiDeviceContext.reset()
+    await service.reset()
   }, 30_000)
 
-  it("should return error outbox response for invalid deviceId", async () => {
-    const { service } = apiDeviceContext
-    await expect(
-      service.request("invalid", buildOutboxGetRequest())
-    ).rejects.toThrow("Device not found at id invalid.")
-  })
-
   it("should return valid outbox response for valid deviceId", async () => {
-    const { deviceId, service } = apiDeviceContext
-    const result = await service.request(deviceId, buildOutboxGetRequest())
+    const result = await service.request(buildOutboxGetRequest())
     expect(result.status).toBe(200)
     const data = OutboxResponseValidator.parse(result.body)
     expect(data.features).toEqual(expect.any(Array))

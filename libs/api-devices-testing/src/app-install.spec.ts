@@ -12,21 +12,22 @@ import {
 } from "devices/api-device/models"
 import { delay } from "app-utils/common"
 import { execPromise } from "app-utils/main"
-import {
-  ApiDeviceContext,
-  initApiDevice,
-} from "./helpers/api-device-context"
+import { ApiDeviceTestService } from "./helpers/api-device-test-service"
 
 const testFilesDir = "test-files"
 const appPath = "/storage/emulated/0/Applications"
 const validApkName = "valid.apk"
 const incompatibleApkName = "invalid.apk"
 
-let apiDeviceContext: ApiDeviceContext
+let service: ApiDeviceTestService
 
 describe("App install", () => {
+  beforeAll(async () => {
+    service = new ApiDeviceTestService()
+  }, 30_000)
+
   beforeEach(async () => {
-    apiDeviceContext = await initApiDevice()
+    await service.init()
 
     const localPath = path.join(__dirname, testFilesDir)
     try {
@@ -38,7 +39,7 @@ describe("App install", () => {
   }, 30_000)
 
   afterEach(async () => {
-    await apiDeviceContext.reset()
+    await service.reset()
   }, 30_000)
 
   afterAll(async () => {
@@ -51,9 +52,7 @@ describe("App install", () => {
   }, 30_000)
 
   it("should return error 404 if the APK doesn't exist", async () => {
-    const { service, deviceId } = apiDeviceContext
     const result = await service.request(
-      deviceId,
       buildPostAppInstallRequest({
         filePath: "dummyPath",
       })
@@ -62,10 +61,8 @@ describe("App install", () => {
   })
 
   it("should return success response if the APK is valid", async () => {
-    const { service, deviceId } = apiDeviceContext
     const apkPath = `${appPath}/${testFilesDir}/${validApkName}`
     const result = await service.request(
-      deviceId,
       buildPostAppInstallRequest({
         filePath: apkPath,
       })
@@ -76,7 +73,6 @@ describe("App install", () => {
     await delay(500)
     while (progress < 100) {
       const checkResult = await service.request(
-        deviceId,
         buildGetAppInstallRequest({
           installationId: data.installationId,
         })
@@ -91,10 +87,8 @@ describe("App install", () => {
   }, 60000)
 
   it("should return error 401 if the APK is incompatible", async () => {
-    const { service, deviceId } = apiDeviceContext
     const apkPath = `${appPath}/${testFilesDir}/${incompatibleApkName}`
     const result = await service.request(
-      deviceId,
       buildPostAppInstallRequest({
         filePath: apkPath,
       })
@@ -104,7 +98,6 @@ describe("App install", () => {
     expect(result.status).toBe(200)
 
     const checkResult = await service.request(
-      deviceId,
       buildGetAppInstallRequest({
         installationId: data.installationId,
       })

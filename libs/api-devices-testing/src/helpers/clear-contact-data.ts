@@ -5,7 +5,7 @@
 
 import { EntityData } from "devices/api-device/models"
 
-export function clearContact(entityData: EntityData): TestContact {
+export const clearContact = (entityData: EntityData): TestContact => {
   const contact = entityData as unknown as TestContact
 
   const cleanString = (value: unknown): string | undefined =>

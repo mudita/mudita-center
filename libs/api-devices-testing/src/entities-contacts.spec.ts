@@ -22,26 +22,25 @@ import {
 } from "./test-files/contacts-seed-data"
 import { withBodyStatus } from "./helpers/with-body-status"
 import { clearContact } from "./helpers/clear-contact-data"
-import { clearDeviceData } from "./helpers/clear-device-data"
-import {
-  ApiDeviceContext,
-  initApiDevice,
-} from "./helpers/api-device-context"
+import { ApiDeviceTestService } from "./helpers/api-device-test-service"
 
-let apiDeviceContext: ApiDeviceContext
+let service: ApiDeviceTestService
 
 describe("Contact entities", () => {
+  beforeAll(async () => {
+    service = new ApiDeviceTestService()
+  }, 30_000)
+
   beforeEach(async () => {
-    apiDeviceContext = await initApiDevice()
-    await clearDeviceData(apiDeviceContext)
+    await service.init()
+    await service.clearDeviceData()
   }, 30_000)
 
   afterEach(async () => {
-    await apiDeviceContext.reset()
+    await service.reset()
   }, 30_000)
 
   it("should remove contact entity with valid entityId", async () => {
-    const { service, deviceId } = apiDeviceContext
     const id = await createContact(contactFullData1)
 
     expect(id).toBeDefined()
@@ -51,7 +50,6 @@ describe("Contact entities", () => {
     }
 
     const removeEntitiesResult = await service.request(
-      deviceId,
       buildDeleteEntitiesRequest({
         entityType: "contacts",
         ids: [id],
@@ -62,7 +60,6 @@ describe("Contact entities", () => {
   })
 
   it("should return success with failedIds while removing valid and invalid contacts entityIds in one request", async () => {
-    const { service, deviceId } = apiDeviceContext
     const id = await createContact(contactFullData1)
 
     expect(id).toBeDefined()
@@ -72,7 +69,6 @@ describe("Contact entities", () => {
     }
 
     const removeEntitiesResult = await service.request(
-      deviceId,
       buildDeleteEntitiesRequest({
         entityType: "contacts",
         ids: [id, "0", "-1"],
@@ -87,9 +83,7 @@ describe("Contact entities", () => {
   })
 
   it("should return error with incorrect-response type for invalid contacts entityIds", async () => {
-    const { service, deviceId } = apiDeviceContext
     const removeEntitiesResult = await service.request(
-      deviceId,
       buildDeleteEntitiesRequest({
         entityType: "contacts",
         ids: ["0", "-1"],
@@ -99,7 +93,6 @@ describe("Contact entities", () => {
   })
 
   it("should correctly add contacts with complete and varied fields", async () => {
-    const { service, deviceId } = apiDeviceContext
     for (const contact of contactsSeedData) {
       const id = await createContact(contact)
 
@@ -108,24 +101,23 @@ describe("Contact entities", () => {
       if (id === undefined) {
         return
       }
-      const contactResponse = await service.request(
-        deviceId,
-        buildEntitiesFileDataRequest({
+      const contactResponse = await service.request({
+        ...buildEntitiesFileDataRequest({
           entityType: "contacts",
           responseType: "json",
           entityId: id,
-        })
-      )
+        }),
+      })
 
       expect(contactResponse.status).toBe(200)
       const enriched = withBodyStatus(contactResponse)
       const entityData = GetEntitiesDataResponseValidator.parse(enriched.body)
+      // @ts-expect-error no data
       expect(clearContact(entityData.data)).toEqual(clearContact(contact))
     }
-  }, 120000)
+  }, 120_000)
 
   it("should correctly update contacts with complete and varied fields", async () => {
-    const { service, deviceId } = apiDeviceContext
     const id = await createContact(contactFullData2)
     expect(id).toBeDefined()
 
@@ -141,14 +133,13 @@ describe("Contact entities", () => {
         return
       }
 
-      const updatedContactResponse = await service.request(
-        deviceId,
-        buildEntitiesFileDataRequest({
+      const updatedContactResponse = await service.request({
+        ...buildEntitiesFileDataRequest({
           entityType: "contacts",
           responseType: "json",
           entityId: id,
-        })
-      )
+        }),
+      })
 
       expect(updatedContactResponse).toBeDefined()
       expect(updatedContactResponse.status).toBe(200)
@@ -156,14 +147,14 @@ describe("Contact entities", () => {
       const updatedEntityData = GetEntitiesDataResponseValidator.parse(
         enriched.body
       )
+      // @ts-expect-error no data
       expect(clearContact(updatedEntityData.data)).toEqual(
         clearContact(contact)
       )
     }
-  }, 120000)
+  }, 120_000)
 
   it("should clear all contact fields except first name when only first name is provided", async () => {
-    const { service, deviceId } = apiDeviceContext
     const id = await createContact(contactFullData2)
 
     expect(id).toBeDefined()
@@ -180,7 +171,6 @@ describe("Contact entities", () => {
     }
 
     const updatedContactResponse = await service.request(
-      deviceId,
       buildEntitiesFileDataRequest({
         entityType: "contacts",
         responseType: "json",
@@ -193,15 +183,14 @@ describe("Contact entities", () => {
     const updatedEntityData = GetEntitiesDataResponseValidator.parse(
       enriched.body
     )
+    // @ts-expect-error no data
     expect(clearContact(updatedEntityData.data)).toEqual(
       clearContact(contactWithFirstNameOnly)
     )
   })
 
   async function createContact(data: EntityData): Promise<string | undefined> {
-    const { service, deviceId } = apiDeviceContext
     const createEntityResult = await service.request(
-      deviceId,
       buildPostEntityDataRequest({
         entityType: "contacts",
         data: data,
@@ -220,9 +209,7 @@ describe("Contact entities", () => {
     entityId: string,
     data: EntityData
   ): Promise<string | undefined> {
-    const { service, deviceId } = apiDeviceContext
     const updateEntityResult = await service.request(
-      deviceId,
       buildPatchEntityDataRequest({
         entityType: "contacts",
         entityId,
