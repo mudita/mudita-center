@@ -10,14 +10,17 @@ import {
   SerialPortDeviceType,
   SerialPortRequest,
 } from "app-serialport/models"
-import {
-  SerialPortDevice,
-  SerialPortDeviceOptions,
-} from "../serial-port-device"
 import { CommonDeviceResponseParser } from "../common/common-device-response-parser"
 import { commonDeviceRequestParser } from "../common/common-device-request-parser"
+import {
+  SerialPortHandler,
+  SerialPortHandlerOptions,
+} from "../serial-port-handler"
 
-export const kompaktVendorIds: string[] = [KompaktVendorID.Hex, KompaktVendorID.Dec]
+export const kompaktVendorIds: string[] = [
+  KompaktVendorID.Hex,
+  KompaktVendorID.Dec,
+]
 export const kompaktProductIds: string[] = [
   KompaktProductID.TransferHex, // "200a"
   KompaktProductID.TransferHex.toUpperCase(), // "200A"
@@ -28,17 +31,18 @@ export const kompaktProductIds: string[] = [
   KompaktProductID.NoDebugDec,
 ]
 
-export class SerialPortApiDevice extends SerialPortDevice {
+export class SerialPortApiDevice extends SerialPortHandler {
   static readonly matchingVendorIds = [...kompaktVendorIds]
   static readonly matchingProductIds = [...kompaktProductIds]
   static readonly deviceType = SerialPortDeviceType.ApiDevice
   readonly requestIdKey = "rid"
 
-  constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
-    super(
-      { baudRate, ...options },
-      new CommonDeviceResponseParser({ matcher: /#\d{9}/g })
-    )
+  constructor({ ...options }: Omit<SerialPortHandlerOptions, "baudRate">) {
+    super({
+      ...options,
+      baudRate: 921_600,
+      parser: new CommonDeviceResponseParser({ matcher: /#\d{9}/ }),
+    })
   }
 
   public static getSubtype(vendorId?: string, productId?: string) {

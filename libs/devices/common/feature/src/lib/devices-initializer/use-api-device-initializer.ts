@@ -11,8 +11,8 @@ import {
   useDeviceMenuQuery,
   useDeviceStatusQuery,
 } from "../hooks"
-import { useCallback, useEffect } from "react"
-import { delay } from "app-utils/common"
+import { useCallback, useEffect, useRef } from "react"
+import { delay, platform } from "app-utils/common"
 import { useDeviceFreezer } from "app-serialport/renderer"
 import { performSystemAction, useOutboxQuery } from "devices/api-device/feature"
 
@@ -21,6 +21,7 @@ const DEFAULT_OUTBOX_EVENTS_COUNTER = 100
 
 export const useApiDeviceInitializer = (device: ApiDevice) => {
   const queryClient = useQueryClient()
+  const freezeTimeoutRef = useRef<NodeJS.Timeout>(undefined)
   const { freeze, unfreeze } = useDeviceFreezer()
 
   const { isLoading: isConfigLoading, isError: isConfigError } =
@@ -29,6 +30,7 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
     isLoading: isMenuLoading,
     isError: isMenuError,
     failureReason: menuFailureReason,
+    failureCount: menuFailureCount,
   } = useDeviceMenuQuery<ApiDeviceErrorType>(device)
   const { data: status } = useDeviceStatusQuery(device)
   useOutboxQuery(device, status === DeviceStatus.Initialized)
@@ -41,53 +43,54 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
   )
 
   const determineStatus = useCallback(async () => {
-    if (
-      !isConfigError &&
-      menuFailureReason === ApiDeviceErrorType.DeviceLocked
-    ) {
-      setStatus(DeviceStatus.Locked)
-      return
-    }
-    if (isConfigError || isMenuError) {
-      setStatus(DeviceStatus.CriticalError)
-      return
-    }
-    if (isConfigLoading || isMenuLoading) {
+    if (isConfigLoading || (isMenuLoading && menuFailureCount < 3)) {
       setStatus(DeviceStatus.Initializing)
       return
     }
     await delay(500)
-
+    if (
+      isConfigError ||
+      (isMenuError && menuFailureReason !== ApiDeviceErrorType.DeviceLocked)
+    ) {
+      setStatus(DeviceStatus.CriticalError)
+      return
+    }
+    if (menuFailureReason === ApiDeviceErrorType.DeviceLocked) {
+      setStatus(DeviceStatus.Locked)
+      return
+    }
     setStatus(DeviceStatus.Initialized)
   }, [
     isConfigError,
     isConfigLoading,
     isMenuError,
     isMenuLoading,
+    menuFailureCount,
     menuFailureReason,
     setStatus,
   ])
+
+  useEffect(() => {
+    void performSystemAction(device, {
+      action: "serial-port-setup",
+      chunkSizeInBytes: DEFAULT_CHUNK_SIZE_IN_BYTES * 20,
+      outboxEventsCounter: DEFAULT_OUTBOX_EVENTS_COUNTER * 5,
+    })
+  }, [device])
 
   useEffect(() => {
     void determineStatus()
   }, [determineStatus])
 
   useEffect(() => {
-    if (status === DeviceStatus.Initialized) {
-      void performSystemAction(device, {
-        action: "serial-port-setup",
-        chunkSizeInBytes: DEFAULT_CHUNK_SIZE_IN_BYTES * 20,
-        outboxEventsCounter: DEFAULT_OUTBOX_EVENTS_COUNTER * 5,
-      })
-    }
-  }, [device, status])
-
-  useEffect(() => {
     if (status === DeviceStatus.Locked) {
-      freeze(device, 10_000)
+      freeze(device, platform === "windows" ? 10_000 : 3_000)
     }
     if (status === DeviceStatus.Initialized) {
-      unfreeze(device)
+      clearTimeout(freezeTimeoutRef.current)
+      freezeTimeoutRef.current = setTimeout(() => {
+        unfreeze(device)
+      }, 3_000)
     }
-  }, [device, freeze, status, unfreeze])
+  }, [device, freeze, menuFailureReason, status, unfreeze])
 }

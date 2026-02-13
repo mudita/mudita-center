@@ -13,24 +13,25 @@ import {
   PreFileTransferPostResponseValidator,
 } from "devices/api-device/models"
 import { execPromise } from "app-utils/main"
-import {
-  ApiDeviceContext,
-  initApiDeviceContext,
-} from "./helpers/api-device-context"
+import { ApiDeviceTestService } from "./helpers/api-device-test-service"
 
-let apiDeviceContext: ApiDeviceContext
+let service: ApiDeviceTestService
 const validTargetPath = "/storage/emulated/0/testfile"
 const invalidTargetPath = "/storage/emulated/1/testfile"
 const sourcePath = path.resolve(__dirname, "./test-files/sample.png")
 
 describe("File transfer", () => {
+  beforeAll(async () => {
+    service = new ApiDeviceTestService()
+  }, 30_000)
+
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
+    await service.init()
   }, 30_000)
 
   afterEach(async () => {
     await removeFile(validTargetPath)
-    await apiDeviceContext.reset()
+    await service.reset()
   }, 30_000)
 
   it("should send file into device and return valid responses", async () => {
@@ -42,11 +43,9 @@ describe("File transfer", () => {
   }, 30000)
 
   it("file transfer delete should return success with 200 status for valid targetPath", async () => {
-    const { service, deviceId } = apiDeviceContext
     const transferId = await sendFile(sourcePath, validTargetPath, true)
     expect(transferId).toBeGreaterThan(-1)
     const deleteResult = await service.request(
-      deviceId,
       buildFileTransferDeleteRequest({
         fileTransferId: transferId,
       })
@@ -56,9 +55,7 @@ describe("File transfer", () => {
   }, 30000)
 
   it("file transfer delete should return success with 207 status for invalid targetPath", async () => {
-    const { service, deviceId } = apiDeviceContext
     const deleteResult = await service.request(
-      deviceId,
       buildFileTransferDeleteRequest({
         fileTransferId: -10,
       })
@@ -71,7 +68,6 @@ describe("File transfer", () => {
     targetPath: string,
     expectedResult: boolean
   ): Promise<number> => {
-    const { service, deviceId } = apiDeviceContext
     let transferId = -1
 
     const file = readFileSync(sourceFile, {
@@ -82,7 +78,6 @@ describe("File transfer", () => {
     const fileSize = file.length
 
     const preTransferResponse = await service.request(
-      deviceId,
       buildPreFileTransferPostRequest({
         filePath: targetPath,
         fileSize: fileSize,
@@ -105,7 +100,6 @@ describe("File transfer", () => {
           (chunkNumber + 1) * chunkSize
         )
         const fileTransferResponse = await service.request(
-          deviceId,
           buildFileTransferPostRequest({
             transferId: transferId,
             chunkNumber: chunkNumber + 1,
@@ -113,7 +107,7 @@ describe("File transfer", () => {
           })
         )
 
-        // expect(fileTransferResponse.status).toBe(200)
+        expect(fileTransferResponse.status).toBe(200)
       }
       const isFilePresent = await isFileExists(targetPath)
       expect(isFilePresent).toBe(expectedResult)
