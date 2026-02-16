@@ -24,12 +24,8 @@ import {
   getInvalidTransferData,
 } from "./helpers/file-transfer-data"
 import { withBodyStatus } from "./helpers/with-body-status"
-import {
-  ApiDeviceContext,
-  initApiDeviceContext,
-} from "./helpers/api-device-context"
+import { getService } from "./helpers/api-device-test-service"
 
-let apiDeviceContext: ApiDeviceContext
 let importFeatures: {
   feature: string
   key: string
@@ -37,38 +33,33 @@ let importFeatures: {
 
 describe("Data transfer", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
-    await fetchSupportedFeatures()
-  }, 30_000)
-
-  afterEach(async () => {
-    await apiDeviceContext.reset()
-  }, 30_000)
+    fetchSupportedFeatures()
+  })
 
   it("should perform import process for empty restore data", async () => {
     const base64Sources = getEmptyTransferData()
     await performDataTransfer(base64Sources, false)
-  }, 30000)
+  })
 
   it("should perform import process for restore data with one item per feature", async () => {
     const base64Sources = getFullTransferData()
     await performDataTransfer(base64Sources, false)
-  }, 30000)
+  })
 
   it("should perform import process for every single feature", async () => {
     const base64Sources = getFullTransferData()
     for (const [feature, base64] of Object.entries(base64Sources)) {
       await performDataTransfer({ [feature]: base64 }, false)
     }
-  }, 30000)
+  })
 
   it("should return error on invalid data for features", async () => {
     const base64Sources = getInvalidTransferData()
     await performDataTransfer(base64Sources, true)
-  }, 30000)
+  })
 
   //TODO - To consider getting this data from the config
-  async function fetchSupportedFeatures() {
+  const fetchSupportedFeatures = () => {
     importFeatures = [
       { feature: "CONTACTS_LIST", key: "contacts-v1" },
       { feature: "CALL_LOG", key: "callLog-v1" },
@@ -82,7 +73,6 @@ describe("Data transfer", () => {
     base64Sources: { [key: string]: string } = {},
     errorExpected: boolean
   ) {
-    const { service, deviceId } = apiDeviceContext
     const filteredRestoreFeatures = importFeatures.filter(
       ({ feature }) => feature in base64Sources
     )
@@ -90,15 +80,13 @@ describe("Data transfer", () => {
     let dataTransferId = random(1, 100000)
     let domainsResponse: { [key: string]: string } = {}
 
-    await service.request(
-      deviceId,
+    await getService().request(
       buildFileTransferDeleteRequest({
         fileTransferId: -1,
       })
     )
 
-    const startPreDataTransferResponse = await service.request(
-      deviceId,
+    const startPreDataTransferResponse = await getService().request(
       buildPreDataTransferPostRequest({
         dataTransferId: dataTransferId,
         domains: filteredRestoreFeatures.map((item) => item.key),
@@ -136,8 +124,7 @@ describe("Data transfer", () => {
         .toLowerCase()
         .padStart(8, "0")
 
-      const preTransferResponse = await service.request(
-        deviceId,
+      const preTransferResponse = await getService().request(
         buildPreFileTransferPostRequest({
           filePath: featurePath,
           fileSize: base64Source.length,
@@ -155,8 +142,7 @@ describe("Data transfer", () => {
           (chunkNumber + 1) * chunkSize
         )
 
-        const fileTransferResponse = await service.request(
-          deviceId,
+        const fileTransferResponse = await getService().request(
           buildFileTransferPostRequest({
             transferId: preFileTransferPostResponseData.transferId,
             chunkNumber: chunkNumber + 1,
@@ -167,8 +153,7 @@ describe("Data transfer", () => {
       }
     }
 
-    const buildDataTransferPostResponse = await service.request(
-      deviceId,
+    const buildDataTransferPostResponse = await getService().request(
       buildDataTransferPostRequest({
         dataTransferId: dataTransferId,
       })
@@ -176,8 +161,7 @@ describe("Data transfer", () => {
 
     let importResult = true
     while (importProgress < 100) {
-      const checkDataTransferResponse = await service.request(
-        deviceId,
+      const checkDataTransferResponse = await getService().request(
         buildDataTransferGetRequest({
           dataTransferId: dataTransferId,
         })

@@ -9,7 +9,7 @@ import {
   USBDevice,
   USBPortDevice,
   USBPortDeviceFilters,
-} from "./macos-usb-port-device-parser.interface"
+} from "./macos-usb-port-device-bsd-name-parser.interface"
 
 const fieldPatterns: Partial<Record<keyof USBDevice, RegExp>> = {
   version: /^\s*Version:\s*([\d.]+)$/,
@@ -21,11 +21,11 @@ const fieldPatterns: Partial<Record<keyof USBDevice, RegExp>> = {
   vendorId: /^\s*Vendor ID:\s*(0x[0-9a-fA-F]+)$/,
 }
 
-export class MacosUSBPortDeviceParser {
+export class MacosUsbPortDeviceBsdNameParserV1 {
   static async getUSBPortDevices(
     filters?: USBPortDeviceFilters
   ): Promise<USBPortDevice[]> {
-    const usbDevices = await MacosUSBPortDeviceParser.getUSBDevice()
+    const usbDevices = await MacosUsbPortDeviceBsdNameParserV1.getUSBDevice()
     return usbDevices.reduce<USBPortDevice[]>((filteredDevices, usbDevice) => {
       const vendorId = usbDevice.vendorId?.replace("0x", "")
       const productId = usbDevice.productId?.replace("0x", "")

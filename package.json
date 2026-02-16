@@ -30,7 +30,8 @@
     "==== Project tools =================": "",
     "audit:icons": "tsx scripts/audit-icons.ts ./libs/app-theme/ui/src/lib/icon/svg",
     "generate:licenses": "ts-node ./scripts/license-generator.ts",
-    "api-device-testing": "npx nx run api-devices-testing:test --skip-nx-cache"
+    "api-device-testing": "npx nx run api-devices-testing:test --skip-nx-cache -- --verbose --coverage=false --testPathIgnorePatterns=serial-port-performance.spec.ts",
+    "api-device-testing:speed": "npx nx run api-devices-testing:test --skip-nx-cache -- --verbose --coverage=false --testPathPatterns=serial-port-performance.spec.ts"
   },
   "repository": {
     "type": "git",
@@ -100,6 +101,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
+    "@babel/plugin-transform-private-methods": "^7.28.6",
     "@babel/preset-react": "^7.28.5",
     "@electron-toolkit/eslint-config-ts": "^3.1.0",
     "@electron-toolkit/tsconfig": "^2.0.0",

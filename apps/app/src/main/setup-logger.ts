@@ -10,13 +10,15 @@ import {
   APP_LOGGER_SCOPE,
   APP_LOGGER_SCOPE_RELATIVE_PATH,
 } from "app-utils/models"
+import { LevelOption } from "electron-log"
 
 const getLogFileName = () => {
+  const now = new Date()
   return [
     "mudita-center",
-    `${new Date().getFullYear()}`,
-    `${new Date().getUTCMonth()}`.padStart(2, "0"),
-    `${new Date().getUTCDate()}`.padStart(2, "0"),
+    `${now.getFullYear()}`,
+    `${now.getUTCMonth()}`.padStart(2, "0"),
+    `${now.getUTCDate()}`.padStart(2, "0"),
   ].join("-")
 }
 
@@ -27,3 +29,13 @@ logger.transports.file.resolvePathFn = () => {
     `${getLogFileName()}.log`
   )
 }
+
+const devLogLevel = (process.env.SERIALPORT_LOGS_LEVEL ||
+  "silly") as LevelOption
+
+const isDev =
+  process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"
+
+logger.transports.file.level = isDev ? devLogLevel : "debug"
+logger.transports.console.level = isDev ? devLogLevel : false
+logger.transports.console.useStyles = true

@@ -4,7 +4,7 @@
  */
 
 import { execPromise } from "app-utils/main"
-import { MacosUSBPortDeviceParser } from "./macos-usb-port-device-parser"
+import { MacosUsbPortDeviceParserV1 } from "./macos-usb-port-device-parser-v1"
 
 jest.mock("app-utils/main", () => ({
   execPromise: jest.fn(),
@@ -109,7 +109,7 @@ describe("MacosUSBPortDeviceParser", () => {
     }
   ]
 }`)
-    const devices = await MacosUSBPortDeviceParser.listUsbDevices()
+    const devices = await MacosUsbPortDeviceParserV1.listUsbDevices()
     expect(devices).toEqual([
       {
         locationId: "02100000 / 1",

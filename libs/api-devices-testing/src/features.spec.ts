@@ -7,34 +7,21 @@ import {
   buildFeatureConfigRequest,
   buildFeatureDataRequest,
 } from "devices/api-device/models"
-import { getApiFeaturesAndEntityTypes } from "./helpers/get-api-features-and-entity-types"
-import {
-  ApiDeviceContext,
-  initApiDeviceContext,
-} from "./helpers/api-device-context"
+import { getService } from "./helpers/api-device-test-service"
 
-let apiDeviceContext: ApiDeviceContext
 let featuresAndEntityTypes: { features: string[]; entityTypes: string[] }
 const notSupportedDataFeatures: string[] = ["dummy-feature"]
 
 describe("Feature Configuration and Data", () => {
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
-    featuresAndEntityTypes =
-      await getApiFeaturesAndEntityTypes(apiDeviceContext)
+    featuresAndEntityTypes = await getService().getApiFeaturesAndEntityTypes()
     featuresAndEntityTypes.features = featuresAndEntityTypes.features.filter(
       (feature) => feature !== "mc-overview"
     )
-  }, 30_000)
-
-  afterEach(async () => {
-    await apiDeviceContext.reset()
-  }, 30_000)
+  })
 
   it("should receive valid configuration for mc-overview feature", async () => {
-    const { service, deviceId } = apiDeviceContext
-    const result = await service.request(
-      deviceId,
+    const result = await getService().request(
       buildFeatureConfigRequest({
         feature: "mc-overview",
         lang: "en-US",
@@ -49,10 +36,8 @@ describe("Feature Configuration and Data", () => {
   })
 
   it("should receive valid configuration for every generic feature", async () => {
-    const { service, deviceId } = apiDeviceContext
     for (const feature of featuresAndEntityTypes.features) {
-      const result = await service.request(
-        deviceId,
+      const result = await getService().request(
         buildFeatureConfigRequest({
           feature: feature,
           lang: "en-US",
@@ -63,9 +48,7 @@ describe("Feature Configuration and Data", () => {
   })
 
   it("should return error for invalid feature", async () => {
-    const { service, deviceId } = apiDeviceContext
-    const result = await service.request(
-      deviceId,
+    const result = await getService().request(
       buildFeatureConfigRequest({
         feature: "dummyFeature",
         lang: "en-US",
@@ -76,9 +59,7 @@ describe("Feature Configuration and Data", () => {
   })
 
   it("should receive valid data for ms-overview feature", async () => {
-    const { service, deviceId } = apiDeviceContext
-    const result = await service.request(
-      deviceId,
+    const result = await getService().request(
       buildFeatureDataRequest({
         feature: "mc-overview",
         lang: "en-US",
@@ -88,10 +69,8 @@ describe("Feature Configuration and Data", () => {
   })
 
   it("should receive valid data for every generic feature", async () => {
-    const { service, deviceId } = apiDeviceContext
     for (const feature of featuresAndEntityTypes.features) {
-      const result = await service.request(
-        deviceId,
+      const result = await getService().request(
         buildFeatureDataRequest({
           feature: feature,
           lang: "en-US",
@@ -104,9 +83,7 @@ describe("Feature Configuration and Data", () => {
   it.each(notSupportedDataFeatures)(
     "should return error for %s feature",
     async (feature) => {
-      const { service, deviceId } = apiDeviceContext
-      const result = await service.request(
-        deviceId,
+      const result = await getService().request(
         buildFeatureDataRequest({
           feature: feature,
           lang: "en-US",

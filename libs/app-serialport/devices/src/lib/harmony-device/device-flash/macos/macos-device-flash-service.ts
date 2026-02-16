@@ -7,13 +7,13 @@ import path from "path"
 import fs from "fs"
 import { execPromise } from "app-utils/main"
 import IDeviceFlash, { FlashStatusType } from "../device-flash.interface"
-import { MacosUSBPortDeviceParser } from "./macos-usb-port-device-parser/macos-usb-port-device-parser"
-import { USBPortDevice } from "./macos-usb-port-device-parser/macos-usb-port-device-parser.interface"
+import { MacosUsbPortDeviceBsdNameParser } from "./macos-usb-port-device-parser/macos-usb-port-device-bsd-name-parser"
+import { USBPortDevice } from "./macos-usb-port-device-parser/macos-usb-port-device-bsd-name-parser.interface"
 
 class MacDeviceFlashService implements IDeviceFlash {
   async findDeviceByDeviceName(): Promise<string> {
     console.log(`Searching for device...`)
-    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({
+    const devices = await MacosUsbPortDeviceBsdNameParser.getUSBPortDevices({
       vendorId: "3310",
       name: "Mudita Harmony (MSC mode)",
     })

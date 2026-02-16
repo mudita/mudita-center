@@ -38,6 +38,6 @@ export const buildMenuConfigRequest = (req: MenuConfigRequest) => {
   return {
     endpoint: "MENU_CONFIGURATION",
     method: "GET",
-    body: req
+    body: req,
   } as const
 }
