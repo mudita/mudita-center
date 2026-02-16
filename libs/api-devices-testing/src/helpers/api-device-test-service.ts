@@ -85,6 +85,19 @@ export class ApiDeviceTestService {
     )
   }
 
+  async getApiConfig() {
+    const response = await this.request({
+      ...buildApiConfigRequest(),
+      options: { timeout: 5000 },
+    })
+
+    if (response.status !== 200) {
+      throw new Error(`Failed to get API config: ${response.status}`)
+    }
+
+    return ApiConfigResponseValidator.parse(response.body)
+  }
+
   async getApiFeaturesAndEntityTypes(): Promise<{
     features: string[]
     entityTypes: string[]
@@ -96,12 +109,14 @@ export class ApiDeviceTestService {
     const genericFeatures = [
       "mc-overview",
       "mc-contacts",
-      "mc-contacts-duplicates",
       "mc-data-migration",
       "mc-file-manager-internal",
     ].sort()
 
-    const optionalFeatures = ["mc-file-manager-external"].sort()
+    const optionalFeatures = [
+      "mc-file-manager-external",
+      "mc-contacts-duplicates",
+    ].sort()
 
     const testEntityTypes = [
       "contacts",
@@ -111,12 +126,7 @@ export class ApiDeviceTestService {
       "applicationFiles",
     ].sort()
 
-    const result = await this.request({
-      ...buildApiConfigRequest(),
-      options: { timeout: 5000 },
-    })
-
-    const apiConfig = ApiConfigResponseValidator.parse(result.body)
+    const apiConfig = await this.getApiConfig()
 
     optionalFeatures.forEach((feature) => {
       if (

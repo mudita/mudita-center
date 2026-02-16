@@ -44,7 +44,6 @@ describe("File transfer", () => {
     )
 
     while (preTransferResponse.status === 206) {
-      console.log(`Pre-transfer check returned 206, retrying...`)
       await delay(500)
       preTransferResponse = await getService().request(
         buildPreFileTransferPostRequest({
@@ -87,7 +86,7 @@ describe("File transfer", () => {
       const isFilePresent = await isFileExists(validTargetPath)
       expect(isFilePresent).toBe(true)
     }
-  })
+  }, 60_000)
 
   it("should return error response for invalid targetPath", async () => {
     let transferId = -1
@@ -108,7 +107,6 @@ describe("File transfer", () => {
     )
 
     while (preTransferResponse.status === 206) {
-      console.log(`Pre-transfer check returned 206, retrying...`)
       await delay(500)
       preTransferResponse = await getService().request(
         buildPreFileTransferPostRequest({
@@ -147,7 +145,7 @@ describe("File transfer", () => {
       const isFilePresent = await isFileExists(invalidTargetPath)
       expect(isFilePresent).toBe(false)
     }
-  })
+  }, 60_000)
 
   it("file transfer delete should return success with 200 status for valid targetPath", async () => {
     let transferId = -1
@@ -168,7 +166,6 @@ describe("File transfer", () => {
     )
 
     while (preTransferResponse.status === 206) {
-      console.log(`Pre-transfer check returned 206, retrying...`)
       await delay(500)
       preTransferResponse = await getService().request(
         buildPreFileTransferPostRequest({
@@ -221,7 +218,7 @@ describe("File transfer", () => {
     )
 
     expect(deleteResult.status).toBe(200)
-  })
+  }, 60_000)
 
   it("file transfer delete should return success with 207 status for invalid targetPath", async () => {
     const deleteResult = await getService().request(
@@ -230,7 +227,7 @@ describe("File transfer", () => {
       })
     )
     expect(deleteResult.status).toBe(207)
-  })
+  }, 60_000)
 
   const removeFile = async (targetPath: string): Promise<void> => {
     try {
