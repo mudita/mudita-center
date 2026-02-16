@@ -13,7 +13,11 @@ describe("decodeValue", () => {
     })
 
     it("decodes UTF-8 Polish characters", () => {
-      const result = decodeValue("=C4=85=C4=87=C4=99", "utf-8", "QUOTED-PRINTABLE")
+      const result = decodeValue(
+        "=C4=85=C4=87=C4=99",
+        "utf-8",
+        "QUOTED-PRINTABLE"
+      )
       expect(result).toBe("ąćę")
     })
 
@@ -28,12 +32,20 @@ describe("decodeValue", () => {
     })
 
     it("decodes Windows-1250 Polish characters", () => {
-      const result = decodeValue("=B9=E6=EA", "windows-1250", "QUOTED-PRINTABLE")
+      const result = decodeValue(
+        "=B9=E6=EA",
+        "windows-1250",
+        "QUOTED-PRINTABLE"
+      )
       expect(result).toBe("ąćę")
     })
 
     it("decodes mixed plain text and encoded characters", () => {
-      const result = decodeValue("Jan Kowalski =C5=81=C3=B3d=C5=BA", "utf-8", "QUOTED-PRINTABLE")
+      const result = decodeValue(
+        "Jan Kowalski =C5=81=C3=B3d=C5=BA",
+        "utf-8",
+        "QUOTED-PRINTABLE"
+      )
       expect(result).toBe("Jan Kowalski Łódź")
     })
 
@@ -164,7 +176,11 @@ describe("decodeValue", () => {
     })
 
     it("handles US-ASCII charset", () => {
-      const result = decodeValue("=48=65=6C=6C=6F", "US-ASCII", "QUOTED-PRINTABLE")
+      const result = decodeValue(
+        "=48=65=6C=6C=6F",
+        "US-ASCII",
+        "QUOTED-PRINTABLE"
+      )
       expect(result).toBe("Hello")
     })
   })
@@ -176,7 +192,11 @@ describe("decodeValue", () => {
     })
 
     it("decodes vCard 2.1 address with Windows-1250", () => {
-      const result = decodeValue("ul.=20=A3=F3dzka=2010", "windows-1250", "QUOTED-PRINTABLE")
+      const result = decodeValue(
+        "ul.=20=A3=F3dzka=2010",
+        "windows-1250",
+        "QUOTED-PRINTABLE"
+      )
       expect(result).toBe("ul. Łódzka 10")
     })
 
@@ -186,7 +206,11 @@ describe("decodeValue", () => {
     })
 
     it("decodes Cyrillic text with windows-1251", () => {
-      const result = decodeValue("=CF=F0=E8=E2=E5=F2", "windows-1251", "QUOTED-PRINTABLE")
+      const result = decodeValue(
+        "=CF=F0=E8=E2=E5=F2",
+        "windows-1251",
+        "QUOTED-PRINTABLE"
+      )
       expect(result).toBe("Привет")
     })
 

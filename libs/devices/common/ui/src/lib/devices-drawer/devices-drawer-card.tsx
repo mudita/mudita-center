@@ -20,7 +20,8 @@ const messages = defineMessages({
 })
 
 export interface DrawerItemProps
-  extends Omit<DeviceMetadata, "id">,
+  extends
+    Omit<DeviceMetadata, "id">,
     ComponentProps<typeof DevicesDrawerCardWrapper> {
   active?: boolean
   locked?: boolean

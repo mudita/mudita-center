@@ -17,12 +17,11 @@ import { deleteFileTransfer } from "../../api/delete-file-transfer"
 
 interface ApiDeviceTransferFileEntry {
   id: string
-  source: { type: "memory"; data: (string | Uint8Array<ArrayBufferLike>) }
+  source: { type: "memory"; data: string | Uint8Array<ArrayBufferLike> }
   target: { type: "path"; path: PreFileTransferGetRequest["filePath"] }
 }
 
-export interface UploadFilesFromDataParams
-  extends ExecuteTransferParams<ApiDevice> {
+export interface UploadFilesFromDataParams extends ExecuteTransferParams<ApiDevice> {
   files: ApiDeviceTransferFileEntry[]
 }
 

@@ -166,7 +166,7 @@ describe("CommonDeviceResponseParser", () => {
       const dataListener = jest.fn()
 
       parser.on("data", dataListener)
-      const jsonResponse = JSON.stringify({ status: "ok", value: "#123" })
+      const jsonResponse = JSON.stringify({ status: "ok", value: "#000000123" })
       const responseHeader = `#${jsonResponse.length.toString().padStart(9, "0")}`
       const fullResponse = responseHeader + jsonResponse
 

@@ -156,12 +156,6 @@ export class SerialPortDevice {
 
     this.status = SerialPortDeviceStatus.DeviceConnected
 
-    try {
-      // this.serialPort?.flush()
-    } catch {
-      //
-    }
-
     this.requestsQueue.start()
 
     if (!this.hasConnectedOnce) {

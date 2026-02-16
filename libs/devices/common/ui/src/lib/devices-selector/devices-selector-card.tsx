@@ -25,8 +25,7 @@ const messages = defineMessages({
 })
 
 export interface SelectorItemProps
-  extends Omit<DeviceMetadata, "id">,
-    ComponentProps<typeof Wrapper> {
+  extends Omit<DeviceMetadata, "id">, ComponentProps<typeof Wrapper> {
   onClick?: VoidFunction
   status?: DeviceStatus
 }
