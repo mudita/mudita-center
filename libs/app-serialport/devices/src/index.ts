@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export * from "./lib/usb-port-device-parser"
 export * from "./lib/devices"
 export * from "./lib/serial-port-handler"
 export * from "./lib/serial-port-handler-mock"

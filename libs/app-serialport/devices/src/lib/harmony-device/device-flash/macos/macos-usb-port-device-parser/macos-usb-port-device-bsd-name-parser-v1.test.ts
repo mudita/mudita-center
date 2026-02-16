@@ -4,7 +4,7 @@
  */
 
 import { execPromise } from "app-utils/main"
-import { MacosUSBPortDeviceParser } from "./macos-usb-port-device-parser"
+import { MacosUsbPortDeviceBsdNameParserV1 } from "./macos-usb-port-device-bsd-name-parser-v1"
 
 jest.mock("app-utils/main", () => ({
   execPromise: jest.fn(),
@@ -56,7 +56,7 @@ USB:
 `
     ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
     expect(devices.length).not.toBe(0)
     expect(devices).toEqual([
       {
@@ -180,7 +180,7 @@ USB:
 `
     ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
     expect(devices.length).not.toBe(0)
     expect(devices).toEqual([
       {
@@ -227,7 +227,7 @@ USB:
 `
     ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
     expect(devices.length).toBe(2)
     expect(devices).toEqual([
       {
@@ -267,7 +267,7 @@ USB:
 `
     ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
     expect(devices.length).toBe(1)
     expect(devices[0]).toEqual({
       bsdName: "disk7",
@@ -302,7 +302,7 @@ USB:
 `
     ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
     expect(devices.length).toBe(1)
     expect(devices[0]).toEqual({
       bsdName: "disk6",
@@ -333,7 +333,7 @@ USB:
 `
     ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
     expect(devices.length).toBe(1)
     expect(devices[0].bsdName).toBeUndefined()
     expect(devices[0]).toEqual({
@@ -375,7 +375,7 @@ USB:
 `
     ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
 
     expect(devices.length).toBe(2)
 
@@ -416,7 +416,7 @@ USB:
         Current Required (mA): 98
 `
     ;(execPromise as jest.Mock).mockResolvedValue(output)
-    const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+    const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
     expect(devices.length).toBe(0)
   })
 })
@@ -441,7 +441,7 @@ USB:
 `
   ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({
+  const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices({
     vendorId: "3310",
   })
 
@@ -477,7 +477,7 @@ USB:
 `
   ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({
+  const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices({
     productId: "0104",
   })
 
@@ -513,7 +513,7 @@ USB:
 `
   ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({
+  const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices({
     name: "Mudita Bell",
   })
 
@@ -549,7 +549,7 @@ USB:
 `
   ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({
+  const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices({
     vendorId: "3310",
     productId: "0103",
   })
@@ -586,7 +586,7 @@ USB:
 `
   ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({
+  const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices({
     vendorId: "3310",
     productId: "0104",
   })
@@ -614,7 +614,7 @@ USB:
 `
   ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({
+  const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices({
     vendorId: "3311",
     productId: "0103",
   })
@@ -642,7 +642,7 @@ USB:
 `
   ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices({
+  const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices({
     vendorId: "9999",
     productId: "9999",
   })
@@ -731,7 +731,7 @@ USB 3.1 Bus:
 
   ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+  const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
 
   expect(devices.length).toBe(2)
 
@@ -776,7 +776,7 @@ USB:
 `
   ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+  const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
 
   expect(devices.length).toBe(1)
   expect(devices[0]).toEqual({
@@ -806,7 +806,7 @@ USB:
 `
   ;(execPromise as jest.Mock).mockResolvedValue(output)
 
-  const devices = await MacosUSBPortDeviceParser.getUSBPortDevices()
+  const devices = await MacosUsbPortDeviceBsdNameParserV1.getUSBPortDevices()
 
   expect(devices.length).toBe(1)
   expect(devices[0]).toEqual({
