@@ -39,10 +39,7 @@ export const initAppActions = (
   })
 
   ipcMain.removeHandler(AppActionsIpcEvents.OpenExternalLink)
-  ipcMain.handle(
-    AppActionsIpcEvents.OpenExternalLink,
-    (_, url: string) => {
-      return appActionsService.openExternalLink(url)
-    }
-  )
+  ipcMain.handle(AppActionsIpcEvents.OpenExternalLink, (_, url: string) => {
+    return appActionsService.openExternalLink(url)
+  })
 }

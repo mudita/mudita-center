@@ -6,7 +6,6 @@
 import path from "path"
 import { app } from "electron"
 import { SerialPortDeviceType } from "app-serialport/models"
-import { styleText } from "util"
 import {
   HarmonyMscEndpointNamed,
   HarmonyMscErrorType,
@@ -15,15 +14,14 @@ import {
   MSC_HARMONY_SCOPE,
   MSC_HARMONY_SCOPE_CATALOG_DIR,
 } from "devices/harmony-msc/models"
-import { SerialPortDeviceOptions } from "../serial-port-device"
-import { SerialPortDeviceMock } from "../serial-port-device-mock"
+import { SerialPortHandlerMock } from "../serial-port-handler-mock"
 import DeviceFlashFactory from "./device-flash/device-flash.factory"
 
 const getDeviceName = () => {
   return process.platform === "win32" ? "MUDITA HARMONY MSC" : "HARMONY"
 }
 
-export class SerialPortHarmonyMscDevice extends SerialPortDeviceMock {
+export class SerialPortHarmonyMscDevice extends SerialPortHandlerMock {
   static readonly matchingVendorIds = ["3310"]
   static readonly matchingProductIds = ["0103"]
   static readonly deviceType = SerialPortDeviceType.HarmonyMsc
@@ -33,18 +31,7 @@ export class SerialPortHarmonyMscDevice extends SerialPortDeviceMock {
     MSC_HARMONY_SCOPE_CATALOG_DIR
   )
 
-  constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
-    super({ baudRate, ...options })
-  }
-
-  write(data: HarmonyMscRequest & { id: number }): boolean {
-    if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
-      console.log(
-        styleText(["bold", "bgCyan"], "SerialPort write"),
-        styleText(["bgCyan"], this.path),
-        styleText(["cyan"], `${JSON.stringify(data)}`)
-      )
-    }
+  async writeAsync(data: HarmonyMscRequest & { id: number }): Promise<void> {
     if (
       data.endpoint === HarmonyMscEndpointNamed.Flash &&
       data.method === HarmonyMscMethodNamed.Post
@@ -66,7 +53,6 @@ export class SerialPortHarmonyMscDevice extends SerialPortDeviceMock {
         > & { id: number }
       )
     }
-    return true
   }
 
   private async flashHarmony(

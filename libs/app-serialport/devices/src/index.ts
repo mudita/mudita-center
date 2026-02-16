@@ -4,5 +4,6 @@
  */
 
 export * from "./lib/usb-port-device-parser"
-export * from "./lib/serial-port-device"
 export * from "./lib/devices"
+export * from "./lib/serial-port-handler"
+export * from "./lib/serial-port-handler-mock"

@@ -22,8 +22,7 @@ import { HarmonySerialPort } from "devices/harmony/adapters"
 import { AppFileSystem, readFileTransferMetadataList } from "app-utils/renderer"
 import { UploadFileToHarmonyError } from "./upload-files.types"
 
-export interface UploadFilesFromPathsParams
-  extends ExecuteTransferParams<Harmony> {
+export interface UploadFilesFromPathsParams extends ExecuteTransferParams<Harmony> {
   files: TransferFileFromPathEntry[]
 }
 

@@ -79,8 +79,8 @@ describe("parseTextFields", () => {
     bytes.setUint8(0, 10)
     bytes.setUint8(1, 0)
 
-    expect(() =>
-      parseTextFields(buffer, ["storageDescription"], 0)
-    ).toThrow("Invalid typed array length: 20")
+    expect(() => parseTextFields(buffer, ["storageDescription"], 0)).toThrow(
+      "Invalid typed array length: 20"
+    )
   })
 })

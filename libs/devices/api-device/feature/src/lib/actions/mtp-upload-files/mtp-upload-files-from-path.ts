@@ -21,8 +21,7 @@ import {
 } from "../mtp-shared/mtp-helpers"
 import { mtpTransferFiles } from "../mtp-shared/mtp-transfer-files"
 
-export interface MtpUploadFilesFromPathParams
-  extends ExecuteTransferParams<ApiDevice> {
+export interface MtpUploadFilesFromPathParams extends ExecuteTransferParams<ApiDevice> {
   files: TransferFileFromPathEntry[]
 }
 

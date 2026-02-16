@@ -5,9 +5,13 @@
 
 import { SerialPort } from "serialport"
 import { getUsbDevices } from "./usb-devices/get-usb-devices"
-import { SerialPortDeviceInfo } from "app-serialport/models"
-import { devices, SerialPortDevice } from "app-serialport/devices"
+import {
+  SerialPortDeviceInfo,
+  SerialPortDeviceSubtype,
+} from "app-serialport/models"
 import { PortInfo } from "@serialport/bindings-interface"
+import { execPromise } from "app-utils/main"
+import { devices, SerialPortHandler } from "app-serialport/devices"
 
 export class AppSerialportDeviceScanner {
   private static readonly supportedDevices = devices
@@ -32,6 +36,27 @@ export class AppSerialportDeviceScanner {
     })
   }
 
+  static async getSerialNumberOnWindows(deviceInfo: SerialPortDeviceInfo) {
+    try {
+      const stdout = await execPromise(
+        `Get-PnpDevice -InstanceId '${deviceInfo.pnpId}' | Get-PnpDeviceProperty -KeyName 'DEVPKEY_Device_Parent' | Select-Object -ExpandProperty Data`,
+        "powershell.exe"
+      )
+      if (!stdout) {
+        return
+      }
+
+      const serialNumber = stdout.trim().split("\\").pop() || ""
+
+      if (!/[a-z0-9]+/i.test(serialNumber)) {
+        return
+      }
+      return serialNumber
+    } catch {
+      return
+    }
+  }
+
   /**
    * Scans for connected serial port and usb devices and returns a list of recognized devices.
    */
@@ -39,7 +64,7 @@ export class AppSerialportDeviceScanner {
     const serialportDevices = await SerialPort.list()
     const usbDevices = await getUsbDevices()
 
-    return [
+    const devices = [
       ...serialportDevices.filter((portInfo) => {
         return this.getMatchingInstance(portInfo) !== undefined
       }),
@@ -83,13 +108,27 @@ export class AppSerialportDeviceScanner {
           otherVendorIds,
           serialNumber,
           deviceType: instance.deviceType,
-          deviceSubtype: (instance as typeof SerialPortDevice).getSubtype(
+          deviceSubtype: (instance as typeof SerialPortHandler).getSubtype(
             vendorId,
             productId
           ),
         }
         return internalDeviceInfo
       })
-      .filter((device) => device !== null)
+      .filter((device): device is SerialPortDeviceInfo => device !== null)
+
+    if (process.platform === "win32") {
+      for (const device of devices) {
+        if (device.deviceSubtype === SerialPortDeviceSubtype.Kompakt) {
+          const serialNumber = await this.getSerialNumberOnWindows(device)
+          if (serialNumber) {
+            device.id = serialNumber
+            device.serialNumber = serialNumber
+          }
+        }
+      }
+    }
+
+    return devices
   }
 }

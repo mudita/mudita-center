@@ -21,9 +21,6 @@ export const AppSerialPort = {
   getCurrentDevices: (): Promise<SerialPortDeviceInfo[]> => {
     return window.api.serialPort.getCurrentDevices()
   },
-  changeBaudRate: async (id: SerialPortDeviceId, baudRate: number) => {
-    await window.api.serialPort.changeBaudRate(id, baudRate)
-  },
   isCompatible: (
     device: Pick<SerialPortDeviceInfo, "deviceType">
   ): device is SerialPortDeviceInfo => {

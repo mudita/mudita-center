@@ -11,19 +11,13 @@ import {
   entitiesReadyResponseSchema,
 } from "devices/api-device/models"
 import { withBodyStatus } from "./helpers/with-body-status"
-import {
-  ApiDeviceContext,
-  initApiDeviceContext,
-} from "./helpers/api-device-context"
-
-let apiDeviceContext: ApiDeviceContext
+import { getService } from "./helpers/api-device-test-service"
 
 describe("Entities configuration, metadata and data", () => {
   let entityTypes: string[]
 
-  async function fetchSupportedEntities() {
-    const { service, deviceId } = apiDeviceContext
-    const result = await service.request(deviceId, {
+  const fetchSupportedEntities = async () => {
+    const result = await getService().request({
       ...buildApiConfigRequest(),
       options: { timeout: 5000 },
     })
@@ -33,22 +27,15 @@ describe("Entities configuration, metadata and data", () => {
   }
 
   beforeEach(async () => {
-    apiDeviceContext = await initApiDeviceContext()
     await fetchSupportedEntities()
-  }, 30_000)
-
-  afterEach(async () => {
-    await apiDeviceContext.reset()
-  }, 30_000)
+  })
 
   it("should return successful response for entity configuration", async () => {
-    const { service, deviceId } = apiDeviceContext
     expect(entityTypes).toBeDefined()
     expect(entityTypes.length).toBeGreaterThan(0)
 
     for (const entityType of entityTypes) {
-      const result = await service.request(
-        deviceId,
+      const result = await getService().request(
         buildEntitiesConfigGetRequest({
           entityType,
         })
@@ -59,12 +46,11 @@ describe("Entities configuration, metadata and data", () => {
   })
 
   it("should return successful response for entity metadata", async () => {
-    const { service, deviceId } = apiDeviceContext
     expect(entityTypes).toBeDefined()
     expect(entityTypes.length).toBeGreaterThan(0)
 
     for (const entityType of entityTypes) {
-      const result = await service.request(deviceId, {
+      const result = await getService().request({
         endpoint: "ENTITIES_METADATA",
         method: "GET",
         body: {
@@ -73,10 +59,9 @@ describe("Entities configuration, metadata and data", () => {
       })
       expect(result.status).toBeDefined()
     }
-  }, 30_000)
+  })
 
   it("should return successful response for entity data", async () => {
-    const { service, deviceId } = apiDeviceContext
     expect(entityTypes).toBeDefined()
     expect(entityTypes.length).toBeGreaterThan(0)
 
@@ -84,7 +69,7 @@ describe("Entities configuration, metadata and data", () => {
       let progress = 0
       let status = 0
 
-      const createEntitiesResult = await service.request(deviceId, {
+      const createEntitiesResult = await getService().request({
         endpoint: "ENTITIES_DATA",
         method: "GET",
         body: {
@@ -98,7 +83,7 @@ describe("Entities configuration, metadata and data", () => {
 
       while (status !== 200) {
         await delay(500)
-        const getEntitiesResult = await service.request(deviceId, {
+        const getEntitiesResult = await getService().request({
           endpoint: "ENTITIES_DATA",
           method: "GET",
           body: {
@@ -114,6 +99,7 @@ describe("Entities configuration, metadata and data", () => {
           const enriched = withBodyStatus(getEntitiesResult)
           // sometimes filePath is missing in the response // TODO: fix it in the device API?
           const data = entitiesReadyResponseSchema.parse(enriched.body)
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           progress = data.progress!
           status = getEntitiesResult.status
         }
@@ -121,5 +107,5 @@ describe("Entities configuration, metadata and data", () => {
       expect(progress).toBe(100)
       expect(status).toBe(200)
     }
-  }, 30_000)
+  })
 })

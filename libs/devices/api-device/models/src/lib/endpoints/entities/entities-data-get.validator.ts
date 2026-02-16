@@ -57,7 +57,7 @@ export type GetSingleEntityDataResponse = z.output<
   typeof singleEntityDataResponseSchema
 >
 
-export const buildEntitiesFileDataRequest = (req:EntitiesFileDataRequest) => {
+export const buildEntitiesFileDataRequest = (req: EntitiesFileDataRequest) => {
   return {
     endpoint: "ENTITIES_DATA",
     method: "GET",

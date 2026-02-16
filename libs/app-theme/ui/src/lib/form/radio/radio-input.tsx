@@ -16,7 +16,8 @@ import { Typography } from "../../typography/typography"
 import { TypographyAlign } from "app-theme/models"
 
 interface Props
-  extends PropsWithChildren,
+  extends
+    PropsWithChildren,
     Pick<ComponentProps<typeof Input>, "style" | "className">,
     Omit<
       InputHTMLAttributes<HTMLInputElement>,

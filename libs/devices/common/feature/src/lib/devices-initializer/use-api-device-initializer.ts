@@ -12,7 +12,7 @@ import {
   useDeviceStatusQuery,
 } from "../hooks"
 import { useCallback, useEffect, useRef } from "react"
-import { delay } from "app-utils/common"
+import { delay, platform } from "app-utils/common"
 import { useDeviceFreezer } from "app-serialport/renderer"
 import { performSystemAction, useOutboxQuery } from "devices/api-device/feature"
 
@@ -73,7 +73,7 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
   useEffect(() => {
     void performSystemAction(device, {
       action: "serial-port-setup",
-      chunkSizeInBytes: DEFAULT_CHUNK_SIZE_IN_BYTES * 20,
+      chunkSizeInBytes: DEFAULT_CHUNK_SIZE_IN_BYTES * 8,
       outboxEventsCounter: DEFAULT_OUTBOX_EVENTS_COUNTER * 5,
     })
   }, [device])
@@ -84,7 +84,7 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
 
   useEffect(() => {
     if (status === DeviceStatus.Locked) {
-      freeze(device, 3_000)
+      freeze(device, platform === "windows" ? 10_000 : 3_000)
     }
     if (status === DeviceStatus.Initialized) {
       clearTimeout(freezeTimeoutRef.current)

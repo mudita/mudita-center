@@ -19,8 +19,7 @@ import { postFileTransfer } from "../../api/post-file-transfer"
 import { postEntityData } from "../../api/post-entity-data"
 import { deleteFileTransfer } from "../../api/delete-file-transfer"
 
-export interface UploadFilesFromPathsParams
-  extends ExecuteTransferParams<ApiDevice> {
+export interface UploadFilesFromPathsParams extends ExecuteTransferParams<ApiDevice> {
   files: TransferFileFromPathEntry[]
 }
 

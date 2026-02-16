@@ -36,5 +36,5 @@ export const appActions = {
       AppActionsIpcEvents.OpenExternalLink,
       url
     )
-  }
+  },
 }

@@ -116,7 +116,6 @@ export const Downloaded: StoryObj<typeof HarmonyUpdateDownloadedModal> = {
   render: (args) => <HarmonyUpdateDownloadedModal {...args} />,
 }
 
-
 export const DownloadedForce: StoryObj<typeof HarmonyUpdateDownloadedModal> = {
   name: "Update downloaded modal (force)",
   args: {

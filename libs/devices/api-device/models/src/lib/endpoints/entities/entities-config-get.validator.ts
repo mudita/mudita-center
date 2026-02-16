@@ -26,7 +26,9 @@ export type GetEntitiesConfigResponse = z.infer<
   typeof GetEntitiesConfigResponseValidator
 >
 
-export const buildEntitiesConfigGetRequest = (req: GetEntitiesConfigRequest) => {
+export const buildEntitiesConfigGetRequest = (
+  req: GetEntitiesConfigRequest
+) => {
   return {
     endpoint: "ENTITIES_CONFIGURATION",
     method: "GET",
