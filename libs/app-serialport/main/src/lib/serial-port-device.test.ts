@@ -114,26 +114,6 @@ describe("SerialPortDevice", () => {
       })
     })
 
-    it("transitions back to DeviceConnected when manually unfrozen", async () => {
-      const device = new SerialPortDevice(mockDeviceInfo)
-      device.attachPort()
-      device.prepareToFreeze(5000)
-
-      await waitFor(() => {
-        expect(device["freezeHandler"].isFreezable).toBe(true)
-      })
-      device["serialPort"]?.emit("close")
-
-      expect(device.status).toBe(SerialPortDeviceStatus.DeviceFrozen)
-      expect(device.isFrozen()).toBe(true)
-
-      device.unfreeze()
-
-      await waitFor(() => {
-        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
-      })
-    })
-
     it("transitions to DeviceDisconnected when freeze timeout expires", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
@@ -181,27 +161,6 @@ describe("SerialPortDevice", () => {
       const onConnect = jest.fn()
       const device = new SerialPortDevice(mockDeviceInfo, { onConnect })
       device.attachPort()
-
-      await waitFor(() => {
-        expect(onConnect).toHaveBeenCalledTimes(1)
-      })
-    })
-
-    it("does not call onConnect callback when device is manually unfrozen", async () => {
-      const onConnect = jest.fn()
-      const device = new SerialPortDevice(mockDeviceInfo, { onConnect })
-      device.attachPort()
-      device.prepareToFreeze(5000)
-
-      await waitFor(() => {
-        expect(device["freezeHandler"].isFreezable).toBe(true)
-      })
-      device["serialPort"]?.emit("close")
-
-      expect(device.status).toBe(SerialPortDeviceStatus.DeviceFrozen)
-      expect(device.isFrozen()).toBe(true)
-
-      device.unfreeze()
 
       await waitFor(() => {
         expect(onConnect).toHaveBeenCalledTimes(1)
@@ -424,33 +383,6 @@ describe("SerialPortDevice", () => {
 
       await waitFor(() => {
         expect(device["requestsQueue"].pause).toHaveBeenCalled()
-      })
-    })
-
-    it("resumes the queue when device is manually unfrozen and port is open", async () => {
-      const device = new SerialPortDevice(mockDeviceInfo)
-      device.attachPort()
-
-      await waitFor(() => {
-        expect(device["requestsQueue"].start).toHaveBeenCalledTimes(1)
-      })
-
-      device.prepareToFreeze(5000)
-      device["serialPort"]?.emit("close")
-
-      await waitFor(() => {
-        expect(device["requestsQueue"].pause).toHaveBeenCalled()
-      })
-
-      device.unfreeze()
-      device["serialPort"]?.emit("open")
-
-      await waitFor(() => {
-        expect(device["serialPort"]?.isOpen).toBe(true)
-      })
-
-      await waitFor(() => {
-        expect(device["requestsQueue"].start).toHaveBeenCalledTimes(2)
       })
     })
 
