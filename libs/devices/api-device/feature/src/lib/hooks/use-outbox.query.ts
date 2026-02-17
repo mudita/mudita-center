@@ -28,6 +28,16 @@ import {
 export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   const queryClient = useQueryClient()
 
+  const isCurrentlyUploading = useCallback(() => {
+    const currentTransfer = queryClient.getMutationCache().find({
+      mutationKey: ["fileTransfer", device?.id],
+      status: "pending",
+      exact: false,
+    })
+
+    return currentTransfer?.state.variables.actionType === "Upload"
+  }, [device?.id, queryClient])
+
   const query = useQuery<
     Awaited<ReturnType<typeof getOutbox>> | null,
     DeviceErrorType | ApiDeviceErrorType
@@ -53,15 +63,7 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
         data.body.entities.some(
           (entity) => "action" in entity && entity.action === "deleted"
         )
-      const currentTransfer = queryClient.getMutationCache().find({
-        mutationKey: ["fileTransfer", device?.id],
-        status: "pending",
-        exact: false,
-      })
-      const isCurrentlyUploading =
-        currentTransfer?.state.variables.actionType === "Upload"
-
-      if (isCurrentlyUploading) {
+      if (isCurrentlyUploading()) {
         return 5_000
       }
 
@@ -140,6 +142,9 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       if (!device) {
         return
       }
+      if (isCurrentlyUploading()) {
+        return
+      }
 
       const entitiesByType = groupBy(modifiedEntities, "entityType")
 
@@ -151,12 +156,15 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
         )
       }
     },
-    [device, queryClient]
+    [device, isCurrentlyUploading, queryClient]
   )
 
   const processEntitiesUnknownAction = useCallback(
     async (unknownEntities: SimpleOutboxEntity[]) => {
       if (!device) {
+        return
+      }
+      if (isCurrentlyUploading()) {
         return
       }
       const entitiesByType = groupBy(unknownEntities, "entityType")
@@ -168,7 +176,7 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
         )
       }
     },
-    [device, queryClient]
+    [device, isCurrentlyUploading, queryClient]
   )
 
   const processEntitiesChanges = useCallback(

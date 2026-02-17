@@ -173,15 +173,21 @@ export const useDeviceFileTransferMutation = (
 
   const refetch = useCallback(
     async (onProgress: (progress: number) => void) => {
-      const response = await useApiEntitiesDataQuery.queryFn(
-        entityType,
-        device,
-        onProgress
-      )
-      queryClient.setQueryData(
-        useApiEntitiesDataQuery.queryKey(entityType, device?.id),
-        response
-      )
+      try {
+        const response = await useApiEntitiesDataQuery.queryFn(
+          entityType,
+          device,
+          onProgress
+        )
+        queryClient.setQueryData(
+          useApiEntitiesDataQuery.queryKey(entityType, device?.id),
+          response
+        )
+      } catch {
+        // Refetching is not critical, so we can ignore errors here and just set progress to 100%
+        onProgress(100)
+        return
+      }
     },
     [queryClient, entityType, device]
   )
