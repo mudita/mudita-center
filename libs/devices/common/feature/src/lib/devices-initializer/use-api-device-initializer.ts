@@ -91,7 +91,7 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
       clearTimeout(freezeTimeoutRef.current)
       freezeTimeoutRef.current = setTimeout(() => {
         unfreeze(device)
-      }, 3_000)
+      }, 1_000)
     }
   }, [device, freeze, menuFailureReason, status, unfreeze])
 }

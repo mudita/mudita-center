@@ -265,7 +265,9 @@ export class SerialPortDevice {
       },
     } as SerialPortHandlerOptions)
 
-    this.serialPort.open()
+    if (!this.serialPort?.isOpen && !this.serialPort?.opening) {
+      this.serialPort?.open()
+    }
   }
 
   /**
@@ -399,6 +401,8 @@ export class SerialPortDevice {
       const requestInfo = JSON.stringify(rest)
 
       const isFrozen = this.freezeHandler.isFrozen
+      const isFreezable = this.freezeHandler.isFreezable
+
       const isSerialPortTimeout =
         error instanceof SerialPortError &&
         error.type === SerialPortErrorType.ResponseTimeout
@@ -411,6 +415,18 @@ export class SerialPortDevice {
           `Device at path ${this.info.path} is currently frozen. Request ${requestInfo} will be retried once the device is unfrozen.`,
           { color: "yellow" }
         )
+
+        return await this.request({
+          ...request,
+          options: { ...request.options, priority: priority + 1 },
+        })
+      } else if (isFreezable) {
+        AppLogger.log(
+          "debug",
+          `Device at path ${this.info.path} is not frozen but is freezable. Request ${requestInfo} will be retried with a freeze attempt. Freezing`,
+          { color: "yellow" }
+        )
+        this.freezeHandler.freeze()
 
         return await this.request({
           ...request,

@@ -452,6 +452,30 @@ describe("SerialPortDevice", () => {
       })
     })
 
+    it("freezes device and retries request with higher priority when request fails and device is freezable", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+      device.prepareToFreeze(5000)
+
+      const freezeSpy = jest.spyOn(device["freezeHandler"], "freeze")
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValueOnce(new Error("Request failed before freeze"))
+        .mockResolvedValueOnce({ ok: true })
+
+      await expect(device.request({ endpoint: 1 })).resolves.toEqual({
+        ok: true,
+      })
+      expect(freezeSpy).toHaveBeenCalledTimes(1)
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceFrozen)
+      expect(device["requestsQueue"].add).toHaveBeenCalledTimes(2)
+      expect(device["requestsQueue"].add).toHaveBeenNthCalledWith(
+        2,
+        expect.any(Function),
+        { priority: 2, signal: expect.any(AbortSignal) }
+      )
+    })
+
     it("reattaches port and retries request once when timeout occurs and retries are exhausted", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       const attachPortSpy = jest.spyOn(device, "attachPort")

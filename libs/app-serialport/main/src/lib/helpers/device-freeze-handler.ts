@@ -62,6 +62,8 @@ export class DeviceFreezeHandler {
   }
 
   unfreeze() {
+    this.freezeDuration = undefined
+
     if (!this.isFrozen) {
       return
     }
