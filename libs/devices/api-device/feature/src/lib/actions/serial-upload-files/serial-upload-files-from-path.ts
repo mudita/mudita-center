@@ -44,7 +44,9 @@ export const serialUploadFilesFromPath = async ({
   const {
     files: fileEntryWithMetadata,
     failed: readFileTransferMetadataListFailed,
-  } = await readFileTransferMetadataList(files, abortController)
+  } = await readFileTransferMetadataList(files, abortController, {
+    base64: true,
+  })
   failed.push(...readFileTransferMetadataListFailed)
 
   const totalSize = sumBy(fileEntryWithMetadata, "fileSize")
@@ -63,6 +65,7 @@ export const serialUploadFilesFromPath = async ({
     }
 
     const { crc32, fileSize } = file
+    console.log(crc32, fileSize)
     const targetFilePath = file.target.path
 
     const preTransferResponse = await prePostFileTransfer(device, {
