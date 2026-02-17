@@ -22,8 +22,10 @@ export const initAppMtp = (ipcMain: IpcMain, appMtp: AppMtp) => {
           case "linux":
             return portInfo.serialNumber === device.id
           case "win32": {
-            const pnpId = `USB\\VID_${portInfo.vendorId}&PID_${portInfo.productId}\\${portInfo.serialNumber}`
-            return mapToCoreUsbId(pnpId, "\\") === mapToCoreUsbId(device.id)
+            return (
+              portInfo.pnpId &&
+              mapToCoreUsbId(portInfo.pnpId, "\\") === mapToCoreUsbId(device.id)
+            )
           }
           default:
             throw new Error(`Unsupported platform: ${process.platform}`)
