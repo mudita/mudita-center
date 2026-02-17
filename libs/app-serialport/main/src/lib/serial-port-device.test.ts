@@ -492,7 +492,9 @@ describe("SerialPortDevice", () => {
       jest
         .spyOn(device["requestsQueue"], "add")
         .mockRejectedValueOnce(new TimeoutError("Initial timeout"))
-        .mockRejectedValueOnce(new TimeoutError("Still timed out after reattach"))
+        .mockRejectedValueOnce(
+          new TimeoutError("Still timed out after reattach")
+        )
 
       const requestPromise = device.request({ endpoint: 1 })
       const requestExpectation = expect(requestPromise).rejects.toThrow(
@@ -518,6 +520,6 @@ describe("SerialPortDevice", () => {
       await expect(device.request({ endpoint: 1 })).rejects.toThrow(
         "Some other error"
       )
-    }, 10_000)
+    })
   })
 })
