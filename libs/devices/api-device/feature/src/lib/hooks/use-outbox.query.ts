@@ -28,15 +28,22 @@ import {
 export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   const queryClient = useQueryClient()
 
-  const isCurrentlyUploading = useCallback(() => {
-    const currentTransfer = queryClient.getMutationCache().find({
-      mutationKey: ["fileTransfer", device?.id],
-      status: "pending",
-      exact: false,
-    })
+  const isCurrentlyUploading = useCallback(
+    (entityType?: string) => {
+      const currentTransfer = queryClient.getMutationCache().find({
+        mutationKey: ["fileTransfer", device?.id],
+        status: "pending",
+        exact: false,
+      })
+      const transferEntityType = currentTransfer?.options.mutationKey?.[2]
 
-    return currentTransfer?.state.variables.actionType === "Upload"
-  }, [device?.id, queryClient])
+      return currentTransfer?.state.variables.actionType === "Upload" &&
+        entityType
+        ? transferEntityType === entityType
+        : true
+    },
+    [device?.id, queryClient]
+  )
 
   const query = useQuery<
     Awaited<ReturnType<typeof getOutbox>> | null,
@@ -142,13 +149,13 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       if (!device) {
         return
       }
-      if (isCurrentlyUploading()) {
-        return
-      }
 
       const entitiesByType = groupBy(modifiedEntities, "entityType")
 
       for (const entityType of Object.keys(entitiesByType)) {
+        if (isCurrentlyUploading(entityType)) {
+          continue
+        }
         const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
         await queryClient.invalidateQueries(
           { queryKey },
@@ -164,11 +171,13 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       if (!device) {
         return
       }
-      if (isCurrentlyUploading()) {
-        return
-      }
+
       const entitiesByType = groupBy(unknownEntities, "entityType")
+
       for (const entityType of Object.keys(entitiesByType)) {
+        if (isCurrentlyUploading(entityType)) {
+          continue
+        }
         const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
         await queryClient.invalidateQueries(
           { queryKey },
